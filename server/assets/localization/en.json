@@ -1,0 +1,7 @@
+{
+  "home": "Home",
+  "language": "English",
+  "errorOccurred": "An error occurred",
+  "pPageNotFound": "The URL you requested \"%v\" does not exist",
+  "helloWorld": "Hello world!"
+}

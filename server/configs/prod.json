@@ -1,0 +1,17 @@
+{
+  "isProduction": true,
+  "http": {
+    "port": 12000,
+    "static": {
+      "pattern": "/static",
+      "dir": "./static"
+    }
+  },
+  "templates": {
+    "rootDir": "./assets/templates"
+  },
+  "localization": {
+    "rootDir": "./assets/localization",
+    "defaultLang": "en"
+  }
+}

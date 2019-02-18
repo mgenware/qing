@@ -1,0 +1,6 @@
+github.com/go-chi/chi v4.0.1+incompatible h1:RSRC5qmFPtO90t7pTL0DBMNpZFsb/sHF3RXVlDgFisA=
+github.com/go-chi/chi v4.0.1+incompatible/go.mod h1:eB3wogJHnLi3x/kFX2A+IbTBlXxmMeXJVKy9tTv1XzQ=
+github.com/mgenware/go-packagex v3.0.1+incompatible h1:X5vmeGYdheEM17caZ9Tod7xL8lGVETQBYfHQxTVHQ28=
+github.com/mgenware/go-packagex v3.0.1+incompatible/go.mod h1:hSlF75Q3llp8oXmzTL8/HJISyclWJa55poyHKfPddbk=
+golang.org/x/text v0.3.0 h1:g61tztE5qeGQ89tm6NTjjM9VPIm088od1l6aSorWRWg=
+golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
