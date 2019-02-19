@@ -1,0 +1,24 @@
+{
+  "name": "mingru-example",
+  "version": "1.0.0",
+  "main": "mingru.ts",
+  "author": "Mgen",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "ts-node mingru"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "devDependencies": {
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "dd-models": "^0.10.0",
+    "mingru": "^0.3.0",
+    "mingru-tsconfig": "^1.1.0"
+  }
+}

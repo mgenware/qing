@@ -1,0 +1,6 @@
+{
+  "extends": "mingru-tsconfig",
+  "compilerOptions": {
+    "rootDir": "."
+  }
+}
