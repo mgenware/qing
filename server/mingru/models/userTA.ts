@@ -3,7 +3,16 @@ import t from './user';
 
 const userTA = dd.actions(t);
 userTA
-  .select('UserProfile', t.id, t.location, t.company, t.website, t.sig)
+  .select(
+    'UserProfile',
+    t.id,
+    t.name,
+    t.icon,
+    t.location,
+    t.company,
+    t.website,
+    t.sig,
+  )
   .byID();
 
 export default userTA;
