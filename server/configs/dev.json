@@ -13,5 +13,6 @@
   "localization": {
     "rootDir": "./assets/localization",
     "defaultLang": "en"
-  }
+  },
+  "db_conn_string": "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
 }

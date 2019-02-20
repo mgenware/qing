@@ -1,6 +1,7 @@
 package app
 
 import (
+	"database/sql"
 	"flag"
 	"io/ioutil"
 	"log"
@@ -9,6 +10,8 @@ import (
 
 	"qing/app/config"
 	"qing/app/template"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // Config is the application configuration loaded.
@@ -16,6 +19,9 @@ var Config *config.Config
 
 // TemplateManager is a app-wide instance of template.Manager.
 var TemplateManager *template.Manager
+
+// DB is the app-wide database connection.
+var DB *sql.DB
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse {
@@ -43,6 +49,7 @@ func MasterPageData(title, contentHTML string) *template.MasterPageData {
 func init() {
 	mustSetupConfig()
 	mustSetupTemplates(Config)
+	mustSetupDB()
 }
 
 func mustSetupConfig() {
@@ -84,4 +91,15 @@ func mustSetupTemplates(c *config.Config) {
 	localizationConfig := c.Localization
 
 	TemplateManager = template.MustCreateManager(templatesConfig.RootDir, !c.IsProduction, localizationConfig.RootDir, localizationConfig.DefaultLang)
+}
+
+func mustSetupDB() {
+	if Config.DBConnString == "" {
+		panic("Empty DBConnString in config")
+	}
+	conn, err := sql.Open("mysql", Config.DBConnString)
+	if err != nil {
+		panic(err)
+	}
+	DB = conn
 }
