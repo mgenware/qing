@@ -8,6 +8,14 @@ type MasterPageData struct {
 	ContentHTML string
 	Header      string
 	Scripts     string
+
+	// Additional fields
+	AppUserID        string
+	AppUserName      string
+	AppUserURL       string
+	AppUserAvatarURL string
+	AppLang          string
+	AppName          string
 }
 
 // NewMasterPageData creates a new MasterPageData.

@@ -6,10 +6,12 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"qing/app/defs"
+	"qing/app/template/asset"
+	"qing/app/template/localization"
+
 	"github.com/mgenware/go-packagex/httpx"
 	"github.com/mgenware/go-packagex/templatex"
-	"qing/app/defs"
-	"qing/app/template/localization"
 )
 
 // Manager provides common functions to generate HTML strings.
@@ -20,6 +22,7 @@ type Manager struct {
 	masterView          *LocalizedView
 	errorView           *LocalizedView
 	LocalizationManager *localization.Manager
+	assetMgr            *asset.AssetsManager
 }
 
 // MustCreateManager creates an instance of TemplateManager with specified arguments. Note that this function panics when main template loading fails.
@@ -63,9 +66,22 @@ func (m *Manager) MustCompleteWithContent(content []byte, w http.ResponseWriter)
 func (m *Manager) MustComplete(lang string, d *MasterPageData, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 
-	// Setup additional assets, e.g.:
-	// data.Header += "<link href=\"/static/main.min.css\" rel=\"stylesheet\"/>"
-	// data.Scripts += "<script src=\"/static/main.min.js\"></script>"
+	// Setup additional assets
+	assetsMgr := m.assetMgr
+	css := assetsMgr.CSS
+	js := assetsMgr.JS
+
+	d.Header = css.Vendor + css.Main + d.Header
+	// Don't forget to + d.Scripts
+
+	var langJS string
+	if lang == defs.LanguageCSString {
+		langJS = assetsMgr.JS.LSCS
+	} else {
+		langJS = assetsMgr.JS.LSEN
+	}
+	d.Scripts = js.Vendor + langJS + js.Main + d.Scripts
+	d.AppLang = lang
 
 	m.masterView.MustExecute(lang, w, d)
 }
