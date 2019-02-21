@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{{.LS.langID}}">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{html .Title}}</title>
+{{.Header}}
+</head>
+
+<body>
+<nav class="navbar is-dark" role="navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <img src="/static/img/main/site.png" height="25" width="159" alt="Qing" />
+    </a>
+
+    <a role="button" class="navbar-burger button is-dark" aria-label="menu" aria-expanded="false" id="m_nav_burger">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="m_nav_menu_app"></div>
+</nav>
+
+<main id="main-body">{{.ContentHTML}}</main>
+
+<script>
+window.appUserID = '{{js .AppUserID}}';
+window.appUserURL = '{{js .AppUserURL}}';
+window.appLang = '{{js .AppLang}}';
+window.appName = '{{js .AppName}}';
+</script>
+
+<footer class="cf-footer has-background-dark">
+  <div class="container text-muted">
+    <span>
+      <a href="/" class="has-text-grey-light">Qing</a>
+      <a class="text-muted" href="/about">{{html .LS.about}}</a>
+      <a class="text-muted" href="/contact">{{html .LS.contact}}</a>
+      <br />
+      {{html .LS.copyright}} © <script>document.write(new Date().getFullYear())</script>&nbsp;<span><a href="https://github.com/mgenware/qing">https://github.com/mgenware/qing</a></span>
+    </span>
+  </div>
+</footer>
+
+{{.Scripts}}
+
+</body>
+</html>

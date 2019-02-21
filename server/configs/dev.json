@@ -8,7 +8,7 @@
     }
   },
   "templates": {
-    "rootDir": "./assets/templates"
+    "rootDir": "../templates"
   },
   "localization": {
     "rootDir": "./assets/localization",
