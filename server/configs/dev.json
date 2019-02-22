@@ -10,6 +10,9 @@
   "templates": {
     "rootDir": "../templates"
   },
+  "assets": {
+    "rootDir": "../web/dev_dist"
+  },
   "localization": {
     "rootDir": "./assets/localization",
     "defaultLang": "en"

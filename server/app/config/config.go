@@ -18,6 +18,7 @@ type Config struct {
 
 	Templates    internals.TemplatesConfig    `json:"templates"`
 	Localization internals.LocalizationConfig `json:"localization"`
+	Assets       internals.AssetsConfig       `json:"assets"`
 	DBConnString string                       `json:"db_conn_string"`
 }
 

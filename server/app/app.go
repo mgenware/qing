@@ -10,6 +10,7 @@ import (
 
 	"qing/app/config"
 	"qing/app/template"
+	"qing/app/template/asset"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -89,8 +90,8 @@ func mustSetupConfig() {
 func mustSetupTemplates(c *config.Config) {
 	templatesConfig := c.Templates
 	localizationConfig := c.Localization
-
-	TemplateManager = template.MustCreateManager(templatesConfig.RootDir, !c.IsProduction, localizationConfig.RootDir, localizationConfig.DefaultLang)
+	assMgr := asset.NewAssetsManager(Config.Assets.RootDir, !Config.IsProduction)
+	TemplateManager = template.MustCreateManager(templatesConfig.RootDir, !c.IsProduction, localizationConfig.RootDir, localizationConfig.DefaultLang, assMgr)
 }
 
 func mustSetupDB() {

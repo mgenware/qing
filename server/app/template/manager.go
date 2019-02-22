@@ -31,6 +31,7 @@ func MustCreateManager(
 	devMode bool,
 	i18nDir string,
 	defaultLang string,
+	assetMgr *asset.AssetsManager,
 ) *Manager {
 	if devMode {
 		log.Print("⚠️ View dev mode is on")
@@ -46,6 +47,7 @@ func MustCreateManager(
 		rootDir:             rootDir,
 		LocalizationManager: localizationManager,
 		devMode:             devMode,
+		assetMgr:            assetMgr,
 	}
 
 	// Load the master template
