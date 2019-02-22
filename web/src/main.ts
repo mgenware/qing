@@ -1,4 +1,5 @@
 import Vue from 'vue';
-import App from './App.vue';
+import ls from './ls';
 
 Vue.config.productionTip = false;
+Vue.prototype.$ls = ls;

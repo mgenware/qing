@@ -9,11 +9,13 @@
     "dev": "vue-cli-service build --mode development --dest dev_dist --watch"
   },
   "dependencies": {
+    "pupa": "^1.0.0",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0"
   },
   "devDependencies": {
+    "@types/pupa": "^1.0.0",
     "@vue/cli-plugin-typescript": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
     "typescript": "^3.0.0",

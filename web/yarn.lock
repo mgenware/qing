@@ -33,6 +33,11 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
+"@types/pupa@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/pupa/-/pupa-1.0.0.tgz#1152144b4b3671287f2298626b1f7ae69e8c9872"
+  integrity sha512-IKHo3t4975+8IRtpwofKcf648RkigIGXwP+yBYMIffMjOR5Kbmp1wm2PScGLQsgpYBGhvDqRzr0D0Pc9xtk69A==
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
@@ -4775,6 +4780,11 @@ punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
   integrity sha1-wNWmOycYgArY4esPpSachN1BhF4=
+
+pupa@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
+  integrity sha1-mpVopa9+ZXuEYqbp1TKHQ1YM7/Y=
 
 q@^1.1.2:
   version "1.5.1"

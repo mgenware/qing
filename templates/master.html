@@ -22,7 +22,7 @@
     </a>
   </div>
 
-  <div id="m_nav_menu_app"></div>
+  <div id="nav_user_app"></div>
 </nav>
 
 <main id="main-body">{{.ContentHTML}}</main>
@@ -30,6 +30,7 @@
 <script>
 window.appUserID = '{{js .AppUserID}}';
 window.appUserURL = '{{js .AppUserURL}}';
+window.appUserName = '{{js .AppUserName}}';
 window.appLang = '{{js .AppLang}}';
 window.appName = '{{js .AppName}}';
 </script>
