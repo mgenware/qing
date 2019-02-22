@@ -18,7 +18,6 @@ type Config struct {
 
 	Templates    internals.TemplatesConfig    `json:"templates"`
 	Localization internals.LocalizationConfig `json:"localization"`
-	Assets       internals.AssetsConfig       `json:"assets"`
 	DBConnString string                       `json:"db_conn_string"`
 }
 
@@ -65,11 +64,11 @@ func (config *Config) validateAndCoerce() error {
 
 	// Templates
 	templatesConfig := config.Templates
-	mustCoercePath(&templatesConfig.RootDir)
+	mustCoercePath(&templatesConfig.Dir)
 
 	// Localization
 	localizationConfig := config.Localization
-	mustCoercePath(&localizationConfig.RootDir)
+	mustCoercePath(&localizationConfig.Dir)
 	if localizationConfig.DefaultLang == "" {
 		return errors.New("localization.defaultLang is required")
 	}

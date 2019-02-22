@@ -8,10 +8,10 @@
     }
   },
   "templates": {
-    "rootDir": "./assets/templates"
+    "dir": "./assets/templates"
   },
   "localization": {
-    "rootDir": "./assets/localization",
+    "dir": "./assets/localization",
     "defaultLang": "en"
   }
 }

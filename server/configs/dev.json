@@ -4,17 +4,14 @@
     "port": 12001,
     "static": {
       "pattern": "/static",
-      "dir": "./static"
+      "dir": "../web/dev_dist"
     }
   },
   "templates": {
-    "rootDir": "../templates"
-  },
-  "assets": {
-    "rootDir": "../web/dev_dist"
+    "dir": "../templates"
   },
   "localization": {
-    "rootDir": "./assets/localization",
+    "dir": "./assets/localization",
     "defaultLang": "en"
   },
   "db_conn_string": "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"

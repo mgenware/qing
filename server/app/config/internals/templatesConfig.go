@@ -1,5 +1,5 @@
 package internals
 
 type TemplatesConfig struct {
-	RootDir string `json:"rootDir"`
+	Dir string `json:"dir"`
 }

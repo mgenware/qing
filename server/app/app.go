@@ -90,8 +90,8 @@ func mustSetupConfig() {
 func mustSetupTemplates(c *config.Config) {
 	templatesConfig := c.Templates
 	localizationConfig := c.Localization
-	assMgr := asset.NewAssetsManager(Config.Assets.RootDir, Config.DevMode)
-	TemplateManager = template.MustCreateManager(templatesConfig.RootDir, c.DevMode, localizationConfig.RootDir, localizationConfig.DefaultLang, assMgr)
+	assMgr := asset.NewAssetsManager(Config.HTTP.Static.Dir, Config.DevMode)
+	TemplateManager = template.MustCreateManager(templatesConfig.Dir, c.DevMode, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr)
 }
 
 func mustSetupDB() {
