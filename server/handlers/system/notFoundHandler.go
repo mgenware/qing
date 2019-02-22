@@ -13,7 +13,7 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 	resp := app.HTMLResponse(w, r)
 	msg := resp.FormatLocalizedString("pPageNotFound", r.URL.String())
 
-	if !app.Config.IsProduction {
+	if app.Config.DevMode {
 		log.Printf("❌ 404: %v", r.URL.String())
 	}
 

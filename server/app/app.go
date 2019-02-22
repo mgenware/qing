@@ -37,7 +37,7 @@ func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse
 func JSONResponse(w http.ResponseWriter, r *http.Request) *template.JSONResponse {
 	ctx := r.Context()
 	tm := TemplateManager
-	resp := template.NewJSONResponse(ctx, tm, w, !Config.IsProduction)
+	resp := template.NewJSONResponse(ctx, tm, w, Config.DevMode)
 
 	return resp
 }
@@ -81,7 +81,7 @@ func mustSetupConfig() {
 	}
 
 	log.Printf("✅ Loaded config at \"%v\"", configPath)
-	if !config.IsProduction {
+	if config.DevMode {
 		log.Printf("⚠️ Application running in dev mode")
 	}
 	Config = config
@@ -90,8 +90,8 @@ func mustSetupConfig() {
 func mustSetupTemplates(c *config.Config) {
 	templatesConfig := c.Templates
 	localizationConfig := c.Localization
-	assMgr := asset.NewAssetsManager(Config.Assets.RootDir, !Config.IsProduction)
-	TemplateManager = template.MustCreateManager(templatesConfig.RootDir, !c.IsProduction, localizationConfig.RootDir, localizationConfig.DefaultLang, assMgr)
+	assMgr := asset.NewAssetsManager(Config.Assets.RootDir, Config.DevMode)
+	TemplateManager = template.MustCreateManager(templatesConfig.RootDir, c.DevMode, localizationConfig.RootDir, localizationConfig.DefaultLang, assMgr)
 }
 
 func mustSetupDB() {

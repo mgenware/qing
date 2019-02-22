@@ -10,8 +10,8 @@ import (
 
 // Config is the root configuration type for your application.
 type Config struct {
-	// IsProduction determines if this app is currently running in production mode.
-	IsProduction bool `json:"isProduction"`
+	// DevMode determines if this app is currently running in dev mode.
+	DevMode bool `json:"devMode"`
 
 	// HTTP holds HTTP-related configuration data.
 	HTTP *internals.HTTPConfig `json:"http"`

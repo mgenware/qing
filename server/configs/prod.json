@@ -1,5 +1,5 @@
 {
-  "isProduction": true,
+  "devMode": false,
   "http": {
     "port": 12000,
     "static": {
