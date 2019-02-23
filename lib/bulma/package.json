@@ -1,0 +1,17 @@
+{
+  "name": "bulma",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Mgen",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bulma": "^0.7.4"
+  },
+  "devDependencies": {
+    "node-sass": "^4.11.0"
+  },
+  "scripts": {
+    "build": "node-sass main.sass main.css --output-style compressed"
+  }
+}
