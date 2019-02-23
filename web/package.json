@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service build --mode development --dest dev_dist --watch"
+    "dev": "vue-cli-service build --mode development --dest dev_dist --watch src/main_dev.ts"
   },
   "dependencies": {
     "pupa": "^1.0.0",

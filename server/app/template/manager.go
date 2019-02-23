@@ -74,16 +74,19 @@ func (m *Manager) MustComplete(lang string, d *MasterPageData, w http.ResponseWr
 	js := assetsMgr.JS
 
 	d.Header = css.Vendor + css.Main + d.Header
-	// Don't forget to + d.Scripts
 
-	var langJS string
-	if lang == defs.LanguageCSString {
-		langJS = assetsMgr.JS.LSCS
-	} else {
-		langJS = assetsMgr.JS.LSEN
-	}
-	d.Scripts = js.Vendor + langJS + js.Main + d.Scripts
+	d.Scripts = js.Vendor + js.Main + d.Scripts
 	d.AppLang = lang
+	if !m.devMode {
+		// Inject i18n js in production
+		var langJS string
+		if lang == defs.LanguageCSString {
+			langJS = assetsMgr.JS.LSCS
+		} else {
+			langJS = assetsMgr.JS.LSEN
+		}
+		d.Scripts += langJS
+	}
 
 	m.masterView.MustExecute(lang, w, d)
 }
