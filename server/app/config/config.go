@@ -2,10 +2,12 @@ package config
 
 import (
 	"encoding/json"
-	"errors"
+	"fmt"
 	"path/filepath"
 
 	"qing/app/config/internals"
+
+	"gopkg.in/go-playground/validator.v9"
 )
 
 // Config is the root configuration type for your application.
@@ -14,11 +16,12 @@ type Config struct {
 	DevMode bool `json:"devMode"`
 
 	// HTTP holds HTTP-related configuration data.
-	HTTP *internals.HTTPConfig `json:"http"`
+	HTTP *internals.HTTPConfig `json:"http" validate:"required"`
 
-	Templates    internals.TemplatesConfig    `json:"templates"`
-	Localization internals.LocalizationConfig `json:"localization"`
-	DBConnString string                       `json:"db_conn_string"`
+	Templates    *internals.TemplatesConfig    `json:"templates" validate:"required"`
+	Localization *internals.LocalizationConfig `json:"localization" validate:"required"`
+	DBConnString string                        `json:"db_conn_string" validate:"required"`
+	ResServer    *internals.ResServerConfig    `json:"res_server" validate:"required"`
 }
 
 // ReadConfig loads an ConfigType from an array of bytes.
@@ -38,26 +41,16 @@ func ReadConfig(bytes []byte) (*Config, error) {
 }
 
 func (config *Config) validateAndCoerce() error {
+	// Validate
+	validate := validator.New()
+	err := validate.Struct(config)
+	if err != nil {
+		panic(fmt.Errorf("Config validation failed, %v", err.Error()))
+	}
+
 	// HTTP
 	httpConfig := config.HTTP
-	if httpConfig == nil {
-		return errors.New("Missing http config")
-	}
-
-	if httpConfig.Port == 0 {
-		return errors.New("http.port must not be 0")
-	}
-
 	httpStaticConfig := httpConfig.Static
-	if httpStaticConfig != nil {
-		if httpStaticConfig.Pattern == "" {
-			return errors.New("http.static has been defined, but http.static.pattern remains empty")
-		}
-		if httpStaticConfig.Dir == "" {
-			return errors.New("http.static has been defined, but http.static.dir remains empty")
-		}
-	}
-
 	if httpStaticConfig != nil {
 		mustCoercePath(&httpStaticConfig.Dir)
 	}
@@ -69,10 +62,6 @@ func (config *Config) validateAndCoerce() error {
 	// Localization
 	localizationConfig := config.Localization
 	mustCoercePath(&localizationConfig.Dir)
-	if localizationConfig.DefaultLang == "" {
-		return errors.New("localization.defaultLang is required")
-	}
-
 	return nil
 }
 

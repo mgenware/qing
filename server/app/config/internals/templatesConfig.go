@@ -1,5 +1,5 @@
 package internals
 
 type TemplatesConfig struct {
-	Dir string `json:"dir"`
+	Dir string `json:"dir" validate:"required"`
 }

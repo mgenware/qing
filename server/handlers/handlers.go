@@ -33,12 +33,24 @@ func Start() {
 	// Mount static file server
 	httpStaticConfig := httpConfig.Static
 	if httpStaticConfig != nil {
-		pattern := httpStaticConfig.Pattern
+		url := httpStaticConfig.URL
 		dir := httpStaticConfig.Dir
-		log.Printf("✅ Serving Assets(%v) at \"%v\"", pattern, dir)
-		fileServer(r, pattern, http.Dir(dir))
+		log.Printf("✅ Serving Assets(%v) at \"%v\"", url, dir)
+		fileServer(r, url, http.Dir(dir))
 		if !iox.IsDirectory(dir) {
 			log.Printf("☢️ Assets directory \"%v\" doesn't exist", dir)
+		}
+	}
+
+	// Mount resources server
+	rsConfig := config.ResServer
+	if rsConfig != nil {
+		url := rsConfig.URL
+		dir := rsConfig.Dir
+		log.Printf("✅ Serving Resource Server (%v) at \"%v\"", url, dir)
+		fileServer(r, url, http.Dir(dir))
+		if !iox.IsDirectory(dir) {
+			log.Printf("☢️ Resources directory \"%v\" doesn't exist", dir)
 		}
 	}
 
