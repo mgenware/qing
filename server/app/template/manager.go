@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 
 	"qing/app/defs"
+	"qing/app/logx"
 	"qing/app/template/asset"
 	"qing/app/template/localization"
-	"qing/fx/logx"
 
 	"github.com/mgenware/go-packagex/httpx"
 	"github.com/mgenware/go-packagex/templatex"

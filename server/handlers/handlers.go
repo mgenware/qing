@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"qing/app"
-	"qing/fx/logx"
+	"qing/app/logx"
 	"qing/handlers/errorPage"
 	"qing/handlers/homePage"
 	"qing/handlers/system"

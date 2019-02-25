@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"qing/app"
+	"qing/app/logx"
 	"qing/app/template"
-	"qing/fx/logx"
 )
 
 // NotFoundHandler is a application wide handler for 404 errors.

@@ -10,9 +10,9 @@ import (
 	"os"
 
 	"qing/app/config"
+	"qing/app/logx"
 	"qing/app/template"
 	"qing/app/template/asset"
-	"qing/fx/logx"
 
 	_ "github.com/go-sql-driver/mysql"
 )
