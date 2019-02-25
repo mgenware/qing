@@ -106,15 +106,15 @@ func (m *Manager) MustError(lang string, d *ErrorPageData, w http.ResponseWriter
 	m.MustComplete(lang, htmlData, w)
 }
 
-// NewTitle adds a consistent suffix to the specified title.
-func (m *Manager) NewTitle(t string) string {
-	return t + " - " + defs.SiteTitle
+// PageTitle returns the given string followed by the localized site name.
+func (m *Manager) PageTitle(lang, s string) string {
+	return s + " - " + m.LocalizationManager.ValueForKey(lang, "_siteName")
 }
 
-// NewLocalizedTitle calls NewTitle with a localized title associated with the specified key.
-func (m *Manager) NewLocalizedTitle(lang, key string) string {
+// LocalizedPageTitle calls PageTitle with a localized string associated with the specified key.
+func (m *Manager) LocalizedPageTitle(lang, key string) string {
 	ls := m.LocalizationManager.ValueForKey(lang, key)
-	return m.NewTitle(ls)
+	return m.PageTitle(lang, ls)
 }
 
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.

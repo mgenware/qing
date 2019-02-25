@@ -8,8 +8,6 @@ const (
 	LanguageQueryKey              = "lang"
 	LanguageCSString              = "cs"
 	LanguageENString              = "en"
-
-	SiteTitle = "Qing"
 )
 
 const (

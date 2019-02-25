@@ -15,6 +15,6 @@ func HomeGET(w http.ResponseWriter, r *http.Request) {
 	pageData := &HomePageData{Time: time.Now().String()}
 	pageHTML := indexView.MustExecuteToString(resp.Lang(), pageData)
 
-	d := app.MasterPageData(resp.NewLocalizedTitle("home"), pageHTML)
+	d := app.MasterPageData(resp.LocalizedPageTitle("home"), pageHTML)
 	resp.MustComplete(d)
 }

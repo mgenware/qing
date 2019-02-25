@@ -41,12 +41,12 @@ func (b *BaseResponse) FormatLocalizedString(key string, a ...interface{}) strin
 	return b.mgr.FormatLocalizedString(b.lang, key, a...)
 }
 
-// NewTitle calls TemplateManager.NewTitle.
-func (b *BaseResponse) NewTitle(t string) string {
-	return b.mgr.NewTitle(t)
+// PageTitle calls TemplateManager.PageTitle.
+func (b *BaseResponse) PageTitle(s string) string {
+	return b.mgr.PageTitle(b.lang, s)
 }
 
-// NewLocalizedTitle calls TemplateManager.NewLocalizedTitle.
-func (b *BaseResponse) NewLocalizedTitle(key string) string {
-	return b.mgr.NewLocalizedTitle(b.lang, key)
+// LocalizedPageTitle calls TemplateManager.LocalizedPageTitle.
+func (b *BaseResponse) LocalizedPageTitle(key string) string {
+	return b.mgr.LocalizedPageTitle(b.lang, key)
 }
