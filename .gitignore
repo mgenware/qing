@@ -1,0 +1,3 @@
+*.log
+/appdata/*
+!/appdata/README.md
