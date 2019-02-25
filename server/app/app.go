@@ -3,6 +3,7 @@ package app
 import (
 	"database/sql"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"qing/app/config"
 	"qing/app/template"
 	"qing/app/template/asset"
+	"qing/fx/logx"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -18,8 +20,11 @@ import (
 // Config is the application configuration loaded.
 var Config *config.Config
 
-// TemplateManager is a app-wide instance of template.Manager.
+// TemplateManager is an app-wide instance of template.Manager.
 var TemplateManager *template.Manager
+
+// Logger is the main logger for this app.
+var Logger *logx.Logger
 
 // DB is the app-wide database connection.
 var DB *sql.DB
@@ -49,6 +54,7 @@ func MasterPageData(title, contentHTML string) *template.MasterPageData {
 
 func init() {
 	mustSetupConfig()
+	mustSetupLogger()
 	mustSetupTemplates(Config)
 	mustSetupDB()
 }
@@ -60,10 +66,10 @@ func mustSetupConfig() {
 	flag.Parse()
 
 	if configPath == "" {
-		// If --config is not specified, check if user runs "go run main.go dev" which will read ./configs/dev.json as config file
+		// If --config is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
 		userArgs := os.Args[1:]
-		if len(userArgs) == 1 && userArgs[0] == "dev" {
-			configPath = "./configs/dev.json"
+		if len(userArgs) >= 1 {
+			configPath = fmt.Sprintf("./config/%v.json", userArgs[0])
 		} else {
 			flag.PrintDefaults()
 			os.Exit(1)
@@ -87,11 +93,22 @@ func mustSetupConfig() {
 	Config = config
 }
 
+func mustSetupLogger() {
+	if Config == nil {
+		panic("Config must be set before mustSetupLogger")
+	}
+	logger, err := logx.NewLogger(Config.Log.Dir, Config.DevMode)
+	if err != nil {
+		panic(err)
+	}
+	Logger = logger
+}
+
 func mustSetupTemplates(c *config.Config) {
 	templatesConfig := c.Templates
 	localizationConfig := c.Localization
 	assMgr := asset.NewAssetsManager(Config.HTTP.Static.Dir, Config.DevMode)
-	TemplateManager = template.MustCreateManager(templatesConfig.Dir, c.DevMode, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr)
+	TemplateManager = template.MustCreateManager(templatesConfig.Dir, c.DevMode, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr, Logger)
 }
 
 func mustSetupDB() {

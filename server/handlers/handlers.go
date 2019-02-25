@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"qing/app"
+	"qing/fx/logx"
 	"qing/handlers/errorPage"
 	"qing/handlers/homePage"
 	"qing/handlers/system"
@@ -35,10 +35,13 @@ func Start() {
 	if httpStaticConfig != nil {
 		url := httpStaticConfig.URL
 		dir := httpStaticConfig.Dir
-		log.Printf("✅ Serving Assets(%v) at \"%v\"", url, dir)
+		app.Logger.LogInfo("Serving Assets", logx.D{
+			"url": url,
+			"dir": dir,
+		})
 		fileServer(r, url, http.Dir(dir))
 		if !iox.IsDirectory(dir) {
-			log.Printf("☢️ Assets directory \"%v\" doesn't exist", dir)
+			app.Logger.LogWarning("Assets directory doesn't exist", logx.D{"dir": dir})
 		}
 	}
 
@@ -47,10 +50,13 @@ func Start() {
 	if rsConfig != nil {
 		url := rsConfig.URL
 		dir := rsConfig.Dir
-		log.Printf("✅ Serving Resource Server (%v) at \"%v\"", url, dir)
+		app.Logger.LogInfo("Serving Resource Server", logx.D{
+			"url": url,
+			"dir": dir,
+		})
 		fileServer(r, url, http.Dir(dir))
 		if !iox.IsDirectory(dir) {
-			log.Printf("☢️ Resources directory \"%v\" doesn't exist", dir)
+			app.Logger.LogWarning("Resource server directory doesn't exist", logx.D{"dir": dir})
 		}
 	}
 
@@ -67,9 +73,10 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Get("/", homePage.HomeGET)
 	r.With(lm.EnableContextLanguage).Get("/fakeError", errorPage.FakeErrorGET)
 
-	log.Printf("🚙 Server running at %v", httpConfig.Port)
+	app.Logger.LogInfo("Server starting", logx.D{"port": httpConfig.Port})
 	err := http.ListenAndServe(":"+strconv.Itoa(httpConfig.Port), r)
 	if err != nil {
+		app.Logger.LogError("Server failed to start", logx.D{"err": err.Error()})
 		panic(err)
 	}
 }

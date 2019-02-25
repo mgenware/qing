@@ -9,6 +9,7 @@ import (
 	"qing/app/defs"
 	"qing/app/template/asset"
 	"qing/app/template/localization"
+	"qing/fx/logx"
 
 	"github.com/mgenware/go-packagex/httpx"
 	"github.com/mgenware/go-packagex/templatex"
@@ -23,6 +24,7 @@ type Manager struct {
 	errorView           *LocalizedView
 	LocalizationManager *localization.Manager
 	assetMgr            *asset.AssetsManager
+	logger              *logx.Logger
 }
 
 // MustCreateManager creates an instance of TemplateManager with specified arguments. Note that this function panics when main template loading fails.
@@ -32,6 +34,7 @@ func MustCreateManager(
 	i18nDir string,
 	defaultLang string,
 	assetMgr *asset.AssetsManager,
+	logger *logx.Logger,
 ) *Manager {
 	if devMode {
 		log.Print("⚠️ View dev mode is on")
@@ -48,6 +51,7 @@ func MustCreateManager(
 		LocalizationManager: localizationManager,
 		devMode:             devMode,
 		assetMgr:            assetMgr,
+		logger:              logger,
 	}
 
 	// Load the master template
@@ -100,6 +104,14 @@ func (m *Manager) MustError(lang string, d *ErrorPageData, w http.ResponseWriter
 		} else {
 			panic(d.Message)
 		}
+	}
+	// Log unexpected errors
+	if !d.Expected {
+		msg := d.Message
+		if d.Error != nil {
+			msg += "(" + d.Error.Error() + ")"
+		}
+		m.logger.LogError("app.unexpected-error", logx.D{"msg": msg})
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	htmlData := NewMasterPageData("Error", errorHTML)
