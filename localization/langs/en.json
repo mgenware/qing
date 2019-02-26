@@ -8,5 +8,7 @@
   "location": "Location",
   "url": "URL",
   "company": "Company",
-  "bio": "Bio"
+  "bio": "Bio",
+  "errOccurred": "Error occurred",
+  "pPageNotFound": "The URL you requested \"{0}\" does not exist"
 }

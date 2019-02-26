@@ -19,6 +19,8 @@ github.com/mattn/go-isatty v0.0.5 h1:tHXDdz1cpzGaovsTB+TVB8q90WEokoVmfMqoVcrLUgw
 github.com/mattn/go-isatty v0.0.5/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
 github.com/mgenware/go-packagex v3.0.1+incompatible h1:X5vmeGYdheEM17caZ9Tod7xL8lGVETQBYfHQxTVHQ28=
 github.com/mgenware/go-packagex v3.0.1+incompatible/go.mod h1:hSlF75Q3llp8oXmzTL8/HJISyclWJa55poyHKfPddbk=
+github.com/mgenware/go-string-format v1.0.0 h1:wMTyjGp56U0adtnJUYgzAKYHkZucJ7JfwboOh5MIv8g=
+github.com/mgenware/go-string-format v1.0.0/go.mod h1:8hBsDl3Qt0yAUnzk+S401hC62//++GSpDEfBuSTeFgw=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sirupsen/logrus v1.3.0 h1:hI/7Q+DtNZ2kINb6qt/lS+IyXnHQe9e90POfeewL/ME=
 github.com/sirupsen/logrus v1.3.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
