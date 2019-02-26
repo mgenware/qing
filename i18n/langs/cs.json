@@ -4,5 +4,9 @@
   "settings": "设置",
   "signIn": "登录",
   "signOut": "退出",
-  "internalErr": "内部错误"
+  "internalErr": "内部错误",
+  "location": "地址",
+  "url": "网址",
+  "company": "公司",
+  "bio": "简介"
 }

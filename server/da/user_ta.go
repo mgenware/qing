@@ -21,16 +21,18 @@ var User = &TableTypeUser{}
 // UserTableSelectUserProfileResult ...
 type UserTableSelectUserProfileResult struct {
 	ID       uint64
+	Name     string
+	IconName string
 	Location string
 	Company  string
 	Website  string
-	Sig      *string
+	Bio      *string
 }
 
 // SelectUserProfile ...
 func (da *TableTypeUser) SelectUserProfile(queryable dbx.Queryable, id uint64) (*UserTableSelectUserProfileResult, error) {
 	result := &UserTableSelectUserProfileResult{}
-	err := queryable.QueryRow("SELECT `id`, `location`, `company`, `website`, `sig` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Location, &result.Company, &result.Website, &result.Sig)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
 		return nil, err
 	}

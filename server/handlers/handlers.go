@@ -9,6 +9,7 @@ import (
 	"qing/app/logx"
 	"qing/handlers/errorPage"
 	"qing/handlers/homePage"
+	"qing/handlers/profilePage"
 	"qing/handlers/system"
 
 	"github.com/go-chi/chi"
@@ -72,6 +73,7 @@ func Start() {
 	// index handler
 	r.With(lm.EnableContextLanguage).Get("/", homePage.HomeGET)
 	r.With(lm.EnableContextLanguage).Get("/fakeError", errorPage.FakeErrorGET)
+	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilePage.ProfileGET)
 
 	app.Logger.LogInfo("Server starting", logx.D{"port": httpConfig.Port})
 	err := http.ListenAndServe(":"+strconv.Itoa(httpConfig.Port), r)

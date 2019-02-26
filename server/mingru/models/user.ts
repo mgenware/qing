@@ -4,7 +4,7 @@ class User extends dd.Table {
   id = dd.pk();
   email = dd.varChar(255).unique;
   name = dd.varChar(255);
-  icon = dd.varChar(255);
+  icon_name = dd.varChar(255);
   url_name = dd.varChar(30).nullable.unique;
   created_time = dd.datetime(true);
 
@@ -12,8 +12,8 @@ class User extends dd.Table {
   website = dd.varChar(100);
   location = dd.varChar(100);
 
-  sig = dd.text().nullable;
-  sig_src = dd.text().nullable;
+  bio = dd.text().nullable;
+  bio_src = dd.text().nullable;
 }
 
 export default dd.table(User);

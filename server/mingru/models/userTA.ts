@@ -7,11 +7,11 @@ userTA
     'UserProfile',
     t.id,
     t.name,
-    t.icon,
+    t.icon_name,
     t.location,
     t.company,
     t.website,
-    t.sig,
+    t.bio,
   )
   .byID();
 

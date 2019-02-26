@@ -4,5 +4,9 @@
   "settings": "Settings",
   "signIn": "Sign In",
   "signOut": "Sign Out",
-  "internalErr": "Internal error"
+  "internalErr": "Internal error",
+  "location": "Location",
+  "url": "URL",
+  "company": "Company",
+  "bio": "Bio"
 }
