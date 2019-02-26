@@ -13,3 +13,7 @@ const (
 const (
 	APIGenericError uint = 1
 )
+
+const (
+	AvatarDirName = "user_avatar"
+)

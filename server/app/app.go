@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"qing/app/urlx"
 
 	"qing/app/config"
 	"qing/app/logx"
@@ -25,6 +26,9 @@ var TemplateManager *template.Manager
 
 // Logger is the main logger for this app.
 var Logger *logx.Logger
+
+// URL is a module to help generated URLs
+var URL *urlx.URL
 
 // DB is the app-wide database connection.
 var DB *sql.DB
@@ -57,6 +61,7 @@ func init() {
 	mustSetupLogger()
 	mustSetupTemplates(Config)
 	mustSetupDB()
+	mustSetupURL()
 }
 
 func mustSetupConfig() {
@@ -120,4 +125,8 @@ func mustSetupDB() {
 		panic(err)
 	}
 	DB = conn
+}
+
+func mustSetupURL() {
+	URL = urlx.NewURL(Config)
 }
