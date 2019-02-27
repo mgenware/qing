@@ -13,6 +13,7 @@ import (
 
 	"github.com/mgenware/go-packagex/httpx"
 	"github.com/mgenware/go-packagex/templatex"
+	strf "github.com/mgenware/go-string-format"
 )
 
 // Manager provides common functions to generate HTML strings.
@@ -149,5 +150,5 @@ func (m *Manager) LocalizedString(lang, key string) string {
 
 // FormatLocalizedString is a convenience function to format a localized string.
 func (m *Manager) FormatLocalizedString(lang, key string, a ...interface{}) string {
-	return fmt.Sprintf(m.LocalizedString(lang, key), a...)
+	return strf.Format(m.LocalizedString(lang, key), a...)
 }
