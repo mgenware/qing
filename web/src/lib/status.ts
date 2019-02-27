@@ -1,4 +1,4 @@
-import ErrorWithCode from './ErrorWithCode';
+import ErrorWithCode from './errorWithCode';
 
 export default class Status {
   isStarted: boolean = false;
