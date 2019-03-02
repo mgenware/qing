@@ -1,5 +1,6 @@
 import AppState from './app/modules/AppState';
 import Vue from 'vue';
+import Router from 'vue-router';
 
 // tslint:disable-next-line: class-name
 export class _APP {
@@ -18,8 +19,10 @@ export class _APP {
     selector: string | HTMLElement,
     instance: any,
     props?: object,
+    router?: Router,
   ) {
     new Vue({
+      router,
       render: h =>
         h(instance, {
           props,
