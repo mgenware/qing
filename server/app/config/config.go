@@ -27,6 +27,9 @@ type Config struct {
 	// --- Extended fields outside go-triton ---
 	DBConnString string                     `json:"db_conn_string" validate:"required"`
 	ResServer    *internals.ResServerConfig `json:"res_server" validate:"required"`
+	// Extern config data.
+	Extern *internals.ExternConfig `json:"extern" validate:"required"`
+	Debug  *internals.DebugConfig  `json:"debug"`
 }
 
 // ReadConfig loads an ConfigType from an array of bytes.

@@ -55,3 +55,7 @@ func (u *URL) UserAvatarURL(uid uint64, avatarName string, size int) string {
 func (u *URL) UserProfile(uid uint64) string {
 	return "/user/" + u.EncodeID(uid)
 }
+
+func (u *URL) SignIn() string {
+	return "/auth/sign_in"
+}

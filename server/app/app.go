@@ -8,7 +8,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"qing/app/extern"
 	"qing/app/urlx"
+	"qing/app/userx"
 
 	"qing/app/config"
 	"qing/app/logx"
@@ -32,6 +34,9 @@ var URL *urlx.URL
 
 // DB is the app-wide database connection.
 var DB *sql.DB
+
+var Extern *extern.Extern
+var UserManager *userx.UserManager
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse {
@@ -62,6 +67,8 @@ func init() {
 	mustSetupTemplates(Config)
 	mustSetupDB()
 	mustSetupURL()
+	mustSetupExtern()
+	mustSetupUserManager()
 }
 
 func mustSetupConfig() {
@@ -129,4 +136,17 @@ func mustSetupDB() {
 
 func mustSetupURL() {
 	URL = urlx.NewURL(Config)
+}
+
+func mustSetupExtern() {
+	Extern = extern.MustSetupExtern(Config)
+}
+
+func mustSetupUserManager() {
+	sessionMgr, err := userx.NewRedisBasedSessionManager(Extern.RedisConn.Pool(),
+		Logger, URL)
+	if err != nil {
+		panic(err)
+	}
+	UserManager = userx.NewUserManager(DB, sessionMgr, TemplateManager, URL, Config.DevMode)
 }
