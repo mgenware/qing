@@ -19,5 +19,5 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Note that we don't simply use `resp.MustFailWithMessage(msg)` to show this error, because that would panic in dev mode, so we used a more primitive way below to set `ErrorPageData.Expected` to `false`, thus doesn't trigger panic in dev mode for all 404 errors.
 	errorData := &template.ErrorPageData{Message: msg, Expected: true}
-	app.TemplateManager.MustError(resp.Lang(), errorData, w)
+	app.TemplateManager.MustError(resp.Context(), resp.Lang(), errorData, w)
 }

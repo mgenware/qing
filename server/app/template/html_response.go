@@ -30,14 +30,14 @@ func (h *HTMLResponse) MustCompleteWithContent(content string, w http.ResponseWr
 // MustComplete finishes the response with the given MasterPageData, and panics if unexpected error happens.
 func (h *HTMLResponse) MustComplete(d *MasterPageData) {
 	h.checkCompletion()
-	h.mgr.MustComplete(h.lang, d, h.writer)
+	h.mgr.MustComplete(h.Context(), h.lang, d, h.writer)
 }
 
 // MustFail finishes the response with the given error object.
 func (h *HTMLResponse) MustFail(err error) {
 	h.checkCompletion()
 	d := &ErrorPageData{Error: err, Message: err.Error()}
-	h.mgr.MustError(h.lang, d, h.writer)
+	h.mgr.MustError(h.Context(), h.lang, d, h.writer)
 }
 
 // MustFailWithMessage finishes the response with the given message, and panics if unexpected error happens.

@@ -1,6 +1,7 @@
 package template
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -70,7 +71,7 @@ func (m *Manager) MustCompleteWithContent(content []byte, w http.ResponseWriter)
 }
 
 // MustComplete executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustComplete(lang string, d *MasterPageData, w http.ResponseWriter) {
+func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageData, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 
 	// Setup additional assets
@@ -97,7 +98,7 @@ func (m *Manager) MustComplete(lang string, d *MasterPageData, w http.ResponseWr
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustError(lang string, d *ErrorPageData, w http.ResponseWriter) {
+func (m *Manager) MustError(ctx context.Context, lang string, d *ErrorPageData, w http.ResponseWriter) {
 	if m.devMode && !d.Expected {
 		fmt.Println("🙉 This message only appears in dev mode.")
 		if d.Error != nil {
@@ -116,7 +117,7 @@ func (m *Manager) MustError(lang string, d *ErrorPageData, w http.ResponseWriter
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	htmlData := NewMasterPageData("Error", errorHTML)
-	m.MustComplete(lang, htmlData, w)
+	m.MustComplete(ctx, lang, htmlData, w)
 }
 
 // PageTitle returns the given string followed by the localized site name.
