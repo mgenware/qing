@@ -1,4 +1,4 @@
-package userx
+package cm
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 )
 
 func ContextSID(ctx context.Context) string {
-	sidv := ctx.Value(defs.ContextSIDKey)
+	sidv := ctx.Value(defs.SIDContextKey)
 	if sidv == nil {
 		return ""
 	}
@@ -14,7 +14,7 @@ func ContextSID(ctx context.Context) string {
 }
 
 func ContextUser(ctx context.Context) *User {
-	usrv := ctx.Value(defs.ContextUserKey)
+	usrv := ctx.Value(defs.UserContextKey)
 	if usrv == nil {
 		return nil
 	}

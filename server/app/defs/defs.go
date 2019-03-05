@@ -22,17 +22,17 @@ const (
 
 // Cookie keys
 const (
-	CookieSessionKey = "_ut"
+	SessionCookieKey = "_ut"
 )
 
 // Context keys
 const (
-	ContextSIDKey  ContextKey = "sid"
-	ContextUserKey ContextKey = "user"
+	SIDContextKey  ContextKey = "sid"
+	UserContextKey ContextKey = "user"
 )
 
 // Redis keys
 const (
-	RedisSIDToUser   = "ss" // k: sid, v: session user json value
-	RedisUserIDToSID = "us" // k: user id, v: sid
+	SIDToUserRedisKey   = "ss" // k: sid, v: session user json value
+	UserIDToSIDRedisKey = "us" // k: user id, v: sid
 )

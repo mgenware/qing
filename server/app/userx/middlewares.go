@@ -2,12 +2,13 @@ package userx
 
 import (
 	"net/http"
+	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/logx"
 	"time"
 )
 
-func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *User) error {
+func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *cm.User) error {
 	sid, err := newSessionID(user.ID)
 	if err != nil {
 		return err
@@ -24,8 +25,8 @@ func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *Us
 
 func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
-	sid := ContextSID(ctx)
-	uid := ContextUserID(ctx)
+	sid := cm.ContextSID(ctx)
+	uid := cm.ContextUserID(ctx)
 	if sid == "" {
 		sm.logger.LogWarning("session.logout.emptySid", nil)
 		// just return if not signed in
@@ -49,7 +50,7 @@ func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 func newSessionCookie(sid string) *http.Cookie {
 	t := time.Now()
 	exptime := t.AddDate(0, 0, 30)
-	cookie := &http.Cookie{Name: defs.CookieSessionKey, Value: sid}
+	cookie := &http.Cookie{Name: defs.SessionCookieKey, Value: sid}
 	cookie.Path = "/"
 	cookie.Expires = exptime
 	return cookie
@@ -58,7 +59,7 @@ func newSessionCookie(sid string) *http.Cookie {
 func newDeletedSessionCookie(sid string) *http.Cookie {
 	t := time.Now()
 	exptime := t.AddDate(-1, -1, -1)
-	cookie := &http.Cookie{Name: defs.CookieSessionKey, Value: ""}
+	cookie := &http.Cookie{Name: defs.SessionCookieKey, Value: ""}
 	cookie.Path = "/"
 	cookie.Expires = exptime
 	return cookie

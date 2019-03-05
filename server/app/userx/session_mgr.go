@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/logx"
 	"qing/app/urlx"
@@ -17,26 +18,6 @@ import (
 	"github.com/mgenware/gossion/redisStore"
 )
 
-// User contains user infomation stored in session store
-type User struct {
-	ID       uint64 `json:"id"`
-	Name     string `json:"name"`
-	IconName string `json:"icon"`
-
-	// Generated props when deserialized
-	URL     string `json:"-"`
-	IconURL string `json:"-"`
-}
-
-// Serialize encode the user object to JSON.
-func (u *User) Serialize() ([]byte, error) {
-	b, err := json.Marshal(u)
-	if err != nil {
-		return nil, err
-	}
-	return b, nil
-}
-
 func newSessionID(uid uint64) (string, error) {
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -46,11 +27,11 @@ func newSessionID(uid uint64) (string, error) {
 }
 
 func sidToUserKey(sid string) string {
-	return defs.RedisSIDToUser + ":" + sid
+	return defs.SIDToUserRedisKey + ":" + sid
 }
 
 func userIDToSIDKey(uid uint64) string {
-	return defs.RedisUserIDToSID + ":" + strconvx.ToString(uid)
+	return defs.UserIDToSIDRedisKey + ":" + strconvx.ToString(uid)
 }
 
 // SessionManager ...
@@ -70,7 +51,7 @@ func NewRedisBasedSessionManager(pool *redis.Pool, logger *logx.Logger, appURL *
 }
 
 // SetUserSession sets an user to the internal store.
-func (sm *SessionManager) SetUserSession(sid string, user *User) error {
+func (sm *SessionManager) SetUserSession(sid string, user *cm.User) error {
 	if user == nil {
 		return errors.New("user cannot be nil")
 	}
@@ -95,7 +76,7 @@ func (sm *SessionManager) SetUserSession(sid string, user *User) error {
 }
 
 // GetUserSession retrieves an user from internal store by the given sid.
-func (sm *SessionManager) GetUserSession(sid string) (*User, error) {
+func (sm *SessionManager) GetUserSession(sid string) (*cm.User, error) {
 	keySIDToUser := sidToUserKey(sid)
 	bytes, err := sm.store.GetBytes(keySIDToUser)
 	if err != nil {
@@ -132,7 +113,7 @@ func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {
 func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// get cookie session id
-		sidcookie, _ := r.Cookie(defs.CookieSessionKey)
+		sidcookie, _ := r.Cookie(defs.SessionCookieKey)
 		if sidcookie == nil || sidcookie.String() == "" {
 			// no sid in cookie
 			next.ServeHTTP(w, r)
@@ -158,28 +139,28 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 		if user != nil {
 			// logged in
 			// set info to ctx
-			ctx = context.WithValue(ctx, defs.ContextSIDKey, sid)
-			ctx = context.WithValue(ctx, defs.ContextUserKey, user)
+			ctx = context.WithValue(ctx, defs.SIDContextKey, sid)
+			ctx = context.WithValue(ctx, defs.UserContextKey, user)
 		}
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 // NewUser creates a new session user based on required properties.
-func (sm *SessionManager) NewUser(id uint64, name string, iconName string) *User {
-	u := &User{ID: id, Name: name, IconName: iconName}
+func (sm *SessionManager) NewUser(id uint64, name string, iconName string) *cm.User {
+	u := &cm.User{ID: id, Name: name, IconName: iconName}
 	sm.computeUserFields(u)
 	return u
 }
 
-func (sm *SessionManager) computeUserFields(u *User) {
+func (sm *SessionManager) computeUserFields(u *cm.User) {
 	uid := u.ID
 	u.URL = sm.appURL.UserProfile(uid)
 	u.IconURL = sm.appURL.UserAvatarURL50(uid, u.IconName)
 }
 
-func (sm *SessionManager) deserializeUserJSON(b []byte) (*User, error) {
-	u := &User{}
+func (sm *SessionManager) deserializeUserJSON(b []byte) (*cm.User, error) {
+	u := &cm.User{}
 	err := json.Unmarshal(b, u)
 	if err != nil {
 		return nil, err
