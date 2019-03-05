@@ -11,6 +11,7 @@ type User struct {
 	// Generated props when deserialized
 	URL     string `json:"-"`
 	IconURL string `json:"-"`
+	EID     string `json:"-"`
 }
 
 // Serialize encode the user object to JSON.

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"qing/app/cm"
 
 	"qing/app/defs"
 	"qing/app/logx"
@@ -92,6 +93,14 @@ func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageDa
 			langJS = assetsMgr.JS.LSEN
 		}
 		d.Scripts += langJS
+	}
+	// User info
+	user := cm.ContextUser(ctx)
+	if user != nil {
+		d.AppUserID = user.EID
+		d.AppUserName = user.Name
+		d.AppUserIconURL = user.IconURL
+		d.AppUserURL = user.URL
 	}
 
 	m.masterView.MustExecute(lang, w, d)

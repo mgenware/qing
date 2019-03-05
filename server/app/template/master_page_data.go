@@ -10,12 +10,12 @@ type MasterPageData struct {
 	Scripts     string
 
 	// Additional fields
-	AppUserID        string
-	AppUserName      string
-	AppUserURL       string
-	AppUserAvatarURL string
-	AppLang          string
-	AppName          string
+	AppUserID      string
+	AppUserName    string
+	AppUserURL     string
+	AppUserIconURL string
+	AppLang        string
+	AppName        string
 }
 
 // NewMasterPageData creates a new MasterPageData.

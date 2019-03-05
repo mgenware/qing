@@ -3,6 +3,7 @@ package userx
 import (
 	"database/sql"
 	"net/http"
+	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/template"
 	"qing/app/urlx"
@@ -29,7 +30,7 @@ func NewUserManager(
 	return ret
 }
 
-func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*User, error) {
+func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*cm.User, error) {
 	dbUser, err := da.User.SelectForSession(appu.DB, uid)
 	if err != nil {
 		return nil, err
@@ -41,7 +42,7 @@ func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*User, error) {
 func (appu *UserManager) EnsureLoggedInMWHTML(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		user := ContextUser(ctx)
+		user := cm.ContextUser(ctx)
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
@@ -53,7 +54,7 @@ func (appu *UserManager) EnsureLoggedInMWHTML(next http.Handler) http.Handler {
 func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		user := ContextUser(ctx)
+		user := cm.ContextUser(ctx)
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
