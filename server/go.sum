@@ -27,8 +27,6 @@ github.com/mgenware/go-packagex v3.0.1+incompatible h1:X5vmeGYdheEM17caZ9Tod7xL8
 github.com/mgenware/go-packagex v3.0.1+incompatible/go.mod h1:hSlF75Q3llp8oXmzTL8/HJISyclWJa55poyHKfPddbk=
 github.com/mgenware/go-string-format v1.0.0 h1:wMTyjGp56U0adtnJUYgzAKYHkZucJ7JfwboOh5MIv8g=
 github.com/mgenware/go-string-format v1.0.0/go.mod h1:8hBsDl3Qt0yAUnzk+S401hC62//++GSpDEfBuSTeFgw=
-github.com/mgenware/gossion v0.0.0-20180810132629-57403b83b46a h1:oZQ9coy+DhYRvFLitLrSbOLp5TPtOom8sAYp6MERVjc=
-github.com/mgenware/gossion v0.0.0-20180810132629-57403b83b46a/go.mod h1:YmAeG/cvdvDaLJvfn9BjEoZcRimtEwlgSimQvdqiKNc=
 github.com/mgenware/gossion v1.0.0 h1:ABj0UTntaXAwoWkc3h8iJiu10RK18Zg5aoSI+W+1aa0=
 github.com/mgenware/gossion v1.0.0/go.mod h1:Flc+6CQJvMkPcuEZtuIgXYG52Cyot4lMFkJMfvCfv1c=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

@@ -8,6 +8,7 @@ const (
 	LanguageQueryKey              = "lang"
 	LanguageCSString              = "cs"
 	LanguageENString              = "en"
+	BodyContextKey     ContextKey = "body"
 )
 
 const (

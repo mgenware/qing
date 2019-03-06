@@ -2,8 +2,7 @@ package template
 
 import (
 	"context"
-
-	"qing/app/defs"
+	"qing/app/cm"
 )
 
 // BaseResponse provides basic properties shared by both HTMLResponse and JSONResponse.
@@ -16,7 +15,7 @@ type BaseResponse struct {
 func newBaseResponse(ctx context.Context, mgr *Manager) BaseResponse {
 	c := BaseResponse{
 		ctx:  ctx,
-		lang: defs.LanguageContext(ctx),
+		lang: cm.LanguageContext(ctx),
 		mgr:  mgr,
 	}
 
