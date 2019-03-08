@@ -12,9 +12,8 @@ import (
 
 // Config is the root configuration type for your application.
 type Config struct {
-	// DevMode determines if this app is currently running in dev mode.
-	DevMode bool `json:"devMode"`
-
+	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
+	Debug *internals.DebugConfig `json:"debug"`
 	// Log config data.
 	Log *internals.LogConfig `json:"log" validate:"required"`
 	// HTTP config data.
@@ -29,7 +28,11 @@ type Config struct {
 	ResServer    *internals.ResServerConfig `json:"res_server" validate:"required"`
 	// Extern config data.
 	Extern *internals.ExternConfig `json:"extern" validate:"required"`
-	Debug  *internals.DebugConfig  `json:"debug"`
+}
+
+// DevMode checks if debug config field is on.
+func (config *Config) DevMode() bool {
+	return config.Debug != nil
 }
 
 // ReadConfig loads an ConfigType from an array of bytes.

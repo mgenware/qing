@@ -7,8 +7,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mgenware/go-packagex/httpx"
+	"qing/app/config/internals"
 	"qing/app/defs"
+
+	"github.com/mgenware/go-packagex/httpx"
 )
 
 // JSONResponse helps you create a HTTP response in JSON.
@@ -16,22 +18,22 @@ type JSONResponse struct {
 	BaseResponse
 
 	writer      http.ResponseWriter
-	devMode     bool
+	debugConfig *internals.DebugConfig
 	isCompleted bool
 }
 
 // NewJSONResponse creates a new JSONResponse.
-func NewJSONResponse(ctx context.Context, mgr *Manager, wr http.ResponseWriter, devMode bool) *JSONResponse {
+func NewJSONResponse(ctx context.Context, mgr *Manager, wr http.ResponseWriter, debugConfig *internals.DebugConfig) *JSONResponse {
 	return &JSONResponse{
 		BaseResponse: newBaseResponse(ctx, mgr),
 		writer:       wr,
-		devMode:      devMode,
+		debugConfig:  debugConfig,
 	}
 }
 
 // MustFailWithCodeAndError finishes the response with the specified code and error object, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithCodeAndError(code uint, err error) {
-	if j.devMode {
+	if j.debugConfig != nil && j.debugConfig.PanicOnUnexpectedJSONErrors {
 		fmt.Println("🙉 This message only appears in dev mode.")
 		if err != nil {
 			panic(err)

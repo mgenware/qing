@@ -24,7 +24,7 @@ func Start() {
 
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
-	if !config.DevMode {
+	if !config.DevMode() {
 		// *** Production only ***
 
 		// Mount PanicMiddleware only in production, let panic crash in development

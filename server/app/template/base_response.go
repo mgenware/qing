@@ -10,6 +10,8 @@ type BaseResponse struct {
 	ctx  context.Context
 	mgr  *Manager
 	lang string
+	user *cm.User
+	uid  uint64
 }
 
 func newBaseResponse(ctx context.Context, mgr *Manager) BaseResponse {
@@ -17,6 +19,8 @@ func newBaseResponse(ctx context.Context, mgr *Manager) BaseResponse {
 		ctx:  ctx,
 		lang: cm.LanguageContext(ctx),
 		mgr:  mgr,
+		user: cm.ContextUser(ctx),
+		uid:  cm.ContextUserID(ctx),
 	}
 
 	return c
@@ -48,4 +52,14 @@ func (b *BaseResponse) PageTitle(s string) string {
 // LocalizedPageTitle calls TemplateManager.LocalizedPageTitle.
 func (b *BaseResponse) LocalizedPageTitle(key string) string {
 	return b.mgr.LocalizedPageTitle(b.lang, key)
+}
+
+// User returns the session user assosicated with the underlying context.
+func (b *BaseResponse) User() *cm.User {
+	return b.user
+}
+
+// UserID returns the ID of the session user assosicated with the underlying context.
+func (b *BaseResponse) UserID() uint64 {
+	return b.uid
 }

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"net/http"
 	"qing/app/cm"
+	"qing/app/config/internals"
 	"qing/app/defs"
 	"qing/app/template"
 	"qing/app/urlx"
@@ -15,8 +16,8 @@ type UserManager struct {
 	TemplateManager *template.Manager
 	DB              *sql.DB
 
-	appURL  *urlx.URL
-	devMode bool
+	appURL      *urlx.URL
+	debugConfig *internals.DebugConfig
 }
 
 func NewUserManager(
@@ -24,14 +25,14 @@ func NewUserManager(
 	ssMgr *SessionManager,
 	tm *template.Manager,
 	appURL *urlx.URL,
-	devMode bool,
+	debugConfig *internals.DebugConfig,
 ) *UserManager {
-	ret := &UserManager{DB: db, SessionManager: ssMgr, TemplateManager: tm, appURL: appURL, devMode: devMode}
+	ret := &UserManager{DB: db, SessionManager: ssMgr, TemplateManager: tm, appURL: appURL, debugConfig: debugConfig}
 	return ret
 }
 
 func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*cm.User, error) {
-	dbUser, err := da.User.SelectForSession(appu.DB, uid)
+	dbUser, err := da.User.SelectSessionData(appu.DB, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +59,7 @@ func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
-			resp := template.NewJSONResponse(ctx, appu.TemplateManager, w, appu.devMode)
+			resp := template.NewJSONResponse(ctx, appu.TemplateManager, w, appu.debugConfig)
 			resp.MustFailWithCode(defs.APINeedAuthError)
 		}
 	})
