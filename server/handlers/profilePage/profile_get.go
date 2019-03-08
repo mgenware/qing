@@ -17,7 +17,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 		system.NotFoundHandler(w, r)
 		return
 	}
-	user, err := da.User.SelectUserProfile(app.DB, uid)
+	user, err := da.User.SelectProfile(app.DB, uid)
 	resp := app.HTMLResponse(w, r)
 	if err != nil {
 		resp.MustFail(err)

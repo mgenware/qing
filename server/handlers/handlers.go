@@ -1,16 +1,18 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"qing/app"
 	"qing/app/logx"
-	"qing/handlers/errorPage"
 	"qing/handlers/homePage"
 	"qing/handlers/profilePage"
+	"qing/handlers/srCall"
 	"qing/handlers/system"
+	"qing/handlers/tPage"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/iox"
@@ -30,6 +32,9 @@ func Start() {
 		// Mount PanicMiddleware only in production, let panic crash in development
 		r.Use(system.PanicMiddleware)
 	}
+
+	// User session middleware
+	r.Use(app.UserManager.SessionManager.ParseUserSessionMiddleware)
 
 	// Mount static file server
 	httpStaticConfig := httpConfig.Static
@@ -61,9 +66,6 @@ func Start() {
 		}
 	}
 
-	// Mount other middlewares, for example:
-	// r.Use(sessionMiddleware)
-
 	// ----------------- HTTP Routes -----------------
 	lm := app.TemplateManager.LocalizationManager
 
@@ -72,8 +74,17 @@ func Start() {
 
 	// index handler
 	r.With(lm.EnableContextLanguage).Get("/", homePage.HomeGET)
-	r.With(lm.EnableContextLanguage).Get("/fakeError", errorPage.FakeErrorGET)
 	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilePage.ProfileGET)
+
+	r.Mount("/sr", srCall.Router)
+
+	debugConfig := config.Debug
+	if debugConfig != nil {
+		if debugConfig.QuickLogin {
+			log.Print("⚠️ QuickLogin routes are on")
+			r.Mount("/t", tPage.Router)
+		}
+	}
 
 	app.Logger.LogInfo("Server starting", logx.D{"port": httpConfig.Port})
 	err := http.ListenAndServe(":"+strconv.Itoa(httpConfig.Port), r)

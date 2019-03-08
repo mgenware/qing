@@ -7,15 +7,15 @@ import (
 )
 
 type ProfileData struct {
-	da.UserTableSelectUserProfileResult
+	da.UserTableSelectProfileResult
 	template.LocalizedTemplateData
 
 	UserURL string
 	IconURL string
 }
 
-func NewProfileDataFromUser(u *da.UserTableSelectUserProfileResult) *ProfileData {
-	d := &ProfileData{UserTableSelectUserProfileResult: *u}
+func NewProfileDataFromUser(u *da.UserTableSelectProfileResult) *ProfileData {
+	d := &ProfileData{UserTableSelectProfileResult: *u}
 	uid := u.ID
 
 	d.IconURL = app.URL.UserAvatarURL250(uid, u.IconName)
