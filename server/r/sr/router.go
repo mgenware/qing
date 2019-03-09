@@ -1,9 +1,9 @@
-package srCall
+package sr
 
 import (
 	"qing/app"
 	"qing/app/middleware"
-	"qing/handlers/srcall/settings"
+	"qing/r/sr/settings"
 
 	"github.com/go-chi/chi"
 )

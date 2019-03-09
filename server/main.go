@@ -1,9 +1,9 @@
 package main
 
 import (
-	"qing/handlers"
+	"qing/r"
 )
 
 func main() {
-	handlers.Start()
+	r.Start()
 }

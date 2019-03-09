@@ -1,4 +1,4 @@
-package profile
+package profilec
 
 import (
 	"net/http"

@@ -1,4 +1,4 @@
-package tPage
+package tp
 
 import (
 	"encoding/json"

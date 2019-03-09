@@ -1,6 +1,8 @@
-package profile
+package settings
 
 import (
+	"qing/r/sr/settings/profilec"
+
 	"github.com/go-chi/chi"
 )
 
@@ -8,6 +10,5 @@ import (
 var Router = chi.NewRouter()
 
 func init() {
-	Router.Post("/get_info", getInfo)
-	Router.Post("/set_info", setInfo)
+	Router.Mount("/profile", profilec.Router)
 }

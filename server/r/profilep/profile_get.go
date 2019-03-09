@@ -1,10 +1,10 @@
-package profilePage
+package profilep
 
 import (
 	"net/http"
 	"qing/app"
 	"qing/da"
-	"qing/handlers/system"
+	"qing/r/sysh"
 
 	"github.com/go-chi/chi"
 )
@@ -14,7 +14,7 @@ var vUserPage = app.TemplateManager.MustParseLocalizedView("/profile/profile.htm
 func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	uid, err := app.URL.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
-		system.NotFoundHandler(w, r)
+		sysh.NotFoundHandler(w, r)
 		return
 	}
 	user, err := da.User.SelectProfile(app.DB, uid)

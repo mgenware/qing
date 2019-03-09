@@ -1,4 +1,4 @@
-package tPage
+package tp
 
 import (
 	"github.com/go-chi/chi"

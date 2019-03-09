@@ -1,4 +1,4 @@
-package handlers
+package r
 
 import (
 	"log"
@@ -8,11 +8,10 @@ import (
 
 	"qing/app"
 	"qing/app/logx"
-	"qing/handlers/homePage"
-	"qing/handlers/profilePage"
-	"qing/handlers/srCall"
-	"qing/handlers/system"
-	"qing/handlers/tPage"
+	"qing/r/profilep"
+	"qing/r/sr"
+	"qing/r/sysh"
+	"qing/r/tp"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/iox"
@@ -30,7 +29,7 @@ func Start() {
 		// *** Production only ***
 
 		// Mount PanicMiddleware only in production, let panic crash in development
-		r.Use(system.PanicMiddleware)
+		r.Use(sysh.PanicMiddleware)
 	}
 
 	// User session middleware
@@ -70,19 +69,18 @@ func Start() {
 	lm := app.TemplateManager.LocalizationManager
 
 	// Not found handler
-	r.With(lm.EnableContextLanguage).NotFound(system.NotFoundHandler)
+	r.With(lm.EnableContextLanguage).NotFound(sysh.NotFoundHandler)
 
 	// index handler
-	r.With(lm.EnableContextLanguage).Get("/", homePage.HomeGET)
-	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilePage.ProfileGET)
+	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilep.ProfileGET)
 
-	r.Mount("/sr", srCall.Router)
+	r.Mount("/sr", sr.Router)
 
 	debugConfig := config.Debug
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/t", tPage.Router)
+			r.Mount("/t", tp.Router)
 		}
 	}
 

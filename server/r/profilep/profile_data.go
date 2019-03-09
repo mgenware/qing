@@ -1,4 +1,4 @@
-package profilePage
+package profilep
 
 import (
 	"qing/app"

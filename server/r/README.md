@@ -1,0 +1,2 @@
+# the `r` directory
+This directory contains all routes of your application, in order to follow best practices for package naming ([details](https://blog.golang.org/package-names)), child directories usually consist of a short name plus a letter indicating the type of the route, e.g. `sysh` for system handlers, `homep` for home page stuff, etc.
