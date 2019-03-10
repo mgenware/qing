@@ -27,6 +27,5 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	title := user.Name
 	userData := NewProfileDataFromUser(user)
 	d := app.MasterPageData(title, vUserPage.MustExecuteToString(resp.Lang(), userData))
-	d.AppName = "profile"
 	resp.MustComplete(d)
 }

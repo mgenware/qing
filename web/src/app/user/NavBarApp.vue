@@ -1,9 +1,6 @@
 <template>
   <div id="m_nav_menu" class="navbar-menu">
     <div class="navbar-end">
-      <a v-if="$ls.__langID === 'cs'" class="navbar-item" href="/k">知识库</a>
-      <a class="navbar-item" href="/toolset">{{$ls.toolSet}}</a>
-
       <div v-if="user" class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" :href="user.profileURL">
           <img
