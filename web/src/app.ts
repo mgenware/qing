@@ -1,15 +1,25 @@
-import AppState from './app/modules/AppState';
+import AppState from './app/modules/appState';
+import Alert from './app/modules/alert';
 import Vue from 'vue';
+import Loader from '@/lib/loader';
 import Router from 'vue-router';
+
+export class LoaderResult {
+  constructor(public error: Error | undefined, public data: object) {}
+
+  get isError(): boolean {
+    return !!this.error;
+  }
+
+  get isSuccess(): boolean {
+    return !this.isError;
+  }
+}
 
 // tslint:disable-next-line: class-name
 export class _APP {
-  state: AppState;
-
-  constructor() {
-    const state = new AppState();
-    this.state = state;
-  }
+  state = new AppState();
+  alert = new Alert();
 
   get isLoggedIn(): boolean {
     return !!this.state.user;
@@ -28,6 +38,32 @@ export class _APP {
           props,
         }),
     }).$mount(selector);
+  }
+
+  async runActionAsync(
+    loader: Loader,
+    overlayText: string,
+    errorDict?: { [key: number]: string },
+  ): Promise<LoaderResult> {
+    const { alert } = this;
+    errorDict = errorDict || {};
+    try {
+      alert.showLoadingOverlay(overlayText);
+      const result = await loader.startAsync(() => {
+        alert.hideLoadingOverlay();
+      });
+      return new LoaderResult(undefined, result);
+    } catch (ex) {
+      let message;
+      if (ex.code && errorDict[ex.code]) {
+        message = errorDict[ex.code];
+      } else {
+        message = ex.message;
+      }
+      await alert.error(message);
+
+      return new LoaderResult(ex, {});
+    }
   }
 }
 

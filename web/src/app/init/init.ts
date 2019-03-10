@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import NavBarApp from './user/NavBarApp.vue';
+import NavBarApp from '../user/NavBarApp.vue';
 import app from '@/app';
 import bulmaSetup from './bulmaSetup';
 import ls from '@/ls';
@@ -24,7 +24,9 @@ function starting() {
     console.log('App started in dev mode');
   }
 
-  app.mountComponent('#nav_user_app', NavBarApp);
+  if (document.getElementById('nav_user_app')) {
+    app.mountComponent('#nav_user_app', NavBarApp);
+  }
 }
 
 function started() {
@@ -39,9 +41,7 @@ function started() {
   // --------- end of bulma elements setup code ---------
 }
 
-export default function init() {
-  starting();
-  document.addEventListener('DOMContentLoaded', () => {
-    started();
-  });
-}
+starting();
+document.addEventListener('DOMContentLoaded', () => {
+  started();
+});
