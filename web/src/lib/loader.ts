@@ -2,7 +2,6 @@ import Status from './status';
 import Result from './result';
 import ls from '../ls';
 import ErrorWithCode from './errorWithCode';
-import { constructURL } from './htmlLib';
 
 export default class Loader {
   status: Status;
@@ -33,13 +32,13 @@ export default class Loader {
     let body = '';
     const params = this.requestParams();
     if (params) {
-      body = constructURL(params);
+      body = JSON.stringify(params);
     }
     const response = await fetch(this.requestURL(), {
       method: 'POST',
       body,
       headers: {
-        'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'content-type': 'application/json',
         credentials: 'same-origin',
       },
     });
