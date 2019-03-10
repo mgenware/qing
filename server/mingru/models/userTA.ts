@@ -25,7 +25,7 @@ ta.select(
   t.website,
   t.bio,
   t.bio_src,
-);
+).byID();
 
 ta.updateOne('EditingData')
   .setInputs(t.name, t.website, t.company, t.location)

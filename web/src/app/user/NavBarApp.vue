@@ -10,8 +10,7 @@
             height="20"
             class="border-radius-10 vertical-align-middle"
           >
-          <span class="m-l-sm">{{user.nick}}</span>
-          <BadgeView :value="`${user.badge}`"/>
+          <span class="m-l-sm">{{user.name}}</span>
         </a>
         <div class="navbar-dropdown">
           <a class="navbar-item" :href="user.profileURL">{{$ls.profile}}</a>

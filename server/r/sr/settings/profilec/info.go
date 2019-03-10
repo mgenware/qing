@@ -23,14 +23,9 @@ func newInfoData(u *da.UserTableSelectEditingDataResult) *infoData {
 
 func getInfo(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
-	uid, _ := params["id"].(string)
-	if uid == "" {
-		resp.MustFailWithMessage("The argument `id` cannot be empty")
-		return
-	}
+	uid := resp.UserID()
 
-	dbInfo, err := da.User.SelectEditingData(app.DB)
+	dbInfo, err := da.User.SelectEditingData(app.DB, uid)
 	if err != nil {
 		resp.MustFail(err)
 		return

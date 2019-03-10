@@ -10,5 +10,7 @@
   "company": "公司",
   "bio": "简介",
   "errOccurred": "发生错误",
-  "pPageNotFound": "您访问的网址\"{0}\"不存在"
+  "pPageNotFound": "您访问的网址\"{0}\"不存在",
+  "profilePicture": "头像",
+  "aboutMe": "关于我"
 }

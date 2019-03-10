@@ -69,9 +69,9 @@ type UserTableSelectEditingDataResult struct {
 }
 
 // SelectEditingData ...
-func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable) (*UserTableSelectEditingDataResult, error) {
+func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
 	result := &UserTableSelectEditingDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user`").Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.BioSrc)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.BioSrc)
 	if err != nil {
 		return nil, err
 	}

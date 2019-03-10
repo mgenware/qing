@@ -8,6 +8,7 @@ import (
 
 	"qing/app"
 	"qing/app/logx"
+	"qing/r/mp"
 	"qing/r/profilep"
 	"qing/r/sr"
 	"qing/r/sysh"
@@ -74,6 +75,7 @@ func Start() {
 	// index handler
 	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilep.ProfileGET)
 
+	r.Mount("/m", mp.Router)
 	r.Mount("/sr", sr.Router)
 
 	debugConfig := config.Debug

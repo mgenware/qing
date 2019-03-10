@@ -49,11 +49,12 @@ export class _APP {
     errorDict = errorDict || {};
     try {
       alert.showLoadingOverlay(overlayText);
-      const result = await loader.startAsync(() => {
-        alert.hideLoadingOverlay();
-      });
+      const result = await loader.startAsync();
+      alert.hideLoadingOverlay();
+
       return new LoaderResult(undefined, result);
     } catch (ex) {
+      alert.hideLoadingOverlay();
       let message;
       if (ex.code && errorDict[ex.code]) {
         message = errorDict[ex.code];
