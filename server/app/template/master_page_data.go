@@ -15,7 +15,6 @@ type MasterPageData struct {
 	AppUserURL     string
 	AppUserIconURL string
 	AppLang        string
-	AppName        string
 }
 
 // NewMasterPageData creates a new MasterPageData.

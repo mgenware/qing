@@ -83,18 +83,23 @@ func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageDa
 
 	d.Header = css.Vendor + css.Main + d.Header
 
-	d.Scripts = js.Vendor + js.Main + d.Scripts
 	d.AppLang = lang
-	if m.debugConfig == nil {
-		// Inject i18n js in production
-		var langJS string
-		if lang == defs.LanguageCSString {
-			langJS = assetsMgr.JS.LSCS
-		} else {
-			langJS = assetsMgr.JS.LSEN
-		}
-		d.Scripts += langJS
+
+	// Language file, this should be loaded first as the app.js relies on it.
+	var langJS string
+	if lang == defs.LanguageCSString {
+		langJS = assetsMgr.JS.LSCS
+	} else {
+		langJS = assetsMgr.JS.LSEN
 	}
+	script := langJS
+
+	// Main app.js
+	script += js.Vendor + js.Main
+
+	// System scripts come before user scripts
+	d.Scripts = script + d.Scripts
+
 	// User info
 	user := cm.ContextUser(ctx)
 	if user != nil {
