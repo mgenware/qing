@@ -11,8 +11,9 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/mgenware/go-packagex/filepathx"
 	"qing/app/defs"
+
+	"github.com/mgenware/go-packagex/filepathx"
 )
 
 var (
@@ -61,6 +62,11 @@ func NewManagerFromDirectory(dir string, defaultLang string) (*Manager, error) {
 	}
 
 	return &Manager{dics: dics, defaultDic: defaultDic, defaultLang: defaultLang}, nil
+}
+
+// DefaultLanguage returns the default language of this manager.
+func (mgr *Manager) DefaultLanguage() string {
+	return mgr.defaultLang
 }
 
 // DictionaryForLanguage returns an Dictionary object associated with the specified language.

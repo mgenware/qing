@@ -75,7 +75,9 @@ func Start() {
 	// index handler
 	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilep.ProfileGET)
 
-	r.Mount("/m", mp.Router)
+	// Dashboard handler
+	r.With(lm.EnableContextLanguage).Mount("/m", mp.Router)
+	// Restricted Service handler (SR)
 	r.Mount("/sr", sr.Router)
 
 	debugConfig := config.Debug

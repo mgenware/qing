@@ -79,6 +79,10 @@ func (m *Manager) MustCompleteWithContent(content []byte, w http.ResponseWriter)
 // MustComplete executes the main view template with the specified data and panics if error occurs.
 func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageData, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
+	// Ensure lang always has a value
+	if lang == "" {
+		lang = m.LocalizationManager.DefaultLanguage()
+	}
 
 	// Setup additional assets
 	assetsMgr := m.assetMgr
