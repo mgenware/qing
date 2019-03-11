@@ -1,13 +1,17 @@
 package template
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
 	"qing/app/cm"
 	"qing/app/config/internals"
+	txt "text/template"
 
 	"qing/app/defs"
 	"qing/app/logx"
@@ -82,17 +86,31 @@ func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageDa
 	js := assetsMgr.JS
 
 	d.Header = css.Vendor + css.Main + d.Header
-
 	d.AppLang = lang
 
+	script := ""
 	// Language file, this should be loaded first as the app.js relies on it.
-	var langJS string
-	if lang == defs.LanguageCSString {
-		langJS = assetsMgr.JS.LSCS
+	if m.debugConfig != nil {
+		// Read the JSON content and inject it to master page in dev mode
+		jsonBytes, err := ioutil.ReadFile(fmt.Sprintf("../localization/langs/%v.json", lang))
+		if err != nil {
+			panic(err) // can panic in dev mode
+		}
+		var buffer bytes.Buffer
+		err = json.Compact(&buffer, jsonBytes)
+		if err != nil {
+			panic(err) // can panic in dev mode
+		}
+		script += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
 	} else {
-		langJS = assetsMgr.JS.LSEN
+		var langJS string
+		if lang == defs.LanguageCSString {
+			langJS = assetsMgr.JS.LSCS
+		} else {
+			langJS = assetsMgr.JS.LSEN
+		}
+		script += langJS
 	}
-	script := langJS
 
 	// Main app.js
 	script += js.Vendor + js.Main
