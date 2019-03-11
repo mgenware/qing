@@ -12,5 +12,14 @@
   "errOccurred": "发生错误",
   "pPageNotFound": "您访问的网址\"{0}\"不存在",
   "profilePicture": "头像",
-  "aboutMe": "关于我"
+  "aboutMe": "关于我",
+  "loading": "加载中...",
+  "save": "保存",
+  "error": "错误",
+  "ok": "确定",
+  "yes": "是",
+  "no": "否",
+  "cancel": "取消",
+  "pCannotBeEmpty": "\"{0}\"不能为空",
+  "name": "名字"
 }

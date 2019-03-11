@@ -2,7 +2,7 @@ import BaseLoader from '@/lib/loader';
 
 export default class SetProfileLoader extends BaseLoader {
   constructor(
-    public nick: string,
+    public name: string,
     public website: string,
     public company: string,
     public location: string,
@@ -16,7 +16,7 @@ export default class SetProfileLoader extends BaseLoader {
 
   requestParams(): object {
     const ret = {
-      nick: this.nick,
+      name: this.name,
       website: this.website,
       company: this.company,
       location: this.location,

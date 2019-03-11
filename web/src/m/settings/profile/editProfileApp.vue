@@ -89,7 +89,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import EditProfileData from './editProfileData';
 import StatusView from '@/ui/views/statusView.vue';
 import app from '@/app';
-import ls from '@/ls';
+import { ls, format } from '@/ls';
 import SetProfileLoader from './loaders/setProfileLoader';
 import GetUserEditingDataLoader from './loaders/getUserEditingDataLoader';
 
@@ -117,7 +117,7 @@ export default class EditProfileApp extends Vue {
 
   private async handleSaveProfileClick() {
     if (!this.profileData.Name) {
-      await app.alert.error(ls.emptyNickErr);
+      await app.alert.error(format('pCannotBeEmpty', ls.name));
       return;
     }
 

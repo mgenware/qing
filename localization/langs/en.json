@@ -12,5 +12,14 @@
   "errOccurred": "Error occurred",
   "pPageNotFound": "The URL you requested \"{0}\" does not exist",
   "profilePicture": "Profile picture",
-  "aboutMe": "About me"
+  "aboutMe": "About me",
+  "loading": "Loading...",
+  "save": "Save",
+  "error": "Error",
+  "ok": "OK",
+  "yes": "Yes",
+  "no": "No",
+  "cancel": "Cancel",
+  "pCannotBeEmpty": "\"{0}\" cannot be empty",
+  "name": "Name"
 }
