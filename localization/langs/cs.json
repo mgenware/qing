@@ -21,5 +21,6 @@
   "no": "否",
   "cancel": "取消",
   "pCannotBeEmpty": "\"{0}\"不能为空",
-  "name": "名字"
+  "name": "名字",
+  "saved": "以保存"
 }

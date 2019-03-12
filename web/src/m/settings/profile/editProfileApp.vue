@@ -63,23 +63,6 @@
           >{{$ls.save}}</button>
         </div>
       </article>
-
-      <article class="message m-t-md is-light">
-        <div class="message-header">{{$ls.bio}}</div>
-        <div class="message-body">
-          <div class="field">
-            <label class="label">
-              {{$ls.profileSig}}
-              <button
-                class="button is-small m-l-md"
-                @click="handleEditSigClick"
-              >{{$ls.edit}}</button>
-            </label>
-            <hr>
-            <div class="md-content content" v-html="profileData.SigHTML"></div>
-          </div>
-        </div>
-      </article>
     </div>
   </div>
 </template>
@@ -125,11 +108,11 @@ export default class EditProfileApp extends Vue {
     const loader = new SetProfileLoader(Name, Website, Company, Location);
     const res = await app.runActionAsync(loader, ls.saving);
     if (res.isSuccess) {
+      await app.alert.successToast(ls.saved);
       // update user session
       const user = app.state.user;
       if (user) {
         user.name = Name;
-        user.notifyChanges();
       }
     }
   }

@@ -1,5 +1,3 @@
-import MulticastDelegate from '@/lib/multicastDelegate';
-
 export default class User {
   static fromWindow(): User | null {
     // tslint:disable-next-line: no-any
@@ -10,15 +8,9 @@ export default class User {
     return null;
   }
 
-  changedDelegate = new MulticastDelegate();
-
   constructor(
     public id: string,
     public name: string,
     public profileURL: string,
   ) {}
-
-  notifyChanges() {
-    this.changedDelegate.invoke(this);
-  }
 }

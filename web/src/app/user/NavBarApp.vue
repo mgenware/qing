@@ -36,12 +36,12 @@ import app from '@/app';
 import ls from '@/ls';
 import defs from '@/defs';
 
+@Component
 export default class NavBarApp extends Vue {
   user = app.state.user;
   editProfileURL = defs.editProfileURL;
 
   async handleLogOutClick() {}
-
   handleLoginClick() {}
 }
 </script>

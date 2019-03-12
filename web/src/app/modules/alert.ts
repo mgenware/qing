@@ -14,6 +14,19 @@ export default class AlertModule {
     });
   }
 
+  async successToast(title: string): Promise<void> {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'center',
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    Toast.fire({
+      type: 'success',
+      title,
+    });
+  }
+
   // loading spinner
   showLoadingOverlay(text: string) {
     this.hideLoadingOverlay();
