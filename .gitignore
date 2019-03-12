@@ -1,3 +1,4 @@
 *.log
+*.rdb
 /appdata/*
 !/appdata/README.md
