@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"qing/app/extern"
+	"qing/app/svc"
 	"qing/app/urlx"
 	"qing/app/userx"
 
@@ -37,6 +38,7 @@ var DB *sql.DB
 
 var Extern *extern.Extern
 var UserManager *userx.UserManager
+var Service *svc.Service
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse {
@@ -69,6 +71,7 @@ func init() {
 	mustSetupURL()
 	mustSetupExtern()
 	mustSetupUserManager()
+	mustSetupService()
 }
 
 func mustSetupConfig() {
@@ -149,4 +152,9 @@ func mustSetupUserManager() {
 		panic(err)
 	}
 	UserManager = userx.NewUserManager(DB, sessionMgr, TemplateManager, URL, Config.Debug)
+}
+
+func mustSetupService() {
+	service := svc.MustNewService(Config, Logger)
+	Service = service
 }

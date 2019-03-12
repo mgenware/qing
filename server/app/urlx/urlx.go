@@ -33,23 +33,23 @@ func (u *URL) ResURL(url string) string {
 
 func (u *URL) UserAvatarURL50(uid uint64, avatarName string) string {
 	if avatarName == "" {
-		return u.AssetURL("/img/user/defaultIcon.png")
+		return u.AssetURL("/img/main/defavatar_50.png")
 	}
-	return u.ResURL(avatar.GetAvatarURL(defs.AvatarDirName, uid, avatar.AvatarSize50, avatarName))
+	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, avatar.AvatarSize50, avatarName))
 }
 
 func (u *URL) UserAvatarURL250(uid uint64, avatarName string) string {
 	if avatarName == "" {
-		return u.AssetURL("/img/user/defavatar.png")
+		return u.AssetURL("/img/main/defavatar.png")
 	}
-	return u.ResURL(avatar.GetAvatarURL(defs.AvatarDirName, uid, avatar.AvatarSize250, avatarName))
+	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, avatar.AvatarSize250, avatarName))
 }
 
 func (u *URL) UserAvatarURL(uid uint64, avatarName string, size int) string {
 	if avatarName == "" {
-		return u.AssetURL("/img/user/defavatar.png")
+		return u.AssetURL("/img/main/defavatar.png")
 	}
-	return u.ResURL(avatar.GetAvatarURL(defs.AvatarDirName, uid, size, avatarName))
+	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, size, avatarName))
 }
 
 func (u *URL) UserProfile(uid uint64) string {

@@ -22,5 +22,10 @@
   "cancel": "取消",
   "pCannotBeEmpty": "\"{0}\"不能为空",
   "name": "名字",
-  "saved": "以保存"
+  "saved": "以保存",
+  "retry": "重试",
+  "uploadFileBtn": "选择文件...",
+  "uploadProfileImgDesc": "允许的最大文件大小：5 MB",
+  "unsupportedImgExtErr": "不支持的文件扩展名(允许的扩展名是：jpg, jpeg, gif, png)",
+  "exceed5MBErr": "文件大小超过最大值(5 MB)"
 }

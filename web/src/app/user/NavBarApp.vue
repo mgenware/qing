@@ -5,7 +5,7 @@
         <a class="navbar-link" :href="user.profileURL">
           <img
             alt
-            :src="user.avatarURL"
+            :src="user.iconURL"
             width="20"
             height="20"
             class="border-radius-10 vertical-align-middle"

@@ -9,6 +9,27 @@
 
     <div v-else>
       <article class="message m-t-md is-light">
+        <div class="message-header">{{$ls.profilePicture}}</div>
+        <div class="message-body">
+          <p>
+            <img
+              :src="profileData.IconURL"
+              class="border-radius-5"
+              width="250"
+              height="250"
+              :style="{ border: '1px solid #ededed' }"
+            >
+          </p>
+          <div class="mt-3">
+            <AvatarUploader
+              postURL="/sr/settings/profile/set_avatar"
+              @onComplete="handleImgUploadComplete"
+            />
+          </div>
+        </div>
+      </article>
+
+      <article class="message m-t-md is-light">
         <div class="message-header">{{$ls.aboutMe}}</div>
         <div class="message-body">
           <div class="field">
@@ -75,15 +96,19 @@ import app from '@/app';
 import { ls, format } from '@/ls';
 import SetProfileLoader from './loaders/setProfileLoader';
 import GetUserEditingDataLoader from './loaders/getUserEditingDataLoader';
+// avatar uploader
+import AvatarUploader from '@/ui/pickers/avatarUploader.vue';
+import AvatarUploaderResp from '@/ui/pickers/avatarUploaderResponse';
 
 @Component({
   components: {
     StatusView,
+    AvatarUploader,
   },
 })
 export default class EditProfileApp extends Vue {
   profileData = new EditProfileData();
-  loader = new GetUserEditingDataLoader();
+  loader: GetUserEditingDataLoader | null = null;
 
   async mounted() {
     await this.loadAsync();
@@ -91,6 +116,7 @@ export default class EditProfileApp extends Vue {
 
   async loadAsync() {
     try {
+      this.loader = new GetUserEditingDataLoader();
       const resp = (await this.loader.startAsync()) as EditProfileData;
       this.profileData = resp;
     } catch (_) {
@@ -113,6 +139,26 @@ export default class EditProfileApp extends Vue {
       const user = app.state.user;
       if (user) {
         user.name = Name;
+      }
+    }
+  }
+
+  private async handleImgUploadComplete(
+    error: string | null,
+    resp: AvatarUploaderResp | null,
+  ) {
+    if (error) {
+      await app.alert.error(error);
+      return;
+    }
+    if (resp) {
+      // update current image
+      this.profileData.IconURL = resp.iconL || '';
+
+      // update session
+      const user = app.state.user;
+      if (user) {
+        user.iconURL = resp.iconL || '';
       }
     }
   }

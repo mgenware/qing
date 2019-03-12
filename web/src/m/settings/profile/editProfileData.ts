@@ -1,6 +1,6 @@
 export default class EditProfileData {
   URLName = '';
-  AvatarURL = '';
+  IconURL = '';
   Name = '';
   Website = '';
   Company = '';

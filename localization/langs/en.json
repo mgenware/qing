@@ -22,5 +22,10 @@
   "cancel": "Cancel",
   "pCannotBeEmpty": "\"{0}\" cannot be empty",
   "name": "Name",
-  "saved": "Saved"
+  "saved": "Saved",
+  "retry": "Retry",
+  "uploadFileBtn": "Upload file...",
+  "uploadProfileImgDesc": "Max file size allowed: 5 MB",
+  "unsupportedImgExtErr": "Unsupported file format (supported formats: jpg, jpeg, gif, png)",
+  "exceed5MBErr": "File exceeded the maximum allowed size (5 MB)"
 }

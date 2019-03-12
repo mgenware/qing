@@ -3,7 +3,12 @@ export default class User {
     // tslint:disable-next-line: no-any
     const wind = window as any;
     if (wind.appUserID) {
-      return new User(wind.appUserID, wind.appUserName, wind.appUserURL);
+      return new User(
+        wind.appUserID,
+        wind.appUserName,
+        wind.appUserIconURL,
+        wind.appUserURL,
+      );
     }
     return null;
   }
@@ -11,6 +16,7 @@ export default class User {
   constructor(
     public id: string,
     public name: string,
-    public profileURL: string,
+    public iconURL: string,
+    public URL: string,
   ) {}
 }

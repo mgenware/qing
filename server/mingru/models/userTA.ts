@@ -2,6 +2,7 @@ import * as dd from 'dd-models';
 import t from './user';
 
 const ta = dd.actions(t);
+// Profile
 ta.select(
   'Profile',
   t.id,
@@ -29,6 +30,12 @@ ta.select(
 
 ta.updateOne('EditingData')
   .setInputs(t.name, t.website, t.company, t.location)
+  .byID();
+
+// Icon
+ta.selectField('IconName', t.icon_name).byID();
+ta.updateOne('IconName')
+  .setInputs(t.icon_name)
   .byID();
 
 export default ta;

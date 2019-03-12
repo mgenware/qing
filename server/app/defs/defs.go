@@ -18,7 +18,7 @@ const (
 )
 
 const (
-	AvatarDirName = "user_avatar"
+	AvatarResKey = "user_icon"
 )
 
 // Cookie keys
