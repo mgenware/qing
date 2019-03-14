@@ -146,19 +146,13 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 
 // MustError executes the main view template with the specified data and panics if error occurs.
 func (m *Manager) MustError(r *http.Request, lang string, d *ErrorPageData, w http.ResponseWriter) {
-	if !d.Expected && m.panicOnFatalError {
-		fmt.Println("🙉 This message only appears in dev mode.")
-		if d.Error != nil {
-			panic(d.Error)
-		} else {
-			panic(d.Message)
-		}
-	}
 	// Handle unexpected errors
 	if !d.Expected {
 		if d.Error == sql.ErrNoRows {
 			// Consider `sql.ErrNoRows` as 404 not found error
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusNotFound)
+			// Set `Expected` to `true`
+			d.Expected = true
 
 			d.Message = m.LocalizedString(lang, "resourceNotFound")
 			if m.config.HTTP.Log404Error {
@@ -172,6 +166,15 @@ func (m *Manager) MustError(r *http.Request, lang string, d *ErrorPageData, w ht
 				d.Message = d.Error.Error()
 			}
 			m.logger.Error("fatal-error", "msg", d.Message)
+		}
+	}
+	// Throw unexpected error in dev mode, note that `d.Expected` may change in this method, e.g. a unexpected `sql.errNoRows` can turn into an expected 404 error
+	if !d.Expected && m.panicOnFatalError {
+		fmt.Println("🙉 This message only appears in dev mode.")
+		if d.Error != nil {
+			panic(d.Error)
+		} else {
+			panic(d.Message)
 		}
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
