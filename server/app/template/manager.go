@@ -150,7 +150,7 @@ func (m *Manager) MustError(ctx context.Context, lang string, d *ErrorPageData, 
 		if d.Error != nil {
 			msg += "(" + d.Error.Error() + ")"
 		}
-		m.logger.LogError("app.unexpected-error", logx.D{"msg": msg})
+		m.logger.Error("fatal-error", "msg", msg)
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	htmlData := NewMasterPageData("Error", errorHTML)

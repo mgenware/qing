@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"qing/app/cm"
 	"qing/app/defs"
-	"qing/app/logx"
 	"time"
 )
 
@@ -28,7 +27,7 @@ func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 	sid := cm.ContextSID(ctx)
 	uid := cm.ContextUserID(ctx)
 	if sid == "" {
-		sm.logger.LogWarning("session.logout.emptySid", nil)
+		sm.logger.Warn("session.logout.emptySid")
 		// just return if not signed in
 		return nil
 	}
@@ -36,7 +35,7 @@ func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 	// server: remove session
 	err := sm.RemoveUserSession(uid, sid)
 	if err != nil {
-		sm.logger.LogWarning("session.logout.removeSession", logx.D{"err": err.Error()})
+		sm.logger.Warn("session.logout.removeSession", "err", err.Error())
 		return nil
 	}
 

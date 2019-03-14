@@ -126,9 +126,9 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 		if err != nil {
 			// ignore session parsing error
 			if sm.logger != nil {
-				sm.logger.LogError("session-parsing-error", logx.D{
-					"error": err.Error(),
-				})
+				sm.logger.Error("session-parsing-error",
+					"error", err.Error(),
+				)
 			}
 
 			// destroy the invalid cookie

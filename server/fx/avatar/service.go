@@ -24,7 +24,7 @@ type Service struct {
 }
 
 func NewService(savePath string, logger *logx.Logger) (*Service, error) {
-	logger.LogInfo("avatar-service.starting", logx.D{"path": savePath})
+	logger.Info("avatar-service.starting", "path", savePath)
 	s := &Service{}
 	s.SavePath = savePath
 	s.Logger = logger

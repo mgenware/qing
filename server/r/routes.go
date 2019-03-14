@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"qing/app"
-	"qing/app/logx"
 	"qing/r/mp"
 	"qing/r/profilep"
 	"qing/r/sr"
@@ -41,13 +40,13 @@ func Start() {
 	if httpStaticConfig != nil {
 		url := httpStaticConfig.URL
 		dir := httpStaticConfig.Dir
-		app.Logger.LogInfo("Serving Assets", logx.D{
-			"url": url,
-			"dir": dir,
-		})
+		app.Logger.Info("serving-assets",
+			"url", url,
+			"dir", dir,
+		)
 		fileServer(r, url, http.Dir(dir))
 		if !iox.IsDirectory(dir) {
-			app.Logger.LogWarning("Assets directory doesn't exist", logx.D{"dir": dir})
+			app.Logger.Warn("serving-assets.not-found", "dir", dir)
 		}
 	}
 
@@ -56,13 +55,13 @@ func Start() {
 	if rsConfig != nil {
 		url := rsConfig.URL
 		dir := rsConfig.Dir
-		app.Logger.LogInfo("Serving Resource Server", logx.D{
-			"url": url,
-			"dir": dir,
-		})
+		app.Logger.Info("serving-res",
+			"url", url,
+			"dir", dir,
+		)
 		fileServer(r, url, http.Dir(dir))
 		if !iox.IsDirectory(dir) {
-			app.Logger.LogWarning("Resource server directory doesn't exist", logx.D{"dir": dir})
+			app.Logger.Warn("serving-res.not-found", "dir", dir)
 		}
 	}
 
@@ -88,10 +87,10 @@ func Start() {
 		}
 	}
 
-	app.Logger.LogInfo("Server starting", logx.D{"port": httpConfig.Port})
+	app.Logger.Info("server-starting", "port", httpConfig.Port)
 	err := http.ListenAndServe(":"+strconv.Itoa(httpConfig.Port), r)
 	if err != nil {
-		app.Logger.LogError("Server failed to start", logx.D{"err": err.Error()})
+		app.Logger.Error("server-starting.failed", "err", err.Error())
 		panic(err)
 	}
 }

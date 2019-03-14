@@ -4,7 +4,8 @@
     "static": {
       "url": "/static",
       "dir": "../web/dev_dist"
-    }
+    },
+    "log_404_error": true
   },
   "templates": {
     "dir": "../templates"
