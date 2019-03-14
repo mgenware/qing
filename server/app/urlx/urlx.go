@@ -1,17 +1,17 @@
 package urlx
 
 import (
-	"qing/app/config"
+	"qing/app/cfg"
 	"qing/app/defs"
 	"qing/fx/avatar"
 	"strconv"
 )
 
 type URL struct {
-	config *config.Config
+	config *cfg.Config
 }
 
-func NewURL(cfg *config.Config) *URL {
+func NewURL(cfg *cfg.Config) *URL {
 	return &URL{config: cfg}
 }
 

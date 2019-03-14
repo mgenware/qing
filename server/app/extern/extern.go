@@ -1,7 +1,7 @@
 package extern
 
 import (
-	"qing/app/config"
+	"qing/app/cfg"
 	"qing/app/extern/redisx"
 )
 
@@ -9,7 +9,7 @@ type Extern struct {
 	RedisConn *redisx.Conn
 }
 
-func MustSetupExtern(config *config.Config) *Extern {
+func MustSetupExtern(config *cfg.Config) *Extern {
 	result := &Extern{}
 	// redis
 	redisConn := redisx.NewConn(config.Extern.Redis.Port)

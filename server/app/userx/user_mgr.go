@@ -3,8 +3,8 @@ package userx
 import (
 	"database/sql"
 	"net/http"
+	"qing/app/cfg/internals"
 	"qing/app/cm"
-	"qing/app/config/internals"
 	"qing/app/defs"
 	"qing/app/template"
 	"qing/app/urlx"
@@ -59,7 +59,7 @@ func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
-			resp := template.NewJSONResponse(ctx, appu.TemplateManager, w, appu.debugConfig)
+			resp := template.NewJSONResponse(r, appu.TemplateManager, w, appu.debugConfig)
 			resp.MustFailWithCode(defs.APINeedAuthError)
 		}
 	})

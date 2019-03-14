@@ -1,13 +1,12 @@
 package template
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 
-	"qing/app/config/internals"
+	"qing/app/cfg/internals"
 	"qing/app/defs"
 
 	"github.com/mgenware/go-packagex/httpx"
@@ -23,9 +22,9 @@ type JSONResponse struct {
 }
 
 // NewJSONResponse creates a new JSONResponse.
-func NewJSONResponse(ctx context.Context, mgr *Manager, wr http.ResponseWriter, debugConfig *internals.DebugConfig) *JSONResponse {
+func NewJSONResponse(r *http.Request, mgr *Manager, wr http.ResponseWriter, debugConfig *internals.DebugConfig) *JSONResponse {
 	return &JSONResponse{
-		BaseResponse: newBaseResponse(ctx, mgr),
+		BaseResponse: newBaseResponse(r, mgr),
 		writer:       wr,
 		debugConfig:  debugConfig,
 	}

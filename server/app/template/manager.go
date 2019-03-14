@@ -2,15 +2,15 @@ package template
 
 import (
 	"bytes"
-	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
+	"qing/app/cfg"
 	"qing/app/cm"
-	"qing/app/config/internals"
 	txt "text/template"
 
 	"qing/app/defs"
@@ -25,8 +25,12 @@ import (
 
 // Manager provides common functions to generate HTML strings.
 type Manager struct {
-	dir         string
-	debugConfig *internals.DebugConfig
+	dir    string
+	config *cfg.Config
+
+	reloadViewsOnRefresh bool
+	log404Error          bool
+	panicOnFatalError    bool
 
 	masterView          *LocalizedView
 	errorView           *LocalizedView
@@ -42,9 +46,10 @@ func MustCreateManager(
 	defaultLang string,
 	assetMgr *asset.AssetsManager,
 	logger *logx.Logger,
-	debugConfig *internals.DebugConfig,
+	config *cfg.Config,
 ) *Manager {
-	if debugConfig != nil && debugConfig.ReloadViewsOnRefresh {
+	reloadViewsOnRefresh := config.Debug != nil && config.Debug.ReloadViewsOnRefresh
+	if reloadViewsOnRefresh {
 		log.Print("⚠️ View dev mode is on")
 	}
 
@@ -55,11 +60,14 @@ func MustCreateManager(
 	}
 
 	t := &Manager{
-		dir:                 dir,
-		LocalizationManager: localizationManager,
-		assetMgr:            assetMgr,
-		logger:              logger,
-		debugConfig:         debugConfig,
+		dir:                  dir,
+		LocalizationManager:  localizationManager,
+		assetMgr:             assetMgr,
+		logger:               logger,
+		config:               config,
+		reloadViewsOnRefresh: reloadViewsOnRefresh,
+		log404Error:          config.HTTP.Log404Error,
+		panicOnFatalError:    config.Debug != nil && config.Debug.PanicOnUnexpectedHTMLErrors,
 	}
 
 	// Load the master template
@@ -77,8 +85,10 @@ func (m *Manager) MustCompleteWithContent(content []byte, w http.ResponseWriter)
 }
 
 // MustComplete executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageData, w http.ResponseWriter) {
+func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
+
+	ctx := r.Context()
 	// Ensure lang always has a value
 	if lang == "" {
 		lang = m.LocalizationManager.DefaultLanguage()
@@ -94,7 +104,7 @@ func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageDa
 
 	script := ""
 	// Language file, this should be loaded first as the app.js relies on it.
-	if m.debugConfig != nil {
+	if m.config.Debug != nil {
 		// Read the JSON content and inject it to master page in dev mode
 		jsonBytes, err := ioutil.ReadFile(fmt.Sprintf("../localization/langs/%v.json", lang))
 		if err != nil {
@@ -135,8 +145,8 @@ func (m *Manager) MustComplete(ctx context.Context, lang string, d *MasterPageDa
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustError(ctx context.Context, lang string, d *ErrorPageData, w http.ResponseWriter) {
-	if !d.Expected && m.debugConfig != nil && m.debugConfig.PanicOnUnexpectedHTMLErrors {
+func (m *Manager) MustError(r *http.Request, lang string, d *ErrorPageData, w http.ResponseWriter) {
+	if !d.Expected && m.panicOnFatalError {
 		fmt.Println("🙉 This message only appears in dev mode.")
 		if d.Error != nil {
 			panic(d.Error)
@@ -144,17 +154,29 @@ func (m *Manager) MustError(ctx context.Context, lang string, d *ErrorPageData, 
 			panic(d.Message)
 		}
 	}
-	// Log unexpected errors
+	// Handle unexpected errors
 	if !d.Expected {
-		msg := d.Message
-		if d.Error != nil {
-			msg += "(" + d.Error.Error() + ")"
+		if d.Error == sql.ErrNoRows {
+			// Consider `sql.ErrNoRows` as 404 not found error
+			w.WriteHeader(http.StatusInternalServerError)
+
+			d.Message = m.LocalizedString(lang, "resourceNotFound")
+			if m.config.HTTP.Log404Error {
+				m.logger.NotFound("sql", r.URL.String())
+			}
+		} else {
+			// At this point, this should be a 500 server internal error
+			w.WriteHeader(http.StatusInternalServerError)
+
+			if d.Error != nil {
+				d.Message = d.Error.Error()
+			}
+			m.logger.Error("fatal-error", "msg", d.Message)
 		}
-		m.logger.Error("fatal-error", "msg", msg)
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	htmlData := NewMasterPageData("Error", errorHTML)
-	m.MustComplete(ctx, lang, htmlData, w)
+	m.MustComplete(r, lang, htmlData, w)
 }
 
 // PageTitle returns the given string followed by the localized site name.
@@ -171,14 +193,14 @@ func (m *Manager) LocalizedPageTitle(lang, key string) string {
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.
 func (m *Manager) MustParseLocalizedView(relativePath string) *LocalizedView {
 	file := filepath.Join(m.dir, relativePath)
-	view := templatex.MustParseView(file, m.debugConfig != nil)
+	view := templatex.MustParseView(file, m.reloadViewsOnRefresh)
 	return &LocalizedView{view: view, localizationManager: m.LocalizationManager}
 }
 
 // MustParseView creates a new View with the given relative path.
 func (m *Manager) MustParseView(relativePath string) *templatex.View {
 	file := filepath.Join(m.dir, relativePath)
-	return templatex.MustParseView(file, m.debugConfig != nil)
+	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
 }
 
 // LocalizedString is a convenience function of LocalizationManager.ValueForKey.

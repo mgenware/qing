@@ -2,11 +2,13 @@ package template
 
 import (
 	"context"
+	"net/http"
 	"qing/app/cm"
 )
 
 // BaseResponse provides basic properties shared by both HTMLResponse and JSONResponse.
 type BaseResponse struct {
+	req  *http.Request
 	ctx  context.Context
 	mgr  *Manager
 	lang string
@@ -14,8 +16,10 @@ type BaseResponse struct {
 	uid  uint64
 }
 
-func newBaseResponse(ctx context.Context, mgr *Manager) BaseResponse {
+func newBaseResponse(r *http.Request, mgr *Manager) BaseResponse {
+	ctx := r.Context()
 	c := BaseResponse{
+		req:  r,
 		ctx:  ctx,
 		lang: cm.LanguageContext(ctx),
 		mgr:  mgr,
@@ -24,6 +28,10 @@ func newBaseResponse(ctx context.Context, mgr *Manager) BaseResponse {
 	}
 
 	return c
+}
+
+func (b *BaseResponse) Request() *http.Request {
+	return b.req
 }
 
 func (b *BaseResponse) Context() context.Context {

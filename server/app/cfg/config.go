@@ -1,11 +1,11 @@
-package config
+package cfg
 
 import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
 
-	"qing/app/config/internals"
+	"qing/app/cfg/internals"
 
 	"gopkg.in/go-playground/validator.v9"
 )

@@ -13,7 +13,7 @@ import (
 	"qing/app/urlx"
 	"qing/app/userx"
 
-	"qing/app/config"
+	"qing/app/cfg"
 	"qing/app/logx"
 	"qing/app/template"
 	"qing/app/template/asset"
@@ -22,7 +22,7 @@ import (
 )
 
 // Config is the application configuration loaded.
-var Config *config.Config
+var Config *cfg.Config
 
 // TemplateManager is an app-wide instance of template.Manager.
 var TemplateManager *template.Manager
@@ -42,18 +42,16 @@ var Service *svc.Service
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse {
-	ctx := r.Context()
 	tm := TemplateManager
-	resp := template.NewHTMLResponse(ctx, tm, w)
+	resp := template.NewHTMLResponse(r, tm, w)
 
 	return resp
 }
 
 // JSONResponse returns common objects used to compose an HTML response.
 func JSONResponse(w http.ResponseWriter, r *http.Request) *template.JSONResponse {
-	ctx := r.Context()
 	tm := TemplateManager
-	resp := template.NewJSONResponse(ctx, tm, w, Config.Debug)
+	resp := template.NewJSONResponse(r, tm, w, Config.Debug)
 
 	return resp
 }
@@ -96,7 +94,7 @@ func mustSetupConfig() {
 	if err != nil {
 		panic(err)
 	}
-	config, err := config.ReadConfig(configBytes)
+	config, err := cfg.ReadConfig(configBytes)
 	if err != nil {
 		panic(err)
 	}
@@ -119,11 +117,11 @@ func mustSetupLogger() {
 	Logger = logger
 }
 
-func mustSetupTemplates(config *config.Config) {
+func mustSetupTemplates(config *cfg.Config) {
 	templatesConfig := config.Templates
 	localizationConfig := config.Localization
 	assMgr := asset.NewAssetsManager(Config.HTTP.Static.Dir, Config.Debug != nil)
-	TemplateManager = template.MustCreateManager(templatesConfig.Dir, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr, Logger, config.Debug)
+	TemplateManager = template.MustCreateManager(templatesConfig.Dir, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr, Logger, config)
 }
 
 func mustSetupDB() {

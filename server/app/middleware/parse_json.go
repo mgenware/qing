@@ -22,7 +22,7 @@ func ParseJSONRequest(next http.Handler) http.Handler {
 			jsonMap := make(map[string]interface{})
 			err := decoder.Decode(&jsonMap)
 			if err != nil {
-				resp := template.NewJSONResponse(ctx, app.TemplateManager, w, app.Config.Debug)
+				resp := template.NewJSONResponse(r, app.TemplateManager, w, app.Config.Debug)
 				resp.MustFailWithCodeAndError(defs.APIGenericError, fmt.Errorf("Error parsing body JSON, \"%v\"", err.Error()))
 				return
 			}

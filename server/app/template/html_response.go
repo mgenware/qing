@@ -1,7 +1,6 @@
 package template
 
 import (
-	"context"
 	"errors"
 	"net/http"
 )
@@ -15,9 +14,9 @@ type HTMLResponse struct {
 }
 
 // NewHTMLResponse creates a new HTMLResponse.
-func NewHTMLResponse(ctx context.Context, mgr *Manager, wr http.ResponseWriter) *HTMLResponse {
+func NewHTMLResponse(r *http.Request, mgr *Manager, wr http.ResponseWriter) *HTMLResponse {
 	return &HTMLResponse{
-		BaseResponse: newBaseResponse(ctx, mgr),
+		BaseResponse: newBaseResponse(r, mgr),
 		writer:       wr,
 	}
 }
@@ -30,14 +29,14 @@ func (h *HTMLResponse) MustCompleteWithContent(content string, w http.ResponseWr
 // MustComplete finishes the response with the given MasterPageData, and panics if unexpected error happens.
 func (h *HTMLResponse) MustComplete(d *MasterPageData) {
 	h.checkCompletion()
-	h.mgr.MustComplete(h.Context(), h.lang, d, h.writer)
+	h.mgr.MustComplete(h.Request(), h.lang, d, h.writer)
 }
 
 // MustFail finishes the response with the given error object.
 func (h *HTMLResponse) MustFail(err error) {
 	h.checkCompletion()
-	d := &ErrorPageData{Error: err, Message: err.Error()}
-	h.mgr.MustError(h.Context(), h.lang, d, h.writer)
+	d := &ErrorPageData{Error: err}
+	h.mgr.MustError(h.Request(), h.lang, d, h.writer)
 }
 
 // MustFailWithMessage finishes the response with the given message, and panics if unexpected error happens.
