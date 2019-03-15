@@ -51,7 +51,7 @@ func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse
 // JSONResponse returns common objects used to compose an HTML response.
 func JSONResponse(w http.ResponseWriter, r *http.Request) *template.JSONResponse {
 	tm := TemplateManager
-	resp := template.NewJSONResponse(r, tm, w, Config.Debug)
+	resp := template.NewJSONResponse(r, tm, w)
 
 	return resp
 }
