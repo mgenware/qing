@@ -30,7 +30,6 @@ type Manager struct {
 
 	reloadViewsOnRefresh bool
 	log404Error          bool
-	panicOnFatalError    bool
 
 	masterView          *LocalizedView
 	errorView           *LocalizedView
@@ -67,7 +66,6 @@ func MustCreateManager(
 		config:               config,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
 		log404Error:          config.HTTP.Log404Error,
-		panicOnFatalError:    config.Debug != nil && config.Debug.PanicOnUnexpectedHTMLErrors,
 	}
 
 	// Load the master template
@@ -145,14 +143,15 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustError(r *http.Request, lang string, d *ErrorPageData, w http.ResponseWriter) {
+func (m *Manager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) {
+	d := &ErrorPageData{Message: err.Error()}
 	// Handle unexpected errors
-	if !d.Expected {
-		if d.Error == sql.ErrNoRows {
+	if !expected {
+		if err == sql.ErrNoRows {
 			// Consider `sql.ErrNoRows` as 404 not found error
 			w.WriteHeader(http.StatusNotFound)
-			// Set `Expected` to `true`
-			d.Expected = true
+			// Set `expected` to `true`
+			expected = true
 
 			d.Message = m.LocalizedString(lang, "resourceNotFound")
 			if m.config.HTTP.Log404Error {
@@ -161,24 +160,11 @@ func (m *Manager) MustError(r *http.Request, lang string, d *ErrorPageData, w ht
 		} else {
 			// At this point, this should be a 500 server internal error
 			w.WriteHeader(http.StatusInternalServerError)
-
-			if d.Error != nil {
-				d.Message = d.Error.Error()
-			}
 			m.logger.Error("fatal-error", "msg", d.Message)
 		}
 	}
-	// Throw unexpected error in dev mode, note that `d.Expected` may change in this method, e.g. a unexpected `sql.errNoRows` can turn into an expected 404 error
-	if !d.Expected && m.panicOnFatalError {
-		fmt.Println("🙉 This message only appears in dev mode.")
-		if d.Error != nil {
-			panic(d.Error)
-		} else {
-			panic(d.Message)
-		}
-	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
-	htmlData := NewMasterPageData("Error", errorHTML)
+	htmlData := NewMasterPageData(m.LocalizedPageTitle(lang, "error"), errorHTML)
 	m.MustComplete(r, lang, htmlData, w)
 }
 

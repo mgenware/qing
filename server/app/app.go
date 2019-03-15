@@ -56,6 +56,13 @@ func JSONResponse(w http.ResponseWriter, r *http.Request) *template.JSONResponse
 	return resp
 }
 
+// PanicIfErr panics if the given `err` is not nil.
+func PanicIfErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
 // MasterPageData wraps a call to MasterPageData.
 func MasterPageData(title, contentHTML string) *template.MasterPageData {
 	return template.NewMasterPageData(title, contentHTML)

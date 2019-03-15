@@ -23,6 +23,7 @@ func NewHTMLResponse(r *http.Request, mgr *Manager, wr http.ResponseWriter) *HTM
 
 // MustCompleteWithContent finished the response with the given HTML content.
 func (h *HTMLResponse) MustCompleteWithContent(content string, w http.ResponseWriter) {
+	h.checkCompletion()
 	h.mgr.MustCompleteWithContent([]byte(content), w)
 }
 
@@ -34,19 +35,18 @@ func (h *HTMLResponse) MustComplete(d *MasterPageData) {
 
 // MustFail finishes the response with the given error object.
 func (h *HTMLResponse) MustFail(err error) {
-	h.checkCompletion()
-	d := &ErrorPageData{Error: err}
-	h.mgr.MustError(h.Request(), h.lang, d, h.writer)
+	h.MustFailWithError(err, false)
 }
 
-// MustFailWithMessage finishes the response with the given message, and panics if unexpected error happens.
-func (h *HTMLResponse) MustFailWithMessage(msg string) {
-	h.MustFail(errors.New(msg))
+// MustFailWithError finishes the response with the given error and `expected` arguments, and panics if unexpected error happens.
+func (h *HTMLResponse) MustFailWithError(err error, expected bool) {
+	h.checkCompletion()
+	h.mgr.MustError(h.Request(), h.lang, err, expected, h.writer)
 }
 
 func (h *HTMLResponse) checkCompletion() {
 	if h.isCompleted {
-		panic("Result has completed")
+		panic(errors.New("Result has completed"))
 	}
 	h.isCompleted = true
 }

@@ -59,7 +59,7 @@ func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
-			resp := template.NewJSONResponse(r, appu.TemplateManager, w, appu.debugConfig)
+			resp := template.NewJSONResponse(r, appu.TemplateManager, w)
 			resp.MustFailWithCode(defs.APINeedAuthError)
 		}
 	})

@@ -23,7 +23,8 @@ func ParseJSONRequest(next http.Handler) http.Handler {
 			err := decoder.Decode(&jsonMap)
 			if err != nil {
 				resp := template.NewJSONResponse(r, app.TemplateManager, w, app.Config.Debug)
-				resp.MustFailWithCodeAndError(defs.APIGenericError, fmt.Errorf("Error parsing body JSON, \"%v\"", err.Error()))
+				// JSON parsing errors are considered user errors, so we pass `true` as `expected` and don't log them.
+				resp.MustFailWithError(defs.APIGenericError, fmt.Errorf("Error parsing body JSON, \"%v\"", err.Error()), true)
 				return
 			}
 			ctx = context.WithValue(ctx, defs.BodyContextKey, jsonMap)

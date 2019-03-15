@@ -43,8 +43,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) {
 
 	nick, _ := params["name"].(string)
 	if nick == "" {
-		resp.MustFailWithMessage("The argument `name` cannot be empty")
-		return
+		panic("The argument `name` cannot be empty")
 	}
 	website, _ := params["website"].(string)
 	company, _ := params["company"].(string)

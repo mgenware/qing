@@ -25,13 +25,7 @@ func Start() {
 
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
-	if !config.DevMode() {
-		// *** Production only ***
-
-		// Mount PanicMiddleware only in production, let panic crash in development
-		r.Use(sysh.PanicMiddleware)
-	}
-
+	r.Use(sysh.PanicMiddleware)
 	// User session middleware
 	r.Use(app.UserManager.SessionManager.ParseUserSessionMiddleware)
 

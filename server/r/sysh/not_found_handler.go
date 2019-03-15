@@ -1,10 +1,10 @@
 package sysh
 
 import (
+	"errors"
 	"net/http"
 
 	"qing/app"
-	"qing/app/template"
 )
 
 // NotFoundHandler is a application wide handler for 404 errors.
@@ -18,7 +18,6 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 		app.Logger.NotFound("http", r.URL.String())
 	}
 
-	// Note that we don't use `resp.MustFailWithMessage(msg)` to show this error, because that would panic in dev mode. Instead, we set `ErrorPageData.Expected` to `true` so that a 404 response won't cause panic and logging in `app.TemplateManager.MustError`.
-	errorData := &template.ErrorPageData{Message: msg, Expected: true}
-	app.TemplateManager.MustError(r, resp.Lang(), errorData, w)
+	// Note that pass `true` as the `expected` param so that template manager won't treat it as a 500 error.
+	app.TemplateManager.MustError(r, resp.Lang(), errors.New(msg), true, w)
 }

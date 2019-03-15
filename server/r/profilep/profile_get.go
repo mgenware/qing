@@ -19,10 +19,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	}
 	user, err := da.User.SelectProfile(app.DB, uid)
 	resp := app.HTMLResponse(w, r)
-	if err != nil {
-		resp.MustFail(err)
-		return
-	}
+	app.PanicIfErr(err)
 
 	title := user.Name
 	userData := NewProfileDataFromUser(user)

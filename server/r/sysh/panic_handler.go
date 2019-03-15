@@ -1,13 +1,15 @@
 package sysh
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
-	"runtime/debug"
 
 	"qing/app"
+	"qing/app/defs"
 )
 
+// PanicMiddleware handles panics.
 func PanicMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer recoverFromPanic(w, r)
@@ -16,20 +18,39 @@ func PanicMiddleware(next http.Handler) http.Handler {
 }
 
 func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
-	if res := recover(); res != nil {
-		panicHandler(w, r, res, debug.Stack())
-	}
-}
-
-func panicHandler(w http.ResponseWriter, r *http.Request, result interface{}, stack []byte) {
-	msg := fmt.Sprintf("Fatal error：%v\nDetails: %v", result, string(stack))
-	if r.Method == "POST" {
-		resp := app.JSONResponse(w, r)
-		resp.MustFailWithMessage(msg)
+	info := recover()
+	if info == nil {
 		return
 	}
+	// We consider `error` object as unexpected error, non-`error` object as expected error, e.g.
+	//     // Throwing an unexpected error
+	//     err := doSomething()
+	//		 if err != nil {
+	//		   panic(err)
+	//		 }
+	//
+	//		 // Throwing an expected error
+	//		 if name == "" {
+	//       panic("The argument \"name\" cannot be empty ")
+	//     }
+	expected := false
+	err, _ := info.(error)
+	if err == nil {
+		err = errors.New(fmt.Sprint(info))
+		expected = true
+	}
 
-	w.WriteHeader(http.StatusInternalServerError)
-	resp := app.HTMLResponse(w, r)
-	resp.MustFailWithMessage(msg)
+	if r.Method == "POST" {
+		if !expected && app.Config.Debug != nil && app.Config.Debug.PanicOnUnexpectedJSONErrors {
+			panic(err)
+		}
+		resp := app.JSONResponse(w, r)
+		resp.MustFailWithError(defs.APIGenericError, err, expected)
+	} else {
+		if !expected && app.Config.Debug != nil && app.Config.Debug.PanicOnUnexpectedHTMLErrors {
+			panic(err)
+		}
+		resp := app.HTMLResponse(w, r)
+		resp.MustFailWithError(err, expected)
+	}
 }

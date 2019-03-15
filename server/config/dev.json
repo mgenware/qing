@@ -29,7 +29,6 @@
   },
   "debug": {
     "quick_login": true,
-    "reload_views_on_refresh": true,
-    "panic_on_unexpected_html_errors": true
+    "reload_views_on_refresh": true
   }
 }
