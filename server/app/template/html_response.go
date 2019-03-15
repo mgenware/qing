@@ -38,6 +38,11 @@ func (h *HTMLResponse) MustFail(err error) {
 	h.MustFailWithError(err, false)
 }
 
+// MustFailWithUserError finishes the response with an user error (expected error) message.
+func (h *HTMLResponse) MustFailWithUserError(msg string) {
+	h.MustFailWithError(errors.New(msg), true)
+}
+
 // MustFailWithError finishes the response with the given error and `expected` arguments, and panics if unexpected error happens.
 func (h *HTMLResponse) MustFailWithError(err error, expected bool) {
 	h.checkCompletion()

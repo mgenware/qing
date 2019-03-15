@@ -38,6 +38,11 @@ func (j *JSONResponse) MustFail(err error) {
 	j.MustFailWithError(defs.APIGenericError, err, false)
 }
 
+// MustFailWithUserError finishes the response with an user error (expected error) message, and panics if unexpected error happens.
+func (j *JSONResponse) MustFailWithUserError(msg string) {
+	j.MustFailWithError(defs.APIGenericError, errors.New(msg), true)
+}
+
 // MustFailWithCode finishes the response with the specified error code, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithCode(code uint) {
 	j.MustFailWithError(code, fmt.Errorf("Error code: %v", code), false)
