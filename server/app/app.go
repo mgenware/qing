@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -97,13 +96,9 @@ func mustSetupConfig() {
 	}
 
 	// Read config file
-	configBytes, err := ioutil.ReadFile(configPath)
+	config, err := cfg.ReadConfig(configPath)
 	if err != nil {
-		panic(err)
-	}
-	config, err := cfg.ReadConfig(configBytes)
-	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("Error reading config file, %v", err))
 	}
 
 	log.Printf("✅ Loaded config at \"%v\"", configPath)

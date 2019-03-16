@@ -1,0 +1,11 @@
+{
+  "localization": {
+    "dir": "../localization/langs",
+    "default_lang": "en"
+  },
+  "extern": {
+    "redis": {
+      "port": 6379
+    }
+  }
+}

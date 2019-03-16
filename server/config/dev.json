@@ -1,4 +1,5 @@
 {
+  "extends": "base.json",
   "http": {
     "port": 12001,
     "static": {
@@ -10,10 +11,6 @@
   "templates": {
     "dir": "../templates"
   },
-  "localization": {
-    "dir": "../localization/langs",
-    "defaultLang": "en"
-  },
   "log": {
     "dir": "../appdata/log/dev"
   },
@@ -21,11 +18,6 @@
   "res_server": {
     "url": "/res",
     "dir": "../appdata/res_server"
-  },
-  "extern": {
-    "redis": {
-      "port": 6379
-    }
   },
   "debug": {
     "quick_login": true,

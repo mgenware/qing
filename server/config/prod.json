@@ -1,5 +1,5 @@
 {
-  "devMode": false,
+  "extends": "base.json",
   "http": {
     "port": 12000,
     "static": {
@@ -11,8 +11,7 @@
   "templates": {
     "dir": "./assets/templates"
   },
-  "localization": {
-    "dir": "./assets/localization",
-    "defaultLang": "en"
+  "log": {
+    "dir": "../appdata/log/prod"
   }
 }
