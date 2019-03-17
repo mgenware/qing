@@ -10,6 +10,8 @@ import (
 	"qing/da"
 	"qing/fx/avatar"
 	"qing/lib/io2"
+
+	"github.com/mgenware/go-packagex/filepathx"
 )
 
 const (
@@ -58,7 +60,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 	defer srcFile.Close()
 	// copy reader to a temp file
-	tmpPath := io2.TempFilePath(ext)
+	tmpPath := filepathx.TempFilePath(ext, "avatar-srv")
 	tmpFile, err := os.Create(tmpPath)
 	if err != nil {
 		resp.MustFail(err)
