@@ -4,11 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"path/filepath"
+	"runtime"
+	"strings"
 
 	"qing/app/cfg/internals"
 
 	"github.com/imdario/mergo"
+	"github.com/mgenware/go-packagex/iox"
 	"gopkg.in/go-playground/validator.v9"
 )
 
@@ -40,6 +44,7 @@ func (config *Config) DevMode() bool {
 }
 
 func readConfigCore(file string) (*Config, error) {
+	log.Printf("🚙 Loading config at \"%v\"", file)
 	var config Config
 
 	bytes, err := ioutil.ReadFile(file)
@@ -67,6 +72,24 @@ func readConfigCore(file string) (*Config, error) {
 			return nil, err
 		}
 		if err := mergo.Merge(&config, basedOn); err != nil {
+			return nil, err
+		}
+	}
+
+	// Load platform specific config file
+	osName := runtime.GOOS
+	if osName == "darwin" {
+		osName = "macos"
+	}
+	// /a/b.json -> /a/b_linux.json
+	ext := filepath.Ext(file)
+	osConfFile := strings.TrimSuffix(file, ext) + "_" + osName + ext
+	if iox.IsFile(osConfFile) {
+		osConfig, err := readConfigCore(osConfFile)
+		if err != nil {
+			return nil, err
+		}
+		if err := mergo.Merge(&config, osConfig); err != nil {
 			return nil, err
 		}
 	}
