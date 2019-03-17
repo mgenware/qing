@@ -84,6 +84,15 @@
           >{{$ls.save}}</button>
         </div>
       </article>
+
+      <article class="message m-t-md is-light">
+        <div class="message-header">{{$ls.bio}}</div>
+        <div class="message-body">
+          <div class="field">
+            <Editor :value="profileData.Bio" @onChanged="handleBioChange"/>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </template>
@@ -99,11 +108,14 @@ import GetUserEditingDataLoader from './loaders/getUserEditingDataLoader';
 // avatar uploader
 import AvatarUploader from '@/ui/pickers/avatarUploader.vue';
 import AvatarUploaderResp from '@/ui/pickers/avatarUploaderResponse';
+// bio
+import Editor from '@/ui/editor/editor.vue';
 
 @Component({
   components: {
     StatusView,
     AvatarUploader,
+    Editor,
   },
 })
 export default class EditProfileApp extends Vue {
@@ -161,6 +173,10 @@ export default class EditProfileApp extends Vue {
         user.iconURL = resp.iconL || '';
       }
     }
+  }
+
+  private handleBioChange(value: string) {
+    this.profileData.Bio = value;
   }
 }
 </script>
