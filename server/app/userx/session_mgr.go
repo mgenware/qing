@@ -13,7 +13,6 @@ import (
 
 	"github.com/garyburd/redigo/redis"
 	"github.com/google/uuid"
-	"github.com/mgenware/go-packagex/strconvx"
 	"github.com/mgenware/gossion"
 	"github.com/mgenware/gossion/redisStore"
 )
@@ -31,7 +30,7 @@ func sidToUserKey(sid string) string {
 }
 
 func userIDToSIDKey(uid uint64) string {
-	return defs.UserIDToSIDRedisKey + ":" + strconvx.ToString(uid)
+	return defs.UserIDToSIDRedisKey + ":" + fmt.Sprint(uid)
 }
 
 // SessionManager ...

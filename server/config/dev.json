@@ -19,6 +19,11 @@
     "url": "/res",
     "dir": "../appdata/res_server"
   },
+  "extern": {
+    "node_libs": {
+      "dir": "../lib/nl"
+    }
+  },
   "debug": {
     "quick_login": true,
     "reload_views_on_refresh": true
