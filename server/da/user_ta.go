@@ -84,6 +84,12 @@ func (da *TableTypeUser) UpdateEditingData(queryable dbx.Queryable, id uint64, n
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
+// UpdateBio ...
+func (da *TableTypeUser) UpdateBio(queryable dbx.Queryable, id uint64, bio *string) error {
+	result, err := queryable.Exec("UPDATE `user` SET `bio` = ? WHERE `id` = ?", bio, id)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
 // SelectIconName ...
 func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (string, error) {
 	var result string

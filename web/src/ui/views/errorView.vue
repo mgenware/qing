@@ -1,11 +1,13 @@
 <template>
-  <div class="alert alert-danger" role="alert" :style="{ padding: '20px 40px' }">
-    <p class="text-danger">{{title}}</p>
-    <p>{{message}}</p>
+  <div class="notification is-danger">
+    <div class="content">
+      <h3 class="has-text-white">{{title || $ls.errOccurred}}</h3>
+      <p>{{message}}</p>
 
-    <p v-if="canRetry">
-      <button class="button is-primary m-t-md" @click="handleRetryClick">{{$ls.retry}}</button>
-    </p>
+      <p v-if="canRetry">
+        <button class="button m-t-md" @click="handleRetryClick">{{$ls.retry}}</button>
+      </p>
+    </div>
   </div>
 </template>
 

@@ -14,6 +14,19 @@ export default class AlertModule {
     });
   }
 
+  async confirm(message: string, title?: string): Promise<boolean> {
+    const result = await Swal.fire({
+      title: title || ls.warning,
+      text: message,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: ls.yes,
+      cancelButtonText: ls.no,
+      focusCancel: true,
+    });
+    return result.value;
+  }
+
   async successToast(title: string): Promise<void> {
     const Toast = Swal.mixin({
       toast: true,

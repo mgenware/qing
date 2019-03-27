@@ -89,7 +89,7 @@
         <div class="message-header">{{$ls.bio}}</div>
         <div class="message-body">
           <div class="field">
-            <Editor :value="profileData.Bio" @onChanged="handleBioChange"/>
+            <Editor :value="profileData.Bio || ''" @save="handleSaveBio"/>
           </div>
         </div>
       </article>
@@ -103,13 +103,14 @@ import EditProfileData from './editProfileData';
 import StatusView from '@/ui/views/statusView.vue';
 import app from '@/app';
 import { ls, format } from '@/ls';
-import SetProfileLoader from './loaders/setProfileLoader';
+import SetInfoLoader from './loaders/setInfoLoader';
+import SetBioLoader from './loaders/setBioLoader';
 import GetUserEditingDataLoader from './loaders/getUserEditingDataLoader';
 // avatar uploader
 import AvatarUploader from '@/ui/pickers/avatarUploader.vue';
 import AvatarUploaderResp from '@/ui/pickers/avatarUploaderResponse';
 // bio
-import Editor from '@/ui/editor/editor.vue';
+import Editor, { HandleSaveArgs } from '@/ui/editor/editor.vue';
 
 @Component({
   components: {
@@ -143,7 +144,7 @@ export default class EditProfileApp extends Vue {
     }
 
     const { Name, Website, Company, Location } = this.profileData;
-    const loader = new SetProfileLoader(Name, Website, Company, Location);
+    const loader = new SetInfoLoader(Name, Website, Company, Location);
     const res = await app.runActionAsync(loader, ls.saving);
     if (res.isSuccess) {
       await app.alert.successToast(ls.saved);
@@ -175,8 +176,15 @@ export default class EditProfileApp extends Vue {
     }
   }
 
-  private handleBioChange(value: string) {
-    this.profileData.Bio = value;
+  private async handleSaveBio(e: HandleSaveArgs) {
+    console.log(e);
+    const loader = new SetBioLoader(e.content);
+    const res = await app.runActionAsync(loader, ls.saving);
+    if (res.isSuccess) {
+      this.profileData.Bio = e.content;
+      e.saved = true;
+      await app.alert.successToast(ls.saved);
+    }
   }
 }
 </script>

@@ -1,6 +1,6 @@
 import BaseLoader from '@/lib/loader';
 
-export default class SetProfileLoader extends BaseLoader {
+export default class SetInfoLoader extends BaseLoader {
   constructor(
     public name: string,
     public website: string,

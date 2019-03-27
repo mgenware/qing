@@ -11,4 +11,5 @@ func init() {
 	Router.Post("/get_info", getInfo)
 	Router.Post("/set_info", setInfo)
 	Router.Post("/set_avatar", uploadAvatar)
+	Router.Post("/set_bio", setBio)
 }

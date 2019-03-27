@@ -32,6 +32,10 @@ ta.updateOne('EditingData')
   .setInputs(t.name, t.website, t.company, t.location)
   .byID();
 
+ta.updateOne('Bio')
+  .setInputs(t.bio)
+  .byID();
+
 // Icon
 ta.selectField('IconName', t.icon_name).byID();
 ta.updateOne('IconName')
