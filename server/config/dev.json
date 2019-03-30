@@ -22,7 +22,8 @@
   "extern": {
     "node_libs": {
       "dir": "../lib/nl"
-    }
+    },
+    "convert_cmd": "magick convert"
   },
   "debug": {
     "quick_login": true,

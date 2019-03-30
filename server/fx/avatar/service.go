@@ -8,6 +8,7 @@ import (
 	"qing/app/logx"
 	"qing/lib/io2"
 	"qing/lib/math2"
+	"strings"
 )
 
 const (
@@ -21,15 +22,19 @@ var resizedSizes = []int{AvatarSize250, AvatarSize150, AvatarSize50}
 type Service struct {
 	SavePath string
 	Logger   *logx.Logger
+
+	// e.g. [magick, convert]
+	convertCmds []string
 }
 
-func NewService(savePath string, logger *logx.Logger) (*Service, error) {
+func NewService(savePath string, convertCmd string, logger *logx.Logger) (*Service, error) {
 	logger.Info("avatar-service.starting", "path", savePath)
 	s := &Service{}
 	s.SavePath = savePath
 	s.Logger = logger
-
-	_, err := io2.Exec("convert", "-version")
+	s.convertCmds = strings.Split(convertCmd, " ")
+	// Check is converter is installed
+	_, err := s.run([]string{"-version"})
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +59,7 @@ func (svc *Service) SaveAvatarFromFile(src string, uid uint64) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		err = thumbnailImg(src, newfilepath, size, size)
+		err = svc.thumbnailImg(src, newfilepath, size, size)
 		if err != nil {
 			return "", err
 		}
@@ -80,4 +85,22 @@ func (svc *Service) allocFilepathForThumb(uid uint64, filename string) (string, 
 		return "", err
 	}
 	return dir + "/" + filename, nil
+}
+
+func (svc *Service) run(args []string) (string, error) {
+	cmd := svc.convertCmds[0]
+	strArray := svc.copyStringArray(svc.convertCmds[1:])
+	strArray = append(strArray, args...)
+	return io2.Exec(cmd, strArray...)
+}
+
+func (svc *Service) copyStringArray(arr []string) []string {
+	dest := make([]string, len(arr))
+	copy(dest, arr)
+	return dest
+}
+
+func (svc *Service) thumbnailImg(src, dest string, maxWidth, maxHeight int) error {
+	_, err := io2.Exec("convert", src, "-resize", fmt.Sprintf("%vx%v", maxWidth, maxHeight), dest)
+	return err
 }

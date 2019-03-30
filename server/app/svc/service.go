@@ -19,7 +19,7 @@ func MustNewService(config *cfg.Config, logger *logx.Logger) *Service {
 }
 
 func mustSetupAvatarService(config *cfg.Config, logger *logx.Logger) *avatar.Service {
-	avatarService, err := avatar.NewService(path.Join(config.ResServer.Dir, defs.AvatarResKey), logger)
+	avatarService, err := avatar.NewService(path.Join(config.ResServer.Dir, defs.AvatarResKey), config.Extern.ConvertCmd, logger)
 	if err != nil {
 		panic(err)
 	}
