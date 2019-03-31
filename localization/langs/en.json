@@ -30,5 +30,6 @@
   "exceed5MBErr": "File exceeded the maximum allowed size (5 MB)",
   "resourceNotFound": "The resource you requested does not exist",
   "reset": "Reset",
-  "rysDiscardChanges": "Are you sure you want to discard your changes?"
+  "rysDiscardChanges": "Are you sure you want to discard your changes?",
+  "publish": "Publish"
 }

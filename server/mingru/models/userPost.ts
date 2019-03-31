@@ -1,8 +1,17 @@
 import * as dd from 'dd-models';
+import user from './user';
 
-export class User extends dd.Table {
+export class UserPost extends dd.Table {
   id = dd.pk();
-  email = dd.varChar(255).unique;
+  title = dd.varChar(255);
+  content = dd.text();
+  user_id = user.id;
+
+  created_at = dd.datetime(true);
+  modified_at = dd.datetime(true);
+  like_value = dd.int();
+  cmt_count = dd.uInt();
+
   name = dd.varChar(255);
   icon_name = dd.varChar(255);
   url_name = dd.varChar(30).nullable.unique;
@@ -16,4 +25,4 @@ export class User extends dd.Table {
   bio_src = dd.text().nullable;
 }
 
-export default dd.table(User);
+export default dd.table(UserPost);

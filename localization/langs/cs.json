@@ -30,5 +30,6 @@
   "exceed5MBErr": "文件大小超过最大值(5 MB)",
   "resourceNotFound": "您访问的资源不存在",
   "reset": "重置",
-  "rysDiscardChanges": "您确定要丢弃您的改变吗?"
+  "rysDiscardChanges": "您确定要丢弃您的改变吗?",
+  "publish": "发表"
 }
