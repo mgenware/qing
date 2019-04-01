@@ -1,5 +1,6 @@
 import AppState from './app/modules/appState';
 import Alert from './app/modules/alert';
+import UserData from './app/modules/userData';
 import Vue from 'vue';
 import Loader from '@/lib/loader';
 import Router from 'vue-router';
@@ -20,6 +21,7 @@ export class LoaderResult {
 export class _APP {
   state = new AppState();
   alert = new Alert();
+  userData = new UserData(this.state, this.alert);
 
   get isLoggedIn(): boolean {
     return !!this.state.user;

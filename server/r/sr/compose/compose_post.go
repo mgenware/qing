@@ -6,6 +6,7 @@ import (
 	"qing/app"
 	"qing/app/cm"
 	"qing/da"
+	"qing/lib/validate2"
 )
 
 func compostPOST(w http.ResponseWriter, r *http.Request) {
@@ -13,18 +14,15 @@ func compostPOST(w http.ResponseWriter, r *http.Request) {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	content, _ := params["content"].(string)
-	if content == "" {
-		panic("The `content` argument is required")
-	}
-
-	postType, _ := params["type"].(string)
-	if postType == "" {
-		panic("The `type` argument is required")
-	}
+	content := validate2.MustGetString(params, "content")
+	postType := validate2.MustGetString(params, "type")
 
 	if postType == "user_post" {
-		err := da.UserPost
+		title := validate2.MustGetString(params, "title")
+		err := da.UserPost.InsertUserPost(app.DB, title, content)
+		if err != nil {
+			panic(err)
+		}
 	} else {
 		panic(fmt.Sprintf("Unknown type \"%v\"", postType))
 	}

@@ -1,8 +1,6 @@
 package compose
 
 import (
-	"qing/r/sr/settings/profilec"
-
 	"github.com/go-chi/chi"
 )
 
@@ -10,5 +8,5 @@ import (
 var Router = chi.NewRouter()
 
 func init() {
-	Router.Mount("/profile", profilec.Router)
+	Router.Mount("/compose", compostPOST)
 }

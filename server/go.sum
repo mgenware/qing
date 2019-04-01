@@ -25,6 +25,8 @@ github.com/mattn/go-isatty v0.0.5 h1:tHXDdz1cpzGaovsTB+TVB8q90WEokoVmfMqoVcrLUgw
 github.com/mattn/go-isatty v0.0.5/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
 github.com/mgenware/go-packagex v4.0.0+incompatible h1:sxEZDwGWQdS3G6ey7YRYGFj0grDU3MPqVxnmBZf8M+w=
 github.com/mgenware/go-packagex v4.0.0+incompatible/go.mod h1:hSlF75Q3llp8oXmzTL8/HJISyclWJa55poyHKfPddbk=
+github.com/mgenware/go-packagex v4.1.0+incompatible h1:lwN+z37hhBq6ddGDbr+LiHS0zIzVVuK3VujFso6mo9M=
+github.com/mgenware/go-packagex v4.1.0+incompatible/go.mod h1:hSlF75Q3llp8oXmzTL8/HJISyclWJa55poyHKfPddbk=
 github.com/mgenware/go-string-format v1.0.0 h1:wMTyjGp56U0adtnJUYgzAKYHkZucJ7JfwboOh5MIv8g=
 github.com/mgenware/go-string-format v1.0.0/go.mod h1:8hBsDl3Qt0yAUnzk+S401hC62//++GSpDEfBuSTeFgw=
 github.com/mgenware/gossion v1.0.0 h1:ABj0UTntaXAwoWkc3h8iJiu10RK18Zg5aoSI+W+1aa0=

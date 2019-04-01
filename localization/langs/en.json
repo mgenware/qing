@@ -31,5 +31,7 @@
   "resourceNotFound": "The resource you requested does not exist",
   "reset": "Reset",
   "rysDiscardChanges": "Are you sure you want to discard your changes?",
-  "publish": "Publish"
+  "publish": "Publish",
+  "title": "Title",
+  "unsavedChangesWarning": "You have unsaved changes. Do you want to leave this page and discard you changes?"
 }
