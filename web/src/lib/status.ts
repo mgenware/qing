@@ -1,6 +1,24 @@
 import ErrorWithCode from './errorWithCode';
 
 export default class Status {
+  static started(): Status {
+    const s = new Status();
+    s.start();
+    return s;
+  }
+
+  static success(data?: object): Status {
+    const s = Status.started();
+    s.succeeded(data);
+    return s;
+  }
+
+  static failure(err: ErrorWithCode): Status {
+    const s = Status.started();
+    s.failed(err);
+    return s;
+  }
+
   isStarted: boolean = false;
   private _succeeded = false;
   private _data: object | null = null;
