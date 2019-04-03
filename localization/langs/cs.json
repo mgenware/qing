@@ -33,5 +33,7 @@
   "rysDiscardChanges": "您确定要丢弃您的改变吗?",
   "publish": "发表",
   "title": "标题",
-  "unsavedChangesWarning": "您有未保存的数据，确定要退出吗？"
+  "unsavedChangesWarning": "您有未保存的数据，确定要退出吗？",
+  "saving": "保存中...",
+  "publishing": "发表中..."
 }

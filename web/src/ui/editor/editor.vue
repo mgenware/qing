@@ -17,6 +17,8 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ErrorView from '../views/errorView.vue';
 import KXEditor from 'kangxi-editor';
+import KXEN from 'kangxi-editor/dist/langs/en';
+import KXCS from 'kangxi-editor/dist/langs/cs';
 import './editor.css';
 import app from '@/app';
 import ls from '@/ls';
@@ -34,9 +36,13 @@ export default class Editor extends Vue {
   fatalError = '';
 
   mounted() {
+    console.log('app.state.lang ', app.state.lang);
     this.editorElement = this.$refs.editor as HTMLDivElement;
     try {
-      this.editor = KXEditor.create(this.editorElement, this.value || '');
+      this.editor = KXEditor.create(this.editorElement, {
+        contentHTML: this.value || '',
+        lang: app.state.lang === 'cs' ? KXCS : KXEN,
+      });
     } catch (err) {
       this.fatalError = err.message;
     }
