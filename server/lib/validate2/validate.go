@@ -52,7 +52,7 @@ func MustGetInt64(dict map[string]interface{}, key string) int64 {
 
 // MustGetUint64 returns the value for the key, and panics if it is not found.
 func MustGetUint64(dict map[string]interface{}, key string) uint64 {
-	val := jsonx.GetIntOrDefault(dict, key)
+	val := jsonx.GetUint64OrDefault(dict, key)
 	if val == 0 {
 		panicMissingArg(key)
 	}
@@ -69,7 +69,7 @@ func MustGetFloat64(dict map[string]interface{}, key string) float64 {
 }
 
 // MustGetBool returns the value for the key, and panics if it is not found.
-func MustGetBool(dict map[string]interface{}, key string) int {
+func MustGetBool(dict map[string]interface{}, key string) bool {
 	// No panic for bool
 	return jsonx.GetBoolOrDefault(dict, key)
 }

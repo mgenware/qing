@@ -35,5 +35,9 @@
   "title": "Title",
   "unsavedChangesWarning": "You have unsaved changes. Do you want to leave this page and discard you changes?",
   "saving": "Saving...",
-  "publishing": "Publishing..."
+  "publishing": "Publishing...",
+  "common": "Common",
+  "newPost": "New post",
+  "titleCannotBeEmpty": "Title cannot be empty",
+  "contentCannotBeEmpty": "Content cannot be empty"
 }

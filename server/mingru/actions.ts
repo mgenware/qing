@@ -1,4 +1,4 @@
 import userTA from './models/userTA';
-import userPostTA from './models/userPostTA';
+import postTA from './models/postTA';
 
-export default [userTA, userPostTA];
+export default [userTA, postTA];

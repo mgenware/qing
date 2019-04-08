@@ -8,5 +8,5 @@ import (
 var Router = chi.NewRouter()
 
 func init() {
-	Router.Mount("/compose", compostPOST)
+	Router.Post("/add", addPOST)
 }

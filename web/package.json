@@ -11,7 +11,7 @@
   "dependencies": {
     "escape-html": "^1.0.3",
     "js-cookie": "^2.2.0",
-    "kangxi-editor": "^0.0.8",
+    "kangxi-editor": "^0.0.9",
     "pupa": "^1.0.0",
     "sweetalert2": "^8.5.0",
     "vue": "^2.6.10",

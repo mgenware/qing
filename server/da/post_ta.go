@@ -9,17 +9,17 @@ import (
 	"github.com/mgenware/go-packagex/dbx"
 )
 
-// TableTypeUserPost ...
-type TableTypeUserPost struct {
+// TableTypePost ...
+type TableTypePost struct {
 }
 
-// UserPost ...
-var UserPost = &TableTypeUserPost{}
+// Post ...
+var Post = &TableTypePost{}
 
 // ------------ Actions ------------
 
-// InsertUserPost ...
-func (da *TableTypeUserPost) InsertUserPost(queryable dbx.Queryable, title string, content string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `user_post` (`title`, `content`) VALUES (?, ?)", title, content)
+// InsertPost ...
+func (da *TableTypePost) InsertPost(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `likes`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }

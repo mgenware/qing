@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import EditProfile from './settings/profile/editProfileApp.vue';
-import Composer from './new/composer.vue';
+import NewPost from './compose/newPost.vue';
 
 Vue.use(Router);
 
@@ -16,9 +16,9 @@ export default new Router({
       component: EditProfile,
     },
     {
-      path: '/m/new/post',
+      path: '/m/new-post',
       name: 'new-post',
-      component: Composer,
+      component: NewPost,
     },
   ],
 });
