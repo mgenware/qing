@@ -21,7 +21,7 @@ import ls from '@/ls';
 export default class NewPost extends Vue {
   private async handleSave(payload: ComposerPayload) {
     const loader = new SetEntityLoader(true, EntityType.userPost, payload);
-    await app.runActionAsync(loader, ls.publising);
+    await app.runActionAsync(loader, ls.publishing);
   }
 }
 </script>
