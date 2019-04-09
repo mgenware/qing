@@ -17,10 +17,11 @@ import (
 	"qing/app/template"
 	"qing/app/template/asset"
 
+	// Load MySQL driver
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Config is the application configuration loaded.
+// Config is the configuration data loaded from `--config`.
 var Config *cfg.Config
 
 // TemplateManager is an app-wide instance of template.Manager.
@@ -29,14 +30,19 @@ var TemplateManager *template.Manager
 // Logger is the main logger for this app.
 var Logger *logx.Logger
 
-// URL is a module to help generated URLs
+// URL helps generate URLs.
 var URL *urlx.URL
 
 // DB is the app-wide database connection.
 var DB *sql.DB
 
+// Extern manages external dependencies, e.g. redis.
 var Extern *extern.Extern
+
+// UserManager manages user-related logic, e.g. user authentication.
 var UserManager *userx.UserManager
+
+// Service contains independent components for some curtain tasks, e.g. image processing, HTML sanitization.
 var Service *svc.Service
 
 // HTMLResponse returns common objects used to compose an HTML response.
