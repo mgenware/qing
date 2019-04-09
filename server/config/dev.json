@@ -20,9 +20,6 @@
     "dir": "../appdata/res_server"
   },
   "extern": {
-    "node_libs": {
-      "dir": "../lib/nl"
-    },
     "convert_cmd": "magick convert"
   },
   "debug": {
