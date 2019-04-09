@@ -17,6 +17,9 @@ func addPOST(w http.ResponseWriter, r *http.Request) {
 	content := validate2.MustGetString(params, "content")
 	postType := validate2.MustGetString(params, "type")
 
+	// Sanitize the content
+	content = app.Service.Sanitizer.Sanitize(content)
+
 	if postType == "user_post" {
 		title := validate2.MustGetString(params, "title")
 		_, err := da.Post.InsertPost(app.DB, title, content, uid)

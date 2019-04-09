@@ -15,6 +15,7 @@ require (
 	github.com/mgenware/go-packagex v4.1.0+incompatible
 	github.com/mgenware/go-string-format v1.0.0
 	github.com/mgenware/gossion v1.0.0
+	github.com/microcosm-cc/bluemonday v1.0.2
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/testify v1.2.2 // indirect

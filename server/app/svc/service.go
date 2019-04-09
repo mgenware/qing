@@ -6,15 +6,20 @@ import (
 	"qing/app/defs"
 	"qing/app/logx"
 	"qing/fx/avatar"
+	"qing/fx/sanitizer"
 )
 
+// Service contains components for curtain independent tasks.
 type Service struct {
-	Avatar *avatar.Service
+	Avatar    *avatar.Service
+	Sanitizer *sanitizer.Sanitizer
 }
 
+// MustNewService creates a new Service object.
 func MustNewService(config *cfg.Config, logger *logx.Logger) *Service {
 	s := &Service{}
 	s.Avatar = mustSetupAvatarService(config, logger)
+	s.Sanitizer = sanitizer.NewSanitizer()
 	return s
 }
 
