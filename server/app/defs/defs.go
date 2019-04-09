@@ -37,3 +37,13 @@ const (
 	SIDToUserRedisKey   = "ss" // k: sid, v: session user json value
 	UserIDToSIDRedisKey = "us" // k: user id, v: sid
 )
+
+// Top-level routes
+const (
+	RouteUser              = "u"
+	RoutePost              = "p"
+	RouteAuth              = "auth"
+	RouteTest              = "t"
+	RouteDashboard         = "m"
+	RouteRestrictedService = "sr"
+)

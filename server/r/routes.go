@@ -3,6 +3,7 @@ package r
 import (
 	"log"
 	"net/http"
+	"qing/app/defs"
 	"strconv"
 	"strings"
 
@@ -66,18 +67,18 @@ func Start() {
 	r.With(lm.EnableContextLanguage).NotFound(sysh.NotFoundHandler)
 
 	// index handler
-	r.With(lm.EnableContextLanguage).Get("/user/{uid}", profilep.ProfileGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
 
 	// Dashboard handler
-	r.With(lm.EnableContextLanguage).Mount("/m", mp.Router)
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Restricted Service handler (SR)
-	r.Mount("/sr", sr.Router)
+	r.Mount("/"+defs.RouteRestrictedService, sr.Router)
 
 	debugConfig := config.Debug
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/t", tp.Router)
+			r.Mount("/"+defs.RouteTest, tp.Router)
 		}
 	}
 
