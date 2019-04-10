@@ -5,7 +5,7 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 
 ## Features:
 * Fast and modern, built with Go, TypeScript, Vue.js, mingru
-* SEO-friendly
+* SEO-friendly, no SPA on public pages
 * i18n
-* Works on desktop and mobile
+* Universal, works on desktop and mobile
 * Configurable and extensible
