@@ -2,7 +2,7 @@ import Vue from 'vue';
 import './ls';
 
 // Styles
-import './app/styles/bulma.css';
+import './app/styles/bulma-ex.css';
 import './app/styles/app.css';
 import './app/styles/ext.css';
 
