@@ -18,8 +18,8 @@ import (
 	"qing/app/template/asset"
 	"qing/app/template/localization"
 
-	"github.com/mgenware/go-packagex/httpx"
-	"github.com/mgenware/go-packagex/templatex"
+	"github.com/mgenware/go-packagex/v5/httpx"
+	"github.com/mgenware/go-packagex/v5/templatex"
 	strf "github.com/mgenware/go-string-format"
 )
 

@@ -12,7 +12,7 @@ require (
 	github.com/imdario/mergo v0.3.7
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.1 // indirect
-	github.com/mgenware/go-packagex v4.1.0+incompatible
+	github.com/mgenware/go-packagex/v5 v5.0.0
 	github.com/mgenware/go-string-format v1.0.0
 	github.com/mgenware/gossion v1.0.0
 	github.com/microcosm-cc/bluemonday v1.0.2

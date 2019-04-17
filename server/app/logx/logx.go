@@ -7,7 +7,7 @@ import (
 	"path"
 
 	"github.com/fatih/color"
-	"github.com/mgenware/go-packagex/stringsx"
+	"github.com/mgenware/go-packagex/v5/stringsx"
 	"go.uber.org/zap"
 )
 

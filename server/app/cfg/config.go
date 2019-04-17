@@ -12,7 +12,7 @@ import (
 	"qing/app/cfg/internals"
 
 	"github.com/imdario/mergo"
-	"github.com/mgenware/go-packagex/iox"
+	"github.com/mgenware/go-packagex/v5/iox"
 	"gopkg.in/go-playground/validator.v9"
 )
 

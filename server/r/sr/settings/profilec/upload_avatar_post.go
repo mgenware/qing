@@ -11,7 +11,7 @@ import (
 	"qing/fx/avatar"
 	"qing/lib/io2"
 
-	"github.com/mgenware/go-packagex/filepathx"
+	"github.com/mgenware/go-packagex/v5/filepathx"
 )
 
 const (

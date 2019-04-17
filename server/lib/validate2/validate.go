@@ -3,10 +3,10 @@ package validate2
 import (
 	"fmt"
 
-	"github.com/mgenware/go-packagex/jsonx"
+	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
-/** This file is build upon "github.com/mgenware/go-packagex/jsonx" with following additions:
+/** This file is build upon "github.com/mgenware/go-packagex/v5/jsonx" with following additions:
  * > If a default value is returned, we consider it missing and panic with a string indicating a required argument is not present EXCEPT for bool.
  */
 

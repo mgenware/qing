@@ -13,7 +13,7 @@ import (
 
 	"qing/app/defs"
 
-	"github.com/mgenware/go-packagex/filepathx"
+	"github.com/mgenware/go-packagex/v5/filepathx"
 )
 
 var (

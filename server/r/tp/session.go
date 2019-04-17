@@ -9,7 +9,7 @@ import (
 	"qing/app"
 
 	"github.com/go-chi/chi"
-	"github.com/mgenware/go-packagex/strconvx"
+	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
 func init() {

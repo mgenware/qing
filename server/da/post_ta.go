@@ -6,7 +6,7 @@
 package da
 
 import (
-	"github.com/mgenware/go-packagex/dbx"
+	"github.com/mgenware/go-packagex/v5/dbx"
 )
 
 // TableTypePost ...
