@@ -6,12 +6,23 @@ import (
 	"qing/da"
 )
 
+var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
+var vProfilePostItem = app.TemplateManager.MustParseLocalizedView("/profile/postItem.html")
+
 type ProfileData struct {
 	da.UserTableSelectProfileResult
 	template.LocalizedTemplateData
 
-	UserURL string
-	IconURL string
+	UserURL      string
+	IconURL      string
+	FeedListHTML string
+}
+
+type PostItem struct {
+	template.LocalizedTemplateData
+	da.PostTableSelectPostsByUserResult
+
+	URL string
 }
 
 func NewProfileDataFromUser(u *da.UserTableSelectProfileResult) *ProfileData {
@@ -20,5 +31,12 @@ func NewProfileDataFromUser(u *da.UserTableSelectProfileResult) *ProfileData {
 
 	d.IconURL = app.URL.UserAvatarURL250(uid, u.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
+
+	return d
+}
+
+func NewPostItem(p *da.PostTableSelectPostsByUserResult) *PostItem {
+	d := &PostItem{PostTableSelectPostsByUserResult: *p}
+	d.URL = app.URL.Post(p.ID)
 	return d
 }

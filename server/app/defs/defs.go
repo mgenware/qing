@@ -47,3 +47,7 @@ const (
 	RouteDashboard         = "m"
 	RouteRestrictedService = "sr"
 )
+
+const (
+	UserPostsLimit = 20
+)

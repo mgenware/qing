@@ -13,12 +13,12 @@
     "trailingComma": "all"
   },
   "devDependencies": {
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.3"
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.3"
   },
   "dependencies": {
     "dd-models": "^0.11.0",
-    "mingru": "^0.4.1",
-    "mingru-tsconfig": "^1.1.0"
+    "mingru": "^0.5.0",
+    "mingru-tsconfig": "^2.0.0"
   }
 }

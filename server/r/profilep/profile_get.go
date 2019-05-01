@@ -3,13 +3,14 @@ package profilep
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/defs"
 	"qing/da"
+	"qing/lib/validate2"
 	"qing/r/sysh"
+	"strings"
 
 	"github.com/go-chi/chi"
 )
-
-var vUserPage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
 
 func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	uid, err := app.URL.DecodeID(chi.URLParam(r, "uid"))
@@ -17,12 +18,26 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 		sysh.NotFoundHandler(w, r)
 		return
 	}
+	page := validate2.MustToPageOrDefault(r.FormValue("page"), "page")
+	limit, offset := validate2.DBLimitAndOffset(page, defs.UserPostsLimit)
+
 	user, err := da.User.SelectProfile(app.DB, uid)
-	resp := app.HTMLResponse(w, r)
 	app.PanicIfErr(err)
+	resp := app.HTMLResponse(w, r)
 
 	title := user.Name
 	userData := NewProfileDataFromUser(user)
-	d := app.MasterPageData(title, vUserPage.MustExecuteToString(resp.Lang(), userData))
+
+	// Populate posts
+	posts, err := da.Post.SelectPostsByUser(app.DB, uid, limit, offset)
+	app.PanicIfErr(err)
+	var sb strings.Builder
+	for _, post := range posts {
+		postData := NewPostItem(post)
+		sb.WriteString(vProfilePostItem.MustExecuteToString(resp.Lang(), postData))
+	}
+	userData.FeedListHTML = sb.String()
+
+	d := app.MasterPageData(title, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	resp.MustComplete(d)
 }

@@ -1,6 +1,6 @@
 <section class="section">
   <div id="profile-main" class="container">
-    <div class="columns is-variable is-8">
+    <div class="columns">
       <div class="column is-narrow">
         <div class="has-text-centered">
           <p>
@@ -45,6 +45,58 @@
         </div>
       </div>
       <!-- column 2 -->
+    </div>
+
+    <div class="columns is-centered m-t-md">
+      <div class="column is-9">
+        <div class="box">
+          <div class="link-black link-nounderline">
+            <div class="columns is-mobile">
+              <div class="column">
+                <p>
+                  <span class="color-gray">{{html .LS.posts}}</span>
+                  <span class="is-size-3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="m-scroll-list"></div>
+          <div class="m-t-md tabs is-boxed is-medium">
+            <ul class="m-t-md">
+              <li id="m-tab-p">{{html .LS.posts}}</li>
+            </ul>
+          </div>
+          <!-- tab div -->
+          <div>
+            <div class="m-t-sm">
+              {{.FeedListHTML}}
+            </div>
+
+            <div>
+              <p class="has-text-centered">
+                {{if .Pager.HasPrevPage}}
+                <a
+                  class="button is-primary is-outlined"
+                  href="{{.Pager.PrevPageURL}}"
+                >
+                  &lt;
+                </a>
+                {{end}}
+
+                {{if .Pager.HasNextPage}}
+                <a
+                  class="button is-primary is-outlined"
+                  href="{{.Pager.NextPageURL}}"
+                >
+                  &gt;
+                </a>
+                {{end}}
+              </p>
+            </div>
+          </div>
+          <!-- feed list -->
+        </div>
+      </div>
     </div>
   </div>
 </section>

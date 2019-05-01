@@ -53,9 +53,13 @@ func (u *URL) UserAvatarURL(uid uint64, avatarName string, size int) string {
 }
 
 func (u *URL) UserProfile(uid uint64) string {
-	return "/user/" + u.EncodeID(uid)
+	return "/" + defs.RouteUser + "/" + u.EncodeID(uid)
+}
+
+func (u *URL) Post(pid uint64) string {
+	return "/" + defs.RoutePost + "/" + u.EncodeID(pid)
 }
 
 func (u *URL) SignIn() string {
-	return "/auth/sign_in"
+	return "/" + defs.RouteAuth + "/sign_in"
 }
