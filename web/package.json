@@ -1,37 +1,39 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "fx61-app",
+  "version": "0.0.0",
   "private": true,
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service build --mode development --dest dev_dist src/main_dev.ts --watch"
+    "build": "yarn run lint && yarn run clean && cross-env NODE_ENV=production rollup -c",
+    "compile": "tsc",
+    "dev": "yarn run clean && cross-env NODE_ENV=development rollup -c -w",
+    "lint": "tslint --project tsconfig.json --config tslint.json",
+    "clean": "del-cli dist"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "escape-html": "^1.0.3",
-    "js-cookie": "^2.2.0",
-    "kangxi-editor": "^0.0.9",
-    "pupa": "^1.0.0",
-    "sweetalert2": "^8.8.1",
-    "vue": "^2.6.10",
-    "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.1.0",
-    "vue-router": "^3.0.3"
+    "lit-element": "^2.2.0",
+    "pupa": "^2.0.0",
+    "sweetalert2": "^8.13.0"
   },
   "devDependencies": {
     "@types/escape-html": "^0.0.20",
-    "@types/js-cookie": "^2.2.2",
-    "@types/node": "^11.13.0",
     "@types/pupa": "^1.0.0",
-    "@vue/cli-plugin-typescript": "^3.5.3",
-    "@vue/cli-service": "^3.5.3",
-    "typescript": "^3.4.2",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "all",
-    "tabWidth": 2
+    "cross-env": "^5.2.0",
+    "del-cli": "^2.0.0",
+    "rollup": "^1.16.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-lit-css": "^2.0.0",
+    "rollup-plugin-node-resolve": "^5.0.3",
+    "rollup-plugin-terser": "^5.0.0",
+    "rollup-plugin-typescript2": "^0.21.2",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2",
+    "unique-temp-dir": "^1.0.0"
   }
 }

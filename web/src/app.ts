@@ -1,9 +1,7 @@
 import AppState from './app/modules/appState';
 import Alert from './app/modules/alert';
 import UserData from './app/modules/userData';
-import Vue from 'vue';
-import Loader from '@/lib/loader';
-import Router from 'vue-router';
+import Loader from './/lib/loader';
 
 export class LoaderResult {
   constructor(public error: Error | undefined, public data: object) {}
@@ -25,21 +23,6 @@ export class _APP {
 
   get isLoggedIn(): boolean {
     return !!this.state.user;
-  }
-
-  mountComponent(
-    selector: string | HTMLElement,
-    instance: any,
-    props?: object,
-    router?: Router,
-  ) {
-    new Vue({
-      router,
-      render: h =>
-        h(instance, {
-          props,
-        }),
-    }).$mount(selector);
   }
 
   async runActionAsync(
