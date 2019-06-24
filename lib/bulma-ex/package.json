@@ -7,9 +7,9 @@
   "private": true,
   "dependencies": {
     "cf-bulma": "^0.7.4",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.12.0"
   },
   "scripts": {
-    "build": "node-sass main.sass bulma-ex.css --output-style compressed"
+    "b-navbar": "node-sass --output-style expanded --source-map true navbar.sass dist/navbar.css"
   }
 }
