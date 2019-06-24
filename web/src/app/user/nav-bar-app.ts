@@ -1,8 +1,14 @@
-import { html, customElement, property, LitElement } from 'lit-element';
+import {
+  html,
+  customElement,
+  property,
+  LitElement,
+  TemplateResult,
+} from 'lit-element';
 import ls from '../../ls';
 import app from '../../app';
 import defs from '../../defs';
-import bulmaStyle from '../styles/bulma';
+import navBarStyles from './nav-bar-styles';
 
 @customElement('nav-bar-app')
 export class NavBarApp extends LitElement {
@@ -10,14 +16,13 @@ export class NavBarApp extends LitElement {
   @property() editProfileURL = defs.editProfileURL;
 
   static get styles() {
-    return bulmaStyle;
+    return navBarStyles;
   }
 
   render() {
     const { user } = this;
-    return html`
+    return this.renderChrome(html`
       <div id="m_nav_menu" class="navbar-menu">
-        <h1>HAHA</h1>
         <div class="navbar-end">
           ${user
             ? html`
@@ -56,6 +61,37 @@ export class NavBarApp extends LitElement {
               `}
         </div>
       </div>
+    `);
+  }
+
+  private renderChrome(child: any): TemplateResult {
+    return html`
+      <nav class="navbar is-dark" role="navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <img
+              src="/static/img/main/qing.png"
+              height="25"
+              width="25"
+              alt="Qing"
+            />
+            <span>&nbsp;Qing</span>
+          </a>
+
+          <a
+            role="button"
+            class="navbar-burger button is-dark"
+            aria-label="menu"
+            aria-expanded="false"
+            id="m_nav_burger"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        ${child}
+      </nav>
     `;
   }
 }

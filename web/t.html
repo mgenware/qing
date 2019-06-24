@@ -2,6 +2,13 @@
   <head></head>
   <body>
     <nav-bar-app></nav-bar-app>
+    <script>
+      const wind = window;
+      wind.appUserID = 'ux';
+      wind.appUserName = 'User';
+      wind.appUserIconURL = '';
+      wind.appUserURL = 'https://google.com';
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/s.min.js"></script>
     <script>
       System.import('./dist/main_dev.js');
