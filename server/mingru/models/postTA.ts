@@ -1,18 +1,16 @@
 import * as dd from 'dd-models';
 import t from './post';
 
-const ta = dd.actions(t);
-ta.selectAll(
-  'PostsByUser',
-  t.id,
-  t.title,
-  t.content,
-  t.created_at,
-  t.modified_at,
-)
-  .paginate()
-  .where(t.user_id.isEqualToInput());
+export class PostTA extends dd.TA {
+  postsByUser = dd
+    .selectRows(t.id, t.title, t.content, t.created_at, t.modified_at)
+    .paginate()
+    .byID();
 
-ta.insertOneWithDefaults('Post').setInputs(t.title, t.content, t.user_id);
+  insertPost = dd
+    .insertOne()
+    .setInputs(t.title, t.content, t.user_id)
+    .setDefaults();
+}
 
-export default ta;
+export default dd.ta(t, PostTA);

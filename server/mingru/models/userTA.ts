@@ -1,45 +1,33 @@
 import * as dd from 'dd-models';
 import t from './user';
 
-const ta = dd.actions(t);
-// Profile
-ta.select(
-  'Profile',
-  t.id,
-  t.name,
-  t.icon_name,
-  t.location,
-  t.company,
-  t.website,
-  t.bio,
-).byID();
+export class UserTA extends dd.TA {
+  selectProfile = dd
+    .select(t.id, t.name, t.icon_name, t.location, t.company, t.website, t.bio)
+    .byID();
+  selectSessionData = dd.select(t.id, t.name, t.icon_name).byID();
+  selectEditingData = dd
+    .select(
+      t.id,
+      t.name,
+      t.icon_name,
+      t.location,
+      t.company,
+      t.website,
+      t.bio,
+      t.bio_src,
+    )
+    .byID();
 
-ta.select('SessionData', t.id, t.name, t.icon_name).byID();
+  updateProfile = dd
+    .updateOne()
+    .setInputs(t.name, t.website, t.company, t.location)
+    .byID();
 
-ta.select(
-  'EditingData',
-  t.id,
-  t.name,
-  t.icon_name,
-  t.location,
-  t.company,
-  t.website,
-  t.bio,
-  t.bio_src,
-).byID();
+  updateBio = dd
+    .updateOne()
+    .setInputs(t.bio)
+    .byID();
+}
 
-ta.updateOne('EditingData')
-  .setInputs(t.name, t.website, t.company, t.location)
-  .byID();
-
-ta.updateOne('Bio')
-  .setInputs(t.bio)
-  .byID();
-
-// Icon
-ta.selectField('IconName', t.icon_name).byID();
-ta.updateOne('IconName')
-  .setInputs(t.icon_name)
-  .byID();
-
-export default ta;
+export default dd.ta(t, UserTA);

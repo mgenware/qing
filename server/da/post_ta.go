@@ -20,8 +20,14 @@ var Post = &TableTypePost{}
 
 // ------------ Actions ------------
 
-// PostTableSelectPostsByUserResult ...
-type PostTableSelectPostsByUserResult struct {
+// InsertPost ...
+func (da *TableTypePost) InsertPost(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `likes`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
+	return dbx.GetLastInsertIDUint64WithError(result, err)
+}
+
+// PostTablePostsByUserResult ...
+type PostTablePostsByUserResult struct {
 	ID         uint64
 	Title      string
 	Content    string
@@ -29,16 +35,16 @@ type PostTableSelectPostsByUserResult struct {
 	ModifiedAt time.Time
 }
 
-// SelectPostsByUser ...
-func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint64, limit, offset int) ([]*PostTableSelectPostsByUserResult, error) {
-	rows, err := queryable.Query("SELECT `id`, `title`, `content`, `created_at`, `modified_at` FROM `post` WHERE `user_id` = ? LIMIT ? OFFSET ?", userID, limit, offset)
+// PostsByUser ...
+func (da *TableTypePost) PostsByUser(queryable dbx.Queryable, id uint64, limit int, offset int) ([]*PostTablePostsByUserResult, error) {
+	rows, err := queryable.Query("SELECT `id`, `title`, `content`, `created_at`, `modified_at` FROM `post` WHERE `id` = ? LIMIT ? OFFSET ?", id, limit, offset)
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*PostTableSelectPostsByUserResult, 0, limit)
+	result := make([]*PostTablePostsByUserResult, 0, limit)
 	defer rows.Close()
 	for rows.Next() {
-		item := &PostTableSelectPostsByUserResult{}
+		item := &PostTablePostsByUserResult{}
 		err = rows.Scan(&item.ID, &item.Title, &item.Content, &item.CreatedAt, &item.ModifiedAt)
 		if err != nil {
 			return nil, err
@@ -50,10 +56,4 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 		return nil, err
 	}
 	return result, nil
-}
-
-// InsertPost ...
-func (da *TableTypePost) InsertPost(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `likes`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
-	return dbx.GetLastInsertIDUint64WithError(result, err)
 }

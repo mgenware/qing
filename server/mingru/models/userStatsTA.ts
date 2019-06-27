@@ -1,12 +1,13 @@
 import * as dd from 'dd-models';
-import userStats from './userStats';
+import t from './userStats';
 
-const ta = dd.actions(userStats);
-ta.updateOne('PostCount')
-  .set(
-    userStats.post_count,
-    dd.sql`${userStats.post_count} + ${dd.int().toInput('offset')}`,
-  )
-  .byID();
+export class UserStatsTA extends dd.TA {
+  updatePostCount = dd
+    .updateOne()
+    .set(t.post_count, dd.sql`${t.post_count} + ${dd.int().toInput('offset')}`)
+    .byID();
+  incrementPostCount = this.updatePostCount.wrap({ offset: '1' });
+  derementPostCount = this.updatePostCount.wrap({ offset: '-1' });
+}
 
-export default ta;
+export default dd.ta(t, UserStatsTA);

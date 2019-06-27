@@ -18,6 +18,28 @@ var User = &TableTypeUser{}
 
 // ------------ Actions ------------
 
+// UserTableSelectEditingDataResult ...
+type UserTableSelectEditingDataResult struct {
+	ID       uint64
+	Name     string
+	IconName string
+	Location string
+	Company  string
+	Website  string
+	Bio      *string
+	BioSrc   *string
+}
+
+// SelectEditingData ...
+func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
+	result := &UserTableSelectEditingDataResult{}
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.BioSrc)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
 	ID       uint64
@@ -56,52 +78,14 @@ func (da *TableTypeUser) SelectSessionData(queryable dbx.Queryable, id uint64) (
 	return result, nil
 }
 
-// UserTableSelectEditingDataResult ...
-type UserTableSelectEditingDataResult struct {
-	ID       uint64
-	Name     string
-	IconName string
-	Location string
-	Company  string
-	Website  string
-	Bio      *string
-	BioSrc   *string
-}
-
-// SelectEditingData ...
-func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
-	result := &UserTableSelectEditingDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.BioSrc)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
-}
-
-// UpdateEditingData ...
-func (da *TableTypeUser) UpdateEditingData(queryable dbx.Queryable, id uint64, name string, website string, company string, location string) error {
-	result, err := queryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ? WHERE `id` = ?", name, website, company, location, id)
-	return dbx.CheckOneRowAffectedWithError(result, err)
-}
-
 // UpdateBio ...
 func (da *TableTypeUser) UpdateBio(queryable dbx.Queryable, id uint64, bio *string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `bio` = ? WHERE `id` = ?", bio, id)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
-// SelectIconName ...
-func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (string, error) {
-	var result string
-	err := queryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-// UpdateIconName ...
-func (da *TableTypeUser) UpdateIconName(queryable dbx.Queryable, id uint64, iconName string) error {
-	result, err := queryable.Exec("UPDATE `user` SET `icon_name` = ? WHERE `id` = ?", iconName, id)
+// UpdateProfile ...
+func (da *TableTypeUser) UpdateProfile(queryable dbx.Queryable, id uint64, name string, website string, company string, location string) error {
+	result, err := queryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ? WHERE `id` = ?", name, website, company, location, id)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
