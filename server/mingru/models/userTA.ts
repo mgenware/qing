@@ -18,10 +18,15 @@ export class UserTA extends dd.TA {
       t.bio_src,
     )
     .byID();
+  selectIconName = dd.selectField(t.icon_name).byID();
 
   updateProfile = dd
     .updateOne()
     .setInputs(t.name, t.website, t.company, t.location)
+    .byID();
+  updateIconName = dd
+    .updateOne()
+    .setInputs(t.icon_name)
     .byID();
 
   updateBio = dd

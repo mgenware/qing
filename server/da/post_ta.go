@@ -26,8 +26,8 @@ func (da *TableTypePost) InsertPost(queryable dbx.Queryable, title string, conte
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 
-// PostTablePostsByUserResult ...
-type PostTablePostsByUserResult struct {
+// PostTableSelectPostsByUserResult ...
+type PostTableSelectPostsByUserResult struct {
 	ID         uint64
 	Title      string
 	Content    string
@@ -35,16 +35,16 @@ type PostTablePostsByUserResult struct {
 	ModifiedAt time.Time
 }
 
-// PostsByUser ...
-func (da *TableTypePost) PostsByUser(queryable dbx.Queryable, id uint64, limit int, offset int) ([]*PostTablePostsByUserResult, error) {
+// SelectPostsByUser ...
+func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, id uint64, limit int, offset int) ([]*PostTableSelectPostsByUserResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `title`, `content`, `created_at`, `modified_at` FROM `post` WHERE `id` = ? LIMIT ? OFFSET ?", id, limit, offset)
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*PostTablePostsByUserResult, 0, limit)
+	result := make([]*PostTableSelectPostsByUserResult, 0, limit)
 	defer rows.Close()
 	for rows.Next() {
-		item := &PostTablePostsByUserResult{}
+		item := &PostTableSelectPostsByUserResult{}
 		err = rows.Scan(&item.ID, &item.Title, &item.Content, &item.CreatedAt, &item.ModifiedAt)
 		if err != nil {
 			return nil, err

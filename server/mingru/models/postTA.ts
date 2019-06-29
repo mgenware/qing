@@ -2,7 +2,7 @@ import * as dd from 'dd-models';
 import t from './post';
 
 export class PostTA extends dd.TA {
-  postsByUser = dd
+  selectPostsByUser = dd
     .selectRows(t.id, t.title, t.content, t.created_at, t.modified_at)
     .paginate()
     .byID();

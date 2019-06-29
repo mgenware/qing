@@ -40,6 +40,16 @@ func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (
 	return result, nil
 }
 
+// SelectIconName ...
+func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (string, error) {
+	var result string
+	err := queryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
 	ID       uint64
@@ -81,6 +91,12 @@ func (da *TableTypeUser) SelectSessionData(queryable dbx.Queryable, id uint64) (
 // UpdateBio ...
 func (da *TableTypeUser) UpdateBio(queryable dbx.Queryable, id uint64, bio *string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `bio` = ? WHERE `id` = ?", bio, id)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+// UpdateIconName ...
+func (da *TableTypeUser) UpdateIconName(queryable dbx.Queryable, id uint64, iconName string) error {
+	result, err := queryable.Exec("UPDATE `user` SET `icon_name` = ? WHERE `id` = ?", iconName, id)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 

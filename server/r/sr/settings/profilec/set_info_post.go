@@ -50,7 +50,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) {
 	location, _ := params["location"].(string)
 
 	// Update DB
-	err := da.User.UpdateEditingData(app.DB, uid, nick, website, company, location)
+	err := da.User.UpdateProfile(app.DB, uid, nick, website, company, location)
 	if err != nil {
 		resp.MustFail(err)
 		return
