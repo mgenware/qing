@@ -66,7 +66,7 @@ func Start() {
 	// Not found handler
 	r.With(lm.EnableContextLanguage).NotFound(sysh.NotFoundHandler)
 
-	// index handler
+	// User handler
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
 
 	// Dashboard handler

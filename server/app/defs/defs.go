@@ -40,7 +40,7 @@ const (
 
 // Top-level routes
 const (
-	RouteUser              = "u"
+	RouteUser              = "user"
 	RoutePost              = "p"
 	RouteAuth              = "auth"
 	RouteTest              = "t"

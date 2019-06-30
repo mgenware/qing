@@ -13,7 +13,7 @@ export class User extends dd.Table {
   location = dd.varChar(100);
 
   bio = dd.text().nullable;
-  bio_src = dd.text().nullable;
+  postCount = dd.uInt(0);
 }
 
 export default dd.table(User);

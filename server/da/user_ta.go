@@ -27,13 +27,12 @@ type UserTableSelectEditingDataResult struct {
 	Company  string
 	Website  string
 	Bio      *string
-	BioSrc   *string
 }
 
 // SelectEditingData ...
 func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
 	result := &UserTableSelectEditingDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.BioSrc)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
 		return nil, err
 	}
@@ -52,19 +51,20 @@ func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (str
 
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
-	ID       uint64
-	Name     string
-	IconName string
-	Location string
-	Company  string
-	Website  string
-	Bio      *string
+	ID        uint64
+	Name      string
+	IconName  string
+	Location  string
+	Company   string
+	Website   string
+	Bio       *string
+	PostCount uint
 }
 
 // SelectProfile ...
 func (da *TableTypeUser) SelectProfile(queryable dbx.Queryable, id uint64) (*UserTableSelectProfileResult, error) {
 	result := &UserTableSelectProfileResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `post_count` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.PostCount)
 	if err != nil {
 		return nil, err
 	}

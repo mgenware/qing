@@ -26,7 +26,7 @@ const tasks = [
   {
     input: ['src/main_dev.ts'],
     output: {
-      dir: 'dist',
+      dir: isProd ? 'dist' : 'dist_dev',
       format: 'system',
       sourcemap: true,
     },

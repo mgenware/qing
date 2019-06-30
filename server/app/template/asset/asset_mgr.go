@@ -51,7 +51,7 @@ func (m *AssetsManager) scanForDev() {
 	jsm := m.JS
 	jsm.LSCS = jsm.NamedJSFromRoot("ls_cs")
 	jsm.LSEN = jsm.NamedJSFromRoot("ls_en")
-	jsm.Main = jsm.NamedJSFromRoot("app")
+	jsm.Main = jsm.NamedJSFromRoot("main_dev")
 }
 
 func (m *AssetsManager) scanForProd() {

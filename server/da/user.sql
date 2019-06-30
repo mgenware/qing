@@ -9,7 +9,7 @@ CREATE TABLE `user` (
 	`website` VARCHAR(100) NOT NULL,
 	`location` VARCHAR(100) NOT NULL,
 	`bio` TEXT NULL DEFAULT NULL,
-	`bio_src` TEXT NULL DEFAULT NULL,
+	`post_count` INT UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`)
 )
 CHARACTER SET=utf8mb4

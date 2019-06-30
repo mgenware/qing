@@ -3,10 +3,6 @@ import t from './user';
 
 export class UserTA extends dd.TA {
   selectProfile = dd
-    .select(t.id, t.name, t.icon_name, t.location, t.company, t.website, t.bio)
-    .byID();
-  selectSessionData = dd.select(t.id, t.name, t.icon_name).byID();
-  selectEditingData = dd
     .select(
       t.id,
       t.name,
@@ -15,8 +11,12 @@ export class UserTA extends dd.TA {
       t.company,
       t.website,
       t.bio,
-      t.bio_src,
+      t.postCount,
     )
+    .byID();
+  selectSessionData = dd.select(t.id, t.name, t.icon_name).byID();
+  selectEditingData = dd
+    .select(t.id, t.name, t.icon_name, t.location, t.company, t.website, t.bio)
     .byID();
   selectIconName = dd.selectField(t.icon_name).byID();
 

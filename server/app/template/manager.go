@@ -101,7 +101,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 	d.AppLang = lang
 
 	script := ""
-	// Language file, this should be loaded first as the app.js relies on it.
+	// Language file, this should be loaded first as the main.js relies on it.
 	if m.config.Debug != nil {
 		// Read the JSON content and inject it to master page in dev mode
 		jsonBytes, err := ioutil.ReadFile(fmt.Sprintf("../localization/langs/%v.json", lang))
@@ -124,7 +124,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 		script += langJS
 	}
 
-	// Main app.js
+	// Main JS files
 	script += js.Vendor + js.Main
 
 	// System scripts come before user scripts
