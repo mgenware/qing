@@ -4,7 +4,7 @@
     "port": 12001,
     "static": {
       "url": "/static",
-      "dir": "../web/dist_dev"
+      "dir": "../web/static"
     },
     "log_404_error": true
   },
