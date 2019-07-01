@@ -1,3 +1,4 @@
+import bulmaStyles from '../styles/bulma';
 import bulmaSetup from './bulmaSetup';
 import ls from '../../ls';
 
@@ -10,6 +11,11 @@ window.onerror = (error, url, lineNumber) => {
 };
 
 function started() {
+  const doc = document as any;
+  doc.adoptedStyleSheets = [
+    ...(doc.adoptedStyleSheets || []),
+    bulmaStyles.styleSheet,
+  ];
   // bulma elements setup code
   // refs: https://bulma.io/documentation/components/modal/
   try {
@@ -21,6 +27,19 @@ function started() {
   // --------- end of bulma elements setup code ---------
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function ready(fn: () => void) {
+  const doc = document as any;
+  if (
+    doc.attachEvent
+      ? document.readyState === 'complete'
+      : document.readyState !== 'loading'
+  ) {
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(() => {
   started();
 });

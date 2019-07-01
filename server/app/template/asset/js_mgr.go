@@ -1,40 +1,42 @@
 package asset
 
-type JSManager struct {
-	dev     bool
-	BaseDir string
+func htmlScript(src string) string {
+	return "<script src=\"" + src + "\"></script>"
+}
 
-	// files included by master page
-	Vendor string
-	Main   string
+func sysScript(src string) string {
+	return "<script>System.import('" + src + "')</script>"
+}
+
+func js(name string) string {
+	return sysScript("/static/d/js/" + name + ".js")
+}
+
+func libJS(name string) string {
+	return htmlScript("/static/lib/" + name + ".js")
+}
+
+type JSManager struct {
+	dev bool
+
+	Loader    string
+	Polyfills string
+	Main      string
 
 	LSCS string
 	LSEN string
 }
 
-func htmlScript(src string) string {
-	return "<script src=\"" + src + "\"></script>"
-}
-
-func (jsm *JSManager) NamedJSFromRoot(name string) string {
-	return htmlScript("/static/" + name + ".js")
-}
-
-func (jsm *JSManager) HashedJS(name string) string {
-	return jsm.HashedJSFromRoot("/js/" + name)
-}
-
-func (jsm *JSManager) HashedJSFromRoot(path string) string {
-	glob := path + ".*js"
-	return jsm.HashedJSWithGlob(glob)
-}
-
-func (jsm *JSManager) HashedJSWithGlob(glob string) string {
-	res := ""
-	var err error
-	res, err = match(jsm.BaseDir, glob)
-	if err != nil {
-		panic(err)
+func NewJSManager(dev bool) *JSManager {
+	r := &JSManager{dev: dev}
+	r.LSCS = js("ls_cs")
+	r.LSEN = js("ls_en")
+	r.Loader = libJS("s3.1.6.min")
+	r.Polyfills = libJS("webcomponents-bundle")
+	if dev {
+		r.Main = js("main_dev")
+	} else {
+		r.Main = js("main")
 	}
-	return htmlScript(res)
+	return r
 }

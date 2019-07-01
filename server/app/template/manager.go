@@ -125,7 +125,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 	}
 
 	// Main JS files
-	script += js.Vendor + js.Main
+	script += js.Loader + js.Polyfills + js.Main
 
 	// System scripts come before user scripts
 	d.Scripts = script + d.Scripts

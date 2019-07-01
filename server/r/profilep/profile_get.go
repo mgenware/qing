@@ -1,7 +1,6 @@
 package profilep
 
 import (
-	"log"
 	"net/http"
 	"qing/app"
 	"qing/app/defs"
@@ -14,7 +13,6 @@ import (
 )
 
 func ProfileGET(w http.ResponseWriter, r *http.Request) {
-	log.Print("okok")
 	uid, err := app.URL.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		sysh.NotFoundHandler(w, r)

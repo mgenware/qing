@@ -1,23 +1,13 @@
-import {
-  html,
-  customElement,
-  property,
-  LitElement,
-  TemplateResult,
-} from 'lit-element';
+import { html, customElement, property, TemplateResult } from 'lit-element';
 import ls from '../../ls';
 import app from '../../app';
 import defs from '../../defs';
-import navBarStyles from './nav-bar-styles';
+import Element from '../../element';
 
 @customElement('nav-bar-app')
-export class NavBarApp extends LitElement {
+export class NavBarApp extends Element {
   @property() user = app.state.user;
   @property() editProfileURL = defs.editProfileURL;
-
-  static get styles() {
-    return navBarStyles;
-  }
 
   render() {
     const { user } = this;
