@@ -1,6 +1,6 @@
-import bulmaStyles from '../styles/bulma';
 import bulmaSetup from './bulmaSetup';
 import ls from '../../ls';
+import mainStyles from '../styles/main';
 
 // ---------------------------------
 // unhandled excaptions
@@ -11,11 +11,7 @@ window.onerror = (error, url, lineNumber) => {
 };
 
 function started() {
-  const doc = document as any;
-  doc.adoptedStyleSheets = [
-    ...(doc.adoptedStyleSheets || []),
-    bulmaStyles.styleSheet,
-  ];
+  injectStyle(mainStyles.cssText);
   // bulma elements setup code
   // refs: https://bulma.io/documentation/components/modal/
   try {
@@ -38,6 +34,14 @@ function ready(fn: () => void) {
   } else {
     document.addEventListener('DOMContentLoaded', fn);
   }
+}
+
+function injectStyle(css: string) {
+  // TODO: use constructable styles
+  const style = document.createElement('style') as HTMLStyleElement;
+  style.type = 'text/css';
+  style.innerHTML = css;
+  document.getElementsByTagName('head')[0].appendChild(style);
 }
 
 ready(() => {
