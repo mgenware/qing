@@ -10,8 +10,6 @@
     "node-sass": "^4.12.0"
   },
   "scripts": {
-    "build": "node-sass --output-style expanded --source-map true main.sass dist/main.css",
-    "b-navbar": "node-sass --output-style expanded --source-map true navbar.sass dist/navbar.css",
-    "b-core": "node-sass --output-style expanded --source-map true core.sass dist/core.css"
+    "build": "node-sass --output-style compressed main.sass dist/main.css"
   }
 }
