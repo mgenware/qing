@@ -3,20 +3,7 @@ function getAll(selector: any): HTMLElement[] {
   return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }
 
-export default function() {
-  // navbar
-  // navbar burger click event
-  const burger = document.getElementById('m_nav_burger');
-  if (burger) {
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('is-active');
-      const navMenu = document.getElementById('m_nav_menu');
-      if (navMenu) {
-        navMenu.classList.toggle('is-active');
-      }
-    });
-  }
-
+export function setupDropdowns() {
   // dropdowns
   const $dropdowns = getAll('.dropdown:not(.is-hoverable)');
   const closeDropdowns = () => {
@@ -38,6 +25,15 @@ export default function() {
     });
   }
 
+  document.addEventListener('keydown', event => {
+    const e = event || window.event;
+    if (e.keyCode === 27) {
+      closeDropdowns();
+    }
+  });
+}
+
+export function setupModals() {
   // Modals
   const rootEl = document.documentElement as HTMLElement;
   const $modals = getAll('.modal');
@@ -79,12 +75,15 @@ export default function() {
     });
   }
 
-  // Document events
   document.addEventListener('keydown', event => {
     const e = event || window.event;
     if (e.keyCode === 27) {
       closeModals();
-      closeDropdowns();
     }
   });
+}
+
+export default function() {
+  setupDropdowns();
+  setupDropdowns();
 }

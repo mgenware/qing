@@ -5,9 +5,27 @@ import defs from '../../defs';
 import Element from '../../element';
 
 @customElement('nav-bar-app')
-export class NavBarApp extends Element {
+export default class NavBarApp extends Element {
   @property() user = app.state.user;
   @property() editProfileURL = defs.editProfileURL;
+
+  firstUpdated() {
+    // navbar
+    // navbar burger click event
+    const burger = this.shadowRoot!.getElementById('m_nav_burger');
+    if (burger) {
+      burger.addEventListener('click', () => {
+        burger.classList.toggle('is-active');
+        const navMenu = this.shadowRoot!.getElementById('m_nav_menu');
+        if (navMenu) {
+          navMenu.classList.toggle('is-active');
+        }
+      });
+    } else {
+      // tslint:disable-next-line no-console
+      console.error(`navbar setup failed, m_nav_burger not defined`);
+    }
+  }
 
   render() {
     const { user } = this;
