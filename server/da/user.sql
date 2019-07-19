@@ -4,7 +4,7 @@ CREATE TABLE `user` (
 	`name` VARCHAR(255) NOT NULL,
 	`icon_name` VARCHAR(255) NOT NULL,
 	`url_name` VARCHAR(30) NULL DEFAULT NULL,
-	`created_time` DATETIME NOT NULL DEFAULT NOW(),
+	`created_time` DATETIME NOT NULL,
 	`company` VARCHAR(100) NOT NULL,
 	`website` VARCHAR(100) NOT NULL,
 	`location` VARCHAR(100) NOT NULL,

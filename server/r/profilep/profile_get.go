@@ -3,6 +3,7 @@ package profilep
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/cm"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validate2"
@@ -18,8 +19,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 		sysh.NotFoundHandler(w, r)
 		return
 	}
-	page := validate2.MustToPageOrDefault(r.FormValue("page"), "page")
-	limit, offset := validate2.DBLimitAndOffset(page, defs.UserPostsLimit)
+	page := validate2.MustToPageOrDefault(r.FormValue("page"))
 
 	user, err := da.User.SelectProfile(app.DB, uid)
 	app.PanicIfErr(err)
@@ -29,7 +29,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	userData := NewProfileDataFromUser(user)
 
 	// Populate posts
-	posts, err := da.Post.SelectPostsByUser(app.DB, uid, limit, offset)
+	posts, hasNext, err := da.Post.SelectPostsByUser(app.DB, uid, page, defs.UserPostsLimit)
 	app.PanicIfErr(err)
 	var sb strings.Builder
 	for _, post := range posts {
@@ -37,6 +37,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 		sb.WriteString(vProfilePostItem.MustExecuteToString(resp.Lang(), postData))
 	}
 	userData.FeedListHTML = sb.String()
+	userData.Pager = cm.NewPager(page, hasNext, app.URL.UserProfileFormatter(uid))
 
 	d := app.MasterPageData(title, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	resp.MustComplete(d)

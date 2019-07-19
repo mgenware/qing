@@ -49,5 +49,5 @@ const (
 )
 
 const (
-	UserPostsLimit = 20
+	UserPostsLimit = 10
 )

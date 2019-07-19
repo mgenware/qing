@@ -56,6 +56,11 @@ func (u *URL) UserProfile(uid uint64) string {
 	return "/" + defs.RouteUser + "/" + u.EncodeID(uid)
 }
 
+func (u *URL) UserProfileFormatter(uid uint64) string {
+	head := u.UserProfile(uid)
+	return head + "?page=%v"
+}
+
 func (u *URL) Post(pid uint64) string {
 	return "/" + defs.RoutePost + "/" + u.EncodeID(pid)
 }

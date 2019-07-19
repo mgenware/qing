@@ -21,20 +21,14 @@ func MustGetStringFromDict(dict map[string]interface{}, key string) string {
 	return val
 }
 
-func MustToPageOrDefault(s string, name string) int {
+func MustToPageOrDefault(s string) int {
 	val, err := strconvx.ParseInt(s)
 	if err != nil {
 		return 1
 	}
 	if val <= 0 {
 		// panic with a string for non-fatal errors
-		panic(fmt.Sprintf("`%v` must be a positive integer", name))
+		panic("page must be a positive integer")
 	}
 	return val
-}
-
-func DBLimitAndOffset(page, limit int) (int, int) {
-	limit++
-	offset := (page - 1) * limit
-	return limit, offset
 }

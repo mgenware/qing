@@ -3,9 +3,8 @@ import t from './post';
 
 export class PostTA extends dd.TA {
   selectPostsByUser = dd
-    .selectRows(t.id, t.title, t.content, t.created_at, t.modified_at)
-    .paginate()
-    .byID();
+    .selectPage(t.id, t.title, t.content, t.created_at, t.modified_at)
+    .by(t.user_id);
 
   insertPost = dd
     .insertOne()

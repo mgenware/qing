@@ -4,6 +4,7 @@ import (
 	"qing/app"
 	"qing/app/template"
 	"qing/da"
+	"qing/app/cm"
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
@@ -16,6 +17,7 @@ type ProfileData struct {
 	UserURL      string
 	IconURL      string
 	FeedListHTML string
+	Pager *cm.Pager
 }
 
 type PostItem struct {

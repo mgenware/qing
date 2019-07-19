@@ -14,11 +14,11 @@
   },
   "devDependencies": {
     "ts-node": "^8.3.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "dd-models": "^0.18.0",
-    "mingru": "^0.11.0",
+    "dd-models": "^0.19.0",
+    "mingru": "^0.12.1",
     "mingru-tsconfig": "^2.0.0"
   }
 }
