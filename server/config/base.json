@@ -1,6 +1,6 @@
 {
   "localization": {
-    "dir": "../localization/langs",
+    "dir": "../web/langs",
     "default_lang": "en"
   },
   "extern": {
