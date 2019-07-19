@@ -104,7 +104,9 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 	// Language file, this should be loaded first as the main.js relies on it.
 	if m.config.Debug != nil {
 		// Read the JSON content and inject it to master page in dev mode
-		jsonBytes, err := ioutil.ReadFile(fmt.Sprintf("../localization/langs/%v.json", lang))
+		jsonFileName := fmt.Sprintf("%v.json", lang)
+		jsonFile := filepath.Join(m.config.Localization.Dir, jsonFileName)
+		jsonBytes, err := ioutil.ReadFile(jsonFile)
 		if err != nil {
 			panic(err) // can panic in dev mode
 		}
