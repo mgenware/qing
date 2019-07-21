@@ -33,6 +33,10 @@ export class UserTA extends dd.TA {
     .updateOne()
     .setInputs(t.bio)
     .byID();
+  updatePostCount = dd
+    .updateOne()
+    .set(t.postCount, dd.sql`${t.postCount} + ${dd.input(dd.int(), 'offset')}`)
+    .byID('userID');
 }
 
 export default dd.ta(t, UserTA);

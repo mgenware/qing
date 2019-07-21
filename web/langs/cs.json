@@ -39,5 +39,6 @@
   "common": "常用",
   "newPost": "新文章",
   "titleCannotBeEmpty": "标题不能为空",
-  "contentCannotBeEmpty": "内容不能为空"
+  "contentCannotBeEmpty": "内容不能为空",
+  "posts": "帖子"
 }

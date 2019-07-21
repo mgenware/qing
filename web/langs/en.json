@@ -39,5 +39,6 @@
   "common": "Common",
   "newPost": "New post",
   "titleCannotBeEmpty": "Title cannot be empty",
-  "contentCannotBeEmpty": "Content cannot be empty"
+  "contentCannotBeEmpty": "Content cannot be empty",
+  "posts": "Posts"
 }

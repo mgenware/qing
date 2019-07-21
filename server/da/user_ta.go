@@ -100,6 +100,12 @@ func (da *TableTypeUser) UpdateIconName(queryable dbx.Queryable, id uint64, icon
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
+// UpdatePostCount ...
+func (da *TableTypeUser) UpdatePostCount(queryable dbx.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
 // UpdateProfile ...
 func (da *TableTypeUser) UpdateProfile(queryable dbx.Queryable, id uint64, name string, website string, company string, location string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ? WHERE `id` = ?", name, website, company, location, id)

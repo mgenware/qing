@@ -115,10 +115,10 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
-dd-models@^0.19.0:
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/dd-models/-/dd-models-0.19.0.tgz#2a924614042793144431ea3da8758dc3ad70127c"
-  integrity sha512-S6Bpz/PJVfxmCehHROTpmGgP7pr/Kxa47AInLT4UiaQ4k/bZodiSJKK77xql/7Ypaz4z1Yv5zb/XSbB1UvZuWg==
+dd-models@^0.19.2:
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/dd-models/-/dd-models-0.19.2.tgz#6bed4e78770ff490139f09fce24da04cfc27bf4a"
+  integrity sha512-BytTzrXCjbZzFTHFfijAUVq69vBeLPQiy/ZNvtdO3UH3UmSRr8Oi4ujX6Vpv0oA3ZRQhj1Cs+d0D07NbDBj5Jw==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
