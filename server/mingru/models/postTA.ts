@@ -7,13 +7,11 @@ export class PostTA extends dd.TA {
     .selectPage(t.id, t.title, t.content, t.created_at, t.modified_at)
     .by(t.user_id);
 
-  insertCore = dd
-    .insertOne()
-    .setInputs(t.title, t.content, t.user_id)
-    .setDefaults();
-
   insertPost = dd.transact(
-    this.insertCore,
+    dd
+      .insertOne()
+      .setInputs(t.title, t.content, t.user_id)
+      .setDefaults(),
     userTA.updatePostCount.wrap({ offset: 1 }),
   );
 }
