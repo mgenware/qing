@@ -34,7 +34,7 @@ type Manager struct {
 	masterView          *LocalizedView
 	errorView           *LocalizedView
 	LocalizationManager *localization.Manager
-	assetMgr            *asset.AssetsManager
+	AssetsManager       *asset.AssetsManager
 	logger              *logx.Logger
 }
 
@@ -61,7 +61,7 @@ func MustCreateManager(
 	t := &Manager{
 		dir:                  dir,
 		LocalizationManager:  localizationManager,
-		assetMgr:             assetMgr,
+		AssetsManager:        assetMgr,
 		logger:               logger,
 		config:               config,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
@@ -93,7 +93,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 	}
 
 	// Setup additional assets
-	assetsMgr := m.assetMgr
+	assetsMgr := m.AssetsManager
 	css := assetsMgr.CSS
 	js := assetsMgr.JS
 

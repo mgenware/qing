@@ -17,9 +17,10 @@ func init() {
 func genericGET(w http.ResponseWriter, r *http.Request) {
 	resp := app.HTMLResponse(w, r)
 
-	content := "<div id=\"m_app\"></div>"
+	content := "<m-app></m-app>"
 	// Page title will be set in frontend
 	d := app.MasterPageData("", content)
+	d.Scripts = app.TemplateManager.AssetsManager.JS.Dashboard
 
 	resp.MustComplete(d)
 }

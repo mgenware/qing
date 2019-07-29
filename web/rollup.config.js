@@ -22,16 +22,14 @@ if (isProd) {
   plugins.push(terser());
 }
 
-const tasks = [
-  {
-    input: ['src/main_dev.ts'],
-    output: {
-      dir: 'static/d/js',
-      format: 'system',
-      sourcemap: true,
-    },
-    plugins,
-  },
-];
+let input = [isProd ? 'coreEntry.ts' : 'devCoreEntry.ts', 'm/mEntry.ts'];
 
-export default tasks;
+export default {
+  input: input.map(s => 'src/' + s),
+  output: {
+    dir: 'static/d/js',
+    format: 'system',
+    sourcemap: true,
+  },
+  plugins,
+};

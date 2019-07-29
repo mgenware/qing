@@ -22,6 +22,7 @@ type JSManager struct {
 	Loader    string
 	Polyfills string
 	Main      string
+	Dashboard string
 
 	LSCS string
 	LSEN string
@@ -34,9 +35,10 @@ func NewJSManager(dev bool) *JSManager {
 	r.Loader = libJS("s3.1.6.min")
 	r.Polyfills = libJS("webcomponents-bundle")
 	if dev {
-		r.Main = js("main_dev")
+		r.Main = js("devCoreEntry")
 	} else {
-		r.Main = js("main")
+		r.Main = js("coreEntry")
 	}
+	r.Dashboard = js("mEntry")
 	return r
 }
