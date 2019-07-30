@@ -1,5 +1,5 @@
 function toURL(s: string): string {
-  return `/s/${s}`;
+  return `/m/${s}`;
 }
 
 export const newPost = 'new-post';

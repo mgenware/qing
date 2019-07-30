@@ -13,14 +13,23 @@ export default class EditorView extends Element {
     return styles;
   }
 
-  @property() user = app.state.user;
+  @property({
+    hasChanged: (newVal, oldVal) => {
+      this.editor.contentHTML = newVal;
+      return newVal !== oldVal;
+    },
+  })
+  contentHTML = '';
+
+  private editor: Editor;
+
   firstUpdated() {
     const editorDom = this.shadowRoot!.getElementById('editor');
     if (!editorDom) {
       throw new Error('Editor dom not found');
     }
-    Editor.create(editorDom, {
-      contentHTML: '<p>Hello World</p>',
+    this.editor = Editor.create(editorDom, {
+      contentHTML: this.contentHTML,
       lang: ls._lang === 'cs' ? langCs : langEn,
     });
   }

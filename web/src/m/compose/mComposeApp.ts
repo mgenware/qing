@@ -8,7 +8,8 @@ export default class MComposeApp extends Element {
   render() {
     return html`
       <div>
-        <p>${ls.newPost}</p>
+        <p class="is-size-4">${ls.newPost}</p>
+        <hr />
         <editor-view></editor-view>
       </div>
     `;

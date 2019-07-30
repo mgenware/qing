@@ -5,15 +5,29 @@ import page from 'page';
 import * as rs from './routes';
 import './compose/mComposeApp';
 
+class Page {
+  constructor(public content: any, public showSidebar: boolean) {}
+}
+
 @customElement('m-app')
 export default class MApp extends Element {
-  @property() route = '';
+  @property() content!: Page;
 
   firstUpdated() {
-    page('/new-post', () => {});
+    page(rs.newPostURL, () => {
+      this.content = this.renderNewPost();
+    });
+    page();
   }
 
   render() {
+    const { content } = this;
+    if (!content) {
+      return;
+    }
+    if (!content.showSidebar) {
+      return content.content;
+    }
     return html`
       <section class="section">
         <div class="container">
@@ -34,21 +48,21 @@ export default class MApp extends Element {
                 </ul>
               </aside>
             </div>
-            <div class="column">${this.renderContent()}</div>
+            <div class="column">${content.content}</div>
           </div>
         </div>
       </section>
     `;
   }
 
-  private renderContent() {
-    const r = this.route || rs.newPost;
-    switch (r) {
-      case rs.newPost:
-        return html`
+  private renderNewPost(): any {
+    return new Page(
+      html`
+        <div class="m-md">
           <m-compose-app></m-compose-app>
-        `;
-    }
-    return null;
+        </div>
+      `,
+      false,
+    );
   }
 }

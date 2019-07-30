@@ -12,7 +12,8 @@
     "strict-type-predicates": true,
     "arrow-parens": [true, "ban-single-arg-parens"],
     "interface-name": false,
-    "max-line-length": false
+    "max-line-length": false,
+    "variable-name": false
   },
   "rulesDirectory": []
 }
