@@ -1,14 +1,13 @@
 import { html, customElement, css, property, LitElement } from 'lit-element';
 
-@customElement('spinner')
-export class Spinner extends LitElement {
+@customElement('spinner-view')
+export class SpinnerView extends LitElement {
   static get styles() {
     return css`
       /* spinner */
       .spinner-screen-overlay {
         display: flex;
         position: fixed;
-        /* z-index should be larger than 1000 in FullEditor.vue (editor overlay) */
         z-index: 2000;
         top: 0;
         right: 0;
@@ -79,16 +78,23 @@ export class Spinner extends LitElement {
   }
 
   @property() text = '';
+  @property() fullScreen = false;
 
   render() {
-    return html`
+    const content = html`
       <div class="spinner-root">
         <div class="spinner">
           <div class="double-bounce1"></div>
           <div class="double-bounce2"></div>
         </div>
-        <div v-if="text" class="text-center">${this.text}</div>
+        <div class="text-center"><slot></slot></div>
       </div>
     `;
+    if (this.fullScreen) {
+      return html`
+        <div class="spinner-screen-overlay">${content}</div>
+      `;
+    }
+    return content;
   }
 }

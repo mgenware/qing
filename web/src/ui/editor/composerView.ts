@@ -2,7 +2,6 @@ import './editorView';
 import { html, customElement, property } from 'lit-element';
 import Element from '../../element';
 import ls from '../../ls';
-import { capitalizeFirstLetter } from '../../lib/stringUtils';
 import app from '../../app';
 import ComposerPayload from './composerPayload';
 import EditorView from './editorView';
@@ -38,7 +37,7 @@ export class ComposerView extends Element {
             <input
               class="input"
               type="text"
-              placeholder=${capitalizeFirstLetter(ls.title)}
+              placeholder=${ls.title}
               @change=${(e: any) => (this.title = e.target.value)}
             />
           </div>

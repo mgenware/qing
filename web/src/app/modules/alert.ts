@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import escapeHTML from 'escape-html';
 import ls from '../../ls';
 import { parseDOMString, removeElement } from '../../lib/htmlLib';
+import '../../ui/views/spinnerView';
 const SpinnerID = '__spinner_main';
 
 export default class AlertModule {
@@ -57,15 +58,8 @@ export default class AlertModule {
   }
 
   private getSpinnerHTML(message: string): string {
-    return `
-    <div id="${SpinnerID}" class="spinner-screen-overlay">
-      <div class="spinner-root">
-        <div class="spinner">
-          <div class="double-bounce1"></div>
-          <div class="double-bounce2"></div>
-        </div>
-        <div class="text-center">${escapeHTML(message)}</div>
-      </div>
-    </div>`;
+    return `<spinner-view id="${SpinnerID}" fullScreen="true">${escapeHTML(
+      message,
+    )}</spinner-view>`;
   }
 }

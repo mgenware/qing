@@ -4,6 +4,8 @@ import ls from '../../ls';
 import '../../ui/editor/composerView';
 import { ComposerView } from '../../ui/editor/composerView';
 import ComposerPayload from '../../ui/editor/composerPayload';
+import app from '../../app';
+import SetPostLoader from './loaders/setPostLoader';
 
 @customElement('new-post-app')
 export default class NewPostApp extends Element {
@@ -32,5 +34,7 @@ export default class NewPostApp extends Element {
     if (!editor) {
       return;
     }
+    const loader = new SetPostLoader(null, e.detail);
+    app.runActionAsync(loader, ls.publishing);
   }
 }
