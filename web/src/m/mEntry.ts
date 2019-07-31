@@ -3,7 +3,7 @@ import ls from '../ls';
 import Element from '../element';
 import page from 'page';
 import * as rs from './routes';
-import './compose/mComposeApp';
+import './newPost/newPostApp';
 
 class Page {
   constructor(public content: any, public showSidebar: boolean) {}
@@ -59,7 +59,7 @@ export default class MApp extends Element {
     return new Page(
       html`
         <div class="m-md">
-          <m-compose-app></m-compose-app>
+          <new-post-app></new-post-app>
         </div>
       `,
       false,
