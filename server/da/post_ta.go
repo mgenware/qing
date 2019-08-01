@@ -56,12 +56,13 @@ type PostTableSelectPostByIDResult struct {
 	ModifiedAt time.Time
 	CmtCount   uint
 	Content    string
+	UserID     uint64
 }
 
 // SelectPostByID ...
 func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*PostTableSelectPostByIDResult, error) {
 	result := &PostTableSelectPostByIDResult{}
-	err := queryable.QueryRow("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `content` FROM `post` WHERE `id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Content)
+	err := queryable.QueryRow("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `content`, `user_id` FROM `post` WHERE `id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Content, &result.UserID)
 	if err != nil {
 		return nil, err
 	}

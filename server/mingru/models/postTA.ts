@@ -15,7 +15,7 @@ export class PostTA extends dd.TA {
     userTA.updatePostCount.wrap({ offset: 1 }),
   );
 
-  selectPostByID = dd.select(...coreCols, t.content).byID();
+  selectPostByID = dd.select(...coreCols, t.content, t.user_id).byID();
 }
 
 export default dd.ta(t, PostTA);
