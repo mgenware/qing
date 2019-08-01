@@ -25,7 +25,7 @@ func NewPostPageData(p *da.PostTableSelectPostByIDResult) *PostPageData {
 	d.PostURL = app.URL.Post(p.ID)
 	d.UserEID = app.URL.EncodeID(p.UserID)
 	d.UserURL = app.URL.UserProfile(p.UserID)
-	d.UserIconURL = app.URL.UserAvatarURL50(p.UserID)
+	d.UserIconURL = app.URL.UserIconURL50(p.UserID, p.UserIconName)
 	d.EID = app.URL.EncodeID(p.ID)
 	return d
 }

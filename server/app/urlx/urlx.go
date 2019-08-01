@@ -31,21 +31,21 @@ func (u *URL) ResURL(url string) string {
 	return u.config.ResServer.URL + url
 }
 
-func (u *URL) UserAvatarURL50(uid uint64, avatarName string) string {
+func (u *URL) UserIconURL50(uid uint64, avatarName string) string {
 	if avatarName == "" {
 		return u.AssetURL("/img/main/defavatar_50.png")
 	}
 	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, avatar.AvatarSize50, avatarName))
 }
 
-func (u *URL) UserAvatarURL250(uid uint64, avatarName string) string {
+func (u *URL) UserIconURL250(uid uint64, avatarName string) string {
 	if avatarName == "" {
 		return u.AssetURL("/img/main/defavatar.png")
 	}
 	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, avatar.AvatarSize250, avatarName))
 }
 
-func (u *URL) UserAvatarURL(uid uint64, avatarName string, size int) string {
+func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 	if avatarName == "" {
 		return u.AssetURL("/img/main/defavatar.png")
 	}

@@ -2,9 +2,9 @@ package profilep
 
 import (
 	"qing/app"
+	"qing/app/cm"
 	"qing/app/template"
 	"qing/da"
-	"qing/app/cm"
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
@@ -17,7 +17,7 @@ type ProfileData struct {
 	UserURL      string
 	IconURL      string
 	FeedListHTML string
-	Pager *cm.Pager
+	Pager        *cm.Pager
 }
 
 type PostItem struct {
@@ -31,7 +31,7 @@ func NewProfileDataFromUser(u *da.UserTableSelectProfileResult) *ProfileData {
 	d := &ProfileData{UserTableSelectProfileResult: *u}
 	uid := u.ID
 
-	d.IconURL = app.URL.UserAvatarURL250(uid, u.IconName)
+	d.IconURL = app.URL.UserIconURL250(uid, u.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
 
 	return d

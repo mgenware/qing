@@ -17,7 +17,7 @@ type infoData struct {
 
 func newInfoData(u *da.UserTableSelectEditingDataResult) *infoData {
 	d := &infoData{UserTableSelectEditingDataResult: *u}
-	d.IconURL = app.URL.UserAvatarURL250(u.ID, u.IconName)
+	d.IconURL = app.URL.UserIconURL250(u.ID, u.IconName)
 	return d
 }
 

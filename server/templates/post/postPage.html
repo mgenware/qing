@@ -1,8 +1,6 @@
 <section class="section">
   <div class="container">
     <div class="is-size-4">
-      <a class="m_ctag" href="{{.CategoryURL}}">{{html .Category}}</a>
-      <span> - </span>
       <a href="{{.PostURL}}">{{html .Title}}</a>
     </div>
   
@@ -10,14 +8,14 @@
     <div class="m-t-md columns is-mobile">
       <div class="column is-narrow">
         <a href="{{.UserURL}}">
-          <img src="{{.UserAvatarURL}}" class="border-radius-5" width="50" height="50" />
+          <img src="{{.UserIconURL}}" class="border-radius-5" width="50" height="50" />
         </a>
       </div>
       <div class="column">
-        <div><a href="{{.UserURL}}">{{html .UserNick}}</a></div>
+        <div><a href="{{.UserURL}}">{{html .UserName}}</a></div>
         <div>
           <p>
-            <span class="m_date">{{.CreateTime.Format "2006-01-02T15:04:05Z07:00"}}||{{.ModTime.Format "2006-01-02T15:04:05Z07:00"}}</span>
+            <span class="m_date">{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}||{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}</span>
             <span id="m_post_admin_app"></span>
           </p>
         </div>
@@ -28,18 +26,14 @@
     <div class="md-content content">
       {{.Content}}
     </div>
-    {{if .UserPostSig}}
-    <hr /> {{.UserPostSig}} {{end}}
   
     <div id="m_post_app"></div>
   </div>
   </section>
   
   <script>
-    window.appPostID = '{{js .EncodedID}}';
+    window.appPostID = '{{js .EID}}';
     window.appPostUserID = '{{js .UserEID}}';
     window.appPostCmtCount = parseInt('{{.CmtCount}}');
-    window.appPostLikeCount = parseInt('{{.LikeCount}}');
-    window.appPostLiked = ('{{.Liked}}' == 'true');
   </script>
   

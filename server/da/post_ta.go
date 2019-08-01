@@ -50,19 +50,21 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 
 // PostTableSelectPostByIDResult ...
 type PostTableSelectPostByIDResult struct {
-	ID         uint64
-	Title      string
-	CreatedAt  time.Time
-	ModifiedAt time.Time
-	CmtCount   uint
-	Content    string
-	UserID     uint64
+	ID           uint64
+	Title        string
+	CreatedAt    time.Time
+	ModifiedAt   time.Time
+	CmtCount     uint
+	Content      string
+	UserID       uint64
+	UserName     string
+	UserIconName string
 }
 
 // SelectPostByID ...
 func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*PostTableSelectPostByIDResult, error) {
 	result := &PostTableSelectPostByIDResult{}
-	err := queryable.QueryRow("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `content`, `user_id` FROM `post` WHERE `id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Content, &result.UserID)
+	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt`, `post`.`cmt_count` AS `cmtCount`, `post`.`content` AS `content`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
 	if err != nil {
 		return nil, err
 	}

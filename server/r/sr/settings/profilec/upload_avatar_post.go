@@ -83,8 +83,8 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	apiRes := &avatarUpdateResult{}
-	apiRes.IconL = app.URL.UserAvatarURL(uid, avatarName, avatar.AvatarSize250)
-	apiRes.IconS = app.URL.UserAvatarURL(uid, avatarName, avatar.AvatarSize50)
+	apiRes.IconL = app.URL.UserIconURL(uid, avatarName, avatar.AvatarSize250)
+	apiRes.IconS = app.URL.UserIconURL(uid, avatarName, avatar.AvatarSize50)
 	resp.MustComplete(apiRes)
 }
 
