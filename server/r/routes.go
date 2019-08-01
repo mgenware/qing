@@ -68,7 +68,8 @@ func Start() {
 
 	// User handler
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
-
+	// Post handler
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postp.PostGET)
 	// Dashboard handler
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Restricted Service handler (SR)

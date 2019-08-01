@@ -48,13 +48,33 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 	return insertedID, txErr
 }
 
+// PostTableSelectPostByIDResult ...
+type PostTableSelectPostByIDResult struct {
+	ID         uint64
+	Title      string
+	CreatedAt  time.Time
+	ModifiedAt time.Time
+	CmtCount   uint
+	Content    string
+}
+
+// SelectPostByID ...
+func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*PostTableSelectPostByIDResult, error) {
+	result := &PostTableSelectPostByIDResult{}
+	err := queryable.QueryRow("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `content` FROM `post` WHERE `id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Content)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 // PostTableSelectPostsByUserResult ...
 type PostTableSelectPostsByUserResult struct {
 	ID         uint64
 	Title      string
-	Content    string
 	CreatedAt  time.Time
 	ModifiedAt time.Time
+	CmtCount   uint
 }
 
 // SelectPostsByUser ...
@@ -62,7 +82,7 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `content`, `created_at`, `modified_at` FROM `post` WHERE ? LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count` FROM `post` WHERE ? LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -73,7 +93,7 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 		itemCounter++
 		if itemCounter <= max {
 			item := &PostTableSelectPostsByUserResult{}
-			err = rows.Scan(&item.ID, &item.Title, &item.Content, &item.CreatedAt, &item.ModifiedAt)
+			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}

@@ -2,10 +2,10 @@ import * as dd from 'dd-models';
 import t from './post';
 import userTA from './userTA';
 
+const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
+
 export class PostTA extends dd.TA {
-  selectPostsByUser = dd
-    .selectPage(t.id, t.title, t.content, t.created_at, t.modified_at)
-    .by(t.user_id);
+  selectPostsByUser = dd.selectPage(...coreCols).by(t.user_id);
 
   insertPost = dd.transact(
     dd
@@ -14,6 +14,8 @@ export class PostTA extends dd.TA {
       .setDefaults(),
     userTA.updatePostCount.wrap({ offset: 1 }),
   );
+
+  selectPostByID = dd.select(...coreCols, t.content).byID();
 }
 
 export default dd.ta(t, PostTA);
