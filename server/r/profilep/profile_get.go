@@ -6,7 +6,7 @@ import (
 	"qing/app/cm"
 	"qing/app/defs"
 	"qing/da"
-	"qing/lib/validate2"
+	"qing/lib/validator"
 	"qing/r/sysh"
 	"strings"
 
@@ -19,7 +19,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 		sysh.NotFoundHandler(w, r)
 		return
 	}
-	page := validate2.MustToPageOrDefault(r.FormValue("page"))
+	page := validator.MustToPageOrDefault(r.FormValue("page"))
 
 	user, err := da.User.SelectProfile(app.DB, uid)
 	app.PanicIfErr(err)

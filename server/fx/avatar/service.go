@@ -6,8 +6,8 @@ import (
 	"os"
 	"path"
 	"qing/app/logx"
-	"qing/lib/io2"
-	"qing/lib/math2"
+	"qing/lib/iolib"
+	"qing/lib/mathlib"
 	"strings"
 )
 
@@ -52,7 +52,7 @@ func (svc *Service) GetAvatarFilePath(uid uint64, size int, avatarName string) s
 
 func (svc *Service) SaveAvatarFromFile(src string, uid uint64) (string, error) {
 	ext := path.Ext(src)
-	avatarName := math2.RandString(6) + ext
+	avatarName := mathlib.RandString(6) + ext
 	for _, size := range resizedSizes {
 		fileNameWithSize := fmt.Sprintf("%v_%v", size, avatarName)
 		newfilepath, err := svc.allocFilepathForThumb(uid, fileNameWithSize)
@@ -91,7 +91,7 @@ func (svc *Service) run(args []string) (string, error) {
 	cmd := svc.convertCmds[0]
 	strArray := svc.copyStringArray(svc.convertCmds[1:])
 	strArray = append(strArray, args...)
-	return io2.Exec(cmd, strArray...)
+	return iolib.Exec(cmd, strArray...)
 }
 
 func (svc *Service) copyStringArray(arr []string) []string {
@@ -101,6 +101,6 @@ func (svc *Service) copyStringArray(arr []string) []string {
 }
 
 func (svc *Service) thumbnailImg(src, dest string, maxWidth, maxHeight int) error {
-	_, err := io2.Exec("convert", src, "-resize", fmt.Sprintf("%vx%v", maxWidth, maxHeight), dest)
+	_, err := iolib.Exec("convert", src, "-resize", fmt.Sprintf("%vx%v", maxWidth, maxHeight), dest)
 	return err
 }

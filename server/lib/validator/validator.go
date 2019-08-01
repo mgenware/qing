@@ -1,4 +1,4 @@
-package validate2
+package validator
 
 import (
 	"fmt"
@@ -21,6 +21,7 @@ func MustGetStringFromDict(dict map[string]interface{}, key string) string {
 	return val
 }
 
+// MustToPageOrDefault converts the given page string to a integer.
 func MustToPageOrDefault(s string) int {
 	val, err := strconvx.ParseInt(s)
 	if err != nil {
@@ -28,7 +29,7 @@ func MustToPageOrDefault(s string) int {
 	}
 	if val <= 0 {
 		// panic with a string for non-fatal errors
-		panic("page must be a positive integer")
+		panic("The \"page\" arugment must be a positive integer")
 	}
 	return val
 }

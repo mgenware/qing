@@ -1,4 +1,4 @@
-package math2
+package mathlib
 
 import (
 	"math/rand"

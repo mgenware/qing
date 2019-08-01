@@ -9,7 +9,7 @@ import (
 	"qing/app/cm"
 	"qing/da"
 	"qing/fx/avatar"
-	"qing/lib/io2"
+	"qing/lib/iolib"
 
 	"github.com/mgenware/go-packagex/v5/filepathx"
 )
@@ -47,7 +47,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fileHeader := headers[0]
-	isImg, ext := io2.IsImagePath(fileHeader.Filename)
+	isImg, ext := iolib.IsImagePath(fileHeader.Filename)
 	if !isImg {
 		resp.MustFailWithCode(errUnsupportedExt)
 		return
