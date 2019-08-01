@@ -35,7 +35,8 @@ export default class Loader {
       if (params) {
         body = JSON.stringify(params);
       }
-      const response = await fetch(this.requestURL(), {
+      const reqURL = this.requestURL();
+      const response = await fetch(reqURL, {
         method: 'POST',
         body,
         headers: {
@@ -68,6 +69,9 @@ export default class Loader {
       } else {
         errWithCode = new ErrorWithCode(err.message, GENERIC_CODE);
       }
+      err.message = `${
+        err.message
+      } [Error processing request "${this.requestURL()}"]`;
       this.status.failed(errWithCode);
       // Rethrow the original error
       throw err;

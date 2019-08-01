@@ -12,10 +12,19 @@ func panicMissingArg(key string) {
 	panic(fmt.Sprintf("The argument `%v` is required", key))
 }
 
-// MustGetStringFromDict returns the value for the key, and panics if it is not found.
+// MustGetStringFromDict returns the value for the key, and panics if not found.
 func MustGetStringFromDict(dict map[string]interface{}, key string) string {
 	val := jsonx.GetStringOrDefault(dict, key)
 	if val == "" {
+		panicMissingArg(key)
+	}
+	return val
+}
+
+// MustGetDictFromDict returns the value for the key, and panics if not found.
+func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]interface{} {
+	val := jsonx.GetDictOrDefault(dict, key)
+	if val == nil {
 		panicMissingArg(key)
 	}
 	return val

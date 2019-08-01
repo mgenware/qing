@@ -1,7 +1,6 @@
 package compose
 
 import (
-	"fmt"
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
@@ -15,19 +14,13 @@ func setPostPOST(w http.ResponseWriter, r *http.Request) {
 	uid := resp.UserID()
 
 	content := validator.MustGetStringFromDict(params, "content")
-	postType := validator.MustGetStringFromDict(params, "type")
+	title := validator.MustGetStringFromDict(params, "title")
 
 	// Sanitize the content
 	content = app.Service.Sanitizer.Sanitize(content)
-
-	if postType == "user_post" {
-		title := validator.MustGetStringFromDict(params, "title")
-		_, err := da.Post.InsertPost(app.DB, title, content, uid)
-		if err != nil {
-			panic(err)
-		}
-		resp.MustComplete(nil)
-	} else {
-		panic(fmt.Sprintf("Unknown type \"%v\"", postType))
+	_, err := da.Post.InsertPost(app.DB, title, content, uid)
+	if err != nil {
+		panic(err)
 	}
+	resp.MustComplete(nil)
 }

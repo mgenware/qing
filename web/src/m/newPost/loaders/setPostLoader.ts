@@ -12,8 +12,8 @@ export default class SetPostLoader extends BaseLoader {
 
   requestParams(): object {
     return {
+      ...this.payload,
       tid: this.tid,
-      payload: this.payload,
     };
   }
 }
