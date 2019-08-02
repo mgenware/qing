@@ -41,5 +41,6 @@
   "newPost": "新文章",
   "titleCannotBeEmpty": "标题不能为空",
   "contentCannotBeEmpty": "内容不能为空",
-  "posts": "帖子"
+  "posts": "帖子",
+  "editedAt": "编辑于"
 }
