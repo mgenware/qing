@@ -1,18 +1,20 @@
 import { html, customElement } from 'lit-element';
-import Element from '../../element';
-import ls from '../../ls';
-import '../../ui/editor/composerView';
-import { ComposerView } from '../../ui/editor/composerView';
-import ComposerPayload from '../../ui/editor/composerPayload';
-import app from '../../app';
+import ls from 'ls';
+import 'ui/editor/composerView';
+import { ComposerView } from 'ui/editor/composerView';
+import ComposerPayload from 'ui/editor/composerPayload';
+import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
+import BaseElement from 'baseElement';
 
 @customElement('new-post-app')
-export default class NewPostApp extends Element {
+export default class NewPostApp extends BaseElement {
   private editor: ComposerView | null = null;
 
   firstUpdated() {
-    this.editor = this.shadowRoot!.getElementById('editor') as ComposerView;
+    this.editor = (this.shadowRoot!.getElementById(
+      'editor',
+    ) as unknown) as ComposerView;
   }
 
   render() {

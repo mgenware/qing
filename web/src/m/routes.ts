@@ -4,3 +4,5 @@ function toURL(s: string): string {
 
 export const newPost = 'new-post';
 export const newPostURL = toURL(newPost);
+export const editProfile = 'profile';
+export const editProfileURL = toURL(editProfile);

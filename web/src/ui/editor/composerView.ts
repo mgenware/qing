@@ -1,7 +1,7 @@
 import './editorView';
 import { html, customElement, property } from 'lit-element';
-import { ls, format } from '../../ls';
-import app from '../../app';
+import { ls, format } from 'ls';
+import app from 'app';
 import ComposerPayload from './composerPayload';
 import EditorView from './editorView';
 import BaseElement from 'baseElement';

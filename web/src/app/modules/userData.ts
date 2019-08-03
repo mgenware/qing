@@ -1,6 +1,6 @@
 import AppState from './appState';
 import Alert from './alert';
-import ls from '../../ls';
+import ls from 'ls';
 
 const WARN_CHANGES = ls.unsavedChangesWarning;
 

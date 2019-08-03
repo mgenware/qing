@@ -1,9 +1,9 @@
-import { html, customElement, css, property, LitElement } from 'lit-element';
+import { html, customElement, css, property } from 'lit-element';
 import './error-view';
 import './spinner';
-import Status from '../../lib/status';
-import ls from '../../ls';
-import BaseElement from '../../baseElement';
+import Status from 'lib/status';
+import ls from 'ls';
+import BaseElement from 'baseElement';
 
 @customElement('status-view')
 export class StatusView extends BaseElement {

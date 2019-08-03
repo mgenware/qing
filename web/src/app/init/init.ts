@@ -1,5 +1,5 @@
 import bulmaSetup from './bulmaSetup';
-import ls from '../../ls';
+import ls from 'ls';
 import mainStyles from '../styles/main';
 
 // ---------------------------------

@@ -39,8 +39,7 @@
   "publishing": "发表中...",
   "common": "常用",
   "newPost": "新文章",
-  "titleCannotBeEmpty": "标题不能为空",
-  "contentCannotBeEmpty": "内容不能为空",
   "posts": "帖子",
-  "editedAt": "编辑于"
+  "editedAt": "编辑于",
+  "content": "内容"
 }

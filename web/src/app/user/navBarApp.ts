@@ -1,7 +1,7 @@
 import { html, customElement, property, TemplateResult } from 'lit-element';
-import ls from '../../ls';
-import app from '../../app';
-import defs from '../../defs';
+import ls from 'ls';
+import app from 'app';
+import defs from 'defs';
 import BaseElement from 'baseElement';
 
 @customElement('nav-bar-app')

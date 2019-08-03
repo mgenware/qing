@@ -1,5 +1,5 @@
-import BaseLoader from '../../../lib/loader';
-import ComposerPayload from '../../../ui/editor/composerPayload';
+import BaseLoader from 'lib/loader';
+import ComposerPayload from 'ui/editor/composerPayload';
 
 export default class SetPostLoader extends BaseLoader {
   constructor(public tid: string | null, public payload: ComposerPayload) {
