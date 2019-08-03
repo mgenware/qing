@@ -3,9 +3,10 @@ import './error-view';
 import './spinner';
 import Status from '../../lib/status';
 import ls from '../../ls';
+import BaseElement from '../../baseElement';
 
 @customElement('status-view')
-export class StatusView extends LitElement {
+export class StatusView extends BaseElement {
   static get styles() {
     return css``;
   }

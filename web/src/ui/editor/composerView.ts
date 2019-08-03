@@ -1,17 +1,17 @@
 import './editorView';
 import { html, customElement, property } from 'lit-element';
-import Element from '../../element';
-import ls from '../../ls';
+import { ls, format } from '../../ls';
 import app from '../../app';
 import ComposerPayload from './composerPayload';
 import EditorView from './editorView';
+import BaseElement from 'baseElement';
 
 export interface ComposerOptions {
   showTitle?: boolean;
 }
 
 @customElement('composer-view')
-export class ComposerView extends Element {
+export class ComposerView extends BaseElement {
   @property() options: ComposerOptions = {};
   @property() title = '';
 
@@ -60,10 +60,10 @@ export class ComposerView extends Element {
   private getPayload(): ComposerPayload {
     const { options } = this;
     if (options.showTitle && !this.title) {
-      throw new Error(ls.titleCannotBeEmpty);
+      throw new Error(format('pCannotBeEmpty', ls.title));
     }
     if (!this.contentHTML) {
-      throw new Error(ls.contentCannotBeEmpty);
+      throw new Error(format('pCannotBeEmpty', ls.content));
     }
     const payload = new ComposerPayload(this.contentHTML);
     if (options.showTitle) {

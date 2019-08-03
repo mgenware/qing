@@ -21,7 +21,7 @@ export class TimeField extends LitElement {
 
   render() {
     const { src, edited } = this;
-    if (src === edited) {
+    if (!edited || src === edited) {
       return html`
         ${this.formatDate(src)}
       `;
@@ -34,18 +34,15 @@ export class TimeField extends LitElement {
   }
 
   private formatDate(s: string): string {
-    const date = this.stringToDate(s);
-    if (date) {
+    try {
+      const date = this.stringToDate(s);
       return formatRelative(date, new Date(), { locale: this.locale });
+    } catch (err) {
+      return '[Invalid date]';
     }
-    return '[Invalid date]';
   }
 
-  private stringToDate(str: string): Date | null {
-    try {
-      return new Date(str);
-    } catch (e) {
-      return null;
-    }
+  private stringToDate(str: string): Date {
+    return new Date(str);
   }
 }

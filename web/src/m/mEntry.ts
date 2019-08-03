@@ -1,6 +1,6 @@
 import { html, customElement, property } from 'lit-element';
 import ls from '../ls';
-import Element from '../element';
+import BaseElement from '../baseElement';
 import page from 'page';
 import * as rs from './routes';
 import './newPost/newPostApp';
@@ -10,8 +10,8 @@ class Page {
 }
 
 @customElement('m-app')
-export default class MApp extends Element {
-  @property() content!: Page;
+export default class MApp extends BaseElement {
+  @property() content: Page | null = null;
 
   firstUpdated() {
     page(rs.newPostURL, () => {

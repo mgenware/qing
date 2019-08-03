@@ -1,8 +1,9 @@
-import { html, customElement, css, property, LitElement } from 'lit-element';
+import { html, customElement, css, property } from 'lit-element';
 import ls from '../../ls';
+import BaseElement from '../../baseElement';
 
 @customElement('error-view')
-export class ErrorView extends LitElement {
+export class ErrorView extends BaseElement {
   static get styles() {
     return css``;
   }

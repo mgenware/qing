@@ -2,10 +2,10 @@ import { html, customElement, property, TemplateResult } from 'lit-element';
 import ls from '../../ls';
 import app from '../../app';
 import defs from '../../defs';
-import Element from '../../element';
+import BaseElement from 'baseElement';
 
 @customElement('nav-bar-app')
-export default class NavBarApp extends Element {
+export default class NavBarApp extends BaseElement {
   @property() user = app.state.user;
   @property() editProfileURL = defs.editProfileURL;
 
