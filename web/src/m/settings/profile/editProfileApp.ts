@@ -6,6 +6,7 @@ import SetInfoLoader from './loaders/setInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
 import GetInfoLoader from './loaders/getInfoLoader';
+import EditProfileData from './editProfileData';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -115,6 +116,13 @@ export class EditProfileApp extends BaseElement {
       const loader = new GetInfoLoader();
       loader.statusChanged = status => {
         this.loadingStatus = status;
+        if (status.isSuccess) {
+          const profile = status.data as EditProfileData;
+          this.nick = profile.Name || '';
+          this.url = profile.Website || '';
+          this.company = profile.Company || '';
+          this.location = profile.Location || '';
+        }
       };
       await app.runActionAsync(loader);
     } catch (err) {
