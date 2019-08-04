@@ -1,4 +1,4 @@
-import { html, customElement, css, property, LitElement } from 'lit-element';
+import { html, customElement, property, LitElement } from 'lit-element';
 import ls from 'ls';
 import { formatRelative, Locale } from 'date-fns';
 import { enUS, zhCN } from 'date-fns/locale';
@@ -6,10 +6,6 @@ import app from 'app';
 
 @customElement('time-field')
 export class TimeField extends LitElement {
-  static get styles() {
-    return css``;
-  }
-
   @property() src = '';
   @property() edited = '';
   locale!: Locale;

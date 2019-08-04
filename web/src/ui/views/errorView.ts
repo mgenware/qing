@@ -4,10 +4,6 @@ import BaseElement from 'baseElement';
 
 @customElement('error-view')
 export class ErrorView extends BaseElement {
-  static get styles() {
-    return css``;
-  }
-
   @property() title = '';
   @property() canRetry = false;
 
@@ -31,6 +27,6 @@ export class ErrorView extends BaseElement {
   }
 
   private handleRetryClick() {
-    this.dispatchEvent(new CustomEvent('my-event'));
+    this.dispatchEvent(new CustomEvent('retry'));
   }
 }

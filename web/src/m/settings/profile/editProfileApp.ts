@@ -5,6 +5,7 @@ import 'ui/views/workingView';
 import SetInfoLoader from './loaders/setInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
+import GetInfoLoader from './loaders/getInfoLoader';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -12,10 +13,33 @@ export class EditProfileApp extends BaseElement {
   @property() url = '';
   @property() company = '';
   @property() location = '';
+  @property() loadingStatus = new Status();
   @property() setInfoStatus = new Status();
   setInfoLoader!: SetInfoLoader;
 
+  async firstUpdated() {
+    await this.reloadData();
+  }
+
   render() {
+    const { loadingStatus } = this;
+    return html`
+      ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()}
+    `;
+  }
+
+  renderProgress() {
+    const { loadingStatus } = this;
+    return html`
+      <loading-view
+        .status=${loadingStatus}
+        .canRetry=${true}
+        @retry=${this.handleLoadingRetry}
+      ></loading-view>
+    `;
+  }
+
+  renderContent() {
     return html`
       <div>
         <working-view .status=${this.setInfoStatus}>
@@ -30,7 +54,7 @@ export class EditProfileApp extends BaseElement {
                     type="text"
                     class="input"
                     value=${this.nick}
-                    onchange=${(e: any) => (this.nick = e.target.value)}
+                    @change=${(e: any) => (this.nick = e.target.value)}
                   />
                 </div>
               </div>
@@ -43,7 +67,7 @@ export class EditProfileApp extends BaseElement {
                     type="url"
                     class="input"
                     value=${this.url}
-                    onchange=${(e: any) => (this.url = e.target.value)}
+                    @change=${(e: any) => (this.url = e.target.value)}
                   />
                 </div>
               </div>
@@ -56,7 +80,7 @@ export class EditProfileApp extends BaseElement {
                     type="text"
                     class="input"
                     value=${this.company}
-                    onchange=${(e: any) => (this.company = e.target.value)}
+                    @change=${(e: any) => (this.company = e.target.value)}
                   />
                 </div>
               </div>
@@ -69,13 +93,13 @@ export class EditProfileApp extends BaseElement {
                     type="text"
                     class="input"
                     value=${this.location}
-                    onchange=${(e: any) => (this.location = e.target.value)}
+                    @change=${(e: any) => (this.location = e.target.value)}
                   />
                 </div>
               </div>
               <button
                 class="button is-success"
-                onclick=${this.handleSaveProfileClick}
+                @click=${this.handleSaveProfileClick}
               >
                 ${ls.save}
               </button>
@@ -86,10 +110,22 @@ export class EditProfileApp extends BaseElement {
     `;
   }
 
+  private async reloadData() {
+    try {
+      const loader = new GetInfoLoader();
+      loader.statusChanged = status => {
+        this.loadingStatus = status;
+      };
+      await app.runActionAsync(loader);
+    } catch (err) {
+      await app.alert.error(err.message);
+    }
+  }
+
   private async handleSaveProfileClick() {
     try {
       if (!this.nick) {
-        throw new Error(format('pCannotBeEmpty', ls.content));
+        throw new Error(format('pCannotBeEmpty', ls.name));
       }
       const loader = new SetInfoLoader(
         this.nick,
@@ -104,5 +140,9 @@ export class EditProfileApp extends BaseElement {
     } catch (err) {
       await app.alert.error(err.message);
     }
+  }
+
+  private async handleLoadingRetry() {
+    await this.reloadData();
   }
 }

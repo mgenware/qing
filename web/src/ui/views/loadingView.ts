@@ -1,16 +1,12 @@
-import { html, customElement, css, property } from 'lit-element';
+import { html, customElement, property } from 'lit-element';
 import './error-view';
 import './spinner';
 import Status from 'lib/status';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 
-@customElement('status-view')
-export class StatusView extends BaseElement {
-  static get styles() {
-    return css``;
-  }
-
+@customElement('loading-view')
+export class LoadingView extends BaseElement {
   @property() status = new Status();
   @property() loadingText = '';
   @property() canRetry = false;
@@ -21,19 +17,20 @@ export class StatusView extends BaseElement {
     if (!status.isStarted) {
       return null;
     }
-    return html`
-      <div>
-        <spinner
-          v-if="status.isWorking"
-          :text="loadingText || $ls.loading"
-        ></spinner>
+    if (status.isWorking) {
+      return html`
+        <spinner-view .text=${this.loadingText || ls.loading}></spinner-view>
+      `;
+    }
+    if (status.isError) {
+      return html`
         <errow-view
-          v-else-if="status.isError"
           .canRetry=${this.canRetry}
           .title=${this.errorTitle || ls.errOccurred}
-          .message=${status.error.message}
+          .message=${status.error!.message}
         ></errow-view>
-      </div>
-    `;
+      `;
+    }
+    return null;
   }
 }

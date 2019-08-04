@@ -2,6 +2,7 @@ import AppState from './app/modules/appState';
 import Alert from './app/modules/alert';
 import UserData from './app/modules/userData';
 import Loader from './/lib/loader';
+import ls from 'ls';
 
 export class LoaderResult {
   constructor(public error: Error | undefined, public data: object) {}
@@ -27,13 +28,13 @@ export class _APP {
 
   async runActionAsync(
     loader: Loader,
-    overlayText: string,
+    overlayText?: string,
     errorDict?: { [key: number]: string },
   ): Promise<LoaderResult> {
     const { alert } = this;
     errorDict = errorDict || {};
     try {
-      alert.showLoadingOverlay(overlayText);
+      alert.showLoadingOverlay(overlayText || ls.loading);
       const result = await loader.startAsync();
       alert.hideLoadingOverlay();
 
@@ -47,7 +48,6 @@ export class _APP {
         message = ex.message;
       }
       await alert.error(message);
-
       return new LoaderResult(ex, {});
     }
   }
