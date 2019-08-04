@@ -4,6 +4,7 @@ import BaseElement from '../baseElement';
 import page from 'page';
 import * as rs from './routes';
 import './newPost/newPostApp';
+import './settings/profile/editProfileApp';
 
 class Page {
   constructor(public content: any, public showSidebar: boolean) {}
@@ -17,13 +18,18 @@ export default class MApp extends BaseElement {
     page(rs.newPostURL, () => {
       this.content = this.renderNewPost();
     });
+    page(rs.editProfileURL, () => {
+      this.content = this.renderEditProfile();
+    });
     page();
   }
 
   render() {
     const { content } = this;
     if (!content) {
-      return;
+      return html`
+        <p>No content</p>
+      `;
     }
     if (!content.showSidebar) {
       return content.content;
@@ -43,7 +49,7 @@ export default class MApp extends BaseElement {
                 <p class="menu-label">${ls.settings}</p>
                 <ul class="menu-list">
                   <li>
-                    <a href="/m/settings/profile">${ls.profile}</a>
+                    <a href=${rs.editProfileURL}>${ls.profile}</a>
                   </li>
                 </ul>
               </aside>
@@ -55,7 +61,7 @@ export default class MApp extends BaseElement {
     `;
   }
 
-  private renderNewPost(): any {
+  private renderNewPost(): Page {
     return new Page(
       html`
         <div class="m-md">
@@ -63,6 +69,17 @@ export default class MApp extends BaseElement {
         </div>
       `,
       false,
+    );
+  }
+
+  private renderEditProfile(): Page {
+    return new Page(
+      html`
+        <div class="m-md">
+          <edit-profile-app></edit-profile-app>
+        </div>
+      `,
+      true,
     );
   }
 }

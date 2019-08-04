@@ -4,31 +4,20 @@ import ls from '../ls';
 import ErrorWithCode, { GENERIC_CODE } from './errorWithCode';
 
 export default class Loader {
-  status: Status;
+  statusChanged: ((status: Status) => void) | null = null;
   createPayloadCallback: ((raw?: object) => object | undefined) | null = null;
-  private _result: Result | null = null;
-
-  get result(): Result | null {
-    return this._result;
-  }
-
-  get resultData(): object | null {
-    if (this.result) {
-      return this.result || null;
-    }
-    return null;
-  }
+  private _currentStatus: Status | null = null;
 
   constructor() {
-    this.status = new Status();
+    this._currentStatus = new Status();
   }
 
   async startAsync(): Promise<object> {
     try {
-      if (this.status.isStarted) {
+      if (this._currentStatus && this._currentStatus.isStarted) {
         throw new Error('Loader should not be reused');
       }
-      this.status.start();
+      this.onStatusChanged(Status.started());
 
       let body = '';
       const params = this.requestParams();
@@ -53,7 +42,6 @@ export default class Loader {
         throw new ErrorWithCode(message);
       } else {
         const result = (await response.json()) as Result;
-        this._result = result;
 
         // Check server return error
         if (result.code) {
@@ -72,7 +60,7 @@ export default class Loader {
       err.message = `${
         err.message
       } [Error processing request "${this.requestURL()}"]`;
-      this.status.failed(errWithCode);
+      this.onStatusChanged(Status.failure(errWithCode));
       // Rethrow the original error
       throw err;
     }
@@ -88,7 +76,7 @@ export default class Loader {
 
   handleSuccess(result: Result): object {
     const data = this.onCreatePayload(result.data);
-    this.status.succeeded(data);
+    this.onStatusChanged(Status.success(data));
     return data || {};
   }
 
@@ -101,5 +89,12 @@ export default class Loader {
       return this.createPayloadCallback(data);
     }
     return this.createPayload(data);
+  }
+
+  private onStatusChanged(status: Status) {
+    this._currentStatus = status;
+    if (this.statusChanged) {
+      this.statusChanged(status);
+    }
   }
 }

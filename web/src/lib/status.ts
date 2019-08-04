@@ -3,19 +3,20 @@ import ErrorWithCode from './errorWithCode';
 export default class Status {
   static started(): Status {
     const s = new Status();
-    s.start();
+    s.isStarted = true;
     return s;
   }
 
   static success(data?: object): Status {
     const s = Status.started();
-    s.succeeded(data);
+    s._data = data || null;
+    s._succeeded = true;
     return s;
   }
 
   static failure(err: ErrorWithCode): Status {
     const s = Status.started();
-    s.failed(err);
+    s._error = err;
     return s;
   }
 
@@ -30,21 +31,6 @@ export default class Status {
 
   get error(): ErrorWithCode | null {
     return this._error;
-  }
-
-  start() {
-    this.isStarted = true;
-  }
-
-  succeeded(data?: object) {
-    if (data) {
-      this._data = data;
-    }
-    this._succeeded = true;
-  }
-
-  failed(err: ErrorWithCode) {
-    this._error = err;
   }
 
   get isCompleted(): boolean {
