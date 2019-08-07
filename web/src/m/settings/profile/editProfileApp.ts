@@ -2,11 +2,13 @@ import { html, customElement, property } from 'lit-element';
 import { ls, format } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/views/workingView';
+import 'ui/pickers/avatarUploader';
 import SetInfoLoader from './loaders/setInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
 import GetInfoLoader from './loaders/getInfoLoader';
 import EditProfileData from './editProfileData';
+import AvatarUploadResponse from 'ui/pickers/avatarUploadResponse';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -16,6 +18,8 @@ export class EditProfileApp extends BaseElement {
   @property() location = '';
   @property() loadingStatus = new Status();
   @property() setInfoStatus = new Status();
+  @property() isUploadingAvatar = false;
+  @property() avatarURL = '';
   setInfoLoader!: SetInfoLoader;
 
   async firstUpdated() {
@@ -43,6 +47,29 @@ export class EditProfileApp extends BaseElement {
   renderContent() {
     return html`
       <div>
+        <working-view .isWorking=${this.isUploadingAvatar}>
+          <article class="message m-t-md is-light">
+            <div class="message-header">{{$ls.profilePicture}}</div>
+            <div class="message-body">
+              <p>
+                <img
+                  src=${this.avatarURL}
+                  class="border-radius-5"
+                  width="250"
+                  height="250"
+                  style="border: 1px solid #ededed"
+                />
+              </p>
+              <div class="mt-3">
+                <avatar-uploader
+                  .postURL="/ms/settings/profile/set_avatar"
+                  @onComplete=${this.handleAvatarUploadComplete}
+                  @onError=${this.handleAvatarUploadError}
+                ></avatar-uploader>
+              </div>
+            </div>
+          </article>
+        </working-view>
         <working-view .status=${this.setInfoStatus}>
           <article class="message m-t-md is-light">
             <div class="message-header">${ls.profile}</div>
@@ -152,5 +179,25 @@ export class EditProfileApp extends BaseElement {
 
   private async handleLoadingRetry() {
     await this.reloadData();
+  }
+
+  private async handleAvatarUploadError(e: CustomEvent<string>) {
+    const msg = e.detail;
+    await app.alert.error(msg);
+  }
+
+  private async handleAvatarUploadComplete(
+    e: CustomEvent<AvatarUploadResponse>,
+  ) {
+    const resp = e.detail;
+    this.avatarURL = resp.iconL || '';
+
+    // Update user data
+    app.state.updateUser(user => {
+      if (user) {
+        user.iconURL = resp.iconL || '';
+      }
+      return null;
+    });
   }
 }

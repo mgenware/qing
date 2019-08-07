@@ -23,7 +23,7 @@ export class _APP {
   userData = new UserData(this.state, this.alert);
 
   get isLoggedIn(): boolean {
-    return !!this.state.user;
+    return !!this.state.hasUser;
   }
 
   async runActionAsync(

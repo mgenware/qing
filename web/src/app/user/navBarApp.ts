@@ -3,13 +3,18 @@ import ls from 'ls';
 import app from 'app';
 import defs from 'defs';
 import BaseElement from 'baseElement';
+import User from './user';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
-  @property() user = app.state.user;
+  @property() user: User | null = null;
   @property() editProfileURL = defs.editProfileURL;
 
   firstUpdated() {
+    app.state.getUserInfo(true, user => {
+      this.user = user;
+    });
+
     // navbar
     // navbar burger click event
     const burger = this.shadowRoot!.getElementById('m_nav_burger');
