@@ -1,4 +1,5 @@
 import Loader from 'lib/loader';
+import routes from 'routes';
 
 export default class SetInfoLoader extends Loader {
   constructor(
@@ -11,7 +12,7 @@ export default class SetInfoLoader extends Loader {
   }
 
   requestURL(): string {
-    return '/sr/settings/profile/set_info';
+    return routes.sr.profile.setInfo;
   }
 
   requestParams(): object {

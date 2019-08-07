@@ -1,4 +1,4 @@
-package profilec
+package profileService
 
 import (
 	"net/http"

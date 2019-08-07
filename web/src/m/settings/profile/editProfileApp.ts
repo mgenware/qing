@@ -9,6 +9,7 @@ import app from 'app';
 import GetInfoLoader from './loaders/getInfoLoader';
 import EditProfileData from './editProfileData';
 import AvatarUploadResponse from 'ui/pickers/avatarUploadResponse';
+import routes from 'routes';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -62,7 +63,7 @@ export class EditProfileApp extends BaseElement {
               </p>
               <div class="mt-3">
                 <avatar-uploader
-                  .postURL="/ms/settings/profile/set_avatar"
+                  .postURL=${routes.sr.profile.setAvatar}
                   @onComplete=${this.handleAvatarUploadComplete}
                   @onError=${this.handleAvatarUploadError}
                 ></avatar-uploader>

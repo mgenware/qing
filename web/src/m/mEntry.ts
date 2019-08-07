@@ -2,7 +2,7 @@ import { html, customElement, property } from 'lit-element';
 import ls from '../ls';
 import BaseElement from '../baseElement';
 import page from 'page';
-import * as rs from './routes';
+import rs from 'routes';
 import './newPost/newPostApp';
 import './settings/profile/editProfileApp';
 
@@ -15,10 +15,10 @@ export default class MApp extends BaseElement {
   @property() content: Page | null = null;
 
   firstUpdated() {
-    page(rs.newPostURL, () => {
+    page(rs.dashboard.newPost, () => {
       this.content = this.renderNewPost();
     });
-    page(rs.editProfileURL, () => {
+    page(rs.dashboard.editProfile, () => {
       this.content = this.renderEditProfile();
     });
     page();
@@ -43,13 +43,13 @@ export default class MApp extends BaseElement {
                 <p class="menu-label">${ls.common}</p>
                 <ul class="menu-list">
                   <li>
-                    <a href=${rs.newPostURL}>${ls.newPost}</a>
+                    <a href=${rs.dashboard.newPost}>${ls.newPost}</a>
                   </li>
                 </ul>
                 <p class="menu-label">${ls.settings}</p>
                 <ul class="menu-list">
                   <li>
-                    <a href=${rs.editProfileURL}>${ls.profile}</a>
+                    <a href=${rs.dashboard.editProfile}>${ls.profile}</a>
                   </li>
                 </ul>
               </aside>

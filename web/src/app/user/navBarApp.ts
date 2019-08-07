@@ -1,14 +1,13 @@
 import { html, customElement, property, TemplateResult } from 'lit-element';
 import ls from 'ls';
 import app from 'app';
-import defs from 'defs';
+import rs from 'routes';
 import BaseElement from 'baseElement';
 import User from './user';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
   @property() user: User | null = null;
-  @property() editProfileURL = defs.editProfileURL;
 
   firstUpdated() {
     app.state.getUserInfo(true, user => {
@@ -55,7 +54,7 @@ export default class NavBarApp extends BaseElement {
                     <hr class="navbar-divider" />
 
                     <hr class="navbar-divider" />
-                    <a class="navbar-item" href=${this.editProfileURL}
+                    <a class="navbar-item" href=${rs.dashboard.editProfile}
                       >${ls.settings}</a
                     >
                     <a class="navbar-item" href="#">${ls.signOut}</a>

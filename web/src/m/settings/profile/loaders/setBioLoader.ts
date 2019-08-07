@@ -1,4 +1,5 @@
-import BaseLoader from '@/lib/loader';
+import BaseLoader from 'lib/loader';
+import routes from 'routes';
 
 export default class SetBioLoader extends BaseLoader {
   constructor(public bio: string) {
@@ -6,7 +7,7 @@ export default class SetBioLoader extends BaseLoader {
   }
 
   requestURL(): string {
-    return '/sr/settings/profile/set_bio';
+    return routes.sr.profile.setBio;
   }
 
   requestParams(): object {

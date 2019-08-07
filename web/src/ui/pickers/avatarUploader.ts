@@ -35,9 +35,8 @@ export class AvatarUploader extends BaseElement {
             <label class="file-label">
               <input
                 type="file"
-                id="avatarUpload"
-                class="file-input"
                 id="uploadElement"
+                class="file-input"
                 accept=".jpg,.jpeg,.png"
               />
               <span class="file-cta">
@@ -130,6 +129,9 @@ export class AvatarUploader extends BaseElement {
           );
         }
       });
+      if (!this.postURL) {
+        throw new Error('Avatar uploader post URL null');
+      }
       xhr.open('POST', this.postURL, true);
       xhr.send(fd);
     });

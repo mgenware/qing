@@ -4,7 +4,7 @@ import (
 	"qing/app"
 	"qing/app/middleware"
 	"qing/r/sr/compose"
-	"qing/r/sr/settings"
+	"qing/r/sr/profileService"
 
 	"github.com/go-chi/chi"
 )
@@ -17,5 +17,5 @@ func init() {
 	Router.Use(middleware.ParseJSONRequest)
 
 	Router.Mount("/compose", compose.Router)
-	Router.Mount("/settings", settings.Router)
+	Router.Mount("/profile", profileService.Router)
 }
