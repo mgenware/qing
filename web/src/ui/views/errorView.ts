@@ -1,4 +1,4 @@
-import { html, customElement, css, property } from 'lit-element';
+import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 
@@ -27,6 +27,6 @@ export class ErrorView extends BaseElement {
   }
 
   private handleRetryClick() {
-    this.dispatchEvent(new CustomEvent('retry'));
+    this.dispatchEvent(new CustomEvent('onRetry'));
   }
 }

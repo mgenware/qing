@@ -36,6 +36,7 @@ export class AvatarUploader extends BaseElement {
               <input
                 type="file"
                 id="uploadElement"
+                name="avatarInput"
                 class="file-input"
                 accept=".jpg,.jpeg,.png"
               />

@@ -1,6 +1,6 @@
 import { html, customElement, property } from 'lit-element';
-import './error-view';
-import './spinner';
+import './errorView';
+import './spinnerView';
 import Status from 'lib/status';
 import ls from 'ls';
 import BaseElement from 'baseElement';
@@ -15,11 +15,11 @@ export class LoadingView extends BaseElement {
   render() {
     const { status } = this;
     if (!status.isStarted) {
-      return null;
+      return;
     }
     if (status.isWorking) {
       return html`
-        <spinner-view .text=${this.loadingText || ls.loading}></spinner-view>
+        <spinner-view>${this.loadingText || ls.loading}</spinner-view>
       `;
     }
     if (status.isError) {
@@ -31,6 +31,6 @@ export class LoadingView extends BaseElement {
         ></errow-view>
       `;
     }
-    return null;
+    return;
   }
 }

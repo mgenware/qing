@@ -3,6 +3,7 @@ import { ls, format } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/views/workingView';
 import 'ui/pickers/avatarUploader';
+import 'ui/views/loadingView';
 import SetInfoLoader from './loaders/setInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
@@ -38,9 +39,10 @@ export class EditProfileApp extends BaseElement {
     const { loadingStatus } = this;
     return html`
       <loading-view
+        .height=${'400px'}
         .status=${loadingStatus}
         .canRetry=${true}
-        @retry=${this.handleLoadingRetry}
+        @onRetry=${this.handleLoadingRetry}
       ></loading-view>
     `;
   }
@@ -50,7 +52,7 @@ export class EditProfileApp extends BaseElement {
       <div>
         <working-view .isWorking=${this.isUploadingAvatar}>
           <article class="message m-t-md is-light">
-            <div class="message-header">{{$ls.profilePicture}}</div>
+            <div class="message-header">${ls.profilePicture}</div>
             <div class="message-body">
               <p>
                 <img
@@ -197,6 +199,7 @@ export class EditProfileApp extends BaseElement {
     app.state.updateUser(user => {
       if (user) {
         user.iconURL = resp.iconL || '';
+        return user;
       }
       return null;
     });
