@@ -4,6 +4,7 @@ import BaseElement from 'baseElement';
 import 'ui/views/workingView';
 import 'ui/pickers/avatarUploader';
 import 'ui/views/loadingView';
+import 'ui/views/fixedView';
 import SetInfoLoader from './loaders/setInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
@@ -38,12 +39,13 @@ export class EditProfileApp extends BaseElement {
   renderProgress() {
     const { loadingStatus } = this;
     return html`
-      <loading-view
-        .height=${'400px'}
-        .status=${loadingStatus}
-        .canRetry=${true}
-        @onRetry=${this.handleLoadingRetry}
-      ></loading-view>
+      <fixed-view .height=${'400px'}>
+        <loading-view
+          .status=${loadingStatus}
+          .canRetry=${true}
+          @onRetry=${this.handleLoadingRetry}
+        ></loading-view
+      ></fixed-view>
     `;
   }
 
@@ -181,6 +183,7 @@ export class EditProfileApp extends BaseElement {
   }
 
   private async handleLoadingRetry() {
+    console.log(' ---- hahahh ');
     await this.reloadData();
   }
 

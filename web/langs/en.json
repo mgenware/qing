@@ -10,7 +10,7 @@
   "url": "URL",
   "company": "Company",
   "bio": "Bio",
-  "errOccurred": "Error occurred",
+  "errOccurred": "An error occurred",
   "pPageNotFound": "The URL you requested \"{0}\" does not exist",
   "profilePicture": "Profile picture",
   "aboutMe": "About me",

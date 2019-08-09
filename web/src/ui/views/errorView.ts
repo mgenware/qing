@@ -9,9 +9,10 @@ export class ErrorView extends BaseElement {
 
   render() {
     return html`
-      <div>
+      <div class="content">
         <h3>${this.title || ls.errOccurred}</h3>
-        <slot></slot>
+        <hr />
+        <div><slot></slot></div>
 
         ${this.canRetry
           ? html`

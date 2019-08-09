@@ -74,19 +74,12 @@ export class SpinnerView extends LitElement {
           -webkit-transform: scale(1);
         }
       }
-
-      .centered {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
     `;
   }
   @property() fullScreen = false;
-  @property() height = '';
 
   render() {
-    let content = html`
+    const content = html`
       <div class="spinner-root">
         <div class="spinner">
           <div class="double-bounce1"></div>
@@ -95,11 +88,6 @@ export class SpinnerView extends LitElement {
         <div style="text-align: center; margin-top: 1.2rem"><slot></slot></div>
       </div>
     `;
-    if (this.height) {
-      content = html`
-        <div class="centered" style=${`height: ${this.height}`}>${content}</div>
-      `;
-    }
     if (this.fullScreen) {
       return html`
         <div class="spinner-screen-overlay">${content}</div>

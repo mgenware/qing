@@ -24,11 +24,12 @@ export class LoadingView extends BaseElement {
     }
     if (status.isError) {
       return html`
-        <errow-view
+        <error-view
           .canRetry=${this.canRetry}
           .title=${this.errorTitle || ls.errOccurred}
-          .message=${status.error!.message}
-        ></errow-view>
+        >
+          ${status.error!.message}
+        </error-view>
       `;
     }
     return;
