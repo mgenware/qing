@@ -154,6 +154,7 @@ export class EditProfileApp extends BaseElement {
           this.url = profile.Website || '';
           this.company = profile.Company || '';
           this.location = profile.Location || '';
+          this.avatarURL = profile.IconURL || '';
         }
       };
       await app.runActionAsync(loader);
@@ -183,7 +184,6 @@ export class EditProfileApp extends BaseElement {
   }
 
   private async handleLoadingRetry() {
-    console.log(' ---- hahahh ');
     await this.reloadData();
   }
 

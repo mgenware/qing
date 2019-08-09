@@ -27,11 +27,16 @@ export class LoadingView extends BaseElement {
         <error-view
           .canRetry=${this.canRetry}
           .title=${this.errorTitle || ls.errOccurred}
+          @onRetry=${this.handleRetry}
         >
           ${status.error!.message}
         </error-view>
       `;
     }
     return;
+  }
+
+  private handleRetry() {
+    this.dispatchEvent(new CustomEvent('onRetry'));
   }
 }
