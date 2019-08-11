@@ -32,10 +32,10 @@ const (
 	UserContextKey ContextKey = "user"
 )
 
-// Redis keys
+// MS(memory storage, e.g. redis) keys
 const (
-	SIDToUserRedisKey   = "ss" // k: sid, v: session user json value
-	UserIDToSIDRedisKey = "us" // k: user id, v: sid
+	MSSIDToUserRedisKey   = "ss" // k: sid, v: session user json value
+	MSUserIDToSIDRedisKey = "us" // k: user id, v: sid
 )
 
 // Top-level routes

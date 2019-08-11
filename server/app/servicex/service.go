@@ -1,4 +1,4 @@
-package svc
+package servicex
 
 import (
 	"path"

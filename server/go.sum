@@ -33,6 +33,8 @@ github.com/mattn/go-colorable v0.1.2 h1:/bC9yWikZXAL9uJdulbSfyVNIR3n3trXl+v8+1sx
 github.com/mattn/go-colorable v0.1.2/go.mod h1:U0ppj6V5qS13XJ6of8GYAs25YV2eR4EVcfRqFIhoBtE=
 github.com/mattn/go-isatty v0.0.8 h1:HLtExJ+uU2HOZ+wI0Tt5DtUDrx8yhUqDcp7fYERX4CE=
 github.com/mattn/go-isatty v0.0.8/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
+github.com/mgenware/go-captcha v1.0.0 h1:MSZIsA8bThCzT63Q5WL4Un1GHl9FFTSn6PqrxrDWPS8=
+github.com/mgenware/go-captcha v1.0.0/go.mod h1:RFvEjGpO5STdFq/7X0mpwbYt0kGfQqRlv7Vc9Ew2dGk=
 github.com/mgenware/go-packagex/v5 v5.0.2 h1:xOVuUG0QN2NwZbaSDM4FA8d0Is++bnMtumJR57sLVhI=
 github.com/mgenware/go-packagex/v5 v5.0.2/go.mod h1:W2V8qPek1JSrZLaDP/uHf5dtonb7HYxkzFJfhMER0IU=
 github.com/mgenware/go-string-format v1.0.1 h1:lbydtuCDsg9i9oEteEAKcry4uPvJypgnOhvhEoTH288=

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 	"qing/app/extern"
-	"qing/app/svc"
+	"qing/app/servicex"
 	"qing/app/urlx"
 	"qing/app/userx"
 
@@ -43,7 +43,7 @@ var Extern *extern.Extern
 var UserManager *userx.UserManager
 
 // Service contains independent components for some curtain tasks, e.g. image processing, HTML sanitization.
-var Service *svc.Service
+var Service *servicex.Service
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *template.HTMLResponse {
@@ -161,6 +161,6 @@ func mustSetupUserManager() {
 }
 
 func mustSetupService() {
-	service := svc.MustNewService(Config, Logger)
+	service := servicex.MustNewService(Config, Logger)
 	Service = service
 }
