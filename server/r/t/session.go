@@ -1,4 +1,4 @@
-package tp
+package t
 
 import (
 	"encoding/json"

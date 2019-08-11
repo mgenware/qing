@@ -161,6 +161,6 @@ func mustSetupUserManager() {
 }
 
 func mustSetupService() {
-	service := servicex.MustNewService(Config, Logger)
+	service := servicex.MustNewService(Config, Extern, Logger)
 	Service = service
 }

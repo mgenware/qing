@@ -7,7 +7,7 @@ import (
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/sysh"
+	"qing/r/sys"
 	"strings"
 
 	"github.com/go-chi/chi"
@@ -16,7 +16,7 @@ import (
 func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	uid, err := app.URL.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
-		sysh.NotFoundHandler(w, r)
+		sys.NotFoundGET(w, r)
 		return
 	}
 	page := validator.MustToPageOrDefault(r.FormValue("page"))

@@ -1,4 +1,4 @@
-package compose
+package composeAPI
 
 import (
 	"github.com/go-chi/chi"

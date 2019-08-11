@@ -1,4 +1,4 @@
-package sysh
+package sys
 
 import (
 	"errors"
@@ -7,8 +7,8 @@ import (
 	"qing/app"
 )
 
-// NotFoundHandler is a application wide handler for 404 errors.
-func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
+// NotFoundGET is a application wide handler for 404 errors.
+func NotFoundGET(w http.ResponseWriter, r *http.Request) {
 	// Set 404 status code
 	w.WriteHeader(http.StatusNotFound)
 	resp := app.HTMLResponse(w, r)

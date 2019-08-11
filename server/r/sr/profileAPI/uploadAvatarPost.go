@@ -1,4 +1,4 @@
-package profileService
+package profileAPI
 
 import (
 	"context"

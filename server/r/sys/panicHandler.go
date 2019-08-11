@@ -1,4 +1,4 @@
-package sysh
+package sys
 
 import (
 	"errors"

@@ -8,12 +8,12 @@ import (
 	"strings"
 
 	"qing/app"
-	"qing/r/mp"
-	"qing/r/profilep"
+	"qing/r/mPage"
+	"qing/r/profilePage"
 	"qing/r/sr"
-	"qing/r/sysh"
-	"qing/r/tp"
-	"qing/r/postp"
+	"qing/r/sys"
+	"qing/r/t"
+	"qing/r/postPage"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -27,7 +27,7 @@ func Start() {
 
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
-	r.Use(sysh.PanicMiddleware)
+	r.Use(sys.PanicMiddleware)
 	// User session middleware
 	r.Use(app.UserManager.SessionManager.ParseUserSessionMiddleware)
 
@@ -65,12 +65,12 @@ func Start() {
 	lm := app.TemplateManager.LocalizationManager
 
 	// Not found handler
-	r.With(lm.EnableContextLanguage).NotFound(sysh.NotFoundHandler)
+	r.With(lm.EnableContextLanguage).NotFound(sys.NotFoundGET)
 
 	// User handler
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilePage.ProfileGET)
 	// Post handler
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postp.PostGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postPage.PostGET)
 	// Dashboard handler
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Restricted Service handler (SR)
@@ -80,7 +80,7 @@ func Start() {
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.RouteTest, tp.Router)
+			r.Mount("/"+defs.RouteTest, t.Router)
 		}
 	}
 

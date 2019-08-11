@@ -7,7 +7,7 @@ import (
 	"qing/app/logx"
 	"qing/fx/avatar"
 	"qing/fx/sanitizer"
-	"qing/fx/captchaSvc"
+	"qing/app/servicex/captchaSvc"
 	"qing/app/extern"
 )
 
@@ -15,7 +15,7 @@ import (
 type Service struct {
 	Avatar    *avatar.Service
 	Sanitizer *sanitizer.Sanitizer
-	Captcha *captchaSvc.Captcha
+	Captcha *captchaSvc.CaptchaService
 }
 
 // MustNewService creates a new Service object.

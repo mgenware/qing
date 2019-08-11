@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/da"
-	"qing/r/sysh"
+	"qing/r/sys"
 
 	"github.com/go-chi/chi"
 )
@@ -12,7 +12,7 @@ import (
 func PostGET(w http.ResponseWriter, r *http.Request) {
 	pid, err := app.URL.DecodeID(chi.URLParam(r, "pid"))
 	if err != nil {
-		sysh.NotFoundHandler(w, r)
+		sys.NotFoundGET(w, r)
 		return
 	}
 	post, err := da.Post.SelectPostByID(app.DB, pid)

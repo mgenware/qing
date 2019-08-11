@@ -1,11 +1,11 @@
-package captchaPOST
+package captchaAPI
 
 import (
 	"net/http"
 	"qing/app"
 
-	"github.com/mgenware/go-packagex/httpx"
-	"github.com/mgenware/go-packagex/strconvx"
+	"github.com/mgenware/v5/go-packagex/httpx"
+	"github.com/mgenware/v5/go-packagex/strconvx"
 )
 
 func CaptGET(w http.ResponseWriter, r *http.Request) {

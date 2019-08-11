@@ -1,4 +1,4 @@
-package tp
+package t
 
 import (
 	"github.com/go-chi/chi"
