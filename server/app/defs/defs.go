@@ -34,8 +34,10 @@ const (
 
 // MS(memory storage, e.g. redis) keys
 const (
-	MSSIDToUserRedisKey   = "ss" // k: sid, v: session user json value
-	MSUserIDToSIDRedisKey = "us" // k: user id, v: sid
+	MSSIDToUser      = "ss:%v"     // K: sid, V: session user json value
+	MSUserIDToSID    = "us:%v"     // K: user id, V: sid
+	MSCaptcha        = "cap:%v:%v" // K: cap:<user id>:<type> V: captcha value
+	MSCaptchaTimeout = 3 * 60
 )
 
 // Top-level routes

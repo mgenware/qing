@@ -26,11 +26,11 @@ func newSessionID(uid uint64) (string, error) {
 }
 
 func sidToUserKey(sid string) string {
-	return defs.SIDToUserRedisKey + ":" + sid
+	return fmt.Sprintf(defs.MSSIDToUser, sid)
 }
 
 func userIDToSIDKey(uid uint64) string {
-	return defs.UserIDToSIDRedisKey + ":" + fmt.Sprint(uid)
+	return fmt.Sprintf(defs.MSUserIDToSID, fmt.Sprint(uid))
 }
 
 // SessionManager ...

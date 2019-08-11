@@ -3,7 +3,6 @@ package validator
 import (
 	"fmt"
 
-	"github.com/mgenware/go-packagex/v5/jsonx"
 	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
@@ -12,19 +11,28 @@ func panicMissingArg(key string) {
 	panic(fmt.Sprintf("The argument `%v` is required", key))
 }
 
-// MustGetStringFromDict returns the value for the key, and panics if not found.
+// MustGetStringFromDict converts the value for the specified key to string, and panics on error.
 func MustGetStringFromDict(dict map[string]interface{}, key string) string {
-	val := jsonx.GetStringOrDefault(dict, key)
-	if val == "" {
+	val, ok := dict[key].(string)
+	if !ok {
 		panicMissingArg(key)
 	}
 	return val
 }
 
-// MustGetDictFromDict returns the value for the key, and panics if not found.
+// MustGetDictFromDict converts the value for the specified key to map[string]interface{}, and panics on error.
 func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]interface{} {
-	val := jsonx.GetDictOrDefault(dict, key)
-	if val == nil {
+	val, ok := dict[key].(map[string]interface{})
+	if !ok {
+		panicMissingArg(key)
+	}
+	return val
+}
+
+// MustGetIntFromDict converts the value for the specified key to int, and panics on error.
+func MustGetIntFromDict(dict map[string]interface{}, key string) int {
+	val, ok := dict[key].(int)
+	if !ok {
 		panicMissingArg(key)
 	}
 	return val

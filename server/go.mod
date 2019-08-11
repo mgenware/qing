@@ -15,6 +15,7 @@ require (
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mgenware/go-captcha v1.0.0
+	github.com/mgenware/go-packagex v4.1.0+incompatible // indirect
 	github.com/mgenware/go-packagex/v5 v5.0.2
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/gossion v1.0.0

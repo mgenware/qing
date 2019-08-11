@@ -33,9 +33,9 @@ func (store *Conn) Destroy() error {
 	return store.pool.Close()
 }
 
-func (store *Conn) SetStringValue(key string, val string, expires int) error {
-	if expires > 0 {
-		return store.setValueWithTimeoutInternal(key, val, expires)
+func (store *Conn) SetStringValue(key string, val string, expiresInSecs int) error {
+	if expiresInSecs > 0 {
+		return store.setValueWithTimeoutInternal(key, val, expiresInSecs)
 	}
 	return store.setValueInternal(key, val)
 }

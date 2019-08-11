@@ -18,4 +18,5 @@ func init() {
 
 	Router.Mount("/compose", compose.Router)
 	Router.Mount("/profile", profileService.Router)
+	Router.Get("/req-capt", captchaGET.captchaGET)
 }
