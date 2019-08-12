@@ -1,4 +1,4 @@
-package captchaSvc
+package captchax
 
 import (
 	"bytes"

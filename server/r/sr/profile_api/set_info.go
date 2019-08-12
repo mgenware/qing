@@ -1,4 +1,4 @@
-package profileAPI
+package profileapi
 
 import (
 	"net/http"

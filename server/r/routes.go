@@ -8,12 +8,12 @@ import (
 	"strings"
 
 	"qing/app"
-	"qing/r/mPage"
-	"qing/r/profilePage"
+	"qing/r/mp"
+	"qing/r/postp"
+	"qing/r/profilep"
 	"qing/r/sr"
 	"qing/r/sys"
 	"qing/r/t"
-	"qing/r/postPage"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -68,9 +68,9 @@ func Start() {
 	r.With(lm.EnableContextLanguage).NotFound(sys.NotFoundGET)
 
 	// User handler
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilePage.ProfileGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
 	// Post handler
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postPage.PostGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postp.PostGET)
 	// Dashboard handler
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Restricted Service handler (SR)

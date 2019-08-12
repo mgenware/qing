@@ -1,4 +1,4 @@
-package composeAPI
+package composeapi
 
 import (
 	"net/http"

@@ -1,4 +1,4 @@
-package profileAPI
+package profileapi
 
 import (
 	"github.com/go-chi/chi"

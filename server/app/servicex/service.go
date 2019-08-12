@@ -4,18 +4,18 @@ import (
 	"path"
 	"qing/app/cfg"
 	"qing/app/defs"
+	"qing/app/extern"
 	"qing/app/logx"
+	"qing/app/servicex/captchax"
 	"qing/fx/avatar"
 	"qing/fx/sanitizer"
-	"qing/app/servicex/captchaSvc"
-	"qing/app/extern"
 )
 
 // Service contains components for curtain independent tasks.
 type Service struct {
 	Avatar    *avatar.Service
 	Sanitizer *sanitizer.Sanitizer
-	Captcha *captchaSvc.CaptchaService
+	Captcha   *captchax.CaptchaService
 }
 
 // MustNewService creates a new Service object.
@@ -23,7 +23,7 @@ func MustNewService(config *cfg.Config, extern *extern.Extern, logger *logx.Logg
 	s := &Service{}
 	s.Avatar = mustSetupAvatarService(config, logger)
 	s.Sanitizer = sanitizer.NewSanitizer()
-	s.Captcha = captchaSvc.NewCaptchaService(extern.RedisConn)
+	s.Captcha = captchax.NewCaptchaService(extern.RedisConn)
 	return s
 }
 

@@ -3,9 +3,9 @@ package sr
 import (
 	"qing/app"
 	"qing/app/middleware"
-	"qing/r/sr/composeAPI"
-	"qing/r/sr/profileAPI"
-	"qing/r/sr/captchaAPI"
+	captchaapi "qing/r/sr/captcha_api"
+	composeapi "qing/r/sr/compose_api"
+	profileapi "qing/r/sr/profile_api"
 
 	"github.com/go-chi/chi"
 )
@@ -17,7 +17,7 @@ func init() {
 	Router.Use(app.UserManager.EnsureLoggedInMWJSON)
 	Router.Use(middleware.ParseJSONRequest)
 
-	Router.Mount("/compose", composeAPI.Router)
-	Router.Mount("/profile", profileAPI.Router)
-	Router.Get("/req-capt", captchaAPI.captchaGET)
+	Router.Mount("/compose", composeapi.Router)
+	Router.Mount("/profile", profileapi.Router)
+	Router.Get("/req-capt", captchaapi.CaptchaGET)
 }
