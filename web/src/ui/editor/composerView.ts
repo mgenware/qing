@@ -4,11 +4,10 @@ import { ls, format } from 'ls';
 import app from 'app';
 import ComposerPayload from './composerPayload';
 import EditorView from './editorView';
+import 'ui/views/captchaView';
 import BaseElement from 'baseElement';
-
-export interface ComposerOptions {
-  showTitle?: boolean;
-}
+import ComposerOptions from './composerOptions';
+import { CaptchaView } from 'ui/views/captchaView';
 
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
@@ -16,13 +15,21 @@ export class ComposerView extends BaseElement {
   @property() title = '';
 
   private editor!: EditorView;
+  private captchaView: CaptchaView | null = null;
 
   firstUpdated() {
-    const editor = this.shadowRoot!.getElementById('editor') as EditorView;
-    if (!editor) {
-      throw new Error('Editor element not found');
+    this.editor = this.shadowRoot!.getElementById('editor') as EditorView;
+    this.captchaView = this.shadowRoot!.getElementById(
+      'captElement',
+    ) as CaptchaView | null;
+    if (!this.editor) {
+      throw new Error('Missing core elements');
     }
-    this.editor = editor;
+    // Checking required properties
+    const { options } = this;
+    if (!options.entityType) {
+      throw new Error('options.entityType is required');
+    }
   }
 
   get contentHTML(): string {
@@ -47,9 +54,21 @@ export class ComposerView extends BaseElement {
       <editor-view id="editor"></editor-view>
     `;
     const bottomElement = html`
-      <button class="button m-t-md" @click=${this.handleSubmit}>
-        ${ls.publish}
-      </button>
+      <div class="m-t-md">
+        ${options.entityID
+          ? ''
+          : html`
+              <div class="m-b-md">
+                <captcha-view
+                  id="captElement"
+                  etype=${options.entityType}
+                ></captcha-view>
+              </div>
+            `}
+        <button class="button" @click=${this.handleSubmit}>
+          ${ls.publish}
+        </button>
+      </div>
     `;
 
     return html`
@@ -68,6 +87,9 @@ export class ComposerView extends BaseElement {
     const payload = new ComposerPayload(this.contentHTML);
     if (options.showTitle) {
       payload.title = this.title;
+    }
+    if (this.captchaView) {
+      payload.captcha = this.captchaView.value;
     }
     return payload;
   }

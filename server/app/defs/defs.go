@@ -53,3 +53,7 @@ const (
 const (
 	UserPostsLimit = 10
 )
+
+const (
+	EntityPost = 1
+)

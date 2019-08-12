@@ -15,15 +15,11 @@ type CaptchaService struct {
 	redisConn *redisx.Conn
 }
 
-const (
-	TypeNewPost = 1
-)
-
 var allowedTypes map[int]bool
 
 func init() {
 	allowedTypes = make(map[int]bool)
-	allowedTypes[TypeNewPost] = true
+	allowedTypes[defs.EntityPost] = true
 }
 
 func NewCaptchaService(redisConn *redisx.Conn) *CaptchaService {
@@ -34,10 +30,10 @@ func (c *CaptchaService) IsTypeAllowed(tp int) bool {
 	return allowedTypes[tp]
 }
 
-func (c *CaptchaService) WriteCaptcha(uid uint64, category int, length int, w io.Writer) error {
+func (c *CaptchaService) WriteCaptcha(uid uint64, etype int, length int, w io.Writer) error {
 	code := captcha.RandomDigits(length)
 	codeStr := c.bytesToString(code)
-	err := c.registerCaptcha(uid, category, codeStr)
+	err := c.registerCaptcha(uid, etype, codeStr)
 	if err != nil {
 		return err
 	}

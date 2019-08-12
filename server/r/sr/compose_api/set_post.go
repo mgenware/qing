@@ -15,6 +15,7 @@ func setPostPOST(w http.ResponseWriter, r *http.Request) {
 
 	content := validator.MustGetStringFromDict(params, "content")
 	title := validator.MustGetStringFromDict(params, "title")
+	capt := validator.MustGetStringFromDict(params, "capt")
 
 	// Sanitize the content
 	content = app.Service.Sanitizer.Sanitize(content)

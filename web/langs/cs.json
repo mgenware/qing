@@ -41,5 +41,7 @@
   "newPost": "新文章",
   "posts": "帖子",
   "editedAt": "编辑于",
-  "content": "内容"
+  "content": "内容",
+  "clickToRefreshCapt": "点击刷新验证码",
+  "enterCaptchaPlz": "请输入验证码"
 }

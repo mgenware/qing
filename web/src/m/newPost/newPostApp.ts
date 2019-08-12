@@ -6,6 +6,8 @@ import ComposerPayload from 'ui/editor/composerPayload';
 import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
+import ComposerOptions from 'ui/editor/composerOptions';
+import { EntityType } from 'lib/entity';
 
 @customElement('new-post-app')
 export default class NewPostApp extends BaseElement {
@@ -18,13 +20,17 @@ export default class NewPostApp extends BaseElement {
   }
 
   render() {
+    const composerOpts: ComposerOptions = {
+      showTitle: true,
+      entityType: EntityType.post,
+    };
     return html`
       <div>
         <p class="is-size-4">${ls.newPost}</p>
         <hr />
         <composer-view
           id="editor"
-          .options=${{ showTitle: true }}
+          .options=${composerOpts}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
       </div>

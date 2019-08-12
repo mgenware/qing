@@ -41,5 +41,7 @@
   "newPost": "New post",
   "posts": "Posts",
   "editedAt": "Edited",
-  "content": "Content"
+  "content": "Content",
+  "clickToRefreshCapt": "Click to refresh the CAPTCHA",
+  "enterCaptchaPlz": "Enter the code above"
 }
