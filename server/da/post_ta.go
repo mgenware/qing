@@ -31,7 +31,7 @@ func (da *TableTypePost) insertPostChild1(queryable dbx.Queryable, userID uint64
 }
 
 // InsertPost ...
-func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, userID uint64) (uint64, error) {
+func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedID uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
