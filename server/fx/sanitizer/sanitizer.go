@@ -16,6 +16,7 @@ func NewSanitizer() *Sanitizer {
 }
 
 // Sanitize sanitizes the given input string.
-func (s *Sanitizer) Sanitize(input string) string {
-	return s.policy.Sanitize(input)
+func (s *Sanitizer) Sanitize(input string) (string, int) {
+	// Return the sanitized content along with a dummy integer as an argument stub for later use
+	return s.policy.Sanitize(input), 0
 }

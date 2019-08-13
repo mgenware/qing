@@ -1,7 +1,8 @@
 import Status from './status';
 import Result from './result';
 import ls from '../ls';
-import ErrorWithCode, { GENERIC_CODE } from './errorWithCode';
+import ErrorWithCode from './errorWithCode';
+import { GenericError } from 'defs';
 
 export default class Loader {
   statusChanged: ((status: Status) => void) | null = null;
@@ -55,7 +56,7 @@ export default class Loader {
       if (err instanceof ErrorWithCode) {
         errWithCode = err;
       } else {
-        errWithCode = new ErrorWithCode(err.message, GENERIC_CODE);
+        errWithCode = new ErrorWithCode(err.message, GenericError);
       }
       err.message = `${
         err.message

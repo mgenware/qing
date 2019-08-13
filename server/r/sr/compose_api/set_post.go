@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 )
@@ -17,11 +18,14 @@ func setPostPOST(w http.ResponseWriter, r *http.Request) {
 	title := validator.MustGetStringFromDict(params, "title")
 	capt := validator.MustGetStringFromDict(params, "capt")
 
-	// Sanitize the content
-	content = app.Service.Sanitizer.Sanitize(content)
-	_, err := da.Post.InsertPost(app.DB, title, content, uid)
-	if err != nil {
-		panic(err)
+	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
+	captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt)
+	app.PanicIfErr(err)
+	if captResult != 0 {
+		resp.MustFailWithCode(captResult)
+		return
 	}
+	_, err = da.Post.InsertPost(app.DB, title, content, uid, sanitizedToken, captResult)
+	app.PanicIfErr(err)
 	resp.MustComplete(nil)
 }

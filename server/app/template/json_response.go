@@ -28,23 +28,23 @@ func NewJSONResponse(r *http.Request, mgr *Manager, wr http.ResponseWriter) *JSO
 }
 
 // MustFailWithError finishes the response with the specified `code`, `error` and `expected` args, and panics if unexpected error happens.
-func (j *JSONResponse) MustFailWithError(code uint, err error, expected bool) {
+func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) {
 	d := &APIResult{Code: code, Error: err, Message: err.Error()}
 	j.mustWriteData(d)
 }
 
 // MustFail finishes the response with the specified error object, and panics if unexpected error happens.
 func (j *JSONResponse) MustFail(err error) {
-	j.MustFailWithError(defs.APIGenericError, err, false)
+	j.MustFailWithError(defs.GenericError, err, false)
 }
 
 // MustFailWithUserError finishes the response with an user error (expected error) message, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithUserError(msg string) {
-	j.MustFailWithError(defs.APIGenericError, errors.New(msg), true)
+	j.MustFailWithError(defs.GenericError, errors.New(msg), true)
 }
 
 // MustFailWithCode finishes the response with the specified error code, and panics if unexpected error happens.
-func (j *JSONResponse) MustFailWithCode(code uint) {
+func (j *JSONResponse) MustFailWithCode(code int) {
 	j.MustFailWithError(code, fmt.Errorf("Error code: %v", code), false)
 }
 

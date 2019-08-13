@@ -18,13 +18,8 @@ export class ComposerView extends BaseElement {
   private captchaView: CaptchaView | null = null;
 
   firstUpdated() {
-    this.editor = this.shadowRoot!.getElementById('editor') as EditorView;
-    this.captchaView = this.shadowRoot!.getElementById(
-      'captElement',
-    ) as CaptchaView | null;
-    if (!this.editor) {
-      throw new Error('Missing core elements');
-    }
+    this.editor = this.mustGetShadowElement('editor');
+    this.captchaView = this.getShadowElement('captElement');
     // Checking required properties
     const { options } = this;
     if (!options.entityType) {

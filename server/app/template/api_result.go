@@ -3,7 +3,7 @@ package template
 // APIResult contains the information about the return value of an API, which is either success or failure.
 type APIResult struct {
 	// Code indicates the status code of this result. 0 means success.
-	Code uint `json:"code,omitempty"`
+	Code int `json:"code,omitempty"`
 
 	// Message is the result of Error.Error().
 	Message string `json:"message,omitempty"`

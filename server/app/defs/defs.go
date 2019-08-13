@@ -12,9 +12,11 @@ const (
 )
 
 const (
-	APIGenericError      uint = 1000
-	APINeedAuthError     uint = 1001
-	CookieDefaultExpires      = 1296000
+	GenericError         = 10000
+	NeedAuthError        = 10001
+	CaptchaNotFoundError = 10002
+	CaptchaNotMatchError = 10003
+	CookieDefaultExpires = 1296000
 )
 
 const (

@@ -21,7 +21,7 @@
   "yes": "Yes",
   "no": "No",
   "cancel": "Cancel",
-  "pCannotBeEmpty": "\"{0}\" cannot be empty",
+  "pPlzEnter": "Please enter \"{0}\"",
   "name": "Name",
   "saved": "Saved",
   "retry": "Retry",
@@ -43,5 +43,8 @@
   "editedAt": "Edited",
   "content": "Content",
   "clickToRefreshCapt": "Click to refresh the CAPTCHA",
-  "enterCaptchaPlz": "Enter the code above"
+  "enterCaptchaPlz": "Enter the code above",
+  "needAuthErr": "You need to log in to access this",
+  "captNotFoundErr": "Code has expired, please re-entry the new code",
+  "captNotMatch": "Oops wrong code"
 }

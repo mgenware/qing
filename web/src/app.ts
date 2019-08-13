@@ -3,6 +3,7 @@ import Alert from './app/modules/alert';
 import UserData from './app/modules/userData';
 import Loader from './/lib/loader';
 import ls from 'ls';
+import * as defs from 'defs';
 
 export class LoaderResult {
   constructor(public error: Error | undefined, public data: object) {}
@@ -29,10 +30,10 @@ export class _APP {
   async runActionAsync(
     loader: Loader,
     overlayText?: string,
-    errorDict?: { [key: number]: string },
+    errorDict?: Map<number, string>,
   ): Promise<LoaderResult> {
     const { alert } = this;
-    errorDict = errorDict || {};
+    errorDict = errorDict || defs.errLSDict;
     try {
       alert.showLoadingOverlay(overlayText || ls.loading);
       const result = await loader.startAsync();
@@ -42,8 +43,8 @@ export class _APP {
     } catch (ex) {
       alert.hideLoadingOverlay();
       let message;
-      if (ex.code && errorDict[ex.code]) {
-        message = errorDict[ex.code];
+      if (ex.code && errorDict.get(ex.code)) {
+        message = errorDict.get(ex.code);
       } else {
         message = ex.message;
       }
