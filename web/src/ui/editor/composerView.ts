@@ -9,6 +9,12 @@ import BaseElement from 'baseElement';
 import ComposerOptions from './composerOptions';
 import { CaptchaView } from 'ui/views/captchaView';
 
+class ValidationError extends Error {
+  constructor(msg: string, public callback: () => void) {
+    super(msg);
+  }
+}
+
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
   @property() options: ComposerOptions = {};
@@ -16,9 +22,11 @@ export class ComposerView extends BaseElement {
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
+  private titleElement: HTMLInputElement | null = null;
 
   firstUpdated() {
     this.editor = this.mustGetShadowElement('editor');
+    this.titleElement = this.getShadowElement('titleElement');
     this.captchaView = this.getShadowElement('captElement');
     // Checking required properties
     const { options } = this;
@@ -37,6 +45,7 @@ export class ComposerView extends BaseElement {
       ? html`
           <div class="control p-b-md">
             <input
+              id="titleElement"
               class="input"
               type="text"
               placeholder=${ls.title}
@@ -57,6 +66,7 @@ export class ComposerView extends BaseElement {
                 <captcha-view
                   id="captElement"
                   etype=${options.entityType}
+                  @onEnterKeyUp=${this.handleSubmit}
                 ></captcha-view>
               </div>
             `}
@@ -74,13 +84,23 @@ export class ComposerView extends BaseElement {
   private getPayload(): ComposerPayload {
     const { options, captchaView } = this;
     if (options.showTitle && !this.title) {
-      throw new Error(format('pPlzEnterThe', ls.title));
+      throw new ValidationError(format('pPlzEnterThe', ls.title), () => {
+        if (this.titleElement) {
+          this.titleElement.focus();
+        }
+      });
     }
     if (!this.contentHTML) {
-      throw new Error(format('pPlzEnterThe', ls.content));
+      throw new ValidationError(format('pPlzEnterThe', ls.content), () =>
+        this.editor.focus(),
+      );
     }
     if (captchaView && !captchaView.value) {
-      throw new Error(format('pPlzEnterThe', ls.captcha));
+      throw new ValidationError(format('pPlzEnterThe', ls.captcha), () => {
+        if (this.captchaView) {
+          this.captchaView.focus();
+        }
+      });
     }
     const payload = new ComposerPayload(this.contentHTML);
     if (options.showTitle) {
@@ -100,6 +120,12 @@ export class ComposerView extends BaseElement {
       );
     } catch (err) {
       await app.alert.error(err.message);
+      if (err instanceof ValidationError) {
+        const verr = err as ValidationError;
+        if (verr.callback) {
+          verr.callback();
+        }
+      }
     }
   }
 }

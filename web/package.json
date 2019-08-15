@@ -20,7 +20,7 @@
     "construct-style-sheets-polyfill": "^2.0.2",
     "date-fns": "^2.0.0-beta.3",
     "escape-html": "^1.0.3",
-    "kangxi-editor": "^0.1.0",
+    "kangxi-editor": "^0.2.0",
     "lit-element": "^2.2.1",
     "page": "^1.11.4",
     "sweetalert2": "^8.14.0"

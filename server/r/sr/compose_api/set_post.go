@@ -16,7 +16,7 @@ func setPostPOST(w http.ResponseWriter, r *http.Request) {
 
 	content := validator.MustGetStringFromDict(params, "content")
 	title := validator.MustGetStringFromDict(params, "title")
-	capt := validator.MustGetStringFromDict(params, "capt")
+	capt := validator.MustGetStringFromDict(params, "captcha")
 
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 	captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt)

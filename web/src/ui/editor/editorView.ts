@@ -37,6 +37,10 @@ export default class EditorView extends LitElement {
     this.editor = editor;
   }
 
+  focus() {
+    this.editor.view.focus();
+  }
+
   render() {
     return html`
       <div id="editor" class="kx-editor"></div>
