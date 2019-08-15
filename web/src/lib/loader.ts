@@ -6,14 +6,14 @@ import { GenericError } from 'defs';
 
 export default class Loader {
   statusChanged: ((status: Status) => void) | null = null;
-  createPayloadCallback: ((raw?: object) => object | undefined) | null = null;
+  createPayloadCallback: ((raw: unknown) => unknown) | null = null;
   private _currentStatus: Status | null = null;
 
   constructor() {
     this._currentStatus = new Status();
   }
 
-  async startAsync(): Promise<object> {
+  async startAsync(): Promise<unknown> {
     try {
       if (this._currentStatus && this._currentStatus.isStarted) {
         throw new Error('Loader should not be reused');
@@ -75,17 +75,17 @@ export default class Loader {
     return {};
   }
 
-  handleSuccess(result: Result): object {
+  handleSuccess(result: Result): unknown {
     const data = this.onCreatePayload(result.data);
     this.onStatusChanged(Status.success(data));
-    return data || {};
-  }
-
-  createPayload(data?: object): object | undefined {
     return data;
   }
 
-  private onCreatePayload(data?: object): object | undefined {
+  createPayload(data: unknown): unknown {
+    return data;
+  }
+
+  private onCreatePayload(data: unknown): unknown {
     if (this.createPayloadCallback) {
       return this.createPayloadCallback(data);
     }

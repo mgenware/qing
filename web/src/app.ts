@@ -1,12 +1,13 @@
 import AppState from './app/modules/appState';
-import Alert from './app/modules/alert';
+import AlertModule from './app/modules/alertModule';
 import UserData from './app/modules/userData';
-import Loader from './/lib/loader';
+import BrowserModule from './app/modules/browserModule';
+import Loader from './lib/loader';
 import ls from 'ls';
 import * as defs from 'defs';
 
 export class LoaderResult {
-  constructor(public error: Error | undefined, public data: object) {}
+  constructor(public error: Error | undefined, public data: unknown) {}
 
   get isError(): boolean {
     return !!this.error;
@@ -20,7 +21,8 @@ export class LoaderResult {
 // tslint:disable-next-line: class-name
 export class _APP {
   state = new AppState();
-  alert = new Alert();
+  alert = new AlertModule();
+  browser = new BrowserModule();
   userData = new UserData(this.state, this.alert);
 
   get isLoggedIn(): boolean {

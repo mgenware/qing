@@ -37,12 +37,18 @@ export default class NewPostApp extends BaseElement {
     `;
   }
 
-  private handleSubmit(e: CustomEvent<ComposerPayload>) {
+  private async handleSubmit(e: CustomEvent<ComposerPayload>) {
     const { editor } = this;
     if (!editor) {
       return;
     }
     const loader = new SetPostLoader(null, e.detail);
-    app.runActionAsync(loader, ls.publishing);
+    const res = await app.runActionAsync(loader, ls.publishing);
+    if (res.isSuccess) {
+      const url = res.data as string;
+      if (url) {
+        app.browser.setURL(url);
+      }
+    }
   }
 }

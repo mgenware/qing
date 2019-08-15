@@ -7,7 +7,7 @@ export default class Status {
     return s;
   }
 
-  static success(data?: object): Status {
+  static success(data: unknown): Status {
     const s = Status.started();
     s._data = data || null;
     s._succeeded = true;
@@ -22,10 +22,10 @@ export default class Status {
 
   isStarted: boolean = false;
   private _succeeded = false;
-  private _data: object | null = null;
+  private _data: unknown = null;
   private _error: ErrorWithCode | null = null;
 
-  get data(): object | null {
+  get data(): unknown {
     return this._data;
   }
 
