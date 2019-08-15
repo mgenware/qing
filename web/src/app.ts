@@ -33,7 +33,7 @@ export class _APP {
     errorDict?: Map<number, string>,
   ): Promise<LoaderResult> {
     const { alert } = this;
-    errorDict = errorDict || defs.errLSDict;
+    errorDict = errorDict;
     try {
       alert.showLoadingOverlay(overlayText || ls.loading);
       const result = await loader.startAsync();
@@ -43,8 +43,16 @@ export class _APP {
     } catch (ex) {
       alert.hideLoadingOverlay();
       let message;
-      if (ex.code && errorDict.get(ex.code)) {
-        message = errorDict.get(ex.code);
+      const { code } = ex;
+      if (code) {
+        if (errorDict && errorDict.get(code)) {
+          message = errorDict.get(code);
+        } else if (defs.errLSDict.get(code)) {
+          const lsKey = defs.errLSDict.get(code) as string;
+          message = ls[lsKey];
+        } else {
+          message = ex.message;
+        }
       } else {
         message = ex.message;
       }

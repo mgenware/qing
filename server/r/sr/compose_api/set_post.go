@@ -25,7 +25,9 @@ func setPostPOST(w http.ResponseWriter, r *http.Request) {
 		resp.MustFailWithCode(captResult)
 		return
 	}
-	_, err = da.Post.InsertPost(app.DB, title, content, uid, sanitizedToken, captResult)
+	insertedID, err := da.Post.InsertPost(app.DB, title, content, uid, sanitizedToken, captResult)
 	app.PanicIfErr(err)
-	resp.MustComplete(nil)
+
+	newPostURL := app.URL.Post(insertedID)
+	resp.MustComplete(newPostURL)
 }

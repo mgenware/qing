@@ -61,7 +61,7 @@ func (c *CaptchaService) Verify(uid uint64, etype int, code string) (int, error)
 	if result == "" {
 		return defs.CaptchaNotFoundError, nil
 	}
-	if result == code {
+	if result != code {
 		return defs.CaptchaNotMatchError, nil
 	}
 	return 0, nil
