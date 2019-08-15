@@ -21,7 +21,7 @@
   "yes": "是",
   "no": "否",
   "cancel": "取消",
-  "pPlzEnter": "请输入\"{0}\"",
+  "pPlzEnterThe": "请输入{0}",
   "name": "名字",
   "saved": "以保存",
   "retry": "重试",
@@ -46,5 +46,6 @@
   "enterCaptchaPlz": "请输入验证码",
   "needAuthErr": "您需要登录才可以访问",
   "captNotFoundErr": "代码已失效，请重新输入新的代码",
-  "captNotMatch": "抱歉，您输入了错误的代码"
+  "captNotMatch": "抱歉，您输入了错误的代码",
+  "captcha": "验证码"
 }

@@ -1,4 +1,4 @@
-import pupa from 'pupa';
+import fmt from 'bowhead-js';
 
 const wind = window as any;
 export const ls: { [key: string]: string } = wind.ls;
@@ -7,7 +7,7 @@ if (!ls) {
 }
 
 export function format(key: string, ...data: any[]): string {
-  return pupa(ls[key], data);
+  return fmt(ls[key], ...data);
 }
 
 export default ls;

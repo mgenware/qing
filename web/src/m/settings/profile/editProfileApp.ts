@@ -166,7 +166,7 @@ export class EditProfileApp extends BaseElement {
   private async handleSaveProfileClick() {
     try {
       if (!this.nick) {
-        throw new Error(format('pCannotBeEmpty', ls.name));
+        throw new Error(format('pPlzEnterThe', ls.name));
       }
       const loader = new SetInfoLoader(
         this.nick,

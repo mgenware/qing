@@ -72,12 +72,15 @@ export class ComposerView extends BaseElement {
   }
 
   private getPayload(): ComposerPayload {
-    const { options } = this;
+    const { options, captchaView } = this;
     if (options.showTitle && !this.title) {
-      throw new Error(format('pCannotBeEmpty', ls.title));
+      throw new Error(format('pPlzEnterThe', ls.title));
     }
     if (!this.contentHTML) {
-      throw new Error(format('pCannotBeEmpty', ls.content));
+      throw new Error(format('pPlzEnterThe', ls.content));
+    }
+    if (captchaView && !captchaView.value) {
+      throw new Error(format('pPlzEnterThe', ls.captcha));
     }
     const payload = new ComposerPayload(this.contentHTML);
     if (options.showTitle) {
