@@ -85,7 +85,7 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count` FROM `post` WHERE ? LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count` FROM `post` WHERE ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

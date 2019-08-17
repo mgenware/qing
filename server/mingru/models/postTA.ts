@@ -9,7 +9,10 @@ const jUser = t.user_id.join(user);
 const userCols = [t.user_id, jUser.name, jUser.icon_name];
 
 export class PostTA extends dd.TA {
-  selectPostsByUser = dd.selectPage(...coreCols).by(t.user_id);
+  selectPostsByUser = dd
+    .selectPage(...coreCols)
+    .by(t.user_id)
+    .orderByDesc(t.created_at);
 
   insertPost = dd
     .transact(
