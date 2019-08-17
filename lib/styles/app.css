@@ -4,9 +4,8 @@ a {
   word-break: break-all;
 }
 
-.md-content img {
-  max-width: 100%;
-  height: auto;
+img {
+  object-fit: scale-down;
 }
 
 .md-content p {
