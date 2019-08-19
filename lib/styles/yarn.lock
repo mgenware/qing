@@ -654,10 +654,10 @@ make-dir@^3.0.0:
   dependencies:
     semver "^6.0.0"
 
-makhulu@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/makhulu/-/makhulu-1.2.0.tgz#b7f1b0c76ee1f52da4b21be0d9ef7d4afbf61175"
-  integrity sha512-mUSyJiyoR022DFveIUMnfHPdNwtOubCaDxN8ZKCN3/QxTcu9QAgDMU/CbY0Jx31xNTZPO6sAN0ZPb7DsP6KDuA==
+makhulu@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/makhulu/-/makhulu-1.2.1.tgz#23d36651dd9d770ba146d38a23a0b96b0aa65e40"
+  integrity sha512-IoeBS6b5zbLPXVXnN8O9l40DOzSGi6I6srZc9sLdQ8qd2k0dchhqeRB6g0fQdJBCD5KdfS0/QfPKUypUhdHUTQ==
   dependencies:
     ansi-colors "^4.1.1"
     fast-glob "^3.0.4"
