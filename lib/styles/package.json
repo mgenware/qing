@@ -7,9 +7,10 @@
   "private": true,
   "dependencies": {
     "cf-bulma": "^0.7.4",
+    "makhulu": "^1.2.0",
     "node-sass": "^4.12.0"
   },
   "scripts": {
-    "build": "node-sass --output-style compressed main.sass dist/main.css"
+    "build-bulma": "node-sass --output-style compressed bulma.sass dist/bulma.css"
   }
 }
