@@ -7,10 +7,13 @@
   "private": true,
   "dependencies": {
     "cf-bulma": "^0.7.4",
-    "makhulu": "^1.2.1",
-    "node-sass": "^4.12.0"
+    "concat": "^1.0.3",
+    "cssnano": "^4.1.10",
+    "node-sass": "^4.12.0",
+    "postcss-cli": "^6.1.3"
   },
   "scripts": {
-    "build-bulma": "node-sass --output-style compressed bulma.sass dist/bulma.css"
+    "build-bulma": "node-sass --output-style compressed bulma.sass dist/bulma.css",
+    "build-main": "concat -o dist/main-src.css ./modern-normalize.css ./main.css && postcss dist/main-src.css > dist/main-min.css"
   }
 }

@@ -163,7 +163,7 @@ blockquote {
   border-left: 10px solid #ccc;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
-  quotes: "\201C""\201D""\2018""\2019";
+  quotes: '\201C''\201D''\2018''\2019';
 }
 blockquote:before {
   color: #ccc;
@@ -178,8 +178,8 @@ blockquote p {
 }
 
 .code-font {
-  font-family: "source-code-pro", Menlo, Consolas, Monaco, "Andale Mono",
-    "Courier New", monospace;
+  font-family: 'source-code-pro', Menlo, Consolas, Monaco, 'Andale Mono',
+    'Courier New', monospace;
 }
 
 /* Common spacing styles ------------------------- */
@@ -422,16 +422,6 @@ blockquote p {
 }
 .p-l-xxl {
   padding-left: 8rem;
-}
-
-/* CodeMirror styles
-  -------------------------------------------------- */
-div.CodeMirror pre,
-div.CodeMirror-linenumber {
-  font-family: "source-code-pro", Menlo, Consolas, Monaco, "Andale Mono",
-    "Courier New", monospace;
-  font-size: 15px;
-  line-height: 1.4;
 }
 
 /* Sticky footer styles
