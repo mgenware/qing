@@ -1,7 +1,7 @@
 import { html, customElement, property, LitElement, css } from 'lit-element';
 import ls from 'ls';
 import Editor from 'kangxi-editor';
-import styles from 'app/styles/kangxi';
+import styles from 'app/styles/kangxi-min';
 import langEn from 'kangxi-editor/dist/langs/en';
 import langCs from 'kangxi-editor/dist/langs/cs';
 

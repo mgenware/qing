@@ -1,5 +1,5 @@
 import { LitElement, CSSResult, CSSResultArray } from 'lit-element';
-import mainStyles from './app/styles/main';
+import mainStyles from './app/styles/main-min';
 
 export default class BaseElement extends LitElement {
   static get styles(): CSSResult | CSSResultArray {

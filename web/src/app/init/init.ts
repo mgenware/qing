@@ -1,6 +1,6 @@
 import bulmaSetup from './bulmaSetup';
 import ls from 'ls';
-import mainStyles from '../styles/main';
+import mainStyles from '../styles/main-min';
 
 // ---------------------------------
 // unhandled excaptions

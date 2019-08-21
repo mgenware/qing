@@ -4,7 +4,7 @@ import app from 'app';
 import rs from 'routes';
 import BaseElement from 'baseElement';
 import User from './user';
-import bulmaStyles from 'app/styles/bulma';
+import bulmaStyles from 'app/styles/bulma-min';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
