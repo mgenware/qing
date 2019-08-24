@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build-bulma": "node-sass --output-style compressed bulma.sass dist/bulma-min.css && css-to-lit-js ./dist/bulma-min.css -ext ts",
-    "build-main": "concat -o dist/main-src.css ./modern-normalize.css ./main.css && postcss dist/main-src.css > dist/main-min.css && css-to-lit-js ./dist/main-min.css -ext ts",
+    "build-main": "concat -o dist/main-src.css ./ext/modern-normalize.css ./ext/bootstrap-grid.min.css ./main.css && postcss dist/main-src.css > dist/main-min.css && css-to-lit-js ./dist/main-min.css -ext ts",
     "build-kangxi": "postcss node_modules/kangxi-editor/dist/editor.css > dist/kangxi-min.css && css-to-lit-js ./dist/kangxi-min.css -ext ts",
     "build": "rm -rf ./dist && yarn build-bulma && yarn build-main && yarn build-kangxi"
   }
