@@ -459,3 +459,22 @@ kbd {
   display: inline-block;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 2px #ffffff;
 }
+
+/** themes */
+:root {
+  --main: black;
+  --main-back: white;
+  --primary: #4f81c7;
+  --primary-text: white;
+  --danger: #ef4b4b;
+  --danger-text: white;
+}
+
+.theme-dark {
+  --main: rgba(255, 255, 255, 0.6);
+  --main-back: #1c1c1e;
+  --primary: #4f81c7;
+  --primary-text: white;
+  --danger: #ef4b4b;
+  --danger-text: white;
+}

@@ -686,10 +686,10 @@ css-select@^2.0.0:
     domutils "^1.7.0"
     nth-check "^1.0.2"
 
-css-to-lit-js@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/css-to-lit-js/-/css-to-lit-js-0.2.0.tgz#7606f0d425129f60b6667e8fb10b6495341d89a5"
-  integrity sha512-nawgjK/nbUvhSaaYEPC0V4V3txJRUmDiDO5Uil8hcVt4l5V69lQC+Ti6pBZkz6Tj6rADP34PeFV7ppEXp+ELxQ==
+css-to-lit-js@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/css-to-lit-js/-/css-to-lit-js-0.4.1.tgz#c58021608fd8d02fc332e5c11a39b4db9bd7155e"
+  integrity sha512-/Pyug4Ev2x1Re5/BVTZ3gm7cVoP/CB4Hj+g6ji8CAdYtMDVD+4UCJmfrLAlXG/U/jU1SuqaiYap5BF+ETtDypg==
   dependencies:
     gar "^1.0.4"
     m-fs "^2.3.1"
