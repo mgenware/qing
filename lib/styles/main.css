@@ -5,7 +5,8 @@ a {
 }
 
 img {
-  object-fit: scale-down;
+  max-width: 100%;
+  height: auto;
 }
 
 .md-content p {

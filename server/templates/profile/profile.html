@@ -1,8 +1,8 @@
 <section class="section">
   <div id="profile-main" class="container">
-    <div class="columns">
-      <div class="column is-narrow">
-        <div class="has-text-centered">
+    <div class="row">
+      <div class="col-md-auto">
+        <div class="text-center">
           <p>
             <img
               src="{{js .IconURL}}"
@@ -13,8 +13,8 @@
           </p>
         </div>
       </div>
-      <div class="column">
-        <p class="is-size-2">{{html .Name}}</p>
+      <div class="col-md">
+        <h2>{{html .Name}}</h2>
         <hr />
 
         <!-- info -->
@@ -73,7 +73,7 @@
             </div>
 
             <div>
-              <p class="has-text-centered">
+              <p class="text-center">
                 {{if .Pager.HasPrevPage}}
                 <a
                   class="button is-primary is-outlined"
