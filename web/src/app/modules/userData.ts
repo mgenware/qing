@@ -3,8 +3,10 @@ import Alert from './alertModule';
 import ls from 'ls';
 import cookies from 'js-cookie';
 import * as defs from 'defs';
+import * as lib from 'lib/htmlLib';
 
 const WARN_CHANGES = ls.unsavedChangesWarning;
+const CSS_DARK_THEME = 'theme-dark';
 
 export default class UserData {
   // tslint:disable-next-line variable-name
@@ -20,6 +22,9 @@ export default class UserData {
       }
       return undefined;
     };
+    lib.ready(() => {
+      this.applyTheme(this.theme);
+    });
   }
 
   // --- unsaved changes ---
@@ -36,7 +41,11 @@ export default class UserData {
   }
 
   set theme(value: defs.UserTheme) {
+    if (this.theme === value) {
+      return;
+    }
     this.setCookieNumber(defs.Cookies.themeKey, value);
+    this.applyTheme(value);
   }
 
   async warnUnsavedChangesAsync(): Promise<boolean> {
@@ -57,5 +66,13 @@ export default class UserData {
 
   private setCookieNumber(key: string, value: number) {
     this.setCookieString(key, `${value}`);
+  }
+
+  private applyTheme(value: defs.UserTheme) {
+    if (value === defs.UserTheme.light) {
+      document.body.classList.remove(CSS_DARK_THEME);
+    } else {
+      document.body.classList.add(CSS_DARK_THEME);
+    }
   }
 }

@@ -121,16 +121,10 @@ export default class NavBarApp extends BaseElement {
   }
 
   private toggleTheme() {
-    const curTheme = app.userData.theme;
-    const cssDarkTheme = 'theme-dark';
-    let newTheme: defs.UserTheme;
-    if (curTheme === defs.UserTheme.light) {
-      newTheme = defs.UserTheme.dark;
-      document.body.classList.add(cssDarkTheme);
-    } else {
-      newTheme = defs.UserTheme.light;
-      document.body.classList.remove(cssDarkTheme);
-    }
-    app.userData.theme = this.currentTheme = newTheme;
+    const newTheme =
+      this.currentTheme === defs.UserTheme.light
+        ? defs.UserTheme.dark
+        : defs.UserTheme.light;
+    this.currentTheme = app.userData.theme = newTheme;
   }
 }

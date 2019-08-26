@@ -45,5 +45,9 @@ export function constructURL(params: object): string {
 }
 
 export function ready(fn: () => void) {
-  document.addEventListener('DOMContentLoaded', fn);
+  if (document.readyState !== 'loading') {
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
 }
