@@ -5,6 +5,7 @@ import rs from 'routes';
 import BaseElement from 'baseElement';
 import User from './user';
 import bulmaStyles from 'app/styles/bulma-min';
+import * as defs from 'defs';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -13,11 +14,13 @@ export default class NavBarApp extends BaseElement {
   }
 
   @property() user: User | null = null;
+  @property() currentTheme!: defs.UserTheme;
 
   firstUpdated() {
     app.state.getUserInfo(true, user => {
       this.user = user;
     });
+    this.currentTheme = app.userData.theme;
 
     // navbar
     // navbar burger click event
@@ -76,6 +79,11 @@ export default class NavBarApp extends BaseElement {
                   <span class="m-l-sm">${ls.signIn}</span>
                 </a>
               `}
+          <a class="navbar-item" href="#" @click=${this.toggleTheme}>
+            ${this.currentTheme === defs.UserTheme.light
+              ? ls.themeDark
+              : ls.themeLight}
+          </a>
         </div>
       </div>
     `);
@@ -110,5 +118,19 @@ export default class NavBarApp extends BaseElement {
         ${child}
       </nav>
     `;
+  }
+
+  private toggleTheme() {
+    const curTheme = app.userData.theme;
+    const cssDarkTheme = 'theme-dark';
+    let newTheme: defs.UserTheme;
+    if (curTheme === defs.UserTheme.light) {
+      newTheme = defs.UserTheme.dark;
+      document.body.classList.add(cssDarkTheme);
+    } else {
+      newTheme = defs.UserTheme.light;
+      document.body.classList.remove(cssDarkTheme);
+    }
+    app.userData.theme = this.currentTheme = newTheme;
   }
 }

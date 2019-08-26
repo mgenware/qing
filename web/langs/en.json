@@ -48,5 +48,7 @@
   "needAuthErr": "You need to log in to access this",
   "captNotFoundErr": "Code has expired, please re-entry the new code",
   "captNotMatch": "Oops wrong code",
-  "captcha": "code"
+  "captcha": "code",
+  "themeDark": "Dark theme",
+  "themeLight": "Light theme"
 }

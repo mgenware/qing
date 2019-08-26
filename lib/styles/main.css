@@ -478,3 +478,8 @@ kbd {
   --danger: #ef4b4b;
   --danger-text: white;
 }
+
+body {
+  background-color: var(--main-back);
+  color: var(--main);
+}
