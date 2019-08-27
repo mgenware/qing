@@ -462,24 +462,39 @@ kbd {
 
 /** themes */
 :root {
-  --main: black;
   --main-back: white;
-  --primary: #4f81c7;
+  --main-text: black;
+  --primary-back: #4f81c7;
   --primary-text: white;
-  --danger: #ef4b4b;
+  --danger-back: #ef4b4b;
   --danger-text: white;
 }
 
 .theme-dark {
-  --main: rgba(255, 255, 255, 0.6);
   --main-back: #1c1c1e;
-  --primary: #4f81c7;
+  --main-text: rgba(255, 255, 255, 0.6);
+  --primary-back: #4f81c7;
   --primary-text: white;
-  --danger: #ef4b4b;
+  --danger-back: #ef4b4b;
   --danger-text: white;
 }
 
 body {
   background-color: var(--main-back);
-  color: var(--main);
+  color: var(--main-text);
+}
+
+a {
+  color: var(--primary-back);
+  text-decoration: none;
+  cursor: hand;
+}
+a:hover {
+  filter: brightness(120%);
+}
+a:active {
+  filter: brightness(80%);
+}
+a:visited {
+  filter: brightness(80%);
 }
