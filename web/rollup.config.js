@@ -22,7 +22,10 @@ if (isProd) {
   plugins.push(terser());
 }
 
-let input = [isProd ? 'coreEntry.ts' : 'devCoreEntry.ts', 'm/mEntry.ts'];
+let input = [
+  isProd ? 'coreEntry.ts' : 'devCoreEntry.ts',
+  'dashboard/dashboardEntry.ts',
+];
 
 export default {
   input: input.map(s => 'src/' + s),

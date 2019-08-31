@@ -10,8 +10,8 @@ class Page {
   constructor(public content: any, public showSidebar: boolean) {}
 }
 
-@customElement('m-app')
-export default class MApp extends BaseElement {
+@customElement('dashboard-app')
+export default class DashboardApp extends BaseElement {
   @property() content: Page | null = null;
 
   firstUpdated() {
@@ -35,29 +35,27 @@ export default class MApp extends BaseElement {
       return content.content;
     }
     return html`
-      <section class="section">
-        <div class="container">
-          <div class="columns is-variable is-7">
-            <div class="column is-narrow">
-              <aside class="menu">
-                <p class="menu-label">${ls.common}</p>
-                <ul class="menu-list">
-                  <li>
-                    <a href=${rs.dashboard.newPost}>${ls.newPost}</a>
-                  </li>
-                </ul>
-                <p class="menu-label">${ls.settings}</p>
-                <ul class="menu-list">
-                  <li>
-                    <a href=${rs.dashboard.editProfile}>${ls.profile}</a>
-                  </li>
-                </ul>
-              </aside>
-            </div>
-            <div class="column">${content.content}</div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-auto">
+            <aside>
+              <p class="menu-label">${ls.common}</p>
+              <ul class="menu-list">
+                <li>
+                  <a href=${rs.dashboard.newPost}>${ls.newPost}</a>
+                </li>
+              </ul>
+              <p class="menu-label">${ls.settings}</p>
+              <ul class="menu-list">
+                <li>
+                  <a href=${rs.dashboard.editProfile}>${ls.profile}</a>
+                </li>
+              </ul>
+            </aside>
           </div>
+          <div class="col-md">${content.content}</div>
         </div>
-      </section>
+      </div>
     `;
   }
 

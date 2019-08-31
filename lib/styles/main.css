@@ -468,6 +468,11 @@ kbd {
   --primary-text: white;
   --danger-back: #ef4b4b;
   --danger-text: white;
+  --success-back: #43ac6a;
+  --success-text: white;
+
+  --button-background-color: #f5f5f5;
+  --button-color: #343a40;
 }
 
 .theme-dark {
@@ -477,6 +482,28 @@ kbd {
   --primary-text: white;
   --danger-back: #ef4b4b;
   --danger-text: white;
+  --success-back: #2e7749;
+  --success-text: rgb(165, 165, 165);
+  --info-back: #f5f5f5;
+  --info-text: #343a40;
+
+  --button-background-color: var(--info-back);
+  --button-color: var(--info-text);
+}
+
+lit-button.is-success {
+  --button-background-color: var(--success-back);
+  --button-color: var(--success-text);
+}
+
+div.is-success {
+  background-color: var(--success-back);
+  color: var(--success-text);
+}
+
+div.is-info {
+  background-color: var(--info-back);
+  color: var(--info-text);
 }
 
 body {

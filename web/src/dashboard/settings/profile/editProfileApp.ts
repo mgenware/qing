@@ -53,9 +53,9 @@ export class EditProfileApp extends BaseElement {
     return html`
       <div>
         <working-view .isWorking=${this.isUploadingAvatar}>
-          <article class="message m-t-md is-light">
-            <div class="message-header">${ls.profilePicture}</div>
-            <div class="message-body">
+          <div>
+            <div class="is-info">${ls.profilePicture}</div>
+            <div>
               <p>
                 <img
                   src=${this.avatarURL}
@@ -73,12 +73,12 @@ export class EditProfileApp extends BaseElement {
                 ></avatar-uploader>
               </div>
             </div>
-          </article>
+          </div>
         </working-view>
         <working-view .status=${this.setInfoStatus}>
           <article class="message m-t-md is-light">
-            <div class="message-header">${ls.profile}</div>
-            <div class="message-body">
+            <div class="is-info">${ls.profile}</div>
+            <div>
               <div class="field">
                 <label class="label" for="nick-tbx">${ls.name}</label>
                 <div class="control">

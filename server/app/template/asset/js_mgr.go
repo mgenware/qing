@@ -39,6 +39,6 @@ func NewJSManager(dev bool) *JSManager {
 	} else {
 		r.Main = js("coreEntry")
 	}
-	r.Dashboard = js("mEntry")
+	r.Dashboard = js("dashboardEntry")
 	return r
 }
