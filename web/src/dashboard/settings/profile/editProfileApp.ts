@@ -54,7 +54,7 @@ export class EditProfileApp extends BaseElement {
       <div>
         <working-view .isWorking=${this.isUploadingAvatar}>
           <div>
-            <div class="is-info">${ls.profilePicture}</div>
+            <div class="section is-info">${ls.profilePicture}</div>
             <div>
               <p>
                 <img

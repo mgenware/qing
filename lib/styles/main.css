@@ -470,6 +470,8 @@ kbd {
   --danger-text: white;
   --success-back: #43ac6a;
   --success-text: white;
+  --info-back: #f5f5f5;
+  --info-text: #343a40;
 
   --button-background-color: #f5f5f5;
   --button-color: #343a40;
@@ -496,12 +498,16 @@ lit-button.is-success {
   --button-color: var(--success-text);
 }
 
-div.is-success {
+.section {
+  padding: 0.75em 1em;
+}
+
+.section.is-success {
   background-color: var(--success-back);
   color: var(--success-text);
 }
 
-div.is-info {
+.section.is-info {
   background-color: var(--info-back);
   color: var(--info-text);
 }
