@@ -639,6 +639,11 @@ kangxi-editor@^0.2.0:
     throw-if-arg-empty "^2.0.2"
     to-type-string "^1.0.1"
 
+lit-button@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-2.0.1.tgz#a4fd98b4ddd77ecdeacc2952ddfd974dfb321967"
+  integrity sha512-A7qUHJixtrf7u2/wh0yXgt+x+b20qhHV3zMUvanAEj6azKrDNoO87ntBY8zSAqKLiSjDzICRWqFT0300BoSqIw==
+
 lit-element@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.2.1.tgz#79c94d8cfdc2d73b245656e37991bd1e4811d96f"

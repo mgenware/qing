@@ -66,5 +66,5 @@ func (u *URL) Post(pid uint64) string {
 }
 
 func (u *URL) SignIn() string {
-	return "/" + defs.RouteAuth + "/sign_in"
+	return "/" + defs.RouteAuth + "/sign/in"
 }

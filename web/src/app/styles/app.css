@@ -11,6 +11,10 @@ img {
   height: auto;
 }
 
+full-width {
+  width: 100%;
+}
+
 .md-content p {
   font-size: 1.2rem;
   line-height: 2.2rem;
@@ -462,6 +466,25 @@ kbd {
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 2px #ffffff;
 }
 
+/** forms */
+.form input,
+.form textarea,
+.form select {
+  font-size: 1rem;
+  border: 1px solid #ededed;
+  max-width: 100%;
+  width: 100%;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+  padding: 0.25rem 0.4rem;
+}
+
+.form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
 /** themes */
 :root {
   --main-back: white;
@@ -501,7 +524,8 @@ lit-button.is-success {
 }
 
 .section {
-  padding: 0.75em 1em;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .section.is-success {

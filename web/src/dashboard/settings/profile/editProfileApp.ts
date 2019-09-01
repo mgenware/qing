@@ -1,4 +1,4 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement, property, css } from 'lit-element';
 import { ls, format } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/views/workingView';
@@ -12,9 +12,14 @@ import GetInfoLoader from './loaders/getInfoLoader';
 import EditProfileData from './editProfileData';
 import AvatarUploadResponse from 'ui/pickers/avatarUploadResponse';
 import routes from 'routes';
+import 'lit-button';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
+  static get styles() {
+    return [super.styles, css``];
+  }
+
   @property() nick = '';
   @property() url = '';
   @property() company = '';
@@ -76,21 +81,16 @@ export class EditProfileApp extends BaseElement {
           </div>
         </working-view>
         <working-view .status=${this.setInfoStatus}>
-          <article class="message m-t-md is-light">
-            <div class="is-info">${ls.profile}</div>
+          <div class="form">
+            <div class="section is-info">${ls.profile}</div>
             <div>
-              <div class="field">
-                <label class="label" for="nick-tbx">${ls.name}</label>
-                <div class="control">
-                  <input
-                    id="nick-tbx"
-                    type="text"
-                    class="input"
-                    value=${this.nick}
-                    @change=${(e: any) => (this.nick = e.target.value)}
-                  />
-                </div>
-              </div>
+              <label for="nick-tbx">${ls.name}</label>
+              <input
+                id="nick-tbx"
+                type="text"
+                value=${this.nick}
+                @change=${(e: any) => (this.nick = e.target.value)}
+              />
 
               <div class="field">
                 <label class="label" for="website-tbx">${ls.url}</label>
@@ -130,14 +130,14 @@ export class EditProfileApp extends BaseElement {
                   />
                 </div>
               </div>
-              <button
-                class="button is-success"
+              <lit-button
+                class="is-success"
                 @click=${this.handleSaveProfileClick}
               >
                 ${ls.save}
-              </button>
+              </lit-button>
             </div>
-          </article>
+          </div>
         </working-view>
       </div>
     `;
