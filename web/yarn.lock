@@ -1133,12 +1133,13 @@ rollup-plugin-json@^4.0.0:
   dependencies:
     rollup-pluginutils "^2.5.0"
 
-rollup-plugin-lit-css@^2.0.0:
+rollup-plugin-lit-css-ex@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-lit-css/-/rollup-plugin-lit-css-2.0.0.tgz#3d866d8934e4c54ed65d4c28a600234eb2d8cd33"
-  integrity sha512-6mwYmL+WUD7wOi9xuB1CC0dxV1KVcu3gQPBcpARiJurEMwg0w2YRTasCWF3UapTlVU/RKXdsQyqifk1GHmPsNA==
+  resolved "https://registry.yarnpkg.com/rollup-plugin-lit-css-ex/-/rollup-plugin-lit-css-ex-2.0.0.tgz#3fb6470ce48869618f57ae7a6bb99808cf102abe"
+  integrity sha512-1IJfsN4NhFMvSwGv04MC7KlACkgk1wqekssfPiAAIb6Xx9u+AFOJuaYJRvl1roTiLNnjcHKv7jvSqUEWsl9EAw==
   dependencies:
     rollup-pluginutils "^2.3.3"
+    string-to-template-literal "^0.2.0"
     uglifycss "0.0.29"
 
 rollup-plugin-node-resolve@^5.2.0:
@@ -1280,6 +1281,11 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+
+string-to-template-literal@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/string-to-template-literal/-/string-to-template-literal-0.2.0.tgz#98f86ce5399983d0ffa5380a15b93922c9fc02ca"
+  integrity sha512-/s/T35WGqzdjTcNC1HZ0UI8vYAu8hwPffb+iWGereqoJg2TdkAitbvLVgl+pMdkN6wqkCRwdisPqiPfRX1M8mw==
 
 string_decoder@~1.1.1:
   version "1.1.1"

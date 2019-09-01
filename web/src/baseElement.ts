@@ -1,9 +1,9 @@
 import { LitElement, CSSResult, CSSResultArray } from 'lit-element';
-import mainStyles from './app/styles/main-min';
+import coreStyles from './app/styles/core';
 
 export default class BaseElement extends LitElement {
   static get styles(): CSSResult | CSSResultArray {
-    return mainStyles;
+    return coreStyles;
   }
 
   protected mustGetShadowRoot(): ShadowRoot {

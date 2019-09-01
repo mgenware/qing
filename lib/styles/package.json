@@ -15,9 +15,9 @@
     "postcss-cli": "^6.1.3"
   },
   "scripts": {
-    "build-bulma": "node-sass --output-style compressed bulma.sass dist/bulma-min.css && css-to-lit-js ./dist/bulma-min.css -ext ts --outdir ../../web/src/app/styles",
-    "build-main": "concat -o dist/main-src.css ./ext/modern-normalize.css ./ext/bootstrap-grid.min.css ./main.css && postcss dist/main-src.css > dist/main-min.css && css-to-lit-js ./dist/main-min.css -ext ts --outdir ../../web/src/app/styles",
+    "build-navbar": "node-sass --output-style compressed bulma.sass dist/navbar-min.css && css-to-lit-js ./dist/navbar-min.css -ext ts --outdir ../../web/src/app/styles",
     "build-kangxi": "postcss node_modules/kangxi-editor/dist/editor.css > dist/kangxi-min.css && css-to-lit-js ./dist/kangxi-min.css -ext ts --outdir ../../web/src/app/styles",
-    "build": "rm -rf ./dist && yarn build-bulma && yarn build-main && yarn build-kangxi"
+    "build-libs": "concat -o dist/libs.css ext/modern-normalize.css ext/bootstrap-grid.min.css node_modules/kangxi-editor/dist/editor.css && postcss dist/libs.css > dist/libs-min.css && css-to-lit-js dist/libs-min.css -ext ts --outdir ../../web/src/app/styles",
+    "build": "rm -rf ./dist && yarn build-navbar && yarn build-kangxi && yarn build-libs"
   }
 }
