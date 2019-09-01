@@ -21,12 +21,12 @@ window.appUserURL = '{{js .AppUserURL}}';
 window.appLang = '{{js .AppLang}}';
 </script>
 
-<footer class="cf-footer has-background-dark">
-  <div class="container text-muted">
+<footer id="main-footer">
+  <div class="container">
     <span>
-      <a href="/" class="has-text-grey-light">Qing</a>
-      <a class="text-muted" href="/about">{{html .LS.about}}</a>
-      <a class="text-muted" href="/contact">{{html .LS.contact}}</a>
+      <a href="/">Qing</a>
+      <a href="/about">{{html .LS.about}}</a>
+      <a href="/contact">{{html .LS.contact}}</a>
       <br />
       {{html .LS.copyright}} © <script>document.write(new Date().getFullYear())</script>&nbsp;<span><a href="https://github.com/mgenware/qing">https://github.com/mgenware/qing</a></span>
     </span>

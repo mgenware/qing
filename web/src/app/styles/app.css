@@ -34,83 +34,11 @@ full-width {
   text-align: center;
 }
 
-.link-white a {
-  color: #fff;
-}
-.link-white a:hover {
-  color: #fff;
-}
-.link-white a:active {
-  color: #fff;
-}
-.link-white a:visited {
-  color: #fff;
-}
-.link-black a {
-  color: #000;
-}
-.link-black a:hover {
-  color: #000;
-}
-.link-black a:active {
-  color: #000;
-}
-.link-black a:visited {
-  color: #000;
-}
-.link-nounderline a {
-  text-decoration: none;
-}
-.link-nounderline a:hover {
-  text-decoration: none;
-}
-.link-nounderline a:active {
-  text-decoration: none;
-}
-.link-nounderline a:visited {
-  text-decoration: none;
-}
-.link-gray a {
-  color: gray;
-}
-.link-gray a:hover {
-  color: gray;
-}
-.link-gray a:active {
-  color: gray;
-}
-.link-gray a:visited {
-  color: gray;
-}
-
-.white-space-nowrap {
-  white-space: nowrap;
-}
-
-.display-block {
-  display: block;
-}
-.display-inline-block {
-  display: inline-block;
-}
-
-.border-radius-25 {
-  border-radius: 25px;
-}
-.border-radius-10 {
-  border-radius: 10px;
-}
-.border-radius-5 {
-  border-radius: 5px;
-}
 .vertical-align-middle {
   vertical-align: middle;
 }
 .vertical-align-baseline {
   vertical-align: baseline;
-}
-.bg-clear {
-  background-color: transparent;
 }
 
 .content-disabled {
@@ -122,7 +50,7 @@ full-width {
   cursor: pointer;
 }
 
-.m-flex-full {
+.flex-full {
   flex: 1 1 0;
   min-width: 0;
   overflow: hidden;
@@ -134,35 +62,12 @@ full-width {
   flex-direction: column;
 }
 
-.m-disable-scroll {
-  overflow: hidden;
-}
-
 .hidden {
   visibility: hidden;
 }
 
-.color-gray {
-  color: gray;
-}
-
-.color-lightgray {
-  color: lightgray;
-}
-
-.color-pink {
-  color: pink;
-}
-
 .text-muted {
   color: #8b96a0 !important;
-}
-
-.main-tag {
-  color: #6d6d6d;
-  padding: 1px 5px;
-  white-space: nowrap;
-  padding-right: 0;
 }
 
 blockquote {
@@ -441,7 +346,8 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 100px;
 }
-.cf-footer {
+
+#main-footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -451,6 +357,12 @@ body {
   color: #c9c9c9;
   text-align: center;
   padding: 10px 0 0 0;
+  background-color: var(--primary-back-color);
+  color: var(--primary-text-color);
+}
+
+#main-footer a {
+  color: var(--primary-text-color);
 }
 
 /** http://www.rgagnon.com/jsdetails/js-nice-effect-the-KBD-tag.html */
@@ -487,40 +399,46 @@ kbd {
 
 /** themes */
 :root {
-  --main-back: white;
-  --main-text: black;
-  --primary-back: #4f81c7;
-  --primary-text: white;
-  --danger-back: #ef4b4b;
-  --danger-text: white;
-  --success-back: #43ac6a;
-  --success-text: white;
-  --info-back: #f5f5f5;
-  --info-text: #343a40;
+  --main-back-color: white;
+  --main-text-color: black;
+  --primary-back-color: #4f81c7;
+  --primary-text-color: white;
+  --danger-back-color: #ef4b4b;
+  --danger-text-color: white;
+  --success-back-color: #43ac6a;
+  --success-text-color: white;
+  --info-back-color: #f5f5f5;
+  --info-text-color: #343a40;
 
   --button-background-color: #f5f5f5;
   --button-color: #343a40;
+
+  --gray: rgb(142, 142, 147);
+  --gray2: rgb(174, 174, 178);
 }
 
 .theme-dark {
-  --main-back: #1c1c1e;
-  --main-text: rgba(255, 255, 255, 0.6);
-  --primary-back: #4f81c7;
-  --primary-text: white;
-  --danger-back: #ef4b4b;
-  --danger-text: white;
-  --success-back: #2e7749;
-  --success-text: rgb(165, 165, 165);
-  --info-back: #f5f5f5;
-  --info-text: #343a40;
+  --main-back-color: #1c1c1e;
+  --main-text-color: rgba(255, 255, 255, 0.6);
+  --primary-back-color: #4f81c7;
+  --primary-text-color: white;
+  --danger-back-color: #ef4b4b;
+  --danger-text-color: white;
+  --success-back-color: #2e7749;
+  --success-text-color: rgb(165, 165, 165);
+  --info-back-color: #f5f5f5;
+  --info-text-color: #343a40;
 
-  --button-background-color: var(--info-back);
-  --button-color: var(--info-text);
+  --button-background-color: var(--info-back-color);
+  --button-color: var(--info-text-color);
+
+  --gray: rgb(142, 142, 147);
+  --gray2: rgb(99, 99, 102);
 }
 
 lit-button.is-success {
-  --button-background-color: var(--success-back);
-  --button-color: var(--success-text);
+  --button-background-color: var(--success-back-color);
+  --button-color: var(--success-text-color);
 }
 
 .section {
@@ -529,22 +447,22 @@ lit-button.is-success {
 }
 
 .section.is-success {
-  background-color: var(--success-back);
-  color: var(--success-text);
+  background-color: var(--success-back-color);
+  color: var(--success-text-color);
 }
 
 .section.is-info {
-  background-color: var(--info-back);
-  color: var(--info-text);
+  background-color: var(--info-back-color);
+  color: var(--info-text-color);
 }
 
 body {
-  background-color: var(--main-back);
-  color: var(--main-text);
+  background-color: var(--main-back-color);
+  color: var(--main-text-color);
 }
 
 a {
-  color: var(--primary-back);
+  color: var(--primary-back-color);
   text-decoration: none;
   cursor: hand;
 }
