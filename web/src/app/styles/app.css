@@ -354,15 +354,14 @@ body {
   /* Set the fixed height of the footer here */
   height: 100px;
   font-size: 15px;
-  color: #c9c9c9;
   text-align: center;
   padding: 10px 0 0 0;
-  background-color: var(--primary-back-color);
-  color: var(--primary-text-color);
+  background-color: var(--footer-back-color);
+  color: var(--footer-tint-color);
 }
 
 #main-footer a {
-  color: var(--primary-text-color);
+  color: var(--primary-tint-color);
 }
 
 /** http://www.rgagnon.com/jsdetails/js-nice-effect-the-KBD-tag.html */
@@ -376,6 +375,15 @@ kbd {
   font-family: Arial, Helvetica, sans-serif;
   display: inline-block;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 2px #ffffff;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid var(--main-weak-tint-color);
+  margin: 0.8rem 0;
+  padding: 0;
 }
 
 /** forms */
@@ -400,45 +408,47 @@ kbd {
 /** themes */
 :root {
   --main-back-color: white;
-  --main-text-color: black;
+  --main-tint-color: black;
+  --main-weak-tint-color: #ededed;
   --primary-back-color: #4f81c7;
-  --primary-text-color: white;
+  --primary-tint-color: #dbdbdb;
   --danger-back-color: #ef4b4b;
-  --danger-text-color: white;
+  --danger-tint-color: white;
   --success-back-color: #43ac6a;
-  --success-text-color: white;
+  --success-tint-color: white;
   --info-back-color: #f5f5f5;
-  --info-text-color: #343a40;
+  --info-tint-color: #343a40;
 
   --button-background-color: #f5f5f5;
   --button-color: #343a40;
 
-  --gray: rgb(142, 142, 147);
-  --gray2: rgb(174, 174, 178);
+  --footer-back-color: #494949;
+  --footer-tint-color: #9c9c9c;
 }
 
 .theme-dark {
   --main-back-color: #1c1c1e;
-  --main-text-color: rgba(255, 255, 255, 0.6);
-  --primary-back-color: #4f81c7;
-  --primary-text-color: white;
+  --main-tint-color: #a5a5a5;
+  --main-weak-tint-color: #4d4d4d;
+  --primary-back-color: #35588a;
+  --primary-tint-color: #b4b4b4;
   --danger-back-color: #ef4b4b;
-  --danger-text-color: white;
+  --danger-tint-color: white;
   --success-back-color: #2e7749;
-  --success-text-color: rgb(165, 165, 165);
+  --success-tint-color: #a5a5a5;
   --info-back-color: #f5f5f5;
-  --info-text-color: #343a40;
+  --info-tint-color: #343a40;
 
   --button-background-color: var(--info-back-color);
-  --button-color: var(--info-text-color);
+  --button-color: var(--info-tint-color);
 
-  --gray: rgb(142, 142, 147);
-  --gray2: rgb(99, 99, 102);
+  --footer-back-color: #000000;
+  --footer-tint-color: #727272;
 }
 
 lit-button.is-success {
   --button-background-color: var(--success-back-color);
-  --button-color: var(--success-text-color);
+  --button-color: var(--success-tint-color);
 }
 
 .section {
@@ -448,17 +458,17 @@ lit-button.is-success {
 
 .section.is-success {
   background-color: var(--success-back-color);
-  color: var(--success-text-color);
+  color: var(--success-tint-color);
 }
 
 .section.is-info {
   background-color: var(--info-back-color);
-  color: var(--info-text-color);
+  color: var(--info-tint-color);
 }
 
 body {
   background-color: var(--main-back-color);
-  color: var(--main-text-color);
+  color: var(--main-tint-color);
 }
 
 a {
