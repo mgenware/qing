@@ -59,12 +59,11 @@ export class EditProfileApp extends BaseElement {
       <div>
         <working-view .isWorking=${this.isUploadingAvatar}>
           <div>
-            <div class="section is-info">${ls.profilePicture}</div>
+            <div class="section">${ls.profilePicture}</div>
             <div>
               <p>
                 <img
                   src=${this.avatarURL}
-                  class="border-radius-5"
                   width="250"
                   height="250"
                   style="border: 1px solid #ededed"
@@ -82,7 +81,7 @@ export class EditProfileApp extends BaseElement {
         </working-view>
         <working-view .status=${this.setInfoStatus}>
           <div class="form">
-            <div class="section is-info">${ls.profile}</div>
+            <div class="section">${ls.profile}</div>
             <div>
               <label for="nick-tbx">${ls.name}</label>
               <input
@@ -92,44 +91,30 @@ export class EditProfileApp extends BaseElement {
                 @change=${(e: any) => (this.nick = e.target.value)}
               />
 
-              <div class="field">
-                <label class="label" for="website-tbx">${ls.url}</label>
-                <div class="control">
-                  <input
-                    id="website-tbx"
-                    type="url"
-                    class="input"
-                    value=${this.url}
-                    @change=${(e: any) => (this.url = e.target.value)}
-                  />
-                </div>
-              </div>
+              <label for="website-tbx">${ls.url}</label>
+              <input
+                id="website-tbx"
+                type="url"
+                value=${this.url}
+                @change=${(e: any) => (this.url = e.target.value)}
+              />
 
-              <div class="field">
-                <label class="label" for="company-tbx">${ls.company}</label>
-                <div class="control">
-                  <input
-                    id="company-tbx"
-                    type="text"
-                    class="input"
-                    value=${this.company}
-                    @change=${(e: any) => (this.company = e.target.value)}
-                  />
-                </div>
-              </div>
+              <label for="company-tbx">${ls.company}</label>
+              <input
+                id="company-tbx"
+                type="text"
+                value=${this.company}
+                @change=${(e: any) => (this.company = e.target.value)}
+              />
 
-              <div class="field">
-                <label class="label" for="addr-tbx">${ls.location}</label>
-                <div class="control">
-                  <input
-                    id="addr-tbx"
-                    type="text"
-                    class="input"
-                    value=${this.location}
-                    @change=${(e: any) => (this.location = e.target.value)}
-                  />
-                </div>
-              </div>
+              <label for="addr-tbx">${ls.location}</label>
+              <input
+                id="addr-tbx"
+                type="text"
+                value=${this.location}
+                @change=${(e: any) => (this.location = e.target.value)}
+              />
+
               <lit-button
                 class="is-success"
                 @click=${this.handleSaveProfileClick}

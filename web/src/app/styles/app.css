@@ -358,10 +358,11 @@ body {
   padding: 10px 0 0 0;
   background-color: var(--footer-back-color);
   color: var(--footer-tint-color);
+  border-top: 1px solid var(--footer-tint-color);
 }
 
 #main-footer a {
-  color: var(--primary-tint-color);
+  color: var(--footer-tint-color);
 }
 
 /** http://www.rgagnon.com/jsdetails/js-nice-effect-the-KBD-tag.html */
@@ -397,6 +398,11 @@ hr {
   margin-bottom: 0.8rem;
   line-height: 1.5;
   padding: 0.25rem 0.4rem;
+  background-color: transparent;
+  color: var(--main-tint-color);
+  border: 1px solid var(--main-weak-tint-color);
+  padding: 0.35rem 0.6rem;
+  border-radius: 5px;
 }
 
 .form label {
@@ -409,7 +415,7 @@ hr {
 :root {
   --main-back-color: white;
   --main-tint-color: black;
-  --main-weak-tint-color: #ededed;
+  --main-weak-tint-color: #dadada;
   --primary-back-color: #4f81c7;
   --primary-tint-color: #dbdbdb;
   --danger-back-color: #ef4b4b;
@@ -427,23 +433,28 @@ hr {
 }
 
 .theme-dark {
-  --main-back-color: #1c1c1e;
-  --main-tint-color: #a5a5a5;
+  --main-back-color: black;
+  --main-tint-color: #6b6b6b;
   --main-weak-tint-color: #4d4d4d;
   --primary-back-color: #35588a;
   --primary-tint-color: #b4b4b4;
   --danger-back-color: #ef4b4b;
   --danger-tint-color: white;
-  --success-back-color: #2e7749;
+  --success-back-color: #205333;
   --success-tint-color: #a5a5a5;
-  --info-back-color: #f5f5f5;
-  --info-tint-color: #343a40;
+  --info-back-color: #272727;
+  --info-tint-color: #727374;
 
   --button-background-color: var(--info-back-color);
   --button-color: var(--info-tint-color);
 
   --footer-back-color: #000000;
-  --footer-tint-color: #727272;
+  --footer-tint-color: #3d3d3d;
+}
+
+lit-button {
+  --button-background-color: var(--info-back-color);
+  --button-color: var(--info-tint-color);
 }
 
 lit-button.is-success {
@@ -454,16 +465,14 @@ lit-button.is-success {
 .section {
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background-color: var(--info-back-color);
+  color: var(--info-tint-color);
 }
 
 .section.is-success {
   background-color: var(--success-back-color);
   color: var(--success-tint-color);
-}
-
-.section.is-info {
-  background-color: var(--info-back-color);
-  color: var(--info-tint-color);
 }
 
 body {
