@@ -101,6 +101,6 @@ func (svc *Service) copyStringArray(arr []string) []string {
 }
 
 func (svc *Service) thumbnailImg(src, dest string, maxWidth, maxHeight int) error {
-	_, err := iolib.Exec("convert", src, "-resize", fmt.Sprintf("%vx%v", maxWidth, maxHeight), dest)
+	_, err := iolib.Exec("convert", src, "-resize", fmt.Sprintf("%vx%v!", maxWidth, maxHeight), dest)
 	return err
 }
