@@ -4,10 +4,10 @@ import { ls, format } from 'ls';
 import app from 'app';
 import ComposerPayload from './composerPayload';
 import EditorView from './editorView';
-import 'ui/views/captchaView';
+import 'ui/cm/captchaView';
 import BaseElement from 'baseElement';
 import ComposerOptions from './composerOptions';
-import { CaptchaView } from 'ui/views/captchaView';
+import { CaptchaView } from 'ui/cm/captchaView';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {

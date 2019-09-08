@@ -1,10 +1,10 @@
 import { html, customElement, property, css } from 'lit-element';
 import { ls, format } from 'ls';
 import BaseElement from 'baseElement';
-import 'ui/views/workingView';
+import 'ui/cm/workingView';
 import 'ui/pickers/avatarUploader';
-import 'ui/views/loadingView';
-import 'ui/views/fixedView';
+import 'ui/cm/loadingView';
+import 'ui/cm/fixedView';
 import SetInfoLoader from './loaders/setInfoLoader';
 import Status from 'lib/status';
 import app from 'app';

@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import escapeHTML from 'escape-html';
 import ls from 'ls';
 import { parseDOMString, removeElement } from 'lib/htmlLib';
-import 'ui/views/spinnerView';
+import 'ui/cm/spinnerView';
 const SpinnerID = '__spinner_main';
 
 export default class AlertModule {
