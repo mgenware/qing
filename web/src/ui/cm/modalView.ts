@@ -46,10 +46,8 @@ export class ModalView extends BaseElement {
           width: 80%;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
-          -webkit-animation-name: animatetop;
-          -webkit-animation-duration: 0.4s;
           animation-name: animatetop;
-          animation-duration: 0.4s;
+          animation-duration: 0.2s;
         }
 
         /* Add Animation */
@@ -75,21 +73,6 @@ export class ModalView extends BaseElement {
           }
         }
 
-        /* The Close Button */
-        .close {
-          color: white;
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-          color: #000;
-          text-decoration: none;
-          cursor: pointer;
-        }
-
         .modal-header {
           padding: 2px 16px;
         }
@@ -105,7 +88,6 @@ export class ModalView extends BaseElement {
       `,
     ];
   }
-  @property() showCloseButton = true;
   @property() modalTitle = '';
   @property() buttons = DialogButtonsType.none;
   @property() isOpen = false;
@@ -118,11 +100,6 @@ export class ModalView extends BaseElement {
       >
         <div class="modal-content">
           <div class="modal-header">
-            ${this.showCloseButton
-              ? html`
-                  <span class="close">&times;</span>
-                `
-              : ''}
             <h2>${this.modalTitle}</h2>
           </div>
           <div class="modal-body">
@@ -140,7 +117,12 @@ export class ModalView extends BaseElement {
     switch (+this.buttons) {
       case DialogButtonsType.ok: {
         footerContent = html`
-          <lit-button @click=${this.closeModal}>${ls.ok}</lit-button>
+          <lit-button
+            autofocus="true"
+            class="is-primary"
+            @click=${this.closeModal}
+            >${ls.ok}</lit-button
+          >
         `;
         break;
       }

@@ -462,6 +462,16 @@ lit-button.is-success {
   --button-color: var(--success-tint-color);
 }
 
+lit-button.is-danger {
+  --button-background-color: var(--danger-back-color);
+  --button-color: var(--danger-tint-color);
+}
+
+lit-button.is-primary {
+  --button-background-color: var(--primary-back-color);
+  --button-color: var(--primary-tint-color);
+}
+
 .section {
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
