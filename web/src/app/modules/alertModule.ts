@@ -3,16 +3,14 @@ import escapeHTML from 'escape-html';
 import ls from 'ls';
 import { parseDOMString, removeElement } from 'lib/htmlLib';
 import 'ui/cm/spinnerView';
+import 'ui/cm/modalView';
+import { DialogButtonsType } from 'ui/cm/modalView';
 const SpinnerID = '__spinner_main';
+let __modalCounter = 1;
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
-    await Swal.fire({
-      title: title || ls.error,
-      text: message,
-      type: 'error',
-      confirmButtonText: ls.ok,
-    });
+    this.showModal(message, title || ls.error, DialogButtonsType.ok);
   }
 
   async confirm(message: string, title?: string): Promise<boolean> {
@@ -61,5 +59,23 @@ export default class AlertModule {
     return `<spinner-view id="${SpinnerID}" fullScreen="true">${escapeHTML(
       message,
     )}</spinner-view>`;
+  }
+
+  private showModal(
+    message: string,
+    title: string,
+    buttons: DialogButtonsType,
+  ) {
+    const id = `__modal_${__modalCounter++}`;
+    const modalHTML = `
+      <modal-view id="${id}" modalTitle="${escapeHTML(
+      title || '',
+    )}" isOpen="true" buttons="${buttons}">${escapeHTML(message)}</modal-view>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    const element = document.getElementById(id)!;
+    element.addEventListener('modalClosed', () => {
+      element.remove();
+    });
   }
 }
