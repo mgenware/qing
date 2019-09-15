@@ -4,13 +4,18 @@ import ls from 'ls';
 import { parseDOMString, removeElement } from 'lib/htmlLib';
 import 'ui/cm/spinnerView';
 import 'ui/cm/modalView';
-import { DialogButtonsType } from 'ui/cm/modalView';
+import { ModalButtonType, ModalIconType } from 'ui/cm/modalView';
 const SpinnerID = '__spinner_main';
 let __modalCounter = 1;
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
-    this.showModal(message, title || ls.error, DialogButtonsType.ok);
+    this.showModal(
+      message,
+      title || ls.error,
+      ModalButtonType.ok,
+      ModalIconType.error,
+    );
   }
 
   async confirm(message: string, title?: string): Promise<boolean> {
@@ -64,13 +69,16 @@ export default class AlertModule {
   private showModal(
     message: string,
     title: string,
-    buttons: DialogButtonsType,
+    buttons: ModalButtonType,
+    icon: ModalIconType,
   ) {
     const id = `__modal_${__modalCounter++}`;
     const modalHTML = `
       <modal-view id="${id}" modalTitle="${escapeHTML(
       title || '',
-    )}" isOpen="true" buttons="${buttons}">${escapeHTML(message)}</modal-view>
+    )}" isOpen="true" buttons="${buttons}" icon="${icon}">${escapeHTML(
+      message,
+    )}</modal-view>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     const element = document.getElementById(id)!;

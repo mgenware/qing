@@ -5,13 +5,19 @@ import {
   css,
   TemplateResult,
 } from 'lit-element';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import BaseElement from 'baseElement';
 import ls from 'ls';
 import { styleMap } from 'lit-html/directives/style-map';
 
-export enum DialogButtonsType {
+export enum ModalButtonType {
   none,
   ok,
+}
+
+export enum ModalIconType {
+  none,
+  error,
 }
 
 @customElement('modal-view')
@@ -89,8 +95,9 @@ export class ModalView extends BaseElement {
     ];
   }
   @property() modalTitle = '';
-  @property() buttons = DialogButtonsType.none;
+  @property() buttons = ModalButtonType.none;
   @property() isOpen = false;
+  @property() icon = ModalIconType.none;
 
   render() {
     return html`
@@ -100,6 +107,7 @@ export class ModalView extends BaseElement {
       >
         <div class="modal-content">
           <div class="modal-header">
+            ${this.renderIcon()}
             <h2>${this.modalTitle}</h2>
           </div>
           <div class="modal-body">
@@ -115,7 +123,7 @@ export class ModalView extends BaseElement {
     let footerContent: TemplateResult | null = null;
     // The + sign makes sure switch-case work with TS enums
     switch (+this.buttons) {
-      case DialogButtonsType.ok: {
+      case ModalButtonType.ok: {
         footerContent = html`
           <lit-button
             autofocus="true"
@@ -137,7 +145,36 @@ export class ModalView extends BaseElement {
     return html``;
   }
 
+  private renderIcon(): TemplateResult {
+    if (!this.icon) {
+      return html``;
+    }
+    const icon = iconTypeToIcon(this.icon);
+    if (!icon) {
+      return html``;
+    }
+    return html`
+      ${unsafeHTML(`<span class="${icon.cls}">${icon.svg}</span>`)}
+    `;
+  }
+
   private closeModal() {
     this.dispatchEvent(new CustomEvent<string>('modalClosed'));
   }
+}
+
+export class ModalIcon {
+  constructor(public cls: string, public svg: string) {}
+}
+
+function iconTypeToIcon(type: ModalIconType): ModalIcon | null {
+  // + Sign makes switch-case work with TS enum type
+  switch (+type) {
+    case ModalIconType.error:
+      return new ModalIcon(
+        'is-danger',
+        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"/></svg>`,
+      );
+  }
+  return null;
 }
