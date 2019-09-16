@@ -50,5 +50,6 @@
   "captNotMatch": "抱歉，您输入了错误的代码",
   "captcha": "验证码",
   "themeDark": "夜间模式",
-  "themeLight": "日间模式"
+  "themeLight": "日间模式",
+  "profileUpdated": "更新成功"
 }

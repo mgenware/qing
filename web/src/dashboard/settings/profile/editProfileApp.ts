@@ -163,6 +163,7 @@ export class EditProfileApp extends BaseElement {
         this.setInfoStatus = status;
       };
       await app.runActionAsync(loader, ls.saving);
+      await app.alert.successToast(ls.profileUpdated);
     } catch (err) {
       await app.alert.error(err.message);
     }
