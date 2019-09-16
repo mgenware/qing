@@ -9,6 +9,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import BaseElement from 'baseElement';
 import ls from 'ls';
 import { styleMap } from 'lit-html/directives/style-map';
+const ICON_SIZE = 50;
 
 export enum ModalButtonType {
   none,
@@ -99,6 +100,14 @@ export class ModalView extends BaseElement {
   @property() isOpen = false;
   @property() icon = ModalIconType.none;
 
+  firstUpdated() {
+    const activeElement = this.getShadowElement('active-element');
+    if (activeElement) {
+      // Set focus to active element
+      setTimeout(() => activeElement.focus(), 100);
+    }
+  }
+
   render() {
     return html`
       <div
@@ -107,8 +116,7 @@ export class ModalView extends BaseElement {
       >
         <div class="modal-content">
           <div class="modal-header">
-            ${this.renderIcon()}
-            <h2>${this.modalTitle}</h2>
+            <h2>${this.renderIcon()}${this.modalTitle}</h2>
           </div>
           <div class="modal-body">
             <slot></slot>
@@ -126,7 +134,7 @@ export class ModalView extends BaseElement {
       case ModalButtonType.ok: {
         footerContent = html`
           <lit-button
-            autofocus="true"
+            id="active-element"
             class="is-primary"
             @click=${this.closeModal}
             >${ls.ok}</lit-button
@@ -154,7 +162,9 @@ export class ModalView extends BaseElement {
       return html``;
     }
     return html`
-      ${unsafeHTML(`<span class="${icon.cls}">${icon.svg}</span>`)}
+      ${unsafeHTML(
+        `<span class="m-r-sm vertical-align-middle">${icon.svg}</span>`,
+      )}
     `;
   }
 
@@ -164,7 +174,17 @@ export class ModalView extends BaseElement {
 }
 
 export class ModalIcon {
-  constructor(public cls: string, public svg: string) {}
+  public svg: string;
+  constructor(public cls: string, public size: number, svg: string) {
+    // Reprocess svg inplace
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svg, 'image/svg+xml');
+    const element = doc.documentElement;
+    element.setAttribute('class', cls);
+    element.setAttribute('width', size.toString());
+    element.setAttribute('height', size.toString());
+    this.svg = element.outerHTML;
+  }
 }
 
 function iconTypeToIcon(type: ModalIconType): ModalIcon | null {
@@ -173,7 +193,8 @@ function iconTypeToIcon(type: ModalIconType): ModalIcon | null {
     case ModalIconType.error:
       return new ModalIcon(
         'is-danger',
-        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"/></svg>`,
+        ICON_SIZE,
+        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`,
       );
   }
   return null;
