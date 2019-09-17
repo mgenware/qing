@@ -24,8 +24,7 @@
     "kangxi-editor": "^0.2.0",
     "lit-button": "^2.2.0",
     "lit-element": "^2.2.1",
-    "page": "^1.11.4",
-    "sweetalert2": "^8.17.1"
+    "page": "^1.11.4"
   },
   "devDependencies": {
     "@types/escape-html": "^0.0.20",

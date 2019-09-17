@@ -1,47 +1,50 @@
-import Swal from 'sweetalert2';
 import escapeHTML from 'escape-html';
 import ls from 'ls';
 import { parseDOMString, removeElement } from 'lib/htmlLib';
 import 'ui/cm/spinnerView';
 import 'ui/cm/modalView';
-import { ModalButtonType, ModalIconType } from 'ui/cm/modalView';
+import { ModalButton, ModalIcon, ModalClickInfo } from 'ui/cm/modalView';
 const SpinnerID = '__spinner_main';
 let __modalCounter = 1;
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
-    this.showModal(
+    await this.showModalAsync(
       message,
       title || ls.error,
-      ModalButtonType.ok,
-      ModalIconType.error,
+      [ModalButton.ok],
+      ModalIcon.error,
+      0,
     );
   }
 
-  async confirm(message: string, title?: string): Promise<boolean> {
-    const result = await Swal.fire({
-      title: title || ls.warning,
-      text: message,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: ls.yes,
-      cancelButtonText: ls.no,
-      focusCancel: true,
-    });
-    return result.value;
+  async successToast(title: string): Promise<void> {
+    await this.showModalAsync(
+      '',
+      title || ls.error,
+      [],
+      ModalIcon.success,
+      -1,
+      2000,
+    );
   }
 
-  async successToast(title: string): Promise<void> {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'center',
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    Toast.fire({
-      type: 'success',
-      title,
-    });
+  async confirm(message: string, title?: string): Promise<boolean | null> {
+    const buttonType = await this.showModalAsync(
+      message,
+      title || ls.warning,
+      [ModalButton.yes, ModalButton.no, ModalButton.cancel],
+      ModalIcon.warning,
+      0,
+    );
+    if (buttonType === ModalButton.yes) {
+      return true;
+    }
+    if (buttonType === ModalButton.no) {
+      return false;
+    }
+    // User chose Cancel
+    return null;
   }
 
   // loading spinner
@@ -66,24 +69,31 @@ export default class AlertModule {
     )}</spinner-view>`;
   }
 
-  private showModal(
+  private showModalAsync(
     message: string,
     title: string,
-    buttons: ModalButtonType,
-    icon: ModalIconType,
-  ) {
-    const id = `__modal_${__modalCounter++}`;
-    const modalHTML = `
-      <modal-view id="${id}" modalTitle="${escapeHTML(
-      title || '',
-    )}" isOpen="true" buttons="${buttons}" icon="${icon}">${escapeHTML(
-      message,
-    )}</modal-view>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-    const element = document.getElementById(id)!;
-    element.addEventListener('modalClosed', () => {
-      element.remove();
+    buttons: ModalButton[],
+    icon: ModalIcon,
+    activeButtonIndex = -1,
+    timeout = 0,
+  ): Promise<number> {
+    return new Promise<number>(resolve => {
+      const id = `__modal_${__modalCounter++}`;
+      const modalHTML = `
+        <modal-view id="${id}" modalTitle="${escapeHTML(
+        title || '',
+      )}" isOpen="true" buttons="${buttons}" icon="${icon}" timeout="${timeout}" activeButtonIndex="${activeButtonIndex}">${escapeHTML(
+        message,
+      )}</modal-view>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      const element = document.getElementById(id)!;
+      element.addEventListener('modalClosed', ((
+        e: CustomEvent<ModalClickInfo>,
+      ) => {
+        element.remove();
+        resolve(e.detail.type);
+      }) as any);
     });
   }
 }

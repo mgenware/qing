@@ -10,15 +10,30 @@ import BaseElement from 'baseElement';
 import ls from 'ls';
 import { styleMap } from 'lit-html/directives/style-map';
 const ICON_SIZE = 50;
+const ACTIVE_ELEMENT_ID = 'active-element';
 
-export enum ModalButtonType {
-  none,
-  ok,
+export enum ModalButton {
+  ok = 1,
+  yes,
+  no,
+  cancel,
 }
 
-export enum ModalIconType {
-  none,
-  error,
+const ModalButtonLS = new Map<ModalButton, string>();
+ModalButtonLS.set(ModalButton.ok, ls.ok);
+ModalButtonLS.set(ModalButton.yes, ls.yes);
+ModalButtonLS.set(ModalButton.no, ls.no);
+ModalButtonLS.set(ModalButton.cancel, ls.cancel);
+
+export enum ModalIcon {
+  error = 1,
+  success,
+  warning,
+}
+
+export interface ModalClickInfo {
+  type: number;
+  index: number;
 }
 
 @customElement('modal-view')
@@ -96,15 +111,20 @@ export class ModalView extends BaseElement {
     ];
   }
   @property() modalTitle = '';
-  @property() buttons = ModalButtonType.none;
+  @property() buttons: ModalButton[] = [];
   @property() isOpen = false;
-  @property() icon = ModalIconType.none;
+  @property() icon: ModalIcon | null = null;
+  @property() timeout = 0;
+  @property() activeButtonIndex = -1;
 
   firstUpdated() {
-    const activeElement = this.getShadowElement('active-element');
+    const activeElement = this.getShadowElement(ACTIVE_ELEMENT_ID);
     if (activeElement) {
       // Set focus to active element
       setTimeout(() => activeElement.focus(), 100);
+    }
+    if (this.timeout) {
+      setTimeout(() => this.closeModal(0, 0), this.timeout);
     }
   }
 
@@ -128,29 +148,24 @@ export class ModalView extends BaseElement {
   }
 
   private renderButtons(): TemplateResult {
-    let footerContent: TemplateResult | null = null;
-    // The + sign makes sure switch-case work with TS enums
-    switch (+this.buttons) {
-      case ModalButtonType.ok: {
-        footerContent = html`
-          <lit-button
-            id="active-element"
-            class="is-primary"
-            @click=${this.closeModal}
-            >${ls.ok}</lit-button
-          >
-        `;
-        break;
-      }
+    const { buttons } = this;
+    if (!buttons || !buttons.length) {
+      return html``;
     }
-    if (footerContent) {
-      return html`
-        <div class="modal-footer">
-          ${footerContent}
-        </div>
-      `;
-    }
-    return html``;
+    return html`
+      <div class="modal-footer">
+        ${buttons.map((btnType, index) => {
+          return html`
+            <lit-button
+              id=${index === this.activeButtonIndex ? ACTIVE_ELEMENT_ID : ''}
+              class="is-primary"
+              @click=${() => this.closeModal(btnType, index)}
+              >${ModalButtonLS.get(btnType)}</lit-button
+            >
+          `;
+        })}
+      </div>
+    `;
   }
 
   private renderIcon(): TemplateResult {
@@ -168,12 +183,19 @@ export class ModalView extends BaseElement {
     `;
   }
 
-  private closeModal() {
-    this.dispatchEvent(new CustomEvent<string>('modalClosed'));
+  private closeModal(type: number, index: number) {
+    this.dispatchEvent(
+      new CustomEvent<ModalClickInfo>('modalClosed', {
+        detail: {
+          type,
+          index,
+        },
+      }),
+    );
   }
 }
 
-export class ModalIcon {
+class ModalIconData {
   public svg: string;
   constructor(public cls: string, public size: number, svg: string) {
     // Reprocess svg inplace
@@ -187,14 +209,28 @@ export class ModalIcon {
   }
 }
 
-function iconTypeToIcon(type: ModalIconType): ModalIcon | null {
+function iconTypeToIcon(type: ModalIcon): ModalIconData | null {
   // + Sign makes switch-case work with TS enum type
   switch (+type) {
-    case ModalIconType.error:
-      return new ModalIcon(
+    case ModalIcon.error:
+      return new ModalIconData(
         'is-danger',
         ICON_SIZE,
         `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`,
+      );
+
+    case ModalIcon.success:
+      return new ModalIconData(
+        'is-success',
+        ICON_SIZE,
+        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0zm0 0h24v24H0V0z"/><path d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>`,
+      );
+
+    case ModalIcon.warning:
+      return new ModalIconData(
+        'is-warning',
+        ICON_SIZE,
+        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`,
       );
   }
   return null;

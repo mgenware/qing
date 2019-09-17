@@ -48,7 +48,7 @@ export default class UserData {
     this.applyTheme(value);
   }
 
-  async warnUnsavedChangesAsync(): Promise<boolean> {
+  async warnUnsavedChangesAsync(): Promise<boolean | null> {
     return await this.alert.confirm(WARN_CHANGES);
   }
 
