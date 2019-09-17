@@ -70,9 +70,9 @@ export class ComposerView extends BaseElement {
                 ></captcha-view>
               </div>
             `}
-        <button class="button" @click=${this.handleSubmit}>
+        <lit-button class="is-success" @click=${this.handleSubmit}>
           ${ls.publish}
-        </button>
+        </lit-button>
       </div>
     `;
 

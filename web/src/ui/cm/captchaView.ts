@@ -31,14 +31,16 @@ export class CaptchaView extends BaseElement {
           />
         </a>
         <br />
-        <input
-          id="inputElement"
-          style="width: 150px"
-          class="m-t-sm input"
-          type="text"
-          @keyup=${this.handleEnterKeyUp}
-          placeholder=${ls.enterCaptchaPlz}
-        />
+        <span class="form">
+          <input
+            id="inputElement"
+            style="width: 150px"
+            class="m-t-sm input"
+            type="text"
+            @keyup=${this.handleEnterKeyUp}
+            placeholder=${ls.enterCaptchaPlz}
+          />
+        </span>
       </span>
     `;
   }
