@@ -13,8 +13,8 @@ export default class NavBarApp extends BaseElement {
     return [super.styles, bulmaStyles];
   }
 
-  @property() user: User | null = null;
-  @property() currentTheme!: defs.UserTheme;
+  @property({ type: Object }) user: User | null = null;
+  @property({ type: Number }) currentTheme!: defs.UserTheme;
 
   firstUpdated() {
     app.state.getUserInfo(true, user => {

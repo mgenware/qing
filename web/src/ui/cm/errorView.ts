@@ -5,7 +5,7 @@ import BaseElement from 'baseElement';
 @customElement('error-view')
 export class ErrorView extends BaseElement {
   @property() title = '';
-  @property() canRetry = false;
+  @property({ type: Boolean }) canRetry = false;
 
   render() {
     return html`

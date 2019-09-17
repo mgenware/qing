@@ -76,7 +76,7 @@ export class SpinnerView extends LitElement {
       }
     `;
   }
-  @property() fullScreen = false;
+  @property({ type: Boolean }) fullScreen = false;
 
   render() {
     const content = html`

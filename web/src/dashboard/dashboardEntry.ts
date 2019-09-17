@@ -12,7 +12,7 @@ class Page {
 
 @customElement('dashboard-app')
 export default class DashboardApp extends BaseElement {
-  @property() content: Page | null = null;
+  @property({ type: Object }) content: Page | null = null;
 
   firstUpdated() {
     page(rs.dashboard.newPost, () => {

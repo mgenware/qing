@@ -24,9 +24,9 @@ export class EditProfileApp extends BaseElement {
   @property() url = '';
   @property() company = '';
   @property() location = '';
-  @property() loadingStatus = new Status();
-  @property() setInfoStatus = new Status();
-  @property() isUploadingAvatar = false;
+  @property({ type: Object }) loadingStatus = new Status();
+  @property({ type: Object }) setInfoStatus = new Status();
+  @property({ type: Boolean }) isUploadingAvatar = false;
   @property() avatarURL = '';
   setInfoLoader!: SetInfoLoader;
 

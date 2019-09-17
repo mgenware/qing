@@ -4,8 +4,8 @@ import Status from 'lib/status';
 
 @customElement('working-view')
 export class WorkingView extends BaseElement {
-  @property() status = new Status();
-  @property() isWorking = false;
+  @property({ type: Object }) status = new Status();
+  @property({ type: Boolean }) isWorking = false;
 
   render() {
     const { status, isWorking } = this;

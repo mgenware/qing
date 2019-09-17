@@ -82,7 +82,9 @@ export default class AlertModule {
       const modalHTML = `
         <modal-view id="${id}" modalTitle="${escapeHTML(
         title || '',
-      )}" isOpen="true" buttons="${buttons}" icon="${icon}" timeout="${timeout}" activeButtonIndex="${activeButtonIndex}">${escapeHTML(
+      )}" isOpen="true" buttons="${JSON.stringify(
+        buttons,
+      ).toString()}" icon="${icon}" timeout="${timeout}" activeButtonIndex="${activeButtonIndex}">${escapeHTML(
         message,
       )}</modal-view>
       `;

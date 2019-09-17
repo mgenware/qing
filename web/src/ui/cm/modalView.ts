@@ -111,11 +111,11 @@ export class ModalView extends BaseElement {
     ];
   }
   @property() modalTitle = '';
-  @property() buttons: ModalButton[] = [];
-  @property() isOpen = false;
-  @property() icon: ModalIcon | null = null;
-  @property() timeout = 0;
-  @property() activeButtonIndex = -1;
+  @property({ type: Array }) buttons: ModalButton[] = [];
+  @property({ type: Boolean }) isOpen = false;
+  @property({ type: Number }) icon: ModalIcon | null = null;
+  @property({ type: Number }) timeout = 0;
+  @property({ type: Number }) activeButtonIndex = -1;
 
   firstUpdated() {
     const activeElement = this.getShadowElement(ACTIVE_ELEMENT_ID);

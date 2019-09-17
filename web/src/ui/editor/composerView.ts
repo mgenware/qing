@@ -17,7 +17,7 @@ class ValidationError extends Error {
 
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
-  @property() options: ComposerOptions = {};
+  @property({ type: Object }) options: ComposerOptions = {};
   @property() title = '';
 
   private editor!: EditorView;

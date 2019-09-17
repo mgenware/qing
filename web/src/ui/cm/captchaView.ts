@@ -6,7 +6,7 @@ const MAPI_CAPT_REQ = '/sr/req-capt';
 @customElement('captcha-view')
 export class CaptchaView extends BaseElement {
   @property() eType = '';
-  @property() private timestamp = Date.now();
+  @property({ type: Number }) private timestamp = Date.now();
   private textElement!: HTMLInputElement;
 
   firstUpdated() {

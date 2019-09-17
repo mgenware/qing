@@ -530,10 +530,10 @@ kangxi-editor@^0.3.1:
     throw-if-arg-empty "^2.1.0"
     to-type-string "^1.0.1"
 
-lit-button@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-2.2.0.tgz#f89b7cf70f8ed80eb912bd6487922430da09c057"
-  integrity sha512-nvlyljLILtgCGhAPsxCrNntjqwgx4eleCLlEQTVw/8hQzg4xmb7slJf/LrumWRduJlbvsfsakGfK4u7et6MhQg==
+lit-button@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-2.2.1.tgz#5164f3ce1cf7674995ba75acbc7d2397c21a5589"
+  integrity sha512-gHkVng6/Rb3EGAx+jE4biO9Iup8FaL+gY+tzT5JNLEry3Fg3qyFNm1qNFyKxNP+3/IxWfXpcy4dmS79LbxEiYQ==
 
 lit-element@^2.2.1:
   version "2.2.1"
