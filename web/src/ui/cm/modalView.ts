@@ -136,7 +136,7 @@ export class ModalView extends BaseElement {
       >
         <div class="modal-content">
           <div class="modal-header">
-            <h2>${this.renderIcon()}${this.modalTitle}</h2>
+            <h2>${this.renderIcon()}<span>${this.modalTitle}</span></h2>
           </div>
           <div class="modal-body">
             <slot></slot>
@@ -177,9 +177,7 @@ export class ModalView extends BaseElement {
       return html``;
     }
     return html`
-      ${unsafeHTML(
-        `<span class="m-r-sm vertical-align-middle">${icon.svg}</span>`,
-      )}
+      ${unsafeHTML(`<span class="m-r-sm">${icon.svg}</span>`)}
     `;
   }
 
@@ -198,11 +196,11 @@ export class ModalView extends BaseElement {
 class ModalIconData {
   public svg: string;
   constructor(public cls: string, public size: number, svg: string) {
-    // Reprocess svg inplace
+    // Reprocess svg in place
     const parser = new DOMParser();
     const doc = parser.parseFromString(svg, 'image/svg+xml');
     const element = doc.documentElement;
-    element.setAttribute('class', cls);
+    element.setAttribute('class', `${cls} vertical-align-middle`);
     element.setAttribute('width', size.toString());
     element.setAttribute('height', size.toString());
     this.svg = element.outerHTML;
