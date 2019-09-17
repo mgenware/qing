@@ -450,6 +450,12 @@ hr {
 
   --footer-back-color: #000000;
   --footer-tint-color: #3d3d3d;
+
+  /* editor vars */
+  --kx-back-color: var(--main-back-color);
+  --kx-text-color: var(--main-tint-color);
+  --kx-toolbar-separator-color: var(--main-weak-tint-color);
+  --kx-toolbar-button-color: var(--main-tint-color);
 }
 
 lit-button {
