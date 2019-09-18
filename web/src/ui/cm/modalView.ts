@@ -61,10 +61,10 @@ export class ModalView extends BaseElement {
         /* Modal Content */
         .modal-content {
           position: relative;
-          background-color: #fefefe;
+          background-color: var(--main-back-color);
           margin: auto;
           padding: 0;
-          border: 1px solid #888;
+          border: 1px solid var(--main-weak-tint-color);
           width: 80%;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);

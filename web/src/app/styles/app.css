@@ -435,7 +435,7 @@ hr {
 .theme-dark {
   --main-back-color: black;
   --main-tint-color: #6b6b6b;
-  --main-weak-tint-color: #4d4d4d;
+  --main-weak-tint-color: #272727;
   --primary-back-color: #35588a;
   --primary-tint-color: #b4b4b4;
   --danger-back-color: #ef4b4b;
@@ -494,13 +494,21 @@ svg.is-primary {
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   border-radius: 8px;
-  background-color: var(--info-back-color);
-  color: var(--info-tint-color);
 }
 
 .section.is-success {
   background-color: var(--success-back-color);
   color: var(--success-tint-color);
+}
+
+.section.is-danger {
+  background-color: var(--danger-back-color);
+  color: var(--danger-tint-color);
+}
+
+.section.is-primary {
+  background-color: var(--primary-back-color);
+  color: var(--primary-tint-color);
 }
 
 body {
