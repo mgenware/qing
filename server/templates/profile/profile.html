@@ -47,15 +47,16 @@
       <!-- column 2 -->
     </div>
 
-    <div class="columns is-centered m-t-md">
-      <div class="column is-9">
+    <div class="row m-t-md">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
         <div class="box">
           <div class="link-black link-nounderline">
             <div class="columns is-mobile">
               <div class="column">
                 <p>
                   <span class="color-gray">{{html .LS.posts}}</span>
-                  <span class="is-size-3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
+                  <span class="is-h3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
                 </p>
               </div>
             </div>
@@ -97,7 +98,8 @@
           <!-- feed list -->
         </div>
       </div>
-    </div>
+      <div class="col-md-1"></div>
+    </div><!-- <div class="row m-t-md"> -->
   </div>
 </section>
 

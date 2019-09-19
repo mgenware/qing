@@ -1,17 +1,17 @@
 <section class="section">
   <div class="container">
-    <div class="is-size-4">
+    <div class="is-h4">
       <a href="{{.PostURL}}">{{html .Title}}</a>
     </div>
   
     <!-- user block -->
-    <div class="m-t-md columns is-mobile">
-      <div class="column is-narrow">
+    <div class="m-t-md row">
+      <div class="col-auto">
         <a href="{{.UserURL}}">
           <img src="{{.UserIconURL}}" class="border-radius-5" width="50" height="50" />
         </a>
       </div>
-      <div class="column">
+      <div class="col">
         <div><a href="{{.UserURL}}">{{html .UserName}}</a></div>
         <div>
           <p>

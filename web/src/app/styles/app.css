@@ -94,6 +94,31 @@ blockquote p {
     'Courier New', monospace;
 }
 
+h1,
+is-h1 {
+  font-size: 2rem;
+}
+h2,
+is-h2 {
+  font-size: 1.5rem;
+}
+h3,
+is-h3 {
+  font-size: 1.17rem;
+}
+h4,
+is-h4 {
+  font-size: 1.12rem;
+}
+h5,
+is-h5 {
+  font-size: 0.83rem;
+}
+h6,
+is-h6 {
+  font-size: 0.75rem;
+}
+
 /* Common spacing styles ------------------------- */
 .m-none {
   margin: 0;
