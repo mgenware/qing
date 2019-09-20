@@ -66,8 +66,16 @@ full-width {
   visibility: hidden;
 }
 
-.text-muted {
-  color: #8b96a0 !important;
+.is-secondary {
+  color: var(--main-weak-tint-color) !important;
+}
+
+@media (min-width: 768px) {
+  .is-boxed {
+    border: 1px solid var(--main-weak-tint-color);
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.6rem;
+  }
 }
 
 blockquote {

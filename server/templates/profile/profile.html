@@ -49,20 +49,20 @@
 
     <div class="row m-t-md">
       <div class="col-md-1"></div>
-      <div class="col-md-10">
+      <div class="col-md-10 is-boxed">
         <div class="box">
           <div class="link-black link-nounderline">
             <div class="columns is-mobile">
               <div class="column">
                 <p>
-                  <span class="color-gray">{{html .LS.posts}}</span>
+                  <span class="is-secondary">{{html .LS.posts}}</span>
                   <span class="is-h3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
                 </p>
               </div>
             </div>
           </div>
           <div id="m-scroll-list"></div>
-          <div class="m-t-md tabs is-boxed is-medium">
+          <div class="m-t-md tabs is-medium">
             <ul class="m-t-md">
               <li id="m-tab-p">{{html .LS.posts}}</li>
             </ul>
