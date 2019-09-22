@@ -51,5 +51,8 @@
   "captcha": "验证码",
   "themeDark": "夜间模式",
   "themeLight": "日间模式",
-  "profileUpdated": "更新成功"
+  "profileUpdated": "更新成功",
+  "edit": "编辑",
+  "delete": "删除",
+  "pDoYouWantToDeleteThis": "您确定要删除这个{0:lowercase}吗"
 }

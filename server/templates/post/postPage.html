@@ -1,6 +1,6 @@
 <section class="section">
   <div class="container">
-    <div class="is-h4">
+    <div class="is-h2">
       <a href="{{.PostURL}}">{{html .Title}}</a>
     </div>
   
@@ -16,7 +16,7 @@
         <div>
           <p>
             <time-field src="{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}" edited="{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}"></time-field>
-            <span id="m_post_admin_app"></span>
+            <post-admin-app targetUserID="{{.UserEID}}" leftMargin="true"></post-admin-app>
           </p>
         </div>
       </div>

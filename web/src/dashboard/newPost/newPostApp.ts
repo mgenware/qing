@@ -1,12 +1,14 @@
 import { html, customElement } from 'lit-element';
 import ls from 'ls';
 import 'ui/editor/composerView';
-import { ComposerView } from 'ui/editor/composerView';
-import ComposerPayload from 'ui/editor/composerPayload';
+import {
+  ComposerView,
+  ComposerPayload,
+  ComposerOptions,
+} from 'ui/editor/composerView';
 import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
-import ComposerOptions from 'ui/editor/composerOptions';
 import { EntityType } from 'lib/entity';
 
 @customElement('new-post-app')

@@ -29,13 +29,21 @@ export default class AlertModule {
     );
   }
 
-  async confirm(message: string, title?: string): Promise<boolean | null> {
+  async confirm(
+    message: string,
+    title?: string,
+    hasCancelButton?: false,
+  ): Promise<boolean | null> {
+    const btns = [ModalButton.yes, ModalButton.no];
+    if (hasCancelButton) {
+      btns.push(ModalButton.cancel);
+    }
     const buttonType = await this.showModalAsync(
       message,
       title || ls.warning,
-      [ModalButton.yes, ModalButton.no, ModalButton.cancel],
+      btns,
       ModalIcon.warning,
-      0,
+      hasCancelButton ? 2 : 1, // active button default to no or cancel
     );
     if (buttonType === ModalButton.yes) {
       return true;

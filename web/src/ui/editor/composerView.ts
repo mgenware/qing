@@ -2,12 +2,11 @@ import './editorView';
 import { html, customElement, property } from 'lit-element';
 import { ls, format } from 'ls';
 import app from 'app';
-import ComposerPayload from './composerPayload';
 import EditorView from './editorView';
 import 'ui/cm/captchaView';
 import BaseElement from 'baseElement';
-import ComposerOptions from './composerOptions';
 import { CaptchaView } from 'ui/cm/captchaView';
+import { EntityType } from 'lib/entity';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -15,10 +14,27 @@ class ValidationError extends Error {
   }
 }
 
+export class ComposerPayload {
+  title: string | null = null;
+  captcha: string | null = null;
+  constructor(public content: string) {}
+}
+
+export interface ComposerOptions {
+  entityType?: EntityType;
+  showTitle?: boolean;
+  entityID?: string;
+}
+
+export interface ComposerSource {
+  url: string;
+}
+
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
   @property({ type: Object }) options: ComposerOptions = {};
   @property() title = '';
+  @property({ type: Object }) source: ComposerSource | null = null;
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
@@ -43,10 +59,9 @@ export class ComposerView extends BaseElement {
     const { options } = this;
     const titleElement = options.showTitle
       ? html`
-          <div class="control p-b-md">
+          <div class="p-b-md">
             <input
               id="titleElement"
-              class="input"
               type="text"
               placeholder=${ls.title}
               @change=${(e: any) => (this.title = e.target.value)}
@@ -78,7 +93,9 @@ export class ComposerView extends BaseElement {
 
     return html`
       <div class="form">
-        ${titleElement}${editorElement}${bottomElement}
+        <div>
+          ${titleElement}${editorElement}${bottomElement}
+        </div>
       </div>
     `;
   }
