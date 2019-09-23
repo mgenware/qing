@@ -1,6 +1,4 @@
-/* DO NOT import this file directly, use styles/core.ts */
-
-/* responsive link */
+/* Responsive link */
 a {
   overflow-wrap: break-word;
   word-break: break-all;
@@ -24,10 +22,6 @@ full-width {
 .md-content ol {
   font-size: 1.2rem;
   line-height: 2rem;
-}
-
-.md-content a {
-  padding-right: 10px;
 }
 
 .text-center {
@@ -70,6 +64,11 @@ full-width {
   color: var(--main-weak-tint-color) !important;
 }
 
+.is-boxed {
+  border-top: 1px solid var(--main-weak-tint-color);
+  border-bottom: 1px solid var(--main-weak-tint-color);
+}
+
 @media (min-width: 768px) {
   .is-boxed {
     border: 1px solid var(--main-weak-tint-color);
@@ -95,11 +94,6 @@ blockquote:before {
 }
 blockquote p {
   display: inline;
-}
-
-.code-font {
-  font-family: 'source-code-pro', Menlo, Consolas, Monaco, 'Andale Mono',
-    'Courier New', monospace;
 }
 
 h1,
