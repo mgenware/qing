@@ -31,7 +31,6 @@ export default class AlertModule {
 
   async confirm(
     message: string,
-    title?: string,
     hasCancelButton?: false,
   ): Promise<boolean | null> {
     const btns = [ModalButton.yes, ModalButton.no];
@@ -39,8 +38,8 @@ export default class AlertModule {
       btns.push(ModalButton.cancel);
     }
     const buttonType = await this.showModalAsync(
-      message,
-      title || ls.warning,
+      '',
+      message || ls.warning,
       btns,
       ModalIcon.warning,
       hasCancelButton ? 2 : 1, // active button default to no or cancel

@@ -25,6 +25,9 @@ ModalButtonLS.set(ModalButton.yes, ls.yes);
 ModalButtonLS.set(ModalButton.no, ls.no);
 ModalButtonLS.set(ModalButton.cancel, ls.cancel);
 
+const ModalPrimaryButton = new Set<ModalButton>();
+ModalPrimaryButton.add(ModalButton.ok);
+
 export enum ModalIcon {
   error = 1,
   success,
@@ -58,18 +61,23 @@ export class ModalView extends BaseElement {
           background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
         }
 
-        /* Modal Content */
         .modal-content {
           position: relative;
           background-color: var(--main-back-color);
           margin: auto;
           padding: 0;
           border: 1px solid var(--main-weak-tint-color);
-          width: 80%;
+          width: 100%;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
           animation-name: animatetop;
           animation-duration: 0.2s;
+        }
+
+        @media (min-width: 768px) {
+          .modal-content {
+            width: 80%;
+          }
         }
 
         /* Add Animation */
@@ -158,7 +166,7 @@ export class ModalView extends BaseElement {
           return html`
             <lit-button
               id=${index === this.activeButtonIndex ? ACTIVE_ELEMENT_ID : ''}
-              class="is-primary"
+              class=${ModalPrimaryButton.has(btnType) ? 'is-primary' : ''}
               @click=${() => this.closeModal(btnType, index)}
               >${ModalButtonLS.get(btnType)}</lit-button
             >

@@ -457,6 +457,8 @@ hr {
   --success-tint-color: white;
   --info-back-color: #f5f5f5;
   --info-tint-color: #343a40;
+  --warning-back-color: #f3b807;
+  --warning-tint-color: #2f343a;
 
   --button-background-color: #f5f5f5;
   --button-color: #343a40;
@@ -471,12 +473,14 @@ hr {
   --main-weak-tint-color: #272727;
   --primary-back-color: #35588a;
   --primary-tint-color: #b4b4b4;
-  --danger-back-color: #ef4b4b;
-  --danger-tint-color: white;
+  --danger-back-color: #570000;
+  --danger-tint-color: rgb(119, 119, 119);
   --success-back-color: #205333;
   --success-tint-color: #a5a5a5;
   --info-back-color: #272727;
   --info-tint-color: #727374;
+  --warning-back-color: #554000;
+  --warning-tint-color: #979797;
 
   --button-background-color: var(--info-back-color);
   --button-color: var(--info-tint-color);
@@ -511,6 +515,11 @@ lit-button.is-primary {
   --button-color: var(--primary-tint-color);
 }
 
+lit-button.is-warning {
+  --button-background-color: var(--warning-back-color);
+  --button-color: var(--warning-tint-color);
+}
+
 svg.is-success {
   fill: var(--success-back-color);
 }
@@ -521,6 +530,10 @@ svg.is-danger {
 
 svg.is-primary {
   fill: var(--primary-back-color);
+}
+
+svg.is-warning {
+  fill: var(--warning-back-color);
 }
 
 .section {
@@ -542,6 +555,11 @@ svg.is-primary {
 .section.is-primary {
   background-color: var(--primary-back-color);
   color: var(--primary-tint-color);
+}
+
+.section.is-warning {
+  background-color: var(--warning-back-color);
+  color: var(--warning-tint-color);
 }
 
 body {
