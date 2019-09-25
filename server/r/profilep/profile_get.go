@@ -14,7 +14,7 @@ import (
 )
 
 func ProfileGET(w http.ResponseWriter, r *http.Request) {
-	uid, err := app.URL.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		sys.NotFoundGET(w, r)
 		return

@@ -4,7 +4,7 @@ import (
 	"qing/app/cfg"
 	"qing/app/defs"
 	"qing/fx/avatar"
-	"strconv"
+	"qing/lib/validator"
 )
 
 type URL struct {
@@ -13,14 +13,6 @@ type URL struct {
 
 func NewURL(cfg *cfg.Config) *URL {
 	return &URL{config: cfg}
-}
-
-func (u *URL) EncodeID(id uint64) string {
-	return strconv.FormatUint(id, 36)
-}
-
-func (u *URL) DecodeID(str string) (uint64, error) {
-	return strconv.ParseUint(str, 36, 64)
 }
 
 func (u *URL) AssetURL(url string) string {
@@ -53,7 +45,7 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 }
 
 func (u *URL) UserProfile(uid uint64) string {
-	return "/" + defs.RouteUser + "/" + u.EncodeID(uid)
+	return "/" + defs.RouteUser + "/" + validator.EncodeID(uid)
 }
 
 func (u *URL) UserProfileFormatter(uid uint64) string {
@@ -62,7 +54,7 @@ func (u *URL) UserProfileFormatter(uid uint64) string {
 }
 
 func (u *URL) Post(pid uint64) string {
-	return "/" + defs.RoutePost + "/" + u.EncodeID(pid)
+	return "/" + defs.RoutePost + "/" + validator.EncodeID(pid)
 }
 
 func (u *URL) SignIn() string {

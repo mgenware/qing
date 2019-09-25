@@ -115,10 +115,10 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
-dd-models@^0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/dd-models/-/dd-models-0.20.1.tgz#41fa554a7c3194401cda0f2ff46f615ebf14629b"
-  integrity sha512-7ClieuwSH/V3BmfQxNMrf70kZBKgIEUdAXKO9Spa5bfkOmpZ+higFbwzdHImY/sR7b97fP+4/rj5F8Ca6TCZCA==
+dd-models@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/dd-models/-/dd-models-0.21.0.tgz#c6c7dde7c70dea5d2b4015ddabc27258ac684e95"
+  integrity sha512-en0iTpx2RtSQGB5e9k313nDob26CJkgiWd9xk4fy0uLO2xPsXrbs6o3xY2KxzAGLLb/f5Wx+uzQeplNKd3ISqg==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
@@ -324,10 +324,10 @@ mingru-tsconfig@^2.0.0:
   resolved "https://registry.yarnpkg.com/mingru-tsconfig/-/mingru-tsconfig-2.0.0.tgz#9cf8ea84d2c0d5b91480b88700f31187b473c26a"
   integrity sha512-AnSwR7zgwlveL+6Cf+TJtjm3HVwSvuIO2Kw1IhkiDMJPJMK/24VLtN6GMrGOnfFFdnbLwztx97ZbIuCr/+2hMA==
 
-mingru@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.13.1.tgz#29b5c347660980d6d09a72dd77ae53d6e11fbecd"
-  integrity sha512-dHs1AYXSyAsP2hHMqLGabX5NrNwnCRxmGtKKWmE0J1PyXyakspaBFC6mqiFgXQpwFJK8i4t+6+KS3DPd8uYVKg==
+mingru@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.14.0.tgz#5b6b299dfc44dddc42512d7792f5ab4eb60b5066"
+  integrity sha512-mIeC9vKTXvSH7/VQzBfTNlA9RviaUW7gr27U9lZ/qCVGHwz9/W1nuQ/1pSJSScjgxPWKELtKTB6tIeCbtPni9Q==
   dependencies:
     chalk "^2.4.2"
     del "^5.0.0"
@@ -454,10 +454,10 @@ to-type-string@^1.0.1:
   resolved "https://registry.yarnpkg.com/to-type-string/-/to-type-string-1.0.1.tgz#e1e58d28e6989f4c5c980cedc511218e81f494da"
   integrity sha512-mY7g+yjGN5PcF21lBO5bFUcX+kuSCu/C1ZBPHIgzS+x32BZUtxmQ30aZDdV6+n7ALMCuIRtLedQ1OqiTEmZttw==
 
-ts-node@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.3.0.tgz#e4059618411371924a1fb5f3b125915f324efb57"
-  integrity sha512-dyNS/RqyVTDcmNM4NIBAeDMpsAdaQ+ojdf0GOLqE6nwJOgzEkdRNzJywhDfwnuvB10oa6NLVG1rUJQCpRN7qoQ==
+ts-node@^8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.4.1.tgz#270b0dba16e8723c9fa4f9b4775d3810fd994b4f"
+  integrity sha512-5LpRN+mTiCs7lI5EtbXmF/HfMeCjzt7DH9CZwtkr6SywStrNQC723wG+aOWFiLNn7zT3kD/RnFqi3ZUfr4l5Qw==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
@@ -465,10 +465,10 @@ ts-node@^8.3.0:
     source-map-support "^0.5.6"
     yn "^3.0.0"
 
-typescript@^3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.3.tgz#c830f657f93f1ea846819e929092f5fe5983e977"
-  integrity sha512-ACzBtm/PhXBDId6a6sDJfroT2pOWt/oOnk4/dElG5G33ZL776N3Y6/6bKZJBFpd+b05F3Ct9qDjMeJmRWtE2/g==
+typescript@^3.6.3:
+  version "3.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
+  integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
 
 wrappy@1:
   version "1.0.2"

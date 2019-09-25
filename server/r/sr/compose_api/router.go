@@ -9,4 +9,5 @@ var Router = chi.NewRouter()
 
 func init() {
 	Router.Post("/set-post", setPostPOST)
+	Router.Post("/delete-post", deletePostPOST)
 }

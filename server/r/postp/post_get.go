@@ -4,13 +4,14 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/da"
+	"qing/lib/validator"
 	"qing/r/sys"
 
 	"github.com/go-chi/chi"
 )
 
 func PostGET(w http.ResponseWriter, r *http.Request) {
-	pid, err := app.URL.DecodeID(chi.URLParam(r, "pid"))
+	pid, err := validator.DecodeID(chi.URLParam(r, "pid"))
 	if err != nil {
 		sys.NotFoundGET(w, r)
 		return

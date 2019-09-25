@@ -24,6 +24,15 @@ export class PostTA extends dd.TA {
     )
     .argStubs(cm.sanitizedStub, cm.captStub);
 
+  deletePost = dd
+    .deleteOne()
+    .where(
+      dd.and(
+        dd.sql`${t.id.isEqualToInput()}`,
+        dd.sql`${t.user_id.isEqualToInput()}`,
+      ),
+    );
+
   selectPostByID = dd.select(...coreCols, t.content, ...userCols).byID();
 }
 

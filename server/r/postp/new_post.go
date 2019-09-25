@@ -4,6 +4,7 @@ import (
 	"qing/app"
 	"qing/app/template"
 	"qing/da"
+	"qing/lib/validator"
 )
 
 type PostPageData struct {
@@ -23,9 +24,9 @@ var vPostPage = app.TemplateManager.MustParseLocalizedView("/post/postPage.html"
 func NewPostPageData(p *da.PostTableSelectPostByIDResult) *PostPageData {
 	d := &PostPageData{PostTableSelectPostByIDResult: *p}
 	d.PostURL = app.URL.Post(p.ID)
-	d.UserEID = app.URL.EncodeID(p.UserID)
+	d.UserEID = validator.EncodeID(p.UserID)
 	d.UserURL = app.URL.UserProfile(p.UserID)
 	d.UserIconURL = app.URL.UserIconURL50(p.UserID, p.UserIconName)
-	d.EID = app.URL.EncodeID(p.ID)
+	d.EID = validator.EncodeID(p.ID)
 	return d
 }

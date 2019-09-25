@@ -54,5 +54,7 @@
   "profileUpdated": "更新成功",
   "edit": "编辑",
   "delete": "删除",
-  "pDoYouWantToDeleteThis": "您确定要删除这个{0:lowercase}吗"
+  "pDoYouWantToDeleteThis": "您确定要删除这个{0:lowercase}吗？",
+  "post": "帖子",
+  "working": "工作中..."
 }

@@ -17,6 +17,7 @@ export default {
     },
     compose: {
       setPost: `${srCompose}set-post`,
+      deletePost: `${srCompose}delete-post`,
     },
   },
 };

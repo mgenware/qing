@@ -21,6 +21,12 @@ var Post = &TableTypePost{}
 
 // ------------ Actions ------------
 
+// DeletePost ...
+func (da *TableTypePost) DeletePost(queryable dbx.Queryable, id uint64, userID uint64) error {
+	result, err := queryable.Exec("DELETE FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
 func (da *TableTypePost) insertPostChild0(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `likes`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)

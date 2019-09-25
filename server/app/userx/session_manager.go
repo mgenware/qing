@@ -10,6 +10,7 @@ import (
 	"qing/app/defs"
 	"qing/app/logx"
 	"qing/app/urlx"
+	"qing/lib/validator"
 
 	"github.com/garyburd/redigo/redis"
 	"github.com/google/uuid"
@@ -156,7 +157,7 @@ func (sm *SessionManager) computeUserFields(u *cm.User) {
 	uid := u.ID
 	u.URL = sm.appURL.UserProfile(uid)
 	u.IconURL = sm.appURL.UserIconURL50(uid, u.IconName)
-	u.EID = sm.appURL.EncodeID(uid)
+	u.EID = validator.EncodeID(uid)
 }
 
 func (sm *SessionManager) deserializeUserJSON(b []byte) (*cm.User, error) {
