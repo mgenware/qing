@@ -8,13 +8,13 @@ import (
 	"qing/lib/validator"
 )
 
-func deletePost(w http.ResponseWriter, r *http.Request) {
+func getPostForEditing(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
 	pid := validator.MustGetIDFromDict(params, "id")
-	err := da.Post.DeletePost(app.DB, pid, uid)
+	res, err := da.Post.SelectPostForEditing(app.DB, pid, uid)
 	app.PanicIfErr(err)
-	resp.MustComplete(app.URL.UserProfile(uid))
+	resp.MustComplete(res)
 }

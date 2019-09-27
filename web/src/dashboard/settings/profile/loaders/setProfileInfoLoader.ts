@@ -1,7 +1,7 @@
 import Loader from 'lib/loader';
 import routes from 'routes';
 
-export default class SetInfoLoader extends Loader {
+export default class SetProfileInfoLoader extends Loader<undefined> {
   constructor(
     public name: string,
     public website: string,

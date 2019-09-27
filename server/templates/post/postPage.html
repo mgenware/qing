@@ -21,19 +21,15 @@
         </div>
       </div>
     </div>
-  
     <hr/>
-    <div class="md-content content">
+    <div class="md-content">
       {{.Content}}
     </div>
-  
-    <div id="m_post_app"></div>
   </div>
   </section>
   
   <script>
     window.appPostID = '{{js .EID}}';
     window.appPostUserID = '{{js .UserEID}}';
-    window.appPostCmtCount = parseInt('{{.CmtCount}}');
   </script>
   

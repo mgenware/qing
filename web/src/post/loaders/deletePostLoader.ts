@@ -1,7 +1,7 @@
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
 
-export default class DeletePostLoader extends BaseLoader {
+export default class DeletePostLoader extends BaseLoader<string> {
   constructor(public pid: string | null) {
     super();
   }

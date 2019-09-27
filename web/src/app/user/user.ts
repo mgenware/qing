@@ -1,13 +1,13 @@
+import wind from 'app/wind';
+
 export default class User {
   static fromWindow(): User | null {
-    // tslint:disable-next-line: no-any
-    const wind = window as any;
-    if (wind.appUserID) {
+    if (wind.userID) {
       return new User(
-        wind.appUserID,
-        wind.appUserName,
-        wind.appUserIconURL,
-        wind.appUserURL,
+        wind.userID,
+        wind.userName,
+        wind.userIconURL,
+        wind.userURL,
       );
     }
     return null;

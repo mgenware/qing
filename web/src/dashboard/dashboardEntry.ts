@@ -3,7 +3,7 @@ import ls from '../ls';
 import BaseElement from '../baseElement';
 import page from 'page';
 import rs from 'routes';
-import './newPost/newPostApp';
+import 'post/setPostApp';
 import './settings/profile/editProfileApp';
 
 class Page {
@@ -16,10 +16,38 @@ export default class DashboardApp extends BaseElement {
 
   firstUpdated() {
     page(rs.dashboard.newPost, () => {
-      this.content = this.renderNewPost();
+      this.content = new Page(
+        html`
+          <div class="m-md">
+            <set-post-app></set-post-app>
+          </div>
+        `,
+        false,
+      );
+    });
+    page(`${rs.dashboard.editPost}/:id`, e => {
+      const id = e.params.id;
+      if (!id) {
+        return;
+      }
+      this.content = new Page(
+        html`
+          <div class="m-md">
+            <set-post-app .editedID=${id}></set-post-app>
+          </div>
+        `,
+        false,
+      );
     });
     page(rs.dashboard.editProfile, () => {
-      this.content = this.renderEditProfile();
+      this.content = new Page(
+        html`
+          <div class="m-md">
+            <edit-profile-app></edit-profile-app>
+          </div>
+        `,
+        true,
+      );
     });
     page();
   }
@@ -57,27 +85,5 @@ export default class DashboardApp extends BaseElement {
         </div>
       </div>
     `;
-  }
-
-  private renderNewPost(): Page {
-    return new Page(
-      html`
-        <div class="m-md">
-          <new-post-app></new-post-app>
-        </div>
-      `,
-      false,
-    );
-  }
-
-  private renderEditProfile(): Page {
-    return new Page(
-      html`
-        <div class="m-md">
-          <edit-profile-app></edit-profile-app>
-        </div>
-      `,
-      true,
-    );
   }
 }

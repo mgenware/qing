@@ -2,8 +2,8 @@ import BaseLoader from 'lib/loader';
 import routes from 'routes';
 import { ComposerPayload } from 'ui/editor/composerView';
 
-export default class SetPostLoader extends BaseLoader {
-  constructor(public tid: string | null, public payload: ComposerPayload) {
+export default class SetPostLoader extends BaseLoader<string> {
+  constructor(public id: string | null, public payload: ComposerPayload) {
     super();
   }
 
@@ -14,7 +14,7 @@ export default class SetPostLoader extends BaseLoader {
   requestParams(): object {
     return {
       ...this.payload,
-      tid: this.tid,
+      id: this.id,
     };
   }
 }

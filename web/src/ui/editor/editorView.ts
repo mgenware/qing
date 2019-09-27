@@ -1,4 +1,4 @@
-import { html, customElement, property, LitElement, css } from 'lit-element';
+import { html, customElement, LitElement, css } from 'lit-element';
 import ls from 'ls';
 import Editor from 'kangxi-editor';
 import styles from 'app/styles/kangxi-min';
@@ -18,11 +18,14 @@ export default class EditorView extends LitElement {
     ];
   }
 
-  @property() initialContentHTML = '';
   private editor!: Editor;
 
   get contentHTML(): string {
     return this.editor.contentHTML;
+  }
+
+  set contentHTML(val: string) {
+    this.editor.contentHTML = val;
   }
 
   firstUpdated() {
@@ -31,7 +34,6 @@ export default class EditorView extends LitElement {
       throw new Error('Editor element not found');
     }
     const editor = Editor.create(editorDom, {
-      contentHTML: this.initialContentHTML,
       lang: ls._lang === 'cs' ? langCs : langEn,
     });
     this.editor = editor;

@@ -6,6 +6,7 @@ const srCompose = `${sr}compose/`;
 export default {
   dashboard: {
     newPost: `${m}new-post`,
+    editPost: `${m}edit-post`,
     editProfile: `${m}profile`,
   },
   sr: {
@@ -18,6 +19,7 @@ export default {
     compose: {
       setPost: `${srCompose}set-post`,
       deletePost: `${srCompose}delete-post`,
+      getPostForEditing: `${srCompose}get-for-editing`,
     },
   },
 };

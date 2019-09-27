@@ -14,6 +14,15 @@ export class PostTA extends dd.TA {
     .by(t.user_id)
     .orderByDesc(t.created_at);
 
+  selectPostForEditing = dd
+    .select(t.title, t.content)
+    .where(
+      dd.and(
+        dd.sql`${t.id.isEqualToInput()}`,
+        dd.sql`${t.user_id.isEqualToInput()}`,
+      ),
+    );
+
   insertPost = dd
     .transact(
       dd
@@ -23,6 +32,8 @@ export class PostTA extends dd.TA {
       userTA.updatePostCount.wrap({ offset: 1 }),
     )
     .argStubs(cm.sanitizedStub, cm.captStub);
+
+  editPost = dd.updateOne().setInputs(t.title, t.content).wh;
 
   deletePost = dd
     .deleteOne()

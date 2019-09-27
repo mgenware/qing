@@ -62,15 +62,24 @@ func MustToPageOrDefault(s string) int {
 	return val
 }
 
-// MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.
-func MustGetIDFromDict(dict map[string]interface{}, key string) uint64 {
+// GetIDFromDict decodes the specified ID params in dictionary if exists.
+func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	val, ok := dict[key].(string)
 	if !ok {
-		panicMissingArg(key)
+		return 0
 	}
 	id, err := DecodeID(val)
 	if err != nil {
 		panic(fmt.Sprintf("The parameter %v is not a valid ID", key))
+	}
+	return id
+}
+
+// MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.
+func MustGetIDFromDict(dict map[string]interface{}, key string) uint64 {
+	id := GetIDFromDict(dict, key)
+	if id == 0 {
+		panicMissingArg(key)
 	}
 	return id
 }

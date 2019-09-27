@@ -5,11 +5,10 @@ import 'ui/cm/workingView';
 import 'ui/pickers/avatarUploader';
 import 'ui/cm/loadingView';
 import 'ui/cm/fixedView';
-import SetInfoLoader from './loaders/setInfoLoader';
+import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
-import GetInfoLoader from './loaders/getInfoLoader';
-import EditProfileData from './editProfileData';
+import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
 import AvatarUploadResponse from 'ui/pickers/avatarUploadResponse';
 import routes from 'routes';
 import 'lit-button';
@@ -28,7 +27,7 @@ export class EditProfileApp extends BaseElement {
   @property({ type: Object }) setInfoStatus = new Status();
   @property({ type: Boolean }) isUploadingAvatar = false;
   @property() avatarURL = '';
-  setInfoLoader!: SetInfoLoader;
+  setInfoLoader!: SetProfileInfoLoader;
 
   async firstUpdated() {
     await this.reloadData();
@@ -130,19 +129,16 @@ export class EditProfileApp extends BaseElement {
 
   private async reloadData() {
     try {
-      const loader = new GetInfoLoader();
-      loader.statusChanged = status => {
-        this.loadingStatus = status;
-        if (status.isSuccess) {
-          const profile = status.data as EditProfileData;
-          this.nick = profile.Name || '';
-          this.url = profile.Website || '';
-          this.company = profile.Company || '';
-          this.location = profile.Location || '';
-          this.avatarURL = profile.IconURL || '';
-        }
-      };
-      await app.runActionAsync(loader);
+      const loader = new GetProfileInfoLoader();
+      const res = await app.runActionAsync(loader);
+      if (res.isSuccess) {
+        const profile = res.getResult();
+        this.nick = profile.Name || '';
+        this.url = profile.Website || '';
+        this.company = profile.Company || '';
+        this.location = profile.Location || '';
+        this.avatarURL = profile.IconURL || '';
+      }
     } catch (err) {
       await app.alert.error(err.message);
     }
@@ -153,7 +149,7 @@ export class EditProfileApp extends BaseElement {
       if (!this.nick) {
         throw new Error(format('pPlzEnterThe', ls.name));
       }
-      const loader = new SetInfoLoader(
+      const loader = new SetProfileInfoLoader(
         this.nick,
         this.url,
         this.company,

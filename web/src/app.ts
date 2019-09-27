@@ -6,8 +6,8 @@ import Loader from './lib/loader';
 import ls from 'ls';
 import * as defs from 'defs';
 
-export class LoaderResult {
-  constructor(public error: Error | undefined, public data: unknown) {}
+export class LoaderResult<T> {
+  constructor(public error: Error | undefined, public result: T | null) {}
 
   get isError(): boolean {
     return !!this.error;
@@ -15,6 +15,11 @@ export class LoaderResult {
 
   get isSuccess(): boolean {
     return !this.isError;
+  }
+
+  // Call this after isSuccess().
+  getResult(): T {
+    return this.result as T;
   }
 }
 
@@ -29,11 +34,11 @@ export class _APP {
     return !!this.state.hasUser;
   }
 
-  async runActionAsync(
-    loader: Loader,
+  async runActionAsync<T>(
+    loader: Loader<T>,
     overlayText?: string,
     errorDict?: Map<number, string>,
-  ): Promise<LoaderResult> {
+  ): Promise<LoaderResult<T>> {
     const { alert } = this;
     errorDict = errorDict;
     try {
@@ -59,7 +64,7 @@ export class _APP {
         message = ex.message;
       }
       await alert.error(message);
-      return new LoaderResult(ex, {});
+      return new LoaderResult<T>(ex, null);
     }
   }
 }

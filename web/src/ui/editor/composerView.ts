@@ -20,49 +20,44 @@ export class ComposerPayload {
   constructor(public content: string) {}
 }
 
-export interface ComposerOptions {
-  entityType?: EntityType;
-  showTitle?: boolean;
-  entityID?: string;
-}
-
-export interface ComposerSource {
-  url: string;
-}
-
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
-  @property({ type: Object }) options: ComposerOptions = {};
+  @property() entityType: EntityType = 0;
   @property() title = '';
-  @property({ type: Object }) source: ComposerSource | null = null;
+  @property() showTitle = true;
+  @property() entityID = '';
+  @property() content = '';
+  @property() showCancelButton = false;
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
   private titleElement: HTMLInputElement | null = null;
 
   firstUpdated() {
+    if (!this.entityType) {
+      throw new Error('Invalid entity type');
+    }
     this.editor = this.mustGetShadowElement('editor');
     this.titleElement = this.getShadowElement('titleElement');
     this.captchaView = this.getShadowElement('captElement');
-    // Checking required properties
-    const { options } = this;
-    if (!options.entityType) {
-      throw new Error('options.entityType is required');
-    }
   }
 
   get contentHTML(): string {
     return this.editor.contentHTML;
   }
 
+  set contentHTML(s: string) {
+    this.editor.contentHTML = s;
+  }
+
   render() {
-    const { options } = this;
-    const titleElement = options.showTitle
+    const titleElement = this.showTitle
       ? html`
-          <div class="p-b-md">
+          <div class="p-b-sm">
             <input
               id="titleElement"
               type="text"
+              value=${this.title}
               placeholder=${ls.title}
               @change=${(e: any) => (this.title = e.target.value)}
             />
@@ -74,20 +69,27 @@ export class ComposerView extends BaseElement {
     `;
     const bottomElement = html`
       <div class="m-t-md">
-        ${options.entityID
+        ${this.entityID
           ? ''
           : html`
               <div class="m-b-md">
                 <captcha-view
                   id="captElement"
-                  etype=${options.entityType}
+                  etype=${this.entityType}
                   @onEnterKeyUp=${this.handleSubmit}
                 ></captcha-view>
               </div>
             `}
         <lit-button class="is-success" @click=${this.handleSubmit}>
-          ${ls.publish}
+          ${this.entityID ? ls.save : ls.publish}
         </lit-button>
+        ${this.showCancelButton
+          ? html`
+              <lit-button class="m-l-sm" @click=${this.handleCancel}
+                >${ls.cancel}</lit-button
+              >
+            `
+          : ''}
       </div>
     `;
 
@@ -101,8 +103,8 @@ export class ComposerView extends BaseElement {
   }
 
   private getPayload(): ComposerPayload {
-    const { options, captchaView } = this;
-    if (options.showTitle && !this.title) {
+    const { captchaView } = this;
+    if (this.showTitle && !this.title) {
       throw new ValidationError(format('pPlzEnterThe', ls.title), () => {
         if (this.titleElement) {
           this.titleElement.focus();
@@ -122,7 +124,7 @@ export class ComposerView extends BaseElement {
       });
     }
     const payload = new ComposerPayload(this.contentHTML);
-    if (options.showTitle) {
+    if (this.showTitle) {
       payload.title = this.title;
     }
     if (this.captchaView) {
@@ -146,5 +148,9 @@ export class ComposerView extends BaseElement {
         }
       }
     }
+  }
+
+  private handleCancel() {
+    this.dispatchEvent(new CustomEvent('onCancel'));
   }
 }

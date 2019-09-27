@@ -1,3 +1,5 @@
+import escapeHTML from 'escape-html';
+
 export function parseDOMString(str: string): Element | null {
   if (!str) {
     return null;
@@ -50,4 +52,8 @@ export function ready(fn: () => void) {
   } else {
     document.addEventListener('DOMContentLoaded', fn);
   }
+}
+
+export function encodeHTML(s: string): string {
+  return escapeHTML(s);
 }
