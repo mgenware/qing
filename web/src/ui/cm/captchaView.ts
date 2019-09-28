@@ -1,10 +1,25 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement, property, css } from 'lit-element';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 const MAPI_CAPT_REQ = '/sr/req-capt';
 
 @customElement('captcha-view')
 export class CaptchaView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        .root-img img {
+          border: 1px solid var(--main-weak-tint-color);
+        }
+        /* Disable the default hover filter */
+        .root-img:hover {
+          filter: none;
+        }
+      `,
+    ];
+  }
+
   @property() eType = '';
   @property({ type: Number }) private timestamp = Date.now();
   private textElement!: HTMLInputElement;
@@ -17,8 +32,7 @@ export class CaptchaView extends BaseElement {
     const src = `${MAPI_CAPT_REQ}?etype=${this.eType}&t=${this.timestamp}`;
     return html`
       <span>
-        <a @click=${this.handleClick} href="#">
-          <!-- the v-if is necessary, when uesr reloads this, timestamp first turns to 0 and this image disappears and then appears in order to clear the previous content especially useful when network condition is bad -->
+        <a class="root-img" @click=${this.handleClick} href="#">
           <img
             id="img"
             src=${src}
@@ -57,7 +71,8 @@ export class CaptchaView extends BaseElement {
     return this.textElement.value;
   }
 
-  private handleClick() {
+  private handleClick(e: Event) {
+    e.preventDefault();
     this.refresh();
   }
 

@@ -12,9 +12,12 @@ export default class SetPostLoader extends BaseLoader<string> {
   }
 
   requestParams(): object {
-    return {
+    const params: any = {
       ...this.payload,
-      id: this.id,
     };
+    if (this.id) {
+      params.id = this.id;
+    }
+    return params;
   }
 }
