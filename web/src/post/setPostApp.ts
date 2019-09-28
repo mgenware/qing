@@ -59,7 +59,7 @@ export default class SetPostApp extends BaseElement {
     if (!editor) {
       return;
     }
-    const loader = new SetPostLoader(null, e.detail);
+    const loader = new SetPostLoader(this.editedID, e.detail);
     const res = await app.runActionAsync(
       loader,
       this.editedID ? ls.saving : ls.publishing,

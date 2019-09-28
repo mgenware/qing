@@ -14,6 +14,10 @@ class Page {
 export default class DashboardApp extends BaseElement {
   @property({ type: Object }) content: Page | null = null;
 
+  set title(s: string) {
+    document.title = `${s} - ${ls._siteName}`;
+  }
+
   firstUpdated() {
     page(rs.dashboard.newPost, () => {
       this.content = new Page(
@@ -24,6 +28,7 @@ export default class DashboardApp extends BaseElement {
         `,
         false,
       );
+      this.title = ls.newPost;
     });
     page(`${rs.dashboard.editPost}/:id`, e => {
       const id = e.params.id;
@@ -38,6 +43,7 @@ export default class DashboardApp extends BaseElement {
         `,
         false,
       );
+      this.title = ls.editPost;
     });
     page(rs.dashboard.editProfile, () => {
       this.content = new Page(
@@ -48,6 +54,7 @@ export default class DashboardApp extends BaseElement {
         `,
         true,
       );
+      this.title = ls.editProfile;
     });
     page();
   }

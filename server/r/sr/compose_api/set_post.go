@@ -18,11 +18,11 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 	hasID := id != 0
 	content := validator.MustGetStringFromDict(params, "content")
 	title := validator.MustGetStringFromDict(params, "title")
-	capt := validator.MustGetStringFromDict(params, "captcha")
 
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
 	if !hasID {
+		capt := validator.MustGetStringFromDict(params, "captcha")
 		// New post
 		captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt)
 		app.PanicIfErr(err)
@@ -33,8 +33,12 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 		insertedID, err := da.Post.InsertPost(app.DB, title, content, uid, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 		id = insertedID
+	} else {
+		// Edit post
+		err := da.Post.EditPost(app.DB, id, uid, title, content)
+		app.PanicIfErr(err)
 	}
 
-	newPostURL := app.URL.Post(insertedID)
+	newPostURL := app.URL.Post(id)
 	resp.MustComplete(newPostURL)
 }
