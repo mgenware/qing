@@ -1,4 +1,4 @@
-import * as dd from 'dd-models';
+import * as dd from 'mingru-models';
 import t from './user';
 
 export class UserTA extends dd.TA {

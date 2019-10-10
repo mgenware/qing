@@ -1,4 +1,4 @@
-import * as dd from 'dd-models';
+import * as dd from 'mingru-models';
 
 export class UserStats extends dd.Table {
   id = dd.pk().noAutoIncrement;

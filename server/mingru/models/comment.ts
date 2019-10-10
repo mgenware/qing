@@ -1,4 +1,4 @@
-import * as dd from 'dd-models';
+import * as dd from 'mingru-models';
 import user from './user';
 
 export class Comment extends dd.Table {

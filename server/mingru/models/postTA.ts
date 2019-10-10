@@ -1,4 +1,4 @@
-import * as dd from 'dd-models';
+import * as dd from 'mingru-models';
 import t from './post';
 import userTA from './userTA';
 import user from './user';
