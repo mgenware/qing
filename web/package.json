@@ -8,7 +8,7 @@
     "build": "yarn run lint && yarn run clean && cross-env NODE_ENV=production rollup -c",
     "compile": "tsc",
     "dev": "yarn run clean && cross-env NODE_ENV=development rollup -c -w",
-    "lint": "tslint --project tsconfig.json --config tslint.json",
+    "lint": "eslint --ext .ts src/",
     "clean": "del-cli static/d/js"
   },
   "engines": {
@@ -30,8 +30,11 @@
     "@types/escape-html": "^0.0.20",
     "@types/js-cookie": "^2.2.2",
     "@types/page": "^1.8.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
     "cross-env": "^6.0.0",
     "del-cli": "^3.0.0",
+    "eslint": "^6.5.1",
     "rollup": "^1.21.4",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
@@ -39,7 +42,6 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
-    "tslint": "^5.20.0",
     "typescript": "^3.6.3",
     "unique-temp-dir": "^1.0.0"
   }
