@@ -1,7 +1,7 @@
 import * as dd from 'mingru-models';
 import t from './userStats';
 
-export class UserStatsTA extends dd.TA {
+export class UserStatsTA extends dd.TableActions {
   updatePostCount = dd
     .updateOne()
     .set(t.post_count, dd.sql`${t.post_count} + ${dd.int().toInput('offset')}`)

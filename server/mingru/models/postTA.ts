@@ -13,7 +13,7 @@ const updateConditions = dd.and(
   dd.sql`${t.user_id.isEqualToInput()}`,
 );
 
-export class PostTA extends dd.TA {
+export class PostTA extends dd.TableActions {
   selectPostsByUser = dd
     .selectPage(...coreCols)
     .by(t.user_id)

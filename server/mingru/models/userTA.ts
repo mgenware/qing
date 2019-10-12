@@ -1,7 +1,7 @@
 import * as dd from 'mingru-models';
 import t from './user';
 
-export class UserTA extends dd.TA {
+export class UserTA extends dd.TableActions {
   selectProfile = dd
     .select(
       t.id,
