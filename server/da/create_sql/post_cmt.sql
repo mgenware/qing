@@ -1,9 +1,9 @@
-CREATE TABLE `post_comment` (
+CREATE TABLE `post_cmt` (
 	`post_id` BIGINT UNSIGNED NOT NULL,
 	`cmt_id` BIGINT UNSIGNED NOT NULL,
 	PRIMARY KEY (`post_id`, `cmt_id`),
 	CONSTRAINT FOREIGN KEY(`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`cmt_id`) REFERENCES `comment` (`id`) ON DELETE CASCADE
+	CONSTRAINT FOREIGN KEY(`cmt_id`) REFERENCES `cmt` (`id`) ON DELETE CASCADE
 )
 CHARACTER SET=utf8mb4
 COLLATE=utf8mb4_unicode_ci

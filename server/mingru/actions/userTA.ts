@@ -1,5 +1,5 @@
 import * as dd from 'mingru-models';
-import t from './user';
+import t from '../models/user';
 
 export class UserTA extends dd.TableActions {
   selectProfile = dd

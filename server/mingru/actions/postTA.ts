@@ -1,8 +1,10 @@
 import * as dd from 'mingru-models';
-import t from './post';
+import t from '../models/post';
 import userTA from './userTA';
-import user from './user';
-import * as cm from './common';
+import user from '../models/user';
+import postCmt from '../models/postCmt';
+import * as cm from '../models/common';
+import cmt from '../models/cmt';
 
 const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
@@ -20,6 +22,8 @@ export class PostTA extends dd.TableActions {
     .orderByDesc(t.created_at);
 
   selectPostForEditing = dd.select(t.title, t.content).where(updateConditions);
+
+  selectCmts: dd.SelectAction;
 
   insertPost = dd
     .transact(
@@ -39,6 +43,23 @@ export class PostTA extends dd.TableActions {
   deletePost = dd.deleteOne().where(updateConditions);
 
   selectPostByID = dd.select(...coreCols, t.content, ...userCols).byID();
+
+  constructor() {
+    super();
+
+    const jCmt = postCmt.cmt_id.join(cmt);
+    this.selectCmts = dd
+      .select(
+        jCmt.content,
+        jCmt.created_at,
+        jCmt.modified_at,
+        jCmt.rpl_count,
+        jCmt.user_id,
+        jCmt.user_id.join(user).name,
+      )
+      .from(postCmt)
+      .by(postCmt.post_id);
+  }
 }
 
 export default dd.ta(t, PostTA);

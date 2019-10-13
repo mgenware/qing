@@ -1,5 +1,5 @@
-import userTA from './models/userTA';
-import postTA from './models/postTA';
-import userStatsTA from './models/userStatsTA';
+import userTA from './actions/userTA';
+import postTA from './actions/postTA';
+import userStatsTA from './actions/userStatsTA';
 
 export default [userTA, postTA, userStatsTA];

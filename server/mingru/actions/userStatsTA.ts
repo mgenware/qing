@@ -1,5 +1,5 @@
 import * as dd from 'mingru-models';
-import t from './userStats';
+import t from '../models/userStats';
 
 export class UserStatsTA extends dd.TableActions {
   updatePostCount = dd

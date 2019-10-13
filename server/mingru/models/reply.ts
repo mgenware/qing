@@ -1,6 +1,6 @@
 import * as dd from 'mingru-models';
 import user from './user';
-import comment from './comment';
+import cmt from './cmt';
 
 export class Reply extends dd.Table {
   id = dd.pk();
@@ -9,7 +9,7 @@ export class Reply extends dd.Table {
   user_id = user.id;
 
   to_user_id = user.id;
-  parent_id = comment.id;
+  parent_id = cmt.id;
   created_at = dd.datetime(true);
   modified_at = dd.datetime(true);
 }

@@ -1,7 +1,7 @@
 import * as dd from 'mingru-models';
 import user from './user';
 
-export class Comment extends dd.Table {
+export class Cmt extends dd.Table {
   id = dd.pk();
   content = dd.text();
   user_id = user.id;
@@ -11,4 +11,4 @@ export class Comment extends dd.Table {
   rpl_count = dd.uInt();
 }
 
-export default dd.table(Comment);
+export default dd.table(Cmt);
