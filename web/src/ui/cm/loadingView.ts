@@ -22,14 +22,14 @@ export class LoadingView extends BaseElement {
         <spinner-view>${this.loadingText || ls.loading}</spinner-view>
       `;
     }
-    if (status.isError) {
+    if (status.error) {
       return html`
         <error-view
           .canRetry=${this.canRetry}
           .title=${this.errorTitle || ls.errOccurred}
           @onRetry=${this.handleRetry}
         >
-          ${status.error!.message}
+          ${status.error.message}
         </error-view>
       `;
     }

@@ -19,7 +19,7 @@ export default class Status {
     return s;
   }
 
-  isStarted: boolean = false;
+  isStarted = false;
   private _succeeded = false;
   private _error: ErrorWithCode | null = null;
 
@@ -28,7 +28,7 @@ export default class Status {
   }
 
   get isCompleted(): boolean {
-    return this.isError || this.isSuccess;
+    return !!this.error || this.isSuccess;
   }
 
   get isWorking(): boolean {
@@ -37,11 +37,7 @@ export default class Status {
 
   // canRestart = isNotStarted | isFailed
   get canRestart(): boolean {
-    return !this.isStarted || this.isError;
-  }
-
-  get isError(): boolean {
-    return !!this.error;
+    return !this.isStarted || !!this.error;
   }
 
   get isSuccess(): boolean {

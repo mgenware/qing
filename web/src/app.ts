@@ -23,8 +23,7 @@ export class LoaderResult<T> {
   }
 }
 
-// tslint:disable-next-line: class-name
-export class _APP {
+class APP {
   state = new AppState();
   alert = new AlertModule();
   browser = new BrowserModule();
@@ -69,5 +68,5 @@ export class _APP {
   }
 }
 
-const app = new _APP();
+const app = new APP();
 export default app;

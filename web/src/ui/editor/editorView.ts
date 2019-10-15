@@ -1,12 +1,13 @@
-import { html, customElement, LitElement, css } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import ls from 'ls';
 import Editor from 'kangxi-editor';
 import styles from 'app/styles/kangxi-min';
 import langEn from 'kangxi-editor/dist/langs/en';
 import langCs from 'kangxi-editor/dist/langs/cs';
+import BaseElement from 'baseElement';
 
 @customElement('editor-view')
-export default class EditorView extends LitElement {
+export default class EditorView extends BaseElement {
   static get styles() {
     return [
       styles,
@@ -29,10 +30,7 @@ export default class EditorView extends LitElement {
   }
 
   firstUpdated() {
-    const editorDom = this.shadowRoot!.getElementById('editor');
-    if (!editorDom) {
-      throw new Error('Editor element not found');
-    }
+    const editorDom = this.mustGetShadowElement('editor');
     const editor = Editor.create(editorDom, {
       lang: ls._lang === 'cs' ? langCs : langEn,
     });

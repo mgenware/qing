@@ -17,5 +17,6 @@ module.exports = {
       { classes: false, functions: false },
     ],
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

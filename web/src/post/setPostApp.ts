@@ -15,9 +15,9 @@ export default class SetPostApp extends BaseElement {
   private editor: ComposerView | null = null;
 
   async firstUpdated() {
-    this.editor = (this.shadowRoot!.getElementById(
+    this.editor = (this.mustGetShadowElement(
       'editor',
-    ) as unknown) as ComposerView;
+    ) as unknown) as ComposerView | null;
     if (this.editedID) {
       // Loading content
       const loader = new GetPostForEditingLoader(this.editedID);

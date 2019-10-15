@@ -24,11 +24,11 @@ export default class NavBarApp extends BaseElement {
 
     // navbar
     // navbar burger click event
-    const burger = this.shadowRoot!.getElementById('m_nav_burger');
+    const burger = this.getShadowElement('m_nav_burger');
     if (burger) {
       burger.addEventListener('click', () => {
         burger.classList.toggle('is-active');
-        const navMenu = this.shadowRoot!.getElementById('m_nav_menu');
+        const navMenu = this.getShadowElement('m_nav_menu');
         if (navMenu) {
           navMenu.classList.toggle('is-active');
         }

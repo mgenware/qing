@@ -84,7 +84,7 @@ export default class AlertModule {
     activeButtonIndex = -1,
     timeout = 0,
   ): Promise<number> {
-    return new Promise<number>(resolve => {
+    return new Promise<number>((resolve, reject) => {
       const id = `__modal_${__modalCounter++}`;
       const modalHTML = `
         <modal-view id="${id}" modalTitle="${escapeHTML(
@@ -96,7 +96,11 @@ export default class AlertModule {
       )}</modal-view>
       `;
       document.body.insertAdjacentHTML('beforeend', modalHTML);
-      const element = document.getElementById(id)!;
+      const element = document.getElementById(id);
+      if (!element) {
+        reject(`Modal DOM ID "${id}" not found`);
+        return;
+      }
       element.addEventListener('modalClosed', ((
         e: CustomEvent<ModalClickInfo>,
       ) => {

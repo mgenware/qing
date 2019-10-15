@@ -15,12 +15,8 @@ export class AvatarUploader extends BaseElement {
   uploadElement!: HTMLInputElement;
 
   firstUpdated() {
-    this.formElement = this.shadowRoot!.getElementById(
-      'formElement',
-    ) as HTMLFormElement;
-    this.uploadElement = this.shadowRoot!.getElementById(
-      'uploadElement',
-    ) as HTMLInputElement;
+    this.formElement = this.mustGetShadowElement('formElement');
+    this.uploadElement = this.mustGetShadowElement('uploadElement');
     this.hookEvents(this.formElement, this.uploadElement);
   }
 
