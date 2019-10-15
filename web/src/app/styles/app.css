@@ -61,17 +61,17 @@ full-width {
 }
 
 .is-secondary {
-  color: var(--main-weak-tint-color) !important;
+  color: var(--main-secondary-tint-color) !important;
 }
 
 .is-boxed {
-  border-top: 1px solid var(--main-weak-tint-color);
-  border-bottom: 1px solid var(--main-weak-tint-color);
+  border-top: 1px solid var(--main-secondary-tint-color);
+  border-bottom: 1px solid var(--main-secondary-tint-color);
 }
 
 @media (min-width: 768px) {
   .is-boxed {
-    border: 1px solid var(--main-weak-tint-color);
+    border: 1px solid var(--main-secondary-tint-color);
     border-radius: 0.5rem;
     padding: 0.8rem 1.6rem;
   }
@@ -409,7 +409,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid var(--main-weak-tint-color);
+  border-top: 1px solid var(--main-secondary-tint-color);
   margin: 0.8rem 0;
   padding: 0;
 }
@@ -427,7 +427,7 @@ hr {
   padding: 0.25rem 0.4rem;
   background-color: transparent;
   color: var(--main-tint-color);
-  border: 1px solid var(--main-weak-tint-color);
+  border: 1px solid var(--main-secondary-tint-color);
   padding: 0.35rem 0.6rem;
   border-radius: 5px;
 }
@@ -442,7 +442,7 @@ hr {
 :root {
   --main-back-color: white;
   --main-tint-color: black;
-  --main-weak-tint-color: #dadada;
+  --main-secondary-tint-color: #dadada;
   --primary-back-color: #4f81c7;
   --primary-tint-color: #dbdbdb;
   --danger-back-color: #ef4b4b;
@@ -464,7 +464,7 @@ hr {
 .theme-dark {
   --main-back-color: black;
   --main-tint-color: #6b6b6b;
-  --main-weak-tint-color: #272727;
+  --main-secondary-tint-color: #272727;
   --primary-back-color: #35588a;
   --primary-tint-color: #b4b4b4;
   --danger-back-color: #570000;
@@ -485,7 +485,7 @@ hr {
   /* editor vars */
   --kx-back-color: var(--main-back-color);
   --kx-text-color: var(--main-tint-color);
-  --kx-toolbar-separator-color: var(--main-weak-tint-color);
+  --kx-toolbar-separator-color: var(--main-secondary-tint-color);
   --kx-toolbar-button-color: var(--main-tint-color);
 }
 

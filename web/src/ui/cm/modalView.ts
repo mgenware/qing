@@ -66,7 +66,7 @@ export class ModalView extends BaseElement {
           background-color: var(--main-back-color);
           margin: auto;
           padding: 0;
-          border: 1px solid var(--main-weak-tint-color);
+          border: 1px solid var(--main-secondary-tint-color);
           width: 100%;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);

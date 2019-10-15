@@ -10,7 +10,7 @@ export class CaptchaView extends BaseElement {
       super.styles,
       css`
         .root-img img {
-          border: 1px solid var(--main-weak-tint-color);
+          border: 1px solid var(--main-secondary-tint-color);
         }
         /* Disable the default hover filter */
         .root-img:hover {

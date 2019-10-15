@@ -12,7 +12,7 @@ export default class EditorView extends LitElement {
       styles,
       css`
         .kx-editor {
-          border: 1px solid var(--main-weak-tint-color);
+          border: 1px solid var(--main-secondary-tint-color);
         }
       `,
     ];
