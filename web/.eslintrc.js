@@ -16,5 +16,6 @@ module.exports = {
       'error',
       { classes: false, functions: false },
     ],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
   },
 };
