@@ -33,6 +33,34 @@ func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uin
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
+func (da *TableTypePost) insertCmtChild0(queryable dbx.Queryable, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, rplCount uint) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `rpl_count`) VALUES (?, ?, ?, ?, ?)", content, userID, createdAt, modifiedAt, rplCount)
+	return dbx.GetLastInsertIDUint64WithError(result, err)
+}
+
+func (da *TableTypePost) insertCmtChild1(queryable dbx.Queryable, postID uint64, cmtID uint64) error {
+	_, err := queryable.Exec("INSERT INTO `post_cmt` (`post_id`, `cmt_id`) VALUES (?, ?)", postID, cmtID)
+	return err
+}
+
+// InsertCmt ...
+func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, rplCount uint, postID uint64, cmtID uint64) (uint64, error) {
+	var insertedID uint64
+	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		insertedID, err = Cmt.insertCmtChild0(tx, content, userID, createdAt, modifiedAt, rplCount)
+		if err != nil {
+			return err
+		}
+		err = PostCmt.insertCmtChild1(tx, postID, cmtID)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return insertedID, txErr
+}
+
 func (da *TableTypePost) insertPostChild0(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `likes`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
@@ -73,7 +101,7 @@ type PostCmtTableSelectCmtsResult struct {
 // SelectCmts ...
 func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64) (*PostCmtTableSelectCmtsResult, error) {
 	result := &PostCmtTableSelectCmtsResult{}
-	err := queryable.QueryRow("SELECT `join_1`.`content` AS `cmtContent`, `join_1`.`created_at` AS `cmtCreatedAt`, `join_1`.`modified_at` AS `cmtModifiedAt`, `join_1`.`rpl_count` AS `cmtRplCount`, `join_1`.`user_id` AS `cmtUserID`, `join_2`.`name` AS `cmtUserName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `cmt`.`user_id` WHERE ?", postID).Scan(&result.CmtContent, &result.CmtCreatedAt, &result.CmtModifiedAt, &result.CmtRplCount, &result.CmtUserID, &result.CmtUserName)
+	err := queryable.QueryRow("SELECT `join_1`.`content` AS `cmtContent`, `join_1`.`created_at` AS `cmtCreatedAt`, `join_1`.`modified_at` AS `cmtModifiedAt`, `join_1`.`rpl_count` AS `cmtRplCount`, `join_1`.`user_id` AS `cmtUserID`, `join_2`.`name` AS `cmtUserName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `cmt`.`user_id` WHERE `post_cmt`.`post_id` = ?", postID).Scan(&result.CmtContent, &result.CmtCreatedAt, &result.CmtModifiedAt, &result.CmtRplCount, &result.CmtUserID, &result.CmtUserName)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +161,7 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count` FROM `post` WHERE ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
