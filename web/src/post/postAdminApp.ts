@@ -7,7 +7,7 @@ import wind from 'app/wind';
 import routes from 'routes';
 
 @customElement('post-admin-app')
-export class PostAdminBar extends BaseElement {
+export class PostAdminApp extends BaseElement {
   @property() targetID = '';
   @property() targetUserID = '';
   @property({ type: Boolean }) leftMargin = false;

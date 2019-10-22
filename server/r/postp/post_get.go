@@ -23,5 +23,6 @@ func PostGET(w http.ResponseWriter, r *http.Request) {
 	postData := NewPostPageData(post)
 	title := post.Title
 	d := app.MasterPageData(title, vPostPage.MustExecuteToString(resp.Lang(), postData))
+	d.Scripts = app.TemplateManager.AssetsManager.JS.Post
 	resp.MustComplete(d)
 }

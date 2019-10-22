@@ -57,5 +57,7 @@
   "pDoYouWantToDeleteThis": "您确定要删除这个{0:lowercase}吗？",
   "post": "帖子",
   "working": "工作中...",
-  "editPost": "编辑文章"
+  "editPost": "编辑文章",
+  "comments": "评论",
+  "noComment": "暂无评论"
 }

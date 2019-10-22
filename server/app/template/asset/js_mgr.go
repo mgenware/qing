@@ -22,6 +22,7 @@ type JSManager struct {
 	Loader    string
 	Polyfills string
 	Main      string
+	Post      string
 	Dashboard string
 
 	LSCS string
@@ -39,6 +40,7 @@ func NewJSManager(dev bool) *JSManager {
 	} else {
 		r.Main = js("coreEntry")
 	}
+	r.Post = js("postEntry")
 	r.Dashboard = js("dashboardEntry")
 	return r
 }

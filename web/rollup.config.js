@@ -25,6 +25,7 @@ if (isProd) {
 let input = [
   isProd ? 'coreEntry.ts' : 'devCoreEntry.ts',
   'dashboard/dashboardEntry.ts',
+  'post/postEntry.ts',
 ];
 
 export default {

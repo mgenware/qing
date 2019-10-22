@@ -35,10 +35,16 @@
     <div class="md-content">
       {{.Content}}
     </div>
+
+    <h2 class="m-t-lg">
+      {{.LS.comments}}
+      <post-cmt-app></post-cmt-app>
+    </h2>
   </div>
 </section>
 
 <script>
   window.appPostID = '{{js .EID}}';
   window.appPostUserID = '{{js .UserEID}}';
+  window.appPostCmtCount = parseInt('{{js .CmtCount}}', 10);
 </script>
