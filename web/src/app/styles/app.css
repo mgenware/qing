@@ -575,3 +575,7 @@ a:active {
 a:visited {
   filter: brightness(80%);
 }
+
+time-field {
+  visibility: hidden;
+}

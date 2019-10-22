@@ -3,33 +3,42 @@
     <div class="is-h2">
       <a href="{{.PostURL}}">{{html .Title}}</a>
     </div>
-  
+
     <!-- user block -->
     <div class="m-t-md row">
       <div class="col-auto">
         <a href="{{.UserURL}}">
-          <img src="{{.UserIconURL}}" class="border-radius-5" width="50" height="50" />
+          <img
+            src="{{.UserIconURL}}"
+            class="border-radius-5"
+            width="50"
+            height="50"
+          />
         </a>
       </div>
       <div class="col">
         <div><a href="{{.UserURL}}">{{html .UserName}}</a></div>
         <div>
           <p>
-            <time-field src="{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}" edited="{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}"></time-field>
-            <post-admin-app targetID="{{.EID}}" targetUserID="{{.UserEID}}" leftMargin="true"></post-admin-app>
+            <!-- prettier-ignore -->
+            <time-field>{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}|{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}</time-field>
+            <post-admin-app
+              targetID="{{.EID}}"
+              targetUserID="{{.UserEID}}"
+              leftMargin="true"
+            ></post-admin-app>
           </p>
         </div>
       </div>
     </div>
-    <hr/>
+    <hr />
     <div class="md-content">
       {{.Content}}
     </div>
   </div>
-  </section>
-  
-  <script>
-    window.appPostID = '{{js .EID}}';
-    window.appPostUserID = '{{js .UserEID}}';
-  </script>
-  
+</section>
+
+<script>
+  window.appPostID = '{{js .EID}}';
+  window.appPostUserID = '{{js .UserEID}}';
+</script>

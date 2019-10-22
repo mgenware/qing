@@ -1,9 +1,10 @@
 <div>
   <p>
-    <time-field src="{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}"></time-field>
+    <!-- prettier-ignore -->
+    <time-field>{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}|{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}</time-field>
   </p>
   <p class="m-t-sm">
     <a href="{{.URL}}">{{html .Title}}</a>
   </p>
-  <hr class="m-t-md m-b-md"/>
+  <hr class="m-t-md m-b-md" />
 </div>
