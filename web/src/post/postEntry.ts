@@ -1,1 +1,2 @@
-import 'post/postAdminApp';
+import './postAdminApp';
+import './postCmtApp';
