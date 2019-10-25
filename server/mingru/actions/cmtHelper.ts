@@ -8,7 +8,7 @@ export interface CmtRelationTable extends mm.Table {
 }
 
 export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
-  const jCmt = rt.cmt_id.join(cmt);
+  const jCmt = rt.cmt_id.associativeJoin(cmt);
   return mm
     .select(
       jCmt.content,

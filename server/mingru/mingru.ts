@@ -7,6 +7,7 @@ import tables from './tables';
   // Build Go code to '../da/` directory
   const builder = new mr.Builder(dialect, '../da/', {
     cleanBuild: true,
+    memberJSONKeyStyle: mr.MemberJSONKeyStyle.camelCase,
   });
   await builder.build(async () => {
     builder.buildActions(actions);
