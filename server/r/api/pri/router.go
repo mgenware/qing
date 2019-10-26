@@ -1,11 +1,11 @@
-package sr
+package pri
 
 import (
 	"qing/app"
 	"qing/app/middleware"
-	captchaapi "qing/r/sr/captcha_api"
-	composeapi "qing/r/sr/compose_api"
-	profileapi "qing/r/sr/profile_api"
+	captchaapi "qing/r/api/pri/captcha_api"
+	composeapi "qing/r/api/pri/compose_api"
+	profileapi "qing/r/api/pri/profile_api"
 
 	"github.com/go-chi/chi"
 )

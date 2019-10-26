@@ -11,7 +11,7 @@ import (
 	"qing/r/mp"
 	"qing/r/postp"
 	"qing/r/profilep"
-	"qing/r/sr"
+	"qing/r/api/pri"
 	"qing/r/sys"
 	"qing/r/t"
 
@@ -74,7 +74,7 @@ func Start() {
 	// Dashboard handler
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Restricted Service handler (SR)
-	r.Mount("/"+defs.RouteRestrictedService, sr.Router)
+	r.Mount("/"+defs.RouteRestrictedService, pri.Router)
 
 	debugConfig := config.Debug
 	if debugConfig != nil {
