@@ -90,18 +90,18 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 
 // PostCmtTableSelectCmtsResult ...
 type PostCmtTableSelectCmtsResult struct {
-	CmtContent    string
-	CmtCreatedAt  time.Time
-	CmtModifiedAt time.Time
-	CmtRplCount   uint
-	CmtUserID     uint64
-	CmtUserName   string
+	Content     string    `json:"content"`
+	CreatedAt   time.Time `json:"createdAt"`
+	ModifiedAt  time.Time `json:"modifiedAt"`
+	RplCount    uint      `json:"rplCount"`
+	UserID      uint64    `json:"userID"`
+	CmtUserName string    `json:"cmtUserName"`
 }
 
 // SelectCmts ...
 func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64) (*PostCmtTableSelectCmtsResult, error) {
 	result := &PostCmtTableSelectCmtsResult{}
-	err := queryable.QueryRow("SELECT `join_1`.`content` AS `cmtContent`, `join_1`.`created_at` AS `cmtCreatedAt`, `join_1`.`modified_at` AS `cmtModifiedAt`, `join_1`.`rpl_count` AS `cmtRplCount`, `join_1`.`user_id` AS `cmtUserID`, `join_2`.`name` AS `cmtUserName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ?", postID).Scan(&result.CmtContent, &result.CmtCreatedAt, &result.CmtModifiedAt, &result.CmtRplCount, &result.CmtUserID, &result.CmtUserName)
+	err := queryable.QueryRow("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `cmtUserName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ?", postID).Scan(&result.Content, &result.CreatedAt, &result.ModifiedAt, &result.RplCount, &result.UserID, &result.CmtUserName)
 	if err != nil {
 		return nil, err
 	}
@@ -110,15 +110,15 @@ func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64) (*Po
 
 // PostTableSelectPostByIDResult ...
 type PostTableSelectPostByIDResult struct {
-	ID           uint64
-	Title        string
-	CreatedAt    time.Time
-	ModifiedAt   time.Time
-	CmtCount     uint
-	Content      string
-	UserID       uint64
-	UserName     string
-	UserIconName string
+	ID           uint64    `json:"id"`
+	Title        string    `json:"title"`
+	CreatedAt    time.Time `json:"createdAt"`
+	ModifiedAt   time.Time `json:"modifiedAt"`
+	CmtCount     uint      `json:"cmtCount"`
+	Content      string    `json:"content"`
+	UserID       uint64    `json:"userID"`
+	UserName     string    `json:"userName"`
+	UserIconName string    `json:"userIconName"`
 }
 
 // SelectPostByID ...
@@ -133,8 +133,8 @@ func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*Po
 
 // PostTableSelectPostForEditingResult ...
 type PostTableSelectPostForEditingResult struct {
-	Title   string
-	Content string
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 // SelectPostForEditing ...
@@ -149,11 +149,11 @@ func (da *TableTypePost) SelectPostForEditing(queryable dbx.Queryable, id uint64
 
 // PostTableSelectPostsByUserResult ...
 type PostTableSelectPostsByUserResult struct {
-	ID         uint64
-	Title      string
-	CreatedAt  time.Time
-	ModifiedAt time.Time
-	CmtCount   uint
+	ID         uint64    `json:"id"`
+	Title      string    `json:"title"`
+	CreatedAt  time.Time `json:"createdAt"`
+	ModifiedAt time.Time `json:"modifiedAt"`
+	CmtCount   uint      `json:"cmtCount"`
 }
 
 // SelectPostsByUser ...
