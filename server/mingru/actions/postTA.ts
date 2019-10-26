@@ -1,4 +1,4 @@
-import * as dd from 'mingru-models';
+import * as mm from 'mingru-models';
 import t from '../models/post';
 import userTA from './userTA';
 import user from '../models/user';
@@ -10,25 +10,25 @@ const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
 const userCols = [t.user_id, jUser.name, jUser.icon_name];
 
-const updateConditions = dd.and(
-  dd.sql`${t.id.isEqualToInput()}`,
-  dd.sql`${t.user_id.isEqualToInput()}`,
+const updateConditions = mm.and(
+  mm.sql`${t.id.isEqualToInput()}`,
+  mm.sql`${t.user_id.isEqualToInput()}`,
 );
 
-export class PostTA extends dd.TableActions {
-  selectPostsByUser = dd
+export class PostTA extends mm.TableActions {
+  selectPostsByUser = mm
     .selectPage(...coreCols)
     .by(t.user_id)
     .orderByDesc(t.created_at);
 
-  selectPostForEditing = dd.select(t.title, t.content).where(updateConditions);
+  selectPostForEditing = mm.select(t.title, t.content).where(updateConditions);
 
   selectCmts = cmtHelper.selectCmts(postCmt);
   insertCmt = cmtHelper.insertCmt(postCmt);
 
-  insertPost = dd
+  insertPost = mm
     .transact(
-      dd
+      mm
         .insertOne()
         .setInputs(t.title, t.content, t.user_id)
         .setDefaults(),
@@ -36,14 +36,14 @@ export class PostTA extends dd.TableActions {
     )
     .argStubs(cm.sanitizedStub, cm.captStub);
 
-  editPost = dd
+  editPost = mm
     .updateOne()
     .setInputs(t.title, t.content)
     .where(updateConditions);
 
-  deletePost = dd.deleteOne().where(updateConditions);
+  deletePost = mm.deleteOne().where(updateConditions);
 
-  selectPostByID = dd.select(...coreCols, t.content, ...userCols).byID();
+  selectPostByID = mm.select(...coreCols, t.content, ...userCols).byID();
 }
 
-export default dd.ta(t, PostTA);
+export default mm.tableActions(t, PostTA);

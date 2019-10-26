@@ -1,8 +1,8 @@
-import * as dd from 'mingru-models';
+import * as mm from 'mingru-models';
 
-export class UserStats extends dd.Table {
-  id = dd.pk().noAutoIncrement;
-  post_count = dd.uInt(0);
+export class UserStats extends mm.Table {
+  id = mm.pk().noAutoIncrement;
+  post_count = mm.uInt(0);
 }
 
-export default dd.table(UserStats);
+export default mm.table(UserStats);

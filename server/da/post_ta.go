@@ -90,18 +90,18 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 
 // PostCmtTableSelectCmtsResult ...
 type PostCmtTableSelectCmtsResult struct {
-	Content     string    `json:"content"`
-	CreatedAt   time.Time `json:"createdAt"`
-	ModifiedAt  time.Time `json:"modifiedAt"`
-	RplCount    uint      `json:"rplCount"`
-	UserID      uint64    `json:"userID"`
-	CmtUserName string    `json:"cmtUserName"`
+	Content    string    `json:"content"`
+	CreatedAt  time.Time `json:"createdAt"`
+	ModifiedAt time.Time `json:"modifiedAt"`
+	RplCount   uint      `json:"rplCount"`
+	UserID     uint64    `json:"userID"`
+	UserName   string    `json:"userName"`
 }
 
 // SelectCmts ...
 func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64) (*PostCmtTableSelectCmtsResult, error) {
 	result := &PostCmtTableSelectCmtsResult{}
-	err := queryable.QueryRow("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `cmtUserName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ?", postID).Scan(&result.Content, &result.CreatedAt, &result.ModifiedAt, &result.RplCount, &result.UserID, &result.CmtUserName)
+	err := queryable.QueryRow("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ?", postID).Scan(&result.Content, &result.CreatedAt, &result.ModifiedAt, &result.RplCount, &result.UserID, &result.UserName)
 	if err != nil {
 		return nil, err
 	}

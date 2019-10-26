@@ -1,8 +1,8 @@
-import * as dd from 'mingru-models';
+import * as mm from 'mingru-models';
 import t from '../models/user';
 
-export class UserTA extends dd.TableActions {
-  selectProfile = dd
+export class UserTA extends mm.TableActions {
+  selectProfile = mm
     .select(
       t.id,
       t.name,
@@ -14,29 +14,29 @@ export class UserTA extends dd.TableActions {
       t.postCount,
     )
     .byID();
-  selectSessionData = dd.select(t.id, t.name, t.icon_name).byID();
-  selectEditingData = dd
+  selectSessionData = mm.select(t.id, t.name, t.icon_name).byID();
+  selectEditingData = mm
     .select(t.id, t.name, t.icon_name, t.location, t.company, t.website, t.bio)
     .byID();
-  selectIconName = dd.selectField(t.icon_name).byID();
+  selectIconName = mm.selectField(t.icon_name).byID();
 
-  updateProfile = dd
+  updateProfile = mm
     .updateOne()
     .setInputs(t.name, t.website, t.company, t.location)
     .byID();
-  updateIconName = dd
+  updateIconName = mm
     .updateOne()
     .setInputs(t.icon_name)
     .byID();
 
-  updateBio = dd
+  updateBio = mm
     .updateOne()
     .setInputs(t.bio)
     .byID();
-  updatePostCount = dd
+  updatePostCount = mm
     .updateOne()
-    .set(t.postCount, dd.sql`${t.postCount} + ${dd.input(dd.int(), 'offset')}`)
+    .set(t.postCount, mm.sql`${t.postCount} + ${mm.input(mm.int(), 'offset')}`)
     .byID('userID');
 }
 
-export default dd.ta(t, UserTA);
+export default mm.tableActions(t, UserTA);

@@ -1,14 +1,14 @@
-import * as dd from 'mingru-models';
+import * as mm from 'mingru-models';
 import user from './user';
 
-export class Cmt extends dd.Table {
-  id = dd.pk();
-  content = dd.text();
+export class Cmt extends mm.Table {
+  id = mm.pk();
+  content = mm.text();
   user_id = user.id;
 
-  created_at = dd.datetime(true);
-  modified_at = dd.datetime(true);
-  rpl_count = dd.uInt();
+  created_at = mm.datetime(true);
+  modified_at = mm.datetime(true);
+  rpl_count = mm.uInt();
 }
 
-export default dd.table(Cmt);
+export default mm.table(Cmt);
