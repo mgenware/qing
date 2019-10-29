@@ -1,4 +1,5 @@
 import * as mm from 'mingru-models';
+import * as mr from 'mingru';
 import t from '../models/post';
 import userTA from './userTA';
 import user from '../models/user';
@@ -8,7 +9,9 @@ import * as cmtHelper from './cmtHelper';
 
 const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
-const userCols = [t.user_id, jUser.name, jUser.icon_name];
+const userCols = [t.user_id, jUser.name, jUser.icon_name].map(c =>
+  c.attr(mr.ColumnAttributes.jsonIgnore),
+);
 
 const updateConditions = mm.and(
   mm.sql`${t.id.isEqualToInput()}`,

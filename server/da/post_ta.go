@@ -116,9 +116,9 @@ type PostTableSelectPostByIDResult struct {
 	ModifiedAt   time.Time `json:"modifiedAt"`
 	CmtCount     uint      `json:"cmtCount"`
 	Content      string    `json:"content"`
-	UserID       uint64    `json:"userID"`
-	UserName     string    `json:"userName"`
-	UserIconName string    `json:"userIconName"`
+	UserID       uint64    `json:"-"`
+	UserName     string    `json:"-"`
+	UserIconName string    `json:"-"`
 }
 
 // SelectPostByID ...
