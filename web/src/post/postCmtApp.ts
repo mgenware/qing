@@ -1,11 +1,17 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'core/cmt/cmtApp';
+import wind from 'app/wind';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
-  @property() targetID = '';
-  @property() targetUserID = '';
+  postID = '';
+  cmtCount = 0;
+
+  firstUpdated() {
+    this.postID = wind.postID;
+    this.cmtCount = wind.postCmtCount;
+  }
 
   render() {
     return html`

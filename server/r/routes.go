@@ -8,10 +8,10 @@ import (
 	"strings"
 
 	"qing/app"
+	"qing/r/api"
 	"qing/r/mp"
 	"qing/r/postp"
 	"qing/r/profilep"
-	"qing/r/api/pri"
 	"qing/r/sys"
 	"qing/r/t"
 
@@ -67,14 +67,14 @@ func Start() {
 	// Not found handler
 	r.With(lm.EnableContextLanguage).NotFound(sys.NotFoundGET)
 
-	// User handler
+	// User router
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
-	// Post handler
+	// Post router
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postp.PostGET)
-	// Dashboard handler
+	// Dashboard router
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
-	// Restricted Service handler (SR)
-	r.Mount("/"+defs.RouteRestrictedService, pri.Router)
+	// API router
+	r.Mount("/"+defs.RouteAPI, api.Router)
 
 	debugConfig := config.Debug
 	if debugConfig != nil {

@@ -94,18 +94,38 @@ type PostCmtTableSelectCmtsResult struct {
 	CreatedAt  time.Time `json:"createdAt"`
 	ModifiedAt time.Time `json:"modifiedAt"`
 	RplCount   uint      `json:"rplCount"`
-	UserID     uint64    `json:"userID"`
-	UserName   string    `json:"userName"`
+	UserID     uint64    `json:"-"`
+	UserName   string    `json:"-"`
 }
 
 // SelectCmts ...
-func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64) (*PostCmtTableSelectCmtsResult, error) {
-	result := &PostCmtTableSelectCmtsResult{}
-	err := queryable.QueryRow("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ?", postID).Scan(&result.Content, &result.CreatedAt, &result.ModifiedAt, &result.RplCount, &result.UserID, &result.UserName)
+func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64, page int, pageSize int) ([]*PostCmtTableSelectCmtsResult, bool, error) {
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := queryable.Query("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", postID, limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
-	return result, nil
+	result := make([]*PostCmtTableSelectCmtsResult, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			item := &PostCmtTableSelectCmtsResult{}
+			err = rows.Scan(&item.Content, &item.CreatedAt, &item.ModifiedAt, &item.RplCount, &item.UserID, &item.UserName)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
 }
 
 // PostTableSelectPostByIDResult ...

@@ -1,7 +1,9 @@
 const m = '/m/';
-const sr = '/sr/';
+const sr = '/s/r/';
+const sp = '/s/p/';
 const srProfile = `${sr}profile/`;
 const srCompose = `${sr}compose/`;
+const spCmt = `${sp}cmt`;
 
 export default {
   dashboard: {
@@ -20,6 +22,11 @@ export default {
       setPost: `${srCompose}set-post`,
       deletePost: `${srCompose}delete-post`,
       getPostForEditing: `${srCompose}get-for-editing`,
+    },
+  },
+  sp: {
+    cmt: {
+      list: `${spCmt}list`,
     },
   },
 };

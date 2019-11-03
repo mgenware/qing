@@ -1,4 +1,5 @@
 import * as mm from 'mingru-models';
+import * as mr from 'mingru';
 import cmt from '../models/cmt';
 import user from '../models/user';
 
@@ -10,16 +11,17 @@ export interface CmtRelationTable extends mm.Table {
 export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
   return mm
-    .select(
+    .selectPage(
       jCmt.content,
       jCmt.created_at,
       jCmt.modified_at,
       jCmt.rpl_count,
-      jCmt.user_id,
-      jCmt.user_id.join(user).name,
+      jCmt.user_id.attr(mr.ColumnAttributes.jsonIgnore),
+      jCmt.user_id.join(user).name.attr(mr.ColumnAttributes.jsonIgnore),
     )
     .from(rt)
-    .by(rt.getTargetID());
+    .by(rt.getTargetID())
+    .orderByDesc(jCmt.created_at);
 }
 
 export function insertCmt(rt: CmtRelationTable): mm.Action {

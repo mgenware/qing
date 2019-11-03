@@ -44,12 +44,12 @@ const (
 
 // Top-level routes
 const (
-	RouteUser              = "user"
-	RoutePost              = "p"
-	RouteAuth              = "auth"
-	RouteTest              = "t"
-	RouteDashboard         = "m"
-	RouteRestrictedService = "sr"
+	RouteUser      = "user"
+	RoutePost      = "p"
+	RouteAuth      = "auth"
+	RouteTest      = "t"
+	RouteDashboard = "m"
+	RouteAPI       = "s"
 )
 
 const (
