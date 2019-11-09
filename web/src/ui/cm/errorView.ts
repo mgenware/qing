@@ -9,18 +9,17 @@ export class ErrorView extends BaseElement {
 
   render() {
     return html`
-      <div class="content">
+      <div class="section is-danger">
         <h3>${this.title || ls.errOccurred}</h3>
-        <hr />
         <div><slot></slot></div>
 
         ${this.canRetry
           ? html`
-              <p>
-                <button class="button m-t-md" @click=${this.handleRetryClick}>
+              <div class="m-t-md">
+                <lit-button class="is-primary" @click=${this.handleRetryClick}>
                   ${ls.retry}
-                </button>
-              </p>
+                </lit-button>
+              </div>
             `
           : ''}
       </div>
