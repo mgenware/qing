@@ -42,11 +42,12 @@ func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]int
 
 // MustGetIntFromDict converts the value for the specified key to int, and panics on error.
 func MustGetIntFromDict(dict map[string]interface{}, key string) int {
-	val, ok := dict[key].(int)
+	// All number types are encoded as float64.
+	val, ok := dict[key].(float64)
 	if !ok {
 		panicMissingArg(key)
 	}
-	return val
+	return int(val)
 }
 
 // MustToPageOrDefault converts the given page string to a integer.

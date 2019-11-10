@@ -1,21 +1,31 @@
 import Loader from 'lib/loader';
 import routes from 'routes';
+import { EntityType } from 'lib/entity';
+import Cmt from '../cmt';
 
-export default class ListCmtLoader extends Loader<undefined> {
-  constructor(public url: string) {
+export interface ListCmtLoaderResp {
+  hasNext: boolean;
+  cmts: Cmt[];
+}
+
+export default class ListCmtLoader extends Loader<ListCmtLoaderResp> {
+  constructor(
+    public eid: string,
+    public eType: EntityType,
+    public page?: number,
+  ) {
     super();
   }
 
   requestURL(): string {
-    return this.url;
+    return routes.sp.cmt.list;
   }
 
   requestParams(): object {
     const ret = {
-      name: this.name,
-      website: this.website,
-      company: this.company,
-      location: this.location,
+      eid: this.eid,
+      etype: this.eType,
+      page: this.page,
     };
     return ret;
   }

@@ -23,8 +23,8 @@ export class EditProfileApp extends BaseElement {
   @property() url = '';
   @property() company = '';
   @property() location = '';
-  @property({ type: Object }) loadingStatus = new Status();
-  @property({ type: Object }) setInfoStatus = new Status();
+  @property({ type: Object }) loadingStatus = Status.unstarted();
+  @property({ type: Object }) setInfoStatus = Status.unstarted();
   @property({ type: Boolean }) isUploadingAvatar = false;
   @property() avatarURL = '';
   setInfoLoader!: SetProfileInfoLoader;

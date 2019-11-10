@@ -1,6 +1,12 @@
 import ErrorWithCode from './errorWithCode';
 
 export default class Status {
+  private constructor() {}
+
+  static unstarted(): Status {
+    return new Status();
+  }
+
   static started(): Status {
     const s = new Status();
     s.isStarted = true;

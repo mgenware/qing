@@ -3,7 +3,7 @@ const sr = '/s/r/';
 const sp = '/s/p/';
 const srProfile = `${sr}profile/`;
 const srCompose = `${sr}compose/`;
-const spCmt = `${sp}cmt`;
+const spCmt = `${sp}cmt/`;
 
 export default {
   dashboard: {

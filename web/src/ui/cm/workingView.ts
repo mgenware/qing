@@ -4,7 +4,7 @@ import Status from 'lib/status';
 
 @customElement('working-view')
 export class WorkingView extends BaseElement {
-  @property({ type: Object }) status = new Status();
+  @property({ type: Object }) status = Status.unstarted();
   @property({ type: Boolean }) isWorking = false;
 
   render() {

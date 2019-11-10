@@ -74,7 +74,6 @@ func (logger *Logger) Warn(key string, args ...interface{}) {
 	if logger.DevMode {
 		log.Println(color.YellowString(formatOutputStr(key, args)))
 	}
-	log.Print("ke")
 	logger.warningLogger.Warnw(key, args...)
 }
 

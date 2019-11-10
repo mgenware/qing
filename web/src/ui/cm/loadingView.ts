@@ -7,7 +7,7 @@ import BaseElement from 'baseElement';
 
 @customElement('loading-view')
 export class LoadingView extends BaseElement {
-  @property({ type: Object }) status = new Status();
+  @property({ type: Object }) status = Status.unstarted();
   @property() loadingText = '';
   @property({ type: Boolean }) canRetry = false;
   @property() errorTitle = '';

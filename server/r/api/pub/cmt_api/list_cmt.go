@@ -15,8 +15,8 @@ import (
 var kCmtPageSize = 10
 
 type ListCmtRespData struct {
-	cmts    []*apidata.Cmt
-	hasNext bool
+	Cmts    []*apidata.Cmt `json:"cmts"`
+	HasNext bool           `json:"hasNext"`
 }
 
 func newListCmtRespData(cmts []*da.PostCmtTableSelectCmtsResult, hasNext bool) *ListCmtRespData {
@@ -25,8 +25,8 @@ func newListCmtRespData(cmts []*da.PostCmtTableSelectCmtsResult, hasNext bool) *
 		cmtsConverted[i] = apidata.NewCmt(cmts[i])
 	}
 	res := &ListCmtRespData{}
-	res.cmts = cmtsConverted
-	res.hasNext = hasNext
+	res.Cmts = cmtsConverted
+	res.HasNext = hasNext
 	return res
 }
 

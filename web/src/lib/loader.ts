@@ -9,7 +9,7 @@ export default class Loader<T> {
   private _currentStatus: Status | null = null;
 
   constructor() {
-    this._currentStatus = new Status();
+    this._currentStatus = Status.unstarted();
   }
 
   async startAsync(): Promise<T> {
