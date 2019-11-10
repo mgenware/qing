@@ -5,7 +5,7 @@ import Status from 'lib/status';
 import ls from 'ls';
 import ListCmtLoader from './loaders/listCmtLoader';
 import Cmt from './cmt';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import './cmtView';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -40,7 +40,7 @@ export class CmtApp extends BaseElement {
           ${cmts.map(
             cmt =>
               html`
-                <div>${unsafeHTML(cmt.content)}</div>
+                <cmt-view .cmt=${cmt}></cmt-view>
               `,
           )}
         </div>

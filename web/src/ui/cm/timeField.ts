@@ -6,31 +6,32 @@ import app from 'app';
 
 @customElement('time-field')
 export class TimeField extends LitElement {
-  @property() created = '';
-  @property() edited = '';
+  @property() createdAt = '';
+  @property() modifiedAt = '';
   locale!: Locale;
 
   firstUpdated() {
     const lang = app.state.lang;
     this.locale = lang === 'cs' ? zhCN : enUS;
     const content = this.textContent;
+    // Load time properties from content if it's present.
     if (content) {
       const parts = content.split('|');
       if (parts.length > 0) {
-        this.created = this.formatDate(parts[0]);
+        this.createdAt = this.formatDate(parts[0]);
       }
       if (parts.length > 1) {
-        this.edited = this.formatDate(parts[1]);
+        this.modifiedAt = this.formatDate(parts[1]);
       }
     }
   }
 
   render() {
-    const { created, edited } = this;
+    const { createdAt, modifiedAt } = this;
 
-    let content = created;
-    if (!created && edited !== created) {
-      content += ` [${ls.editedAt} ${edited}]`;
+    let content = createdAt;
+    if (!createdAt && modifiedAt !== createdAt) {
+      content += ` [${ls.editedAt} ${modifiedAt}]`;
     }
     return html`
       <!-- Set visibility to visible cuz this component is inherently hidden, and only shows when its content is ready -->
