@@ -5,23 +5,7 @@ import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
 import ls from 'ls';
 import * as defs from 'defs';
-
-export class LoaderResult<T> {
-  constructor(public error: Error | undefined, public result: T | null) {}
-
-  get isError(): boolean {
-    return !!this.error;
-  }
-
-  get isSuccess(): boolean {
-    return !this.isError;
-  }
-
-  // Call this after isSuccess().
-  getResult(): T {
-    return this.result as T;
-  }
-}
+import Status from 'lib/status';
 
 class APP {
   state = new AppState();
@@ -33,19 +17,32 @@ class APP {
     return !!this.state.hasUser;
   }
 
-  async runActionAsync<T>(
+  async runLocalActionAsync<T>(
+    loader: Loader<T>,
+    cb: (result: Status<T>) => void,
+  ) {
+    try {
+      cb(Status.started<T>());
+      const data = await loader.startAsync();
+      cb(Status.success<T>(data));
+    } catch (err) {
+      cb(Status.failure<T>(err));
+    }
+  }
+
+  async runGlobalActionAsync<T>(
     loader: Loader<T>,
     overlayText?: string,
     errorDict?: Map<number, string>,
-  ): Promise<LoaderResult<T>> {
+  ): Promise<Status<T>> {
     const { alert } = this;
     errorDict = errorDict;
     try {
       alert.showLoadingOverlay(overlayText || ls.loading);
-      const result = await loader.startAsync();
+      const data = await loader.startAsync();
       alert.hideLoadingOverlay();
 
-      return new LoaderResult(undefined, result);
+      return Status.success(data);
     } catch (ex) {
       alert.hideLoadingOverlay();
       let message;
@@ -63,7 +60,7 @@ class APP {
         message = ex.message;
       }
       await alert.error(message);
-      return new LoaderResult<T>(ex, null);
+      return Status.failure(ex);
     }
   }
 }

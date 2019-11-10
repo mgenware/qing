@@ -1,8 +1,13 @@
 import Status from './status';
-import Result from './result';
 import ls from '../ls';
 import ErrorWithCode from './errorWithCode';
 import { GenericError } from 'defs';
+
+export interface APIResponse {
+  code?: number;
+  message?: string;
+  data?: unknown;
+}
 
 export default class Loader<T> {
   statusChanged: ((status: Status) => void) | null = null;
@@ -41,14 +46,14 @@ export default class Loader<T> {
 
         throw new ErrorWithCode(message);
       } else {
-        const result = (await response.json()) as Result;
+        const resp = (await response.json()) as APIResponse;
 
         // Check server return error
-        if (result.code) {
-          const message = result.message || `Error code ${result.code}`;
-          throw new ErrorWithCode(message, result.code);
+        if (resp.code) {
+          const message = resp.message || `Error code ${resp.code}`;
+          throw new ErrorWithCode(message, resp.code);
         }
-        return this.handleSuccess(result);
+        return this.handleSuccess(resp);
       }
     } catch (err) {
       let errWithCode: ErrorWithCode;
@@ -74,8 +79,8 @@ export default class Loader<T> {
     return {};
   }
 
-  handleSuccess(result: Result): T {
-    const data = result.data as T;
+  handleSuccess(resp: APIResponse): T {
+    const data = resp.data as T;
     this.onStatusChanged(Status.success());
     return data;
   }
