@@ -8,7 +8,7 @@
     "build": "yarn run lint && yarn run clean && cross-env NODE_ENV=production rollup -c",
     "compile": "tsc",
     "dev": "yarn run clean && cross-env NODE_ENV=development rollup -c -w",
-    "lint": "eslint --ext .ts src/",
+    "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\" --strict",
     "clean": "del-cli static/d/js"
   },
   "engines": {
@@ -35,6 +35,7 @@
     "cross-env": "^6.0.3",
     "del-cli": "^3.0.0",
     "eslint": "^6.6.0",
+    "lit-analyzer": "^1.1.9",
     "rollup": "^1.26.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",

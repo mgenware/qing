@@ -26,7 +26,7 @@ export class CmtApp extends BaseElement {
 
   render() {
     const { cmts } = this;
-    let header = html`
+    const header = html`
       <h2>${ls.comments}</h2>
     `;
     let content: TemplateResult;

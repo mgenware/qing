@@ -1,7 +1,9 @@
 import ErrorWithCode from './errorWithCode';
 
 export default class Status {
-  private constructor() {}
+  private constructor() {
+    /* mute eslint */
+  }
 
   static unstarted(): Status {
     return new Status();
