@@ -21,9 +21,9 @@ export default class SetPostApp extends BaseElement {
     if (this.editedID) {
       // Loading content
       const loader = new GetPostForEditingLoader(this.editedID);
-      const res = await app.runActionAsync(loader);
-      if (res.isSuccess) {
-        const postData = res.getResult();
+      const status = await app.runGlobalActionAsync(loader);
+      if (status.data) {
+        const postData = status.data;
         this.updateContent(postData.Title, postData.Content);
       }
     }
@@ -60,15 +60,12 @@ export default class SetPostApp extends BaseElement {
       return;
     }
     const loader = new SetPostLoader(this.editedID, e.detail);
-    const res = await app.runActionAsync(
+    const status = await app.runGlobalActionAsync(
       loader,
       this.editedID ? ls.saving : ls.publishing,
     );
-    if (res.isSuccess) {
-      const url = res.getResult();
-      if (url) {
-        app.browser.setURL(url);
-      }
+    if (status.data) {
+      app.browser.setURL(status.data);
     }
   }
 }

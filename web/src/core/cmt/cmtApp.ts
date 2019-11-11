@@ -6,6 +6,7 @@ import ls from 'ls';
 import ListCmtLoader from './loaders/listCmtLoader';
 import Cmt from './cmt';
 import './cmtView';
+import app from 'app';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -13,7 +14,7 @@ export class CmtApp extends BaseElement {
   @property() eID = '';
   @property({ type: Number }) eType = 0;
 
-  @property({ type: Object }) status = Status.unstarted();
+  @property({ type: Object }) status = Status.empty();
   @property({ type: Boolean }) hasNext = false;
   @property({ type: Array }) cmts: Cmt[] = [];
   private page = 1;
@@ -61,14 +62,13 @@ export class CmtApp extends BaseElement {
 
   private async reloadAllAsync() {
     const loader = new ListCmtLoader(this.eID, this.eType, this.page);
-    this.status = Status.started();
-    try {
-      const resp = await loader.startAsync();
-      this.hasNext = resp.hasNext;
-      this.status = Status.success();
-      this.cmts.push(...(resp.cmts || []));
-    } catch (err) {
-      this.status = Status.failure(err);
-    }
+    await app.runLocalActionAsync(loader, status => {
+      this.status = status;
+      if (status.isSuccess && status.data) {
+        const resp = status.data;
+        this.hasNext = resp.hasNext;
+        this.cmts.push(...(resp.cmts || []));
+      }
+    });
   }
 }

@@ -4,7 +4,6 @@ import UserData from './app/modules/userData';
 import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
 import ls from 'ls';
-import * as defs from 'defs';
 import Status from 'lib/status';
 
 class APP {
@@ -22,46 +21,34 @@ class APP {
     cb: (result: Status<T>) => void,
   ) {
     try {
-      cb(Status.started<T>());
-      const data = await loader.startAsync();
-      cb(Status.success<T>(data));
+      loader.statusChanged = cb;
+      await loader.startAsync();
     } catch (err) {
-      cb(Status.failure<T>(err));
+      // Error will be handled in loader.statusChanged
     }
   }
 
   async runGlobalActionAsync<T>(
     loader: Loader<T>,
     overlayText?: string,
-    errorDict?: Map<number, string>,
+    cb?: (result: Status<T>) => void,
   ): Promise<Status<T>> {
     const { alert } = this;
-    errorDict = errorDict;
+    let status = Status.empty<T>();
     try {
-      alert.showLoadingOverlay(overlayText || ls.loading);
-      const data = await loader.startAsync();
-      alert.hideLoadingOverlay();
-
-      return Status.success(data);
-    } catch (ex) {
-      alert.hideLoadingOverlay();
-      let message;
-      const { code } = ex;
-      if (code) {
-        if (errorDict && errorDict.get(code)) {
-          message = errorDict.get(code);
-        } else if (defs.errLSDict.get(code)) {
-          const lsKey = defs.errLSDict.get(code) as string;
-          message = ls[lsKey];
-        } else {
-          message = ex.message;
+      loader.statusChanged = s => {
+        status = s;
+        if (cb) {
+          cb(s);
         }
-      } else {
-        message = ex.message;
-      }
-      await alert.error(message);
-      return Status.failure(ex);
+      };
+      alert.showLoadingOverlay(overlayText || ls.loading);
+      await loader.startAsync();
+      alert.hideLoadingOverlay();
+    } catch (ex) {
+      await alert.error(ex.message);
     }
+    return status;
   }
 }
 

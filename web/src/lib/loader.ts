@@ -10,18 +10,15 @@ export interface APIResponse {
 }
 
 export default class Loader<T> {
-  statusChanged: ((status: Status) => void) | null = null;
-  private _currentStatus: Status | null = null;
-
-  constructor() {
-    this._currentStatus = Status.unstarted();
-  }
+  statusChanged: ((status: Status<T>) => void) | null = null;
+  private isStarted = false;
 
   async startAsync(): Promise<T> {
     try {
-      if (this._currentStatus && this._currentStatus.isStarted) {
+      if (this.isStarted) {
         throw new Error('Loader should not be reused');
       }
+      this.isStarted = true;
       this.onStatusChanged(Status.started());
 
       let body = '';
@@ -81,12 +78,11 @@ export default class Loader<T> {
 
   handleSuccess(resp: APIResponse): T {
     const data = resp.data as T;
-    this.onStatusChanged(Status.success());
+    this.onStatusChanged(Status.success(data));
     return data;
   }
 
-  private onStatusChanged(status: Status) {
-    this._currentStatus = status;
+  private onStatusChanged(status: Status<T>) {
     if (this.statusChanged) {
       this.statusChanged(status);
     }

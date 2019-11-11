@@ -35,10 +35,10 @@ export class PostAdminApp extends BaseElement {
     if (await app.alert.confirm(format('pDoYouWantToDeleteThis', ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
       const loader = new DeletePostLoader(this.targetID);
-      const res = await app.runActionAsync(loader, ls.working);
-      if (res.isSuccess) {
+      const status = await app.runGlobalActionAsync(loader, ls.working);
+      if (status.data) {
         // Redirect to profile page since this page has been deleted
-        app.browser.setURL(res.getResult() as string);
+        app.browser.setURL(status.data);
       }
     }
   }

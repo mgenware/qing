@@ -2,8 +2,8 @@ import { html, customElement, property } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
 import ls from 'ls';
 import BaseElement from 'baseElement';
-import Result from 'lib/result';
 import AvatarUploadResponse from './avatarUploadResponse';
+import { APIResponse } from 'lib/loader';
 
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
@@ -95,9 +95,9 @@ export class AvatarUploader extends BaseElement {
         this.isWorking = false;
 
         if (xhr.status === 200) {
-          let resp: Result;
+          let resp: APIResponse;
           try {
-            resp = JSON.parse(xhr.responseText) as Result;
+            resp = JSON.parse(xhr.responseText) as APIResponse;
           } catch (exp) {
             resp = { code: 1000 };
             resp.message = `${ls.internalErr}: ${xhr.responseText}`;

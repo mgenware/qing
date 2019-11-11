@@ -23,14 +23,14 @@ export class EditProfileApp extends BaseElement {
   @property() url = '';
   @property() company = '';
   @property() location = '';
-  @property({ type: Object }) loadingStatus = Status.unstarted();
-  @property({ type: Object }) setInfoStatus = Status.unstarted();
+  @property({ type: Object }) loadingStatus = Status.empty();
+  @property({ type: Object }) setInfoStatus = Status.empty();
   @property({ type: Boolean }) isUploadingAvatar = false;
   @property() avatarURL = '';
   setInfoLoader!: SetProfileInfoLoader;
 
   async firstUpdated() {
-    await this.reloadData();
+    await this.reloadDataAsync();
   }
 
   render() {
@@ -127,46 +127,48 @@ export class EditProfileApp extends BaseElement {
     `;
   }
 
-  private async reloadData() {
-    try {
-      const loader = new GetProfileInfoLoader();
-      const res = await app.runActionAsync(loader);
-      if (res.isSuccess) {
-        const profile = res.getResult();
-        this.nick = profile.Name || '';
-        this.url = profile.Website || '';
-        this.company = profile.Company || '';
-        this.location = profile.Location || '';
-        this.avatarURL = profile.IconURL || '';
-      }
-    } catch (err) {
-      await app.alert.error(err.message);
+  private async reloadDataAsync() {
+    const loader = new GetProfileInfoLoader();
+    const status = await app.runGlobalActionAsync(
+      loader,
+      undefined,
+      status => (this.loadingStatus = status),
+    );
+    if (status.data) {
+      const profile = status.data;
+      this.nick = profile.Name || '';
+      this.url = profile.Website || '';
+      this.company = profile.Company || '';
+      this.location = profile.Location || '';
+      this.avatarURL = profile.IconURL || '';
     }
   }
 
   private async handleSaveProfileClick() {
+    // Validate user inputs.
     try {
       if (!this.nick) {
         throw new Error(format('pPlzEnterThe', ls.name));
       }
-      const loader = new SetProfileInfoLoader(
-        this.nick,
-        this.url,
-        this.company,
-        this.location,
-      );
-      loader.statusChanged = status => {
-        this.setInfoStatus = status;
-      };
-      await app.runActionAsync(loader, ls.saving);
-      await app.alert.successToast(ls.profileUpdated);
     } catch (err) {
       await app.alert.error(err.message);
+    }
+    const loader = new SetProfileInfoLoader(
+      this.nick,
+      this.url,
+      this.company,
+      this.location,
+    );
+    const status = await app.runGlobalActionAsync(loader, ls.saving, status => {
+      this.setInfoStatus = status;
+    });
+    if (status.isSuccess) {
+      await app.alert.successToast(ls.profileUpdated);
     }
   }
 
   private async handleLoadingRetry() {
-    await this.reloadData();
+    await this.reloadDataAsync();
   }
 
   private async handleAvatarUploadError(e: CustomEvent<string>) {
