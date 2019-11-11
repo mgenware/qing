@@ -68,7 +68,7 @@ export class EditProfileApp extends BaseElement {
                   style="border: 1px solid #ededed"
                 />
               </p>
-              <div class="mt-3">
+              <div class="m-t-md">
                 <avatar-uploader
                   .postURL=${routes.sr.profile.setAvatar}
                   @onComplete=${this.handleAvatarUploadComplete}

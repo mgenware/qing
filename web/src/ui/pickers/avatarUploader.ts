@@ -1,15 +1,15 @@
 import { html, customElement, property } from 'lit-element';
-import { styleMap } from 'lit-html/directives/style-map.js';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import AvatarUploadResponse from './avatarUploadResponse';
 import { APIResponse } from 'lib/loader';
+import 'ui/cm/progressView';
 
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
   @property() postURL!: string;
-  isWorking = false;
-  progress = 0;
+  @property({ type: Boolean }) isWorking = false;
+  @property({ type: Number }) progress = 0;
 
   formElement!: HTMLFormElement;
   uploadElement!: HTMLInputElement;
@@ -27,8 +27,8 @@ export class AvatarUploader extends BaseElement {
           id="formElement"
           class=${this.isWorking ? 'content-disabled' : ''}
         >
-          <div class="file">
-            <label class="file-label">
+          <div>
+            <label>
               <input
                 type="file"
                 id="uploadElement"
@@ -44,34 +44,22 @@ export class AvatarUploader extends BaseElement {
                     height="16"
                   />
                 </span>
-                <span class="file-label">${ls.chooseAFileBtn}</span>
+                <span>${ls.chooseAFileBtn}</span>
               </span>
               <br />
             </label>
           </div>
-          <p><small class="color-gray">${ls.uploadProfileImgDesc}</small></p>
+          <p><small>${ls.uploadProfileImgDesc}</small></p>
         </form>
 
         ${this.isWorking
           ? html`
-              <div class="progress mt-md">
+              <div class="m-t-md">
                 ${this.progress
                   ? html`
-                      <div
-                        v-if="progress"
-                        class="progress-bar"
-                        role="progressbar"
-                        style=${styleMap({ width: `${this.progress}%` })}
-                      ></div>
+                      <progress-view .progress=${this.progress}></progress-view>
                     `
-                  : html`
-                      <div
-                        v-else
-                        class="progress-bar progress-bar-striped progress-bar-animated"
-                        role="progressbar"
-                        style="width: 100%"
-                      ></div>
-                    `}
+                  : html``}
               </div>
             `
           : ''}
