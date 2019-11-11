@@ -4,6 +4,7 @@ import { ls, format } from 'ls';
 import app from 'app';
 import EditorView from './editorView';
 import 'ui/cm/captchaView';
+import 'lit-button';
 import BaseElement from 'baseElement';
 import { CaptchaView } from 'ui/cm/captchaView';
 import { EntityType } from 'lib/entity';
@@ -22,12 +23,12 @@ export class ComposerPayload {
 
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
-  @property() entityType: EntityType = 0;
+  @property({ type: Number }) entityType: EntityType = 0;
   @property() title = '';
-  @property() showTitle = true;
+  @property({ type: Boolean }) showTitle = true;
   @property() entityID = '';
   @property() content = '';
-  @property() showCancelButton = false;
+  @property({ type: Boolean }) showCancelButton = false;
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;

@@ -3,7 +3,7 @@ import BaseElement from 'baseElement';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 @customElement('progress-view')
-export class ProgressView extends BaseElement {
+export default class ProgressView extends BaseElement {
   @property({ type: Number }) progress = 0;
 
   render() {
