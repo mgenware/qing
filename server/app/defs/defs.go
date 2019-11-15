@@ -57,5 +57,7 @@ const (
 )
 
 const (
-	EntityPost = 1
+	EntityPost  = 1
+	EntityCmt   = 2
+	EntityReply = 3
 )

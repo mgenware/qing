@@ -59,5 +59,8 @@
   "working": "工作中...",
   "editPost": "编辑文章",
   "comments": "评论",
-  "noComment": "暂无评论"
+  "noComment": "暂无评论",
+  "writeAComment": "发表评论",
+  "plsLoginToComment": "请||登录||后评论。",
+  "comment": "评论"
 }

@@ -12,6 +12,7 @@ export default {
     editProfile: `${m}profile`,
   },
   sr: {
+    reqCapt: `${sr}req-capt`,
     profile: {
       getInfo: `${srProfile}get-info`,
       setInfo: `${srProfile}set-info`,

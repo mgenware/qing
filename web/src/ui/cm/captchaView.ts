@@ -1,7 +1,7 @@
 import { html, customElement, property, css } from 'lit-element';
 import ls from 'ls';
 import BaseElement from 'baseElement';
-const MAPI_CAPT_REQ = '/sr/req-capt';
+import routes from 'routes';
 
 @customElement('captcha-view')
 export class CaptchaView extends BaseElement {
@@ -20,7 +20,7 @@ export class CaptchaView extends BaseElement {
     ];
   }
 
-  @property() eType = '';
+  @property({ type: Number }) eType = 0;
   @property({ type: Number }) private timestamp = Date.now();
   private textElement!: HTMLInputElement;
 
@@ -29,7 +29,7 @@ export class CaptchaView extends BaseElement {
   }
 
   render() {
-    const src = `${MAPI_CAPT_REQ}?etype=${this.eType}&t=${this.timestamp}`;
+    const src = `${routes.sr.reqCapt}?etype=${this.eType}&t=${this.timestamp}`;
     return html`
       <span>
         <a class="root-img" @click=${this.handleClick} href="#">

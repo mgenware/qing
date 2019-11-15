@@ -1,5 +1,6 @@
 export enum EntityType {
   post = 1,
+  cmt,
 }
 
 export class Entity {

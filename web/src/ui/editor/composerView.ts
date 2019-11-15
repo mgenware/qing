@@ -27,8 +27,12 @@ export class ComposerView extends BaseElement {
   @property() title = '';
   @property({ type: Boolean }) showTitle = true;
   @property() entityID = '';
+  // When writing a comment, `entityID` is null, `attachedEntityID` is the target you're writing comment to.
+  @property() attachedEntityID = '';
+  @property({ type: Number }) attachedEntityType: EntityType = 0;
   @property() content = '';
   @property({ type: Boolean }) showCancelButton = false;
+  @property() submitButtonText = '';
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
@@ -76,13 +80,13 @@ export class ComposerView extends BaseElement {
               <div class="m-b-md">
                 <captcha-view
                   id="captElement"
-                  etype=${this.entityType}
+                  .eType=${this.entityType}
                   @onEnterKeyUp=${this.handleSubmit}
                 ></captcha-view>
               </div>
             `}
         <lit-button class="is-success" @click=${this.handleSubmit}>
-          ${this.entityID ? ls.save : ls.publish}
+          ${this.submitButtonText || (this.entityID ? ls.save : ls.publish)}
         </lit-button>
         ${this.showCancelButton
           ? html`

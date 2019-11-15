@@ -59,5 +59,8 @@
   "working": "Working...",
   "editPost": "Edit post",
   "comments": "Comments",
-  "noComment": "No comment"
+  "noComment": "No comment",
+  "writeAComment": "Write a comment",
+  "plsLoginToComment": "Please ||Sign in|| to comment.",
+  "comment": "Comment"
 }

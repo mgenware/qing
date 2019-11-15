@@ -7,6 +7,8 @@ import ListCmtLoader from './loaders/listCmtLoader';
 import Cmt from './cmt';
 import './cmtView';
 import app from 'app';
+import { splitLocalizedString } from 'lib/stringUtils';
+import './addCmtApp';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -55,8 +57,34 @@ export class CmtApp extends BaseElement {
         ></loading-view>
       `;
     }
+
+    const footer = app.state.hasUser
+      ? this.renderCommentComposer()
+      : this.renderLoginToComment();
+
     return html`
-      ${header}${content}
+      ${header}${content}${footer}
+    `;
+  }
+
+  private renderLoginToComment() {
+    const loginToCommentTextArray = splitLocalizedString(ls.plsLoginToComment);
+    return html`
+      <div>
+        <span>${loginToCommentTextArray[0]}</span>
+        <lit-button class="is-success m-l-xs m-r-xs"
+          >${loginToCommentTextArray[1]}</lit-button
+        >
+        <span>${loginToCommentTextArray[2]}</span>
+      </div>
+    `;
+  }
+
+  private renderCommentComposer() {
+    return html`
+      <div>
+        <add-cmt-app></add-cmt-app>
+      </div>
     `;
   }
 
