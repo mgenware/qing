@@ -9,12 +9,12 @@
     "build": "ts-node mingru"
   },
   "devDependencies": {
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2"
   },
   "dependencies": {
-    "mingru": "^0.15.1",
-    "mingru-models": "^0.24.3",
+    "mingru": "^0.19.0",
+    "mingru-models": "^0.28.0",
     "mingru-tsconfig": "^2.0.0"
   }
 }

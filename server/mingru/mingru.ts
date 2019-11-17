@@ -9,8 +9,8 @@ import tables from './tables';
     cleanBuild: true,
     memberJSONKeyStyle: mr.MemberJSONKeyStyle.camelCase,
   });
-  await builder.build(async () => {
-    builder.buildActions(actions);
-    builder.buildCreateTableSQLFiles(tables);
+  await builder.buildAsync(async () => {
+    await builder.buildActionsAsync(actions);
+    await builder.buildCreateTableSQLFilesAsync(tables);
   });
 })();

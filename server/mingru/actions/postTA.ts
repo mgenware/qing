@@ -10,7 +10,7 @@ import * as cmtHelper from './cmtHelper';
 const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
 const userCols = [t.user_id, jUser.name, jUser.icon_name].map(c =>
-  c.attr(mr.ColumnAttributes.jsonIgnore),
+  c.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
 );
 
 const updateConditions = mm.and(

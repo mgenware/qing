@@ -16,9 +16,11 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
       jCmt.created_at,
       jCmt.modified_at,
       jCmt.rpl_count,
-      jCmt.user_id.attr(mr.ColumnAttributes.jsonIgnore),
+      jCmt.user_id.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
       jCmt.user_id.join(user).name,
-      jCmt.user_id.join(user).icon_name.attr(mr.ColumnAttributes.jsonIgnore),
+      jCmt.user_id
+        .join(user)
+        .icon_name.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
     )
     .from(rt)
     .by(rt.getTargetID())
