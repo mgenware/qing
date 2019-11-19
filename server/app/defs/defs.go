@@ -12,14 +12,6 @@ const (
 )
 
 const (
-	GenericError         = 10000
-	NeedAuthError        = 10001
-	CaptchaNotFoundError = 10002
-	CaptchaNotMatchError = 10003
-	CookieDefaultExpires = 1296000
-)
-
-const (
 	AvatarResKey = "user_icon"
 )
 
@@ -53,7 +45,8 @@ const (
 )
 
 const (
-	UserPostsLimit = 10
+	CookieDefaultExpires = 1296000
+	UserPostsLimit       = 10
 )
 
 const (

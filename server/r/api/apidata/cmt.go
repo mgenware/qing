@@ -6,14 +6,14 @@ import (
 )
 
 type Cmt struct {
-	da.PostCmtTableSelectCmtsResult
+	da.SelectCmtResult
 
 	UserURL     string `json:"userURL"`
 	UserIconURL string `json:"userIconURL"`
 }
 
-func NewCmt(d *da.PostCmtTableSelectCmtsResult) *Cmt {
-	r := &Cmt{PostCmtTableSelectCmtsResult: *d}
+func NewCmt(d *da.SelectCmtResult) *Cmt {
+	r := &Cmt{SelectCmtResult: *d}
 	r.UserURL = app.URL.UserProfile(r.UserID)
 	r.UserIconURL = app.URL.UserIconURL50(r.UserID, r.UserIconName)
 	return r

@@ -88,19 +88,8 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 	return insertedID, txErr
 }
 
-// PostCmtTableSelectCmtsResult ...
-type PostCmtTableSelectCmtsResult struct {
-	Content      string    `json:"content"`
-	CreatedAt    time.Time `json:"createdAt"`
-	ModifiedAt   time.Time `json:"modifiedAt"`
-	RplCount     uint      `json:"rplCount"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"userName"`
-	UserIconName string    `json:"-"`
-}
-
 // SelectCmts ...
-func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64, page int, pageSize int) ([]*PostCmtTableSelectCmtsResult, bool, error) {
+func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64, page int, pageSize int) ([]*SelectCmtResult, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -108,13 +97,13 @@ func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64, page
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*PostCmtTableSelectCmtsResult, 0, limit)
+	result := make([]*SelectCmtResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &PostCmtTableSelectCmtsResult{}
+			item := &SelectCmtResult{}
 			err = rows.Scan(&item.Content, &item.CreatedAt, &item.ModifiedAt, &item.RplCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err

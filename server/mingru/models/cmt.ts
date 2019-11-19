@@ -8,7 +8,7 @@ export class Cmt extends mm.Table {
 
   created_at = mm.datetime(true);
   modified_at = mm.datetime(true);
-  rpl_count = mm.uInt();
+  rpl_count = mm.uInt(0);
 }
 
 export default mm.table(Cmt);

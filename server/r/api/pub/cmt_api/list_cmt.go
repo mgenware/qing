@@ -19,7 +19,7 @@ type ListCmtRespData struct {
 	HasNext bool           `json:"hasNext"`
 }
 
-func newListCmtRespData(cmts []*da.PostCmtTableSelectCmtsResult, hasNext bool) *ListCmtRespData {
+func newListCmtRespData(cmts []*da.SelectCmtResult, hasNext bool) *ListCmtRespData {
 	cmtsConverted := make([]*apidata.Cmt, len(cmts))
 	for i := 0; i < len(cmts); i++ {
 		cmtsConverted[i] = apidata.NewCmt(cmts[i])

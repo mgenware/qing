@@ -18,10 +18,10 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.2
 	go.uber.org/multierr v1.4.0 // indirect
 	go.uber.org/zap v1.13.0
-	golang.org/x/net v0.0.0-20191112182307-2180aed22343 // indirect
-	golang.org/x/sys v0.0.0-20191113165036-4c7a9d0fe056 // indirect
+	golang.org/x/net v0.0.0-20191119073136-fc4aabc6c914 // indirect
+	golang.org/x/sys v0.0.0-20191119060738-e882bf8e40c2 // indirect
 	golang.org/x/text v0.3.2
-	golang.org/x/tools v0.0.0-20191113232020-e2727e816f5a // indirect
+	golang.org/x/tools v0.0.0-20191118222007-07fc4c7f2b98 // indirect
 	google.golang.org/appengine v1.6.5 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.0
