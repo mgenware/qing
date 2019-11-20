@@ -9,8 +9,7 @@ export class Post extends mm.Table {
 
   created_at = mm.datetime(true);
   modified_at = mm.datetime(true);
-  likes = mm.int();
-  cmt_count = mm.uInt();
+  cmt_count = mm.uInt(0);
 }
 
 export default mm.table(Post);

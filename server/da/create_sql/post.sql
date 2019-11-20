@@ -5,7 +5,6 @@ CREATE TABLE `post` (
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
 	`modified_at` DATETIME NOT NULL,
-	`likes` INT NOT NULL,
 	`cmt_count` INT UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE

@@ -33,8 +33,8 @@ func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uin
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePost) insertCmtChild1(queryable dbx.Queryable, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, rplCount uint) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `rpl_count`) VALUES (?, ?, ?, ?, ?)", content, userID, createdAt, modifiedAt, rplCount)
+func (da *TableTypePost) insertCmtChild1(queryable dbx.Queryable, content string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `rpl_count`) VALUES (?, ?, NOW(), NOW(), 0)", content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -44,11 +44,11 @@ func (da *TableTypePost) insertCmtChild2(queryable dbx.Queryable, postID uint64,
 }
 
 // InsertCmt ...
-func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, rplCount uint, postID uint64, cmtID uint64) (uint64, error) {
+func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, postID uint64, cmtID uint64) (uint64, error) {
 	var insertedID uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err = da.insertCmtChild1(tx, content, userID, createdAt, modifiedAt, rplCount)
+		insertedID, err = da.insertCmtChild1(tx, content, userID)
 		if err != nil {
 			return err
 		}
@@ -62,7 +62,7 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, cr
 }
 
 func (da *TableTypePost) insertPostChild1(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `likes`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
+	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`) VALUES (?, ?, ?, NOW(), NOW(), 0)", title, content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 
