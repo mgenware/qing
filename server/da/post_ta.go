@@ -38,13 +38,13 @@ func (da *TableTypePost) insertCmtChild1(queryable dbx.Queryable, content string
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypePost) insertCmtChild2(queryable dbx.Queryable, postID uint64, cmtID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `post_cmt` (`post_id`, `cmt_id`) VALUES (?, ?)", postID, cmtID)
+func (da *TableTypePost) insertCmtChild2(queryable dbx.Queryable, targetID uint64, cmtID uint64) error {
+	_, err := queryable.Exec("INSERT INTO `post_cmt` (`target_id`, `cmt_id`) VALUES (?, ?)", targetID, cmtID)
 	return err
 }
 
 // InsertCmt ...
-func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, postID uint64, cmtID uint64) (uint64, error) {
+func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, targetID uint64, cmtID uint64) (uint64, error) {
 	var insertedID uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -52,7 +52,7 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, po
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild2(tx, postID, cmtID)
+		err = da.insertCmtChild2(tx, targetID, cmtID)
 		if err != nil {
 			return err
 		}
@@ -89,11 +89,11 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 }
 
 // SelectCmts ...
-func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, postID uint64, page int, pageSize int) ([]*SelectCmtResult, bool, error) {
+func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, targetID uint64, page int, pageSize int) ([]*SelectCmtResult, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`post_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", postID, limit, offset)
+	rows, err := queryable.Query("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`target_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", targetID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

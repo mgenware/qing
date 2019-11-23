@@ -3,12 +3,8 @@ import post from './post';
 import cmt from './cmt';
 
 export class PostCmt extends mm.Table {
-  post_id = mm.pk(post.id);
+  target_id = mm.pk(post.id);
   cmt_id = mm.pk(cmt.id);
-
-  getTargetID(): mm.Column {
-    return this.post_id;
-  }
 }
 
 export default mm.table(PostCmt);

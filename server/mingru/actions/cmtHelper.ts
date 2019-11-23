@@ -8,7 +8,7 @@ const cmtResultType = 'SelectCmtResult';
 
 export interface CmtRelationTable extends mm.Table {
   cmt_id: mm.Column;
-  getTargetID(): mm.Column;
+  target_id: mm.Column;
 }
 
 export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
@@ -26,7 +26,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
         .icon_name.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
     )
     .from(rt)
-    .by(rt.getTargetID())
+    .by(rt.target_id)
     .orderByDesc(jCmt.created_at)
     .attrs({
       [mr.ActionAttributes.interfaceName]: cmtInterface,
