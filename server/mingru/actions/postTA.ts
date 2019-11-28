@@ -34,14 +34,17 @@ export class PostTA extends mm.TableActions {
       mm
         .insertOne()
         .setInputs(t.title, t.content, t.user_id)
-        .setDefaults(),
+        .setDefaults()
+        .declareInsertedID('postID'),
       userTA.updatePostCount.wrap({ offset: 1 }),
     )
-    .argStubs(cm.sanitizedStub, cm.captStub);
+    .argStubs(cm.sanitizedStub, cm.captStub)
+    .setReturnValues('postID');
 
   editPost = mm
     .updateOne()
     .setInputs(t.title, t.content)
+    .argStubs(cm.sanitizedStub)
     .where(updateConditions);
 
   deletePost = mm.deleteOne().where(updateConditions);

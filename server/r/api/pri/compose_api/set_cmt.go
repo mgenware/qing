@@ -2,21 +2,30 @@ package composeapi
 
 import (
 	"fmt"
+	"github.com/mgenware/go-packagex/v5/jsonx"
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
-	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
-func getCmtDataLayer(eType int) da.CmtCore {
-	switch eType {
+type EditCmtResponse struct {
+	Content string
+}
+
+type NewCmtResponse struct {
+	ID      string
+	Content string
+}
+
+func getCmtDataLayer(targetType int) da.CmtCore {
+	switch targetType {
 	case defs.EntityPost:
 		return da.Post
 	default:
-		panic(fmt.Sprintf("Unknown cmt data provider: %v", eType))
+		panic(fmt.Sprintf("Unknown cmt data provider: %v", targetType))
 	}
 }
 
@@ -25,31 +34,35 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	eID := validator.GetIDFromDict(params, "eid")
-	hasID := eID != 0
-	eType := jsonx.GetIntOrDefault(params, "etype") 
+	// The meaning of ID depends on the `target_type` param,
+	// if `entity_type` is present, `id` is like `target_id`,
+	// otherwise, `id` is cmt ID.
+	id := validator.GetIDFromDict(params, "id")
+	entityType := jsonx.GetIntOrDefault(params, "entity_type")
 	content := validator.MustGetStringFromDict(params, "content")
-	title := validator.MustGetStringFromDict(params, "title")
-
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
-	if !hasID {
+	cmtCore := getCmtDataLayer(entityType)
+	if entityType != 0 {
+		// We are creating a new cmt.
 		capt := validator.MustGetStringFromDict(params, "captcha")
-		cmtCore := getCmtDataLayer(eType)
-		captResult, err := app.Service.Captcha.Verify(uid, eType, capt)
+		captResult, err := app.Service.Captcha.Verify(uid, entityType, capt)
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			resp.MustFailWithCode(captResult)
 			return
 		}
-		insertedID, err := da.Post.InsertPost(app.DB, title, content, uid, sanitizedToken, captResult)
+		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, id, sanitizedToken, captResult)
 		app.PanicIfErr(err)
-	} else {
-		// Edit post
-		err := da.Post.EditPost(app.DB, id, uid, title, content)
-		app.PanicIfErr(err)
-	}
 
-	newPostURL := app.URL.Post(id)
-	resp.MustComplete(newPostURL)
+		respData := &NewCmtResponse{ID: validator.EncodeID(cmtID), Content: content}
+		resp.MustComplete(respData)
+	} else {
+		// Editing a cmt.
+		err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
+		app.PanicIfErr(err)
+
+		respData := &EditCmtResponse{Content: content}
+		resp.MustComplete(respData)
+	}
 }

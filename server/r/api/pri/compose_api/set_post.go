@@ -35,7 +35,7 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 		id = insertedID
 	} else {
 		// Edit post
-		err := da.Post.EditPost(app.DB, id, uid, title, content)
+		err := da.Post.EditPost(app.DB, id, uid, title, content, sanitizedToken)
 		app.PanicIfErr(err)
 	}
 

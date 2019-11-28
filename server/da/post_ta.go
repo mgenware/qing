@@ -28,7 +28,7 @@ func (da *TableTypePost) DeletePost(queryable dbx.Queryable, id uint64, userID u
 }
 
 // EditPost ...
-func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uint64, title string, content string) error {
+func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
@@ -44,11 +44,11 @@ func (da *TableTypePost) insertCmtChild2(queryable dbx.Queryable, targetID uint6
 }
 
 // InsertCmt ...
-func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, targetID uint64, cmtID uint64) (uint64, error) {
-	var insertedID uint64
+func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, targetID uint64, sanitizedStub int, captStub int) (uint64, error) {
+	var cmtID uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err = da.insertCmtChild1(tx, content, userID)
+		cmtID, err = da.insertCmtChild1(tx, content, userID)
 		if err != nil {
 			return err
 		}
@@ -58,7 +58,7 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ta
 		}
 		return nil
 	})
-	return insertedID, txErr
+	return cmtID, txErr
 }
 
 func (da *TableTypePost) insertPostChild1(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
@@ -72,10 +72,10 @@ func (da *TableTypePost) insertPostChild2(queryable dbx.Queryable, userID uint64
 
 // InsertPost ...
 func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
-	var insertedID uint64
+	var postID uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err = da.insertPostChild1(tx, title, content, userID)
+		postID, err = da.insertPostChild1(tx, title, content, userID)
 		if err != nil {
 			return err
 		}
@@ -85,7 +85,7 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 		}
 		return nil
 	})
-	return insertedID, txErr
+	return postID, txErr
 }
 
 // SelectCmts ...
