@@ -11,12 +11,12 @@ import (
 
 // CaptchaGET handles captcha requests.
 func CaptchaGET(w http.ResponseWriter, r *http.Request) {
-	etype, err := strconvx.ParseInt(r.FormValue("etype"))
+	entityType, err := strconvx.ParseInt(r.FormValue("entity_type"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if !app.Service.Captcha.IsTypeAllowed(etype) {
+	if !app.Service.Captcha.IsTypeAllowed(entityType) {
 		http.Error(w, "Invalid bid", http.StatusBadRequest)
 		return
 	}
@@ -30,7 +30,7 @@ func CaptchaGET(w http.ResponseWriter, r *http.Request) {
 
 	httpx.SetResponseContentType(w, httpx.MIMETypePNG)
 
-	err = app.Service.Captcha.WriteCaptcha(uid, etype, 5, w)
+	err = app.Service.Captcha.WriteCaptcha(uid, entityType, 5, w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -35,7 +35,7 @@ func listCmt(w http.ResponseWriter, r *http.Request) {
 	params := cm.BodyContext(r.Context())
 
 	entityID := validator.MustGetIDFromDict(params, "eid")
-	entityType := validator.MustGetIntFromDict(params, "etype")
+	entityType := validator.MustGetIntFromDict(params, "entity_type")
 	page := jsonx.GetIntOrDefault(params, "page")
 
 	db := app.DB
