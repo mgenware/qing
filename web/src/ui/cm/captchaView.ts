@@ -20,7 +20,7 @@ export class CaptchaView extends BaseElement {
     ];
   }
 
-  @property({ type: Number }) eType = 0;
+  @property({ type: Number }) entityType = 0;
   @property({ type: Number }) private timestamp = Date.now();
   private textElement!: HTMLInputElement;
 
@@ -29,7 +29,7 @@ export class CaptchaView extends BaseElement {
   }
 
   render() {
-    const src = `${routes.sr.reqCapt}?etype=${this.eType}&t=${this.timestamp}`;
+    const src = `${routes.sr.reqCapt}?entity_type=${this.entityType}&t=${this.timestamp}`;
     return html`
       <span>
         <a class="root-img" @click=${this.handleClick} href="#">

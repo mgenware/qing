@@ -80,7 +80,7 @@ export class ComposerView extends BaseElement {
               <div class="m-b-md">
                 <captcha-view
                   id="captElement"
-                  .eType=${this.entityType}
+                  .entityType=${this.entityType}
                   @onEnterKeyUp=${this.handleSubmit}
                 ></captcha-view>
               </div>

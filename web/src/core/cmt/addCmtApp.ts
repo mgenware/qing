@@ -7,8 +7,8 @@ import EditorView from 'ui/editor/editorView';
 
 @customElement('add-cmt-app')
 export class AddCmtApp extends BaseElement {
-  @property() eID = '';
-  @property({ type: Number }) eType = 0;
+  @property() entityID = '';
+  @property({ type: Number }) entityType = 0;
   @property({ type: Boolean }) private expanded = true;
   private editor!: EditorView;
 
@@ -31,8 +31,8 @@ export class AddCmtApp extends BaseElement {
         id="cmt-editor"
         .showTitle=${false}
         .entityType=${EntityType.cmt}
-        .attachedEntityID=${this.eID}
-        .attachedEntityType=${this.eType}
+        .attachedEntityID=${this.entityID}
+        .attachedEntityType=${this.entityType}
         .submitButtonText=${ls.comment}
         @onSubmit=${this.handleSubmit}
       ></composer-view>

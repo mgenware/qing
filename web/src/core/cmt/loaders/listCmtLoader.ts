@@ -10,8 +10,8 @@ export interface ListCmtLoaderResp {
 
 export default class ListCmtLoader extends Loader<ListCmtLoaderResp> {
   constructor(
-    public eid: string,
-    public eType: EntityType,
+    public entityID: string,
+    public entityType: EntityType,
     public page?: number,
   ) {
     super();
@@ -23,8 +23,8 @@ export default class ListCmtLoader extends Loader<ListCmtLoaderResp> {
 
   requestParams(): object {
     const ret = {
-      eid: this.eid,
-      etype: this.eType,
+      entityID: this.entityID,
+      entityType: this.entityType,
       page: this.page,
     };
     return ret;

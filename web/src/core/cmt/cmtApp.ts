@@ -13,8 +13,8 @@ import './addCmtApp';
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
   @property({ type: Number }) initialCount = 0;
-  @property() eID = '';
-  @property({ type: Number }) eType = 0;
+  @property() entityID = '';
+  @property({ type: Number }) entityType = 0;
 
   @property({ type: Object }) status = Status.empty();
   @property({ type: Boolean }) hasNext = false;
@@ -89,7 +89,7 @@ export class CmtApp extends BaseElement {
   }
 
   private async reloadAllAsync() {
-    const loader = new ListCmtLoader(this.eID, this.eType, this.page);
+    const loader = new ListCmtLoader(this.entityID, this.entityType, this.page);
     await app.runLocalActionAsync(loader, status => {
       this.status = status;
       if (status.isSuccess && status.data) {

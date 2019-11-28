@@ -12,8 +12,8 @@ export class PostCmtApp extends BaseElement {
   render() {
     return html`
       <cmt-app
-        eID=${this.postID}
-        .eType=${EntityType.post}
+        entityID=${this.postID}
+        .entityType=${EntityType.post}
         .initialCount=${this.cmtCount}
       ></cmt-app>
     `;
