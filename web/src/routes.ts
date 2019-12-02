@@ -23,6 +23,7 @@ export default {
       setPost: `${srCompose}set-post`,
       deletePost: `${srCompose}delete-post`,
       getPostForEditing: `${srCompose}get-for-editing`,
+      setCmt: `${srCompose}set-cmt`,
     },
   },
   sp: {

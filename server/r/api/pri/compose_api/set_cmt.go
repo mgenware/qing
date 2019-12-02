@@ -2,22 +2,19 @@ package composeapi
 
 import (
 	"fmt"
-	"github.com/mgenware/go-packagex/v5/jsonx"
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
+	"qing/r/api/apidata"
+
+	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
-type EditCmtResponse struct {
-	Content string
-}
-
-type NewCmtResponse struct {
-	ID      string
-	Content string
+type SetCmtResponse struct {
+	Cmt *apidata.Cmt `json:"cmt"`
 }
 
 func getCmtDataLayer(targetType int) da.CmtCore {
@@ -35,10 +32,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	uid := resp.UserID()
 
 	// The meaning of ID depends on the `target_type` param,
-	// if `entity_type` is present, `id` is like `target_id`,
+	// if `entityType` is present, `id` is like `target_id`,
 	// otherwise, `id` is cmt ID.
 	id := validator.GetIDFromDict(params, "id")
-	entityType := jsonx.GetIntOrDefault(params, "entity_type")
+	entityType := jsonx.GetIntOrDefault(params, "entityType")
 	content := validator.MustGetStringFromDict(params, "content")
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
@@ -55,14 +52,20 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, id, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 
-		respData := &NewCmtResponse{ID: validator.EncodeID(cmtID), Content: content}
+		cmt := &apidata.Cmt{ID: validator.EncodeID(cmtID)}
+		cmt.Content = content
+
+		respData := &SetCmtResponse{Cmt: cmt}
 		resp.MustComplete(respData)
 	} else {
 		// Editing a cmt.
 		err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
 		app.PanicIfErr(err)
 
-		respData := &EditCmtResponse{Content: content}
+		cmt := &apidata.Cmt{ID: validator.EncodeID(id)}
+		cmt.Content = content
+
+		respData := &SetCmtResponse{Cmt: cmt}
 		resp.MustComplete(respData)
 	}
 }

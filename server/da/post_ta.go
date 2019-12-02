@@ -89,22 +89,22 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 }
 
 // SelectCmts ...
-func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, targetID uint64, page int, pageSize int) ([]*SelectCmtResult, bool, error) {
+func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, targetID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`target_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", targetID, limit, offset)
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`rpl_count` AS `rplCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`target_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", targetID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*SelectCmtResult, 0, limit)
+	result := make([]*CmtData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &SelectCmtResult{}
-			err = rows.Scan(&item.Content, &item.CreatedAt, &item.ModifiedAt, &item.RplCount, &item.UserID, &item.UserName, &item.UserIconName)
+			item := &CmtData{}
+			err = rows.Scan(&item.CmtID, &item.Content, &item.CreatedAt, &item.ModifiedAt, &item.RplCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}

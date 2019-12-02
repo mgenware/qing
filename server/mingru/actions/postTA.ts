@@ -1,5 +1,4 @@
 import * as mm from 'mingru-models';
-import * as mr from 'mingru';
 import t from '../models/post';
 import userTA from './userTA';
 import user from '../models/user';
@@ -10,7 +9,7 @@ import * as cmtHelper from './cmtHelper';
 const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
 const userCols = [t.user_id, jUser.name, jUser.icon_name].map(c =>
-  c.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
+  c.attr(mm.ColumnAttributes.isPrivate, true),
 );
 
 const updateConditions = mm.and(

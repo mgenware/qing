@@ -11,7 +11,7 @@ import (
 
 // CaptchaGET handles captcha requests.
 func CaptchaGET(w http.ResponseWriter, r *http.Request) {
-	entityType, err := strconvx.ParseInt(r.FormValue("entity_type"))
+	entityType, err := strconvx.ParseInt(r.FormValue("entityType"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

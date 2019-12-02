@@ -9,6 +9,7 @@ import './cmtView';
 import app from 'app';
 import { splitLocalizedString } from 'lib/stringUtils';
 import './addCmtApp';
+import { SetCmtResponse } from './loaders/setCmtLoader';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -83,7 +84,7 @@ export class CmtApp extends BaseElement {
   private renderCommentComposer() {
     return html`
       <div>
-        <add-cmt-app></add-cmt-app>
+        <add-cmt-app @cmtAdded=${this.handleCmtAdded}></add-cmt-app>
       </div>
     `;
   }
@@ -98,5 +99,11 @@ export class CmtApp extends BaseElement {
         this.cmts.push(...(resp.cmts || []));
       }
     });
+  }
+
+  private async handleCmtAdded(e: CustomEvent<SetCmtResponse>) {
+    if (e.detail) {
+      this.cmts.push(e.detail.cmt);
+    }
   }
 }

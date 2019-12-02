@@ -4,6 +4,9 @@ import 'ui/editor/composerView';
 import ls from 'ls';
 import { EntityType } from 'lib/entity';
 import EditorView from 'ui/editor/editorView';
+import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
+import { ComposerPayload } from 'ui/editor/composerView';
+import app from 'app';
 
 @customElement('add-cmt-app')
 export class AddCmtApp extends BaseElement {
@@ -43,18 +46,23 @@ export class AddCmtApp extends BaseElement {
     this.expanded = true;
   }
 
-  private handleSubmit() {
+  private async handleSubmit() {
     const { editor } = this;
     if (!editor) {
       return;
     }
-    const loader = new SetPostLoader(this.editedID, e.detail);
-    const status = await app.runGlobalActionAsync(
-      loader,
-      this.editedID ? ls.saving : ls.publishing,
+    const content = editor.contentHTML;
+    const loader = SetCmtLoader.newCmt(
+      this.entityID,
+      new ComposerPayload(content),
     );
+    const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
-      app.browser.setURL(status.data);
+      this.dispatchEvent(
+        new CustomEvent<SetCmtResponse>('cmtAdded', {
+          detail: status.data,
+        }),
+      );
     }
   }
 }

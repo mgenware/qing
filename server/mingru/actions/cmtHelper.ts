@@ -1,11 +1,10 @@
 import * as mm from 'mingru-models';
-import * as mr from 'mingru';
 import cmt from '../models/cmt';
 import user from '../models/user';
 import * as cm from '../models/common';
 
 const cmtInterface = 'CmtCore';
-const cmtResultType = 'SelectCmtResult';
+const cmtResultType = 'CmtData';
 
 const updateConditions = mm.and(
   mm.sql`${cmt.id.isEqualToInput()}`,
@@ -21,22 +20,23 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
   return mm
     .selectPage(
+      rt.cmt_id.attr(mm.ColumnAttributes.isPrivate, true),
       jCmt.content,
       jCmt.created_at,
       jCmt.modified_at,
       jCmt.rpl_count,
-      jCmt.user_id.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
+      jCmt.user_id.attr(mm.ColumnAttributes.isPrivate, true),
       jCmt.user_id.join(user).name,
       jCmt.user_id
         .join(user)
-        .icon_name.attrs({ [mr.ColumnAttributes.jsonIgnore]: true }),
+        .icon_name.attr(mm.ColumnAttributes.isPrivate, true),
     )
     .from(rt)
     .by(rt.target_id)
     .orderByDesc(jCmt.created_at)
     .attrs({
-      [mr.ActionAttributes.interfaceName]: cmtInterface,
-      [mr.ActionAttributes.resultName]: cmtResultType,
+      [mm.ActionAttributes.groupTypeName]: cmtInterface,
+      [mm.ActionAttributes.resultTypeName]: cmtResultType,
     });
 }
 
@@ -55,7 +55,7 @@ export function insertCmt(rt: CmtRelationTable): mm.Action {
         .setInputs()
         .wrapAsRefs({ cmtID: 'cmtID' }),
     )
-    .attr(mr.ActionAttributes.interfaceName, cmtInterface)
+    .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues('cmtID');
 }

@@ -19,7 +19,7 @@ type ListCmtRespData struct {
 	HasNext bool           `json:"hasNext"`
 }
 
-func newListCmtRespData(cmts []*da.SelectCmtResult, hasNext bool) *ListCmtRespData {
+func newListCmtRespData(cmts []*da.CmtData, hasNext bool) *ListCmtRespData {
 	cmtsConverted := make([]*apidata.Cmt, len(cmts))
 	for i := 0; i < len(cmts); i++ {
 		cmtsConverted[i] = apidata.NewCmt(cmts[i])
@@ -34,8 +34,8 @@ func listCmt(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	entityID := validator.MustGetIDFromDict(params, "eid")
-	entityType := validator.MustGetIntFromDict(params, "entity_type")
+	entityID := validator.MustGetIDFromDict(params, "entityID")
+	entityType := validator.MustGetIntFromDict(params, "entityType")
 	page := jsonx.GetIntOrDefault(params, "page")
 
 	db := app.DB
