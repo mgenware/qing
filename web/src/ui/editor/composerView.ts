@@ -121,7 +121,7 @@ export class ComposerView extends BaseElement {
         this.editor.focus(),
       );
     }
-    if (captchaView && !captchaView.value && !app.devMode) {
+    if (captchaView && !captchaView.value) {
       throw new ValidationError(format('pPlzEnterThe', ls.captcha), () => {
         if (this.captchaView) {
           this.captchaView.focus();

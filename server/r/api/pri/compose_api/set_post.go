@@ -22,10 +22,7 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
 	if !hasID {
-		var capt string
-		if !app.Config.DevMode() {
-			capt = validator.MustGetStringFromDict(params, "captcha")
-		}
+		capt := validator.MustGetStringFromDict(params, "captcha")
 		// New post
 		captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt, app.Config.DevMode())
 		app.PanicIfErr(err)

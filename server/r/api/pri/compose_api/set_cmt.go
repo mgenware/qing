@@ -42,11 +42,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	cmtCore := getCmtDataLayer(entityType)
 	if entityType != 0 {
 		// We are creating a new cmt.
-		var capt string
-		var captResult int
-		if !app.Config.DevMode() {
-			capt = validator.MustGetStringFromDict(params, "captcha")
-		}
+		capt := validator.MustGetStringFromDict(params, "captcha")
 		captResult, err := app.Service.Captcha.Verify(uid, entityType, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
