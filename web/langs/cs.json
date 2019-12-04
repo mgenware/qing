@@ -64,5 +64,6 @@
   "plsLoginToComment": "请||登录||后评论。",
   "comment": "评论",
   "request": "请求",
-  "errorCode": "错误码"
+  "errorCode": "错误码",
+  "editProfile": "编辑账号信息"
 }

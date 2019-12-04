@@ -64,5 +64,6 @@
   "plsLoginToComment": "Please ||Sign in|| to comment.",
   "comment": "Comment",
   "request": "Request",
-  "errorCode": "Error code"
+  "errorCode": "Error code",
+  "editProfile": "Edit profile"
 }
