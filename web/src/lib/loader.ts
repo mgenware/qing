@@ -34,7 +34,6 @@ export default class Loader<T> {
         body,
         headers: {
           'content-type': 'application/json',
-          credentials: 'same-origin',
         },
       });
 
