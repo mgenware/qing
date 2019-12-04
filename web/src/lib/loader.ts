@@ -23,19 +23,8 @@ export default class Loader<T> {
       this.isStarted = true;
       this.onStatusChanged(Status.started());
 
-      let body = '';
-      const params = this.requestParams();
-      if (params) {
-        body = JSON.stringify(params);
-      }
       const reqURL = this.requestURL();
-      const response = await fetch(reqURL, {
-        method: 'POST',
-        body,
-        headers: {
-          'content-type': 'application/json',
-        },
-      });
+      const response = await fetch(reqURL, { ...this.fetchParams() });
 
       if (!response.ok) {
         // Handle HTTP error.
@@ -95,6 +84,21 @@ export default class Loader<T> {
     const data = resp.data as T;
     this.onStatusChanged(Status.success(data));
     return data;
+  }
+
+  fetchParams(): any {
+    let body = '';
+    const params = this.requestParams();
+    if (params) {
+      body = JSON.stringify(params);
+    }
+    return {
+      method: 'POST',
+      body,
+      headers: {
+        'content-type': 'application/json',
+      },
+    };
   }
 
   private onStatusChanged(status: Status<T>) {
