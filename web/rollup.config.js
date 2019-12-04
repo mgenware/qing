@@ -23,7 +23,7 @@ if (isProd) {
 }
 
 let input = [
-  isProd ? 'coreEntry.ts' : 'devCoreEntry.ts',
+  isProd ? 'coreEntry.ts' : 'coreEntryDev.ts',
   'dashboard/dashboardEntry.ts',
   'post/postEntry.ts',
 ];

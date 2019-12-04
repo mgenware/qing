@@ -16,6 +16,10 @@ class APP {
     return !!this.state.hasUser;
   }
 
+  get devMode(): boolean {
+    return !!(window as any).__qing_dev__;
+  }
+
   async runLocalActionAsync<T>(
     loader: Loader<T>,
     cb: (result: Status<T>) => void,
@@ -46,6 +50,7 @@ class APP {
       await loader.startAsync();
       alert.hideLoadingOverlay();
     } catch (ex) {
+      alert.hideLoadingOverlay();
       await alert.error(ex.message);
     }
     return status;

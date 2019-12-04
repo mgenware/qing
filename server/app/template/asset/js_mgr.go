@@ -36,7 +36,7 @@ func NewJSManager(dev bool) *JSManager {
 	r.Loader = libJS("s3.1.6.min")
 	r.Polyfills = libJS("webcomponents-bundle")
 	if dev {
-		r.Main = js("devCoreEntry")
+		r.Main = js("coreEntryDev")
 	} else {
 		r.Main = js("coreEntry")
 	}

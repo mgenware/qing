@@ -55,7 +55,10 @@ func (c *CaptchaService) WriteCaptcha(uid uint64, entityType int, length int, w 
 }
 
 // Verify checks if the specified code matches the internal code stored in memory.
-func (c *CaptchaService) Verify(uid uint64, entityType int, code string) (int, error) {
+func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode bool) (int, error) {
+	if devMode {
+		return 0, nil
+	}
 	key := c.getMSKey(uid, entityType)
 	result, err := c.redisConn.GetStringValue(key)
 	if err != nil {
