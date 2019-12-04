@@ -1,5 +1,6 @@
 import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
+import app from 'app';
 import BaseElement from 'baseElement';
 import AvatarUploadResponse from './avatarUploadResponse';
 import { APIResponse } from 'lib/loader';
@@ -68,7 +69,7 @@ export class AvatarUploader extends BaseElement {
   }
 
   private hookEvents(domForm: HTMLFormElement, domFile: HTMLInputElement) {
-    domFile.addEventListener('change', () => {
+    domFile.addEventListener('change', async () => {
       this.isWorking = true;
       this.progress = 0;
 
@@ -92,7 +93,7 @@ export class AvatarUploader extends BaseElement {
           }
 
           if (resp.code) {
-            // is error
+            // Error happened.
             const { code } = resp;
             if (code === 10) {
               this.onError(ls.unsupportedImgExtErr, domFile);
@@ -114,16 +115,24 @@ export class AvatarUploader extends BaseElement {
           );
         }
       });
-      if (!this.postURL) {
-        throw new Error('Avatar uploader post URL null');
+      try {
+        if (!this.postURL) {
+          // `postURL` is a required property.
+          throw new Error('Avatar uploader post URL null');
+        }
+        xhr.open('POST', this.postURL, true);
+        xhr.send(fd);
+      } catch (err) {
+        this.isWorking = false;
+        await app.alert.error(err.message);
       }
-      xhr.open('POST', this.postURL, true);
-      xhr.send(fd);
     });
   }
 
   private onError(message: string, _: HTMLInputElement) {
-    this.dispatchEvent(new CustomEvent<string>('onError', { detail: message }));
+    this.dispatchEvent(
+      new CustomEvent<string>('onError', { detail: message }),
+    );
   }
 
   private onSuccess(data: AvatarUploadResponse) {
