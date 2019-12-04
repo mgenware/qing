@@ -15,9 +15,7 @@ export class LoadingView extends BaseElement {
   render() {
     const { status } = this;
     if (!status.isStarted) {
-      return html`
-        <span>Action not started.</span>
-      `;
+      return html``;
     }
     if (status.isWorking) {
       return html`

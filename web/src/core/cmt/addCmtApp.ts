@@ -46,15 +46,15 @@ export class AddCmtApp extends BaseElement {
     this.expanded = true;
   }
 
-  private async handleSubmit() {
+  private async handleSubmit(e: CustomEvent<ComposerPayload>) {
     const { editor } = this;
     if (!editor) {
       return;
     }
-    const content = editor.contentHTML;
     const loader = SetCmtLoader.newCmt(
       this.entityID,
-      new ComposerPayload(content),
+      this.entityType,
+      e.detail,
     );
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {

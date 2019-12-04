@@ -9,16 +9,16 @@ export interface SetCmtResponse {
 }
 
 export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
-  static newCmt(entityID: string, payload: ComposerPayload) {
-    return new SetCmtLoader(entityID, null, payload);
-  }
-
-  static editCmt(
-    cmtID: string,
+  static newCmt(
+    entityID: string,
     entityType: EntityType,
     payload: ComposerPayload,
   ) {
-    return new SetCmtLoader(cmtID, entityType, payload);
+    return new SetCmtLoader(entityID, entityType, payload);
+  }
+
+  static editCmt(cmtID: string, payload: ComposerPayload) {
+    return new SetCmtLoader(cmtID, null, payload);
   }
 
   private constructor(

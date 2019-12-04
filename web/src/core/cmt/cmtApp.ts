@@ -84,7 +84,11 @@ export class CmtApp extends BaseElement {
   private renderCommentComposer() {
     return html`
       <div>
-        <add-cmt-app @cmtAdded=${this.handleCmtAdded}></add-cmt-app>
+        <add-cmt-app
+          .entityID=${this.entityID}
+          .entityType=${this.entityType}
+          @cmtAdded=${this.handleCmtAdded}
+        ></add-cmt-app>
       </div>
     `;
   }
