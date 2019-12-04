@@ -62,5 +62,7 @@
   "noComment": "暂无评论",
   "writeAComment": "发表评论",
   "plsLoginToComment": "请||登录||后评论。",
-  "comment": "评论"
+  "comment": "评论",
+  "request": "请求",
+  "errorCode": "错误码"
 }

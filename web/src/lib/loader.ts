@@ -10,6 +10,8 @@ export interface APIResponse {
 }
 
 export default class Loader<T> {
+  static defaultLocalizedMessageDict: Map<number, string> | null = null;
+
   statusChanged: ((status: Status<T>) => void) | null = null;
   private isStarted = false;
 
@@ -36,20 +38,32 @@ export default class Loader<T> {
         },
       });
 
-      // Handle HTTP status errors
       if (!response.ok) {
+        // Handle HTTP error.
         const message =
           response.status === 404 ? ls.error404 : response.statusText;
-
         throw new ErrorWithCode(message);
       } else {
+        // Handle server error if exists.
         const resp = (await response.json()) as APIResponse;
-
-        // Check server return error
         if (resp.code) {
-          const message = resp.message || `Error code ${resp.code}`;
-          throw new ErrorWithCode(message, resp.code);
+          let msg = resp.message;
+
+          // Try getting message with message code.
+          if (Loader.defaultLocalizedMessageDict) {
+            const value = Loader.defaultLocalizedMessageDict.get(resp.code);
+            // If we have a code to message mapping, use that message(ignore server message).
+            if (value) {
+              msg = ls[value];
+            }
+          }
+          // Fallback to default message.
+          if (!msg) {
+            msg = `${ls.errorCode} ${resp.code}`;
+          }
+          throw new ErrorWithCode(msg, resp.code);
         }
+        // No server error present on this response.
         return this.handleSuccess(resp);
       }
     } catch (err) {
@@ -57,13 +71,15 @@ export default class Loader<T> {
       if (err instanceof ErrorWithCode) {
         errWithCode = err;
       } else {
-        errWithCode = new ErrorWithCode(err.message, GenericError);
+        errWithCode = new ErrorWithCode(
+          err.message || ls.internalErr,
+          GenericError,
+        );
       }
-      err.message = `${
-        err.message
-      } [Error processing request "${this.requestURL()}"]`;
+
+      err.message = `${err.message} [${ls.request}: "${this.requestURL()}"]`;
       this.onStatusChanged(Status.failure(errWithCode));
-      // Rethrow the original error
+      // Rethrow the original error.
       throw err;
     }
   }

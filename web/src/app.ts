@@ -5,6 +5,7 @@ import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
 import ls from 'ls';
 import Status from 'lib/status';
+import { localizedErrDict } from 'defs';
 
 class APP {
   state = new AppState();
@@ -56,6 +57,9 @@ class APP {
     return status;
   }
 }
+
+// Set global error messages to loader type.
+Loader.defaultLocalizedMessageDict = localizedErrDict;
 
 const app = new APP();
 export default app;
