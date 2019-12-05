@@ -2,13 +2,13 @@ import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
 import app from 'app';
 import BaseElement from 'baseElement';
-import AvatarUploadResponse from './avatarUploadResponse';
-import { APIResponse } from 'lib/loader';
 import 'ui/cm/progressView';
+import AvatarUploadLoader, {
+  AvatarUploadResponse,
+} from './loaders/AvatarUploadLoader';
 
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
-  @property() postURL!: string;
   @property({ type: Boolean }) isWorking = false;
   @property({ type: Number }) progress = 0;
 
@@ -74,62 +74,19 @@ export class AvatarUploader extends BaseElement {
       this.progress = 0;
 
       const fd = new FormData(domForm);
-      const xhr = new XMLHttpRequest();
-      xhr.addEventListener('progress', e => {
-        if (e.lengthComputable) {
-          this.progress = Math.round((e.loaded / e.total) * 100);
+      const loader = new AvatarUploadLoader(fd);
+      await app.runLocalActionAsync(loader, async status => {
+        this.isWorking = status.isWorking;
+        if (status.error) {
+          this.onError(status.error.message);
+        } else if (status.data) {
+          this.onSuccess(status.data);
         }
       });
-      xhr.addEventListener('load', () => {
-        this.isWorking = false;
-
-        if (xhr.status === 200) {
-          let resp: APIResponse;
-          try {
-            resp = JSON.parse(xhr.responseText) as APIResponse;
-          } catch (exp) {
-            resp = { code: 1000 };
-            resp.message = `${ls.internalErr}: ${xhr.responseText}`;
-          }
-
-          if (resp.code) {
-            // Error happened.
-            const { code } = resp;
-            if (code === 10) {
-              this.onError(ls.unsupportedImgExtErr, domFile);
-            } else if (code === 11) {
-              // don't report no-header error, sometimes cancelling the dialog results in this error
-              this.onError('', domFile);
-            } else if (code === 12) {
-              this.onError(ls.exceed5MBErr, domFile);
-            } else {
-              this.onError(`${resp.message}(${code})`, domFile);
-            }
-          } else {
-            this.onSuccess(resp.data as AvatarUploadResponse);
-          }
-        } else {
-          this.onError(
-            `${ls.errOccurred}: ${xhr.statusText} ${xhr.status}`,
-            domFile,
-          );
-        }
-      });
-      try {
-        if (!this.postURL) {
-          // `postURL` is a required property.
-          throw new Error('Avatar uploader post URL null');
-        }
-        xhr.open('POST', this.postURL, true);
-        xhr.send(fd);
-      } catch (err) {
-        this.isWorking = false;
-        await app.alert.error(err.message);
-      }
     });
   }
 
-  private onError(message: string, _: HTMLInputElement) {
+  private onError(message: string) {
     this.dispatchEvent(
       new CustomEvent<string>('onError', { detail: message }),
     );

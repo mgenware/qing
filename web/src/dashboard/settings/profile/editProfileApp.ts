@@ -9,9 +9,8 @@ import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 import Status from 'lib/status';
 import app from 'app';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
-import AvatarUploadResponse from 'ui/pickers/avatarUploadResponse';
-import routes from 'routes';
 import 'lit-button';
+import { AvatarUploadResponse } from 'ui/pickers/loaders/AvatarUploadLoader';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -70,7 +69,6 @@ export class EditProfileApp extends BaseElement {
               </p>
               <div class="m-t-md">
                 <avatar-uploader
-                  .postURL=${routes.sr.profile.setAvatar}
                   @onComplete=${this.handleAvatarUploadComplete}
                   @onError=${this.handleAvatarUploadError}
                 ></avatar-uploader>

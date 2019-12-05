@@ -86,7 +86,7 @@ export default class Loader<T> {
     return data;
   }
 
-  fetchParams(): any {
+  fetchParams(): RequestInit {
     let body = '';
     const params = this.requestParams();
     if (params) {
