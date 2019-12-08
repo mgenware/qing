@@ -65,5 +65,6 @@
   "comment": "评论",
   "request": "请求",
   "errorCode": "错误码",
-  "editProfile": "编辑账号信息"
+  "editProfile": "编辑账号信息",
+  "uploading": "上传中..."
 }

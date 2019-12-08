@@ -15,6 +15,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
+    "@github/image-crop-element": "^3.0.6",
     "@webcomponents/webcomponentsjs": "^2.4.0",
     "bowhead-js": "^1.1.0",
     "construct-style-sheets-polyfill": "^2.3.3",

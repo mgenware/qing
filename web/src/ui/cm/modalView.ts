@@ -109,10 +109,12 @@ export class ModalView extends BaseElement {
 
         .modal-body {
           padding: 2px 16px;
+          padding-top: 10px;
         }
 
         .modal-footer {
           padding: 2px 16px;
+          padding-top: 10px;
           text-align: center;
         }
       `,

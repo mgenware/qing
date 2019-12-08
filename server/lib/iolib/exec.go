@@ -5,8 +5,9 @@ import (
 	"os/exec"
 )
 
-func Exec(name string, arg ...string) (string, error) {
-	cmd := exec.Command(name, arg...)
+// Exec spawns a shell that executes the given command and arguments.
+func Exec(name string, args ...string) (string, error) {
+	cmd := exec.Command(name, args...)
 	output, err := cmd.CombinedOutput()
 
 	if err != nil {

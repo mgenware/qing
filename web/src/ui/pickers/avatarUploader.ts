@@ -1,39 +1,73 @@
 import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
-import app from 'app';
 import BaseElement from 'baseElement';
 import 'ui/cm/progressView';
+import '@github/image-crop-element';
+import styles from '@github/image-crop-element/index.css';
+import 'ui/cm/modalView';
 import AvatarUploadLoader, {
   AvatarUploadResponse,
 } from './loaders/AvatarUploadLoader';
+import app from 'app';
+import { ModalClickInfo, ModalButton, ModalView } from 'ui/cm/modalView';
+
+interface ImageCropInfo {
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+}
 
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
-  @property({ type: Boolean }) isWorking = false;
-  @property({ type: Number }) progress = 0;
+  static get styles() {
+    return styles;
+  }
+
+  @property() private imageDataURL: string | null = null;
 
   formElement!: HTMLFormElement;
   uploadElement!: HTMLInputElement;
+  modalElement!: ModalView;
+  cropElement!: HTMLElement;
+  cropInfo: ImageCropInfo | null = null;
 
   firstUpdated() {
     this.formElement = this.mustGetShadowElement('formElement');
     this.uploadElement = this.mustGetShadowElement('uploadElement');
-    this.hookEvents(this.formElement, this.uploadElement);
+    this.modalElement = this.mustGetShadowElement('modalElement') as ModalView;
+    this.cropElement = this.mustGetShadowElement('cropElement');
+    this.hookFileUploadEvents(this.uploadElement);
+    this.cropElement.addEventListener('image-crop-change', e =>
+      this.handleImageCrop(e),
+    );
+    this.modalElement.addEventListener('modalClosed', ((
+      e: CustomEvent<ModalClickInfo>,
+    ) => this.handleCropperModalClose(e)) as any);
   }
 
   render() {
     return html`
       <div>
-        <form
-          id="formElement"
-          class=${this.isWorking ? 'content-disabled' : ''}
+        <modal-view
+          id="modalElement"
+          .isOpen=${!!this.imageDataURL}
+          .buttons=${[ModalButton.ok]}
         >
+          <div>
+            <image-crop
+              id="cropElement"
+              src=${this.imageDataURL as string}
+            ></image-crop>
+          </div>
+        </modal-view>
+        <form id="formElement">
           <div>
             <label>
               <input
                 type="file"
                 id="uploadElement"
-                name="avatarInput"
+                name="avatarMain"
                 class="file-input"
                 accept=".jpg,.jpeg,.png"
               />
@@ -52,49 +86,55 @@ export class AvatarUploader extends BaseElement {
           </div>
           <p><small>${ls.uploadProfileImgDesc}</small></p>
         </form>
-
-        ${this.isWorking
-          ? html`
-              <div class="m-t-md">
-                ${this.progress
-                  ? html`
-                      <progress-view .progress=${this.progress}></progress-view>
-                    `
-                  : html``}
-              </div>
-            `
-          : ''}
       </div>
     `;
   }
 
-  private hookEvents(domForm: HTMLFormElement, domFile: HTMLInputElement) {
+  private hookFileUploadEvents(domFile: HTMLInputElement) {
     domFile.addEventListener('change', async () => {
-      this.isWorking = true;
-      this.progress = 0;
-
-      const fd = new FormData(domForm);
-      const loader = new AvatarUploadLoader(fd);
-      await app.runLocalActionAsync(loader, async status => {
-        this.isWorking = status.isWorking;
-        if (status.error) {
-          this.onError(status.error.message);
-        } else if (status.data) {
-          this.onSuccess(status.data);
-        }
-      });
+      if (domFile.files && domFile.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          if (e.target && e.target.result) {
+            this.imageDataURL = e.target.result as string;
+            this.modalElement.isOpen = true;
+          }
+        };
+        reader.readAsDataURL(domFile.files[0]);
+      }
     });
   }
 
-  private onError(message: string) {
-    this.dispatchEvent(
-      new CustomEvent<string>('onError', { detail: message }),
-    );
+  private handleImageCrop(e: any) {
+    this.cropInfo = {
+      x: e.detail.x,
+      y: e.detail.y,
+      width: e.detail.width,
+      height: e.detail.height,
+    };
   }
 
   private onSuccess(data: AvatarUploadResponse) {
     this.dispatchEvent(
-      new CustomEvent<AvatarUploadResponse>('onComplete', { detail: data }),
+      new CustomEvent<AvatarUploadResponse>('onSuccess', { detail: data }),
     );
+  }
+
+  private async handleCropperModalClose(e: CustomEvent<ModalClickInfo>) {
+    const info = e.detail;
+    if (info.type === ModalButton.ok) {
+      const fd = new FormData(this.formElement);
+      if (this.cropInfo) {
+        for (const [k, v] of Object.entries(this.cropInfo)) {
+          fd.set(k, v);
+        }
+      }
+      const loader = new AvatarUploadLoader(fd);
+      const result = await app.runGlobalActionAsync(loader, ls.uploading);
+      if (result.data) {
+        this.modalElement.isOpen = false;
+        this.onSuccess(result.data);
+      }
+    }
   }
 }

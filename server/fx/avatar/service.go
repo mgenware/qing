@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 	"qing/app/logx"
-	"qing/lib/iolib"
+	"qing/fx/imgx"
 	"qing/lib/mathlib"
-	"strings"
 )
 
 const (
@@ -19,38 +19,33 @@ const (
 
 var resizedSizes = []int{AvatarSize250, AvatarSize150, AvatarSize50}
 
+// Service is the avatar service type.
 type Service struct {
-	SavePath string
-	Logger   *logx.Logger
-
-	// e.g. [magick, convert]
-	convertCmds []string
+	imaging *imgx.Imgx
+	OutDir  string
+	Logger  *logx.Logger
 }
 
-func NewService(savePath string, convertCmd string, logger *logx.Logger) (*Service, error) {
-	logger.Info("avatar-service.starting", "path", savePath)
+// NewService creates a new avatar service object.
+func NewService(outDir string, imaging *imgx.Imgx, logger *logx.Logger) (*Service, error) {
 	s := &Service{}
-	s.SavePath = savePath
-	s.Logger = logger
-	s.convertCmds = strings.Split(convertCmd, " ")
-	// Check is converter is installed
-	_, err := s.run([]string{"-version"})
-	if err != nil {
-		return nil, err
+	if !filepath.IsAbs(outDir) {
+		panic(fmt.Sprintf("avatar service outDir must be an absolute path, got \"%v\"", outDir))
 	}
+	logger.Info("avatar-service.starting", "path", outDir)
+	s.OutDir = outDir
+	s.Logger = logger
+	s.imaging = imaging
 	return s, nil
 }
 
+// GetAvatarFilePath returns the physical avatar file path.
 func (svc *Service) GetAvatarFilePath(uid uint64, size int, avatarName string) string {
-	return fmt.Sprintf("/%v/%v/%v_%v", svc.SavePath, uid, size, avatarName)
+	return fmt.Sprintf("/%v/%v/%v_%v", svc.OutDir, uid, size, avatarName)
 }
 
-/*
-   User avatars are stored in following ways
-   - DIOM/avatar/<uid>/<size>_<randname>.<png/jpg>
-*/
-
-func (svc *Service) SaveAvatarFromFile(src string, uid uint64) (string, error) {
+// SetAvatarFromFile updates the given user's avatar with the specified file path.
+func (svc *Service) SetAvatarFromFile(src string, uid uint64) (string, error) {
 	ext := path.Ext(src)
 	avatarName := mathlib.RandString(6) + ext
 	for _, size := range resizedSizes {
@@ -59,7 +54,7 @@ func (svc *Service) SaveAvatarFromFile(src string, uid uint64) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		err = svc.thumbnailImg(src, newfilepath, size, size)
+		err = svc.imaging.ResizeFile(src, newfilepath, size, size)
 		if err != nil {
 			return "", err
 		}
@@ -67,9 +62,10 @@ func (svc *Service) SaveAvatarFromFile(src string, uid uint64) (string, error) {
 	return avatarName, nil
 }
 
+// RemoveAvatarFiles deletes old avatar files of a specified user.
 func (svc *Service) RemoveAvatarFiles(uid uint64, avatarName string) {
 	for _, size := range resizedSizes {
-		file := fmt.Sprintf("%v/%v/%v_%v", svc.SavePath, uid, size, avatarName)
+		file := fmt.Sprintf("%v/%v/%v_%v", svc.OutDir, uid, size, avatarName)
 		err := os.Remove(file)
 		if err != nil {
 			log.Print("Error removing old avatar files: ", err.Error())
@@ -78,7 +74,7 @@ func (svc *Service) RemoveAvatarFiles(uid uint64, avatarName string) {
 }
 
 func (svc *Service) allocFilepathForThumb(uid uint64, filename string) (string, error) {
-	dir := fmt.Sprintf("%v/%v", svc.SavePath, uid)
+	dir := fmt.Sprintf("%v/%v", svc.OutDir, uid)
 
 	err := os.MkdirAll(dir, 0755)
 	if err != nil {
@@ -87,20 +83,8 @@ func (svc *Service) allocFilepathForThumb(uid uint64, filename string) (string, 
 	return dir + "/" + filename, nil
 }
 
-func (svc *Service) run(args []string) (string, error) {
-	cmd := svc.convertCmds[0]
-	strArray := svc.copyStringArray(svc.convertCmds[1:])
-	strArray = append(strArray, args...)
-	return iolib.Exec(cmd, strArray...)
-}
-
 func (svc *Service) copyStringArray(arr []string) []string {
 	dest := make([]string, len(arr))
 	copy(dest, arr)
 	return dest
-}
-
-func (svc *Service) thumbnailImg(src, dest string, maxWidth, maxHeight int) error {
-	_, err := iolib.Exec("convert", src, "-resize", fmt.Sprintf("%vx%v!", maxWidth, maxHeight), dest)
-	return err
 }

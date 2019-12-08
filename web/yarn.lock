@@ -18,6 +18,11 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@github/image-crop-element@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@github/image-crop-element/-/image-crop-element-3.0.6.tgz#4afb3ec2d7adde03d7c9067703df6e1f015752f2"
+  integrity sha512-5djr3TcFt0+TGjJ1eYQsIXbTHyZAEy+TBhHjA3GpgoFHcYq4Hyxem2hVDY35dbk+nENdBYz/wFzgam6ZQOM7/Q==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

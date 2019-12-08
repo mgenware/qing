@@ -2,9 +2,7 @@ package profileapi
 
 import (
 	"context"
-	"io"
 	"net/http"
-	"os"
 	"qing/app"
 	"qing/app/cm"
 	"qing/da"
@@ -12,18 +10,26 @@ import (
 	"qing/lib/iolib"
 
 	"github.com/mgenware/go-packagex/v5/filepathx"
+	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
 const (
 	errUnsupportedExt = 10
 	errNoHeaderFound  = 11
 	errFileTooLarge   = 12
-	maxUploadSize     = 5 * 1024 * 1024 //5mb max size
+	maxUploadSize     = 5 * 1024 * 1024 //5 MB max size.
 )
 
 type avatarUpdateResult struct {
 	IconL string `json:"iconL"`
 	IconS string `json:"iconS"`
+}
+
+type avatarCropInfo struct {
+	X      int `json:"x"`
+	Y      int `json:"y"`
+	Width  int `json:"width"`
+	Height int `json:"height"`
 }
 
 func uploadAvatar(w http.ResponseWriter, r *http.Request) {
@@ -39,8 +45,21 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 		resp.MustFail(err)
 		return
 	}
+	var cropInfo *avatarCropInfo
+
+	// Retrieve crop info.
+	x, _ := strconvx.ParseInt(r.FormValue("x"))
+	y, _ := strconvx.ParseInt(r.FormValue("y"))
+	width, _ := strconvx.ParseInt(r.FormValue("width"))
+	height, _ := strconvx.ParseInt(r.FormValue("height"))
+
+	// If any crop params is wrong, we assume no crop info received.
+	if x >= 0 && y >= 0 && width > 0 && height > 0 {
+		cropInfo = &avatarCropInfo{X: x, Y: y, Width: width, Height: height}
+	}
+
 	form := r.MultipartForm
-	headers := form.File["avatarInput"]
+	headers := form.File["avatarMain"]
 	if headers == nil || len(headers) == 0 {
 		resp.MustFailWithCode(errNoHeaderFound)
 		return
@@ -59,24 +78,25 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer srcFile.Close()
-	// copy reader to a temp file
-	tmpPath := filepathx.TempFilePath(ext, "avatar-srv")
-	tmpFile, err := os.Create(tmpPath)
+	// Copy reader content to a temp file.
+	tmpFullFile := filepathx.TempFilePath(ext, "avatar-srv")
+	err = iolib.CopyReaderToFile(srcFile, tmpFullFile)
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
+	// defer os.Remove(tmpFullFile)
 
-	defer tmpFile.Close()
-	defer os.Remove(tmpFile.Name())
-
-	_, err = io.Copy(tmpFile, srcFile)
-	if err != nil {
-		resp.MustFail(err)
-		return
+	// Crop the image if necessary.
+	if cropInfo != nil {
+		err = app.Service.Imgx.CropFile(tmpFullFile, tmpFullFile, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
+		if err != nil {
+			resp.MustFail(err)
+			return
+		}
 	}
 
-	uid, avatarName, err := updateAvatarFromFile(resp.Context(), tmpFile.Name())
+	uid, avatarName, err := updateAvatarFromFile(resp.Context(), tmpFullFile)
 	if err != nil {
 		resp.MustFail(err)
 		return
@@ -95,23 +115,23 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	if err != nil {
 		return 0, "", err
 	}
-	// remove old avatar files
+	// Remove old avatar files.
 	if curAvatarName != "" {
 		app.Service.Avatar.RemoveAvatarFiles(uid, curAvatarName)
 	}
 
-	avatarName, err := app.Service.Avatar.SaveAvatarFromFile(file, uid)
+	avatarName, err := app.Service.Avatar.SetAvatarFromFile(file, uid)
 	if err != nil {
 		return 0, "", err
 	}
 
-	// Update DB
+	// Update DB.
 	err = da.User.UpdateIconName(app.DB, uid, avatarName)
 	if err != nil {
 		return 0, "", err
 	}
 
-	// Update session
+	// Update session.
 	user.IconName = avatarName
 	sid := cm.ContextSID(ctx)
 	err = app.UserManager.SessionManager.SetUserSession(sid, user)

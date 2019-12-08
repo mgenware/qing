@@ -65,5 +65,6 @@
   "comment": "Comment",
   "request": "Request",
   "errorCode": "Error code",
-  "editProfile": "Edit profile"
+  "editProfile": "Edit profile",
+  "uploading": "Uploading..."
 }

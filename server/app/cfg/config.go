@@ -131,6 +131,10 @@ func (config *Config) validateAndCoerce() error {
 	// Localization
 	localizationConfig := config.Localization
 	mustCoercePath(&localizationConfig.Dir)
+
+	// Res
+	resConfig := config.ResServer
+	mustCoercePath(&resConfig.Dir)
 	return nil
 }
 

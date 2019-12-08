@@ -69,8 +69,7 @@ export class EditProfileApp extends BaseElement {
               </p>
               <div class="m-t-md">
                 <avatar-uploader
-                  @onComplete=${this.handleAvatarUploadComplete}
-                  @onError=${this.handleAvatarUploadError}
+                  @onSuccess=${this.handleAvatarUploadSuccess}
                 ></avatar-uploader>
               </div>
             </div>
@@ -169,12 +168,7 @@ export class EditProfileApp extends BaseElement {
     await this.reloadDataAsync();
   }
 
-  private async handleAvatarUploadError(e: CustomEvent<string>) {
-    const msg = e.detail;
-    await app.alert.error(msg);
-  }
-
-  private async handleAvatarUploadComplete(
+  private async handleAvatarUploadSuccess(
     e: CustomEvent<AvatarUploadResponse>,
   ) {
     const resp = e.detail;

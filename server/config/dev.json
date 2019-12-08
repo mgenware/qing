@@ -19,9 +19,6 @@
     "url": "/res",
     "dir": "../appdata/res_server"
   },
-  "extern": {
-    "convert_cmd": "magick convert"
-  },
   "debug": {
     "quick_login": true,
     "reload_views_on_refresh": true,
