@@ -1,12 +1,10 @@
 {
-  "name": "fx61-app",
+  "name": "qing-web",
   "version": "0.0.0",
   "private": true,
   "main": "dist/main.js",
-  "types": "dist/main.d.ts",
   "scripts": {
     "build": "yarn run lint && yarn run clean && cross-env NODE_ENV=production rollup -c",
-    "compile": "tsc",
     "dev": "yarn run clean && cross-env NODE_ENV=development rollup -c -w",
     "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\" --strict",
     "clean": "del-cli static/d/js"
