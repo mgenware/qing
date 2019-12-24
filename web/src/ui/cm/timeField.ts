@@ -54,3 +54,9 @@ export class TimeField extends LitElement {
     return new Date(str);
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'time-field': TimeField;
+  }
+}

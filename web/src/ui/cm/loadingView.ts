@@ -40,3 +40,9 @@ export class LoadingView extends BaseElement {
     this.dispatchEvent(new CustomEvent('onRetry'));
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'loading-view': LoadingView;
+  }
+}

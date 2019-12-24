@@ -138,3 +138,9 @@ export class AvatarUploader extends BaseElement {
     }
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'avatar-uploader': AvatarUploader;
+  }
+}

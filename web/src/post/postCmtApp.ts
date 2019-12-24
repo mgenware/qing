@@ -19,3 +19,9 @@ export class PostCmtApp extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'post-cmt-app': PostCmtApp;
+  }
+}

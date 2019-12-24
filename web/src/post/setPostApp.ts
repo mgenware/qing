@@ -69,3 +69,9 @@ export default class SetPostApp extends BaseElement {
     }
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'set-post-app': SetPostApp;
+  }
+}

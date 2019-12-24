@@ -128,3 +128,9 @@ export default class NavBarApp extends BaseElement {
     this.currentTheme = app.userData.theme = newTheme;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'nav-bar-app': NavBarApp;
+  }
+}

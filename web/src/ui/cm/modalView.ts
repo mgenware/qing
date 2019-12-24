@@ -243,3 +243,9 @@ function iconTypeToIcon(type: ModalIcon): ModalIconData | null {
   }
   return null;
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'modal-view': ModalView;
+  }
+}

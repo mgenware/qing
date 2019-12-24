@@ -159,3 +159,9 @@ export class ComposerView extends BaseElement {
     this.dispatchEvent(new CustomEvent('onCancel'));
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'composer-view': ComposerView;
+  }
+}

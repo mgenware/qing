@@ -30,3 +30,9 @@ export class ErrorView extends BaseElement {
     this.dispatchEvent(new CustomEvent('onRetry'));
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'error-view': ErrorView;
+  }
+}

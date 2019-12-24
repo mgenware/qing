@@ -43,3 +43,9 @@ export class PostAdminApp extends BaseElement {
     }
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'post-admin-app': PostAdminApp;
+  }
+}

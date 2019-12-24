@@ -94,3 +94,9 @@ export default class DashboardApp extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'dashboard-app': DashboardApp;
+  }
+}

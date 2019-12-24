@@ -82,3 +82,9 @@ export class CaptchaView extends BaseElement {
     }
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'captcha-view': CaptchaView;
+  }
+}

@@ -26,3 +26,9 @@ export class FixedView extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'fixed-view': FixedView;
+  }
+}

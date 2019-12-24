@@ -66,3 +66,9 @@ export class AddCmtApp extends BaseElement {
     }
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'add-cmt-app': AddCmtApp;
+  }
+}

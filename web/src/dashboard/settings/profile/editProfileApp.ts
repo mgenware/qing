@@ -184,3 +184,9 @@ export class EditProfileApp extends BaseElement {
     });
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'edit-profile-app': EditProfileApp;
+  }
+}

@@ -96,3 +96,9 @@ export class SpinnerView extends LitElement {
     return content;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'spinner-view': SpinnerView;
+  }
+}

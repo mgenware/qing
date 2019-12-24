@@ -47,3 +47,9 @@ export default class EditorView extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'editor-view': EditorView;
+  }
+}

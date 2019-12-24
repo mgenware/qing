@@ -41,3 +41,9 @@ export class CmtView extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'cmt-view': CmtView;
+  }
+}

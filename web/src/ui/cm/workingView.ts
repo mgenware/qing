@@ -16,3 +16,9 @@ export class WorkingView extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'working-view': WorkingView;
+  }
+}

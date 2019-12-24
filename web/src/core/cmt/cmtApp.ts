@@ -111,3 +111,9 @@ export class CmtApp extends BaseElement {
     }
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'cmt-app': CmtApp;
+  }
+}

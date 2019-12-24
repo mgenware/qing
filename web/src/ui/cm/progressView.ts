@@ -17,3 +17,9 @@ export default class ProgressView extends BaseElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'progress-view': ProgressView;
+  }
+}
