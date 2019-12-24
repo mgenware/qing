@@ -6,7 +6,7 @@
   "scripts": {
     "build": "yarn run lint && yarn run clean && cross-env NODE_ENV=production rollup -c",
     "dev": "yarn run clean && cross-env NODE_ENV=development rollup -c -w",
-    "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\" --strict",
+    "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\"",
     "clean": "del-cli static/d/js"
   },
   "engines": {
