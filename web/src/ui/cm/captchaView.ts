@@ -51,7 +51,7 @@ export class CaptchaView extends BaseElement {
             style="width: 150px"
             class="m-t-sm input"
             type="text"
-            @keyup=${this.handleEnterKeyUp}
+            @keydown=${this.handleEnterKeyDown}
             placeholder=${ls.enterCaptchaPlz}
           />
         </span>
@@ -76,9 +76,9 @@ export class CaptchaView extends BaseElement {
     this.refresh();
   }
 
-  private handleEnterKeyUp(e: KeyboardEvent) {
-    if (e.keyCode === 13) {
-      this.dispatchEvent(new CustomEvent('onEnterKeyUp'));
+  private handleEnterKeyDown(e: KeyboardEvent) {
+    if (e.target === this.textElement && e.keyCode === 13) {
+      this.dispatchEvent(new CustomEvent('onEnterKeyDown'));
     }
   }
 }

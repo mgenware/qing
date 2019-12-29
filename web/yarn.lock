@@ -309,10 +309,10 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-bowhead-js@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/bowhead-js/-/bowhead-js-1.1.0.tgz#c3efd7420160637e481d191a60db8fc6f0ce38e8"
-  integrity sha512-XeUbbNWlSQZvSXsZWK8cyhTQGFHPFrakMN2k9OJVT8PhG4nynI6rtRZ9m2hbpSUGJGLTiZO3QakQa9QHo2cw+w==
+bowhead-js@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/bowhead-js/-/bowhead-js-1.1.1.tgz#1891591e0907553f2d26d098c6a1ea25149fb561"
+  integrity sha512-dQLGu7Abqp3fGX515RXuiW2qQHZ7jeNctnvHMbocnYa45k51TJFyvrJORFKwKWqMKAHp42+fomCs8+6IPGfnyw==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -2035,12 +2035,10 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-qing-dialog-component@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.0.1.tgz#751040769cc2183666f24df6cf4ab27ff2a66fea"
-  integrity sha512-GKoyr9ItfXaPJx48xS6USkgJ0HU+ChLD770FGMiGjstUPQeI/5VlDswatIdcofhcE5yAugMP88V6PPYPgL6SEA==
-  dependencies:
-    lit-button "^3.1.5"
+qing-dialog-component@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.0.4.tgz#9807d6b85137cb85b4b83f53b14ae474cc841f81"
+  integrity sha512-6pXuuq93l00onhiMeMMmvQMvKCZrOI4cbTJPlPHjFNvZTtQEe3rP6/F4uPEEZQxCacZKXR656wlyi33xzjjSaQ==
 
 quick-lru@^1.0.0:
   version "1.1.0"
