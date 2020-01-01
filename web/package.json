@@ -24,7 +24,7 @@
     "lit-button": "^3.1.5",
     "lit-element": "^2.2.1",
     "page": "^1.11.5",
-    "qing-dialog-component": "^0.0.4"
+    "qing-dialog-component": "^0.0.5"
   },
   "devDependencies": {
     "@types/escape-html": "^0.0.20",

@@ -4,12 +4,12 @@ import BaseElement from 'baseElement';
 import 'ui/cm/progressView';
 import '@github/image-crop-element';
 import styles from '@github/image-crop-element/index.css';
-import 'ui/cm/modalView';
+import 'qing-dialog-component';
 import AvatarUploadLoader, {
   AvatarUploadResponse,
 } from './loaders/AvatarUploadLoader';
 import app from 'app';
-import { ModalClickInfo, ModalButton, ModalView } from 'ui/cm/modalView';
+import { QingDialog, IsOpenChangedArgs } from 'qing-dialog-component';
 
 interface ImageCropInfo {
   x: number;
@@ -28,31 +28,31 @@ export class AvatarUploader extends BaseElement {
 
   formElement!: HTMLFormElement;
   uploadElement!: HTMLInputElement;
-  modalElement!: ModalView;
+  modalElement!: QingDialog;
   cropElement!: HTMLElement;
   cropInfo: ImageCropInfo | null = null;
 
   firstUpdated() {
     this.formElement = this.mustGetShadowElement('formElement');
     this.uploadElement = this.mustGetShadowElement('uploadElement');
-    this.modalElement = this.mustGetShadowElement('modalElement') as ModalView;
+    this.modalElement = this.mustGetShadowElement('modalElement');
     this.cropElement = this.mustGetShadowElement('cropElement');
     this.hookFileUploadEvents(this.uploadElement);
     this.cropElement.addEventListener('image-crop-change', e =>
       this.handleImageCrop(e),
     );
-    this.modalElement.addEventListener('modalClosed', ((
-      e: CustomEvent<ModalClickInfo>,
+    this.modalElement.addEventListener('closed', ((
+      e: CustomEvent<IsOpenChangedArgs>,
     ) => this.handleCropperModalClose(e)) as any);
   }
 
   render() {
     return html`
       <div>
-        <modal-view
+        <qing-dialog
           id="modalElement"
           .isOpen=${!!this.imageDataURL}
-          .buttons=${[ModalButton.ok]}
+          .buttons=${['ok']}
         >
           <div>
             <image-crop
@@ -60,7 +60,7 @@ export class AvatarUploader extends BaseElement {
               src=${this.imageDataURL as string}
             ></image-crop>
           </div>
-        </modal-view>
+        </qing-dialog>
         <form id="formElement">
           <div>
             <label>
@@ -120,9 +120,9 @@ export class AvatarUploader extends BaseElement {
     );
   }
 
-  private async handleCropperModalClose(e: CustomEvent<ModalClickInfo>) {
-    const info = e.detail;
-    if (info.type === ModalButton.ok) {
+  private async handleCropperModalClose(e: CustomEvent<IsOpenChangedArgs>) {
+    const { button } = e.detail;
+    if (button?.type === 'ok') {
       const fd = new FormData(this.formElement);
       if (this.cropInfo) {
         for (const [k, v] of Object.entries(this.cropInfo)) {
