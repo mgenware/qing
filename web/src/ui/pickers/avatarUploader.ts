@@ -52,7 +52,7 @@ export class AvatarUploader extends BaseElement {
         <qing-dialog
           id="modalElement"
           .isOpen=${!!this.imageDataURL}
-          .buttons=${['ok']}
+          .buttons=${['ok', 'cancel']}
         >
           <div>
             <image-crop
