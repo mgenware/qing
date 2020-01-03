@@ -18,7 +18,6 @@ function started() {
   try {
     bulmaSetup();
   } catch (e) {
-    // tslint:disable-next-line no-console
     console.error('Internal style initialization failed: ' + e);
   }
   // --------- end of bulma elements setup code ---------

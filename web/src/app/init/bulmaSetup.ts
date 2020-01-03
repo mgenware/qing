@@ -1,4 +1,3 @@
-// tslint:disable-next-line no-any
 function getAll(selector: any): HTMLElement[] {
   return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }
@@ -59,7 +58,6 @@ export function setupModals() {
     });
   }
 
-  // tslint:disable-next-line no-any
   function openModal(target: any) {
     const $target = document.getElementById(target);
     rootEl.classList.add('is-clipped');

@@ -34,7 +34,6 @@ export default class NavBarApp extends BaseElement {
         }
       });
     } else {
-      // tslint:disable-next-line no-console
       console.error(`navbar setup failed, m_nav_burger not defined`);
     }
   }

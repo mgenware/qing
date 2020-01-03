@@ -9,7 +9,6 @@ const WARN_CHANGES = ls.unsavedChangesWarning;
 const CSS_DARK_THEME = 'theme-dark';
 
 export default class UserData {
-  // tslint:disable-next-line variable-name
   private _hasUnsavedChanges = false;
   private alert: Alert;
 

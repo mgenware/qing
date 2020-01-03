@@ -9,7 +9,6 @@ export default class AppState {
   private userListeners: UserCallbackFn[] = [];
 
   constructor() {
-    // tslint:disable-next-line: no-any
     const wind = window as any;
 
     this.user = User.fromWindow();
