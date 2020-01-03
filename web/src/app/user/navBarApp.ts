@@ -59,8 +59,6 @@ export default class NavBarApp extends BaseElement {
                   <div class="navbar-dropdown">
                     <a class="navbar-item" href=${user.URL}>${ls.profile}</a>
                     <hr class="navbar-divider" />
-
-                    <hr class="navbar-divider" />
                     <a class="navbar-item" href=${rs.dashboard.editProfile}
                       >${ls.settings}</a
                     >
