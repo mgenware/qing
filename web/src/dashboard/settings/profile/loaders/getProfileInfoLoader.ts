@@ -14,6 +14,6 @@ export interface GetProfileInfoResult {
 
 export class GetProfileInfoLoader extends Loader<GetProfileInfoResult> {
   requestURL(): string {
-    return routes.sr.profile.getInfo;
+    return routes.s.r.profile.getInfo;
   }
 }

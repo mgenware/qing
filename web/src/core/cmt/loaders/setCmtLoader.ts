@@ -30,7 +30,7 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
   }
 
   requestURL(): string {
-    return routes.sr.compose.setCmt;
+    return routes.s.r.compose.setCmt;
   }
 
   requestParams(): object {

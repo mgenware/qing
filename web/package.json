@@ -19,6 +19,7 @@
     "construct-style-sheets-polyfill": "^2.3.3",
     "date-fns": "^2.8.1",
     "escape-html": "^1.0.3",
+    "fx214": "^1.0.1",
     "js-cookie": "^2.2.1",
     "kangxi-editor": "^0.3.1",
     "lit-button": "^3.1.5",

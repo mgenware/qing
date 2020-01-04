@@ -974,6 +974,11 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
+fx214@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/fx214/-/fx214-1.0.1.tgz#378d0a4612b22ece34f3bdea76ef86c23d44a7f6"
+  integrity sha512-SA9qFPZoo3Smsw+5Hrm3bSHflTiR4TS/tudJ57DnO66qWFFbM3PtovVuLSW3hOkLQqzjfpqs4eHQm7BZRdlAFw==
+
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"

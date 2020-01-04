@@ -18,7 +18,7 @@ export default class ListCmtLoader extends Loader<ListCmtLoaderResp> {
   }
 
   requestURL(): string {
-    return routes.sp.cmt.list;
+    return routes.s.p.cmt.list;
   }
 
   requestParams(): object {

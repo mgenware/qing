@@ -9,8 +9,8 @@ import (
 	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
-// CaptchaGET handles captcha requests.
-func CaptchaGET(w http.ResponseWriter, r *http.Request) {
+// ReqCaptcha handles captcha requests.
+func ReqCaptcha(w http.ResponseWriter, r *http.Request) {
 	entityType, err := strconvx.ParseInt(r.FormValue("entityType"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

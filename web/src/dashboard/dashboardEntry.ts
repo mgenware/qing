@@ -19,7 +19,7 @@ export default class DashboardApp extends BaseElement {
   }
 
   firstUpdated() {
-    page(rs.dashboard.newPost, () => {
+    page(rs.m.newPost, () => {
       this.content = new Page(
         html`
           <div class="m-md">
@@ -30,7 +30,7 @@ export default class DashboardApp extends BaseElement {
       );
       this.title = ls.newPost;
     });
-    page(`${rs.dashboard.editPost}/:id`, e => {
+    page(`${rs.m.editPost}/:id`, e => {
       const id = e.params.id;
       if (!id) {
         return;
@@ -45,7 +45,7 @@ export default class DashboardApp extends BaseElement {
       );
       this.title = ls.editPost;
     });
-    page(rs.dashboard.editProfile, () => {
+    page(rs.m.editProfile, () => {
       this.content = new Page(
         html`
           <div class="m-md">
@@ -77,13 +77,13 @@ export default class DashboardApp extends BaseElement {
               <p class="menu-label">${ls.common}</p>
               <ul class="menu-list">
                 <li>
-                  <a href=${rs.dashboard.newPost}>${ls.newPost}</a>
+                  <a href=${rs.m.newPost}>${ls.newPost}</a>
                 </li>
               </ul>
               <p class="menu-label">${ls.settings}</p>
               <ul class="menu-list">
                 <li>
-                  <a href=${rs.dashboard.editProfile}>${ls.profile}</a>
+                  <a href=${rs.m.editProfile}>${ls.profile}</a>
                 </li>
               </ul>
             </aside>

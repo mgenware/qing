@@ -8,7 +8,7 @@ export default class SetPostLoader extends BaseLoader<string> {
   }
 
   requestURL(): string {
-    return routes.sr.compose.setPost;
+    return routes.s.r.compose.setPost;
   }
 
   requestParams(): object {

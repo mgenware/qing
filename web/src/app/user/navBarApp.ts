@@ -6,6 +6,7 @@ import BaseElement from 'baseElement';
 import User from './user';
 import bulmaStyles from 'app/styles/navbar-min';
 import * as defs from 'defs';
+import SignOutLoader from './loaders/signOutLoader';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -59,10 +60,15 @@ export default class NavBarApp extends BaseElement {
                   <div class="navbar-dropdown">
                     <a class="navbar-item" href=${user.URL}>${ls.profile}</a>
                     <hr class="navbar-divider" />
-                    <a class="navbar-item" href=${rs.dashboard.editProfile}
+                    <a class="navbar-item" href=${rs.m.editProfile}
                       >${ls.settings}</a
                     >
-                    <a class="navbar-item" href="#">${ls.signOut}</a>
+                    <a
+                      class="navbar-item"
+                      href="#"
+                      @click=${this.handleSignOutClick}
+                      >${ls.signOut}</a
+                    >
                   </div>
                 </div>
               `
@@ -123,6 +129,14 @@ export default class NavBarApp extends BaseElement {
         ? defs.UserTheme.dark
         : defs.UserTheme.light;
     this.currentTheme = app.userData.theme = newTheme;
+  }
+
+  private async handleSignOutClick() {
+    const loader = new SignOutLoader();
+    const res = await app.runGlobalActionAsync(loader);
+    if (res.isSuccess) {
+      app.browser.reload();
+    }
   }
 }
 

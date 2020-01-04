@@ -1,34 +1,34 @@
-const m = '/m/';
-const sr = '/s/r/';
-const sp = '/s/p/';
-const srProfile = `${sr}profile/`;
-const srCompose = `${sr}compose/`;
-const spCmt = `${sp}cmt/`;
+import buildTree from 'fx214';
 
-export default {
-  dashboard: {
-    newPost: `${m}new-post`,
-    editPost: `${m}edit-post`,
-    editProfile: `${m}profile`,
+export default buildTree({
+  m: {
+    newPost: 'new-post',
+    editPost: 'edit-post',
+    editProfile: 'profile',
   },
-  sr: {
-    reqCapt: `${sr}req-capt`,
-    profile: {
-      getInfo: `${srProfile}get-info`,
-      setInfo: `${srProfile}set-info`,
-      setAvatar: `${srProfile}set-avatar`,
-      setBio: `${srProfile}set-bio`,
+  s: {
+    r: {
+      reqCapt: 'req-capt',
+      profile: {
+        getInfo: 'get-info',
+        setInfo: 'set-info',
+        setAvatar: 'set-avatar',
+        setBio: 'set-bio',
+      },
+      compose: {
+        setPost: 'set-post',
+        deletePost: 'delete-post',
+        getPostForEditing: 'get-for-editing',
+        setCmt: 'set-cmt',
+      },
+      auth: {
+        signOut: 'signout',
+      },
     },
-    compose: {
-      setPost: `${srCompose}set-post`,
-      deletePost: `${srCompose}delete-post`,
-      getPostForEditing: `${srCompose}get-for-editing`,
-      setCmt: `${srCompose}set-cmt`,
+    p: {
+      cmt: {
+        list: 'list',
+      },
     },
   },
-  sp: {
-    cmt: {
-      list: `${spCmt}list`,
-    },
-  },
-};
+});

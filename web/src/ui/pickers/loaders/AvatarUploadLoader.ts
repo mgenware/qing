@@ -14,6 +14,6 @@ export default class AvatarUploadLoader extends FileUploadLoader<
   }
 
   requestURL(): string {
-    return routes.sr.profile.setAvatar;
+    return routes.s.r.profile.setAvatar;
   }
 }

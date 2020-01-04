@@ -7,7 +7,7 @@ export default class DeletePostLoader extends BaseLoader<string> {
   }
 
   requestURL(): string {
-    return routes.sr.compose.deletePost;
+    return routes.s.r.compose.deletePost;
   }
 
   requestParams(): object {

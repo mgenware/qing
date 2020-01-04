@@ -12,7 +12,7 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
   }
 
   requestURL(): string {
-    return routes.sr.profile.setInfo;
+    return routes.s.r.profile.setInfo;
   }
 
   requestParams(): object {

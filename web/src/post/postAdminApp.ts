@@ -27,7 +27,7 @@ export class PostAdminApp extends BaseElement {
 
   protected onEditClick() {
     const postID = wind.postID;
-    const url = routes.dashboard.editPost + '/' + postID;
+    const url = routes.m.editPost + '/' + postID;
     app.browser.jumpToURL(url);
   }
 

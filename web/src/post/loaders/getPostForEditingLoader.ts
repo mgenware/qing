@@ -14,7 +14,7 @@ export class GetPostForEditingLoader extends BaseLoader<
   }
 
   requestURL(): string {
-    return routes.sr.compose.getPostForEditing;
+    return routes.s.r.compose.getPostForEditing;
   }
 
   requestParams(): object {
