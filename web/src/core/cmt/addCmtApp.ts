@@ -12,11 +12,10 @@ import app from 'app';
 export class AddCmtApp extends BaseElement {
   @property() entityID = '';
   @property({ type: Number }) entityType = 0;
-  @property({ type: Boolean }) private expanded = true;
-  private editor!: EditorView;
+  @property({ type: Boolean }) private expanded = false;
 
-  firstUpdated() {
-    this.editor = this.mustGetShadowElement('cmt-editor');
+  private get editor(): EditorView | null {
+    return this.mustGetShadowElement('cmt-editor') as EditorView | null;
   }
 
   render() {

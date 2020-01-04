@@ -34,7 +34,6 @@ export class TimeField extends LitElement {
       content += ` [${ls.editedAt} ${modifiedAt}]`;
     }
     return html`
-      <!-- Set visibility to visible cuz this component is inherently hidden, and only shows when its content is ready -->
       <span style="visibility: visible">
         ${content}
       </span>

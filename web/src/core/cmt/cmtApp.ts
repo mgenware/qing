@@ -100,14 +100,14 @@ export class CmtApp extends BaseElement {
       if (status.isSuccess && status.data) {
         const resp = status.data;
         this.hasNext = resp.hasNext;
-        this.cmts.push(...(resp.cmts || []));
+        this.cmts = [...(resp.cmts || [])];
       }
     });
   }
 
   private async handleCmtAdded(e: CustomEvent<SetCmtResponse>) {
     if (e.detail) {
-      this.cmts.push(e.detail.cmt);
+      this.cmts = [...this.cmts, e.detail.cmt];
     }
   }
 }
