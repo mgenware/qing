@@ -10,8 +10,8 @@ export class Reply extends mm.Table {
 
   to_user_id = user.id;
   parent_id = cmt.id;
-  created_at = mm.datetime(true);
-  modified_at = mm.datetime(true);
+  created_at = mm.datetime('utc');
+  modified_at = mm.datetime('utc');
 }
 
 export default mm.table(Reply);

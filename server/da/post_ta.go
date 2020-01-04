@@ -34,7 +34,7 @@ func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uin
 }
 
 func (da *TableTypePost) insertCmtChild1(queryable dbx.Queryable, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `rpl_count`) VALUES (?, ?, NOW(), NOW(), 0)", content, userID)
+	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `rpl_count`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -62,7 +62,7 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ta
 }
 
 func (da *TableTypePost) insertPostChild1(queryable dbx.Queryable, title string, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, NOW(), NOW(), 0, 0)", title, content, userID)
+	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", title, content, userID)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 

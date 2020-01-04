@@ -18,10 +18,10 @@ export class TimeField extends LitElement {
     if (content) {
       const parts = content.split('|');
       if (parts.length > 0) {
-        this.createdAt = this.formatDate(parts[0]);
+        this.createdAt = parts[0];
       }
       if (parts.length > 1) {
-        this.modifiedAt = this.formatDate(parts[1]);
+        this.modifiedAt = parts[1];
       }
     }
   }
@@ -29,9 +29,9 @@ export class TimeField extends LitElement {
   render() {
     const { createdAt, modifiedAt } = this;
 
-    let content = createdAt;
+    let content = this.formatDate(createdAt);
     if (!createdAt && modifiedAt !== createdAt) {
-      content += ` [${ls.editedAt} ${modifiedAt}]`;
+      content += ` [${ls.editedAt} ${this.formatDate(modifiedAt)}]`;
     }
     return html`
       <span style="visibility: visible">

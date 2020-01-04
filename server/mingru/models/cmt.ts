@@ -6,8 +6,8 @@ export class Cmt extends mm.Table {
   content = mm.text();
   user_id = user.id;
 
-  created_at = mm.datetime(true);
-  modified_at = mm.datetime(true);
+  created_at = mm.datetime('utc');
+  modified_at = mm.datetime('utc');
   rpl_count = mm.uInt(0);
 }
 

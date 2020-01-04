@@ -6,7 +6,7 @@ export class User extends mm.Table {
   name = mm.varChar(255);
   icon_name = mm.varChar(255);
   url_name = mm.varChar(30).nullable.unique;
-  created_time = mm.datetime(true);
+  created_time = mm.datetime('utc');
 
   company = mm.varChar(100);
   website = mm.varChar(100);
