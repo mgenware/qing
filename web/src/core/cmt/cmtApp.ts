@@ -75,6 +75,15 @@ export class CmtApp extends BaseElement {
                 </div>
               `
             : html``}
+          ${this.extendedLoadingStatus.hasProgress
+            ? html`
+                <loading-view
+                  .status=${this.initialLoadingStatus}
+                  .canRetry=${true}
+                  @onRetry=${this.reloadAllAsync}
+                ></loading-view>
+              `
+            : html``}
         </div>
       `;
     } else {

@@ -49,9 +49,12 @@ export default class Status<T> {
     return this.isStarted && !this.isCompleted;
   }
 
-  // canRestart = isNotStarted | isFailed
   get canRestart(): boolean {
     return !this.isStarted || !!this.error;
+  }
+
+  get hasProgress(): boolean {
+    return this.isWorking || !!this.error;
   }
 
   get isSuccess(): boolean {
