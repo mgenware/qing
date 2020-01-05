@@ -1,5 +1,5 @@
 export default interface Cmt {
-  id: number;
+  id: string;
   title: string;
   createdAt: string;
   modifiedAt: string;

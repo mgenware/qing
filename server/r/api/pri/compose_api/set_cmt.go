@@ -9,6 +9,7 @@ import (
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/api/apidata"
+	"time"
 
 	"github.com/mgenware/go-packagex/v5/jsonx"
 )
@@ -29,7 +30,8 @@ func getCmtDataLayer(targetType int) da.CmtCore {
 func setCmt(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
-	uid := resp.UserID()
+	user := resp.User()
+	uid := user.ID
 
 	// The meaning of ID depends on the `target_type` param,
 	// if `entityType` is present, `id` is like `target_id`,
@@ -52,7 +54,17 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, id, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 
-		cmt := &apidata.Cmt{ID: validator.EncodeID(cmtID)}
+		// Construct a DB cmt object without interacting with DB.
+		now := time.Now()
+		cmtd := &da.CmtData{CmtID: cmtID}
+		cmtd.CreatedAt = now
+		cmtd.ModifiedAt = now
+		cmtd.Content = content
+		cmtd.UserID = uid
+		cmtd.UserName = user.Name
+		cmtd.UserIconName = user.IconName
+
+		cmt := apidata.NewCmt(cmtd)
 		cmt.Content = content
 
 		respData := &SetCmtResponse{Cmt: cmt}

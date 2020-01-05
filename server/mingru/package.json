@@ -13,8 +13,8 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "mingru": "^0.22.0",
-    "mingru-models": "^0.31.0",
+    "mingru": "^0.23.0",
+    "mingru-models": "^0.32.0",
     "mingru-tsconfig": "^2.0.0"
   }
 }

@@ -66,5 +66,7 @@
   "request": "请求",
   "errorCode": "错误码",
   "editProfile": "编辑账号信息",
-  "uploading": "上传中..."
+  "uploading": "上传中...",
+  "ppItemCounter": "已显示 {0} / {1} 总共",
+  "viewMore": "显示更多"
 }
