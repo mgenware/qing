@@ -7,7 +7,7 @@ type ILocalizedTemplateData interface {
 
 // LocalizedTemplateData implements ILocalizedTemplateData.
 type LocalizedTemplateData struct {
-	LS map[string]string
+	LS map[string]string `json:"-"`
 }
 
 func (td *LocalizedTemplateData) SetLS(value map[string]string) {

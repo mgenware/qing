@@ -22,7 +22,7 @@ var User = &TableTypeUser{}
 type UserTableSelectEditingDataResult struct {
 	ID       uint64  `json:"id"`
 	Name     string  `json:"name"`
-	IconName string  `json:"iconName"`
+	IconName string  `json:"-"`
 	Location string  `json:"location"`
 	Company  string  `json:"company"`
 	Website  string  `json:"website"`

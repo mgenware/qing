@@ -534,6 +534,7 @@ svg.is-warning {
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   border-radius: 8px;
+  background-color: var(--info-back-color);
 }
 
 .section.is-success {

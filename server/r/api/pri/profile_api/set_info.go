@@ -12,7 +12,7 @@ type infoData struct {
 	da.UserTableSelectEditingDataResult
 	template.LocalizedTemplateData
 
-	IconURL string
+	IconURL string `json:"iconURL"`
 }
 
 func newInfoData(u *da.UserTableSelectEditingDataResult) *infoData {

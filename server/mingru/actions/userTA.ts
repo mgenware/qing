@@ -16,7 +16,15 @@ export class UserTA extends mm.TableActions {
     .byID();
   selectSessionData = mm.select(t.id, t.name, t.icon_name).byID();
   selectEditingData = mm
-    .select(t.id, t.name, t.icon_name, t.location, t.company, t.website, t.bio)
+    .select(
+      t.id,
+      t.name,
+      t.icon_name.attr(mm.ColumnAttributes.isPrivate, true),
+      t.location,
+      t.company,
+      t.website,
+      t.bio,
+    )
     .byID();
   selectIconName = mm.selectField(t.icon_name).byID();
 

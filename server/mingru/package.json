@@ -9,7 +9,7 @@
     "build": "ts-node mingru"
   },
   "devDependencies": {
-    "ts-node": "^8.5.4",
+    "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   },
   "dependencies": {

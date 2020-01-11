@@ -19,7 +19,7 @@ export class EditProfileApp extends BaseElement {
     return [super.styles, css``];
   }
 
-  @lp.string nick = '';
+  @lp.string name = '';
   @lp.string url = '';
   @lp.string company = '';
   @lp.string location = '';
@@ -36,7 +36,7 @@ export class EditProfileApp extends BaseElement {
   render() {
     const { loadingStatus } = this;
     return html`
-      ${!loadingStatus ? this.renderContent() : this.renderProgress()}
+      ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()}
     `;
   }
 
@@ -84,8 +84,8 @@ export class EditProfileApp extends BaseElement {
               <input
                 id="nick-tbx"
                 type="text"
-                value=${this.nick}
-                @change=${(e: any) => (this.nick = e.target.value)}
+                value=${this.name}
+                @change=${(e: any) => (this.name = e.target.value)}
               />
 
               <label for="website-tbx">${ls.url}</label>
@@ -134,25 +134,25 @@ export class EditProfileApp extends BaseElement {
     );
     if (status.data) {
       const profile = status.data;
-      this.nick = profile.Name || '';
-      this.url = profile.Website || '';
-      this.company = profile.Company || '';
-      this.location = profile.Location || '';
-      this.avatarURL = profile.IconURL || '';
+      this.name = profile.name || '';
+      this.url = profile.website || '';
+      this.company = profile.company || '';
+      this.location = profile.location || '';
+      this.avatarURL = profile.iconURL || '';
     }
   }
 
   private async handleSaveProfileClick() {
     // Validate user inputs.
     try {
-      if (!this.nick) {
+      if (!this.name) {
         throw new Error(format('pPlzEnterThe', ls.name));
       }
     } catch (err) {
       await app.alert.error(err.message);
     }
     const loader = new SetProfileInfoLoader(
-      this.nick,
+      this.name,
       this.url,
       this.company,
       this.location,
