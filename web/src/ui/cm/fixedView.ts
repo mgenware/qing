@@ -1,4 +1,5 @@
-import { html, customElement, property, css } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
+import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 
 @customElement('fixed-view')
@@ -15,7 +16,7 @@ export class FixedView extends BaseElement {
       `,
     ];
   }
-  @property() height = '';
+  @lp.string height = '';
 
   render() {
     const { height } = this;

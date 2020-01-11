@@ -1,4 +1,5 @@
-import { html, customElement, property, css } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
+import * as lp from 'lit-props';
 import { ls, format } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/workingView';
@@ -18,14 +19,14 @@ export class EditProfileApp extends BaseElement {
     return [super.styles, css``];
   }
 
-  @property() nick = '';
-  @property() url = '';
-  @property() company = '';
-  @property() location = '';
-  @property({ type: Object }) loadingStatus = LoadingStatus.empty;
-  @property({ type: Object }) setInfoStatus = LoadingStatus.empty;
-  @property({ type: Boolean }) isUploadingAvatar = false;
-  @property() avatarURL = '';
+  @lp.string nick = '';
+  @lp.string url = '';
+  @lp.string company = '';
+  @lp.string location = '';
+  @lp.object loadingStatus = LoadingStatus.empty;
+  @lp.object setInfoStatus = LoadingStatus.empty;
+  @lp.bool isUploadingAvatar = false;
+  @lp.string avatarURL = '';
   setInfoLoader!: SetProfileInfoLoader;
 
   async firstUpdated() {

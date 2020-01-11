@@ -1,4 +1,5 @@
-import { html, customElement, property, TemplateResult } from 'lit-element';
+import { html, customElement, TemplateResult } from 'lit-element';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import app from 'app';
 import rs from 'routes';
@@ -14,8 +15,8 @@ export default class NavBarApp extends BaseElement {
     return [super.styles, bulmaStyles];
   }
 
-  @property({ type: Object }) user: User | null = null;
-  @property({ type: Number }) currentTheme!: defs.UserTheme;
+  @lp.object user: User | null = null;
+  @lp.number currentTheme = defs.UserTheme.light;
 
   firstUpdated() {
     app.state.getUserInfo(true, user => {

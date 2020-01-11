@@ -1,5 +1,6 @@
 import './editorView';
-import { html, customElement, property } from 'lit-element';
+import { html, customElement } from 'lit-element';
+import * as lp from 'lit-props';
 import { ls, format } from 'ls';
 import app from 'app';
 import EditorView from './editorView';
@@ -23,16 +24,16 @@ export class ComposerPayload {
 
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
-  @property({ type: Number }) entityType: EntityType = 0;
-  @property() title = '';
-  @property({ type: Boolean }) showTitle = true;
-  @property() entityID = '';
+  @lp.number entityType: EntityType = 0;
+  @lp.string title = '';
+  @lp.bool showTitle = true;
+  @lp.string entityID = '';
   // When writing a comment, `entityID` is null, `attachedEntityID` is the target you're writing comment to.
-  @property() attachedEntityID = '';
-  @property({ type: Number }) attachedEntityType: EntityType = 0;
-  @property() content = '';
-  @property({ type: Boolean }) showCancelButton = false;
-  @property() submitButtonText = '';
+  @lp.string attachedEntityID = '';
+  @lp.number attachedEntityType: EntityType = 0;
+  @lp.string content = '';
+  @lp.bool showCancelButton = false;
+  @lp.string submitButtonText = '';
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
