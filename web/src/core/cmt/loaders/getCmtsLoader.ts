@@ -1,18 +1,14 @@
 import Loader from 'lib/loader';
 import routes from 'routes';
 import { EntityType } from 'lib/entity';
+import { ItemsResponse } from 'lib/itemCollector';
 import Cmt from '../cmt';
 
-export interface ListCmtLoaderResp {
-  hasNext: boolean;
-  cmts: Cmt[];
-}
-
-export default class ListCmtLoader extends Loader<ListCmtLoaderResp> {
+export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
   constructor(
     public entityID: string,
     public entityType: EntityType,
-    public page?: number,
+    public page: number,
   ) {
     super();
   }

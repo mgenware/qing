@@ -4,8 +4,25 @@ import UserData from './app/modules/userData';
 import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
 import ls from 'ls';
-import Status from 'lib/status';
 import { localizedErrDict } from 'defs';
+import ErrorWithCode from 'lib/errorWithCode';
+import LoadingStatus from 'lib/loadingStatus';
+
+export class Result<T> {
+  constructor(public error: ErrorWithCode | null, public data: T | null) {}
+
+  static error<T>(err: ErrorWithCode): Result<T> {
+    return new Result<T>(err, null);
+  }
+
+  static data<T>(data: T): Result<T> {
+    return new Result<T>(null, data);
+  }
+
+  get isSuccess(): boolean {
+    return !!this.error;
+  }
+}
 
 class APP {
   state = new AppState();
@@ -23,38 +40,39 @@ class APP {
 
   async runLocalActionAsync<T>(
     loader: Loader<T>,
-    cb: (result: Status<T>) => void,
-  ) {
+    cb: (status: LoadingStatus) => void,
+  ): Promise<Result<T>> {
     try {
-      loader.statusChanged = cb;
-      await loader.startAsync();
+      loader.loadingStatusChanged = cb;
+      const data = await loader.startAsync();
+      return Result.data(data);
     } catch (err) {
-      // Error will be handled in loader.statusChanged
+      // Note: error is also handled in loader.loadingStatusChanged.
+      return Result.error<T>(err);
     }
   }
 
   async runGlobalActionAsync<T>(
     loader: Loader<T>,
     overlayText?: string,
-    cb?: (result: Status<T>) => void,
-  ): Promise<Status<T>> {
+    cb?: (status: LoadingStatus) => void,
+  ): Promise<Result<T>> {
     const { alert } = this;
-    let status = Status.empty<T>();
     try {
-      loader.statusChanged = s => {
-        status = s;
+      loader.loadingStatusChanged = s => {
         if (cb) {
           cb(s);
         }
       };
       alert.showLoadingOverlay(overlayText || ls.loading);
-      await loader.startAsync();
+      const data = await loader.startAsync();
       alert.hideLoadingOverlay();
-    } catch (ex) {
+      return Result.data(data);
+    } catch (err) {
       alert.hideLoadingOverlay();
-      await alert.error(ex.message);
+      await alert.error(err.message);
+      return Result.error<T>(err);
     }
-    return status;
   }
 }
 

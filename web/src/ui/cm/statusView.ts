@@ -1,22 +1,19 @@
 import { html, customElement, property } from 'lit-element';
 import './errorView';
 import './spinnerView';
-import Status from 'lib/status';
 import ls from 'ls';
 import BaseElement from 'baseElement';
+import LoadingStatus from 'lib/loadingStatus';
 
-@customElement('loading-view')
-export class LoadingView extends BaseElement {
-  @property({ type: Object }) status = Status.empty();
+@customElement('status-view')
+export class StatusView extends BaseElement {
+  @property({ type: Object }) status = LoadingStatus.empty;
   @property() loadingText = '';
   @property({ type: Boolean }) canRetry = false;
   @property() errorTitle = '';
 
   render() {
     const { status } = this;
-    if (!status.isStarted) {
-      return html``;
-    }
     if (status.isWorking) {
       return html`
         <spinner-view>${this.loadingText || ls.loading}</spinner-view>
@@ -33,7 +30,7 @@ export class LoadingView extends BaseElement {
         </error-view>
       `;
     }
-    return;
+    return html``;
   }
 
   private handleRetry() {
@@ -43,6 +40,6 @@ export class LoadingView extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'loading-view': LoadingView;
+    'status-view': StatusView;
   }
 }

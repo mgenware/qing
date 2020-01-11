@@ -1,10 +1,10 @@
 import { html, customElement, property } from 'lit-element';
 import BaseElement from 'baseElement';
-import Status from 'lib/status';
+import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('working-view')
 export class WorkingView extends BaseElement {
-  @property({ type: Object }) status = Status.empty();
+  @property({ type: Object }) status = LoadingStatus.empty;
   @property({ type: Boolean }) isWorking = false;
 
   render() {

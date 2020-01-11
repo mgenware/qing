@@ -1,7 +1,7 @@
-import Status from './status';
 import ls from '../ls';
 import ErrorWithCode from './errorWithCode';
 import { GenericError } from 'defs';
+import LoadingStatus from './loadingStatus';
 
 export interface APIResponse {
   code?: number;
@@ -12,7 +12,7 @@ export interface APIResponse {
 export default class Loader<T> {
   static defaultLocalizedMessageDict: Map<number, string> | null = null;
 
-  statusChanged: ((status: Status<T>) => void) | null = null;
+  loadingStatusChanged: ((status: LoadingStatus) => void) | null = null;
   private isStarted = false;
 
   async startAsync(): Promise<T> {
@@ -21,7 +21,7 @@ export default class Loader<T> {
         throw new Error('Loader should not be reused');
       }
       this.isStarted = true;
-      this.onStatusChanged(Status.started());
+      this.onLoadingStatusChanged(LoadingStatus.working);
 
       const reqURL = this.requestURL();
       const response = await fetch(reqURL, { ...this.fetchParams() });
@@ -65,10 +65,12 @@ export default class Loader<T> {
         );
       }
 
-      err.message = `${err.message} [${ls.request}: "${this.requestURL()}"]`;
-      this.onStatusChanged(Status.failure(errWithCode));
-      // Rethrow the original error.
-      throw err;
+      errWithCode.message = `${errWithCode.message} [${
+        ls.request
+      }: "${this.requestURL()}"]`;
+      errWithCode.stack = err.stack;
+      this.onLoadingStatusChanged(LoadingStatus.error(errWithCode));
+      throw errWithCode;
     }
   }
 
@@ -82,7 +84,7 @@ export default class Loader<T> {
 
   handleSuccess(resp: APIResponse): T {
     const data = resp.data as T;
-    this.onStatusChanged(Status.success(data));
+    this.onLoadingStatusChanged(LoadingStatus.success);
     return data;
   }
 
@@ -101,9 +103,9 @@ export default class Loader<T> {
     };
   }
 
-  private onStatusChanged(status: Status<T>) {
-    if (this.statusChanged) {
-      this.statusChanged(status);
+  private onLoadingStatusChanged(status: LoadingStatus) {
+    if (this.loadingStatusChanged) {
+      this.loadingStatusChanged(status);
     }
   }
 }

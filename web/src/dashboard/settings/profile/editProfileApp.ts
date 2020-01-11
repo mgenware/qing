@@ -3,14 +3,14 @@ import { ls, format } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/workingView';
 import 'ui/pickers/avatarUploader';
-import 'ui/cm/loadingView';
+import 'ui/cm/statusView';
 import 'ui/cm/fixedView';
 import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
-import Status from 'lib/status';
 import app from 'app';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
 import 'lit-button';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/AvatarUploadLoader';
+import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -22,8 +22,8 @@ export class EditProfileApp extends BaseElement {
   @property() url = '';
   @property() company = '';
   @property() location = '';
-  @property({ type: Object }) loadingStatus = Status.empty();
-  @property({ type: Object }) setInfoStatus = Status.empty();
+  @property({ type: Object }) loadingStatus = LoadingStatus.empty;
+  @property({ type: Object }) setInfoStatus = LoadingStatus.empty;
   @property({ type: Boolean }) isUploadingAvatar = false;
   @property() avatarURL = '';
   setInfoLoader!: SetProfileInfoLoader;
@@ -35,7 +35,7 @@ export class EditProfileApp extends BaseElement {
   render() {
     const { loadingStatus } = this;
     return html`
-      ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()}
+      ${!loadingStatus ? this.renderContent() : this.renderProgress()}
     `;
   }
 
@@ -43,11 +43,11 @@ export class EditProfileApp extends BaseElement {
     const { loadingStatus } = this;
     return html`
       <fixed-view .height=${'400px'}>
-        <loading-view
+        <static-view
           .status=${loadingStatus}
           .canRetry=${true}
           @onRetry=${this.handleLoadingRetry}
-        ></loading-view
+        ></static-view
       ></fixed-view>
     `;
   }

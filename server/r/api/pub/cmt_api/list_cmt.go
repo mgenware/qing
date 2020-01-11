@@ -12,10 +12,19 @@ import (
 	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
-var kCmtPageSize = 10
+var kCmtPageSize int
+
+func init() {
+	if app.Config.DevMode() {
+		// Use a smaller for testing purposes.
+		kCmtPageSize = 3
+	} else {
+		kCmtPageSize = 10
+	}
+}
 
 type ListCmtRespData struct {
-	Cmts    []*apidata.Cmt `json:"cmts"`
+	Items   []*apidata.Cmt `json:"items"`
 	HasNext bool           `json:"hasNext"`
 }
 
@@ -25,7 +34,7 @@ func newListCmtRespData(cmts []*da.CmtData, hasNext bool) *ListCmtRespData {
 		cmtsConverted[i] = apidata.NewCmt(cmts[i])
 	}
 	res := &ListCmtRespData{}
-	res.Cmts = cmtsConverted
+	res.Items = cmtsConverted
 	res.HasNext = hasNext
 	return res
 }
