@@ -58,7 +58,7 @@ export class EditProfileApp extends BaseElement {
       <div>
         <working-view .isWorking=${this.isUploadingAvatar}>
           <div>
-            <div class="section">${ls.profilePicture}</div>
+            <div class="section is-info">${ls.profilePicture}</div>
             <div>
               <p>
                 <img
@@ -78,7 +78,7 @@ export class EditProfileApp extends BaseElement {
         </working-view>
         <working-view .status=${this.setInfoStatus}>
           <div class="form">
-            <div class="section">${ls.profile}</div>
+            <div class="section is-info">${ls.profile}</div>
             <div>
               <label for="nick-tbx">${ls.name}</label>
               <input

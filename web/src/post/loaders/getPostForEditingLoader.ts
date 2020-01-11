@@ -2,8 +2,8 @@ import BaseLoader from 'lib/loader';
 import routes from 'routes';
 
 export interface GetPostForEditingResult {
-  Title: string;
-  Content: string;
+  title: string;
+  content: string;
 }
 
 export class GetPostForEditingLoader extends BaseLoader<

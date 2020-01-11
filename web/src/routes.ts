@@ -18,7 +18,7 @@ export default buildTree({
       compose: {
         setPost: 'set-post',
         deletePost: 'delete-post',
-        getPostForEditing: 'get-for-editing',
+        getPostForEditing: 'get-post-for-editing',
         setCmt: 'set-cmt',
       },
       auth: {
