@@ -92,6 +92,9 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 		lang = m.LocalizationManager.DefaultLanguage()
 	}
 
+	// Add site name to title
+	d.Title = m.PageTitle(lang, d.Title)
+
 	// Setup additional assets
 	assetsMgr := m.AssetsManager
 	css := assetsMgr.CSS
@@ -166,19 +169,13 @@ func (m *Manager) MustError(r *http.Request, lang string, err error, expected bo
 		}
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
-	htmlData := NewMasterPageData(m.LocalizedPageTitle(lang, "error"), errorHTML)
+	htmlData := NewMasterPageData(m.LocalizedString(lang, "errOccurred"), errorHTML)
 	m.MustComplete(r, lang, htmlData, w)
 }
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *Manager) PageTitle(lang, s string) string {
 	return s + " - " + m.LocalizationManager.ValueForKey(lang, "_siteName")
-}
-
-// LocalizedPageTitle calls PageTitle with a localized string associated with the specified key.
-func (m *Manager) LocalizedPageTitle(lang, key string) string {
-	ls := m.LocalizationManager.ValueForKey(lang, key)
-	return m.PageTitle(lang, ls)
 }
 
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.

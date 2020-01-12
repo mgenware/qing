@@ -57,11 +57,6 @@ func (b *BaseResponse) PageTitle(s string) string {
 	return b.mgr.PageTitle(b.lang, s)
 }
 
-// LocalizedPageTitle calls TemplateManager.LocalizedPageTitle.
-func (b *BaseResponse) LocalizedPageTitle(key string) string {
-	return b.mgr.LocalizedPageTitle(b.lang, key)
-}
-
 // User returns the session user assosicated with the underlying context.
 func (b *BaseResponse) User() *cm.User {
 	return b.user
