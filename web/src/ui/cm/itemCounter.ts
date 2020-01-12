@@ -1,5 +1,5 @@
 import { html, customElement, property } from 'lit-element';
-import { format } from 'ls';
+import { formatLS, ls } from 'ls';
 import BaseElement from 'baseElement';
 
 @customElement('item-counter')
@@ -9,7 +9,7 @@ export class ItemCounter extends BaseElement {
 
   render() {
     return html`
-      <span>${format('ppItemCounter', this.shown, this.total)}</span>
+      <span>${formatLS(ls.ppItemCounter, this.shown, this.total)}</span>
     `;
   }
 }

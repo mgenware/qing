@@ -1,6 +1,6 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
-import { ls, format } from 'ls';
+import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/workingView';
 import 'ui/pickers/avatarUploader';
@@ -146,7 +146,7 @@ export class EditProfileApp extends BaseElement {
     // Validate user inputs.
     try {
       if (!this.name) {
-        throw new Error(format('pPlzEnterThe', ls.name));
+        throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
       }
     } catch (err) {
       await app.alert.error(err.message);

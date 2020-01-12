@@ -1,7 +1,7 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import { format, ls } from 'ls';
+import { formatLS, ls } from 'ls';
 import 'ui/cm/statusView';
 import LoadingStatus from 'lib/loadingStatus';
 
@@ -18,8 +18,8 @@ export class CmtFooterView extends BaseElement {
         return html`
           <p>
             <a href="#" @click=${this.handleMoreButtonClick}
-              >${format(
-                'pViewMore',
+              >${formatLS(
+                ls.pViewMore,
                 this.replies ? ls.replies : ls.comments,
               )}</a
             >

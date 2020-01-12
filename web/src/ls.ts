@@ -1,13 +1,18 @@
 import fmt from 'bowhead-js';
+import LSDefs from 'lsDefs';
 
 const wind = window as any;
-export const ls: { [key: string]: string } = wind.ls;
+export const ls: LSDefs = wind.ls;
 if (!ls) {
   throw new Error('Localization file is not loaded');
 }
 
-export function format(key: string, ...data: any[]): string {
-  return fmt(ls[key], ...data);
+export function formatLS(str: string, ...data: any[]): string {
+  return fmt(str, ...data);
+}
+
+export function getLSByKey(key: string): string {
+  return (ls as any)[key];
 }
 
 export default ls;

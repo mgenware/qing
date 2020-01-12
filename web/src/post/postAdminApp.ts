@@ -1,7 +1,7 @@
 import { html, customElement, property } from 'lit-element';
 import BaseElement from 'baseElement';
 import app from 'app';
-import { format, ls } from 'ls';
+import { formatLS, ls } from 'ls';
 import DeletePostLoader from './loaders/deletePostLoader';
 import wind from 'app/wind';
 import routes from 'routes';
@@ -32,7 +32,7 @@ export class PostAdminApp extends BaseElement {
   }
 
   protected async onDeleteClick() {
-    if (await app.alert.confirm(format('pDoYouWantToDeleteThis', ls.post))) {
+    if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
       const loader = new DeletePostLoader(this.targetID);
       const status = await app.runGlobalActionAsync(loader, ls.working);

@@ -4,10 +4,10 @@
   "private": true,
   "main": "dist/main.js",
   "scripts": {
-    "build": "yarn run lint && yarn run clean && cross-env NODE_ENV=production rollup -c",
-    "dev": "yarn run clean && cross-env NODE_ENV=development rollup -c -w",
+    "build": "yarn run lint && yarn run prepare && cross-env NODE_ENV=production rollup -c",
+    "dev": "yarn run prepare && cross-env NODE_ENV=development rollup -c -w",
     "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\"",
-    "clean": "del-cli static/d/js"
+    "prepare": "node ./tools/build-ls-defs && del-cli static/d/js"
   },
   "engines": {
     "node": ">=8.0.0"

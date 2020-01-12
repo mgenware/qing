@@ -1,4 +1,4 @@
-import ls from '../ls';
+import { ls, formatLS, getLSByKey } from '../ls';
 import ErrorWithCode from './errorWithCode';
 import { GenericError } from 'defs';
 import LoadingStatus from './loadingStatus';
@@ -29,7 +29,9 @@ export default class Loader<T> {
       if (!response.ok) {
         // Handle HTTP error.
         const message =
-          response.status === 404 ? ls.error404 : response.statusText;
+          response.status === 404
+            ? formatLS(ls.pPageNotFound, location.href)
+            : response.statusText;
         throw new ErrorWithCode(message);
       } else {
         // Handle server error if exists.
@@ -42,7 +44,7 @@ export default class Loader<T> {
             const value = Loader.defaultLocalizedMessageDict.get(resp.code);
             // If we have a code to message mapping, use that message(ignore server message).
             if (value) {
-              msg = ls[value];
+              msg = getLSByKey(value);
             }
           }
           // Fallback to default message.

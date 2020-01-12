@@ -69,5 +69,6 @@
   "uploading": "上传中...",
   "ppItemCounter": "已显示 {0} / {1} 总共",
   "pViewMore": "显示更多{0:lowercase}",
-  "replies": "回复"
+  "replies": "回复",
+  "warning": "警告"
 }

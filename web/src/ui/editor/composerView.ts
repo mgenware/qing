@@ -1,7 +1,7 @@
 import './editorView';
 import { html, customElement } from 'lit-element';
 import * as lp from 'lit-props';
-import { ls, format } from 'ls';
+import { ls, formatLS } from 'ls';
 import app from 'app';
 import EditorView from './editorView';
 import 'ui/cm/captchaView';
@@ -111,19 +111,19 @@ export class ComposerView extends BaseElement {
   private getPayload(): ComposerPayload {
     const { captchaView } = this;
     if (this.showTitle && !this.title) {
-      throw new ValidationError(format('pPlzEnterThe', ls.title), () => {
+      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () => {
         if (this.titleElement) {
           this.titleElement.focus();
         }
       });
     }
     if (!this.contentHTML) {
-      throw new ValidationError(format('pPlzEnterThe', ls.content), () =>
+      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
         this.editor.focus(),
       );
     }
     if (captchaView && !captchaView.value) {
-      throw new ValidationError(format('pPlzEnterThe', ls.captcha), () => {
+      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.captcha), () => {
         if (this.captchaView) {
           this.captchaView.focus();
         }
