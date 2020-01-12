@@ -68,5 +68,6 @@
   "editProfile": "编辑账号信息",
   "uploading": "上传中...",
   "ppItemCounter": "已显示 {0} / {1} 总共",
-  "viewMore": "显示更多"
+  "pViewMore": "显示更多{0:lowercase}",
+  "replies": "回复"
 }

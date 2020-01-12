@@ -1,7 +1,7 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import ls from 'ls';
+import { format, ls } from 'ls';
 import 'ui/cm/statusView';
 import LoadingStatus from 'lib/loadingStatus';
 
@@ -9,6 +9,7 @@ import LoadingStatus from 'lib/loadingStatus';
 export class CmtFooterView extends BaseElement {
   @lp.object status = LoadingStatus.empty;
   @lp.bool hasNext = false;
+  @lp.bool replies = false;
 
   render() {
     const { status } = this;
@@ -16,7 +17,12 @@ export class CmtFooterView extends BaseElement {
       if (this.hasNext) {
         return html`
           <p>
-            <a href="#" @click=${this.handleMoreButtonClick}>${ls.viewMore}</a>
+            <a href="#" @click=${this.handleMoreButtonClick}
+              >${format(
+                'pViewMore',
+                this.replies ? ls.replies : ls.comments,
+              )}</a
+            >
           </p>
         `;
       }
