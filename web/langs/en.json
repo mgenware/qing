@@ -68,7 +68,7 @@
   "editProfile": "Edit profile",
   "uploading": "Uploading...",
   "ppItemCounter": "{0} of {1} item(s)",
-  "pViewMore": "View more {0}",
+  "pViewMore": "View more {0:lowercase}",
   "replies": "Replies",
   "warning": "Warning"
 }
