@@ -132,13 +132,11 @@ export class CmtListView extends BaseElement {
 
   private renderCommentComposer() {
     return html`
-      <div>
-        <add-cmt-app
-          .entityID=${this.entityID}
-          .entityType=${this.entityType}
-          @cmtAdded=${this.handleCmtAdded}
-        ></add-cmt-app>
-      </div>
+      <add-cmt-app
+        .entityID=${this.entityID}
+        .entityType=${this.entityType}
+        @cmtAdded=${this.handleCmtAdded}
+      ></add-cmt-app>
     `;
   }
 

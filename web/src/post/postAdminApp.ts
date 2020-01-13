@@ -5,6 +5,7 @@ import { formatLS, ls } from 'ls';
 import DeletePostLoader from './loaders/deletePostLoader';
 import wind from 'app/wind';
 import routes from 'routes';
+import 'ui/editor/editBar';
 
 @customElement('post-admin-app')
 export class PostAdminApp extends BaseElement {
@@ -19,8 +20,10 @@ export class PostAdminApp extends BaseElement {
     }
     return html`
       <span class="${this.leftMargin ? 'm-l-sm' : ''}">
-        <a href="#" @click=${this.onEditClick}>${ls.edit}</a>
-        <a class="m-l-sm" href="#" @click=${this.onDeleteClick}>${ls.delete}</a>
+        <edit-bar
+          @editClick=${this.onEditClick}
+          @deleteClick=${this.onDeleteClick}
+        ></edit-bar>
       </span>
     `;
   }
