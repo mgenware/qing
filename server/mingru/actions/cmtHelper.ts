@@ -20,16 +20,14 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
   return mm
     .selectPage(
-      rt.cmt_id.attr(mm.ColumnAttributes.isPrivate, true),
+      rt.cmt_id.privateAttr(),
       jCmt.content,
       jCmt.created_at,
       jCmt.modified_at,
       jCmt.rpl_count,
-      jCmt.user_id.attr(mm.ColumnAttributes.isPrivate, true),
+      jCmt.user_id.privateAttr(),
       jCmt.user_id.join(user).name,
-      jCmt.user_id
-        .join(user)
-        .icon_name.attr(mm.ColumnAttributes.isPrivate, true),
+      jCmt.user_id.join(user).icon_name.privateAttr(),
     )
     .from(rt)
     .by(rt.target_id)

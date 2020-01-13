@@ -5,7 +5,7 @@ export default interface Cmt {
   modifiedAt: string;
   cmtCount: number;
   content: string;
-  userName: string;
+  userID: string;
   userURL: string;
   userIconURL: string;
 }

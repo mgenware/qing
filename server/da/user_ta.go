@@ -20,7 +20,7 @@ var User = &TableTypeUser{}
 
 // UserTableSelectEditingDataResult ...
 type UserTableSelectEditingDataResult struct {
-	ID       uint64  `json:"id"`
+	ID       uint64  `json:"-"`
 	Name     string  `json:"name"`
 	IconName string  `json:"-"`
 	Location string  `json:"location"`
@@ -51,7 +51,7 @@ func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (str
 
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
-	ID        uint64  `json:"id"`
+	ID        uint64  `json:"-"`
 	Name      string  `json:"name"`
 	IconName  string  `json:"iconName"`
 	Location  string  `json:"location"`

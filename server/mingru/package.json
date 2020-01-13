@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "mingru": "^0.23.0",
-    "mingru-models": "^0.32.0",
+    "mingru-models": "^0.32.1",
     "mingru-tsconfig": "^2.0.0"
   }
 }

@@ -326,10 +326,10 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.32.0:
-  version "0.32.0"
-  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.32.0.tgz#3cbe48aec1cf17a4e25ccc082050eec8d614edad"
-  integrity sha512-0VVdxyBLR3FhZKBCrWoI52McL012g+omsTTxxbxBnOoxc8Lhj/D2UV0gVCQ3xne4+T39zLE4SWuEHOi9OMCAQA==
+mingru-models@^0.32.1:
+  version "0.32.1"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.32.1.tgz#c45c66c6c47b98e1dda67df4fb8eaf3e6073b504"
+  integrity sha512-yA/DsppkItLx8vUNa/XwnU4oeP3TS6TG22jUOyv9EQOwuE3auOHOXSKWrrRM13LkS3SM9ST+NTb7cR4yiKUCuA==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"

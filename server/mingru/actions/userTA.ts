@@ -4,7 +4,7 @@ import t from '../models/user';
 export class UserTA extends mm.TableActions {
   selectProfile = mm
     .select(
-      t.id,
+      t.id.privateAttr(),
       t.name,
       t.icon_name,
       t.location,
@@ -17,9 +17,9 @@ export class UserTA extends mm.TableActions {
   selectSessionData = mm.select(t.id, t.name, t.icon_name).byID();
   selectEditingData = mm
     .select(
-      t.id,
+      t.id.privateAttr(),
       t.name,
-      t.icon_name.attr(mm.ColumnAttributes.isPrivate, true),
+      t.icon_name.privateAttr(),
       t.location,
       t.company,
       t.website,
