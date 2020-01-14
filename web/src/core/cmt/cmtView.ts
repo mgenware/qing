@@ -1,12 +1,15 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement } from 'lit-element';
+import * as lp from 'lit-props';
+import app from 'app';
 import BaseElement from 'baseElement';
 import 'ui/cm/timeField';
+import 'ui/editor/editBar';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import Cmt from './cmt';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
-  @property({ type: Object }) cmt: Cmt | null = null;
+  @lp.object cmt: Cmt | null = null;
 
   render() {
     const { cmt } = this;
@@ -32,6 +35,11 @@ export class CmtView extends BaseElement {
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}
             ></time-field>
+            ${cmt.userID === app.state.userID
+              ? html`
+                  <edit-bar .hasLeftMargin=${true}></edit-bar>
+                `
+              : ''}
           </div>
           <div>
             ${unsafeHTML(cmt.content)}

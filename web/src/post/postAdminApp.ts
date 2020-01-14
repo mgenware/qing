@@ -11,7 +11,6 @@ import 'ui/editor/editBar';
 export class PostAdminApp extends BaseElement {
   @property() targetID = '';
   @property() targetUserID = '';
-  @property({ type: Boolean }) leftMargin = false;
 
   render() {
     const userID = app.state.userID;
@@ -19,12 +18,11 @@ export class PostAdminApp extends BaseElement {
       return html``;
     }
     return html`
-      <span class="${this.leftMargin ? 'm-l-sm' : ''}">
-        <edit-bar
-          @editClick=${this.onEditClick}
-          @deleteClick=${this.onDeleteClick}
-        ></edit-bar>
-      </span>
+      <edit-bar
+        .hasLeftMargin=${true}
+        @editClick=${this.onEditClick}
+        @deleteClick=${this.onDeleteClick}
+      ></edit-bar>
     `;
   }
 

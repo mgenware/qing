@@ -33,8 +33,6 @@ export class AddCmtApp extends BaseElement {
         id="cmt-editor"
         .showTitle=${false}
         .entityType=${EntityType.cmt}
-        .attachedEntityID=${this.entityID}
-        .attachedEntityType=${this.entityType}
         .submitButtonText=${ls.comment}
         @onSubmit=${this.handleSubmit}
       ></composer-view>

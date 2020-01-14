@@ -28,9 +28,6 @@ export class ComposerView extends BaseElement {
   @lp.string title = '';
   @lp.bool showTitle = true;
   @lp.string entityID = '';
-  // When writing a comment, `entityID` is null, `attachedEntityID` is the target you're writing comment to.
-  @lp.string attachedEntityID = '';
-  @lp.number attachedEntityType: EntityType = 0;
   @lp.string content = '';
   @lp.bool showCancelButton = false;
   @lp.string submitButtonText = '';
