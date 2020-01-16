@@ -33,17 +33,15 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	user := resp.User()
 	uid := user.ID
 
-	// The meaning of ID depends on the `target_type` param,
-	// if `entityType` is present, `id` is like `target_id`,
-	// otherwise, `id` is cmt ID.
 	id := validator.GetIDFromDict(params, "id")
 	entityType := jsonx.GetIntOrDefault(params, "entityType")
 	content := validator.MustGetStringFromDict(params, "content")
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
 	cmtCore := getCmtDataLayer(entityType)
-	if entityType != 0 {
+	if id == 0 {
 		// We are creating a new cmt.
+		postID := validator.MustGetIDFromDict(params, "postID")
 		capt := validator.MustGetStringFromDict(params, "captcha")
 		captResult, err := app.Service.Captcha.Verify(uid, entityType, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
@@ -51,7 +49,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 			resp.MustFailWithCode(captResult)
 			return
 		}
-		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, id, sanitizedToken, captResult)
+		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, postID, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 
 		// Construct a DB cmt object without interacting with DB.

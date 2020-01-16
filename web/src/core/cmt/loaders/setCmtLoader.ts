@@ -10,19 +10,20 @@ export interface SetCmtResponse {
 
 export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
   static newCmt(
-    entityID: string,
+    postID: string,
     entityType: EntityType,
     payload: ComposerPayload,
   ) {
-    return new SetCmtLoader(entityID, entityType, payload);
+    return new SetCmtLoader(null, postID, entityType, payload);
   }
 
   static editCmt(cmtID: string, payload: ComposerPayload) {
-    return new SetCmtLoader(cmtID, null, payload);
+    return new SetCmtLoader(cmtID, null, null, payload);
   }
 
   private constructor(
-    public id: string,
+    public id: string | null,
+    public postID: string | null,
     public entityType: EntityType | null,
     public payload: ComposerPayload,
   ) {
@@ -37,10 +38,9 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
     const params: any = {
       ...this.payload,
       id: this.id,
+      postID: this.postID,
+      entityType: this.entityType,
     };
-    if (this.entityType) {
-      params.entityType = this.entityType;
-    }
     return params;
   }
 }
