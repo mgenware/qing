@@ -2,8 +2,8 @@ import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 
-@customElement('fixed-view')
-export class FixedView extends BaseElement {
+@customElement('centered-view')
+export class CenteredView extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -30,6 +30,6 @@ export class FixedView extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'fixed-view': FixedView;
+    'centered-view': CenteredView;
   }
 }

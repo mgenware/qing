@@ -5,7 +5,7 @@ import BaseElement from 'baseElement';
 import 'ui/cm/workingView';
 import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
-import 'ui/cm/fixedView';
+import 'ui/cm/centeredView';
 import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 import app from 'app';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
@@ -43,13 +43,13 @@ export class EditProfileApp extends BaseElement {
   renderProgress() {
     const { loadingStatus } = this;
     return html`
-      <fixed-view .height=${'400px'}>
+      <centered-view .height=${'400px'}>
         <static-view
           .status=${loadingStatus}
           .canRetry=${true}
           @onRetry=${this.handleLoadingRetry}
         ></static-view
-      ></fixed-view>
+      ></centered-view>
     `;
   }
 
