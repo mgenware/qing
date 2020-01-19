@@ -1391,10 +1391,10 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-kangxi-editor@^0.3.1:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/kangxi-editor/-/kangxi-editor-0.3.2.tgz#a607b359f26163ed119e6f22d412a5988e6ab202"
-  integrity sha512-hY/WLV0vCBeOsmvQ+z62qAUyTWr40vEy4yrqWWoQDynzV9GX7bCpf4HszyumyLWPyKcIXdgyg8vS7jXPfLZTwA==
+kangxi-editor@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/kangxi-editor/-/kangxi-editor-0.4.0.tgz#2bf2a9d43167298d11015fb0feb3caad55a8424c"
+  integrity sha512-LWy/CmSWa8IDw3WefrYYa2FX6WIf6f4+xEH1N1RkdmRaOzCJIZZ+91r6ed44/uunJYQzpnBHRNYQYXoceU6cxw==
   dependencies:
     prosemirror-commands "^1.0.0"
     prosemirror-dropcursor "^1.0.0"
