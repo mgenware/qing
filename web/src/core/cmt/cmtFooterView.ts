@@ -39,7 +39,8 @@ export class CmtFooterView extends BaseElement {
     }
   }
 
-  private handleMoreButtonClick() {
+  private handleMoreButtonClick(e: Event) {
+    e.preventDefault();
     this.dispatchEvent(new CustomEvent<undefined>('viewMoreClick'));
   }
 }

@@ -18,11 +18,13 @@ export class EditBar extends BaseElement {
     `;
   }
 
-  private handleEditClick() {
+  private handleEditClick(e: Event) {
+    e.preventDefault();
     this.dispatchEvent(new CustomEvent<undefined>('editClick'));
   }
 
-  private handleDeleteClick() {
+  private handleDeleteClick(e: Event) {
+    e.preventDefault();
     this.dispatchEvent(new CustomEvent<undefined>('deleteClick'));
   }
 }
