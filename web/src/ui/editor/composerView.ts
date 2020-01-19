@@ -97,10 +97,8 @@ export class ComposerView extends BaseElement {
     `;
 
     return html`
-      <div class="form">
-        <div>
-          ${titleElement}${editorElement}${bottomElement}
-        </div>
+      <div>
+        ${titleElement}${editorElement}${bottomElement}
       </div>
     `;
   }
