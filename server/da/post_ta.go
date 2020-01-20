@@ -141,15 +141,15 @@ func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*Po
 	return result, nil
 }
 
-// PostTableSelectPostForEditingResult ...
-type PostTableSelectPostForEditingResult struct {
+// PostTableSelectPostSourceResult ...
+type PostTableSelectPostSourceResult struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
 
-// SelectPostForEditing ...
-func (da *TableTypePost) SelectPostForEditing(queryable dbx.Queryable, id uint64, userID uint64) (*PostTableSelectPostForEditingResult, error) {
-	result := &PostTableSelectPostForEditingResult{}
+// SelectPostSource ...
+func (da *TableTypePost) SelectPostSource(queryable dbx.Queryable, id uint64, userID uint64) (*PostTableSelectPostSourceResult, error) {
+	result := &PostTableSelectPostSourceResult{}
 	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
 	if err != nil {
 		return nil, err

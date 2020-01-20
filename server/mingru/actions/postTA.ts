@@ -23,7 +23,7 @@ export class PostTA extends mm.TableActions {
     .by(t.user_id)
     .orderByDesc(t.created_at);
 
-  selectPostForEditing = mm.select(t.title, t.content).where(updateConditions);
+  selectPostSource = mm.select(t.title, t.content).where(updateConditions);
 
   selectCmts = cmtHelper.selectCmts(postCmt);
   insertCmt = cmtHelper.insertCmt(postCmt);

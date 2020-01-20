@@ -14,7 +14,7 @@ export class CmtTA extends mm.TableActions {
     .argStubs(cm.sanitizedStub)
     .where(updateConditions);
 
-  selectCmtForEditing = mm.select(t.content).where(updateConditions);
+  selectCmtSource = mm.select(t.content).where(updateConditions);
 
   deleteCmt = mm.deleteOne().where(updateConditions);
 }

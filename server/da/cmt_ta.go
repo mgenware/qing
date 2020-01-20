@@ -30,14 +30,14 @@ func (da *TableTypeCmt) EditCmt(queryable dbx.Queryable, id uint64, userID uint6
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
-// CmtTableSelectCmtForEditingResult ...
-type CmtTableSelectCmtForEditingResult struct {
+// CmtTableSelectCmtSourceResult ...
+type CmtTableSelectCmtSourceResult struct {
 	Content string `json:"content"`
 }
 
-// SelectCmtForEditing ...
-func (da *TableTypeCmt) SelectCmtForEditing(queryable dbx.Queryable, id uint64, userID uint64) (*CmtTableSelectCmtForEditingResult, error) {
-	result := &CmtTableSelectCmtForEditingResult{}
+// SelectCmtSource ...
+func (da *TableTypeCmt) SelectCmtSource(queryable dbx.Queryable, id uint64, userID uint64) (*CmtTableSelectCmtSourceResult, error) {
+	result := &CmtTableSelectCmtSourceResult{}
 	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
 	if err != nil {
 		return nil, err

@@ -8,13 +8,13 @@ import (
 	"qing/lib/validator"
 )
 
-func getCmtForEditing(w http.ResponseWriter, r *http.Request) {
+func getPostSource(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
 	pid := validator.MustGetIDFromDict(params, "id")
-	res, err := da.Cmt.SelectCmtForEditing(app.DB, pid, uid)
+	res, err := da.Post.SelectPostSource(app.DB, pid, uid)
 	app.PanicIfErr(err)
 	resp.MustComplete(res)
 }

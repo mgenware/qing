@@ -9,8 +9,8 @@ var Router = chi.NewRouter()
 
 func init() {
 	Router.Post("/set-post", setPost)
-	Router.Post("/get-post-for-editing", getPostForEditing)
+	Router.Post("/get-post-src", getPostSource)
 	Router.Post("/delete-post", deletePost)
 	Router.Post("/set-cmt", setCmt)
-	Router.Post("/get-cmt-for-editing", getCmtForEditing)
+	Router.Post("/get-cmt-src", getCmtSource)
 }

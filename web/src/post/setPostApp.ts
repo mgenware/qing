@@ -6,7 +6,7 @@ import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
 import { EntityType } from 'lib/entity';
-import { GetPostForEditingLoader } from './loaders/getPostForEditingLoader';
+import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 
 @customElement('set-post-app')
 export default class SetPostApp extends BaseElement {
@@ -20,7 +20,7 @@ export default class SetPostApp extends BaseElement {
     ) as unknown) as ComposerView | null;
     if (this.editedID) {
       // Loading content
-      const loader = new GetPostForEditingLoader(this.editedID);
+      const loader = new GetPostSourceLoader(this.editedID);
       const status = await app.runGlobalActionAsync(loader);
       if (status.data) {
         const postData = status.data;
