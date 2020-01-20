@@ -56,7 +56,7 @@ export class ComposerView extends BaseElement {
   render() {
     const titleElement = this.showTitle
       ? html`
-          <div class="p-b-sm">
+          <div class="p-b-sm form">
             <input
               id="titleElement"
               type="text"
