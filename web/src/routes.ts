@@ -20,6 +20,7 @@ export default buildTree({
         deletePost: 'delete-post',
         getPostSource: 'get-post-src',
         setCmt: 'set-cmt',
+        getCmtSource: 'get-cmt-src',
       },
       auth: {
         signOut: 'signout',

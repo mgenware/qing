@@ -5,15 +5,20 @@ import ls from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/timeField';
 import 'ui/editor/editBar';
+import 'ui/cm/workingView';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import Cmt from './cmt';
 import { EntityType } from 'lib/entity';
+import LoadingStatus from 'lib/loadingStatus';
+import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
+import { ComposerView } from 'ui/editor/composerView';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
   @lp.object cmt: Cmt | null = null;
   @lp.bool isReply = false;
   @lp.bool private isEditing = false;
+  @lp.object private srcLoadingStatus = LoadingStatus.empty;
 
   render() {
     const { cmt, isEditing } = this;
@@ -22,12 +27,14 @@ export class CmtView extends BaseElement {
     }
     if (isEditing) {
       return html`
-        <composer-view
-          id="cmt-editor"
-          .showTitle=${false}
-          .entityType=${EntityType.cmt}
-          .submitButtonText=${ls.comment}
-        ></composer-view>
+        <working-view .status=${this.srcLoadingStatus}>
+          <composer-view
+            id="cmt-editor"
+            .showTitle=${false}
+            .entityType=${EntityType.cmt}
+            .submitButtonText=${ls.comment}
+          ></composer-view>
+        </working-view>
       `;
     }
     return html`
@@ -66,8 +73,23 @@ export class CmtView extends BaseElement {
     `;
   }
 
-  private handleEditClick() {
+  private async handleEditClick() {
+    const { cmt } = this;
+    if (!cmt) {
+      return;
+    }
     this.isEditing = true;
+    const loader = new GetCmtSourceLoader(cmt.id);
+    const res = await app.runLocalActionAsync(
+      loader,
+      status => (this.srcLoadingStatus = status),
+    );
+    if (res.data) {
+      const contentHTML = res.data.content;
+      (this.shadowRoot?.getElementById(
+        'editor',
+      ) as ComposerView).content = contentHTML;
+    }
   }
 }
 
