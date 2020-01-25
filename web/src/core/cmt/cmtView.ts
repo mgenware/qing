@@ -73,9 +73,15 @@ export class CmtView extends BaseElement {
     `;
   }
 
+  // Editor is conditional in DOM, we have to get it every time we need it.
+  private getEditor(): ComposerView | null {
+    return this.mustGetShadowElement('cmt-editor') as ComposerView | null;
+  }
+
   private async handleEditClick() {
     const { cmt } = this;
-    if (!cmt) {
+    const editor = this.getEditor();
+    if (!cmt || !editor) {
       return;
     }
     this.isEditing = true;
@@ -84,11 +90,9 @@ export class CmtView extends BaseElement {
       loader,
       status => (this.srcLoadingStatus = status),
     );
+
     if (res.data) {
-      const contentHTML = res.data.content;
-      (this.shadowRoot?.getElementById(
-        'editor',
-      ) as ComposerView).content = contentHTML;
+      editor.contentHTML = res.data.content;
     }
   }
 }
