@@ -1,7 +1,8 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement } from 'lit-element';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/editor/composerView';
-import { ComposerView, ComposerPayload } from 'ui/editor/composerView';
+import { ComposerPayload } from 'ui/editor/composerView';
 import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
@@ -10,14 +11,11 @@ import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 
 @customElement('set-post-app')
 export default class SetPostApp extends BaseElement {
-  @property() editedID = '';
-  @property() title = '';
-  private editor: ComposerView | null = null;
+  @lp.string editedID = '';
+  @lp.string title = '';
+  @lp.string private editorContent = '';
 
   async firstUpdated() {
-    this.editor = (this.mustGetShadowElement(
-      'editor',
-    ) as unknown) as ComposerView | null;
     if (this.editedID) {
       // Loading content
       const loader = new GetPostSourceLoader(this.editedID);
@@ -35,11 +33,13 @@ export default class SetPostApp extends BaseElement {
         <p class="is-h4">${this.editedID ? ls.editPost : ls.newPost}</p>
         <hr />
         <composer-view
-          id="editor"
           .title=${this.title}
           .showTitle=${true}
           .entityID=${this.editedID}
           .entityType=${EntityType.post}
+          .contentHTML=${this.editorContent}
+          @contentChanged=${(e: CustomEvent<string>) =>
+            (this.editorContent = e.detail)}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
       </div>
@@ -47,18 +47,11 @@ export default class SetPostApp extends BaseElement {
   }
 
   private updateContent(title: string, content: string) {
-    if (!this.editor) {
-      return;
-    }
     this.title = title;
-    this.editor.contentHTML = content;
+    this.editorContent = content;
   }
 
   private async handleSubmit(e: CustomEvent<ComposerPayload>) {
-    const { editor } = this;
-    if (!editor) {
-      return;
-    }
     const loader = new SetPostLoader(this.editedID, e.detail);
     const status = await app.runGlobalActionAsync(
       loader,

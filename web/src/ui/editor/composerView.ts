@@ -31,6 +31,7 @@ export class ComposerView extends BaseElement {
   @lp.string content = '';
   @lp.bool showCancelButton = false;
   @lp.string submitButtonText = '';
+  @lp.string contentHTML = '';
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
@@ -43,14 +44,6 @@ export class ComposerView extends BaseElement {
     this.editor = this.mustGetShadowElement('editor');
     this.titleElement = this.getShadowElement('titleElement');
     this.captchaView = this.getShadowElement('captElement');
-  }
-
-  get contentHTML(): string {
-    return this.editor.contentHTML;
-  }
-
-  set contentHTML(s: string) {
-    this.editor.contentHTML = s;
   }
 
   render() {
@@ -68,7 +61,11 @@ export class ComposerView extends BaseElement {
         `
       : '';
     const editorElement = html`
-      <editor-view id="editor"></editor-view>
+      <editor-view
+        id="editor"
+        .contentHTML=${this.contentHTML}
+        @contentChanged=${this.handleContentChanged}
+      ></editor-view>
     `;
     const bottomElement = html`
       <div class="m-t-md">
@@ -153,6 +150,10 @@ export class ComposerView extends BaseElement {
 
   private handleCancel() {
     this.dispatchEvent(new CustomEvent('onCancel'));
+  }
+
+  private handleContentChanged(e: CustomEvent<string>) {
+    this.contentHTML = e.detail;
   }
 }
 

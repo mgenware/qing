@@ -3,7 +3,6 @@ import BaseElement from 'baseElement';
 import 'ui/editor/composerView';
 import ls from 'ls';
 import { EntityType } from 'lib/entity';
-import EditorView from 'ui/editor/editorView';
 import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
 import { ComposerPayload } from 'ui/editor/composerView';
 import app from 'app';
@@ -13,10 +12,6 @@ export class AddCmtApp extends BaseElement {
   @property() entityID = '';
   @property({ type: Number }) entityType = 0;
   @property({ type: Boolean }) private expanded = false;
-
-  private get editor(): EditorView | null {
-    return this.mustGetShadowElement('cmt-editor') as EditorView | null;
-  }
 
   render() {
     if (!this.expanded) {
@@ -30,7 +25,6 @@ export class AddCmtApp extends BaseElement {
     }
     return html`
       <composer-view
-        id="cmt-editor"
         .showTitle=${false}
         .entityType=${EntityType.cmt}
         .submitButtonText=${ls.comment}
@@ -44,10 +38,6 @@ export class AddCmtApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerPayload>) {
-    const { editor } = this;
-    if (!editor) {
-      return;
-    }
     const loader = SetCmtLoader.newCmt(
       this.entityID,
       this.entityType,

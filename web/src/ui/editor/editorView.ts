@@ -19,21 +19,31 @@ export default class EditorView extends BaseElement {
     ];
   }
 
-  private editor!: Editor;
-
+  // We're using a standard object property here as it doesn't need to trigger re-render.
+  private _contentHTML = '';
   get contentHTML(): string {
-    return this.editor.contentHTML;
+    return this._contentHTML;
+  }
+  set contentHTML(val: string) {
+    if (val !== this._contentHTML) {
+      this._contentHTML = val;
+    }
   }
 
-  set contentHTML(val: string) {
-    this.editor.contentHTML = val;
-  }
+  private editor!: Editor;
 
   firstUpdated() {
     const editorDom = this.mustGetShadowElement('editor');
-    const editor = Editor.create(editorDom, {
+    const editor = new Editor(editorDom, {
       lang: ls._lang === 'cs' ? langCs : langEn,
     });
+    editor.contentChanged = () => {
+      this.dispatchEvent(
+        new CustomEvent<string>('contentChanged', {
+          detail: editor.contentHTML,
+        }),
+      );
+    };
     this.editor = editor;
   }
 

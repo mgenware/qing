@@ -11,7 +11,6 @@ import Cmt from './cmt';
 import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
-import { ComposerView } from 'ui/editor/composerView';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
@@ -19,6 +18,7 @@ export class CmtView extends BaseElement {
   @lp.bool isReply = false;
   @lp.bool private isEditing = false;
   @lp.object private srcLoadingStatus = LoadingStatus.empty;
+  @lp.string private editorContent = '';
 
   render() {
     const { cmt, isEditing } = this;
@@ -29,10 +29,12 @@ export class CmtView extends BaseElement {
       return html`
         <working-view .status=${this.srcLoadingStatus}>
           <composer-view
-            id="cmt-editor"
             .showTitle=${false}
             .entityType=${EntityType.cmt}
             .submitButtonText=${ls.comment}
+            .contentHTML=${this.editorContent}
+            @contentChanged=${(e: CustomEvent<string>) =>
+              (this.editorContent = e.detail)}
           ></composer-view>
         </working-view>
       `;
@@ -73,15 +75,9 @@ export class CmtView extends BaseElement {
     `;
   }
 
-  // Editor is conditional in DOM, we have to get it every time we need it.
-  private getEditor(): ComposerView | null {
-    return this.mustGetShadowElement('cmt-editor') as ComposerView | null;
-  }
-
   private async handleEditClick() {
     const { cmt } = this;
-    const editor = this.getEditor();
-    if (!cmt || !editor) {
+    if (!cmt) {
       return;
     }
     this.isEditing = true;
@@ -92,7 +88,7 @@ export class CmtView extends BaseElement {
     );
 
     if (res.data) {
-      editor.contentHTML = res.data.content;
+      this.editorContent = res.data.content;
     }
   }
 }
