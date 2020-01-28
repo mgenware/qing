@@ -42,9 +42,7 @@ export abstract class ItemCollector<T> {
     const payload = await loader.startAsync();
 
     const newItems = payload.items || [];
-    for (const item of newItems) {
-      this.addCore(item);
-    }
+    this.addCore(newItems, true);
 
     this.hasNext = payload.hasNext || false;
     this.page += 1;
@@ -71,8 +69,8 @@ export abstract class ItemCollector<T> {
     return this.itemMap[key];
   }
 
-  add(item: T) {
-    if (this.addCore(item)) {
+  prepend(items: T[]) {
+    if (this.addCore(items, false)) {
       this.onItemsChanged({
         items: this.items,
         count: this.count,
@@ -81,15 +79,17 @@ export abstract class ItemCollector<T> {
     }
   }
 
-  private addCore(item: T): boolean {
-    const id = this.getItemID(item);
-    if (this.itemMap[id]) {
-      return false;
+  private addCore(newItems: T[], append: boolean): boolean {
+    // Remove duplicates (items already added).
+    newItems = newItems.filter(item => !this.itemMap[this.getItemID(item)]);
+    const { items } = this;
+    const count = newItems.length;
+    for (const item of newItems) {
+      this.itemMap[this.getItemID(item)] = item;
     }
-    this.itemMap[id] = item;
-    this.items.push(item);
-    this.count += 1;
-    this.actualCount += 1;
+    this.items = append ? [...items, ...newItems] : [...newItems, ...items];
+    this.count += count;
+    this.actualCount += count;
     return true;
   }
 

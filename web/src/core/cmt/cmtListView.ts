@@ -62,13 +62,13 @@ export class CmtListView extends BaseElement {
 
   render() {
     const { totalCount, collectorLoadingStatus } = this;
-    const header = html`
+    const titleGroup = html`
       <h2>${ls.comments}</h2>
     `;
-    let content: TemplateResult;
+    let contentGroup: TemplateResult;
 
     if (!totalCount && collectorLoadingStatus.isSuccess) {
-      content = html`
+      contentGroup = html`
         <span>${ls.noComment}</span>
       `;
     } else {
@@ -85,7 +85,7 @@ export class CmtListView extends BaseElement {
           `,
         );
       }
-      content = html`
+      contentGroup = html`
         <div>
           <div>
             ${childViews}
@@ -99,12 +99,12 @@ export class CmtListView extends BaseElement {
       `;
     }
 
-    const footer = app.state.hasUser
+    const addCmtGroup = app.state.hasUser
       ? this.renderCommentComposer()
       : this.renderLoginToComment();
 
     return html`
-      ${header}${content}${footer}
+      ${titleGroup}${addCmtGroup}${contentGroup}
     `;
   }
 
@@ -142,7 +142,7 @@ export class CmtListView extends BaseElement {
 
   private async handleCmtAdded(e: CustomEvent<SetCmtResponse>) {
     if (e.detail) {
-      this.cmtCollector?.add(e.detail.cmt);
+      this.cmtCollector?.prepend([e.detail.cmt]);
     }
   }
 }
