@@ -27,6 +27,7 @@ export default class EditorView extends BaseElement {
   set contentHTML(val: string) {
     if (val !== this._contentHTML) {
       this._contentHTML = val;
+      this.editor.contentHTML = val;
     }
   }
 
