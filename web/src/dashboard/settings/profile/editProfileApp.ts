@@ -2,7 +2,7 @@ import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
-import 'ui/cm/workingView';
+import 'ui/cm/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
 import 'ui/cm/centeredView';
@@ -56,7 +56,7 @@ export class EditProfileApp extends BaseElement {
   renderContent() {
     return html`
       <div>
-        <working-view .isWorking=${this.isUploadingAvatar}>
+        <status-overlay .isWorking=${this.isUploadingAvatar}>
           <div>
             <div class="section is-info">${ls.profilePicture}</div>
             <div>
@@ -75,8 +75,8 @@ export class EditProfileApp extends BaseElement {
               </div>
             </div>
           </div>
-        </working-view>
-        <working-view .status=${this.setInfoStatus}>
+        </status-overlay>
+        <status-overlay .status=${this.setInfoStatus}>
           <div class="form">
             <div class="section is-info">${ls.profile}</div>
             <div>
@@ -120,7 +120,7 @@ export class EditProfileApp extends BaseElement {
               </lit-button>
             </div>
           </div>
-        </working-view>
+        </status-overlay>
       </div>
     `;
   }

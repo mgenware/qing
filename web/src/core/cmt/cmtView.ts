@@ -5,7 +5,7 @@ import ls from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/timeField';
 import 'ui/editor/editBar';
-import 'ui/cm/workingView';
+import 'ui/cm/statusOverlay';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import Cmt from './cmt';
 import { EntityType } from 'lib/entity';
@@ -27,7 +27,7 @@ export class CmtView extends BaseElement {
     }
     if (isEditing) {
       return html`
-        <working-view .status=${this.srcLoadingStatus}>
+        <status-overlay .status=${this.srcLoadingStatus}>
           <composer-view
             .showTitle=${false}
             .entityType=${EntityType.cmt}
@@ -36,7 +36,7 @@ export class CmtView extends BaseElement {
             @contentChanged=${(e: CustomEvent<string>) =>
               (this.editorContent = e.detail)}
           ></composer-view>
-        </working-view>
+        </status-overlay>
       `;
     }
     return html`

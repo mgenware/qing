@@ -6,9 +6,10 @@ import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
 import 'ui/cm/centeredView';
 import 'ui/cm/spinnerView';
+import './errorView';
 
-@customElement('working-view')
-export class WorkingView extends BaseElement {
+@customElement('status-overlay')
+export class StatusOverlay extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -25,33 +26,51 @@ export class WorkingView extends BaseElement {
   }
 
   @lp.object status = LoadingStatus.empty;
-  @lp.bool isWorking = false;
   @lp.string loadingText = '';
+  @lp.bool canRetry = false;
+  @lp.string errorTitle = '';
 
   render() {
-    const { status, isWorking } = this;
-    const showOverlay = status.isWorking || isWorking;
+    const { status } = this;
     return html`
       <div class="root">
         <div
-          class=${classMap({ 'content-disabled': showOverlay, content: true })}
+          class=${classMap({
+            'content-disabled': !status.isSuccess,
+            content: true,
+          })}
         >
           <slot></slot>
         </div>
-        ${showOverlay
+        ${status.isWorking
           ? html`
               <centered-view class="overlay" height="100%">
                 <spinner-view>${this.loadingText || ls.loading}</spinner-view>
               </centered-view>
             `
           : html``}
+        ${status.error
+          ? html`
+              <error-view
+                .canRetry=${this.canRetry}
+                .title=${this.errorTitle || ls.errOccurred}
+                @onRetry=${this.handleRetry}
+              >
+                ${status.error.message}
+              </error-view>
+            `
+          : html``}
       </div>
     `;
+  }
+
+  private handleRetry() {
+    this.dispatchEvent(new CustomEvent('onRetry'));
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'working-view': WorkingView;
+    'status-overlay': StatusOverlay;
   }
 }

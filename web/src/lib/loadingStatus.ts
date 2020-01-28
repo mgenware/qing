@@ -1,7 +1,6 @@
 import ErrorWithCode from './errorWithCode';
 
-// Represents either a loading or an error state.
-// An empty error indicates a loading state.
+// Represents different states of a loading action.
 export default class LoadingStatus {
   private constructor(
     public error: ErrorWithCode | null,
