@@ -1,4 +1,5 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement } from 'lit-element';
+import * as lp from 'lit-props';
 import './errorView';
 import './spinnerView';
 import ls from 'ls';
@@ -7,10 +8,10 @@ import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('status-view')
 export class StatusView extends BaseElement {
-  @property({ type: Object }) status = LoadingStatus.empty;
-  @property() loadingText = '';
-  @property({ type: Boolean }) canRetry = false;
-  @property() errorTitle = '';
+  @lp.object status = LoadingStatus.empty;
+  @lp.string loadingText = '';
+  @lp.bool canRetry = false;
+  @lp.string errorTitle = '';
 
   render() {
     const { status } = this;
