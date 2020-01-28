@@ -23,4 +23,8 @@ export default class LoadingStatus {
   static get empty(): LoadingStatus {
     return new LoadingStatus(null, false, false);
   }
+
+  get hasError(): boolean {
+    return !!this.error;
+  }
 }

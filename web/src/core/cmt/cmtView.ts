@@ -27,7 +27,11 @@ export class CmtView extends BaseElement {
     }
     if (isEditing) {
       return html`
-        <status-overlay .status=${this.srcLoadingStatus}>
+        <status-overlay
+          .status=${this.srcLoadingStatus}
+          .canRetry=${true}
+          @onRetry=${this.loadEditorContent}
+        >
           <composer-view
             .showTitle=${false}
             .entityType=${EntityType.cmt}
@@ -81,6 +85,14 @@ export class CmtView extends BaseElement {
       return;
     }
     this.isEditing = true;
+    await this.loadEditorContent();
+  }
+
+  private async loadEditorContent() {
+    const { cmt } = this;
+    if (!cmt) {
+      return;
+    }
     const loader = new GetCmtSourceLoader(cmt.id);
     const res = await app.runLocalActionAsync(
       loader,

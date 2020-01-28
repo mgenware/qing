@@ -11,7 +11,7 @@ export class ErrorView extends BaseElement {
     return html`
       <div class="section is-danger">
         <h3>${this.title || ls.errOccurred}</h3>
-        <div><slot></slot></div>
+        <p><slot></slot></p>
 
         ${this.canRetry
           ? html`

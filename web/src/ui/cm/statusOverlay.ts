@@ -42,22 +42,28 @@ export class StatusOverlay extends BaseElement {
         >
           <slot></slot>
         </div>
-        ${status.isWorking
+        ${!status.isSuccess
           ? html`
               <centered-view class="overlay" height="100%">
-                <spinner-view>${this.loadingText || ls.loading}</spinner-view>
+                ${status.isWorking
+                  ? html`
+                      <spinner-view
+                        >${this.loadingText || ls.loading}</spinner-view
+                      >
+                    `
+                  : html``}
+                ${!!status.error
+                  ? html`
+                      <error-view
+                        .canRetry=${this.canRetry}
+                        .title=${this.errorTitle || ls.errOccurred}
+                        @onRetry=${this.handleRetry}
+                      >
+                        ${status.error.message}
+                      </error-view>
+                    `
+                  : html``}
               </centered-view>
-            `
-          : html``}
-        ${status.error
-          ? html`
-              <error-view
-                .canRetry=${this.canRetry}
-                .title=${this.errorTitle || ls.errOccurred}
-                @onRetry=${this.handleRetry}
-              >
-                ${status.error.message}
-              </error-view>
             `
           : html``}
       </div>
