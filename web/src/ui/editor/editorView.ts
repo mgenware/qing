@@ -13,7 +13,7 @@ export default class EditorView extends BaseElement {
       styles,
       css`
         .kx-editor {
-          border: 1px solid var(--main-secondary-tint-color);
+          border: 1px solid var(--main-secondary-fore-color);
         }
       `,
     ];
