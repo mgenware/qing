@@ -71,4 +71,5 @@ export default interface LSDefs {
   pViewMore: string;
   replies: string;
   warning: string;
+  editComment: string;
 }

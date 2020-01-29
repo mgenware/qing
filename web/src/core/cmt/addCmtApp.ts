@@ -25,7 +25,8 @@ export class AddCmtApp extends BaseElement {
     }
     return html`
       <composer-view
-        .showTitle=${false}
+        .showTitleInput=${false}
+        .headerText=${ls.writeAComment}
         .entityType=${EntityType.cmt}
         .submitButtonText=${ls.comment}
         @onSubmit=${this.handleSubmit}

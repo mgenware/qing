@@ -11,14 +11,20 @@ import Cmt from './cmt';
 import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
+import { ComposerView } from 'ui/editor/composerView';
 
+const composerID = 'composer';
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
   @lp.object cmt: Cmt | null = null;
   @lp.bool isReply = false;
   @lp.bool private isEditing = false;
   @lp.object private srcLoadingStatus = LoadingStatus.empty;
-  @lp.string private editorContent = '';
+
+  // Composer view is optional in `render`.
+  private get composerElement(): ComposerView | null {
+    return this.getShadowElement(composerID) as ComposerView | null;
+  }
 
   render() {
     const { cmt, isEditing } = this;
@@ -33,12 +39,11 @@ export class CmtView extends BaseElement {
           @onRetry=${this.loadEditorContent}
         >
           <composer-view
-            .showTitle=${false}
+            .id=${composerID}
+            .headerText=${ls.editComment}
+            .showTitleInput=${false}
             .entityType=${EntityType.cmt}
             .submitButtonText=${ls.comment}
-            .contentHTML=${this.editorContent}
-            @contentChanged=${(e: CustomEvent<string>) =>
-              (this.editorContent = e.detail)}
           ></composer-view>
         </status-overlay>
       `;
@@ -99,8 +104,9 @@ export class CmtView extends BaseElement {
       status => (this.srcLoadingStatus = status),
     );
 
-    if (res.data) {
-      this.editorContent = res.data.content;
+    const { composerElement } = this;
+    if (res.data && composerElement) {
+      composerElement.contentHTML = res.data.content;
     }
   }
 }

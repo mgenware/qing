@@ -70,5 +70,6 @@
   "ppItemCounter": "已显示 {0} / {1} 总共",
   "pViewMore": "显示更多{0}",
   "replies": "回复",
-  "warning": "警告"
+  "warning": "警告",
+  "editComment": "编辑评论"
 }

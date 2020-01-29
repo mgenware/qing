@@ -19,16 +19,13 @@ export default class EditorView extends BaseElement {
     ];
   }
 
-  // We're using a standard object property here as it doesn't need to trigger re-render.
-  private _contentHTML = '';
+  // We're using a standard property instead of a lit-element property for performance reason.
+  // Keep assigning and comparing lit-element property changes hurts performance.
   get contentHTML(): string {
-    return this._contentHTML;
+    return this.editor.contentHTML;
   }
   set contentHTML(val: string) {
-    if (val !== this._contentHTML) {
-      this._contentHTML = val;
-      this.editor.contentHTML = val;
-    }
+    this.editor.contentHTML = val;
   }
 
   private editor!: Editor;
@@ -38,13 +35,6 @@ export default class EditorView extends BaseElement {
     const editor = new Editor(editorDom, {
       lang: ls._lang === 'cs' ? langCs : langEn,
     });
-    editor.contentChanged = () => {
-      this.dispatchEvent(
-        new CustomEvent<string>('contentChanged', {
-          detail: editor.contentHTML,
-        }),
-      );
-    };
     this.editor = editor;
   }
 

@@ -2,20 +2,24 @@ import { html, customElement } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/editor/composerView';
-import { ComposerPayload } from 'ui/editor/composerView';
+import { ComposerPayload, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
 import { EntityType } from 'lib/entity';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 
+const composerID = 'composer';
+
 @customElement('set-post-app')
 export default class SetPostApp extends BaseElement {
   @lp.string editedID = '';
   @lp.string title = '';
-  @lp.string private editorContent = '';
+
+  private composerElement!: ComposerView;
 
   async firstUpdated() {
+    this.composerElement = this.mustGetShadowElement(composerID);
     if (this.editedID) {
       // Loading content
       const loader = new GetPostSourceLoader(this.editedID);
@@ -33,13 +37,10 @@ export default class SetPostApp extends BaseElement {
         <p class="is-h4">${this.editedID ? ls.editPost : ls.newPost}</p>
         <hr />
         <composer-view
+          .id=${composerID}
           .title=${this.title}
-          .showTitle=${true}
           .entityID=${this.editedID}
           .entityType=${EntityType.post}
-          .contentHTML=${this.editorContent}
-          @contentChanged=${(e: CustomEvent<string>) =>
-            (this.editorContent = e.detail)}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
       </div>
@@ -48,7 +49,7 @@ export default class SetPostApp extends BaseElement {
 
   private updateContent(title: string, content: string) {
     this.title = title;
-    this.editorContent = content;
+    this.composerElement.contentHTML = content;
   }
 
   private async handleSubmit(e: CustomEvent<ComposerPayload>) {

@@ -25,13 +25,14 @@ export class ComposerPayload {
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
   @lp.number entityType: EntityType = 0;
-  @lp.string title = '';
-  @lp.bool showTitle = true;
+  // A descriptive header string displayed on top of the editor.
+  @lp.string headerText = '';
+  // Title field value.
+  @lp.string titleText = '';
+  @lp.bool showTitleInput = true;
   @lp.string entityID = '';
-  @lp.string content = '';
   @lp.bool showCancelButton = false;
   @lp.string submitButtonText = '';
-  @lp.string contentHTML = '';
 
   private editor!: EditorView;
   private captchaView: CaptchaView | null = null;
@@ -46,26 +47,36 @@ export class ComposerView extends BaseElement {
     this.captchaView = this.getShadowElement('captElement');
   }
 
+  // We're using a standard property instead of a lit-element property for performance reason.
+  // Keep assigning and comparing lit-element property changes hurts performance.
+  get contentHTML(): string {
+    return this.editor.contentHTML;
+  }
+  set contentHTML(val: string) {
+    this.editor.contentHTML = val;
+  }
+
   render() {
-    const titleElement = this.showTitle
+    const titleElement = this.showTitleInput
       ? html`
           <div class="p-b-sm form">
+            ${this.headerText
+              ? html`
+                  <h3>${this.headerText}</h3>
+                `
+              : html``}
             <input
               id="titleElement"
               type="text"
-              value=${this.title}
+              value=${this.titleText}
               placeholder=${ls.title}
-              @change=${(e: any) => (this.title = e.target.value)}
+              @change=${(e: any) => (this.titleText = e.target.value)}
             />
           </div>
         `
       : '';
     const editorElement = html`
-      <editor-view
-        id="editor"
-        .contentHTML=${this.contentHTML}
-        @contentChanged=${this.handleContentChanged}
-      ></editor-view>
+      <editor-view id="editor"></editor-view>
     `;
     const bottomElement = html`
       <div class="m-t-md">
@@ -102,7 +113,7 @@ export class ComposerView extends BaseElement {
 
   private getPayload(): ComposerPayload {
     const { captchaView } = this;
-    if (this.showTitle && !this.title) {
+    if (this.showTitleInput && !this.titleText) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () => {
         if (this.titleElement) {
           this.titleElement.focus();
@@ -122,8 +133,8 @@ export class ComposerView extends BaseElement {
       });
     }
     const payload = new ComposerPayload(this.contentHTML);
-    if (this.showTitle) {
-      payload.title = this.title;
+    if (this.showTitleInput) {
+      payload.title = this.titleText;
     }
     if (this.captchaView) {
       payload.captcha = this.captchaView.value;
@@ -150,10 +161,6 @@ export class ComposerView extends BaseElement {
 
   private handleCancel() {
     this.dispatchEvent(new CustomEvent('onCancel'));
-  }
-
-  private handleContentChanged(e: CustomEvent<string>) {
-    this.contentHTML = e.detail;
   }
 }
 
