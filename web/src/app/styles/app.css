@@ -61,17 +61,17 @@ full-width {
 }
 
 .is-secondary {
-  color: var(--main-secondary-fore-color) !important;
+  color: var(--default-secondary-fore-color) !important;
 }
 
 .is-boxed {
-  border-top: 1px solid var(--main-secondary-fore-color);
-  border-bottom: 1px solid var(--main-secondary-fore-color);
+  border-top: 1px solid var(--default-secondary-fore-color);
+  border-bottom: 1px solid var(--default-secondary-fore-color);
 }
 
 @media (min-width: 768px) {
   .is-boxed {
-    border: 1px solid var(--main-secondary-fore-color);
+    border: 1px solid var(--default-secondary-fore-color);
     border-radius: 0.5rem;
     padding: 0.8rem 1.6rem;
   }
@@ -409,7 +409,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid var(--main-secondary-fore-color);
+  border-top: 1px solid var(--default-secondary-fore-color);
   margin: 0.8rem 0;
   padding: 0;
 }
@@ -426,8 +426,8 @@ hr {
   line-height: 1.5;
   padding: 0.25rem 0.4rem;
   background-color: transparent;
-  color: var(--main-fore-color);
-  border: 1px solid var(--main-secondary-fore-color);
+  color: var(--default-fore-color);
+  border: 1px solid var(--default-secondary-fore-color);
   padding: 0.35rem 0.6rem;
   border-radius: 5px;
 }
@@ -440,9 +440,9 @@ hr {
 
 /** themes */
 :root {
-  --main-back-color: white;
-  --main-fore-color: black;
-  --main-secondary-fore-color: #dadada;
+  --default-back-color: white;
+  --default-fore-color: black;
+  --default-secondary-fore-color: #dadada;
   --primary-back-color: #4f81c7;
   --primary-fore-color: white;
   --danger-back-color: #f8d7da;
@@ -462,9 +462,9 @@ hr {
 }
 
 .theme-dark {
-  --main-back-color: black;
-  --main-fore-color: #6b6b6b;
-  --main-secondary-fore-color: #272727;
+  --default-back-color: black;
+  --default-fore-color: #6b6b6b;
+  --default-secondary-fore-color: #272727;
   --primary-back-color: #35588a;
   --primary-fore-color: #b4b4b4;
   --danger-back-color: #570000;
@@ -483,10 +483,10 @@ hr {
   --footer-fore-color: #3d3d3d;
 
   /* editor vars */
-  --kx-back-color: var(--main-back-color);
-  --kx-text-color: var(--main-fore-color);
-  --kx-toolbar-separator-color: var(--main-secondary-fore-color);
-  --kx-toolbar-button-color: var(--main-fore-color);
+  --kx-back-color: var(--default-back-color);
+  --kx-text-color: var(--default-fore-color);
+  --kx-toolbar-separator-color: var(--default-secondary-fore-color);
+  --kx-toolbar-button-color: var(--default-fore-color);
 }
 
 lit-button {
@@ -562,8 +562,8 @@ svg.is-warning {
 }
 
 body {
-  background-color: var(--main-back-color);
-  color: var(--main-fore-color);
+  background-color: var(--default-back-color);
+  color: var(--default-fore-color);
 }
 
 a {
