@@ -120,12 +120,12 @@ func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, targetID uint64, pa
 
 // PostTableSelectPostByIDResult ...
 type PostTableSelectPostByIDResult struct {
-	ID           uint64    `json:"id"`
-	Title        string    `json:"title"`
-	CreatedAt    time.Time `json:"createdAt"`
-	ModifiedAt   time.Time `json:"modifiedAt"`
-	CmtCount     uint      `json:"cmtCount"`
-	Content      string    `json:"content"`
+	ID           uint64    `json:"id,omitempty"`
+	Title        string    `json:"title,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	CmtCount     uint      `json:"cmtCount,omitempty"`
+	Content      string    `json:"content,omitempty"`
 	UserID       uint64    `json:"-"`
 	UserName     string    `json:"-"`
 	UserIconName string    `json:"-"`
@@ -143,8 +143,8 @@ func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*Po
 
 // PostTableSelectPostSourceResult ...
 type PostTableSelectPostSourceResult struct {
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	Title   string `json:"title,omitempty"`
+	Content string `json:"content,omitempty"`
 }
 
 // SelectPostSource ...
@@ -159,11 +159,11 @@ func (da *TableTypePost) SelectPostSource(queryable dbx.Queryable, id uint64, us
 
 // PostTableSelectPostsByUserResult ...
 type PostTableSelectPostsByUserResult struct {
-	ID         uint64    `json:"id"`
-	Title      string    `json:"title"`
-	CreatedAt  time.Time `json:"createdAt"`
-	ModifiedAt time.Time `json:"modifiedAt"`
-	CmtCount   uint      `json:"cmtCount"`
+	ID         uint64    `json:"id,omitempty"`
+	Title      string    `json:"title,omitempty"`
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	CmtCount   uint      `json:"cmtCount,omitempty"`
 }
 
 // SelectPostsByUser ...

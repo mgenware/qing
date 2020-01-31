@@ -12,12 +12,12 @@ import (
 // CmtData ...
 type CmtData struct {
 	CmtID        uint64    `json:"-"`
-	Content      string    `json:"content"`
-	CreatedAt    time.Time `json:"createdAt"`
-	ModifiedAt   time.Time `json:"modifiedAt"`
-	RplCount     uint      `json:"rplCount"`
+	Content      string    `json:"content,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	RplCount     uint      `json:"rplCount,omitempty"`
 	UserID       uint64    `json:"-"`
-	UserName     string    `json:"userName"`
+	UserName     string    `json:"userName,omitempty"`
 	UserIconName string    `json:"-"`
 }
 

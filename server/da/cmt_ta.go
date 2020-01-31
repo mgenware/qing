@@ -32,7 +32,7 @@ func (da *TableTypeCmt) EditCmt(queryable dbx.Queryable, id uint64, userID uint6
 
 // CmtTableSelectCmtSourceResult ...
 type CmtTableSelectCmtSourceResult struct {
-	Content string `json:"content"`
+	Content string `json:"content,omitempty"`
 }
 
 // SelectCmtSource ...

@@ -21,12 +21,12 @@ var User = &TableTypeUser{}
 // UserTableSelectEditingDataResult ...
 type UserTableSelectEditingDataResult struct {
 	ID       uint64  `json:"-"`
-	Name     string  `json:"name"`
+	Name     string  `json:"name,omitempty"`
 	IconName string  `json:"-"`
-	Location string  `json:"location"`
-	Company  string  `json:"company"`
-	Website  string  `json:"website"`
-	Bio      *string `json:"bio"`
+	Location string  `json:"location,omitempty"`
+	Company  string  `json:"company,omitempty"`
+	Website  string  `json:"website,omitempty"`
+	Bio      *string `json:"bio,omitempty"`
 }
 
 // SelectEditingData ...
@@ -52,13 +52,13 @@ func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (str
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
 	ID        uint64  `json:"-"`
-	Name      string  `json:"name"`
-	IconName  string  `json:"iconName"`
-	Location  string  `json:"location"`
-	Company   string  `json:"company"`
-	Website   string  `json:"website"`
-	Bio       *string `json:"bio"`
-	PostCount uint    `json:"postCount"`
+	Name      string  `json:"name,omitempty"`
+	IconName  string  `json:"iconName,omitempty"`
+	Location  string  `json:"location,omitempty"`
+	Company   string  `json:"company,omitempty"`
+	Website   string  `json:"website,omitempty"`
+	Bio       *string `json:"bio,omitempty"`
+	PostCount uint    `json:"postCount,omitempty"`
 }
 
 // SelectProfile ...
@@ -73,9 +73,9 @@ func (da *TableTypeUser) SelectProfile(queryable dbx.Queryable, id uint64) (*Use
 
 // UserTableSelectSessionDataResult ...
 type UserTableSelectSessionDataResult struct {
-	ID       uint64 `json:"id"`
-	Name     string `json:"name"`
-	IconName string `json:"iconName"`
+	ID       uint64 `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+	IconName string `json:"iconName,omitempty"`
 }
 
 // SelectSessionData ...

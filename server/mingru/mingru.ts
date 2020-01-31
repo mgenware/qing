@@ -7,7 +7,10 @@ import tables from './tables';
   // Build Go code to '../da/` directory
   const builder = new mr.Builder(dialect, '../da/', {
     cleanBuild: true,
-    memberJSONKeyStyle: mr.MemberJSONKeyStyle.camelCase,
+    jsonEncoding: {
+      encodingStyle: mr.JSONEncodingStyle.camelCase,
+      excludeEmptyValues: true,
+    },
   });
   await builder.buildAsync(async () => {
     await builder.buildActionsAsync(actions);
