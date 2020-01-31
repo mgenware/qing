@@ -22,49 +22,91 @@ export class ComposerPayload {
   constructor(public content: string) {}
 }
 
+/**
+ * Built upon editor-view, providing the following features:
+ *   Title, captcha inputs.
+ *   Warns user about unsaved changes.
+ *   A descriptive header shown on top of the editor.
+ *   Submit and cancel buttons.
+ */
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
   @lp.number entityType: EntityType = 0;
+
   // A descriptive header string displayed on top of the editor.
   @lp.string headerText = '';
+
   // Title field value.
   @lp.string titleText = '';
   @lp.bool showTitleInput = true;
+
+  // NOTE: if `entityID` is empty, captcha view will show up.
   @lp.string entityID = '';
   @lp.bool showCancelButton = false;
   @lp.string submitButtonText = '';
 
-  private editor!: EditorView;
+  // Used to check if editor content has changed.
+  private lastSavedContent = '';
+
+  hasContentChanged(): boolean {
+    if (!this.editor) {
+      return false;
+    }
+    return this.lastSavedContent !== this.editor.contentHTML;
+  }
+
+  markAsSaved() {
+    this.lastSavedContent = this.contentHTML;
+  }
+
+  private editor?: EditorView;
   private captchaView: CaptchaView | null = null;
   private titleElement: HTMLInputElement | null = null;
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('beforeunload', this.handleBeforeUnload);
+  }
 
   firstUpdated() {
     if (!this.entityType) {
       throw new Error('Invalid entity type');
     }
-    this.editor = this.mustGetShadowElement('editor');
+
+    const editor = this.mustGetShadowElement('editor') as EditorView;
+    editor.contentHTML = this.contentHTML;
+    this.editor = editor;
     this.titleElement = this.getShadowElement('titleElement');
     this.captchaView = this.getShadowElement('captElement');
+    this.markAsSaved();
   }
 
+  // ==========
   // We're using a standard property instead of a lit-element property for performance reason.
   // Keep assigning and comparing lit-element property changes hurts performance.
+  // ==========
+  // Use to store the property value before editor instance is created.
+  private _initialContentHTML = '';
   get contentHTML(): string {
-    return this.editor.contentHTML;
+    return this.editor ? this.editor.contentHTML : this._initialContentHTML;
   }
+
   set contentHTML(val: string) {
-    this.editor.contentHTML = val;
+    this._initialContentHTML = val;
+    if (this.editor) {
+      this.editor.contentHTML = val;
+    }
   }
 
   render() {
     const titleElement = this.showTitleInput
       ? html`
           <div class="p-b-sm form">
-            ${this.headerText
-              ? html`
-                  <h3>${this.headerText}</h3>
-                `
-              : html``}
             <input
               id="titleElement"
               type="text"
@@ -106,6 +148,11 @@ export class ComposerView extends BaseElement {
 
     return html`
       <div>
+        ${this.headerText
+          ? html`
+              <h3>${this.headerText}</h3>
+            `
+          : html``}
         ${titleElement}${editorElement}${bottomElement}
       </div>
     `;
@@ -122,7 +169,7 @@ export class ComposerView extends BaseElement {
     }
     if (!this.contentHTML) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
-        this.editor.focus(),
+        this.editor?.focus(),
       );
     }
     if (captchaView && !captchaView.value) {
@@ -159,8 +206,26 @@ export class ComposerView extends BaseElement {
     }
   }
 
-  private handleCancel() {
-    this.dispatchEvent(new CustomEvent('onCancel'));
+  private async handleCancel() {
+    const fireEvent = () => this.dispatchEvent(new CustomEvent('onDiscard'));
+    if (this.hasContentChanged()) {
+      // Warn user of unsaved changes.
+      const confirmed = app.alert.confirm(ls.unsavedChangesWarning);
+      if (confirmed) {
+        fireEvent();
+      }
+    } else {
+      fireEvent();
+    }
+  }
+
+  private handleBeforeUnload(e: BeforeUnloadEvent) {
+    if (this.hasContentChanged()) {
+      // Cancel the event as stated by the standard.
+      e.preventDefault();
+      // Chrome requires returnValue to be set.
+      e.returnValue = '';
+    }
   }
 }
 

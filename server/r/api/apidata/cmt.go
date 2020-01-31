@@ -10,9 +10,9 @@ type Cmt struct {
 	da.CmtData
 
 	ID          string `json:"id"`
-	UserEID     string `json:"userID"`
-	UserURL     string `json:"userURL"`
-	UserIconURL string `json:"userIconURL"`
+	UserEID     string `json:"userID,omitempty"`
+	UserURL     string `json:"userURL,omitempty"`
+	UserIconURL string `json:"userIconURL,omitempty"`
 }
 
 func NewCmt(d *da.CmtData) *Cmt {

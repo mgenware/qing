@@ -36,7 +36,7 @@ export default class AlertModule {
 
   async confirm(
     message: string,
-    hasCancelButton?: false,
+    hasCancelButton = false,
   ): Promise<boolean | null> {
     const buttons: DialogButtonType[] = ['yes', 'no'];
     // Default button is "No".

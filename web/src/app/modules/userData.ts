@@ -9,30 +9,13 @@ const WARN_CHANGES = ls.unsavedChangesWarning;
 const CSS_DARK_THEME = 'theme-dark';
 
 export default class UserData {
-  private _hasUnsavedChanges = false;
   private alert: Alert;
 
   constructor(_: AppState, alert: Alert) {
     this.alert = alert;
-
-    window.onbeforeunload = () => {
-      if (this.hasUnsavedChanges) {
-        return WARN_CHANGES;
-      }
-      return undefined;
-    };
     lib.ready(() => {
       this.applyTheme(this.theme);
     });
-  }
-
-  // --- unsaved changes ---
-  setUnsavedChanges(val: boolean) {
-    this._hasUnsavedChanges = val;
-  }
-
-  get hasUnsavedChanges(): boolean {
-    return this._hasUnsavedChanges;
   }
 
   get theme(): defs.UserTheme {

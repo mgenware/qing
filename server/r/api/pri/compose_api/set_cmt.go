@@ -18,12 +18,12 @@ type SetCmtResponse struct {
 	Cmt *apidata.Cmt `json:"cmt"`
 }
 
-func getCmtDataLayer(targetType int) da.CmtCore {
+func getCmtDataLayer(targetType int) (da.CmtCore, error) {
 	switch targetType {
 	case defs.EntityPost:
-		return da.Post
+		return da.Post, nil
 	default:
-		panic(fmt.Sprintf("Unknown cmt data provider: %v", targetType))
+		return nil, fmt.Errorf("Unknown cmt data provider: %v", targetType)
 	}
 }
 
@@ -38,13 +38,17 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	content := validator.MustGetStringFromDict(params, "content")
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
-	cmtCore := getCmtDataLayer(entityType)
 	if id == 0 {
 		// We are creating a new cmt.
 		postID := validator.MustGetIDFromDict(params, "postID")
 		capt := validator.MustGetStringFromDict(params, "captcha")
+
+		cmtCore, err := getCmtDataLayer(entityType)
+		app.PanicIfErr(err)
+
 		captResult, err := app.Service.Captcha.Verify(uid, entityType, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
+
 		if captResult != 0 {
 			resp.MustFailWithCode(captResult)
 			return
@@ -74,6 +78,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 
 		cmt := &apidata.Cmt{ID: validator.EncodeID(id)}
 		cmt.Content = content
+		cmt.ModifiedAt = time.Now()
 
 		respData := &SetCmtResponse{Cmt: cmt}
 		resp.MustComplete(respData)

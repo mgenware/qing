@@ -11,7 +11,8 @@ import Cmt from './cmt';
 import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
-import { ComposerView } from 'ui/editor/composerView';
+import { ComposerView, ComposerPayload } from 'ui/editor/composerView';
+import SetCmtLoader from './loaders/setCmtLoader';
 
 const composerID = 'composer';
 @customElement('cmt-view')
@@ -42,8 +43,12 @@ export class CmtView extends BaseElement {
             .id=${composerID}
             .headerText=${ls.editComment}
             .showTitleInput=${false}
+            .showCancelButton=${true}
+            .entityID=${cmt.id}
             .entityType=${EntityType.cmt}
-            .submitButtonText=${ls.comment}
+            .submitButtonText=${ls.save}
+            @onSubmit=${this.handleEdit}
+            @onDiscard=${this.handleDiscard}
           ></composer-view>
         </status-overlay>
       `;
@@ -93,6 +98,45 @@ export class CmtView extends BaseElement {
     await this.loadEditorContent();
   }
 
+  // Closes and resets the editor.
+  private closeEditor() {
+    const { composerElement } = this;
+    if (!composerElement) {
+      return;
+    }
+    composerElement.contentHTML = '';
+    composerElement.markAsSaved();
+    this.isEditing = false;
+  }
+
+  private async handleEdit(e: CustomEvent<ComposerPayload>) {
+    const { cmt } = this;
+    if (!cmt) {
+      return;
+    }
+    const loader = SetCmtLoader.editCmt(cmt.id, e.detail);
+    const status = await app.runGlobalActionAsync(loader, ls.publishing);
+    if (status.data) {
+      // Copy all properties from `serverCmt` except for the `createdAt`.
+      // We're hot patching the cmt object, and the `createdAt` property
+      // is something server must return (an empty timestamp) but doesn't
+      // make sense here.
+      const serverCmt = status.data.cmt;
+      const updatedCmt: Cmt = {
+        ...cmt,
+        ...serverCmt,
+      };
+      updatedCmt.createdAt = cmt.createdAt;
+
+      this.cmt = updatedCmt;
+      this.closeEditor();
+    }
+  }
+
+  private async handleDiscard() {
+    this.closeEditor();
+  }
+
   private async loadEditorContent() {
     const { cmt } = this;
     if (!cmt) {
@@ -107,6 +151,7 @@ export class CmtView extends BaseElement {
     const { composerElement } = this;
     if (res.data && composerElement) {
       composerElement.contentHTML = res.data.content;
+      composerElement.markAsSaved();
     }
   }
 }
