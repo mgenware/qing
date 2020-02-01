@@ -13,4 +13,5 @@ func init() {
 	Router.Post("/delete-post", deletePost)
 	Router.Post("/set-cmt", setCmt)
 	Router.Post("/get-cmt-src", getCmtSource)
+	Router.Post("/delete-cmt", deleteCmt)
 }
