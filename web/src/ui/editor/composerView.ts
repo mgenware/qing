@@ -210,7 +210,7 @@ export class ComposerView extends BaseElement {
     const fireEvent = () => this.dispatchEvent(new CustomEvent('onDiscard'));
     if (this.hasContentChanged()) {
       // Warn user of unsaved changes.
-      const confirmed = app.alert.confirm(ls.unsavedChangesWarning);
+      const confirmed = await app.alert.confirm(ls.unsavedChangesWarning);
       if (confirmed) {
         fireEvent();
       }
