@@ -20,7 +20,7 @@ export class Result<T> {
   }
 
   get isSuccess(): boolean {
-    return !!this.error;
+    return !this.error;
   }
 }
 
