@@ -1,4 +1,8 @@
-# qing [WORK IN PROGRESS]
+<div align="center">
+	<img src="./qing.svg" width="300" height="300" alt="The Qing Project">
+	<br>
+	<h1>Qing [Work in Progress]</h1>
+</div>
 
 Content management system (CMS) on Go/MySQL, start your forum / blog site in seconds!
 
