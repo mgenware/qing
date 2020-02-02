@@ -1,4 +1,5 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement } from 'lit-element';
+import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/editor/composerView';
 import ls from 'ls';
@@ -9,9 +10,9 @@ import app from 'app';
 
 @customElement('add-cmt-app')
 export class AddCmtApp extends BaseElement {
-  @property() entityID = '';
-  @property({ type: Number }) entityType = 0;
-  @property({ type: Boolean }) private expanded = false;
+  @lp.string entityID = '';
+  @lp.number entityType = 0;
+  @lp.bool private expanded = false;
 
   render() {
     if (!this.expanded) {
@@ -47,6 +48,7 @@ export class AddCmtApp extends BaseElement {
     );
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
+      this.expanded = false;
       this.dispatchEvent(
         new CustomEvent<SetCmtResponse>('cmtAdded', {
           detail: status.data,
