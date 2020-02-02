@@ -61,7 +61,8 @@ export function insertCmt(rt: CmtRelationTable): mm.Action {
 export function editCmt(): mm.Action {
   return mm
     .updateOne()
-    .argStubs(cm.sanitizedStub, cm.captStub)
+    .setDefaults(cmt.modified_at)
     .setInputs(cmt.content)
+    .argStubs(cm.sanitizedStub, cm.captStub)
     .where(updateConditions);
 }

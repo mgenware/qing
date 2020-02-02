@@ -11,7 +11,7 @@ export class Reply extends mm.Table {
   to_user_id = user.id;
   parent_id = cmt.id;
   created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc');
+  modified_at = mm.datetime('utc').nullable;
 }
 
 export default mm.table(Reply);

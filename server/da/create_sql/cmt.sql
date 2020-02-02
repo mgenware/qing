@@ -3,7 +3,7 @@ CREATE TABLE `cmt` (
 	`content` TEXT NOT NULL,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`modified_at` DATETIME NOT NULL,
+	`modified_at` DATETIME NULL DEFAULT NULL,
 	`rpl_count` INT UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE

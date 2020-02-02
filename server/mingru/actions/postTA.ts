@@ -42,6 +42,7 @@ export class PostTA extends mm.TableActions {
 
   editPost = mm
     .updateOne()
+    .setDefaults(t.modified_at)
     .setInputs(t.title, t.content)
     .argStubs(cm.sanitizedStub)
     .where(updateConditions);

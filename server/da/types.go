@@ -11,14 +11,14 @@ import (
 
 // CmtData ...
 type CmtData struct {
-	CmtID        uint64    `json:"-"`
-	Content      string    `json:"content,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
-	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
-	RplCount     uint      `json:"rplCount,omitempty"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"userName,omitempty"`
-	UserIconName string    `json:"-"`
+	CmtID        uint64     `json:"-"`
+	Content      string     `json:"content,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	RplCount     uint       `json:"rplCount,omitempty"`
+	UserID       uint64     `json:"-"`
+	UserName     string     `json:"userName,omitempty"`
+	UserIconName string     `json:"-"`
 }
 
 // ------------ Interfaces ------------

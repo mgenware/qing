@@ -7,7 +7,7 @@ export class Cmt extends mm.Table {
   user_id = user.id;
 
   created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc');
+  modified_at = mm.datetime('utc').nullable;
   rpl_count = mm.uInt(0);
 }
 

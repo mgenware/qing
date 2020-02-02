@@ -29,7 +29,7 @@ func (da *TableTypePost) DeletePost(queryable dbx.Queryable, id uint64, userID u
 
 // EditPost ...
 func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)
+	result, err := queryable.Exec("UPDATE `post` SET `modified_at` = UTC_TIMESTAMP(), `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -120,15 +120,15 @@ func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, targetID uint64, pa
 
 // PostTableSelectPostByIDResult ...
 type PostTableSelectPostByIDResult struct {
-	ID           uint64    `json:"id,omitempty"`
-	Title        string    `json:"title,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
-	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
-	CmtCount     uint      `json:"cmtCount,omitempty"`
-	Content      string    `json:"content,omitempty"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"-"`
-	UserIconName string    `json:"-"`
+	ID           uint64     `json:"id,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	CmtCount     uint       `json:"cmtCount,omitempty"`
+	Content      string     `json:"content,omitempty"`
+	UserID       uint64     `json:"-"`
+	UserName     string     `json:"-"`
+	UserIconName string     `json:"-"`
 }
 
 // SelectPostByID ...
@@ -159,11 +159,11 @@ func (da *TableTypePost) SelectPostSource(queryable dbx.Queryable, id uint64, us
 
 // PostTableSelectPostsByUserResult ...
 type PostTableSelectPostsByUserResult struct {
-	ID         uint64    `json:"id,omitempty"`
-	Title      string    `json:"title,omitempty"`
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
-	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
-	CmtCount   uint      `json:"cmtCount,omitempty"`
+	ID         uint64     `json:"id,omitempty"`
+	Title      string     `json:"title,omitempty"`
+	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
+	CmtCount   uint       `json:"cmtCount,omitempty"`
 }
 
 // SelectPostsByUser ...

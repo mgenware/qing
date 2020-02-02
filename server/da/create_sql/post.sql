@@ -4,7 +4,7 @@ CREATE TABLE `post` (
 	`content` TEXT NOT NULL,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`modified_at` DATETIME NOT NULL,
+	`modified_at` DATETIME NULL DEFAULT NULL,
 	`cmt_count` INT UNSIGNED NOT NULL,
 	`likes` INT UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
