@@ -1,7 +1,7 @@
 import { html, customElement } from 'lit-element';
 import * as lp from 'lit-props';
 import app from 'app';
-import ls from 'ls';
+import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/timeField';
 import 'ui/editor/editBar';
@@ -13,6 +13,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
 import { ComposerView, ComposerPayload } from 'ui/editor/composerView';
 import SetCmtLoader from './loaders/setCmtLoader';
+import DeleteCmtLoader from './loaders/deleteCmtLoader';
 
 const composerID = 'composer';
 @customElement('cmt-view')
@@ -77,6 +78,7 @@ export class CmtView extends BaseElement {
                   <edit-bar
                     .hasLeftMargin=${true}
                     @editClick=${this.handleEditClick}
+                    @deleteClick=${this.handleDeleteClick}
                   ></edit-bar>
                 `
               : ''}
@@ -152,6 +154,21 @@ export class CmtView extends BaseElement {
     if (res.data && composerElement) {
       composerElement.contentHTML = res.data.content;
       composerElement.markAsSaved();
+    }
+  }
+
+  protected async handleDeleteClick() {
+    const { cmt } = this;
+    if (!cmt) {
+      return;
+    }
+    if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
+      app.alert.showLoadingOverlay(ls.working);
+      const loader = new DeleteCmtLoader(cmt.id);
+      const status = await app.runGlobalActionAsync(loader, ls.working);
+      if (status.isSuccess) {
+        this.dispatchEvent(new CustomEvent<undefined>('cmtDeleted'));
+      }
     }
   }
 }

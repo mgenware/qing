@@ -38,7 +38,7 @@ export class PostAdminApp extends BaseElement {
       const loader = new DeletePostLoader(this.targetID);
       const status = await app.runGlobalActionAsync(loader, ls.working);
       if (status.data) {
-        // Redirect to profile page since this page has been deleted
+        // Redirect to profile page since this page has been deleted.
         app.browser.setURL(status.data);
       }
     }

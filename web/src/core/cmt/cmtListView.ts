@@ -73,7 +73,8 @@ export class CmtListView extends BaseElement {
       `;
     } else {
       const childViews: TemplateResult[] = [];
-      for (const item of this.items) {
+      for (let i = 0; i < this.items.length; i++) {
+        const item = this.items[i];
         childViews.push(
           html`
             <reply-list-view
@@ -81,6 +82,7 @@ export class CmtListView extends BaseElement {
               .entityID=${this.entityID}
               .entityType=${this.entityType}
               @repliesCountChanged=${this.handleReplyCountChanged}
+              @rootCmtDeleted=${() => this.handleCmtDeleted(i)}
             ></reply-list-view>
           `,
         );
@@ -144,6 +146,10 @@ export class CmtListView extends BaseElement {
     if (e.detail) {
       this.cmtCollector?.prepend([e.detail.cmt]);
     }
+  }
+
+  private handleCmtDeleted(index: number) {
+    this.items = this.items.filter((_, idx) => idx !== index);
   }
 }
 

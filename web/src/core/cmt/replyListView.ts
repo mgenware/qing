@@ -58,16 +58,23 @@ export class ReplyListView extends BaseElement {
       return;
     }
     const childViews: TemplateResult[] = [];
-    for (const item of this.items) {
+    for (let i = 0; i < this.items.length; i++) {
+      const item = this.items[i];
       childViews.push(
         html`
-          <cmt .cmt=${item}></cmt>
+          <cmt-view
+            .cmt=${item}
+            @cmtDeleted=${() => this.handleReplyDeleted(i)}
+          ></cmt-view>
         `,
       );
     }
     return html`
       <div>
-        <cmt-view .cmt=${this.cmt}></cmt-view>
+        <cmt-view
+          .cmt=${this.cmt}
+          @cmtDeleted=${this.handleCmtDeleted}
+        ></cmt-view>
         <div>
           ${childViews}
         </div>
@@ -82,6 +89,15 @@ export class ReplyListView extends BaseElement {
 
   private async handleViewMoreClick() {
     await this.replyCollector?.loadMoreAsync();
+  }
+
+  private handleCmtDeleted() {
+    // Propagate the event and let the outer scope handle this.
+    this.dispatchEvent(new CustomEvent<undefined>('rootCmtDeleted'));
+  }
+
+  private handleReplyDeleted(index: number) {
+    this.items = this.items.filter((_, idx) => idx !== index);
   }
 }
 
