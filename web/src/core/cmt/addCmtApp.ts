@@ -30,6 +30,7 @@ export class AddCmtApp extends BaseElement {
         .headerText=${ls.writeAComment}
         .entityType=${EntityType.cmt}
         .submitButtonText=${ls.comment}
+        .showCancelButton=${true}
         @onSubmit=${this.handleSubmit}
         @onDiscard=${this.handleDiscard}
       ></composer-view>
@@ -58,7 +59,7 @@ export class AddCmtApp extends BaseElement {
   }
 
   private handleDiscard() {
-    this.dispatchEvent(new CustomEvent<undefined>('cmtContentDiscarded'));
+    this.expanded = false;
   }
 }
 
