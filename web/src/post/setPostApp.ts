@@ -59,6 +59,7 @@ export default class SetPostApp extends BaseElement {
       this.editedID ? ls.saving : ls.publishing,
     );
     if (status.data) {
+      this.composerElement?.markAsSaved();
       app.browser.setURL(status.data);
     }
   }
