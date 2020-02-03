@@ -30,7 +30,7 @@ export class TimeField extends LitElement {
     const { createdAt, modifiedAt } = this;
 
     let content = this.formatDate(createdAt);
-    if (!createdAt && modifiedAt !== createdAt) {
+    if (modifiedAt) {
       content += ` [${ls.editedAt} ${this.formatDate(modifiedAt)}]`;
     }
     return html`
