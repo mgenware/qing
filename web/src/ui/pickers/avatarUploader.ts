@@ -114,9 +114,9 @@ export class AvatarUploader extends BaseElement {
     };
   }
 
-  private onSuccess(data: AvatarUploadResponse) {
+  private onUpdated(data: AvatarUploadResponse) {
     this.dispatchEvent(
-      new CustomEvent<AvatarUploadResponse>('onSuccess', { detail: data }),
+      new CustomEvent<AvatarUploadResponse>('onUpdated', { detail: data }),
     );
   }
 
@@ -133,7 +133,7 @@ export class AvatarUploader extends BaseElement {
       const result = await app.runGlobalActionAsync(loader, ls.uploading);
       if (result.data) {
         this.modalElement.isOpen = false;
-        this.onSuccess(result.data);
+        this.onUpdated(result.data);
       }
     }
   }

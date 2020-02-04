@@ -24,8 +24,7 @@ export class EditProfileApp extends BaseElement {
   @lp.string company = '';
   @lp.string location = '';
   @lp.object loadingStatus = LoadingStatus.empty;
-  @lp.object setInfoStatus = LoadingStatus.empty;
-  @lp.bool isUploadingAvatar = false;
+  @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
   setInfoLoader!: SetProfileInfoLoader;
 
@@ -56,27 +55,23 @@ export class EditProfileApp extends BaseElement {
   renderContent() {
     return html`
       <div>
-        <status-overlay .isWorking=${this.isUploadingAvatar}>
-          <div>
-            <div class="section is-info">${ls.profilePicture}</div>
-            <div>
-              <p>
-                <img
-                  src=${this.avatarURL}
-                  width="250"
-                  height="250"
-                  style="border: 1px solid #ededed"
-                />
-              </p>
-              <div class="m-t-md">
-                <avatar-uploader
-                  @onSuccess=${this.handleAvatarUploadSuccess}
-                ></avatar-uploader>
-              </div>
-            </div>
+        <div class="section is-info">${ls.profilePicture}</div>
+        <div>
+          <p>
+            <img
+              src=${this.avatarURL}
+              width="250"
+              height="250"
+              style="border: 1px solid #ededed"
+            />
+          </p>
+          <div class="m-t-md">
+            <avatar-uploader
+              @onUpdated=${this.handleAvatarUploaded}
+            ></avatar-uploader>
           </div>
-        </status-overlay>
-        <status-overlay .status=${this.setInfoStatus}>
+        </div>
+        <status-overlay .status=${this.updateInfoStatus}>
           <div class="form">
             <div class="section is-info">${ls.profile}</div>
             <div>
@@ -158,7 +153,7 @@ export class EditProfileApp extends BaseElement {
       this.location,
     );
     const status = await app.runGlobalActionAsync(loader, ls.saving, status => {
-      this.setInfoStatus = status;
+      this.updateInfoStatus = status;
     });
     if (status.isSuccess) {
       await app.alert.successToast(ls.profileUpdated);
@@ -169,13 +164,11 @@ export class EditProfileApp extends BaseElement {
     await this.reloadDataAsync();
   }
 
-  private async handleAvatarUploadSuccess(
-    e: CustomEvent<AvatarUploadResponse>,
-  ) {
+  private async handleAvatarUploaded(e: CustomEvent<AvatarUploadResponse>) {
     const resp = e.detail;
     this.avatarURL = resp.iconL || '';
 
-    // Update user data
+    // Update user data.
     app.state.updateUser(user => {
       if (user) {
         user.iconURL = resp.iconL || '';
