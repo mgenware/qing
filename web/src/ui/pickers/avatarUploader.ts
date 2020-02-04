@@ -53,6 +53,7 @@ export class AvatarUploader extends BaseElement {
           id="modalElement"
           .isOpen=${!!this.imageDataURL}
           .buttons=${['ok', 'cancel']}
+          @closed=${this.handleDialogClose}
         >
           <div>
             <image-crop
@@ -131,10 +132,25 @@ export class AvatarUploader extends BaseElement {
       }
       const loader = new AvatarUploadLoader(fd);
       const result = await app.runGlobalActionAsync(loader, ls.uploading);
+      this.resetFileInput();
+
       if (result.data) {
         this.modalElement.isOpen = false;
         this.onUpdated(result.data);
       }
+    }
+  }
+
+  // Need to be called whenever a upload is completed or cancelled.
+  // Otherwise, selecting the same file twice won't trigger the `change` event.
+  private resetFileInput() {
+    this.uploadElement.value = '';
+  }
+
+  private handleDialogClose(e: CustomEvent<IsOpenChangedArgs>) {
+    if (e.detail.button?.type === 'cancel') {
+      // Reset file input when user cancelled the dialog.
+      this.resetFileInput();
     }
   }
 }
