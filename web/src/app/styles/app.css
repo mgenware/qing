@@ -65,13 +65,13 @@ full-width {
 }
 
 .is-boxed {
-  border-top: 1px solid var(--default-secondary-fore-color);
-  border-bottom: 1px solid var(--default-secondary-fore-color);
+  border-top: 1px solid var(--default-separator-color);
+  border-bottom: 1px solid var(--default-separator-color);
 }
 
 @media (min-width: 768px) {
   .is-boxed {
-    border: 1px solid var(--default-secondary-fore-color);
+    border: 1px solid var(--default-separator-color);
     border-radius: 0.5rem;
     padding: 0.8rem 1.6rem;
   }
@@ -384,7 +384,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid var(--default-secondary-fore-color);
+  border-top: 1px solid var(--default-separator-color);
   margin: 0.8rem 0;
   padding: 0;
 }
@@ -402,7 +402,7 @@ hr {
   padding: 0.25rem 0.4rem;
   background-color: transparent;
   color: var(--default-fore-color);
-  border: 1px solid var(--default-secondary-fore-color);
+  border: 1px solid var(--default-separator-color);
   padding: 0.35rem 0.6rem;
   border-radius: 5px;
 }
@@ -417,7 +417,8 @@ hr {
 :root {
   --default-back-color: white;
   --default-fore-color: black;
-  --default-secondary-fore-color: #dadada;
+  --default-secondary-fore-color: #676f75;
+  --default-separator-color: #dadada;
   --primary-back-color: #4f81c7;
   --primary-fore-color: white;
   --danger-back-color: #f8d7da;
@@ -438,8 +439,9 @@ hr {
 
 .theme-dark {
   --default-back-color: black;
-  --default-fore-color: #6b6b6b;
-  --default-secondary-fore-color: #272727;
+  --default-fore-color: #777777;
+  --default-secondary-fore-color: #5a5a5a;
+  --default-separator-color: #272727;
   --primary-back-color: #35588a;
   --primary-fore-color: #b4b4b4;
   --danger-back-color: #570000;
@@ -460,7 +462,7 @@ hr {
   /* editor vars */
   --kx-back-color: var(--default-back-color);
   --kx-text-color: var(--default-fore-color);
-  --kx-toolbar-separator-color: var(--default-secondary-fore-color);
+  --kx-toolbar-separator-color: var(--default-separator-color);
   --kx-toolbar-button-color: var(--default-fore-color);
 }
 
