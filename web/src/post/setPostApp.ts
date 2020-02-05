@@ -14,7 +14,7 @@ const composerID = 'composer';
 @customElement('set-post-app')
 export default class SetPostApp extends BaseElement {
   @lp.string editedID = '';
-  @lp.string title = '';
+  @lp.string postTitle = '';
 
   private composerElement!: ComposerView;
 
@@ -38,7 +38,7 @@ export default class SetPostApp extends BaseElement {
         <hr />
         <composer-view
           .id=${composerID}
-          .title=${this.title}
+          .titleText=${this.postTitle}
           .entityID=${this.editedID}
           .entityType=${EntityType.post}
           @onSubmit=${this.handleSubmit}
@@ -48,8 +48,9 @@ export default class SetPostApp extends BaseElement {
   }
 
   private updateContent(title: string, content: string) {
-    this.title = title;
+    this.postTitle = title;
     this.composerElement.contentHTML = content;
+    this.composerElement.markAsSaved();
   }
 
   private async handleSubmit(e: CustomEvent<ComposerPayload>) {
