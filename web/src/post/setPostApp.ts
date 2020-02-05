@@ -38,7 +38,7 @@ export default class SetPostApp extends BaseElement {
         <hr />
         <composer-view
           .id=${composerID}
-          .titleText=${this.postTitle}
+          .inputTitle=${this.postTitle}
           .entityID=${this.editedID}
           .entityType=${EntityType.post}
           @onSubmit=${this.handleSubmit}

@@ -37,7 +37,7 @@ export class ComposerView extends BaseElement {
   @lp.string headerText = '';
 
   // Title field value.
-  @lp.string titleText = '';
+  @lp.string inputTitle = '';
   @lp.bool showTitleInput = true;
 
   // NOTE: if `entityID` is empty, captcha view will show up.
@@ -46,17 +46,24 @@ export class ComposerView extends BaseElement {
   @lp.string submitButtonText = '';
 
   // Used to check if editor content has changed.
+  private lastSavedTitle = '';
   private lastSavedContent = '';
 
   hasContentChanged(): boolean {
     if (!this.editor) {
       return false;
     }
-    return this.lastSavedContent !== this.editor.contentHTML;
+    return (
+      this.lastSavedContent !== this.editor.contentHTML ||
+      (this.showTitleInput && this.lastSavedTitle !== this.inputTitle)
+    );
   }
 
   markAsSaved() {
     this.lastSavedContent = this.contentHTML;
+    if (this.showTitleInput) {
+      this.lastSavedTitle = this.inputTitle;
+    }
   }
 
   private editor?: EditorView;
@@ -110,9 +117,9 @@ export class ComposerView extends BaseElement {
             <input
               id="titleElement"
               type="text"
-              value=${this.titleText}
+              value=${this.inputTitle}
               placeholder=${ls.title}
-              @change=${(e: any) => (this.titleText = e.target.value)}
+              @input=${(e: any) => (this.inputTitle = e.target.value)}
             />
           </div>
         `
@@ -160,7 +167,7 @@ export class ComposerView extends BaseElement {
 
   private getPayload(): ComposerPayload {
     const { captchaView } = this;
-    if (this.showTitleInput && !this.titleText) {
+    if (this.showTitleInput && !this.inputTitle) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () => {
         if (this.titleElement) {
           this.titleElement.focus();
@@ -181,7 +188,7 @@ export class ComposerView extends BaseElement {
     }
     const payload = new ComposerPayload(this.contentHTML);
     if (this.showTitleInput) {
-      payload.title = this.titleText;
+      payload.title = this.inputTitle;
     }
     if (this.captchaView) {
       payload.captcha = this.captchaView.value;
