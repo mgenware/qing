@@ -34,7 +34,7 @@ export default class SetPostApp extends BaseElement {
   render() {
     return html`
       <div>
-        <p class="is-h4">${this.editedID ? ls.editPost : ls.newPost}</p>
+        <h4>${this.editedID ? ls.editPost : ls.newPost}</h4>
         <hr />
         <composer-view
           .id=${composerID}
