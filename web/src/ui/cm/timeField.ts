@@ -1,11 +1,12 @@
-import { html, customElement, property, LitElement } from 'lit-element';
+import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
 import { formatRelative, Locale } from 'date-fns';
 import { enUS, zhCN } from 'date-fns/locale';
 import app from 'app';
+import BaseElement from 'baseElement';
 
 @customElement('time-field')
-export class TimeField extends LitElement {
+export class TimeField extends BaseElement {
   @property() createdAt = '';
   @property() modifiedAt = '';
   locale!: Locale;
@@ -31,12 +32,12 @@ export class TimeField extends LitElement {
 
     let content = this.formatDate(createdAt);
     if (modifiedAt) {
-      content += ` [${ls.editedAt} ${this.formatDate(modifiedAt)}]`;
+      content += ` ${ls.editedAt} ${this.formatDate(modifiedAt)}`;
     }
     return html`
-      <span style="visibility: visible">
+      <small class="is-secondary" style="visibility: visible">
         ${content}
-      </span>
+      </small>
     `;
   }
 
