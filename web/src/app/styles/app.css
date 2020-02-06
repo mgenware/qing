@@ -557,3 +557,13 @@ a:active {
 a:visited {
   filter: brightness(80%);
 }
+
+.avatar-s {
+  border-radius: 2px;
+}
+.avatar-m {
+  border-radius: 4px;
+}
+.avatar-l {
+  border-radius: 6px;
+}

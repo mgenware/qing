@@ -16,7 +16,14 @@ import LoadingStatus from 'lib/loadingStatus';
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
   static get styles() {
-    return [super.styles, css``];
+    return [
+      super.styles,
+      css`
+        .profile-img {
+          border: 1px solid var(--default-separator-color);
+        }
+      `,
+    ];
   }
 
   @lp.string name = '';
@@ -62,7 +69,7 @@ export class EditProfileApp extends BaseElement {
               src=${this.avatarURL}
               width="250"
               height="250"
-              style="border: 1px solid #ededed"
+              class="avatar-l profile-img"
             />
           </p>
           <div class="m-t-md">

@@ -54,7 +54,7 @@ export default class NavBarApp extends BaseElement {
                       src=${user.iconURL}
                       width="20"
                       height="20"
-                      class="border-radius-10 vertical-align-middle"
+                      class="avatar-s vertical-align-middle"
                     />
                     <span class="m-l-sm">${user.name}</span>
                   </a>

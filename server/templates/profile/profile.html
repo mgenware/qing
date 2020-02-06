@@ -8,7 +8,7 @@
               src="{{js .IconURL}}"
               width="250"
               height="250"
-              class="border-radius-5"
+              class="avatar-l"
             />
           </p>
         </div>
@@ -56,7 +56,9 @@
               <div class="column">
                 <p>
                   <span class="is-secondary">{{html .LS.posts}}</span>
-                  <span class="is-h3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
+                  <span class="is-h3 m-l-md vertical-align-middle"
+                    >{{html .PostCount}}</span
+                  >
                 </p>
               </div>
             </div>
@@ -82,9 +84,7 @@
                 >
                   &lt;
                 </a>
-                {{end}}
-
-                {{if .Pager.HasNextPage}}
+                {{end}} {{if .Pager.HasNextPage}}
                 <a
                   class="button is-primary is-outlined"
                   href="{{.Pager.NextPageURL}}"
@@ -99,12 +99,13 @@
         </div>
       </div>
       <div class="col-md-1"></div>
-    </div><!-- <div class="row m-t-md"> -->
+    </div>
+    <!-- <div class="row m-t-md"> -->
   </div>
 </section>
 
 <script>
-  window.appUserURL = "{{js .UserURL}}";
-  window.appTargetUID = "{{js .ID}}";
-  window.appUserProfileURL = "{{js .Website}}";
+  window.appUserURL = '{{js .UserURL}}';
+  window.appTargetUID = '{{js .ID}}';
+  window.appUserProfileURL = '{{js .Website}}';
 </script>

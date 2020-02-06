@@ -60,7 +60,7 @@ export class CmtView extends BaseElement {
           <a href=${cmt.userURL}>
             <img
               src=${cmt.userIconURL}
-              class="border-radius-5"
+              class="avatar-m"
               width="50"
               height="50"
             />
