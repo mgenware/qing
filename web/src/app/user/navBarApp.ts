@@ -99,12 +99,12 @@ export default class NavBarApp extends BaseElement {
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             <img
-              src="/static/img/main/qing.png"
+              src="/static/img/main/qing.svg"
               height="25"
               width="25"
               alt="Qing"
             />
-            <span>&nbsp;Qing</span>
+            <span class="m-l-sm">Qing</span>
           </a>
 
           <a
