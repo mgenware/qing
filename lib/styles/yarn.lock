@@ -240,6 +240,11 @@ browserslist@^4.0.0:
     electron-to-chromium "^1.3.191"
     node-releases "^1.1.25"
 
+bulma@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.8.0.tgz#ac1606431703a4761b18a4a2d5cc1fa864a2aece"
+  integrity sha512-nhf3rGyiZh/VM7FrSJ/5KeLlfaFkXz0nYcXriynfPH4vVpnxnqyEwaNGdNCVzHyyCA3cHgkQAMpdF/SFbFGZfA==
+
 caller-callsite@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/caller-callsite/-/caller-callsite-2.0.0.tgz#847e0fce0a223750a9a027c54b33731ad3154134"
@@ -301,11 +306,6 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
-
-cf-bulma@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/cf-bulma/-/cf-bulma-0.7.4.tgz#79102011046910604b2e1013652509fe93b44638"
-  integrity sha512-oPMVf+gMcfNvm+IYPXKCFsuILJjWiwATyXptluKenftGPZGbN6OXR7ZY8OAOOqnIJftYKPv9PWyeOp0BS7DTEA==
 
 chalk@^1.1.1:
   version "1.1.3"
