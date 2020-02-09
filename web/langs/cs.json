@@ -71,5 +71,7 @@
   "pViewMore": "显示更多{0}",
   "replies": "回复",
   "warning": "警告",
-  "editComment": "编辑评论"
+  "editComment": "编辑评论",
+  "nextPage": "下一页",
+  "previousPage": "上一页"
 }

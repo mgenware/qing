@@ -78,19 +78,13 @@
             <div>
               <p class="text-center">
                 {{if .Pager.HasPrevPage}}
-                <a
-                  class="button is-primary is-outlined"
-                  href="{{.Pager.PrevPageURL}}"
-                >
-                  &lt;
-                </a>
+                <lit-button class="is-outlined" href="{{.Pager.PrevPageURL}}">
+                  {{html .LS.previousPage}}
+                </lit-button>
                 {{end}} {{if .Pager.HasNextPage}}
-                <a
-                  class="button is-primary is-outlined"
-                  href="{{.Pager.NextPageURL}}"
-                >
-                  &gt;
-                </a>
+                <lit-button class="is-outlined" href="{{.Pager.NextPageURL}}">
+                  {{html .LS.nextPage}}
+                </lit-button>
                 {{end}}
               </p>
             </div>

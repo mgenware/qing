@@ -71,5 +71,7 @@
   "pViewMore": "View more {0:lowercase}",
   "replies": "Replies",
   "warning": "Warning",
-  "editComment": "Edit comment"
+  "editComment": "Edit comment",
+  "nextPage": "Next",
+  "previousPage": "Previous"
 }

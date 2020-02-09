@@ -1472,10 +1472,10 @@ lit-analyzer@^1.1.9:
     vscode-html-languageservice "2.1.12"
     web-component-analyzer "~0.1.17"
 
-lit-button@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-3.3.0.tgz#e2321609674bda2ef4d724b1c21a03c0a55d69eb"
-  integrity sha512-ZDge2RoLySAkoXdU7qhdY0Ju8nalp6jKC/u3VBL03JU1AQk0jC7jzOXFlp9gBdYMM9hbvuwSc5KHtCx5X99GGA==
+lit-button@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-3.4.0.tgz#b046b15e571d927553e496927189670db21ca80b"
+  integrity sha512-GaD6yw+pW2pIUSSUccha3bbz+Xd+IFOe18B8S1Vo9SF2BLzAuxODqCm3oz6sAsW055QIsai2u5tLMyaobbVTww==
 
 lit-element@^2.2.1:
   version "2.2.1"

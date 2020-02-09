@@ -72,4 +72,6 @@ export default interface LSDefs {
   replies: string;
   warning: string;
   editComment: string;
+  nextPage: string;
+  previousPage: string;
 }

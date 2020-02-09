@@ -491,6 +491,13 @@ lit-button.is-warning {
   --button-color: var(--warning-fore-color);
 }
 
+lit-button.is-outlined {
+  --button-background-color: var(--default-back-color);
+  --button-color: var(--default-secondary-fore-color);
+  --button-border: 1px solid var(--default-secondary-fore-color);
+  --button-border-radius: 8px;
+}
+
 svg.is-success {
   fill: var(--success-back-color);
 }
