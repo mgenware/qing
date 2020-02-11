@@ -1489,10 +1489,10 @@ lit-html@^1.0.0:
   resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.1.2.tgz#2e3560a7075210243649c888ad738eaf0daa8374"
   integrity sha512-FFlUMKHKi+qG1x1iHNZ1hrtc/zHmfYTyrSvs3/wBTvaNtpZjOZGWzU7efGYVpgp6KvWeKF6ql9/KsCq6Z/mEDA==
 
-lit-props@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/lit-props/-/lit-props-0.0.2.tgz#ac6708286ea13a3e0c0a987192ae5c00d89d6a9d"
-  integrity sha512-pZZNdcZN/DUl4S2I1WNVEB1NcJbKqLMsr5D7rebQIng1XM53qtLmcSJo0NmzrFDNKhcSGsL4Lc+5GIJ1DE4Gfg==
+lit-props@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lit-props/-/lit-props-1.0.0.tgz#68603c9ffb819fb2bf10da4ec1546e0456ff3c82"
+  integrity sha512-VH8v+QzkpDP2XlOFtQWOyeidlEF2rG5eg9LBhLhdjEtGRap522Q/jPCAmHn7XgOlmAEbwonw5Ggq1Brae9JStQ==
 
 load-json-file@^4.0.0:
   version "4.0.0"
