@@ -491,11 +491,18 @@ lit-button.is-warning {
   --button-color: var(--warning-fore-color);
 }
 
-lit-button.is-outlined {
-  --button-background-color: var(--default-back-color);
-  --button-color: var(--default-secondary-fore-color);
-  --button-border: 1px solid var(--default-secondary-fore-color);
-  --button-border-radius: 8px;
+a.link-btn:link,
+a.link-btn:visited {
+  color: var(--primary-back-color);
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a.link-btn:hover,
+a.link-btn:active {
+  opacity: 0.8;
 }
 
 svg.is-success {

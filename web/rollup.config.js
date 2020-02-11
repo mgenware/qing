@@ -26,6 +26,7 @@ let input = [
   isProd ? 'coreEntry.ts' : 'coreEntryDev.ts',
   'dashboard/dashboardEntry.ts',
   'post/postEntry.ts',
+  'profile/profileEntry.ts',
 ];
 
 export default {

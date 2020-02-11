@@ -40,5 +40,6 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 	userData.Pager = cm.NewPager(page, hasNext, app.URL.UserProfileFormatter(uid))
 
 	d := app.MasterPageData(title, vProfilePage.MustExecuteToString(resp.Lang(), userData))
+	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
 	resp.MustComplete(d)
 }

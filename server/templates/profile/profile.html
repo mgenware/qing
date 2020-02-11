@@ -77,15 +77,20 @@
 
             <div>
               <p class="text-center">
-                {{if .Pager.HasPrevPage}}
-                <lit-button class="is-outlined" href="{{.Pager.PrevPageURL}}">
+                <a
+                  id="m-prev-btn"
+                  class="link-btn"
+                  href="{{.Pager.PrevPageURL}}"
+                >
                   {{html .LS.previousPage}}
-                </lit-button>
-                {{end}} {{if .Pager.HasNextPage}}
-                <lit-button class="is-outlined" href="{{.Pager.NextPageURL}}">
+                </a>
+                <a
+                  id="m-next-btn"
+                  class="link-btn"
+                  href="{{.Pager.NextPageURL}}"
+                >
                   {{html .LS.nextPage}}
-                </lit-button>
-                {{end}}
+                </a>
               </p>
             </div>
           </div>
@@ -102,4 +107,6 @@
   window.appUserURL = '{{js .UserURL}}';
   window.appTargetUID = '{{js .ID}}';
   window.appUserProfileURL = '{{js .Website}}';
+  window.appIsPrevEnabled = '{{js .Pager.HasPrevPage}}' === 'true';
+  window.appIsNextEnabled = '{{js .Pager.HasNextPage}}' === 'true';
 </script>
