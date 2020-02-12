@@ -2,7 +2,6 @@
   "name": "qing-web",
   "version": "0.0.0",
   "private": true,
-  "main": "dist/main.js",
   "scripts": {
     "build": "yarn run lint && yarn run prepare && cross-env NODE_ENV=production rollup -c",
     "dev": "yarn run prepare && cross-env NODE_ENV=development rollup -c -w",
