@@ -43,6 +43,6 @@ func NewJSManager(dev bool) *JSManager {
 	}
 	r.Post = js("postEntry")
 	r.Dashboard = js("dashboardEntry")
-	r.Profile = js("profile")
+	r.Profile = js("profileEntry")
 	return r
 }
