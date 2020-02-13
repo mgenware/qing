@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="{{.LS._htmlLang}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{html .Title}}</title>
+    {{.Header}}
+  </head>
 
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{{html .Title}}</title>
-{{.Header}}
-</head>
+  <body>
+    <nav-bar-app></nav-bar-app>
+    <main id="main-body">{{.ContentHTML}}</main>
 
-<body>
-<nav-bar-app></nav-bar-app>
-<main id="main-body">{{.ContentHTML}}</main>
+    <script>
+      window.appUserID = '{{js .AppUserID}}';
+      window.appUserURL = '{{js .AppUserURL}}';
+      window.appUserName = '{{js .AppUserName}}';
+      window.appUserIconURL = '{{js .AppUserIconURL}}';
+      window.appUserURL = '{{js .AppUserURL}}';
+      window.appLang = '{{js .AppLang}}';
+    </script>
 
-<script>
-window.appUserID = '{{js .AppUserID}}';
-window.appUserURL = '{{js .AppUserURL}}';
-window.appUserName = '{{js .AppUserName}}';
-window.appUserIconURL = '{{js .AppUserIconURL}}';
-window.appUserURL = '{{js .AppUserURL}}';
-window.appLang = '{{js .AppLang}}';
-</script>
+    <footer id="main-footer">
+      <div class="container">
+        <span>
+          <a href="/">Qing</a>
+          <br />
+          {{html .LS.copyright}} ©
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          &nbsp;<span
+            ><a href="https://github.com/mgenware/qing"
+              >https://github.com/mgenware/qing</a
+            ></span
+          >
+        </span>
+      </div>
+    </footer>
 
-<footer id="main-footer">
-  <div class="container">
-    <span>
-      <a href="/">Qing</a>
-      <a href="/about">{{html .LS.about}}</a>
-      <a href="/contact">{{html .LS.contact}}</a>
-      <br />
-      {{html .LS.copyright}} © <script>document.write(new Date().getFullYear())</script>&nbsp;<span><a href="https://github.com/mgenware/qing">https://github.com/mgenware/qing</a></span>
-    </span>
-  </div>
-</footer>
-
-{{.Scripts}}
-
-</body>
+    {{.Scripts}}
+  </body>
 </html>
