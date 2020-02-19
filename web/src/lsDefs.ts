@@ -74,4 +74,5 @@ export default interface LSDefs {
   editComment: string;
   nextPage: string;
   previousPage: string;
+  copyright: string;
 }
