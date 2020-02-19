@@ -527,27 +527,27 @@ svg.is-warning {
   border-radius: 8px;
 }
 
-.section.is-success {
+.is-success {
   background-color: var(--success-back-color);
   color: var(--success-fore-color);
 }
 
-.section.is-danger {
+.is-danger {
   background-color: var(--danger-back-color);
   color: var(--danger-fore-color);
 }
 
-.section.is-primary {
+.is-primary {
   background-color: var(--primary-back-color);
   color: var(--primary-fore-color);
 }
 
-.section.is-warning {
+.is-warning {
   background-color: var(--warning-back-color);
   color: var(--warning-fore-color);
 }
 
-.section.is-info {
+.is-info {
   background-color: var(--info-back-color);
   color: var(--info-fore-color);
 }
@@ -580,4 +580,9 @@ a:visited {
 }
 .avatar-l {
   border-radius: 6px;
+}
+
+.tag-default {
+  border-radius: 5px;
+  padding: 0.2rem 0.7rem;
 }

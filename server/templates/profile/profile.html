@@ -16,24 +16,24 @@
         <div class="m-t-lg m-b-lg">
           {{if .Location}}
           <p class="m-t-md">
-            <span class="tag is-light">{{html .LS.location}}</span>
+            <span class="tag-default is-info">{{html .LS.location}}</span>
           </p>
           <p class="m-t-sm">{{html .Location}}</p>
           {{end}} {{if .Company}}
           <p class="m-t-md">
-            <span class="tag is-light">{{html .LS.company}}</span>
+            <span class="tag-default is-info">{{html .LS.company}}</span>
           </p>
           <p class="m-t-sm">{{html .Company}}</p>
           {{end}} {{if .Website}}
           <p class="m-t-md">
-            <span class="tag is-light">{{html .LS.url}}</span>
+            <span class="tag-default is-info">{{html .LS.url}}</span>
           </p>
           <p class="m-t-sm">
             <a id="m_user_url" href="#">{{html .Website}}</a>
           </p>
           {{end}} {{if .Bio}}
           <p class="m-t-md">
-            <span class="tag is-light">{{html .LS.bio}}</span>
+            <span class="tag-default is-info">{{html .LS.bio}}</span>
           </p>
           <p class="m-t-sm">{{.Bio}}</p>
           {{end}}
