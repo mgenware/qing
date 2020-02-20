@@ -471,22 +471,22 @@ lit-button {
   --button-color: var(--info-fore-color);
 }
 
-lit-button.is-success {
+lit-button.is-success-btn {
   --button-background-color: var(--success-back-color);
   --button-color: var(--success-fore-color);
 }
 
-lit-button.is-danger {
+lit-button.is-danger-btn {
   --button-background-color: var(--danger-back-color);
   --button-color: var(--danger-fore-color);
 }
 
-lit-button.is-primary {
+lit-button.is-primary-btn {
   --button-background-color: var(--primary-back-color);
   --button-color: var(--primary-fore-color);
 }
 
-lit-button.is-warning {
+lit-button.is-warning-btn {
   --button-background-color: var(--warning-back-color);
   --button-color: var(--warning-fore-color);
 }

@@ -124,7 +124,7 @@ export class CmtListView extends BaseElement {
     return html`
       <div>
         <span>${loginToCommentTextArray[0]}</span>
-        <lit-button class="is-success m-l-xs m-r-xs"
+        <lit-button class="is-success-btn m-l-xs m-r-xs"
           >${loginToCommentTextArray[1]}</lit-button
         >
         <span>${loginToCommentTextArray[2]}</span>

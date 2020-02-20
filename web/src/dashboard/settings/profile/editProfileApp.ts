@@ -115,7 +115,7 @@ export class EditProfileApp extends BaseElement {
               />
 
               <lit-button
-                class="is-success"
+                class="is-success-btn"
                 @click=${this.handleSaveProfileClick}
               >
                 ${ls.save}

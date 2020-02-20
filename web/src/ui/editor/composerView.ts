@@ -140,7 +140,7 @@ export class ComposerView extends BaseElement {
                 ></captcha-view>
               </div>
             `}
-        <lit-button class="is-success" @click=${this.handleSubmit}>
+        <lit-button class="is-success-btn" @click=${this.handleSubmit}>
           ${this.submitButtonText || (this.entityID ? ls.save : ls.publish)}
         </lit-button>
         ${this.showCancelButton
