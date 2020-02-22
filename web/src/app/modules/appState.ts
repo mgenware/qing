@@ -1,4 +1,5 @@
 import User from '../user/user';
+import * as defs from 'defs';
 
 export type UserCallbackFn = (user: User | null) => void;
 
@@ -12,7 +13,7 @@ export default class AppState {
     const wind = window as any;
 
     this.user = User.fromWindow();
-    this.lang = wind.appLang || 'en';
+    this.lang = wind.appLang || defs.defaultLang;
   }
 
   get hasUser(): boolean {
