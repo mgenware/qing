@@ -21,7 +21,7 @@
     "fx214": "^1.0.1",
     "js-cookie": "^2.2.1",
     "kangxi-editor": "^0.5.0",
-    "lit-button": "^3.4.0",
+    "lit-button": "^3.5.0",
     "lit-element": "^2.2.1",
     "lit-props": "^1.0.0",
     "page": "^1.11.5",
@@ -44,7 +44,7 @@
     "rollup-plugin-lit-css-ex": "^2.0.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
-    "typescript": "^3.7.5",
+    "typescript": "^3.8.2",
     "unique-temp-dir": "^1.0.0"
   }
 }

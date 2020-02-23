@@ -1472,10 +1472,10 @@ lit-analyzer@^1.1.9:
     vscode-html-languageservice "2.1.12"
     web-component-analyzer "~0.1.17"
 
-lit-button@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-3.4.0.tgz#b046b15e571d927553e496927189670db21ca80b"
-  integrity sha512-GaD6yw+pW2pIUSSUccha3bbz+Xd+IFOe18B8S1Vo9SF2BLzAuxODqCm3oz6sAsW055QIsai2u5tLMyaobbVTww==
+lit-button@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-3.5.0.tgz#016c44f3f4a779e07066675b0ba456a0b0bcd87c"
+  integrity sha512-kGkIcl18iPwAT0dyClt96UzS4HlUfwmsEhU2zQ/nuYn8Fc5Kv2PlDDyJh71Me6gT7Ep2Wz1s4NDa029fOT2aqQ==
 
 lit-element@^2.2.1:
   version "2.2.1"
@@ -2604,10 +2604,15 @@ type-fest@^0.8.1:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
-typescript@^3.6.4, typescript@^3.7.5:
+typescript@^3.6.4:
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
   integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+
+typescript@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.2.tgz#91d6868aaead7da74f493c553aeff76c0c0b1d5a"
+  integrity sha512-EgOVgL/4xfVrCMbhYKUQTdF37SQn4Iw73H5BgCrF1Abdun7Kwy/QZsE/ssAy0y4LxBbvua3PIbFsbRczWWnDdQ==
 
 uglifycss@0.0.29:
   version "0.0.29"
