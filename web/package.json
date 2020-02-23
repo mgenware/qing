@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "build": "yarn run lint && yarn run prepare && cross-env NODE_ENV=production rollup -c",
-    "dev": "yarn run prepare && cross-env NODE_ENV=development rollup -c -w",
+    "dev": "yarn run qing:prepare && cross-env NODE_ENV=development rollup -c -w",
     "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\"",
-    "prepare": "node ./tools/build-ls-defs && del-cli static/d/js"
+    "qing:prepare": "node ./tools/build-ls-defs && del-cli static/d/js"
   },
   "engines": {
     "node": ">=12.0.0"
