@@ -430,11 +430,10 @@ hr {
   --warning-back-color: #f3b807;
   --warning-fore-color: #2f343a;
 
-  --button-background-color: #f5f5f5;
-  --button-color: #343a40;
-
   --footer-back-color: #494949;
   --footer-fore-color: #9c9c9c;
+
+  --keyboard-focus-color: #8dc3eb;
 }
 
 .theme-dark {
@@ -453,22 +452,16 @@ hr {
   --warning-back-color: #554000;
   --warning-fore-color: #979797;
 
-  --button-background-color: var(--info-back-color);
-  --button-color: var(--info-fore-color);
-
   --footer-back-color: #000000;
   --footer-fore-color: #3d3d3d;
 
-  /* editor vars */
-  --kx-back-color: var(--default-back-color);
-  --kx-text-color: var(--default-fore-color);
-  --kx-toolbar-separator-color: var(--default-separator-color);
-  --kx-toolbar-button-color: var(--default-fore-color);
+  --keyboard-focus-color: #51708a;
 }
 
 lit-button {
   --button-background-color: var(--info-back-color);
   --button-color: var(--info-fore-color);
+  --button-outline-color: var(--keyboard-focus-color);
 }
 
 lit-button.is-success-btn {
