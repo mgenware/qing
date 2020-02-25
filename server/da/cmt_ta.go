@@ -44,3 +44,9 @@ func (da *TableTypeCmt) SelectCmtSource(queryable dbx.Queryable, id uint64, user
 	}
 	return result, nil
 }
+
+// UpdateReplyCount ...
+func (da *TableTypeCmt) UpdateReplyCount(queryable dbx.Queryable, id uint64, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `cmt` SET `rpl_count` = `rpl_count` + ? WHERE `id` = ? AND `user_id` = ?", offset, id, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}

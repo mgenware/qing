@@ -4,7 +4,7 @@ import userTA from './userTA';
 import user from '../models/user';
 import postCmt from '../models/postCmt';
 import * as cm from '../models/common';
-import * as cmtHelper from './cmtHelper';
+import * as cmtf from './cmtTAFactory';
 
 const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
@@ -25,8 +25,8 @@ export class PostTA extends mm.TableActions {
 
   selectPostSource = mm.select(t.title, t.content).where(updateConditions);
 
-  selectCmts = cmtHelper.selectCmts(postCmt);
-  insertCmt = cmtHelper.insertCmt(postCmt);
+  selectCmts = cmtf.selectCmts(postCmt);
+  insertCmt = cmtf.insertCmt(postCmt);
 
   insertPost = mm
     .transact(

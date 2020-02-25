@@ -43,6 +43,10 @@ func (da *TableTypePost) insertCmtChild2(queryable dbx.Queryable, targetID uint6
 	return err
 }
 
+func (da *TableTypePost) insertCmtChild3(queryable dbx.Queryable, cmtID uint64, userID uint64) error {
+	return Cmt.UpdateReplyCount(queryable, cmtID, userID, 1)
+}
+
 // InsertCmt ...
 func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, targetID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtID uint64
@@ -53,6 +57,10 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ta
 			return err
 		}
 		err = da.insertCmtChild2(tx, targetID, cmtID)
+		if err != nil {
+			return err
+		}
+		err = da.insertCmtChild3(tx, cmtID, userID)
 		if err != nil {
 			return err
 		}

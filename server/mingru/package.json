@@ -10,11 +10,11 @@
   },
   "devDependencies": {
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.2"
   },
   "dependencies": {
-    "mingru": "^0.24.0",
-    "mingru-models": "^0.33.0",
-    "mingru-tsconfig": "^2.0.0"
+    "mingru": "^0.25.0",
+    "mingru-models": "^0.33.1",
+    "mingru-tsconfig": "^3.0.0"
   }
 }

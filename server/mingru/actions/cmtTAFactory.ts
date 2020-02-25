@@ -1,15 +1,11 @@
 import * as mm from 'mingru-models';
-import cmt from '../models/cmt';
+import { cmt } from '../models/cmt';
 import user from '../models/user';
 import * as cm from '../models/common';
+import cmtTA from './cmtTA';
 
 const cmtInterface = 'CmtCore';
 const cmtResultType = 'CmtData';
-
-const updateConditions = mm.and(
-  mm.sql`${cmt.id.isEqualToInput()}`,
-  mm.sql`${cmt.user_id.isEqualToInput()}`,
-);
 
 export interface CmtRelationTable extends mm.Table {
   cmt_id: mm.Column;
@@ -52,17 +48,9 @@ export function insertCmt(rt: CmtRelationTable): mm.Action {
         .from(rt)
         .setInputs()
         .wrapAsRefs({ cmtID: 'cmtID' }),
+      cmtTA.updateReplyCount.wrap({ offset: 1, id: new mm.ValueRef('cmtID') }),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues('cmtID');
-}
-
-export function editCmt(): mm.Action {
-  return mm
-    .updateOne()
-    .setDefaults(cmt.modified_at)
-    .setInputs(cmt.content)
-    .argStubs(cm.sanitizedStub, cm.captStub)
-    .where(updateConditions);
 }

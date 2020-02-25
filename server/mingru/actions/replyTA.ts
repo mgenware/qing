@@ -1,9 +1,9 @@
 import * as mm from 'mingru-models';
-import { cmt as t } from '../models/cmt';
+import { reply as t } from '../models/cmt';
 import * as cm from '../models/common';
 import { updateConditions } from './cmtTAUtils';
 
-export class CmtTA extends mm.TableActions {
+export class ReplyTA extends mm.TableActions {
   editCmt = mm
     .updateOne()
     .setInputs(t.content)
@@ -11,11 +11,6 @@ export class CmtTA extends mm.TableActions {
     .where(updateConditions(t));
   selectCmtSource = mm.select(t.content).where(updateConditions(t));
   deleteCmt = mm.deleteOne().where(updateConditions(t));
-
-  updateReplyCount = mm
-    .updateOne()
-    .set(t.rpl_count, mm.sql`${t.rpl_count} + ${mm.int().toInput('offset')}`)
-    .where(updateConditions(t));
 }
 
-export default mm.tableActions(t, CmtTA);
+export default mm.tableActions(t, ReplyTA);

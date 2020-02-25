@@ -326,25 +326,25 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.33.0:
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.33.0.tgz#e71e1597915076763e6dffec359a4f652924a772"
-  integrity sha512-isvAyN1AUXXNhy4hQfe46BTy+rnoAF+ZHqlQazTqo4FZIDh+3i1LVyuEeAIxxNl5qBo/pMOuOtR3wxrtJOtN7Q==
+mingru-models@^0.33.1:
+  version "0.33.1"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.33.1.tgz#27df2a238571986593fe9a6d9711398efea078e6"
+  integrity sha512-q+WJWxVyYuvn6AIqZeiXmsOKSeSfSP+W2MFVCVw1YqUwbStS2jLQgQ928nfMMHxeL/mYk5yUWI8Cg81M7u7lew==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
     throw-if-arg-empty "^2.2.1"
     to-type-string "^1.0.2"
 
-mingru-tsconfig@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/mingru-tsconfig/-/mingru-tsconfig-2.0.0.tgz#9cf8ea84d2c0d5b91480b88700f31187b473c26a"
-  integrity sha512-AnSwR7zgwlveL+6Cf+TJtjm3HVwSvuIO2Kw1IhkiDMJPJMK/24VLtN6GMrGOnfFFdnbLwztx97ZbIuCr/+2hMA==
+mingru-tsconfig@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mingru-tsconfig/-/mingru-tsconfig-3.0.0.tgz#80bf22a750f668825d1ac3ce1426634fbff3ed61"
+  integrity sha512-Cz0vJz/b2itGXg6RXq8sN1yM1g/evhRd735kypVfg/W03Kqg5SFuDjGL7Z2hzuzA+IylzifxUii4UE07rCtt+w==
 
-mingru@^0.24.0:
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.24.0.tgz#86cf5db9c24211d8a99c13e5c56d3c88500e72e0"
-  integrity sha512-dX/Quj+RgyF3rbQ4MIRltMaHKOEQSnUQDieKL52RP2sjUR5rYMpchfVTT8R3SOKQ15vrVy+s5allUc0bGbHlRg==
+mingru@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.25.0.tgz#bc16bd1d7fd8c5969a53ca5011da1af3ba4815d7"
+  integrity sha512-iUYCb7Ssn2sKHzoSq/mqVkcgpCaa2M2QeMv0okfrqglFf3/L3QwsY/NZkYUc9zGekOTjz19dpZvQF/ojG4yJNA==
   dependencies:
     chalk "^3.0.0"
     del "^5.1.0"
@@ -474,10 +474,10 @@ ts-node@^8.6.2:
     source-map-support "^0.5.6"
     yn "3.1.1"
 
-typescript@^3.7.5:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+typescript@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.2.tgz#91d6868aaead7da74f493c553aeff76c0c0b1d5a"
+  integrity sha512-EgOVgL/4xfVrCMbhYKUQTdF37SQn4Iw73H5BgCrF1Abdun7Kwy/QZsE/ssAy0y4LxBbvua3PIbFsbRczWWnDdQ==
 
 wrappy@1:
   version "1.0.2"
