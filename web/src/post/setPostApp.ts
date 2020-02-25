@@ -2,7 +2,7 @@ import { html, customElement } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/editor/composerView';
-import { ComposerPayload, ComposerView } from 'ui/editor/composerView';
+import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
@@ -53,7 +53,7 @@ export default class SetPostApp extends BaseElement {
     this.composerElement.markAsSaved();
   }
 
-  private async handleSubmit(e: CustomEvent<ComposerPayload>) {
+  private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const loader = new SetPostLoader(this.editedID, e.detail);
     const status = await app.runGlobalActionAsync(
       loader,

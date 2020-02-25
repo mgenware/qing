@@ -62,14 +62,18 @@ export class CmtListView extends BaseElement {
 
   render() {
     const { totalCount, collectorLoadingStatus } = this;
-    const titleGroup = html`
+    let titleGroup = html`
       <h2>${ls.comments}</h2>
     `;
-    let contentGroup: TemplateResult;
+    let contentGroup = html``;
 
-    if (!totalCount && collectorLoadingStatus.isSuccess) {
-      contentGroup = html`
-        <span>${ls.noComment}</span>
+    if (
+      !totalCount &&
+      (collectorLoadingStatus.isSuccess || collectorLoadingStatus.isEmpty)
+    ) {
+      titleGroup = html`
+        ${titleGroup}
+        <p>${ls.noComment}</p>
       `;
     } else {
       const childViews: TemplateResult[] = [];

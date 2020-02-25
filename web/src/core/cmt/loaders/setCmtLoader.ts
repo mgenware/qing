@@ -1,6 +1,6 @@
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
-import { ComposerPayload } from 'ui/editor/composerView';
+import { ComposerContent } from 'ui/editor/composerView';
 import { EntityType } from 'lib/entity';
 import Cmt from '../cmt';
 
@@ -12,12 +12,12 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
   static newCmt(
     postID: string,
     entityType: EntityType,
-    payload: ComposerPayload,
+    payload: ComposerContent,
   ) {
     return new SetCmtLoader(null, postID, entityType, payload);
   }
 
-  static editCmt(cmtID: string, payload: ComposerPayload) {
+  static editCmt(cmtID: string, payload: ComposerContent) {
     return new SetCmtLoader(cmtID, null, null, payload);
   }
 
@@ -25,7 +25,7 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
     public id: string | null,
     public postID: string | null,
     public entityType: EntityType | null,
-    public payload: ComposerPayload,
+    public payload: ComposerContent,
   ) {
     super();
   }

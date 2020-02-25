@@ -5,7 +5,7 @@ import 'ui/editor/composerView';
 import ls from 'ls';
 import { EntityType } from 'lib/entity';
 import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
-import { ComposerPayload, ComposerView } from 'ui/editor/composerView';
+import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 
 const composerID = 'composer';
@@ -24,7 +24,9 @@ export class AddCmtApp extends BaseElement {
     if (!this.expanded) {
       return html`
         <p>
-          <lit-button @click=${this.handleCommentButtonClick}
+          <lit-button
+            class="is-success-btn"
+            @click=${this.handleCommentButtonClick}
             >${ls.writeAComment}</lit-button
           >
         </p>
@@ -48,7 +50,7 @@ export class AddCmtApp extends BaseElement {
     this.expanded = true;
   }
 
-  private async handleSubmit(e: CustomEvent<ComposerPayload>) {
+  private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const loader = SetCmtLoader.newCmt(
       this.entityID,
       this.entityType,

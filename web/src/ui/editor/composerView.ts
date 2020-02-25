@@ -16,10 +16,10 @@ class ValidationError extends Error {
   }
 }
 
-export class ComposerPayload {
-  title: string | null = null;
-  captcha: string | null = null;
-  constructor(public content: string) {}
+export interface ComposerContent {
+  contentHTML: string;
+  title?: string;
+  captcha?: string;
 }
 
 /**
@@ -165,7 +165,7 @@ export class ComposerView extends BaseElement {
     `;
   }
 
-  private getPayload(): ComposerPayload {
+  private getPayload(): ComposerContent {
     const { captchaView } = this;
     if (this.showTitleInput && !this.inputTitle) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () => {
@@ -186,7 +186,9 @@ export class ComposerView extends BaseElement {
         }
       });
     }
-    const payload = new ComposerPayload(this.contentHTML);
+    const payload: ComposerContent = {
+      contentHTML: this.contentHTML,
+    };
     if (this.showTitleInput) {
       payload.title = this.inputTitle;
     }
@@ -200,7 +202,7 @@ export class ComposerView extends BaseElement {
     try {
       const payload = this.getPayload();
       this.dispatchEvent(
-        new CustomEvent<ComposerPayload>('onSubmit', { detail: payload }),
+        new CustomEvent<ComposerContent>('onSubmit', { detail: payload }),
       );
     } catch (err) {
       await app.alert.error(err.message);
@@ -214,7 +216,10 @@ export class ComposerView extends BaseElement {
   }
 
   private async handleCancel() {
-    const fireEvent = () => this.dispatchEvent(new CustomEvent('onDiscard'));
+    const fireEvent = () => {
+      this.markAsSaved();
+      this.dispatchEvent(new CustomEvent('onDiscard'));
+    };
     if (this.hasContentChanged()) {
       // Warn user of unsaved changes.
       const confirmed = await app.alert.confirm(ls.unsavedChangesWarning);
