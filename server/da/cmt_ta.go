@@ -18,12 +18,6 @@ var Cmt = &TableTypeCmt{}
 
 // ------------ Actions ------------
 
-// DeleteCmt ...
-func (da *TableTypeCmt) DeleteCmt(queryable dbx.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID)
-	return dbx.CheckOneRowAffectedWithError(result, err)
-}
-
 // EditCmt ...
 func (da *TableTypeCmt) EditCmt(queryable dbx.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)

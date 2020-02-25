@@ -26,7 +26,8 @@ export class PostTA extends mm.TableActions {
   selectPostSource = mm.select(t.title, t.content).where(updateConditions);
 
   selectCmts = cmtf.selectCmts(postCmt);
-  insertCmt = cmtf.insertCmt(postCmt);
+  insertCmt = cmtf.insertCmtAction(t, postCmt);
+  deleteCmt = cmtf.deleteCmtAction(t);
 
   insertPost = mm
     .transact(

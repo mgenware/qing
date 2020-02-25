@@ -10,7 +10,6 @@ export class CmtTA extends mm.TableActions {
     .argStubs(cm.sanitizedStub)
     .where(updateConditions(t));
   selectCmtSource = mm.select(t.content).where(updateConditions(t));
-  deleteCmt = mm.deleteOne().where(updateConditions(t));
 
   updateReplyCount = mm
     .updateOne()

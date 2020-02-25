@@ -21,6 +21,33 @@ var Post = &TableTypePost{}
 
 // ------------ Actions ------------
 
+func (da *TableTypePost) deleteCmtChild1(queryable dbx.Queryable, id uint64, userID uint64) error {
+	result, err := queryable.Exec("DELETE FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+func (da *TableTypePost) deleteCmtChild2(queryable dbx.Queryable, id uint64, userID uint64) error {
+	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ? AND `user_id` = ?", -1, id, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+// DeleteCmt ...
+func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
+	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		err = da.deleteCmtChild1(tx, id, userID)
+		if err != nil {
+			return err
+		}
+		err = da.deleteCmtChild2(tx, id, userID)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
+}
+
 // DeletePost ...
 func (da *TableTypePost) DeletePost(queryable dbx.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID)
@@ -44,7 +71,8 @@ func (da *TableTypePost) insertCmtChild2(queryable dbx.Queryable, targetID uint6
 }
 
 func (da *TableTypePost) insertCmtChild3(queryable dbx.Queryable, cmtID uint64, userID uint64) error {
-	return Cmt.UpdateReplyCount(queryable, cmtID, userID, 1)
+	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ? AND `user_id` = ?", 1, cmtID, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertCmt ...

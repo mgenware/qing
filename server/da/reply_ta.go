@@ -18,26 +18,20 @@ var Reply = &TableTypeReply{}
 
 // ------------ Actions ------------
 
-// DeleteCmt ...
-func (da *TableTypeReply) DeleteCmt(queryable dbx.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID)
-	return dbx.CheckOneRowAffectedWithError(result, err)
-}
-
-// EditCmt ...
-func (da *TableTypeReply) EditCmt(queryable dbx.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
+// EditReply ...
+func (da *TableTypeReply) EditReply(queryable dbx.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
-// ReplyTableSelectCmtSourceResult ...
-type ReplyTableSelectCmtSourceResult struct {
+// ReplyTableSelectReplySourceResult ...
+type ReplyTableSelectReplySourceResult struct {
 	Content string `json:"content,omitempty"`
 }
 
-// SelectCmtSource ...
-func (da *TableTypeReply) SelectCmtSource(queryable dbx.Queryable, id uint64, userID uint64) (*ReplyTableSelectCmtSourceResult, error) {
-	result := &ReplyTableSelectCmtSourceResult{}
+// SelectReplySource ...
+func (da *TableTypeReply) SelectReplySource(queryable dbx.Queryable, id uint64, userID uint64) (*ReplyTableSelectReplySourceResult, error) {
+	result := &ReplyTableSelectReplySourceResult{}
 	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
 	if err != nil {
 		return nil, err
