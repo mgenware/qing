@@ -9,6 +9,10 @@ export class Cmt extends mm.Table {
   created_at = mm.datetime('utc');
   modified_at = mm.datetime('utc').nullable;
 
+  // `post_id` is only used to retrieve post ID in order to update cmt count when deleting a cmt.
+  // It's not used to fetch post cmts and not a FK(not indexed).
+  post_id = mm.uBigInt();
+
   rpl_count = mm.uInt(0);
 }
 

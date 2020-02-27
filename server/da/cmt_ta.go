@@ -24,6 +24,16 @@ func (da *TableTypeCmt) EditCmt(queryable dbx.Queryable, id uint64, userID uint6
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
+// GetPostID ...
+func (da *TableTypeCmt) GetPostID(queryable dbx.Queryable, id uint64) (uint64, error) {
+	var result uint64
+	err := queryable.QueryRow("SELECT `post_id` FROM `cmt` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // CmtTableSelectCmtSourceResult ...
 type CmtTableSelectCmtSourceResult struct {
 	Content string `json:"content,omitempty"`

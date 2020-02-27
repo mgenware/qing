@@ -1,8 +1,8 @@
 CREATE TABLE `post_cmt` (
-	`target_id` BIGINT UNSIGNED NOT NULL,
+	`post_id` BIGINT UNSIGNED NOT NULL,
 	`cmt_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`target_id`, `cmt_id`),
-	CONSTRAINT FOREIGN KEY(`target_id`) REFERENCES `post` (`id`) ON DELETE CASCADE,
+	PRIMARY KEY (`post_id`, `cmt_id`),
+	CONSTRAINT FOREIGN KEY(`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY(`cmt_id`) REFERENCES `cmt` (`id`) ON DELETE CASCADE
 )
 CHARACTER SET=utf8mb4

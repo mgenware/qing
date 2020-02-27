@@ -7,12 +7,12 @@ import {
   CmtRelationTable,
   cmtInterface,
   cmtResultType,
-  CmtSourceTable,
+  CmtPostTable,
   updateConditions,
 } from './cmtTAUtils';
 import { Action } from 'mingru-models';
 
-const id = 'id';
+const postID = 'postID';
 const cmtID = 'cmtID';
 const replyID = 'replyID';
 
@@ -30,7 +30,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
       jCmt.user_id.join(user).icon_name.privateAttr(),
     )
     .from(rt)
-    .by(rt.target_id)
+    .by(rt.post_id)
     .orderByDesc(jCmt.created_at)
     .attrs({
       [mm.ActionAttributes.groupTypeName]: cmtInterface,
@@ -39,20 +39,20 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
 }
 
 export function updateCmtCountAction(
-  st: CmtSourceTable,
+  pt: CmtPostTable,
   offset: number,
   idVariable: string,
 ): mm.Action {
   return mm
     .updateOne()
-    .from(st)
-    .set(st.cmt_count, mm.sql`${st.cmt_count} + ${mm.int().toInput('offset')}`)
-    .where(updateConditions(st))
+    .from(pt)
+    .set(pt.cmt_count, mm.sql`${pt.cmt_count} + ${mm.int().toInput('offset')}`)
+    .where(updateConditions(pt))
     .wrap({ offset, id: mm.valueRef(idVariable) });
 }
 
 export function insertCmtAction(
-  st: CmtSourceTable,
+  pt: CmtPostTable,
   rt: CmtRelationTable,
 ): mm.Action {
   return mm
@@ -68,24 +68,27 @@ export function insertCmtAction(
         .from(rt)
         .setInputs()
         .wrapAsRefs({ cmtID }),
-      updateCmtCountAction(st, 1, cmtID),
+      updateCmtCountAction(pt, 1, postID),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function deleteCmtAction(st: CmtSourceTable): Action {
-  return mm.transact(
-    mm
-      .deleteOne()
-      .from(cmt)
-      .where(updateConditions(cmt)),
-    updateCmtCountAction(st, -1, id),
-  );
+export function deleteCmtAction(pt: CmtPostTable): Action {
+  return mm
+    .transact(
+      cmtTA.getPostID.declareReturnValue(mm.ReturnValues.result, postID),
+      mm
+        .deleteOne()
+        .from(cmt)
+        .where(updateConditions(cmt)),
+      updateCmtCountAction(pt, -1, postID),
+    )
+    .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
 }
 
-export function insertReplyAction(st: CmtSourceTable): mm.Action {
+export function insertReplyAction(pt: CmtPostTable): mm.Action {
   return mm
     .transact(
       mm
@@ -98,7 +101,7 @@ export function insertReplyAction(st: CmtSourceTable): mm.Action {
         offset: 1,
         id: new mm.ValueRef(replyID),
       }),
-      updateCmtCountAction(st, 1, replyID),
+      updateCmtCountAction(pt, 1, replyID),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)

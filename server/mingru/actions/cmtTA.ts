@@ -11,6 +11,8 @@ export class CmtTA extends mm.TableActions {
     .where(updateConditions(t));
   selectCmtSource = mm.select(t.content).where(updateConditions(t));
 
+  getPostID = mm.selectField(t.post_id).byID();
+
   updateReplyCount = mm
     .updateOne()
     .set(t.rpl_count, mm.sql`${t.rpl_count} + ${mm.int().toInput('offset')}`)
