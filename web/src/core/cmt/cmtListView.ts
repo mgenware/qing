@@ -15,8 +15,8 @@ import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
-  @lp.string entityID = '';
-  @lp.number entityType: EntityType = 0;
+  @lp.string hostID = '';
+  @lp.number hostType: EntityType = 0;
   @lp.number initialTotalCount = 0;
 
   // The number of all top-level comments and their replies.
@@ -35,8 +35,8 @@ export class CmtListView extends BaseElement {
   async firstUpdated() {
     this.totalCount = this.initialTotalCount;
     this.cmtCollector = new CmtCollector(
-      this.entityID,
-      this.entityType,
+      this.hostID,
+      this.hostType,
       status => {
         this.collectorLoadingStatus = status;
       },
@@ -83,8 +83,8 @@ export class CmtListView extends BaseElement {
           html`
             <reply-list-view
               .cmt=${item}
-              .entityID=${this.entityID}
-              .entityType=${this.entityType}
+              .hostID=${this.hostID}
+              .hostType=${this.hostType}
               @repliesCountChanged=${this.handleReplyCountChanged}
               @rootCmtDeleted=${() => this.handleCmtDeleted(i)}
             ></reply-list-view>
@@ -139,8 +139,8 @@ export class CmtListView extends BaseElement {
   private renderCommentComposer() {
     return html`
       <add-cmt-app
-        .entityID=${this.entityID}
-        .entityType=${this.entityType}
+        .hostID=${this.hostID}
+        .hostType=${this.hostType}
         @cmtAdded=${this.handleCmtAdded}
       ></add-cmt-app>
     `;

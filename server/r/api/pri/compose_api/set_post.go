@@ -16,7 +16,7 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
-	content := validator.MustGetStringFromDict(params, "content")
+	content := validator.MustGetStringFromDict(params, "contentHTML")
 	title := validator.MustGetStringFromDict(params, "title")
 
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)

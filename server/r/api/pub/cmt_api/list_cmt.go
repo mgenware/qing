@@ -43,16 +43,16 @@ func listCmt(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	entityID := validator.MustGetIDFromDict(params, "entityID")
-	entityType := validator.MustGetIntFromDict(params, "entityType")
+	hostID := validator.MustGetIDFromDict(params, "hostID")
+	hostType := validator.MustGetIntFromDict(params, "hostType")
 	page := jsonx.GetIntOrDefault(params, "page")
 
 	db := app.DB
 	var respData *ListCmtRespData
-	switch entityType {
+	switch hostType {
 	case defs.EntityPost:
 		{
-			cmts, hasNext, err := da.Post.SelectCmts(db, entityID, page, kCmtPageSize)
+			cmts, hasNext, err := da.Post.SelectCmts(db, hostID, page, kCmtPageSize)
 			if err != nil {
 				app.PanicIfErr(err)
 			}

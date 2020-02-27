@@ -12,8 +12,8 @@ const composerID = 'composer';
 
 @customElement('add-cmt-app')
 export class AddCmtApp extends BaseElement {
-  @lp.string entityID = '';
-  @lp.number entityType = 0;
+  @lp.string hostID = '';
+  @lp.number hostType: EntityType = 0;
   @lp.bool private expanded = false;
 
   private get composerElement(): ComposerView | null {
@@ -51,11 +51,7 @@ export class AddCmtApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const loader = SetCmtLoader.newCmt(
-      this.entityID,
-      this.entityType,
-      e.detail,
-    );
+    const loader = SetCmtLoader.newCmt(this.hostID, this.hostType, e.detail);
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
       this.composerElement?.markAsSaved();

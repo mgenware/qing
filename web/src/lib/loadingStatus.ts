@@ -27,4 +27,8 @@ export default class LoadingStatus {
   get hasError(): boolean {
     return !!this.error;
   }
+
+  get isEmpty(): boolean {
+    return !this.isWorking && !this.isSuccess && !this.hasError;
+  }
 }

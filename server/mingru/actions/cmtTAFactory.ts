@@ -7,12 +7,12 @@ import {
   CmtRelationTable,
   cmtInterface,
   cmtResultType,
-  CmtPostTable,
+  CmtHostTable,
   updateConditions,
 } from './cmtTAUtils';
 import { Action } from 'mingru-models';
 
-const postID = 'postID';
+const hostID = 'hostID';
 const cmtID = 'cmtID';
 const replyID = 'replyID';
 
@@ -30,7 +30,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
       jCmt.user_id.join(user).icon_name.privateAttr(),
     )
     .from(rt)
-    .by(rt.post_id)
+    .by(rt.host_id)
     .orderByDesc(jCmt.created_at)
     .attrs({
       [mm.ActionAttributes.groupTypeName]: cmtInterface,
@@ -39,7 +39,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
 }
 
 export function updateCmtCountAction(
-  pt: CmtPostTable,
+  pt: CmtHostTable,
   offset: number,
   idVariable: string,
 ): mm.Action {
@@ -52,7 +52,7 @@ export function updateCmtCountAction(
 }
 
 export function insertCmtAction(
-  pt: CmtPostTable,
+  pt: CmtHostTable,
   rt: CmtRelationTable,
 ): mm.Action {
   return mm
@@ -68,27 +68,27 @@ export function insertCmtAction(
         .from(rt)
         .setInputs()
         .wrapAsRefs({ cmtID }),
-      updateCmtCountAction(pt, 1, postID),
+      updateCmtCountAction(pt, 1, hostID),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function deleteCmtAction(pt: CmtPostTable): Action {
+export function deleteCmtAction(pt: CmtHostTable): Action {
   return mm
     .transact(
-      cmtTA.getPostID.declareReturnValue(mm.ReturnValues.result, postID),
+      cmtTA.getHostID.declareReturnValue(mm.ReturnValues.result, hostID),
       mm
         .deleteOne()
         .from(cmt)
         .where(updateConditions(cmt)),
-      updateCmtCountAction(pt, -1, postID),
+      updateCmtCountAction(pt, -1, hostID),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
 }
 
-export function insertReplyAction(pt: CmtPostTable): mm.Action {
+export function insertReplyAction(pt: CmtHostTable): mm.Action {
   return mm
     .transact(
       mm

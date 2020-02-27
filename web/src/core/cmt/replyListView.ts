@@ -11,8 +11,8 @@ import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('reply-list-view')
 export class ReplyListView extends BaseElement {
-  @lp.string entityID = '';
-  @lp.number entityType: EntityType = 0;
+  @lp.string hostID = '';
+  @lp.number hostType: EntityType = 0;
   @lp.object cmt: Cmt | null = null;
 
   // Members of `ItemsChangedEventArgs`:
@@ -31,8 +31,8 @@ export class ReplyListView extends BaseElement {
       return;
     }
     this.replyCollector = new CmtCollector(
-      this.entityID,
-      this.entityType,
+      this.hostID,
+      this.hostType,
       status => {
         this.collectorLoadingStatus = status;
       },
@@ -63,6 +63,8 @@ export class ReplyListView extends BaseElement {
       childViews.push(
         html`
           <cmt-view
+            .hostID=${this.hostID}
+            .hostType=${this.hostType}
             .cmt=${item}
             @cmtDeleted=${() => this.handleReplyDeleted(i)}
           ></cmt-view>
@@ -72,6 +74,8 @@ export class ReplyListView extends BaseElement {
     return html`
       <div>
         <cmt-view
+          .hostID=${this.hostID}
+          .hostType=${this.hostType}
           .cmt=${this.cmt}
           @cmtDeleted=${this.handleCmtDeleted}
         ></cmt-view>

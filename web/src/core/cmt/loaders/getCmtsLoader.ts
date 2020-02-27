@@ -6,8 +6,8 @@ import Cmt from '../cmt';
 
 export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
   constructor(
-    public entityID: string,
-    public entityType: EntityType,
+    public hostID: string,
+    public hostType: EntityType,
     public page: number,
   ) {
     super();
@@ -19,8 +19,8 @@ export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
 
   requestParams(): object {
     const ret = {
-      entityID: this.entityID,
-      entityType: this.entityType,
+      hostID: this.hostID,
+      hostType: this.hostType,
       page: this.page,
     };
     return ret;

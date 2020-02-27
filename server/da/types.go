@@ -26,6 +26,6 @@ type CmtData struct {
 // CmtCore ...
 type CmtCore interface {
 	DeleteCmt(db *sql.DB, id uint64, userID uint64) error
-	InsertCmt(db *sql.DB, content string, userID uint64, postID uint64, sanitizedStub int, captStub int) (uint64, error)
-	SelectCmts(queryable dbx.Queryable, postID uint64, page int, pageSize int) ([]*CmtData, bool, error)
+	InsertCmt(db *sql.DB, content string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
+	SelectCmts(queryable dbx.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error)
 }

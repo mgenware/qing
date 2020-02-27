@@ -11,8 +11,8 @@ import LoadingStatus from 'lib/loadingStatus';
 
 export default class CmtCollector extends ItemCollector<Cmt> {
   constructor(
-    public entityID: string,
-    public entityType: EntityType,
+    public hostID: string,
+    public hostType: EntityType,
     public loadingStatusChanged: (status: LoadingStatus) => void,
     public itemsChanged: (e: Partial<ItemsChangedEventArgs<Cmt>>) => void,
   ) {
@@ -20,7 +20,7 @@ export default class CmtCollector extends ItemCollector<Cmt> {
   }
 
   protected createLoader(): Loader<ItemsResponse<Cmt>> {
-    return new GetCmtsLoader(this.entityID, this.entityType, this.page);
+    return new GetCmtsLoader(this.hostID, this.hostType, this.page);
   }
 
   protected getItemID(item: Cmt): string {

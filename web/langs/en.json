@@ -74,5 +74,8 @@
   "editComment": "Edit comment",
   "nextPage": "Next",
   "previousPage": "Previous",
-  "copyright": "Copyright"
+  "copyright": "Copyright",
+  "reply": "Reply",
+  "pReplyTo": "Reply to {0}",
+  "pNOComments": "{0} comment(s)"
 }

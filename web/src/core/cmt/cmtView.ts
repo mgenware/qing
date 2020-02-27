@@ -6,21 +6,31 @@ import BaseElement from 'baseElement';
 import 'ui/cm/timeField';
 import 'ui/editor/editBar';
 import 'ui/cm/statusOverlay';
+import 'ui/cm/linkButton';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import Cmt from './cmt';
 import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
-import { ComposerView, ComposerPayload } from 'ui/editor/composerView';
+import { ComposerView, ComposerContent } from 'ui/editor/composerView';
 import SetCmtLoader from './loaders/setCmtLoader';
 import DeleteCmtLoader from './loaders/deleteCmtLoader';
+
+enum EditorMode {
+  none,
+  editing,
+  replying,
+}
 
 const composerID = 'composer';
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
+  @lp.string hostID = '';
+  @lp.number hostType: EntityType = 0;
+
   @lp.object cmt: Cmt | null = null;
   @lp.bool isReply = false;
-  @lp.bool private isEditing = false;
+  @lp.bool private editorMode = EditorMode.none;
   @lp.object private srcLoadingStatus = LoadingStatus.empty;
 
   // Composer view is optional in `render`.
@@ -29,20 +39,25 @@ export class CmtView extends BaseElement {
   }
 
   render() {
-    const { cmt, isEditing } = this;
+    const { cmt, editorMode } = this;
     if (!cmt) {
       return html``;
     }
-    if (isEditing) {
-      return html`
+    let editorHTML = html``;
+    if (editorMode !== EditorMode.none) {
+      editorHTML = html`
         <status-overlay
-          .status=${this.srcLoadingStatus}
+          .status=${editorMode === EditorMode.editing
+            ? this.srcLoadingStatus
+            : LoadingStatus.success}
           .canRetry=${true}
           @onRetry=${this.loadEditorContent}
         >
           <composer-view
             .id=${composerID}
-            .headerText=${ls.editComment}
+            .headerText=${editorMode === EditorMode.editing
+              ? ls.editComment
+              : formatLS(ls.pReplyTo, cmt.userName)}
             .showTitleInput=${false}
             .showCancelButton=${true}
             .entityID=${cmt.id}
@@ -53,6 +68,9 @@ export class CmtView extends BaseElement {
           ></composer-view>
         </status-overlay>
       `;
+    }
+    if (editorMode === EditorMode.editing) {
+      return editorHTML;
     }
     return html`
       <div class="m-t-md row">
@@ -80,12 +98,16 @@ export class CmtView extends BaseElement {
                     @editClick=${this.handleEditClick}
                     @deleteClick=${this.handleDeleteClick}
                   ></edit-bar>
+                  <link-button class="m-l-sm" @click=${this.handleReplyClick}
+                    >${ls.reply}</link-button
+                  >
                 `
               : ''}
           </div>
           <div>
             ${unsafeHTML(cmt.content)}
           </div>
+          ${editorHTML}
         </div>
       </div>
     `;
@@ -96,7 +118,7 @@ export class CmtView extends BaseElement {
     if (!cmt) {
       return;
     }
-    this.isEditing = true;
+    this.editorMode = EditorMode.editing;
     await this.loadEditorContent();
   }
 
@@ -108,12 +130,12 @@ export class CmtView extends BaseElement {
     }
     composerElement.contentHTML = '';
     composerElement.markAsSaved();
-    this.isEditing = false;
+    this.editorMode = EditorMode.none;
   }
 
-  private async handleEdit(e: CustomEvent<ComposerPayload>) {
-    const { cmt } = this;
-    if (!cmt) {
+  private async handleEdit(e: CustomEvent<ComposerContent>) {
+    const { cmt, editorMode } = this;
+    if (!cmt || editorMode === EditorMode.none) {
       return;
     }
     const loader = SetCmtLoader.editCmt(cmt.id, e.detail);
@@ -157,19 +179,23 @@ export class CmtView extends BaseElement {
     }
   }
 
-  protected async handleDeleteClick() {
+  private async handleDeleteClick() {
     const { cmt } = this;
     if (!cmt) {
       return;
     }
     if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
-      const loader = new DeleteCmtLoader(cmt.id);
+      const loader = new DeleteCmtLoader(cmt.id, this.hostType);
       const status = await app.runGlobalActionAsync(loader, ls.working);
       if (status.isSuccess) {
         this.dispatchEvent(new CustomEvent<undefined>('cmtDeleted'));
       }
     }
+  }
+
+  private async handleReplyClick() {
+    this.editorMode = EditorMode.replying;
   }
 }
 

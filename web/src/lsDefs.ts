@@ -75,4 +75,7 @@ export default interface LSDefs {
   nextPage: string;
   previousPage: string;
   copyright: string;
+  reply: string;
+  pReplyTo: string;
+  pNOComments: string;
 }

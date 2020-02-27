@@ -74,5 +74,8 @@
   "editComment": "编辑评论",
   "nextPage": "下一页",
   "previousPage": "上一页",
-  "copyright": "版权"
+  "copyright": "版权",
+  "reply": "回复",
+  "pReplyTo": "回复 {0}",
+  "pNOComments": "{0}个评论"
 }

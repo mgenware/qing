@@ -10,20 +10,18 @@ import (
 	"qing/lib/validator"
 	"qing/r/api/apidata"
 	"time"
-
-	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
 type SetCmtResponse struct {
 	Cmt *apidata.Cmt `json:"cmt"`
 }
 
-func getCmtDataLayer(targetType int) (da.CmtCore, error) {
-	switch targetType {
+func getCmtTA(hostType int) (da.CmtCore, error) {
+	switch hostType {
 	case defs.EntityPost:
 		return da.Post, nil
 	default:
-		return nil, fmt.Errorf("Unknown cmt data provider: %v", targetType)
+		return nil, fmt.Errorf("Unknown cmt data provider: %v", hostType)
 	}
 }
 
@@ -34,26 +32,26 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	uid := user.ID
 
 	id := validator.GetIDFromDict(params, "id")
-	entityType := jsonx.GetIntOrDefault(params, "entityType")
-	content := validator.MustGetStringFromDict(params, "content")
+	hostType := validator.MustGetIntFromDict(params, "hostType")
+	content := validator.MustGetStringFromDict(params, "contentHTML")
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
 	if id == 0 {
 		// We are creating a new cmt.
-		postID := validator.MustGetIDFromDict(params, "postID")
+		hostID := validator.MustGetIDFromDict(params, "hostID")
 		capt := validator.MustGetStringFromDict(params, "captcha")
 
-		cmtCore, err := getCmtDataLayer(entityType)
+		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
 
-		captResult, err := app.Service.Captcha.Verify(uid, entityType, capt, app.Config.DevMode())
+		captResult, err := app.Service.Captcha.Verify(uid, hostType, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 
 		if captResult != 0 {
 			resp.MustFailWithCode(captResult)
 			return
 		}
-		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, postID, sanitizedToken, captResult)
+		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 
 		// Construct a DB cmt object without interacting with DB.

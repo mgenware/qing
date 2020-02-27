@@ -6,14 +6,14 @@ import { EntityType } from 'lib/entity';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
-  postID = wind.postID;
+  hostID = wind.postID;
   cmtCount = wind.postCmtCount;
 
   render() {
     return html`
       <cmt-app
-        entityID=${this.postID}
-        .entityType=${EntityType.post}
+        .hostID=${this.hostID}
+        .hostType=${EntityType.post}
         .initialCount=${this.cmtCount}
       ></cmt-app>
     `;

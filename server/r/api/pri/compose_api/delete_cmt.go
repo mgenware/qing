@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
-	"qing/da"
 	"qing/lib/validator"
 )
 
@@ -13,8 +12,11 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	pid := validator.MustGetIDFromDict(params, "id")
-	err := da.Cmt.DeleteCmt(app.DB, pid, uid)
+	cmtID := validator.MustGetIDFromDict(params, "id")
+	hostType := validator.MustGetIntFromDict(params, "hostType")
+	cmtTA, err := getCmtTA(hostType)
+	app.PanicIfErr(err)
+	err = cmtTA.DeleteCmt(app.DB, cmtID, uid)
 	app.PanicIfErr(err)
 	resp.MustComplete(nil)
 }

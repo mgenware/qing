@@ -1,8 +1,9 @@
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
+import { EntityType } from 'lib/entity';
 
 export default class DeleteCmtLoader extends BaseLoader<string> {
-  constructor(public id: string | null) {
+  constructor(public id: string | null, public hostType: EntityType) {
     super();
   }
 
@@ -13,6 +14,7 @@ export default class DeleteCmtLoader extends BaseLoader<string> {
   requestParams(): object {
     return {
       id: this.id,
+      hostType: this.hostType,
     };
   }
 }
