@@ -33,8 +33,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 
 	id := validator.GetIDFromDict(params, "id")
 	contentData := validator.MustGetDictFromDict(params, "contentData")
-	contentHTML := validator.MustGetStringFromDict(contentData, "contentHTML")
-	content, sanitizedToken := app.Service.Sanitizer.Sanitize(contentHTML)
+	content, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetStringFromDict(contentData, "contentHTML"))
 
 	if id == 0 {
 		// We are creating a new cmt.
@@ -60,8 +59,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 			cmtID, err = cmtCore.InsertReply(app.DB, content, uid, toUserID, parentCmtID, sanitizedToken, captResult)
 		} else {
 			cmtID, err = cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)
-			app.PanicIfErr(err)
 		}
+		app.PanicIfErr(err)
 
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()

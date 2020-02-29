@@ -16,10 +16,8 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
-	content := validator.MustGetStringFromDict(params, "contentHTML")
 	title := validator.MustGetStringFromDict(params, "title")
-
-	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
+	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetStringFromDict(params, "contentHTML"))
 
 	if !hasID {
 		capt := validator.MustGetStringFromDict(params, "captcha")
@@ -30,12 +28,12 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 			resp.MustFailWithCode(captResult)
 			return
 		}
-		insertedID, err := da.Post.InsertPost(app.DB, title, content, uid, sanitizedToken, captResult)
+		insertedID, err := da.Post.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 		id = insertedID
 	} else {
 		// Edit post
-		err := da.Post.EditPost(app.DB, id, uid, title, content, sanitizedToken)
+		err := da.Post.EditPost(app.DB, id, uid, title, contentHTML, sanitizedToken)
 		app.PanicIfErr(err)
 	}
 

@@ -135,8 +135,8 @@ func (da *TableTypePost) insertReplyChild1(queryable dbx.Queryable, content stri
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypePost) insertReplyChild2(queryable dbx.Queryable, replyID uint64, userID uint64) error {
-	return Cmt.UpdateReplyCount(queryable, replyID, userID, 1)
+func (da *TableTypePost) insertReplyChild2(queryable dbx.Queryable, parentID uint64, userID uint64) error {
+	return Cmt.UpdateReplyCount(queryable, parentID, userID, 1)
 }
 
 func (da *TableTypePost) insertReplyChild3(queryable dbx.Queryable, replyID uint64, userID uint64) error {
@@ -153,7 +153,7 @@ func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, 
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild2(tx, replyID, userID)
+		err = da.insertReplyChild2(tx, parentID, userID)
 		if err != nil {
 			return err
 		}

@@ -14,6 +14,7 @@ import { Action } from 'mingru-models';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
+const parentID = 'parentID';
 const replyID = 'replyID';
 
 export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
@@ -99,7 +100,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.Action {
         .declareInsertedID(replyID),
       cmtTA.updateReplyCount.wrap({
         offset: 1,
-        id: new mm.ValueRef(replyID),
+        id: new mm.ValueRef(parentID),
       }),
       updateCmtCountAction(ht, 1, replyID),
     )

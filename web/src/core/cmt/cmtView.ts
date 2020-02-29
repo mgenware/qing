@@ -60,7 +60,7 @@ export class CmtView extends BaseElement {
               : formatLS(ls.pReplyTo, cmt.userName)}
             .showTitleInput=${false}
             .showCancelButton=${true}
-            .entityID=${cmt.id}
+            .entityID=${this.editorMode === EditorMode.editing ? cmt.id : ''}
             .entityType=${EntityType.cmt}
             .submitButtonText=${ls.save}
             @onSubmit=${this.handleEdit}
