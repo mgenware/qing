@@ -4,6 +4,18 @@ import { ComposerContent } from 'ui/editor/composerView';
 import { EntityType } from 'lib/entity';
 import Cmt from '../cmt';
 
+export interface SetCmtData {
+  // Always required.
+  hostID: string;
+  hostType: EntityType;
+  contentData: ComposerContent;
+  // Only needed when editing a cmt or reply.
+  id?: string;
+  // Only needed when creating a reply.
+  toUserID?: string;
+  parentCmtID?: string;
+}
+
 export interface SetCmtResponse {
   cmt: Cmt;
 }
@@ -12,21 +24,46 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
   static newCmt(
     hostID: string,
     hostType: EntityType,
-    payload: ComposerContent,
-  ) {
-    return new SetCmtLoader(null, hostID, hostType, payload);
+    contentData: ComposerContent,
+  ): SetCmtLoader {
+    return new SetCmtLoader({
+      hostID,
+      hostType,
+      contentData,
+    });
   }
 
-  static editCmt(cmtID: string, payload: ComposerContent) {
-    return new SetCmtLoader(cmtID, null, null, payload);
+  static editCmt(
+    hostID: string,
+    hostType: EntityType,
+    id: string,
+    contentData: ComposerContent,
+  ): SetCmtLoader {
+    return new SetCmtLoader({
+      hostID,
+      hostType,
+      contentData,
+      id,
+    });
   }
 
-  private constructor(
-    public id: string | null,
-    public hostID: string | null,
-    public hostType: EntityType | null,
-    public payload: ComposerContent,
-  ) {
+  static newReply(
+    hostID: string,
+    hostType: EntityType,
+    toUserID: string,
+    parentCmtID: string,
+    contentData: ComposerContent,
+  ): SetCmtLoader {
+    return new SetCmtLoader({
+      hostID,
+      hostType,
+      toUserID,
+      parentCmtID,
+      contentData,
+    });
+  }
+
+  private constructor(public data: SetCmtData) {
     super();
   }
 
@@ -35,12 +72,6 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
   }
 
   requestParams(): object {
-    const params: any = {
-      ...this.payload,
-      id: this.id,
-      hostID: this.hostID,
-      hostType: this.hostType,
-    };
-    return params;
+    return this.data;
   }
 }

@@ -138,7 +138,16 @@ export class CmtView extends BaseElement {
     if (!cmt || editorMode === EditorMode.none) {
       return;
     }
-    const loader = SetCmtLoader.editCmt(cmt.id, e.detail);
+    const loader =
+      editorMode === EditorMode.editing
+        ? SetCmtLoader.editCmt(this.hostID, this.hostType, cmt.id, e.detail)
+        : SetCmtLoader.newReply(
+            this.hostID,
+            this.hostType,
+            cmt.userID,
+            cmt.id,
+            e.detail,
+          );
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
       // Copy all properties from `serverCmt` except for the `createdAt`.
