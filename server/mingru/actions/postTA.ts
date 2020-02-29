@@ -28,6 +28,7 @@ export class PostTA extends mm.TableActions {
   selectCmts = cmtf.selectCmts(postCmt);
   insertCmt = cmtf.insertCmtAction(t, postCmt);
   deleteCmt = cmtf.deleteCmtAction(t);
+  insertReply = cmtf.insertReplyAction(t);
 
   insertPost = mm
     .transact(

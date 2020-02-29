@@ -32,14 +32,16 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 	uid := user.ID
 
 	id := validator.GetIDFromDict(params, "id")
-	hostType := validator.MustGetIntFromDict(params, "hostType")
 	content := validator.MustGetStringFromDict(params, "contentHTML")
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(content)
 
 	if id == 0 {
 		// We are creating a new cmt.
+		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
 		capt := validator.MustGetStringFromDict(params, "captcha")
+		toUserID := validator.GetIDFromDict(params, "toUserID")
+		parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 
 		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
@@ -51,8 +53,14 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 			resp.MustFailWithCode(captResult)
 			return
 		}
-		cmtID, err := cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)
-		app.PanicIfErr(err)
+
+		var cmtID uint64
+		if toUserID != 0 {
+			cmtID, err = cmtCore.InsertReply(app.DB, content, uid, toUserID, parentCmtID, sanitizedToken, captResult)
+		} else {
+			cmtID, err = cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)
+			app.PanicIfErr(err)
+		}
 
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()

@@ -130,6 +130,43 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 	return postIDExported, txErr
 }
 
+func (da *TableTypePost) insertReplyChild1(queryable dbx.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?)", content, userID, toUserID, parentID)
+	return dbx.GetLastInsertIDUint64WithError(result, err)
+}
+
+func (da *TableTypePost) insertReplyChild2(queryable dbx.Queryable, replyID uint64, userID uint64) error {
+	return Cmt.UpdateReplyCount(queryable, replyID, userID, 1)
+}
+
+func (da *TableTypePost) insertReplyChild3(queryable dbx.Queryable, replyID uint64, userID uint64) error {
+	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ? AND `user_id` = ?", 1, replyID, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+// InsertReply ...
+func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, sanitizedStub int, captStub int) (uint64, error) {
+	var replyIDExported uint64
+	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		replyID, err := da.insertReplyChild1(tx, content, userID, toUserID, parentID)
+		if err != nil {
+			return err
+		}
+		err = da.insertReplyChild2(tx, replyID, userID)
+		if err != nil {
+			return err
+		}
+		err = da.insertReplyChild3(tx, replyID, userID)
+		if err != nil {
+			return err
+		}
+		replyIDExported = replyID
+		return nil
+	})
+	return replyIDExported, txErr
+}
+
 // SelectCmts ...
 func (da *TableTypePost) SelectCmts(queryable dbx.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
 	limit := pageSize + 1

@@ -88,7 +88,7 @@ export function deleteCmtAction(pt: CmtHostTable): Action {
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
 }
 
-export function insertReplyAction(pt: CmtHostTable): mm.Action {
+export function insertReplyAction(ht: CmtHostTable): mm.Action {
   return mm
     .transact(
       mm
@@ -101,7 +101,7 @@ export function insertReplyAction(pt: CmtHostTable): mm.Action {
         offset: 1,
         id: new mm.ValueRef(replyID),
       }),
-      updateCmtCountAction(pt, 1, replyID),
+      updateCmtCountAction(ht, 1, replyID),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
