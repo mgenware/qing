@@ -67,7 +67,8 @@ export default interface LSDefs {
   errorCode: string;
   editProfile: string;
   uploading: string;
-  ppItemCounter: string;
+  ppItemsCounter: string;
+  oneItem: string;
   pViewMore: string;
   replies: string;
   warning: string;
@@ -78,4 +79,5 @@ export default interface LSDefs {
   reply: string;
   pReplyTo: string;
   pNOComments: string;
+  pNOReplies: string;
 }

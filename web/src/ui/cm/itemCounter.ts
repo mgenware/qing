@@ -8,8 +8,13 @@ export class ItemCounter extends BaseElement {
   @property({ type: Number }) total = 0;
 
   render() {
+    if (this.total <= 1) {
+      return html`
+        <span>${ls.oneItem}</span>
+      `;
+    }
     return html`
-      <span>${formatLS(ls.ppItemCounter, this.shown, this.total)}</span>
+      <span>${formatLS(ls.ppItemsCounter, this.shown, this.total)}</span>
     `;
   }
 }
