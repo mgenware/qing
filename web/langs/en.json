@@ -67,7 +67,8 @@
   "errorCode": "Error code",
   "editProfile": "Edit profile",
   "uploading": "Uploading...",
-  "ppItemCounter": "{0} of {1} item(s)",
+  "ppItemsCounter": "{0} of {1} items",
+  "oneItem": "1 item",
   "pViewMore": "View more {0:lowercase}",
   "replies": "Replies",
   "warning": "Warning",
@@ -77,5 +78,6 @@
   "copyright": "Copyright",
   "reply": "Reply",
   "pReplyTo": "Reply to {0}",
-  "pNOComments": "{0} comment(s)"
+  "pNOComments": "{0} {0:countable:comment:comments}",
+  "pNOReplies": "{0} {0:countable:reply:replies}"
 }

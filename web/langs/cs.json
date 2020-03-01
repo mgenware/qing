@@ -67,7 +67,8 @@
   "errorCode": "错误码",
   "editProfile": "编辑账号信息",
   "uploading": "上传中...",
-  "ppItemCounter": "已显示 {0} / {1} 总共",
+  "ppItemsCounter": "{0} / {1} 个项目",
+  "oneItem": "1 个项目",
   "pViewMore": "显示更多{0}",
   "replies": "回复",
   "warning": "警告",
@@ -77,5 +78,6 @@
   "copyright": "版权",
   "reply": "回复",
   "pReplyTo": "回复 {0}",
-  "pNOComments": "{0}个评论"
+  "pNOComments": "{0} 条评论",
+  "pNOReplies": "{0} 条回复"
 }

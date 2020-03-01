@@ -14,7 +14,7 @@
   "dependencies": {
     "@github/image-crop-element": "^3.0.7",
     "@webcomponents/webcomponentsjs": "^2.4.1",
-    "bowhead-js": "^2.0.0",
+    "bowhead-js": "^2.1.0",
     "construct-style-sheets-polyfill": "^2.3.5",
     "date-fns": "^2.9.0",
     "escape-html": "^1.0.3",
