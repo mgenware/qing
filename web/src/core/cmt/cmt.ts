@@ -3,7 +3,7 @@ export default interface Cmt {
   title: string;
   createdAt: string;
   modifiedAt: string;
-  cmtCount: number;
+  replyCount: number;
   content: string;
   userID: string;
   userName: string;

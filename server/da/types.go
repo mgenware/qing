@@ -15,7 +15,7 @@ type CmtData struct {
 	Content      string     `json:"content,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	RplCount     uint       `json:"rplCount,omitempty"`
+	ReplyCount   uint       `json:"replyCount,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"userName,omitempty"`
 	UserIconName string     `json:"-"`

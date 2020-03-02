@@ -15,7 +15,10 @@ export class CmtTA extends mm.TableActions {
 
   updateReplyCount = mm
     .updateOne()
-    .set(t.rpl_count, mm.sql`${t.rpl_count} + ${mm.int().toInput('offset')}`)
+    .set(
+      t.reply_count,
+      mm.sql`${t.reply_count} + ${mm.int().toInput('offset')}`,
+    )
     .where(updateConditions(t));
 }
 

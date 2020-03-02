@@ -25,7 +25,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
       jCmt.content,
       jCmt.created_at,
       jCmt.modified_at,
-      jCmt.rpl_count,
+      jCmt.reply_count,
       jCmt.user_id.privateAttr(),
       jCmt.user_id.join(user).name,
       jCmt.user_id.join(user).icon_name.privateAttr(),
