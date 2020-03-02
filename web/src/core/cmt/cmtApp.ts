@@ -12,15 +12,26 @@ export class CmtApp extends BaseElement {
   @lp.number initialCount = 0;
   @lp.string hostID = '';
   @lp.number hostType: EntityType = 0;
+  @lp.number private totalCount = 0;
+
+  firstUpdated() {
+    this.totalCount = this.initialCount;
+  }
 
   render() {
     return html`
       <cmt-list-view
-        .initialTotalCount=${this.initialCount}
+        .totalCount=${this.totalCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}
+        .needsUpdate=${!!this.initialCount}
+        @totalCountChanged=${this.handleTotalCountChanged}
       ></cmt-list-view>
     `;
+  }
+
+  private handleTotalCountChanged(e: CustomEvent<number>) {
+    this.totalCount = e.detail;
   }
 }
 

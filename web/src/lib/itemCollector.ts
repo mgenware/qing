@@ -15,6 +15,7 @@ export interface ItemsChangedEventArgs<T> {
   count: number;
   // Actual number of loaded items.
   actualCount: number;
+  newItems: T[];
 }
 
 export abstract class ItemCollector<T> {
@@ -33,7 +34,7 @@ export abstract class ItemCollector<T> {
 
   constructor(
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: Partial<ItemsChangedEventArgs<T>>) => void,
+    public itemsChanged: (e: ItemsChangedEventArgs<T>) => void,
   ) {}
 
   async loadMoreAsync() {
@@ -53,6 +54,7 @@ export abstract class ItemCollector<T> {
       page: this.page,
       count: this.count,
       actualCount: this.actualCount,
+      newItems,
     });
   }
 
@@ -69,17 +71,19 @@ export abstract class ItemCollector<T> {
     return this.itemMap[key];
   }
 
-  prepend(items: T[]) {
-    if (this.addCore(items, false)) {
-      this.onItemsChanged({
-        items: this.items,
-        count: this.count,
-        actualCount: this.actualCount,
-      });
-    }
+  prepend(newItems: T[]) {
+    this.addCore(newItems, false);
+    this.onItemsChanged({
+      items: this.items,
+      hasNext: this.hasNext,
+      page: this.page,
+      count: this.count,
+      actualCount: this.actualCount,
+      newItems,
+    });
   }
 
-  private addCore(newItems: T[], append: boolean): boolean {
+  private addCore(newItems: T[], append: boolean) {
     // Remove duplicates (items already added).
     newItems = newItems.filter(item => !this.itemMap[this.getItemID(item)]);
     const { items } = this;
@@ -90,14 +94,13 @@ export abstract class ItemCollector<T> {
     this.items = append ? [...items, ...newItems] : [...newItems, ...items];
     this.count += count;
     this.actualCount += count;
-    return true;
   }
 
   private deleteMapItem(key: string) {
     delete this.itemMap[key];
   }
 
-  protected onItemsChanged(e: Partial<ItemsChangedEventArgs<T>>) {
+  protected onItemsChanged(e: ItemsChangedEventArgs<T>) {
     this.itemsChanged(e);
   }
 }

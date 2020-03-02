@@ -1,10 +1,15 @@
-import { html, customElement, TemplateResult } from 'lit-element';
+import {
+  html,
+  customElement,
+  TemplateResult,
+  PropertyValues,
+} from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
 import Cmt from './cmt';
 import './cmtView';
-import ls from 'ls';
+import { ls, formatLS } from 'ls';
 import CmtCollector from './cmtCollector';
 import './replyListView';
 import './cmtFooterView';
@@ -17,46 +22,38 @@ import LoadingStatus from 'lib/loadingStatus';
 export class CmtListView extends BaseElement {
   @lp.string hostID = '';
   @lp.number hostType: EntityType = 0;
-  @lp.number initialTotalCount = 0;
-
   // The number of all top-level comments and their replies.
-  @lp.number private totalCount = 0;
+  @lp.number totalCount = 0;
+  // Needs update from server. True when host has comments upon page completion.
+  @lp.bool needsUpdate = false;
 
-  // Members of `ItemsChangedEventArgs`:
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
   @lp.number page = 1;
-  @lp.number count = 0;
-  @lp.number actualCount = 0;
 
   private cmtCollector: CmtCollector | null = null;
   @lp.object collectorLoadingStatus = LoadingStatus.empty;
 
   async firstUpdated() {
-    this.totalCount = this.initialTotalCount;
     this.cmtCollector = new CmtCollector(
       this.hostID,
       this.hostType,
       status => {
         this.collectorLoadingStatus = status;
       },
-      itemsChangedArgs => {
-        Object.assign(this, itemsChangedArgs);
-
-        if (itemsChangedArgs.count) {
-          const delta = itemsChangedArgs.count - this.count;
-          if (delta) {
-            // Propagate changes of count.
-            this.dispatchEvent(
-              new CustomEvent<number>('cmtsCountChanged', { detail: delta }),
-            );
-          }
-        }
+      e => {
+        this.items = e.items;
+        this.hasNext = e.hasNext;
+        this.page = e.page;
+        // We cannot assign `e.count` to `this.totalCount`, `e.count` is the number of top-level comments, `this.totalCount` is the number of all comments and replies.
+        this.onTotalCountChanged(this.totalCount + e.newItems.length);
       },
     );
+  }
 
-    if (this.totalCount) {
-      await this.cmtCollector?.loadMoreAsync();
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('needsUpdate')) {
+      this.cmtCollector?.loadMoreAsync();
     }
   }
 
@@ -96,6 +93,15 @@ export class CmtListView extends BaseElement {
           <div>
             ${childViews}
           </div>
+          ${this.totalCount
+            ? html`
+                <p>
+                  <small class="is-secondary"
+                    >${formatLS(ls.pNOComments, this.totalCount)}</small
+                  >
+                </p>
+              `
+            : html``}
           <cmt-footer-view
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
@@ -119,8 +125,7 @@ export class CmtListView extends BaseElement {
   }
 
   handleReplyCountChanged(e: CustomEvent<number>) {
-    const delta = e.detail;
-    this.totalCount += delta;
+    this.onTotalCountChanged(this.totalCount + e.detail);
   }
 
   private renderLoginToComment() {
@@ -154,6 +159,12 @@ export class CmtListView extends BaseElement {
 
   private handleCmtDeleted(index: number) {
     this.items = this.items.filter((_, idx) => idx !== index);
+  }
+
+  private onTotalCountChanged(newValue: number) {
+    this.dispatchEvent(
+      new CustomEvent<number>('totalCountChanged', { detail: newValue }),
+    );
   }
 }
 

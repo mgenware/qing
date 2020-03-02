@@ -14,7 +14,7 @@ export default class CmtCollector extends ItemCollector<Cmt> {
     public hostID: string,
     public hostType: EntityType,
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: Partial<ItemsChangedEventArgs<Cmt>>) => void,
+    public itemsChanged: (e: ItemsChangedEventArgs<Cmt>) => void,
   ) {
     super(loadingStatusChanged, itemsChanged);
   }

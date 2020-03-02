@@ -6,8 +6,8 @@ import { EntityType } from 'lib/entity';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
-  hostID = wind.postID;
-  cmtCount = wind.postCmtCount;
+  private hostID = wind.postID;
+  private cmtCount = wind.postCmtCount;
 
   render() {
     return html`
