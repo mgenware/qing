@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "yarn run lint && yarn run prepare && cross-env NODE_ENV=production rollup -c",
+    "build": "yarn run lint && yarn run qing:prepare && cross-env NODE_ENV=production rollup -c",
     "dev": "yarn run qing:prepare && cross-env NODE_ENV=development rollup -c -w",
     "lint": "eslint --ext .ts src/ && lit-analyzer \"src/**/*.ts\"",
     "qing:prepare": "node ./tools/build-ls-defs && del-cli static/d/js"
