@@ -15,15 +15,15 @@ export class ReplyListView extends BaseElement {
   @lp.number hostType: EntityType = 0;
   @lp.object cmt: Cmt | null = null;
 
-  // Members of `ItemsChangedEventArgs`:
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
   @lp.number page = 1;
-  @lp.number count = 0;
-  @lp.number actualCount = 0;
+
+  @lp.number replyCount = 0;
+  @lp.number numberOfLoadedReplies = 0;
 
   private replyCollector: CmtCollector | null = null;
-  @lp.object private collectorLoadingStatus = LoadingStatus.empty;
+  @lp.object private collectorLoadingStatus = LoadingStatus.success;
 
   firstUpdated() {
     const { cmt } = this;
@@ -36,18 +36,12 @@ export class ReplyListView extends BaseElement {
       status => {
         this.collectorLoadingStatus = status;
       },
-      itemsChangedArgs => {
-        Object.assign(this, itemsChangedArgs);
-
-        if (itemsChangedArgs.count) {
-          const delta = itemsChangedArgs.count - this.count;
-          if (delta) {
-            // Propagate changes of count.
-            this.dispatchEvent(
-              new CustomEvent<number>('repliesCountChanged', { detail: delta }),
-            );
-          }
-        }
+      e => {
+        this.items = e.items;
+        this.hasNext = e.hasNext;
+        this.page = e.page;
+        this.count = e.count;
+        this.onReplyCountChanged(this.count);
       },
     );
   }
@@ -102,6 +96,12 @@ export class ReplyListView extends BaseElement {
 
   private handleReplyDeleted(index: number) {
     this.items = this.items.filter((_, idx) => idx !== index);
+  }
+
+  private onReplyCountChanged(newValue: number) {
+    this.dispatchEvent(
+      new CustomEvent<number>('replyCountChanged', { detail: newValue }),
+    );
   }
 }
 

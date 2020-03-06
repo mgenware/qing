@@ -82,7 +82,7 @@ export class CmtListView extends BaseElement {
               .cmt=${item}
               .hostID=${this.hostID}
               .hostType=${this.hostType}
-              @repliesCountChanged=${this.handleReplyCountChanged}
+              @replyCountChanged=${this.handleReplyCountChanged}
               @rootCmtDeleted=${() => this.handleCmtDeleted(i)}
             ></reply-list-view>
           `,
@@ -124,7 +124,7 @@ export class CmtListView extends BaseElement {
     await this.cmtCollector?.loadMoreAsync();
   }
 
-  handleReplyCountChanged(e: CustomEvent<number>) {
+  private handleReplyCountChanged(e: CustomEvent<number>) {
     this.onTotalCountChanged(this.totalCount + e.detail);
   }
 
