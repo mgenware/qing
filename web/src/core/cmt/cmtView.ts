@@ -84,7 +84,7 @@ export class CmtView extends BaseElement {
             />
           </a>
         </div>
-        <div class="col">
+        <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
             <time-field

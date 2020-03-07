@@ -8,6 +8,13 @@ import CmtCollector from './cmtCollector';
 import { EntityType } from 'lib/entity';
 import './cmtFooterView';
 import LoadingStatus from 'lib/loadingStatus';
+import { formatLS, ls } from 'ls';
+
+export interface ReplyCountChangedEventDetail {
+  totalCount: number;
+  loadedCount: number;
+  offset: number;
+}
 
 @customElement('reply-list-view')
 export class ReplyListView extends BaseElement {
@@ -19,8 +26,8 @@ export class ReplyListView extends BaseElement {
   @lp.bool hasNext = false;
   @lp.number page = 1;
 
-  @lp.number replyCount = 0;
-  @lp.number numberOfLoadedReplies = 0;
+  @lp.number totalCount = 0;
+  @lp.number loadedCount = 0;
 
   private replyCollector: CmtCollector | null = null;
   @lp.object private collectorLoadingStatus = LoadingStatus.success;
@@ -30,6 +37,8 @@ export class ReplyListView extends BaseElement {
     if (!cmt) {
       return;
     }
+    this.totalCount = cmt.replyCount;
+    this.hasNext = this.loadedCount < this.totalCount;
     this.replyCollector = new CmtCollector(
       this.hostID,
       this.hostType,
@@ -40,8 +49,14 @@ export class ReplyListView extends BaseElement {
         this.items = e.items;
         this.hasNext = e.hasNext;
         this.page = e.page;
-        this.count = e.count;
-        this.onReplyCountChanged(this.count);
+        this.loadedCount = e.count;
+        const offset = e.newItems.length;
+        this.totalCount += offset;
+        this.onReplyCountChanged({
+          totalCount: this.totalCount,
+          loadedCount: this.loadedCount,
+          offset,
+        });
       },
     );
   }
@@ -67,20 +82,35 @@ export class ReplyListView extends BaseElement {
     }
     return html`
       <div>
+        <p>
+          ${cmt.replyCount}
+        </p>
         <cmt-view
           .hostID=${this.hostID}
           .hostType=${this.hostType}
-          .cmt=${this.cmt}
+          .cmt=${cmt}
           @cmtDeleted=${this.handleCmtDeleted}
         ></cmt-view>
         <div>
           ${childViews}
         </div>
-        <cmt-footer-view
-          .status=${this.collectorLoadingStatus}
-          .hasNext=${this.hasNext}
-          @viewMoreClick=${this.handleViewMoreClick}
-        ></cmt-footer-view>
+        <div style="margin-left: 65px">
+          ${this.totalCount
+            ? html`
+                <p>
+                  <small class="is-secondary"
+                    >${formatLS(ls.pNOReplies, this.totalCount)}</small
+                  >
+                </p>
+              `
+            : html``}
+          <cmt-footer-view
+            .replies=${true}
+            .status=${this.collectorLoadingStatus}
+            .hasNext=${this.hasNext}
+            @viewMoreClick=${this.handleViewMoreClick}
+          ></cmt-footer-view>
+        </div>
       </div>
     `;
   }
@@ -98,9 +128,11 @@ export class ReplyListView extends BaseElement {
     this.items = this.items.filter((_, idx) => idx !== index);
   }
 
-  private onReplyCountChanged(newValue: number) {
+  private onReplyCountChanged(detail: ReplyCountChangedEventDetail) {
     this.dispatchEvent(
-      new CustomEvent<number>('replyCountChanged', { detail: newValue }),
+      new CustomEvent<ReplyCountChangedEventDetail>('replyCountChanged', {
+        detail,
+      }),
     );
   }
 }
