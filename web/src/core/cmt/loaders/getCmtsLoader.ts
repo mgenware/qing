@@ -5,16 +5,29 @@ import { ItemsResponse } from 'lib/itemCollector';
 import Cmt from '../cmt';
 
 export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
-  constructor(
-    public hostID: string,
-    public hostType: EntityType,
+  private constructor(
+    public hostID: string | null,
+    public hostType: EntityType | null,
+    public parentID: string | null,
     public page: number,
   ) {
     super();
   }
 
+  static cmts(
+    hostID: string,
+    hostType: EntityType,
+    page: number,
+  ): GetCmtsLoader {
+    return new GetCmtsLoader(hostID, hostType, null, page);
+  }
+
+  static replies(parentID: string, page: number): GetCmtsLoader {
+    return new GetCmtsLoader(null, null, parentID, page);
+  }
+
   requestURL(): string {
-    return routes.s.p.cmt.list;
+    return routes.s.p.cmt.get;
   }
 
   requestParams(): object {

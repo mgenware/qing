@@ -29,7 +29,7 @@ export default buildTree({
     },
     p: {
       cmt: {
-        list: 'list',
+        get: 'get',
       },
     },
   },

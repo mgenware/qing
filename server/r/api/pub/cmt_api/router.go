@@ -8,5 +8,5 @@ import (
 var Router = chi.NewRouter()
 
 func init() {
-	Router.Post("/list", listCmt)
+	Router.Post("/get", getCmts)
 }

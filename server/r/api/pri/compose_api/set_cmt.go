@@ -16,7 +16,7 @@ type SetCmtResponse struct {
 	Cmt *apidata.Cmt `json:"cmt"`
 }
 
-func getCmtTA(hostType int) (da.CmtCore, error) {
+func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
 	case defs.EntityPost:
 		return da.Post, nil
@@ -81,7 +81,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
 		app.PanicIfErr(err)
 
-		cmt := &apidata.Cmt{ID: validator.EncodeID(id)}
+		cmt := &apidata.Cmt{EID: validator.EncodeID(id)}
 		cmt.Content = content
 		now := time.Now()
 		cmt.ModifiedAt = &now
