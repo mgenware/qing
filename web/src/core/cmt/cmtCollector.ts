@@ -5,22 +5,35 @@ import {
 } from 'lib/itemCollector';
 import Cmt from './cmt';
 import Loader from 'lib/loader';
-import { EntityType } from 'lib/entity';
-import GetCmtsLoader from './loaders/getCmtsLoader';
+import GetCmtsLoader, {
+  GetCmtsInputs,
+  GetRepliesInputs,
+} from './loaders/getCmtsLoader';
 import LoadingStatus from 'lib/loadingStatus';
 
 export default class CmtCollector extends ItemCollector<Cmt> {
+  cmtInputs?: GetCmtsInputs;
+  replyInputs?: GetRepliesInputs;
+
   constructor(
-    public hostID: string,
-    public hostType: EntityType,
+    cmtInputs: GetCmtsInputs | undefined,
+    replyInputs: GetRepliesInputs | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
     public itemsChanged: (e: ItemsChangedEventArgs<Cmt>) => void,
   ) {
     super(loadingStatusChanged, itemsChanged);
+    this.cmtInputs = cmtInputs;
+    this.replyInputs = replyInputs;
   }
 
   protected createLoader(): Loader<ItemsResponse<Cmt>> {
-    return new GetCmtsLoader(this.hostID, this.hostType, this.page);
+    if (this.cmtInputs) {
+      return GetCmtsLoader.cmt(this.cmtInputs);
+    }
+    if (this.replyInputs) {
+      return GetCmtsLoader.reply(this.replyInputs);
+    }
+    throw new Error('Both `cmtInputs` and `replyInputs` are undefined.');
   }
 
   protected getItemID(item: Cmt): string {

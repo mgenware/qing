@@ -4,26 +4,35 @@ import { EntityType } from 'lib/entity';
 import { ItemsResponse } from 'lib/itemCollector';
 import Cmt from '../cmt';
 
+export interface GetCmtsInputs {
+  hostID: string;
+  hostType: EntityType;
+  page: number;
+}
+
+export interface GetRepliesInputs {
+  parentID: string;
+  page: number;
+}
+
 export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
-  private constructor(
-    public hostID: string | null,
-    public hostType: EntityType | null,
-    public parentID: string | null,
-    public page: number,
-  ) {
+  cmtInputs?: GetCmtsInputs;
+  replyInputs?: GetRepliesInputs;
+
+  private constructor() {
     super();
   }
 
-  static cmts(
-    hostID: string,
-    hostType: EntityType,
-    page: number,
-  ): GetCmtsLoader {
-    return new GetCmtsLoader(hostID, hostType, null, page);
+  static cmt(inputs: GetCmtsInputs): GetCmtsLoader {
+    const res = new GetCmtsLoader();
+    res.cmtInputs = inputs;
+    return res;
   }
 
-  static replies(parentID: string, page: number): GetCmtsLoader {
-    return new GetCmtsLoader(null, null, parentID, page);
+  static reply(inputs: GetRepliesInputs): GetCmtsLoader {
+    const res = new GetCmtsLoader();
+    res.replyInputs = inputs;
+    return res;
   }
 
   requestURL(): string {
@@ -31,11 +40,12 @@ export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
   }
 
   requestParams(): object {
-    const ret = {
-      hostID: this.hostID,
-      hostType: this.hostType,
-      page: this.page,
-    };
-    return ret;
+    if (this.cmtInputs) {
+      return this.cmtInputs;
+    }
+    if (this.replyInputs) {
+      return this.replyInputs;
+    }
+    return {};
   }
 }

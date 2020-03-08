@@ -40,8 +40,11 @@ export class ReplyListView extends BaseElement {
     this.totalCount = cmt.replyCount;
     this.hasNext = this.loadedCount < this.totalCount;
     this.replyCollector = new CmtCollector(
-      this.hostID,
-      this.hostType,
+      undefined,
+      {
+        parentID: cmt.id,
+        page: this.page,
+      },
       status => {
         this.collectorLoadingStatus = status;
       },

@@ -36,8 +36,12 @@ export class CmtListView extends BaseElement {
 
   async firstUpdated() {
     this.cmtCollector = new CmtCollector(
-      this.hostID,
-      this.hostType,
+      {
+        hostID: this.hostID,
+        hostType: this.hostType,
+        page: this.page,
+      },
+      undefined,
       status => {
         this.collectorLoadingStatus = status;
       },
