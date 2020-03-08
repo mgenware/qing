@@ -10,6 +10,7 @@ export class CmtFooterView extends BaseElement {
   @lp.object status = LoadingStatus.empty;
   @lp.bool hasNext = false;
   @lp.bool replies = false;
+  @lp.number loadedCount = 0;
 
   render() {
     const { status } = this;
@@ -19,7 +20,7 @@ export class CmtFooterView extends BaseElement {
           <p>
             <a href="#" @click=${this.handleMoreButtonClick}
               >${formatLS(
-                ls.pViewMore,
+                this.loadedCount ? ls.pViewMore : ls.pView,
                 this.replies ? ls.replies : ls.comments,
               )}</a
             >

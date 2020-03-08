@@ -70,6 +70,7 @@
   "ppItemsCounter": "{0} of {1} items",
   "oneItem": "1 item",
   "pViewMore": "View more {0:lowercase}",
+  "pView": "View {0:lowercase}",
   "replies": "Replies",
   "warning": "Warning",
   "editComment": "Edit comment",

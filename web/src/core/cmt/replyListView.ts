@@ -111,6 +111,7 @@ export class ReplyListView extends BaseElement {
             .replies=${true}
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
+            .loadedCount=${this.items.length}
             @viewMoreClick=${this.handleViewMoreClick}
           ></cmt-footer-view>
         </div>

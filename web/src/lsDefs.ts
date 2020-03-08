@@ -70,6 +70,7 @@ export default interface LSDefs {
   ppItemsCounter: string;
   oneItem: string;
   pViewMore: string;
+  pView: string;
   replies: string;
   warning: string;
   editComment: string;

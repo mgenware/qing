@@ -109,6 +109,7 @@ export class CmtListView extends BaseElement {
           <cmt-footer-view
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
+            .loadedCount=${this.items.length}
             @viewMoreClick=${this.handleViewMoreClick}
           ></cmt-footer-view>
         </div>
