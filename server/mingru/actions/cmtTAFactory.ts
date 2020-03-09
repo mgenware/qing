@@ -42,18 +42,17 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
 export function updateCmtCountAction(
   pt: CmtHostTable,
   offset: number,
-  idVariable: string,
 ): mm.Action {
   return mm
     .updateOne()
     .from(pt)
     .set(pt.cmt_count, mm.sql`${pt.cmt_count} + ${mm.int().toInput('offset')}`)
-    .where(updateConditions(pt))
-    .wrap({ offset, id: mm.valueRef(idVariable) });
+    .where(updateConditions(pt, hostID))
+    .wrap({ offset });
 }
 
 export function insertCmtAction(
-  pt: CmtHostTable,
+  ht: CmtHostTable,
   rt: CmtRelationTable,
 ): mm.Action {
   return mm
@@ -69,14 +68,14 @@ export function insertCmtAction(
         .from(rt)
         .setInputs()
         .wrapAsRefs({ cmtID }),
-      updateCmtCountAction(pt, 1, hostID),
+      updateCmtCountAction(ht, 1),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function deleteCmtAction(pt: CmtHostTable): Action {
+export function deleteCmtAction(ht: CmtHostTable): Action {
   return mm
     .transact(
       cmtTA.getHostID.declareReturnValue(mm.ReturnValues.result, hostID),
@@ -84,7 +83,7 @@ export function deleteCmtAction(pt: CmtHostTable): Action {
         .deleteOne()
         .from(cmt)
         .where(updateConditions(cmt)),
-      updateCmtCountAction(pt, -1, hostID),
+      updateCmtCountAction(ht, -1),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
 }
@@ -102,7 +101,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.Action {
         offset: 1,
         id: new mm.ValueRef(parentID),
       }),
-      updateCmtCountAction(ht, 1, replyID),
+      updateCmtCountAction(ht, 1),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)

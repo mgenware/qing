@@ -8,9 +8,10 @@ export interface CmtHostTable extends mm.Table {
 
 export function updateConditions(
   table: Omit<CmtHostTable, 'cmt_count'>,
+  idInputName?: string,
 ): mm.SQL {
   return mm.and(
-    mm.sql`${table.id.isEqualToInput()}`,
+    mm.sql`${table.id.isEqualToInput(idInputName)}`,
     mm.sql`${table.user_id.isEqualToInput()}`,
   );
 }

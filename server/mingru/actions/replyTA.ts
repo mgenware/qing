@@ -2,7 +2,11 @@ import * as mm from 'mingru-models';
 import { reply as t } from '../models/cmt';
 import * as cm from '../models/common';
 import user from '../models/user';
-import { updateConditions, replyInterface, replyResultType } from './cmtTAUtils';
+import {
+  updateConditions,
+  replyInterface,
+  replyResultType,
+} from './cmtTAUtils';
 
 export class ReplyTA extends mm.TableActions {
   selectReplies = mm
@@ -22,7 +26,7 @@ export class ReplyTA extends mm.TableActions {
     .attrs({
       [mm.ActionAttributes.groupTypeName]: replyInterface,
       [mm.ActionAttributes.resultTypeName]: replyResultType,
-    });;
+    });
   editReply = mm
     .updateOne()
     .setInputs(t.content)

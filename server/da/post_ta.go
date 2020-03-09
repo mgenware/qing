@@ -32,7 +32,7 @@ func (da *TableTypePost) deleteCmtChild3(queryable dbx.Queryable, hostID uint64,
 }
 
 // DeleteCmt ...
-func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
+func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostID uint64) error {
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		hostID, err := Cmt.GetHostID(tx, id)
@@ -139,13 +139,13 @@ func (da *TableTypePost) insertReplyChild2(queryable dbx.Queryable, parentID uin
 	return Cmt.UpdateReplyCount(queryable, parentID, userID, 1)
 }
 
-func (da *TableTypePost) insertReplyChild3(queryable dbx.Queryable, replyID uint64, userID uint64) error {
-	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ? AND `user_id` = ?", 1, replyID, userID)
+func (da *TableTypePost) insertReplyChild3(queryable dbx.Queryable, hostID uint64, userID uint64) error {
+	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ? AND `user_id` = ?", 1, hostID, userID)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertReply ...
-func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -157,7 +157,7 @@ func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, 
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild3(tx, replyID, userID)
+		err = da.insertReplyChild3(tx, hostID, userID)
 		if err != nil {
 			return err
 		}
