@@ -99,11 +99,11 @@ export class CmtListView extends BaseElement {
           </div>
           ${this.totalCount
             ? html`
-                <p>
+                <div>
                   <small class="is-secondary"
                     >${formatLS(ls.pNOComments, this.totalCount)}</small
                   >
-                </p>
+                </div>
               `
             : html``}
           <cmt-footer-view

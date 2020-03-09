@@ -579,3 +579,7 @@ a:visited {
   border-radius: 5px;
   padding: 0.2rem 0.7rem;
 }
+
+.reply-block {
+  margin-left: 65px;
+}

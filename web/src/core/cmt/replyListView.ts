@@ -94,17 +94,15 @@ export class ReplyListView extends BaseElement {
           .cmt=${cmt}
           @cmtDeleted=${this.handleCmtDeleted}
         ></cmt-view>
-        <div>
+        <div class="reply-block">
           ${childViews}
-        </div>
-        <div style="margin-left: 65px">
           ${this.totalCount
             ? html`
-                <p>
+                <div>
                   <small class="is-secondary"
                     >${formatLS(ls.pNOReplies, this.totalCount)}</small
                   >
-                </p>
+                </div>
               `
             : html``}
           <cmt-footer-view
