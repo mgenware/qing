@@ -583,3 +583,8 @@ a:visited {
 .reply-block {
   margin-left: 65px;
 }
+
+qing-dialog {
+  --dialog-border-radius: 4px;
+  --dialog-border: 1px solid var(--default-separator-color);
+}
