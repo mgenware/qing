@@ -13,10 +13,11 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) {
 	uid := resp.UserID()
 
 	cmtID := validator.MustGetIDFromDict(params, "id")
+	hostID := validator.MustGetIDFromDict(params, "hostID")
 	hostType := validator.MustGetIntFromDict(params, "hostType")
 	cmtTA, err := getCmtTA(hostType)
 	app.PanicIfErr(err)
-	err = cmtTA.DeleteCmt(app.DB, cmtID, uid)
+	err = cmtTA.DeleteCmt(app.DB, cmtID, uid, hostID)
 	app.PanicIfErr(err)
 	resp.MustComplete(nil)
 }

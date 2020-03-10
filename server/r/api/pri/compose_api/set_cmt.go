@@ -55,8 +55,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		}
 
 		var cmtID uint64
-		if toUserID != 0 {
-			cmtID, err = cmtCore.InsertReply(app.DB, content, uid, toUserID, parentCmtID, sanitizedToken, captResult)
+		if parentCmtID != 0 {
+			cmtID, err = cmtCore.InsertReply(app.DB, content, uid, toUserID, parentCmtID, hostID, sanitizedToken, captResult)
 		} else {
 			cmtID, err = cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)
 		}

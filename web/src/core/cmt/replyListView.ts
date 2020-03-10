@@ -26,6 +26,7 @@ export class ReplyListView extends BaseElement {
   @lp.bool hasNext = false;
   @lp.number page = 1;
 
+  // Number of replies under this comment.
   @lp.number totalCount = 0;
   @lp.number loadedCount = 0;
 
@@ -42,7 +43,7 @@ export class ReplyListView extends BaseElement {
     this.replyCollector = new CmtCollector(
       undefined,
       {
-        parentID: cmt.id,
+        parentCmtID: cmt.id,
         page: this.page,
       },
       status => {
@@ -53,13 +54,6 @@ export class ReplyListView extends BaseElement {
         this.hasNext = e.hasNext;
         this.page = e.page;
         this.loadedCount = e.count;
-        const offset = e.newItems.length;
-        this.totalCount += offset;
-        this.onReplyCountChanged({
-          totalCount: this.totalCount,
-          loadedCount: this.loadedCount,
-          offset,
-        });
       },
     );
   }
@@ -78,21 +72,20 @@ export class ReplyListView extends BaseElement {
             .hostID=${this.hostID}
             .hostType=${this.hostType}
             .cmt=${item}
-            @cmtDeleted=${() => this.handleReplyDeleted(i)}
+            @cmtDeleted=${this.handleReplyDeleted}
+            @cmtAdded=${this.handleReplyCreated}
           ></cmt-view>
         `,
       );
     }
     return html`
       <div>
-        <p>
-          ${cmt.replyCount}
-        </p>
         <cmt-view
           .hostID=${this.hostID}
           .hostType=${this.hostType}
           .cmt=${cmt}
-          @cmtDeleted=${this.handleCmtDeleted}
+          @cmtDeleted=${this.handleRootCmtDeleted}
+          @cmtAdded=${this.handleReplyCreated}
         ></cmt-view>
         <div class="reply-block">
           ${childViews}
@@ -121,19 +114,37 @@ export class ReplyListView extends BaseElement {
     await this.replyCollector?.loadMoreAsync();
   }
 
-  private handleCmtDeleted() {
-    // Propagate the event and let the outer scope handle this.
-    this.dispatchEvent(new CustomEvent<undefined>('rootCmtDeleted'));
+  private handleRootCmtDeleted() {
+    const detail: ReplyCountChangedEventDetail = {
+      totalCount: this.totalCount,
+      loadedCount: this.loadedCount,
+      offset: -1,
+    };
+    this.dispatchEvent(
+      new CustomEvent<ReplyCountChangedEventDetail>('rootCmtDeleted', {
+        detail,
+      }),
+    );
+  }
+
+  private handleReplyCreated() {
+    this.onReplyCountChanged(1);
   }
 
   private handleReplyDeleted(index: number) {
     this.items = this.items.filter((_, idx) => idx !== index);
+    this.onReplyCountChanged(-1);
   }
 
-  private onReplyCountChanged(detail: ReplyCountChangedEventDetail) {
+  private onReplyCountChanged(offset: number) {
+    this.totalCount += offset;
     this.dispatchEvent(
       new CustomEvent<ReplyCountChangedEventDetail>('replyCountChanged', {
-        detail,
+        detail: {
+          offset,
+          totalCount: this.totalCount,
+          loadedCount: this.loadedCount,
+        },
       }),
     );
   }

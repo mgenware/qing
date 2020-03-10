@@ -17,6 +17,7 @@ import { EntityType } from 'lib/entity';
 import { splitLocalizedString } from 'lib/stringUtils';
 import { SetCmtResponse } from './loaders/setCmtLoader';
 import LoadingStatus from 'lib/loadingStatus';
+import { ReplyCountChangedEventDetail } from './replyListView';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
@@ -49,8 +50,6 @@ export class CmtListView extends BaseElement {
         this.items = e.items;
         this.hasNext = e.hasNext;
         this.page = e.page;
-        // We cannot assign `e.count` to `this.totalCount`, `e.count` is the number of top-level comments, `this.totalCount` is the number of all comments and replies.
-        this.onTotalCountChanged(this.totalCount + e.newItems.length);
       },
     );
   }
@@ -87,7 +86,8 @@ export class CmtListView extends BaseElement {
               .hostID=${this.hostID}
               .hostType=${this.hostType}
               @replyCountChanged=${this.handleReplyCountChanged}
-              @rootCmtDeleted=${() => this.handleCmtDeleted(i)}
+              @rootCmtDeleted=${(e: ReplyCountChangedEventDetail) =>
+                this.handleCmtDeleted(i, e)}
             ></reply-list-view>
           `,
         );
@@ -129,8 +129,10 @@ export class CmtListView extends BaseElement {
     await this.cmtCollector?.loadMoreAsync();
   }
 
-  private handleReplyCountChanged(e: CustomEvent<number>) {
-    this.onTotalCountChanged(this.totalCount + e.detail);
+  private handleReplyCountChanged(
+    e: CustomEvent<ReplyCountChangedEventDetail>,
+  ) {
+    this.onTotalCountChanged(e.detail.offset);
   }
 
   private renderLoginToComment() {
@@ -162,13 +164,18 @@ export class CmtListView extends BaseElement {
     }
   }
 
-  private handleCmtDeleted(index: number) {
+  private handleCmtDeleted(
+    index: number,
+    detail: ReplyCountChangedEventDetail,
+  ) {
     this.items = this.items.filter((_, idx) => idx !== index);
+    this.onTotalCountChanged(-detail.totalCount);
   }
 
-  private onTotalCountChanged(newValue: number) {
+  private onTotalCountChanged(offset: number) {
+    this.totalCount += offset;
     this.dispatchEvent(
-      new CustomEvent<number>('totalCountChanged', { detail: newValue }),
+      new CustomEvent<number>('totalCountChanged', { detail: offset }),
     );
   }
 }

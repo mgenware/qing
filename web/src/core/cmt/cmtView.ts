@@ -63,7 +63,7 @@ export class CmtView extends BaseElement {
             .entityID=${this.editorMode === EditorMode.editing ? cmt.id : ''}
             .entityType=${EntityType.cmt}
             .submitButtonText=${ls.save}
-            @onSubmit=${this.handleEdit}
+            @onSubmit=${this.handleSubmit}
             @onDiscard=${this.handleDiscard}
           ></composer-view>
         </status-overlay>
@@ -133,7 +133,7 @@ export class CmtView extends BaseElement {
     this.editorMode = EditorMode.none;
   }
 
-  private async handleEdit(e: CustomEvent<ComposerContent>) {
+  private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const { cmt, editorMode } = this;
     if (!cmt || editorMode === EditorMode.none) {
       return;
@@ -155,14 +155,22 @@ export class CmtView extends BaseElement {
       // is something server must return (an empty timestamp) but doesn't
       // make sense here.
       const serverCmt = status.data.cmt;
-      const updatedCmt: Cmt = {
+      const newCmt: Cmt = {
         ...cmt,
         ...serverCmt,
       };
-      updatedCmt.createdAt = cmt.createdAt;
-
-      this.cmt = updatedCmt;
+      newCmt.createdAt = cmt.createdAt;
       this.closeEditor();
+
+      if (editorMode === EditorMode.editing) {
+        this.cmt = newCmt;
+      }
+      this.dispatchEvent(
+        new CustomEvent<Cmt>(
+          editorMode === EditorMode.editing ? 'cmtUpdated' : 'cmtAdded',
+          { detail: newCmt },
+        ),
+      );
     }
   }
 

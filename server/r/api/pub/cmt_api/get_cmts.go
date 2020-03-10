@@ -59,14 +59,14 @@ func getCmts(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	parentID := validator.GetIDFromDict(params, "parentID")
+	parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 	page := jsonx.GetIntOrDefault(params, "page")
 
 	db := app.DB
 
 	// Selecting replies.
-	if parentID != 0 {
-		replies, hasNext, err := da.Reply.SelectReplies(db, parentID, page, kCmtPageSize)
+	if parentCmtID != 0 {
+		replies, hasNext, err := da.Reply.SelectReplies(db, parentCmtID, page, kCmtPageSize)
 		if err != nil {
 			app.PanicIfErr(err)
 		}
