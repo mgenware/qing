@@ -4,7 +4,7 @@ module.exports = {
   endOfLine: 'lf',
   overrides: [
     {
-      files: '*.html', // replace this by more specific extension if needed
+      files: '*.html',
       options: {
         parser: 'html',
       },
