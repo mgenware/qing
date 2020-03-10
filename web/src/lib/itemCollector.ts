@@ -48,14 +48,7 @@ export abstract class ItemCollector<T> {
     this.hasNext = payload.hasNext || false;
     this.page += 1;
 
-    this.onItemsChanged({
-      items: this.items,
-      hasNext: this.hasNext,
-      page: this.page,
-      count: this.count,
-      actualCount: this.actualCount,
-      newItems,
-    });
+    this.onItemsChanged(newItems);
   }
 
   protected abstract createLoader(): Loader<ItemsResponse<T>>;
@@ -63,8 +56,14 @@ export abstract class ItemCollector<T> {
 
   deleteByIndex(idx: number) {
     const item = this.items[idx];
+    if (!item) {
+      return;
+    }
     arrayUtils.removeByIndex(this.items, idx);
     this.deleteMapItem(this.getItemID(item));
+    this.count--;
+    this.actualCount--;
+    this.onItemsChanged([]);
   }
 
   getByKey(key: string): T | null {
@@ -73,14 +72,12 @@ export abstract class ItemCollector<T> {
 
   prepend(newItems: T[]) {
     this.addCore(newItems, false);
-    this.onItemsChanged({
-      items: this.items,
-      hasNext: this.hasNext,
-      page: this.page,
-      count: this.count,
-      actualCount: this.actualCount,
-      newItems,
-    });
+    this.onItemsChanged(newItems);
+  }
+
+  append(newItems: T[]) {
+    this.addCore(newItems, true);
+    this.onItemsChanged(newItems);
   }
 
   private addCore(newItems: T[], append: boolean) {
@@ -100,7 +97,14 @@ export abstract class ItemCollector<T> {
     delete this.itemMap[key];
   }
 
-  protected onItemsChanged(e: ItemsChangedEventArgs<T>) {
-    this.itemsChanged(e);
+  protected onItemsChanged(newItems: T[]) {
+    this.itemsChanged({
+      items: this.items,
+      hasNext: this.hasNext,
+      page: this.page,
+      count: this.count,
+      actualCount: this.actualCount,
+      newItems,
+    });
   }
 }

@@ -11,27 +11,32 @@ import GetCmtsLoader, {
 } from './loaders/getCmtsLoader';
 import LoadingStatus from 'lib/loadingStatus';
 
-export default class CmtCollector extends ItemCollector<Cmt> {
-  cmtInputs?: GetCmtsInputs;
-  replyInputs?: GetRepliesInputs;
+// `page` param is managed internally by `CmtCollector`.
+export type GetCmtsInputsWithoutPage = Exclude<GetCmtsInputs, 'page'>;
+export type GetRepliesInputsWithoutPage = Exclude<GetRepliesInputs, 'page'>;
 
+export default class CmtCollector extends ItemCollector<Cmt> {
   constructor(
-    cmtInputs: GetCmtsInputs | undefined,
-    replyInputs: GetRepliesInputs | undefined,
+    public cmtInputs: GetCmtsInputsWithoutPage | undefined,
+    public replyInputs: GetRepliesInputsWithoutPage | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
     public itemsChanged: (e: ItemsChangedEventArgs<Cmt>) => void,
   ) {
     super(loadingStatusChanged, itemsChanged);
-    this.cmtInputs = cmtInputs;
-    this.replyInputs = replyInputs;
   }
 
   protected createLoader(): Loader<ItemsResponse<Cmt>> {
     if (this.cmtInputs) {
-      return GetCmtsLoader.cmt(this.cmtInputs);
+      return GetCmtsLoader.cmt({
+        ...this.cmtInputs,
+        page: this.page,
+      });
     }
     if (this.replyInputs) {
-      return GetCmtsLoader.reply(this.replyInputs);
+      return GetCmtsLoader.reply({
+        ...this.replyInputs,
+        page: this.page,
+      });
     }
     throw new Error('Both `cmtInputs` and `replyInputs` are undefined.');
   }

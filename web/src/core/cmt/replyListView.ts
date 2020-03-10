@@ -127,7 +127,8 @@ export class ReplyListView extends BaseElement {
     );
   }
 
-  private handleReplyCreated() {
+  private handleReplyCreated(newCmt: Cmt) {
+    this.items = [...this.items, newCmt];
     this.onReplyCountChanged(1);
   }
 
