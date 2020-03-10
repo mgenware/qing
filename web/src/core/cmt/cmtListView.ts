@@ -28,6 +28,9 @@ export class CmtListView extends BaseElement {
   // Needs update from server. True when host has comments upon page completion.
   @lp.bool needsUpdate = false;
 
+  // Can only be changed within `CmtCollector.itemsChanged` event.
+  // `CmtCollector` provides paging and duplication removal.
+  // DO NOT modify `items` elsewhere.
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
   @lp.number page = 1;
@@ -159,17 +162,16 @@ export class CmtListView extends BaseElement {
   }
 
   private async handleCmtAdded(e: CustomEvent<SetCmtResponse>) {
-    if (e.detail) {
-      this.cmtCollector?.prepend([e.detail.cmt]);
-    }
+    this.cmtCollector?.prepend([e.detail.cmt]);
   }
 
   private handleCmtDeleted(
     index: number,
     detail: ReplyCountChangedEventDetail,
   ) {
-    this.items = this.items.filter((_, idx) => idx !== index);
-    this.onTotalCountChanged(-detail.totalCount);
+    this.cmtCollector?.deleteByIndex(index);
+    // Total number of comments is down by 1 (this comment) plus all its replies.
+    this.onTotalCountChanged(-detail.totalCount + 1);
   }
 
   private onTotalCountChanged(offset: number) {

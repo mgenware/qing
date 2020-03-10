@@ -13,7 +13,7 @@ import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
 import { ComposerView, ComposerContent } from 'ui/editor/composerView';
-import SetCmtLoader from './loaders/setCmtLoader';
+import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
 import DeleteCmtLoader from './loaders/deleteCmtLoader';
 
 enum EditorMode {
@@ -150,27 +150,29 @@ export class CmtView extends BaseElement {
           );
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
-      // Copy all properties from `serverCmt` except for the `createdAt`.
-      // We're hot patching the cmt object, and the `createdAt` property
-      // is something server must return (an empty timestamp) but doesn't
-      // make sense here.
-      const serverCmt = status.data.cmt;
-      const newCmt: Cmt = {
-        ...cmt,
-        ...serverCmt,
-      };
-      newCmt.createdAt = cmt.createdAt;
       this.closeEditor();
 
       if (editorMode === EditorMode.editing) {
+        // Copy all properties from `serverCmt` except for the `createdAt`.
+        // We're hot patching the cmt object, and the `createdAt` property
+        // is something server must return (an empty timestamp) but doesn't
+        // make sense here.
+        const serverCmt = status.data.cmt;
+        const newCmt: Cmt = {
+          ...cmt,
+          ...serverCmt,
+        };
+        newCmt.createdAt = cmt.createdAt;
+
         this.cmt = newCmt;
+        this.dispatchEvent(
+          new CustomEvent<Cmt>('cmtUpdated', { detail: newCmt }),
+        );
+      } else {
+        this.dispatchEvent(
+          new CustomEvent<SetCmtResponse>('cmtAdded', { detail: status.data }),
+        );
       }
-      this.dispatchEvent(
-        new CustomEvent<Cmt>(
-          editorMode === EditorMode.editing ? 'cmtUpdated' : 'cmtAdded',
-          { detail: newCmt },
-        ),
-      );
     }
   }
 

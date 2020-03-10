@@ -11,8 +11,6 @@ export interface ItemsChangedEventArgs<T> {
   items: T[];
   hasNext: boolean;
   page: number;
-  // Total amount of items.
-  count: number;
   // Actual number of loaded items.
   actualCount: number;
   newItems: T[];
@@ -102,7 +100,6 @@ export abstract class ItemCollector<T> {
       items: this.items,
       hasNext: this.hasNext,
       page: this.page,
-      count: this.count,
       actualCount: this.actualCount,
       newItems,
     });

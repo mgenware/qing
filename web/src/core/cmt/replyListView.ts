@@ -9,10 +9,10 @@ import { EntityType } from 'lib/entity';
 import './cmtFooterView';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
+import { SetCmtResponse } from './loaders/setCmtLoader';
 
 export interface ReplyCountChangedEventDetail {
   totalCount: number;
-  loadedCount: number;
   offset: number;
 }
 
@@ -22,13 +22,15 @@ export class ReplyListView extends BaseElement {
   @lp.number hostType: EntityType = 0;
   @lp.object cmt: Cmt | null = null;
 
+  // Can only be changed within `CmtCollector.itemsChanged` event.
+  // `CmtCollector` provides paging and duplication removal.
+  // DO NOT modify `items` elsewhere.
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
   @lp.number page = 1;
 
   // Number of replies under this comment.
   @lp.number totalCount = 0;
-  @lp.number loadedCount = 0;
 
   private replyCollector: CmtCollector | null = null;
   @lp.object private collectorLoadingStatus = LoadingStatus.success;
@@ -39,7 +41,7 @@ export class ReplyListView extends BaseElement {
       return;
     }
     this.totalCount = cmt.replyCount;
-    this.hasNext = this.loadedCount < this.totalCount;
+    this.hasNext = !!this.totalCount;
     this.replyCollector = new CmtCollector(
       undefined,
       {
@@ -53,7 +55,6 @@ export class ReplyListView extends BaseElement {
         this.items = e.items;
         this.hasNext = e.hasNext;
         this.page = e.page;
-        this.loadedCount = e.count;
       },
     );
   }
@@ -117,7 +118,6 @@ export class ReplyListView extends BaseElement {
   private handleRootCmtDeleted() {
     const detail: ReplyCountChangedEventDetail = {
       totalCount: this.totalCount,
-      loadedCount: this.loadedCount,
       offset: -1,
     };
     this.dispatchEvent(
@@ -127,13 +127,13 @@ export class ReplyListView extends BaseElement {
     );
   }
 
-  private handleReplyCreated(newCmt: Cmt) {
-    this.items = [...this.items, newCmt];
+  private handleReplyCreated(e: CustomEvent<SetCmtResponse>) {
+    this.replyCollector?.append([e.detail.cmt]);
     this.onReplyCountChanged(1);
   }
 
   private handleReplyDeleted(index: number) {
-    this.items = this.items.filter((_, idx) => idx !== index);
+    this.replyCollector?.deleteByIndex(index);
     this.onReplyCountChanged(-1);
   }
 
@@ -144,7 +144,6 @@ export class ReplyListView extends BaseElement {
         detail: {
           offset,
           totalCount: this.totalCount,
-          loadedCount: this.loadedCount,
         },
       }),
     );
