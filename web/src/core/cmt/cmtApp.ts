@@ -25,13 +25,13 @@ export class CmtApp extends BaseElement {
         .hostID=${this.hostID}
         .hostType=${this.hostType}
         .needsUpdate=${!!this.initialCount}
-        @totalCountChanged=${this.handleTotalCountChanged}
+        @totalCountChangedWithOffset=${this.handleTotalCountChangedWithOffset}
       ></cmt-list-view>
     `;
   }
 
-  private handleTotalCountChanged(e: CustomEvent<number>) {
-    this.totalCount = e.detail;
+  private handleTotalCountChangedWithOffset(e: CustomEvent<number>) {
+    this.totalCount += e.detail;
   }
 }
 

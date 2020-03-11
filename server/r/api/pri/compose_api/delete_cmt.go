@@ -5,6 +5,8 @@ import (
 	"qing/app"
 	"qing/app/cm"
 	"qing/lib/validator"
+
+	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
 func deleteCmt(w http.ResponseWriter, r *http.Request) {
@@ -12,12 +14,18 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	cmtID := validator.MustGetIDFromDict(params, "id")
+	id := validator.MustGetIDFromDict(params, "id")
 	hostID := validator.MustGetIDFromDict(params, "hostID")
 	hostType := validator.MustGetIntFromDict(params, "hostType")
+	isReply := jsonx.GetIntOrDefault(params, "isReply")
+
 	cmtTA, err := getCmtTA(hostType)
 	app.PanicIfErr(err)
-	err = cmtTA.DeleteCmt(app.DB, cmtID, uid, hostID)
+	if isReply == 0 {
+		err = cmtTA.DeleteCmt(app.DB, id, uid, hostID)
+	} else {
+		err = cmtTA.DeleteReply(app.DB, id, uid, hostID)
+	}
 	app.PanicIfErr(err)
 	resp.MustComplete(nil)
 }

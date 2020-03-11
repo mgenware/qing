@@ -11,6 +11,7 @@ import {
   updateConditions,
 } from './cmtTAUtils';
 import { Action } from 'mingru-models';
+import replyTA from './replyTA';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
@@ -106,4 +107,21 @@ export function insertReplyAction(ht: CmtHostTable): mm.Action {
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);
+}
+
+export function deleteReplyAction(ht: CmtHostTable): Action {
+  return mm
+    .transact(
+      replyTA.getParentID.declareReturnValue(mm.ReturnValues.result, parentID),
+      mm
+        .deleteOne()
+        .from(reply)
+        .where(updateConditions(reply)),
+      updateCmtCountAction(ht, -1),
+      cmtTA.updateReplyCount.wrap({
+        offset: -1,
+        id: new mm.ValueRef(parentID),
+      }),
+    )
+    .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
 }

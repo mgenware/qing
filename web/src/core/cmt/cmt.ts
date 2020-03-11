@@ -9,4 +9,16 @@ export default interface Cmt {
   userName: string;
   userURL: string;
   userIconURL: string;
+  toUserID?: string;
+}
+
+export interface CmtCountChangedEventDetail {
+  // The number of items after change.
+  count: number;
+  // The number of changed items.
+  offset: number;
+}
+
+export function isReply(cmt: Cmt): boolean {
+  return !!cmt.toUserID;
 }

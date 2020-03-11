@@ -57,7 +57,7 @@ export abstract class ItemCollector<T> {
     if (!item) {
       return;
     }
-    arrayUtils.removeByIndex(this.items, idx);
+    this.items = arrayUtils.removeByIndexReadOnly(this.items, idx);
     this.deleteMapItem(this.getItemID(item));
     this.count--;
     this.actualCount--;

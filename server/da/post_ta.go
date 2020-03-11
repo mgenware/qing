@@ -58,6 +58,45 @@ func (da *TableTypePost) DeletePost(queryable dbx.Queryable, id uint64, userID u
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
+func (da *TableTypePost) deleteReplyChild2(queryable dbx.Queryable, id uint64, userID uint64) error {
+	result, err := queryable.Exec("DELETE FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+func (da *TableTypePost) deleteReplyChild3(queryable dbx.Queryable, hostID uint64, userID uint64) error {
+	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ? AND `user_id` = ?", -1, hostID, userID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+func (da *TableTypePost) deleteReplyChild4(queryable dbx.Queryable, parentID uint64, userID uint64) error {
+	return Cmt.UpdateReplyCount(queryable, parentID, userID, -1)
+}
+
+// DeleteReply ...
+func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64, hostID uint64) error {
+	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		parentID, err := Reply.GetParentID(tx, id)
+		if err != nil {
+			return err
+		}
+		err = da.deleteReplyChild2(tx, id, userID)
+		if err != nil {
+			return err
+		}
+		err = da.deleteReplyChild3(tx, hostID, userID)
+		if err != nil {
+			return err
+		}
+		err = da.deleteReplyChild4(tx, parentID, userID)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
+}
+
 // EditPost ...
 func (da *TableTypePost) EditPost(queryable dbx.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `post` SET `modified_at` = UTC_TIMESTAMP(), `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)

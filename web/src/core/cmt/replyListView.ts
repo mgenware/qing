@@ -3,18 +3,13 @@ import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import 'ui/cm/timeField';
 import './cmtView';
-import Cmt from './cmt';
+import Cmt, { CmtCountChangedEventDetail } from './cmt';
 import CmtCollector from './cmtCollector';
 import { EntityType } from 'lib/entity';
 import './cmtFooterView';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import { SetCmtResponse } from './loaders/setCmtLoader';
-
-export interface ReplyCountChangedEventDetail {
-  totalCount: number;
-  offset: number;
-}
 
 @customElement('reply-list-view')
 export class ReplyListView extends BaseElement {
@@ -116,12 +111,12 @@ export class ReplyListView extends BaseElement {
   }
 
   private handleRootCmtDeleted() {
-    const detail: ReplyCountChangedEventDetail = {
-      totalCount: this.totalCount,
+    const detail: CmtCountChangedEventDetail = {
+      count: this.totalCount,
       offset: -1,
     };
     this.dispatchEvent(
-      new CustomEvent<ReplyCountChangedEventDetail>('rootCmtDeleted', {
+      new CustomEvent<CmtCountChangedEventDetail>('rootCmtDeleted', {
         detail,
       }),
     );
@@ -140,10 +135,10 @@ export class ReplyListView extends BaseElement {
   private onReplyCountChanged(offset: number) {
     this.totalCount += offset;
     this.dispatchEvent(
-      new CustomEvent<ReplyCountChangedEventDetail>('replyCountChanged', {
+      new CustomEvent<CmtCountChangedEventDetail>('replyCountChanged', {
         detail: {
           offset,
-          totalCount: this.totalCount,
+          count: this.totalCount,
         },
       }),
     );

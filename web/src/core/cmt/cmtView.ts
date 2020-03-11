@@ -8,7 +8,7 @@ import 'ui/editor/editBar';
 import 'ui/cm/statusOverlay';
 import 'ui/cm/linkButton';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import Cmt from './cmt';
+import Cmt, { isReply } from './cmt';
 import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
@@ -205,7 +205,12 @@ export class CmtView extends BaseElement {
     }
     if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
-      const loader = new DeleteCmtLoader(cmt.id, this.hostType);
+      const loader = new DeleteCmtLoader(
+        cmt.id,
+        this.hostType,
+        this.hostID,
+        isReply(cmt),
+      );
       const status = await app.runGlobalActionAsync(loader, ls.working);
       if (status.isSuccess) {
         this.dispatchEvent(new CustomEvent<undefined>('cmtDeleted'));

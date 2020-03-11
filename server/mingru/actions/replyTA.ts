@@ -27,6 +27,7 @@ export class ReplyTA extends mm.TableActions {
       [mm.ActionAttributes.groupTypeName]: replyInterface,
       [mm.ActionAttributes.resultTypeName]: replyResultType,
     });
+  getParentID = mm.selectField(t.parent_id).byID();
   editReply = mm
     .updateOne()
     .setInputs(t.content)

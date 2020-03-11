@@ -7,7 +7,7 @@ import {
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
-import Cmt from './cmt';
+import Cmt, { CmtCountChangedEventDetail } from './cmt';
 import './cmtView';
 import { ls, formatLS } from 'ls';
 import CmtCollector from './cmtCollector';
@@ -17,7 +17,6 @@ import { EntityType } from 'lib/entity';
 import { splitLocalizedString } from 'lib/stringUtils';
 import { SetCmtResponse } from './loaders/setCmtLoader';
 import LoadingStatus from 'lib/loadingStatus';
-import { ReplyCountChangedEventDetail } from './replyListView';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
@@ -89,8 +88,8 @@ export class CmtListView extends BaseElement {
               .hostID=${this.hostID}
               .hostType=${this.hostType}
               @replyCountChanged=${this.handleReplyCountChanged}
-              @rootCmtDeleted=${(e: ReplyCountChangedEventDetail) =>
-                this.handleCmtDeleted(i, e)}
+              @rootCmtDeleted=${(e: CustomEvent<CmtCountChangedEventDetail>) =>
+                this.handleRootCmtDeleted(i, e.detail)}
             ></reply-list-view>
           `,
         );
@@ -132,9 +131,7 @@ export class CmtListView extends BaseElement {
     await this.cmtCollector?.loadMoreAsync();
   }
 
-  private handleReplyCountChanged(
-    e: CustomEvent<ReplyCountChangedEventDetail>,
-  ) {
+  private handleReplyCountChanged(e: CustomEvent<CmtCountChangedEventDetail>) {
     this.onTotalCountChanged(e.detail.offset);
   }
 
@@ -165,19 +162,21 @@ export class CmtListView extends BaseElement {
     this.cmtCollector?.prepend([e.detail.cmt]);
   }
 
-  private handleCmtDeleted(
+  private handleRootCmtDeleted(
     index: number,
-    detail: ReplyCountChangedEventDetail,
+    detail: CmtCountChangedEventDetail,
   ) {
     this.cmtCollector?.deleteByIndex(index);
     // Total number of comments is down by 1 (this comment) plus all its replies.
-    this.onTotalCountChanged(-detail.totalCount + 1);
+    // `detail.count` can be undefined if the comment doesn't contain any replies.
+    this.onTotalCountChanged(-(detail.count || 0) - 1);
   }
 
   private onTotalCountChanged(offset: number) {
-    this.totalCount += offset;
     this.dispatchEvent(
-      new CustomEvent<number>('totalCountChanged', { detail: offset }),
+      new CustomEvent<number>('totalCountChangedWithOffset', {
+        detail: offset,
+      }),
     );
   }
 }

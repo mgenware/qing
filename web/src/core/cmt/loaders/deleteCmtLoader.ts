@@ -3,7 +3,12 @@ import routes from 'routes';
 import { EntityType } from 'lib/entity';
 
 export default class DeleteCmtLoader extends BaseLoader<string> {
-  constructor(public id: string | null, public hostType: EntityType) {
+  constructor(
+    public id: string | null,
+    public hostType: EntityType,
+    public hostID: string,
+    public isReply: boolean,
+  ) {
     super();
   }
 
@@ -15,6 +20,8 @@ export default class DeleteCmtLoader extends BaseLoader<string> {
     return {
       id: this.id,
       hostType: this.hostType,
+      hostID: this.hostID,
+      isReply: +this.isReply,
     };
   }
 }

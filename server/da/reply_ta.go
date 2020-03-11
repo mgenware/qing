@@ -24,6 +24,16 @@ func (da *TableTypeReply) EditReply(queryable dbx.Queryable, id uint64, userID u
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
+// GetParentID ...
+func (da *TableTypeReply) GetParentID(queryable dbx.Queryable, id uint64) (uint64, error) {
+	var result uint64
+	err := queryable.QueryRow("SELECT `parent_id` FROM `reply` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // SelectReplies ...
 func (da *TableTypeReply) SelectReplies(queryable dbx.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error) {
 	limit := pageSize + 1
