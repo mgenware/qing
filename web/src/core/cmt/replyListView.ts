@@ -68,6 +68,7 @@ export class ReplyListView extends BaseElement {
             .hostID=${this.hostID}
             .hostType=${this.hostType}
             .cmt=${item}
+            .parentCmtID=${cmt.id}
             @cmtDeleted=${this.handleReplyDeleted}
             @cmtAdded=${this.handleReplyCreated}
           ></cmt-view>

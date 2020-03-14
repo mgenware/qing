@@ -30,7 +30,8 @@ export class CmtView extends BaseElement {
   @lp.number hostType: EntityType = 0;
 
   @lp.object cmt: Cmt | null = null;
-  @lp.bool isReply = false;
+  // Only available to replies.
+  @lp.string parentCmtID: string | null = null;
   @lp.bool private editorMode = EditorMode.none;
   @lp.object private srcLoadingStatus = LoadingStatus.empty;
 
@@ -159,7 +160,8 @@ export class CmtView extends BaseElement {
             this.hostID,
             this.hostType,
             cmt.userID,
-            cmt.id,
+            // If `parentCmtID` is null, we're replying to a comment, the comment ID itself is the parent ID.
+            this.parentCmtID || cmt.id,
             e.detail,
           );
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
