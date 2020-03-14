@@ -38,7 +38,7 @@ export class PostTA extends mm.TableActions {
         .setInputs(t.title, t.content, t.user_id)
         .setDefaults()
         .declareInsertedID('postID'),
-      userTA.updatePostCount.wrap({ offset: 1 }),
+      userTA.updatePostCount.wrap({ offset: '1' }),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues('postID');

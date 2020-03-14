@@ -11,7 +11,7 @@ export class CmtTA extends mm.TableActions {
     .where(updateConditions(t));
   selectCmtSource = mm.select(t.content).where(updateConditions(t));
 
-  getHostID = mm.selectField(t.host_id).byID();
+  getHostIDAndReplyCount = mm.select(t.host_id, t.reply_count).byID();
 
   updateReplyCount = mm
     .updateOne()

@@ -24,12 +24,18 @@ func (da *TableTypeCmt) EditCmt(queryable dbx.Queryable, id uint64, userID uint6
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
-// GetHostID ...
-func (da *TableTypeCmt) GetHostID(queryable dbx.Queryable, id uint64) (uint64, error) {
-	var result uint64
-	err := queryable.QueryRow("SELECT `host_id` FROM `cmt` WHERE `id` = ?", id).Scan(&result)
+// CmtTableGetHostIdAndReplyCountResult ...
+type CmtTableGetHostIdAndReplyCountResult struct {
+	HostID     uint64 `json:"hostID,omitempty"`
+	ReplyCount uint   `json:"replyCount,omitempty"`
+}
+
+// GetHostIdAndReplyCount ...
+func (da *TableTypeCmt) GetHostIdAndReplyCount(queryable dbx.Queryable, id uint64) (*CmtTableGetHostIdAndReplyCountResult, error) {
+	result := &CmtTableGetHostIdAndReplyCountResult{}
+	err := queryable.QueryRow("SELECT `host_id`, `reply_count` FROM `cmt` WHERE `id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
-		return result, err
+		return nil, err
 	}
 	return result, nil
 }
