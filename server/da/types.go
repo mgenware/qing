@@ -31,6 +31,7 @@ type ReplyData struct {
 	ToUserID     uint64     `json:"-"`
 	UserName     string     `json:"userName,omitempty"`
 	UserIconName string     `json:"-"`
+	ToUserName   string     `json:"toUserName,omitempty"`
 }
 
 // ------------ Interfaces ------------

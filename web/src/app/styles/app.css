@@ -514,6 +514,10 @@ svg.is-warning {
   fill: var(--warning-back-color);
 }
 
+svg.is-default {
+  fill: var(--default-fore-color);
+}
+
 .section {
   padding: 0.75rem 1rem;
   margin-bottom: 0.8rem;

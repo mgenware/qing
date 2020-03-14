@@ -80,5 +80,6 @@
   "reply": "Reply",
   "pReplyTo": "Reply to {0}",
   "pNOComments": "{0} {0:countable:comment:comments}",
-  "pNOReplies": "{0} {0:countable:reply:replies}"
+  "pNOReplies": "{0} {0:countable:reply:replies}",
+  "pReplyingTo": "Replying to {0}"
 }

@@ -33,4 +33,9 @@ export default buildTree({
       },
     },
   },
+  static: {
+    img: {
+      main: 'main',
+    },
+  },
 });

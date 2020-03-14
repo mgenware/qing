@@ -9,7 +9,10 @@ export default interface Cmt {
   userName: string;
   userURL: string;
   userIconURL: string;
+  // Reply only properties.
   toUserID?: string;
+  toUserName?: string;
+  toUserURL?: string;
 }
 
 export interface CmtCountChangedEventDetail {

@@ -32,6 +32,7 @@ type Reply struct {
 	ToUserEID   string `json:"toUserID,omitempty"`
 	UserURL     string `json:"userURL,omitempty"`
 	UserIconURL string `json:"userIconURL,omitempty"`
+	ToUserURL   string `json:"toUserURL,omitempty"`
 }
 
 func NewReply(d *da.ReplyData) *Reply {
@@ -41,5 +42,6 @@ func NewReply(d *da.ReplyData) *Reply {
 	r.ToUserEID = validator.EncodeID(d.ToUserID)
 	r.UserURL = app.URL.UserProfile(r.UserID)
 	r.UserIconURL = app.URL.UserIconURL50(r.UserID, r.UserIconName)
+	r.ToUserURL = app.URL.UserProfile(r.ToUserID)
 	return r
 }

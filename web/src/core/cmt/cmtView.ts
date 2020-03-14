@@ -15,6 +15,7 @@ import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
 import { ComposerView, ComposerContent } from 'ui/editor/composerView';
 import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
 import DeleteCmtLoader from './loaders/deleteCmtLoader';
+import { staticMainImage } from 'urls';
 
 enum EditorMode {
   none,
@@ -87,6 +88,19 @@ export class CmtView extends BaseElement {
         <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
+            ${cmt.toUserID
+              ? html`
+                  <span
+                    ><img
+                      src=${staticMainImage('reply.svg')}
+                      width="25"
+                      height="25"
+                    /><a href=${cmt.toUserURL || '#'}
+                      >${cmt.toUserName}</a
+                    ></span
+                  >
+                `
+              : ''}
             <time-field
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}

@@ -19,6 +19,7 @@ export class ReplyTA extends mm.TableActions {
       t.to_user_id.privateAttr(),
       t.user_id.join(user).name,
       t.user_id.join(user).icon_name.privateAttr(),
+      t.to_user_id.join(user).name,
     )
     .from(t)
     .by(t.parent_id)

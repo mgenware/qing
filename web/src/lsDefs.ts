@@ -81,4 +81,5 @@ export default interface LSDefs {
   pReplyTo: string;
   pNOComments: string;
   pNOReplies: string;
+  pReplyingTo: string;
 }

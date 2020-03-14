@@ -10,6 +10,7 @@ import AvatarUploadLoader, {
 } from './loaders/AvatarUploadLoader';
 import app from 'app';
 import { QingDialog, IsOpenChangedArgs } from 'qing-dialog-component';
+import { staticMainImage } from 'urls';
 
 interface ImageCropInfo {
   x: number;
@@ -75,7 +76,7 @@ export class AvatarUploader extends BaseElement {
               <span class="file-cta">
                 <span class="file-icon">
                   <img
-                    src="/static/img/main/upload.svg"
+                    src=${staticMainImage('upload.svg')}
                     width="16"
                     height="16"
                   />

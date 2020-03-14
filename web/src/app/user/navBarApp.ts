@@ -8,6 +8,7 @@ import User from './user';
 import bulmaStyles from 'app/styles/navbar-min';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
+import { staticMainImage } from 'urls';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -99,7 +100,7 @@ export default class NavBarApp extends BaseElement {
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             <img
-              src="/static/img/main/qing.svg"
+              src=${staticMainImage('qing.svg')}
               height="25"
               width="25"
               alt="Qing"

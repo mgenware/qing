@@ -80,5 +80,6 @@
   "reply": "回复",
   "pReplyTo": "回复 {0}",
   "pNOComments": "{0} 条评论",
-  "pNOReplies": "{0} 条回复"
+  "pNOReplies": "{0} 条回复",
+  "pReplyingTo": "回复 {0}"
 }
