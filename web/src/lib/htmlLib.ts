@@ -28,19 +28,6 @@ export function wrap(el: Element, wrapper: Element | null) {
   wrapper.appendChild(el);
 }
 
-export function getElementByID(id: string, cb: (element: HTMLElement) => void) {
-  if (!id) {
-    return;
-  }
-  if (id.startsWith('#')) {
-    id = id.substr(1);
-  }
-  const element = document.getElementById(id);
-  if (element && cb) {
-    cb(element);
-  }
-}
-
 export function constructURL(params: object): string {
   // params as URLSearchParams: just to mute type error
   return new URLSearchParams(params as URLSearchParams).toString();
