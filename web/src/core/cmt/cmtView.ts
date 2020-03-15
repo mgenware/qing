@@ -92,13 +92,17 @@ export class CmtView extends BaseElement {
             <a href=${cmt.userURL}>${cmt.userName}</a>
             ${cmt.toUserID
               ? html`
-                  <svg-icon
-                    iconClass="is-secondary"
-                    .src=${staticMainImage('reply.svg')}
-                    .width=${16}
-                    .height=${16}
-                  >
-                  </svg-icon>
+                  <span>
+                    <svg-icon
+                      title=${formatLS(ls.pReplyingTo, cmt.toUserName)}
+                      iconClass="is-secondary"
+                      .src=${staticMainImage('reply.svg')}
+                      .width=${16}
+                      .height=${16}
+                    >
+                    </svg-icon>
+                    <a href=${cmt.toUserURL || '#'}>${cmt.toUserName}</a>
+                  </span>
                 `
               : ''}
             <time-field
