@@ -498,26 +498,6 @@ a.link-btn:active {
   opacity: 0.8;
 }
 
-svg.is-success {
-  fill: var(--success-back-color);
-}
-
-svg.is-danger {
-  fill: var(--danger-back-color);
-}
-
-svg.is-primary {
-  fill: var(--primary-back-color);
-}
-
-svg.is-warning {
-  fill: var(--warning-back-color);
-}
-
-svg.is-default {
-  fill: var(--default-fore-color);
-}
-
 .section {
   padding: 0.75rem 1rem;
   margin-bottom: 0.8rem;

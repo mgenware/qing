@@ -7,6 +7,7 @@ import 'ui/cm/timeField';
 import 'ui/editor/editBar';
 import 'ui/cm/statusOverlay';
 import 'ui/cm/linkButton';
+import 'ui/cm/svgIcon';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import Cmt, { isReply } from './cmt';
 import { EntityType } from 'lib/entity';
@@ -91,15 +92,13 @@ export class CmtView extends BaseElement {
             <a href=${cmt.userURL}>${cmt.userName}</a>
             ${cmt.toUserID
               ? html`
-                  <span
-                    ><img
-                      src=${staticMainImage('reply.svg')}
-                      width="25"
-                      height="25"
-                    /><a href=${cmt.toUserURL || '#'}
-                      >${cmt.toUserName}</a
-                    ></span
+                  <svg-icon
+                    iconClass="is-secondary"
+                    .src=${staticMainImage('reply.svg')}
+                    .width=${16}
+                    .height=${16}
                   >
+                  </svg-icon>
                 `
               : ''}
             <time-field

@@ -44,3 +44,16 @@ export function ready(fn: () => void) {
 export function encodeHTML(s: string): string {
   return escapeHTML(s);
 }
+
+export function resizeSVGHTML(
+  svg: string,
+  width: number,
+  height: number,
+): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svg, 'image/svg+xml');
+  const element = doc.documentElement;
+  element.setAttribute('width', width.toString());
+  element.setAttribute('height', height.toString());
+  return element.outerHTML;
+}
