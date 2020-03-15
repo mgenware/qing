@@ -17,23 +17,23 @@ export class SvgIcon extends BaseElement {
     return [
       super.styles,
       css`
-        svg-is-success svg {
+        .svg-is-success svg {
           fill: var(--success-back-color);
         }
 
-        svg-is-danger svg {
+        .svg-is-danger svg {
           fill: var(--danger-back-color);
         }
 
-        svg-is-primary svg {
+        .svg-is-primary svg {
           fill: var(--primary-back-color);
         }
 
-        svg-is-warning svg {
+        .svg-is-warning svg {
           fill: var(--warning-back-color);
         }
 
-        svg-is-secondary svg {
+        .svg-is-secondary svg {
           fill: var(--default-secondary-fore-color);
         }
       `,
@@ -55,7 +55,7 @@ export class SvgIcon extends BaseElement {
   render() {
     const { svgHTML } = this;
     return html`
-      <span class=${this.iconClass}>
+      <span class=${`svg-${this.iconClass}`} style="vertical-align: middle">
         ${svgHTML ? unsafeHTML(svgHTML) : ''}
       </span>
     `;
