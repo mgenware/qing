@@ -6,10 +6,9 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"qing/app/cfg/config"
 	"runtime"
 	"strings"
-
-	"qing/app/cfg/internals"
 
 	"github.com/imdario/mergo"
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -21,21 +20,21 @@ type Config struct {
 	// Extends specifies another file which this file extends from.
 	Extends string `json:"extends"`
 	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
-	Debug *internals.DebugConfig `json:"debug"`
+	Debug *config.DebugConfig `json:"debug"`
 	// Log config data.
-	Log *internals.LogConfig `json:"log" validate:"required"`
+	Log *config.LogConfig `json:"log" validate:"required"`
 	// HTTP config data.
-	HTTP *internals.HTTPConfig `json:"http" validate:"required"`
+	HTTP *config.HTTPConfig `json:"http" validate:"required"`
 	// Templates config data.
-	Templates *internals.TemplatesConfig `json:"templates" validate:"required"`
+	Templates *config.TemplatesConfig `json:"templates" validate:"required"`
 	// Localization config data.
-	Localization *internals.LocalizationConfig `json:"localization" validate:"required"`
+	Localization *config.LocalizationConfig `json:"localization" validate:"required"`
 
 	// --- Extended fields outside go-triton ---
-	DBConnString string                     `json:"db_conn_string" validate:"required"`
-	ResServer    *internals.ResServerConfig `json:"res_server" validate:"required"`
+	DBConnString string                  `json:"db_conn_string" validate:"required"`
+	ResServer    *config.ResServerConfig `json:"res_server" validate:"required"`
 	// Extern config data.
-	Extern *internals.ExternConfig `json:"extern" validate:"required"`
+	Extern *config.ExternConfig `json:"extern" validate:"required"`
 }
 
 // DevMode checks if debug config field is on.

@@ -1,4 +1,4 @@
-package internals
+package config
 
 type HTTPConfig struct {
 	// Port is the listening port of web server.

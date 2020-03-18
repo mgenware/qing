@@ -1,4 +1,4 @@
-package internals
+package config
 
 // ResServerConfig ...
 type ResServerConfig struct {

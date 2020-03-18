@@ -1,4 +1,4 @@
-package internals
+package config
 
 // DebugConfig ...
 type DebugConfig struct {

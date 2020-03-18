@@ -1,4 +1,4 @@
-package internals
+package config
 
 // LogConfig ...
 type LogConfig struct {

@@ -1,4 +1,4 @@
-package internals
+package config
 
 type LocalizationConfig struct {
 	Dir         string `json:"dir" validate:"required"`

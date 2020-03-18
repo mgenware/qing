@@ -1,4 +1,4 @@
-package internals
+package config
 
 // ExternConfig ...
 type ExternConfig struct {

@@ -3,7 +3,7 @@ package userx
 import (
 	"database/sql"
 	"net/http"
-	"qing/app/cfg/internals"
+	"qing/app/cfg/config"
 	"qing/app/cm"
 	"qing/app/errs"
 	"qing/app/template"
@@ -17,7 +17,7 @@ type UserManager struct {
 	DB              *sql.DB
 
 	appURL      *urlx.URL
-	debugConfig *internals.DebugConfig
+	debugConfig *config.DebugConfig
 }
 
 func NewUserManager(
@@ -25,7 +25,7 @@ func NewUserManager(
 	ssMgr *SessionManager,
 	tm *template.Manager,
 	appURL *urlx.URL,
-	debugConfig *internals.DebugConfig,
+	debugConfig *config.DebugConfig,
 ) *UserManager {
 	ret := &UserManager{DB: db, SessionManager: ssMgr, TemplateManager: tm, appURL: appURL, debugConfig: debugConfig}
 	return ret
