@@ -32,6 +32,17 @@ func readAppProfileCore(file string) (*AppProfile, error) {
 	return &profile, nil
 }
 
+func writeAppProfile(profile *AppProfile, path string) error {
+	log.Printf("🚗 Writing app profile to \"%v\"", path)
+
+	bytes, err := json.Marshal(profile)
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(path, bytes, 0644)
+}
+
 func newAppProfile() *AppProfile {
 	profile := &AppProfile{
 		Auth: appprofile.NewAuthData(),
@@ -41,18 +52,23 @@ func newAppProfile() *AppProfile {
 
 // GetAppProfile loads an app profile from the specified path, and creates one if it
 // does not exist.
-func GetAppProfile(file string) (*Config, error) {
+func GetAppProfile(file string) (*AppProfile, error) {
 	// Creates a new app profile if it does not exist.
-	if !iox.FileExists(file) {
-		return newAppProfile(), nil
-	}
-	config, err := readAppProfileCore(file)
+	hasAppProfile, err := iox.FileExists(file)
 	if err != nil {
 		return nil, err
 	}
-	err = config.validateAndCoerce()
+	if !hasAppProfile {
+		newProfile := newAppProfile()
+		err := writeAppProfile(newProfile, file)
+		if err != nil {
+			return nil, err
+		}
+		return newProfile, nil
+	}
+	profile, err := readAppProfileCore(file)
 	if err != nil {
 		return nil, err
 	}
-	return config, nil
+	return profile, nil
 }

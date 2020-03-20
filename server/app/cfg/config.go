@@ -117,6 +117,10 @@ func (config *Config) validateAndCoerce() error {
 		panic(fmt.Errorf("Config validation failed, %v", err.Error()))
 	}
 
+	// AppProfile
+	appProfileConfig := config.AppProfile
+	mustCoercePath(&appProfileConfig.Dir)
+
 	// HTTP
 	httpConfig := config.HTTP
 	httpStaticConfig := httpConfig.Static

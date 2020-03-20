@@ -13,7 +13,7 @@ type HashingData struct {
 
 func newHashingData() *HashingData {
 	res := &HashingData{
-		Memory:      200 * 1024,
+		Memory:      64 * 1024,
 		Iterations:  3,
 		SaltLength:  16,
 		KeyLength:   32,
