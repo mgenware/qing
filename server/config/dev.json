@@ -26,6 +26,6 @@
     "panic_on_unexpected_json_errors": false
   },
   "app_profile": {
-    "dir": "../appdata/app_profile"
+    "dir": "../appdata/app_profile.json"
   }
 }
