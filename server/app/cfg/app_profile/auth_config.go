@@ -1,7 +1,5 @@
 package appprofile
 
-import "runtime"
-
 // HashingData ...
 type HashingData struct {
 	Memory      int `json:"memory"`
@@ -17,7 +15,7 @@ func newHashingData() *HashingData {
 		Iterations:  3,
 		SaltLength:  16,
 		KeyLength:   32,
-		Parallelism: runtime.NumCPU(),
+		Parallelism: 2,
 	}
 	return res
 }
