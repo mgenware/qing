@@ -1,30 +1,29 @@
 module qing
 
 require (
-	github.com/fatih/color v1.7.0
+	github.com/fatih/color v1.9.0
 	github.com/garyburd/redigo v1.6.0
-	github.com/go-chi/chi v4.0.2+incompatible
+	github.com/go-chi/chi v4.0.3+incompatible
 	github.com/go-playground/universal-translator v0.17.0 // indirect
-	github.com/go-sql-driver/mysql v1.4.1
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/google/uuid v1.1.1
 	github.com/imdario/mergo v0.3.8
 	github.com/leodido/go-urn v1.2.0 // indirect
-	github.com/mattn/go-colorable v0.1.4 // indirect
-	github.com/mattn/go-isatty v0.0.10 // indirect
+	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mgenware/go-captcha v1.0.0
-	github.com/mgenware/go-packagex/v5 v5.1.1
+	github.com/mgenware/go-packagex/v5 v5.2.0
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/gossion v1.0.0
 	github.com/microcosm-cc/bluemonday v1.0.2
-	go.uber.org/multierr v1.4.0 // indirect
-	go.uber.org/zap v1.13.0
-	golang.org/x/net v0.0.0-20191119073136-fc4aabc6c914 // indirect
-	golang.org/x/sys v0.0.0-20191119060738-e882bf8e40c2 // indirect
+	go.uber.org/zap v1.14.1
+	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
+	golang.org/x/net v0.0.0-20200320181208-1c781a10960a // indirect
+	golang.org/x/sys v0.0.0-20200320181252-af34d8274f85 // indirect
 	golang.org/x/text v0.3.2
-	golang.org/x/tools v0.0.0-20191118222007-07fc4c7f2b98 // indirect
-	google.golang.org/appengine v1.6.5 // indirect
+	golang.org/x/tools v0.0.0-20200319210407-521f4a0cd458 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
-	gopkg.in/go-playground/validator.v9 v9.30.0
+	gopkg.in/go-playground/validator.v9 v9.31.0
+	honnef.co/go/tools v0.0.1-2020.1.3 // indirect
 )
 
 go 1.13
