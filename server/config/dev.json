@@ -24,5 +24,8 @@
     "reload_views_on_refresh": true,
     "panic_on_unexpected_html_errors": false,
     "panic_on_unexpected_json_errors": false
+  },
+  "app_profile": {
+    "dir": "../appdata/app_profile"
   }
 }

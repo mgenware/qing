@@ -30,7 +30,8 @@ type Config struct {
 	// Localization config data.
 	Localization *config.LocalizationConfig `json:"localization" validate:"required"`
 
-	// --- Extended fields outside go-triton ---
+	AppProfile *config.AppProfileConfig `json:"app_profile" validate:"required"`
+
 	DBConnString string                  `json:"db_conn_string" validate:"required"`
 	ResServer    *config.ResServerConfig `json:"res_server" validate:"required"`
 	// Extern config data.
