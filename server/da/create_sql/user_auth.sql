@@ -1,0 +1,8 @@
+CREATE TABLE `user_auth` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`auth_type` SMALLINT UNSIGNED NOT NULL,
+	PRIMARY KEY (`id`)
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
