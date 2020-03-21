@@ -25,6 +25,7 @@ type JSManager struct {
 	Post      string
 	Dashboard string
 	Profile   string
+	Auth      string
 
 	LSCS string
 	LSEN string
@@ -44,5 +45,6 @@ func NewJSManager(dev bool) *JSManager {
 	r.Post = js("postEntry")
 	r.Dashboard = js("dashboardEntry")
 	r.Profile = js("profileEntry")
+	r.Auth = js("authEntry")
 	return r
 }

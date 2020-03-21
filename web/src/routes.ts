@@ -7,7 +7,9 @@ export default buildTree({
     editProfile: 'profile',
   },
   s: {
+    // Service APIs
     r: {
+      // Restricted (private) APIs
       reqCapt: 'req-capt',
       profile: {
         getInfo: 'get-info',
@@ -28,10 +30,14 @@ export default buildTree({
       },
     },
     p: {
+      // Public APIs
       cmt: {
         get: 'get',
       },
     },
+  },
+  auth: {
+    signUp: 'signup',
   },
   static: {
     img: {

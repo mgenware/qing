@@ -9,6 +9,7 @@ import (
 
 	"qing/app"
 	"qing/r/api"
+	"qing/r/authp"
 	"qing/r/mp"
 	"qing/r/postp"
 	"qing/r/profilep"
@@ -73,6 +74,8 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postp.PostGET)
 	// Dashboard router
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
+	// Auth router
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteAuth, authp.Router)
 	// API router
 	r.Mount("/"+defs.RouteAPI, api.Router)
 

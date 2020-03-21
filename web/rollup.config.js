@@ -27,6 +27,7 @@ let input = [
   'dashboard/dashboardEntry.ts',
   'post/postEntry.ts',
   'profile/profileEntry.ts',
+  'auth/authEntry.ts',
 ];
 
 export default {

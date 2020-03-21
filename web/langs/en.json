@@ -81,5 +81,10 @@
   "pReplyTo": "Reply to {0}",
   "pNOComments": "{0} {0:countable:comment:comments}",
   "pNOReplies": "{0} {0:countable:reply:replies}",
-  "pReplyingTo": "Replying to {0}"
+  "pReplyingTo": "Replying to {0}",
+  "createAnAcc": "Create an account",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "signUp": "Sign up"
 }

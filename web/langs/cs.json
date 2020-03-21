@@ -81,5 +81,10 @@
   "pReplyTo": "回复 {0}",
   "pNOComments": "{0} 条评论",
   "pNOReplies": "{0} 条回复",
-  "pReplyingTo": "回复 {0}"
+  "pReplyingTo": "回复 {0}",
+  "createAnAcc": "创建账号",
+  "email": "邮箱",
+  "password": "密码",
+  "confirmPassword": " 确认密码",
+  "signUp": "注册"
 }

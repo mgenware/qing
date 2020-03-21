@@ -87,7 +87,7 @@ export class EditProfileApp extends BaseElement {
                 id="nick-tbx"
                 type="text"
                 value=${this.name}
-                @change=${(e: any) => (this.name = e.target.value)}
+                @input=${(e: any) => (this.name = e.target.value)}
               />
 
               <label for="website-tbx">${ls.url}</label>
@@ -95,7 +95,7 @@ export class EditProfileApp extends BaseElement {
                 id="website-tbx"
                 type="url"
                 value=${this.url}
-                @change=${(e: any) => (this.url = e.target.value)}
+                @input=${(e: any) => (this.url = e.target.value)}
               />
 
               <label for="company-tbx">${ls.company}</label>
@@ -103,7 +103,7 @@ export class EditProfileApp extends BaseElement {
                 id="company-tbx"
                 type="text"
                 value=${this.company}
-                @change=${(e: any) => (this.company = e.target.value)}
+                @input=${(e: any) => (this.company = e.target.value)}
               />
 
               <label for="addr-tbx">${ls.location}</label>
@@ -111,7 +111,7 @@ export class EditProfileApp extends BaseElement {
                 id="addr-tbx"
                 type="text"
                 value=${this.location}
-                @change=${(e: any) => (this.location = e.target.value)}
+                @input=${(e: any) => (this.location = e.target.value)}
               />
 
               <lit-button
