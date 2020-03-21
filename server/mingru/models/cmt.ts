@@ -13,7 +13,7 @@ export class Cmt extends mm.Table {
   // It's not used to fetch post cmts and not a FK(not indexed).
   host_id = mm.uBigInt();
 
-  reply_count = mm.uInt(0);
+  reply_count = mm.uInt().default(0);
 }
 
 export const cmt = mm.table(Cmt);

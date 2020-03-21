@@ -5,7 +5,6 @@ export class User extends mm.Table {
   email = mm.varChar(255).unique;
   name = mm.varChar(255);
   icon_name = mm.varChar(255);
-  url_name = mm.varChar(30).nullable.unique;
   created_time = mm.datetime('utc');
 
   company = mm.varChar(100);
@@ -13,7 +12,7 @@ export class User extends mm.Table {
   location = mm.varChar(100);
 
   bio = mm.text().nullable;
-  postCount = mm.uInt(0);
+  postCount = mm.uInt().default(0);
 }
 
 export default mm.table(User);

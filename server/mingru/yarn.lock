@@ -326,10 +326,10 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.34.1:
-  version "0.34.1"
-  resolved "https://registry.npm.taobao.org/mingru-models/download/mingru-models-0.34.1.tgz#21d2582e3ec036074eb0a776a26fa9620b60453b"
-  integrity sha1-IdJYLj7ANgdOsKd2om+pYgtgRTs=
+mingru-models@^0.36.2:
+  version "0.36.2"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.36.2.tgz#a732b7a4787b78216426e68f0576ae3f16cedb9b"
+  integrity sha512-chTgcluV3g4qV+M5PiWNQ40InAPjzb8tgwXthOp7ZpAzmTPYenuB+g4eEBFl614B/6GD8l5oS+yXG5PE6mrM7A==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
@@ -341,10 +341,10 @@ mingru-tsconfig@^3.0.0:
   resolved "https://registry.npm.taobao.org/mingru-tsconfig/download/mingru-tsconfig-3.0.0.tgz#80bf22a750f668825d1ac3ce1426634fbff3ed61"
   integrity sha1-gL8ip1D2aIJdGsPOFCZjT7/z7WE=
 
-mingru@^0.27.0:
-  version "0.27.0"
-  resolved "https://registry.npm.taobao.org/mingru/download/mingru-0.27.0.tgz#96896f997e7738bae12c157fe7aed609f0fbb26f"
-  integrity sha1-lolvmX53OLrhLBV/567WCfD7sm8=
+mingru@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.28.0.tgz#a6a01dc1405777a779f4e229f0d550ebce6b902f"
+  integrity sha512-/hxnfVPm6KbWff8jcJH9BwvzGlvjnC+1cYwV02jy0hvH1kTOTWSZk3V7Z8onok4KUUToszlopEs6J29jRodcbA==
   dependencies:
     chalk "^3.0.0"
     del "^5.1.0"
@@ -463,10 +463,10 @@ to-type-string@^1.0.2:
   resolved "https://registry.npm.taobao.org/to-type-string/download/to-type-string-1.0.2.tgz#8c92c66ee48d3ca9985e2de22cd7e2a6e12a77c3"
   integrity sha1-jJLGbuSNPKmYXi3iLNfipuEqd8M=
 
-ts-node@^8.6.2:
-  version "8.6.2"
-  resolved "https://registry.npm.taobao.org/ts-node/download/ts-node-8.6.2.tgz#7419a01391a818fbafa6f826a33c1a13e9464e35"
-  integrity sha1-dBmgE5GoGPuvpvgmozwaE+lGTjU=
+ts-node@^8.7.0:
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.7.0.tgz#266186947596bef9f3a034687595b30e31b20976"
+  integrity sha512-s659CsHrsxaRVDEleuOkGvbsA0rWHtszUNEt1r0CgAFN5ZZTQtDzpsluS7W5pOGJIa1xZE8R/zK4dEs+ldFezg==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
