@@ -40,7 +40,7 @@
     "del-cli": "^3.0.0",
     "eslint": "^6.8.0",
     "lit-analyzer": "^1.1.10",
-    "rollup": "^1.32.0",
+    "rollup": "^2.1.0",
     "rollup-plugin-lit-css-ex": "^2.0.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
