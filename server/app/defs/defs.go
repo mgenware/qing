@@ -28,9 +28,9 @@ const (
 
 // MS(memory storage, e.g. redis) keys
 const (
-	MSSIDToUser      = "ss:%v"     // K: sid, V: session user json value
-	MSUserIDToSID    = "us:%v"     // K: user id, V: sid
-	MSCaptcha        = "cap:%v:%v" // K: cap:<user id>:<type> V: captcha value
+	MSSIDToUser      = "auth-ss:%v"    // K: sid, V: session user json value
+	MSUserIDToSID    = "auth-us:%v"    // K: user id, V: sid
+	MSCaptcha        = "captcha:%v:%v" // K: cap:<user id>:<type> V: captcha value
 	MSCaptchaTimeout = 3 * 60
 )
 
