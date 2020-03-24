@@ -7,6 +7,7 @@ import (
 	"qing/app/extern"
 	"qing/app/logx"
 	"qing/app/servicex/captchax"
+	hashingalg "qing/app/servicex/hashingAlg"
 	"qing/fx/avatar"
 	"qing/fx/imgx"
 	"qing/fx/sanitizer"
@@ -14,19 +15,21 @@ import (
 
 // Service contains components for curtain independent tasks.
 type Service struct {
-	Avatar    *avatar.Service
-	Sanitizer *sanitizer.Sanitizer
-	Captcha   *captchax.CaptchaService
-	Imgx      *imgx.Imgx
+	Avatar     *avatar.Service
+	Sanitizer  *sanitizer.Sanitizer
+	Captcha    *captchax.CaptchaService
+	Imgx       *imgx.Imgx
+	HashingAlg *hashingalg.HashingAlg
 }
 
 // MustNewService creates a new Service object.
-func MustNewService(config *cfg.Config, extern *extern.Extern, logger *logx.Logger) *Service {
+func MustNewService(config *cfg.Config, appProfile *cfg.AppProfile, extern *extern.Extern, logger *logx.Logger) *Service {
 	s := &Service{}
 	s.Sanitizer = sanitizer.NewSanitizer()
 	s.Captcha = captchax.NewCaptchaService(extern.RedisConn)
 	s.Imgx = mustSetupImgx(config, logger)
 	s.Avatar = mustSetupAvatarService(config, logger, s.Imgx)
+	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
 	return s
 }
 

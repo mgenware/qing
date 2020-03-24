@@ -10,6 +10,7 @@ require (
 	github.com/imdario/mergo v0.3.8
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.6 // indirect
+	github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470
 	github.com/mgenware/go-captcha v1.0.0
 	github.com/mgenware/go-packagex/v5 v5.2.0
 	github.com/mgenware/go-string-format v1.0.1
@@ -18,7 +19,6 @@ require (
 	go.uber.org/zap v1.14.1
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
 	golang.org/x/net v0.0.0-20200320181208-1c781a10960a // indirect
-	golang.org/x/sys v0.0.0-20200320181252-af34d8274f85 // indirect
 	golang.org/x/text v0.3.2
 	golang.org/x/tools v0.0.0-20200319210407-521f4a0cd458 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect

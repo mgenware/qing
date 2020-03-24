@@ -6,6 +6,8 @@
 package da
 
 import (
+	"database/sql"
+
 	"github.com/mgenware/go-packagex/v5/dbx"
 )
 
@@ -17,6 +19,23 @@ type TableTypeUserPwd struct {
 var UserPwd = &TableTypeUserPwd{}
 
 // ------------ Actions ------------
+
+// AddPwdBasedUser ...
+func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) error {
+	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		_, err = User.AddUserWithName(tx, email, name)
+		if err != nil {
+			return err
+		}
+		_, err = da.AddUserPwd(tx, pwdHash)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
+}
 
 // AddUserPwd ...
 func (da *TableTypeUserPwd) AddUserPwd(queryable dbx.Queryable, pwdHash string) (uint64, error) {

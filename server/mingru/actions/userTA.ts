@@ -45,6 +45,11 @@ export class UserTA extends mm.TableActions {
     .updateOne()
     .set(t.postCount, mm.sql`${t.postCount} + ${mm.input(mm.int(), 'offset')}`)
     .byID('userID');
+
+  addUserWithName = mm
+    .insertOne()
+    .setDefaults()
+    .setInputs();
 }
 
 export default mm.tableActions(t, UserTA);

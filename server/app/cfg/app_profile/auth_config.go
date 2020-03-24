@@ -2,11 +2,11 @@ package appprofile
 
 // HashingData ...
 type HashingData struct {
-	Memory      int `json:"memory"`
-	Iterations  int `json:"iterations"`
-	Parallelism int `json:"parallelism"`
-	SaltLength  int `json:"salt_length"`
-	KeyLength   int `json:"key_length"`
+	Memory      uint32 `json:"memory"`
+	Iterations  uint32 `json:"iterations"`
+	Parallelism uint8  `json:"parallelism"`
+	SaltLength  uint32 `json:"salt_length"`
+	KeyLength   uint32 `json:"key_length"`
 }
 
 func newHashingData() *HashingData {
