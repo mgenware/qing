@@ -15,10 +15,10 @@ type User struct {
 }
 
 // Serialize encode the user object to JSON.
-func (u *User) Serialize() ([]byte, error) {
+func (u *User) Serialize() (string, error) {
 	b, err := json.Marshal(u)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return b, nil
+	return string(b), nil
 }

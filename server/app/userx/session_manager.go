@@ -8,14 +8,12 @@ import (
 	"net/http"
 	"qing/app/cm"
 	"qing/app/defs"
+	"qing/app/extern/redisx"
 	"qing/app/logx"
 	"qing/app/urlx"
 	"qing/lib/validator"
 
-	"github.com/garyburd/redigo/redis"
 	"github.com/google/uuid"
-	"github.com/mgenware/gossion"
-	"github.com/mgenware/gossion/redisStore"
 )
 
 func newSessionID(uid uint64) (string, error) {
@@ -38,15 +36,11 @@ func userIDToSIDKey(uid uint64) string {
 type SessionManager struct {
 	logger *logx.Logger
 	appURL *urlx.URL
-	store  gossion.Store
+	store  *redisx.Conn
 }
 
 // NewRedisBasedSessionManager creates a redis-backed SessionManager.
-func NewRedisBasedSessionManager(pool *redis.Pool, logger *logx.Logger, appURL *urlx.URL) (*SessionManager, error) {
-	store, err := redisStore.NewRedisStoreFromPool(pool)
-	if err != nil {
-		return nil, err
-	}
+func NewRedisBasedSessionManager(store *redisx.Conn, logger *logx.Logger, appURL *urlx.URL) (*SessionManager, error) {
 	return &SessionManager{logger: logger, store: store, appURL: appURL}, nil
 }
 
@@ -62,13 +56,13 @@ func (sm *SessionManager) SetUserSession(sid string, user *cm.User) error {
 	}
 
 	keySIDToUser := sidToUserKey(sid)
-	err = sm.store.SetBytes(keySIDToUser, bytes, defs.CookieDefaultExpires)
+	err = sm.store.SetStringValue(keySIDToUser, bytes, defs.CookieDefaultExpires)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(user.ID)
-	err = sm.store.SetString(keyUIDToSID, sid, defs.CookieDefaultExpires)
+	err = sm.store.SetStringValue(keyUIDToSID, sid, defs.CookieDefaultExpires)
 	if err != nil {
 		return err
 	}
@@ -78,15 +72,15 @@ func (sm *SessionManager) SetUserSession(sid string, user *cm.User) error {
 // GetUserSession retrieves an user from internal store by the given sid.
 func (sm *SessionManager) GetUserSession(sid string) (*cm.User, error) {
 	keySIDToUser := sidToUserKey(sid)
-	bytes, err := sm.store.GetBytes(keySIDToUser)
+	str, err := sm.store.GetStringValue(keySIDToUser)
 	if err != nil {
 		return nil, err
 	}
-	if bytes == nil {
-		return nil, errors.New("Session bytes nil")
+	if str == "" {
+		return nil, errors.New("Session value empty")
 	}
 
-	user, err := sm.deserializeUserJSON(bytes)
+	user, err := sm.deserializeUserJSON([]byte(str))
 	if err != nil {
 		return nil, err
 	}
@@ -95,19 +89,19 @@ func (sm *SessionManager) GetUserSession(sid string) (*cm.User, error) {
 
 func (sm *SessionManager) GetSIDFromUID(uid uint64) (string, error) {
 	keyUIDToSID := userIDToSIDKey(uid)
-	return sm.store.GetString(keyUIDToSID)
+	return sm.store.GetStringValue(keyUIDToSID)
 }
 
 func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {
 	keySIDToUser := sidToUserKey(sid)
 
-	err := sm.store.Remove(keySIDToUser)
+	err := sm.store.RemoveValue(keySIDToUser)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(uid)
-	return sm.store.Remove(keyUIDToSID)
+	return sm.store.RemoveValue(keyUIDToSID)
 }
 
 func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {

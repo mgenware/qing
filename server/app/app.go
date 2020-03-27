@@ -164,7 +164,7 @@ func mustSetupExtern() {
 }
 
 func mustSetupUserManager() {
-	sessionMgr, err := userx.NewRedisBasedSessionManager(Extern.RedisConn.Pool(),
+	sessionMgr, err := userx.NewRedisBasedSessionManager(Extern.RedisConn,
 		Logger, URL)
 	if err != nil {
 		panic(err)
