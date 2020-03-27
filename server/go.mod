@@ -2,10 +2,10 @@ module qing
 
 require (
 	github.com/fatih/color v1.9.0
-	github.com/garyburd/redigo v1.6.0
 	github.com/go-chi/chi v4.0.3+incompatible
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/google/uuid v1.1.1
 	github.com/imdario/mergo v0.3.8
 	github.com/leodido/go-urn v1.2.0 // indirect
@@ -14,7 +14,6 @@ require (
 	github.com/mgenware/go-captcha v1.0.0
 	github.com/mgenware/go-packagex/v5 v5.2.0
 	github.com/mgenware/go-string-format v1.0.1
-	github.com/mgenware/gossion v1.0.0
 	github.com/microcosm-cc/bluemonday v1.0.2
 	go.uber.org/zap v1.14.1
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
