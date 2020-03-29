@@ -15,14 +15,14 @@ const plugins = [
   commonjs(),
   litcss(),
   json(),
-  typescript({ cacheRoot: require('unique-temp-dir')() }),
+  typescript(),
 ];
 
 if (isProd) {
   plugins.push(terser());
 }
 
-let input = [
+const input = [
   isProd ? 'coreEntry.ts' : 'coreEntryDev.ts',
   'dashboard/dashboardEntry.ts',
   'post/postEntry.ts',
