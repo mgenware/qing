@@ -10,7 +10,7 @@ const isProd = process.env.NODE_ENV == 'production';
 const plugins = [
   nodeResolve({
     browser: true,
-    extensions: ['.mjs', '.js', '.jsx', '.json', '.css'],
+    extensions: ['.js', '.json', '.css'],
   }),
   commonjs(),
   litcss(),
