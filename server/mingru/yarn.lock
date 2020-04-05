@@ -326,10 +326,10 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.36.2:
-  version "0.36.2"
-  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.36.2.tgz#a732b7a4787b78216426e68f0576ae3f16cedb9b"
-  integrity sha512-chTgcluV3g4qV+M5PiWNQ40InAPjzb8tgwXthOp7ZpAzmTPYenuB+g4eEBFl614B/6GD8l5oS+yXG5PE6mrM7A==
+mingru-models@^0.36.4:
+  version "0.36.4"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.36.4.tgz#a27906dbe71c0d4ac784087c8ca22d2e577e7eb5"
+  integrity sha512-bUA7H/U81aMsS5jijLBJcvqTJRwZOEH1P7PG/BpzKB34cvNHY8GZ07gpWTN/yNpm6kP5tArl71cOEQZkJCqRCA==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
@@ -341,10 +341,10 @@ mingru-tsconfig@^3.0.0:
   resolved "https://registry.npm.taobao.org/mingru-tsconfig/download/mingru-tsconfig-3.0.0.tgz#80bf22a750f668825d1ac3ce1426634fbff3ed61"
   integrity sha1-gL8ip1D2aIJdGsPOFCZjT7/z7WE=
 
-mingru@^0.28.0:
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.28.0.tgz#a6a01dc1405777a779f4e229f0d550ebce6b902f"
-  integrity sha512-/hxnfVPm6KbWff8jcJH9BwvzGlvjnC+1cYwV02jy0hvH1kTOTWSZk3V7Z8onok4KUUToszlopEs6J29jRodcbA==
+mingru@^0.28.1:
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.28.1.tgz#703b07d44f7ebd94274597dc42633b920a1272d3"
+  integrity sha512-agmo1CcprROIJeIOvx8gxwwXNYBM38FqvfLF9005XW4X9oDXMz77B3HGhHtQWH29SqiQ5ZTKXuRTVwCLg1EWVw==
   dependencies:
     chalk "^3.0.0"
     del "^5.1.0"
@@ -463,10 +463,10 @@ to-type-string@^1.0.2:
   resolved "https://registry.npm.taobao.org/to-type-string/download/to-type-string-1.0.2.tgz#8c92c66ee48d3ca9985e2de22cd7e2a6e12a77c3"
   integrity sha1-jJLGbuSNPKmYXi3iLNfipuEqd8M=
 
-ts-node@^8.7.0:
-  version "8.7.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.7.0.tgz#266186947596bef9f3a034687595b30e31b20976"
-  integrity sha512-s659CsHrsxaRVDEleuOkGvbsA0rWHtszUNEt1r0CgAFN5ZZTQtDzpsluS7W5pOGJIa1xZE8R/zK4dEs+ldFezg==
+ts-node@^8.8.2:
+  version "8.8.2"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.8.2.tgz#0b39e690bee39ea5111513a9d2bcdc0bc121755f"
+  integrity sha512-duVj6BpSpUpD/oM4MfhO98ozgkp3Gt9qIp3jGxwU2DFvl/3IRaEAvbLa8G60uS7C77457e/m5TMowjedeRxI1Q==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
