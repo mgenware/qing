@@ -86,5 +86,8 @@
   "email": "邮箱",
   "password": "密码",
   "confirmPassword": " 确认密码",
-  "signUp": "注册"
+  "signUp": "注册",
+  "regEmailSentTitle": "就差一步...",
+  "regEmailSentContent": "验证链接已发送至您邮箱，请查收。",
+  "goToYourEmail": "前往邮箱"
 }

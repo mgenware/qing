@@ -86,5 +86,8 @@
   "email": "Email",
   "password": "Password",
   "confirmPassword": "Confirm password",
-  "signUp": "Sign up"
+  "signUp": "Sign up",
+  "regEmailSentTitle": "Almost done...",
+  "regEmailSentContent": "A verification link has been sent to your email account.",
+  "goToYourEmail": "Go to your email account"
 }
