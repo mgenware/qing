@@ -7,6 +7,9 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+// ErrNil indicates an empty reply from server.
+var ErrNil = redis.ErrNil
+
 type Conn struct {
 	pool *redis.Pool
 }
@@ -47,6 +50,14 @@ func (store *Conn) GetStringValue(key string) (string, error) {
 	return redis.String(c.Do("GET", key))
 }
 
+func (store *Conn) GetStringValueOrDefault(key string) (string, error) {
+	value, err := store.GetStringValue(key)
+	if err == ErrNil {
+		return "", nil
+	}
+	return value, err
+}
+
 func (store *Conn) RemoveValue(key string) error {
 	c := store.pool.Get()
 	defer c.Close()
@@ -75,6 +86,14 @@ func (store *Conn) Ping() error {
 		return errors.New("Redis responded with " + res)
 	}
 	return nil
+}
+
+func (store *Conn) Select(index int) error {
+	c := store.pool.Get()
+	defer c.Close()
+
+	_, err := c.Do("SELECT", index)
+	return err
 }
 
 /*** Internal functions ***/

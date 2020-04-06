@@ -1,28 +1,59 @@
 package authapi
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
-	"qing/da"
 	"qing/lib/validator"
 )
+
+// CreateUserData contains the information stored in memory store during user email verification.
+type CreateUserData struct {
+	Email string
+	Name  string
+	Pwd   string
+}
+
+// CreateUserDataToString serializes a CreateUserData to string.
+func CreateUserDataToString(d *CreateUserData) (string, error) {
+	bytes, err := json.Marshal(d)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
+}
+
+// StringToCreateUserData deserializes a string to CreateUserData.
+func StringToCreateUserData(str string) (*CreateUserData, error) {
+	var d CreateUserData
+	err := json.Unmarshal([]byte(str), &d)
+	if err != nil {
+		return nil, err
+	}
+	return &d, nil
+}
 
 func createPwdUserPOST(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	name := validator.MustGetStringFromDict(params, "name")
 	email := validator.MustGetStringFromDict(params, "email")
 	pwd := validator.MustGetStringFromDict(params, "pwd")
 
-	hash, err := app.Service.HashingAlg.CreateHash(pwd)
+	// Put user pwd to memory store and wait for user email verification.
+	publicID, err := app.Service.RegEmailVerificator.Add(email, pwd)
 	if err != nil {
-		panic(fmt.Sprintf("Hashing failed: %v", err.Error()))
+		panic(fmt.Sprintf("RegEmailVerificator.Add failed: %v", err.Error()))
 	}
+	url := app.URL.RegEmailVerification(publicID)
 
-	db := app.DB
-	da.UserPwd.AddPwdBasedUser(db, email, name)
-	resp.MustComplete(respData)
+	// TODO: send email.
+
+	// Print URL to console for debugging purposes.
+	if app.Config.DevMode() {
+		fmt.Printf("[DEBUG] reg-v-url: %v\n", url)
+	}
+	resp.MustComplete(nil)
 }

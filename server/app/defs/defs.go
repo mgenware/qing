@@ -28,10 +28,17 @@ const (
 
 // MS(memory storage, e.g. redis) keys
 const (
-	MSSIDToUser      = "auth-ss:%v"    // K: sid, V: session user json value
-	MSUserIDToSID    = "auth-us:%v"    // K: user id, V: sid
-	MSCaptcha        = "captcha:%v:%v" // K: cap:<user id>:<type> V: captcha value
+	// K: sid, V: session user json value
+	MSSIDToUser = "auth-ss:%v"
+	// K: user id, V: sid
+	MSUserIDToSID = "auth-us:%v"
+	// K: cap:<user id>:<type> V: captcha value
+	MSCaptcha        = "captcha:%v:%v"
 	MSCaptchaTimeout = 3 * 60
+
+	MSRegEmailTimeout = 60 * 60
+	// K: Secret ID sent to user email, V: user pwd
+	MSRegEmailPrefix = "reg-email"
 )
 
 // Top-level routes

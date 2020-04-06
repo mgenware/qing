@@ -89,5 +89,6 @@
   "signUp": "注册",
   "regEmailSentTitle": "就差一步...",
   "regEmailSentContent": "验证链接已发送至您邮箱，请查收。",
-  "goToYourEmail": "前往邮箱"
+  "goToYourEmail": "前往邮箱",
+  "regEmailVeriExpired": "链接已失效，请重新注册。"
 }

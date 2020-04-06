@@ -173,6 +173,6 @@ func mustSetupUserManager() {
 }
 
 func mustSetupService() {
-	service := servicex.MustNewService(Config, AppProfile, Extern, Logger)
+	service := servicex.MustNewService(Config, AppProfile, Extern, Logger, Extern.RedisConn)
 	Service = service
 }

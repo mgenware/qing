@@ -1,6 +1,7 @@
 package urlx
 
 import (
+	"net/url"
 	"qing/app/cfg"
 	"qing/app/defs"
 	"qing/fx/avatar"
@@ -59,4 +60,8 @@ func (u *URL) Post(pid uint64) string {
 
 func (u *URL) SignIn() string {
 	return "/" + defs.RouteAuth + "/sign/in"
+}
+
+func (u *URL) RegEmailVerification(publicID string) string {
+	return "/" + defs.RouteAPI + "/p/auth/verify-reg-email/" + url.PathEscape(publicID)
 }

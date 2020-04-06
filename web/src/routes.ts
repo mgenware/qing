@@ -34,6 +34,9 @@ export default buildTree({
       cmt: {
         get: 'get',
       },
+      auth: {
+        createNewUser: 'create-pwd-user',
+      },
     },
   },
   auth: {

@@ -10,6 +10,7 @@ import (
 var Router = chi.NewRouter()
 
 func init() {
+	Router.Get("verify-reg-email/{key}", veirfyRegEmailGET)
 	Router.Get("/*", genericGET)
 }
 
