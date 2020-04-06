@@ -1,4 +1,4 @@
-package template
+package handler
 
 // APIResult contains the information about the return value of an API, which is either success or failure.
 type APIResult struct {

@@ -1,4 +1,4 @@
-package template
+package handler
 
 // ILocalizedTemplateData is the base type for localized models when applied to template.
 type ILocalizedTemplateData interface {

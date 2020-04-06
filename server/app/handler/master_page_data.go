@@ -1,4 +1,4 @@
-package template
+package handler
 
 // MasterPageData holds the data needed in main page template.
 type MasterPageData struct {
