@@ -3,7 +3,7 @@ package profilep
 import (
 	"qing/app"
 	"qing/app/cm"
-	"qing/app/template"
+	"qing/app/handler"
 	"qing/da"
 )
 
@@ -12,7 +12,7 @@ var vProfilePostItem = app.TemplateManager.MustParseLocalizedView("/profile/post
 
 type ProfileData struct {
 	da.UserTableSelectProfileResult
-	template.LocalizedTemplateData
+	handler.LocalizedTemplateData
 
 	UserURL      string
 	IconURL      string
@@ -21,7 +21,7 @@ type ProfileData struct {
 }
 
 type PostItem struct {
-	template.LocalizedTemplateData
+	handler.LocalizedTemplateData
 	da.PostTableSelectPostsByUserResult
 
 	URL string

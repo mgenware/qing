@@ -1,14 +1,13 @@
 package api
 
 import (
+	"qing/app/handler"
 	"qing/r/api/pri"
 	"qing/r/api/pub"
-
-	"github.com/go-chi/chi"
 )
 
 // Router ...
-var Router = chi.NewRouter()
+var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Mount("/r", pri.Router)

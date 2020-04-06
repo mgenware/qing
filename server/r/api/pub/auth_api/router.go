@@ -1,11 +1,9 @@
 package authapi
 
-import (
-	"github.com/go-chi/chi"
-)
+import "qing/app/handler"
 
 // Router ...
-var Router = chi.NewRouter()
+var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Post("/create-pwd-user", createPwdUserPOST)

@@ -1,9 +1,9 @@
-package template
+package handler
 
 import (
 	"io"
 
-	"qing/app/template/localization"
+	"qing/app/handler/localization"
 
 	"github.com/mgenware/go-packagex/v5/templatex"
 )

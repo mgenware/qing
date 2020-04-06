@@ -4,12 +4,10 @@ import (
 	"qing/app/middleware"
 	authapi "qing/r/api/pub/auth_api"
 	cmtapi "qing/r/api/pub/cmt_api"
-
-	"github.com/go-chi/chi"
 )
 
 // Router ...
-var Router = chi.NewRouter()
+var Router = router.NewJSONRouter()
 
 func init() {
 	Router.Use(middleware.ParseJSONRequest)

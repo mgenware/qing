@@ -8,7 +8,7 @@ import (
 	"qing/app"
 	"qing/app/defs"
 	"qing/app/errs"
-	"qing/app/template"
+	"qing/app/handler"
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 )
@@ -23,7 +23,7 @@ func ParseJSONRequest(next http.Handler) http.Handler {
 			jsonMap := make(map[string]interface{})
 			err := decoder.Decode(&jsonMap)
 			if err != nil {
-				resp := template.NewJSONResponse(r, app.TemplateManager, w)
+				resp := handler.NewJSONResponse(r, app.TemplateManager, w)
 				// JSON parsing errors are considered user errors, so we pass `true` as `expected` and don't log them.
 				resp.MustFailWithError(errs.Generic, fmt.Errorf("Error parsing body JSON, \"%v\"", err.Error()), true)
 				return

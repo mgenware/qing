@@ -64,6 +64,16 @@ func (r *JSONRouter) Trace(pattern string, h JSONHandlerFunc) {
 	r.Core.Connect(pattern, JSONHandlerToHTTPHandler(h))
 }
 
+// Mount calls chi.Router.Mount with a JSONRouter.
+func (r *JSONRouter) Mount(pattern string, h *JSONRouter) {
+	r.Core.Mount(pattern, h)
+}
+
+// ServeHTTP imlements http.Handler.
+func (r *JSONRouter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	r.Core.ServeHTTP(w, req)
+}
+
 // JSONHandlerToHTTPHandler converts a JSONHandlerFunc to http.HandlerFunc.
 func JSONHandlerToHTTPHandler(h JSONHandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

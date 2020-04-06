@@ -4,13 +4,13 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
-	"qing/app/template"
+	"qing/app/handler"
 	"qing/da"
 )
 
 type infoData struct {
 	da.UserTableSelectEditingDataResult
-	template.LocalizedTemplateData
+	handler.LocalizedTemplateData
 
 	IconURL string `json:"iconURL"`
 }

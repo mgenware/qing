@@ -14,9 +14,9 @@ import (
 	txt "text/template"
 
 	"qing/app/defs"
+	"qing/app/handler/asset"
+	"qing/app/handler/localization"
 	"qing/app/logx"
-	"qing/app/template/asset"
-	"qing/app/template/localization"
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 	"github.com/mgenware/go-packagex/v5/templatex"

@@ -2,14 +2,14 @@ package postp
 
 import (
 	"qing/app"
-	"qing/app/template"
+	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 )
 
 type PostPageData struct {
 	da.PostTableSelectPostByIDResult
-	template.LocalizedTemplateData
+	handler.LocalizedTemplateData
 
 	PostURL     string
 	UserEID     string

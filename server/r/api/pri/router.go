@@ -2,17 +2,16 @@ package pri
 
 import (
 	"qing/app"
+	"qing/app/handler"
 	"qing/app/middleware"
 	authapi "qing/r/api/pri/auth_api"
 	captchaapi "qing/r/api/pri/captcha_api"
 	composeapi "qing/r/api/pri/compose_api"
 	profileapi "qing/r/api/pri/profile_api"
-
-	"github.com/go-chi/chi"
 )
 
 // Router ...
-var Router = chi.NewRouter()
+var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Use(app.UserManager.EnsureLoggedInMWJSON)

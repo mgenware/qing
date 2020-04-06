@@ -64,6 +64,16 @@ func (r *HTMLRouter) Trace(pattern string, h HTMLHandlerFunc) {
 	r.Core.Connect(pattern, HTMLHandlerToHTTPHandler(h))
 }
 
+// Mount calls chi.Router.Mount with a HTMLRouter.
+func (r *HTMLRouter) Mount(pattern string, h *HTMLRouter) {
+	r.Core.Mount(pattern, h)
+}
+
+// ServeHTTP imlements http.Handler.
+func (r *HTMLRouter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	r.Core.ServeHTTP(w, req)
+}
+
 // HTMLHandlerToHTTPHandler converts a HTMLHandlerFunc to http.HandlerFunc.
 func HTMLHandlerToHTTPHandler(h HTMLHandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

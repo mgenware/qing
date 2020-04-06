@@ -6,14 +6,14 @@ import (
 	"qing/app/cfg/config"
 	"qing/app/cm"
 	"qing/app/errs"
-	"qing/app/template"
+	"qing/app/handler"
 	"qing/app/urlx"
 	"qing/da"
 )
 
 type UserManager struct {
 	SessionManager  *SessionManager
-	TemplateManager *template.Manager
+	TemplateManager *handler.Manager
 	DB              *sql.DB
 
 	appURL      *urlx.URL
@@ -23,7 +23,7 @@ type UserManager struct {
 func NewUserManager(
 	db *sql.DB,
 	ssMgr *SessionManager,
-	tm *template.Manager,
+	tm *handler.Manager,
 	appURL *urlx.URL,
 	debugConfig *config.DebugConfig,
 ) *UserManager {
@@ -59,7 +59,7 @@ func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
-			resp := template.NewJSONResponse(r, appu.TemplateManager, w)
+			resp := handler.NewJSONResponse(r, appu.TemplateManager, w)
 			resp.MustFailWithCode(errs.NeedAuth)
 		}
 	})
