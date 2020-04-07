@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/handler"
 	"qing/lib/validator"
 )
 
@@ -35,7 +36,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 	return &d, nil
 }
 
-func createPwdUserPOST(w http.ResponseWriter, r *http.Request) {
+func createPwdUserPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
@@ -55,5 +56,5 @@ func createPwdUserPOST(w http.ResponseWriter, r *http.Request) {
 	if app.Config.DevMode() {
 		fmt.Printf("[DEBUG] reg-v-url: %v\n", url)
 	}
-	resp.MustComplete(nil)
+	return resp.MustComplete(nil)
 }

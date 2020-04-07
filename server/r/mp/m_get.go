@@ -3,6 +3,7 @@ package mp
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/handler"
 
 	"github.com/go-chi/chi"
 )
@@ -14,7 +15,7 @@ func init() {
 	Router.Get("/*", genericGET)
 }
 
-func genericGET(w http.ResponseWriter, r *http.Request) {
+func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 
 	content := "<dashboard-app></dashboard-app>"
@@ -22,5 +23,5 @@ func genericGET(w http.ResponseWriter, r *http.Request) {
 	d := app.MasterPageData("", content)
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Dashboard
 
-	resp.MustComplete(d)
+	return resp.MustComplete(d)
 }

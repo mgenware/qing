@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"qing/app/defs"
+	"qing/app/handler"
 	"strconv"
 	"strings"
 
@@ -66,12 +67,12 @@ func Start() {
 	lm := app.TemplateManager.LocalizationManager
 
 	// Not found handler
-	r.With(lm.EnableContextLanguage).NotFound(sys.NotFoundGET)
+	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", profilep.ProfileGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.ProfileGET))
 	// Post router
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", postp.PostGET)
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.PostGET))
 	// Dashboard router
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Auth router

@@ -5,6 +5,7 @@ import (
 	"qing/app"
 	"qing/app/cm"
 	"qing/app/defs"
+	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/api/apidata"
@@ -55,7 +56,7 @@ func newGetRepliesRespData(replies []*da.ReplyData, hasNext bool) *GetRepliesRes
 	return res
 }
 
-func getCmts(w http.ResponseWriter, r *http.Request) {
+func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
@@ -72,8 +73,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) {
 		}
 
 		respData := newGetRepliesRespData(replies, hasNext)
-		resp.MustComplete(respData)
-		return
+		return resp.MustComplete(respData)
 	}
 
 	// Selecting comments.
@@ -95,5 +95,5 @@ func getCmts(w http.ResponseWriter, r *http.Request) {
 			panic("Unsupported entity type")
 		}
 	}
-	resp.MustComplete(respData)
+	return resp.MustComplete(respData)
 }

@@ -5,11 +5,12 @@ import (
 	"qing/app"
 	"qing/app/cm"
 	"qing/app/defs"
+	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 )
 
-func setPost(w http.ResponseWriter, r *http.Request) {
+func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
@@ -25,8 +26,7 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 		captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
-			resp.MustFailWithCode(captResult)
-			return
+			return resp.MustFailWithCode(captResult)
 		}
 		insertedID, err := da.Post.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
 		app.PanicIfErr(err)
@@ -38,5 +38,5 @@ func setPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newPostURL := app.URL.Post(id)
-	resp.MustComplete(newPostURL)
+	return resp.MustComplete(newPostURL)
 }

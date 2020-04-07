@@ -3,14 +3,14 @@ package authapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/handler"
 )
 
-func signOut(w http.ResponseWriter, r *http.Request) {
+func signOut(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	err := app.UserManager.SessionManager.Logout(w, r)
 	if err != nil {
-		resp.MustFail(err)
-		return
+		return resp.MustFail(err)
 	}
-	resp.MustComplete(nil)
+	return resp.MustComplete(nil)
 }

@@ -3,13 +3,14 @@ package authp
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/handler"
 
 	"github.com/go-chi/chi"
 )
 
 var vError = app.TemplateManager.MustParseLocalizedView("/auth/emailVeriFailed.html")
 
-func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) {
+func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.HTMLResponse(w, r)
 	key := chi.URLParam(r, "key")
 	if key == "" {
@@ -26,5 +27,5 @@ func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) {
 	}
 	// TODO: Create new user.
 
-	resp.MustComplete(nil)
+	return resp.MustComplete(nil)
 }

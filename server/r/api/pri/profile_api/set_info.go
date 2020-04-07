@@ -21,21 +21,20 @@ func newInfoData(u *da.UserTableSelectEditingDataResult) *infoData {
 	return d
 }
 
-func getInfo(w http.ResponseWriter, r *http.Request) {
+func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	uid := resp.UserID()
 
 	dbInfo, err := da.User.SelectEditingData(app.DB, uid)
 	if err != nil {
-		resp.MustFail(err)
-		return
+		return resp.MustFail(err)
 	}
 
 	data := newInfoData(dbInfo)
-	resp.MustComplete(data)
+	return resp.MustComplete(data)
 }
 
-func setInfo(w http.ResponseWriter, r *http.Request) {
+func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	sUser := resp.User()
@@ -52,17 +51,15 @@ func setInfo(w http.ResponseWriter, r *http.Request) {
 	// Update DB
 	err := da.User.UpdateProfile(app.DB, uid, nick, website, company, location)
 	if err != nil {
-		resp.MustFail(err)
-		return
+		return resp.MustFail(err)
 	}
 	// Update session
 	sUser.Name = nick
 	sid := cm.ContextSID(r.Context())
 	err = app.UserManager.SessionManager.SetUserSession(sid, sUser)
 	if err != nil {
-		resp.MustFail(err)
-		return
+		return resp.MustFail(err)
 	}
 
-	resp.MustComplete(nick)
+	return resp.MustComplete(nick)
 }

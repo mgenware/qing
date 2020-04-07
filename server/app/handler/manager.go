@@ -148,7 +148,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) {
+func (m *Manager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
 	d := &ErrorPageData{Message: err.Error()}
 	// Handle unexpected errors
 	if !expected {
@@ -171,6 +171,7 @@ func (m *Manager) MustError(r *http.Request, lang string, err error, expected bo
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	htmlData := NewMasterPageData(m.LocalizedString(lang, "errOccurred"), errorHTML)
 	m.MustComplete(r, lang, htmlData, w)
+	return HTML(0)
 }
 
 // PageTitle returns the given string followed by the localized site name.

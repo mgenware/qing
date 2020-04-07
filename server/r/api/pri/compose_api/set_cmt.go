@@ -6,6 +6,7 @@ import (
 	"qing/app"
 	"qing/app/cm"
 	"qing/app/defs"
+	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/api/apidata"
@@ -25,7 +26,7 @@ func getCmtTA(hostType int) (da.CmtInterface, error) {
 	}
 }
 
-func setCmt(w http.ResponseWriter, r *http.Request) {
+func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	user := resp.User()
@@ -50,8 +51,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		app.PanicIfErr(err)
 
 		if captResult != 0 {
-			resp.MustFailWithCode(captResult)
-			return
+			return resp.MustFailWithCode(captResult)
 		}
 
 		var cmtID uint64
@@ -75,7 +75,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		cmt.Content = content
 
 		respData := &SetCmtResponse{Cmt: cmt}
-		resp.MustComplete(respData)
+		return resp.MustComplete(respData)
 	} else {
 		// Editing a cmt.
 		err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
@@ -87,6 +87,6 @@ func setCmt(w http.ResponseWriter, r *http.Request) {
 		cmt.ModifiedAt = &now
 
 		respData := &SetCmtResponse{Cmt: cmt}
-		resp.MustComplete(respData)
+		return resp.MustComplete(respData)
 	}
 }

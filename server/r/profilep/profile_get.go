@@ -5,6 +5,7 @@ import (
 	"qing/app"
 	"qing/app/cm"
 	"qing/app/defs"
+	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/sys"
@@ -13,11 +14,10 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func ProfileGET(w http.ResponseWriter, r *http.Request) {
+func ProfileGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
-		sys.NotFoundGET(w, r)
-		return
+		return sys.NotFoundGET(w, r)
 	}
 	page := validator.MustToPageOrDefault(r.FormValue("page"))
 
@@ -41,5 +41,5 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) {
 
 	d := app.MasterPageData(title, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
-	resp.MustComplete(d)
+	return resp.MustComplete(d)
 }

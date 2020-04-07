@@ -4,12 +4,13 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/handler"
 	"qing/lib/validator"
 
 	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
-func deleteCmt(w http.ResponseWriter, r *http.Request) {
+func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
@@ -27,5 +28,5 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) {
 		err = cmtTA.DeleteReply(app.DB, id, uid, hostID)
 	}
 	app.PanicIfErr(err)
-	resp.MustComplete(nil)
+	return resp.MustComplete(nil)
 }

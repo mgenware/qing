@@ -1,11 +1,11 @@
 package cmtapi
 
 import (
-	"github.com/go-chi/chi"
+	"qing/app/handler"
 )
 
 // Router ...
-var Router = chi.NewRouter()
+var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Post("/get", getCmts)

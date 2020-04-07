@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/handler"
 	"qing/da"
 )
 
-func setBio(w http.ResponseWriter, r *http.Request) {
+func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
@@ -20,8 +21,7 @@ func setBio(w http.ResponseWriter, r *http.Request) {
 	// Update DB
 	err := da.User.UpdateBio(app.DB, uid, &bio)
 	if err != nil {
-		resp.MustFail(err)
-		return
+		return resp.MustFail(err)
 	}
-	resp.MustComplete(nil)
+	return resp.MustComplete(nil)
 }
