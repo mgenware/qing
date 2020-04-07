@@ -84,6 +84,9 @@ func (m *Manager) MustCompleteWithContent(content []byte, w http.ResponseWriter)
 
 // MustComplete executes the main view template with the specified data and panics if error occurs.
 func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, w http.ResponseWriter) {
+	if d == nil {
+		panic("Unexpected empty `MasterPageData` in `MustComplete`")
+	}
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 
 	ctx := r.Context()
