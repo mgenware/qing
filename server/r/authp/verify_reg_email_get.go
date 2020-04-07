@@ -8,8 +8,6 @@ import (
 	"github.com/go-chi/chi"
 )
 
-var vError = app.TemplateManager.MustParseLocalizedView("/auth/emailVeriFailed.html")
-
 func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.HTMLResponse(w, r)
 	key := chi.URLParam(r, "key")

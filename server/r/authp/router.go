@@ -3,18 +3,18 @@ package authp
 import (
 	"net/http"
 	"qing/app"
-
-	"github.com/go-chi/chi"
+	"qing/app/handler"
 )
 
-var Router = chi.NewRouter()
+// Router ...
+var Router = handler.NewHTMLRouter()
 
 func init() {
-	Router.Get("verify-reg-email/{key}", veirfyRegEmailGET)
+	Router.Get("/verify-reg-email/{key}", veirfyRegEmailGET)
 	Router.Get("/*", genericGET)
 }
 
-func genericGET(w http.ResponseWriter, r *http.Request) {
+func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 
 	content := "<auth-app></auth-app>"
@@ -22,5 +22,5 @@ func genericGET(w http.ResponseWriter, r *http.Request) {
 	d := app.MasterPageData("", content)
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Auth
 
-	resp.MustComplete(d)
+	return resp.MustComplete(d)
 }

@@ -4,14 +4,13 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/handler"
-
-	"github.com/go-chi/chi"
 )
 
-var Router = chi.NewRouter()
+// Router ...
+var Router = handler.NewHTMLRouter()
 
 func init() {
-	Router.Use(app.UserManager.EnsureLoggedInMWHTML)
+	Router.Core.Use(app.UserManager.EnsureLoggedInMWHTML)
 	Router.Get("/*", genericGET)
 }
 

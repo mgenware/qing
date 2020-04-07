@@ -63,5 +63,5 @@ func (u *URL) SignIn() string {
 }
 
 func (u *URL) RegEmailVerification(publicID string) string {
-	return "/" + defs.RouteAPI + "/p/auth/verify-reg-email/" + url.PathEscape(publicID)
+	return "/" + defs.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
 }
