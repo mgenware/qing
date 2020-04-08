@@ -24,11 +24,11 @@ var UserPwd = &TableTypeUserPwd{}
 func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) error {
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		_, err = User.AddUserWithName(tx, email, name)
+		_, err = User.AddUserWithNameInternal(tx, email, name)
 		if err != nil {
 			return err
 		}
-		_, err = da.AddUserPwd(tx, pwdHash)
+		_, err = da.AddUserPwdInternal(tx, pwdHash)
 		if err != nil {
 			return err
 		}
@@ -37,8 +37,8 @@ func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name strin
 	return txErr
 }
 
-// AddUserPwd ...
-func (da *TableTypeUserPwd) AddUserPwd(queryable dbx.Queryable, pwdHash string) (uint64, error) {
+// AddUserPwdInternal ...
+func (da *TableTypeUserPwd) AddUserPwdInternal(queryable dbx.Queryable, pwdHash string) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `user_pwd` (`pwd_hash`) VALUES (?)", pwdHash)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }

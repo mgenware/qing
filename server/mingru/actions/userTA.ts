@@ -32,24 +32,15 @@ export class UserTA extends mm.TableActions {
     .updateOne()
     .setInputs(t.name, t.website, t.company, t.location)
     .byID();
-  updateIconName = mm
-    .updateOne()
-    .setInputs(t.icon_name)
-    .byID();
+  updateIconName = mm.updateOne().setInputs(t.icon_name).byID();
 
-  updateBio = mm
-    .updateOne()
-    .setInputs(t.bio)
-    .byID();
+  updateBio = mm.updateOne().setInputs(t.bio).byID();
   updatePostCount = mm
     .updateOne()
     .set(t.postCount, mm.sql`${t.postCount} + ${mm.input(mm.int(), 'offset')}`)
     .byID('userID');
 
-  addUserWithName = mm
-    .insertOne()
-    .setDefaults()
-    .setInputs();
+  addUserWithNameInternal = mm.insertOne().setDefaults().setInputs();
 }
 
 export default mm.tableActions(t, UserTA);

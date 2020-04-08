@@ -3,9 +3,12 @@ import t from '../models/userPwd';
 import userTA from './userTA';
 
 export class UserPwdTA extends mm.TableActions {
-  addUserPwd = mm.insertOne().setInputs();
+  addUserPwdInternal = mm.insertOne().setInputs();
 
-  addPwdBasedUser = mm.transact(userTA.addUserWithName, this.addUserPwd);
+  addPwdBasedUser = mm.transact(
+    userTA.addUserWithNameInternal,
+    this.addUserPwdInternal,
+  );
 }
 
 export default mm.tableActions(t, UserPwdTA);

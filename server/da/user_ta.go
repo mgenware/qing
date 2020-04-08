@@ -18,8 +18,8 @@ var User = &TableTypeUser{}
 
 // ------------ Actions ------------
 
-// AddUserWithName ...
-func (da *TableTypeUser) AddUserWithName(queryable dbx.Queryable, email string, name string) (uint64, error) {
+// AddUserWithNameInternal ...
+func (da *TableTypeUser) AddUserWithNameInternal(queryable dbx.Queryable, email string, name string) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_time`, `company`, `website`, `location`, `bio`, `post_count`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL, 0)", email, name)
 	return dbx.GetLastInsertIDUint64WithError(result, err)
 }

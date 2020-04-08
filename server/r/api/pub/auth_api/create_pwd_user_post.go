@@ -40,11 +40,20 @@ func createPwdUserPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
+	name := validator.MustGetStringFromDict(params, "name")
 	email := validator.MustGetStringFromDict(params, "email")
 	pwd := validator.MustGetStringFromDict(params, "pwd")
 
 	// Put user pwd to memory store and wait for user email verification.
-	publicID, err := app.Service.RegEmailVerificator.Add(email, pwd)
+	createUserData := &CreateUserData{
+		Email: email,
+		Name:  name,
+		Pwd:   pwd,
+	}
+	createUserDataString, err := CreateUserDataToString(createUserData)
+	app.PanicIfErr(err)
+
+	publicID, err := app.Service.RegEmailVerificator.Add(email, createUserDataString)
 	if err != nil {
 		panic(fmt.Sprintf("RegEmailVerificator.Add failed: %v", err.Error()))
 	}
