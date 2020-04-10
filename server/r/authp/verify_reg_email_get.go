@@ -3,6 +3,7 @@ package authp
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
@@ -10,20 +11,20 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.JSON {
+func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	key := chi.URLParam(r, "key")
 	if key == "" {
 		panic("Empty input")
 	}
 
+	lang := cm.LanguageContext(r.Context())
 	dataString, err := app.Service.RegEmailVerificator.Verify(key)
 	if err != nil {
 		panic(err.Error())
 	}
-	resp := app.HTMLResponse(w, r)
 	if dataString == "" {
 		// Expired
-		panic(app.TemplateManager.LocalizedString(resp.Lang(), "regEmailVeriExpired"))
+		panic(app.TemplateManager.LocalizedString(lang, "regEmailVeriExpired"))
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)
@@ -31,8 +32,10 @@ func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pwdHash, err := app.Service.HashingAlg.CreateHash(createUserData.Pwd)
 	app.PanicIfErr(err)
 
-	err = da.UserPwd.AddPwdBasedUser(app.DB, createUserData.Email, createUserData.Name, pwdHash)
+	uid, err := da.UserPwd.AddPwdBasedUser(app.DB, createUserData.Email, createUserData.Name, pwdHash)
 	app.PanicIfErr(err)
 
-	return resp.MustComplete(nil)
+	userURL := app.URL.UserProfile(uid)
+	http.Redirect(w, r, userURL, 302)
+	return handler.HTML(0)
 }
