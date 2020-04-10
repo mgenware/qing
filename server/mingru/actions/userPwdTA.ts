@@ -9,19 +9,21 @@ const idVar = 'id';
 export class UserPwdTA extends mm.TableActions {
   addUserPwdInternal = mm.insertOne().setInputs();
 
-  addPwdBasedUser = mm.transact(
-    userTA.addUserWithNameInternal.declareReturnValue(
-      mm.ReturnValues.insertedID,
-      idVar,
-    ),
-    userAuthTA.addUserAuth.wrap({
-      authType: `${+UserAuthType.pwd}`,
-      [idVar]: mm.valueRef(idVar),
-    }),
-    this.addUserPwdInternal.wrap({
-      [idVar]: mm.valueRef(idVar),
-    }),
-  );
+  addPwdBasedUser = mm
+    .transact(
+      userTA.addUserWithNameInternal.declareReturnValue(
+        mm.ReturnValues.insertedID,
+        idVar,
+      ),
+      userAuthTA.addUserAuth.wrap({
+        authType: `${+UserAuthType.pwd}`,
+        [idVar]: mm.valueRef(idVar),
+      }),
+      this.addUserPwdInternal.wrap({
+        [idVar]: mm.valueRef(idVar),
+      }),
+    )
+    .setReturnValues(idVar);
 }
 
 export default mm.tableActions(t, UserPwdTA);

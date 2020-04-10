@@ -29,7 +29,8 @@ func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable dbx.Queryable, id ui
 }
 
 // AddPwdBasedUser ...
-func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) error {
+func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
+	var idExported uint64
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		id, err := User.AddUserWithNameInternal(tx, email, name)
@@ -44,9 +45,10 @@ func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name strin
 		if err != nil {
 			return err
 		}
+		idExported = id
 		return nil
 	})
-	return txErr
+	return idExported, txErr
 }
 
 // AddUserPwdInternal ...
