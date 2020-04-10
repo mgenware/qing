@@ -1,7 +1,7 @@
 import * as mm from 'mingru-models';
 
 export enum UserAuthType {
-  pwd = 0,
+  pwd = 1,
 }
 
 export class UserAuth extends mm.Table {

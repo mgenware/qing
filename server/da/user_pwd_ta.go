@@ -21,7 +21,7 @@ var UserPwd = &TableTypeUserPwd{}
 // ------------ Actions ------------
 
 func (da *TableTypeUserPwd) addPwdBasedUserChild2(queryable dbx.Queryable, id uint64) error {
-	return UserAuth.AddUserAuth(queryable, id, 0)
+	return UserAuth.AddUserAuth(queryable, id, 1)
 }
 
 func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable dbx.Queryable, id uint64, pwdHash string) error {
