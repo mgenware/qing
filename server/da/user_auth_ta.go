@@ -19,7 +19,7 @@ var UserAuth = &TableTypeUserAuth{}
 // ------------ Actions ------------
 
 // AddUserAuth ...
-func (da *TableTypeUserAuth) AddUserAuth(queryable dbx.Queryable, authType uint16) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `user_auth` (`auth_type`) VALUES (?)", authType)
-	return dbx.GetLastInsertIDUint64WithError(result, err)
+func (da *TableTypeUserAuth) AddUserAuth(queryable dbx.Queryable, id uint64, authType uint16) error {
+	_, err := queryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
+	return err
 }

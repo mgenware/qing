@@ -1,7 +1,8 @@
 import * as mm from 'mingru-models';
 
 export class UserPwd extends mm.Table {
-  id = mm.pk();
+  // `id` is from `user.id`.
+  id = mm.pk().noAutoIncrement;
   pwd_hash = mm.varChar(255);
 }
 

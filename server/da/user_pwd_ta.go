@@ -20,15 +20,27 @@ var UserPwd = &TableTypeUserPwd{}
 
 // ------------ Actions ------------
 
+func (da *TableTypeUserPwd) addPwdBasedUserChild2(queryable dbx.Queryable, id uint64) error {
+	return UserAuth.AddUserAuth(queryable, id, 0)
+}
+
+func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable dbx.Queryable, id uint64, pwdHash string) error {
+	return da.AddUserPwdInternal(queryable, id, pwdHash)
+}
+
 // AddPwdBasedUser ...
 func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) error {
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		_, err = User.AddUserWithNameInternal(tx, email, name)
+		id, err := User.AddUserWithNameInternal(tx, email, name)
 		if err != nil {
 			return err
 		}
-		_, err = da.AddUserPwdInternal(tx, pwdHash)
+		err = da.addPwdBasedUserChild2(tx, id)
+		if err != nil {
+			return err
+		}
+		err = da.addPwdBasedUserChild3(tx, id, pwdHash)
 		if err != nil {
 			return err
 		}
@@ -38,7 +50,7 @@ func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name strin
 }
 
 // AddUserPwdInternal ...
-func (da *TableTypeUserPwd) AddUserPwdInternal(queryable dbx.Queryable, pwdHash string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `user_pwd` (`pwd_hash`) VALUES (?)", pwdHash)
-	return dbx.GetLastInsertIDUint64WithError(result, err)
+func (da *TableTypeUserPwd) AddUserPwdInternal(queryable dbx.Queryable, id uint64, pwdHash string) error {
+	_, err := queryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
+	return err
 }

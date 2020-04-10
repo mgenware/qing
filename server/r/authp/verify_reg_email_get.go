@@ -5,6 +5,7 @@ import (
 	"qing/app"
 	"qing/app/handler"
 	"qing/da"
+	authapi "qing/r/api/pub/auth_api"
 
 	"github.com/go-chi/chi"
 )
@@ -19,6 +20,7 @@ func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if err != nil {
 		panic(err.Error())
 	}
+	resp := app.HTMLResponse(w, r)
 	if dataString == "" {
 		// Expired
 		panic(app.TemplateManager.LocalizedString(resp.Lang(), "regEmailVeriExpired"))
@@ -26,9 +28,11 @@ func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.JSON {
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)
 
-	// TODO: Create new user.
-	da.UserPwd.AddPwdBasedUser(app.DB)
+	pwdHash, err := app.Service.HashingAlg.CreateHash(createUserData.Pwd)
+	app.PanicIfErr(err)
 
-	resp := app.HTMLResponse(w, r)
+	err = da.UserPwd.AddPwdBasedUser(app.DB, createUserData.Email, createUserData.Name, pwdHash)
+	app.PanicIfErr(err)
+
 	return resp.MustComplete(nil)
 }
