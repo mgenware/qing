@@ -7,6 +7,7 @@ import * as lp from 'lit-props';
 import app from 'app';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
 import 'qing-dialog-component';
+import 'ui/form/input-view';
 
 @customElement('reg-app')
 export class RegApp extends BaseElement {
@@ -20,35 +21,38 @@ export class RegApp extends BaseElement {
   render() {
     return html`
       <h2>${ls.createAnAcc}</h2>
-      <div class="form">
-        <label for="name-input">${ls.name}</label>
-        <input
-          id="name-input"
-          type="text"
+      <div>
+        <input-view
+          required
+          label=${ls.name}
           value=${this.name}
-          @change=${(e: any) => (this.name = e.target.value)}
-        />
-        <label for="email-input">${ls.email}</label>
-        <input
-          id="email-input"
-          type="text"
+          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
+        ></input-view>
+
+        <input-view
+          required
+          type="email"
+          label=${ls.email}
           value=${this.email}
-          @change=${(e: any) => (this.email = e.target.value)}
-        />
-        <label for="password-input">${ls.password}</label>
-        <input
-          id="password-input"
+          @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}
+        ></input-view>
+
+        <input-view
+          required
           type="password"
+          label=${ls.password}
           value=${this.password}
-          @change=${(e: any) => (this.password = e.target.value)}
-        />
-        <label for="confirm-password-input">${ls.password}</label>
-        <input
-          id="confirm-password-input"
+          @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}
+        ></input-view>
+
+        <input-view
+          required
           type="password"
+          label=${ls.confirmPassword}
           value=${this.confirmPassword}
-          @change=${(e: any) => (this.confirmPassword = e.target.value)}
-        />
+          @onChange=${(e: CustomEvent<string>) =>
+            (this.confirmPassword = e.detail)}
+        ></input-view>
       </div>
       <lit-button class="is-success" @click=${this.handleSignUpClick}
         >${ls.signUp}</lit-button
@@ -68,6 +72,9 @@ export class RegApp extends BaseElement {
   }
 
   private async handleSignUpClick() {
+    if (!this.checkFormValidity()) {
+      return;
+    }
     const loader = new CreateNewUserLoader(
       this.name,
       this.email,

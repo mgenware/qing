@@ -90,4 +90,5 @@ export default interface LSDefs {
   regEmailSentTitle: string;
   regEmailSentContent: string;
   goToYourEmail: string;
+  regEmailVeriExpired: string;
 }

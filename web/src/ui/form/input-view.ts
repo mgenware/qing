@@ -86,7 +86,9 @@ export class InputView extends BaseElement {
   }
 
   checkValidity(): boolean {
-    return this.inputElement.checkValidity();
+    const res = this.inputElement.checkValidity();
+    this.validationMessage = this.inputElement.validationMessage;
+    return res;
   }
 
   private handleInput(e: Event) {

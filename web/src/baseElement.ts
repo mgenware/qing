@@ -1,5 +1,6 @@
 import { LitElement } from 'lit-element';
 import coreStyles from './app/styles/core';
+import { InputView } from 'ui/form/input-view';
 
 export default class BaseElement extends LitElement {
   static get styles() {
@@ -23,5 +24,22 @@ export default class BaseElement extends LitElement {
       throw new Error(`Core DOM element "${id}" missing`);
     }
     return element as T;
+  }
+
+  protected getAllInputViews(): NodeListOf<InputView> {
+    return this.mustGetShadowRoot().querySelectorAll('input-view');
+  }
+
+  protected checkFormValidity(): boolean {
+    const inputs = this.getAllInputViews();
+
+    let valid = true;
+    // We must run through all inputs to make sure each `InputView` has `validationMessage` set.
+    for (const input of inputs) {
+      if (input.checkValidity() === false) {
+        valid = false;
+      }
+    }
+    return valid;
   }
 }
