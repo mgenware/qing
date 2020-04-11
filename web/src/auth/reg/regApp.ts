@@ -8,6 +8,7 @@ import app from 'app';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
 import 'qing-dialog-component';
 import 'ui/form/input-view';
+import 'ui/form/input-error-view';
 
 @customElement('reg-app')
 export class RegApp extends BaseElement {
@@ -17,6 +18,9 @@ export class RegApp extends BaseElement {
   @lp.string private confirmPassword = '';
 
   @lp.bool private isCompletionModalOpen = false;
+
+  // Additional passwords mismatch error message displayed under "Confirm password" input.
+  @lp.string private passwordsMismatchErr = '';
 
   render() {
     return html`
@@ -53,6 +57,10 @@ export class RegApp extends BaseElement {
           @onChange=${(e: CustomEvent<string>) =>
             (this.confirmPassword = e.detail)}
         ></input-view>
+
+        <input-error-view
+          message=${this.passwordsMismatchErr}
+        ></input-error-view>
       </div>
       <lit-button class="is-success" @click=${this.handleSignUpClick}
         >${ls.signUp}</lit-button
@@ -71,8 +79,19 @@ export class RegApp extends BaseElement {
     `;
   }
 
-  private async handleSignUpClick() {
+  private validateForm(): boolean {
     if (!this.checkFormValidity()) {
+      return false;
+    }
+
+    // Check if passwords match.
+    const pwdMatch = this.password === this.confirmPassword;
+    this.passwordsMismatchErr = pwdMatch ? '' : ls.pwdDontMatch;
+    return pwdMatch;
+  }
+
+  private async handleSignUpClick() {
+    if (!this.validateForm()) {
       return;
     }
     const loader = new CreateNewUserLoader(

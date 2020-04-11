@@ -91,4 +91,5 @@ export default interface LSDefs {
   regEmailSentContent: string;
   goToYourEmail: string;
   regEmailVeriExpired: string;
+  pwdDontMatch: string;
 }
