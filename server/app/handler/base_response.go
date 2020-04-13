@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"qing/app/cm"
+	"qing/app/handler/localization"
 )
 
 // BaseResponse provides basic properties shared by both HTMLResponse and JSONResponse.
@@ -30,26 +31,24 @@ func newBaseResponse(r *http.Request, mgr *Manager) BaseResponse {
 	return c
 }
 
+// Request returns underlying http.Request.
 func (b *BaseResponse) Request() *http.Request {
 	return b.req
 }
 
+// Context returns context.Context associated with current request.
 func (b *BaseResponse) Context() context.Context {
 	return b.ctx
 }
 
+// Lang returns current language ID.
 func (b *BaseResponse) Lang() string {
 	return b.lang
 }
 
-// LocalizedString calls TemplateManager.LocalizedString.
-func (b *BaseResponse) LocalizedString(key string) string {
-	return b.mgr.LocalizedString(b.lang, key)
-}
-
-// FormatLocalizedString calls TemplateManager.FormatLocalizedString.
-func (b *BaseResponse) FormatLocalizedString(key string, a ...interface{}) string {
-	return b.mgr.FormatLocalizedString(b.lang, key, a...)
+// Dictionary returns the dictionary associated with current language ID.
+func (b *BaseResponse) Dictionary() *localization.Dictionary {
+	return b.mgr.Dictionary(b.Lang())
 }
 
 // PageTitle calls TemplateManager.PageTitle.

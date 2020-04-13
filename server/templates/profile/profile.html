@@ -16,24 +16,24 @@
         <div class="m-t-lg m-b-lg">
           {{if .Location}}
           <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.location}}</span>
+            <span class="tag-default is-info">{{html .LS.Location}}</span>
           </p>
           <p class="m-t-sm">{{html .Location}}</p>
           {{end}} {{if .Company}}
           <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.company}}</span>
+            <span class="tag-default is-info">{{html .LS.Company}}</span>
           </p>
           <p class="m-t-sm">{{html .Company}}</p>
           {{end}} {{if .Website}}
           <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.url}}</span>
+            <span class="tag-default is-info">{{html .LS.Url}}</span>
           </p>
           <p class="m-t-sm">
             <a id="m_user_url" href="#">{{html .Website}}</a>
           </p>
           {{end}} {{if .Bio}}
           <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.bio}}</span>
+            <span class="tag-default is-info">{{html .LS.Bio}}</span>
           </p>
           <p class="m-t-sm">{{.Bio}}</p>
           {{end}}
@@ -50,7 +50,7 @@
             <div class="columns is-mobile">
               <div class="column">
                 <p>
-                  <span class="is-secondary">{{html .LS.posts}}</span>
+                  <span class="is-secondary">{{html .LS.Posts}}</span>
                   <span class="is-h3 m-l-md vertical-align-middle"
                     >{{html .PostCount}}</span
                   >
@@ -61,7 +61,7 @@
           <div id="m-scroll-list"></div>
           <div class="m-t-md tabs is-medium">
             <ul class="m-t-md">
-              <li id="m-tab-p">{{html .LS.posts}}</li>
+              <li id="m-tab-p">{{html .LS.Posts}}</li>
             </ul>
           </div>
           <!-- tab div -->
@@ -77,14 +77,14 @@
                   class="link-btn"
                   href="{{.Pager.PrevPageURL}}"
                 >
-                  {{html .LS.previousPage}}
+                  {{html .LS.PreviousPage}}
                 </a>
                 <a
                   id="m-next-btn"
                   class="link-btn"
                   href="{{.Pager.NextPageURL}}"
                 >
-                  {{html .LS.nextPage}}
+                  {{html .LS.NextPage}}
                 </a>
               </p>
             </div>

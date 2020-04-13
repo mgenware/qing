@@ -2,6 +2,7 @@ package localization
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -42,7 +43,8 @@ func NewManagerFromDirectory(dir string, defaultLang string) (*Manager, error) {
 	dics := make(map[string]*Dictionary)
 	for _, info := range fileNames {
 		if !info.IsDir() {
-			d, err := NewDictionaryFromFile(filepath.Join(dir, info.Name()))
+			dictPath := filepath.Join(dir, info.Name())
+			d, err := newDictionary(dictPath)
 			if err != nil {
 				return nil, err
 			}
@@ -69,27 +71,13 @@ func (mgr *Manager) DefaultLanguage() string {
 	return mgr.defaultLang
 }
 
-// DictionaryForLanguage returns an Dictionary object associated with the specified language.
-func (mgr *Manager) DictionaryForLanguage(lang string) *Dictionary {
+// Dictionary returns an Dictionary object associated with the specified language.
+func (mgr *Manager) Dictionary(lang string) *Dictionary {
 	dic := mgr.dics[lang]
 	if dic == nil {
 		return mgr.defaultDic
 	}
 	return dic
-}
-
-// ValueForKeyWithLanguage returns a localized string associated with the specified language and key.
-func (mgr *Manager) ValueForKeyWithLanguage(lang, key string) string {
-	dic := mgr.DictionaryForLanguage(lang)
-	if dic == nil {
-		return ""
-	}
-	return dic.Map[key]
-}
-
-// ValueForKey returns a localized string associated with the specified language and key.
-func (mgr *Manager) ValueForKey(lang, key string) string {
-	return mgr.ValueForKeyWithLanguage(lang, key)
 }
 
 // MatchLanguage returns the determined language based on various conditions.
@@ -139,4 +127,18 @@ func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
 	expires := time.Now().Add(30 * 24 * time.Hour)
 	c := &http.Cookie{Name: defs.LanguageCookieKey, Value: lang, Expires: expires}
 	http.SetCookie(w, c)
+}
+
+func newDictionary(file string) (*Dictionary, error) {
+	bytes, err := ioutil.ReadFile(file)
+	if err != nil {
+		return nil, err
+	}
+
+	var ls Dictionary
+	err = json.Unmarshal(bytes, &ls)
+	if err != nil {
+		return nil, err
+	}
+	return &ls, nil
 }

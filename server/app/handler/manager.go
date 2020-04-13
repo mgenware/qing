@@ -20,7 +20,6 @@ import (
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 	"github.com/mgenware/go-packagex/v5/templatex"
-	strf "github.com/mgenware/go-string-format"
 )
 
 // Manager provides common functions to generate HTML strings.
@@ -161,7 +160,7 @@ func (m *Manager) MustError(r *http.Request, lang string, err error, expected bo
 			// Set `expected` to `true`
 			expected = true
 
-			d.Message = m.LocalizedString(lang, "resourceNotFound")
+			d.Message = m.Dictionary(lang).ResourceNotFound
 			if m.config.HTTP.Log404Error {
 				m.logger.NotFound("sql", r.URL.String())
 			}
@@ -172,14 +171,14 @@ func (m *Manager) MustError(r *http.Request, lang string, err error, expected bo
 		}
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
-	htmlData := NewMasterPageData(m.LocalizedString(lang, "errOccurred"), errorHTML)
+	htmlData := NewMasterPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	m.MustComplete(r, lang, htmlData, w)
 	return HTML(0)
 }
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *Manager) PageTitle(lang, s string) string {
-	return s + " - " + m.LocalizationManager.ValueForKey(lang, "_siteName")
+	return s + " - " + m.LocalizationManager.Dictionary(lang).SiteName
 }
 
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.
@@ -195,12 +194,7 @@ func (m *Manager) MustParseView(relativePath string) *templatex.View {
 	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
 }
 
-// LocalizedString is a convenience function of LocalizationManager.ValueForKey.
-func (m *Manager) LocalizedString(lang, key string) string {
-	return m.LocalizationManager.ValueForKey(lang, key)
-}
-
-// FormatLocalizedString is a convenience function to format a localized string.
-func (m *Manager) FormatLocalizedString(lang, key string, a ...interface{}) string {
-	return strf.Format(m.LocalizedString(lang, key), a...)
+// Dictionary returns a localized dictionary with the specified language ID.
+func (m *Manager) Dictionary(lang string) *localization.Dictionary {
+	return m.LocalizationManager.Dictionary(lang)
 }

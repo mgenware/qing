@@ -24,7 +24,7 @@ func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	if dataString == "" {
 		// Expired
-		panic(app.TemplateManager.LocalizedString(lang, "regEmailVeriExpired"))
+		panic(app.TemplateManager.Dictionary(lang).RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)

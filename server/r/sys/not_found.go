@@ -6,6 +6,8 @@ import (
 
 	"qing/app"
 	"qing/app/handler"
+
+	strf "github.com/mgenware/go-string-format"
 )
 
 // NotFoundGET is a application wide handler for 404 errors.
@@ -13,7 +15,7 @@ func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Set 404 status code
 	w.WriteHeader(http.StatusNotFound)
 	resp := app.HTMLResponse(w, r)
-	msg := resp.FormatLocalizedString("pPageNotFound", r.URL.String())
+	msg := strf.Format(resp.Dictionary().PPageNotFound, r.URL.String())
 
 	if app.Config.HTTP.Log404Error {
 		app.Logger.NotFound("http", r.URL.String())
