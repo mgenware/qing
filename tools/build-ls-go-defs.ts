@@ -1,5 +1,6 @@
 import { promises as fsPromises } from 'fs';
 import * as camelCase from 'camelcase';
+import 'crash-on-errors';
 
 const typeName = 'Dictionary';
 

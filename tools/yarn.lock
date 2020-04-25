@@ -246,6 +246,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
+crash-on-errors@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/crash-on-errors/-/crash-on-errors-1.0.0.tgz#70047519aa9bd8092a472ca78d720998ddf48f84"
+  integrity sha512-EqbvZIKWTJDDpt7t2In1GnVc/jYsBeH/DGPpnkG7ZOiiT8IoJprMfA9wETJk3TBDclgmWaeRDglxkkNcQr3IYQ==
+
 cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
