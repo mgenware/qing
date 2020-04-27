@@ -2,7 +2,6 @@ package localization
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -44,7 +43,7 @@ func NewManagerFromDirectory(dir string, defaultLang string) (*Manager, error) {
 	for _, info := range fileNames {
 		if !info.IsDir() {
 			dictPath := filepath.Join(dir, info.Name())
-			d, err := newDictionary(dictPath)
+			d, err := ParseDictionary(dictPath)
 			if err != nil {
 				return nil, err
 			}
@@ -127,18 +126,4 @@ func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
 	expires := time.Now().Add(30 * 24 * time.Hour)
 	c := &http.Cookie{Name: defs.LanguageCookieKey, Value: lang, Expires: expires}
 	http.SetCookie(w, c)
-}
-
-func newDictionary(file string) (*Dictionary, error) {
-	bytes, err := ioutil.ReadFile(file)
-	if err != nil {
-		return nil, err
-	}
-
-	var ls Dictionary
-	err = json.Unmarshal(bytes, &ls)
-	if err != nil {
-		return nil, err
-	}
-	return &ls, nil
 }
