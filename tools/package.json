@@ -1,7 +1,6 @@
 {
-  "name": "build-localized-strings",
+  "name": "qing-tools",
   "version": "1.0.0",
-  "main": "build.ts",
   "private": true,
   "dependencies": {
     "@types/node": "^13.11.1",
