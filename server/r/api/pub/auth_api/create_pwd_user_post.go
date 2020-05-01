@@ -40,9 +40,9 @@ func createPwdUserPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	name := validator.MustGetStringFromDict(params, "name")
-	email := validator.MustGetStringFromDict(params, "email")
-	pwd := validator.MustGetStringFromDict(params, "pwd")
+	name := validator.MustGetStringFromDict(params, "name", app.Constants.MaxUserNameLen)
+	email := validator.MustGetStringFromDict(params, "email", app.Constants.MaxUserEmailLen)
+	pwd := validator.MustGetMinMaxStringFromDict(params, "pwd", app.Constants.MinUserPwdLen, app.Constants.MaxUserPwdLen)
 
 	// Put user pwd to memory store and wait for user email verification.
 	createUserData := &CreateUserData{

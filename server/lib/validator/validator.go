@@ -3,6 +3,7 @@ package validator
 import (
 	"fmt"
 	"strconv"
+	"unicode/utf8"
 
 	"github.com/mgenware/go-packagex/v5/strconvx"
 )
@@ -22,11 +23,33 @@ func DecodeID(str string) (uint64, error) {
 	return strconv.ParseUint(str, 36, 64)
 }
 
-// MustGetStringFromDict converts the value for the specified key to string, and panics on error.
-func MustGetStringFromDict(dict map[string]interface{}, key string) string {
+// MustGetUnsafeStringFromDict converts the value for the specified key to string, and panics on error.
+func MustGetUnsafeStringFromDict(dict map[string]interface{}, key string) string {
 	val, ok := dict[key].(string)
 	if !ok {
 		panicMissingArg(key)
+	}
+	return val
+}
+
+// MustGetStringFromDict calls MustGetUnsafeStringFromDict with an extra max length check.
+func MustGetStringFromDict(dict map[string]interface{}, key string, max int) string {
+	val := MustGetUnsafeStringFromDict(dict, key)
+	if utf8.RuneCountInString(val) > max {
+		panic(fmt.Sprintf("The argument \"%v\" has exceeded the max length (%v) allowed", key, max))
+	}
+	return val
+}
+
+// MustGetMinMaxStringFromDict calls MustGetUnsafeStringFromDict with a length check.
+func MustGetMinMaxStringFromDict(dict map[string]interface{}, key string, min, max int) string {
+	val := MustGetUnsafeStringFromDict(dict, key)
+	length := utf8.RuneCountInString(val)
+	if length > max {
+		panic(fmt.Sprintf("The argument \"%v\" has exceeded the max length (%v) allowed", key, max))
+	}
+	if length < min {
+		panic(fmt.Sprintf("The argument \"%v\" is less than the required length (%v)", key, min))
 	}
 	return val
 }

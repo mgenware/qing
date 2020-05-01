@@ -6,8 +6,8 @@ package app
 type SharedConstants struct {
 	MaxUserEmailLen int `json:"maxUserEmailLen"`
 	MaxUserNameLen  int `json:"maxUserNameLen"`
-	MaxUserPwdLen   int `json:"maxUserPwd"`
-	MinUserPwdLen   int `json:"minUserPwd"`
+	MaxUserPwdLen   int `json:"maxUserPwdLen"`
+	MinUserPwdLen   int `json:"minUserPwdLen"`
 }
 
 // Constants ...
@@ -17,7 +17,7 @@ func init() {
 	Constants = &SharedConstants{
 		MaxUserEmailLen: 200,
 		MaxUserNameLen:  200,
-		MaxUserPwd:      30,
-		MinUserPwd:      6,
+		MaxUserPwdLen:   30,
+		MinUserPwdLen:   6,
 	}
 }
