@@ -34,13 +34,13 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.GetIDFromDict(params, "id")
 	contentData := validator.MustGetDictFromDict(params, "contentData")
-	content, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetStringFromDict(contentData, "contentHTML"))
+	content, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentData, "contentHTML"))
 
 	if id == 0 {
 		// We are creating a new cmt.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
-		capt := validator.MustGetStringFromDict(contentData, "captcha")
+		capt := validator.MustGetStringFromDict(contentData, "captcha", 10)
 		toUserID := validator.GetIDFromDict(params, "toUserID")
 		parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 

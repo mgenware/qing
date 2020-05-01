@@ -41,6 +41,11 @@ func MustGetStringFromDict(dict map[string]interface{}, key string, max int) str
 	return val
 }
 
+// MustGetTextFromDict calls MustGetUnsafeStringFromDict with max length set to 15,000.
+func MustGetTextFromDict(dict map[string]interface{}, key string) string {
+	return MustGetStringFromDict(dict, key, 15000)
+}
+
 // MustGetMinMaxStringFromDict calls MustGetUnsafeStringFromDict with a length check.
 func MustGetMinMaxStringFromDict(dict map[string]interface{}, key string, min, max int) string {
 	val := MustGetUnsafeStringFromDict(dict, key)

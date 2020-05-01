@@ -17,11 +17,11 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
-	title := validator.MustGetStringFromDict(params, "title")
-	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetStringFromDict(params, "contentHTML"))
+	title := validator.MustGetStringFromDict(params, "title", app.Constants.MaxPostTitleLen)
+	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(params, "contentHTML"))
 
 	if !hasID {
-		capt := validator.MustGetStringFromDict(params, "captcha")
+		capt := validator.MustGetStringFromDict(params, "captcha", 10)
 		// New post
 		captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt, app.Config.DevMode())
 		app.PanicIfErr(err)

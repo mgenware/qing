@@ -2,5 +2,6 @@
   "minUserPwdLen": 6,
   "maxUserPwdLen": 30,
   "maxUserNameLen": 200,
-  "maxUserEmailLen": 200
+  "maxUserEmailLen": 200,
+  "maxPostTitleLen": 200
 }
