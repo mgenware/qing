@@ -27,6 +27,7 @@ export class UserTA extends mm.TableActions {
     )
     .byID();
   selectIconName = mm.selectField(t.icon_name).byID();
+  selectIDFromEmail = mm.selectField(t.id).where(t.email.isEqualToInput());
 
   updateProfile = mm
     .updateOne()

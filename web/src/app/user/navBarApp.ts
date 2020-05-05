@@ -20,7 +20,7 @@ export default class NavBarApp extends BaseElement {
   @lp.number currentTheme = defs.UserTheme.light;
 
   firstUpdated() {
-    app.state.getUserInfo(true, user => {
+    app.state.getUserInfo(true, (user) => {
       this.user = user;
     });
     this.currentTheme = app.userData.theme;

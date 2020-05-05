@@ -36,11 +36,13 @@ export default buildTree({
       },
       auth: {
         createNewUser: 'create-pwd-user',
+        signIn: 'signin',
       },
     },
   },
   auth: {
     signUp: 'signup',
+    signIn: 'signin',
   },
   static: {
     img: {

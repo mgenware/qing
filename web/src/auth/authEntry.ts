@@ -4,6 +4,7 @@ import BaseElement from '../baseElement';
 import page from 'page';
 import rs from 'routes';
 import './reg/regApp';
+import './signIn/signInApp';
 
 class Page {
   constructor(public content: any) {}
@@ -19,12 +20,12 @@ export default class AuthApp extends BaseElement {
 
   firstUpdated() {
     page(rs.auth.signUp, () => {
-      this.content = new Page(
-        html`
-          <reg-app></reg-app>
-        `,
-      );
+      this.content = new Page(html`<reg-app></reg-app>`);
       this.title = ls.createAnAcc;
+    });
+    page(rs.auth.signIn, () => {
+      this.content = new Page(html`<sign-in-app></sign-in-app>`);
+      this.title = ls.signIn;
     });
     page();
   }
@@ -34,9 +35,7 @@ export default class AuthApp extends BaseElement {
     if (!content) {
       return html``;
     }
-    return html`
-      <div class="container section">${content.content}</div>
-    `;
+    return html`<div class="container section">${content.content}</div>`;
   }
 }
 

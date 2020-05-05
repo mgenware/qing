@@ -56,3 +56,13 @@ func (da *TableTypeUserPwd) AddUserPwdInternal(queryable dbx.Queryable, id uint6
 	_, err := queryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
 	return err
 }
+
+// SelectHashByID ...
+func (da *TableTypeUserPwd) SelectHashByID(queryable dbx.Queryable, id uint64) (string, error) {
+	var result string
+	err := queryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}

@@ -7,6 +7,8 @@ import { UserAuthType } from '../models/userAuth';
 const idVar = 'id';
 
 export class UserPwdTA extends mm.TableActions {
+  selectHashByID = mm.selectField(t.pwd_hash).byID();
+
   addUserPwdInternal = mm.insertOne().setInputs();
 
   addPwdBasedUser = mm
