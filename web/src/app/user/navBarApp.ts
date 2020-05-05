@@ -9,6 +9,7 @@ import bulmaStyles from 'app/styles/navbar-min';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import { staticMainImage } from 'urls';
+import routes from 'routes';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -75,7 +76,7 @@ export default class NavBarApp extends BaseElement {
                 </div>
               `
             : html`
-                <a href="#" class="navbar-item">
+                <a href=${routes.auth.signIn} class="navbar-item">
                   <img
                     src="/static/img/user/login.svg"
                     width="16"

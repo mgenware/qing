@@ -15,7 +15,7 @@ func signInPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := cm.BodyContext(r.Context())
 
 	email := validator.MustGetStringFromDict(params, "email", app.Constants.MaxUserEmailLen)
-	pwd := validator.MustGetMinMaxStringFromDict(params, "pwd", app.Constants.MinUserPwdLen, app.Constants.MaxUserPwdLen)
+	pwd := validator.MustGetStringFromDict(params, "pwd", app.Constants.MaxUserPwdLen)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIdFromEmail(app.DB, email)
