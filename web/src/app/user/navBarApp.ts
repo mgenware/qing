@@ -77,12 +77,10 @@ export default class NavBarApp extends BaseElement {
               `
             : html`
                 <a href=${routes.auth.signIn} class="navbar-item">
-                  <img
-                    src="/static/img/user/login.svg"
-                    width="16"
-                    height="16"
-                  />
                   <span class="m-l-sm">${ls.signIn}</span>
+                </a>
+                <a href=${routes.auth.signUp} class="navbar-item">
+                  <span class="m-l-sm">${ls.signUp}</span>
                 </a>
               `}
           <a class="navbar-item" href="#" @click=${this.toggleTheme}>
