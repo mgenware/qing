@@ -10,9 +10,9 @@ export interface APIResponse {
 }
 
 export default class Loader<T> {
-  static defaultLocalizedMessageDict: Map<number, string> | null = null;
+  static defaultLocalizedMessageDict?: Map<number, string>;
 
-  loadingStatusChanged: ((status: LoadingStatus) => void) | null = null;
+  loadingStatusChanged?: (status: LoadingStatus) => void;
   private isStarted = false;
 
   async startAsync(): Promise<T> {
