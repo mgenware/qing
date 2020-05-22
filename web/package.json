@@ -44,6 +44,6 @@
     "rollup-plugin-lit-css-ex": "^2.0.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.27.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.3"
   }
 }
