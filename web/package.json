@@ -39,6 +39,8 @@
     "cross-env": "^7.0.1",
     "del-cli": "^3.0.0",
     "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.2.1",
+    "eslint-plugin-import": "^2.20.2",
     "lit-analyzer": "^1.1.10",
     "rollup": "^2.8.2",
     "rollup-plugin-lit-css-ex": "^2.0.0",
