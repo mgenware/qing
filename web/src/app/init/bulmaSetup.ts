@@ -1,4 +1,4 @@
-function getAll(selector: any): HTMLElement[] {
+function getAll(selector: string): HTMLElement[] {
   return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }
 
@@ -6,25 +6,25 @@ export function setupDropdowns() {
   // dropdowns
   const $dropdowns = getAll('.dropdown:not(.is-hoverable)');
   const closeDropdowns = () => {
-    $dropdowns.forEach($el => {
+    $dropdowns.forEach(($el) => {
       $el.classList.remove('is-active');
     });
   };
 
   if ($dropdowns.length > 0) {
-    $dropdowns.forEach($el => {
-      $el.addEventListener('click', event => {
+    $dropdowns.forEach(($el) => {
+      $el.addEventListener('click', (event) => {
         event.stopPropagation();
         $el.classList.toggle('is-active');
       });
     });
 
-    document.addEventListener('click', _ => {
+    document.addEventListener('click', (_) => {
       closeDropdowns();
     });
   }
 
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', (event) => {
     const e = event || window.event;
     if (e.keyCode === 27) {
       closeDropdowns();
@@ -41,24 +41,7 @@ export function setupModals() {
     '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button',
   );
 
-  if ($modalButtons.length > 0) {
-    $modalButtons.forEach($el => {
-      $el.addEventListener('click', () => {
-        const target = $el.dataset.target;
-        openModal(target);
-      });
-    });
-  }
-
-  if ($modalCloses.length > 0) {
-    $modalCloses.forEach($el => {
-      $el.addEventListener('click', () => {
-        closeModals();
-      });
-    });
-  }
-
-  function openModal(target: any) {
+  function openModal(target: string) {
     const $target = document.getElementById(target);
     rootEl.classList.add('is-clipped');
     if ($target) {
@@ -68,20 +51,39 @@ export function setupModals() {
 
   function closeModals() {
     rootEl.classList.remove('is-clipped');
-    $modals.forEach($el => {
+    $modals.forEach(($el) => {
       $el.classList.remove('is-active');
     });
   }
 
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', (event) => {
     const e = event || window.event;
     if (e.keyCode === 27) {
       closeModals();
     }
   });
+
+  if ($modalButtons.length > 0) {
+    $modalButtons.forEach(($el) => {
+      $el.addEventListener('click', () => {
+        const { target } = $el.dataset;
+        if (target) {
+          openModal(target);
+        }
+      });
+    });
+  }
+
+  if ($modalCloses.length > 0) {
+    $modalCloses.forEach(($el) => {
+      $el.addEventListener('click', () => {
+        closeModals();
+      });
+    });
+  }
 }
 
-export default function() {
+export default function () {
   setupDropdowns();
   setupDropdowns();
 }
