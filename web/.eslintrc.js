@@ -16,10 +16,26 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
-    // We'll let prettier handle operator linebreaks.
+    'lines-between-class-members': [
+      'error',
+      'always',
+      { exceptAfterSingleLine: true },
+    ],
+    'max-classes-per-file': 'off',
+    'import/prefer-default-export': 'off',
+    // We'll let prettier handle operator line breaks.
     'operator-linebreak': 'off',
+    'function-paren-newline': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'object-curly-newline': 'off',
+    // End of prettier-related rules.
+    'no-underscore-dangle': 'off',
+    'class-methods-use-this': 'off',
+    'no-return-assign': 'off',
+    'prefer-destructuring': ['error', { object: true, array: false }],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
+    '@typescript-eslint/indent': 'off',
   },
 };

@@ -1,11 +1,12 @@
+/* eslint-disable class-methods-use-this */
 import { html, customElement, property } from 'lit-element';
 import BaseElement from 'baseElement';
 import app from 'app';
 import { formatLS, ls } from 'ls';
-import DeletePostLoader from './loaders/deletePostLoader';
 import wind from 'app/wind';
 import routes from 'routes';
 import 'ui/editor/editBar';
+import DeletePostLoader from './loaders/deletePostLoader';
 
 @customElement('post-admin-app')
 export class PostAdminApp extends BaseElement {
@@ -13,7 +14,7 @@ export class PostAdminApp extends BaseElement {
   @property() targetUserID = '';
 
   render() {
-    const userID = app.state.userID;
+    const { userID } = app.state;
     if (!userID || this.targetUserID !== userID) {
       return html``;
     }
@@ -27,8 +28,8 @@ export class PostAdminApp extends BaseElement {
   }
 
   protected onEditClick() {
-    const postID = wind.postID;
-    const url = routes.m.editPost + '/' + postID;
+    const { postID } = wind;
+    const url = `${routes.m.editPost}/${postID}`;
     app.browser.jumpToURL(url);
   }
 

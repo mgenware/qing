@@ -1,12 +1,12 @@
+import ls from 'ls';
+import { localizedErrDict } from 'defs';
+import ErrorWithCode from 'lib/errorWithCode';
+import LoadingStatus from 'lib/loadingStatus';
 import AppState from './app/modules/appState';
 import AlertModule from './app/modules/alertModule';
 import UserData from './app/modules/userData';
 import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
-import ls from 'ls';
-import { localizedErrDict } from 'defs';
-import ErrorWithCode from 'lib/errorWithCode';
-import LoadingStatus from 'lib/loadingStatus';
 
 export class Result<T> {
   constructor(public error: ErrorWithCode | null, public data: T | null) {}
@@ -35,6 +35,7 @@ class APP {
   }
 
   get devMode(): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return !!(window as any).__qing_dev__;
   }
 
@@ -43,6 +44,7 @@ class APP {
     cb: (status: LoadingStatus) => void,
   ): Promise<Result<T>> {
     try {
+      // eslint-disable-next-line no-param-reassign
       loader.loadingStatusChanged = cb;
       const data = await loader.startAsync();
       return Result.data(data);
@@ -59,7 +61,8 @@ class APP {
   ): Promise<Result<T>> {
     const { alert } = this;
     try {
-      loader.loadingStatusChanged = s => {
+      // eslint-disable-next-line no-param-reassign
+      loader.loadingStatusChanged = (s) => {
         if (cb) {
           cb(s);
         }

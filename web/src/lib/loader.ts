@@ -1,6 +1,6 @@
-import { ls, formatLS, getLSByKey } from '../ls';
-import ErrorWithCode from './errorWithCode';
+import { ls, formatLS, getLSByKey } from 'ls';
 import { GenericError } from 'defs';
+import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
 
 export interface APIResponse {
@@ -31,7 +31,7 @@ export default class Loader<T> {
         // Handle HTTP error.
         const message =
           response.status === 404
-            ? formatLS(ls.pPageNotFound, location.href)
+            ? formatLS(ls.pPageNotFound, window.location.href)
             : response.statusText;
         throw new ErrorWithCode(message);
       } else {
@@ -40,7 +40,8 @@ export default class Loader<T> {
         if (resp.code) {
           let msg = resp.message;
 
-          // If we have a localized message associated with the response code, use that message(ignore response message).
+          // If we have a localized message associated with the response code,
+          // use that message(ignore response message).
           const localizedMsgKey = this.getLocalizedMessage(resp.code);
           if (localizedMsgKey) {
             msg = getLSByKey(localizedMsgKey);

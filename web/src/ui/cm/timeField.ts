@@ -12,7 +12,7 @@ export class TimeField extends BaseElement {
   locale!: Locale;
 
   firstUpdated() {
-    const lang = app.state.lang;
+    const { lang } = app.state;
     this.locale = lang === 'cs' ? zhCN : enUS;
     const content = this.textContent;
     // Load time properties from content if it's present.

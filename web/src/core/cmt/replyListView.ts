@@ -2,13 +2,13 @@ import { html, customElement, TemplateResult } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import 'ui/cm/timeField';
+import LoadingStatus from 'lib/loadingStatus';
+import { formatLS, ls } from 'ls';
+import { EntityType } from 'lib/entity';
 import './cmtView';
 import Cmt, { CmtCountChangedEventDetail } from './cmt';
 import CmtCollector from './cmtCollector';
-import { EntityType } from 'lib/entity';
 import './cmtFooterView';
-import LoadingStatus from 'lib/loadingStatus';
-import { formatLS, ls } from 'ls';
 import { SetCmtResponse } from './loaders/setCmtLoader';
 
 @customElement('reply-list-view')
@@ -43,10 +43,10 @@ export class ReplyListView extends BaseElement {
         parentCmtID: cmt.id,
         page: this.page,
       },
-      status => {
+      (status) => {
         this.collectorLoadingStatus = status;
       },
-      e => {
+      (e) => {
         this.items = e.items;
         this.hasNext = e.hasNext;
         this.page = e.page;
@@ -57,7 +57,7 @@ export class ReplyListView extends BaseElement {
   render() {
     const { cmt } = this;
     if (!cmt) {
-      return;
+      return html``;
     }
     const childViews: TemplateResult[] = [];
     for (let i = 0; i < this.items.length; i++) {

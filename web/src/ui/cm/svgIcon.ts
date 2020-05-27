@@ -1,4 +1,5 @@
 import { html, customElement, css } from 'lit-element';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';

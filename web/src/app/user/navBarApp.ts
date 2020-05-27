@@ -38,7 +38,7 @@ export default class NavBarApp extends BaseElement {
         }
       });
     } else {
-      console.error(`navbar setup failed, m_nav_burger not defined`);
+      console.error('navbar setup failed, m_nav_burger not defined');
     }
   }
 

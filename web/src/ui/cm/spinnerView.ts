@@ -76,6 +76,7 @@ export class SpinnerView extends LitElement {
       }
     `;
   }
+
   @property({ type: Boolean }) fullScreen = false;
 
   render() {
@@ -89,9 +90,7 @@ export class SpinnerView extends LitElement {
       </div>
     `;
     if (this.fullScreen) {
-      return html`
-        <div class="spinner-screen-overlay">${content}</div>
-      `;
+      return html` <div class="spinner-screen-overlay">${content}</div> `;
     }
     return content;
   }

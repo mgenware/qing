@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import FileUploadLoader from 'lib/fileUploadLoader';
 import routes from 'routes';
 
@@ -9,10 +10,6 @@ export interface AvatarUploadResponse {
 export default class AvatarUploadLoader extends FileUploadLoader<
   AvatarUploadResponse
 > {
-  constructor(formData: FormData) {
-    super(formData);
-  }
-
   requestURL(): string {
     return routes.s.r.profile.setAvatar;
   }

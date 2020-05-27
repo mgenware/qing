@@ -3,13 +3,13 @@ import {
   ItemsResponse,
   ItemsChangedEventArgs,
 } from 'lib/itemCollector';
-import Cmt from './cmt';
 import Loader from 'lib/loader';
+import LoadingStatus from 'lib/loadingStatus';
 import GetCmtsLoader, {
   GetCmtsInputs,
   GetRepliesInputs,
 } from './loaders/getCmtsLoader';
-import LoadingStatus from 'lib/loadingStatus';
+import Cmt from './cmt';
 
 // `page` param is managed internally by `CmtCollector`.
 export type GetCmtsInputsWithoutPage = Exclude<GetCmtsInputs, 'page'>;

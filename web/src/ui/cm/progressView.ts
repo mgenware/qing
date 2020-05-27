@@ -1,5 +1,6 @@
 import { html, customElement, property } from 'lit-element';
 import BaseElement from 'baseElement';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 @customElement('progress-view')

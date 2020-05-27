@@ -12,6 +12,7 @@ export default class SetPostLoader extends BaseLoader<string> {
   }
 
   requestParams(): object {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const params: any = {
       ...this.payload,
     };

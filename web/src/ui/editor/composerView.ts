@@ -1,14 +1,12 @@
-import './editorView';
 import { html, customElement } from 'lit-element';
+import 'lit-button';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import app from 'app';
-import EditorView from './editorView';
-import 'ui/cm/captchaView';
-import 'lit-button';
 import BaseElement from 'baseElement';
 import { CaptchaView } from 'ui/cm/captchaView';
 import { EntityType } from 'lib/entity';
+import EditorView from './editorView';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -119,14 +117,13 @@ export class ComposerView extends BaseElement {
               type="text"
               value=${this.inputTitle}
               placeholder=${ls.title}
-              @input=${(e: any) => (this.inputTitle = e.target.value)}
+              @input=${(e: Event) =>
+                (this.inputTitle = (e.target as HTMLInputElement).value)}
             />
           </div>
         `
       : '';
-    const editorElement = html`
-      <editor-view id="editor"></editor-view>
-    `;
+    const editorElement = html`<editor-view id="editor"></editor-view>`;
     const bottomElement = html`
       <div class="m-t-md">
         ${this.entityID
@@ -155,11 +152,7 @@ export class ComposerView extends BaseElement {
 
     return html`
       <div>
-        ${this.headerText
-          ? html`
-              <h3>${this.headerText}</h3>
-            `
-          : html``}
+        ${this.headerText ? html` <h3>${this.headerText}</h3> ` : html``}
         ${titleElement}${editorElement}${bottomElement}
       </div>
     `;

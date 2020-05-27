@@ -1,5 +1,5 @@
-import Loader from './loader';
 import * as arrayUtils from 'lib/arrayUtils';
+import Loader from './loader';
 import LoadingStatus from './loadingStatus';
 
 export interface ItemsResponse<T> {
@@ -80,7 +80,8 @@ export abstract class ItemCollector<T> {
 
   private addCore(newItems: T[], append: boolean) {
     // Remove duplicates (items already added).
-    newItems = newItems.filter(item => !this.itemMap[this.getItemID(item)]);
+    // eslint-disable-next-line no-param-reassign
+    newItems = newItems.filter((item) => !this.itemMap[this.getItemID(item)]);
     const { items } = this;
     const count = newItems.length;
     for (const item of newItems) {

@@ -7,16 +7,16 @@ import {
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
-import Cmt, { CmtCountChangedEventDetail } from './cmt';
-import './cmtView';
 import { ls, formatLS } from 'ls';
-import CmtCollector from './cmtCollector';
-import './replyListView';
-import './cmtFooterView';
 import { EntityType } from 'lib/entity';
 import { splitLocalizedString } from 'lib/stringUtils';
-import { SetCmtResponse } from './loaders/setCmtLoader';
 import LoadingStatus from 'lib/loadingStatus';
+import CmtCollector from './cmtCollector';
+import Cmt, { CmtCountChangedEventDetail } from './cmt';
+import './cmtView';
+import './replyListView';
+import './cmtFooterView';
+import { SetCmtResponse } from './loaders/setCmtLoader';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
@@ -45,10 +45,10 @@ export class CmtListView extends BaseElement {
         page: this.page,
       },
       undefined,
-      status => {
+      (status) => {
         this.collectorLoadingStatus = status;
       },
-      e => {
+      (e) => {
         this.items = e.items;
         this.hasNext = e.hasNext;
         this.page = e.page;
@@ -64,9 +64,7 @@ export class CmtListView extends BaseElement {
 
   render() {
     const { totalCount, collectorLoadingStatus } = this;
-    let titleGroup = html`
-      <h2>${ls.comments}</h2>
-    `;
+    let titleGroup = html` <h2>${ls.comments}</h2> `;
     let contentGroup = html``;
 
     if (
@@ -122,9 +120,7 @@ export class CmtListView extends BaseElement {
       ? this.renderCommentComposer()
       : this.renderLoginToComment();
 
-    return html`
-      ${titleGroup}${addCmtGroup}${contentGroup}
-    `;
+    return html` ${titleGroup}${addCmtGroup}${contentGroup} `;
   }
 
   private async handleViewMoreClick() {

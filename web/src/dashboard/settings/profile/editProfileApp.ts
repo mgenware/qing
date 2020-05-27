@@ -1,17 +1,17 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
+import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/cm/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
 import 'ui/cm/centeredView';
-import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
-import app from 'app';
-import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
 import 'lit-button';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/AvatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
+import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
+import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -87,7 +87,8 @@ export class EditProfileApp extends BaseElement {
                 id="nick-tbx"
                 type="text"
                 value=${this.name}
-                @input=${(e: any) => (this.name = e.target.value)}
+                @input=${(e: Event) =>
+                  (this.name = (e.target as HTMLInputElement).value)}
               />
 
               <label for="website-tbx">${ls.url}</label>
@@ -95,7 +96,8 @@ export class EditProfileApp extends BaseElement {
                 id="website-tbx"
                 type="url"
                 value=${this.url}
-                @input=${(e: any) => (this.url = e.target.value)}
+                @input=${(e: Event) =>
+                  (this.url = (e.target as HTMLInputElement).value)}
               />
 
               <label for="company-tbx">${ls.company}</label>
@@ -103,7 +105,8 @@ export class EditProfileApp extends BaseElement {
                 id="company-tbx"
                 type="text"
                 value=${this.company}
-                @input=${(e: any) => (this.company = e.target.value)}
+                @input=${(e: Event) =>
+                  (this.company = (e.target as HTMLInputElement).value)}
               />
 
               <label for="addr-tbx">${ls.location}</label>
@@ -132,7 +135,7 @@ export class EditProfileApp extends BaseElement {
     const status = await app.runGlobalActionAsync(
       loader,
       undefined,
-      status => (this.loadingStatus = status),
+      (s) => (this.loadingStatus = s),
     );
     if (status.data) {
       const profile = status.data;
@@ -159,8 +162,8 @@ export class EditProfileApp extends BaseElement {
       this.company,
       this.location,
     );
-    const status = await app.runGlobalActionAsync(loader, ls.saving, status => {
-      this.updateInfoStatus = status;
+    const status = await app.runGlobalActionAsync(loader, ls.saving, (s) => {
+      this.updateInfoStatus = s;
     });
     if (status.isSuccess) {
       await app.alert.successToast(ls.profileUpdated);
@@ -176,8 +179,9 @@ export class EditProfileApp extends BaseElement {
     this.avatarURL = resp.iconL || '';
 
     // Update user data.
-    app.state.updateUser(user => {
+    app.state.updateUser((user) => {
       if (user) {
+        // eslint-disable-next-line no-param-reassign
         user.iconURL = resp.iconL || '';
         return user;
       }

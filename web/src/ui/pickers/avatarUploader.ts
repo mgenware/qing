@@ -1,16 +1,15 @@
 import { html, customElement, property } from 'lit-element';
+import { QingDialog, IsOpenChangedArgs } from 'qing-dialog-component';
 import ls from 'ls';
 import BaseElement from 'baseElement';
+import app from 'app';
+import { staticMainImage } from 'urls';
 import 'ui/cm/progressView';
 import '@github/image-crop-element';
 import styles from '@github/image-crop-element/index.css';
-import 'qing-dialog-component';
 import AvatarUploadLoader, {
   AvatarUploadResponse,
 } from './loaders/AvatarUploadLoader';
-import app from 'app';
-import { QingDialog, IsOpenChangedArgs } from 'qing-dialog-component';
-import { staticMainImage } from 'urls';
 
 interface ImageCropInfo {
   x: number;
@@ -39,11 +38,12 @@ export class AvatarUploader extends BaseElement {
     this.modalElement = this.mustGetShadowElement('modalElement');
     this.cropElement = this.mustGetShadowElement('cropElement');
     this.hookFileUploadEvents(this.uploadElement);
-    this.cropElement.addEventListener('image-crop-change', e =>
+    this.cropElement.addEventListener('image-crop-change', (e) =>
       this.handleImageCrop(e),
     );
     this.modalElement.addEventListener('closed', ((
       e: CustomEvent<IsOpenChangedArgs>,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => this.handleCropperModalClose(e)) as any);
   }
 
@@ -96,7 +96,7 @@ export class AvatarUploader extends BaseElement {
     domFile.addEventListener('change', async () => {
       if (domFile.files && domFile.files[0]) {
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           if (e.target && e.target.result) {
             this.imageDataURL = e.target.result as string;
             this.modalElement.isOpen = true;

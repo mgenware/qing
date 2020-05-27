@@ -1,13 +1,12 @@
 import { html, customElement } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
-import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
-import SetPostLoader from './loaders/setPostLoader';
 import BaseElement from 'baseElement';
 import { EntityType } from 'lib/entity';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
+import SetPostLoader from './loaders/setPostLoader';
 
 const composerID = 'composer';
 

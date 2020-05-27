@@ -1,13 +1,13 @@
 import { html, customElement, property } from 'lit-element';
-import ls from '../ls';
-import BaseElement from '../baseElement';
+import ls from 'ls';
 import page from 'page';
 import rs from 'routes';
+import BaseElement from '../baseElement';
 import 'post/setPostApp';
 import './settings/profile/editProfileApp';
 
 class Page {
-  constructor(public content: any, public showSidebar: boolean) {}
+  constructor(public content: unknown, public showSidebar: boolean) {}
 }
 
 @customElement('dashboard-app')
@@ -30,8 +30,8 @@ export default class DashboardApp extends BaseElement {
       );
       this.title = ls.newPost;
     });
-    page(`${rs.m.editPost}/:id`, e => {
-      const id = e.params.id;
+    page(`${rs.m.editPost}/:id`, (e) => {
+      const { id } = e.params;
       if (!id) {
         return;
       }
@@ -62,9 +62,7 @@ export default class DashboardApp extends BaseElement {
   render() {
     const { content } = this;
     if (!content) {
-      return html`
-        <p>No content</p>
-      `;
+      return html` <p>No content</p> `;
     }
     if (!content.showSidebar) {
       return content.content;

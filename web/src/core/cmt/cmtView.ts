@@ -8,15 +8,16 @@ import 'ui/editor/editBar';
 import 'ui/cm/statusOverlay';
 import 'ui/cm/linkButton';
 import 'ui/cm/svgIcon';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import Cmt, { isReply } from './cmt';
 import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
-import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
 import { ComposerView, ComposerContent } from 'ui/editor/composerView';
-import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
-import DeleteCmtLoader from './loaders/deleteCmtLoader';
 import { staticMainImage } from 'urls';
+import Cmt, { isReply } from './cmt';
+import DeleteCmtLoader from './loaders/deleteCmtLoader';
+import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
+import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
 
 enum EditorMode {
   none,
@@ -163,7 +164,8 @@ export class CmtView extends BaseElement {
             this.hostID,
             this.hostType,
             cmt.userID,
-            // If `parentCmtID` is null, we're replying to a comment, the comment ID itself is the parent ID.
+            // If `parentCmtID` is null, we're replying to a comment,
+            // the comment ID itself is the parent ID.
             this.parentCmtID || cmt.id,
             e.detail,
           );
@@ -207,7 +209,7 @@ export class CmtView extends BaseElement {
     const loader = new GetCmtSourceLoader(cmt.id);
     const res = await app.runLocalActionAsync(
       loader,
-      status => (this.srcLoadingStatus = status),
+      (s) => (this.srcLoadingStatus = s),
     );
 
     const { composerElement } = this;
