@@ -11,6 +11,7 @@ export interface APIResponse {
 
 export default class Loader<T> {
   static defaultLocalizedMessageDict?: Map<number, string>;
+  localizedMessageDict?: Map<number, string>;
 
   loadingStatusChanged?: (status: LoadingStatus) => void;
   private isStarted = false;
@@ -39,13 +40,10 @@ export default class Loader<T> {
         if (resp.code) {
           let msg = resp.message;
 
-          // Try getting message with message code.
-          if (Loader.defaultLocalizedMessageDict) {
-            const value = Loader.defaultLocalizedMessageDict.get(resp.code);
-            // If we have a code to message mapping, use that message(ignore server message).
-            if (value) {
-              msg = getLSByKey(value);
-            }
+          // If we have a localized message associated with the response code, use that message(ignore response message).
+          const localizedMsgKey = this.getLocalizedMessage(resp.code);
+          if (localizedMsgKey) {
+            msg = getLSByKey(localizedMsgKey);
           }
           // Fallback to default message.
           if (!msg) {
@@ -109,5 +107,12 @@ export default class Loader<T> {
     if (this.loadingStatusChanged) {
       this.loadingStatusChanged(status);
     }
+  }
+
+  private getLocalizedMessage(code: number): string | undefined {
+    return (
+      this.localizedMessageDict?.get(code) ??
+      Loader.defaultLocalizedMessageDict?.get(code)
+    );
   }
 }
