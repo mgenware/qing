@@ -8,16 +8,17 @@
   "dependencies": {
     "bulma": "^0.8.0",
     "concat": "^1.0.3",
-    "css-to-lit-js": "^0.5.0",
+    "css-to-lit-js": "^0.6.0",
     "cssnano": "^4.1.10",
-    "kangxi-editor": "^0.5.0",
-    "node-sass": "^4.13.1",
-    "postcss-cli": "^7.1.0"
+    "kangxi-editor": "^0.6.0",
+    "node-sass": "^4.14.1",
+    "postcss-cli": "^7.1.1",
+    "rimraf": "^3.0.2"
   },
   "scripts": {
-    "build-navbar": "node-sass --output-style compressed bulma.sass dist/navbar-min.css && css-to-lit-js ./dist/navbar-min.css -ext ts --outdir ../../web/src/app/styles",
-    "build-kangxi": "postcss node_modules/kangxi-editor/dist/editor.css > dist/kangxi-min.css && css-to-lit-js ./dist/kangxi-min.css -ext ts --outdir ../../web/src/app/styles",
-    "build-libs": "concat -o dist/libs.css ext/modern-normalize.css ext/bootstrap-grid.min.css node_modules/kangxi-editor/dist/editor.css && postcss dist/libs.css > dist/libs-min.css && css-to-lit-js dist/libs-min.css -ext ts --outdir ../../web/src/app/styles",
-    "build": "rm -rf ./dist && yarn build-navbar && yarn build-kangxi && yarn build-libs"
+    "r": "daizong"
+  },
+  "devDependencies": {
+    "daizong": "^0.2.1"
   }
 }

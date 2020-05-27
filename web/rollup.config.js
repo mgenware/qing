@@ -31,7 +31,7 @@ const input = [
 ];
 
 export default {
-  input: input.map(s => 'src/' + s),
+  input: input.map((s) => 'src/' + s),
   output: {
     dir: 'static/d/js',
     format: 'system',
