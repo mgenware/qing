@@ -23,11 +23,12 @@ module.exports = {
     ],
     'max-classes-per-file': 'off',
     'import/prefer-default-export': 'off',
-    // We'll let prettier handle operator line breaks.
+    // We'll let prettier handle whitespaces.
     'operator-linebreak': 'off',
     'function-paren-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'object-curly-newline': 'off',
+    'import/newline-after-import': 'off',
     // End of prettier-related rules.
     'no-underscore-dangle': 'off',
     'class-methods-use-this': 'off',

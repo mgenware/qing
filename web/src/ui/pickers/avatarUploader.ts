@@ -107,6 +107,7 @@ export class AvatarUploader extends BaseElement {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleImageCrop(e: any) {
     this.cropInfo = {
       x: e.detail.x,

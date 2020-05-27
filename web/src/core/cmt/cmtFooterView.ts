@@ -29,15 +29,15 @@ export class CmtFooterView extends BaseElement {
       }
       // If success and `hasNext` is false, nothing to show.
       return html``;
-    } else {
-      return html`
-        <status-view
-          .status=${status}
-          .canRetry=${true}
-          @onRetry=${this.handleMoreButtonClick}
-        ></status-view>
-      `;
     }
+
+    return html`
+      <status-view
+        .status=${status}
+        .canRetry=${true}
+        @onRetry=${this.handleMoreButtonClick}
+      ></status-view>
+    `;
   }
 
   private handleMoreButtonClick(e: Event) {

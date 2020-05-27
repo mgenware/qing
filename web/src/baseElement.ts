@@ -1,6 +1,6 @@
 import { LitElement } from 'lit-element';
-import coreStyles from './app/styles/core';
 import { InputView } from 'ui/form/input-view';
+import coreStyles from './app/styles/core';
 
 export default class BaseElement extends LitElement {
   static get styles() {

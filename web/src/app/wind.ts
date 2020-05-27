@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const w = window as any;
 export class Wind {
   userID = w.appUserID as string;

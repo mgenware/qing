@@ -16,6 +16,7 @@ export class CenteredView extends BaseElement {
       `,
     ];
   }
+
   @lp.string height = '';
 
   render() {

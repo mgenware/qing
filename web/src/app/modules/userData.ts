@@ -1,9 +1,9 @@
-import AppState from './appState';
-import Alert from './alertModule';
 import ls from 'ls';
 import cookies from 'js-cookie';
 import * as defs from 'defs';
 import * as lib from 'lib/htmlLib';
+import AppState from './appState';
+import Alert from './alertModule';
 
 const WARN_CHANGES = ls.unsavedChangesWarning;
 const CSS_DARK_THEME = 'theme-dark';
@@ -31,7 +31,7 @@ export default class UserData {
   }
 
   async warnUnsavedChangesAsync(): Promise<boolean | null> {
-    return await this.alert.confirm(WARN_CHANGES);
+    return this.alert.confirm(WARN_CHANGES);
   }
 
   private getCookieString(key: string): string {

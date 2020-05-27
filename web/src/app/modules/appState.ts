@@ -1,5 +1,5 @@
-import User from '../user/user';
 import * as defs from 'defs';
+import User from '../user/user';
 
 export type UserCallbackFn = (user: User | null) => void;
 
@@ -10,6 +10,7 @@ export default class AppState {
   private userListeners: UserCallbackFn[] = [];
 
   constructor() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const wind = window as any;
 
     this.user = User.fromWindow();

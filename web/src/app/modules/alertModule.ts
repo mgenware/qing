@@ -2,7 +2,6 @@ import escapeHTML from 'escape-html';
 import ls from 'ls';
 import { parseDOMString, removeElement } from 'lib/htmlLib';
 import 'ui/cm/spinnerView';
-import 'qing-dialog-component';
 import {
   QingDialog,
   DialogIconType,
@@ -102,15 +101,16 @@ export default class AlertModule {
         args.title || '',
       )}" isOpen="true" buttons="${escapeHTML(
         JSON.stringify(args.buttons),
-      )}" icon="${args.icon}" defaultButtonIndex="${args.defaultButtonIndex ??
-        -1}" cancelButtonIndex="${args.cancelButtonIndex ?? -1}">${escapeHTML(
+      )}" icon="${args.icon}" defaultButtonIndex="${
+        args.defaultButtonIndex ?? -1
+      }" cancelButtonIndex="${args.cancelButtonIndex ?? -1}">${escapeHTML(
         args.message,
       )}</qing-dialog>
       `;
       document.body.insertAdjacentHTML('beforeend', modalHTML);
       const element = document.getElementById(id) as QingDialog;
       if (!element) {
-        reject(`Modal DOM ID "${id}" not found`);
+        reject(new Error(`Modal DOM ID "${id}" not found`));
         return;
       }
       element.addEventListener('closed', ((
@@ -118,6 +118,7 @@ export default class AlertModule {
       ) => {
         element.remove();
         resolve(e.detail);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }) as any);
       const { timeout } = args;
       if (timeout && timeout > 0) {

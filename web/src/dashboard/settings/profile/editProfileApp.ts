@@ -114,7 +114,8 @@ export class EditProfileApp extends BaseElement {
                 id="addr-tbx"
                 type="text"
                 value=${this.location}
-                @input=${(e: any) => (this.location = e.target.value)}
+                @input=${(e: Event) =>
+                  (this.location = (e.target as HTMLInputElement).value)}
               />
 
               <lit-button

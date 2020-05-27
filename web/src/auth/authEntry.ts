@@ -1,13 +1,13 @@
 import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
-import BaseElement from '../baseElement';
 import page from 'page';
 import rs from 'routes';
+import BaseElement from '../baseElement';
 import './reg/regApp';
 import './signIn/signInApp';
 
 class Page {
-  constructor(public content: any) {}
+  constructor(public content: unknown) {}
 }
 
 @customElement('auth-app')

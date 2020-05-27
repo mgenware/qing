@@ -1,4 +1,5 @@
 import { html, customElement, css } from 'lit-element';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { classMap } from 'lit-html/directives/class-map';
 import * as lp from 'lit-props';
 import ls from 'ls';
@@ -52,7 +53,7 @@ export class StatusOverlay extends BaseElement {
                       >
                     `
                   : html``}
-                ${!!status.error
+                ${status.error
                   ? html`
                       <error-view
                         .canRetry=${this.canRetry}

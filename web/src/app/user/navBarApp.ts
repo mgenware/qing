@@ -2,14 +2,13 @@ import { html, customElement, TemplateResult } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import app from 'app';
-import rs from 'routes';
 import BaseElement from 'baseElement';
-import User from './user';
+import { staticMainImage } from 'urls';
+import routes from 'routes';
 import bulmaStyles from 'app/styles/navbar-min';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
-import { staticMainImage } from 'urls';
-import routes from 'routes';
+import User from './user';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -63,7 +62,7 @@ export default class NavBarApp extends BaseElement {
                   <div class="navbar-dropdown">
                     <a class="navbar-item" href=${user.URL}>${ls.profile}</a>
                     <hr class="navbar-divider" />
-                    <a class="navbar-item" href=${rs.m.editProfile}
+                    <a class="navbar-item" href=${routes.m.editProfile}
                       >${ls.settings}</a
                     >
                     <a
@@ -93,7 +92,7 @@ export default class NavBarApp extends BaseElement {
     `);
   }
 
-  private renderChrome(child: any): TemplateResult {
+  private renderChrome(child: unknown): TemplateResult {
     return html`
       <nav class="navbar is-dark" role="navigation">
         <div class="navbar-brand">
@@ -129,7 +128,8 @@ export default class NavBarApp extends BaseElement {
       this.currentTheme === defs.UserTheme.light
         ? defs.UserTheme.dark
         : defs.UserTheme.light;
-    this.currentTheme = app.userData.theme = newTheme;
+    this.currentTheme = newTheme;
+    app.userData.theme = newTheme;
   }
 
   private async handleSignOutClick() {
