@@ -13,7 +13,8 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "newLine": "lf"
   },
   "include": ["src/**/*", "tests"],
   "exclude": ["node_modules"]
