@@ -79,7 +79,7 @@ export default class Loader<T> {
     return '';
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     return {};
   }
 

@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: ['airbnb-typescript/base', 'plugin:@typescript-eslint/recommended'],
+  extends: ['airbnb-typescript-lite', 'plugin:@typescript-eslint/recommended'],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -38,5 +38,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
     '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/naming-convention': 'off',
   },
 };

@@ -10,7 +10,7 @@ export default class SignInLoader extends BaseLoader<undefined> {
     return routes.s.p.auth.signIn;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     const ret = {
       email: this.email,
       pwd: this.pwd,

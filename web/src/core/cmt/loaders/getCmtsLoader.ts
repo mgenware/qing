@@ -39,7 +39,7 @@ export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
     return routes.s.p.cmt.get;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     if (this.cmtInputs) {
       return this.cmtInputs;
     }

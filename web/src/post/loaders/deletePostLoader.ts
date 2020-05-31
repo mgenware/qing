@@ -10,7 +10,7 @@ export default class DeletePostLoader extends BaseLoader<string> {
     return routes.s.r.compose.deletePost;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     return {
       id: this.pid,
     };

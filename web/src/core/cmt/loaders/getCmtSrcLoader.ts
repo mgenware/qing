@@ -14,7 +14,7 @@ export class GetCmtSourceLoader extends BaseLoader<GetCmtSourceResult> {
     return routes.s.r.compose.getCmtSource;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     return {
       id: this.id,
     };

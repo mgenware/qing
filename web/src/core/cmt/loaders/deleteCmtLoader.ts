@@ -16,7 +16,7 @@ export default class DeleteCmtLoader extends BaseLoader<string> {
     return routes.s.r.compose.deleteCmt;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     return {
       id: this.id,
       hostType: this.hostType,

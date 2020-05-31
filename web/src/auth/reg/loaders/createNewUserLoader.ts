@@ -10,7 +10,7 @@ export default class CreateNewUserLoader extends BaseLoader<undefined> {
     return routes.s.p.auth.createNewUser;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     const ret = {
       name: this.name,
       email: this.email,

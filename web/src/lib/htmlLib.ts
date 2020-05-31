@@ -28,9 +28,9 @@ export function wrap(el: Element, wrapper: Element | null) {
   wrapper.appendChild(el);
 }
 
-export function constructURL(params: object): string {
+export function constructURL(params: Record<string, string>): string {
   // params as URLSearchParams: just to mute type error
-  return new URLSearchParams(params as URLSearchParams).toString();
+  return new URLSearchParams(params).toString();
 }
 
 export function ready(fn: () => void) {

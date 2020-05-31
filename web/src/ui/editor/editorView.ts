@@ -29,13 +29,13 @@ export default class EditorView extends BaseElement {
   // Keep assigning and comparing lit-element property changes hurts performance.
   // ==========
   // Use to store the property value before editor instance is created.
-  private _initialContentHTML = '';
+  private initialContentHTML = '';
   get contentHTML(): string {
-    return this.editor ? this.editor.contentHTML : this._initialContentHTML;
+    return this.editor ? this.editor.contentHTML : this.initialContentHTML;
   }
 
   set contentHTML(val: string) {
-    this._initialContentHTML = val;
+    this.initialContentHTML = val;
     if (this.editor) {
       this.editor.contentHTML = val;
     }
@@ -57,9 +57,7 @@ export default class EditorView extends BaseElement {
   }
 
   render() {
-    return html`
-      <div id="editor" class="kx-editor"></div>
-    `;
+    return html` <div id="editor" class="kx-editor"></div> `;
   }
 }
 

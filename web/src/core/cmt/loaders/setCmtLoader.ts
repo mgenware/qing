@@ -71,7 +71,7 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
     return routes.s.r.compose.setCmt;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     return this.data;
   }
 }

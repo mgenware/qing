@@ -15,7 +15,7 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
     return routes.s.r.profile.setInfo;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     const ret = {
       name: this.name,
       website: this.website,

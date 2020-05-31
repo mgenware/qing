@@ -10,7 +10,7 @@ export default class SetBioLoader extends BaseLoader {
     return routes.sr.profile.setBio;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     const ret = {
       bio: this.bio,
     };

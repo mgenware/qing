@@ -15,7 +15,7 @@ export class GetPostSourceLoader extends BaseLoader<GetPostSourceResult> {
     return routes.s.r.compose.getPostSource;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     return {
       id: this.id,
     };

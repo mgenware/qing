@@ -83,7 +83,7 @@ export function setupModals() {
   }
 }
 
-export default function () {
+export default function bulmaSetup() {
   setupDropdowns();
   setupDropdowns();
 }

@@ -11,7 +11,7 @@ export default class SetPostLoader extends BaseLoader<string> {
     return routes.s.r.compose.setPost;
   }
 
-  requestParams(): object {
+  requestParams(): unknown {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const params: any = {
       ...this.payload,
