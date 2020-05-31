@@ -7,6 +7,7 @@ import 'ui/cm/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
 import 'ui/cm/centeredView';
+import 'ui/form/input-view';
 import 'lit-button';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/AvatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
@@ -82,41 +83,35 @@ export class EditProfileApp extends BaseElement {
           <div class="form">
             <div class="section is-info">${ls.profile}</div>
             <div>
-              <label for="nick-tbx">${ls.name}</label>
-              <input
-                id="nick-tbx"
-                type="text"
+              <input-view
+                required
+                label=${ls.name}
                 value=${this.name}
-                @input=${(e: Event) =>
-                  (this.name = (e.target as HTMLInputElement).value)}
-              />
+                @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
+              ></input-view>
 
-              <label for="website-tbx">${ls.url}</label>
-              <input
-                id="website-tbx"
-                type="url"
+              <input-view
+                required
+                label=${ls.url}
                 value=${this.url}
-                @input=${(e: Event) =>
-                  (this.url = (e.target as HTMLInputElement).value)}
-              />
+                @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
+              ></input-view>
 
-              <label for="company-tbx">${ls.company}</label>
-              <input
-                id="company-tbx"
-                type="text"
+              <input-view
+                required
+                label=${ls.company}
                 value=${this.company}
-                @input=${(e: Event) =>
-                  (this.company = (e.target as HTMLInputElement).value)}
-              />
+                @onChange=${(e: CustomEvent<string>) =>
+                  (this.company = e.detail)}
+              ></input-view>
 
-              <label for="addr-tbx">${ls.location}</label>
-              <input
-                id="addr-tbx"
-                type="text"
+              <input-view
+                required
+                label=${ls.location}
                 value=${this.location}
-                @input=${(e: Event) =>
-                  (this.location = (e.target as HTMLInputElement).value)}
-              />
+                @onChange=${(e: CustomEvent<string>) =>
+                  (this.location = e.detail)}
+              ></input-view>
 
               <lit-button
                 class="is-success-btn"
