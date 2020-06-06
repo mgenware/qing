@@ -23,10 +23,10 @@ export class AddCmtApp extends BaseElement {
     if (!this.expanded) {
       return html`
         <p>
-          <lit-button
-            class="is-success-btn"
+          <qing-button
+            btnStyle="success"
             @click=${this.handleCommentButtonClick}
-            >${ls.writeAComment}</lit-button
+            >${ls.writeAComment}</qing-button
           >
         </p>
       `;

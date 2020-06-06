@@ -136,8 +136,8 @@ export class CmtListView extends BaseElement {
     return html`
       <div>
         <span>${loginToCommentTextArray[0]}</span>
-        <lit-button class="is-success-btn m-l-xs m-r-xs"
-          >${loginToCommentTextArray[1]}</lit-button
+        <qing-button btnStyle="success" class="m-l-xs m-r-xs"
+          >${loginToCommentTextArray[1]}</qing-button
         >
         <span>${loginToCommentTextArray[2]}</span>
       </div>

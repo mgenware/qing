@@ -2,7 +2,6 @@ import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'core/cmt/cmtApp';
 import ls from 'ls';
-import 'lit-button';
 import * as lp from 'lit-props';
 import app from 'app';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
@@ -62,8 +61,8 @@ export class RegApp extends BaseElement {
           message=${this.passwordsMismatchErr}
         ></input-error-view>
       </div>
-      <lit-button class="is-success" @click=${this.handleSignUpClick}
-        >${ls.signUp}</lit-button
+      <qing-button btnStyle="success" @click=${this.handleSignUpClick}
+        >${ls.signUp}</qing-button
       >
       <qing-dialog
         id="modalElement"

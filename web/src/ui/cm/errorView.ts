@@ -16,12 +16,9 @@ export class ErrorView extends BaseElement {
         ${this.canRetry
           ? html`
               <div class="m-t-md">
-                <lit-button
-                  class="is-primary-btn"
-                  @click=${this.handleRetryClick}
-                >
+                <qing-button btnStyle="primary" @click=${this.handleRetryClick}>
                   ${ls.retry}
-                </lit-button>
+                </qing-button>
               </div>
             `
           : ''}

@@ -36,7 +36,7 @@
     "cross-env": "^7.0.1",
     "daizong": "^0.4.1",
     "eslint": "^7.2.0",
-    "eslint-config-airbnb-typescript-lite": "^0.1.3",
+    "eslint-config-airbnb-typescript-lite": "^0.2.0",
     "eslint-plugin-import": "^2.20.2",
     "lit-analyzer": "^1.1.11",
     "rimraf": "^3.0.2",

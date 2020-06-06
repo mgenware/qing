@@ -8,7 +8,6 @@ import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
 import 'ui/cm/centeredView';
 import 'ui/form/input-view';
-import 'lit-button';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/AvatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
@@ -113,12 +112,12 @@ export class EditProfileApp extends BaseElement {
                   (this.location = e.detail)}
               ></input-view>
 
-              <lit-button
-                class="is-success-btn"
+              <qing-button
+                btnStyle="success"
                 @click=${this.handleSaveProfileClick}
               >
                 ${ls.save}
-              </lit-button>
+              </qing-button>
             </div>
           </div>
         </status-overlay>

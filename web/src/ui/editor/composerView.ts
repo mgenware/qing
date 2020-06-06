@@ -1,5 +1,4 @@
 import { html, customElement } from 'lit-element';
-import 'lit-button';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import app from 'app';
@@ -137,13 +136,13 @@ export class ComposerView extends BaseElement {
                 ></captcha-view>
               </div>
             `}
-        <lit-button class="is-success-btn" @click=${this.handleSubmit}>
+        <qing-button btnStyle="success" @click=${this.handleSubmit}>
           ${this.submitButtonText || (this.entityID ? ls.save : ls.publish)}
-        </lit-button>
+        </qing-button>
         ${this.showCancelButton
           ? html`
-              <lit-button class="m-l-sm" @click=${this.handleCancel}
-                >${ls.cancel}</lit-button
+              <qing-button class="m-l-sm" @click=${this.handleCancel}
+                >${ls.cancel}</qing-button
               >
             `
           : ''}

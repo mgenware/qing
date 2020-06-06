@@ -419,54 +419,6 @@ label.form-label {
   --keyboard-focus-color: #8dc3eb;
 }
 
-.theme-dark {
-  --default-back-color: black;
-  --default-fore-color: #777777;
-  --default-secondary-fore-color: #5a5a5a;
-  --default-separator-color: #272727;
-  --primary-back-color: #35588a;
-  --primary-fore-color: #b4b4b4;
-  --danger-back-color: #570000;
-  --danger-fore-color: rgb(119, 119, 119);
-  --success-back-color: #205333;
-  --success-fore-color: #a5a5a5;
-  --info-back-color: #272727;
-  --info-fore-color: #727374;
-  --warning-back-color: #554000;
-  --warning-fore-color: #979797;
-
-  --footer-back-color: #000000;
-  --footer-fore-color: #3d3d3d;
-
-  --keyboard-focus-color: #51708a;
-}
-
-lit-button {
-  --button-background-color: var(--info-back-color);
-  --button-color: var(--info-fore-color);
-  --button-outline-color: var(--keyboard-focus-color);
-}
-
-lit-button.is-success-btn {
-  --button-background-color: var(--success-back-color);
-  --button-color: var(--success-fore-color);
-}
-
-lit-button.is-danger-btn {
-  --button-background-color: var(--danger-back-color);
-  --button-color: var(--danger-fore-color);
-}
-
-lit-button.is-primary-btn {
-  --button-background-color: var(--primary-back-color);
-  --button-color: var(--primary-fore-color);
-}
-
-lit-button.is-warning-btn {
-  --button-background-color: var(--warning-back-color);
-  --button-color: var(--warning-fore-color);
-}
-
 a.link-btn:link,
 a.link-btn:visited {
   color: var(--primary-back-color);
