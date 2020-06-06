@@ -6,8 +6,8 @@ import * as lp from 'lit-props';
 import app from 'app';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
 import 'qing-dialog-component';
-import 'ui/form/input-view';
-import 'ui/form/input-error-view';
+import 'ui/form/inputView';
+import 'ui/form/inputErrorView';
 
 @customElement('reg-app')
 export class RegApp extends BaseElement {

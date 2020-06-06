@@ -1,7 +1,7 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
-import './input-error-view';
+import './inputErrorView';
 
 const inputID = 'input-id';
 

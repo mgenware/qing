@@ -6,8 +6,8 @@ import * as lp from 'lit-props';
 import app from 'app';
 import SignInLoader from './loaders/signInLoader';
 import 'qing-dialog-component';
-import 'ui/form/input-view';
-import 'ui/form/input-error-view';
+import 'ui/form/inputView';
+import 'ui/form/inputErrorView';
 
 @customElement('sign-in-app')
 export class SignInApp extends BaseElement {
