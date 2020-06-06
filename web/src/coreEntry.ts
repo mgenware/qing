@@ -4,3 +4,4 @@ import 'app/init/init';
 import 'app/user/navBarApp';
 import 'ui/cm/timeField';
 import 'ui/cm/qingButton';
+import 'qing-dialog-component';

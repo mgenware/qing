@@ -5,7 +5,6 @@ import ls from 'ls';
 import * as lp from 'lit-props';
 import app from 'app';
 import SignInLoader from './loaders/signInLoader';
-import 'qing-dialog-component';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
 
