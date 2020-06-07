@@ -61,6 +61,7 @@ export class InputView extends BaseElement {
   @lp.bool required = false;
   @lp.string type: InputType = 'text';
   @lp.string value = '';
+  @lp.string placeholder = '';
 
   @lp.string private validationMessage = '';
   private inputElement!: HTMLInputElement;
@@ -72,17 +73,24 @@ export class InputView extends BaseElement {
   render() {
     return html`
       <div>
-        <label class="form-label" for=${inputID}>${this.label}</label>
+        ${this.label
+          ? html`<label class="form-label" for=${inputID}>${this.label}</label>`
+          : ''}
         <input
           id=${inputID}
           ?required=${this.required}
           type=${this.type}
           value=${this.value}
+          placeholder=${this.placeholder}
           @input=${this.handleInput}
         />
         <input-error-view message=${this.validationMessage}></input-error-view>
       </div>
     `;
+  }
+
+  focus() {
+    this.inputElement.focus();
   }
 
   checkValidity(): boolean {

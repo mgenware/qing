@@ -5,6 +5,8 @@ import app from 'app';
 import BaseElement from 'baseElement';
 import { CaptchaView } from 'ui/cm/captchaView';
 import { EntityType } from 'lib/entity';
+import './editorView';
+import 'ui/form/inputView';
 import EditorView from './editorView';
 
 class ValidationError extends Error {
@@ -110,15 +112,14 @@ export class ComposerView extends BaseElement {
   render() {
     const titleElement = this.showTitleInput
       ? html`
-          <div class="p-b-sm form">
-            <input
-              id="titleElement"
-              type="text"
-              value=${this.inputTitle}
-              placeholder=${ls.title}
-              @input=${(e: Event) =>
-                (this.inputTitle = (e.target as HTMLInputElement).value)}
-            />
+          <div class="p-b-sm">
+            <input-view
+              required
+              .placeholder=${ls.title}
+              .value=${this.inputTitle}
+              @onChange=${(e: CustomEvent<string>) =>
+                (this.inputTitle = e.detail)}
+            ></input-view>
           </div>
         `
       : '';
