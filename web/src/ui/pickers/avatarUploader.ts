@@ -9,7 +9,7 @@ import '@github/image-crop-element';
 import styles from '@github/image-crop-element/index.css';
 import AvatarUploadLoader, {
   AvatarUploadResponse,
-} from './loaders/AvatarUploadLoader';
+} from './loaders/avatarUploadLoader';
 
 interface ImageCropInfo {
   x: number;

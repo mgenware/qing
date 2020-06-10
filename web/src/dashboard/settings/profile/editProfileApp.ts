@@ -8,7 +8,7 @@ import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
 import 'ui/cm/centeredView';
 import 'ui/form/inputView';
-import { AvatarUploadResponse } from 'ui/pickers/loaders/AvatarUploadLoader';
+import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
 import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
