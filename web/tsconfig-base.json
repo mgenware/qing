@@ -15,7 +15,5 @@
     "resolveJsonModule": true,
     "baseUrl": "src",
     "newLine": "lf"
-  },
-  "include": ["src/**/*", "tests"],
-  "exclude": ["node_modules"]
+  }
 }
