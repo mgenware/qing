@@ -15,7 +15,9 @@ const plugins = [
   commonjs(),
   litcss(),
   json(),
-  typescript({ tsconfig: './tsconfig-build.json' }),
+  typescript({
+    tsconfig: './tsconfig-build.json',
+  }),
 ];
 
 if (isProd) {

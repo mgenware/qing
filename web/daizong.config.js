@@ -17,4 +17,18 @@ module.exports = {
       NODE_ENV: 'production',
     },
   },
+  cleanDist: {
+    run: 'rimraf dist',
+  },
+  // Unit tests
+  ut: {
+    dev: {
+      run: ['#cleanDist', 'tsc --project ./ut/tsconfig.json --incremental -w'],
+    },
+    t: {
+      run:
+        'mocha --require source-map-support/register dist/ut/ut/**/*.test.js',
+    },
+    run: ['#cleanDist', 'tsc --project ./ut/tsconfig.json', '#ut t'],
+  },
 };
