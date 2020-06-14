@@ -2638,10 +2638,10 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-qing-dialog-component@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.1.0.tgz#2392c6c448255359e72a1bed4436bc70c51dc4e7"
-  integrity sha512-AlzGUjB4mkLb4IvLYcoGmV4m7QCUf5qW//+iChWXp3FQMULywfh1goovcQhvhRIiLn2pTvgnX8Z5Owp6vZ+y6w==
+qing-dialog-component@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.1.1.tgz#a3aa01b52d157774a8e20e7b5a94e454aa85ad62"
+  integrity sha512-oYfnuILACZBBaXOoeN8XB3f83wqXp4GiHYy5fd9vSYX8t6HnSFRuB5qASxl/ntahvaKNEkoS43+vCn133Ttx2A==
 
 quick-lru@^4.0.1:
   version "4.0.1"
