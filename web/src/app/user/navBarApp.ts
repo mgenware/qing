@@ -1,11 +1,10 @@
-import { html, customElement, TemplateResult } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import app from 'app';
 import BaseElement from 'baseElement';
 import { staticMainImage } from 'urls';
 import routes from 'routes';
-import bulmaStyles from 'app/styles/navbar-min';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
@@ -13,7 +12,136 @@ import User from './user';
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
   static get styles() {
-    return [super.styles, bulmaStyles];
+    return [
+      super.styles,
+      css`
+        a:hover {
+          opacity: 0.8;
+          background-color: #ffffff19;
+        }
+        a:active {
+          filter: brightness(80%);
+          background-color: #00000019;
+        }
+        a:disabled {
+          pointer-events: none;
+          opacity: 0.6;
+        }
+
+        navbar {
+          overflow: hidden;
+          display: flex;
+          color: var(--navbar-fore-color);
+          background-color: var(--navbar-back-color);
+          border-bottom: var(--navbar-border-bottom);
+        }
+
+        navbar a {
+          float: left;
+          display: block;
+          color: var(--navbar-fore-color);
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+
+        navbar .toggler {
+          display: none;
+        }
+
+        .dropdown {
+          float: left;
+          overflow: hidden;
+        }
+
+        .dropdown .dropdown-btn {
+          font-size: 1rem;
+          border: none;
+          outline: none;
+          color: inherit;
+          padding: 14px 16px;
+          background-color: inherit;
+          font-family: inherit;
+          margin: 0;
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          color: var(--navbar-fore-color);
+          background-color: var(--navbar-back-color);
+          border: 1px solid var(--navbar-divider-color);
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: 1;
+        }
+
+        .dropdown-content a {
+          float: none;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+        }
+
+        .dropdown-content hr {
+          margin-top: 0.3rem;
+          margin-bottom: 0.3rem;
+        }
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+
+        .fill-space {
+          flex-grow: 1;
+        }
+
+        @media screen and (max-width: 600px) {
+          navbar a:not(:first-child),
+          .dropdown .dropdown-btn {
+            display: none;
+          }
+          navbar a.toggler {
+            float: right;
+            display: block;
+          }
+
+          navbar {
+            display: block;
+          }
+
+          navbar.expanded {
+            position: relative;
+          }
+          navbar.expanded .toggler {
+            position: absolute;
+            right: 0;
+            top: 0;
+          }
+          navbar.expanded a {
+            float: none;
+            display: block;
+            text-align: left;
+          }
+          navbar.expanded .dropdown {
+            float: none;
+          }
+          navbar.expanded .dropdown-content {
+            position: relative;
+          }
+          navbar.expanded .dropdown .dropdown-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+          }
+          .fill-space {
+            visibility: collapse;
+          }
+        }
+      `,
+    ];
   }
 
   @lp.object user: User | null = null;
@@ -24,103 +152,72 @@ export default class NavBarApp extends BaseElement {
       this.user = user;
     });
     this.currentTheme = app.userData.theme;
-
-    // navbar
-    // navbar burger click event
-    const burger = this.getShadowElement('m_nav_burger');
-    if (burger) {
-      burger.addEventListener('click', () => {
-        burger.classList.toggle('is-active');
-        const navMenu = this.getShadowElement('m_nav_menu');
-        if (navMenu) {
-          navMenu.classList.toggle('is-active');
-        }
-      });
-    } else {
-      console.error('navbar setup failed, m_nav_burger not defined');
-    }
   }
 
   render() {
     const { user } = this;
-    return this.renderChrome(html`
-      <div id="m_nav_menu" class="navbar-menu">
-        <div class="navbar-end">
-          ${user
-            ? html`
-                <div class="navbar-item has-dropdown is-hoverable">
-                  <a class="navbar-link" href=${user.URL}>
-                    <img
-                      alt="Qing"
-                      src=${user.iconURL}
-                      width="20"
-                      height="20"
-                      class="avatar-s vertical-align-middle"
-                    />
-                    <span class="m-l-sm">${user.name}</span>
-                  </a>
-                  <div class="navbar-dropdown">
-                    <a class="navbar-item" href=${user.URL}>${ls.profile}</a>
-                    <hr class="navbar-divider" />
-                    <a class="navbar-item" href=${routes.m.editProfile}
-                      >${ls.settings}</a
-                    >
-                    <a
-                      class="navbar-item"
-                      href="#"
-                      @click=${this.handleSignOutClick}
-                      >${ls.signOut}</a
-                    >
-                  </div>
+
+    return html`
+      <navbar id="main-navbar">
+        <a href="/">
+          <img
+            class="vertical-align-middle"
+            src=${staticMainImage('qing.svg')}
+            height="25"
+            width="25"
+            alt="Qing"
+          />
+          <span class="m-l-sm vertical-align-middle">Qing</span>
+        </a>
+
+        <div class="fill-space"></div>
+
+        ${user
+          ? html`
+              <div class="dropdown">
+                <button class="dropdown-btn">
+                  <img
+                    alt="Qing"
+                    src=${user.iconURL}
+                    width="20"
+                    height="20"
+                    class="avatar-s vertical-align-middle"
+                  />
+                  <span class="m-l-sm">${user.name}</span> &#x25BE;
+                </button>
+                <div class="dropdown-content">
+                  <a href=${user.URL}>${ls.profile}</a>
+                  <hr />
+                  <a href=${routes.m.editProfile}>${ls.settings}</a>
+                  <a href="#" @click=${this.handleSignOutClick}
+                    >${ls.signOut}</a
+                  >
                 </div>
-              `
-            : html`
-                <a href=${routes.auth.signIn} class="navbar-item">
-                  <span class="m-l-sm">${ls.signIn}</span>
-                </a>
-                <a href=${routes.auth.signUp} class="navbar-item">
-                  <span class="m-l-sm">${ls.signUp}</span>
-                </a>
-              `}
-          <a class="navbar-item" href="#" @click=${this.toggleTheme}>
-            ${this.currentTheme === defs.UserTheme.light
-              ? ls.themeDark
-              : ls.themeLight}
-          </a>
-        </div>
-      </div>
-    `);
+              </div>
+            `
+          : html`
+              <a href=${routes.auth.signIn}>
+                <span class="m-l-sm">${ls.signIn}</span>
+              </a>
+              <a href=${routes.auth.signUp}>
+                <span class="m-l-sm">${ls.signUp}</span>
+              </a>
+            `}
+
+        <a href="#" @click=${this.toggleTheme}>
+          ${this.currentTheme === defs.UserTheme.light
+            ? ls.themeDark
+            : ls.themeLight}
+        </a>
+
+        <a href="#" class="toggler" @click=${this.togglerClick}>&#9776;</a>
+      </navbar>
+    `;
   }
 
-  private renderChrome(child: unknown): TemplateResult {
-    return html`
-      <nav class="navbar is-dark" role="navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="/">
-            <img
-              src=${staticMainImage('qing.svg')}
-              height="25"
-              width="25"
-              alt="Qing"
-            />
-            <span class="m-l-sm">Qing</span>
-          </a>
-
-          <a
-            role="button"
-            class="navbar-burger button is-dark"
-            aria-label="menu"
-            aria-expanded="false"
-            id="m_nav_burger"
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-        ${child}
-      </nav>
-    `;
+  private togglerClick() {
+    const navbar = this.mustGetShadowElement('main-navbar');
+    navbar.classList.toggle('expanded');
   }
 
   private toggleTheme() {

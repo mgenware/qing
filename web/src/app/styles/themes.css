@@ -18,6 +18,10 @@
   --footer-fore-color: #9c9c9c;
 
   --keyboard-focus-color: #8dc3eb;
+  --navbar-back-color: #343a40;
+  --navbar-fore-color: #cfcfcf;
+  --navbar-divider-color: #808080;
+  --navbar-border-bottom: 0;
 }
 
 .theme-dark {
@@ -40,6 +44,11 @@
   --footer-fore-color: #3d3d3d;
 
   --keyboard-focus-color: #51708a;
+
+  --navbar-back-color: #000000;
+  --navbar-fore-color: #707070;
+  --navbar-divider-color: #353535;
+  --navbar-border-bottom: 1px solid var(--navbar-divider-color);
 }
 
 qing-button::part(button) {
