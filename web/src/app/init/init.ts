@@ -1,7 +1,6 @@
 import ls from 'ls';
 import coreStyles from 'app/styles/core';
 import { CSSResult } from 'lit-element';
-import bulmaSetup from './bulmaSetup';
 
 function injectStyles(styles: CSSResult[]) {
   for (const style of styles) {
@@ -25,14 +24,6 @@ window.onerror = (error, url, lineNumber) => {
 
 function started() {
   injectStyles(coreStyles as CSSResult[]);
-  // bulma elements setup code
-  // refs: https://bulma.io/documentation/components/modal/
-  try {
-    bulmaSetup();
-  } catch (e) {
-    console.error(`Internal style initialization failed: ${e.message}`);
-  }
-  // --------- end of bulma elements setup code ---------
 }
 
 function ready(fn: () => void) {
