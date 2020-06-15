@@ -86,6 +86,7 @@ export default class NavBarApp extends BaseElement {
         }
 
         .dropdown-content hr {
+          border-color: var(--navbar-divider-color);
           margin-top: 0.3rem;
           margin-bottom: 0.3rem;
         }
