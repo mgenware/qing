@@ -50,11 +50,11 @@ export class EditProfileApp extends BaseElement {
     const { loadingStatus } = this;
     return html`
       <centered-view .height=${'400px'}>
-        <static-view
+        <status-view
           .status=${loadingStatus}
           .canRetry=${true}
           @onRetry=${this.handleLoadingRetry}
-        ></static-view
+        ></status-view
       ></centered-view>
     `;
   }
