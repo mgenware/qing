@@ -1,6 +1,7 @@
 import ls from 'ls';
 import coreStyles from 'app/styles/core';
 import { CSSResult } from 'lit-element';
+import { ready } from 'lib/htmlLib';
 
 function injectStyles(styles: CSSResult[]) {
   for (const style of styles) {
@@ -24,20 +25,6 @@ window.onerror = (error, url, lineNumber) => {
 
 function started() {
   injectStyles(coreStyles as CSSResult[]);
-}
-
-function ready(fn: () => void) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const doc = document as any;
-  if (
-    doc.attachEvent
-      ? document.readyState === 'complete'
-      : document.readyState !== 'loading'
-  ) {
-    fn();
-  } else {
-    document.addEventListener('DOMContentLoaded', fn);
-  }
 }
 
 ready(() => {
