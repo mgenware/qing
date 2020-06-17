@@ -1,4 +1,3 @@
-import escapeHTML from 'escape-html';
 import { TemplateResult } from 'lit-element';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { render, html } from 'lit-html';
@@ -44,10 +43,6 @@ export function ready(fn: () => void) {
   }
 }
 
-export function encodeHTML(s: string): string {
-  return escapeHTML(s);
-}
-
 export function resizeSVGHTML(
   svg: string,
   width: number,
@@ -62,9 +57,21 @@ export function resizeSVGHTML(
 }
 
 export function renderTemplateResult(
-  container: HTMLElement,
+  container: HTMLElement | string,
   template: TemplateResult | null,
 ): HTMLElement | null {
-  render(template ?? html``, container);
-  return container.firstElementChild as HTMLElement | null;
+  let containerElement: HTMLElement;
+  if (typeof container === 'string') {
+    let element = document.getElementById(container);
+    if (!element) {
+      element = document.createElement('div');
+      element.id = container;
+      document.body.append(element);
+    }
+    containerElement = element;
+  } else {
+    containerElement = container;
+  }
+  render(template ?? html``, containerElement);
+  return containerElement.firstElementChild as HTMLElement | null;
 }

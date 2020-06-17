@@ -1,10 +1,5 @@
-import escapeHTML from 'escape-html';
 import ls from 'ls';
-import {
-  parseDOMString,
-  removeElement,
-  renderTemplateResult,
-} from 'lib/htmlLib';
+import { renderTemplateResult } from 'lib/htmlLib';
 import 'ui/cm/spinnerView';
 import 'qing-dialog-component';
 import {
@@ -15,8 +10,8 @@ import {
   IconType,
 } from 'qing-dialog-component';
 import { html } from 'lit-element';
-const dialogContainerID = '__dialog_container';
-const SpinnerID = '__spinner_main';
+const dialogContainer = '__global_dialog_container';
+const spinnerContainer = '__global_spinner_container';
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
@@ -72,24 +67,16 @@ export default class AlertModule {
   // Shows the global loading spinner.
   showLoadingOverlay(text: string) {
     this.hideLoadingOverlay();
-    const element = parseDOMString(this.getSpinnerHTML(text));
-    if (element) {
-      document.body.appendChild((element as unknown) as Node);
-    }
+
+    const template = html`<spinner-view .fullScreen=${true}
+      >${text}</spinner-view
+    >`;
+    renderTemplateResult(spinnerContainer, template);
   }
 
   // Hides the global loading spinner.
   hideLoadingOverlay() {
-    const element = document.getElementById(SpinnerID);
-    if (element) {
-      removeElement(element);
-    }
-  }
-
-  private getSpinnerHTML(message: string): string {
-    return `<spinner-view id="${SpinnerID}" fullScreen="true">${escapeHTML(
-      message,
-    )}</spinner-view>`;
+    renderTemplateResult(spinnerContainer, null);
   }
 
   private showModalAsync(args: {
@@ -102,22 +89,13 @@ export default class AlertModule {
     timeout?: number;
   }): Promise<IsOpenChangedArgs> {
     return new Promise<IsOpenChangedArgs>((resolve, reject) => {
-      let containerDiv = document.getElementById(dialogContainerID);
-      if (!containerDiv) {
-        containerDiv = document.createElement('div');
-        containerDiv.id = dialogContainerID;
-        document.body.append(containerDiv);
-      }
-
       const template = html`<qing-dialog
         .isOpen=${true}
         .buttons=${args.buttons}
         .defaultButtonIndex=${args.defaultButtonIndex ?? -1}
         .cancelButtonIndex=${args.cancelButtonIndex ?? -1}
         @closed=${(e: CustomEvent<IsOpenChangedArgs>) => {
-          if (containerDiv) {
-            renderTemplateResult(containerDiv, null);
-          }
+          renderTemplateResult(dialogContainer, null);
           resolve(e.detail);
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }}
@@ -137,7 +115,7 @@ export default class AlertModule {
       </qing-dialog>`;
 
       const element = renderTemplateResult(
-        containerDiv,
+        dialogContainer,
         template,
       ) as QingDialog;
       if (!element) {
