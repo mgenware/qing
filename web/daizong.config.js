@@ -23,18 +23,17 @@ module.exports = {
   // Unit tests
   ut: {
     dev: {
-      run: ['tsc --project ./ut/tsconfig.json --incremental -w'],
-      before: {
-        del: 'dist',
-      },
+      run: ['#cleanTests', 'tsc --project ./ut/tsconfig.json --incremental -w'],
     },
     t: {
       run:
         'mocha --require source-map-support/register dist/ut/ut/**/*.test.js',
     },
-    run: ['tsc --project ./ut/tsconfig.json', '#ut t'],
-    before: {
-      del: 'dist',
+    run: ['#cleanTests', 'tsc --project ./ut/tsconfig.json', '#ut t'],
+  },
+  cleanTests: {
+    run: {
+      del: 'dist_tests',
     },
   },
 };

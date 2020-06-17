@@ -729,10 +729,10 @@ cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-daizong@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/daizong/-/daizong-0.6.0.tgz#4423b456099bbd2b64b7245b20d045200e2bda33"
-  integrity sha512-l68Fr9wlFLEwbcjCwOBepjo7yWWbXHmFiHUbOtoRs4gTDiUYTAJiSG/JRCCa+hGqmb84gXl6czlqnhtBe43huw==
+daizong@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/daizong/-/daizong-0.6.1.tgz#315df6e5a02f41c0f66526a44552add02c5563c3"
+  integrity sha512-LfbBfwAha/rCJI3AsvHj6I6g9oFG4/h5TjgiS8LAWQWKPNirelMNEIxFZMN0stg1XajpW+gpCn2bW8QO8wA/NQ==
   dependencies:
     chalk "^4.1.0"
     cosmiconfig "^6.0.0"
