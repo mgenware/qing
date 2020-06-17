@@ -7,6 +7,7 @@ import { CaptchaView } from 'ui/cm/captchaView';
 import { EntityType } from 'lib/entity';
 import './editorView';
 import 'ui/form/inputView';
+import 'ui/cm/captchaView';
 import EditorView from './editorView';
 
 class ValidationError extends Error {

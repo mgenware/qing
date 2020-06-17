@@ -2,6 +2,7 @@ import { html, customElement, property, css } from 'lit-element';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import routes from 'routes';
+import 'ui/form/inputView';
 
 @customElement('captcha-view')
 export class CaptchaView extends BaseElement {
@@ -9,6 +10,10 @@ export class CaptchaView extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: inline-block;
+        }
+
         .root-img img {
           border: 1px solid var(--default-separator-color);
         }
@@ -45,7 +50,7 @@ export class CaptchaView extends BaseElement {
           />
         </a>
         <br />
-        <span class="form">
+        <span style="width: 150px">
           <input
             id="inputElement"
             style="width: 150px"
@@ -54,6 +59,12 @@ export class CaptchaView extends BaseElement {
             @keydown=${this.handleEnterKeyDown}
             placeholder=${ls.enterCaptchaPlz}
           />
+          <input-view
+            class="m-t-sm"
+            type="text"
+            @keydown=${this.handleEnterKeyDown}
+            placeholder=${ls.enterCaptchaPlz}
+          ></input-view>
         </span>
       </span>
     `;

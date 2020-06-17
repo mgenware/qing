@@ -72,20 +72,18 @@ export class InputView extends BaseElement {
 
   render() {
     return html`
-      <div>
-        ${this.label
-          ? html`<label class="form-label" for=${inputID}>${this.label}</label>`
-          : ''}
-        <input
-          id=${inputID}
-          ?required=${this.required}
-          type=${this.type}
-          value=${this.value}
-          placeholder=${this.placeholder}
-          @input=${this.handleInput}
-        />
-        <input-error-view message=${this.validationMessage}></input-error-view>
-      </div>
+      ${this.label
+        ? html`<label class="form-label" for=${inputID}>${this.label}</label>`
+        : ''}
+      <input
+        id=${inputID}
+        ?required=${this.required}
+        type=${this.type}
+        value=${this.value}
+        placeholder=${this.placeholder}
+        @input=${this.handleInput}
+      />
+      <input-error-view message=${this.validationMessage}></input-error-view>
     `;
   }
 

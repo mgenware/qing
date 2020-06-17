@@ -389,7 +389,7 @@ hr {
   padding: 0;
 }
 
-/** Forms */
+/** Use by all custom form controls */
 label.form-label {
   font-weight: bold;
   display: block;

@@ -17,7 +17,7 @@
     "escape-html": "^1.0.3",
     "fx214": "^1.1.0",
     "js-cookie": "^2.2.1",
-    "kangxi-editor": "^0.6.0",
+    "kangxi-editor": "^0.7.1",
     "lit-button": "^4.1.0",
     "lit-element": "^2.2.1",
     "lit-props": "^1.0.0",
