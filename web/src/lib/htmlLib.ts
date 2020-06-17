@@ -1,4 +1,7 @@
 import escapeHTML from 'escape-html';
+import { TemplateResult } from 'lit-element';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { render, html } from 'lit-html';
 
 export function parseDOMString(str: string): Element | null {
   if (!str) {
@@ -56,4 +59,12 @@ export function resizeSVGHTML(
   element.setAttribute('width', width.toString());
   element.setAttribute('height', height.toString());
   return element.outerHTML;
+}
+
+export function renderTemplateResult(
+  container: HTMLElement,
+  template: TemplateResult | null,
+): HTMLElement | null {
+  render(template ?? html``, container);
+  return container.firstElementChild as HTMLElement | null;
 }

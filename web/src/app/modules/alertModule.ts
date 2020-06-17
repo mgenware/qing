@@ -1,15 +1,22 @@
 import escapeHTML from 'escape-html';
 import ls from 'ls';
-import { parseDOMString, removeElement } from 'lib/htmlLib';
+import {
+  parseDOMString,
+  removeElement,
+  renderTemplateResult,
+} from 'lib/htmlLib';
 import 'ui/cm/spinnerView';
+import 'qing-dialog-component';
 import {
   QingDialog,
-  DialogIconType,
   IsOpenChangedArgs,
-  DialogButtonType,
+  DialogButton,
+  iconElement,
+  IconType,
 } from 'qing-dialog-component';
+import { html } from 'lit-element';
+const dialogContainerID = '__dialog_container';
 const SpinnerID = '__spinner_main';
-let __modalCounter = 1;
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
@@ -37,7 +44,7 @@ export default class AlertModule {
     message: string,
     hasCancelButton = false,
   ): Promise<boolean | null> {
-    const buttons: DialogButtonType[] = ['yes', 'no'];
+    const buttons = ['yes', 'no'];
     // Default button is "No".
     let defaultBtnIdx = 1;
     if (hasCancelButton) {
@@ -88,38 +95,55 @@ export default class AlertModule {
   private showModalAsync(args: {
     message: string;
     title: string;
-    buttons: DialogButtonType[];
-    icon: DialogIconType;
+    buttons: (string | DialogButton)[];
+    icon: IconType;
     defaultButtonIndex?: number;
     cancelButtonIndex?: number;
     timeout?: number;
   }): Promise<IsOpenChangedArgs> {
     return new Promise<IsOpenChangedArgs>((resolve, reject) => {
-      const id = `__modal_${__modalCounter++}`;
-      const modalHTML = `
-        <qing-dialog id="${id}" dialogTitle="${escapeHTML(
-        args.title || '',
-      )}" isOpen="true" buttons="${escapeHTML(
-        JSON.stringify(args.buttons),
-      )}" icon="${args.icon}" defaultButtonIndex="${
-        args.defaultButtonIndex ?? -1
-      }" cancelButtonIndex="${args.cancelButtonIndex ?? -1}">${escapeHTML(
-        args.message,
-      )}</qing-dialog>
-      `;
-      document.body.insertAdjacentHTML('beforeend', modalHTML);
-      const element = document.getElementById(id) as QingDialog;
+      let containerDiv = document.getElementById(dialogContainerID);
+      if (!containerDiv) {
+        containerDiv = document.createElement('div');
+        containerDiv.id = dialogContainerID;
+        document.body.append(containerDiv);
+      }
+
+      const template = html`<qing-dialog
+        .isOpen=${true}
+        .buttons=${args.buttons}
+        .defaultButtonIndex=${args.defaultButtonIndex ?? -1}
+        .cancelButtonIndex=${args.cancelButtonIndex ?? -1}
+        @closed=${(e: CustomEvent<IsOpenChangedArgs>) => {
+          if (containerDiv) {
+            renderTemplateResult(containerDiv, null);
+          }
+          resolve(e.detail);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        }}
+      >
+        <h2 style="margin-bottom: 0">
+          ${args.icon
+            ? iconElement({
+                type: args.icon,
+                size: 48,
+                color:
+                  '' /** Set default to an empty value, we'll style colors in CSS */,
+              })
+            : ''}
+          <span style="vertical-align: middle">${args.title}</span>
+        </h2>
+        ${args.message ? html`<p>${args.message}</p>` : ''}
+      </qing-dialog>`;
+
+      const element = renderTemplateResult(
+        containerDiv,
+        template,
+      ) as QingDialog;
       if (!element) {
-        reject(new Error(`Modal DOM ID "${id}" not found`));
+        reject(new Error('Unexpected empty modal element'));
         return;
       }
-      element.addEventListener('closed', ((
-        e: CustomEvent<IsOpenChangedArgs>,
-      ) => {
-        element.remove();
-        resolve(e.detail);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      }) as any);
       const { timeout } = args;
       if (timeout && timeout > 0) {
         setTimeout(() => {
