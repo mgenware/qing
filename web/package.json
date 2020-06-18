@@ -21,7 +21,8 @@
     "lit-element": "^2.2.1",
     "lit-props": "^1.0.0",
     "page": "^1.11.6",
-    "qing-dialog-component": "^0.2.1"
+    "qing-dialog-component": "^0.2.1",
+    "qing-stylelib": "^1.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",

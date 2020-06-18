@@ -1,21 +1,25 @@
 {
-  "name": "styles",
+  "name": "qing-stylelib",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Mgen",
   "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "concat": "^1.0.3",
-    "css-to-lit-js": "^0.6.0",
-    "cssnano": "^4.1.10",
-    "kangxi-editor": "^0.6.0",
-    "postcss-cli": "^7.1.1"
-  },
   "scripts": {
+    "prepublishOnly": "daizong build",
     "r": "daizong"
   },
   "devDependencies": {
-    "daizong": "^0.6.0"
+    "concat": "^1.0.3",
+    "css-to-lit-js": "^0.6.0",
+    "cssnano": "^4.1.10",
+    "daizong": "^0.6.0",
+    "kangxi-editor": "^0.6.0",
+    "postcss-cli": "^7.1.1"
+  },
+  "files": [
+    "/dist/stylelib.min.css"
+  ],
+  "dependencies": {
+    "bootstrap": "^5.0.0-alpha1",
+    "modern-normalize": "^0.6.0"
   }
 }

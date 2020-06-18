@@ -1,5 +1,5 @@
+import libStyles from 'qing-stylelib/dist/stylelib.min.css';
 import appStyles from './app.css';
 import themesStyles from './themes.css';
-import libStyles from './libs-min';
 
 export default [libStyles, themesStyles, appStyles];

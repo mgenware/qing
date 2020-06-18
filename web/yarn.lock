@@ -2633,6 +2633,11 @@ qing-dialog-component@^0.2.1:
   resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.2.1.tgz#d71776a50a7109e23178d8e2fc30719c46e46e8b"
   integrity sha512-aV96J0sF2FK2gcqBCY2hTeN8j5ElsEko/BNFTjcbB07svRPLFzoTxky+9DFAKY1t+5RGm1/EBTrv/5qYEXvAvA==
 
+qing-stylelib@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-1.0.0.tgz#252c46348fad9475c6e024c8a5fda3dadf6aa572"
+  integrity sha512-tSibr4gkH9RoweJyJfSvjznZyY+ecn+gk2FwnW6TPJ2Xy3xlQYLXv542xwQyXD444L9QPbe7EMlE5YO5vl49MQ==
+
 quick-lru@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
