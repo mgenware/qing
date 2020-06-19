@@ -113,3 +113,19 @@ qing-dialog .icon-warning {
 qing-dialog .icon-error {
   fill: var(--default-danger-fore-color);
 }
+
+alert-view[alertStyle='success'] {
+  --alert-border-color: var(--default-success-fore-color);
+}
+
+alert-view[alertStyle='danger'] {
+  --alert-border-color: var(--default-danger-fore-color);
+}
+
+alert-view[alertStyle='primary'] {
+  --alert-border-color: var(--default-primary-fore-color);
+}
+
+alert-view[alertStyle='warning'] {
+  --alert-border-color: var(--default-warning-fore-color);
+}

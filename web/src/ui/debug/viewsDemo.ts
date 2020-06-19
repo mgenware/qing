@@ -1,6 +1,7 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'ui/cm/qingButton';
+import 'ui/cm/alertView';
 
 @customElement('views-demo')
 export class ViewsDemo extends BaseElement {
@@ -8,10 +9,6 @@ export class ViewsDemo extends BaseElement {
     return [
       super.styles,
       css`
-        .root {
-          padding-bottom: 4rem;
-        }
-
         .text {
           padding: 1rem;
           color: var(--default-fore-color);
@@ -80,17 +77,17 @@ export class ViewsDemo extends BaseElement {
 
   render() {
     return html`
-      <div class="root container">
+      <div id="root" class="container section">
+        <div>
+          <input
+            type="checkbox"
+            id="darkModeCheckbox"
+            @click=${this.handleDarkModeChecked}
+          />
+          <label for="darkModeCheckbox">Dark mode</label>
+        </div>
         <h2>Default context</h2>
         <div class="text">
-          <span>Default</span>
-          <span class="secondary">Secondary</span>
-          <span class="primary">Primary</span>
-          <span class="success">Success</span>
-          <span class="warning">Warning</span>
-          <span class="danger">Danger</span>
-        </div>
-        <div class="text theme-dark">
           <span>Default</span>
           <span class="secondary">Secondary</span>
           <span class="primary">Primary</span>
@@ -105,23 +102,8 @@ export class ViewsDemo extends BaseElement {
           <qing-button btnStyle="warning">Warning</qing-button>
           <qing-button btnStyle="danger">Danger</qing-button>
         </p>
-        <p class="theme-dark">
-          <qing-button>Default</qing-button>
-          <qing-button btnStyle="primary">Primary</qing-button>
-          <qing-button btnStyle="success">Success</qing-button>
-          <qing-button btnStyle="warning">Warning</qing-button>
-          <qing-button btnStyle="danger">Danger</qing-button>
-        </p>
         <h2>Other contexts</h2>
         <div class="ctx-container">
-          <div class="ctx ctx-primary">Primary</div>
-          <div class="ctx ctx-success">Success</div>
-          <div class="ctx ctx-warning">Warning</div>
-          <div class="ctx ctx-danger">Danger</div>
-          <div class="ctx ctx-info">Info</div>
-        </div>
-        <hr />
-        <div class="ctx-container theme-dark">
           <div class="ctx ctx-primary">Primary</div>
           <div class="ctx ctx-success">Success</div>
           <div class="ctx ctx-warning">Warning</div>
@@ -132,17 +114,24 @@ export class ViewsDemo extends BaseElement {
         <div class="sep">
           <div>Content</div>
         </div>
-        <div class="sep theme-dark">
-          <div>Content</div>
-        </div>
         <h1>Views</h1>
         <hr />
+        <h2>Alerts</h2>
+        <alert-view>Default</alert-view>
+        <alert-view alertStyle="primary">Primary</alert-view>
+        <alert-view alertStyle="success">Success</alert-view>
+        <alert-view alertStyle="warning">Warning</alert-view>
+        <alert-view alertStyle="danger">Danger</alert-view>
         <h2>Error view</h2>
         <error-view headerTitle="Error">
           <p>Hello <b>world</b></p>
         </error-view>
       </div>
     `;
+  }
+
+  private handleDarkModeChecked() {
+    document.body.classList.toggle('theme-dark');
   }
 }
 
