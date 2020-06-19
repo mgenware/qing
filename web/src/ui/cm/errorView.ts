@@ -1,6 +1,7 @@
 import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
 import BaseElement from 'baseElement';
+import 'ui/cm/alertView';
 
 @customElement('error-view')
 export class ErrorView extends BaseElement {
@@ -9,7 +10,7 @@ export class ErrorView extends BaseElement {
 
   render() {
     return html`
-      <div class="section is-danger">
+      <alert-view alertStyle="danger">
         <h3>${this.headerText || ls.errOccurred}</h3>
         <p><slot></slot></p>
 
@@ -22,7 +23,7 @@ export class ErrorView extends BaseElement {
               </div>
             `
           : ''}
-      </div>
+      </alert-view>
     `;
   }
 

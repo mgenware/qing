@@ -123,7 +123,7 @@ export class ViewsDemo extends BaseElement {
         <alert-view alertStyle="warning">Warning</alert-view>
         <alert-view alertStyle="danger">Danger</alert-view>
         <h2>Error view</h2>
-        <error-view headerTitle="Error">
+        <error-view headerTitle="Error" .canRetry=${true}>
           <p>Hello <b>world</b></p>
         </error-view>
       </div>
