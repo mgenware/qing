@@ -432,6 +432,11 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.0.0.tgz#23c0df14f6a88077f5f986c0d167ec03c3d5537c"
   integrity sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
 
+bootstrap@^5.0.0-alpha1:
+  version "5.0.0-alpha1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.0.0-alpha1.tgz#cd35be4282bc930322bcbf1db23a8729c60a31cb"
+  integrity sha512-iwKneP2pLXl8lN0YpnOuOARiNPTzmh/4cw+Un86u4OqrMLuQpyMC7nO07hvivvcg0B/ektJPjuPnS1s+YmRK9A==
+
 bowhead-js@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/bowhead-js/-/bowhead-js-3.0.0.tgz#f87a0a373269c24c21b5b976f7c665d3edaa2df6"
@@ -724,16 +729,17 @@ cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-daizong@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/daizong/-/daizong-0.6.1.tgz#315df6e5a02f41c0f66526a44552add02c5563c3"
-  integrity sha512-LfbBfwAha/rCJI3AsvHj6I6g9oFG4/h5TjgiS8LAWQWKPNirelMNEIxFZMN0stg1XajpW+gpCn2bW8QO8wA/NQ==
+daizong@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/daizong/-/daizong-0.7.0.tgz#930f403e5a0b21d02f4a591d25656184d74d05ba"
+  integrity sha512-4XLk+MvZst/aP0XCNoXXSgzwhqx2TjWooFyJ6/7RNfqA8H9cErvHG1dwK3CCLnAImQODOr6r4Zidw4GOJ8L92A==
   dependencies:
     chalk "^4.1.0"
     cosmiconfig "^6.0.0"
     del "^5.1.0"
     make-dir "^3.1.0"
     meow "^7.0.1"
+    p-map "^4.0.0"
 
 date-fns@^2.14.0:
   version "2.14.0"
@@ -2167,6 +2173,11 @@ mocha@^7.2.0:
     yargs-parser "13.1.2"
     yargs-unparser "1.6.0"
 
+modern-normalize@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-0.6.0.tgz#21a469988edfc7c9020348e7a3b5b3583a1c9406"
+  integrity sha512-gzvL1uFLV4EErHhaKoqTcrx52/sea6AIcMFWz/GBCuFrDBp485wSgyX5M+MZsj+grfcuqYLQGfHjDRrCvvwZLw==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -2384,6 +2395,13 @@ p-map@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-3.0.0.tgz#d704d9af8a2ba684e2600d9a215983d4141a979d"
   integrity sha512-d3qXVTF/s+W+CdJ5A29wywV2n8CQQYahlgz2bFiA+4eVNJbHJodPZ+/gXwPGh0bOqA+j8S+6+ckmvLGPk1QpxQ==
+  dependencies:
+    aggregate-error "^3.0.0"
+
+p-map@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/p-map/-/p-map-4.0.0.tgz#bb2f95a5eda2ec168ec9274e06a747c3e2904d2b"
+  integrity sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==
   dependencies:
     aggregate-error "^3.0.0"
 
@@ -2633,10 +2651,13 @@ qing-dialog-component@^0.2.1:
   resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.2.1.tgz#d71776a50a7109e23178d8e2fc30719c46e46e8b"
   integrity sha512-aV96J0sF2FK2gcqBCY2hTeN8j5ElsEko/BNFTjcbB07svRPLFzoTxky+9DFAKY1t+5RGm1/EBTrv/5qYEXvAvA==
 
-qing-stylelib@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-1.0.0.tgz#252c46348fad9475c6e024c8a5fda3dadf6aa572"
-  integrity sha512-tSibr4gkH9RoweJyJfSvjznZyY+ecn+gk2FwnW6TPJ2Xy3xlQYLXv542xwQyXD444L9QPbe7EMlE5YO5vl49MQ==
+qing-stylelib@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-1.1.0.tgz#34e24a70b25ebde51c2f8184a3d96268d0b06036"
+  integrity sha512-8vGZk2NRRAdFGintgVbi6E4YY2OQOEc282DN+bc3GjtsNnqse6+1b0bIkIq+SUmf+2lsmvM3xV9ohqWbPqbNVQ==
+  dependencies:
+    bootstrap "^5.0.0-alpha1"
+    modern-normalize "^0.6.0"
 
 quick-lru@^4.0.1:
   version "4.0.1"
