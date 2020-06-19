@@ -24,7 +24,7 @@ export class StatusView extends BaseElement {
       return html`
         <error-view
           .canRetry=${this.canRetry}
-          .title=${this.errorTitle || ls.errOccurred}
+          .headerText=${this.errorTitle || ls.errOccurred}
           @onRetry=${this.handleRetry}
         >
           ${status.error.message}

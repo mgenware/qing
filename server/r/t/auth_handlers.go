@@ -12,14 +12,6 @@ import (
 	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
-func init() {
-	r := chi.NewRouter()
-	r.Get("/in/{uid}", signInGET)
-	r.Get("/out", signOutGET)
-	r.Get("/info", userInfoGET)
-	Router.Mount("/auth", r)
-}
-
 func signInGET(w http.ResponseWriter, r *http.Request) {
 	uid, err := strconvx.ParseUint64(chi.URLParam(r, "uid"))
 	if err != nil {
