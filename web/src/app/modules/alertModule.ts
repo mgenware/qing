@@ -100,7 +100,7 @@ export default class AlertModule {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }}
       >
-        <h2 style="margin-bottom: 0">
+        <h2 style="margin: 1rem 0">
           ${args.icon
             ? iconElement({
                 type: args.icon,
@@ -111,7 +111,7 @@ export default class AlertModule {
             : ''}
           <span style="vertical-align: middle">${args.title}</span>
         </h2>
-        ${args.message ? html`<p>${args.message}</p>` : ''}
+        ${args.message ? html`<div>${args.message}</div>` : ''}
       </qing-dialog>`;
 
       const element = renderTemplateResult(
