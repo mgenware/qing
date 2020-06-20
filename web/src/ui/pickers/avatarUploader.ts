@@ -21,7 +21,7 @@ interface ImageCropInfo {
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
   static get styles() {
-    return styles;
+    return [super.styles, styles];
   }
 
   @property() private imageDataURL: string | null = null;
@@ -56,7 +56,7 @@ export class AvatarUploader extends BaseElement {
           .buttons=${['ok', 'cancel']}
           @closed=${this.handleDialogClose}
         >
-          <div>
+          <div class="m-b-md">
             <image-crop
               id="cropElement"
               src=${this.imageDataURL as string}
