@@ -150,6 +150,7 @@ export class EditProfileApp extends BaseElement {
       }
     } catch (err) {
       await app.alert.error(err.message);
+      return;
     }
     const loader = new SetProfileInfoLoader(
       this.name,

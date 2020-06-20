@@ -95,9 +95,8 @@ export default class AlertModule {
         .defaultButtonIndex=${args.defaultButtonIndex ?? -1}
         .cancelButtonIndex=${args.cancelButtonIndex ?? -1}
         @closed=${(e: CustomEvent<IsOpenChangedArgs>) => {
-          renderTemplateResult(dialogContainer, null);
           resolve(e.detail);
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          renderTemplateResult(dialogContainer, null);
         }}
       >
         <h2 style="margin: 1rem 0">
