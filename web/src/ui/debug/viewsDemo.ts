@@ -2,6 +2,7 @@ import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'ui/cm/qingButton';
 import 'ui/cm/alertView';
+import 'ui/cm/progressView';
 
 @customElement('views-demo')
 export class ViewsDemo extends BaseElement {
@@ -126,6 +127,9 @@ export class ViewsDemo extends BaseElement {
         <error-view headerTitle="Error" .canRetry=${true}>
           <p>Hello <b>world</b></p>
         </error-view>
+        <h2>Progress view</h2>
+        <progress-view progress="30"></progress-view>
+        <progress-view progress="-1"></progress-view>
       </div>
     `;
   }
