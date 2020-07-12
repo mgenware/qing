@@ -1,3 +1,4 @@
+import * as mm from 'mingru-models';
 import post from './models/post';
 import user from './models/user';
 import { cmt, reply } from './models/cmt';
@@ -7,7 +8,7 @@ import userPwd from './models/userPwd';
 import userAuth from './models/userAuth';
 import likes from './models/likes';
 
-export default [
+const tables: mm.Table[] = [
   post,
   user,
   cmt,
@@ -16,5 +17,6 @@ export default [
   userStats,
   userPwd,
   userAuth,
-  ...likes,
+  ...likes.map((t) => t.likeTable),
 ];
+export default tables;

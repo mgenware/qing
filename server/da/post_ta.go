@@ -259,22 +259,6 @@ func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*Po
 	return result, nil
 }
 
-// PostTableSelectPostSourceResult ...
-type PostTableSelectPostSourceResult struct {
-	Title   string `json:"title,omitempty"`
-	Content string `json:"content,omitempty"`
-}
-
-// SelectPostSource ...
-func (da *TableTypePost) SelectPostSource(queryable dbx.Queryable, id uint64, userID uint64) (*PostTableSelectPostSourceResult, error) {
-	result := &PostTableSelectPostSourceResult{}
-	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
-}
-
 // PostTableSelectPostsByUserResult ...
 type PostTableSelectPostsByUserResult struct {
 	ID         uint64     `json:"id,omitempty"`
@@ -312,4 +296,20 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 		return nil, false, err
 	}
 	return result, itemCounter > len(result), nil
+}
+
+// PostTableSelectPostSourceResult ...
+type PostTableSelectPostSourceResult struct {
+	Title   string `json:"title,omitempty"`
+	Content string `json:"content,omitempty"`
+}
+
+// SelectPostSource ...
+func (da *TableTypePost) SelectPostSource(queryable dbx.Queryable, id uint64, userID uint64) (*PostTableSelectPostSourceResult, error) {
+	result := &PostTableSelectPostSourceResult{}
+	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }

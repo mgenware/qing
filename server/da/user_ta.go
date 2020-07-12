@@ -45,20 +45,20 @@ func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (
 	return result, nil
 }
 
-// SelectIdFromEmail ...
-func (da *TableTypeUser) SelectIdFromEmail(queryable dbx.Queryable, email string) (uint64, error) {
-	var result uint64
-	err := queryable.QueryRow("SELECT `id` FROM `user` WHERE `email` = ?", email).Scan(&result)
+// SelectIconName ...
+func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (string, error) {
+	var result string
+	err := queryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}
 	return result, nil
 }
 
-// SelectIconName ...
-func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (string, error) {
-	var result string
-	err := queryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)
+// SelectIdFromEmail ...
+func (da *TableTypeUser) SelectIdFromEmail(queryable dbx.Queryable, email string) (uint64, error) {
+	var result uint64
+	err := queryable.QueryRow("SELECT `id` FROM `user` WHERE `email` = ?", email).Scan(&result)
 	if err != nil {
 		return result, err
 	}

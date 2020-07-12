@@ -1,6 +1,7 @@
 CREATE TABLE `post_like` (
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`host_id` BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (`user_id`, `host_id`),
 	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `post` (`id`) ON DELETE CASCADE
 )

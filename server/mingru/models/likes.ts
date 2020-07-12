@@ -1,4 +1,9 @@
 import likeTableFactory from './factory/likeTableFactory';
 import post from './post';
 
-export default [likeTableFactory('post', post.id)];
+const hostTables = [post];
+
+export default hostTables.map((hostTable) => ({
+  hostTable,
+  likeTable: likeTableFactory(hostTable.__name, hostTable.id),
+}));
