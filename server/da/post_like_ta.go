@@ -25,20 +25,47 @@ func (da *TableTypePostLike) cancelLikeChild1(queryable dbx.Queryable, hostID ui
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePostLike) cancelLikeChild2(queryable dbx.Queryable, postID uint64) error {
-	result, err := queryable.Exec("UPDATE `post` SET `likes` = `likes` + 1 WHERE `id` = ?", postID)
+func (da *TableTypePostLike) cancelLikeChild2(queryable dbx.Queryable, hostID uint64) error {
+	result, err := queryable.Exec("UPDATE `post` SET `likes` = `likes` + -1 WHERE `id` = ?", hostID)
 	return dbx.CheckOneRowAffectedWithError(result, err)
 }
 
 // CancelLike ...
-func (da *TableTypePostLike) CancelLike(db *sql.DB, hostID uint64, userID uint64, postID uint64) error {
+func (da *TableTypePostLike) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		err = da.cancelLikeChild1(tx, hostID, userID)
 		if err != nil {
 			return err
 		}
-		err = da.cancelLikeChild2(tx, postID)
+		err = da.cancelLikeChild2(tx, hostID)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
+}
+
+func (da *TableTypePostLike) likeChild1(queryable dbx.Queryable, userID uint64, hostID uint64) error {
+	_, err := queryable.Exec("INSERT INTO `post_like` (`user_id`, `host_id`) VALUES (?, ?)", userID, hostID)
+	return err
+}
+
+func (da *TableTypePostLike) likeChild2(queryable dbx.Queryable, hostID uint64) error {
+	result, err := queryable.Exec("UPDATE `post` SET `likes` = `likes` + 1 WHERE `id` = ?", hostID)
+	return dbx.CheckOneRowAffectedWithError(result, err)
+}
+
+// Like ...
+func (da *TableTypePostLike) Like(db *sql.DB, userID uint64, hostID uint64) error {
+	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		err = da.likeChild1(tx, userID, hostID)
+		if err != nil {
+			return err
+		}
+		err = da.likeChild2(tx, hostID)
 		if err != nil {
 			return err
 		}
