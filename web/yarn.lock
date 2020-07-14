@@ -1919,11 +1919,6 @@ lit-analyzer@^1.1.11:
     vscode-html-languageservice "2.1.12"
     web-component-analyzer "~0.1.17"
 
-lit-button@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lit-button/-/lit-button-4.2.0.tgz#68448a9680fad08d469eda6526f627f55091348d"
-  integrity sha512-qlMUvxtqpWn0Ad93D1gTu1uCuMbsHv7nPo0FtKit1FjA+28rZbxVWXbTKxAbv7YqOuRyWAnaVbHGibLsp3WUng==
-
 lit-element@^2.2.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.3.1.tgz#73343b978fa1e73d60526c6bb6ad60f53a16c343"
@@ -2645,6 +2640,11 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
+qing-button@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-5.1.0.tgz#f33abb682aeb8651225085959096fc923c90867b"
+  integrity sha512-EtLErdAG0awuOmkA+Iu9fQ2ZxfbnJd83DwNLFU4smoQ5W3IEfbYtaxmW2yjydc6abDELmBd6reAIKRsR7kE1Pw==
 
 qing-dialog-component@^0.2.1:
   version "0.2.1"

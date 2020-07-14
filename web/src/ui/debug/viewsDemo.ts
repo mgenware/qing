@@ -1,6 +1,6 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
-import 'ui/cm/qingButton';
+import 'qing-button';
 import 'ui/cm/alertView';
 import 'ui/cm/progressView';
 

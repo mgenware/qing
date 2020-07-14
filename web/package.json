@@ -17,7 +17,7 @@
     "fx214": "^1.1.0",
     "js-cookie": "^2.2.1",
     "kangxi-editor": "^0.7.1",
-    "lit-button": "^4.2.0",
+    "qing-button": "^5.1.0",
     "lit-element": "^2.2.1",
     "lit-props": "^1.0.0",
     "page": "^1.11.6",
