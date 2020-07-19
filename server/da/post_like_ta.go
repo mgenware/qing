@@ -47,6 +47,16 @@ func (da *TableTypePostLike) CancelLike(db *sql.DB, hostID uint64, userID uint64
 	return txErr
 }
 
+// HasLiked ...
+func (da *TableTypePostLike) HasLiked(queryable dbx.Queryable, hostID uint64, userID uint64) (bool, error) {
+	var result bool
+	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `post_like` WHERE `host_id` = ? AND `user_id` = ?)", hostID, userID).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (da *TableTypePostLike) likeChild1(queryable dbx.Queryable, userID uint64, hostID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `post_like` (`user_id`, `host_id`) VALUES (?, ?)", userID, hostID)
 	return err

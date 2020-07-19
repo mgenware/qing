@@ -36,6 +36,11 @@ export default function getLikeTableActions(
       mm.insertOne().setInputs(),
       updateLikesAction(hostTable, 1),
     ),
+    hasLiked: mm
+      .selectExists()
+      .where(
+        mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput()),
+      ),
   };
   return mm.tableActionsCore(table, null, actions);
 }
