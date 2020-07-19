@@ -10,7 +10,10 @@ export class LikeView extends BaseElement {
 
   render() {
     return html`
-      <qing-button ?disabled=${this.isWorking}
+      <qing-button
+        ?disabled=${this.isWorking}
+        canSelect
+        ?selected=${this.hasLiked}
         >❤ ${this.likes || ''}</qing-button
       >
     `;

@@ -20,7 +20,7 @@
     "lit-element": "^2.2.1",
     "lit-props": "^1.0.0",
     "page": "^1.11.6",
-    "qing-button": "^5.1.0",
+    "qing-button": "^5.2.0",
     "qing-dialog-component": "^0.3.0",
     "qing-stylelib": "^1.1.0"
   },
