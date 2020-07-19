@@ -3,6 +3,7 @@ import BaseElement from 'baseElement';
 import 'qing-button';
 import 'ui/cm/alertView';
 import 'ui/cm/progressView';
+import 'post/views/likeView';
 
 @customElement('views-demo')
 export class ViewsDemo extends BaseElement {
@@ -130,6 +131,9 @@ export class ViewsDemo extends BaseElement {
         <h2>Progress view</h2>
         <progress-view progress="30"></progress-view>
         <progress-view progress="-1"></progress-view>
+        <h2>Misc</h2>
+        <like-view .likes=${20}></like-view>
+        <like-view .likes=${1} hasLiked></like-view>
       </div>
     `;
   }
