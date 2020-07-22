@@ -49,7 +49,7 @@ type CmtInterface interface {
 type LikeInterface interface {
 	CancelLike(db *sql.DB, hostID uint64, userID uint64) error
 	HasLiked(queryable dbx.Queryable, hostID uint64, userID uint64) (bool, error)
-	Like(db *sql.DB, userID uint64, hostID uint64) error
+	Like(db *sql.DB, hostID uint64, userID uint64) error
 }
 
 // ReplyInterface ...

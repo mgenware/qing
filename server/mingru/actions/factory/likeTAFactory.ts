@@ -36,7 +36,10 @@ export default function getLikeTableActions(
       )
       .attr(mm.ActionAttributes.groupTypeName, likeInterface),
     like: mm
-      .transact(mm.insertOne().setInputs(), updateLikesAction(hostTable, 1))
+      .transact(
+        mm.insertOne().setInputs(table.host_id, table.user_id),
+        updateLikesAction(hostTable, 1),
+      )
       .attr(mm.ActionAttributes.groupTypeName, likeInterface),
     hasLiked: mm
       .selectExists()

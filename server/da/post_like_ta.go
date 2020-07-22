@@ -57,8 +57,8 @@ func (da *TableTypePostLike) HasLiked(queryable dbx.Queryable, hostID uint64, us
 	return result, nil
 }
 
-func (da *TableTypePostLike) likeChild1(queryable dbx.Queryable, userID uint64, hostID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `post_like` (`user_id`, `host_id`) VALUES (?, ?)", userID, hostID)
+func (da *TableTypePostLike) likeChild1(queryable dbx.Queryable, hostID uint64, userID uint64) error {
+	_, err := queryable.Exec("INSERT INTO `post_like` (`host_id`, `user_id`) VALUES (?, ?)", hostID, userID)
 	return err
 }
 
@@ -68,10 +68,10 @@ func (da *TableTypePostLike) likeChild2(queryable dbx.Queryable, hostID uint64) 
 }
 
 // Like ...
-func (da *TableTypePostLike) Like(db *sql.DB, userID uint64, hostID uint64) error {
+func (da *TableTypePostLike) Like(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.likeChild1(tx, userID, hostID)
+		err = da.likeChild1(tx, hostID, userID)
 		if err != nil {
 			return err
 		}

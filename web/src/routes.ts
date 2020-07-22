@@ -28,6 +28,9 @@ export default buildTree({
       auth: {
         signOut: 'signout',
       },
+      like: {
+        set: 'set',
+      },
     },
     p: {
       // Public APIs
