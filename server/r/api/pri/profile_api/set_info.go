@@ -6,6 +6,8 @@ import (
 	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
+
+	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
 type infoData struct {
@@ -40,13 +42,13 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sUser := resp.User()
 	uid := resp.UserID()
 
-	nick, _ := params["name"].(string)
+	nick := jsonx.GetStringOrDefault(params, "name")
 	if nick == "" {
 		panic("The argument `name` cannot be empty")
 	}
-	website, _ := params["website"].(string)
-	company, _ := params["company"].(string)
-	location, _ := params["location"].(string)
+	website := jsonx.GetStringOrDefault(params, "website")
+	company := jsonx.GetStringOrDefault(params, "company")
+	location := jsonx.GetStringOrDefault(params, "location")
 
 	// Update DB
 	err := da.User.UpdateProfile(app.DB, uid, nick, website, company, location)

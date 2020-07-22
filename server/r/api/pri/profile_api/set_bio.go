@@ -6,6 +6,8 @@ import (
 	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
+
+	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
 func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -13,7 +15,7 @@ func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	bio, _ := params["bio"].(string)
+	bio := jsonx.GetStringOrDefault(params, "bio")
 	if bio == "" {
 		panic("The argument `bio` cannot be empty")
 	}
