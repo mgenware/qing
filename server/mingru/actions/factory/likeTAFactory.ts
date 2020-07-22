@@ -3,7 +3,8 @@ import {
   LikeTable,
   LikeableTable,
 } from '../../models/factory/likeTableFactory';
-import { TableActions } from 'mingru-models';
+
+const likeInterface = 'LikeInterface';
 
 function updateLikesAction(
   hostTable: LikeableTable,
@@ -19,28 +20,30 @@ function updateLikesAction(
 export default function getLikeTableActions(
   table: LikeTable,
   hostTable: LikeableTable,
-): TableActions {
+): mm.TableActions {
   const actions = {
-    cancelLike: mm.transact(
-      mm
-        .deleteOne()
-        .where(
-          mm.and(
-            table.host_id.isEqualToInput(),
-            table.user_id.isEqualToInput(),
+    cancelLike: mm
+      .transact(
+        mm
+          .deleteOne()
+          .where(
+            mm.and(
+              table.host_id.isEqualToInput(),
+              table.user_id.isEqualToInput(),
+            ),
           ),
-        ),
-      updateLikesAction(hostTable, -1),
-    ),
-    like: mm.transact(
-      mm.insertOne().setInputs(),
-      updateLikesAction(hostTable, 1),
-    ),
+        updateLikesAction(hostTable, -1),
+      )
+      .attr(mm.ActionAttributes.groupTypeName, likeInterface),
+    like: mm
+      .transact(mm.insertOne().setInputs(), updateLikesAction(hostTable, 1))
+      .attr(mm.ActionAttributes.groupTypeName, likeInterface),
     hasLiked: mm
       .selectExists()
       .where(
         mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput()),
-      ),
+      )
+      .attr(mm.ActionAttributes.groupTypeName, likeInterface),
   };
   return mm.tableActionsCore(table, null, actions);
 }

@@ -45,6 +45,13 @@ type CmtInterface interface {
 	SelectCmts(queryable dbx.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error)
 }
 
+// LikeInterface ...
+type LikeInterface interface {
+	CancelLike(db *sql.DB, hostID uint64, userID uint64) error
+	HasLiked(queryable dbx.Queryable, hostID uint64, userID uint64) (bool, error)
+	Like(db *sql.DB, userID uint64, hostID uint64) error
+}
+
 // ReplyInterface ...
 type ReplyInterface interface {
 	SelectReplies(queryable dbx.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error)

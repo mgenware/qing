@@ -326,10 +326,10 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.39.0:
-  version "0.39.0"
-  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.39.0.tgz#5e8e4ef05e88465ad476efaddeda833f57e720eb"
-  integrity sha512-3GRII/QYAPHXHGi4y1akNqGyg/Caru1Xp/wAvdO+D6epOreS8c6IoLKrGOp0VxaCwRtfbxwg8cjgwYxmWU4RJw==
+mingru-models@^0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.40.0.tgz#0f91b82fcfb6e84e5d8dbf77de0dbcf54e0233b4"
+  integrity sha512-coX8X7vkqf1aI8YfbMJaM3K9ACkyTXtBcYdViTeChV1S3aX3HEr1yRdMur57Ye4q+tSgjImq61tRrOEBKRrD2A==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
@@ -341,10 +341,10 @@ mingru-tsconfig@^3.0.1:
   resolved "https://registry.yarnpkg.com/mingru-tsconfig/-/mingru-tsconfig-3.0.1.tgz#b50f223c6e2b39013bccd501892682e0f03b8fd1"
   integrity sha512-BFMqbsf+s22sb4ImVqEEzzBs4cl/nTZiaGoUL7prZLVOf4NMkCYG9wZc+VfN8FR8yW6iY6KOUIMa8V9UTijz2w==
 
-mingru@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.30.0.tgz#9b92989c89c2b8426424bd511b3993ab0656649c"
-  integrity sha512-50TOx5hn6tlZ0t0No0AX4GtHnP1rTuOvFNitmTKtfCS+/T7mJeXJMOvzZ93iMJspOy5Vrquv7kXAEq8deffXFw==
+mingru@^0.31.0:
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.31.0.tgz#830a6ad354d6c5e8c81a62e4a06595d171083331"
+  integrity sha512-nNbyeEUdn7zaiCh4qPSwE0H7TyCR81PZFzR32lTGbiqcic4dnUy08aLfj+SgAwnsoHMjMWvd3yqg4HrJAak3rQ==
   dependencies:
     chalk "^4.1.0"
     del "^5.1.0"
@@ -474,10 +474,10 @@ ts-node@^8.10.2:
     source-map-support "^0.5.17"
     yn "3.1.1"
 
-typescript@^3.9.6:
-  version "3.9.6"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.6.tgz#8f3e0198a34c3ae17091b35571d3afd31999365a"
-  integrity sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
+typescript@^3.9.7:
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 wrappy@1:
   version "1.0.2"
