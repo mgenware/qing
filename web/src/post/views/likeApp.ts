@@ -28,8 +28,12 @@ export class LikeApp extends BaseElement {
       loader,
       (s) => (this.isWorking = s.isWorking),
     );
-    if (res.isSuccess) {
+
+    if (res.error) {
+      await app.alert.error(res.error.message);
+    } else {
       this.hasLiked = !this.hasLiked;
+      this.likes += this.hasLiked ? -1 : 1;
     }
   }
 }

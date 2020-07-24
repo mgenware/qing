@@ -8,7 +8,7 @@ import * as cmtf from './cmtTAFactory';
 
 const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
 const jUser = t.user_id.join(user);
-const userCols = [t.user_id, jUser.name, jUser.icon_name].map(c =>
+const userCols = [t.user_id, jUser.name, jUser.icon_name].map((c) =>
   c.privateAttr(),
 );
 
@@ -18,6 +18,7 @@ const updateConditions = mm.and(
 );
 
 export class PostTA extends mm.TableActions {
+  selectPostByID = mm.select(...coreCols, t.content, ...userCols).byID();
   selectPostsByUser = mm
     .selectPage(...coreCols)
     .by(t.user_id)
@@ -51,8 +52,6 @@ export class PostTA extends mm.TableActions {
     .where(updateConditions);
 
   deletePost = mm.deleteOne().where(updateConditions);
-
-  selectPostByID = mm.select(...coreCols, t.content, ...userCols).byID();
 }
 
 export default mm.tableActions(t, PostTA);

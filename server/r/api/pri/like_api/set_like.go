@@ -23,7 +23,6 @@ func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	src := validator.MustGetIntFromDict(params, "src")
 	id := validator.MustGetIDFromDict(params, "id")
-	bio := validator.MustGetStringFromDict(params, "bio")
 	value := validator.MustGetIntFromDict(params, "value")
 
 	if src >= len(dbSources) {

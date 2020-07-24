@@ -1,6 +1,7 @@
 {
   "extends": "mingru-tsconfig",
   "compilerOptions": {
-    "rootDir": "."
+    "rootDir": ".",
+    "downlevelIteration": true
   }
 }

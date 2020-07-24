@@ -10,7 +10,7 @@ export interface LikeableTable extends mm.Table {
   likes: mm.Column;
 }
 
-export default function newLikeTable(
+export function newLikeTable(
   hostName: string,
   hostIDColumn: mm.Column,
 ): LikeTable {

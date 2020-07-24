@@ -17,6 +17,6 @@ const tables: mm.Table[] = [
   userStats,
   userPwd,
   userAuth,
-  ...likes.map((t) => t.likeTable),
+  ...likes.values(),
 ];
 export default tables;

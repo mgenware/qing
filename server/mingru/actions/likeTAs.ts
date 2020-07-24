@@ -1,8 +1,8 @@
 import * as mm from 'mingru-models';
 import likeTAFactory from './factory/likeTAFactory';
-import likeTables from '../models/likes';
+import likeMap from '../models/likes';
 
-const actions: mm.TableActions[] = likeTables.map((t) =>
-  likeTAFactory(t.likeTable, t.hostTable),
-);
+const actions: mm.TableActions[] = [
+  ...likeMap.entries(),
+].map(([hostTable, likeTable]) => likeTAFactory(likeTable, hostTable));
 export default actions;

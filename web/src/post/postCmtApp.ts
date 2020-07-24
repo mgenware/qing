@@ -3,6 +3,7 @@ import BaseElement from 'baseElement';
 import 'core/cmt/cmtApp';
 import wind from 'app/wind';
 import { EntityType } from 'lib/entity';
+import './views/likeApp';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
@@ -11,6 +12,7 @@ export class PostCmtApp extends BaseElement {
 
   render() {
     return html`
+      <like-app></like-app>
       <cmt-app
         .hostID=${this.hostID}
         .hostType=${EntityType.post}
