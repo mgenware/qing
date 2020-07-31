@@ -7,4 +7,4 @@ import en from '../langs/en.json';
 (window as any).__qing_dev__ = true;
 
 import './coreEntry';
-import './ui/debug/viewsDemo';
+import './debug/tPage';

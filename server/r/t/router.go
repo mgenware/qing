@@ -8,10 +8,12 @@ var Router = chi.NewRouter()
 
 func init() {
 	Router.Get("/views", viewsGET)
+	Router.Get("/", rootGET)
 
-	r := chi.NewRouter()
-	r.Get("/in/{uid}", signInGET)
-	r.Get("/out", signOutGET)
-	r.Get("/info", userInfoGET)
-	Router.Mount("/auth", r)
+	// Auth router
+	authRouter := chi.NewRouter()
+	authRouter.Get("/in/{uid}", signInGET)
+	authRouter.Get("/out", signOutGET)
+	authRouter.Get("/info", userInfoGET)
+	Router.Mount("/auth", authRouter)
 }
