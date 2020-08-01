@@ -35,7 +35,7 @@ export default class AuthApp extends BaseElement {
     if (!content) {
       return html``;
     }
-    return html`<div class="container section">${content.content}</div>`;
+    return html`<container-view>${content.content}</container-view>`;
   }
 }
 

@@ -10,14 +10,14 @@ export class TPage extends BaseElement {
 
   render() {
     return html`
-      <div class="container">
+      <container-view>
         <h1>Qing Debug Page</h1>
         <hr />
         <h2>Auth</h2>
         ${this.renderSignInHelper()}
         <h2>UI</h2>
         <p><a href="/t/views">Views</a></p>
-      </div>
+      </container-view>
     `;
   }
 

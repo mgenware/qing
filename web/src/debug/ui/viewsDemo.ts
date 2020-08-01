@@ -79,7 +79,7 @@ export class ViewsDemo extends BaseElement {
 
   render() {
     return html`
-      <div id="root" class="container section">
+      <container-view id="root">
         <div>
           <input
             type="checkbox"
@@ -134,7 +134,7 @@ export class ViewsDemo extends BaseElement {
         <h2>Misc</h2>
         <like-view .likes=${20}></like-view>
         <like-view .likes=${1} hasLiked></like-view>
-      </div>
+      </container-view>
     `;
   }
 

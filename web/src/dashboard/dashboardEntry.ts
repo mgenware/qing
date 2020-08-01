@@ -68,7 +68,7 @@ export default class DashboardApp extends BaseElement {
       return content.content;
     }
     return html`
-      <div class="container">
+      <container-view>
         <div class="row">
           <div class="col-md-auto">
             <aside>
@@ -88,7 +88,7 @@ export default class DashboardApp extends BaseElement {
           </div>
           <div class="col-md">${content.content}</div>
         </div>
-      </div>
+      </container-view>
     `;
   }
 }
