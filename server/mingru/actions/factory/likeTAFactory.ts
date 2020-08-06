@@ -26,7 +26,7 @@ export default function getLikeTableActions(
       .transact(
         mm
           .deleteOne()
-          .where(
+          .whereSQL(
             mm.and(
               table.host_id.isEqualToInput(),
               table.user_id.isEqualToInput(),
@@ -43,7 +43,7 @@ export default function getLikeTableActions(
       .attr(mm.ActionAttributes.groupTypeName, likeInterface),
     hasLiked: mm
       .selectExists()
-      .where(
+      .whereSQL(
         mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput()),
       )
       .attr(mm.ActionAttributes.groupTypeName, likeInterface),

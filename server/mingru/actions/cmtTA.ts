@@ -8,8 +8,8 @@ export class CmtTA extends mm.TableActions {
     .updateOne()
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
-    .where(updateConditions(t));
-  selectCmtSource = mm.select(t.content).where(updateConditions(t));
+    .whereSQL(updateConditions(t));
+  selectCmtSource = mm.select(t.content).whereSQL(updateConditions(t));
 
   getHostIDAndReplyCount = mm.select(t.host_id, t.reply_count).byID();
 
@@ -19,7 +19,7 @@ export class CmtTA extends mm.TableActions {
       t.reply_count,
       mm.sql`${t.reply_count} + ${mm.int().toInput('offset')}`,
     )
-    .where(updateConditions(t));
+    .whereSQL(updateConditions(t));
 }
 
 export default mm.tableActions(t, CmtTA);

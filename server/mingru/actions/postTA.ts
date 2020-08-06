@@ -24,7 +24,7 @@ export class PostTA extends mm.TableActions {
     .by(t.user_id)
     .orderByDesc(t.created_at);
 
-  selectPostSource = mm.select(t.title, t.content).where(updateConditions);
+  selectPostSource = mm.select(t.title, t.content).whereSQL(updateConditions);
 
   selectCmts = cmtf.selectCmts(postCmt);
   insertCmt = cmtf.insertCmtAction(t, postCmt);
@@ -49,9 +49,9 @@ export class PostTA extends mm.TableActions {
     .setDefaults(t.modified_at)
     .setInputs(t.title, t.content)
     .argStubs(cm.sanitizedStub)
-    .where(updateConditions);
+    .whereSQL(updateConditions);
 
-  deletePost = mm.deleteOne().where(updateConditions);
+  deletePost = mm.deleteOne().whereSQL(updateConditions);
 }
 
 export default mm.tableActions(t, PostTA);

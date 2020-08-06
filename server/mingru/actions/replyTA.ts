@@ -33,8 +33,8 @@ export class ReplyTA extends mm.TableActions {
     .updateOne()
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
-    .where(updateConditions(t));
-  selectReplySource = mm.select(t.content).where(updateConditions(t));
+    .whereSQL(updateConditions(t));
+  selectReplySource = mm.select(t.content).whereSQL(updateConditions(t));
 }
 
 export default mm.tableActions(t, ReplyTA);

@@ -57,7 +57,7 @@ export function updateCmtCountAction(
     .updateOne()
     .from(pt)
     .set(pt.cmt_count, mm.sql`${pt.cmt_count} ${offsetExpr}`)
-    .where(updateConditions(pt, hostID));
+    .whereSQL(updateConditions(pt, hostID));
 }
 
 export function insertCmtAction(
@@ -72,11 +72,7 @@ export function insertCmtAction(
         .setDefaults()
         .setInputs()
         .declareInsertedID(cmtID),
-      mm
-        .insertOne()
-        .from(rt)
-        .setInputs()
-        .wrapAsRefs({ cmtID }),
+      mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       updateCmtCountAction(ht, 1),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
@@ -91,10 +87,7 @@ export function deleteCmtAction(ht: CmtHostTable): Action {
         mm.ReturnValues.result,
         hostIDAndReplyCount,
       ),
-      mm
-        .deleteOne()
-        .from(cmt)
-        .where(updateConditions(cmt)),
+      mm.deleteOne().from(cmt).whereSQL(updateConditions(cmt)),
       // host.cmtCount = host.cmtCount -replyCount - 1 (the comment itself)
       // The inputs of `updateCmtCountAction` are from the results of `cmtTA.getHostIDAndReplyCount`.
       updateCmtCountAction(
@@ -131,10 +124,7 @@ export function deleteReplyAction(ht: CmtHostTable): Action {
   return mm
     .transact(
       replyTA.getParentID.declareReturnValue(mm.ReturnValues.result, parentID),
-      mm
-        .deleteOne()
-        .from(reply)
-        .where(updateConditions(reply)),
+      mm.deleteOne().from(reply).whereSQL(updateConditions(reply)),
       updateCmtCountAction(ht, -1),
       cmtTA.updateReplyCount.wrap({
         offset: '-1',
