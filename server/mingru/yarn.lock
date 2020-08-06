@@ -293,15 +293,15 @@ lodash.snakecase@^4.1.1:
   resolved "https://registry.npm.taobao.org/lodash.snakecase/download/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
   integrity sha1-OdcUo1NXFHg3rv1ktdy7Fr7Nj40=
 
-m-fs@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/m-fs/-/m-fs-3.0.0.tgz#ab8130c2fee37cca1e97d459d9cd29c2322e20e7"
-  integrity sha512-x//1vj0PgvKQkO/+5jWpo7gT4XYOF7LpS5TTKBBGkjABcfzGVdqp6D1cnURpHlWG0YUcT+hcVK9T/OX8rQxXCg==
+m-fs@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/m-fs/-/m-fs-4.0.0.tgz#8ecd9a24230fa2657ac578ef941cf3ac05079e51"
+  integrity sha512-A+ZKmPsUTMrpX3ZUyJk4uTkDhPiQUQzJbfH/8ZAddBnLd8BnGUTrcQFl/FYb49a+DzSeY4z0YF+O/bguaf/CtQ==
   dependencies:
-    make-dir "^3.0.2"
+    make-dir "^3.1.0"
     node-filter-async "^2.0.0"
 
-make-dir@^3.0.2:
+make-dir@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-3.1.0.tgz#415e967046b3a7f1d185277d84aa58203726a13f"
   integrity sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==
@@ -326,10 +326,10 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.40.0:
-  version "0.40.0"
-  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.40.0.tgz#0f91b82fcfb6e84e5d8dbf77de0dbcf54e0233b4"
-  integrity sha512-coX8X7vkqf1aI8YfbMJaM3K9ACkyTXtBcYdViTeChV1S3aX3HEr1yRdMur57Ye4q+tSgjImq61tRrOEBKRrD2A==
+mingru-models@^0.41.0:
+  version "0.41.0"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.41.0.tgz#b7a38116844a1d516587dbaeb40e8b6ed1806c37"
+  integrity sha512-cu+376LrctGOxSkLyaByrh5VJBwAoOkjUnqhDIviFHK4mxaZ0tvyI+Pc60kBnJbJTIAFD0kwSH/4yXJudzDg7g==
   dependencies:
     lodash.camelcase "^4.3.0"
     lodash.snakecase "^4.1.1"
@@ -341,14 +341,14 @@ mingru-tsconfig@^3.0.1:
   resolved "https://registry.yarnpkg.com/mingru-tsconfig/-/mingru-tsconfig-3.0.1.tgz#b50f223c6e2b39013bccd501892682e0f03b8fd1"
   integrity sha512-BFMqbsf+s22sb4ImVqEEzzBs4cl/nTZiaGoUL7prZLVOf4NMkCYG9wZc+VfN8FR8yW6iY6KOUIMa8V9UTijz2w==
 
-mingru@^0.31.0:
-  version "0.31.0"
-  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.31.0.tgz#830a6ad354d6c5e8c81a62e4a06595d171083331"
-  integrity sha512-nNbyeEUdn7zaiCh4qPSwE0H7TyCR81PZFzR32lTGbiqcic4dnUy08aLfj+SgAwnsoHMjMWvd3yqg4HrJAak3rQ==
+mingru@^0.32.0:
+  version "0.32.0"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.32.0.tgz#2776e8e166710c241eb99a8446677b12183c4095"
+  integrity sha512-44AvPOja2TsPqb296mnRNODx7f/iUA86xnTsTStpNdyxNn02O5kSaB59UFQB/VtLkMBBATedWQAaNRKnZ36qUw==
   dependencies:
     chalk "^4.1.0"
     del "^5.1.0"
-    m-fs "^3.0.0"
+    m-fs "^4.0.0"
     sql-escape-string "^1.1.0"
     throw-if-arg-empty "^2.2.1"
     to-type-string "^1.0.2"

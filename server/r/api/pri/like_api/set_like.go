@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	postSource = 0
+	postCategory = 0
 )
 
 var dbSources = [...]da.LikeInterface{da.PostLike}
@@ -21,15 +21,15 @@ func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	src := validator.MustGetIntFromDict(params, "src")
+	category := validator.MustGetIntFromDict(params, "type")
 	id := validator.MustGetIDFromDict(params, "id")
 	value := validator.MustGetIntFromDict(params, "value")
 
-	if src >= len(dbSources) {
-		panic(fmt.Sprintf("Unsupported src %v", src))
+	if category >= len(dbSources) {
+		panic(fmt.Sprintf("Unsupported type %v", category))
 	}
 
-	dbSrc := dbSources[src]
+	dbSrc := dbSources[category]
 	if value == 1 {
 		app.PanicIfErr(dbSrc.Like(app.DB, id, uid))
 	} else {
