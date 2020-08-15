@@ -9,10 +9,6 @@ import (
 	"qing/lib/validator"
 )
 
-type getLikePOSTResp struct {
-	HasLiked bool
-}
-
 func getLikePOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
@@ -29,6 +25,5 @@ func getLikePOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hasLiked, err := dbSrc.HasLiked(app.DB, id, uid)
 	app.PanicIfErr(err)
 
-	respData := &getLikePOSTResp{HasLiked: hasLiked}
-	return resp.MustComplete(respData)
+	return resp.MustComplete(hasLiked)
 }

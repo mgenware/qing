@@ -7,11 +7,13 @@ import { listenForVisibilityChange } from 'lib/htmlLib';
 import { CHECK } from 'checks';
 import './likeView';
 import LikeHostType from 'post/loaders/likeHostType';
+import GetLikeLoader from 'post/loaders/getLikeLoader';
 
 @customElement('like-app')
 export class LikeApp extends BaseElement {
   @lp.number likes = 0;
   @lp.string hostID = '';
+  @lp.string hostType: LikeHostType = 0;
   @lp.bool private isWorking = false;
   @lp.bool private hasLiked = false;
 
@@ -44,7 +46,7 @@ export class LikeApp extends BaseElement {
     }
     const loader = new SetLikeLoader(
       this.hostID,
-      LikeHostType.post,
+      this.hostType,
       !this.hasLiked,
     );
     const res = await app.runLocalActionAsync(
@@ -60,12 +62,17 @@ export class LikeApp extends BaseElement {
     }
   }
 
-  private loadHasLiked() {
-    const loader = new Getlike(this.hostID, LikeHostType.post, !this.hasLiked);
+  private async loadHasLiked() {
+    const loader = new GetLikeLoader(this.hostID, this.hostType);
     const res = await app.runLocalActionAsync(
       loader,
       (s) => (this.isWorking = s.isWorking),
     );
+    if (res.error) {
+      await app.alert.error(res.error.message);
+    } else {
+      this.hasLiked = res.data || false;
+    }
   }
 }
 

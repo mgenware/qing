@@ -3,7 +3,7 @@ import routes from 'routes';
 import { CHECK } from 'checks';
 import LikeHostType from './likeHostType';
 
-export default class GetLikeLoader extends BaseLoader<string> {
+export default class GetLikeLoader extends BaseLoader<boolean> {
   constructor(public id: string, public type: LikeHostType) {
     super();
     CHECK(id);
