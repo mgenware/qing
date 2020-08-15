@@ -1,9 +1,4 @@
-import {
-  html,
-  customElement,
-  TemplateResult,
-  PropertyValues,
-} from 'lit-element';
+import { html, customElement, TemplateResult } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -11,6 +6,7 @@ import { ls, formatLS } from 'ls';
 import { EntityType } from 'lib/entity';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
+import { listenForVisibilityChange } from 'lib/htmlLib';
 import CmtCollector from './cmtCollector';
 import Cmt, { CmtCountChangedEventDetail } from './cmt';
 import './cmtView';
@@ -24,8 +20,8 @@ export class CmtListView extends BaseElement {
   @lp.number hostType: EntityType = 0;
   // The number of all top-level comments and their replies.
   @lp.number totalCount = 0;
-  // Needs update from server. True when host has comments upon page completion.
-  @lp.bool needsUpdate = false;
+  // Starts loading comment when the component is first visible.
+  @lp.bool loadOnVisible = false;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
@@ -54,11 +50,11 @@ export class CmtListView extends BaseElement {
         this.page = e.page;
       },
     );
-  }
 
-  updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('needsUpdate')) {
-      this.cmtCollector?.loadMoreAsync();
+    if (this.loadOnVisible) {
+      listenForVisibilityChange([this], this.loadMore);
+    } else {
+      this.loadMore();
     }
   }
 
@@ -124,6 +120,10 @@ export class CmtListView extends BaseElement {
   }
 
   private async handleViewMoreClick() {
+    await this.loadMore();
+  }
+
+  private async loadMore() {
     await this.cmtCollector?.loadMoreAsync();
   }
 

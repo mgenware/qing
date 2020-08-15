@@ -6,5 +6,6 @@ import "qing/app/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/set", setLike)
+	Router.Post("/get", getLikePOST)
+	Router.Post("/set", setLikePOST)
 }

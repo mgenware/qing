@@ -1,10 +1,12 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import SetLikeLoader, { LikeHostType } from 'post/loaders/setLikeLoader';
+import SetLikeLoader from 'post/loaders/setLikeLoader';
 import app from 'app';
-import './likeView';
+import { listenForVisibilityChange } from 'lib/htmlLib';
 import { CHECK } from 'checks';
+import './likeView';
+import LikeHostType from 'post/loaders/likeHostType';
 
 @customElement('like-app')
 export class LikeApp extends BaseElement {
@@ -13,8 +15,17 @@ export class LikeApp extends BaseElement {
   @lp.bool private isWorking = false;
   @lp.bool private hasLiked = false;
 
+  // Starts `get-like` API when the component is first visible.
+  @lp.bool loadOnVisible = false;
+
   firstUpdated() {
     CHECK(this.hostID);
+
+    if (this.loadOnVisible) {
+      listenForVisibilityChange([this], this.loadHasLiked);
+    } else {
+      this.loadHasLiked();
+    }
   }
 
   render() {
@@ -28,6 +39,9 @@ export class LikeApp extends BaseElement {
   }
 
   private async handleClick() {
+    if (!this.isWorking) {
+      return;
+    }
     const loader = new SetLikeLoader(
       this.hostID,
       LikeHostType.post,
@@ -44,6 +58,14 @@ export class LikeApp extends BaseElement {
       this.hasLiked = !this.hasLiked;
       this.likes += this.hasLiked ? -1 : 1;
     }
+  }
+
+  private loadHasLiked() {
+    const loader = new Getlike(this.hostID, LikeHostType.post, !this.hasLiked);
+    const res = await app.runLocalActionAsync(
+      loader,
+      (s) => (this.isWorking = s.isWorking),
+    );
   }
 }
 

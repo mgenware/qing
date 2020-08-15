@@ -24,7 +24,7 @@ export class CmtApp extends BaseElement {
         .totalCount=${this.totalCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}
-        .needsUpdate=${!!this.initialCount}
+        .loadOnVisible=${!!this.initialCount}
         @totalCountChangedWithOffset=${this.handleTotalCountChangedWithOffset}
       ></cmt-list-view>
     `;

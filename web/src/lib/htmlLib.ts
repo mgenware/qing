@@ -42,3 +42,17 @@ export function renderTemplateResult(
   render(template ?? html``, containerElement);
   return containerElement.firstElementChild as HTMLElement | null;
 }
+
+export function listenForVisibilityChange(
+  elements: HTMLElement[],
+  callback: (element: HTMLElement) => void,
+) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      callback(entry.target as HTMLElement);
+    });
+  });
+  for (const element of elements) {
+    observer.observe(element);
+  }
+}
