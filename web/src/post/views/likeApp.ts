@@ -22,9 +22,10 @@ export class LikeApp extends BaseElement {
 
   firstUpdated() {
     CHECK(this.hostID);
+    CHECK(this.hostType);
 
     if (this.loadOnVisible) {
-      listenForVisibilityChange([this], this.loadHasLiked);
+      listenForVisibilityChange([this], () => this.loadHasLiked);
     } else {
       this.loadHasLiked();
     }

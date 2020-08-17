@@ -6,6 +6,7 @@ import './cmtView';
 import './addCmtApp';
 import './cmtListView';
 import { EntityType } from 'lib/entity';
+import { CHECK } from 'checks';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -15,6 +16,8 @@ export class CmtApp extends BaseElement {
   @lp.number private totalCount = 0;
 
   firstUpdated() {
+    CHECK(this.hostID);
+    CHECK(this.hostType);
     this.totalCount = this.initialCount;
   }
 

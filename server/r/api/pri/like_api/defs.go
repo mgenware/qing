@@ -1,11 +1,10 @@
 package likeapi
 
 import (
+	"qing/app/defs"
 	"qing/da"
 )
 
-const (
-	postCategory = 1
-)
-
-var dbSources = [...]da.LikeInterface{da.PostLike}
+var dbSources = map[int]da.LikeInterface{
+	defs.EntityPost: da.PostLike,
+}

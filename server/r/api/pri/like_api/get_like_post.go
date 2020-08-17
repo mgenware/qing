@@ -16,12 +16,12 @@ func getLikePOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	category := validator.MustGetIntFromDict(params, "type")
 	id := validator.MustGetIDFromDict(params, "id")
+	dbSrc := dbSources[category]
 
-	if category >= len(dbSources) {
+	if dbSrc == nil {
 		panic(fmt.Sprintf("Unsupported type %v", category))
 	}
 
-	dbSrc := dbSources[category]
 	hasLiked, err := dbSrc.HasLiked(app.DB, id, uid)
 	app.PanicIfErr(err)
 

@@ -33,7 +33,7 @@ export class CmtListView extends BaseElement {
   private cmtCollector: CmtCollector | null = null;
   @lp.object collectorLoadingStatus = LoadingStatus.empty;
 
-  async firstUpdated() {
+  firstUpdated() {
     this.cmtCollector = new CmtCollector(
       {
         hostID: this.hostID,
@@ -52,7 +52,7 @@ export class CmtListView extends BaseElement {
     );
 
     if (this.loadOnVisible) {
-      listenForVisibilityChange([this], this.loadMore);
+      listenForVisibilityChange([this], () => this.loadMore);
     } else {
       this.loadMore();
     }

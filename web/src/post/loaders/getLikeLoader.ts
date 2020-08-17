@@ -10,7 +10,7 @@ export default class GetLikeLoader extends BaseLoader<boolean> {
   }
 
   requestURL(): string {
-    return routes.s.r.like.set;
+    return routes.s.r.like.get;
   }
 
   requestParams(): unknown {

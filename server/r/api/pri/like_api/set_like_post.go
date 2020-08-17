@@ -17,12 +17,12 @@ func setLikePOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	category := validator.MustGetIntFromDict(params, "type")
 	id := validator.MustGetIDFromDict(params, "id")
 	value := validator.MustGetIntFromDict(params, "value")
+	dbSrc := dbSources[category]
 
-	if category >= len(dbSources) {
+	if dbSrc == nil {
 		panic(fmt.Sprintf("Unsupported type %v", category))
 	}
 
-	dbSrc := dbSources[category]
 	if value == 1 {
 		app.PanicIfErr(dbSrc.Like(app.DB, id, uid))
 	} else {

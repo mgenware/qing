@@ -12,7 +12,7 @@ export class PostCmtApp extends BaseElement {
 
   render() {
     return html`
-      <like-app></like-app>
+      <like-app .hostID=${this.hostID} .hostType=${EntityType.post}></like-app>
       <cmt-app
         .hostID=${this.hostID}
         .hostType=${EntityType.post}
