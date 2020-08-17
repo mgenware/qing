@@ -36,13 +36,14 @@ export class LikeApp extends BaseElement {
       <like-view
         .isWorking=${this.isWorking}
         .hasLiked=${this.hasLiked}
+        .likes=${this.likes}
         @click=${this.handleClick}
       ></like-view>
     `;
   }
 
   private async handleClick() {
-    if (!this.isWorking) {
+    if (this.isWorking) {
       return;
     }
     const loader = new SetLikeLoader(
@@ -59,7 +60,7 @@ export class LikeApp extends BaseElement {
       await app.alert.error(res.error.message);
     } else {
       this.hasLiked = !this.hasLiked;
-      this.likes += this.hasLiked ? -1 : 1;
+      this.likes += this.hasLiked ? 1 : -1;
     }
   }
 

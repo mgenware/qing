@@ -27,9 +27,15 @@ export class LikeView extends BaseElement {
         ?disabled=${this.isWorking}
         canSelect
         ?selected=${this.hasLiked}
-        >❤ ${this.likes || ''}</qing-button
+        @click=${this.handleClick}
       >
+        ❤ ${this.isWorking ? '...' : this.likes || ''}
+      </qing-button>
     `;
+  }
+
+  private handleClick() {
+    this.dispatchEvent(new CustomEvent<undefined>('click'));
   }
 }
 

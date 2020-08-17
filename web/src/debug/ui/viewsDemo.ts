@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'qing-button';
@@ -132,8 +133,12 @@ export class ViewsDemo extends BaseElement {
         <progress-view progress="30"></progress-view>
         <progress-view progress="-1"></progress-view>
         <h2>Misc</h2>
-        <like-view .likes=${20}></like-view>
+        <like-view
+          .likes=${20}
+          @click=${() => alert('Like button clicked!')}
+        ></like-view>
         <like-view .likes=${1} hasLiked></like-view>
+        <like-view .likes=${1} hasLiked isWorking></like-view>
       </container-view>
     `;
   }
