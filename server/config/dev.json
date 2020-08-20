@@ -9,7 +9,7 @@
     "log_404_error": true
   },
   "templates": {
-    "dir": "./templates"
+    "dir": "../web/templates"
   },
   "log": {
     "dir": "../appdata/log/dev"
