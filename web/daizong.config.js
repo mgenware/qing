@@ -1,7 +1,7 @@
 module.exports = {
   prepare: {
     run: ['yarn --cwd ../tools build'],
-    after: {
+    before: {
       del: 'static/d/js',
     },
   },
