@@ -16,3 +16,17 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 - Universal, works on desktop and mobile
 - Configurable and extensible
 - Builtin dark theme support
+
+## Roadmap
+
+✅ Available 🚧 Work-in-progress ❌ Not started
+
+- Login and registration ✅
+- Blogging ✅
+  - Likes ✅
+  - Comments ✅
+- Forum 🚧
+- Integration tests 🚧
+- QnA ❌
+- Dockerfy ❌
+- 3rd-party OAuth login ❌
