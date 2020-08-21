@@ -9,10 +9,15 @@ import './views/likeApp';
 export class PostCmtApp extends BaseElement {
   private hostID = wind.postID;
   private cmtCount = wind.postCmtCount;
+  private initialLikes = wind.appPostInitialLikes;
 
   render() {
     return html`
-      <like-app .hostID=${this.hostID} .hostType=${EntityType.post}></like-app>
+      <like-app
+        .initialLikes=${this.initialLikes}
+        .hostID=${this.hostID}
+        .hostType=${EntityType.post}
+      ></like-app>
       <cmt-app
         .hostID=${this.hostID}
         .hostType=${EntityType.post}

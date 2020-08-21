@@ -11,9 +11,10 @@ import GetLikeLoader from 'post/loaders/getLikeLoader';
 
 @customElement('like-app')
 export class LikeApp extends BaseElement {
-  @lp.number likes = 0;
   @lp.string hostID = '';
   @lp.string hostType: LikeHostType = 0;
+  @lp.number initialLikes = 0;
+  @lp.number private likes = 0;
   @lp.bool private isWorking = false;
   @lp.bool private hasLiked = false;
 
@@ -24,6 +25,7 @@ export class LikeApp extends BaseElement {
     CHECK(this.hostID);
     CHECK(this.hostType);
 
+    this.likes = this.initialLikes;
     if (this.loadOnVisible) {
       listenForVisibilityChange([this], () => this.loadHasLiked);
     } else {

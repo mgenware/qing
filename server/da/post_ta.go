@@ -243,6 +243,7 @@ type PostTableSelectPostByIDResult struct {
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	CmtCount     uint       `json:"cmtCount,omitempty"`
+	Likes        uint       `json:"likes,omitempty"`
 	Content      string     `json:"content,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
@@ -252,7 +253,7 @@ type PostTableSelectPostByIDResult struct {
 // SelectPostByID ...
 func (da *TableTypePost) SelectPostByID(queryable dbx.Queryable, id uint64) (*PostTableSelectPostByIDResult, error) {
 	result := &PostTableSelectPostByIDResult{}
-	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt`, `post`.`cmt_count` AS `cmtCount`, `post`.`content` AS `content`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
+	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt`, `post`.`cmt_count` AS `cmtCount`, `post`.`likes` AS `likes`, `post`.`content` AS `content`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Likes, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
 	if err != nil {
 		return nil, err
 	}
@@ -266,6 +267,7 @@ type PostTableSelectPostsByUserResult struct {
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
 	CmtCount   uint       `json:"cmtCount,omitempty"`
+	Likes      uint       `json:"likes,omitempty"`
 }
 
 // SelectPostsByUser ...
@@ -273,7 +275,7 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `likes` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -284,7 +286,7 @@ func (da *TableTypePost) SelectPostsByUser(queryable dbx.Queryable, userID uint6
 		itemCounter++
 		if itemCounter <= max {
 			item := &PostTableSelectPostsByUserResult{}
-			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount)
+			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err
 			}

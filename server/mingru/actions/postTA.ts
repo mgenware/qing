@@ -6,7 +6,14 @@ import postCmt from '../models/postCmt';
 import * as cm from '../models/common';
 import * as cmtf from './cmtTAFactory';
 
-const coreCols = [t.id, t.title, t.created_at, t.modified_at, t.cmt_count];
+const coreCols = [
+  t.id,
+  t.title,
+  t.created_at,
+  t.modified_at,
+  t.cmt_count,
+  t.likes,
+];
 const jUser = t.user_id.join(user);
 const userCols = [t.user_id, jUser.name, jUser.icon_name].map((c) =>
   c.privateAttr(),
