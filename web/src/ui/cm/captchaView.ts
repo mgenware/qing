@@ -21,6 +21,18 @@ export class CaptchaView extends BaseElement {
         .root-img:hover {
           filter: none;
         }
+
+        #inputElement {
+          width: 150px;
+          margin-bottom: 0.8rem;
+          line-height: 1.5;
+          padding: 0.25rem 0.4rem;
+          background-color: transparent;
+          color: var(--default-fore-color);
+          border: 1px solid var(--default-separator-color);
+          padding: 0.35rem 0.6rem;
+          border-radius: 5px;
+        }
       `,
     ];
   }
@@ -53,18 +65,11 @@ export class CaptchaView extends BaseElement {
         <span style="width: 150px">
           <input
             id="inputElement"
-            style="width: 150px"
             class="m-t-sm input"
             type="text"
             @keydown=${this.handleEnterKeyDown}
             placeholder=${ls.enterCaptchaPlz}
           />
-          <input-view
-            class="m-t-sm"
-            type="text"
-            @keydown=${this.handleEnterKeyDown}
-            placeholder=${ls.enterCaptchaPlz}
-          ></input-view>
         </span>
       </span>
     `;
