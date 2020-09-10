@@ -47,7 +47,7 @@ const (
 	RoutePost      = "p"
 	RouteAuth      = "auth" // Used by both `/auth` and `/s/r/auth`.
 	RouteTest      = "t"
-	RouteDashboard = "m"
+	RouteDashboard = "home"
 	RouteAPI       = "s"
 )
 

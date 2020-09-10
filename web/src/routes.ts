@@ -1,7 +1,7 @@
 import buildTree from 'fx214';
 
 export default buildTree({
-  m: {
+  home: {
     newPost: 'new-post',
     editPost: 'edit-post',
     editProfile: 'profile',
