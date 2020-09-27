@@ -53,6 +53,7 @@ type Dictionary struct {
 	NextPage               string `json:"nextPage"`
 	No                     string `json:"no"`
 	NoComment              string `json:"noComment"`
+	NoContentAvailable     string `json:"noContentAvailable"`
 	Ok                     string `json:"ok"`
 	OneItem                string `json:"oneItem"`
 	PDoYouWantToDeleteThis string `json:"pDoYouWantToDeleteThis"`

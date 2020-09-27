@@ -62,7 +62,7 @@ export default class DashboardApp extends BaseElement {
   render() {
     const { content } = this;
     if (!content) {
-      return html` <p>No content</p> `;
+      return html` <p>${ls.noContentAvailable}</p> `;
     }
     if (!content.showSidebar) {
       return content.content;
@@ -76,6 +76,9 @@ export default class DashboardApp extends BaseElement {
               <ul class="menu-list">
                 <li>
                   <a href=${rs.home.newPost}>${ls.newPost}</a>
+                </li>
+                <li>
+                  <a href=${rs.home.posts}>${ls.posts}</a>
                 </li>
               </ul>
               <p class="menu-label">${ls.settings}</p>

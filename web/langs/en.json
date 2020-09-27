@@ -91,5 +91,6 @@
   "regEmailSentContent": "A verification link has been sent to your email account.",
   "goToYourEmail": "Go to your email account",
   "regEmailVeriExpired": "Link has expired, please sign up again.",
-  "pwdDontMatch": "Passwords don't match."
+  "pwdDontMatch": "Passwords don't match.",
+  "noContentAvailable": "No content available"
 }

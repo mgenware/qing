@@ -92,4 +92,5 @@ export default interface LSDefs {
   goToYourEmail: string;
   regEmailVeriExpired: string;
   pwdDontMatch: string;
+  noContentAvailable: string;
 }
