@@ -5,9 +5,7 @@
 
 package da
 
-import (
-	"github.com/mgenware/go-packagex/v5/dbx"
-)
+import "github.com/mgenware/mingru-go-lib"
 
 // TableTypeCmt ...
 type TableTypeCmt struct {
@@ -19,9 +17,9 @@ var Cmt = &TableTypeCmt{}
 // ------------ Actions ------------
 
 // EditCmt ...
-func (da *TableTypeCmt) EditCmt(queryable dbx.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
+func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // CmtTableGetHostIdAndReplyCountResult ...
@@ -31,7 +29,7 @@ type CmtTableGetHostIdAndReplyCountResult struct {
 }
 
 // GetHostIdAndReplyCount ...
-func (da *TableTypeCmt) GetHostIdAndReplyCount(queryable dbx.Queryable, id uint64) (*CmtTableGetHostIdAndReplyCountResult, error) {
+func (da *TableTypeCmt) GetHostIdAndReplyCount(queryable mingru.Queryable, id uint64) (*CmtTableGetHostIdAndReplyCountResult, error) {
 	result := &CmtTableGetHostIdAndReplyCountResult{}
 	err := queryable.QueryRow("SELECT `host_id`, `reply_count` FROM `cmt` WHERE `id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
@@ -46,7 +44,7 @@ type CmtTableSelectCmtSourceResult struct {
 }
 
 // SelectCmtSource ...
-func (da *TableTypeCmt) SelectCmtSource(queryable dbx.Queryable, id uint64, userID uint64) (*CmtTableSelectCmtSourceResult, error) {
+func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (*CmtTableSelectCmtSourceResult, error) {
 	result := &CmtTableSelectCmtSourceResult{}
 	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
 	if err != nil {
@@ -56,7 +54,7 @@ func (da *TableTypeCmt) SelectCmtSource(queryable dbx.Queryable, id uint64, user
 }
 
 // UpdateReplyCount ...
-func (da *TableTypeCmt) UpdateReplyCount(queryable dbx.Queryable, id uint64, userID uint64, offset int) error {
+func (da *TableTypeCmt) UpdateReplyCount(queryable mingru.Queryable, id uint64, userID uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ? AND `user_id` = ?", offset, id, userID)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }

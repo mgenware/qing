@@ -14,6 +14,7 @@ require (
 	github.com/mgenware/go-captcha v1.0.0
 	github.com/mgenware/go-packagex/v5 v5.2.2
 	github.com/mgenware/go-string-format v1.0.1
+	github.com/mgenware/mingru-go-lib v0.0.1
 	github.com/microcosm-cc/bluemonday v1.0.4
 	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de // indirect

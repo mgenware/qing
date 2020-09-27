@@ -5,9 +5,7 @@
 
 package da
 
-import (
-	"github.com/mgenware/go-packagex/v5/dbx"
-)
+import "github.com/mgenware/mingru-go-lib"
 
 // TableTypeUser ...
 type TableTypeUser struct {
@@ -19,9 +17,9 @@ var User = &TableTypeUser{}
 // ------------ Actions ------------
 
 // AddUserWithNameInternal ...
-func (da *TableTypeUser) AddUserWithNameInternal(queryable dbx.Queryable, email string, name string) (uint64, error) {
+func (da *TableTypeUser) AddUserWithNameInternal(queryable mingru.Queryable, email string, name string) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_time`, `company`, `website`, `location`, `bio`, `post_count`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL, 0)", email, name)
-	return dbx.GetLastInsertIDUint64WithError(result, err)
+	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 // UserTableSelectEditingDataResult ...
@@ -36,7 +34,7 @@ type UserTableSelectEditingDataResult struct {
 }
 
 // SelectEditingData ...
-func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
+func (da *TableTypeUser) SelectEditingData(queryable mingru.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
 	result := &UserTableSelectEditingDataResult{}
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
@@ -46,7 +44,7 @@ func (da *TableTypeUser) SelectEditingData(queryable dbx.Queryable, id uint64) (
 }
 
 // SelectIconName ...
-func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (string, error) {
+func (da *TableTypeUser) SelectIconName(queryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := queryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -56,7 +54,7 @@ func (da *TableTypeUser) SelectIconName(queryable dbx.Queryable, id uint64) (str
 }
 
 // SelectIdFromEmail ...
-func (da *TableTypeUser) SelectIdFromEmail(queryable dbx.Queryable, email string) (uint64, error) {
+func (da *TableTypeUser) SelectIdFromEmail(queryable mingru.Queryable, email string) (uint64, error) {
 	var result uint64
 	err := queryable.QueryRow("SELECT `id` FROM `user` WHERE `email` = ?", email).Scan(&result)
 	if err != nil {
@@ -78,7 +76,7 @@ type UserTableSelectProfileResult struct {
 }
 
 // SelectProfile ...
-func (da *TableTypeUser) SelectProfile(queryable dbx.Queryable, id uint64) (*UserTableSelectProfileResult, error) {
+func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*UserTableSelectProfileResult, error) {
 	result := &UserTableSelectProfileResult{}
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `post_count` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.PostCount)
 	if err != nil {
@@ -95,7 +93,7 @@ type UserTableSelectSessionDataResult struct {
 }
 
 // SelectSessionData ...
-func (da *TableTypeUser) SelectSessionData(queryable dbx.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
+func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
 	result := &UserTableSelectSessionDataResult{}
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
 	if err != nil {
@@ -105,25 +103,25 @@ func (da *TableTypeUser) SelectSessionData(queryable dbx.Queryable, id uint64) (
 }
 
 // UpdateBio ...
-func (da *TableTypeUser) UpdateBio(queryable dbx.Queryable, id uint64, bio *string) error {
+func (da *TableTypeUser) UpdateBio(queryable mingru.Queryable, id uint64, bio *string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `bio` = ? WHERE `id` = ?", bio, id)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateIconName ...
-func (da *TableTypeUser) UpdateIconName(queryable dbx.Queryable, id uint64, iconName string) error {
+func (da *TableTypeUser) UpdateIconName(queryable mingru.Queryable, id uint64, iconName string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `icon_name` = ? WHERE `id` = ?", iconName, id)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdatePostCount ...
-func (da *TableTypeUser) UpdatePostCount(queryable dbx.Queryable, userID uint64, offset int) error {
+func (da *TableTypeUser) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `user` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateProfile ...
-func (da *TableTypeUser) UpdateProfile(queryable dbx.Queryable, id uint64, name string, website string, company string, location string) error {
+func (da *TableTypeUser) UpdateProfile(queryable mingru.Queryable, id uint64, name string, website string, company string, location string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ? WHERE `id` = ?", name, website, company, location, id)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }

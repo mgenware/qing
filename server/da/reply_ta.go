@@ -5,9 +5,7 @@
 
 package da
 
-import (
-	"github.com/mgenware/go-packagex/v5/dbx"
-)
+import "github.com/mgenware/mingru-go-lib"
 
 // TableTypeReply ...
 type TableTypeReply struct {
@@ -19,13 +17,13 @@ var Reply = &TableTypeReply{}
 // ------------ Actions ------------
 
 // EditReply ...
-func (da *TableTypeReply) EditReply(queryable dbx.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
+func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // GetParentID ...
-func (da *TableTypeReply) GetParentID(queryable dbx.Queryable, id uint64) (uint64, error) {
+func (da *TableTypeReply) GetParentID(queryable mingru.Queryable, id uint64) (uint64, error) {
 	var result uint64
 	err := queryable.QueryRow("SELECT `parent_id` FROM `reply` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -35,7 +33,7 @@ func (da *TableTypeReply) GetParentID(queryable dbx.Queryable, id uint64) (uint6
 }
 
 // SelectReplies ...
-func (da *TableTypeReply) SelectReplies(queryable dbx.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error) {
+func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -70,7 +68,7 @@ type ReplyTableSelectReplySourceResult struct {
 }
 
 // SelectReplySource ...
-func (da *TableTypeReply) SelectReplySource(queryable dbx.Queryable, id uint64, userID uint64) (*ReplyTableSelectReplySourceResult, error) {
+func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (*ReplyTableSelectReplySourceResult, error) {
 	result := &ReplyTableSelectReplySourceResult{}
 	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
 	if err != nil {

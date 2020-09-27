@@ -24,6 +24,11 @@ const updateConditions = mm.and(
   mm.sql`${t.user_id.isEqualToInput()}`,
 );
 
+const batchUpdateConditions = mm.and(
+  mm.sql`${t.id.isInArrayInput('ids')}`,
+  mm.sql`${t.user_id.isEqualToInput()}`,
+);
+
 export class PostTA extends mm.TableActions {
   selectPostByID = mm.select(...coreCols, t.content, ...userCols).byID();
   selectPostsByUser = mm
@@ -32,6 +37,12 @@ export class PostTA extends mm.TableActions {
     .orderByDesc(t.created_at);
 
   selectPostSource = mm.select(t.title, t.content).whereSQL(updateConditions);
+
+  selectMPostByUser = mm
+    .selectPage(...coreCols)
+    .by(t.user_id)
+    .orderByDesc(t.created_at);
+  deletePosts = mm.deleteSome().whereSQL(batchUpdateConditions);
 
   selectCmts = cmtf.selectCmts(postCmt);
   insertCmt = cmtf.insertCmtAction(t, postCmt);
@@ -57,8 +68,6 @@ export class PostTA extends mm.TableActions {
     .setInputs(t.title, t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(updateConditions);
-
-  deletePost = mm.deleteOne().whereSQL(updateConditions);
 }
 
 export default mm.tableActions(t, PostTA);

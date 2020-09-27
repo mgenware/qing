@@ -5,9 +5,7 @@
 
 package da
 
-import (
-	"github.com/mgenware/go-packagex/v5/dbx"
-)
+import "github.com/mgenware/mingru-go-lib"
 
 // TableTypeUserStats ...
 type TableTypeUserStats struct {
@@ -19,17 +17,17 @@ var UserStats = &TableTypeUserStats{}
 // ------------ Actions ------------
 
 // DerementPostCount ...
-func (da *TableTypeUserStats) DerementPostCount(queryable dbx.Queryable, id uint64) error {
+func (da *TableTypeUserStats) DerementPostCount(queryable mingru.Queryable, id uint64) error {
 	return da.UpdatePostCount(queryable, id, -1)
 }
 
 // IncrementPostCount ...
-func (da *TableTypeUserStats) IncrementPostCount(queryable dbx.Queryable, id uint64) error {
+func (da *TableTypeUserStats) IncrementPostCount(queryable mingru.Queryable, id uint64) error {
 	return da.UpdatePostCount(queryable, id, 1)
 }
 
 // UpdatePostCount ...
-func (da *TableTypeUserStats) UpdatePostCount(queryable dbx.Queryable, id uint64, offset int) error {
+func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, id uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, id)
-	return dbx.CheckOneRowAffectedWithError(result, err)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }

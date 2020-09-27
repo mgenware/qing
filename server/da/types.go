@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/mgenware/go-packagex/v5/dbx"
+	"github.com/mgenware/mingru-go-lib"
 )
 
 // ------------ Result types ------------
@@ -42,17 +42,17 @@ type CmtInterface interface {
 	DeleteReply(db *sql.DB, id uint64, userID uint64, hostID uint64) error
 	InsertCmt(db *sql.DB, content string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
 	InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
-	SelectCmts(queryable dbx.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error)
+	SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error)
 }
 
 // LikeInterface ...
 type LikeInterface interface {
 	CancelLike(db *sql.DB, hostID uint64, userID uint64) error
-	HasLiked(queryable dbx.Queryable, hostID uint64, userID uint64) (bool, error)
+	HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
 	Like(db *sql.DB, hostID uint64, userID uint64) error
 }
 
 // ReplyInterface ...
 type ReplyInterface interface {
-	SelectReplies(queryable dbx.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error)
+	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error)
 }

@@ -5,6 +5,7 @@ export default buildTree({
     newPost: 'new-post',
     editPost: 'edit-post',
     editProfile: 'profile',
+    posts: 'posts',
   },
   s: {
     // Service APIs

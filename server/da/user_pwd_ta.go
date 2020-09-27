@@ -8,7 +8,7 @@ package da
 import (
 	"database/sql"
 
-	"github.com/mgenware/go-packagex/v5/dbx"
+	"github.com/mgenware/mingru-go-lib"
 )
 
 // TableTypeUserPwd ...
@@ -20,18 +20,18 @@ var UserPwd = &TableTypeUserPwd{}
 
 // ------------ Actions ------------
 
-func (da *TableTypeUserPwd) addPwdBasedUserChild2(queryable dbx.Queryable, id uint64) error {
+func (da *TableTypeUserPwd) addPwdBasedUserChild2(queryable mingru.Queryable, id uint64) error {
 	return UserAuth.AddUserAuth(queryable, id, 1)
 }
 
-func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable dbx.Queryable, id uint64, pwdHash string) error {
+func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable mingru.Queryable, id uint64, pwdHash string) error {
 	return da.AddUserPwdInternal(queryable, id, pwdHash)
 }
 
 // AddPwdBasedUser ...
 func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
 	var idExported uint64
-	txErr := dbx.Transact(db, func(tx *sql.Tx) error {
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		id, err := User.AddUserWithNameInternal(tx, email, name)
 		if err != nil {
@@ -52,13 +52,13 @@ func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name strin
 }
 
 // AddUserPwdInternal ...
-func (da *TableTypeUserPwd) AddUserPwdInternal(queryable dbx.Queryable, id uint64, pwdHash string) error {
+func (da *TableTypeUserPwd) AddUserPwdInternal(queryable mingru.Queryable, id uint64, pwdHash string) error {
 	_, err := queryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
 	return err
 }
 
 // SelectHashByID ...
-func (da *TableTypeUserPwd) SelectHashByID(queryable dbx.Queryable, id uint64) (string, error) {
+func (da *TableTypeUserPwd) SelectHashByID(queryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := queryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
