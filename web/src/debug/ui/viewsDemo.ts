@@ -82,11 +82,7 @@ export class ViewsDemo extends BaseElement {
     return html`
       <container-view id="root">
         <div>
-          <input
-            type="checkbox"
-            id="darkModeCheckbox"
-            @click=${this.handleDarkModeChecked}
-          />
+          <input type="checkbox" id="darkModeCheckbox" @click=${this.handleDarkModeChecked} />
           <label for="darkModeCheckbox">Dark mode</label>
         </div>
         <h2>Default context</h2>
@@ -129,14 +125,8 @@ export class ViewsDemo extends BaseElement {
         <error-view headerTitle="Error" .canRetry=${true}>
           <p>Hello <b>world</b></p>
         </error-view>
-        <h2>Progress view</h2>
-        <progress-view progress="30"></progress-view>
-        <progress-view progress="-1"></progress-view>
         <h2>Misc</h2>
-        <like-view
-          .likes=${20}
-          @click=${() => alert('Like button clicked!')}
-        ></like-view>
+        <like-view .likes=${20} @click=${() => alert('Like button clicked!')}></like-view>
         <like-view .likes=${1} hasLiked></like-view>
         <like-view .likes=${1} hasLiked isWorking></like-view>
       </container-view>
