@@ -20,14 +20,7 @@ export default class DashboardApp extends BaseElement {
 
   firstUpdated() {
     page(rs.home.newPost, () => {
-      this.content = new Page(
-        html`
-          <div class="m-md">
-            <set-post-app></set-post-app>
-          </div>
-        `,
-        false,
-      );
+      this.content = new Page(html` <set-post-app></set-post-app> `, false);
       this.title = ls.newPost;
     });
     page(`${rs.home.editPost}/:id`, (e) => {
@@ -35,25 +28,11 @@ export default class DashboardApp extends BaseElement {
       if (!id) {
         return;
       }
-      this.content = new Page(
-        html`
-          <div class="m-md">
-            <set-post-app .editedID=${id}></set-post-app>
-          </div>
-        `,
-        false,
-      );
+      this.content = new Page(html` <set-post-app .editedID=${id}></set-post-app> `, false);
       this.title = ls.editPost;
     });
     page(rs.home.editProfile, () => {
-      this.content = new Page(
-        html`
-          <div class="m-md">
-            <edit-profile-app></edit-profile-app>
-          </div>
-        `,
-        true,
-      );
+      this.content = new Page(html` <edit-profile-app></edit-profile-app> `, true);
       this.title = ls.editProfile;
     });
     page();
@@ -89,7 +68,7 @@ export default class DashboardApp extends BaseElement {
               </ul>
             </aside>
           </div>
-          <div class="col-md">${content.content}</div>
+          <div class="col-md"><div class="m-md">${content.content}</div></div>
         </div>
       </container-view>
     `;
