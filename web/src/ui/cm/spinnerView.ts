@@ -1,5 +1,6 @@
 import { html, customElement, css, property, LitElement } from 'lit-element';
 
+// A spinner view that fills available horizontal space.
 @customElement('spinner-view')
 export class SpinnerView extends LitElement {
   static get styles() {

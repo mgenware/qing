@@ -3,7 +3,8 @@ import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'qing-button';
 import 'ui/cm/alertView';
-import 'ui/cm/progressView';
+import 'ui/cm/spinnerView';
+import 'ui/cm/centeredView';
 import 'post/views/likeView';
 
 @customElement('views-demo')
@@ -74,6 +75,10 @@ export class ViewsDemo extends BaseElement {
           padding: 1rem;
           border-radius: 0.3rem;
         }
+
+        .with-border {
+          border: 1px solid var(--default-separator-color);
+        }
       `,
     ];
   }
@@ -125,6 +130,12 @@ export class ViewsDemo extends BaseElement {
         <error-view headerTitle="Error" .canRetry=${true}>
           <p>Hello <b>world</b></p>
         </error-view>
+        <h2>Spinners</h2>
+        <spinner-view>Loading...</spinner-view>
+        <h3>Spinner in a fixed view</h3>
+        <centered-view class="with-border" height="150px">
+          <spinner-view>Loading...</spinner-view>
+        </centered-view>
         <h2>Misc</h2>
         <like-view .likes=${20} @click=${() => alert('Like button clicked!')}></like-view>
         <like-view .likes=${1} hasLiked></like-view>
