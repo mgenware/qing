@@ -1,10 +1,14 @@
 import { html, customElement, css, property, LitElement } from 'lit-element';
 
-// A spinner view that fills available horizontal space.
+// A spinner view(block) that fills available horizontal space.
 @customElement('spinner-view')
 export class SpinnerView extends LitElement {
   static get styles() {
     return css`
+      :host {
+        display: block;
+      }
+
       /* spinner */
       .spinner-screen-overlay {
         display: flex;

@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import './errorView';
 import './spinnerView';
@@ -10,6 +10,17 @@ import LoadingStatus from 'lib/loadingStatus';
 // It has 3 states: loading, success and error.
 @customElement('status-view')
 export class StatusView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   // The underlying status of this view.
   @lp.object status = LoadingStatus.empty;
   // The loading text when in loading state.

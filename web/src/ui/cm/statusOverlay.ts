@@ -15,9 +15,14 @@ export class StatusOverlay extends BaseElement {
     return [
       super.styles,
       css`
-        .root {
+        :host {
+          display: block;
+        }
+
+        .root-div {
           display: grid;
         }
+
         .content,
         .overlay {
           grid-area: 1 / 1;
@@ -34,7 +39,7 @@ export class StatusOverlay extends BaseElement {
   render() {
     const { status } = this;
     return html`
-      <div class="root">
+      <div class="root-div">
         <div
           class=${classMap({
             'content-disabled': !status.isSuccess,
@@ -47,11 +52,7 @@ export class StatusOverlay extends BaseElement {
           ? html`
               <centered-view class="overlay" height="100%">
                 ${status.isWorking
-                  ? html`
-                      <spinner-view
-                        >${this.loadingText || ls.loading}</spinner-view
-                      >
-                    `
+                  ? html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `
                   : html``}
                 ${status.error
                   ? html`

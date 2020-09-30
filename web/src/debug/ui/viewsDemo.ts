@@ -5,7 +5,10 @@ import 'qing-button';
 import 'ui/cm/alertView';
 import 'ui/cm/spinnerView';
 import 'ui/cm/centeredView';
+import 'ui/cm/statusView';
+import 'ui/cm/statusOverlay';
 import 'post/views/likeView';
+import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('views-demo')
 export class ViewsDemo extends BaseElement {
@@ -136,6 +139,13 @@ export class ViewsDemo extends BaseElement {
         <centered-view class="with-border" height="150px">
           <spinner-view>Loading...</spinner-view>
         </centered-view>
+        <h2>Status view</h2>
+        <status-view .status=${LoadingStatus.working}></status-view>
+        <h2>Status overlay</h2>
+        <status-overlay .status=${LoadingStatus.working}>
+          <h1>heading 1</h1>
+          <p>text text text text text text text text text text</p>
+        </status-overlay>
         <h2>Misc</h2>
         <like-view .likes=${20} @click=${() => alert('Like button clicked!')}></like-view>
         <like-view .likes=${1} hasLiked></like-view>

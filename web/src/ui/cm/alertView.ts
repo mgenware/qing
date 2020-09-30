@@ -10,9 +10,12 @@ export class AlertView extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         div {
-          border: 1px solid
-            var(--alert-border-color, var(--default-secondary-fore-color));
+          border: 1px solid var(--alert-border-color, var(--default-secondary-fore-color));
           border-left-width: 5px;
         }
       `,

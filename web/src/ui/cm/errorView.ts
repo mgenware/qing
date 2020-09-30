@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
@@ -6,6 +6,17 @@ import 'ui/cm/alertView';
 
 @customElement('error-view')
 export class ErrorView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string headerText = '';
   @lp.bool canRetry = false;
 
