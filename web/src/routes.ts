@@ -35,7 +35,7 @@ export default buildTree({
       },
       // My posts.
       mp: {
-        getPosts: 'get-posts',
+        getPosts: 'posts',
       },
     },
     p: {

@@ -7,7 +7,7 @@ import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
 
 @customElement('my-posts-app')
 export default class MyPostsApp extends MPListView<DashboardPost> {
-  async startLoading(page: number, pageSize: number): Promise<PaginatedList<DashboardPost> | null> {
+  async loadItems(page: number, pageSize: number): Promise<PaginatedList<DashboardPost> | null> {
     const loader = new GetMyPostsLoader(page, pageSize);
     const res = await app.runLocalActionAsync(loader, (st) => (this.loadingStatus = st));
     return res?.data || null;
@@ -20,13 +20,24 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
   renderTable(): TemplateResult | null {
     return html`
       <thead>
-        <th>${ls.name}</th>
+        <th>${ls.title}</th>
+        <th>${ls.dateCreated}</th>
+        <th>${ls.comments}</th>
+        <th>${ls.likes}</th>
       </thead>
       <tbody>
         ${this.items.map(
           (item) => html`
             <tr>
-              <td>${item.title}</td>
+              <td style="width: 100%">${item.title}</td>
+              <td>
+                <time-field
+                  .createdAt=${item.createdAt}
+                  .modifiedAt=${item.modifiedAt}
+                ></time-field>
+              </td>
+              <td>${item.cmtCount}</td>
+              <td>${item.likes}</td>
             </tr>
           `,
         )}

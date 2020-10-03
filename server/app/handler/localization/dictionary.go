@@ -31,6 +31,8 @@ type Dictionary struct {
 	Content                string `json:"content"`
 	Copyright              string `json:"copyright"`
 	CreateAnAcc            string `json:"createAnAcc"`
+	DateCreated            string `json:"dateCreated"`
+	DateModified           string `json:"dateModified"`
 	Delete                 string `json:"delete"`
 	Edit                   string `json:"edit"`
 	EditComment            string `json:"editComment"`
@@ -45,6 +47,7 @@ type Dictionary struct {
 	Exceed5MbErr           string `json:"exceed5MBErr"`
 	GoToYourEmail          string `json:"goToYourEmail"`
 	InternalErr            string `json:"internalErr"`
+	Likes                  string `json:"likes"`
 	Loading                string `json:"loading"`
 	Location               string `json:"location"`
 	Name                   string `json:"name"`

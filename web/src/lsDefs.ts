@@ -94,4 +94,7 @@ export default interface LSDefs {
   pwdDontMatch: string;
   noContentAvailable: string;
   yourPosts: string;
+  dateCreated: string;
+  dateModified: string;
+  likes: string;
 }

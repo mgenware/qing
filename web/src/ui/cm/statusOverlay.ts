@@ -35,6 +35,7 @@ export class StatusOverlay extends BaseElement {
   @lp.string loadingText = '';
   @lp.bool canRetry = false;
   @lp.string errorTitle = '';
+  @lp.string height = '';
 
   render() {
     const { status } = this;
@@ -50,7 +51,7 @@ export class StatusOverlay extends BaseElement {
         </div>
         ${!status.isSuccess
           ? html`
-              <centered-view class="overlay" height="100%">
+              <centered-view class="overlay" .height=${this.height || '100%'}>
                 ${status.isWorking
                   ? html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `
                   : html``}

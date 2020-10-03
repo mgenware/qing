@@ -31,14 +31,10 @@ export class TimeField extends BaseElement {
     const { createdAt, modifiedAt } = this;
 
     let content = this.formatDate(createdAt);
-    if (modifiedAt) {
+    if (modifiedAt !== createdAt) {
       content += ` ${ls.editedAt} ${this.formatDate(modifiedAt)}`;
     }
-    return html`
-      <small class="is-secondary" style="visibility: visible">
-        ${content}
-      </small>
-    `;
+    return html` <small class="is-secondary"> ${content} </small> `;
   }
 
   private formatDate(s: string): string {
