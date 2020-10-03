@@ -14,7 +14,7 @@ func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	pid := validator.MustGetIDFromDict(params, "id")
+	pid := validator.MustGetIDFromDict(params, "ids")
 	_, err := da.Post.DeletePosts(app.DB, []uint64{pid}, uid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(app.URL.UserProfile(uid))

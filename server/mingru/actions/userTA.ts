@@ -28,11 +28,9 @@ export class UserTA extends mm.TableActions {
     .byID();
   selectIconName = mm.selectField(t.icon_name).byID();
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
+  selectPostCount = mm.selectField(t.postCount).byID();
 
-  updateProfile = mm
-    .updateOne()
-    .setInputs(t.name, t.website, t.company, t.location)
-    .byID();
+  updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).byID();
   updateIconName = mm.updateOne().setInputs(t.icon_name).byID();
 
   updateBio = mm.updateOne().setInputs(t.bio).byID();

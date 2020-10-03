@@ -112,3 +112,29 @@ func MustGetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	}
 	return id
 }
+
+// MustGetStringArrayFromDict converts the value for the specified key to []string, and panics on error.
+func MustGetStringArrayFromDict(dict map[string]interface{}, key string) []string {
+	val, ok := dict[key].([]string)
+	if !ok {
+		panicMissingArg(key)
+	}
+	return []string(val)
+}
+
+// MustGetIDArrayFromDict converts the value for the specified key to an array of IDs, and panics on error.
+func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
+	strArray := MustGetStringArrayFromDict(dict, key)
+	if strArray != nil {
+		ids := make([]uint64, len(strArray))
+		for i, idStr := range strArray {
+			id, err := DecodeID(idStr)
+			if err != nil {
+				panic(fmt.Sprintf("The parameter %v is not a valid ID", key))
+			}
+			ids[i] = id
+		}
+		return ids
+	}
+	return nil
+}

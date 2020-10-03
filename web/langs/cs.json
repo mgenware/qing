@@ -92,5 +92,6 @@
   "goToYourEmail": "前往邮箱",
   "regEmailVeriExpired": "链接已失效，请重新注册。",
   "pwdDontMatch": "密码不匹配。",
-  "noContentAvailable": "无可用内容"
+  "noContentAvailable": "无可用内容",
+  "yourPosts": "我的文章"
 }

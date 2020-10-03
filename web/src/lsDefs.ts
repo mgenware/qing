@@ -93,4 +93,5 @@ export default interface LSDefs {
   regEmailVeriExpired: string;
   pwdDontMatch: string;
   noContentAvailable: string;
+  yourPosts: string;
 }

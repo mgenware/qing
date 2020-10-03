@@ -92,5 +92,6 @@
   "goToYourEmail": "Go to your email account",
   "regEmailVeriExpired": "Link has expired, please sign up again.",
   "pwdDontMatch": "Passwords don't match.",
-  "noContentAvailable": "No content available"
+  "noContentAvailable": "No content available",
+  "yourPosts": "Your posts"
 }

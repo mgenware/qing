@@ -33,6 +33,10 @@ export default buildTree({
         get: 'get',
         set: 'set',
       },
+      // My posts.
+      mp: {
+        getPosts: 'get-posts',
+      },
     },
     p: {
       // Public APIs

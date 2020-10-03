@@ -5,6 +5,7 @@ import rs from 'routes';
 import BaseElement from '../baseElement';
 import 'post/setPostApp';
 import './settings/profile/editProfileApp';
+import './mp/myPostsApp';
 
 class Page {
   constructor(public content: unknown, public showSidebar: boolean) {}
@@ -33,6 +34,10 @@ export default class DashboardApp extends BaseElement {
     });
     page(rs.home.editProfile, () => {
       this.content = new Page(html` <edit-profile-app></edit-profile-app> `, true);
+      this.title = ls.editProfile;
+    });
+    page(rs.home.posts, () => {
+      this.content = new Page(html`<my-posts-app></my-posts-app>`, true);
       this.title = ls.editProfile;
     });
     page();

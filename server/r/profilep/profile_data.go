@@ -22,7 +22,7 @@ type ProfileData struct {
 
 type PostItem struct {
 	handler.LocalizedTemplateData
-	da.PostTableSelectPostsByUserResult
+	da.PostTableSelectPostsForUserProfileResult
 
 	URL string
 }
@@ -37,8 +37,8 @@ func NewProfileDataFromUser(u *da.UserTableSelectProfileResult) *ProfileData {
 	return d
 }
 
-func NewPostItem(p *da.PostTableSelectPostsByUserResult) *PostItem {
-	d := &PostItem{PostTableSelectPostsByUserResult: *p}
+func NewPostItem(p *da.PostTableSelectPostsForUserProfileResult) *PostItem {
+	d := &PostItem{PostTableSelectPostsForUserProfileResult: *p}
 	d.URL = app.URL.Post(p.ID)
 	return d
 }

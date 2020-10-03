@@ -63,6 +63,16 @@ func (da *TableTypeUser) SelectIdFromEmail(queryable mingru.Queryable, email str
 	return result, nil
 }
 
+// SelectPostCount ...
+func (da *TableTypeUser) SelectPostCount(queryable mingru.Queryable, id uint64) (uint, error) {
+	var result uint
+	err := queryable.QueryRow("SELECT `post_count` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
 	ID        uint64  `json:"-"`

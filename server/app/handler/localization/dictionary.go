@@ -106,6 +106,7 @@ type Dictionary struct {
 	Working                string `json:"working"`
 	WriteAComment          string `json:"writeAComment"`
 	Yes                    string `json:"yes"`
+	YourPosts              string `json:"yourPosts"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.

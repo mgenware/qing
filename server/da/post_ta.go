@@ -245,49 +245,9 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 	return result, itemCounter > len(result), nil
 }
 
-// PostTableSelectMPostByUserResult ...
-type PostTableSelectMPostByUserResult struct {
-	ID         uint64     `json:"id,omitempty"`
-	Title      string     `json:"title,omitempty"`
-	CreatedAt  time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	CmtCount   uint       `json:"cmtCount,omitempty"`
-	Likes      uint       `json:"likes,omitempty"`
-}
-
-// SelectMPostByUser ...
-func (da *TableTypePost) SelectMPostByUser(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectMPostByUserResult, bool, error) {
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `likes` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]*PostTableSelectMPostByUserResult, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			item := &PostTableSelectMPostByUserResult{}
-			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Likes)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
 // PostTableSelectPostByIDResult ...
 type PostTableSelectPostByIDResult struct {
-	ID           uint64     `json:"id,omitempty"`
+	ID           uint64     `json:"-"`
 	Title        string     `json:"title,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
@@ -309,9 +269,9 @@ func (da *TableTypePost) SelectPostByID(queryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
-// PostTableSelectPostsByUserResult ...
-type PostTableSelectPostsByUserResult struct {
-	ID         uint64     `json:"id,omitempty"`
+// PostTableSelectPostsForDashboardResult ...
+type PostTableSelectPostsForDashboardResult struct {
+	ID         uint64     `json:"-"`
 	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
@@ -319,8 +279,8 @@ type PostTableSelectPostsByUserResult struct {
 	Likes      uint       `json:"likes,omitempty"`
 }
 
-// SelectPostsByUser ...
-func (da *TableTypePost) SelectPostsByUser(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectPostsByUserResult, bool, error) {
+// SelectPostsForDashboard ...
+func (da *TableTypePost) SelectPostsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectPostsForDashboardResult, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -328,13 +288,53 @@ func (da *TableTypePost) SelectPostsByUser(queryable mingru.Queryable, userID ui
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*PostTableSelectPostsByUserResult, 0, limit)
+	result := make([]*PostTableSelectPostsForDashboardResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &PostTableSelectPostsByUserResult{}
+			item := &PostTableSelectPostsForDashboardResult{}
+			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Likes)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
+}
+
+// PostTableSelectPostsForUserProfileResult ...
+type PostTableSelectPostsForUserProfileResult struct {
+	ID         uint64     `json:"-"`
+	Title      string     `json:"title,omitempty"`
+	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
+	CmtCount   uint       `json:"cmtCount,omitempty"`
+	Likes      uint       `json:"likes,omitempty"`
+}
+
+// SelectPostsForUserProfile ...
+func (da *TableTypePost) SelectPostsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectPostsForUserProfileResult, bool, error) {
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `likes` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]*PostTableSelectPostsForUserProfileResult, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			item := &PostTableSelectPostsForUserProfileResult{}
 			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err
