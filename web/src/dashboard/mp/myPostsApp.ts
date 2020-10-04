@@ -29,15 +29,15 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
         ${this.items.map(
           (item) => html`
             <tr>
-              <td style="width: 100%">${item.title}</td>
+              <td style="width: 100%"><a href=${item.url}>${item.title}</a></td>
               <td>
                 <time-field
                   .createdAt=${item.createdAt}
                   .modifiedAt=${item.modifiedAt}
                 ></time-field>
               </td>
-              <td>${item.cmtCount}</td>
-              <td>${item.likes}</td>
+              <td>${item.cmtCount || 0}</td>
+              <td>${item.likes || 0}</td>
             </tr>
           `,
         )}

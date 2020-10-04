@@ -479,3 +479,21 @@ a:visited {
 .reply-block {
   margin-left: 65px;
 }
+
+/** Table **/
+
+.app-table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.app-table th,
+.app-table td {
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.app-table tbody tr:hover {
+  background-color: var(--highlight-color);
+}

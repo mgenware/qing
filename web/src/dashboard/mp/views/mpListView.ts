@@ -39,7 +39,7 @@ export abstract class MPListView<T> extends BaseElement {
     }
     return html`
       <div class="section is-info">${this.sectionTitle()}</div>
-      <table>
+      <table class="app-table">
         ${this.renderTable()}
       </table>
       <hr />

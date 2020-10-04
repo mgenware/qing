@@ -78,6 +78,10 @@ export class ViewsDemo extends BaseElement {
           padding: 1rem;
           border-radius: 0.3rem;
         }
+        .highlighted {
+          padding: 0.6rem;
+          background-color: var(--highlight-color);
+        }
 
         .with-border {
           border: 1px solid var(--default-separator-color);
@@ -121,6 +125,8 @@ export class ViewsDemo extends BaseElement {
         <div class="sep">
           <div>Content</div>
         </div>
+        <h2>Highlight color</h2>
+        <div class="highlighted">Highlight color</div>
         <h1>Views</h1>
         <hr />
         <h2>Alerts</h2>
