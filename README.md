@@ -17,17 +17,30 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 - Configurable and extensible
 - Builtin dark theme support
 
+## Tech stack
+
+- Frontend
+  - TypeScript
+  - Web components (lit-element)
+- Backend
+  - Golang
+  - [mingru](https://github.com/mgenware/mingru) for database access layer
+- Database
+  - MariaDB (or compatible versions of MySQL)
+
+Qing intended to run on docker in future.
+
 ## Roadmap
 
 ✅ Available 🚧 Work-in-progress ❌ Not started
 
-|                        |   |
-|------------------------|---|
-| Login and registration | ✅ |
-| Blogging               | ✅ |
-| Dashboard              | 🚧 |
-| Integration tests      | 🚧 |
-| Forum                  | ❌ |
-| QnA                    | ❌ |
-| 3rd-party OAuth login  | ❌ |
-| Dockerfy               | ❌ |
+|                        |     |
+| ---------------------- | --- |
+| Login and registration | ✅  |
+| Blogging               | ✅  |
+| Dashboard              | 🚧  |
+| Integration tests      | 🚧  |
+| Forum                  | ❌  |
+| QnA                    | ❌  |
+| 3rd-party OAuth login  | ❌  |
+| Dockerfy               | ❌  |
