@@ -7,9 +7,7 @@ import { staticMainImage } from 'urls';
 import 'ui/cm/progressView';
 import '@github/image-crop-element';
 import styles from '@github/image-crop-element/index.css';
-import AvatarUploadLoader, {
-  AvatarUploadResponse,
-} from './loaders/avatarUploadLoader';
+import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
 
 interface ImageCropInfo {
   x: number;
@@ -38,9 +36,7 @@ export class AvatarUploader extends BaseElement {
     this.modalElement = this.mustGetShadowElement('modalElement');
     this.cropElement = this.mustGetShadowElement('cropElement');
     this.hookFileUploadEvents(this.uploadElement);
-    this.cropElement.addEventListener('image-crop-change', (e) =>
-      this.handleImageCrop(e),
-    );
+    this.cropElement.addEventListener('image-crop-change', (e) => this.handleImageCrop(e));
     this.modalElement.addEventListener('closed', ((
       e: CustomEvent<IsOpenChangedArgs>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,29 +53,16 @@ export class AvatarUploader extends BaseElement {
           @closed=${this.handleDialogClose}
         >
           <div class="m-b-md">
-            <image-crop
-              id="cropElement"
-              src=${this.imageDataURL as string}
-            ></image-crop>
+            <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
           </div>
         </qing-dialog>
         <form id="formElement">
           <div>
             <label>
-              <input
-                type="file"
-                id="uploadElement"
-                name="avatarMain"
-                class="file-input"
-                accept=".jpg,.jpeg,.png"
-              />
+              <input type="file" id="uploadElement" name="avatarMain" accept=".jpg,.jpeg,.png" />
               <span class="file-cta">
                 <span class="file-icon">
-                  <img
-                    src=${staticMainImage('upload.svg')}
-                    width="16"
-                    height="16"
-                  />
+                  <img src=${staticMainImage('upload.svg')} width="16" height="16" />
                 </span>
                 <span>${ls.chooseAFileBtn}</span>
               </span>

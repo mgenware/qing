@@ -41,6 +41,7 @@ export class MPPageControl extends BaseElement {
         <div class="col-md-auto">
           ${formatLS(ls.pageControlPageFormat, page, totalPages)} |
           <input
+            class="app-inline-text-input"
             type="text"
             size="3"
             value=${this.pageInputString}

@@ -31,11 +31,16 @@ export type InputType =
   | 'button';
 
 @customElement('input-view')
+// Text input view (block). Use `app-inline-text-input` in `app.css` for inline inputs.
 export class InputView extends BaseElement {
   static get styles() {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         input {
           font-size: 1rem;
           max-width: 100%;
@@ -72,9 +77,7 @@ export class InputView extends BaseElement {
 
   render() {
     return html`
-      ${this.label
-        ? html`<label class="form-label" for=${inputID}>${this.label}</label>`
-        : ''}
+      ${this.label ? html`<label class="app-form-label" for=${inputID}>${this.label}</label>` : ''}
       <input
         id=${inputID}
         ?required=${this.required}

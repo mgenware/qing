@@ -390,7 +390,7 @@ hr {
 }
 
 /** Use by all custom form controls */
-label.form-label {
+label.app-form-label {
   font-weight: bold;
   display: block;
   margin-bottom: 0.5rem;
@@ -496,4 +496,14 @@ a:visited {
 
 .app-table tbody tr:hover {
   background-color: var(--highlight-color);
+}
+
+input.app-inline-text-input {
+  background-color: transparent;
+  color: var(--default-fore-color);
+  border: 1px solid var(--default-separator-color);
+}
+
+input.app-inline-text-input:invalid {
+  border-color: var(--danger-fore-color);
 }
