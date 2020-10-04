@@ -45,8 +45,10 @@ type Dictionary struct {
 	Error                  string `json:"error"`
 	ErrorCode              string `json:"errorCode"`
 	Exceed5MbErr           string `json:"exceed5MBErr"`
+	GoToPage               string `json:"goToPage"`
 	GoToYourEmail          string `json:"goToYourEmail"`
 	InternalErr            string `json:"internalErr"`
+	InvalidPageNumber      string `json:"invalidPageNumber"`
 	Likes                  string `json:"likes"`
 	Loading                string `json:"loading"`
 	Location               string `json:"location"`
@@ -68,6 +70,9 @@ type Dictionary struct {
 	PReplyingTo            string `json:"pReplyingTo"`
 	PView                  string `json:"pView"`
 	PViewMore              string `json:"pViewMore"`
+	PageControlItemFormat  string `json:"pageControlItemFormat"`
+	PageControlPageFormat  string `json:"pageControlPageFormat"`
+	PageNumberOutOfBounds  string `json:"pageNumberOutOfBounds"`
 	Password               string `json:"password"`
 	PlsLoginToComment      string `json:"plsLoginToComment"`
 	Post                   string `json:"post"`

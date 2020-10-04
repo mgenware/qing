@@ -1,4 +1,4 @@
-import { html, TemplateResult } from 'lit-element';
+import { html, TemplateResult, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/cm/statusView';
@@ -9,14 +9,24 @@ import './mpPageControl';
 const defaultPageSize = 10;
 
 export abstract class MPListView<T> extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.object loadingStatus = LoadingStatus.working;
   @lp.array items: T[] = [];
 
   @lp.number private totalCount = 0;
   @lp.number private shownCount = 0;
-
-  private currentPage = 1;
-  private currentPageSize = defaultPageSize;
+  @lp.number private page = 1;
+  @lp.number private pageSize = defaultPageSize;
 
   render() {
     const { loadingStatus } = this;
@@ -33,7 +43,13 @@ export abstract class MPListView<T> extends BaseElement {
         ${this.renderTable()}
       </table>
       <hr />
-      <mp-page-control .total=${this.totalCount} .shown=${this.shownCount}></mp-page-control>
+      <mp-page-control
+        .page=${this.page}
+        .pageSize=${this.pageSize}
+        .totalItemCount=${this.totalCount}
+        .shownItemCount=${this.shownCount}
+        @gotoPage=${this.handleGotoPage}
+      ></mp-page-control>
     `;
   }
 
@@ -46,8 +62,8 @@ export abstract class MPListView<T> extends BaseElement {
   abstract async loadItems(page: number, pageSize: number): Promise<PaginatedList<T> | null>;
 
   async startLoading(page: number, pageSize: number): Promise<void> {
-    this.currentPage = page;
-    this.currentPageSize = pageSize;
+    this.page = page;
+    this.pageSize = pageSize;
     const paginatedList = await this.loadItems(page, pageSize);
     if (paginatedList) {
       this.items = paginatedList.items;
@@ -57,6 +73,10 @@ export abstract class MPListView<T> extends BaseElement {
   }
 
   private async handleRetry() {
-    await this.startLoading(this.currentPage, this.currentPageSize);
+    await this.startLoading(this.page, this.pageSize);
+  }
+
+  private async handleGotoPage(e: CustomEvent<number>) {
+    await this.startLoading(e.detail, this.pageSize);
   }
 }

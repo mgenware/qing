@@ -97,4 +97,9 @@ export default interface LSDefs {
   dateCreated: string;
   dateModified: string;
   likes: string;
+  pageControlPageFormat: string;
+  pageControlItemFormat: string;
+  goToPage: string;
+  invalidPageNumber: string;
+  pageNumberOutOfBounds: string;
 }

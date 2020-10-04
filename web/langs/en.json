@@ -96,5 +96,10 @@
   "yourPosts": "Your posts",
   "dateCreated": "Date created",
   "dateModified": "Date modified",
-  "likes": "Likes"
+  "likes": "Likes",
+  "pageControlPageFormat": "Page {0} / {1}",
+  "pageControlItemFormat": "{0} / {1} item(s)",
+  "goToPage": "Go to",
+  "invalidPageNumber": "Invalid page number",
+  "pageNumberOutOfBounds": "Page number out of bounds"
 }

@@ -96,5 +96,10 @@
   "yourPosts": "我的文章",
   "dateCreated": "创建时间",
   "dateModified": "修改时间",
-  "likes": "点赞"
+  "likes": "点赞",
+  "pageControlPageFormat": "页 {0} / {1}",
+  "pageControlItemFormat": "{0} / {1} 个项目",
+  "goToPage": "前往",
+  "invalidPageNumber": "错误的页数格式",
+  "pageNumberOutOfBounds": "页数超出范围"
 }
