@@ -80,12 +80,7 @@ export class CmtView extends BaseElement {
       <div class="m-t-md row">
         <div class="col-auto">
           <a href=${cmt.userURL}>
-            <img
-              src=${cmt.userIconURL}
-              class="avatar-m"
-              width="50"
-              height="50"
-            />
+            <img src=${cmt.userIconURL} class="avatar-m" width="50" height="50" />
           </a>
         </div>
         <div class="col" style="padding-left: 0">
@@ -106,10 +101,7 @@ export class CmtView extends BaseElement {
                   </span>
                 `
               : ''}
-            <time-field
-              .createdAt=${cmt.createdAt}
-              .modifiedAt=${cmt.modifiedAt}
-            ></time-field>
+            <time-field .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></time-field>
             ${cmt.userID === app.state.userID
               ? html`
                   <edit-bar
@@ -123,9 +115,7 @@ export class CmtView extends BaseElement {
                 `
               : ''}
           </div>
-          <div>
-            ${unsafeHTML(cmt.content)}
-          </div>
+          <div>${unsafeHTML(cmt.content)}</div>
           ${editorHTML}
         </div>
       </div>
@@ -207,10 +197,7 @@ export class CmtView extends BaseElement {
       return;
     }
     const loader = new GetCmtSourceLoader(cmt.id);
-    const res = await app.runLocalActionAsync(
-      loader,
-      (s) => (this.srcLoadingStatus = s),
-    );
+    const res = await app.runLocalActionAsync(loader, (s) => (this.srcLoadingStatus = s));
 
     const { composerElement } = this;
     if (res.data && composerElement) {
@@ -226,12 +213,7 @@ export class CmtView extends BaseElement {
     }
     if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
-      const loader = new DeleteCmtLoader(
-        cmt.id,
-        this.hostType,
-        this.hostID,
-        isReply(cmt),
-      );
+      const loader = new DeleteCmtLoader(cmt.id, this.hostType, this.hostID, isReply(cmt));
       const status = await app.runGlobalActionAsync(loader, ls.working);
       if (status.isSuccess) {
         this.dispatchEvent(new CustomEvent<undefined>('cmtDeleted'));

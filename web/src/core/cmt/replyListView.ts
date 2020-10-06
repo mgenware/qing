@@ -89,9 +89,7 @@ export class ReplyListView extends BaseElement {
           ${this.totalCount
             ? html`
                 <div>
-                  <small class="is-secondary"
-                    >${formatLS(ls.pNOReplies, this.totalCount)}</small
-                  >
+                  <small class="is-secondary">${formatLS(ls.pNOReplies, this.totalCount)}</small>
                 </div>
               `
             : html``}

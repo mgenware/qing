@@ -24,9 +24,7 @@ export class AddCmtApp extends BaseElement {
     if (!this.expanded) {
       return html`
         <p>
-          <qing-button
-            btnStyle="success"
-            @click=${this.handleCommentButtonClick}
+          <qing-button btnStyle="success" @click=${this.handleCommentButtonClick}
             >${ls.writeAComment}</qing-button
           >
         </p>

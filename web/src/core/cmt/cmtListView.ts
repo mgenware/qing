@@ -63,10 +63,7 @@ export class CmtListView extends BaseElement {
     let titleGroup = html` <h2>${ls.comments}</h2> `;
     let contentGroup = html``;
 
-    if (
-      !totalCount &&
-      (collectorLoadingStatus.isSuccess || collectorLoadingStatus.isEmpty)
-    ) {
+    if (!totalCount && (collectorLoadingStatus.isSuccess || collectorLoadingStatus.isEmpty)) {
       titleGroup = html`
         ${titleGroup}
         <p>${ls.noComment}</p>
@@ -90,15 +87,11 @@ export class CmtListView extends BaseElement {
       }
       contentGroup = html`
         <div>
-          <div>
-            ${childViews}
-          </div>
+          <div>${childViews}</div>
           ${this.totalCount
             ? html`
                 <div>
-                  <small class="is-secondary"
-                    >${formatLS(ls.pNOComments, this.totalCount)}</small
-                  >
+                  <small class="is-secondary">${formatLS(ls.pNOComments, this.totalCount)}</small>
                 </div>
               `
             : html``}
@@ -158,10 +151,7 @@ export class CmtListView extends BaseElement {
     this.cmtCollector?.prepend([e.detail.cmt]);
   }
 
-  private handleRootCmtDeleted(
-    index: number,
-    detail: CmtCountChangedEventDetail,
-  ) {
+  private handleRootCmtDeleted(index: number, detail: CmtCountChangedEventDetail) {
     this.cmtCollector?.deleteByIndex(index);
     // Total number of comments is down by 1 (this comment) plus all its replies.
     // `detail.count` can be undefined if the comment doesn't contain any replies.

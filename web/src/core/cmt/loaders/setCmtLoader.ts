@@ -21,11 +21,7 @@ export interface SetCmtResponse {
 }
 
 export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
-  static newCmt(
-    hostID: string,
-    hostType: EntityType,
-    contentData: ComposerContent,
-  ): SetCmtLoader {
+  static newCmt(hostID: string, hostType: EntityType, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
       hostID,
       hostType,
