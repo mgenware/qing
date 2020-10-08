@@ -9,12 +9,12 @@ import (
 	"os"
 	"qing/app/extern"
 	"qing/app/handler"
+	"qing/app/handler/assetmgr"
 	"qing/app/servicex"
 	"qing/app/urlx"
 	"qing/app/userx"
 
 	"qing/app/cfg"
-	"qing/app/handler/asset"
 	"qing/app/logx"
 
 	// Load MySQL driver
@@ -140,7 +140,7 @@ func mustSetupLogger() {
 func mustSetupTemplates(config *cfg.Config) {
 	templatesConfig := config.Templates
 	localizationConfig := config.Localization
-	assMgr := asset.NewAssetsManager(Config.HTTP.Static.Dir, Config.Debug != nil)
+	assMgr := assetmgr.NewAssetsManager(Config.HTTP.Static.Dir, Config.Debug != nil)
 	TemplateManager = handler.MustCreateManager(templatesConfig.Dir, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr, Logger, config)
 }
 

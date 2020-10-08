@@ -1,5 +1,6 @@
-package asset
+package assetmgr
 
+// CSSManager manages CSS assets.
 type CSSManager struct {
 	dev     bool
 	BaseDir string

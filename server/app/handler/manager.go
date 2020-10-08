@@ -14,7 +14,7 @@ import (
 	txt "text/template"
 
 	"qing/app/defs"
-	"qing/app/handler/asset"
+	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 	"qing/app/logx"
 
@@ -33,7 +33,7 @@ type Manager struct {
 	masterView          *LocalizedView
 	errorView           *LocalizedView
 	LocalizationManager *localization.Manager
-	AssetsManager       *asset.AssetsManager
+	AssetsManager       *assetmgr.AssetsManager
 	logger              *logx.Logger
 }
 
@@ -42,7 +42,7 @@ func MustCreateManager(
 	dir string,
 	i18nDir string,
 	defaultLang string,
-	assetMgr *asset.AssetsManager,
+	assetMgr *assetmgr.AssetsManager,
 	logger *logx.Logger,
 	config *cfg.Config,
 ) *Manager {

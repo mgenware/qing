@@ -1,4 +1,4 @@
-package asset
+package assetmgr
 
 import (
 	"errors"
@@ -28,12 +28,14 @@ func match(rootDir string, file string) (string, error) {
 	return "/static/" + rel, nil
 }
 
+// AssetsManager manages external file resources, usually JS and CSS files.
 type AssetsManager struct {
 	JS      *JSManager
 	CSS     *CSSManager
 	devMode bool
 }
 
+// NewAssetsManager creates a new AssetsManager.
 func NewAssetsManager(baseDir string, devMode bool) *AssetsManager {
 	jsm := NewJSManager(devMode)
 	cssm := &CSSManager{BaseDir: baseDir, dev: devMode}

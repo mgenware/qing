@@ -1,4 +1,4 @@
-package asset
+package assetmgr
 
 func htmlScript(src string) string {
 	return "<script src=\"" + src + "\"></script>"
@@ -16,6 +16,7 @@ func libJS(name string) string {
 	return htmlScript("/static/lib/" + name + ".js")
 }
 
+// JSManager manages JS assets.
 type JSManager struct {
 	dev bool
 
