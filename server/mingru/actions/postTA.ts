@@ -25,7 +25,7 @@ export class PostTA extends mm.TableActions {
   selectPostsForUserProfile = mm
     .selectPage(...coreCols)
     .by(t.user_id)
-    .orderByDesc(t.created_at);
+    .orderByInput(t.created_at, t.modified_at, t.likes, t.cmt_count);
 
   selectPostSource = mm.select(t.title, t.content).whereSQL(updateConditions);
 

@@ -309,6 +309,14 @@ func (da *TableTypePost) SelectPostsForDashboard(queryable mingru.Queryable, use
 	return result, itemCounter > len(result), nil
 }
 
+// PostTableSelectPostsForUserProfileOrderBy1 ...
+const (
+	PostTableSelectPostsForUserProfileOrderBy1CreatedAt = iota
+	PostTableSelectPostsForUserProfileOrderBy1ModifiedAt
+	PostTableSelectPostsForUserProfileOrderBy1Likes
+	PostTableSelectPostsForUserProfileOrderBy1CmtCount
+)
+
 // PostTableSelectPostsForUserProfileResult ...
 type PostTableSelectPostsForUserProfileResult struct {
 	ID         uint64     `json:"-"`
@@ -320,11 +328,29 @@ type PostTableSelectPostsForUserProfileResult struct {
 }
 
 // SelectPostsForUserProfile ...
-func (da *TableTypePost) SelectPostsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectPostsForUserProfileResult, bool, error) {
+func (da *TableTypePost) SelectPostsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*PostTableSelectPostsForUserProfileResult, bool, error) {
+	var orderBy1SQL string
+	switch orderBy1 {
+	case PostTableSelectPostsForUserProfileOrderBy1CreatedAt:
+		orderBy1SQL = "`created_at`"
+	case PostTableSelectPostsForUserProfileOrderBy1ModifiedAt:
+		orderBy1SQL = "`modified_at`"
+	case PostTableSelectPostsForUserProfileOrderBy1Likes:
+		orderBy1SQL = "`likes`"
+	case PostTableSelectPostsForUserProfileOrderBy1CmtCount:
+		orderBy1SQL = "`cmt_count`"
+	default:
+		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		return nil, false, err
+	}
+	if orderBy1Desc {
+		orderBy1SQL += " DESC"
+	}
+
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `likes` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `cmt_count`, `likes` FROM `post` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

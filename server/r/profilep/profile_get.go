@@ -29,7 +29,7 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	userData := NewProfileDataFromUser(user)
 
 	// Populate posts
-	posts, hasNext, err := da.Post.SelectPostsForUserProfile(app.DB, uid, page, defs.UserPostsLimit)
+	posts, hasNext, err := da.Post.SelectPostsForUserProfile(app.DB, uid, page, defs.UserPostsLimit, da.PostTableSelectPostsForUserProfileOrderBy1CreatedAt, true)
 	app.PanicIfErr(err)
 	var sb strings.Builder
 	for _, post := range posts {
