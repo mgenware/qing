@@ -28,8 +28,8 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 - Database
   - MariaDB (or compatible versions of MySQL)
 - External dependencies
-  - redis: in-memory cache
-  - imagemagick: image processing
+  - Redis: in-memory cache
+  - ImageMagick: image processing
 
 Qing intended to run on docker in future.
 
