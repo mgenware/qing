@@ -13,8 +13,8 @@ export abstract class MPListView<T> extends BaseElement {
     return [
       super.styles,
       css`
-        :host {
-          display: block;
+        .sortable-th {
+          cursor: pointer;
         }
       `,
     ];
@@ -27,6 +27,9 @@ export abstract class MPListView<T> extends BaseElement {
   @lp.number private shownCount = 0;
   @lp.number private page = 1;
   @lp.number private pageSize = defaultPageSize;
+
+  currentSortedColumn = '';
+  currentSortedColumnDesc = false;
 
   render() {
     const { loadingStatus } = this;
@@ -54,16 +57,30 @@ export abstract class MPListView<T> extends BaseElement {
   }
 
   firstUpdated() {
-    this.startLoading(1, defaultPageSize);
+    this.startLoading(1, defaultPageSize, this.currentSortedColumn, this.currentSortedColumnDesc);
   }
 
   abstract sectionTitle(): string;
   abstract renderTable(): TemplateResult | null;
   abstract async loadItems(page: number, pageSize: number): Promise<PaginatedList<T> | null>;
 
-  async startLoading(page: number, pageSize: number): Promise<void> {
+  async startLoading(
+    page: number,
+    pageSize: number,
+    sortedColumn: string,
+    desc: boolean,
+  ): Promise<void> {
+    if (!sortedColumn) {
+      throw new Error('`sortedColumn` is empty');
+    }
+
+    // Store loading params locally. When loading failed,
+    // those params can be picked up to restart a request.
     this.page = page;
     this.pageSize = pageSize;
+    this.currentSortedColumn = sortedColumn;
+    this.currentSortedColumnDesc = desc;
+
     const paginatedList = await this.loadItems(page, pageSize);
     if (paginatedList) {
       this.items = paginatedList.items;
@@ -72,11 +89,29 @@ export abstract class MPListView<T> extends BaseElement {
     }
   }
 
+  renderSortableColumn(name: string) {
+    const content =
+      this.currentSortedColumn === name
+        ? html`${name}&nbsp;${this.currentSortedColumnDesc ? '▼' : '▲'}`
+        : html`${name}`;
+    return html`<th class="sortable-th">${content}</th>`;
+  }
+
   private async handleRetry() {
-    await this.startLoading(this.page, this.pageSize);
+    await this.startLoading(
+      this.page,
+      this.pageSize,
+      this.currentSortedColumn,
+      this.currentSortedColumnDesc,
+    );
   }
 
   private async handleGotoPage(e: CustomEvent<number>) {
-    await this.startLoading(e.detail, this.pageSize);
+    await this.startLoading(
+      e.detail,
+      this.pageSize,
+      this.currentSortedColumn,
+      this.currentSortedColumnDesc,
+    );
   }
 }

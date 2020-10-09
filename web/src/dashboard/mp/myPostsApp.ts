@@ -1,4 +1,4 @@
-import { html, customElement, TemplateResult } from 'lit-element';
+import { html, customElement, TemplateResult, css } from 'lit-element';
 import ls from 'ls';
 import app from 'app';
 import PaginatedList from 'lib/api/paginatedList';
@@ -7,6 +7,23 @@ import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
 
 @customElement('my-posts-app')
 export default class MyPostsApp extends MPListView<DashboardPost> {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
+  constructor() {
+    super();
+    this.currentSortedColumn = ls.dateCreated;
+    this.currentSortedColumnDesc = true;
+  }
+
   async loadItems(page: number, pageSize: number): Promise<PaginatedList<DashboardPost> | null> {
     const loader = new GetMyPostsLoader(page, pageSize);
     const res = await app.runLocalActionAsync(loader, (st) => (this.loadingStatus = st));
@@ -21,7 +38,7 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
     return html`
       <thead>
         <th>${ls.title}</th>
-        <th>${ls.dateCreated}</th>
+        ${this.renderSortableColumn(ls.dateCreated)}
         <th>${ls.comments}</th>
         <th>${ls.likes}</th>
       </thead>

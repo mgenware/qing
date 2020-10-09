@@ -498,6 +498,14 @@ a:visited {
   background-color: var(--highlight-color);
 }
 
+.app-table thead {
+  border-bottom: 1px solid var(--default-separator-color);
+}
+
+.app-table th {
+  white-space: nowrap;
+}
+
 input.app-inline-text-input {
   background-color: transparent;
   color: var(--default-fore-color);
