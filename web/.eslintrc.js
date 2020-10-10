@@ -10,12 +10,7 @@ module.exports = {
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-plusplus': 'off',
     // Allow `for-of` loops.
-    'no-restricted-syntax': [
-      'error',
-      'ForInStatement',
-      'LabeledStatement',
-      'WithStatement',
-    ],
+    'no-restricted-syntax': ['error', 'ForInStatement', 'LabeledStatement', 'WithStatement'],
     '@typescript-eslint/lines-between-class-members': [
       'error',
       'always',
@@ -40,7 +35,7 @@ module.exports = {
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/naming-convention': 'off',
-    // Sometimes, we need both WC file and their typings both imported to avoid
+    // Sometimes, we need both web component files and their typings imported to avoid
     // unwanted tree-shaking.
     'import/no-duplicates': 'off',
   },
