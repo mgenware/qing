@@ -1,4 +1,4 @@
-import { html, customElement, TemplateResult } from 'lit-element';
+import { html, customElement, TemplateResult, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import 'ui/cm/timeField';
@@ -13,6 +13,21 @@ import { SetCmtResponse } from './loaders/setCmtLoader';
 
 @customElement('reply-list-view')
 export class ReplyListView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+
+        .reply-block {
+          margin-left: 65px;
+        }
+      `,
+    ];
+  }
+
   @lp.string hostID = '';
   @lp.number hostType: EntityType = 0;
   @lp.object cmt: Cmt | null = null;

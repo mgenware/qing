@@ -1,49 +1,66 @@
-/* Responsive link */
+/**********************************************************
+  Core styles, available to all components and templates.
+ **********************************************************/
+
+/* Responsive link ------------------------- */
 a {
   overflow-wrap: break-word;
   word-break: break-all;
+  color: var(--primary-back-color);
+  text-decoration: none;
+  cursor: hand;
+}
+a:hover {
+  filter: brightness(120%);
+}
+a:active {
+  filter: brightness(80%);
+}
+a:visited {
+  filter: brightness(80%);
 }
 
+/* Link button, used in profile page ------------------------- */
+a.link-btn:link,
+a.link-btn:visited {
+  color: var(--primary-back-color);
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+a.link-btn:hover,
+a.link-btn:active {
+  opacity: 0.8;
+}
+
+/* Body ------------------------- */
+body {
+  background-color: var(--default-back-color);
+  color: var(--default-fore-color);
+}
+
+/* Responsive image ------------------------- */
 img {
   max-width: 100%;
   height: auto;
 }
 
-full-width {
-  width: 100%;
-}
-
-.md-content p {
-  font-size: 1.2rem;
-  line-height: 2.2rem;
-}
-
-.md-content ul,
-.md-content ol {
-  font-size: 1.2rem;
-  line-height: 2rem;
-}
-
+/* Alignment helpers ------------------------- */
 .text-center {
   text-align: center;
 }
-
 .vertical-align-middle {
   vertical-align: middle;
 }
-.vertical-align-baseline {
-  vertical-align: baseline;
-}
 
+/* Visibility helpers ------------------------- */
 .content-disabled {
   pointer-events: none;
   opacity: 0.4;
 }
 
-.cursor-hand {
-  cursor: pointer;
-}
-
+/* Flexbox helpers ------------------------- */
 .flex-full {
   flex: 1 1 0;
   min-width: 0;
@@ -56,47 +73,7 @@ full-width {
   flex-direction: column;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
-.is-secondary {
-  color: var(--default-secondary-fore-color) !important;
-}
-
-.is-boxed {
-  border-top: 1px solid var(--default-separator-color);
-  border-bottom: 1px solid var(--default-separator-color);
-}
-
-@media (min-width: 768px) {
-  .is-boxed {
-    border: 1px solid var(--default-separator-color);
-    border-radius: 0.5rem;
-    padding: 0.8rem 1.6rem;
-  }
-}
-
-blockquote {
-  background: #f9f9f9;
-  border-left: 10px solid #ccc;
-  margin: 1.5em 10px;
-  padding: 0.5em 10px;
-  quotes: '\201C''\201D''\2018''\2019';
-}
-blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  margin-right: 0.25em;
-  vertical-align: -0.4em;
-}
-blockquote p {
-  display: inline;
-}
-
-/* Common spacing styles ------------------------- */
+/* Spacing helpers ------------------------- */
 .m-none {
   margin: 0;
 }
@@ -338,8 +315,7 @@ blockquote p {
   padding-left: 8rem;
 }
 
-/* Sticky footer styles
-  -------------------------------------------------- */
+/* Sticky footer used in master page ------------------------- */
 html {
   position: relative;
   min-height: 100%;
@@ -367,69 +343,19 @@ body {
   color: var(--footer-fore-color);
 }
 
-/** http://www.rgagnon.com/jsdetails/js-nice-effect-the-KBD-tag.html */
-kbd {
-  margin: 0px 0.1em;
-  padding: 0.1em 0.6em;
-  border-radius: 3px;
-  border: 1px solid rgb(204, 204, 204);
-  color: rgb(51, 51, 51);
-  line-height: 1.4;
-  font-family: Arial, Helvetica, sans-serif;
-  display: inline-block;
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 2px #ffffff;
-}
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
+/* [TODO: Remove?] Profile page styles ------------------------- */
+.is-boxed {
   border-top: 1px solid var(--default-separator-color);
-  margin: 0.8rem 0;
-  padding: 0;
+  border-bottom: 1px solid var(--default-separator-color);
 }
 
-/** Use by all custom form controls */
-label.app-form-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.5rem;
+@media (min-width: 768px) {
+  .is-boxed {
+    border: 1px solid var(--default-separator-color);
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.6rem;
+  }
 }
-
-a.link-btn:link,
-a.link-btn:visited {
-  color: var(--primary-back-color);
-  padding: 12px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
-
-a.link-btn:hover,
-a.link-btn:active {
-  opacity: 0.8;
-}
-
-body {
-  background-color: var(--default-back-color);
-  color: var(--default-fore-color);
-}
-
-a {
-  color: var(--primary-back-color);
-  text-decoration: none;
-  cursor: hand;
-}
-a:hover {
-  filter: brightness(120%);
-}
-a:active {
-  filter: brightness(80%);
-}
-a:visited {
-  filter: brightness(80%);
-}
-
 .avatar-s {
   border-radius: 2px;
 }
@@ -439,18 +365,29 @@ a:visited {
 .avatar-l {
   border-radius: 6px;
 }
-
 .tag-default {
   border-radius: 5px;
   padding: 0.2rem 0.7rem;
 }
 
-.reply-block {
-  margin-left: 65px;
+/* Form helpers ------------------------- */
+label.app-form-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-/** Table **/
+input.app-inline-text-input {
+  background-color: transparent;
+  color: var(--default-fore-color);
+  border: 1px solid var(--default-separator-color);
+}
 
+input.app-inline-text-input:invalid {
+  border-color: var(--danger-fore-color);
+}
+
+/* Table ------------------------- */
 .app-table {
   border-collapse: collapse;
   width: 100%;
@@ -473,14 +410,4 @@ a:visited {
 
 .app-table th {
   white-space: nowrap;
-}
-
-input.app-inline-text-input {
-  background-color: transparent;
-  color: var(--default-fore-color);
-  border: 1px solid var(--default-separator-color);
-}
-
-input.app-inline-text-input:invalid {
-  border-color: var(--danger-fore-color);
 }

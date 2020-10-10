@@ -1,7 +1,12 @@
+/**********************************************************
+  Core colors
+ **********************************************************/
+
+/* Default theme (light) ------------------------- */
 :root {
   --default-back-color: white;
+  --default-secondary-back-color: #e4e4e4;
   --default-fore-color: black;
-
   --default-secondary-fore-color: #676f75;
   --default-primary-fore-color: #4f81c7;
   --default-danger-fore-color: #d11e30;
@@ -33,8 +38,10 @@
   --highlight-color: rgba(0, 0, 0, 0.11);
 }
 
+/* Dark theme ------------------------- */
 .theme-dark {
   --default-back-color: black;
+  --default-secondary-back-color: #2a2a2a;
   --default-fore-color: #777777;
   --default-secondary-fore-color: #5a5a5a;
   --default-primary-fore-color: #35588a;
@@ -69,45 +76,67 @@
   --highlight-color: rgba(255, 255, 255, 0.11);
 }
 
+/**********************************************************
+  Component theme support
+ **********************************************************/
+
+/* Common styles ------------------------- */
+.is-secondary {
+  color: var(--default-secondary-fore-color) !important;
+}
+
+/* HTML components ------------------------- */
+blockquote {
+  background: var(--default-secondary-back-color);
+  border-left: 10px solid var(--default-secondary-fore-color);
+  margin: 1.5rem 10px;
+  padding: 0.5rem 10px;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid var(--default-separator-color);
+  margin: 0.8rem 0;
+  padding: 0;
+}
+
+/* qing-button ------------------------- */
 qing-button::part(button) {
   background-color: var(--info-back-color);
   color: var(--info-fore-color);
   --button-outline-color: var(--keyboard-focus-color);
 }
-
 qing-button[btnStyle='success']::part(button) {
   background-color: var(--success-back-color);
   color: var(--success-fore-color);
 }
-
 qing-button[btnStyle='danger']::part(button) {
   background-color: var(--danger-back-color);
   color: var(--danger-fore-color);
 }
-
 qing-button[btnStyle='primary']::part(button) {
   background-color: var(--primary-back-color);
   color: var(--primary-fore-color);
 }
-
 qing-button[btnStyle='warning']::part(button) {
   background-color: var(--warning-back-color);
   color: var(--warning-fore-color);
 }
 
+/* qing-dialog ------------------------- */
 qing-dialog::part(overlay) {
   background-color: var(--default-back-color);
   color: var(--default-fore-color);
   border-radius: 4px;
   border: 1px solid var(--default-separator-color);
 }
-
 qing-dialog::part(footer-button) {
   background-color: var(--info-back-color);
   color: var(--info-fore-color);
   --button-outline-color: var(--keyboard-focus-color);
 }
-
 qing-dialog .icon-success {
   fill: var(--default-success-fore-color);
 }
@@ -118,18 +147,16 @@ qing-dialog .icon-error {
   fill: var(--default-danger-fore-color);
 }
 
+/* alert-view ------------------------- */
 alert-view[alertStyle='success'] {
   --alert-border-color: var(--default-success-fore-color);
 }
-
 alert-view[alertStyle='danger'] {
   --alert-border-color: var(--default-danger-fore-color);
 }
-
 alert-view[alertStyle='primary'] {
   --alert-border-color: var(--default-primary-fore-color);
 }
-
 alert-view[alertStyle='warning'] {
   --alert-border-color: var(--default-warning-fore-color);
 }

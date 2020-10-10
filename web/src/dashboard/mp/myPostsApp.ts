@@ -1,6 +1,7 @@
 import { html, customElement, TemplateResult, css } from 'lit-element';
 import ls from 'ls';
 import app from 'app';
+import routes from 'routes';
 import PaginatedList from 'lib/api/paginatedList';
 import { MPListView } from './views/mpListView';
 import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
@@ -30,8 +31,15 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
     return res?.data || null;
   }
 
-  sectionTitle(): string {
-    return ls.yourPosts;
+  sectionHeader(): TemplateResult {
+    return html`
+      <div class="row align-items-center">
+        <div class="col">${ls.yourPosts}</div>
+        <div class="col-auto">
+          <qing-button btnStyle="success" href=${routes.home.newPost}>${ls.newPost}</qing-button>
+        </div>
+      </div>
+    `;
   }
 
   renderTable(): TemplateResult | null {

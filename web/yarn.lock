@@ -2753,10 +2753,10 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-qing-button@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-6.0.0.tgz#7e839b5293dd6c0401565a90718496cc5481c56e"
-  integrity sha512-PgIHXLItjJ0ZIFj1GO44Gh/Lz+U+S54+ciWnOWo/jlK6FmFauf4b1xe9afW0s+2XiAO9fE7t2/Mfs5MKwbRM4w==
+qing-button@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-6.1.0.tgz#34ef41079d411e5360278050f6308983f6426e5a"
+  integrity sha512-yJliW6yr0gumwEc9Do1VevkR3QSB7m3UFdBMc3pCuJfVQoHKPVsPQhLRUcTQHp0udGcjB7A/N2VhNr95gjUkOQ==
 
 qing-dialog-component@^0.3.0:
   version "0.3.0"

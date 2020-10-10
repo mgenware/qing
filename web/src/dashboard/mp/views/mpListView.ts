@@ -42,7 +42,7 @@ export abstract class MPListView<T> extends BaseElement {
       ></status-view>`;
     }
     return html`
-      <section-view type="info">${this.sectionTitle()}</section-view>
+      <section-view type="info">${this.sectionHeader()}</section-view>
       <table class="app-table">
         ${this.renderTable()}
       </table>
@@ -61,7 +61,7 @@ export abstract class MPListView<T> extends BaseElement {
     this.startLoading(1, defaultPageSize, this.currentSortedColumn, this.currentSortedColumnDesc);
   }
 
-  abstract sectionTitle(): string;
+  abstract sectionHeader(): TemplateResult | null;
   abstract renderTable(): TemplateResult | null;
   abstract async loadItems(page: number, pageSize: number): Promise<PaginatedList<T> | null>;
 
