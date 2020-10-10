@@ -10,13 +10,13 @@
   "devDependencies": {
     "clean-css-cli": "^4.3.0",
     "concat": "^1.0.3",
-    "daizong": "^0.7.0"
+    "daizong": "^0.11.0"
   },
   "files": [
     "/dist/stylelib.min.css"
   ],
   "dependencies": {
     "bootstrap": "^5.0.0-alpha1",
-    "modern-normalize": "^0.6.0"
+    "modern-normalize": "^1.0.0"
   }
 }
