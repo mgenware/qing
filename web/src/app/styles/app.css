@@ -1,5 +1,9 @@
 /**********************************************************
-  Core styles, available to all components and templates.
+  Common styles, available to all components and templates.
+
+  NOTE: For theme-related styles, refer to `themes.css`.
+  Please keep this file as small as possible by moving styles
+  to components.
  **********************************************************/
 
 /* Responsive link ------------------------- */

@@ -1,102 +1,88 @@
-<section class="section">
-  <div id="profile-main" class="container">
-    <div class="row">
-      <div class="col-md-auto">
-        <div class="text-center">
-          <p>
-            <img src="{{.IconURL}}" width="250" height="250" class="avatar-l" />
-          </p>
-        </div>
+<container-view>
+  <div class="row">
+    <div class="col-md-auto">
+      <div class="text-center">
+        <p>
+          <img src="{{.IconURL}}" width="250" height="250" class="avatar-l" />
+        </p>
       </div>
-      <div class="col-md">
-        <h2>{{html .Name}}</h2>
-        <hr />
-
-        <!-- info -->
-        <div class="m-t-lg m-b-lg">
-          {{if .Location}}
-          <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.Location}}</span>
-          </p>
-          <p class="m-t-sm">{{html .Location}}</p>
-          {{end}} {{if .Company}}
-          <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.Company}}</span>
-          </p>
-          <p class="m-t-sm">{{html .Company}}</p>
-          {{end}} {{if .Website}}
-          <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.Url}}</span>
-          </p>
-          <p class="m-t-sm">
-            <a id="m_user_url" href="#">{{html .Website}}</a>
-          </p>
-          {{end}} {{if .Bio}}
-          <p class="m-t-md">
-            <span class="tag-default is-info">{{html .LS.Bio}}</span>
-          </p>
-          <p class="m-t-sm">{{.Bio}}</p>
-          {{end}}
-        </div>
-      </div>
-      <!-- column 2 -->
     </div>
+    <div class="col-md">
+      <h2>{{html .Name}}</h2>
+      <hr />
 
-    <div class="row m-t-md" id="m-profile-posts">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 is-boxed">
-        <div class="box">
-          <div class="link-black link-nounderline">
-            <div class="columns is-mobile">
-              <div class="column">
-                <p>
-                  <span class="is-secondary">{{html .LS.Posts}}</span>
-                  <span class="is-h3 m-l-md vertical-align-middle"
-                    >{{html .PostCount}}</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-          <div id="m-scroll-list"></div>
-          <div class="m-t-md tabs is-medium">
-            <ul class="m-t-md">
-              <li id="m-tab-p">{{html .LS.Posts}}</li>
-            </ul>
-          </div>
-          <!-- tab div -->
-          <div>
-            <div class="m-t-sm">
-              {{.FeedListHTML}}
-            </div>
+      <!-- info -->
+      <div class="m-t-lg m-b-lg">
+        {{if .Location}}
+        <p class="m-t-md">
+          <span class="tag-default is-info">{{html .LS.Location}}</span>
+        </p>
+        <p class="m-t-sm">{{html .Location}}</p>
+        {{end}} {{if .Company}}
+        <p class="m-t-md">
+          <span class="tag-default is-info">{{html .LS.Company}}</span>
+        </p>
+        <p class="m-t-sm">{{html .Company}}</p>
+        {{end}} {{if .Website}}
+        <p class="m-t-md">
+          <span class="tag-default is-info">{{html .LS.Url}}</span>
+        </p>
+        <p class="m-t-sm">
+          <a id="m_user_url" href="#">{{html .Website}}</a>
+        </p>
+        {{end}} {{if .Bio}}
+        <p class="m-t-md">
+          <span class="tag-default is-info">{{html .LS.Bio}}</span>
+        </p>
+        <p class="m-t-sm">{{.Bio}}</p>
+        {{end}}
+      </div>
+    </div>
+    <!-- column 2 -->
+  </div>
 
-            <div>
-              <p class="text-center">
-                <a
-                  id="m-prev-btn"
-                  class="link-btn"
-                  href="{{.Pager.PrevPageURL}}"
-                >
-                  {{html .LS.PreviousPage}}
-                </a>
-                <a
-                  id="m-next-btn"
-                  class="link-btn"
-                  href="{{.Pager.NextPageURL}}"
-                >
-                  {{html .LS.NextPage}}
-                </a>
+  <div class="row m-t-md" id="m-profile-posts">
+    <div class="col-md-1"></div>
+    <div class="col-md-10 is-boxed">
+      <div class="box">
+        <div class="link-black link-nounderline">
+          <div class="columns is-mobile">
+            <div class="column">
+              <p>
+                <span class="is-secondary">{{html .LS.Posts}}</span>
+                <span class="is-h3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
               </p>
             </div>
           </div>
-          <!-- feed list -->
         </div>
+        <div id="m-scroll-list"></div>
+        <div class="m-t-md tabs is-medium">
+          <ul class="m-t-md">
+            <li id="m-tab-p">{{html .LS.Posts}}</li>
+          </ul>
+        </div>
+        <!-- tab div -->
+        <div>
+          <div class="m-t-sm">{{.FeedListHTML}}</div>
+
+          <div>
+            <p class="text-center">
+              <a id="m-prev-btn" class="link-btn" href="{{.Pager.PrevPageURL}}">
+                {{html .LS.PreviousPage}}
+              </a>
+              <a id="m-next-btn" class="link-btn" href="{{.Pager.NextPageURL}}">
+                {{html .LS.NextPage}}
+              </a>
+            </p>
+          </div>
+        </div>
+        <!-- feed list -->
       </div>
-      <div class="col-md-1"></div>
     </div>
-    <!-- <div class="row m-t-md"> -->
+    <div class="col-md-1"></div>
   </div>
-</section>
+  <!-- <div class="row m-t-md"> -->
+</container-view>
 
 <script>
   window.appUserURL = '{{js .UserURL}}';
