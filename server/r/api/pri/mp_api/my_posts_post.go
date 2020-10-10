@@ -10,6 +10,16 @@ import (
 	"qing/r/api/apidata"
 )
 
+var columnNameToEnumMap map[string]int
+
+func init() {
+	columnNameToEnumMap = map[string]int{
+		app.Constants.ColumnComments: da.PostTableSelectPostsForDashboardOrderBy1CmtCount,
+		app.Constants.ColumnCreated:  da.PostTableSelectPostsForDashboardOrderBy1CreatedAt,
+		app.Constants.ColumnLikes:    da.PostTableSelectPostsForDashboardOrderBy1Likes,
+	}
+}
+
 type dashboardPost struct {
 	da.PostTableSelectPostsForDashboardResult
 
@@ -31,8 +41,10 @@ func myPostsPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	page := validator.MustGetIntFromDict(params, "page")
 	pageSize := validator.MustGetIntFromDict(params, "pageSize")
+	sortBy := validator.MustGetStringFromDict(params, "sort", app.Constants.MaxGenericStringLen)
+	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
-	rawPosts, hasNext, err := da.Post.SelectPostsForDashboard(app.DB, uid, page, pageSize)
+	rawPosts, hasNext, err := da.Post.SelectPostsForDashboard(app.DB, uid, page, pageSize, columnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)
 
 	postCount, err := da.User.SelectPostCount(app.DB, uid)

@@ -7,12 +7,16 @@ package app
 
 // SharedConstants ...
 type SharedConstants struct {
-	ErrInvalidUserOrPwd int `json:"errInvalidUserOrPwd"`
-	MaxPostTitleLen     int `json:"maxPostTitleLen"`
-	MaxUserEmailLen     int `json:"maxUserEmailLen"`
-	MaxUserNameLen      int `json:"maxUserNameLen"`
-	MaxUserPwdLen       int `json:"maxUserPwdLen"`
-	MinUserPwdLen       int `json:"minUserPwdLen"`
+	ColumnComments      string `json:"columnComments"`
+	ColumnCreated       string `json:"columnCreated"`
+	ColumnLikes         string `json:"columnLikes"`
+	ErrInvalidUserOrPwd int    `json:"errInvalidUserOrPwd"`
+	MaxGenericStringLen int    `json:"maxGenericStringLen"`
+	MaxPostTitleLen     int    `json:"maxPostTitleLen"`
+	MaxUserEmailLen     int    `json:"maxUserEmailLen"`
+	MaxUserNameLen      int    `json:"maxUserNameLen"`
+	MaxUserPwdLen       int    `json:"maxUserPwdLen"`
+	MinUserPwdLen       int    `json:"minUserPwdLen"`
 }
 
 // Constants ...
@@ -20,7 +24,11 @@ var Constants *SharedConstants
 
 func init() {
 	Constants = &SharedConstants{
+		ColumnComments:      "comments",
+		ColumnCreated:       "createdAt",
+		ColumnLikes:         "likes",
 		ErrInvalidUserOrPwd: 1,
+		MaxGenericStringLen: 100,
 		MaxPostTitleLen:     200,
 		MaxUserEmailLen:     200,
 		MaxUserNameLen:      200,

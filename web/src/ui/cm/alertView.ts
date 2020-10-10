@@ -1,6 +1,7 @@
 import { customElement, css, html } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
+import 'ui/cm/sectionView';
 
 export type AlertViewStyle = 'primary' | 'success' | 'danger' | 'warning' | '';
 
@@ -14,7 +15,7 @@ export class AlertView extends BaseElement {
           display: block;
         }
 
-        div {
+        section-view {
           border: 1px solid var(--alert-border-color, var(--default-secondary-fore-color));
           border-left-width: 5px;
         }
@@ -26,9 +27,9 @@ export class AlertView extends BaseElement {
 
   render() {
     return html`
-      <div class="section">
+      <section-view>
         <slot></slot>
-      </div>
+      </section-view>
     `;
   }
 }

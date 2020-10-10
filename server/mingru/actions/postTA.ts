@@ -25,14 +25,14 @@ export class PostTA extends mm.TableActions {
   selectPostsForUserProfile = mm
     .selectPage(...coreCols)
     .by(t.user_id)
-    .orderByInput(t.created_at, t.modified_at, t.likes, t.cmt_count);
+    .orderByDesc(t.created_at);
 
   selectPostSource = mm.select(t.title, t.content).whereSQL(updateConditions);
 
   selectPostsForDashboard = mm
     .selectPage(...coreCols)
     .by(t.user_id)
-    .orderByDesc(t.created_at);
+    .orderByInput(t.created_at, t.likes, t.cmt_count);
   deletePosts = mm.deleteSome().whereSQL(batchUpdateConditions);
 
   selectCmts = cmtf.selectCmts(postCmt);

@@ -17,7 +17,6 @@ export class SectionView extends BaseElement {
 
         .section {
           padding: 0.75rem 1rem;
-          margin-bottom: 0.8rem;
           border-radius: 5px;
         }
 

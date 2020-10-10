@@ -1,3 +1,4 @@
+import PaginatedList from 'lib/api/paginatedList';
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
 
@@ -11,8 +12,13 @@ export interface DashboardPost {
   modifiedAt: string;
 }
 
-export class GetMyPostsLoader extends BaseLoader<void> {
-  constructor(public page: number, public pageSize: number) {
+export class GetMyPostsLoader extends BaseLoader<PaginatedList<DashboardPost>> {
+  constructor(
+    public page: number,
+    public pageSize: number,
+    public sortedColumn: string,
+    public desc: boolean,
+  ) {
     super();
   }
 
@@ -24,6 +30,8 @@ export class GetMyPostsLoader extends BaseLoader<void> {
     const ret = {
       page: this.page,
       pageSize: this.pageSize,
+      sort: this.sortedColumn,
+      desc: +this.desc,
     };
     return ret;
   }

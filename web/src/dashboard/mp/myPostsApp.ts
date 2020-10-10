@@ -1,13 +1,15 @@
 import { html, customElement, TemplateResult, css } from 'lit-element';
 import ls from 'ls';
-import app from 'app';
 import routes from 'routes';
+import 'ui/cm/timeField';
 import PaginatedList from 'lib/api/paginatedList';
-import { MPListView } from './views/mpListView';
+import Loader from 'lib/loader';
+import { columnCreated, columnLikes, columnComments } from 'app/shared_const.json';
+import { MPListApp } from './views/mpListApp';
 import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
 
 @customElement('my-posts-app')
-export default class MyPostsApp extends MPListView<DashboardPost> {
+export default class MyPostsApp extends MPListApp<DashboardPost> {
   static get styles() {
     return [
       super.styles,
@@ -21,14 +23,17 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
 
   constructor() {
     super();
-    this.currentSortedColumn = ls.dateCreated;
+    this.currentSortedColumn = columnCreated;
     this.currentSortedColumnDesc = true;
   }
 
-  async loadItems(page: number, pageSize: number): Promise<PaginatedList<DashboardPost> | null> {
-    const loader = new GetMyPostsLoader(page, pageSize);
-    const res = await app.runLocalActionAsync(loader, (st) => (this.loadingStatus = st));
-    return res?.data || null;
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardPost> | null> {
+    return new GetMyPostsLoader(
+      page,
+      pageSize,
+      this.currentSortedColumn,
+      this.currentSortedColumnDesc,
+    );
   }
 
   sectionHeader(): TemplateResult {
@@ -46,9 +51,9 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
     return html`
       <thead>
         <th>${ls.title}</th>
-        ${this.renderSortableColumn(ls.dateCreated)}
-        <th>${ls.comments}</th>
-        <th>${ls.likes}</th>
+        ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
+        ${this.renderSortableColumn(columnComments, ls.comments)}
+        ${this.renderSortableColumn(columnLikes, ls.likes)}
       </thead>
       <tbody>
         ${this.items.map(
@@ -68,6 +73,10 @@ export default class MyPostsApp extends MPListView<DashboardPost> {
         )}
       </tbody>
     `;
+  }
+
+  defaultOrderingForColumn(_: string): boolean {
+    return true;
   }
 }
 

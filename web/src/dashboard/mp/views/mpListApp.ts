@@ -6,10 +6,12 @@ import 'ui/cm/sectionView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './mpPageControl';
+import Loader from 'lib/loader';
+import app from 'app';
 
 const defaultPageSize = 10;
 
-export abstract class MPListView<T> extends BaseElement {
+export abstract class MPListApp<T> extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -24,13 +26,14 @@ export abstract class MPListView<T> extends BaseElement {
   @lp.object loadingStatus = LoadingStatus.working;
   @lp.array items: T[] = [];
 
+  // Set those properties in child classes to have a default sorted column.
+  @lp.string currentSortedColumn = '';
+  @lp.bool currentSortedColumnDesc = false;
+
   @lp.number private totalCount = 0;
   @lp.number private shownCount = 0;
   @lp.number private page = 1;
   @lp.number private pageSize = defaultPageSize;
-
-  currentSortedColumn = '';
-  currentSortedColumnDesc = false;
 
   render() {
     const { loadingStatus } = this;
@@ -63,7 +66,8 @@ export abstract class MPListView<T> extends BaseElement {
 
   abstract sectionHeader(): TemplateResult | null;
   abstract renderTable(): TemplateResult | null;
-  abstract async loadItems(page: number, pageSize: number): Promise<PaginatedList<T> | null>;
+  abstract getLoader(page: number, pageSize: number): Loader<PaginatedList<T> | null>;
+  abstract defaultOrderingForColumn(name: string): boolean;
 
   async startLoading(
     page: number,
@@ -82,20 +86,34 @@ export abstract class MPListView<T> extends BaseElement {
     this.currentSortedColumn = sortedColumn;
     this.currentSortedColumnDesc = desc;
 
-    const paginatedList = await this.loadItems(page, pageSize);
-    if (paginatedList) {
+    const loader = this.getLoader(page, pageSize);
+    const res = await app.runLocalActionAsync(loader, (st) => (this.loadingStatus = st));
+    if (res.data) {
+      const paginatedList = res.data;
       this.items = paginatedList.items;
       this.totalCount = paginatedList.totalCount;
-      this.shownCount = pageSize;
+      this.shownCount = this.items.length;
     }
   }
 
-  renderSortableColumn(name: string) {
+  renderSortableColumn(key: string, name: string) {
     const content =
       this.currentSortedColumn === name
         ? html`${name}&nbsp;${this.currentSortedColumnDesc ? '▼' : '▲'}`
         : html`${name}`;
-    return html`<th class="sortable-th">${content}</th>`;
+    return html`<th class="sortable-th" @click=${() => this.sortColumn(key)}>${content}</th>`;
+  }
+
+  private async sortColumn(key: string) {
+    // Sorting always goes to first page.
+    await this.startLoading(
+      1,
+      this.pageSize,
+      key,
+      key === this.currentSortedColumn
+        ? !this.currentSortedColumnDesc
+        : this.defaultOrderingForColumn(key),
+    );
   }
 
   private async handleRetry() {

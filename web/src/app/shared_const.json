@@ -4,5 +4,9 @@
   "maxUserNameLen": 200,
   "maxUserEmailLen": 200,
   "maxPostTitleLen": 200,
-  "errInvalidUserOrPwd": 1
+  "maxGenericStringLen": 100,
+  "errInvalidUserOrPwd": 1,
+  "columnCreated": "createdAt",
+  "columnLikes":"likes",
+  "columnComments":"comments"
 }
