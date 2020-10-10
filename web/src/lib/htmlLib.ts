@@ -1,4 +1,4 @@
-import { TemplateResult } from 'lit-element';
+import { CSSResult, TemplateResult } from 'lit-element';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { render, html } from 'lit-html';
 
@@ -10,11 +10,7 @@ export function ready(fn: () => void) {
   }
 }
 
-export function resizeSVGHTML(
-  svg: string,
-  width: number,
-  height: number,
-): string {
+export function resizeSVGHTML(svg: string, width: number, height: number): string {
   const parser = new DOMParser();
   const doc = parser.parseFromString(svg, 'image/svg+xml');
   const element = doc.documentElement;
@@ -54,5 +50,16 @@ export function listenForVisibilityChange(
   });
   for (const element of elements) {
     observer.observe(element);
+  }
+}
+
+export function injectStyles(styles: CSSResult[]) {
+  for (const style of styles) {
+    const css = style.cssText;
+    // TODO: use constructable styles
+    const styleElement = document.createElement('style') as HTMLStyleElement;
+    styleElement.type = 'text/css';
+    styleElement.innerHTML = css;
+    document.head.appendChild(styleElement);
   }
 }

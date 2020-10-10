@@ -1,3 +1,7 @@
+// Used in profile post list.
+import { injectStyles } from 'lib/htmlLib';
+import { css } from 'lit-element';
+import 'ui/cm/timeField';
 import wind from './wind';
 
 const disabledCSS = 'content-disabled';
@@ -14,3 +18,24 @@ const qs = new URLSearchParams(window.location.search);
 if (qs.get('page')) {
   setTimeout(() => document.getElementById('m-profile-posts')?.scrollIntoView(true), 800);
 }
+
+const styles = css`
+  .is-boxed {
+    border-top: 1px solid var(--default-separator-color);
+    border-bottom: 1px solid var(--default-separator-color);
+  }
+
+  @media (min-width: 768px) {
+    .is-boxed {
+      border: 1px solid var(--default-separator-color);
+      border-radius: 0.5rem;
+      padding: 0.8rem 1.6rem;
+    }
+  }
+
+  .tag-default {
+    border-radius: 5px;
+    padding: 0.2rem 0.7rem;
+  }
+`;
+injectStyles([styles]);

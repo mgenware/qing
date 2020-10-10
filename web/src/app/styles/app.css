@@ -347,19 +347,7 @@ body {
   color: var(--footer-fore-color);
 }
 
-/* [TODO: Remove?] Profile page styles ------------------------- */
-.is-boxed {
-  border-top: 1px solid var(--default-separator-color);
-  border-bottom: 1px solid var(--default-separator-color);
-}
-
-@media (min-width: 768px) {
-  .is-boxed {
-    border: 1px solid var(--default-separator-color);
-    border-radius: 0.5rem;
-    padding: 0.8rem 1.6rem;
-  }
-}
+/* Avatar helpers ------------------------- */
 .avatar-s {
   border-radius: 2px;
 }
@@ -368,10 +356,6 @@ body {
 }
 .avatar-l {
   border-radius: 6px;
-}
-.tag-default {
-  border-radius: 5px;
-  padding: 0.2rem 0.7rem;
 }
 
 /* Form helpers ------------------------- */
