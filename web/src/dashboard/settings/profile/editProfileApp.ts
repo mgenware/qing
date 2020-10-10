@@ -7,6 +7,7 @@ import 'ui/cm/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/cm/statusView';
 import 'ui/cm/centeredView';
+import 'ui/cm/sectionView';
 import 'ui/form/inputView';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
@@ -41,9 +42,7 @@ export class EditProfileApp extends BaseElement {
 
   render() {
     const { loadingStatus } = this;
-    return html`
-      ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()}
-    `;
+    return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }
 
   renderProgress() {
@@ -62,25 +61,18 @@ export class EditProfileApp extends BaseElement {
   renderContent() {
     return html`
       <div>
-        <div class="section is-info">${ls.profilePicture}</div>
+        <section-view type="info">${ls.profilePicture}</section-view>
         <div>
           <p>
-            <img
-              src=${this.avatarURL}
-              width="250"
-              height="250"
-              class="avatar-l profile-img"
-            />
+            <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
           </p>
           <div class="m-t-md">
-            <avatar-uploader
-              @onUpdated=${this.handleAvatarUploaded}
-            ></avatar-uploader>
+            <avatar-uploader @onUpdated=${this.handleAvatarUploaded}></avatar-uploader>
           </div>
         </div>
         <status-overlay .status=${this.updateInfoStatus}>
           <div class="form">
-            <div class="section is-info">${ls.profile}</div>
+            <section-view type="info">${ls.profile}</section-view>
             <div>
               <input-view
                 required
@@ -100,22 +92,17 @@ export class EditProfileApp extends BaseElement {
                 required
                 label=${ls.company}
                 value=${this.company}
-                @onChange=${(e: CustomEvent<string>) =>
-                  (this.company = e.detail)}
+                @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
               ></input-view>
 
               <input-view
                 required
                 label=${ls.location}
                 value=${this.location}
-                @onChange=${(e: CustomEvent<string>) =>
-                  (this.location = e.detail)}
+                @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
               ></input-view>
 
-              <qing-button
-                btnStyle="success"
-                @click=${this.handleSaveProfileClick}
-              >
+              <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
                 ${ls.save}
               </qing-button>
             </div>
@@ -152,12 +139,7 @@ export class EditProfileApp extends BaseElement {
       await app.alert.error(err.message);
       return;
     }
-    const loader = new SetProfileInfoLoader(
-      this.name,
-      this.url,
-      this.company,
-      this.location,
-    );
+    const loader = new SetProfileInfoLoader(this.name, this.url, this.company, this.location);
     const status = await app.runGlobalActionAsync(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;
     });

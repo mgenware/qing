@@ -8,8 +8,8 @@ import UserData from './app/modules/userData';
 import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
 
-export class Result<T> {
-  constructor(public error: ErrorWithCode | null, public data: T | null) {}
+export class Result<TData> {
+  constructor(public error: ErrorWithCode | null, public data: TData | null) {}
 
   static error<T>(err: ErrorWithCode): Result<T> {
     return new Result<T>(err, null);

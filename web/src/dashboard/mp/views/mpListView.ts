@@ -2,6 +2,7 @@ import { html, TemplateResult, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/cm/statusView';
+import 'ui/cm/sectionView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './mpPageControl';
@@ -41,7 +42,7 @@ export abstract class MPListView<T> extends BaseElement {
       ></status-view>`;
     }
     return html`
-      <div class="section is-info">${this.sectionTitle()}</div>
+      <section-view type="info">${this.sectionTitle()}</section-view>
       <table class="app-table">
         ${this.renderTable()}
       </table>

@@ -15,6 +15,7 @@ export class ContainerView extends BaseElement {
   }
 
   render() {
+    // The `container` is from bootstrap grid styles.
     return html` <div class="container"><slot></slot></div> `;
   }
 }

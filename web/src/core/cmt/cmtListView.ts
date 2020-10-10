@@ -70,8 +70,7 @@ export class CmtListView extends BaseElement {
       `;
     } else {
       const childViews: TemplateResult[] = [];
-      for (let i = 0; i < this.items.length; i++) {
-        const item = this.items[i];
+      this.items.forEach((item, i) => {
         childViews.push(
           html`
             <reply-list-view
@@ -84,7 +83,7 @@ export class CmtListView extends BaseElement {
             ></reply-list-view>
           `,
         );
-      }
+      });
       contentGroup = html`
         <div>
           <div>${childViews}</div>
