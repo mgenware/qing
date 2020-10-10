@@ -98,7 +98,7 @@ export abstract class MPListApp<T> extends BaseElement {
 
   renderSortableColumn(key: string, name: string) {
     const content =
-      this.currentSortedColumn === name
+      this.currentSortedColumn === key
         ? html`${name}&nbsp;${this.currentSortedColumnDesc ? '▼' : '▲'}`
         : html`${name}`;
     return html`<th class="sortable-th" @click=${() => this.sortColumn(key)}>${content}</th>`;

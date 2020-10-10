@@ -6,6 +6,8 @@ import 'ui/cm/linkButton';
 import ls, { formatLS } from 'ls';
 import app from 'app';
 
+const pageInputID = 'page-input';
+
 @customElement('mp-page-control')
 export class MPPageControl extends BaseElement {
   static get styles() {
@@ -30,6 +32,10 @@ export class MPPageControl extends BaseElement {
     return pageSize ? Math.floor((totalItemCount + pageSize - 1) / pageSize) : 0;
   }
 
+  private get pageInputElement(): HTMLInputElement {
+    return this.mustGetShadowElement(pageInputID);
+  }
+
   render() {
     const { page, totalPages } = this;
     return html`
@@ -41,6 +47,7 @@ export class MPPageControl extends BaseElement {
         <div class="col-md-auto">
           ${formatLS(ls.pageControlPageFormat, page, totalPages)} |
           <input
+            id=${pageInputID}
             class="app-inline-text-input"
             type="text"
             size="3"
@@ -79,6 +86,7 @@ export class MPPageControl extends BaseElement {
       this.onGotoPage(page);
     } catch (ex) {
       await app.alert.error(ex.message);
+      this.pageInputElement.select();
     }
   }
 
