@@ -5,7 +5,7 @@ import * as cmtf from './cmtTAFactory';
 import PostCmtCore from '../../models/factory/postCmtCore';
 import PostCore from '../../models/factory/postCore';
 import { defaultUpdateConditions } from './common';
-import userStatsTA, { offsetParamName } from '../userStatsTA';
+import { offsetParamName } from '../userStatsTA';
 
 const postID = 'postID';
 
@@ -69,7 +69,7 @@ export default abstract class PostTACore extends mm.TableActions {
       .orderByInput(...this.getDashboardOrderInputSelections());
     this.deletePost = mm.transact(
       mm.deleteOne().whereSQL(this.#updateConditions),
-      userStatsTA.updatePostCount.wrap({ [offsetParamName]: '-1' }),
+      this.getUserStatsUpdateCounterAction().wrap({ [offsetParamName]: '-1' }),
     );
     this.insertPost = mm
       .transact(
@@ -82,7 +82,7 @@ export default abstract class PostTACore extends mm.TableActions {
           )
           .setDefaults()
           .declareInsertedID(postID),
-        userStatsTA.updatePostCount.wrap({ [offsetParamName]: '1' }),
+        this.getUserStatsUpdateCounterAction().wrap({ [offsetParamName]: '1' }),
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
       .setReturnValues(postID);
@@ -121,4 +121,7 @@ export default abstract class PostTACore extends mm.TableActions {
   getExtraInsertionInputColumns(): mm.Column[] {
     return [];
   }
+
+  // Gets the update action of user stats table to update the counter in response to a insertion or deletion.
+  abstract getUserStatsUpdateCounterAction(): mm.Action;
 }

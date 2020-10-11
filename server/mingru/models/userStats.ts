@@ -1,9 +1,16 @@
 import * as mm from 'mingru-models';
 
+function createCounterColumn(): mm.Column {
+  return mm.uInt().default(0);
+}
+
 export class UserStats extends mm.Table {
   // `id` is from `user.id`.
   id = mm.pk().noAutoIncrement;
-  post_count = mm.uInt().default(0);
+
+  // Stats.
+  post_count = createCounterColumn();
+  form_post_count = createCounterColumn();
 }
 
 export default mm.table(UserStats);

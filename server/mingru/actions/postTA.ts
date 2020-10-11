@@ -4,6 +4,7 @@ import postCmt from '../models/postCmt';
 import PostTACore from './factory/postTACore';
 import PostCore from '../models/factory/postCore';
 import PostCmtCore from '../models/factory/postCmtCore';
+import userStatsTA from './userStatsTA';
 
 export class PostTA extends PostTACore {
   getPostTable(): PostCore {
@@ -24,6 +25,10 @@ export class PostTA extends PostTACore {
 
   getDashboardOrderInputSelections(): mm.SelectActionColumns[] {
     return [t.created_at, t.likes, t.cmt_count];
+  }
+
+  getUserStatsUpdateCounterAction(): mm.Action {
+    return userStatsTA.updatePostCount;
   }
 }
 

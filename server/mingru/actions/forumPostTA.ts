@@ -4,6 +4,7 @@ import PostCore from '../models/factory/postCore';
 import t from '../models/forumPost';
 import PostCmtCore from '../models/factory/postCmtCore';
 import PostTACore from './factory/postTACore';
+import userStatsTA from './userStatsTA';
 
 export class ForumPostTA extends PostTACore {
   getPostTable(): PostCore {
@@ -28,6 +29,10 @@ export class ForumPostTA extends PostTACore {
 
   getExtraInsertionInputColumns(): mm.Column[] {
     return [t.forum_id];
+  }
+
+  getUserStatsUpdateCounterAction(): mm.Action {
+    return userStatsTA.updateFormPostCount;
   }
 }
 

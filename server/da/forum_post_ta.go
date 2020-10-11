@@ -59,7 +59,7 @@ func (da *TableTypeForumPost) deletePostChild1(queryable mingru.Queryable, id ui
 }
 
 func (da *TableTypeForumPost) deletePostChild2(queryable mingru.Queryable, userID uint64) error {
-	return UserStats.UpdatePostCount(queryable, userID, -1)
+	return UserStats.UpdateFormPostCount(queryable, userID, -1)
 }
 
 // DeletePost ...
@@ -168,7 +168,7 @@ func (da *TableTypeForumPost) insertPostChild1(queryable mingru.Queryable, title
 }
 
 func (da *TableTypeForumPost) insertPostChild2(queryable mingru.Queryable, userID uint64) error {
-	return UserStats.UpdatePostCount(queryable, userID, 1)
+	return UserStats.UpdateFormPostCount(queryable, userID, 1)
 }
 
 // InsertPost ...
