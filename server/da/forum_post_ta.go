@@ -150,8 +150,8 @@ func (da *TableTypeForumPost) InsertCmt(db *sql.DB, content string, userID uint6
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypeForumPost) insertPostChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum_post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, 0)", title, content, userID)
+func (da *TableTypeForumPost) insertPostChild1(queryable mingru.Queryable, title string, content string, userID uint64, forumID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `forum_post` (`title`, `content`, `user_id`, `forum_id`, `created_at`, `modified_at`, `cmt_count`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, 0)", title, content, userID, forumID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -160,11 +160,11 @@ func (da *TableTypeForumPost) insertPostChild2(queryable mingru.Queryable, userI
 }
 
 // InsertPost ...
-func (da *TableTypeForumPost) InsertPost(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypeForumPost) InsertPost(db *sql.DB, title string, content string, userID uint64, forumID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var postIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		postID, err := da.insertPostChild1(tx, title, content, userID)
+		postID, err := da.insertPostChild1(tx, title, content, userID, forumID)
 		if err != nil {
 			return err
 		}

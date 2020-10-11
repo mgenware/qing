@@ -78,7 +78,11 @@ export default abstract class PostTACore extends mm.TableActions {
       .transact(
         mm
           .insertOne()
-          .setInputs(...this.getPostSourceColumns(), t.user_id)
+          .setInputs(
+            ...this.getPostSourceColumns(),
+            t.user_id,
+            ...this.getExtraInsertionInputColumns(),
+          )
           .setDefaults()
           .declareInsertedID('postID'),
         userTA.updatePostCount.wrap({ offset: '1' }),
@@ -99,9 +103,25 @@ export default abstract class PostTACore extends mm.TableActions {
     this.deleteReply = cmtf.deleteReplyAction(t);
   }
 
+  // Gets the underlying `PostCore` table.
   abstract getPostTable(): PostCore;
+
+  // Gets the underlying `PostCmtCore` table.
   abstract getPostCmtTable(): PostCmtCore;
+
+  // Gets core columns, which will be fetched in every SELECT action.
   abstract getCoreColumns(): mm.SelectActionColumns[];
+
+  // Gets columns that are fetched during editing.
+  // NOTE1: those columns are also considered inputs during insertion.
+  // NOTE2: no need to include `user_id` column.
   abstract getPostSourceColumns(): mm.Column[];
+
+  // Gets columns used to generate ORDER BY input enum in dashboard.
   abstract getDashboardOrderInputSelections(): mm.SelectActionColumns[];
+
+  // Gets extra columns that are considered inputs during insertion.
+  getExtraInsertionInputColumns(): mm.Column[] {
+    return [];
+  }
 }

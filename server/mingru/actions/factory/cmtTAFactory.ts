@@ -1,8 +1,8 @@
 import * as mm from 'mingru-models';
-import { cmt, reply } from '../models/cmt';
-import user from '../models/user';
-import * as cm from '../models/common';
-import cmtTA from './cmtTA';
+import { cmt, reply } from '../../models/cmt';
+import user from '../../models/user';
+import * as cm from '../../models/common';
+import cmtTA from '../cmtTA';
 import {
   CmtRelationTable,
   cmtInterface,
@@ -10,7 +10,7 @@ import {
   CmtHostTable,
   updateConditions,
 } from './cmtTAUtils';
-import replyTA from './replyTA';
+import replyTA from '../replyTA';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';

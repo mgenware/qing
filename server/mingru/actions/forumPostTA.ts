@@ -25,6 +25,10 @@ export class ForumPostTA extends PostTACore {
   getDashboardOrderInputSelections(): mm.SelectActionColumns[] {
     return [t.created_at, t.votes, t.cmt_count];
   }
+
+  getExtraInsertionInputColumns(): mm.Column[] {
+    return [t.forum_id];
+  }
 }
 
 export default mm.tableActions(t, ForumPostTA);
