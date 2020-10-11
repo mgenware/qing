@@ -41,9 +41,9 @@ Qing intended to run on docker in future.
 | ---------------------- | --- |
 | Login and registration | ✅  |
 | Blogging               | ✅  |
-| Dashboard              | 🚧  |
+| Dashboard              | ✅  |
 | Integration tests      | 🚧  |
-| Forum                  | ❌  |
+| Forums                 | 🚧  |
 | QnA                    | ❌  |
 | 3rd-party OAuth login  | ❌  |
 | Dockerfy               | ❌  |
