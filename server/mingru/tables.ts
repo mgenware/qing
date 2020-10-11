@@ -7,6 +7,7 @@ import userStats from './models/userStats';
 import userPwd from './models/userPwd';
 import userAuth from './models/userAuth';
 import likes from './models/likes';
+import forumPost from './models/forumPost';
 
 const tables: mm.Table[] = [
   post,
@@ -17,6 +18,7 @@ const tables: mm.Table[] = [
   userStats,
   userPwd,
   userAuth,
+  forumPost,
   ...likes.values(),
 ];
 export default tables;

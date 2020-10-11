@@ -1,15 +1,8 @@
 import * as mm from 'mingru-models';
-import user from './user';
+import PostCore from './factory/postCore';
 
-export class Post extends mm.Table {
-  id = mm.pk();
+export class Post extends PostCore {
   title = mm.varChar(255);
-  content = mm.text();
-  user_id = user.id;
-
-  created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc').nullable;
-  cmt_count = mm.uInt().default(0);
   likes = mm.uInt().default(0);
 }
 

@@ -1,21 +1,21 @@
 import * as mm from 'mingru-models';
-import t from '../models/post';
-import postCmt from '../models/postCmt';
-import PostTACore from './factory/postTACore';
+import forumPostCmt from '../models/forumPostCmt';
 import PostCore from '../models/factory/postCore';
+import t from '../models/forumPost';
 import PostCmtCore from '../models/factory/postCmtCore';
+import PostTACore from './factory/postTACore';
 
-export class PostTA extends PostTACore {
+export class ForumPostTA extends PostTACore {
   getPostTable(): PostCore {
     return t;
   }
 
   getPostCmtTable(): PostCmtCore {
-    return postCmt;
+    return forumPostCmt;
   }
 
   getCoreColumns(): mm.SelectActionColumns[] {
-    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.likes];
+    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.votes];
   }
 
   getPostSourceColumns(): mm.Column[] {
@@ -23,8 +23,8 @@ export class PostTA extends PostTACore {
   }
 
   getDashboardOrderInputSelections(): mm.SelectActionColumns[] {
-    return [t.created_at, t.likes, t.cmt_count];
+    return [t.created_at, t.votes, t.cmt_count];
   }
 }
 
-export default mm.tableActions(t, PostTA);
+export default mm.tableActions(t, ForumPostTA);

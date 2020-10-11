@@ -10,7 +10,6 @@ import {
   CmtHostTable,
   updateConditions,
 } from './cmtTAUtils';
-import { Action } from 'mingru-models';
 import replyTA from './replyTA';
 
 const hostID = 'hostID';
@@ -42,10 +41,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
     });
 }
 
-export function updateCmtCountAction(
-  pt: CmtHostTable,
-  offset: number | mm.SQL,
-): mm.Action {
+export function updateCmtCountAction(pt: CmtHostTable, offset: number | mm.SQL): mm.Action {
   let offsetExpr: mm.SQL | string;
   if (offset instanceof mm.SQL) {
     offsetExpr = offset;
@@ -60,18 +56,10 @@ export function updateCmtCountAction(
     .whereSQL(updateConditions(pt, hostID));
 }
 
-export function insertCmtAction(
-  ht: CmtHostTable,
-  rt: CmtRelationTable,
-): mm.Action {
+export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   return mm
     .transact(
-      mm
-        .insertOne()
-        .from(cmt)
-        .setDefaults()
-        .setInputs()
-        .declareInsertedID(cmtID),
+      mm.insertOne().from(cmt).setDefaults().setInputs().declareInsertedID(cmtID),
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       updateCmtCountAction(ht, 1),
     )
@@ -80,35 +68,24 @@ export function insertCmtAction(
     .setReturnValues(cmtID);
 }
 
-export function deleteCmtAction(ht: CmtHostTable): Action {
+export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
-      cmtTA.getHostIDAndReplyCount.declareReturnValue(
-        mm.ReturnValues.result,
-        hostIDAndReplyCount,
-      ),
+      cmtTA.getHostIDAndReplyCount.declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
       mm.deleteOne().from(cmt).whereSQL(updateConditions(cmt)),
       // host.cmtCount = host.cmtCount -replyCount - 1 (the comment itself)
       // The inputs of `updateCmtCountAction` are from the results of `cmtTA.getHostIDAndReplyCount`.
-      updateCmtCountAction(
-        ht,
-        mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`,
-      ).wrap({
+      updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
         replyCount: mm.valueRef(`${hostIDAndReplyCount}.ReplyCount`),
       }),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
 }
 
-export function insertReplyAction(ht: CmtHostTable): mm.Action {
+export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
-      mm
-        .insertOne()
-        .from(reply)
-        .setDefaults()
-        .setInputs()
-        .declareInsertedID(replyID),
+      mm.insertOne().from(reply).setDefaults().setInputs().declareInsertedID(replyID),
       cmtTA.updateReplyCount.wrap({
         offset: '1',
         id: mm.valueRef(parentID),
@@ -120,7 +97,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.Action {
     .setReturnValues(replyID);
 }
 
-export function deleteReplyAction(ht: CmtHostTable): Action {
+export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
       replyTA.getParentID.declareReturnValue(mm.ReturnValues.result, parentID),

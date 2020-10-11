@@ -117,8 +117,8 @@ func (da *TableTypePost) insertCmtChild1(queryable mingru.Queryable, content str
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypePost) insertCmtChild2(queryable mingru.Queryable, hostID uint64, cmtID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `post_cmt` (`host_id`, `cmt_id`) VALUES (?, ?)", hostID, cmtID)
+func (da *TableTypePost) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
+	_, err := queryable.Exec("INSERT INTO `post_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
@@ -136,7 +136,7 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ho
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild2(tx, hostID, cmtID)
+		err = da.insertCmtChild2(tx, cmtID, hostID)
 		if err != nil {
 			return err
 		}
