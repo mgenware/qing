@@ -47,13 +47,13 @@ func myPostsPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
 	rawPosts, hasNext, err := da.Post.SelectPostsForDashboard(app.DB, uid, page, pageSize, columnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)
 
-	postCount, err := da.User.SelectPostCount(app.DB, uid)
+	stats, err := da.UserStats.SelectStats(app.DB, uid)
 	app.PanicIfErr(err)
 
 	posts := make([]*dashboardPost, len(rawPosts))
 	for i, p := range rawPosts {
 		posts[i] = newDashboardPost(p, uid)
 	}
-	respData := apidata.NewPaginatedList(posts, hasNext, postCount)
+	respData := apidata.NewPaginatedList(posts, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)
 }

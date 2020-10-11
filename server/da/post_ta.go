@@ -53,18 +53,30 @@ func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostID 
 	return txErr
 }
 
-// DeletePosts ...
-func (da *TableTypePost) DeletePosts(queryable mingru.Queryable, ids []uint64, userID uint64) (int, error) {
-	if len(ids) == 0 {
-		return 0, fmt.Errorf("The array argument `ids` cannot be empty")
-	}
-	var queryParams []interface{}
-	for _, item := range ids {
-		queryParams = append(queryParams, item)
-	}
-	queryParams = append(queryParams, userID)
-	result, err := queryable.Exec("DELETE FROM `post` WHERE `id` IN ("+mingru.InputPlaceholders(len(ids))+") AND `user_id` = ?", queryParams...)
-	return mingru.GetRowsAffectedIntWithError(result, err)
+func (da *TableTypePost) deletePostChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
+	result, err := queryable.Exec("DELETE FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (da *TableTypePost) deletePostChild2(queryable mingru.Queryable, userID uint64) error {
+	return UserStats.UpdatePostCount(queryable, userID, -1)
+}
+
+// DeletePost ...
+func (da *TableTypePost) DeletePost(db *sql.DB, id uint64, userID uint64) error {
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		err = da.deletePostChild1(tx, id, userID)
+		if err != nil {
+			return err
+		}
+		err = da.deletePostChild2(tx, userID)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
 }
 
 func (da *TableTypePost) deleteReplyChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
@@ -156,7 +168,7 @@ func (da *TableTypePost) insertPostChild1(queryable mingru.Queryable, title stri
 }
 
 func (da *TableTypePost) insertPostChild2(queryable mingru.Queryable, userID uint64) error {
-	return User.UpdatePostCount(queryable, userID, 1)
+	return UserStats.UpdatePostCount(queryable, userID, 1)
 }
 
 // InsertPost ...

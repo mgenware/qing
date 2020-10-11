@@ -16,18 +16,23 @@ var UserStats = &TableTypeUserStats{}
 
 // ------------ Actions ------------
 
-// DerementPostCount ...
-func (da *TableTypeUserStats) DerementPostCount(queryable mingru.Queryable, id uint64) error {
-	return da.UpdatePostCount(queryable, id, -1)
+// UserStatsTableSelectStatsResult ...
+type UserStatsTableSelectStatsResult struct {
+	PostCount uint `json:"postCount,omitempty"`
 }
 
-// IncrementPostCount ...
-func (da *TableTypeUserStats) IncrementPostCount(queryable mingru.Queryable, id uint64) error {
-	return da.UpdatePostCount(queryable, id, 1)
+// SelectStats ...
+func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (*UserStatsTableSelectStatsResult, error) {
+	result := &UserStatsTableSelectStatsResult{}
+	err := queryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
 
 // UpdatePostCount ...
-func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, id uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, id)
+func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

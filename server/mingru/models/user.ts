@@ -12,7 +12,6 @@ export class User extends mm.Table {
   location = mm.varChar(100).default('');
 
   bio = mm.text().nullable.default(null);
-  postCount = mm.uInt().default(0);
 }
 
 export default mm.table(User);

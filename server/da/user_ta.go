@@ -18,7 +18,7 @@ var User = &TableTypeUser{}
 
 // AddUserWithNameInternal ...
 func (da *TableTypeUser) AddUserWithNameInternal(queryable mingru.Queryable, email string, name string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_time`, `company`, `website`, `location`, `bio`, `post_count`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL, 0)", email, name)
+	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_time`, `company`, `website`, `location`, `bio`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL)", email, name)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -63,32 +63,21 @@ func (da *TableTypeUser) SelectIdFromEmail(queryable mingru.Queryable, email str
 	return result, nil
 }
 
-// SelectPostCount ...
-func (da *TableTypeUser) SelectPostCount(queryable mingru.Queryable, id uint64) (uint, error) {
-	var result uint
-	err := queryable.QueryRow("SELECT `post_count` FROM `user` WHERE `id` = ?", id).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
-	ID        uint64  `json:"-"`
-	Name      string  `json:"name,omitempty"`
-	IconName  string  `json:"iconName,omitempty"`
-	Location  string  `json:"location,omitempty"`
-	Company   string  `json:"company,omitempty"`
-	Website   string  `json:"website,omitempty"`
-	Bio       *string `json:"bio,omitempty"`
-	PostCount uint    `json:"postCount,omitempty"`
+	ID       uint64  `json:"-"`
+	Name     string  `json:"name,omitempty"`
+	IconName string  `json:"iconName,omitempty"`
+	Location string  `json:"location,omitempty"`
+	Company  string  `json:"company,omitempty"`
+	Website  string  `json:"website,omitempty"`
+	Bio      *string `json:"bio,omitempty"`
 }
 
 // SelectProfile ...
 func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*UserTableSelectProfileResult, error) {
 	result := &UserTableSelectProfileResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `post_count` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio, &result.PostCount)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
 		return nil, err
 	}
@@ -121,12 +110,6 @@ func (da *TableTypeUser) UpdateBio(queryable mingru.Queryable, id uint64, bio *s
 // UpdateIconName ...
 func (da *TableTypeUser) UpdateIconName(queryable mingru.Queryable, id uint64, iconName string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `icon_name` = ? WHERE `id` = ?", iconName, id)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-// UpdatePostCount ...
-func (da *TableTypeUser) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

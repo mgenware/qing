@@ -1,11 +1,13 @@
 import * as mm from 'mingru-models';
-import userTA from '../userTA';
 import user, { User } from '../../models/user';
 import * as cm from '../../models/common';
 import * as cmtf from './cmtTAFactory';
 import PostCmtCore from '../../models/factory/postCmtCore';
 import PostCore from '../../models/factory/postCore';
-import { defaultBatchUpdateConditions, defaultUpdateConditions } from './common';
+import { defaultUpdateConditions } from './common';
+import userStatsTA, { offsetParamName } from '../userStatsTA';
+
+const postID = 'postID';
 
 export default abstract class PostTACore extends mm.TableActions {
   // SELECT actions.
@@ -15,7 +17,7 @@ export default abstract class PostTACore extends mm.TableActions {
   selectPostsForDashboard: mm.SelectAction;
 
   // Other actions.
-  deletePosts: mm.DeleteAction;
+  deletePost: mm.TransactAction;
   insertPost: mm.TransactAction;
   editPost: mm.UpdateAction;
 
@@ -34,7 +36,6 @@ export default abstract class PostTACore extends mm.TableActions {
   #userColumns: mm.SelectActionColumns[];
   // SQL conditions.
   #updateConditions: mm.SQL;
-  #batchUpdateConditions: mm.SQL;
 
   // Shorthand for `this.getPostTable`.
   private get t(): PostCore {
@@ -53,7 +54,6 @@ export default abstract class PostTACore extends mm.TableActions {
       this.#joinedUserTable.icon_name,
     ].map((c) => c.privateAttr());
     this.#updateConditions = defaultUpdateConditions(t);
-    this.#batchUpdateConditions = defaultBatchUpdateConditions(t);
 
     this.selectPostByID = mm.select(...this.#coreColumns, t.content, ...this.#userColumns).byID();
     this.selectPostsForUserProfile = mm
@@ -67,7 +67,10 @@ export default abstract class PostTACore extends mm.TableActions {
       .selectPage(...this.#coreColumns)
       .by(t.user_id)
       .orderByInput(...this.getDashboardOrderInputSelections());
-    this.deletePosts = mm.deleteSome().whereSQL(this.#batchUpdateConditions);
+    this.deletePost = mm.transact(
+      mm.deleteOne().whereSQL(this.#updateConditions),
+      userStatsTA.updatePostCount.wrap({ [offsetParamName]: '-1' }),
+    );
     this.insertPost = mm
       .transact(
         mm
@@ -78,11 +81,11 @@ export default abstract class PostTACore extends mm.TableActions {
             ...this.getExtraInsertionInputColumns(),
           )
           .setDefaults()
-          .declareInsertedID('postID'),
-        userTA.updatePostCount.wrap({ offset: '1' }),
+          .declareInsertedID(postID),
+        userStatsTA.updatePostCount.wrap({ [offsetParamName]: '1' }),
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
-      .setReturnValues('postID');
+      .setReturnValues(postID);
     this.editPost = mm
       .updateOne()
       .setDefaults(t.modified_at)
