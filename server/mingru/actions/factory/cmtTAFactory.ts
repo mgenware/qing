@@ -3,14 +3,10 @@ import { cmt, reply } from '../../models/cmt';
 import user from '../../models/user';
 import * as cm from '../../models/common';
 import cmtTA from '../cmtTA';
-import {
-  CmtRelationTable,
-  cmtInterface,
-  cmtResultType,
-  CmtHostTable,
-  updateConditions,
-} from './cmtTAUtils';
+import { CmtRelationTable, cmtInterface, cmtResultType, CmtHostTable } from './cmtTAUtils';
 import replyTA from '../replyTA';
+import { updateCounterAction } from './counterColumnTAFactory';
+import { defaultUpdateConditions } from './common';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
@@ -42,18 +38,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
 }
 
 export function updateCmtCountAction(pt: CmtHostTable, offset: number | mm.SQL): mm.Action {
-  let offsetExpr: mm.SQL | string;
-  if (offset instanceof mm.SQL) {
-    offsetExpr = offset;
-  } else {
-    // Produce `+ <offset>` or `- <offset>`.
-    offsetExpr = offset < 0 ? offset.toString() : `+ ${offset}`;
-  }
-  return mm
-    .updateOne()
-    .from(pt)
-    .set(pt.cmt_count, mm.sql`${pt.cmt_count} ${offsetExpr}`)
-    .whereSQL(updateConditions(pt, hostID));
+  return updateCounterAction(pt, pt.cmt_count, offset, hostID);
 }
 
 export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
@@ -72,7 +57,7 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
       cmtTA.getHostIDAndReplyCount.declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
-      mm.deleteOne().from(cmt).whereSQL(updateConditions(cmt)),
+      mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
       // host.cmtCount = host.cmtCount -replyCount - 1 (the comment itself)
       // The inputs of `updateCmtCountAction` are from the results of `cmtTA.getHostIDAndReplyCount`.
       updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
@@ -101,7 +86,7 @@ export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
       replyTA.getParentID.declareReturnValue(mm.ReturnValues.result, parentID),
-      mm.deleteOne().from(reply).whereSQL(updateConditions(reply)),
+      mm.deleteOne().from(reply).whereSQL(defaultUpdateConditions(reply)),
       updateCmtCountAction(ht, -1),
       cmtTA.updateReplyCount.wrap({
         offset: '-1',

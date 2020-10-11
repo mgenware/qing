@@ -2,9 +2,10 @@ import * as mm from 'mingru-models';
 import userTA from '../userTA';
 import user, { User } from '../../models/user';
 import * as cm from '../../models/common';
-import * as cmtf from '../cmtTAFactory';
+import * as cmtf from './cmtTAFactory';
 import PostCmtCore from '../../models/factory/postCmtCore';
 import PostCore from '../../models/factory/postCore';
+import { defaultBatchUpdateConditions, defaultUpdateConditions } from './common';
 
 export default abstract class PostTACore extends mm.TableActions {
   // SELECT actions.
@@ -51,15 +52,8 @@ export default abstract class PostTACore extends mm.TableActions {
       this.#joinedUserTable.name,
       this.#joinedUserTable.icon_name,
     ].map((c) => c.privateAttr());
-    this.#updateConditions = mm.and(
-      mm.sql`${t.id.isEqualToInput()}`,
-      mm.sql`${t.user_id.isEqualToInput()}`,
-    );
-
-    this.#batchUpdateConditions = mm.and(
-      mm.sql`${t.id.isInArrayInput('ids')}`,
-      mm.sql`${t.user_id.isEqualToInput()}`,
-    );
+    this.#updateConditions = defaultUpdateConditions(t);
+    this.#batchUpdateConditions = defaultBatchUpdateConditions(t);
 
     this.selectPostByID = mm.select(...this.#coreColumns, t.content, ...this.#userColumns).byID();
     this.selectPostsForUserProfile = mm

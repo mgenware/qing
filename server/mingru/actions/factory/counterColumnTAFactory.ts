@@ -1,12 +1,6 @@
 import * as mm from 'mingru-models';
 import { TableWithUserID } from '../../models/factory/common';
-
-function updateConditions(table: TableWithUserID, idInputName: string | undefined): mm.SQL {
-  return mm.and(
-    mm.sql`${table.id.isEqualToInput(idInputName)}`,
-    mm.sql`${table.user_id.isEqualToInput()}`,
-  );
-}
+import { defaultUpdateConditions } from './common';
 
 export function updateCounterAction(
   table: TableWithUserID,
@@ -25,5 +19,5 @@ export function updateCounterAction(
     .updateOne()
     .from(table)
     .set(counterCol, mm.sql`${counterCol} ${offsetExpr}`)
-    .whereSQL(updateConditions(table, idInputName));
+    .whereSQL(defaultUpdateConditions(table, idInputName));
 }

@@ -5,16 +5,6 @@ export interface CmtHostTable extends TableWithUserID {
   cmt_count: mm.Column;
 }
 
-export function updateConditions(
-  table: Omit<CmtHostTable, 'cmt_count'>,
-  idInputName?: string,
-): mm.SQL {
-  return mm.and(
-    mm.sql`${table.id.isEqualToInput(idInputName)}`,
-    mm.sql`${table.user_id.isEqualToInput()}`,
-  );
-}
-
 export const cmtInterface = 'CmtInterface';
 export const cmtResultType = 'CmtData';
 export const replyInterface = 'ReplyInterface';

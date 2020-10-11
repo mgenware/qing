@@ -2,11 +2,8 @@ import * as mm from 'mingru-models';
 import { reply as t } from '../models/cmt';
 import * as cm from '../models/common';
 import user from '../models/user';
-import {
-  updateConditions,
-  replyInterface,
-  replyResultType,
-} from './cmtTAUtils';
+import { replyInterface, replyResultType } from './factory/cmtTAUtils';
+import { defaultUpdateConditions } from './factory/common';
 
 export class ReplyTA extends mm.TableActions {
   selectReplies = mm
@@ -33,8 +30,8 @@ export class ReplyTA extends mm.TableActions {
     .updateOne()
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
-    .whereSQL(updateConditions(t));
-  selectReplySource = mm.select(t.content).whereSQL(updateConditions(t));
+    .whereSQL(defaultUpdateConditions(t));
+  selectReplySource = mm.select(t.content).whereSQL(defaultUpdateConditions(t));
 }
 
 export default mm.tableActions(t, ReplyTA);
