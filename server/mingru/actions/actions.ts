@@ -8,6 +8,7 @@ import userAuthTA from './user/userAuthTA';
 import userPwdTA from './user/userPwdTA';
 import likeTAs from './like/likeTAs';
 import forumPostTA from './forum/forumPostTA';
+import forumGroupTA from './forum/forumGroupTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -18,6 +19,7 @@ const actions: mm.TableActions[] = [
   userAuthTA,
   userPwdTA,
   forumPostTA,
+  forumGroupTA,
   ...likeTAs,
 ];
 

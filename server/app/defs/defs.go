@@ -49,6 +49,7 @@ const (
 	RouteTest      = "t"
 	RouteDashboard = "home"
 	RouteAPI       = "s"
+	RouteForum     = "f"
 )
 
 const (

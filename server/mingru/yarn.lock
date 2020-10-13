@@ -329,10 +329,10 @@ mingru-tsconfig@^3.1.0:
   resolved "https://registry.yarnpkg.com/mingru-tsconfig/-/mingru-tsconfig-3.1.0.tgz#9749d19d1a6891f2ac4de40be28069883dfbbfcd"
   integrity sha512-EYetwgwuXk3wXDKCc2kdhlwyYVvfCaRh4EcD5+en7VKJwWwBv1homkXtlm/DJysx6BYMryH0t/ZBtfV7ddYF0Q==
 
-mingru@^0.35.0:
-  version "0.35.0"
-  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.35.0.tgz#5b418be64522e5aa7b3e78df58beb6fc5ff42d57"
-  integrity sha512-kGk1/3ybbS1bx8reCFJUDAOHTloyrzz0gI1ys0/McwuvUz2po0VXLwXQAwN0RfaVLy2H29Xl1d2RsY0dMFrI9g==
+mingru@^0.35.1:
+  version "0.35.1"
+  resolved "https://registry.yarnpkg.com/mingru/-/mingru-0.35.1.tgz#5afa3089b46be16b67dd9e0537f2212d48ac6672"
+  integrity sha512-Fbjpx5bh0G5XYoGYdB/G3WE3Ot2MnLSa/faAQU89Ra0NWGlHEMmBYxiYOV0yxqobFQOzyVJWbwmj1buXutVKmg==
   dependencies:
     chalk "^4.1.0"
     del "^5.1.0"
