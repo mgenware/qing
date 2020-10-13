@@ -1,6 +1,6 @@
 import * as mr from 'mingru';
-import actions from './actions';
-import tables from './tables';
+import actions from './actions/actions';
+import models from './models/models';
 
 (async () => {
   const dialect = new mr.MySQL();
@@ -14,6 +14,6 @@ import tables from './tables';
   });
   await builder.buildAsync(async () => {
     await builder.buildActionsAsync(actions);
-    await builder.buildCreateTableSQLFilesAsync(tables);
+    await builder.buildCreateTableSQLFilesAsync(models);
   });
 })();
