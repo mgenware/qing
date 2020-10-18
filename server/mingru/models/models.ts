@@ -7,7 +7,6 @@ import userStats from './user/userStats';
 import userPwd from './user/userPwd';
 import userAuth from './user/userAuth';
 import likes from './like/likeableTables';
-import forumPost from './forum/forumPost';
 import forum from './forum/forum';
 import forumGroup from './forum/forumGroup';
 
@@ -21,7 +20,6 @@ const tables: mm.Table[] = [
   userPwd,
   userAuth,
   forum,
-  forumPost,
   forumGroup,
   ...likes.values(),
 ];

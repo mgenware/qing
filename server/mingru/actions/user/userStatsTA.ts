@@ -8,11 +8,11 @@ function updateCounterAction(column: mm.Column): UpdateAction {
   return mm
     .updateOne()
     .set(column, mm.sql`${column} + ${mm.int().toInput(offsetParamName)}`)
-    .byID('userID');
+    .by(t.id, 'userID');
 }
 
 export class UserStatsTA extends mm.TableActions {
-  selectStats = mm.select(t.post_count).byID();
+  selectStats = mm.select(t.post_count).by(t.id);
 
   updatePostCount = updateCounterAction(t.post_count);
   updateFormPostCount = updateCounterAction(t.form_post_count);

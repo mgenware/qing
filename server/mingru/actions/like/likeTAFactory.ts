@@ -8,7 +8,7 @@ function updateLikesAction(hostTable: LikeableTable, offset: number): mm.UpdateA
     .updateOne()
     .from(hostTable)
     .set(hostTable.likes, mm.sql`${hostTable.likes} + ${offset.toString()}`)
-    .byID('hostID');
+    .by(hostTable.id, 'hostID');
 }
 
 export default function getLikeTableActions(

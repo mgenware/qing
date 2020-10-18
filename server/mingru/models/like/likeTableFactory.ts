@@ -1,4 +1,5 @@
 import * as mm from 'mingru-models';
+import { TableWithID } from '../common';
 import user from '../user/user';
 
 export interface LikeTable extends mm.Table {
@@ -6,7 +7,7 @@ export interface LikeTable extends mm.Table {
   host_id: mm.Column;
 }
 
-export interface LikeableTable extends mm.Table {
+export interface LikeableTable extends TableWithID {
   likes: mm.Column;
 }
 

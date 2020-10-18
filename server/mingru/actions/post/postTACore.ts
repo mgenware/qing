@@ -55,7 +55,7 @@ export default abstract class PostTACore extends mm.TableActions {
     ].map((c) => c.privateAttr());
     this.#updateConditions = defaultUpdateConditions(t);
 
-    this.selectPostByID = mm.select(...this.#coreColumns, t.content, ...this.#userColumns).byID();
+    this.selectPostByID = mm.select(...this.#coreColumns, t.content, ...this.#userColumns).by(t.id);
     this.selectPostsForUserProfile = mm
       .selectPage(...this.#coreColumns)
       .by(t.user_id)
