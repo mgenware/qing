@@ -2,7 +2,7 @@ import * as mm from 'mingru-models';
 import t from '../../models/user/user';
 import userStats from '../../models/user/userStats';
 
-const userIDVar = 'userID';
+export const addUserInsertedIDVar = 'insertedUserID';
 
 export class UserTA extends mm.TableActions {
   selectProfile = mm
@@ -28,19 +28,17 @@ export class UserTA extends mm.TableActions {
 
   updateBio = mm.updateOne().setInputs(t.bio).by(t.id);
 
-  // Called by other user auth provider such as pwd provider to add an user entry.
-  // This also inserts a row in user stats table.
-  addUserWithNameInternal = mm
-    .transact(
-      mm.insertOne().setDefaults().setInputs().declareInsertedID(userIDVar),
-      mm
-        .insertOne()
-        .from(userStats)
-        .setDefaults()
-        .setInputs()
-        .wrap({ id: mm.valueRef('id') }),
-    )
-    .setReturnValues(userIDVar);
+  private addUserEntryInternal = mm.insertOne().setDefaults().setInputs();
+  private addUserStatsEntryInternal = mm.insertOne().from(userStats).setDefaults().setInputs();
+
+  // Used by other user auth provider such as pwd provider to add an entry
+  // in both user and user stats tables.
+  getAddUserEntryTXMembers(): mm.TransactionMember[] {
+    return [
+      this.addUserEntryInternal.declareInsertedID(addUserInsertedIDVar),
+      this.addUserStatsEntryInternal.wrap({ id: mm.valueRef(addUserInsertedIDVar) }),
+    ];
+  }
 }
 
 export default mm.tableActions(t, UserTA);

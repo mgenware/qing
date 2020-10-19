@@ -1,10 +1,8 @@
 import * as mm from 'mingru-models';
 import t from '../../models/user/userPwd';
-import userTA from './userTA';
+import userTA, { addUserInsertedIDVar } from './userTA';
 import userAuthTA from './userAuthTA';
 import { UserAuthType } from '../../models/user/userAuth';
-
-const idVar = 'id';
 
 export class UserPwdTA extends mm.TableActions {
   selectHashByID = mm.selectField(t.pwd_hash).by(t.id);
@@ -13,16 +11,16 @@ export class UserPwdTA extends mm.TableActions {
 
   addPwdBasedUser = mm
     .transact(
-      userTA.addUserWithNameInternal.declareReturnValue(mm.ReturnValues.insertedID, idVar),
+      ...userTA.getAddUserEntryTXMembers(),
       userAuthTA.addUserAuth.wrap({
         authType: `${+UserAuthType.pwd}`,
-        [idVar]: mm.valueRef(idVar),
+        [addUserInsertedIDVar]: mm.valueRef(addUserInsertedIDVar),
       }),
       this.addUserPwdInternal.wrap({
-        [idVar]: mm.valueRef(idVar),
+        [addUserInsertedIDVar]: mm.valueRef(addUserInsertedIDVar),
       }),
     )
-    .setReturnValues(idVar);
+    .setReturnValues(addUserInsertedIDVar);
 }
 
 export default mm.tableActions(t, UserPwdTA);
