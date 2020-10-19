@@ -1,5 +1,8 @@
 import * as mm from 'mingru-models';
 import t from '../../models/user/user';
+import userStats from '../../models/user/userStats';
+
+const userIDVar = 'userID';
 
 export class UserTA extends mm.TableActions {
   selectProfile = mm
@@ -24,7 +27,20 @@ export class UserTA extends mm.TableActions {
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
 
   updateBio = mm.updateOne().setInputs(t.bio).by(t.id);
-  addUserWithNameInternal = mm.insertOne().setDefaults().setInputs();
+
+  // Called by other user auth provider such as pwd provider to add an user entry.
+  // This also inserts a row in user stats table.
+  addUserWithNameInternal = mm
+    .transact(
+      mm.insertOne().setDefaults().setInputs().declareInsertedID(userIDVar),
+      mm
+        .insertOne()
+        .from(userStats)
+        .setDefaults()
+        .setInputs()
+        .wrap({ id: mm.valueRef('id') }),
+    )
+    .setReturnValues(userIDVar);
 }
 
 export default mm.tableActions(t, UserTA);
