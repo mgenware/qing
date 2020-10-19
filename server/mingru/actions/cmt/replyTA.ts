@@ -2,7 +2,7 @@ import * as mm from 'mingru-models';
 import { reply as t } from '../../models/cmt/cmt';
 import * as cm from '../../models/common';
 import user from '../../models/user/user';
-import { replyInterface, replyResultType } from '../cmt/cmtTAUtils';
+import { replyInterface, replyResultType } from './cmtTAUtils';
 import { defaultUpdateConditions } from '../common';
 
 export class ReplyTA extends mm.TableActions {

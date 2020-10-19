@@ -122,6 +122,7 @@ export default abstract class PostTACore extends mm.TableActions {
     return [];
   }
 
-  // Gets the update action of container table to update the counter in response to a insertion or deletion.
+  // Gets the update action of container table to update the counter in response
+  // to a insertion or deletion.
   abstract getContainerUpdateCounterAction(): mm.Action;
 }

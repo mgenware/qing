@@ -2,9 +2,9 @@ import * as mm from 'mingru-models';
 import { cmt, reply } from '../../models/cmt/cmt';
 import user from '../../models/user/user';
 import * as cm from '../../models/common';
-import cmtTA from '../cmt/cmtTA';
+import cmtTA from './cmtTA';
 import { CmtRelationTable, cmtInterface, cmtResultType, CmtHostTable } from './cmtTAUtils';
-import replyTA from '../cmt/replyTA';
+import replyTA from './replyTA';
 import { updateCounterAction } from '../misc/counterColumnTAFactory';
 import { defaultUpdateConditions } from '../common';
 
@@ -59,7 +59,8 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
       cmtTA.getHostIDAndReplyCount.declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
       mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
       // host.cmtCount = host.cmtCount -replyCount - 1 (the comment itself)
-      // The inputs of `updateCmtCountAction` are from the results of `cmtTA.getHostIDAndReplyCount`.
+      // The inputs of `updateCmtCountAction` are from the results of
+      // `cmtTA.getHostIDAndReplyCount`.
       updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
         replyCount: mm.valueRef(`${hostIDAndReplyCount}.ReplyCount`),
       }),
