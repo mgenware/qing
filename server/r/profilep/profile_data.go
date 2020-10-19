@@ -19,7 +19,7 @@ type ProfileData struct {
 	IconURL      string
 	FeedListHTML string
 	Pager        *cm.Pager
-	PageCount    uint
+	PostCount    uint
 }
 
 type PostItem struct {
@@ -35,7 +35,7 @@ func NewProfileDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.
 
 	d.IconURL = app.URL.UserIconURL250(uid, profile.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
-	d.PageCount = stats.PostCount
+	d.PostCount = stats.PostCount
 	return d
 }
 
