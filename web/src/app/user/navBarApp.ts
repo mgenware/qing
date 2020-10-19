@@ -189,10 +189,8 @@ export default class NavBarApp extends BaseElement {
                 <div class="dropdown-content">
                   <a href=${user.URL}>${ls.profile}</a>
                   <hr />
-                  <a href=${routes.home.editProfile}>${ls.settings}</a>
-                  <a href="#" @click=${this.handleSignOutClick}
-                    >${ls.signOut}</a
-                  >
+                  <a href=${routes.home.settings}>${ls.settings}</a>
+                  <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>
             `
@@ -206,9 +204,7 @@ export default class NavBarApp extends BaseElement {
             `}
 
         <a href="#" @click=${this.toggleTheme}>
-          ${this.currentTheme === defs.UserTheme.light
-            ? ls.themeDark
-            : ls.themeLight}
+          ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}
         </a>
 
         <a href="#" class="toggler" @click=${this.togglerClick}>&#9776;</a>
@@ -223,9 +219,7 @@ export default class NavBarApp extends BaseElement {
 
   private toggleTheme() {
     const newTheme =
-      this.currentTheme === defs.UserTheme.light
-        ? defs.UserTheme.dark
-        : defs.UserTheme.light;
+      this.currentTheme === defs.UserTheme.light ? defs.UserTheme.dark : defs.UserTheme.light;
     this.currentTheme = newTheme;
     app.userData.theme = newTheme;
   }

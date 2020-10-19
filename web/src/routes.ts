@@ -4,8 +4,10 @@ export default buildTree({
   home: {
     newPost: 'new-post',
     editPost: 'edit-post',
-    editProfile: 'profile',
     posts: 'posts',
+    settings: {
+      profile: 'profile',
+    },
   },
   s: {
     // Service APIs

@@ -1,87 +1,38 @@
-import { html, customElement, property } from 'lit-element';
+import { html, TemplateResult } from 'lit-element';
 import ls from 'ls';
 import page from 'page';
 import rs from 'routes';
-import BaseElement from '../baseElement';
 import 'post/setPostApp';
+import * as htmlLib from 'lib/htmlLib';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
+import app from 'app';
 
-class Page {
-  constructor(public content: unknown, public showSidebar: boolean) {}
+function loadContent(title: string, content: TemplateResult) {
+  document.title = `${title} - ${ls._siteName}`;
+  htmlLib.renderTemplateResult(
+    app.browser.mainContentElement,
+    html`<container-view>${content}</container-view>`,
+  );
 }
 
-@customElement('dashboard-app')
-export default class DashboardApp extends BaseElement {
-  @property({ type: Object }) content: Page | null = null;
-
-  set title(s: string) {
-    document.title = `${s} - ${ls._siteName}`;
+page(rs.home.newPost, () => {
+  loadContent(ls.newPost, html` <set-post-app></set-post-app> `);
+});
+page(`${rs.home.editPost}/:id`, (e) => {
+  const { id } = e.params;
+  if (!id) {
+    return;
   }
-
-  firstUpdated() {
-    page(rs.home.newPost, () => {
-      this.content = new Page(html` <set-post-app></set-post-app> `, false);
-      this.title = ls.newPost;
-    });
-    page(`${rs.home.editPost}/:id`, (e) => {
-      const { id } = e.params;
-      if (!id) {
-        return;
-      }
-      this.content = new Page(html` <set-post-app .editedID=${id}></set-post-app> `, false);
-      this.title = ls.editPost;
-    });
-    page(rs.home.editProfile, () => {
-      this.content = new Page(html` <edit-profile-app></edit-profile-app> `, true);
-      this.title = ls.editProfile;
-    });
-    page(rs.home.posts, () => {
-      this.content = new Page(html`<my-posts-app></my-posts-app>`, true);
-      this.title = ls.editProfile;
-    });
-    page();
-  }
-
-  render() {
-    const { content } = this;
-    if (!content) {
-      return html` <p>${ls.noContentAvailable}</p> `;
-    }
-    if (!content.showSidebar) {
-      return content.content;
-    }
-    return html`
-      <container-view>
-        <div class="row">
-          <div class="col-md-auto">
-            <aside>
-              <p class="menu-label">${ls.common}</p>
-              <ul class="menu-list">
-                <li>
-                  <a href=${rs.home.newPost}>${ls.newPost}</a>
-                </li>
-                <li>
-                  <a href=${rs.home.posts}>${ls.posts}</a>
-                </li>
-              </ul>
-              <p class="menu-label">${ls.settings}</p>
-              <ul class="menu-list">
-                <li>
-                  <a href=${rs.home.editProfile}>${ls.profile}</a>
-                </li>
-              </ul>
-            </aside>
-          </div>
-          <div class="col-md"><div class="m-md">${content.content}</div></div>
-        </div>
-      </container-view>
-    `;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'dashboard-app': DashboardApp;
-  }
-}
+  loadContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
+});
+page(rs.home.settings.profile, () => {
+  loadContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
+});
+page(rs.home.posts, () => {
+  loadContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
+});
+page('*', () => {
+  loadContent('', html` <p>${ls.noContentAvailable}</p> `);
+});
+page();

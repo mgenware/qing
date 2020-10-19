@@ -1,4 +1,12 @@
 export default class BrowserModule {
+  get mainContentElement(): HTMLElement {
+    const element = window.document.getElementById('main-body');
+    if (!element) {
+      throw new Error('Fatal error: main content element is null');
+    }
+    return element;
+  }
+
   jumpToURL(url: string) {
     window.location.href = url;
   }
