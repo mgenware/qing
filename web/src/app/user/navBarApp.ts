@@ -188,8 +188,11 @@ export default class NavBarApp extends BaseElement {
                 </button>
                 <div class="dropdown-content">
                   <a href=${user.URL}>${ls.profile}</a>
+                  <a href=${routes.home.posts}>${ls.yourPosts}</a>
                   <hr />
-                  <a href=${routes.home.settings}>${ls.settings}</a>
+                  <a href=${routes.home.newPost}>${ls.newPost}</a>
+                  <hr />
+                  <a href=${routes.home.settings.profile}>${ls.settings}</a>
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>

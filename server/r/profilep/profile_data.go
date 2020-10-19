@@ -10,6 +10,7 @@ import (
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
 var vProfilePostItem = app.TemplateManager.MustParseLocalizedView("/profile/postItem.html")
 
+// ProfileData ...
 type ProfileData struct {
 	da.UserTableSelectProfileResult
 	handler.LocalizedTemplateData
@@ -18,6 +19,7 @@ type ProfileData struct {
 	IconURL      string
 	FeedListHTML string
 	Pager        *cm.Pager
+	PageCount    uint
 }
 
 type PostItem struct {
@@ -27,13 +29,13 @@ type PostItem struct {
 	URL string
 }
 
-func NewProfileDataFromUser(u *da.UserTableSelectProfileResult) *ProfileData {
-	d := &ProfileData{UserTableSelectProfileResult: *u}
-	uid := u.ID
+func NewProfileDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult) *ProfileData {
+	d := &ProfileData{UserTableSelectProfileResult: *profile}
+	uid := profile.ID
 
-	d.IconURL = app.URL.UserIconURL250(uid, u.IconName)
+	d.IconURL = app.URL.UserIconURL250(uid, profile.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
-
+	d.PageCount = stats.PostCount
 	return d
 }
 

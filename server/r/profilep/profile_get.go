@@ -20,15 +20,20 @@ func ProfileGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := validator.MustToPageOrDefault(r.FormValue("page"))
-
-	user, err := da.User.SelectProfile(app.DB, uid)
-	app.PanicIfErr(err)
 	resp := app.HTMLResponse(w, r)
 
-	title := user.Name
-	userData := NewProfileDataFromUser(user)
+	// User profile
+	user, err := da.User.SelectProfile(app.DB, uid)
+	app.PanicIfErr(err)
 
-	// Populate posts
+	// User stats
+	stats, err := da.UserStats.SelectStats(app.DB, uid)
+	app.PanicIfErr(err)
+
+	title := user.Name
+	userData := NewProfileDataFromUser(user, stats)
+
+	// User posts
 	posts, hasNext, err := da.Post.SelectPostsForUserProfile(app.DB, uid, page, defs.UserPostsLimit)
 	app.PanicIfErr(err)
 	var sb strings.Builder

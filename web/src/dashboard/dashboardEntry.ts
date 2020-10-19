@@ -2,11 +2,12 @@ import { html, TemplateResult } from 'lit-element';
 import ls from 'ls';
 import page from 'page';
 import rs from 'routes';
+import app from 'app';
+import './settings/settingsBaseView';
 import 'post/setPostApp';
 import * as htmlLib from 'lib/htmlLib';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
-import app from 'app';
 
 function loadContent(title: string, content: TemplateResult) {
   document.title = `${title} - ${ls._siteName}`;
@@ -14,6 +15,10 @@ function loadContent(title: string, content: TemplateResult) {
     app.browser.mainContentElement,
     html`<container-view>${content}</container-view>`,
   );
+}
+
+function loadSettingsContent(title: string, content: TemplateResult) {
+  loadContent(title, html`<settings-base-view>${content}</settings-base-view>`);
 }
 
 page(rs.home.newPost, () => {
@@ -27,7 +32,7 @@ page(`${rs.home.editPost}/:id`, (e) => {
   loadContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
 });
 page(rs.home.settings.profile, () => {
-  loadContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
+  loadSettingsContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
 });
 page(rs.home.posts, () => {
   loadContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
