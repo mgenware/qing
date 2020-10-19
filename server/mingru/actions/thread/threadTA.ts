@@ -1,22 +1,22 @@
 import * as mm from 'mingru-models';
-import t from '../../models/post/post';
-import postCmt from '../../models/post/postCmt';
-import PostTACore from './postTACore';
-import PostCore from '../../models/post/postCore';
 import PostCmtCore from '../../models/post/postCmtCore';
+import PostCore from '../../models/post/postCore';
+import t from '../../models/thread/thread';
+import threadCmt from '../../models/thread/threadCmt';
+import PostTACore from '../post/postTACore';
 import userStatsTA from '../user/userStatsTA';
 
-export class PostTA extends PostTACore {
+export class ThreadTA extends PostTACore {
   getPostTable(): PostCore {
     return t;
   }
 
   getPostCmtTable(): PostCmtCore {
-    return postCmt;
+    return threadCmt;
   }
 
   getCoreColumns(): mm.SelectActionColumns[] {
-    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.likes];
+    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.answer_count];
   }
 
   getPostSourceColumns(): mm.Column[] {
@@ -24,7 +24,7 @@ export class PostTA extends PostTACore {
   }
 
   getDashboardOrderInputSelections(): mm.SelectActionColumns[] {
-    return [t.created_at, t.likes, t.cmt_count];
+    return [t.created_at, t.answer_count, t.cmt_count];
   }
 
   getContainerUpdateCounterAction(): mm.Action {
@@ -32,4 +32,4 @@ export class PostTA extends PostTACore {
   }
 }
 
-export default mm.tableActions(t, PostTA);
+export default mm.tableActions(t, ThreadTA);

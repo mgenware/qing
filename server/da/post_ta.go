@@ -173,10 +173,10 @@ func (da *TableTypePost) insertPostChild2(queryable mingru.Queryable, userID uin
 
 // InsertPost ...
 func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
-	var postIDExported uint64
+	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		postID, err := da.insertPostChild1(tx, title, content, userID)
+		insertedID, err := da.insertPostChild1(tx, title, content, userID)
 		if err != nil {
 			return err
 		}
@@ -184,10 +184,10 @@ func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, us
 		if err != nil {
 			return err
 		}
-		postIDExported = postID
+		insertedIDExported = insertedID
 		return nil
 	})
-	return postIDExported, txErr
+	return insertedIDExported, txErr
 }
 
 func (da *TableTypePost) insertReplyChild1(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {

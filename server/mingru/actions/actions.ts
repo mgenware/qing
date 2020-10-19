@@ -7,6 +7,7 @@ import replyTA from './cmt/replyTA';
 import userAuthTA from './user/userAuthTA';
 import userPwdTA from './user/userPwdTA';
 import likeTAs from './like/likeTAs';
+import threadTA from './thread/threadTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -16,6 +17,7 @@ const actions: mm.TableActions[] = [
   replyTA,
   userAuthTA,
   userPwdTA,
+  threadTA,
   ...likeTAs,
 ];
 

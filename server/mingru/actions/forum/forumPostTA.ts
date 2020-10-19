@@ -31,7 +31,7 @@ export class ForumPostTA extends PostTACore {
     return [t.forum_id];
   }
 
-  getUserStatsUpdateCounterAction(): mm.Action {
+  getContainerUpdateCounterAction(): mm.Action {
     return userStatsTA.updateFormPostCount;
   }
 }

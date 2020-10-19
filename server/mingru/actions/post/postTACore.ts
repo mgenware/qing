@@ -7,7 +7,7 @@ import PostCore from '../../models/post/postCore';
 import { defaultUpdateConditions } from '../common';
 import { offsetParamName } from '../user/userStatsTA';
 
-const postID = 'postID';
+const insertedIDVar = 'insertedID';
 
 export default abstract class PostTACore extends mm.TableActions {
   // SELECT actions.
@@ -69,7 +69,7 @@ export default abstract class PostTACore extends mm.TableActions {
       .orderByInput(...this.getDashboardOrderInputSelections());
     this.deletePost = mm.transact(
       mm.deleteOne().whereSQL(this.#updateConditions),
-      this.getUserStatsUpdateCounterAction().wrap({ [offsetParamName]: '-1' }),
+      this.getContainerUpdateCounterAction().wrap({ [offsetParamName]: '-1' }),
     );
     this.insertPost = mm
       .transact(
@@ -81,11 +81,11 @@ export default abstract class PostTACore extends mm.TableActions {
             ...this.getExtraInsertionInputColumns(),
           )
           .setDefaults()
-          .declareInsertedID(postID),
-        this.getUserStatsUpdateCounterAction().wrap({ [offsetParamName]: '1' }),
+          .declareInsertedID(insertedIDVar),
+        this.getContainerUpdateCounterAction().wrap({ [offsetParamName]: '1' }),
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
-      .setReturnValues(postID);
+      .setReturnValues(insertedIDVar);
     this.editPost = mm
       .updateOne()
       .setDefaults(t.modified_at)
@@ -122,6 +122,6 @@ export default abstract class PostTACore extends mm.TableActions {
     return [];
   }
 
-  // Gets the update action of user stats table to update the counter in response to a insertion or deletion.
-  abstract getUserStatsUpdateCounterAction(): mm.Action;
+  // Gets the update action of container table to update the counter in response to a insertion or deletion.
+  abstract getContainerUpdateCounterAction(): mm.Action;
 }
