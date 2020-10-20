@@ -14,10 +14,10 @@ export class UserPwdTA extends mm.TableActions {
       ...userTA.getAddUserEntryTXMembers(),
       userAuthTA.addUserAuth.wrap({
         authType: `${+UserAuthType.pwd}`,
-        [addUserInsertedIDVar]: mm.valueRef(addUserInsertedIDVar),
+        id: mm.valueRef(addUserInsertedIDVar),
       }),
       this.addUserPwdInternal.wrap({
-        [addUserInsertedIDVar]: mm.valueRef(addUserInsertedIDVar),
+        id: mm.valueRef(addUserInsertedIDVar),
       }),
     )
     .setReturnValues(addUserInsertedIDVar);

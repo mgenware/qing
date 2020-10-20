@@ -16,10 +16,16 @@ var User = &TableTypeUser{}
 
 // ------------ Actions ------------
 
-// AddUserWithNameInternal ...
-func (da *TableTypeUser) AddUserWithNameInternal(queryable mingru.Queryable, email string, name string) (uint64, error) {
+// AddUserEntryInternal ...
+func (da *TableTypeUser) AddUserEntryInternal(queryable mingru.Queryable, email string, name string) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_time`, `company`, `website`, `location`, `bio`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL)", email, name)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
+}
+
+// AddUserStatsEntryInternal ...
+func (da *TableTypeUser) AddUserStatsEntryInternal(queryable mingru.Queryable, id uint64) error {
+	_, err := queryable.Exec("INSERT INTO `user_stats` (`id`, `post_count`, `form_post_count`) VALUES (?, 0, 0)", id)
+	return err
 }
 
 // UserTableSelectEditingDataResult ...

@@ -21,34 +21,42 @@ var UserPwd = &TableTypeUserPwd{}
 // ------------ Actions ------------
 
 func (da *TableTypeUserPwd) addPwdBasedUserChild2(queryable mingru.Queryable, id uint64) error {
+	return User.AddUserStatsEntryInternal(queryable, id)
+}
+
+func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable mingru.Queryable, id uint64) error {
 	return UserAuth.AddUserAuth(queryable, id, 1)
 }
 
-func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable mingru.Queryable, id uint64, pwdHash string) error {
+func (da *TableTypeUserPwd) addPwdBasedUserChild4(queryable mingru.Queryable, id uint64, pwdHash string) error {
 	return da.AddUserPwdInternal(queryable, id, pwdHash)
 }
 
 // AddPwdBasedUser ...
 func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
-	var idExported uint64
+	var insertedUserIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		id, err := User.AddUserWithNameInternal(tx, email, name)
+		insertedUserID, err := User.AddUserEntryInternal(tx, email, name)
 		if err != nil {
 			return err
 		}
-		err = da.addPwdBasedUserChild2(tx, id)
+		err = da.addPwdBasedUserChild2(tx, insertedUserID)
 		if err != nil {
 			return err
 		}
-		err = da.addPwdBasedUserChild3(tx, id, pwdHash)
+		err = da.addPwdBasedUserChild3(tx, insertedUserID)
 		if err != nil {
 			return err
 		}
-		idExported = id
+		err = da.addPwdBasedUserChild4(tx, insertedUserID, pwdHash)
+		if err != nil {
+			return err
+		}
+		insertedUserIDExported = insertedUserID
 		return nil
 	})
-	return idExported, txErr
+	return insertedUserIDExported, txErr
 }
 
 // AddUserPwdInternal ...
