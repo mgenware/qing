@@ -24,7 +24,7 @@ func (da *TableTypeUser) AddUserEntryInternal(queryable mingru.Queryable, email 
 
 // AddUserStatsEntryInternal ...
 func (da *TableTypeUser) AddUserStatsEntryInternal(queryable mingru.Queryable, id uint64) error {
-	_, err := queryable.Exec("INSERT INTO `user_stats` (`id`, `post_count`, `form_post_count`) VALUES (?, 0, 0)", id)
+	_, err := queryable.Exec("INSERT INTO `user_stats` (`id`, `post_count`, `thread_count`) VALUES (?, 0, 0)", id)
 	return err
 }
 

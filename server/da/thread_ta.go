@@ -59,7 +59,7 @@ func (da *TableTypeThread) deletePostChild1(queryable mingru.Queryable, id uint6
 }
 
 func (da *TableTypeThread) deletePostChild2(queryable mingru.Queryable, userID uint64) error {
-	return UserStats.UpdatePostCount(queryable, userID, -1)
+	return UserStats.UpdateThreadCount(queryable, userID, -1)
 }
 
 // DeletePost ...
@@ -130,7 +130,7 @@ func (da *TableTypeThread) insertCmtChild1(queryable mingru.Queryable, content s
 }
 
 func (da *TableTypeThread) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `forum_post_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
+	_, err := queryable.Exec("INSERT INTO `thread_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
@@ -168,7 +168,7 @@ func (da *TableTypeThread) insertPostChild1(queryable mingru.Queryable, title st
 }
 
 func (da *TableTypeThread) insertPostChild2(queryable mingru.Queryable, userID uint64) error {
-	return UserStats.UpdatePostCount(queryable, userID, 1)
+	return UserStats.UpdateThreadCount(queryable, userID, 1)
 }
 
 // InsertPost ...
@@ -232,7 +232,7 @@ func (da *TableTypeThread) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `forum_post_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`reply_count` AS `replyCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `forum_post_cmt` AS `forum_post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `forum_post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `forum_post_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `thread_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`reply_count` AS `replyCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `thread_cmt` AS `thread_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

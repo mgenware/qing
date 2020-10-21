@@ -101,8 +101,8 @@
   "goToPage": "Go to",
   "invalidPageNumber": "Invalid page number",
   "pageNumberOutOfBounds": "Page number out of bounds",
-  "yourForumQuestions": "Your forum questions",
-  "yourForumPosts": "You forum posts",
-  "newForumPost": "New forum post",
-  "newForumQuestion": "New forum question"
+  "yourQuestions": "Your questions",
+  "yourThreads": "Your threads",
+  "newThread": "New thread",
+  "newQuestion": "New question"
 }

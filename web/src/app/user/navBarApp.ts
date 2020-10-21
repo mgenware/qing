@@ -189,12 +189,12 @@ export default class NavBarApp extends BaseElement {
                 <div class="dropdown-content">
                   <a href=${user.URL}>${ls.profile}</a>
                   <a href=${routes.home.yourPosts}>${ls.yourPosts}</a>
-                  <a href=${routes.home.yourForumPosts}>${ls.yourForumPosts}</a>
-                  <a href=${routes.home.yourForumQuestion}>${ls.yourForumQuestions}</a>
+                  <a href=${routes.home.yourThreads}>${ls.yourThreads}</a>
+                  <a href=${routes.home.yourQuestion}>${ls.yourQuestions}</a>
                   <hr />
                   <a href=${routes.home.newPost}>${ls.newPost}</a>
-                  <a href=${routes.home.newForumPost}>${ls.newForumPost}</a>
-                  <a href=${routes.home.newForumQuestion}>${ls.newForumQuestion}</a>
+                  <a href=${routes.home.newThread}>${ls.newThread}</a>
+                  <a href=${routes.home.newQuestion}>${ls.newQuestion}</a>
                   <hr />
                   <a href=${routes.home.settings.profile}>${ls.settings}</a>
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>

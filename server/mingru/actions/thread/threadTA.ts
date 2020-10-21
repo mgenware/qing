@@ -28,7 +28,7 @@ export class ThreadTA extends PostTACore {
   }
 
   getContainerUpdateCounterAction(): mm.Action {
-    return userStatsTA.updatePostCount;
+    return userStatsTA.updateThreadCount;
   }
 }
 

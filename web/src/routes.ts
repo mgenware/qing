@@ -3,12 +3,12 @@ import buildTree from 'fx214';
 export default buildTree({
   home: {
     newPost: 'new-post',
-    newForumPost: 'new-forum-post',
-    newForumQuestion: 'new-forum-question',
+    newThread: 'new-thread',
+    newQuestion: 'new-question',
     editPost: 'edit-post',
     yourPosts: 'your-posts',
-    yourForumPosts: 'your-forum-posts',
-    yourForumQuestion: 'your-forum-questions',
+    yourThreads: 'your-threads',
+    yourQuestion: 'your-questions',
     settings: {
       profile: 'profile',
     },

@@ -101,8 +101,8 @@
   "goToPage": "前往",
   "invalidPageNumber": "错误的页数格式",
   "pageNumberOutOfBounds": "页数超出范围",
-  "yourForumQuestions": "我的论坛提问",
-  "yourForumPosts": "我的论坛帖子",
-  "newForumPost": "新论坛帖子",
-  "newForumQuestion": "新论坛提问"
+  "yourQuestions": "我的提问",
+  "yourThreads": "我的讨论",
+  "newThread": "新讨论",
+  "newQuestion": "新提问"
 }

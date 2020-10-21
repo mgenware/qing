@@ -6,9 +6,9 @@ import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import BaseElement from 'baseElement';
 import { EntityType } from 'lib/entity';
+import { CHECK } from 'checks';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 import { SetPostLoader, SetPostConfig } from './loaders/setPostLoader';
-import { CHECK } from 'checks';
 
 const composerID = 'composer';
 
@@ -18,6 +18,7 @@ export default class SetPostApp extends BaseElement {
   @lp.string postTitle = '';
   @lp.number postDestination = 0;
   @lp.number postType = 0;
+  @lp.string viewTitle = '';
 
   private composerElement!: ComposerView;
 
@@ -40,7 +41,7 @@ export default class SetPostApp extends BaseElement {
   render() {
     return html`
       <div>
-        <h4>${this.editedID ? ls.editPost : ls.newPost}</h4>
+        <h4>${this.viewTitle}</h4>
         <hr />
         <composer-view
           .id=${composerID}

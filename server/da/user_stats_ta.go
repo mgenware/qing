@@ -31,14 +31,14 @@ func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64)
 	return result, nil
 }
 
-// UpdateFormPostCount ...
-func (da *TableTypeUserStats) UpdateFormPostCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `form_post_count` = `form_post_count` + ? WHERE `id` = ?", offset, userID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
 // UpdatePostCount ...
 func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+// UpdateThreadCount ...
+func (da *TableTypeUserStats) UpdateThreadCount(queryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user_stats` SET `thread_count` = `thread_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

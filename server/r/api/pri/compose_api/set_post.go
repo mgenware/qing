@@ -19,14 +19,14 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hasID := id != 0
 	destination := validator.MustGetIntFromDict(params, "destination")
 	postType := validator.MustGetIntFromDict(params, "type")
-	if postType == app.Constants.PostTypeQuestion {
+	if postType == app.Constants.ForumPostTypeQuestion {
 		panic("Questions are WIP")
 	}
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	title := validator.MustGetStringFromDict(contentDict, "title", app.Constants.MaxPostTitleLen)
 
-	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(params, "contentHTML"))
+	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 
 	var err error
 	if !hasID {

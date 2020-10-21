@@ -53,9 +53,9 @@ type Dictionary struct {
 	Location               string `json:"location"`
 	Name                   string `json:"name"`
 	NeedAuthErr            string `json:"needAuthErr"`
-	NewForumPost           string `json:"newForumPost"`
-	NewForumQuestion       string `json:"newForumQuestion"`
 	NewPost                string `json:"newPost"`
+	NewQuestion            string `json:"newQuestion"`
+	NewThread              string `json:"newThread"`
 	NextPage               string `json:"nextPage"`
 	No                     string `json:"no"`
 	NoComment              string `json:"noComment"`
@@ -115,9 +115,9 @@ type Dictionary struct {
 	Working                string `json:"working"`
 	WriteAComment          string `json:"writeAComment"`
 	Yes                    string `json:"yes"`
-	YourForumPosts         string `json:"yourForumPosts"`
-	YourForumQuestions     string `json:"yourForumQuestions"`
 	YourPosts              string `json:"yourPosts"`
+	YourQuestions          string `json:"yourQuestions"`
+	YourThreads            string `json:"yourThreads"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.

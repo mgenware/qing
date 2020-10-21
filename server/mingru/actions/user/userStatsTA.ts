@@ -15,7 +15,7 @@ export class UserStatsTA extends mm.TableActions {
   selectStats = mm.select(t.post_count).by(t.id);
 
   updatePostCount = updateCounterAction(t.post_count);
-  updateFormPostCount = updateCounterAction(t.form_post_count);
+  updateThreadCount = updateCounterAction(t.thread_count);
 }
 
 export default mm.tableActions(t, UserStatsTA);

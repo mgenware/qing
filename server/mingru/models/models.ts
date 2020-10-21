@@ -8,17 +8,19 @@ import userPwd from './user/userPwd';
 import userAuth from './user/userAuth';
 import likes from './like/likeableTables';
 import thread from './thread/thread';
+import threadCmt from './thread/threadCmt';
 
 const tables: mm.Table[] = [
-  post,
   user,
   cmt,
-  postCmt,
   reply,
+  post,
+  postCmt,
   userStats,
   userPwd,
   userAuth,
   thread,
+  threadCmt,
   ...likes.values(),
 ];
 export default tables;

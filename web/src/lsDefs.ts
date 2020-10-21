@@ -101,8 +101,8 @@ export default interface LSDefs {
   goToPage: string;
   invalidPageNumber: string;
   pageNumberOutOfBounds: string;
-  yourForumQuestions: string;
-  yourForumPosts: string;
-  newForumPost: string;
-  newForumQuestion: string;
+  yourQuestions: string;
+  yourThreads: string;
+  newThread: string;
+  newQuestion: string;
 }
