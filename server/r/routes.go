@@ -72,7 +72,7 @@ func Start() {
 	// User router
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.ProfileGET))
 	// Post router
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.PostGET))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Dashboard router
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
 	// Auth router
@@ -84,7 +84,7 @@ func Start() {
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.RouteTest, t.Router)
+			r.Mount("/"+defs.RouteDebug, t.Router)
 		}
 	}
 

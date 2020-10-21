@@ -1,0 +1,42 @@
+<container-view>
+  <h2>
+    <a href="{{.PostURL}}">{{html .Title}}</a>
+  </h2>
+
+  <!-- user block -->
+  <div class="m-t-md row">
+    <div class="col-auto">
+      <a href="{{.UserURL}}">
+        <img src="{{.UserIconURL}}" class="avatar-m" width="50" height="50" />
+      </a>
+    </div>
+    <div class="col">
+      <div><a href="{{.UserURL}}">{{html .UserName}}</a></div>
+      <div>
+        <p>
+          <!-- prettier-ignore -->
+          <time-field>{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}{{if .ModifiedAt}}|{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}{{end}}</time-field>
+          <post-admin-app
+            targetID="{{.EID}}"
+            targetUserID="{{.UserEID}}"
+            leftMargin="true"
+          ></post-admin-app>
+        </p>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="md-content">{{.Content}}</div>
+
+  <div class="m-t-lg">
+    <post-cmt-app></post-cmt-app>
+  </div>
+</container-view>
+
+<script>
+  window.appPostID = '{{js .EID}}';
+  window.appPostUserID = '{{js .UserEID}}';
+  window.appPostCmtCount = parseInt('{{js .CmtCount}}', 10);
+  window.appPostCmtCount = parseInt('{{js .ReplyCount}}', 10);
+  window.appPostInitialLikes = parseInt('{{js .Likes}}', 10);
+</script>

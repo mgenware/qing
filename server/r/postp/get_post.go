@@ -11,7 +11,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func PostGET(w http.ResponseWriter, r *http.Request) handler.HTML {
+func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pid, err := validator.DecodeID(chi.URLParam(r, "pid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)

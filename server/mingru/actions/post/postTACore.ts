@@ -5,7 +5,6 @@ import * as cmtf from '../cmt/cmtTAFactory';
 import PostCmtCore from '../../models/post/postCmtCore';
 import PostCore from '../../models/post/postCore';
 import { defaultUpdateConditions } from '../common';
-import { offsetParamName } from '../user/userStatsTA';
 
 const insertedIDVar = 'insertedID';
 
@@ -69,7 +68,7 @@ export default abstract class PostTACore extends mm.TableActions {
       .orderByInput(...this.getDashboardOrderInputSelections());
     this.deletePost = mm.transact(
       mm.deleteOne().whereSQL(this.#updateConditions),
-      this.getContainerUpdateCounterAction().wrap({ [offsetParamName]: '-1' }),
+      this.getContainerUpdateCounterAction().wrap({ offset: '-1' }),
     );
     this.insertPost = mm
       .transact(
@@ -82,7 +81,7 @@ export default abstract class PostTACore extends mm.TableActions {
           )
           .setDefaults()
           .declareInsertedID(insertedIDVar),
-        this.getContainerUpdateCounterAction().wrap({ [offsetParamName]: '1' }),
+        this.getContainerUpdateCounterAction().wrap({ offset: '1' }),
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
       .setReturnValues(insertedIDVar);

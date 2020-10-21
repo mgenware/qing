@@ -2,22 +2,36 @@ import * as mm from 'mingru-models';
 import { TableWithUserID } from '../../models/common';
 import { defaultUpdateConditions } from '../common';
 
+export interface UpdateCounterActionOptions {
+  offsetInputName?: string;
+  idInputName?: string;
+  whereSQL?: mm.SQL;
+  rawOffsetSQL?: number | mm.SQL;
+}
+
 export function updateCounterAction(
   table: TableWithUserID,
   counterCol: mm.Column,
-  offset: number | mm.SQL,
-  idInputName?: string,
-): mm.Action {
-  let offsetExpr: mm.SQL | string;
-  if (offset instanceof mm.SQL) {
-    offsetExpr = offset;
+  opt?: UpdateCounterActionOptions,
+): mm.UpdateAction {
+  // eslint-disable-next-line no-param-reassign
+  opt = opt || {};
+  const { rawOffsetSQL } = opt;
+  let offsetSQL: mm.SQL | string;
+  if (rawOffsetSQL) {
+    if (rawOffsetSQL instanceof mm.SQL) {
+      offsetSQL = rawOffsetSQL;
+    } else {
+      // Produce: `+ <offset>` or `- <offset>`.
+      offsetSQL = rawOffsetSQL < 0 ? rawOffsetSQL.toString() : `+ ${rawOffsetSQL}`;
+    }
+    offsetSQL = mm.sql`${counterCol} ${offsetSQL}`;
   } else {
-    // Produce `+ <offset>` or `- <offset>`.
-    offsetExpr = offset < 0 ? offset.toString() : `+ ${offset}`;
+    offsetSQL = mm.sql`${counterCol} + ${mm.int().toInput(opt.offsetInputName || 'offset')}`;
   }
   return mm
     .updateOne()
     .from(table)
-    .set(counterCol, mm.sql`${counterCol} ${offsetExpr}`)
-    .whereSQL(defaultUpdateConditions(table, idInputName));
+    .set(counterCol, offsetSQL)
+    .whereSQL(opt.whereSQL ? opt.whereSQL : defaultUpdateConditions(table, opt.idInputName));
 }

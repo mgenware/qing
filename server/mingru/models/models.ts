@@ -9,6 +9,8 @@ import userAuth from './user/userAuth';
 import likes from './like/likeableTables';
 import thread from './thread/thread';
 import threadCmt from './thread/threadCmt';
+import threadMsg from './thread/threadMsg';
+import threadMsgCmt from './thread/threadMsgCmt';
 
 const tables: mm.Table[] = [
   user,
@@ -21,6 +23,10 @@ const tables: mm.Table[] = [
   userAuth,
   thread,
   threadCmt,
+  threadMsg,
+  threadMsgCmt,
+  threadMsg,
+  threadMsgCmt,
   ...likes.values(),
 ];
 export default tables;

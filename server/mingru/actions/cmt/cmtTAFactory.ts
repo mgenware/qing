@@ -37,8 +37,8 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
     });
 }
 
-export function updateCmtCountAction(pt: CmtHostTable, offset: number | mm.SQL): mm.Action {
-  return updateCounterAction(pt, pt.cmt_count, offset, hostID);
+export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQL): mm.Action {
+  return updateCounterAction(pt, pt.cmt_count, { rawOffsetSQL: offsetSQL, idInputName: hostID });
 }
 
 export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {

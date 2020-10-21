@@ -2,12 +2,10 @@ import * as mm from 'mingru-models';
 import { UpdateAction } from 'mingru-models';
 import t from '../../models/user/userStats';
 
-export const offsetParamName = 'offset';
-
 function updateCounterAction(column: mm.Column): UpdateAction {
   return mm
     .updateOne()
-    .set(column, mm.sql`${column} + ${mm.int().toInput(offsetParamName)}`)
+    .set(column, mm.sql`${column} + ${mm.int().toInput('offset')}`)
     .by(t.id, 'userID');
 }
 

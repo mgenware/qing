@@ -58,6 +58,10 @@ func (u *URL) Post(pid uint64) string {
 	return "/" + defs.RoutePost + "/" + validator.EncodeID(pid)
 }
 
+func (u *URL) Thread(pid uint64) string {
+	return "/" + defs.RouteThread + "/" + validator.EncodeID(pid)
+}
+
 func (u *URL) SignIn() string {
 	return "/" + defs.RouteAuth + "/sign/in"
 }

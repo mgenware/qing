@@ -1,11 +1,11 @@
 import * as mm from 'mingru-models';
 import PostCmtCore from '../post/postCmtCore';
 import PostCore from '../post/postCore';
-import answer from './answer';
+import threadMsg from './threadMsg';
 
 export class ForumPostCmt extends PostCmtCore {
   getPostTable(): PostCore {
-    return answer;
+    return threadMsg;
   }
 }
 
