@@ -7,6 +7,10 @@
   "maxGenericStringLen": 100,
   "errInvalidUserOrPwd": 1,
   "columnCreated": "createdAt",
-  "columnLikes":"likes",
-  "columnComments":"comments"
+  "columnLikes": "likes",
+  "columnComments": "comments",
+  "forumPostTypePost": 1,
+  "forumPostTypeQuestion": 2,
+  "postDestinationUser": 1,
+  "postDestinationForum": 2
 }

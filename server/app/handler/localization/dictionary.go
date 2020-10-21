@@ -25,7 +25,6 @@ type Dictionary struct {
 	ClickToRefreshCapt     string `json:"clickToRefreshCapt"`
 	Comment                string `json:"comment"`
 	Comments               string `json:"comments"`
-	Common                 string `json:"common"`
 	Company                string `json:"company"`
 	ConfirmPassword        string `json:"confirmPassword"`
 	Content                string `json:"content"`
@@ -54,6 +53,8 @@ type Dictionary struct {
 	Location               string `json:"location"`
 	Name                   string `json:"name"`
 	NeedAuthErr            string `json:"needAuthErr"`
+	NewForumPost           string `json:"newForumPost"`
+	NewForumQuestion       string `json:"newForumQuestion"`
 	NewPost                string `json:"newPost"`
 	NextPage               string `json:"nextPage"`
 	No                     string `json:"no"`
@@ -114,6 +115,8 @@ type Dictionary struct {
 	Working                string `json:"working"`
 	WriteAComment          string `json:"writeAComment"`
 	Yes                    string `json:"yes"`
+	YourForumPosts         string `json:"yourForumPosts"`
+	YourForumQuestions     string `json:"yourForumQuestions"`
 	YourPosts              string `json:"yourPosts"`
 }
 

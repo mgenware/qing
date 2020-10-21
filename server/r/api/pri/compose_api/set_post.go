@@ -17,23 +17,42 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
-	title := validator.MustGetStringFromDict(params, "title", app.Constants.MaxPostTitleLen)
+	destination := validator.MustGetIntFromDict(params, "destination")
+	postType := validator.MustGetIntFromDict(params, "type")
+	if postType == app.Constants.PostTypeQuestion {
+		panic("Questions are WIP")
+	}
+
+	contentDict := validator.MustGetDictFromDict(params, "content")
+	title := validator.MustGetStringFromDict(contentDict, "title", app.Constants.MaxPostTitleLen)
+
 	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(params, "contentHTML"))
 
+	var err error
 	if !hasID {
-		capt := validator.MustGetStringFromDict(params, "captcha", 10)
+		capt := validator.MustGetStringFromDict(contentDict, "captcha", 10)
 		// New post
 		captResult, err := app.Service.Captcha.Verify(uid, defs.EntityPost, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
-		insertedID, err := da.Post.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
+
+		var insertedID uint64
+		if destination == app.Constants.PostDestinationUser {
+			insertedID, err = da.Post.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
+		} else {
+			insertedID, err = da.Thread.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
+		}
 		app.PanicIfErr(err)
 		id = insertedID
 	} else {
-		// Edit post
-		err := da.Post.EditPost(app.DB, id, uid, title, contentHTML, sanitizedToken)
+		// Edit post.
+		if destination == app.Constants.PostDestinationUser {
+			err = da.Post.EditPost(app.DB, id, uid, title, contentHTML, sanitizedToken)
+		} else {
+			err = da.Thread.EditPost(app.DB, id, uid, title, contentHTML, sanitizedToken)
+		}
 		app.PanicIfErr(err)
 	}
 

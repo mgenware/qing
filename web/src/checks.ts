@@ -3,7 +3,7 @@ import app from 'app';
 const errMessage = 'Assertion failed';
 
 export function CHECK(v: unknown) {
-  if (v === undefined || v === null || v === '') {
+  if (!v) {
     if (app.devMode) {
       throw new Error(errMessage);
     } else {

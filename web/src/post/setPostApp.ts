@@ -7,7 +7,8 @@ import app from 'app';
 import BaseElement from 'baseElement';
 import { EntityType } from 'lib/entity';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
-import SetPostLoader from './loaders/setPostLoader';
+import { SetPostLoader, SetPostConfig } from './loaders/setPostLoader';
+import { CHECK } from 'checks';
 
 const composerID = 'composer';
 
@@ -15,10 +16,15 @@ const composerID = 'composer';
 export default class SetPostApp extends BaseElement {
   @lp.string editedID = '';
   @lp.string postTitle = '';
+  @lp.number postDestination = 0;
+  @lp.number postType = 0;
 
   private composerElement!: ComposerView;
 
   async firstUpdated() {
+    CHECK(this.postDestination);
+    CHECK(this.postType);
+
     this.composerElement = this.mustGetShadowElement(composerID);
     if (this.editedID) {
       // Loading content
@@ -54,7 +60,8 @@ export default class SetPostApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const loader = new SetPostLoader(this.editedID, e.detail);
+    const setPostConfig: SetPostConfig = { destination: this.postDestination, type: this.postType };
+    const loader = new SetPostLoader(this.editedID, e.detail, setPostConfig);
     const status = await app.runGlobalActionAsync(
       loader,
       this.editedID ? ls.saving : ls.publishing,

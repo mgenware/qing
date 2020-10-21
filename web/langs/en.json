@@ -100,5 +100,9 @@
   "pageControlItemFormat": "{0} / {1} item(s)",
   "goToPage": "Go to",
   "invalidPageNumber": "Invalid page number",
-  "pageNumberOutOfBounds": "Page number out of bounds"
+  "pageNumberOutOfBounds": "Page number out of bounds",
+  "yourForumQuestions": "Your forum questions",
+  "yourForumPosts": "You forum posts",
+  "newForumPost": "New forum post",
+  "newForumQuestion": "New forum question"
 }

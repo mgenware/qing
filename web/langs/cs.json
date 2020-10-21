@@ -100,5 +100,9 @@
   "pageControlItemFormat": "{0} / {1} 个项目",
   "goToPage": "前往",
   "invalidPageNumber": "错误的页数格式",
-  "pageNumberOutOfBounds": "页数超出范围"
+  "pageNumberOutOfBounds": "页数超出范围",
+  "yourForumQuestions": "我的论坛提问",
+  "yourForumPosts": "我的论坛帖子",
+  "newForumPost": "新论坛帖子",
+  "newForumQuestion": "新论坛提问"
 }

@@ -38,7 +38,6 @@ export default interface LSDefs {
   unsavedChangesWarning: string;
   saving: string;
   publishing: string;
-  common: string;
   newPost: string;
   posts: string;
   editedAt: string;
@@ -102,4 +101,8 @@ export default interface LSDefs {
   goToPage: string;
   invalidPageNumber: string;
   pageNumberOutOfBounds: string;
+  yourForumQuestions: string;
+  yourForumPosts: string;
+  newForumPost: string;
+  newForumQuestion: string;
 }

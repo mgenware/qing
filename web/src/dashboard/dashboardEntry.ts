@@ -34,7 +34,7 @@ page(`${rs.home.editPost}/:id`, (e) => {
 page(rs.home.settings.profile, () => {
   loadSettingsContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
 });
-page(rs.home.posts, () => {
+page(rs.home.yourPosts, () => {
   loadContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
 });
 page('*', () => {
