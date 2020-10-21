@@ -5,7 +5,7 @@ import (
 	"qing/app"
 )
 
-func viewsGET(w http.ResponseWriter, r *http.Request) {
+func views(w http.ResponseWriter, r *http.Request) {
 	resp := app.HTMLResponse(w, r)
 
 	content := "<views-demo></views-demo>"

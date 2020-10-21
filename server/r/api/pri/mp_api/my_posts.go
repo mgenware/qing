@@ -34,7 +34,7 @@ func newDashboardPost(p *da.PostTableSelectPostsForDashboardResult, uid uint64) 
 	return d
 }
 
-func myPostsPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
+func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()

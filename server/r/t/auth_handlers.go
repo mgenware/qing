@@ -12,7 +12,7 @@ import (
 	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
-func signInGET(w http.ResponseWriter, r *http.Request) {
+func signIn(w http.ResponseWriter, r *http.Request) {
 	uid, err := strconvx.ParseUint64(chi.URLParam(r, "uid"))
 	if err != nil {
 		fmt.Fprintln(w, "Invalid user ID")
@@ -33,7 +33,7 @@ func signInGET(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
-func signOutGET(w http.ResponseWriter, r *http.Request) {
+func signOut(w http.ResponseWriter, r *http.Request) {
 	err := app.UserManager.SessionManager.Logout(w, r)
 	if err != nil {
 		w.Write([]byte(err.Error()))
@@ -42,7 +42,7 @@ func signOutGET(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Log out successfully")
 }
 
-func userInfoGET(w http.ResponseWriter, r *http.Request) {
+func userInfo(w http.ResponseWriter, r *http.Request) {
 	user := cm.ContextUser(r.Context())
 	if user == nil {
 		fmt.Fprintln(w, "No user currently logged in")

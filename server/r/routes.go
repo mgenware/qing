@@ -70,7 +70,7 @@ func Start() {
 	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.ProfileGET))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router
 	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Dashboard router

@@ -11,7 +11,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func veirfyRegEmailGET(w http.ResponseWriter, r *http.Request) handler.HTML {
+func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	key := chi.URLParam(r, "key")
 	if key == "" {
 		panic("Empty input")

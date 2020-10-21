@@ -10,7 +10,7 @@ import (
 	"qing/lib/validator"
 )
 
-func signInPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
+func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 

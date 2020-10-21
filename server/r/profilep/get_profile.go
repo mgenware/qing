@@ -14,7 +14,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func ProfileGET(w http.ResponseWriter, r *http.Request) handler.HTML {
+func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)

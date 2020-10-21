@@ -36,7 +36,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 	return &d, nil
 }
 
-func createPwdUserPOST(w http.ResponseWriter, r *http.Request) handler.JSON {
+func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 

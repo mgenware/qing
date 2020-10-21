@@ -9,7 +9,7 @@ import (
 	"qing/lib/validator"
 )
 
-func setLikePOST(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()

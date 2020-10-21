@@ -5,7 +5,7 @@ import (
 	"qing/app"
 )
 
-func rootGET(w http.ResponseWriter, r *http.Request) {
+func home(w http.ResponseWriter, r *http.Request) {
 	resp := app.HTMLResponse(w, r)
 
 	content := "<t-page></t-page>"

@@ -10,7 +10,7 @@ import (
 var Router = handler.NewHTMLRouter()
 
 func init() {
-	Router.Get("/verify-reg-email/{key}", veirfyRegEmailGET)
+	Router.Get("/verify-reg-email/{key}", verifyRegEmail)
 	Router.Get("/*", genericGET)
 }
 
