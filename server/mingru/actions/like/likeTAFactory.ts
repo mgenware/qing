@@ -35,5 +35,5 @@ export default function getLikeTableActions(
       .whereSQL(mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput()))
       .attr(mm.ActionAttributes.groupTypeName, likeInterface),
   };
-  return mm.tableActionsCore(table, null, actions);
+  return mm.tableActionsCore(table, null, actions, undefined);
 }

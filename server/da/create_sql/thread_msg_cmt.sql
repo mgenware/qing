@@ -1,4 +1,4 @@
-CREATE TABLE `forum_post_cmt` (
+CREATE TABLE `thread_msg_cmt` (
 	`cmt_id` BIGINT UNSIGNED NOT NULL,
 	`host_id` BIGINT UNSIGNED NOT NULL,
 	PRIMARY KEY (`cmt_id`, `host_id`),
