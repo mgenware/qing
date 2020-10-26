@@ -79,11 +79,6 @@ func (da *TableTypeThread) DeletePost(db *sql.DB, id uint64, userID uint64) erro
 	return txErr
 }
 
-func (da *TableTypeThread) deleteReplyChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
 func (da *TableTypeThread) deleteReplyChild3(queryable mingru.Queryable, hostID uint64, userID uint64) error {
 	result, err := queryable.Exec("UPDATE `thread` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ? AND `user_id` = ?", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -101,7 +96,7 @@ func (da *TableTypeThread) DeleteReply(db *sql.DB, id uint64, userID uint64, hos
 		if err != nil {
 			return err
 		}
-		err = da.deleteReplyChild2(tx, id, userID)
+		err = Reply.DeleteReply(tx, id, userID)
 		if err != nil {
 			return err
 		}
@@ -190,11 +185,6 @@ func (da *TableTypeThread) InsertPost(db *sql.DB, title string, content string, 
 	return insertedIDExported, txErr
 }
 
-func (da *TableTypeThread) insertReplyChild1(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?)", content, userID, toUserID, parentID)
-	return mingru.GetLastInsertIDUint64WithError(result, err)
-}
-
 func (da *TableTypeThread) insertReplyChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
 	return Cmt.UpdateReplyCount(queryable, id, userID, 1)
 }
@@ -209,7 +199,7 @@ func (da *TableTypeThread) InsertReply(db *sql.DB, content string, userID uint64
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := da.insertReplyChild1(tx, content, userID, toUserID, parentID)
+		replyID, err := Reply.InsertReply(tx, content, userID, toUserID, parentID)
 		if err != nil {
 			return err
 		}

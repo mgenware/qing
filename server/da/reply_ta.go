@@ -16,6 +16,12 @@ var Reply = &TableTypeReply{}
 
 // ------------ Actions ------------
 
+// DeleteReply ...
+func (da *TableTypeReply) DeleteReply(queryable mingru.Queryable, id uint64, userID uint64) error {
+	result, err := queryable.Exec("DELETE FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 // EditReply ...
 func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
@@ -30,6 +36,12 @@ func (da *TableTypeReply) GetParentID(queryable mingru.Queryable, id uint64) (ui
 		return result, err
 	}
 	return result, nil
+}
+
+// InsertReply ...
+func (da *TableTypeReply) InsertReply(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?)", content, userID, toUserID, parentID)
+	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 // SelectReplies ...

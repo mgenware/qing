@@ -1,5 +1,5 @@
 import * as mm from 'mingru-models';
-import { cmt, reply } from '../../models/cmt/cmt';
+import { cmt } from '../../models/cmt/cmt';
 import user from '../../models/user/user';
 import * as cm from '../../models/common';
 import cmtTA from './cmtTA';
@@ -71,7 +71,7 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
 export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
-      mm.insertOne().from(reply).setDefaults().setInputs().declareInsertedID(replyID),
+      replyTA.insertReply.declareInsertedID(replyID),
       cmtTA.updateReplyCount.wrap({
         offset: '1',
         id: mm.valueRef(parentID),
@@ -87,7 +87,7 @@ export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
       replyTA.getParentID.declareReturnValue(mm.ReturnValues.result, parentID),
-      mm.deleteOne().from(reply).whereSQL(defaultUpdateConditions(reply)),
+      replyTA.deleteReply,
       updateCmtCountAction(ht, -1),
       cmtTA.updateReplyCount.wrap({
         offset: '-1',

@@ -18,7 +18,6 @@ export class ReplyTA extends mm.TableActions {
       t.user_id.join(user).icon_name.privateAttr(),
       t.to_user_id.join(user).name,
     )
-    .from(t)
     .by(t.parent_id)
     .orderByDesc(t.created_at)
     .attrs({
@@ -32,6 +31,8 @@ export class ReplyTA extends mm.TableActions {
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
   selectReplySource = mm.select(t.content).whereSQL(defaultUpdateConditions(t));
+  insertReply = mm.insertOne().setDefaults().setInputs();
+  deleteReply = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 }
 
 export default mm.tableActions(t, ReplyTA);
