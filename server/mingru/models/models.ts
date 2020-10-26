@@ -25,8 +25,6 @@ const tables: mm.Table[] = [
   threadCmt,
   threadMsg,
   threadMsgCmt,
-  threadMsg,
-  threadMsgCmt,
   ...likes.values(),
 ];
 export default tables;

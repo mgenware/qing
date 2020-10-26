@@ -74,7 +74,10 @@ page(rs.home.settings.profile, () => {
 page(rs.home.yourPosts, () => {
   loadContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
 });
-page('*', () => {
-  loadContent('', html` <p>${ls.noContentAvailable}</p> `);
-});
+
+// DO NOT add a default page handler, that will affect all pages.
+// page('*', () => {
+//   loadContent('', html` <p>${ls.noContentAvailable}</p> `);
+// });
+
 page();

@@ -15,7 +15,7 @@ import (
 	"qing/r/postp"
 	"qing/r/profilep"
 	"qing/r/sys"
-	"qing/r/t"
+	"qing/r/testp"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -84,7 +84,7 @@ func Start() {
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.RouteDebug, t.Router)
+			r.Mount("/"+defs.RouteTest, testp.Router)
 		}
 	}
 

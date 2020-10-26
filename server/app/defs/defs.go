@@ -46,7 +46,7 @@ const (
 	RouteUser      = "user"
 	RoutePost      = "p"
 	RouteAuth      = "auth" // Used by both `/auth` and `/s/r/auth`.
-	RouteDebug     = "_"
+	RouteTest      = "test"
 	RouteDashboard = "home"
 	RouteAPI       = "s"
 	RouteForum     = "f"

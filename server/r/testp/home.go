@@ -1,14 +1,14 @@
-package t
+package testp
 
 import (
 	"net/http"
 	"qing/app"
 )
 
-func views(w http.ResponseWriter, r *http.Request) {
+func home(w http.ResponseWriter, r *http.Request) {
 	resp := app.HTMLResponse(w, r)
 
-	content := "<views-demo></views-demo>"
+	content := "<test-page></test-page>"
 	d := app.MasterPageData("", content)
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Dashboard
 

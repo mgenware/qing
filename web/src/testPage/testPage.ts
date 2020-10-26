@@ -4,8 +4,8 @@ import BaseElement from 'baseElement';
 import 'ui/form/inputView';
 import './ui/viewsDemo';
 
-@customElement('t-page')
-export class TPage extends BaseElement {
+@customElement('test-page')
+export class TestPage extends BaseElement {
   @lp.string loginUserID = '1';
 
   render() {
@@ -45,6 +45,6 @@ export class TPage extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    't-page': TPage;
+    'test-page': TestPage;
   }
 }
