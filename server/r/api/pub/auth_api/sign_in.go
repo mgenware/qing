@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -14,14 +15,14 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	email := validator.MustGetStringFromDict(params, "email", app.Constants.MaxUserEmailLen)
-	pwd := validator.MustGetStringFromDict(params, "pwd", app.Constants.MaxUserPwdLen)
+	email := validator.MustGetStringFromDict(params, "email", defs.Constants.MaxUserEmailLen)
+	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Constants.MaxUserPwdLen)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIdFromEmail(app.DB, email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(app.Constants.ErrInvalidUserOrPwd)
+			return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -33,7 +34,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hash, err := da.UserPwd.SelectHashByID(app.DB, uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(app.Constants.ErrInvalidUserOrPwd)
+			return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -43,7 +44,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 	if !pwdValid {
-		return resp.MustFailWithCode(app.Constants.ErrInvalidUserOrPwd)
+		return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)
 	}
 
 	user, err := app.UserManager.CreateUserSessionFromUID(uid)

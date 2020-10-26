@@ -3,6 +3,7 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/form/inputView';
 import './ui/viewsDemo';
+import { routeTest } from 'app/sharedConstants';
 
 @customElement('test-page')
 export class TestPage extends BaseElement {
@@ -16,7 +17,7 @@ export class TestPage extends BaseElement {
         <h2>Auth</h2>
         ${this.renderSignInHelper()}
         <h2>UI</h2>
-        <p><a href="/t/views">Views</a></p>
+        <p><a href=${`/${routeTest}/views`}>Views</a></p>
       </container-view>
     `;
   }
@@ -39,7 +40,7 @@ export class TestPage extends BaseElement {
     if (!this.loginUserID) {
       return;
     }
-    window.location.href = `/t/auth/in/${this.loginUserID}`;
+    window.location.href = `/${routeTest}/auth/in/${this.loginUserID}`;
   }
 }
 

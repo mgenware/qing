@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/lib/validator"
 )
@@ -40,9 +41,9 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 
-	name := validator.MustGetStringFromDict(params, "name", app.Constants.MaxUserNameLen)
-	email := validator.MustGetStringFromDict(params, "email", app.Constants.MaxUserEmailLen)
-	pwd := validator.MustGetMinMaxStringFromDict(params, "pwd", app.Constants.MinUserPwdLen, app.Constants.MaxUserPwdLen)
+	name := validator.MustGetStringFromDict(params, "name", defs.Constants.MaxUserNameLen)
+	email := validator.MustGetStringFromDict(params, "email", defs.Constants.MaxUserEmailLen)
+	pwd := validator.MustGetMinMaxStringFromDict(params, "pwd", defs.Constants.MinUserPwdLen, defs.Constants.MaxUserPwdLen)
 
 	// Put user pwd to memory store and wait for user email verification.
 	createUserData := &CreateUserData{

@@ -12,5 +12,17 @@
   "forumPostTypePost": 1,
   "forumPostTypeQuestion": 2,
   "postDestinationUser": 1,
-  "postDestinationForum": 2
+  "postDestinationForum": 2,
+  "defaultLang": "en",
+  "routeUser": "user",
+  "routePost": "p",
+  "routeAuth": "auth",
+  "routeTest": "test",
+  "routeDashboard": "home",
+  "routeAPI": "s",
+  "routeForum": "f",
+  "routeThread": "t",
+  "entityPost": 1,
+  "entityCmt": 2,
+  "entityReply": 3
 }

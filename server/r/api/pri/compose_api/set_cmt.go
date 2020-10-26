@@ -19,7 +19,7 @@ type SetCmtResponse struct {
 
 func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
-	case defs.EntityPost:
+	case defs.Constants.EntityPost:
 		return da.Post, nil
 	default:
 		return nil, fmt.Errorf("Unknown cmt data provider: %v", hostType)

@@ -23,9 +23,9 @@ var allowedTypes map[int]bool
 
 func init() {
 	allowedTypes = make(map[int]bool)
-	allowedTypes[defs.EntityPost] = true
-	allowedTypes[defs.EntityCmt] = true
-	allowedTypes[defs.EntityReply] = true
+	allowedTypes[defs.Constants.EntityPost] = true
+	allowedTypes[defs.Constants.EntityCmt] = true
+	allowedTypes[defs.Constants.EntityReply] = true
 }
 
 // NewCaptchaService creates a CaptchaService.

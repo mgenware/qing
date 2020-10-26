@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -14,9 +15,9 @@ var columnNameToEnumMap map[string]int
 
 func init() {
 	columnNameToEnumMap = map[string]int{
-		app.Constants.ColumnComments: da.PostTableSelectPostsForDashboardOrderBy1CmtCount,
-		app.Constants.ColumnCreated:  da.PostTableSelectPostsForDashboardOrderBy1CreatedAt,
-		app.Constants.ColumnLikes:    da.PostTableSelectPostsForDashboardOrderBy1Likes,
+		defs.Constants.ColumnComments: da.PostTableSelectPostsForDashboardOrderBy1CmtCount,
+		defs.Constants.ColumnCreated:  da.PostTableSelectPostsForDashboardOrderBy1CreatedAt,
+		defs.Constants.ColumnLikes:    da.PostTableSelectPostsForDashboardOrderBy1Likes,
 	}
 }
 
@@ -41,7 +42,7 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	page := validator.MustGetIntFromDict(params, "page")
 	pageSize := validator.MustGetIntFromDict(params, "pageSize")
-	sortBy := validator.MustGetStringFromDict(params, "sort", app.Constants.MaxGenericStringLen)
+	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Constants.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
 	rawPosts, hasNext, err := da.Post.SelectPostsForDashboard(app.DB, uid, page, pageSize, columnNameToEnumMap[sortBy], desc)

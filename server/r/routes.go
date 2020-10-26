@@ -70,21 +70,21 @@ func Start() {
 	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router
-	r.With(lm.EnableContextLanguage).Get("/"+defs.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Dashboard router
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteDashboard, mp.Router)
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteDashboard, mp.Router)
 	// Auth router
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.RouteAuth, authp.Router)
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteAuth, authp.Router)
 	// API router
-	r.Mount("/"+defs.RouteAPI, api.Router)
+	r.Mount("/"+defs.Constants.RouteApi, api.Router)
 
 	debugConfig := config.Debug
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.RouteTest, testp.Router)
+			r.Mount("/"+defs.Constants.RouteTest, testp.Router)
 		}
 	}
 

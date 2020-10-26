@@ -46,7 +46,7 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 }
 
 func (u *URL) UserProfile(uid uint64) string {
-	return "/" + defs.RouteUser + "/" + validator.EncodeID(uid)
+	return "/" + defs.Constants.RouteUser + "/" + validator.EncodeID(uid)
 }
 
 func (u *URL) UserProfileFormatter(uid uint64) string {
@@ -55,17 +55,17 @@ func (u *URL) UserProfileFormatter(uid uint64) string {
 }
 
 func (u *URL) Post(pid uint64) string {
-	return "/" + defs.RoutePost + "/" + validator.EncodeID(pid)
+	return "/" + defs.Constants.RoutePost + "/" + validator.EncodeID(pid)
 }
 
 func (u *URL) Thread(pid uint64) string {
-	return "/" + defs.RouteThread + "/" + validator.EncodeID(pid)
+	return "/" + defs.Constants.RouteThread + "/" + validator.EncodeID(pid)
 }
 
 func (u *URL) SignIn() string {
-	return "/" + defs.RouteAuth + "/sign/in"
+	return "/" + defs.Constants.RouteAuth + "/sign/in"
 }
 
 func (u *URL) RegEmailVerification(publicID string) string {
-	return "/" + defs.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
+	return "/" + defs.Constants.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
 }

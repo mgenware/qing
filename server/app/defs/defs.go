@@ -41,25 +41,7 @@ const (
 	MSRegEmailPrefix = "reg-email"
 )
 
-// Top-level routes
-const (
-	RouteUser      = "user"
-	RoutePost      = "p"
-	RouteAuth      = "auth" // Used by both `/auth` and `/s/r/auth`.
-	RouteTest      = "test"
-	RouteDashboard = "home"
-	RouteAPI       = "s"
-	RouteForum     = "f"
-	RouteThread    = "t"
-)
-
 const (
 	CookieDefaultExpires = 1296000
 	UserPostsLimit       = 10
-)
-
-const (
-	EntityPost  = 1
-	EntityCmt   = 2
-	EntityReply = 3
 )

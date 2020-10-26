@@ -9,12 +9,13 @@ import tsConvert from 'json-to-js-const';
 
   const jsonObj = JSON.parse(json);
   const goResult = await goConvert(jsonObj, {
-    packageName: 'app',
+    packageName: 'defs',
     typeName: 'SharedConstants',
     variableName: 'Constants',
+    hideJSONTags: true,
   });
   const tsResult = tsConvert(jsonObj);
 
-  await fsPromises.writeFile('../server/app/shared_const.go', goResult);
+  await fsPromises.writeFile('../server/app/defs/shared_const.go', goResult);
   await fsPromises.writeFile('../web/src/app/sharedConstants.ts', tsResult);
 })();

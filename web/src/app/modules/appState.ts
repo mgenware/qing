@@ -1,4 +1,4 @@
-import * as defs from 'defs';
+import { defaultLang } from 'app/sharedConstants';
 import User from '../user/user';
 
 export type UserCallbackFn = (user: User | null) => void;
@@ -14,7 +14,7 @@ export default class AppState {
     const wind = window as any;
 
     this.#user = User.fromWindow();
-    this.lang = wind.appLang || defs.defaultLang;
+    this.lang = wind.appLang || defaultLang;
   }
 
   get hasUser(): boolean {

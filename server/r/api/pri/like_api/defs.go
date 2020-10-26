@@ -6,5 +6,5 @@ import (
 )
 
 var dbSources = map[int]da.LikeInterface{
-	defs.EntityPost: da.PostLike,
+	defs.Constants.EntityPost: da.PostLike,
 }

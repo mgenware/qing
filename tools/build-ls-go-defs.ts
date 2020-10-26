@@ -11,8 +11,5 @@ import gen from 'go-const-gen';
     parseFunc: true,
   });
 
-  await fsPromises.writeFile(
-    '../server/app/handler/localization/dictionary.go',
-    result,
-  );
+  await fsPromises.writeFile('../server/app/handler/localization/dictionary.go', result);
 })();

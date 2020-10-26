@@ -17,5 +17,3 @@ export enum UserTheme {
   light = 0,
   dark,
 }
-
-export const defaultLang = 'en';
