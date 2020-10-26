@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"qing/app/defs"
-	"qing/app/errs"
 	"qing/app/extern/redisx"
 	"strconv"
 
@@ -66,10 +65,10 @@ func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode
 		return 0, err
 	}
 	if result == "" {
-		return errs.CaptchaNotFound, nil
+		return defs.Constants.ErrCaptchaNotFound, nil
 	}
 	if result != code {
-		return errs.CaptchaNotMatch, nil
+		return defs.Constants.ErrCaptchaNotMatch, nil
 	}
 	return 0, nil
 }

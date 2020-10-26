@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"qing/app/errs"
+	"qing/app/defs"
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 )
@@ -38,13 +38,13 @@ func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSO
 
 // MustFail finishes the response with the specified error object, and panics if unexpected error happens.
 func (j *JSONResponse) MustFail(err error) JSON {
-	j.MustFailWithError(errs.Generic, err, false)
+	j.MustFailWithError(defs.Constants.ErrGeneric, err, false)
 	return JSON(0)
 }
 
 // MustFailWithUserError finishes the response with an user error (expected error) message, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithUserError(msg string) JSON {
-	j.MustFailWithError(errs.Generic, errors.New(msg), true)
+	j.MustFailWithError(defs.Constants.ErrGeneric, errors.New(msg), true)
 	return JSON(0)
 }
 

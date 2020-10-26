@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"qing/app/cfg/config"
 	"qing/app/cm"
-	"qing/app/errs"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/app/urlx"
 	"qing/da"
@@ -60,7 +60,7 @@ func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
 			resp := handler.NewJSONResponse(r, appu.TemplateManager, w)
-			resp.MustFailWithCode(errs.NeedAuth)
+			resp.MustFailWithCode(defs.Constants.ErrNeedAuth)
 		}
 	})
 }

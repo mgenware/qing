@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"qing/app"
-	"qing/app/errs"
+	"qing/app/defs"
 )
 
 // PanicMiddleware handles panics.
@@ -45,7 +45,7 @@ func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 		resp := app.JSONResponse(w, r)
-		resp.MustFailWithError(errs.Generic, err, expected)
+		resp.MustFailWithError(defs.Constants.ErrGeneric, err, expected)
 	} else {
 		if !expected && app.Config.Debug != nil && app.Config.Debug.PanicOnUnexpectedHTMLErrors {
 			panic(err)
