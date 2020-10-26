@@ -24,5 +24,9 @@
   "routeThread": "t",
   "entityPost": 1,
   "entityCmt": 2,
-  "entityReply": 3
+  "entityReply": 3,
+  "errGeneric": 10000,
+  "errNeedAuth": 10001,
+  "errCaptchaNotFound": 10002,
+  "errCaptchaNotMatch": 10003
 }

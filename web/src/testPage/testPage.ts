@@ -3,7 +3,7 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/form/inputView';
 import './ui/viewsDemo';
-import { routeTest } from 'app/sharedConstants';
+import { routeTest } from 'sharedConstants';
 
 @customElement('test-page')
 export class TestPage extends BaseElement {

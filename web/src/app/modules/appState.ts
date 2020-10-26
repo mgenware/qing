@@ -1,4 +1,4 @@
-import { defaultLang } from 'app/sharedConstants';
+import { defaultLang } from 'sharedConstants';
 import User from '../user/user';
 
 export type UserCallbackFn = (user: User | null) => void;

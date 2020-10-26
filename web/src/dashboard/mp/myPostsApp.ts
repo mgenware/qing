@@ -4,7 +4,7 @@ import routes from 'routes';
 import 'ui/cm/timeField';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import { columnCreated, columnLikes, columnComments } from 'app/sharedConstants';
+import { columnCreated, columnLikes, columnComments } from 'sharedConstants';
 import { MPListApp } from './views/mpListApp';
 import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
 

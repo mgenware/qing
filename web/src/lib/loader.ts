@@ -1,5 +1,5 @@
 import { ls, formatLS, getLSByKey } from 'ls';
-import { GenericError } from 'defs';
+import { errGeneric } from 'sharedConstants';
 import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
 
@@ -60,15 +60,10 @@ export default class Loader<T> {
       if (err instanceof ErrorWithCode) {
         errWithCode = err;
       } else {
-        errWithCode = new ErrorWithCode(
-          err.message || ls.internalErr,
-          GenericError,
-        );
+        errWithCode = new ErrorWithCode(err.message || ls.internalErr, errGeneric);
       }
 
-      errWithCode.message = `${errWithCode.message} [${
-        ls.request
-      }: "${this.requestURL()}"]`;
+      errWithCode.message = `${errWithCode.message} [${ls.request}: "${this.requestURL()}"]`;
       errWithCode.stack = err.stack;
       this.onLoadingStatusChanged(LoadingStatus.error(errWithCode));
       throw errWithCode;
@@ -111,9 +106,6 @@ export default class Loader<T> {
   }
 
   private getLocalizedMessage(code: number): string | undefined {
-    return (
-      this.localizedMessageDict?.get(code) ??
-      Loader.defaultLocalizedMessageDict?.get(code)
-    );
+    return this.localizedMessageDict?.get(code) ?? Loader.defaultLocalizedMessageDict?.get(code);
   }
 }

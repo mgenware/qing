@@ -14,7 +14,11 @@ type SharedConstants struct {
 	EntityCmt             int
 	EntityPost            int
 	EntityReply           int
+	ErrCaptchaNotFound    int
+	ErrCaptchaNotMatch    int
+	ErrGeneric            int
 	ErrInvalidUserOrPwd   int
+	ErrNeedAuth           int
 	ForumPostTypePost     int
 	ForumPostTypeQuestion int
 	MaxGenericStringLen   int
@@ -47,7 +51,11 @@ func init() {
 		EntityCmt:             2,
 		EntityPost:            1,
 		EntityReply:           3,
+		ErrCaptchaNotFound:    10002,
+		ErrCaptchaNotMatch:    10003,
+		ErrGeneric:            10000,
 		ErrInvalidUserOrPwd:   1,
+		ErrNeedAuth:           10001,
 		ForumPostTypePost:     1,
 		ForumPostTypeQuestion: 2,
 		MaxGenericStringLen:   100,

@@ -31,3 +31,7 @@ export const routeThread = "t";
 export const entityPost = 1;
 export const entityCmt = 2;
 export const entityReply = 3;
+export const errGeneric = 10000;
+export const errNeedAuth = 10001;
+export const errCaptchaNotFound = 10002;
+export const errCaptchaNotMatch = 10003;

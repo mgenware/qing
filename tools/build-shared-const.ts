@@ -17,5 +17,5 @@ import tsConvert from 'json-to-js-const';
   const tsResult = tsConvert(jsonObj);
 
   await fsPromises.writeFile('../server/app/defs/shared_const.go', goResult);
-  await fsPromises.writeFile('../web/src/app/sharedConstants.ts', tsResult);
+  await fsPromises.writeFile('../web/src/sharedConstants.ts', tsResult);
 })();

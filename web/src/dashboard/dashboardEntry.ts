@@ -13,7 +13,7 @@ import {
   forumPostTypeQuestion,
   postDestinationForum,
   postDestinationUser,
-} from 'app/sharedConstants';
+} from 'sharedConstants';
 
 function loadContent(title: string, content: TemplateResult) {
   document.title = `${title} - ${ls._siteName}`;
