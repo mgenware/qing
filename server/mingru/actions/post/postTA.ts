@@ -7,11 +7,11 @@ import PostCmtCore from '../../models/post/postCmtCore';
 import userStatsTA from '../user/userStatsTA';
 
 export class PostTA extends PostTACore {
-  getPostTable(): PostCore {
+  getItemTable(): PostCore {
     return t;
   }
 
-  getPostCmtTable(): PostCmtCore {
+  getItemCmtTable(): PostCmtCore {
     return postCmt;
   }
 
@@ -19,7 +19,7 @@ export class PostTA extends PostTACore {
     return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.likes];
   }
 
-  getPostSourceColumns(): mm.Column[] {
+  getItemSourceColumns(): mm.Column[] {
     return [t.title, t.content];
   }
 

@@ -10,15 +10,15 @@ const insertedIDVar = 'insertedID';
 
 export default abstract class PostTACore extends mm.TableActions {
   // SELECT actions.
-  selectPostByID: mm.SelectAction;
-  selectPostsForUserProfile: mm.SelectAction;
-  selectPostSource: mm.SelectAction;
-  selectPostsForDashboard: mm.SelectAction;
+  selectItemByID: mm.SelectAction;
+  selectItemsForUserProfile: mm.SelectAction;
+  selectItemSource: mm.SelectAction;
+  selectItemsForDashboard: mm.SelectAction;
 
   // Other actions.
-  deletePost: mm.TransactAction;
-  insertPost: mm.TransactAction;
-  editPost: mm.UpdateAction;
+  deleteItem: mm.TransactAction;
+  insertItem: mm.TransactAction;
+  editItem: mm.UpdateAction;
 
   // Cmt-related actions.
   selectCmts: mm.SelectAction;
@@ -28,54 +28,49 @@ export default abstract class PostTACore extends mm.TableActions {
   deleteReply: mm.TransactAction;
 
   // Common columns used by many SELECT actions.
-  #coreColumns: mm.SelectActionColumns[];
+  protected coreColumns: mm.SelectActionColumns[];
   // Joined user table.
-  #joinedUserTable: User;
+  protected joinedUserTable: User;
   // User-related columns;
-  #userColumns: mm.SelectActionColumns[];
+  protected userColumns: mm.SelectActionColumns[];
   // SQL conditions.
-  #updateConditions: mm.SQL;
-
-  // Shorthand for `this.getPostTable`.
-  private get t(): PostCore {
-    return this.getPostTable();
-  }
+  protected updateConditions: mm.SQL;
 
   constructor() {
     super();
 
-    const { t } = this;
-    this.#joinedUserTable = t.user_id.join(user);
-    this.#coreColumns = this.getCoreColumns();
-    this.#userColumns = [
+    const t = this.getItemTable();
+    this.joinedUserTable = t.user_id.join(user);
+    this.coreColumns = this.getCoreColumns();
+    this.userColumns = [
       t.user_id,
-      this.#joinedUserTable.name,
-      this.#joinedUserTable.icon_name,
+      this.joinedUserTable.name,
+      this.joinedUserTable.icon_name,
     ].map((c) => c.privateAttr());
-    this.#updateConditions = defaultUpdateConditions(t);
+    this.updateConditions = defaultUpdateConditions(t);
 
-    this.selectPostByID = mm.select(...this.#coreColumns, t.content, ...this.#userColumns).by(t.id);
-    this.selectPostsForUserProfile = mm
-      .selectPage(...this.#coreColumns)
+    this.selectItemByID = mm.select(...this.getFullColumns()).by(t.id);
+    this.selectItemsForUserProfile = mm
+      .selectPage(...this.coreColumns)
       .by(t.user_id)
       .orderByDesc(t.created_at);
-    this.selectPostSource = mm
-      .select(...this.getPostSourceColumns())
-      .whereSQL(this.#updateConditions);
-    this.selectPostsForDashboard = mm
-      .selectPage(...this.#coreColumns)
+    this.selectItemSource = mm
+      .select(...this.getItemSourceColumns())
+      .whereSQL(this.updateConditions);
+    this.selectItemsForDashboard = mm
+      .selectPage(...this.coreColumns)
       .by(t.user_id)
       .orderByInput(...this.getDashboardOrderInputSelections());
-    this.deletePost = mm.transact(
-      mm.deleteOne().whereSQL(this.#updateConditions),
+    this.deleteItem = mm.transact(
+      mm.deleteOne().whereSQL(this.updateConditions),
       this.getContainerUpdateCounterAction().wrap({ offset: '-1' }),
     );
-    this.insertPost = mm
+    this.insertItem = mm
       .transact(
         mm
           .insertOne()
           .setInputs(
-            ...this.getPostSourceColumns(),
+            ...this.getItemSourceColumns(),
             t.user_id,
             ...this.getExtraInsertionInputColumns(),
           )
@@ -85,25 +80,25 @@ export default abstract class PostTACore extends mm.TableActions {
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
       .setReturnValues(insertedIDVar);
-    this.editPost = mm
+    this.editItem = mm
       .updateOne()
       .setDefaults(t.modified_at)
-      .setInputs(...this.getPostSourceColumns())
+      .setInputs(...this.getItemSourceColumns())
       .argStubs(cm.sanitizedStub)
-      .whereSQL(this.#updateConditions);
+      .whereSQL(this.updateConditions);
 
-    this.selectCmts = cmtf.selectCmts(this.getPostCmtTable());
-    this.insertCmt = cmtf.insertCmtAction(t, this.getPostCmtTable());
+    this.selectCmts = cmtf.selectCmts(this.getItemCmtTable());
+    this.insertCmt = cmtf.insertCmtAction(t, this.getItemCmtTable());
     this.deleteCmt = cmtf.deleteCmtAction(t);
     this.insertReply = cmtf.insertReplyAction(t);
     this.deleteReply = cmtf.deleteReplyAction(t);
   }
 
   // Gets the underlying `PostCore` table.
-  abstract getPostTable(): PostCore;
+  abstract getItemTable(): PostCore;
 
   // Gets the underlying `PostCmtCore` table.
-  abstract getPostCmtTable(): PostCmtCore;
+  abstract getItemCmtTable(): PostCmtCore;
 
   // Gets core columns, which will be fetched in every SELECT action.
   abstract getCoreColumns(): mm.SelectActionColumns[];
@@ -111,7 +106,7 @@ export default abstract class PostTACore extends mm.TableActions {
   // Gets columns that are fetched during editing.
   // NOTE1: those columns are also considered inputs during insertion.
   // NOTE2: no need to include `user_id` column.
-  abstract getPostSourceColumns(): mm.Column[];
+  abstract getItemSourceColumns(): mm.Column[];
 
   // Gets columns used to generate ORDER BY input enum in dashboard.
   abstract getDashboardOrderInputSelections(): mm.SelectActionColumns[];
@@ -124,4 +119,9 @@ export default abstract class PostTACore extends mm.TableActions {
   // Gets the update action of container table to update the counter in response
   // to a insertion or deletion.
   abstract getContainerUpdateCounterAction(): mm.Action;
+
+  protected getFullColumns(): mm.SelectActionColumns[] {
+    const t = this.getItemTable();
+    return [...this.coreColumns, t.content, ...this.userColumns];
+  }
 }

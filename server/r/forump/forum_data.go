@@ -2,7 +2,6 @@ package forump
 
 import (
 	"qing/app"
-	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 )
@@ -10,7 +9,6 @@ import (
 // ForumGroupData is a wrapper around ForumGroupTableSelectForumGroupResult.
 type ForumGroupData struct {
 	da.ForumGroupTableSelectForumGroupResult
-	handler.LocalizedTemplateData
 
 	EID string
 }
@@ -22,7 +20,6 @@ func NewForumGroupData(d *da.ForumGroupTableSelectForumGroupResult) *ForumGroupD
 
 type ForumData struct {
 	da.ForumGroupTableSelectForumGroupsResult
-	handler.LocalizedTemplateData
 
 	EID         string
 	Link        string
@@ -40,11 +37,10 @@ func NewForumData(p *da.ForumData) *ForumData {
 
 type ForumGroupData struct {
 	da.ForumGroupTableSelectForumGroupResult
-	handler.LocalizedTemplateData
 
 	EID string
 }
 
-var vForumView = app.TemplateManager.MustParseLocalizedView("/forum/forumView.html")
-var vForumGroupView = app.TemplateManager.MustParseLocalizedView("/forum/forumGroupView.html")
-var vForumHome = app.TemplateManager.MustParseLocalizedView("/forum/home.html")
+var vForumView = app.TemplateManager.MustParseView("/forum/forumView.html")
+var vForumGroupView = app.TemplateManager.MustParseView("/forum/forumGroupView.html")
+var vForumHome = app.TemplateManager.MustParseView("/forum/home.html")

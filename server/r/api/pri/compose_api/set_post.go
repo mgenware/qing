@@ -40,18 +40,18 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		var insertedID uint64
 		if destination == defs.Constants.PostDestinationUser {
-			insertedID, err = da.Post.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
+			insertedID, err = da.Post.InsertItem(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
 		} else {
-			insertedID, err = da.Thread.InsertPost(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
+			insertedID, err = da.Thread.InsertItem(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 		id = insertedID
 	} else {
 		// Edit post.
 		if destination == defs.Constants.PostDestinationUser {
-			err = da.Post.EditPost(app.DB, id, uid, title, contentHTML, sanitizedToken)
+			err = da.Post.EditItem(app.DB, id, uid, title, contentHTML, sanitizedToken)
 		} else {
-			err = da.Thread.EditPost(app.DB, id, uid, title, contentHTML, sanitizedToken)
+			err = da.Thread.EditItem(app.DB, id, uid, title, contentHTML, sanitizedToken)
 		}
 		app.PanicIfErr(err)
 	}

@@ -18,13 +18,13 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 
-	thread, err := da.Thread.SelectPostByID(app.DB, pid)
+	thread, err := da.Thread.SelectItemByID(app.DB, pid)
 	app.PanicIfErr(err)
 
 	resp := app.HTMLResponse(w, r)
 	threadData := NewThreadPageData(thread)
 	title := thread.Title
-	d := app.MasterPageData(title, vThreadPage.MustExecuteToString(resp.Lang(), threadData))
+	d := app.MasterPageData(title, vThreadPage.MustExecuteToString(threadData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Post
 	return resp.MustComplete(d)
 }

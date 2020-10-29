@@ -7,11 +7,21 @@ import PostTACore from '../post/postTACore';
 import threadTA from './threadTA';
 
 export class ThreadMsgTA extends PostTACore {
-  getPostTable(): PostCore {
+  selectItemsByThread: mm.SelectAction;
+
+  constructor() {
+    super();
+
+    // Remove `selectItemByID`, thread messages are fetched along with their belonging thread.
+    this.selectItemByID = mm.emptyAction as mm.SelectAction;
+    this.selectItemsByThread = mm.selectPage(...this.getFullColumns()).orderByAsc(t.created_at);
+  }
+
+  getItemTable(): PostCore {
     return t;
   }
 
-  getPostCmtTable(): PostCmtCore {
+  getItemCmtTable(): PostCmtCore {
     return threadMsgCmt;
   }
 
@@ -19,7 +29,7 @@ export class ThreadMsgTA extends PostTACore {
     return [t.id.privateAttr(), t.created_at, t.modified_at, t.cmt_count];
   }
 
-  getPostSourceColumns(): mm.Column[] {
+  getItemSourceColumns(): mm.Column[] {
     return [t.content];
   }
 

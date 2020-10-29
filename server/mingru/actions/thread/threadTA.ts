@@ -10,11 +10,11 @@ import userStatsTA from '../user/userStatsTA';
 export class ThreadTA extends PostTACore {
   updateMsgCount = updateCounterAction(t, t.msg_count);
 
-  getPostTable(): PostCore {
+  getItemTable(): PostCore {
     return t;
   }
 
-  getPostCmtTable(): PostCmtCore {
+  getItemCmtTable(): PostCmtCore {
     return threadCmt;
   }
 
@@ -22,7 +22,7 @@ export class ThreadTA extends PostTACore {
     return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.msg_count];
   }
 
-  getPostSourceColumns(): mm.Column[] {
+  getItemSourceColumns(): mm.Column[] {
     return [t.title, t.content];
   }
 

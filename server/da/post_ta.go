@@ -53,24 +53,24 @@ func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostID 
 	return txErr
 }
 
-func (da *TableTypePost) deletePostChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
+func (da *TableTypePost) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePost) deletePostChild2(queryable mingru.Queryable, userID uint64) error {
+func (da *TableTypePost) deleteItemChild2(queryable mingru.Queryable, userID uint64) error {
 	return UserStats.UpdatePostCount(queryable, userID, -1)
 }
 
-// DeletePost ...
-func (da *TableTypePost) DeletePost(db *sql.DB, id uint64, userID uint64) error {
+// DeleteItem ...
+func (da *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.deletePostChild1(tx, id, userID)
+		err = da.deleteItemChild1(tx, id, userID)
 		if err != nil {
 			return err
 		}
-		err = da.deletePostChild2(tx, userID)
+		err = da.deleteItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -113,8 +113,8 @@ func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64, hostI
 	return txErr
 }
 
-// EditPost ...
-func (da *TableTypePost) EditPost(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
+// EditItem ...
+func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `post` SET `modified_at` = UTC_TIMESTAMP(), `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
@@ -157,25 +157,25 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ho
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypePost) insertPostChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
+func (da *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", title, content, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypePost) insertPostChild2(queryable mingru.Queryable, userID uint64) error {
+func (da *TableTypePost) insertItemChild2(queryable mingru.Queryable, userID uint64) error {
 	return UserStats.UpdatePostCount(queryable, userID, 1)
 }
 
-// InsertPost ...
-func (da *TableTypePost) InsertPost(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+// InsertItem ...
+func (da *TableTypePost) InsertItem(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertPostChild1(tx, title, content, userID)
+		insertedID, err := da.insertItemChild1(tx, title, content, userID)
 		if err != nil {
 			return err
 		}
-		err = da.insertPostChild2(tx, userID)
+		err = da.insertItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -247,8 +247,8 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 	return result, itemCounter > len(result), nil
 }
 
-// PostTableSelectPostByIDResult ...
-type PostTableSelectPostByIDResult struct {
+// PostTableSelectItemByIDResult ...
+type PostTableSelectItemByIDResult struct {
 	ID           uint64     `json:"-"`
 	Title        string     `json:"title,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
@@ -261,9 +261,9 @@ type PostTableSelectPostByIDResult struct {
 	UserIconName string     `json:"-"`
 }
 
-// SelectPostByID ...
-func (da *TableTypePost) SelectPostByID(queryable mingru.Queryable, id uint64) (*PostTableSelectPostByIDResult, error) {
-	result := &PostTableSelectPostByIDResult{}
+// SelectItemByID ...
+func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (*PostTableSelectItemByIDResult, error) {
+	result := &PostTableSelectItemByIDResult{}
 	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt`, `post`.`cmt_count` AS `cmtCount`, `post`.`likes` AS `likes`, `post`.`content` AS `content`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Likes, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
 	if err != nil {
 		return nil, err
@@ -271,15 +271,15 @@ func (da *TableTypePost) SelectPostByID(queryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
-// PostTableSelectPostsForDashboardOrderBy1 ...
+// PostTableSelectItemsForDashboardOrderBy1 ...
 const (
-	PostTableSelectPostsForDashboardOrderBy1CreatedAt = iota
-	PostTableSelectPostsForDashboardOrderBy1Likes
-	PostTableSelectPostsForDashboardOrderBy1CmtCount
+	PostTableSelectItemsForDashboardOrderBy1CreatedAt = iota
+	PostTableSelectItemsForDashboardOrderBy1Likes
+	PostTableSelectItemsForDashboardOrderBy1CmtCount
 )
 
-// PostTableSelectPostsForDashboardResult ...
-type PostTableSelectPostsForDashboardResult struct {
+// PostTableSelectItemsForDashboardResult ...
+type PostTableSelectItemsForDashboardResult struct {
 	ID         uint64     `json:"-"`
 	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
@@ -288,15 +288,15 @@ type PostTableSelectPostsForDashboardResult struct {
 	Likes      uint       `json:"likes,omitempty"`
 }
 
-// SelectPostsForDashboard ...
-func (da *TableTypePost) SelectPostsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*PostTableSelectPostsForDashboardResult, bool, error) {
+// SelectItemsForDashboard ...
+func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*PostTableSelectItemsForDashboardResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case PostTableSelectPostsForDashboardOrderBy1CreatedAt:
+	case PostTableSelectItemsForDashboardOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case PostTableSelectPostsForDashboardOrderBy1Likes:
+	case PostTableSelectItemsForDashboardOrderBy1Likes:
 		orderBy1SQL = "`likes`"
-	case PostTableSelectPostsForDashboardOrderBy1CmtCount:
+	case PostTableSelectItemsForDashboardOrderBy1CmtCount:
 		orderBy1SQL = "`cmt_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -313,13 +313,13 @@ func (da *TableTypePost) SelectPostsForDashboard(queryable mingru.Queryable, use
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*PostTableSelectPostsForDashboardResult, 0, limit)
+	result := make([]*PostTableSelectItemsForDashboardResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &PostTableSelectPostsForDashboardResult{}
+			item := &PostTableSelectItemsForDashboardResult{}
 			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err
@@ -334,8 +334,8 @@ func (da *TableTypePost) SelectPostsForDashboard(queryable mingru.Queryable, use
 	return result, itemCounter > len(result), nil
 }
 
-// PostTableSelectPostsForUserProfileResult ...
-type PostTableSelectPostsForUserProfileResult struct {
+// PostTableSelectItemsForUserProfileResult ...
+type PostTableSelectItemsForUserProfileResult struct {
 	ID         uint64     `json:"-"`
 	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
@@ -344,8 +344,8 @@ type PostTableSelectPostsForUserProfileResult struct {
 	Likes      uint       `json:"likes,omitempty"`
 }
 
-// SelectPostsForUserProfile ...
-func (da *TableTypePost) SelectPostsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectPostsForUserProfileResult, bool, error) {
+// SelectItemsForUserProfile ...
+func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectItemsForUserProfileResult, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -353,13 +353,13 @@ func (da *TableTypePost) SelectPostsForUserProfile(queryable mingru.Queryable, u
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*PostTableSelectPostsForUserProfileResult, 0, limit)
+	result := make([]*PostTableSelectItemsForUserProfileResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &PostTableSelectPostsForUserProfileResult{}
+			item := &PostTableSelectItemsForUserProfileResult{}
 			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err
@@ -374,15 +374,15 @@ func (da *TableTypePost) SelectPostsForUserProfile(queryable mingru.Queryable, u
 	return result, itemCounter > len(result), nil
 }
 
-// PostTableSelectPostSourceResult ...
-type PostTableSelectPostSourceResult struct {
+// PostTableSelectItemSourceResult ...
+type PostTableSelectItemSourceResult struct {
 	Title   string `json:"title,omitempty"`
 	Content string `json:"content,omitempty"`
 }
 
-// SelectPostSource ...
-func (da *TableTypePost) SelectPostSource(queryable mingru.Queryable, id uint64, userID uint64) (*PostTableSelectPostSourceResult, error) {
-	result := &PostTableSelectPostSourceResult{}
+// SelectItemSource ...
+func (da *TableTypePost) SelectItemSource(queryable mingru.Queryable, id uint64, userID uint64) (*PostTableSelectItemSourceResult, error) {
+	result := &PostTableSelectItemSourceResult{}
 	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
 	if err != nil {
 		return nil, err

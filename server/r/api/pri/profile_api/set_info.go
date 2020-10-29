@@ -12,7 +12,6 @@ import (
 
 type infoData struct {
 	da.UserTableSelectEditingDataResult
-	handler.LocalizedTemplateData
 
 	IconURL string `json:"iconURL"`
 }

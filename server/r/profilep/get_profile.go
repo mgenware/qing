@@ -34,12 +34,12 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	userData := NewProfileDataFromUser(user, stats)
 
 	// User posts
-	posts, hasNext, err := da.Post.SelectPostsForUserProfile(app.DB, uid, page, defs.UserPostsLimit)
+	posts, hasNext, err := da.Post.SelectItemsForUserProfile(app.DB, uid, page, defs.UserPostsLimit)
 	app.PanicIfErr(err)
 	var sb strings.Builder
 	for _, post := range posts {
-		postData := NewPostItem(post)
-		sb.WriteString(vProfilePostItem.MustExecuteToString(resp.Lang(), postData))
+		postData := NewProfilePostItem(post)
+		sb.WriteString(vProfilePostItem.MustExecuteToString(postData))
 	}
 	userData.FeedListHTML = sb.String()
 	userData.Pager = cm.NewPager(page, hasNext, app.URL.UserProfileFormatter(uid))

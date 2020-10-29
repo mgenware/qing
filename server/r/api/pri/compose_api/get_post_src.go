@@ -15,7 +15,7 @@ func getPostSource(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	pid := validator.MustGetIDFromDict(params, "id")
-	res, err := da.Post.SelectPostSource(app.DB, pid, uid)
+	res, err := da.Post.SelectItemSource(app.DB, pid, uid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(res)
 }

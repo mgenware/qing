@@ -53,24 +53,24 @@ func (da *TableTypeThread) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostI
 	return txErr
 }
 
-func (da *TableTypeThread) deletePostChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
+func (da *TableTypeThread) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `thread` WHERE `id` = ? AND `user_id` = ?", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeThread) deletePostChild2(queryable mingru.Queryable, userID uint64) error {
+func (da *TableTypeThread) deleteItemChild2(queryable mingru.Queryable, userID uint64) error {
 	return UserStats.UpdateThreadCount(queryable, userID, -1)
 }
 
-// DeletePost ...
-func (da *TableTypeThread) DeletePost(db *sql.DB, id uint64, userID uint64) error {
+// DeleteItem ...
+func (da *TableTypeThread) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.deletePostChild1(tx, id, userID)
+		err = da.deleteItemChild1(tx, id, userID)
 		if err != nil {
 			return err
 		}
-		err = da.deletePostChild2(tx, userID)
+		err = da.deleteItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -113,8 +113,8 @@ func (da *TableTypeThread) DeleteReply(db *sql.DB, id uint64, userID uint64, hos
 	return txErr
 }
 
-// EditPost ...
-func (da *TableTypeThread) EditPost(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
+// EditItem ...
+func (da *TableTypeThread) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `thread` SET `modified_at` = UTC_TIMESTAMP(), `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
@@ -157,25 +157,25 @@ func (da *TableTypeThread) InsertCmt(db *sql.DB, content string, userID uint64, 
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypeThread) insertPostChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
+func (da *TableTypeThread) insertItemChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `thread` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `votes`, `up_votes`, `down_votes`, `msg_count`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, 0, 0)", title, content, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypeThread) insertPostChild2(queryable mingru.Queryable, userID uint64) error {
+func (da *TableTypeThread) insertItemChild2(queryable mingru.Queryable, userID uint64) error {
 	return UserStats.UpdateThreadCount(queryable, userID, 1)
 }
 
-// InsertPost ...
-func (da *TableTypeThread) InsertPost(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+// InsertItem ...
+func (da *TableTypeThread) InsertItem(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertPostChild1(tx, title, content, userID)
+		insertedID, err := da.insertItemChild1(tx, title, content, userID)
 		if err != nil {
 			return err
 		}
-		err = da.insertPostChild2(tx, userID)
+		err = da.insertItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -247,8 +247,8 @@ func (da *TableTypeThread) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	return result, itemCounter > len(result), nil
 }
 
-// ThreadTableSelectPostByIDResult ...
-type ThreadTableSelectPostByIDResult struct {
+// ThreadTableSelectItemByIDResult ...
+type ThreadTableSelectItemByIDResult struct {
 	ID           uint64     `json:"-"`
 	Title        string     `json:"title,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
@@ -261,9 +261,9 @@ type ThreadTableSelectPostByIDResult struct {
 	UserIconName string     `json:"-"`
 }
 
-// SelectPostByID ...
-func (da *TableTypeThread) SelectPostByID(queryable mingru.Queryable, id uint64) (*ThreadTableSelectPostByIDResult, error) {
-	result := &ThreadTableSelectPostByIDResult{}
+// SelectItemByID ...
+func (da *TableTypeThread) SelectItemByID(queryable mingru.Queryable, id uint64) (*ThreadTableSelectItemByIDResult, error) {
+	result := &ThreadTableSelectItemByIDResult{}
 	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt`, `thread`.`cmt_count` AS `cmtCount`, `thread`.`msg_count` AS `msgCount`, `thread`.`content` AS `content`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.MsgCount, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
 	if err != nil {
 		return nil, err
@@ -271,14 +271,14 @@ func (da *TableTypeThread) SelectPostByID(queryable mingru.Queryable, id uint64)
 	return result, nil
 }
 
-// ThreadTableSelectPostsForDashboardOrderBy1 ...
+// ThreadTableSelectItemsForDashboardOrderBy1 ...
 const (
-	ThreadTableSelectPostsForDashboardOrderBy1CreatedAt = iota
-	ThreadTableSelectPostsForDashboardOrderBy1MsgCount
+	ThreadTableSelectItemsForDashboardOrderBy1CreatedAt = iota
+	ThreadTableSelectItemsForDashboardOrderBy1MsgCount
 )
 
-// ThreadTableSelectPostsForDashboardResult ...
-type ThreadTableSelectPostsForDashboardResult struct {
+// ThreadTableSelectItemsForDashboardResult ...
+type ThreadTableSelectItemsForDashboardResult struct {
 	ID         uint64     `json:"-"`
 	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
@@ -287,13 +287,13 @@ type ThreadTableSelectPostsForDashboardResult struct {
 	MsgCount   uint       `json:"msgCount,omitempty"`
 }
 
-// SelectPostsForDashboard ...
-func (da *TableTypeThread) SelectPostsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*ThreadTableSelectPostsForDashboardResult, bool, error) {
+// SelectItemsForDashboard ...
+func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*ThreadTableSelectItemsForDashboardResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case ThreadTableSelectPostsForDashboardOrderBy1CreatedAt:
+	case ThreadTableSelectItemsForDashboardOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case ThreadTableSelectPostsForDashboardOrderBy1MsgCount:
+	case ThreadTableSelectItemsForDashboardOrderBy1MsgCount:
 		orderBy1SQL = "`msg_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -310,13 +310,13 @@ func (da *TableTypeThread) SelectPostsForDashboard(queryable mingru.Queryable, u
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*ThreadTableSelectPostsForDashboardResult, 0, limit)
+	result := make([]*ThreadTableSelectItemsForDashboardResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &ThreadTableSelectPostsForDashboardResult{}
+			item := &ThreadTableSelectItemsForDashboardResult{}
 			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.MsgCount)
 			if err != nil {
 				return nil, false, err
@@ -331,8 +331,8 @@ func (da *TableTypeThread) SelectPostsForDashboard(queryable mingru.Queryable, u
 	return result, itemCounter > len(result), nil
 }
 
-// ThreadTableSelectPostsForUserProfileResult ...
-type ThreadTableSelectPostsForUserProfileResult struct {
+// ThreadTableSelectItemsForUserProfileResult ...
+type ThreadTableSelectItemsForUserProfileResult struct {
 	ID         uint64     `json:"-"`
 	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
@@ -341,8 +341,8 @@ type ThreadTableSelectPostsForUserProfileResult struct {
 	MsgCount   uint       `json:"msgCount,omitempty"`
 }
 
-// SelectPostsForUserProfile ...
-func (da *TableTypeThread) SelectPostsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*ThreadTableSelectPostsForUserProfileResult, bool, error) {
+// SelectItemsForUserProfile ...
+func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*ThreadTableSelectItemsForUserProfileResult, bool, error) {
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -350,13 +350,13 @@ func (da *TableTypeThread) SelectPostsForUserProfile(queryable mingru.Queryable,
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*ThreadTableSelectPostsForUserProfileResult, 0, limit)
+	result := make([]*ThreadTableSelectItemsForUserProfileResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &ThreadTableSelectPostsForUserProfileResult{}
+			item := &ThreadTableSelectItemsForUserProfileResult{}
 			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.MsgCount)
 			if err != nil {
 				return nil, false, err
@@ -371,15 +371,15 @@ func (da *TableTypeThread) SelectPostsForUserProfile(queryable mingru.Queryable,
 	return result, itemCounter > len(result), nil
 }
 
-// ThreadTableSelectPostSourceResult ...
-type ThreadTableSelectPostSourceResult struct {
+// ThreadTableSelectItemSourceResult ...
+type ThreadTableSelectItemSourceResult struct {
 	Title   string `json:"title,omitempty"`
 	Content string `json:"content,omitempty"`
 }
 
-// SelectPostSource ...
-func (da *TableTypeThread) SelectPostSource(queryable mingru.Queryable, id uint64, userID uint64) (*ThreadTableSelectPostSourceResult, error) {
-	result := &ThreadTableSelectPostSourceResult{}
+// SelectItemSource ...
+func (da *TableTypeThread) SelectItemSource(queryable mingru.Queryable, id uint64, userID uint64) (*ThreadTableSelectItemSourceResult, error) {
+	result := &ThreadTableSelectItemSourceResult{}
 	err := queryable.QueryRow("SELECT `title`, `content` FROM `thread` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
 	if err != nil {
 		return nil, err

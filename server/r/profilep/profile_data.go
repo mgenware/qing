@@ -8,7 +8,7 @@ import (
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
-var vProfilePostItem = app.TemplateManager.MustParseLocalizedView("/profile/postItem.html")
+var vProfilePostItem = app.TemplateManager.MustParseView("/profile/postItem.html")
 
 // ProfileData ...
 type ProfileData struct {
@@ -22,13 +22,14 @@ type ProfileData struct {
 	PostCount    uint
 }
 
-type PostItem struct {
-	handler.LocalizedTemplateData
-	da.PostTableSelectPostsForUserProfileResult
+// ProfilePostItem is a data wrapper around PostTableSelectItemsForUserProfileResult.
+type ProfilePostItem struct {
+	da.PostTableSelectItemsForUserProfileResult
 
 	URL string
 }
 
+// NewProfileDataFromUser creates a new ProfileData from profile DB result.
 func NewProfileDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult) *ProfileData {
 	d := &ProfileData{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
@@ -39,8 +40,9 @@ func NewProfileDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.
 	return d
 }
 
-func NewPostItem(p *da.PostTableSelectPostsForUserProfileResult) *PostItem {
-	d := &PostItem{PostTableSelectPostsForUserProfileResult: *p}
+// NewProfilePostItem creates a new ProfilePostItem from post DB result.
+func NewProfilePostItem(p *da.PostTableSelectItemsForUserProfileResult) *ProfilePostItem {
+	d := &ProfilePostItem{PostTableSelectItemsForUserProfileResult: *p}
 	d.URL = app.URL.Post(p.ID)
 	return d
 }

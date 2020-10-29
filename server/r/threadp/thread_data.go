@@ -2,15 +2,13 @@ package threadp
 
 import (
 	"qing/app"
-	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 )
 
 // ThreadPageData is a wrapper around da.ThreadTableSelectPostByIDResult.
 type ThreadPageData struct {
-	da.ThreadTableSelectPostByIDResult
-	handler.LocalizedTemplateData
+	da.ThreadTableSelectItemByIDResult
 
 	// Those props are used by template and not exposed in any API. No JSON keys attached.
 	ThreadURL   string
@@ -20,10 +18,9 @@ type ThreadPageData struct {
 	EID         string
 }
 
-// ThreadMsgData is a wrapper around da.ThreadMsgTableSelectPostByIDResult.
+// ThreadMsgData is a wrapper around da.ThreadMsgTableSelectItemsByThreadResult.
 type ThreadMsgData struct {
-	da.ThreadMsgTableSelectPostByIDResult
-	handler.LocalizedTemplateData
+	da.ThreadMsgTableSelectItemsByThreadResult
 
 	// Those props are used by template and not exposed in any API. No JSON keys attached.
 	ThreadURL   string
@@ -33,12 +30,12 @@ type ThreadMsgData struct {
 	EID         string
 }
 
-var vThreadPage = app.TemplateManager.MustParseLocalizedView("/thread/threadPage.html")
-var vMessageItem = app.TemplateManager.MustParseLocalizedView("/thread/messageItem.html")
+var vThreadPage = app.TemplateManager.MustParseView("/thread/threadPage.html")
+var vMessageItem = app.TemplateManager.MustParseView("/thread/messageItem.html")
 
 // NewThreadPageData creates a ThreadPageData.
-func NewThreadPageData(p *da.ThreadTableSelectPostByIDResult) *ThreadPageData {
-	d := &ThreadPageData{ThreadTableSelectPostByIDResult: *p}
+func NewThreadPageData(p *da.ThreadTableSelectItemByIDResult) *ThreadPageData {
+	d := &ThreadPageData{ThreadTableSelectItemByIDResult: *p}
 	d.ThreadURL = app.URL.Thread(p.ID)
 	d.UserEID = validator.EncodeID(p.UserID)
 	d.UserURL = app.URL.UserProfile(p.UserID)
@@ -48,8 +45,8 @@ func NewThreadPageData(p *da.ThreadTableSelectPostByIDResult) *ThreadPageData {
 }
 
 // NewThreadMsgData creates a ThreadMsgData.
-func NewThreadMsgData(p *da.ThreadMsgTableSelectPostByIDResult) *ThreadMsgData {
-	d := &ThreadMsgData{ThreadMsgTableSelectPostByIDResult: *p}
+func NewThreadMsgData(p *da.ThreadMsgTableSelectItemsByThreadResult) *ThreadMsgData {
+	d := &ThreadMsgData{ThreadMsgTableSelectItemsByThreadResult: *p}
 	d.ThreadURL = app.URL.Thread(p.ID)
 	d.UserEID = validator.EncodeID(p.UserID)
 	d.UserURL = app.URL.UserProfile(p.UserID)
