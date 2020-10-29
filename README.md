@@ -23,7 +23,7 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
   - TypeScript
   - Web components (lit-element)
 - Backend
-  - Golang
+  - Go
   - [mingru](https://github.com/mgenware/mingru) for database access layer
 - Database
   - MariaDB (or compatible versions of MySQL)
