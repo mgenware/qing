@@ -19,7 +19,7 @@ export class ThreadTA extends PostTACore {
   }
 
   getCoreColumns(): mm.SelectActionColumns[] {
-    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.msg_count];
+    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.msg_count];
   }
 
   getPostSourceColumns(): mm.Column[] {

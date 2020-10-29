@@ -105,4 +105,5 @@ export default interface LSDefs {
   yourThreads: string;
   newThread: string;
   newQuestion: string;
+  numOfMsgs: string;
 }

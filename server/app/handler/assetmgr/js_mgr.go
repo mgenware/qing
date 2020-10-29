@@ -24,6 +24,7 @@ type JSManager struct {
 	Polyfills string
 	Main      string
 	Post      string
+	Thread    string
 	Dashboard string
 	Profile   string
 	Auth      string
@@ -47,5 +48,6 @@ func NewJSManager(dev bool) *JSManager {
 	r.Dashboard = js("dashboardEntry")
 	r.Profile = js("profileEntry")
 	r.Auth = js("authEntry")
+	r.Thread = js("theadEntry")
 	return r
 }

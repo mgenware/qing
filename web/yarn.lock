@@ -502,10 +502,10 @@ bootstrap@^5.0.0-alpha1:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.0.0-alpha1.tgz#cd35be4282bc930322bcbf1db23a8729c60a31cb"
   integrity sha512-iwKneP2pLXl8lN0YpnOuOARiNPTzmh/4cw+Un86u4OqrMLuQpyMC7nO07hvivvcg0B/ektJPjuPnS1s+YmRK9A==
 
-bowhead-js@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/bowhead-js/-/bowhead-js-3.0.1.tgz#46535c08a3866f791ef330440b3375971a528fd8"
-  integrity sha512-JibkFupL4BMAz9A+44t38/aVCyDOip/+F0aQP86AAXAdIrObYdoR8CTPKl9JtrJ7JUljdeG7nhYf9YWAjiWrQw==
+bowhead-js@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/bowhead-js/-/bowhead-js-4.0.0.tgz#87660c289ff67182efc095840fb812f0da90ae11"
+  integrity sha512-x7sWiDKAoK3Sg9y4xaHlAtYr4TqvJ8Fe74hj87huMUDM32CGb5W/lEZUfvBub8aloMW9+W/uI9phRYKzT89ymw==
 
 brace-expansion@^1.1.7:
   version "1.1.11"

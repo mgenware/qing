@@ -16,6 +16,7 @@ import (
 	"qing/r/profilep"
 	"qing/r/sys"
 	"qing/r/testp"
+	"qing/r/threadp"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -73,6 +74,8 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	// Thread router
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteThread+"/{tid}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
 	// Dashboard router
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteDashboard, mp.Router)
 	// Auth router

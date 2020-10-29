@@ -16,17 +16,13 @@
         <p>
           <!-- prettier-ignore -->
           <time-field>{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}{{if .ModifiedAt}}|{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}{{end}}</time-field>
-          <post-admin-app
-            targetID="{{.EID}}"
-            targetUserID="{{.UserEID}}"
-            leftMargin="true"
-          ></post-admin-app>
+          <edit-bar targetID="{{.EID}}" targetUserID="{{.UserEID}}" hasLeftMargin></edit-bar>
         </p>
       </div>
     </div>
   </div>
   <hr />
-  <div class="md-content">{{.Content}}</div>
+  <div>{{.Content}}</div>
 
   <div class="m-t-lg">
     <post-cmt-app></post-cmt-app>
