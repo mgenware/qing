@@ -219,6 +219,14 @@ func (da *TableTypeThreadMsg) InsertReply(db *sql.DB, content string, userID uin
 
 // SelectCmts ...
 func (da *TableTypeThreadMsg) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -253,7 +261,7 @@ type ThreadMsgTableSelectItemsByThreadResult struct {
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	CmtCount     uint       `json:"cmtCount,omitempty"`
-	Content      string     `json:"content,omitempty"`
+	ContentHTML  string     `json:"contentHtml,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
 	UserIconName string     `json:"-"`
@@ -261,6 +269,14 @@ type ThreadMsgTableSelectItemsByThreadResult struct {
 
 // SelectItemsByThread ...
 func (da *TableTypeThreadMsg) SelectItemsByThread(queryable mingru.Queryable, page int, pageSize int) ([]*ThreadMsgTableSelectItemsByThreadResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -275,7 +291,7 @@ func (da *TableTypeThreadMsg) SelectItemsByThread(queryable mingru.Queryable, pa
 		itemCounter++
 		if itemCounter <= max {
 			item := &ThreadMsgTableSelectItemsByThreadResult{}
-			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.Content, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.CmtCount, &item.ContentHTML, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -319,6 +335,14 @@ func (da *TableTypeThreadMsg) SelectItemsForDashboard(queryable mingru.Queryable
 		orderBy1SQL += " DESC"
 	}
 
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -357,6 +381,14 @@ type ThreadMsgTableSelectItemsForUserProfileResult struct {
 
 // SelectItemsForUserProfile ...
 func (da *TableTypeThreadMsg) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*ThreadMsgTableSelectItemsForUserProfileResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -387,13 +419,13 @@ func (da *TableTypeThreadMsg) SelectItemsForUserProfile(queryable mingru.Queryab
 
 // ThreadMsgTableSelectItemSourceResult ...
 type ThreadMsgTableSelectItemSourceResult struct {
-	Content string `json:"content,omitempty"`
+	ContentHTML string `json:"contentHtml,omitempty"`
 }
 
 // SelectItemSource ...
 func (da *TableTypeThreadMsg) SelectItemSource(queryable mingru.Queryable, id uint64, userID uint64) (*ThreadMsgTableSelectItemSourceResult, error) {
 	result := &ThreadMsgTableSelectItemSourceResult{}
-	err := queryable.QueryRow("SELECT `content` FROM `thread_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
+	err := queryable.QueryRow("SELECT `content` FROM `thread_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return nil, err
 	}

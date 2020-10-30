@@ -5,7 +5,11 @@
 
 package da
 
-import "github.com/mgenware/mingru-go-lib"
+import (
+	"fmt"
+
+	"github.com/mgenware/mingru-go-lib"
+)
 
 // TableTypeReply ...
 type TableTypeReply struct {
@@ -46,6 +50,14 @@ func (da *TableTypeReply) InsertReply(queryable mingru.Queryable, content string
 
 // SelectReplies ...
 func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize

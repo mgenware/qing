@@ -219,6 +219,14 @@ func (da *TableTypeThread) InsertReply(db *sql.DB, content string, userID uint64
 
 // SelectCmts ...
 func (da *TableTypeThread) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -255,7 +263,7 @@ type ThreadTableSelectItemByIDResult struct {
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	CmtCount     uint       `json:"cmtCount,omitempty"`
 	MsgCount     uint       `json:"msgCount,omitempty"`
-	Content      string     `json:"content,omitempty"`
+	ContentHTML  string     `json:"contentHtml,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
 	UserIconName string     `json:"-"`
@@ -264,7 +272,7 @@ type ThreadTableSelectItemByIDResult struct {
 // SelectItemByID ...
 func (da *TableTypeThread) SelectItemByID(queryable mingru.Queryable, id uint64) (*ThreadTableSelectItemByIDResult, error) {
 	result := &ThreadTableSelectItemByIDResult{}
-	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt`, `thread`.`cmt_count` AS `cmtCount`, `thread`.`msg_count` AS `msgCount`, `thread`.`content` AS `content`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.MsgCount, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
+	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt`, `thread`.`cmt_count` AS `cmtCount`, `thread`.`msg_count` AS `msgCount`, `thread`.`content` AS `content`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.MsgCount, &result.ContentHTML, &result.UserID, &result.UserName, &result.UserIconName)
 	if err != nil {
 		return nil, err
 	}
@@ -303,6 +311,14 @@ func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, u
 		orderBy1SQL += " DESC"
 	}
 
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -343,6 +359,14 @@ type ThreadTableSelectItemsForUserProfileResult struct {
 
 // SelectItemsForUserProfile ...
 func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*ThreadTableSelectItemsForUserProfileResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -373,14 +397,14 @@ func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable,
 
 // ThreadTableSelectItemSourceResult ...
 type ThreadTableSelectItemSourceResult struct {
-	Title   string `json:"title,omitempty"`
-	Content string `json:"content,omitempty"`
+	Title       string `json:"title,omitempty"`
+	ContentHTML string `json:"contentHtml,omitempty"`
 }
 
 // SelectItemSource ...
 func (da *TableTypeThread) SelectItemSource(queryable mingru.Queryable, id uint64, userID uint64) (*ThreadTableSelectItemSourceResult, error) {
 	result := &ThreadTableSelectItemSourceResult{}
-	err := queryable.QueryRow("SELECT `title`, `content` FROM `thread` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
+	err := queryable.QueryRow("SELECT `title`, `content` FROM `thread` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.ContentHTML)
 	if err != nil {
 		return nil, err
 	}

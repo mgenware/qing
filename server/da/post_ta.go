@@ -219,6 +219,14 @@ func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, 
 
 // SelectCmts ...
 func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -255,7 +263,7 @@ type PostTableSelectItemByIDResult struct {
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	CmtCount     uint       `json:"cmtCount,omitempty"`
 	Likes        uint       `json:"likes,omitempty"`
-	Content      string     `json:"content,omitempty"`
+	ContentHTML  string     `json:"contentHtml,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
 	UserIconName string     `json:"-"`
@@ -264,7 +272,7 @@ type PostTableSelectItemByIDResult struct {
 // SelectItemByID ...
 func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (*PostTableSelectItemByIDResult, error) {
 	result := &PostTableSelectItemByIDResult{}
-	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt`, `post`.`cmt_count` AS `cmtCount`, `post`.`likes` AS `likes`, `post`.`content` AS `content`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Likes, &result.Content, &result.UserID, &result.UserName, &result.UserIconName)
+	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt`, `post`.`cmt_count` AS `cmtCount`, `post`.`likes` AS `likes`, `post`.`content` AS `content`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.CmtCount, &result.Likes, &result.ContentHTML, &result.UserID, &result.UserName, &result.UserIconName)
 	if err != nil {
 		return nil, err
 	}
@@ -306,6 +314,14 @@ func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, use
 		orderBy1SQL += " DESC"
 	}
 
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -346,6 +362,14 @@ type PostTableSelectItemsForUserProfileResult struct {
 
 // SelectItemsForUserProfile ...
 func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectItemsForUserProfileResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
@@ -376,14 +400,14 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 
 // PostTableSelectItemSourceResult ...
 type PostTableSelectItemSourceResult struct {
-	Title   string `json:"title,omitempty"`
-	Content string `json:"content,omitempty"`
+	Title       string `json:"title,omitempty"`
+	ContentHTML string `json:"contentHtml,omitempty"`
 }
 
 // SelectItemSource ...
 func (da *TableTypePost) SelectItemSource(queryable mingru.Queryable, id uint64, userID uint64) (*PostTableSelectItemSourceResult, error) {
 	result := &PostTableSelectItemSourceResult{}
-	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.Content)
+	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.ContentHTML)
 	if err != nil {
 		return nil, err
 	}

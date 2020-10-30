@@ -3,7 +3,7 @@ import user from '../user/user';
 
 export default class PostCore extends mm.Table {
   id = mm.pk();
-  content = mm.text();
+  content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
 
   created_at = mm.datetime('utc');
