@@ -15,7 +15,7 @@
         <p>
           <!-- prettier-ignore -->
           <time-field>{{.CreatedAt.Format "2006-01-02T15:04:05Z07:00"}}{{if .ModifiedAt}}|{{.ModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}{{end}}</time-field>
-          <edit-bar targetID="{{.EID}}" targetUserID="{{.UserEID}}" hasLeftMargin></edit-bar>
+          <edit-bar itemID="{{.EID}}" itemUserID="{{.UserEID}}" hasLeftMargin></edit-bar>
         </p>
       </div>
     </div>
