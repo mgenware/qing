@@ -1,1 +1,1 @@
-These files are used in server `app/handler/assets` to be injected as external libraries.
+These files are used in server `app/handler/assetmgr` and will be injected as external libraries.
