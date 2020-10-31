@@ -14,7 +14,10 @@ export class ThreadMsgTA extends PostTACore {
 
     // Remove `selectItemByID`, thread messages are fetched along with their belonging thread.
     this.selectItemByID = mm.emptyAction as mm.SelectAction;
-    this.selectItemsByThread = mm.selectPage(...this.getFullColumns()).orderByAsc(t.created_at);
+    this.selectItemsByThread = mm
+      .selectPage(...this.getFullColumns())
+      .by(t.thread_id)
+      .orderByAsc(t.created_at);
   }
 
   getItemTable(): PostCore {

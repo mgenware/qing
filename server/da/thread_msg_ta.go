@@ -268,7 +268,7 @@ type ThreadMsgTableSelectItemsByThreadResult struct {
 }
 
 // SelectItemsByThread ...
-func (da *TableTypeThreadMsg) SelectItemsByThread(queryable mingru.Queryable, page int, pageSize int) ([]*ThreadMsgTableSelectItemsByThreadResult, bool, error) {
+func (da *TableTypeThreadMsg) SelectItemsByThread(queryable mingru.Queryable, threadID uint64, page int, pageSize int) ([]*ThreadMsgTableSelectItemsByThreadResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -280,7 +280,7 @@ func (da *TableTypeThreadMsg) SelectItemsByThread(queryable mingru.Queryable, pa
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `thread_msg`.`id` AS `id`, `thread_msg`.`created_at` AS `createdAt`, `thread_msg`.`modified_at` AS `modifiedAt`, `thread_msg`.`cmt_count` AS `cmtCount`, `thread_msg`.`content` AS `content`, `thread_msg`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` ORDER BY `thread_msg`.`created_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := queryable.Query("SELECT `thread_msg`.`id` AS `id`, `thread_msg`.`created_at` AS `createdAt`, `thread_msg`.`modified_at` AS `modifiedAt`, `thread_msg`.`cmt_count` AS `cmtCount`, `thread_msg`.`content` AS `content`, `thread_msg`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` WHERE `thread_msg`.`thread_id` = ? ORDER BY `thread_msg`.`created_at` LIMIT ? OFFSET ?", threadID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
