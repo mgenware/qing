@@ -3,11 +3,11 @@ package profilep
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
+	"qing/r/rcm"
 	"qing/r/sys"
 	"strings"
 
@@ -31,7 +31,6 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicIfErr(err)
 
 	title := user.Name
-	userData := NewProfileDataFromUser(user, stats)
 
 	// User posts
 	posts, hasNext, err := da.Post.SelectItemsForUserProfile(app.DB, uid, page, defs.UserPostsLimit)
@@ -41,9 +40,11 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		postData := NewProfilePostItem(post)
 		sb.WriteString(vProfilePostItem.MustExecuteToString(postData))
 	}
-	userData.FeedListHTML = sb.String()
-	userData.Pager = cm.NewPager(page, hasNext, app.URL.UserProfileFormatter(uid))
+	feedListHTML := sb.String()
+	pageURLFormatter := &ProfilePageURLFormatter{ID: uid}
+	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
 
+	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, pageData)
 	d := app.MasterPageData(title, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)

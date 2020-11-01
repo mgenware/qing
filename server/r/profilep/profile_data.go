@@ -2,23 +2,23 @@ package profilep
 
 import (
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
+	"qing/r/rcm"
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profile.html")
 var vProfilePostItem = app.TemplateManager.MustParseView("/profile/postItem.html")
 
-// ProfileData ...
-type ProfileData struct {
+// ProfilePageData ...
+type ProfilePageData struct {
 	da.UserTableSelectProfileResult
 	handler.LocalizedTemplateData
 
 	UserURL      string
 	IconURL      string
 	FeedListHTML string
-	Pager        *cm.Pager
+	PageData     *rcm.PageData
 	PostCount    uint
 }
 
@@ -29,14 +29,16 @@ type ProfilePostItem struct {
 	URL string
 }
 
-// NewProfileDataFromUser creates a new ProfileData from profile DB result.
-func NewProfileDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult) *ProfileData {
-	d := &ProfileData{UserTableSelectProfileResult: *profile}
+// NewProfilePageDataFromUser creates a new ProfileData from profile DB result.
+func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageData *rcm.PageData) *ProfilePageData {
+	d := &ProfilePageData{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
 	d.IconURL = app.URL.UserIconURL250(uid, profile.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
 	d.PostCount = stats.PostCount
+	d.FeedListHTML = feedHTML
+	d.PageData = pageData
 	return d
 }
 

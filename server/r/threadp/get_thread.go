@@ -6,6 +6,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
+	"qing/r/rcm"
 	"qing/r/sys"
 	"strings"
 
@@ -22,10 +23,12 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 
+	// Get thread.
 	page, _ := strconvx.ParseInt(r.FormValue("page"))
 	thread, err := da.Thread.SelectItemByID(app.DB, tid)
 	app.PanicIfErr(err)
 
+	// Get messages.
 	rawMsgs, hasNext, err := da.ThreadMsg.SelectItemsByThread(app.DB, tid, page, defaultPageSize)
 	app.PanicIfErr(err)
 
@@ -35,8 +38,13 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 		msgListBuilder.WriteString(vMessageItem.MustExecuteToString(msgData))
 	}
 
+	// Setup page data.
+	pageURLFormatter := &ThreadPageURLFormatter{ID: tid}
+	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, int(thread.MsgCount))
+	pageBarHTML := rcm.GetPageBarHTML(pageData)
+
 	resp := app.HTMLResponse(w, r)
-	threadData := NewThreadPageData(thread, msgListBuilder.String())
+	threadData := NewThreadPageData(thread, msgListBuilder.String(), pageBarHTML)
 	title := thread.Title
 	d := app.MasterPageData(title, vThreadPage.MustExecuteToString(threadData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Post

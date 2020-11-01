@@ -8,6 +8,8 @@ import (
 	"qing/lib/validator"
 )
 
+const defaultPageQueryString = "?page=%v"
+
 type URL struct {
 	config *cfg.Config
 }
@@ -45,21 +47,32 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, size, avatarName))
 }
 
-func (u *URL) UserProfile(uid uint64) string {
-	return "/" + defs.Constants.RouteUser + "/" + validator.EncodeID(uid)
+func (u *URL) UserProfileWithPage(uid uint64, page int) string {
+	s := "/" + defs.Constants.RouteUser + "/" + validator.EncodeID(uid)
+	if page > 1 {
+		s += defaultPageQueryString
+	}
+	return s
 }
 
-func (u *URL) UserProfileFormatter(uid uint64) string {
-	head := u.UserProfile(uid)
-	return head + "?page=%v"
+func (u *URL) UserProfile(uid uint64) string {
+	return u.UserProfileWithPage(uid, 1)
 }
 
 func (u *URL) Post(pid uint64) string {
 	return "/" + defs.Constants.RoutePost + "/" + validator.EncodeID(pid)
 }
 
+func (u *URL) ThreadWithPage(pid uint64, page int) string {
+	s := "/" + defs.Constants.RouteThread + "/" + validator.EncodeID(pid)
+	if page > 1 {
+		s += defaultPageQueryString
+	}
+	return s
+}
+
 func (u *URL) Thread(pid uint64) string {
-	return "/" + defs.Constants.RouteThread + "/" + validator.EncodeID(pid)
+	return u.ThreadWithPage(pid, 1)
 }
 
 func (u *URL) SignIn() string {

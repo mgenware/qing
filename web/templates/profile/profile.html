@@ -67,10 +67,10 @@
 
           <div>
             <p class="text-center">
-              <a id="m-prev-btn" class="link-btn" href="{{.Pager.PrevPageURL}}">
+              <a id="m-prev-btn" class="link-btn" href="{{.PageData.PrevPageURL}}">
                 {{html .LS.PreviousPage}}
               </a>
-              <a id="m-next-btn" class="link-btn" href="{{.Pager.NextPageURL}}">
+              <a id="m-next-btn" class="link-btn" href="{{.PageData.NextPageURL}}">
                 {{html .LS.NextPage}}
               </a>
             </p>
@@ -88,6 +88,6 @@
   window.appUserURL = '{{js .UserURL}}';
   window.appTargetUID = '{{js .ID}}';
   window.appUserProfileURL = '{{js .Website}}';
-  window.appIsPrevEnabled = '{{js .Pager.HasPrevPage}}' === 'true';
-  window.appIsNextEnabled = '{{js .Pager.HasNextPage}}' === 'true';
+  window.appIsPrevEnabled = '{{js .PageData.HasPrevPage}}' === 'true';
+  window.appIsNextEnabled = '{{js .PageData.HasNextPage}}' === 'true';
 </script>

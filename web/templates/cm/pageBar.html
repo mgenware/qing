@@ -1,0 +1,21 @@
+<!-- An SEO-friendly page bar. -->
+<!-- Refer to `server:r/rcm/pageData.go` for template fields. -->
+<div class="row">
+  {{if .HasPrevPage}}
+  <div class="col-auto">
+    <a class="page-bar-link" href="{{js .FirstPageURL}}">&lt;&lt;</a>
+  </div>
+  <div class="col-auto">
+    <a class="page-bar-link" href="{{js .PrevPageURL}}"
+      ><span class="__qing_ls">previousPage</span></a
+    >
+  </div>
+  {{end}} {{if .HasNextPage}}
+  <div class="col-auto">
+    <a class="page-bar-link" href="{{js .NextPageURL}}"><span class="__qing_ls">nextPage</span></a>
+  </div>
+  <div class="col-auto">
+    <a class="page-bar-link" href="{{js .LastPageURL}}">&lt;&lt;</a>
+  </div>
+  {{end}}
+</div>

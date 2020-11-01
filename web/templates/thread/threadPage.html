@@ -6,7 +6,9 @@
   <hr />
   <div>{{.ContentHTML}}</div>
 
-  {{.MessageListHTML}}
+  {{.MessageListHTML}} {{if .PageDataHTML}}
+  <hr />
+  {{.PageDataHTML}} {{end}}
 </container-view>
 
 <script>
