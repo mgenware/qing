@@ -19,7 +19,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	page := validator.MustToPageOrDefault(r.FormValue("page"))
+	page := validator.GetPageParamFromRequestQueryString(r)
 	resp := app.HTMLResponse(w, r)
 
 	// User profile

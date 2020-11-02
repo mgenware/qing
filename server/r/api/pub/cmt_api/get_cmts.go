@@ -9,8 +9,6 @@ import (
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/api/apidata"
-
-	"github.com/mgenware/go-packagex/v5/jsonx"
 )
 
 var kCmtPageSize int
@@ -61,10 +59,9 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := cm.BodyContext(r.Context())
 
 	parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
-	page := jsonx.GetIntOrDefault(params, "page")
+	page := validator.GetPageParamFromDict(params)
 
 	db := app.DB
-
 	// Selecting replies.
 	if parentCmtID != 0 {
 		replies, hasNext, err := da.Reply.SelectReplies(db, parentCmtID, page, kCmtPageSize)

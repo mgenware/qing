@@ -6,14 +6,11 @@
   <hr />
   <div>{{.ContentHTML}}</div>
 
-  {{.MessageListHTML}} {{if .PageDataHTML}}
+  {{.MessageListHTML}} {{if .PageBarHTML}}
   <hr />
-  {{.PageDataHTML}} {{end}}
+  {{.PageBarHTML}} {{end}}
 </container-view>
 
 <script>
   window.appThreadID = '{{js .EID}}';
-  window.appThreadUserID = '{{js .UserEID}}';
-  window.appThreadCmtCount = parseInt('{{js .CmtCount}}', 10);
-  window.appThreadMsgCount = parseInt('{{js .MsgCount}}', 10);
 </script>

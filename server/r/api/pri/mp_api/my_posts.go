@@ -40,7 +40,7 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	page := validator.MustGetIntFromDict(params, "page")
+	page := validator.GetPageParamFromDict(params)
 	pageSize := validator.MustGetIntFromDict(params, "pageSize")
 	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Constants.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0

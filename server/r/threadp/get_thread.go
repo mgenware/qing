@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/go-chi/chi"
-	"github.com/mgenware/go-packagex/v5/strconvx"
 )
 
 const defaultPageSize = 20
@@ -24,7 +23,7 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	// Get thread.
-	page, _ := strconvx.ParseInt(r.FormValue("page"))
+	page := validator.GetPageParamFromRequestQueryString(r)
 	thread, err := da.Thread.SelectItemByID(app.DB, tid)
 	app.PanicIfErr(err)
 

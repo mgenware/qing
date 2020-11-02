@@ -7,7 +7,6 @@ export class Wind {
   userURL = w.appUserURL as string;
 
   postID = w.appPostID as string;
-  postUserID = w.appPostUserID as string;
   postCmtCount = w.appPostCmtCount as number;
   appPostInitialLikes = w.appPostInitialLikes as number;
 }
