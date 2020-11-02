@@ -1,22 +1,17 @@
-import wind from 'app/wind';
+import userWind from './userWind';
 
 export default class User {
   static fromWindow(): User | null {
-    if (wind.userID) {
+    if (userWind.appUserID) {
       return new User(
-        wind.userID,
-        wind.userName,
-        wind.userIconURL,
-        wind.userURL,
+        userWind.appUserID,
+        userWind.appUserName,
+        userWind.appUserIconURL,
+        userWind.appUserURL,
       );
     }
     return null;
   }
 
-  constructor(
-    public id: string,
-    public name: string,
-    public iconURL: string,
-    public URL: string,
-  ) {}
+  constructor(public id: string, public name: string, public iconURL: string, public URL: string) {}
 }

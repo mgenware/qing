@@ -3,9 +3,9 @@ import { html, customElement, property } from 'lit-element';
 import BaseElement from 'baseElement';
 import app from 'app';
 import { formatLS, ls } from 'ls';
-import wind from 'app/wind';
 import routes from 'routes';
 import 'ui/editor/editBar';
+import postWind from './postWind';
 import DeletePostLoader from './loaders/deletePostLoader';
 
 @customElement('post-admin-app')
@@ -28,7 +28,7 @@ export class PostAdminApp extends BaseElement {
   }
 
   protected onEditClick() {
-    const { postID } = wind;
+    const postID = postWind.appPostID;
     const url = `${routes.home.editPost}/${postID}`;
     app.browser.jumpToURL(url);
   }

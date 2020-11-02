@@ -1,15 +1,15 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'core/cmt/cmtApp';
-import wind from 'app/wind';
 import { EntityType } from 'lib/entity';
+import postWind from './postWind';
 import './views/likeApp';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
-  private hostID = wind.postID;
-  private cmtCount = wind.postCmtCount;
-  private initialLikes = wind.appPostInitialLikes;
+  private hostID = postWind.appPostID;
+  private cmtCount = postWind.appPostCmtCount;
+  private initialLikes = postWind.appPostInitialLikes;
 
   render() {
     return html`
