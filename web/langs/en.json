@@ -105,5 +105,7 @@
   "yourThreads": "Your threads",
   "newThread": "New thread",
   "newQuestion": "New question",
-  "numOfMsgs": "{0} {0|countable|message|messages}"
+  "numOfMsgs": "{0} {0|countable|message|messages}",
+  "postAMsgToThisThread": "Post a message to this thread",
+  "send": "Send"
 }

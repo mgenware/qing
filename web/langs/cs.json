@@ -105,5 +105,7 @@
   "yourThreads": "我的讨论",
   "newThread": "新讨论",
   "newQuestion": "新提问",
-  "numOfMsgs": "{0} 个消息"
+  "numOfMsgs": "{0} 个消息",
+  "postAMsgToThisThread": "向讨论发送消息",
+  "send": "发送"
 }

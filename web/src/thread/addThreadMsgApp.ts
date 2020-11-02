@@ -6,16 +6,16 @@ import { EntityType } from 'lib/entity';
 import 'ui/editor/composerView';
 import threadWind from './threadWind';
 
-@customElement('add-msg-app')
-export class AddMsgApp extends BaseElement {
+@customElement('add-thread-msg-app')
+export class AddThreadMsgApp extends BaseElement {
   render() {
     return html`
       <composer-view
         .id=${threadWind.appThreadID}
         .showTitleInput=${false}
-        .headerText=${ls.writeAComment}
+        .headerText=${ls.postAMsgToThisThread}
         .entityType=${EntityType.cmt}
-        .submitButtonText=${ls.comment}
+        .submitButtonText=${ls.send}
         .showCancelButton=${true}
       ></composer-view>
     `;
@@ -24,6 +24,6 @@ export class AddMsgApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'add-msg-app': AddMsgApp;
+    'add-thread-msg-app': AddThreadMsgApp;
   }
 }

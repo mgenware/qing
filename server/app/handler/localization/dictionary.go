@@ -78,6 +78,7 @@ type Dictionary struct {
 	Password               string `json:"password"`
 	PlsLoginToComment      string `json:"plsLoginToComment"`
 	Post                   string `json:"post"`
+	PostAMsgToThisThread   string `json:"postAMsgToThisThread"`
 	Posts                  string `json:"posts"`
 	PpItemsCounter         string `json:"ppItemsCounter"`
 	PreviousPage           string `json:"previousPage"`
@@ -100,6 +101,7 @@ type Dictionary struct {
 	Save                   string `json:"save"`
 	Saved                  string `json:"saved"`
 	Saving                 string `json:"saving"`
+	Send                   string `json:"send"`
 	Settings               string `json:"settings"`
 	SignIn                 string `json:"signIn"`
 	SignOut                string `json:"signOut"`

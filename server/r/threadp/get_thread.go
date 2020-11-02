@@ -46,6 +46,6 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	threadData := NewThreadPageData(thread, msgListBuilder.String(), pageBarHTML)
 	title := thread.Title
 	d := app.MasterPageData(title, vThreadPage.MustExecuteToString(threadData))
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Post
+	d.Scripts = app.TemplateManager.AssetsManager.JS.Thread
 	return resp.MustComplete(d)
 }

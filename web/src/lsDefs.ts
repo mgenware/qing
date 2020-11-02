@@ -106,4 +106,6 @@ export default interface LSDefs {
   newThread: string;
   newQuestion: string;
   numOfMsgs: string;
+  postAMsgToThisThread: string;
+  send: string;
 }

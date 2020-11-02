@@ -1,1 +1,1 @@
-import './addMsgApp';
+import './addThreadMsgApp';

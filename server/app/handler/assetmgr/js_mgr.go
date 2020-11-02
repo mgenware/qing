@@ -48,6 +48,6 @@ func NewJSManager(dev bool) *JSManager {
 	r.Dashboard = js("dashboardEntry")
 	r.Profile = js("profileEntry")
 	r.Auth = js("authEntry")
-	r.Thread = js("theadEntry")
+	r.Thread = js("threadEntry")
 	return r
 }
