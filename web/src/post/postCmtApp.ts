@@ -1,9 +1,9 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'core/cmt/cmtApp';
-import { EntityType } from 'lib/entity';
 import postWind from './postWind';
 import './views/likeApp';
+import { entityPost } from 'sharedConstants';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
@@ -16,11 +16,11 @@ export class PostCmtApp extends BaseElement {
       <like-app
         .initialLikes=${this.initialLikes}
         .hostID=${this.hostID}
-        .hostType=${EntityType.post}
+        .hostType=${entityPost}
       ></like-app>
       <cmt-app
         .hostID=${this.hostID}
-        .hostType=${EntityType.post}
+        .hostType=${entityPost}
         .initialCount=${this.cmtCount}
       ></cmt-app>
     `;

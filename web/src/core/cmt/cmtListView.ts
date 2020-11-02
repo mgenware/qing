@@ -3,7 +3,6 @@ import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
 import { ls, formatLS } from 'ls';
-import { EntityType } from 'lib/entity';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
@@ -13,11 +12,12 @@ import './cmtView';
 import './replyListView';
 import './cmtFooterView';
 import { SetCmtResponse } from './loaders/setCmtLoader';
+import { CHECK } from 'checks';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
   @lp.string hostID = '';
-  @lp.number hostType: EntityType = 0;
+  @lp.number hostType = 0;
   // The number of all top-level comments and their replies.
   @lp.number totalCount = 0;
   // Starts loading comment when the component is first visible.
@@ -34,6 +34,9 @@ export class CmtListView extends BaseElement {
   @lp.object collectorLoadingStatus = LoadingStatus.empty;
 
   firstUpdated() {
+    CHECK(this.hostID);
+    CHECK(this.hostType);
+
     this.cmtCollector = new CmtCollector(
       {
         hostID: this.hostID,

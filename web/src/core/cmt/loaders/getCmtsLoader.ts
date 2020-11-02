@@ -1,12 +1,12 @@
 import Loader from 'lib/loader';
 import routes from 'routes';
-import { EntityType } from 'lib/entity';
 import { ItemsResponse } from 'lib/itemCollector';
 import Cmt from '../cmt';
+import { CHECK } from 'checks';
 
 export interface GetCmtsInputs {
   hostID: string;
-  hostType: EntityType;
+  hostType: number;
   page: number;
 }
 
@@ -24,12 +24,15 @@ export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
   }
 
   static cmt(inputs: GetCmtsInputs): GetCmtsLoader {
+    CHECK(inputs.hostID);
+    CHECK(inputs.hostType);
     const res = new GetCmtsLoader();
     res.cmtInputs = inputs;
     return res;
   }
 
   static reply(inputs: GetRepliesInputs): GetCmtsLoader {
+    CHECK(inputs.parentCmtID);
     const res = new GetCmtsLoader();
     res.replyInputs = inputs;
     return res;

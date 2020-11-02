@@ -38,5 +38,6 @@ module.exports = {
     // Sometimes, we need both web component files and their typings imported to avoid
     // unwanted tree-shaking.
     'import/no-duplicates': 'off',
+    'import/order': 'off',
   },
 };

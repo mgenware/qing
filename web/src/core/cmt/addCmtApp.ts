@@ -5,19 +5,25 @@ import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import ls from 'ls';
-import { EntityType } from 'lib/entity';
 import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
+import { entityCmt } from 'sharedConstants';
+import { CHECK } from 'checks';
 
 const composerID = 'composer';
 
 @customElement('add-cmt-app')
 export class AddCmtApp extends BaseElement {
   @lp.string hostID = '';
-  @lp.number hostType: EntityType = 0;
+  @lp.number hostType = 0;
   @lp.bool private expanded = false;
 
   private get composerElement(): ComposerView | null {
     return this.mustGetShadowElement(composerID) as ComposerView | null;
+  }
+
+  firstUpdated() {
+    CHECK(this.hostID);
+    CHECK(this.hostType);
   }
 
   render() {
@@ -35,7 +41,7 @@ export class AddCmtApp extends BaseElement {
         .id=${composerID}
         .showTitleInput=${false}
         .headerText=${ls.writeAComment}
-        .entityType=${EntityType.cmt}
+        .entityType=${entityCmt}
         .submitButtonText=${ls.comment}
         .showCancelButton=${true}
         @onSubmit=${this.handleSubmit}

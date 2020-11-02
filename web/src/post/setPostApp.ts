@@ -5,10 +5,10 @@ import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import BaseElement from 'baseElement';
-import { EntityType } from 'lib/entity';
 import { CHECK } from 'checks';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 import { SetPostLoader, SetPostConfig } from './loaders/setPostLoader';
+import { entityPost } from 'sharedConstants';
 
 const composerID = 'composer';
 
@@ -47,7 +47,7 @@ export default class SetPostApp extends BaseElement {
           .id=${composerID}
           .inputTitle=${this.postTitle}
           .entityID=${this.editedID}
-          .entityType=${EntityType.post}
+          .entityType=${entityPost}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
       </div>

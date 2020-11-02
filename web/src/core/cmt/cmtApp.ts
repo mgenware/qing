@@ -5,14 +5,13 @@ import 'ui/cm/itemCounter';
 import './cmtView';
 import './addCmtApp';
 import './cmtListView';
-import { EntityType } from 'lib/entity';
 import { CHECK } from 'checks';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
   @lp.number initialCount = 0;
   @lp.string hostID = '';
-  @lp.number hostType: EntityType = 0;
+  @lp.number hostType = 0;
   @lp.number private totalCount = 0;
 
   firstUpdated() {

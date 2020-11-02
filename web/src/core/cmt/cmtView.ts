@@ -10,7 +10,6 @@ import 'ui/cm/linkButton';
 import 'ui/cm/svgIcon';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import { EntityType } from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { ComposerView, ComposerContent } from 'ui/editor/composerView';
 import { staticMainImage } from 'urls';
@@ -18,6 +17,8 @@ import Cmt, { isReply } from './cmt';
 import DeleteCmtLoader from './loaders/deleteCmtLoader';
 import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
+import { CHECK } from 'checks';
+import { entityCmt } from 'sharedConstants';
 
 enum EditorMode {
   none,
@@ -29,7 +30,7 @@ const composerID = 'composer';
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
   @lp.string hostID = '';
-  @lp.number hostType: EntityType = 0;
+  @lp.number hostType = 0;
 
   @lp.object cmt: Cmt | null = null;
   // Only available to replies.
@@ -40,6 +41,11 @@ export class CmtView extends BaseElement {
   // Composer view is optional in `render`.
   private get composerElement(): ComposerView | null {
     return this.getShadowElement(composerID) as ComposerView | null;
+  }
+
+  firstUpdated() {
+    CHECK(this.hostID);
+    CHECK(this.hostType);
   }
 
   render() {
@@ -65,7 +71,7 @@ export class CmtView extends BaseElement {
             .showTitleInput=${false}
             .showCancelButton=${true}
             .entityID=${this.editorMode === EditorMode.editing ? cmt.id : ''}
-            .entityType=${EntityType.cmt}
+            .entityType=${entityCmt}
             .submitButtonText=${ls.save}
             @onSubmit=${this.handleSubmit}
             @onDiscard=${this.handleDiscard}

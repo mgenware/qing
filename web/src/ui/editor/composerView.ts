@@ -4,11 +4,11 @@ import { ls, formatLS } from 'ls';
 import app from 'app';
 import BaseElement from 'baseElement';
 import { CaptchaView } from 'ui/cm/captchaView';
-import { EntityType } from 'lib/entity';
 import './editorView';
 import 'ui/form/inputView';
 import 'ui/cm/captchaView';
 import EditorView from './editorView';
+import { CHECK } from 'checks';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -31,7 +31,7 @@ export interface ComposerContent {
  */
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
-  @lp.number entityType: EntityType = 0;
+  @lp.number entityType = 0;
 
   // A descriptive header string displayed on top of the editor.
   @lp.string headerText = '';
@@ -81,9 +81,7 @@ export class ComposerView extends BaseElement {
   }
 
   firstUpdated() {
-    if (!this.entityType) {
-      throw new Error('Invalid entity type');
-    }
+    CHECK(this.entityType);
 
     const editor = this.mustGetShadowElement('editor') as EditorView;
     editor.contentHTML = this.contentHTML;
@@ -118,8 +116,7 @@ export class ComposerView extends BaseElement {
               required
               .placeholder=${ls.title}
               .value=${this.inputTitle}
-              @onChange=${(e: CustomEvent<string>) =>
-                (this.inputTitle = e.detail)}
+              @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}
             ></input-view>
           </div>
         `
@@ -143,9 +140,7 @@ export class ComposerView extends BaseElement {
         </qing-button>
         ${this.showCancelButton
           ? html`
-              <qing-button class="m-l-sm" @click=${this.handleCancel}
-                >${ls.cancel}</qing-button
-              >
+              <qing-button class="m-l-sm" @click=${this.handleCancel}>${ls.cancel}</qing-button>
             `
           : ''}
       </div>
@@ -169,9 +164,7 @@ export class ComposerView extends BaseElement {
       });
     }
     if (!this.contentHTML) {
-      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
-        this.editor?.focus(),
-      );
+      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () => this.editor?.focus());
     }
     if (captchaView && !captchaView.value) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.captcha), () => {

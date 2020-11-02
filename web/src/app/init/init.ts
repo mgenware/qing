@@ -21,7 +21,7 @@ function handleLocalizedStringSlots() {
     if (textContent) {
       const str = getLSByKey(textContent);
       if (!str) {
-        console.error(`Unresolve localized string key "${textContent}"`);
+        console.error(`Unresolved localized string key "${textContent}"`);
       }
       element.textContent = str;
     }

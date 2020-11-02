@@ -4,12 +4,12 @@ import * as lp from 'lit-props';
 import 'ui/cm/timeField';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
-import { EntityType } from 'lib/entity';
 import './cmtView';
 import Cmt, { CmtCountChangedEventDetail } from './cmt';
 import CmtCollector from './cmtCollector';
 import './cmtFooterView';
 import { SetCmtResponse } from './loaders/setCmtLoader';
+import { CHECK } from 'checks';
 
 @customElement('reply-list-view')
 export class ReplyListView extends BaseElement {
@@ -29,7 +29,7 @@ export class ReplyListView extends BaseElement {
   }
 
   @lp.string hostID = '';
-  @lp.number hostType: EntityType = 0;
+  @lp.number hostType = 0;
   @lp.object cmt: Cmt | null = null;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
@@ -47,9 +47,12 @@ export class ReplyListView extends BaseElement {
 
   firstUpdated() {
     const { cmt } = this;
+    CHECK(cmt);
     if (!cmt) {
       return;
     }
+    CHECK(this.hostID);
+    CHECK(this.hostType);
     this.totalCount = cmt.replyCount;
     this.hasNext = !!this.totalCount;
     this.replyCollector = new CmtCollector(
