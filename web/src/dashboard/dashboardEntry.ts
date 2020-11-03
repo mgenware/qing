@@ -9,11 +9,12 @@ import * as htmlLib from 'lib/htmlLib';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
 import {
-  forumPostTypePost,
-  forumPostTypeQuestion,
+  entityPost,
+  entityQuestion,
   postDestinationForum,
   postDestinationUser,
 } from 'sharedConstants';
+import { CHECK } from 'checks';
 
 function loadContent(title: string, content: TemplateResult) {
   document.title = `${title} - ${ls._siteName}`;
@@ -28,17 +29,23 @@ function loadSettingsContent(title: string, content: TemplateResult) {
 }
 
 function loadNewPostContent(destination: number, type: number) {
+  CHECK(destination);
+  CHECK(type);
+
   let url: string;
   let title: string;
   if (destination === postDestinationUser) {
+    if (type !== entityPost) {
+      throw new Error(`Invalid post type ${type}`);
+    }
     url = rs.home.newPost;
     title = ls.newPost;
   } else if (destination === postDestinationForum) {
-    if (type !== forumPostTypePost && type !== forumPostTypeQuestion) {
+    if (type !== entityPost && type !== entityQuestion) {
       throw new Error(`Invalid post type ${type}`);
     }
-    url = type === forumPostTypePost ? rs.home.newThread : rs.home.newQuestion;
-    title = type === forumPostTypePost ? ls.newThread : ls.newQuestion;
+    url = type === entityPost ? rs.home.newThread : rs.home.newQuestion;
+    title = type === entityPost ? ls.newThread : ls.newQuestion;
   } else {
     throw new Error(`Invalid destination ${destination}`);
   }
@@ -57,9 +64,9 @@ function loadNewPostContent(destination: number, type: number) {
   );
 }
 
-loadNewPostContent(postDestinationUser, 0);
-loadNewPostContent(postDestinationForum, forumPostTypePost);
-loadNewPostContent(postDestinationForum, forumPostTypeQuestion);
+loadNewPostContent(postDestinationUser, entityPost);
+loadNewPostContent(postDestinationForum, entityPost);
+loadNewPostContent(postDestinationForum, entityQuestion);
 
 page(`${rs.home.editPost}/:id`, (e) => {
   const { id } = e.params;

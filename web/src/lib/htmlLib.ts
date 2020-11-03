@@ -35,6 +35,7 @@ export function renderTemplateResult(
   } else {
     containerElement = container;
   }
+  containerElement.innerHTML = '';
   render(template ?? html``, containerElement);
   return containerElement.firstElementChild as HTMLElement | null;
 }
