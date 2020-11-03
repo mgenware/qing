@@ -19,6 +19,8 @@ export function resizeSVGHTML(svg: string, width: number, height: number): strin
   return element.outerHTML;
 }
 
+// Renders the given template result to the specified container.
+// NOTE: container contents will be cleared before rendering.
 export function renderTemplateResult(
   container: HTMLElement | string,
   template: TemplateResult | null,
@@ -35,8 +37,16 @@ export function renderTemplateResult(
   } else {
     containerElement = container;
   }
+
+  // By default, `render` in lit-html tries to update the container
+  // (instead of a full re-render) if `render` was called on the
+  // container. To always start a full re-render, we'll do the following:
+  //  - Remove all children of the container
+  //  - Add an empty div to the container and mount content to the div
   containerElement.innerHTML = '';
-  render(template ?? html``, containerElement);
+  const div = document.createElement('div');
+  containerElement.appendChild(div);
+  render(template ?? html``, div);
   return containerElement.firstElementChild as HTMLElement | null;
 }
 
