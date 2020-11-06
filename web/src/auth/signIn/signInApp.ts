@@ -33,9 +33,7 @@ export class SignInApp extends BaseElement {
           @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}
         ></input-view>
       </div>
-      <qing-button btnStyle="success" @click=${this.handleSignInClick}
-        >${ls.signIn}</qing-button
-      >
+      <qing-button btnStyle="success" @click=${this.handleSignInClick}>${ls.signIn}</qing-button>
     `;
   }
 
@@ -53,7 +51,7 @@ export class SignInApp extends BaseElement {
     const loader = new SignInLoader(this.email, this.password);
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.isSuccess) {
-      app.browser.setURL('/');
+      app.page.setURL('/');
     }
   }
 }

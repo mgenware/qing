@@ -1,46 +1,17 @@
-import { html, customElement, property } from 'lit-element';
+import { html } from 'lit-element';
 import ls from 'ls';
-import page from 'page';
 import rs from 'routes';
-import BaseElement from '../baseElement';
 import './reg/regApp';
 import './signIn/signInApp';
+import { MiniURLRouter } from 'lib/miniURLRouter';
+import app from 'app';
 
-class Page {
-  constructor(public content: unknown) {}
-}
+const authRouter = new MiniURLRouter();
 
-@customElement('auth-app')
-export default class AuthApp extends BaseElement {
-  @property({ type: Object }) content: Page | null = null;
-
-  set title(s: string) {
-    document.title = `${s} - ${ls._siteName}`;
-  }
-
-  firstUpdated() {
-    page(rs.auth.signUp, () => {
-      this.content = new Page(html`<reg-app></reg-app>`);
-      this.title = ls.createAnAcc;
-    });
-    page(rs.auth.signIn, () => {
-      this.content = new Page(html`<sign-in-app></sign-in-app>`);
-      this.title = ls.signIn;
-    });
-    page();
-  }
-
-  render() {
-    const { content } = this;
-    if (!content) {
-      return html``;
-    }
-    return html`<container-view>${content.content}</container-view>`;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'auth-app': AuthApp;
-  }
-}
+authRouter.register(rs.auth.signUp, () => {
+  app.page.reloadPageContent(ls.createAnAcc, html`<reg-app></reg-app>`);
+});
+authRouter.register(rs.auth.signIn, () => {
+  app.page.reloadPageContent(ls.createAnAcc, html`<sign-in-app></sign-in-app>`);
+});
+authRouter.startOnce();

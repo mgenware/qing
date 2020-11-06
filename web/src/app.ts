@@ -5,8 +5,8 @@ import LoadingStatus from 'lib/loadingStatus';
 import AppState from './app/modules/appState';
 import AlertModule from './app/modules/alertModule';
 import UserData from './app/modules/userData';
-import BrowserModule from './app/modules/browserModule';
 import Loader from './lib/loader';
+import PageModule from 'app/modules/pageModule';
 
 export class Result<TData> {
   constructor(public error: ErrorWithCode | null, public data: TData | null) {}
@@ -27,7 +27,7 @@ export class Result<TData> {
 class APP {
   state = new AppState();
   alert = new AlertModule();
-  browser = new BrowserModule();
+  page = new PageModule();
   userData = new UserData(this.state, this.alert);
 
   get isLoggedIn(): boolean {

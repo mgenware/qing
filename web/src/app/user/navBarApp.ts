@@ -235,7 +235,7 @@ export default class NavBarApp extends BaseElement {
     const loader = new SignOutLoader();
     const res = await app.runGlobalActionAsync(loader);
     if (res.isSuccess) {
-      app.browser.reload();
+      app.page.reload();
     }
   }
 }

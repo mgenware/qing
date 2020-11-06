@@ -69,7 +69,7 @@ export default class SetPostApp extends BaseElement {
     );
     if (status.data) {
       this.composerElement?.markAsSaved();
-      app.browser.setURL(status.data);
+      app.page.setURL(status.data);
     }
   }
 }

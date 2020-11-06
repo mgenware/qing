@@ -19,7 +19,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hasID := id != 0
 	destination := validator.MustGetIntFromDict(params, "destination")
 	postType := validator.MustGetIntFromDict(params, "type")
-	if postType == defs.Constants.ForumPostTypeQuestion {
+	if postType == defs.Constants.EntityQuestion {
 		panic("Questions are WIP")
 	}
 

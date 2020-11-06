@@ -1,11 +1,9 @@
 import { html, TemplateResult } from 'lit-element';
 import ls from 'ls';
-import page from 'page';
 import rs from 'routes';
 import app from 'app';
 import './settings/settingsBaseView';
 import 'post/setPostApp';
-import * as htmlLib from 'lib/htmlLib';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
 import {
@@ -15,17 +13,12 @@ import {
   postDestinationUser,
 } from 'sharedConstants';
 import { CHECK } from 'checks';
+import { MiniURLRouter } from 'lib/miniURLRouter';
 
-function loadContent(title: string, content: TemplateResult) {
-  document.title = `${title} - ${ls._siteName}`;
-  htmlLib.renderTemplateResult(
-    app.browser.mainContentElement,
-    html`<container-view>${content}</container-view>`,
-  );
-}
+const dashboardRouter = new MiniURLRouter();
 
 function loadSettingsContent(title: string, content: TemplateResult) {
-  loadContent(title, html`<settings-base-view>${content}</settings-base-view>`);
+  app.page.reloadPageContent(title, html`<settings-base-view>${content}</settings-base-view>`);
 }
 
 function loadNewPostContent(destination: number, type: number) {
@@ -50,8 +43,8 @@ function loadNewPostContent(destination: number, type: number) {
     throw new Error(`Invalid destination ${destination}`);
   }
 
-  page(url, () =>
-    loadContent(
+  dashboardRouter.register(url, () =>
+    app.page.reloadPageContent(
       title,
       html`
         <set-post-app
@@ -68,23 +61,18 @@ loadNewPostContent(postDestinationUser, entityPost);
 loadNewPostContent(postDestinationForum, entityPost);
 loadNewPostContent(postDestinationForum, entityQuestion);
 
-page(`${rs.home.editPost}/:id`, (e) => {
-  const { id } = e.params;
+dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
+  const id = args.id as string;
   if (!id) {
     return;
   }
-  loadContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
+  app.page.reloadPageContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
 });
-page(rs.home.settings.profile, () => {
+dashboardRouter.register(rs.home.settings.profile, () => {
   loadSettingsContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
 });
-page(rs.home.yourPosts, () => {
-  loadContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
+dashboardRouter.register(rs.home.yourPosts, () => {
+  app.page.reloadPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
 });
 
-// DO NOT add a default page handler, that will affect all pages.
-// page('*', () => {
-//   loadContent('', html` <p>${ls.noContentAvailable}</p> `);
-// });
-
-page();
+dashboardRouter.startOnce();

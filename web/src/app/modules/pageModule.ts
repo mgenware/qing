@@ -1,4 +1,8 @@
-export default class BrowserModule {
+import { renderTemplateResult } from 'lib/htmlLib';
+import { TemplateResult, html } from 'lit-element';
+import ls from 'ls';
+
+export default class PageModule {
   get mainContentElement(): HTMLElement {
     const element = window.document.getElementById('main-body');
     if (!element) {
@@ -21,5 +25,13 @@ export default class BrowserModule {
 
   openWindow(url: string) {
     window.open(url, '_blank');
+  }
+
+  reloadPageContent(title: string, content: TemplateResult) {
+    document.title = `${title} - ${ls._siteName}`;
+    renderTemplateResult(
+      this.mainContentElement,
+      html`<container-view>${content}</container-view>`,
+    );
   }
 }

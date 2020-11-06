@@ -53,17 +53,12 @@ export class RegApp extends BaseElement {
           type="password"
           label=${ls.confirmPassword}
           value=${this.confirmPassword}
-          @onChange=${(e: CustomEvent<string>) =>
-            (this.confirmPassword = e.detail)}
+          @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}
         ></input-view>
 
-        <input-error-view
-          message=${this.passwordsMismatchErr}
-        ></input-error-view>
+        <input-error-view message=${this.passwordsMismatchErr}></input-error-view>
       </div>
-      <qing-button btnStyle="success" @click=${this.handleSignUpClick}
-        >${ls.signUp}</qing-button
-      >
+      <qing-button btnStyle="success" @click=${this.handleSignUpClick}>${ls.signUp}</qing-button>
       <qing-dialog
         id="modalElement"
         .isOpen=${this.isCompletionModalOpen}
@@ -93,11 +88,7 @@ export class RegApp extends BaseElement {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new CreateNewUserLoader(
-      this.name,
-      this.email,
-      this.password,
-    );
+    const loader = new CreateNewUserLoader(this.name, this.email, this.password);
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
       this.isCompletionModalOpen = true;
@@ -107,7 +98,7 @@ export class RegApp extends BaseElement {
   private handleGoToYourEmail() {
     const domain = this.email.split('@').pop();
     if (domain) {
-      app.browser.openWindow(domain);
+      app.page.openWindow(domain);
     }
   }
 }

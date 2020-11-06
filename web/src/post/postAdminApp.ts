@@ -30,7 +30,7 @@ export class PostAdminApp extends BaseElement {
   protected onEditClick() {
     const postID = postWind.appPostID;
     const url = `${routes.home.editPost}/${postID}`;
-    app.browser.jumpToURL(url);
+    app.page.jumpToURL(url);
   }
 
   protected async onDeleteClick() {
@@ -40,7 +40,7 @@ export class PostAdminApp extends BaseElement {
       const status = await app.runGlobalActionAsync(loader, ls.working);
       if (status.data) {
         // Redirect to profile page since this page has been deleted.
-        app.browser.setURL(status.data);
+        app.page.setURL(status.data);
       }
     }
   }
