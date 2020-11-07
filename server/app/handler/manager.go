@@ -104,6 +104,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 
 	d.Header = css.Vendor + css.Main + d.Header
 	d.AppLang = lang
+	d.AppForumMode = m.config.Setup.ForumMode
 
 	script := ""
 	// Language file, this should be loaded first as the main.js relies on it.

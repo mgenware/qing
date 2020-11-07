@@ -19,6 +19,8 @@ import (
 type Config struct {
 	// Extends specifies another file which this file extends from.
 	Extends string `json:"extends"`
+	// Setup contains first launch user setup configs.
+	Setup *config.SetupConfig `json:"setup"`
 	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
 	Debug *config.DebugConfig `json:"debug"`
 	// Log config data.

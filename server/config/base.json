@@ -8,5 +8,6 @@
       "port": 6379
     },
     "imgx_cmd": "magick"
-  }
+  },
+  "setup": {}
 }
