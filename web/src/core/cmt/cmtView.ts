@@ -68,7 +68,6 @@ export class CmtView extends BaseElement {
             .headerText=${editorMode === EditorMode.editing
               ? ls.editComment
               : formatLS(ls.pReplyTo, cmt.userName)}
-            .showTitleInput=${false}
             .showCancelButton=${true}
             .entityID=${this.editorMode === EditorMode.editing ? cmt.id : ''}
             .entityType=${entityCmt}

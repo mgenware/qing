@@ -12,7 +12,6 @@ export class AddThreadMsgApp extends BaseElement {
     return html`
       <composer-view
         .id=${threadWind.appThreadID}
-        .showTitleInput=${false}
         .headerText=${ls.postAMsgToThisThread}
         .entityType=${entityThread}
         .submitButtonText=${ls.send}

@@ -40,7 +40,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// We are creating a new cmt.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
-		capt := validator.MustGetStringFromDict(contentData, "captcha", 10)
+		capt := validator.MustGetStringFromDict(contentData, "captcha", defs.Constants.MaxCaptchaLen)
 		toUserID := validator.GetIDFromDict(params, "toUserID")
 		parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 

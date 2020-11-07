@@ -30,8 +30,8 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	var err error
 	if !hasID {
-		capt := validator.MustGetStringFromDict(contentDict, "captcha", 10)
-		// New post
+		// Add a new entry.
+		capt := validator.MustGetStringFromDict(contentDict, "captcha", defs.Constants.MaxCaptchaLen)
 		captResult, err := app.Service.Captcha.Verify(uid, defs.Constants.EntityPost, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
@@ -47,7 +47,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicIfErr(err)
 		id = insertedID
 	} else {
-		// Edit post.
+		// Edit an existing entry.
 		if destination == defs.Constants.PostDestinationUser {
 			err = da.Post.EditItem(app.DB, id, uid, title, contentHTML, sanitizedToken)
 		} else {

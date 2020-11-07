@@ -5,6 +5,7 @@
   "maxUserEmailLen": 200,
   "maxPostTitleLen": 200,
   "maxGenericStringLen": 100,
+  "maxCaptchaLen": 10,
   "errInvalidUserOrPwd": 1,
   "columnCreated": "createdAt",
   "columnLikes": "likes",

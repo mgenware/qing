@@ -21,6 +21,7 @@ type SharedConstants struct {
 	ErrGeneric           int
 	ErrInvalidUserOrPwd  int
 	ErrNeedAuth          int
+	MaxCaptchaLen        int
 	MaxGenericStringLen  int
 	MaxPostTitleLen      int
 	MaxUserEmailLen      int
@@ -58,6 +59,7 @@ func init() {
 		ErrGeneric:           10000,
 		ErrInvalidUserOrPwd:  1,
 		ErrNeedAuth:          10001,
+		MaxCaptchaLen:        10,
 		MaxGenericStringLen:  100,
 		MaxPostTitleLen:      200,
 		MaxUserEmailLen:      200,

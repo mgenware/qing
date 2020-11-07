@@ -38,7 +38,7 @@ export class ComposerView extends BaseElement {
 
   // Title field value.
   @lp.string inputTitle = '';
-  @lp.bool showTitleInput = true;
+  @lp.bool showTitleInput = false;
 
   // NOTE: if `entityID` is empty, captcha view will show up.
   @lp.string entityID = '';

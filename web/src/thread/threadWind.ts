@@ -1,5 +1,6 @@
 export interface ThreadWind {
   appThreadID: string;
+  appThreadCmtCount: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
