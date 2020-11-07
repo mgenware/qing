@@ -2,13 +2,13 @@ import BaseLoader from 'lib/loader';
 import routes from 'routes';
 import { ComposerContent } from 'ui/editor/composerView';
 
-export class SetPostLoader extends BaseLoader<string> {
+export class SetThreadLoader extends BaseLoader<string> {
   constructor(public id: string | null, public content: ComposerContent) {
     super();
   }
 
   requestURL(): string {
-    return routes.s.r.compose.setPost;
+    return routes.s.r.thread.setThread;
   }
 
   requestParams(): unknown {

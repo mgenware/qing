@@ -10,8 +10,6 @@
   "columnCreated": "createdAt",
   "columnLikes": "likes",
   "columnComments": "comments",
-  "postDestinationUser": 1,
-  "postDestinationForum": 2,
   "defaultLang": "en",
   "routeUser": "user",
   "routePost": "p",

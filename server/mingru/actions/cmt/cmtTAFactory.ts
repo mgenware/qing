@@ -63,6 +63,7 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
       // `cmtTA.getHostIDAndReplyCount`.
       updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
         replyCount: mm.valueRef(`${hostIDAndReplyCount}.ReplyCount`),
+        hostID: mm.valueRef(`${hostIDAndReplyCount}.HostID`),
       }),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface);

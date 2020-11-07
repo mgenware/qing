@@ -32,6 +32,14 @@ export default buildTree({
         getCmtSource: 'get-cmt-src',
         deleteCmt: 'delete-cmt',
       },
+      thread: {
+        setThread: 'set-thread',
+        deleteThread: 'delete-thread',
+        getThreadSource: 'get-thread-source',
+        setThreadMsg: 'set-thread-msg',
+        deleteThreadMsg: 'delete-thread-msg',
+        getThreadMsgSource: 'get-thread-msg-source',
+      },
       auth: {
         signOut: 'signout',
       },

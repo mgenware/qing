@@ -33,7 +33,7 @@ func (da *TableTypeThreadMsg) deleteCmtChild3(queryable mingru.Queryable, hostID
 }
 
 // DeleteCmt ...
-func (da *TableTypeThreadMsg) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostID uint64) error {
+func (da *TableTypeThreadMsg) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		hostIDAndReplyCount, err := Cmt.GetHostIdAndReplyCount(tx, id)
@@ -44,7 +44,7 @@ func (da *TableTypeThreadMsg) DeleteCmt(db *sql.DB, id uint64, userID uint64, ho
 		if err != nil {
 			return err
 		}
-		err = da.deleteCmtChild3(tx, hostID, userID, hostIDAndReplyCount.ReplyCount)
+		err = da.deleteCmtChild3(tx, hostIDAndReplyCount.HostID, userID, hostIDAndReplyCount.ReplyCount)
 		if err != nil {
 			return err
 		}
@@ -53,12 +53,21 @@ func (da *TableTypeThreadMsg) DeleteCmt(db *sql.DB, id uint64, userID uint64, ho
 	return txErr
 }
 
-func (da *TableTypeThreadMsg) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
+func (da *TableTypeThreadMsg) deleteItemChild1(queryable mingru.Queryable, id uint64) (uint64, error) {
+	var result uint64
+	err := queryable.QueryRow("SELECT `thread_id` FROM `thread_msg` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func (da *TableTypeThreadMsg) deleteItemChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `thread_msg` WHERE `id` = ? AND `user_id` = ?", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeThreadMsg) deleteItemChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
+func (da *TableTypeThreadMsg) deleteItemChild3(queryable mingru.Queryable, id uint64, userID uint64) error {
 	return Thread.UpdateMsgCount(queryable, id, userID, -1)
 }
 
@@ -66,11 +75,15 @@ func (da *TableTypeThreadMsg) deleteItemChild2(queryable mingru.Queryable, id ui
 func (da *TableTypeThreadMsg) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.deleteItemChild1(tx, id, userID)
+		threadID, err := da.deleteItemChild1(tx, id)
 		if err != nil {
 			return err
 		}
 		err = da.deleteItemChild2(tx, id, userID)
+		if err != nil {
+			return err
+		}
+		err = da.deleteItemChild3(tx, threadID, userID)
 		if err != nil {
 			return err
 		}
@@ -167,7 +180,7 @@ func (da *TableTypeThreadMsg) insertItemChild2(queryable mingru.Queryable, id ui
 }
 
 // InsertItem ...
-func (da *TableTypeThreadMsg) InsertItem(db *sql.DB, content string, userID uint64, threadID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypeThreadMsg) InsertItem(db *sql.DB, content string, userID uint64, threadID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -175,7 +188,7 @@ func (da *TableTypeThreadMsg) InsertItem(db *sql.DB, content string, userID uint
 		if err != nil {
 			return err
 		}
-		err = da.insertItemChild2(tx, id, userID)
+		err = da.insertItemChild2(tx, threadID, userID)
 		if err != nil {
 			return err
 		}

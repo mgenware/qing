@@ -16,7 +16,6 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	id := validator.MustGetIDFromDict(params, "id")
-	hostID := validator.MustGetIDFromDict(params, "hostID")
 	hostType := validator.MustGetIntFromDict(params, "hostType")
 	isReply := jsonx.GetIntOrDefault(params, "isReply")
 

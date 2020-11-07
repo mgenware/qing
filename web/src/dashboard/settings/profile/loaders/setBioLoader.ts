@@ -11,9 +11,8 @@ export default class SetBioLoader extends BaseLoader<void> {
   }
 
   requestParams(): unknown {
-    const ret = {
+    return {
       bio: this.bio,
     };
-    return ret;
   }
 }

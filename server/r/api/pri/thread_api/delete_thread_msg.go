@@ -9,13 +9,13 @@ import (
 	"qing/lib/validator"
 )
 
-func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
+func deleteThreadMsg(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
 
-	pid := validator.MustGetIDFromDict(params, "id")
-	err := da.Post.DeleteItem(app.DB, pid, uid)
+	id := validator.MustGetIDFromDict(params, "id")
+	err := da.ThreadMsg.DeleteItem(app.DB, id, uid)
 	app.PanicIfErr(err)
-	return resp.MustComplete(app.URL.UserProfile(uid))
+	return resp.MustComplete(nil)
 }

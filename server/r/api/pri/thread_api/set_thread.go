@@ -10,7 +10,7 @@ import (
 	"qing/lib/validator"
 )
 
-func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setThread(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := cm.BodyContext(r.Context())
 	uid := resp.UserID()
@@ -27,20 +27,20 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if !hasID {
 		// Add a new entry.
 		capt := validator.MustGetStringFromDict(contentDict, "captcha", defs.Constants.MaxCaptchaLen)
-		captResult, err := app.Service.Captcha.Verify(uid, defs.Constants.EntityPost, capt, app.Config.DevMode())
+		captResult, err := app.Service.Captcha.Verify(uid, defs.Constants.EntityThread, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
-		insertedID, err := da.Post.InsertItem(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
+		insertedID, err := da.Thread.InsertItem(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
 		app.PanicIfErr(err)
 		id = insertedID
 	} else {
 		// Edit an existing entry.
-		err = da.Post.EditItem(app.DB, id, uid, title, contentHTML, sanitizedToken)
+		err = da.Thread.EditItem(app.DB, id, uid, title, contentHTML, sanitizedToken)
 		app.PanicIfErr(err)
 	}
 
-	newPostURL := app.URL.Post(id)
-	return resp.MustComplete(newPostURL)
+	newThreadURL := app.URL.Thread(id)
+	return resp.MustComplete(newThreadURL)
 }

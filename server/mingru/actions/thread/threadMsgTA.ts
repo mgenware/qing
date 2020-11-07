@@ -6,6 +6,8 @@ import threadMsgCmt from '../../models/thread/threadMsgCmt';
 import PostTACore from '../post/postTACore';
 import threadTA from './threadTA';
 
+const threadID = 'threadID';
+
 export class ThreadMsgTA extends PostTACore {
   selectItemsByThread: mm.SelectAction;
 
@@ -41,11 +43,19 @@ export class ThreadMsgTA extends PostTACore {
   }
 
   getContainerUpdateCounterAction(): mm.Action {
-    return threadTA.updateMsgCount;
+    return threadTA.updateMsgCount.wrap({ id: mm.valueRef('threadID'), offset: '-1' });
   }
 
   getExtraInsertionInputColumns(): mm.Column[] {
     return [t.thread_id];
+  }
+
+  deleteItemOverride(): mm.Action | null {
+    return mm.transact(
+      mm.selectField(t.thread_id).by(t.id).declareReturnValue(mm.ReturnValues.result, threadID),
+      mm.deleteOne().whereSQL(this.updateConditions),
+      this.getContainerUpdateCounterAction(),
+    );
   }
 }
 

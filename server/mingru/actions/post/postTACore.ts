@@ -16,8 +16,8 @@ export default abstract class PostTACore extends mm.TableActions {
   selectItemsForDashboard: mm.SelectAction;
 
   // Other actions.
-  deleteItem: mm.TransactAction;
-  insertItem: mm.TransactAction;
+  deleteItem: mm.Action;
+  insertItem: mm.Action;
   editItem: mm.UpdateAction;
 
   // Cmt-related actions.
@@ -61,10 +61,12 @@ export default abstract class PostTACore extends mm.TableActions {
       .selectPage(...this.coreColumns)
       .by(t.user_id)
       .orderByInput(...this.getDashboardOrderInputSelections());
-    this.deleteItem = mm.transact(
-      mm.deleteOne().whereSQL(this.updateConditions),
-      this.getContainerUpdateCounterAction().wrap({ offset: '-1' }),
-    );
+    this.deleteItem =
+      this.deleteItemOverride() ??
+      mm.transact(
+        mm.deleteOne().whereSQL(this.updateConditions),
+        this.getContainerUpdateCounterAction().wrap({ offset: '-1' }),
+      );
     this.insertItem = mm
       .transact(
         mm
@@ -123,5 +125,9 @@ export default abstract class PostTACore extends mm.TableActions {
   protected getFullColumns(): mm.SelectActionColumns[] {
     const t = this.getItemTable();
     return [...this.coreColumns, t.content, ...this.userColumns];
+  }
+
+  protected deleteItemOverride(): mm.Action | null {
+    return null;
   }
 }

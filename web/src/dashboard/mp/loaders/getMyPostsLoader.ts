@@ -27,12 +27,11 @@ export class GetMyPostsLoader extends BaseLoader<PaginatedList<DashboardPost>> {
   }
 
   requestParams(): unknown {
-    const ret = {
+    return {
       page: this.page,
       pageSize: this.pageSize,
       sort: this.sortedColumn,
       desc: +this.desc,
     };
-    return ret;
   }
 }

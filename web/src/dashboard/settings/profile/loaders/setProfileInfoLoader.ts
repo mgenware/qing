@@ -16,12 +16,11 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
   }
 
   requestParams(): unknown {
-    const ret = {
+    return {
       name: this.name,
       website: this.website,
       company: this.company,
       location: this.location,
     };
-    return ret;
   }
 }

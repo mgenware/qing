@@ -33,7 +33,7 @@ func (da *TableTypePost) deleteCmtChild3(queryable mingru.Queryable, hostID uint
 }
 
 // DeleteCmt ...
-func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostID uint64) error {
+func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		hostIDAndReplyCount, err := Cmt.GetHostIdAndReplyCount(tx, id)
@@ -44,7 +44,7 @@ func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64, hostID 
 		if err != nil {
 			return err
 		}
-		err = da.deleteCmtChild3(tx, hostID, userID, hostIDAndReplyCount.ReplyCount)
+		err = da.deleteCmtChild3(tx, hostIDAndReplyCount.HostID, userID, hostIDAndReplyCount.ReplyCount)
 		if err != nil {
 			return err
 		}

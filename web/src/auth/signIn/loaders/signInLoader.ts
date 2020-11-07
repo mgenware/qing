@@ -11,10 +11,9 @@ export default class SignInLoader extends BaseLoader<undefined> {
   }
 
   requestParams(): unknown {
-    const ret = {
+    return {
       email: this.email,
       pwd: this.pwd,
     };
-    return ret;
   }
 }
