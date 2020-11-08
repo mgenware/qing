@@ -59,8 +59,8 @@ func (da *TableTypeUser) SelectIconName(queryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
-// SelectIdFromEmail ...
-func (da *TableTypeUser) SelectIdFromEmail(queryable mingru.Queryable, email string) (uint64, error) {
+// SelectIDFromEmail ...
+func (da *TableTypeUser) SelectIDFromEmail(queryable mingru.Queryable, email string) (uint64, error) {
 	var result uint64
 	err := queryable.QueryRow("SELECT `id` FROM `user` WHERE `email` = ?", email).Scan(&result)
 	if err != nil {
@@ -92,7 +92,7 @@ func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*
 
 // UserTableSelectSessionDataResult ...
 type UserTableSelectSessionDataResult struct {
-	ID       uint64 `json:"id,omitempty"`
+	ID       uint64 `json:"ID,omitempty"`
 	Name     string `json:"name,omitempty"`
 	IconName string `json:"iconName,omitempty"`
 }

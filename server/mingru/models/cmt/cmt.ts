@@ -4,7 +4,7 @@ import user from '../user/user';
 export class Cmt extends mm.Table {
   // Common fields for both cmt and reply.
   id = mm.pk();
-  content = mm.text();
+  content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
   created_at = mm.datetime('utc');
   modified_at = mm.datetime('utc').nullable;
@@ -21,7 +21,7 @@ export const cmt = mm.table(Cmt);
 export class Reply extends mm.Table {
   // Common fields for both cmt and reply.
   id = mm.pk();
-  content = mm.text();
+  content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
   created_at = mm.datetime('utc');
   modified_at = mm.datetime('utc').nullable;

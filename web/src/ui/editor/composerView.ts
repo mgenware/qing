@@ -136,7 +136,7 @@ export class ComposerView extends BaseElement {
               </div>
             `}
         <qing-button btnStyle="success" @click=${this.handleSubmit}>
-          ${this.submitButtonText || (this.entityID ? ls.save : ls.publish)}
+          ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
         </qing-button>
         ${this.showCancelButton
           ? html`

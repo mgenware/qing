@@ -56,6 +56,14 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
+		case defs.Constants.EntityThreadMsg:
+			{
+				threadID := validator.GetIDFromDict(params, "threadID")
+				_, err := da.ThreadMsg.InsertItem(db, contentHTML, uid, threadID, sanitizedToken, captResult)
+				app.PanicIfErr(err)
+				break
+			}
+
 		default:
 			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
 		}
@@ -71,6 +79,12 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case defs.Constants.EntityThread:
 			{
 				err = da.Thread.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
+				app.PanicIfErr(err)
+				break
+			}
+		case defs.Constants.EntityThreadMsg:
+			{
+				err = da.ThreadMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}

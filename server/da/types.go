@@ -12,7 +12,7 @@ import (
 // CmtData ...
 type CmtData struct {
 	CmtID        uint64     `json:"-"`
-	Content      string     `json:"content,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	ReplyCount   uint       `json:"replyCount,omitempty"`
@@ -24,7 +24,7 @@ type CmtData struct {
 // ReplyData ...
 type ReplyData struct {
 	ID           uint64     `json:"-"`
-	Content      string     `json:"content,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	UserID       uint64     `json:"-"`

@@ -19,7 +19,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Constants.MaxUserPwdLen)
 
 	// Verify user ID.
-	uid, err := da.User.SelectIdFromEmail(app.DB, email)
+	uid, err := da.User.SelectIDFromEmail(app.DB, email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)

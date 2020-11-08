@@ -16,6 +16,7 @@ type SharedConstants struct {
 	EntityQuestion      int
 	EntityReply         int
 	EntityThread        int
+	EntityThreadMsg     int
 	ErrCaptchaNotFound  int
 	ErrCaptchaNotMatch  int
 	ErrGeneric          int
@@ -52,6 +53,7 @@ func init() {
 		EntityQuestion:      5,
 		EntityReply:         3,
 		EntityThread:        4,
+		EntityThreadMsg:     6,
 		ErrCaptchaNotFound:  10002,
 		ErrCaptchaNotMatch:  10003,
 		ErrGeneric:          10000,

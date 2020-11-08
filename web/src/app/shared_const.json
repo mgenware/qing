@@ -24,6 +24,7 @@
   "entityReply": 3,
   "entityThread": 4,
   "entityQuestion": 5,
+  "entityThreadMsg": 6,
   "errGeneric": 10000,
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,

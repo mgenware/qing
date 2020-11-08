@@ -22,15 +22,15 @@ func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID ui
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// CmtTableGetHostIdAndReplyCountResult ...
-type CmtTableGetHostIdAndReplyCountResult struct {
+// CmtTableGetHostIDAndReplyCountResult ...
+type CmtTableGetHostIDAndReplyCountResult struct {
 	HostID     uint64 `json:"hostID,omitempty"`
 	ReplyCount uint   `json:"replyCount,omitempty"`
 }
 
-// GetHostIdAndReplyCount ...
-func (da *TableTypeCmt) GetHostIdAndReplyCount(queryable mingru.Queryable, id uint64) (*CmtTableGetHostIdAndReplyCountResult, error) {
-	result := &CmtTableGetHostIdAndReplyCountResult{}
+// GetHostIDAndReplyCount ...
+func (da *TableTypeCmt) GetHostIDAndReplyCount(queryable mingru.Queryable, id uint64) (*CmtTableGetHostIDAndReplyCountResult, error) {
+	result := &CmtTableGetHostIDAndReplyCountResult{}
 	err := queryable.QueryRow("SELECT `host_id`, `reply_count` FROM `cmt` WHERE `id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
 		return nil, err
@@ -40,13 +40,13 @@ func (da *TableTypeCmt) GetHostIdAndReplyCount(queryable mingru.Queryable, id ui
 
 // CmtTableSelectCmtSourceResult ...
 type CmtTableSelectCmtSourceResult struct {
-	Content string `json:"content,omitempty"`
+	ContentHTML string `json:"contentHTML,omitempty"`
 }
 
 // SelectCmtSource ...
 func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (*CmtTableSelectCmtSourceResult, error) {
 	result := &CmtTableSelectCmtSourceResult{}
-	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
+	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return nil, err
 	}

@@ -17,6 +17,8 @@ export class AddCmtApp extends BaseElement {
   @lp.number hostType = 0;
   @lp.bool private expanded = false;
 
+  // The composer view element is optional in `render` thus has to be
+  // accessed on the fly.
   private get composerElement(): ComposerView | null {
     return this.mustGetShadowElement(composerID) as ComposerView | null;
   }

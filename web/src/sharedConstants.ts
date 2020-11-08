@@ -30,6 +30,7 @@ export const entityCmt = 2;
 export const entityReply = 3;
 export const entityThread = 4;
 export const entityQuestion = 5;
+export const entityThreadMsg = 6;
 export const errGeneric = 10000;
 export const errNeedAuth = 10001;
 export const errCaptchaNotFound = 10002;

@@ -18,6 +18,7 @@ export default class SetPostApp extends BaseElement {
   @lp.string postTitle = '';
   @lp.number entityType = 0;
   @lp.string viewTitle = '';
+  @lp.string headerText = '';
 
   private composerElement!: ComposerView;
 
@@ -46,6 +47,7 @@ export default class SetPostApp extends BaseElement {
           .inputTitle=${this.postTitle}
           .entityID=${this.editedID}
           .entityType=${entityPost}
+          .headerText=${this.headerText}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
       </div>

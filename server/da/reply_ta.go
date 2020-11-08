@@ -62,7 +62,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 		itemCounter++
 		if itemCounter <= max {
 			item := &ReplyData{}
-			err = rows.Scan(&item.ID, &item.Content, &item.CreatedAt, &item.ModifiedAt, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -78,13 +78,13 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 
 // ReplyTableSelectReplySourceResult ...
 type ReplyTableSelectReplySourceResult struct {
-	Content string `json:"content,omitempty"`
+	ContentHTML string `json:"contentHTML,omitempty"`
 }
 
 // SelectReplySource ...
 func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (*ReplyTableSelectReplySourceResult, error) {
 	result := &ReplyTableSelectReplySourceResult{}
-	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Content)
+	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return nil, err
 	}

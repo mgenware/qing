@@ -36,7 +36,7 @@ func (da *TableTypePost) deleteCmtChild3(queryable mingru.Queryable, hostID uint
 func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		hostIDAndReplyCount, err := Cmt.GetHostIdAndReplyCount(tx, id)
+		hostIDAndReplyCount, err := Cmt.GetHostIDAndReplyCount(tx, id)
 		if err != nil {
 			return err
 		}
@@ -256,7 +256,7 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 		itemCounter++
 		if itemCounter <= max {
 			item := &CmtData{}
-			err = rows.Scan(&item.CmtID, &item.Content, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.CmtID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -278,7 +278,7 @@ type PostTableSelectItemByIDResult struct {
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	CmtCount     uint       `json:"cmtCount,omitempty"`
 	Likes        uint       `json:"likes,omitempty"`
-	ContentHTML  string     `json:"contentHtml,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
 	UserIconName string     `json:"-"`
@@ -416,7 +416,7 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 // PostTableSelectItemSourceResult ...
 type PostTableSelectItemSourceResult struct {
 	Title       string `json:"title,omitempty"`
-	ContentHTML string `json:"contentHtml,omitempty"`
+	ContentHTML string `json:"contentHTML,omitempty"`
 }
 
 // SelectItemSource ...
