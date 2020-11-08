@@ -20,8 +20,8 @@ var Reply = &TableTypeReply{}
 
 // ------------ Actions ------------
 
-// DeleteReply ...
-func (da *TableTypeReply) DeleteReply(queryable mingru.Queryable, id uint64, userID uint64) error {
+// DeleteReplyCore ...
+func (da *TableTypeReply) DeleteReplyCore(queryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
@@ -32,18 +32,8 @@ func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userI
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// GetParentID ...
-func (da *TableTypeReply) GetParentID(queryable mingru.Queryable, id uint64) (uint64, error) {
-	var result uint64
-	err := queryable.QueryRow("SELECT `parent_id` FROM `reply` WHERE `id` = ?", id).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-// InsertReply ...
-func (da *TableTypeReply) InsertReply(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
+// InsertReplyCore ...
+func (da *TableTypeReply) InsertReplyCore(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?)", content, userID, toUserID, parentID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }

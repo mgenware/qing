@@ -1,5 +1,5 @@
 import * as mm from 'mingru-models';
-import { cmt } from '../../models/cmt/cmt';
+import { cmt, reply } from '../../models/cmt/cmt';
 import user from '../../models/user/user';
 import * as cm from '../../models/common';
 import cmtTA from './cmtTA';
@@ -14,6 +14,7 @@ const parentID = 'parentID';
 const replyID = 'replyID';
 const replyCount = 'replyCount';
 const hostIDAndReplyCount = 'hostIDAndReplyCount';
+const cmtIDAndHostID = 'cmtIDAndHostID';
 
 export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
@@ -72,7 +73,7 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
 export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
-      replyTA.insertReply.declareInsertedID(replyID),
+      replyTA.insertReplyCore.declareInsertedID(replyID),
       cmtTA.updateReplyCount.wrap({
         offset: '1',
         id: mm.valueRef(parentID),
@@ -87,12 +88,17 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
 export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
-      replyTA.getParentID.declareReturnValue(mm.ReturnValues.result, parentID),
-      replyTA.deleteReply,
-      updateCmtCountAction(ht, -1),
+      // Get cmt ID and host ID.
+      mm
+        .select(reply.parent_id, reply.parent_id.join(cmt).host_id)
+        .from(reply)
+        .by(reply.id)
+        .declareReturnValue(mm.ReturnValues.result, cmtIDAndHostID),
+      replyTA.deleteReplyCore,
+      updateCmtCountAction(ht, -1).wrap({ hostID: mm.valueRef(`${cmtIDAndHostID}.ParentHostID`) }),
       cmtTA.updateReplyCount.wrap({
         offset: '-1',
-        id: mm.valueRef(parentID),
+        id: mm.valueRef(`${cmtIDAndHostID}.ParentID`),
       }),
     )
     .attr(mm.ActionAttributes.groupTypeName, cmtInterface);

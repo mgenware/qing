@@ -79,6 +79,21 @@ func (da *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error 
 	return txErr
 }
 
+// PostTableDeleteReplyChild1Result ...
+type PostTableDeleteReplyChild1Result struct {
+	ParentID     uint64 `json:"parentID,omitempty"`
+	ParentHostID uint64 `json:"parentHostID,omitempty"`
+}
+
+func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*PostTableDeleteReplyChild1Result, error) {
+	result := &PostTableDeleteReplyChild1Result{}
+	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parentID`, `join_1`.`host_id` AS `parentHostID` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 func (da *TableTypePost) deleteReplyChild3(queryable mingru.Queryable, hostID uint64, userID uint64) error {
 	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ? AND `user_id` = ?", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -89,22 +104,22 @@ func (da *TableTypePost) deleteReplyChild4(queryable mingru.Queryable, id uint64
 }
 
 // DeleteReply ...
-func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64, hostID uint64) error {
+func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		parentID, err := Reply.GetParentID(tx, id)
+		cmtIDAndHostID, err := da.deleteReplyChild1(tx, id)
 		if err != nil {
 			return err
 		}
-		err = Reply.DeleteReply(tx, id, userID)
+		err = Reply.DeleteReplyCore(tx, id, userID)
 		if err != nil {
 			return err
 		}
-		err = da.deleteReplyChild3(tx, hostID, userID)
+		err = da.deleteReplyChild3(tx, cmtIDAndHostID.ParentHostID, userID)
 		if err != nil {
 			return err
 		}
-		err = da.deleteReplyChild4(tx, parentID, userID)
+		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID, userID)
 		if err != nil {
 			return err
 		}
@@ -199,7 +214,7 @@ func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, 
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Reply.InsertReply(tx, content, userID, toUserID, parentID)
+		replyID, err := Reply.InsertReplyCore(tx, content, userID, toUserID, parentID)
 		if err != nil {
 			return err
 		}

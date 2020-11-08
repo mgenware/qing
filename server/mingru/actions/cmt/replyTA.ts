@@ -24,15 +24,14 @@ export class ReplyTA extends mm.TableActions {
       [mm.ActionAttributes.groupTypeName]: replyInterface,
       [mm.ActionAttributes.resultTypeName]: replyResultType,
     });
-  getParentID = mm.selectField(t.parent_id).by(t.id);
   editReply = mm
     .updateOne()
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
   selectReplySource = mm.select(t.content).whereSQL(defaultUpdateConditions(t));
-  insertReply = mm.insertOne().setDefaults().setInputs();
-  deleteReply = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
+  insertReplyCore = mm.insertOne().setDefaults().setInputs();
+  deleteReplyCore = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 }
 
 export default mm.tableActions(t, ReplyTA);
