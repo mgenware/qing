@@ -5,7 +5,6 @@ import ls from 'ls';
 import 'ui/editor/composerView';
 import { entityThread } from 'sharedConstants';
 import threadWind from './threadWind';
-import { ComposerContent } from 'ui/editor/composerView';
 
 @customElement('add-thread-msg-app')
 export class AddThreadMsgApp extends BaseElement {

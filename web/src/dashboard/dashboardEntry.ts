@@ -6,12 +6,7 @@ import './settings/settingsBaseView';
 import 'post/setPostApp';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
-import {
-  entityPost,
-  entityQuestion,
-  postDestinationForum,
-  postDestinationUser,
-} from 'sharedConstants';
+import { entityPost, entityQuestion, entityThread } from 'sharedConstants';
 import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 
@@ -21,45 +16,43 @@ function loadSettingsContent(title: string, content: TemplateResult) {
   app.page.reloadPageContent(title, html`<settings-base-view>${content}</settings-base-view>`);
 }
 
-function loadNewPostContent(destination: number, type: number) {
-  CHECK(destination);
-  CHECK(type);
+function loadNewPostContent(entityType: number) {
+  CHECK(entityType);
 
   let url: string;
   let title: string;
-  if (destination === postDestinationUser) {
-    if (type !== entityPost) {
-      throw new Error(`Invalid post type ${type}`);
+  switch (entityType) {
+    case entityPost: {
+      url = rs.home.newPost;
+      title = ls.newPost;
+      break;
     }
-    url = rs.home.newPost;
-    title = ls.newPost;
-  } else if (destination === postDestinationForum) {
-    if (type !== entityPost && type !== entityQuestion) {
-      throw new Error(`Invalid post type ${type}`);
+    case entityThread: {
+      url = rs.home.newThread;
+      title = ls.newThread;
+      break;
     }
-    url = type === entityPost ? rs.home.newThread : rs.home.newQuestion;
-    title = type === entityPost ? ls.newThread : ls.newQuestion;
-  } else {
-    throw new Error(`Invalid destination ${destination}`);
+    case entityQuestion: {
+      url = rs.home.newQuestion;
+      title = ls.newQuestion;
+      break;
+    }
+    default: {
+      throw new Error(`Invalid entity type ${entityType}`);
+    }
   }
 
   dashboardRouter.register(url, () =>
     app.page.reloadPageContent(
       title,
-      html`
-        <set-post-app
-          .postDestination=${destination}
-          .postType=${type}
-          .viewTitle=${title}
-        ></set-post-app>
-      `,
+      html` <set-post-app .entityType=${entityType} .viewTitle=${title}></set-post-app> `,
     ),
   );
 }
 
-loadNewPostContent(postDestinationUser, entityPost);
-loadNewPostContent(postDestinationForum, entityPost);
-loadNewPostContent(postDestinationForum, entityQuestion);
+[entityPost, entityThread, entityQuestion].forEach((entityType) => {
+  loadNewPostContent(entityType);
+});
 
 dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
   const id = args.id as string;

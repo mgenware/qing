@@ -3,7 +3,11 @@ import routes from 'routes';
 import { ComposerContent } from 'ui/editor/composerView';
 
 export class SetPostLoader extends BaseLoader<string> {
-  constructor(public id: string | null, public content: ComposerContent) {
+  constructor(
+    public id: string | null,
+    public content: ComposerContent,
+    public entityType: number,
+  ) {
     super();
   }
 
@@ -14,6 +18,7 @@ export class SetPostLoader extends BaseLoader<string> {
   requestParams(): unknown {
     const params: Record<string, unknown> = {
       content: this.content,
+      entityType: this.entityType,
     };
     if (this.id) {
       params.id = this.id;

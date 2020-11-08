@@ -1,2 +1,1 @@
-import './postAdminApp';
 import './postCmtApp';

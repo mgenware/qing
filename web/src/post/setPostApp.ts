@@ -7,7 +7,7 @@ import app from 'app';
 import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
-import { SetPostLoader, SetPostConfig } from './loaders/setPostLoader';
+import { SetPostLoader } from './loaders/setPostLoader';
 import { entityPost } from 'sharedConstants';
 
 const composerID = 'composer';
@@ -16,19 +16,16 @@ const composerID = 'composer';
 export default class SetPostApp extends BaseElement {
   @lp.string editedID = '';
   @lp.string postTitle = '';
-  @lp.number postDestination = 0;
-  @lp.number postType = 0;
+  @lp.number entityType = 0;
   @lp.string viewTitle = '';
 
   private composerElement!: ComposerView;
 
   async firstUpdated() {
-    CHECK(this.postDestination);
-    CHECK(this.postType);
+    CHECK(this.entityType);
 
     this.composerElement = this.mustGetShadowElement(composerID);
     if (this.editedID) {
-      // Loading content
       const loader = new GetPostSourceLoader(this.editedID);
       const status = await app.runGlobalActionAsync(loader);
       if (status.data) {
@@ -62,8 +59,7 @@ export default class SetPostApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const setPostConfig: SetPostConfig = { destination: this.postDestination, type: this.postType };
-    const loader = new SetPostLoader(this.editedID, e.detail, setPostConfig);
+    const loader = new SetPostLoader(this.editedID, e.detail, this.entityType);
     const status = await app.runGlobalActionAsync(
       loader,
       this.editedID ? ls.saving : ls.publishing,

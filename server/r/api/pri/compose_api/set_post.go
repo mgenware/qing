@@ -1,6 +1,7 @@
 package composeapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/app"
 	"qing/app/cm"
@@ -17,6 +18,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
+	entityType := validator.MustGetIntFromDict(params, "entityType")
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	title := validator.MustGetStringFromDict(contentDict, "title", defs.Constants.MaxPostTitleLen)
@@ -24,6 +26,8 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 
 	var err error
+	var result interface{}
+	db := app.DB
 	if !hasID {
 		// Add a new entry.
 		capt := validator.MustGetStringFromDict(contentDict, "captcha", defs.Constants.MaxCaptchaLen)
@@ -32,15 +36,48 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
-		insertedID, err := da.Post.InsertItem(app.DB, title, contentHTML, uid, sanitizedToken, captResult)
-		app.PanicIfErr(err)
-		id = insertedID
+
+		switch entityType {
+		case defs.Constants.EntityPost:
+			{
+				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
+				app.PanicIfErr(err)
+
+				result = app.URL.Post(insertedID)
+				break
+			}
+
+		case defs.Constants.EntityThread:
+			{
+				insertedID, err := da.Thread.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
+				app.PanicIfErr(err)
+
+				result = app.URL.Thread(insertedID)
+				break
+			}
+
+		default:
+			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
+		}
 	} else {
 		// Edit an existing entry.
-		err = da.Post.EditItem(app.DB, id, uid, title, contentHTML, sanitizedToken)
-		app.PanicIfErr(err)
+		switch entityType {
+		case defs.Constants.EntityPost:
+			{
+				err = da.Post.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
+				app.PanicIfErr(err)
+				break
+			}
+		case defs.Constants.EntityThread:
+			{
+				err = da.Thread.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
+				app.PanicIfErr(err)
+				break
+			}
+		default:
+			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
+		}
 	}
 
-	newPostURL := app.URL.Post(id)
-	return resp.MustComplete(newPostURL)
+	return resp.MustComplete(result)
 }

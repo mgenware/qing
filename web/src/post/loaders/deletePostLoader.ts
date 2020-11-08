@@ -2,7 +2,7 @@ import BaseLoader from 'lib/loader';
 import routes from 'routes';
 
 export default class DeletePostLoader extends BaseLoader<string> {
-  constructor(public pid: string | null) {
+  constructor(public pid: string | null, public entityType: number) {
     super();
   }
 
@@ -13,6 +13,7 @@ export default class DeletePostLoader extends BaseLoader<string> {
   requestParams(): unknown {
     return {
       id: this.pid,
+      entityType: this.entityType,
     };
   }
 }
