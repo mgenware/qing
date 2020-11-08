@@ -1,13 +1,13 @@
-import userWind from './userWind';
+import masterWind from '../masterWind';
 
 export default class User {
   static fromWindow(): User | null {
-    if (userWind.appUserID) {
+    if (masterWind.appUserID) {
       return new User(
-        userWind.appUserID,
-        userWind.appUserName,
-        userWind.appUserIconURL,
-        userWind.appUserURL,
+        masterWind.appUserID,
+        masterWind.appUserName,
+        masterWind.appUserIconURL,
+        masterWind.appUserURL,
       );
     }
     return null;

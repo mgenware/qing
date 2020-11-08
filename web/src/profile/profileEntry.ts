@@ -2,14 +2,14 @@
 import { injectStyles } from 'lib/htmlLib';
 import { css } from 'lit-element';
 import 'ui/cm/timeField';
-import wind from './wind';
+import profileWind from './profileWind';
 
 const disabledCSS = 'content-disabled';
 
-if (!wind.isPrevEnabled) {
+if (!profileWind.appIsPrevEnabled) {
   document.getElementById('m-prev-btn')?.classList.add(disabledCSS);
 }
-if (!wind.isNextEnabled) {
+if (!profileWind.appIsNextEnabled) {
   document.getElementById('m-next-btn')?.classList.add(disabledCSS);
 }
 

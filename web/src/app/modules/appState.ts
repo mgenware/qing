@@ -1,4 +1,5 @@
 import { defaultLang } from 'sharedConstants';
+import masterWind from '../masterWind';
 import User from '../user/user';
 
 export type UserCallbackFn = (user: User | null) => void;
@@ -10,11 +11,8 @@ export default class AppState {
   #userListeners: UserCallbackFn[] = [];
 
   constructor() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const wind = window as any;
-
     this.#user = User.fromWindow();
-    this.lang = wind.appLang || defaultLang;
+    this.lang = masterWind.appLang || defaultLang;
   }
 
   get hasUser(): boolean {
