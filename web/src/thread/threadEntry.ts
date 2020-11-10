@@ -1,1 +1,2 @@
 import './addThreadMsgApp';
+import './threadMsgCountView';

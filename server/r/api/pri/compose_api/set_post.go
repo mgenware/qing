@@ -21,7 +21,10 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	entityType := validator.MustGetIntFromDict(params, "entityType")
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
-	title := validator.MustGetStringFromDict(contentDict, "title", defs.Constants.MaxPostTitleLen)
+	var title string
+	if entityType != defs.Constants.EntityThreadMsg {
+		title = validator.MustGetStringFromDict(contentDict, "title", defs.Constants.MaxPostTitleLen)
+	}
 
 	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 

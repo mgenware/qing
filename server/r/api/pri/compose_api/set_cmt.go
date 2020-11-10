@@ -66,13 +66,13 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		now := time.Now()
 		cmtd := &da.CmtData{CmtID: cmtID}
 		cmtd.CreatedAt = now
-		cmtd.Content = content
+		cmtd.ContentHTML = content
 		cmtd.UserID = uid
 		cmtd.UserName = user.Name
 		cmtd.UserIconName = user.IconName
 
 		cmt := apidata.NewCmt(cmtd)
-		cmt.Content = content
+		cmt.ContentHTML = content
 
 		respData := &SetCmtResponse{Cmt: cmt}
 		return resp.MustComplete(respData)
@@ -82,7 +82,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicIfErr(err)
 
 		cmt := &apidata.Cmt{EID: validator.EncodeID(id)}
-		cmt.Content = content
+		cmt.ContentHTML = content
 		now := time.Now()
 		cmt.ModifiedAt = &now
 

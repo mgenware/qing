@@ -8,7 +8,7 @@ import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
-import { entityPost } from 'sharedConstants';
+import { entityPost, entityThreadMsg } from 'sharedConstants';
 
 const composerID = 'composer';
 
@@ -17,13 +17,23 @@ export default class SetPostApp extends BaseElement {
   @lp.string editedID = '';
   @lp.string postTitle = '';
   @lp.number entityType = 0;
-  @lp.string viewTitle = '';
   @lp.string headerText = '';
+  @lp.bool showTitleInput = true;
+  @lp.string submitButtonText = '';
+
+  // Used when `entityType` is thread msg.
+  @lp.string threadID: string | undefined;
 
   private composerElement!: ComposerView;
 
   async firstUpdated() {
-    CHECK(this.entityType);
+    const { entityType } = this;
+    CHECK(entityType);
+    if (entityType === entityThreadMsg) {
+      if (!this.threadID) {
+        throw new Error('`threadID` is required when `entityType` is thread msg');
+      }
+    }
 
     this.composerElement = this.mustGetShadowElement(composerID);
     if (this.editedID) {
@@ -39,15 +49,14 @@ export default class SetPostApp extends BaseElement {
   render() {
     return html`
       <div>
-        <h4>${this.viewTitle}</h4>
-        <hr />
         <composer-view
           .id=${composerID}
-          .showTitleInput=${true}
+          .showTitleInput=${this.showTitleInput}
           .inputTitle=${this.postTitle}
           .entityID=${this.editedID}
           .entityType=${entityPost}
           .headerText=${this.headerText}
+          .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
       </div>
@@ -62,6 +71,9 @@ export default class SetPostApp extends BaseElement {
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const loader = new SetPostLoader(this.editedID, e.detail, this.entityType);
+    if (this.threadID) {
+      loader.threadID = this.threadID;
+    }
     const status = await app.runGlobalActionAsync(
       loader,
       this.editedID ? ls.saving : ls.publishing,

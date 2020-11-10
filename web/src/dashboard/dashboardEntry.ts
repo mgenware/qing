@@ -45,7 +45,7 @@ function loadNewPostContent(entityType: number) {
   dashboardRouter.register(url, () =>
     app.page.reloadPageContent(
       title,
-      html` <set-post-app .entityType=${entityType} .viewTitle=${title}></set-post-app> `,
+      html` <set-post-app .entityType=${entityType} .headerText=${title}></set-post-app> `,
     ),
   );
 }
