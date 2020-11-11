@@ -25,8 +25,12 @@
   "entityThread": 4,
   "entityQuestion": 5,
   "entityThreadMsg": 6,
+  "entityAnswer": 7,
   "errGeneric": 10000,
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,
-  "errCaptchaNotMatch": 10003
+  "errCaptchaNotMatch": 10003,
+  "profileTabPosts":"posts",
+  "profileTabThreads":"threads",
+  "profileTabAnswers":"answers"
 }

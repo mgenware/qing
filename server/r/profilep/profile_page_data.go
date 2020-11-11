@@ -2,13 +2,14 @@ package profilep
 
 import (
 	"qing/app"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/r/rcm"
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profilePage.html")
-var vProfilePostItem = app.TemplateManager.MustParseView("/profile/postItem.html")
+var vProfileFeedItem = app.TemplateManager.MustParseView("/profile/feedItem.html")
 
 // ProfilePageData ...
 type ProfilePageData struct {
@@ -21,11 +22,21 @@ type ProfilePageData struct {
 	PageData     *rcm.PageData
 	PostCount    uint
 	ThreadCount  uint
+
+	ProfilePostsURL   string
+	ProfileThreadsURL string
 }
 
 // ProfilePostItem is a data wrapper around PostTableSelectItemsForUserProfileResult.
 type ProfilePostItem struct {
 	da.PostTableSelectItemsForUserProfileResult
+
+	URL string
+}
+
+// ProfileThreadItem is a data wrapper around ThreadTableSelectItemsForUserProfileResult.
+type ProfileThreadItem struct {
+	da.ThreadTableSelectItemsForUserProfileResult
 
 	URL string
 }
@@ -41,12 +52,22 @@ func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats 
 	d.ThreadCount = stats.ThreadCount
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
+
+	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Constants.EntityPost, 1)
+	d.ProfileThreadsURL = app.URL.UserProfileAdv(uid, defs.Constants.EntityThread, 1)
 	return d
 }
 
-// NewProfilePostItem creates a new ProfilePostItem from post DB result.
+// NewProfilePostItem creates a new ProfilePostItem from a post record.
 func NewProfilePostItem(p *da.PostTableSelectItemsForUserProfileResult) *ProfilePostItem {
 	d := &ProfilePostItem{PostTableSelectItemsForUserProfileResult: *p}
+	d.URL = app.URL.Post(p.ID)
+	return d
+}
+
+// NewProfileThreadItem creates a new ProfileThreadItem from a thread record.
+func NewProfileThreadItem(p *da.ThreadTableSelectItemsForUserProfileResult) *ProfileThreadItem {
+	d := &ProfileThreadItem{ThreadTableSelectItemsForUserProfileResult: *p}
 	d.URL = app.URL.Post(p.ID)
 	return d
 }

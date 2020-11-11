@@ -11,6 +11,7 @@ type SharedConstants struct {
 	ColumnCreated       string
 	ColumnLikes         string
 	DefaultLang         string
+	EntityAnswer        int
 	EntityCmt           int
 	EntityPost          int
 	EntityQuestion      int
@@ -29,6 +30,9 @@ type SharedConstants struct {
 	MaxUserNameLen      int
 	MaxUserPwdLen       int
 	MinUserPwdLen       int
+	ProfileTabAnswers   string
+	ProfileTabPosts     string
+	ProfileTabThreads   string
 	RouteApi            string
 	RouteAuth           string
 	RouteDashboard      string
@@ -48,6 +52,7 @@ func init() {
 		ColumnCreated:       "createdAt",
 		ColumnLikes:         "likes",
 		DefaultLang:         "en",
+		EntityAnswer:        7,
 		EntityCmt:           2,
 		EntityPost:          1,
 		EntityQuestion:      5,
@@ -66,6 +71,9 @@ func init() {
 		MaxUserNameLen:      200,
 		MaxUserPwdLen:       30,
 		MinUserPwdLen:       6,
+		ProfileTabAnswers:   "answers",
+		ProfileTabPosts:     "posts",
+		ProfileTabThreads:   "threads",
 		RouteApi:            "s",
 		RouteAuth:           "auth",
 		RouteDashboard:      "home",

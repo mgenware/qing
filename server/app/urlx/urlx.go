@@ -6,9 +6,11 @@ import (
 	"qing/app/defs"
 	"qing/fx/avatar"
 	"qing/lib/validator"
+	"strconv"
 )
 
 const defaultPageQueryString = "?page=%v"
+const tabParam = "tab"
 
 type URL struct {
 	config *cfg.Config
@@ -47,16 +49,32 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, size, avatarName))
 }
 
-func (u *URL) UserProfileWithPage(uid uint64, page int) string {
+func (u *URL) UserProfileAdv(uid uint64, tab int, page int) string {
 	s := "/" + defs.Constants.RouteUser + "/" + validator.EncodeID(uid)
+	qs := url.Values{}
 	if page > 1 {
-		s += defaultPageQueryString
+		qs.Set("page", strconv.Itoa(page))
+	}
+	switch tab {
+	case defs.Constants.EntityPost:
+		qs.Set(tabParam, defs.Constants.ProfileTabPosts)
+		break
+	case defs.Constants.EntityThread:
+		qs.Set(tabParam, defs.Constants.ProfileTabThreads)
+		break
+	case defs.Constants.EntityAnswer:
+		qs.Set(tabParam, defs.Constants.ProfileTabAnswers)
+		break
+	}
+
+	if len(qs) > 0 {
+		return s + "?" + qs.Encode()
 	}
 	return s
 }
 
 func (u *URL) UserProfile(uid uint64) string {
-	return u.UserProfileWithPage(uid, 1)
+	return u.UserProfileAdv(uid, 0, 1)
 }
 
 func (u *URL) Post(pid uint64) string {

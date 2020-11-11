@@ -14,12 +14,26 @@ import (
 	"github.com/go-chi/chi"
 )
 
+func entityTypeFromTabString(tab string) int {
+	switch tab {
+	case defs.Constants.ProfileTabPosts:
+		return defs.Constants.EntityPost
+	case defs.Constants.ProfileTabThreads:
+		return defs.Constants.EntityThread
+	case defs.Constants.ProfileTabAnswers:
+		return defs.Constants.EntityAnswer
+	}
+	return -1
+}
+
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
+	tabEntityType := entityTypeFromTabString(r.FormValue("tab"))
+
 	resp := app.HTMLResponse(w, r)
 
 	// User profile
@@ -30,22 +44,46 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	stats, err := da.UserStats.SelectStats(app.DB, uid)
 	app.PanicIfErr(err)
 
-	title := user.Name
+	pageTitle := user.Name
+	db := app.DB
 
-	// User posts
-	posts, hasNext, err := da.Post.SelectItemsForUserProfile(app.DB, uid, page, defs.UserPostsLimit)
-	app.PanicIfErr(err)
-	var sb strings.Builder
-	for _, post := range posts {
-		postData := NewProfilePostItem(post)
-		sb.WriteString(vProfilePostItem.MustExecuteToString(postData))
+	var feedListHTML string
+	var hasNext bool
+	switch tabEntityType {
+	case defs.Constants.EntityPost:
+		{
+			var posts []*da.PostTableSelectItemsForUserProfileResult
+			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
+			app.PanicIfErr(err)
+			var feedListHTMLBuilder strings.Builder
+			for _, post := range posts {
+				postData := NewProfilePostItem(post)
+				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
+			}
+			feedListHTML = feedListHTMLBuilder.String()
+			break
+		}
+
+	case defs.Constants.EntityThread:
+		{
+			var threads []*da.ThreadTableSelectItemsForUserProfileResult
+			threads, hasNext, err = da.Thread.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
+			app.PanicIfErr(err)
+			var feedListHTMLBuilder strings.Builder
+			for _, thread := range threads {
+				threadData := NewProfileThreadItem(thread)
+				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(threadData))
+			}
+			feedListHTML = feedListHTMLBuilder.String()
+			break
+		}
 	}
-	feedListHTML := sb.String()
-	pageURLFormatter := &ProfilePageURLFormatter{ID: uid}
+
+	pageURLFormatter := &ProfilePageURLFormatter{ID: uid, Tab: tabEntityType}
 	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
 
 	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, pageData)
-	d := app.MasterPageData(title, vProfilePage.MustExecuteToString(resp.Lang(), userData))
+	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)
 }
