@@ -108,4 +108,5 @@ export default interface LSDefs {
   numOfMsgs: string;
   postAMsgToThisThread: string;
   send: string;
+  threads: string;
 }

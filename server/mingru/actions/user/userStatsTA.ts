@@ -10,7 +10,7 @@ function updateCounterAction(column: mm.Column): UpdateAction {
 }
 
 export class UserStatsTA extends mm.TableActions {
-  selectStats = mm.select(t.post_count).by(t.id);
+  selectStats = mm.select(t.post_count, t.thread_count).by(t.id);
 
   updatePostCount = updateCounterAction(t.post_count);
   updateThreadCount = updateCounterAction(t.thread_count);

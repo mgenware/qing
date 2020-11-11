@@ -17,6 +17,9 @@ type PostPageData struct {
 	Liked    bool
 	UserEID  string
 	UserHTML string
+
+	ProfilePostsURL   string
+	ProfileThreadsURL string
 }
 
 var vPostPage = app.TemplateManager.MustParseView("/post/postPage.html")

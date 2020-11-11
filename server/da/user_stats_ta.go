@@ -18,13 +18,14 @@ var UserStats = &TableTypeUserStats{}
 
 // UserStatsTableSelectStatsResult ...
 type UserStatsTableSelectStatsResult struct {
-	PostCount uint `json:"postCount,omitempty"`
+	PostCount   uint `json:"postCount,omitempty"`
+	ThreadCount uint `json:"threadCount,omitempty"`
 }
 
 // SelectStats ...
 func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (*UserStatsTableSelectStatsResult, error) {
 	result := &UserStatsTableSelectStatsResult{}
-	err := queryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount)
+	err := queryable.QueryRow("SELECT `post_count`, `thread_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.ThreadCount)
 	if err != nil {
 		return nil, err
 	}

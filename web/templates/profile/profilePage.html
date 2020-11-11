@@ -61,6 +61,14 @@
             <li id="m-tab-p">{{html .LS.Posts}}</li>
           </ul>
         </div>
+        <tab-view>
+          <a href="{{js .ProfilePostsURL}}"
+            >{{html .LS.Posts}} {{if .PostCount}}({{.PostCount}}){{end}}</a
+          >
+          <a href="{{js .ProfileThreadsURL}}"
+            >{{html .LS.Threads}} {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
+          >
+        </tab-view>
         <!-- tab div -->
         <div>
           <div class="m-t-sm">{{.FeedListHTML}}</div>

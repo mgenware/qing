@@ -2,6 +2,7 @@
 import { injectStyles } from 'lib/htmlLib';
 import { css } from 'lit-element';
 import 'ui/cm/timeField';
+import 'ui/cm2/tabView';
 import profileWind from './profileWind';
 
 const disabledCSS = 'content-disabled';

@@ -108,6 +108,7 @@ type Dictionary struct {
 	SignUp                 string `json:"signUp"`
 	ThemeDark              string `json:"themeDark"`
 	ThemeLight             string `json:"themeLight"`
+	Threads                string `json:"threads"`
 	Title                  string `json:"title"`
 	UnsavedChangesWarning  string `json:"unsavedChangesWarning"`
 	UnsupportedImgExtErr   string `json:"unsupportedImgExtErr"`
