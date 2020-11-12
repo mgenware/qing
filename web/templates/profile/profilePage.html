@@ -62,10 +62,10 @@
           </ul>
         </div>
         <tab-view>
-          <a href="{{.ProfilePostsURL}}"
+          <a id="m-profile-tab-posts" href="{{.ProfilePostsURL}}"
             >{{html .LS.Posts}} {{if .PostCount}}({{.PostCount}}){{end}}</a
           >
-          <a href="{{.ProfileThreadsURL}}"
+          <a id="m-profile-tab-threads" href="{{.ProfileThreadsURL}}"
             >{{html .LS.Threads}} {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
           >
         </tab-view>

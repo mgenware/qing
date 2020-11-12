@@ -1,5 +1,5 @@
 // Used in profile post list.
-import { injectStyles } from 'lib/htmlLib';
+import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'lit-element';
 import 'ui/cm/timeField';
 import 'ui/cm2/tabView';
@@ -12,12 +12,6 @@ if (!profileWind.appIsPrevEnabled) {
 }
 if (!profileWind.appIsNextEnabled) {
   document.getElementById('m-next-btn')?.classList.add(disabledCSS);
-}
-
-// Scroll to user posts only if `page` query string is present.
-const qs = new URLSearchParams(window.location.search);
-if (qs.get('page')) {
-  setTimeout(() => document.getElementById('m-profile-posts')?.scrollIntoView(true), 800);
 }
 
 const styles = css`
@@ -40,3 +34,15 @@ const styles = css`
   }
 `;
 injectStyles([styles]);
+
+ready(() => {
+  const qs = new URLSearchParams(window.location.search);
+  const tab = qs.get('tab');
+  if (tab) {
+    // Scroll to feed list tab if `tab` query string is present.
+    setTimeout(() => document.getElementById('m-profile-posts')?.scrollIntoView(true), 500);
+
+    // Highlight current tab.
+    document.getElementById(`m-profile-tab-${tab}`)?.classList.add('tab-active');
+  }
+});
