@@ -44,47 +44,26 @@
   <div class="row m-t-md" id="m-profile-posts">
     <div class="col-md-1"></div>
     <div class="col-md-10 is-boxed">
-      <div class="box">
-        <div class="link-black link-nounderline">
-          <div class="columns is-mobile">
-            <div class="column">
-              <p>
-                <span class="is-secondary">{{html .LS.Posts}}</span>
-                <span class="is-h3 m-l-md vertical-align-middle">{{html .PostCount}}</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div id="m-scroll-list"></div>
-        <div class="m-t-md tabs is-medium">
-          <ul class="m-t-md">
-            <li id="m-tab-p">{{html .LS.Posts}}</li>
-          </ul>
-        </div>
-        <tab-view>
-          <a id="m-profile-tab-posts" href="{{.ProfilePostsURL}}"
-            >{{html .LS.Posts}} {{if .PostCount}}({{.PostCount}}){{end}}</a
-          >
-          <a id="m-profile-tab-threads" href="{{.ProfileThreadsURL}}"
-            >{{html .LS.Threads}} {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
-          >
-        </tab-view>
-        <!-- tab div -->
-        <div>
-          <div class="m-t-sm">{{.FeedListHTML}}</div>
-
-          <div>
-            <p class="text-center">
-              <a id="m-prev-btn" class="link-btn" href="{{.PageData.PrevPageURL}}">
-                {{html .LS.PreviousPage}}
-              </a>
-              <a id="m-next-btn" class="link-btn" href="{{.PageData.NextPageURL}}">
-                {{html .LS.NextPage}}
-              </a>
-            </p>
-          </div>
-        </div>
-        <!-- feed list -->
+      <div id="m-scroll-list"></div>
+      <tab-view>
+        <a id="m-profile-tab-posts" href="{{.ProfilePostsURL}}"
+          >{{html .LS.Posts}} {{if .PostCount}}({{.PostCount}}){{end}}</a
+        >
+        <a id="m-profile-tab-threads" href="{{.ProfileThreadsURL}}"
+          >{{html .LS.Threads}} {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
+        >
+      </tab-view>
+      <div class="m-t-sm">{{.FeedListHTML}}</div>
+      <!-- feed list -->
+      <div>
+        <p class="text-center">
+          <a id="m-prev-btn" class="link-btn" href="{{.PageData.PrevPageURL}}">
+            {{html .LS.PreviousPage}}
+          </a>
+          <a id="m-next-btn" class="link-btn" href="{{.PageData.NextPageURL}}">
+            {{html .LS.NextPage}}
+          </a>
+        </p>
       </div>
     </div>
     <div class="col-md-1"></div>

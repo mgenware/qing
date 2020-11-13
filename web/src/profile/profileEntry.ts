@@ -6,6 +6,8 @@ import 'ui/cm2/tabView';
 import profileWind from './profileWind';
 
 const disabledCSS = 'content-disabled';
+const defaultHighlightedTab = 'posts';
+const highlightedTabClass = 'tab-active';
 
 if (!profileWind.appIsPrevEnabled) {
   document.getElementById('m-prev-btn')?.classList.add(disabledCSS);
@@ -41,8 +43,10 @@ ready(() => {
   if (tab) {
     // Scroll to feed list tab if `tab` query string is present.
     setTimeout(() => document.getElementById('m-profile-posts')?.scrollIntoView(true), 500);
-
-    // Highlight current tab.
-    document.getElementById(`m-profile-tab-${tab}`)?.classList.add('tab-active');
   }
+
+  // Highlight a tab in tab view.
+  document
+    .getElementById(`m-profile-tab-${tab || defaultHighlightedTab}`)
+    ?.classList.add(highlightedTabClass);
 });

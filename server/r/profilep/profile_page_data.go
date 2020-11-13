@@ -59,15 +59,15 @@ func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats 
 }
 
 // NewProfilePostItem creates a new ProfilePostItem from a post record.
-func NewProfilePostItem(p *da.PostTableSelectItemsForUserProfileResult) *ProfilePostItem {
-	d := &ProfilePostItem{PostTableSelectItemsForUserProfileResult: *p}
-	d.URL = app.URL.Post(p.ID)
+func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) *ProfilePostItem {
+	d := &ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
+	d.URL = app.URL.Post(item.ID)
 	return d
 }
 
 // NewProfileThreadItem creates a new ProfileThreadItem from a thread record.
-func NewProfileThreadItem(p *da.ThreadTableSelectItemsForUserProfileResult) *ProfileThreadItem {
-	d := &ProfileThreadItem{ThreadTableSelectItemsForUserProfileResult: *p}
-	d.URL = app.URL.Post(p.ID)
+func NewProfileThreadItem(item *da.ThreadTableSelectItemsForUserProfileResult) *ProfileThreadItem {
+	d := &ProfileThreadItem{ThreadTableSelectItemsForUserProfileResult: *item}
+	d.URL = app.URL.Thread(item.ID)
 	return d
 }

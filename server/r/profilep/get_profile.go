@@ -50,7 +50,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var feedListHTML string
 	var hasNext bool
 	switch tabEntityType {
-	case defs.Constants.EntityPost:
+	default:
 		{
 			var posts []*da.PostTableSelectItemsForUserProfileResult
 			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
