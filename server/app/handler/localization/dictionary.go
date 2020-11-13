@@ -51,6 +51,7 @@ type Dictionary struct {
 	Likes                  string `json:"likes"`
 	Loading                string `json:"loading"`
 	Location               string `json:"location"`
+	Msgs                   string `json:"msgs"`
 	Name                   string `json:"name"`
 	NeedAuthErr            string `json:"needAuthErr"`
 	NewPost                string `json:"newPost"`

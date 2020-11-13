@@ -10,6 +10,7 @@ type SharedConstants struct {
 	ColumnComments      string
 	ColumnCreated       string
 	ColumnLikes         string
+	ColumnMessages      string
 	DefaultLang         string
 	EntityAnswer        int
 	EntityCmt           int
@@ -51,6 +52,7 @@ func init() {
 		ColumnComments:      "comments",
 		ColumnCreated:       "createdAt",
 		ColumnLikes:         "likes",
+		ColumnMessages:      "messages",
 		DefaultLang:         "en",
 		EntityAnswer:        7,
 		EntityCmt:           2,

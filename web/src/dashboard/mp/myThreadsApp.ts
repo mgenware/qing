@@ -4,12 +4,12 @@ import routes from 'routes';
 import 'ui/cm/timeField';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
+import { columnCreated, entityThread, columnMessages } from 'sharedConstants';
 import { MPListApp } from './views/mpListApp';
-import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
+import { GetMyPostsLoader, DashboardThread } from './loaders/getMyPostsLoader';
 
-@customElement('my-posts-app')
-export default class MyPostsApp extends MPListApp<DashboardPost> {
+@customElement('my-threads-app')
+export default class MyThreadsApp extends MPListApp<DashboardThread> {
   static get styles() {
     return [
       super.styles,
@@ -27,9 +27,9 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
     this.currentSortedColumnDesc = true;
   }
 
-  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardPost> | null> {
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardThread> | null> {
     return new GetMyPostsLoader(
-      entityPost,
+      entityThread,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -40,9 +40,11 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
   sectionHeader(): TemplateResult {
     return html`
       <div class="row align-items-center">
-        <div class="col">${ls.yourPosts}</div>
+        <div class="col">${ls.yourThreads}</div>
         <div class="col-auto">
-          <qing-button btnStyle="success" href=${routes.home.newPost}>${ls.newPost}</qing-button>
+          <qing-button btnStyle="success" href=${routes.home.newThread}
+            >${ls.newThread}</qing-button
+          >
         </div>
       </div>
     `;
@@ -53,8 +55,7 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
       <thead>
         <th>${ls.title}</th>
         ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
-        ${this.renderSortableColumn(columnComments, ls.comments)}
-        ${this.renderSortableColumn(columnLikes, ls.likes)}
+        ${this.renderSortableColumn(columnMessages, ls.msgs)}
       </thead>
       <tbody>
         ${this.items.map(
@@ -67,8 +68,7 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
                   .modifiedAt=${item.modifiedAt}
                 ></time-field>
               </td>
-              <td>${item.cmtCount || 0}</td>
-              <td>${item.likes || 0}</td>
+              <td>${item.msgCount || 0}</td>
             </tr>
           `,
         )}
@@ -83,6 +83,6 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-posts-app': MyPostsApp;
+    'my-threads-app': MyThreadsApp;
   }
 }

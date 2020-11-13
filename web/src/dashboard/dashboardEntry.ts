@@ -6,6 +6,7 @@ import './settings/settingsBaseView';
 import 'post/setPostApp';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
+import './mp/myThreadsApp';
 import { entityPost, entityQuestion, entityThread } from 'sharedConstants';
 import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
@@ -66,6 +67,9 @@ dashboardRouter.register(rs.home.settings.profile, () => {
 });
 dashboardRouter.register(rs.home.yourPosts, () => {
   app.page.reloadPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
+});
+dashboardRouter.register(rs.home.yourThreads, () => {
+  app.page.reloadPageContent(ls.editProfile, html`<my-threads-app></my-threads-app>`);
 });
 
 dashboardRouter.startOnce();

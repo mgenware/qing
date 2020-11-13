@@ -10,6 +10,7 @@
   "columnCreated": "createdAt",
   "columnLikes": "likes",
   "columnComments": "comments",
+  "columnMessages": "messages",
   "defaultLang": "en",
   "routeUser": "user",
   "routePost": "p",
@@ -30,7 +31,7 @@
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,
   "errCaptchaNotMatch": 10003,
-  "profileTabPosts":"posts",
-  "profileTabThreads":"threads",
-  "profileTabAnswers":"answers"
+  "profileTabPosts": "posts",
+  "profileTabThreads": "threads",
+  "profileTabAnswers": "answers"
 }

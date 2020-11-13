@@ -16,6 +16,7 @@ export const errInvalidUserOrPwd = 1;
 export const columnCreated = "createdAt";
 export const columnLikes = "likes";
 export const columnComments = "comments";
+export const columnMessages = "messages";
 export const defaultLang = "en";
 export const routeUser = "user";
 export const routePost = "p";

@@ -1,6 +1,7 @@
 import PaginatedList from 'lib/api/paginatedList';
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
+import { entityPost, entityThread } from 'sharedConstants';
 
 export interface DashboardPost {
   id: string;
@@ -12,8 +13,18 @@ export interface DashboardPost {
   modifiedAt: string;
 }
 
-export class GetMyPostsLoader extends BaseLoader<PaginatedList<DashboardPost>> {
+export interface DashboardThread {
+  id: string;
+  url: string;
+  title: string;
+  createdAt: string;
+  modifiedAt: string;
+  msgCount: number;
+}
+
+export class GetMyPostsLoader<T> extends BaseLoader<PaginatedList<T>> {
   constructor(
+    public entityType: number,
     public page: number,
     public pageSize: number,
     public sortedColumn: string,
@@ -23,7 +34,16 @@ export class GetMyPostsLoader extends BaseLoader<PaginatedList<DashboardPost>> {
   }
 
   requestURL(): string {
-    return routes.s.r.mp.getPosts;
+    switch (this.entityType) {
+      case entityPost:
+        return routes.s.r.mp.posts;
+
+      case entityThread:
+        return routes.s.r.mp.threads;
+
+      default:
+        throw new Error(`Unsupported entity type ${this.entityType}`);
+    }
   }
 
   requestParams(): unknown {
