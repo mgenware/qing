@@ -273,20 +273,38 @@ func (da *TableTypeThread) SelectCmts(queryable mingru.Queryable, hostID uint64,
 // ThreadTableSelectItemByIDResult ...
 type ThreadTableSelectItemByIDResult struct {
 	ID           uint64     `json:"-"`
-	Title        string     `json:"title,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	MsgCount     uint       `json:"msgCount,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
 	UserIconName string     `json:"-"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	CmtCount     uint       `json:"cmtCount,omitempty"`
+	MsgCount     uint       `json:"msgCount,omitempty"`
 }
 
 // SelectItemByID ...
 func (da *TableTypeThread) SelectItemByID(queryable mingru.Queryable, id uint64) (*ThreadTableSelectItemByIDResult, error) {
 	result := &ThreadTableSelectItemByIDResult{}
-	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt`, `thread`.`msg_count` AS `msgCount`, `thread`.`content` AS `content`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.Title, &result.CreatedAt, &result.ModifiedAt, &result.MsgCount, &result.ContentHTML, &result.UserID, &result.UserName, &result.UserIconName)
+	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt`, `thread`.`content` AS `content`, `thread`.`title` AS `title`, `thread`.`cmt_count` AS `cmtCount`, `thread`.`msg_count` AS `msgCount` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.MsgCount)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// ThreadTableSelectItemForEditingResult ...
+type ThreadTableSelectItemForEditingResult struct {
+	ID          uint64 `json:"-"`
+	Title       string `json:"title,omitempty"`
+	ContentHTML string `json:"contentHTML,omitempty"`
+}
+
+// SelectItemForEditing ...
+func (da *TableTypeThread) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (*ThreadTableSelectItemForEditingResult, error) {
+	result := &ThreadTableSelectItemForEditingResult{}
+	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `thread` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
 	if err != nil {
 		return nil, err
 	}
@@ -302,9 +320,9 @@ const (
 // ThreadTableSelectItemsForDashboardResult ...
 type ThreadTableSelectItemsForDashboardResult struct {
 	ID         uint64     `json:"-"`
-	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
+	Title      string     `json:"title,omitempty"`
 	MsgCount   uint       `json:"msgCount,omitempty"`
 }
 
@@ -335,7 +353,7 @@ func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, u
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `msg_count` FROM `thread` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `msg_count` FROM `thread` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -346,7 +364,7 @@ func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, u
 		itemCounter++
 		if itemCounter <= max {
 			item := &ThreadTableSelectItemsForDashboardResult{}
-			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.MsgCount)
+			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.MsgCount)
 			if err != nil {
 				return nil, false, err
 			}
@@ -363,10 +381,9 @@ func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, u
 // ThreadTableSelectItemsForUserProfileResult ...
 type ThreadTableSelectItemsForUserProfileResult struct {
 	ID         uint64     `json:"-"`
-	Title      string     `json:"title,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	MsgCount   uint       `json:"msgCount,omitempty"`
+	Title      string     `json:"title,omitempty"`
 }
 
 // SelectItemsForUserProfile ...
@@ -382,7 +399,7 @@ func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `title`, `created_at`, `modified_at`, `msg_count` FROM `thread` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `thread` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -393,7 +410,7 @@ func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable,
 		itemCounter++
 		if itemCounter <= max {
 			item := &ThreadTableSelectItemsForUserProfileResult{}
-			err = rows.Scan(&item.ID, &item.Title, &item.CreatedAt, &item.ModifiedAt, &item.MsgCount)
+			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title)
 			if err != nil {
 				return nil, false, err
 			}
@@ -405,22 +422,6 @@ func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable,
 		return nil, false, err
 	}
 	return result, itemCounter > len(result), nil
-}
-
-// ThreadTableSelectItemSourceResult ...
-type ThreadTableSelectItemSourceResult struct {
-	Title       string `json:"title,omitempty"`
-	ContentHTML string `json:"contentHTML,omitempty"`
-}
-
-// SelectItemSource ...
-func (da *TableTypeThread) SelectItemSource(queryable mingru.Queryable, id uint64, userID uint64) (*ThreadTableSelectItemSourceResult, error) {
-	result := &ThreadTableSelectItemSourceResult{}
-	err := queryable.QueryRow("SELECT `title`, `content` FROM `thread` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.ContentHTML)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
 }
 
 // UpdateMsgCount ...

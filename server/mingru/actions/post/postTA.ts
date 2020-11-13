@@ -15,16 +15,24 @@ export class PostTA extends PostTACore {
     return postCmt;
   }
 
-  getCoreColumns(): mm.SelectActionColumns[] {
-    return [t.id.privateAttr(), t.title, t.created_at, t.modified_at, t.cmt_count, t.likes];
+  getDashboardColumns(): mm.SelectActionColumns[] {
+    return [t.title, t.cmt_count, t.likes];
   }
 
-  getItemSourceColumns(): mm.Column[] {
+  getDashboardOrderByColumns(): mm.SelectActionColumns[] {
+    return [t.created_at, t.likes, t.cmt_count];
+  }
+
+  getProfileColumns(): mm.SelectActionColumns[] {
+    return [t.title];
+  }
+
+  getEditingColumns(): mm.Column[] {
     return [t.title, t.content];
   }
 
-  getDashboardOrderInputSelections(): mm.SelectActionColumns[] {
-    return [t.created_at, t.likes, t.cmt_count];
+  getExtraFullColumns(): mm.SelectActionColumns[] {
+    return [t.title, t.cmt_count, t.likes];
   }
 
   getContainerUpdateCounterAction(): mm.Action {
