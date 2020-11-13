@@ -11,9 +11,10 @@ const insertedIDVar = 'insertedID';
 export default abstract class PostTACore extends mm.TableActions {
   // SELECT actions.
   selectItemByID: mm.SelectAction;
-  selectItemsForUserProfile: mm.SelectAction;
   selectItemForEditing: mm.SelectAction;
-  selectItemsForDashboard: mm.SelectAction;
+  // Optional actions.
+  selectItemsForUserProfile: mm.Action;
+  selectItemsForDashboard: mm.Action;
 
   // Other actions.
   deleteItem: mm.Action;
@@ -53,17 +54,26 @@ export default abstract class PostTACore extends mm.TableActions {
 
     this.updateConditions = defaultUpdateConditions(t);
     this.selectItemByID = mm.select(...this.getFullColumns()).by(t.id);
-    this.selectItemsForUserProfile = mm
-      .selectPage(idCol, ...dateColumns, ...this.getProfileColumns())
-      .by(t.user_id)
-      .orderByDesc(t.created_at);
+
+    const profileCols = this.getProfileColumns();
+    this.selectItemsForUserProfile = profileCols.length
+      ? mm
+          .selectPage(idCol, ...dateColumns, ...profileCols)
+          .by(t.user_id)
+          .orderByDesc(t.created_at)
+      : mm.emptyAction;
     this.selectItemForEditing = mm
       .select(idCol, ...this.getEditingColumns())
       .whereSQL(this.updateConditions);
-    this.selectItemsForDashboard = mm
-      .selectPage(idCol, ...dateColumns, ...this.getDashboardColumns())
-      .by(t.user_id)
-      .orderByInput(...this.getDashboardOrderByColumns());
+
+    const dashboardCols = this.getDashboardColumns();
+    this.selectItemsForDashboard = dashboardCols.length
+      ? mm
+          .selectPage(idCol, ...dateColumns, ...dashboardCols)
+          .by(t.user_id)
+          .orderByInput(...this.getDashboardOrderByColumns())
+      : mm.emptyAction;
+
     this.deleteItem =
       this.deleteItemOverride() ??
       mm.transact(
@@ -105,8 +115,10 @@ export default abstract class PostTACore extends mm.TableActions {
   // Gets the underlying `PostCmtCore` table.
   abstract getItemCmtTable(): PostCmtCore;
 
+  // Returns [] if dashboard is not supported.
   abstract getDashboardColumns(): mm.SelectActionColumns[];
   abstract getDashboardOrderByColumns(): mm.SelectActionColumns[];
+  // Returns [] if profile is not supported.
   abstract getProfileColumns(): mm.SelectActionColumns[];
   abstract getEditingColumns(): mm.Column[];
   abstract getExtraFullColumns(): mm.SelectActionColumns[];

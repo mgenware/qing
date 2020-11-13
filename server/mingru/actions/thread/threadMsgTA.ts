@@ -30,14 +30,16 @@ export class ThreadMsgTA extends PostTACore {
     return threadMsgCmt;
   }
 
+  // Dashboard is not supported in thread msg.
   getDashboardColumns(): mm.SelectActionColumns[] {
-    return [t.cmt_count];
+    return [];
   }
 
   getDashboardOrderByColumns(): mm.SelectActionColumns[] {
-    return [t.created_at, t.cmt_count];
+    return [];
   }
 
+  // Profile is not supported in thread msg.
   getProfileColumns(): mm.SelectActionColumns[] {
     return [];
   }
