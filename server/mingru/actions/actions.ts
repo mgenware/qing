@@ -9,6 +9,7 @@ import userPwdTA from './user/userPwdTA';
 import likeTAs from './like/likeTAs';
 import threadTA from './thread/threadTA';
 import threadMsgTA from './thread/threadMsgTA';
+import homeTA from './home/homeTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -21,6 +22,7 @@ const actions: mm.TableActions[] = [
   threadTA,
   threadMsgTA,
   ...likeTAs,
+  homeTA,
 ];
 
 export default actions;
