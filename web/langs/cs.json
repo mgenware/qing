@@ -109,5 +109,6 @@
   "postAMsgToThisThread": "向讨论发送消息",
   "send": "发送",
   "threads": "讨论",
-  "msgs": "消息"
+  "msgs": "消息",
+  "home": "主页"
 }

@@ -109,5 +109,6 @@
   "postAMsgToThisThread": "Post a message to this thread",
   "send": "Send",
   "threads": "Threads",
-  "msgs": "Messages"
+  "msgs": "Messages",
+  "home": "Home"
 }
