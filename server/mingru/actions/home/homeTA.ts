@@ -13,24 +13,25 @@ enum HomeItemType {
 export class HomeTable extends mm.GhostTable {}
 
 export class HomeTA extends mm.TableActions {
-  private selectPosts: mm.SelectAction;
-  private selectThreads: mm.SelectAction;
+  #selectPosts: mm.SelectAction;
+  #selectThreads: mm.SelectAction;
   selectItems: mm.SelectAction;
 
   constructor() {
     super();
 
-    this.selectPosts = mm
+    this.#selectPosts = mm
       .selectPage(this.typeCol(HomeItemType.postItem), ...this.getDefaultCols(post))
       .from(post)
       .orderByAsc(post.created_at)
       .privateAttr();
-    this.selectThreads = mm
+    this.#selectThreads = mm
       .selectPage(this.typeCol(HomeItemType.threadItem), ...this.getDefaultCols(thread))
       .from(thread)
+      // NOTE: this ORDER BY is ignored as ORDER BY only applies to first UNION member.
       .orderByAsc(post.created_at)
       .privateAttr();
-    this.selectItems = this.selectPosts.union(this.selectThreads);
+    this.selectItems = this.#selectPosts.union(this.#selectThreads);
   }
 
   private typeCol(itemType: HomeItemType): mm.RawColumn {

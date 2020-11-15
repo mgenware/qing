@@ -21,8 +21,8 @@ var HomeTable = &TableTypeHomeTable{}
 
 // ------------ Actions ------------
 
-// HomeTableTableSelectPostsResult ...
-type HomeTableTableSelectPostsResult struct {
+// HomeTableTableSelectItemsResult ...
+type HomeTableTableSelectItemsResult struct {
 	EntityType   int        `json:"entityType,omitempty"`
 	ID           uint64     `json:"-"`
 	UserID       uint64     `json:"-"`
@@ -33,8 +33,8 @@ type HomeTableTableSelectPostsResult struct {
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 }
 
-// SelectPosts ...
-func (da *TableTypeHomeTable) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]*HomeTableTableSelectPostsResult, bool, error) {
+// SelectItems ...
+func (da *TableTypeHomeTable) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]*HomeTableTableSelectItemsResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -46,117 +46,17 @@ func (da *TableTypeHomeTable) SelectPosts(queryable mingru.Queryable, page int, 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 0 AS `entityType`, `post`.`id` AS `id`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` UNION SELECT 1 AS `entityType`, `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset, limit, offset)
+	rows, err := queryable.Query("(SELECT 0 AS `entityType`, `post`.`id` AS `id`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id`) UNION (SELECT 1 AS `entityType`, `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id`) ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*HomeTableTableSelectPostsResult, 0, limit)
+	result := make([]*HomeTableTableSelectItemsResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &HomeTableTableSelectPostsResult{}
-			err = rows.Scan(&item.EntityType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.ModifiedAt)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
-// HomeTableTableSelectPostsResult ...
-type HomeTableTableSelectPostsResult struct {
-	EntityType   int        `json:"entityType,omitempty"`
-	ID           uint64     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	Title        string     `json:"title,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-}
-
-// SelectPosts ...
-func (da *TableTypeHomeTable) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]*HomeTableTableSelectPostsResult, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := queryable.Query("SELECT 0 AS `entityType`, `post`.`id` AS `id`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` UNION SELECT 1 AS `entityType`, `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset, limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]*HomeTableTableSelectPostsResult, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			item := &HomeTableTableSelectPostsResult{}
-			err = rows.Scan(&item.EntityType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.ModifiedAt)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
-// HomeTableTableSelectThreadsResult ...
-type HomeTableTableSelectThreadsResult struct {
-	EntityType   int        `json:"entityType,omitempty"`
-	ID           uint64     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	Title        string     `json:"title,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-}
-
-// SelectThreads ...
-func (da *TableTypeHomeTable) SelectThreads(queryable mingru.Queryable, page int, pageSize int) ([]*HomeTableTableSelectThreadsResult, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := queryable.Query("SELECT 1 AS `entityType`, `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]*HomeTableTableSelectThreadsResult, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			item := &HomeTableTableSelectThreadsResult{}
+			item := &HomeTableTableSelectItemsResult{}
 			err = rows.Scan(&item.EntityType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.ModifiedAt)
 			if err != nil {
 				return nil, false, err
