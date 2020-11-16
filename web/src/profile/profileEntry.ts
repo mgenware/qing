@@ -3,10 +3,11 @@ import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'lit-element';
 import 'ui/cm/timeField';
 import 'ui/cm2/tabView';
+import { keyPosts } from 'sharedConstants';
 import profileWind from './profileWind';
 
 const disabledCSS = 'content-disabled';
-const defaultHighlightedTab = 'posts';
+const defaultHighlightedTab = keyPosts;
 const highlightedTabClass = 'tab-active';
 
 if (!profileWind.appIsPrevEnabled) {

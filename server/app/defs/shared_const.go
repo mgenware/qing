@@ -13,20 +13,23 @@ type SharedConstants struct {
 	ColumnMessages      string
 	DefaultLang         string
 	EntityAnswer        int
-	EntityAnswersName   string
 	EntityCmt           int
 	EntityPost          int
-	EntityPostsName     string
 	EntityQuestion      int
 	EntityReply         int
 	EntityThread        int
 	EntityThreadMsg     int
-	EntityThreadsName   string
 	ErrCaptchaNotFound  int
 	ErrCaptchaNotMatch  int
 	ErrGeneric          int
 	ErrInvalidUserOrPwd int
 	ErrNeedAuth         int
+	KeyAnswers          string
+	KeyPage             string
+	KeyPageSize         string
+	KeyPosts            string
+	KeyTab              string
+	KeyThreads          string
 	MaxCaptchaLen       int
 	MaxGenericStringLen int
 	MaxPostTitleLen     int
@@ -55,20 +58,23 @@ func init() {
 		ColumnMessages:      "messages",
 		DefaultLang:         "en",
 		EntityAnswer:        7,
-		EntityAnswersName:   "answers",
 		EntityCmt:           2,
 		EntityPost:          1,
-		EntityPostsName:     "posts",
 		EntityQuestion:      5,
 		EntityReply:         3,
 		EntityThread:        4,
 		EntityThreadMsg:     6,
-		EntityThreadsName:   "threads",
 		ErrCaptchaNotFound:  10002,
 		ErrCaptchaNotMatch:  10003,
 		ErrGeneric:          10000,
 		ErrInvalidUserOrPwd: 1,
 		ErrNeedAuth:         10001,
+		KeyAnswers:          "answers",
+		KeyPage:             "page",
+		KeyPageSize:         "pageSize",
+		KeyPosts:            "posts",
+		KeyTab:              "tab",
+		KeyThreads:          "threads",
 		MaxCaptchaLen:       10,
 		MaxGenericStringLen: 100,
 		MaxPostTitleLen:     200,

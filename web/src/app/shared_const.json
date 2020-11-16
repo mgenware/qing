@@ -31,7 +31,10 @@
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,
   "errCaptchaNotMatch": 10003,
-  "entityPostsName": "posts",
-  "entityThreadsName": "threads",
-  "entityAnswersName": "answers"
+  "keyPosts": "posts",
+  "keyThreads": "threads",
+  "keyAnswers": "answers",
+  "keyPage": "page",
+  "keyPageSize": "pageSize",
+  "keyTab": "tab"
 }

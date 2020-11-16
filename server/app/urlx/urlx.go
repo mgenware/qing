@@ -1,6 +1,7 @@
 package urlx
 
 import (
+	"fmt"
 	"net/url"
 	"qing/app/cfg"
 	"qing/app/defs"
@@ -8,9 +9,6 @@ import (
 	"qing/lib/validator"
 	"strconv"
 )
-
-const defaultPageQueryString = "?page=%v"
-const tabParam = "tab"
 
 type URL struct {
 	config *cfg.Config
@@ -49,22 +47,14 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 	return u.ResURL(avatar.GetAvatarURL(defs.AvatarResKey, uid, size, avatarName))
 }
 
-func (u *URL) UserProfileAdv(uid uint64, tab int, page int) string {
+func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
 	s := "/" + defs.Constants.RouteUser + "/" + validator.EncodeID(uid)
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set("page", strconv.Itoa(page))
+		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))
 	}
-	switch tab {
-	case defs.Constants.EntityPost:
-		qs.Set(tabParam, defs.Constants.EntityPostsName)
-		break
-	case defs.Constants.EntityThread:
-		qs.Set(tabParam, defs.Constants.EntityThreadsName)
-		break
-	case defs.Constants.EntityAnswer:
-		qs.Set(tabParam, defs.Constants.EntityAnswersName)
-		break
+	if tab != "" {
+		qs.Set(defs.Constants.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -73,19 +63,14 @@ func (u *URL) UserProfileAdv(uid uint64, tab int, page int) string {
 	return s
 }
 
-func (u *URL) IndexAdv(tab int, page int) string {
+func (u *URL) IndexAdv(tab string, page int) string {
 	s := "/"
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set("page", strconv.Itoa(page))
+		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))
 	}
-	switch tab {
-	case defs.Constants.EntityPost:
-		qs.Set(tabParam, defs.Constants.EntityPostsName)
-		break
-	case defs.Constants.EntityThread:
-		qs.Set(tabParam, defs.Constants.EntityThreadsName)
-		break
+	if tab != "" {
+		qs.Set(defs.Constants.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -95,7 +80,7 @@ func (u *URL) IndexAdv(tab int, page int) string {
 }
 
 func (u *URL) UserProfile(uid uint64) string {
-	return u.UserProfileAdv(uid, 0, 1)
+	return u.UserProfileAdv(uid, "", 1)
 }
 
 func (u *URL) Post(pid uint64) string {
@@ -105,7 +90,7 @@ func (u *URL) Post(pid uint64) string {
 func (u *URL) ThreadWithPage(pid uint64, page int) string {
 	s := "/" + defs.Constants.RouteThread + "/" + validator.EncodeID(pid)
 	if page > 1 {
-		s += defaultPageQueryString
+		s += fmt.Sprintf("&%v=%v", defs.Constants.KeyPage, page)
 	}
 	return s
 }

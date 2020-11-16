@@ -53,8 +53,8 @@ func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats 
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 
-	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Constants.EntityPost, 1)
-	d.ProfileThreadsURL = app.URL.UserProfileAdv(uid, defs.Constants.EntityThread, 1)
+	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyPosts, 1)
+	d.ProfileThreadsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyThreads, 1)
 	return d
 }
 

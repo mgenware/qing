@@ -14,25 +14,13 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func entityTypeFromTabString(tab string) int {
-	switch tab {
-	case defs.Constants.EntityPostsName:
-		return defs.Constants.EntityPost
-	case defs.Constants.EntityThreadsName:
-		return defs.Constants.EntityThread
-	case defs.Constants.EntityAnswersName:
-		return defs.Constants.EntityAnswer
-	}
-	return -1
-}
-
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
-	tabEntityType := entityTypeFromTabString(r.FormValue("tab"))
+	tab := r.FormValue(defs.Constants.KeyTab)
 	resp := app.HTMLResponse(w, r)
 
 	// User profile
@@ -48,7 +36,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var feedListHTML string
 	var hasNext bool
-	switch tabEntityType {
+	switch tab {
 	default:
 		{
 			var posts []*da.PostTableSelectItemsForUserProfileResult
@@ -63,7 +51,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 			break
 		}
 
-	case defs.Constants.EntityThread:
+	case defs.Constants.KeyThreads:
 		{
 			var threads []*da.ThreadTableSelectItemsForUserProfileResult
 			threads, hasNext, err = da.Thread.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
@@ -78,7 +66,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		}
 	}
 
-	pageURLFormatter := &ProfilePageURLFormatter{ID: uid, Tab: tabEntityType}
+	pageURLFormatter := &ProfilePageURLFormatter{ID: uid, Tab: tab}
 	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
 
 	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, pageData)
