@@ -57,13 +57,34 @@ func (u *URL) UserProfileAdv(uid uint64, tab int, page int) string {
 	}
 	switch tab {
 	case defs.Constants.EntityPost:
-		qs.Set(tabParam, defs.Constants.ProfileTabPosts)
+		qs.Set(tabParam, defs.Constants.EntityPostsName)
 		break
 	case defs.Constants.EntityThread:
-		qs.Set(tabParam, defs.Constants.ProfileTabThreads)
+		qs.Set(tabParam, defs.Constants.EntityThreadsName)
 		break
 	case defs.Constants.EntityAnswer:
-		qs.Set(tabParam, defs.Constants.ProfileTabAnswers)
+		qs.Set(tabParam, defs.Constants.EntityAnswersName)
+		break
+	}
+
+	if len(qs) > 0 {
+		return s + "?" + qs.Encode()
+	}
+	return s
+}
+
+func (u *URL) IndexAdv(tab int, page int) string {
+	s := "/"
+	qs := url.Values{}
+	if page > 1 {
+		qs.Set("page", strconv.Itoa(page))
+	}
+	switch tab {
+	case defs.Constants.EntityPost:
+		qs.Set(tabParam, defs.Constants.EntityPostsName)
+		break
+	case defs.Constants.EntityThread:
+		qs.Set(tabParam, defs.Constants.EntityThreadsName)
 		break
 	}
 

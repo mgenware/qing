@@ -16,11 +16,11 @@ import (
 
 func entityTypeFromTabString(tab string) int {
 	switch tab {
-	case defs.Constants.ProfileTabPosts:
+	case defs.Constants.EntityPostsName:
 		return defs.Constants.EntityPost
-	case defs.Constants.ProfileTabThreads:
+	case defs.Constants.EntityThreadsName:
 		return defs.Constants.EntityThread
-	case defs.Constants.ProfileTabAnswers:
+	case defs.Constants.EntityAnswersName:
 		return defs.Constants.EntityAnswer
 	}
 	return -1
@@ -33,7 +33,6 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
 	tabEntityType := entityTypeFromTabString(r.FormValue("tab"))
-
 	resp := app.HTMLResponse(w, r)
 
 	// User profile

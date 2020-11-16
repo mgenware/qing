@@ -46,6 +46,7 @@ type Dictionary struct {
 	Exceed5MbErr           string `json:"exceed5MBErr"`
 	GoToPage               string `json:"goToPage"`
 	GoToYourEmail          string `json:"goToYourEmail"`
+	Home                   string `json:"home"`
 	InternalErr            string `json:"internalErr"`
 	InvalidPageNumber      string `json:"invalidPageNumber"`
 	Likes                  string `json:"likes"`

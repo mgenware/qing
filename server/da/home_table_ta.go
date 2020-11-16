@@ -23,7 +23,7 @@ var HomeTable = &TableTypeHomeTable{}
 
 // HomeTableTableSelectItemsResult ...
 type HomeTableTableSelectItemsResult struct {
-	EntityType   int        `json:"entityType,omitempty"`
+	ItemType     int        `json:"itemType,omitempty"`
 	ID           uint64     `json:"-"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
@@ -46,7 +46,7 @@ func (da *TableTypeHomeTable) SelectItems(queryable mingru.Queryable, page int, 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("(SELECT 0 AS `entityType`, `post`.`id` AS `id`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id`) UNION (SELECT 1 AS `entityType`, `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id`) ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset, limit, offset)
+	rows, err := queryable.Query("(SELECT 1 AS `itemType`, `post`.`id` AS `id`, `post`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `post`.`title` AS `title`, `post`.`created_at` AS `createdAt`, `post`.`modified_at` AS `modifiedAt` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id`) UNION (SELECT 2 AS `itemType`, `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`title` AS `title`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id`) ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -57,7 +57,7 @@ func (da *TableTypeHomeTable) SelectItems(queryable mingru.Queryable, page int, 
 		itemCounter++
 		if itemCounter <= max {
 			item := &HomeTableTableSelectItemsResult{}
-			err = rows.Scan(&item.EntityType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.ModifiedAt)
+			err = rows.Scan(&item.ItemType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.ModifiedAt)
 			if err != nil {
 				return nil, false, err
 			}

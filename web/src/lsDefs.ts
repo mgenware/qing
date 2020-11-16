@@ -110,4 +110,5 @@ export default interface LSDefs {
   send: string;
   threads: string;
   msgs: string;
+  home: string;
 }

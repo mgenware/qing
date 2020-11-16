@@ -4,9 +4,9 @@ import post from '../../models/post/post';
 import thread from '../../models/thread/thread';
 import user from '../../models/user/user';
 
-const entityTypeName = 'entityType';
+const itemTypeName = 'itemType';
 enum HomeItemType {
-  postItem,
+  postItem = 1,
   threadItem,
 }
 
@@ -35,7 +35,7 @@ export class HomeTA extends mm.TableActions {
   }
 
   private typeCol(itemType: HomeItemType): mm.RawColumn {
-    return new mm.RawColumn(mm.sql`${itemType.toString()}`, entityTypeName, mm.int().__type);
+    return new mm.RawColumn(mm.sql`${itemType.toString()}`, itemTypeName, mm.int().__type);
   }
 
   private getDefaultCols(t: BaseEntityTableWithIDAndTitle): mm.SelectActionColumns[] {

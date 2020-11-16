@@ -13,12 +13,15 @@ type SharedConstants struct {
 	ColumnMessages      string
 	DefaultLang         string
 	EntityAnswer        int
+	EntityAnswersName   string
 	EntityCmt           int
 	EntityPost          int
+	EntityPostsName     string
 	EntityQuestion      int
 	EntityReply         int
 	EntityThread        int
 	EntityThreadMsg     int
+	EntityThreadsName   string
 	ErrCaptchaNotFound  int
 	ErrCaptchaNotMatch  int
 	ErrGeneric          int
@@ -31,9 +34,6 @@ type SharedConstants struct {
 	MaxUserNameLen      int
 	MaxUserPwdLen       int
 	MinUserPwdLen       int
-	ProfileTabAnswers   string
-	ProfileTabPosts     string
-	ProfileTabThreads   string
 	RouteApi            string
 	RouteAuth           string
 	RouteDashboard      string
@@ -55,12 +55,15 @@ func init() {
 		ColumnMessages:      "messages",
 		DefaultLang:         "en",
 		EntityAnswer:        7,
+		EntityAnswersName:   "answers",
 		EntityCmt:           2,
 		EntityPost:          1,
+		EntityPostsName:     "posts",
 		EntityQuestion:      5,
 		EntityReply:         3,
 		EntityThread:        4,
 		EntityThreadMsg:     6,
+		EntityThreadsName:   "threads",
 		ErrCaptchaNotFound:  10002,
 		ErrCaptchaNotMatch:  10003,
 		ErrGeneric:          10000,
@@ -73,9 +76,6 @@ func init() {
 		MaxUserNameLen:      200,
 		MaxUserPwdLen:       30,
 		MinUserPwdLen:       6,
-		ProfileTabAnswers:   "answers",
-		ProfileTabPosts:     "posts",
-		ProfileTabThreads:   "threads",
 		RouteApi:            "s",
 		RouteAuth:           "auth",
 		RouteDashboard:      "home",
