@@ -5,7 +5,6 @@ import (
 	"qing/app"
 	"qing/app/handler"
 	"qing/da"
-	"qing/lib/validator"
 	"qing/r/rcm"
 )
 
@@ -33,8 +32,9 @@ type IndexPageData struct {
 type IndexPageItemData struct {
 	da.HomeTableTableSelectItemsResult
 
-	URL      string
-	UserHTML string
+	ItemURL     string
+	UserURL     string
+	UserIconURL string
 }
 
 // NewIndexPageData creates a new ProfileData from profile DB result.
@@ -50,18 +50,18 @@ func NewIndexPageItemData(item *da.HomeTableTableSelectItemsResult) (*IndexPageI
 	d := &IndexPageItemData{HomeTableTableSelectItemsResult: *item}
 	switch item.ItemType {
 	case indexItemPost:
-		d.URL = app.URL.Post(item.ID)
+		d.ItemURL = app.URL.Post(item.ID)
 		break
 
 	case indexItemThread:
-		d.URL = app.URL.Thread(item.ID)
+		d.ItemURL = app.URL.Thread(item.ID)
 		break
 
 	default:
 		return nil, fmt.Errorf("Invalid item type %v", item.ItemType)
 	}
-	d.URL = app.URL.Post(item.ID)
-	userEID := validator.EncodeID(item.UserID)
-	d.UserHTML = rcm.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, userEID, d.CreatedAt, d.ModifiedAt)
+	uid := item.UserID
+	d.UserURL = app.URL.UserProfile(uid)
+	d.UserIconURL = app.URL.UserIconURL50(uid, item.UserIconName)
 	return d, nil
 }

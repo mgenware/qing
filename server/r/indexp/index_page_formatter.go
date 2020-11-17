@@ -3,7 +3,7 @@ package indexp
 import "qing/app"
 
 type IndexPageURLFormatter struct {
-	Tab int
+	Tab string
 }
 
 func (formatter *IndexPageURLFormatter) GetURL(page int) string {

@@ -40,7 +40,7 @@ func myThreads(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	page := validator.GetPageParamFromDict(params)
-	pageSize := validator.MustGetIntFromDict(params, "pageSize")
+	pageSize := validator.MustGetIntFromDict(params, defs.Constants.KeyPageSize)
 	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Constants.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
