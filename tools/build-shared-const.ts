@@ -13,6 +13,7 @@ import tsConvert from 'json-to-js-const';
     typeName: 'SharedConstants',
     variableName: 'Constants',
     hideJSONTags: true,
+    disablePropertyFormatting: true,
   });
   const tsResult = tsConvert(jsonObj);
 
