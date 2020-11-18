@@ -12,17 +12,18 @@ export class TabView extends BaseElement {
           border-bottom: 1px solid var(--default-separator-color);
         }
 
-        .bar a {
+        ::slotted(a) {
+          display: inline-block;
           font-size: 1.2rem;
           transition: 0.4s;
           padding: 0.8rem 1rem;
         }
 
-        .bar a:hover {
+        ::slotted(a:hover) {
           background-color: var(--default-secondary-back-color);
         }
 
-        .bar a.active {
+        ::slotted(a.tab-active) {
           border-bottom: 3px solid var(--default-primary-fore-color);
         }
       `,

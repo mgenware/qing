@@ -46,7 +46,7 @@ export abstract class MPListApp<T> extends BaseElement {
     }
     return html`
       <section-view type="info">${this.sectionHeader()}</section-view>
-      <table class="app-table">
+      <table class="app-table m-t-md">
         ${this.renderTable()}
       </table>
       <hr />

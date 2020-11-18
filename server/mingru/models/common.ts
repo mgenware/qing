@@ -8,6 +8,19 @@ export interface TableWithID extends mm.Table {
   id: mm.Column;
 }
 
-export interface TableWithUserID extends TableWithID {
+export interface TableWithUserID extends mm.Table {
   user_id: mm.Column;
+}
+
+export interface TableWithIDAndUserID extends TableWithID, TableWithUserID {}
+
+export interface TableWithTimestamp extends mm.Table {
+  created_at: mm.Column;
+  modified_at: mm.Column;
+}
+
+export interface BaseEntityTableWithID extends TableWithIDAndUserID, TableWithTimestamp {}
+
+export interface BaseEntityTableWithIDAndTitle extends BaseEntityTableWithID {
+  title: mm.Column;
 }

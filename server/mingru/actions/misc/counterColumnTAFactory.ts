@@ -1,5 +1,5 @@
 import * as mm from 'mingru-models';
-import { TableWithUserID } from '../../models/common';
+import { TableWithIDAndUserID } from '../../models/common';
 import { defaultUpdateConditions } from '../common';
 
 export interface UpdateCounterActionOptions {
@@ -10,7 +10,7 @@ export interface UpdateCounterActionOptions {
 }
 
 export function updateCounterAction(
-  table: TableWithUserID,
+  table: TableWithIDAndUserID,
   counterCol: mm.Column,
   opt?: UpdateCounterActionOptions,
 ): mm.UpdateAction {

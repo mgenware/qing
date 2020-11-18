@@ -108,5 +108,7 @@
   "numOfMsgs": "{0} {0|countable|message|messages}",
   "postAMsgToThisThread": "Post a message to this thread",
   "send": "Send",
-  "threads": "Threads"
+  "threads": "Threads",
+  "msgs": "Messages",
+  "home": "Home"
 }

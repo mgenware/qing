@@ -1,7 +1,7 @@
 import * as mm from 'mingru-models';
-import { TableWithUserID } from '../../models/common';
+import { TableWithIDAndUserID } from '../../models/common';
 
-export interface CmtHostTable extends TableWithUserID {
+export interface CmtHostTable extends TableWithIDAndUserID {
   cmt_count: mm.Column;
 }
 

@@ -3,14 +3,13 @@ package validator
 import (
 	"fmt"
 	"net/http"
+	"qing/app/defs"
 	"strconv"
 	"unicode/utf8"
 
 	"github.com/mgenware/go-packagex/v5/jsonx"
 	"github.com/mgenware/go-packagex/v5/strconvx"
 )
-
-const pageParamName = "page"
 
 func panicMissingArg(key string) {
 	// panic with a string for non-fatal errors
@@ -91,12 +90,12 @@ func coercePage(page int) int {
 
 // GetPageParamFromDict returns the page number param from the given dict.
 func GetPageParamFromDict(dict map[string]interface{}) int {
-	return coercePage(jsonx.GetIntOrDefault(dict, pageParamName))
+	return coercePage(jsonx.GetIntOrDefault(dict, defs.Constants.KeyPage))
 }
 
 // GetPageParamFromRequestQueryString returns the page number param from the given request.
 func GetPageParamFromRequestQueryString(r *http.Request) int {
-	page, _ := strconvx.ParseInt(r.FormValue(pageParamName))
+	page, _ := strconvx.ParseInt(r.FormValue(defs.Constants.KeyPage))
 	return coercePage(page)
 }
 

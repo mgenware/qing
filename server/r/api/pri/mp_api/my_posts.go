@@ -11,10 +11,10 @@ import (
 	"qing/r/api/apidata"
 )
 
-var columnNameToEnumMap map[string]int
+var myPostsColumnNameToEnumMap map[string]int
 
 func init() {
-	columnNameToEnumMap = map[string]int{
+	myPostsColumnNameToEnumMap = map[string]int{
 		defs.Constants.ColumnComments: da.PostTableSelectItemsForDashboardOrderBy1CmtCount,
 		defs.Constants.ColumnCreated:  da.PostTableSelectItemsForDashboardOrderBy1CreatedAt,
 		defs.Constants.ColumnLikes:    da.PostTableSelectItemsForDashboardOrderBy1Likes,
@@ -41,11 +41,11 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	page := validator.GetPageParamFromDict(params)
-	pageSize := validator.MustGetIntFromDict(params, "pageSize")
+	pageSize := validator.MustGetIntFromDict(params, defs.Constants.KeyPageSize)
 	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Constants.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
-	rawPosts, hasNext, err := da.Post.SelectItemsForDashboard(app.DB, uid, page, pageSize, columnNameToEnumMap[sortBy], desc)
+	rawPosts, hasNext, err := da.Post.SelectItemsForDashboard(app.DB, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)
 
 	stats, err := da.UserStats.SelectStats(app.DB, uid)

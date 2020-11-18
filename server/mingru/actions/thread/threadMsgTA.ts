@@ -30,16 +30,26 @@ export class ThreadMsgTA extends PostTACore {
     return threadMsgCmt;
   }
 
-  getCoreColumns(): mm.SelectActionColumns[] {
-    return [t.id.privateAttr(), t.created_at, t.modified_at, t.cmt_count];
+  // Dashboard is not supported in thread msg.
+  getDashboardColumns(): mm.SelectActionColumns[] {
+    return [];
   }
 
-  getItemSourceColumns(): mm.Column[] {
+  getDashboardOrderByColumns(): mm.SelectActionColumns[] {
+    return [];
+  }
+
+  // Profile is not supported in thread msg.
+  getProfileColumns(): mm.SelectActionColumns[] {
+    return [];
+  }
+
+  getEditingColumns(): mm.Column[] {
     return [t.content];
   }
 
-  getDashboardOrderInputSelections(): mm.SelectActionColumns[] {
-    return [t.created_at, t.cmt_count];
+  getExtraFullColumns(): mm.SelectActionColumns[] {
+    return [t.cmt_count];
   }
 
   getContainerUpdateCounterAction(): mm.Action {

@@ -41,7 +41,8 @@ export default buildTree({
       },
       // My posts.
       mp: {
-        getPosts: 'posts',
+        posts: 'posts',
+        threads: 'threads',
       },
     },
     p: {

@@ -10,6 +10,7 @@ type SharedConstants struct {
 	ColumnComments string
 	ColumnCreated string
 	ColumnLikes string
+	ColumnMessages string
 	DefaultLang string
 	EntityAnswer int
 	EntityCmt int
@@ -23,6 +24,12 @@ type SharedConstants struct {
 	ErrGeneric int
 	ErrInvalidUserOrPwd int
 	ErrNeedAuth int
+	KeyAnswers string
+	KeyPage string
+	KeyPageSize string
+	KeyPosts string
+	KeyTab string
+	KeyThreads string
 	MaxCaptchaLen int
 	MaxGenericStringLen int
 	MaxPostTitleLen int
@@ -30,9 +37,6 @@ type SharedConstants struct {
 	MaxUserNameLen int
 	MaxUserPwdLen int
 	MinUserPwdLen int
-	ProfileTabAnswers string
-	ProfileTabPosts string
-	ProfileTabThreads string
 	RouteApi string
 	RouteAuth string
 	RouteDashboard string
@@ -51,6 +55,7 @@ func init() {
 		ColumnComments: "comments",
 		ColumnCreated: "createdAt",
 		ColumnLikes: "likes",
+		ColumnMessages: "messages",
 		DefaultLang: "en",
 		EntityAnswer: 7,
 		EntityCmt: 2,
@@ -64,6 +69,12 @@ func init() {
 		ErrGeneric: 10000,
 		ErrInvalidUserOrPwd: 1,
 		ErrNeedAuth: 10001,
+		KeyAnswers: "answers",
+		KeyPage: "page",
+		KeyPageSize: "pageSize",
+		KeyPosts: "posts",
+		KeyTab: "tab",
+		KeyThreads: "threads",
 		MaxCaptchaLen: 10,
 		MaxGenericStringLen: 100,
 		MaxPostTitleLen: 200,
@@ -71,9 +82,6 @@ func init() {
 		MaxUserNameLen: 200,
 		MaxUserPwdLen: 30,
 		MinUserPwdLen: 6,
-		ProfileTabAnswers: "answers",
-		ProfileTabPosts: "posts",
-		ProfileTabThreads: "threads",
 		RouteApi: "s",
 		RouteAuth: "auth",
 		RouteDashboard: "home",

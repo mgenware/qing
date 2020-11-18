@@ -11,9 +11,10 @@ const insertedIDVar = 'insertedID';
 export default abstract class PostTACore extends mm.TableActions {
   // SELECT actions.
   selectItemByID: mm.SelectAction;
-  selectItemsForUserProfile: mm.SelectAction;
-  selectItemSource: mm.SelectAction;
-  selectItemsForDashboard: mm.SelectAction;
+  selectItemForEditing: mm.SelectAction;
+  // Optional actions.
+  selectItemsForUserProfile: mm.Action;
+  selectItemsForDashboard: mm.Action;
 
   // Other actions.
   deleteItem: mm.Action;
@@ -27,12 +28,12 @@ export default abstract class PostTACore extends mm.TableActions {
   insertReply: mm.TransactAction;
   deleteReply: mm.TransactAction;
 
-  // Common columns used by many SELECT actions.
-  protected coreColumns: mm.SelectActionColumns[];
   // Joined user table.
   protected joinedUserTable: User;
   // User-related columns;
   protected userColumns: mm.SelectActionColumns[];
+  // Date-related columns;
+  protected dateColumns: mm.SelectActionColumns[];
   // SQL conditions.
   protected updateConditions: mm.SQL;
 
@@ -40,27 +41,39 @@ export default abstract class PostTACore extends mm.TableActions {
     super();
 
     const t = this.getItemTable();
+    const idCol = t.id.privateAttr();
     this.joinedUserTable = t.user_id.join(user);
-    this.coreColumns = this.getCoreColumns();
     this.userColumns = [
       t.user_id,
       this.joinedUserTable.name,
       this.joinedUserTable.icon_name,
     ].map((c) => c.privateAttr());
-    this.updateConditions = defaultUpdateConditions(t);
+    this.dateColumns = [t.created_at, t.modified_at];
 
+    const { dateColumns } = this;
+
+    this.updateConditions = defaultUpdateConditions(t);
     this.selectItemByID = mm.select(...this.getFullColumns()).by(t.id);
-    this.selectItemsForUserProfile = mm
-      .selectPage(...this.coreColumns)
-      .by(t.user_id)
-      .orderByDesc(t.created_at);
-    this.selectItemSource = mm
-      .select(...this.getItemSourceColumns())
+
+    const profileCols = this.getProfileColumns();
+    this.selectItemsForUserProfile = profileCols.length
+      ? mm
+          .selectPage(idCol, ...dateColumns, ...profileCols)
+          .by(t.user_id)
+          .orderByDesc(t.created_at)
+      : mm.emptyAction;
+    this.selectItemForEditing = mm
+      .select(idCol, ...this.getEditingColumns())
       .whereSQL(this.updateConditions);
-    this.selectItemsForDashboard = mm
-      .selectPage(...this.coreColumns)
-      .by(t.user_id)
-      .orderByInput(...this.getDashboardOrderInputSelections());
+
+    const dashboardCols = this.getDashboardColumns();
+    this.selectItemsForDashboard = dashboardCols.length
+      ? mm
+          .selectPage(idCol, ...dateColumns, ...dashboardCols)
+          .by(t.user_id)
+          .orderByInput(...this.getDashboardOrderByColumns())
+      : mm.emptyAction;
+
     this.deleteItem =
       this.deleteItemOverride() ??
       mm.transact(
@@ -72,7 +85,7 @@ export default abstract class PostTACore extends mm.TableActions {
         mm
           .insertOne()
           .setInputs(
-            ...this.getItemSourceColumns(),
+            ...this.getEditingColumns(),
             t.user_id,
             ...this.getExtraInsertionInputColumns(),
           )
@@ -85,7 +98,7 @@ export default abstract class PostTACore extends mm.TableActions {
     this.editItem = mm
       .updateOne()
       .setDefaults(t.modified_at)
-      .setInputs(...this.getItemSourceColumns())
+      .setInputs(...this.getEditingColumns())
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
@@ -102,16 +115,13 @@ export default abstract class PostTACore extends mm.TableActions {
   // Gets the underlying `PostCmtCore` table.
   abstract getItemCmtTable(): PostCmtCore;
 
-  // Gets core columns, which will be fetched in every SELECT action.
-  abstract getCoreColumns(): mm.SelectActionColumns[];
-
-  // Gets columns that are fetched during editing.
-  // NOTE1: those columns are also considered inputs during insertion.
-  // NOTE2: no need to include `user_id` column.
-  abstract getItemSourceColumns(): mm.Column[];
-
-  // Gets columns used to generate ORDER BY input enum in dashboard.
-  abstract getDashboardOrderInputSelections(): mm.SelectActionColumns[];
+  // Returns [] if dashboard is not supported.
+  abstract getDashboardColumns(): mm.SelectActionColumns[];
+  abstract getDashboardOrderByColumns(): mm.SelectActionColumns[];
+  // Returns [] if profile is not supported.
+  abstract getProfileColumns(): mm.SelectActionColumns[];
+  abstract getEditingColumns(): mm.Column[];
+  abstract getExtraFullColumns(): mm.SelectActionColumns[];
 
   // Gets extra columns that are considered inputs during insertion.
   getExtraInsertionInputColumns(): mm.Column[] {
@@ -122,12 +132,19 @@ export default abstract class PostTACore extends mm.TableActions {
   // to a insertion or deletion.
   abstract getContainerUpdateCounterAction(): mm.Action;
 
-  protected getFullColumns(): mm.SelectActionColumns[] {
-    const t = this.getItemTable();
-    return [...this.coreColumns, t.content, ...this.userColumns];
-  }
-
   protected deleteItemOverride(): mm.Action | null {
     return null;
+  }
+
+  protected getFullColumns(): mm.SelectActionColumns[] {
+    const t = this.getItemTable();
+    const idCol = t.id.privateAttr();
+    return [
+      idCol,
+      ...this.userColumns,
+      ...this.dateColumns,
+      t.content,
+      ...this.getExtraFullColumns(),
+    ];
   }
 }

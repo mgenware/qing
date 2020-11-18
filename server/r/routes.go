@@ -11,6 +11,7 @@ import (
 	"qing/app"
 	"qing/r/api"
 	"qing/r/authp"
+	"qing/r/indexp"
 	"qing/r/mp"
 	"qing/r/postp"
 	"qing/r/profilep"
@@ -82,6 +83,8 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteAuth, authp.Router)
 	// API router
 	r.Mount("/"+defs.Constants.RouteApi, api.Router)
+	// Index page
+	r.Get("/", handler.HTMLHandlerToHTTPHandler(indexp.IndexHandler))
 
 	debugConfig := config.Debug
 	if debugConfig != nil {

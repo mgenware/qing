@@ -1,7 +1,7 @@
 import * as mm from 'mingru-models';
-import { TableWithUserID } from '../models/common';
+import { TableWithIDAndUserID } from '../models/common';
 
-export function defaultUpdateConditions(table: TableWithUserID, idInputName?: string): mm.SQL {
+export function defaultUpdateConditions(table: TableWithIDAndUserID, idInputName?: string): mm.SQL {
   return mm.and(
     mm.sql`${table.id.isEqualToInput(idInputName)}`,
     mm.sql`${table.user_id.isEqualToInput()}`,
@@ -9,7 +9,7 @@ export function defaultUpdateConditions(table: TableWithUserID, idInputName?: st
 }
 
 export function defaultBatchUpdateConditions(
-  table: TableWithUserID,
+  table: TableWithIDAndUserID,
   idsInputName?: string,
 ): mm.SQL {
   return mm.and(
