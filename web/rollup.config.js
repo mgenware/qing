@@ -3,7 +3,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
-import litcss from 'rollup-plugin-lit-css-ex';
+import litcss from 'rollup-plugin-lit-css';
 
 const isProd = process.env.NODE_ENV == 'production';
 
