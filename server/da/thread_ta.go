@@ -245,7 +245,7 @@ func (da *TableTypeThread) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `thread_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`reply_count` AS `replyCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `thread_cmt` AS `thread_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `thread_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`reply_count` AS `replyCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `thread_cmt` AS `thread_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_cmt`.`host_id` = ? ORDER BY `createdAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -331,9 +331,9 @@ func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, u
 	var orderBy1SQL string
 	switch orderBy1 {
 	case ThreadTableSelectItemsForDashboardOrderBy1CreatedAt:
-		orderBy1SQL = "`created_at`"
+		orderBy1SQL = "`createdAt`"
 	case ThreadTableSelectItemsForDashboardOrderBy1MsgCount:
-		orderBy1SQL = "`msg_count`"
+		orderBy1SQL = "`msgCount`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
@@ -399,7 +399,7 @@ func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `thread` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `thread` WHERE `user_id` = ? ORDER BY `createdAt` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
