@@ -24,16 +24,16 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var feedListHTMLBuilder strings.Builder
 	for _, item := range items {
 		itemData, err := NewIndexPageItemData(item)
-		if err != nil {
-			feedListHTMLBuilder.WriteString(vIndexItem.MustExecuteToString(itemData))
-		}
+		app.PanicIfErr(err)
+		feedListHTMLBuilder.WriteString(vIndexItem.MustExecuteToString(itemData))
 	}
 
 	pageURLFormatter := &IndexPageURLFormatter{Tab: tab}
 	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
+	pageBarHTML := rcm.GetPageBarHTML(pageData)
 
-	userData := NewIndexPageData(feedListHTMLBuilder.String(), pageData)
+	userData := NewIndexPageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := app.MasterPageData("", vIndexPage.MustExecuteToString(resp.Lang(), userData))
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
+	d.Scripts = app.TemplateManager.AssetsManager.JS.Index
 	return resp.MustComplete(d)
 }

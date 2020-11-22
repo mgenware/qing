@@ -3,6 +3,7 @@ package indexp
 import (
 	"fmt"
 	"qing/app"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/r/rcm"
@@ -22,6 +23,7 @@ type IndexPageData struct {
 	handler.LocalizedTemplateData
 
 	FeedListHTML string
+	PageBarHTML  string
 	PageData     *rcm.PageData
 
 	IndexPostsURL   string
@@ -38,10 +40,13 @@ type IndexPageItemData struct {
 }
 
 // NewIndexPageData creates a new ProfileData from profile DB result.
-func NewIndexPageData(feedHTML string, pageData *rcm.PageData) *IndexPageData {
+func NewIndexPageData(pageData *rcm.PageData, feedHTML, pageBarHTML string) *IndexPageData {
 	d := &IndexPageData{}
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
+	d.PageBarHTML = pageBarHTML
+	d.IndexPostsURL = app.URL.IndexAdv(defs.Constants.KeyPosts, 1)
+	d.IndexThreadsURL = app.URL.IndexAdv(defs.Constants.KeyThreads, 1)
 	return d
 }
 

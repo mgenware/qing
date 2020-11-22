@@ -31,6 +31,7 @@ const input = [
   'thread/threadEntry.ts',
   'profile/profileEntry.ts',
   'auth/authEntry.ts',
+  'index/indexEntry.ts',
 ];
 
 export default {
