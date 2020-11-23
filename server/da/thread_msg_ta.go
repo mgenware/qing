@@ -100,7 +100,7 @@ type ThreadMsgTableDeleteReplyChild1Result struct {
 
 func (da *TableTypeThreadMsg) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*ThreadMsgTableDeleteReplyChild1Result, error) {
 	result := &ThreadMsgTableDeleteReplyChild1Result{}
-	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parentID`, `join_1`.`host_id` AS `parentHostID` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
+	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_1`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +258,7 @@ func (da *TableTypeThreadMsg) SelectCmts(queryable mingru.Queryable, hostID uint
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `thread_msg_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`reply_count` AS `replyCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `thread_msg_cmt` AS `thread_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_msg_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_msg_cmt`.`host_id` = ? ORDER BY `createdAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `thread_msg_cmt`.`cmt_id` AS `cmt_id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `thread_msg_cmt` AS `thread_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_msg_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_msg_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -324,7 +324,7 @@ func (da *TableTypeThreadMsg) SelectItemsByThread(queryable mingru.Queryable, th
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `thread_msg`.`id` AS `id`, `thread_msg`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread_msg`.`created_at` AS `createdAt`, `thread_msg`.`modified_at` AS `modifiedAt`, `thread_msg`.`content` AS `content`, `thread_msg`.`cmt_count` AS `cmtCount` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` WHERE `thread_msg`.`thread_id` = ? ORDER BY `createdAt` LIMIT ? OFFSET ?", threadID, limit, offset)
+	rows, err := queryable.Query("SELECT `thread_msg`.`id` AS `id`, `thread_msg`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `thread_msg`.`created_at` AS `created_at`, `thread_msg`.`modified_at` AS `modified_at`, `thread_msg`.`content` AS `content`, `thread_msg`.`cmt_count` AS `cmt_count` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` WHERE `thread_msg`.`thread_id` = ? ORDER BY `created_at` LIMIT ? OFFSET ?", threadID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

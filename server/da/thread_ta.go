@@ -87,7 +87,7 @@ type ThreadTableDeleteReplyChild1Result struct {
 
 func (da *TableTypeThread) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*ThreadTableDeleteReplyChild1Result, error) {
 	result := &ThreadTableDeleteReplyChild1Result{}
-	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parentID`, `join_1`.`host_id` AS `parentHostID` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
+	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_1`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
 		return nil, err
 	}
@@ -245,7 +245,7 @@ func (da *TableTypeThread) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `thread_cmt`.`cmt_id` AS `cmtID`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `createdAt`, `join_1`.`modified_at` AS `modifiedAt`, `join_1`.`reply_count` AS `replyCount`, `join_1`.`user_id` AS `userID`, `join_2`.`name` AS `userName`, `join_2`.`icon_name` AS `userIconName` FROM `thread_cmt` AS `thread_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_cmt`.`host_id` = ? ORDER BY `createdAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `thread_cmt`.`cmt_id` AS `cmt_id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `thread_cmt` AS `thread_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `thread_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `thread_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -287,7 +287,7 @@ type ThreadTableSelectItemByIDResult struct {
 // SelectItemByID ...
 func (da *TableTypeThread) SelectItemByID(queryable mingru.Queryable, id uint64) (*ThreadTableSelectItemByIDResult, error) {
 	result := &ThreadTableSelectItemByIDResult{}
-	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`user_id` AS `userID`, `join_1`.`name` AS `userName`, `join_1`.`icon_name` AS `userIconName`, `thread`.`created_at` AS `createdAt`, `thread`.`modified_at` AS `modifiedAt`, `thread`.`content` AS `content`, `thread`.`title` AS `title`, `thread`.`cmt_count` AS `cmtCount`, `thread`.`msg_count` AS `msgCount` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.MsgCount)
+	err := queryable.QueryRow("SELECT `thread`.`id` AS `id`, `thread`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `thread`.`created_at` AS `created_at`, `thread`.`modified_at` AS `modified_at`, `thread`.`content` AS `content`, `thread`.`title` AS `title`, `thread`.`cmt_count` AS `cmt_count`, `thread`.`msg_count` AS `msg_count` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.MsgCount)
 	if err != nil {
 		return nil, err
 	}
@@ -331,9 +331,9 @@ func (da *TableTypeThread) SelectItemsForDashboard(queryable mingru.Queryable, u
 	var orderBy1SQL string
 	switch orderBy1 {
 	case ThreadTableSelectItemsForDashboardOrderBy1CreatedAt:
-		orderBy1SQL = "`createdAt`"
+		orderBy1SQL = "`created_at`"
 	case ThreadTableSelectItemsForDashboardOrderBy1MsgCount:
-		orderBy1SQL = "`msgCount`"
+		orderBy1SQL = "`msg_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
@@ -399,7 +399,7 @@ func (da *TableTypeThread) SelectItemsForUserProfile(queryable mingru.Queryable,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `thread` WHERE `user_id` = ? ORDER BY `createdAt` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `thread` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
