@@ -376,10 +376,15 @@ input.app-inline-text-input:invalid {
 }
 
 /* Table ------------------------- */
+.app-table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .app-table {
   border-collapse: collapse;
   width: 100%;
-  overflow-x: auto;
 }
 
 .app-table th,

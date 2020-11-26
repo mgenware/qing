@@ -46,9 +46,11 @@ export abstract class MPListApp<T> extends BaseElement {
     }
     return html`
       <section-view type="info">${this.sectionHeader()}</section-view>
-      <table class="app-table m-t-md">
-        ${this.renderTable()}
-      </table>
+      <div class="app-table-container m-t-md">
+        <table class="app-table">
+          ${this.renderTable()}
+        </table>
+      </div>
       <hr />
       <mp-page-control
         .page=${this.page}
