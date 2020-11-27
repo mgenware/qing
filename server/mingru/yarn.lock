@@ -266,11 +266,6 @@ callsites@^3.0.0:
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-3.1.0.tgz#b3630abd8943432f54b3f0519238e33cd7df2f73"
   integrity sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
 
-camelcase@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
-  integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
-
 chalk@^2.0.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -1013,12 +1008,11 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mingru-models@^0.45.0:
-  version "0.45.0"
-  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.45.0.tgz#341b2259feb9a26e6b87bd4d48902ea07160ccbb"
-  integrity sha512-Cm4iBAJaElQyPWH7mx2c5vZyCkBOa5IYR24DaBWb+DcSAj8+ubutJnOSaemWXTj8vlw/5LtdtrFlBrL/8OvAHw==
+mingru-models@^0.47.0:
+  version "0.47.0"
+  resolved "https://registry.yarnpkg.com/mingru-models/-/mingru-models-0.47.0.tgz#333c51ac39cc0f586f2a0a39cfbe2fa03c698527"
+  integrity sha512-alsZLLsxC8RsB6oaB0Z6SePpiux849gpkmZzL1R+TvyKM6EIx7NuNCjjiBBXM3hRcQAUi+RZ/EdrcOS3JQlbOA==
   dependencies:
-    camelcase "^6.2.0"
     decamelize "^4.0.0"
     throw-if-arg-empty "^2.2.1"
     to-type-string "^1.1.0"

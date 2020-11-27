@@ -1,13 +1,13 @@
 import * as mm from 'mingru-models';
 import PostCmtCore from '../../models/post/postCmtCore';
 import PostCore from '../../models/post/postCore';
-import t from '../../models/thread/thread';
-import threadCmt from '../../models/thread/threadCmt';
+import t from '../../models/discussion/discussion';
+import discussionCmt from '../../models/discussion/discussionCmt';
 import { updateCounterAction } from '../misc/counterColumnTAFactory';
 import PostTACore from '../post/postTACore';
 import userStatsTA from '../user/userStatsTA';
 
-export class ThreadTA extends PostTACore {
+export class DiscussionTA extends PostTACore {
   updateMsgCount = updateCounterAction(t, t.msg_count);
 
   getItemTable(): PostCore {
@@ -15,7 +15,7 @@ export class ThreadTA extends PostTACore {
   }
 
   getItemCmtTable(): PostCmtCore {
-    return threadCmt;
+    return discussionCmt;
   }
 
   getDashboardColumns(): mm.SelectActionColumns[] {
@@ -39,8 +39,8 @@ export class ThreadTA extends PostTACore {
   }
 
   getContainerUpdateCounterAction(): mm.Action {
-    return userStatsTA.updateThreadCount;
+    return userStatsTA.updateDiscussionCount;
   }
 }
 
-export default mm.tableActions(t, ThreadTA);
+export default mm.tableActions(t, DiscussionTA);

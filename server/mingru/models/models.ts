@@ -7,10 +7,10 @@ import userStats from './user/userStats';
 import userPwd from './user/userPwd';
 import userAuth from './user/userAuth';
 import likes from './like/likeableTables';
-import thread from './thread/thread';
-import threadCmt from './thread/threadCmt';
-import threadMsg from './thread/threadMsg';
-import threadMsgCmt from './thread/threadMsgCmt';
+import discussion from './discussion/discussion';
+import discussionCmt from './discussion/discussionCmt';
+import discussionMsg from './discussion/discussionMsg';
+import discussionMsgCmt from './discussion/discussionMsgCmt';
 
 const tables: mm.Table[] = [
   user,
@@ -21,10 +21,10 @@ const tables: mm.Table[] = [
   userStats,
   userPwd,
   userAuth,
-  thread,
-  threadCmt,
-  threadMsg,
-  threadMsgCmt,
+  discussion,
+  discussionCmt,
+  discussionMsg,
+  discussionMsgCmt,
   ...likes.values(),
 ];
 export default tables;

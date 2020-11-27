@@ -18,28 +18,28 @@ var UserStats = &TableTypeUserStats{}
 
 // UserStatsTableSelectStatsResult ...
 type UserStatsTableSelectStatsResult struct {
-	PostCount   uint `json:"postCount,omitempty"`
-	ThreadCount uint `json:"threadCount,omitempty"`
+	PostCount       uint `json:"postCount,omitempty"`
+	DiscussionCount uint `json:"discussionCount,omitempty"`
 }
 
 // SelectStats ...
 func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (*UserStatsTableSelectStatsResult, error) {
 	result := &UserStatsTableSelectStatsResult{}
-	err := queryable.QueryRow("SELECT `post_count`, `thread_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.ThreadCount)
+	err := queryable.QueryRow("SELECT `post_count`, `discussion_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount)
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
 }
 
-// UpdatePostCount ...
-func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
+// UpdateDiscussionCount ...
+func (da *TableTypeUserStats) UpdateDiscussionCount(queryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user_stats` SET `discussion_count` = `discussion_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// UpdateThreadCount ...
-func (da *TableTypeUserStats) UpdateThreadCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `thread_count` = `thread_count` + ? WHERE `id` = ?", offset, userID)
+// UpdatePostCount ...
+func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

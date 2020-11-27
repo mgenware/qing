@@ -1,20 +1,20 @@
 import * as mm from 'mingru-models';
 import { BaseEntityTableWithIDAndTitle } from '../../models/common';
 import post from '../../models/post/post';
-import thread from '../../models/thread/thread';
+import discussion from '../../models/discussion/discussion';
 import user from '../../models/user/user';
 
 const itemTypeName = 'itemType';
 enum HomeItemType {
   postItem = 1,
-  threadItem,
+  discussionItem,
 }
 
 export class HomeTable extends mm.GhostTable {}
 
 export class HomeTA extends mm.TableActions {
   #selectPosts: mm.SelectAction;
-  #selectThreads: mm.SelectAction;
+  #selectDiscussions: mm.SelectAction;
   selectItems: mm.SelectAction;
 
   constructor() {
@@ -25,13 +25,13 @@ export class HomeTA extends mm.TableActions {
       .from(post)
       .orderByAsc(post.created_at)
       .privateAttr();
-    this.#selectThreads = mm
-      .selectPage(this.typeCol(HomeItemType.threadItem), ...this.getDefaultCols(thread))
-      .from(thread)
+    this.#selectDiscussions = mm
+      .selectPage(this.typeCol(HomeItemType.discussionItem), ...this.getDefaultCols(discussion))
+      .from(discussion)
       // NOTE: this ORDER BY is ignored as ORDER BY only applies to first UNION member.
       .orderByAsc(post.created_at)
       .privateAttr();
-    this.selectItems = this.#selectPosts.union(this.#selectThreads);
+    this.selectItems = this.#selectPosts.union(this.#selectDiscussions);
   }
 
   private typeCol(itemType: HomeItemType): mm.RawColumn {

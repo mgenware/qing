@@ -1,12 +1,12 @@
 import * as mm from 'mingru-models';
 import PostCmtCore from '../post/postCmtCore';
 import PostCore from '../post/postCore';
-import threadMsg from './threadMsg';
+import discussion from './discussion';
 
-export class ThreadMsgCmt extends PostCmtCore {
+export class DiscussionCmt extends PostCmtCore {
   getPostTable(): PostCore {
-    return threadMsg;
+    return discussion;
   }
 }
 
-export default mm.table(ThreadMsgCmt);
+export default mm.table(DiscussionCmt);

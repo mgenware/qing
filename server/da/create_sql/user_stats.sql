@@ -1,7 +1,7 @@
 CREATE TABLE `user_stats` (
 	`id` BIGINT UNSIGNED NOT NULL,
 	`post_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	`thread_count` INT UNSIGNED NOT NULL DEFAULT 0,
+	`discussion_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`)
 )
 CHARACTER SET=utf8mb4

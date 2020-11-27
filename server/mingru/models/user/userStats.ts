@@ -10,7 +10,7 @@ export class UserStats extends mm.Table {
 
   // Stats.
   post_count = createCounterColumn();
-  thread_count = createCounterColumn();
+  discussion_count = createCounterColumn();
 }
 
 export default mm.table(UserStats);

@@ -1,24 +1,25 @@
 import * as mm from 'mingru-models';
 import PostCmtCore from '../../models/post/postCmtCore';
 import PostCore from '../../models/post/postCore';
-import t from '../../models/thread/threadMsg';
-import threadMsgCmt from '../../models/thread/threadMsgCmt';
+import t from '../../models/discussion/discussionMsg';
+import discussionMsgCmt from '../../models/discussion/discussionMsgCmt';
 import PostTACore from '../post/postTACore';
-import threadTA from './threadTA';
+import discussionTA from './discussionTA';
 
-const threadID = 'threadID';
+const discussionID = 'discussionID';
 
-export class ThreadMsgTA extends PostTACore {
-  selectItemsByThread: mm.SelectAction;
+export class DiscussionMsgTA extends PostTACore {
+  selectItemsByDiscussion: mm.SelectAction;
 
   constructor() {
     super();
 
-    // Remove `selectItemByID`, thread messages are fetched along with their belonging thread.
+    // Remove `selectItemByID`, discussion messages are fetched along with
+    // their belonging discussion.
     this.selectItemByID = mm.emptyAction as mm.SelectAction;
-    this.selectItemsByThread = mm
+    this.selectItemsByDiscussion = mm
       .selectPage(...this.getFullColumns())
-      .by(t.thread_id)
+      .by(t.discussion_id)
       .orderByAsc(t.created_at);
   }
 
@@ -27,10 +28,10 @@ export class ThreadMsgTA extends PostTACore {
   }
 
   getItemCmtTable(): PostCmtCore {
-    return threadMsgCmt;
+    return discussionMsgCmt;
   }
 
-  // Dashboard is not supported in thread msg.
+  // Dashboard is not supported in discussion msg.
   getDashboardColumns(): mm.SelectActionColumns[] {
     return [];
   }
@@ -39,7 +40,7 @@ export class ThreadMsgTA extends PostTACore {
     return [];
   }
 
-  // Profile is not supported in thread msg.
+  // Profile is not supported in discussion msg.
   getProfileColumns(): mm.SelectActionColumns[] {
     return [];
   }
@@ -53,20 +54,23 @@ export class ThreadMsgTA extends PostTACore {
   }
 
   getContainerUpdateCounterAction(): mm.Action {
-    return threadTA.updateMsgCount.wrap({ id: mm.valueRef('threadID'), offset: '-1' });
+    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef('discussionID'), offset: '-1' });
   }
 
   getExtraInsertionInputColumns(): mm.Column[] {
-    return [t.thread_id];
+    return [t.discussion_id];
   }
 
   deleteItemOverride(): mm.Action | null {
     return mm.transact(
-      mm.selectField(t.thread_id).by(t.id).declareReturnValue(mm.ReturnValues.result, threadID),
+      mm
+        .selectField(t.discussion_id)
+        .by(t.id)
+        .declareReturnValue(mm.ReturnValues.result, discussionID),
       mm.deleteOne().whereSQL(this.updateConditions),
       this.getContainerUpdateCounterAction(),
     );
   }
 }
 
-export default mm.tableActions(t, ThreadMsgTA);
+export default mm.tableActions(t, DiscussionMsgTA);
