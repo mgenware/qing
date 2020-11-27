@@ -189,11 +189,11 @@ export default class NavBarApp extends BaseElement {
                 <div class="dropdown-content">
                   <a href=${user.URL}>${ls.profile}</a>
                   <a href=${routes.home.yourPosts}>${ls.yourPosts}</a>
-                  <a href=${routes.home.yourThreads}>${ls.yourThreads}</a>
+                  <a href=${routes.home.yourDiscussions}>${ls.yourDiscussions}</a>
                   <a href=${routes.home.yourQuestion}>${ls.yourQuestions}</a>
                   <hr />
                   <a href=${routes.home.newPost}>${ls.newPost}</a>
-                  <a href=${routes.home.newThread}>${ls.newThread}</a>
+                  <a href=${routes.home.newDiscussion}>${ls.newDiscussion}</a>
                   <a href=${routes.home.newQuestion}>${ls.newQuestion}</a>
                   <hr />
                   <a href=${routes.home.settings.profile}>${ls.settings}</a>

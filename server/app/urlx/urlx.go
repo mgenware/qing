@@ -87,16 +87,16 @@ func (u *URL) Post(pid uint64) string {
 	return "/" + defs.Constants.RoutePost + "/" + validator.EncodeID(pid)
 }
 
-func (u *URL) ThreadWithPage(pid uint64, page int) string {
-	s := "/" + defs.Constants.RouteThread + "/" + validator.EncodeID(pid)
+func (u *URL) DiscussionWithPage(pid uint64, page int) string {
+	s := "/" + defs.Constants.RouteDiscussion + "/" + validator.EncodeID(pid)
 	if page > 1 {
 		s += fmt.Sprintf("&%v=%v", defs.Constants.KeyPage, page)
 	}
 	return s
 }
 
-func (u *URL) Thread(pid uint64) string {
-	return u.ThreadWithPage(pid, 1)
+func (u *URL) Discussion(pid uint64) string {
+	return u.DiscussionWithPage(pid, 1)
 }
 
 func (u *URL) SignIn() string {

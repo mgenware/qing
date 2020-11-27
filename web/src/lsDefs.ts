@@ -102,13 +102,13 @@ export default interface LSDefs {
   invalidPageNumber: string;
   pageNumberOutOfBounds: string;
   yourQuestions: string;
-  yourThreads: string;
-  newThread: string;
+  yourDiscussions: string;
+  newDiscussion: string;
   newQuestion: string;
   numOfMsgs: string;
-  postAMsgToThisThread: string;
+  postAMsgToThisDiscussion: string;
   send: string;
-  threads: string;
+  discussions: string;
   msgs: string;
   home: string;
 }

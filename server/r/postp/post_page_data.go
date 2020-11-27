@@ -18,8 +18,8 @@ type PostPageData struct {
 	UserEID  string
 	UserHTML string
 
-	ProfilePostsURL   string
-	ProfileThreadsURL string
+	ProfilePostsURL       string
+	ProfileDiscussionsURL string
 }
 
 var vPostPage = app.TemplateManager.MustParseView("/post/postPage.html")

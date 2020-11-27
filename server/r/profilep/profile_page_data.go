@@ -16,15 +16,15 @@ type ProfilePageData struct {
 	da.UserTableSelectProfileResult
 	handler.LocalizedTemplateData
 
-	UserURL      string
-	IconURL      string
-	FeedListHTML string
-	PageData     *rcm.PageData
-	PostCount    uint
-	ThreadCount  uint
+	UserURL         string
+	IconURL         string
+	FeedListHTML    string
+	PageData        *rcm.PageData
+	PostCount       uint
+	DiscussionCount uint
 
-	ProfilePostsURL   string
-	ProfileThreadsURL string
+	ProfilePostsURL       string
+	ProfileDiscussionsURL string
 }
 
 // ProfilePostItem is a data wrapper around PostTableSelectItemsForUserProfileResult.
@@ -34,9 +34,9 @@ type ProfilePostItem struct {
 	URL string
 }
 
-// ProfileThreadItem is a data wrapper around ThreadTableSelectItemsForUserProfileResult.
-type ProfileThreadItem struct {
-	da.ThreadTableSelectItemsForUserProfileResult
+// ProfileDiscussionItem is a data wrapper around DiscussionTableSelectItemsForUserProfileResult.
+type ProfileDiscussionItem struct {
+	da.DiscussionTableSelectItemsForUserProfileResult
 
 	URL string
 }
@@ -49,12 +49,12 @@ func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats 
 	d.IconURL = app.URL.UserIconURL250(uid, profile.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
 	d.PostCount = stats.PostCount
-	d.ThreadCount = stats.ThreadCount
+	d.DiscussionCount = stats.DiscussionCount
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 
 	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyPosts, 1)
-	d.ProfileThreadsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyThreads, 1)
+	d.ProfileDiscussionsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyDiscussions, 1)
 	return d
 }
 
@@ -65,9 +65,9 @@ func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) *Prof
 	return d
 }
 
-// NewProfileThreadItem creates a new ProfileThreadItem from a thread record.
-func NewProfileThreadItem(item *da.ThreadTableSelectItemsForUserProfileResult) *ProfileThreadItem {
-	d := &ProfileThreadItem{ThreadTableSelectItemsForUserProfileResult: *item}
-	d.URL = app.URL.Thread(item.ID)
+// NewProfileDiscussionItem creates a new ProfileDiscussionItem from a dicussion record.
+func NewProfileDiscussionItem(item *da.DiscussionTableSelectItemsForUserProfileResult) *ProfileDiscussionItem {
+	d := &ProfileDiscussionItem{DiscussionTableSelectItemsForUserProfileResult: *item}
+	d.URL = app.URL.Discussion(item.ID)
 	return d
 }

@@ -51,15 +51,15 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 			break
 		}
 
-	case defs.Constants.KeyThreads:
+	case defs.Constants.KeyDiscussions:
 		{
-			var threads []*da.ThreadTableSelectItemsForUserProfileResult
-			threads, hasNext, err = da.Thread.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
+			var discussions []*da.DiscussionTableSelectItemsForUserProfileResult
+			discussions, hasNext, err = da.Discussion.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder
-			for _, thread := range threads {
-				threadData := NewProfileThreadItem(thread)
-				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(threadData))
+			for _, discussion := range discussions {
+				discussionData := NewProfileDiscussionItem(discussion)
+				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(discussionData))
 			}
 			feedListHTML = feedListHTMLBuilder.String()
 			break

@@ -22,7 +22,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType != defs.Constants.EntityThreadMsg {
+	if entityType != defs.Constants.EntityDiscussionMsg {
 		title = validator.MustGetStringFromDict(contentDict, "title", defs.Constants.MaxPostTitleLen)
 	}
 
@@ -50,19 +50,19 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Constants.EntityThread:
+		case defs.Constants.EntityDiscussion:
 			{
-				insertedID, err := da.Thread.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
+				insertedID, err := da.Discussion.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
-				result = app.URL.Thread(insertedID)
+				result = app.URL.Discussion(insertedID)
 				break
 			}
 
-		case defs.Constants.EntityThreadMsg:
+		case defs.Constants.EntityDiscussionMsg:
 			{
-				threadID := validator.GetIDFromDict(params, "threadID")
-				_, err := da.ThreadMsg.InsertItem(db, contentHTML, uid, threadID, sanitizedToken, captResult)
+				discussionID := validator.GetIDFromDict(params, "discussionID")
+				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, discussionID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 				break
 			}
@@ -79,15 +79,15 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Constants.EntityThread:
+		case defs.Constants.EntityDiscussion:
 			{
-				err = da.Thread.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
+				err = da.Discussion.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Constants.EntityThreadMsg:
+		case defs.Constants.EntityDiscussionMsg:
 			{
-				err = da.ThreadMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
+				err = da.DiscussionMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}

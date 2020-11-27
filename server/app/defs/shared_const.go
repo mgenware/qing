@@ -14,22 +14,22 @@ type SharedConstants struct {
 	DefaultLang string
 	EntityAnswer int
 	EntityCmt int
+	EntityDiscussion int
+	EntityDiscussionMsg int
 	EntityPost int
 	EntityQuestion int
 	EntityReply int
-	EntityThread int
-	EntityThreadMsg int
 	ErrCaptchaNotFound int
 	ErrCaptchaNotMatch int
 	ErrGeneric int
 	ErrInvalidUserOrPwd int
 	ErrNeedAuth int
 	KeyAnswers string
+	KeyDiscussions string
 	KeyPage string
 	KeyPageSize string
 	KeyPosts string
 	KeyTab string
-	KeyThreads string
 	MaxCaptchaLen int
 	MaxGenericStringLen int
 	MaxPostTitleLen int
@@ -40,10 +40,10 @@ type SharedConstants struct {
 	RouteApi string
 	RouteAuth string
 	RouteDashboard string
+	RouteDiscussion string
 	RouteForum string
 	RoutePost string
 	RouteTest string
-	RouteThread string
 	RouteUser string
 }
 
@@ -59,22 +59,22 @@ func init() {
 		DefaultLang: "en",
 		EntityAnswer: 7,
 		EntityCmt: 2,
+		EntityDiscussion: 4,
+		EntityDiscussionMsg: 6,
 		EntityPost: 1,
 		EntityQuestion: 5,
 		EntityReply: 3,
-		EntityThread: 4,
-		EntityThreadMsg: 6,
 		ErrCaptchaNotFound: 10002,
 		ErrCaptchaNotMatch: 10003,
 		ErrGeneric: 10000,
 		ErrInvalidUserOrPwd: 1,
 		ErrNeedAuth: 10001,
 		KeyAnswers: "answers",
+		KeyDiscussions: "discussions",
 		KeyPage: "page",
 		KeyPageSize: "pageSize",
 		KeyPosts: "posts",
 		KeyTab: "tab",
-		KeyThreads: "threads",
 		MaxCaptchaLen: 10,
 		MaxGenericStringLen: 100,
 		MaxPostTitleLen: 200,
@@ -85,10 +85,10 @@ func init() {
 		RouteApi: "s",
 		RouteAuth: "auth",
 		RouteDashboard: "home",
+		RouteDiscussion: "d",
 		RouteForum: "f",
 		RoutePost: "p",
 		RouteTest: "test",
-		RouteThread: "t",
 		RouteUser: "user",
 	}
 }

@@ -25,8 +25,8 @@ func init() {
 	allowedTypes[defs.Constants.EntityPost] = true
 	allowedTypes[defs.Constants.EntityCmt] = true
 	allowedTypes[defs.Constants.EntityReply] = true
-	allowedTypes[defs.Constants.EntityThread] = true
-	allowedTypes[defs.Constants.EntityThreadMsg] = true
+	allowedTypes[defs.Constants.EntityDiscussion] = true
+	allowedTypes[defs.Constants.EntityDiscussionMsg] = true
 }
 
 // NewCaptchaService creates a CaptchaService.

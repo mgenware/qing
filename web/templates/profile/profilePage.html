@@ -49,8 +49,8 @@
         <a id="m-profile-tab-posts" href="{{.ProfilePostsURL}}"
           >{{html .LS.Posts}} {{if .PostCount}}({{.PostCount}}){{end}}</a
         >
-        <a id="m-profile-tab-threads" href="{{.ProfileThreadsURL}}"
-          >{{html .LS.Threads}} {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
+        <a id="m-profile-tab-discussions" href="{{.ProfileDiscussionsURL}}"
+          >{{html .LS.Discussions}} {{if .DiscussionCount}}({{.DiscussionCount}}){{end}}</a
         >
       </tab-view>
       <div class="m-t-sm">{{.FeedListHTML}}</div>

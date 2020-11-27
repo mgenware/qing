@@ -20,15 +20,15 @@ func libJS(name string) string {
 type JSManager struct {
 	dev bool
 
-	Loader    string
-	Polyfills string
-	Main      string
-	Post      string
-	Thread    string
-	Dashboard string
-	Profile   string
-	Auth      string
-	Index     string
+	Loader     string
+	Polyfills  string
+	Main       string
+	Post       string
+	Discussion string
+	Dashboard  string
+	Profile    string
+	Auth       string
+	Index      string
 
 	LSCS string
 	LSEN string
@@ -49,7 +49,7 @@ func NewJSManager(dev bool) *JSManager {
 	r.Dashboard = js("dashboardEntry")
 	r.Profile = js("profileEntry")
 	r.Auth = js("authEntry")
-	r.Thread = js("threadEntry")
+	r.Discussion = js("discussionEntry")
 	r.Index = js("indexEntry")
 	return r
 }

@@ -4,23 +4,23 @@ import 'core/cmt/cmtApp';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import 'post/setPostApp';
-import { entityThreadMsg } from 'sharedConstants';
-import threadWind from './threadWind';
+import { entityDiscussionMsg } from 'sharedConstants';
+import discussionWind from './discussionWind';
 import { CHECK } from 'checks';
 
-@customElement('add-thread-msg-app')
-export class AddThreadMsgApp extends BaseElement {
+@customElement('add-discussion-msg-app')
+export class AddDiscussionMsgApp extends BaseElement {
   firstUpdated() {
-    CHECK(threadWind.appThreadID);
+    CHECK(discussionWind.appDiscussionID);
   }
 
   render() {
     return html`
       <set-post-app
-        .headerText=${ls.postAMsgToThisThread}
-        .entityType=${entityThreadMsg}
+        .headerText=${ls.postAMsgToThisDiscussion}
+        .entityType=${entityDiscussionMsg}
         .submitButtonText=${ls.send}
-        .threadID=${threadWind.appThreadID}
+        .discussionID=${discussionWind.appDiscussionID}
         .showCancelButton=${true}
         .showTitleInput=${false}
       ></set-post-app>
@@ -30,6 +30,6 @@ export class AddThreadMsgApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'add-thread-msg-app': AddThreadMsgApp;
+    'add-discussion-msg-app': AddDiscussionMsgApp;
   }
 }

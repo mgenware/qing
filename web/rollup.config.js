@@ -28,7 +28,7 @@ const input = [
   isProd ? 'coreEntry.ts' : 'coreEntryDev.ts',
   'dashboard/dashboardEntry.ts',
   'post/postEntry.ts',
-  'thread/threadEntry.ts',
+  'discussion/discussionEntry.ts',
   'profile/profileEntry.ts',
   'auth/authEntry.ts',
   'index/indexEntry.ts',

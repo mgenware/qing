@@ -102,13 +102,13 @@
   "invalidPageNumber": "Invalid page number",
   "pageNumberOutOfBounds": "Page number out of bounds",
   "yourQuestions": "Your questions",
-  "yourThreads": "Your threads",
-  "newThread": "New thread",
+  "yourDiscussions": "Your discussions",
+  "newDiscussion": "New discussion",
   "newQuestion": "New question",
   "numOfMsgs": "{0} {0|countable|message|messages}",
-  "postAMsgToThisThread": "Post a message to this thread",
+  "postAMsgToThisDiscussion": "Post a message to this discussion",
   "send": "Send",
-  "threads": "Threads",
+  "discussions": "Discussions",
   "msgs": "Messages",
   "home": "Home"
 }

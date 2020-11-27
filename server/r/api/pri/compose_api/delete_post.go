@@ -30,9 +30,9 @@ func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
 			result = app.URL.UserProfile(uid)
 			break
 		}
-	case defs.Constants.EntityThread:
+	case defs.Constants.EntityDiscussion:
 		{
-			err = da.Thread.DeleteItem(db, id, uid)
+			err = da.Discussion.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)
 			break
 		}

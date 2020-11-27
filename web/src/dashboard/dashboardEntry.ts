@@ -6,8 +6,8 @@ import './settings/settingsBaseView';
 import 'post/setPostApp';
 import './settings/profile/editProfileApp';
 import './mp/myPostsApp';
-import './mp/myThreadsApp';
-import { entityPost, entityQuestion, entityThread } from 'sharedConstants';
+import './mp/myDiscussionsApp';
+import { entityPost, entityQuestion, entityDiscussion } from 'sharedConstants';
 import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 
@@ -28,9 +28,9 @@ function loadNewPostContent(entityType: number) {
       title = ls.newPost;
       break;
     }
-    case entityThread: {
-      url = rs.home.newThread;
-      title = ls.newThread;
+    case entityDiscussion: {
+      url = rs.home.newDiscussion;
+      title = ls.newDiscussion;
       break;
     }
     case entityQuestion: {
@@ -51,7 +51,7 @@ function loadNewPostContent(entityType: number) {
   );
 }
 
-[entityPost, entityThread, entityQuestion].forEach((entityType) => {
+[entityPost, entityDiscussion, entityQuestion].forEach((entityType) => {
   loadNewPostContent(entityType);
 });
 
@@ -68,8 +68,8 @@ dashboardRouter.register(rs.home.settings.profile, () => {
 dashboardRouter.register(rs.home.yourPosts, () => {
   app.page.reloadPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
 });
-dashboardRouter.register(rs.home.yourThreads, () => {
-  app.page.reloadPageContent(ls.editProfile, html`<my-threads-app></my-threads-app>`);
+dashboardRouter.register(rs.home.yourDiscussions, () => {
+  app.page.reloadPageContent(ls.editProfile, html`<my-discussions-app></my-discussions-app>`);
 });
 
 dashboardRouter.startOnce();

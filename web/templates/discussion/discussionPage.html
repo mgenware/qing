@@ -1,0 +1,20 @@
+<container-view>
+  <h2>
+    <a href="{{.DiscussionURL}}">{{html .Title}}</a>
+  </h2>
+  {{.UserHTML}}
+  <hr />
+  <div class="p-b-md">{{.ContentHTML}}</div>
+
+  <discussion-msg-count-view></discussion-msg-count-view>
+  {{.MessageListHTML}} {{if .PageBarHTML}}
+  <hr />
+  {{.PageBarHTML}} {{end}}
+
+  <add-discussion-msg-app></add-discussion-msg-app>
+</container-view>
+
+<script>
+  window.appDiscussionID = '{{js .EID}}';
+  window.appDiscussionCmtCount = parseInt('{{.MsgCount}}', 10);
+</script>

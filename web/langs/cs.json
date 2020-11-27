@@ -102,13 +102,13 @@
   "invalidPageNumber": "错误的页数格式",
   "pageNumberOutOfBounds": "页数超出范围",
   "yourQuestions": "我的提问",
-  "yourThreads": "我的讨论",
-  "newThread": "新讨论",
+  "yourDiscussions": "我的讨论",
+  "newDiscussion": "新讨论",
   "newQuestion": "新提问",
   "numOfMsgs": "{0} 个消息",
-  "postAMsgToThisThread": "向讨论发送消息",
+  "postAMsgToThisDiscussion": "向讨论发送消息",
   "send": "发送",
-  "threads": "讨论",
+  "discussions": "讨论",
   "msgs": "消息",
   "home": "主页"
 }

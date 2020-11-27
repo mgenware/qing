@@ -3,11 +3,11 @@ import buildTree from 'fx214';
 export default buildTree({
   home: {
     newPost: 'new-post',
-    newThread: 'new-thread',
+    newDiscussion: 'new-discussion',
     newQuestion: 'new-question',
     editPost: 'edit-post',
     yourPosts: 'your-posts',
-    yourThreads: 'your-threads',
+    yourDiscussions: 'your-discussions',
     yourQuestion: 'your-questions',
     settings: {
       profile: 'profile',
@@ -42,7 +42,7 @@ export default buildTree({
       // My posts.
       mp: {
         posts: 'posts',
-        threads: 'threads',
+        discussions: 'discussions',
       },
     },
     p: {

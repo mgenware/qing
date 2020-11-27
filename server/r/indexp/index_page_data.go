@@ -14,8 +14,8 @@ var vIndexItem = app.TemplateManager.MustParseView("/index/indexItem.html")
 
 // Should be in sync with `HomeItemType` in `homeTA.ts`.
 const (
-	indexItemPost   = 1
-	indexItemThread = 2
+	indexItemPost       = 1
+	indexItemDiscussion = 2
 )
 
 // IndexPageData ...
@@ -26,8 +26,8 @@ type IndexPageData struct {
 	PageBarHTML  string
 	PageData     *rcm.PageData
 
-	IndexPostsURL   string
-	IndexThreadsURL string
+	IndexPostsURL       string
+	IndexDiscussionsURL string
 }
 
 // IndexPageItemData is a data wrapper around PostTableSelectItemsForUserProfileResult.
@@ -46,7 +46,7 @@ func NewIndexPageData(pageData *rcm.PageData, feedHTML, pageBarHTML string) *Ind
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML
 	d.IndexPostsURL = app.URL.IndexAdv(defs.Constants.KeyPosts, 1)
-	d.IndexThreadsURL = app.URL.IndexAdv(defs.Constants.KeyThreads, 1)
+	d.IndexDiscussionsURL = app.URL.IndexAdv(defs.Constants.KeyDiscussions, 1)
 	return d
 }
 
@@ -58,8 +58,8 @@ func NewIndexPageItemData(item *da.HomeTableTableSelectItemsResult) (*IndexPageI
 		d.ItemURL = app.URL.Post(item.ID)
 		break
 
-	case indexItemThread:
-		d.ItemURL = app.URL.Thread(item.ID)
+	case indexItemDiscussion:
+		d.ItemURL = app.URL.Discussion(item.ID)
 		break
 
 	default:

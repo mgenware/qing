@@ -4,12 +4,12 @@ import routes from 'routes';
 import 'ui/cm/timeField';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import { columnCreated, entityThread, columnMessages } from 'sharedConstants';
+import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';
 import { MPListApp } from './views/mpListApp';
-import { GetMyPostsLoader, DashboardThread } from './loaders/getMyPostsLoader';
+import { GetMyPostsLoader, DashboardDiscussion } from './loaders/getMyPostsLoader';
 
-@customElement('my-threads-app')
-export default class MyThreadsApp extends MPListApp<DashboardThread> {
+@customElement('my-discussions-app')
+export default class MyDiscussionsApp extends MPListApp<DashboardDiscussion> {
   static get styles() {
     return [
       super.styles,
@@ -27,9 +27,9 @@ export default class MyThreadsApp extends MPListApp<DashboardThread> {
     this.currentSortedColumnDesc = true;
   }
 
-  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardThread> | null> {
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardDiscussion> | null> {
     return new GetMyPostsLoader(
-      entityThread,
+      entityDiscussion,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -40,10 +40,10 @@ export default class MyThreadsApp extends MPListApp<DashboardThread> {
   sectionHeader(): TemplateResult {
     return html`
       <div class="row align-items-center">
-        <div class="col">${ls.yourThreads}</div>
+        <div class="col">${ls.yourDiscussions}</div>
         <div class="col-auto">
-          <qing-button btnStyle="success" href=${routes.home.newThread}
-            >${ls.newThread}</qing-button
+          <qing-button btnStyle="success" href=${routes.home.newDiscussion}
+            >${ls.newDiscussion}</qing-button
           >
         </div>
       </div>
@@ -83,6 +83,6 @@ export default class MyThreadsApp extends MPListApp<DashboardThread> {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-threads-app': MyThreadsApp;
+    'my-discussion-app': MyDiscussionsApp;
   }
 }

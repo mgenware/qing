@@ -1,7 +1,7 @@
 import PaginatedList from 'lib/api/paginatedList';
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
-import { entityPost, entityThread } from 'sharedConstants';
+import { entityPost, entityDiscussion } from 'sharedConstants';
 
 export interface DashboardPost {
   id: string;
@@ -13,7 +13,7 @@ export interface DashboardPost {
   modifiedAt: string;
 }
 
-export interface DashboardThread {
+export interface DashboardDiscussion {
   id: string;
   url: string;
   title: string;
@@ -38,8 +38,8 @@ export class GetMyPostsLoader<T> extends BaseLoader<PaginatedList<T>> {
       case entityPost:
         return routes.s.r.mp.posts;
 
-      case entityThread:
-        return routes.s.r.mp.threads;
+      case entityDiscussion:
+        return routes.s.r.mp.discussions;
 
       default:
         throw new Error(`Unsupported entity type ${this.entityType}`);

@@ -8,7 +8,7 @@ import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
-import { entityPost, entityThreadMsg } from 'sharedConstants';
+import { entityPost, entityDiscussionMsg } from 'sharedConstants';
 
 const composerID = 'composer';
 
@@ -21,17 +21,17 @@ export default class SetPostApp extends BaseElement {
   @lp.bool showTitleInput = true;
   @lp.string submitButtonText = '';
 
-  // Used when `entityType` is thread msg.
-  @lp.string threadID: string | undefined;
+  // Used when `entityType` is discussion msg.
+  @lp.string discussionID: string | undefined;
 
   private composerElement!: ComposerView;
 
   async firstUpdated() {
     const { entityType } = this;
     CHECK(entityType);
-    if (entityType === entityThreadMsg) {
-      if (!this.threadID) {
-        throw new Error('`threadID` is required when `entityType` is thread msg');
+    if (entityType === entityDiscussionMsg) {
+      if (!this.discussionID) {
+        throw new Error('`discussionID` is required when `entityType` is discussion msg');
       }
     }
 
@@ -71,8 +71,8 @@ export default class SetPostApp extends BaseElement {
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const loader = new SetPostLoader(this.editedID, e.detail, this.entityType);
-    if (this.threadID) {
-      loader.threadID = this.threadID;
+    if (this.discussionID) {
+      loader.discussionID = this.discussionID;
     }
     const status = await app.runGlobalActionAsync(
       loader,

@@ -1,11 +1,11 @@
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
-import { entityThreadMsg } from 'sharedConstants';
+import { entityDiscussionMsg } from 'sharedConstants';
 import { ComposerContent } from 'ui/editor/composerView';
 
 export class SetPostLoader extends BaseLoader<string> {
-  // Used when `entityType` is `threadMsg`;
-  threadID?: string;
+  // Used when `entityType` is `discussionMsg`;
+  discussionID?: string;
 
   constructor(
     public id: string | null,
@@ -28,11 +28,11 @@ export class SetPostLoader extends BaseLoader<string> {
     if (this.id) {
       params.id = this.id;
     }
-    if (entityType === entityThreadMsg) {
-      if (!this.threadID) {
-        throw new Error('`threadID` is required when `entityType` is thread msg');
+    if (entityType === entityDiscussionMsg) {
+      if (!this.discussionID) {
+        throw new Error('`discussionID` is required when `entityType` is discussion msg');
       }
-      params.threadID = this.threadID;
+      params.discussionID = this.discussionID;
     }
     return params;
   }
