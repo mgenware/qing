@@ -1,25 +1,25 @@
 import * as mm from 'mingru-models';
 import PostCmtCore from '../../models/post/postCmtCore';
 import PostCore from '../../models/post/postCore';
-import t from '../../models/discussion/discussionMsg';
-import discussionMsgCmt from '../../models/discussion/discussionMsgCmt';
+import t from '../../models/qna/answer';
+import answerCmt from '../../models/qna/answerCmt';
 import PostTACore from '../post/postTACore';
-import discussionTA from './discussionTA';
+import questionTA from './questionTA';
 
-const discussionID = 'discussionID';
+const questionID = 'questionID';
 
-export class DiscussionMsgTA extends PostTACore {
-  selectItemsByDiscussion: mm.SelectAction;
+export class AnswerTA extends PostTACore {
+  selectItemsByQuestion: mm.SelectAction;
 
   constructor() {
     super();
 
-    // Remove `selectItemByID`, discussion messages are fetched along with
-    // their belonging discussion.
+    // Remove `selectItemByID`, answers are fetched along with
+    // their belonging question.
     this.selectItemByID = mm.emptyAction as mm.SelectAction;
-    this.selectItemsByDiscussion = mm
+    this.selectItemsByQuestion = mm
       .selectPage(...this.getFullColumns())
-      .by(t.discussion_id)
+      .by(t.question_id)
       .orderByAsc(t.created_at);
   }
 
@@ -28,7 +28,7 @@ export class DiscussionMsgTA extends PostTACore {
   }
 
   getItemCmtTable(): PostCmtCore {
-    return discussionMsgCmt;
+    return answerCmt;
   }
 
   // Dashboard is not supported.
@@ -54,23 +54,20 @@ export class DiscussionMsgTA extends PostTACore {
   }
 
   getContainerUpdateCounterAction(): mm.Action {
-    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef(discussionID), offset: '-1' });
+    return questionTA.updateMsgCount.wrap({ id: mm.valueRef(questionID), offset: '-1' });
   }
 
   getExtraInsertionInputColumns(): mm.Column[] {
-    return [t.discussion_id];
+    return [t.question_id];
   }
 
   deleteItemOverride(): mm.Action | null {
     return mm.transact(
-      mm
-        .selectField(t.discussion_id)
-        .by(t.id)
-        .declareReturnValue(mm.ReturnValues.result, discussionID),
+      mm.selectField(t.question_id).by(t.id).declareReturnValue(mm.ReturnValues.result, questionID),
       mm.deleteOne().whereSQL(this.updateConditions),
       this.getContainerUpdateCounterAction(),
     );
   }
 }
 
-export default mm.tableActions(t, DiscussionMsgTA);
+export default mm.tableActions(t, AnswerTA);

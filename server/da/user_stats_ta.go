@@ -20,16 +20,24 @@ var UserStats = &TableTypeUserStats{}
 type UserStatsTableSelectStatsResult struct {
 	PostCount       uint `json:"postCount,omitempty"`
 	DiscussionCount uint `json:"discussionCount,omitempty"`
+	QuestionCount   uint `json:"questionCount,omitempty"`
+	AnswerCount     uint `json:"answerCount,omitempty"`
 }
 
 // SelectStats ...
 func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (*UserStatsTableSelectStatsResult, error) {
 	result := &UserStatsTableSelectStatsResult{}
-	err := queryable.QueryRow("SELECT `post_count`, `discussion_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount)
+	err := queryable.QueryRow("SELECT `post_count`, `discussion_count`, `question_count`, `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount, &result.QuestionCount, &result.AnswerCount)
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
+}
+
+// UpdateAnswerCount ...
+func (da *TableTypeUserStats) UpdateAnswerCount(queryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user_stats` SET `answer_count` = `answer_count` + ? WHERE `id` = ?", offset, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateDiscussionCount ...
@@ -41,5 +49,11 @@ func (da *TableTypeUserStats) UpdateDiscussionCount(queryable mingru.Queryable, 
 // UpdatePostCount ...
 func (da *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+// UpdateQuestionCount ...
+func (da *TableTypeUserStats) UpdateQuestionCount(queryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `user_stats` SET `question_count` = `question_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

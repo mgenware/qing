@@ -10,6 +10,8 @@ import likeTAs from './like/likeTAs';
 import discussionTA from './discussion/discussionTA';
 import discussionMsgTA from './discussion/discussionMsgTA';
 import homeTA from './home/homeTA';
+import questionTA from './qna/questionTA';
+import answerTA from './qna/answerTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -23,6 +25,8 @@ const actions: mm.TableActions[] = [
   discussionMsgTA,
   ...likeTAs,
   homeTA,
+  questionTA,
+  answerTA,
 ];
 
 export default actions;

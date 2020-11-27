@@ -10,10 +10,14 @@ function updateCounterAction(column: mm.Column): UpdateAction {
 }
 
 export class UserStatsTA extends mm.TableActions {
-  selectStats = mm.select(t.post_count, t.discussion_count).by(t.id);
+  selectStats = mm
+    .select(t.post_count, t.discussion_count, t.question_count, t.answer_count)
+    .by(t.id);
 
   updatePostCount = updateCounterAction(t.post_count);
   updateDiscussionCount = updateCounterAction(t.discussion_count);
+  updateQuestionCount = updateCounterAction(t.question_count);
+  updateAnswerCount = updateCounterAction(t.answer_count);
 }
 
 export default mm.tableActions(t, UserStatsTA);

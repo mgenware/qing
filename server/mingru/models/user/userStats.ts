@@ -11,6 +11,8 @@ export class UserStats extends mm.Table {
   // Stats.
   post_count = createCounterColumn();
   discussion_count = createCounterColumn();
+  question_count = createCounterColumn();
+  answer_count = createCounterColumn();
 }
 
 export default mm.table(UserStats);

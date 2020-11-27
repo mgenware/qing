@@ -11,6 +11,10 @@ import discussion from './discussion/discussion';
 import discussionCmt from './discussion/discussionCmt';
 import discussionMsg from './discussion/discussionMsg';
 import discussionMsgCmt from './discussion/discussionMsgCmt';
+import question from './qna/question';
+import questionCmt from './qna/questionCmt';
+import answer from './qna/answer';
+import answerCmt from './qna/answerCmt';
 
 const tables: mm.Table[] = [
   user,
@@ -25,6 +29,10 @@ const tables: mm.Table[] = [
   discussionCmt,
   discussionMsg,
   discussionMsgCmt,
+  question,
+  questionCmt,
+  answer,
+  answerCmt,
   ...likes.values(),
 ];
 export default tables;
