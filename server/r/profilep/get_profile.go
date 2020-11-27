@@ -69,6 +69,9 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageURLFormatter := &ProfilePageURLFormatter{ID: uid, Tab: tab}
 	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
 
+	if feedListHTML == "" {
+		feedListHTML = "<no-content-view></no-content-view>"
+	}
 	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, pageData)
 	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile

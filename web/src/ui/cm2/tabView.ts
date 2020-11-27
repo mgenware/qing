@@ -7,6 +7,10 @@ export class TabView extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         .bar {
           overflow-x: auto;
           border-bottom: 1px solid var(--default-separator-color);

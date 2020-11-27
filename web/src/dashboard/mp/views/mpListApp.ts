@@ -3,6 +3,7 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/cm/statusView';
 import 'ui/cm/sectionView';
+import 'ui/cm2/noContentView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './mpPageControl';
@@ -44,13 +45,17 @@ export abstract class MPListApp<T> extends BaseElement {
         @onRetry=${this.handleRetry}
       ></status-view>`;
     }
+
+    const hasItems = !!this.items.length;
     return html`
       <section-view type="info">${this.sectionHeader()}</section-view>
-      <div class="app-table-container m-t-md">
-        <table class="app-table">
-          ${this.renderTable()}
-        </table>
-      </div>
+      ${hasItems
+        ? html`<div class="app-table-container m-t-md">
+            <table class="app-table">
+              ${this.renderTable()}
+            </table>
+          </div>`
+        : html`<no-content-view></no-content-view>`}
       <hr />
       <mp-page-control
         .page=${this.page}
