@@ -31,7 +31,7 @@ const input = [
   'discussion/discussionEntry.ts',
   'profile/profileEntry.ts',
   'auth/authEntry.ts',
-  'index/indexEntry.ts',
+  'home/homeEntry.ts',
 ];
 
 export default {

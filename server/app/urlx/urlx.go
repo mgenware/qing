@@ -63,7 +63,7 @@ func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
 	return s
 }
 
-func (u *URL) IndexAdv(tab string, page int) string {
+func (u *URL) HomeAdv(tab string, page int) string {
 	s := "/"
 	qs := url.Values{}
 	if page > 1 {

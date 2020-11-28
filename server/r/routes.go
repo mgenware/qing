@@ -12,7 +12,7 @@ import (
 	"qing/r/api"
 	"qing/r/authp"
 	"qing/r/discussionp"
-	"qing/r/indexp"
+	"qing/r/homep"
 	"qing/r/mp"
 	"qing/r/postp"
 	"qing/r/profilep"
@@ -83,8 +83,8 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteAuth, authp.Router)
 	// API router
 	r.Mount("/"+defs.Constants.RouteApi, api.Router)
-	// Index page
-	r.Get("/", handler.HTMLHandlerToHTTPHandler(indexp.IndexHandler))
+	// Home page
+	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 
 	debugConfig := config.Debug
 	if debugConfig != nil {

@@ -21,6 +21,18 @@ type CmtData struct {
 	UserIconName string     `json:"-"`
 }
 
+// HomeItemInterface ...
+type HomeItemInterface struct {
+	ItemType     int        `json:"itemType,omitempty"`
+	ID           uint64     `json:"-"`
+	UserID       uint64     `json:"-"`
+	UserName     string     `json:"-"`
+	UserIconName string     `json:"-"`
+	Title        string     `json:"title,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+}
+
 // ReplyData ...
 type ReplyData struct {
 	ID           uint64     `json:"-"`
