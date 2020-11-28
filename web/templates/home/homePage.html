@@ -1,8 +1,8 @@
 <container-view>
   <tab-view>
-    <a href="/">{{html .LS.Home}}</a>
-    <a href="{{.HomePostsURL}}">{{html .LS.Posts}}</a>
-    <a href="{{.HomeDiscussionsURL}}">{{html .LS.Discussions}}</a>
+    <a id="m-home-tab-home" href="/">{{html .LS.Home}}</a>
+    <a id="m-home-tab-posts" href="{{.HomePostsURL}}">{{html .LS.Posts}}</a>
+    <a id="m-home-tab-discussions" href="{{.HomeDiscussionsURL}}">{{html .LS.Discussions}}</a>
   </tab-view>
 
   <div class="m-t-sm">{{.FeedListHTML}}</div>

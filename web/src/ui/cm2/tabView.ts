@@ -1,6 +1,8 @@
 import { customElement, css, html } from 'lit-element';
 import BaseElement from 'baseElement';
 
+export const tabViewActiveClass = 'tab-active';
+
 @customElement('tab-view')
 export class TabView extends BaseElement {
   static get styles() {

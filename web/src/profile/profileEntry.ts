@@ -3,11 +3,11 @@ import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'lit-element';
 import 'ui/cm/timeField';
 import 'ui/cm2/tabView';
+import { tabViewActiveClass } from 'ui/cm2/tabView';
 import 'ui/cm2/noContentView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 
 const defaultHighlightedTab = keyPosts;
-const highlightedTabClass = 'tab-active';
 
 const styles = css`
   .is-boxed {
@@ -41,6 +41,6 @@ ready(() => {
 
   // Highlight a tab in tab view.
   document
-    .getElementById(`m-profile-tab-${tab || defaultHighlightedTab}`)
-    ?.classList.add(highlightedTabClass);
+    .getElementById(`m-profile-tab-${tab ?? defaultHighlightedTab}`)
+    ?.classList.add(tabViewActiveClass);
 });
