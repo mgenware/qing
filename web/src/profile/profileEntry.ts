@@ -4,7 +4,7 @@ import { css } from 'lit-element';
 import 'ui/cm/timeField';
 import 'ui/cm2/tabView';
 import 'ui/cm2/noContentView';
-import { keyPosts } from 'sharedConstants';
+import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 
 const defaultHighlightedTab = keyPosts;
 const highlightedTabClass = 'tab-active';
@@ -32,9 +32,10 @@ injectStyles([styles]);
 
 ready(() => {
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get('tab');
-  if (tab) {
-    // Scroll to feed list tab if `tab` query string is present.
+  const tab = qs.get(keyTab);
+  const page = qs.get(keyPage);
+  // Scroll to feed list tab if `tab` or `page` are present.
+  if (tab || page) {
     setTimeout(() => document.getElementById('m-profile-posts')?.scrollIntoView(true), 500);
   }
 
