@@ -5,7 +5,6 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
-	"qing/r/rcm"
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profilePage.html")
@@ -19,12 +18,12 @@ type ProfilePageData struct {
 	UserURL         string
 	IconURL         string
 	FeedListHTML    string
-	PageData        *rcm.PageData
 	PostCount       uint
 	DiscussionCount uint
 
 	ProfilePostsURL       string
 	ProfileDiscussionsURL string
+	PageBarHTML           string
 }
 
 // ProfilePostItem is a data wrapper around PostTableSelectItemsForUserProfileResult.
@@ -42,7 +41,7 @@ type ProfileDiscussionItem struct {
 }
 
 // NewProfilePageDataFromUser creates a new ProfileData from profile DB result.
-func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageData *rcm.PageData) *ProfilePageData {
+func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageBarHTML string) *ProfilePageData {
 	d := &ProfilePageData{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
@@ -51,7 +50,7 @@ func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats 
 	d.PostCount = stats.PostCount
 	d.DiscussionCount = stats.DiscussionCount
 	d.FeedListHTML = feedHTML
-	d.PageData = pageData
+	d.PageBarHTML = pageBarHTML
 
 	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyPosts, 1)
 	d.ProfileDiscussionsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyDiscussions, 1)

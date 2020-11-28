@@ -72,7 +72,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if feedListHTML == "" {
 		feedListHTML = "<no-content-view></no-content-view>"
 	}
-	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, pageData)
+	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, rcm.GetPageBarHTML(pageData))
 	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)

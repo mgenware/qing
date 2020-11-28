@@ -54,17 +54,7 @@
         >
       </tab-view>
       <div class="m-t-sm">{{.FeedListHTML}}</div>
-      <!-- feed list -->
-      <div>
-        <p class="text-center">
-          <a id="m-prev-btn" class="link-btn" href="{{.PageData.PrevPageURL}}">
-            {{html .LS.PreviousPage}}
-          </a>
-          <a id="m-next-btn" class="link-btn" href="{{.PageData.NextPageURL}}">
-            {{html .LS.NextPage}}
-          </a>
-        </p>
-      </div>
+      {{.PageBarHTML}}
     </div>
     <div class="col-md-1"></div>
   </div>
@@ -75,6 +65,4 @@
   window.appUserURL = '{{js .UserURL}}';
   window.appTargetUID = '{{js .ID}}';
   window.appUserProfileURL = '{{js .Website}}';
-  window.appIsPrevEnabled = '{{js .PageData.HasPrevPage}}' === 'true';
-  window.appIsNextEnabled = '{{js .PageData.HasNextPage}}' === 'true';
 </script>

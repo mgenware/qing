@@ -5,18 +5,9 @@ import 'ui/cm/timeField';
 import 'ui/cm2/tabView';
 import 'ui/cm2/noContentView';
 import { keyPosts } from 'sharedConstants';
-import profileWind from './profileWind';
 
-const disabledCSS = 'content-disabled';
 const defaultHighlightedTab = keyPosts;
 const highlightedTabClass = 'tab-active';
-
-if (!profileWind.appIsPrevEnabled) {
-  document.getElementById('m-prev-btn')?.classList.add(disabledCSS);
-}
-if (!profileWind.appIsNextEnabled) {
-  document.getElementById('m-next-btn')?.classList.add(disabledCSS);
-}
 
 const styles = css`
   .is-boxed {
