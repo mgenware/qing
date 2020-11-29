@@ -1,6 +1,6 @@
 package config
 
-// LogConfig ...
-type LogConfig struct {
+// LoggingConfig ...
+type LoggingConfig struct {
 	Dir string `json:"dir" validate:"required"`
 }

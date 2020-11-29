@@ -4,7 +4,7 @@ export interface MasterWind {
   appUserName: string;
   appUserIconURL: string;
   appLang: string;
-  appForumMod: string;
+  appForumsMode: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

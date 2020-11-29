@@ -15,7 +15,7 @@ type MasterPageData struct {
 	AppUserURL     string
 	AppUserIconURL string
 	AppLang        string
-	AppForumMode   bool
+	AppForumsMode  bool
 }
 
 // NewMasterPageData creates a new MasterPageData.

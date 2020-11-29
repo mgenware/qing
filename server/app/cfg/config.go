@@ -24,7 +24,7 @@ type Config struct {
 	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
 	Debug *config.DebugConfig `json:"debug"`
 	// Log config data.
-	Log *config.LogConfig `json:"log" validate:"required"`
+	Log *config.LoggingConfig `json:"logging" validate:"required"`
 	// HTTP config data.
 	HTTP *config.HTTPConfig `json:"http" validate:"required"`
 	// Templates config data.
@@ -34,8 +34,8 @@ type Config struct {
 
 	AppProfile *config.AppProfileConfig `json:"app_profile" validate:"required"`
 
-	DBConnString string                  `json:"db_conn_string" validate:"required"`
-	ResServer    *config.ResServerConfig `json:"res_server" validate:"required"`
+	DBConfig  *config.DBConfig        `json:"db" validate:"required"`
+	ResServer *config.ResServerConfig `json:"res_server" validate:"required"`
 	// Extern config data.
 	Extern *config.ExternConfig `json:"extern" validate:"required"`
 }
