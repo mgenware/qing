@@ -85,7 +85,7 @@
       "type": "object",
       "properties": {
         "redis": {
-          "type": "string",
+          "type": "object",
           "properties": {
             "port": {
               "type": "number",

@@ -110,23 +110,23 @@ func readConfigCore(absFile string) (*Config, error) {
 // MustReadConfig constructs a config object from the given file.
 func MustReadConfig(file string) *Config {
 	absFile := mustGetAbsPath(file)
-	mustValidateConfig(absFile)
 	config, err := readConfigCore(absFile)
 	if err != nil {
 		panic(err)
 	}
+
+	mustValidateConfig(config)
 	config.mustCoerceConfig()
 	return config
 }
 
-func mustValidateConfig(absFile string) {
+func mustValidateConfig(config *Config) {
 	// Validate with JSON schema.
 	schemaFilePath := toFileURI(mustGetAbsPath(filepath.Join(configDir, schemaFileName)))
-	absFile = toFileURI(absFile)
-	log.Printf("🚙 Validate config \"%v\" against schema \"%v\"", absFile, schemaFilePath)
+	log.Printf("🚙 Validate config against schema \"%v\"", schemaFilePath)
 
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
-	documentLoader := gojsonschema.NewReferenceLoader(absFile)
+	documentLoader := gojsonschema.NewGoLoader(config)
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
@@ -190,5 +190,9 @@ func mustCoercePath(p *string) {
 }
 
 func toFileURI(path string) string {
-	return "file://" + path
+	prefix := "file://"
+	if runtime.GOOS == "windows" {
+		prefix += "/"
+	}
+	return prefix + path
 }

@@ -11,10 +11,12 @@
   "templates": {
     "dir": "../web/templates"
   },
-  "log": {
+  "logging": {
     "dir": "../appdata/log/dev"
   },
-  "db_conn_string": "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true",
+  "db": {
+    "conn_string": "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
+  },
   "res_server": {
     "url": "/res",
     "dir": "../appdata/res_server"
