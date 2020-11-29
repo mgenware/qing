@@ -12,6 +12,7 @@ import discussionMsgTA from './discussion/discussionMsgTA';
 import homeTA from './home/homeTA';
 import questionTA from './qna/questionTA';
 import answerTA from './qna/answerTA';
+import forumGroupTA from './forum/forumGroupTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -27,6 +28,7 @@ const actions: mm.TableActions[] = [
   homeTA,
   questionTA,
   answerTA,
+  forumGroupTA,
 ];
 
 export default actions;

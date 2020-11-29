@@ -27,6 +27,8 @@
   "entityQuestion": 5,
   "entityDiscussionMsg": 6,
   "entityAnswer": 7,
+  "entityForumDiscussion": 8,
+  "entityForumQuestion": 9,
   "errGeneric": 10000,
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,

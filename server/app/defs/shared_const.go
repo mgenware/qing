@@ -16,6 +16,8 @@ type SharedConstants struct {
 	EntityCmt int
 	EntityDiscussion int
 	EntityDiscussionMsg int
+	EntityForumDiscussion int
+	EntityForumQuestion int
 	EntityPost int
 	EntityQuestion int
 	EntityReply int
@@ -61,6 +63,8 @@ func init() {
 		EntityCmt: 2,
 		EntityDiscussion: 4,
 		EntityDiscussionMsg: 6,
+		EntityForumDiscussion: 8,
+		EntityForumQuestion: 9,
 		EntityPost: 1,
 		EntityQuestion: 5,
 		EntityReply: 3,

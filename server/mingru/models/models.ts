@@ -15,6 +15,7 @@ import question from './qna/question';
 import questionCmt from './qna/questionCmt';
 import answer from './qna/answer';
 import answerCmt from './qna/answerCmt';
+import forumGroup from './forum/forumGroup';
 
 const tables: mm.Table[] = [
   user,
@@ -34,5 +35,6 @@ const tables: mm.Table[] = [
   answer,
   answerCmt,
   ...likes.values(),
+  forumGroup,
 ];
 export default tables;
