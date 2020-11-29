@@ -2,6 +2,7 @@ package cfg
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -12,8 +13,16 @@ import (
 
 	"github.com/imdario/mergo"
 	"github.com/mgenware/go-packagex/v5/iox"
-	"gopkg.in/go-playground/validator.v9"
+	"github.com/xeipuuv/gojsonschema"
 )
+
+const configDir = "./config/"
+const schemaFileName = "config.schema.json"
+
+// GetDefaultConfigFilePath returns a config file path in default app config dir.
+func GetDefaultConfigFilePath(name string) string {
+	return filepath.Join(configDir, name)
+}
 
 // Config is the root configuration type for your application.
 type Config struct {
@@ -24,20 +33,20 @@ type Config struct {
 	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
 	Debug *config.DebugConfig `json:"debug"`
 	// Log config data.
-	Log *config.LoggingConfig `json:"logging" validate:"required"`
+	Log *config.LoggingConfig `json:"logging"`
 	// HTTP config data.
-	HTTP *config.HTTPConfig `json:"http" validate:"required"`
+	HTTP *config.HTTPConfig `json:"http"`
 	// Templates config data.
-	Templates *config.TemplatesConfig `json:"templates" validate:"required"`
+	Templates *config.TemplatesConfig `json:"templates"`
 	// Localization config data.
-	Localization *config.LocalizationConfig `json:"localization" validate:"required"`
+	Localization *config.LocalizationConfig `json:"localization"`
 
-	AppProfile *config.AppProfileConfig `json:"app_profile" validate:"required"`
+	AppProfile *config.AppProfileConfig `json:"app_profile"`
 
-	DBConfig  *config.DBConfig        `json:"db" validate:"required"`
-	ResServer *config.ResServerConfig `json:"res_server" validate:"required"`
+	DB        *config.DBConfig        `json:"db"`
+	ResServer *config.ResServerConfig `json:"res_server"`
 	// Extern config data.
-	Extern *config.ExternConfig `json:"extern" validate:"required"`
+	Extern *config.ExternConfig `json:"extern"`
 }
 
 // DevMode checks if debug config field is on.
@@ -45,11 +54,11 @@ func (config *Config) DevMode() bool {
 	return config.Debug != nil
 }
 
-func readConfigCore(file string) (*Config, error) {
-	log.Printf("🚙 Loading config at \"%v\"", file)
+func readConfigCore(absFile string) (*Config, error) {
+	log.Printf("🚙 Loading config at \"%v\"", absFile)
 	var config Config
 
-	bytes, err := ioutil.ReadFile(file)
+	bytes, err := ioutil.ReadFile(absFile)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +71,7 @@ func readConfigCore(file string) (*Config, error) {
 	if config.Extends != "" {
 		extendsFile := config.Extends
 		if !filepath.IsAbs(extendsFile) {
-			abs, err := filepath.Abs(file)
+			abs, err := filepath.Abs(absFile)
 			if err != nil {
 				return nil, err
 			}
@@ -84,8 +93,8 @@ func readConfigCore(file string) (*Config, error) {
 		osName = "macos"
 	}
 	// /a/b.json -> /a/b_linux.json
-	ext := filepath.Ext(file)
-	osConfFile := strings.TrimSuffix(file, ext) + "_" + osName + ext
+	ext := filepath.Ext(absFile)
+	osConfFile := strings.TrimSuffix(absFile, ext) + "_" + osName + ext
 	if iox.IsFile(osConfFile) {
 		osConfig, err := readConfigCore(osConfFile)
 		if err != nil {
@@ -98,27 +107,42 @@ func readConfigCore(file string) (*Config, error) {
 	return &config, nil
 }
 
-// ReadConfig constructs a config object from the given file.
-func ReadConfig(file string) (*Config, error) {
-	config, err := readConfigCore(file)
+// MustReadConfig constructs a config object from the given file.
+func MustReadConfig(file string) *Config {
+	absFile := mustGetAbsPath(file)
+	mustValidateConfig(absFile)
+	config, err := readConfigCore(absFile)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	err = config.validateAndCoerce()
-	if err != nil {
-		return nil, err
-	}
-	return config, nil
+	config.mustCoerceConfig()
+	return config
 }
 
-func (config *Config) validateAndCoerce() error {
-	// Validate
-	validate := validator.New()
-	err := validate.Struct(config)
+func mustValidateConfig(absFile string) {
+	// Validate with JSON schema.
+	schemaFilePath := toFileURI(mustGetAbsPath(filepath.Join(configDir, schemaFileName)))
+	absFile = toFileURI(absFile)
+	log.Printf("🚙 Validate config \"%v\" against schema \"%v\"", absFile, schemaFilePath)
+
+	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
+	documentLoader := gojsonschema.NewReferenceLoader(absFile)
+
+	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
-		panic(fmt.Errorf("Config validation failed, %v", err.Error()))
+		panic(err)
 	}
 
+	if !result.Valid() {
+		fmt.Printf("Config file validation error:\n")
+		for _, desc := range result.Errors() {
+			fmt.Printf("- %s\n", desc)
+		}
+		panic(errors.New("Config file validation failed"))
+	}
+}
+
+func (config *Config) mustCoerceConfig() {
 	// AppProfile
 	appProfileConfig := config.AppProfile
 	mustCoercePath(&appProfileConfig.Dir)
@@ -141,19 +165,30 @@ func (config *Config) validateAndCoerce() error {
 	// Res
 	resConfig := config.ResServer
 	mustCoercePath(&resConfig.Dir)
-	return nil
+}
+
+func mustGetAbsPath(p string) string {
+	if p == "" {
+		return p
+	}
+	if filepath.IsAbs(p) {
+		return p
+	}
+	res, err := filepath.Abs(p)
+	if err != nil {
+		panic(err)
+	}
+	return res
 }
 
 func mustCoercePath(p *string) {
 	if p == nil {
 		return
 	}
-	if filepath.IsAbs(*p) {
-		return
-	}
-	res, err := filepath.Abs(*p)
-	if err != nil {
-		panic(err)
-	}
-	*p = res
+	absPath := mustGetAbsPath(*p)
+	*p = absPath
+}
+
+func toFileURI(path string) string {
+	return "file://" + path
 }

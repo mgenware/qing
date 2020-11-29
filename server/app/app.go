@@ -98,7 +98,7 @@ func mustSetupConfig() {
 		// If --config is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
 		userArgs := os.Args[1:]
 		if len(userArgs) >= 1 {
-			configPath = fmt.Sprintf("./config/%v.json", userArgs[0])
+			configPath = cfg.GetDefaultConfigFilePath(userArgs[0] + ".json")
 		} else {
 			flag.PrintDefaults()
 			os.Exit(1)
@@ -106,10 +106,7 @@ func mustSetupConfig() {
 	}
 
 	// Read config file
-	config, err := cfg.ReadConfig(configPath)
-	if err != nil {
-		panic(fmt.Errorf("Error reading config file, %v", err))
-	}
+	config := cfg.MustReadConfig(configPath)
 
 	log.Printf("✅ Loaded config at \"%v\"", configPath)
 	if config.DevMode() {
@@ -145,10 +142,10 @@ func mustSetupTemplates(config *cfg.Config) {
 }
 
 func mustSetupDB() {
-	if Config.DBConnString == "" {
+	if Config.DB.ConnString == "" {
 		panic("Empty DBConnString in config")
 	}
-	conn, err := sql.Open("mysql", Config.DBConnString)
+	conn, err := sql.Open("mysql", Config.DB.ConnString)
 	if err != nil {
 		panic(err)
 	}

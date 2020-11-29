@@ -1,4 +1,6 @@
 {
+  "$schema": "http://json-schema.org/schema#",
+  "title": "qing-config-file-schema",
   "type": "object",
   "definitions": {
     "setup_config": {
