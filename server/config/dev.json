@@ -29,5 +29,8 @@
   },
   "app_profile": {
     "dir": "../appdata/app_profile.json"
+  },
+  "setup": {
+    "forums_mode": true
   }
 }

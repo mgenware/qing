@@ -5,13 +5,14 @@ export class User extends mm.Table {
   email = mm.varChar(255).unique;
   name = mm.varChar(255);
   icon_name = mm.varChar(255).default('');
-  created_time = mm.datetime('utc');
+  created_at = mm.datetime('utc');
 
   company = mm.varChar(100).default('');
   website = mm.varChar(100).default('');
   location = mm.varChar(100).default('');
-
   bio = mm.text().nullable.default(null);
+
+  admin = mm.bool().default(false);
 }
 
 export default mm.table(User);

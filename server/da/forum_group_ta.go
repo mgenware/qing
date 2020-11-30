@@ -26,6 +26,12 @@ func (da *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
+// InsertGroup ...
+func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, desc string) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `created_at`, `desc_modified_at`, `child_count`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", name, desc)
+	return mingru.GetLastInsertIDUint64WithError(result, err)
+}
+
 // ForumGroupTableSelectGroupResult ...
 type ForumGroupTableSelectGroupResult struct {
 	ID             uint64     `json:"ID,omitempty"`
@@ -46,14 +52,8 @@ func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64
 	return result, nil
 }
 
-// UpdateDesc ...
-func (da *TableTypeForumGroup) UpdateDesc(queryable mingru.Queryable, id uint64, desc string) error {
-	result, err := queryable.Exec("UPDATE `forum_group` SET `desc` = ?, `desc_modified_at` = UTC_TIMESTAMP() WHERE `id` = ?", desc, id)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-// UpdateName ...
-func (da *TableTypeForumGroup) UpdateName(queryable mingru.Queryable, id uint64, name string) error {
-	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ? WHERE `id` = ?", name, id)
+// UpdateInfo ...
+func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, desc string) error {
+	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ?, `desc_modified_at` = UTC_TIMESTAMP() WHERE `id` = ?", name, desc, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

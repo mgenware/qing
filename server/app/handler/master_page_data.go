@@ -14,6 +14,7 @@ type MasterPageData struct {
 	AppUserName    string
 	AppUserURL     string
 	AppUserIconURL string
+	AppRootUser    bool
 	AppLang        string
 	AppForumsMode  bool
 }

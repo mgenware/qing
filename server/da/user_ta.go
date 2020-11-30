@@ -18,7 +18,7 @@ var User = &TableTypeUser{}
 
 // AddUserEntryInternal ...
 func (da *TableTypeUser) AddUserEntryInternal(queryable mingru.Queryable, email string, name string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_time`, `company`, `website`, `location`, `bio`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL)", email, name)
+	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `admin`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL, 0)", email, name)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
