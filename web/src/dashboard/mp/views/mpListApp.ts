@@ -48,7 +48,7 @@ export abstract class MPListApp<T> extends BaseElement {
 
     const hasItems = !!this.items.length;
     return html`
-      <section-view sectionStyle="warning">${this.sectionHeader()}</section-view>
+      <section-view sectionStyle="info">${this.sectionHeader()}</section-view>
       ${hasItems
         ? html`<div class="app-table-container m-t-md">
             <table class="app-table">
