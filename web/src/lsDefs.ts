@@ -111,4 +111,7 @@ export default interface LSDefs {
   discussions: string;
   msgs: string;
   home: string;
+  adminAccounts: string;
+  featureOnlyAvailableToAdmins: string;
+  usersAndGroups: string;
 }

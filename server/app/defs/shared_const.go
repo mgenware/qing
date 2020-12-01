@@ -34,6 +34,7 @@ type SharedConstants struct {
 	KeyPageSize string
 	KeyPosts string
 	KeyTab string
+	KeyValue string
 	MaxCaptchaLen int
 	MaxGenericStringLen int
 	MaxPostTitleLen int
@@ -83,6 +84,7 @@ func init() {
 		KeyPageSize: "pageSize",
 		KeyPosts: "posts",
 		KeyTab: "tab",
+		KeyValue: "value",
 		MaxCaptchaLen: 10,
 		MaxGenericStringLen: 100,
 		MaxPostTitleLen: 200,

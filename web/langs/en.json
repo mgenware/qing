@@ -110,5 +110,8 @@
   "send": "Send",
   "discussions": "Discussions",
   "msgs": "Messages",
-  "home": "Home"
+  "home": "Home",
+  "adminAccounts": "Admin accounts",
+  "featureOnlyAvailableToAdmins": "This section is only available for admin accounts",
+  "usersAndGroups": "Users and groups"
 }

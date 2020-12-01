@@ -11,6 +11,7 @@ export default buildTree({
     yourQuestion: 'your-questions',
     settings: {
       profile: 'profile',
+      usersAndGroups: 'users-n-groups',
     },
   },
   s: {

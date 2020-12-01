@@ -110,5 +110,8 @@
   "send": "发送",
   "discussions": "讨论",
   "msgs": "消息",
-  "home": "主页"
+  "home": "主页",
+  "adminAccounts": "管理员账号",
+  "featureOnlyAvailableToAdmins": "此特性只有管理员账号可见",
+  "usersAndGroups": "用户和组"
 }

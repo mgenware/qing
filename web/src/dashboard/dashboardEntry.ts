@@ -3,8 +3,9 @@ import ls from 'ls';
 import rs from 'routes';
 import app from 'app';
 import './settings/settingsBaseView';
-import 'post/setPostApp';
 import './settings/profile/editProfileApp';
+import './settings/userMgr/userMgrApp';
+import 'post/setPostApp';
 import './mp/myPostsApp';
 import './mp/myDiscussionsApp';
 import { entityPost, entityQuestion, entityDiscussion } from 'sharedConstants';
@@ -64,6 +65,9 @@ dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
 });
 dashboardRouter.register(rs.home.settings.profile, () => {
   loadSettingsContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
+});
+dashboardRouter.register(rs.home.settings.usersAndGroups, () => {
+  loadSettingsContent(ls.editProfile, html` <user-mgr-app></user-mgr-app> `);
 });
 dashboardRouter.register(rs.home.yourPosts, () => {
   app.page.reloadPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);

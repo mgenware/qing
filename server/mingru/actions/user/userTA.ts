@@ -8,7 +8,7 @@ export class UserTA extends mm.TableActions {
   selectProfile = mm
     .select(t.id.privateAttr(), t.name, t.icon_name, t.location, t.company, t.website, t.bio)
     .by(t.id);
-  selectSessionData = mm.select(t.id, t.name, t.icon_name).by(t.id);
+  selectSessionData = mm.select(t.id, t.name, t.icon_name, t.admin).by(t.id);
   selectEditingData = mm
     .select(
       t.id.privateAttr(),
@@ -25,8 +25,8 @@ export class UserTA extends mm.TableActions {
 
   updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
-
   updateBio = mm.updateOne().setInputs(t.bio).by(t.id);
+  unsafeUpdateAdmin = mm.updateOne().setInputs(t.admin).by(t.id);
 
   private addUserEntryInternal = mm.insertOne().setDefaults().setInputs();
   private addUserStatsEntryInternal = mm.insertOne().from(userStats).setDefaults().setInputs();

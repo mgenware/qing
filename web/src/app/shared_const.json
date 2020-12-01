@@ -40,5 +40,6 @@
   "keyAnswers": "answers",
   "keyPage": "page",
   "keyPageSize": "pageSize",
-  "keyTab": "tab"
+  "keyTab": "tab",
+  "keyValue": "value"
 }

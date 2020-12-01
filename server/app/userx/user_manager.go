@@ -11,6 +11,7 @@ import (
 	"qing/da"
 )
 
+// UserManager manages user sessions.
 type UserManager struct {
 	SessionManager  *SessionManager
 	TemplateManager *handler.Manager
@@ -20,6 +21,7 @@ type UserManager struct {
 	debugConfig *config.DebugConfig
 }
 
+// NewUserManager creates a new UserManager.
 func NewUserManager(
 	db *sql.DB,
 	ssMgr *SessionManager,
@@ -31,16 +33,18 @@ func NewUserManager(
 	return ret
 }
 
+// CreateUserSessionFromUID creates a cm.User from the given uid.
 func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*cm.User, error) {
 	dbUser, err := da.User.SelectSessionData(appu.DB, uid)
 	if err != nil {
 		return nil, err
 	}
-	user := appu.SessionManager.NewUser(uid, dbUser.Name, dbUser.IconName)
+	user := appu.SessionManager.NewUser(uid, dbUser.Name, dbUser.IconName, dbUser.Admin)
 	return user, nil
 }
 
-func (appu *UserManager) EnsureLoggedInMWHTML(next http.Handler) http.Handler {
+// RequireLoginMiddlewareHTML is a middleware that requires login. Otherwise, redirects the user to sign in page.
+func (appu *UserManager) RequireLoginMiddlewareHTML(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		user := cm.ContextUser(ctx)
@@ -52,7 +56,22 @@ func (appu *UserManager) EnsureLoggedInMWHTML(next http.Handler) http.Handler {
 	})
 }
 
-func (appu *UserManager) EnsureLoggedInMWJSON(next http.Handler) http.Handler {
+// RequireLoginMiddlewareJSON is a middleware that requires login. Otherwise, returns NeedAuth error code.
+func (appu *UserManager) RequireLoginMiddlewareJSON(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := r.Context()
+		user := cm.ContextUser(ctx)
+		if user != nil {
+			next.ServeHTTP(w, r.WithContext(ctx))
+		} else {
+			resp := handler.NewJSONResponse(r, appu.TemplateManager, w)
+			resp.MustFailWithCode(defs.Constants.ErrNeedAuth)
+		}
+	})
+}
+
+// UnsafeRequireAdminMiddlewareJSON must be called after RequireLoginMiddlewareJSON, it makes sure only admins have access to the underlying handlers.
+func (appu *UserManager) UnsafeRequireAdminMiddlewareJSON(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		user := cm.ContextUser(ctx)

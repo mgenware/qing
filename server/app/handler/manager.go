@@ -145,6 +145,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 		d.AppUserName = user.Name
 		d.AppUserIconURL = user.IconURL
 		d.AppUserURL = user.URL
+		d.AppUserAdmin = user.Admin
 	}
 
 	m.masterView.MustExecute(lang, w, d)

@@ -47,3 +47,4 @@ export const keyAnswers = "answers";
 export const keyPage = "page";
 export const keyPageSize = "pageSize";
 export const keyTab = "tab";
+export const keyValue = "value";

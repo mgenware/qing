@@ -10,7 +10,7 @@ import (
 var Router = handler.NewHTMLRouter()
 
 func init() {
-	Router.Core.Use(app.UserManager.EnsureLoggedInMWHTML)
+	Router.Core.Use(app.UserManager.RequireLoginMiddlewareHTML)
 	Router.Get("/*", genericGET)
 }
 

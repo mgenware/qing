@@ -60,55 +60,51 @@ export class EditProfileApp extends BaseElement {
 
   renderContent() {
     return html`
+      <section-view type="info">${ls.profilePicture}</section-view>
       <div>
-        <section-view type="info">${ls.profilePicture}</section-view>
-        <div>
-          <p>
-            <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
-          </p>
-          <div class="m-t-md">
-            <avatar-uploader @onUpdated=${this.handleAvatarUploaded}></avatar-uploader>
-          </div>
+        <p>
+          <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
+        </p>
+        <div class="m-t-md">
+          <avatar-uploader @onUpdated=${this.handleAvatarUploaded}></avatar-uploader>
         </div>
-        <status-overlay .status=${this.updateInfoStatus}>
-          <div class="form">
-            <section-view type="info">${ls.profile}</section-view>
-            <div>
-              <input-view
-                required
-                label=${ls.name}
-                value=${this.name}
-                @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
-              ></input-view>
-
-              <input-view
-                required
-                label=${ls.url}
-                value=${this.url}
-                @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
-              ></input-view>
-
-              <input-view
-                required
-                label=${ls.company}
-                value=${this.company}
-                @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
-              ></input-view>
-
-              <input-view
-                required
-                label=${ls.location}
-                value=${this.location}
-                @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
-              ></input-view>
-
-              <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
-                ${ls.save}
-              </qing-button>
-            </div>
-          </div>
-        </status-overlay>
       </div>
+      <status-overlay .status=${this.updateInfoStatus}>
+        <section-view type="info">${ls.profile}</section-view>
+        <div>
+          <input-view
+            required
+            label=${ls.name}
+            value=${this.name}
+            @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
+          ></input-view>
+
+          <input-view
+            required
+            label=${ls.url}
+            value=${this.url}
+            @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
+          ></input-view>
+
+          <input-view
+            required
+            label=${ls.company}
+            value=${this.company}
+            @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
+          ></input-view>
+
+          <input-view
+            required
+            label=${ls.location}
+            value=${this.location}
+            @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
+          ></input-view>
+
+          <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
+            ${ls.save}
+          </qing-button>
+        </div>
+      </status-overlay>
     `;
   }
 

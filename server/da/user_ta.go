@@ -95,16 +95,23 @@ type UserTableSelectSessionDataResult struct {
 	ID       uint64 `json:"ID,omitempty"`
 	Name     string `json:"name,omitempty"`
 	IconName string `json:"iconName,omitempty"`
+	Admin    bool   `json:"admin,omitempty"`
 }
 
 // SelectSessionData ...
 func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
 	result := &UserTableSelectSessionDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin)
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
+}
+
+// UnsafeUpdateAdmin ...
+func (da *TableTypeUser) UnsafeUpdateAdmin(queryable mingru.Queryable, id uint64, admin bool) error {
+	result, err := queryable.Exec("UPDATE `user` SET `admin` = ? WHERE `id` = ?", admin, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateBio ...

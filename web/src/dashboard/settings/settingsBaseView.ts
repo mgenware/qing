@@ -2,6 +2,7 @@ import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import ls from 'ls';
 import rs from 'routes';
+import masterWind from 'app/masterWind';
 
 @customElement('settings-base-view')
 export class SettingsBaseView extends BaseElement {
@@ -14,6 +15,9 @@ export class SettingsBaseView extends BaseElement {
             <ul class="menu-list">
               <li>
                 <a href=${rs.home.settings.profile}>${ls.profile}</a>
+                ${masterWind.appUserAdmin
+                  ? html`<a href=${rs.home.settings.usersAndGroups}>${ls.usersAndGroups}</a>`
+                  : ''}
               </li>
             </ul>
           </aside>

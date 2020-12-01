@@ -16,7 +16,7 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Core.Use(app.UserManager.EnsureLoggedInMWJSON)
+	Router.Core.Use(app.UserManager.RequireLoginMiddlewareJSON)
 	Router.Core.Use(middleware.ParseJSONRequest)
 
 	Router.Mount("/compose", composeapi.Router)

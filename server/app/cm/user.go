@@ -7,6 +7,7 @@ type User struct {
 	ID       uint64 `json:"id"`
 	Name     string `json:"name"`
 	IconName string `json:"icon"`
+	Admin    bool   `json:"admin"`
 
 	// Generated props when deserialized
 	URL     string `json:"-"`
