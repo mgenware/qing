@@ -36,6 +36,10 @@
         </p>
         <p class="m-t-sm">{{.Bio}}</p>
         {{end}}
+        <p class="m-t-md">
+          <tag-view class="__qing_ls">userID</tag-view>
+        </p>
+        <p class="m-t-sm"><profile-id-view value="{{.EID}}"></profile-id-view></p>
       </div>
     </div>
     <!-- column 2 -->
@@ -63,6 +67,6 @@
 
 <script>
   window.appProfileURL = '{{js .UserURL}}';
-  window.appProfileUID = '{{js .ID}}';
+  window.appProfileEID = '{{js .EID}}';
   window.appProfileWebsite = '{{js .Website}}';
 </script>

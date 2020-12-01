@@ -103,6 +103,17 @@ hr {
 }
 
 /* qing-button ------------------------- */
+qing-button.small::part(button) {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+qing-button.large::part(button) {
+  font-size: 1.25rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
 qing-button::part(button) {
   background-color: var(--info-back-color);
   color: var(--info-fore-color);

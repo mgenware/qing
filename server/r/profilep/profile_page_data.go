@@ -5,6 +5,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/validator"
 )
 
 var vProfilePage = app.TemplateManager.MustParseLocalizedView("/profile/profilePage.html")
@@ -15,6 +16,7 @@ type ProfilePageData struct {
 	da.UserTableSelectProfileResult
 	handler.LocalizedTemplateData
 
+	EID             string
 	UserURL         string
 	IconURL         string
 	FeedListHTML    string
@@ -45,6 +47,7 @@ func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats 
 	d := &ProfilePageData{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
+	d.EID = validator.EncodeID(uid)
 	d.IconURL = app.URL.UserIconURL250(uid, profile.IconName)
 	d.UserURL = app.URL.UserProfile(uid)
 	d.PostCount = stats.PostCount

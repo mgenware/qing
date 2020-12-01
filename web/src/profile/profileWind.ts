@@ -1,6 +1,6 @@
 export interface ProfileWind {
   appProfileURL: string;
-  appProfileUID: string;
+  appProfileEID: string;
   appProfileWebsite: string;
 }
 

@@ -29,6 +29,8 @@ type Dictionary struct {
 	Company                      string `json:"company"`
 	ConfirmPassword              string `json:"confirmPassword"`
 	Content                      string `json:"content"`
+	Copied                       string `json:"copied"`
+	Copy                         string `json:"copy"`
 	Copyright                    string `json:"copyright"`
 	CreateAnAcc                  string `json:"createAnAcc"`
 	DateCreated                  string `json:"dateCreated"`
@@ -119,6 +121,7 @@ type Dictionary struct {
 	UploadProfileImgDesc         string `json:"uploadProfileImgDesc"`
 	Uploading                    string `json:"uploading"`
 	Url                          string `json:"url"`
+	UserId                       string `json:"userID"`
 	UsersAndGroups               string `json:"usersAndGroups"`
 	Warning                      string `json:"warning"`
 	Working                      string `json:"working"`

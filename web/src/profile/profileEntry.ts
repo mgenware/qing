@@ -8,6 +8,7 @@ import 'ui/cm2/noContentView';
 import 'ui/cm/tagView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 import profileWind from './profileWind';
+import './views/profileIDView';
 
 const defaultHighlightedTab = keyPosts;
 
