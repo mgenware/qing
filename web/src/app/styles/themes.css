@@ -162,19 +162,65 @@ alert-view[alertStyle='warning'] {
 }
 
 /* tag-view ------------------------- */
+tag-view {
+  --background-color: var(--info-back-color);
+  --color: var(--info-fore-color);
+}
 tag-view[tagStyle='success'] {
-  --tag-background-color: var(--success-back-color);
-  --tag-color: var(--success-fore-color);
+  --background-color: var(--success-back-color);
+  --color: var(--success-fore-color);
 }
 tag-view[tagStyle='danger'] {
-  --tag-background-color: var(--danger-back-color);
-  --tag-color: var(--danger-fore-color);
+  --background-color: var(--danger-back-color);
+  --color: var(--danger-fore-color);
 }
 tag-view[tagStyle='primary'] {
-  --tag-background-color: var(--primary-back-color);
-  --tag-color: var(--primary-fore-color);
+  --background-color: var(--primary-back-color);
+  --color: var(--primary-fore-color);
 }
 tag-view[tagStyle='warning'] {
-  --tag-background-color: var(--warning-back-color);
-  --tag-color: var(--warning-fore-color);
+  --background-color: var(--warning-back-color);
+  --color: var(--warning-fore-color);
+}
+
+/* section-view ------------------------- */
+section-view[sectionStyle='success'] {
+  --color: var(--success-fore-color);
+  --background-color: var(--success-back-color);
+}
+section-view[sectionStyle='danger'] {
+  --color: var(--danger-fore-color);
+  --background-color: var(--danger-back-color);
+}
+section-view[sectionStyle='primary'] {
+  --color: var(--primary-fore-color);
+  --background-color: var(--primary-back-color);
+}
+section-view[sectionStyle='warning'] {
+  --color: var(--warning-fore-color);
+  --background-color: var(--warning-back-color);
+}
+section-view[sectionStyle='info'] {
+  --color: var(--info-fore-color);
+  --background-color: var(--info-back-color);
+}
+
+/* svg-icon ------------------------- */
+svg-icon {
+  --fill: var(--default-back-color);
+}
+svg-icon[iconStyle='success'] {
+  --fill: var(--success-back-color);
+}
+svg-icon[iconStyle='danger'] {
+  --fill: var(--danger-back-color);
+}
+svg-icon[iconStyle='primary'] {
+  --fill: var(--primary-back-color);
+}
+svg-icon[iconStyle='warning'] {
+  --fill: var(--warning-back-color);
+}
+svg-icon[iconStyle='info'] {
+  --fill: var(--info-back-color);
 }

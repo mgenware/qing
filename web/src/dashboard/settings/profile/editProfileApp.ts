@@ -60,7 +60,7 @@ export class EditProfileApp extends BaseElement {
 
   renderContent() {
     return html`
-      <section-view type="info">${ls.profilePicture}</section-view>
+      <section-view sectionStyle="warning">${ls.profilePicture}</section-view>
       <div>
         <p>
           <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
@@ -70,7 +70,7 @@ export class EditProfileApp extends BaseElement {
         </div>
       </div>
       <status-overlay .status=${this.updateInfoStatus}>
-        <section-view type="info">${ls.profile}</section-view>
+        <section-view sectionStyle="warning">${ls.profile}</section-view>
         <div>
           <input-view
             required

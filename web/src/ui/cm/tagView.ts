@@ -16,8 +16,8 @@ export class TagView extends BaseElement {
           line-height: 1.3;
           border: 1px solid transparent;
           border-radius: 4px;
-          color: var(--tag-color);
-          background-color: var(--tag-background-color);
+          color: var(--color);
+          background-color: var(--background-color);
         }
       `,
     ];

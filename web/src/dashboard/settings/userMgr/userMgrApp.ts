@@ -6,6 +6,7 @@ import ls from 'ls';
 // Views.
 import 'ui/cm/sectionView';
 import 'ui/cm/statusOverlay';
+import 'ui/cm/tagView';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {
@@ -25,8 +26,10 @@ export class UserMgrApp extends BaseElement {
   render() {
     return html`
       <status-overlay .status=${this.adminSectionStatus}>
-        <section-view type="info">${ls.adminAccounts}</section-view>
-        <section-view type="warning">${ls.featureOnlyAvailableToAdmins}</section-view>
+        <section-view sectionStyle="info">
+          <span>${ls.adminAccounts}</span>
+          <tag-view tagStyle="warning">${ls.featureOnlyAvailableToAdmins}</tag-view>
+        </section-view>
       </status-overlay>
     `;
   }

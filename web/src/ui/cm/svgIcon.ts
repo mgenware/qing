@@ -4,13 +4,15 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import { resizeSVGHTML } from 'lib/htmlLib';
+import { AppViewStyleNullable } from './types/appViewStyle';
 
 @customElement('svg-icon')
 export class SvgIcon extends BaseElement {
   @lp.string src = '';
-  @lp.string iconClass = '';
+  @lp.string iconStyle: AppViewStyleNullable = '';
   @lp.number width = 0;
   @lp.number height = 0;
+
   @lp.string private svgHTML = '';
 
   static get styles() {
@@ -18,24 +20,8 @@ export class SvgIcon extends BaseElement {
     return [
       super.styles,
       css`
-        .svg-is-success svg {
-          fill: var(--success-back-color);
-        }
-
-        .svg-is-danger svg {
-          fill: var(--danger-back-color);
-        }
-
-        .svg-is-primary svg {
-          fill: var(--primary-back-color);
-        }
-
-        .svg-is-warning svg {
-          fill: var(--warning-back-color);
-        }
-
-        .svg-is-secondary svg {
-          fill: var(--default-secondary-fore-color);
+        span {
+          fill: var(--fill);
         }
       `,
     ];
@@ -56,9 +42,7 @@ export class SvgIcon extends BaseElement {
   render() {
     const { svgHTML } = this;
     return html`
-      <span class=${`svg-${this.iconClass}`} style="vertical-align: middle">
-        ${svgHTML ? unsafeHTML(svgHTML) : ''}
-      </span>
+      <span style="vertical-align: middle"> ${svgHTML ? unsafeHTML(svgHTML) : ''} </span>
     `;
   }
 }
