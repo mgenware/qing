@@ -1,7 +1,7 @@
 import { html, customElement, TemplateResult, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import 'ui/cm/timeField';
+import 'ui/com/timeField';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';

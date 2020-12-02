@@ -1,7 +1,7 @@
 import { injectStyles, ready } from 'lib/htmlLib';
-import 'ui/cm/timeField';
-import 'ui/cm2/tabView';
-import { tabViewActiveClass } from 'ui/cm2/tabView';
+import 'ui/com/timeField';
+import 'ui//com2//tabView';
+import { tabViewActiveClass } from 'ui//com2//tabView';
 import { css } from 'lit-element';
 import { keyTab } from 'sharedConstants';
 

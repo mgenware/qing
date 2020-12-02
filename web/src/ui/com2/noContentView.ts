@@ -1,6 +1,6 @@
 import { customElement, css, html } from 'lit-element';
 import BaseElement from 'baseElement';
-import '../cm/centeredView';
+import '../com/centeredView';
 import ls from 'ls';
 
 @customElement('no-content-view')

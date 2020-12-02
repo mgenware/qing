@@ -3,10 +3,10 @@ import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import app from 'app';
 import BaseElement from 'baseElement';
-import { CaptchaView } from 'ui/cm/captchaView';
+import { CaptchaView } from 'ui/com/captchaView';
 import './editorView';
 import 'ui/form/inputView';
-import 'ui/cm/captchaView';
+import 'ui/com/captchaView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';
 

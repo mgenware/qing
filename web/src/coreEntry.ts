@@ -9,4 +9,4 @@ import 'app/user/navBarApp';
 
 // Commonly used components.
 import 'qing-button';
-import 'ui/cm/containerView';
+import 'ui/com/containerView';

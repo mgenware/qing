@@ -1,6 +1,6 @@
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
-import 'ui/cm/spinnerView';
+import 'ui/com/spinnerView';
 import 'qing-dialog-component';
 import {
   QingDialog,
@@ -35,10 +35,7 @@ export default class AlertModule {
     });
   }
 
-  async confirm(
-    message: string,
-    hasCancelButton = false,
-  ): Promise<boolean | null> {
+  async confirm(message: string, hasCancelButton = false): Promise<boolean | null> {
     const buttons = ['yes', 'no'];
     // Default button is "No".
     let defaultBtnIdx = 1;
@@ -68,9 +65,7 @@ export default class AlertModule {
   showLoadingOverlay(text: string) {
     this.hideLoadingOverlay();
 
-    const template = html`<spinner-view .fullScreen=${true}
-      >${text}</spinner-view
-    >`;
+    const template = html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
     renderTemplateResult(spinnerContainer, template);
   }
 
@@ -104,8 +99,7 @@ export default class AlertModule {
             ? iconElement({
                 type: args.icon,
                 size: 48,
-                color:
-                  '' /** Set default to an empty value, we'll style colors in CSS */,
+                color: '' /** Set default to an empty value, we'll style colors in CSS */,
               })
             : ''}
           <span style="vertical-align: middle">${args.title}</span>
@@ -113,10 +107,7 @@ export default class AlertModule {
         ${args.message ? html`<div>${args.message}</div>` : ''}
       </qing-dialog>`;
 
-      const element = renderTemplateResult(
-        dialogContainer,
-        template,
-      ) as QingDialog;
+      const element = renderTemplateResult(dialogContainer, template) as QingDialog;
       if (!element) {
         reject(new Error('Unexpected empty modal element'));
         return;

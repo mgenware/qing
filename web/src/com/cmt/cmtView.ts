@@ -3,11 +3,11 @@ import * as lp from 'lit-props';
 import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
-import 'ui/cm/timeField';
+import 'ui/com/timeField';
 import 'ui/editor/editBar';
-import 'ui/cm/statusOverlay';
-import 'ui/cm/linkButton';
-import 'ui/cm/svgIcon';
+import 'ui/com/statusOverlay';
+import 'ui/com/linkButton';
+import 'ui/com/svgIcon';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import LoadingStatus from 'lib/loadingStatus';

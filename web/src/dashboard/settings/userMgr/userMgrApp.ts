@@ -4,9 +4,9 @@ import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
 import ls from 'ls';
 // Views.
-import 'ui/cm/sectionView';
-import 'ui/cm/statusOverlay';
-import 'ui/cm/tagView';
+import 'ui/com/sectionView';
+import 'ui/com/statusOverlay';
+import 'ui/com/tagView';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {

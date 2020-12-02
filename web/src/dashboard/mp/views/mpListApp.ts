@@ -1,9 +1,9 @@
 import { html, TemplateResult, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
-import 'ui/cm/statusView';
-import 'ui/cm/sectionView';
-import 'ui/cm2/noContentView';
+import 'ui/com/statusView';
+import 'ui/com/sectionView';
+import 'ui//com2//noContentView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './mpPageControl';

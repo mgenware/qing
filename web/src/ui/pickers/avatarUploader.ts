@@ -4,7 +4,7 @@ import ls from 'ls';
 import BaseElement from 'baseElement';
 import app from 'app';
 import { staticMainImage } from 'urls';
-import 'ui/cm/progressView';
+import 'ui/com/progressView';
 import '@github/image-crop-element';
 import styles from '@github/image-crop-element/index.css';
 import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
