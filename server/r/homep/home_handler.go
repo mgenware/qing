@@ -7,7 +7,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/rcm"
+	"qing/r/rcom"
 	"strings"
 )
 
@@ -40,8 +40,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	pageURLFormatter := &HomePageURLFormatter{Tab: tab}
-	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
-	pageBarHTML := rcm.GetPageBarHTML(pageData)
+	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
+	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	userData := NewHomePageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := app.MasterPageData("", vHomePage.MustExecuteToString(resp.Lang(), userData))

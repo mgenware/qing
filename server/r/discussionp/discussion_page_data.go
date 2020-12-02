@@ -4,7 +4,7 @@ import (
 	"qing/app"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/rcm"
+	"qing/r/rcom"
 )
 
 // DiscussionPageData is a wrapper around da.DiscussionTableSelectPostByIDResult.
@@ -37,7 +37,7 @@ func NewDiscussionPageData(p *da.DiscussionTableSelectItemByIDResult, msgListHTM
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = eid
 	d.EID = validator.EncodeID(p.ID)
-	d.UserHTML = rcm.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
 	d.MessageListHTML = msgListHTML
 	d.PageBarHTML = pageBarHTML
 	return d
@@ -49,6 +49,6 @@ func NewDiscussionMsgData(p *da.DiscussionMsgTableSelectItemsByDiscussionResult)
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = app.URL.Discussion(p.ID)
 	d.EID = eid
-	d.UserHTML = rcm.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
 	return d
 }

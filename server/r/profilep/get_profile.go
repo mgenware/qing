@@ -7,7 +7,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/rcm"
+	"qing/r/rcom"
 	"qing/r/sys"
 	"strings"
 
@@ -67,12 +67,12 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	pageURLFormatter := &ProfilePageURLFormatter{ID: uid, Tab: tab}
-	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, 0)
+	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 
 	if feedListHTML == "" {
 		feedListHTML = "<no-content-view></no-content-view>"
 	}
-	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, rcm.GetPageBarHTML(pageData))
+	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, rcom.GetPageBarHTML(pageData))
 	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), userData))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)

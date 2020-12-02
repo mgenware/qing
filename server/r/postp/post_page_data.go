@@ -4,7 +4,7 @@ import (
 	"qing/app"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/rcm"
+	"qing/r/rcom"
 )
 
 // PostPageData is a wrapper around da.PostTableSelectPostByIDResult.
@@ -31,6 +31,6 @@ func NewPostPageData(p *da.PostTableSelectItemByIDResult) *PostPageData {
 	d.PostURL = app.URL.Post(p.ID)
 	d.EID = eid
 	d.UserEID = validator.EncodeID(d.UserID)
-	d.UserHTML = rcm.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
 	return d
 }

@@ -6,7 +6,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
-	"qing/r/rcm"
+	"qing/r/rcom"
 )
 
 var vHomePage = app.MasterPageManager.MustParseLocalizedView("/home/homePage.html")
@@ -24,7 +24,7 @@ type HomePageData struct {
 
 	FeedListHTML string
 	PageBarHTML  string
-	PageData     *rcm.PageData
+	PageData     *rcom.PageData
 
 	HomePostsURL       string
 	HomeDiscussionsURL string
@@ -40,7 +40,7 @@ type HomePageItemData struct {
 }
 
 // NewHomePageData creates a new ProfileData from profile DB result.
-func NewHomePageData(pageData *rcm.PageData, feedHTML, pageBarHTML string) *HomePageData {
+func NewHomePageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *HomePageData {
 	d := &HomePageData{}
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData

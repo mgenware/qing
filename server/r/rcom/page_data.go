@@ -1,4 +1,4 @@
-package rcm
+package rcom
 
 // PageURLFormatter is used when PageData need to get a URL with a page number.
 type PageURLFormatter interface {

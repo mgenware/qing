@@ -1,4 +1,4 @@
-package rcm
+package rcom
 
 import (
 	"qing/app"

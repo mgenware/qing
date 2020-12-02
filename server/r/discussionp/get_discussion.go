@@ -6,7 +6,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/rcm"
+	"qing/r/rcom"
 	"qing/r/sys"
 	"strings"
 
@@ -39,8 +39,8 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Setup page data.
 	pageURLFormatter := &DiscussionPageURLFormatter{ID: tid}
-	pageData := rcm.NewPageData(page, hasNext, pageURLFormatter, int(discussion.MsgCount))
-	pageBarHTML := rcm.GetPageBarHTML(pageData)
+	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, int(discussion.MsgCount))
+	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	resp := app.HTMLResponse(w, r)
 	discussionData := NewDiscussionPageData(discussion, msgListBuilder.String(), pageBarHTML)
