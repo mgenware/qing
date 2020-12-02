@@ -22,9 +22,9 @@ type JSONResponse struct {
 type JSON = int
 
 // NewJSONResponse creates a new JSONResponse.
-func NewJSONResponse(r *http.Request, mgr *Manager, wr http.ResponseWriter) *JSONResponse {
+func NewJSONResponse(r *http.Request, wr http.ResponseWriter) *JSONResponse {
 	return &JSONResponse{
-		BaseResponse: newBaseResponse(r, mgr),
+		BaseResponse: newBaseResponse(r),
 		writer:       wr,
 	}
 }

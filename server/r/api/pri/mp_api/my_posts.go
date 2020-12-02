@@ -3,12 +3,11 @@ package mpapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/api/apidata"
+	"qing/r/api/apicom"
 )
 
 var myPostsColumnNameToEnumMap map[string]int
@@ -37,7 +36,7 @@ func newDashboardPost(p *da.PostTableSelectItemsForDashboardResult, uid uint64) 
 
 func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	uid := resp.UserID()
 
 	page := validator.GetPageParamFromDict(params)
@@ -55,6 +54,6 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	for i, p := range rawPosts {
 		posts[i] = newDashboardPost(p, uid)
 	}
-	respData := apidata.NewPaginatedList(posts, hasNext, stats.PostCount)
+	respData := apicom.NewPaginatedList(posts, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)
 }

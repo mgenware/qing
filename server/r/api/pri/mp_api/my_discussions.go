@@ -3,12 +3,11 @@ package mpapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/api/apidata"
+	"qing/r/api/apicom"
 )
 
 var myDiscussionsColumnNameToEnumMap map[string]int
@@ -36,7 +35,7 @@ func newDashboardDiscussion(p *da.DiscussionTableSelectItemsForDashboardResult, 
 
 func myDiscussions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	uid := resp.UserID()
 
 	page := validator.GetPageParamFromDict(params)
@@ -54,6 +53,6 @@ func myDiscussions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	for i, p := range rawDiscussions {
 		discussions[i] = newDashboardDiscussion(p, uid)
 	}
-	respData := apidata.NewPaginatedList(discussions, hasNext, stats.PostCount)
+	respData := apicom.NewPaginatedList(discussions, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)
 }

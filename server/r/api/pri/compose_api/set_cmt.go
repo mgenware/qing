@@ -4,17 +4,16 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	"qing/r/api/apidata"
+	"qing/r/api/apicom"
 	"time"
 )
 
 type SetCmtResponse struct {
-	Cmt *apidata.Cmt `json:"cmt"`
+	Cmt *apicom.Cmt `json:"cmt"`
 }
 
 func getCmtTA(hostType int) (da.CmtInterface, error) {
@@ -28,7 +27,7 @@ func getCmtTA(hostType int) (da.CmtInterface, error) {
 
 func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	user := resp.User()
 	uid := user.ID
 
@@ -71,7 +70,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmtd.UserName = user.Name
 		cmtd.UserIconName = user.IconName
 
-		cmt := apidata.NewCmt(cmtd)
+		cmt := apicom.NewCmt(cmtd)
 		cmt.ContentHTML = content
 
 		respData := &SetCmtResponse{Cmt: cmt}
@@ -81,7 +80,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
 		app.PanicIfErr(err)
 
-		cmt := &apidata.Cmt{EID: validator.EncodeID(id)}
+		cmt := &apicom.Cmt{EID: validator.EncodeID(id)}
 		cmt.ContentHTML = content
 		now := time.Now()
 		cmt.ModifiedAt = &now

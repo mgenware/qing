@@ -9,8 +9,8 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"qing/app/appcom"
 	"qing/app/cfg"
-	"qing/app/cm"
 	txt "text/template"
 
 	"qing/app/defs"
@@ -22,8 +22,8 @@ import (
 	"github.com/mgenware/go-packagex/v5/templatex"
 )
 
-// Manager provides common functions to generate HTML strings.
-type Manager struct {
+// MasterPageManager is used to generate site master HTML page.
+type MasterPageManager struct {
 	dir    string
 	config *cfg.Config
 
@@ -37,15 +37,15 @@ type Manager struct {
 	logger              *logx.Logger
 }
 
-// MustCreateManager creates an instance of TemplateManager with specified arguments. Note that this function panics when main template loading fails.
-func MustCreateManager(
+// MustCreateMasterPageManager creates an instance of MasterPageManager with the specified arguments. Note that this function panics when master template fails to load.
+func MustCreateMasterPageManager(
 	dir string,
 	i18nDir string,
 	defaultLang string,
 	assetMgr *assetmgr.AssetsManager,
 	logger *logx.Logger,
 	config *cfg.Config,
-) *Manager {
+) *MasterPageManager {
 	reloadViewsOnRefresh := config.Debug != nil && config.Debug.ReloadViewsOnRefresh
 	if reloadViewsOnRefresh {
 		log.Print("⚠️ View dev mode is on")
@@ -57,7 +57,7 @@ func MustCreateManager(
 		panic(err)
 	}
 
-	t := &Manager{
+	t := &MasterPageManager{
 		dir:                  dir,
 		LocalizationManager:  localizationManager,
 		AssetsManager:        assetMgr,
@@ -76,13 +76,13 @@ func MustCreateManager(
 }
 
 // MustCompleteWithContent finished the response with the given HTML content.
-func (m *Manager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
+func (m *MasterPageManager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 	w.Write(content)
 }
 
 // MustComplete executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, w http.ResponseWriter) {
+func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *MasterPageData, w http.ResponseWriter) {
 	if d == nil {
 		panic("Unexpected empty `MasterPageData` in `MustComplete`")
 	}
@@ -139,7 +139,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 	d.Scripts = script + d.Scripts
 
 	// User info
-	user := cm.ContextUser(ctx)
+	user := appcom.ContextUser(ctx)
 	if user != nil {
 		d.AppUserID = user.EID
 		d.AppUserName = user.Name
@@ -152,7 +152,7 @@ func (m *Manager) MustComplete(r *http.Request, lang string, d *MasterPageData, 
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *Manager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
+func (m *MasterPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
 	d := &ErrorPageData{Message: err.Error()}
 	// Handle unexpected errors
 	if !expected {
@@ -179,24 +179,24 @@ func (m *Manager) MustError(r *http.Request, lang string, err error, expected bo
 }
 
 // PageTitle returns the given string followed by the localized site name.
-func (m *Manager) PageTitle(lang, s string) string {
+func (m *MasterPageManager) PageTitle(lang, s string) string {
 	return s + " - " + m.LocalizationManager.Dictionary(lang).SiteName
 }
 
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.
-func (m *Manager) MustParseLocalizedView(relativePath string) *LocalizedView {
+func (m *MasterPageManager) MustParseLocalizedView(relativePath string) *LocalizedView {
 	file := filepath.Join(m.dir, relativePath)
 	view := templatex.MustParseView(file, m.reloadViewsOnRefresh)
 	return &LocalizedView{view: view, localizationManager: m.LocalizationManager}
 }
 
 // MustParseView creates a new View with the given relative path.
-func (m *Manager) MustParseView(relativePath string) *templatex.View {
+func (m *MasterPageManager) MustParseView(relativePath string) *templatex.View {
 	file := filepath.Join(m.dir, relativePath)
 	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
 }
 
 // Dictionary returns a localized dictionary with the specified language ID.
-func (m *Manager) Dictionary(lang string) *localization.Dictionary {
+func (m *MasterPageManager) Dictionary(lang string) *localization.Dictionary {
 	return m.LocalizationManager.Dictionary(lang)
 }

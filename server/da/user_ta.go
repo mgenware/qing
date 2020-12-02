@@ -28,6 +28,53 @@ func (da *TableTypeUser) AddUserStatsEntryInternal(queryable mingru.Queryable, i
 	return err
 }
 
+// UserTableFindUserByIDResult ...
+type UserTableFindUserByIDResult struct {
+	ID       uint64 `json:"ID,omitempty"`
+	Name     string `json:"name,omitempty"`
+	IconName string `json:"iconName,omitempty"`
+}
+
+// FindUserByID ...
+func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*UserTableFindUserByIDResult, error) {
+	result := &UserTableFindUserByIDResult{}
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// UserTableFindUsersByNameResult ...
+type UserTableFindUsersByNameResult struct {
+	ID       uint64 `json:"ID,omitempty"`
+	Name     string `json:"name,omitempty"`
+	IconName string `json:"iconName,omitempty"`
+}
+
+// FindUsersByName ...
+func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string) ([]*UserTableFindUsersByNameResult, error) {
+	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `name` LIKE ?", name)
+	if err != nil {
+		return nil, err
+	}
+	result := make([]*UserTableFindUsersByNameResult, 0)
+	defer rows.Close()
+	for rows.Next() {
+		item := &UserTableFindUsersByNameResult{}
+		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, item)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 // UserTableSelectEditingDataResult ...
 type UserTableSelectEditingDataResult struct {
 	ID       uint64  `json:"-"`

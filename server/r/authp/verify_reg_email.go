@@ -3,7 +3,6 @@ package authp
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
@@ -17,14 +16,14 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 		panic("Empty input")
 	}
 
-	lang := cm.LanguageContext(r.Context())
+	lang := app.ContextLanguage(r)
 	dataString, err := app.Service.RegEmailVerificator.Verify(key)
 	if err != nil {
 		panic(err.Error())
 	}
 	if dataString == "" {
 		// Expired
-		panic(app.TemplateManager.Dictionary(lang).RegEmailVeriExpired)
+		panic(app.MasterPageManager.Dictionary(lang).RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)

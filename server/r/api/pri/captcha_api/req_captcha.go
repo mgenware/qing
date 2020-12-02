@@ -3,7 +3,6 @@ package captchaapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 	"github.com/mgenware/go-packagex/v5/strconvx"
@@ -21,8 +20,7 @@ func ReqCaptcha(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := r.Context()
-	uid := cm.ContextUserID(ctx)
+	uid := app.ContextUserID(r)
 	if uid == 0 {
 		http.Error(w, "Not authorized", http.StatusUnauthorized)
 		return

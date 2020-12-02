@@ -45,6 +45,10 @@ export default buildTree({
         posts: 'posts',
         discussions: 'discussions',
       },
+      user: {
+        findByID: 'find-by-id',
+        findByName: 'find-by-name',
+      },
     },
     p: {
       // Public APIs

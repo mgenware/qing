@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -13,7 +12,7 @@ import (
 
 func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	uid := resp.UserID()
 
 	id := validator.GetIDFromDict(params, "id")

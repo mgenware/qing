@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
+	"qing/app/appcom"
 	"qing/da"
 	"qing/fx/avatar"
 	"qing/lib/iolib"
@@ -109,7 +109,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, error) {
-	user := cm.ContextUser(ctx)
+	user := appcom.ContextUser(ctx)
 	uid := user.ID
 	curAvatarName, err := da.User.SelectIconName(app.DB, uid)
 	if err != nil {
@@ -133,7 +133,7 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 
 	// Update session.
 	user.IconName = avatarName
-	sid := cm.ContextSID(ctx)
+	sid := appcom.ContextSID(ctx)
 	err = app.UserManager.SessionManager.SetUserSession(sid, user)
 	if err != nil {
 		return 0, "", err

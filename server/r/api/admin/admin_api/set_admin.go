@@ -3,7 +3,6 @@ package authapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -11,7 +10,7 @@ import (
 
 func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	user := resp.User()
 
 	targetUserID = validator.MustGetIDFromDict(params, "target_user_id")

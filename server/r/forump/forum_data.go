@@ -41,6 +41,6 @@ type ForumGroupData struct {
 	EID string
 }
 
-var vForumView = app.TemplateManager.MustParseView("/forum/forumView.html")
-var vForumGroupView = app.TemplateManager.MustParseView("/forum/forumGroupView.html")
-var vForumHome = app.TemplateManager.MustParseView("/forum/home.html")
+var vForumView = app.MasterPageManager.MustParseView("/forum/forumView.html")
+var vForumGroupView = app.MasterPageManager.MustParseView("/forum/forumGroupView.html")
+var vForumHome = app.MasterPageManager.MustParseView("/forum/home.html")

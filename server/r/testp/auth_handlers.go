@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"qing/app/cm"
 
 	"qing/app"
 
@@ -43,7 +42,7 @@ func signOut(w http.ResponseWriter, r *http.Request) {
 }
 
 func userInfo(w http.ResponseWriter, r *http.Request) {
-	user := cm.ContextUser(r.Context())
+	user := app.ContextUser(r)
 	if user == nil {
 		fmt.Fprintln(w, "No user currently logged in")
 	} else {

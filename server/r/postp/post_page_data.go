@@ -22,7 +22,7 @@ type PostPageData struct {
 	ProfileDiscussionsURL string
 }
 
-var vPostPage = app.TemplateManager.MustParseView("/post/postPage.html")
+var vPostPage = app.MasterPageManager.MustParseView("/post/postPage.html")
 
 // NewPostPageData creates a PostPageData.
 func NewPostPageData(p *da.PostTableSelectItemByIDResult) *PostPageData {

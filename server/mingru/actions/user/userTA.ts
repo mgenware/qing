@@ -23,6 +23,11 @@ export class UserTA extends mm.TableActions {
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
 
+  findUserByID = mm.select(t.id, t.name, t.icon_name).by(t.id);
+  findUsersByName = mm.selectRows(t.id, t.name, t.icon_name).where`${
+    t.name
+  } LIKE ${t.name.toInput()}`.noOrderBy;
+
   updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
   updateBio = mm.updateOne().setInputs(t.bio).by(t.id);

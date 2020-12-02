@@ -3,7 +3,6 @@ package profileapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
 
@@ -12,7 +11,7 @@ import (
 
 func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	uid := resp.UserID()
 
 	bio := jsonx.GetStringOrDefault(params, "bio")

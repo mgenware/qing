@@ -10,6 +10,7 @@ import (
 	likeapi "qing/r/api/pri/like_api"
 	mpapi "qing/r/api/pri/mp_api"
 	profileapi "qing/r/api/pri/profile_api"
+	userapi "qing/r/api/pri/user_api"
 )
 
 // Router ...
@@ -24,5 +25,6 @@ func init() {
 	Router.Mount("/auth", authapi.Router)
 	Router.Mount("/like", likeapi.Router)
 	Router.Mount("/mp", mpapi.Router)
+	Router.Mount("/user", userapi.Router)
 	Router.Core.Get("/req-capt", captchaapi.ReqCaptcha)
 }

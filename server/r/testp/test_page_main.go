@@ -10,7 +10,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	content := "<test-page></test-page>"
 	d := app.MasterPageData("", content)
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Dashboard
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Dashboard
 
 	resp.MustComplete(d)
 }

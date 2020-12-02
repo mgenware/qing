@@ -24,6 +24,6 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	postData := NewPostPageData(post)
 	title := post.Title
 	d := app.MasterPageData(title, vPostPage.MustExecuteToString(postData))
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Post
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Post
 	return resp.MustComplete(d)
 }

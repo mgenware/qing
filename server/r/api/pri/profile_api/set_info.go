@@ -3,7 +3,6 @@ package profileapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/cm"
 	"qing/app/handler"
 	"qing/da"
 
@@ -37,7 +36,7 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := cm.BodyContext(r.Context())
+	params := app.ContextDict(r)
 	sUser := resp.User()
 	uid := resp.UserID()
 
@@ -56,7 +55,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 	// Update session
 	sUser.Name = nick
-	sid := cm.ContextSID(r.Context())
+	sid := app.ContextSID(r)
 	err = app.UserManager.SessionManager.SetUserSession(sid, sUser)
 	if err != nil {
 		return resp.MustFail(err)

@@ -45,6 +45,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	userData := NewHomePageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := app.MasterPageData("", vHomePage.MustExecuteToString(resp.Lang(), userData))
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Home
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Home
 	return resp.MustComplete(d)
 }

@@ -2,12 +2,12 @@ package userx
 
 import (
 	"net/http"
-	"qing/app/cm"
+	"qing/app/appcom"
 	"qing/app/defs"
 	"time"
 )
 
-func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *cm.User) error {
+func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcom.SessionUser) error {
 	sid, err := newSessionID(user.ID)
 	if err != nil {
 		return err
@@ -24,8 +24,8 @@ func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *cm
 
 func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 	ctx := r.Context()
-	sid := cm.ContextSID(ctx)
-	uid := cm.ContextUserID(ctx)
+	sid := appcom.ContextSID(ctx)
+	uid := appcom.ContextUserID(ctx)
 	if sid == "" {
 		sm.logger.Warn("session.logout.emptySid")
 		// just return if not signed in

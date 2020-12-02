@@ -1,9 +1,9 @@
-package cm
+package appcom
 
 import "encoding/json"
 
-// User contains user infomation stored in session store
-type User struct {
+// SessionUser contains user infomation stored in a session store.
+type SessionUser struct {
 	ID       uint64 `json:"id"`
 	Name     string `json:"name"`
 	IconName string `json:"icon"`
@@ -16,7 +16,7 @@ type User struct {
 }
 
 // Serialize encode the user object to JSON.
-func (u *User) Serialize() (string, error) {
+func (u *SessionUser) Serialize() (string, error) {
 	b, err := json.Marshal(u)
 	if err != nil {
 		return "", err

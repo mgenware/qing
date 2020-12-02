@@ -1,4 +1,4 @@
-package apidata
+package apicom
 
 import (
 	"qing/app"

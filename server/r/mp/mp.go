@@ -19,7 +19,7 @@ func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := app.MasterPageData("", "")
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Dashboard
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Dashboard
 
 	return resp.MustComplete(d)
 }

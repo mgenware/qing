@@ -9,8 +9,8 @@ import (
 	"qing/r/rcm"
 )
 
-var vHomePage = app.TemplateManager.MustParseLocalizedView("/home/homePage.html")
-var vHomeItem = app.TemplateManager.MustParseView("/home/homeItem.html")
+var vHomePage = app.MasterPageManager.MustParseLocalizedView("/home/homePage.html")
+var vHomeItem = app.MasterPageManager.MustParseView("/home/homeItem.html")
 
 // Should be in sync with `HomeItemType` in `homeTA.ts`.
 const (

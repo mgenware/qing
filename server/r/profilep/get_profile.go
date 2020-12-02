@@ -74,6 +74,6 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, rcm.GetPageBarHTML(pageData))
 	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), userData))
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Profile
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)
 }

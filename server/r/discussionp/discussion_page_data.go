@@ -28,8 +28,8 @@ type DiscussionMsgData struct {
 	EID           string
 }
 
-var vDiscussionPage = app.TemplateManager.MustParseView("/discussion/discussionPage.html")
-var vMessageItem = app.TemplateManager.MustParseView("/discussion/messageItem.html")
+var vDiscussionPage = app.MasterPageManager.MustParseView("/discussion/discussionPage.html")
+var vMessageItem = app.MasterPageManager.MustParseView("/discussion/messageItem.html")
 
 // NewDiscussionPageData creates a DiscussionPageData.
 func NewDiscussionPageData(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) *DiscussionPageData {

@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"qing/app/cm"
+	"qing/app/appcom"
 	"qing/app/defs"
 	"qing/app/extern/redisx"
 	"qing/app/logx"
@@ -45,7 +45,7 @@ func NewRedisBasedSessionManager(store *redisx.Conn, logger *logx.Logger, appURL
 }
 
 // SetUserSession sets an user to the internal store.
-func (sm *SessionManager) SetUserSession(sid string, user *cm.User) error {
+func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) error {
 	if user == nil {
 		return errors.New("user cannot be nil")
 	}
@@ -70,7 +70,7 @@ func (sm *SessionManager) SetUserSession(sid string, user *cm.User) error {
 }
 
 // GetUserSession retrieves an user from internal store by the given sid.
-func (sm *SessionManager) GetUserSession(sid string) (*cm.User, error) {
+func (sm *SessionManager) GetUserSession(sid string) (*appcom.SessionUser, error) {
 	keySIDToUser := sidToUserKey(sid)
 	str, err := sm.store.GetStringValue(keySIDToUser)
 	if err != nil {
@@ -141,21 +141,21 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 }
 
 // NewUser creates a new session user based on required properties.
-func (sm *SessionManager) NewUser(id uint64, name string, iconName string, admin bool) *cm.User {
-	u := &cm.User{ID: id, Name: name, IconName: iconName, Admin: admin}
+func (sm *SessionManager) NewUser(id uint64, name string, iconName string, admin bool) *appcom.SessionUser {
+	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin}
 	sm.computeUserFields(u)
 	return u
 }
 
-func (sm *SessionManager) computeUserFields(u *cm.User) {
+func (sm *SessionManager) computeUserFields(u *appcom.SessionUser) {
 	uid := u.ID
 	u.URL = sm.appURL.UserProfile(uid)
 	u.IconURL = sm.appURL.UserIconURL50(uid, u.IconName)
 	u.EID = validator.EncodeID(uid)
 }
 
-func (sm *SessionManager) deserializeUserJSON(b []byte) (*cm.User, error) {
-	u := &cm.User{}
+func (sm *SessionManager) deserializeUserJSON(b []byte) (*appcom.SessionUser, error) {
+	u := &appcom.SessionUser{}
 	err := json.Unmarshal(b, u)
 	if err != nil {
 		return nil, err

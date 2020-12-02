@@ -17,7 +17,7 @@ type UserItemViewData struct {
 	ItemModifiedAt *time.Time
 }
 
-var vUserView = app.TemplateManager.MustParseView("/cm/userItemView.html")
+var vUserView = app.MasterPageManager.MustParseView("/cm/userItemView.html")
 
 // GetUserItemViewHTML returns user item view HTML with the given params.
 func GetUserItemViewHTML(uid uint64, name, iconName string, itemEID string, itemCreated time.Time, itemModified *time.Time) string {

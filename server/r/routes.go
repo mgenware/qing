@@ -66,7 +66,7 @@ func Start() {
 	}
 
 	// ----------------- HTTP Routes -----------------
-	lm := app.TemplateManager.LocalizationManager
+	lm := app.MasterPageManager.LocalizationManager
 
 	// Not found handler
 	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))

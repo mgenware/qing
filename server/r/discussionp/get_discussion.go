@@ -46,6 +46,6 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	discussionData := NewDiscussionPageData(discussion, msgListBuilder.String(), pageBarHTML)
 	title := discussion.Title
 	d := app.MasterPageData(title, vDiscussionPage.MustExecuteToString(discussionData))
-	d.Scripts = app.TemplateManager.AssetsManager.JS.Discussion
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Discussion
 	return resp.MustComplete(d)
 }

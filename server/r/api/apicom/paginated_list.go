@@ -1,4 +1,4 @@
-package apidata
+package apicom
 
 // PaginatedList contains information that is paginated.
 type PaginatedList struct {

@@ -3,12 +3,10 @@ package defs
 type ContextKey string
 
 const (
-	LanguageContextKey ContextKey = "lang"
-	LanguageCookieKey             = "lang"
-	LanguageQueryKey              = "lang"
-	LanguageCSString              = "cs"
-	LanguageENString              = "en"
-	BodyContextKey     ContextKey = "body"
+	LanguageCookieKey = "lang"
+	LanguageQueryKey  = "lang"
+	LanguageCSString  = "cs"
+	LanguageENString  = "en"
 )
 
 const (
@@ -22,8 +20,10 @@ const (
 
 // Context keys
 const (
-	SIDContextKey  ContextKey = "sid"
-	UserContextKey ContextKey = "user"
+	LanguageContextKey ContextKey = "lang"
+	DictContextKey     ContextKey = "dict"
+	SIDContextKey      ContextKey = "sid"
+	UserContextKey     ContextKey = "user"
 )
 
 // MS(memory storage, e.g. redis) keys
