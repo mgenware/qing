@@ -1,6 +1,7 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
+import debounceFn from 'debounce-fn';
 import './inputErrorView';
 
 const inputID = 'input-id';
@@ -67,12 +68,17 @@ export class InputView extends BaseElement {
   @lp.string type: InputType = 'text';
   @lp.string value = '';
   @lp.string placeholder = '';
+  @lp.bool debounceOnChange = false;
+  private debouncedOnChangeHandler?: () => void;
 
   @lp.string private validationMessage = '';
   private inputElement!: HTMLInputElement;
 
   firstUpdated() {
     this.inputElement = this.mustGetShadowElement(inputID);
+    if (this.debounceOnChange) {
+      this.debouncedOnChangeHandler = debounceFn(this.onChangeDebounced, { wait: 500 });
+    }
   }
 
   render() {
@@ -108,6 +114,14 @@ export class InputView extends BaseElement {
         detail: input.value,
       }),
     );
+    if (this.debouncedOnChangeHandler) {
+      this.debouncedOnChangeHandler();
+    }
+  }
+
+  // Do not call this directly.
+  private onChangeDebounced() {
+    this.dispatchEvent(new CustomEvent<undefined>('onChangeDebounced'));
   }
 }
 

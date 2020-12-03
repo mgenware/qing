@@ -1,40 +1,94 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import { CHECK } from 'checks';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import ls from 'ls';
+import 'ui/com2/noticeView';
+import UserInfo from './userInfo';
+import 'ui/com/statusOverlay';
+import LoadingStatus from 'lib/loadingStatus';
+import FindUsersLoader from './loaders/findUsersLoader';
+import { SelectionViewItemEvent } from 'ui/form/selectionView';
+import app from 'app';
 
 @customElement('user-selector-app')
 export class UserSelectorApp extends BaseElement {
-  @lp.bool byID = true;
-  @lp.string value = '';
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: inline-block;
+        }
 
-  firstUpdated() {
-    CHECK(this.hostID);
-    CHECK(this.hostType);
-    this.totalCount = this.initialCount;
+        .list-view {
+          max-height: 300px;
+          overflow-y: auto;
+        }
+      `,
+    ];
   }
 
+  @lp.bool byID = true;
+  @lp.string value = '';
+  @lp.array private users: UserInfo[] = [];
+  @lp.object private status = LoadingStatus.empty;
+
   render() {
+    const { users } = this;
     return html`
       <div>${ls.findUsersByColon}</div>
       <div>
         <selection-view
           .dataSource=${[{ text: ls.userID, selected: true }, { text: ls.name }]}
+          @onSelectionChange=${this.handleByIDSelectionChange}
         ></selection-view>
       </div>
       <input-view
         required
         value=${this.value}
-        @onChange=${(e: CustomEvent<string>) => (this.value = e.detail)}
+        debounceOnChange
+        @onChange=${this.handleValueChange}
+        @onChangeDebounced=${this.handleValueChangeDebounced}
       ></input-view>
+      <status-overlay .status=${this.status}>
+        <div class="list-view">
+          ${users.length
+            ? users.map((item) => this.renderUserRow(item))
+            : html`<notice-view>${ls.noResultsFound}</notice-view>`}
+        </div>
+      </status-overlay>
     `;
   }
 
-  private handleTotalCountChangedWithOffset(e: CustomEvent<number>) {
-    this.totalCount += e.detail;
+  private renderUserRow(user: UserInfo) {
+    return html`
+      <div>
+        <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="25" height="25" />
+        <span class="m-l-md">${user.name}</span>
+      </div>
+    `;
+  }
+
+  private handleByIDSelectionChange(e: SelectionViewItemEvent) {
+    this.byID = e.index === 0;
+  }
+
+  private handleValueChange(e: CustomEvent<string>) {
+    this.value = e.detail;
+  }
+
+  private async handleValueChangeDebounced() {
+    const { value } = this;
+    if (!value) {
+      return;
+    }
+    const loader = new FindUsersLoader(this.byID, value);
+    const res = await app.runLocalActionAsync(loader, (st) => (this.status = st));
+    if (res.data) {
+      this.users = res.data;
+    }
   }
 }
 

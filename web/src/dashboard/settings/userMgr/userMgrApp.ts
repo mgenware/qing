@@ -3,10 +3,10 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
 import ls from 'ls';
-// Views.
 import 'ui/com/sectionView';
 import 'ui/com/statusOverlay';
 import 'ui/com/tagView';
+import 'com/user/userSelectorApp';
 import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
 import app from 'app';
@@ -25,9 +25,10 @@ export class UserMgrApp extends BaseElement {
   }
 
   @lp.bool adminSectionStatus = LoadingStatus.working;
-  private getAdminLoader = new GetAdminsLoader();
   // TODO: Pagination.
-  private admins: UserInfo[] = [];
+  @lp.array private admins: UserInfo[] = [];
+
+  private getAdminLoader = new GetAdminsLoader();
 
   async firstUpdated() {
     const res = await app.runLocalActionAsync(
@@ -47,6 +48,8 @@ export class UserMgrApp extends BaseElement {
           <tag-view tagStyle="warning">${ls.featureOnlyAvailableToAdmins}</tag-view>
         </section-view>
         ${this.renderAdmins()}
+        <h2>${ls.addAnAdmin}</h2>
+        <user-selector-app></user-selector-app>
       </status-overlay>
     `;
   }
@@ -76,10 +79,10 @@ export class UserMgrApp extends BaseElement {
 
   private renderUserRow(user: UserInfo) {
     return html`
-      <a href=${user.url}>
-        <img src=${user.iconURL} class="avatar-m" width="50" height="50" />
+      <a href=${user.url} target="_blank">
+        <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="25" height="25" />
+        <span class="m-l-md">${user.name}</span>
       </a>
-      <a class="m-l-md" href=${user.url}>${user.name}</a>
     `;
   }
 }

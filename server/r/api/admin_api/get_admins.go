@@ -1,4 +1,4 @@
-package authapi
+package adminapi
 
 import (
 	"net/http"
@@ -10,15 +10,14 @@ import (
 
 func getAdmins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
 
-	admins, err := da.User.UnsafeSelectAdmins()
+	admins, err := da.User.UnsafeSelectAdmins(app.DB)
 	if err != nil {
 		panic(err)
 	}
 	userModels := make([]*rcom.UserInfo, len(admins))
-	for _, user := range admins {
-		userModels = append(userModels, rcom.NewUserInfo(user.ID, user.Name, user.IconName))
+	for i, user := range admins {
+		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)
 	}
 	return resp.MustComplete(userModels)
 }

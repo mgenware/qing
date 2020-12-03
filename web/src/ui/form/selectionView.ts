@@ -50,7 +50,7 @@ export class SelectionView extends BaseElement {
         name="checkbox"
         id=${id}
         ?checked=${item.selected}
-        @change=${(_) => this.handleOnChange(item, index)}
+        @change=${() => this.handleOnChange(item, index)}
       /><label for=${id}>${item.text}</label>`;
   }
 
@@ -61,17 +61,19 @@ export class SelectionView extends BaseElement {
         name="radioBox"
         id=${id}
         ?checked=${item.selected}
-        @change=${(_) => this.handleOnChange(item, index)}
+        @change=${() => this.handleOnChange(item, index)}
       /><label for=${id}>${item.text}</label>`;
   }
 
   private handleOnChange(item: SelectionViewItem, index: number) {
-    const e: SelectionViewItemEvent = {
+    const detail: SelectionViewItemEvent = {
       text: item.text,
       value: item.value,
       index,
     };
-    this.dispatchEvent(new CustomEvent<SelectionViewItemEvent>('selectionChange', e));
+    this.dispatchEvent(
+      new CustomEvent<SelectionViewItemEvent>('onSelectionChange', { detail }),
+    );
   }
 }
 

@@ -15,7 +15,7 @@ export default class FindUsersLoader extends BaseLoader<UserInfo[]> {
 
   requestParams(): unknown {
     return {
-      byID: this.byID,
+      byID: +this.byID,
       value: this.value,
     };
   }

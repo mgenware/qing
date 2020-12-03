@@ -1,4 +1,4 @@
-package authapi
+package adminapi
 
 import (
 	"net/http"
@@ -11,12 +11,11 @@ import (
 func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
-	user := resp.User()
 
-	targetUserID = validator.MustGetIDFromDict(params, "target_user_id")
+	targetUserID := validator.MustGetIDFromDict(params, "target_user_id")
 	value := validator.MustGetIntFromDict(params, "value")
 
-	err := da.User.UnsafeUpdateAdmin(app.DB, targetUserID, admin)
+	err := da.User.UnsafeUpdateAdmin(app.DB, targetUserID, value == 1)
 	if err != nil {
 		panic(err)
 	}

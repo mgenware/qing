@@ -15,6 +15,7 @@
     "bowhead-js": "^5.0.0",
     "construct-style-sheets-polyfill": "^2.4.2",
     "date-fns": "^2.16.1",
+    "debounce-fn": "^4.0.0",
     "fx214": "^1.1.0",
     "js-cookie": "^2.2.1",
     "kangxi-editor": "^0.7.1",

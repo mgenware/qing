@@ -117,5 +117,7 @@
   "userID": "User ID",
   "copy": "Copy",
   "copied": "Copied",
-  "findUsersByColon": "Find users by:"
+  "findUsersByColon": "Find users by:",
+  "addAnAdmin": "Add an admin",
+  "noResultsFound": "No results found"
 }

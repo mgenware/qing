@@ -16,6 +16,7 @@ type Dictionary struct {
 	Lang                         string `json:"_lang"`
 	SiteName                     string `json:"_siteName"`
 	AboutMe                      string `json:"aboutMe"`
+	AddAnAdmin                   string `json:"addAnAdmin"`
 	AdminAccounts                string `json:"adminAccounts"`
 	Bio                          string `json:"bio"`
 	Cancel                       string `json:"cancel"`
@@ -49,6 +50,7 @@ type Dictionary struct {
 	ErrorCode                    string `json:"errorCode"`
 	Exceed5MbErr                 string `json:"exceed5MBErr"`
 	FeatureOnlyAvailableToAdmins string `json:"featureOnlyAvailableToAdmins"`
+	FindUsersByColon             string `json:"findUsersByColon"`
 	GoToPage                     string `json:"goToPage"`
 	GoToYourEmail                string `json:"goToYourEmail"`
 	Home                         string `json:"home"`
@@ -67,6 +69,7 @@ type Dictionary struct {
 	No                           string `json:"no"`
 	NoComment                    string `json:"noComment"`
 	NoContentAvailable           string `json:"noContentAvailable"`
+	NoResultsFound               string `json:"noResultsFound"`
 	NumOfMsgs                    string `json:"numOfMsgs"`
 	Ok                           string `json:"ok"`
 	OneItem                      string `json:"oneItem"`

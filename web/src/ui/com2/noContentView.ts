@@ -1,30 +1,12 @@
-import { customElement, css, html } from 'lit-element';
-import BaseElement from 'baseElement';
-import '../com/centeredView';
+import { customElement, html } from 'lit-element';
+import './noticeView';
 import ls from 'ls';
+import { NoticeView } from './noticeView';
 
 @customElement('no-content-view')
-export class NoContentView extends BaseElement {
-  static get styles() {
-    return [
-      super.styles,
-      css`
-        :host {
-          display: block;
-        }
-
-        .root {
-          font-size: 1.6rem;
-          color: var(--default-secondary-fore-color);
-        }
-      `,
-    ];
-  }
-
+export class NoContentView extends NoticeView {
   render() {
-    return html`
-      <centered-view class="root" height="400px"> ${ls.noContentAvailable} </centered-view>
-    `;
+    return html` <notice-view>${ls.noContentAvailable}</notice-view> `;
   }
 }
 

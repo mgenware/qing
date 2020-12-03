@@ -1,6 +1,7 @@
 package userapi
 
 import (
+	"database/sql"
 	"net/http"
 	"qing/app"
 	"qing/app/defs"
@@ -19,19 +20,26 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
 	var users []*da.FindUserResult
+	db := app.DB
 	if byID != 0 {
 		id := validator.MustGetIDFromDict(params, "value")
-		user, err := da.User.FindUserByID(app.DB, id)
+		user, err := da.User.FindUserByID(db, id)
+		if err == sql.ErrNoRows {
+			return resp.MustComplete(nil)
+		}
 		app.PanicIfErr(err)
-		users = append(users, user)
+		users = []*da.FindUserResult{user}
 	} else {
 		name := validator.MustGetStringFromDict(params, "value", defs.Constants.MaxUserNameLen)
-		users, err = da.User.FindUsersByName(app.DB, name)
+		users, err = da.User.FindUsersByName(db, "%"+name+"%")
+		if err == sql.ErrNoRows {
+			return resp.MustComplete(nil)
+		}
 		app.PanicIfErr(err)
 	}
 	userModels := make([]*rcom.UserInfo, len(users))
-	for _, user := range users {
-		userModels = append(userModels, rcom.NewUserInfo(user.ID, user.Name, user.IconName))
+	for i, user := range users {
+		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)
 	}
 	return resp.MustComplete(userModels)
 }

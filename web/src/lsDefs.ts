@@ -117,4 +117,7 @@ export default interface LSDefs {
   userID: string;
   copy: string;
   copied: string;
+  findUsersByColon: string;
+  addAnAdmin: string;
+  noResultsFound: string;
 }

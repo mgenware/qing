@@ -1,4 +1,4 @@
-package admin
+package adminapi
 
 import (
 	"qing/app"
@@ -14,5 +14,6 @@ func init() {
 	Router.Core.Use(app.UserManager.UnsafeRequireAdminMiddlewareJSON)
 	Router.Core.Use(middleware.ParseJSONRequest)
 
-	Router.Mount("/admin", admin.Router)
+	Router.Post("/set-admin", setAdmin)
+	Router.Post("/get-admins", getAdmins)
 }
