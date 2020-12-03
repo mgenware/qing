@@ -16,7 +16,7 @@ export class SetPostLoader extends BaseLoader<string> {
   }
 
   requestURL(): string {
-    return routes.s.r.compose.setPost;
+    return routes.s.pri.compose.setPost;
   }
 
   requestParams(): unknown {

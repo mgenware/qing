@@ -3,34 +3,30 @@ import t from '../../models/user/user';
 import userStats from '../../models/user/userStats';
 
 export const addUserInsertedIDVar = 'insertedUserID';
+const findUserResult = 'FindUserResult';
+const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr()];
 
 export class UserTA extends mm.TableActions {
-  selectProfile = mm
-    .select(t.id.privateAttr(), t.name, t.icon_name, t.location, t.company, t.website, t.bio)
-    .by(t.id);
-  selectSessionData = mm.select(t.id, t.name, t.icon_name, t.admin).by(t.id);
-  selectEditingData = mm
-    .select(
-      t.id.privateAttr(),
-      t.name,
-      t.icon_name.privateAttr(),
-      t.location,
-      t.company,
-      t.website,
-      t.bio,
-    )
-    .by(t.id);
+  selectProfile = mm.select(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
+  selectSessionData = mm.select(...coreCols, t.admin).by(t.id);
+  selectEditingData = mm.select(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
 
-  findUserByID = mm.select(t.id, t.name, t.icon_name).by(t.id);
-  findUsersByName = mm.selectRows(t.id, t.name, t.icon_name).where`${
+  findUserByID = mm
+    .select(...coreCols)
+    .by(t.id)
+    .attr(mm.ActionAttributes.resultTypeName, findUserResult);
+  findUsersByName = mm.selectRows(...coreCols).where`${
     t.name
-  } LIKE ${t.name.toInput()}`.noOrderBy;
+  } LIKE ${t.name.toInput()}`.noOrderBy.attr(mm.ActionAttributes.resultTypeName, findUserResult);
 
   updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
   updateBio = mm.updateOne().setInputs(t.bio).by(t.id);
+
+  // Unsafe methods. Need extra admin check.
+  unsafeSelectAdmins = mm.selectRows(...coreCols).where`${t.admin} = 1`.orderByAsc(t.id);
   unsafeUpdateAdmin = mm.updateOne().setInputs(t.admin).by(t.id);
 
   private addUserEntryInternal = mm.insertOne().setDefaults().setInputs();

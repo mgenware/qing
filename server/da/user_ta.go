@@ -28,16 +28,9 @@ func (da *TableTypeUser) AddUserStatsEntryInternal(queryable mingru.Queryable, i
 	return err
 }
 
-// UserTableFindUserByIDResult ...
-type UserTableFindUserByIDResult struct {
-	ID       uint64 `json:"ID,omitempty"`
-	Name     string `json:"name,omitempty"`
-	IconName string `json:"iconName,omitempty"`
-}
-
 // FindUserByID ...
-func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*UserTableFindUserByIDResult, error) {
-	result := &UserTableFindUserByIDResult{}
+func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*FindUserResult, error) {
+	result := &FindUserResult{}
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
 	if err != nil {
 		return nil, err
@@ -45,23 +38,16 @@ func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*U
 	return result, nil
 }
 
-// UserTableFindUsersByNameResult ...
-type UserTableFindUsersByNameResult struct {
-	ID       uint64 `json:"ID,omitempty"`
-	Name     string `json:"name,omitempty"`
-	IconName string `json:"iconName,omitempty"`
-}
-
 // FindUsersByName ...
-func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string) ([]*UserTableFindUsersByNameResult, error) {
+func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string) ([]*FindUserResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `name` LIKE ?", name)
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*UserTableFindUsersByNameResult, 0)
+	result := make([]*FindUserResult, 0)
 	defer rows.Close()
 	for rows.Next() {
-		item := &UserTableFindUsersByNameResult{}
+		item := &FindUserResult{}
 		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
 		if err != nil {
 			return nil, err
@@ -120,7 +106,7 @@ func (da *TableTypeUser) SelectIDFromEmail(queryable mingru.Queryable, email str
 type UserTableSelectProfileResult struct {
 	ID       uint64  `json:"-"`
 	Name     string  `json:"name,omitempty"`
-	IconName string  `json:"iconName,omitempty"`
+	IconName string  `json:"-"`
 	Location string  `json:"location,omitempty"`
 	Company  string  `json:"company,omitempty"`
 	Website  string  `json:"website,omitempty"`
@@ -139,9 +125,9 @@ func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*
 
 // UserTableSelectSessionDataResult ...
 type UserTableSelectSessionDataResult struct {
-	ID       uint64 `json:"ID,omitempty"`
+	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
-	IconName string `json:"iconName,omitempty"`
+	IconName string `json:"-"`
 	Admin    bool   `json:"admin,omitempty"`
 }
 
@@ -149,6 +135,36 @@ type UserTableSelectSessionDataResult struct {
 func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
 	result := &UserTableSelectSessionDataResult{}
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// UserTableUnsafeSelectAdminsResult ...
+type UserTableUnsafeSelectAdminsResult struct {
+	ID       uint64 `json:"-"`
+	Name     string `json:"name,omitempty"`
+	IconName string `json:"-"`
+}
+
+// UnsafeSelectAdmins ...
+func (da *TableTypeUser) UnsafeSelectAdmins(queryable mingru.Queryable) ([]*UserTableUnsafeSelectAdminsResult, error) {
+	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `admin` = 1 ORDER BY `id`")
+	if err != nil {
+		return nil, err
+	}
+	result := make([]*UserTableUnsafeSelectAdminsResult, 0)
+	defer rows.Close()
+	for rows.Next() {
+		item := &UserTableUnsafeSelectAdminsResult{}
+		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, item)
+	}
+	err = rows.Err()
 	if err != nil {
 		return nil, err
 	}

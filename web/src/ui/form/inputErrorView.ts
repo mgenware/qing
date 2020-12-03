@@ -8,6 +8,10 @@ export class InputErrorView extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: inline-block;
+        }
+
         div {
           display: inline-block;
           padding: 5px 8px;
@@ -27,11 +31,7 @@ export class InputErrorView extends BaseElement {
     if (!message) {
       return html``;
     }
-    return html`
-      <div>
-        ${message}
-      </div>
-    `;
+    return html` <div>${message}</div> `;
   }
 }
 

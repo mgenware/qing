@@ -38,7 +38,7 @@ export abstract class MPListApp<T> extends BaseElement {
 
   render() {
     const { loadingStatus } = this;
-    if (loadingStatus.hasError) {
+    if (!loadingStatus.isSuccess) {
       return html`<status-view
         .status=${loadingStatus}
         canRetry

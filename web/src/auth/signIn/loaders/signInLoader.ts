@@ -7,7 +7,7 @@ export default class SignInLoader extends BaseLoader<undefined> {
   }
 
   requestURL(): string {
-    return routes.s.p.auth.signIn;
+    return routes.s.pub.auth.signIn;
   }
 
   requestParams(): unknown {

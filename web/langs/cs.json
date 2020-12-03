@@ -116,5 +116,6 @@
   "usersAndGroups": "用户和组",
   "userID": "用户ID",
   "copy": "复制",
-  "copied": "复制完毕"
+  "copied": "复制完毕",
+  "findUsersByColon": "查抄用户选项："
 }

@@ -4,17 +4,13 @@ import { CHECK } from 'checks';
 import LikeHostType from './likeHostType';
 
 export default class SetLikeLoader extends BaseLoader<string> {
-  constructor(
-    public id: string,
-    public type: LikeHostType,
-    public liked: boolean,
-  ) {
+  constructor(public id: string, public type: LikeHostType, public liked: boolean) {
     super();
     CHECK(id);
   }
 
   requestURL(): string {
-    return routes.s.r.like.set;
+    return routes.s.pri.like.set;
   }
 
   requestParams(): unknown {

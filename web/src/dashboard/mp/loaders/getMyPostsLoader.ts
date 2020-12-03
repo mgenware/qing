@@ -36,10 +36,10 @@ export class GetMyPostsLoader<T> extends BaseLoader<PaginatedList<T>> {
   requestURL(): string {
     switch (this.entityType) {
       case entityPost:
-        return routes.s.r.mp.posts;
+        return routes.s.pri.mp.posts;
 
       case entityDiscussion:
-        return routes.s.r.mp.discussions;
+        return routes.s.pri.mp.discussions;
 
       default:
         throw new Error(`Unsupported entity type ${this.entityType}`);

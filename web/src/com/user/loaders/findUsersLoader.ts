@@ -3,19 +3,20 @@ import BaseLoader from 'lib/loader';
 import UserInfo from '../userInfo';
 import routes from 'routes';
 
-export default class FindUserByIDLoader extends BaseLoader<UserInfo> {
-  constructor(public id: string) {
+export default class FindUsersLoader extends BaseLoader<UserInfo[]> {
+  constructor(public byID: boolean, public value: string) {
     super();
-    CHECK(id);
+    CHECK(value);
   }
 
   requestURL(): string {
-    return routes.s.r.user.findByID;
+    return routes.s.pri.user.findUsers;
   }
 
   requestParams(): unknown {
     return {
-      id: this.id,
+      byID: this.byID,
+      value: this.value,
     };
   }
 }

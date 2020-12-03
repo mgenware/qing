@@ -7,4 +7,5 @@ var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Post("/set-admin", setAdmin)
+	Router.Post("/get-admins", getAdmins)
 }

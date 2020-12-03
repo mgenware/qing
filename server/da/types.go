@@ -21,6 +21,13 @@ type CmtData struct {
 	UserIconName string     `json:"-"`
 }
 
+// FindUserResult ...
+type FindUserResult struct {
+	ID       uint64 `json:"-"`
+	Name     string `json:"name,omitempty"`
+	IconName string `json:"-"`
+}
+
 // HomeItemInterface ...
 type HomeItemInterface struct {
 	ItemType     int        `json:"itemType,omitempty"`

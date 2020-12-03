@@ -2,13 +2,14 @@ import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import { CHECK } from 'checks';
+import 'ui/form/inputView';
+import 'ui/form/selectionView';
+import ls from 'ls';
 
 @customElement('user-selector-app')
 export class UserSelectorApp extends BaseElement {
-  @lp.number initialCount = 0;
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
-  @lp.number private totalCount = 0;
+  @lp.bool byID = true;
+  @lp.string value = '';
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -18,13 +19,17 @@ export class UserSelectorApp extends BaseElement {
 
   render() {
     return html`
-      <cmt-list-view
-        .totalCount=${this.totalCount}
-        .hostID=${this.hostID}
-        .hostType=${this.hostType}
-        .loadOnVisible=${!!this.initialCount}
-        @totalCountChangedWithOffset=${this.handleTotalCountChangedWithOffset}
-      ></cmt-list-view>
+      <div>${ls.findUsersByColon}</div>
+      <div>
+        <selection-view
+          .dataSource=${[{ text: ls.userID, selected: true }, { text: ls.name }]}
+        ></selection-view>
+      </div>
+      <input-view
+        required
+        value=${this.value}
+        @onChange=${(e: CustomEvent<string>) => (this.value = e.detail)}
+      ></input-view>
     `;
   }
 

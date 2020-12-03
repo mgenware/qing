@@ -7,7 +7,7 @@ export default class SetBioLoader extends BaseLoader<void> {
   }
 
   requestURL(): string {
-    return routes.s.r.profile.setBio;
+    return routes.s.pri.profile.setBio;
   }
 
   requestParams(): unknown {

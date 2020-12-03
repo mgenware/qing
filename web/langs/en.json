@@ -116,5 +116,6 @@
   "usersAndGroups": "Users and groups",
   "userID": "User ID",
   "copy": "Copy",
-  "copied": "Copied"
+  "copied": "Copied",
+  "findUsersByColon": "Find users by:"
 }

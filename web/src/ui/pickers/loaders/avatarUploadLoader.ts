@@ -7,10 +7,8 @@ export interface AvatarUploadResponse {
   iconS?: string;
 }
 
-export default class AvatarUploadLoader extends FileUploadLoader<
-  AvatarUploadResponse
-> {
+export default class AvatarUploadLoader extends FileUploadLoader<AvatarUploadResponse> {
   requestURL(): string {
-    return routes.s.r.profile.setAvatar;
+    return routes.s.pri.profile.setAvatar;
   }
 }

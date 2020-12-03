@@ -14,9 +14,10 @@ type UserInfo struct {
 }
 
 // NewUserInfo creates a new UserInfo with the given params.
-func NewUserInfo(uid uint64, iconName string) *UserInfo {
+func NewUserInfo(uid uint64, name, iconName string) *UserInfo {
 	r := &UserInfo{}
 	r.EID = validator.EncodeID(uid)
+	r.Name = name
 	r.URL = app.URL.UserProfile(uid)
 	r.IconURL = app.URL.UserIconURL50(uid, iconName)
 	r.EID = validator.EncodeID(uid)

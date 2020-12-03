@@ -14,10 +14,9 @@ export default buildTree({
       usersAndGroups: 'users-n-groups',
     },
   },
+  // Service APIs.
   s: {
-    // Service APIs
-    r: {
-      // Restricted (private) APIs
+    pri: {
       reqCapt: 'req-capt',
       profile: {
         getInfo: 'get-info',
@@ -46,12 +45,10 @@ export default buildTree({
         discussions: 'discussions',
       },
       user: {
-        findByID: 'find-by-id',
-        findByName: 'find-by-name',
+        findUsers: 'find-users',
       },
     },
-    p: {
-      // Public APIs
+    pub: {
       cmt: {
         get: 'get',
       },
@@ -59,6 +56,10 @@ export default buildTree({
         createNewUser: 'create-pwd-user',
         signIn: 'signin',
       },
+    },
+    admin: {
+      setAdmin: 'set-admin',
+      getAdmins: 'get-admins',
     },
   },
   auth: {

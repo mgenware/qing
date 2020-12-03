@@ -6,6 +6,5 @@ import "qing/app/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/find-by-id", findUserByID)
-	Router.Post("/find-by-name", findUsersByName)
+	Router.Post("/find-users", findUsers)
 }

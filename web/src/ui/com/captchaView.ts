@@ -43,7 +43,7 @@ export class CaptchaView extends BaseElement {
   }
 
   render() {
-    const src = `${routes.s.r.reqCapt}?entityType=${this.entityType}&t=${this.timestamp}`;
+    const src = `${routes.s.pri.reqCapt}?entityType=${this.entityType}&t=${this.timestamp}`;
     return html`
       <span>
         <a class="root-img" @click=${this.handleClick} href="#">

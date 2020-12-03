@@ -7,7 +7,7 @@ export default class CreateNewUserLoader extends BaseLoader<undefined> {
   }
 
   requestURL(): string {
-    return routes.s.p.auth.createNewUser;
+    return routes.s.pub.auth.createNewUser;
   }
 
   requestParams(): unknown {

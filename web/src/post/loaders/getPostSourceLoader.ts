@@ -12,7 +12,7 @@ export class GetPostSourceLoader extends BaseLoader<GetPostSourceResult> {
   }
 
   requestURL(): string {
-    return routes.s.r.compose.getPostSource;
+    return routes.s.pri.compose.getPostSource;
   }
 
   requestParams(): unknown {

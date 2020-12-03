@@ -11,7 +11,7 @@ export class GetCmtSourceLoader extends BaseLoader<GetCmtSourceResult> {
   }
 
   requestURL(): string {
-    return routes.s.r.compose.getCmtSource;
+    return routes.s.pri.compose.getCmtSource;
   }
 
   requestParams(): unknown {
