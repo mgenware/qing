@@ -5,9 +5,9 @@ import * as lp from 'lit-props';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
-import 'ui/com/centeredView';
-import 'ui/com/spinnerView';
-import './errorView';
+import 'ui/panels/centeredView';
+import 'ui/status/spinnerView';
+import '../content/errorView';
 
 @customElement('status-overlay')
 export class StatusOverlay extends BaseElement {

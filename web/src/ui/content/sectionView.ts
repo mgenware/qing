@@ -1,7 +1,7 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import { AppViewStyleNullable } from './types/appViewStyle';
+import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('section-view')
 export class SectionView extends BaseElement {

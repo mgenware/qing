@@ -1,7 +1,7 @@
 import { customElement, css, html } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import '../com/centeredView';
+import '../panels/centeredView';
 
 @customElement('notice-view')
 export class NoticeView extends BaseElement {

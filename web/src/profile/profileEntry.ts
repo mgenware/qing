@@ -1,11 +1,10 @@
 // Used in profile post list.
 import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'lit-element';
-import 'ui/com/timeField';
-import 'ui//com2//tabView';
-import { tabViewActiveClass } from 'ui//com2//tabView';
-import 'ui//com2//noContentView';
-import 'ui/com/tagView';
+import 'ui/content/timeField';
+import 'ui/lists/tabView';
+import { tabViewActiveClass } from 'ui/lists/tabView';
+import 'ui/content/tagView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 import profileWind from './profileWind';
 import './views/profileIDView';

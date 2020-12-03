@@ -3,9 +3,10 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
 import ls from 'ls';
-import 'ui/com/sectionView';
-import 'ui/com/statusOverlay';
-import 'ui/com/tagView';
+import 'ui/content/sectionView';
+import 'ui/status/statusOverlay';
+import 'ui/content/tagView';
+import 'ui/content/noticeView';
 import 'com/user/userSelectorApp';
 import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
@@ -57,7 +58,7 @@ export class UserMgrApp extends BaseElement {
   private renderAdmins() {
     const { admins } = this;
     if (!admins.length) {
-      return html`<no-content-view></no-content-view>`;
+      return html`<notice-view>${ls.noContentAvailable}</notice-view>`;
     }
     return html`<div class="app-table-container m-t-md">
       <table class="app-table">

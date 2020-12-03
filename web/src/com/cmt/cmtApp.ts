@@ -1,7 +1,7 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import 'ui/com/itemCounter';
+import 'ui/lists/itemCounter';
 import './cmtView';
 import './addCmtApp';
 import './cmtListView';

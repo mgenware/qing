@@ -1,7 +1,7 @@
 import BaseElement from 'baseElement';
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
-import { AppViewStyleNullable } from './types/appViewStyle';
+import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('tag-view')
 export class TagView extends BaseElement {

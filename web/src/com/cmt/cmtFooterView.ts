@@ -2,7 +2,7 @@ import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import { formatLS, ls } from 'ls';
-import 'ui/com/statusView';
+import 'ui/status/statusView';
 import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('cmt-footer-view')

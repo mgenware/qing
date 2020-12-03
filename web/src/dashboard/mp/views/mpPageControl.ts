@@ -1,8 +1,8 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
-import 'ui/com/itemCounter';
-import 'ui/com/linkButton';
+import 'ui/lists/itemCounter';
+import 'ui/buttons/linkButton';
 import ls, { formatLS } from 'ls';
 import app from 'app';
 

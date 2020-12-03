@@ -2,11 +2,11 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'qing-button';
-import 'ui/com/alertView';
-import 'ui/com/spinnerView';
-import 'ui/com/centeredView';
-import 'ui/com/statusView';
-import 'ui/com/statusOverlay';
+import 'ui/content/alertView';
+import 'ui/status/spinnerView';
+import 'ui/panels/centeredView';
+import 'ui/status/statusView';
+import 'ui/status/statusOverlay';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
 

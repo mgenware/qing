@@ -1,14 +1,15 @@
 import { html, TemplateResult, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
-import 'ui/com/statusView';
-import 'ui/com/sectionView';
-import 'ui//com2//noContentView';
+import 'ui/status/statusView';
+import 'ui/content/sectionView';
+import 'ui/content/noticeView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './mpPageControl';
 import Loader from 'lib/loader';
 import app from 'app';
+import ls from 'ls';
 
 const defaultPageSize = 10;
 
@@ -55,7 +56,7 @@ export abstract class MPListApp<T> extends BaseElement {
               ${this.renderTable()}
             </table>
           </div>`
-        : html`<no-content-view></no-content-view>`}
+        : html`<notice-view>${ls.noContentAvailable}</notice-view>`}
       <hr />
       <mp-page-control
         .page=${this.page}

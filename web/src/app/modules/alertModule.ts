@@ -1,6 +1,6 @@
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
-import 'ui/com/spinnerView';
+import 'ui/status/spinnerView';
 import 'qing-dialog-component';
 import {
   QingDialog,
