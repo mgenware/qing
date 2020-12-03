@@ -16,6 +16,7 @@ type Dictionary struct {
 	Lang                         string `json:"_lang"`
 	SiteName                     string `json:"_siteName"`
 	AboutMe                      string `json:"aboutMe"`
+	Actions                      string `json:"actions"`
 	AddAnAdmin                   string `json:"addAnAdmin"`
 	AdminAccounts                string `json:"adminAccounts"`
 	Bio                          string `json:"bio"`
@@ -101,6 +102,8 @@ type Dictionary struct {
 	RegEmailSentContent          string `json:"regEmailSentContent"`
 	RegEmailSentTitle            string `json:"regEmailSentTitle"`
 	RegEmailVeriExpired          string `json:"regEmailVeriExpired"`
+	RemoveAdmin                  string `json:"removeAdmin"`
+	RemoveAdminConfirmation      string `json:"removeAdminConfirmation"`
 	Replies                      string `json:"replies"`
 	Reply                        string `json:"reply"`
 	Request                      string `json:"request"`
@@ -118,6 +121,7 @@ type Dictionary struct {
 	SignUp                       string `json:"signUp"`
 	ThemeDark                    string `json:"themeDark"`
 	ThemeLight                   string `json:"themeLight"`
+	ThisIsYou                    string `json:"thisIsYou"`
 	Title                        string `json:"title"`
 	UnsavedChangesWarning        string `json:"unsavedChangesWarning"`
 	UnsupportedImgExtErr         string `json:"unsupportedImgExtErr"`

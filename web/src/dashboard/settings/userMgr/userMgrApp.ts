@@ -2,15 +2,18 @@ import { customElement, css, html } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
-import ls from 'ls';
+import ls, { formatLS } from 'ls';
 import 'ui/content/sectionView';
 import 'ui/status/statusOverlay';
 import 'ui/content/tagView';
+import 'ui/buttons/linkButton';
 import 'ui/content/noticeView';
 import 'com/user/userSelectorApp';
 import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
 import app from 'app';
+import SetAdminLoader from './loaders/setAdminLoader';
+import { skipItem } from 'lib/arrayUtils';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {
@@ -64,27 +67,51 @@ export class UserMgrApp extends BaseElement {
       <table class="app-table">
         <thead>
           <th>${ls.name}</th>
+          <th>${ls.actions}</th>
         </thead>
         <tbody>
-          ${admins.map(
-            (item) => html`
-              <tr>
-                <td>${this.renderUserRow(item)}</td>
-              </tr>
-            `,
-          )}
+          ${admins.map((item) => this.renderUserRow(item))}
         </tbody>
       </table>
     </div>`;
   }
 
   private renderUserRow(user: UserInfo) {
+    const thisIsYou = app.state.userID === user.eid;
     return html`
-      <a href=${user.url} target="_blank">
-        <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="25" height="25" />
-        <span class="m-l-md">${user.name}</span>
-      </a>
+      <tr>
+        <td>
+          <a href=${user.url} target="_blank">
+            <img
+              src=${user.iconURL}
+              class="avatar-m vertical-align-middle"
+              width="25"
+              height="25"
+            />
+            <span class="m-l-md">${user.name}</span>
+          </a>
+        </td>
+        <td>
+          ${thisIsYou
+            ? html`<tag-view tagStyle="warning">${ls.thisIsYou}</tag-view>`
+            : html`<link-button @click=${() => this.handleRemoveAdmin(user)}
+                >${ls.removeAdmin}</link-button
+              >`}
+        </td>
+      </tr>
     `;
+  }
+
+  private async handleRemoveAdmin(user: UserInfo) {
+    const ok = await app.alert.confirm(formatLS(ls.removeAdminConfirmation, user.name));
+    if (!ok) {
+      return;
+    }
+    const loader = new SetAdminLoader(user.eid, false);
+    const res = await app.runGlobalActionAsync(loader);
+    if (res.isSuccess) {
+      this.admins = skipItem(this.admins, user);
+    }
   }
 }
 

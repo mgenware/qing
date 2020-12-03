@@ -119,5 +119,9 @@
   "copied": "复制完毕",
   "findUsersByColon": "查抄用户选项：",
   "addAnAdmin": "添加一个管理员",
-  "noResultsFound": "没有找到任何结果"
+  "noResultsFound": "没有找到任何结果",
+  "removeAdmin": "移除管理员权限",
+  "removeAdminConfirmation": "确定将\"{0}\"从管理员中移除吗？",
+  "actions": "可选操作",
+  "thisIsYou": "这是你"
 }

@@ -119,5 +119,9 @@
   "copied": "Copied",
   "findUsersByColon": "Find users by:",
   "addAnAdmin": "Add an admin",
-  "noResultsFound": "No results found"
+  "noResultsFound": "No results found",
+  "removeAdmin": "Remove admin",
+  "removeAdminConfirmation": "Do you want to remove \"{0}\" from admins?",
+  "actions": "Actions",
+  "thisIsYou": "This is you"
 }

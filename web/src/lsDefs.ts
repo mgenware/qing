@@ -120,4 +120,8 @@ export default interface LSDefs {
   findUsersByColon: string;
   addAnAdmin: string;
   noResultsFound: string;
+  removeAdmin: string;
+  removeAdminConfirmation: string;
+  actions: string;
+  thisIsYou: string;
 }
