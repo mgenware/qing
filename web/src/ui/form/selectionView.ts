@@ -6,10 +6,11 @@ import BaseElement from 'baseElement';
 export interface SelectionViewItem {
   text: string;
   value?: unknown;
-  selected?: boolean;
+  checked?: boolean;
 }
 
 export interface SelectionViewItemEvent {
+  checked: boolean;
   text: string;
   value: unknown;
   index: number;
@@ -23,6 +24,66 @@ export class SelectionView extends BaseElement {
       css`
         :host {
           display: block;
+        }
+
+        /** Radio-box */
+        /** https://dev.to/kallmanation/styling-a-radio-button-with-only-css-4llc
+ */
+        label > input[type='radio'] {
+          display: none;
+        }
+        label > input[type='radio'] + *::before {
+          content: '';
+          display: inline-block;
+          vertical-align: bottom;
+          width: 1.2rem;
+          height: 1.2rem;
+          margin-right: 0.3rem;
+          border-radius: 50%;
+          border-style: solid;
+          border-width: 0.1rem;
+          border-color: var(--default-secondary-fore-color);
+        }
+        label > input[type='radio']:checked + * {
+          font-weight: bold;
+        }
+        label > input[type='radio']:checked + *::before {
+          background: radial-gradient(
+            var(--default-primary-fore-color) 0%,
+            var(--default-primary-fore-color) 40%,
+            transparent 50%,
+            transparent
+          );
+          border-color: var(--default-primary-fore-color);
+        }
+
+        /** Checkbox */
+        /** https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
+ */
+        label > input[type='checkbox'] {
+          display: none;
+        }
+        label > input[type='checkbox'] + *::before {
+          content: '';
+          display: inline-block;
+          vertical-align: bottom;
+          width: 1.2rem;
+          height: 1.2rem;
+          margin-right: 0.3rem;
+          border-radius: 10%;
+          border-style: solid;
+          border-width: 0.1rem;
+          border-color: var(--default-secondary-fore-color);
+        }
+        label > input[type='checkbox']:checked + * {
+          font-weight: bold;
+        }
+        label > input[type='checkbox']:checked + *::before {
+          content: '✓';
+          color: var(--primary-fore-color);
+          text-align: center;
+          background: var(--primary-back-color);
+          border-color: var(--primary-back-color);
         }
       `,
     ];
@@ -44,32 +105,43 @@ export class SelectionView extends BaseElement {
   }
 
   private renderCheckBox(item: SelectionViewItem, index: number): TemplateResult {
-    const id = `checkbox_idx_${index}`;
-    return html`<input
-        type="checkbox"
-        name="checkbox"
-        id=${id}
-        ?checked=${item.selected}
-        @change=${() => this.handleOnChange(item, index)}
-      /><label for=${id}>${item.text}</label>`;
+    const name = 'check-box';
+    return html`
+      <label>
+        <input
+          type="checkbox"
+          .checked=${item.checked}
+          name=${name}
+          @change=${(e: Event) => this.handleOnChange(e, item, index)}
+        />
+        <span>${item.text}</span>
+      </label>
+    `;
   }
 
   private renderRadioBox(item: SelectionViewItem, index: number): TemplateResult {
-    const id = `radiobox_idx_${index}`;
-    return html`<input
-        type="radio"
-        name="radioBox"
-        id=${id}
-        ?checked=${item.selected}
-        @change=${() => this.handleOnChange(item, index)}
-      /><label for=${id}>${item.text}</label>`;
+    // Name is required to make sure each option is mutually exclusive.
+    const name = 'radio-box';
+    return html`
+      <label>
+        <input
+          type="radio"
+          .checked=${item.checked}
+          name=${name}
+          @change=${(e: Event) => this.handleOnChange(e, item, index)}
+        />
+        <span>${item.text}</span>
+      </label>
+    `;
   }
 
-  private handleOnChange(item: SelectionViewItem, index: number) {
+  private handleOnChange(e: Event, item: SelectionViewItem, index: number) {
+    const { checked } = e.target as HTMLInputElement;
     const detail: SelectionViewItemEvent = {
       text: item.text,
       value: item.value,
       index,
+      checked,
     };
     this.dispatchEvent(
       new CustomEvent<SelectionViewItemEvent>('onSelectionChange', { detail }),

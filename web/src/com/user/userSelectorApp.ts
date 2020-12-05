@@ -40,6 +40,31 @@ export class UserSelectorApp extends BaseElement {
           font-size: 1.2rem;
           color: var(--default-secondary-fore-color);
         }
+
+        .user-row {
+          cursor: pointer;
+          display: block;
+          padding: 0.2rem 0.4rem;
+        }
+        .user-row:hover {
+          background-color: var(--primary-back-color);
+          color: var(--primary-fore-color);
+          /** Reset the default brightness filter in app.css */
+          filter: none;
+        }
+
+        .selected-user-row {
+          font-size: 1rem;
+          max-width: 100%;
+          width: 100%;
+          margin-bottom: 0.8rem;
+          line-height: 1.5;
+          background-color: transparent;
+          color: var(--default-fore-color);
+          border: 1px solid var(--default-separator-color);
+          padding: 0.35rem 0.6rem;
+          border-radius: 5px;
+        }
       `,
     ];
   }
@@ -48,7 +73,8 @@ export class UserSelectorApp extends BaseElement {
   @lp.string value = '';
   @lp.array private users: UserInfo[] = [];
   @lp.object private status = LoadingStatus.empty;
-  @lp.bool private popperVisible = false;
+  @lp.bool private popoverVisible = false;
+  @lp.object private selectedUser: UserInfo | null = null;
 
   private inputView!: HTMLElement;
   private popoverRoot!: HTMLElement;
@@ -59,18 +85,25 @@ export class UserSelectorApp extends BaseElement {
   }
 
   render() {
-    const { users } = this;
+    const { users, selectedUser } = this;
     return html`
       <div>${ls.findUsersByColon}</div>
-      <div>
-        <selection-view
-          .dataSource=${[{ text: ls.userID, selected: true }, { text: ls.name }]}
-          @onSelectionChange=${this.handleByIDSelectionChange}
-        ></selection-view>
-      </div>
+      ${selectedUser
+        ? html`<div class="selected-user-row m-t-md">
+            <qing-button class="vertical-align-middle" @click=${this.handleRemoveSelection}
+              >✖</qing-button
+            ><user-card class="m-l-md" .user=${selectedUser}></user-card>
+          </div>`
+        : html`<selection-view
+            class="m-t-md"
+            .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
+            @onSelectionChange=${this.handleByIDSelectionChange}
+          ></selection-view>`}
       <input-view
+        class="m-t-md"
         id="input-view"
         required
+        style=${`visibility: ${selectedUser ? 'collapse' : 'visible'}`}
         .showInputView=${false}
         .value=${this.value}
         debounceOnChange
@@ -80,7 +113,7 @@ export class UserSelectorApp extends BaseElement {
       <status-overlay
         id="popover-root"
         .status=${this.status}
-        style=${`visibility: ${this.popperVisible ? 'visible' : 'collapse'}`}
+        style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}
       >
         <div class="list-view">
           ${users.length
@@ -93,16 +126,15 @@ export class UserSelectorApp extends BaseElement {
 
   private renderUserRow(user: UserInfo) {
     return html`
-      <div>
-        <a>
-          <user-card .user=${user}></user-card>
-        </a>
-      </div>
+      <a class="user-row" href="#" @click=${() => this.handleUserRowClick(user)}>
+        <user-card .user=${user}></user-card>
+      </a>
     `;
   }
 
-  private handleByIDSelectionChange(e: SelectionViewItemEvent) {
+  private async handleByIDSelectionChange(e: SelectionViewItemEvent) {
     this.byID = e.index === 0;
+    await this.startRequestAsync();
   }
 
   private handleValueChange(e: CustomEvent<string>) {
@@ -110,12 +142,12 @@ export class UserSelectorApp extends BaseElement {
     if (this.value) {
       this.showPopoverIfNeeded();
     } else {
-      this.popperVisible = false;
+      this.popoverVisible = false;
     }
   }
 
   private showPopoverIfNeeded() {
-    if (this.popperVisible) {
+    if (this.popoverVisible) {
       return;
     }
     document.addEventListener(
@@ -129,10 +161,23 @@ export class UserSelectorApp extends BaseElement {
       strategy: 'fixed',
       placement: 'bottom',
     });
-    this.popperVisible = true;
+    this.popoverVisible = true;
+  }
+
+  private async handleUserRowClick(user: UserInfo) {
+    this.selectedUser = user;
+    this.popoverVisible = false;
   }
 
   private async handleValueChangeDebounced() {
+    await this.startRequestAsync();
+  }
+
+  private handleRemoveSelection() {
+    this.selectedUser = null;
+  }
+
+  private async startRequestAsync() {
     const { value } = this;
     if (!value) {
       return;

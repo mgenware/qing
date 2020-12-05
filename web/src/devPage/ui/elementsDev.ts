@@ -7,6 +7,7 @@ import 'ui/status/spinnerView';
 import 'ui/panels/centeredView';
 import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
+import 'ui/form/selectionView';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
 
@@ -129,6 +130,15 @@ export class ElementsDev extends BaseElement {
         <div class="highlighted">Highlight color</div>
         <h1>Views</h1>
         <hr />
+        <h2>Selection view</h2>
+        <selection-view
+          multiSelect
+          .dataSource=${[{ text: 'Qing', checked: true }, { text: 'Ming' }, { text: 'Yuan' }]}
+        ></selection-view>
+        <selection-view
+          class="m-t-md"
+          .dataSource=${[{ text: 'Qing', checked: true }, { text: 'Ming' }, { text: 'Yuan' }]}
+        ></selection-view>
         <h2>Alerts</h2>
         <alert-view>Default</alert-view>
         <alert-view alertStyle="primary">Primary</alert-view>

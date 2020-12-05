@@ -48,7 +48,6 @@ export class InputView extends BaseElement {
           width: 100%;
           margin-bottom: 0.8rem;
           line-height: 1.5;
-          padding: 0.25rem 0.4rem;
           background-color: transparent;
           color: var(--default-fore-color);
           border: 1px solid var(--default-separator-color);

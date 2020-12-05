@@ -1,10 +1,21 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import UserInfo from './userInfo';
 
 @customElement('user-card')
 export class UserCard extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: inline-block;
+        }
+      `,
+    ];
+  }
+
   @lp.object user!: UserInfo;
 
   render() {
