@@ -69,6 +69,7 @@ export class InputView extends BaseElement {
   @lp.string value = '';
   @lp.string placeholder = '';
   @lp.bool debounceOnChange = false;
+  @lp.bool showInputError = false;
   private debouncedOnChangeHandler?: () => void;
 
   @lp.string private validationMessage = '';
@@ -82,6 +83,7 @@ export class InputView extends BaseElement {
   }
 
   render() {
+    const { showInputError } = this;
     return html`
       ${this.label ? html`<label class="app-form-label" for=${inputID}>${this.label}</label>` : ''}
       <input
@@ -91,8 +93,11 @@ export class InputView extends BaseElement {
         value=${this.value}
         placeholder=${this.placeholder}
         @input=${this.handleInput}
+        style=${showInputError ? '' : 'margin-bottom: 0'}
       />
-      <input-error-view message=${this.validationMessage}></input-error-view>
+      ${showInputError
+        ? html`<input-error-view message=${this.validationMessage}></input-error-view>`
+        : ''}
     `;
   }
 

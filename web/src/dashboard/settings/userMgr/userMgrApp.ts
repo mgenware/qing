@@ -14,6 +14,7 @@ import UserInfo from 'com/user/userInfo';
 import app from 'app';
 import SetAdminLoader from './loaders/setAdminLoader';
 import { skipItem } from 'lib/arrayUtils';
+import 'com/user/userCard';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {
@@ -82,13 +83,7 @@ export class UserMgrApp extends BaseElement {
       <tr>
         <td>
           <a href=${user.url} target="_blank">
-            <img
-              src=${user.iconURL}
-              class="avatar-m vertical-align-middle"
-              width="25"
-              height="25"
-            />
-            <span class="m-l-md">${user.name}</span>
+            <user-card .user=${user}></user-card>
           </a>
         </td>
         <td>

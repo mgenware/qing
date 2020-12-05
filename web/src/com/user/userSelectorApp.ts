@@ -11,6 +11,8 @@ import LoadingStatus from 'lib/loadingStatus';
 import FindUsersLoader from './loaders/findUsersLoader';
 import { SelectionViewItemEvent } from 'ui/form/selectionView';
 import app from 'app';
+import { createPopper } from '@popperjs/core';
+import './userCard';
 
 @customElement('user-selector-app')
 export class UserSelectorApp extends BaseElement {
@@ -19,12 +21,24 @@ export class UserSelectorApp extends BaseElement {
       super.styles,
       css`
         :host {
-          display: inline-block;
+          display: block;
         }
 
         .list-view {
           max-height: 300px;
           overflow-y: auto;
+        }
+
+        #popover-root {
+          border: 1px solid var(--default-separator-color);
+          min-width: 200px;
+          max-width: 100%;
+        }
+
+        .no-result-row {
+          padding: 0.7rem 1rem;
+          font-size: 1.2rem;
+          color: var(--default-secondary-fore-color);
         }
       `,
     ];
@@ -34,6 +48,15 @@ export class UserSelectorApp extends BaseElement {
   @lp.string value = '';
   @lp.array private users: UserInfo[] = [];
   @lp.object private status = LoadingStatus.empty;
+  @lp.bool private popperVisible = false;
+
+  private inputView!: HTMLElement;
+  private popoverRoot!: HTMLElement;
+
+  firstUpdated() {
+    this.inputView = this.mustGetShadowElement('input-view');
+    this.popoverRoot = this.mustGetShadowElement('popover-root');
+  }
 
   render() {
     const { users } = this;
@@ -46,17 +69,23 @@ export class UserSelectorApp extends BaseElement {
         ></selection-view>
       </div>
       <input-view
+        id="input-view"
         required
-        value=${this.value}
+        .showInputView=${false}
+        .value=${this.value}
         debounceOnChange
         @onChange=${this.handleValueChange}
         @onChangeDebounced=${this.handleValueChangeDebounced}
       ></input-view>
-      <status-overlay .status=${this.status}>
+      <status-overlay
+        id="popover-root"
+        .status=${this.status}
+        style=${`visibility: ${this.popperVisible ? 'visible' : 'collapse'}`}
+      >
         <div class="list-view">
           ${users.length
             ? users.map((item) => this.renderUserRow(item))
-            : html`<notice-view>${ls.noResultsFound}</notice-view>`}
+            : html`<div class="no-result-row">${ls.noResultsFound}</div>`}
         </div>
       </status-overlay>
     `;
@@ -65,8 +94,9 @@ export class UserSelectorApp extends BaseElement {
   private renderUserRow(user: UserInfo) {
     return html`
       <div>
-        <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="25" height="25" />
-        <span class="m-l-md">${user.name}</span>
+        <a>
+          <user-card .user=${user}></user-card>
+        </a>
       </div>
     `;
   }
@@ -77,6 +107,29 @@ export class UserSelectorApp extends BaseElement {
 
   private handleValueChange(e: CustomEvent<string>) {
     this.value = e.detail;
+    if (this.value) {
+      this.showPopoverIfNeeded();
+    } else {
+      this.popperVisible = false;
+    }
+  }
+
+  private showPopoverIfNeeded() {
+    if (this.popperVisible) {
+      return;
+    }
+    document.addEventListener(
+      'click touchend',
+      (e) => {
+        console.log('Touch end target', e.target);
+      },
+      { once: true },
+    );
+    createPopper(this.inputView, this.popoverRoot, {
+      strategy: 'fixed',
+      placement: 'bottom',
+    });
+    this.popperVisible = true;
   }
 
   private async handleValueChangeDebounced() {
@@ -88,6 +141,10 @@ export class UserSelectorApp extends BaseElement {
     const res = await app.runLocalActionAsync(loader, (st) => (this.status = st));
     if (res.data) {
       this.users = res.data;
+      if (app.devMode) {
+        // DEBUG: Add more users.
+        this.users = [...this.users, ...this.users, ...this.users, ...this.users];
+      }
     }
   }
 }
