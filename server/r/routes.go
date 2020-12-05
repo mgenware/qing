@@ -11,13 +11,13 @@ import (
 	"qing/app"
 	"qing/r/api"
 	"qing/r/authp"
+	"qing/r/dashboardp"
+	"qing/r/devpagep"
 	"qing/r/discussionp"
 	"qing/r/homep"
-	"qing/r/mp"
 	"qing/r/postp"
 	"qing/r/profilep"
 	"qing/r/sys"
-	"qing/r/testp"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -78,7 +78,7 @@ func Start() {
 	// Discussion router
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
 	// Dashboard router
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteDashboard, mp.Router)
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteDashboard, dashboardp.Router)
 	// Auth router
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteAuth, authp.Router)
 	// API router
@@ -90,7 +90,7 @@ func Start() {
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.Constants.RouteTest, testp.Router)
+			r.Mount("/"+defs.Constants.RouteDevPage, devpagep.Router)
 		}
 	}
 

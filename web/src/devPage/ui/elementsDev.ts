@@ -10,8 +10,8 @@ import 'ui/status/statusOverlay';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
 
-@customElement('views-demo')
-export class ViewsDemo extends BaseElement {
+@customElement('elements-dev')
+export class ElementsDev extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -167,6 +167,6 @@ export class ViewsDemo extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'views-demo': ViewsDemo;
+    'elements-dev': ElementsDev;
   }
 }

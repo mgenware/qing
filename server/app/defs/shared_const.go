@@ -45,10 +45,10 @@ type SharedConstants struct {
 	RouteApi string
 	RouteAuth string
 	RouteDashboard string
+	RouteDevPage string
 	RouteDiscussion string
 	RouteForum string
 	RoutePost string
-	RouteTest string
 	RouteUser string
 }
 
@@ -95,10 +95,10 @@ func init() {
 		RouteApi: "s",
 		RouteAuth: "auth",
 		RouteDashboard: "home",
+		RouteDevPage: "__",
 		RouteDiscussion: "d",
 		RouteForum: "f",
 		RoutePost: "p",
-		RouteTest: "test",
 		RouteUser: "user",
 	}
 }

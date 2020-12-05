@@ -15,7 +15,7 @@
   "routeUser": "user",
   "routePost": "p",
   "routeAuth": "auth",
-  "routeTest": "test",
+  "routeDevPage": "__",
   "routeDashboard": "home",
   "routeAPI": "s",
   "routeForum": "f",

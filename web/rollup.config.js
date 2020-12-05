@@ -42,6 +42,9 @@ const input = [
   'auth/authEntry.ts',
   'home/homeEntry.ts',
 ];
+if (!isProd) {
+  input.push('devPage/devPageEntry.ts');
+}
 
 export default {
   input: input.map((s) => 'src/' + s),

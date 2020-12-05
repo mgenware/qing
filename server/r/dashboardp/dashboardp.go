@@ -1,4 +1,4 @@
-package mp
+package dashboardp
 
 import (
 	"net/http"
@@ -11,10 +11,10 @@ var Router = handler.NewHTMLRouter()
 
 func init() {
 	Router.Core.Use(app.UserManager.RequireLoginMiddlewareHTML)
-	Router.Get("/*", genericGET)
+	Router.Get("/*", defaultHandler)
 }
 
-func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
+func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 
 	// Page title and content will be set on frontend side.
