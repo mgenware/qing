@@ -117,7 +117,7 @@
   "userID": "用户ID",
   "copy": "复制",
   "copied": "复制完毕",
-  "findUsersByColon": "查抄用户选项：",
+  "findUsersByColon": "查找用户选项：",
   "addAnAdmin": "添加一个管理员",
   "noResultsFound": "没有找到任何结果",
   "removeAdmin": "移除管理员权限",

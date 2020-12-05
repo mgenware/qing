@@ -58,8 +58,14 @@ export class AvatarUploader extends BaseElement {
         </qing-dialog>
         <form id="formElement">
           <div>
-            <label>
-              <input type="file" id="uploadElement" name="avatarMain" accept=".jpg,.jpeg,.png" />
+            <label class="cursor-pointer">
+              <input
+                type="file"
+                id="uploadElement"
+                name="avatarMain"
+                accept=".jpg,.jpeg,.png"
+                style="display: none"
+              />
               <span class="file-cta">
                 <span class="file-icon">
                   <img src=${staticMainImage('upload.svg')} width="16" height="16" />

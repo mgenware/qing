@@ -58,10 +58,14 @@ img {
   vertical-align: middle;
 }
 
-/* Visibility helpers ------------------------- */
+/* Misc helpers ------------------------- */
 .content-disabled {
   pointer-events: none;
   opacity: 0.4;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 /* Flexbox helpers ------------------------- */
