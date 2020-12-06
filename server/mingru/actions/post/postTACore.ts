@@ -31,9 +31,9 @@ export default abstract class PostTACore extends mm.TableActions {
   // Joined user table.
   protected joinedUserTable: User;
   // User-related columns;
-  protected userColumns: mm.SelectActionColumns[];
+  protected userColumns: mm.SelectedColumn[];
   // Date-related columns;
-  protected dateColumns: mm.SelectActionColumns[];
+  protected dateColumns: mm.SelectedColumn[];
   // SQL conditions.
   protected updateConditions: mm.SQL;
 
@@ -116,12 +116,12 @@ export default abstract class PostTACore extends mm.TableActions {
   abstract getItemCmtTable(): PostCmtCore;
 
   // Returns [] if dashboard is not supported.
-  abstract getDashboardColumns(): mm.SelectActionColumns[];
-  abstract getDashboardOrderByColumns(): mm.SelectActionColumns[];
+  abstract getDashboardColumns(): mm.SelectedColumn[];
+  abstract getDashboardOrderByColumns(): mm.SelectedColumn[];
   // Returns [] if profile is not supported.
-  abstract getProfileColumns(): mm.SelectActionColumns[];
+  abstract getProfileColumns(): mm.SelectedColumn[];
   abstract getEditingColumns(): mm.Column[];
-  abstract getExtraFullColumns(): mm.SelectActionColumns[];
+  abstract getExtraFullColumns(): mm.SelectedColumn[];
 
   // Gets extra columns that are considered inputs during insertion.
   getExtraInsertionInputColumns(): mm.Column[] {
@@ -136,7 +136,7 @@ export default abstract class PostTACore extends mm.TableActions {
     return null;
   }
 
-  protected getFullColumns(): mm.SelectActionColumns[] {
+  protected getFullColumns(): mm.SelectedColumn[] {
     const t = this.getItemTable();
     const idCol = t.id.privateAttr();
     return [

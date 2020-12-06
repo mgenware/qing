@@ -9,17 +9,17 @@
     "build": "eslint --max-warnings 0 --ext .ts ./ && ts-node mingru"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.8.2",
-    "@typescript-eslint/parser": "^4.8.2",
-    "eslint": "^7.14.0",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.15.0",
     "eslint-config-airbnb-typescript-lite": "^12.0.0",
     "eslint-plugin-import": "^2.22.1",
-    "ts-node": "^9.0.0",
+    "ts-node": "^9.1.0",
     "typescript": "^4.1.2"
   },
   "dependencies": {
-    "mingru": "^0.40.0",
-    "mingru-models": "^0.48.0",
+    "mingru": "^0.41.0",
+    "mingru-models": "^0.49.0",
     "mingru-tsconfig": "^3.1.0"
   }
 }

@@ -32,16 +32,16 @@ export class AnswerTA extends PostTACore {
   }
 
   // Dashboard is not supported.
-  getDashboardColumns(): mm.SelectActionColumns[] {
+  getDashboardColumns(): mm.SelectedColumn[] {
     return [];
   }
 
-  getDashboardOrderByColumns(): mm.SelectActionColumns[] {
+  getDashboardOrderByColumns(): mm.SelectedColumn[] {
     return [];
   }
 
   // Profile is not supported.
-  getProfileColumns(): mm.SelectActionColumns[] {
+  getProfileColumns(): mm.SelectedColumn[] {
     return [];
   }
 
@@ -49,7 +49,7 @@ export class AnswerTA extends PostTACore {
     return [t.content];
   }
 
-  getExtraFullColumns(): mm.SelectActionColumns[] {
+  getExtraFullColumns(): mm.SelectedColumn[] {
     return [t.cmt_count];
   }
 

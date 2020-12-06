@@ -123,5 +123,6 @@
   "removeAdmin": "移除管理员权限",
   "removeAdminConfirmation": "确定将\"{0}\"从管理员中移除吗？",
   "actions": "可选操作",
-  "thisIsYou": "这是你"
+  "thisIsYou": "这是你",
+  "numOfThreads": "{0} 帖子"
 }

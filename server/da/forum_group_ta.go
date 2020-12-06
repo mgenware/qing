@@ -28,7 +28,7 @@ func (da *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64
 
 // InsertGroup ...
 func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, desc string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `created_at`, `desc_modified_at`, `child_count`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", name, desc)
+	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `desc_modified_at`, `child_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", name, desc)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

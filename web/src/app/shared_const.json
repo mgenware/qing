@@ -20,6 +20,7 @@
   "routeAPI": "s",
   "routeForum": "f",
   "routeDiscussion": "d",
+  "routeForumGroup": "g",
   "entityPost": 1,
   "entityCmt": 2,
   "entityReply": 3,
@@ -41,5 +42,7 @@
   "keyPage": "page",
   "keyPageSize": "pageSize",
   "keyTab": "tab",
-  "keyValue": "value"
+  "keyValue": "value",
+  "forumStatusOpen": 0,
+  "forumStatusArchived": 1
 }

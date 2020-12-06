@@ -5,6 +5,7 @@ import forumGroup from './forumGroup';
 export class Forum extends ForumCoreTable {
   group_id = forumGroup.id;
   thread_count = mm.uInt().default(0);
+  status = mm.uTinyInt().default(0);
 }
 
 export default mm.table(Forum);

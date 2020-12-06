@@ -15,15 +15,15 @@ export class PostTA extends PostTACore {
     return postCmt;
   }
 
-  getDashboardColumns(): mm.SelectActionColumns[] {
+  getDashboardColumns(): mm.SelectedColumn[] {
     return [t.title, t.cmt_count, t.likes];
   }
 
-  getDashboardOrderByColumns(): mm.SelectActionColumns[] {
+  getDashboardOrderByColumns(): mm.SelectedColumn[] {
     return [t.created_at, t.likes, t.cmt_count];
   }
 
-  getProfileColumns(): mm.SelectActionColumns[] {
+  getProfileColumns(): mm.SelectedColumn[] {
     return [t.title];
   }
 
@@ -31,7 +31,7 @@ export class PostTA extends PostTACore {
     return [t.title, t.content];
   }
 
-  getExtraFullColumns(): mm.SelectActionColumns[] {
+  getExtraFullColumns(): mm.SelectedColumn[] {
     return [t.title, t.cmt_count, t.likes];
   }
 

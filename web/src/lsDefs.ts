@@ -124,4 +124,5 @@ export default interface LSDefs {
   removeAdminConfirmation: string;
   actions: string;
   thisIsYou: string;
+  numOfThreads: string;
 }

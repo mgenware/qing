@@ -23,6 +23,10 @@ export class EditProfileApp extends BaseElement {
         .profile-img {
           border: 1px solid var(--default-separator-color);
         }
+
+        input-view {
+          margin-bottom: 1rem;
+        }
       `,
     ];
   }
@@ -71,39 +75,37 @@ export class EditProfileApp extends BaseElement {
       </div>
       <status-overlay .status=${this.updateInfoStatus}>
         <section-view sectionStyle="info">${ls.profile}</section-view>
-        <div>
-          <input-view
-            required
-            label=${ls.name}
-            value=${this.name}
-            @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
-          ></input-view>
+        <input-view
+          required
+          label=${ls.name}
+          value=${this.name}
+          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
+        ></input-view>
 
-          <input-view
-            required
-            label=${ls.url}
-            value=${this.url}
-            @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
-          ></input-view>
+        <input-view
+          required
+          label=${ls.url}
+          value=${this.url}
+          @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
+        ></input-view>
 
-          <input-view
-            required
-            label=${ls.company}
-            value=${this.company}
-            @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
-          ></input-view>
+        <input-view
+          required
+          label=${ls.company}
+          value=${this.company}
+          @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
+        ></input-view>
 
-          <input-view
-            required
-            label=${ls.location}
-            value=${this.location}
-            @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
-          ></input-view>
+        <input-view
+          required
+          label=${ls.location}
+          value=${this.location}
+          @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
+        ></input-view>
 
-          <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
-            ${ls.save}
-          </qing-button>
-        </div>
+        <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
+          ${ls.save}
+        </qing-button>
       </status-overlay>
     `;
   }

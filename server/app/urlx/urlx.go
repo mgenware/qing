@@ -10,10 +10,12 @@ import (
 	"strconv"
 )
 
+// URL helps generate common URLs.
 type URL struct {
 	config *cfg.Config
 }
 
+// NewURL creates a new URL.
 func NewURL(cfg *cfg.Config) *URL {
 	return &URL{config: cfg}
 }
@@ -105,4 +107,12 @@ func (u *URL) SignIn() string {
 
 func (u *URL) RegEmailVerification(publicID string) string {
 	return "/" + defs.Constants.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
+}
+
+func (u *URL) Forum(id uint64) string {
+	return "/" + defs.Constants.RouteForum + "/" + validator.EncodeID(id)
+}
+
+func (u *URL) ForumGroup(id uint64) string {
+	return "/" + defs.Constants.RouteForumGroup + "/" + validator.EncodeID(id)
 }

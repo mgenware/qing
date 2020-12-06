@@ -123,5 +123,6 @@
   "removeAdmin": "Remove admin",
   "removeAdminConfirmation": "Do you want to remove \"{0}\" from admins?",
   "actions": "Actions",
-  "thisIsYou": "This is you"
+  "thisIsYou": "This is you",
+  "numOfThreads": "{0} {0|countable|thread|threads}"
 }

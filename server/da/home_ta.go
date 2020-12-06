@@ -11,17 +11,17 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeHomeTable ...
-type TableTypeHomeTable struct {
+// TableTypeHome ...
+type TableTypeHome struct {
 }
 
-// HomeTable ...
-var HomeTable = &TableTypeHomeTable{}
+// Home ...
+var Home = &TableTypeHome{}
 
 // ------------ Actions ------------
 
 // SelectDiscussions ...
-func (da *TableTypeHomeTable) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
+func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -58,8 +58,71 @@ func (da *TableTypeHomeTable) SelectDiscussions(queryable mingru.Queryable, page
 	return result, itemCounter > len(result), nil
 }
 
+// HomeTableSelectForumGroupResult ...
+type HomeTableSelectForumGroupResult struct {
+	ID         uint64 `json:"-"`
+	Name       string `json:"name,omitempty"`
+	OrderIndex uint   `json:"orderIndex,omitempty"`
+	ChildCount uint   `json:"childCount,omitempty"`
+}
+
+// SelectForumGroup ...
+func (da *TableTypeHome) SelectForumGroup(queryable mingru.Queryable) ([]*HomeTableSelectForumGroupResult, error) {
+	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `child_count` FROM `forum_group` ORDER BY `order_index` DESC")
+	if err != nil {
+		return nil, err
+	}
+	result := make([]*HomeTableSelectForumGroupResult, 0)
+	defer rows.Close()
+	for rows.Next() {
+		item := &HomeTableSelectForumGroupResult{}
+		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ChildCount)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, item)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// HomeTableSelectForumsResult ...
+type HomeTableSelectForumsResult struct {
+	ID          uint64 `json:"-"`
+	Name        string `json:"name,omitempty"`
+	OrderIndex  uint   `json:"orderIndex,omitempty"`
+	ThreadCount uint   `json:"threadCount,omitempty"`
+	GroupID     uint64 `json:"groupID,omitempty"`
+}
+
+// SelectForums ...
+func (da *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]*HomeTableSelectForumsResult, error) {
+	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
+	if err != nil {
+		return nil, err
+	}
+	result := make([]*HomeTableSelectForumsResult, 0)
+	defer rows.Close()
+	for rows.Next() {
+		item := &HomeTableSelectForumsResult{}
+		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ThreadCount, &item.GroupID)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, item)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 // SelectItems ...
-func (da *TableTypeHomeTable) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
+func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -97,7 +160,7 @@ func (da *TableTypeHomeTable) SelectItems(queryable mingru.Queryable, page int, 
 }
 
 // SelectPosts ...
-func (da *TableTypeHomeTable) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
+func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err

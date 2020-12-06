@@ -11,6 +11,7 @@ export class SectionView extends BaseElement {
       css`
         :host {
           display: block;
+          margin-bottom: 1rem;
         }
 
         .section {

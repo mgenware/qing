@@ -18,15 +18,15 @@ export class DiscussionTA extends PostTACore {
     return discussionCmt;
   }
 
-  getDashboardColumns(): mm.SelectActionColumns[] {
+  getDashboardColumns(): mm.SelectedColumn[] {
     return [t.title, t.msg_count];
   }
 
-  getDashboardOrderByColumns(): mm.SelectActionColumns[] {
+  getDashboardOrderByColumns(): mm.SelectedColumn[] {
     return [t.created_at, t.msg_count];
   }
 
-  getProfileColumns(): mm.SelectActionColumns[] {
+  getProfileColumns(): mm.SelectedColumn[] {
     return [t.title];
   }
 
@@ -34,7 +34,7 @@ export class DiscussionTA extends PostTACore {
     return [t.title, t.content];
   }
 
-  getExtraFullColumns(): mm.SelectActionColumns[] {
+  getExtraFullColumns(): mm.SelectedColumn[] {
     return [t.title, t.cmt_count, t.msg_count];
   }
 

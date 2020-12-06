@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"qing/app/cfg/config"
 	"qing/app/extern"
 	"qing/app/handler"
 	"qing/app/handler/assetmgr"
@@ -52,6 +53,11 @@ func PanicIfErr(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+// SetupConfig returns config.SetupConfig.
+func SetupConfig() *config.SetupConfig {
+	return Config.Setup
 }
 
 func init() {

@@ -28,6 +28,8 @@ type SharedConstants struct {
 	ErrGeneric int
 	ErrInvalidUserOrPwd int
 	ErrNeedAuth int
+	ForumStatusArchived int
+	ForumStatusOpen int
 	KeyAnswers string
 	KeyDiscussions string
 	KeyPage string
@@ -48,6 +50,7 @@ type SharedConstants struct {
 	RouteDevPage string
 	RouteDiscussion string
 	RouteForum string
+	RouteForumGroup string
 	RoutePost string
 	RouteUser string
 }
@@ -78,6 +81,8 @@ func init() {
 		ErrGeneric: 10000,
 		ErrInvalidUserOrPwd: 1,
 		ErrNeedAuth: 10001,
+		ForumStatusArchived: 1,
+		ForumStatusOpen: 0,
 		KeyAnswers: "answers",
 		KeyDiscussions: "discussions",
 		KeyPage: "page",
@@ -98,6 +103,7 @@ func init() {
 		RouteDevPage: "__",
 		RouteDiscussion: "d",
 		RouteForum: "f",
+		RouteForumGroup: "g",
 		RoutePost: "p",
 		RouteUser: "user",
 	}
