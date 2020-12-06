@@ -16,7 +16,7 @@ export class AuthDev extends BaseElement {
       <container-view>
         <h1>Auth dev page</h1>
         <hr />
-        ${this.renderQuickLoginSection()} ${this.renderCreateUserSection()}
+        ${this.renderQuickLoginSection()}
       </container-view>
     `;
   }
@@ -29,35 +29,19 @@ export class AuthDev extends BaseElement {
           required
           label="Quick login"
           value=${this.loginUserID}
-          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}>
+        </input-view>
         <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
         <qing-button @click=${this.handleSignOut}>Sign out</qing-button>
       </p>
     `;
   }
 
-  private renderCreateUserSection() {
-    return html` <h2>Create a user</h2>
-      <hr />
-      <input-view
-        required
-        label="ID (Optional)"
-        value=${this.newUserID}
-        @onChange=${(e: CustomEvent<string>) => (this.newUserID = e.detail)}
-      ></input-view>
-      <input
-        type="checkbox"
-        @change=${(e: Event) => (this.newUserAdmin = (e.target as HTMLInputElement).checked)}
-      />
-      <qing-button>Create</qing-button>`;
-  }
-
   private handleSignIn() {
     if (!this.loginUserID) {
       return;
     }
-    window.location.href = `/${routes.auth.in}/${this.loginUserID}`;
+    window.location.href = `${routes.auth.in}/${this.loginUserID}`;
   }
 
   private handleSignOut() {

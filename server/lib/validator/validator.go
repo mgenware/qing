@@ -16,12 +16,12 @@ func panicMissingArg(key string) {
 	panic(fmt.Sprintf("The argument `%v` is required", key))
 }
 
-// EncodeID encodes the given integer ID to a string ID.
+// EncodeID encodes the given integer ID to a string.
 func EncodeID(id uint64) string {
 	return strconv.FormatUint(id, 36)
 }
 
-// DecodeID decodes the given string ID to a integer ID.
+// DecodeID decodes the given string ID to an integer.
 func DecodeID(str string) (uint64, error) {
 	return strconv.ParseUint(str, 36, 64)
 }
