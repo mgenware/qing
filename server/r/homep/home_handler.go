@@ -16,13 +16,13 @@ const defaultPageSize = 10
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := app.HTMLResponse(w, r)
 	db := app.DB
 
 	// Non-forums mode.
 	if !app.SetupConfig().ForumsMode {
 		page := validator.GetPageParamFromRequestQueryString(r)
 		tab := r.FormValue(defs.Constants.KeyTab)
-		resp := app.HTMLResponse(w, r)
 
 		var items []*da.HomeItemInterface
 		var hasNext bool
@@ -39,17 +39,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		var feedListHTMLBuilder strings.Builder
 		for _, item := range items {
-			itemData, err := NewHomePageItemData(item)
+			itemData, err := NewStdPageItemData(item)
 			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(vHomeItem.MustExecuteToString(itemData))
+			feedListHTMLBuilder.WriteString(vStdThreadItem.MustExecuteToString(itemData))
 		}
 
 		pageURLFormatter := &HomePageURLFormatter{Tab: tab}
 		pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 		pageBarHTML := rcom.GetPageBarHTML(pageData)
 
-		userData := NewHomePageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-		d := app.MasterPageData("", vHomePage.MustExecuteToString(resp.Lang(), userData))
+		userData := NewStdPageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
+		d := app.MasterPageData("", vStdPage.MustExecuteToString(resp.Lang(), userData))
 		d.Scripts = app.MasterPageManager.AssetsManager.JS.Home
 		return resp.MustComplete(d)
 	}
@@ -77,4 +77,23 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 			return v[i].OrderIndex < v[j].OrderIndex
 		})
 	}
+
+	var frmHTMLBuilder strings.Builder
+	// Iterate through forums.
+	for _, group := range forumGroups {
+		var forumsHTMLBuilder strings.Builder
+		for _, forum := range groupMap[group.ID] {
+			forumModel := NewForumModel(forum)
+			forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
+		}
+
+		groupModel := NewForumGroupModel(group, forumsHTMLBuilder.String())
+		frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
+	}
+
+	frmPageModel := NewFrmPageModel(frmHTMLBuilder.String())
+	d := app.MasterPageData("", vFrmPage.MustExecuteToString(frmPageModel))
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.Home
+	return resp.MustComplete(d)
+
 }

@@ -9,8 +9,8 @@ import (
 	"qing/r/rcom"
 )
 
-var vHomePage = app.MasterPageManager.MustParseLocalizedView("/home/homePage.html")
-var vHomeItem = app.MasterPageManager.MustParseView("/home/homeItem.html")
+var vStdPage = app.MasterPageManager.MustParseLocalizedView("/home/stdPage.html")
+var vStdThreadItem = app.MasterPageManager.MustParseView("/home/threadView.html")
 
 // Should be in sync with `HomeItemType` in `homeTA.ts`.
 const (
@@ -18,8 +18,8 @@ const (
 	homeItemDiscussion = 2
 )
 
-// HomePageData ...
-type HomePageData struct {
+// StdPageData ...
+type StdPageData struct {
 	handler.LocalizedTemplateData
 
 	FeedListHTML string
@@ -30,8 +30,8 @@ type HomePageData struct {
 	HomeDiscussionsURL string
 }
 
-// HomePageItemData is a data wrapper around PostTableSelectItemsForUserProfileResult.
-type HomePageItemData struct {
+// StdPageItemData is a data wrapper around PostTableSelectItemsForUserProfileResult.
+type StdPageItemData struct {
 	da.HomeItemInterface
 
 	ItemURL     string
@@ -39,9 +39,9 @@ type HomePageItemData struct {
 	UserIconURL string
 }
 
-// NewHomePageData creates a new ProfileData from profile DB result.
-func NewHomePageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *HomePageData {
-	d := &HomePageData{}
+// NewStdPageData creates a new StdPageData.
+func NewStdPageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdPageData {
+	d := &StdPageData{}
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML
@@ -50,9 +50,9 @@ func NewHomePageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *Hom
 	return d
 }
 
-// NewHomePageItemData creates a new HomePageItemData from a DB record.
-func NewHomePageItemData(item *da.HomeItemInterface) (*HomePageItemData, error) {
-	d := &HomePageItemData{HomeItemInterface: *item}
+// NewStdPageItemData creates a new StdPageItemData.
+func NewStdPageItemData(item *da.HomeItemInterface) (*StdPageItemData, error) {
+	d := &StdPageItemData{HomeItemInterface: *item}
 	switch item.ItemType {
 	case homeItemPost:
 		d.ItemURL = app.URL.Post(item.ID)

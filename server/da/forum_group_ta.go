@@ -28,7 +28,7 @@ func (da *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64
 
 // InsertGroup ...
 func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, desc string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `desc_modified_at`, `child_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", name, desc)
+	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `desc_modified_at`, `forum_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", name, desc)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -39,13 +39,13 @@ type ForumGroupTableSelectGroupResult struct {
 	DescHTML       string     `json:"descHTML,omitempty"`
 	CreatedAt      time.Time  `json:"createdAt,omitempty"`
 	DescModifiedAt *time.Time `json:"descModifiedAt,omitempty"`
-	ChildCount     uint       `json:"childCount,omitempty"`
+	ForumCount     uint       `json:"forumCount,omitempty"`
 }
 
 // SelectGroup ...
 func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (*ForumGroupTableSelectGroupResult, error) {
 	result := &ForumGroupTableSelectGroupResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `desc_modified_at`, `child_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.DescModifiedAt, &result.ChildCount)
+	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `desc_modified_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.DescModifiedAt, &result.ForumCount)
 	if err != nil {
 		return nil, err
 	}

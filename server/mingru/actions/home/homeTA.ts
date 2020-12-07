@@ -67,7 +67,7 @@ export class HomeTA extends mm.TableActions {
   }
 
   private getForumGroupCols(t: ForumGroup): mm.SelectedColumn[] {
-    return [t.id.privateAttr(), t.name, t.order_index, t.child_count];
+    return [t.id.privateAttr(), t.name, t.order_index, t.forum_count];
   }
 
   private getForumCols(t: Forum): mm.SelectedColumn[] {

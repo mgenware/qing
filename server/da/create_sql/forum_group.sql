@@ -10,7 +10,7 @@ CREATE TABLE `forum_group` (
 	`order_index` INT UNSIGNED NOT NULL DEFAULT 0,
 	`created_at` DATETIME NOT NULL,
 	`desc_modified_at` DATETIME NULL DEFAULT NULL,
-	`child_count` INT UNSIGNED NOT NULL DEFAULT 0,
+	`forum_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`)
 )
 CHARACTER SET=utf8mb4

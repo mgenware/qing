@@ -1,4 +1,4 @@
-import ls, { getLSByKey } from 'ls';
+import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/core';
 import { CSSResult } from 'lit-element';
 import { injectStyles, ready } from 'lib/htmlLib';
@@ -17,11 +17,22 @@ window.onerror = (error, url, lineNumber) => {
 function handleLocalizedStringSlots() {
   const elements = document.getElementsByClassName(localizedStringSlotClass);
   for (const element of elements) {
-    const { textContent } = element;
-    if (textContent) {
-      const str = getLSByKey(textContent);
+    const key = element.textContent;
+    if (key) {
+      const { dataset } = element as HTMLElement;
+      const params: string[] = [];
+      if (dataset.lsArg1) {
+        params.push(dataset.lsArg1);
+      }
+      if (dataset.lsArg2) {
+        params.push(dataset.lsArg2);
+      }
+      if (dataset.lsArg3) {
+        params.push(dataset.lsArg3);
+      }
+      const str = params.length ? formatLS(key, ...params) : getLSByKey(key);
       if (!str) {
-        console.error(`Unresolved localized string key "${textContent}"`);
+        console.error(`Unresolved localized string key "${key}"`);
       }
       element.textContent = str;
     }
