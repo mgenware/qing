@@ -3,7 +3,7 @@ import coreStyles from 'app/styles/core';
 import { CSSResult } from 'lit-element';
 import { injectStyles, ready } from 'lib/htmlLib';
 
-const localizedStringSlotClass = '__qing_ls';
+const localizedStringSlotClass = '__qing_ls__';
 
 // ---------------------------------
 // Handle uncaught exceptions

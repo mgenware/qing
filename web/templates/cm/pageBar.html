@@ -4,10 +4,10 @@
   {{if .TotalPage}}
   <a class="link-btn" href="{{.FirstPageURL}}">&lt;&lt;</a> {{end}}
   <a class="link-btn {{if not .HasPrevPage}}content-disabled{{end}}" href="{{.PrevPageURL}}"
-    ><span class="__qing_ls">previousPage</span></a
+    ><span class="__qing_ls__">previousPage</span></a
   >
   <a class="link-btn {{if not .HasNextPage}}content-disabled{{end}}" href="{{.NextPageURL}}"
-    ><span class="__qing_ls">nextPage</span></a
+    ><span class="__qing_ls__">nextPage</span></a
   >
   {{if .TotalPage}}
   <a class="link-btn" href="{{.LastPageURL}}">&gt;&gt;</a>
