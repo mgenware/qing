@@ -1,4 +1,5 @@
 import * as mm from 'mingru-models';
+import ThreadBase from '../../models/com/threadBase';
 import discussion from '../../models/discussion/discussion';
 import t from '../../models/forum/forum';
 import question from '../../models/qna/question';
@@ -18,7 +19,7 @@ export class ForumTA extends mm.TableActions {
 
   deleteItem = mm.deleteOne().by(t.id);
   updateInfo = mm.updateOne().setInputs(t.name, t.desc).setDefaults(t.desc_modified_at).by(t.id);
-  insertItem = mm.insertOne().setInputs(t.name, t.desc).setDefaults();
+  insertItem = mm.insertOne().setInputs(t.name, t.desc).setInputs();
 
   // Select threads.
   selectThreads: mm.SelectAction;
@@ -48,7 +49,7 @@ export class ForumTA extends mm.TableActions {
     return new mm.RawColumn(mm.sql`${itemType.toString()}`, threadTypeName, mm.int().__type);
   }
 
-  private getDefaultThreadCols(th: ThreadCore): mm.SelectedColumn[] {
+  private getDefaultThreadCols(th: ThreadBase): mm.SelectedColumn[] {
     const joinedUserTable = th.user_id.join(user);
     const privateCols = [
       th.id,

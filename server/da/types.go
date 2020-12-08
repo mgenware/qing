@@ -53,6 +53,19 @@ type ReplyData struct {
 	ToUserName   string     `json:"toUserName,omitempty"`
 }
 
+// ThreadInterface ...
+type ThreadInterface struct {
+	ThreadType    int        `json:"threadType,omitempty"`
+	ID            uint64     `json:"-"`
+	UserID        uint64     `json:"-"`
+	UserName      string     `json:"-"`
+	UserIconName  string     `json:"-"`
+	Title         string     `json:"title,omitempty"`
+	CreatedAt     time.Time  `json:"createdAt,omitempty"`
+	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
+	ReplyCount    uint       `json:"replyCount,omitempty"`
+}
+
 // ------------ Interfaces ------------
 
 // CmtInterface ...
