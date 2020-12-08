@@ -1,29 +1,29 @@
 import * as mm from 'mingru-models';
-import PostCmtCore from '../../models/post/postCmtCore';
-import PostCore from '../../models/post/postCore';
+import ContentBase from '../../models/com/contentBase';
+import ContentCmtBase from '../../models/com/contentCmtCore';
 import t from '../../models/qna/question';
 import questionCmt from '../../models/qna/questionCmt';
+import ThreadBaseTA from '../com/threadBaseTA';
 import { updateCounterAction } from '../misc/counterColumnTAFactory';
-import PostTACore from '../post/postTACore';
 import userStatsTA from '../user/userStatsTA';
 
-export class QuestionTA extends PostTACore {
-  updateMsgCount = updateCounterAction(t, t.answer_count);
+export class QuestionTA extends ThreadBaseTA {
+  updateMsgCount = updateCounterAction(t, t.reply_count);
 
-  getItemTable(): PostCore {
+  getBaseTable(): ContentBase {
     return t;
   }
 
-  getItemCmtTable(): PostCmtCore {
+  getCmtBaseTable(): ContentCmtBase {
     return questionCmt;
   }
 
   getDashboardColumns(): mm.SelectedColumn[] {
-    return [t.title, t.answer_count];
+    return [t.title, t.reply_count];
   }
 
   getDashboardOrderByColumns(): mm.SelectedColumn[] {
-    return [t.created_at, t.answer_count];
+    return [t.created_at, t.reply_count];
   }
 
   getProfileColumns(): mm.SelectedColumn[] {
@@ -35,7 +35,7 @@ export class QuestionTA extends PostTACore {
   }
 
   getExtraFullColumns(): mm.SelectedColumn[] {
-    return [t.title, t.cmt_count, t.answer_count];
+    return [t.title, t.cmt_count, t.reply_count];
   }
 
   getContainerUpdateCounterAction(): mm.Action {

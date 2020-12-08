@@ -1,8 +1,8 @@
 import * as mm from 'mingru-models';
 import { cmt } from '../cmt/cmt';
-import PostCore from './postCore';
+import ContentBase from './contentBase';
 
-export default abstract class PostCmtCore extends mm.Table {
+export default abstract class ContentCmtBase extends mm.Table {
   // Comment ID.
   cmt_id = mm.pk(cmt.id);
 
@@ -13,8 +13,8 @@ export default abstract class PostCmtCore extends mm.Table {
 
   constructor() {
     super();
-    this.host_id = mm.pk(this.getPostTable().id);
+    this.host_id = mm.pk(this.getHostTable().id);
   }
 
-  abstract getPostTable(): PostCore;
+  abstract getHostTable(): ContentBase;
 }

@@ -1,17 +1,17 @@
 import * as mm from 'mingru-models';
+import ContentBase from '../../models/com/contentBase';
+import ContentCmtBase from '../../models/com/contentCmtCore';
 import t from '../../models/post/post';
 import postCmt from '../../models/post/postCmt';
-import PostTACore from './postTACore';
-import PostCore from '../../models/post/postCore';
-import PostCmtCore from '../../models/post/postCmtCore';
+import ContentBaseTA from '../com/contentBaseTA';
 import userStatsTA from '../user/userStatsTA';
 
-export class PostTA extends PostTACore {
-  getItemTable(): PostCore {
+export class PostTA extends ContentBaseTA {
+  getBaseTable(): ContentBase {
     return t;
   }
 
-  getItemCmtTable(): PostCmtCore {
+  getCmtBaseTable(): ContentCmtBase {
     return postCmt;
   }
 

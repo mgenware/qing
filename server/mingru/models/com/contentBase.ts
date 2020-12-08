@@ -1,7 +1,7 @@
 import * as mm from 'mingru-models';
 import user from '../user/user';
 
-export default class PostCore extends mm.Table {
+export default class ContentBase extends mm.Table {
   id = mm.pk();
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;

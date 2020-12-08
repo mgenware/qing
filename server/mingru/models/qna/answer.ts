@@ -1,8 +1,8 @@
 import * as mm from 'mingru-models';
 import question from './question';
-import PostCore from '../post/postCore';
+import ContentBase from '../com/contentBase';
 
-export class Answer extends PostCore {
+export class Answer extends ContentBase {
   question_id = question.id;
 
   votes = mm.uInt().default(0);

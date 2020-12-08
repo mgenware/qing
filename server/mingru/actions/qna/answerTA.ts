@@ -1,14 +1,14 @@
 import * as mm from 'mingru-models';
-import PostCmtCore from '../../models/post/postCmtCore';
-import PostCore from '../../models/post/postCore';
+import ContentBase from '../../models/com/contentBase';
+import ContentCmtBase from '../../models/com/contentCmtCore';
 import t from '../../models/qna/answer';
 import answerCmt from '../../models/qna/answerCmt';
-import PostTACore from '../post/postTACore';
+import ContentBaseTA from '../com/contentBaseTA';
 import questionTA from './questionTA';
 
 const questionID = 'questionID';
 
-export class AnswerTA extends PostTACore {
+export class AnswerTA extends ContentBaseTA {
   selectItemsByQuestion: mm.SelectAction;
 
   constructor() {
@@ -23,11 +23,11 @@ export class AnswerTA extends PostTACore {
       .orderByAsc(t.created_at);
   }
 
-  getItemTable(): PostCore {
+  getBaseTable(): ContentBase {
     return t;
   }
 
-  getItemCmtTable(): PostCmtCore {
+  getCmtBaseTable(): ContentCmtBase {
     return answerCmt;
   }
 

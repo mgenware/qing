@@ -1,8 +1,7 @@
 import * as mm from 'mingru-models';
-import PostCore from './postCore';
+import ContentWithTitleBase from '../com/contentWithTitleBase';
 
-export class Post extends PostCore {
-  title = mm.varChar(255);
+export class Post extends ContentWithTitleBase {
   likes = mm.uInt().default(0);
 }
 

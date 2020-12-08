@@ -1,14 +1,14 @@
 import * as mm from 'mingru-models';
-import PostCmtCore from '../../models/post/postCmtCore';
-import PostCore from '../../models/post/postCore';
+import ContentBase from '../../models/com/contentBase';
+import ContentCmtBase from '../../models/com/contentCmtCore';
 import t from '../../models/discussion/discussionMsg';
 import discussionMsgCmt from '../../models/discussion/discussionMsgCmt';
-import PostTACore from '../post/postTACore';
+import ContentBaseTA from '../com/contentBaseTA';
 import discussionTA from './discussionTA';
 
 const discussionID = 'discussionID';
 
-export class DiscussionMsgTA extends PostTACore {
+export class DiscussionMsgTA extends ContentBaseTA {
   selectItemsByDiscussion: mm.SelectAction;
 
   constructor() {
@@ -23,11 +23,11 @@ export class DiscussionMsgTA extends PostTACore {
       .orderByAsc(t.created_at);
   }
 
-  getItemTable(): PostCore {
+  getBaseTable(): ContentBase {
     return t;
   }
 
-  getItemCmtTable(): PostCmtCore {
+  getCmtBaseTable(): ContentCmtBase {
     return discussionMsgCmt;
   }
 

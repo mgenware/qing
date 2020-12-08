@@ -32,15 +32,12 @@ export class HomeTA extends mm.TableActions {
     super();
 
     this.selectPosts = mm
-      .selectPage(this.typeCol(HomeItemType.postItem), ...this.getDefaultThreadCols(post))
+      .selectPage(this.typeCol(HomeItemType.postItem), ...this.getDefaultItemCols(post))
       .from(post)
       .orderByAsc(post.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
     this.selectDiscussions = mm
-      .selectPage(
-        this.typeCol(HomeItemType.discussionItem),
-        ...this.getDefaultThreadCols(discussion),
-      )
+      .selectPage(this.typeCol(HomeItemType.discussionItem), ...this.getDefaultItemCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
@@ -54,7 +51,7 @@ export class HomeTA extends mm.TableActions {
     return new mm.RawColumn(mm.sql`${itemType.toString()}`, itemTypeName, mm.int().__type);
   }
 
-  private getDefaultThreadCols(t: BaseEntityTableWithIDAndTitle): mm.SelectedColumn[] {
+  private getDefaultItemCols(t: BaseEntityTableWithIDAndTitle): mm.SelectedColumn[] {
     const joinedUserTable = t.user_id.join(user);
     const privateCols = [
       t.id,

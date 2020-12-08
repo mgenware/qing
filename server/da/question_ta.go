@@ -172,8 +172,8 @@ func (da *TableTypeQuestion) InsertCmt(db *sql.DB, content string, userID uint64
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypeQuestion) insertItemChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `question` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `votes`, `up_votes`, `down_votes`, `answer_count`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, 0, 0)", title, content, userID)
+func (da *TableTypeQuestion) insertItemChild1(queryable mingru.Queryable, forumID *uint64, title string, content string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `question` (`forum_id`, `title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `reply_count`, `last_replied_at`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, NULL, 0, 0, 0)", forumID, title, content, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -182,11 +182,11 @@ func (da *TableTypeQuestion) insertItemChild2(queryable mingru.Queryable, userID
 }
 
 // InsertItem ...
-func (da *TableTypeQuestion) InsertItem(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypeQuestion) InsertItem(db *sql.DB, forumID *uint64, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertItemChild1(tx, title, content, userID)
+		insertedID, err := da.insertItemChild1(tx, forumID, title, content, userID)
 		if err != nil {
 			return err
 		}
@@ -281,13 +281,13 @@ type QuestionTableSelectItemByIDResult struct {
 	ContentHTML  string     `json:"contentHTML,omitempty"`
 	Title        string     `json:"title,omitempty"`
 	CmtCount     uint       `json:"cmtCount,omitempty"`
-	AnswerCount  uint       `json:"answerCount,omitempty"`
+	ReplyCount   uint       `json:"replyCount,omitempty"`
 }
 
 // SelectItemByID ...
 func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint64) (*QuestionTableSelectItemByIDResult, error) {
 	result := &QuestionTableSelectItemByIDResult{}
-	err := queryable.QueryRow("SELECT `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`content` AS `content`, `question`.`title` AS `title`, `question`.`cmt_count` AS `cmt_count`, `question`.`answer_count` AS `answer_count` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.AnswerCount)
+	err := queryable.QueryRow("SELECT `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`content` AS `content`, `question`.`title` AS `title`, `question`.`cmt_count` AS `cmt_count`, `question`.`reply_count` AS `reply_count` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount)
 	if err != nil {
 		return nil, err
 	}
@@ -314,16 +314,16 @@ func (da *TableTypeQuestion) SelectItemForEditing(queryable mingru.Queryable, id
 // QuestionTableSelectItemsForDashboardOrderBy1 ...
 const (
 	QuestionTableSelectItemsForDashboardOrderBy1CreatedAt = iota
-	QuestionTableSelectItemsForDashboardOrderBy1AnswerCount
+	QuestionTableSelectItemsForDashboardOrderBy1ReplyCount
 )
 
 // QuestionTableSelectItemsForDashboardResult ...
 type QuestionTableSelectItemsForDashboardResult struct {
-	ID          uint64     `json:"-"`
-	CreatedAt   time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt  *time.Time `json:"modifiedAt,omitempty"`
-	Title       string     `json:"title,omitempty"`
-	AnswerCount uint       `json:"answerCount,omitempty"`
+	ID         uint64     `json:"-"`
+	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
+	Title      string     `json:"title,omitempty"`
+	ReplyCount uint       `json:"replyCount,omitempty"`
 }
 
 // SelectItemsForDashboard ...
@@ -332,8 +332,8 @@ func (da *TableTypeQuestion) SelectItemsForDashboard(queryable mingru.Queryable,
 	switch orderBy1 {
 	case QuestionTableSelectItemsForDashboardOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case QuestionTableSelectItemsForDashboardOrderBy1AnswerCount:
-		orderBy1SQL = "`answer_count`"
+	case QuestionTableSelectItemsForDashboardOrderBy1ReplyCount:
+		orderBy1SQL = "`reply_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
@@ -353,7 +353,7 @@ func (da *TableTypeQuestion) SelectItemsForDashboard(queryable mingru.Queryable,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `answer_count` FROM `question` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `reply_count` FROM `question` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -364,7 +364,7 @@ func (da *TableTypeQuestion) SelectItemsForDashboard(queryable mingru.Queryable,
 		itemCounter++
 		if itemCounter <= max {
 			item := &QuestionTableSelectItemsForDashboardResult{}
-			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.AnswerCount)
+			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.ReplyCount)
 			if err != nil {
 				return nil, false, err
 			}
@@ -426,6 +426,6 @@ func (da *TableTypeQuestion) SelectItemsForUserProfile(queryable mingru.Queryabl
 
 // UpdateMsgCount ...
 func (da *TableTypeQuestion) UpdateMsgCount(queryable mingru.Queryable, id uint64, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `question` SET `answer_count` = `answer_count` + ? WHERE `id` = ? AND `user_id` = ?", offset, id, userID)
+	result, err := queryable.Exec("UPDATE `question` SET `reply_count` = `reply_count` + ? WHERE `id` = ? AND `user_id` = ?", offset, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

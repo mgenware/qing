@@ -2,13 +2,13 @@ import * as mm from 'mingru-models';
 import user, { User } from '../../models/user/user';
 import * as cm from '../../models/common';
 import * as cmtf from '../cmt/cmtTAFactory';
-import PostCmtCore from '../../models/post/postCmtCore';
-import PostCore from '../../models/post/postCore';
 import { defaultUpdateConditions } from '../common';
+import ContentBase from '../../models/com/contentBase';
+import ContentCmtBase from '../../models/com/contentCmtCore';
 
 const insertedIDVar = 'insertedID';
 
-export default abstract class PostTACore extends mm.TableActions {
+export default abstract class ContentBaseTA extends mm.TableActions {
   // SELECT actions.
   selectItemByID: mm.SelectAction;
   selectItemForEditing: mm.SelectAction;
@@ -40,7 +40,7 @@ export default abstract class PostTACore extends mm.TableActions {
   constructor() {
     super();
 
-    const t = this.getItemTable();
+    const t = this.getBaseTable();
     const idCol = t.id.privateAttr();
     this.joinedUserTable = t.user_id.join(user);
     this.userColumns = [
@@ -85,6 +85,7 @@ export default abstract class PostTACore extends mm.TableActions {
         mm
           .insertOne()
           .setInputs(
+            ...this.getStartingInsertionInputColumns(),
             ...this.getEditingColumns(),
             t.user_id,
             ...this.getExtraInsertionInputColumns(),
@@ -102,18 +103,18 @@ export default abstract class PostTACore extends mm.TableActions {
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
-    this.selectCmts = cmtf.selectCmts(this.getItemCmtTable());
-    this.insertCmt = cmtf.insertCmtAction(t, this.getItemCmtTable());
+    this.selectCmts = cmtf.selectCmts(this.getCmtBaseTable());
+    this.insertCmt = cmtf.insertCmtAction(t, this.getCmtBaseTable());
     this.deleteCmt = cmtf.deleteCmtAction(t);
     this.insertReply = cmtf.insertReplyAction(t);
     this.deleteReply = cmtf.deleteReplyAction(t);
   }
 
-  // Gets the underlying `PostCore` table.
-  abstract getItemTable(): PostCore;
+  // Gets the underlying `ContentBase` table.
+  abstract getBaseTable(): ContentBase;
 
-  // Gets the underlying `PostCmtCore` table.
-  abstract getItemCmtTable(): PostCmtCore;
+  // Gets the underlying `ContentCmtBase` table.
+  abstract getCmtBaseTable(): ContentCmtBase;
 
   // Returns [] if dashboard is not supported.
   abstract getDashboardColumns(): mm.SelectedColumn[];
@@ -137,7 +138,7 @@ export default abstract class PostTACore extends mm.TableActions {
   }
 
   protected getFullColumns(): mm.SelectedColumn[] {
-    const t = this.getItemTable();
+    const t = this.getBaseTable();
     const idCol = t.id.privateAttr();
     return [
       idCol,
@@ -146,5 +147,10 @@ export default abstract class PostTACore extends mm.TableActions {
       t.content,
       ...this.getExtraFullColumns(),
     ];
+  }
+
+  // Used by threads as `forum_id` should be the first param during insertion.
+  protected getStartingInsertionInputColumns(): mm.Column[] {
+    return [];
   }
 }

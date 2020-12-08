@@ -1,8 +1,8 @@
 import * as mm from 'mingru-models';
 import discussion from './discussion';
-import PostCore from '../post/postCore';
+import ContentBase from '../com/contentBase';
 
-export class DiscussionMsg extends PostCore {
+export class DiscussionMsg extends ContentBase {
   discussion_id = discussion.id;
 
   votes = mm.uInt().default(0);

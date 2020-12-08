@@ -1,10 +1,10 @@
 import * as mm from 'mingru-models';
-import PostCmtCore from '../post/postCmtCore';
-import PostCore from '../post/postCore';
+import ContentBase from '../com/contentBase';
+import ContentCmtBase from '../com/contentCmtCore';
 import question from './question';
 
-export class QuestionCmt extends PostCmtCore {
-  getPostTable(): PostCore {
+export class QuestionCmt extends ContentCmtBase {
+  getHostTable(): ContentBase {
     return question;
   }
 }
