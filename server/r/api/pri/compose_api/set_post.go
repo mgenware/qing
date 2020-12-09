@@ -14,10 +14,16 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
+	var err error
 
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
 	entityType := validator.MustGetIntFromDict(params, "entityType")
+	var forumID *uint64
+	if app.SetupConfig().ForumsMode {
+		forumIDValue := validator.MustGetIDFromDict(params, "forumID")
+		forumID = &forumIDValue
+	}
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	var title string
@@ -27,7 +33,6 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 
-	var err error
 	var result interface{}
 	db := app.DB
 	if !hasID {
@@ -51,7 +56,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case defs.Constants.EntityDiscussion:
 			{
-				insertedID, err := da.Discussion.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
+				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = app.URL.Discussion(insertedID)

@@ -14,7 +14,7 @@ var myDiscussionsColumnNameToEnumMap map[string]int
 
 func init() {
 	myDiscussionsColumnNameToEnumMap = map[string]int{
-		defs.Constants.ColumnMessages: da.DiscussionTableSelectItemsForDashboardOrderBy1MsgCount,
+		defs.Constants.ColumnMessages: da.DiscussionTableSelectItemsForDashboardOrderBy1ReplyCount,
 		defs.Constants.ColumnCreated:  da.DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt,
 	}
 }

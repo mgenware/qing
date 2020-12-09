@@ -39,7 +39,7 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Setup page data.
 	pageURLFormatter := &DiscussionPageURLFormatter{ID: tid}
-	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, int(discussion.MsgCount))
+	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, int(discussion.ReplyCount))
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	resp := app.HTMLResponse(w, r)

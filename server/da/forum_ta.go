@@ -28,8 +28,8 @@ func (da *TableTypeForum) DeleteItem(queryable mingru.Queryable, id uint64) erro
 }
 
 // InsertItem ...
-func (da *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, desc string, orderIndex uint, createdAt time.Time, descModifiedAt *time.Time, groupID uint64, threadCount uint, status uint8) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum` (`name`, `desc`, `order_index`, `created_at`, `desc_modified_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", name, desc, orderIndex, createdAt, descModifiedAt, groupID, threadCount, status)
+func (da *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, shortDesc string, longDesc string, orderIndex uint, createdAt time.Time, groupID uint64, threadCount uint, status uint8) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `forum` (`name`, `short_desc`, `long_desc`, `order_index`, `created_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", name, shortDesc, longDesc, orderIndex, createdAt, groupID, threadCount, status)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -73,18 +73,18 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 
 // ForumTableSelectForumResult ...
 type ForumTableSelectForumResult struct {
-	ID             uint64     `json:"ID,omitempty"`
-	Name           string     `json:"name,omitempty"`
-	DescHTML       string     `json:"descHTML,omitempty"`
-	CreatedAt      time.Time  `json:"createdAt,omitempty"`
-	DescModifiedAt *time.Time `json:"descModifiedAt,omitempty"`
-	ThreadCount    uint       `json:"threadCount,omitempty"`
+	ID           uint64    `json:"ID,omitempty"`
+	Name         string    `json:"name,omitempty"`
+	ShortDesc    string    `json:"shortDesc,omitempty"`
+	LongDescHTML string    `json:"longDescHTML,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ThreadCount  uint      `json:"threadCount,omitempty"`
 }
 
 // SelectForum ...
 func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (*ForumTableSelectForumResult, error) {
 	result := &ForumTableSelectForumResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `desc_modified_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.DescModifiedAt, &result.ThreadCount)
+	err := queryable.QueryRow("SELECT `id`, `name`, `short_desc`, `long_desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.ShortDesc, &result.LongDescHTML, &result.CreatedAt, &result.ThreadCount)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +168,7 @@ func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pa
 }
 
 // UpdateInfo ...
-func (da *TableTypeForum) UpdateInfo(queryable mingru.Queryable, id uint64, name string, desc string) error {
-	result, err := queryable.Exec("UPDATE `forum` SET `name` = ?, `desc` = ?, `desc_modified_at` = UTC_TIMESTAMP() WHERE `id` = ?", name, desc, id)
+func (da *TableTypeForum) UpdateInfo(queryable mingru.Queryable, id uint64, name string, shortDesc string, longDesc string) error {
+	result, err := queryable.Exec("UPDATE `forum` SET `name` = ?, `short_desc` = ?, `long_desc` = ? WHERE `id` = ?", name, shortDesc, longDesc, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
