@@ -35,11 +35,11 @@ func NewUserManager(
 
 // CreateUserSessionFromUID creates a User from the given uid.
 func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
-	dbUser, err := da.User.SelectSessionData(appu.DB, uid)
+	u, err := da.User.SelectSessionData(appu.DB, uid)
 	if err != nil {
 		return nil, err
 	}
-	user := appu.SessionManager.NewUser(uid, dbUser.Name, dbUser.IconName, dbUser.Admin)
+	user := appu.SessionManager.NewUser(uid, u.Name, u.IconName, u.Admin, u.Status)
 	return user, nil
 }
 

@@ -141,8 +141,8 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 }
 
 // NewUser creates a new session user based on required properties.
-func (sm *SessionManager) NewUser(id uint64, name string, iconName string, admin bool) *appcom.SessionUser {
-	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin}
+func (sm *SessionManager) NewUser(id uint64, name string, iconName string, admin bool, status string) *appcom.SessionUser {
+	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, Status: status}
 	sm.computeUserFields(u)
 	return u
 }

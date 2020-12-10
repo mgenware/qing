@@ -9,6 +9,7 @@ CREATE TABLE `user` (
 	`name` VARCHAR(255) NOT NULL,
 	`icon_name` VARCHAR(255) NOT NULL DEFAULT '',
 	`created_at` DATETIME NOT NULL,
+	`status` VARCHAR(100) NOT NULL DEFAULT '',
 	`company` VARCHAR(100) NOT NULL DEFAULT '',
 	`website` VARCHAR(100) NOT NULL DEFAULT '',
 	`location` VARCHAR(100) NOT NULL DEFAULT '',

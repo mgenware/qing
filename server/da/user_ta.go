@@ -18,7 +18,7 @@ var User = &TableTypeUser{}
 
 // AddUserEntryInternal ...
 func (da *TableTypeUser) AddUserEntryInternal(queryable mingru.Queryable, email string, name string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `admin`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL, 0)", email, name)
+	result, err := queryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `status`, `company`, `website`, `location`, `bio`, `admin`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', '', NULL, 0)", email, name)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -31,7 +31,7 @@ func (da *TableTypeUser) AddUserStatsEntryInternal(queryable mingru.Queryable, i
 // FindUserByID ...
 func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*FindUserResult, error) {
 	result := &FindUserResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*F
 
 // FindUsersByName ...
 func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string) ([]*FindUserResult, error) {
-	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `name` LIKE ?", name)
+	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name`, `status` FROM `user` WHERE `name` LIKE ?", name)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string
 	defer rows.Close()
 	for rows.Next() {
 		item := &FindUserResult{}
-		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
+		err = rows.Scan(&item.ID, &item.Name, &item.IconName, &item.Status)
 		if err != nil {
 			return nil, err
 		}
@@ -66,6 +66,7 @@ type UserTableSelectEditingDataResult struct {
 	ID       uint64  `json:"-"`
 	Name     string  `json:"name,omitempty"`
 	IconName string  `json:"-"`
+	Status   string  `json:"status,omitempty"`
 	Location string  `json:"location,omitempty"`
 	Company  string  `json:"company,omitempty"`
 	Website  string  `json:"website,omitempty"`
@@ -75,7 +76,7 @@ type UserTableSelectEditingDataResult struct {
 // SelectEditingData ...
 func (da *TableTypeUser) SelectEditingData(queryable mingru.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
 	result := &UserTableSelectEditingDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
 		return nil, err
 	}
@@ -107,6 +108,7 @@ type UserTableSelectProfileResult struct {
 	ID       uint64  `json:"-"`
 	Name     string  `json:"name,omitempty"`
 	IconName string  `json:"-"`
+	Status   string  `json:"status,omitempty"`
 	Location string  `json:"location,omitempty"`
 	Company  string  `json:"company,omitempty"`
 	Website  string  `json:"website,omitempty"`
@@ -116,7 +118,7 @@ type UserTableSelectProfileResult struct {
 // SelectProfile ...
 func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*UserTableSelectProfileResult, error) {
 	result := &UserTableSelectProfileResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.Bio)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
 		return nil, err
 	}
@@ -128,13 +130,14 @@ type UserTableSelectSessionDataResult struct {
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 	IconName string `json:"-"`
+	Status   string `json:"status,omitempty"`
 	Admin    bool   `json:"admin,omitempty"`
 }
 
 // SelectSessionData ...
 func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
 	result := &UserTableSelectSessionDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin)
+	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Admin)
 	if err != nil {
 		return nil, err
 	}
@@ -146,11 +149,12 @@ type UserTableUnsafeSelectAdminsResult struct {
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 	IconName string `json:"-"`
+	Status   string `json:"status,omitempty"`
 }
 
 // UnsafeSelectAdmins ...
 func (da *TableTypeUser) UnsafeSelectAdmins(queryable mingru.Queryable) ([]*UserTableUnsafeSelectAdminsResult, error) {
-	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `admin` = 1 ORDER BY `id`")
+	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name`, `status` FROM `user` WHERE `admin` = 1 ORDER BY `id`")
 	if err != nil {
 		return nil, err
 	}
@@ -158,7 +162,7 @@ func (da *TableTypeUser) UnsafeSelectAdmins(queryable mingru.Queryable) ([]*User
 	defer rows.Close()
 	for rows.Next() {
 		item := &UserTableUnsafeSelectAdminsResult{}
-		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
+		err = rows.Scan(&item.ID, &item.Name, &item.IconName, &item.Status)
 		if err != nil {
 			return nil, err
 		}
@@ -192,5 +196,11 @@ func (da *TableTypeUser) UpdateIconName(queryable mingru.Queryable, id uint64, i
 // UpdateProfile ...
 func (da *TableTypeUser) UpdateProfile(queryable mingru.Queryable, id uint64, name string, website string, company string, location string) error {
 	result, err := queryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ? WHERE `id` = ?", name, website, company, location, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+// UpdateStatus ...
+func (da *TableTypeUser) UpdateStatus(queryable mingru.Queryable, id uint64, status string) error {
+	result, err := queryable.Exec("UPDATE `user` SET `status` = ? WHERE `id` = ?", status, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

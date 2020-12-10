@@ -8,6 +8,7 @@ type SessionUser struct {
 	Name     string `json:"name"`
 	IconName string `json:"icon"`
 	Admin    bool   `json:"admin"`
+	Status   string `json:"status"`
 
 	// Generated props when deserialized
 	URL     string `json:"-"`

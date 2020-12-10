@@ -4,7 +4,7 @@ import userStats from '../../models/user/userStats';
 
 export const addUserInsertedIDVar = 'insertedUserID';
 const findUserResult = 'FindUserResult';
-const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr()];
+const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr(), t.status];
 
 export class UserTA extends mm.TableActions {
   selectProfile = mm.select(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
@@ -23,6 +23,7 @@ export class UserTA extends mm.TableActions {
 
   updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
+  updateStatus = mm.updateOne().setInputs(t.status).by(t.id);
   updateBio = mm.updateOne().setInputs(t.bio).by(t.id);
 
   // Unsafe methods. Need extra admin check.

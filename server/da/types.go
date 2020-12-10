@@ -26,6 +26,7 @@ type FindUserResult struct {
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 	IconName string `json:"-"`
+	Status   string `json:"status,omitempty"`
 }
 
 // HomeItemInterface ...
