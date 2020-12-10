@@ -26,6 +26,12 @@ export function renderTemplateResult(
   container: HTMLElement | string,
   template: TemplateResult | null,
 ): HTMLElement | null {
+  // IMPORTANT NOTE:
+  // By default, `render` in lit-html tries to update the container
+  // (instead of a full re-render) if `render` was called on the
+  // container. To always start a full re-render, we'll do the following:
+  //  - Remove all children of the container
+  //  - Add an empty div to the container and mount content to the div
   let containerElement: HTMLElement;
   if (typeof container === 'string') {
     let element = document.getElementById(container);
@@ -39,16 +45,13 @@ export function renderTemplateResult(
     containerElement = container;
   }
 
-  // By default, `render` in lit-html tries to update the container
-  // (instead of a full re-render) if `render` was called on the
-  // container. To always start a full re-render, we'll do the following:
-  //  - Remove all children of the container
-  //  - Add an empty div to the container and mount content to the div
   containerElement.innerHTML = '';
+  // See the note above for why we create this extra div.
   const div = document.createElement('div');
   containerElement.appendChild(div);
   render(template ?? html``, div);
-  return containerElement.firstElementChild as HTMLElement | null;
+  // Template is render under the div element.
+  return div.firstElementChild as HTMLElement | null;
 }
 
 export function listenForVisibilityChange(

@@ -10,8 +10,8 @@ import {
   IconType,
 } from 'qing-dialog-component';
 import { html } from 'lit-element';
-const dialogContainer = '__global_dialog_container';
-const spinnerContainer = '__global_spinner_container';
+const dialogContainerID = '__global_dialog_container';
+const spinnerContainerID = '__global_spinner_container';
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
@@ -66,12 +66,12 @@ export default class AlertModule {
     this.hideLoadingOverlay();
 
     const template = html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
-    renderTemplateResult(spinnerContainer, template);
+    renderTemplateResult(spinnerContainerID, template);
   }
 
   // Hides the global loading spinner.
   hideLoadingOverlay() {
-    renderTemplateResult(spinnerContainer, null);
+    renderTemplateResult(spinnerContainerID, null);
   }
 
   private showModalAsync(args: {
@@ -91,7 +91,7 @@ export default class AlertModule {
         .cancelButtonIndex=${args.cancelButtonIndex ?? -1}
         @closed=${(e: CustomEvent<IsOpenChangedArgs>) => {
           resolve(e.detail);
-          renderTemplateResult(dialogContainer, null);
+          renderTemplateResult(dialogContainerID, null);
         }}
       >
         <h2 style="margin: 1rem 0">
@@ -107,7 +107,7 @@ export default class AlertModule {
         ${args.message ? html`<div>${args.message}</div>` : ''}
       </qing-dialog>`;
 
-      const element = renderTemplateResult(dialogContainer, template) as QingDialog;
+      const element = renderTemplateResult(dialogContainerID, template) as QingDialog;
       if (!element) {
         reject(new Error('Unexpected empty modal element'));
         return;

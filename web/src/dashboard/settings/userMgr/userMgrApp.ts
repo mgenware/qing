@@ -78,7 +78,7 @@ export class UserMgrApp extends BaseElement {
   }
 
   private renderUserRow(user: UserInfo) {
-    const thisIsYou = app.state.userID === user.eid;
+    const thisIsYou = app.state.userEID === user.eid;
     return html`
       <tr>
         <td>

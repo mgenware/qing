@@ -143,6 +143,9 @@ export class EditProfileApp extends BaseElement {
     });
     if (status.isSuccess) {
       await app.alert.successToast(ls.profileUpdated);
+      if (this.name !== app.state.user?.name) {
+        app.state.updateUser({ name: this.name });
+      }
     }
   }
 
@@ -155,14 +158,7 @@ export class EditProfileApp extends BaseElement {
     this.avatarURL = resp.iconL || '';
 
     // Update user data.
-    app.state.updateUser((user) => {
-      if (user) {
-        // eslint-disable-next-line no-param-reassign
-        user.iconURL = resp.iconL || '';
-        return user;
-      }
-      return null;
-    });
+    app.state.updateUser({ iconURL: resp.iconL || '' });
   }
 }
 

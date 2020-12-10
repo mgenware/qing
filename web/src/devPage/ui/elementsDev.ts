@@ -10,6 +10,7 @@ import 'ui/status/statusOverlay';
 import 'ui/form/selectionView';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
+import app from 'app';
 
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
@@ -150,6 +151,9 @@ export class ElementsDev extends BaseElement {
           <p>Hello <b>world</b></p>
         </error-view>
         <h2>Spinners</h2>
+        <p>
+          <qing-button @click=${this.startFullscreenSpinner}>Fullscreen spinner</qing-button>
+        </p>
         <spinner-view>Loading...</spinner-view>
         <h3>Spinner in a fixed view</h3>
         <centered-view class="with-border" height="150px">
@@ -172,6 +176,13 @@ export class ElementsDev extends BaseElement {
 
   private handleDarkModeChecked() {
     document.body.classList.toggle('theme-dark');
+  }
+
+  private startFullscreenSpinner() {
+    app.alert.showLoadingOverlay('Loading...');
+    setTimeout(() => {
+      app.alert.hideLoadingOverlay();
+    }, 2000);
   }
 }
 

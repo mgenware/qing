@@ -149,10 +149,11 @@ export default class NavBarApp extends BaseElement {
   @lp.number currentTheme = defs.UserTheme.light;
 
   firstUpdated() {
-    app.state.getUserInfo(true, (user) => {
-      this.user = user;
-    });
+    const appState = app.state;
+    this.user = appState.user;
     this.currentTheme = app.userData.theme;
+
+    appState.addUserListener((user) => (this.user = user));
   }
 
   render() {
@@ -187,7 +188,7 @@ export default class NavBarApp extends BaseElement {
                   <span class="m-l-sm">${user.name}</span> &#x25BE;
                 </button>
                 <div class="dropdown-content">
-                  <a href=${user.URL}>${ls.profile}</a>
+                  <a href=${user.url}>${ls.profile}</a>
                   <a href=${routes.home.yourPosts}>${ls.yourPosts}</a>
                   <a href=${routes.home.yourDiscussions}>${ls.yourDiscussions}</a>
                   <a href=${routes.home.yourQuestion}>${ls.yourQuestions}</a>
