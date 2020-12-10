@@ -58,24 +58,24 @@ func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int,
 	return result, itemCounter > len(result), nil
 }
 
-// HomeTableSelectForumGroupResult ...
-type HomeTableSelectForumGroupResult struct {
+// HomeTableSelectForumGroupsResult ...
+type HomeTableSelectForumGroupsResult struct {
 	ID         uint64 `json:"-"`
 	Name       string `json:"name,omitempty"`
 	OrderIndex uint   `json:"orderIndex,omitempty"`
 	ForumCount uint   `json:"forumCount,omitempty"`
 }
 
-// SelectForumGroup ...
-func (da *TableTypeHome) SelectForumGroup(queryable mingru.Queryable) ([]*HomeTableSelectForumGroupResult, error) {
+// SelectForumGroups ...
+func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]*HomeTableSelectForumGroupsResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `forum_count` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*HomeTableSelectForumGroupResult, 0)
+	result := make([]*HomeTableSelectForumGroupsResult, 0)
 	defer rows.Close()
 	for rows.Next() {
-		item := &HomeTableSelectForumGroupResult{}
+		item := &HomeTableSelectForumGroupsResult{}
 		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ForumCount)
 		if err != nil {
 			return nil, err

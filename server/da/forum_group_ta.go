@@ -27,25 +27,24 @@ func (da *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64
 }
 
 // InsertGroup ...
-func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, shortDesc string, longDesc string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `short_desc`, `long_desc`, `order_index`, `created_at`, `forum_count`) VALUES (?, ?, ?, 0, UTC_TIMESTAMP(), 0)", name, shortDesc, longDesc)
+func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, desc string) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `forum_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), 0)", name, desc)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 // ForumGroupTableSelectGroupResult ...
 type ForumGroupTableSelectGroupResult struct {
-	ID           uint64    `json:"ID,omitempty"`
-	Name         string    `json:"name,omitempty"`
-	ShortDesc    string    `json:"shortDesc,omitempty"`
-	LongDescHTML string    `json:"longDescHTML,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
-	ForumCount   uint      `json:"forumCount,omitempty"`
+	ID         uint64    `json:"ID,omitempty"`
+	Name       string    `json:"name,omitempty"`
+	DescHTML   string    `json:"descHTML,omitempty"`
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ForumCount uint      `json:"forumCount,omitempty"`
 }
 
 // SelectGroup ...
 func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (*ForumGroupTableSelectGroupResult, error) {
 	result := &ForumGroupTableSelectGroupResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `short_desc`, `long_desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.ShortDesc, &result.LongDescHTML, &result.CreatedAt, &result.ForumCount)
+	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.ForumCount)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +52,7 @@ func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64
 }
 
 // UpdateInfo ...
-func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, shortDesc string, longDesc string) error {
-	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `short_desc` = ?, `long_desc` = ? WHERE `id` = ?", name, shortDesc, longDesc, id)
+func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, desc string) error {
+	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, desc, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

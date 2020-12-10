@@ -16,15 +16,15 @@ type FrmPageModel struct {
 
 // ForumGroupModel wraps a da.HomeTableSelectForumGroupResult.
 type ForumGroupModel struct {
-	da.HomeTableSelectForumGroupResult
+	da.HomeTableSelectForumGroupsResult
 
 	URL        string
 	ForumsHTML string
 }
 
 // NewForumGroupModel creates a new ForumGroupModel.
-func NewForumGroupModel(d *da.HomeTableSelectForumGroupResult, forumsHTML string) *ForumGroupModel {
-	r := &ForumGroupModel{HomeTableSelectForumGroupResult: *d}
+func NewForumGroupModel(d *da.HomeTableSelectForumGroupsResult, forumsHTML string) *ForumGroupModel {
+	r := &ForumGroupModel{HomeTableSelectForumGroupsResult: *d}
 	r.URL = app.URL.ForumGroup(d.ID)
 	r.ForumsHTML = forumsHTML
 	return r

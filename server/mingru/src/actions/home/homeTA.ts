@@ -22,7 +22,7 @@ export class HomeTA extends mm.TableActions {
   selectItems: mm.SelectAction;
 
   // Forum mode.
-  selectForumGroup = mm
+  selectForumGroups = mm
     .selectRows(...this.getForumGroupCols(forumGroup))
     .from(forumGroup)
     .orderByDesc(forumGroup.order_index);

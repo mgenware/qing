@@ -14,6 +14,8 @@ import (
 
 const defaultPageSize = 10
 
+var vNoContentView = app.MasterPageManager.MustParseView("/home/noContentView.html")
+
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
@@ -55,45 +57,51 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	// Forums mode.
-	forumGroups, err := da.Home.SelectForumGroup(db)
+	forumGroups, err := da.Home.SelectForumGroups(db)
 	app.PanicIfErr(err)
 
-	forums, err := da.Home.SelectForums(db)
-	app.PanicIfErr(err)
+	var masterHTML string
+	if len(forumGroups) == 0 {
+		masterHTML = vNoContentView.MustExecuteToString(nil)
+	} else {
+		forums, err := da.Home.SelectForums(db)
+		app.PanicIfErr(err)
 
-	// Group forums by `group_id`.
-	groupMap := make(map[uint64][]*da.HomeTableSelectForumsResult)
-	for _, f := range forums {
-		arr := groupMap[f.GroupID]
-		if arr == nil {
-			arr = make([]*da.HomeTableSelectForumsResult, 0)
-		}
-		groupMap[f.GroupID] = append(arr, f)
-	}
-
-	// Sort forums in each group.
-	for _, v := range groupMap {
-		sort.Slice(v, func(i, j int) bool {
-			return v[i].OrderIndex < v[j].OrderIndex
-		})
-	}
-
-	var frmHTMLBuilder strings.Builder
-	// Iterate through forums.
-	for _, group := range forumGroups {
-		var forumsHTMLBuilder strings.Builder
-		for _, forum := range groupMap[group.ID] {
-			forumModel := NewForumModel(forum)
-			forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
+		// Group forums by `group_id`.
+		groupMap := make(map[uint64][]*da.HomeTableSelectForumsResult)
+		for _, f := range forums {
+			arr := groupMap[f.GroupID]
+			if arr == nil {
+				arr = make([]*da.HomeTableSelectForumsResult, 0)
+			}
+			groupMap[f.GroupID] = append(arr, f)
 		}
 
-		groupModel := NewForumGroupModel(group, forumsHTMLBuilder.String())
-		frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
+		// Sort forums in each group.
+		for _, v := range groupMap {
+			sort.Slice(v, func(i, j int) bool {
+				return v[i].OrderIndex < v[j].OrderIndex
+			})
+		}
+
+		var frmHTMLBuilder strings.Builder
+		// Iterate through forums.
+		for _, group := range forumGroups {
+			var forumsHTMLBuilder strings.Builder
+			for _, forum := range groupMap[group.ID] {
+				forumModel := NewForumModel(forum)
+				forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
+			}
+
+			groupModel := NewForumGroupModel(group, forumsHTMLBuilder.String())
+			frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
+		}
+
+		frmPageModel := NewFrmPageModel(frmHTMLBuilder.String())
+		masterHTML = vFrmPage.MustExecuteToString(frmPageModel)
 	}
 
-	frmPageModel := NewFrmPageModel(frmHTMLBuilder.String())
-	d := app.MasterPageData("", vFrmPage.MustExecuteToString(frmPageModel))
+	d := app.MasterPageData("", masterHTML)
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Home
 	return resp.MustComplete(d)
-
 }
