@@ -23,17 +23,18 @@ export class AuthDev extends BaseElement {
 
   private renderQuickLoginSection() {
     return html`
-      <p>
+      <div>
         <h2>Quick login</h2>
         <input-view
           required
           label="Quick login"
           value=${this.loginUserID}
-          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}>
+          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}
+        >
         </input-view>
         <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
         <qing-button @click=${this.handleSignOut}>Sign out</qing-button>
-      </p>
+      </div>
     `;
   }
 

@@ -11,14 +11,31 @@ export class SectionView extends BaseElement {
       css`
         :host {
           display: block;
-          margin-bottom: 1rem;
         }
 
-        .section {
+        .section-header {
           padding: 0.75rem 1rem;
-          border-radius: 5px;
-          color: var(--color);
-          background-color: var(--background-color);
+          color: var(--header-color);
+          background-color: var(--tint-color);
+          border-radius: 8px;
+        }
+
+        .section-content {
+          padding: 0.75rem 1rem;
+          color: var(--content-color);
+        }
+
+        @media (min-width: 768px) {
+          .section-header {
+            border-radius: 8px 8px 0 0;
+          }
+
+          .section-content {
+            border-width: 0 1px 1px 1px;
+            border-radius: 0 0 8px 8px;
+            border-color: var(--tint-color);
+            border-style: solid;
+          }
         }
       `,
     ];
@@ -27,7 +44,16 @@ export class SectionView extends BaseElement {
   @lp.string sectionStyle: AppViewStyleNullable = '';
 
   render() {
-    return html` <div class="section"><slot></slot></div> `;
+    return html`
+      <div class="section-container">
+        <div class="section-header">
+          <slot name="header"></slot>
+        </div>
+        <div class="section-content">
+          <slot></slot>
+        </div>
+      </div>
+    `;
   }
 }
 

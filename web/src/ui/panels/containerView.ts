@@ -14,7 +14,7 @@ export class ContainerView extends BaseElement {
           display: block;
         }
 
-        .margin {
+        .with-margin {
           padding-top: 1rem;
           padding-bottom: 1.2rem;
           margin-bottom: 1.2rem;
@@ -32,7 +32,7 @@ export class ContainerView extends BaseElement {
       <div
         class=${classMap({
           container: true,
-          margin: !this.slim,
+          'with-margin': !this.slim,
         })}
       >
         <slot></slot>

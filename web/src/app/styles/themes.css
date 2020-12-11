@@ -195,25 +195,28 @@ tag-view[tagStyle='warning'] {
 }
 
 /* section-view ------------------------- */
+section-view {
+  --content-color: var(--default-fore-color);
+}
 section-view[sectionStyle='success'] {
-  --color: var(--success-fore-color);
-  --background-color: var(--success-back-color);
+  --header-color: var(--success-fore-color);
+  --tint-color: var(--success-back-color);
 }
 section-view[sectionStyle='danger'] {
-  --color: var(--danger-fore-color);
-  --background-color: var(--danger-back-color);
+  --header-color: var(--danger-fore-color);
+  --tint-color: var(--danger-back-color);
 }
 section-view[sectionStyle='primary'] {
-  --color: var(--primary-fore-color);
-  --background-color: var(--primary-back-color);
+  --header-color: var(--primary-fore-color);
+  --tint-color: var(--primary-back-color);
 }
 section-view[sectionStyle='warning'] {
-  --color: var(--warning-fore-color);
-  --background-color: var(--warning-back-color);
+  --header-color: var(--warning-fore-color);
+  --tint-color: var(--warning-back-color);
 }
 section-view[sectionStyle='info'] {
-  --color: var(--info-fore-color);
-  --background-color: var(--info-back-color);
+  --header-color: var(--info-fore-color);
+  --tint-color: var(--info-back-color);
 }
 
 /* svg-icon ------------------------- */
