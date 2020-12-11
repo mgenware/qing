@@ -2,8 +2,9 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'qing-button';
-import 'ui/content/alertView';
-import 'ui/content/sectionView';
+import 'ui/alerts/alertView';
+import 'ui/alerts/sectionView';
+import 'ui/content/headingView';
 import 'ui/status/spinnerView';
 import 'ui/panels/centeredView';
 import 'ui/status/statusView';
@@ -133,6 +134,7 @@ export class ElementsDev extends BaseElement {
         <span slot="header">Section header</span>
         <div>Section content</div>
       </section-view>
+      <heading-view>Heading view</heading-view>
       <h2>Highlight color</h2>
       <div class="highlighted">Highlight color</div>
       <h1>Views</h1>

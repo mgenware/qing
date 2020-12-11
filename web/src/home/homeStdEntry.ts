@@ -1,7 +1,7 @@
 import { injectStyles, ready } from 'lib/htmlLib';
-import 'ui/content/timeField';
+import 'ui/widgets/timeField';
 import 'ui/lists/tabView';
-import 'ui/content/noticeView';
+import 'ui/alerts/noticeView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import { css } from 'lit-element';
 import { keyTab } from 'sharedConstants';

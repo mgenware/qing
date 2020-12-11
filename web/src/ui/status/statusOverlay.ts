@@ -7,7 +7,7 @@ import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
 import 'ui/panels/centeredView';
 import 'ui/status/spinnerView';
-import '../content/errorView';
+import '../alerts/errorView';
 
 @customElement('status-overlay')
 export class StatusOverlay extends BaseElement {

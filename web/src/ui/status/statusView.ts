@@ -1,6 +1,6 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
-import '../content/errorView';
+import '../alerts/errorView';
 import './spinnerView';
 import ls from 'ls';
 import BaseElement from 'baseElement';

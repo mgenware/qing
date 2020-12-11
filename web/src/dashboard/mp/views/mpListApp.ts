@@ -2,8 +2,8 @@ import { html, TemplateResult, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/status/statusView';
-import 'ui/content/sectionView';
-import 'ui/content/noticeView';
+import 'ui/content/headingView';
+import 'ui/alerts/noticeView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './mpPageControl';
@@ -49,22 +49,24 @@ export abstract class MPListApp<T> extends BaseElement {
 
     const hasItems = !!this.items.length;
     return html`
-      <section-view sectionStyle="info">${this.sectionHeader()}</section-view>
-      ${hasItems
-        ? html`<div class="app-table-container m-t-md">
-            <table class="app-table">
-              ${this.renderTable()}
-            </table>
-          </div>`
-        : html`<notice-view>${ls.noContentAvailable}</notice-view>`}
-      <hr />
-      <mp-page-control
-        .page=${this.page}
-        .pageSize=${this.pageSize}
-        .totalItemCount=${this.totalCount}
-        .shownItemCount=${this.shownCount}
-        @gotoPage=${this.handleGotoPage}
-      ></mp-page-control>
+      <section-view sectionStyle="info">
+        <div slot="header">${this.sectionHeader()}</div>
+        ${hasItems
+          ? html`<div class="app-table-container m-t-md">
+              <table class="app-table">
+                ${this.renderTable()}
+              </table>
+            </div>`
+          : html`<notice-view>${ls.noContentAvailable}</notice-view>`}
+        <hr />
+        <mp-page-control
+          .page=${this.page}
+          .pageSize=${this.pageSize}
+          .totalItemCount=${this.totalCount}
+          .shownItemCount=${this.shownCount}
+          @gotoPage=${this.handleGotoPage}
+        ></mp-page-control>
+      </section-view>
     `;
   }
 

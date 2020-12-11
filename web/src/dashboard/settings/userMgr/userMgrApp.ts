@@ -3,11 +3,12 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
 import ls, { formatLS } from 'ls';
-import 'ui/content/sectionView';
+import 'ui/content/headingView';
+import 'ui/content/subheadingView';
 import 'ui/status/statusOverlay';
-import 'ui/content/tagView';
+import 'ui/widgets/tagView';
 import 'ui/buttons/linkButton';
-import 'ui/content/noticeView';
+import 'ui/alerts/noticeView';
 import 'com/user/userSelectorApp';
 import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
@@ -48,12 +49,9 @@ export class UserMgrApp extends BaseElement {
   render() {
     return html`
       <status-overlay .status=${this.adminSectionStatus}>
-        <section-view sectionStyle="info">
-          <span>${ls.adminAccounts}</span>
-          <tag-view tagStyle="warning">${ls.featureOnlyAvailableToAdmins}</tag-view>
-        </section-view>
+        <heading-view>${ls.adminAccounts}</heading-view>
         ${this.renderAdmins()}
-        <h2>${ls.addAnAdmin}</h2>
+        <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
         <user-selector-app></user-selector-app>
       </status-overlay>
     `;

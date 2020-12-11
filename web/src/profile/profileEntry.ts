@@ -1,10 +1,10 @@
 // Used in profile post list.
 import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'lit-element';
-import 'ui/content/timeField';
+import 'ui/widgets/timeField';
 import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
-import 'ui/content/tagView';
+import 'ui/widgets/tagView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 import profileWind from './profileWind';
 import './views/profileIDView';
@@ -13,13 +13,13 @@ const defaultHighlightedTab = keyPosts;
 
 const styles = css`
   .is-boxed {
-    border-top: 1px solid var(--default-separator-color);
-    border-bottom: 1px solid var(--default-separator-color);
+    border-top: 1px solid var(--app-default-separator-color);
+    border-bottom: 1px solid var(--app-default-separator-color);
   }
 
   @media (min-width: 768px) {
     .is-boxed {
-      border: 1px solid var(--default-separator-color);
+      border: 1px solid var(--app-default-separator-color);
       border-radius: 0.5rem;
       padding: 0.8rem 1.6rem;
     }

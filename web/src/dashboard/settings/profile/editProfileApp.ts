@@ -7,7 +7,7 @@ import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
 import 'ui/panels/centeredView';
-import 'ui/content/sectionView';
+import 'ui/content/headingView';
 import 'ui/form/inputView';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
@@ -64,17 +64,15 @@ export class EditProfileApp extends BaseElement {
 
   renderContent() {
     return html`
-      <section-view sectionStyle="info">${ls.profilePicture}</section-view>
-      <div>
-        <p>
-          <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
-        </p>
-        <div class="m-t-md">
-          <avatar-uploader @onUpdated=${this.handleAvatarUploaded}></avatar-uploader>
-        </div>
+      <heading-view>${ls.profilePicture}</heading-view>
+      <p>
+        <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
+      </p>
+      <div class="m-t-md">
+        <avatar-uploader @onUpdated=${this.handleAvatarUploaded}></avatar-uploader>
       </div>
       <status-overlay .status=${this.updateInfoStatus}>
-        <section-view sectionStyle="info">${ls.profile}</section-view>
+        <heading-view>${ls.profile}</heading-view>
         <input-view
           required
           label=${ls.name}

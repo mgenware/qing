@@ -4,7 +4,7 @@ import * as lp from 'lit-props';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import ls from 'ls';
-import 'ui/content/noticeView';
+import 'ui/alerts/noticeView';
 import UserInfo from './userInfo';
 import 'ui/status/statusOverlay';
 import LoadingStatus from 'lib/loadingStatus';

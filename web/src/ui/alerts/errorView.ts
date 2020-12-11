@@ -2,7 +2,7 @@ import { html, customElement, css } from 'lit-element';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
-import 'ui/content/alertView';
+import 'ui/alerts/alertView';
 
 @customElement('error-view')
 export class ErrorView extends BaseElement {

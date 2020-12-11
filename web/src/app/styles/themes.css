@@ -38,7 +38,7 @@
   --app-highlight-color: rgba(0, 0, 0, 0.11);
 
   --app-surface-radius-md: 6px;
-  /* Radius for smaller components like buttons. */
+  /* Radius for smaller components like inputs. */
   --app-surface-radius-sm: 4px;
 }
 
@@ -122,7 +122,6 @@ qing-button::part(button) {
   background-color: var(--app-info-back-color);
   color: var(--app-info-fore-color);
   --button-outline-color: var(--app-keyboard-focus-color);
-  border-radius: var(--app-surface-radius-sm);
 }
 qing-button[btnStyle='success']::part(button) {
   background-color: var(--app-success-back-color);
@@ -145,7 +144,7 @@ qing-button[btnStyle='warning']::part(button) {
 qing-dialog::part(overlay) {
   background-color: var(--app-default-back-color);
   color: var(--app-default-fore-color);
-  border-radius: 4px;
+  border-radius: var(--app-surface-radius-md);
   border: 1px solid var(--app-default-separator-color);
 }
 qing-dialog::part(footer-button) {
