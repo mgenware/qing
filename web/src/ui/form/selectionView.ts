@@ -42,19 +42,19 @@ export class SelectionView extends BaseElement {
           border-radius: 50%;
           border-style: solid;
           border-width: 0.1rem;
-          border-color: var(--default-secondary-fore-color);
+          border-color: var(--app-default-secondary-fore-color);
         }
         label > input[type='radio']:checked + * {
           font-weight: bold;
         }
         label > input[type='radio']:checked + *::before {
           background: radial-gradient(
-            var(--default-primary-fore-color) 0%,
-            var(--default-primary-fore-color) 40%,
+            var(--app-default-primary-fore-color) 0%,
+            var(--app-default-primary-fore-color) 40%,
             transparent 50%,
             transparent
           );
-          border-color: var(--default-primary-fore-color);
+          border-color: var(--app-default-primary-fore-color);
         }
 
         /** Checkbox */
@@ -73,17 +73,17 @@ export class SelectionView extends BaseElement {
           border-radius: 10%;
           border-style: solid;
           border-width: 0.1rem;
-          border-color: var(--default-secondary-fore-color);
+          border-color: var(--app-default-secondary-fore-color);
         }
         label > input[type='checkbox']:checked + * {
           font-weight: bold;
         }
         label > input[type='checkbox']:checked + *::before {
           content: '✓';
-          color: var(--primary-fore-color);
+          color: var(--app-primary-fore-color);
           text-align: center;
-          background: var(--primary-back-color);
-          border-color: var(--primary-back-color);
+          background: var(--app-primary-back-color);
+          border-color: var(--app-primary-back-color);
         }
       `,
     ];

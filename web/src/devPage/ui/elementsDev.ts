@@ -22,8 +22,8 @@ export class ElementsDev extends BaseElement {
       css`
         .text {
           padding: 1rem;
-          color: var(--default-fore-color);
-          background-color: var(--default-back-color);
+          color: var(--app-default-fore-color);
+          background-color: var(--app-default-back-color);
         }
 
         .text span {
@@ -33,62 +33,62 @@ export class ElementsDev extends BaseElement {
         }
 
         .text .secondary {
-          color: var(--default-secondary-fore-color);
+          color: var(--app-default-secondary-fore-color);
         }
         .text .primary {
-          color: var(--default-primary-fore-color);
+          color: var(--app-default-primary-fore-color);
         }
         .text .success {
-          color: var(--default-success-fore-color);
+          color: var(--app-default-success-fore-color);
         }
         .text .warning {
-          color: var(--default-warning-fore-color);
+          color: var(--app-default-warning-fore-color);
         }
         .text .danger {
-          color: var(--default-danger-fore-color);
+          color: var(--app-default-danger-fore-color);
         }
 
         .ctx {
           padding: 1rem;
         }
         .ctx-primary {
-          color: var(--primary-fore-color);
-          background-color: var(--primary-back-color);
+          color: var(--app-primary-fore-color);
+          background-color: var(--app-primary-back-color);
         }
         .ctx-success {
-          color: var(--success-fore-color);
-          background-color: var(--success-back-color);
+          color: var(--app-success-fore-color);
+          background-color: var(--app-success-back-color);
         }
         .ctx-warning {
-          color: var(--warning-fore-color);
-          background-color: var(--warning-back-color);
+          color: var(--app-warning-fore-color);
+          background-color: var(--app-warning-back-color);
         }
         .ctx-danger {
-          color: var(--danger-fore-color);
-          background-color: var(--danger-back-color);
+          color: var(--app-danger-fore-color);
+          background-color: var(--app-danger-back-color);
         }
         .ctx-info {
-          color: var(--info-fore-color);
-          background-color: var(--info-back-color);
+          color: var(--app-info-fore-color);
+          background-color: var(--app-info-back-color);
         }
 
         .sep {
-          color: var(--default-fore-color);
-          background-color: var(--default-back-color);
+          color: var(--app-default-fore-color);
+          background-color: var(--app-default-back-color);
           padding: 1rem;
         }
         .sep div {
-          border: 1px solid var(--default-separator-color);
+          border: 1px solid var(--app-default-separator-color);
           padding: 1rem;
           border-radius: 0.3rem;
         }
         .highlighted {
           padding: 0.6rem;
-          background-color: var(--highlight-color);
+          background-color: var(--app-highlight-color);
         }
 
         .with-border {
-          border: 1px solid var(--default-separator-color);
+          border: 1px solid var(--app-default-separator-color);
         }
       `,
     ];

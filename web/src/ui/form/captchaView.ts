@@ -15,7 +15,7 @@ export class CaptchaView extends BaseElement {
         }
 
         .root-img img {
-          border: 1px solid var(--default-separator-color);
+          border: 1px solid var(--app-default-separator-color);
         }
         /* Disable the default hover filter */
         .root-img:hover {

@@ -4,80 +4,80 @@
 
 /* Default theme (light) ------------------------- */
 :root {
-  --default-back-color: white;
-  --default-secondary-back-color: #e4e4e4;
-  --default-fore-color: black;
-  --default-secondary-fore-color: #676f75;
-  --default-primary-fore-color: #4f81c7;
-  --default-danger-fore-color: #d11e30;
-  --default-success-fore-color: #43ac6a;
-  --default-warning-fore-color: #f3b807;
+  --app-default-back-color: white;
+  --app-default-secondary-back-color: #e4e4e4;
+  --app-default-fore-color: black;
+  --app-default-secondary-fore-color: #676f75;
+  --app-default-primary-fore-color: #4f81c7;
+  --app-default-danger-fore-color: #d11e30;
+  --app-default-success-fore-color: #43ac6a;
+  --app-default-warning-fore-color: #f3b807;
 
-  --default-separator-color: #dadada;
+  --app-default-separator-color: #dadada;
 
-  --primary-back-color: #4f81c7;
-  --primary-fore-color: white;
-  --danger-back-color: #ff5664;
-  --danger-fore-color: #000000;
-  --success-back-color: #43ac6a;
-  --success-fore-color: white;
-  --info-back-color: #e7e7e7;
-  --info-fore-color: #343a40;
-  --warning-back-color: #f3b807;
-  --warning-fore-color: #2f343a;
+  --app-primary-back-color: #4f81c7;
+  --app-primary-fore-color: white;
+  --app-danger-back-color: #ff5664;
+  --app-danger-fore-color: #000000;
+  --app-success-back-color: #43ac6a;
+  --app-success-fore-color: white;
+  --app-info-back-color: #e7e7e7;
+  --app-info-fore-color: #343a40;
+  --app-warning-back-color: #f3b807;
+  --app-warning-fore-color: #2f343a;
 
-  --footer-back-color: #494949;
-  --footer-fore-color: #9c9c9c;
+  --app-footer-back-color: #494949;
+  --app-footer-fore-color: #9c9c9c;
 
-  --keyboard-focus-color: #8dc3eb;
-  --navbar-back-color: #343a40;
-  --navbar-fore-color: #cfcfcf;
-  --navbar-divider-color: #4b4b4b;
-  --navbar-border-bottom: 0;
+  --app-keyboard-focus-color: #8dc3eb;
+  --app-navbar-back-color: #343a40;
+  --app-navbar-fore-color: #cfcfcf;
+  --app-navbar-divider-color: #4b4b4b;
+  --app-navbar-border-bottom: 0;
 
-  --highlight-color: rgba(0, 0, 0, 0.11);
+  --app-highlight-color: rgba(0, 0, 0, 0.11);
 
-  --surface-radius: 6px;
+  --app-surface-radius-md: 6px;
   /* Radius for smaller components like buttons. */
-  --surface-radius-sm: 4px;
+  --app-surface-radius-sm: 4px;
 }
 
 /* Dark theme ------------------------- */
 .theme-dark {
-  --default-back-color: black;
-  --default-secondary-back-color: #2a2a2a;
-  --default-fore-color: #777777;
-  --default-secondary-fore-color: #5a5a5a;
-  --default-primary-fore-color: #35588a;
-  --default-danger-fore-color: #8a1212;
-  --default-success-fore-color: #205333;
-  --default-warning-fore-color: #554000;
+  --app-default-back-color: black;
+  --app-default-secondary-back-color: #2a2a2a;
+  --app-default-fore-color: #777777;
+  --app-default-secondary-fore-color: #5a5a5a;
+  --app-default-primary-fore-color: #35588a;
+  --app-default-danger-fore-color: #8a1212;
+  --app-default-success-fore-color: #205333;
+  --app-default-warning-fore-color: #554000;
 
-  --default-separator-color: #272727;
+  --app-default-separator-color: #272727;
 
-  --primary-back-color: #35588a;
-  --primary-fore-color: #b4b4b4;
+  --app-primary-back-color: #35588a;
+  --app-primary-fore-color: #b4b4b4;
 
-  --danger-back-color: #570000;
-  --danger-fore-color: #777777;
-  --success-back-color: #205333;
-  --success-fore-color: #a5a5a5;
-  --info-back-color: #272727;
-  --info-fore-color: #727374;
-  --warning-back-color: #554000;
-  --warning-fore-color: #979797;
+  --app-danger-back-color: #570000;
+  --app-danger-fore-color: #777777;
+  --app-success-back-color: #205333;
+  --app-success-fore-color: #a5a5a5;
+  --app-info-back-color: #272727;
+  --app-info-fore-color: #727374;
+  --app-warning-back-color: #554000;
+  --app-warning-fore-color: #979797;
 
-  --footer-back-color: #000000;
-  --footer-fore-color: #3d3d3d;
+  --app-footer-back-color: #000000;
+  --app-footer-fore-color: #3d3d3d;
 
-  --keyboard-focus-color: #51708a;
+  --app-keyboard-focus-color: #51708a;
 
-  --navbar-back-color: #000000;
-  --navbar-fore-color: #707070;
-  --navbar-divider-color: #353535;
-  --navbar-border-bottom: 1px solid var(--navbar-divider-color);
+  --app-navbar-back-color: #000000;
+  --app-navbar-fore-color: #707070;
+  --app-navbar-divider-color: #353535;
+  --app-navbar-border-bottom: 1px solid var(--app-navbar-divider-color);
 
-  --highlight-color: rgba(255, 255, 255, 0.11);
+  --app-highlight-color: rgba(255, 255, 255, 0.11);
 }
 
 /**********************************************************
@@ -86,13 +86,13 @@
 
 /* Common styles ------------------------- */
 .is-secondary {
-  color: var(--default-secondary-fore-color) !important;
+  color: var(--app-default-secondary-fore-color) !important;
 }
 
 /* HTML components ------------------------- */
 blockquote {
-  background: var(--default-secondary-back-color);
-  border-left: 10px solid var(--default-secondary-fore-color);
+  background: var(--app-default-secondary-back-color);
+  border-left: 10px solid var(--app-default-secondary-fore-color);
   margin: 1.5rem 10px;
   padding: 0.5rem 10px;
 }
@@ -101,7 +101,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid var(--default-separator-color);
+  border-top: 1px solid var(--app-default-separator-color);
   margin: 0.8rem 0;
   padding: 0;
 }
@@ -119,128 +119,128 @@ qing-button.large::part(button) {
 }
 
 qing-button::part(button) {
-  background-color: var(--info-back-color);
-  color: var(--info-fore-color);
-  --button-outline-color: var(--keyboard-focus-color);
-  border-radius: var(--surface-radius-sm);
+  background-color: var(--app-info-back-color);
+  color: var(--app-info-fore-color);
+  --button-outline-color: var(--app-keyboard-focus-color);
+  border-radius: var(--app-surface-radius-sm);
 }
 qing-button[btnStyle='success']::part(button) {
-  background-color: var(--success-back-color);
-  color: var(--success-fore-color);
+  background-color: var(--app-success-back-color);
+  color: var(--app-success-fore-color);
 }
 qing-button[btnStyle='danger']::part(button) {
-  background-color: var(--danger-back-color);
-  color: var(--danger-fore-color);
+  background-color: var(--app-danger-back-color);
+  color: var(--app-danger-fore-color);
 }
 qing-button[btnStyle='primary']::part(button) {
-  background-color: var(--primary-back-color);
-  color: var(--primary-fore-color);
+  background-color: var(--app-primary-back-color);
+  color: var(--app-primary-fore-color);
 }
 qing-button[btnStyle='warning']::part(button) {
-  background-color: var(--warning-back-color);
-  color: var(--warning-fore-color);
+  background-color: var(--app-warning-back-color);
+  color: var(--app-warning-fore-color);
 }
 
 /* qing-dialog ------------------------- */
 qing-dialog::part(overlay) {
-  background-color: var(--default-back-color);
-  color: var(--default-fore-color);
+  background-color: var(--app-default-back-color);
+  color: var(--app-default-fore-color);
   border-radius: 4px;
-  border: 1px solid var(--default-separator-color);
+  border: 1px solid var(--app-default-separator-color);
 }
 qing-dialog::part(footer-button) {
-  background-color: var(--info-back-color);
-  color: var(--info-fore-color);
-  --button-outline-color: var(--keyboard-focus-color);
+  background-color: var(--app-info-back-color);
+  color: var(--app-info-fore-color);
+  --button-outline-color: var(--app-keyboard-focus-color);
 }
 qing-dialog .icon-success {
-  fill: var(--default-success-fore-color);
+  fill: var(--app-default-success-fore-color);
 }
 qing-dialog .icon-warning {
-  fill: var(--default-warning-fore-color);
+  fill: var(--app-default-warning-fore-color);
 }
 qing-dialog .icon-error {
-  fill: var(--default-danger-fore-color);
+  fill: var(--app-default-danger-fore-color);
 }
 
 /* alert-view ------------------------- */
 alert-view[alertStyle='success'] {
-  --alert-border-color: var(--default-success-fore-color);
+  --alert-border-color: var(--app-default-success-fore-color);
 }
 alert-view[alertStyle='danger'] {
-  --alert-border-color: var(--default-danger-fore-color);
+  --alert-border-color: var(--app-default-danger-fore-color);
 }
 alert-view[alertStyle='primary'] {
-  --alert-border-color: var(--default-primary-fore-color);
+  --alert-border-color: var(--app-default-primary-fore-color);
 }
 alert-view[alertStyle='warning'] {
-  --alert-border-color: var(--default-warning-fore-color);
+  --alert-border-color: var(--app-default-warning-fore-color);
 }
 
 /* tag-view ------------------------- */
 tag-view {
-  --background-color: var(--info-back-color);
-  --color: var(--info-fore-color);
+  --background-color: var(--app-info-back-color);
+  --color: var(--app-info-fore-color);
 }
 tag-view[tagStyle='success'] {
-  --background-color: var(--success-back-color);
-  --color: var(--success-fore-color);
+  --background-color: var(--app-success-back-color);
+  --color: var(--app-success-fore-color);
 }
 tag-view[tagStyle='danger'] {
-  --background-color: var(--danger-back-color);
-  --color: var(--danger-fore-color);
+  --background-color: var(--app-danger-back-color);
+  --color: var(--app-danger-fore-color);
 }
 tag-view[tagStyle='primary'] {
-  --background-color: var(--primary-back-color);
-  --color: var(--primary-fore-color);
+  --background-color: var(--app-primary-back-color);
+  --color: var(--app-primary-fore-color);
 }
 tag-view[tagStyle='warning'] {
-  --background-color: var(--warning-back-color);
-  --color: var(--warning-fore-color);
+  --background-color: var(--app-warning-back-color);
+  --color: var(--app-warning-fore-color);
 }
 
 /* section-view ------------------------- */
 section-view {
-  --content-color: var(--default-fore-color);
-  --border-radius: var(--surface-radius);
+  --content-color: var(--app-default-fore-color);
+  --border-radius: var(--app-surface-radius-md);
 }
 section-view[sectionStyle='success'] {
-  --header-color: var(--success-fore-color);
-  --tint-color: var(--success-back-color);
+  --header-color: var(--app-success-fore-color);
+  --tint-color: var(--app-success-back-color);
 }
 section-view[sectionStyle='danger'] {
-  --header-color: var(--danger-fore-color);
-  --tint-color: var(--danger-back-color);
+  --header-color: var(--app-danger-fore-color);
+  --tint-color: var(--app-danger-back-color);
 }
 section-view[sectionStyle='primary'] {
-  --header-color: var(--primary-fore-color);
-  --tint-color: var(--primary-back-color);
+  --header-color: var(--app-primary-fore-color);
+  --tint-color: var(--app-primary-back-color);
 }
 section-view[sectionStyle='warning'] {
-  --header-color: var(--warning-fore-color);
-  --tint-color: var(--warning-back-color);
+  --header-color: var(--app-warning-fore-color);
+  --tint-color: var(--app-warning-back-color);
 }
 section-view[sectionStyle='info'] {
-  --header-color: var(--info-fore-color);
-  --tint-color: var(--info-back-color);
+  --header-color: var(--app-info-fore-color);
+  --tint-color: var(--app-info-back-color);
 }
 
 /* svg-icon ------------------------- */
 svg-icon {
-  --fill: var(--default-back-color);
+  --fill: var(--app-default-back-color);
 }
 svg-icon[iconStyle='success'] {
-  --fill: var(--success-back-color);
+  --fill: var(--app-success-back-color);
 }
 svg-icon[iconStyle='danger'] {
-  --fill: var(--danger-back-color);
+  --fill: var(--app-danger-back-color);
 }
 svg-icon[iconStyle='primary'] {
-  --fill: var(--primary-back-color);
+  --fill: var(--app-primary-back-color);
 }
 svg-icon[iconStyle='warning'] {
-  --fill: var(--warning-back-color);
+  --fill: var(--app-warning-back-color);
 }
 svg-icon[iconStyle='info'] {
-  --fill: var(--info-back-color);
+  --fill: var(--app-info-back-color);
 }

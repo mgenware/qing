@@ -30,7 +30,7 @@ export class UserSelectorApp extends BaseElement {
         }
 
         #popover-root {
-          border: 1px solid var(--default-separator-color);
+          border: 1px solid var(--app-default-separator-color);
           min-width: 200px;
           max-width: 100%;
         }
@@ -38,7 +38,7 @@ export class UserSelectorApp extends BaseElement {
         .no-result-row {
           padding: 0.7rem 1rem;
           font-size: 1.2rem;
-          color: var(--default-secondary-fore-color);
+          color: var(--app-default-secondary-fore-color);
         }
 
         .user-row {
@@ -47,8 +47,8 @@ export class UserSelectorApp extends BaseElement {
           padding: 0.2rem 0.4rem;
         }
         .user-row:hover {
-          background-color: var(--primary-back-color);
-          color: var(--primary-fore-color);
+          background-color: var(--app-primary-back-color);
+          color: var(--app-primary-fore-color);
           /** Reset the default brightness filter in app.css */
           filter: none;
         }
@@ -60,8 +60,8 @@ export class UserSelectorApp extends BaseElement {
           margin-bottom: 0.8rem;
           line-height: 1.5;
           background-color: transparent;
-          color: var(--default-fore-color);
-          border: 1px solid var(--default-separator-color);
+          color: var(--app-default-fore-color);
+          border: 1px solid var(--app-default-separator-color);
           padding: 0.35rem 0.6rem;
           border-radius: 5px;
         }

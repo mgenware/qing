@@ -15,8 +15,8 @@ export class InputErrorView extends BaseElement {
         div {
           display: inline-block;
           padding: 5px 8px;
-          background-color: var(--danger-back-color);
-          color: var(--danger-fore-color);
+          background-color: var(--app-danger-back-color);
+          color: var(--app-danger-fore-color);
           border-radius: 4px;
           margin-bottom: 10px;
         }

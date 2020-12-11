@@ -31,15 +31,15 @@ export default class NavBarApp extends BaseElement {
         navbar {
           overflow: hidden;
           display: flex;
-          color: var(--navbar-fore-color);
-          background-color: var(--navbar-back-color);
-          border-bottom: var(--navbar-border-bottom);
+          color: var(--app-navbar-fore-color);
+          background-color: var(--app-navbar-back-color);
+          border-bottom: var(--app-navbar-border-bottom);
         }
 
         navbar a {
           float: left;
           display: block;
-          color: var(--navbar-fore-color);
+          color: var(--app-navbar-fore-color);
           text-align: center;
           padding: 14px 16px;
           text-decoration: none;
@@ -69,9 +69,9 @@ export default class NavBarApp extends BaseElement {
         .dropdown-content {
           display: none;
           position: absolute;
-          color: var(--navbar-fore-color);
-          background-color: var(--navbar-back-color);
-          border: 1px solid var(--navbar-divider-color);
+          color: var(--app-navbar-fore-color);
+          background-color: var(--app-navbar-back-color);
+          border: 1px solid var(--app-navbar-divider-color);
           min-width: 160px;
           box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           z-index: 1;
@@ -86,7 +86,7 @@ export default class NavBarApp extends BaseElement {
         }
 
         .dropdown-content hr {
-          border-color: var(--navbar-divider-color);
+          border-color: var(--app-navbar-divider-color);
           margin-top: 0.3rem;
           margin-bottom: 0.3rem;
         }

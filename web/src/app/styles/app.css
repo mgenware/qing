@@ -10,7 +10,7 @@
 a {
   overflow-wrap: break-word;
   word-break: break-all;
-  color: var(--primary-back-color);
+  color: var(--app-primary-back-color);
   text-decoration: none;
   cursor: hand;
 }
@@ -27,7 +27,7 @@ a:visited {
 /* Link button, used in profile page ------------------------- */
 a.link-btn:link,
 a.link-btn:visited {
-  color: var(--primary-back-color);
+  color: var(--app-primary-back-color);
   padding: 12px 20px;
   text-align: center;
   text-decoration: none;
@@ -40,8 +40,8 @@ a.link-btn:active {
 
 /* Body ------------------------- */
 body {
-  background-color: var(--default-back-color);
-  color: var(--default-fore-color);
+  background-color: var(--app-default-back-color);
+  color: var(--app-default-fore-color);
 }
 
 /* Responsive image ------------------------- */
@@ -342,13 +342,13 @@ body {
   font-size: 15px;
   text-align: center;
   padding: 10px 0 0 0;
-  background-color: var(--footer-back-color);
-  color: var(--footer-fore-color);
-  border-top: 1px solid var(--footer-fore-color);
+  background-color: var(--app-footer-back-color);
+  color: var(--app-footer-fore-color);
+  border-top: 1px solid var(--app-footer-fore-color);
 }
 
 #main-footer a {
-  color: var(--footer-fore-color);
+  color: var(--app-footer-fore-color);
 }
 
 /* Avatar helpers ------------------------- */
@@ -371,12 +371,12 @@ label.app-form-label {
 
 input.app-inline-text-input {
   background-color: transparent;
-  color: var(--default-fore-color);
-  border: 1px solid var(--default-separator-color);
+  color: var(--app-default-fore-color);
+  border: 1px solid var(--app-default-separator-color);
 }
 
 input.app-inline-text-input:invalid {
-  border-color: var(--danger-fore-color);
+  border-color: var(--app-danger-fore-color);
 }
 
 /* Table ------------------------- */
@@ -398,11 +398,11 @@ input.app-inline-text-input:invalid {
 }
 
 .app-table tbody tr:hover {
-  background-color: var(--highlight-color);
+  background-color: var(--app-highlight-color);
 }
 
 .app-table thead {
-  border-bottom: 1px solid var(--default-separator-color);
+  border-bottom: 1px solid var(--app-default-separator-color);
 }
 
 .app-table th {

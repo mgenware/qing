@@ -49,14 +49,14 @@ export class InputView extends BaseElement {
           margin-bottom: 0.8rem;
           line-height: 1.5;
           background-color: transparent;
-          color: var(--default-fore-color);
-          border: 1px solid var(--default-separator-color);
+          color: var(--app-default-fore-color);
+          border: 1px solid var(--app-default-separator-color);
           padding: 0.35rem 0.6rem;
-          border-radius: var(--surface-radius-sm);
+          border-radius: var(--app-surface-radius-sm);
         }
 
         input:invalid {
-          border-color: var(--danger-fore-color);
+          border-color: var(--app-danger-fore-color);
         }
       `,
     ];

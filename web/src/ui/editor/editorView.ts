@@ -14,11 +14,11 @@ export default class EditorView extends BaseElement {
       styles,
       css`
         .kx-editor {
-          border: 1px solid var(--default-separator-color);
-          --kx-back-color: var(--default-back-color);
-          --kx-text-color: var(--default-fore-color);
-          --kx-toolbar-separator-color: var(--default-separator-color);
-          --kx-toolbar-button-color: var(--default-fore-color);
+          border: 1px solid var(--app-default-separator-color);
+          --kx-back-color: var(--app-default-back-color);
+          --kx-text-color: var(--app-default-fore-color);
+          --kx-toolbar-separator-color: var(--app-default-separator-color);
+          --kx-toolbar-button-color: var(--app-default-fore-color);
         }
       `,
     ];

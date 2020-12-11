@@ -21,7 +21,7 @@ export class EditProfileApp extends BaseElement {
       super.styles,
       css`
         .profile-img {
-          border: 1px solid var(--default-separator-color);
+          border: 1px solid var(--app-default-separator-color);
         }
 
         input-view {

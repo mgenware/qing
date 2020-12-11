@@ -15,7 +15,7 @@ export class NoticeView extends BaseElement {
 
         .root-container {
           font-size: 1.6rem;
-          color: var(--default-secondary-fore-color);
+          color: var(--app-default-secondary-fore-color);
         }
       `,
     ];

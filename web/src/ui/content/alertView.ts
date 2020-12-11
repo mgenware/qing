@@ -15,7 +15,7 @@ export class AlertView extends BaseElement {
 
         .root {
           padding: 0.75rem 1rem;
-          border: 1px solid var(--alert-border-color, var(--default-secondary-fore-color));
+          border: 1px solid var(--alert-border-color, var(--app-default-secondary-fore-color));
           border-left-width: 5px;
         }
       `,

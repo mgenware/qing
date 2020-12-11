@@ -15,7 +15,7 @@ export class TabView extends BaseElement {
 
         .bar {
           overflow-x: auto;
-          border-bottom: 1px solid var(--default-separator-color);
+          border-bottom: 1px solid var(--app-default-separator-color);
         }
 
         ::slotted(a) {
@@ -26,11 +26,11 @@ export class TabView extends BaseElement {
         }
 
         ::slotted(a:hover) {
-          background-color: var(--default-secondary-back-color);
+          background-color: var(--app-default-secondary-back-color);
         }
 
         ::slotted(a.tab-active) {
-          border-bottom: 3px solid var(--default-primary-fore-color);
+          border-bottom: 3px solid var(--app-default-primary-fore-color);
         }
       `,
     ];
