@@ -40,7 +40,8 @@ const input = [
   'discussion/discussionEntry.ts',
   'profile/profileEntry.ts',
   'auth/authEntry.ts',
-  'home/homeEntry.ts',
+  'home/homeStdEntry.ts',
+  'home/homeFrmEntry.ts',
 ];
 if (!isProd) {
   input.push('devPage/devPageEntry.ts');

@@ -64,11 +64,12 @@ type HomeTableSelectForumGroupsResult struct {
 	Name       string `json:"name,omitempty"`
 	OrderIndex uint   `json:"orderIndex,omitempty"`
 	ForumCount uint   `json:"forumCount,omitempty"`
+	DescHTML   string `json:"descHTML,omitempty"`
 }
 
 // SelectForumGroups ...
 func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]*HomeTableSelectForumGroupsResult, error) {
-	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `forum_count` FROM `forum_group` ORDER BY `order_index` DESC")
+	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +77,7 @@ func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]*HomeT
 	defer rows.Close()
 	for rows.Next() {
 		item := &HomeTableSelectForumGroupsResult{}
-		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ForumCount)
+		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ForumCount, &item.DescHTML)
 		if err != nil {
 			return nil, err
 		}

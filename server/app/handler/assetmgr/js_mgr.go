@@ -28,7 +28,8 @@ type JSManager struct {
 	Dashboard  string
 	Profile    string
 	Auth       string
-	Home       string
+	HomeStd    string
+	HomeFrm    string
 	DevPage    string
 
 	LSCS string
@@ -51,7 +52,8 @@ func NewJSManager(dev bool) *JSManager {
 	r.Profile = js("profileEntry")
 	r.Auth = js("authEntry")
 	r.Discussion = js("discussionEntry")
-	r.Home = js("homeEntry")
+	r.HomeStd = js("homeStdEntry")
+	r.HomeFrm = js("homeFrmEntry")
 	r.DevPage = js("devPageEntry")
 	return r
 }

@@ -52,7 +52,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		userData := NewStdPageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 		d := app.MasterPageData("", vStdPage.MustExecuteToString(resp.Lang(), userData))
-		d.Scripts = app.MasterPageManager.AssetsManager.JS.Home
+		d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeStd
 		return resp.MustComplete(d)
 	}
 
@@ -87,14 +87,19 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		var frmHTMLBuilder strings.Builder
 		// Iterate through forums.
 		for _, group := range forumGroups {
-			var forumsHTMLBuilder strings.Builder
-			for _, forum := range groupMap[group.ID] {
-				forumModel := NewForumModel(forum)
-				forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
-			}
+			forums := groupMap[group.ID]
+			if len(forums) == 0 {
+				frmHTMLBuilder.WriteString(vNoContentView.MustExecuteToString(nil))
+			} else {
+				var forumsHTMLBuilder strings.Builder
+				for _, forum := range forums {
+					forumModel := NewForumModel(forum)
+					forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
+				}
 
-			groupModel := NewForumGroupModel(group, forumsHTMLBuilder.String())
-			frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
+				groupModel := NewForumGroupModel(group, forumsHTMLBuilder.String())
+				frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
+			}
 		}
 
 		frmPageModel := NewFrmPageModel(frmHTMLBuilder.String())
@@ -102,6 +107,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	d := app.MasterPageData("", masterHTML)
-	d.Scripts = app.MasterPageManager.AssetsManager.JS.Home
+	d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeFrm
 	return resp.MustComplete(d)
 }
