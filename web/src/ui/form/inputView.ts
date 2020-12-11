@@ -52,7 +52,7 @@ export class InputView extends BaseElement {
           color: var(--default-fore-color);
           border: 1px solid var(--default-separator-color);
           padding: 0.35rem 0.6rem;
-          border-radius: 5px;
+          border-radius: var(--surface-radius-sm);
         }
 
         input:invalid {

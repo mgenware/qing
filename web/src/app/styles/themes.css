@@ -36,6 +36,10 @@
   --navbar-border-bottom: 0;
 
   --highlight-color: rgba(0, 0, 0, 0.11);
+
+  --surface-radius: 6px;
+  /* Radius for smaller components like buttons. */
+  --surface-radius-sm: 4px;
 }
 
 /* Dark theme ------------------------- */
@@ -118,6 +122,7 @@ qing-button::part(button) {
   background-color: var(--info-back-color);
   color: var(--info-fore-color);
   --button-outline-color: var(--keyboard-focus-color);
+  border-radius: var(--surface-radius-sm);
 }
 qing-button[btnStyle='success']::part(button) {
   background-color: var(--success-back-color);
@@ -197,6 +202,7 @@ tag-view[tagStyle='warning'] {
 /* section-view ------------------------- */
 section-view {
   --content-color: var(--default-fore-color);
+  --border-radius: var(--surface-radius);
 }
 section-view[sectionStyle='success'] {
   --header-color: var(--success-fore-color);

@@ -17,7 +17,7 @@ export class SectionView extends BaseElement {
           padding: 0.75rem 1rem;
           color: var(--header-color);
           background-color: var(--tint-color);
-          border-radius: 8px;
+          border-radius: var(--border-radius);
         }
 
         .section-content {
@@ -27,12 +27,12 @@ export class SectionView extends BaseElement {
 
         @media (min-width: 768px) {
           .section-header {
-            border-radius: 8px 8px 0 0;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
           }
 
           .section-content {
             border-width: 0 1px 1px 1px;
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
             border-color: var(--tint-color);
             border-style: solid;
           }

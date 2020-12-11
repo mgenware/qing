@@ -8,6 +8,7 @@ import 'ui/status/spinnerView';
 import 'ui/panels/centeredView';
 import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
+import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
@@ -136,8 +137,10 @@ export class ElementsDev extends BaseElement {
       <div class="highlighted">Highlight color</div>
       <h1>Views</h1>
       <hr />
-      <h2>Selection view</h2>
+      <h2>Forms</h2>
+      <input-view required type="email" label="Email"></input-view>
       <selection-view
+        class="m-t-md"
         multiSelect
         .dataSource=${[{ text: 'Qing', checked: true }, { text: 'Ming' }, { text: 'Yuan' }]}
       ></selection-view>
