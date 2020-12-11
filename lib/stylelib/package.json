@@ -1,6 +1,6 @@
 {
   "name": "qing-stylelib",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Mgen",
   "license": "MIT",
   "scripts": {
@@ -10,13 +10,13 @@
   "devDependencies": {
     "clean-css-cli": "^4.3.0",
     "concat": "^1.0.3",
-    "daizong": "^0.11.0"
+    "daizong": "^0.11.1"
   },
   "files": [
     "/dist/stylelib.min.css"
   ],
   "dependencies": {
-    "bootstrap": "^5.0.0-alpha1",
+    "bootstrap": "^5.0.0-beta1",
     "modern-normalize": "^1.0.0"
   }
 }

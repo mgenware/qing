@@ -497,10 +497,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.0.0.tgz#23c0df14f6a88077f5f986c0d167ec03c3d5537c"
   integrity sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
 
-bootstrap@^5.0.0-alpha1:
-  version "5.0.0-alpha1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.0.0-alpha1.tgz#cd35be4282bc930322bcbf1db23a8729c60a31cb"
-  integrity sha512-iwKneP2pLXl8lN0YpnOuOARiNPTzmh/4cw+Un86u4OqrMLuQpyMC7nO07hvivvcg0B/ektJPjuPnS1s+YmRK9A==
+bootstrap@^5.0.0-beta1:
+  version "5.0.0-beta1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.0.0-beta1.tgz#18135001a452b3ec38b344ac638a1f9549285ee7"
+  integrity sha512-UrHApw/WRmT7l2rlDdn5iXr7Jps/LlMZtJlLn9G41aGDfss48hyDeYyHtX1C6NHKVcmdUarGG+ve0LZB5iHyTQ==
 
 bowhead-js@^5.0.0:
   version "5.0.0"
@@ -2215,10 +2215,10 @@ mocha@^8.2.1:
     yargs-parser "13.1.2"
     yargs-unparser "2.0.0"
 
-modern-normalize@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-0.6.0.tgz#21a469988edfc7c9020348e7a3b5b3583a1c9406"
-  integrity sha512-gzvL1uFLV4EErHhaKoqTcrx52/sea6AIcMFWz/GBCuFrDBp485wSgyX5M+MZsj+grfcuqYLQGfHjDRrCvvwZLw==
+modern-normalize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-1.0.0.tgz#539d84a1e141338b01b346f3e27396d0ed17601e"
+  integrity sha512-1lM+BMLGuDfsdwf3rsgBSrxJwAZHFIrQ8YR61xIqdHo0uNKI9M52wNpHSrliZATJp51On6JD0AfRxd4YGSU0lw==
 
 ms@2.0.0:
   version "2.0.0"
@@ -2668,13 +2668,13 @@ qing-dialog-component@^0.3.0:
   resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.3.0.tgz#cd49d4fb37145728e96f8165f1b71666eed49f25"
   integrity sha512-4IRYPZuDAKZTv0tx2sEFiftupvMw7HkiS116WqSSGZH0kLf9fq5FQdvzpSYlkFx5xMwap94e4+4cybY+K9xinQ==
 
-qing-stylelib@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-1.1.0.tgz#34e24a70b25ebde51c2f8184a3d96268d0b06036"
-  integrity sha512-8vGZk2NRRAdFGintgVbi6E4YY2OQOEc282DN+bc3GjtsNnqse6+1b0bIkIq+SUmf+2lsmvM3xV9ohqWbPqbNVQ==
+qing-stylelib@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-1.2.0.tgz#a0cca0a590a3349d5cc419ae7045e294c072ce79"
+  integrity sha512-myMHs5a/xYVseKHwivGGV5pqu7cQ0TpzeHmH/tTDEVA6q9dYiDVwO/mOcKYztBhrkj/uUcLEJpeQsLZ+hJY18A==
   dependencies:
-    bootstrap "^5.0.0-alpha1"
-    modern-normalize "^0.6.0"
+    bootstrap "^5.0.0-beta1"
+    modern-normalize "^1.0.0"
 
 quick-lru@^4.0.1:
   version "4.0.1"
