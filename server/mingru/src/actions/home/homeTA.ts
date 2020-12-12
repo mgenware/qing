@@ -5,13 +5,11 @@ import discussion from '../../models/discussion/discussion';
 import user from '../../models/user/user';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup';
 import forum, { Forum } from '../../models/forum/forum';
+import question from '../../models/qna/question';
+import defs from '../defs';
 
 const itemTypeName = 'itemType';
 const itemTypeInterface = 'HomeItemInterface';
-enum HomeItemType {
-  postItem = 1,
-  discussionItem,
-}
 
 export class Home extends mm.GhostTable {}
 
@@ -19,6 +17,7 @@ export class HomeTA extends mm.TableActions {
   // Non-forum mode.
   selectPosts: mm.SelectAction;
   selectDiscussions: mm.SelectAction;
+  selectQuestions: mm.SelectAction;
   selectItems: mm.SelectAction;
 
   // Forum mode.
@@ -32,22 +31,28 @@ export class HomeTA extends mm.TableActions {
     super();
 
     this.selectPosts = mm
-      .selectPage(this.typeCol(HomeItemType.postItem), ...this.getDefaultItemCols(post))
+      .selectPage(this.typeCol(defs.homeItemPost), ...this.getDefaultItemCols(post))
       .from(post)
       .orderByAsc(post.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
+    this.selectQuestions = mm
+      .selectPage(this.typeCol(defs.homeItemQuestion), ...this.getDefaultItemCols(question))
+      .from(question)
+      .orderByAsc(question.created_at)
+      .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(HomeItemType.discussionItem), ...this.getDefaultItemCols(discussion))
+      .selectPage(this.typeCol(defs.homeItemDiscussion), ...this.getDefaultItemCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
     this.selectItems = this.selectPosts
+      .union(this.selectQuestions, true)
       .union(this.selectDiscussions, true)
       .orderByDesc(post.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
   }
 
-  private typeCol(itemType: HomeItemType): mm.RawColumn {
+  private typeCol(itemType: number): mm.RawColumn {
     return new mm.RawColumn(mm.sql`${itemType.toString()}`, itemTypeName, mm.int().__type);
   }
 

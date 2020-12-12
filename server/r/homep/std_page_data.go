@@ -12,12 +12,6 @@ import (
 var vStdPage = app.MasterPageManager.MustParseLocalizedView("/home/stdPage.html")
 var vStdThreadItem = app.MasterPageManager.MustParseView("/home/threadView.html")
 
-// Should be in sync with `HomeItemType` in `homeTA.ts`.
-const (
-	homeItemPost       = 1
-	homeItemDiscussion = 2
-)
-
 // StdPageData ...
 type StdPageData struct {
 	handler.LocalizedTemplateData
@@ -27,6 +21,7 @@ type StdPageData struct {
 	PageData     *rcom.PageData
 
 	HomePostsURL       string
+	HomeQuestionsURL   string
 	HomeDiscussionsURL string
 }
 
@@ -46,6 +41,7 @@ func NewStdPageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdP
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML
 	d.HomePostsURL = app.URL.HomeAdv(defs.Constants.KeyPosts, 1)
+	d.HomeQuestionsURL = app.URL.HomeAdv(defs.Constants.KeyQuestions, 1)
 	d.HomeDiscussionsURL = app.URL.HomeAdv(defs.Constants.KeyDiscussions, 1)
 	return d
 }
@@ -54,11 +50,15 @@ func NewStdPageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdP
 func NewStdPageItemData(item *da.HomeItemInterface) (*StdPageItemData, error) {
 	d := &StdPageItemData{HomeItemInterface: *item}
 	switch item.ItemType {
-	case homeItemPost:
+	case da.Constants.HomeItemPost:
 		d.ItemURL = app.URL.Post(item.ID)
 		break
 
-	case homeItemDiscussion:
+	case da.Constants.HomeItemQuestion:
+		d.ItemURL = app.URL.Question(item.ID)
+		break
+
+	case da.Constants.HomeItemDiscussion:
 		d.ItemURL = app.URL.Discussion(item.ID)
 		break
 

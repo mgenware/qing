@@ -35,6 +35,7 @@ type SharedConstants struct {
 	KeyPage string
 	KeyPageSize string
 	KeyPosts string
+	KeyQuestions string
 	KeyTab string
 	KeyValue string
 	MaxCaptchaLen int
@@ -52,6 +53,7 @@ type SharedConstants struct {
 	RouteForum string
 	RouteForumGroup string
 	RoutePost string
+	RouteQuestion string
 	RouteUser string
 }
 
@@ -88,6 +90,7 @@ func init() {
 		KeyPage: "page",
 		KeyPageSize: "pageSize",
 		KeyPosts: "posts",
+		KeyQuestions: "questions",
 		KeyTab: "tab",
 		KeyValue: "value",
 		MaxCaptchaLen: 10,
@@ -105,6 +108,7 @@ func init() {
 		RouteForum: "f",
 		RouteForumGroup: "g",
 		RoutePost: "p",
+		RouteQuestion: "q",
 		RouteUser: "user",
 	}
 }

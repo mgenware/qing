@@ -34,6 +34,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 			items, hasNext, err = da.Home.SelectPosts(db, page, defaultPageSize)
 		} else if tab == defs.Constants.KeyDiscussions {
 			items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
+		} else if tab == defs.Constants.KeyQuestions {
+			items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
 		} else {
 			items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)
 		}

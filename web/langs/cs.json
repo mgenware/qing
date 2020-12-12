@@ -124,5 +124,7 @@
   "removeAdminConfirmation": "确定将\"{0}\"从管理员中移除吗？",
   "actions": "可选操作",
   "thisIsYou": "这是你",
-  "numOfThreads": "{0} 帖子"
+  "numOfThreads": "{0} 帖子",
+  "allThreads": "所有帖子",
+  "questions": "提问"
 }

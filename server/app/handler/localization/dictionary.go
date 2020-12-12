@@ -19,6 +19,7 @@ type Dictionary struct {
 	Actions                      string `json:"actions"`
 	AddAnAdmin                   string `json:"addAnAdmin"`
 	AdminAccounts                string `json:"adminAccounts"`
+	AllThreads                   string `json:"allThreads"`
 	Bio                          string `json:"bio"`
 	Cancel                       string `json:"cancel"`
 	CaptNotFoundErr              string `json:"captNotFoundErr"`

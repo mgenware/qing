@@ -125,4 +125,5 @@ export default interface LSDefs {
   actions: string;
   thisIsYou: string;
   numOfThreads: string;
+  allThreads: string;
 }

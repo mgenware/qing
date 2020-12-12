@@ -101,6 +101,18 @@ func (u *URL) Discussion(pid uint64) string {
 	return u.DiscussionWithPage(pid, 1)
 }
 
+func (u *URL) QuestionWithPage(pid uint64, page int) string {
+	s := "/" + defs.Constants.RouteQuestion + "/" + validator.EncodeID(pid)
+	if page > 1 {
+		s += fmt.Sprintf("&%v=%v", defs.Constants.KeyPage, page)
+	}
+	return s
+}
+
+func (u *URL) Question(pid uint64) string {
+	return u.QuestionWithPage(pid, 1)
+}
+
 func (u *URL) SignIn() string {
 	return "/" + defs.Constants.RouteAuth + "/sign/in"
 }

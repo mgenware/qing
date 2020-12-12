@@ -33,7 +33,7 @@ func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 2 AS `itemType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`title` AS `title`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `created_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := queryable.Query("SELECT 3 AS `itemType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`title` AS `title`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `created_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -135,7 +135,7 @@ func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageS
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("(SELECT 1 AS `itemType`, `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `post`.`title` AS `title`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `itemType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`title` AS `title`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset)
+	rows, err := queryable.Query("(SELECT 1 AS `itemType`, `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `post`.`title` AS `title`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `itemType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`title` AS `title`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 3 AS `itemType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`title` AS `title`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -174,6 +174,44 @@ func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageS
 	offset := (page - 1) * pageSize
 	max := pageSize
 	rows, err := queryable.Query("SELECT 1 AS `itemType`, `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `post`.`title` AS `title`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `created_at` LIMIT ? OFFSET ?", limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]*HomeItemInterface, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			item := &HomeItemInterface{}
+			err = rows.Scan(&item.ItemType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.ModifiedAt)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
+}
+
+// SelectQuestions ...
+func (da *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]*HomeItemInterface, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := queryable.Query("SELECT 2 AS `itemType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`title` AS `title`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` ORDER BY `created_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

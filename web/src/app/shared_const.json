@@ -21,6 +21,7 @@
   "routeForum": "f",
   "routeDiscussion": "d",
   "routeForumGroup": "g",
+  "routeQuestion": "q",
   "entityPost": 1,
   "entityCmt": 2,
   "entityReply": 3,
@@ -43,6 +44,7 @@
   "keyPageSize": "pageSize",
   "keyTab": "tab",
   "keyValue": "value",
+  "keyQuestions": "questions",
   "forumStatusOpen": 0,
   "forumStatusArchived": 1
 }
