@@ -92,11 +92,11 @@ func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]*HomeT
 
 // HomeTableSelectForumsResult ...
 type HomeTableSelectForumsResult struct {
-	ID          uint64 `json:"-"`
-	Name        string `json:"name,omitempty"`
-	OrderIndex  uint   `json:"orderIndex,omitempty"`
-	ThreadCount uint   `json:"threadCount,omitempty"`
-	GroupID     uint64 `json:"groupID,omitempty"`
+	ID          uint64  `json:"-"`
+	Name        string  `json:"name,omitempty"`
+	OrderIndex  uint    `json:"orderIndex,omitempty"`
+	ThreadCount uint    `json:"threadCount,omitempty"`
+	GroupID     *uint64 `json:"groupID,omitempty"`
 }
 
 // SelectForums ...

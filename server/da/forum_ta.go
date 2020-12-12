@@ -28,7 +28,7 @@ func (da *TableTypeForum) DeleteItem(queryable mingru.Queryable, id uint64) erro
 }
 
 // InsertItem ...
-func (da *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, desc string, orderIndex uint, createdAt time.Time, groupID uint64, threadCount uint, status uint8) (uint64, error) {
+func (da *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, desc string, orderIndex uint, createdAt time.Time, groupID *uint64, threadCount uint, status uint8) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `forum` (`name`, `desc`, `order_index`, `created_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)", name, desc, orderIndex, createdAt, groupID, threadCount, status)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }

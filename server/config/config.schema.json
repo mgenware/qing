@@ -6,7 +6,8 @@
     "setup_config": {
       "type": "object",
       "properties": {
-        "forums_mode": { "type": "boolean" }
+        "forums_mode": { "type": "boolean" },
+        "forum_groups": { "type": "boolean" }
       }
     },
     "debug_config": {

@@ -70,11 +70,15 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		// Group forums by `group_id`.
 		groupMap := make(map[uint64][]*da.HomeTableSelectForumsResult)
 		for _, f := range forums {
-			arr := groupMap[f.GroupID]
+			if f.GroupID == nil {
+				continue
+			}
+			gid := *f.GroupID
+			arr := groupMap[gid]
 			if arr == nil {
 				arr = make([]*da.HomeTableSelectForumsResult, 0)
 			}
-			groupMap[f.GroupID] = append(arr, f)
+			groupMap[gid] = append(arr, f)
 		}
 
 		// Sort forums in each group.
