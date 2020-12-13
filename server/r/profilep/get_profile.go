@@ -14,6 +14,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// GetProfile handles user profile routes.
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
@@ -66,14 +67,14 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		}
 	}
 
-	pageURLFormatter := &ProfilePageURLFormatter{ID: uid, Tab: tab}
+	pageURLFormatter := NewProfilePageURLFormatter(uid, tab)
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 
 	if feedListHTML == "" {
 		feedListHTML = "<no-content-view></no-content-view>"
 	}
-	userData := NewProfilePageDataFromUser(user, stats, feedListHTML, rcom.GetPageBarHTML(pageData))
-	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), userData))
+	profileModel := NewProfilePageModelFromUser(user, stats, feedListHTML, rcom.GetPageBarHTML(pageData))
+	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), profileModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)
 }

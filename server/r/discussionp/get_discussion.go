@@ -33,8 +33,8 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var msgListBuilder strings.Builder
 	for _, m := range rawMsgs {
-		msgData := NewDiscussionMsgData(m)
-		msgListBuilder.WriteString(vMessageItem.MustExecuteToString(msgData))
+		msgModel := NewDiscussionMsgModel(m)
+		msgListBuilder.WriteString(vMessageItem.MustExecuteToString(msgModel))
 	}
 
 	// Setup page data.
@@ -43,9 +43,9 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	resp := app.HTMLResponse(w, r)
-	discussionData := NewDiscussionPageData(discussion, msgListBuilder.String(), pageBarHTML)
+	discussionModel := NewDiscussionPageModel(discussion, msgListBuilder.String(), pageBarHTML)
 	title := discussion.Title
-	d := app.MasterPageData(title, vDiscussionPage.MustExecuteToString(discussionData))
+	d := app.MasterPageData(title, vDiscussionPage.MustExecuteToString(discussionModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Discussion
 	return resp.MustComplete(d)
 }

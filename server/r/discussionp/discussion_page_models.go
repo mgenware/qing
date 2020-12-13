@@ -7,8 +7,8 @@ import (
 	"qing/r/rcom"
 )
 
-// DiscussionPageData is a wrapper around da.DiscussionTableSelectPostByIDResult.
-type DiscussionPageData struct {
+// DiscussionPageModel is a wrapper around da.DiscussionTableSelectPostByIDResult.
+type DiscussionPageModel struct {
 	da.DiscussionTableSelectItemByIDResult
 
 	// Those props are used by template and not exposed in any API. No JSON keys attached.
@@ -19,8 +19,8 @@ type DiscussionPageData struct {
 	PageBarHTML     string
 }
 
-// DiscussionMsgData is a wrapper around da.DiscussionMsgTableSelectItemsByDiscussionResult.
-type DiscussionMsgData struct {
+// DiscussionMsgModel is a wrapper around da.DiscussionMsgTableSelectItemsByDiscussionResult.
+type DiscussionMsgModel struct {
 	da.DiscussionMsgTableSelectItemsByDiscussionResult
 
 	DiscussionURL string
@@ -31,9 +31,9 @@ type DiscussionMsgData struct {
 var vDiscussionPage = app.MasterPageManager.MustParseView("/discussion/discussionPage.html")
 var vMessageItem = app.MasterPageManager.MustParseView("/discussion/messageItem.html")
 
-// NewDiscussionPageData creates a DiscussionPageData.
-func NewDiscussionPageData(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) *DiscussionPageData {
-	d := &DiscussionPageData{DiscussionTableSelectItemByIDResult: *p}
+// NewDiscussionPageModel creates a DiscussionPageModel.
+func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) *DiscussionPageModel {
+	d := &DiscussionPageModel{DiscussionTableSelectItemByIDResult: *p}
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = eid
 	d.EID = validator.EncodeID(p.ID)
@@ -43,9 +43,9 @@ func NewDiscussionPageData(p *da.DiscussionTableSelectItemByIDResult, msgListHTM
 	return d
 }
 
-// NewDiscussionMsgData creates a DiscussionMsgData.
-func NewDiscussionMsgData(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) *DiscussionMsgData {
-	d := &DiscussionMsgData{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
+// NewDiscussionMsgModel creates a DiscussionMsgModel.
+func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) *DiscussionMsgModel {
+	d := &DiscussionMsgModel{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = app.URL.Discussion(p.ID)
 	d.EID = eid

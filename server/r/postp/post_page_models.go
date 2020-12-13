@@ -7,8 +7,8 @@ import (
 	"qing/r/rcom"
 )
 
-// PostPageData is a wrapper around da.PostTableSelectPostByIDResult.
-type PostPageData struct {
+// PostPageModel is a wrapper around da.PostTableSelectPostByIDResult.
+type PostPageModel struct {
 	da.PostTableSelectItemByIDResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
@@ -24,9 +24,9 @@ type PostPageData struct {
 
 var vPostPage = app.MasterPageManager.MustParseView("/post/postPage.html")
 
-// NewPostPageData creates a PostPageData.
-func NewPostPageData(p *da.PostTableSelectItemByIDResult) *PostPageData {
-	d := &PostPageData{PostTableSelectItemByIDResult: *p}
+// NewPostPageModel creates a PostPageModel.
+func NewPostPageModel(p *da.PostTableSelectItemByIDResult) *PostPageModel {
+	d := &PostPageModel{PostTableSelectItemByIDResult: *p}
 	eid := validator.EncodeID(p.ID)
 	d.PostURL = app.URL.Post(p.ID)
 	d.EID = eid

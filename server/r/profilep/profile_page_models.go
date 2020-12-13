@@ -11,8 +11,8 @@ import (
 var vProfilePage = app.MasterPageManager.MustParseLocalizedView("/profile/profilePage.html")
 var vProfileFeedItem = app.MasterPageManager.MustParseView("/profile/feedItem.html")
 
-// ProfilePageData ...
-type ProfilePageData struct {
+// ProfilePageModel ...
+type ProfilePageModel struct {
 	da.UserTableSelectProfileResult
 	handler.LocalizedTemplateData
 
@@ -28,23 +28,23 @@ type ProfilePageData struct {
 	PageBarHTML           string
 }
 
-// ProfilePostItem is a data wrapper around PostTableSelectItemsForUserProfileResult.
+// ProfilePostItem is a Model wrapper around PostTableSelectItemsForUserProfileResult.
 type ProfilePostItem struct {
 	da.PostTableSelectItemsForUserProfileResult
 
 	URL string
 }
 
-// ProfileDiscussionItem is a data wrapper around DiscussionTableSelectItemsForUserProfileResult.
+// ProfileDiscussionItem is a wrapper around DiscussionTableSelectItemsForUserProfileResult.
 type ProfileDiscussionItem struct {
 	da.DiscussionTableSelectItemsForUserProfileResult
 
 	URL string
 }
 
-// NewProfilePageDataFromUser creates a new ProfileData from profile DB result.
-func NewProfilePageDataFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageBarHTML string) *ProfilePageData {
-	d := &ProfilePageData{UserTableSelectProfileResult: *profile}
+// NewProfilePageModelFromUser creates a new ProfileModel from profile DB result.
+func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageBarHTML string) *ProfilePageModel {
+	d := &ProfilePageModel{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
 	d.EID = validator.EncodeID(uid)
