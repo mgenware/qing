@@ -40,7 +40,7 @@ type ForumModel struct {
 // NewForumModel creates a new ForumModel.
 func NewForumModel(d *da.HomeTableSelectForumsResult) *ForumModel {
 	r := &ForumModel{HomeTableSelectForumsResult: *d}
-	r.URL = app.URL.Forum(d.ID)
+	r.URL = app.URL.ForumAdv(d.ID, "", 1)
 	return r
 }
 

@@ -63,14 +63,14 @@ func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string
 
 // UserTableSelectEditingDataResult ...
 type UserTableSelectEditingDataResult struct {
-	ID       uint64  `json:"-"`
-	Name     string  `json:"name,omitempty"`
-	IconName string  `json:"-"`
-	Status   string  `json:"status,omitempty"`
-	Location string  `json:"location,omitempty"`
-	Company  string  `json:"company,omitempty"`
-	Website  string  `json:"website,omitempty"`
 	Bio      *string `json:"bio,omitempty"`
+	Company  string  `json:"company,omitempty"`
+	IconName string  `json:"-"`
+	ID       uint64  `json:"-"`
+	Location string  `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+	Status   string  `json:"status,omitempty"`
+	Website  string  `json:"website,omitempty"`
 }
 
 // SelectEditingData ...
@@ -105,14 +105,14 @@ func (da *TableTypeUser) SelectIDFromEmail(queryable mingru.Queryable, email str
 
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
-	ID       uint64  `json:"-"`
-	Name     string  `json:"name,omitempty"`
-	IconName string  `json:"-"`
-	Status   string  `json:"status,omitempty"`
-	Location string  `json:"location,omitempty"`
-	Company  string  `json:"company,omitempty"`
-	Website  string  `json:"website,omitempty"`
 	Bio      *string `json:"bio,omitempty"`
+	Company  string  `json:"company,omitempty"`
+	IconName string  `json:"-"`
+	ID       uint64  `json:"-"`
+	Location string  `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+	Status   string  `json:"status,omitempty"`
+	Website  string  `json:"website,omitempty"`
 }
 
 // SelectProfile ...
@@ -127,11 +127,11 @@ func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*
 
 // UserTableSelectSessionDataResult ...
 type UserTableSelectSessionDataResult struct {
+	Admin    bool   `json:"admin,omitempty"`
+	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
-	IconName string `json:"-"`
 	Status   string `json:"status,omitempty"`
-	Admin    bool   `json:"admin,omitempty"`
 }
 
 // SelectSessionData ...
@@ -146,9 +146,9 @@ func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64
 
 // UserTableUnsafeSelectAdminsResult ...
 type UserTableUnsafeSelectAdminsResult struct {
+	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
-	IconName string `json:"-"`
 	Status   string `json:"status,omitempty"`
 }
 

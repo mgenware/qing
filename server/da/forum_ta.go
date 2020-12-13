@@ -34,7 +34,7 @@ func (da *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, de
 }
 
 // SelectDiscussions ...
-func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]*ForumThreadInterface, bool, error) {
+func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -46,18 +46,18 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`title` AS `title`, `discussion`.`created_at` AS `created_at`, `discussion`.`last_replied_at` AS `last_replied_at`, `discussion`.`reply_count` AS `reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `last_replied_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := queryable.Query("SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`title` AS `title`, `discussion`.`reply_count` AS `value1` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `discussion`.`last_replied_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*ForumThreadInterface, 0, limit)
+	result := make([]*UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &ForumThreadInterface{}
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.LastRepliedAt, &item.ReplyCount)
+			item := &UserThreadInterface{}
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1)
 			if err != nil {
 				return nil, false, err
 			}
@@ -73,10 +73,10 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 
 // ForumTableSelectForumResult ...
 type ForumTableSelectForumResult struct {
+	CreatedAt   time.Time `json:"createdAt,omitempty"`
+	DescHTML    string    `json:"descHTML,omitempty"`
 	ID          uint64    `json:"ID,omitempty"`
 	Name        string    `json:"name,omitempty"`
-	DescHTML    string    `json:"descHTML,omitempty"`
-	CreatedAt   time.Time `json:"createdAt,omitempty"`
 	ThreadCount uint      `json:"threadCount,omitempty"`
 }
 
@@ -91,7 +91,7 @@ func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (*F
 }
 
 // SelectQuestions ...
-func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]*ForumThreadInterface, bool, error) {
+func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -103,18 +103,18 @@ func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 2 AS `threadType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`title` AS `title`, `question`.`created_at` AS `created_at`, `question`.`last_replied_at` AS `last_replied_at`, `question`.`reply_count` AS `reply_count` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` ORDER BY `last_replied_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := queryable.Query("SELECT 2 AS `threadType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`title` AS `title`, `question`.`reply_count` AS `value1`, `question`.`up_votes` AS `value2`, `question`.`down_votes` AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` ORDER BY `question`.`last_replied_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*ForumThreadInterface, 0, limit)
+	result := make([]*UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &ForumThreadInterface{}
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.LastRepliedAt, &item.ReplyCount)
+			item := &UserThreadInterface{}
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}
@@ -129,7 +129,7 @@ func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, 
 }
 
 // SelectThreads ...
-func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pageSize int) ([]*ForumThreadInterface, bool, error) {
+func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -141,18 +141,18 @@ func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pa
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("(SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`title` AS `title`, `discussion`.`created_at` AS `created_at`, `discussion`.`last_replied_at` AS `last_replied_at`, `discussion`.`reply_count` AS `reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `threadType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`title` AS `title`, `question`.`created_at` AS `created_at`, `question`.`last_replied_at` AS `last_replied_at`, `question`.`reply_count` AS `reply_count` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset)
+	rows, err := queryable.Query("(SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`title` AS `title`, `discussion`.`reply_count` AS `value1` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `threadType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`title` AS `title`, `question`.`reply_count` AS `value1`, `question`.`up_votes` AS `value2`, `question`.`down_votes` AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) ORDER BY `last_replied_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*ForumThreadInterface, 0, limit)
+	result := make([]*UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &ForumThreadInterface{}
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.Title, &item.CreatedAt, &item.LastRepliedAt, &item.ReplyCount)
+			item := &UserThreadInterface{}
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1)
 			if err != nil {
 				return nil, false, err
 			}

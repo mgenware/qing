@@ -34,11 +34,11 @@ func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name stri
 
 // ForumGroupTableSelectGroupResult ...
 type ForumGroupTableSelectGroupResult struct {
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	DescHTML   string    `json:"descHTML,omitempty"`
+	ForumCount uint      `json:"forumCount,omitempty"`
 	ID         uint64    `json:"ID,omitempty"`
 	Name       string    `json:"name,omitempty"`
-	DescHTML   string    `json:"descHTML,omitempty"`
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
-	ForumCount uint      `json:"forumCount,omitempty"`
 }
 
 // SelectGroup ...

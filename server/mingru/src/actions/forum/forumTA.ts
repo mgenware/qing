@@ -1,10 +1,13 @@
 import * as mm from 'mingru-models';
-import ThreadBase from '../../models/com/threadBase';
 import discussion from '../../models/discussion/discussion';
 import t from '../../models/forum/forum';
 import question from '../../models/qna/question';
-import user from '../../models/user/user';
-import { UserThreadInterface } from '../common';
+import {
+  getUserDiscussionCols,
+  getUserQuestionCols,
+  userThreadInterface,
+  userThreadTypeColumnName,
+} from '../com/userThreadCommon';
 import defs from '../defs';
 
 export class ForumTA extends mm.TableActions {
@@ -23,35 +26,28 @@ export class ForumTA extends mm.TableActions {
     super();
 
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(defs.tabDiscussion), ...this.getDefaultThreadCols(discussion))
+      .selectPage(this.typeCol(defs.threadTypeDiscussion), ...getUserDiscussionCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.last_replied_at)
-      .resultTypeNameAttr(UserThreadInterface);
+      .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.tabQuestion), ...this.getDefaultThreadCols(question))
+      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question))
       .from(question)
       .orderByAsc(question.last_replied_at)
-      .resultTypeNameAttr(UserThreadInterface);
+      .resultTypeNameAttr(userThreadInterface);
+
     this.selectThreads = this.selectDiscussions
       .union(this.selectQuestions, true)
-      .orderByDesc(discussion.created_at)
-      .resultTypeNameAttr(UserThreadInterface);
+      .orderByDesc(discussion.last_replied_at)
+      .resultTypeNameAttr(userThreadInterface);
   }
 
   private typeCol(itemType: number): mm.RawColumn {
-    return new mm.RawColumn(mm.sql`${itemType.toString()}`, threadTypeName, mm.int().__type);
-  }
-
-  private getDefaultThreadCols(th: ThreadBase): mm.SelectedColumn[] {
-    const joinedUserTable = th.user_id.join(user);
-    const privateCols = [
-      th.id,
-      th.user_id,
-      joinedUserTable.name,
-      joinedUserTable.icon_name,
-    ].map((c) => c.privateAttr());
-
-    return [...privateCols, th.title, th.created_at, th.last_replied_at, th.reply_count];
+    return new mm.RawColumn(
+      mm.sql`${itemType.toString()}`,
+      userThreadTypeColumnName,
+      mm.int().__type,
+    );
   }
 }
 

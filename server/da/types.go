@@ -16,55 +16,45 @@ type CmtData struct {
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	ReplyCount   uint       `json:"replyCount,omitempty"`
+	UserIconName string     `json:"-"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"userName,omitempty"`
-	UserIconName string     `json:"-"`
 }
 
 // FindUserResult ...
 type FindUserResult struct {
+	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
-	IconName string `json:"-"`
 	Status   string `json:"status,omitempty"`
-}
-
-// ForumThreadInterface ...
-type ForumThreadInterface struct {
-	ThreadType    int        `json:"threadType,omitempty"`
-	ID            uint64     `json:"-"`
-	UserID        uint64     `json:"-"`
-	UserName      string     `json:"-"`
-	UserIconName  string     `json:"-"`
-	Title         string     `json:"title,omitempty"`
-	CreatedAt     time.Time  `json:"createdAt,omitempty"`
-	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
-	ReplyCount    uint       `json:"replyCount,omitempty"`
-}
-
-// HomeItemInterface ...
-type HomeItemInterface struct {
-	ItemType     int        `json:"itemType,omitempty"`
-	ID           uint64     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	Title        string     `json:"title,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 }
 
 // ReplyData ...
 type ReplyData struct {
-	ID           uint64     `json:"-"`
 	ContentHTML  string     `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	ID           uint64     `json:"-"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	UserID       uint64     `json:"-"`
 	ToUserID     uint64     `json:"-"`
-	UserName     string     `json:"userName,omitempty"`
-	UserIconName string     `json:"-"`
 	ToUserName   string     `json:"toUserName,omitempty"`
+	UserIconName string     `json:"-"`
+	UserID       uint64     `json:"-"`
+	UserName     string     `json:"userName,omitempty"`
+}
+
+// UserThreadInterface ...
+type UserThreadInterface struct {
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	ID           uint64     `json:"-"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	ThreadType   int        `json:"threadType,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	UserIconName string     `json:"-"`
+	UserID       uint64     `json:"-"`
+	UserName     string     `json:"-"`
+	Value1       uint       `json:"value1,omitempty"`
+	Value2       uint       `json:"value2,omitempty"`
+	Value3       uint       `json:"value3,omitempty"`
 }
 
 // ------------ Interfaces ------------

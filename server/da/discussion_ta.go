@@ -81,8 +81,8 @@ func (da *TableTypeDiscussion) DeleteItem(db *sql.DB, id uint64, userID uint64) 
 
 // DiscussionTableDeleteReplyChild1Result ...
 type DiscussionTableDeleteReplyChild1Result struct {
-	ParentID     uint64 `json:"parentID,omitempty"`
 	ParentHostID uint64 `json:"parentHostID,omitempty"`
+	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
 func (da *TableTypeDiscussion) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*DiscussionTableDeleteReplyChild1Result, error) {
@@ -272,16 +272,16 @@ func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uin
 
 // DiscussionTableSelectItemByIDResult ...
 type DiscussionTableSelectItemByIDResult struct {
+	CmtCount     uint       `json:"cmtCount,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ID           uint64     `json:"-"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	ReplyCount   uint       `json:"replyCount,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	UserIconName string     `json:"-"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	CmtCount     uint       `json:"cmtCount,omitempty"`
-	ReplyCount   uint       `json:"replyCount,omitempty"`
 }
 
 // SelectItemByID ...
@@ -296,9 +296,9 @@ func (da *TableTypeDiscussion) SelectItemByID(queryable mingru.Queryable, id uin
 
 // DiscussionTableSelectItemForEditingResult ...
 type DiscussionTableSelectItemForEditingResult struct {
+	ContentHTML string `json:"contentHTML,omitempty"`
 	ID          uint64 `json:"-"`
 	Title       string `json:"title,omitempty"`
-	ContentHTML string `json:"contentHTML,omitempty"`
 }
 
 // SelectItemForEditing ...
@@ -319,11 +319,11 @@ const (
 
 // DiscussionTableSelectItemsForDashboardResult ...
 type DiscussionTableSelectItemsForDashboardResult struct {
-	ID         uint64     `json:"-"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	Title      string     `json:"title,omitempty"`
 	ReplyCount uint       `json:"replyCount,omitempty"`
+	Title      string     `json:"title,omitempty"`
 }
 
 // SelectItemsForDashboard ...
@@ -380,8 +380,8 @@ func (da *TableTypeDiscussion) SelectItemsForDashboard(queryable mingru.Queryabl
 
 // DiscussionTableSelectItemsForUserProfileResult ...
 type DiscussionTableSelectItemsForUserProfileResult struct {
-	ID         uint64     `json:"-"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
 	Title      string     `json:"title,omitempty"`
 }

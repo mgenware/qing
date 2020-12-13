@@ -24,7 +24,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		page := validator.GetPageParamFromRequestQueryString(r)
 		tab := r.FormValue(defs.Constants.KeyTab)
 
-		var items []*da.HomeItemInterface
+		var items []*da.UserThreadInterface
 		var hasNext bool
 		var err error
 
@@ -41,7 +41,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		var feedListHTMLBuilder strings.Builder
 		for _, item := range items {
-			itemData, err := NewStdPageItemData(item)
+			itemData, err := rcom.NewUserThreadData(item)
 			app.PanicIfErr(err)
 			feedListHTMLBuilder.WriteString(vStdThreadItem.MustExecuteToString(itemData))
 		}
@@ -93,7 +93,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		for _, group := range forumGroups {
 			forums := groupMap[group.ID]
 			if len(forums) == 0 {
-				frmHTMLBuilder.WriteString(vNoContentView.MustExecuteToString(nil))
+				frmHTMLBuilder.WriteString(rcom.VNoContentView.MustExecuteToString(nil))
 			} else {
 				var forumsHTMLBuilder strings.Builder
 				for _, forum := range forums {

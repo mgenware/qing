@@ -121,8 +121,8 @@ func (u *URL) RegEmailVerification(publicID string) string {
 	return "/" + defs.Constants.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
 }
 
-func (u *URL) ForumAdv(tab string, page int) string {
-	s := "/"
+func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
+	s := "/" + validator.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))

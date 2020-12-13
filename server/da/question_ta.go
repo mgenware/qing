@@ -81,8 +81,8 @@ func (da *TableTypeQuestion) DeleteItem(db *sql.DB, id uint64, userID uint64) er
 
 // QuestionTableDeleteReplyChild1Result ...
 type QuestionTableDeleteReplyChild1Result struct {
-	ParentID     uint64 `json:"parentID,omitempty"`
 	ParentHostID uint64 `json:"parentHostID,omitempty"`
+	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
 func (da *TableTypeQuestion) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*QuestionTableDeleteReplyChild1Result, error) {
@@ -272,16 +272,16 @@ func (da *TableTypeQuestion) SelectCmts(queryable mingru.Queryable, hostID uint6
 
 // QuestionTableSelectItemByIDResult ...
 type QuestionTableSelectItemByIDResult struct {
+	CmtCount     uint       `json:"cmtCount,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ID           uint64     `json:"-"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	ReplyCount   uint       `json:"replyCount,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	UserIconName string     `json:"-"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	CmtCount     uint       `json:"cmtCount,omitempty"`
-	ReplyCount   uint       `json:"replyCount,omitempty"`
 }
 
 // SelectItemByID ...
@@ -296,9 +296,9 @@ func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint6
 
 // QuestionTableSelectItemForEditingResult ...
 type QuestionTableSelectItemForEditingResult struct {
+	ContentHTML string `json:"contentHTML,omitempty"`
 	ID          uint64 `json:"-"`
 	Title       string `json:"title,omitempty"`
-	ContentHTML string `json:"contentHTML,omitempty"`
 }
 
 // SelectItemForEditing ...
@@ -319,11 +319,11 @@ const (
 
 // QuestionTableSelectItemsForDashboardResult ...
 type QuestionTableSelectItemsForDashboardResult struct {
-	ID         uint64     `json:"-"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	Title      string     `json:"title,omitempty"`
 	ReplyCount uint       `json:"replyCount,omitempty"`
+	Title      string     `json:"title,omitempty"`
 }
 
 // SelectItemsForDashboard ...
@@ -380,8 +380,8 @@ func (da *TableTypeQuestion) SelectItemsForDashboard(queryable mingru.Queryable,
 
 // QuestionTableSelectItemsForUserProfileResult ...
 type QuestionTableSelectItemsForUserProfileResult struct {
-	ID         uint64     `json:"-"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
 	Title      string     `json:"title,omitempty"`
 }

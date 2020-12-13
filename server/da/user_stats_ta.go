@@ -18,10 +18,10 @@ var UserStats = &TableTypeUserStats{}
 
 // UserStatsTableSelectStatsResult ...
 type UserStatsTableSelectStatsResult struct {
-	PostCount       uint `json:"postCount,omitempty"`
-	DiscussionCount uint `json:"discussionCount,omitempty"`
-	QuestionCount   uint `json:"questionCount,omitempty"`
 	AnswerCount     uint `json:"answerCount,omitempty"`
+	DiscussionCount uint `json:"discussionCount,omitempty"`
+	PostCount       uint `json:"postCount,omitempty"`
+	QuestionCount   uint `json:"questionCount,omitempty"`
 }
 
 // SelectStats ...

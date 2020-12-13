@@ -1,5 +1,5 @@
 export default {
-  tabPost: 1,
-  tabQuestion: 2,
-  tabDiscussion: 3,
+  threadTypePost: 1,
+  threadTypeQuestion: 2,
+  threadTypeDiscussion: 3,
 };

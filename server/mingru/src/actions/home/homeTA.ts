@@ -1,15 +1,17 @@
 import * as mm from 'mingru-models';
-import { BaseEntityTableWithIDAndTitle } from '../../models/common';
 import post from '../../models/post/post';
 import discussion from '../../models/discussion/discussion';
-import user from '../../models/user/user';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup';
 import forum, { Forum } from '../../models/forum/forum';
 import question from '../../models/qna/question';
 import defs from '../defs';
-
-const itemTypeName = 'itemType';
-const itemTypeInterface = 'HomeItemInterface';
+import {
+  getUserPostCols,
+  userThreadInterface,
+  getUserQuestionCols,
+  getUserDiscussionCols,
+  userThreadTypeColumnName,
+} from '../com/userThreadCommon';
 
 export class Home extends mm.GhostTable {}
 
@@ -31,41 +33,34 @@ export class HomeTA extends mm.TableActions {
     super();
 
     this.selectPosts = mm
-      .selectPage(this.typeCol(defs.tabPost), ...this.getDefaultItemCols(post))
+      .selectPage(this.typeCol(defs.threadTypePost), ...getUserPostCols(post))
       .from(post)
       .orderByAsc(post.created_at)
-      .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
+      .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.tabQuestion), ...this.getDefaultItemCols(question))
+      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question))
       .from(question)
       .orderByAsc(question.created_at)
-      .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
+      .resultTypeNameAttr(userThreadInterface);
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(defs.tabDiscussion), ...this.getDefaultItemCols(discussion))
+      .selectPage(this.typeCol(defs.threadTypeDiscussion), ...getUserDiscussionCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.created_at)
-      .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
+      .resultTypeNameAttr(userThreadInterface);
+
     this.selectItems = this.selectPosts
       .union(this.selectQuestions, true)
       .union(this.selectDiscussions, true)
       .orderByDesc(post.created_at)
-      .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
+      .resultTypeNameAttr(userThreadInterface);
   }
 
   private typeCol(itemType: number): mm.RawColumn {
-    return new mm.RawColumn(mm.sql`${itemType.toString()}`, itemTypeName, mm.int().__type);
-  }
-
-  private getDefaultItemCols(t: BaseEntityTableWithIDAndTitle): mm.SelectedColumn[] {
-    const joinedUserTable = t.user_id.join(user);
-    const privateCols = [
-      t.id,
-      t.user_id,
-      joinedUserTable.name,
-      joinedUserTable.icon_name,
-    ].map((c) => c.privateAttr());
-
-    return [...privateCols, t.title, t.created_at, t.modified_at];
+    return new mm.RawColumn(
+      mm.sql`${itemType.toString()}`,
+      userThreadTypeColumnName,
+      mm.int().__type,
+    );
   }
 
   private getForumGroupCols(t: ForumGroup): mm.SelectedColumn[] {

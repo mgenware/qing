@@ -81,8 +81,8 @@ func (da *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error 
 
 // PostTableDeleteReplyChild1Result ...
 type PostTableDeleteReplyChild1Result struct {
-	ParentID     uint64 `json:"parentID,omitempty"`
 	ParentHostID uint64 `json:"parentHostID,omitempty"`
+	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
 func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*PostTableDeleteReplyChild1Result, error) {
@@ -272,16 +272,16 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 
 // PostTableSelectItemByIDResult ...
 type PostTableSelectItemByIDResult struct {
+	CmtCount     uint       `json:"cmtCount,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ID           uint64     `json:"-"`
+	Likes        uint       `json:"likes,omitempty"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	UserIconName string     `json:"-"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	CmtCount     uint       `json:"cmtCount,omitempty"`
-	Likes        uint       `json:"likes,omitempty"`
 }
 
 // SelectItemByID ...
@@ -296,9 +296,9 @@ func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (
 
 // PostTableSelectItemForEditingResult ...
 type PostTableSelectItemForEditingResult struct {
+	ContentHTML string `json:"contentHTML,omitempty"`
 	ID          uint64 `json:"-"`
 	Title       string `json:"title,omitempty"`
-	ContentHTML string `json:"contentHTML,omitempty"`
 }
 
 // SelectItemForEditing ...
@@ -320,12 +320,12 @@ const (
 
 // PostTableSelectItemsForDashboardResult ...
 type PostTableSelectItemsForDashboardResult struct {
-	ID         uint64     `json:"-"`
+	CmtCount   uint       `json:"cmtCount,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ID         uint64     `json:"-"`
+	Likes      uint       `json:"likes,omitempty"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
 	Title      string     `json:"title,omitempty"`
-	CmtCount   uint       `json:"cmtCount,omitempty"`
-	Likes      uint       `json:"likes,omitempty"`
 }
 
 // SelectItemsForDashboard ...
@@ -384,8 +384,8 @@ func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, use
 
 // PostTableSelectItemsForUserProfileResult ...
 type PostTableSelectItemsForUserProfileResult struct {
-	ID         uint64     `json:"-"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
+	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
 	Title      string     `json:"title,omitempty"`
 }

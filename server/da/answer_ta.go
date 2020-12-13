@@ -94,8 +94,8 @@ func (da *TableTypeAnswer) DeleteItem(db *sql.DB, id uint64, userID uint64) erro
 
 // AnswerTableDeleteReplyChild1Result ...
 type AnswerTableDeleteReplyChild1Result struct {
-	ParentID     uint64 `json:"parentID,omitempty"`
 	ParentHostID uint64 `json:"parentHostID,omitempty"`
+	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
 func (da *TableTypeAnswer) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*AnswerTableDeleteReplyChild1Result, error) {
@@ -285,8 +285,8 @@ func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64,
 
 // AnswerTableSelectItemForEditingResult ...
 type AnswerTableSelectItemForEditingResult struct {
-	ID          uint64 `json:"-"`
 	ContentHTML string `json:"contentHTML,omitempty"`
+	ID          uint64 `json:"-"`
 }
 
 // SelectItemForEditing ...
@@ -301,14 +301,14 @@ func (da *TableTypeAnswer) SelectItemForEditing(queryable mingru.Queryable, id u
 
 // AnswerTableSelectItemsByQuestionResult ...
 type AnswerTableSelectItemsByQuestionResult struct {
+	CmtCount     uint       `json:"cmtCount,omitempty"`
+	ContentHTML  string     `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ID           uint64     `json:"-"`
+	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
+	UserIconName string     `json:"-"`
 	UserID       uint64     `json:"-"`
 	UserName     string     `json:"-"`
-	UserIconName string     `json:"-"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	CmtCount     uint       `json:"cmtCount,omitempty"`
 }
 
 // SelectItemsByQuestion ...
