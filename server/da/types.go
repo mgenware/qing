@@ -29,6 +29,19 @@ type FindUserResult struct {
 	Status   string `json:"status,omitempty"`
 }
 
+// ForumThreadInterface ...
+type ForumThreadInterface struct {
+	ThreadType    int        `json:"threadType,omitempty"`
+	ID            uint64     `json:"-"`
+	UserID        uint64     `json:"-"`
+	UserName      string     `json:"-"`
+	UserIconName  string     `json:"-"`
+	Title         string     `json:"title,omitempty"`
+	CreatedAt     time.Time  `json:"createdAt,omitempty"`
+	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
+	ReplyCount    uint       `json:"replyCount,omitempty"`
+}
+
 // HomeItemInterface ...
 type HomeItemInterface struct {
 	ItemType     int        `json:"itemType,omitempty"`
@@ -52,19 +65,6 @@ type ReplyData struct {
 	UserName     string     `json:"userName,omitempty"`
 	UserIconName string     `json:"-"`
 	ToUserName   string     `json:"toUserName,omitempty"`
-}
-
-// ThreadInterface ...
-type ThreadInterface struct {
-	ThreadType    int        `json:"threadType,omitempty"`
-	ID            uint64     `json:"-"`
-	UserID        uint64     `json:"-"`
-	UserName      string     `json:"-"`
-	UserIconName  string     `json:"-"`
-	Title         string     `json:"title,omitempty"`
-	CreatedAt     time.Time  `json:"createdAt,omitempty"`
-	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
-	ReplyCount    uint       `json:"replyCount,omitempty"`
 }
 
 // ------------ Interfaces ------------

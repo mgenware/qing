@@ -7,9 +7,9 @@ package da
 
 // SharedConstants ...
 type SharedConstants struct {
-	HomeItemDiscussion int
-	HomeItemPost int
-	HomeItemQuestion int
+	TabDiscussion int
+	TabPost int
+	TabQuestion int
 }
 
 // Constants ...
@@ -17,8 +17,8 @@ var Constants *SharedConstants
 
 func init() {
 	Constants = &SharedConstants{
-		HomeItemDiscussion: 3,
-		HomeItemPost: 1,
-		HomeItemQuestion: 2,
+		TabDiscussion: 3,
+		TabPost: 1,
+		TabQuestion: 2,
 	}
 }

@@ -1,5 +1,5 @@
 export default {
-  homeItemPost: 1,
-  homeItemQuestion: 2,
-  homeItemDiscussion: 3,
+  tabPost: 1,
+  tabQuestion: 2,
+  tabDiscussion: 3,
 };

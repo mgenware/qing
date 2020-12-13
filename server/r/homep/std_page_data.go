@@ -50,15 +50,15 @@ func NewStdPageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdP
 func NewStdPageItemData(item *da.HomeItemInterface) (*StdPageItemData, error) {
 	d := &StdPageItemData{HomeItemInterface: *item}
 	switch item.ItemType {
-	case da.Constants.HomeItemPost:
+	case da.Constants.TabPost:
 		d.ItemURL = app.URL.Post(item.ID)
 		break
 
-	case da.Constants.HomeItemQuestion:
+	case da.Constants.TabQuestion:
 		d.ItemURL = app.URL.Question(item.ID)
 		break
 
-	case da.Constants.HomeItemDiscussion:
+	case da.Constants.TabDiscussion:
 		d.ItemURL = app.URL.Discussion(item.ID)
 		break
 

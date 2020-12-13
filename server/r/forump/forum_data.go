@@ -6,24 +6,15 @@ import (
 	"qing/lib/validator"
 )
 
-// ForumGroupData is a wrapper around ForumGroupTableSelectForumGroupResult.
-type ForumGroupData struct {
-	da.ForumGroupTableSelectForumGroupResult
-
-	EID string
-}
-
-func NewForumGroupData(d *da.ForumGroupTableSelectForumGroupResult) *ForumGroupData {
-	r := &ForumGroupData{ForumGroupTableSelectForumGroupResult: *d}
-	r.EID = validator.EncodeID(d.ID)
-}
-
 type ForumData struct {
-	da.ForumGroupTableSelectForumGroupsResult
+	da.ForumTableSelectForumResult
 
-	EID         string
-	Link        string
-	PostsString string
+	ForumURL            string
+	ForumQuestionsURL   string
+	ForumDiscussionsURL string
+
+	FeedListHTML string
+	PageBarHTML  string
 }
 
 func NewForumData(p *da.ForumData) *ForumData {
@@ -35,12 +26,4 @@ func NewForumData(p *da.ForumData) *ForumData {
 	return d
 }
 
-type ForumGroupData struct {
-	da.ForumGroupTableSelectForumGroupResult
-
-	EID string
-}
-
-var vForumView = app.MasterPageManager.MustParseView("/forum/forumView.html")
-var vForumGroupView = app.MasterPageManager.MustParseView("/forum/forumGroupView.html")
-var vForumHome = app.MasterPageManager.MustParseView("/forum/home.html")
+var vForumPage = app.MasterPageManager.MustParseView("/forum/forumPage.html")

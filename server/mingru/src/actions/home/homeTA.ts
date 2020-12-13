@@ -31,17 +31,17 @@ export class HomeTA extends mm.TableActions {
     super();
 
     this.selectPosts = mm
-      .selectPage(this.typeCol(defs.homeItemPost), ...this.getDefaultItemCols(post))
+      .selectPage(this.typeCol(defs.tabPost), ...this.getDefaultItemCols(post))
       .from(post)
       .orderByAsc(post.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.homeItemQuestion), ...this.getDefaultItemCols(question))
+      .selectPage(this.typeCol(defs.tabQuestion), ...this.getDefaultItemCols(question))
       .from(question)
       .orderByAsc(question.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(defs.homeItemDiscussion), ...this.getDefaultItemCols(discussion))
+      .selectPage(this.typeCol(defs.tabDiscussion), ...this.getDefaultItemCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.created_at)
       .attr(mm.ActionAttributes.resultTypeName, itemTypeInterface);

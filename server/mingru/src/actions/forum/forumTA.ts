@@ -4,13 +4,8 @@ import discussion from '../../models/discussion/discussion';
 import t from '../../models/forum/forum';
 import question from '../../models/qna/question';
 import user from '../../models/user/user';
-
-const threadTypeName = 'threadType';
-const threadTypeInterface = 'ThreadInterface';
-enum ThreadType {
-  discussionType = 1,
-  questionType,
-}
+import { UserThreadInterface } from '../common';
+import defs from '../defs';
 
 export class ForumTA extends mm.TableActions {
   selectForum = mm.select(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);
@@ -28,12 +23,12 @@ export class ForumTA extends mm.TableActions {
     super();
 
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(ThreadType.discussionType), ...this.getDefaultThreadCols(discussion))
+      .selectPage(this.typeCol(defs.tabDiscussion), ...this.getDefaultThreadCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.last_replied_at)
-      .attr(mm.ActionAttributes.resultTypeName, threadTypeInterface);
+      .attr(mm.ActionAttributes.resultTypeName, UserThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(ThreadType.questionType), ...this.getDefaultThreadCols(question))
+      .selectPage(this.typeCol(defs.tabQuestion), ...this.getDefaultThreadCols(question))
       .from(question)
       .orderByAsc(question.last_replied_at)
       .attr(mm.ActionAttributes.resultTypeName, threadTypeInterface);
@@ -43,7 +38,7 @@ export class ForumTA extends mm.TableActions {
       .attr(mm.ActionAttributes.resultTypeName, threadTypeInterface);
   }
 
-  private typeCol(itemType: ThreadType): mm.RawColumn {
+  private typeCol(itemType: number): mm.RawColumn {
     return new mm.RawColumn(mm.sql`${itemType.toString()}`, threadTypeName, mm.int().__type);
   }
 

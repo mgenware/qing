@@ -126,4 +126,5 @@ export default interface LSDefs {
   thisIsYou: string;
   numOfThreads: string;
   allThreads: string;
+  questions: string;
 }

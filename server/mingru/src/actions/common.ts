@@ -17,3 +17,7 @@ export function defaultBatchUpdateConditions(
     mm.sql`${table.user_id.isEqualToInput()}`,
   );
 }
+
+export const UserThreadInterface = 'UserThreadInterface';
+export const UserThreadTypeColumnName = 'threadType';
+export const UserThreadValue1ColumnName = 'value1';

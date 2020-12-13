@@ -14,8 +14,6 @@ import (
 
 const defaultPageSize = 10
 
-var vNoContentView = app.MasterPageManager.MustParseView("/home/noContentView.html")
-
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
@@ -35,7 +33,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		} else if tab == defs.Constants.KeyDiscussions {
 			items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
 		} else if tab == defs.Constants.KeyQuestions {
-			items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
+			items, hasNext, err = da.Home.SelectQuestions(db, page, defaultPageSize)
 		} else {
 			items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)
 		}
@@ -64,7 +62,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var masterHTML string
 	if len(forumGroups) == 0 {
-		masterHTML = vNoContentView.MustExecuteToString(nil)
+		masterHTML = rcom.VNoContentView.MustExecuteToString(nil)
 	} else {
 		forums, err := da.Home.SelectForums(db)
 		app.PanicIfErr(err)

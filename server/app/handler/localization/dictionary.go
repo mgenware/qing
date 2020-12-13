@@ -101,6 +101,7 @@ type Dictionary struct {
 	Publish                      string `json:"publish"`
 	Publishing                   string `json:"publishing"`
 	PwdDontMatch                 string `json:"pwdDontMatch"`
+	Questions                    string `json:"questions"`
 	RegEmailSentContent          string `json:"regEmailSentContent"`
 	RegEmailSentTitle            string `json:"regEmailSentTitle"`
 	RegEmailVeriExpired          string `json:"regEmailVeriExpired"`
