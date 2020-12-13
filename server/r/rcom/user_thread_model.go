@@ -19,8 +19,8 @@ type UserThreadModel struct {
 	UserIconURL string
 }
 
-// NewUserThreadData creates a new StdPageItemData.
-func NewUserThreadData(item *da.UserThreadInterface) (*UserThreadModel, error) {
+// NewUserThreadModel creates a new UserThreadModel.
+func NewUserThreadModel(item *da.UserThreadInterface) (*UserThreadModel, error) {
 	d := &UserThreadModel{UserThreadInterface: *item}
 	switch item.ThreadType {
 	case da.Constants.ThreadTypePost:
@@ -44,8 +44,8 @@ func NewUserThreadData(item *da.UserThreadInterface) (*UserThreadModel, error) {
 	return d, nil
 }
 
-// MustExecuteUserThreadModelToString runs an appropriate template associated with the given user thread model and returns HTML.
-func MustExecuteUserThreadModelToString(d *UserThreadModel) string {
+// MustRunUserThreadViewTemplate runs an appropriate template associated with the given user thread model, and panics if any error happened.
+func MustRunUserThreadViewTemplate(d *UserThreadModel) string {
 	switch d.ThreadType {
 	case da.Constants.ThreadTypePost:
 		return vThreadPostView.MustExecuteToString(d)

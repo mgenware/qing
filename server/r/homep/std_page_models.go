@@ -9,8 +9,8 @@ import (
 
 var vStdPage = app.MasterPageManager.MustParseLocalizedView("/home/stdPage.html")
 
-// StdPageData ...
-type StdPageData struct {
+// StdPageModel ...
+type StdPageModel struct {
 	handler.LocalizedTemplateData
 
 	FeedListHTML string
@@ -22,9 +22,9 @@ type StdPageData struct {
 	HomeDiscussionsURL string
 }
 
-// NewStdPageData creates a new StdPageData.
-func NewStdPageData(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdPageData {
-	d := &StdPageData{}
+// NewStdPageModel creates a new StdPageModel.
+func NewStdPageModel(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdPageModel {
+	d := &StdPageModel{}
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML

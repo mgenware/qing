@@ -1,4 +1,4 @@
-package postp
+package forump
 
 import (
 	"net/http"
@@ -16,11 +16,12 @@ import (
 
 const defaultPageSize = 10
 
-var vNoContentView = app.MasterPageManager.MustParseView("/home/noContentView.html")
-
 // GetForum is the HTTP handler for forums.
 func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := app.HTMLResponse(w, r)
+	db := app.DB
 	var err error
+
 	pid, err := validator.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
@@ -28,11 +29,10 @@ func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	page := validator.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(defs.Constants.KeyTab)
 
-	db := app.DB
-	post, err := da.Forum.SelectForum(db, pid)
+	forum, err := da.Forum.SelectForum(db, pid)
 	app.PanicIfErr(err)
 
-	var items []*da.ForumThreadInterface
+	var items []*da.UserThreadInterface
 	var hasNext bool
 
 	if tab == defs.Constants.KeyDiscussions {
@@ -46,17 +46,17 @@ func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var feedListHTMLBuilder strings.Builder
 	for _, item := range items {
-		itemData, err := NewStdPageItemData(item)
+		itemModel, err := rcom.NewUserThreadModel(item)
 		app.PanicIfErr(err)
-		feedListHTMLBuilder.WriteString(vStdThreadItem.MustExecuteToString(itemData))
+		feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(itemModel))
 	}
 
-	pageURLFormatter := &HomePageURLFormatter{Tab: tab}
+	pageURLFormatter := NewForumPageURLFormatter(forum.ID, tab)
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
-	userData := NewStdPageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-	d := app.MasterPageData("", vStdPage.MustExecuteToString(resp.Lang(), userData))
+	pageModel := NewForumPageModel(forum, feedListHTMLBuilder.String(), pageBarHTML)
+	d := app.MasterPageData("", vForumPage.MustExecuteToString(pageModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeStd
 	return resp.MustComplete(d)
 }

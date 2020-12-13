@@ -14,6 +14,7 @@ import (
 	"qing/r/dashboardp"
 	"qing/r/devpagep"
 	"qing/r/discussionp"
+	"qing/r/forump"
 	"qing/r/homep"
 	"qing/r/postp"
 	"qing/r/profilep"
@@ -68,22 +69,24 @@ func Start() {
 	// ----------------- HTTP Routes -----------------
 	lm := app.MasterPageManager.LocalizationManager
 
-	// Not found handler
+	// Not found handler.
 	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
-	// User router
+	// User router.
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
-	// Post router
+	// Post router.
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
-	// Discussion router
+	// Discussion router.
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
-	// Dashboard router
+	// Dashboard router.
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteDashboard, dashboardp.Router)
-	// Auth router
+	// Forum router.
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteForum+"/{fid}", handler.HTMLHandlerToHTTPHandler(forump.GetForum))
+	// Auth router.
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteAuth, authp.Router)
-	// API router
+	// API router.
 	r.Mount("/"+defs.Constants.RouteApi, api.Router)
-	// Home page
+	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 
 	debugConfig := config.Debug

@@ -41,17 +41,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		var feedListHTMLBuilder strings.Builder
 		for _, item := range items {
-			itemModel, err := rcom.NewUserThreadData(item)
+			itemModel, err := rcom.NewUserThreadModel(item)
 			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(rcom.MustExecuteUserThreadModelToString(itemModel))
+			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(itemModel))
 		}
 
 		pageURLFormatter := &HomePageURLFormatter{Tab: tab}
 		pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 		pageBarHTML := rcom.GetPageBarHTML(pageData)
 
-		userData := NewStdPageData(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-		d := app.MasterPageData("", vStdPage.MustExecuteToString(resp.Lang(), userData))
+		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
+		d := app.MasterPageData("", vStdPage.MustExecuteToString(resp.Lang(), pageModel))
 		d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeStd
 		return resp.MustComplete(d)
 	}
@@ -62,7 +62,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var masterHTML string
 	if len(forumGroups) == 0 {
-		masterHTML = rcom.VNoContentView.MustExecuteToString(nil)
+		masterHTML = rcom.MustRunNoContentViewTemplate()
 	} else {
 		forums, err := da.Home.SelectForums(db)
 		app.PanicIfErr(err)
@@ -93,7 +93,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		for _, group := range forumGroups {
 			forums := groupMap[group.ID]
 			if len(forums) == 0 {
-				frmHTMLBuilder.WriteString(rcom.VNoContentView.MustExecuteToString(nil))
+				frmHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 			} else {
 				var forumsHTMLBuilder strings.Builder
 				for _, forum := range forums {
