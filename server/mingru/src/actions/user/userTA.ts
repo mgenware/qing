@@ -16,10 +16,10 @@ export class UserTA extends mm.TableActions {
   findUserByID = mm
     .select(...coreCols)
     .by(t.id)
-    .attr(mm.ActionAttributes.resultTypeName, findUserResult);
+    .resultTypeNameAttr(findUserResult);
   findUsersByName = mm.selectRows(...coreCols).where`${
     t.name
-  } LIKE ${t.name.toInput()}`.noOrderBy.attr(mm.ActionAttributes.resultTypeName, findUserResult);
+  } LIKE ${t.name.toInput()}`.noOrderBy.resultTypeNameAttr(findUserResult);
 
   updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);

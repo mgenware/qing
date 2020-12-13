@@ -32,10 +32,8 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
     .from(rt)
     .by(rt.host_id)
     .orderByDesc(jCmt.created_at)
-    .attrs({
-      [mm.ActionAttributes.groupTypeName]: cmtInterface,
-      [mm.ActionAttributes.resultTypeName]: cmtResultType,
-    });
+    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
+    .resultTypeNameAttr(cmtResultType);
 }
 
 export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQL): mm.Action {
@@ -49,7 +47,7 @@ export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       updateCmtCountAction(ht, 1),
     )
-    .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
+    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
@@ -67,7 +65,7 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
         hostID: mm.valueRef(`${hostIDAndReplyCount}.HostID`),
       }),
     )
-    .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
+    .attr(mm.ActionAttribute.groupTypeName, cmtInterface);
 }
 
 export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
@@ -80,7 +78,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
       }),
       updateCmtCountAction(ht, 1),
     )
-    .attr(mm.ActionAttributes.groupTypeName, cmtInterface)
+    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);
 }
@@ -101,5 +99,5 @@ export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
         id: mm.valueRef(`${cmtIDAndHostID}.ParentID`),
       }),
     )
-    .attr(mm.ActionAttributes.groupTypeName, cmtInterface);
+    .attr(mm.ActionAttribute.groupTypeName, cmtInterface);
 }

@@ -26,16 +26,16 @@ export class ForumTA extends mm.TableActions {
       .selectPage(this.typeCol(defs.tabDiscussion), ...this.getDefaultThreadCols(discussion))
       .from(discussion)
       .orderByAsc(discussion.last_replied_at)
-      .attr(mm.ActionAttributes.resultTypeName, UserThreadInterface);
+      .resultTypeNameAttr(UserThreadInterface);
     this.selectQuestions = mm
       .selectPage(this.typeCol(defs.tabQuestion), ...this.getDefaultThreadCols(question))
       .from(question)
       .orderByAsc(question.last_replied_at)
-      .attr(mm.ActionAttributes.resultTypeName, threadTypeInterface);
+      .resultTypeNameAttr(UserThreadInterface);
     this.selectThreads = this.selectDiscussions
       .union(this.selectQuestions, true)
       .orderByDesc(discussion.created_at)
-      .attr(mm.ActionAttributes.resultTypeName, threadTypeInterface);
+      .resultTypeNameAttr(UserThreadInterface);
   }
 
   private typeCol(itemType: number): mm.RawColumn {

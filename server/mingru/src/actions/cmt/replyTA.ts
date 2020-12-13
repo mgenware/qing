@@ -20,10 +20,8 @@ export class ReplyTA extends mm.TableActions {
     )
     .by(t.parent_id)
     .orderByDesc(t.created_at)
-    .attrs({
-      [mm.ActionAttributes.groupTypeName]: replyInterface,
-      [mm.ActionAttributes.resultTypeName]: replyResultType,
-    });
+    .attr(mm.ActionAttribute.groupTypeName, replyInterface)
+    .resultTypeNameAttr(replyResultType);
   editReply = mm
     .updateOne()
     .setInputs(t.content)

@@ -23,17 +23,17 @@ export default function getLikeTableActions(
           .whereSQL(mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput())),
         updateLikesAction(hostTable, -1),
       )
-      .attr(mm.ActionAttributes.groupTypeName, likeInterface),
+      .attr(mm.ActionAttribute.groupTypeName, likeInterface),
     like: mm
       .transact(
         mm.insertOne().setInputs(table.host_id, table.user_id),
         updateLikesAction(hostTable, 1),
       )
-      .attr(mm.ActionAttributes.groupTypeName, likeInterface),
+      .attr(mm.ActionAttribute.groupTypeName, likeInterface),
     hasLiked: mm
       .selectExists()
       .whereSQL(mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput()))
-      .attr(mm.ActionAttributes.groupTypeName, likeInterface),
+      .attr(mm.ActionAttribute.groupTypeName, likeInterface),
   };
   return mm.tableActionsCore(table, null, actions, undefined);
 }
