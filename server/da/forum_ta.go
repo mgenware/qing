@@ -46,7 +46,7 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`title` AS `title`, `discussion`.`reply_count` AS `value1` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `discussion`.`last_replied_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := queryable.Query("SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`title` AS `title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `discussion`.`last_replied_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -57,7 +57,7 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 		itemCounter++
 		if itemCounter <= max {
 			item := &UserThreadInterface{}
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}
@@ -141,7 +141,7 @@ func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pa
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("(SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`title` AS `title`, `discussion`.`reply_count` AS `value1` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `threadType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`title` AS `title`, `question`.`reply_count` AS `value1`, `question`.`up_votes` AS `value2`, `question`.`down_votes` AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) ORDER BY `last_replied_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset)
+	rows, err := queryable.Query("(SELECT 3 AS `threadType`, `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`title` AS `title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `threadType`, `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`title` AS `title`, `question`.`reply_count` AS `value1`, `question`.`up_votes` AS `value2`, `question`.`down_votes` AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) ORDER BY `last_replied_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -152,7 +152,7 @@ func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pa
 		itemCounter++
 		if itemCounter <= max {
 			item := &UserThreadInterface{}
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}

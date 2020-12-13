@@ -41,9 +41,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		var feedListHTMLBuilder strings.Builder
 		for _, item := range items {
-			itemData, err := rcom.NewUserThreadData(item)
+			itemModel, err := rcom.NewUserThreadData(item)
 			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(vStdThreadItem.MustExecuteToString(itemData))
+			feedListHTMLBuilder.WriteString(rcom.MustExecuteUserThreadModelToString(itemModel))
 		}
 
 		pageURLFormatter := &HomePageURLFormatter{Tab: tab}

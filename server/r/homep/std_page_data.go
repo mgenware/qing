@@ -8,7 +8,6 @@ import (
 )
 
 var vStdPage = app.MasterPageManager.MustParseLocalizedView("/home/stdPage.html")
-var vStdThreadItem = app.MasterPageManager.MustParseView("/home/threadView.html")
 
 // StdPageData ...
 type StdPageData struct {

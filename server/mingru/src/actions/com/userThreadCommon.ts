@@ -14,11 +14,14 @@ import { Question } from '../../models/qna/question';
  * for UNION SELECT. Our backend may generates different template results based on
  * different thread types.
  *
+ * NOTE: To run UNION SELECT successfully, each SELECT must have exact same number of columns.
+ * That's why each type always has 3 values defined even some might not be used.
+ *
  * Posts:
- * value1 = likes, value2 = comments.
+ * value1 = likes, value2 = comments, value3 = 0.
  *
  * Discussions:
- * value1 = replies.
+ * value1 = replies, value2 = 0, value3 = 0.
  *
  * Questions
  * value1 = answers, value2 = up votes, value3 = down votes.
@@ -38,17 +41,28 @@ function getCommonThreadCols(t: ContentBase): mm.SelectedColumn[] {
   return [...userCols, t.created_at, t.modified_at];
 }
 
+function placeholderValueColumn(name: string): mm.RawColumn {
+  return mm.sel(mm.sql`0`, name, mm.uInt().__type);
+}
+
 export function getUserPostCols(t: Post): mm.SelectedColumn[] {
   return [
     ...getCommonThreadCols(t),
     t.title,
     t.likes.as(userThreadValue1ColumnName),
     t.cmt_count.as(userThreadValue2ColumnName),
+    placeholderValueColumn(userThreadValue3ColumnName),
   ];
 }
 
 export function getUserDiscussionCols(t: Discussion): mm.SelectedColumn[] {
-  return [...getCommonThreadCols(t), t.title, t.reply_count.as(userThreadValue1ColumnName)];
+  return [
+    ...getCommonThreadCols(t),
+    t.title,
+    t.reply_count.as(userThreadValue1ColumnName),
+    placeholderValueColumn(userThreadValue2ColumnName),
+    placeholderValueColumn(userThreadValue3ColumnName),
+  ];
 }
 
 export function getUserQuestionCols(t: Question): mm.SelectedColumn[] {

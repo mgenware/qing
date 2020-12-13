@@ -6,8 +6,12 @@ import (
 	"qing/da"
 )
 
-// UserThreadData is a data wrapper around PostTableSelectItemsForUserProfileResult.
-type UserThreadData struct {
+var vThreadPostView = app.MasterPageManager.MustParseView("/com/threads/postView.html")
+var vThreadQuestionView = app.MasterPageManager.MustParseView("/com/threads/questionView.html")
+var vThreadDiscussionView = app.MasterPageManager.MustParseView("/com/threads/discussionView.html")
+
+// UserThreadModel is a data wrapper around PostTableSelectItemsForUserProfileResult.
+type UserThreadModel struct {
 	da.UserThreadInterface
 
 	ThreadURL   string
@@ -16,8 +20,8 @@ type UserThreadData struct {
 }
 
 // NewUserThreadData creates a new StdPageItemData.
-func NewUserThreadData(item *da.UserThreadInterface) (*UserThreadData, error) {
-	d := &UserThreadData{UserThreadInterface: *item}
+func NewUserThreadData(item *da.UserThreadInterface) (*UserThreadModel, error) {
+	d := &UserThreadModel{UserThreadInterface: *item}
 	switch item.ThreadType {
 	case da.Constants.ThreadTypePost:
 		d.ThreadURL = app.URL.Post(item.ID)
@@ -38,4 +42,21 @@ func NewUserThreadData(item *da.UserThreadInterface) (*UserThreadData, error) {
 	d.UserURL = app.URL.UserProfile(uid)
 	d.UserIconURL = app.URL.UserIconURL50(uid, item.UserIconName)
 	return d, nil
+}
+
+// MustExecuteUserThreadModelToString runs an appropriate template associated with the given user thread model and returns HTML.
+func MustExecuteUserThreadModelToString(d *UserThreadModel) string {
+	switch d.ThreadType {
+	case da.Constants.ThreadTypePost:
+		return vThreadPostView.MustExecuteToString(d)
+
+	case da.Constants.ThreadTypeQuestion:
+		return vThreadPostView.MustExecuteToString(d)
+
+	case da.Constants.ThreadTypeDiscussion:
+		return vThreadPostView.MustExecuteToString(d)
+
+	default:
+		panic(fmt.Errorf("Invalid item type %v", d.ThreadType))
+	}
 }
