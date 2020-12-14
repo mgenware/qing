@@ -44,17 +44,18 @@ type ReplyData struct {
 
 // UserThreadInterface ...
 type UserThreadInterface struct {
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ID           uint64     `json:"-"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ThreadType   int        `json:"threadType,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	UserIconName string     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
-	Value1       uint       `json:"value1,omitempty"`
-	Value2       uint       `json:"value2,omitempty"`
-	Value3       uint       `json:"value3,omitempty"`
+	CreatedAt     time.Time  `json:"createdAt,omitempty"`
+	ID            uint64     `json:"-"`
+	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
+	ModifiedAt    *time.Time `json:"modifiedAt,omitempty"`
+	ThreadType    int        `json:"threadType,omitempty"`
+	Title         string     `json:"title,omitempty"`
+	UserIconName  string     `json:"-"`
+	UserID        uint64     `json:"-"`
+	UserName      string     `json:"-"`
+	Value1        uint       `json:"value1,omitempty"`
+	Value2        uint       `json:"value2,omitempty"`
+	Value3        uint       `json:"value3,omitempty"`
 }
 
 // ------------ Interfaces ------------

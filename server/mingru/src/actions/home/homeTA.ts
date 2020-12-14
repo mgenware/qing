@@ -38,12 +38,15 @@ export class HomeTA extends mm.TableActions {
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question))
+      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, false))
       .from(question)
       .orderByAsc(question.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(defs.threadTypeDiscussion), ...getUserDiscussionCols(discussion))
+      .selectPage(
+        this.typeCol(defs.threadTypeDiscussion),
+        ...getUserDiscussionCols(discussion, false),
+      )
       .from(discussion)
       .orderByAsc(discussion.created_at)
       .resultTypeNameAttr(userThreadInterface);

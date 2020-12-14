@@ -122,7 +122,7 @@ func (u *URL) RegEmailVerification(publicID string) string {
 }
 
 func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
-	s := "/" + validator.EncodeID(fid)
+	s := "/" + defs.Constants.RouteForum + "/" + validator.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))

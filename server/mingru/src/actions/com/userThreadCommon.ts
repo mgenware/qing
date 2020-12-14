@@ -55,22 +55,33 @@ export function getUserPostCols(t: Post): mm.SelectedColumn[] {
   ];
 }
 
-export function getUserDiscussionCols(t: Discussion): mm.SelectedColumn[] {
-  return [
+export function getUserDiscussionCols(
+  t: Discussion,
+  includeLastReplied: boolean,
+): mm.SelectedColumn[] {
+  const cols = [
     ...getCommonThreadCols(t),
     t.title,
     t.reply_count.as(userThreadValue1ColumnName),
     placeholderValueColumn(userThreadValue2ColumnName),
     placeholderValueColumn(userThreadValue3ColumnName),
   ];
+  if (includeLastReplied) {
+    cols.push(t.last_replied_at);
+  }
+  return cols;
 }
 
-export function getUserQuestionCols(t: Question): mm.SelectedColumn[] {
-  return [
+export function getUserQuestionCols(t: Question, includeLastReplied: boolean): mm.SelectedColumn[] {
+  const cols = [
     ...getCommonThreadCols(t),
     t.title,
     t.reply_count.as(userThreadValue1ColumnName),
     t.up_votes.as(userThreadValue2ColumnName),
     t.down_votes.as(userThreadValue3ColumnName),
   ];
+  if (includeLastReplied) {
+    cols.push(t.last_replied_at);
+  }
+  return cols;
 }

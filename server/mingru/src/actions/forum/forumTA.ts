@@ -26,12 +26,15 @@ export class ForumTA extends mm.TableActions {
     super();
 
     this.selectDiscussions = mm
-      .selectPage(this.typeCol(defs.threadTypeDiscussion), ...getUserDiscussionCols(discussion))
+      .selectPage(
+        this.typeCol(defs.threadTypeDiscussion),
+        ...getUserDiscussionCols(discussion, true),
+      )
       .from(discussion)
       .orderByAsc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question))
+      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, true))
       .from(question)
       .orderByAsc(question.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);

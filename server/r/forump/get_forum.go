@@ -38,7 +38,7 @@ func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if tab == defs.Constants.KeyDiscussions {
 		items, hasNext, err = da.Forum.SelectDiscussions(db, page, defaultPageSize)
 	} else if tab == defs.Constants.KeyQuestions {
-		items, hasNext, err = da.Forum.SelectDiscussions(db, page, defaultPageSize)
+		items, hasNext, err = da.Forum.SelectQuestions(db, page, defaultPageSize)
 	} else {
 		items, hasNext, err = da.Forum.SelectThreads(db, page, defaultPageSize)
 	}
