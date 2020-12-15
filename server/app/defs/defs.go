@@ -24,6 +24,9 @@ const (
 	DictContextKey     ContextKey = "dict"
 	SIDContextKey      ContextKey = "sid"
 	UserContextKey     ContextKey = "user"
+
+	ForumIDContextKey      ContextKey = "forum_id"
+	ForumGroupIDContextKey ContextKey = "forum_group_id"
 )
 
 // MS(memory storage, e.g. redis) keys

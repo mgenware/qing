@@ -7,6 +7,7 @@ import (
 	authapi "qing/r/api/pri/auth_api"
 	captchaapi "qing/r/api/pri/captcha_api"
 	composeapi "qing/r/api/pri/compose_api"
+	forumapi "qing/r/api/pri/forum_api"
 	likeapi "qing/r/api/pri/like_api"
 	mpapi "qing/r/api/pri/mp_api"
 	profileapi "qing/r/api/pri/profile_api"
@@ -18,7 +19,7 @@ var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Core.Use(app.UserManager.RequireLoginMiddlewareJSON)
-	Router.Core.Use(middleware.ParseJSONRequest)
+	Router.Core.Use(middleware.ParseJSONMiddleware)
 
 	Router.Mount("/compose", composeapi.Router)
 	Router.Mount("/profile", profileapi.Router)
@@ -26,5 +27,6 @@ func init() {
 	Router.Mount("/like", likeapi.Router)
 	Router.Mount("/mp", mpapi.Router)
 	Router.Mount("/user", userapi.Router)
+	Router.Mount("/forum", forumapi.Router)
 	Router.Core.Get("/req-capt", captchaapi.ReqCaptcha)
 }

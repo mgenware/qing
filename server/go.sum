@@ -45,6 +45,8 @@ github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470 h1:hMbjgXRju+Nzu
 github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470/go.mod h1:xii9EU0ai5k6z8+mbDpcvQwEiVySDXGBqIv3exxm/p4=
 github.com/mgenware/go-captcha v1.0.0 h1:MSZIsA8bThCzT63Q5WL4Un1GHl9FFTSn6PqrxrDWPS8=
 github.com/mgenware/go-captcha v1.0.0/go.mod h1:RFvEjGpO5STdFq/7X0mpwbYt0kGfQqRlv7Vc9Ew2dGk=
+github.com/mgenware/go-packagex v4.1.0+incompatible h1:lwN+z37hhBq6ddGDbr+LiHS0zIzVVuK3VujFso6mo9M=
+github.com/mgenware/go-packagex v4.1.0+incompatible/go.mod h1:hSlF75Q3llp8oXmzTL8/HJISyclWJa55poyHKfPddbk=
 github.com/mgenware/go-packagex/v5 v5.2.3 h1:IkKralJ45eP3UFT7xONG2ENdoUWpmnrITfDY/fkIcgo=
 github.com/mgenware/go-packagex/v5 v5.2.3/go.mod h1:1P+BP5jSJwz4QZ7ybN0yR0QSyOvnM1vg3QVYHD69M9w=
 github.com/mgenware/go-string-format v1.0.1 h1:lbydtuCDsg9i9oEteEAKcry4uPvJypgnOhvhEoTH288=

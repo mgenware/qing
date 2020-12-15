@@ -10,6 +10,7 @@ require (
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470
 	github.com/mgenware/go-captcha v1.0.0
+	github.com/mgenware/go-packagex v4.1.0+incompatible
 	github.com/mgenware/go-packagex/v5 v5.2.3
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/mingru-go-lib v0.0.1

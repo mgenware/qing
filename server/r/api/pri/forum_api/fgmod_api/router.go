@@ -6,5 +6,7 @@ import "qing/app/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Core.Use(RequireGroupModeMiddlewareJSON)
+	Router.Core.Use(RequireGroupModeJSONMiddleware)
+
+	Router.Get("/set-info", setInfo)
 }

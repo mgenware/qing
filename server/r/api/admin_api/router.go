@@ -12,7 +12,7 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Core.Use(app.UserManager.RequireLoginMiddlewareJSON)
 	Router.Core.Use(app.UserManager.UnsafeRequireAdminMiddlewareJSON)
-	Router.Core.Use(middleware.ParseJSONRequest)
+	Router.Core.Use(middleware.ParseJSONMiddleware)
 
 	Router.Post("/set-admin", setAdmin)
 	Router.Post("/get-admins", getAdmins)

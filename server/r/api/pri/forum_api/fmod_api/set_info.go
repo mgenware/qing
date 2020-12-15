@@ -1,4 +1,4 @@
-package fgmodapi
+package fmodapi
 
 import (
 	"net/http"
@@ -20,7 +20,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
 	db := app.DB
-	err := da.ForumGroup.UpdateInfo(db, id, name, desc)
+	err := da.Forum.UpdateInfo(db, id, name, desc)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)
 }

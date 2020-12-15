@@ -11,8 +11,8 @@ import (
 	"github.com/mgenware/go-packagex/v5/httpx"
 )
 
-// ParseJSONRequest is a middleware to parse request body as JSON and store the result to the context.
-func ParseJSONRequest(next http.Handler) http.Handler {
+// ParseJSONMiddleware is a middleware that parses the request body as JSON and stores the result to the context.
+func ParseJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		contentType := r.Header.Get("Content-Type")

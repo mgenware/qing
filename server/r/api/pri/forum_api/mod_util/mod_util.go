@@ -75,7 +75,7 @@ func GetRequestForumPermLevel(r *http.Request, forumID uint64) (int, error) {
 		}
 	}
 
-	hasForumPerm, err := da.ForumPerm.HasPerm(app.DB, forumID, uid)
+	hasForumPerm, err := da.ForumMod.IsMod(app.DB, forumID, uid)
 	if err != nil {
 		return 0, err
 	}
