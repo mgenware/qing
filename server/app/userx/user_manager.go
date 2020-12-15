@@ -43,8 +43,8 @@ func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUs
 	return user, nil
 }
 
-// RequireLoginMiddlewareHTML is a middleware that requires login. Otherwise, redirects the user to sign in page.
-func (appu *UserManager) RequireLoginMiddlewareHTML(next http.Handler) http.Handler {
+// RequireLoginHTMLMiddleware is a middleware that requires login. Otherwise, redirects the user to sign in page.
+func (appu *UserManager) RequireLoginHTMLMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		user := appcom.ContextUser(ctx)
@@ -56,8 +56,8 @@ func (appu *UserManager) RequireLoginMiddlewareHTML(next http.Handler) http.Hand
 	})
 }
 
-// RequireLoginMiddlewareJSON is a middleware that requires login. Otherwise, returns NeedAuth error code.
-func (appu *UserManager) RequireLoginMiddlewareJSON(next http.Handler) http.Handler {
+// RequireLoginJSONMiddleware is a middleware that requires login. Otherwise, returns NeedAuth error code.
+func (appu *UserManager) RequireLoginJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		user := appcom.ContextUser(ctx)
@@ -70,7 +70,7 @@ func (appu *UserManager) RequireLoginMiddlewareJSON(next http.Handler) http.Hand
 	})
 }
 
-// UnsafeRequireAdminMiddlewareJSON must be called after RequireLoginMiddlewareJSON, it makes sure only admins have access to the underlying handlers.
+// UnsafeRequireAdminMiddlewareJSON must be called after RequireLoginJSONMiddleware, it makes sure only admins have access to the underlying handlers.
 func (appu *UserManager) UnsafeRequireAdminMiddlewareJSON(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
