@@ -40,6 +40,7 @@ type SharedConstantsType struct {
 	KeyTab string
 	KeyValue string
 	MaxCaptchaLen int
+	MaxGenericStringLen int
 	MaxUserPwdLen int
 	MinUserPwdLen int
 	RouteApi string
@@ -92,6 +93,7 @@ func init() {
 		KeyTab: "tab",
 		KeyValue: "value",
 		MaxCaptchaLen: 10,
+		MaxGenericStringLen: 100,
 		MaxUserPwdLen: 30,
 		MinUserPwdLen: 6,
 		RouteApi: "s",

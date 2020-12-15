@@ -2,6 +2,7 @@
   "minUserPwdLen": 6,
   "maxUserPwdLen": 30,
   "maxCaptchaLen": 10,
+  "maxGenericStringLen": 100,
   "errInvalidUserOrPwd": 1,
   "columnCreated": "createdAt",
   "columnLikes": "likes",

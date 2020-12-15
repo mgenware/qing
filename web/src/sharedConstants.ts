@@ -8,6 +8,7 @@
 export const minUserPwdLen = 6;
 export const maxUserPwdLen = 30;
 export const maxCaptchaLen = 10;
+export const maxGenericStringLen = 100;
 export const errInvalidUserOrPwd = 1;
 export const columnCreated = "createdAt";
 export const columnLikes = "likes";

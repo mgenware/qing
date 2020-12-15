@@ -31,7 +31,7 @@ async function buildJSONFileAsync(
 
 async function buildSharedConstantsAsync() {
   return buildJSONFileAsync(
-    '../web/src/app/shared_const.json',
+    '../web/src/app/shared_constants.json',
     '../web/src/sharedConstants.ts',
     '../server/app/defs/shared_constants.go',
     'defs',

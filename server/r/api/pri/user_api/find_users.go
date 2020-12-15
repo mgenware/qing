@@ -30,7 +30,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicIfErr(err)
 		users = []*da.FindUserResult{user}
 	} else {
-		name := validator.MustGetStringFromDict(params, "value", defs.Shared.MaxUserNameLen)
+		name := validator.MustGetStringFromDict(params, "value", defs.DB.MaxNameLen)
 		users, err = da.User.FindUsersByName(db, "%"+name+"%")
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)
