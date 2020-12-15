@@ -90,6 +90,16 @@ func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (*F
 	return result, nil
 }
 
+// SelectGroupID ...
+func (da *TableTypeForum) SelectGroupID(queryable mingru.Queryable, id uint64) (*uint64, error) {
+	var result *uint64
+	err := queryable.QueryRow("SELECT `group_id` FROM `forum` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // SelectQuestions ...
 func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
 	if page <= 0 {

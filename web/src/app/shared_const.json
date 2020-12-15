@@ -37,6 +37,7 @@
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,
   "errCaptchaNotMatch": 10003,
+  "errPermissionDenied": 10004,
   "keyPosts": "posts",
   "keyDiscussions": "discussions",
   "keyAnswers": "answers",

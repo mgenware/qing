@@ -12,6 +12,7 @@ import defs from '../defs';
 
 export class ForumTA extends mm.TableActions {
   selectForum = mm.select(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);
+  selectGroupID = mm.selectField(t.group_id).by(t.id);
 
   deleteItem = mm.deleteOne().by(t.id);
   updateInfo = mm.updateOne().setInputs(t.name, t.desc).by(t.id);

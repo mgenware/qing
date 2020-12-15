@@ -17,8 +17,8 @@ import answer from './qna/answer';
 import answerCmt from './qna/answerCmt';
 import forumGroup from './forum/forumGroup';
 import forum from './forum/forum';
-import forumPerm from './forum/forumPerm';
-import forumGroupPerm from './forum/forumGroupPerm';
+import forumMod from './forum/forumMod';
+import forumGroupMod from './forum/forumGroupMod';
 
 const tables: mm.Table[] = [
   user,
@@ -40,7 +40,7 @@ const tables: mm.Table[] = [
   ...likes.values(),
   forum,
   forumGroup,
-  forumPerm,
-  forumGroupPerm,
+  forumMod,
+  forumGroupMod,
 ];
 export default tables;
