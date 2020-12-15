@@ -14,6 +14,9 @@ import questionTA from './qna/questionTA';
 import answerTA from './qna/answerTA';
 import forumGroupTA from './forum/forumGroupTA';
 import forumTA from './forum/forumTA';
+import { createPermBaseTA } from './com/permBaseTAFactory';
+import forumPerm from '../models/forum/forumPerm';
+import forumGroupPerm from '../models/forum/forumGroupPerm';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -31,6 +34,8 @@ const actions: mm.TableActions[] = [
   answerTA,
   forumTA,
   forumGroupTA,
+  createPermBaseTA(forumPerm),
+  createPermBaseTA(forumGroupPerm),
 ];
 
 export default actions;
