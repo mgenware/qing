@@ -22,11 +22,11 @@ var allowedTypes map[int]bool
 
 func init() {
 	allowedTypes = make(map[int]bool)
-	allowedTypes[defs.Constants.EntityPost] = true
-	allowedTypes[defs.Constants.EntityCmt] = true
-	allowedTypes[defs.Constants.EntityReply] = true
-	allowedTypes[defs.Constants.EntityDiscussion] = true
-	allowedTypes[defs.Constants.EntityDiscussionMsg] = true
+	allowedTypes[defs.Shared.EntityPost] = true
+	allowedTypes[defs.Shared.EntityCmt] = true
+	allowedTypes[defs.Shared.EntityReply] = true
+	allowedTypes[defs.Shared.EntityDiscussion] = true
+	allowedTypes[defs.Shared.EntityDiscussionMsg] = true
 }
 
 // NewCaptchaService creates a CaptchaService.
@@ -67,10 +67,10 @@ func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode
 		return 0, err
 	}
 	if result == "" {
-		return defs.Constants.ErrCaptchaNotFound, nil
+		return defs.Shared.ErrCaptchaNotFound, nil
 	}
 	if result != code {
-		return defs.Constants.ErrCaptchaNotMatch, nil
+		return defs.Shared.ErrCaptchaNotMatch, nil
 	}
 	return 0, nil
 }

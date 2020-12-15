@@ -22,14 +22,14 @@ func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var result interface{}
 
 	switch entityType {
-	case defs.Constants.EntityPost:
+	case defs.Shared.EntityPost:
 		{
 			err := da.Post.DeleteItem(app.DB, id, uid)
 			app.PanicIfErr(err)
 			result = app.URL.UserProfile(uid)
 			break
 		}
-	case defs.Constants.EntityDiscussion:
+	case defs.Shared.EntityDiscussion:
 		{
 			err = da.Discussion.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)

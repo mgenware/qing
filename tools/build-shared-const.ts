@@ -3,20 +3,54 @@ import 'crash-on-errors';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
 
-(async () => {
-  // Read the contents of a localized JSON.
-  const json = await fsPromises.readFile('../web/src/app/shared_const.json', 'utf8');
+async function buildJSONFileAsync(
+  src: string,
+  webDest: string,
+  serverDest: string,
+  packageName: string,
+  typeName: string,
+  variableName: string,
+) {
+  const json = await fsPromises.readFile(src, 'utf8');
 
   const jsonObj = JSON.parse(json);
   const goResult = await goConvert(jsonObj, {
-    packageName: 'defs',
-    typeName: 'SharedConstants',
-    variableName: 'Constants',
+    packageName,
+    typeName,
+    variableName,
     hideJSONTags: true,
     disablePropertyFormatting: true,
   });
   const tsResult = tsConvert(jsonObj);
 
-  await fsPromises.writeFile('../server/app/defs/shared_const.go', goResult);
-  await fsPromises.writeFile('../web/src/sharedConstants.ts', tsResult);
+  await Promise.all([
+    fsPromises.writeFile(serverDest, goResult),
+    fsPromises.writeFile(webDest, tsResult),
+  ]);
+}
+
+async function buildSharedConstantsAsync() {
+  return buildJSONFileAsync(
+    '../web/src/app/shared_const.json',
+    '../web/src/sharedConstants.ts',
+    '../server/app/defs/shared_constants.go',
+    'defs',
+    'SharedConstantsType',
+    'Shared',
+  );
+}
+
+async function buildDBConstantsAsync() {
+  return buildJSONFileAsync(
+    '../server/mingru/src/constants.json',
+    '../web/src/dbConstants.ts',
+    '../server/app/defs/db_constants.go',
+    'defs',
+    'DBConstantsType',
+    'DB',
+  );
+}
+
+(async () => {
+  await Promise.all([buildSharedConstantsAsync(), buildDBConstantsAsync()]);
 })();

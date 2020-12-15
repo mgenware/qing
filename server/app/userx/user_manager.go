@@ -65,7 +65,7 @@ func (appu *UserManager) RequireLoginMiddlewareJSON(next http.Handler) http.Hand
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
 			resp := handler.NewJSONResponse(r, w)
-			resp.MustFailWithCode(defs.Constants.ErrNeedAuth)
+			resp.MustFailWithCode(defs.Shared.ErrNeedAuth)
 		}
 	})
 }
@@ -79,7 +79,7 @@ func (appu *UserManager) UnsafeRequireAdminMiddlewareJSON(next http.Handler) htt
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
 			resp := handler.NewJSONResponse(r, w)
-			resp.MustFailWithCode(defs.Constants.ErrNeedAuth)
+			resp.MustFailWithCode(defs.Shared.ErrNeedAuth)
 		}
 	})
 }

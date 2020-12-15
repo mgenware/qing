@@ -27,7 +27,7 @@ func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(defs.Constants.KeyTab)
+	tab := r.FormValue(defs.Shared.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, pid)
 	app.PanicIfErr(err)
@@ -35,9 +35,9 @@ func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var items []*da.UserThreadInterface
 	var hasNext bool
 
-	if tab == defs.Constants.KeyDiscussions {
+	if tab == defs.Shared.KeyDiscussions {
 		items, hasNext, err = da.Forum.SelectDiscussions(db, page, defaultPageSize)
-	} else if tab == defs.Constants.KeyQuestions {
+	} else if tab == defs.Shared.KeyQuestions {
 		items, hasNext, err = da.Forum.SelectQuestions(db, page, defaultPageSize)
 	} else {
 		items, hasNext, err = da.Forum.SelectThreads(db, page, defaultPageSize)

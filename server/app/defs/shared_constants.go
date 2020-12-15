@@ -5,8 +5,8 @@
 
 package defs
 
-// SharedConstants ...
-type SharedConstants struct {
+// SharedConstantsType ...
+type SharedConstantsType struct {
 	ColumnComments string
 	ColumnCreated string
 	ColumnLikes string
@@ -40,10 +40,6 @@ type SharedConstants struct {
 	KeyTab string
 	KeyValue string
 	MaxCaptchaLen int
-	MaxGenericStringLen int
-	MaxPostTitleLen int
-	MaxUserEmailLen int
-	MaxUserNameLen int
 	MaxUserPwdLen int
 	MinUserPwdLen int
 	RouteApi string
@@ -58,11 +54,11 @@ type SharedConstants struct {
 	RouteUser string
 }
 
-// Constants ...
-var Constants *SharedConstants
+// Shared ...
+var Shared *SharedConstantsType
 
 func init() {
-	Constants = &SharedConstants{
+	Shared = &SharedConstantsType{
 		ColumnComments: "comments",
 		ColumnCreated: "createdAt",
 		ColumnLikes: "likes",
@@ -96,10 +92,6 @@ func init() {
 		KeyTab: "tab",
 		KeyValue: "value",
 		MaxCaptchaLen: 10,
-		MaxGenericStringLen: 100,
-		MaxPostTitleLen: 200,
-		MaxUserEmailLen: 200,
-		MaxUserNameLen: 200,
 		MaxUserPwdLen: 30,
 		MinUserPwdLen: 6,
 		RouteApi: "s",

@@ -73,19 +73,19 @@ func Start() {
 	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Discussion router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Constants.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
 	// Dashboard router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteDashboard, dashboardp.Router)
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteDashboard, dashboardp.Router)
 	// Forum router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteForum+"/{fid}", handler.HTMLHandlerToHTTPHandler(forump.GetForum))
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteForum+"/{fid}", handler.HTMLHandlerToHTTPHandler(forump.GetForum))
 	// Auth router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Constants.RouteAuth, authp.Router)
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteAuth, authp.Router)
 	// API router.
-	r.Mount("/"+defs.Constants.RouteApi, api.Router)
+	r.Mount("/"+defs.Shared.RouteApi, api.Router)
 	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 
@@ -93,7 +93,7 @@ func Start() {
 	if debugConfig != nil {
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.Constants.RouteDevPage, devpagep.Router)
+			r.Mount("/"+defs.Shared.RouteDevPage, devpagep.Router)
 		}
 	}
 

@@ -50,13 +50,13 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 }
 
 func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
-	s := "/" + defs.Constants.RouteUser + "/" + validator.EncodeID(uid)
+	s := "/" + defs.Shared.RouteUser + "/" + validator.EncodeID(uid)
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))
+		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
 	}
 	if tab != "" {
-		qs.Set(defs.Constants.KeyTab, tab)
+		qs.Set(defs.Shared.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -69,10 +69,10 @@ func (u *URL) HomeAdv(tab string, page int) string {
 	s := "/"
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))
+		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
 	}
 	if tab != "" {
-		qs.Set(defs.Constants.KeyTab, tab)
+		qs.Set(defs.Shared.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -86,13 +86,13 @@ func (u *URL) UserProfile(uid uint64) string {
 }
 
 func (u *URL) Post(pid uint64) string {
-	return "/" + defs.Constants.RoutePost + "/" + validator.EncodeID(pid)
+	return "/" + defs.Shared.RoutePost + "/" + validator.EncodeID(pid)
 }
 
 func (u *URL) DiscussionWithPage(pid uint64, page int) string {
-	s := "/" + defs.Constants.RouteDiscussion + "/" + validator.EncodeID(pid)
+	s := "/" + defs.Shared.RouteDiscussion + "/" + validator.EncodeID(pid)
 	if page > 1 {
-		s += fmt.Sprintf("&%v=%v", defs.Constants.KeyPage, page)
+		s += fmt.Sprintf("&%v=%v", defs.Shared.KeyPage, page)
 	}
 	return s
 }
@@ -102,9 +102,9 @@ func (u *URL) Discussion(pid uint64) string {
 }
 
 func (u *URL) QuestionWithPage(pid uint64, page int) string {
-	s := "/" + defs.Constants.RouteQuestion + "/" + validator.EncodeID(pid)
+	s := "/" + defs.Shared.RouteQuestion + "/" + validator.EncodeID(pid)
 	if page > 1 {
-		s += fmt.Sprintf("&%v=%v", defs.Constants.KeyPage, page)
+		s += fmt.Sprintf("&%v=%v", defs.Shared.KeyPage, page)
 	}
 	return s
 }
@@ -114,21 +114,21 @@ func (u *URL) Question(pid uint64) string {
 }
 
 func (u *URL) SignIn() string {
-	return "/" + defs.Constants.RouteAuth + "/sign/in"
+	return "/" + defs.Shared.RouteAuth + "/sign/in"
 }
 
 func (u *URL) RegEmailVerification(publicID string) string {
-	return "/" + defs.Constants.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
+	return "/" + defs.Shared.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
 }
 
 func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
-	s := "/" + defs.Constants.RouteForum + "/" + validator.EncodeID(fid)
+	s := "/" + defs.Shared.RouteForum + "/" + validator.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set(defs.Constants.KeyPage, strconv.Itoa(page))
+		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
 	}
 	if tab != "" {
-		qs.Set(defs.Constants.KeyTab, tab)
+		qs.Set(defs.Shared.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -138,5 +138,5 @@ func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
 }
 
 func (u *URL) ForumGroup(id uint64) string {
-	return "/" + defs.Constants.RouteForumGroup + "/" + validator.EncodeID(id)
+	return "/" + defs.Shared.RouteForumGroup + "/" + validator.EncodeID(id)
 }

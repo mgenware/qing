@@ -14,14 +14,14 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	email := validator.MustGetStringFromDict(params, "email", defs.Constants.MaxUserEmailLen)
-	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Constants.MaxUserPwdLen)
+	email := validator.MustGetStringFromDict(params, "email", defs.Shared.MaxUserEmailLen)
+	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Shared.MaxUserPwdLen)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIDFromEmail(app.DB, email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)
+			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -33,7 +33,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hash, err := da.UserPwd.SelectHashByID(app.DB, uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)
+			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -43,7 +43,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 	if !pwdValid {
-		return resp.MustFailWithCode(defs.Constants.ErrInvalidUserOrPwd)
+		return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
 	}
 
 	user, err := app.UserManager.CreateUserSessionFromUID(uid)

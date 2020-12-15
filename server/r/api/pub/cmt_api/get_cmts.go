@@ -77,7 +77,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hostType := validator.MustGetIntFromDict(params, "hostType")
 	var respData *GetCmtsRespData
 	switch hostType {
-	case defs.Constants.EntityPost:
+	case defs.Shared.EntityPost:
 		{
 			cmts, hasNext, err := da.Post.SelectCmts(db, hostID, page, kCmtPageSize)
 			if err != nil {

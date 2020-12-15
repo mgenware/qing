@@ -18,7 +18,7 @@ type SetCmtResponse struct {
 
 func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
-	case defs.Constants.EntityPost:
+	case defs.Shared.EntityPost:
 		return da.Post, nil
 	default:
 		return nil, fmt.Errorf("Unknown cmt data provider: %v", hostType)
@@ -39,7 +39,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// We are creating a new cmt.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
-		capt := validator.MustGetStringFromDict(contentData, "captcha", defs.Constants.MaxCaptchaLen)
+		capt := validator.MustGetStringFromDict(contentData, "captcha", defs.Shared.MaxCaptchaLen)
 		toUserID := validator.GetIDFromDict(params, "toUserID")
 		parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 

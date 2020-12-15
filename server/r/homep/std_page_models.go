@@ -28,8 +28,8 @@ func NewStdPageModel(pageData *rcom.PageData, feedHTML, pageBarHTML string) *Std
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML
-	d.HomePostsURL = app.URL.HomeAdv(defs.Constants.KeyPosts, 1)
-	d.HomeQuestionsURL = app.URL.HomeAdv(defs.Constants.KeyQuestions, 1)
-	d.HomeDiscussionsURL = app.URL.HomeAdv(defs.Constants.KeyDiscussions, 1)
+	d.HomePostsURL = app.URL.HomeAdv(defs.Shared.KeyPosts, 1)
+	d.HomeQuestionsURL = app.URL.HomeAdv(defs.Shared.KeyQuestions, 1)
+	d.HomeDiscussionsURL = app.URL.HomeAdv(defs.Shared.KeyDiscussions, 1)
 	return d
 }

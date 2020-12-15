@@ -26,8 +26,8 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 
 	fid := f.ID
 	d.ForumURL = app.URL.ForumAdv(fid, "", 1)
-	d.ForumQuestionsURL = app.URL.ForumAdv(fid, defs.Constants.KeyQuestions, 1)
-	d.ForumDiscussionsURL = app.URL.ForumAdv(fid, defs.Constants.KeyDiscussions, 1)
+	d.ForumQuestionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyQuestions, 1)
+	d.ForumDiscussionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyDiscussions, 1)
 	d.FeedListHTML = feedListHTML
 	d.PageBarHTML = pageBarHTML
 	return d

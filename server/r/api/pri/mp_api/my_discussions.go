@@ -14,8 +14,8 @@ var myDiscussionsColumnNameToEnumMap map[string]int
 
 func init() {
 	myDiscussionsColumnNameToEnumMap = map[string]int{
-		defs.Constants.ColumnMessages: da.DiscussionTableSelectItemsForDashboardOrderBy1ReplyCount,
-		defs.Constants.ColumnCreated:  da.DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt,
+		defs.Shared.ColumnMessages: da.DiscussionTableSelectItemsForDashboardOrderBy1ReplyCount,
+		defs.Shared.ColumnCreated:  da.DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt,
 	}
 }
 
@@ -39,8 +39,8 @@ func myDiscussions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	page := validator.GetPageParamFromDict(params)
-	pageSize := validator.MustGetIntFromDict(params, defs.Constants.KeyPageSize)
-	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Constants.MaxGenericStringLen)
+	pageSize := validator.MustGetIntFromDict(params, defs.Shared.KeyPageSize)
+	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Shared.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
 	rawDiscussions, hasNext, err := da.Discussion.SelectItemsForDashboard(app.DB, uid, page, pageSize, myDiscussionsColumnNameToEnumMap[sortBy], desc)

@@ -1,16 +1,24 @@
 import * as mm from 'mingru-models';
+import {
+  maxEmailLen,
+  maxNameLen,
+  maxFileNameLen,
+  maxUserStatusLen,
+  maxUserInfoFieldLen,
+  maxURLLen,
+} from '../../constants.json';
 
 export class User extends mm.Table {
   id = mm.pk();
-  email = mm.varChar(255).unique;
-  name = mm.varChar(255);
-  icon_name = mm.varChar(255).default('');
+  email = mm.varChar(maxEmailLen).unique;
+  name = mm.varChar(maxNameLen);
+  icon_name = mm.varChar(maxFileNameLen).default('');
   created_at = mm.datetime('utc');
-  status = mm.varChar(100).default('');
+  status = mm.varChar(maxUserStatusLen).default('');
 
-  company = mm.varChar(100).default('');
-  website = mm.varChar(100).default('');
-  location = mm.varChar(100).default('');
+  company = mm.varChar(maxUserInfoFieldLen).default('');
+  website = mm.varChar(maxURLLen).default('');
+  location = mm.varChar(maxUserInfoFieldLen).default('');
   bio = mm.text().nullable.default(null);
 
   admin = mm.bool().default(false);

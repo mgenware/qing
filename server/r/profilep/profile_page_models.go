@@ -55,8 +55,8 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	d.FeedListHTML = feedHTML
 	d.PageBarHTML = pageBarHTML
 
-	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyPosts, 1)
-	d.ProfileDiscussionsURL = app.URL.UserProfileAdv(uid, defs.Constants.KeyDiscussions, 1)
+	d.ProfilePostsURL = app.URL.UserProfileAdv(uid, defs.Shared.KeyPosts, 1)
+	d.ProfileDiscussionsURL = app.URL.UserProfileAdv(uid, defs.Shared.KeyDiscussions, 1)
 	return d
 }
 

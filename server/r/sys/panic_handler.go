@@ -45,7 +45,7 @@ func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 		resp := app.JSONResponse(w, r)
-		resp.MustFailWithError(defs.Constants.ErrGeneric, err, expected)
+		resp.MustFailWithError(defs.Shared.ErrGeneric, err, expected)
 	} else {
 		if !expected && app.Config.Debug != nil && app.Config.Debug.PanicOnUnexpectedHTMLErrors {
 			panic(err)

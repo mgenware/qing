@@ -22,17 +22,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Non-forums mode.
 	if !app.SetupConfig().ForumsMode {
 		page := validator.GetPageParamFromRequestQueryString(r)
-		tab := r.FormValue(defs.Constants.KeyTab)
+		tab := r.FormValue(defs.Shared.KeyTab)
 
 		var items []*da.UserThreadInterface
 		var hasNext bool
 		var err error
 
-		if tab == defs.Constants.KeyPosts {
+		if tab == defs.Shared.KeyPosts {
 			items, hasNext, err = da.Home.SelectPosts(db, page, defaultPageSize)
-		} else if tab == defs.Constants.KeyDiscussions {
+		} else if tab == defs.Shared.KeyDiscussions {
 			items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
-		} else if tab == defs.Constants.KeyQuestions {
+		} else if tab == defs.Shared.KeyQuestions {
 			items, hasNext, err = da.Home.SelectQuestions(db, page, defaultPageSize)
 		} else {
 			items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)

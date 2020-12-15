@@ -21,7 +21,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(defs.Constants.KeyTab)
+	tab := r.FormValue(defs.Shared.KeyTab)
 	resp := app.HTMLResponse(w, r)
 
 	// User profile
@@ -52,7 +52,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 			break
 		}
 
-	case defs.Constants.KeyDiscussions:
+	case defs.Shared.KeyDiscussions:
 		{
 			var discussions []*da.DiscussionTableSelectItemsForUserProfileResult
 			discussions, hasNext, err = da.Discussion.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)

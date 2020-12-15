@@ -27,8 +27,8 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType != defs.Constants.EntityDiscussionMsg {
-		title = validator.MustGetStringFromDict(contentDict, "title", defs.Constants.MaxPostTitleLen)
+	if entityType != defs.Shared.EntityDiscussionMsg {
+		title = validator.MustGetStringFromDict(contentDict, "title", defs.Shared.MaxPostTitleLen)
 	}
 
 	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
@@ -37,15 +37,15 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := app.DB
 	if !hasID {
 		// Add a new entry.
-		capt := validator.MustGetStringFromDict(contentDict, "captcha", defs.Constants.MaxCaptchaLen)
-		captResult, err := app.Service.Captcha.Verify(uid, defs.Constants.EntityPost, capt, app.Config.DevMode())
+		capt := validator.MustGetStringFromDict(contentDict, "captcha", defs.Shared.MaxCaptchaLen)
+		captResult, err := app.Service.Captcha.Verify(uid, defs.Shared.EntityPost, capt, app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
 
 		switch entityType {
-		case defs.Constants.EntityPost:
+		case defs.Shared.EntityPost:
 			{
 				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
@@ -54,7 +54,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Constants.EntityDiscussion:
+		case defs.Shared.EntityDiscussion:
 			{
 				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
@@ -63,7 +63,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Constants.EntityDiscussionMsg:
+		case defs.Shared.EntityDiscussionMsg:
 			{
 				discussionID := validator.GetIDFromDict(params, "discussionID")
 				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, discussionID, sanitizedToken, captResult)
@@ -77,19 +77,19 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		// Edit an existing entry.
 		switch entityType {
-		case defs.Constants.EntityPost:
+		case defs.Shared.EntityPost:
 			{
 				err = da.Post.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Constants.EntityDiscussion:
+		case defs.Shared.EntityDiscussion:
 			{
 				err = da.Discussion.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Constants.EntityDiscussionMsg:
+		case defs.Shared.EntityDiscussionMsg:
 			{
 				err = da.DiscussionMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)

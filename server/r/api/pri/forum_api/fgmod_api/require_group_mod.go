@@ -17,7 +17,7 @@ func RequireGroupModeMiddlewareJSON(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForumGroup {
-			resp.MustFailWithCode(defs.Constants.ErrPermissionDenied)
+			resp.MustFailWithCode(defs.Shared.ErrPermissionDenied)
 			return
 		}
 		next.ServeHTTP(w, r.WithContext(r.Context()))
