@@ -17,6 +17,7 @@ import forumTA from './forum/forumTA';
 import { createForumModTA } from './forum/forumModTAFactory';
 import forumMod from '../models/forum/forumMod';
 import forumGroupMod from '../models/forum/forumGroupMod';
+import forumIsUserModTA from './forum/forumIsUserModTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -36,6 +37,7 @@ const actions: mm.TableActions[] = [
   forumGroupTA,
   createForumModTA(forumMod),
   createForumModTA(forumGroupMod),
+  forumIsUserModTA,
 ];
 
 export default actions;

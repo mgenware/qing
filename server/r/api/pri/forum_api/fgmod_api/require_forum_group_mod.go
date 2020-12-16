@@ -17,7 +17,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 		params := appcom.ContextDict(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
-		groupID := validator.GetIDFromDict(params, "forum_group_id")
+		groupID := validator.GetIDFromDict(params, "forumGroupID")
 		if groupID == 0 {
 			resp.MustFailWithUserError("forum_group_id is empty")
 			return

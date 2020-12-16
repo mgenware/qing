@@ -17,7 +17,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 		params := appcom.ContextDict(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
-		forumID := validator.GetIDFromDict(params, "forum_id")
+		forumID := validator.GetIDFromDict(params, "forumID")
 		if forumID == 0 {
 			resp.MustFailWithUserError("forum_id is empty")
 			return

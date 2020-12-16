@@ -19,6 +19,7 @@ import forumGroup from './forum/forumGroup';
 import forum from './forum/forum';
 import forumMod from './forum/forumMod';
 import forumGroupMod from './forum/forumGroupMod';
+import forumIsUserMod from './forum/forumIsUserMod';
 
 const tables: mm.Table[] = [
   user,
@@ -42,5 +43,6 @@ const tables: mm.Table[] = [
   forumGroup,
   forumMod,
   forumGroupMod,
+  forumIsUserMod,
 ];
 export default tables;

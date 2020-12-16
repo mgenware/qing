@@ -10,19 +10,19 @@
     "build": "eslint --max-warnings 0 --ext .ts ./src && yarn run r"
   },
   "devDependencies": {
-    "@types/node": "^14.14.11",
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
-    "@typescript-eslint/parser": "^4.9.0",
+    "@types/node": "^14.14.14",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
     "del-cli": "^3.0.1",
     "eslint": "^7.15.0",
     "eslint-config-airbnb-typescript-lite": "^12.0.0",
     "eslint-plugin-import": "^2.22.1",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "go-const-gen": "^1.4.0",
-    "mingru": "^0.41.0",
-    "mingru-models": "^0.49.0",
+    "mingru": "^0.42.0",
+    "mingru-models": "^0.50.0",
     "mingru-tsconfig": "^4.0.0"
   }
 }

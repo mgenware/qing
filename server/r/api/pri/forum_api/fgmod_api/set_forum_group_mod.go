@@ -1,4 +1,4 @@
-package adminapi
+package fgmodapi
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 	"qing/lib/validator"
 )
 
-func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := app.ContextUserID(r)
@@ -17,9 +17,12 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	value := validator.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
-		panic("You cannot change admin status of your own account")
+		panic("You cannot change moderator status of your own account")
 	}
 	err := da.User.UnsafeUpdateAdmin(app.DB, targetUserID, value == 1)
-	app.PanicIfErr(err)
+
+	if err != nil {
+		panic(err)
+	}
 	return resp.MustComplete(nil)
 }
