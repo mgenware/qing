@@ -5,7 +5,11 @@
 
 package da
 
-import "github.com/mgenware/mingru-go-lib"
+import (
+	"fmt"
+
+	"github.com/mgenware/mingru-go-lib"
+)
 
 // TableTypeForumMod ...
 type TableTypeForumMod struct {
@@ -20,6 +24,20 @@ var ForumMod = &TableTypeForumMod{}
 func (da *TableTypeForumMod) AddMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `forum_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
+}
+
+// ClearUser ...
+func (da *TableTypeForumMod) ClearUser(queryable mingru.Queryable, userID uint64, objectID []uint64) (int, error) {
+	if len(objectID) == 0 {
+		return 0, fmt.Errorf("The array argument `objectID` cannot be empty")
+	}
+	var queryParams []interface{}
+	queryParams = append(queryParams, userID)
+	for _, item := range objectID {
+		queryParams = append(queryParams, item)
+	}
+	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `user_id` = ? AND `object_id` IN ("+mingru.InputPlaceholders(len(undefined))+")", queryParams...)
+	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 
 // IsMod ...

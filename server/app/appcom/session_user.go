@@ -4,11 +4,12 @@ import "encoding/json"
 
 // SessionUser contains user infomation stored in a session store.
 type SessionUser struct {
-	ID       uint64 `json:"id"`
-	Name     string `json:"name"`
-	IconName string `json:"icon"`
-	Admin    bool   `json:"admin"`
-	Status   string `json:"status"`
+	ID         uint64 `json:"id,omitempty"`
+	Name       string `json:"name,omitempty"`
+	IconName   string `json:"icon,omitempty"`
+	Admin      bool   `json:"admin,omitempty"`
+	Status     string `json:"status,omitempty"`
+	IsForumMod string `json:"is_mod,omitempty"`
 
 	// Generated props when deserialized
 	URL     string `json:"-"`
