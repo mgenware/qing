@@ -7,7 +7,7 @@ import { defaultUpdateConditions } from '../common';
 
 export class ReplyTA extends mm.TableActions {
   selectReplies = mm
-    .selectPage(
+    .selectRows(
       t.id.privateAttr(),
       t.content,
       t.created_at,
@@ -18,6 +18,7 @@ export class ReplyTA extends mm.TableActions {
       t.user_id.join(user).icon_name.privateAttr(),
       t.to_user_id.join(user).name,
     )
+    .pageMode()
     .by(t.parent_id)
     .orderByDesc(t.created_at)
     .attr(mm.ActionAttribute.groupTypeName, replyInterface)
@@ -27,7 +28,7 @@ export class ReplyTA extends mm.TableActions {
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
-  selectReplySource = mm.select(t.content).whereSQL(defaultUpdateConditions(t));
+  selectReplySource = mm.selectRow(t.content).whereSQL(defaultUpdateConditions(t));
   insertReplyCore = mm.insertOne().setDefaults().setInputs();
   deleteReplyCore = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 }

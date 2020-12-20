@@ -11,7 +11,7 @@ function updateCounterAction(column: mm.Column): UpdateAction {
 
 export class UserStatsTA extends mm.TableActions {
   selectStats = mm
-    .select(t.post_count, t.discussion_count, t.question_count, t.answer_count)
+    .selectRow(t.post_count, t.discussion_count, t.question_count, t.answer_count)
     .by(t.id);
 
   updatePostCount = updateCounterAction(t.post_count);

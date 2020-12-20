@@ -19,7 +19,7 @@ const cmtIDAndHostID = 'cmtIDAndHostID';
 export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
   return mm
-    .selectPage(
+    .selectRows(
       rt.cmt_id.privateAttr(),
       jCmt.content,
       jCmt.created_at,
@@ -30,6 +30,7 @@ export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
       jCmt.user_id.join(user).icon_name.privateAttr(),
     )
     .from(rt)
+    .pageMode()
     .by(rt.host_id)
     .orderByDesc(jCmt.created_at)
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
@@ -88,7 +89,7 @@ export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
     .transact(
       // Get cmt ID and host ID.
       mm
-        .select(reply.parent_id, reply.parent_id.join(cmt).host_id)
+        .selectRow(reply.parent_id, reply.parent_id.join(cmt).host_id)
         .from(reply)
         .by(reply.id)
         .declareReturnValue(mm.ReturnValues.result, cmtIDAndHostID),

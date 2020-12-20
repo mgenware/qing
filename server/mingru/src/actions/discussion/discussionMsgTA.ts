@@ -16,9 +16,10 @@ export class DiscussionMsgTA extends ContentBaseTA {
 
     // Remove `selectItemByID`, discussion messages are fetched along with
     // their belonging discussion.
-    this.selectItemByID = mm.emptyAction as mm.SelectAction;
+    this.selectItemByID = mm.emptyAction;
     this.selectItemsByDiscussion = mm
-      .selectPage(...this.getFullColumns())
+      .selectRows(...this.getFullColumns())
+      .pageMode()
       .by(t.discussion_id)
       .orderByAsc(t.created_at);
   }

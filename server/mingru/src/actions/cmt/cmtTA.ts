@@ -9,9 +9,9 @@ export class CmtTA extends mm.TableActions {
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
-  selectCmtSource = mm.select(t.content).whereSQL(defaultUpdateConditions(t));
+  selectCmtSource = mm.selectRow(t.content).whereSQL(defaultUpdateConditions(t));
 
-  getHostIDAndReplyCount = mm.select(t.host_id, t.reply_count).by(t.id);
+  getHostIDAndReplyCount = mm.selectRow(t.host_id, t.reply_count).by(t.id);
 
   updateReplyCount = mm
     .updateOne()

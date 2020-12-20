@@ -16,9 +16,10 @@ export class AnswerTA extends ContentBaseTA {
 
     // Remove `selectItemByID`, answers are fetched along with
     // their belonging question.
-    this.selectItemByID = mm.emptyAction as mm.SelectAction;
+    this.selectItemByID = mm.emptyAction;
     this.selectItemsByQuestion = mm
-      .selectPage(...this.getFullColumns())
+      .selectRows(...this.getFullColumns())
+      .pageMode()
       .by(t.question_id)
       .orderByAsc(t.created_at);
   }

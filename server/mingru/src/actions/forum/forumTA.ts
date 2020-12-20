@@ -11,8 +11,9 @@ import {
 import defs from '../defs';
 
 export class ForumTA extends mm.TableActions {
-  selectForum = mm.select(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);
+  selectForum = mm.selectRow(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);
   selectGroupID = mm.selectField(t.group_id).by(t.id);
+  selectGroupForumIDs = mm.selectFieldRows(t.id).pageMode().by(t.group_id).noOrderBy();
 
   deleteItem = mm.deleteOne().by(t.id);
   updateInfo = mm.updateOne().setInputs(t.name, t.desc).by(t.id);
@@ -27,21 +28,24 @@ export class ForumTA extends mm.TableActions {
     super();
 
     this.selectDiscussions = mm
-      .selectPage(
+      .selectRows(
         this.typeCol(defs.threadTypeDiscussion),
         ...getUserDiscussionCols(discussion, true),
       )
       .from(discussion)
+      .pageMode()
       .orderByAsc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, true))
+      .selectRows(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, true))
       .from(question)
+      .pageMode()
       .orderByAsc(question.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
 
     this.selectThreads = this.selectDiscussions
-      .union(this.selectQuestions, true)
+      .union(this.selectQuestions)
+      .pageMode()
       .orderByDesc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
   }
@@ -50,7 +54,7 @@ export class ForumTA extends mm.TableActions {
     return new mm.RawColumn(
       mm.sql`${itemType.toString()}`,
       userThreadTypeColumnName,
-      mm.int().__type,
+      mm.int().__mustGetType(),
     );
   }
 }

@@ -7,19 +7,19 @@ const findUserResult = 'FindUserResult';
 const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr(), t.status];
 
 export class UserTA extends mm.TableActions {
-  selectProfile = mm.select(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
-  selectSessionData = mm.select(...coreCols, t.admin).by(t.id);
-  selectEditingData = mm.select(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
+  selectProfile = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
+  selectSessionData = mm.selectRow(...coreCols, t.admin).by(t.id);
+  selectEditingData = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
 
   findUserByID = mm
-    .select(...coreCols)
+    .selectRow(...coreCols)
     .by(t.id)
     .resultTypeNameAttr(findUserResult);
-  findUsersByName = mm.selectRows(...coreCols).where`${
-    t.name
-  } LIKE ${t.name.toInput()}`.noOrderBy.resultTypeNameAttr(findUserResult);
+  findUsersByName = mm.selectRows(...coreCols).where`${t.name} LIKE ${t.name.toInput()}`
+    .noOrderBy()
+    .resultTypeNameAttr(findUserResult);
 
   updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
@@ -35,7 +35,7 @@ export class UserTA extends mm.TableActions {
 
   // Used by other user auth provider such as pwd provider to add an entry
   // in both user and user stats tables.
-  getAddUserEntryTXMembers(): mm.TransactionMember[] {
+  getAddUserEntryTXMembers(): mm.TransactionMemberTypes[] {
     return [
       this.addUserEntryInternal.declareInsertedID(addUserInsertedIDVar),
       this.addUserStatsEntryInternal.wrap({ id: mm.valueRef(addUserInsertedIDVar) }),

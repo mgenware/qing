@@ -27,34 +27,41 @@ export class HomeTA extends mm.TableActions {
     .selectRows(...this.getForumGroupCols(forumGroup))
     .from(forumGroup)
     .orderByDesc(forumGroup.order_index);
-  selectForums = mm.selectRows(...this.getForumCols(forum)).from(forum).noOrderBy;
+  selectForums = mm
+    .selectRows(...this.getForumCols(forum))
+    .from(forum)
+    .noOrderBy();
 
   constructor() {
     super();
 
     this.selectPosts = mm
-      .selectPage(this.typeCol(defs.threadTypePost), ...getUserPostCols(post))
+      .selectRows(this.typeCol(defs.threadTypePost), ...getUserPostCols(post))
       .from(post)
+      .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectPage(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, false))
+      .selectRows(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, false))
       .from(question)
+      .pageMode()
       .orderByAsc(question.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectDiscussions = mm
-      .selectPage(
+      .selectRows(
         this.typeCol(defs.threadTypeDiscussion),
         ...getUserDiscussionCols(discussion, false),
       )
+      .pageMode()
       .from(discussion)
       .orderByAsc(discussion.created_at)
       .resultTypeNameAttr(userThreadInterface);
 
     this.selectItems = this.selectPosts
-      .union(this.selectQuestions, true)
-      .union(this.selectDiscussions, true)
+      .union(this.selectQuestions)
+      .union(this.selectDiscussions)
       .orderByDesc(post.created_at)
+      .pageMode()
       .resultTypeNameAttr(userThreadInterface);
   }
 
@@ -62,7 +69,7 @@ export class HomeTA extends mm.TableActions {
     return new mm.RawColumn(
       mm.sql`${itemType.toString()}`,
       userThreadTypeColumnName,
-      mm.int().__type,
+      mm.int().__mustGetType(),
     );
   }
 

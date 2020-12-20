@@ -10,7 +10,7 @@ const insertedIDVar = 'insertedID';
 
 export default abstract class ContentBaseTA extends mm.TableActions {
   // SELECT actions.
-  selectItemByID: mm.SelectAction;
+  selectItemByID: mm.Action;
   selectItemForEditing: mm.SelectAction;
   // Optional actions.
   selectItemsForUserProfile: mm.Action;
@@ -53,23 +53,25 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     const { dateColumns } = this;
 
     this.updateConditions = defaultUpdateConditions(t);
-    this.selectItemByID = mm.select(...this.getFullColumns()).by(t.id);
+    this.selectItemByID = mm.selectRow(...this.getFullColumns()).by(t.id);
 
     const profileCols = this.getProfileColumns();
     this.selectItemsForUserProfile = profileCols.length
       ? mm
-          .selectPage(idCol, ...dateColumns, ...profileCols)
+          .selectRows(idCol, ...dateColumns, ...profileCols)
+          .pageMode()
           .by(t.user_id)
           .orderByDesc(t.created_at)
       : mm.emptyAction;
     this.selectItemForEditing = mm
-      .select(idCol, ...this.getEditingColumns())
+      .selectRow(idCol, ...this.getEditingColumns())
       .whereSQL(this.updateConditions);
 
     const dashboardCols = this.getDashboardColumns();
     this.selectItemsForDashboard = dashboardCols.length
       ? mm
-          .selectPage(idCol, ...dateColumns, ...dashboardCols)
+          .selectRows(idCol, ...dateColumns, ...dashboardCols)
+          .pageMode()
           .by(t.user_id)
           .orderByInput(...this.getDashboardOrderByColumns())
       : mm.emptyAction;
