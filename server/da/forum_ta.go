@@ -91,7 +91,7 @@ func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (*F
 }
 
 // SelectForumIDsForGroup ...
-func (da *TableTypeForum) SelectForumIDsForGroup(queryable mingru.Queryable, groupID *uint64) ([]uint64, error) {
+func (da *TableTypeForum) SelectForumIDsForGroup(queryable mingru.Queryable, groupID uint64) ([]uint64, error) {
 	rows, err := queryable.Query("SELECT `id` FROM `forum` WHERE `group_id` = ?", groupID)
 	if err != nil {
 		return nil, err

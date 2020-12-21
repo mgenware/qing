@@ -20,38 +20,38 @@ var ForumMod = &TableTypeForumMod{}
 
 // ------------ Actions ------------
 
-// AddMod ...
-func (da *TableTypeForumMod) AddMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
+// DeleteMod ...
+func (da *TableTypeForumMod) DeleteMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
+	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `object_id` = ? AND `user_id` = ?", objectID, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+// DeleteUserFromForumMods ...
+func (da *TableTypeForumMod) DeleteUserFromForumMods(queryable mingru.Queryable, userID uint64, forumIDs []uint64) (int, error) {
+	if len(forumIDs) == 0 {
+		return 0, fmt.Errorf("The array argument `forumIDs` cannot be empty")
+	}
+	var queryParams []interface{}
+	queryParams = append(queryParams, userID)
+	for _, item := range forumIDs {
+		queryParams = append(queryParams, item)
+	}
+	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `user_id` = ? AND `object_id` IN "+mingru.InputPlaceholders(len(forumIDs)), queryParams...)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+// InsertMod ...
+func (da *TableTypeForumMod) InsertMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `forum_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
 }
 
-// ClearUser ...
-func (da *TableTypeForumMod) ClearUser(queryable mingru.Queryable, userID uint64, ids []uint64) (int, error) {
-	if len(ids) == 0 {
-		return 0, fmt.Errorf("The array argument `ids` cannot be empty")
-	}
-	var queryParams []interface{}
-	queryParams = append(queryParams, userID)
-	for _, item := range ids {
-		queryParams = append(queryParams, item)
-	}
-	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `user_id` = ? AND `object_id` IN "+mingru.InputPlaceholders(len(ids)), queryParams...)
-	return mingru.GetRowsAffectedIntWithError(result, err)
-}
-
-// IsMod ...
-func (da *TableTypeForumMod) IsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
+// SelectIsMod ...
+func (da *TableTypeForumMod) SelectIsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_mod` WHERE `object_id` = ? AND `user_id` = ?)", objectID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}
 	return result, nil
-}
-
-// RemoveMod ...
-func (da *TableTypeForumMod) RemoveMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `object_id` = ? AND `user_id` = ?", objectID, userID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
 }

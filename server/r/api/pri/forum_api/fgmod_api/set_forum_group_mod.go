@@ -15,6 +15,7 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := app.ContextUserID(r)
 	groupID := appcom.ContextForumGroupID(r.Context())
 	db := app.DB
+	var err error
 
 	if groupID == 0 {
 		panic("Unexpected empty group ID in setForumGroupMod")
@@ -32,11 +33,15 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// of this group is cleared.
 		forumIDs, err := da.Forum.SelectForumIDsForGroup(db, groupID)
 		app.PanicIfErr(err)
-	}
-	err := da.User.UnsafeUpdateAdmin(app.DB, targetUserID, value == 1)
 
-	if err != nil {
-		panic(err)
+		_, err = da.ForumMod.DeleteUserFromForumMods(db, targetUserID, forumIDs)
+		app.PanicIfErr(err)
+
+		err = da.ForumGroupMod.InsertMod(db, groupID, targetUserID)
+		app.PanicIfErr(err)
+	} else {
+		err = da.ForumGroupMod.DeleteMod(db, groupID, targetUserID)
+		app.PanicIfErr(err)
 	}
 	return resp.MustComplete(nil)
 }

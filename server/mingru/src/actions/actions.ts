@@ -14,10 +14,9 @@ import questionTA from './qna/questionTA';
 import answerTA from './qna/answerTA';
 import forumGroupTA from './forum/forumGroupTA';
 import forumTA from './forum/forumTA';
-import { createForumModTA } from './forum/forumModTAFactory';
-import forumMod from '../models/forum/forumMod';
-import forumGroupMod from '../models/forum/forumGroupMod';
 import forumIsUserModTA from './forum/forumIsUserModTA';
+import forumGroupModTA from './forum/forumGroupModTA';
+import forumModTA from './forum/forumModTA';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -35,8 +34,8 @@ const actions: mm.TableActions[] = [
   answerTA,
   forumTA,
   forumGroupTA,
-  createForumModTA(forumMod),
-  createForumModTA(forumGroupMod),
+  forumModTA,
+  forumGroupModTA,
   forumIsUserModTA,
 ];
 

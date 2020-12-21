@@ -16,11 +16,11 @@ const (
 )
 
 func hasPermOnForumGroup(groupID, uid uint64) (bool, error) {
-	return da.ForumGroupMod.IsMod(app.DB, groupID, uid)
+	return da.ForumGroupMod.SelectIsMod(app.DB, groupID, uid)
 }
 
 func hasPermOnForum(forumID, uid uint64) (bool, error) {
-	return da.ForumMod.IsMod(app.DB, forumID, uid)
+	return da.ForumMod.SelectIsMod(app.DB, forumID, uid)
 }
 
 func getForumGroupPermLevelCore(groupID, uid uint64) (int, error) {
@@ -75,7 +75,7 @@ func GetRequestForumPermLevel(r *http.Request, forumID uint64) (int, error) {
 		}
 	}
 
-	hasForumPerm, err := da.ForumMod.IsMod(app.DB, forumID, uid)
+	hasForumPerm, err := da.ForumMod.SelectIsMod(app.DB, forumID, uid)
 	if err != nil {
 		return 0, err
 	}
