@@ -195,9 +195,7 @@ export class ComposerView extends BaseElement {
       await app.alert.error(err.message);
       if (err instanceof ValidationError) {
         const verr = err as ValidationError;
-        if (verr.callback) {
-          verr.callback();
-        }
+        verr.callback();
       }
     }
   }

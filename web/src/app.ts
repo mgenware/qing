@@ -36,7 +36,7 @@ class APP {
 
   get devMode(): boolean {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return !!(window as any).__qing_dev__;
+    return (window as any).__qing_dev__;
   }
 
   async runLocalActionAsync<T>(

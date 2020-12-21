@@ -83,10 +83,10 @@ export class AvatarUploader extends BaseElement {
 
   private hookFileUploadEvents(domFile: HTMLInputElement) {
     domFile.addEventListener('change', async () => {
-      if (domFile.files && domFile.files[0]) {
+      if (domFile.files && domFile.files[0] !== undefined) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          if (e.target && e.target.result) {
+          if (e.target && e.target.result !== null) {
             this.imageDataURL = e.target.result as string;
             this.modalElement.isOpen = true;
           }

@@ -1,5 +1,6 @@
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
+import { html } from 'lit-element';
 import 'ui/status/spinnerView';
 import 'qing-dialog-component';
 import {
@@ -9,7 +10,7 @@ import {
   iconElement,
   IconType,
 } from 'qing-dialog-component';
-import { html } from 'lit-element';
+
 const dialogContainerID = '__global_dialog_container';
 const spinnerContainerID = '__global_spinner_container';
 
@@ -107,7 +108,7 @@ export default class AlertModule {
         ${args.message ? html`<div>${args.message}</div>` : ''}
       </qing-dialog>`;
 
-      const element = renderTemplateResult(dialogContainerID, template) as QingDialog;
+      const element = renderTemplateResult<QingDialog>(dialogContainerID, template);
       if (!element) {
         reject(new Error('Unexpected empty modal element'));
         return;

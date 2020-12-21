@@ -32,7 +32,7 @@ export class ProfileIDView extends BaseElement {
   }
 
   private async handleCopyClick() {
-    if (!navigator.clipboard || !this.value) {
+    if (!this.value) {
       return;
     }
     try {

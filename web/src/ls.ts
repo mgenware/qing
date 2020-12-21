@@ -2,12 +2,11 @@
 import fmt from 'bowhead-js';
 import LSDefs from 'lsDefs';
 
-const wind = window as any;
-// eslint-disable-next-line prefer-destructuring
-export const ls: LSDefs = wind.ls;
-if (!ls) {
+const windLS = (window as any).ls as LSDefs | undefined;
+if (!windLS) {
   throw new Error('Localization file is not loaded');
 }
+export const ls = windLS;
 
 export function formatLS(str: string, ...data: any[]): string {
   return fmt(str, ...data);

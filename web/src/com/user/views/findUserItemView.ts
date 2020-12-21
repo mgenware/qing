@@ -17,7 +17,7 @@ export class FindUserItemView extends BaseElement {
     return html`
       <div class="m-t-md row">
         <div class="col-auto">
-          <a href=${user?.url}>
+          <a href=${user?.url ?? ''}>
             <img src="{{.UserIconURL}}" class="avatar-m" width="50" height="50" />
           </a>
         </div>

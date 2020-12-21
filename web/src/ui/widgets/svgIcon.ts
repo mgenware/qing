@@ -4,7 +4,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import { resizeSVGHTML } from 'lib/htmlLib';
-import { AppViewStyleNullable } from './types/appViewStyle';
+import { AppViewStyleNullable } from '../types/appViewStyle';
 
 @customElement('svg-icon')
 export class SvgIcon extends BaseElement {

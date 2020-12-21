@@ -152,8 +152,8 @@ export class UserSelectorApp extends BaseElement {
     }
     document.addEventListener(
       'click touchend',
-      (e) => {
-        console.log('Touch end target', e.target);
+      (_) => {
+        // TODO: Dismiss popover.
       },
       { once: true },
     );

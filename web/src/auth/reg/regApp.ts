@@ -90,7 +90,7 @@ export class RegApp extends BaseElement {
     }
     const loader = new CreateNewUserLoader(this.name, this.email, this.password);
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
-    if (status.data) {
+    if (status.isSuccess) {
       this.isCompletionModalOpen = true;
     }
   }

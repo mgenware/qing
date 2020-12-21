@@ -110,7 +110,7 @@ export class SelectionView extends BaseElement {
       <label>
         <input
           type="checkbox"
-          .checked=${item.checked}
+          .checked=${!!item.checked}
           name=${name}
           @change=${(e: Event) => this.handleOnChange(e, item, index)}
         />
@@ -126,7 +126,7 @@ export class SelectionView extends BaseElement {
       <label>
         <input
           type="radio"
-          .checked=${item.checked}
+          .checked=${!!item.checked}
           name=${name}
           @change=${(e: Event) => this.handleOnChange(e, item, index)}
         />

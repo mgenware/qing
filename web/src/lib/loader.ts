@@ -60,7 +60,7 @@ export default class Loader<T> {
       if (err instanceof ErrorWithCode) {
         errWithCode = err;
       } else {
-        errWithCode = new ErrorWithCode(err.message || ls.internalErr, errGeneric);
+        errWithCode = new ErrorWithCode(err.message ?? ls.internalErr, errGeneric);
       }
 
       errWithCode.message = `${errWithCode.message} [${ls.request}: "${this.requestURL()}"]`;
@@ -87,7 +87,7 @@ export default class Loader<T> {
   fetchParams(): RequestInit {
     let body = '';
     const params = this.requestParams();
-    if (params) {
+    if (params !== undefined) {
       body = JSON.stringify(params);
     }
     return {
