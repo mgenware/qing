@@ -51,7 +51,7 @@ export function renderTemplateResult<T extends HTMLElement>(
   containerElement.appendChild(div);
   render(template ?? html``, div);
   // Template is render under the div element.
-  return div.firstElementChild as HTMLElement | null;
+  return div.firstElementChild as T | null;
 }
 
 export function listenForVisibilityChange(

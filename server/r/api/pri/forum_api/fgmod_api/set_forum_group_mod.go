@@ -30,7 +30,7 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if value == 1 {
 		// When a user becomes a forum group mod, all its sub-forums mod status
 		// of this group is cleared.
-		forumIDs, err := da.Forum.SelectGroupForumIDs(db, groupID)
+		forumIDs, err := da.Forum.SelectForumIDsForGroup(db, groupID)
 		app.PanicIfErr(err)
 	}
 	err := da.User.UnsafeUpdateAdmin(app.DB, targetUserID, value == 1)

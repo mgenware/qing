@@ -19,10 +19,10 @@ export class TimeField extends BaseElement {
     if (content) {
       const parts = content.split('|');
       if (parts.length > 0) {
-        this.createdAt = parts[0];
+        this.createdAt = parts[0] ?? '';
       }
       if (parts.length > 1) {
-        this.modifiedAt = parts[1];
+        this.modifiedAt = parts[1] ?? '';
       }
     }
   }

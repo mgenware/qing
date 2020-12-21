@@ -90,42 +90,27 @@ func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (*F
 	return result, nil
 }
 
-// SelectGroupForumIDs ...
-func (da *TableTypeForum) SelectGroupForumIDs(queryable mingru.Queryable, groupID *uint64, page int, pageSize int) ([]uint64, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := queryable.Query("SELECT `id` FROM `forum` WHERE `group_id` = ? LIMIT ? OFFSET ?", groupID, limit, offset)
+// SelectForumIDsForGroup ...
+func (da *TableTypeForum) SelectForumIDsForGroup(queryable mingru.Queryable, groupID *uint64) ([]uint64, error) {
+	rows, err := queryable.Query("SELECT `id` FROM `forum` WHERE `group_id` = ?", groupID)
 	if err != nil {
-		return nil, false, err
+		return nil, err
 	}
-	result := make([]uint64, 0, limit)
-	itemCounter := 0
+	result := make([]uint64, 0)
 	defer rows.Close()
 	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item uint64
-			err = rows.Scan(&item)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
+		var item uint64
+		err = rows.Scan(&item)
+		if err != nil {
+			return nil, err
 		}
+		result = append(result, item)
 	}
 	err = rows.Err()
 	if err != nil {
-		return nil, false, err
+		return nil, err
 	}
-	return result, itemCounter > len(result), nil
+	return result, nil
 }
 
 // SelectGroupID ...

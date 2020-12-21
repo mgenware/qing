@@ -27,16 +27,16 @@ func (da *TableTypeForumGroupMod) AddMod(queryable mingru.Queryable, objectID ui
 }
 
 // ClearUser ...
-func (da *TableTypeForumGroupMod) ClearUser(queryable mingru.Queryable, userID uint64, objectID []uint64) (int, error) {
-	if len(objectID) == 0 {
-		return 0, fmt.Errorf("The array argument `objectID` cannot be empty")
+func (da *TableTypeForumGroupMod) ClearUser(queryable mingru.Queryable, userID uint64, ids []uint64) (int, error) {
+	if len(ids) == 0 {
+		return 0, fmt.Errorf("The array argument `ids` cannot be empty")
 	}
 	var queryParams []interface{}
 	queryParams = append(queryParams, userID)
-	for _, item := range objectID {
+	for _, item := range ids {
 		queryParams = append(queryParams, item)
 	}
-	result, err := queryable.Exec("DELETE FROM `forum_group_mod` WHERE `user_id` = ? AND `object_id` IN ("+mingru.InputPlaceholders(len(undefined))+")", queryParams...)
+	result, err := queryable.Exec("DELETE FROM `forum_group_mod` WHERE `user_id` = ? AND `object_id` IN "+mingru.InputPlaceholders(len(ids)), queryParams...)
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 

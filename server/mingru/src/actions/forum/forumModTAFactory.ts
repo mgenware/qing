@@ -13,7 +13,7 @@ export function createForumModTA(t: ForumModBase): mm.TableActions {
 
     clearUser: mm
       .deleteSome()
-      .whereSQL(mm.and(t.user_id.isEqualToInput(), t.object_id.isInArrayInput())),
+      .whereSQL(mm.and(t.user_id.isEqualToInput(), t.object_id.isInArrayInput('ids'))),
   };
   return mm.tableActionsCore(t, null, actions, undefined);
 }
