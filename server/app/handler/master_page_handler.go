@@ -22,6 +22,14 @@ import (
 	"github.com/mgenware/go-packagex/v5/templatex"
 )
 
+var appLangToHTMLLang map[string]string
+
+func init() {
+	appLangToHTMLLang = map[string]string{
+		"cs": "zh-Hans",
+	}
+}
+
 // MasterPageManager is used to generate site master HTML page.
 type MasterPageManager struct {
 	dir    string
@@ -30,8 +38,8 @@ type MasterPageManager struct {
 	reloadViewsOnRefresh bool
 	log404Error          bool
 
-	masterView          *LocalizedView
-	errorView           *LocalizedView
+	masterView          *templatex.View
+	errorView           *templatex.View
 	LocalizationManager *localization.Manager
 	AssetsManager       *assetmgr.AssetsManager
 	logger              *logx.Logger
@@ -68,9 +76,9 @@ func MustCreateMasterPageManager(
 	}
 
 	// Load the master template
-	t.masterView = t.MustParseLocalizedView("master.html")
+	t.masterView = t.MustParseView("master.html")
 	// Load the error template
-	t.errorView = t.MustParseLocalizedView("error.html")
+	t.errorView = t.MustParseView("error.html")
 
 	return t
 }
@@ -105,6 +113,11 @@ func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *Master
 	d.Header = css.Vendor + css.Main + d.Header
 	d.AppLang = lang
 	d.AppForumsMode = m.config.Setup.ForumsMode
+	htmlLang := appLangToHTMLLang[lang]
+	if htmlLang == "" {
+		htmlLang = lang
+	}
+	d.AppHTMLLang = htmlLang
 
 	script := ""
 	// Language file, this should be loaded first as the main.js relies on it.
@@ -148,7 +161,7 @@ func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *Master
 		d.AppUserAdmin = user.Admin
 	}
 
-	m.masterView.MustExecute(lang, w, d)
+	m.masterView.MustExecute(w, d)
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
@@ -172,7 +185,7 @@ func (m *MasterPageManager) MustError(r *http.Request, lang string, err error, e
 			m.logger.Error("fatal-error", "msg", d.Message)
 		}
 	}
-	errorHTML := m.errorView.MustExecuteToString(lang, d)
+	errorHTML := m.errorView.MustExecuteToString(d)
 	htmlData := NewMasterPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	m.MustComplete(r, lang, htmlData, w)
 	return HTML(0)

@@ -2,8 +2,6 @@ package handler
 
 // MasterPageData holds the data needed in main page template.
 type MasterPageData struct {
-	LocalizedTemplateData
-
 	Title       string
 	ContentHTML string
 	Header      string
@@ -16,7 +14,9 @@ type MasterPageData struct {
 	AppUserIconURL string
 	AppUserAdmin   bool
 	AppLang        string
-	AppForumsMode  bool
+	// HTML-complaint version of `AppLang`.
+	AppHTMLLang   string
+	AppForumsMode bool
 }
 
 // NewMasterPageData creates a new MasterPageData.

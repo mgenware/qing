@@ -74,7 +74,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTML = "<no-content-view></no-content-view>"
 	}
 	profileModel := NewProfilePageModelFromUser(user, stats, feedListHTML, rcom.GetPageBarHTML(pageData))
-	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(resp.Lang(), profileModel))
+	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)
 }

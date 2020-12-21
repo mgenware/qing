@@ -3,18 +3,16 @@ package profilep
 import (
 	"qing/app"
 	"qing/app/defs"
-	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 )
 
-var vProfilePage = app.MasterPageManager.MustParseLocalizedView("/profile/profilePage.html")
+var vProfilePage = app.MasterPageManager.MustParseView("/profile/profilePage.html")
 var vProfileFeedItem = app.MasterPageManager.MustParseView("/profile/feedItem.html")
 
 // ProfilePageModel ...
 type ProfilePageModel struct {
 	da.UserTableSelectProfileResult
-	handler.LocalizedTemplateData
 
 	EID             string
 	UserURL         string

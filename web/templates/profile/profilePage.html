@@ -15,24 +15,24 @@
       <div class="m-t-lg m-b-lg">
         {{if .Location}}
         <p class="m-t-md">
-          <tag-view>{{html .LS.Location}}</tag-view>
+          <tag-view class="__qing_ls__">location</tag-view>
         </p>
         <p class="m-t-sm">{{html .Location}}</p>
         {{end}} {{if .Company}}
         <p class="m-t-md">
-          <tag-view>{{html .LS.Company}}</tag-view>
+          <tag-view class="__qing_ls__">company</tag-view>
         </p>
         <p class="m-t-sm">{{html .Company}}</p>
         {{end}} {{if .Website}}
         <p class="m-t-md">
-          <tag-view>{{html .LS.Url}}</tag-view>
+          <tag-view class="__qing_ls__">url</tag-view>
         </p>
         <p class="m-t-sm">
           <a id="m-profile-url" href="#">{{html .Website}}</a>
         </p>
         {{end}} {{if .Bio}}
         <p class="m-t-md">
-          <tag-view">{{html .LS.Bio}}</tag-view>
+          <tag-view" class="__qing_ls__">bio</tag-view>
         </p>
         <p class="m-t-sm">{{.Bio}}</p>
         {{end}}
@@ -51,10 +51,10 @@
       <div id="m-scroll-list"></div>
       <tab-view>
         <a id="m-profile-tab-posts" href="{{.ProfilePostsURL}}"
-          >{{html .LS.Posts}} {{if .PostCount}}({{.PostCount}}){{end}}</a
+          ><span class="__qing_ls__">posts</span> {{if .PostCount}}({{.PostCount}}){{end}}</a
         >
         <a id="m-profile-tab-discussions" href="{{.ProfileDiscussionsURL}}"
-          >{{html .LS.Discussions}} {{if .DiscussionCount}}({{.DiscussionCount}}){{end}}</a
+          ><span class="__qing_ls__">discussions</span> {{if .DiscussionCount}}({{.DiscussionCount}}){{end}}</a
         >
       </tab-view>
       <div class="m-t-sm">{{.FeedListHTML}}</div>

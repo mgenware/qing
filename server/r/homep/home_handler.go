@@ -51,7 +51,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-		d := app.MasterPageData("", vStdPage.MustExecuteToString(resp.Lang(), pageModel))
+		d := app.MasterPageData("", vStdPage.MustExecuteToString(pageModel))
 		d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeStd
 		return resp.MustComplete(d)
 	}

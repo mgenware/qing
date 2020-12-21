@@ -3,16 +3,13 @@ package homep
 import (
 	"qing/app"
 	"qing/app/defs"
-	"qing/app/handler"
 	"qing/r/rcom"
 )
 
-var vStdPage = app.MasterPageManager.MustParseLocalizedView("/home/stdPage.html")
+var vStdPage = app.MasterPageManager.MustParseView("/home/stdPage.html")
 
 // StdPageModel ...
 type StdPageModel struct {
-	handler.LocalizedTemplateData
-
 	FeedListHTML string
 	PageBarHTML  string
 	PageData     *rcom.PageData
