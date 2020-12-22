@@ -16,12 +16,13 @@ type ForumPageModel struct {
 	ForumQuestionsURL   string
 	ForumDiscussionsURL string
 
-	FeedListHTML string
-	PageBarHTML  string
+	FeedListHTML  string
+	PageBarHTML   string
+	ForumEditable bool
 }
 
 // NewForumPageModel creates a ForumPageModel.
-func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarHTML string) *ForumPageModel {
+func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarHTML string, editable bool) *ForumPageModel {
 	d := &ForumPageModel{ForumTableSelectForumResult: *f}
 
 	fid := f.ID
@@ -30,5 +31,6 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 	d.ForumDiscussionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyDiscussions, 1)
 	d.FeedListHTML = feedListHTML
 	d.PageBarHTML = pageBarHTML
+	d.ForumEditable = editable
 	return d
 }

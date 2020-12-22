@@ -15,6 +15,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		params := appcom.ContextDict(ctx)
+		sUser := appcom.ContextUser(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
 		forumID := validator.GetIDFromDict(params, "forumID")
@@ -23,7 +24,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		perm, err := modutil.GetRequestForumPermLevel(r, forumID)
+		perm, err := modutil.GetRequestForumPermLevel(sUser, forumID)
 		if err != nil {
 			resp.MustFailWithUserError(err.Error())
 			return

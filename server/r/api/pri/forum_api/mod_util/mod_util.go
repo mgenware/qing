@@ -1,8 +1,8 @@
 package modutil
 
 import (
-	"net/http"
 	"qing/app"
+	"qing/app/appcom"
 	"qing/da"
 )
 
@@ -37,8 +37,7 @@ func getForumGroupPermLevelCore(groupID, uid uint64) (int, error) {
 // GetRequestForumGroupPermLevel returns the forum group permission level
 // associated with the specified user.
 // It returns 0 if the user doesn't have any permission attached.
-func GetRequestForumGroupPermLevel(r *http.Request, groupID uint64) (int, error) {
-	sUser := app.ContextUser(r)
+func GetRequestForumGroupPermLevel(sUser *appcom.SessionUser, groupID uint64) (int, error) {
 	if sUser == nil {
 		return 0, nil
 	}
@@ -52,8 +51,7 @@ func GetRequestForumGroupPermLevel(r *http.Request, groupID uint64) (int, error)
 // GetRequestForumPermLevel returns the forum permission level
 // associated with the specified user.
 // It returns 0 if the user doesn't have any permission attached.
-func GetRequestForumPermLevel(r *http.Request, forumID uint64) (int, error) {
-	sUser := app.ContextUser(r)
+func GetRequestForumPermLevel(sUser *appcom.SessionUser, forumID uint64) (int, error) {
 	if sUser == nil {
 		return 0, nil
 	}

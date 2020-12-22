@@ -9,7 +9,7 @@ type SessionUser struct {
 	IconName   string `json:"icon,omitempty"`
 	Admin      bool   `json:"admin,omitempty"`
 	Status     string `json:"status,omitempty"`
-	IsForumMod string `json:"is_mod,omitempty"`
+	IsForumMod bool   `json:"is_mod,omitempty"`
 
 	// Generated props when deserialized
 	URL     string `json:"-"`

@@ -15,6 +15,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		params := appcom.ContextDict(ctx)
+		sUser := appcom.ContextUser(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
 		groupID := validator.GetIDFromDict(params, "forumGroupID")
@@ -23,7 +24,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		perm, err := modutil.GetRequestForumGroupPermLevel(r, groupID)
+		perm, err := modutil.GetRequestForumGroupPermLevel(sUser, groupID)
 		if err != nil {
 			resp.MustFailWithUserError(err.Error())
 			return

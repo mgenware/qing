@@ -1,4 +1,6 @@
 <container-view>
+  <heading-view>{{.Name}}</heading-view>
+  <div>{{.DescHTML}}</div>
   <tab-view>
     <a id="m-forum-tab-threads" href="{{.ForumURL}}" class="__qing_ls__">allThreads</a>
     <a id="m-forum-tab-questions" href="{{.ForumQuestionsURL}}" class="__qing_ls__">questions</a>
@@ -10,3 +12,7 @@
   <div class="m-t-sm">{{.FeedListHTML}}</div>
   {{.PageBarHTML}}
 </container-view>
+
+<script>
+  window.appForumEditable = '{{.ForumEditable}}' === 'true';
+</script>
