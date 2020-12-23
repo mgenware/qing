@@ -135,6 +135,10 @@ export class ElementsDev extends BaseElement {
         <div>Section content</div>
       </section-view>
       <heading-view>Heading view</heading-view>
+      <heading-view>
+        <span>Heading with decorator view</span>
+        <qing-button slot="decorator" class="small">Button</qing-button>
+      </heading-view>
       <h2>Highlight color</h2>
       <div class="highlighted">Highlight color</div>
       <h1>Views</h1>

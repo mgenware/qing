@@ -26,7 +26,12 @@ export class HeadingView extends BaseElement {
   }
 
   render() {
-    return html` <h2><slot></slot></h2> `;
+    return html` <div class="row">
+      <div class="col">
+        <h2><slot></slot></h2>
+      </div>
+      <div class="col-md-auto align-self-center"><slot name="decorator"></slot></div>
+    </div>`;
   }
 }
 
