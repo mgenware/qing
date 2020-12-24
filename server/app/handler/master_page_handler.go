@@ -193,7 +193,11 @@ func (m *MasterPageManager) MustError(r *http.Request, lang string, err error, e
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *MasterPageManager) PageTitle(lang, s string) string {
-	return s + " - " + m.LocalizationManager.Dictionary(lang).SiteName
+	siteName := m.LocalizationManager.Dictionary(lang).SiteName
+	if s != "" {
+		return s + " - " + siteName
+	}
+	return siteName
 }
 
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.
