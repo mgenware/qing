@@ -19,6 +19,8 @@ type ForumPageModel struct {
 	FeedListHTML  string
 	PageBarHTML   string
 	ForumEditable bool
+	// "" If `ForumEditable` is false.
+	ForumSettingsURL string
 }
 
 // NewForumPageModel creates a ForumPageModel.
@@ -32,5 +34,6 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 	d.FeedListHTML = feedListHTML
 	d.PageBarHTML = pageBarHTML
 	d.ForumEditable = editable
+	d.ForumSettingsURL = app.URL.ForumSettings(fid)
 	return d
 }

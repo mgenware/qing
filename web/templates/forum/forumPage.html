@@ -1,5 +1,9 @@
 <container-view>
-  <heading-view>{{.Name}}</heading-view>
+  <heading-view
+    >{{.Name}} {{if .ForumEditable}}
+    <span><qing-button href="{{.ForumSettingsURL}}"></qing-button></span>
+    {{end}}
+  </heading-view>
   <div>{{.DescHTML}}</div>
   <tab-view>
     <a id="m-forum-tab-threads" href="{{.ForumURL}}" class="__qing_ls__">allThreads</a>

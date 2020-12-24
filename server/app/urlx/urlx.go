@@ -137,6 +137,10 @@ func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
 	return s
 }
 
+func (u *URL) ForumSettings(fid uint64) string {
+	return "/" + defs.Shared.RouteForum + "/" + validator.EncodeID(fid) + "/settings"
+}
+
 func (u *URL) ForumGroup(id uint64) string {
 	return "/" + defs.Shared.RouteForumGroup + "/" + validator.EncodeID(id)
 }
