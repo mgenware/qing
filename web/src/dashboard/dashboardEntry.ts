@@ -11,11 +11,15 @@ import './mp/myDiscussionsApp';
 import { entityPost, entityQuestion, entityDiscussion } from 'sharedConstants';
 import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
+import { SettingsPages } from './settings/settingsBaseView';
 
 const dashboardRouter = new MiniURLRouter();
 
-function loadSettingsContent(title: string, content: TemplateResult) {
-  app.page.reloadPageContent(title, html`<settings-base-view>${content}</settings-base-view>`);
+function loadSettingsContent(selectedPage: SettingsPages, title: string, content: TemplateResult) {
+  app.page.reloadPageContent(
+    title,
+    html`<settings-base-view .selectedPage=${selectedPage}>${content}</settings-base-view>`,
+  );
 }
 
 function loadNewPostContent(entityType: number) {
@@ -64,10 +68,18 @@ dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
   app.page.reloadPageContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
 });
 dashboardRouter.register(rs.home.settings.profile, () => {
-  loadSettingsContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
+  loadSettingsContent(
+    SettingsPages.profile,
+    ls.editProfile,
+    html` <edit-profile-app></edit-profile-app> `,
+  );
 });
 dashboardRouter.register(rs.home.settings.usersAndGroups, () => {
-  loadSettingsContent(ls.editProfile, html` <user-mgr-app></user-mgr-app> `);
+  loadSettingsContent(
+    SettingsPages.userAndGroups,
+    ls.usersAndGroups,
+    html` <user-mgr-app></user-mgr-app> `,
+  );
 });
 dashboardRouter.register(rs.home.yourPosts, () => {
   app.page.reloadPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);

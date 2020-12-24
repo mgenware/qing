@@ -19,10 +19,14 @@ export class TabView extends BaseElement {
         }
 
         ::slotted(a) {
+          color: var(--app-default-primary-fore-color);
           display: inline-block;
           font-size: 1.2rem;
           transition: 0.4s;
           padding: 0.8rem 1rem;
+        }
+        ::slotted(a:visited) {
+          color: var(--app-default-primary-fore-color);
         }
 
         ::slotted(a:hover) {

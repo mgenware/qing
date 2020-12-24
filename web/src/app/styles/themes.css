@@ -40,6 +40,9 @@
   --app-surface-radius-md: 6px;
   /* Radius for smaller components like inputs. */
   --app-surface-radius-sm: 4px;
+
+  --app-heading-indicator-width-md: 6px;
+  --app-heading-indicator-width-sm: 3px;
 }
 
 /* Dark theme ------------------------- */

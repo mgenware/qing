@@ -1428,10 +1428,10 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fx214@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/fx214/-/fx214-1.1.0.tgz#92348b985cd8cac4014aeb5c495251a561c4c0ac"
-  integrity sha512-4Ndec30dtVt/JYXiYAtx1jtG6owCeoKiLgCbR20N7eU9FkZhYpqUtvdD/5DVK01DITaEQW9kUUHfsvbxFf3NuA==
+fx214@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/fx214/-/fx214-1.2.0.tgz#3752eef2c2e740b8b4b4181a25a7104f22a52065"
+  integrity sha512-rsAScIjsKmPpzC7/pm19IJdClmTLIYQUjiCmKVLGC7aHfl+wcHnyUnE85qDRWp35rUzC2AIDmRDMCFMmICmiHQ==
 
 get-caller-file@^2.0.1:
   version "2.0.5"

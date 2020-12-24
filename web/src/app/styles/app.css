@@ -10,7 +10,7 @@
 a {
   overflow-wrap: break-word;
   word-break: break-all;
-  color: var(--app-primary-back-color);
+  color: var(--app-default-primary-fore-color);
   text-decoration: none;
   cursor: hand;
 }
@@ -25,9 +25,9 @@ a:visited {
 }
 
 /* Link button, used in profile page ------------------------- */
-a.link-btn:link,
+a.link-btn,
 a.link-btn:visited {
-  color: var(--app-primary-back-color);
+  color: var(--app-default-primary-fore-color);
   padding: 12px 20px;
   text-align: center;
   text-decoration: none;

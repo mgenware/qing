@@ -71,4 +71,11 @@ export default buildTree({
       main: 'main',
     },
   },
+  // Forums.
+  f: {
+    id: {
+      __content__: '{0}',
+      settings: 'settings',
+    },
+  },
 });
