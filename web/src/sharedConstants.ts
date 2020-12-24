@@ -49,5 +49,6 @@ export const keyPageSize = "pageSize";
 export const keyTab = "tab";
 export const keyValue = "value";
 export const keyQuestions = "questions";
+export const keyForumSettings = "forumSettings";
 export const forumStatusOpen = 0;
 export const forumStatusArchived = 1;

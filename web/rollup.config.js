@@ -43,6 +43,7 @@ const input = [
   'home/homeStdEntry.ts',
   'home/homeFrmEntry.ts',
   'forum/forumEntry.ts',
+  'forum/forumSettingsEntry.ts',
 ];
 if (!isProd) {
   input.push('devPage/devPageEntry.ts');

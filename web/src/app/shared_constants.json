@@ -43,6 +43,7 @@
   "keyTab": "tab",
   "keyValue": "value",
   "keyQuestions": "questions",
+  "keyForumSettings": "forumSettings",
   "forumStatusOpen": 0,
   "forumStatusArchived": 1
 }

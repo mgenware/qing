@@ -33,6 +33,7 @@ type SharedConstantsType struct {
 	ForumStatusOpen int
 	KeyAnswers string
 	KeyDiscussions string
+	KeyForumSettings string
 	KeyPage string
 	KeyPageSize string
 	KeyPosts string
@@ -86,6 +87,7 @@ func init() {
 		ForumStatusOpen: 0,
 		KeyAnswers: "answers",
 		KeyDiscussions: "discussions",
+		KeyForumSettings: "forumSettings",
 		KeyPage: "page",
 		KeyPageSize: "pageSize",
 		KeyPosts: "posts",

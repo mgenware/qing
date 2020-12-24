@@ -17,6 +17,7 @@ type MasterPageData struct {
 	// HTML-complaint version of `AppLang`.
 	AppHTMLLang   string
 	AppForumsMode bool
+	AppPageName   string
 }
 
 // NewMasterPageData creates a new MasterPageData.

@@ -81,7 +81,7 @@ func Start() {
 	// Dashboard router.
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteDashboard, dashboardp.Router)
 	// Forum router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteForum+"/{fid}", handler.HTMLHandlerToHTTPHandler(forump.GetForum))
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteForum, forump.Router)
 	// Auth router.
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteAuth, authp.Router)
 	// API router.

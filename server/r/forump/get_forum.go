@@ -17,8 +17,7 @@ import (
 
 const defaultPageSize = 10
 
-// GetForum is the HTTP handler for forums.
-func GetForum(w http.ResponseWriter, r *http.Request) handler.HTML {
+func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 	db := app.DB
 	var err error
