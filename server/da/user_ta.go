@@ -137,17 +137,18 @@ func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*
 
 // UserTableSelectSessionDataResult ...
 type UserTableSelectSessionDataResult struct {
-	Admin    bool   `json:"admin,omitempty"`
-	IconName string `json:"-"`
-	ID       uint64 `json:"-"`
-	Name     string `json:"name,omitempty"`
-	Status   string `json:"status,omitempty"`
+	Admin      bool   `json:"admin,omitempty"`
+	IconName   string `json:"-"`
+	ID         uint64 `json:"-"`
+	IsForumMod uint64 `json:"isForumMod,omitempty"`
+	Name       string `json:"name,omitempty"`
+	Status     string `json:"status,omitempty"`
 }
 
 // SelectSessionData ...
 func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
 	result := &UserTableSelectSessionDataResult{}
-	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Admin)
+	err := queryable.QueryRow("SELECT `user`.`id` AS `id`, `user`.`name` AS `name`, `user`.`icon_name` AS `icon_name`, `user`.`status` AS `status`, `user`.`admin` AS `admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` INNER JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Admin, &result.IsForumMod)
 	if err != nil {
 		return nil, err
 	}

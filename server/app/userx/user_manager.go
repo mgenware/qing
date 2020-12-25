@@ -39,7 +39,7 @@ func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUs
 	if err != nil {
 		return nil, err
 	}
-	user := appu.SessionManager.NewUser(uid, u.Name, u.IconName, u.Admin, u.Status)
+	user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, u.IsForumMod)
 	return user, nil
 }
 

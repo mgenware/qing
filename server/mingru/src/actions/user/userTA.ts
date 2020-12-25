@@ -1,4 +1,5 @@
 import * as mm from 'mingru-models';
+import forumIsUserMod from '../../models/forum/forumIsUserMod';
 import t from '../../models/user/user';
 import userStats from '../../models/user/userStats';
 
@@ -8,7 +9,9 @@ const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr(), t.statu
 
 export class UserTA extends mm.TableActions {
   selectProfile = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
-  selectSessionData = mm.selectRow(...coreCols, t.admin).by(t.id);
+  selectSessionData = mm
+    .selectRow(...coreCols, t.admin, t.id.leftJoin(forumIsUserMod).id.as('is_forum_mod'))
+    .by(t.id);
   selectEditingData = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());

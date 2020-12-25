@@ -140,9 +140,9 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 	})
 }
 
-// NewUser creates a new session user based on required properties.
-func (sm *SessionManager) NewUser(id uint64, name string, iconName string, admin bool, status string) *appcom.SessionUser {
-	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, Status: status}
+// NewSessionUser creates a new SessionUser based on the required properties.
+func (sm *SessionManager) NewSessionUser(id uint64, name string, iconName string, admin bool, status string, isForumMod bool) *appcom.SessionUser {
+	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, Status: status, IsForumMod: isForumMod}
 	sm.computeUserFields(u)
 	return u
 }
