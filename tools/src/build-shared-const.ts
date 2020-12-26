@@ -1,7 +1,7 @@
 import { promises as fsPromises } from 'fs';
-import 'crash-on-errors';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
+import { serverPath, webPath } from './paths';
 
 async function buildJSONFileAsync(
   src: string,
@@ -31,9 +31,9 @@ async function buildJSONFileAsync(
 
 async function buildSharedConstantsAsync() {
   return buildJSONFileAsync(
-    '../web/src/app/shared_constants.json',
-    '../web/src/sharedConstants.ts',
-    '../server/app/defs/shared_constants.go',
+    webPath('/src/app/shared_constants.json'),
+    webPath('/src/sharedConstants.ts'),
+    serverPath('/app/defs/shared_constants.go'),
     'defs',
     'SharedConstantsType',
     'Shared',
@@ -42,9 +42,9 @@ async function buildSharedConstantsAsync() {
 
 async function buildDBConstantsAsync() {
   return buildJSONFileAsync(
-    '../server/mingru/src/constants.json',
-    '../web/src/dbConstants.ts',
-    '../server/app/defs/db_constants.go',
+    serverPath('/mingru/src/constants.json'),
+    webPath('/src/dbConstants.ts'),
+    serverPath('/app/defs/db_constants.go'),
     'defs',
     'DBConstantsType',
     'DB',
