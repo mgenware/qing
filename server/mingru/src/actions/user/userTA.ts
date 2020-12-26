@@ -6,11 +6,13 @@ import userStats from '../../models/user/userStats';
 export const addUserInsertedIDVar = 'insertedUserID';
 const findUserResult = 'FindUserResult';
 const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr(), t.status];
+const sessionCols = [...coreCols, t.admin];
 
 export class UserTA extends mm.TableActions {
   selectProfile = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
-  selectSessionData = mm
-    .selectRow(...coreCols, t.admin, t.id.leftJoin(forumIsUserMod).id.as('is_forum_mod'))
+  selectSessionData = mm.selectRow(...sessionCols).by(t.id);
+  selectSessionDataForumMode = mm
+    .selectRow(...sessionCols, t.id.leftJoin(forumIsUserMod).id.as('is_forum_mod'))
     .by(t.id);
   selectEditingData = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
   selectIconName = mm.selectField(t.icon_name).by(t.id);

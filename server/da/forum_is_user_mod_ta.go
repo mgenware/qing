@@ -16,8 +16,8 @@ var ForumIsUserMod = &TableTypeForumIsUserMod{}
 
 // ------------ Actions ------------
 
-// Get ...
-func (da *TableTypeForumIsUserMod) Get(queryable mingru.Queryable, id uint64) (bool, error) {
+// Has ...
+func (da *TableTypeForumIsUserMod) Has(queryable mingru.Queryable, id uint64) (bool, error) {
 	var result bool
 	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_is_user_mod` WHERE `id` = ?)", id).Scan(&result)
 	if err != nil {

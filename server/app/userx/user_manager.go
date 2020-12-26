@@ -18,6 +18,7 @@ type UserManager struct {
 	DB                *sql.DB
 
 	appURL      *urlx.URL
+	forumsMode  bool
 	debugConfig *config.DebugConfig
 }
 
@@ -27,19 +28,33 @@ func NewUserManager(
 	ssMgr *SessionManager,
 	tm *handler.MasterPageManager,
 	appURL *urlx.URL,
+	forumsMode bool,
 	debugConfig *config.DebugConfig,
 ) *UserManager {
-	ret := &UserManager{DB: db, SessionManager: ssMgr, MasterPageManager: tm, appURL: appURL, debugConfig: debugConfig}
+	ret := &UserManager{DB: db, SessionManager: ssMgr, MasterPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
 	return ret
 }
 
 // CreateUserSessionFromUID creates a User from the given uid.
 func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
-	u, err := da.User.SelectSessionData(appu.DB, uid)
+	db := appu.DB
+	if appu.forumsMode {
+		u, err := da.User.SelectSessionDataForumMode(db, uid)
+		if err != nil {
+			return nil, err
+		}
+		isForumMod := false
+		if u.IsForumMod != nil {
+			isForumMod = true
+		}
+		user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, isForumMod)
+		return user, nil
+	}
+	u, err := da.User.SelectSessionData(db, uid)
 	if err != nil {
 		return nil, err
 	}
-	user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, u.IsForumMod)
+	user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, false)
 	return user, nil
 }
 

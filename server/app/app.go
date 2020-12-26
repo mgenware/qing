@@ -150,7 +150,7 @@ func mustSetupUserManager() {
 	if err != nil {
 		panic(err)
 	}
-	UserManager = userx.NewUserManager(DB, sessionMgr, MasterPageManager, URL, Config.Debug)
+	UserManager = userx.NewUserManager(DB, sessionMgr, MasterPageManager, URL, SetupConfig().ForumsMode, Config.Debug)
 }
 
 func mustSetupService() {
