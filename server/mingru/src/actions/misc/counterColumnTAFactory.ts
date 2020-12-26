@@ -18,7 +18,7 @@ export function updateCounterAction(
   opt = opt || {};
   const { rawOffsetSQL } = opt;
   let offsetSQL: mm.SQL | string;
-  if (rawOffsetSQL) {
+  if (rawOffsetSQL !== undefined) {
     if (rawOffsetSQL instanceof mm.SQL) {
       offsetSQL = rawOffsetSQL;
     } else {
