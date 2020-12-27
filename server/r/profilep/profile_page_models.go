@@ -26,6 +26,11 @@ type ProfilePageModel struct {
 	PageBarHTML           string
 }
 
+// ProfilePageData ...
+type ProfilePageData struct {
+	ProfileWebsite string
+}
+
 // ProfilePostItem is a Model wrapper around PostTableSelectItemsForUserProfileResult.
 type ProfilePostItem struct {
 	da.PostTableSelectItemsForUserProfileResult

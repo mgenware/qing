@@ -1,7 +1,5 @@
 export interface ProfileWind {
-  appProfileURL: string;
-  appProfileEID: string;
-  appProfileWebsite: string;
+  ProfileWebsite: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

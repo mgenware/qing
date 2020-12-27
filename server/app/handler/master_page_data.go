@@ -18,6 +18,8 @@ type MasterPageData struct {
 	AppHTMLLang   string
 	AppForumsMode bool
 	AppPageName   string
+	AppWind       interface{}
+	AppWindString string
 }
 
 // NewMasterPageData creates a new MasterPageData.

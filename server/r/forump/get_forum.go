@@ -7,7 +7,6 @@ import (
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
-	modutil "qing/r/api/pri/forum_api/mod_util"
 	"qing/r/rcom"
 	"qing/r/sys"
 	"strings"
@@ -55,16 +54,8 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
-	var forumEditable bool
-	sUser := app.ContextUser(r)
-	if sUser.IsForumMod {
-		// `GetRequestForumPermLevel` is time-consuming, we only do that when session
-		// user has `IsForumMod` set.
-		perm, err := modutil.GetRequestForumPermLevel(sUser, fid)
-		app.PanicIfErr(err)
-		forumEditable = perm >= modutil.PermLevelForum
-	}
-
+	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
+	app.PanicIfErr(err)
 	pageModel := NewForumPageModel(forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := app.MasterPageData("", vForumPage.MustExecuteToString(pageModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Forum
