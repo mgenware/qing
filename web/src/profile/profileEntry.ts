@@ -6,8 +6,8 @@ import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import 'ui/widgets/tagView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
-import profileWind from './profileWind';
 import './views/profileIDView';
+import profileWind from './profileWind';
 
 const defaultHighlightedTab = keyPosts;
 
@@ -48,7 +48,7 @@ ready(() => {
     ?.classList.add(tabViewActiveClass);
 
   // Set user URL.
-  const website = profileWind.appProfileWebsite;
+  const { Website: website } = profileWind;
   if (website) {
     document
       .getElementById('m-profile-url')

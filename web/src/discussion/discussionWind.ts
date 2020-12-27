@@ -1,7 +1,8 @@
+import app from 'app';
+
 export interface DiscussionWind {
-  appDiscussionID: string;
-  appDiscussionCmtCount: number;
+  EID: string;
+  ReplyCount: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (window as any) as DiscussionWind;
+export default app.state.windData<DiscussionWind>();

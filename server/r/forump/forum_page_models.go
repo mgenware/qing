@@ -23,6 +23,11 @@ type ForumPageModel struct {
 	ForumSettingsURL string
 }
 
+// ForumPageWindData ...
+type ForumPageWindData struct {
+	Editable bool
+}
+
 // NewForumPageModel creates a ForumPageModel.
 func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarHTML string, editable bool) ForumPageModel {
 	d := ForumPageModel{ForumTableSelectForumResult: *f}

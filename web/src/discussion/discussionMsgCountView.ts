@@ -8,7 +8,7 @@ export class DiscussionMsgCountView extends BaseElement {
   render() {
     return html`
       <div>
-        <h2>${formatLS(ls.numOfMsgs, discussionWind.appDiscussionCmtCount)}</h2>
+        <h2>${formatLS(ls.numOfMsgs, discussionWind.ReplyCount)}</h2>
       </div>
     `;
   }

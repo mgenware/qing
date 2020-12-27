@@ -1,6 +1,7 @@
+import app from 'app';
+
 export interface ForumWind {
-  appForumEditable: boolean;
+  Editable: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (window as any) as ForumWind;
+export default app.state.windData<ForumWind>();

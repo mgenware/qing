@@ -1,8 +1,9 @@
+import app from 'app';
+
 export interface PostWind {
-  appPostID: string;
-  appPostCmtCount: number;
-  appPostInitialLikes: number;
+  EID: string;
+  CmtCount: number;
+  InitialLikes: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (window as any) as PostWind;
+export default app.state.windData<PostWind>();

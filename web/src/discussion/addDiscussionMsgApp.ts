@@ -11,7 +11,7 @@ import { CHECK } from 'checks';
 @customElement('add-discussion-msg-app')
 export class AddDiscussionMsgApp extends BaseElement {
   firstUpdated() {
-    CHECK(discussionWind.appDiscussionID);
+    CHECK(discussionWind.EID);
   }
 
   render() {
@@ -20,7 +20,7 @@ export class AddDiscussionMsgApp extends BaseElement {
         .headerText=${ls.postAMsgToThisDiscussion}
         .entityType=${entityDiscussionMsg}
         .submitButtonText=${ls.send}
-        .discussionID=${discussionWind.appDiscussionID}
+        .discussionID=${discussionWind.EID}
         .showCancelButton=${true}
         .showTitleInput=${false}
       ></set-post-app>

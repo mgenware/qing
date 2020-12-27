@@ -5,13 +5,16 @@ import User from '../user/user';
 export type UserCallbackFn = (user: User) => void;
 
 export default class AppState {
-  lang: string;
-  // Some of the user properties are volatile, use getUserInfo to access them.
+  readonly lang: string;
+  readonly forumsMode: boolean;
+  #windData: unknown;
   #user: User | null = null;
   #userListeners: UserCallbackFn[] = [];
 
   constructor() {
     this.lang = masterWind.appLang || defaultLang;
+    this.forumsMode = masterWind.appForumsMode;
+    this.#windData = masterWind.appWindData;
     if (masterWind.appUserID) {
       this.#user = {
         eid: masterWind.appUserID,
@@ -36,6 +39,10 @@ export default class AppState {
       return this.#user.eid;
     }
     return '';
+  }
+
+  windData<T>(): T {
+    return this.#windData as T;
   }
 
   updateUser(part: Partial<User>) {

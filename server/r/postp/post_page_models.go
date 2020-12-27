@@ -7,6 +7,8 @@ import (
 	"qing/r/rcom"
 )
 
+var vPostPage = app.MasterPageManager.MustParseView("/post/postPage.html")
+
 // PostPageModel is a wrapper around da.PostTableSelectPostByIDResult.
 type PostPageModel struct {
 	da.PostTableSelectItemByIDResult
@@ -22,7 +24,12 @@ type PostPageModel struct {
 	ProfileDiscussionsURL string
 }
 
-var vPostPage = app.MasterPageManager.MustParseView("/post/postPage.html")
+// PostPageWindData ...
+type PostPageWindData struct {
+	EID          string
+	CmtCount     uint
+	InitialLikes uint
+}
 
 // NewPostPageModel creates a PostPageModel.
 func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {

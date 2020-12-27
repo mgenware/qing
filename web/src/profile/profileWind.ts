@@ -1,6 +1,7 @@
+import app from 'app';
+
 export interface ProfileWind {
-  ProfileWebsite: string;
+  Website?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (window as any) as ProfileWind;
+export default app.state.windData<ProfileWind>();

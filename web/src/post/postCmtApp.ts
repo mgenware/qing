@@ -7,9 +7,9 @@ import { entityPost } from 'sharedConstants';
 
 @customElement('post-cmt-app')
 export class PostCmtApp extends BaseElement {
-  private hostID = postWind.appPostID;
-  private cmtCount = postWind.appPostCmtCount;
-  private initialLikes = postWind.appPostInitialLikes;
+  private hostID = postWind.EID;
+  private cmtCount = postWind.CmtCount;
+  private initialLikes = postWind.InitialLikes;
 
   render() {
     return html`

@@ -118,6 +118,10 @@ func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *Master
 		htmlLang = lang
 	}
 	d.AppHTMLLang = htmlLang
+	if d.WindData != nil {
+		jsonBytes, _ := json.Marshal(d.WindData)
+		d.AppWindDataString = string(jsonBytes)
+	}
 
 	script := ""
 	// Language file, this should be loaded first as the main.js relies on it.
