@@ -22,32 +22,32 @@ func init() {
 }
 
 type GetCmtsRespData struct {
-	Items   []*apicom.Cmt `json:"items"`
-	HasNext bool          `json:"hasNext"`
+	Items   []apicom.Cmt `json:"items"`
+	HasNext bool         `json:"hasNext"`
 }
 
 type GetRepliesRespData struct {
-	Items   []*apicom.Reply `json:"items"`
-	HasNext bool            `json:"hasNext"`
+	Items   []apicom.Reply `json:"items"`
+	HasNext bool           `json:"hasNext"`
 }
 
-func newGetCmtsRespData(cmts []*da.CmtData, hasNext bool) *GetCmtsRespData {
-	cmtsConverted := make([]*apicom.Cmt, len(cmts))
+func newGetCmtsRespData(cmts []da.CmtData, hasNext bool) GetCmtsRespData {
+	cmtsConverted := make([]apicom.Cmt, len(cmts))
 	for i := 0; i < len(cmts); i++ {
-		cmtsConverted[i] = apicom.NewCmt(cmts[i])
+		cmtsConverted[i] = apicom.NewCmt(&cmts[i])
 	}
-	res := &GetCmtsRespData{}
+	res := GetCmtsRespData{}
 	res.Items = cmtsConverted
 	res.HasNext = hasNext
 	return res
 }
 
-func newGetRepliesRespData(replies []*da.ReplyData, hasNext bool) *GetRepliesRespData {
-	repliesConverted := make([]*apicom.Reply, len(replies))
+func newGetRepliesRespData(replies []da.ReplyData, hasNext bool) GetRepliesRespData {
+	repliesConverted := make([]apicom.Reply, len(replies))
 	for i := 0; i < len(replies); i++ {
-		repliesConverted[i] = apicom.NewReply(replies[i])
+		repliesConverted[i] = apicom.NewReply(&replies[i])
 	}
-	res := &GetRepliesRespData{}
+	res := GetRepliesRespData{}
 	res.Items = repliesConverted
 	res.HasNext = hasNext
 	return res
@@ -75,7 +75,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Selecting comments.
 	hostID := validator.MustGetIDFromDict(params, "hostID")
 	hostType := validator.MustGetIntFromDict(params, "hostType")
-	var respData *GetCmtsRespData
+	var respData GetCmtsRespData
 	switch hostType {
 	case defs.Shared.EntityPost:
 		{

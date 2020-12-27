@@ -20,8 +20,8 @@ type UserThreadModel struct {
 }
 
 // NewUserThreadModel creates a new UserThreadModel.
-func NewUserThreadModel(item *da.UserThreadInterface) (*UserThreadModel, error) {
-	d := &UserThreadModel{UserThreadInterface: *item}
+func NewUserThreadModel(item *da.UserThreadInterface) (UserThreadModel, error) {
+	d := UserThreadModel{UserThreadInterface: *item}
 	switch item.ThreadType {
 	case da.Constants.ThreadTypePost:
 		d.ThreadURL = app.URL.Post(item.ID)
@@ -36,7 +36,7 @@ func NewUserThreadModel(item *da.UserThreadInterface) (*UserThreadModel, error) 
 		break
 
 	default:
-		return nil, fmt.Errorf("Invalid item type %v", item.ThreadType)
+		return d, fmt.Errorf("Invalid item type %v", item.ThreadType)
 	}
 	uid := item.UserID
 	d.UserURL = app.URL.UserProfile(uid)

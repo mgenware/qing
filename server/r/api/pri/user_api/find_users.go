@@ -19,7 +19,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
-	var users []*da.FindUserResult
+	var users []da.FindUserResult
 	db := app.DB
 	if byID != 0 {
 		id := validator.MustGetIDFromDict(params, "value")
@@ -28,7 +28,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 			return resp.MustComplete(nil)
 		}
 		app.PanicIfErr(err)
-		users = []*da.FindUserResult{user}
+		users = []da.FindUserResult{user}
 	} else {
 		name := validator.MustGetStringFromDict(params, "value", defs.DB.MaxNameLen)
 		users, err = da.User.FindUsersByName(db, "%"+name+"%")
@@ -37,7 +37,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 		app.PanicIfErr(err)
 	}
-	userModels := make([]*rcom.UserInfo, len(users))
+	userModels := make([]rcom.UserInfo, len(users))
 	for i, user := range users {
 		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)
 	}

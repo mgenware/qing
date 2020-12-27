@@ -21,7 +21,7 @@ var Home = &TableTypeHome{}
 // ------------ Actions ------------
 
 // SelectDiscussions ...
-func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -37,13 +37,13 @@ func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int,
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
@@ -68,15 +68,15 @@ type HomeTableSelectForumGroupsResult struct {
 }
 
 // SelectForumGroups ...
-func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]*HomeTableSelectForumGroupsResult, error) {
+func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]HomeTableSelectForumGroupsResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*HomeTableSelectForumGroupsResult, 0)
+	var result []HomeTableSelectForumGroupsResult
 	defer rows.Close()
 	for rows.Next() {
-		item := &HomeTableSelectForumGroupsResult{}
+		var item HomeTableSelectForumGroupsResult
 		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ForumCount, &item.DescHTML)
 		if err != nil {
 			return nil, err
@@ -100,15 +100,15 @@ type HomeTableSelectForumsResult struct {
 }
 
 // SelectForums ...
-func (da *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]*HomeTableSelectForumsResult, error) {
+func (da *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]HomeTableSelectForumsResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*HomeTableSelectForumsResult, 0)
+	var result []HomeTableSelectForumsResult
 	defer rows.Close()
 	for rows.Next() {
-		item := &HomeTableSelectForumsResult{}
+		var item HomeTableSelectForumsResult
 		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ThreadCount, &item.GroupID)
 		if err != nil {
 			return nil, err
@@ -123,7 +123,7 @@ func (da *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]*HomeTableS
 }
 
 // SelectItems ...
-func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -139,13 +139,13 @@ func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageS
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
@@ -161,7 +161,7 @@ func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageS
 }
 
 // SelectPosts ...
-func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -177,13 +177,13 @@ func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageS
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
@@ -199,7 +199,7 @@ func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageS
 }
 
 // SelectQuestions ...
-func (da *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -215,13 +215,13 @@ func (da *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, p
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err

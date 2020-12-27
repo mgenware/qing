@@ -42,11 +42,11 @@ type ForumGroupTableSelectGroupResult struct {
 }
 
 // SelectGroup ...
-func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (*ForumGroupTableSelectGroupResult, error) {
-	result := &ForumGroupTableSelectGroupResult{}
+func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectGroupResult, error) {
+	var result ForumGroupTableSelectGroupResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.ForumCount)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }

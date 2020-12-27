@@ -85,11 +85,11 @@ type DiscussionTableDeleteReplyChild1Result struct {
 	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
-func (da *TableTypeDiscussion) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*DiscussionTableDeleteReplyChild1Result, error) {
-	result := &DiscussionTableDeleteReplyChild1Result{}
+func (da *TableTypeDiscussion) deleteReplyChild1(queryable mingru.Queryable, id uint64) (DiscussionTableDeleteReplyChild1Result, error) {
+	var result DiscussionTableDeleteReplyChild1Result
 	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_1`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -233,7 +233,7 @@ func (da *TableTypeDiscussion) InsertReply(db *sql.DB, content string, userID ui
 }
 
 // SelectCmts ...
-func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -249,13 +249,13 @@ func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uin
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*CmtData, 0, limit)
+	result := make([]CmtData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &CmtData{}
+			var item CmtData
 			err = rows.Scan(&item.CmtID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -285,11 +285,11 @@ type DiscussionTableSelectItemByIDResult struct {
 }
 
 // SelectItemByID ...
-func (da *TableTypeDiscussion) SelectItemByID(queryable mingru.Queryable, id uint64) (*DiscussionTableSelectItemByIDResult, error) {
-	result := &DiscussionTableSelectItemByIDResult{}
+func (da *TableTypeDiscussion) SelectItemByID(queryable mingru.Queryable, id uint64) (DiscussionTableSelectItemByIDResult, error) {
+	var result DiscussionTableSelectItemByIDResult
 	err := queryable.QueryRow("SELECT `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`content` AS `content`, `discussion`.`title` AS `title`, `discussion`.`cmt_count` AS `cmt_count`, `discussion`.`reply_count` AS `reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -302,11 +302,11 @@ type DiscussionTableSelectItemForEditingResult struct {
 }
 
 // SelectItemForEditing ...
-func (da *TableTypeDiscussion) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (*DiscussionTableSelectItemForEditingResult, error) {
-	result := &DiscussionTableSelectItemForEditingResult{}
+func (da *TableTypeDiscussion) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (DiscussionTableSelectItemForEditingResult, error) {
+	var result DiscussionTableSelectItemForEditingResult
 	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `discussion` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -327,7 +327,7 @@ type DiscussionTableSelectItemsForDashboardResult struct {
 }
 
 // SelectItemsForDashboard ...
-func (da *TableTypeDiscussion) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*DiscussionTableSelectItemsForDashboardResult, bool, error) {
+func (da *TableTypeDiscussion) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]DiscussionTableSelectItemsForDashboardResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt:
@@ -357,13 +357,13 @@ func (da *TableTypeDiscussion) SelectItemsForDashboard(queryable mingru.Queryabl
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*DiscussionTableSelectItemsForDashboardResult, 0, limit)
+	result := make([]DiscussionTableSelectItemsForDashboardResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &DiscussionTableSelectItemsForDashboardResult{}
+			var item DiscussionTableSelectItemsForDashboardResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.ReplyCount)
 			if err != nil {
 				return nil, false, err
@@ -387,7 +387,7 @@ type DiscussionTableSelectItemsForUserProfileResult struct {
 }
 
 // SelectItemsForUserProfile ...
-func (da *TableTypeDiscussion) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*DiscussionTableSelectItemsForUserProfileResult, bool, error) {
+func (da *TableTypeDiscussion) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]DiscussionTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -403,13 +403,13 @@ func (da *TableTypeDiscussion) SelectItemsForUserProfile(queryable mingru.Querya
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*DiscussionTableSelectItemsForUserProfileResult, 0, limit)
+	result := make([]DiscussionTableSelectItemsForUserProfileResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &DiscussionTableSelectItemsForUserProfileResult{}
+			var item DiscussionTableSelectItemsForUserProfileResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title)
 			if err != nil {
 				return nil, false, err

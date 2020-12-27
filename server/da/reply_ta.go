@@ -39,7 +39,7 @@ func (da *TableTypeReply) InsertReplyCore(queryable mingru.Queryable, content st
 }
 
 // SelectReplies ...
-func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error) {
+func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]ReplyData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -55,13 +55,13 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*ReplyData, 0, limit)
+	result := make([]ReplyData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &ReplyData{}
+			var item ReplyData
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
 			if err != nil {
 				return nil, false, err
@@ -82,11 +82,11 @@ type ReplyTableSelectReplySourceResult struct {
 }
 
 // SelectReplySource ...
-func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (*ReplyTableSelectReplySourceResult, error) {
-	result := &ReplyTableSelectReplySourceResult{}
+func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (ReplyTableSelectReplySourceResult, error) {
+	var result ReplyTableSelectReplySourceResult
 	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }

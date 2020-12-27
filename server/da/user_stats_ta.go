@@ -25,11 +25,11 @@ type UserStatsTableSelectStatsResult struct {
 }
 
 // SelectStats ...
-func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (*UserStatsTableSelectStatsResult, error) {
-	result := &UserStatsTableSelectStatsResult{}
+func (da *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (UserStatsTableSelectStatsResult, error) {
+	var result UserStatsTableSelectStatsResult
 	err := queryable.QueryRow("SELECT `post_count`, `discussion_count`, `question_count`, `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount, &result.QuestionCount, &result.AnswerCount)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }

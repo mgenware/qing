@@ -15,7 +15,7 @@ func getAdmins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if err != nil {
 		panic(err)
 	}
-	userModels := make([]*rcom.UserInfo, len(admins))
+	userModels := make([]rcom.UserInfo, len(admins))
 	for i, user := range admins {
 		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)
 	}

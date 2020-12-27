@@ -40,12 +40,12 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	switch tab {
 	default:
 		{
-			var posts []*da.PostTableSelectItemsForUserProfileResult
+			var posts []da.PostTableSelectItemsForUserProfileResult
 			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder
 			for _, post := range posts {
-				postData := NewProfilePostItem(post)
+				postData := NewProfilePostItem(&post)
 				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
 			}
 			feedListHTML = feedListHTMLBuilder.String()
@@ -54,12 +54,12 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	case defs.Shared.KeyDiscussions:
 		{
-			var discussions []*da.DiscussionTableSelectItemsForUserProfileResult
+			var discussions []da.DiscussionTableSelectItemsForUserProfileResult
 			discussions, hasNext, err = da.Discussion.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder
 			for _, discussion := range discussions {
-				discussionData := NewProfileDiscussionItem(discussion)
+				discussionData := NewProfileDiscussionItem(&discussion)
 				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(discussionData))
 			}
 			feedListHTML = feedListHTMLBuilder.String()
@@ -73,7 +73,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if feedListHTML == "" {
 		feedListHTML = "<no-content-view></no-content-view>"
 	}
-	profileModel := NewProfilePageModelFromUser(user, stats, feedListHTML, rcom.GetPageBarHTML(pageData))
+	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(pageData))
 	d := app.MasterPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Profile
 	return resp.MustComplete(d)

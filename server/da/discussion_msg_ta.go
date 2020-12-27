@@ -98,11 +98,11 @@ type DiscussionMsgTableDeleteReplyChild1Result struct {
 	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
-func (da *TableTypeDiscussionMsg) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*DiscussionMsgTableDeleteReplyChild1Result, error) {
-	result := &DiscussionMsgTableDeleteReplyChild1Result{}
+func (da *TableTypeDiscussionMsg) deleteReplyChild1(queryable mingru.Queryable, id uint64) (DiscussionMsgTableDeleteReplyChild1Result, error) {
+	var result DiscussionMsgTableDeleteReplyChild1Result
 	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_1`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -246,7 +246,7 @@ func (da *TableTypeDiscussionMsg) InsertReply(db *sql.DB, content string, userID
 }
 
 // SelectCmts ...
-func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -262,13 +262,13 @@ func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID 
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*CmtData, 0, limit)
+	result := make([]CmtData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &CmtData{}
+			var item CmtData
 			err = rows.Scan(&item.CmtID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -290,11 +290,11 @@ type DiscussionMsgTableSelectItemForEditingResult struct {
 }
 
 // SelectItemForEditing ...
-func (da *TableTypeDiscussionMsg) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (*DiscussionMsgTableSelectItemForEditingResult, error) {
-	result := &DiscussionMsgTableSelectItemForEditingResult{}
+func (da *TableTypeDiscussionMsg) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (DiscussionMsgTableSelectItemForEditingResult, error) {
+	var result DiscussionMsgTableSelectItemForEditingResult
 	err := queryable.QueryRow("SELECT `id`, `content` FROM `discussion_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -312,7 +312,7 @@ type DiscussionMsgTableSelectItemsByDiscussionResult struct {
 }
 
 // SelectItemsByDiscussion ...
-func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Queryable, discussionID uint64, page int, pageSize int) ([]*DiscussionMsgTableSelectItemsByDiscussionResult, bool, error) {
+func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Queryable, discussionID uint64, page int, pageSize int) ([]DiscussionMsgTableSelectItemsByDiscussionResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -328,13 +328,13 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*DiscussionMsgTableSelectItemsByDiscussionResult, 0, limit)
+	result := make([]DiscussionMsgTableSelectItemsByDiscussionResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &DiscussionMsgTableSelectItemsByDiscussionResult{}
+			var item DiscussionMsgTableSelectItemsByDiscussionResult
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.ContentHTML, &item.CmtCount)
 			if err != nil {
 				return nil, false, err

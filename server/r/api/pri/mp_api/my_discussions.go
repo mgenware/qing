@@ -26,8 +26,8 @@ type dashboardDiscussion struct {
 	URL string `json:"url"`
 }
 
-func newDashboardDiscussion(p *da.DiscussionTableSelectItemsForDashboardResult, uid uint64) *dashboardDiscussion {
-	d := &dashboardDiscussion{DiscussionTableSelectItemsForDashboardResult: *p}
+func newDashboardDiscussion(p *da.DiscussionTableSelectItemsForDashboardResult, uid uint64) dashboardDiscussion {
+	d := dashboardDiscussion{DiscussionTableSelectItemsForDashboardResult: *p}
 	d.URL = app.URL.Discussion(p.ID)
 	d.EID = validator.EncodeID(uid)
 	return d
@@ -49,9 +49,9 @@ func myDiscussions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	stats, err := da.UserStats.SelectStats(app.DB, uid)
 	app.PanicIfErr(err)
 
-	discussions := make([]*dashboardDiscussion, len(rawDiscussions))
+	discussions := make([]dashboardDiscussion, len(rawDiscussions))
 	for i, p := range rawDiscussions {
-		discussions[i] = newDashboardDiscussion(p, uid)
+		discussions[i] = newDashboardDiscussion(&p, uid)
 	}
 	respData := apicom.NewPaginatedList(discussions, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)

@@ -25,8 +25,8 @@ type PostPageModel struct {
 var vPostPage = app.MasterPageManager.MustParseView("/post/postPage.html")
 
 // NewPostPageModel creates a PostPageModel.
-func NewPostPageModel(p *da.PostTableSelectItemByIDResult) *PostPageModel {
-	d := &PostPageModel{PostTableSelectItemByIDResult: *p}
+func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
+	d := PostPageModel{PostTableSelectItemByIDResult: *p}
 	eid := validator.EncodeID(p.ID)
 	d.PostURL = app.URL.Post(p.ID)
 	d.EID = eid

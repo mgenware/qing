@@ -27,8 +27,8 @@ type dashboardPost struct {
 	URL string `json:"url"`
 }
 
-func newDashboardPost(p *da.PostTableSelectItemsForDashboardResult, uid uint64) *dashboardPost {
-	d := &dashboardPost{PostTableSelectItemsForDashboardResult: *p}
+func newDashboardPost(p *da.PostTableSelectItemsForDashboardResult, uid uint64) dashboardPost {
+	d := dashboardPost{PostTableSelectItemsForDashboardResult: *p}
 	d.URL = app.URL.Post(p.ID)
 	d.EID = validator.EncodeID(uid)
 	return d
@@ -50,9 +50,9 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	stats, err := da.UserStats.SelectStats(app.DB, uid)
 	app.PanicIfErr(err)
 
-	posts := make([]*dashboardPost, len(rawPosts))
+	posts := make([]dashboardPost, len(rawPosts))
 	for i, p := range rawPosts {
-		posts[i] = newDashboardPost(p, uid)
+		posts[i] = newDashboardPost(&p, uid)
 	}
 	respData := apicom.NewPaginatedList(posts, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)

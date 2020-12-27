@@ -29,25 +29,25 @@ func (da *TableTypeUser) AddUserStatsEntryInternal(queryable mingru.Queryable, i
 }
 
 // FindUserByID ...
-func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (*FindUserResult, error) {
-	result := &FindUserResult{}
+func (da *TableTypeUser) FindUserByID(queryable mingru.Queryable, id uint64) (FindUserResult, error) {
+	var result FindUserResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
 
 // FindUsersByName ...
-func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string) ([]*FindUserResult, error) {
+func (da *TableTypeUser) FindUsersByName(queryable mingru.Queryable, name string) ([]FindUserResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name`, `status` FROM `user` WHERE `name` LIKE ?", name)
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*FindUserResult, 0)
+	var result []FindUserResult
 	defer rows.Close()
 	for rows.Next() {
-		item := &FindUserResult{}
+		var item FindUserResult
 		err = rows.Scan(&item.ID, &item.Name, &item.IconName, &item.Status)
 		if err != nil {
 			return nil, err
@@ -74,11 +74,11 @@ type UserTableSelectEditingDataResult struct {
 }
 
 // SelectEditingData ...
-func (da *TableTypeUser) SelectEditingData(queryable mingru.Queryable, id uint64) (*UserTableSelectEditingDataResult, error) {
-	result := &UserTableSelectEditingDataResult{}
+func (da *TableTypeUser) SelectEditingData(queryable mingru.Queryable, id uint64) (UserTableSelectEditingDataResult, error) {
+	var result UserTableSelectEditingDataResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -126,11 +126,11 @@ type UserTableSelectProfileResult struct {
 }
 
 // SelectProfile ...
-func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (*UserTableSelectProfileResult, error) {
-	result := &UserTableSelectProfileResult{}
+func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (UserTableSelectProfileResult, error) {
+	var result UserTableSelectProfileResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Location, &result.Company, &result.Website, &result.Bio)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -145,11 +145,11 @@ type UserTableSelectSessionDataResult struct {
 }
 
 // SelectSessionData ...
-func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataResult, error) {
-	result := &UserTableSelectSessionDataResult{}
+func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64) (UserTableSelectSessionDataResult, error) {
+	var result UserTableSelectSessionDataResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `icon_name`, `status`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Admin)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -165,11 +165,11 @@ type UserTableSelectSessionDataForumModeResult struct {
 }
 
 // SelectSessionDataForumMode ...
-func (da *TableTypeUser) SelectSessionDataForumMode(queryable mingru.Queryable, id uint64) (*UserTableSelectSessionDataForumModeResult, error) {
-	result := &UserTableSelectSessionDataForumModeResult{}
+func (da *TableTypeUser) SelectSessionDataForumMode(queryable mingru.Queryable, id uint64) (UserTableSelectSessionDataForumModeResult, error) {
+	var result UserTableSelectSessionDataForumModeResult
 	err := queryable.QueryRow("SELECT `user`.`id` AS `id`, `user`.`name` AS `name`, `user`.`icon_name` AS `icon_name`, `user`.`status` AS `status`, `user`.`admin` AS `admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Status, &result.Admin, &result.IsForumMod)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -183,15 +183,15 @@ type UserTableUnsafeSelectAdminsResult struct {
 }
 
 // UnsafeSelectAdmins ...
-func (da *TableTypeUser) UnsafeSelectAdmins(queryable mingru.Queryable) ([]*UserTableUnsafeSelectAdminsResult, error) {
+func (da *TableTypeUser) UnsafeSelectAdmins(queryable mingru.Queryable) ([]UserTableUnsafeSelectAdminsResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `icon_name`, `status` FROM `user` WHERE `admin` = 1 ORDER BY `id`")
 	if err != nil {
 		return nil, err
 	}
-	result := make([]*UserTableUnsafeSelectAdminsResult, 0)
+	var result []UserTableUnsafeSelectAdminsResult
 	defer rows.Close()
 	for rows.Next() {
-		item := &UserTableUnsafeSelectAdminsResult{}
+		var item UserTableUnsafeSelectAdminsResult
 		err = rows.Scan(&item.ID, &item.Name, &item.IconName, &item.Status)
 		if err != nil {
 			return nil, err

@@ -98,11 +98,11 @@ type AnswerTableDeleteReplyChild1Result struct {
 	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
-func (da *TableTypeAnswer) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*AnswerTableDeleteReplyChild1Result, error) {
-	result := &AnswerTableDeleteReplyChild1Result{}
+func (da *TableTypeAnswer) deleteReplyChild1(queryable mingru.Queryable, id uint64) (AnswerTableDeleteReplyChild1Result, error) {
+	var result AnswerTableDeleteReplyChild1Result
 	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_1`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -246,7 +246,7 @@ func (da *TableTypeAnswer) InsertReply(db *sql.DB, content string, userID uint64
 }
 
 // SelectCmts ...
-func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -262,13 +262,13 @@ func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*CmtData, 0, limit)
+	result := make([]CmtData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &CmtData{}
+			var item CmtData
 			err = rows.Scan(&item.CmtID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -290,11 +290,11 @@ type AnswerTableSelectItemForEditingResult struct {
 }
 
 // SelectItemForEditing ...
-func (da *TableTypeAnswer) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (*AnswerTableSelectItemForEditingResult, error) {
-	result := &AnswerTableSelectItemForEditingResult{}
+func (da *TableTypeAnswer) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (AnswerTableSelectItemForEditingResult, error) {
+	var result AnswerTableSelectItemForEditingResult
 	err := queryable.QueryRow("SELECT `id`, `content` FROM `answer` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -312,7 +312,7 @@ type AnswerTableSelectItemsByQuestionResult struct {
 }
 
 // SelectItemsByQuestion ...
-func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, questionID uint64, page int, pageSize int) ([]*AnswerTableSelectItemsByQuestionResult, bool, error) {
+func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, questionID uint64, page int, pageSize int) ([]AnswerTableSelectItemsByQuestionResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -328,13 +328,13 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*AnswerTableSelectItemsByQuestionResult, 0, limit)
+	result := make([]AnswerTableSelectItemsByQuestionResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &AnswerTableSelectItemsByQuestionResult{}
+			var item AnswerTableSelectItemsByQuestionResult
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.ContentHTML, &item.CmtCount)
 			if err != nil {
 				return nil, false, err

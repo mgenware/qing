@@ -73,7 +73,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmt := apicom.NewCmt(cmtd)
 		cmt.ContentHTML = content
 
-		respData := &SetCmtResponse{Cmt: cmt}
+		respData := SetCmtResponse{Cmt: &cmt}
 		return resp.MustComplete(respData)
 	} else {
 		// Editing a cmt.

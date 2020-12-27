@@ -34,7 +34,7 @@ func (da *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, de
 }
 
 // SelectDiscussions ...
-func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -50,13 +50,13 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
@@ -81,11 +81,11 @@ type ForumTableSelectForumResult struct {
 }
 
 // SelectForum ...
-func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (*ForumTableSelectForumResult, error) {
-	result := &ForumTableSelectForumResult{}
+func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (ForumTableSelectForumResult, error) {
+	var result ForumTableSelectForumResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.ThreadCount)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -96,7 +96,7 @@ func (da *TableTypeForum) SelectForumIDsForGroup(queryable mingru.Queryable, gro
 	if err != nil {
 		return nil, err
 	}
-	result := make([]uint64, 0)
+	var result []uint64
 	defer rows.Close()
 	for rows.Next() {
 		var item uint64
@@ -124,7 +124,7 @@ func (da *TableTypeForum) SelectGroupID(queryable mingru.Queryable, id uint64) (
 }
 
 // SelectQuestions ...
-func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -140,13 +140,13 @@ func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, 
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
@@ -162,7 +162,7 @@ func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, 
 }
 
 // SelectThreads ...
-func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pageSize int) ([]*UserThreadInterface, bool, error) {
+func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -178,13 +178,13 @@ func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pa
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*UserThreadInterface, 0, limit)
+	result := make([]UserThreadInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &UserThreadInterface{}
+			var item UserThreadInterface
 			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err

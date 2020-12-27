@@ -15,8 +15,8 @@ type infoData struct {
 	IconURL string `json:"iconURL"`
 }
 
-func newInfoData(u *da.UserTableSelectEditingDataResult) *infoData {
-	d := &infoData{UserTableSelectEditingDataResult: *u}
+func newInfoData(u *da.UserTableSelectEditingDataResult) infoData {
+	d := infoData{UserTableSelectEditingDataResult: *u}
 	d.IconURL = app.URL.UserIconURL250(u.ID, u.IconName)
 	return d
 }
@@ -30,7 +30,7 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 
-	data := newInfoData(dbInfo)
+	data := newInfoData(&dbInfo)
 	return resp.MustComplete(data)
 }
 

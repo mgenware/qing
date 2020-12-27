@@ -66,7 +66,7 @@ type CmtInterface interface {
 	DeleteReply(db *sql.DB, id uint64, userID uint64) error
 	InsertCmt(db *sql.DB, content string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
 	InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
-	SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error)
+	SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
 // LikeInterface ...
@@ -78,5 +78,5 @@ type LikeInterface interface {
 
 // ReplyInterface ...
 type ReplyInterface interface {
-	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]*ReplyData, bool, error)
+	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]ReplyData, bool, error)
 }

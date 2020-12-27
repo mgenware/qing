@@ -24,7 +24,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		page := validator.GetPageParamFromRequestQueryString(r)
 		tab := r.FormValue(defs.Shared.KeyTab)
 
-		var items []*da.UserThreadInterface
+		var items []da.UserThreadInterface
 		var hasNext bool
 		var err error
 
@@ -41,9 +41,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		var feedListHTMLBuilder strings.Builder
 		for _, item := range items {
-			itemModel, err := rcom.NewUserThreadModel(item)
+			itemModel, err := rcom.NewUserThreadModel(&item)
 			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(itemModel))
+			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
 		}
 
 		pageURLFormatter := &HomePageURLFormatter{Tab: tab}
@@ -68,7 +68,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		app.PanicIfErr(err)
 
 		// Group forums by `group_id`.
-		groupMap := make(map[uint64][]*da.HomeTableSelectForumsResult)
+		groupMap := make(map[uint64][]da.HomeTableSelectForumsResult)
 		for _, f := range forums {
 			if f.GroupID == nil {
 				continue
@@ -76,7 +76,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 			gid := *f.GroupID
 			arr := groupMap[gid]
 			if arr == nil {
-				arr = make([]*da.HomeTableSelectForumsResult, 0)
+				arr = make([]da.HomeTableSelectForumsResult, 0)
 			}
 			groupMap[gid] = append(arr, f)
 		}
@@ -97,11 +97,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 			} else {
 				var forumsHTMLBuilder strings.Builder
 				for _, forum := range forums {
-					forumModel := NewForumModel(forum)
+					forumModel := NewForumModel(&forum)
 					forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
 				}
 
-				groupModel := NewForumGroupModel(group, forumsHTMLBuilder.String())
+				groupModel := NewForumGroupModel(&group, forumsHTMLBuilder.String())
 				frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
 			}
 		}

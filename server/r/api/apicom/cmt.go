@@ -15,8 +15,8 @@ type Cmt struct {
 	UserIconURL string `json:"userIconURL,omitempty"`
 }
 
-func NewCmt(d *da.CmtData) *Cmt {
-	r := &Cmt{CmtData: *d}
+func NewCmt(d *da.CmtData) Cmt {
+	r := Cmt{CmtData: *d}
 	r.EID = validator.EncodeID(d.CmtID)
 	r.UserEID = validator.EncodeID(d.UserID)
 	r.UserURL = app.URL.UserProfile(r.UserID)
@@ -35,8 +35,8 @@ type Reply struct {
 	ToUserURL   string `json:"toUserURL,omitempty"`
 }
 
-func NewReply(d *da.ReplyData) *Reply {
-	r := &Reply{ReplyData: *d}
+func NewReply(d *da.ReplyData) Reply {
+	r := Reply{ReplyData: *d}
 	r.EID = validator.EncodeID(d.ID)
 	r.UserEID = validator.EncodeID(d.UserID)
 	r.ToUserEID = validator.EncodeID(d.ToUserID)

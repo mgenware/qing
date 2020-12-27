@@ -29,11 +29,11 @@ type CmtTableGetHostIDAndReplyCountResult struct {
 }
 
 // GetHostIDAndReplyCount ...
-func (da *TableTypeCmt) GetHostIDAndReplyCount(queryable mingru.Queryable, id uint64) (*CmtTableGetHostIDAndReplyCountResult, error) {
-	result := &CmtTableGetHostIDAndReplyCountResult{}
+func (da *TableTypeCmt) GetHostIDAndReplyCount(queryable mingru.Queryable, id uint64) (CmtTableGetHostIDAndReplyCountResult, error) {
+	var result CmtTableGetHostIDAndReplyCountResult
 	err := queryable.QueryRow("SELECT `host_id`, `reply_count` FROM `cmt` WHERE `id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -44,11 +44,11 @@ type CmtTableSelectCmtSourceResult struct {
 }
 
 // SelectCmtSource ...
-func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (*CmtTableSelectCmtSourceResult, error) {
-	result := &CmtTableSelectCmtSourceResult{}
+func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (CmtTableSelectCmtSourceResult, error) {
+	var result CmtTableSelectCmtSourceResult
 	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }

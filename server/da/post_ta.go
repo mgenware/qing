@@ -85,11 +85,11 @@ type PostTableDeleteReplyChild1Result struct {
 	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
-func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (*PostTableDeleteReplyChild1Result, error) {
-	result := &PostTableDeleteReplyChild1Result{}
+func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteReplyChild1Result, error) {
+	var result PostTableDeleteReplyChild1Result
 	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_1`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -233,7 +233,7 @@ func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, 
 }
 
 // SelectCmts ...
-func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]*CmtData, bool, error) {
+func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -249,13 +249,13 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*CmtData, 0, limit)
+	result := make([]CmtData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &CmtData{}
+			var item CmtData
 			err = rows.Scan(&item.CmtID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -285,11 +285,11 @@ type PostTableSelectItemByIDResult struct {
 }
 
 // SelectItemByID ...
-func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (*PostTableSelectItemByIDResult, error) {
-	result := &PostTableSelectItemByIDResult{}
+func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
+	var result PostTableSelectItemByIDResult
 	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at`, `post`.`content` AS `content`, `post`.`title` AS `title`, `post`.`cmt_count` AS `cmt_count`, `post`.`likes` AS `likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -302,11 +302,11 @@ type PostTableSelectItemForEditingResult struct {
 }
 
 // SelectItemForEditing ...
-func (da *TableTypePost) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (*PostTableSelectItemForEditingResult, error) {
-	result := &PostTableSelectItemForEditingResult{}
+func (da *TableTypePost) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (PostTableSelectItemForEditingResult, error) {
+	var result PostTableSelectItemForEditingResult
 	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 	return result, nil
 }
@@ -329,7 +329,7 @@ type PostTableSelectItemsForDashboardResult struct {
 }
 
 // SelectItemsForDashboard ...
-func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]*PostTableSelectItemsForDashboardResult, bool, error) {
+func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForDashboardResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case PostTableSelectItemsForDashboardOrderBy1CreatedAt:
@@ -361,13 +361,13 @@ func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, use
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*PostTableSelectItemsForDashboardResult, 0, limit)
+	result := make([]PostTableSelectItemsForDashboardResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &PostTableSelectItemsForDashboardResult{}
+			var item PostTableSelectItemsForDashboardResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err
@@ -391,7 +391,7 @@ type PostTableSelectItemsForUserProfileResult struct {
 }
 
 // SelectItemsForUserProfile ...
-func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]*PostTableSelectItemsForUserProfileResult, bool, error) {
+func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -407,13 +407,13 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]*PostTableSelectItemsForUserProfileResult, 0, limit)
+	result := make([]PostTableSelectItemsForUserProfileResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			item := &PostTableSelectItemsForUserProfileResult{}
+			var item PostTableSelectItemsForUserProfileResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title)
 			if err != nil {
 				return nil, false, err

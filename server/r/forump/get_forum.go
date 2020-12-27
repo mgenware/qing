@@ -31,7 +31,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	forum, err := da.Forum.SelectForum(db, fid)
 	app.PanicIfErr(err)
 
-	var items []*da.UserThreadInterface
+	var items []da.UserThreadInterface
 	var hasNext bool
 
 	if tab == defs.Shared.KeyDiscussions {
@@ -45,9 +45,9 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var feedListHTMLBuilder strings.Builder
 	for _, item := range items {
-		itemModel, err := rcom.NewUserThreadModel(item)
+		itemModel, err := rcom.NewUserThreadModel(&item)
 		app.PanicIfErr(err)
-		feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(itemModel))
+		feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
 	}
 
 	pageURLFormatter := NewForumPageURLFormatter(forum.ID, tab)
@@ -56,7 +56,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
 	app.PanicIfErr(err)
-	pageModel := NewForumPageModel(forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
+	pageModel := NewForumPageModel(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := app.MasterPageData("", vForumPage.MustExecuteToString(pageModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Forum
 	return resp.MustComplete(d)

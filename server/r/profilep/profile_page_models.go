@@ -46,8 +46,8 @@ type ProfileDiscussionItem struct {
 }
 
 // NewProfilePageModelFromUser creates a new ProfileModel from profile DB result.
-func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageBarHTML string) *ProfilePageModel {
-	d := &ProfilePageModel{UserTableSelectProfileResult: *profile}
+func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageBarHTML string) ProfilePageModel {
+	d := ProfilePageModel{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
 	d.EID = validator.EncodeID(uid)
@@ -64,15 +64,15 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 }
 
 // NewProfilePostItem creates a new ProfilePostItem from a post record.
-func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) *ProfilePostItem {
-	d := &ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
+func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) ProfilePostItem {
+	d := ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
 	d.URL = app.URL.Post(item.ID)
 	return d
 }
 
 // NewProfileDiscussionItem creates a new ProfileDiscussionItem from a dicussion record.
-func NewProfileDiscussionItem(item *da.DiscussionTableSelectItemsForUserProfileResult) *ProfileDiscussionItem {
-	d := &ProfileDiscussionItem{DiscussionTableSelectItemsForUserProfileResult: *item}
+func NewProfileDiscussionItem(item *da.DiscussionTableSelectItemsForUserProfileResult) ProfileDiscussionItem {
+	d := ProfileDiscussionItem{DiscussionTableSelectItemsForUserProfileResult: *item}
 	d.URL = app.URL.Discussion(item.ID)
 	return d
 }

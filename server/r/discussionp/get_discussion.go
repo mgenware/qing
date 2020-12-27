@@ -33,7 +33,7 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var msgListBuilder strings.Builder
 	for _, m := range rawMsgs {
-		msgModel := NewDiscussionMsgModel(m)
+		msgModel := NewDiscussionMsgModel(&m)
 		msgListBuilder.WriteString(vMessageItem.MustExecuteToString(msgModel))
 	}
 
@@ -43,7 +43,7 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	resp := app.HTMLResponse(w, r)
-	discussionModel := NewDiscussionPageModel(discussion, msgListBuilder.String(), pageBarHTML)
+	discussionModel := NewDiscussionPageModel(&discussion, msgListBuilder.String(), pageBarHTML)
 	title := discussion.Title
 	d := app.MasterPageData(title, vDiscussionPage.MustExecuteToString(discussionModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Discussion

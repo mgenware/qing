@@ -32,8 +32,8 @@ var vDiscussionPage = app.MasterPageManager.MustParseView("/discussion/discussio
 var vMessageItem = app.MasterPageManager.MustParseView("/discussion/messageItem.html")
 
 // NewDiscussionPageModel creates a DiscussionPageModel.
-func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) *DiscussionPageModel {
-	d := &DiscussionPageModel{DiscussionTableSelectItemByIDResult: *p}
+func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) DiscussionPageModel {
+	d := DiscussionPageModel{DiscussionTableSelectItemByIDResult: *p}
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = eid
 	d.EID = validator.EncodeID(p.ID)
@@ -44,8 +44,8 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 }
 
 // NewDiscussionMsgModel creates a DiscussionMsgModel.
-func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) *DiscussionMsgModel {
-	d := &DiscussionMsgModel{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
+func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) DiscussionMsgModel {
+	d := DiscussionMsgModel{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = app.URL.Discussion(p.ID)
 	d.EID = eid

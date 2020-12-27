@@ -21,7 +21,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicIfErr(err)
 
 	resp := app.HTMLResponse(w, r)
-	postModel := NewPostPageModel(post)
+	postModel := NewPostPageModel(&post)
 	title := post.Title
 	d := app.MasterPageData(title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = app.MasterPageManager.AssetsManager.JS.Post
