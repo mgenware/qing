@@ -51,6 +51,22 @@ func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64
 	return result, nil
 }
 
+// ForumGroupTableSelectInfoForEditingResult ...
+type ForumGroupTableSelectInfoForEditingResult struct {
+	DescHTML string `json:"descHTML,omitempty"`
+	Name     string `json:"name,omitempty"`
+}
+
+// SelectInfoForEditing ...
+func (da *TableTypeForumGroup) SelectInfoForEditing(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectInfoForEditingResult, error) {
+	var result ForumGroupTableSelectInfoForEditingResult
+	err := queryable.QueryRow("SELECT `name`, `desc` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // UpdateInfo ...
 func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, desc string) error {
 	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, desc, id)

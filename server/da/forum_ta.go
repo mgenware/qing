@@ -123,6 +123,22 @@ func (da *TableTypeForum) SelectGroupID(queryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
+// ForumTableSelectInfoForEditingResult ...
+type ForumTableSelectInfoForEditingResult struct {
+	DescHTML string `json:"descHTML,omitempty"`
+	Name     string `json:"name,omitempty"`
+}
+
+// SelectInfoForEditing ...
+func (da *TableTypeForum) SelectInfoForEditing(queryable mingru.Queryable, id uint64) (ForumTableSelectInfoForEditingResult, error) {
+	var result ForumTableSelectInfoForEditingResult
+	err := queryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // SelectQuestions ...
 func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {

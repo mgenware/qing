@@ -16,6 +16,7 @@ export class ForumTA extends mm.TableActions {
   selectForumIDsForGroup = mm.selectFieldRows(t.id).where`${t.group_id.isEqualToInput(undefined, {
     nullable: false,
   })}`.noOrderBy();
+  selectInfoForEditing = mm.selectRow(t.name, t.desc).by(t.id);
 
   deleteItem = mm.deleteOne().by(t.id);
   updateInfo = mm.updateOne().setInputs(t.name, t.desc).by(t.id);
