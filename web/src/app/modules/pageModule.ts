@@ -27,7 +27,7 @@ export default class PageModule {
     window.open(url, '_blank');
   }
 
-  reloadPageContent(title: string, content: TemplateResult) {
+  setPageContent(title: string, content: TemplateResult) {
     document.title = `${title} - ${ls._siteName}`;
     renderTemplateResult(
       this.mainContentElement,

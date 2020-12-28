@@ -126,5 +126,7 @@
   "thisIsYou": "这是你",
   "numOfThreads": "{0} 帖子",
   "allThreads": "所有帖子",
-  "questions": "提问"
+  "questions": "提问",
+  "general": "通用",
+  "moderators": "论坛管理员"
 }

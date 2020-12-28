@@ -10,7 +10,7 @@ import { routeDevPage } from 'sharedConstants';
 const devRouter = new MiniURLRouter();
 
 function loadPageContent(title: string, content: TemplateResult) {
-  app.page.reloadPageContent(title, html` <container-view> ${content} </container-view> `);
+  app.page.setPageContent(title, html` <container-view> ${content} </container-view> `);
 }
 
 devRouter.register(routes.authRoot, () => {

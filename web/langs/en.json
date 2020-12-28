@@ -126,5 +126,7 @@
   "thisIsYou": "This is you",
   "numOfThreads": "{0} {0|countable|thread|threads}",
   "allThreads": "All threads",
-  "questions": "Questions"
+  "questions": "Questions",
+  "general": "General",
+  "moderators": "Moderators"
 }

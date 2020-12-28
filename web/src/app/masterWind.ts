@@ -1,4 +1,4 @@
-export interface MasterWind {
+export default interface MasterWind {
   appUserID: string;
   appUserURL: string;
   appUserName: string;
@@ -8,6 +8,3 @@ export interface MasterWind {
   appUserAdmin: boolean;
   appWindData: unknown;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default (window as any) as MasterWind;

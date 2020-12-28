@@ -75,7 +75,11 @@ export default buildTree({
   f: {
     id: {
       __content__: '{0}',
-      settings: 'settings',
+      settingsRoot: 'settings',
+      settings: {
+        general: 'general',
+        mods: 'mods',
+      },
     },
   },
 });

@@ -53,6 +53,7 @@ type Dictionary struct {
 	Exceed5MbErr                 string `json:"exceed5MBErr"`
 	FeatureOnlyAvailableToAdmins string `json:"featureOnlyAvailableToAdmins"`
 	FindUsersByColon             string `json:"findUsersByColon"`
+	General                      string `json:"general"`
 	GoToPage                     string `json:"goToPage"`
 	GoToYourEmail                string `json:"goToYourEmail"`
 	Home                         string `json:"home"`
@@ -61,6 +62,7 @@ type Dictionary struct {
 	Likes                        string `json:"likes"`
 	Loading                      string `json:"loading"`
 	Location                     string `json:"location"`
+	Moderators                   string `json:"moderators"`
 	Msgs                         string `json:"msgs"`
 	Name                         string `json:"name"`
 	NeedAuthErr                  string `json:"needAuthErr"`

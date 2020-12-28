@@ -16,7 +16,7 @@ import { SettingsPages } from './settings/settingsBaseView';
 const dashboardRouter = new MiniURLRouter();
 
 function loadSettingsContent(selectedPage: SettingsPages, title: string, content: TemplateResult) {
-  app.page.reloadPageContent(
+  app.page.setPageContent(
     title,
     html`<settings-base-view .selectedPage=${selectedPage}>${content}</settings-base-view>`,
   );
@@ -49,7 +49,7 @@ function loadNewPostContent(entityType: number) {
   }
 
   dashboardRouter.register(url, () =>
-    app.page.reloadPageContent(
+    app.page.setPageContent(
       title,
       html` <set-post-app .entityType=${entityType} .headerText=${title}></set-post-app> `,
     ),
@@ -65,7 +65,7 @@ dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
   if (!id) {
     return;
   }
-  app.page.reloadPageContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
+  app.page.setPageContent(ls.editPost, html` <set-post-app .editedID=${id}></set-post-app> `);
 });
 dashboardRouter.register(rs.home.settings.profile, () => {
   loadSettingsContent(
@@ -82,10 +82,10 @@ dashboardRouter.register(rs.home.settings.usersAndGroups, () => {
   );
 });
 dashboardRouter.register(rs.home.yourPosts, () => {
-  app.page.reloadPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
+  app.page.setPageContent(ls.editProfile, html`<my-posts-app></my-posts-app>`);
 });
 dashboardRouter.register(rs.home.yourDiscussions, () => {
-  app.page.reloadPageContent(ls.editProfile, html`<my-discussions-app></my-discussions-app>`);
+  app.page.setPageContent(ls.editProfile, html`<my-discussions-app></my-discussions-app>`);
 });
 
 dashboardRouter.startOnce();
