@@ -1,7 +1,7 @@
 import BaseLoader from 'lib/loader';
 import routes from 'routes';
 
-export default class SetBioLoader extends BaseLoader<void> {
+export default class SetBioLoader extends BaseLoader<undefined> {
   constructor(public bio: string) {
     super();
   }

@@ -47,6 +47,12 @@ export default buildTree({
       user: {
         findUsers: 'find-users',
       },
+      forum: {
+        fmod: {
+          getInfo: 'get-info',
+          setInfo: 'set-info',
+        },
+      },
     },
     pub: {
       cmt: {

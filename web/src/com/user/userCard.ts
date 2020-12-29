@@ -16,10 +16,13 @@ export class UserCard extends BaseElement {
     ];
   }
 
-  @lp.object user!: UserInfo;
+  @lp.object user?: UserInfo;
 
   render() {
     const { user } = this;
+    if (!user) {
+      return '';
+    }
     return html`
       <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="40" height="40" />
       <span class="m-l-xs">${user.name}</span>

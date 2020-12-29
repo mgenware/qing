@@ -3,9 +3,9 @@ import BaseElement from 'baseElement';
 import ls from 'ls';
 import rs from 'routes';
 import * as lp from 'lit-props';
-import masterWind from 'app/masterWind';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
+import app from 'app';
 
 export enum SettingsPages {
   profile,
@@ -23,7 +23,7 @@ export class SettingsBaseView extends BaseElement {
           <h3>${ls.settings}</h3>
           <link-list-view>
             ${this.menuLink(SettingsPages.profile, rs.home.settings.profile, ls.profile)}
-            ${masterWind.appUserAdmin
+            ${app.state.user?.admin
               ? this.menuLink(
                   SettingsPages.userAndGroups,
                   rs.home.settings.usersAndGroups,
