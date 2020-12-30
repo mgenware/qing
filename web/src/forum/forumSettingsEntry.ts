@@ -15,8 +15,8 @@ function loadSettingsContent(
   title: string,
   content: TemplateResult,
 ) {
-  app.page.setPageContent(
-    title,
+  app.page.setTitleAndMainContent(
+    [title],
     html`<forum-settings-base-view .selectedPage=${selectedPage}
       >${content}</forum-settings-base-view
     >`,

@@ -27,11 +27,19 @@ export default class PageModule {
     window.open(url, '_blank');
   }
 
-  setPageContent(title: string, content: TemplateResult) {
-    document.title = `${title} - ${ls._siteName}`;
+  setTitle(titles: string[]) {
+    document.title = `${titles.join(' - ')} - ${ls._siteName}`;
+  }
+
+  setMainContent(content: TemplateResult) {
     renderTemplateResult(
       this.mainContentElement,
       html`<container-view>${content}</container-view>`,
     );
+  }
+
+  setTitleAndMainContent(titles: string[], content: TemplateResult) {
+    this.setTitle(titles);
+    this.setMainContent(content);
   }
 }

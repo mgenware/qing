@@ -1,5 +1,5 @@
+import MasterWind from 'app/masterWind';
 import { defaultLang } from 'sharedConstants';
-import masterWind from '../masterWind';
 import User from '../user/user';
 
 export type UserCallbackFn = (user: User) => void;
@@ -12,16 +12,19 @@ export default class AppState {
   #userListeners: UserCallbackFn[] = [];
 
   constructor() {
-    this.lang = masterWind.appLang || defaultLang;
-    this.forumsMode = masterWind.appForumsMode;
-    this.#windData = masterWind.appWindData;
-    if (masterWind.appUserID) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const wind = (window as any) as MasterWind;
+
+    this.lang = wind.appLang || defaultLang;
+    this.forumsMode = wind.appForumsMode;
+    this.#windData = wind.appWindData;
+    if (wind.appUserID) {
       this.#user = {
-        eid: masterWind.appUserID,
-        name: masterWind.appUserName,
-        url: masterWind.appUserURL,
-        iconURL: masterWind.appUserIconURL,
-        admin: masterWind.appUserAdmin,
+        eid: wind.appUserID,
+        name: wind.appUserName,
+        url: wind.appUserURL,
+        iconURL: wind.appUserIconURL,
+        admin: wind.appUserAdmin,
       };
     }
   }

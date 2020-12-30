@@ -9,9 +9,13 @@ import app from 'app';
 const authRouter = new MiniURLRouter();
 
 authRouter.register(rs.auth.signUp, () => {
-  app.page.setPageContent(ls.createAnAcc, html`<reg-app></reg-app>`);
+  const { page } = app;
+  page.setTitle([ls.createAnAcc]);
+  page.setMainContent(html`<reg-app></reg-app>`);
 });
 authRouter.register(rs.auth.signIn, () => {
-  app.page.setPageContent(ls.createAnAcc, html`<sign-in-app></sign-in-app>`);
+  const { page } = app;
+  page.setTitle([ls.signIn]);
+  page.setMainContent(html`<sign-in-app></sign-in-app>`);
 });
 authRouter.startOnce();

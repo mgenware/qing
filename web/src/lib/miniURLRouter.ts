@@ -1,3 +1,4 @@
+import app from 'app';
 import Trie from 'basic-trie';
 
 type MiniURLRouterHandler = (args: Readonly<Record<string, unknown>>) => void;
@@ -6,6 +7,10 @@ export class MiniURLRouter {
   #trie = new Trie<string, MiniURLRouterHandler>();
 
   register(path: string, handler: MiniURLRouterHandler) {
+    if (app.devMode) {
+      // eslint-disable-next-line no-console
+      console.log(`🚣🏻‍♂️ Registered route "${path}"`);
+    }
     const parts = this.checkPath(path, true);
     this.#trie.set(parts, handler);
   }
