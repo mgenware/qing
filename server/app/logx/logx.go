@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"runtime/debug"
 
 	"github.com/fatih/color"
 	"github.com/mgenware/go-packagex/v5/stringsx"
@@ -80,6 +81,7 @@ func (logger *Logger) Warn(key string, args ...interface{}) {
 // Error logs an error message.
 func (logger *Logger) Error(key string, args ...interface{}) {
 	if logger.DevMode {
+		debug.PrintStack()
 		log.Println(color.RedString(formatOutputStr(key, args)))
 	}
 	logger.errLogger.Errorw(key, args...)
