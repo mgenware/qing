@@ -19,7 +19,7 @@
       window.appUserAdmin = '{{.AppUserAdmin}}' === 'true';
       window.appLang = '{{js .AppLang}}';
       window.appForumsMode = '{{.AppForumsMode}}' === 'true';
-      window.appWindData = JSON.parse('{{js .AppWindDataString}}');
+      window.appWindData = JSON.parse('{{js .AppWindDataString}}' || null);
     </script>
 
     <footer id="main-footer">
