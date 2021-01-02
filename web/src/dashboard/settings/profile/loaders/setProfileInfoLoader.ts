@@ -15,7 +15,7 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
     return routes.s.pri.profile.setInfo;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       name: this.name,
       website: this.website,

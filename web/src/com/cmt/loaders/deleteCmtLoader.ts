@@ -1,8 +1,8 @@
 import { CHECK } from 'checks';
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 
-export default class DeleteCmtLoader extends BaseLoader<string> {
+export default class DeleteCmtLoader extends Loader<string> {
   constructor(
     public id: string | null,
     public hostType: number,
@@ -18,7 +18,7 @@ export default class DeleteCmtLoader extends BaseLoader<string> {
     return routes.s.pri.compose.deleteCmt;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       id: this.id,
       hostType: this.hostType,

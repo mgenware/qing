@@ -1,9 +1,9 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 import { CHECK } from 'checks';
 import LikeHostType from './likeHostType';
 
-export default class SetLikeLoader extends BaseLoader<string> {
+export default class SetLikeLoader extends Loader<string> {
   constructor(public id: string, public type: LikeHostType, public liked: boolean) {
     super();
     CHECK(id);
@@ -13,7 +13,7 @@ export default class SetLikeLoader extends BaseLoader<string> {
     return routes.s.pri.like.set;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       id: this.id,
       value: +this.liked,

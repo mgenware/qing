@@ -74,7 +74,7 @@ export default class Loader<T> {
     return '';
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {};
   }
 

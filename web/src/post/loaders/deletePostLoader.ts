@@ -1,7 +1,7 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 
-export default class DeletePostLoader extends BaseLoader<string> {
+export default class DeletePostLoader extends Loader<string> {
   constructor(public pid: string | null, public entityType: number) {
     super();
   }
@@ -10,7 +10,7 @@ export default class DeletePostLoader extends BaseLoader<string> {
     return routes.s.pri.compose.deletePost;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       id: this.pid,
       entityType: this.entityType,

@@ -1,9 +1,9 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 import { entityDiscussionMsg } from 'sharedConstants';
 import { ComposerContent } from 'ui/editor/composerView';
 
-export class SetPostLoader extends BaseLoader<string> {
+export class SetPostLoader extends Loader<string> {
   // Used when `entityType` is `discussionMsg`;
   discussionID?: string;
 
@@ -19,7 +19,7 @@ export class SetPostLoader extends BaseLoader<string> {
     return routes.s.pri.compose.setPost;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     const { entityType } = this;
     const params: Record<string, unknown> = {
       content: this.content,

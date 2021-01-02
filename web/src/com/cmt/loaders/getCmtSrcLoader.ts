@@ -1,11 +1,11 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 
 export interface GetCmtSourceResult {
   content: string;
 }
 
-export class GetCmtSourceLoader extends BaseLoader<GetCmtSourceResult> {
+export class GetCmtSourceLoader extends Loader<GetCmtSourceResult> {
   constructor(public id: string) {
     super();
   }
@@ -14,7 +14,7 @@ export class GetCmtSourceLoader extends BaseLoader<GetCmtSourceResult> {
     return routes.s.pri.compose.getCmtSource;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       id: this.id,
     };

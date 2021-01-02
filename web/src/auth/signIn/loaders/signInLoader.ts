@@ -1,7 +1,7 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 
-export default class SignInLoader extends BaseLoader<undefined> {
+export default class SignInLoader extends Loader<undefined> {
   constructor(public email: string, public pwd: string) {
     super();
   }
@@ -10,7 +10,7 @@ export default class SignInLoader extends BaseLoader<undefined> {
     return routes.s.pub.auth.signIn;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       email: this.email,
       pwd: this.pwd,

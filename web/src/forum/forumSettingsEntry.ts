@@ -8,10 +8,12 @@ import './settings/general/forumGeneralSettingsApp';
 import ls from 'ls';
 import ForumSettingsWind from './forumSettingsWind';
 import strf from 'bowhead-js';
+import { CHECK } from 'checks';
 
 const settingsRouter = new MiniURLRouter();
 const forumSettingsWind = app.state.windData<ForumSettingsWind>();
 const fid = forumSettingsWind.EID;
+CHECK(fid);
 
 // FR formats the specified route and returns a route with forum EID attached.
 function FR(r: string): string {

@@ -15,9 +15,9 @@ export default class AppState {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const wind = (window as any) as MasterWind;
 
-    this.lang = wind.appLang || defaultLang;
+    this.lang = wind.appLang ?? defaultLang;
     this.forumsMode = wind.appForumsMode;
-    this.#windData = wind.appWindData;
+    this.#windData = wind.appWindData ?? {};
     if (wind.appUserID) {
       this.#user = {
         eid: wind.appUserID,

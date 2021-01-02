@@ -1,7 +1,7 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 
-export default class SetBioLoader extends BaseLoader<undefined> {
+export default class SetBioLoader extends Loader<undefined> {
   constructor(public bio: string) {
     super();
   }
@@ -10,7 +10,7 @@ export default class SetBioLoader extends BaseLoader<undefined> {
     return routes.s.pri.profile.setBio;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       bio: this.bio,
     };

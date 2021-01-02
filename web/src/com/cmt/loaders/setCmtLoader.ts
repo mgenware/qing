@@ -1,5 +1,5 @@
 import { CHECK } from 'checks';
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 import { ComposerContent } from 'ui/editor/composerView';
 import Cmt from '../cmt';
@@ -20,7 +20,7 @@ export interface SetCmtResponse {
   cmt: Cmt;
 }
 
-export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
+export default class SetCmtLoader extends Loader<SetCmtResponse> {
   static newCmt(hostID: string, hostType: number, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
       hostID,
@@ -70,7 +70,7 @@ export default class SetCmtLoader extends BaseLoader<SetCmtResponse> {
     return routes.s.pri.compose.setCmt;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return this.data;
   }
 }

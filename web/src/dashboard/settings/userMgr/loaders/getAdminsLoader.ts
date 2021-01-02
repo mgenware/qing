@@ -1,8 +1,8 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import UserInfo from 'com/user/userInfo';
 import routes from 'routes';
 
-export default class GetAdminsLoader extends BaseLoader<UserInfo[]> {
+export default class GetAdminsLoader extends Loader<UserInfo[]> {
   requestURL(): string {
     return routes.s.admin.getAdmins;
   }

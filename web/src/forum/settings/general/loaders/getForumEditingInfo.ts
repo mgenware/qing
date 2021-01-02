@@ -1,23 +1,13 @@
-import Loader from 'lib/loader';
 import routes from 'routes';
+import FModBaseLoader from './fmodBaseLoader';
 
 export interface GetForumEditingInfo {
   name?: string;
   descHTML?: string;
 }
 
-export class GetForumEditingInfoLoader extends Loader<GetForumEditingInfo> {
-  constructor(public fid: string) {
-    super();
-  }
-
+export class GetForumEditingInfoLoader extends FModBaseLoader<GetForumEditingInfo> {
   requestURL(): string {
     return routes.s.pri.forum.fmod.getInfo;
-  }
-
-  requestParams(): unknown {
-    return {
-      id: this.fid,
-    };
   }
 }

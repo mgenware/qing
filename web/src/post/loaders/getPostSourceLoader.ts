@@ -1,4 +1,4 @@
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 
 export interface GetPostSourceResult {
@@ -6,7 +6,7 @@ export interface GetPostSourceResult {
   content: string;
 }
 
-export class GetPostSourceLoader extends BaseLoader<GetPostSourceResult> {
+export class GetPostSourceLoader extends Loader<GetPostSourceResult> {
   constructor(public id: string) {
     super();
   }
@@ -15,7 +15,7 @@ export class GetPostSourceLoader extends BaseLoader<GetPostSourceResult> {
     return routes.s.pri.compose.getPostSource;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       id: this.id,
     };

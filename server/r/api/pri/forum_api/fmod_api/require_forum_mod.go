@@ -2,6 +2,7 @@ package fmodapi
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"qing/app/appcom"
 	"qing/app/defs"
@@ -18,9 +19,9 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 		sUser := appcom.ContextUser(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
-		forumID := validator.GetIDFromDict(params, "forumID")
+		forumID := validator.GetIDFromDict(params, ForumIDParamName)
 		if forumID == 0 {
-			resp.MustFailWithUserError("forum_id is empty")
+			resp.MustFailWithUserError(fmt.Sprintf("The argument \"%v\" is empty", ForumIDParamName))
 			return
 		}
 

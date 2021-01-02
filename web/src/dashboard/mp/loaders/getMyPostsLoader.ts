@@ -1,5 +1,5 @@
 import PaginatedList from 'lib/api/paginatedList';
-import BaseLoader from 'lib/loader';
+import Loader from 'lib/loader';
 import routes from 'routes';
 import { entityPost, entityDiscussion } from 'sharedConstants';
 
@@ -22,7 +22,7 @@ export interface DashboardDiscussion {
   msgCount: number;
 }
 
-export class GetMyPostsLoader<T> extends BaseLoader<PaginatedList<T>> {
+export class GetMyPostsLoader<T> extends Loader<PaginatedList<T>> {
   constructor(
     public entityType: number,
     public page: number,
@@ -46,7 +46,7 @@ export class GetMyPostsLoader<T> extends BaseLoader<PaginatedList<T>> {
     }
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     return {
       page: this.page,
       pageSize: this.pageSize,

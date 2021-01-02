@@ -42,7 +42,7 @@ export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
     return routes.s.pub.cmt.get;
   }
 
-  requestParams(): unknown {
+  requestParams(): Record<string, unknown> {
     if (this.cmtInputs) {
       return this.cmtInputs;
     }
