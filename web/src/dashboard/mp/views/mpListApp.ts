@@ -41,6 +41,7 @@ export abstract class MPListApp<T> extends BaseElement {
     const { loadingStatus } = this;
     if (!loadingStatus.isSuccess) {
       return html`<status-view
+        .progressViewPadding=${'md'}
         .status=${loadingStatus}
         canRetry
         @onRetry=${this.handleRetry}

@@ -51,13 +51,12 @@ export class EditProfileApp extends BaseElement {
   renderProgress() {
     const { loadingStatus } = this;
     return html`
-      <centered-view .height=${'400px'}>
-        <status-view
-          .status=${loadingStatus}
-          .canRetry=${true}
-          @onRetry=${this.handleLoadingRetry}
-        ></status-view
-      ></centered-view>
+      <status-view
+        .progressViewPadding=${'md'}
+        .status=${loadingStatus}
+        .canRetry=${true}
+        @onRetry=${this.handleLoadingRetry}
+      ></status-view>
     `;
   }
 

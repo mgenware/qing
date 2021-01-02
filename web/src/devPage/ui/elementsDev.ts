@@ -173,8 +173,8 @@ export class ElementsDev extends BaseElement {
       <centered-view class="with-border" height="150px">
         <spinner-view>Loading...</spinner-view>
       </centered-view>
-      <h2>Status view</h2>
-      <status-view .status=${LoadingStatus.working}></status-view>
+      <h2>Status view ('progressViewPadding' = 'md')</h2>
+      <status-view .status=${LoadingStatus.working} .progressViewPadding=${'md'}></status-view>
       <h2>Status overlay</h2>
       <status-overlay .status=${LoadingStatus.working}>
         <h1>heading 1</h1>

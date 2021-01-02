@@ -1,10 +1,11 @@
 import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
-import '../alerts/errorView';
-import './spinnerView';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
+import * as lp from 'lit-props';
+import '../alerts/errorView';
+import './spinnerView';
+import '../panels/centeredView';
 
 // A status view used to display `LoadingStatus`.
 // It has 3 states: loading, success and error.
@@ -30,10 +31,16 @@ export class StatusView extends BaseElement {
   // The title of error state view.
   @lp.string errorTitle = '';
 
+  @lp.string progressViewPadding: 'md' | '' = '';
+
   render() {
     const { status } = this;
     if (status.isWorking) {
-      return html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `;
+      return html`
+        <centered-view .height=${this.progressViewPadding === 'md' ? '400px' : ''}
+          ><spinner-view>${this.loadingText || ls.loading}</spinner-view></centered-view
+        >
+      `;
     }
     if (status.error) {
       return html`

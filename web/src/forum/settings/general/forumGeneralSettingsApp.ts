@@ -59,13 +59,12 @@ export class ForumGeneralSettingsApp extends BaseElement {
   renderProgress() {
     const { loadingStatus } = this;
     return html`
-      <centered-view .height=${'400px'}>
-        <status-view
-          .status=${loadingStatus}
-          .canRetry=${true}
-          @onRetry=${this.handleLoadingRetry}
-        ></status-view
-      ></centered-view>
+      <status-view
+        .status=${loadingStatus}
+        .canRetry=${true}
+        .progressViewPadding=${'md'}
+        @onRetry=${this.handleLoadingRetry}
+      ></status-view>
     `;
   }
 

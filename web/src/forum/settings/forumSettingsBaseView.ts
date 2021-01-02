@@ -26,7 +26,7 @@ export class ForumSettingsBaseView extends BaseElement {
     const { fid } = this;
     return html`
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-md-auto p-b-md">
           <h3>${ls.settings}</h3>
           <link-list-view>
             ${this.menuLink(
