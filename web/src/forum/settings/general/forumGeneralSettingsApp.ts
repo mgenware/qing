@@ -41,13 +41,12 @@ export class ForumGeneralSettingsApp extends BaseElement {
   @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
 
-  updateInfoLoader!: SetForumEditingInfoLoader;
-
-  private descEditorView!: EditorView;
+  get descEditorView(): EditorView {
+    return this.mustGetShadowElement(editorElementID);
+  }
 
   async firstUpdated() {
     CHECK(this.fid);
-    this.descEditorView = this.mustGetShadowElement(editorElementID);
 
     await this.reloadDataAsync();
   }

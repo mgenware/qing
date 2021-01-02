@@ -76,12 +76,12 @@ export class UserSelectorApp extends BaseElement {
   @lp.bool private popoverVisible = false;
   @lp.object private selectedUser: UserInfo | null = null;
 
-  private inputView!: HTMLElement;
-  private popoverRoot!: HTMLElement;
+  private get inputView(): HTMLElement {
+    return this.mustGetShadowElement('input-view');
+  }
 
-  firstUpdated() {
-    this.inputView = this.mustGetShadowElement('input-view');
-    this.popoverRoot = this.mustGetShadowElement('popover-root');
+  private get popoverRoot(): HTMLElement {
+    return this.mustGetShadowElement('popover-root');
   }
 
   render() {

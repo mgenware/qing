@@ -9,7 +9,7 @@ import BaseElement from 'baseElement';
 export class TimeField extends BaseElement {
   @property() createdAt = '';
   @property() modifiedAt = '';
-  locale!: Locale;
+  locale?: Locale;
 
   firstUpdated() {
     const { lang } = app.state;

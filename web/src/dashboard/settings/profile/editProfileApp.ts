@@ -38,7 +38,6 @@ export class EditProfileApp extends BaseElement {
   @lp.object loadingStatus = LoadingStatus.empty;
   @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
-  setInfoLoader!: SetProfileInfoLoader;
 
   async firstUpdated() {
     await this.reloadDataAsync();

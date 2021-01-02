@@ -72,10 +72,12 @@ export class InputView extends BaseElement {
   private debouncedOnChangeHandler?: () => void;
 
   @lp.string private validationMessage = '';
-  private inputElement!: HTMLInputElement;
+
+  private get inputElement(): HTMLInputElement {
+    return this.mustGetShadowElement(inputID);
+  }
 
   firstUpdated() {
-    this.inputElement = this.mustGetShadowElement(inputID);
     if (this.debounceOnChange) {
       this.debouncedOnChangeHandler = debounceFn(this.onChangeDebounced, { wait: 500 });
     }

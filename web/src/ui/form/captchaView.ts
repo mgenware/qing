@@ -36,10 +36,9 @@ export class CaptchaView extends BaseElement {
 
   @property({ type: Number }) entityType = 0;
   @property({ type: Number }) private timestamp = Date.now();
-  private textElement!: HTMLInputElement;
 
-  firstUpdated() {
-    this.textElement = this.mustGetShadowElement('inputElement');
+  private get textElement(): HTMLInputElement {
+    return this.mustGetShadowElement('inputElement');
   }
 
   render() {

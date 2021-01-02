@@ -24,7 +24,9 @@ export default class SetPostApp extends BaseElement {
   // Used when `entityType` is discussion msg.
   @lp.string discussionID: string | undefined;
 
-  private composerElement!: ComposerView;
+  private get composerElement(): ComposerView {
+    return this.mustGetShadowElement(composerID);
+  }
 
   async firstUpdated() {
     const { entityType } = this;
@@ -35,7 +37,6 @@ export default class SetPostApp extends BaseElement {
       }
     }
 
-    this.composerElement = this.mustGetShadowElement(composerID);
     if (this.editedID) {
       const loader = new GetPostSourceLoader(this.editedID);
       const status = await app.runGlobalActionAsync(loader);

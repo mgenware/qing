@@ -24,17 +24,25 @@ export class AvatarUploader extends BaseElement {
 
   @property() private imageDataURL: string | null = null;
 
-  formElement!: HTMLFormElement;
-  uploadElement!: HTMLInputElement;
-  modalElement!: QingDialog;
-  cropElement!: HTMLElement;
   cropInfo: ImageCropInfo | null = null;
 
+  private get formElement(): HTMLFormElement {
+    return this.mustGetShadowElement('formElement');
+  }
+
+  private get uploadElement(): HTMLInputElement {
+    return this.mustGetShadowElement('uploadElement');
+  }
+
+  private get modalElement(): QingDialog {
+    return this.mustGetShadowElement('modalElement');
+  }
+
+  private get cropElement(): HTMLElement {
+    return this.mustGetShadowElement('cropElement');
+  }
+
   firstUpdated() {
-    this.formElement = this.mustGetShadowElement('formElement');
-    this.uploadElement = this.mustGetShadowElement('uploadElement');
-    this.modalElement = this.mustGetShadowElement('modalElement');
-    this.cropElement = this.mustGetShadowElement('cropElement');
     this.hookFileUploadEvents(this.uploadElement);
     this.cropElement.addEventListener('image-crop-change', (e) => this.handleImageCrop(e));
     this.modalElement.addEventListener('closed', ((
