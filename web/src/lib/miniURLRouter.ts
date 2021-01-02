@@ -1,16 +1,29 @@
 import app from 'app';
-import Trie from 'basic-trie';
+import Trie, { PayloadType } from 'basic-trie';
 
-type MiniURLRouterHandler = (args: Readonly<Record<string, unknown>>) => void;
+export type MiniURLRouterHandler = (args: Readonly<Record<string, unknown>>) => void;
+
+class URLComponentTrie extends Trie<string, MiniURLRouterHandler> {
+  isKeyWildcard(key: string): boolean {
+    return key.startsWith(':');
+  }
+
+  getWildcardPayload(
+    key: string,
+    wildcardName: string,
+    _wildcardValue: MiniURLRouterHandler | null,
+  ): PayloadType | undefined {
+    return {
+      [wildcardName.substr(1)]: key,
+    };
+  }
+}
 
 export class MiniURLRouter {
-  #trie = new Trie<string, MiniURLRouterHandler>();
+  #trie = new URLComponentTrie();
 
   register(path: string, handler: MiniURLRouterHandler) {
-    if (app.devMode) {
-      // eslint-disable-next-line no-console
-      console.log(`🚣🏻‍♂️ Registered route "${path}"`);
-    }
+    this.log(`Registered route "${path}"`);
     const parts = this.checkPath(path, true);
     this.#trie.set(parts, handler);
   }
@@ -18,6 +31,7 @@ export class MiniURLRouter {
   handle(urlString: string): boolean {
     const url = new URL(urlString);
     const path = url.pathname;
+    this.log(`Handling path "${path}"`);
     if (!path) {
       return false;
     }
@@ -54,5 +68,12 @@ export class MiniURLRouter {
       }
     }
     return parts;
+  }
+
+  private log(s: string) {
+    if (app.devMode) {
+      // eslint-disable-next-line no-console
+      console.log(`🚃 ${s}`);
+    }
   }
 }

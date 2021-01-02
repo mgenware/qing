@@ -89,3 +89,11 @@ export default buildTree({
     },
   },
 });
+
+export function formatURL(url: string, params: Record<string, string>): string {
+  let mURL = url;
+  for (const [key, val] of Object.entries(params)) {
+    mURL = mURL.replace(`:${key}`, val);
+  }
+  return mURL;
+}

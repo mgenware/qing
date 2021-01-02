@@ -1,7 +1,4 @@
-import app from 'app';
-
-export interface ForumWind {
+export default interface ForumWind {
+  EID: string;
   Editable: boolean;
 }
-
-export default app.state.windData<ForumWind>();

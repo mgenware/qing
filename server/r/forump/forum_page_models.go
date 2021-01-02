@@ -4,6 +4,7 @@ import (
 	"qing/app"
 	"qing/app/defs"
 	"qing/da"
+	"qing/lib/validator"
 )
 
 var vForumPage = app.MasterPageManager.MustParseView("/forum/forumPage.html")
@@ -12,6 +13,7 @@ var vForumPage = app.MasterPageManager.MustParseView("/forum/forumPage.html")
 type ForumPageModel struct {
 	da.ForumTableSelectForumResult
 
+	ForumEID            string
 	ForumURL            string
 	ForumQuestionsURL   string
 	ForumDiscussionsURL string
@@ -25,6 +27,7 @@ type ForumPageModel struct {
 
 // ForumPageWindData ...
 type ForumPageWindData struct {
+	FID      string
 	Editable bool
 }
 
@@ -33,6 +36,7 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 	d := ForumPageModel{ForumTableSelectForumResult: *f}
 
 	fid := f.ID
+	d.ForumEID = validator.EncodeID(fid)
 	d.ForumURL = app.URL.ForumAdv(fid, "", 1)
 	d.ForumQuestionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyQuestions, 1)
 	d.ForumDiscussionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyDiscussions, 1)
