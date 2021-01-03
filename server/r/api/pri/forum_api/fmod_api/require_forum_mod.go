@@ -21,7 +21,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 		resp := handler.NewJSONResponse(r, w)
 		forumID := validator.GetIDFromDict(params, ForumIDParamName)
 		if forumID == 0 {
-			resp.MustFailWithUserError(fmt.Sprintf("The argument \"%v\" is empty", ForumIDParamName))
+			resp.MustFailWithUserError(fmt.Sprintf("The argument `%v` is empty", ForumIDParamName))
 			return
 		}
 

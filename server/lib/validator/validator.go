@@ -39,7 +39,7 @@ func MustGetUnsafeStringFromDict(dict map[string]interface{}, key string) string
 func MustGetStringFromDict(dict map[string]interface{}, key string, max int) string {
 	val := MustGetUnsafeStringFromDict(dict, key)
 	if utf8.RuneCountInString(val) > max {
-		panic(fmt.Sprintf("The argument \"%v\" has exceeded the max length (%v) allowed", key, max))
+		panic(fmt.Sprintf("The argument `%v` has exceeded the max length (%v) allowed", key, max))
 	}
 	return val
 }
@@ -54,10 +54,10 @@ func MustGetMinMaxStringFromDict(dict map[string]interface{}, key string, min, m
 	val := MustGetUnsafeStringFromDict(dict, key)
 	length := utf8.RuneCountInString(val)
 	if length > max {
-		panic(fmt.Sprintf("The argument \"%v\" has exceeded the max length (%v) allowed", key, max))
+		panic(fmt.Sprintf("The argument `%v` has exceeded the max length (%v) allowed", key, max))
 	}
 	if length < min {
-		panic(fmt.Sprintf("The argument \"%v\" is less than the required length (%v)", key, min))
+		panic(fmt.Sprintf("The argument `%v` is less than the required length (%v)", key, min))
 	}
 	return val
 }
@@ -120,7 +120,7 @@ func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	}
 	id, err := DecodeID(val)
 	if err != nil {
-		panic(fmt.Sprintf("The parameter %v is not a valid ID", key))
+		panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 	}
 	return id
 }
@@ -151,7 +151,7 @@ func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
 		for i, idStr := range strArray {
 			id, err := DecodeID(idStr)
 			if err != nil {
-				panic(fmt.Sprintf("The parameter %v is not a valid ID", key))
+				panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 			}
 			ids[i] = id
 		}
