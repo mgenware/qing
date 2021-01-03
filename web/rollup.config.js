@@ -5,8 +5,10 @@ import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import litcss from 'rollup-plugin-lit-css';
 import replace from '@rollup/plugin-replace';
+import minifyTemplates from 'rollup-plugin-minify-html-literals';
 
 const isProd = process.env.NODE_ENV == 'production';
+console.log(`Build started on ${isProd ? `⚠️⚠️⚠️ PRODUCTION ⚠️⚠️⚠️` : `😜 dev`} mode`);
 
 function preprocessNodeEnv() {
   return replace({
@@ -15,7 +17,7 @@ function preprocessNodeEnv() {
   });
 }
 
-const plugins = [
+let plugins = [
   nodeResolve({
     browser: true,
     extensions: ['.js', '.json', '.css'],
@@ -30,7 +32,12 @@ const plugins = [
 ];
 
 if (isProd) {
-  plugins.push(terser(), preprocessNodeEnv());
+  plugins = [
+    // Minifying templates should always run first.
+    minifyTemplates(),
+    ...plugins,
+    terser(),
+  ];
 }
 
 const input = [
