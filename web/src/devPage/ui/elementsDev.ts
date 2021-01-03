@@ -98,8 +98,10 @@ export class ElementsDev extends BaseElement {
   render() {
     return html`
       <div>
-        <input type="checkbox" id="darkModeCheckbox" @click=${this.handleDarkModeChecked} />
-        <label for="darkModeCheckbox">Dark mode</label>
+        <label
+          ><input type="checkbox" id="darkModeCheckbox" @click=${this.handleDarkModeChecked} />Dark
+          mode</label
+        >
       </div>
       <h2>Default context</h2>
       <div class="text">

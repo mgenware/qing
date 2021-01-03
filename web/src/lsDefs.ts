@@ -129,4 +129,5 @@ export default interface LSDefs {
   questions: string;
   general: string;
   moderators: string;
+  description: string;
 }

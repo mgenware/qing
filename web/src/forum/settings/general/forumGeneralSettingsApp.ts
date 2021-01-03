@@ -79,9 +79,10 @@ export class ForumGeneralSettingsApp extends BaseElement {
           @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
         ></input-view>
 
-        <editor-view id="editor"></editor-view>
+        <label class="app-form-label" for=${editorElementID}>${ls.description}</label>
+        <editor-view id=${editorElementID}></editor-view>
 
-        <qing-button btnStyle="success" @click=${this.handleSaveInfoClick}>
+        <qing-button class="m-t-md" btnStyle="success" @click=${this.handleSaveInfoClick}>
           ${ls.save}
         </qing-button>
       </status-overlay>

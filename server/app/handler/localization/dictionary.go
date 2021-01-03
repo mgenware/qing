@@ -39,6 +39,7 @@ type Dictionary struct {
 	DateCreated                  string `json:"dateCreated"`
 	DateModified                 string `json:"dateModified"`
 	Delete                       string `json:"delete"`
+	Description                  string `json:"description"`
 	Discussions                  string `json:"discussions"`
 	Edit                         string `json:"edit"`
 	EditComment                  string `json:"editComment"`

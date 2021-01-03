@@ -128,5 +128,6 @@
   "allThreads": "All threads",
   "questions": "Questions",
   "general": "General",
-  "moderators": "Moderators"
+  "moderators": "Moderators",
+  "description": "Description"
 }

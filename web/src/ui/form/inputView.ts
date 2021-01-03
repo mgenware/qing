@@ -46,7 +46,6 @@ export class InputView extends BaseElement {
           font-size: 1rem;
           max-width: 100%;
           width: 100%;
-          margin-bottom: 0.8rem;
           line-height: 1.5;
           background-color: transparent;
           color: var(--app-default-fore-color);
