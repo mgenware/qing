@@ -1,6 +1,6 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
-import 'core/cmt/cmtApp';
+import 'com/cmtApp';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import app from 'app';

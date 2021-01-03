@@ -1,6 +1,6 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
-import 'core/cmt/cmtApp';
+import 'com/cmtApp';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import 'post/setPostApp';

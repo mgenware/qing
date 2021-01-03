@@ -1,6 +1,6 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
-import 'core/cmt/cmtApp';
+import 'com/cmtApp';
 import postWind from './postWind';
 import './views/likeApp';
 import { entityPost } from 'sharedConstants';
