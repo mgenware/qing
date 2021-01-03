@@ -19,7 +19,7 @@
     "debounce-fn": "^4.0.0",
     "fx214": "^1.2.0",
     "js-cookie": "^2.2.1",
-    "kangxi-editor": "^0.7.1",
+    "kangxi-editor": "^0.8.0",
     "lit-element": "^2.4.0",
     "lit-props": "^1.1.0",
     "qing-button": "^6.1.0",

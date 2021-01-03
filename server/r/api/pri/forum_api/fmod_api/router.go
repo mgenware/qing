@@ -8,6 +8,6 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Core.Use(RequireForumModeJSONMiddleware)
 
-	Router.Get("/set-info", setInfo)
-	Router.Get("/get-info", setInfo)
+	Router.Post("/set-info", setInfo)
+	Router.Post("/get-info", getInfo)
 }
