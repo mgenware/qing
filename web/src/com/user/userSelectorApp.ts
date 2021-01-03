@@ -102,7 +102,6 @@ export class UserSelectorApp extends BaseElement {
       <input-view
         class="m-t-md"
         id="input-view"
-        required
         style=${`visibility: ${selectedUser ? 'collapse' : 'visible'}`}
         .showInputView=${false}
         .value=${this.value}

@@ -106,16 +106,21 @@ export class InputView extends BaseElement {
 
   checkValidity(): boolean {
     const res = this.inputElement.checkValidity();
-    this.validationError = this.inputElement.validationMessage;
+    this.updateValidationError();
     return res;
   }
 
-  private handleInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.validationError = input.validationMessage;
+  private updateValidationError() {
+    if (!this.inputElement.validity.valid) {
+      this.validationError = this.inputElement.validationMessage;
+    }
+  }
+
+  private handleInput(_: Event) {
+    this.updateValidationError();
     this.dispatchEvent(
       new CustomEvent<string>('onChange', {
-        detail: input.value,
+        detail: this.inputElement.value,
       }),
     );
     if (this.debouncedOnChangeHandler) {
