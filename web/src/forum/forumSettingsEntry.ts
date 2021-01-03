@@ -27,7 +27,7 @@ function loadSettingsContent(
 ) {
   app.page.setTitleAndMainContent(
     [title],
-    html`<forum-settings-base-view .selectedPage=${selectedPage}
+    html`<forum-settings-base-view .fid=${fid} .selectedPage=${selectedPage}
       >${content}</forum-settings-base-view
     >`,
   );
@@ -41,6 +41,5 @@ const generalPageHandler: MiniURLRouterHandler = () => {
   );
 };
 settingsRouter.register(FR(routes.f.id.settingsRoot), generalPageHandler);
-settingsRouter.register(FR(routes.f.id.settings.general), generalPageHandler);
 
 settingsRouter.startOnce();

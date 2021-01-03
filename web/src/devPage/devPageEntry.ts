@@ -2,7 +2,7 @@ import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'lit-element';
 import routes from './devRoutes';
 import './devView';
-import './auth/authDev';
+import './auth/authDevPage';
 import './ui/elementsDev';
 import app from 'app';
 import { routeDevPage } from 'sharedConstants';
@@ -14,7 +14,7 @@ function loadPageContent(title: string, content: TemplateResult) {
 }
 
 devRouter.register(routes.authRoot, () => {
-  loadPageContent('Auth dev page', html`<auth-dev></auth-dev>`);
+  loadPageContent('Auth dev page', html`<auth-dev-page></auth-dev-page>`);
 });
 devRouter.register(routes.elements, () => {
   loadPageContent('Elements dev page', html`<elements-dev></elements-dev>`);

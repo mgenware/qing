@@ -71,6 +71,6 @@ export default class SetCmtLoader extends Loader<SetCmtResponse> {
   }
 
   requestParams(): Record<string, unknown> {
-    return this.data;
+    return { ...this.data };
   }
 }

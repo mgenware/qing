@@ -83,7 +83,6 @@ export default buildTree({
       __content__: '{0}',
       settingsRoot: 'settings',
       settings: {
-        general: 'general',
         mods: 'mods',
       },
     },

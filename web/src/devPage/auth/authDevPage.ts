@@ -5,8 +5,8 @@ import 'ui/form/inputView';
 import 'qing-button';
 import routes from '../devRoutes';
 
-@customElement('auth-dev')
-export class AuthDev extends BaseElement {
+@customElement('auth-dev-page')
+export class AuthDevPage extends BaseElement {
   @lp.string loginUserID = '10';
   @lp.string newUserID = '';
   @lp.bool newUserAdmin = false;
@@ -32,8 +32,10 @@ export class AuthDev extends BaseElement {
           @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}
         >
         </input-view>
-        <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
-        <qing-button @click=${this.handleSignOut}>Sign out</qing-button>
+        <p>
+          <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
+          <qing-button @click=${this.handleSignOut}>Sign out</qing-button>
+        </p>
       </div>
     `;
   }
@@ -52,6 +54,6 @@ export class AuthDev extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'auth-dev': AuthDev;
+    'auth-dev-page': AuthDevPage;
   }
 }

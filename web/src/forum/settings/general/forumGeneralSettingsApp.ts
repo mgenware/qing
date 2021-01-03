@@ -27,10 +27,6 @@ export class ForumGeneralSettingsApp extends BaseElement {
         .profile-img {
           border: 1px solid var(--app-default-separator-color);
         }
-
-        input-view {
-          margin-bottom: 1rem;
-        }
       `,
     ];
   }
@@ -79,8 +75,8 @@ export class ForumGeneralSettingsApp extends BaseElement {
           @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
         ></input-view>
 
-        <label class="app-form-label" for=${editorElementID}>${ls.description}</label>
-        <editor-view id=${editorElementID}></editor-view>
+        <label class="app-form-label m-t-md" for=${editorElementID}>${ls.description}</label>
+        <editor-view class="m-t-md" id=${editorElementID}></editor-view>
 
         <qing-button class="m-t-md" btnStyle="success" @click=${this.handleSaveInfoClick}>
           ${ls.save}

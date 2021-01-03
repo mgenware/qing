@@ -107,7 +107,7 @@ export class CmtView extends BaseElement {
                 `
               : ''}
             <time-field .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></time-field>
-            ${cmt.userID === app.state.userID
+            ${cmt.userID === app.state.userEID
               ? html`
                   <edit-bar
                     .hasLeftMargin=${true}

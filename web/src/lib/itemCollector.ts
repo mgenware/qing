@@ -64,7 +64,7 @@ export abstract class ItemCollector<T> {
     this.onItemsChanged([]);
   }
 
-  getByKey(key: string): T | null {
+  getByKey(key: string): T | undefined {
     return this.itemMap[key];
   }
 

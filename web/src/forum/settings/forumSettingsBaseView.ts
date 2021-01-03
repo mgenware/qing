@@ -31,7 +31,7 @@ export class ForumSettingsBaseView extends BaseElement {
           <link-list-view>
             ${this.menuLink(
               ForumSettingsPages.general,
-              strf(routes.f.id.settings.general, fid),
+              strf(routes.f.id.settingsRoot, fid),
               ls.general,
             )}
             ${this.menuLink(

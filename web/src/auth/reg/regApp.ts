@@ -1,6 +1,6 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
-import 'com/cmtApp';
+import 'com/cmt/cmtApp';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -26,6 +26,7 @@ export class RegApp extends BaseElement {
       <h2>${ls.createAnAcc}</h2>
       <div>
         <input-view
+          class="m-t-md"
           required
           label=${ls.name}
           value=${this.name}
@@ -33,6 +34,7 @@ export class RegApp extends BaseElement {
         ></input-view>
 
         <input-view
+          class="m-t-md"
           required
           type="email"
           label=${ls.email}
@@ -41,6 +43,7 @@ export class RegApp extends BaseElement {
         ></input-view>
 
         <input-view
+          class="m-t-md"
           required
           type="password"
           label=${ls.password}
@@ -49,16 +52,23 @@ export class RegApp extends BaseElement {
         ></input-view>
 
         <input-view
+          class="m-t-md"
           required
           type="password"
           label=${ls.confirmPassword}
           value=${this.confirmPassword}
           @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}
         ></input-view>
-
-        <input-error-view message=${this.passwordsMismatchErr}></input-error-view>
+        ${this.passwordsMismatchErr
+          ? html`<input-error-view
+              class="m-t-md"
+              message=${this.passwordsMismatchErr}
+            ></input-error-view>`
+          : ''}
       </div>
-      <qing-button btnStyle="success" @click=${this.handleSignUpClick}>${ls.signUp}</qing-button>
+      <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignUpClick}
+        >${ls.signUp}</qing-button
+      >
       <qing-dialog
         id="modalElement"
         .isOpen=${this.isCompletionModalOpen}

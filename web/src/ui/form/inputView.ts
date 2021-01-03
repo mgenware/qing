@@ -67,10 +67,9 @@ export class InputView extends BaseElement {
   @lp.string value = '';
   @lp.string placeholder = '';
   @lp.bool debounceOnChange = false;
-  @lp.bool showInputError = false;
   private debouncedOnChangeHandler?: () => void;
 
-  @lp.string private validationMessage = '';
+  @lp.string private validationError = '';
 
   private get inputElement(): HTMLInputElement {
     return this.mustGetShadowElement(inputID);
@@ -83,7 +82,7 @@ export class InputView extends BaseElement {
   }
 
   render() {
-    const { showInputError } = this;
+    const { validationError } = this;
     return html`
       ${this.label ? html`<label class="app-form-label" for=${inputID}>${this.label}</label>` : ''}
       <input
@@ -93,10 +92,10 @@ export class InputView extends BaseElement {
         value=${this.value}
         placeholder=${this.placeholder}
         @input=${this.handleInput}
-        style=${showInputError ? '' : 'margin-bottom: 0'}
+        style=${`margin-bottom: ${validationError ? '0.5rem' : '0'}`}
       />
-      ${showInputError
-        ? html`<input-error-view message=${this.validationMessage}></input-error-view>`
+      ${validationError
+        ? html`<input-error-view message=${validationError}></input-error-view>`
         : ''}
     `;
   }
@@ -107,13 +106,13 @@ export class InputView extends BaseElement {
 
   checkValidity(): boolean {
     const res = this.inputElement.checkValidity();
-    this.validationMessage = this.inputElement.validationMessage;
+    this.validationError = this.inputElement.validationMessage;
     return res;
   }
 
   private handleInput(e: Event) {
     const input = e.target as HTMLInputElement;
-    this.validationMessage = input.validationMessage;
+    this.validationError = input.validationMessage;
     this.dispatchEvent(
       new CustomEvent<string>('onChange', {
         detail: input.value,

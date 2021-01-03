@@ -1,6 +1,6 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
-import 'com/cmtApp';
+import 'com/cmt/cmtApp';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -26,6 +26,7 @@ export class SignInApp extends BaseElement {
         ></input-view>
 
         <input-view
+          class="m-t-md"
           required
           type="password"
           label=${ls.password}
@@ -33,7 +34,9 @@ export class SignInApp extends BaseElement {
           @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}
         ></input-view>
       </div>
-      <qing-button btnStyle="success" @click=${this.handleSignInClick}>${ls.signIn}</qing-button>
+      <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignInClick}
+        >${ls.signIn}</qing-button
+      >
     `;
   }
 

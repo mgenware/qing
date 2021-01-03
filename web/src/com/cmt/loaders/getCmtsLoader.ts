@@ -44,10 +44,10 @@ export default class GetCmtsLoader extends Loader<ItemsResponse<Cmt>> {
 
   requestParams(): Record<string, unknown> {
     if (this.cmtInputs) {
-      return this.cmtInputs;
+      return { ...this.cmtInputs };
     }
     if (this.replyInputs) {
-      return this.replyInputs;
+      return { ...this.replyInputs };
     }
     return {};
   }
