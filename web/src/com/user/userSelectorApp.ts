@@ -185,10 +185,6 @@ export class UserSelectorApp extends BaseElement {
     const res = await app.runLocalActionAsync(loader, (st) => (this.status = st));
     if (res.data) {
       this.users = res.data;
-      if (app.devMode) {
-        // DEBUG: Add more users.
-        this.users = [...this.users, ...this.users, ...this.users, ...this.users];
-      }
     }
   }
 }
