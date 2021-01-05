@@ -79,21 +79,18 @@ export class EditProfileApp extends BaseElement {
         ></input-view>
 
         <input-view
-          required
           label=${ls.url}
           value=${this.url}
           @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
         ></input-view>
 
         <input-view
-          required
           label=${ls.company}
           value=${this.company}
           @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
         ></input-view>
 
         <input-view
-          required
           label=${ls.location}
           value=${this.location}
           @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
