@@ -19,11 +19,6 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := validator.GetIDFromDict(params, "id")
 	hasID := id != 0
 	entityType := validator.MustGetIntFromDict(params, "entityType")
-	var forumID *uint64
-	if app.SetupConfig().ForumsMode {
-		forumIDValue := validator.MustGetIDFromDict(params, "forumID")
-		forumID = &forumIDValue
-	}
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	var title string
@@ -42,6 +37,12 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
+		}
+
+		var forumID *uint64
+		if app.SetupConfig().ForumsMode && entityType != defs.Shared.EntityPost {
+			forumIDValue := validator.MustGetIDFromDict(params, "forumID")
+			forumID = &forumIDValue
 		}
 
 		switch entityType {
