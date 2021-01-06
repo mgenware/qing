@@ -1,7 +1,9 @@
 <container-view>
   <heading-view
     >{{.Name}} {{if .ForumEditable}}
-    <span><qing-button href="{{.ForumSettingsURL}}"></qing-button></span>
+    <qing-button slot="decorator" href="{{.ForumSettingsURL}}" class="__qing_ls__"
+      >settings</qing-button
+    >
     {{end}}
   </heading-view>
   <div class="p-b-md">{{.DescHTML}}</div>
