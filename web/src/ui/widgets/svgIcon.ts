@@ -12,6 +12,7 @@ export class SvgIcon extends BaseElement {
   @lp.string iconStyle: AppViewStyleNullable = '';
   @lp.number width = 0;
   @lp.number height = 0;
+  @lp.number size = 0;
 
   @lp.string private svgHTML = '';
 
@@ -21,7 +22,7 @@ export class SvgIcon extends BaseElement {
       super.styles,
       css`
         span {
-          fill: var(--fill);
+          fill: var(--svg-fill);
         }
       `,
     ];
@@ -33,7 +34,11 @@ export class SvgIcon extends BaseElement {
     }
     try {
       const resp = await fetch(this.src, { method: 'GET' });
-      this.svgHTML = resizeSVGHTML(await resp.text(), this.width, this.height);
+      this.svgHTML = resizeSVGHTML(
+        await resp.text(),
+        this.width || this.size,
+        this.height || this.size,
+      );
     } catch (err) {
       console.error(`Error downloading file "${this.src}", ${err.message}.`);
     }

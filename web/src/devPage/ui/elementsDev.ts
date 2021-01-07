@@ -11,6 +11,7 @@ import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
+import 'ui/qna/pollView';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
 import app from 'app';
@@ -166,6 +167,8 @@ export class ElementsDev extends BaseElement {
       <error-view headerTitle="Error" .canRetry=${true}>
         <p>Hello <b>world</b></p>
       </error-view>
+      <h2>Poll view</h2>
+      <poll-view .value=${-20} .ups=${100} .downs=${400}></poll-view>
       <h2>Spinners</h2>
       <p>
         <qing-button @click=${this.startFullscreenSpinner}>Fullscreen spinner</qing-button>

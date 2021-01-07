@@ -229,20 +229,20 @@ section-view[sectionStyle='info'] {
 
 /* svg-icon ------------------------- */
 svg-icon {
-  --fill: var(--app-default-back-color);
+  --svg-fill: var(--app-default-back-color);
 }
 svg-icon[iconStyle='success'] {
-  --fill: var(--app-success-back-color);
+  --svg-fill: var(--app-success-back-color);
 }
 svg-icon[iconStyle='danger'] {
-  --fill: var(--app-danger-back-color);
+  --svg-fill: var(--app-danger-back-color);
 }
 svg-icon[iconStyle='primary'] {
-  --fill: var(--app-primary-back-color);
+  --svg-fill: var(--app-primary-back-color);
 }
 svg-icon[iconStyle='warning'] {
-  --fill: var(--app-warning-back-color);
+  --svg-fill: var(--app-warning-back-color);
 }
 svg-icon[iconStyle='info'] {
-  --fill: var(--app-info-back-color);
+  --svg-fill: var(--app-info-back-color);
 }
