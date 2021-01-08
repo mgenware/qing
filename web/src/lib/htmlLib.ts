@@ -69,3 +69,11 @@ export function injectStyles(styles: CSSResult[]) {
     document.head.appendChild(styleElement);
   }
 }
+
+export function tif<T>(condition: unknown, template: T): T | '' {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  if (condition) {
+    return template;
+  }
+  return '';
+}

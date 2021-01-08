@@ -41,6 +41,7 @@ type Dictionary struct {
 	Delete                       string `json:"delete"`
 	Description                  string `json:"description"`
 	Discussions                  string `json:"discussions"`
+	Downvote                     string `json:"downvote"`
 	Edit                         string `json:"edit"`
 	EditComment                  string `json:"editComment"`
 	EditPost                     string `json:"editPost"`
@@ -133,6 +134,7 @@ type Dictionary struct {
 	UnsupportedImgExtErr         string `json:"unsupportedImgExtErr"`
 	UploadProfileImgDesc         string `json:"uploadProfileImgDesc"`
 	Uploading                    string `json:"uploading"`
+	Upvote                       string `json:"upvote"`
 	Url                          string `json:"url"`
 	UserId                       string `json:"userID"`
 	UsersAndGroups               string `json:"usersAndGroups"`

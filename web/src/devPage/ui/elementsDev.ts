@@ -169,6 +169,9 @@ export class ElementsDev extends BaseElement {
       </error-view>
       <h2>Poll view</h2>
       <poll-view .value=${-20} .ups=${100} .downs=${400}></poll-view>
+      <poll-view .value=${20} .downs=${400}></poll-view>
+      <poll-view .value=${20} .ups=${400}></poll-view>
+      <poll-view></poll-view>
       <h2>Spinners</h2>
       <p>
         <qing-button @click=${this.startFullscreenSpinner}>Fullscreen spinner</qing-button>
@@ -189,6 +192,13 @@ export class ElementsDev extends BaseElement {
       <like-view .likes=${20} @click=${() => alert('Like button clicked!')}></like-view>
       <like-view .likes=${1} hasLiked></like-view>
       <like-view .likes=${1} hasLiked isWorking></like-view>
+      <h2>Flexbox</h2>
+      <div class="d-flex">
+        <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>
+        <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>
+        <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} D</div>
+        <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>
+      </div>
     `;
   }
 

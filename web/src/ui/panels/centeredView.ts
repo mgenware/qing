@@ -1,6 +1,8 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { styleMap } from 'lit-html/directives/style-map';
 
 // A view that centers its content horizontally and vertically.
 @customElement('centered-view')
@@ -13,7 +15,7 @@ export class CenteredView extends BaseElement {
           display: block;
         }
 
-        .centered {
+        .root {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -23,11 +25,12 @@ export class CenteredView extends BaseElement {
   }
 
   @lp.string height = '';
+  @lp.string width = '';
 
   render() {
-    const { height } = this;
+    const { height, width } = this;
     return html`
-      <div class="centered" style=${height ? `height: ${height}` : ''}>
+      <div class="root" style=${styleMap({ height, width })}>
         <slot></slot>
       </div>
     `;

@@ -129,5 +129,7 @@
   "questions": "Questions",
   "general": "General",
   "moderators": "Moderators",
-  "description": "Description"
+  "description": "Description",
+  "upvote": "Upvote",
+  "downvote": "Downvote"
 }

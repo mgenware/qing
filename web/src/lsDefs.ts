@@ -130,4 +130,6 @@ export default interface LSDefs {
   general: string;
   moderators: string;
   description: string;
+  upvote: string;
+  downvote: string;
 }

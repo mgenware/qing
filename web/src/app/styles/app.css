@@ -70,9 +70,15 @@ img {
 
 /* Flexbox helpers ------------------------- */
 .flex-full {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 1 1 auto;
   overflow: hidden;
+}
+.flex-auto {
+  flex: 0 1 auto;
+  overflow: hidden;
+}
+.flex-column {
+  flex-direction: column;
 }
 .d-flex {
   display: flex;

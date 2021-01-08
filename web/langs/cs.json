@@ -129,5 +129,7 @@
   "questions": "提问",
   "general": "通用",
   "moderators": "论坛管理员",
-  "description": "概述"
+  "description": "概述",
+  "upvote": "支持",
+  "downvote": "反对"
 }
