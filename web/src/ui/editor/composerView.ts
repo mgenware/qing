@@ -9,6 +9,7 @@ import 'ui/form/inputView';
 import 'ui/form/captchaView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';
+import { tif } from 'lib/htmlLib';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -109,18 +110,19 @@ export class ComposerView extends BaseElement {
   }
 
   render() {
-    const titleElement = this.showTitleInput
-      ? html`
-          <div class="p-b-sm">
-            <input-view
-              required
-              .placeholder=${ls.title}
-              .value=${this.inputTitle}
-              @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}
-            ></input-view>
-          </div>
-        `
-      : '';
+    const titleElement = tif(
+      this.showTitleInput,
+      html`
+        <div class="p-b-sm">
+          <input-view
+            required
+            .placeholder=${ls.title}
+            .value=${this.inputTitle}
+            @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}
+          ></input-view>
+        </div>
+      `,
+    );
     const editorElement = html`<editor-view id="editor"></editor-view>`;
     const bottomElement = html`
       <div class="m-t-md">
@@ -138,11 +140,12 @@ export class ComposerView extends BaseElement {
         <qing-button btnStyle="success" @click=${this.handleSubmit}>
           ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
         </qing-button>
-        ${this.showCancelButton
-          ? html`
-              <qing-button class="m-l-sm" @click=${this.handleCancel}>${ls.cancel}</qing-button>
-            `
-          : ''}
+        ${tif(
+          this.showCancelButton,
+          html`
+            <qing-button class="m-l-sm" @click=${this.handleCancel}>${ls.cancel}</qing-button>
+          `,
+        )}
       </div>
     `;
 
