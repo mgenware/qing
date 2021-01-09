@@ -16,9 +16,11 @@
     "@typescript-eslint/parser": "^4.11.0",
     "eslint": "^7.16.0",
     "eslint-config-airbnb-typescript-lite": "^12.0.0",
-    "eslint-config-mgenware": "^0.0.3",
+    "eslint-config-mgenware": "^0.0.5",
     "eslint-plugin-import": "^2.22.1",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.5"
+    "mgenware-tsconfig-node": "^12.0.0",
+    "ts-node": "^9.1.1",
+    "tslib": "^2.1.0",
+    "typescript": "^4.1.3"
   }
 }

@@ -1,20 +1,6 @@
 {
+  "extends": "mgenware-tsconfig-web",
   "compilerOptions": {
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "declaration": false,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "target": "ES6",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "baseUrl": "src",
-    "noUncheckedIndexedAccess": true,
-    "newLine": "lf"
+    "baseUrl": "src"
   }
 }

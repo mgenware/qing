@@ -1,8 +1,7 @@
 {
-  "extends": "mingru-tsconfig",
+  "extends": "mgenware-tsconfig-node",
   "compilerOptions": {
     "downlevelIteration": true,
-    "lib": ["ESNext"],
     "declaration": false,
     "outDir": "./dist",
     "rootDir": "./src",

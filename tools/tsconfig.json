@@ -1,15 +1,6 @@
 {
+  "extends": "mgenware-tsconfig-node",
   "compilerOptions": {
-    "module": "commonjs",
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "target": "ES6",
-    "declaration": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "experimentalDecorators": true,
-    "newLine": "lf"
+    "declaration": false
   }
 }
