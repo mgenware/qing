@@ -17,6 +17,7 @@ type Dictionary struct {
 	SiteName                     string `json:"_siteName"`
 	AboutMe                      string `json:"aboutMe"`
 	Actions                      string `json:"actions"`
+	Add                          string `json:"add"`
 	AddAnAdmin                   string `json:"addAnAdmin"`
 	AdminAccounts                string `json:"adminAccounts"`
 	AllThreads                   string `json:"allThreads"`
@@ -30,6 +31,7 @@ type Dictionary struct {
 	Comment                      string `json:"comment"`
 	Comments                     string `json:"comments"`
 	Company                      string `json:"company"`
+	ConfirmAddUserAsAdmin        string `json:"confirmAddUserAsAdmin"`
 	ConfirmPassword              string `json:"confirmPassword"`
 	Content                      string `json:"content"`
 	Copied                       string `json:"copied"`
@@ -137,6 +139,7 @@ type Dictionary struct {
 	Upvote                       string `json:"upvote"`
 	Url                          string `json:"url"`
 	UserId                       string `json:"userID"`
+	UserIsAlreadyAdmin           string `json:"userIsAlreadyAdmin"`
 	UsersAndGroups               string `json:"usersAndGroups"`
 	Warning                      string `json:"warning"`
 	Working                      string `json:"working"`

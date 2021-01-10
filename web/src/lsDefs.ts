@@ -132,4 +132,7 @@ export default interface LSDefs {
   description: string;
   upvote: string;
   downvote: string;
+  confirmAddUserAsAdmin: string;
+  userIsAlreadyAdmin: string;
+  add: string;
 }

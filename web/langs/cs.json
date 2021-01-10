@@ -131,5 +131,8 @@
   "moderators": "论坛管理员",
   "description": "概述",
   "upvote": "支持",
-  "downvote": "反对"
+  "downvote": "反对",
+  "confirmAddUserAsAdmin": "是否将用户\"{0}\"加入到管理员？",
+  "userIsAlreadyAdmin": "用户\"{0}\"已经是管理员",
+  "add": "添加"
 }

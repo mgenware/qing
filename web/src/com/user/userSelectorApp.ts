@@ -13,6 +13,7 @@ import { SelectionViewItemEvent } from 'ui/form/selectionView';
 import app from 'app';
 import { createPopper } from '@popperjs/core';
 import './userCard';
+import { tif } from 'lib/htmlLib';
 
 @customElement('user-selector-app')
 export class UserSelectorApp extends BaseElement {
@@ -117,7 +118,10 @@ export class UserSelectorApp extends BaseElement {
         <div class="list-view">
           ${users.length
             ? users.map((item) => this.renderUserRow(item))
-            : html`<div class="no-result-row">${ls.noResultsFound}</div>`}
+            : tif(
+                this.status.isWorking,
+                html`<div class="no-result-row">${ls.noResultsFound}</div>`,
+              )}
         </div>
       </status-overlay>
     `;
@@ -166,6 +170,13 @@ export class UserSelectorApp extends BaseElement {
   private async handleUserRowClick(user: UserInfo) {
     this.selectedUser = user;
     this.popoverVisible = false;
+    this.onSelectionChanged(user);
+  }
+
+  private onSelectionChanged(detail: UserInfo | null) {
+    this.dispatchEvent(
+      new CustomEvent<UserInfo | null>('selectionChanged', { detail }),
+    );
   }
 
   private async handleValueChangeDebounced() {
@@ -174,6 +185,7 @@ export class UserSelectorApp extends BaseElement {
 
   private handleRemoveSelection() {
     this.selectedUser = null;
+    this.onSelectionChanged(null);
   }
 
   private async startRequestAsync() {

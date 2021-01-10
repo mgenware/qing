@@ -16,6 +16,7 @@ import app from 'app';
 import SetAdminLoader from './loaders/setAdminLoader';
 import { skipItem } from 'lib/arrayUtils';
 import 'com/user/userCard';
+import { tif } from 'lib/htmlLib';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {
@@ -33,6 +34,7 @@ export class UserMgrApp extends BaseElement {
   @lp.bool adminSectionStatus = LoadingStatus.working;
   // TODO: Pagination.
   @lp.array private admins: UserInfo[] = [];
+  @lp.object private userCandidate: UserInfo | null = null;
 
   private getAdminLoader = new GetAdminsLoader();
 
@@ -52,7 +54,15 @@ export class UserMgrApp extends BaseElement {
         <heading-view>${ls.adminAccounts}</heading-view>
         ${this.renderAdmins()}
         <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
-        <user-selector-app></user-selector-app>
+        <user-selector-app
+          @selectionChanged=${(user: UserInfo) => (this.userCandidate = user)}
+        ></user-selector-app>
+        ${tif(
+          this.userCandidate,
+          html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
+            ${ls.add}
+          </qing-button>`,
+        )}
       </status-overlay>
     `;
   }
@@ -104,6 +114,22 @@ export class UserMgrApp extends BaseElement {
     const res = await app.runGlobalActionAsync(loader);
     if (res.isSuccess) {
       this.admins = skipItem(this.admins, user);
+    }
+  }
+
+  private async handleAddAdmin() {
+    const { userCandidate } = this;
+    if (!userCandidate) {
+      return;
+    }
+    const ok = await app.alert.confirm(formatLS(ls.confirmAddUserAsAdmin, userCandidate.name));
+    if (!ok) {
+      return;
+    }
+    const loader = new SetAdminLoader(userCandidate.eid, true);
+    const res = await app.runGlobalActionAsync(loader);
+    if (res.isSuccess) {
+      this.admins = [...this.admins, userCandidate];
     }
   }
 }

@@ -131,5 +131,8 @@
   "moderators": "Moderators",
   "description": "Description",
   "upvote": "Upvote",
-  "downvote": "Downvote"
+  "downvote": "Downvote",
+  "confirmAddUserAsAdmin": "Do you want to set \"{0}\" as an admin?",
+  "userIsAlreadyAdmin": "\"{0}\" is already an admin",
+  "add": "Add"
 }
