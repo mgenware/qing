@@ -19,15 +19,12 @@ export class ProfileIDView extends BaseElement {
   }
 
   @lp.string value = '';
-  @lp.bool buttonDisabled = false;
 
   render() {
-    const { value, buttonDisabled } = this;
+    const { value } = this;
     return html`
       <span>${value} </span>
-      <qing-button class="small" .disabled=${buttonDisabled} @click=${this.handleCopyClick}
-        >${buttonDisabled ? ls.copied : ls.copy}
-      </qing-button>
+      <qing-button class="small" @click=${this.handleCopyClick}>${ls.copy}</qing-button>
     `;
   }
 
@@ -37,8 +34,7 @@ export class ProfileIDView extends BaseElement {
     }
     try {
       await navigator.clipboard.writeText(this.value);
-      this.buttonDisabled = true;
-      setTimeout(() => (this.buttonDisabled = false), 1000);
+      await app.alert.successToast(ls.copied);
     } catch (err) {
       await app.alert.error(err.message);
     }
