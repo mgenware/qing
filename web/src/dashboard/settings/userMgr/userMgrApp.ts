@@ -55,7 +55,7 @@ export class UserMgrApp extends BaseElement {
         ${this.renderAdmins()}
         <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
         <user-selector-app
-          @selectionChanged=${(user: UserInfo) => (this.userCandidate = user)}
+          @selectionChanged=${(e: CustomEvent<UserInfo | null>) => (this.userCandidate = e.detail)}
         ></user-selector-app>
         ${tif(
           this.userCandidate,
