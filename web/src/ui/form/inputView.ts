@@ -57,7 +57,7 @@ export class InputView extends BaseElement {
         input:focus {
           outline: 0;
           border-color: var(--app-keyboard-focus-color);
-          border-width: 2px;
+          box-shadow: 0 0 2px var(--app-keyboard-focus-color);
         }
 
         input:invalid {
