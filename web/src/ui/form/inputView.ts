@@ -54,6 +54,12 @@ export class InputView extends BaseElement {
           border-radius: var(--app-surface-radius-sm);
         }
 
+        input:focus {
+          outline: 0;
+          border-color: var(--app-keyboard-focus-color);
+          border-width: 2px;
+        }
+
         input:invalid {
           border-color: var(--app-danger-fore-color);
         }
