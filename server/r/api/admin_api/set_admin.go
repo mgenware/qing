@@ -3,6 +3,7 @@ package adminapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -17,9 +18,17 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	value := validator.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
-		panic("You cannot change admin status of your own account")
+		return resp.MustFailWithCode(defs.Shared.ErrCannotSetAdminOfYourself)
 	}
-	err := da.User.UnsafeUpdateAdmin(app.DB, targetUserID, value == 1)
+
+	db := app.DB
+	isAdmin, err := da.User.SelectIsAdmin(db, targetUserID)
+	app.PanicIfErr(err)
+	if isAdmin {
+		return resp.MustFailWithCode(defs.Shared.ErrAlreadyAdmin)
+	}
+
+	err = da.User.UnsafeUpdateAdmin(db, targetUserID, value == 1)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)
 }

@@ -4,6 +4,8 @@
   "maxCaptchaLen": 10,
   "maxGenericStringLen": 100,
   "errInvalidUserOrPwd": 1,
+  "errCannotSetAdminOfYourself": 1,
+  "errAlreadyAdmin": 2,
   "columnCreated": "createdAt",
   "columnLikes": "likes",
   "columnComments": "comments",

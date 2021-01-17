@@ -23,6 +23,8 @@ type SharedConstantsType struct {
 	EntityPost int
 	EntityQuestion int
 	EntityReply int
+	ErrAlreadyAdmin int
+	ErrCannotSetAdminOfYourself int
 	ErrCaptchaNotFound int
 	ErrCaptchaNotMatch int
 	ErrGeneric int
@@ -77,6 +79,8 @@ func init() {
 		EntityPost: 1,
 		EntityQuestion: 5,
 		EntityReply: 3,
+		ErrAlreadyAdmin: 2,
+		ErrCannotSetAdminOfYourself: 1,
 		ErrCaptchaNotFound: 10002,
 		ErrCaptchaNotMatch: 10003,
 		ErrGeneric: 10000,
