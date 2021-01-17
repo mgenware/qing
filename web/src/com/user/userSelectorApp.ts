@@ -91,39 +91,41 @@ export class UserSelectorApp extends BaseElement {
       <div>${ls.findUsersByColon}</div>
       ${selectedUser
         ? html`<div class="selected-user-row m-t-md">
-            <qing-button class="vertical-align-middle" @click=${this.handleRemoveSelection}
+            <qing-button
+              class="vertical-align-middle"
+              title=${ls.cancel}
+              @click=${this.handleRemoveSelection}
               >✖</qing-button
             ><user-card class="m-l-md" .user=${selectedUser}></user-card>
           </div>`
         : html`<selection-view
-            class="m-t-md"
-            .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
-            @onSelectionChange=${this.handleByIDSelectionChange}
-          ></selection-view>`}
-      <input-view
-        class="m-t-md"
-        id="input-view"
-        style=${`visibility: ${selectedUser ? 'collapse' : 'visible'}`}
-        .showInputView=${false}
-        .value=${this.value}
-        debounceOnChange
-        @onChange=${this.handleValueChange}
-        @onChangeDebounced=${this.handleValueChangeDebounced}
-      ></input-view>
-      <status-overlay
-        id="popover-root"
-        .status=${this.status}
-        style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}
-      >
-        <div class="list-view">
-          ${users.length
-            ? users.map((item) => this.renderUserRow(item))
-            : tif(
-                this.status.isWorking,
-                html`<div class="no-result-row">${ls.noResultsFound}</div>`,
-              )}
-        </div>
-      </status-overlay>
+              class="m-t-md"
+              .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
+              @onSelectionChange=${this.handleByIDSelectionChange}
+            ></selection-view>
+            <input-view
+              class="m-t-md"
+              id="input-view"
+              .showInputView=${false}
+              .value=${this.value}
+              debounceOnChange
+              @onChange=${this.handleValueChange}
+              @onChangeDebounced=${this.handleValueChangeDebounced}
+            ></input-view>
+            <status-overlay
+              id="popover-root"
+              .status=${this.status}
+              style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}
+            >
+              <div class="list-view">
+                ${users.length
+                  ? users.map((item) => this.renderUserRow(item))
+                  : tif(
+                      this.status.isWorking,
+                      html`<div class="no-result-row">${ls.noResultsFound}</div>`,
+                    )}
+              </div>
+            </status-overlay>`}
     `;
   }
 
