@@ -3,7 +3,6 @@ import * as lp from 'lit-props';
 import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
-import 'ui/widgets/timeField';
 import 'ui/editor/editBar';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';

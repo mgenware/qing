@@ -1,7 +1,6 @@
 // Used in profile post list.
 import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'lit-element';
-import 'ui/widgets/timeField';
 import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import 'ui/widgets/tagView';

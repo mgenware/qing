@@ -1,7 +1,6 @@
 import { html, customElement, TemplateResult, css } from 'lit-element';
 import ls from 'ls';
 import routes from 'routes';
-import 'ui/widgets/timeField';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';

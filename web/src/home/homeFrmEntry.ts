@@ -1,4 +1,3 @@
-import 'ui/widgets/timeField';
 import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';
 import { ready } from 'lib/htmlLib';

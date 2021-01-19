@@ -9,4 +9,5 @@ import 'app/user/navBarApp';
 
 // Commonly used components.
 import 'qing-button';
+import 'ui/widgets/timeField';
 import 'ui/panels/containerView';

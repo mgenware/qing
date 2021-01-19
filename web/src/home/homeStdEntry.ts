@@ -1,5 +1,4 @@
 import { injectStyles, ready } from 'lib/htmlLib';
-import 'ui/widgets/timeField';
 import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
