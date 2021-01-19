@@ -6,7 +6,6 @@ import BaseElement from 'baseElement';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
-import 'ui/panels/centeredView';
 import 'ui/content/headingView';
 import 'ui/form/inputView';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';

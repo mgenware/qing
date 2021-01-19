@@ -5,7 +5,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import * as lp from 'lit-props';
 import '../alerts/errorView';
 import './spinnerView';
-import '../panels/centeredView';
+import 'qing-dock-box';
 
 // A status view used to display `LoadingStatus`.
 // It has 3 states: loading, success and error.
@@ -17,6 +17,10 @@ export class StatusView extends BaseElement {
       css`
         :host {
           display: block;
+        }
+
+        .withPaddingMD {
+          min-height: 400px;
         }
       `,
     ];
@@ -37,8 +41,8 @@ export class StatusView extends BaseElement {
     const { status } = this;
     if (status.isWorking) {
       return html`
-        <centered-view .height=${this.progressViewPadding === 'md' ? '400px' : ''}
-          ><spinner-view>${this.loadingText || ls.loading}</spinner-view></centered-view
+        <qing-dock-box class=${this.progressViewPadding === 'md' ? 'withPaddingMD' : ''}
+          ><spinner-view>${this.loadingText || ls.loading}</spinner-view></qing-dock-box
         >
       `;
     }

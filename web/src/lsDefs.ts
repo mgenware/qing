@@ -134,5 +134,6 @@ export default interface LSDefs {
   downvote: string;
   confirmAddUserAsAdmin: string;
   userIsAlreadyAdmin: string;
+  youCannotChangeYourOwnAdminStatus: string;
   add: string;
 }

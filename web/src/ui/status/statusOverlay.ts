@@ -5,8 +5,8 @@ import * as lp from 'lit-props';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import LoadingStatus from 'lib/loadingStatus';
-import 'ui/panels/centeredView';
 import 'ui/status/spinnerView';
+import 'qing-dock-box';
 import '../alerts/errorView';
 
 @customElement('status-overlay')
@@ -51,7 +51,7 @@ export class StatusOverlay extends BaseElement {
         </div>
         ${!status.isSuccess
           ? html`
-              <centered-view class="overlay" .height=${this.height || '100%'}>
+              <qing-dock-box class="overlay" style=${`height: ${this.height || '100%'}`}>
                 ${status.isWorking
                   ? html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `
                   : html``}
@@ -66,7 +66,7 @@ export class StatusOverlay extends BaseElement {
                       </error-view>
                     `
                   : html``}
-              </centered-view>
+              </qing-dock-box>
             `
           : html``}
       </div>

@@ -2707,6 +2707,11 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^4.0.0"
 
+plum-element@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/plum-element/-/plum-element-0.0.2.tgz#ba16f6d47d27b04099d9a2b22670202226b20223"
+  integrity sha512-XyJtP2AU0FZHuV/cKhcGtlsyT3bDsnoXjtUZgEGiP8r9j2MIubJOpLbO0trN0SgvMRlkDzgIcuKdbVURaLD9Fg==
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -2828,6 +2833,13 @@ qing-dialog-component@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.3.0.tgz#cd49d4fb37145728e96f8165f1b71666eed49f25"
   integrity sha512-4IRYPZuDAKZTv0tx2sEFiftupvMw7HkiS116WqSSGZH0kLf9fq5FQdvzpSYlkFx5xMwap94e4+4cybY+K9xinQ==
+
+qing-dock-box@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/qing-dock-box/-/qing-dock-box-0.0.2.tgz#c922117ba28ae546bbd0cf2577c69407f98be48a"
+  integrity sha512-DDdh+XpyYz9X5kTk6VSax86jCJu6Vdqj95RIf5o01u80Tw/ayw0dXU0C1rEg+XcbMeGm0kHzdHRoyyRgidZDyQ==
+  dependencies:
+    plum-element "^0.0.2"
 
 qing-stylelib@^1.2.0:
   version "1.2.0"

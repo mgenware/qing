@@ -24,6 +24,7 @@
     "lit-props": "^1.1.0",
     "qing-button": "^6.1.0",
     "qing-dialog-component": "^0.3.0",
+    "qing-dock-box": "^0.0.2",
     "qing-stylelib": "^1.2.0",
     "tslib": "^2.1.0"
   },

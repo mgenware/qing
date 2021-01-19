@@ -2,11 +2,11 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'qing-button';
+import 'qing-dock-box';
 import 'ui/alerts/alertView';
 import 'ui/alerts/sectionView';
 import 'ui/content/headingView';
 import 'ui/status/spinnerView';
-import 'ui/panels/centeredView';
 import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
 import 'ui/form/inputView';
@@ -178,9 +178,9 @@ export class ElementsDev extends BaseElement {
       </p>
       <spinner-view>Loading...</spinner-view>
       <h3>Spinner in a fixed view</h3>
-      <centered-view class="with-border" height="150px">
+      <qing-dock-box class="with-border" style="height:150px">
         <spinner-view>Loading...</spinner-view>
-      </centered-view>
+      </qing-dock-box>
       <h2>Status view ('progressViewPadding' = 'md')</h2>
       <status-view .status=${LoadingStatus.working} .progressViewPadding=${'md'}></status-view>
       <h2>Status overlay</h2>
@@ -192,7 +192,7 @@ export class ElementsDev extends BaseElement {
       <like-view .likes=${20} @click=${() => alert('Like button clicked!')}></like-view>
       <like-view .likes=${1} hasLiked></like-view>
       <like-view .likes=${1} hasLiked isWorking></like-view>
-      <h2>Flexbox</h2>
+      <h2>Flexbox utils</h2>
       <div class="d-flex">
         <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>
         <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>

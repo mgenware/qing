@@ -1,7 +1,7 @@
 import { customElement, css, html } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import '../panels/centeredView';
+import 'qing-dock-box';
 
 @customElement('notice-view')
 export class NoticeView extends BaseElement {
@@ -25,7 +25,9 @@ export class NoticeView extends BaseElement {
 
   render() {
     return html`
-      <centered-view class="root-container" height=${this.height}><slot></slot></centered-view>
+      <qing-dock-box class="root-container" style=${`height:${this.height}`}
+        ><slot></slot
+      ></qing-dock-box>
     `;
   }
 }
