@@ -67,10 +67,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@github/image-crop-element@^3.0.8":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@github/image-crop-element/-/image-crop-element-3.0.8.tgz#cb3dd4ab70cd975d6f2423bc71a506b102f8d6ad"
-  integrity sha512-Bqu1aPz4wTreJnZdugDms53DFTgWvFk/B8/Uf8cUcP5xFoLXsmmrTzSDrNr3zWh871VqJdcEj/mwmWKJwj3ewg==
+"@github/image-crop-element@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@github/image-crop-element/-/image-crop-element-4.1.0.tgz#21effd76c611a3f0b5fb55a3a48a7373e4241230"
+  integrity sha512-vO8EdxoHFN/85bl/7xdTTUiUJXHJWCWTWffHoJb144pjaepgPHJIyM8c9iIj0uesWoq7VJiMpAGSDHQPt/paLQ==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
