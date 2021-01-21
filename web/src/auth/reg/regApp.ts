@@ -70,7 +70,6 @@ export class RegApp extends BaseElement {
         >${ls.signUp}</qing-button
       >
       <qing-dialog
-        id="modalElement"
         .isOpen=${this.isCompletionModalOpen}
         .buttons=${[ls.goToYourEmail]}
         @closed=${this.handleGoToYourEmail}
