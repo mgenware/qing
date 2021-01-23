@@ -6,7 +6,7 @@ import app from 'app';
 import { staticMainImage } from 'urls';
 import 'ui/status/progressView';
 import '@github/image-crop-element';
-import styles from '@github/image-crop-element/index.css';
+import styles from '@github/image-crop-element/dist/index.css';
 import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
 
 interface ImageCropInfo {
