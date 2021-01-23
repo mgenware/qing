@@ -26,7 +26,7 @@ module.exports = {
       run: ['#cleanTests', 'tsc --project ./ut/tsconfig.json --incremental -w'],
     },
     t: {
-      run: 'mocha --require source-map-support/register dist/ut/ut/**/*.test.js',
+      run: 'mocha --require source-map-support/register dist_test/ut/ut/**/*.test.js',
     },
     run: ['#cleanTests', 'tsc --project ./ut/tsconfig.json', '#ut t'],
   },
