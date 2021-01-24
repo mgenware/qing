@@ -22,9 +22,10 @@
     "kangxi-editor": "^0.8.0",
     "lit-element": "^2.4.0",
     "lit-props": "^1.1.0",
+    "plum-element": "^0.0.3",
     "qing-button": "^6.1.0",
     "qing-dialog-component": "^0.3.0",
-    "qing-dock-box": "^0.0.2",
+    "qing-dock-box": "^0.1.1",
     "qing-stylelib": "^1.2.0",
     "tslib": "^2.1.0"
   },
