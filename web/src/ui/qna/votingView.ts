@@ -20,7 +20,7 @@ export class VotingView extends BaseElement {
           display: block;
         }
         .root {
-          display: flex;
+          display: inline-flex;
         }
         .color-gray {
           color: var(--app-default-secondary-fore-color);
@@ -36,6 +36,11 @@ export class VotingView extends BaseElement {
         }
         .size-lg {
           font-size: 1.5rem;
+        }
+        .value-column {
+          margin-left: 0.8rem;
+          margin-right: 0.8rem;
+          min-width: 60px;
         }
       `,
     ];
@@ -71,7 +76,7 @@ export class VotingView extends BaseElement {
             ></svg-icon>
           </qing-button>
         </div>
-        <div class="flex-full d-flex flex-column">
+        <div class="flex-full d-flex flex-column value-column">
           <div class="flex-full text-center flex-v-align">
             <span class=${`size-lg ${valueColorClass}`}>${value || 0}</span>
           </div>

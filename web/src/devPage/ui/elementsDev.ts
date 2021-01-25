@@ -172,8 +172,8 @@ export class ElementsDev extends BaseElement {
         <p>Hello <b>world</b></p>
       </error-view>
       <h2>Voting view</h2>
-      <voting-view .value=${-20} .ups=${100} .downs=${400}></voting-view>
-      <voting-view .value=${20} .downs=${400}></voting-view>
+      <voting-view .value=${-20} .ups=${100} .downs=${4003489394}></voting-view>
+      <voting-view .value=${2000003430} .downs=${400}></voting-view>
       <voting-view .value=${20} .ups=${400}></voting-view>
       <voting-view></voting-view>
       <h2>Spinners</h2>
