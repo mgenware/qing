@@ -22,6 +22,21 @@ export class VotingView extends BaseElement {
         .root {
           display: flex;
         }
+        .color-gray {
+          color: var(--app-default-secondary-fore-color);
+        }
+        .color-down {
+          color: var(--app-default-danger-fore-color);
+        }
+        .color-up {
+          color: var(--app-default-success-fore-color);
+        }
+        .size-md {
+          font-size: 1.3rem;
+        }
+        .size-lg {
+          font-size: 1.5rem;
+        }
       `,
     ];
   }
@@ -31,6 +46,13 @@ export class VotingView extends BaseElement {
   @lp.number downs = 0;
 
   render() {
+    const { value, ups, downs } = this;
+    let valueColorClass = 'color-gray';
+    if (value > 0) {
+      valueColorClass = 'color-up';
+    } else if (value < 0) {
+      valueColorClass = 'color-down';
+    }
     return html`
       <div class="root">
         <div class="flex-auto d-flex flex-column">
@@ -50,17 +72,23 @@ export class VotingView extends BaseElement {
           </qing-button>
         </div>
         <div class="flex-full d-flex flex-column">
-          <div class="flex-full text-center vertical-align-middle">${this.value || 0}</div>
+          <div class="flex-full text-center flex-v-align">
+            <span class=${`size-lg ${valueColorClass}`}>${value || 0}</span>
+          </div>
           ${tif(
-            this.ups || this.downs,
+            ups || downs,
             html` <div class="flex-full d-flex">
               ${tif(
-                this.ups,
-                html`<div class="flex-full text-center vertical-align-middle">${this.ups}</div>`,
+                ups,
+                html`<div class="flex-full text-center flex-v-align">
+                  <span class="color-up size-md">${ups}</span>
+                </div>`,
               )}
               ${tif(
-                this.downs,
-                html`<div class="flex-full text-center vertical-align-middle">${this.downs}</div>`,
+                downs,
+                html`<div class="flex-full text-center flex-v-align">
+                  <span class="color-down size-md">${downs}</span>
+                </div>`,
               )}
             </div>`,
           )}

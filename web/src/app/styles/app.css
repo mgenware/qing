@@ -86,6 +86,11 @@ img {
 .flex-column {
   flex-direction: column;
 }
+.flex-v-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Spacing helpers ------------------------- */
 .m-none {
