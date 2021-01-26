@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig-base.json",
+  "include": ["src/**/*", "langs/**/*"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "plugins": [{ "transform": "@zerollup/ts-transform-paths" }]
+  }
+}

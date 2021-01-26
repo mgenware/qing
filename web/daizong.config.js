@@ -5,11 +5,23 @@ module.exports = {
       del: 'static/d/js',
     },
   },
+  'prepare-turbo': {
+    run: ['yarn --cwd ../tools build'],
+    before: {
+      del: 'dist',
+    },
+  },
   lint: {
     run: ['eslint --max-warnings 0 --ext .ts src/', 'lit-analyzer "src/**/*.ts"'],
   },
   dev: {
     run: ['#prepare', 'rollup -c -w'],
+    env: {
+      NODE_ENV: 'development',
+    },
+  },
+  turbo: {
+    run: ['#prepare-turbo', 'ttsc -p tsconfig-turbo.json -w --incremental'],
     env: {
       NODE_ENV: 'development',
     },
