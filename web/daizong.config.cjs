@@ -16,21 +16,15 @@ module.exports = {
   },
   dev: {
     run: ['#prepare', 'rollup -c -w'],
-    env: {
-      NODE_ENV: 'development',
-    },
+    envGroups: ['development'],
   },
   turbo: {
     run: ['#prepare-turbo', 'ttsc -p tsconfig-turbo.json -w --incremental'],
-    env: {
-      NODE_ENV: 'development',
-    },
+    envGroups: ['development'],
   },
   build: {
     run: ['#lint', '#prepare', 'rollup -c'],
-    env: {
-      NODE_ENV: 'production',
-    },
+    envGroups: ['production'],
   },
   // Unit tests
   ut: {
@@ -45,6 +39,17 @@ module.exports = {
   cleanTests: {
     run: {
       del: 'dist_tests',
+    },
+  },
+
+  _: {
+    envGroups: {
+      production: {
+        NODE_ENV: 'production',
+      },
+      development: {
+        NODE_ENV: 'development',
+      },
     },
   },
 };
