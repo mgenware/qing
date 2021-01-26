@@ -32,10 +32,6 @@ export class FindUserItemView extends BaseElement {
       </div>
     `;
   }
-
-  private handleTotalCountChangedWithOffset(e: CustomEvent<number>) {
-    this.totalCount += e.detail;
-  }
 }
 
 declare global {
