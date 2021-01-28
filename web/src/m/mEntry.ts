@@ -1,6 +1,6 @@
 import { html, TemplateResult } from 'lit-element';
 import ls from 'ls';
-import rs from 'routes';
+import routes from 'routes';
 import app from 'app';
 import './settings/settingsBaseView';
 import './settings/profile/editProfileApp';
@@ -13,7 +13,7 @@ import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { SettingsPages } from './settings/settingsBaseView';
 
-const dashboardRouter = new MiniURLRouter();
+const mRouter = new MiniURLRouter();
 
 function loadSettingsContent(selectedPage: SettingsPages, title: string, content: TemplateResult) {
   app.page.setTitleAndMainContent(
@@ -29,17 +29,17 @@ function loadNewPostContent(entityType: number) {
   let title: string;
   switch (entityType) {
     case entityPost: {
-      url = rs.home.newPost;
+      url = routes.m.newPost;
       title = ls.newPost;
       break;
     }
     case entityDiscussion: {
-      url = rs.home.newDiscussion;
+      url = routes.m.newDiscussion;
       title = ls.newDiscussion;
       break;
     }
     case entityQuestion: {
-      url = rs.home.newQuestion;
+      url = routes.m.newQuestion;
       title = ls.newQuestion;
       break;
     }
@@ -48,7 +48,7 @@ function loadNewPostContent(entityType: number) {
     }
   }
 
-  dashboardRouter.register(url, () =>
+  mRouter.register(url, () =>
     app.page.setTitleAndMainContent(
       [title],
       html` <set-post-app .entityType=${entityType} .headerText=${title}></set-post-app> `,
@@ -60,7 +60,7 @@ function loadNewPostContent(entityType: number) {
   loadNewPostContent(entityType);
 });
 
-dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
+mRouter.register(`${routes.m.editPost}/:id`, (args) => {
   const id = args.id as string;
   if (!id) {
     return;
@@ -70,28 +70,28 @@ dashboardRouter.register(`${rs.home.editPost}/:id`, (args) => {
     html` <set-post-app .editedID=${id}></set-post-app> `,
   );
 });
-dashboardRouter.register(rs.home.settings.profile, () => {
+mRouter.register(routes.m.settings.profile, () => {
   loadSettingsContent(
     SettingsPages.profile,
     ls.editProfile,
     html` <edit-profile-app></edit-profile-app> `,
   );
 });
-dashboardRouter.register(rs.home.settings.usersAndGroups, () => {
+mRouter.register(routes.m.settings.usersAndGroups, () => {
   loadSettingsContent(
     SettingsPages.userAndGroups,
     ls.usersAndGroups,
     html` <user-mgr-app></user-mgr-app> `,
   );
 });
-dashboardRouter.register(rs.home.yourPosts, () => {
+mRouter.register(routes.m.yourPosts, () => {
   app.page.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
-dashboardRouter.register(rs.home.yourDiscussions, () => {
+mRouter.register(routes.m.yourDiscussions, () => {
   app.page.setTitleAndMainContent(
     [ls.yourDiscussions],
     html`<my-discussions-app></my-discussions-app>`,
   );
 });
 
-dashboardRouter.startOnce();
+mRouter.startOnce();

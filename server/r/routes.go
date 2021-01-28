@@ -11,7 +11,6 @@ import (
 	"qing/app"
 	"qing/r/api"
 	"qing/r/authp"
-	"qing/r/dashboardp"
 	"qing/r/devpagep"
 	"qing/r/discussionp"
 	"qing/r/forump"
@@ -78,8 +77,8 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Discussion router.
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
-	// Dashboard router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteDashboard, dashboardp.Router)
+	// M(me) router.
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteM, mp.Router)
 	// Forum router.
 	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteForum, forump.Router)
 	// Auth router.

@@ -5,10 +5,10 @@ import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';
 import { MPListApp } from './views/mpListApp';
-import { GetMyPostsLoader, DashboardDiscussion } from './loaders/getMyPostsLoader';
+import { GetMyPostsLoader, MDiscussion } from './loaders/getMyPostsLoader';
 
 @customElement('my-discussions-app')
-export default class MyDiscussionsApp extends MPListApp<DashboardDiscussion> {
+export default class MyDiscussionsApp extends MPListApp<MDiscussion> {
   static get styles() {
     return [
       super.styles,
@@ -26,7 +26,7 @@ export default class MyDiscussionsApp extends MPListApp<DashboardDiscussion> {
     this.currentSortedColumnDesc = true;
   }
 
-  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardDiscussion> | null> {
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<MDiscussion> | null> {
     return new GetMyPostsLoader(
       entityDiscussion,
       page,
@@ -41,7 +41,7 @@ export default class MyDiscussionsApp extends MPListApp<DashboardDiscussion> {
       <div class="row align-items-center">
         <div class="col">${ls.yourDiscussions}</div>
         <div class="col-auto">
-          <qing-button btnStyle="success" href=${routes.home.newDiscussion}
+          <qing-button btnStyle="success" href=${routes.m.newDiscussion}
             >${ls.newDiscussion}</qing-button
           >
         </div>

@@ -42,7 +42,7 @@ if (isProd) {
 
 const input = [
   isProd ? 'coreEntry.ts' : 'coreEntryDev.ts',
-  'dashboard/dashboardEntry.ts',
+  'm/mEntry.ts',
   'post/postEntry.ts',
   'discussion/discussionEntry.ts',
   'profile/profileEntry.ts',

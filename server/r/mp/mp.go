@@ -1,4 +1,4 @@
-package dashboardp
+package mp
 
 import (
 	"net/http"

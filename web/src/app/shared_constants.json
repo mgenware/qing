@@ -15,7 +15,7 @@
   "routePost": "p",
   "routeAuth": "auth",
   "routeDevPage": "__",
-  "routeDashboard": "home",
+  "routeM": "m",
   "routeAPI": "s",
   "routeForum": "f",
   "routeDiscussion": "d",

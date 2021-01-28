@@ -5,10 +5,10 @@ import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
 import { MPListApp } from './views/mpListApp';
-import { GetMyPostsLoader, DashboardPost } from './loaders/getMyPostsLoader';
+import { GetMyPostsLoader, MPost } from './loaders/getMyPostsLoader';
 
 @customElement('my-posts-app')
-export default class MyPostsApp extends MPListApp<DashboardPost> {
+export default class MyPostsApp extends MPListApp<MPost> {
   static get styles() {
     return [
       super.styles,
@@ -26,7 +26,7 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
     this.currentSortedColumnDesc = true;
   }
 
-  getLoader(page: number, pageSize: number): Loader<PaginatedList<DashboardPost> | null> {
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<MPost> | null> {
     return new GetMyPostsLoader(
       entityPost,
       page,
@@ -41,7 +41,7 @@ export default class MyPostsApp extends MPListApp<DashboardPost> {
       <div class="row align-items-center">
         <div class="col">${ls.yourPosts}</div>
         <div class="col-auto">
-          <qing-button btnStyle="success" href=${routes.home.newPost}>${ls.newPost}</qing-button>
+          <qing-button btnStyle="success" href=${routes.m.newPost}>${ls.newPost}</qing-button>
         </div>
       </div>
     `;

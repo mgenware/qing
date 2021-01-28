@@ -3,7 +3,7 @@ import Loader from 'lib/loader';
 import routes from 'routes';
 import { entityPost, entityDiscussion } from 'sharedConstants';
 
-export interface DashboardPost {
+export interface MPost {
   id: string;
   url: string;
   title: string;
@@ -13,7 +13,7 @@ export interface DashboardPost {
   modifiedAt: string;
 }
 
-export interface DashboardDiscussion {
+export interface MDiscussion {
   id: string;
   url: string;
   title: string;

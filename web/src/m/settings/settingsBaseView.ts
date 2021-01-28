@@ -1,7 +1,7 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import ls from 'ls';
-import rs from 'routes';
+import routes from 'routes';
 import * as lp from 'lit-props';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
@@ -22,11 +22,11 @@ export class SettingsBaseView extends BaseElement {
         <div class="col-md-auto p-b-md">
           <h3>${ls.settings}</h3>
           <link-list-view>
-            ${this.menuLink(SettingsPages.profile, rs.home.settings.profile, ls.profile)}
+            ${this.menuLink(SettingsPages.profile, routes.m.settings.profile, ls.profile)}
             ${app.state.user?.admin
               ? this.menuLink(
                   SettingsPages.userAndGroups,
-                  rs.home.settings.usersAndGroups,
+                  routes.m.settings.usersAndGroups,
                   ls.usersAndGroups,
                 )
               : ''}

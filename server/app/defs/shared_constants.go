@@ -48,11 +48,11 @@ type SharedConstantsType struct {
 	MinUserPwdLen int
 	RouteApi string
 	RouteAuth string
-	RouteDashboard string
 	RouteDevPage string
 	RouteDiscussion string
 	RouteForum string
 	RouteForumGroup string
+	RouteM string
 	RoutePost string
 	RouteQuestion string
 	RouteUser string
@@ -104,11 +104,11 @@ func init() {
 		MinUserPwdLen: 6,
 		RouteApi: "s",
 		RouteAuth: "auth",
-		RouteDashboard: "home",
 		RouteDevPage: "__",
 		RouteDiscussion: "d",
 		RouteForum: "f",
 		RouteForumGroup: "g",
+		RouteM: "m",
 		RoutePost: "p",
 		RouteQuestion: "q",
 		RouteUser: "user",
