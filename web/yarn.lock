@@ -2235,10 +2235,10 @@ merge2@^1.2.3, merge2@^1.3.0:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.3.0.tgz#5b366ee83b2f1582c48f87e47cf1a9352103ca81"
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
-mgenware-tsconfig-web@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/mgenware-tsconfig-web/-/mgenware-tsconfig-web-2.0.0.tgz#597fd1d7754b5432d59ce664ec73d28754bdbee9"
-  integrity sha512-e4vdprzKTud37wQW9JVSegHmVrhhz+gi8TMYBEFPnVeD/F7YFlKV2ExuIS1IHDV+9lsbtQBRbQ2kpsCtZwiPjw==
+mgenware-tsconfig-web@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mgenware-tsconfig-web/-/mgenware-tsconfig-web-2.1.0.tgz#aab8f89c7097aa5f224ba63ce024518026f6fd1c"
+  integrity sha512-b9BQugAi1fcDtiP5Y+afTyTeTPU9/llewxtUBfz8wcImK39ffwU/VpEJXhA+xxSZb5M+gDHvR/zYkjzb9iX6pw==
   dependencies:
     "@tsconfig/node14" "^1.0.0"
 

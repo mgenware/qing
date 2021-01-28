@@ -5,6 +5,7 @@ import BaseElement from 'baseElement';
 import 'qing-button';
 import { staticMainImage } from 'urls';
 import 'ui/widgets/svgIcon';
+import 'ui/content/hfNumber';
 import ls from 'ls';
 import { tif } from 'lib/htmlLib';
 
@@ -78,7 +79,9 @@ export class VotingView extends BaseElement {
         </div>
         <div class="flex-full d-flex flex-column value-column">
           <div class="flex-full text-center flex-v-align">
-            <span class=${`size-lg ${valueColorClass}`}>${value || 0}</span>
+            <span class=${`size-lg ${valueColorClass}`}
+              ><hf-number .value=${value || 0}></hf-number
+            ></span>
           </div>
           ${tif(
             ups || downs,
@@ -86,13 +89,13 @@ export class VotingView extends BaseElement {
               ${tif(
                 ups,
                 html`<div class="flex-full text-center flex-v-align">
-                  <span class="color-up size-md">${ups}</span>
+                  <span class="color-up size-md"><hf-number .value=${ups}></hf-number></span>
                 </div>`,
               )}
               ${tif(
                 downs,
                 html`<div class="flex-full text-center flex-v-align">
-                  <span class="color-down size-md">${downs}</span>
+                  <span class="color-down size-md"><hf-number .value=${downs}></hf-number></span>
                 </div>`,
               )}
             </div>`,
