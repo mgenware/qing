@@ -4,11 +4,11 @@ import routes from 'routes';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
-import { MPListApp } from './views/mpListApp';
-import { GetMyPostsLoader, MPost } from './loaders/getMyPostsLoader';
+import { PCListApp } from './views/pcListApp';
+import { GetPCPostsLoader, PCPost } from './loaders/getPCPostsLoader';
 
 @customElement('my-posts-app')
-export default class MyPostsApp extends MPListApp<MPost> {
+export default class MyPostsApp extends PCListApp<PCPost> {
   static get styles() {
     return [
       super.styles,
@@ -26,8 +26,8 @@ export default class MyPostsApp extends MPListApp<MPost> {
     this.currentSortedColumnDesc = true;
   }
 
-  getLoader(page: number, pageSize: number): Loader<PaginatedList<MPost> | null> {
-    return new GetMyPostsLoader(
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
+    return new GetPCPostsLoader(
       entityPost,
       page,
       pageSize,

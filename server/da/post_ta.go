@@ -311,15 +311,15 @@ func (da *TableTypePost) SelectItemForEditing(queryable mingru.Queryable, id uin
 	return result, nil
 }
 
-// PostTableSelectItemsForDashboardOrderBy1 ...
+// PostTableSelectItemsForPostCenterOrderBy1 ...
 const (
-	PostTableSelectItemsForDashboardOrderBy1CreatedAt = iota
-	PostTableSelectItemsForDashboardOrderBy1Likes
-	PostTableSelectItemsForDashboardOrderBy1CmtCount
+	PostTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
+	PostTableSelectItemsForPostCenterOrderBy1Likes
+	PostTableSelectItemsForPostCenterOrderBy1CmtCount
 )
 
-// PostTableSelectItemsForDashboardResult ...
-type PostTableSelectItemsForDashboardResult struct {
+// PostTableSelectItemsForPostCenterResult ...
+type PostTableSelectItemsForPostCenterResult struct {
 	CmtCount   uint       `json:"cmtCount,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ID         uint64     `json:"-"`
@@ -328,15 +328,15 @@ type PostTableSelectItemsForDashboardResult struct {
 	Title      string     `json:"title,omitempty"`
 }
 
-// SelectItemsForDashboard ...
-func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForDashboardResult, bool, error) {
+// SelectItemsForPostCenter ...
+func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case PostTableSelectItemsForDashboardOrderBy1CreatedAt:
+	case PostTableSelectItemsForPostCenterOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case PostTableSelectItemsForDashboardOrderBy1Likes:
+	case PostTableSelectItemsForPostCenterOrderBy1Likes:
 		orderBy1SQL = "`likes`"
-	case PostTableSelectItemsForDashboardOrderBy1CmtCount:
+	case PostTableSelectItemsForPostCenterOrderBy1CmtCount:
 		orderBy1SQL = "`cmt_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -361,13 +361,13 @@ func (da *TableTypePost) SelectItemsForDashboard(queryable mingru.Queryable, use
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostTableSelectItemsForDashboardResult, 0, limit)
+	result := make([]PostTableSelectItemsForPostCenterResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostTableSelectItemsForDashboardResult
+			var item PostTableSelectItemsForPostCenterResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err

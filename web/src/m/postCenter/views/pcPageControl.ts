@@ -8,8 +8,8 @@ import app from 'app';
 
 const pageInputID = 'page-input';
 
-@customElement('mp-page-control')
-export class MPPageControl extends BaseElement {
+@customElement('pc-page-control')
+export class PCPageControl extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -105,6 +105,6 @@ export class MPPageControl extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'mp-page-control': MPPageControl;
+    'pc-page-control': PCPageControl;
   }
 }

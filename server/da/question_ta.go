@@ -311,14 +311,14 @@ func (da *TableTypeQuestion) SelectItemForEditing(queryable mingru.Queryable, id
 	return result, nil
 }
 
-// QuestionTableSelectItemsForDashboardOrderBy1 ...
+// QuestionTableSelectItemsForPostCenterOrderBy1 ...
 const (
-	QuestionTableSelectItemsForDashboardOrderBy1CreatedAt = iota
-	QuestionTableSelectItemsForDashboardOrderBy1ReplyCount
+	QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
+	QuestionTableSelectItemsForPostCenterOrderBy1ReplyCount
 )
 
-// QuestionTableSelectItemsForDashboardResult ...
-type QuestionTableSelectItemsForDashboardResult struct {
+// QuestionTableSelectItemsForPostCenterResult ...
+type QuestionTableSelectItemsForPostCenterResult struct {
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
@@ -326,13 +326,13 @@ type QuestionTableSelectItemsForDashboardResult struct {
 	Title      string     `json:"title,omitempty"`
 }
 
-// SelectItemsForDashboard ...
-func (da *TableTypeQuestion) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]QuestionTableSelectItemsForDashboardResult, bool, error) {
+// SelectItemsForPostCenter ...
+func (da *TableTypeQuestion) SelectItemsForPostCenter(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]QuestionTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case QuestionTableSelectItemsForDashboardOrderBy1CreatedAt:
+	case QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case QuestionTableSelectItemsForDashboardOrderBy1ReplyCount:
+	case QuestionTableSelectItemsForPostCenterOrderBy1ReplyCount:
 		orderBy1SQL = "`reply_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -357,13 +357,13 @@ func (da *TableTypeQuestion) SelectItemsForDashboard(queryable mingru.Queryable,
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]QuestionTableSelectItemsForDashboardResult, 0, limit)
+	result := make([]QuestionTableSelectItemsForPostCenterResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item QuestionTableSelectItemsForDashboardResult
+			var item QuestionTableSelectItemsForPostCenterResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.ReplyCount)
 			if err != nil {
 				return nil, false, err

@@ -3,7 +3,7 @@ import Loader from 'lib/loader';
 import routes from 'routes';
 import { entityPost, entityDiscussion } from 'sharedConstants';
 
-export interface MPost {
+export interface PCPost {
   id: string;
   url: string;
   title: string;
@@ -13,7 +13,7 @@ export interface MPost {
   modifiedAt: string;
 }
 
-export interface MDiscussion {
+export interface PCDiscussion {
   id: string;
   url: string;
   title: string;
@@ -22,7 +22,7 @@ export interface MDiscussion {
   msgCount: number;
 }
 
-export class GetMyPostsLoader<T> extends Loader<PaginatedList<T>> {
+export class GetPCPostsLoader<T> extends Loader<PaginatedList<T>> {
   constructor(
     public entityType: number,
     public page: number,

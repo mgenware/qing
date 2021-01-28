@@ -14,7 +14,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   selectItemForEditing: mm.SelectAction;
   // Optional actions.
   selectItemsForUserProfile: mm.Action;
-  selectItemsForDashboard: mm.Action;
+  selectItemsForPostCenter: mm.Action;
 
   // Other actions.
   deleteItem: mm.Action;
@@ -67,13 +67,13 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       .selectRow(idCol, ...this.getEditingColumns())
       .whereSQL(this.updateConditions);
 
-    const dashboardCols = this.getDashboardColumns();
-    this.selectItemsForDashboard = dashboardCols.length
+    const pcCols = this.getPCColumns();
+    this.selectItemsForPostCenter = pcCols.length
       ? mm
-          .selectRows(idCol, ...dateColumns, ...dashboardCols)
+          .selectRows(idCol, ...dateColumns, ...pcCols)
           .pageMode()
           .by(t.user_id)
-          .orderByInput(...this.getDashboardOrderByColumns())
+          .orderByInput(...this.getPCOrderByColumns())
       : mm.emptyAction;
 
     this.deleteItem =
@@ -118,9 +118,9 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   // Gets the underlying `ContentCmtBase` table.
   abstract getCmtBaseTable(): ContentCmtBase;
 
-  // Returns [] if dashboard is not supported.
-  abstract getDashboardColumns(): mm.SelectedColumn[];
-  abstract getDashboardOrderByColumns(): mm.SelectedColumn[];
+  // Returns [] if post center is not supported.
+  abstract getPCColumns(): mm.SelectedColumn[];
+  abstract getPCOrderByColumns(): mm.SelectedColumn[];
   // Returns [] if profile is not supported.
   abstract getProfileColumns(): mm.SelectedColumn[];
   abstract getEditingColumns(): mm.Column[];

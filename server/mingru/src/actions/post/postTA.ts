@@ -15,11 +15,11 @@ export class PostTA extends ContentBaseTA {
     return postCmt;
   }
 
-  getDashboardColumns(): mm.SelectedColumn[] {
+  getPCColumns(): mm.SelectedColumn[] {
     return [t.title, t.cmt_count, t.likes];
   }
 
-  getDashboardOrderByColumns(): mm.SelectedColumn[] {
+  getPCOrderByColumns(): mm.SelectedColumn[] {
     return [t.created_at, t.likes, t.cmt_count];
   }
 

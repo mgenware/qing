@@ -32,12 +32,12 @@ export class DiscussionMsgTA extends ContentBaseTA {
     return discussionMsgCmt;
   }
 
-  // Dashboard is not supported.
-  getDashboardColumns(): mm.SelectedColumn[] {
+  // Post center is not supported.
+  getPCColumns(): mm.SelectedColumn[] {
     return [];
   }
 
-  getDashboardOrderByColumns(): mm.SelectedColumn[] {
+  getPCOrderByColumns(): mm.SelectedColumn[] {
     return [];
   }
 

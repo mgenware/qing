@@ -3,8 +3,8 @@ import ls from 'ls';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 
-@customElement('mp-item-view')
-export class MPItemView extends BaseElement {
+@customElement('pc-item-view')
+export class PCItemView extends BaseElement {
   @lp.string name = '';
   @lp.string link = '';
   @lp.string id = '';
@@ -31,6 +31,6 @@ export class MPItemView extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'mp-item-view': MPItemView;
+    'pc-item-view': PCItemView;
   }
 }

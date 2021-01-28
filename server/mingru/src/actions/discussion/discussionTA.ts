@@ -18,11 +18,11 @@ export class DiscussionTA extends ThreadBaseTA {
     return discussionCmt;
   }
 
-  getDashboardColumns(): mm.SelectedColumn[] {
+  getPCColumns(): mm.SelectedColumn[] {
     return [t.title, t.reply_count];
   }
 
-  getDashboardOrderByColumns(): mm.SelectedColumn[] {
+  getPCOrderByColumns(): mm.SelectedColumn[] {
     return [t.created_at, t.reply_count];
   }
 

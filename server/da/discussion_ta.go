@@ -311,14 +311,14 @@ func (da *TableTypeDiscussion) SelectItemForEditing(queryable mingru.Queryable, 
 	return result, nil
 }
 
-// DiscussionTableSelectItemsForDashboardOrderBy1 ...
+// DiscussionTableSelectItemsForPostCenterOrderBy1 ...
 const (
-	DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt = iota
-	DiscussionTableSelectItemsForDashboardOrderBy1ReplyCount
+	DiscussionTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
+	DiscussionTableSelectItemsForPostCenterOrderBy1ReplyCount
 )
 
-// DiscussionTableSelectItemsForDashboardResult ...
-type DiscussionTableSelectItemsForDashboardResult struct {
+// DiscussionTableSelectItemsForPostCenterResult ...
+type DiscussionTableSelectItemsForPostCenterResult struct {
 	CreatedAt  time.Time  `json:"createdAt,omitempty"`
 	ID         uint64     `json:"-"`
 	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
@@ -326,13 +326,13 @@ type DiscussionTableSelectItemsForDashboardResult struct {
 	Title      string     `json:"title,omitempty"`
 }
 
-// SelectItemsForDashboard ...
-func (da *TableTypeDiscussion) SelectItemsForDashboard(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]DiscussionTableSelectItemsForDashboardResult, bool, error) {
+// SelectItemsForPostCenter ...
+func (da *TableTypeDiscussion) SelectItemsForPostCenter(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]DiscussionTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt:
+	case DiscussionTableSelectItemsForPostCenterOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case DiscussionTableSelectItemsForDashboardOrderBy1ReplyCount:
+	case DiscussionTableSelectItemsForPostCenterOrderBy1ReplyCount:
 		orderBy1SQL = "`reply_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -357,13 +357,13 @@ func (da *TableTypeDiscussion) SelectItemsForDashboard(queryable mingru.Queryabl
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]DiscussionTableSelectItemsForDashboardResult, 0, limit)
+	result := make([]DiscussionTableSelectItemsForPostCenterResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item DiscussionTableSelectItemsForDashboardResult
+			var item DiscussionTableSelectItemsForPostCenterResult
 			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.ReplyCount)
 			if err != nil {
 				return nil, false, err

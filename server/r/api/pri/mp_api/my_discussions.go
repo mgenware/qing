@@ -14,20 +14,20 @@ var myDiscussionsColumnNameToEnumMap map[string]int
 
 func init() {
 	myDiscussionsColumnNameToEnumMap = map[string]int{
-		defs.Shared.ColumnMessages: da.DiscussionTableSelectItemsForDashboardOrderBy1ReplyCount,
-		defs.Shared.ColumnCreated:  da.DiscussionTableSelectItemsForDashboardOrderBy1CreatedAt,
+		defs.Shared.ColumnMessages: da.DiscussionTableSelectItemsForPostCenterOrderBy1ReplyCount,
+		defs.Shared.ColumnCreated:  da.DiscussionTableSelectItemsForPostCenterOrderBy1CreatedAt,
 	}
 }
 
-type dashboardDiscussion struct {
-	da.DiscussionTableSelectItemsForDashboardResult
+type pcDiscussion struct {
+	da.DiscussionTableSelectItemsForPostCenterResult
 
 	EID string `json:"id"`
 	URL string `json:"url"`
 }
 
-func newDashboardDiscussion(p *da.DiscussionTableSelectItemsForDashboardResult, uid uint64) dashboardDiscussion {
-	d := dashboardDiscussion{DiscussionTableSelectItemsForDashboardResult: *p}
+func newPCDiscussion(p *da.DiscussionTableSelectItemsForPostCenterResult, uid uint64) pcDiscussion {
+	d := pcDiscussion{DiscussionTableSelectItemsForPostCenterResult: *p}
 	d.URL = app.URL.Discussion(p.ID)
 	d.EID = validator.EncodeID(uid)
 	return d
@@ -43,15 +43,15 @@ func myDiscussions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Shared.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
-	rawDiscussions, hasNext, err := da.Discussion.SelectItemsForDashboard(app.DB, uid, page, pageSize, myDiscussionsColumnNameToEnumMap[sortBy], desc)
+	rawDiscussions, hasNext, err := da.Discussion.SelectItemsForPostCenter(app.DB, uid, page, pageSize, myDiscussionsColumnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)
 
 	stats, err := da.UserStats.SelectStats(app.DB, uid)
 	app.PanicIfErr(err)
 
-	discussions := make([]dashboardDiscussion, len(rawDiscussions))
+	discussions := make([]pcDiscussion, len(rawDiscussions))
 	for i, p := range rawDiscussions {
-		discussions[i] = newDashboardDiscussion(&p, uid)
+		discussions[i] = newPCDiscussion(&p, uid)
 	}
 	respData := apicom.NewPaginatedList(discussions, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)

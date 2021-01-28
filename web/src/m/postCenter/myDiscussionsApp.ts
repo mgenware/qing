@@ -4,11 +4,11 @@ import routes from 'routes';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';
-import { MPListApp } from './views/mpListApp';
-import { GetMyPostsLoader, MDiscussion } from './loaders/getMyPostsLoader';
+import { PCListApp } from './views/pcListApp';
+import { GetPCPostsLoader, PCDiscussion } from './loaders/getPCPostsLoader';
 
 @customElement('my-discussions-app')
-export default class MyDiscussionsApp extends MPListApp<MDiscussion> {
+export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
   static get styles() {
     return [
       super.styles,
@@ -26,8 +26,8 @@ export default class MyDiscussionsApp extends MPListApp<MDiscussion> {
     this.currentSortedColumnDesc = true;
   }
 
-  getLoader(page: number, pageSize: number): Loader<PaginatedList<MDiscussion> | null> {
-    return new GetMyPostsLoader(
+  getLoader(page: number, pageSize: number): Loader<PaginatedList<PCDiscussion> | null> {
+    return new GetPCPostsLoader(
       entityDiscussion,
       page,
       pageSize,

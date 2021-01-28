@@ -6,14 +6,14 @@ import 'ui/content/headingView';
 import 'ui/alerts/noticeView';
 import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
-import './mpPageControl';
+import './pcPageControl';
 import Loader from 'lib/loader';
 import app from 'app';
 import ls from 'ls';
 
 const defaultPageSize = 10;
 
-export abstract class MPListApp<T> extends BaseElement {
+export abstract class PCListApp<T> extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -60,13 +60,13 @@ export abstract class MPListApp<T> extends BaseElement {
             </div>`
           : html`<notice-view>${ls.noContentAvailable}</notice-view>`}
         <hr />
-        <mp-page-control
+        <pc-page-control
           .page=${this.page}
           .pageSize=${this.pageSize}
           .totalItemCount=${this.totalCount}
           .shownItemCount=${this.shownCount}
           @gotoPage=${this.handleGotoPage}
-        ></mp-page-control>
+        ></pc-page-control>
       </section-view>
     `;
   }

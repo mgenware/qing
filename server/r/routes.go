@@ -13,6 +13,7 @@ import (
 	"qing/r/authp"
 	"qing/r/devpagep"
 	"qing/r/discussionp"
+	"qing/r/mp"
 	"qing/r/forump"
 	"qing/r/homep"
 	"qing/r/postp"

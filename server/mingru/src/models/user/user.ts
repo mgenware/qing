@@ -10,7 +10,7 @@ import {
 
 export class User extends mm.Table {
   id = mm.pk();
-  email = mm.varChar(maxEmailLen).unique;
+  email = mm.varChar(maxEmailLen).uniqueConstraint;
   name = mm.varChar(maxNameLen);
   icon_name = mm.varChar(maxFileNameLen).default('');
   created_at = mm.datetime('utc');
