@@ -1,7 +1,0 @@
-{
-  "extends": "mgenware-tsconfig-web",
-  "compilerOptions": {
-    "importHelpers": true,
-    "baseUrl": "src"
-  }
-}

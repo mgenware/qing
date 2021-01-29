@@ -20,13 +20,13 @@ function preprocessNodeEnv() {
 let plugins = [
   nodeResolve({
     browser: true,
-    extensions: ['.js', '.json', '.css'],
+    extensions: ['.js', '.json'],
   }),
   commonjs(),
   litcss(),
   json(),
   typescript({
-    tsconfig: './tsconfig-build.json',
+    tsconfig: `./tsconfig-${isProd ? 'build' : 'dev'}-browser.json`,
   }),
   preprocessNodeEnv(),
 ];

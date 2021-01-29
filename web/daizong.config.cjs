@@ -19,7 +19,7 @@ module.exports = {
     envGroups: ['development'],
   },
   turbo: {
-    run: ['#prepare-turbo', 'ttsc -p tsconfig-turbo.json -w --incremental'],
+    run: ['#prepare-turbo', 'ttsc -p ./tsconfig-turbo-node.json -w --incremental'],
     envGroups: ['development'],
   },
   build: {

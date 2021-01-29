@@ -1,0 +1,8 @@
+{
+  "extends": "mgenware-tsconfig-browser",
+  "compilerOptions": {
+    "importHelpers": true,
+    "baseUrl": "src",
+    "resolveJsonModule": true
+  }
+}

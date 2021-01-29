@@ -1,0 +1,9 @@
+{
+  "extends": "mgenware-tsconfig-node",
+  "compilerOptions": {
+    "importHelpers": true,
+    "baseUrl": "src",
+    "resolveJsonModule": true,
+    "lib": ["DOM", "DOM.Iterable", "es2019", "es2020"]
+  }
+}
