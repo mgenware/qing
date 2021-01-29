@@ -135,5 +135,6 @@
   "confirmAddUserAsAdmin": "是否将用户\"{0}\"加入到管理员？",
   "userIsAlreadyAdmin": "用户\"{0}\"已经是管理员",
   "youCannotChangeYourOwnAdminStatus": "您无法改变您自己的管理员状态",
-  "add": "添加"
+  "add": "添加",
+  "adminSettings": "管理员设置"
 }

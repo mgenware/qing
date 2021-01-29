@@ -1,6 +1,7 @@
 import buildTree from 'fx214';
 
 export default buildTree({
+  // Management APIs.
   m: {
     newPost: 'new-post',
     newDiscussion: 'new-discussion',
@@ -11,7 +12,6 @@ export default buildTree({
     yourQuestion: 'your-questions',
     settings: {
       profile: 'profile',
-      usersAndGroups: 'users-n-groups',
     },
   },
   // Service APIs.
@@ -86,6 +86,10 @@ export default buildTree({
         mods: 'mods',
       },
     },
+  },
+  // Management X APIs (Admin).
+  mx: {
+    usersAndGroups: 'users-n-groups',
   },
 });
 

@@ -1,35 +1,33 @@
-import { html, customElement } from 'lit-element';
+import { html } from 'lit-element';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { repeat } from 'lit-html/directives/repeat';
 import BaseElement from 'baseElement';
 import ls from 'ls';
-import routes from 'routes';
 import * as lp from 'lit-props';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
-import app from 'app';
 
-export enum SettingsPages {
-  profile,
-  userAndGroups,
+export interface SettingsBaseItem {
+  name: string;
+  link: string;
 }
 
-@customElement('settings-base-view')
 export class SettingsBaseView extends BaseElement {
-  @lp.number selectedPage = SettingsPages.profile;
+  @lp.number selectedItem = '';
+  @lp.string settingsTitle = ls.settings;
+  @lp.array items: SettingsBaseItem[] = [];
 
   render() {
     return html`
       <div class="row">
         <div class="col-md-auto p-b-md">
-          <h3>${ls.settings}</h3>
+          <h3>${this.settingsTitle}</h3>
           <link-list-view>
-            ${this.menuLink(SettingsPages.profile, routes.m.settings.profile, ls.profile)}
-            ${app.state.user?.admin
-              ? this.menuLink(
-                  SettingsPages.userAndGroups,
-                  routes.m.settings.usersAndGroups,
-                  ls.usersAndGroups,
-                )
-              : ''}
+            ${repeat(
+              this.items,
+              (i) => i.name,
+              (i) => this.menuLink(i),
+            )}
           </link-list-view>
         </div>
         <div class="col-md">
@@ -39,15 +37,11 @@ export class SettingsBaseView extends BaseElement {
     `;
   }
 
-  private menuLink(page: SettingsPages, link: string, value: string) {
-    return html`<a class=${this.selectedPage === page ? linkListActiveClass : ''} href=${link}
-      >${value}</a
+  private menuLink(item: SettingsBaseItem) {
+    return html`<a
+      class=${this.selectedItem === item.name ? linkListActiveClass : ''}
+      href=${item.link}
+      >${item.name}</a
     >`;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'settings-base-view': SettingsBaseView;
   }
 }

@@ -43,6 +43,7 @@ if (isProd) {
 const input = [
   isProd ? 'coreEntry.ts' : 'coreEntryDev.ts',
   'm/mEntry.ts',
+  'mx/mxEntry.ts',
   'post/postEntry.ts',
   'discussion/discussionEntry.ts',
   'profile/profileEntry.ts',

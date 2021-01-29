@@ -136,4 +136,5 @@ export default interface LSDefs {
   userIsAlreadyAdmin: string;
   youCannotChangeYourOwnAdminStatus: string;
   add: string;
+  adminSettings: string;
 }
