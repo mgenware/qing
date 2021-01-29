@@ -26,6 +26,7 @@ type JSManager struct {
 	Post          string
 	Discussion    string
 	M             string
+	MX            string
 	Profile       string
 	Auth          string
 	HomeStd       string
@@ -51,6 +52,7 @@ func NewJSManager(dev bool) *JSManager {
 	}
 	r.Post = js("postEntry")
 	r.M = js("mEntry")
+	r.M = js("mxEntry")
 	r.Profile = js("profileEntry")
 	r.Auth = js("authEntry")
 	r.Discussion = js("discussionEntry")

@@ -8,6 +8,7 @@ import routes from 'routes';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
+import { tif } from 'lib/htmlLib';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -198,6 +199,10 @@ export default class NavBarApp extends BaseElement {
                   <a href=${routes.m.newQuestion}>${ls.newQuestion}</a>
                   <hr />
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
+                  ${tif(
+                    user.admin,
+                    html`<a href=${routes.mx.usersAndGroups}>${ls.adminSettings}</a>`,
+                  )}
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>
