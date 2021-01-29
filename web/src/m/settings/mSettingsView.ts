@@ -11,6 +11,7 @@ export class MSettingsView extends SettingsBaseView {
     super();
 
     this.items = items;
+    this.settingsTitle = ls.settings;
   }
 }
 

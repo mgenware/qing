@@ -64,7 +64,6 @@ export default interface LSDefs {
   comment: string;
   request: string;
   errorCode: string;
-  editProfile: string;
   uploading: string;
   ppItemsCounter: string;
   oneItem: string;

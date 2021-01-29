@@ -3,15 +3,15 @@ import ls from 'ls';
 import routes from 'routes';
 import app from 'app';
 import './userMgr/userMgrApp';
-import '../m/settings/mSettingsView';
+import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 
 const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   app.page.setTitleAndMainContent(
-    [selectedItem],
-    html`<m-settings-view .selectedItem=${selectedItem}>${content}</m-settings-view>`,
+    [selectedItem, ls.adminSettings],
+    html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
   );
 }
 

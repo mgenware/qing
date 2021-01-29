@@ -15,7 +15,7 @@ const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   app.page.setTitleAndMainContent(
-    [selectedItem],
+    [selectedItem, ls.settings],
     html`<m-settings-view .selectedItem=${selectedItem}>${content}</m-settings-view>`,
   );
 }
@@ -69,7 +69,7 @@ router.register(`${routes.m.editPost}/:id`, (args) => {
   );
 });
 router.register(routes.m.settings.profile, () => {
-  loadSettingsContent(ls.editProfile, html` <edit-profile-app></edit-profile-app> `);
+  loadSettingsContent(ls.profile, html` <edit-profile-app></edit-profile-app> `);
 });
 router.register(routes.m.yourPosts, () => {
   app.page.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);

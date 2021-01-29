@@ -2,7 +2,6 @@ import { html } from 'lit-element';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
 import BaseElement from 'baseElement';
-import ls from 'ls';
 import * as lp from 'lit-props';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
@@ -14,7 +13,7 @@ export interface SettingsBaseItem {
 
 export class SettingsBaseView extends BaseElement {
   @lp.number selectedItem = '';
-  @lp.string settingsTitle = ls.settings;
+  @lp.string settingsTitle = '';
   @lp.array items: SettingsBaseItem[] = [];
 
   render() {

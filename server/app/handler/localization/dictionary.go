@@ -48,7 +48,6 @@ type Dictionary struct {
 	Edit                              string `json:"edit"`
 	EditComment                       string `json:"editComment"`
 	EditPost                          string `json:"editPost"`
-	EditProfile                       string `json:"editProfile"`
 	EditedAt                          string `json:"editedAt"`
 	Email                             string `json:"email"`
 	EnterCaptchaPlz                   string `json:"enterCaptchaPlz"`
