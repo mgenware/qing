@@ -52,7 +52,7 @@ func NewJSManager(dev bool) *JSManager {
 	}
 	r.Post = js("postEntry")
 	r.M = js("mEntry")
-	r.M = js("mxEntry")
+	r.MX = js("mxEntry")
 	r.Profile = js("profileEntry")
 	r.Auth = js("authEntry")
 	r.Discussion = js("discussionEntry")
