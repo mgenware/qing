@@ -1,5 +1,5 @@
 const turboBuildCmd = 'ttsc -p ./tsconfig-turbo-node.json --incremental';
-const prebuildCmd = '#prebuild run';
+const prebuildCmd = '#prebuild';
 const devEnv = {
   NODE_ENV: 'development',
 };
