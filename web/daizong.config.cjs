@@ -1,54 +1,59 @@
+const turboBuildCmd = 'ttsc -p ./tsconfig-turbo-node.json --incremental';
+const toolsCmd = 'yarn --cwd ../tools build';
+const devEnv = {
+  NODE_ENV: 'development',
+};
+const prodEnv = {
+  NODE_ENV: 'production',
+};
+
 module.exports = {
-  prepare: {
-    run: ['yarn --cwd ../tools build'],
-    before: {
-      del: 'static/d/js',
-    },
-  },
-  'prepare-turbo': {
-    run: ['yarn --cwd ../tools build'],
-    before: {
-      del: 'dist',
-    },
-  },
   lint: {
     run: ['eslint --max-warnings 0 --ext .ts src/', 'lit-analyzer "src/**/*.ts"'],
   },
+
+  /** Standard mode */
   dev: {
     run: ['#prepare', 'rollup -c -w'],
-    envGroups: ['development'],
-  },
-  turbo: {
-    run: ['#prepare-turbo', 'ttsc -p ./tsconfig-turbo-node.json -w --incremental'],
-    envGroups: ['development'],
+    env: devEnv,
   },
   build: {
     run: ['#lint', '#prepare', 'rollup -c'],
-    envGroups: ['production'],
+    env: prodEnv,
   },
-  // Unit tests
+
+  /** Turbo mode */
+  turbo: {
+    // Use `ttsc` instead of `tsc` to enable path rewriting.
+    run: ['#prepare-turbo', turboBuildCmd + ' -w'],
+    env: devEnv,
+  },
+  'turbo-build': {
+    run: ['#prepare-turbo', turboBuildCmd],
+    env: prodEnv,
+  },
+
+  /** UT mode */
   ut: {
-    dev: {
-      run: ['#cleanTests', 'tsc --project ./ut/tsconfig.json --incremental -w'],
-    },
     t: {
-      run: 'mocha --require source-map-support/register dist_test/ut/ut/**/*.test.js',
+      run: 'mocha --require source-map-support/register dist/**/*.test.js',
     },
-    run: ['#cleanTests', 'tsc --project ./ut/tsconfig.json', '#ut t'],
-  },
-  cleanTests: {
-    run: {
-      del: 'dist_tests',
-    },
+    run: ['#turbo-build', '#ut t'],
   },
 
   _: {
-    envGroups: {
-      production: {
-        NODE_ENV: 'production',
+    privateTasks: {
+      prepare: {
+        run: [toolsCmd],
+        before: {
+          del: 'static/d/js',
+        },
       },
-      development: {
-        NODE_ENV: 'development',
+      'prepare-turbo': {
+        run: [toolsCmd],
+        before: {
+          del: 'dist',
+        },
       },
     },
   },
