@@ -1,5 +1,11 @@
+# Log files
 *.log
+
+# Redis dump files
 *.rdb
+
+# Node modules
 node_modules
+
 /appdata/*
 !/appdata/README.md
