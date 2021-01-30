@@ -56,6 +56,8 @@
     "rollup-plugin-typescript2": "^0.29.0",
     "source-map-support": "^0.5.19",
     "ttypescript": "^1.5.12",
+    "go-const-gen": "^1.4.0",
+    "json-to-js-const": "^0.0.2",
     "typescript": "^4.1.3"
   }
 }

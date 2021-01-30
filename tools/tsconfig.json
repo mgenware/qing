@@ -1,6 +1,0 @@
-{
-  "extends": "mgenware-tsconfig-node",
-  "compilerOptions": {
-    "declaration": false
-  }
-}

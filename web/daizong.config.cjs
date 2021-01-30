@@ -1,11 +1,16 @@
 const turboBuildCmd = 'ttsc -p ./tsconfig-turbo-node.json --incremental';
-const toolsCmd = 'yarn --cwd ../tools build';
+const prebuildCmd = '#prebuild run';
 const devEnv = {
   NODE_ENV: 'development',
 };
 const prodEnv = {
   NODE_ENV: 'production',
 };
+const prebuildDirName = 'prebuild';
+
+const prebuildTasks = ['build-ls-go-defs', 'build-ls-ts-defs', 'build-shared-const'].map(
+  (s) => `node ./${prebuildDirName}/dist/${s}.js`,
+);
 
 module.exports = {
   lint: {
@@ -33,7 +38,7 @@ module.exports = {
     env: prodEnv,
   },
 
-  /** UT mode */
+  /** UT */
   ut: {
     t: {
       run: 'mocha --require source-map-support/register dist/**/*.test.js',
@@ -41,16 +46,28 @@ module.exports = {
     run: ['#turbo-build', '#ut t'],
   },
 
+  /** Prebuild */
+  prebuild: {
+    build: {
+      run: `tsc -p ./${prebuildDirName} --incremental`,
+    },
+    runTasks: {
+      run: prebuildTasks,
+      parallel: true,
+    },
+    run: ['#prebuild build', '#prebuild runTasks'],
+  },
+
   _: {
     privateTasks: {
       prepare: {
-        run: [toolsCmd],
+        run: prebuildCmd,
         before: {
           del: 'static/d/js',
         },
       },
       'prepare-turbo': {
-        run: [toolsCmd],
+        run: prebuildCmd,
         before: {
           del: 'dist',
         },

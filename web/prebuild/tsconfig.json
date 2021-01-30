@@ -1,0 +1,11 @@
+{
+  "extends": "mgenware-tsconfig-node",
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "commonjs",
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
+  }
+}
