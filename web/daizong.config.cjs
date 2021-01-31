@@ -41,7 +41,10 @@ module.exports = {
   /** UT */
   ut: {
     t: {
-      run: 'web-test-runner dist/**/*.test.js --node-resolve --debug',
+      run: 'web-test-runner dist/**/*.test.js --node-resolve',
+    },
+    tw: {
+      run: 'web-test-runner dist/**/*.test.js --node-resolve --watch',
     },
     run: ['#turbo-build', '#ut t'],
   },
