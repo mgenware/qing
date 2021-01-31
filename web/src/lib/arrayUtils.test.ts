@@ -1,4 +1,4 @@
-import { expect } from '@esm-bundle/chai';
+import { expect } from 'qing-t';
 import { skipIndex, skipItem } from './arrayUtils';
 
 it('skipIndex', () => {

@@ -41,7 +41,7 @@ export function renderTemplateResult<T extends HTMLElement>(
   const div = document.createElement('div');
   containerElement.appendChild(div);
   render(template ?? html``, div);
-  // Template is render under the div element.
+  // Template is rendered under the div element.
   return div.firstElementChild as T | null;
 }
 
