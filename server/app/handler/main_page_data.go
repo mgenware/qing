@@ -1,7 +1,7 @@
 package handler
 
-// MasterPageData holds the data needed in main page template.
-type MasterPageData struct {
+// MainPageData holds the data needed in main page template.
+type MainPageData struct {
 	// User properties.
 	Title       string
 	ContentHTML string
@@ -23,11 +23,11 @@ type MasterPageData struct {
 	AppWindDataString string
 }
 
-// This wraps a MasterPageData and is used internally by template manager.
-type masterPageDataWrapper struct {
+// This wraps a MainPageData and is used internally by template manager.
+type MainPageDataWrapper struct {
 }
 
-// NewMasterPageData creates a new MasterPageData.
-func NewMasterPageData(title, contentHTML string) *MasterPageData {
-	return &MasterPageData{Title: title, ContentHTML: contentHTML}
+// NewMainPageData creates a new MainPageData.
+func NewMainPageData(title, contentHTML string) *MainPageData {
+	return &MainPageData{Title: title, ContentHTML: contentHTML}
 }

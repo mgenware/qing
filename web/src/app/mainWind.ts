@@ -1,4 +1,4 @@
-export default interface MasterWind {
+export default interface MainWind {
   appUserID: string;
   appUserURL: string;
   appUserName: string;

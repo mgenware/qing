@@ -1,4 +1,4 @@
-import MasterWind from 'app/masterWind';
+import MainWind from 'app/mainWind';
 import { defaultLang } from 'sharedConstants';
 import User from '../user/user';
 
@@ -13,7 +13,7 @@ export default class AppState {
 
   constructor() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const wind = (window as any) as MasterWind;
+    const wind = (window as any) as MainWind;
 
     this.lang = wind.appLang ?? defaultLang;
     this.forumsMode = wind.appForumsMode;

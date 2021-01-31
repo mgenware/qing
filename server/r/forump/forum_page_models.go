@@ -7,7 +7,7 @@ import (
 	"qing/lib/validator"
 )
 
-var vForumPage = app.MasterPageManager.MustParseView("/forum/forumPage.html")
+var vForumPage = app.MainPageManager.MustParseView("/forum/forumPage.html")
 
 // ForumPageModel wraps a da.ForumTableSelectForumResult.
 type ForumPageModel struct {

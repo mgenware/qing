@@ -30,30 +30,30 @@ func init() {
 	}
 }
 
-// MasterPageManager is used to generate site master HTML page.
-type MasterPageManager struct {
+// MainPageManager is used to generate site main HTML page.
+type MainPageManager struct {
 	dir    string
 	config *cfg.Config
 
 	reloadViewsOnRefresh bool
 	log404Error          bool
 
-	masterView          *templatex.View
+	mainView            *templatex.View
 	errorView           *templatex.View
 	LocalizationManager *localization.Manager
 	AssetsManager       *assetmgr.AssetsManager
 	logger              *logx.Logger
 }
 
-// MustCreateMasterPageManager creates an instance of MasterPageManager with the specified arguments. Note that this function panics when master template fails to load.
-func MustCreateMasterPageManager(
+// MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
+func MustCreateMainPageManager(
 	dir string,
 	i18nDir string,
 	defaultLang string,
 	assetMgr *assetmgr.AssetsManager,
 	logger *logx.Logger,
 	config *cfg.Config,
-) *MasterPageManager {
+) *MainPageManager {
 	reloadViewsOnRefresh := config.Debug != nil && config.Debug.ReloadViewsOnRefresh
 	if reloadViewsOnRefresh {
 		log.Print("⚠️ View dev mode is on")
@@ -65,7 +65,7 @@ func MustCreateMasterPageManager(
 		panic(err)
 	}
 
-	t := &MasterPageManager{
+	t := &MainPageManager{
 		dir:                  dir,
 		LocalizationManager:  localizationManager,
 		AssetsManager:        assetMgr,
@@ -75,24 +75,24 @@ func MustCreateMasterPageManager(
 		log404Error:          config.HTTP.Log404Error,
 	}
 
-	// Load the master template
-	t.masterView = t.MustParseView("master.html")
-	// Load the error template
+	// Load the main template.
+	t.mainView = t.MustParseView("main.html")
+	// Load the error template.
 	t.errorView = t.MustParseView("error.html")
 
 	return t
 }
 
 // MustCompleteWithContent finished the response with the given HTML content.
-func (m *MasterPageManager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
+func (m *MainPageManager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 	w.Write(content)
 }
 
 // MustComplete executes the main view template with the specified data and panics if error occurs.
-func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *MasterPageData, w http.ResponseWriter) {
+func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPageData, w http.ResponseWriter) {
 	if d == nil {
-		panic("Unexpected empty `MasterPageData` in `MustComplete`")
+		panic("Unexpected empty `MainPageData` in `MustComplete`")
 	}
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 
@@ -126,7 +126,7 @@ func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *Master
 	script := ""
 	// Language file, this should be loaded first as the main.js relies on it.
 	if m.config.Debug != nil {
-		// Read the JSON content and inject it to master page in dev mode
+		// Read the JSON content and inject it to main page in dev mode.
 		jsonFileName := fmt.Sprintf("%v.json", lang)
 		jsonFile := filepath.Join(m.config.Localization.Dir, jsonFileName)
 		jsonBytes, err := ioutil.ReadFile(jsonFile)
@@ -165,11 +165,11 @@ func (m *MasterPageManager) MustComplete(r *http.Request, lang string, d *Master
 		d.AppUserAdmin = user.Admin
 	}
 
-	m.masterView.MustExecute(w, d)
+	m.mainView.MustExecute(w, d)
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *MasterPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
+func (m *MainPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
 	d := &ErrorPageData{Message: err.Error()}
 	// Handle unexpected errors
 	if !expected {
@@ -190,13 +190,13 @@ func (m *MasterPageManager) MustError(r *http.Request, lang string, err error, e
 		}
 	}
 	errorHTML := m.errorView.MustExecuteToString(d)
-	htmlData := NewMasterPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
+	htmlData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	m.MustComplete(r, lang, htmlData, w)
 	return HTML(0)
 }
 
 // PageTitle returns the given string followed by the localized site name.
-func (m *MasterPageManager) PageTitle(lang, s string) string {
+func (m *MainPageManager) PageTitle(lang, s string) string {
 	siteName := m.LocalizationManager.Dictionary(lang).SiteName
 	if s != "" {
 		return s + " - " + siteName
@@ -205,19 +205,19 @@ func (m *MasterPageManager) PageTitle(lang, s string) string {
 }
 
 // MustParseLocalizedView creates a new LocalizedView with the given relative path.
-func (m *MasterPageManager) MustParseLocalizedView(relativePath string) *LocalizedView {
+func (m *MainPageManager) MustParseLocalizedView(relativePath string) *LocalizedView {
 	file := filepath.Join(m.dir, relativePath)
 	view := templatex.MustParseView(file, m.reloadViewsOnRefresh)
 	return &LocalizedView{view: view, localizationManager: m.LocalizationManager}
 }
 
 // MustParseView creates a new View with the given relative path.
-func (m *MasterPageManager) MustParseView(relativePath string) *templatex.View {
+func (m *MainPageManager) MustParseView(relativePath string) *templatex.View {
 	file := filepath.Join(m.dir, relativePath)
 	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
 }
 
 // Dictionary returns a localized dictionary with the specified language ID.
-func (m *MasterPageManager) Dictionary(lang string) *localization.Dictionary {
+func (m *MainPageManager) Dictionary(lang string) *localization.Dictionary {
 	return m.LocalizationManager.Dictionary(lang)
 }

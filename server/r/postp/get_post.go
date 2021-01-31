@@ -23,8 +23,8 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 	postModel := NewPostPageModel(&post)
 	title := post.Title
-	d := app.MasterPageData(title, vPostPage.MustExecuteToString(postModel))
-	d.Scripts = app.MasterPageManager.AssetsManager.JS.Post
+	d := app.MainPageData(title, vPostPage.MustExecuteToString(postModel))
+	d.Scripts = app.MainPageManager.AssetsManager.JS.Post
 	d.WindData = PostPageWindData{EID: postModel.EID, CmtCount: postModel.CmtCount, InitialLikes: postModel.Likes}
 	return resp.MustComplete(d)
 }

@@ -7,8 +7,8 @@ import (
 	"qing/lib/validator"
 )
 
-var vProfilePage = app.MasterPageManager.MustParseView("/profile/profilePage.html")
-var vProfileFeedItem = app.MasterPageManager.MustParseView("/profile/feedItem.html")
+var vProfilePage = app.MainPageManager.MustParseView("/profile/profilePage.html")
+var vProfileFeedItem = app.MainPageManager.MustParseView("/profile/feedItem.html")
 
 // ProfilePageModel ...
 type ProfilePageModel struct {

@@ -7,8 +7,8 @@ import (
 	"qing/r/rcom"
 )
 
-var vDiscussionPage = app.MasterPageManager.MustParseView("/discussion/discussionPage.html")
-var vMessageItem = app.MasterPageManager.MustParseView("/discussion/messageItem.html")
+var vDiscussionPage = app.MainPageManager.MustParseView("/discussion/discussionPage.html")
+var vMessageItem = app.MainPageManager.MustParseView("/discussion/messageItem.html")
 
 // DiscussionPageModel is a wrapper around da.DiscussionTableSelectPostByIDResult.
 type DiscussionPageModel struct {

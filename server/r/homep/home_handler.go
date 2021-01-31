@@ -51,8 +51,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-		d := app.MasterPageData("", vStdPage.MustExecuteToString(pageModel))
-		d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeStd
+		d := app.MainPageData("", vStdPage.MustExecuteToString(pageModel))
+		d.Scripts = app.MainPageManager.AssetsManager.JS.HomeStd
 		return resp.MustComplete(d)
 	}
 
@@ -60,9 +60,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	forumGroups, err := da.Home.SelectForumGroups(db)
 	app.PanicIfErr(err)
 
-	var masterHTML string
+	var mainHTML string
 	if len(forumGroups) == 0 {
-		masterHTML = rcom.MustRunNoContentViewTemplate()
+		mainHTML = rcom.MustRunNoContentViewTemplate()
 	} else {
 		forums, err := da.Home.SelectForums(db)
 		app.PanicIfErr(err)
@@ -107,10 +107,10 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		}
 
 		frmPageModel := NewFrmPageModel(frmHTMLBuilder.String())
-		masterHTML = vFrmPage.MustExecuteToString(frmPageModel)
+		mainHTML = vFrmPage.MustExecuteToString(frmPageModel)
 	}
 
-	d := app.MasterPageData("", masterHTML)
-	d.Scripts = app.MasterPageManager.AssetsManager.JS.HomeFrm
+	d := app.MainPageData("", mainHTML)
+	d.Scripts = app.MainPageManager.AssetsManager.JS.HomeFrm
 	return resp.MustComplete(d)
 }

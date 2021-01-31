@@ -5,9 +5,9 @@ import (
 	"qing/da"
 )
 
-var vFrmPage = app.MasterPageManager.MustParseView("/home/frmPage.html")
-var vForumGroupView = app.MasterPageManager.MustParseView("/home/forumGroupView.html")
-var vForumView = app.MasterPageManager.MustParseView("/home/forumView.html")
+var vFrmPage = app.MainPageManager.MustParseView("/home/frmPage.html")
+var vForumGroupView = app.MainPageManager.MustParseView("/home/forumGroupView.html")
+var vForumView = app.MainPageManager.MustParseView("/home/forumView.html")
 
 // FrmPageModel ...
 type FrmPageModel struct {

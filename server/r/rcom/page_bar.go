@@ -4,7 +4,7 @@ import (
 	"qing/app"
 )
 
-var vPageBar = app.MasterPageManager.MustParseView("/com/pageBar.html")
+var vPageBar = app.MainPageManager.MustParseView("/com/pageBar.html")
 
 // GetPageBarHTML returns page bar HTML with the given params.
 func GetPageBarHTML(pageData *PageData) string {

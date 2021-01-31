@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-var vUserView = app.MasterPageManager.MustParseView("/com/userItemView.html")
+var vUserView = app.MainPageManager.MustParseView("/com/userItemView.html")
 
 // UserItemViewData contains properties required to generate a user item view.
 type UserItemViewData struct {

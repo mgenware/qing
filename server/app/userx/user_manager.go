@@ -13,9 +13,9 @@ import (
 
 // UserManager manages user sessions.
 type UserManager struct {
-	SessionManager    *SessionManager
-	MasterPageManager *handler.MasterPageManager
-	DB                *sql.DB
+	SessionManager  *SessionManager
+	MainPageManager *handler.MainPageManager
+	DB              *sql.DB
 
 	appURL      *urlx.URL
 	forumsMode  bool
@@ -26,12 +26,12 @@ type UserManager struct {
 func NewUserManager(
 	db *sql.DB,
 	ssMgr *SessionManager,
-	tm *handler.MasterPageManager,
+	tm *handler.MainPageManager,
 	appURL *urlx.URL,
 	forumsMode bool,
 	debugConfig *config.DebugConfig,
 ) *UserManager {
-	ret := &UserManager{DB: db, SessionManager: ssMgr, MasterPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
+	ret := &UserManager{DB: db, SessionManager: ssMgr, MainPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
 	return ret
 }
 

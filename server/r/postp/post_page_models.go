@@ -7,7 +7,7 @@ import (
 	"qing/r/rcom"
 )
 
-var vPostPage = app.MasterPageManager.MustParseView("/post/postPage.html")
+var vPostPage = app.MainPageManager.MustParseView("/post/postPage.html")
 
 // PostPageModel is a wrapper around da.PostTableSelectPostByIDResult.
 type PostPageModel struct {

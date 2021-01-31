@@ -22,5 +22,5 @@ func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	// Note that pass `true` as the `expected` param so that template manager won't treat it as a 500 error.
-	return app.MasterPageManager.MustError(r, resp.Lang(), errors.New(msg), true, w)
+	return app.MainPageManager.MustError(r, resp.Lang(), errors.New(msg), true, w)
 }

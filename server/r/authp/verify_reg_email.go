@@ -23,7 +23,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	if dataString == "" {
 		// Expired
-		panic(app.MasterPageManager.Dictionary(lang).RegEmailVeriExpired)
+		panic(app.MainPageManager.Dictionary(lang).RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)

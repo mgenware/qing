@@ -6,7 +6,7 @@ import (
 	"qing/r/rcom"
 )
 
-var vStdPage = app.MasterPageManager.MustParseView("/home/stdPage.html")
+var vStdPage = app.MainPageManager.MustParseView("/home/stdPage.html")
 
 // StdPageModel ...
 type StdPageModel struct {

@@ -6,9 +6,9 @@ import (
 	"qing/da"
 )
 
-var vThreadPostView = app.MasterPageManager.MustParseView("/com/threads/postView.html")
-var vThreadQuestionView = app.MasterPageManager.MustParseView("/com/threads/questionView.html")
-var vThreadDiscussionView = app.MasterPageManager.MustParseView("/com/threads/discussionView.html")
+var vThreadPostView = app.MainPageManager.MustParseView("/com/threads/postView.html")
+var vThreadQuestionView = app.MainPageManager.MustParseView("/com/threads/questionView.html")
+var vThreadDiscussionView = app.MainPageManager.MustParseView("/com/threads/discussionView.html")
 
 // UserThreadModel is a data wrapper around PostTableSelectItemsForUserProfileResult.
 type UserThreadModel struct {
