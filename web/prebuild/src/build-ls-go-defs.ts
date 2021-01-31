@@ -1,6 +1,6 @@
 import { promises as fsPromises } from 'fs';
-import gen from 'go-const-gen';
-import { serverPath, webPath } from './paths';
+import gen from '../../node_modules/go-const-gen/dist/main.js';
+import { serverPath, webPath } from './paths.js';
 
 (async () => {
   // Read the contents of a localized JSON.

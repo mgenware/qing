@@ -1,5 +1,5 @@
 import { promises as fsPromises } from 'fs';
-import { webPath } from './paths';
+import { webPath } from './paths.js';
 
 (async () => {
   const lsString = await fsPromises.readFile(webPath('/langs/en.json'), 'utf8');

@@ -1,4 +1,4 @@
-const turboBuildCmd = 'ttsc -p ./tsconfig-turbo-node.json --incremental';
+const turboBuildCmd = 'tsc -p ./tsconfig-turbo-node.json --incremental';
 const prebuildCmd = '#prebuild';
 const devEnv = {
   NODE_ENV: 'development',
@@ -41,7 +41,7 @@ module.exports = {
   /** UT */
   ut: {
     t: {
-      run: 'mocha --require source-map-support/register dist/**/*.test.js',
+      run: 'web-test-runner dist/**/*.test.js --node-resolve --debug',
     },
     run: ['#turbo-build', '#ut t'],
   },
@@ -67,7 +67,7 @@ module.exports = {
         },
       },
       'prepare-turbo': {
-        run: prebuildCmd,
+        run: 'echo REPLACE THIS WITH PREBUILD SCRIPT WHEN ESM SUPPORT IS COMPLETE!',
         before: {
           del: 'dist',
         },

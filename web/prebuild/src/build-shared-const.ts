@@ -1,7 +1,7 @@
 import { promises as fsPromises } from 'fs';
-import goConvert from 'go-const-gen';
-import tsConvert from 'json-to-js-const';
-import { serverPath, webPath } from './paths';
+import goConvert from '../../node_modules/go-const-gen/dist/main.js';
+import tsConvert from '../../node_modules/json-to-js-const/dist/main.js';
+import { serverPath, webPath } from './paths.js';
 
 async function buildJSONFileAsync(
   src: string,
