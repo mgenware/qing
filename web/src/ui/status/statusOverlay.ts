@@ -31,7 +31,7 @@ export class StatusOverlay extends BaseElement {
     ];
   }
 
-  @lp.object status = LoadingStatus.empty;
+  @lp.object status = LoadingStatus.notStarted;
   @lp.string loadingText = '';
   @lp.bool canRetry = false;
   @lp.string errorTitle = '';

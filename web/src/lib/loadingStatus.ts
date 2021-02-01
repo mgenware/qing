@@ -2,33 +2,59 @@ import ErrorWithCode from './errorWithCode';
 
 // Represents different states of a loading action.
 export default class LoadingStatus {
-  private constructor(
-    public error: ErrorWithCode | null,
-    public isWorking: boolean,
-    public isSuccess: boolean,
-  ) {}
+  static __notStarted = new LoadingStatus();
+
+  #error: ErrorWithCode | null = null;
+  #isStarted = false;
+  #isCompleted = false;
+
+  get error(): ErrorWithCode | null {
+    return this.#error;
+  }
+
+  get isStarted(): boolean {
+    return this.#isStarted;
+  }
+
+  get isCompleted(): boolean {
+    return this.#isCompleted;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
   static error(err: ErrorWithCode): LoadingStatus {
-    return new LoadingStatus(err, false, false);
+    const s = new LoadingStatus();
+    s.#error = err;
+    return s;
   }
 
   static get working(): LoadingStatus {
-    return new LoadingStatus(null, true, false);
+    const s = new LoadingStatus();
+    s.#isStarted = true;
+    return s;
   }
 
   static get success(): LoadingStatus {
-    return new LoadingStatus(null, false, true);
+    const s = new LoadingStatus();
+    s.#isStarted = true;
+    s.#isCompleted = true;
+    return s;
   }
 
-  static get empty(): LoadingStatus {
-    return new LoadingStatus(null, false, false);
+  static get notStarted(): LoadingStatus {
+    return this.__notStarted;
   }
 
   get hasError(): boolean {
     return !!this.error;
   }
 
-  get isEmpty(): boolean {
-    return !this.isWorking && !this.isSuccess && !this.hasError;
+  get isWorking(): boolean {
+    return this.isStarted && !this.isCompleted;
+  }
+
+  get isSuccess(): boolean {
+    return this.isCompleted && this.error === null;
   }
 }

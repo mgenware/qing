@@ -7,7 +7,7 @@ import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('cmt-footer-view')
 export class CmtFooterView extends BaseElement {
-  @lp.object status = LoadingStatus.empty;
+  @lp.object status = LoadingStatus.notStarted;
   @lp.bool hasNext = false;
   @lp.bool replies = false;
   @lp.number loadedCount = 0;

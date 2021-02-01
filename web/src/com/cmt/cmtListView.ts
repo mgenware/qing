@@ -31,7 +31,7 @@ export class CmtListView extends BaseElement {
   @lp.number page = 1;
 
   private cmtCollector: CmtCollector | null = null;
-  @lp.object collectorLoadingStatus = LoadingStatus.empty;
+  @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -66,7 +66,7 @@ export class CmtListView extends BaseElement {
     let titleGroup = html` <h2>${ls.comments}</h2> `;
     let contentGroup = html``;
 
-    if (!totalCount && (collectorLoadingStatus.isSuccess || collectorLoadingStatus.isEmpty)) {
+    if (!totalCount && (collectorLoadingStatus.isSuccess || !collectorLoadingStatus.isStarted)) {
       titleGroup = html`
         ${titleGroup}
         <p>${ls.noComment}</p>

@@ -32,7 +32,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
 
   @lp.string fid = '';
   @lp.string name = '';
-  @lp.object loadingStatus = LoadingStatus.empty;
+  @lp.object loadingStatus = LoadingStatus.notStarted;
   @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
 

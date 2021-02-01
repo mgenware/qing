@@ -34,7 +34,7 @@ export class EditProfileApp extends BaseElement {
   @lp.string url = '';
   @lp.string company = '';
   @lp.string location = '';
-  @lp.object loadingStatus = LoadingStatus.empty;
+  @lp.object loadingStatus = LoadingStatus.notStarted;
   @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
 

@@ -35,7 +35,7 @@ export class CmtView extends BaseElement {
   // Only available to replies.
   @lp.string parentCmtID: string | null = null;
   @lp.bool private editorMode = EditorMode.none;
-  @lp.object private srcLoadingStatus = LoadingStatus.empty;
+  @lp.object private srcLoadingStatus = LoadingStatus.notStarted;
 
   // Composer view is optional in `render`.
   private get composerElement(): ComposerView | null {

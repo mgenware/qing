@@ -27,7 +27,7 @@ export class StatusView extends BaseElement {
   }
 
   // The underlying status of this view.
-  @lp.object status = LoadingStatus.empty;
+  @lp.object status = LoadingStatus.notStarted;
   // The loading text when in loading state.
   @lp.string loadingText = '';
   // If a "retry" button is displayed when in error state.
