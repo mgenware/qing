@@ -61,7 +61,9 @@ export class InputView extends BaseElement {
         }
 
         input:invalid {
-          border-color: var(--app-danger-fore-color);
+          outline: 0;
+          border-color: var(--app-default-danger-fore-color);
+          box-shadow: 0 0 2px var(--app-default-danger-fore-color);
         }
       `,
     ];
