@@ -3,6 +3,8 @@
   "include": ["src/**/*", "langs/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
+    "declaration": false,
+    "sourceMap": false,
     "rootDir": "."
   }
 }
