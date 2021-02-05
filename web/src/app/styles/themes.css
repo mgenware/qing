@@ -8,23 +8,23 @@
   --app-default-secondary-back-color: #e4e4e4;
   --app-default-fore-color: black;
   --app-default-secondary-fore-color: #676f75;
-  --app-default-primary-fore-color: #4f81c7;
+  --app-default-primary-fore-color: #00386a;
   --app-default-danger-fore-color: #d11e30;
   --app-default-success-fore-color: #43ac6a;
-  --app-default-warning-fore-color: #f3b807;
+  --app-default-warning-fore-color: #fecd21;
 
   --app-default-separator-color: #dadada;
 
-  --app-primary-back-color: #4f81c7;
+  --app-primary-back-color: var(--app-default-primary-fore-color);
   --app-primary-fore-color: white;
-  --app-danger-back-color: #d11e30;
+  --app-danger-back-color: var(--app-default-danger-fore-color);
   --app-danger-fore-color: white;
-  --app-success-back-color: #43ac6a;
+  --app-success-back-color: var(--app-default-success-fore-color);
   --app-success-fore-color: white;
   --app-info-back-color: #e7e7e7;
   --app-info-fore-color: #343a40;
-  --app-warning-back-color: #f3b807;
-  --app-warning-fore-color: #2f343a;
+  --app-warning-back-color: var(--app-default-warning-fore-color);
+  --app-warning-fore-color: black;
 
   --app-footer-back-color: #494949;
   --app-footer-fore-color: #9c9c9c;
@@ -51,24 +51,25 @@
   --app-default-secondary-back-color: #2a2a2a;
   --app-default-fore-color: #777777;
   --app-default-secondary-fore-color: #5a5a5a;
-  --app-default-primary-fore-color: #35588a;
+  --app-default-primary-fore-color: #00213d;
   --app-default-danger-fore-color: #8a1212;
   --app-default-success-fore-color: #205333;
-  --app-default-warning-fore-color: #554000;
+  --app-default-warning-fore-color: #68540e;
 
   --app-default-separator-color: #272727;
 
-  --app-primary-back-color: #35588a;
-  --app-primary-fore-color: #b4b4b4;
-
-  --app-danger-back-color: #570000;
-  --app-danger-fore-color: #777777;
-  --app-success-back-color: #205333;
-  --app-success-fore-color: #a5a5a5;
+  /** Used internally in dark mode. Slightly lighter than `--app-default-fore-color` */
+  --private-app-dark-context-fore-color: #979797;
+  --app-primary-back-color: var(--app-default-primary-fore-color);
+  --app-primary-fore-color: var(--private-app-dark-context-fore-color);
+  --app-danger-back-color: var(--app-default-danger-fore-color);
+  --app-danger-fore-color: var(--private-app-dark-context-fore-color);
+  --app-success-back-color: var(--app-default-success-fore-color);
+  --app-success-fore-color: var(--private-app-dark-context-fore-color);
   --app-info-back-color: #272727;
-  --app-info-fore-color: #727374;
-  --app-warning-back-color: #554000;
-  --app-warning-fore-color: #979797;
+  --app-info-fore-color: var(--private-app-dark-context-fore-color);
+  --app-warning-back-color: var(--app-default-warning-fore-color);
+  --app-warning-fore-color: var(--private-app-dark-context-fore-color);
 
   --app-footer-back-color: #000000;
   --app-footer-fore-color: #3d3d3d;
