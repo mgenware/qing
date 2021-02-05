@@ -1,4 +1,5 @@
 const turboBuildCmd = 'tsc -p ./tsconfig-turbo-node.json --incremental';
+const utCmd = 'web-test-runner ./dist/src/**/*.test.js --node-resolve';
 const prebuildCmd = '#prebuild';
 const devEnv = {
   NODE_ENV: 'development',
@@ -41,10 +42,10 @@ module.exports = {
   /** UT */
   ut: {
     t: {
-      run: 'web-test-runner dist/**/*.test.js --node-resolve',
+      run: utCmd,
     },
     tw: {
-      run: 'web-test-runner dist/**/*.test.js --node-resolve --watch',
+      run: utCmd + ' --watch',
     },
     run: ['#turbo-build', '#ut t'],
   },
