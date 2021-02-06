@@ -5,6 +5,16 @@
     "outDir": "./dist",
     "declaration": false,
     "sourceMap": false,
-    "rootDir": "."
+    "rootDir": ".",
+    "plugins": [
+      {
+        "transform": "ts-transform-esm-import",
+        "after": true,
+        "afterDeclarations": true,
+        "type": "config",
+        "nodeModulesDir": "./node_modules",
+        "baseDir": "./dist/src"
+      }
+    ]
   }
 }

@@ -4385,7 +4385,7 @@ resolve@1.17.0:
   dependencies:
     path-parse "^1.0.6"
 
-resolve@^1.10.0, resolve@^1.13.1, resolve@^1.17.0, resolve@^1.19.0:
+resolve@>=1.9.0, resolve@^1.10.0, resolve@^1.13.1, resolve@^1.17.0, resolve@^1.19.0:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.19.0.tgz#1af5bf630409734a067cae29318aac7fa29a267c"
   integrity sha512-rArEXAgsBG4UgRGcynxWIWKFvh/XZCcS8UJdHhwy91zwAvCZIbcs+vAbflgBnNjYMs/i/i+/Ux6IZhML1yPvxg==
@@ -4971,6 +4971,11 @@ ts-simple-type@~1.0.5:
   resolved "https://registry.yarnpkg.com/ts-simple-type/-/ts-simple-type-1.0.7.tgz#03930af557528dd40eaa121913c7035a0baaacf8"
   integrity sha512-zKmsCQs4dZaeSKjEA7pLFDv7FHHqAFLPd0Mr//OIJvu8M+4p4bgSFJwZSEBEg3ec9W7RzRz1vi8giiX0+mheBQ==
 
+ts-transform-esm-import@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ts-transform-esm-import/-/ts-transform-esm-import-0.1.0.tgz#5f5c2f7e81e7bff0b66cdcc6bed0d04804d1273b"
+  integrity sha512-Lu9Ljx6XMsatXTaV21VvCq4Pe0FLDlRxKvTsKXu9fHFgn+KUBy6dcWGPAy0IhMaUAaK1IGAXMos9S0bj63sp3A==
+
 tsconfig-paths@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.9.0.tgz#098547a6c4448807e8fcb8eae081064ee9a3c90b"
@@ -5007,6 +5012,13 @@ tsutils@^3.17.1:
   integrity sha512-RYbuQuvkhuqVeXweWT3tJLKOEJ/UUw9GjNEZGWdrLLlM+611o1gwLHBpxoFJKKl25fLprp2eVthtKs5JOrNeXg==
   dependencies:
     tslib "^1.8.1"
+
+ttypescript@^1.5.12:
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/ttypescript/-/ttypescript-1.5.12.tgz#27a8356d7d4e719d0075a8feb4df14b52384f044"
+  integrity sha512-1ojRyJvpnmgN9kIHmUnQPlEV1gq+VVsxVYjk/NfvMlHSmYxjK5hEvOOU2MQASrbekTUiUM7pR/nXeCc8bzvMOQ==
+  dependencies:
+    resolve ">=1.9.0"
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"

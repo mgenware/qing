@@ -1,4 +1,4 @@
-const turboBuildCmd = 'tsc -p ./tsconfig-turbo-node.json --incremental';
+const turboBuildCmd = 'ttsc -p ./tsconfig-turbo-node.json --incremental';
 const utCmd = 'web-test-runner ./dist/src/**/*.test.js --node-resolve';
 const prebuildCmd = '#prebuild';
 const devEnv = {
