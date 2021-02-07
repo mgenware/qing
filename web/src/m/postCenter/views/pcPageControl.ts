@@ -40,11 +40,11 @@ export class PCPageControl extends BaseElement {
     const { page, totalPages } = this;
     return html`
       <div class="row">
-        <div class="col-md-auto">
+        <div class="col-auto">
           ${formatLS(ls.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}
         </div>
         <div class="col"></div>
-        <div class="col-md-auto">
+        <div class="col-auto">
           ${formatLS(ls.pageControlPageFormat, page, totalPages)} |
           <input
             id=${pageInputID}
