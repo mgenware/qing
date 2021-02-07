@@ -25,6 +25,8 @@ export default class LoadingStatus {
 
   static error(err: ErrorWithCode): LoadingStatus {
     const s = new LoadingStatus();
+    s.#isStarted = true;
+    s.#isCompleted = true;
     s.#error = err;
     return s;
   }
