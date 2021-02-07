@@ -12,7 +12,10 @@
         "after": true,
         "afterDeclarations": true,
         "type": "config",
-        "resolvers": ["./dist/src", "./node_modules"]
+
+        "rootDir": "./src",
+        "outDir": "./dist/src",
+        "resolvers": [{ "dir": "./src", "sourceDir": true }]
       }
     ]
   }
