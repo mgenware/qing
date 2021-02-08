@@ -1,3 +1,4 @@
+import 'debug/injectEnLang';
 import app from 'app';
 
 const errMessage = 'Assertion failed';
