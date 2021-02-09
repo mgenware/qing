@@ -9,7 +9,7 @@ const prodEnv = {
 };
 const prebuildDirName = 'prebuild';
 
-const prebuildTasks = ['build-ls-go-defs', 'build-ls-ts-defs', 'build-shared-const'].map(
+const prebuildTasks = ['build-ls-go-defs', 'build-ls', 'build-shared-const'].map(
   (s) => `node ./${prebuildDirName}/dist/${s}.js`,
 );
 
@@ -71,7 +71,7 @@ module.exports = {
         },
       },
       'prepare-turbo': {
-        run: 'echo REPLACE THIS WITH PREBUILD SCRIPT WHEN ESM SUPPORT IS COMPLETE!',
+        run: prebuildCmd,
         before: {
           del: 'dist',
         },

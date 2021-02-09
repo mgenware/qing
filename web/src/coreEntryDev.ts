@@ -1,3 +1,3 @@
 import './debug/debugFlag';
-import './debug/injectEnLang';
+import './debug/d/injectLangEN';
 import './coreEntry';
