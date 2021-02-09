@@ -13,7 +13,6 @@ import (
 	"qing/app/cfg"
 	txt "text/template"
 
-	"qing/app/defs"
 	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 	"qing/app/logx"
@@ -21,14 +20,6 @@ import (
 	"github.com/mgenware/go-packagex/v5/httpx"
 	"github.com/mgenware/go-packagex/v5/templatex"
 )
-
-var appLangToHTMLLang map[string]string
-
-func init() {
-	appLangToHTMLLang = map[string]string{
-		"cs": "zh-Hans",
-	}
-}
 
 // MainPageManager is used to generate site main HTML page.
 type MainPageManager struct {
@@ -113,11 +104,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	d.Header = css.Vendor + css.Main + d.Header
 	d.AppLang = lang
 	d.AppForumsMode = m.config.Setup.ForumsMode
-	htmlLang := appLangToHTMLLang[lang]
-	if htmlLang == "" {
-		htmlLang = lang
-	}
-	d.AppHTMLLang = htmlLang
+	d.AppHTMLLang = lang
 	if d.WindData != nil {
 		jsonBytes, _ := json.Marshal(d.WindData)
 		d.AppWindDataString = string(jsonBytes)
@@ -140,12 +127,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		}
 		script += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
 	} else {
-		var langJS string
-		if lang == defs.LanguageCSString {
-			langJS = assetsMgr.JS.LSCS
-		} else {
-			langJS = assetsMgr.JS.LSEN
-		}
+		langJS := assetsMgr.JS.GetLangJS(lang)
 		script += langJS
 	}
 

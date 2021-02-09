@@ -34,15 +34,10 @@ type JSManager struct {
 	Forum         string
 	ForumSettings string
 	DevPage       string
-
-	LSCS string
-	LSEN string
 }
 
 func NewJSManager(dev bool) *JSManager {
 	r := &JSManager{dev: dev}
-	r.LSCS = js("ls_cs")
-	r.LSEN = js("ls_en")
 	r.Loader = libJS("s6.3.2.min")
 	r.Polyfills = libJS("webcomponents-bundle")
 	if dev {
@@ -62,4 +57,8 @@ func NewJSManager(dev bool) *JSManager {
 	r.ForumSettings = js("forumSettingsEntry")
 	r.DevPage = js("devPageEntry")
 	return r
+}
+
+func (jsm *JSManager) GetLangJS(lang string) string {
+	return js("ls_" + lang)
 }
