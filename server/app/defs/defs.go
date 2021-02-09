@@ -5,7 +5,7 @@ type ContextKey string
 const (
 	LanguageCookieKey = "lang"
 	LanguageQueryKey  = "lang"
-	LanguageCSString  = "cs"
+	LanguageCSString  = "zh-Hans"
 	LanguageENString  = "en"
 )
 
