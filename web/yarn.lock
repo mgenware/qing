@@ -4236,13 +4236,14 @@ qing-dock-box@^0.2.0:
   resolved "https://registry.yarnpkg.com/qing-dock-box/-/qing-dock-box-0.2.0.tgz#24a3c1a1f7d9476c172ff58fdd0d00a0b611a356"
   integrity sha512-QmKSMKU6tEb7JMzy0gs0jxgevYzfRkRAvXyeD12We+IqZzJSyYiCzDxSKpo3cJGC2rYKQLTD92HHqGusmjd0pA==
 
-qing-stylelib@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-1.2.0.tgz#a0cca0a590a3349d5cc419ae7045e294c072ce79"
-  integrity sha512-myMHs5a/xYVseKHwivGGV5pqu7cQ0TpzeHmH/tTDEVA6q9dYiDVwO/mOcKYztBhrkj/uUcLEJpeQsLZ+hJY18A==
+qing-stylelib@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/qing-stylelib/-/qing-stylelib-2.1.1.tgz#b314c61e9b2f455bd680086b81cd7612580358ca"
+  integrity sha512-ZfnmDiqrSN0jyYuyB6NXYWZ7gq2YkqiVJgCaUyplVoEegDkFAv7c7qMIBfIscM+NB4xQwZSYMFk06WiUWm3f+w==
   dependencies:
     bootstrap "^5.0.0-beta1"
     modern-normalize "^1.0.0"
+    string-to-template-literal "^2.0.0"
 
 qing-t@^4.1.5:
   version "4.2.0"
@@ -4759,6 +4760,11 @@ string-to-template-literal@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/string-to-template-literal/-/string-to-template-literal-0.2.2.tgz#4fd7d93ca0696f3d0796579326204d6e068c17e6"
   integrity sha512-9lSNOLoQKhtdHkp1avgpraImiSvBBgxJQwkVriDDcHmvPsnCZpLbAMJnJxj9Mf1GkziHBo3vwxipukhA+KCC0g==
+
+string-to-template-literal@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/string-to-template-literal/-/string-to-template-literal-2.0.0.tgz#0ce56bf42052d53049243e11dbf045b9ad687f9e"
+  integrity sha512-AbTUWHXMyoRlTFP9qe013dfGTFq1XbcBLUoLC7PcumbJewtUwNXCvnko5cH2gZkUFC7kD2Fwxiv4YIndkU0xHA==
 
 "string-width@^1.0.2 || 2":
   version "2.1.1"

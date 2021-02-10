@@ -27,7 +27,7 @@
     "qing-button": "^7.0.1",
     "qing-dialog-component": "^0.5.0",
     "qing-dock-box": "^0.2.0",
-    "qing-stylelib": "^1.2.0",
+    "qing-stylelib": "^2.1.1",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
