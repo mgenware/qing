@@ -1,22 +1,25 @@
 {
   "name": "qing-stylelib",
-  "version": "1.2.0",
-  "author": "Mgen",
+  "version": "2.0.0",
+  "type": "module",
+  "exports": "./dist/stylelib.js",
+  "author": "Mgenware",
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "daizong build",
     "r": "daizong"
   },
   "devDependencies": {
-    "clean-css-cli": "^4.3.0",
+    "clean-css-cli": "^5.0.0",
     "concat": "^1.0.3",
-    "daizong": "^0.11.1"
+    "daizong": "^0.12.2"
   },
   "files": [
     "/dist/stylelib.min.css"
   ],
   "dependencies": {
     "bootstrap": "^5.0.0-beta1",
-    "modern-normalize": "^1.0.0"
+    "modern-normalize": "^1.0.0",
+    "string-to-template-literal": "^2.0.0"
   }
 }
