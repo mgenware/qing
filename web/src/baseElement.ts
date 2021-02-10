@@ -1,10 +1,10 @@
-import { LitElement } from 'lit-element';
+import { CSSResultArray, CSSResultOrNative, LitElement } from 'lit-element';
 import { InputView } from 'ui/form/inputView';
-import coreStyles from './app/styles/core';
+import coreStyles from './app/styles/bundle';
 
 export default class BaseElement extends LitElement {
-  static get styles() {
-    return coreStyles;
+  static get styles(): CSSResultOrNative | CSSResultArray {
+    return [coreStyles];
   }
 
   protected mustGetShadowRoot(): ShadowRoot {

@@ -3,7 +3,6 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
-import litcss from 'rollup-plugin-lit-css';
 import replace from '@rollup/plugin-replace';
 import minifyTemplates from 'rollup-plugin-minify-html-literals';
 
@@ -23,7 +22,6 @@ let plugins = [
     extensions: ['.js', '.json'],
   }),
   commonjs(),
-  litcss(),
   json(),
   typescript({
     tsconfig: `./tsconfig-${isProd ? 'build' : 'dev'}-browser.json`,
