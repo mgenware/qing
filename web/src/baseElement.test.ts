@@ -20,9 +20,8 @@ it('getShadowElements', async () => {
 
   const el: TElement = await fixture(html`<t-base-element></t-base-element>`);
 
-  expect(el.getRootDiv instanceof HTMLDivElement).to.eq(true);
-  expect(el.getRootDiv).to.eq(null);
+  expect(el.getRootDiv() instanceof HTMLDivElement).to.eq(true);
   expect(() => {
     el.getNonExistentDiv();
-  }).to.throw('Assersfsfsdfs');
+  }).to.throw('Core DOM element "__error__" missing');
 });
