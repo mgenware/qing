@@ -31,9 +31,9 @@ async function buildJSONFileAsync(
 
 async function buildSharedConstantsAsync() {
   return buildJSONFileAsync(
-    webPath('/src/app/shared_constants.json'),
-    webPath('/src/sharedConstants.ts'),
-    serverPath('/app/defs/shared_constants.go'),
+    webPath('src/app/shared_constants.json'),
+    webPath('src/sharedConstants.ts'),
+    serverPath('app/defs/shared_constants.go'),
     'defs',
     'SharedConstantsType',
     'Shared',
@@ -42,15 +42,13 @@ async function buildSharedConstantsAsync() {
 
 async function buildDBConstantsAsync() {
   return buildJSONFileAsync(
-    serverPath('/mingru/src/constants.json'),
-    webPath('/src/dbConstants.ts'),
-    serverPath('/app/defs/db_constants.go'),
+    serverPath('mingru/src/constants.json'),
+    webPath('src/dbConstants.ts'),
+    serverPath('app/defs/db_constants.go'),
     'defs',
     'DBConstantsType',
     'DB',
   );
 }
 
-(async () => {
-  await Promise.all([buildSharedConstantsAsync(), buildDBConstantsAsync()]);
-})();
+await Promise.all([buildSharedConstantsAsync(), buildDBConstantsAsync()]);

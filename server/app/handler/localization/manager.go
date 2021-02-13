@@ -2,6 +2,7 @@ package localization
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -15,6 +16,8 @@ import (
 
 	"github.com/mgenware/go-packagex/v5/filepathx"
 )
+
+const langsJSONFile = "langs.json"
 
 var (
 	LanguageCSTag = language.SimplifiedChinese
@@ -30,6 +33,21 @@ type Manager struct {
 	defaultDic  *Dictionary
 	defaultLang string
 	dics        map[string]*Dictionary
+}
+
+func readSupportedLangs() []language.Tag {
+	log.Printf("🚙 Loading config at \"%v\"", absFile)
+	var config Config
+
+	bytes, err := ioutil.ReadFile(absFile)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(bytes, &config)
+	if err != nil {
+		return nil, err
+	}
 }
 
 // NewManagerFromDirectory creates a Manager from a directory of translation files.
@@ -81,20 +99,20 @@ func (mgr *Manager) Dictionary(lang string) *Dictionary {
 
 // MatchLanguage returns the determined language based on various conditions.
 func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string {
-	// Check if user has explicitly set a language
+	// Check if user has explicitly set a language.
 	queryLang := r.FormValue(defs.LanguageQueryKey)
 	if queryLang != "" {
 		mgr.writeLangCookie(w, queryLang)
 		return queryLang
 	}
 
-	// If no user-specified language exists, try to use the cookie value
+	// If no user-specified language exists, try to use the cookie value.
 	cookieLang, _ := r.Cookie(defs.LanguageCookieKey)
 	if cookieLang != nil {
 		return cookieLang.Value
 	}
 
-	// If none of the above values exist, use the language matcher
+	// If none of the above values exist, use the language matcher.
 	accept := r.Header.Get("Accept-Language")
 	_, index := language.MatchStrings(matcher, accept)
 

@@ -1,6 +1,5 @@
 const turboBuildCmd = 'ttsc -p ./tsconfig-turbo-node.json --incremental';
 const utCmd = 'web-test-runner "./dist/src/**/*.test.js" --node-resolve';
-const prebuildCmd = '#prebuild';
 const devEnv = {
   NODE_ENV: 'development',
 };
@@ -9,9 +8,11 @@ const prodEnv = {
 };
 const prebuildDirName = 'prebuild';
 
-const prebuildTasks = ['build-ls-go-defs', 'build-ls', 'build-shared-const'].map(
-  (s) => `node ./${prebuildDirName}/dist/${s}.js`,
-);
+function getPrebuildTask(name) {
+  return `node ./${prebuildDirName}/dist/${name}.js`;
+}
+
+const prebuildTasks = ['build-shared-const'].map(getPrebuildTask);
 
 module.exports = {
   lint: {
@@ -62,16 +63,21 @@ module.exports = {
     run: ['#prebuild build', '#prebuild runTasks'],
   },
 
+  'build-langs': {
+    alias: 'l',
+    run: ['#prebuild build', getPrebuildTask('build-ls')],
+  },
+
   _: {
     privateTasks: {
       prepare: {
-        run: prebuildCmd,
+        run: '#prebuild',
         before: {
           del: 'static/d/js',
         },
       },
       'prepare-turbo': {
-        run: prebuildCmd,
+        run: '#prebuild',
         before: {
           del: 'dist',
         },
