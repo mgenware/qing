@@ -56,9 +56,9 @@
       "type": "object",
       "properties": {
         "dir": { "type": "string" },
-        "default_lang": { "type": "string" }
+        "fallback_lang": { "type": "string" }
       },
-      "required": ["dir", "default_lang"]
+      "required": ["dir", "fallback_lang"]
     },
     "app_profile_config": {
       "type": "object",

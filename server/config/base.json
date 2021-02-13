@@ -1,7 +1,7 @@
 {
   "localization": {
     "dir": "../web/langs",
-    "default_lang": "en"
+    "fallback_lang": "en"
   },
   "extern": {
     "redis": {
