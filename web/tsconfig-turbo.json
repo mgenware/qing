@@ -1,6 +1,5 @@
 {
-  "extends": "./tsconfig-base-node.json",
-  "include": ["src/**/*", "langs/**/*"],
+  "extends": "./tsconfig-node.json",
   "compilerOptions": {
     "outDir": "./dist",
     "declaration": false,

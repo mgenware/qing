@@ -1,5 +1,6 @@
 {
   "extends": "mgenware-tsconfig-browser",
+  "include": ["src/**/*"],
   "compilerOptions": {
     "importHelpers": true,
     "baseUrl": "src",

@@ -24,7 +24,7 @@ let plugins = [
   commonjs(),
   json(),
   typescript({
-    tsconfig: `./tsconfig-${isProd ? 'build' : 'dev'}-browser.json`,
+    tsconfig: `./tsconfig-browser.json`,
   }),
   preprocessNodeEnv(),
 ];

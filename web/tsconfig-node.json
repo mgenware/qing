@@ -1,5 +1,6 @@
 {
   "extends": "mgenware-tsconfig-node",
+  "include": ["src/**/*"],
   "compilerOptions": {
     "importHelpers": true,
     "baseUrl": "src",
