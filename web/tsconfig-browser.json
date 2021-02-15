@@ -1,9 +1,11 @@
 {
   "extends": "mgenware-tsconfig-browser",
-  "include": ["src/**/*"],
+  "include": ["./src/**/*"],
   "compilerOptions": {
     "importHelpers": true,
-    "baseUrl": "src",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "declaration": false,
     "resolveJsonModule": true
   }
 }

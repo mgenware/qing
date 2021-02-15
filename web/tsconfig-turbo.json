@@ -2,9 +2,7 @@
   "extends": "./tsconfig-node.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "declaration": false,
     "sourceMap": false,
-    "rootDir": ".",
     "plugins": [
       {
         "transform": "ts-transform-esm-import",
@@ -13,7 +11,7 @@
         "type": "config",
 
         "rootDir": "./src",
-        "outDir": "./dist/src",
+        "outDir": "./dist",
         "resolvers": [{ "dir": "./src", "sourceDir": true }]
       }
     ]

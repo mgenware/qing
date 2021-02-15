@@ -1,5 +1,5 @@
 const turboBuildCmd = 'ttsc -p ./tsconfig-turbo.json --incremental';
-const utCmd = 'web-test-runner "./dist/src/**/*.test.js" --node-resolve';
+const utCmd = 'web-test-runner "./dist/**/*.test.js" --node-resolve';
 const devEnv = {
   NODE_ENV: 'development',
 };
