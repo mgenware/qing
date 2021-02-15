@@ -3440,7 +3440,7 @@ mgenware-tsconfig-browser@^3.0.1:
   dependencies:
     "@tsconfig/node14" "^1.0.0"
 
-mgenware-tsconfig-node@^14.0.1:
+mgenware-tsconfig-node@^14.0.2:
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/mgenware-tsconfig-node/-/mgenware-tsconfig-node-14.0.2.tgz#ed3e5535dca55658aea00d74551f2639c70c5dae"
   integrity sha512-MYqzOc9zKpLKAQa1tWAT0TAnG+vGnSDeFFN9LiFKLLifb84MzF7I7guSghdnEUnYOCglKPd/VTP5cux3MLLW6w==

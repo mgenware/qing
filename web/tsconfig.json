@@ -1,4 +1,12 @@
 {
-  "extends": "./tsconfig-base-node.json",
-  "include": ["./src/**/*", "ut"]
+  "extends": "mgenware-tsconfig-browser",
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "importHelpers": true,
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "declaration": false,
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/prebuild.tsbuildinfo"
+  }
 }

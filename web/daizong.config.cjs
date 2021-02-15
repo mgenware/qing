@@ -1,4 +1,4 @@
-const turboBuildCmd = 'ttsc -p ./tsconfig-turbo.json --incremental';
+const turboBuildCmd = 'ttsc -p ./tsconfig-turbo.json';
 const utCmd = 'web-test-runner "./dist/**/*.test.js" --node-resolve';
 const devEnv = {
   NODE_ENV: 'development',
@@ -54,7 +54,7 @@ module.exports = {
   /** Prebuild */
   prebuild: {
     build: {
-      run: `tsc -p ./${prebuildDirName} --incremental`,
+      run: `tsc -p ./${prebuildDirName}`,
     },
     runTasks: {
       run: prebuildTasks,

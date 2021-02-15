@@ -5,6 +5,6 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "incremental": true,
-    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "./dist/qing.tsbuildinfo"
   }
 }
