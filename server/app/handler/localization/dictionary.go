@@ -12,7 +12,6 @@ import (
 
 // Dictionary ...
 type Dictionary struct {
-	HtmlLang                          string `json:"_htmlLang"`
 	Lang                              string `json:"_lang"`
 	SiteName                          string `json:"_siteName"`
 	AboutMe                           string `json:"aboutMe"`

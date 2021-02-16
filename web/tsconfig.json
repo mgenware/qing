@@ -7,6 +7,6 @@
     "baseUrl": "./src",
     "declaration": false,
     "incremental": true,
-    "tsBuildInfoFile": "./dist/prebuild.tsbuildinfo"
+    "tsBuildInfoFile": "./dist/qing.tsbuildinfo"
   }
 }

@@ -72,15 +72,9 @@ module.exports = {
     privateTasks: {
       prepare: {
         run: '#prebuild',
-        before: {
-          del: 'static/d/js',
-        },
       },
       'prepare-turbo': {
         run: '#prebuild',
-        before: {
-          del: 'dist',
-        },
       },
     },
   },

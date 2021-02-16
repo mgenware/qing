@@ -1,7 +1,6 @@
 export default interface LSDefs {
   _siteName: string;
   _lang: string;
-  _htmlLang: string;
   profile: string;
   settings: string;
   signIn: string;
