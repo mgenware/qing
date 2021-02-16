@@ -2,6 +2,6 @@ package config
 
 // LocalizationConfig ...
 type LocalizationConfig struct {
-	Dir          string `json:"dir"`
-	FallbackLang string `json:"fallback_lang"`
+	Dir   string `json:"dir"`
+	Langs string `json:"langs"`
 }

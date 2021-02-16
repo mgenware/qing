@@ -56,9 +56,16 @@
       "type": "object",
       "properties": {
         "dir": { "type": "string" },
-        "fallback_lang": { "type": "string" }
+        "langs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
       },
-      "required": ["dir", "fallback_lang"]
+      "required": ["dir", "langs"]
     },
     "app_profile_config": {
       "type": "object",

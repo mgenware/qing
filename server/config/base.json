@@ -1,7 +1,7 @@
 {
   "localization": {
     "dir": "../web/langs",
-    "fallback_lang": "en"
+    "langs": ["en", "zh-Hans"]
   },
   "extern": {
     "redis": {
