@@ -2,9 +2,7 @@ package localization
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"errors"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -12,89 +10,63 @@ import (
 
 	"golang.org/x/text/language"
 
+	"qing/app/cfg/config"
 	"qing/app/defs"
-
-	"github.com/mgenware/go-packagex/v5/filepathx"
 )
-
-const langsJSONFile = "langs.json"
-
-var (
-	LanguageCSTag = language.SimplifiedChinese
-	LanguageENTag = language.English
-)
-
-var matcher = language.NewMatcher([]language.Tag{
-	LanguageENTag, // The first language is used as fallback.
-	LanguageCSTag,
-})
 
 type Manager struct {
-	defaultDic  *Dictionary
-	defaultLang string
-	dics        map[string]*Dictionary
+	conf         *config.LocalizationConfig
+	fallbackDict *Dictionary
+	fallbackLang string
+	dicts        map[string]*Dictionary
+	// Could be nil if `conf.Langs` contain only one lang.
+	langMatcher language.Matcher
 }
 
-func readSupportedLangs() []language.Tag {
-	log.Printf("🚙 Loading config at \"%v\"", absFile)
-	var config Config
-
-	bytes, err := ioutil.ReadFile(absFile)
-	if err != nil {
-		return nil, err
+// NewManagerFromConfig creates a Manager from a config.
+func NewManagerFromConfig(conf *config.LocalizationConfig) (*Manager, error) {
+	if len(conf.Langs) == 0 {
+		return nil, errors.New("Unexpected empty `langs` config")
 	}
 
-	err = json.Unmarshal(bytes, &config)
-	if err != nil {
-		return nil, err
-	}
-}
-
-// NewManagerFromDirectory creates a Manager from a directory of translation files.
-func NewManagerFromDirectory(dir string, defaultLang string) (*Manager, error) {
-	fileNames, err := ioutil.ReadDir(dir)
-	if err != nil {
-		return nil, err
+	dicts := make(map[string]*Dictionary)
+	for _, langName := range conf.Langs {
+		dictPath := filepath.Join(conf.Dir, langName+".json")
+		d, err := ParseDictionary(dictPath)
+		if err != nil {
+			return nil, err
+		}
+		dicts[langName] = d
+		log.Printf("✅ Loaded localization file \"%v\"", langName)
 	}
 
-	dics := make(map[string]*Dictionary)
-	for _, info := range fileNames {
-		if !info.IsDir() {
-			dictPath := filepath.Join(dir, info.Name())
-			d, err := ParseDictionary(dictPath)
-			if err != nil {
-				return nil, err
-			}
+	fallbackLang := conf.Langs[0]
+	fallbackDict := dicts[fallbackLang]
 
-			name := filepathx.TrimExt(info.Name())
-			dics[name] = d
-			log.Printf("✅ Loaded localization file \"%v\"", name)
+	var matcher language.Matcher
+	if len(conf.Langs) > 0 {
+		var tags []language.Tag
+		for _, langName := range conf.Langs {
+			t := language.MustParse(langName)
+			tags = append(tags, t)
 		}
 	}
-	if len(dics) == 0 {
-		return nil, fmt.Errorf("No dictionary found in %v", dir)
-	}
 
-	defaultDic := dics[defaultLang]
-	if defaultDic == nil {
-		return nil, fmt.Errorf("Default language \"%v\" not found", defaultLang)
-	}
-
-	return &Manager{dics: dics, defaultDic: defaultDic, defaultLang: defaultLang}, nil
+	return &Manager{dicts: dicts, fallbackDict: fallbackDict, fallbackLang: fallbackLang}, nil
 }
 
-// DefaultLanguage returns the default language of this manager.
-func (mgr *Manager) DefaultLanguage() string {
-	return mgr.defaultLang
+// FallbackLanguage returns the default language of this manager.
+func (mgr *Manager) FallbackLanguage() string {
+	return mgr.fallbackLang
 }
 
-// Dictionary returns an Dictionary object associated with the specified language.
+// Dictionary returns the Dictionary associated with the specified language.
 func (mgr *Manager) Dictionary(lang string) *Dictionary {
-	dic := mgr.dics[lang]
-	if dic == nil {
-		return mgr.defaultDic
+	dict := mgr.dicts[lang]
+	if dict == nil {
+		return mgr.fallbackDict
 	}
-	return dic
+	return dict
 }
 
 // MatchLanguage returns the determined language based on various conditions.
