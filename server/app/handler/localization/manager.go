@@ -50,9 +50,10 @@ func NewManagerFromConfig(conf *config.LocalizationConfig) (*Manager, error) {
 			t := language.MustParse(langName)
 			tags = append(tags, t)
 		}
+		matcher = language.NewMatcher(tags)
 	}
 
-	return &Manager{dicts: dicts, fallbackDict: fallbackDict, fallbackLang: fallbackLang}, nil
+	return &Manager{dicts: dicts, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
@@ -86,19 +87,12 @@ func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string
 
 	// If none of the above values exist, use the language matcher.
 	accept := r.Header.Get("Accept-Language")
-	_, index := language.MatchStrings(matcher, accept)
+	langTag, _ := language.MatchStrings(mgr.langMatcher, accept)
+	lang := langTag.String()
 
-	var resolved string
-	if index == 1 {
-		resolved = defs.LanguageCSString
-	}
-
-	// Fallback to default lang
-	resolved = mgr.defaultLang
-
-	// Write resolved lang to cookies
-	mgr.writeLangCookie(w, resolved)
-	return resolved
+	// Write resolved lang to cookies.
+	mgr.writeLangCookie(w, lang)
+	return lang
 }
 
 // EnableContextLanguage defines a middleware to set the context language associated with the request.

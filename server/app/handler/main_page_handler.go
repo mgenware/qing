@@ -40,7 +40,6 @@ type MainPageManager struct {
 func MustCreateMainPageManager(
 	dir string,
 	i18nDir string,
-	defaultLang string,
 	assetMgr *assetmgr.AssetsManager,
 	logger *logx.Logger,
 	config *cfg.Config,
@@ -50,8 +49,8 @@ func MustCreateMainPageManager(
 		log.Print("⚠️ View dev mode is on")
 	}
 
-	// Create the localization manager used by localized template views
-	localizationManager, err := localization.NewManagerFromDirectory(i18nDir, defaultLang)
+	// Create the localization manager used by localized template views.
+	localizationManager, err := localization.NewManagerFromConfig(config.Localization)
 	if err != nil {
 		panic(err)
 	}
@@ -90,7 +89,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	ctx := r.Context()
 	// Ensure lang always has a value
 	if lang == "" {
-		lang = m.LocalizationManager.DefaultLanguage()
+		lang = m.LocalizationManager.FallbackLanguage()
 	}
 
 	// Add site name to title

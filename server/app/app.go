@@ -122,7 +122,7 @@ func mustSetupTemplates(config *cfg.Config) {
 	templatesConfig := config.Templates
 	localizationConfig := config.Localization
 	assMgr := assetmgr.NewAssetsManager(Config.HTTP.Static.Dir, Config.Debug != nil)
-	MainPageManager = handler.MustCreateMainPageManager(templatesConfig.Dir, localizationConfig.Dir, localizationConfig.DefaultLang, assMgr, Logger, config)
+	MainPageManager = handler.MustCreateMainPageManager(templatesConfig.Dir, localizationConfig.Dir, assMgr, Logger, config)
 }
 
 func mustSetupDB() {
