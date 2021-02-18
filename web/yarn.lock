@@ -51,6 +51,51 @@
   resolved "https://registry.yarnpkg.com/@github/image-crop-element/-/image-crop-element-4.1.0.tgz#21effd76c611a3f0b5fb55a3a48a7373e4241230"
   integrity sha512-vO8EdxoHFN/85bl/7xdTTUiUJXHJWCWTWffHoJb144pjaepgPHJIyM8c9iIj0uesWoq7VJiMpAGSDHQPt/paLQ==
 
+"@jsenv/cancellation@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@jsenv/cancellation/-/cancellation-2.0.3.tgz#dec5f4d7269b04856e0e559222a532533f4c2f11"
+  integrity sha512-hixmPAIclP4x9Bt7cb/nn2zhnCZtSaFkSqvWFqhQm+4wmuEuGeLrGx/2urfj/Mm0uhi6TrMm6qC87N7z2GzsJQ==
+  dependencies:
+    "@jsenv/node-signals" "2.0.1"
+
+"@jsenv/import-map@6.9.2":
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/@jsenv/import-map/-/import-map-6.9.2.tgz#b8c3c0d9a617664e4831964960b56be1eea212ea"
+  integrity sha512-70OUh/QHs2AhC//l+g+wzzKAI4TeqNMh8ylPjN4TDF94aQ8Q9Ncj5EmQXNVIbGPDFlaxCGhg7OVtZcvbF1r5Hw==
+
+"@jsenv/logger@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@jsenv/logger/-/logger-3.4.0.tgz#674c4435a0a8d5e9e9b3a9438c43010418eaa53a"
+  integrity sha512-Z1S/HNSh92qO+qmrDqxfNqsjNyARe0tavodvsMPOBUFPuwjj/mrVtSe5CM9/mf9ErzgFL63dePtWccX18TFonQ==
+
+"@jsenv/node-module-import-map@^12.3.0":
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/@jsenv/node-module-import-map/-/node-module-import-map-12.3.0.tgz#2ee390811fee168b2a0a18deccac371302f73756"
+  integrity sha512-AD6Q2vraZ/lc7NlQxD7ihTT8Qegk+i5LfZsm2+/qgvBkY3lCYe62OYTKRtmGPipQUqsKGxf+TyFjEWT2bA75eA==
+  dependencies:
+    "@jsenv/cancellation" "2.0.3"
+    "@jsenv/import-map" "6.9.2"
+    "@jsenv/logger" "3.4.0"
+    "@jsenv/util" "4.0.4"
+
+"@jsenv/node-signals@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@jsenv/node-signals/-/node-signals-2.0.1.tgz#2ef15a1160cc0f2802edc4d6ce2c62c196452abd"
+  integrity sha512-OXZkSZsegiOI+uueyY1wwx6Z0XpPFf/d/es/Bi1fUBeR/k8PvFyRygM9FgtYpZmJ0FGaEKTYQN+E31dzTru4kw==
+
+"@jsenv/url-meta@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@jsenv/url-meta/-/url-meta-6.0.0.tgz#51f1781e52b8feaa30bd7da02df9cccfd8b7c3fb"
+  integrity sha512-7NuExhTk5An8R39TseIZ43SLogBxHq4ySTJyItKVk5t5CTR7lOi/kimejsxJmLE0srwvR8mWWJXakP0gV+mWGQ==
+
+"@jsenv/util@4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@jsenv/util/-/util-4.0.4.tgz#a3c7c32827b1955730feee4655afbdb0e35b7185"
+  integrity sha512-RiwVG0ovB0HCcz+0JUhTTyZPW2WYF3UB85j982lplURI8g/LgS6IlVXVsLkyFTRGDxcN5rlPXLsmpbRi99N+RA==
+  dependencies:
+    "@jsenv/cancellation" "2.0.3"
+    "@jsenv/url-meta" "6.0.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
