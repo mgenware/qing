@@ -9,6 +9,7 @@ await generateImportMapForProject(
   [
     getImportMapFromNodeModules({
       projectDirectoryUrl,
+      projectPackageDevDependenciesIncluded: false,
     }),
   ],
   {
