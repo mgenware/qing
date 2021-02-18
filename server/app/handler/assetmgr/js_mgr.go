@@ -1,24 +1,28 @@
 package assetmgr
 
-func htmlScript(src string) string {
-	return "<script src=\"" + src + "\"></script>"
+import "qing/app/cfg/config"
+
+func htmlScript(src string, module bool) string {
+	s := "<script src=\"" + src + "\""
+	if module {
+		s += " type=\"module\""
+	}
+	s += "></script>"
+	return s
 }
 
 func sysScript(src string) string {
 	return "<script>System.import('" + src + "')</script>"
 }
 
-func js(name string) string {
-	return sysScript("/static/d/js/" + name + ".js")
-}
-
 func libJS(name string) string {
-	return htmlScript("/static/lib/" + name + ".js")
+	return htmlScript("/static/lib/"+name+".js", false)
 }
 
 // JSManager manages JS assets.
 type JSManager struct {
-	dev bool
+	dev  bool
+	conf *config.TurboWebConfig
 
 	Loader        string
 	Polyfills     string
@@ -36,29 +40,33 @@ type JSManager struct {
 	DevPage       string
 }
 
-func NewJSManager(dev bool) *JSManager {
-	r := &JSManager{dev: dev}
+// NewJSManager creates a new NewJSManager.
+func NewJSManager(conf *config.TurboWebConfig) *JSManager {
+	r := &JSManager{}
+	r.conf = conf
+	r.dev = conf != nil
+
 	r.Loader = libJS("s6.3.2.min")
 	r.Polyfills = libJS("webcomponents-bundle")
-	if dev {
-		r.Main = js("coreEntryDev")
+	if r.dev {
+		r.Main = r.js("coreEntryDev")
 	} else {
-		r.Main = js("coreEntry")
+		r.Main = r.js("coreEntry")
 	}
-	r.Post = js("postEntry")
-	r.M = js("mEntry")
-	r.MX = js("mxEntry")
-	r.Profile = js("profileEntry")
-	r.Auth = js("authEntry")
-	r.Discussion = js("discussionEntry")
-	r.HomeStd = js("homeStdEntry")
-	r.HomeFrm = js("homeFrmEntry")
-	r.Forum = js("forumEntry")
-	r.ForumSettings = js("forumSettingsEntry")
-	r.DevPage = js("devPageEntry")
+	r.Post = r.js("post/postEntry")
+	r.M = r.js("mm/Entry")
+	r.MX = r.js("mx/mxEntry")
+	r.Profile = r.js("profile/profileEntry")
+	r.Auth = r.js("auth/authEntry")
+	r.Discussion = r.js("discussion/discussionEntry")
+	r.HomeStd = r.js("home/homeStdEntry")
+	r.HomeFrm = r.js("home/homeFrmEntry")
+	r.Forum = r.js("forum/forumEntry")
+	r.ForumSettings = r.js("forumSettings/forumSettingsEntry")
+	r.DevPage = r.js("devPage/devPageEntry")
 	return r
 }
 
-func (jsm *JSManager) GetLangJS(lang string) string {
-	return js("ls_" + lang)
+func (jsm *JSManager) js(name string) string {
+	return htmlScript(jsm.conf.URL+"/dist/"+name+".js", true)
 }

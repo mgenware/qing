@@ -1,4 +1,3 @@
-import 'construct-style-sheets-polyfill';
 // Setup localized strings first!
 import 'ls';
 // App initialization.

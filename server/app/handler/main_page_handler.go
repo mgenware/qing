@@ -125,9 +125,6 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 			panic(err) // can panic in dev mode
 		}
 		script += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
-	} else {
-		langJS := assetsMgr.JS.GetLangJS(lang)
-		script += langJS
 	}
 
 	// Main JS files

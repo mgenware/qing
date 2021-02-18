@@ -25,6 +25,17 @@ import (
 	"github.com/mgenware/go-packagex/v5/iox"
 )
 
+func startFileServer(r chi.Router, name, url, dir string) {
+	app.Logger.Info(name,
+		"url", url,
+		"dir", dir,
+	)
+	fileServer(r, url, http.Dir(dir))
+	if !iox.IsDirectory(dir) {
+		app.Logger.Warn(name+".not-found", "dir", dir)
+	}
+}
+
 // Start starts the web router.
 func Start() {
 	r := chi.NewRouter()
@@ -34,37 +45,19 @@ func Start() {
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
 	r.Use(sys.PanicMiddleware)
-	// User session middleware
+	// User session middleware.
 	r.Use(app.UserManager.SessionManager.ParseUserSessionMiddleware)
 
-	// Mount static file server
+	// Mount static file server.
 	httpStaticConfig := httpConfig.Static
 	if httpStaticConfig != nil {
-		url := httpStaticConfig.URL
-		dir := httpStaticConfig.Dir
-		app.Logger.Info("serving-assets",
-			"url", url,
-			"dir", dir,
-		)
-		fileServer(r, url, http.Dir(dir))
-		if !iox.IsDirectory(dir) {
-			app.Logger.Warn("serving-assets.not-found", "dir", dir)
-		}
+		startFileServer(r, "static-server", httpStaticConfig.URL, httpStaticConfig.Dir)
 	}
 
-	// Mount resources server
+	// Mount resource server.
 	rsConfig := config.ResServer
 	if rsConfig != nil {
-		url := rsConfig.URL
-		dir := rsConfig.Dir
-		app.Logger.Info("serving-res",
-			"url", url,
-			"dir", dir,
-		)
-		fileServer(r, url, http.Dir(dir))
-		if !iox.IsDirectory(dir) {
-			app.Logger.Warn("serving-res.not-found", "dir", dir)
-		}
+		startFileServer(r, "res-server", rsConfig.URL, rsConfig.Dir)
 	}
 
 	// ----------------- HTTP Routes -----------------
@@ -94,9 +87,15 @@ func Start() {
 
 	debugConfig := config.Debug
 	if debugConfig != nil {
+		// DEBUG only setup.
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
 			r.Mount("/"+defs.Shared.RouteDevPage, devpagep.Router)
+		}
+
+		turboWebConf := debugConfig.TurboWeb
+		if turboWebConf != nil {
+			startFileServer(r, "turbo-web-server", turboWebConf.URL, turboWebConf.Dir)
 		}
 	}
 

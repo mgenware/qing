@@ -16,7 +16,14 @@
         "reload_views_on_refresh": { "type": "boolean" },
         "panic_on_unexpected_html_errors": { "type": "boolean" },
         "panic_on_unexpected_json_errors": { "type": "boolean" },
-        "quick_login": { "type": "boolean" }
+        "quick_login": { "type": "boolean" },
+        "turbo_web": {
+          "type": "object",
+          "properties": {
+            "dir": { "type": "string" },
+            "url": { "type": "string" }
+          }
+        }
       }
     },
     "logging_config": {
