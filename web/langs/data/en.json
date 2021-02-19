@@ -134,5 +134,17 @@
   "userIsAlreadyAdmin": "\"{0}\" is already an admin",
   "youCannotChangeYourOwnAdminStatus": "You cannot change your own admin status",
   "add": "Add",
-  "adminSettings": "Admin settings"
+  "adminSettings": "Admin settings",
+  "bold": "Bold",
+  "italic": "Italic",
+  "underline": "Underline",
+  "strikethrough": "Strikethrough",
+  "numberedList": "Numbered list",
+  "bulletList": "Bullet list",
+  "blockquote": "Blockquote",
+  "decreaseIndent": "Decrease indent",
+  "code": "Code",
+  "undo": "Undo",
+  "redo": "Redo",
+  "horizontalRule": "Horizontal Rule"
 }

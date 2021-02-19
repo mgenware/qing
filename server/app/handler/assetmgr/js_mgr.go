@@ -41,10 +41,9 @@ type JSManager struct {
 }
 
 // NewJSManager creates a new NewJSManager.
-func NewJSManager(conf *config.TurboWebConfig) *JSManager {
+func NewJSManager(dev bool) *JSManager {
 	r := &JSManager{}
-	r.conf = conf
-	r.dev = conf != nil
+	r.dev = dev
 
 	r.Loader = libJS("s6.3.2.min")
 	r.Polyfills = libJS("webcomponents-bundle")
@@ -53,20 +52,20 @@ func NewJSManager(conf *config.TurboWebConfig) *JSManager {
 	} else {
 		r.Main = r.js("coreEntry")
 	}
-	r.Post = r.js("post/postEntry")
-	r.M = r.js("mm/Entry")
-	r.MX = r.js("mx/mxEntry")
-	r.Profile = r.js("profile/profileEntry")
-	r.Auth = r.js("auth/authEntry")
-	r.Discussion = r.js("discussion/discussionEntry")
-	r.HomeStd = r.js("home/homeStdEntry")
-	r.HomeFrm = r.js("home/homeFrmEntry")
-	r.Forum = r.js("forum/forumEntry")
-	r.ForumSettings = r.js("forumSettings/forumSettingsEntry")
-	r.DevPage = r.js("devPage/devPageEntry")
+	r.Post = r.js("postEntry")
+	r.M = r.js("mEntry")
+	r.MX = r.js("mxEntry")
+	r.Profile = r.js("profileEntry")
+	r.Auth = r.js("authEntry")
+	r.Discussion = r.js("discussionEntry")
+	r.HomeStd = r.js("homeStdEntry")
+	r.HomeFrm = r.js("homeFrmEntry")
+	r.Forum = r.js("forumEntry")
+	r.ForumSettings = r.js("forumSettingsEntry")
+	r.DevPage = r.js("devPageEntry")
 	return r
 }
 
 func (jsm *JSManager) js(name string) string {
-	return htmlScript(jsm.conf.URL+"/dist/"+name+".js", true)
+	return sysScript("/static/d/js/" + name + ".js")
 }

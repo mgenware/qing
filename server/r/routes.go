@@ -92,11 +92,6 @@ func Start() {
 			log.Print("⚠️ QuickLogin routes are on")
 			r.Mount("/"+defs.Shared.RouteDevPage, devpagep.Router)
 		}
-
-		turboWebConf := debugConfig.TurboWeb
-		if turboWebConf != nil {
-			startFileServer(r, "turbo-web-server", turboWebConf.URL, turboWebConf.Dir)
-		}
 	}
 
 	app.Logger.Info("server-starting", "port", httpConfig.Port)

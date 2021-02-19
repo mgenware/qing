@@ -1,8 +1,6 @@
 import { html, customElement, css } from 'lit-element';
 import ls from 'ls';
-import Editor from 'kangxi-editor';
-import langEn from 'kangxi-editor/dist/langs/en';
-import langCs from 'kangxi-editor/dist/langs/cs';
+import { Editor } from 'kangxi-editor';
 import styles from 'kangxi-editor/dist/editor.css';
 import BaseElement from 'baseElement';
 
@@ -46,7 +44,8 @@ export default class EditorView extends BaseElement {
   firstUpdated() {
     const editorDom = this.mustGetShadowElement('editor');
     const editor = new Editor(editorDom, {
-      lang: ls._lang === 'cs' ? langCs : langEn,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lang: ls as any,
     });
     editor.contentHTML = this.contentHTML;
     this.editor = editor;

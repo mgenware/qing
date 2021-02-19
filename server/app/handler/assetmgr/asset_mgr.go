@@ -38,7 +38,7 @@ type AssetsManager struct {
 
 // NewAssetsManager creates a new AssetsManager.
 func NewAssetsManager(baseDir string, debugConfig *config.DebugConfig) *AssetsManager {
-	jsm := NewJSManager(debugConfig.TurboWeb)
+	jsm := NewJSManager(debugConfig != nil)
 	cssm := &CSSManager{BaseDir: baseDir, dev: debugConfig != nil}
 	mgr := &AssetsManager{JS: jsm, CSS: cssm}
 	return mgr
