@@ -1,6 +1,6 @@
 {
   "name": "qing-stylelib",
-  "version": "2.2.0",
+  "version": "2.1.1",
   "type": "module",
   "exports": "./dist/main.js",
   "types": "./dist/main.d.ts",
@@ -24,7 +24,6 @@
   ],
   "dependencies": {
     "bootstrap": "^5.0.0-beta1",
-    "kangxi-editor": "^0.10.1",
     "modern-normalize": "^1.0.0",
     "string-to-template-literal": "^2.0.0"
   }
