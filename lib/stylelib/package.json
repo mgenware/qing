@@ -1,6 +1,6 @@
 {
   "name": "qing-stylelib",
-  "version": "2.1.1",
+  "version": "2.3.0",
   "type": "module",
   "exports": "./dist/main.js",
   "types": "./dist/main.d.ts",
