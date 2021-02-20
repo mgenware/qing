@@ -81,7 +81,7 @@ type Dictionary struct {
 	NewQuestion                       string `json:"newQuestion"`
 	NextPage                          string `json:"nextPage"`
 	No                                string `json:"no"`
-	NoComment                         string `json:"noComment"`
+	NoComments                        string `json:"noComments"`
 	NoContentAvailable                string `json:"noContentAvailable"`
 	NoResultsFound                    string `json:"noResultsFound"`
 	NumOfMsgs                         string `json:"numOfMsgs"`

@@ -57,7 +57,7 @@ export default interface LSDefs {
   working: string;
   editPost: string;
   comments: string;
-  noComment: string;
+  noComments: string;
   writeAComment: string;
   plsLoginToComment: string;
   comment: string;
