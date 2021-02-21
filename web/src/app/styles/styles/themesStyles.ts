@@ -54,7 +54,7 @@ export default css`
     --app-default-secondary-back-color: #2a2a2a;
     --app-default-fore-color: #777777;
     --app-default-secondary-fore-color: #5a5a5a;
-    --app-default-primary-fore-color: #00213d;
+    --app-default-primary-fore-color: #2c5477;
     --app-default-danger-fore-color: #8a1212;
     --app-default-success-fore-color: #205333;
     --app-default-warning-fore-color: #68540e;
