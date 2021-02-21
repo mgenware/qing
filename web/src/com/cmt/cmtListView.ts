@@ -69,7 +69,7 @@ export class CmtListView extends BaseElement {
     if (!totalCount && (collectorLoadingStatus.isSuccess || !collectorLoadingStatus.isStarted)) {
       titleGroup = html`
         ${titleGroup}
-        <p>${ls.noComment}</p>
+        <p>${ls.noComments}</p>
       `;
     } else {
       const childViews: TemplateResult[] = [];
