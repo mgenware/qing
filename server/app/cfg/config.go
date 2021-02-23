@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"qing/app/cfg/config"
 	"runtime"
@@ -58,7 +58,7 @@ func readConfigCore(absFile string) (*Config, error) {
 	log.Printf("🚙 Loading config at \"%v\"", absFile)
 	var config Config
 
-	bytes, err := ioutil.ReadFile(absFile)
+	bytes, err := os.ReadFile(absFile)
 	if err != nil {
 		return nil, err
 	}

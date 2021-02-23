@@ -2,8 +2,8 @@ package cfg
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
+	"os"
 	appprofile "qing/app/cfg/app_profile"
 
 	"github.com/mgenware/go-packagex/v5/iox"
@@ -19,7 +19,7 @@ func readAppProfileCore(file string) (*AppProfile, error) {
 	log.Printf("🚙 Loading app profile at \"%v\"", file)
 	var profile AppProfile
 
-	bytes, err := ioutil.ReadFile(file)
+	bytes, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func writeAppProfile(profile *AppProfile, path string) error {
 		return err
 	}
 
-	return ioutil.WriteFile(path, bytes, 0644)
+	return os.WriteFile(path, bytes, 0644)
 }
 
 func newAppProfile() *AppProfile {

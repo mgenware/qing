@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"qing/app/appcom"
 	"qing/app/cfg"
@@ -115,7 +115,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		// Read the JSON content and inject it to main page in dev mode.
 		jsonFileName := fmt.Sprintf("%v.json", lang)
 		jsonFile := filepath.Join(m.config.Localization.Dir, jsonFileName)
-		jsonBytes, err := ioutil.ReadFile(jsonFile)
+		jsonBytes, err := os.ReadFile(jsonFile)
 		if err != nil {
 			panic(err) // can panic in dev mode
 		}
