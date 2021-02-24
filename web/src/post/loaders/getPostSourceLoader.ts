@@ -3,7 +3,7 @@ import routes from 'routes';
 
 export interface GetPostSourceResult {
   title: string;
-  content: string;
+  contentHTML: string;
 }
 
 export class GetPostSourceLoader extends Loader<GetPostSourceResult> {

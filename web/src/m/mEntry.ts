@@ -65,7 +65,7 @@ router.register(`${routes.m.editPost}/:id`, (args) => {
   }
   app.page.setTitleAndMainContent(
     [ls.editPost],
-    html` <set-post-app .editedID=${id}></set-post-app> `,
+    html` <set-post-app .editedID=${id} .entityType=${entityPost}></set-post-app> `,
   );
 });
 router.register(routes.m.settings.profile, () => {

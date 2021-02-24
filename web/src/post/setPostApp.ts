@@ -42,7 +42,7 @@ export default class SetPostApp extends BaseElement {
       const status = await app.runGlobalActionAsync(loader);
       if (status.data) {
         const postData = status.data;
-        this.updateContent(postData.title, postData.content);
+        this.updateContent(postData.title, postData.contentHTML);
       }
     }
   }
