@@ -150,6 +150,15 @@ export class ElementsDev extends BaseElement {
       <div class="highlighted">Highlight color</div>
       <h1>Views</h1>
       <hr />
+      <h2>Dialogs</h2>
+      <qing-button @click=${async () => app.alert.error('This is an error')}>Error</qing-button>
+      <qing-button
+        @click=${async () => alert((await app.alert.confirm('Yes or no?')) ? 'Yes' : 'No')}
+        >Confirm</qing-button
+      >
+      <qing-button @click=${async () => app.alert.successToast('Success!')}
+        >Success toast</qing-button
+      >
       <h2>Forms</h2>
       <input-view required type="email" label="Email"></input-view>
       <selection-view

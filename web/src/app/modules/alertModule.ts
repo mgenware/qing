@@ -3,13 +3,7 @@ import { renderTemplateResult } from 'lib/htmlLib';
 import { html } from 'lit-element';
 import 'ui/status/spinnerView';
 import 'qing-dialog-component';
-import {
-  QingDialog,
-  IsOpenChangedArgs,
-  DialogButton,
-  iconElement,
-  IconType,
-} from 'qing-dialog-component';
+import { QingDialog, DialogButton, iconElement, IconType } from 'qing-dialog-component';
 
 const dialogContainerID = '__global_dialog_container';
 const spinnerContainerID = '__global_spinner_container';
@@ -44,7 +38,7 @@ export default class AlertModule {
       buttons.push('no');
       defaultBtnIdx = 2;
     }
-    const { button } = await this.showModalAsync({
+    const button = await this.showModalAsync({
       message: '',
       title: message || ls.warning,
       buttons,
@@ -83,14 +77,14 @@ export default class AlertModule {
     defaultButtonIndex?: number;
     cancelButtonIndex?: number;
     timeout?: number;
-  }): Promise<IsOpenChangedArgs> {
-    return new Promise<IsOpenChangedArgs>((resolve, reject) => {
+  }): Promise<DialogButton> {
+    return new Promise<DialogButton>((resolve, reject) => {
       const template = html`<qing-dialog
-        .isOpen=${true}
+        open
         .buttons=${args.buttons}
         .defaultButtonIndex=${args.defaultButtonIndex ?? -1}
         .cancelButtonIndex=${args.cancelButtonIndex ?? -1}
-        @closed=${(e: CustomEvent<IsOpenChangedArgs>) => {
+        @closed=${(e: CustomEvent<DialogButton>) => {
           resolve(e.detail);
           renderTemplateResult(dialogContainerID, null);
         }}
@@ -116,7 +110,7 @@ export default class AlertModule {
       const { timeout } = args;
       if (timeout && timeout > 0) {
         setTimeout(() => {
-          element.isOpen = false;
+          element.open = false;
         }, timeout);
       }
     });
