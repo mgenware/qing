@@ -102,12 +102,6 @@ export class ElementsDev extends BaseElement {
 
   render() {
     return html`
-      <div>
-        <label
-          ><input type="checkbox" id="darkModeCheckbox" @click=${this.handleDarkModeChecked} />Dark
-          mode</label
-        >
-      </div>
       <h2>Default context</h2>
       <div class="text">
         <span>Default</span>
@@ -213,10 +207,6 @@ export class ElementsDev extends BaseElement {
         <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>
       </div>
     `;
-  }
-
-  private handleDarkModeChecked() {
-    document.body.classList.toggle('theme-dark');
   }
 
   private startFullscreenSpinner() {
