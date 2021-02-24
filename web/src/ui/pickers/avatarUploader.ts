@@ -45,10 +45,6 @@ export class AvatarUploader extends BaseElement {
   firstUpdated() {
     this.hookFileUploadEvents(this.uploadElement);
     this.cropElement.addEventListener('image-crop-change', (e) => this.handleImageCrop(e));
-    this.modalElement.addEventListener('closed', ((
-      e: CustomEvent<DialogButton>,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ) => this.handleCropperModalClose(e)) as any);
   }
 
   render() {
@@ -58,7 +54,9 @@ export class AvatarUploader extends BaseElement {
           id="modalElement"
           .isOpen=${!!this.imageDataURL}
           .buttons=${['ok', 'cancel']}
+          cancelButtonIndex="1"
           @closed=${this.handleDialogClose}
+          @buttonClick=${this.handleCropperModalButtonClick}
         >
           <div class="m-b-md">
             <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
@@ -120,7 +118,7 @@ export class AvatarUploader extends BaseElement {
     );
   }
 
-  private async handleCropperModalClose(e: CustomEvent<DialogButton>) {
+  private async handleCropperModalButtonClick(e: CustomEvent<DialogButton>) {
     const button = e.detail;
     if (button?.type === 'ok') {
       const fd = new FormData(this.formElement);

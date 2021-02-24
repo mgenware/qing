@@ -2,6 +2,7 @@ package discussionp
 
 import (
 	"qing/app"
+	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
@@ -43,7 +44,7 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = eid
 	d.EID = validator.EncodeID(p.ID)
-	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
 	d.MessageListHTML = msgListHTML
 	d.PageBarHTML = pageBarHTML
 	return d
@@ -55,6 +56,6 @@ func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult
 	eid := validator.EncodeID(p.ID)
 	d.DiscussionURL = app.URL.Discussion(p.ID)
 	d.EID = eid
-	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)
 	return d
 }

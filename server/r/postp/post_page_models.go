@@ -2,6 +2,7 @@ package postp
 
 import (
 	"qing/app"
+	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
@@ -38,6 +39,6 @@ func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d.PostURL = app.URL.Post(p.ID)
 	d.EID = eid
 	d.UserEID = validator.EncodeID(d.UserID)
-	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	return d
 }

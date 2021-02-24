@@ -3,6 +3,10 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import ls from 'ls';
 
+export function getEditBarID(type: number, id: string): string {
+  return `edit-bar-${type}-${id}`;
+}
+
 @customElement('edit-bar')
 export class EditBar extends BaseElement {
   @lp.bool hasLeftMargin = false;
@@ -11,9 +15,7 @@ export class EditBar extends BaseElement {
     return html`
       <span class="${this.hasLeftMargin ? 'm-l-sm' : ''}">
         <a href="#" @click=${this.handleEditClick}>${ls.edit}</a>
-        <a class="m-l-sm" href="#" @click=${this.handleDeleteClick}
-          >${ls.delete}</a
-        >
+        <a class="m-l-sm" href="#" @click=${this.handleDeleteClick}>${ls.delete}</a>
       </span>
     `;
   }
