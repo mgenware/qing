@@ -1,5 +1,5 @@
 import { html, customElement, property } from 'lit-element';
-import { QingDialog, IsOpenChangedArgs } from 'qing-dialog-component';
+import { DialogButton, QingDialog } from 'qing-dialog-component';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import app from 'app';
@@ -46,7 +46,7 @@ export class AvatarUploader extends BaseElement {
     this.hookFileUploadEvents(this.uploadElement);
     this.cropElement.addEventListener('image-crop-change', (e) => this.handleImageCrop(e));
     this.modalElement.addEventListener('closed', ((
-      e: CustomEvent<IsOpenChangedArgs>,
+      e: CustomEvent<DialogButton>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => this.handleCropperModalClose(e)) as any);
   }
@@ -96,7 +96,7 @@ export class AvatarUploader extends BaseElement {
         reader.onload = (e) => {
           if (e.target && e.target.result !== null) {
             this.imageDataURL = e.target.result as string;
-            this.modalElement.isOpen = true;
+            this.modalElement.open = true;
           }
         };
         reader.readAsDataURL(domFile.files[0]);
@@ -120,8 +120,8 @@ export class AvatarUploader extends BaseElement {
     );
   }
 
-  private async handleCropperModalClose(e: CustomEvent<IsOpenChangedArgs>) {
-    const { button } = e.detail;
+  private async handleCropperModalClose(e: CustomEvent<DialogButton>) {
+    const button = e.detail;
     if (button?.type === 'ok') {
       const fd = new FormData(this.formElement);
       if (this.cropInfo) {
@@ -134,7 +134,7 @@ export class AvatarUploader extends BaseElement {
       this.resetFileInput();
 
       if (result.data) {
-        this.modalElement.isOpen = false;
+        this.modalElement.open = false;
         this.onUpdated(result.data);
       }
     }
@@ -146,8 +146,8 @@ export class AvatarUploader extends BaseElement {
     this.uploadElement.value = '';
   }
 
-  private handleDialogClose(e: CustomEvent<IsOpenChangedArgs>) {
-    if (e.detail.button?.type === 'cancel') {
+  private handleDialogClose(e: CustomEvent<DialogButton>) {
+    if (e.detail?.type === 'cancel') {
       // Reset file input when user cancelled the dialog.
       this.resetFileInput();
     }
