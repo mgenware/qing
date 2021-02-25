@@ -82,6 +82,8 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 			{
 				err = da.Post.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
+
+				result = app.URL.Post(id)
 				break
 			}
 		case defs.Shared.EntityDiscussion:
