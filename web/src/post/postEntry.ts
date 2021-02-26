@@ -18,7 +18,7 @@ function hookUpEditBarEvents() {
     return;
   }
   editBarElement.addEventListener('deleteClick', async () => {
-    if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
+    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
       const loader = new DeletePostLoader(wind.EID, entityPost);
       const status = await app.runGlobalActionAsync(loader, ls.working);

@@ -55,7 +55,7 @@ export class CmtListView extends BaseElement {
     );
 
     if (this.loadOnVisible) {
-      listenForVisibilityChange([this], () => this.loadMore);
+      listenForVisibilityChange([this], () => this.loadMore());
     } else {
       this.loadMore();
     }

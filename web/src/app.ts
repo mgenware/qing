@@ -28,7 +28,7 @@ class APP {
   state = new AppState();
   alert = new AlertModule();
   page = new PageModule();
-  userData = new UserData(this.state, this.alert);
+  userData = new UserData(this.state);
 
   get isLoggedIn(): boolean {
     return !!this.state.hasUser;

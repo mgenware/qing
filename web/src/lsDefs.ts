@@ -34,7 +34,8 @@ export default interface LSDefs {
   rysDiscardChanges: string;
   publish: string;
   title: string;
-  unsavedChangesWarning: string;
+  doYouWantDoDiscardYourChanges: string;
+  youHaveNotSavedYourChanges: string;
   saving: string;
   publishing: string;
   newPost: string;

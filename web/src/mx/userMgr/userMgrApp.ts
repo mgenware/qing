@@ -106,7 +106,7 @@ export class UserMgrApp extends BaseElement {
   }
 
   private async handleRemoveAdmin(user: UserInfo) {
-    const ok = await app.alert.confirm(formatLS(ls.removeAdminConfirmation, user.name));
+    const ok = await app.alert.confirm(ls.warning, formatLS(ls.removeAdminConfirmation, user.name));
     if (!ok) {
       return;
     }
@@ -122,7 +122,10 @@ export class UserMgrApp extends BaseElement {
     if (!userCandidate) {
       return;
     }
-    const ok = await app.alert.confirm(formatLS(ls.confirmAddUserAsAdmin, userCandidate.name));
+    const ok = await app.alert.confirm(
+      ls.warning,
+      formatLS(ls.confirmAddUserAsAdmin, userCandidate.name),
+    );
     if (!ok) {
       return;
     }

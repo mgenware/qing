@@ -48,6 +48,7 @@ type Dictionary struct {
 	Delete                            string `json:"delete"`
 	Description                       string `json:"description"`
 	Discussions                       string `json:"discussions"`
+	DoYouWantDoDiscardYourChanges     string `json:"doYouWantDoDiscardYourChanges"`
 	Downvote                          string `json:"downvote"`
 	Edit                              string `json:"edit"`
 	EditComment                       string `json:"editComment"`
@@ -143,7 +144,6 @@ type Dictionary struct {
 	Title                             string `json:"title"`
 	Underline                         string `json:"underline"`
 	Undo                              string `json:"undo"`
-	UnsavedChangesWarning             string `json:"unsavedChangesWarning"`
 	UnsupportedImgExtErr              string `json:"unsupportedImgExtErr"`
 	UploadProfileImgDesc              string `json:"uploadProfileImgDesc"`
 	Uploading                         string `json:"uploading"`
@@ -157,6 +157,7 @@ type Dictionary struct {
 	WriteAComment                     string `json:"writeAComment"`
 	Yes                               string `json:"yes"`
 	YouCannotChangeYourOwnAdminStatus string `json:"youCannotChangeYourOwnAdminStatus"`
+	YouHaveNotSavedYourChanges        string `json:"youHaveNotSavedYourChanges"`
 	YourDiscussions                   string `json:"yourDiscussions"`
 	YourPosts                         string `json:"yourPosts"`
 	YourQuestions                     string `json:"yourQuestions"`

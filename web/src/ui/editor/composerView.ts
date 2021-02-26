@@ -210,8 +210,7 @@ export class ComposerView extends BaseElement {
     };
     if (this.hasContentChanged()) {
       // Warn user of unsaved changes.
-      const confirmed = await app.alert.confirm(ls.unsavedChangesWarning);
-      if (confirmed) {
+      if (await app.alert.warnUnsavedChanges()) {
         fireEvent();
       }
     } else {

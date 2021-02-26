@@ -215,7 +215,7 @@ export class CmtView extends BaseElement {
     if (!cmt) {
       return;
     }
-    if (await app.alert.confirm(formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
+    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       app.alert.showLoadingOverlay(ls.working);
       const loader = new DeleteCmtLoader(cmt.id, this.hostType, this.hostID, isReply(cmt));
       const status = await app.runGlobalActionAsync(loader, ls.working);

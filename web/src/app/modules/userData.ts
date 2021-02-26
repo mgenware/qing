@@ -1,18 +1,12 @@
-import ls from 'ls';
 import cookies from 'js-cookie';
 import * as defs from 'defs';
 import * as lib from 'lib/htmlLib';
 import AppState from './appState';
-import Alert from './alertModule';
 
-const WARN_CHANGES = ls.unsavedChangesWarning;
 const CSS_DARK_THEME = 'theme-dark';
 
 export default class UserData {
-  private alert: Alert;
-
-  constructor(_: AppState, alert: Alert) {
-    this.alert = alert;
+  constructor(_: AppState) {
     lib.ready(() => {
       this.applyTheme(this.theme);
     });
@@ -28,10 +22,6 @@ export default class UserData {
     }
     this.setCookieNumber(defs.Cookies.themeKey, value);
     this.applyTheme(value);
-  }
-
-  async warnUnsavedChangesAsync(): Promise<boolean | null> {
-    return this.alert.confirm(WARN_CHANGES);
   }
 
   private getCookieString(key: string): string {

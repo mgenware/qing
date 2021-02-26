@@ -147,7 +147,8 @@ export class ElementsDev extends BaseElement {
       <h2>Dialogs</h2>
       <qing-button @click=${async () => app.alert.error('This is an error')}>Error</qing-button>
       <qing-button
-        @click=${async () => alert((await app.alert.confirm('Yes or no?')) ? 'Yes' : 'No')}
+        @click=${async () =>
+          alert((await app.alert.confirm('Warning', 'Yes or no?')) ? 'Yes' : 'No')}
         >Confirm</qing-button
       >
       <qing-button @click=${async () => app.alert.successToast('Success!')}

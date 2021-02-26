@@ -30,7 +30,7 @@ export default class AlertModule {
     });
   }
 
-  async confirm(message: string, hasCancelButton = false): Promise<boolean | null> {
+  async confirm(title: string, message: string, hasCancelButton = false): Promise<boolean | null> {
     const buttons = ['yes', 'no'];
     // Default button is "No".
     let defaultBtnIdx = 1;
@@ -39,8 +39,8 @@ export default class AlertModule {
       defaultBtnIdx = 2;
     }
     const button = await this.showModalAsync({
-      message: '',
-      title: message || ls.warning,
+      message,
+      title,
       buttons,
       icon: 'warning',
       defaultButtonIndex: defaultBtnIdx,
@@ -54,6 +54,12 @@ export default class AlertModule {
     }
     // User chose "Cancel".
     return null;
+  }
+
+  async warnUnsavedChanges(): Promise<boolean> {
+    return (
+      (await this.confirm(ls.doYouWantDoDiscardYourChanges, ls.youHaveNotSavedYourChanges)) ?? false
+    );
   }
 
   // Shows the global loading spinner.
@@ -99,7 +105,7 @@ export default class AlertModule {
             : ''}
           <span style="vertical-align: middle">${args.title}</span>
         </h2>
-        ${args.message ? html`<div>${args.message}</div>` : ''}
+        ${args.message ? html`<p>${args.message}</p>` : ''}
       </qing-dialog>`;
 
       const element = renderTemplateResult<QingDialog>(dialogContainerID, template);
