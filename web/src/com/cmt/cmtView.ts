@@ -119,7 +119,7 @@ export class CmtView extends BaseElement {
                 `
               : ''}
           </div>
-          <div>${unsafeHTML(cmt.content)}</div>
+          <div>${unsafeHTML(cmt.contentHTML)}</div>
           ${editorHTML}
         </div>
       </div>
@@ -205,7 +205,7 @@ export class CmtView extends BaseElement {
 
     const { composerElement } = this;
     if (res.data && composerElement) {
-      composerElement.contentHTML = res.data.content;
+      composerElement.contentHTML = res.data.contentHTML;
       composerElement.markAsSaved();
     }
   }

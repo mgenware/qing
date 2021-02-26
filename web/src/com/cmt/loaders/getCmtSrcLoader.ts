@@ -2,7 +2,7 @@ import Loader from 'lib/loader';
 import routes from 'routes';
 
 export interface GetCmtSourceResult {
-  content: string;
+  contentHTML: string;
 }
 
 export class GetCmtSourceLoader extends Loader<GetCmtSourceResult> {

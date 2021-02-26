@@ -4,7 +4,7 @@ export default interface Cmt {
   createdAt: string;
   modifiedAt: string;
   replyCount: number;
-  content: string;
+  contentHTML: string;
   userID: string;
   userName: string;
   userURL: string;

@@ -64,9 +64,9 @@ export default class SetPostApp extends BaseElement {
     `;
   }
 
-  private updateContent(title: string, content: string) {
+  private updateContent(title: string, contentHTML: string) {
     this.postTitle = title;
-    this.composerElement.contentHTML = content;
+    this.composerElement.contentHTML = contentHTML;
     this.composerElement.markAsSaved();
   }
 
