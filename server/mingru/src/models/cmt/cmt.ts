@@ -14,6 +14,7 @@ export class Cmt extends mm.Table {
   host_id = mm.uBigInt();
 
   reply_count = mm.uInt().default(0);
+  likes = mm.uInt().default(0);
 }
 
 export const cmt = mm.table(Cmt);
@@ -28,6 +29,7 @@ export class Reply extends mm.Table {
 
   to_user_id = user.id;
   parent_id = cmt.id;
+  likes = mm.uInt().default(0);
 }
 
 export const reply = mm.table(Reply);

@@ -1,6 +1,7 @@
 {
   "extends": "mgenware-tsconfig-node",
   "compilerOptions": {
+    "module": "commonjs",
     "downlevelIteration": true,
     "declaration": false,
     "outDir": "./dist",

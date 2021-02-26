@@ -34,7 +34,7 @@ func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userI
 
 // InsertReplyCore ...
 func (da *TableTypeReply) InsertReplyCore(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?)", content, userID, toUserID, parentID)
+	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?, 0)", content, userID, toUserID, parentID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

@@ -135,7 +135,7 @@ func (da *TableTypeDiscussion) EditItem(queryable mingru.Queryable, id uint64, u
 }
 
 func (da *TableTypeDiscussion) insertCmtChild1(queryable mingru.Queryable, content string, userID uint64, hostID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `host_id`, `reply_count`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, 0)", content, userID, hostID)
+	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `host_id`, `reply_count`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, 0, 0)", content, userID, hostID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
