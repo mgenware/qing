@@ -22,10 +22,13 @@ export class ElementsDev extends BaseElement {
     return [
       super.styles,
       css`
-        .text {
-          padding: 1rem;
+        :host {
           color: var(--app-default-fore-color);
           background-color: var(--app-default-back-color);
+        }
+
+        .text {
+          padding: 1rem;
         }
 
         .text span {
@@ -104,7 +107,7 @@ export class ElementsDev extends BaseElement {
     return html`
       <h2>Default context</h2>
       <div class="text">
-        <span>Default</span>
+        <span>Welcome to <a href="https://github.com/mgenware/qing" target="_blank">Qing</a></span>
         <span class="secondary">Secondary</span>
         <span class="primary">Primary</span>
         <span class="success">Success</span>
@@ -118,6 +121,26 @@ export class ElementsDev extends BaseElement {
         <qing-button btnStyle="warning">Warning</qing-button>
         <qing-button btnStyle="danger">Danger</qing-button>
       </p>
+      <h3>With blockquote</h3>
+      <blockquote>
+        <div class="text">
+          <span
+            >Welcome to <a href="https://github.com/mgenware/qing" target="_blank">Qing</a></span
+          >
+          <span class="secondary">Secondary</span>
+          <span class="primary">Primary</span>
+          <span class="success">Success</span>
+          <span class="warning">Warning</span>
+          <span class="danger">Danger</span>
+        </div>
+        <p>
+          <qing-button>Default</qing-button>
+          <qing-button btnStyle="primary">Primary</qing-button>
+          <qing-button btnStyle="success">Success</qing-button>
+          <qing-button btnStyle="warning">Warning</qing-button>
+          <qing-button btnStyle="danger">Danger</qing-button>
+        </p>
+      </blockquote>
       <h2>Other contexts</h2>
       <div class="ctx-container">
         <div class="ctx ctx-primary">Primary</div>

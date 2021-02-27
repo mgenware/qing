@@ -8,8 +8,12 @@ export default css`
   /* Default theme (light) ------------------------- */
   :root {
     --app-default-back-color: white;
-    --app-default-secondary-back-color: #e4e4e4;
+    /** Lighter color of '--app-default-back-color', mainly used in <blockquote>.
+      NOTE: It must be lighter than '--app-info-back-color' (used as button background),
+      so that buttons still look darker in <blockquote> */
+    --app-default-secondary-back-color: #f3f3f3;
     --app-default-fore-color: black;
+    /** Lighter color of '--app-default-fore-color', mainly used in secondary text. */
     --app-default-secondary-fore-color: #676f75;
     --app-default-primary-fore-color: #00386a;
     --app-default-danger-fore-color: #d11e30;
@@ -51,7 +55,7 @@ export default css`
   /* Dark theme ------------------------- */
   .theme-dark {
     --app-default-back-color: black;
-    --app-default-secondary-back-color: #2a2a2a;
+    --app-default-secondary-back-color: #0d0d0d;
     --app-default-fore-color: #777777;
     --app-default-secondary-fore-color: #5a5a5a;
     --app-default-primary-fore-color: #2c5477;
@@ -61,7 +65,7 @@ export default css`
 
     --app-default-separator-color: #272727;
 
-    /** Used internally in dark mode. Slightly lighter than \`--app-default-fore-color\` */
+    /** Used internally in dark mode. Slightly lighter than '--app-default-fore-color' */
     --private-app-dark-context-fore-color: #979797;
     --app-primary-back-color: var(--app-default-primary-fore-color);
     --app-primary-fore-color: var(--private-app-dark-context-fore-color);
@@ -69,7 +73,7 @@ export default css`
     --app-danger-fore-color: var(--private-app-dark-context-fore-color);
     --app-success-back-color: var(--app-default-success-fore-color);
     --app-success-fore-color: var(--private-app-dark-context-fore-color);
-    --app-info-back-color: #272727;
+    --app-info-back-color: #1f1f1f;
     --app-info-fore-color: var(--private-app-dark-context-fore-color);
     --app-warning-back-color: var(--app-default-warning-fore-color);
     --app-warning-fore-color: var(--private-app-dark-context-fore-color);
@@ -99,9 +103,9 @@ export default css`
   /* HTML components ------------------------- */
   blockquote {
     background: var(--app-default-secondary-back-color);
-    border-left: 10px solid var(--app-default-secondary-fore-color);
-    margin: 1.5rem 10px;
-    padding: 0.5rem 10px;
+    border-left: 0.8rem solid var(--app-info-back-color);
+    margin: 1.5rem 0.8rem;
+    padding: 0.5rem 0.8rem;
   }
 
   hr {
@@ -233,7 +237,7 @@ export default css`
 
   /* svg-icon ------------------------- */
   svg-icon {
-    --svg-fill: var(--app-info-fore-color);
+    --svg-fill: var(--app-default-secondary-fore-color);
   }
   svg-icon[iconStyle='success'] {
     --svg-fill: var(--app-success-fore-color);

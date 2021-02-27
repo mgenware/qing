@@ -29,10 +29,6 @@ export class TabView extends BaseElement {
           color: var(--app-default-primary-fore-color);
         }
 
-        ::slotted(a:hover) {
-          background-color: var(--app-default-secondary-back-color);
-        }
-
         ::slotted(a.tab-active) {
           border-bottom: 3px solid var(--app-default-primary-fore-color);
         }
