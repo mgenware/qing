@@ -21,7 +21,13 @@ export class ReplyListView extends BaseElement {
         }
 
         .reply-block {
-          margin-left: 65px;
+          margin-left: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .reply-block {
+            margin-left: 3rem;
+          }
         }
       `,
     ];
