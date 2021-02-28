@@ -75,6 +75,9 @@ module.exports = {
       },
       'prepare-turbo': {
         run: '#prebuild',
+        before: {
+          del: 'dist',
+        },
       },
     },
   },
