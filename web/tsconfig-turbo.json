@@ -12,7 +12,7 @@
 
         "rootDir": "./src",
         "outDir": "./dist",
-        "resolvers": [{ "dir": "./src", "sourceDir": true }, { "dir": "./node_modules" }]
+        "resolvers": [{ "dir": "./src", "sourceDir": true }]
       }
     ]
   }
