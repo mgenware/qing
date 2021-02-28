@@ -1,10 +1,21 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement, property, css } from 'lit-element';
 import BaseElement from 'baseElement';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ifDefined } from 'lit-html/directives/if-defined';
 
 @customElement('progress-view')
 export default class ProgressView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: inline-block;
+        }
+      `,
+    ];
+  }
+
   @property({ type: Number }) progress = 0;
 
   render() {

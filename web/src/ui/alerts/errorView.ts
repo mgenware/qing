@@ -1,4 +1,5 @@
 import { html, customElement, css } from 'lit-element';
+import 'debug/d/injectLangEN';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
