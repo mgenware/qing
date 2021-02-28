@@ -97,8 +97,7 @@ export class CmtView extends BaseElement {
                       title=${formatLS(ls.pReplyingTo, cmt.toUserName)}
                       iconStyle="info"
                       .src=${staticMainImage('reply-to.svg')}
-                      .width=${16}
-                      .height=${16}
+                      .size=${16}
                     >
                     </svg-icon>
                     <a href=${cmt.toUserURL || '#'}>${cmt.toUserName}</a>

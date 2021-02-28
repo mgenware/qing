@@ -5,20 +5,12 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import { AppViewStyleNullable } from '../types/appViewStyle';
 
-function removeFillFromElement(element: Element | null) {
-  element?.removeAttribute('fill');
-}
-
-function processSVG(svg: string, width: number, height: number, removeFill: boolean): string {
+function processSVG(svg: string, width: number, height: number): string {
   const parser = new DOMParser();
   const doc = parser.parseFromString(svg, 'image/svg+xml');
   const element = doc.documentElement;
   element.setAttribute('width', width.toString());
   element.setAttribute('height', height.toString());
-  if (removeFill) {
-    removeFillFromElement(element);
-    removeFillFromElement(element.firstElementChild);
-  }
   return element.outerHTML;
 }
 
@@ -54,7 +46,6 @@ export class SvgIcon extends BaseElement {
         await resp.text(),
         this.width || this.size,
         this.height || this.size,
-        true,
       );
     } catch (err) {
       console.error(`Error downloading file "${this.src}", ${err.message}.`);
