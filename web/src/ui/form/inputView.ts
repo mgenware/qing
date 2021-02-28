@@ -60,7 +60,8 @@ export class InputView extends BaseElement {
           box-shadow: 0 0 2px var(--app-keyboard-focus-color);
         }
 
-        input:invalid {
+        /** the 'validated' class makes sure invalid style doesn't appear on page load. */
+        input.validated:invalid {
           outline: 0;
           border-color: var(--app-default-danger-fore-color);
           box-shadow: 0 0 2px var(--app-default-danger-fore-color);
@@ -75,6 +76,10 @@ export class InputView extends BaseElement {
   @lp.string value = '';
   @lp.string placeholder = '';
   @lp.bool debounceOnChange = false;
+
+  // True if content has changed or `checkValidity` is called.
+  inputValidated = false;
+
   private debouncedOnChangeHandler?: () => void;
 
   @lp.string private validationError = '';
@@ -90,10 +95,12 @@ export class InputView extends BaseElement {
   }
 
   render() {
-    const { validationError } = this;
+    const { inputValidated } = this;
+    const validationError = inputValidated ? this.validationError : '';
     return html`
       ${this.label ? html`<label class="app-form-label" for=${inputID}>${this.label}</label>` : ''}
       <input
+        class=${inputValidated ? 'validated' : ''}
         id=${inputID}
         ?required=${this.required}
         type=${this.type}
@@ -113,12 +120,14 @@ export class InputView extends BaseElement {
   }
 
   checkValidity(): boolean {
+    this.inputValidated = true;
     const res = this.inputElement.checkValidity();
     this.validationError = this.inputElement.validationMessage;
     return res;
   }
 
   private handleInput(_: Event) {
+    this.inputValidated = true;
     this.validationError = this.inputElement.validationMessage;
     this.dispatchEvent(
       new CustomEvent<string>('onChange', {
