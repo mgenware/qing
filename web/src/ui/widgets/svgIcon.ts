@@ -16,7 +16,7 @@ function processSVG(svg: string, width: number, height: number): string {
 
 @customElement('svg-icon')
 export class SvgIcon extends BaseElement {
-  @lp.string src = '';
+  @lp.string oneTimeSrc = '';
   @lp.string iconStyle: AppViewStyleNullable = '';
   @lp.number width = 0;
   @lp.number height = 0;
@@ -30,25 +30,25 @@ export class SvgIcon extends BaseElement {
       super.styles,
       css`
         span {
-          fill: var(--svg-fill);
+          fill: var(--svg-icon-fill);
         }
       `,
     ];
   }
 
   async firstUpdated() {
-    if (!this.src) {
+    if (!this.oneTimeSrc) {
       return;
     }
     try {
-      const resp = await fetch(this.src, { method: 'GET' });
+      const resp = await fetch(this.oneTimeSrc, { method: 'GET' });
       this.svgHTML = processSVG(
         await resp.text(),
         this.width || this.size,
         this.height || this.size,
       );
     } catch (err) {
-      console.error(`Error downloading file "${this.src}", ${err.message}.`);
+      console.error(`Error downloading file "${this.oneTimeSrc}", ${err.message}.`);
     }
   }
 

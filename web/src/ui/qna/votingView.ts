@@ -65,14 +65,14 @@ export class VotingView extends BaseElement {
           <qing-button title=${ls.upvote} class="flex-full">
             <svg-icon
               iconStyle="success"
-              .src=${staticMainImage('plus-sign.svg')}
+              .oneTimeSrc=${staticMainImage('plus-sign.svg')}
               .size=${voteBtnSize}
             ></svg-icon>
           </qing-button>
           <qing-button title=${ls.downvote} class="flex-full">
             <svg-icon
               iconStyle="danger"
-              .src=${staticMainImage('minus-sign.svg')}
+              .oneTimeSrc=${staticMainImage('minus-sign.svg')}
               .size=${voteBtnSize}
             ></svg-icon>
           </qing-button>

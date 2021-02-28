@@ -220,7 +220,7 @@ export class ElementsDev extends BaseElement {
         <p>text text text text text text text text text text</p>
       </status-overlay>
       <h2>Misc</h2>
-      <like-view .likes=${20} @click=${() => alert('Like button clicked!')}></like-view>
+      <like-view></like-view>
       <like-view .likes=${1} hasLiked></like-view>
       <like-view .likes=${1} hasLiked isWorking></like-view>
       <h2>Flexbox utils</h2>

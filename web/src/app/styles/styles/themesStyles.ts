@@ -43,6 +43,7 @@ export default css`
     --app-navbar-border-bottom: 0;
 
     --app-highlight-color: rgba(0, 0, 0, 0.11);
+    --app-heart-color: #de215b;
 
     --app-surface-radius-md: 6px;
     /* Radius for smaller components like inputs. */
@@ -89,6 +90,7 @@ export default css`
     --app-navbar-border-bottom: 1px solid var(--app-navbar-divider-color);
 
     --app-highlight-color: rgba(255, 255, 255, 0.11);
+    --app-heart-color: #b81c4b;
   }
 
   /**********************************************************
@@ -237,18 +239,18 @@ export default css`
 
   /* svg-icon ------------------------- */
   svg-icon {
-    --svg-fill: var(--app-default-secondary-fore-color);
+    --svg-icon-fill: var(--app-default-secondary-fore-color);
   }
   svg-icon[iconStyle='success'] {
-    --svg-fill: var(--app-success-fore-color);
+    --svg-icon-fill: var(--app-success-fore-color);
   }
   svg-icon[iconStyle='danger'] {
-    --svg-fill: var(--app-danger-fore-color);
+    --svg-icon-fill: var(--app-danger-fore-color);
   }
   svg-icon[iconStyle='primary'] {
-    --svg-fill: var(--app-primary-fore-color);
+    --svg-icon-fill: var(--app-primary-fore-color);
   }
   svg-icon[iconStyle='warning'] {
-    --svg-fill: var(--app-warning-fore-color);
+    --svg-icon-fill: var(--app-warning-fore-color);
   }
 `;
