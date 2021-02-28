@@ -1,22 +1,28 @@
-import { expect, html, fixture } from 'qing-t';
+import { expect, html, fixture, tDOM } from 'qing-t';
 import BaseElement from './baseElement';
 
-it('getShadowElements', async () => {
-  class TElement extends BaseElement {
-    render() {
-      return html`<div id="root">content</div>`;
-    }
-
-    getRootDiv(): HTMLDivElement {
-      return this.mustGetShadowElement('root');
-    }
-
-    getNonExistentDiv(): HTMLDivElement {
-      return this.mustGetShadowElement('__error__');
-    }
+class TElement extends BaseElement {
+  render() {
+    return html`<div id="root">content</div>`;
   }
-  customElements.define('t-base-element', TElement);
 
+  getRootDiv(): HTMLDivElement {
+    return this.mustGetShadowElement('root');
+  }
+
+  getNonExistentDiv(): HTMLDivElement {
+    return this.mustGetShadowElement('__error__');
+  }
+}
+customElements.define('t-base-element', TElement);
+
+it('Display', async () => {
+  const el: TElement = await fixture(html`<t-base-element></t-base-element>`);
+
+  tDOM.isInlineElement(el);
+});
+
+it('getShadowElements', async () => {
   const el: TElement = await fixture(html`<t-base-element></t-base-element>`);
 
   expect(el.getRootDiv() instanceof HTMLDivElement).to.eq(true);
