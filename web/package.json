@@ -31,7 +31,6 @@
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@open-wc/testing": "^2.5.32",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@types/js-cookie": "^2.2.6",
@@ -51,7 +50,7 @@
     "m-fs": "^5.0.0",
     "mgenware-tsconfig-browser": "^3.0.1",
     "mgenware-tsconfig-node": "^14.0.2",
-    "qing-t": "^4.1.5",
+    "qing-t": "^5.0.0",
     "rollup": "^2.40.0",
     "rollup-plugin-lit-css": "^2.1.0",
     "rollup-plugin-minify-html-literals": "^1.2.5",

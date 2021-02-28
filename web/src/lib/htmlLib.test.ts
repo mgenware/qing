@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { expect } from 'qing-t';
+import { expect, html, fixture, elementUpdated } from 'qing-t';
 import { html as litHTML } from 'lit-element';
-import { html, fixture, elementUpdated } from '@open-wc/testing';
 import { renderTemplateResult, tif } from './htmlLib';
 
 it('renderTemplateResult', async () => {

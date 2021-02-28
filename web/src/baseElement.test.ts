@@ -1,5 +1,4 @@
-import { expect } from 'qing-t';
-import { html, fixture } from '@open-wc/testing';
+import { expect, html, fixture } from 'qing-t';
 import BaseElement from './baseElement';
 
 it('getShadowElements', async () => {

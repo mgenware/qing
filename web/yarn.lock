@@ -226,7 +226,7 @@
   dependencies:
     "@types/chai" "*"
 
-"@types/chai@*", "@types/chai@^4.1.7", "@types/chai@^4.2.11", "@types/chai@^4.2.12":
+"@types/chai@*", "@types/chai@^4.1.7", "@types/chai@^4.2.11":
   version "4.2.15"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.15.tgz#b7a6d263c2cecf44b6de9a051cf496249b154553"
   integrity sha512-rYff6FI+ZTKAPkJUoyz7Udq3GaoDZnxYDEvdEdFZASiA7PoErltHezDishqQiSDWrGxvxmplH304jyzQmjp0AQ==
@@ -4210,12 +4210,12 @@ qing-stylelib@^2.3.0:
     modern-normalize "^1.0.0"
     string-to-template-literal "^2.0.0"
 
-qing-t@^4.1.5:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/qing-t/-/qing-t-4.2.0.tgz#ad24155b91874c3625dec4f27d0051b66857149a"
-  integrity sha512-isjG1fbz4b4g9uEI5s2kNlWFBzKkXkqYTym62hL/cW6HPsMdvKTirtAseQob/g8DD9MG+r6FrSkMGdeiFjz6Vw==
+qing-t@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/qing-t/-/qing-t-5.0.0.tgz#f505f52a2194c37ee63b81ac0b6b0ce69166177d"
+  integrity sha512-Qoxfkq5kTze+P/tuixeZrLwPSdRNqq3b2uNgs3Dw8XBn57e4G64ueuyKTvqgaQsZit8PLdCV/ckcx3DgE/Ef4Q==
   dependencies:
-    "@types/chai" "^4.2.12"
+    "@open-wc/testing" "^2.5.32"
 
 qs@^6.5.2:
   version "6.9.6"
