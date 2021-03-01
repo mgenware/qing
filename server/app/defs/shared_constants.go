@@ -53,7 +53,6 @@ type SharedConstantsType struct {
 	RouteForum string
 	RouteForumGroup string
 	RouteM string
-	RouteMx string
 	RoutePost string
 	RouteQuestion string
 	RouteUser string
@@ -110,7 +109,6 @@ func init() {
 		RouteForum: "f",
 		RouteForumGroup: "g",
 		RouteM: "m",
-		RouteMx: "mx",
 		RoutePost: "p",
 		RouteQuestion: "q",
 		RouteUser: "user",
