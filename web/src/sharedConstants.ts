@@ -22,6 +22,7 @@ export const routePost = "p";
 export const routeAuth = "auth";
 export const routeDevPage = "__";
 export const routeM = "m";
+export const routeMX = "mx";
 export const routeAPI = "s";
 export const routeForum = "f";
 export const routeDiscussion = "d";

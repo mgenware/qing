@@ -16,6 +16,7 @@
   "routeAuth": "auth",
   "routeDevPage": "__",
   "routeM": "m",
+  "routeMX": "mx",
   "routeAPI": "s",
   "routeForum": "f",
   "routeDiscussion": "d",
