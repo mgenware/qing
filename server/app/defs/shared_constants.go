@@ -11,7 +11,6 @@ type SharedConstantsType struct {
 	ColumnCreated string
 	ColumnLikes string
 	ColumnMessages string
-	DefaultLang string
 	EntityAnswer int
 	EntityCmt int
 	EntityDiscussion int
@@ -52,6 +51,7 @@ type SharedConstantsType struct {
 	RouteDiscussion string
 	RouteForum string
 	RouteForumGroup string
+	RouteLang string
 	RouteM string
 	RouteMx string
 	RoutePost string
@@ -68,7 +68,6 @@ func init() {
 		ColumnCreated: "createdAt",
 		ColumnLikes: "likes",
 		ColumnMessages: "messages",
-		DefaultLang: "en",
 		EntityAnswer: 7,
 		EntityCmt: 2,
 		EntityDiscussion: 4,
@@ -109,6 +108,7 @@ func init() {
 		RouteDiscussion: "d",
 		RouteForum: "f",
 		RouteForumGroup: "g",
+		RouteLang: "lang",
 		RouteM: "m",
 		RouteMx: "mx",
 		RoutePost: "p",

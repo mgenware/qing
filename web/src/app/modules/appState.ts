@@ -1,5 +1,4 @@
 import MainWind from 'app/mainWind';
-import { defaultLang } from 'sharedConstants';
 import User from '../user/user';
 
 export type UserCallbackFn = (user: User) => void;
@@ -15,7 +14,7 @@ export default class AppState {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const wind = (window as any) as MainWind;
 
-    this.lang = wind.appLang ?? defaultLang;
+    this.lang = wind.appLang;
     this.forumsMode = wind.appForumsMode;
     this.#windData = wind.appWindData ?? {};
     if (wind.appUserID) {

@@ -147,5 +147,6 @@
   "code": "代码",
   "undo": "撤销",
   "redo": "重做",
-  "horizontalRule": "横向分隔符"
+  "horizontalRule": "横向分隔符",
+  "langSettings": "语言设置"
 }

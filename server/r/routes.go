@@ -15,6 +15,7 @@ import (
 	"qing/r/discussionp"
 	"qing/r/forump"
 	"qing/r/homep"
+	"qing/r/langp"
 	"qing/r/mp"
 	"qing/r/mxp"
 	"qing/r/postp"
@@ -84,6 +85,8 @@ func Start() {
 	r.Mount("/"+defs.Shared.RouteApi, api.Router)
 	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
+	// Language settings router.
+	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
 	debugConfig := config.Debug
 	if debugConfig != nil {

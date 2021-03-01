@@ -70,6 +70,7 @@ type Dictionary struct {
 	InternalErr                       string `json:"internalErr"`
 	InvalidPageNumber                 string `json:"invalidPageNumber"`
 	Italic                            string `json:"italic"`
+	LangSettings                      string `json:"langSettings"`
 	Likes                             string `json:"likes"`
 	Loading                           string `json:"loading"`
 	Location                          string `json:"location"`

@@ -31,6 +31,7 @@ type JSManager struct {
 	Discussion    string
 	M             string
 	MX            string
+	Lang          string
 	Profile       string
 	Auth          string
 	HomeStd       string
@@ -63,6 +64,7 @@ func NewJSManager(dev bool) *JSManager {
 	r.Forum = r.js("forumEntry")
 	r.ForumSettings = r.js("forumSettingsEntry")
 	r.DevPage = r.js("devPageEntry")
+	r.Lang = r.js("langEntry")
 	return r
 }
 

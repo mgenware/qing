@@ -147,5 +147,6 @@
   "code": "Code",
   "undo": "Undo",
   "redo": "Redo",
-  "horizontalRule": "Horizontal Rule"
+  "horizontalRule": "Horizontal Rule",
+  "langSettings": "Language settings"
 }

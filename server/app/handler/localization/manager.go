@@ -19,6 +19,8 @@ type Manager struct {
 	fallbackDict *Dictionary
 	fallbackLang string
 	dicts        map[string]*Dictionary
+	langTags     []language.Tag
+
 	// Could be nil if `conf.Langs` contain only one lang.
 	langMatcher language.Matcher
 }
@@ -44,8 +46,8 @@ func NewManagerFromConfig(conf *config.LocalizationConfig) (*Manager, error) {
 	fallbackDict := dicts[fallbackLang]
 
 	var matcher language.Matcher
+	var tags []language.Tag
 	if len(conf.Langs) > 0 {
-		var tags []language.Tag
 		for _, langName := range conf.Langs {
 			t := language.MustParse(langName)
 			tags = append(tags, t)
@@ -53,12 +55,17 @@ func NewManagerFromConfig(conf *config.LocalizationConfig) (*Manager, error) {
 		matcher = language.NewMatcher(tags)
 	}
 
-	return &Manager{dicts: dicts, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher}, nil
+	return &Manager{dicts: dicts, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
 func (mgr *Manager) FallbackLanguage() string {
 	return mgr.fallbackLang
+}
+
+// LangTags returns language tags.
+func (mgr *Manager) LangTags() []language.Tag {
+	return mgr.langTags
 }
 
 // Dictionary returns the Dictionary associated with the specified language.

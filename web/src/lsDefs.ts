@@ -148,4 +148,5 @@ export default interface LSDefs {
   undo: string;
   redo: string;
   horizontalRule: string;
+  langSettings: string;
 }
