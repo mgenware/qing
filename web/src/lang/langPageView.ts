@@ -5,7 +5,7 @@ import BaseElement from 'baseElement';
 import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
 import app from 'app';
-import { linkListActiveClass } from 'ui/lists/linkListView';
+import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 
 @customElement('lang-page-view')
 export class LangPageView extends BaseElement {
@@ -37,7 +37,7 @@ export class LangPageView extends BaseElement {
         <link-list-view>
           ${this.tags.map(
             (t) =>
-              html`<a href="#" class=${curLang === t.ID ? linkListActiveClass : ''}
+              html`<a href="#" class=${curLang === t.ID ? linkListActiveFilledClass : ''}
                 >${t.Name} (${t.LocalizedName})</a
               >`,
           )}

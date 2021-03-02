@@ -16,7 +16,7 @@ import 'ui/lists/linkListView';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
 import app from 'app';
-import { linkListActiveClass } from 'ui/lists/linkListView';
+import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
 
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
@@ -206,9 +206,16 @@ export class ElementsDev extends BaseElement {
       <voting-view .value=${20} .ups=${400}></voting-view>
       <voting-view></voting-view>
       <h2>Link list view</h2>
+      <h3>Default style</h3>
       <link-list-view>
         <a href="#">Linux</a>
         <a href="#" class=${linkListActiveClass}>macOS</a>
+        <a href="#">Windows</a>
+      </link-list-view>
+      <h3>Filled style</h3>
+      <link-list-view>
+        <a href="#">Linux</a>
+        <a href="#" class=${linkListActiveFilledClass}>macOS</a>
         <a href="#">Windows</a>
       </link-list-view>
       <h2>Spinners</h2>
