@@ -1,5 +1,4 @@
 import { html, customElement, css } from 'lit-element';
-import 'debug/d/injectLangEN';
 import ls, { formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/lists/linkListView';
