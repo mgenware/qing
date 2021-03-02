@@ -47,6 +47,7 @@
   "keyValue": "value",
   "keyQuestions": "questions",
   "keyForumSettings": "forumSettings",
+  "keyLang": "lang",
   "forumStatusOpen": 0,
   "forumStatusArchived": 1
 }

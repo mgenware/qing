@@ -3,11 +3,6 @@ package defs
 type ContextKey string
 
 const (
-	LanguageCookieKey = "lang"
-	LanguageQueryKey  = "lang"
-)
-
-const (
 	AvatarResKey = "user_icon"
 )
 

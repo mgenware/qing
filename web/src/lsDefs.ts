@@ -149,4 +149,5 @@ export default interface LSDefs {
   redo: string;
   horizontalRule: string;
   langSettings: string;
+  doYouWantToChangeLangTo: string;
 }

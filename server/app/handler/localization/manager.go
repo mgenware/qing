@@ -80,14 +80,7 @@ func (mgr *Manager) Dictionary(lang string) *Dictionary {
 // MatchLanguage returns the determined language based on various conditions.
 func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string {
 	// Check if user has explicitly set a language.
-	queryLang := r.FormValue(defs.LanguageQueryKey)
-	if queryLang != "" {
-		mgr.writeLangCookie(w, queryLang)
-		return queryLang
-	}
-
-	// If no user-specified language exists, try to use the cookie value.
-	cookieLang, _ := r.Cookie(defs.LanguageCookieKey)
+	cookieLang, _ := r.Cookie(defs.Shared.KeyLang)
 	if cookieLang != nil {
 		return cookieLang.Value
 	}
@@ -113,8 +106,7 @@ func (mgr *Manager) EnableContextLanguage(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	// Write the user specified language to cookies
 	expires := time.Now().Add(30 * 24 * time.Hour)
-	c := &http.Cookie{Name: defs.LanguageCookieKey, Value: lang, Expires: expires}
+	c := &http.Cookie{Name: defs.Shared.KeyLang, Value: lang, Expires: expires}
 	http.SetCookie(w, c)
 }

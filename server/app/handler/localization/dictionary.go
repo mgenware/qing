@@ -49,6 +49,7 @@ type Dictionary struct {
 	Description                       string `json:"description"`
 	Discussions                       string `json:"discussions"`
 	DoYouWantDoDiscardYourChanges     string `json:"doYouWantDoDiscardYourChanges"`
+	DoYouWantToChangeLangTo           string `json:"doYouWantToChangeLangTo"`
 	Downvote                          string `json:"downvote"`
 	Edit                              string `json:"edit"`
 	EditComment                       string `json:"editComment"`

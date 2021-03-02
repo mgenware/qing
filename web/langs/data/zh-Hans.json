@@ -148,5 +148,6 @@
   "undo": "撤销",
   "redo": "重做",
   "horizontalRule": "横向分隔符",
-  "langSettings": "语言设置"
+  "langSettings": "语言设置",
+  "doYouWantToChangeLangTo": "确定要将网站语言设置为{0}？"
 }

@@ -1,6 +1,6 @@
 import { html, customElement, css } from 'lit-element';
 import 'debug/d/injectLangEN';
-import ls from 'ls';
+import ls, { formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
@@ -37,13 +37,28 @@ export class LangPageView extends BaseElement {
         <link-list-view>
           ${this.tags.map(
             (t) =>
-              html`<a href="#" class=${curLang === t.ID ? linkListActiveFilledClass : ''}
+              html`<a
+                href="#"
+                @click=${() => this.handleLangChange(t)}
+                class=${curLang === t.ID ? linkListActiveFilledClass : ''}
                 >${t.Name} (${t.LocalizedName})</a
               >`,
           )}
         </link-list-view>
       </container-view>
     `;
+  }
+
+  private async handleLangChange(t: LangInfo) {
+    if (t.ID === app.state.lang) {
+      return;
+    }
+    if (
+      await app.alert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, t.LocalizedName))
+    ) {
+      app.userData.lang = t.ID;
+      app.page.reload();
+    }
   }
 }
 
