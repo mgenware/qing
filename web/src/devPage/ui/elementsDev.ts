@@ -12,9 +12,11 @@ import 'ui/status/statusOverlay';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import 'ui/qna/votingView';
+import 'ui/lists/linkListView';
 import 'post/views/likeView';
 import LoadingStatus from 'lib/loadingStatus';
 import app from 'app';
+import { linkListActiveClass } from 'ui/lists/linkListView';
 
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
@@ -203,6 +205,12 @@ export class ElementsDev extends BaseElement {
       <voting-view .value=${2000003430} .downs=${400}></voting-view>
       <voting-view .value=${20} .ups=${400}></voting-view>
       <voting-view></voting-view>
+      <h2>Link list view</h2>
+      <link-list-view>
+        <a href="#">Linux</a>
+        <a href="#" class=${linkListActiveClass}>macOS</a>
+        <a href="#">Windows</a>
+      </link-list-view>
       <h2>Spinners</h2>
       <p>
         <qing-button @click=${this.startFullscreenSpinner}>Fullscreen spinner</qing-button>

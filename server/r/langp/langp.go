@@ -20,14 +20,16 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	en := display.English.Tags()
 	var langInfoList []LangInfo
 	for _, t := range langTags {
-		info := LangInfo{Name: en.Name(t), LocalizedName: display.Self.Name(t)}
+		info := LangInfo{ID: t.String(), Name: en.Name(t), LocalizedName: display.Self.Name(t)}
 		langInfoList = append(langInfoList, info)
 	}
+
+	windData := LangWindData{Langs: langInfoList}
 
 	// Page title and content will be set on frontend side.
 	d := app.MainPageData("", "")
 	d.Scripts = app.MainPageManager.AssetsManager.JS.Lang
-	d.WindData = langTags
+	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"
 
 	return resp.MustComplete(d)
