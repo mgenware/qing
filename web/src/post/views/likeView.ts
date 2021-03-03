@@ -5,16 +5,18 @@ import { staticMainImage } from 'urls';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { cache } from 'lit-html/directives/cache';
 
-const iconSize = 24;
+const iconSize = 30;
 @customElement('like-view')
 export class LikeView extends BaseElement {
   static get styles() {
     return [
       super.styles,
       css`
-        qing-button::part(button) {
-          background-color: none;
+        qing-button.root-btn::part(button) {
+          background-color: transparent;
           border: 0;
+          border-radius: 50%;
+          padding: 0;
         }
 
         svg-icon.liked {
@@ -31,7 +33,7 @@ export class LikeView extends BaseElement {
   render() {
     return html`
       <qing-button
-        class=${this.hasLiked ? 'selected' : ''}
+        class=${`root-btn ${this.hasLiked ? 'selected' : ''}`}
         disableSelectedStyle
         ?disabled=${this.isWorking}
         canSelect

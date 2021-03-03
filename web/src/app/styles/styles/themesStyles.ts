@@ -43,7 +43,7 @@ export default css`
     --app-navbar-border-bottom: 0;
 
     --app-highlight-color: rgba(0, 0, 0, 0.11);
-    --app-heart-color: #de215b;
+    --app-heart-color: #ffc9c9;
 
     --app-surface-radius-md: 6px;
     /* Radius for smaller components like inputs. */
@@ -130,7 +130,9 @@ export default css`
     padding: 1rem 1.25rem;
     margin-bottom: 1.25rem;
   }
-
+  qing-button.no-bg::part(button) {
+    background-color: transparent;
+  }
   qing-button::part(button) {
     background-color: var(--app-info-back-color);
     color: var(--app-info-fore-color);
