@@ -15,8 +15,11 @@ export class LikeView extends BaseElement {
         qing-button.root-btn::part(button) {
           background-color: transparent;
           border: 0;
-          border-radius: 50%;
           padding: 0;
+        }
+
+        svg-icon.not-liked {
+          --svg-icon-fill: var(--app-default-secondary-fore-color);
         }
 
         svg-icon.liked {
@@ -48,6 +51,7 @@ export class LikeView extends BaseElement {
                 .size=${iconSize}
               ></svg-icon>`
             : html` <svg-icon
+                class="not-liked"
                 .oneTimeSrc=${staticMainImage('heart.svg')}
                 .size=${iconSize}
               ></svg-icon>`,
