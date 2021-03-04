@@ -77,8 +77,7 @@ func (mgr *Manager) Dictionary(lang string) *Dictionary {
 	return dict
 }
 
-// MatchLanguage returns the determined language based on various conditions.
-func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string {
+func (mgr *Manager) getLanguageFromRequest(w http.ResponseWriter, r *http.Request) string {
 	// Check if user has explicitly set a language.
 	cookieLang, _ := r.Cookie(defs.Shared.KeyLang)
 	if cookieLang != nil {
@@ -88,7 +87,17 @@ func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string
 	// If none of the above values exist, use the language matcher.
 	accept := r.Header.Get("Accept-Language")
 	langTag, _ := language.MatchStrings(mgr.langMatcher, accept)
-	lang := langTag.String()
+	return langTag.String()
+}
+
+// MatchLanguage returns the determined language based on various conditions.
+func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string {
+	lang := mgr.getLanguageFromRequest(w, r)
+
+	// Check if lang really exists.
+	if mgr.dicts[lang] == nil {
+		lang = mgr.fallbackLang
+	}
 
 	// Write resolved lang to cookies.
 	mgr.writeLangCookie(w, lang)
