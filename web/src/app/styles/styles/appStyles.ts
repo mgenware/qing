@@ -422,4 +422,14 @@ export default css`
   .app-table th {
     white-space: nowrap;
   }
+
+  /* qing-dialog ------------------------- */
+  /** auto width with min and max values on medium or large screens */
+  @media (min-width: 768px) {
+    qing-dialog::part(overlay) {
+      width: auto;
+      max-width: min(100vw, 1000px);
+      min-width: 400px;
+    }
+  }
 `;
