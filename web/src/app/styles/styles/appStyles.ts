@@ -89,6 +89,9 @@ export default css`
   .flex-column {
     flex-direction: column;
   }
+  .flex-grow {
+    flex-grow: 1;
+  }
   .flex-v-align {
     display: flex;
     align-items: center;
@@ -430,6 +433,19 @@ export default css`
       width: auto;
       max-width: min(100vw, 1000px);
       min-width: 400px;
+    }
+  }
+
+  qing-dialog.immersive::part(overlay) {
+    display: flex;
+    width: calc(100vw - 1rem);
+    height: calc(100vh - 1rem);
+  }
+  @media (min-width: 768px) {
+    qing-dialog.immersive::part(overlay) {
+      display: flex;
+      width: calc(100vw - 4rem);
+      height: calc(100vh - 4rem);
     }
   }
 `;

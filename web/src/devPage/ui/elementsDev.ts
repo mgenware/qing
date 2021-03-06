@@ -179,6 +179,22 @@ export class ElementsDev extends BaseElement {
       <qing-button @click=${async () => app.alert.successToast('Success!')}
         >Success toast</qing-button
       >
+      <qing-button
+        @click=${async () =>
+          this.shadowRoot?.getElementById('qing-dialog-immersive')?.setAttribute('open', '')}
+        >immersive dialog</qing-button
+      >
+      <qing-dialog
+        id="qing-dialog-immersive"
+        class="immersive"
+        .buttons=${['ok']}
+        .cancelButtonIndex=${0}
+      >
+        <div class="flex-grow">
+          <h2>Full dialog</h2>
+          <p>Hello world</p>
+        </div>
+      </qing-dialog>
       <h2>Forms</h2>
       <input-view required type="email" label="Email"></input-view>
       <selection-view

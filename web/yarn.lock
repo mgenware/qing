@@ -4191,10 +4191,10 @@ qing-button@^7.1.0:
   resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-7.1.0.tgz#4fe1c4822a92106d997f7a25ef21026fb3975658"
   integrity sha512-fcUS8Nxrryg1J1IdnC9iFNsY9mEJeSVl51Vmh4s5rmx9lXCHBd372euNtBw+8vxYztyGckR0bFQK3m/xLnyquA==
 
-qing-dialog-component@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.9.0.tgz#fae60d7333103df574d1d687dbc85ca8262f51bc"
-  integrity sha512-Tqt6SmhxJj4pUDJ0I6FyMGEISSFHdPpKyTgDGJ8V/7gdL9zDb+S5i6bKyIMcRUXFhicAS/MoSra8PMDW+huf/w==
+qing-dialog-component@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.10.0.tgz#2d581365065b586bec805ba42fafc2e85a654c4a"
+  integrity sha512-1T24Kig0Ra4l/zhEItxZtJH0DyIM15J8/AdG9sY9Y827f3SUFCguHS4oSvY69iwED5VGpqQOPNWNpBRhl1hp2g==
 
 qing-dock-box@^0.2.0:
   version "0.2.0"
