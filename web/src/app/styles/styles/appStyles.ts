@@ -393,7 +393,7 @@ export default css`
   }
 
   input.app-inline-text-input:invalid {
-    border-color: var(--app-danger-fore-color);
+    border-color: var(--app-default-danger-color);
   }
 
   /* Table ------------------------- */

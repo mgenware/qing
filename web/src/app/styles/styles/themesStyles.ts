@@ -230,15 +230,15 @@ export default css`
     --svg-icon-fill: var(--app-default-secondary-fore-color);
   }
   svg-icon[iconStyle='success'] {
-    --svg-icon-fill: var(--app-success-fore-color);
+    --svg-icon-fill: var(--app-default-success-fore-color);
   }
   svg-icon[iconStyle='danger'] {
-    --svg-icon-fill: var(--app-danger-fore-color);
+    --svg-icon-fill: var(--app-default-danger-fore-color);
   }
   svg-icon[iconStyle='primary'] {
-    --svg-icon-fill: var(--app-primary-fore-color);
+    --svg-icon-fill: var(--app-default-primary-fore-color);
   }
   svg-icon[iconStyle='warning'] {
-    --svg-icon-fill: var(--app-warning-fore-color);
+    --svg-icon-fill: var(--app-default-warning-fore-color);
   }
 `;

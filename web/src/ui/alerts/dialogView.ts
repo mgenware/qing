@@ -5,7 +5,7 @@ import 'qing-overlay';
 import 'ui/widgets/svgIcon';
 import { staticMainImage } from 'urls';
 
-const iconSize = 48;
+const iconSize = 58;
 const buttonContainerID = '__buttons';
 const transitionDelay = 50;
 
@@ -42,12 +42,15 @@ export class DialogView extends BaseElement {
     const iconEl = this.getIconElement(this.icon);
     return html`
       <qing-overlay ?open=${this.open} @openChanged=${this.handleOpenChanged}>
-        <h2 style="margin: 1rem 0">
-          ${iconEl}
-          <span style="vertical-align: middle" class="m-l-md">${this.title}</span>
-        </h2>
-        <p>${this.message}</p>
-        <p id=${buttonContainerID} class="text-center">${this.renderButtons()}</p>
+        <div class="text-center" style="margin: 1rem">
+          <div class="m-t-lg">${iconEl}</div>
+          <h2>${this.title}</h2>
+          <p>${this.message}</p>
+          <!-- Don't use <p> here. Margins are handcrafted. -->
+          <div id=${buttonContainerID} style="padding:0; margin-top: 1.2rem" class="text-center">
+            ${this.renderButtons()}
+          </div>
+        </div>
       </qing-overlay>
     `;
   }
@@ -72,7 +75,7 @@ export class DialogView extends BaseElement {
   private renderButtons() {
     return this.buttons.map(
       (b, i) =>
-        html`<qing-button class="m-r-md" @click=${() => this.handleButtonClick(b, i)}
+        html`<qing-button class=${i ? 'm-l-md' : ''} @click=${() => this.handleButtonClick(b, i)}
           >${b}</qing-button
         >`,
     );

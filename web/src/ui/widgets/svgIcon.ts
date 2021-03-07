@@ -29,7 +29,7 @@ export class SvgIcon extends BaseElement {
     return [
       super.styles,
       css`
-        span {
+        svg {
           fill: var(--svg-icon-fill);
         }
       `,
