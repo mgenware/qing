@@ -4191,15 +4191,15 @@ qing-button@^7.1.0:
   resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-7.1.0.tgz#4fe1c4822a92106d997f7a25ef21026fb3975658"
   integrity sha512-fcUS8Nxrryg1J1IdnC9iFNsY9mEJeSVl51Vmh4s5rmx9lXCHBd372euNtBw+8vxYztyGckR0bFQK3m/xLnyquA==
 
-qing-dialog-component@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/qing-dialog-component/-/qing-dialog-component-0.10.0.tgz#2d581365065b586bec805ba42fafc2e85a654c4a"
-  integrity sha512-1T24Kig0Ra4l/zhEItxZtJH0DyIM15J8/AdG9sY9Y827f3SUFCguHS4oSvY69iwED5VGpqQOPNWNpBRhl1hp2g==
-
 qing-dock-box@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/qing-dock-box/-/qing-dock-box-0.2.0.tgz#24a3c1a1f7d9476c172ff58fdd0d00a0b611a356"
   integrity sha512-QmKSMKU6tEb7JMzy0gs0jxgevYzfRkRAvXyeD12We+IqZzJSyYiCzDxSKpo3cJGC2rYKQLTD92HHqGusmjd0pA==
+
+qing-overlay@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/qing-overlay/-/qing-overlay-0.11.0.tgz#2ebd8a22c4235ad8933599548c030eb41fa713da"
+  integrity sha512-3CHkJd6s7HawPaWGJPeUtqMAncECI7qllpguMMEhVEvBlSol0hI/UVZ++QjDQaVDBePrJnfmCiz1xEFXEmudTw==
 
 qing-stylelib@^2.3.0:
   version "2.3.0"

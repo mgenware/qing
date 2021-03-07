@@ -2,57 +2,60 @@ import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { html } from 'lit-element';
 import 'ui/status/spinnerView';
-import 'qing-dialog-component';
-import { QingDialog, DialogButton, iconElement, IconType } from 'qing-dialog-component';
+import 'ui/alerts/dialogView';
+import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
 
 const dialogContainerID = '__global_dialog_container';
 const spinnerContainerID = '__global_spinner_container';
 
 export default class AlertModule {
   async error(message: string, title?: string): Promise<void> {
-    await this.showModalAsync({
+    await this.showDialogViewAsync({
       message,
       title: title || ls.error,
-      buttons: ['ok'],
-      icon: 'error',
+      buttons: [ls.ok],
+      icon: DialogIcon.error,
       defaultButtonIndex: 0,
       cancelButtonIndex: 0,
     });
   }
 
   async successToast(title: string): Promise<void> {
-    await this.showModalAsync({
+    await this.showDialogViewAsync({
       message: '',
       title: title || ls.error,
       buttons: [],
-      icon: 'success',
+      icon: DialogIcon.success,
       timeout: 2000,
     });
   }
 
   async confirm(title: string, message: string, hasCancelButton = false): Promise<boolean | null> {
-    const buttons = ['yes', 'no'];
+    const buttons = [ls.yes, ls.no];
     // Default button is "No".
     let defaultBtnIdx = 1;
     if (hasCancelButton) {
-      buttons.push('no');
+      buttons.push(ls.cancel);
+      // Default button is "Cancel" if it's present.
       defaultBtnIdx = 2;
     }
-    const button = await this.showModalAsync({
+    const button = await this.showDialogViewAsync({
       message,
       title,
       buttons,
-      icon: 'warning',
+      icon: DialogIcon.warning,
       defaultButtonIndex: defaultBtnIdx,
       cancelButtonIndex: defaultBtnIdx,
     });
-    if (button?.type === 'yes') {
+    // Yes
+    if (button === 0) {
       return true;
     }
-    if (button?.type === 'no') {
+    // No
+    if (button === 1) {
       return false;
     }
-    // User chose "Cancel".
+    // Cancel
     return null;
   }
 
@@ -75,48 +78,36 @@ export default class AlertModule {
     renderTemplateResult(spinnerContainerID, null);
   }
 
-  private showModalAsync(args: {
+  private showDialogViewAsync(args: {
     message: string;
     title: string;
-    buttons: (string | DialogButton)[];
-    icon: IconType;
+    buttons: string[];
+    icon: DialogIcon;
     defaultButtonIndex?: number;
     cancelButtonIndex?: number;
     timeout?: number;
-  }): Promise<DialogButton> {
-    return new Promise<DialogButton>((resolve, reject) => {
-      const template = html`<qing-dialog
+  }): Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      const template = html`<dialog-view
         open
         .buttons=${args.buttons}
-        .defaultButtonIndex=${args.defaultButtonIndex ?? -1}
-        .cancelButtonIndex=${args.cancelButtonIndex ?? -1}
-        @closed=${(e: CustomEvent<DialogButton>) => {
+        .defaultButton=${args.defaultButtonIndex ?? -1}
+        .cancelButton=${args.cancelButtonIndex ?? -1}
+        @dialogClosed=${(e: CustomEvent<number>) => {
           resolve(e.detail);
           renderTemplateResult(dialogContainerID, null);
         }}
-      >
-        <h2 style="margin: 1rem 0">
-          ${args.icon
-            ? iconElement({
-                type: args.icon,
-                size: 48,
-                color: '' /** Set default to an empty value, we'll style colors in CSS */,
-              })
-            : ''}
-          <span style="vertical-align: middle">${args.title}</span>
-        </h2>
-        ${args.message ? html`<p>${args.message}</p>` : ''}
-      </qing-dialog>`;
+      ></dialog-view>`;
 
-      const element = renderTemplateResult<QingDialog>(dialogContainerID, template);
-      if (!element) {
+      const dialogView = renderTemplateResult<DialogView>(dialogContainerID, template);
+      if (!dialogView) {
         reject(new Error('Unexpected empty modal element'));
         return;
       }
       const { timeout } = args;
       if (timeout && timeout > 0) {
         setTimeout(() => {
-          element.open = false;
+          dialogView.open = false;
         }, timeout);
       }
     });
