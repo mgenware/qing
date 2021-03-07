@@ -1,5 +1,5 @@
 import { html, customElement, property } from 'lit-element';
-import { DialogButton, QingDialog } from 'qing-dialog-component';
+import 'qing-overlay';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import app from 'app';
@@ -8,6 +8,7 @@ import 'ui/status/progressView';
 import '@github/image-crop-element';
 import styles from '@github/image-crop-element/dist/index.css';
 import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
+import { QingOverlay } from 'qing-overlay';
 
 interface ImageCropInfo {
   x: number;
@@ -34,7 +35,7 @@ export class AvatarUploader extends BaseElement {
     return this.mustGetShadowElement('uploadElement');
   }
 
-  private get modalElement(): QingDialog {
+  private get overlayElement(): QingOverlay {
     return this.mustGetShadowElement('modalElement');
   }
 
@@ -50,18 +51,20 @@ export class AvatarUploader extends BaseElement {
   render() {
     return html`
       <div>
-        <qing-dialog
+        <qing-overlay
           id="modalElement"
           .isOpen=${!!this.imageDataURL}
-          .buttons=${['ok', 'cancel']}
-          cancelButtonIndex="1"
-          @closed=${this.handleDialogClose}
-          @buttonClick=${this.handleCropperModalButtonClick}
+          @escKeyDown=${this.handleCancelClick}
+          @openChanged=${this.handleOpenChanged}
         >
           <div class="m-b-md">
             <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
           </div>
-        </qing-dialog>
+          <p>
+            <qing-button @click=${this.handleOKClick}>${ls.ok}</qing-button>
+            <qing-button @click=${this.handleCancelClick} class="m-l-md">${ls.cancel}</qing-button>
+          </p>
+        </qing-overlay>
         <form id="formElement">
           <div>
             <label class="cursor-pointer">
@@ -94,7 +97,7 @@ export class AvatarUploader extends BaseElement {
         reader.onload = (e) => {
           if (e.target && e.target.result !== null) {
             this.imageDataURL = e.target.result as string;
-            this.modalElement.open = true;
+            this.overlayElement.open = true;
           }
         };
         reader.readAsDataURL(domFile.files[0]);
@@ -118,24 +121,25 @@ export class AvatarUploader extends BaseElement {
     );
   }
 
-  private async handleCropperModalButtonClick(e: CustomEvent<DialogButton>) {
-    const button = e.detail;
-    if (button?.type === 'ok') {
-      const fd = new FormData(this.formElement);
-      if (this.cropInfo) {
-        for (const [k, v] of Object.entries(this.cropInfo)) {
-          fd.set(k, v);
-        }
-      }
-      const loader = new AvatarUploadLoader(fd);
-      const result = await app.runGlobalActionAsync(loader, ls.uploading);
-      this.resetFileInput();
-
-      if (result.data) {
-        this.modalElement.open = false;
-        this.onUpdated(result.data);
+  private async handleOKClick() {
+    const fd = new FormData(this.formElement);
+    if (this.cropInfo) {
+      for (const [k, v] of Object.entries(this.cropInfo)) {
+        fd.set(k, v);
       }
     }
+    const loader = new AvatarUploadLoader(fd);
+    const result = await app.runGlobalActionAsync(loader, ls.uploading);
+    this.resetFileInput();
+
+    if (result.data) {
+      this.overlayElement.open = false;
+      this.onUpdated(result.data);
+    }
+  }
+
+  private handleCancelClick() {
+    this.overlayElement.open = false;
   }
 
   // Need to be called whenever a upload is completed or cancelled.
@@ -144,9 +148,9 @@ export class AvatarUploader extends BaseElement {
     this.uploadElement.value = '';
   }
 
-  private handleDialogClose(e: CustomEvent<DialogButton>) {
-    if (e.detail?.type === 'cancel') {
-      // Reset file input when user cancelled the dialog.
+  private handleOpenChanged(e: CustomEvent<boolean>) {
+    if (!e.detail) {
+      // Reset file input when the dialog is closed.
       this.resetFileInput();
     }
   }
