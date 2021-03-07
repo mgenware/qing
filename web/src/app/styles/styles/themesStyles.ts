@@ -155,26 +155,12 @@ export default css`
     color: var(--app-warning-fore-color);
   }
 
-  /* qing-dialog ------------------------- */
-  qing-dialog::part(overlay) {
+  /* qing-overlay ------------------------- */
+  qing-overlay::part(overlay) {
     background-color: var(--app-default-back-color);
     color: var(--app-default-fore-color);
     border-radius: var(--app-surface-radius-md);
     border: 1px solid var(--app-default-separator-color);
-  }
-  qing-dialog::part(footer-button) {
-    background-color: var(--app-info-back-color);
-    color: var(--app-info-fore-color);
-    --button-outline-color: var(--app-keyboard-focus-color);
-  }
-  qing-dialog .icon-success {
-    fill: var(--app-default-success-fore-color);
-  }
-  qing-dialog .icon-warning {
-    fill: var(--app-default-warning-fore-color);
-  }
-  qing-dialog .icon-error {
-    fill: var(--app-default-danger-fore-color);
   }
 
   /* alert-view ------------------------- */

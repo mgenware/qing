@@ -5,7 +5,7 @@ import ls from 'ls';
 import * as lp from 'lit-props';
 import app from 'app';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
-import 'qing-dialog-component';
+import 'qing-overlay';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
 
@@ -69,16 +69,18 @@ export class RegApp extends BaseElement {
       <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignUpClick}
         >${ls.signUp}</qing-button
       >
-      <qing-dialog
-        .isOpen=${this.isCompletionModalOpen}
-        .buttons=${[ls.goToYourEmail]}
-        @closed=${this.handleGoToYourEmail}
+      <qing-overlay
+        .open=${this.isCompletionModalOpen}
+        @openChanged=${this.handleCompletionModalOpenChanged}
       >
         <div>
           <h2>${ls.regEmailSentTitle}</h2>
           <p>${ls.regEmailSentContent}</p>
         </div>
-      </qing-dialog>
+        <p>
+          <qing-button>${ls.goToYourEmail}</qing-button>
+        </p>
+      </qing-overlay>
     `;
   }
 
@@ -104,10 +106,12 @@ export class RegApp extends BaseElement {
     }
   }
 
-  private handleGoToYourEmail() {
-    const domain = this.email.split('@').pop();
-    if (domain) {
-      app.page.openWindow(domain);
+  private handleCompletionModalOpenChanged(e: CustomEvent<boolean>) {
+    if (!e.detail) {
+      const domain = this.email.split('@').pop();
+      if (domain) {
+        app.page.openWindow(domain);
+      }
     }
   }
 }

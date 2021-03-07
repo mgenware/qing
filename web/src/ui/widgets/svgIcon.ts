@@ -17,7 +17,7 @@ function processSVG(svg: string, width: number, height: number): string {
 @customElement('svg-icon')
 export class SvgIcon extends BaseElement {
   @lp.string oneTimeSrc = '';
-  @lp.string iconStyle: AppViewStyleNullable = '';
+  @lp.reflected.string iconStyle: AppViewStyleNullable = '';
   @lp.number width = 0;
   @lp.number height = 0;
   @lp.number size = 0;

@@ -93,6 +93,9 @@ export default class AlertModule {
         .buttons=${args.buttons}
         .defaultButton=${args.defaultButtonIndex ?? -1}
         .cancelButton=${args.cancelButtonIndex ?? -1}
+        .icon=${args.icon}
+        .title=${args.title}
+        .message=${args.message}
         @dialogClosed=${(e: CustomEvent<number>) => {
           resolve(e.detail);
           renderTemplateResult(dialogContainerID, null);

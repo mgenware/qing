@@ -181,11 +181,11 @@ export class ElementsDev extends BaseElement {
       >
       <qing-button
         @click=${async () =>
-          this.shadowRoot?.getElementById('qing-dialog-immersive')?.setAttribute('open', '')}
+          this.shadowRoot?.getElementById('qing-overlay-immersive')?.setAttribute('open', '')}
         >immersive dialog</qing-button
       >
-      <qing-dialog
-        id="qing-dialog-immersive"
+      <qing-overlay
+        id="qing-overlay-immersive"
         class="immersive"
         .buttons=${['ok']}
         .cancelButtonIndex=${0}
@@ -194,7 +194,7 @@ export class ElementsDev extends BaseElement {
           <h2>Full dialog</h2>
           <p>Hello world</p>
         </div>
-      </qing-dialog>
+      </qing-overlay>
       <h2>Forms</h2>
       <input-view required type="email" label="Email"></input-view>
       <selection-view

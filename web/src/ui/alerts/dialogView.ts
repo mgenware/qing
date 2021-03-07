@@ -3,7 +3,6 @@ import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
-import { CHECK } from 'checks';
 import { staticMainImage } from 'urls';
 
 const iconSize = 48;
@@ -37,26 +36,18 @@ export class DialogView extends BaseElement {
   @lp.number defaultButton = -1;
   @lp.number cancelButton = -1;
 
-  private iconElement?: TemplateResult;
   private closingButton = -1;
 
-  constructor() {
-    super();
-
-    if (this.icon) {
-      this.iconElement = this.getIconElement(this.icon);
-    }
-  }
-
   render() {
+    const iconEl = this.getIconElement(this.icon);
     return html`
       <qing-overlay ?open=${this.open} @openChanged=${this.handleOpenChanged}>
         <h2 style="margin: 1rem 0">
-          ${this.iconElement}
-          <span style="vertical-align: middle">${this.title}</span>
+          ${iconEl}
+          <span style="vertical-align: middle" class="m-l-md">${this.title}</span>
         </h2>
         <p>${this.message}</p>
-        <p id=${buttonContainerID}>${this.renderButtons()}</p>
+        <p id=${buttonContainerID} class="text-center">${this.renderButtons()}</p>
       </qing-overlay>
     `;
   }
@@ -80,7 +71,10 @@ export class DialogView extends BaseElement {
 
   private renderButtons() {
     return this.buttons.map(
-      (b, i) => html`<qing-button @click=${() => this.handleButtonClick(b, i)}>${b}</qing-button>`,
+      (b, i) =>
+        html`<qing-button class="m-r-md" @click=${() => this.handleButtonClick(b, i)}
+          >${b}</qing-button
+        >`,
     );
   }
 
@@ -105,27 +99,29 @@ export class DialogView extends BaseElement {
   }
 
   private getIconElement(icon: DialogIcon): TemplateResult {
-    let iconStr = '';
+    let iconName = '';
+    // See `svg-icon.iconStyle`.
+    let iconStyle = '';
     switch (icon) {
       case DialogIcon.error:
-        iconStr = 'error';
+        iconName = 'error';
+        iconStyle = 'danger';
         break;
       case DialogIcon.success:
-        iconStr = 'success';
+        iconName = iconStyle = 'success';
         break;
       case DialogIcon.warning:
-        iconStr = 'warning';
+        iconName = iconStyle = 'warning';
         break;
       default:
         break;
     }
-    if (!iconStr) {
-      CHECK(0);
+    if (!iconName) {
       return html``;
     }
     return html`<svg-icon
-      class="liked"
-      .oneTimeSrc=${staticMainImage(iconStr)}
+      iconStyle=${iconStyle}
+      .oneTimeSrc=${staticMainImage(`${iconName}.svg`)}
       .size=${iconSize}
     ></svg-icon>`;
   }

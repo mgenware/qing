@@ -426,23 +426,23 @@ export default css`
     white-space: nowrap;
   }
 
-  /* qing-dialog ------------------------- */
+  /* qing-overlay ------------------------- */
   /** auto width with min and max values on medium or large screens */
   @media (min-width: 768px) {
-    qing-dialog::part(overlay) {
+    qing-overlay::part(overlay) {
       width: auto;
       max-width: min(100vw, 1000px);
       min-width: 400px;
     }
   }
 
-  qing-dialog.immersive::part(overlay) {
+  qing-overlay.immersive::part(overlay) {
     display: flex;
     width: calc(100vw - 1rem);
     height: calc(100vh - 1rem);
   }
   @media (min-width: 768px) {
-    qing-dialog.immersive::part(overlay) {
+    qing-overlay.immersive::part(overlay) {
       display: flex;
       width: calc(100vw - 4rem);
       height: calc(100vh - 4rem);

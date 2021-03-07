@@ -1866,10 +1866,10 @@ eslint-config-airbnb-typescript-lite@^12.1.1:
   dependencies:
     eslint-config-airbnb-base "^14.2.1"
 
-eslint-config-mgenware@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/eslint-config-mgenware/-/eslint-config-mgenware-0.0.5.tgz#8e9d173809262b87460373b03552c9de7a0af7e8"
-  integrity sha512-TkHOPsPBqtuobH/+K0zFNDIq+xz/oxJdm4ArFPVzO8/h8T0yxYNN1WIdbUHDnSg5Xdl0hW6AUG9F4SH8boFLUQ==
+eslint-config-mgenware@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/eslint-config-mgenware/-/eslint-config-mgenware-0.0.6.tgz#b3cfbd73f9e6d53ba3de8869ca91ef1c193f5f82"
+  integrity sha512-420FXxbLFH/gu9UbWQ3/7Nlmx/7UPbfFZUigyFdB5dbnoRUyPzLlLXZM7jJCTSCCjCIUSY1dWoglFFEdGlfqEg==
 
 eslint-import-resolver-node@^0.3.4:
   version "0.3.4"
