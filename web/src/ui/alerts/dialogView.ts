@@ -24,6 +24,11 @@ export class DialogView extends BaseElement {
         :host {
           display: block;
         }
+
+        /** Remove the default padding */
+        qing-overlay::part(overlay) {
+          padding: 0;
+        }
       `,
     ];
   }

@@ -1,4 +1,4 @@
-import { html, customElement, property } from 'lit-element';
+import { html, customElement, property, css } from 'lit-element';
 import 'qing-overlay';
 import ls from 'ls';
 import BaseElement from 'baseElement';
@@ -20,7 +20,16 @@ interface ImageCropInfo {
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
   static get styles() {
-    return [super.styles, styles];
+    return [
+      super.styles,
+      styles,
+      css`
+        .crop-container {
+          overflow-y: auto;
+          border: 1px solid var(--app-default-separator-color);
+        }
+      `,
+    ];
   }
 
   @property() private imageDataURL: string | null = null;
@@ -57,13 +66,13 @@ export class AvatarUploader extends BaseElement {
           @escKeyDown=${this.handleCancelClick}
           @openChanged=${this.handleOpenChanged}
         >
-          <div class="m-b-md">
+          <div class="m-b-md crop-container">
             <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
           </div>
-          <p>
+          <div class="text-center">
             <qing-button @click=${this.handleOKClick}>${ls.ok}</qing-button>
             <qing-button @click=${this.handleCancelClick} class="m-l-md">${ls.cancel}</qing-button>
-          </p>
+          </div>
         </qing-overlay>
         <form id="formElement">
           <div>
