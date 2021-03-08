@@ -35,6 +35,9 @@ const (
 	MSRegEmailTimeout = 60 * 60
 	// K: Secret ID sent to user email, V: user pwd.
 	MSRegEmailPrefix = "reg-email"
+
+	MSLimitPosting        = "lim-pos:%v:%v"
+	MSLimitPostingTimeout = 59
 )
 
 const (

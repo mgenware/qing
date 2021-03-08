@@ -43,6 +43,20 @@ func (store *Conn) SetStringValue(key string, val string, expiresInSecs int) err
 	return store.setValueInternal(key, val)
 }
 
+func (store *Conn) Exist(key string) (bool, error) {
+	c := store.pool.Get()
+	defer c.Close()
+
+	exists, err := redis.Bool(c.Do("EXISTS", key))
+	if err == ErrNil {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	return exists, nil
+}
+
 func (store *Conn) GetStringValue(key string) (string, error) {
 	c := store.pool.Get()
 	defer c.Close()
