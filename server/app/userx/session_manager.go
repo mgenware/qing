@@ -56,13 +56,13 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 	}
 
 	keySIDToUser := sidToUserKey(sid)
-	err = sm.store.SetStringValue(keySIDToUser, bytes, defs.CookieDefaultExpires)
+	err = sm.store.SetStringValue(keySIDToUser, bytes, defs.Timespan30DaysInSecs)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(user.ID)
-	err = sm.store.SetStringValue(keyUIDToSID, sid, defs.CookieDefaultExpires)
+	err = sm.store.SetStringValue(keyUIDToSID, sid, defs.Timespan30DaysInSecs)
 	if err != nil {
 		return err
 	}

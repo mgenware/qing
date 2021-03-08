@@ -22,22 +22,21 @@ const (
 	ForumGroupIDContextKey ContextKey = "forum_group_id"
 )
 
-// MS(memory storage, e.g. redis) keys
+// MS(memory storage, e.g. redis) keys.
 const (
-	// K: sid, V: session user json value
+	// K: sid, V: session user json value.
 	MSSIDToUser = "auth-ss:%v"
 	// K: user id, V: sid
 	MSUserIDToSID = "auth-us:%v"
-	// K: cap:<user id>:<type> V: captcha value
+	// K: cap:<user id>:<type> V: captcha value.
 	MSCaptcha        = "captcha:%v:%v"
 	MSCaptchaTimeout = 3 * 60
 
 	MSRegEmailTimeout = 60 * 60
-	// K: Secret ID sent to user email, V: user pwd
+	// K: Secret ID sent to user email, V: user pwd.
 	MSRegEmailPrefix = "reg-email"
 )
 
 const (
-	CookieDefaultExpires = 1296000
-	UserPostsLimit       = 10
+	Timespan30DaysInSecs = 2592000
 )

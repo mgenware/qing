@@ -14,6 +14,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const userPostsLimit = 10
+
 // GetProfile handles user profile routes.
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
@@ -41,7 +43,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	default:
 		{
 			var posts []da.PostTableSelectItemsForUserProfileResult
-			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
+			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder
 			for _, post := range posts {
@@ -55,7 +57,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	case defs.Shared.KeyDiscussions:
 		{
 			var discussions []da.DiscussionTableSelectItemsForUserProfileResult
-			discussions, hasNext, err = da.Discussion.SelectItemsForUserProfile(db, uid, page, defs.UserPostsLimit)
+			discussions, hasNext, err = da.Discussion.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder
 			for _, discussion := range discussions {
