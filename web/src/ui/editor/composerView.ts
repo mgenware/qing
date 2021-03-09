@@ -3,10 +3,8 @@ import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import app from 'app';
 import BaseElement from 'baseElement';
-import { CaptchaView } from 'ui/form/captchaView';
 import './editorView';
 import 'ui/form/inputView';
-import 'ui/form/captchaView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';
 import { tif } from 'lib/htmlLib';
@@ -20,28 +18,22 @@ class ValidationError extends Error {
 export interface ComposerContent {
   contentHTML: string;
   title?: string;
-  captcha?: string;
 }
 
 /**
  * Built upon editor-view, providing the following features:
- *   Title, captcha inputs.
- *   Warns user about unsaved changes.
- *   A descriptive header shown on top of the editor.
+ *   Title, and content fields.
+ *   Warns the user about unsaved changes.
  *   Submit and cancel buttons.
  */
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
   @lp.number entityType = 0;
 
-  // A descriptive header string displayed on top of the editor.
-  @lp.string headerText = '';
-
   // Title field value.
   @lp.string inputTitle = '';
   @lp.bool showTitleInput = false;
 
-  // NOTE: if `entityID` is empty, captcha view will show up.
   @lp.string entityID = '';
   @lp.bool showCancelButton = false;
   @lp.string submitButtonText = '';
@@ -68,7 +60,6 @@ export class ComposerView extends BaseElement {
   }
 
   private editor?: EditorView;
-  private captchaView: CaptchaView | null = null;
   private titleElement: HTMLInputElement | null = null;
 
   connectedCallback() {
@@ -88,15 +79,14 @@ export class ComposerView extends BaseElement {
     editor.contentHTML = this.contentHTML;
     this.editor = editor;
     this.titleElement = this.getShadowElement('titleElement');
-    this.captchaView = this.getShadowElement('captElement');
     this.markAsSaved();
   }
 
   // ==========
   // We're using a standard property instead of a lit-element property for performance reason.
-  // Keep assigning and comparing lit-element property changes hurts performance.
+  // Keep assigning and comparing lit-element property might hurt performance?
   // ==========
-  // Use to store the property value before editor instance is created.
+  // Used to store the property value before editor instance is created.
   private initialContentHTML = '';
   get contentHTML(): string {
     return this.editor ? this.editor.contentHTML : this.initialContentHTML;
@@ -126,17 +116,6 @@ export class ComposerView extends BaseElement {
     const editorElement = html`<editor-view id="editor"></editor-view>`;
     const bottomElement = html`
       <div class="m-t-md">
-        ${this.entityID
-          ? ''
-          : html`
-              <div class="m-b-md">
-                <captcha-view
-                  id="captElement"
-                  .entityType=${this.entityType}
-                  @onEnterKeyDown=${this.handleSubmit}
-                ></captcha-view>
-              </div>
-            `}
         <qing-button btnStyle="success" @click=${this.handleSubmit}>
           ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
         </qing-button>
@@ -149,16 +128,10 @@ export class ComposerView extends BaseElement {
       </div>
     `;
 
-    return html`
-      <div>
-        ${this.headerText ? html` <h3>${this.headerText}</h3> ` : html``}
-        ${titleElement}${editorElement}${bottomElement}
-      </div>
-    `;
+    return html` <div>${titleElement}${editorElement}${bottomElement}</div> `;
   }
 
   private getPayload(): ComposerContent {
-    const { captchaView } = this;
     if (this.showTitleInput && !this.inputTitle) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () => {
         if (this.titleElement) {
@@ -169,21 +142,11 @@ export class ComposerView extends BaseElement {
     if (!this.contentHTML) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () => this.editor?.focus());
     }
-    if (captchaView && !captchaView.value) {
-      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.captcha), () => {
-        if (this.captchaView) {
-          this.captchaView.focus();
-        }
-      });
-    }
     const payload: ComposerContent = {
       contentHTML: this.contentHTML,
     };
     if (this.showTitleInput) {
       payload.title = this.inputTitle;
-    }
-    if (this.captchaView) {
-      payload.captcha = this.captchaView.value;
     }
     return payload;
   }
