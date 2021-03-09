@@ -31,6 +31,21 @@ it('renderTemplateResult - create an element by ID', async () => {
   expect(content.outerHTML).to.eq('<p>2</p>');
 });
 
+it('renderTemplateResult - empty ID', async () => {
+  const el1 = renderTemplateResult('', litHTML`<p>1</p>`)!;
+  const el2 = renderTemplateResult('', litHTML`<p>2</p>`)!;
+  await aTimeout(50);
+
+  expect(document.getElementById('__r_tpl_slot_1')?.outerHTML).to.eq(
+    '<div id="__r_tpl_slot_1"><div><!----><p>1</p><!----></div></div>',
+  );
+  expect(document.getElementById('__r_tpl_slot_2')?.outerHTML).to.eq(
+    '<div id="__r_tpl_slot_2"><div><!----><p>2</p><!----></div></div>',
+  );
+  expect(el1.outerHTML).to.eq('<p>1</p>');
+  expect(el2.outerHTML).to.eq('<p>2</p>');
+});
+
 it('tif', async () => {
   expect(tif(1, 'haha')).to.eq('haha');
   expect(tif(0, 'haha')).to.eq('');

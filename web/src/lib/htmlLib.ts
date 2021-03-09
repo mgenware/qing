@@ -10,6 +10,8 @@ export function ready(fn: () => void) {
   }
 }
 
+let renderTemplateCounter = 1;
+
 // Renders the given template result to the specified container.
 // Returns the first element child of the container.
 // NOTE: container contents will be cleared before rendering.
@@ -25,6 +27,8 @@ export function renderTemplateResult<T extends HTMLElement>(
   //  - Add an empty div to the container and mount content to the div
   let containerElement: HTMLElement;
   if (typeof container === 'string') {
+    // eslint-disable-next-line no-param-reassign
+    container = container || `__r_tpl_slot_${renderTemplateCounter++}`;
     let element = document.getElementById(container);
     if (!element) {
       element = document.createElement('div');
