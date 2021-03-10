@@ -14,9 +14,13 @@ import 'ui/form/selectionView';
 import 'ui/qna/votingView';
 import 'ui/lists/linkListView';
 import 'post/views/likeView';
+import 'post/setPostApp';
 import LoadingStatus from 'lib/loadingStatus';
 import app from 'app';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
+import SetPostApp from 'post/setPostApp';
+import { renderTemplateResult } from 'lib/htmlLib';
+import { entityPost } from 'sharedConstants';
 
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
@@ -104,6 +108,8 @@ export class ElementsDev extends BaseElement {
       `,
     ];
   }
+
+  #setPostApp: SetPostApp | null = null;
 
   render() {
     return html`
@@ -234,6 +240,8 @@ export class ElementsDev extends BaseElement {
         <a href="#" class=${linkListActiveFilledClass}>macOS</a>
         <a href="#">Windows</a>
       </link-list-view>
+      <h2>Post editor</h2>
+      <qing-button @click=${this.showPostEditor}>Show post editor</qing-button>
       <h2>Spinners</h2>
       <p>
         <qing-button @click=${this.startFullscreenSpinner}>Fullscreen spinner</qing-button>
@@ -264,11 +272,24 @@ export class ElementsDev extends BaseElement {
     `;
   }
 
+  firstUpdated() {
+    this.#setPostApp = renderTemplateResult(
+      '',
+      html`<set-post-app entityType=${entityPost} headerText="Create a new post"></set-post-app>`,
+    );
+  }
+
   private startFullscreenSpinner() {
     app.alert.showLoadingOverlay('Loading...');
     setTimeout(() => {
       app.alert.hideLoadingOverlay();
     }, 2000);
+  }
+
+  private showPostEditor() {
+    if (this.#setPostApp) {
+      this.#setPostApp.open = true;
+    }
   }
 }
 

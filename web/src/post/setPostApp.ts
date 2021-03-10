@@ -9,6 +9,7 @@ import { CHECK } from 'checks';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
 import { entityPost, entityDiscussionMsg } from 'sharedConstants';
+import 'qing-overlay';
 
 const composerID = 'composer';
 
@@ -20,6 +21,8 @@ export default class SetPostApp extends BaseElement {
   @lp.string headerText = '';
   @lp.bool showTitleInput = true;
   @lp.string submitButtonText = '';
+
+  @lp.bool open = false;
 
   // Used when `entityType` is discussion msg.
   @lp.string discussionID: string | undefined;
@@ -49,7 +52,11 @@ export default class SetPostApp extends BaseElement {
 
   render() {
     return html`
-      <div>
+      <qing-overlay
+        class="immersive"
+        ?open=${this.open}
+        @openChanged=${(e: CustomEvent<boolean>) => (this.open = e.detail)}
+      >
         <composer-view
           .id=${composerID}
           .showTitleInput=${this.showTitleInput}
@@ -60,7 +67,7 @@ export default class SetPostApp extends BaseElement {
           .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
         ></composer-view>
-      </div>
+      </qing-overlay>
     `;
   }
 
