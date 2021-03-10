@@ -9,6 +9,7 @@ import BaseElement from 'baseElement';
 export default class EditorView extends BaseElement {
   static get styles() {
     return [
+      super.styles,
       styles,
       css`
         :host {
