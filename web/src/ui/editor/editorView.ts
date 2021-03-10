@@ -11,6 +11,10 @@ export default class EditorView extends BaseElement {
     return [
       styles,
       css`
+        :host {
+          display: block;
+        }
+
         .kx-editor {
           border: 1px solid var(--app-default-separator-color);
           --kx-back-color: var(--app-default-back-color);

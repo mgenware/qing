@@ -4275,10 +4275,10 @@ qing-stylelib@^2.3.0:
     modern-normalize "^1.0.0"
     string-to-template-literal "^2.0.0"
 
-qing-t@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/qing-t/-/qing-t-5.0.0.tgz#f505f52a2194c37ee63b81ac0b6b0ce69166177d"
-  integrity sha512-Qoxfkq5kTze+P/tuixeZrLwPSdRNqq3b2uNgs3Dw8XBn57e4G64ueuyKTvqgaQsZit8PLdCV/ckcx3DgE/Ef4Q==
+qing-t@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/qing-t/-/qing-t-5.0.1.tgz#7b4b5d18a8685971c5138965bdabf69a499b45a5"
+  integrity sha512-e8N4ZHZ0yu4di7jDLb2nU29O0ej+8HK3KpugTabQSKA27sk8KDLNdnl83fLSkkajx720X6azzXWMyhrO2h+QUQ==
   dependencies:
     "@open-wc/testing" "^2.5.32"
 

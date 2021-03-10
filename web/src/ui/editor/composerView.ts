@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import app from 'app';
@@ -28,6 +28,17 @@ export interface ComposerContent {
  */
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.number entityType = 0;
 
   // Title field value.

@@ -50,7 +50,7 @@
     "m-fs": "^5.0.0",
     "mgenware-tsconfig-browser": "^3.0.1",
     "mgenware-tsconfig-node": "^14.0.2",
-    "qing-t": "^5.0.0",
+    "qing-t": "^5.0.1",
     "rollup": "^2.41.0",
     "rollup-plugin-lit-css": "^2.1.0",
     "rollup-plugin-minify-html-literals": "^1.2.6",
