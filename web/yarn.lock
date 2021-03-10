@@ -3087,10 +3087,10 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-kangxi-editor@^0.10.3:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/kangxi-editor/-/kangxi-editor-0.10.3.tgz#2c1a8946c89b35a838801a0c08194cd05d2cf1be"
-  integrity sha512-81hzEOdHNHEh5wU7QKJbwbR+pLPjEFWeVC9eY5GlTR1VHcjfY70YJul/Ip7gvxfBAD6nsDvj/psj0BIepPH5pA==
+kangxi-editor@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/kangxi-editor/-/kangxi-editor-0.11.0.tgz#2f07fafd2d36e2ef3d98f7b81a30c2853b648ed4"
+  integrity sha512-GUy7AsozmY2BS3Evi8LRMfkRpKW15dO5S52FNZCugng+36nHAkxySMGHuIo8jRjbFkrzxsWlrYw1KjIErXfg7w==
   dependencies:
     prosemirror-commands "^1.0.0"
     prosemirror-dropcursor "^1.0.0"
@@ -3103,7 +3103,7 @@ kangxi-editor@^0.10.3:
     prosemirror-state "^1.0.0"
     prosemirror-view "^1.0.0"
     throw-if-arg-empty "^2.2.1"
-    to-type-string "^1.1.0"
+    to-type-string "^2.0.0"
 
 keygrip@~1.1.0:
   version "1.1.0"
@@ -5025,10 +5025,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-to-type-string@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/to-type-string/-/to-type-string-1.1.0.tgz#457f58f470175a84ecf8fe3eaf736bc73e71ccf5"
-  integrity sha512-Gm6eoCy7F/LCKgX6w+KIp1bbd6HuDGq/bl5P2lfvpxsWxdknDPERHNWVYmu3wTZFL31yErB5nhK+yVtHB/Qv8g==
+to-type-string@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/to-type-string/-/to-type-string-2.0.0.tgz#76282bb88304790c31249b6e4ac0a2f6a8585b2a"
+  integrity sha512-FM8gxrtFRRDmaPreZEbCOkErkJKgwnbh4H8nUFAJ8wEETJDaM9OYK7rXp3YHUVi5vDFnEWUxdjvu5+/rXTB2ww==
 
 toidentifier@1.0.0:
   version "1.0.0"

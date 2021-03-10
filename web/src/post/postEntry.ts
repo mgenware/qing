@@ -1,11 +1,16 @@
 import app from 'app';
 import { formatLS, ls } from 'ls';
-import routes from 'routes';
 import { entityPost } from 'sharedConstants';
+import { renderTemplateResult } from 'lib/htmlLib';
+import { html } from 'lit-element';
 import { getEditBarID, EditBar } from 'ui/editor/editBar';
 import DeletePostLoader from './loaders/deletePostLoader';
+import './setPostApp';
 import './postCmtApp';
 import wind from './postWind';
+import SetPostApp from './setPostApp';
+
+let editPostApp: SetPostApp | null = null;
 
 function hookUpEditBarEvents() {
   if (!app.state.userEID) {
@@ -30,8 +35,19 @@ function hookUpEditBarEvents() {
   });
 
   editBarElement.addEventListener('editClick', async () => {
-    const url = `${routes.m.editPost}/${wind.EID}`;
-    app.page.jumpToURL(url);
+    if (!editPostApp) {
+      editPostApp = renderTemplateResult(
+        '',
+        html`<set-post-app
+          .editedID=${wind.EID}
+          entityType=${entityPost}
+          headerText="Create a new post"
+        ></set-post-app>`,
+      );
+    }
+    if (editPostApp) {
+      editPostApp.open = true;
+    }
   });
 }
 

@@ -25,6 +25,15 @@ export default class EditorView extends BaseElement {
           --kx-text-color: var(--app-default-fore-color);
           --kx-toolbar-separator-color: var(--app-default-separator-color);
           --kx-toolbar-button-color: var(--app-default-fore-color);
+
+          display: flex;
+          flex-direction: column;
+          /** Make sure it stretches to parent height */
+          flex: 1 1 auto;
+        }
+
+        .kx-content {
+          flex: 1 1 auto;
         }
       `,
     ];

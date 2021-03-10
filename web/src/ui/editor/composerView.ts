@@ -49,7 +49,6 @@ export class ComposerView extends BaseElement {
   @lp.bool showTitleInput = false;
 
   @lp.string entityID = '';
-  @lp.bool showCancelButton = false;
   @lp.string submitButtonText = '';
 
   // Used to check if editor content has changed.
@@ -129,16 +128,11 @@ export class ComposerView extends BaseElement {
     );
     const editorElement = html`<editor-view id="editor"></editor-view>`;
     const bottomElement = html`
-      <div class="m-t-md flex-auto">
+      <div class="m-t-md flex-auto text-center">
         <qing-button btnStyle="success" @click=${this.handleSubmit}>
           ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
         </qing-button>
-        ${tif(
-          this.showCancelButton,
-          html`
-            <qing-button class="m-l-sm" @click=${this.handleCancel}>${ls.cancel}</qing-button>
-          `,
-        )}
+        <qing-button class="m-l-sm" @click=${this.handleCancel}>${ls.cancel}</qing-button>
       </div>
     `;
 
