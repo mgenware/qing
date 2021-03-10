@@ -33,7 +33,10 @@ export class ComposerView extends BaseElement {
       super.styles,
       css`
         :host {
-          display: block;
+          display: flex;
+          flex-direction: column;
+          /** Make sure it stretches to parent height */
+          flex: 1 1 auto;
         }
       `,
     ];
@@ -114,7 +117,7 @@ export class ComposerView extends BaseElement {
     const titleElement = tif(
       this.showTitleInput,
       html`
-        <div class="p-b-sm">
+        <div class="p-b-sm flex-auto">
           <input-view
             required
             .placeholder=${ls.title}
@@ -126,7 +129,7 @@ export class ComposerView extends BaseElement {
     );
     const editorElement = html`<editor-view id="editor"></editor-view>`;
     const bottomElement = html`
-      <div class="m-t-md">
+      <div class="m-t-md flex-auto">
         <qing-button btnStyle="success" @click=${this.handleSubmit}>
           ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
         </qing-button>
@@ -139,7 +142,11 @@ export class ComposerView extends BaseElement {
       </div>
     `;
 
-    return html` <div>${titleElement}${editorElement}${bottomElement}</div> `;
+    return html`
+      <div class="d-flex flex-column flex-full">
+        ${titleElement}${editorElement}${bottomElement}
+      </div>
+    `;
   }
 
   private getPayload(): ComposerContent {

@@ -4,5 +4,5 @@ import './editorView';
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<edit-view></edit-view>`);
 
-  tDOM.isInlineElement(el);
+  tDOM.isFlexElement(el);
 });

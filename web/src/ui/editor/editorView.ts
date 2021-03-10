@@ -12,7 +12,10 @@ export default class EditorView extends BaseElement {
       styles,
       css`
         :host {
-          display: block;
+          display: flex;
+          flex-direction: column;
+          /** Make sure it stretches to parent height */
+          flex: 1 1 auto;
         }
 
         .kx-editor {
@@ -60,7 +63,7 @@ export default class EditorView extends BaseElement {
   }
 
   render() {
-    return html` <div id="editor" class="kx-editor"></div> `;
+    return html`<div id="editor" class="kx-editor flex-full"></div>`;
   }
 }
 
