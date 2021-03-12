@@ -7,7 +7,7 @@ export default class BaseElement extends LitElement {
     return [coreStyles];
   }
 
-  protected mustGetShadowRoot(): ShadowRoot {
+  private mustGetShadowRoot(): ShadowRoot {
     if (!this.shadowRoot) {
       throw new Error('shadowRoot null');
     }
@@ -18,7 +18,7 @@ export default class BaseElement extends LitElement {
     return this.mustGetShadowRoot().getElementById(id) as T | null;
   }
 
-  protected queryShadowElements<T extends HTMLElement>(sel: string): T | null {
+  protected queryShadowElement<T extends HTMLElement>(sel: string): T | null {
     return this.mustGetShadowRoot().querySelector(sel) ?? null;
   }
 

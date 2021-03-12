@@ -3,15 +3,15 @@ import BaseElement from './baseElement';
 
 class TElement extends BaseElement {
   render() {
-    return html`<div id="root">content</div>`;
+    return html`<div id="id" class="cls">content</div>`;
   }
 
-  getRootDiv(): HTMLDivElement {
-    return this.mustGetShadowElement('root');
+  getShadowElementImpl(id: string): HTMLElement | null {
+    return this.getShadowElement(id);
   }
 
-  getNonExistentDiv(): HTMLDivElement {
-    return this.mustGetShadowElement('__error__');
+  queryShadowElementImpl(sel: string): HTMLElement | null {
+    return this.queryShadowElement(sel);
   }
 }
 customElements.define('t-base-element', TElement);
@@ -22,11 +22,16 @@ it('Display', async () => {
   tDOM.isInlineElement(el);
 });
 
-it('getShadowElements', async () => {
-  const el: TElement = await fixture(html`<t-base-element></t-base-element>`);
+it('getShadowElement', async () => {
+  const el = await fixture<TElement>(html`<t-base-element></t-base-element>`);
 
-  expect(el.getRootDiv() instanceof HTMLDivElement).to.eq(true);
-  expect(() => {
-    el.getNonExistentDiv();
-  }).to.throw('Core DOM element "__error__" missing');
+  expect(el.getShadowElementImpl('id')?.textContent).to.eq('content');
+  expect(el.getShadowElementImpl('id__')).to.eq(null);
+});
+
+it('queryShadowElement', async () => {
+  const el = await fixture<TElement>(html`<t-base-element></t-base-element>`);
+
+  expect(el.queryShadowElementImpl('.cls')?.textContent).to.eq('content');
+  expect(el.queryShadowElementImpl('.cls__')).to.eq(null);
 });
