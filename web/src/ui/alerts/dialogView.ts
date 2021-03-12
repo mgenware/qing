@@ -1,4 +1,6 @@
 import { customElement, css, html, TemplateResult } from 'lit-element';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { classMap } from 'lit-html/directives/class-map';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'qing-overlay';
@@ -14,6 +16,9 @@ export enum DialogIcon {
   success,
   warning,
 }
+
+const defaultBtnClass = '__def_btn';
+const cancelBtnClass = '__esc_btn';
 
 @customElement('dialog-view')
 export class DialogView extends BaseElement {
@@ -42,6 +47,13 @@ export class DialogView extends BaseElement {
   @lp.number cancelButton = -1;
 
   private closingButton = -1;
+
+  get defaultButtonElement(): HTMLElement | null {
+    return this.queryShadowElements(`.${defaultBtnClass}`);
+  }
+  get cancelButtonElement(): HTMLElement | null {
+    return this.queryShadowElements(`.${cancelBtnClass}`);
+  }
 
   render() {
     const iconEl = this.getIconElement(this.icon);
@@ -78,12 +90,20 @@ export class DialogView extends BaseElement {
   }
 
   private renderButtons() {
-    return this.buttons.map(
-      (b, i) =>
-        html`<qing-button class=${i ? 'm-l-md' : ''} @click=${() => this.handleButtonClick(b, i)}
-          >${b}</qing-button
-        >`,
-    );
+    const oneButton = this.buttons.length === 1;
+    return this.buttons.map((b, i) => {
+      const isDefaultBtn = oneButton || i === this.defaultButton;
+      const isCancelBtn = oneButton || i === this.cancelButton;
+      return html`<qing-button
+        class=${classMap({
+          'm-l-md': i,
+          [defaultBtnClass]: isDefaultBtn,
+          [cancelBtnClass]: isCancelBtn,
+        })}
+        @click=${() => this.handleButtonClick(b, i)}
+        >${b}</qing-button
+      >`;
+    });
   }
 
   private handleButtonClick(_: string, idx: number) {

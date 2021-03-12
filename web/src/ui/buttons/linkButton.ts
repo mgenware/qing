@@ -5,7 +5,7 @@ import BaseElement from 'baseElement';
 
 @customElement('link-button')
 export class LinkButton extends BaseElement {
-  @lp.reflected.bool disabled = false;
+  @lp.bool disabled = false;
 
   render() {
     return html`

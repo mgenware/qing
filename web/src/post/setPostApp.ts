@@ -6,10 +6,10 @@ import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
-import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
-import { SetPostLoader } from './loaders/setPostLoader';
 import { entityPost, entityDiscussionMsg } from 'sharedConstants';
 import 'qing-overlay';
+import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
+import { SetPostLoader } from './loaders/setPostLoader';
 
 const composerID = 'composer';
 

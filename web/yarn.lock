@@ -4261,10 +4261,10 @@ qing-dock-box@^0.2.0:
   resolved "https://registry.yarnpkg.com/qing-dock-box/-/qing-dock-box-0.2.0.tgz#24a3c1a1f7d9476c172ff58fdd0d00a0b611a356"
   integrity sha512-QmKSMKU6tEb7JMzy0gs0jxgevYzfRkRAvXyeD12We+IqZzJSyYiCzDxSKpo3cJGC2rYKQLTD92HHqGusmjd0pA==
 
-qing-overlay@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/qing-overlay/-/qing-overlay-0.11.2.tgz#5776e707631e743006943290e773c93bd8623179"
-  integrity sha512-nUgZYjPiwKftrEHovJDirHXVBb+gKEu600FLw86J8ZAS+kWR6zDr9lJtGCVHS5Y338Y9EiIC91HgMud4htGxuA==
+qing-overlay@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/qing-overlay/-/qing-overlay-0.11.3.tgz#8048a2933c652c4d056284d7cc9aef1ec0033220"
+  integrity sha512-yXakH/Dh38HU4qf/+pHP1JTV01xxlXyIE9qO/MEINP3Ulun6TLANytWh5Hh9QPsXbFDqkTsBp2DrjPoEQNIedw==
 
 qing-stylelib@^2.3.0:
   version "2.3.0"

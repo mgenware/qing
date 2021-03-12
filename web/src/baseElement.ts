@@ -18,12 +18,8 @@ export default class BaseElement extends LitElement {
     return this.mustGetShadowRoot().getElementById(id) as T | null;
   }
 
-  protected mustGetShadowElement<T extends HTMLElement>(id: string): T {
-    const element = this.getShadowElement(id);
-    if (!element) {
-      throw new Error(`Core DOM element "${id}" missing`);
-    }
-    return element as T;
+  protected queryShadowElements<T extends HTMLElement>(sel: string): T | null {
+    return this.mustGetShadowRoot().querySelector(sel) ?? null;
   }
 
   protected getAllInputViews(): NodeListOf<InputView> {
