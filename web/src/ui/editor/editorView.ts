@@ -4,6 +4,8 @@ import { Editor } from 'kangxi-editor';
 import styles from 'kangxi-editor/dist/editor.css';
 import BaseElement from 'baseElement';
 
+const editorID = 'editor';
+
 // A wrapper around the kangxi editor.
 @customElement('editor-view')
 export default class EditorView extends BaseElement {
@@ -57,10 +59,15 @@ export default class EditorView extends BaseElement {
   }
 
   private editor?: Editor;
+  private get editorEl(): HTMLElement | null {
+    return this.getShadowElement(editorID);
+  }
 
   firstUpdated() {
-    const editorDom = this.mustGetShadowElement('editor');
-    const editor = new Editor(editorDom, {
+    if (!this.editorEl) {
+      return;
+    }
+    const editor = new Editor(this.editorEl, {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lang: ls as any,
     });
@@ -73,7 +80,7 @@ export default class EditorView extends BaseElement {
   }
 
   render() {
-    return html`<div id="editor" class="kx-editor flex-full"></div>`;
+    return html`<div id=${editorID} class="kx-editor flex-full"></div>`;
   }
 }
 

@@ -22,6 +22,32 @@ export default class BaseElement extends LitElement {
     return this.mustGetShadowRoot().querySelector(sel) ?? null;
   }
 
+  /**
+   * Not recommended. Use `getShadowElement` or `queryShadowElement` instead,
+   * which don't assume the element always exist. Template elements can be
+   * null in the following situations:
+   * - A template is not connected.
+   * - An element is conditionally rendered.
+   *
+   * It's always a good practice to handle null cases of DOM elements.
+   */
+  protected unsafeGetShadowElement<T extends HTMLElement>(id: string): T {
+    const res = this.getShadowElement<T>(id);
+    if (!res) {
+      throw new Error(`Element "${id}" is not found`);
+    }
+    return res;
+  }
+
+  // Not recommended. See `unsafeGetShadowElement`.
+  protected unsafeQueryShadowElement<T extends HTMLElement>(sel: string): T {
+    const res = this.queryShadowElement<T>(sel);
+    if (!res) {
+      throw new Error(`No result found in element query "${sel}"`);
+    }
+    return res;
+  }
+
   protected getAllInputViews(): NodeListOf<InputView> {
     return this.mustGetShadowRoot().querySelectorAll('input-view');
   }

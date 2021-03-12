@@ -84,8 +84,8 @@ export class InputView extends BaseElement {
 
   @lp.string private validationError = '';
 
-  private get inputElement(): HTMLInputElement {
-    return this.mustGetShadowElement(inputID);
+  private get inputEl(): HTMLInputElement {
+    return this.unsafeGetShadowElement(inputID);
   }
 
   firstUpdated() {
@@ -116,22 +116,22 @@ export class InputView extends BaseElement {
   }
 
   focus() {
-    this.inputElement.focus();
+    this.inputEl.focus();
   }
 
   checkValidity(): boolean {
     this.inputValidated = true;
-    const res = this.inputElement.checkValidity();
-    this.validationError = this.inputElement.validationMessage;
+    const res = this.inputEl.checkValidity();
+    this.validationError = this.inputEl.validationMessage;
     return res;
   }
 
   private handleInput(_: Event) {
     this.inputValidated = true;
-    this.validationError = this.inputElement.validationMessage;
+    this.validationError = this.inputEl.validationMessage;
     this.dispatchEvent(
       new CustomEvent<string>('onChange', {
-        detail: this.inputElement.value,
+        detail: this.inputEl.value,
       }),
     );
     if (this.debouncedOnChangeHandler) {

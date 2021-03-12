@@ -226,8 +226,8 @@ export default class NavBarApp extends BaseElement {
   }
 
   private togglerClick() {
-    const navbar = this.mustGetShadowElement('main-navbar');
-    navbar.classList.toggle('expanded');
+    const navbar = this.getShadowElement('main-navbar');
+    navbar?.classList.toggle('expanded');
   }
 
   private toggleTheme() {

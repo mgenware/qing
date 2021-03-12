@@ -9,6 +9,9 @@ import EditorView from './editorView';
 import { CHECK } from 'checks';
 import { tif } from 'lib/htmlLib';
 
+const editorID = 'editor';
+const titleInputID = 'title-input';
+
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
     super(msg);
@@ -56,11 +59,11 @@ export class ComposerView extends BaseElement {
   private lastSavedContent = '';
 
   hasContentChanged(): boolean {
-    if (!this.editor) {
+    if (!this.editorEl) {
       return false;
     }
     return (
-      this.lastSavedContent !== this.editor.contentHTML ||
+      this.lastSavedContent !== this.editorEl.contentHTML ||
       (this.showTitleInput && this.lastSavedTitle !== this.inputTitle)
     );
   }
@@ -72,8 +75,13 @@ export class ComposerView extends BaseElement {
     }
   }
 
-  private editor?: EditorView;
-  private titleElement: HTMLInputElement | null = null;
+  private get editorEl(): EditorView | null {
+    return this.getShadowElement(editorID);
+  }
+
+  private get titleInputEl(): HTMLInputElement | null {
+    return this.getShadowElement(titleInputID);
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -88,10 +96,11 @@ export class ComposerView extends BaseElement {
   firstUpdated() {
     CHECK(this.entityType);
 
-    const editor = this.mustGetShadowElement('editor') as EditorView;
-    editor.contentHTML = this.contentHTML;
-    this.editor = editor;
-    this.titleElement = this.getShadowElement('titleElement');
+    // Sync `contentHTML` (`contentHTML` might be set before editor el is connected to DOM).
+    const { editorEl } = this;
+    if (editorEl) {
+      editorEl.contentHTML = this.contentHTML;
+    }
     this.markAsSaved();
   }
 
@@ -102,13 +111,13 @@ export class ComposerView extends BaseElement {
   // Used to store the property value before editor instance is created.
   private initialContentHTML = '';
   get contentHTML(): string {
-    return this.editor ? this.editor.contentHTML : this.initialContentHTML;
+    return this.editorEl ? this.editorEl.contentHTML : this.initialContentHTML;
   }
 
   set contentHTML(val: string) {
     this.initialContentHTML = val;
-    if (this.editor) {
-      this.editor.contentHTML = val;
+    if (this.editorEl) {
+      this.editorEl.contentHTML = val;
     }
   }
 
@@ -145,14 +154,14 @@ export class ComposerView extends BaseElement {
 
   private getPayload(): ComposerContent {
     if (this.showTitleInput && !this.inputTitle) {
-      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () => {
-        if (this.titleElement) {
-          this.titleElement.focus();
-        }
-      });
+      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () =>
+        this.titleInputEl?.focus(),
+      );
     }
     if (!this.contentHTML) {
-      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () => this.editor?.focus());
+      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
+        this.editorEl?.focus(),
+      );
     }
     const payload: ComposerContent = {
       contentHTML: this.contentHTML,

@@ -32,8 +32,8 @@ export class PCPageControl extends BaseElement {
     return pageSize ? Math.floor((totalItemCount + pageSize - 1) / pageSize) : 0;
   }
 
-  private get pageInputElement(): HTMLInputElement {
-    return this.mustGetShadowElement(pageInputID);
+  private get pageInputElement(): HTMLInputElement | null {
+    return this.getShadowElement(pageInputID);
   }
 
   render() {
@@ -86,7 +86,7 @@ export class PCPageControl extends BaseElement {
       this.onGotoPage(page);
     } catch (ex) {
       await app.alert.error(ex.message);
-      this.pageInputElement.select();
+      this.pageInputElement?.select();
     }
   }
 

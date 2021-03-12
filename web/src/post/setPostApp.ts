@@ -27,8 +27,8 @@ export default class SetPostApp extends BaseElement {
   // Used when `entityType` is discussion msg.
   @lp.string discussionID: string | undefined;
 
-  private get composerElement(): ComposerView {
-    return this.mustGetShadowElement(composerID);
+  private get composerEl(): ComposerView | null {
+    return this.getShadowElement(composerID);
   }
 
   async firstUpdated() {
@@ -72,9 +72,12 @@ export default class SetPostApp extends BaseElement {
   }
 
   private updateContent(title: string, contentHTML: string) {
+    const { composerEl } = this;
     this.postTitle = title;
-    this.composerElement.contentHTML = contentHTML;
-    this.composerElement.markAsSaved();
+    if (composerEl) {
+      composerEl.contentHTML = contentHTML;
+      composerEl.markAsSaved();
+    }
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
@@ -87,7 +90,7 @@ export default class SetPostApp extends BaseElement {
       this.editedID ? ls.saving : ls.publishing,
     );
     if (status.data) {
-      this.composerElement.markAsSaved();
+      this.composerEl?.markAsSaved();
       app.page.setURL(status.data);
     }
   }

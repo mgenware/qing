@@ -37,19 +37,19 @@ export class AvatarUploader extends BaseElement {
   cropInfo: ImageCropInfo | null = null;
 
   private get formElement(): HTMLFormElement {
-    return this.mustGetShadowElement('formElement');
+    return this.unsafeGetShadowElement('formElement');
   }
 
   private get uploadElement(): HTMLInputElement {
-    return this.mustGetShadowElement('uploadElement');
+    return this.unsafeGetShadowElement('uploadElement');
   }
 
   private get overlayElement(): QingOverlay {
-    return this.mustGetShadowElement('modalElement');
+    return this.unsafeGetShadowElement('modalElement');
   }
 
   private get cropElement(): HTMLElement {
-    return this.mustGetShadowElement('cropElement');
+    return this.unsafeGetShadowElement('cropElement');
   }
 
   firstUpdated() {

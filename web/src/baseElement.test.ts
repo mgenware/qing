@@ -13,6 +13,14 @@ class TElement extends BaseElement {
   queryShadowElementImpl(sel: string): HTMLElement | null {
     return this.queryShadowElement(sel);
   }
+
+  unsafeGetShadowElementImpl(id: string): HTMLElement {
+    return this.unsafeGetShadowElement(id);
+  }
+
+  unsafeQueryShadowElementImpl(sel: string): HTMLElement {
+    return this.unsafeQueryShadowElement(sel);
+  }
 }
 customElements.define('t-base-element', TElement);
 
@@ -27,6 +35,7 @@ it('getShadowElement', async () => {
 
   expect(el.getShadowElementImpl('id')?.textContent).to.eq('content');
   expect(el.getShadowElementImpl('id__')).to.eq(null);
+  expect(el.unsafeGetShadowElementImpl('id__')).to.throw();
 });
 
 it('queryShadowElement', async () => {
@@ -34,4 +43,5 @@ it('queryShadowElement', async () => {
 
   expect(el.queryShadowElementImpl('.cls')?.textContent).to.eq('content');
   expect(el.queryShadowElementImpl('.cls__')).to.eq(null);
+  expect(el.unsafeQueryShadowElementImpl('.cls__')).to.throw();
 });

@@ -15,6 +15,9 @@ import { createPopper } from '@popperjs/core';
 import './userCard';
 import { tif } from 'lib/htmlLib';
 
+const inputViewID = 'input-view';
+const popoverRootID = 'popover-root';
+
 @customElement('user-selector-app')
 export class UserSelectorApp extends BaseElement {
   static get styles() {
@@ -77,12 +80,12 @@ export class UserSelectorApp extends BaseElement {
   @lp.bool private popoverVisible = false;
   @lp.object private selectedUser: UserInfo | null = null;
 
-  private get inputView(): HTMLElement {
-    return this.mustGetShadowElement('input-view');
+  private get inputView(): HTMLElement | null {
+    return this.getShadowElement(inputViewID);
   }
 
-  private get popoverRoot(): HTMLElement {
-    return this.mustGetShadowElement('popover-root');
+  private get popoverRoot(): HTMLElement | null {
+    return this.getShadowElement('popover-root');
   }
 
   render() {
@@ -105,7 +108,7 @@ export class UserSelectorApp extends BaseElement {
             ></selection-view>
             <input-view
               class="m-t-md"
-              id="input-view"
+              id=${inputViewID}
               .showInputView=${false}
               .value=${this.value}
               debounceOnChange
@@ -113,7 +116,7 @@ export class UserSelectorApp extends BaseElement {
               @onChangeDebounced=${this.handleValueChangeDebounced}
             ></input-view>
             <status-overlay
-              id="popover-root"
+              id=${popoverRootID}
               .status=${this.status}
               style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}
             >
@@ -152,7 +155,7 @@ export class UserSelectorApp extends BaseElement {
   }
 
   private showPopoverIfNeeded() {
-    if (this.popoverVisible) {
+    if (this.popoverVisible || !this.inputView || !this.popoverRoot) {
       return;
     }
     document.addEventListener(

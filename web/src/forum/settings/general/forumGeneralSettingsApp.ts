@@ -36,8 +36,8 @@ export class ForumGeneralSettingsApp extends BaseElement {
   @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
 
-  get descEditorView(): EditorView {
-    return this.mustGetShadowElement(editorElementID);
+  get descEditorView(): EditorView | null {
+    return this.getShadowElement(editorElementID);
   }
 
   async firstUpdated() {
@@ -94,11 +94,16 @@ export class ForumGeneralSettingsApp extends BaseElement {
     if (status.data) {
       const info = status.data;
       this.name = info.name ?? '';
-      this.descEditorView.contentHTML = info.descHTML ?? '';
+      if (this.descEditorView) {
+        this.descEditorView.contentHTML = info.descHTML ?? '';
+      }
     }
   }
 
   private async handleSaveInfoClick() {
+    if (!this.descEditorView) {
+      return;
+    }
     // Validate user inputs.
     try {
       if (!this.name) {
