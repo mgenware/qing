@@ -10,6 +10,10 @@ export class ProfileIDView extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         qing-button::part(button) {
           background-color: none;
           border: 0;

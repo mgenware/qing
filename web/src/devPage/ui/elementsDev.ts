@@ -29,6 +29,7 @@ export class ElementsDev extends BaseElement {
       super.styles,
       css`
         :host {
+          display: block;
           color: var(--app-default-fore-color);
           background-color: var(--app-default-back-color);
         }

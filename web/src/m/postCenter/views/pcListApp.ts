@@ -18,6 +18,10 @@ export abstract class PCListApp<T> extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         .sortable-th {
           cursor: pointer;
         }

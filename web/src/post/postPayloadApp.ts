@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'com/cmt/cmtApp';
 import postWind from './postWind';
@@ -8,6 +8,17 @@ import { entityPost } from 'sharedConstants';
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')
 export class PostPayloadApp extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   private hostID = postWind.EID;
   private cmtCount = postWind.CmtCount;
   private initialLikes = postWind.InitialLikes;

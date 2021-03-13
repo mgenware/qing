@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import { CHECK } from 'checks';
@@ -6,6 +6,17 @@ import UserInfo from '../userInfo';
 
 @customElement('find-user-item-view')
 export class FindUserItemView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.object user: UserInfo | undefined;
 
   firstUpdated() {

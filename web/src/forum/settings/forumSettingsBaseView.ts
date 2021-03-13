@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import ls from 'ls';
 import * as lp from 'lit-props';
@@ -15,6 +15,17 @@ export enum ForumSettingsPages {
 
 @customElement('forum-settings-base-view')
 export class ForumSettingsBaseView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.number selectedPage = ForumSettingsPages.general;
   @lp.string fid = '';
 

@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -13,6 +13,17 @@ const sizeMD = 'md';
 
 @customElement('like-app')
 export class LikeApp extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: inline-block;
+        }
+      `,
+    ];
+  }
+
   @lp.string hostID = '';
   @lp.string hostType: LikeHostType = 0;
   @lp.number initialLikes = 0;

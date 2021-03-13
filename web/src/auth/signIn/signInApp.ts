@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
@@ -10,6 +10,17 @@ import 'ui/form/inputErrorView';
 
 @customElement('sign-in-app')
 export class SignInApp extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string private email = '';
   @lp.string private password = '';
 

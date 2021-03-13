@@ -14,6 +14,10 @@ export class LikeView extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: inline-block;
+        }
+
         qing-button::part(button) {
           /** The content lies inside qing-button. This is the only way to set the default text color. */
           color: var(--app-default-secondary-fore-color);

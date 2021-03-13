@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import app from 'app';
 import { ls, formatLS } from 'ls';
@@ -29,6 +29,17 @@ enum EditorMode {
 const composerID = 'composer';
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string hostID = '';
   @lp.number hostType = 0;
   @lp.bool isReply = false;

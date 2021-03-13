@@ -19,6 +19,10 @@ export class EditProfileApp extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         .profile-img {
           border: 1px solid var(--app-default-separator-color);
         }

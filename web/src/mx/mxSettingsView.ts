@@ -1,4 +1,4 @@
-import { customElement } from 'lit-element';
+import { customElement, css } from 'lit-element';
 import ls from 'ls';
 import routes from 'routes';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
@@ -7,6 +7,17 @@ const items: SettingsBaseItem[] = [{ name: ls.usersAndGroups, link: routes.mx.us
 
 @customElement('mx-settings-view')
 export class MXSettingsView extends SettingsBaseView {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   constructor() {
     super();
 

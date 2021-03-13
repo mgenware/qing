@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/editor/composerView';
@@ -15,6 +15,17 @@ const composerID = 'composer';
 
 @customElement('set-post-app')
 export default class SetPostApp extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string editedID = '';
   @lp.string postTitle = '';
   @lp.number entityType = 0;

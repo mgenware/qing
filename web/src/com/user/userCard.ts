@@ -10,7 +10,7 @@ export class UserCard extends BaseElement {
       super.styles,
       css`
         :host {
-          display: inline-block;
+          display: block;
         }
       `,
     ];

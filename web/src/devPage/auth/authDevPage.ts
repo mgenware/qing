@@ -1,4 +1,4 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import 'ui/form/inputView';
@@ -7,6 +7,17 @@ import routes from '../devRoutes';
 
 @customElement('auth-dev-page')
 export class AuthDevPage extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string loginUserID = '10';
   @lp.string newUserID = '';
   @lp.bool newUserAdmin = false;

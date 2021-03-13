@@ -16,6 +16,10 @@ export default class NavBarApp extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: block;
+        }
+
         a:hover {
           opacity: 0.8;
           background-color: #ffffff19;

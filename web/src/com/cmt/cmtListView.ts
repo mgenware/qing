@@ -1,4 +1,4 @@
-import { html, customElement, TemplateResult } from 'lit-element';
+import { html, customElement, TemplateResult, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -16,6 +16,17 @@ import { CHECK } from 'checks';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string hostID = '';
   @lp.number hostType = 0;
   // The number of all top-level comments and their replies.

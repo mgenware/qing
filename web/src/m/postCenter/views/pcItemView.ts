@@ -1,10 +1,21 @@
-import { html, customElement } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import ls from 'ls';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 
 @customElement('pc-item-view')
 export class PCItemView extends BaseElement {
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+        }
+      `,
+    ];
+  }
+
   @lp.string name = '';
   @lp.string link = '';
   @lp.string id = '';
