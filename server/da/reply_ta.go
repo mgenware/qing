@@ -51,7 +51,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `content`, `reply`.`created_at` AS `created_at`, `reply`.`modified_at` AS `modified_at`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` WHERE `reply`.`parent_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `content`, `reply`.`created_at` AS `created_at`, `reply`.`modified_at` AS `modified_at`, `reply`.`likes` AS `likes`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` WHERE `reply`.`parent_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -62,7 +62,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 		itemCounter++
 		if itemCounter <= max {
 			var item ReplyData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
 			if err != nil {
 				return nil, false, err
 			}

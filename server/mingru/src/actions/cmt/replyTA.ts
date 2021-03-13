@@ -12,6 +12,7 @@ export class ReplyTA extends mm.TableActions {
       t.content,
       t.created_at,
       t.modified_at,
+      t.likes,
       t.user_id.privateAttr(),
       t.to_user_id.privateAttr(),
       t.user_id.join(user).name,

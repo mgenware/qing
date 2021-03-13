@@ -14,6 +14,7 @@ type CmtData struct {
 	CmtID        uint64     `json:"-"`
 	ContentHTML  string     `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
+	Likes        uint       `json:"likes,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	ReplyCount   uint       `json:"replyCount,omitempty"`
 	UserIconName string     `json:"-"`
@@ -34,6 +35,7 @@ type ReplyData struct {
 	ContentHTML  string     `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty"`
 	ID           uint64     `json:"-"`
+	Likes        uint       `json:"likes,omitempty"`
 	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
 	ToUserID     uint64     `json:"-"`
 	ToUserName   string     `json:"toUserName,omitempty"`
