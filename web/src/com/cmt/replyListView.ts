@@ -79,8 +79,7 @@ export class ReplyListView extends BaseElement {
       return html``;
     }
     const childViews: TemplateResult[] = [];
-    for (let i = 0; i < this.items.length; i++) {
-      const item = this.items[i];
+    this.items.forEach((item) => {
       childViews.push(
         html`
           <cmt-view
@@ -94,7 +93,7 @@ export class ReplyListView extends BaseElement {
           ></cmt-view>
         `,
       );
-    }
+    });
     return html`
       <div>
         <cmt-view

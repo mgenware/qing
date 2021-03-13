@@ -29,7 +29,7 @@
   "uploadProfileImgDesc": "Max file size allowed: 5 MB",
   "unsupportedImgExtErr": "Unsupported file format (supported formats: jpg, jpeg, gif, png)",
   "exceed5MBErr": "File exceeded the maximum allowed size (5 MB)",
-  "resourceNotFound": "The resource you requested does not exist",
+  "resourceNotFound": "The resource you requested does not exist.",
   "reset": "Reset",
   "rysDiscardChanges": "Are you sure you want to discard your changes?",
   "publish": "Publish",

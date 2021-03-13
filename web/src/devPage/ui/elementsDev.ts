@@ -260,8 +260,8 @@ export class ElementsDev extends BaseElement {
       </status-overlay>
       <h2>Misc</h2>
       <like-view></like-view>
-      <like-view .likes=${1} hasLiked></like-view>
-      <like-view .likes=${1} hasLiked isWorking></like-view>
+      <like-view class="m-l-md" .likes=${1} hasLiked></like-view>
+      <like-view class="m-l-md" .likes=${1} hasLiked isWorking></like-view>
       <h2>Flexbox utils</h2>
       <div class="d-flex">
         <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>

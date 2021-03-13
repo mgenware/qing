@@ -4,6 +4,7 @@ import * as lp from 'lit-props';
 import { staticMainImage } from 'urls';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { cache } from 'lit-html/directives/cache';
+import { tif } from 'lib/htmlLib';
 
 const defaultIconSize = 30;
 
@@ -13,10 +14,18 @@ export class LikeView extends BaseElement {
     return [
       super.styles,
       css`
-        qing-button.root-btn::part(button) {
+        qing-button::part(button) {
+          /** The content lies inside qing-button. This is the only way to set the default text color. */
+          color: var(--app-default-secondary-fore-color);
           background-color: transparent;
           border: 0;
           padding: 0;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+        }
+
+        .num {
+          margin-left: 0.4rem;
         }
 
         svg-icon.not-liked {
@@ -38,16 +47,9 @@ export class LikeView extends BaseElement {
   render() {
     const { iconSize } = this;
     return html`
-      <qing-button
-        class=${`root-btn ${this.hasLiked ? 'selected' : ''}`}
-        disableSelectedStyle
-        ?disabled=${this.isWorking}
-        canSelect
-        ?selected=${this.hasLiked}
-        @click=${this.handleClick}
-      >
+      <qing-button disableSelectedStyle ?disabled=${this.isWorking} @click=${this.handleClick}>
         ${cache(
-          this.likes
+          this.hasLiked
             ? html` <svg-icon
                 class="liked"
                 .oneTimeSrc=${staticMainImage('heart-filled.svg')}
@@ -59,6 +61,7 @@ export class LikeView extends BaseElement {
                 .size=${iconSize}
               ></svg-icon>`,
         )}
+        ${tif(this.likes, html`<span class="num">${this.likes}</span>`)}
       </qing-button>
     `;
   }
