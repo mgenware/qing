@@ -41,10 +41,12 @@ export class LikeApp extends BaseElement {
     CHECK(this.hostType);
 
     this.likes = this.initialLikes ?? 0;
-    if (this.loadOnVisible) {
-      listenForVisibilityChange([this], () => this.loadHasLiked);
-    } else {
-      this.loadHasLiked();
+    if (app.state.hasUser) {
+      if (this.loadOnVisible) {
+        listenForVisibilityChange([this], () => this.loadHasLiked);
+      } else {
+        this.loadHasLiked();
+      }
     }
   }
 
