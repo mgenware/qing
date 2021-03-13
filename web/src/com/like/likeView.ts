@@ -5,7 +5,8 @@ import { staticMainImage } from 'urls';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { cache } from 'lit-html/directives/cache';
 
-const iconSize = 30;
+const defaultIconSize = 30;
+
 @customElement('like-view')
 export class LikeView extends BaseElement {
   static get styles() {
@@ -32,8 +33,10 @@ export class LikeView extends BaseElement {
   @lp.number likes = 0;
   @lp.bool isWorking = false;
   @lp.bool hasLiked = false;
+  @lp.number iconSize = defaultIconSize;
 
   render() {
+    const { iconSize } = this;
     return html`
       <qing-button
         class=${`root-btn ${this.hasLiked ? 'selected' : ''}`}

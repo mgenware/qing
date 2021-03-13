@@ -2,11 +2,12 @@ import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import 'com/cmt/cmtApp';
 import postWind from './postWind';
-import './views/likeApp';
+import 'com/like/likeApp';
 import { entityPost } from 'sharedConstants';
 
-@customElement('post-cmt-app')
-export class PostCmtApp extends BaseElement {
+// Handles loading of post likes and comments.
+@customElement('post-payload-app')
+export class PostPayloadApp extends BaseElement {
   private hostID = postWind.EID;
   private cmtCount = postWind.CmtCount;
   private initialLikes = postWind.InitialLikes;
@@ -14,6 +15,7 @@ export class PostCmtApp extends BaseElement {
   render() {
     return html`
       <like-app
+        .iconSize=${'md'}
         .initialLikes=${this.initialLikes}
         .hostID=${this.hostID}
         .hostType=${entityPost}
@@ -29,6 +31,6 @@ export class PostCmtApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'post-cmt-app': PostCmtApp;
+    'post-payload-app': PostPayloadApp;
   }
 }

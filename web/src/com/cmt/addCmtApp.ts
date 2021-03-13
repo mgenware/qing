@@ -15,7 +15,7 @@ const composerID = 'composer';
 export class AddCmtApp extends BaseElement {
   @lp.string hostID = '';
   @lp.number hostType = 0;
-  @lp.bool private expanded = false;
+  @lp.bool private open = false;
 
   // The composer view element is optional in `render` thus has to be
   // accessed on the fly.
@@ -29,30 +29,32 @@ export class AddCmtApp extends BaseElement {
   }
 
   render() {
-    if (!this.expanded) {
-      return html`
-        <p>
-          <qing-button btnStyle="success" @click=${this.handleCommentButtonClick}
-            >${ls.writeAComment}</qing-button
-          >
-        </p>
-      `;
-    }
     return html`
-      <composer-view
-        .id=${composerID}
-        .headerText=${ls.writeAComment}
-        .entityType=${entityCmt}
-        .submitButtonText=${ls.comment}
-        .showCancelButton=${true}
-        @onSubmit=${this.handleSubmit}
-        @onDiscard=${this.handleDiscard}
-      ></composer-view>
+      <p>
+        <qing-button btnStyle="success" @click=${this.handleCommentButtonClick}
+          >${ls.writeAComment}</qing-button
+        >
+      </p>
+      <qing-overlay
+        class="immersive"
+        ?open=${this.open}
+        @openChanged=${(e: CustomEvent<boolean>) => (this.open = e.detail)}
+      >
+        <h2>${ls.writeAComment}</h2>
+        <composer-view
+          .id=${composerID}
+          .entityType=${entityCmt}
+          .submitButtonText=${ls.comment}
+          .showCancelButton=${true}
+          @onSubmit=${this.handleSubmit}
+          @onDiscard=${this.handleDiscard}
+        ></composer-view>
+      </qing-overlay>
     `;
   }
 
   private handleCommentButtonClick() {
-    this.expanded = true;
+    this.open = true;
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
@@ -61,7 +63,6 @@ export class AddCmtApp extends BaseElement {
     if (status.data) {
       this.composerElement?.markAsSaved();
 
-      this.expanded = false;
       this.dispatchEvent(
         new CustomEvent<SetCmtResponse>('cmtAdded', {
           detail: status.data,
@@ -71,7 +72,7 @@ export class AddCmtApp extends BaseElement {
   }
 
   private handleDiscard() {
-    this.expanded = false;
+    this.open = false;
   }
 }
 

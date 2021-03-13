@@ -13,7 +13,7 @@ import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import 'ui/qna/votingView';
 import 'ui/lists/linkListView';
-import 'post/views/likeView';
+import 'com/like/likeView';
 import 'post/setPostApp';
 import LoadingStatus from 'lib/loadingStatus';
 import app from 'app';

@@ -7,6 +7,7 @@ import 'ui/editor/editBar';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';
+import 'com/like/likeApp';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import LoadingStatus from 'lib/loadingStatus';
@@ -17,7 +18,7 @@ import DeleteCmtLoader from './loaders/deleteCmtLoader';
 import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
 import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
 import { CHECK } from 'checks';
-import { entityCmt } from 'sharedConstants';
+import { entityCmt, entityReply } from 'sharedConstants';
 
 enum EditorMode {
   none,
@@ -30,6 +31,7 @@ const composerID = 'composer';
 export class CmtView extends BaseElement {
   @lp.string hostID = '';
   @lp.number hostType = 0;
+  @lp.bool isReply = false;
 
   @lp.object cmt: Cmt | null = null;
   // Only available to replies.
@@ -119,6 +121,14 @@ export class CmtView extends BaseElement {
               : ''}
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
+          <p>
+            <like-app
+              .iconSize=${'sm'}
+              .initialLikes=${cmt.likes}
+              .hostID=${cmt.id}
+              .hostType=${this.isReply ? entityReply : entityCmt}
+            ></like-app>
+          </p>
           ${editorHTML}
         </div>
       </div>

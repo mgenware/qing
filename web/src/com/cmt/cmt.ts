@@ -9,6 +9,8 @@ export default interface Cmt {
   userName: string;
   userURL: string;
   userIconURL: string;
+  likes: number;
+
   // Reply only properties.
   toUserID?: string;
   toUserName?: string;

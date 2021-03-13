@@ -6,7 +6,7 @@ import { html } from 'lit-element';
 import { getEditBarID, EditBar } from 'ui/editor/editBar';
 import DeletePostLoader from './loaders/deletePostLoader';
 import './setPostApp';
-import './postCmtApp';
+import './postPayloadApp';
 import wind from './postWind';
 import SetPostApp from './setPostApp';
 

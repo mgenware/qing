@@ -57,15 +57,16 @@ export default class SetPostApp extends BaseElement {
         ?open=${this.open}
         @openChanged=${(e: CustomEvent<boolean>) => (this.open = e.detail)}
       >
+        <h2>${this.headerText}</h2>
         <composer-view
           .id=${composerID}
           .showTitleInput=${this.showTitleInput}
           .inputTitle=${this.postTitle}
           .entityID=${this.editedID}
           .entityType=${entityPost}
-          .headerText=${this.headerText}
           .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
+          @onDiscard=${this.handleDiscard}
         ></composer-view>
       </qing-overlay>
     `;
@@ -93,6 +94,10 @@ export default class SetPostApp extends BaseElement {
       this.composerEl?.markAsSaved();
       app.page.setURL(status.data);
     }
+  }
+
+  private handleDiscard() {
+    this.open = false;
   }
 }
 

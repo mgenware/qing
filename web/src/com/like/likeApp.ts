@@ -1,19 +1,23 @@
 import { html, customElement } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import SetLikeLoader from 'post/loaders/setLikeLoader';
 import app from 'app';
 import { listenForVisibilityChange } from 'lib/htmlLib';
 import { CHECK } from 'checks';
 import './likeView';
-import LikeHostType from 'post/loaders/likeHostType';
-import GetLikeLoader from 'post/loaders/getLikeLoader';
+import LikeHostType from './loaders/likeHostType';
+import GetLikeLoader from './loaders/getLikeLoader';
+import SetLikeLoader from './loaders/setLikeLoader';
+
+const sizeMD = 'md';
 
 @customElement('like-app')
 export class LikeApp extends BaseElement {
   @lp.string hostID = '';
   @lp.string hostType: LikeHostType = 0;
   @lp.number initialLikes = 0;
+  @lp.string iconSize = sizeMD;
+
   @lp.number private likes = 0;
   @lp.bool private isWorking = false;
   @lp.bool private hasLiked = false;
@@ -25,7 +29,7 @@ export class LikeApp extends BaseElement {
     CHECK(this.hostID);
     CHECK(this.hostType);
 
-    this.likes = this.initialLikes;
+    this.likes = this.initialLikes ?? 0;
     if (this.loadOnVisible) {
       listenForVisibilityChange([this], () => this.loadHasLiked);
     } else {
@@ -39,6 +43,7 @@ export class LikeApp extends BaseElement {
         .isWorking=${this.isWorking}
         .hasLiked=${this.hasLiked}
         .likes=${this.likes}
+        .iconSize=${this.iconSize === sizeMD ? 30 : 22}
         @click=${this.handleClick}
       ></like-view>
     `;
@@ -48,15 +53,8 @@ export class LikeApp extends BaseElement {
     if (this.isWorking) {
       return;
     }
-    const loader = new SetLikeLoader(
-      this.hostID,
-      this.hostType,
-      !this.hasLiked,
-    );
-    const res = await app.runLocalActionAsync(
-      loader,
-      (s) => (this.isWorking = s.isWorking),
-    );
+    const loader = new SetLikeLoader(this.hostID, this.hostType, !this.hasLiked);
+    const res = await app.runLocalActionAsync(loader, (s) => (this.isWorking = s.isWorking));
 
     if (res.error) {
       await app.alert.error(res.error.message);
@@ -68,10 +66,7 @@ export class LikeApp extends BaseElement {
 
   private async loadHasLiked() {
     const loader = new GetLikeLoader(this.hostID, this.hostType);
-    const res = await app.runLocalActionAsync(
-      loader,
-      (s) => (this.isWorking = s.isWorking),
-    );
+    const res = await app.runLocalActionAsync(loader, (s) => (this.isWorking = s.isWorking));
     if (res.error) {
       await app.alert.error(res.error.message);
     } else {
