@@ -79,7 +79,6 @@ export default interface LSDefs {
   pReplyTo: string;
   pNOComments: string;
   pNOReplies: string;
-  pReplyingTo: string;
   createAnAcc: string;
   email: string;
   password: string;

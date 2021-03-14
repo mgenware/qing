@@ -41,7 +41,7 @@ function hookUpEditBarEvents() {
         html`<set-post-app
           .editedID=${wind.EID}
           entityType=${entityPost}
-          headerText="Create a new post"
+          headerText=${ls.newPost}
         ></set-post-app>`,
       );
     }

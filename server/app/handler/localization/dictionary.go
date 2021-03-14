@@ -98,7 +98,6 @@ type Dictionary struct {
 	PPageNotFound                     string `json:"pPageNotFound"`
 	PPlzEnterThe                      string `json:"pPlzEnterThe"`
 	PReplyTo                          string `json:"pReplyTo"`
-	PReplyingTo                       string `json:"pReplyingTo"`
 	PView                             string `json:"pView"`
 	PViewMore                         string `json:"pViewMore"`
 	PageControlItemFormat             string `json:"pageControlItemFormat"`

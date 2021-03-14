@@ -107,7 +107,7 @@ export class CmtView extends BaseElement {
               ? html`
                   <span>
                     <svg-icon
-                      title=${formatLS(ls.pReplyingTo, cmt.toUserName)}
+                      title=${formatLS(ls.pReplyTo, cmt.toUserName)}
                       iconStyle="info"
                       .oneTimeSrc=${staticMainImage('reply-to.svg')}
                       .size=${16}
