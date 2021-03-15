@@ -1,7 +1,7 @@
 import Loader from 'lib/loader';
 import routes from 'routes';
 import { ItemsResponse } from 'lib/itemCollector';
-import Cmt from '../data/cmt';
+import Cmt from '../cmt';
 import { CHECK } from 'checks';
 
 export interface GetCmtsInputs {

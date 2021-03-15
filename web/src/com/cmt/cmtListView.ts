@@ -6,8 +6,8 @@ import { ls, formatLS } from 'ls';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
-import CmtStore from './data/cmtStore';
-import Cmt, { CmtCountChangedEventDetail } from './data/cmt';
+import CmtCollector from './cmtCollector';
+import Cmt, { CmtCountChangedEventDetail } from './cmt';
 import './cmtView';
 import './replyListView';
 import './cmtFooterView';
@@ -34,21 +34,21 @@ export class CmtListView extends BaseElement {
   // Starts loading comment when the component is first visible.
   @lp.bool loadOnVisible = false;
 
-  // Can only be changed within `CmtStore.itemsChanged` event.
-  // `CmtStore` provides paging and duplication removal.
+  // Can only be changed within `CmtCollector.itemsChanged` event.
+  // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
   @lp.number page = 1;
 
-  private cmtStore: CmtStore | null = null;
+  private cmtCollector: CmtCollector | null = null;
   @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
 
   firstUpdated() {
     CHECK(this.hostID);
     CHECK(this.hostType);
 
-    this.cmtStore = new CmtStore(
+    this.cmtCollector = new CmtCollector(
       {
         hostID: this.hostID,
         hostType: this.hostType,
@@ -130,7 +130,7 @@ export class CmtListView extends BaseElement {
   }
 
   private async loadMore() {
-    await this.cmtStore?.loadMoreAsync();
+    await this.cmtCollector?.loadMoreAsync();
   }
 
   private handleReplyCountChanged(e: CustomEvent<CmtCountChangedEventDetail>) {
@@ -161,11 +161,11 @@ export class CmtListView extends BaseElement {
   }
 
   private async handleCmtAdded(e: CustomEvent<SetCmtResponse>) {
-    this.cmtStore?.prepend([e.detail.cmt]);
+    this.cmtCollector?.prepend([e.detail.cmt]);
   }
 
   private handleRootCmtDeleted(index: number, detail: CmtCountChangedEventDetail) {
-    this.cmtStore?.deleteByIndex(index);
+    this.cmtCollector?.deleteByIndex(index);
     // Total number of comments is down by 1 (this comment) plus all its replies.
     // `detail.count` can be undefined if the comment doesn't contain any replies.
     this.onTotalCountChanged(-(detail.count || 0) - 1);

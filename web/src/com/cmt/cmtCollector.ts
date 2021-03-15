@@ -1,14 +1,14 @@
 import { ItemCollector, ItemsResponse, ItemsChangedEventArgs } from 'lib/itemCollector';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
-import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
+import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from './loaders/getCmtsLoader';
 import Cmt from './cmt';
 
-// `page` param is managed internally by `CmtStore`.
+// `page` param is managed internally by `CmtCollector`.
 export type GetCmtsInputsWithoutPage = Exclude<GetCmtsInputs, 'page'>;
 export type GetRepliesInputsWithoutPage = Exclude<GetRepliesInputs, 'page'>;
 
-export default class CmtStore extends ItemCollector<Cmt> {
+export default class CmtCollector extends ItemCollector<Cmt> {
   constructor(
     public cmtInputs: GetCmtsInputsWithoutPage | undefined,
     public replyInputs: GetRepliesInputsWithoutPage | undefined,
