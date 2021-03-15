@@ -10,7 +10,7 @@ import './cmtListView';
 import { CHECK } from 'checks';
 import 'qing-overlay';
 import 'ui/editor/composerView';
-import Cmt from './cmt';
+import Cmt from './data/cmt';
 import { tif } from 'lib/htmlLib';
 import { entityCmt, entityReply } from 'sharedConstants';
 import ls, { formatLS } from 'ls';

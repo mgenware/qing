@@ -1,14 +1,15 @@
-import { html, customElement, TemplateResult, css } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
-import Cmt, { CmtCountChangedEventDetail } from './cmt';
-import CmtCollector from './cmtCollector';
+import Cmt, { CmtCountChangedEventDetail } from './data/cmt';
+import CmtCollector from './data/cmtCollector';
 import './cmtFooterView';
 import { SetCmtResponse } from './loaders/setCmtLoader';
 import { CHECK } from 'checks';
+import { repeat } from 'lit-html/directives/repeat';
 
 @customElement('reply-list-view')
 export class ReplyListView extends BaseElement {
@@ -78,22 +79,21 @@ export class ReplyListView extends BaseElement {
     if (!cmt) {
       return html``;
     }
-    const childViews: TemplateResult[] = [];
-    this.items.forEach((item) => {
-      childViews.push(
-        html`
-          <cmt-view
-            .hostID=${this.hostID}
-            .hostType=${this.hostType}
-            .cmt=${item}
-            .parentCmtID=${cmt.id}
-            isReply
-            @cmtDeleted=${this.handleReplyDeleted}
-            @cmtAdded=${this.handleReplyCreated}
-          ></cmt-view>
-        `,
-      );
-    });
+    const childViews = repeat(
+      this.items,
+      (it) => it.id,
+      (it) => html`
+        <cmt-view
+          .hostID=${this.hostID}
+          .hostType=${this.hostType}
+          .cmt=${it}
+          .parentCmtID=${cmt.id}
+          isReply
+          @cmtDeleted=${this.handleReplyDeleted}
+          @cmtAdded=${this.handleReplyCreated}
+        ></cmt-view>
+      `,
+    );
     return html`
       <div>
         <cmt-view

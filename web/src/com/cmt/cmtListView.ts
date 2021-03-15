@@ -1,4 +1,4 @@
-import { html, customElement, TemplateResult, css } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -6,13 +6,14 @@ import { ls, formatLS } from 'ls';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
-import CmtCollector from './cmtCollector';
-import Cmt, { CmtCountChangedEventDetail } from './cmt';
+import CmtCollector from './data/cmtCollector';
+import Cmt, { CmtCountChangedEventDetail } from './data/cmt';
 import './cmtView';
 import './replyListView';
 import './cmtFooterView';
 import { SetCmtResponse } from './loaders/setCmtLoader';
 import { CHECK } from 'checks';
+import { repeat } from 'lit-html/directives/repeat';
 
 @customElement('cmt-list-view')
 export class CmtListView extends BaseElement {
@@ -83,21 +84,20 @@ export class CmtListView extends BaseElement {
         <p>${ls.noComments}</p>
       `;
     } else {
-      const childViews: TemplateResult[] = [];
-      this.items.forEach((item, i) => {
-        childViews.push(
-          html`
-            <reply-list-view
-              .cmt=${item}
-              .hostID=${this.hostID}
-              .hostType=${this.hostType}
-              @replyCountChanged=${this.handleReplyCountChanged}
-              @rootCmtDeleted=${(e: CustomEvent<CmtCountChangedEventDetail>) =>
-                this.handleRootCmtDeleted(i, e.detail)}
-            ></reply-list-view>
-          `,
-        );
-      });
+      const childViews = repeat(
+        this.items,
+        (it) => it.id,
+        (it, i) => html`
+          <reply-list-view
+            .cmt=${it}
+            .hostID=${this.hostID}
+            .hostType=${this.hostType}
+            @replyCountChanged=${this.handleReplyCountChanged}
+            @rootCmtDeleted=${(e: CustomEvent<CmtCountChangedEventDetail>) =>
+              this.handleRootCmtDeleted(i, e.detail)}
+          ></reply-list-view>
+        `,
+      );
       contentGroup = html`
         <div>
           <div>${childViews}</div>
