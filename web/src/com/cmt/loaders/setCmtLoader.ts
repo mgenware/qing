@@ -2,7 +2,7 @@ import { CHECK } from 'checks';
 import Loader from 'lib/loader';
 import routes from 'routes';
 import { ComposerContent } from 'ui/editor/composerView';
-import Cmt from '../cmt';
+import Cmt from '../data/cmt';
 
 export interface SetCmtData {
   // Always required.

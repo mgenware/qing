@@ -4,8 +4,8 @@ import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
-import Cmt, { CmtCountChangedEventDetail } from './cmt';
-import CmtCollector from './cmtCollector';
+import Cmt, { CmtCountChangedEventDetail } from './data/cmt';
+import CmtStore from './data/cmtStore';
 import './cmtFooterView';
 import { SetCmtResponse } from './loaders/setCmtLoader';
 import { CHECK } from 'checks';
@@ -33,8 +33,8 @@ export class ReplyListView extends BaseElement {
   @lp.number hostType = 0;
   @lp.object cmt: Cmt | null = null;
 
-  // Can only be changed within `CmtCollector.itemsChanged` event.
-  // `CmtCollector` provides paging and duplication removal.
+  // Can only be changed within `CmtStore.itemsChanged` event.
+  // `CmtStore` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
@@ -43,7 +43,7 @@ export class ReplyListView extends BaseElement {
   // Number of replies under this comment.
   @lp.number totalCount = 0;
 
-  private replyCollector: CmtCollector | null = null;
+  private replyCollector: CmtStore | null = null;
   @lp.object private collectorLoadingStatus = LoadingStatus.success;
 
   firstUpdated() {
@@ -56,7 +56,7 @@ export class ReplyListView extends BaseElement {
     CHECK(this.hostType);
     this.totalCount = cmt.replyCount;
     this.hasNext = !!this.totalCount;
-    this.replyCollector = new CmtCollector(
+    this.replyCollector = new CmtStore(
       undefined,
       {
         parentCmtID: cmt.id,
