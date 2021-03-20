@@ -63,7 +63,7 @@ export class ComposerView extends BaseElement {
       return false;
     }
     return (
-      this.lastSavedContent !== this.editorEl.contentHTML ||
+      this.lastSavedContent !== this.contentHTML ||
       (this.showTitleInput && this.lastSavedTitle !== this.inputTitle)
     );
   }
@@ -73,6 +73,12 @@ export class ComposerView extends BaseElement {
     if (this.showTitleInput) {
       this.lastSavedTitle = this.inputTitle;
     }
+  }
+
+  resetEditor() {
+    this.lastSavedContent = '';
+    this.lastSavedTitle = '';
+    this.contentHTML = '';
   }
 
   private get editorEl(): EditorView | null {

@@ -16,7 +16,7 @@ export class UserCard extends BaseElement {
     ];
   }
 
-  @lp.object user?: UserInfo;
+  @lp.object user: UserInfo | null = null;
 
   render() {
     const { user } = this;

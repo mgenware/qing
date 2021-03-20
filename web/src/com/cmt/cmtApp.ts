@@ -40,7 +40,7 @@ export class CmtApp extends BaseElement {
   // The number of all comments and their replies.
   @lp.number private totalCmtCount = 0;
 
-  private hub?: CmtDataHub;
+  private hub: CmtDataHub | null = null;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -79,6 +79,7 @@ export class CmtApp extends BaseElement {
           html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML)}</blockquote>`,
         )}
         <composer-view
+          id=${composerID}
           .entityID=${editorProps.editing?.id ?? ''}
           .entityType=${isReply ? entityReply : entityCmt}
           .submitButtonText=${editorProps.editing ? ls.save : ls.comment}
@@ -90,11 +91,16 @@ export class CmtApp extends BaseElement {
   }
 
   private handleDiscard() {
+    this.closeEditor();
+  }
+
+  private closeEditor() {
     this.editorProps = this.closedEditorProps();
+    this.composerEl?.resetEditor();
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const { editorProps, composerEl, hub } = this;
+    const { editorProps, hub } = this;
 
     let loader: SetCmtLoader;
     if (!editorProps.editing) {
@@ -122,7 +128,7 @@ export class CmtApp extends BaseElement {
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
       const serverCmt = status.data.cmt;
-      composerEl?.markAsSaved();
+      this.closeEditor();
 
       if (!editorProps.editing) {
         if (editorProps.parent) {

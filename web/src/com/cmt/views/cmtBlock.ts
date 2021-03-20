@@ -37,8 +37,8 @@ export class CmtBlock extends BaseElement {
   @lp.string hostID = '';
   @lp.number hostType = 0;
 
-  @lp.object cmt?: Cmt;
-  @lp.object hub?: CmtDataHub;
+  @lp.object cmt: Cmt | null = null;
+  @lp.object hub: CmtDataHub | null = null;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.

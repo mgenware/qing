@@ -27,9 +27,9 @@ export class CmtView extends BaseElement {
     ];
   }
 
-  @lp.object cmt?: Cmt;
+  @lp.object cmt: Cmt | null = null;
   // Only available to replies.
-  @lp.string parentCmtID?: string;
+  @lp.string parentCmtID: string | null = null;
 
   firstUpdated() {
     CHECK(this.cmt);

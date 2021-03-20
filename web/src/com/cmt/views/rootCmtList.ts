@@ -41,7 +41,7 @@ export class RootCmtList extends BaseElement {
   @lp.bool hasNext = false;
 
   @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
-  @lp.object hub?: CmtDataHub;
+  @lp.object hub: CmtDataHub | null = null;
 
   firstUpdated() {
     CHECK(this.hub);
