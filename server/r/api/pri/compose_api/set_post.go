@@ -32,8 +32,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := app.DB
 	if !hasID {
 		// Add a new entry.
-		capt := validator.MustGetStringFromDict(contentDict, "captcha", defs.Shared.MaxCaptchaLen)
-		captResult, err := app.Service.Captcha.Verify(uid, defs.Shared.EntityPost, capt, app.Config.DevMode())
+		captResult, err := app.Service.Captcha.Verify(uid, defs.Shared.EntityPost, "", app.Config.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)

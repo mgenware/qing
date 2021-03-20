@@ -58,7 +58,7 @@ func (c *CaptchaService) WriteCaptcha(uid uint64, entityType int, length int, w 
 // Verify checks if the specified code matches the internal code stored in memory.
 func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode bool) (int, error) {
 	// Expected way to bypass captcha verification process on dev mode.
-	if devMode && code == "11111" {
+	if devMode {
 		return 0, nil
 	}
 	key := c.getMSKey(uid, entityType)

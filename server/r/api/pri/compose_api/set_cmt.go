@@ -39,14 +39,13 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Create a comment or reply.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
-		capt := validator.MustGetStringFromDict(contentData, "captcha", defs.Shared.MaxCaptchaLen)
 		toUserID := validator.GetIDFromDict(params, "toUserID")
 		parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 
 		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
 
-		captResult, err := app.Service.Captcha.Verify(uid, hostType, capt, app.Config.DevMode())
+		captResult, err := app.Service.Captcha.Verify(uid, hostType, "", app.Config.DevMode())
 		app.PanicIfErr(err)
 
 		if captResult != 0 {
