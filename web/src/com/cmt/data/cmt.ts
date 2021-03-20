@@ -3,6 +3,7 @@ export default interface Cmt {
   title: string;
   createdAt: string;
   modifiedAt: string;
+  // Might not be updated in <cmt-app>, which uses `cmtCollector.totalCount` instead.
   replyCount: number;
   contentHTML: string;
   userID: string;
@@ -24,6 +25,6 @@ export interface CmtCountChangedEventDetail {
   offset: number;
 }
 
-export function isReply(cmt: Cmt): boolean {
+export function isCmtReply(cmt: Cmt): boolean {
   return !!cmt.toUserID;
 }

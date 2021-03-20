@@ -16,7 +16,7 @@ import ls, { formatLS } from 'ls';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { SetCmtLoader } from './loaders/setCmtLoader';
 import app from 'app';
-import { CmtDataHub, OpenCmtEditorRequest } from './data/cmtDataHub';
+import { CmtDataHub, CmtEditorProps } from './data/cmtDataHub';
 
 const composerID = 'composer';
 
@@ -33,21 +33,26 @@ export class CmtApp extends BaseElement {
     ];
   }
 
-  @lp.number initialCount = 0;
+  @lp.number initialTotalCmtCount = 0;
   @lp.string hostID = '';
   @lp.number hostType = 0;
 
-  @lp.object editorProps: OpenCmtEditorRequest = { open: false };
+  @lp.object editorProps: CmtEditorProps;
 
-  @lp.number private totalCount = 0;
+  // The number of all comments and their replies.
+  @lp.number private totalCmtCount = 0;
 
   private hub: CmtDataHub;
 
   constructor() {
     super();
 
-    const hub = new CmtDataHub(this.hostID, this.hostType);
+    CHECK(this.hostID);
+    CHECK(this.hostType);
+    this.editorProps = this.closedEditorProps();
+    const hub = new CmtDataHub(this.initialTotalCmtCount, this.hostID, this.hostType);
     hub.onOpenEditorRequested((req) => (this.editorProps = req));
+    hub.onTotalCmtCountChanged((c) => (this.totalCmtCount += c));
     this.hub = hub;
   }
 
@@ -55,22 +60,15 @@ export class CmtApp extends BaseElement {
     return this.getShadowElement(composerID);
   }
 
-  firstUpdated() {
-    CHECK(this.hostID);
-    CHECK(this.hostType);
-    this.totalCount = this.initialCount;
-  }
-
   render() {
     const { editorProps } = this;
     const isReply = !!editorProps.parent;
     return html`
       <root-cmt-list
-        .totalCount=${this.totalCount}
+        .totalCmtCount=${this.totalCmtCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}
-        .loadOnVisible=${!!this.initialCount}
-        @totalCountChangedWithOffset=${this.handleTotalCountChangedWithOffset}
+        .loadOnVisible=${!!this.initialTotalCmtCount}
       ></root-cmt-list>
       <qing-overlay class="immersive" ?open=${editorProps.open}>
         <h2>
@@ -83,9 +81,9 @@ export class CmtApp extends BaseElement {
           html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML)}</blockquote>`,
         )}
         <composer-view
-          .entityID=${editorProps.current?.id || ''}
+          .entityID=${editorProps.editing?.id ?? ''}
           .entityType=${isReply ? entityReply : entityCmt}
-          .submitButtonText=${editorProps.submitButtonText || ''}
+          .submitButtonText=${editorProps.editing ? ls.save : ls.comment}
           @onSubmit=${this.handleSubmit}
           @onDiscard=${this.handleDiscard}
         ></composer-view>
@@ -93,19 +91,15 @@ export class CmtApp extends BaseElement {
     `;
   }
 
-  private handleTotalCountChangedWithOffset(e: CustomEvent<number>) {
-    this.totalCount += e.detail;
-  }
-
   private handleDiscard() {
-    this.editorProps = { open: false };
+    this.editorProps = this.closedEditorProps();
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const { editorProps, composerEl, hub } = this;
 
     let loader: SetCmtLoader;
-    if (!editorProps.current) {
+    if (!editorProps.editing) {
       if (editorProps.parent) {
         // Add a reply.
         loader = SetCmtLoader.newReply(
@@ -124,7 +118,7 @@ export class CmtApp extends BaseElement {
       }
     } else {
       // Edit a comment or reply.
-      loader = SetCmtLoader.editCmt(this.hostID, this.hostType, editorProps.current.id, e.detail);
+      loader = SetCmtLoader.editCmt(this.hostID, this.hostType, editorProps.editing.id, e.detail);
     }
 
     const status = await app.runGlobalActionAsync(loader, ls.publishing);
@@ -132,7 +126,7 @@ export class CmtApp extends BaseElement {
       const serverCmt = status.data.cmt;
       composerEl?.markAsSaved();
 
-      if (!editorProps.current) {
+      if (!editorProps.editing) {
         if (editorProps.parent) {
           // Add a reply.
         } else {
@@ -147,12 +141,21 @@ export class CmtApp extends BaseElement {
         // is something server must return (an empty timestamp) but doesn't
         // make sense here.
         const newCmt: Cmt = {
-          ...editorProps.current,
+          ...editorProps.editing,
           ...serverCmt,
         };
-        newCmt.createdAt = editorProps.current.createdAt;
+        newCmt.createdAt = editorProps.editing.createdAt;
       }
     }
+  }
+
+  private closedEditorProps(): CmtEditorProps {
+    return {
+      open: false,
+      editing: null,
+      parent: null,
+      replyingTo: null,
+    };
   }
 }
 

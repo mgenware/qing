@@ -1,4 +1,4 @@
-import { ItemCollector, ItemsLoadedResponse } from 'lib/itemCollector';
+import { ItemCollector, ItemsChangedDetail, ItemsLoadedServerResponse } from 'lib/itemCollector';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
@@ -10,15 +10,16 @@ export type GetRepliesInputsWithoutPage = Exclude<GetRepliesInputs, 'page'>;
 
 export default class CmtCollector extends ItemCollector<Cmt> {
   constructor(
+    totalCount: number,
     public cmtInputs: GetCmtsInputsWithoutPage | undefined,
     public replyInputs: GetRepliesInputsWithoutPage | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: ItemsLoadedResponse<Cmt>) => void,
+    public itemsChanged: (e: ItemsChangedDetail<Cmt>) => void,
   ) {
-    super((it) => it.id, loadingStatusChanged, itemsChanged);
+    super(totalCount, (it) => it.id, loadingStatusChanged, itemsChanged);
   }
 
-  protected createLoader(): Loader<ItemsLoadedResponse<Cmt>> {
+  protected createLoader(): Loader<ItemsLoadedServerResponse<Cmt>> {
     if (this.cmtInputs) {
       return GetCmtsLoader.cmt({
         ...this.cmtInputs,

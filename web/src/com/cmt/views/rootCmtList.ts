@@ -29,15 +29,16 @@ export class RootCmtList extends BaseElement {
     ];
   }
 
-  // The number of all top-level comments and their replies.
-  @lp.number totalCount = 0;
+  // The number of all comments and their replies.
+  @lp.number totalCmtCount = 0;
+
   // Starts loading comment when the component is first visible.
   @lp.bool loadOnVisible = false;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
-  @lp.array private items: Cmt[] = [];
+  @lp.array private items: readonly Cmt[] = [];
   @lp.bool hasNext = false;
 
   @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
@@ -47,10 +48,10 @@ export class RootCmtList extends BaseElement {
     CHECK(this.hub);
 
     const { hub } = this;
-    hub.onLoadingStatusChanged((status) => {
+    hub.onRootLoadingStatusChanged((status) => {
       this.collectorLoadingStatus = status;
     });
-    hub.onItemsChanged((e) => {
+    hub.onRootItemsChanged((e) => {
       this.items = e.items;
       this.hasNext = e.hasNext;
     });
@@ -63,11 +64,11 @@ export class RootCmtList extends BaseElement {
   }
 
   render() {
-    const { totalCount, collectorLoadingStatus } = this;
+    const { totalCmtCount, collectorLoadingStatus } = this;
     let titleGroup = html` <h2>${ls.comments}</h2> `;
     let contentGroup = html``;
 
-    if (!totalCount && (collectorLoadingStatus.isSuccess || !collectorLoadingStatus.isStarted)) {
+    if (!totalCmtCount && (collectorLoadingStatus.isSuccess || !collectorLoadingStatus.isStarted)) {
       titleGroup = html`
         ${titleGroup}
         <p>${ls.noComments}</p>
@@ -79,8 +80,6 @@ export class RootCmtList extends BaseElement {
         (it, i) => html`
           <cmt-block
             .cmt=${it}
-            .hostID=${this.hostID}
-            .hostType=${this.hostType}
             @replyCountChanged=${this.handleReplyCountChanged}
             @rootCmtDeleted=${(e: CustomEvent<CmtCountChangedEventDetail>) =>
               this.handleRootCmtDeleted(i, e.detail)}
@@ -90,10 +89,12 @@ export class RootCmtList extends BaseElement {
       contentGroup = html`
         <div>
           <div>${childViews}</div>
-          ${this.totalCount
+          ${this.totalCmtCount
             ? html`
                 <div>
-                  <small class="is-secondary">${formatLS(ls.pNOComments, this.totalCount)}</small>
+                  <small class="is-secondary"
+                    >${formatLS(ls.pNOComments, this.totalCmtCount)}</small
+                  >
                 </div>
               `
             : html``}

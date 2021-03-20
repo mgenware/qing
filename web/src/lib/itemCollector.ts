@@ -10,6 +10,8 @@ export interface ItemsLoadedServerResponse<T> {
 export interface ItemsChangedDetail<T> {
   items: ReadonlyArray<T>;
   hasNext: boolean;
+  changed: number;
+  totalCount: number;
 }
 
 export abstract class ItemCollector<T> {
@@ -22,22 +24,28 @@ export abstract class ItemCollector<T> {
 
   page = 1;
   hasNext = false;
+  totalCount: number;
 
   get count(): number {
     return this.items.count;
   }
 
   constructor(
-    public totalCount: number,
+    initialTotalCount: number,
     public keyFn: (item: T) => string,
     public loadingStatusChanged: (status: LoadingStatus) => void,
     public itemsChanged: (e: ItemsChangedDetail<T>) => void,
   ) {
+    this.totalCount = initialTotalCount;
     this.items = new KeyedArray<string, T>(true, keyFn);
-    this.items.onArrayChanged = () => {
+    this.items.onArrayChanged = (changed) => {
+      this.totalCount += changed;
+      const { items, hasNext, totalCount } = this;
       itemsChanged({
-        items: this.items.array,
-        hasNext: this.hasNext,
+        items: items.array,
+        hasNext,
+        totalCount,
+        changed,
       });
     };
   }

@@ -1,5 +1,5 @@
 import { EventEmitter } from 'lib/eventEmitter';
-import { ItemsChangedEventArgs } from 'lib/itemCollector';
+import { ItemsChangedDetail } from 'lib/itemCollector';
 import LoadingStatus from 'lib/loadingStatus';
 import Cmt from './cmt';
 import CmtCollector from './cmtCollector';
@@ -9,21 +9,19 @@ const rootItemsChanged = 'rootItemsChanged';
 const childLoadingStatusChanged = 'childLoadingStatusChanged';
 const childItemsChanged = 'childItemsChanged';
 const openEditorRequested = 'openEditorRequested';
-const cmtUpdated = 'cmtUpdated';
+const totalCmtCountChanged = 'totalCmtCountChanged';
 const startPage = 1;
 
-export interface OpenCmtEditorRequest {
+export interface CmtEditorProps {
   open: boolean;
 
   // If not null, we're editing a comment or reply.
-  current?: Cmt;
+  editing: Cmt | null;
   // If not null, we're adding or editing a reply.
-  parent?: Cmt;
+  parent: Cmt | null;
   // When you reply another reply, `parent` is their parent, but
   // `replyingTo` would be the reply you're replying to.
-  replyingTo?: Cmt;
-
-  submitButtonText?: string;
+  replyingTo: Cmt | null;
 }
 
 export class CmtDataHub {
@@ -34,9 +32,15 @@ export class CmtDataHub {
 
   private events = new EventEmitter();
 
-  constructor(public hostID: string, public hostType: number) {
+  // Number of comments including replies.
+  totalCmtCount: number;
+
+  constructor(initialCount: number, public hostID: string, public hostType: number) {
     const { events } = this;
+    this.totalCmtCount = initialCount;
     this.rootCollector = new CmtCollector(
+      // Root collector's total count is useless, it only tracks the number of root comments.
+      0,
       {
         hostID,
         hostType,
@@ -44,7 +48,10 @@ export class CmtDataHub {
       },
       undefined,
       (status) => events.emit(rootLoadingStatusChanged, status),
-      (e) => events.emit(rootItemsChanged, e),
+      (e) => {
+        this.handleTotalCmtCountChange(e.changed);
+        events.emit(rootItemsChanged, e);
+      },
     );
   }
 
@@ -52,8 +59,8 @@ export class CmtDataHub {
     this.events.addListener(rootLoadingStatusChanged, (arg) => cb(arg as LoadingStatus));
   }
 
-  onRootItemsChanged(cb: (e: ItemsChangedEventArgs<Cmt>) => void) {
-    this.events.addListener(rootItemsChanged, (arg) => cb(arg as ItemsChangedEventArgs<Cmt>));
+  onRootItemsChanged(cb: (e: ItemsChangedDetail<Cmt>) => void) {
+    this.events.addListener(rootItemsChanged, (arg) => cb(arg as ItemsChangedDetail<Cmt>));
   }
 
   onChildLoadingStatusChanged(cmtID: string, cb: (e: LoadingStatus) => void) {
@@ -65,17 +72,21 @@ export class CmtDataHub {
     });
   }
 
-  onChildItemsChanged(cmtID: string, cb: (e: ItemsChangedEventArgs<Cmt>) => void) {
+  onChildItemsChanged(cmtID: string, cb: (e: ItemsChangedDetail<Cmt>) => void) {
     this.events.addListener(childItemsChanged, (arg) => {
-      const typedArgs = arg as [Cmt, ItemsChangedEventArgs<Cmt>];
+      const typedArgs = arg as [Cmt, ItemsChangedDetail<Cmt>];
       if (typedArgs[0]?.id === cmtID) {
         cb(typedArgs[1]);
       }
     });
   }
 
-  onOpenEditorRequested(cb: (e: OpenCmtEditorRequest) => void) {
-    this.events.addListener(openEditorRequested, (arg) => cb(arg as OpenCmtEditorRequest));
+  onOpenEditorRequested(cb: (e: CmtEditorProps) => void) {
+    this.events.addListener(openEditorRequested, (arg) => cb(arg as CmtEditorProps));
+  }
+
+  onTotalCmtCountChanged(cb: (count: number) => void) {
+    this.events.addListener(totalCmtCountChanged, (arg) => cb(arg as number));
   }
 
   async loadMoreAsync(parentCmt?: string) {
@@ -87,29 +98,22 @@ export class CmtDataHub {
   }
 
   addCmt(parent: string | null, cmt: Cmt) {
-    if (parent) {
-      this.replyCollectors[parent]?.prepend([cmt]);
-    } else {
-      this.rootCollector.prepend([cmt]);
-    }
+    const collector = this.getCollector(parent);
+    collector?.items.insert(0, cmt);
   }
 
-  removeCmt(id: string, parent: string | null) {
-    const collector = parent ? this.replyCollectors[parent] : this.rootCollector;
-    if (collector) {
-      collector.deleteItem(id);
-    }
+  removeCmt(parent: string | null, id: string) {
+    const collector = this.getCollector(parent);
+    collector?.items.deleteByKey(id);
   }
 
-  updateCmt(id: string, parent: string | null, cmt: Cmt) {
-    const collector = parent ? this.replyCollectors[parent] : this.rootCollector;
-    if (collector) {
-      collector.replaceItem(id, cmt);
-    }
+  updateCmt(parent: string | null, id: string, cmt: Cmt) {
+    const collector = this.getCollector(parent);
+    collector?.items.updateByKey(id, cmt);
   }
 
   // Opens the shared editor with the given arguments.
-  requestOpenEditor(req: OpenCmtEditorRequest) {
+  requestOpenEditor(req: CmtEditorProps) {
     this.events.emit(openEditorRequested, req);
   }
 
@@ -117,14 +121,29 @@ export class CmtDataHub {
   initRootCmt(cmt: Cmt) {
     const { events } = this;
     const collector = new CmtCollector(
+      // Use `cmt.replyCount` as total count for child collector.
+      cmt.replyCount,
       undefined,
       {
         parentCmtID: cmt.id,
         page: startPage,
       },
       (status) => events.emit(childLoadingStatusChanged, [cmt, status]),
-      (e) => events.emit(childItemsChanged, [cmt, e]),
+      (e) => {
+        // Any reply count changes affect total comment count.
+        this.handleTotalCmtCountChange(e.changed);
+        events.emit(childItemsChanged, [cmt, e]);
+      },
     );
     this.replyCollectors[cmt.id] = collector;
+  }
+
+  private getCollector(parentID: string | null): CmtCollector | undefined {
+    return parentID ? this.replyCollectors[parentID] : this.rootCollector;
+  }
+
+  private handleTotalCmtCountChange(changed: number) {
+    this.totalCmtCount += changed;
+    this.events.emit(totalCmtCountChanged, this.totalCmtCount);
   }
 }

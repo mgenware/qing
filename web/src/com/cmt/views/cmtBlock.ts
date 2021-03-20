@@ -4,13 +4,16 @@ import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
-import Cmt, { CmtCountChangedEventDetail } from '../data/cmt';
+import Cmt, { CmtCountChangedEventDetail, isReply } from '../data/cmt';
 import './cmtFooterView';
 import { SetCmtResponse } from '../loaders/setCmtLoader';
 import { CHECK } from 'checks';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
+import { ItemsLoadedResponse } from 'lib/itemCollector';
+import app from 'app';
+import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 
 @customElement('cmt-block')
 // Shows a comment view along with its replies.
@@ -41,7 +44,7 @@ export class CmtBlock extends BaseElement {
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
-  @lp.array private items: Cmt[] = [];
+  @lp.array private items: ReadonlyArray<Cmt> = [];
   @lp.bool hasNext = false;
 
   // Number of replies under this comment.
@@ -59,7 +62,7 @@ export class CmtBlock extends BaseElement {
     this.hasNext = !!this.totalCount;
 
     hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
-    hub.onChildItemsChanged(cmt.id, (e) => {
+    hub.onChildItemsChanged(cmt.id, (e: ItemsLoadedResponse<Cmt>) => {
       this.items = e.items;
       this.hasNext = e.hasNext;
     });
@@ -72,11 +75,8 @@ export class CmtBlock extends BaseElement {
       (it) => it.id,
       (it) => html`
         <cmt-view
-          .hostID=${this.hostID}
-          .hostType=${this.hostType}
           .cmt=${it}
           .parentCmtID=${cmt.id}
-          isReply
           @cmtDeleted=${this.handleReplyDeleted}
           @cmtAdded=${this.handleReplyCreated}
         ></cmt-view>
@@ -128,14 +128,31 @@ export class CmtBlock extends BaseElement {
     );
   }
 
-  private handleReplyCreated(e: CustomEvent<SetCmtResponse>) {
-    this.hub.addCmt(this.cmt.id, e.detail.cmt);
-    this.onReplyCountChanged(1);
+  private handleChildReplyClick(e: CustomEvent<Cmt>) {
+    const { hub } = this;
+    const target = e.detail;
+    hub.requestOpenEditor({
+      open: true,
+      editing: null,
+      // No matter we're reply to a comment or reply, we're creating a reply.
+      // It must have a parent ID, which is current comment.
+      parent: this.cmt,
+      replyingTo: target,
+    });
   }
 
-  private handleReplyDeleted(index: number) {
-    this.hub.removeCmt(this.cmt.id, index);
-    this.onReplyCountChanged(-1);
+  private async handleChildDeleteClick(e: CustomEvent<Cmt>) {
+    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
+      app.alert.showLoadingOverlay(ls.working);
+
+      const target = e.detail;
+      const loader = new DeleteCmtLoader(target.id, this.hostType, this.hostID, isReply(target));
+      const status = await app.runGlobalActionAsync(loader, ls.working);
+      if (status.isSuccess) {
+        this.hub.removeCmt(this.cmt.id, index);
+        this.onReplyCountChanged(-1);
+      }
+    }
   }
 
   private onReplyCountChanged(offset: number) {
