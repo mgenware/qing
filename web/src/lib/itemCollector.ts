@@ -2,9 +2,14 @@ import KeyedArray from 'qing-keyed-array';
 import Loader from './loader';
 import LoadingStatus from './loadingStatus';
 
-export interface ItemsLoadedDetail<T> {
-  items?: T[];
+export interface ItemsLoadedServerResponse<T> {
+  items?: ReadonlyArray<T>;
   hasNext?: boolean;
+}
+
+export interface ItemsChangedDetail<T> {
+  items: ReadonlyArray<T>;
+  hasNext: boolean;
 }
 
 export abstract class ItemCollector<T> {
@@ -15,18 +20,26 @@ export abstract class ItemCollector<T> {
   // duplicates and prevent this from happening.
   items: KeyedArray<string, T>;
 
-  protected page = 1;
-  protected hasNext = false;
-  protected count = 0;
+  page = 1;
+  hasNext = false;
+
+  get count(): number {
+    return this.items.count;
+  }
 
   constructor(
+    public totalCount: number,
     public keyFn: (item: T) => string,
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsLoaded: (e: ItemsLoadedDetail<T>) => void,
-    public itemsChanged: () => void,
+    public itemsChanged: (e: ItemsChangedDetail<T>) => void,
   ) {
     this.items = new KeyedArray<string, T>(true, keyFn);
-    this.items.onArrayChanged = itemsChanged;
+    this.items.onArrayChanged = () => {
+      itemsChanged({
+        items: this.items.array,
+        hasNext: this.hasNext,
+      });
+    };
   }
 
   async loadMoreAsync() {
@@ -39,12 +52,7 @@ export abstract class ItemCollector<T> {
     this.hasNext = payload.hasNext ?? false;
     this.page += 1;
     this.items.push(...newItems);
-
-    this.itemsLoaded({
-      items: newItems,
-      hasNext: this.hasNext,
-    });
   }
 
-  protected abstract createLoader(): Loader<ItemsLoadedDetail<T>>;
+  protected abstract createLoader(): Loader<ItemsLoadedServerResponse<T>>;
 }

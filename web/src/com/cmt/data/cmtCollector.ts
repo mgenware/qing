@@ -1,4 +1,4 @@
-import { ItemCollector, ItemsResponse, ItemsChangedEventArgs } from 'lib/itemCollector';
+import { ItemCollector, ItemsLoadedResponse } from 'lib/itemCollector';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
@@ -13,12 +13,12 @@ export default class CmtCollector extends ItemCollector<Cmt> {
     public cmtInputs: GetCmtsInputsWithoutPage | undefined,
     public replyInputs: GetRepliesInputsWithoutPage | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: ItemsChangedEventArgs<Cmt>) => void,
+    public itemsChanged: (e: ItemsLoadedResponse<Cmt>) => void,
   ) {
-    super(loadingStatusChanged, itemsChanged);
+    super((it) => it.id, loadingStatusChanged, itemsChanged);
   }
 
-  protected createLoader(): Loader<ItemsResponse<Cmt>> {
+  protected createLoader(): Loader<ItemsLoadedResponse<Cmt>> {
     if (this.cmtInputs) {
       return GetCmtsLoader.cmt({
         ...this.cmtInputs,
@@ -32,9 +32,5 @@ export default class CmtCollector extends ItemCollector<Cmt> {
       });
     }
     throw new Error('Both `cmtInputs` and `replyInputs` are undefined.');
-  }
-
-  protected getItemID(item: Cmt): string {
-    return item.id;
   }
 }
