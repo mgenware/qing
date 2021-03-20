@@ -6,8 +6,7 @@ import { ls, formatLS } from 'ls';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
-import Cmt, { CmtCountChangedEventDetail } from '../data/cmt';
-import './cmtView';
+import Cmt from '../data/cmt';
 import './cmtBlock';
 import './cmtFooterView';
 import { CHECK } from 'checks';
@@ -42,7 +41,7 @@ export class RootCmtList extends BaseElement {
   @lp.bool hasNext = false;
 
   @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
-  @lp.object hub!: CmtDataHub;
+  @lp.object hub?: CmtDataHub;
 
   firstUpdated() {
     CHECK(this.hub);
@@ -54,6 +53,8 @@ export class RootCmtList extends BaseElement {
     hub.onRootItemsChanged((e) => {
       this.items = e.items;
       this.hasNext = e.hasNext;
+      // Ignore `e.totalCount`, it's useless for root collector.
+      // See `totalCmtCount` in `cmt-app`.
     });
 
     if (this.loadOnVisible) {
@@ -77,14 +78,7 @@ export class RootCmtList extends BaseElement {
       const childViews = repeat(
         this.items,
         (it) => it.id,
-        (it, i) => html`
-          <cmt-block
-            .cmt=${it}
-            @replyCountChanged=${this.handleReplyCountChanged}
-            @rootCmtDeleted=${(e: CustomEvent<CmtCountChangedEventDetail>) =>
-              this.handleRootCmtDeleted(i, e.detail)}
-          ></cmt-block>
-        `,
+        (it) => html` <cmt-block .cmt=${it} .hub=${this.hub}></cmt-block> `,
       );
       contentGroup = html`
         <div>
@@ -120,11 +114,7 @@ export class RootCmtList extends BaseElement {
   }
 
   private async loadMore() {
-    await this.hub.loadMoreAsync();
-  }
-
-  private handleReplyCountChanged(e: CustomEvent<CmtCountChangedEventDetail>) {
-    this.onTotalCountChanged(e.detail.offset);
+    await this.hub?.loadMoreAsync();
   }
 
   private renderLoginToComment() {
@@ -150,23 +140,13 @@ export class RootCmtList extends BaseElement {
     `;
   }
 
-  private handleRootCmtDeleted(index: number, detail: CmtCountChangedEventDetail) {
-    this.cmtCollector?.deleteByIndex(index);
-    // Total number of comments is down by 1 (this comment) plus all its replies.
-    // `detail.count` can be undefined if the comment doesn't contain any replies.
-    this.onTotalCountChanged(-(detail.count || 0) - 1);
-  }
-
   private handleAddCommentButtonClick() {
-    this.hub.requestOpenEditor({});
-  }
-
-  private onTotalCountChanged(offset: number) {
-    this.dispatchEvent(
-      new CustomEvent<number>('totalCountChangedWithOffset', {
-        detail: offset,
-      }),
-    );
+    this.hub?.requestOpenEditor({
+      open: true,
+      parent: null,
+      editing: null,
+      replyingTo: null,
+    });
   }
 }
 

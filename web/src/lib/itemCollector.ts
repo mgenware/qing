@@ -2,7 +2,7 @@ import KeyedArray from 'qing-keyed-array';
 import Loader from './loader';
 import LoadingStatus from './loadingStatus';
 
-export interface ItemsLoadedServerResponse<T> {
+export interface ItemsLoadedResp<T> {
   items?: ReadonlyArray<T>;
   hasNext?: boolean;
 }
@@ -62,5 +62,5 @@ export abstract class ItemCollector<T> {
     this.items.push(...newItems);
   }
 
-  protected abstract createLoader(): Loader<ItemsLoadedServerResponse<T>>;
+  protected abstract createLoader(): Loader<ItemsLoadedResp<T>>;
 }

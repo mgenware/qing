@@ -27,17 +27,17 @@ export class CmtView extends BaseElement {
     ];
   }
 
-  @lp.object cmt!: Cmt;
+  @lp.object cmt?: Cmt;
   // Only available to replies.
-  @lp.string parentCmtID: string | null = null;
+  @lp.string parentCmtID?: string;
 
-  constructor() {
-    super();
+  firstUpdated() {
     CHECK(this.cmt);
   }
 
   render() {
     const { cmt } = this;
+    CHECK(cmt);
     const isReply = isCmtReply(cmt);
     return html`
       <div class="m-t-md row">
@@ -92,18 +92,21 @@ export class CmtView extends BaseElement {
   }
 
   private handleEditClick() {
+    CHECK(this.cmt);
     this.dispatchEvent(
       new CustomEvent<Cmt>('editClick', { detail: this.cmt }),
     );
   }
 
   private handleDeleteClick() {
+    CHECK(this.cmt);
     this.dispatchEvent(
       new CustomEvent<Cmt>('deleteClick', { detail: this.cmt }),
     );
   }
 
   private async handleReplyClick() {
+    CHECK(this.cmt);
     this.dispatchEvent(
       new CustomEvent<Cmt>('replyClick', { detail: this.cmt }),
     );

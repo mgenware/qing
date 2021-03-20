@@ -2,7 +2,7 @@ import app from 'app';
 
 const errMessage = 'Assertion failed';
 
-export function CHECK(v: unknown) {
+export function CHECK(v: unknown): asserts v {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!v) {
     if (app.devMode) {

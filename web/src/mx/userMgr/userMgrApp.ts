@@ -14,7 +14,6 @@ import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
 import app from 'app';
 import SetAdminLoader from './loaders/setAdminLoader';
-import { skipItem } from 'lib/arrayUtils';
 import 'com/user/userCard';
 import { tif } from 'lib/htmlLib';
 
@@ -113,7 +112,7 @@ export class UserMgrApp extends BaseElement {
     const loader = new SetAdminLoader(user.eid, false);
     const res = await app.runGlobalActionAsync(loader);
     if (res.isSuccess) {
-      this.admins = skipItem(this.admins, user);
+      this.admins = this.admins.filter((ad) => ad !== user);
     }
   }
 

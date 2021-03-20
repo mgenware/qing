@@ -1,10 +1,14 @@
 export type EventEmitterAction = (arg: unknown) => void;
 
 export class EventEmitter {
-  private actions: Record<string, EventEmitterAction[]> = [];
+  private actions: Record<string, EventEmitterAction[]> = {};
 
   addListener(name: string, cb: EventEmitterAction): EventEmitterAction {
-    (this.actions[name] ??= [])).push(cb);
+    const { actions } = this;
+    if (!actions[name]) {
+      actions[name] = [];
+    }
+    this.actions[name]?.push(cb);
 
     return () => {
       const list = this.actions[name];
@@ -23,7 +27,7 @@ export class EventEmitter {
     if (!list) {
       return false;
     }
-    list.forEach(cb => cb(arg));
+    list.forEach((cb) => cb(arg));
     return true;
   }
 }

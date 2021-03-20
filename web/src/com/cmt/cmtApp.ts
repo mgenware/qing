@@ -1,10 +1,8 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import 'ui/lists/itemCounter';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import './views/cmtView';
 import './views/rootCmtList';
 import { CHECK } from 'checks';
 import 'qing-overlay';
@@ -37,18 +35,17 @@ export class CmtApp extends BaseElement {
   @lp.string hostID = '';
   @lp.number hostType = 0;
 
-  @lp.object editorProps: CmtEditorProps;
+  @lp.object editorProps = this.closedEditorProps();
 
   // The number of all comments and their replies.
   @lp.number private totalCmtCount = 0;
 
-  private hub: CmtDataHub;
+  private hub?: CmtDataHub;
 
-  constructor() {
-    super();
-
+  firstUpdated() {
     CHECK(this.hostID);
     CHECK(this.hostType);
+
     this.editorProps = this.closedEditorProps();
     const hub = new CmtDataHub(this.initialTotalCmtCount, this.hostID, this.hostType);
     hub.onOpenEditorRequested((req) => (this.editorProps = req));
@@ -65,6 +62,7 @@ export class CmtApp extends BaseElement {
     const isReply = !!editorProps.parent;
     return html`
       <root-cmt-list
+        .hub=${this.hub}
         .totalCmtCount=${this.totalCmtCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}
@@ -131,7 +129,7 @@ export class CmtApp extends BaseElement {
           // Add a reply.
         } else {
           // Add a comment.
-          hub.addCmt(null, serverCmt);
+          hub?.addCmt(null, serverCmt);
         }
       } else {
         // Edit a comment or reply.

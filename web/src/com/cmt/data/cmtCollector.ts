@@ -1,4 +1,4 @@
-import { ItemCollector, ItemsChangedDetail, ItemsLoadedServerResponse } from 'lib/itemCollector';
+import { ItemCollector, ItemsChangedDetail, ItemsLoadedResp } from 'lib/itemCollector';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
@@ -19,7 +19,7 @@ export default class CmtCollector extends ItemCollector<Cmt> {
     super(totalCount, (it) => it.id, loadingStatusChanged, itemsChanged);
   }
 
-  protected createLoader(): Loader<ItemsLoadedServerResponse<Cmt>> {
+  protected createLoader(): Loader<ItemsLoadedResp<Cmt>> {
     if (this.cmtInputs) {
       return GetCmtsLoader.cmt({
         ...this.cmtInputs,
