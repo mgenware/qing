@@ -20,7 +20,7 @@ export interface SetCmtResponse {
   cmt: Cmt;
 }
 
-export default class SetCmtLoader extends Loader<SetCmtResponse> {
+export class SetCmtLoader extends Loader<SetCmtResponse> {
   static newCmt(hostID: string, hostType: number, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
       hostID,

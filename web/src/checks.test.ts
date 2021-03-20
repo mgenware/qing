@@ -5,7 +5,7 @@ it('Check ignored in prod mode', () => {
   expect(() => CHECK(0)).to.not.throw();
 });
 
-it('Check fulfilled', () => {
+it('Check failed', () => {
   expect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).__qing_dev__ = true;

@@ -5,7 +5,7 @@ import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import app from 'app';
 import ls from 'ls';
-import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
+import { SetCmtLoader, SetCmtResponse } from './loaders/setCmtLoader';
 import { entityCmt } from 'sharedConstants';
 import { CHECK } from 'checks';
 
@@ -30,11 +30,6 @@ export class AddCmtApp extends BaseElement {
 
   render() {
     return html`
-      <p>
-        <qing-button btnStyle="success" @click=${this.handleCommentButtonClick}
-          >${ls.writeAComment}</qing-button
-        >
-      </p>
       <qing-overlay
         class="immersive"
         ?open=${this.open}

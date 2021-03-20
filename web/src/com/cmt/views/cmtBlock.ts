@@ -4,15 +4,17 @@ import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
-import Cmt, { CmtCountChangedEventDetail } from './data/cmt';
-import CmtCollector from './data/cmtCollector';
+import Cmt, { CmtCountChangedEventDetail } from '../data/cmt';
 import './cmtFooterView';
-import { SetCmtResponse } from './loaders/setCmtLoader';
+import { SetCmtResponse } from '../loaders/setCmtLoader';
 import { CHECK } from 'checks';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
+import { CmtDataHub } from '../data/cmtDataHub';
 
-@customElement('reply-list-view')
-export class ReplyListView extends BaseElement {
+@customElement('cmt-block')
+// Shows a comment view along with its replies.
+export class CmtBlock extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -32,53 +34,39 @@ export class ReplyListView extends BaseElement {
 
   @lp.string hostID = '';
   @lp.number hostType = 0;
-  @lp.object cmt: Cmt | null = null;
+
+  @lp.object cmt!: Cmt;
+  @lp.object hub!: CmtDataHub;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
-  @lp.number page = 1;
 
   // Number of replies under this comment.
   @lp.number totalCount = 0;
-
-  private replyCollector: CmtCollector | null = null;
   @lp.object private collectorLoadingStatus = LoadingStatus.success;
 
   firstUpdated() {
-    const { cmt } = this;
+    const { cmt, hub } = this;
     CHECK(cmt);
-    if (!cmt) {
-      return;
-    }
+    CHECK(hub);
     CHECK(this.hostID);
     CHECK(this.hostType);
+
     this.totalCount = cmt.replyCount;
     this.hasNext = !!this.totalCount;
-    this.replyCollector = new CmtCollector(
-      undefined,
-      {
-        parentCmtID: cmt.id,
-        page: this.page,
-      },
-      (status) => {
-        this.collectorLoadingStatus = status;
-      },
-      (e) => {
-        this.items = e.items;
-        this.hasNext = e.hasNext;
-        this.page = e.page;
-      },
-    );
+
+    hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
+    hub.onChildItemsChanged(cmt.id, (e) => {
+      this.items = e.items;
+      this.hasNext = e.hasNext;
+    });
   }
 
   render() {
     const { cmt } = this;
-    if (!cmt) {
-      return html``;
-    }
     const childViews = repeat(
       this.items,
       (it) => it.id,
@@ -125,7 +113,7 @@ export class ReplyListView extends BaseElement {
   }
 
   private async handleViewMoreClick() {
-    await this.replyCollector?.loadMoreAsync();
+    await this.hub.loadMoreAsync(this.cmt.id);
   }
 
   private handleRootCmtDeleted() {
@@ -141,12 +129,12 @@ export class ReplyListView extends BaseElement {
   }
 
   private handleReplyCreated(e: CustomEvent<SetCmtResponse>) {
-    this.replyCollector?.append([e.detail.cmt]);
+    this.hub.addCmt(this.cmt.id, e.detail.cmt);
     this.onReplyCountChanged(1);
   }
 
   private handleReplyDeleted(index: number) {
-    this.replyCollector?.deleteByIndex(index);
+    this.hub.removeCmt(this.cmt.id, index);
     this.onReplyCountChanged(-1);
   }
 
@@ -165,6 +153,6 @@ export class ReplyListView extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'reply-list-view': ReplyListView;
+    'cmt-block': CmtBlock;
   }
 }

@@ -1,4 +1,5 @@
 import * as arrayUtils from 'lib/arrayUtils';
+import { pureArrayRemoveAt, pureArraySet } from 'f-array.splice';
 import Loader from './loader';
 import LoadingStatus from './loadingStatus';
 
@@ -52,15 +53,31 @@ export abstract class ItemCollector<T> {
   protected abstract createLoader(): Loader<ItemsResponse<T>>;
   protected abstract getItemID(item: T): string;
 
-  deleteByIndex(idx: number) {
-    const item = this.items[idx];
+  deleteItem(key: string) {
+    const item = this.itemMap[key];
     if (!item) {
       return;
     }
-    this.items = arrayUtils.skipIndex(this.items, idx);
     this.deleteMapItem(this.getItemID(item));
+    const idx = this.items.indexOf(item);
+    if (idx >= 0) {
+      this.items = pureArrayRemoveAt(this.items, idx);
+    }
     this.count--;
     this.actualCount--;
+    this.onItemsChanged([]);
+  }
+
+  replaceItem(key: string, newItem: T) {
+    const item = this.itemMap[key];
+    if (!item) {
+      return;
+    }
+    this.itemMap[key] = newItem;
+    const idx = this.items.indexOf(item);
+    if (idx >= 0) {
+      this.items = pureArraySet(this.items, idx, newItem);
+    }
     this.onItemsChanged([]);
   }
 

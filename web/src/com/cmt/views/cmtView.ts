@@ -13,10 +13,10 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import LoadingStatus from 'lib/loadingStatus';
 import { ComposerView, ComposerContent } from 'ui/editor/composerView';
 import { staticMainImage } from 'urls';
-import Cmt, { isReply } from './data/cmt';
-import DeleteCmtLoader from './loaders/deleteCmtLoader';
-import SetCmtLoader, { SetCmtResponse } from './loaders/setCmtLoader';
-import { GetCmtSourceLoader } from './loaders/getCmtSrcLoader';
+import Cmt, { isReply } from '../data/cmt';
+import DeleteCmtLoader from '../loaders/deleteCmtLoader';
+import { SetCmtLoader, SetCmtResponse } from '../loaders/setCmtLoader';
+import { GetCmtSourceLoader } from '../loaders/getCmtSrcLoader';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
 

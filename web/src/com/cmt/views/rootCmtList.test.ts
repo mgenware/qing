@@ -1,8 +1,8 @@
 import { html, fixture, tDOM } from 'qing-t';
-import './cmtListView';
+import './rootCmtList';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<cmt-list-view></cmt-list-view>`);
+  const el = await fixture<HTMLElement>(html`<root-cmt-list></root-cmt-list>`);
 
   tDOM.isBlockElement(el);
 });

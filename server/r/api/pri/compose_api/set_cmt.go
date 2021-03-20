@@ -36,7 +36,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	content, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentData, "contentHTML"))
 
 	if id == 0 {
-		// We are creating a new cmt.
+		// Create a comment or reply.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
 		capt := validator.MustGetStringFromDict(contentData, "captcha", defs.Shared.MaxCaptchaLen)
@@ -76,10 +76,16 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		respData := SetCmtResponse{Cmt: &cmt}
 		return resp.MustComplete(respData)
 	} else {
-		// Editing a cmt.
-		err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
-		app.PanicIfErr(err)
+		// Edit a comment or reply.
+		isReply := validator.MustGetIntFromDict(params, "isReply")
 
+		if isReply == 0 {
+			err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
+			app.PanicIfErr(err)
+		} else {
+			err := da.Reply.EditReply(app.DB, id, uid, content, sanitizedToken)
+			app.PanicIfErr(err)
+		}
 		cmt := &apicom.Cmt{EID: validator.EncodeID(id)}
 		cmt.ContentHTML = content
 		now := time.Now()

@@ -4,9 +4,8 @@ import * as lp from 'lit-props';
 import 'ui/lists/itemCounter';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import './cmtView';
-import './addCmtApp';
-import './cmtListView';
+import './views/cmtView';
+import './views/rootCmtList';
 import { CHECK } from 'checks';
 import 'qing-overlay';
 import 'ui/editor/composerView';
@@ -15,6 +14,9 @@ import { tif } from 'lib/htmlLib';
 import { entityCmt, entityReply } from 'sharedConstants';
 import ls, { formatLS } from 'ls';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
+import { SetCmtLoader } from './loaders/setCmtLoader';
+import app from 'app';
+import { CmtDataHub, OpenCmtEditorRequest } from './data/cmtDataHub';
 
 const composerID = 'composer';
 
@@ -35,14 +37,19 @@ export class CmtApp extends BaseElement {
   @lp.string hostID = '';
   @lp.number hostType = 0;
 
-  // Editor-related props.
-  @lp.bool editorOpen = false;
-  @lp.string editorEntityID = '';
-  @lp.number editorEntityType = 0;
-  @lp.string editorSubmitButtonText = '';
-  @lp.object editorQuotedCmt: Cmt | null = null;
+  @lp.object editorProps: OpenCmtEditorRequest = { open: false };
 
   @lp.number private totalCount = 0;
+
+  private hub: CmtDataHub;
+
+  constructor() {
+    super();
+
+    const hub = new CmtDataHub(this.hostID, this.hostType);
+    hub.onOpenEditorRequested((req) => (this.editorProps = req));
+    this.hub = hub;
+  }
 
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
@@ -55,31 +62,30 @@ export class CmtApp extends BaseElement {
   }
 
   render() {
-    const { editorQuotedCmt } = this;
+    const { editorProps } = this;
+    const isReply = !!editorProps.parent;
     return html`
-      <cmt-list-view
+      <root-cmt-list
         .totalCount=${this.totalCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}
         .loadOnVisible=${!!this.initialCount}
         @totalCountChangedWithOffset=${this.handleTotalCountChangedWithOffset}
-      ></cmt-list-view>
-      <qing-overlay
-        class="immersive"
-        ?open=${this.editorOpen}
-        @openChanged=${(e: CustomEvent<boolean>) => (this.editorOpen = e.detail)}
-      >
+      ></root-cmt-list>
+      <qing-overlay class="immersive" ?open=${editorProps.open}>
         <h2>
-          ${editorQuotedCmt ? formatLS(ls.pReplyTo, editorQuotedCmt.userName) : ls.writeAComment}
+          ${editorProps.replyingTo
+            ? formatLS(ls.pReplyTo, editorProps.replyingTo.userName)
+            : ls.writeAComment}
         </h2>
         ${tif(
-          editorQuotedCmt,
-          html`<blockquote>${unsafeHTML(editorQuotedCmt?.contentHTML)}</blockquote>`,
+          editorProps.replyingTo,
+          html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML)}</blockquote>`,
         )}
         <composer-view
-          .entityID=${this.editorEntityID}
-          .entityType=${this.editorEntityType}
-          .submitButtonText=${this.editorSubmitButtonText}
+          .entityID=${editorProps.current?.id || ''}
+          .entityType=${isReply ? entityReply : entityCmt}
+          .submitButtonText=${editorProps.submitButtonText || ''}
           @onSubmit=${this.handleSubmit}
           @onDiscard=${this.handleDiscard}
         ></composer-view>
@@ -87,37 +93,65 @@ export class CmtApp extends BaseElement {
     `;
   }
 
-  private showEditor(editingCmt: Cmt | null, quotedCmt: Cmt | null, isReply: boolean) {
-    // Editor-related props must be reset on each session. To ensure that, we declare those
-    // vars locally and re-assign them at the end of the func.
-    let entityID = '';
-    const entityType = isReply ? entityReply : entityCmt;
-    if (editingCmt) {
-      entityID = editingCmt.id;
-    }
-
-    this.editorQuotedCmt = quotedCmt;
-    this.editorEntityID = entityID;
-    this.editorEntityType = entityType;
-    this.editorOpen = true;
+  private handleTotalCountChangedWithOffset(e: CustomEvent<number>) {
+    this.totalCount += e.detail;
   }
 
   private handleDiscard() {
-    this.editorOpen = false;
+    this.editorProps = { open: false };
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const loader = new SetPostLoader(this.editedID, e.detail, this.entityType);
-    if (this.discussionID) {
-      loader.discussionID = this.discussionID;
+    const { editorProps, composerEl, hub } = this;
+
+    let loader: SetCmtLoader;
+    if (!editorProps.current) {
+      if (editorProps.parent) {
+        // Add a reply.
+        loader = SetCmtLoader.newReply(
+          this.hostID,
+          this.hostType,
+          // `toUserID`:
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          editorProps.replyingTo!.userID,
+          // `parentCmtID`:
+          editorProps.parent.id,
+          e.detail,
+        );
+      } else {
+        // Add a comment.
+        loader = SetCmtLoader.newCmt(this.hostID, this.hostType, e.detail);
+      }
+    } else {
+      // Edit a comment or reply.
+      loader = SetCmtLoader.editCmt(this.hostID, this.hostType, editorProps.current.id, e.detail);
     }
-    const status = await app.runGlobalActionAsync(
-      loader,
-      this.editedID ? ls.saving : ls.publishing,
-    );
+
+    const status = await app.runGlobalActionAsync(loader, ls.publishing);
     if (status.data) {
-      this.composerEl?.markAsSaved();
-      app.page.setURL(status.data);
+      const serverCmt = status.data.cmt;
+      composerEl?.markAsSaved();
+
+      if (!editorProps.current) {
+        if (editorProps.parent) {
+          // Add a reply.
+        } else {
+          // Add a comment.
+          hub.addCmt(null, serverCmt);
+        }
+      } else {
+        // Edit a comment or reply.
+
+        // Copy all properties from the comment returned from server except for `createdAt`.
+        // We're hot patching the cmt object, and the `createdAt` property
+        // is something server must return (an empty timestamp) but doesn't
+        // make sense here.
+        const newCmt: Cmt = {
+          ...editorProps.current,
+          ...serverCmt,
+        };
+        newCmt.createdAt = editorProps.current.createdAt;
+      }
     }
   }
 }

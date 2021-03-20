@@ -6,17 +6,18 @@ import { ls, formatLS } from 'ls';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
-import CmtCollector from './data/cmtCollector';
-import Cmt, { CmtCountChangedEventDetail } from './data/cmt';
+import Cmt, { CmtCountChangedEventDetail } from '../data/cmt';
 import './cmtView';
-import './replyListView';
+import './cmtBlock';
 import './cmtFooterView';
-import { SetCmtResponse } from './loaders/setCmtLoader';
 import { CHECK } from 'checks';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
+import { CmtDataHub } from '../data/cmtDataHub';
 
-@customElement('cmt-list-view')
-export class CmtListView extends BaseElement {
+@customElement('root-cmt-list')
+// Displays a list of <cmt-block>.
+export class RootCmtList extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -28,8 +29,6 @@ export class CmtListView extends BaseElement {
     ];
   }
 
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
   // The number of all top-level comments and their replies.
   @lp.number totalCount = 0;
   // Starts loading comment when the component is first visible.
@@ -40,31 +39,21 @@ export class CmtListView extends BaseElement {
   // DO NOT modify `items` elsewhere.
   @lp.array private items: Cmt[] = [];
   @lp.bool hasNext = false;
-  @lp.number page = 1;
 
-  private cmtCollector: CmtCollector | null = null;
   @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
+  @lp.object hub!: CmtDataHub;
 
   firstUpdated() {
-    CHECK(this.hostID);
-    CHECK(this.hostType);
+    CHECK(this.hub);
 
-    this.cmtCollector = new CmtCollector(
-      {
-        hostID: this.hostID,
-        hostType: this.hostType,
-        page: this.page,
-      },
-      undefined,
-      (status) => {
-        this.collectorLoadingStatus = status;
-      },
-      (e) => {
-        this.items = e.items;
-        this.hasNext = e.hasNext;
-        this.page = e.page;
-      },
-    );
+    const { hub } = this;
+    hub.onLoadingStatusChanged((status) => {
+      this.collectorLoadingStatus = status;
+    });
+    hub.onItemsChanged((e) => {
+      this.items = e.items;
+      this.hasNext = e.hasNext;
+    });
 
     if (this.loadOnVisible) {
       listenForVisibilityChange([this], () => this.loadMore());
@@ -88,14 +77,14 @@ export class CmtListView extends BaseElement {
         this.items,
         (it) => it.id,
         (it, i) => html`
-          <reply-list-view
+          <cmt-block
             .cmt=${it}
             .hostID=${this.hostID}
             .hostType=${this.hostType}
             @replyCountChanged=${this.handleReplyCountChanged}
             @rootCmtDeleted=${(e: CustomEvent<CmtCountChangedEventDetail>) =>
               this.handleRootCmtDeleted(i, e.detail)}
-          ></reply-list-view>
+          ></cmt-block>
         `,
       );
       contentGroup = html`
@@ -130,7 +119,7 @@ export class CmtListView extends BaseElement {
   }
 
   private async loadMore() {
-    await this.cmtCollector?.loadMoreAsync();
+    await this.hub.loadMoreAsync();
   }
 
   private handleReplyCountChanged(e: CustomEvent<CmtCountChangedEventDetail>) {
@@ -152,16 +141,12 @@ export class CmtListView extends BaseElement {
 
   private renderCommentComposer() {
     return html`
-      <add-cmt-app
-        .hostID=${this.hostID}
-        .hostType=${this.hostType}
-        @cmtAdded=${this.handleCmtAdded}
-      ></add-cmt-app>
+      <p>
+        <qing-button btnStyle="success" @click=${this.handleAddCommentButtonClick}
+          >${ls.writeAComment}</qing-button
+        >
+      </p>
     `;
-  }
-
-  private async handleCmtAdded(e: CustomEvent<SetCmtResponse>) {
-    this.cmtCollector?.prepend([e.detail.cmt]);
   }
 
   private handleRootCmtDeleted(index: number, detail: CmtCountChangedEventDetail) {
@@ -169,6 +154,10 @@ export class CmtListView extends BaseElement {
     // Total number of comments is down by 1 (this comment) plus all its replies.
     // `detail.count` can be undefined if the comment doesn't contain any replies.
     this.onTotalCountChanged(-(detail.count || 0) - 1);
+  }
+
+  private handleAddCommentButtonClick() {
+    this.hub.requestOpenEditor({});
   }
 
   private onTotalCountChanged(offset: number) {
@@ -182,6 +171,6 @@ export class CmtListView extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cmt-list-view': CmtListView;
+    'root-cmt-list': RootCmtList;
   }
 }
