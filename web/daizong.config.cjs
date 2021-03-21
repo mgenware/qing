@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2019 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can be
+ * found in the LICENSE file.
+ */
+
 const turboBuildCmd = 'ttsc -p ./tsconfig-turbo.json';
 const utCmd = 'web-test-runner "./dist/**/*.test.js" --node-resolve';
 const devEnv = {

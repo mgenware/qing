@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2019 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can be
+ * found in the LICENSE file.
+ */
+
 /* eslint-disable no-alert */
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
