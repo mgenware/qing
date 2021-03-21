@@ -16,10 +16,6 @@ export class Cmt extends mm.Table {
   created_at = mm.datetime('utc');
   modified_at = mm.datetime('utc').nullable;
 
-  // `host_id` is only used to retrieve host ID in order to update cmt count when deleting a cmt.
-  // It's not used to fetch post cmts and not a FK(not indexed).
-  host_id = mm.uBigInt();
-
   reply_count = mm.uInt().default(0);
   likes = mm.uInt().default(0);
 }

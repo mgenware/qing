@@ -52,8 +52,11 @@ export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQ
 export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   return mm
     .transact(
+      // Insert the cmt.
       mm.insertOne().from(cmt).setDefaults().setInputs().declareInsertedID(cmtID),
+      // Set up relationship with host.
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
+      // cmt count ++.
       updateCmtCountAction(ht, 1),
     )
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
@@ -61,14 +64,20 @@ export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
     .setReturnValues(cmtID);
 }
 
-export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
+export function deleteCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
+  const cmtTableJoin = rt.cmt_id.join(cmt);
   return mm
     .transact(
-      cmtTA.getHostIDAndReplyCount.declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
+      // Fetch host ID and reply count.
+      mm
+        .selectRow(rt.host_id, cmtTableJoin.reply_count)
+        .by(rt.cmt_id)
+        .from(rt)
+        .declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
+      // Delete the cmt.
       mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
-      // host.cmtCount = host.cmtCount -replyCount - 1 (the comment itself)
-      // The inputs of `updateCmtCountAction` are from the results of
-      // `cmtTA.getHostIDAndReplyCount`.
+      // host.cmtCount = host.cmtCount - replyCount - 1 (the comment itself)
+      // The inputs of `updateCmtCountAction` are from the results of the first mem of this TX.
       updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
         replyCount: mm.valueRef(`${hostIDAndReplyCount}.ReplyCount`),
         hostID: mm.valueRef(`${hostIDAndReplyCount}.HostID`),
@@ -80,11 +89,14 @@ export function deleteCmtAction(ht: CmtHostTable): mm.TransactAction {
 export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
+      // Insert the reply.
       replyTA.insertReplyCore.declareInsertedID(replyID),
+      // cmt.replyCount++.
       cmtTA.updateReplyCount.wrap({
         offset: '1',
         id: mm.valueRef(parentID),
       }),
+      // host.cmtCount++.
       updateCmtCountAction(ht, 1),
     )
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
@@ -92,17 +104,20 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
     .setReturnValues(replyID);
 }
 
-export function deleteReplyAction(ht: CmtHostTable): mm.TransactAction {
+export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   return mm
     .transact(
       // Get cmt ID and host ID.
       mm
-        .selectRow(reply.parent_id, reply.parent_id.join(cmt).host_id)
+        .selectRow(reply.parent_id, reply.parent_id.join(cmt).id.join(rt).host_id)
         .from(reply)
         .by(reply.id)
         .declareReturnValue(mm.ReturnValues.result, cmtIDAndHostID),
+      // Delete the reply.
       replyTA.deleteReplyCore,
+      // cmt.replyCount--.
       updateCmtCountAction(ht, -1).wrap({ hostID: mm.valueRef(`${cmtIDAndHostID}.ParentHostID`) }),
+      // host.cmtCount--.
       cmtTA.updateReplyCount.wrap({
         offset: '-1',
         id: mm.valueRef(`${cmtIDAndHostID}.ParentID`),

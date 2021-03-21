@@ -10,6 +10,8 @@ import { cmt as t } from '../../models/cmt/cmt';
 import * as cm from '../../models/common';
 import { defaultUpdateConditions } from '../common';
 
+// Most cmt/reply-related funcs are built into the host table itself.
+// Those in `CmtTA` are ones don't rely on `host.cmt_count`.
 export class CmtTA extends mm.TableActions {
   editCmt = mm
     .updateOne()
@@ -17,8 +19,6 @@ export class CmtTA extends mm.TableActions {
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
   selectCmtSource = mm.selectRow(t.content).whereSQL(defaultUpdateConditions(t));
-
-  getHostIDAndReplyCount = mm.selectRow(t.host_id, t.reply_count).by(t.id);
 
   updateReplyCount = mm
     .updateOne()

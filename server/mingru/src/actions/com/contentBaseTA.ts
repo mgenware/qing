@@ -114,9 +114,9 @@ export default abstract class ContentBaseTA extends mm.TableActions {
 
     this.selectCmts = cmtf.selectCmts(this.getCmtBaseTable());
     this.insertCmt = cmtf.insertCmtAction(t, this.getCmtBaseTable());
-    this.deleteCmt = cmtf.deleteCmtAction(t);
+    this.deleteCmt = cmtf.deleteCmtAction(t, this.getCmtBaseTable());
     this.insertReply = cmtf.insertReplyAction(t);
-    this.deleteReply = cmtf.deleteReplyAction(t);
+    this.deleteReply = cmtf.deleteReplyAction(t, this.getCmtBaseTable());
   }
 
   // Gets the underlying `ContentBase` table.
