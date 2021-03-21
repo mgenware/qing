@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css, PropertyValues } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import app from 'app';
@@ -16,7 +16,6 @@ import { listenForVisibilityChange } from 'lib/htmlLib';
 import Cmt from '../data/cmt';
 import './cmtBlock';
 import './cmtFooterView';
-import { CHECK } from 'checks';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
@@ -38,6 +37,9 @@ export class RootCmtList extends BaseElement {
   // The number of all comments and their replies.
   @lp.number totalCmtCount = 0;
 
+  @lp.string hostID = '';
+  @lp.number hostType = 0;
+
   // Starts loading comment when the component is first visible.
   @lp.bool loadOnVisible = false;
 
@@ -51,23 +53,28 @@ export class RootCmtList extends BaseElement {
   @lp.object hub: CmtDataHub | null = null;
 
   firstUpdated() {
-    CHECK(this.hub);
+    // DO NOT use `firstUpdated` here. See `updated` and `hub`.
+  }
 
+  // `hub` is updated in parent `firstUpdated`, we cannot access it in child `firstUpdated`.
+  updated(changedProperties: PropertyValues<this>) {
     const { hub } = this;
-    hub.onRootLoadingStatusChanged((status) => {
-      this.collectorLoadingStatus = status;
-    });
-    hub.onRootItemsChanged((e) => {
-      this.items = e.items;
-      this.hasNext = e.hasNext;
-      // Ignore `e.totalCount`, it's useless for root collector.
-      // See `totalCmtCount` in `cmt-app`.
-    });
+    if (changedProperties.has('hub') && hub) {
+      hub.onRootLoadingStatusChanged((status) => {
+        this.collectorLoadingStatus = status;
+      });
+      hub.onRootItemsChanged((e) => {
+        this.items = e.items;
+        this.hasNext = e.hasNext;
+        // Ignore `e.totalCount`, it's useless for root collector.
+        // See `totalCmtCount` in `cmt-app`.
+      });
 
-    if (this.loadOnVisible) {
-      listenForVisibilityChange([this], () => this.loadMore());
-    } else {
-      this.loadMore();
+      if (this.loadOnVisible) {
+        listenForVisibilityChange([this], () => this.loadMore());
+      } else {
+        this.loadMore();
+      }
     }
   }
 
@@ -85,7 +92,15 @@ export class RootCmtList extends BaseElement {
       const childViews = repeat(
         this.items,
         (it) => it.id,
-        (it) => html` <cmt-block .cmt=${it} .hub=${this.hub}></cmt-block> `,
+        (it) =>
+          html`
+            <cmt-block
+              .hostID=${this.hostID}
+              .hostType=${this.hostType}
+              .cmt=${it}
+              .hub=${this.hub}
+            ></cmt-block>
+          `,
       );
       contentGroup = html`
         <div>

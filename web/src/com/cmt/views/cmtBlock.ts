@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css, PropertyValues } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
@@ -58,21 +58,28 @@ export class CmtBlock extends BaseElement {
   @lp.object private collectorLoadingStatus = LoadingStatus.success;
 
   firstUpdated() {
-    const { cmt, hub } = this;
+    const { cmt } = this;
     CHECK(cmt);
-    CHECK(hub);
     CHECK(this.hostID);
     CHECK(this.hostType);
 
     this.totalCount = cmt.replyCount;
     this.hasNext = !!this.totalCount;
 
-    hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
-    hub.onChildItemsChanged(cmt.id, (e: ItemsChangedDetail<Cmt>) => {
-      this.items = e.items;
-      this.hasNext = e.hasNext;
-      this.totalCount = e.totalCount;
-    });
+    // DO NOT use `firstUpdated` here. See `updated` and `hub`.
+  }
+
+  // `hub` is updated in parent `firstUpdated`, we cannot access it in child `firstUpdated`.
+  updated(changedProperties: PropertyValues<this>) {
+    const { hub, cmt } = this;
+    if (changedProperties.has('hub') && hub && cmt) {
+      hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
+      hub.onChildItemsChanged(cmt.id, (e: ItemsChangedDetail<Cmt>) => {
+        this.items = e.items;
+        this.hasNext = e.hasNext;
+        this.totalCount = e.totalCount;
+      });
+    }
   }
 
   render() {
@@ -94,8 +101,6 @@ export class CmtBlock extends BaseElement {
     return html`
       <div>
         <cmt-view
-          .hostID=${this.hostID}
-          .hostType=${this.hostType}
           .cmt=${cmt}
           @replyClick=${this.handleCmtReplyClick}
           @editClick=${this.handleCmtEditClick}

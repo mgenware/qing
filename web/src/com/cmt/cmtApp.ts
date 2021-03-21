@@ -46,8 +46,7 @@ export class CmtApp extends BaseElement {
 
   // The number of all comments and their replies.
   @lp.number private totalCmtCount = 0;
-
-  private hub: CmtDataHub | null = null;
+  @lp.object private hub: CmtDataHub | null = null;
 
   firstUpdated() {
     CHECK(this.hostID);
