@@ -13,6 +13,8 @@ export function CHECK(v: unknown): asserts v {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!v) {
     if (app.devMode) {
+      // eslint-disable-next-line no-alert
+      alert(errMessage);
       throw new Error(errMessage);
     } else {
       // eslint-disable-next-line no-console
