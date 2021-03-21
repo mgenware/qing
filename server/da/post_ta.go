@@ -31,13 +31,13 @@ var Post = &TableTypePost{}
 
 // PostTableDeleteCmtChild1Result ...
 type PostTableDeleteCmtChild1Result struct {
-	CmtReplyCount uint   `json:"cmtReplyCount,omitempty"`
-	HostID        uint64 `json:"hostID,omitempty"`
+	HostID     uint64 `json:"hostID,omitempty"`
+	ReplyCount uint   `json:"replyCount,omitempty"`
 }
 
-func (da *TableTypePost) deleteCmtChild1(queryable mingru.Queryable, cmtID uint64) (PostTableDeleteCmtChild1Result, error) {
+func (da *TableTypePost) deleteCmtChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteCmtChild1Result, error) {
 	var result PostTableDeleteCmtChild1Result
-	err := queryable.QueryRow("SELECT `post_cmt`.`host_id` AS `host_id`, `join_1`.`reply_count` AS `cmt_reply_count` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` WHERE `post_cmt`.`cmt_id` = ?", cmtID).Scan(&result.HostID, &result.CmtReplyCount)
+	err := queryable.QueryRow("SELECT `post_cmt`.`host_id` AS `host_id`, `join_1`.`reply_count` AS `ReplyCount` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` WHERE `post_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
@@ -55,10 +55,10 @@ func (da *TableTypePost) deleteCmtChild3(queryable mingru.Queryable, hostID uint
 }
 
 // DeleteCmt ...
-func (da *TableTypePost) DeleteCmt(db *sql.DB, cmtID uint64, id uint64, userID uint64) error {
+func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		hostIDAndReplyCount, err := da.deleteCmtChild1(tx, cmtID)
+		hostIDAndReplyCount, err := da.deleteCmtChild1(tx, id)
 		if err != nil {
 			return err
 		}
@@ -103,13 +103,13 @@ func (da *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error 
 
 // PostTableDeleteReplyChild1Result ...
 type PostTableDeleteReplyChild1Result struct {
-	ParentID       uint64 `json:"parentID,omitempty"`
-	ParentIdHostID uint64 `json:"parentIdHostID,omitempty"`
+	ParentHostID uint64 `json:"parentHostID,omitempty"`
+	ParentID     uint64 `json:"parentID,omitempty"`
 }
 
 func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteReplyChild1Result, error) {
 	var result PostTableDeleteReplyChild1Result
-	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_2`.`host_id` AS `parent_id_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `post_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentIdHostID)
+	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_2`.`host_id` AS `ParentHostID` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `post_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
 		return result, err
 	}
