@@ -37,6 +37,7 @@ export class LikeView extends BaseElement {
 
         .num {
           margin-left: 0.4rem;
+          padding-right: 1rem;
         }
 
         svg-icon.not-liked {
