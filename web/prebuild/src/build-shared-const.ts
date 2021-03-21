@@ -10,6 +10,13 @@ import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
 import { serverPath, webPath } from './paths.js';
 
+const copyright = `/*
+ * Copyright (C) The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can be
+ * found in the LICENSE file.
+ */\n\n`;
+
 async function buildJSONFileAsync(
   src: string,
   webDest: string,
@@ -31,8 +38,8 @@ async function buildJSONFileAsync(
   const tsResult = tsConvert(jsonObj);
 
   await Promise.all([
-    fsPromises.writeFile(serverDest, goResult),
-    fsPromises.writeFile(webDest, tsResult),
+    fsPromises.writeFile(serverDest, copyright + goResult),
+    fsPromises.writeFile(webDest, copyright + tsResult),
   ]);
 }
 
