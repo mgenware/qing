@@ -4,7 +4,7 @@
 
 Use camelCase for `.ts` files.
 
-## Bottom margin in block elements.
+## Bottom margin in block elements
 
 DO NOT add bottom margin to block elements unless you are certain there will be siblings after the element.
 
@@ -24,4 +24,32 @@ If the element is required, use `BaseElement.mustGetShadowElement`:
 private get textElement(): HTMLInputElement {
   return this.mustGetShadowElement('inputElement');
 }
+```
+
+## `firstUpdated` in child components
+
+P: parent component, C: child component.
+
+```
+P - render
+P - firstUpdated
+P - updated
+C - render
+C - firstUpdated
+C - updated
+```
+
+When P changes a property in `firstUpdate`:
+
+```
+P - render
+P - firstUpdated
+P - updated
+C - render
+C - firstUpdated
+C - updated
+P - render (new value)
+P - updated (new value)
+C - render (new value)
+C - updated (new value)
 ```
