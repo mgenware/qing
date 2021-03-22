@@ -19,6 +19,7 @@ import './cmtFooterView';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
+import { CHECK } from 'checks';
 
 @customElement('root-cmt-list')
 // Displays a list of <cmt-block>.
@@ -53,6 +54,8 @@ export class RootCmtList extends BaseElement {
   @lp.object hub: CmtDataHub | null = null;
 
   firstUpdated() {
+    CHECK(this.hostID);
+    CHECK(this.hostType);
     // DO NOT use `firstUpdated` here. See `updated` and `hub`.
   }
 

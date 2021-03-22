@@ -61,6 +61,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		var cmtID uint64
 		if parentCmtID != 0 {
+			if toUserID == 0 {
+				panic("Missing param \"toUserID\"")
+			}
 			cmtID, err = cmtCore.InsertReply(app.DB, content, uid, toUserID, parentCmtID, hostID, sanitizedToken, captResult)
 		} else {
 			cmtID, err = cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)

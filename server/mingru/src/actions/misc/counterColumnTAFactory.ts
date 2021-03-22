@@ -7,7 +7,6 @@
 
 import * as mm from 'mingru-models';
 import { TableWithIDAndUserID } from '../../models/common';
-import { defaultUpdateConditions } from '../common';
 
 export interface UpdateCounterActionOptions {
   offsetInputName?: string;
@@ -40,5 +39,5 @@ export function updateCounterAction(
     .updateOne()
     .from(table)
     .set(counterCol, offsetSQL)
-    .whereSQL(opt.whereSQL ? opt.whereSQL : defaultUpdateConditions(table, opt.idInputName));
+    .whereSQL(opt.whereSQL ? opt.whereSQL : mm.sql`${table.id.isEqualToInput(opt.idInputName)}`);
 }

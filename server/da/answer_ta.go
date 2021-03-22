@@ -49,8 +49,8 @@ func (da *TableTypeAnswer) deleteCmtChild2(queryable mingru.Queryable, id uint64
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeAnswer) deleteCmtChild3(queryable mingru.Queryable, hostID uint64, userID uint64, replyCount uint) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` - ? - 1 WHERE `id` = ? AND `user_id` = ?", replyCount, hostID, userID)
+func (da *TableTypeAnswer) deleteCmtChild3(queryable mingru.Queryable, hostID uint64, replyCount uint) error {
+	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` - ? - 1 WHERE `id` = ?", replyCount, hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -66,7 +66,7 @@ func (da *TableTypeAnswer) DeleteCmt(db *sql.DB, id uint64, userID uint64) error
 		if err != nil {
 			return err
 		}
-		err = da.deleteCmtChild3(tx, hostIDAndReplyCount.HostID, userID, hostIDAndReplyCount.ReplyCount)
+		err = da.deleteCmtChild3(tx, hostIDAndReplyCount.HostID, hostIDAndReplyCount.ReplyCount)
 		if err != nil {
 			return err
 		}
@@ -89,8 +89,8 @@ func (da *TableTypeAnswer) deleteItemChild2(queryable mingru.Queryable, id uint6
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeAnswer) deleteItemChild3(queryable mingru.Queryable, id uint64, userID uint64) error {
-	return Question.UpdateMsgCount(queryable, id, userID, -1)
+func (da *TableTypeAnswer) deleteItemChild3(queryable mingru.Queryable, id uint64) error {
+	return Question.UpdateMsgCount(queryable, id, -1)
 }
 
 // DeleteItem ...
@@ -105,7 +105,7 @@ func (da *TableTypeAnswer) DeleteItem(db *sql.DB, id uint64, userID uint64) erro
 		if err != nil {
 			return err
 		}
-		err = da.deleteItemChild3(tx, questionID, userID)
+		err = da.deleteItemChild3(tx, questionID)
 		if err != nil {
 			return err
 		}
@@ -129,8 +129,8 @@ func (da *TableTypeAnswer) deleteReplyChild1(queryable mingru.Queryable, id uint
 	return result, nil
 }
 
-func (da *TableTypeAnswer) deleteReplyChild3(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ? AND `user_id` = ?", hostID, userID)
+func (da *TableTypeAnswer) deleteReplyChild3(queryable mingru.Queryable, hostID uint64) error {
+	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -150,7 +150,7 @@ func (da *TableTypeAnswer) DeleteReply(db *sql.DB, id uint64, userID uint64) err
 		if err != nil {
 			return err
 		}
-		err = da.deleteReplyChild3(tx, cmtIDAndHostID.ParentHostID, userID)
+		err = da.deleteReplyChild3(tx, cmtIDAndHostID.ParentHostID)
 		if err != nil {
 			return err
 		}
@@ -179,8 +179,8 @@ func (da *TableTypeAnswer) insertCmtChild2(queryable mingru.Queryable, cmtID uin
 	return err
 }
 
-func (da *TableTypeAnswer) insertCmtChild3(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ? AND `user_id` = ?", hostID, userID)
+func (da *TableTypeAnswer) insertCmtChild3(queryable mingru.Queryable, hostID uint64) error {
+	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -197,7 +197,7 @@ func (da *TableTypeAnswer) InsertCmt(db *sql.DB, content string, userID uint64, 
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild3(tx, hostID, userID)
+		err = da.insertCmtChild3(tx, hostID)
 		if err != nil {
 			return err
 		}
@@ -212,8 +212,8 @@ func (da *TableTypeAnswer) insertItemChild1(queryable mingru.Queryable, content 
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypeAnswer) insertItemChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	return Question.UpdateMsgCount(queryable, id, userID, 1)
+func (da *TableTypeAnswer) insertItemChild2(queryable mingru.Queryable, id uint64) error {
+	return Question.UpdateMsgCount(queryable, id, 1)
 }
 
 // InsertItem ...
@@ -225,7 +225,7 @@ func (da *TableTypeAnswer) InsertItem(db *sql.DB, content string, userID uint64,
 		if err != nil {
 			return err
 		}
-		err = da.insertItemChild2(tx, questionID, userID)
+		err = da.insertItemChild2(tx, questionID)
 		if err != nil {
 			return err
 		}
@@ -239,8 +239,8 @@ func (da *TableTypeAnswer) insertReplyChild2(queryable mingru.Queryable, id uint
 	return Cmt.UpdateReplyCount(queryable, id, userID, 1)
 }
 
-func (da *TableTypeAnswer) insertReplyChild3(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ? AND `user_id` = ?", hostID, userID)
+func (da *TableTypeAnswer) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
+	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -257,7 +257,7 @@ func (da *TableTypeAnswer) InsertReply(db *sql.DB, content string, userID uint64
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild3(tx, hostID, userID)
+		err = da.insertReplyChild3(tx, hostID)
 		if err != nil {
 			return err
 		}
