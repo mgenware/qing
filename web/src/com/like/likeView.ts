@@ -36,7 +36,7 @@ export class LikeView extends BaseElement {
         }
 
         .num {
-          margin-left: 0.4rem;
+          margin-left: 0.25rem;
           padding-right: 1rem;
         }
 

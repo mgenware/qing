@@ -78,14 +78,18 @@ export class CmtView extends BaseElement {
                     @editClick=${this.handleEditClick}
                     @deleteClick=${this.handleDeleteClick}
                   ></edit-bar>
-                  <link-button class="m-l-sm" @click=${this.handleReplyClick}
-                    >${ls.reply}</link-button
-                  >
                 `
               : ''}
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
           <p>
+            <qing-button
+              class="icon no-left-padding"
+              title=${ls.reply}
+              disableSelectedStyle
+              @click=${this.handleReplyClick}
+              ><svg-icon .oneTimeSrc=${staticMainImage('add-cmt.svg')} size="22"></svg-icon>
+            </qing-button>
             <like-app
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes}

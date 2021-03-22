@@ -433,6 +433,20 @@ export default css`
     white-space: nowrap;
   }
 
+  /* qing-button ------------------------- */
+  qing-button.icon::part(button) {
+    /** The content lies inside qing-button. This is the only way to set the default text color. */
+    color: var(--app-default-secondary-fore-color);
+    background-color: transparent;
+    border: 0;
+  }
+  qing-button.icon svg-icon {
+    --svg-icon-fill: var(--app-default-secondary-fore-color);
+  }
+  qing-button.no-left-padding::part(button) {
+    padding-inline-start: 0;
+  }
+
   /* qing-overlay ------------------------- */
   qing-overlay::part(overlay) {
     display: flex;
