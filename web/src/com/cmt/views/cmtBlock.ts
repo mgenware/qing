@@ -18,7 +18,6 @@ import { CHECK } from 'checks';
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import app from 'app';
-import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 import { ItemsChangedDetail } from 'lib/itemCollector';
 
 @customElement('cmt-block')
@@ -41,9 +40,6 @@ export class CmtBlock extends BaseElement {
     ];
   }
 
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
-
   @lp.object cmt: Cmt | null = null;
   @lp.object hub: CmtDataHub | null = null;
 
@@ -60,8 +56,6 @@ export class CmtBlock extends BaseElement {
   firstUpdated() {
     const { cmt } = this;
     CHECK(cmt);
-    CHECK(this.hostID);
-    CHECK(this.hostType);
 
     this.totalCount = cmt.replyCount;
     this.hasNext = !!this.totalCount;
@@ -152,16 +146,8 @@ export class CmtBlock extends BaseElement {
   private async handleCmtDeleteClick(e: CustomEvent<Cmt>) {
     CHECK(this.hub);
     CHECK(this.cmt);
-    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
-      app.alert.showLoadingOverlay(ls.working);
-
-      const target = e.detail;
-      const isReply = isCmtReply(target);
-      const loader = new DeleteCmtLoader(target.id, this.hostType, this.hostID, isReply);
-      const status = await app.runGlobalActionAsync(loader, ls.working);
-      if (status.isSuccess) {
-        this.hub.removeCmt(isReply ? this.cmt.id : null, target.id);
-      }
+    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.comment))) {
+      this.hub.requestDeleteCmt([this.cmt.id, e.detail]);
     }
   }
 

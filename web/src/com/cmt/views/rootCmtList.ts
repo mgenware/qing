@@ -95,15 +95,7 @@ export class RootCmtList extends BaseElement {
       const childViews = repeat(
         this.items,
         (it) => it.id,
-        (it) =>
-          html`
-            <cmt-block
-              .hostID=${this.hostID}
-              .hostType=${this.hostType}
-              .cmt=${it}
-              .hub=${this.hub}
-            ></cmt-block>
-          `,
+        (it) => html` <cmt-block .cmt=${it} .hub=${this.hub}></cmt-block> `,
       );
       contentGroup = html`
         <div>

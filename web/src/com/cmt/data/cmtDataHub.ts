@@ -17,6 +17,7 @@ const childLoadingStatusChanged = 'childLoadingStatusChanged';
 const childItemsChanged = 'childItemsChanged';
 const openEditorRequested = 'openEditorRequested';
 const totalCmtCountChanged = 'totalCmtCountChanged';
+const deleteCmtRequested = 'deleteCmtRequested';
 const startPage = 1;
 
 export interface CmtEditorProps {
@@ -92,6 +93,10 @@ export class CmtDataHub {
     this.events.addListener(openEditorRequested, (arg) => cb(arg as CmtEditorProps));
   }
 
+  onDeleteCmtRequested(cb: (e: [string, Cmt]) => void) {
+    this.events.addListener(deleteCmtRequested, (arg) => cb(arg as [string, Cmt]));
+  }
+
   onTotalCmtCountChanged(cb: (count: number) => void) {
     this.events.addListener(totalCmtCountChanged, (arg) => cb(arg as number));
   }
@@ -122,6 +127,10 @@ export class CmtDataHub {
   // Opens the shared editor with the given arguments.
   requestOpenEditor(req: CmtEditorProps) {
     this.events.emit(openEditorRequested, req);
+  }
+
+  requestDeleteCmt(e: [string, Cmt]) {
+    this.events.emit(deleteCmtRequested, e);
   }
 
   // Called in `cmt-block.firstUpdated`.

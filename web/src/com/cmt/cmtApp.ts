@@ -14,7 +14,7 @@ import './views/rootCmtList';
 import { CHECK } from 'checks';
 import 'qing-overlay';
 import 'ui/editor/composerView';
-import Cmt from './data/cmt';
+import Cmt, { isCmtReply } from './data/cmt';
 import { tif } from 'lib/htmlLib';
 import { entityCmt, entityReply } from 'sharedConstants';
 import ls, { formatLS } from 'ls';
@@ -22,6 +22,7 @@ import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { SetCmtLoader } from './loaders/setCmtLoader';
 import app from 'app';
 import { CmtDataHub, CmtEditorProps } from './data/cmtDataHub';
+import DeleteCmtLoader from './loaders/deleteCmtLoader';
 
 const composerID = 'composer';
 
@@ -56,6 +57,7 @@ export class CmtApp extends BaseElement {
     const hub = new CmtDataHub(this.initialTotalCmtCount, this.hostID, this.hostType);
     hub.onOpenEditorRequested((req) => (this.editorProps = req));
     hub.onTotalCmtCountChanged((c) => (this.totalCmtCount += c));
+    hub.onDeleteCmtRequested((e) => this.handleDeleteCmt(e));
     this.hub = hub;
   }
 
@@ -103,6 +105,16 @@ export class CmtApp extends BaseElement {
   private closeEditor() {
     this.editorProps = this.closedEditorProps();
     this.composerEl?.resetEditor();
+  }
+
+  private async handleDeleteCmt(e: [string, Cmt]) {
+    const [parentID, cmt] = e;
+    const isReply = isCmtReply(cmt);
+    const loader = new DeleteCmtLoader(cmt.id, this.hostType, this.hostID, isReply);
+    const status = await app.runGlobalActionAsync(loader, ls.working);
+    if (status.isSuccess) {
+      this.hub?.removeCmt(isReply ? parentID : null, cmt.id);
+    }
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
