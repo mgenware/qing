@@ -90,7 +90,7 @@ export class CmtApp extends BaseElement {
           id=${composerID}
           .entityID=${editorProps.editing?.id ?? ''}
           .entityType=${isReply ? entityReply : entityCmt}
-          .submitButtonText=${editorProps.editing ? ls.save : ls.comment}
+          .submitButtonText=${editorProps.editing ? ls.save : ls.send}
           @onSubmit=${this.handleSubmit}
           @onDiscard=${this.handleDiscard}
         ></composer-view>
@@ -123,13 +123,13 @@ export class CmtApp extends BaseElement {
     let loader: SetCmtLoader;
     if (!editorProps.editing) {
       if (editorProps.parent) {
+        CHECK(editorProps.replyingTo);
         // Add a reply.
         loader = SetCmtLoader.newReply(
           this.hostID,
           this.hostType,
           // `toUserID`:
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          editorProps.replyingTo!.userID,
+          editorProps.replyingTo.userID,
           // `parentCmtID`:
           editorProps.parent.id,
           e.detail,

@@ -18,7 +18,7 @@ import { CHECK } from 'checks';
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import app from 'app';
-import { ItemsChangedDetail } from 'lib/itemCollector';
+import { ItemsChangedEvent } from 'lib/itemCollector';
 
 @customElement('cmt-block')
 // Shows a comment view along with its replies.
@@ -68,7 +68,7 @@ export class CmtBlock extends BaseElement {
     const { hub, cmt } = this;
     if (changedProperties.has('hub') && hub && cmt) {
       hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
-      hub.onChildItemsChanged(cmt.id, (e: ItemsChangedDetail<Cmt>) => {
+      hub.onChildItemsChanged(cmt.id, (e: ItemsChangedEvent<Cmt>) => {
         this.items = e.items;
         this.hasNext = e.hasNext;
         this.totalCount = e.totalCount;
@@ -114,14 +114,14 @@ export class CmtBlock extends BaseElement {
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
             .loadedCount=${this.items.length}
-            @viewMoreClick=${this.handleViewMoreClick}
+            @viewMoreClick=${this.handleMoreRepliesClick}
           ></cmt-footer-view>
         </div>
       </div>
     `;
   }
 
-  private async handleViewMoreClick() {
+  private async handleMoreRepliesClick() {
     CHECK(this.hub);
     CHECK(this.cmt);
     await this.hub.loadMoreAsync(this.cmt.id);
@@ -132,13 +132,12 @@ export class CmtBlock extends BaseElement {
     CHECK(this.cmt);
     const { hub } = this;
     const target = e.detail;
-    const isReply = isCmtReply(target);
     hub.requestOpenEditor({
       open: true,
       editing: null,
       // No matter we're reply to a comment or reply, we're creating a reply.
       // It must have a parent ID, which is current comment.
-      parent: isReply ? this.cmt : null,
+      parent: this.cmt,
       replyingTo: target,
     });
   }

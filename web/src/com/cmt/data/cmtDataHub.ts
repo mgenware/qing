@@ -5,8 +5,9 @@
  * found in the LICENSE file.
  */
 
+import { CHECK } from 'checks';
 import { EventEmitter } from 'lib/eventEmitter';
-import { ItemsChangedDetail } from 'lib/itemCollector';
+import { ItemsChangedEvent } from 'lib/itemCollector';
 import LoadingStatus from 'lib/loadingStatus';
 import Cmt from './cmt';
 import CmtCollector from './cmtCollector';
@@ -57,6 +58,23 @@ export class CmtDataHub {
       undefined,
       (status) => events.emit(rootLoadingStatusChanged, status),
       (e) => {
+        // Sync root cmt collectors.
+        const { detail } = e;
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        if (detail.added) {
+          for (const id of detail.added) {
+            const cmt = e.sender.items.map.get(id);
+            CHECK(cmt);
+            this.initRootCmtCollector(cmt);
+          }
+        }
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        if (detail.removed) {
+          for (const id of detail.removed) {
+            delete this.replyCollectors[id];
+          }
+        }
+
         this.handleTotalCmtCountChange(e.changed);
         events.emit(rootItemsChanged, e);
       },
@@ -67,8 +85,8 @@ export class CmtDataHub {
     this.events.addListener(rootLoadingStatusChanged, (arg) => cb(arg as LoadingStatus));
   }
 
-  onRootItemsChanged(cb: (e: ItemsChangedDetail<Cmt>) => void) {
-    this.events.addListener(rootItemsChanged, (arg) => cb(arg as ItemsChangedDetail<Cmt>));
+  onRootItemsChanged(cb: (e: ItemsChangedEvent<Cmt>) => void) {
+    this.events.addListener(rootItemsChanged, (arg) => cb(arg as ItemsChangedEvent<Cmt>));
   }
 
   onChildLoadingStatusChanged(cmtID: string, cb: (e: LoadingStatus) => void) {
@@ -80,9 +98,9 @@ export class CmtDataHub {
     });
   }
 
-  onChildItemsChanged(cmtID: string, cb: (e: ItemsChangedDetail<Cmt>) => void) {
+  onChildItemsChanged(cmtID: string, cb: (e: ItemsChangedEvent<Cmt>) => void) {
     this.events.addListener(childItemsChanged, (arg) => {
-      const typedArgs = arg as [Cmt, ItemsChangedDetail<Cmt>];
+      const typedArgs = arg as [Cmt, ItemsChangedEvent<Cmt>];
       if (typedArgs[0]?.id === cmtID) {
         cb(typedArgs[1]);
       }
@@ -133,11 +151,10 @@ export class CmtDataHub {
     this.events.emit(deleteCmtRequested, e);
   }
 
-  // Called in `cmt-block.firstUpdated`.
-  initRootCmt(cmt: Cmt) {
+  private initRootCmtCollector(cmt: Cmt) {
     const { events } = this;
     const collector = new CmtCollector(
-      // Use `cmt.replyCount` as total count for child collector.
+      // Use `cmt.replyCount` as the initial count for this collector.
       cmt.replyCount,
       undefined,
       {

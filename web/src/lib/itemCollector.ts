@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import KeyedArray from 'qing-keyed-array';
+import KeyedArray, { ArrayChangedEvent } from 'qing-keyed-array';
 import Loader from './loader';
 import LoadingStatus from './loadingStatus';
 
@@ -14,11 +14,13 @@ export interface ItemsLoadedResp<T> {
   hasNext?: boolean;
 }
 
-export interface ItemsChangedDetail<T> {
+export interface ItemsChangedEvent<T> {
   items: ReadonlyArray<T>;
   hasNext: boolean;
   changed: number;
   totalCount: number;
+  detail: ArrayChangedEvent<string>;
+  sender: ItemCollector<T>;
 }
 
 export abstract class ItemCollector<T> {
@@ -41,18 +43,20 @@ export abstract class ItemCollector<T> {
     initialTotalCount: number,
     public keyFn: (item: T) => string,
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: ItemsChangedDetail<T>) => void,
+    public itemsChanged: (e: ItemsChangedEvent<T>) => void,
   ) {
     this.totalCount = initialTotalCount;
     this.items = new KeyedArray<string, T>(true, keyFn);
-    this.items.onArrayChanged = (changed) => {
-      this.totalCount += changed;
+    this.items.onArrayChanged = (_, e) => {
+      this.totalCount += e.numberOfChanges;
       const { items, hasNext, totalCount } = this;
       itemsChanged({
         items: items.array,
         hasNext,
         totalCount,
-        changed,
+        changed: e.numberOfChanges,
+        detail: e,
+        sender: this,
       });
     };
   }

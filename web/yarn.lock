@@ -4395,10 +4395,10 @@ qing-dock-box@^0.2.0:
   resolved "https://registry.yarnpkg.com/qing-dock-box/-/qing-dock-box-0.2.0.tgz#24a3c1a1f7d9476c172ff58fdd0d00a0b611a356"
   integrity sha512-QmKSMKU6tEb7JMzy0gs0jxgevYzfRkRAvXyeD12We+IqZzJSyYiCzDxSKpo3cJGC2rYKQLTD92HHqGusmjd0pA==
 
-qing-keyed-array@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/qing-keyed-array/-/qing-keyed-array-0.1.1.tgz#201646d6a0a349614d607b8b0a83c6d1c2535d09"
-  integrity sha512-D0VVpm7uUtn8F3x9jRAAEZBwD1mM92d1MYM6PK7SYf4vugynIaXUQLFlTdEn2gAUhYI9kUFVy0jT8t9uB1K7jQ==
+qing-keyed-array@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/qing-keyed-array/-/qing-keyed-array-0.2.0.tgz#1949788ad1963e701ac1e77ce49e4d1df2b8675c"
+  integrity sha512-kIosbaoi8V0+ERJwjxSJDqBHPLJitFEBdsmUd4rH6Hraf0Dr1clieHwj8fMg0j+wWYx5+BP9UmOt/Wmjd+inXQ==
   dependencies:
     f-array.splice "^0.3.0"
 

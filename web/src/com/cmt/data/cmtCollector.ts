@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import { ItemCollector, ItemsChangedDetail, ItemsLoadedResp } from 'lib/itemCollector';
+import { ItemCollector, ItemsChangedEvent, ItemsLoadedResp } from 'lib/itemCollector';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
@@ -21,7 +21,7 @@ export default class CmtCollector extends ItemCollector<Cmt> {
     public cmtInputs: GetCmtsInputsWithoutPage | undefined,
     public replyInputs: GetRepliesInputsWithoutPage | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: ItemsChangedDetail<Cmt>) => void,
+    public itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
   ) {
     super(totalCount, (it) => it.id, loadingStatusChanged, itemsChanged);
   }
