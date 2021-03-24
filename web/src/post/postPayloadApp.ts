@@ -26,22 +26,22 @@ export class PostPayloadApp extends BaseElement {
     ];
   }
 
-  private hostID = postWind.EID;
-  private cmtCount = postWind.CmtCount;
-  private initialLikes = postWind.InitialLikes;
-
   render() {
+    const hostID = postWind.EID;
+    const cmtCount = postWind.CmtCount;
+    const initialLikes = postWind.InitialLikes;
+
     return html`
       <like-app
         .iconSize=${'md'}
-        .initialLikes=${this.initialLikes}
-        .hostID=${this.hostID}
+        .initialLikes=${initialLikes}
+        .hostID=${hostID}
         .hostType=${entityPost}
       ></like-app>
       <cmt-app
-        .hostID=${this.hostID}
+        .hostID=${hostID}
         .hostType=${entityPost}
-        .initialCount=${this.cmtCount}
+        .initialTotalCmtCount=${cmtCount}
       ></cmt-app>
     `;
   }

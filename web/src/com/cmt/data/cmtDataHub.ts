@@ -7,7 +7,7 @@
 
 import { CHECK } from 'checks';
 import { EventEmitter } from 'lib/eventEmitter';
-import { ItemsChangedEvent } from 'lib/itemCollector';
+import { ItemsChangedEvent, ItemsChangedSource } from 'lib/itemCollector';
 import LoadingStatus from 'lib/loadingStatus';
 import Cmt from './cmt';
 import CmtCollector from './cmtCollector';
@@ -17,7 +17,7 @@ const rootItemsChanged = 'rootItemsChanged';
 const childLoadingStatusChanged = 'childLoadingStatusChanged';
 const childItemsChanged = 'childItemsChanged';
 const openEditorRequested = 'openEditorRequested';
-const totalCmtCountChanged = 'totalCmtCountChanged';
+const totalCmtCountChangedWithOffset = 'totalCmtCountChangedWithOffset';
 const deleteCmtRequested = 'deleteCmtRequested';
 const startPage = 1;
 
@@ -41,12 +41,8 @@ export class CmtDataHub {
 
   private events = new EventEmitter();
 
-  // Number of comments including replies.
-  totalCmtCount: number;
-
-  constructor(initialCount: number, public hostID: string, public hostType: number) {
+  constructor(public hostID: string, public hostType: number) {
     const { events } = this;
-    this.totalCmtCount = initialCount;
     this.rootCollector = new CmtCollector(
       // Root collector's total count is useless, it only tracks the number of root comments.
       0,
@@ -74,8 +70,10 @@ export class CmtDataHub {
             delete this.replyCollectors[id];
           }
         }
-
-        this.handleTotalCmtCountChange(e.changed);
+        // Changes triggered by "view more" doesn't count as cmt number changes.
+        if (e.source === ItemsChangedSource.userAction) {
+          this.handleTotalCmtCountChangeWithOffset(e.changed);
+        }
         events.emit(rootItemsChanged, e);
       },
     );
@@ -115,8 +113,8 @@ export class CmtDataHub {
     this.events.addListener(deleteCmtRequested, (arg) => cb(arg as [string, Cmt]));
   }
 
-  onTotalCmtCountChanged(cb: (count: number) => void) {
-    this.events.addListener(totalCmtCountChanged, (arg) => cb(arg as number));
+  onTotalCmtCountChangedWithOffset(cb: (count: number) => void) {
+    this.events.addListener(totalCmtCountChangedWithOffset, (arg) => cb(arg as number));
   }
 
   async loadMoreAsync(parentCmt?: string) {
@@ -164,7 +162,7 @@ export class CmtDataHub {
       (status) => events.emit(childLoadingStatusChanged, [cmt, status]),
       (e) => {
         // Any reply count changes affect total comment count.
-        this.handleTotalCmtCountChange(e.changed);
+        this.handleTotalCmtCountChangeWithOffset(e.changed);
         events.emit(childItemsChanged, [cmt, e]);
       },
     );
@@ -175,8 +173,7 @@ export class CmtDataHub {
     return parentID ? this.replyCollectors[parentID] : this.rootCollector;
   }
 
-  private handleTotalCmtCountChange(changed: number) {
-    this.totalCmtCount += changed;
-    this.events.emit(totalCmtCountChanged, this.totalCmtCount);
+  private handleTotalCmtCountChangeWithOffset(offset: number) {
+    this.events.emit(totalCmtCountChangedWithOffset, offset);
   }
 }

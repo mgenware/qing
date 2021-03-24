@@ -17,13 +17,13 @@ export type GetRepliesInputsWithoutPage = Exclude<GetRepliesInputs, 'page'>;
 
 export default class CmtCollector extends ItemCollector<Cmt> {
   constructor(
-    totalCount: number,
+    initialTotalCount: number,
     public cmtInputs: GetCmtsInputsWithoutPage | undefined,
     public replyInputs: GetRepliesInputsWithoutPage | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
     public itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
   ) {
-    super(totalCount, (it) => it.id, loadingStatusChanged, itemsChanged);
+    super(initialTotalCount, (it) => it.id, loadingStatusChanged, itemsChanged);
   }
 
   protected createLoader(): Loader<ItemsLoadedResp<Cmt>> {

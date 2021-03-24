@@ -14,6 +14,11 @@ export interface ItemsLoadedResp<T> {
   hasNext?: boolean;
 }
 
+export enum ItemsChangedSource {
+  userAction,
+  loadMore,
+}
+
 export interface ItemsChangedEvent<T> {
   items: ReadonlyArray<T>;
   hasNext: boolean;
@@ -21,6 +26,7 @@ export interface ItemsChangedEvent<T> {
   totalCount: number;
   detail: ArrayChangedEvent<string>;
   sender: ItemCollector<T>;
+  source: ItemsChangedSource;
 }
 
 export abstract class ItemCollector<T> {
@@ -34,6 +40,8 @@ export abstract class ItemCollector<T> {
   page = 1;
   hasNext = false;
   totalCount: number;
+  // Used to identity if the change is triggered by "viewMore".
+  private changeSource = ItemsChangedSource.userAction;
 
   get count(): number {
     return this.items.count;
@@ -48,7 +56,9 @@ export abstract class ItemCollector<T> {
     this.totalCount = initialTotalCount;
     this.items = new KeyedArray<string, T>(true, keyFn);
     this.items.onArrayChanged = (_, e) => {
-      this.totalCount += e.numberOfChanges;
+      if (this.changeSource === ItemsChangedSource.userAction) {
+        this.totalCount += e.numberOfChanges;
+      }
       const { items, hasNext, totalCount } = this;
       itemsChanged({
         items: items.array,
@@ -57,7 +67,11 @@ export abstract class ItemCollector<T> {
         changed: e.numberOfChanges,
         detail: e,
         sender: this,
+        source: this.changeSource,
       });
+
+      // Always reset `changeSource`.
+      this.changeSource = ItemsChangedSource.userAction;
     };
   }
 
@@ -70,6 +84,8 @@ export abstract class ItemCollector<T> {
 
     this.hasNext = payload.hasNext ?? false;
     this.page += 1;
+    // Set this before calling `push`.
+    this.changeSource = ItemsChangedSource.loadMore;
     this.items.push(...newItems);
   }
 
