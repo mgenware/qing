@@ -95,10 +95,12 @@ export class RootCmtList extends BaseElement {
       const childViews = repeat(
         this.items,
         (it) => it.id,
-        (it) => html` <cmt-block .cmt=${it} .hub=${this.hub}></cmt-block> `,
+        // Use p-t-md instead of m-t-md to prevent margin-collapsing with
+        // load-more-button of previous `cmt-block`.
+        (it) => html` <cmt-block class="p-t-md" .cmt=${it} .hub=${this.hub}></cmt-block> `,
       );
       contentGroup = html`
-        <div>
+        <div class="m-t-md">
           <div>${childViews}</div>
           ${this.totalCmtCount
             ? html`
@@ -110,6 +112,7 @@ export class RootCmtList extends BaseElement {
               `
             : html``}
           <cmt-footer-view
+            class="m-t-sm"
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
             .loadedCount=${this.items.length}

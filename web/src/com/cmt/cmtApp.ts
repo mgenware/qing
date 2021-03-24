@@ -152,6 +152,7 @@ export class CmtApp extends BaseElement {
       if (!editorProps.editing) {
         if (editorProps.parent) {
           // Add a reply.
+          hub?.addCmt(editorProps.parent.id, serverCmt);
         } else {
           // Add a comment.
           hub?.addCmt(null, serverCmt);

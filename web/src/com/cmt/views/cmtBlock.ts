@@ -84,6 +84,7 @@ export class CmtBlock extends BaseElement {
       (it) => it.id,
       (it) => html`
         <cmt-view
+          class="m-t-md"
           .cmt=${it}
           .parentCmtID=${cmt.id}
           @replyClick=${this.handleCmtReplyClick}
@@ -110,6 +111,7 @@ export class CmtBlock extends BaseElement {
               `
             : html``}
           <cmt-footer-view
+            class="m-t-sm m-b-md"
             .replies=${true}
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}

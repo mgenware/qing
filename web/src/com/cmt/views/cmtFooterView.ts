@@ -35,14 +35,14 @@ export class CmtFooterView extends BaseElement {
     if (status.isSuccess) {
       if (this.hasNext) {
         return html`
-          <p>
+          <div>
             <a href="#" @click=${this.handleMoreButtonClick}
               >${formatLS(
                 this.loadedCount ? ls.pViewMore : ls.pView,
                 this.replies ? ls.replies : ls.comments,
               )}</a
             >
-          </p>
+          </div>
         `;
       }
       // If success and `hasNext` is false, nothing to show.

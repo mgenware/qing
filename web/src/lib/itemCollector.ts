@@ -54,6 +54,7 @@ export abstract class ItemCollector<T> {
     public itemsChanged: (e: ItemsChangedEvent<T>) => void,
   ) {
     this.totalCount = initialTotalCount;
+    this.hasNext = !!initialTotalCount;
     this.items = new KeyedArray<string, T>(true, keyFn);
     this.items.onArrayChanged = (_, e) => {
       if (this.changeSource === ItemsChangedSource.userAction) {

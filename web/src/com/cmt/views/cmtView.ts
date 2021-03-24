@@ -47,7 +47,7 @@ export class CmtView extends BaseElement {
     CHECK(cmt);
     const isReply = isCmtReply(cmt);
     return html`
-      <div class="m-t-md row">
+      <div class="row">
         <div class="col-auto">
           <a href=${cmt.userURL}>
             <img src=${cmt.userIconURL} class="avatar-m" width="50" height="50" />
@@ -82,7 +82,7 @@ export class CmtView extends BaseElement {
               : ''}
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
-          <p>
+          <div>
             <qing-button
               class="icon no-left-padding"
               title=${ls.reply}
@@ -96,7 +96,7 @@ export class CmtView extends BaseElement {
               .hostID=${cmt.id}
               .hostType=${isReply ? entityReply : entityCmt}
             ></like-app>
-          </p>
+          </div>
         </div>
       </div>
     `;
