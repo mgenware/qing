@@ -118,7 +118,7 @@ export class DialogView extends BaseElement {
   }
 
   private handleEscDown() {
-    this.getButtonElement('esc')?.focus();
+    this.getButtonElement('esc')?.click();
   }
 
   private getIconElement(icon: DialogIcon): TemplateResult {
