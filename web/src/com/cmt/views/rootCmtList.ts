@@ -63,10 +63,10 @@ export class RootCmtList extends BaseElement {
   updated(changedProperties: PropertyValues<this>) {
     const { hub } = this;
     if (changedProperties.has('hub') && hub) {
-      hub.onRootLoadingStatusChanged((status) => {
+      hub.rootLoadingStatusChanged.on((status) => {
         this.collectorLoadingStatus = status;
       });
-      hub.onRootItemsChanged((e) => {
+      hub.rootItemsChanged.on((e) => {
         this.items = e.items;
         this.hasNext = e.hasNext;
         // Ignore `e.totalCount`, it's useless for root collector.
@@ -161,7 +161,7 @@ export class RootCmtList extends BaseElement {
   }
 
   private handleAddCommentButtonClick() {
-    this.hub?.requestOpenEditor({
+    this.hub?.openEditorRequested.dispatch({
       open: true,
       parent: null,
       editing: null,

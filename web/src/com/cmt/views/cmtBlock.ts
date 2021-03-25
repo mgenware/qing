@@ -134,7 +134,7 @@ export class CmtBlock extends BaseElement {
     CHECK(this.cmt);
     const { hub } = this;
     const target = e.detail;
-    hub.requestOpenEditor({
+    hub.openEditorRequested.dispatch({
       open: true,
       editing: null,
       // No matter we're reply to a comment or reply, we're creating a reply.
@@ -148,7 +148,7 @@ export class CmtBlock extends BaseElement {
     CHECK(this.hub);
     CHECK(this.cmt);
     if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.comment))) {
-      this.hub.requestDeleteCmt([this.cmt.id, e.detail]);
+      this.hub.deleteCmtRequested.dispatch([this.cmt.id, e.detail]);
     }
   }
 
@@ -158,7 +158,7 @@ export class CmtBlock extends BaseElement {
     const { hub } = this;
     const target = e.detail;
     const isReply = isCmtReply(target);
-    hub.requestOpenEditor({
+    hub.openEditorRequested.dispatch({
       open: true,
       editing: target,
       // No matter we're reply to a comment or reply, we're creating a reply.

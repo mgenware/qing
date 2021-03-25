@@ -56,9 +56,9 @@ export class CmtApp extends BaseElement {
     this.totalCmtCount = this.initialTotalCmtCount;
     this.editorProps = this.closedEditorProps();
     const hub = new CmtDataHub(this.hostID, this.hostType);
-    hub.onOpenEditorRequested((req) => (this.editorProps = req));
-    hub.onTotalCmtCountChangedWithOffset((offset) => (this.totalCmtCount += offset));
-    hub.onDeleteCmtRequested((e) => this.handleDeleteCmt(e));
+    hub.openEditorRequested.on((req) => (this.editorProps = req));
+    hub.totalCmtCountChangedWithOffset.on((offset) => (this.totalCmtCount += offset));
+    hub.deleteCmtRequested.on((e) => this.handleDeleteCmt(e));
     this.hub = hub;
   }
 

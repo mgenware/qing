@@ -10,7 +10,7 @@ export type EventEmitterAction = (arg: unknown) => void;
 export class EventEmitter {
   private actions: Record<string, EventEmitterAction[]> = {};
 
-  addListener(name: string, cb: EventEmitterAction): EventEmitterAction {
+  on(name: string, cb: EventEmitterAction): EventEmitterAction {
     const { actions } = this;
     if (!actions[name]) {
       actions[name] = [];
@@ -29,12 +29,27 @@ export class EventEmitter {
     };
   }
 
-  emit(name: string, arg?: unknown): boolean {
+  dispatch(name: string, arg?: unknown): boolean {
     const list = this.actions[name];
     if (!list) {
       return false;
     }
     list.forEach((cb) => cb(arg));
     return true;
+  }
+}
+
+export class EventEntry<T> {
+  private events: EventEmitter;
+  constructor(events: EventEmitter, public name: string) {
+    this.events = events;
+  }
+
+  on(cb: (arg: T) => void) {
+    this.events.on(this.name, (arg) => cb(arg as T));
+  }
+
+  dispatch(arg: T) {
+    this.events.dispatch(this.name, arg);
   }
 }

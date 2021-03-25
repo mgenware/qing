@@ -5,20 +5,16 @@
  * found in the LICENSE file.
  */
 
+/* eslint-disable @typescript-eslint/lines-between-class-members */
+/* eslint-disable lines-between-class-members */
+
 import { CHECK } from 'checks';
-import { EventEmitter } from 'lib/eventEmitter';
+import { EventEmitter, EventEntry } from 'lib/eventEmitter';
 import { ItemsChangedEvent, ItemsChangedSource } from 'lib/itemCollector';
 import LoadingStatus from 'lib/loadingStatus';
 import Cmt from './cmt';
 import CmtCollector from './cmtCollector';
 
-const rootLoadingStatusChanged = 'rootLoadingStatusChanged';
-const rootItemsChanged = 'rootItemsChanged';
-const childLoadingStatusChanged = 'childLoadingStatusChanged';
-const childItemsChanged = 'childItemsChanged';
-const openEditorRequested = 'openEditorRequested';
-const totalCmtCountChangedWithOffset = 'totalCmtCountChangedWithOffset';
-const deleteCmtRequested = 'deleteCmtRequested';
 const startPage = 1;
 
 export interface CmtEditorProps {
@@ -41,8 +37,25 @@ export class CmtDataHub {
 
   private events = new EventEmitter();
 
+  rootLoadingStatusChanged = new EventEntry<LoadingStatus>(this.events, 'rootLoadingStatusChanged');
+  rootItemsChanged = new EventEntry<ItemsChangedEvent<Cmt>>(this.events, 'rootItemsChanged');
+  openEditorRequested = new EventEntry<CmtEditorProps>(this.events, 'openEditorRequested');
+  totalCmtCountChangedWithOffset = new EventEntry<number>(
+    this.events,
+    'totalCmtCountChangedWithOffset',
+  );
+  deleteCmtRequested = new EventEntry<[string, Cmt]>(this.events, 'deleteCmtRequested');
+
+  private childLoadingStatusChanged = new EventEntry<[Cmt, LoadingStatus]>(
+    this.events,
+    'childLoadingStatusChanged',
+  );
+  private childItemsChanged = new EventEntry<[Cmt, ItemsChangedEvent<Cmt>]>(
+    this.events,
+    'childItemsChanged',
+  );
+
   constructor(public hostID: string, public hostType: number) {
-    const { events } = this;
     this.rootCollector = new CmtCollector(
       // Root collector's total count is useless, it only tracks the number of root comments.
       0,
@@ -52,7 +65,7 @@ export class CmtDataHub {
         page: startPage,
       },
       undefined,
-      (status) => events.emit(rootLoadingStatusChanged, status),
+      (status) => this.rootLoadingStatusChanged.dispatch(status),
       (e) => {
         // Sync root cmt collectors.
         const { detail } = e;
@@ -74,21 +87,13 @@ export class CmtDataHub {
         if (e.source === ItemsChangedSource.userAction) {
           this.handleTotalCmtCountChangeWithOffset(e.changed);
         }
-        events.emit(rootItemsChanged, e);
+        this.rootItemsChanged.dispatch(e);
       },
     );
   }
 
-  onRootLoadingStatusChanged(cb: (status: LoadingStatus) => void) {
-    this.events.addListener(rootLoadingStatusChanged, (arg) => cb(arg as LoadingStatus));
-  }
-
-  onRootItemsChanged(cb: (e: ItemsChangedEvent<Cmt>) => void) {
-    this.events.addListener(rootItemsChanged, (arg) => cb(arg as ItemsChangedEvent<Cmt>));
-  }
-
   onChildLoadingStatusChanged(cmtID: string, cb: (e: LoadingStatus) => void) {
-    this.events.addListener(childLoadingStatusChanged, (arg) => {
+    this.childLoadingStatusChanged.on((arg) => {
       const typedArgs = arg as [Cmt, LoadingStatus];
       if (typedArgs[0]?.id === cmtID) {
         cb(typedArgs[1]);
@@ -97,24 +102,12 @@ export class CmtDataHub {
   }
 
   onChildItemsChanged(cmtID: string, cb: (e: ItemsChangedEvent<Cmt>) => void) {
-    this.events.addListener(childItemsChanged, (arg) => {
+    this.childItemsChanged.on((arg) => {
       const typedArgs = arg as [Cmt, ItemsChangedEvent<Cmt>];
       if (typedArgs[0]?.id === cmtID) {
         cb(typedArgs[1]);
       }
     });
-  }
-
-  onOpenEditorRequested(cb: (e: CmtEditorProps) => void) {
-    this.events.addListener(openEditorRequested, (arg) => cb(arg as CmtEditorProps));
-  }
-
-  onDeleteCmtRequested(cb: (e: [string, Cmt]) => void) {
-    this.events.addListener(deleteCmtRequested, (arg) => cb(arg as [string, Cmt]));
-  }
-
-  onTotalCmtCountChangedWithOffset(cb: (count: number) => void) {
-    this.events.addListener(totalCmtCountChangedWithOffset, (arg) => cb(arg as number));
   }
 
   async loadMoreAsync(parentCmt?: string) {
@@ -140,17 +133,7 @@ export class CmtDataHub {
     collector?.items.updateByKey(id, cmt);
   }
 
-  // Opens the shared editor with the given arguments.
-  requestOpenEditor(req: CmtEditorProps) {
-    this.events.emit(openEditorRequested, req);
-  }
-
-  requestDeleteCmt(e: [string, Cmt]) {
-    this.events.emit(deleteCmtRequested, e);
-  }
-
   private initRootCmtCollector(cmt: Cmt) {
-    const { events } = this;
     const collector = new CmtCollector(
       // Use `cmt.replyCount` as the initial count for this collector.
       cmt.replyCount,
@@ -159,11 +142,11 @@ export class CmtDataHub {
         parentCmtID: cmt.id,
         page: startPage,
       },
-      (status) => events.emit(childLoadingStatusChanged, [cmt, status]),
+      (status) => this.childLoadingStatusChanged.dispatch([cmt, status]),
       (e) => {
         // Any reply count changes affect total comment count.
         this.handleTotalCmtCountChangeWithOffset(e.changed);
-        events.emit(childItemsChanged, [cmt, e]);
+        this.childItemsChanged.dispatch([cmt, e]);
       },
     );
     this.replyCollectors[cmt.id] = collector;
@@ -174,6 +157,6 @@ export class CmtDataHub {
   }
 
   private handleTotalCmtCountChangeWithOffset(offset: number) {
-    this.events.emit(totalCmtCountChangedWithOffset, offset);
+    this.totalCmtCountChangedWithOffset.dispatch(offset);
   }
 }
