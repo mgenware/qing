@@ -1,6 +1,6 @@
-import { Result } from 'app';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
+import Result from 'lib/result';
 import ls from 'ls';
 import appAlert from './appAlert';
 

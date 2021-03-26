@@ -8,7 +8,7 @@
 // Setup localized strings first!
 import 'ls';
 // App initialization.
-import 'app/init/init';
+import 'app/startup/startup';
 
 // Navbar is displayed in every page.
 import 'app/user/navBarApp';

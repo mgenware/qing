@@ -5,14 +5,14 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
+import appDevMode from 'app/appDevMode';
 
 const errMessage = 'Assertion failed';
 
 export function CHECK(v: unknown): asserts v {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!v) {
-    if (app.devMode) {
+    if (appDevMode()) {
       // eslint-disable-next-line no-alert
       alert(errMessage);
       throw new Error(errMessage);

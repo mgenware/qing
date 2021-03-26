@@ -9,6 +9,9 @@ import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
 import { CSSResult } from 'lit-element';
 import { injectStyles, ready } from 'lib/htmlLib';
+import appSettings from 'app/appSettings';
+import { localizedErrDict } from 'defs';
+import Loader from 'lib/loader';
 
 const localizedStringSlotClass = '__qing_ls__';
 
@@ -47,6 +50,12 @@ function handleLocalizedStringSlots() {
 }
 
 ready(() => {
+  // Set global error messages to loader type.
+  Loader.defaultLocalizedMessageDict = localizedErrDict;
+
+  // Apply necessary settings.
+  appSettings.applySettings();
+
   // Make core styles cross all shadow roots.
   injectStyles(coreStyles as CSSResult[]);
 

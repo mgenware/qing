@@ -10,10 +10,10 @@ import ls, { formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
-import app from 'app';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import appAlert from 'app/appAlert';
 import pageUtils from 'app/utils/pageUtils';
+import appSettings from 'app/appSettings';
 
 @customElement('lang-page-view')
 export class LangPageView extends BaseElement {
@@ -63,7 +63,7 @@ export class LangPageView extends BaseElement {
       return;
     }
     if (await appAlert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, t.LocalizedName))) {
-      app.userData.lang = t.ID;
+      appSettings.lang = t.ID;
       pageUtils.reload();
     }
   }

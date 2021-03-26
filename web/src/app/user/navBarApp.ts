@@ -8,7 +8,6 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import ls from 'ls';
-import app from 'app';
 import BaseElement from 'baseElement';
 import { staticMainImage } from 'urls';
 import routes from 'routes';
@@ -21,6 +20,7 @@ import appState from 'app/appState';
 import { AppStateName } from 'app/appStateName';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
+import appSettings from 'app/appSettings';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -167,7 +167,7 @@ export default class NavBarApp extends BaseElement {
 
   firstUpdated() {
     this.user = appPageState.user;
-    this.currentTheme = app.userData.theme;
+    this.currentTheme = appSettings.theme;
 
     appState.observe<User>((name, value) => {
       if (name === AppStateName.user) {
@@ -253,7 +253,7 @@ export default class NavBarApp extends BaseElement {
     const newTheme =
       this.currentTheme === defs.UserTheme.light ? defs.UserTheme.dark : defs.UserTheme.light;
     this.currentTheme = newTheme;
-    app.userData.theme = newTheme;
+    appSettings.theme = newTheme;
   }
 
   private async handleSignOutClick() {

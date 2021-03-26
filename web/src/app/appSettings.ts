@@ -7,18 +7,11 @@
 
 import cookies from 'js-cookie';
 import * as defs from 'defs';
-import * as lib from 'lib/htmlLib';
 import { keyLang } from 'sharedConstants';
 
 const CSS_DARK_THEME = 'theme-dark';
 
-export default class UserData {
-  constructor() {
-    lib.ready(() => {
-      this.applyTheme(this.theme);
-    });
-  }
-
+export class AppSettings {
   get theme(): defs.UserTheme {
     return this.getCookieNumber(defs.Cookies.themeKey) || defs.UserTheme.light;
   }
@@ -37,6 +30,11 @@ export default class UserData {
 
   set lang(value: string) {
     this.setCookieString(keyLang, value);
+  }
+
+  // Called on app startup.
+  applySettings() {
+    this.applyTheme(this.theme);
   }
 
   private getCookieString(key: string): string {
@@ -63,3 +61,6 @@ export default class UserData {
     }
   }
 }
+
+const appSettings = new AppSettings();
+export default appSettings;
