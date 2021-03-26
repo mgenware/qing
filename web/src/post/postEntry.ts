@@ -10,7 +10,9 @@ import { formatLS, ls } from 'ls';
 import { entityPost } from 'sharedConstants';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { html } from 'lit-element';
-import { getEditBarID, EditBar } from 'ui/editor/editBar';
+import { getEditBarID, EditBarApp } from 'ui/editor/editBarApp';
+// NOTE: `edit-bar-app` is required as it's being used by post page template.
+import 'ui/editor/editBarApp';
 import DeletePostLoader from './loaders/deletePostLoader';
 import './setPostApp';
 import './postPayloadApp';
@@ -25,7 +27,7 @@ function hookUpEditBarEvents() {
   }
   const editBarElement = document.getElementById(
     getEditBarID(entityPost, wind.EID),
-  ) as EditBar | null;
+  ) as EditBarApp | null;
   if (!editBarElement) {
     return;
   }

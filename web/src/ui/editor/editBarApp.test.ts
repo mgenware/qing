@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import './editBar';
+import './editBarApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<edit-bar></edit-bar>`);
+  const el = await fixture<HTMLElement>(html`<edit-bar-app></edit-bar-app>`);
 
   tDOM.isInlineElement(el);
 });

@@ -9,13 +9,14 @@
     <p>
       <!-- prettier-ignore -->
       <time-field>{{.ItemCreatedAt.Format "2006-01-02T15:04:05Z07:00"}}{{if .ItemModifiedAt}}|{{.ItemModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}{{end}}</time-field>
-      <!-- `id` format should be in sync with `editBar.ts`: `getEditBarID` -->
-      <edit-bar
+      <!-- `id` format should be in sync with `editBarApp.ts`: `getEditBarID` -->
+      <edit-bar-app
+        class="m-l-md"
         id="edit-bar-{{.ItemType}}-{{.ItemEID}}"
         itemID="{{.ItemEID}}"
         itemUserID="{{.UserEID}}"
         hasLeftMargin
-      ></edit-bar>
+      ></edit-bar-app>
     </p>
   </div>
 </div>
