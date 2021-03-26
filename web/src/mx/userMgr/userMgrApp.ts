@@ -23,6 +23,7 @@ import app from 'app';
 import SetAdminLoader from './loaders/setAdminLoader';
 import 'com/user/userCard';
 import { tif } from 'lib/htmlLib';
+import appPageState from 'app/appPageState';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {
@@ -92,7 +93,7 @@ export class UserMgrApp extends BaseElement {
   }
 
   private renderUserRow(user: UserInfo) {
-    const thisIsYou = app.state.userEID === user.eid;
+    const thisIsYou = appPageState.userEID === user.eid;
     return html`
       <tr>
         <td>

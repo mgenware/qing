@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
+import appPageState from 'app/appPageState';
 
 export interface PostWind {
   EID: string;
@@ -13,4 +13,4 @@ export interface PostWind {
   InitialLikes: number;
 }
 
-export default app.state.windData<PostWind>();
+export default appPageState.windData<PostWind>();

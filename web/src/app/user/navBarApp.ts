@@ -16,6 +16,9 @@ import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
 import { tif } from 'lib/htmlLib';
+import appPageState from 'app/appPageState';
+import appState from 'app/appState';
+import { AppStateName } from 'app/appStateName';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -161,11 +164,14 @@ export default class NavBarApp extends BaseElement {
   @lp.number currentTheme = defs.UserTheme.light;
 
   firstUpdated() {
-    const appState = app.state;
-    this.user = appState.user;
+    this.user = appPageState.user;
     this.currentTheme = app.userData.theme;
 
-    appState.addUserListener((user) => (this.user = user));
+    appState.observe<User>((name, value) => {
+      if (name === AppStateName.user) {
+        this.user = value;
+      }
+    });
   }
 
   render() {

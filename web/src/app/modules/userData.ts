@@ -8,13 +8,12 @@
 import cookies from 'js-cookie';
 import * as defs from 'defs';
 import * as lib from 'lib/htmlLib';
-import AppState from './appState';
 import { keyLang } from 'sharedConstants';
 
 const CSS_DARK_THEME = 'theme-dark';
 
 export default class UserData {
-  constructor(_: AppState) {
+  constructor() {
     lib.ready(() => {
       this.applyTheme(this.theme);
     });

@@ -5,10 +5,10 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
+import appPageState from 'app/appPageState';
 
 export interface ProfileWind {
   Website?: string;
 }
 
-export default app.state.windData<ProfileWind>();
+export default appPageState.windData<ProfileWind>();

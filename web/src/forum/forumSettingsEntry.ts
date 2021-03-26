@@ -16,9 +16,10 @@ import ls from 'ls';
 import ForumSettingsWind from './forumSettingsWind';
 import strf from 'bowhead-js';
 import { CHECK } from 'checks';
+import appPageState from 'app/appPageState';
 
 const settingsRouter = new MiniURLRouter();
-const forumSettingsWind = app.state.windData<ForumSettingsWind>();
+const forumSettingsWind = appPageState.windData<ForumSettingsWind>();
 const fid = forumSettingsWind.EID;
 CHECK(fid);
 

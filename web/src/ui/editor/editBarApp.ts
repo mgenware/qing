@@ -9,7 +9,7 @@ import { html, customElement } from 'lit-element';
 import * as lp from 'lit-props';
 import BaseElement from 'baseElement';
 import ls from 'ls';
-import app from 'app';
+import appPageState from 'app/appPageState';
 
 export function getEditBarID(type: number, id: string): string {
   return `edit-bar-${type}-${id}`;
@@ -21,7 +21,8 @@ export class EditBarApp extends BaseElement {
 
   firstUpdated() {
     const { id } = this;
-    this.visible = app.state.hasUser && app.state.userEID === this.parseUID(id);
+    const { user } = appPageState;
+    this.visible = !!user && user.eid === this.parseUID(id);
   }
 
   render() {

@@ -19,6 +19,7 @@ import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
 import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
+import appPageState from 'app/appPageState';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -146,8 +147,8 @@ export class EditProfileApp extends BaseElement {
     });
     if (status.isSuccess) {
       await app.alert.successToast(ls.profileUpdated);
-      if (this.name !== app.state.user?.name) {
-        app.state.updateUser({ name: this.name });
+      if (this.name !== appPageState.user?.name) {
+        appPageState.updateUser({ name: this.name });
       }
     }
   }
@@ -161,7 +162,7 @@ export class EditProfileApp extends BaseElement {
     this.avatarURL = resp.iconL || '';
 
     // Update user data.
-    app.state.updateUser({ iconURL: resp.iconL || '' });
+    appPageState.updateUser({ iconURL: resp.iconL || '' });
   }
 }
 

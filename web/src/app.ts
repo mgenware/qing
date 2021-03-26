@@ -9,7 +9,6 @@ import ls from 'ls';
 import { localizedErrDict } from 'defs';
 import ErrorWithCode from 'lib/errorWithCode';
 import LoadingStatus from 'lib/loadingStatus';
-import AppState from './app/modules/appState';
 import AlertModule from './app/modules/alertModule';
 import UserData from './app/modules/userData';
 import Loader from './lib/loader';
@@ -32,14 +31,9 @@ export class Result<TData> {
 }
 
 class APP {
-  state = new AppState();
   alert = new AlertModule();
   page = new PageModule();
-  userData = new UserData(this.state);
-
-  get isLoggedIn(): boolean {
-    return !!this.state.hasUser;
-  }
+  userData = new UserData();
 
   get devMode(): boolean {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

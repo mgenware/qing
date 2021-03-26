@@ -15,6 +15,7 @@ import './likeView';
 import LikeHostType from './loaders/likeHostType';
 import GetLikeLoader from './loaders/getLikeLoader';
 import SetLikeLoader from './loaders/setLikeLoader';
+import appPageState from 'app/appPageState';
 
 const sizeMD = 'md';
 
@@ -48,7 +49,7 @@ export class LikeApp extends BaseElement {
     CHECK(this.hostType);
 
     this.likes = this.initialLikes ?? 0;
-    if (app.state.hasUser) {
+    if (appPageState.user) {
       if (this.loadOnVisible) {
         listenForVisibilityChange([this], () => this.loadHasLiked);
       } else {

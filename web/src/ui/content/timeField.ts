@@ -9,7 +9,6 @@ import { html, customElement, property } from 'lit-element';
 import ls from 'ls';
 import { formatRelative, Locale } from 'date-fns';
 import { enUS, zhCN } from 'date-fns/locale';
-import app from 'app';
 import BaseElement from 'baseElement';
 
 @customElement('time-field')
@@ -19,8 +18,9 @@ export class TimeField extends BaseElement {
   locale?: Locale;
 
   firstUpdated() {
-    const { lang } = app.state;
-    this.locale = lang === 'cs' ? zhCN : enUS;
+    const curLang = ls._lang;
+    // TODO: remove hardcoded lang codes.
+    this.locale = curLang === 'zh-Hans' ? zhCN : enUS;
     const content = this.textContent;
     // Load time properties from content if it's present.
     if (content) {

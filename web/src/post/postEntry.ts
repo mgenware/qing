@@ -18,11 +18,12 @@ import './setPostApp';
 import './postPayloadApp';
 import wind from './postWind';
 import SetPostApp from './setPostApp';
+import appPageState from 'app/appPageState';
 
 let editPostApp: SetPostApp | null = null;
 
 function hookUpEditBarEvents() {
-  if (!app.state.userEID) {
+  if (!appPageState.user) {
     return;
   }
   const editBarElement = document.getElementById(

@@ -35,7 +35,7 @@ export class LangPageView extends BaseElement {
   }
 
   render() {
-    const curLang = app.state.lang;
+    const curLang = ls._lang;
     return html`
       <container-view>
         <h2>${ls.langSettings}</h2>
@@ -56,7 +56,8 @@ export class LangPageView extends BaseElement {
   }
 
   private async handleLangChange(t: LangInfo) {
-    if (t.ID === app.state.lang) {
+    const curLang = ls._lang;
+    if (t.ID === curLang) {
       return;
     }
     if (
