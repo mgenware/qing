@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
-import 'ui/editor/editBar';
+import 'ui/editor/editBarApp';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';
@@ -90,11 +90,11 @@ export class CmtView extends BaseElement {
             <time-field .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></time-field>
             ${cmt.userID === app.state.userEID
               ? html`
-                  <edit-bar
+                  <edit-bar-app
                     .hasLeftMargin=${true}
                     @editClick=${this.handleEditClick}
                     @deleteClick=${this.handleDeleteClick}
-                  ></edit-bar>
+                  ></edit-bar-app>
                 `
               : ''}
           </div>
