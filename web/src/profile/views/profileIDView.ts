@@ -9,7 +9,7 @@ import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import ls from 'ls';
-import app from 'app';
+import appAlert from 'app/appAlert';
 
 @customElement('profile-id-view')
 export class ProfileIDView extends BaseElement {
@@ -45,9 +45,9 @@ export class ProfileIDView extends BaseElement {
     }
     try {
       await navigator.clipboard.writeText(this.value);
-      await app.alert.successToast(ls.copied);
+      await appAlert.successToast(ls.copied);
     } catch (err) {
-      await app.alert.error(err.message);
+      await appAlert.error(err.message);
     }
   }
 }

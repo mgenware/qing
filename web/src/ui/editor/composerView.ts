@@ -8,13 +8,13 @@
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
-import app from 'app';
 import BaseElement from 'baseElement';
 import './editorView';
 import 'ui/form/inputView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';
 import { tif } from 'lib/htmlLib';
+import appAlert from 'app/appAlert';
 
 const editorID = 'editor';
 const titleInputID = 'title-input';
@@ -192,7 +192,7 @@ export class ComposerView extends BaseElement {
         new CustomEvent<ComposerContent>('onSubmit', { detail: payload }),
       );
     } catch (err) {
-      await app.alert.error(err.message);
+      await appAlert.error(err.message);
       if (err instanceof ValidationError) {
         const verr = err as ValidationError;
         verr.callback();
@@ -207,7 +207,7 @@ export class ComposerView extends BaseElement {
     };
     if (this.hasContentChanged()) {
       // Warn user of unsaved changes.
-      if (await app.alert.warnUnsavedChanges()) {
+      if (await appAlert.warnUnsavedChanges()) {
         fireEvent();
       }
     } else {

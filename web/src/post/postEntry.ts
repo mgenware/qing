@@ -5,7 +5,6 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
 import { formatLS, ls } from 'ls';
 import { entityPost } from 'sharedConstants';
 import { renderTemplateResult } from 'lib/htmlLib';
@@ -19,6 +18,9 @@ import './postPayloadApp';
 import wind from './postWind';
 import SetPostApp from './setPostApp';
 import appPageState from 'app/appPageState';
+import appAlert from 'app/appAlert';
+import appTask from 'app/appTask';
+import pageUtils from 'app/utils/pageUtils';
 
 let editPostApp: SetPostApp | null = null;
 
@@ -33,13 +35,13 @@ function hookUpEditBarEvents() {
     return;
   }
   editBarElement.addEventListener('deleteClick', async () => {
-    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
-      app.alert.showLoadingOverlay(ls.working);
+    if (await appAlert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
+      appAlert.showLoadingOverlay(ls.working);
       const loader = new DeletePostLoader(wind.EID, entityPost);
-      const status = await app.runGlobalActionAsync(loader, ls.working);
+      const status = await appTask.critical(loader, ls.working);
       if (status.data) {
         // Redirect to profile page since this page has been deleted.
-        app.page.setURL(status.data);
+        pageUtils.setURL(status.data);
       }
     }
   });

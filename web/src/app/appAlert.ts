@@ -15,7 +15,7 @@ import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
 const dialogContainerID = '__global_dialog_container';
 const spinnerContainerID = '__global_spinner_container';
 
-export default class AlertModule {
+export class AppAlert {
   async error(message: string, title?: string): Promise<void> {
     await this.showDialogViewAsync({
       message,
@@ -123,3 +123,6 @@ export default class AlertModule {
     });
   }
 }
+
+const appAlert = new AppAlert();
+export default appAlert;

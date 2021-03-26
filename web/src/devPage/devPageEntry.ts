@@ -11,13 +11,13 @@ import routes from './devRoutes';
 import './devView';
 import './auth/authDevPage';
 import './ui/elementsDev';
-import app from 'app';
 import { routeDevPage } from 'sharedConstants';
+import pageUtils from 'app/utils/pageUtils';
 
 const devRouter = new MiniURLRouter();
 
 function loadPageContent(title: string, content: TemplateResult) {
-  app.page.setTitleAndMainContent([title], html` <container-view> ${content} </container-view> `);
+  pageUtils.setTitleAndMainContent([title], html` <container-view> ${content} </container-view> `);
 }
 
 devRouter.register(routes.authRoot, () => {

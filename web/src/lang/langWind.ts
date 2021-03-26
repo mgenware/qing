@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
+import appPageState from 'app/appPageState';
 
 export interface LangInfo {
   Name: string;
@@ -17,4 +17,4 @@ export interface LangWindData {
   Langs: LangInfo[];
 }
 
-export default app.state.windData<LangWindData>();
+export default appPageState.windData<LangWindData>();

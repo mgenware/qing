@@ -10,10 +10,11 @@ import BaseElement from 'baseElement';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import * as lp from 'lit-props';
-import app from 'app';
 import SignInLoader from './loaders/signInLoader';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
+import appTask from 'app/appTask';
+import pageUtils from 'app/utils/pageUtils';
 
 @customElement('sign-in-app')
 export class SignInApp extends BaseElement {
@@ -70,9 +71,9 @@ export class SignInApp extends BaseElement {
       return;
     }
     const loader = new SignInLoader(this.email, this.password);
-    const status = await app.runGlobalActionAsync(loader, ls.publishing);
+    const status = await appTask.critical(loader, ls.publishing);
     if (status.isSuccess) {
-      app.page.setURL('/');
+      pageUtils.setURL('/');
     }
   }
 }

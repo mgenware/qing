@@ -12,6 +12,8 @@ import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
 import app from 'app';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
+import appAlert from 'app/appAlert';
+import pageUtils from 'app/utils/pageUtils';
 
 @customElement('lang-page-view')
 export class LangPageView extends BaseElement {
@@ -60,11 +62,9 @@ export class LangPageView extends BaseElement {
     if (t.ID === curLang) {
       return;
     }
-    if (
-      await app.alert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, t.LocalizedName))
-    ) {
+    if (await appAlert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, t.LocalizedName))) {
       app.userData.lang = t.ID;
-      app.page.reload();
+      pageUtils.reload();
     }
   }
 }

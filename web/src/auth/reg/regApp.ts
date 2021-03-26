@@ -10,11 +10,12 @@ import BaseElement from 'baseElement';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import * as lp from 'lit-props';
-import app from 'app';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
 import 'qing-overlay';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
+import appTask from 'app/appTask';
+import pageUtils from 'app/utils/pageUtils';
 
 @customElement('reg-app')
 export class RegApp extends BaseElement {
@@ -118,7 +119,7 @@ export class RegApp extends BaseElement {
       return;
     }
     const loader = new CreateNewUserLoader(this.name, this.email, this.password);
-    const status = await app.runGlobalActionAsync(loader, ls.publishing);
+    const status = await appTask.critical(loader, ls.publishing);
     if (status.isSuccess) {
       this.isCompletionModalOpen = true;
     }
@@ -128,7 +129,7 @@ export class RegApp extends BaseElement {
     if (!e.detail) {
       const domain = this.email.split('@').pop();
       if (domain) {
-        app.page.openWindow(domain);
+        pageUtils.openWindow(domain);
       }
     }
   }

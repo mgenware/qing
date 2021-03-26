@@ -7,7 +7,6 @@
 
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
-import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/status/statusOverlay';
@@ -21,6 +20,8 @@ import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader';
 import { GetForumEditingInfoLoader } from './loaders/getForumEditingInfo';
 import { CHECK } from 'checks';
 import EditorView from 'ui/editor/editorView';
+import appTask from 'app/appTask';
+import appAlert from 'app/appAlert';
 
 const editorElementID = 'editor';
 
@@ -97,11 +98,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
 
   private async reloadDataAsync() {
     const loader = new GetForumEditingInfoLoader(this.fid);
-    const status = await app.runGlobalActionAsync(
-      loader,
-      undefined,
-      (s) => (this.loadingStatus = s),
-    );
+    const status = await appTask.critical(loader, undefined, (s) => (this.loadingStatus = s));
     if (status.data) {
       const info = status.data;
       this.name = info.name ?? '';
@@ -121,12 +118,12 @@ export class ForumGeneralSettingsApp extends BaseElement {
         throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
       }
     } catch (err) {
-      await app.alert.error(err.message);
+      await appAlert.error(err.message);
       return;
     }
     const descHTML = this.descEditorView.contentHTML;
     const loader = new SetForumEditingInfoLoader(this.fid, this.name, descHTML);
-    await app.runGlobalActionAsync(loader, ls.saving, (s) => {
+    await appTask.critical(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;
     });
   }

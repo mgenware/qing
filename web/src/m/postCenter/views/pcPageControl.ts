@@ -11,7 +11,7 @@ import BaseElement from 'baseElement';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
 import ls, { formatLS } from 'ls';
-import app from 'app';
+import appAlert from 'app/appAlert';
 
 const pageInputID = 'page-input';
 
@@ -92,7 +92,7 @@ export class PCPageControl extends BaseElement {
       }
       this.onGotoPage(page);
     } catch (ex) {
-      await app.alert.error(ex.message);
+      await appAlert.error(ex.message);
       this.pageInputElement?.select();
     }
   }

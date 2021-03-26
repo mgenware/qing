@@ -17,8 +17,8 @@ import { CHECK } from 'checks';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
-import app from 'app';
 import { ItemsChangedEvent } from 'lib/itemCollector';
+import appAlert from 'app/appAlert';
 
 @customElement('cmt-block')
 // Shows a comment view along with its replies.
@@ -147,7 +147,7 @@ export class CmtBlock extends BaseElement {
   private async handleCmtDeleteClick(e: CustomEvent<Cmt>) {
     CHECK(this.hub);
     CHECK(this.cmt);
-    if (await app.alert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.comment))) {
+    if (await appAlert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.comment))) {
       this.hub.deleteCmtRequested.dispatch([this.cmt.id, e.detail]);
     }
   }

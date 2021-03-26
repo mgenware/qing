@@ -9,13 +9,13 @@ import { html, customElement, property, css } from 'lit-element';
 import 'qing-overlay';
 import ls from 'ls';
 import BaseElement from 'baseElement';
-import app from 'app';
 import { staticMainImage } from 'urls';
 import 'ui/status/progressView';
 import '@github/image-crop-element';
 import styles from '@github/image-crop-element/dist/index.css';
 import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
 import { QingOverlay } from 'qing-overlay';
+import appTask from 'app/appTask';
 
 interface ImageCropInfo {
   x: number;
@@ -145,7 +145,7 @@ export class AvatarUploader extends BaseElement {
       }
     }
     const loader = new AvatarUploadLoader(fd);
-    const result = await app.runGlobalActionAsync(loader, ls.uploading);
+    const result = await appTask.critical(loader, ls.uploading);
     this.resetFileInput();
 
     if (result.data) {

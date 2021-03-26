@@ -17,10 +17,10 @@ import 'ui/status/statusOverlay';
 import LoadingStatus from 'lib/loadingStatus';
 import FindUsersLoader from './loaders/findUsersLoader';
 import { SelectionViewItemEvent } from 'ui/form/selectionView';
-import app from 'app';
 import { createPopper } from '@popperjs/core';
 import './userCard';
 import { tif } from 'lib/htmlLib';
+import appTask from 'app/appTask';
 
 const inputViewID = 'input-view';
 const popoverRootID = 'popover-root';
@@ -206,7 +206,7 @@ export class UserSelectorApp extends BaseElement {
       return;
     }
     const loader = new FindUsersLoader(this.byID, value);
-    const res = await app.runLocalActionAsync(loader, (st) => (this.status = st));
+    const res = await appTask.local(loader, (st) => (this.status = st));
     if (res.data) {
       this.users = res.data;
     }

@@ -23,11 +23,11 @@ import 'ui/lists/linkListView';
 import 'com/like/likeView';
 import 'post/setPostApp';
 import LoadingStatus from 'lib/loadingStatus';
-import app from 'app';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
 import SetPostApp from 'post/setPostApp';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { entityPost } from 'sharedConstants';
+import appAlert from 'app/appAlert';
 
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
@@ -184,13 +184,13 @@ export class ElementsDev extends BaseElement {
       <h1>Views</h1>
       <hr />
       <h2>Dialogs</h2>
-      <qing-button @click=${async () => app.alert.error('This is an error')}>Error</qing-button>
+      <qing-button @click=${async () => appAlert.error('This is an error')}>Error</qing-button>
       <qing-button
         @click=${async () =>
-          alert((await app.alert.confirm('Warning', 'Yes or no?')) ? 'Yes' : 'No')}
+          alert((await appAlert.confirm('Warning', 'Yes or no?')) ? 'Yes' : 'No')}
         >Confirm</qing-button
       >
-      <qing-button @click=${async () => app.alert.successToast('Success!')}
+      <qing-button @click=${async () => appAlert.successToast('Success!')}
         >Success toast</qing-button
       >
       <qing-button
@@ -288,9 +288,9 @@ export class ElementsDev extends BaseElement {
   }
 
   private startFullscreenSpinner() {
-    app.alert.showLoadingOverlay('Loading...');
+    appAlert.showLoadingOverlay('Loading...');
     setTimeout(() => {
-      app.alert.hideLoadingOverlay();
+      appAlert.hideLoadingOverlay();
     }, 2000);
   }
 

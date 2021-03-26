@@ -5,7 +5,6 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
 import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
 import { TemplateResult, html } from 'lit-element';
 import routes from 'routes';
@@ -17,6 +16,7 @@ import ForumSettingsWind from './forumSettingsWind';
 import strf from 'bowhead-js';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
+import pageUtils from 'app/utils/pageUtils';
 
 const settingsRouter = new MiniURLRouter();
 const forumSettingsWind = appPageState.windData<ForumSettingsWind>();
@@ -33,7 +33,7 @@ function loadSettingsContent(
   title: string,
   content: TemplateResult,
 ) {
-  app.page.setTitleAndMainContent(
+  pageUtils.setTitleAndMainContent(
     [title],
     html`<forum-settings-base-view .fid=${fid} .selectedPage=${selectedPage}
       >${content}</forum-settings-base-view

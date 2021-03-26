@@ -10,13 +10,14 @@ import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
-import app from 'app';
 import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
 import { entityPost, entityDiscussionMsg } from 'sharedConstants';
 import 'qing-overlay';
 import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
+import appTask from 'app/appTask';
+import pageUtils from 'app/utils/pageUtils';
 
 const composerID = 'composer';
 
@@ -60,7 +61,7 @@ export default class SetPostApp extends BaseElement {
 
     if (this.editedID) {
       const loader = new GetPostSourceLoader(this.editedID);
-      const status = await app.runGlobalActionAsync(loader);
+      const status = await appTask.critical(loader);
       if (status.data) {
         const postData = status.data;
         this.updateContent(postData.title, postData.contentHTML);
@@ -104,13 +105,10 @@ export default class SetPostApp extends BaseElement {
     if (this.discussionID) {
       loader.discussionID = this.discussionID;
     }
-    const status = await app.runGlobalActionAsync(
-      loader,
-      this.editedID ? ls.saving : ls.publishing,
-    );
+    const status = await appTask.critical(loader, this.editedID ? ls.saving : ls.publishing);
     if (status.data) {
       this.composerEl?.markAsSaved();
-      app.page.setURL(status.data);
+      pageUtils.setURL(status.data);
     }
   }
 

@@ -7,7 +7,6 @@
 
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
-import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/status/statusOverlay';
@@ -20,6 +19,8 @@ import LoadingStatus from 'lib/loadingStatus';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
 import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 import appPageState from 'app/appPageState';
+import appTask from 'app/appTask';
+import appAlert from 'app/appAlert';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends BaseElement {
@@ -116,11 +117,7 @@ export class EditProfileApp extends BaseElement {
 
   private async reloadDataAsync() {
     const loader = new GetProfileInfoLoader();
-    const status = await app.runGlobalActionAsync(
-      loader,
-      undefined,
-      (s) => (this.loadingStatus = s),
-    );
+    const status = await appTask.critical(loader, undefined, (s) => (this.loadingStatus = s));
     if (status.data) {
       const profile = status.data;
       this.name = profile.name || '';
@@ -138,15 +135,15 @@ export class EditProfileApp extends BaseElement {
         throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
       }
     } catch (err) {
-      await app.alert.error(err.message);
+      await appAlert.error(err.message);
       return;
     }
     const loader = new SetProfileInfoLoader(this.name, this.url, this.company, this.location);
-    const status = await app.runGlobalActionAsync(loader, ls.saving, (s) => {
+    const status = await appTask.critical(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;
     });
     if (status.isSuccess) {
-      await app.alert.successToast(ls.profileUpdated);
+      await appAlert.successToast(ls.profileUpdated);
       if (this.name !== appPageState.user?.name) {
         appPageState.updateUser({ name: this.name });
       }

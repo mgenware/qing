@@ -5,11 +5,11 @@
  * found in the LICENSE file.
  */
 
-import app from 'app';
+import appPageState from 'app/appPageState';
 
 export interface DiscussionWind {
   EID: string;
   ReplyCount: number;
 }
 
-export default app.state.windData<DiscussionWind>();
+export default appPageState.windData<DiscussionWind>();

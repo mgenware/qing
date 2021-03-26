@@ -20,9 +20,9 @@ import { entityCmt, entityReply } from 'sharedConstants';
 import ls, { formatLS } from 'ls';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { SetCmtLoader } from './loaders/setCmtLoader';
-import app from 'app';
 import { CmtDataHub, CmtEditorProps } from './data/cmtDataHub';
 import DeleteCmtLoader from './loaders/deleteCmtLoader';
+import appTask from 'app/appTask';
 
 const composerID = 'composer';
 
@@ -112,7 +112,7 @@ export class CmtApp extends BaseElement {
     const [parentID, cmt] = e;
     const isReply = isCmtReply(cmt);
     const loader = new DeleteCmtLoader(cmt.id, this.hostType, this.hostID, isReply);
-    const status = await app.runGlobalActionAsync(loader, ls.working);
+    const status = await appTask.critical(loader, ls.working);
     if (status.isSuccess) {
       this.hub?.removeCmt(isReply ? parentID : null, cmt.id);
     }
@@ -144,7 +144,7 @@ export class CmtApp extends BaseElement {
       loader = SetCmtLoader.editCmt(this.hostID, this.hostType, editorProps.editing.id, e.detail);
     }
 
-    const status = await app.runGlobalActionAsync(loader, ls.publishing);
+    const status = await appTask.critical(loader, ls.publishing);
     if (status.data) {
       const serverCmt = status.data.cmt;
       this.closeEditor();

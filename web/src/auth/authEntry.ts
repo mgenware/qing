@@ -11,18 +11,16 @@ import rs from 'routes';
 import './reg/regApp';
 import './signIn/signInApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import app from 'app';
+import pageUtils from 'app/utils/pageUtils';
 
 const authRouter = new MiniURLRouter();
 
 authRouter.register(rs.auth.signUp, () => {
-  const { page } = app;
-  page.setTitle([ls.createAnAcc]);
-  page.setMainContent(html`<reg-app></reg-app>`);
+  pageUtils.setTitle([ls.createAnAcc]);
+  pageUtils.setMainContent(html`<reg-app></reg-app>`);
 });
 authRouter.register(rs.auth.signIn, () => {
-  const { page } = app;
-  page.setTitle([ls.signIn]);
-  page.setMainContent(html`<sign-in-app></sign-in-app>`);
+  pageUtils.setTitle([ls.signIn]);
+  pageUtils.setMainContent(html`<sign-in-app></sign-in-app>`);
 });
 authRouter.startOnce();

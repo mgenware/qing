@@ -8,7 +8,6 @@
 import { html, TemplateResult } from 'lit-element';
 import ls from 'ls';
 import routes from 'routes';
-import app from 'app';
 import './settings/mSettingsView';
 import './settings/profile/editProfileApp';
 import 'post/setPostApp';
@@ -17,11 +16,12 @@ import './postCenter/myDiscussionsApp';
 import { entityPost, entityQuestion, entityDiscussion } from 'sharedConstants';
 import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
+import pageUtils from 'app/utils/pageUtils';
 
 const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
-  app.page.setTitleAndMainContent(
+  pageUtils.setTitleAndMainContent(
     [selectedItem, ls.settings],
     html`<m-settings-view .selectedItem=${selectedItem}>${content}</m-settings-view>`,
   );
@@ -54,7 +54,7 @@ function loadNewPostContent(entityType: number) {
   }
 
   router.register(url, () =>
-    app.page.setTitleAndMainContent(
+    pageUtils.setTitleAndMainContent(
       [title],
       html` <set-post-app .entityType=${entityType} .headerText=${title}></set-post-app> `,
     ),
@@ -70,7 +70,7 @@ router.register(`${routes.m.editPost}/:id`, (args) => {
   if (!id) {
     return;
   }
-  app.page.setTitleAndMainContent(
+  pageUtils.setTitleAndMainContent(
     [ls.editPost],
     html` <set-post-app .editedID=${id} .entityType=${entityPost}></set-post-app> `,
   );
@@ -79,10 +79,10 @@ router.register(routes.m.settings.profile, () => {
   loadSettingsContent(ls.profile, html` <edit-profile-app></edit-profile-app> `);
 });
 router.register(routes.m.yourPosts, () => {
-  app.page.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
+  pageUtils.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
 router.register(routes.m.yourDiscussions, () => {
-  app.page.setTitleAndMainContent(
+  pageUtils.setTitleAndMainContent(
     [ls.yourDiscussions],
     html`<my-discussions-app></my-discussions-app>`,
   );

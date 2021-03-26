@@ -19,11 +19,12 @@ import 'ui/alerts/noticeView';
 import 'com/user/userSelectorApp';
 import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
-import app from 'app';
 import SetAdminLoader from './loaders/setAdminLoader';
 import 'com/user/userCard';
 import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
+import appTask from 'app/appTask';
+import appAlert from 'app/appAlert';
 
 @customElement('user-mgr-app')
 export class UserMgrApp extends BaseElement {
@@ -46,10 +47,7 @@ export class UserMgrApp extends BaseElement {
   private getAdminLoader = new GetAdminsLoader();
 
   async firstUpdated() {
-    const res = await app.runLocalActionAsync(
-      this.getAdminLoader,
-      (st) => (this.adminSectionStatus = st),
-    );
+    const res = await appTask.local(this.getAdminLoader, (st) => (this.adminSectionStatus = st));
     if (res.data) {
       this.admins = res.data;
     }
@@ -113,12 +111,12 @@ export class UserMgrApp extends BaseElement {
   }
 
   private async handleRemoveAdmin(user: UserInfo) {
-    const ok = await app.alert.confirm(ls.warning, formatLS(ls.removeAdminConfirmation, user.name));
+    const ok = await appAlert.confirm(ls.warning, formatLS(ls.removeAdminConfirmation, user.name));
     if (!ok) {
       return;
     }
     const loader = new SetAdminLoader(user.eid, false);
-    const res = await app.runGlobalActionAsync(loader);
+    const res = await appTask.critical(loader);
     if (res.isSuccess) {
       this.admins = this.admins.filter((ad) => ad !== user);
     }
@@ -129,7 +127,7 @@ export class UserMgrApp extends BaseElement {
     if (!userCandidate) {
       return;
     }
-    const ok = await app.alert.confirm(
+    const ok = await appAlert.confirm(
       ls.warning,
       formatLS(ls.confirmAddUserAsAdmin, userCandidate.name),
     );
@@ -137,7 +135,7 @@ export class UserMgrApp extends BaseElement {
       return;
     }
     const loader = new SetAdminLoader(userCandidate.eid, true);
-    const res = await app.runGlobalActionAsync(loader);
+    const res = await appTask.critical(loader);
     if (res.isSuccess) {
       this.admins = [...this.admins, userCandidate];
     }

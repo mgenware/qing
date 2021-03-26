@@ -8,7 +8,6 @@
 import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import app from 'app';
 import { listenForVisibilityChange } from 'lib/htmlLib';
 import { CHECK } from 'checks';
 import './likeView';
@@ -16,6 +15,8 @@ import LikeHostType from './loaders/likeHostType';
 import GetLikeLoader from './loaders/getLikeLoader';
 import SetLikeLoader from './loaders/setLikeLoader';
 import appPageState from 'app/appPageState';
+import appTask from 'app/appTask';
+import appAlert from 'app/appAlert';
 
 const sizeMD = 'md';
 
@@ -75,10 +76,10 @@ export class LikeApp extends BaseElement {
       return;
     }
     const loader = new SetLikeLoader(this.hostID, this.hostType, !this.hasLiked);
-    const res = await app.runLocalActionAsync(loader, (s) => (this.isWorking = s.isWorking));
+    const res = await appTask.local(loader, (s) => (this.isWorking = s.isWorking));
 
     if (res.error) {
-      await app.alert.error(res.error.message);
+      await appAlert.error(res.error.message);
     } else {
       this.hasLiked = !this.hasLiked;
       this.likes += this.hasLiked ? 1 : -1;
@@ -87,9 +88,9 @@ export class LikeApp extends BaseElement {
 
   private async loadHasLiked() {
     const loader = new GetLikeLoader(this.hostID, this.hostType);
-    const res = await app.runLocalActionAsync(loader, (s) => (this.isWorking = s.isWorking));
+    const res = await appTask.local(loader, (s) => (this.isWorking = s.isWorking));
     if (res.error) {
-      await app.alert.error(res.error.message);
+      await appAlert.error(res.error.message);
     } else {
       this.hasLiked = res.data || false;
     }

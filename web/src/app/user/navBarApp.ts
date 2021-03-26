@@ -19,6 +19,8 @@ import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import { AppStateName } from 'app/appStateName';
+import appTask from 'app/appTask';
+import pageUtils from 'app/utils/pageUtils';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -256,9 +258,9 @@ export default class NavBarApp extends BaseElement {
 
   private async handleSignOutClick() {
     const loader = new SignOutLoader();
-    const res = await app.runGlobalActionAsync(loader);
+    const res = await appTask.critical(loader);
     if (res.isSuccess) {
-      app.page.reload();
+      pageUtils.reload();
     }
   }
 }

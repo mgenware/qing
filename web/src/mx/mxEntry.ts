@@ -8,15 +8,15 @@
 import { html, TemplateResult } from 'lit-element';
 import ls from 'ls';
 import routes from 'routes';
-import app from 'app';
 import './userMgr/userMgrApp';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
+import pageUtils from 'app/utils/pageUtils';
 
 const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
-  app.page.setTitleAndMainContent(
+  pageUtils.setTitleAndMainContent(
     [selectedItem, ls.adminSettings],
     html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
   );

@@ -9,7 +9,7 @@ import { renderTemplateResult } from 'lib/htmlLib';
 import { TemplateResult, html } from 'lit-element';
 import ls from 'ls';
 
-export default class PageModule {
+export class PageUtils {
   get mainContentElement(): HTMLElement {
     const element = window.document.getElementById('main-body');
     if (!element) {
@@ -50,3 +50,6 @@ export default class PageModule {
     this.setMainContent(content);
   }
 }
+
+const pageUtils = new PageUtils();
+export default pageUtils;

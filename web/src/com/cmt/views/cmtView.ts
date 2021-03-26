@@ -7,7 +7,6 @@
 
 import { html, customElement, css } from 'lit-element';
 import * as lp from 'lit-props';
-import app from 'app';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import 'ui/editor/editBarApp';
@@ -21,6 +20,7 @@ import { staticMainImage } from 'urls';
 import Cmt, { isCmtReply } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
+import appPageState from 'app/appPageState';
 
 let highlightedCmt: CmtView | undefined;
 @customElement('cmt-view')
@@ -88,7 +88,7 @@ export class CmtView extends BaseElement {
                 `
               : ''}
             <time-field .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></time-field>
-            ${cmt.userID === app.state.userEID
+            ${cmt.userID === appPageState.userEID
               ? html`
                   <edit-bar-app
                     .hasLeftMargin=${true}

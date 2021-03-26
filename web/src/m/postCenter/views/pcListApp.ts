@@ -15,8 +15,8 @@ import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './pcPageControl';
 import Loader from 'lib/loader';
-import app from 'app';
 import ls from 'ls';
+import appTask from 'app/appTask';
 
 const defaultPageSize = 10;
 
@@ -109,7 +109,7 @@ export abstract class PCListApp<T> extends BaseElement {
     this.currentSortedColumnDesc = desc;
 
     const loader = this.getLoader(page, pageSize);
-    const res = await app.runLocalActionAsync(loader, (st) => (this.loadingStatus = st));
+    const res = await appTask.local(loader, (st) => (this.loadingStatus = st));
     if (res.data) {
       const paginatedList = res.data;
       this.items = paginatedList.items;

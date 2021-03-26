@@ -8,7 +8,6 @@
 import { html, customElement, css, PropertyValues } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
-import app from 'app';
 import { ls, formatLS } from 'ls';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
@@ -20,6 +19,7 @@ import './cmtFooterView';
 import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { CHECK } from 'checks';
+import appPageState from 'app/appPageState';
 
 @customElement('root-cmt-list')
 // Displays a list of <cmt-block>.
@@ -122,7 +122,7 @@ export class RootCmtList extends BaseElement {
       `;
     }
 
-    const addCmtGroup = app.state.hasUser
+    const addCmtGroup = appPageState.user
       ? this.renderCommentComposer()
       : this.renderLoginToComment();
 
