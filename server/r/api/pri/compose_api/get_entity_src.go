@@ -26,12 +26,12 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	entityType := validator.MustGetIntFromDict(params, "entityType")
 
 	db := app.DB
-	var res GetSrcResp
+	var res da.EntityGetSrcResult
 	var err error
 
 	switch entityType {
 	case defs.Shared.EntityPost:
-		res, err = da.Post.SelectItemForEditing(db, id, uid)
+		res, err = da.Post.SelectItemSrc(db, id, uid)
 	default:
 		return resp.MustFailWithUserError(fmt.Sprintf("Unsupported entity type %v", entityType))
 	}

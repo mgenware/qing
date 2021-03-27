@@ -305,16 +305,6 @@ func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID 
 	return result, itemCounter > len(result), nil
 }
 
-// SelectItemForEditing ...
-func (da *TableTypeDiscussionMsg) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `id`, `content` FROM `discussion_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
 // DiscussionMsgTableSelectItemsByDiscussionResult ...
 type DiscussionMsgTableSelectItemsByDiscussionResult struct {
 	CmtCount     uint       `json:"cmtCount,omitempty"`
@@ -363,4 +353,14 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 		return nil, false, err
 	}
 	return result, itemCounter > len(result), nil
+}
+
+// SelectItemSrc ...
+func (da *TableTypeDiscussionMsg) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
+	err := queryable.QueryRow("SELECT `id`, `content` FROM `discussion_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }

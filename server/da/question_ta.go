@@ -316,16 +316,6 @@ func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint6
 	return result, nil
 }
 
-// SelectItemForEditing ...
-func (da *TableTypeQuestion) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `question` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
 // QuestionTableSelectItemsForPostCenterOrderBy1 ...
 const (
 	QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
@@ -437,6 +427,16 @@ func (da *TableTypeQuestion) SelectItemsForUserProfile(queryable mingru.Queryabl
 		return nil, false, err
 	}
 	return result, itemCounter > len(result), nil
+}
+
+// SelectItemSrc ...
+func (da *TableTypeQuestion) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
+	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `question` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }
 
 // UpdateMsgCount ...

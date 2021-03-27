@@ -19,7 +19,7 @@ const getEntitySrcType = 'EntityGetSrcResult';
 export default abstract class ContentBaseTA extends mm.TableActions {
   // SELECT actions.
   selectItemByID: mm.Action;
-  selectItemForEditing: mm.SelectAction;
+  selectItemSrc: mm.SelectAction;
   // Optional actions.
   selectItemsForUserProfile: mm.Action;
   selectItemsForPostCenter: mm.Action;
@@ -71,7 +71,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
           .by(t.user_id)
           .orderByDesc(t.created_at)
       : mm.emptyAction;
-    this.selectItemForEditing = mm
+    this.selectItemSrc = mm
       .selectRow(idCol, ...this.getEditingColumns())
       .whereSQL(this.updateConditions)
       .attr(mm.ActionAttribute.resultTypeName, getEntitySrcType);

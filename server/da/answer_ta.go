@@ -305,16 +305,6 @@ func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	return result, itemCounter > len(result), nil
 }
 
-// SelectItemForEditing ...
-func (da *TableTypeAnswer) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `id`, `content` FROM `answer` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
 // AnswerTableSelectItemsByQuestionResult ...
 type AnswerTableSelectItemsByQuestionResult struct {
 	CmtCount     uint       `json:"cmtCount,omitempty"`
@@ -363,4 +353,14 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 		return nil, false, err
 	}
 	return result, itemCounter > len(result), nil
+}
+
+// SelectItemSrc ...
+func (da *TableTypeAnswer) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
+	err := queryable.QueryRow("SELECT `id`, `content` FROM `answer` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }
