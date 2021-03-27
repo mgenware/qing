@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import { html, customElement, css, PropertyValues } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
@@ -19,6 +19,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
+import appCmtHubState from '../data/appCmtHubState';
 
 @customElement('cmt-block')
 // Shows a comment view along with its replies.
@@ -40,8 +41,9 @@ export class CmtBlock extends BaseElement {
     ];
   }
 
+  @lp.string hostID = '';
+  @lp.number hostType = 0;
   @lp.object cmt: Cmt | null = null;
-  @lp.object hub: CmtDataHub | null = null;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
@@ -53,6 +55,8 @@ export class CmtBlock extends BaseElement {
   @lp.number totalCount = 0;
   @lp.object private collectorLoadingStatus = LoadingStatus.success;
 
+  hub?: CmtDataHub;
+
   firstUpdated() {
     const { cmt } = this;
     CHECK(cmt);
@@ -60,20 +64,15 @@ export class CmtBlock extends BaseElement {
     this.totalCount = cmt.replyCount;
     this.hasNext = !!this.totalCount;
 
-    // DO NOT use `firstUpdated` here. See `updated` and `hub`.
-  }
-
-  // `hub` is updated in parent `firstUpdated`, we cannot access it in child `firstUpdated`.
-  updated(changedProperties: PropertyValues<this>) {
-    const { hub, cmt } = this;
-    if (changedProperties.has('hub') && hub && cmt) {
-      hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
-      hub.onChildItemsChanged(cmt.id, (e: ItemsChangedEvent<Cmt>) => {
-        this.items = e.items;
-        this.hasNext = e.hasNext;
-        this.totalCount = e.totalCount;
-      });
-    }
+    const hub = appCmtHubState.getHub(this.hostType, this.hostID);
+    CHECK(hub);
+    hub.onChildLoadingStatusChanged(cmt.id, (status) => (this.collectorLoadingStatus = status));
+    hub.onChildItemsChanged(cmt.id, (e: ItemsChangedEvent<Cmt>) => {
+      this.items = e.items;
+      this.hasNext = e.hasNext;
+      this.totalCount = e.totalCount;
+    });
+    this.hub = hub;
   }
 
   render() {

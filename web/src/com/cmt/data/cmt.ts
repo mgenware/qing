@@ -23,6 +23,9 @@ export default interface Cmt {
   toUserID?: string;
   toUserName?: string;
   toUserURL?: string;
+
+  // UI properties.
+  uiHighlighted?: boolean;
 }
 
 export interface CmtCountChangedEventDetail {

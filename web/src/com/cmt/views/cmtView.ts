@@ -21,8 +21,8 @@ import Cmt, { isCmtReply } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';
+import { editBarID } from 'ui/editor/editBarApp';
 
-let highlightedCmt: CmtView | undefined;
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
   static get styles() {
@@ -40,23 +40,13 @@ export class CmtView extends BaseElement {
     ];
   }
 
-  static set highlighted(val: CmtView) {
-    if (highlightedCmt) {
-      highlightedCmt.highlighted = false;
-    }
-    // eslint-disable-next-line no-param-reassign
-    val.highlighted = true;
-    highlightedCmt = val;
-  }
-
   @lp.object cmt: Cmt | null = null;
   // Only available to replies.
   @lp.string parentCmtID: string | null = null;
-  // Newly added comment will be highlighted.
-  @lp.bool highlighted = false;
 
   firstUpdated() {
-    CHECK(this.cmt);
+    const { cmt } = this;
+    CHECK(cmt);
   }
 
   render() {
@@ -64,7 +54,7 @@ export class CmtView extends BaseElement {
     CHECK(cmt);
     const isReply = isCmtReply(cmt);
     return html`
-      <div class=${`row ${this.highlighted ? 'highlighted' : ''}`}>
+      <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
         <div class="col-auto">
           <a href=${cmt.userURL}>
             <img src=${cmt.userIconURL} class="avatar-m" width="50" height="50" />
@@ -91,6 +81,9 @@ export class CmtView extends BaseElement {
             ${cmt.userID === appPageState.userEID
               ? html`
                   <edit-bar-app
+                    class="m-l-md"
+                    id=${editBarID(entityCmt, cmt.id)}
+                    uid=${cmt.userID}
                     .hasLeftMargin=${true}
                     @editClick=${this.handleEditClick}
                     @deleteClick=${this.handleDeleteClick}

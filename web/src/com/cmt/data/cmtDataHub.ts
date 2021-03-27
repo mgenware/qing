@@ -29,6 +29,11 @@ export interface CmtEditorProps {
   replyingTo: Cmt | null;
 }
 
+export interface CmtLocation {
+  parent: string | null;
+  cmt: Cmt;
+}
+
 export class CmtDataHub {
   // Collects all root-level comments.
   private rootCollector: CmtCollector;
@@ -45,6 +50,8 @@ export class CmtDataHub {
     'totalCmtCountChangedWithOffset',
   );
   deleteCmtRequested = new EventEntry<[string, Cmt]>(this.events, 'deleteCmtRequested');
+
+  private currentHighlighted?: CmtLocation;
 
   private childLoadingStatusChanged = new EventEntry<[Cmt, LoadingStatus]>(
     this.events,
@@ -86,6 +93,7 @@ export class CmtDataHub {
         // Changes triggered by "view more" doesn't count as cmt number changes.
         if (e.source === ItemsChangedSource.userAction) {
           this.handleTotalCmtCountChangeWithOffset(e.changed);
+          this.highlightCmtIfNeeded(null, e);
         }
         this.rootItemsChanged.dispatch(e);
       },
@@ -120,12 +128,14 @@ export class CmtDataHub {
 
   addCmt(parent: string | null, cmt: Cmt) {
     const collector = this.getCollector(parent);
-    collector?.items.insert(0, cmt);
+    CHECK(collector);
+    collector.items.insert(0, cmt);
   }
 
   removeCmt(parent: string | null, id: string) {
     const collector = this.getCollector(parent);
-    collector?.items.deleteByKey(id);
+    CHECK(collector);
+    collector.items.deleteByKey(id);
   }
 
   updateCmt(parent: string | null, id: string, cmt: Cmt) {
@@ -147,6 +157,7 @@ export class CmtDataHub {
         // Any reply count changes affect total comment count.
         this.handleTotalCmtCountChangeWithOffset(e.changed);
         this.childItemsChanged.dispatch([cmt, e]);
+        this.highlightCmtIfNeeded(cmt.id, e);
       },
     );
     this.replyCollectors[cmt.id] = collector;
@@ -158,5 +169,28 @@ export class CmtDataHub {
 
   private handleTotalCmtCountChangeWithOffset(offset: number) {
     this.totalCmtCountChangedWithOffset.dispatch(offset);
+  }
+
+  private highlightCmtIfNeeded(parent: string | null, e: ItemsChangedEvent<Cmt>) {
+    // Ignore comments added by 'load more'.
+    if (e.source !== ItemsChangedSource.userAction) {
+      return;
+    }
+    const newID = e.detail.added?.[0];
+    if (newID && newID !== this.currentHighlighted?.cmt.id) {
+      const prev = this.currentHighlighted;
+      const newCmt = e.sender.items.map.get(newID);
+      CHECK(newCmt);
+      this.currentHighlighted = { parent, cmt: newCmt };
+
+      // Un-highlight the previous comment.
+      if (prev) {
+        const prevCmt = prev.cmt;
+        this.updateCmt(prev.parent, prevCmt.id, { ...prevCmt, uiHighlighted: false });
+      }
+
+      // Highlight current comment.
+      this.updateCmt(parent, newCmt.id, { ...newCmt, uiHighlighted: true });
+    }
   }
 }

@@ -23,6 +23,7 @@ import { SetCmtLoader } from './loaders/setCmtLoader';
 import { CmtDataHub, CmtEditorProps } from './data/cmtDataHub';
 import DeleteCmtLoader from './loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
+import appCmtHubState from './data/appCmtHubState';
 
 const composerID = 'composer';
 
@@ -47,7 +48,7 @@ export class CmtApp extends BaseElement {
 
   // The number of all comments and their replies.
   @lp.number private totalCmtCount = 0;
-  @lp.object private hub: CmtDataHub | null = null;
+  private hub: CmtDataHub | null = null;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -59,6 +60,7 @@ export class CmtApp extends BaseElement {
     hub.openEditorRequested.on((req) => (this.editorProps = req));
     hub.totalCmtCountChangedWithOffset.on((offset) => (this.totalCmtCount += offset));
     hub.deleteCmtRequested.on((e) => this.handleDeleteCmt(e));
+    appCmtHubState.setHub(this.hostType, this.hostID, hub);
     this.hub = hub;
   }
 
@@ -71,7 +73,6 @@ export class CmtApp extends BaseElement {
     const isReply = !!editorProps.parent;
     return html`
       <root-cmt-list
-        .hub=${this.hub}
         .totalCmtCount=${this.totalCmtCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}

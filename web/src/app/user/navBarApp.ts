@@ -17,7 +17,7 @@ import User from './user';
 import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appState from 'app/appState';
-import { AppStateName } from 'app/appStateName';
+import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
@@ -170,7 +170,7 @@ export default class NavBarApp extends BaseElement {
     this.currentTheme = appSettings.theme;
 
     appState.observe<User>((name, value) => {
-      if (name === AppStateName.user) {
+      if (name === appStateName.user) {
         this.user = value;
       }
     });

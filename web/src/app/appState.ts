@@ -6,27 +6,26 @@
  */
 
 import { CHECK } from 'checks';
-import { AppStateName } from './appStateName';
 
 interface AppStateEntry {
   constructorFn?: () => void;
   value?: unknown;
 }
 
-type ListenerFn = (name: AppStateName, value: unknown) => void;
+type ListenerFn = (name: string, value: unknown) => void;
 
 export class AppState {
   private entries: Record<string, AppStateEntry> = {};
   private listeners: ListenerFn[] = [];
 
-  register(name: AppStateName, ctorFn: () => unknown) {
+  register(name: string, ctorFn: () => unknown) {
     CHECK(!this.entries[name]);
     this.entries[name] = {
       constructorFn: ctorFn,
     };
   }
 
-  get<T>(name: AppStateName): T {
+  get<T>(name: string): T {
     const entry = this.entries[name];
     CHECK(entry);
     if (entry.constructorFn) {
@@ -37,20 +36,16 @@ export class AppState {
     return entry.value as T;
   }
 
-  observe<T>(listener: (name: AppStateName, value: T) => void): () => void {
+  observe<T>(listener: (name: string, value: T) => void): () => void {
     this.listeners.push(listener as ListenerFn);
     return () => {
       this.listeners = this.listeners.filter((fn) => fn !== listener);
     };
   }
 
-  set(name: AppStateName, value: unknown) {
-    const entry = this.entries[name];
-    // Entry must exist.
-    CHECK(entry);
-    // Entry must be initialized.
-    CHECK(!entry.constructorFn);
-    entry.value = value;
+  set(name: string, value: unknown) {
+    const entry = { name, value };
+    this.entries[name] = entry;
     for (const listener of this.listeners) {
       listener(name, value);
     }

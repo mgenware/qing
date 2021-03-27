@@ -6,7 +6,7 @@
  */
 
 import appState from './appState';
-import { AppStateName } from './appStateName';
+import appStateName from './appStateName';
 import User from './user/user';
 
 interface MainWind {
@@ -25,7 +25,7 @@ function getMainPageWindData(): MainWind {
   return (window as any) as MainWind;
 }
 
-appState.register(AppStateName.user, () => {
+appState.register(appStateName.user, () => {
   const wind = getMainPageWindData();
   if (wind.appUserID) {
     return {
@@ -39,27 +39,27 @@ appState.register(AppStateName.user, () => {
   return null;
 });
 
-appState.register(AppStateName.windData, () => {
+appState.register(appStateName.windData, () => {
   const wind = getMainPageWindData();
   return wind.appWindData ?? {};
 });
 
-appState.register(AppStateName.forumsMode, () => {
+appState.register(appStateName.forumsMode, () => {
   const wind = getMainPageWindData();
   return wind.appForumsMode;
 });
 
 export class AppPageState {
   get user(): User | null {
-    return appState.get(AppStateName.user);
+    return appState.get(appStateName.user);
   }
 
   windData<T>(): T {
-    return appState.get(AppStateName.windData);
+    return appState.get(appStateName.windData);
   }
 
   get forumsMode(): boolean {
-    return appState.get(AppStateName.forumsMode);
+    return appState.get(appStateName.forumsMode);
   }
 
   // Helpers.
@@ -76,7 +76,7 @@ export class AppPageState {
       ...this.user,
       ...part,
     };
-    appState.set(AppStateName.user, newUser);
+    appState.set(appStateName.user, newUser);
   }
 }
 

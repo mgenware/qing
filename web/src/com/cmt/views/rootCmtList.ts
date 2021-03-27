@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-import { html, customElement, css, PropertyValues } from 'lit-element';
+import { html, customElement, css } from 'lit-element';
 import BaseElement from 'baseElement';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
@@ -20,6 +20,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
+import appCmtHubState from '../data/appCmtHubState';
 
 @customElement('root-cmt-list')
 // Displays a list of <cmt-block>.
@@ -51,34 +52,31 @@ export class RootCmtList extends BaseElement {
   @lp.bool hasNext = false;
 
   @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
-  @lp.object hub: CmtDataHub | null = null;
+
+  hub?: CmtDataHub;
 
   firstUpdated() {
     CHECK(this.hostID);
     CHECK(this.hostType);
-    // DO NOT use `firstUpdated` here. See `updated` and `hub`.
-  }
 
-  // `hub` is updated in parent `firstUpdated`, we cannot access it in child `firstUpdated`.
-  updated(changedProperties: PropertyValues<this>) {
-    const { hub } = this;
-    if (changedProperties.has('hub') && hub) {
-      hub.rootLoadingStatusChanged.on((status) => {
-        this.collectorLoadingStatus = status;
-      });
-      hub.rootItemsChanged.on((e) => {
-        this.items = e.items;
-        this.hasNext = e.hasNext;
-        // Ignore `e.totalCount`, it's useless for root collector.
-        // See `totalCmtCount` in `cmt-app`.
-      });
+    const hub = appCmtHubState.getHub(this.hostType, this.hostID);
+    CHECK(hub);
+    hub.rootLoadingStatusChanged.on((status) => {
+      this.collectorLoadingStatus = status;
+    });
+    hub.rootItemsChanged.on((e) => {
+      this.items = e.items;
+      this.hasNext = e.hasNext;
+      // Ignore `e.totalCount`, it's useless for root collector.
+      // See `totalCmtCount` in `cmt-app`.
+    });
 
-      if (this.loadOnVisible) {
-        listenForVisibilityChange([this], () => this.loadMore());
-      } else {
-        this.loadMore();
-      }
+    if (this.loadOnVisible) {
+      listenForVisibilityChange([this], () => this.loadMore());
+    } else {
+      this.loadMore();
     }
+    this.hub = hub;
   }
 
   render() {
@@ -97,7 +95,15 @@ export class RootCmtList extends BaseElement {
         (it) => it.id,
         // Use p-t-md instead of m-t-md to prevent margin-collapsing with
         // load-more-button of previous `cmt-block`.
-        (it) => html` <cmt-block class="p-t-md" .cmt=${it} .hub=${this.hub}></cmt-block> `,
+        (it) =>
+          html`
+            <cmt-block
+              class="p-t-md"
+              .hostType=${this.hostType}
+              .hostID=${this.hostID}
+              .cmt=${it}
+            ></cmt-block>
+          `,
       );
       contentGroup = html`
         <div class="m-t-md">

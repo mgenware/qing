@@ -4,8 +4,16 @@
  * Use of this source code is governed by a license that can be
  * found in the LICENSE file.
  */
-export enum AppStateName {
-  user,
-  windData,
-  forumsMode,
+export class AppStateName {
+  user = 'user';
+  windData = 'windData';
+  forumsMode = 'forumsMode';
+  private cmtHub = 'cmtHub';
+
+  getCmtHub(type: number, id: string): string {
+    return `${this.cmtHub}-${type}-${id}`;
+  }
 }
+
+const appStateName = new AppStateName();
+export default appStateName;

@@ -11,18 +11,19 @@ import BaseElement from 'baseElement';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 
-export function getEditBarID(type: number, id: string): string {
+export function editBarID(type: number, id: string): string {
+  // IMPORTANT: changes to this format can break HTML templates.
   return `edit-bar-${type}-${id}`;
 }
 
 @customElement('edit-bar-app')
 export class EditBarApp extends BaseElement {
+  @lp.string uid = '';
   @lp.bool private visible = false;
 
   firstUpdated() {
-    const { id } = this;
-    const { user } = appPageState;
-    this.visible = !!user && user.eid === this.parseUID(id);
+    const cur = appPageState.userEID;
+    this.visible = !!cur && cur === this.uid;
   }
 
   render() {
@@ -45,14 +46,6 @@ export class EditBarApp extends BaseElement {
   private handleDeleteClick(e: Event) {
     e.preventDefault();
     this.dispatchEvent(new CustomEvent<undefined>('deleteClick'));
-  }
-
-  private parseUID(s: string | undefined): string {
-    if (!s) {
-      return '';
-    }
-    const lastSep = s.lastIndexOf('-');
-    return s.substr(lastSep + 1);
   }
 }
 
