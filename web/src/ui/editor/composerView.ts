@@ -5,16 +5,20 @@
  * found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css, TemplateResult, PropertyValues } from 'lit-element';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import './editorView';
 import 'ui/form/inputView';
+import 'ui/status/statusView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';
 import { tif } from 'lib/htmlLib';
 import appAlert from 'app/appAlert';
+import LoadingStatus from 'lib/loadingStatus';
+import { GetPostSourceLoader } from 'post/loaders/getPostSourceLoader';
+import appTask from 'app/appTask';
 
 const editorID = 'editor';
 const titleInputID = 'title-input';
@@ -61,6 +65,8 @@ export class ComposerView extends BaseElement {
   @lp.string entityID = '';
   @lp.string submitButtonText = '';
 
+  @lp.object loadingStatus = LoadingStatus.notStarted;
+
   // Used to check if editor content has changed.
   private lastSavedTitle = '';
   private lastSavedContent = '';
@@ -85,7 +91,18 @@ export class ComposerView extends BaseElement {
   resetEditor() {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
+    this.initialContentHTML = '';
+    this.inputTitle = '';
     this.contentHTML = '';
+  }
+
+  private updateEditorContent(title: string, contentHTML: string) {
+    const { editorEl } = this;
+    this.inputTitle = title;
+    if (editorEl) {
+      editorEl.contentHTML = contentHTML;
+      this.markAsSaved();
+    }
   }
 
   private get editorEl(): EditorView | null {
@@ -135,34 +152,63 @@ export class ComposerView extends BaseElement {
   }
 
   render() {
-    const titleElement = tif(
-      this.showTitleInput,
-      html`
-        <div class="p-b-sm flex-auto">
-          <input-view
-            required
-            .placeholder=${ls.title}
-            .value=${this.inputTitle}
-            @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}
-          ></input-view>
-        </div>
-      `,
-    );
-    const editorElement = html`<editor-view id="editor"></editor-view>`;
-    const bottomElement = html`
+    const { loadingStatus } = this;
+
+    let editorContent: TemplateResult;
+    if (loadingStatus.isSuccess) {
+      editorContent = html`${tif(
+          this.showTitleInput,
+          html`
+            <div class="p-b-sm flex-auto">
+              <input-view
+                id=${titleInputID}
+                required
+                .placeholder=${ls.title}
+                .value=${this.inputTitle}
+                @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}
+              ></input-view>
+            </div>
+          `,
+        )} <editor-view id=${editorID}></editor-view>`;
+    } else {
+      editorContent = html` <status-view
+        .status=${loadingStatus}
+        .canRetry=${true}
+        @onRetry=${this.loadEntitySource}
+      ></status-view>`;
+    }
+
+    const bottomContent = html`
       <div class="m-t-md flex-auto text-center">
-        <qing-button btnStyle="success" @click=${this.handleSubmit}>
-          ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
-        </qing-button>
-        <qing-button class="m-l-sm" @click=${this.handleCancel}>${ls.cancel}</qing-button>
+        ${tif(
+          loadingStatus.isSuccess,
+          html` <qing-button btnStyle="success" @click=${this.handleSubmit}>
+            ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
+          </qing-button>`,
+        )}
+        <qing-button class="m-l-sm" @click=${this.handleCancel}
+          >${loadingStatus.hasError ? ls.close : ls.cancel}</qing-button
+        >
       </div>
     `;
 
     return html`
       <div class="d-flex flex-column flex-full">
-        ${titleElement}${editorElement}${bottomElement}
+        <div
+          class="d-flex flex-column flex-full"
+          style=${loadingStatus.isSuccess ? '' : 'justify-content: center'}
+        >
+          ${editorContent}
+        </div>
+        ${bottomContent}
       </div>
     `;
+  }
+
+  updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has('entityID') && this.entityID) {
+      this.loadEntitySource();
+    }
   }
 
   private getPayload(): ComposerContent {
@@ -221,6 +267,19 @@ export class ComposerView extends BaseElement {
       e.preventDefault();
       // Chrome requires returnValue to be set.
       e.returnValue = '';
+    }
+  }
+
+  private async loadEntitySource() {
+    const { entityID } = this;
+    if (!entityID) {
+      return;
+    }
+    const loader = new GetPostSourceLoader(entityID);
+    const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
+    if (res.data) {
+      const postData = res.data;
+      this.updateEditorContent(postData.title, postData.contentHTML);
     }
   }
 }

@@ -1,10 +1,3 @@
-/*
- * Copyright (C) 2019 The Qing Project. All rights reserved.
- *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
- */
-
 export default interface LSDefs {
   _siteName: string;
   _lang: string;
@@ -156,4 +149,5 @@ export default interface LSDefs {
   horizontalRule: string;
   langSettings: string;
   doYouWantToChangeLangTo: string;
+  close: string;
 }
