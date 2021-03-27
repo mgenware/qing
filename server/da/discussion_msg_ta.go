@@ -307,14 +307,14 @@ func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID 
 
 // DiscussionMsgTableSelectItemsByDiscussionResult ...
 type DiscussionMsgTableSelectItemsByDiscussionResult struct {
-	CmtCount     uint       `json:"cmtCount,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ID           uint64     `json:"-"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	UserIconName string     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
+	CmtCount     uint      `json:"cmtCount,omitempty"`
+	ContentHTML  string    `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ID           uint64    `json:"-"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	UserIconName string    `json:"-"`
+	UserID       uint64    `json:"-"`
+	UserName     string    `json:"-"`
 }
 
 // SelectItemsByDiscussion ...

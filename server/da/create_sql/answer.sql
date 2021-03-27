@@ -15,7 +15,7 @@ CREATE TABLE `answer` (
 	`content` TEXT NOT NULL,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`modified_at` DATETIME NULL DEFAULT NULL,
+	`modified_at` DATETIME NOT NULL,
 	`cmt_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	`question_id` BIGINT UNSIGNED NOT NULL,
 	`votes` INT UNSIGNED NOT NULL DEFAULT 0,

@@ -74,7 +74,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		now := time.Now()
 		cmtd := &da.CmtData{CmtID: cmtID}
 		cmtd.CreatedAt = now
-		cmtd.ModifiedAt = &now
+		cmtd.ModifiedAt = now
 		cmtd.ContentHTML = content
 		cmtd.UserID = uid
 		cmtd.UserName = user.Name
@@ -99,7 +99,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmt := &apicom.Cmt{EID: validator.EncodeID(id)}
 		cmt.ContentHTML = content
 		now := time.Now()
-		cmt.ModifiedAt = &now
+		cmt.ModifiedAt = now
 
 		respData := &SetCmtResponse{Cmt: cmt}
 		return resp.MustComplete(respData)

@@ -14,7 +14,7 @@ export default class ContentBase extends mm.Table {
   user_id = user.id;
 
   created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc').nullable;
+  modified_at = mm.datetime('utc');
 
   cmt_count = mm.uInt().default(0);
 }

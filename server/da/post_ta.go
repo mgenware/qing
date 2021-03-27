@@ -294,16 +294,16 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 
 // PostTableSelectItemByIDResult ...
 type PostTableSelectItemByIDResult struct {
-	CmtCount     uint       `json:"cmtCount,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ID           uint64     `json:"-"`
-	Likes        uint       `json:"likes,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	UserIconName string     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
+	CmtCount     uint      `json:"cmtCount,omitempty"`
+	ContentHTML  string    `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ID           uint64    `json:"-"`
+	Likes        uint      `json:"likes,omitempty"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	Title        string    `json:"title,omitempty"`
+	UserIconName string    `json:"-"`
+	UserID       uint64    `json:"-"`
+	UserName     string    `json:"-"`
 }
 
 // SelectItemByID ...
@@ -325,12 +325,12 @@ const (
 
 // PostTableSelectItemsForPostCenterResult ...
 type PostTableSelectItemsForPostCenterResult struct {
-	CmtCount   uint       `json:"cmtCount,omitempty"`
-	CreatedAt  time.Time  `json:"createdAt,omitempty"`
-	ID         uint64     `json:"-"`
-	Likes      uint       `json:"likes,omitempty"`
-	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	Title      string     `json:"title,omitempty"`
+	CmtCount   uint      `json:"cmtCount,omitempty"`
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ID         uint64    `json:"-"`
+	Likes      uint      `json:"likes,omitempty"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	Title      string    `json:"title,omitempty"`
 }
 
 // SelectItemsForPostCenter ...
@@ -389,10 +389,10 @@ func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, us
 
 // PostTableSelectItemsForUserProfileResult ...
 type PostTableSelectItemsForUserProfileResult struct {
-	CreatedAt  time.Time  `json:"createdAt,omitempty"`
-	ID         uint64     `json:"-"`
-	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	Title      string     `json:"title,omitempty"`
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ID         uint64    `json:"-"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	Title      string    `json:"title,omitempty"`
 }
 
 // SelectItemsForUserProfile ...

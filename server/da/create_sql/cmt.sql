@@ -15,7 +15,7 @@ CREATE TABLE `cmt` (
 	`content` TEXT NOT NULL,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`modified_at` DATETIME NULL DEFAULT NULL,
+	`modified_at` DATETIME NOT NULL,
 	`reply_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	`likes` INT UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`),

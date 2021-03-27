@@ -11,15 +11,15 @@ import (
 
 // CmtData ...
 type CmtData struct {
-	CmtID        uint64     `json:"-"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	Likes        uint       `json:"likes,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ReplyCount   uint       `json:"replyCount,omitempty"`
-	UserIconName string     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"userName,omitempty"`
+	CmtID        uint64    `json:"-"`
+	ContentHTML  string    `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	Likes        uint      `json:"likes,omitempty"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	ReplyCount   uint      `json:"replyCount,omitempty"`
+	UserIconName string    `json:"-"`
+	UserID       uint64    `json:"-"`
+	UserName     string    `json:"userName,omitempty"`
 }
 
 // EntityGetSrcResult ...
@@ -38,16 +38,16 @@ type FindUserResult struct {
 
 // ReplyData ...
 type ReplyData struct {
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ID           uint64     `json:"-"`
-	Likes        uint       `json:"likes,omitempty"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ToUserID     uint64     `json:"-"`
-	ToUserName   string     `json:"toUserName,omitempty"`
-	UserIconName string     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"userName,omitempty"`
+	ContentHTML  string    `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ID           uint64    `json:"-"`
+	Likes        uint      `json:"likes,omitempty"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	ToUserID     uint64    `json:"-"`
+	ToUserName   string    `json:"toUserName,omitempty"`
+	UserIconName string    `json:"-"`
+	UserID       uint64    `json:"-"`
+	UserName     string    `json:"userName,omitempty"`
 }
 
 // UserThreadInterface ...
@@ -55,7 +55,7 @@ type UserThreadInterface struct {
 	CreatedAt     time.Time  `json:"createdAt,omitempty"`
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
-	ModifiedAt    *time.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt    time.Time  `json:"modifiedAt,omitempty"`
 	ThreadType    int        `json:"threadType,omitempty"`
 	Title         string     `json:"title,omitempty"`
 	UserIconName  string     `json:"-"`

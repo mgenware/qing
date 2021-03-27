@@ -25,11 +25,11 @@ type UserItemViewData struct {
 	UserURL        string
 	UserIconURL    string
 	ItemCreatedAt  time.Time
-	ItemModifiedAt *time.Time
+	ItemModifiedAt time.Time
 }
 
 // GetUserItemViewHTML returns user item view HTML with the given params.
-func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated time.Time, itemModified *time.Time) string {
+func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated time.Time, itemModified time.Time) string {
 	d := &UserItemViewData{}
 	d.ItemEID = itemEID
 	d.UserEID = validator.EncodeID(uid)

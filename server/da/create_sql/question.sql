@@ -15,7 +15,7 @@ CREATE TABLE `question` (
 	`content` TEXT NOT NULL,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`modified_at` DATETIME NULL DEFAULT NULL,
+	`modified_at` DATETIME NOT NULL,
 	`cmt_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	`title` VARCHAR(200) NOT NULL,
 	`forum_id` BIGINT UNSIGNED NULL DEFAULT NULL,

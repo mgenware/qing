@@ -294,16 +294,16 @@ func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uin
 
 // DiscussionTableSelectItemByIDResult ...
 type DiscussionTableSelectItemByIDResult struct {
-	CmtCount     uint       `json:"cmtCount,omitempty"`
-	ContentHTML  string     `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty"`
-	ID           uint64     `json:"-"`
-	ModifiedAt   *time.Time `json:"modifiedAt,omitempty"`
-	ReplyCount   uint       `json:"replyCount,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	UserIconName string     `json:"-"`
-	UserID       uint64     `json:"-"`
-	UserName     string     `json:"-"`
+	CmtCount     uint      `json:"cmtCount,omitempty"`
+	ContentHTML  string    `json:"contentHTML,omitempty"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ID           uint64    `json:"-"`
+	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	ReplyCount   uint      `json:"replyCount,omitempty"`
+	Title        string    `json:"title,omitempty"`
+	UserIconName string    `json:"-"`
+	UserID       uint64    `json:"-"`
+	UserName     string    `json:"-"`
 }
 
 // SelectItemByID ...
@@ -324,11 +324,11 @@ const (
 
 // DiscussionTableSelectItemsForPostCenterResult ...
 type DiscussionTableSelectItemsForPostCenterResult struct {
-	CreatedAt  time.Time  `json:"createdAt,omitempty"`
-	ID         uint64     `json:"-"`
-	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	ReplyCount uint       `json:"replyCount,omitempty"`
-	Title      string     `json:"title,omitempty"`
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ID         uint64    `json:"-"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	ReplyCount uint      `json:"replyCount,omitempty"`
+	Title      string    `json:"title,omitempty"`
 }
 
 // SelectItemsForPostCenter ...
@@ -385,10 +385,10 @@ func (da *TableTypeDiscussion) SelectItemsForPostCenter(queryable mingru.Queryab
 
 // DiscussionTableSelectItemsForUserProfileResult ...
 type DiscussionTableSelectItemsForUserProfileResult struct {
-	CreatedAt  time.Time  `json:"createdAt,omitempty"`
-	ID         uint64     `json:"-"`
-	ModifiedAt *time.Time `json:"modifiedAt,omitempty"`
-	Title      string     `json:"title,omitempty"`
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ID         uint64    `json:"-"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	Title      string    `json:"title,omitempty"`
 }
 
 // SelectItemsForUserProfile ...

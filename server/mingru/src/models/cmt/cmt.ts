@@ -14,7 +14,7 @@ export class Cmt extends mm.Table {
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
   created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc').nullable;
+  modified_at = mm.datetime('utc');
 
   reply_count = mm.uInt().default(0);
   likes = mm.uInt().default(0);
@@ -28,7 +28,7 @@ export class Reply extends mm.Table {
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
   created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc').nullable;
+  modified_at = mm.datetime('utc');
 
   to_user_id = user.id;
   parent_id = cmt.id;

@@ -15,7 +15,7 @@ CREATE TABLE `reply` (
 	`content` TEXT NOT NULL,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`modified_at` DATETIME NULL DEFAULT NULL,
+	`modified_at` DATETIME NOT NULL,
 	`to_user_id` BIGINT UNSIGNED NOT NULL,
 	`parent_id` BIGINT UNSIGNED NOT NULL,
 	`likes` INT UNSIGNED NOT NULL DEFAULT 0,
