@@ -11,7 +11,7 @@ import discussion from '../../models/discussion/discussion';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup';
 import forum, { Forum } from '../../models/forum/forum';
 import question from '../../models/qna/question';
-import defs from '../defs';
+import sharedDefs from '../../shared_constants';
 import {
   getUserPostCols,
   userThreadInterface,
@@ -43,20 +43,23 @@ export class HomeTA extends mm.TableActions {
     super();
 
     this.selectPosts = mm
-      .selectRows(this.typeCol(defs.threadTypePost), ...getUserPostCols(post))
+      .selectRows(this.typeCol(sharedDefs.threadTypePost), ...getUserPostCols(post))
       .from(post)
       .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectRows(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, false))
+      .selectRows(
+        this.typeCol(sharedDefs.threadTypeQuestion),
+        ...getUserQuestionCols(question, false),
+      )
       .from(question)
       .pageMode()
       .orderByAsc(question.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectDiscussions = mm
       .selectRows(
-        this.typeCol(defs.threadTypeDiscussion),
+        this.typeCol(sharedDefs.threadTypeDiscussion),
         ...getUserDiscussionCols(discussion, false),
       )
       .pageMode()

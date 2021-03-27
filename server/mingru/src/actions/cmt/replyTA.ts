@@ -11,7 +11,7 @@ import * as cm from '../../models/common';
 import user from '../../models/user/user';
 import { replyInterface, replyResultType } from './cmtTAUtils';
 import { defaultUpdateConditions } from '../common';
-import { getEntitySrcType } from '../com/contentBaseTA';
+import { getEntitySrcType } from '../defs';
 
 export class ReplyTA extends mm.TableActions {
   selectReplies = mm

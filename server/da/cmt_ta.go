@@ -29,14 +29,9 @@ func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID ui
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// CmtTableSelectCmtSourceResult ...
-type CmtTableSelectCmtSourceResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-}
-
 // SelectCmtSource ...
-func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (CmtTableSelectCmtSourceResult, error) {
-	var result CmtTableSelectCmtSourceResult
+func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err

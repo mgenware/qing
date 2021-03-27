@@ -83,14 +83,9 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	return result, itemCounter > len(result), nil
 }
 
-// ReplyTableSelectReplySourceResult ...
-type ReplyTableSelectReplySourceResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-}
-
 // SelectReplySource ...
-func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (ReplyTableSelectReplySourceResult, error) {
-	var result ReplyTableSelectReplySourceResult
+func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err

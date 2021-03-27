@@ -11,12 +11,12 @@ import gen from 'go-const-gen';
 import { promises as fsPromises } from 'fs';
 import actions from './actions/actions';
 import models from './models/models';
-import defs from './actions/defs';
+import sharedConstants from './shared_constants';
 
 const packageName = 'da';
 
 async function buildConstantsAsync(path: string) {
-  const goCode = await gen(defs, {
+  const goCode = await gen(sharedConstants, {
     packageName,
     typeName: 'SharedConstants',
     variableName: 'Constants',

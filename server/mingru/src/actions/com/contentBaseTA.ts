@@ -12,9 +12,9 @@ import * as cmtf from '../cmt/cmtTAFactory';
 import { defaultUpdateConditions } from '../common';
 import ContentBase from '../../models/com/contentBase';
 import ContentCmtBase from '../../models/com/contentCmtCore';
+import { getEntitySrcType } from '../defs';
 
 const insertedIDVar = 'insertedID';
-export const getEntitySrcType = 'EntityGetSrcResult';
 
 export default abstract class ContentBaseTA extends mm.TableActions {
   // SELECT actions.

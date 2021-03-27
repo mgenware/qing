@@ -5,8 +5,4 @@
  * found in the LICENSE file.
  */
 
-export default {
-  threadTypePost: 1,
-  threadTypeQuestion: 2,
-  threadTypeDiscussion: 3,
-};
+export const getEntitySrcType = 'EntityGetSrcResult';

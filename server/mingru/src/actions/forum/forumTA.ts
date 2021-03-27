@@ -15,7 +15,7 @@ import {
   userThreadInterface,
   userThreadTypeColumnName,
 } from '../com/userThreadCommon';
-import defs from '../defs';
+import sharedDefs from '../../shared_constants';
 
 export class ForumTA extends mm.TableActions {
   selectForum = mm.selectRow(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);
@@ -39,7 +39,7 @@ export class ForumTA extends mm.TableActions {
 
     this.selectDiscussions = mm
       .selectRows(
-        this.typeCol(defs.threadTypeDiscussion),
+        this.typeCol(sharedDefs.threadTypeDiscussion),
         ...getUserDiscussionCols(discussion, true),
       )
       .from(discussion)
@@ -47,7 +47,10 @@ export class ForumTA extends mm.TableActions {
       .orderByAsc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectRows(this.typeCol(defs.threadTypeQuestion), ...getUserQuestionCols(question, true))
+      .selectRows(
+        this.typeCol(sharedDefs.threadTypeQuestion),
+        ...getUserQuestionCols(question, true),
+      )
       .from(question)
       .pageMode()
       .orderByAsc(question.last_replied_at)
