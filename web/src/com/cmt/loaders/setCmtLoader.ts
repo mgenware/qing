@@ -17,9 +17,10 @@ export interface SetCmtData {
   hostID: string;
   hostType: number;
   contentData: ComposerContent;
-  // Only needed when editing a cmt or reply.
+  // Only used when editing a cmt or reply.
   id?: string;
-  // Only needed when creating a reply.
+  isReply?: number;
+  // Only used when creating a reply.
   toUserID?: string;
   parentCmtID?: string;
 }
@@ -41,6 +42,7 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
     hostID: string,
     hostType: number,
     id: string,
+    isReply: boolean,
     contentData: ComposerContent,
   ): SetCmtLoader {
     return new SetCmtLoader({
@@ -48,6 +50,7 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
       hostType,
       contentData,
       id,
+      isReply: +isReply,
     });
   }
 

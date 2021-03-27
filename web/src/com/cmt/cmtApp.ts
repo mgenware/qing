@@ -71,6 +71,16 @@ export class CmtApp extends BaseElement {
   render() {
     const { editorProps } = this;
     const isReply = !!editorProps.parent;
+
+    let heading: string;
+    if (editorProps.replyingTo) {
+      heading = formatLS(ls.pReplyTo, editorProps.replyingTo.userName);
+    } else if (editorProps.editing) {
+      heading = ls.editComment;
+    } else {
+      heading = ls.writeAComment;
+    }
+
     return html`
       <root-cmt-list
         .totalCmtCount=${this.totalCmtCount}
@@ -79,11 +89,7 @@ export class CmtApp extends BaseElement {
         .loadOnVisible=${!!this.initialTotalCmtCount}
       ></root-cmt-list>
       <qing-overlay class="immersive" ?open=${editorProps.open}>
-        <h2>
-          ${editorProps.replyingTo
-            ? formatLS(ls.pReplyTo, editorProps.replyingTo.userName)
-            : ls.writeAComment}
-        </h2>
+        <h2>${heading}</h2>
         ${tif(
           editorProps.replyingTo,
           html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML)}</blockquote>`,
@@ -121,6 +127,7 @@ export class CmtApp extends BaseElement {
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const { editorProps, hub } = this;
+    CHECK(hub);
 
     let loader: SetCmtLoader;
     if (!editorProps.editing) {
@@ -142,7 +149,13 @@ export class CmtApp extends BaseElement {
       }
     } else {
       // Edit a comment or reply.
-      loader = SetCmtLoader.editCmt(this.hostID, this.hostType, editorProps.editing.id, e.detail);
+      loader = SetCmtLoader.editCmt(
+        this.hostID,
+        this.hostType,
+        editorProps.editing.id,
+        isCmtReply(editorProps.editing),
+        e.detail,
+      );
     }
 
     const status = await appTask.critical(loader, ls.publishing);
@@ -153,10 +166,10 @@ export class CmtApp extends BaseElement {
       if (!editorProps.editing) {
         if (editorProps.parent) {
           // Add a reply.
-          hub?.addCmt(editorProps.parent.id, serverCmt);
+          hub.addCmt(editorProps.parent.id, serverCmt);
         } else {
           // Add a comment.
-          hub?.addCmt(null, serverCmt);
+          hub.addCmt(null, serverCmt);
         }
       } else {
         // Edit a comment or reply.
@@ -170,6 +183,7 @@ export class CmtApp extends BaseElement {
           ...serverCmt,
         };
         newCmt.createdAt = editorProps.editing.createdAt;
+        hub.updateCmt(editorProps.parent?.id ?? null, newCmt);
       }
     }
   }

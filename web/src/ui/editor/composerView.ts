@@ -17,8 +17,8 @@ import { CHECK } from 'checks';
 import { tif } from 'lib/htmlLib';
 import appAlert from 'app/appAlert';
 import LoadingStatus from 'lib/loadingStatus';
-import { GetPostSourceLoader } from 'post/loaders/getPostSourceLoader';
 import appTask from 'app/appTask';
+import { GetEntitySourceLoader } from 'post/loaders/getEntitySourceLoader';
 
 const editorID = 'editor';
 const titleInputID = 'title-input';
@@ -65,7 +65,9 @@ export class ComposerView extends BaseElement {
   @lp.string entityID = '';
   @lp.string submitButtonText = '';
 
-  @lp.object loadingStatus = LoadingStatus.notStarted;
+  // Source loading will start when `entityID` changes, it has to default to
+  // `true`.
+  @lp.object loadingStatus = LoadingStatus.success;
 
   // Used to check if editor content has changed.
   private lastSavedTitle = '';
@@ -271,15 +273,15 @@ export class ComposerView extends BaseElement {
   }
 
   private async loadEntitySource() {
-    const { entityID } = this;
+    const { entityID, entityType } = this;
     if (!entityID) {
       return;
     }
-    const loader = new GetPostSourceLoader(entityID);
+    const loader = new GetEntitySourceLoader(entityType, entityID);
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
-      this.updateEditorContent(postData.title, postData.contentHTML);
+      this.updateEditorContent(postData.title ?? '', postData.contentHTML);
     }
   }
 }

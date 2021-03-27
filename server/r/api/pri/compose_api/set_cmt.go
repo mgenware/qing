@@ -74,6 +74,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		now := time.Now()
 		cmtd := &da.CmtData{CmtID: cmtID}
 		cmtd.CreatedAt = now
+		cmtd.ModifiedAt = &now
 		cmtd.ContentHTML = content
 		cmtd.UserID = uid
 		cmtd.UserName = user.Name

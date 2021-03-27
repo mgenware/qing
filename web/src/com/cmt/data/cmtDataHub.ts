@@ -29,11 +29,6 @@ export interface CmtEditorProps {
   replyingTo: Cmt | null;
 }
 
-export interface CmtLocation {
-  parent: string | null;
-  cmt: Cmt;
-}
-
 export class CmtDataHub {
   // Collects all root-level comments.
   private rootCollector: CmtCollector;
@@ -50,8 +45,6 @@ export class CmtDataHub {
     'totalCmtCountChangedWithOffset',
   );
   deleteCmtRequested = new EventEntry<[string, Cmt]>(this.events, 'deleteCmtRequested');
-
-  private currentHighlighted?: CmtLocation;
 
   private childLoadingStatusChanged = new EventEntry<[Cmt, LoadingStatus]>(
     this.events,
@@ -74,6 +67,10 @@ export class CmtDataHub {
       undefined,
       (status) => this.rootLoadingStatusChanged.dispatch(status),
       (e) => {
+        // Must be called at beginning. Since at this stage, new comments changes are not
+        // notified yet, you can modify the new comment in-place.
+        this.highlightCmtInPlace(e);
+
         // Sync root cmt collectors.
         const { detail } = e;
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -93,7 +90,6 @@ export class CmtDataHub {
         // Changes triggered by "view more" doesn't count as cmt number changes.
         if (e.source === ItemsChangedSource.userAction) {
           this.handleTotalCmtCountChangeWithOffset(e.changed);
-          this.highlightCmtIfNeeded(null, e);
         }
         this.rootItemsChanged.dispatch(e);
       },
@@ -138,9 +134,9 @@ export class CmtDataHub {
     collector.items.deleteByKey(id);
   }
 
-  updateCmt(parent: string | null, id: string, cmt: Cmt) {
+  updateCmt(parent: string | null, cmt: Cmt) {
     const collector = this.getCollector(parent);
-    collector?.items.updateByKey(id, cmt);
+    collector?.items.update(cmt);
   }
 
   private initRootCmtCollector(cmt: Cmt) {
@@ -154,10 +150,13 @@ export class CmtDataHub {
       },
       (status) => this.childLoadingStatusChanged.dispatch([cmt, status]),
       (e) => {
+        // Must be called at beginning. Since at this stage, new comments changes are not
+        // notified yet, you can modify the new comment in-place.
+        this.highlightCmtInPlace(e);
+
         // Any reply count changes affect total comment count.
         this.handleTotalCmtCountChangeWithOffset(e.changed);
         this.childItemsChanged.dispatch([cmt, e]);
-        this.highlightCmtIfNeeded(cmt.id, e);
       },
     );
     this.replyCollectors[cmt.id] = collector;
@@ -171,26 +170,16 @@ export class CmtDataHub {
     this.totalCmtCountChangedWithOffset.dispatch(offset);
   }
 
-  private highlightCmtIfNeeded(parent: string | null, e: ItemsChangedEvent<Cmt>) {
+  private highlightCmtInPlace(e: ItemsChangedEvent<Cmt>) {
     // Ignore comments added by 'load more'.
     if (e.source !== ItemsChangedSource.userAction) {
       return;
     }
     const newID = e.detail.added?.[0];
-    if (newID && newID !== this.currentHighlighted?.cmt.id) {
-      const prev = this.currentHighlighted;
+    if (newID) {
       const newCmt = e.sender.items.map.get(newID);
       CHECK(newCmt);
-      this.currentHighlighted = { parent, cmt: newCmt };
-
-      // Un-highlight the previous comment.
-      if (prev) {
-        const prevCmt = prev.cmt;
-        this.updateCmt(prev.parent, prevCmt.id, { ...prevCmt, uiHighlighted: false });
-      }
-
-      // Highlight current comment.
-      this.updateCmt(parent, newCmt.id, { ...newCmt, uiHighlighted: true });
+      newCmt.uiHighlighted = true;
     }
   }
 }

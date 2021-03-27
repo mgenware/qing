@@ -14,7 +14,7 @@ import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
 import { entityPost, entityDiscussionMsg } from 'sharedConstants';
 import 'qing-overlay';
-import { GetPostSourceLoader } from './loaders/getPostSourceLoader';
+import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
@@ -60,11 +60,11 @@ export default class SetPostApp extends BaseElement {
     }
 
     if (this.editedID) {
-      const loader = new GetPostSourceLoader(this.editedID);
+      const loader = new GetEntitySourceLoader(entityPost, this.editedID);
       const status = await appTask.critical(loader);
       if (status.data) {
         const postData = status.data;
-        this.updateContent(postData.title, postData.contentHTML);
+        this.updateContent(postData.title ?? '', postData.contentHTML);
       }
     }
   }
