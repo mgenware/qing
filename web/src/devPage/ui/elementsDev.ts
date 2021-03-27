@@ -28,6 +28,10 @@ import SetPostApp from 'post/setPostApp';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { entityPost } from 'sharedConstants';
 import appAlert from 'app/appAlert';
+import ErrorWithCode from 'lib/errorWithCode';
+
+const workingStatus = LoadingStatus.working;
+const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
@@ -259,10 +263,18 @@ export class ElementsDev extends BaseElement {
       <qing-dock-box class="with-border" style="height:150px">
         <spinner-view>Loading...</spinner-view>
       </qing-dock-box>
-      <h2>Status view ('progressViewPadding' = 'md')</h2>
-      <status-view .status=${LoadingStatus.working} .progressViewPadding=${'md'}></status-view>
+      <h2>Status view</h2>
+      <status-view .status=${workingStatus}></status-view>
+      <status-view .status=${errorStatus}></status-view>
+      <h3>'progressViewPadding' = 'md'</h3>
+      <status-view .status=${workingStatus} .progressViewPadding=${'md'}></status-view>
+      <status-view .status=${errorStatus} .progressViewPadding=${'md'}></status-view>
       <h2>Status overlay</h2>
-      <status-overlay .status=${LoadingStatus.working}>
+      <status-overlay .status=${workingStatus}>
+        <h1>heading 1</h1>
+        <p>text text text text text text text text text text</p>
+      </status-overlay>
+      <status-overlay .status=${LoadingStatus.error(new ErrorWithCode('Example error', 1))}>
         <h1>heading 1</h1>
         <p>text text text text text text text text text text</p>
       </status-overlay>
