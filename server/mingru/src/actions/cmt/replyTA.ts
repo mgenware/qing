@@ -11,6 +11,7 @@ import * as cm from '../../models/common';
 import user from '../../models/user/user';
 import { replyInterface, replyResultType } from './cmtTAUtils';
 import { defaultUpdateConditions } from '../common';
+import { getEntitySrcType } from '../com/contentBaseTA';
 
 export class ReplyTA extends mm.TableActions {
   selectReplies = mm
@@ -36,7 +37,10 @@ export class ReplyTA extends mm.TableActions {
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
-  selectReplySource = mm.selectRow(t.content).whereSQL(defaultUpdateConditions(t));
+  selectReplySource = mm
+    .selectRow(t.content)
+    .whereSQL(defaultUpdateConditions(t))
+    .resultTypeNameAttr(getEntitySrcType);
   insertReplyCore = mm.insertOne().setDefaults().setInputs();
   deleteReplyCore = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 }

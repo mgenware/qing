@@ -8,6 +8,7 @@
 import * as mm from 'mingru-models';
 import { cmt as t } from '../../models/cmt/cmt';
 import * as cm from '../../models/common';
+import { getEntitySrcType } from '../com/contentBaseTA';
 import { defaultUpdateConditions } from '../common';
 
 // Most cmt/reply-related funcs are built into the host table itself.
@@ -18,7 +19,10 @@ export class CmtTA extends mm.TableActions {
     .setInputs(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
-  selectCmtSource = mm.selectRow(t.content).whereSQL(defaultUpdateConditions(t));
+  selectCmtSource = mm
+    .selectRow(t.content)
+    .whereSQL(defaultUpdateConditions(t))
+    .resultTypeNameAttr(getEntitySrcType);
 
   updateReplyCount = mm
     .updateOne()

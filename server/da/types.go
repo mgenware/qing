@@ -25,7 +25,6 @@ type CmtData struct {
 // EntityGetSrcResult ...
 type EntityGetSrcResult struct {
 	ContentHTML string `json:"contentHTML,omitempty"`
-	ID          uint64 `json:"-"`
 	Title       string `json:"title,omitempty"`
 }
 

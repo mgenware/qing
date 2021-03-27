@@ -432,7 +432,7 @@ func (da *TableTypeQuestion) SelectItemsForUserProfile(queryable mingru.Queryabl
 // SelectItemSrc ...
 func (da *TableTypeQuestion) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `question` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
+	err := queryable.QueryRow("SELECT `title`, `content` FROM `question` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.ContentHTML)
 	if err != nil {
 		return result, err
 	}
