@@ -316,16 +316,9 @@ func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint6
 	return result, nil
 }
 
-// QuestionTableSelectItemForEditingResult ...
-type QuestionTableSelectItemForEditingResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-	ID          uint64 `json:"-"`
-	Title       string `json:"title,omitempty"`
-}
-
 // SelectItemForEditing ...
-func (da *TableTypeQuestion) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (QuestionTableSelectItemForEditingResult, error) {
-	var result QuestionTableSelectItemForEditingResult
+func (da *TableTypeQuestion) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `id`, `title`, `content` FROM `question` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.Title, &result.ContentHTML)
 	if err != nil {
 		return result, err

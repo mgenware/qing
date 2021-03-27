@@ -305,15 +305,9 @@ func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID 
 	return result, itemCounter > len(result), nil
 }
 
-// DiscussionMsgTableSelectItemForEditingResult ...
-type DiscussionMsgTableSelectItemForEditingResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-	ID          uint64 `json:"-"`
-}
-
 // SelectItemForEditing ...
-func (da *TableTypeDiscussionMsg) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (DiscussionMsgTableSelectItemForEditingResult, error) {
-	var result DiscussionMsgTableSelectItemForEditingResult
+func (da *TableTypeDiscussionMsg) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `id`, `content` FROM `discussion_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
 	if err != nil {
 		return result, err

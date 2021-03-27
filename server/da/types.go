@@ -22,6 +22,13 @@ type CmtData struct {
 	UserName     string     `json:"userName,omitempty"`
 }
 
+// EntityGetSrcResult ...
+type EntityGetSrcResult struct {
+	ContentHTML string `json:"contentHTML,omitempty"`
+	ID          uint64 `json:"-"`
+	Title       string `json:"title,omitempty"`
+}
+
 // FindUserResult ...
 type FindUserResult struct {
 	IconName string `json:"-"`

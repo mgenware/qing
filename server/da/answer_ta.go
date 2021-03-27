@@ -305,15 +305,9 @@ func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64,
 	return result, itemCounter > len(result), nil
 }
 
-// AnswerTableSelectItemForEditingResult ...
-type AnswerTableSelectItemForEditingResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-	ID          uint64 `json:"-"`
-}
-
 // SelectItemForEditing ...
-func (da *TableTypeAnswer) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (AnswerTableSelectItemForEditingResult, error) {
-	var result AnswerTableSelectItemForEditingResult
+func (da *TableTypeAnswer) SelectItemForEditing(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `id`, `content` FROM `answer` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ID, &result.ContentHTML)
 	if err != nil {
 		return result, err
