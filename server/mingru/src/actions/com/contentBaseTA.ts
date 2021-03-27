@@ -14,6 +14,7 @@ import ContentBase from '../../models/com/contentBase';
 import ContentCmtBase from '../../models/com/contentCmtCore';
 
 const insertedIDVar = 'insertedID';
+const getEntitySrcType = 'EntityGetSrcResult';
 
 export default abstract class ContentBaseTA extends mm.TableActions {
   // SELECT actions.
@@ -72,7 +73,8 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       : mm.emptyAction;
     this.selectItemForEditing = mm
       .selectRow(idCol, ...this.getEditingColumns())
-      .whereSQL(this.updateConditions);
+      .whereSQL(this.updateConditions)
+      .attr(mm.ActionAttribute.resultTypeName, getEntitySrcType);
 
     const pcCols = this.getPCColumns();
     this.selectItemsForPostCenter = pcCols.length

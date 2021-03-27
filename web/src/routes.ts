@@ -34,7 +34,7 @@ export default buildTree({
       compose: {
         setPost: 'set-post',
         deletePost: 'delete-post',
-        getPostSource: 'get-post-src',
+        getEntitySource: 'get-entity-src',
         setCmt: 'set-cmt',
         getCmtSource: 'get-cmt-src',
         deleteCmt: 'delete-cmt',
