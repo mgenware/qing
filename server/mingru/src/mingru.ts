@@ -1,8 +1,8 @@
 /*
  * Copyright (C) 2019 The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
  */
 
 import * as mr from 'mingru';
@@ -25,8 +25,8 @@ async function buildConstantsAsync(path: string) {
     header: `/*
  * Copyright (C) The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
  */
 
  /******************************************************************************************
@@ -51,8 +51,8 @@ async function buildConstantsAsync(path: string) {
     fileHeader: `/*
  * Copyright (C) The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
  */
 
  /******************************************************************************************

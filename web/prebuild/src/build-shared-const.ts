@@ -1,21 +1,14 @@
 /*
  * Copyright (C) 2019 The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
  */
 
 import { promises as fsPromises } from 'fs';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
-import { serverPath, webPath } from './paths.js';
-
-const copyright = `/*
- * Copyright (C) The Qing Project. All rights reserved.
- *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
- */\n\n`;
+import { serverPath, webPath, copyrightString } from './common.js';
 
 async function buildJSONFileAsync(
   src: string,
@@ -38,8 +31,8 @@ async function buildJSONFileAsync(
   const tsResult = tsConvert(jsonObj);
 
   await Promise.all([
-    fsPromises.writeFile(serverDest, copyright + goResult),
-    fsPromises.writeFile(webDest, copyright + tsResult),
+    fsPromises.writeFile(serverDest, copyrightString + goResult),
+    fsPromises.writeFile(webDest, copyrightString + tsResult),
   ]);
 }
 

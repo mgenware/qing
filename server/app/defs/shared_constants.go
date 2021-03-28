@@ -1,8 +1,8 @@
 /*
  * Copyright (C) The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
  */
 
 /******************************************************************************************
@@ -14,57 +14,57 @@ package defs
 
 // SharedConstantsType ...
 type SharedConstantsType struct {
-	ColumnComments string
-	ColumnCreated string
-	ColumnLikes string
-	ColumnMessages string
-	EntityAnswer int
-	EntityCmt int
-	EntityDiscussion int
-	EntityDiscussionMsg int
-	EntityForum int
-	EntityForumDiscussion int
-	EntityForumGroup int
-	EntityForumQuestion int
-	EntityPost int
-	EntityQuestion int
-	EntityReply int
-	ErrAlreadyAdmin int
+	ColumnComments              string
+	ColumnCreated               string
+	ColumnLikes                 string
+	ColumnMessages              string
+	EntityAnswer                int
+	EntityCmt                   int
+	EntityDiscussion            int
+	EntityDiscussionMsg         int
+	EntityForum                 int
+	EntityForumDiscussion       int
+	EntityForumGroup            int
+	EntityForumQuestion         int
+	EntityPost                  int
+	EntityQuestion              int
+	EntityReply                 int
+	ErrAlreadyAdmin             int
 	ErrCannotSetAdminOfYourself int
-	ErrCaptchaNotFound int
-	ErrCaptchaNotMatch int
-	ErrGeneric int
-	ErrInvalidUserOrPwd int
-	ErrNeedAuth int
-	ErrPermissionDenied int
-	ForumStatusArchived int
-	ForumStatusOpen int
-	KeyAnswers string
-	KeyDiscussions string
-	KeyForumSettings string
-	KeyLang string
-	KeyPage string
-	KeyPageSize string
-	KeyPosts string
-	KeyQuestions string
-	KeyTab string
-	KeyValue string
-	MaxCaptchaLen int
-	MaxGenericStringLen int
-	MaxUserPwdLen int
-	MinUserPwdLen int
-	RouteApi string
-	RouteAuth string
-	RouteDevPage string
-	RouteDiscussion string
-	RouteForum string
-	RouteForumGroup string
-	RouteLang string
-	RouteM string
-	RouteMx string
-	RoutePost string
-	RouteQuestion string
-	RouteUser string
+	ErrCaptchaNotFound          int
+	ErrCaptchaNotMatch          int
+	ErrGeneric                  int
+	ErrInvalidUserOrPwd         int
+	ErrNeedAuth                 int
+	ErrPermissionDenied         int
+	ForumStatusArchived         int
+	ForumStatusOpen             int
+	KeyAnswers                  string
+	KeyDiscussions              string
+	KeyForumSettings            string
+	KeyLang                     string
+	KeyPage                     string
+	KeyPageSize                 string
+	KeyPosts                    string
+	KeyQuestions                string
+	KeyTab                      string
+	KeyValue                    string
+	MaxCaptchaLen               int
+	MaxGenericStringLen         int
+	MaxUserPwdLen               int
+	MinUserPwdLen               int
+	RouteApi                    string
+	RouteAuth                   string
+	RouteDevPage                string
+	RouteDiscussion             string
+	RouteForum                  string
+	RouteForumGroup             string
+	RouteLang                   string
+	RouteM                      string
+	RouteMx                     string
+	RoutePost                   string
+	RouteQuestion               string
+	RouteUser                   string
 }
 
 // Shared ...
@@ -72,56 +72,56 @@ var Shared *SharedConstantsType
 
 func init() {
 	Shared = &SharedConstantsType{
-		ColumnComments: "comments",
-		ColumnCreated: "createdAt",
-		ColumnLikes: "likes",
-		ColumnMessages: "messages",
-		EntityAnswer: 7,
-		EntityCmt: 2,
-		EntityDiscussion: 4,
-		EntityDiscussionMsg: 6,
-		EntityForum: 10,
-		EntityForumDiscussion: 8,
-		EntityForumGroup: 11,
-		EntityForumQuestion: 9,
-		EntityPost: 1,
-		EntityQuestion: 5,
-		EntityReply: 3,
-		ErrAlreadyAdmin: 2,
+		ColumnComments:              "comments",
+		ColumnCreated:               "createdAt",
+		ColumnLikes:                 "likes",
+		ColumnMessages:              "messages",
+		EntityAnswer:                7,
+		EntityCmt:                   2,
+		EntityDiscussion:            4,
+		EntityDiscussionMsg:         6,
+		EntityForum:                 10,
+		EntityForumDiscussion:       8,
+		EntityForumGroup:            11,
+		EntityForumQuestion:         9,
+		EntityPost:                  1,
+		EntityQuestion:              5,
+		EntityReply:                 3,
+		ErrAlreadyAdmin:             2,
 		ErrCannotSetAdminOfYourself: 1,
-		ErrCaptchaNotFound: 10002,
-		ErrCaptchaNotMatch: 10003,
-		ErrGeneric: 10000,
-		ErrInvalidUserOrPwd: 1,
-		ErrNeedAuth: 10001,
-		ErrPermissionDenied: 10004,
-		ForumStatusArchived: 1,
-		ForumStatusOpen: 0,
-		KeyAnswers: "answers",
-		KeyDiscussions: "discussions",
-		KeyForumSettings: "forumSettings",
-		KeyLang: "lang",
-		KeyPage: "page",
-		KeyPageSize: "pageSize",
-		KeyPosts: "posts",
-		KeyQuestions: "questions",
-		KeyTab: "tab",
-		KeyValue: "value",
-		MaxCaptchaLen: 10,
-		MaxGenericStringLen: 100,
-		MaxUserPwdLen: 30,
-		MinUserPwdLen: 6,
-		RouteApi: "s",
-		RouteAuth: "auth",
-		RouteDevPage: "__",
-		RouteDiscussion: "d",
-		RouteForum: "f",
-		RouteForumGroup: "g",
-		RouteLang: "lang",
-		RouteM: "m",
-		RouteMx: "mx",
-		RoutePost: "p",
-		RouteQuestion: "q",
-		RouteUser: "user",
+		ErrCaptchaNotFound:          10002,
+		ErrCaptchaNotMatch:          10003,
+		ErrGeneric:                  10000,
+		ErrInvalidUserOrPwd:         1,
+		ErrNeedAuth:                 10001,
+		ErrPermissionDenied:         10004,
+		ForumStatusArchived:         1,
+		ForumStatusOpen:             0,
+		KeyAnswers:                  "answers",
+		KeyDiscussions:              "discussions",
+		KeyForumSettings:            "forumSettings",
+		KeyLang:                     "lang",
+		KeyPage:                     "page",
+		KeyPageSize:                 "pageSize",
+		KeyPosts:                    "posts",
+		KeyQuestions:                "questions",
+		KeyTab:                      "tab",
+		KeyValue:                    "value",
+		MaxCaptchaLen:               10,
+		MaxGenericStringLen:         100,
+		MaxUserPwdLen:               30,
+		MinUserPwdLen:               6,
+		RouteApi:                    "s",
+		RouteAuth:                   "auth",
+		RouteDevPage:                "__",
+		RouteDiscussion:             "d",
+		RouteForum:                  "f",
+		RouteForumGroup:             "g",
+		RouteLang:                   "lang",
+		RouteM:                      "m",
+		RouteMx:                     "mx",
+		RoutePost:                   "p",
+		RouteQuestion:               "q",
+		RouteUser:                   "user",
 	}
 }

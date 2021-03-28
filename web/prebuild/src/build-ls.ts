@@ -1,14 +1,14 @@
 /*
  * Copyright (C) 2019 The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can be
- * found in the LICENSE file.
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
  */
 
 import * as mfs from 'm-fs';
 import * as nodepath from 'path';
 import goConstGen from 'go-const-gen';
-import { webPath, serverPath } from './paths.js';
+import { webPath, serverPath, copyrightString } from './common.js';
 
 async function buildWebLSDef(content: string): Promise<void> {
   const lsObj = JSON.parse(content);
@@ -27,7 +27,10 @@ async function buildServerLSDef(content: string): Promise<void> {
     parseFunc: true,
   });
 
-  await mfs.writeFileAsync(serverPath('app/handler/localization/dictionary.go'), result);
+  await mfs.writeFileAsync(
+    serverPath('app/handler/localization/dictionary.go'),
+    copyrightString + result,
+  );
 }
 
 // When importing `app.ts`, `window.ls` must be present. Test files need to
