@@ -27,6 +27,7 @@ import (
 	"qing/r/mxp"
 	"qing/r/postp"
 	"qing/r/profilep"
+	"qing/r/qnap"
 	"qing/r/sys"
 
 	"github.com/go-chi/chi"
@@ -78,6 +79,8 @@ func Start() {
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	// Question router.
+	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteQuestion+"/{qid}", handler.HTMLHandlerToHTTPHandler(qnap.GetQuestion))
 	// Discussion router.
 	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
 	// M (Management) router.

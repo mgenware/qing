@@ -27,9 +27,6 @@ type PostPageModel struct {
 	Liked    bool
 	UserEID  string
 	UserHTML string
-
-	ProfilePostsURL       string
-	ProfileDiscussionsURL string
 }
 
 // PostPageWindData ...

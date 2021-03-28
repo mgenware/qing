@@ -78,6 +78,15 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
+		case defs.Shared.EntityQuestion:
+			{
+				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
+				app.PanicIfErr(err)
+
+				result = app.URL.Question(insertedID)
+				break
+			}
+
 		default:
 			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
 		}

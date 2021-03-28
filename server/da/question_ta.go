@@ -297,19 +297,22 @@ type QuestionTableSelectItemByIDResult struct {
 	CmtCount     uint      `json:"cmtCount,omitempty"`
 	ContentHTML  string    `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	DownVotes    uint      `json:"downVotes,omitempty"`
 	ID           uint64    `json:"-"`
 	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
 	ReplyCount   uint      `json:"replyCount,omitempty"`
 	Title        string    `json:"title,omitempty"`
+	UpVotes      uint      `json:"upVotes,omitempty"`
 	UserIconName string    `json:"-"`
 	UserID       uint64    `json:"-"`
 	UserName     string    `json:"-"`
+	Votes        uint      `json:"votes,omitempty"`
 }
 
 // SelectItemByID ...
 func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint64) (QuestionTableSelectItemByIDResult, error) {
 	var result QuestionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`content` AS `content`, `question`.`title` AS `title`, `question`.`cmt_count` AS `cmt_count`, `question`.`reply_count` AS `reply_count` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`content` AS `content`, `question`.`title` AS `title`, `question`.`cmt_count` AS `cmt_count`, `question`.`reply_count` AS `reply_count`, `question`.`votes` AS `votes`, `question`.`up_votes` AS `up_votes`, `question`.`down_votes` AS `down_votes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Votes, &result.UpVotes, &result.DownVotes)
 	if err != nil {
 		return result, err
 	}
