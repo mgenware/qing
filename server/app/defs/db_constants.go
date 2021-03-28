@@ -1,8 +1,8 @@
 /*
  * Copyright (C) The Qing Project. All rights reserved.
  *
- * Use of this source code is governed by a license that can
- * be found in the LICENSE file.
+ * Use of this source code is governed by a license that
+ * can be found in the LICENSE file.
  */
 
 /******************************************************************************************
@@ -14,14 +14,14 @@ package defs
 
 // DBConstantsType ...
 type DBConstantsType struct {
-	MaxEmailLen         int
-	MaxFileNameLen      int
-	MaxNameLen          int
-	MaxPwdHashLen       int
-	MaxTitleLen         int
-	MaxUrlLen           int
+	MaxEmailLen int
+	MaxFileNameLen int
+	MaxNameLen int
+	MaxPwdHashLen int
+	MaxTitleLen int
+	MaxUrlLen int
 	MaxUserInfoFieldLen int
-	MaxUserStatusLen    int
+	MaxUserStatusLen int
 }
 
 // DB ...
@@ -29,13 +29,13 @@ var DB *DBConstantsType
 
 func init() {
 	DB = &DBConstantsType{
-		MaxEmailLen:         200,
-		MaxFileNameLen:      255,
-		MaxNameLen:          100,
-		MaxPwdHashLen:       255,
-		MaxTitleLen:         200,
-		MaxUrlLen:           200,
+		MaxEmailLen: 200,
+		MaxFileNameLen: 255,
+		MaxNameLen: 100,
+		MaxPwdHashLen: 255,
+		MaxTitleLen: 200,
+		MaxUrlLen: 200,
 		MaxUserInfoFieldLen: 100,
-		MaxUserStatusLen:    200,
+		MaxUserStatusLen: 200,
 	}
 }
