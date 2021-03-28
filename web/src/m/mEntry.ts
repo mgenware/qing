@@ -56,7 +56,14 @@ function loadNewPostContent(entityType: number) {
   router.register(url, () =>
     pageUtils.setTitleAndMainContent(
       [title],
-      html` <set-post-app .entityType=${entityType} .headerText=${title}></set-post-app> `,
+      html`
+        <set-post-app
+          open
+          .goBackOnCancel=${true}
+          .entityType=${entityType}
+          .headerText=${title}
+        ></set-post-app>
+      `,
     ),
   );
 }
@@ -65,16 +72,6 @@ function loadNewPostContent(entityType: number) {
   loadNewPostContent(entityType);
 });
 
-router.register(`${routes.m.editPost}/:id`, (args) => {
-  const id = args.id as string;
-  if (!id) {
-    return;
-  }
-  pageUtils.setTitleAndMainContent(
-    [ls.editPost],
-    html` <set-post-app .editedID=${id} .entityType=${entityPost}></set-post-app> `,
-  );
-});
 router.register(routes.m.settings.profile, () => {
   loadSettingsContent(ls.profile, html` <edit-profile-app></edit-profile-app> `);
 });

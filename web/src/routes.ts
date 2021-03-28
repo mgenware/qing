@@ -13,7 +13,6 @@ export default buildTree({
     newPost: 'new-post',
     newDiscussion: 'new-discussion',
     newQuestion: 'new-question',
-    editPost: 'edit-post',
     yourPosts: 'your-posts',
     yourDiscussions: 'your-discussions',
     yourQuestion: 'your-questions',

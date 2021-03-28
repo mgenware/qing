@@ -40,6 +40,7 @@ export default class SetPostApp extends BaseElement {
   @lp.string headerText = '';
   @lp.bool showTitleInput = true;
   @lp.string submitButtonText = '';
+  @lp.bool goBackOnCancel = false;
 
   @lp.bool open = false;
 
@@ -113,7 +114,11 @@ export default class SetPostApp extends BaseElement {
   }
 
   private handleDiscard() {
-    this.open = false;
+    if (this.goBackOnCancel) {
+      window.history.go(-1);
+    } else {
+      this.open = false;
+    }
   }
 }
 
