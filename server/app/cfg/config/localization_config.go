@@ -12,3 +12,8 @@ type LocalizationConfig struct {
 	Dir   string   `json:"dir"`
 	Langs []string `json:"langs"`
 }
+
+// Returns true if there's more than 1 language in `LocalizationConfig`.
+func (cfg *LocalizationConfig) MultipleLangs() bool {
+	return len(cfg.Langs) > 1
+}

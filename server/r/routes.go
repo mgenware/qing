@@ -36,7 +36,7 @@ import (
 )
 
 var r *chi.Mux
-var config *cfg.Config
+var appConfig *cfg.Config
 
 func startFileServer(r chi.Router, name, url, dir string) {
 	app.Logger.Info(name,
@@ -52,8 +52,8 @@ func startFileServer(r chi.Router, name, url, dir string) {
 // Start starts the web router.
 func Start() {
 	r = chi.NewRouter()
-	config = app.Config
-	httpConfig := config.HTTP
+	appConfig = app.Config
+	httpConfig := appConfig.HTTP
 
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
@@ -68,7 +68,7 @@ func Start() {
 	}
 
 	// Mount resource server.
-	rsConfig := config.ResServer
+	rsConfig := appConfig.ResServer
 	if rsConfig != nil {
 		startFileServer(r, "res-server", rsConfig.URL, rsConfig.Dir)
 	}
@@ -100,7 +100,7 @@ func Start() {
 	// Language settings router.
 	langRouter().Mount("/"+defs.Shared.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
-	debugConfig := config.Debug
+	debugConfig := appConfig.Debug
 	if debugConfig != nil {
 		// DEBUG only setup.
 		if debugConfig.QuickLogin {
@@ -138,5 +138,8 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 }
 
 func langRouter() chi.Router {
-	return r.With(app.MainPageManager.LocalizationManager.EnableContextLanguageMW)
+	if appConfig.Localization.MultipleLangs() {
+		return r.With(app.MainPageManager.LocalizationManager.EnableContextLanguageMW)
+	}
+	return r
 }
