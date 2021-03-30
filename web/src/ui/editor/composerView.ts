@@ -248,6 +248,10 @@ export class ComposerView extends BaseElement {
     }
   }
 
+  clickCancel() {
+    this.handleCancel();
+  }
+
   private async handleCancel() {
     const fireEvent = () => {
       this.markAsSaved();

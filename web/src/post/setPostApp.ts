@@ -76,6 +76,7 @@ export default class SetPostApp extends BaseElement {
         class="immersive"
         ?open=${this.open}
         @openChanged=${(e: CustomEvent<boolean>) => (this.open = e.detail)}
+        @escKeyDown=${this.handleEscDown}
       >
         <h2>${this.headerText}</h2>
         <composer-view
@@ -118,6 +119,12 @@ export default class SetPostApp extends BaseElement {
       window.history.go(-1);
     } else {
       this.open = false;
+    }
+  }
+
+  private handleEscDown() {
+    if (!this.goBackOnCancel) {
+      this.composerEl?.clickCancel();
     }
   }
 }
