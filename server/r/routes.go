@@ -10,6 +10,7 @@ package r
 import (
 	"log"
 	"net/http"
+	"qing/app/cfg"
 	"qing/app/defs"
 	"qing/app/handler"
 	"strconv"
@@ -34,6 +35,9 @@ import (
 	"github.com/mgenware/go-packagex/v5/iox"
 )
 
+var r *chi.Mux
+var config *cfg.Config
+
 func startFileServer(r chi.Router, name, url, dir string) {
 	app.Logger.Info(name,
 		"url", url,
@@ -47,8 +51,8 @@ func startFileServer(r chi.Router, name, url, dir string) {
 
 // Start starts the web router.
 func Start() {
-	r := chi.NewRouter()
-	config := app.Config
+	r = chi.NewRouter()
+	config = app.Config
 	httpConfig := config.HTTP
 
 	// ----------------- Middlewares -----------------
@@ -70,33 +74,31 @@ func Start() {
 	}
 
 	// ----------------- HTTP Routes -----------------
-	lm := app.MainPageManager.LocalizationManager
-
 	// Not found handler.
-	r.With(lm.EnableContextLanguage).NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
+	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
+	langRouter().Get("/"+defs.Shared.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	langRouter().Get("/"+defs.Shared.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Question router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteQuestion+"/{qid}", handler.HTMLHandlerToHTTPHandler(qnap.GetQuestion))
+	langRouter().Get("/"+defs.Shared.RouteQuestion+"/{qid}", handler.HTMLHandlerToHTTPHandler(qnap.GetQuestion))
 	// Discussion router.
-	r.With(lm.EnableContextLanguage).Get("/"+defs.Shared.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
+	langRouter().Get("/"+defs.Shared.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
 	// M (Management) router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteM, mp.Router)
+	langRouter().Mount("/"+defs.Shared.RouteM, mp.Router)
 	// MX (Admin management) router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteMx, mxp.Router)
+	langRouter().Mount("/"+defs.Shared.RouteMx, mxp.Router)
 	// Forum router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteForum, forump.Router)
+	langRouter().Mount("/"+defs.Shared.RouteForum, forump.Router)
 	// Auth router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteAuth, authp.Router)
+	langRouter().Mount("/"+defs.Shared.RouteAuth, authp.Router)
 	// API router.
 	r.Mount("/"+defs.Shared.RouteApi, api.Router)
 	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 	// Language settings router.
-	r.With(lm.EnableContextLanguage).Mount("/"+defs.Shared.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
+	langRouter().Mount("/"+defs.Shared.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
 	debugConfig := config.Debug
 	if debugConfig != nil {
@@ -133,4 +135,8 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 	r.Get(path, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fs.ServeHTTP(w, r)
 	}))
+}
+
+func langRouter() chi.Router {
+	return r.With(app.MainPageManager.LocalizationManager.EnableContextLanguageMW)
 }

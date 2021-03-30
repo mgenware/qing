@@ -112,7 +112,7 @@ func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string
 }
 
 // EnableContextLanguage defines a middleware to set the context language associated with the request.
-func (mgr *Manager) EnableContextLanguage(next http.Handler) http.Handler {
+func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		lang := mgr.MatchLanguage(w, r)
