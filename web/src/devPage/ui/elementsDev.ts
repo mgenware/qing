@@ -274,7 +274,7 @@ export class ElementsDev extends BaseElement {
         <h1>heading 1</h1>
         <p>text text text text text text text text text text</p>
       </status-overlay>
-      <status-overlay .status=${LoadingStatus.error(new ErrorWithCode('Example error', 1))}>
+      <status-overlay .status=${errorStatus}>
         <h1>heading 1</h1>
         <p>text text text text text text text text text text</p>
       </status-overlay>
