@@ -54,6 +54,8 @@ type Config struct {
 	ResServer *config.ResServerConfig `json:"res_server"`
 	// Extern config data.
 	Extern *config.ExternConfig `json:"extern"`
+
+	IsTestingMode bool `json:"is_testing_mode"`
 }
 
 // DevMode checks if debug config field is on.
