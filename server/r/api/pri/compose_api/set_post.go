@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -36,7 +37,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 
 	var result interface{}
-	db := app.DB
+	db := appDB.Get().DB()
 	if !hasID {
 		// Add a new entry.
 		captResult, err := app.Service.Captcha.Verify(uid, defs.Shared.EntityPost, "", app.Config.DevMode())

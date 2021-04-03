@@ -10,6 +10,7 @@ package mpapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -51,10 +52,10 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Shared.MaxGenericStringLen)
 	desc := validator.MustGetIntFromDict(params, "desc") != 0
 
-	rawPosts, hasNext, err := da.Post.SelectItemsForPostCenter(app.DB, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
+	rawPosts, hasNext, err := da.Post.SelectItemsForPostCenter(appDB.Get().DB(), uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)
 
-	stats, err := da.UserStats.SelectStats(app.DB, uid)
+	stats, err := da.UserStats.SelectStats(appDB.Get().DB(), uid)
 	app.PanicIfErr(err)
 
 	posts := make([]pcPost, len(rawPosts))

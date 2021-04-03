@@ -10,6 +10,7 @@ package profilep
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -34,15 +35,15 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 
 	// User profile
-	user, err := da.User.SelectProfile(app.DB, uid)
+	user, err := da.User.SelectProfile(appDB.Get().DB(), uid)
 	app.PanicIfErr(err)
 
 	// User stats
-	stats, err := da.UserStats.SelectStats(app.DB, uid)
+	stats, err := da.UserStats.SelectStats(appDB.Get().DB(), uid)
 	app.PanicIfErr(err)
 
 	pageTitle := user.Name
-	db := app.DB
+	db := appDB.Get().DB()
 
 	var feedListHTML string
 	var hasNext bool

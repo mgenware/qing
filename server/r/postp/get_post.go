@@ -10,6 +10,7 @@ package postp
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -24,7 +25,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	post, err := da.Post.SelectItemByID(app.DB, pid)
+	post, err := da.Post.SelectItemByID(appDB.Get().DB(), pid)
 	app.PanicIfErr(err)
 
 	resp := app.HTMLResponse(w, r)

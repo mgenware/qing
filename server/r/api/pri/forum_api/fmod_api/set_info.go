@@ -10,6 +10,7 @@ package fmodapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/appcom"
 	"qing/app/defs"
 	"qing/app/handler"
@@ -26,7 +27,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	name := validator.MustGetStringFromDict(params, "name", defs.DB.MaxNameLen)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
-	db := app.DB
+	db := appDB.Get().DB()
 	err := da.Forum.UpdateInfo(db, fid, name, desc)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)

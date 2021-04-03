@@ -10,6 +10,7 @@ package composeapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/lib/validator"
 
@@ -28,9 +29,9 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	cmtTA, err := getCmtTA(hostType)
 	app.PanicIfErr(err)
 	if isReply == 0 {
-		err = cmtTA.DeleteCmt(app.DB, id, uid)
+		err = cmtTA.DeleteCmt(appDB.Get().DB(), id, uid)
 	} else {
-		err = cmtTA.DeleteReply(app.DB, id, uid)
+		err = cmtTA.DeleteReply(appDB.Get().DB(), id, uid)
 	}
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)

@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/lib/validator"
 )
@@ -30,9 +31,9 @@ func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	if value == 1 {
-		app.PanicIfErr(dbSrc.Like(app.DB, id, uid))
+		app.PanicIfErr(dbSrc.Like(appDB.Get().DB(), id, uid))
 	} else {
-		app.PanicIfErr(dbSrc.CancelLike(app.DB, id, uid))
+		app.PanicIfErr(dbSrc.CancelLike(appDB.Get().DB(), id, uid))
 	}
 	return resp.MustComplete(nil)
 }

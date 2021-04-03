@@ -10,6 +10,7 @@ package authp
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
@@ -38,7 +39,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pwdHash, err := app.Service.HashingAlg.CreateHash(createUserData.Pwd)
 	app.PanicIfErr(err)
 
-	uid, err := da.UserPwd.AddPwdBasedUser(app.DB, createUserData.Email, createUserData.Name, pwdHash)
+	uid, err := da.UserPwd.AddPwdBasedUser(appDB.Get().DB(), createUserData.Email, createUserData.Name, pwdHash)
 	app.PanicIfErr(err)
 
 	userURL := app.URL.UserProfile(uid)

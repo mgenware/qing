@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/lib/validator"
 )
@@ -28,7 +29,7 @@ func getLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic(fmt.Sprintf("Unsupported type %v", category))
 	}
 
-	hasLiked, err := dbSrc.HasLiked(app.DB, id, uid)
+	hasLiked, err := dbSrc.HasLiked(appDB.Get().DB(), id, uid)
 	app.PanicIfErr(err)
 
 	return resp.MustComplete(hasLiked)

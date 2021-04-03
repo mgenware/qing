@@ -10,6 +10,7 @@ package fgmodapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/appcom"
 	"qing/app/handler"
 	"qing/da"
@@ -21,7 +22,7 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := app.ContextUserID(r)
 	groupID := appcom.ContextForumGroupID(r.Context())
-	db := app.DB
+	db := appDB.Get().DB()
 	var err error
 
 	if groupID == 0 {

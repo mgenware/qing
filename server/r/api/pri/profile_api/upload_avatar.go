@@ -11,6 +11,7 @@ import (
 	"context"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/appcom"
 	"qing/da"
 	"qing/fx/avatar"
@@ -118,7 +119,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, error) {
 	user := appcom.ContextUser(ctx)
 	uid := user.ID
-	curAvatarName, err := da.User.SelectIconName(app.DB, uid)
+	curAvatarName, err := da.User.SelectIconName(appDB.Get().DB(), uid)
 	if err != nil {
 		return 0, "", err
 	}
@@ -133,7 +134,7 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	}
 
 	// Update DB.
-	err = da.User.UpdateIconName(app.DB, uid, avatarName)
+	err = da.User.UpdateIconName(appDB.Get().DB(), uid, avatarName)
 	if err != nil {
 		return 0, "", err
 	}

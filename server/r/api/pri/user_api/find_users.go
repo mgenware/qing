@@ -11,6 +11,7 @@ import (
 	"database/sql"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -27,7 +28,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
 	var users []da.FindUserResult
-	db := app.DB
+	db := appDB.Get().DB()
 	if byID != 0 {
 		id := validator.MustGetIDFromDict(params, "value")
 		user, err := da.User.FindUserByID(db, id)

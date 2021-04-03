@@ -8,12 +8,8 @@
 package app
 
 import (
-	"database/sql"
-	"flag"
 	"fmt"
-	"log"
-	"os"
-	"qing/app/cfg/config"
+	"qing/app/config/configs"
 	"qing/app/extern"
 	"qing/app/handler"
 	"qing/app/handler/assetmgr"
@@ -21,11 +17,7 @@ import (
 	"qing/app/urlx"
 	"qing/app/userx"
 
-	"qing/app/cfg"
 	"qing/app/logx"
-
-	// Load MySQL driver
-	_ "github.com/go-sql-driver/mysql"
 )
 
 // Config is the configuration data loaded from `--config`.
@@ -42,9 +34,6 @@ var Logger *logx.Logger
 
 // URL helps generate URLs.
 var URL *urlx.URL
-
-// DB is the app-wide database connection.
-var DB *sql.DB
 
 // Extern manages external dependencies, e.g. redis.
 var Extern *extern.Extern
@@ -63,47 +52,19 @@ func PanicIfErr(err error) {
 }
 
 // SetupConfig returns config.SetupConfig.
-func SetupConfig() *config.SetupConfig {
+func SetupConfig() *configs.SetupConfig {
 	return Config.Setup
 }
 
 func init() {
-	mustSetupConfig()
+	Config = appConfig.Get()
 	mustSetupAppProfile()
 	mustSetupLogger()
 	mustSetupTemplates(Config)
-	mustSetupDB()
 	mustSetupURL()
 	mustSetupExtern()
 	mustSetupUserManager()
 	mustSetupService()
-}
-
-func mustSetupConfig() {
-	// Parse command-line arguments
-	var configPath string
-	flag.StringVar(&configPath, "config", "", "path of application config file")
-	flag.Parse()
-
-	if configPath == "" {
-		// If --config is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
-		userArgs := os.Args[1:]
-		if len(userArgs) >= 1 {
-			configPath = cfg.GetDefaultConfigFilePath(userArgs[0] + ".json")
-		} else {
-			flag.PrintDefaults()
-			os.Exit(1)
-		}
-	}
-
-	// Read config file
-	config := cfg.MustReadConfig(configPath)
-
-	log.Printf("✅ Loaded config at \"%v\"", configPath)
-	if config.DevMode() {
-		log.Printf("⚠️ Application running in dev mode")
-	}
-	Config = config
 }
 
 func mustSetupAppProfile() {
@@ -130,17 +91,6 @@ func mustSetupTemplates(config *cfg.Config) {
 	localizationConfig := config.Localization
 	assMgr := assetmgr.NewAssetsManager(Config.HTTP.Static.Dir, Config.Debug)
 	MainPageManager = handler.MustCreateMainPageManager(templatesConfig.Dir, localizationConfig.Dir, assMgr, Logger, config)
-}
-
-func mustSetupDB() {
-	if Config.DB.ConnString == "" {
-		panic("Empty DBConnString in config")
-	}
-	conn, err := sql.Open("mysql", Config.DB.ConnString)
-	if err != nil {
-		panic(err)
-	}
-	DB = conn
 }
 
 func mustSetupURL() {

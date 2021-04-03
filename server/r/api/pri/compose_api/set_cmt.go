@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -64,9 +65,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			if toUserID == 0 {
 				panic("Missing param \"toUserID\"")
 			}
-			cmtID, err = cmtCore.InsertReply(app.DB, content, uid, toUserID, parentCmtID, hostID, sanitizedToken, captResult)
+			cmtID, err = cmtCore.InsertReply(appDB.Get().DB(), content, uid, toUserID, parentCmtID, hostID, sanitizedToken, captResult)
 		} else {
-			cmtID, err = cmtCore.InsertCmt(app.DB, content, uid, hostID, sanitizedToken, captResult)
+			cmtID, err = cmtCore.InsertCmt(appDB.Get().DB(), content, uid, hostID, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 
@@ -90,10 +91,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		isReply := validator.MustGetIntFromDict(params, "isReply")
 
 		if isReply == 0 {
-			err := da.Cmt.EditCmt(app.DB, id, uid, content, sanitizedToken)
+			err := da.Cmt.EditCmt(appDB.Get().DB(), id, uid, content, sanitizedToken)
 			app.PanicIfErr(err)
 		} else {
-			err := da.Reply.EditReply(app.DB, id, uid, content, sanitizedToken)
+			err := da.Reply.EditReply(appDB.Get().DB(), id, uid, content, sanitizedToken)
 			app.PanicIfErr(err)
 		}
 		cmt := &apicom.Cmt{EID: validator.EncodeID(id)}

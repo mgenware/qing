@@ -10,6 +10,7 @@ package discussionp
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -31,11 +32,11 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Get discussion.
 	page := validator.GetPageParamFromRequestQueryString(r)
-	discussion, err := da.Discussion.SelectItemByID(app.DB, tid)
+	discussion, err := da.Discussion.SelectItemByID(appDB.Get().DB(), tid)
 	app.PanicIfErr(err)
 
 	// Get messages.
-	rawMsgs, hasNext, err := da.DiscussionMsg.SelectItemsByDiscussion(app.DB, tid, page, defaultPageSize)
+	rawMsgs, hasNext, err := da.DiscussionMsg.SelectItemsByDiscussion(appDB.Get().DB(), tid, page, defaultPageSize)
 	app.PanicIfErr(err)
 
 	var msgListBuilder strings.Builder

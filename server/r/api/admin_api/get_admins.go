@@ -10,6 +10,7 @@ package adminapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 	"qing/r/rcom"
@@ -18,7 +19,7 @@ import (
 func getAdmins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
-	admins, err := da.User.UnsafeSelectAdmins(app.DB)
+	admins, err := da.User.UnsafeSelectAdmins(appDB.Get().DB())
 	if err != nil {
 		panic(err)
 	}

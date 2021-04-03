@@ -10,6 +10,7 @@ package forump
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -25,7 +26,7 @@ const defaultPageSize = 10
 
 func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
-	db := app.DB
+	db := appDB.Get().DB()
 	var err error
 
 	fid, err := validator.DecodeID(chi.URLParam(r, "fid"))

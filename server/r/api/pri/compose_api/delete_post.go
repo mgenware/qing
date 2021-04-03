@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -24,14 +25,14 @@ func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.MustGetIDFromDict(params, "id")
 	entityType := validator.MustGetIntFromDict(params, "entityType")
-	db := app.DB
+	db := appDB.Get().DB()
 	var err error
 	var result interface{}
 
 	switch entityType {
 	case defs.Shared.EntityPost:
 		{
-			err := da.Post.DeleteItem(app.DB, id, uid)
+			err := da.Post.DeleteItem(appDB.Get().DB(), id, uid)
 			app.PanicIfErr(err)
 			result = app.URL.UserProfile(uid)
 			break

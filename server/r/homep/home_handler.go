@@ -10,6 +10,7 @@ package homep
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -24,7 +25,7 @@ const defaultPageSize = 10
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
-	db := app.DB
+	db := appDB.Get().DB()
 
 	// Non-forums mode.
 	if !app.SetupConfig().ForumsMode {

@@ -10,6 +10,7 @@ package qnap
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -24,7 +25,7 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	que, err := da.Question.SelectItemByID(app.DB, pid)
+	que, err := da.Question.SelectItemByID(appDB.Get().DB(), pid)
 	app.PanicIfErr(err)
 
 	resp := app.HTMLResponse(w, r)

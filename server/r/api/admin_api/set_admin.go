@@ -10,6 +10,7 @@ package adminapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -28,7 +29,7 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFailWithCode(defs.Shared.ErrCannotSetAdminOfYourself)
 	}
 
-	db := app.DB
+	db := appDB.Get().DB()
 	isAdmin, err := da.User.SelectIsAdmin(db, targetUserID)
 	app.PanicIfErr(err)
 	if isAdmin {

@@ -11,6 +11,7 @@ import (
 	"database/sql"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -25,7 +26,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Shared.MaxUserPwdLen)
 
 	// Verify user ID.
-	uid, err := da.User.SelectIDFromEmail(app.DB, email)
+	uid, err := da.User.SelectIDFromEmail(appDB.Get().DB(), email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
@@ -37,7 +38,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	// Verify password.
-	hash, err := da.UserPwd.SelectHashByID(app.DB, uid)
+	hash, err := da.UserPwd.SelectHashByID(appDB.Get().DB(), uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)

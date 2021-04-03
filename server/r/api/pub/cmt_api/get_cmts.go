@@ -10,6 +10,7 @@ package cmtapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -67,7 +68,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 	page := validator.GetPageParamFromDict(params)
 
-	db := app.DB
+	db := appDB.Get().DB()
 	// Selecting replies.
 	if parentCmtID != 0 {
 		replies, hasNext, err := da.Reply.SelectReplies(db, parentCmtID, page, kCmtPageSize)

@@ -10,6 +10,7 @@ package profileapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 
@@ -32,7 +33,7 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	uid := resp.UserID()
 
-	dbInfo, err := da.User.SelectEditingData(app.DB, uid)
+	dbInfo, err := da.User.SelectEditingData(appDB.Get().DB(), uid)
 	if err != nil {
 		return resp.MustFail(err)
 	}
@@ -56,7 +57,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	location := jsonx.GetStringOrDefault(params, "location")
 
 	// Update DB
-	err := da.User.UpdateProfile(app.DB, uid, nick, website, company, location)
+	err := da.User.UpdateProfile(appDB.Get().DB(), uid, nick, website, company, location)
 	if err != nil {
 		return resp.MustFail(err)
 	}

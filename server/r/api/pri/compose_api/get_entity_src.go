@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -25,7 +26,7 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := validator.MustGetIDFromDict(params, "entityID")
 	entityType := validator.MustGetIntFromDict(params, "entityType")
 
-	db := app.DB
+	db := appDB.Get().DB()
 	var res da.EntityGetSrcResult
 	var err error
 

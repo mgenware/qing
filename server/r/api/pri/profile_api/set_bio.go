@@ -10,6 +10,7 @@ package profileapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/handler"
 	"qing/da"
 
@@ -27,7 +28,7 @@ func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	// Update DB
-	err := da.User.UpdateBio(app.DB, uid, &bio)
+	err := da.User.UpdateBio(appDB.Get().DB(), uid, &bio)
 	if err != nil {
 		return resp.MustFail(err)
 	}
