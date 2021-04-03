@@ -10,6 +10,7 @@ package r
 import (
 	"log"
 	"net/http"
+	"qing/app/appLog"
 	"qing/app/cfg"
 	"qing/app/defs"
 	"qing/app/handler"
@@ -39,13 +40,13 @@ var r *chi.Mux
 var appConfig *cfg.Config
 
 func startFileServer(r chi.Router, name, url, dir string) {
-	app.Logger.Info(name,
+	appLog.Get().Info(name,
 		"url", url,
 		"dir", dir,
 	)
 	fileServer(r, url, http.Dir(dir))
 	if !iox.IsDirectory(dir) {
-		app.Logger.Warn(name+".not-found", "dir", dir)
+		appLog.Get().Warn(name+".not-found", "dir", dir)
 	}
 }
 
@@ -109,10 +110,10 @@ func Start() {
 		}
 	}
 
-	app.Logger.Info("server-starting", "port", httpConfig.Port)
+	appLog.Get().Info("server-starting", "port", httpConfig.Port)
 	err := http.ListenAndServe(":"+strconv.Itoa(httpConfig.Port), r)
 	if err != nil {
-		app.Logger.Error("server-starting.failed", "err", err.Error())
+		appLog.Get().Error("server-starting.failed", "err", err.Error())
 		panic(err)
 	}
 }

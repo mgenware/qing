@@ -5,6 +5,15 @@
  * be found in the LICENSE file.
  */
 
+package appConfig
+
+import (
+	"app/config"
+	"flag"
+	"log"
+	"os"
+)
+
 var conf *config.Config
 
 func Get() *config.Config {
@@ -21,7 +30,7 @@ func init() {
 		// If --config is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
 		userArgs := os.Args[1:]
 		if len(userArgs) >= 1 {
-			configPath = cfg.GetDefaultConfigFilePath(userArgs[0] + ".json")
+			configPath = config.GetDefaultConfigFilePath(userArgs[0] + ".json")
 		} else {
 			flag.PrintDefaults()
 			os.Exit(1)

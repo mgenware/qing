@@ -9,7 +9,7 @@ package appDB
 
 import (
 	"database/sql"
-	"qing/app/appConfig"
+	"qing/app/config"
 
 	// Load MySQL driver
 	_ "github.com/go-sql-driver/mysql"
@@ -23,7 +23,7 @@ func (impl *AppDBImpl) DB() *sql.DB {
 	return impl.db
 }
 
-func newAppDBImpl(conf *appConfig.Config) *AppDBImpl {
+func newAppDBImpl(conf *config.Config) *AppDBImpl {
 	dbConf := conf.DB
 	if dbConf.ConnString == "" {
 		panic("Empty DBConnString in config")

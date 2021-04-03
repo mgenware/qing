@@ -10,7 +10,7 @@ package urlx
 import (
 	"fmt"
 	"net/url"
-	"qing/app/cfg"
+	"qing/app/config"
 	"qing/app/defs"
 	"qing/fx/avatar"
 	"qing/lib/validator"
@@ -19,20 +19,20 @@ import (
 
 // URL helps generate common URLs.
 type URL struct {
-	config *cfg.Config
+	conf *config.Config
 }
 
 // NewURL creates a new URL.
-func NewURL(cfg *cfg.Config) *URL {
-	return &URL{config: cfg}
+func NewURL(conf *config.Config) *URL {
+	return &URL{conf: conf}
 }
 
 func (u *URL) AssetURL(url string) string {
-	return u.config.HTTP.Static.URL + url
+	return u.conf.HTTP.Static.URL + url
 }
 
 func (u *URL) ResURL(url string) string {
-	return u.config.ResServer.URL + url
+	return u.conf.ResServer.URL + url
 }
 
 func (u *URL) UserIconURL50(uid uint64, avatarName string) string {

@@ -12,6 +12,7 @@ import (
 	"net/http"
 
 	"qing/app"
+	"qing/app/appLog"
 	"qing/app/handler"
 
 	strf "github.com/mgenware/go-string-format"
@@ -25,7 +26,7 @@ func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	msg := strf.Format(resp.LocalizedDictionary().PPageNotFound, r.URL.String())
 
 	if app.Config.HTTP.Log404Error {
-		app.Logger.NotFound("http", r.URL.String())
+		appLog.Get().NotFound("http", r.URL.String())
 	}
 
 	// Note that pass `true` as the `expected` param so that template manager won't treat it as a 500 error.

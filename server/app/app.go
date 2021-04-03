@@ -76,14 +76,7 @@ func mustSetupAppProfile() {
 }
 
 func mustSetupLogger() {
-	if Config == nil {
-		panic("Config must be set before mustSetupLogger")
-	}
-	logger, err := logx.NewLogger(Config.Log.Dir, Config.DevMode())
-	if err != nil {
-		panic(err)
-	}
-	Logger = logger
+	Logger = appLog.Get()
 }
 
 func mustSetupTemplates(config *cfg.Config) {
