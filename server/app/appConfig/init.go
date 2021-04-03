@@ -40,7 +40,7 @@ func init() {
 	// Read config file
 	conf = config.MustReadConfig(configPath)
 
-	log.Printf("✅ Loaded config at \"%v\"", configPath)
+	log.Printf("✅ App config: Loaded at \"%v\"", configPath)
 	if conf.DevMode() {
 		log.Printf("😡 Application running in dev mode")
 	}

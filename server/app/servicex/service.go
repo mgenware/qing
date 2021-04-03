@@ -9,10 +9,9 @@ package servicex
 
 import (
 	"path"
-	"qing/app/cfg"
+	"qing/app"
+	"qing/app/config"
 	"qing/app/defs"
-	"qing/app/extern"
-	"qing/app/extern/redisx"
 	"qing/app/logx"
 	"qing/app/servicex/captchax"
 	"qing/app/servicex/emailver"
@@ -33,7 +32,7 @@ type Service struct {
 }
 
 // MustNewService creates a new Service object.
-func MustNewService(config *cfg.Config, appProfile *cfg.AppProfile, extern *extern.Extern, logger *logx.Logger, conn *redisx.Conn) *Service {
+func MustNewService(conf *config.Config, appProfile *config.AppProfile, logger *logx.Logger, conn *app.CoreMemoryStoreConn) *Service {
 	s := &Service{}
 	s.Sanitizer = sanitizer.NewSanitizer()
 	s.Captcha = captchax.NewCaptchaService(extern.RedisConn)
@@ -44,7 +43,7 @@ func MustNewService(config *cfg.Config, appProfile *cfg.AppProfile, extern *exte
 	return s
 }
 
-func mustSetupImgx(config *cfg.Config, logger *logx.Logger) *imgx.Imgx {
+func mustSetupImgx(conf *config.Config, logger *logx.Logger) *imgx.Imgx {
 	imgx, err := imgx.NewImgx(config.Extern.ImgxCmd, logger)
 	if err != nil {
 		panic(err)
@@ -52,7 +51,7 @@ func mustSetupImgx(config *cfg.Config, logger *logx.Logger) *imgx.Imgx {
 	return imgx
 }
 
-func mustSetupAvatarService(config *cfg.Config, logger *logx.Logger, imaging *imgx.Imgx) *avatar.Service {
+func mustSetupAvatarService(conf *config.Config, logger *logx.Logger, imaging *imgx.Imgx) *avatar.Service {
 	avatarService, err := avatar.NewService(path.Join(config.ResServer.Dir, defs.AvatarResKey), imaging, logger)
 	if err != nil {
 		panic(err)

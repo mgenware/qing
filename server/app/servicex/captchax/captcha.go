@@ -11,8 +11,8 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"qing/app"
 	"qing/app/defs"
-	"qing/app/extern/redisx"
 	"strconv"
 
 	"github.com/mgenware/go-captcha"
@@ -22,7 +22,7 @@ const ResultVerified = 1
 const ResultNotVerified = -1
 
 type CaptchaService struct {
-	redisConn *redisx.Conn
+	msStore app.CoreMemoryStore
 }
 
 var allowedTypes map[int]bool
@@ -37,8 +37,8 @@ func init() {
 }
 
 // NewCaptchaService creates a CaptchaService.
-func NewCaptchaService(redisConn *redisx.Conn) *CaptchaService {
-	return &CaptchaService{redisConn: redisConn}
+func NewCaptchaService(msStore app.CoreMemoryStore) *CaptchaService {
+	return &CaptchaService{msStore: msStore}
 }
 
 // IsTypeAllowed determines if the specified entity type is allowed in this service.
@@ -64,12 +64,13 @@ func (c *CaptchaService) WriteCaptcha(uid uint64, entityType int, length int, w 
 
 // Verify checks if the specified code matches the internal code stored in memory.
 func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode bool) (int, error) {
+	msConn := c.msStore.GetConn()
 	// Expected way to bypass captcha verification process on dev mode.
 	if devMode {
 		return 0, nil
 	}
 	key := c.getMSKey(uid, entityType)
-	result, err := c.redisConn.GetStringValue(key)
+	result, err := msConn.GetStringValue(key)
 	if err != nil {
 		return 0, err
 	}
@@ -87,8 +88,9 @@ func (c *CaptchaService) getMSKey(uid uint64, entityType int) string {
 }
 
 func (c *CaptchaService) registerCaptcha(uid uint64, category int, value string) error {
+	msConn := c.msStore.GetConn()
 	key := c.getMSKey(uid, category)
-	return c.redisConn.SetStringValue(key, value, defs.MSCaptchaTimeout)
+	return msConn.SetStringValue(key, value, defs.MSCaptchaTimeout)
 }
 
 // Converts bytes from `captcha.RandomDigits` to a string.

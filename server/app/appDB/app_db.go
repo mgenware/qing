@@ -15,15 +15,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type AppDBImpl struct {
+type AppDB struct {
 	db *sql.DB
 }
 
-func (impl *AppDBImpl) DB() *sql.DB {
+func (impl *AppDB) DB() *sql.DB {
 	return impl.db
 }
 
-func newAppDBImpl(conf *config.Config) *AppDBImpl {
+func newAppDB(conf *config.Config) *AppDB {
 	dbConf := conf.DB
 	if dbConf.ConnString == "" {
 		panic("Empty DBConnString in config")
@@ -33,7 +33,7 @@ func newAppDBImpl(conf *config.Config) *AppDBImpl {
 		panic(err)
 	}
 
-	res := &AppDBImpl{
+	res := &AppDB{
 		db: conn,
 	}
 	return res

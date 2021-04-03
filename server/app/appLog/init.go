@@ -8,6 +8,7 @@
 package appLog
 
 import (
+	"log"
 	"qing/app"
 	"qing/app/appConfig"
 	"qing/app/logx"
@@ -22,6 +23,7 @@ func init() {
 		panic(err)
 	}
 	appLog = logger
+	log.Printf("✅ App log: Loaded at \"%v\"", conf.Log.Dir)
 }
 
 func Get() app.CoreLog {

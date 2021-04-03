@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package redisx
+package appMS
 
 import (
 	"errors"
@@ -17,40 +17,50 @@ import (
 // ErrNil indicates an empty reply from server.
 var ErrNil = redis.ErrNil
 
-type Conn struct {
-	pool *redis.Pool
+type AppMS struct {
+	Port int
 }
 
-func NewConn(port int) *Conn {
+func (store *AppMS) GetConn() *AppMSConn {
 	pool := &redis.Pool{
 		MaxIdle:   80,
 		MaxActive: 12000, // max number of connections
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", fmt.Sprintf(":%v", port))
+			return redis.Dial("tcp", fmt.Sprintf(":%v", store.Port))
 		},
 	}
 
-	d := &Conn{}
-	d.pool = pool
-	return d
+	return newAppMSConn(pool)
 }
 
-func (store *Conn) Pool() *redis.Pool {
+func newAppMS(port int) *AppMS {
+	return &AppMS{Port: port}
+}
+
+type AppMSConn struct {
+	pool *redis.Pool
+}
+
+func newAppMSConn(pool *redis.Pool) *AppMSConn {
+	return &AppMSConn{pool: pool}
+}
+
+func (store *AppMSConn) Pool() *redis.Pool {
 	return store.pool
 }
 
-func (store *Conn) Destroy() error {
+func (store *AppMSConn) Destroy() error {
 	return store.pool.Close()
 }
 
-func (store *Conn) SetStringValue(key string, val string, expiresInSecs int) error {
+func (store *AppMSConn) SetStringValue(key string, val string, expiresInSecs int) error {
 	if expiresInSecs > 0 {
 		return store.setValueWithTimeoutInternal(key, val, expiresInSecs)
 	}
 	return store.setValueInternal(key, val)
 }
 
-func (store *Conn) Exist(key string) (bool, error) {
+func (store *AppMSConn) Exist(key string) (bool, error) {
 	c := store.pool.Get()
 	defer c.Close()
 
@@ -64,14 +74,14 @@ func (store *Conn) Exist(key string) (bool, error) {
 	return exists, nil
 }
 
-func (store *Conn) GetStringValue(key string) (string, error) {
+func (store *AppMSConn) GetStringValue(key string) (string, error) {
 	c := store.pool.Get()
 	defer c.Close()
 
 	return redis.String(c.Do("GET", key))
 }
 
-func (store *Conn) GetStringValueOrDefault(key string) (string, error) {
+func (store *AppMSConn) GetStringValueOrDefault(key string) (string, error) {
 	value, err := store.GetStringValue(key)
 	if err == ErrNil {
 		return "", nil
@@ -79,7 +89,7 @@ func (store *Conn) GetStringValueOrDefault(key string) (string, error) {
 	return value, err
 }
 
-func (store *Conn) RemoveValue(key string) error {
+func (store *AppMSConn) RemoveValue(key string) error {
 	c := store.pool.Get()
 	defer c.Close()
 
@@ -87,7 +97,7 @@ func (store *Conn) RemoveValue(key string) error {
 	return err
 }
 
-func (store *Conn) Clear() error {
+func (store *AppMSConn) Clear() error {
 	c := store.pool.Get()
 	defer c.Close()
 
@@ -95,7 +105,7 @@ func (store *Conn) Clear() error {
 	return err
 }
 
-func (store *Conn) Ping() error {
+func (store *AppMSConn) Ping() error {
 	c := store.pool.Get()
 	defer c.Close()
 
@@ -109,7 +119,7 @@ func (store *Conn) Ping() error {
 	return nil
 }
 
-func (store *Conn) Select(index int) error {
+func (store *AppMSConn) Select(index int) error {
 	c := store.pool.Get()
 	defer c.Close()
 
@@ -119,7 +129,7 @@ func (store *Conn) Select(index int) error {
 
 /*** Internal functions ***/
 
-func (store *Conn) setValueInternal(key string, val interface{}) error {
+func (store *AppMSConn) setValueInternal(key string, val interface{}) error {
 	c := store.pool.Get()
 	defer c.Close()
 
@@ -127,7 +137,7 @@ func (store *Conn) setValueInternal(key string, val interface{}) error {
 	return err
 }
 
-func (store *Conn) setValueWithTimeoutInternal(key string, val interface{}, expires int) error {
+func (store *AppMSConn) setValueWithTimeoutInternal(key string, val interface{}, expires int) error {
 	c := store.pool.Get()
 	defer c.Close()
 

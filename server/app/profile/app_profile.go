@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-package config
+package profile
 
 import (
 	"encoding/json"
 	"log"
 	"os"
-	appprofile "qing/app/cfg/app_profile"
+	"qing/app/profile/profiles"
 
 	"github.com/mgenware/go-packagex/v5/iox"
 )
@@ -19,7 +19,7 @@ import (
 // AppProfile stores information that controls how application runs. It is generated when application first runs.
 type AppProfile struct {
 	// Auth contains information about authentication.
-	Auth *appprofile.AuthData `json:"auth"`
+	Auth *profiles.AuthData `json:"auth"`
 }
 
 func readAppProfileCore(file string) (*AppProfile, error) {
@@ -52,7 +52,7 @@ func writeAppProfile(profile *AppProfile, path string) error {
 
 func newAppProfile() *AppProfile {
 	profile := &AppProfile{
-		Auth: appprofile.NewAuthData(),
+		Auth: profiles.NewAuthData(),
 	}
 	return profile
 }

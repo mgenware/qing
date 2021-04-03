@@ -8,9 +8,7 @@
 package app
 
 import (
-	"fmt"
 	"qing/app/appConfig"
-	"qing/app/appLog"
 	"qing/app/config/configs"
 	"qing/app/extern"
 	"qing/app/handler"
@@ -59,36 +57,8 @@ func SetupConfig() *configs.SetupConfig {
 
 func init() {
 	Config = appConfig.Get()
-	mustSetupAppProfile()
-	mustSetupLogger()
-	mustSetupTemplates(Config)
-	mustSetupURL()
-	mustSetupExtern()
 	mustSetupUserManager()
 	mustSetupService()
-}
-
-func mustSetupAppProfile() {
-	appProfile, err := cfg.GetAppProfile(Config.AppProfile.Dir)
-	if err != nil {
-		panic(fmt.Errorf("Error getting app profile, %v", err))
-	}
-	AppProfile = appProfile
-}
-
-func mustSetupLogger() {
-	Logger = appLog.Get()
-}
-
-func mustSetupTemplates(config *cfg.Config) {
-}
-
-func mustSetupURL() {
-	URL = urlx.NewURL(Config)
-}
-
-func mustSetupExtern() {
-	Extern = extern.MustSetupExtern(Config)
 }
 
 func mustSetupUserManager() {

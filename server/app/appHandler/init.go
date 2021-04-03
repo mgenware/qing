@@ -8,6 +8,7 @@
 package appHandler
 
 import (
+	"log"
 	"qing/app/appConfig"
 	"qing/app/appLog"
 	"qing/app/handler"
@@ -24,6 +25,7 @@ func init() {
 	localizationConfig := conf.Localization
 	assMgr := assetmgr.NewAssetsManager(conf.HTTP.Static.Dir, conf.Debug)
 	mainPageManager = handler.MustCreateMainPageManager(templatesConfig.Dir, localizationConfig.Dir, assMgr, logger, conf)
+	log.Printf("✅ App handler: Loaded at \"%v\"", templatesConfig.Dir)
 }
 
 func MainPage() *handler.MainPageManager {
