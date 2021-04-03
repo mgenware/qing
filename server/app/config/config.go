@@ -14,7 +14,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"qing/app/cfg/config"
+	"qing/app/config/configs"
 	"runtime"
 	"strings"
 
@@ -36,49 +36,49 @@ type Config struct {
 	// Extends specifies another file which this file extends from.
 	Extends string `json:"extends"`
 	// Setup contains first launch user setup configs.
-	Setup *config.SetupConfig `json:"setup"`
+	Setup *configs.SetupConfig `json:"setup"`
 	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
-	Debug *config.DebugConfig `json:"debug"`
+	Debug *configs.DebugConfig `json:"debug"`
 	// Log config data.
-	Log *config.LoggingConfig `json:"logging"`
+	Log *configs.LoggingConfig `json:"logging"`
 	// HTTP config data.
-	HTTP *config.HTTPConfig `json:"http"`
+	HTTP *configs.HTTPConfig `json:"http"`
 	// Templates config data.
-	Templates *config.TemplatesConfig `json:"templates"`
+	Templates *configs.TemplatesConfig `json:"templates"`
 	// Localization config data.
-	Localization *config.LocalizationConfig `json:"localization"`
+	Localization *configs.LocalizationConfig `json:"localization"`
 
-	AppProfile *config.AppProfileConfig `json:"app_profile"`
+	AppProfile *configs.AppProfileConfig `json:"app_profile"`
 
-	DB        *config.DBConfig        `json:"db"`
-	ResServer *config.ResServerConfig `json:"res_server"`
+	DB        *configs.DBConfig        `json:"db"`
+	ResServer *configs.ResServerConfig `json:"res_server"`
 	// Extern config data.
-	Extern *config.ExternConfig `json:"extern"`
+	Extern *configs.ExternConfig `json:"extern"`
 
 	IsTestingMode bool `json:"is_testing_mode"`
 }
 
 // DevMode checks if debug config field is on.
-func (config *Config) DevMode() bool {
-	return config.Debug != nil
+func (conf *Config) DevMode() bool {
+	return conf.Debug != nil
 }
 
 func readConfigCore(absFile string) (*Config, error) {
 	log.Printf("🚙 Loading config at \"%v\"", absFile)
-	var config Config
+	var conf Config
 
 	bytes, err := os.ReadFile(absFile)
 	if err != nil {
 		return nil, err
 	}
 
-	err = json.Unmarshal(bytes, &config)
+	err = json.Unmarshal(bytes, &conf)
 	if err != nil {
 		return nil, err
 	}
 
-	if config.Extends != "" {
-		extendsFile := config.Extends
+	if conf.Extends != "" {
+		extendsFile := conf.Extends
 		if !filepath.IsAbs(extendsFile) {
 			abs, err := filepath.Abs(absFile)
 			if err != nil {
@@ -91,7 +91,7 @@ func readConfigCore(absFile string) (*Config, error) {
 		if err != nil {
 			return nil, err
 		}
-		if err := mergo.Merge(&config, basedOn); err != nil {
+		if err := mergo.Merge(&conf, basedOn); err != nil {
 			return nil, err
 		}
 	}
@@ -109,33 +109,33 @@ func readConfigCore(absFile string) (*Config, error) {
 		if err != nil {
 			return nil, err
 		}
-		if err := mergo.Merge(&config, osConfig); err != nil {
+		if err := mergo.Merge(&conf, osConfig); err != nil {
 			return nil, err
 		}
 	}
-	return &config, nil
+	return &conf, nil
 }
 
 // MustReadConfig constructs a config object from the given file.
 func MustReadConfig(file string) *Config {
 	absFile := mustGetAbsPath(file)
-	config, err := readConfigCore(absFile)
+	conf, err := readConfigCore(absFile)
 	if err != nil {
 		panic(err)
 	}
 
-	mustValidateConfig(config)
-	config.mustCoerceConfig()
-	return config
+	mustValidateConfig(conf)
+	conf.mustCoerceConfig()
+	return conf
 }
 
-func mustValidateConfig(config *Config) {
+func mustValidateConfig(conf *Config) {
 	// Validate with JSON schema.
 	schemaFilePath := toFileURI(mustGetAbsPath(filepath.Join(configDir, schemaFileName)))
 	log.Printf("🚙 Validate config against schema \"%v\"", schemaFilePath)
 
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
-	documentLoader := gojsonschema.NewGoLoader(config)
+	documentLoader := gojsonschema.NewGoLoader(conf)
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
@@ -151,28 +151,28 @@ func mustValidateConfig(config *Config) {
 	}
 }
 
-func (config *Config) mustCoerceConfig() {
+func (conf *Config) mustCoerceConfig() {
 	// AppProfile
-	appProfileConfig := config.AppProfile
+	appProfileConfig := conf.AppProfile
 	mustCoercePath(&appProfileConfig.Dir)
 
 	// HTTP
-	httpConfig := config.HTTP
+	httpConfig := conf.HTTP
 	httpStaticConfig := httpConfig.Static
 	if httpStaticConfig != nil {
 		mustCoercePath(&httpStaticConfig.Dir)
 	}
 
 	// Templates
-	templatesConfig := config.Templates
+	templatesConfig := conf.Templates
 	mustCoercePath(&templatesConfig.Dir)
 
 	// Localization
-	localizationConfig := config.Localization
+	localizationConfig := conf.Localization
 	mustCoercePath(&localizationConfig.Dir)
 
 	// Res
-	resConfig := config.ResServer
+	resConfig := conf.ResServer
 	mustCoercePath(&resConfig.Dir)
 }
 
