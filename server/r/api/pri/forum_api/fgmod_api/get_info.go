@@ -11,13 +11,14 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 )
 
 func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	id := validator.MustGetIDFromDict(params, "id")

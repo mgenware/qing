@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/lib/validator"
@@ -44,7 +45,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 }
 
 func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	name := validator.MustGetStringFromDict(params, "name", defs.DB.MaxNameLen)

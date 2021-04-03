@@ -9,13 +9,14 @@ package profilep
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 )
 
-var vProfilePage = app.MainPageManager.MustParseView("/profile/profilePage.html")
-var vProfileFeedItem = app.MainPageManager.MustParseView("/profile/feedItem.html")
+var vProfilePage = appHandler.MainPage.MustParseView("/profile/profilePage.html")
+var vProfileFeedItem = appHandler.MainPage.MustParseView("/profile/feedItem.html")
 
 // ProfilePageModel ...
 type ProfilePageModel struct {

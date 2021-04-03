@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-package appLog
+package app
 
-type AppLog interface {
+type CoreLog interface {
 	Info(key string, args ...interface{})
 	Error(key string, args ...interface{})
 	Warn(key string, args ...interface{})

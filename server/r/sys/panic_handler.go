@@ -13,6 +13,7 @@ import (
 	"net/http"
 
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 )
 
@@ -51,13 +52,13 @@ func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
 		if !expected && app.Config.Debug != nil && app.Config.Debug.PanicOnUnexpectedJSONErrors {
 			panic(err)
 		}
-		resp := app.JSONResponse(w, r)
+		resp := appHandler.JSONResponse(w, r)
 		resp.MustFailWithError(defs.Shared.ErrGeneric, err, expected)
 	} else {
 		if !expected && app.Config.Debug != nil && app.Config.Debug.PanicOnUnexpectedHTMLErrors {
 			panic(err)
 		}
-		resp := app.HTMLResponse(w, r)
+		resp := appHandler.HTMLResponse(w, r)
 		resp.MustFailWithError(err, expected)
 	}
 }

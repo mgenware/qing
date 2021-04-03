@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -25,7 +26,7 @@ import (
 const defaultPageSize = 10
 
 func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.Get().DB()
 	var err error
 
@@ -65,8 +66,8 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
 	app.PanicIfErr(err)
 	forumModel := NewForumPageModel(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
-	d := app.MainPageData("", vForumPage.MustExecuteToString(forumModel))
-	d.Scripts = app.MainPageManager.AssetsManager.JS.Forum
+	d := appHandler.MainPageData("", vForumPage.MustExecuteToString(forumModel))
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.Forum
 	d.WindData = ForumPageWindData{Editable: forumModel.ForumEditable, FID: forumModel.ForumEID}
 	return resp.MustComplete(d)
 }

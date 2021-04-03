@@ -16,13 +16,13 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"qing/app"
 	"qing/app/appcom"
-	"qing/app/cfg"
+	"qing/app/config"
 	txt "text/template"
 
 	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
-	"qing/app/logx"
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 	"github.com/mgenware/go-packagex/v5/templatex"
@@ -30,8 +30,8 @@ import (
 
 // MainPageManager is used to generate site main HTML page.
 type MainPageManager struct {
-	dir    string
-	config *cfg.Config
+	dir  string
+	conf *config.Config
 
 	reloadViewsOnRefresh bool
 	log404Error          bool
@@ -40,7 +40,7 @@ type MainPageManager struct {
 	errorView           *templatex.View
 	LocalizationManager *localization.Manager
 	AssetsManager       *assetmgr.AssetsManager
-	logger              *logx.Logger
+	logger              *app.CoreLog
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
@@ -48,16 +48,16 @@ func MustCreateMainPageManager(
 	dir string,
 	i18nDir string,
 	assetMgr *assetmgr.AssetsManager,
-	logger *logx.Logger,
-	config *cfg.Config,
+	logger *app.CoreLog,
+	conf *config.Config,
 ) *MainPageManager {
-	reloadViewsOnRefresh := config.Debug != nil && config.Debug.ReloadViewsOnRefresh
+	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
 	if reloadViewsOnRefresh {
 		log.Print("⚠️ View dev mode is on")
 	}
 
 	// Create the localization manager used by localized template views.
-	localizationManager, err := localization.NewManagerFromConfig(config.Localization)
+	localizationManager, err := localization.NewManagerFromConfig(conf.Localization)
 	if err != nil {
 		panic(err)
 	}
@@ -67,9 +67,9 @@ func MustCreateMainPageManager(
 		LocalizationManager:  localizationManager,
 		AssetsManager:        assetMgr,
 		logger:               logger,
-		config:               config,
+		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
-		log404Error:          config.HTTP.Log404Error,
+		log404Error:          conf.HTTP.Log404Error,
 	}
 
 	// Load the main template.

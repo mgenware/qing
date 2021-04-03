@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/appcom"
 	"qing/app/handler"
 	"qing/da"
@@ -18,7 +19,7 @@ import (
 )
 
 func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := app.ContextUserID(r)
 	groupID := appcom.ContextForumGroupID(r.Context())

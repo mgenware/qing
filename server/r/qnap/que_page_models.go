@@ -9,13 +9,14 @@ package qnap
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
 )
 
-var vQuestionPage = app.MainPageManager.MustParseView("/qna/questionPage.html")
+var vQuestionPage = appHandler.MainPage.MustParseView("/qna/questionPage.html")
 
 // QuestionPageModel is a wrapper around da.QuestionTableSelectPostByIDResult.
 type QuestionPageModel struct {

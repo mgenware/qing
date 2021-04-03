@@ -9,12 +9,13 @@ package forump
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 )
 
-var vForumPage = app.MainPageManager.MustParseView("/forum/forumPage.html")
+var vForumPage = appHandler.MainPage.MustParseView("/forum/forumPage.html")
 
 // ForumPageModel wraps a da.ForumTableSelectForumResult.
 type ForumPageModel struct {

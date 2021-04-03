@@ -17,12 +17,12 @@ import (
 
 	"golang.org/x/text/language"
 
-	"qing/app/cfg/config"
+	"qing/app/config/configs"
 	"qing/app/defs"
 )
 
 type Manager struct {
-	conf         *config.LocalizationConfig
+	conf         *configs.LocalizationConfig
 	fallbackDict *Dictionary
 	fallbackLang string
 	dicts        map[string]*Dictionary
@@ -33,7 +33,7 @@ type Manager struct {
 }
 
 // NewManagerFromConfig creates a Manager from a config.
-func NewManagerFromConfig(conf *config.LocalizationConfig) (*Manager, error) {
+func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 	if len(conf.Langs) == 0 {
 		return nil, errors.New("Unexpected empty `langs` config")
 	}

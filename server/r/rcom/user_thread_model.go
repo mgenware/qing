@@ -10,12 +10,13 @@ package rcom
 import (
 	"fmt"
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/da"
 )
 
-var vThreadPostView = app.MainPageManager.MustParseView("/com/threads/postView.html")
-var vThreadQuestionView = app.MainPageManager.MustParseView("/com/threads/questionView.html")
-var vThreadDiscussionView = app.MainPageManager.MustParseView("/com/threads/discussionView.html")
+var vThreadPostView = appHandler.MainPage.MustParseView("/com/threads/postView.html")
+var vThreadQuestionView = appHandler.MainPage.MustParseView("/com/threads/questionView.html")
+var vThreadDiscussionView = appHandler.MainPage.MustParseView("/com/threads/discussionView.html")
 
 // UserThreadModel is a data wrapper around PostTableSelectItemsForUserProfileResult.
 type UserThreadModel struct {

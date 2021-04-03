@@ -7,9 +7,9 @@
 
 package rcom
 
-import "qing/app"
+import "qing/app/appHandler"
 
-var vNoContentView = app.MainPageManager.MustParseView("/com/noContentView.html")
+var vNoContentView = appHandler.MainPage.MustParseView("/com/noContentView.html")
 
 // MustRunNoContentViewTemplate executes vNoContentView to string, and panics if any error happened.
 func MustRunNoContentViewTemplate() string {

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-package appDB
+package app
 
 import "database/sql"
 
-type AppDB interface {
+type CoreDB interface {
 	DB() *sql.DB
 }

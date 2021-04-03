@@ -11,6 +11,7 @@ import (
 	"net/http"
 
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/handler"
 
 	"github.com/go-chi/chi"
@@ -18,7 +19,7 @@ import (
 )
 
 func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	uid, err := strconvx.ParseUint64(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 
@@ -32,7 +33,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 }
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	err := app.UserManager.SessionManager.Logout(w, r)
 	app.PanicIfErr(err)
 

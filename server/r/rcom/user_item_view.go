@@ -9,11 +9,12 @@ package rcom
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/lib/validator"
 	"time"
 )
 
-var vUserView = app.MainPageManager.MustParseView("/com/userItemView.html")
+var vUserView = appHandler.MainPage.MustParseView("/com/userItemView.html")
 
 // UserItemViewData contains properties required to generate a user item view.
 type UserItemViewData struct {

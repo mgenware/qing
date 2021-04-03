@@ -8,10 +8,10 @@
 package appConfig
 
 import (
-	"app/config"
 	"flag"
 	"log"
 	"os"
+	"qing/app/config"
 )
 
 var conf *config.Config
@@ -41,7 +41,7 @@ func init() {
 	conf = config.MustReadConfig(configPath)
 
 	log.Printf("✅ Loaded config at \"%v\"", configPath)
-	if config.DevMode() {
+	if conf.DevMode() {
 		log.Printf("😡 Application running in dev mode")
 	}
 }

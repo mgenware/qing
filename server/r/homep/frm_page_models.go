@@ -9,12 +9,13 @@ package homep
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/da"
 )
 
-var vFrmPage = app.MainPageManager.MustParseView("/home/frmPage.html")
-var vForumGroupView = app.MainPageManager.MustParseView("/home/forumGroupView.html")
-var vForumView = app.MainPageManager.MustParseView("/home/forumView.html")
+var vFrmPage = appHandler.MainPage.MustParseView("/home/frmPage.html")
+var vForumGroupView = appHandler.MainPage.MustParseView("/home/forumGroupView.html")
+var vForumView = appHandler.MainPage.MustParseView("/home/forumView.html")
 
 // FrmPageModel ...
 type FrmPageModel struct {

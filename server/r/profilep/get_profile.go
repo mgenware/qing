@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -32,7 +33,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(defs.Shared.KeyTab)
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
 	// User profile
 	user, err := da.User.SelectProfile(appDB.Get().DB(), uid)
@@ -84,8 +85,8 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTML = "<no-content-view></no-content-view>"
 	}
 	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(pageData))
-	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
-	d.Scripts = app.MainPageManager.AssetsManager.JS.Profile
+	d := appHandler.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.Profile
 	d.WindData = ProfilePageWindData{Website: user.Website}
 	return resp.MustComplete(d)
 }

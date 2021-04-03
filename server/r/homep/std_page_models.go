@@ -9,11 +9,12 @@ package homep
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/r/rcom"
 )
 
-var vStdPage = app.MainPageManager.MustParseView("/home/stdPage.html")
+var vStdPage = appHandler.MainPage.MustParseView("/home/stdPage.html")
 
 // StdPageModel ...
 type StdPageModel struct {

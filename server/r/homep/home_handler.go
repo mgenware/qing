@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -24,7 +25,7 @@ const defaultPageSize = 10
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.Get().DB()
 
 	// Non-forums mode.
@@ -59,8 +60,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-		d := app.MainPageData("", vStdPage.MustExecuteToString(pageModel))
-		d.Scripts = app.MainPageManager.AssetsManager.JS.HomeStd
+		d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
+		d.Scripts = appHandler.MainPage.AssetsManager.JS.HomeStd
 		return resp.MustComplete(d)
 	}
 
@@ -118,7 +119,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		mainHTML = vFrmPage.MustExecuteToString(frmPageModel)
 	}
 
-	d := app.MainPageData("", mainHTML)
-	d.Scripts = app.MainPageManager.AssetsManager.JS.HomeFrm
+	d := appHandler.MainPageData("", mainHTML)
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.HomeFrm
 	return resp.MustComplete(d)
 }

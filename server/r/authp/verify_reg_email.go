@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
@@ -31,7 +32,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	if dataString == "" {
 		// Expired
-		panic(app.MainPageManager.Dictionary(lang).RegEmailVeriExpired)
+		panic(appHandler.MainPage.Dictionary(lang).RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)

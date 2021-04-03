@@ -8,11 +8,12 @@
 package appLog
 
 import (
+	"qing/app"
 	"qing/app/appConfig"
 	"qing/app/logx"
 )
 
-var appLog AppLog
+var appLog app.CoreLog
 
 func init() {
 	conf := appConfig.Get()
@@ -23,6 +24,6 @@ func init() {
 	appLog = logger
 }
 
-func Get() AppLog {
+func Get() app.CoreLog {
 	return appLog
 }

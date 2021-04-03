@@ -9,7 +9,7 @@ package forump
 
 import (
 	"net/http"
-	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/lib/validator"
 	"qing/r/sys"
@@ -30,15 +30,15 @@ func NewForumSettingsPageWindData(fid uint64) ForumSettingsPageWindData {
 }
 
 func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	fid, err := validator.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 
 	// Page title and content will be set on frontend side.
-	d := app.MainPageData("", "")
-	d.Scripts = app.MainPageManager.AssetsManager.JS.ForumSettings
+	d := appHandler.MainPageData("", "")
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.ForumSettings
 	d.WindData = NewForumSettingsPageWindData(fid)
 
 	return resp.MustComplete(d)

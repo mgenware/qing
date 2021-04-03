@@ -9,13 +9,14 @@ package postp
 
 import (
 	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
 )
 
-var vPostPage = app.MainPageManager.MustParseView("/post/postPage.html")
+var vPostPage = appHandler.MainPage.MustParseView("/post/postPage.html")
 
 // PostPageModel is a wrapper around da.PostTableSelectPostByIDResult.
 type PostPageModel struct {

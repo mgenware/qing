@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/appcom"
 	"qing/da"
 	"qing/fx/avatar"
@@ -41,7 +42,7 @@ type avatarCropInfo struct {
 }
 
 func uploadAvatar(w http.ResponseWriter, r *http.Request) {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
 	if r.ContentLength > maxUploadSize {
 		resp.MustFailWithCode(errFileTooLarge)

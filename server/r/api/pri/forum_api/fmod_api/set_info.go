@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/appcom"
 	"qing/app/defs"
 	"qing/app/handler"
@@ -21,7 +22,7 @@ import (
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	fid := appcom.ContextForumID(r.Context())
 	name := validator.MustGetStringFromDict(params, "name", defs.DB.MaxNameLen)

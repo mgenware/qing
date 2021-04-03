@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -50,11 +51,11 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, int(discussion.ReplyCount))
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	discussionModel := NewDiscussionPageModel(&discussion, msgListBuilder.String(), pageBarHTML)
 	title := discussion.Title
-	d := app.MainPageData(title, vDiscussionPage.MustExecuteToString(discussionModel))
-	d.Scripts = app.MainPageManager.AssetsManager.JS.Discussion
+	d := appHandler.MainPageData(title, vDiscussionPage.MustExecuteToString(discussionModel))
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.Discussion
 	d.WindData = DiscussionPageWindData{EID: discussionModel.EID, ReplyCount: discussion.ReplyCount}
 	return resp.MustComplete(d)
 }

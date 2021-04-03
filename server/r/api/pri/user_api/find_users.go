@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -22,7 +23,7 @@ import (
 )
 
 func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	byID := jsonx.GetIntOrDefault(params, "byID")

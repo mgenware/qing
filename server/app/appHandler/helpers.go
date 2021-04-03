@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package app
+package appHandler
 
 import (
 	"net/http"
@@ -14,7 +14,7 @@ import (
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *handler.HTMLResponse {
-	tm := MainPageManager
+	tm := Get()
 	resp := handler.NewHTMLResponse(r, tm, w)
 	return resp
 }

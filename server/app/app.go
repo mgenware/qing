@@ -9,10 +9,11 @@ package app
 
 import (
 	"fmt"
+	"qing/app/appConfig"
+	"qing/app/appLog"
 	"qing/app/config/configs"
 	"qing/app/extern"
 	"qing/app/handler"
-	"qing/app/handler/assetmgr"
 	"qing/app/servicex"
 	"qing/app/urlx"
 	"qing/app/userx"
@@ -80,10 +81,6 @@ func mustSetupLogger() {
 }
 
 func mustSetupTemplates(config *cfg.Config) {
-	templatesConfig := config.Templates
-	localizationConfig := config.Localization
-	assMgr := assetmgr.NewAssetsManager(Config.HTTP.Static.Dir, Config.Debug)
-	MainPageManager = handler.MustCreateMainPageManager(templatesConfig.Dir, localizationConfig.Dir, assMgr, Logger, config)
 }
 
 func mustSetupURL() {

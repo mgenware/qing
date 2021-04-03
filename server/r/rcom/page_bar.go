@@ -7,11 +7,9 @@
 
 package rcom
 
-import (
-	"qing/app"
-)
+import "qing/app/appHandler"
 
-var vPageBar = app.MainPageManager.MustParseView("/com/pageBar.html")
+var vPageBar = appHandler.MainPage.MustParseView("/com/pageBar.html")
 
 // GetPageBarHTML returns page bar HTML with the given params.
 func GetPageBarHTML(pageData *PageData) string {

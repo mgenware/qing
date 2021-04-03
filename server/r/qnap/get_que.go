@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -28,10 +29,10 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	que, err := da.Question.SelectItemByID(appDB.Get().DB(), pid)
 	app.PanicIfErr(err)
 
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	queModel := NewQuestionPageModel(&que)
 	title := que.Title
-	d := app.MainPageData(title, vQuestionPage.MustExecuteToString(queModel))
-	d.Scripts = app.MainPageManager.AssetsManager.JS.Post
+	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(queModel))
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.Post
 	return resp.MustComplete(d)
 }

@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
+	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
@@ -28,11 +29,11 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	post, err := da.Post.SelectItemByID(appDB.Get().DB(), pid)
 	app.PanicIfErr(err)
 
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	postModel := NewPostPageModel(&post)
 	title := post.Title
-	d := app.MainPageData(title, vPostPage.MustExecuteToString(postModel))
-	d.Scripts = app.MainPageManager.AssetsManager.JS.Post
+	d := appHandler.MainPageData(title, vPostPage.MustExecuteToString(postModel))
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.Post
 	d.WindData = PostPageWindData{EID: postModel.EID, CmtCount: postModel.CmtCount, InitialLikes: postModel.Likes}
 	return resp.MustComplete(d)
 }

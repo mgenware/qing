@@ -11,7 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"path/filepath"
-	"qing/app/cfg/config"
+	"qing/app/config/configs"
 )
 
 func match(rootDir string, file string) (string, error) {
@@ -44,7 +44,7 @@ type AssetsManager struct {
 }
 
 // NewAssetsManager creates a new AssetsManager.
-func NewAssetsManager(baseDir string, debugConfig *config.DebugConfig) *AssetsManager {
+func NewAssetsManager(baseDir string, debugConfig *configs.DebugConfig) *AssetsManager {
 	jsm := NewJSManager(debugConfig != nil)
 	cssm := &CSSManager{BaseDir: baseDir, dev: debugConfig != nil}
 	mgr := &AssetsManager{JS: jsm, CSS: cssm}

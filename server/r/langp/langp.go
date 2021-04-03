@@ -9,7 +9,7 @@ package langp
 
 import (
 	"net/http"
-	"qing/app"
+	"qing/app/appHandler"
 	"qing/app/handler"
 
 	"golang.org/x/text/language/display"
@@ -17,9 +17,9 @@ import (
 
 // LangHandler handles route of lang settings.
 func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
-	langTags := app.MainPageManager.LocalizationManager.LangTags()
+	langTags := appHandler.MainPage.LocalizationManager.LangTags()
 	if len(langTags) == 0 {
 		panic("No valid language defined")
 	}
@@ -34,8 +34,8 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	windData := LangWindData{Langs: langInfoList}
 
 	// Page title and content will be set on frontend side.
-	d := app.MainPageData("", "")
-	d.Scripts = app.MainPageManager.AssetsManager.JS.Lang
+	d := appHandler.MainPageData("", "")
+	d.Scripts = appHandler.MainPage.AssetsManager.JS.Lang
 	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"
 

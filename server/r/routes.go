@@ -10,6 +10,7 @@ package r
 import (
 	"log"
 	"net/http"
+	"qing/app/appHandler"
 	"qing/app/appLog"
 	"qing/app/cfg"
 	"qing/app/defs"
@@ -140,7 +141,7 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 
 func langRouter() chi.Router {
 	if appConfig.Localization.MultipleLangs() {
-		return r.With(app.MainPageManager.LocalizationManager.EnableContextLanguageMW)
+		return r.With(appHandler.MainPage.LocalizationManager.EnableContextLanguageMW)
 	}
 	return r
 }

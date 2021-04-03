@@ -7,15 +7,18 @@
 
 package appDB
 
-import "qing/app/appConfig"
+import (
+	"qing/app"
+	"qing/app/appConfig"
+)
 
-var appDB AppDB
+var appDB app.CoreDB
 
 func init() {
 	conf := appConfig.Get()
 	appDB = newAppDBImpl(conf)
 }
 
-func Get() AppDB {
+func Get() app.CoreDB {
 	return appDB
 }
