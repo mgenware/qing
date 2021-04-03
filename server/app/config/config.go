@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package cfg
+package config
 
 import (
 	"encoding/json"

@@ -5,8 +5,9 @@
  * be found in the LICENSE file.
  */
 
-package config
+package configs
 
-type TemplatesConfig struct {
+// LoggingConfig ...
+type LoggingConfig struct {
 	Dir string `json:"dir"`
 }

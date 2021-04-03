@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-package config
+package configs
 
-// LoggingConfig ...
-type LoggingConfig struct {
-	Dir string `json:"dir"`
+// DBConfig ...
+type DBConfig struct {
+	ConnString string `json:"conn_string"`
 }

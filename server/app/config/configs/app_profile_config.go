@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package config
+package configs
 
 // AppProfileConfig ...
 type AppProfileConfig struct {

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package config
+package configs
 
 type TurboWebConfig struct {
 	Dir string `json:"dir"`

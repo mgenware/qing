@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package config
+package configs
 
 type HTTPConfig struct {
 	// Port is the listening port of web server.

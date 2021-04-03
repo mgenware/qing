@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-package config
+package configs
 
-// SetupConfig ...
-type SetupConfig struct {
-	ForumsMode  bool `json:"forums_mode"`
-	ForumGroups bool `json:"forum_groups"`
+type TemplatesConfig struct {
+	Dir string `json:"dir"`
 }

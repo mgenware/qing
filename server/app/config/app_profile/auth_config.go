@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package appprofile
+package approfile
 
 // HashingData ...
 type HashingData struct {
