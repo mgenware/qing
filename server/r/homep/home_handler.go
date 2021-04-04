@@ -10,6 +10,7 @@ package homep
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/defs"
@@ -29,7 +30,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.Get().DB()
 
 	// Non-forums mode.
-	if !app.SetupConfig().ForumsMode {
+	if !appConfig.SetupConfig().ForumsMode {
 		page := validator.GetPageParamFromRequestQueryString(r)
 		tab := r.FormValue(defs.Shared.KeyTab)
 
@@ -61,7 +62,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 		d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
-		d.Scripts = appHandler.MainPage.AssetsManager.JS.HomeStd
+		d.Scripts = appHandler.MainPage().AssetsManager.JS.HomeStd
 		return resp.MustComplete(d)
 	}
 
@@ -120,6 +121,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	d := appHandler.MainPageData("", mainHTML)
-	d.Scripts = appHandler.MainPage.AssetsManager.JS.HomeFrm
+	d.Scripts = appHandler.MainPage().AssetsManager.JS.HomeFrm
 	return resp.MustComplete(d)
 }

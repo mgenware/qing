@@ -10,15 +10,15 @@ package r
 import (
 	"log"
 	"net/http"
+	"qing/app/appConfig"
 	"qing/app/appHandler"
 	"qing/app/appLog"
-	"qing/app/cfg"
+	"qing/app/appUserManager"
 	"qing/app/defs"
 	"qing/app/handler"
 	"strconv"
 	"strings"
 
-	"qing/app"
 	"qing/r/api"
 	"qing/r/authp"
 	"qing/r/devpagep"
@@ -38,7 +38,6 @@ import (
 )
 
 var r *chi.Mux
-var appConfig *cfg.Config
 
 func startFileServer(r chi.Router, name, url, dir string) {
 	appLog.Get().Info(name,
@@ -54,23 +53,23 @@ func startFileServer(r chi.Router, name, url, dir string) {
 // Start starts the web router.
 func Start() {
 	r = chi.NewRouter()
-	appConfig = app.Config
-	httpConfig := appConfig.HTTP
+	conf := appConfig.Get()
+	httpConf := conf.HTTP
 
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
 	r.Use(sys.PanicMiddleware)
 	// User session middleware.
-	r.Use(app.UserManager.SessionManager.ParseUserSessionMiddleware)
+	r.Use(appUserManager.Get().SessionManager.ParseUserSessionMiddleware)
 
 	// Mount static file server.
-	httpStaticConfig := httpConfig.Static
-	if httpStaticConfig != nil {
-		startFileServer(r, "static-server", httpStaticConfig.URL, httpStaticConfig.Dir)
+	httpStaticConf := httpConf.Static
+	if httpStaticConf != nil {
+		startFileServer(r, "static-server", httpStaticConf.URL, httpStaticConf.Dir)
 	}
 
 	// Mount resource server.
-	rsConfig := appConfig.ResServer
+	rsConfig := conf.ResServer
 	if rsConfig != nil {
 		startFileServer(r, "res-server", rsConfig.URL, rsConfig.Dir)
 	}
@@ -102,7 +101,7 @@ func Start() {
 	// Language settings router.
 	langRouter().Mount("/"+defs.Shared.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
-	debugConfig := appConfig.Debug
+	debugConfig := conf.Debug
 	if debugConfig != nil {
 		// DEBUG only setup.
 		if debugConfig.QuickLogin {
@@ -111,8 +110,8 @@ func Start() {
 		}
 	}
 
-	appLog.Get().Info("server-starting", "port", httpConfig.Port)
-	err := http.ListenAndServe(":"+strconv.Itoa(httpConfig.Port), r)
+	appLog.Get().Info("server-starting", "port", httpConf.Port)
+	err := http.ListenAndServe(":"+strconv.Itoa(httpConf.Port), r)
 	if err != nil {
 		appLog.Get().Error("server-starting.failed", "err", err.Error())
 		panic(err)
@@ -140,8 +139,8 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 }
 
 func langRouter() chi.Router {
-	if appConfig.Localization.MultipleLangs() {
-		return r.With(appHandler.MainPage.LocalizationManager.EnableContextLanguageMW)
+	if appConfig.Get().Localization.MultipleLangs() {
+		return r.With(appHandler.MainPage().LocalizationManager.EnableContextLanguageMW)
 	}
 	return r
 }

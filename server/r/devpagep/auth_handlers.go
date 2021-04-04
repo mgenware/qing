@@ -12,6 +12,7 @@ import (
 
 	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appUserManager"
 	"qing/app/handler"
 
 	"github.com/go-chi/chi"
@@ -23,10 +24,10 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := strconvx.ParseUint64(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 
-	user, err := app.UserManager.CreateUserSessionFromUID(uid)
+	user, err := appUserManager.Get().CreateUserSessionFromUID(uid)
 	app.PanicIfErr(err)
 
-	err = app.UserManager.SessionManager.Login(w, r, user)
+	err = appUserManager.Get().SessionManager.Login(w, r, user)
 	app.PanicIfErr(err)
 
 	return resp.Redirect("/", http.StatusTemporaryRedirect)
@@ -34,7 +35,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
-	err := app.UserManager.SessionManager.Logout(w, r)
+	err := appUserManager.Get().SessionManager.Logout(w, r)
 	app.PanicIfErr(err)
 
 	return resp.Redirect("/", http.StatusTemporaryRedirect)

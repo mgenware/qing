@@ -7,7 +7,7 @@
 
 package forump
 
-import "qing/app"
+import "qing/app/appURL"
 
 // ForumPageURLFormatter helps generate a forum page URL.
 type ForumPageURLFormatter struct {
@@ -23,5 +23,5 @@ func NewForumPageURLFormatter(id uint64, tab string) *ForumPageURLFormatter {
 
 // GetURL returns the URL result.
 func (formatter *ForumPageURLFormatter) GetURL(page int) string {
-	return app.URL.ForumAdv(formatter.ID, formatter.Tab, page)
+	return appURL.Get().ForumAdv(formatter.ID, formatter.Tab, page)
 }

@@ -8,7 +8,7 @@
 package pri
 
 import (
-	"qing/app"
+	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/app/middleware"
 	authapi "qing/r/api/pri/auth_api"
@@ -25,7 +25,7 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Core.Use(app.UserManager.RequireLoginJSONMiddleware)
+	Router.Core.Use(appUserManager.Get().RequireLoginJSONMiddleware)
 	Router.Core.Use(middleware.ParseJSONMiddleware)
 
 	Router.Mount("/compose", composeapi.Router)

@@ -11,7 +11,7 @@ import (
 	"errors"
 	"net/http"
 
-	"qing/app"
+	"qing/app/appConfig"
 	"qing/app/appHandler"
 	"qing/app/appLog"
 	"qing/app/handler"
@@ -26,10 +26,10 @@ func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	msg := strf.Format(resp.LocalizedDictionary().PPageNotFound, r.URL.String())
 
-	if app.Config.HTTP.Log404Error {
+	if appConfig.Get().HTTP.Log404Error {
 		appLog.Get().NotFound("http", r.URL.String())
 	}
 
 	// Note that pass `true` as the `expected` param so that template manager won't treat it as a 500 error.
-	return appHandler.MainPage.MustError(r, resp.Lang(), errors.New(msg), true, w)
+	return appHandler.MainPage().MustError(r, resp.Lang(), errors.New(msg), true, w)
 }

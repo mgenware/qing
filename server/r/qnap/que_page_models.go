@@ -8,15 +8,15 @@
 package qnap
 
 import (
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
 )
 
-var vQuestionPage = appHandler.MainPage.MustParseView("/qna/questionPage.html")
+var vQuestionPage = appHandler.MainPage().MustParseView("/qna/questionPage.html")
 
 // QuestionPageModel is a wrapper around da.QuestionTableSelectPostByIDResult.
 type QuestionPageModel struct {
@@ -34,7 +34,7 @@ type QuestionPageModel struct {
 func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult) QuestionPageModel {
 	d := QuestionPageModel{QuestionTableSelectItemByIDResult: *p}
 	eid := validator.EncodeID(p.ID)
-	d.QuestionURL = app.URL.Question(p.ID)
+	d.QuestionURL = appURL.Get().Question(p.ID)
 	d.EID = eid
 	d.UserEID = validator.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)

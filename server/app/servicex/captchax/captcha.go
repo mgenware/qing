@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"io"
 	"qing/app"
+	"qing/app/appMS"
 	"qing/app/defs"
 	"strconv"
 
@@ -22,7 +23,6 @@ const ResultVerified = 1
 const ResultNotVerified = -1
 
 type CaptchaService struct {
-	msStore app.CoreMemoryStore
 }
 
 var allowedTypes map[int]bool
@@ -37,8 +37,8 @@ func init() {
 }
 
 // NewCaptchaService creates a CaptchaService.
-func NewCaptchaService(msStore app.CoreMemoryStore) *CaptchaService {
-	return &CaptchaService{msStore: msStore}
+func NewCaptchaService(msStore app.CoreMemoryStoreConn) *CaptchaService {
+	return &CaptchaService{}
 }
 
 // IsTypeAllowed determines if the specified entity type is allowed in this service.
@@ -64,7 +64,7 @@ func (c *CaptchaService) WriteCaptcha(uid uint64, entityType int, length int, w 
 
 // Verify checks if the specified code matches the internal code stored in memory.
 func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode bool) (int, error) {
-	msConn := c.msStore.GetConn()
+	msConn := appMS.GetConn()
 	// Expected way to bypass captcha verification process on dev mode.
 	if devMode {
 		return 0, nil
@@ -88,7 +88,7 @@ func (c *CaptchaService) getMSKey(uid uint64, entityType int) string {
 }
 
 func (c *CaptchaService) registerCaptcha(uid uint64, category int, value string) error {
-	msConn := c.msStore.GetConn()
+	msConn := appMS.GetConn()
 	key := c.getMSKey(uid, category)
 	return msConn.SetStringValue(key, value, defs.MSCaptchaTimeout)
 }

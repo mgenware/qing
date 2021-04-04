@@ -8,7 +8,7 @@
 package rcom
 
 import (
-	"qing/app"
+	"qing/app/appURL"
 	"qing/lib/validator"
 )
 
@@ -25,8 +25,8 @@ func NewUserInfo(uid uint64, name, iconName string) UserInfo {
 	r := UserInfo{}
 	r.EID = validator.EncodeID(uid)
 	r.Name = name
-	r.URL = app.URL.UserProfile(uid)
-	r.IconURL = app.URL.UserIconURL50(uid, iconName)
+	r.URL = appURL.Get().UserProfile(uid)
+	r.IconURL = appURL.Get().UserIconURL50(uid, iconName)
 	r.EID = validator.EncodeID(uid)
 	return r
 }

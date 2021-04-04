@@ -12,6 +12,8 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appService"
+	"qing/app/appURL"
 	"qing/app/handler"
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
@@ -26,24 +28,24 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	lang := app.ContextLanguage(r)
-	dataString, err := app.Service.RegEmailVerificator.Verify(key)
+	dataString, err := appService.Get().RegEmailVerificator.Verify(key)
 	if err != nil {
 		panic(err.Error())
 	}
 	if dataString == "" {
 		// Expired
-		panic(appHandler.MainPage.Dictionary(lang).RegEmailVeriExpired)
+		panic(appHandler.MainPage().Dictionary(lang).RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicIfErr(err)
 
-	pwdHash, err := app.Service.HashingAlg.CreateHash(createUserData.Pwd)
+	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
 	app.PanicIfErr(err)
 
 	uid, err := da.UserPwd.AddPwdBasedUser(appDB.Get().DB(), createUserData.Email, createUserData.Name, pwdHash)
 	app.PanicIfErr(err)
 
-	userURL := app.URL.UserProfile(uid)
+	userURL := appURL.Get().UserProfile(uid)
 	http.Redirect(w, r, userURL, 302)
 	return handler.HTML(0)
 }

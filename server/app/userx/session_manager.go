@@ -13,10 +13,9 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"qing/app"
 	"qing/app/appcom"
 	"qing/app/defs"
-	"qing/app/extern/redisx"
-	"qing/app/logx"
 	"qing/app/urlx"
 	"qing/lib/validator"
 
@@ -41,13 +40,13 @@ func userIDToSIDKey(uid uint64) string {
 
 // SessionManager ...
 type SessionManager struct {
-	logger *logx.Logger
+	logger app.CoreLog
 	appURL *urlx.URL
-	store  *redisx.Conn
+	store  app.CoreMemoryStoreConn
 }
 
 // NewRedisBasedSessionManager creates a redis-backed SessionManager.
-func NewRedisBasedSessionManager(store *redisx.Conn, logger *logx.Logger, appURL *urlx.URL) (*SessionManager, error) {
+func NewRedisBasedSessionManager(store app.CoreMemoryStoreConn, logger app.CoreLog, appURL *urlx.URL) (*SessionManager, error) {
 	return &SessionManager{logger: logger, store: store, appURL: appURL}, nil
 }
 

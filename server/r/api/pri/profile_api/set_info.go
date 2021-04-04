@@ -12,6 +12,8 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appURL"
+	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/da"
 
@@ -26,7 +28,7 @@ type infoData struct {
 
 func newInfoData(u *da.UserTableSelectEditingDataResult) infoData {
 	d := infoData{UserTableSelectEditingDataResult: *u}
-	d.IconURL = app.URL.UserIconURL250(u.ID, u.IconName)
+	d.IconURL = appURL.Get().UserIconURL250(u.ID, u.IconName)
 	return d
 }
 
@@ -65,7 +67,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Update session
 	sUser.Name = nick
 	sid := app.ContextSID(r)
-	err = app.UserManager.SessionManager.SetUserSession(sid, sUser)
+	err = appUserManager.Get().SessionManager.SetUserSession(sid, sUser)
 	if err != nil {
 		return resp.MustFail(err)
 	}

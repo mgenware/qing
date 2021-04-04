@@ -9,14 +9,14 @@ package rcom
 
 import (
 	"fmt"
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/da"
 )
 
-var vThreadPostView = appHandler.MainPage.MustParseView("/com/threads/postView.html")
-var vThreadQuestionView = appHandler.MainPage.MustParseView("/com/threads/questionView.html")
-var vThreadDiscussionView = appHandler.MainPage.MustParseView("/com/threads/discussionView.html")
+var vThreadPostView = appHandler.MainPage().MustParseView("/com/threads/postView.html")
+var vThreadQuestionView = appHandler.MainPage().MustParseView("/com/threads/questionView.html")
+var vThreadDiscussionView = appHandler.MainPage().MustParseView("/com/threads/discussionView.html")
 
 // UserThreadModel is a data wrapper around PostTableSelectItemsForUserProfileResult.
 type UserThreadModel struct {
@@ -32,23 +32,23 @@ func NewUserThreadModel(item *da.UserThreadInterface) (UserThreadModel, error) {
 	d := UserThreadModel{UserThreadInterface: *item}
 	switch item.ThreadType {
 	case da.Constants.ThreadTypePost:
-		d.ThreadURL = app.URL.Post(item.ID)
+		d.ThreadURL = appURL.Get().Post(item.ID)
 		break
 
 	case da.Constants.ThreadTypeQuestion:
-		d.ThreadURL = app.URL.Question(item.ID)
+		d.ThreadURL = appURL.Get().Question(item.ID)
 		break
 
 	case da.Constants.ThreadTypeDiscussion:
-		d.ThreadURL = app.URL.Discussion(item.ID)
+		d.ThreadURL = appURL.Get().Discussion(item.ID)
 		break
 
 	default:
 		return d, fmt.Errorf("Invalid item type %v", item.ThreadType)
 	}
 	uid := item.UserID
-	d.UserURL = app.URL.UserProfile(uid)
-	d.UserIconURL = app.URL.UserIconURL50(uid, item.UserIconName)
+	d.UserURL = appURL.Get().UserProfile(uid)
+	d.UserIconURL = appURL.Get().UserIconURL50(uid, item.UserIconName)
 	return d, nil
 }
 

@@ -8,10 +8,10 @@
 package userx
 
 import (
-	"database/sql"
 	"net/http"
+	"qing/app"
 	"qing/app/appcom"
-	"qing/app/cfg/config"
+	"qing/app/config/configs"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/app/urlx"
@@ -22,21 +22,21 @@ import (
 type UserManager struct {
 	SessionManager  *SessionManager
 	MainPageManager *handler.MainPageManager
-	DB              *sql.DB
+	DB              app.CoreDB
 
 	appURL      *urlx.URL
 	forumsMode  bool
-	debugConfig *config.DebugConfig
+	debugConfig *configs.DebugConfig
 }
 
 // NewUserManager creates a new UserManager.
 func NewUserManager(
-	db *sql.DB,
+	db app.CoreDB,
 	ssMgr *SessionManager,
 	tm *handler.MainPageManager,
 	appURL *urlx.URL,
 	forumsMode bool,
-	debugConfig *config.DebugConfig,
+	debugConfig *configs.DebugConfig,
 ) *UserManager {
 	ret := &UserManager{DB: db, SessionManager: ssMgr, MainPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
 	return ret
@@ -46,7 +46,7 @@ func NewUserManager(
 func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
 	db := appu.DB
 	if appu.forumsMode {
-		u, err := da.User.SelectSessionDataForumMode(db, uid)
+		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
 		if err != nil {
 			return nil, err
 		}
@@ -57,7 +57,7 @@ func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUs
 		user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, isForumMod)
 		return user, nil
 	}
-	u, err := da.User.SelectSessionData(db, uid)
+	u, err := da.User.SelectSessionData(db.DB(), uid)
 	if err != nil {
 		return nil, err
 	}

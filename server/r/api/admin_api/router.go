@@ -8,7 +8,7 @@
 package adminapi
 
 import (
-	"qing/app"
+	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/app/middleware"
 )
@@ -17,8 +17,8 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Core.Use(app.UserManager.RequireLoginJSONMiddleware)
-	Router.Core.Use(app.UserManager.UnsafeRequireAdminMiddlewareJSON)
+	Router.Core.Use(appUserManager.Get().RequireLoginJSONMiddleware)
+	Router.Core.Use(appUserManager.Get().UnsafeRequireAdminMiddlewareJSON)
 	Router.Core.Use(middleware.ParseJSONMiddleware)
 
 	Router.Post("/set-admin", setAdmin)

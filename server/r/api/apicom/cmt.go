@@ -8,7 +8,7 @@
 package apicom
 
 import (
-	"qing/app"
+	"qing/app/appURL"
 	"qing/da"
 	"qing/lib/validator"
 )
@@ -26,8 +26,8 @@ func NewCmt(d *da.CmtData) Cmt {
 	r := Cmt{CmtData: *d}
 	r.EID = validator.EncodeID(d.CmtID)
 	r.UserEID = validator.EncodeID(d.UserID)
-	r.UserURL = app.URL.UserProfile(r.UserID)
-	r.UserIconURL = app.URL.UserIconURL50(r.UserID, r.UserIconName)
+	r.UserURL = appURL.Get().UserProfile(r.UserID)
+	r.UserIconURL = appURL.Get().UserIconURL50(r.UserID, r.UserIconName)
 	return r
 }
 
@@ -47,8 +47,8 @@ func NewReply(d *da.ReplyData) Reply {
 	r.EID = validator.EncodeID(d.ID)
 	r.UserEID = validator.EncodeID(d.UserID)
 	r.ToUserEID = validator.EncodeID(d.ToUserID)
-	r.UserURL = app.URL.UserProfile(r.UserID)
-	r.UserIconURL = app.URL.UserIconURL50(r.UserID, r.UserIconName)
-	r.ToUserURL = app.URL.UserProfile(r.ToUserID)
+	r.UserURL = appURL.Get().UserProfile(r.UserID)
+	r.UserIconURL = appURL.Get().UserIconURL50(r.UserID, r.UserIconName)
+	r.ToUserURL = appURL.Get().UserProfile(r.ToUserID)
 	return r
 }

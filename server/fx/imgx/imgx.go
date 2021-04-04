@@ -9,18 +9,18 @@ package imgx
 
 import (
 	"fmt"
-	"qing/app/logx"
+	"qing/app"
 	"qing/lib/iolib"
 )
 
 // Imgx is the service type for imaging operations in this app.
 type Imgx struct {
-	logger *logx.Logger
+	logger app.CoreLog
 	cmd    string
 }
 
 // NewImgx creates a new Imgx.
-func NewImgx(cmd string, logger *logx.Logger) (*Imgx, error) {
+func NewImgx(cmd string, logger app.CoreLog) (*Imgx, error) {
 	// Check if `magick` command is available.
 	_, err := iolib.Exec(cmd, "-version")
 	if err != nil {

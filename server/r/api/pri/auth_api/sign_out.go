@@ -9,14 +9,14 @@ package authapi
 
 import (
 	"net/http"
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appUserManager"
 	"qing/app/handler"
 )
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	err := app.UserManager.SessionManager.Logout(w, r)
+	err := appUserManager.Get().SessionManager.Logout(w, r)
 	if err != nil {
 		return resp.MustFail(err)
 	}

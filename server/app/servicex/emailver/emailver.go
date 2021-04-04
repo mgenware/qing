@@ -10,7 +10,7 @@ package emailver
 import (
 	"encoding/base64"
 	"fmt"
-	"qing/app/extern/redisx"
+	"qing/app"
 	"strings"
 
 	"github.com/google/uuid"
@@ -22,11 +22,11 @@ var compSep = "|"
 type EmailVerificator struct {
 	prefix  string
 	timeout int
-	conn    *redisx.Conn
+	conn    app.CoreMemoryStoreConn
 }
 
 // NewEmailVerificator creates a new EmailVerificator.
-func NewEmailVerificator(conn *redisx.Conn, prefix string, timeout int) *EmailVerificator {
+func NewEmailVerificator(conn app.CoreMemoryStoreConn, prefix string, timeout int) *EmailVerificator {
 	return &EmailVerificator{conn: conn, prefix: prefix, timeout: timeout}
 }
 
@@ -41,7 +41,7 @@ func (ev *EmailVerificator) Add(email, data string) (string, error) {
 	pendingID, err := ev.conn.GetStringValue(emailToIDKey)
 
 	// Ignore key not found error.
-	if err != nil && err != redisx.ErrNil {
+	if err != nil && err != ev.conn.NilValueErr() {
 		return "", err
 	}
 	if pendingID != "" {
@@ -80,7 +80,7 @@ func (ev *EmailVerificator) Verify(id string) (string, error) {
 	data, err := ev.conn.GetStringValue(ev.getIDToDataKey(email, id))
 	if err != nil {
 		// Key not found in memory store.
-		if err == redisx.ErrNil {
+		if err == ev.conn.NilValueErr() {
 			return "", nil
 		}
 		return "", err

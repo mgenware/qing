@@ -8,16 +8,16 @@
 package discussionp
 
 import (
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
 )
 
-var vDiscussionPage = appHandler.MainPage.MustParseView("/discussion/discussionPage.html")
-var vMessageItem = appHandler.MainPage.MustParseView("/discussion/messageItem.html")
+var vDiscussionPage = appHandler.MainPage().MustParseView("/discussion/discussionPage.html")
+var vMessageItem = appHandler.MainPage().MustParseView("/discussion/messageItem.html")
 
 // DiscussionPageModel is a wrapper around da.DiscussionTableSelectPostByIDResult.
 type DiscussionPageModel struct {
@@ -62,7 +62,7 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) DiscussionMsgModel {
 	d := DiscussionMsgModel{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
 	eid := validator.EncodeID(p.ID)
-	d.DiscussionURL = app.URL.Discussion(p.ID)
+	d.DiscussionURL = appURL.Get().Discussion(p.ID)
 	d.EID = eid
 	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)
 	return d

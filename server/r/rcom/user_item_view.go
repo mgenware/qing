@@ -8,13 +8,13 @@
 package rcom
 
 import (
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/lib/validator"
 	"time"
 )
 
-var vUserView = appHandler.MainPage.MustParseView("/com/userItemView.html")
+var vUserView = appHandler.MainPage().MustParseView("/com/userItemView.html")
 
 // UserItemViewData contains properties required to generate a user item view.
 type UserItemViewData struct {
@@ -35,8 +35,8 @@ func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType in
 	d.ItemEID = itemEID
 	d.UserEID = validator.EncodeID(uid)
 	d.UserName = name
-	d.UserURL = app.URL.UserProfile(uid)
-	d.UserIconURL = app.URL.UserIconURL50(uid, iconName)
+	d.UserURL = appURL.Get().UserProfile(uid)
+	d.UserIconURL = appURL.Get().UserIconURL50(uid, iconName)
 	d.ItemCreatedAt = itemCreated
 	d.ItemModifiedAt = itemModified
 	d.ItemType = itemType

@@ -12,7 +12,10 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appConfig"
 	"qing/app/appHandler"
+	"qing/app/appService"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/lib/validator"
@@ -61,16 +64,16 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	createUserDataString, err := CreateUserDataToString(createUserData)
 	app.PanicIfErr(err)
 
-	publicID, err := app.Service.RegEmailVerificator.Add(email, createUserDataString)
+	publicID, err := appService.Get().RegEmailVerificator.Add(email, createUserDataString)
 	if err != nil {
 		panic(fmt.Sprintf("RegEmailVerificator.Add failed: %v", err.Error()))
 	}
-	url := app.URL.RegEmailVerification(publicID)
+	url := appURL.Get().RegEmailVerification(publicID)
 
 	// TODO: send email.
 
 	// Print URL to console for debugging purposes.
-	if app.Config.DevMode() {
+	if appConfig.Get().DevMode() {
 		fmt.Printf("[DEBUG] reg-v-url: %v\n", url)
 	}
 	return resp.MustComplete(nil)

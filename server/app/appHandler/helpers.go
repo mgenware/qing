@@ -14,7 +14,7 @@ import (
 
 // HTMLResponse returns common objects used to compose an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) *handler.HTMLResponse {
-	tm := Get()
+	tm := MainPage()
 	resp := handler.NewHTMLResponse(r, tm, w)
 	return resp
 }

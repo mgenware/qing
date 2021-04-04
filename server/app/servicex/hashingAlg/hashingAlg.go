@@ -8,7 +8,7 @@
 package hashingalg
 
 import (
-	"qing/app/cfg"
+	"qing/app/profile"
 
 	"github.com/mgenware/argon2id"
 )
@@ -17,7 +17,7 @@ type HashingAlg struct {
 	params *argon2id.Params
 }
 
-func NewHashingAlg(appProfile *cfg.AppProfile) *HashingAlg {
+func NewHashingAlg(appProfile *profile.AppProfile) *HashingAlg {
 	hashingConfig := appProfile.Auth.Hashing
 	params := &argon2id.Params{
 		Memory:      hashingConfig.Memory,

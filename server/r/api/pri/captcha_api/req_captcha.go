@@ -10,6 +10,7 @@ package captchaapi
 import (
 	"net/http"
 	"qing/app"
+	"qing/app/appService"
 
 	"github.com/mgenware/go-packagex/v5/httpx"
 	"github.com/mgenware/go-packagex/v5/strconvx"
@@ -22,7 +23,9 @@ func ReqCaptcha(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if !app.Service.Captcha.IsTypeAllowed(entityType) {
+
+	svc := appService.Get()
+	if !svc.Captcha.IsTypeAllowed(entityType) {
 		http.Error(w, "Invalid bid", http.StatusBadRequest)
 		return
 	}
@@ -34,8 +37,7 @@ func ReqCaptcha(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httpx.SetResponseContentType(w, httpx.MIMETypePNG)
-
-	err = app.Service.Captcha.WriteCaptcha(uid, entityType, 5, w)
+	err = svc.Captcha.WriteCaptcha(uid, entityType, 5, w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

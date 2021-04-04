@@ -12,7 +12,7 @@ import (
 	"qing/app"
 	"qing/app/config"
 	"qing/app/defs"
-	"qing/app/logx"
+	"qing/app/profile"
 	"qing/app/servicex/captchax"
 	"qing/app/servicex/emailver"
 	hashingalg "qing/app/servicex/hashingAlg"
@@ -32,27 +32,27 @@ type Service struct {
 }
 
 // MustNewService creates a new Service object.
-func MustNewService(conf *config.Config, appProfile *config.AppProfile, logger *logx.Logger, conn *app.CoreMemoryStoreConn) *Service {
+func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger app.CoreLog, msConn app.CoreMemoryStoreConn) *Service {
 	s := &Service{}
 	s.Sanitizer = sanitizer.NewSanitizer()
-	s.Captcha = captchax.NewCaptchaService(extern.RedisConn)
-	s.Imgx = mustSetupImgx(config, logger)
-	s.Avatar = mustSetupAvatarService(config, logger, s.Imgx)
+	s.Captcha = captchax.NewCaptchaService(msConn)
+	s.Imgx = mustSetupImgx(conf, logger)
+	s.Avatar = mustSetupAvatarService(conf, logger, s.Imgx)
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
-	s.RegEmailVerificator = emailver.NewEmailVerificator(conn, defs.MSRegEmailPrefix, defs.MSRegEmailTimeout)
+	s.RegEmailVerificator = emailver.NewEmailVerificator(msConn, defs.MSRegEmailPrefix, defs.MSRegEmailTimeout)
 	return s
 }
 
-func mustSetupImgx(conf *config.Config, logger *logx.Logger) *imgx.Imgx {
-	imgx, err := imgx.NewImgx(config.Extern.ImgxCmd, logger)
+func mustSetupImgx(conf *config.Config, logger app.CoreLog) *imgx.Imgx {
+	imgx, err := imgx.NewImgx(conf.Extern.ImgxCmd, logger)
 	if err != nil {
 		panic(err)
 	}
 	return imgx
 }
 
-func mustSetupAvatarService(conf *config.Config, logger *logx.Logger, imaging *imgx.Imgx) *avatar.Service {
-	avatarService, err := avatar.NewService(path.Join(config.ResServer.Dir, defs.AvatarResKey), imaging, logger)
+func mustSetupAvatarService(conf *config.Config, logger app.CoreLog, imaging *imgx.Imgx) *avatar.Service {
+	avatarService, err := avatar.NewService(path.Join(conf.ResServer.Dir, defs.AvatarResKey), imaging, logger)
 	if err != nil {
 		panic(err)
 	}

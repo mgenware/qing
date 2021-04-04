@@ -7,12 +7,12 @@
 
 package discussionp
 
-import "qing/app"
+import "qing/app/appURL"
 
 type DiscussionPageURLFormatter struct {
 	ID uint64
 }
 
 func (formatter *DiscussionPageURLFormatter) GetURL(page int) string {
-	return app.URL.DiscussionWithPage(formatter.ID, page)
+	return appURL.Get().DiscussionWithPage(formatter.ID, page)
 }

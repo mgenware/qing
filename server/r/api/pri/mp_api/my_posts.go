@@ -12,6 +12,7 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -38,7 +39,7 @@ type pcPost struct {
 
 func newPCPost(p *da.PostTableSelectItemsForPostCenterResult, uid uint64) pcPost {
 	d := pcPost{PostTableSelectItemsForPostCenterResult: *p}
-	d.URL = app.URL.Post(p.ID)
+	d.URL = appURL.Get().Post(p.ID)
 	d.EID = validator.EncodeID(uid)
 	return d
 }

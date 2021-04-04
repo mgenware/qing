@@ -10,18 +10,16 @@ package appMS
 import (
 	"errors"
 	"fmt"
+	"qing/app"
 
 	"github.com/gomodule/redigo/redis"
 )
-
-// ErrNil indicates an empty reply from server.
-var ErrNil = redis.ErrNil
 
 type AppMS struct {
 	Port int
 }
 
-func (store *AppMS) GetConn() *AppMSConn {
+func (store *AppMS) GetConn() app.CoreMemoryStoreConn {
 	pool := &redis.Pool{
 		MaxIdle:   80,
 		MaxActive: 12000, // max number of connections
@@ -65,7 +63,7 @@ func (store *AppMSConn) Exist(key string) (bool, error) {
 	defer c.Close()
 
 	exists, err := redis.Bool(c.Do("EXISTS", key))
-	if err == ErrNil {
+	if err == store.NilValueErr() {
 		return false, nil
 	}
 	if err != nil {
@@ -83,7 +81,7 @@ func (store *AppMSConn) GetStringValue(key string) (string, error) {
 
 func (store *AppMSConn) GetStringValueOrDefault(key string) (string, error) {
 	value, err := store.GetStringValue(key)
-	if err == ErrNil {
+	if err == store.NilValueErr() {
 		return "", nil
 	}
 	return value, err
@@ -125,6 +123,10 @@ func (store *AppMSConn) Select(index int) error {
 
 	_, err := c.Do("SELECT", index)
 	return err
+}
+
+func (store *AppMSConn) NilValueErr() error {
+	return redis.ErrNil
 }
 
 /*** Internal functions ***/

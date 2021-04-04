@@ -8,14 +8,14 @@
 package homep
 
 import (
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/da"
 )
 
-var vFrmPage = appHandler.MainPage.MustParseView("/home/frmPage.html")
-var vForumGroupView = appHandler.MainPage.MustParseView("/home/forumGroupView.html")
-var vForumView = appHandler.MainPage.MustParseView("/home/forumView.html")
+var vFrmPage = appHandler.MainPage().MustParseView("/home/frmPage.html")
+var vForumGroupView = appHandler.MainPage().MustParseView("/home/forumGroupView.html")
+var vForumView = appHandler.MainPage().MustParseView("/home/forumView.html")
 
 // FrmPageModel ...
 type FrmPageModel struct {
@@ -33,7 +33,7 @@ type ForumGroupModel struct {
 // NewForumGroupModel creates a new ForumGroupModel.
 func NewForumGroupModel(d *da.HomeTableSelectForumGroupsResult, forumsHTML string) ForumGroupModel {
 	r := ForumGroupModel{HomeTableSelectForumGroupsResult: *d}
-	r.URL = app.URL.ForumGroup(d.ID)
+	r.URL = appURL.Get().ForumGroup(d.ID)
 	r.ForumsHTML = forumsHTML
 	return r
 }
@@ -48,7 +48,7 @@ type ForumModel struct {
 // NewForumModel creates a new ForumModel.
 func NewForumModel(d *da.HomeTableSelectForumsResult) *ForumModel {
 	r := &ForumModel{HomeTableSelectForumsResult: *d}
-	r.URL = app.URL.ForumAdv(d.ID, "", 1)
+	r.URL = appURL.Get().ForumAdv(d.ID, "", 1)
 	return r
 }
 

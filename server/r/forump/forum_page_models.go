@@ -8,14 +8,14 @@
 package forump
 
 import (
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 )
 
-var vForumPage = appHandler.MainPage.MustParseView("/forum/forumPage.html")
+var vForumPage = appHandler.MainPage().MustParseView("/forum/forumPage.html")
 
 // ForumPageModel wraps a da.ForumTableSelectForumResult.
 type ForumPageModel struct {
@@ -45,12 +45,12 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 
 	fid := f.ID
 	d.ForumEID = validator.EncodeID(fid)
-	d.ForumURL = app.URL.ForumAdv(fid, "", 1)
-	d.ForumQuestionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyQuestions, 1)
-	d.ForumDiscussionsURL = app.URL.ForumAdv(fid, defs.Shared.KeyDiscussions, 1)
+	d.ForumURL = appURL.Get().ForumAdv(fid, "", 1)
+	d.ForumQuestionsURL = appURL.Get().ForumAdv(fid, defs.Shared.KeyQuestions, 1)
+	d.ForumDiscussionsURL = appURL.Get().ForumAdv(fid, defs.Shared.KeyDiscussions, 1)
 	d.FeedListHTML = feedListHTML
 	d.PageBarHTML = pageBarHTML
 	d.ForumEditable = editable
-	d.ForumSettingsURL = app.URL.ForumSettings(fid)
+	d.ForumSettingsURL = appURL.Get().ForumSettings(fid)
 	return d
 }

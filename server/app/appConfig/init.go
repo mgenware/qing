@@ -12,12 +12,17 @@ import (
 	"log"
 	"os"
 	"qing/app/config"
+	"qing/app/config/configs"
 )
 
 var conf *config.Config
 
 func Get() *config.Config {
 	return conf
+}
+
+func SetupConfig() *configs.SetupConfig {
+	return Get().Setup
 }
 
 func init() {

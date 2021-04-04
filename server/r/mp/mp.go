@@ -9,8 +9,8 @@ package mp
 
 import (
 	"net/http"
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appUserManager"
 	"qing/app/handler"
 )
 
@@ -18,7 +18,7 @@ import (
 var Router = handler.NewHTMLRouter()
 
 func init() {
-	Router.Core.Use(app.UserManager.RequireLoginHTMLMiddleware)
+	Router.Core.Use(appUserManager.Get().RequireLoginHTMLMiddleware)
 	Router.Get("/*", defaultHandler)
 }
 
@@ -27,7 +27,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
-	d.Scripts = appHandler.MainPage.AssetsManager.JS.M
+	d.Scripts = appHandler.MainPage().AssetsManager.JS.M
 
 	return resp.MustComplete(d)
 }

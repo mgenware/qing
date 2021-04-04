@@ -7,7 +7,7 @@
 
 package homep
 
-import "qing/app"
+import "qing/app/appURL"
 
 // HomePageURLFormatter helps generate a home page URL.
 type HomePageURLFormatter struct {
@@ -22,5 +22,5 @@ func NewHomePageURLFormatter(tab string) *HomePageURLFormatter {
 
 // GetURL returns the URL result.
 func (formatter *HomePageURLFormatter) GetURL(page int) string {
-	return app.URL.HomeAdv(formatter.Tab, page)
+	return appURL.Get().HomeAdv(formatter.Tab, page)
 }

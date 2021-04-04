@@ -8,15 +8,15 @@
 package postp
 
 import (
-	"qing/app"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"
 )
 
-var vPostPage = appHandler.MainPage.MustParseView("/post/postPage.html")
+var vPostPage = appHandler.MainPage().MustParseView("/post/postPage.html")
 
 // PostPageModel is a wrapper around da.PostTableSelectPostByIDResult.
 type PostPageModel struct {
@@ -41,7 +41,7 @@ type PostPageWindData struct {
 func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d := PostPageModel{PostTableSelectItemByIDResult: *p}
 	eid := validator.EncodeID(p.ID)
-	d.PostURL = app.URL.Post(p.ID)
+	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid
 	d.UserEID = validator.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)

@@ -10,9 +10,11 @@ package profileapi
 import (
 	"context"
 	"net/http"
-	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appService"
+	"qing/app/appURL"
+	"qing/app/appUserManager"
 	"qing/app/appcom"
 	"qing/da"
 	"qing/fx/avatar"
@@ -98,7 +100,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 
 	// Crop the image if necessary.
 	if cropInfo != nil {
-		err = app.Service.Imgx.CropFile(tmpFullFile, tmpFullFile, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
+		err = appService.Get().Imgx.CropFile(tmpFullFile, tmpFullFile, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
 		if err != nil {
 			resp.MustFail(err)
 			return
@@ -112,8 +114,8 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	apiRes := &avatarUpdateResult{}
-	apiRes.IconL = app.URL.UserIconURL(uid, avatarName, avatar.AvatarSize250)
-	apiRes.IconS = app.URL.UserIconURL(uid, avatarName, avatar.AvatarSize50)
+	apiRes.IconL = appURL.Get().UserIconURL(uid, avatarName, avatar.AvatarSize250)
+	apiRes.IconS = appURL.Get().UserIconURL(uid, avatarName, avatar.AvatarSize50)
 	resp.MustComplete(apiRes)
 }
 
@@ -126,10 +128,10 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	}
 	// Remove old avatar files.
 	if curAvatarName != "" {
-		app.Service.Avatar.RemoveAvatarFiles(uid, curAvatarName)
+		appService.Get().Avatar.RemoveAvatarFiles(uid, curAvatarName)
 	}
 
-	avatarName, err := app.Service.Avatar.SetAvatarFromFile(file, uid)
+	avatarName, err := appService.Get().Avatar.SetAvatarFromFile(file, uid)
 	if err != nil {
 		return 0, "", err
 	}
@@ -143,7 +145,7 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	// Update session.
 	user.IconName = avatarName
 	sid := appcom.ContextSID(ctx)
-	err = app.UserManager.SessionManager.SetUserSession(sid, user)
+	err = appUserManager.Get().SessionManager.SetUserSession(sid, user)
 	if err != nil {
 		return 0, "", err
 	}

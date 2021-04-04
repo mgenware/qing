@@ -19,6 +19,6 @@ func init() {
 	appURL = urlx.NewURL(conf)
 }
 
-func Get() urlx.URL {
-	return *appURL
+func Get() *urlx.URL {
+	return appURL
 }

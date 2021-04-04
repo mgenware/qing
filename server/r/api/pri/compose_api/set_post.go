@@ -11,8 +11,11 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appService"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -35,20 +38,20 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		title = validator.MustGetStringFromDict(contentDict, "title", defs.DB.MaxTitleLen)
 	}
 
-	contentHTML, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
+	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 
 	var result interface{}
 	db := appDB.Get().DB()
 	if !hasID {
 		// Add a new entry.
-		captResult, err := app.Service.Captcha.Verify(uid, defs.Shared.EntityPost, "", app.Config.DevMode())
+		captResult, err := appService.Get().Captcha.Verify(uid, defs.Shared.EntityPost, "", appConfig.Get().DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
 
 		var forumID *uint64
-		if app.SetupConfig().ForumsMode && entityType != defs.Shared.EntityPost {
+		if appConfig.SetupConfig().ForumsMode && entityType != defs.Shared.EntityPost {
 			forumIDValue := validator.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}
@@ -59,7 +62,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
-				result = app.URL.Post(insertedID)
+				result = appURL.Get().Post(insertedID)
 				break
 			}
 
@@ -68,7 +71,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
-				result = app.URL.Discussion(insertedID)
+				result = appURL.Get().Discussion(insertedID)
 				break
 			}
 
@@ -85,7 +88,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
-				result = app.URL.Question(insertedID)
+				result = appURL.Get().Question(insertedID)
 				break
 			}
 
@@ -100,7 +103,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				err = da.Post.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 
-				result = app.URL.Post(id)
+				result = appURL.Get().Post(id)
 				break
 			}
 		case defs.Shared.EntityDiscussion:

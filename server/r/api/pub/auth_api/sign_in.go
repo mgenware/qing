@@ -13,6 +13,8 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appService"
+	"qing/app/appUserManager"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -47,7 +49,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 
-	pwdValid, err := app.Service.HashingAlg.ComparePasswordAndHash(pwd, hash)
+	pwdValid, err := appService.Get().HashingAlg.ComparePasswordAndHash(pwd, hash)
 	if err != nil {
 		return resp.MustFail(err)
 	}
@@ -55,12 +57,12 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
 	}
 
-	user, err := app.UserManager.CreateUserSessionFromUID(uid)
+	user, err := appUserManager.Get().CreateUserSessionFromUID(uid)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	err = app.UserManager.SessionManager.Login(w, r, user)
+	err = appUserManager.Get().SessionManager.Login(w, r, user)
 	if err != nil {
 		panic(err.Error())
 	}

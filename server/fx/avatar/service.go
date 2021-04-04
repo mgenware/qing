@@ -13,7 +13,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"qing/app/logx"
+	"qing/app"
 	"qing/fx/imgx"
 	"qing/lib/mathlib"
 )
@@ -30,11 +30,11 @@ var resizedSizes = []int{AvatarSize250, AvatarSize150, AvatarSize50}
 type Service struct {
 	imaging *imgx.Imgx
 	OutDir  string
-	Logger  *logx.Logger
+	Logger  app.CoreLog
 }
 
 // NewService creates a new avatar service object.
-func NewService(outDir string, imaging *imgx.Imgx, logger *logx.Logger) (*Service, error) {
+func NewService(outDir string, imaging *imgx.Imgx, logger app.CoreLog) (*Service, error) {
 	s := &Service{}
 	if !filepath.IsAbs(outDir) {
 		panic(fmt.Sprintf("avatar service outDir must be an absolute path, got \"%v\"", outDir))

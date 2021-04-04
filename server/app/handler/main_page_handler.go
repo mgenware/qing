@@ -40,7 +40,7 @@ type MainPageManager struct {
 	errorView           *templatex.View
 	LocalizationManager *localization.Manager
 	AssetsManager       *assetmgr.AssetsManager
-	logger              *app.CoreLog
+	logger              app.CoreLog
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
@@ -48,7 +48,7 @@ func MustCreateMainPageManager(
 	dir string,
 	i18nDir string,
 	assetMgr *assetmgr.AssetsManager,
-	logger *app.CoreLog,
+	logger app.CoreLog,
 	conf *config.Config,
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
@@ -109,7 +109,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 	d.Header = css.Vendor + css.Main + d.Header
 	d.AppLang = lang
-	d.AppForumsMode = m.config.Setup.ForumsMode
+	d.AppForumsMode = m.conf.Setup.ForumsMode
 	d.AppHTMLLang = lang
 	if d.WindData != nil {
 		jsonBytes, _ := json.Marshal(d.WindData)
@@ -118,10 +118,10 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 	script := ""
 	// Language file, this should be loaded first as the main.js relies on it.
-	if m.config.Debug != nil {
+	if m.conf.Debug != nil {
 		// Read the JSON content and inject it to main page in dev mode.
 		jsonFileName := fmt.Sprintf("%v.json", lang)
-		jsonFile := filepath.Join(m.config.Localization.Dir, jsonFileName)
+		jsonFile := filepath.Join(m.conf.Localization.Dir, jsonFileName)
 		jsonBytes, err := os.ReadFile(jsonFile)
 		if err != nil {
 			panic(err) // can panic in dev mode
@@ -165,7 +165,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, exp
 			expected = true
 
 			d.Message = m.Dictionary(lang).ResourceNotFound
-			if m.config.HTTP.Log404Error {
+			if m.conf.HTTP.Log404Error {
 				m.logger.NotFound("sql", r.URL.String())
 			}
 		} else {

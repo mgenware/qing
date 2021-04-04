@@ -11,8 +11,10 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appService"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -42,7 +44,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.GetIDFromDict(params, "id")
 	contentData := validator.MustGetDictFromDict(params, "contentData")
-	content, sanitizedToken := app.Service.Sanitizer.Sanitize(validator.MustGetTextFromDict(contentData, "contentHTML"))
+	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(validator.MustGetTextFromDict(contentData, "contentHTML"))
 
 	if id == 0 {
 		// Create a comment or reply.
@@ -54,7 +56,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
 
-		captResult, err := app.Service.Captcha.Verify(uid, hostType, "", app.Config.DevMode())
+		captResult, err := appService.Get().Captcha.Verify(uid, hostType, "", appConfig.Get().DevMode())
 		app.PanicIfErr(err)
 
 		if captResult != 0 {

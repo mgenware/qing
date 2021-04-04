@@ -7,7 +7,7 @@
 
 package profilep
 
-import "qing/app"
+import "qing/app/appURL"
 
 // ProfilePageURLFormatter helps generate a profile page URL.
 type ProfilePageURLFormatter struct {
@@ -23,5 +23,5 @@ func NewProfilePageURLFormatter(id uint64, tab string) *ProfilePageURLFormatter 
 
 // GetURL returns the URL result.
 func (formatter *ProfilePageURLFormatter) GetURL(page int) string {
-	return app.URL.UserProfileAdv(formatter.ID, formatter.Tab, page)
+	return appURL.Get().UserProfileAdv(formatter.ID, formatter.Tab, page)
 }

@@ -27,3 +27,7 @@ func init() {
 	appProfile = pro
 	log.Printf("✅ App profile: loaded at \"%v\"", dir)
 }
+
+func Get() *profile.AppProfile {
+	return appProfile
+}

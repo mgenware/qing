@@ -7,7 +7,7 @@
 
 package assetmgr
 
-import "qing/app/cfg/config"
+import "qing/app/config/configs"
 
 func htmlScript(src string, module bool) string {
 	s := "<script src=\"" + src + "\""
@@ -29,7 +29,7 @@ func libJS(name string) string {
 // JSManager manages JS assets.
 type JSManager struct {
 	dev  bool
-	conf *config.TurboWebConfig
+	conf *configs.TurboWebConfig
 
 	Loader        string
 	Polyfills     string

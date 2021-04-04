@@ -13,6 +13,7 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -35,7 +36,7 @@ func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		{
 			err := da.Post.DeleteItem(appDB.Get().DB(), id, uid)
 			app.PanicIfErr(err)
-			result = app.URL.UserProfile(uid)
+			result = appURL.Get().UserProfile(uid)
 			break
 		}
 	case defs.Shared.EntityDiscussion:
