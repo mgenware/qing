@@ -12,7 +12,6 @@ import (
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appLog"
-	"qing/app/appMS"
 	"qing/app/appURL"
 	"qing/app/userx"
 )
@@ -22,13 +21,12 @@ var userManager *userx.UserManager
 func init() {
 	conf := appConfig.Get()
 	setupConf := appConfig.SetupConfig()
-	msConn := appMS.GetConn()
 	logger := appLog.Get()
 	urlx := appURL.Get()
 	db := appDB.Get()
 	mp := appHandler.MainPage()
 
-	sessionMgr, err := userx.NewRedisBasedSessionManager(msConn,
+	sessionMgr, err := userx.NewMemoryBasedSessionManager(
 		logger, urlx)
 	if err != nil {
 		panic(err)

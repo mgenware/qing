@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appMS"
 	"qing/app/appcom"
 	"qing/app/defs"
 	"qing/app/urlx"
@@ -42,12 +43,11 @@ func userIDToSIDKey(uid uint64) string {
 type SessionManager struct {
 	logger app.CoreLog
 	appURL *urlx.URL
-	store  app.CoreMemoryStoreConn
 }
 
-// NewRedisBasedSessionManager creates a redis-backed SessionManager.
-func NewRedisBasedSessionManager(store app.CoreMemoryStoreConn, logger app.CoreLog, appURL *urlx.URL) (*SessionManager, error) {
-	return &SessionManager{logger: logger, store: store, appURL: appURL}, nil
+// NewMemoryBasedSessionManager creates a memory-backed SessionManager.
+func NewMemoryBasedSessionManager(logger app.CoreLog, appURL *urlx.URL) (*SessionManager, error) {
+	return &SessionManager{logger: logger, appURL: appURL}, nil
 }
 
 // SetUserSession sets an user to the internal store.
@@ -61,14 +61,15 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 		return err
 	}
 
+	msConn := appMS.GetConn()
 	keySIDToUser := sidToUserKey(sid)
-	err = sm.store.SetStringValue(keySIDToUser, bytes, defs.Timespan30DaysInSecs)
+	err = msConn.SetStringValue(keySIDToUser, bytes, defs.Timespan30DaysInSecs)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(user.ID)
-	err = sm.store.SetStringValue(keyUIDToSID, sid, defs.Timespan30DaysInSecs)
+	err = msConn.SetStringValue(keyUIDToSID, sid, defs.Timespan30DaysInSecs)
 	if err != nil {
 		return err
 	}
@@ -78,7 +79,8 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 // GetUserSession retrieves an user from internal store by the given sid.
 func (sm *SessionManager) GetUserSession(sid string) (*appcom.SessionUser, error) {
 	keySIDToUser := sidToUserKey(sid)
-	str, err := sm.store.GetStringValue(keySIDToUser)
+	msConn := appMS.GetConn()
+	str, err := msConn.GetStringValue(keySIDToUser)
 	if err != nil {
 		return nil, err
 	}
@@ -95,19 +97,21 @@ func (sm *SessionManager) GetUserSession(sid string) (*appcom.SessionUser, error
 
 func (sm *SessionManager) GetSIDFromUID(uid uint64) (string, error) {
 	keyUIDToSID := userIDToSIDKey(uid)
-	return sm.store.GetStringValue(keyUIDToSID)
+	msConn := appMS.GetConn()
+	return msConn.GetStringValue(keyUIDToSID)
 }
 
 func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {
 	keySIDToUser := sidToUserKey(sid)
 
-	err := sm.store.RemoveValue(keySIDToUser)
+	msConn := appMS.GetConn()
+	err := msConn.RemoveValue(keySIDToUser)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(uid)
-	return sm.store.RemoveValue(keyUIDToSID)
+	return msConn.RemoveValue(keyUIDToSID)
 }
 
 func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {

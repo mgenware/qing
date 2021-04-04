@@ -23,10 +23,6 @@ func init() {
 	log.Printf("✅ App MS: connected at \"%v\"", port)
 }
 
-func Get() app.CoreMemoryStore {
-	return appMS
-}
-
 func GetConn() app.CoreMemoryStoreConn {
-	return Get().GetConn()
+	return appMS.GetConn()
 }
