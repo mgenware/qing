@@ -90,7 +90,11 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 	defer srcFile.Close()
 	// Copy reader content to a temp file.
-	tmpFullFile := filepathx.TempFilePath(ext, "avatar-srv")
+	tmpFullFile, err := filepathx.TempFilePath("", "avatar-srv", ext)
+	if err != nil {
+		resp.MustFail(err)
+		return
+	}
 	err = iolib.CopyReaderToFile(srcFile, tmpFullFile)
 	if err != nil {
 		resp.MustFail(err)
