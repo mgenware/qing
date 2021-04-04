@@ -10,7 +10,7 @@ require (
 	github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470
 	github.com/mgenware/go-captcha v1.0.0
 	github.com/mgenware/go-packagex v4.1.0+incompatible
-	github.com/mgenware/go-packagex/v5 v5.2.3
+	github.com/mgenware/go-packagex/v6 v6.1.0
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/mingru-go-lib v0.0.1
 	github.com/microcosm-cc/bluemonday v1.0.5

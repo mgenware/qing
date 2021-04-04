@@ -12,8 +12,8 @@ import (
 	"qing/app"
 	"qing/app/appService"
 
-	"github.com/mgenware/go-packagex/v5/httpx"
-	"github.com/mgenware/go-packagex/v5/strconvx"
+	"github.com/mgenware/go-packagex/v6/httpx"
+	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
 // ReqCaptcha handles captcha requests.

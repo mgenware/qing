@@ -20,8 +20,8 @@ import (
 	"qing/fx/avatar"
 	"qing/lib/iolib"
 
-	"github.com/mgenware/go-packagex/v5/filepathx"
-	"github.com/mgenware/go-packagex/v5/strconvx"
+	"github.com/mgenware/go-packagex/v6/filepathx"
+	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
 const (

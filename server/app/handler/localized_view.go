@@ -12,7 +12,7 @@ import (
 
 	"qing/app/handler/localization"
 
-	"github.com/mgenware/go-packagex/v5/templatex"
+	"github.com/mgenware/go-packagex/v6/templatex"
 )
 
 // LocalizedView wraps a templatex.View, providing localization support.

@@ -14,8 +14,8 @@ import (
 	"strconv"
 	"unicode/utf8"
 
-	"github.com/mgenware/go-packagex/v5/jsonx"
-	"github.com/mgenware/go-packagex/v5/strconvx"
+	"github.com/mgenware/go-packagex/v6/jsonx"
+	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
 func panicMissingArg(key string) {

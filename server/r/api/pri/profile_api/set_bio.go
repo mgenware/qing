@@ -15,7 +15,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 
-	"github.com/mgenware/go-packagex/v5/jsonx"
+	"github.com/mgenware/go-packagex/v6/jsonx"
 )
 
 func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {

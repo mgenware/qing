@@ -17,7 +17,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 
-	"github.com/mgenware/go-packagex/v5/jsonx"
+	"github.com/mgenware/go-packagex/v6/jsonx"
 )
 
 type infoData struct {

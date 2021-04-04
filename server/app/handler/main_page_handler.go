@@ -24,8 +24,8 @@ import (
 	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 
-	"github.com/mgenware/go-packagex/v5/httpx"
-	"github.com/mgenware/go-packagex/v5/templatex"
+	"github.com/mgenware/go-packagex/v6/httpx"
+	"github.com/mgenware/go-packagex/v6/templatex"
 )
 
 // MainPageManager is used to generate site main HTML page.

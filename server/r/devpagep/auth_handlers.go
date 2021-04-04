@@ -16,7 +16,7 @@ import (
 	"qing/app/handler"
 
 	"github.com/go-chi/chi"
-	"github.com/mgenware/go-packagex/v5/strconvx"
+	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
 func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {

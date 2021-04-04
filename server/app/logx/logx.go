@@ -15,7 +15,7 @@ import (
 	"runtime/debug"
 
 	"github.com/fatih/color"
-	"github.com/mgenware/go-packagex/v5/stringsx"
+	"github.com/mgenware/go-packagex/v6/stringsx"
 	"go.uber.org/zap"
 )
 

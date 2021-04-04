@@ -15,7 +15,7 @@ import (
 	"qing/app/handler"
 	"qing/lib/validator"
 
-	"github.com/mgenware/go-packagex/v5/jsonx"
+	"github.com/mgenware/go-packagex/v6/jsonx"
 )
 
 func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
