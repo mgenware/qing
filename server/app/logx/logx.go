@@ -19,9 +19,6 @@ import (
 	"go.uber.org/zap"
 )
 
-// D is a type alias for a dictionary
-type D map[string]interface{}
-
 // Logger logs data to different files based on log levels.
 type Logger struct {
 	Directory string

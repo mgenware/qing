@@ -26,8 +26,15 @@ func SetupConfig() *configs.SetupConfig {
 }
 
 func init() {
-	// Parse command-line arguments
 	var configPath string
+
+	if os.Getenv("Q_UT") == "1" {
+		// Handler testing
+		conf = getUnitTestConfig()
+		return
+	}
+
+	// Parse command-line arguments
 	flag.StringVar(&configPath, "config", "", "path of application config file")
 	flag.Parse()
 

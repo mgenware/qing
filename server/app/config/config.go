@@ -55,7 +55,7 @@ type Config struct {
 	// Extern config data.
 	Extern *configs.ExternConfig `json:"extern"`
 
-	IsTestingMode bool `json:"is_testing_mode"`
+	IsUnitTesting bool `json:"is_unit_mode"`
 }
 
 // DevMode checks if debug config field is on.

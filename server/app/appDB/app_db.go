@@ -23,6 +23,10 @@ func (impl *AppDB) DB() *sql.DB {
 	return impl.db
 }
 
+func (impl *AppDB) Mock() interface{} {
+	panic("Mock is not supported")
+}
+
 func newAppDB(conf *config.Config) *AppDB {
 	dbConf := conf.DB
 	if dbConf.ConnString == "" {

@@ -73,7 +73,11 @@ func MustCreateMainPageManager(
 	}
 
 	// Load the main template.
-	t.mainView = t.MustParseView("main.html")
+	mainHTMLName := "main.html"
+	if conf.IsUnitTesting {
+		mainHTMLName = "main_ut.html"
+	}
+	t.mainView = t.MustParseView(mainHTMLName)
 	// Load the error template.
 	t.errorView = t.MustParseView("error.html")
 
@@ -187,13 +191,6 @@ func (m *MainPageManager) PageTitle(lang, s string) string {
 		return s + " - " + siteName
 	}
 	return siteName
-}
-
-// MustParseLocalizedView creates a new LocalizedView with the given relative path.
-func (m *MainPageManager) MustParseLocalizedView(relativePath string) *LocalizedView {
-	file := filepath.Join(m.dir, relativePath)
-	view := templatex.MustParseView(file, m.reloadViewsOnRefresh)
-	return &LocalizedView{view: view, localizationManager: m.LocalizationManager}
 }
 
 // MustParseView creates a new View with the given relative path.

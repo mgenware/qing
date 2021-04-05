@@ -18,12 +18,16 @@ var appLog app.CoreLog
 
 func init() {
 	conf := appConfig.Get()
-	logger, err := logx.NewLogger(conf.Log.Dir, conf.DevMode())
-	if err != nil {
-		panic(err)
+	if conf.IsUnitTesting {
+		appLog = NewTestLogger()
+	} else {
+		logger, err := logx.NewLogger(conf.Log.Dir, conf.DevMode())
+		if err != nil {
+			panic(err)
+		}
+		appLog = logger
+		log.Printf("✅ App log: Loaded at \"%v\"", conf.Log.Dir)
 	}
-	appLog = logger
-	log.Printf("✅ App log: Loaded at \"%v\"", conf.Log.Dir)
 }
 
 func Get() app.CoreLog {

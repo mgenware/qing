@@ -17,8 +17,13 @@ var appDB app.CoreDB
 
 func init() {
 	conf := appConfig.Get()
-	appDB = newAppDB(conf)
-	log.Printf("✅ App DB: Loaded")
+
+	if conf.IsUnitTesting {
+		appDB = newTestDB()
+	} else {
+		appDB = newAppDB(conf)
+		log.Printf("✅ App DB: Loaded")
+	}
 }
 
 func Get() app.CoreDB {

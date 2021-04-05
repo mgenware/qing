@@ -116,7 +116,7 @@
   },
   "properties": {
     "extends": { "type": "string" },
-    "is_testing_mode": { "type": "boolean" },
+    "is_unit_mode": { "type": "boolean" },
     "setup": { "$ref": "#/definitions/setup_config" },
     "debug": { "$ref": "#/definitions/debug_config" },
     "logging": { "$ref": "#/definitions/logging_config" },
