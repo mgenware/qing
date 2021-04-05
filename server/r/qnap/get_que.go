@@ -33,6 +33,6 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	queModel := NewQuestionPageModel(&que)
 	title := que.Title
 	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(queModel))
-	d.Scripts = appHandler.MainPage().AssetsManager.JS.Post
+	d.Scripts = appHandler.MainPage().AssetManager().JS.Post
 	return resp.MustComplete(d)
 }

@@ -21,7 +21,7 @@ import (
 // UserManager manages user sessions.
 type UserManager struct {
 	SessionManager  *SessionManager
-	MainPageManager *handler.MainPageManager
+	MainPageManager handler.CorePageManager
 	DB              app.CoreDB
 
 	appURL      *urlx.URL
@@ -33,7 +33,7 @@ type UserManager struct {
 func NewUserManager(
 	db app.CoreDB,
 	ssMgr *SessionManager,
-	tm *handler.MainPageManager,
+	tm handler.CorePageManager,
 	appURL *urlx.URL,
 	forumsMode bool,
 	debugConfig *configs.DebugConfig,

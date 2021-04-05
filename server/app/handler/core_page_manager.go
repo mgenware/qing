@@ -10,6 +10,7 @@ package handler
 import (
 	"net/http"
 
+	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 )
 
@@ -20,4 +21,7 @@ type CorePageManager interface {
 	MustParseView(relativePath string) PageTemplateType
 	Dictionary(lang string) *localization.Dictionary
 	PageTitle(lang, s string) string
+
+	AssetManager() *assetmgr.AssetManager
+	LocalizationManager() localization.CoreManager
 }

@@ -19,7 +19,7 @@ import (
 func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
-	langTags := appHandler.MainPage().LocalizationManager.LangTags()
+	langTags := appHandler.MainPage().LocalizationManager().LangTags()
 	if len(langTags) == 0 {
 		panic("No valid language defined")
 	}
@@ -35,7 +35,7 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetsManager.JS.Lang
+	d.Scripts = appHandler.MainPage().AssetManager().JS.Lang
 	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"
 

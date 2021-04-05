@@ -55,7 +55,7 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	discussionModel := NewDiscussionPageModel(&discussion, msgListBuilder.String(), pageBarHTML)
 	title := discussion.Title
 	d := appHandler.MainPageData(title, vDiscussionPage.MustExecuteToString(discussionModel))
-	d.Scripts = appHandler.MainPage().AssetsManager.JS.Discussion
+	d.Scripts = appHandler.MainPage().AssetManager().JS.Discussion
 	d.WindData = DiscussionPageWindData{EID: discussionModel.EID, ReplyCount: discussion.ReplyCount}
 	return resp.MustComplete(d)
 }

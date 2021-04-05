@@ -140,7 +140,7 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 
 func langRouter() chi.Router {
 	if appConfig.Get().Localization.MultipleLangs() {
-		return r.With(appHandler.MainPage().LocalizationManager.EnableContextLanguageMW)
+		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
 	}
 	return r
 }

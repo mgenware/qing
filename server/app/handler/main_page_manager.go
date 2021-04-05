@@ -36,17 +36,17 @@ type MainPageManager struct {
 
 	reloadViewsOnRefresh bool
 
-	mainView            PageTemplateType
-	errorView           PageTemplateType
-	LocalizationManager localization.CoreManager
-	AssetsManager       *assetmgr.AssetsManager
-	logger              app.CoreLog
+	mainView  PageTemplateType
+	errorView PageTemplateType
+	locMgr    localization.CoreManager
+	assetMgr  *assetmgr.AssetManager
+	logger    app.CoreLog
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
 	conf *config.Config,
-	assetMgr *assetmgr.AssetsManager,
+	assetMgr *assetmgr.AssetManager,
 	logger app.CoreLog,
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
@@ -61,8 +61,8 @@ func MustCreateMainPageManager(
 	}
 
 	t := &MainPageManager{
-		LocalizationManager:  localizationManager,
-		AssetsManager:        assetMgr,
+		locMgr:               localizationManager,
+		assetMgr:             assetMgr,
 		logger:               logger,
 		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
@@ -76,6 +76,14 @@ func MustCreateMainPageManager(
 	t.errorView = t.MustParseView("error.html")
 
 	return t
+}
+
+func (m *MainPageManager) AssetManager() *assetmgr.AssetManager {
+	return m.assetMgr
+}
+
+func (m *MainPageManager) LocalizationManager() localization.CoreManager {
+	return m.locMgr
 }
 
 // MustCompleteWithContent finished the response with the given HTML content.
@@ -94,15 +102,14 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	ctx := r.Context()
 	// Ensure lang always has a value
 	if lang == "" {
-		lang = m.LocalizationManager.FallbackLanguage()
+		lang = m.locMgr.FallbackLanguage()
 	}
 
 	// Add site name to title
 	d.Title = m.PageTitle(lang, d.Title)
 
 	// Setup additional assets
-	assetsMgr := m.AssetsManager
-	js := assetsMgr.JS
+	js := m.AssetManager().JS
 
 	d.Header = d.Header
 	d.AppLang = lang
@@ -179,7 +186,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, exp
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *MainPageManager) PageTitle(lang, s string) string {
-	siteName := m.LocalizationManager.Dictionary(lang).SiteName
+	siteName := m.locMgr.Dictionary(lang).SiteName
 	if s != "" {
 		return s + " - " + siteName
 	}
@@ -194,5 +201,5 @@ func (m *MainPageManager) MustParseView(relativePath string) PageTemplateType {
 
 // Dictionary returns a localized dictionary with the specified language ID.
 func (m *MainPageManager) Dictionary(lang string) *localization.Dictionary {
-	return m.LocalizationManager.Dictionary(lang)
+	return m.locMgr.Dictionary(lang)
 }

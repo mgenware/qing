@@ -9,6 +9,7 @@ package localization
 
 import (
 	"errors"
+	"net/http"
 	"qing/app/config/configs"
 
 	"golang.org/x/text/language"
@@ -37,5 +38,9 @@ func (mgr *TestManager) LangTags() []language.Tag {
 
 // Dictionary returns the Dictionary associated with the specified language.
 func (mgr *TestManager) Dictionary(lang string) *Dictionary {
+	panic("Not supported")
+}
+
+func (mgr *TestManager) EnableContextLanguageMW(next http.Handler) http.Handler {
 	panic("Not supported")
 }

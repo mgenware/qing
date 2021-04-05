@@ -36,15 +36,15 @@ func match(rootDir string, file string) (string, error) {
 	return "/static/" + rel, nil
 }
 
-// AssetsManager manages external file resources, usually JS and CSS files.
-type AssetsManager struct {
+// AssetManager manages external file resources, usually JS and CSS files.
+type AssetManager struct {
 	JS      *JSManager
 	devMode bool
 }
 
-// NewAssetsManager creates a new AssetsManager.
-func NewAssetsManager(debugConfig *configs.DebugConfig) *AssetsManager {
+// NewAssetsManager creates a new AssetManager.
+func NewAssetsManager(debugConfig *configs.DebugConfig) *AssetManager {
 	jsm := NewJSManager(debugConfig != nil)
-	mgr := &AssetsManager{JS: jsm}
+	mgr := &AssetManager{JS: jsm}
 	return mgr
 }

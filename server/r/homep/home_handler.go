@@ -62,7 +62,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 		d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
-		d.Scripts = appHandler.MainPage().AssetsManager.JS.HomeStd
+		d.Scripts = appHandler.MainPage().AssetManager().JS.HomeStd
 		return resp.MustComplete(d)
 	}
 
@@ -121,6 +121,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	d := appHandler.MainPageData("", mainHTML)
-	d.Scripts = appHandler.MainPage().AssetsManager.JS.HomeFrm
+	d.Scripts = appHandler.MainPage().AssetManager().JS.HomeFrm
 	return resp.MustComplete(d)
 }

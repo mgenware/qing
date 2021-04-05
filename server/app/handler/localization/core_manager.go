@@ -7,10 +7,15 @@
 
 package localization
 
-import "golang.org/x/text/language"
+import (
+	"net/http"
+
+	"golang.org/x/text/language"
+)
 
 type CoreManager interface {
 	FallbackLanguage() string
 	LangTags() []language.Tag
 	Dictionary(lang string) *Dictionary
+	EnableContextLanguageMW(next http.Handler) http.Handler
 }

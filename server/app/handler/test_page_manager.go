@@ -33,29 +33,37 @@ type TestPageManager struct {
 	errorView *TestTemplate
 	logger    app.CoreLog
 
-	LocalizationManager localization.CoreManager
-	AssetsManager       *assetmgr.AssetsManager
+	locMgr   localization.CoreManager
+	assetMgr *assetmgr.AssetManager
 }
 
 func MustCreateTestPageManager(
 	conf *config.Config,
-	assetMgr *assetmgr.AssetsManager,
+	assetMgr *assetmgr.AssetManager,
 	logger app.CoreLog,
 ) *TestPageManager {
-	localizationManager, err := localization.NewTestManagerFromConfig(conf.Localization)
+	locMgr, err := localization.NewTestManagerFromConfig(conf.Localization)
 	if err != nil {
 		panic(err)
 	}
 
 	t := &TestPageManager{
-		LocalizationManager: localizationManager,
-		AssetsManager:       assetMgr,
-		logger:              logger,
-		conf:                conf,
-		errorView:           NewTestTemplate("error"),
-		mainView:            NewTestTemplate("main"),
+		locMgr:    locMgr,
+		assetMgr:  assetMgr,
+		logger:    logger,
+		conf:      conf,
+		errorView: NewTestTemplate("error"),
+		mainView:  NewTestTemplate("main"),
 	}
 	return t
+}
+
+func (m *TestPageManager) AssetManager() *assetmgr.AssetManager {
+	return m.assetMgr
+}
+
+func (m *TestPageManager) LocalizationManager() localization.CoreManager {
+	return m.locMgr
 }
 
 // MustCompleteWithContent finished the response with the given HTML content.
@@ -74,15 +82,14 @@ func (m *TestPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	ctx := r.Context()
 	// Ensure lang always has a value
 	if lang == "" {
-		lang = m.LocalizationManager.FallbackLanguage()
+		lang = m.locMgr.FallbackLanguage()
 	}
 
 	// Add site name to title
 	d.Title = m.PageTitle(lang, d.Title)
 
 	// Setup additional assets
-	assetsMgr := m.AssetsManager
-	js := assetsMgr.JS
+	js := m.AssetManager().JS
 
 	d.Header = d.Header
 	d.AppLang = lang
@@ -159,7 +166,7 @@ func (m *TestPageManager) MustError(r *http.Request, lang string, err error, exp
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *TestPageManager) PageTitle(lang, s string) string {
-	siteName := m.LocalizationManager.Dictionary(lang).SiteName
+	siteName := m.locMgr.Dictionary(lang).SiteName
 	if s != "" {
 		return s + " - " + siteName
 	}
@@ -173,5 +180,5 @@ func (m *TestPageManager) MustParseView(relativePath string) PageTemplateType {
 
 // Dictionary returns a localized dictionary with the specified language ID.
 func (m *TestPageManager) Dictionary(lang string) *localization.Dictionary {
-	return m.LocalizationManager.Dictionary(lang)
+	return m.locMgr.Dictionary(lang)
 }
