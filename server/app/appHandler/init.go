@@ -15,19 +15,21 @@ import (
 	"qing/app/handler/assetmgr"
 )
 
-var mainPageManager *handler.MainPageManager
+var mainPageManager handler.CorePageManager
 
 func init() {
 	conf := appConfig.Get()
 	logger := appLog.Get()
 
-	templatesConfig := conf.Templates
-	localizationConfig := conf.Localization
-	assMgr := assetmgr.NewAssetsManager(conf.HTTP.Static.Dir, conf.Debug)
-	mainPageManager = handler.MustCreateMainPageManager(templatesConfig.Dir, localizationConfig.Dir, assMgr, logger, conf)
-	log.Printf("✅ App handler: Loaded at \"%v\"", templatesConfig.Dir)
+	assMgr := assetmgr.NewAssetsManager(conf.Debug)
+	if conf.IsUnitTesting {
+		mainPageManager = handler.MustCreateTestPageManager(conf, assMgr, logger)
+	} else {
+		mainPageManager = handler.MustCreateMainPageManager(conf, assMgr, logger)
+		log.Printf("✅ App handler: Loaded at \"%v\"", conf.Templates.Dir)
+	}
 }
 
-func MainPage() *handler.MainPageManager {
+func MainPage() handler.CorePageManager {
 	return mainPageManager
 }

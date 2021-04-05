@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Qing Project. All rights reserved.
+ * Copyright (C) 2021 The Qing Project. All rights reserved.
  *
  * Use of this source code is governed by a license that can
  * be found in the LICENSE file.
@@ -12,7 +12,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -25,67 +24,48 @@ import (
 	"qing/app/handler/localization"
 
 	"github.com/mgenware/go-packagex/v6/httpx"
-	"github.com/mgenware/go-packagex/v6/templatex"
 )
 
-// MainPageManager is used to generate site main HTML page.
-type MainPageManager struct {
-	dir         string
-	conf        *config.Config
-	log404Error bool
+// TestPageManager is used to generate site main HTML page.
+type TestPageManager struct {
+	conf      *config.Config
+	mainView  *TestTemplate
+	errorView *TestTemplate
+	logger    app.CoreLog
 
-	reloadViewsOnRefresh bool
-
-	mainView            PageTemplateType
-	errorView           PageTemplateType
 	LocalizationManager localization.CoreManager
 	AssetsManager       *assetmgr.AssetsManager
-	logger              app.CoreLog
 }
 
-// MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
-func MustCreateMainPageManager(
+func MustCreateTestPageManager(
 	conf *config.Config,
 	assetMgr *assetmgr.AssetsManager,
 	logger app.CoreLog,
-) *MainPageManager {
-	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
-	if reloadViewsOnRefresh {
-		log.Print("😡 View dev mode is on")
-	}
-
-	// Create the localization manager used by localized template views.
-	localizationManager, err := localization.NewManagerFromConfig(conf.Localization)
+) *TestPageManager {
+	localizationManager, err := localization.NewTestManagerFromConfig(conf.Localization)
 	if err != nil {
 		panic(err)
 	}
 
-	t := &MainPageManager{
-		LocalizationManager:  localizationManager,
-		AssetsManager:        assetMgr,
-		logger:               logger,
-		conf:                 conf,
-		reloadViewsOnRefresh: reloadViewsOnRefresh,
+	t := &TestPageManager{
+		LocalizationManager: localizationManager,
+		AssetsManager:       assetMgr,
+		logger:              logger,
+		conf:                conf,
+		errorView:           NewTestTemplate("error"),
+		mainView:            NewTestTemplate("main"),
 	}
-	t.dir = conf.Templates.Dir
-	t.log404Error = conf.HTTP.Log404Error
-
-	// Load the main template.
-	t.mainView = t.MustParseView("main.html")
-	// Load the error template.
-	t.errorView = t.MustParseView("error.html")
-
 	return t
 }
 
 // MustCompleteWithContent finished the response with the given HTML content.
-func (m *MainPageManager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
+func (m *TestPageManager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 	w.Write(content)
 }
 
 // MustComplete executes the main view template with the specified data and panics if error occurs.
-func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPageData, w http.ResponseWriter) {
+func (m *TestPageManager) MustComplete(r *http.Request, lang string, d *MainPageData, w http.ResponseWriter) {
 	if d == nil {
 		panic("Unexpected empty `MainPageData` in `MustComplete`")
 	}
@@ -151,7 +131,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *MainPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
+func (m *TestPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
 	d := &ErrorPageData{Message: err.Error()}
 	// Handle unexpected errors
 	if !expected {
@@ -178,7 +158,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, exp
 }
 
 // PageTitle returns the given string followed by the localized site name.
-func (m *MainPageManager) PageTitle(lang, s string) string {
+func (m *TestPageManager) PageTitle(lang, s string) string {
 	siteName := m.LocalizationManager.Dictionary(lang).SiteName
 	if s != "" {
 		return s + " - " + siteName
@@ -187,12 +167,11 @@ func (m *MainPageManager) PageTitle(lang, s string) string {
 }
 
 // MustParseView creates a new View with the given relative path.
-func (m *MainPageManager) MustParseView(relativePath string) PageTemplateType {
-	file := filepath.Join(m.dir, relativePath)
-	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
+func (m *TestPageManager) MustParseView(relativePath string) PageTemplateType {
+	return NewTestTemplate(relativePath)
 }
 
 // Dictionary returns a localized dictionary with the specified language ID.
-func (m *MainPageManager) Dictionary(lang string) *localization.Dictionary {
+func (m *TestPageManager) Dictionary(lang string) *localization.Dictionary {
 	return m.LocalizationManager.Dictionary(lang)
 }

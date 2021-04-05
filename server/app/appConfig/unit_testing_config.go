@@ -7,11 +7,17 @@
 
 package appConfig
 
-import "qing/app/config"
+import (
+	"qing/app/config"
+	"qing/app/config/configs"
+)
 
 func getUnitTestConfig() *config.Config {
 	conf := &config.Config{
 		IsUnitTesting: true,
+		Templates: &configs.TemplatesConfig{
+			Dir: "../web/templates",
+		},
 	}
 	return conf
 }

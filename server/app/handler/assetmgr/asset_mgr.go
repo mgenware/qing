@@ -43,7 +43,7 @@ type AssetsManager struct {
 }
 
 // NewAssetsManager creates a new AssetsManager.
-func NewAssetsManager(baseDir string, debugConfig *configs.DebugConfig) *AssetsManager {
+func NewAssetsManager(debugConfig *configs.DebugConfig) *AssetsManager {
 	jsm := NewJSManager(debugConfig != nil)
 	mgr := &AssetsManager{JS: jsm}
 	return mgr
