@@ -39,14 +39,12 @@ func match(rootDir string, file string) (string, error) {
 // AssetsManager manages external file resources, usually JS and CSS files.
 type AssetsManager struct {
 	JS      *JSManager
-	CSS     *CSSManager
 	devMode bool
 }
 
 // NewAssetsManager creates a new AssetsManager.
 func NewAssetsManager(baseDir string, debugConfig *configs.DebugConfig) *AssetsManager {
 	jsm := NewJSManager(debugConfig != nil)
-	cssm := &CSSManager{BaseDir: baseDir, dev: debugConfig != nil}
-	mgr := &AssetsManager{JS: jsm, CSS: cssm}
+	mgr := &AssetsManager{JS: jsm}
 	return mgr
 }

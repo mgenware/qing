@@ -108,10 +108,9 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 	// Setup additional assets
 	assetsMgr := m.AssetsManager
-	css := assetsMgr.CSS
 	js := assetsMgr.JS
 
-	d.Header = css.Vendor + css.Main + d.Header
+	d.Header = d.Header
 	d.AppLang = lang
 	d.AppForumsMode = m.conf.Setup.ForumsMode
 	d.AppHTMLLang = lang
