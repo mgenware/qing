@@ -19,7 +19,7 @@ import (
 func getAdmins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
-	admins, err := da.User.UnsafeSelectAdmins(appDB.Get().DB())
+	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
 	if err != nil {
 		panic(err)
 	}

@@ -8,6 +8,7 @@
 package appDB
 
 import (
+	"database/sql"
 	"log"
 	"qing/app"
 	"qing/app/appConfig"
@@ -24,4 +25,8 @@ func init() {
 
 func Get() app.CoreDB {
 	return appDB
+}
+
+func DB() *sql.DB {
+	return appDB.DB()
 }

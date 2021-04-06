@@ -23,7 +23,7 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := app.ContextUserID(r)
 	groupID := appcom.ContextForumGroupID(r.Context())
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	var err error
 
 	if groupID == 0 {

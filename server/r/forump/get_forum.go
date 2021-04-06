@@ -27,7 +27,7 @@ const defaultPageSize = 10
 
 func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	var err error
 
 	fid, err := validator.DecodeID(chi.URLParam(r, "fid"))

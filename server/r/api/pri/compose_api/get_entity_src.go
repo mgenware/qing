@@ -27,7 +27,7 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := validator.MustGetIDFromDict(params, "entityID")
 	entityType := validator.MustGetIntFromDict(params, "entityType")
 
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	var res da.EntityGetSrcResult
 	var err error
 

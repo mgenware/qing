@@ -29,7 +29,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
 	var users []da.FindUserResult
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	if byID != 0 {
 		id := validator.MustGetIDFromDict(params, "value")
 		user, err := da.User.FindUserByID(db, id)

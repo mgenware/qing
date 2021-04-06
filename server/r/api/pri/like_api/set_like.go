@@ -32,9 +32,9 @@ func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	if value == 1 {
-		app.PanicIfErr(dbSrc.Like(appDB.Get().DB(), id, uid))
+		app.PanicIfErr(dbSrc.Like(appDB.DB(), id, uid))
 	} else {
-		app.PanicIfErr(dbSrc.CancelLike(appDB.Get().DB(), id, uid))
+		app.PanicIfErr(dbSrc.CancelLike(appDB.DB(), id, uid))
 	}
 	return resp.MustComplete(nil)
 }

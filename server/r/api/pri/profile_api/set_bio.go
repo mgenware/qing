@@ -29,7 +29,7 @@ func setBio(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	// Update DB
-	err := da.User.UpdateBio(appDB.Get().DB(), uid, &bio)
+	err := da.User.UpdateBio(appDB.DB(), uid, &bio)
 	if err != nil {
 		return resp.MustFail(err)
 	}

@@ -70,7 +70,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 	page := validator.GetPageParamFromDict(params)
 
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	// Selecting replies.
 	if parentCmtID != 0 {
 		replies, hasNext, err := da.Reply.SelectReplies(db, parentCmtID, page, kCmtPageSize)

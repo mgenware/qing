@@ -41,7 +41,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
 
 	var result interface{}
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.
 		captResult, err := appService.Get().Captcha.Verify(uid, defs.Shared.EntityPost, "", appConfig.Get().DevMode())

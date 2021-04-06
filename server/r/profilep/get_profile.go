@@ -36,15 +36,15 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	// User profile
-	user, err := da.User.SelectProfile(appDB.Get().DB(), uid)
+	user, err := da.User.SelectProfile(appDB.DB(), uid)
 	app.PanicIfErr(err)
 
 	// User stats
-	stats, err := da.UserStats.SelectStats(appDB.Get().DB(), uid)
+	stats, err := da.UserStats.SelectStats(appDB.DB(), uid)
 	app.PanicIfErr(err)
 
 	pageTitle := user.Name
-	db := appDB.Get().DB()
+	db := appDB.DB()
 
 	var feedListHTML string
 	var hasNext bool

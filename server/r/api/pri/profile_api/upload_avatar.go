@@ -126,7 +126,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, error) {
 	user := appcom.ContextUser(ctx)
 	uid := user.ID
-	curAvatarName, err := da.User.SelectIconName(appDB.Get().DB(), uid)
+	curAvatarName, err := da.User.SelectIconName(appDB.DB(), uid)
 	if err != nil {
 		return 0, "", err
 	}
@@ -141,7 +141,7 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	}
 
 	// Update DB.
-	err = da.User.UpdateIconName(appDB.Get().DB(), uid, avatarName)
+	err = da.User.UpdateIconName(appDB.DB(), uid, avatarName)
 	if err != nil {
 		return 0, "", err
 	}

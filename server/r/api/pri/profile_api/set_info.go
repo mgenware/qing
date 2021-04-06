@@ -36,7 +36,7 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := resp.UserID()
 
-	dbInfo, err := da.User.SelectEditingData(appDB.Get().DB(), uid)
+	dbInfo, err := da.User.SelectEditingData(appDB.DB(), uid)
 	if err != nil {
 		return resp.MustFail(err)
 	}
@@ -60,7 +60,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	location := jsonx.GetStringOrDefault(params, "location")
 
 	// Update DB
-	err := da.User.UpdateProfile(appDB.Get().DB(), uid, nick, website, company, location)
+	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location)
 	if err != nil {
 		return resp.MustFail(err)
 	}

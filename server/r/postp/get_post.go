@@ -26,7 +26,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	post, err := da.Post.SelectItemByID(appDB.Get().DB(), pid)
+	post, err := da.Post.SelectItemByID(appDB.DB(), pid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)

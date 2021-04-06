@@ -30,7 +30,7 @@ func getLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic(fmt.Sprintf("Unsupported type %v", category))
 	}
 
-	hasLiked, err := dbSrc.HasLiked(appDB.Get().DB(), id, uid)
+	hasLiked, err := dbSrc.HasLiked(appDB.DB(), id, uid)
 	app.PanicIfErr(err)
 
 	return resp.MustComplete(hasLiked)

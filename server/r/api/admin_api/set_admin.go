@@ -30,7 +30,7 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFailWithCode(defs.Shared.ErrCannotSetAdminOfYourself)
 	}
 
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	isAdmin, err := da.User.SelectIsAdmin(db, targetUserID)
 	app.PanicIfErr(err)
 	if isAdmin {

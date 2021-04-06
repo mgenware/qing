@@ -23,7 +23,7 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := validator.MustGetIDFromDict(params, "id")
 
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	res, err := da.ForumGroup.SelectInfoForEditing(db, id)
 	app.PanicIfErr(err)
 	return resp.MustComplete(res)

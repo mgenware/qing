@@ -26,7 +26,7 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	que, err := da.Question.SelectItemByID(appDB.Get().DB(), pid)
+	que, err := da.Question.SelectItemByID(appDB.DB(), pid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)

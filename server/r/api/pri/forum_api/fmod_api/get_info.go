@@ -21,7 +21,7 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	fid := appcom.ContextForumID(r.Context())
 
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	res, err := da.Forum.SelectInfoForEditing(db, fid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(res)

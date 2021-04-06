@@ -33,11 +33,11 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Get discussion.
 	page := validator.GetPageParamFromRequestQueryString(r)
-	discussion, err := da.Discussion.SelectItemByID(appDB.Get().DB(), tid)
+	discussion, err := da.Discussion.SelectItemByID(appDB.DB(), tid)
 	app.PanicIfErr(err)
 
 	// Get messages.
-	rawMsgs, hasNext, err := da.DiscussionMsg.SelectItemsByDiscussion(appDB.Get().DB(), tid, page, defaultPageSize)
+	rawMsgs, hasNext, err := da.DiscussionMsg.SelectItemsByDiscussion(appDB.DB(), tid, page, defaultPageSize)
 	app.PanicIfErr(err)
 
 	var msgListBuilder strings.Builder

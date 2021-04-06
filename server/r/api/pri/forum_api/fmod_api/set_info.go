@@ -28,7 +28,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	name := validator.MustGetStringFromDict(params, "name", defs.DB.MaxNameLen)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
-	db := appDB.Get().DB()
+	db := appDB.DB()
 	err := da.Forum.UpdateInfo(db, fid, name, desc)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)

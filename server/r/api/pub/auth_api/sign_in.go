@@ -29,7 +29,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Shared.MaxUserPwdLen)
 
 	// Verify user ID.
-	uid, err := da.User.SelectIDFromEmail(appDB.Get().DB(), email)
+	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
@@ -41,7 +41,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	// Verify password.
-	hash, err := da.UserPwd.SelectHashByID(appDB.Get().DB(), uid)
+	hash, err := da.UserPwd.SelectHashByID(appDB.DB(), uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
