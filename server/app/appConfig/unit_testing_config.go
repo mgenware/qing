@@ -18,6 +18,9 @@ func getUnitTestConfig() *config.Config {
 		Templates: &configs.TemplatesConfig{
 			Dir: "../web/templates",
 		},
+		DB: &configs.DBConfig{
+			ConnString: "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true",
+		},
 	}
 	return conf
 }

@@ -8,7 +8,6 @@
 package localization
 
 import (
-	"errors"
 	"net/http"
 	"qing/app/config/configs"
 
@@ -16,19 +15,15 @@ import (
 )
 
 type TestManager struct {
-	langs []string
 }
 
 func NewTestManagerFromConfig(conf *configs.LocalizationConfig) (*TestManager, error) {
-	if len(conf.Langs) == 0 {
-		return nil, errors.New("Unexpected empty `langs` config")
-	}
-	return &TestManager{langs: conf.Langs}, nil
+	return &TestManager{}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
 func (mgr *TestManager) FallbackLanguage() string {
-	return mgr.langs[0]
+	panic("Not supported")
 }
 
 // LangTags returns language tags.
