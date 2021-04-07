@@ -12,7 +12,7 @@ import (
 	"qing/app/config/configs"
 )
 
-func getUnitTestConfig() *config.Config {
+func getSTConfig() *config.Config {
 	conf := &config.Config{
 		IsUnitTesting: true,
 		Templates: &configs.TemplatesConfig{
@@ -20,6 +20,12 @@ func getUnitTestConfig() *config.Config {
 		},
 		DB: &configs.DBConfig{
 			ConnString: "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true",
+		},
+		ResServer: &configs.ResServerConfig{
+			URL: "/res",
+		},
+		Localization: &configs.LocalizationConfig{
+			Langs: []string{"en", "zh-Hans"},
 		},
 	}
 	return conf

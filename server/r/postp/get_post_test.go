@@ -9,16 +9,22 @@ package postp
 
 import (
 	"net/http"
+	"qing/app/appDB"
 	"qing/da"
-	"qing/ut"
+	"qing/lib/validator"
+	"qing/st"
 	"testing"
-
-	"github.com/mgenware/go-packagex/v6/test"
 )
 
+var title = "TITLE"
+var content = "CONTENT"
+
 func TestGetProfile(t *testing.T) {
-	da.Post.InsertItem(appDB.)
-	rr := ut.HTTPGetRecorder("/p/{pid}", "/p/2t", GetPost)
-	test.Assert(t, rr.Code, http.StatusOK)
-	test.Assert(t, rr.Body.String(), "lire")
+	id, err := da.Post.InsertItem(appDB.DB(), title, content, st.UserID, 0, 0)
+	st.PanicIfErr(err)
+
+	eid := validator.EncodeID(id)
+	rr := st.HTTPGetRecorder("/p/{pid}", "/p/"+eid, GetPost)
+	st.Assert(t, rr.Code, http.StatusOK)
+	st.Assert(t, rr.Body.String(), "lire")
 }

@@ -15,15 +15,18 @@ import (
 )
 
 type TestManager struct {
+	langs []string
 }
 
 func NewTestManagerFromConfig(conf *configs.LocalizationConfig) (*TestManager, error) {
-	return &TestManager{}, nil
+	return &TestManager{
+		langs: conf.Langs,
+	}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
 func (mgr *TestManager) FallbackLanguage() string {
-	panic("Not supported")
+	return mgr.langs[0]
 }
 
 // LangTags returns language tags.

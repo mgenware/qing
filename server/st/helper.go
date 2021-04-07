@@ -6,7 +6,7 @@
  */
 
 // https://github.com/mgenware/go-packagex/blob/main/test/test.go
-package ut
+package st
 
 import (
 	"runtime/debug"

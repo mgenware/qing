@@ -180,5 +180,5 @@ func (m *TestPageManager) MustParseView(relativePath string) PageTemplateType {
 
 // Dictionary returns a localized dictionary with the specified language ID.
 func (m *TestPageManager) Dictionary(lang string) *localization.Dictionary {
-	return m.locMgr.Dictionary(lang)
+	panic("Not supported")
 }

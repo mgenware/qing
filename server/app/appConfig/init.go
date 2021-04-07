@@ -28,9 +28,9 @@ func SetupConfig() *configs.SetupConfig {
 func init() {
 	var configPath string
 
-	if os.Getenv("Q_UT") == "1" {
-		// Handler testing
-		conf = getUnitTestConfig()
+	if os.Getenv("Q_ST") == "1" {
+		// Get server testing config.
+		conf = getSTConfig()
 		return
 	}
 
