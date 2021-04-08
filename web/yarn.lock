@@ -2619,10 +2619,10 @@ globby@^11.0.1:
     merge2 "^1.3.0"
     slash "^3.0.0"
 
-go-const-gen@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/go-const-gen/-/go-const-gen-2.0.0.tgz#fbf25bc87461d4c73fc6a36a11c41a62e0a3510d"
-  integrity sha512-Sy4Q6//23LkwCgXXzjhBnwU0TWqMX/7yThyPcOyTeQvJtvUJJ0QkYjczba65xV7spACnZdPkzD2K2+e1OOttBg==
+go-const-gen@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/go-const-gen/-/go-const-gen-2.1.0.tgz#d0e3b376e960f7a31fa01e6e0be371dd858e1b68"
+  integrity sha512-2Fy5WrL2eQxXbmaqIgEO2s/lelyXJ04MJxYr++8m03e6g29uIBI6nmDB9uYeBAoatp4dvc8YsCDsfoSAr3rC0A==
   dependencies:
     "@types/mocha" "^8.2.0"
     "@types/node" "^14.14.22"

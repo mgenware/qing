@@ -7,7 +7,7 @@
 
 import * as mfs from 'm-fs';
 import * as nodepath from 'path';
-import goConstGen from 'go-const-gen';
+import { goConstGenCore, PropData } from 'go-const-gen';
 import { webPath, serverPath, copyrightString } from './common.js';
 
 async function buildWebLSDef(content: string): Promise<void> {
@@ -20,8 +20,8 @@ async function buildWebLSDef(content: string): Promise<void> {
   await mfs.writeFileAsync(webPath('src/lsDefs.ts'), out);
 }
 
-async function buildServerLSDef(content: string): Promise<void> {
-  const result = await goConstGen(JSON.parse(content), {
+async function buildServerLSDef(content: string): Promise<PropData[]> {
+  const [result, props] = await goConstGenCore(JSON.parse(content), {
     packageName: 'localization',
     typeName: 'Dictionary',
     parseFunc: true,
@@ -31,6 +31,24 @@ async function buildServerLSDef(content: string): Promise<void> {
     serverPath('app/handler/localization/dictionary.go'),
     copyrightString + result,
   );
+  return props;
+}
+
+async function buildServerDictFiles(content: string): Promise<void> {
+  const propData = await buildServerLSDef(content);
+  let res = copyrightString;
+  res += `package localization
+
+// STDict is a Dictionary implementation for server testing.
+var STDict *Dictionary
+  
+func init() {
+\tSTDict = &Dictionary{}`;
+  for (const prop of propData) {
+    res += `\tSTDict.${prop.namePascalCase} = "${prop.name}"\n`;
+  }
+  res += '}\n\n';
+  await mfs.writeFileAsync(serverPath('app/handler/localization/st_dictionary.go'), res);
 }
 
 // When importing `app.ts`, `window.ls` must be present. Test files need to
@@ -55,7 +73,7 @@ async function buildLangs() {
 const lsString = await mfs.readTextFileAsync(webPath('langs/data/en.json'));
 await Promise.all([
   buildWebLSDef(lsString),
-  buildServerLSDef(lsString),
+  buildServerDictFiles(lsString),
   writeENLangForTesting(lsString),
   buildLangs(),
 ]);

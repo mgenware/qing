@@ -14,31 +14,31 @@ import (
 	"golang.org/x/text/language"
 )
 
-type TestManager struct {
+type STManager struct {
 	langs []string
 }
 
-func NewTestManagerFromConfig(conf *configs.LocalizationConfig) (*TestManager, error) {
-	return &TestManager{
+func NewSTManagerFromConfig(conf *configs.LocalizationConfig) (*STManager, error) {
+	return &STManager{
 		langs: conf.Langs,
 	}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
-func (mgr *TestManager) FallbackLanguage() string {
+func (mgr *STManager) FallbackLanguage() string {
 	return mgr.langs[0]
 }
 
 // LangTags returns language tags.
-func (mgr *TestManager) LangTags() []language.Tag {
+func (mgr *STManager) LangTags() []language.Tag {
 	panic("Not supported")
 }
 
 // Dictionary returns the Dictionary associated with the specified language.
-func (mgr *TestManager) Dictionary(lang string) *Dictionary {
+func (mgr *STManager) Dictionary(lang string) *Dictionary {
 	panic("Not supported")
 }
 
-func (mgr *TestManager) EnableContextLanguageMW(next http.Handler) http.Handler {
+func (mgr *STManager) EnableContextLanguageMW(next http.Handler) http.Handler {
 	panic("Not supported")
 }

@@ -46,7 +46,7 @@
     "eslint-config-airbnb-typescript-lite": "^12.1.1",
     "eslint-config-mgenware": "^0.0.6",
     "eslint-plugin-import": "^2.22.1",
-    "go-const-gen": "^2.0.0",
+    "go-const-gen": "^2.1.0",
     "json-to-js-const": "^0.1.0",
     "lit-analyzer": "^1.2.1",
     "m-fs": "^5.0.0",
