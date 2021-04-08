@@ -37,18 +37,18 @@ async function buildServerLSDef(content: string): Promise<PropData[]> {
 async function buildServerDictFiles(content: string): Promise<void> {
   const propData = await buildServerLSDef(content);
   let res = copyrightString;
-  res += `package localization
+  res += `/* Automatically generated. Do not edit. */\n\npackage localization
 
-// STDict is a Dictionary implementation for server testing.
-var STDict *Dictionary
+// TestDict is a Dictionary implementation for server testing.
+var TestDict *Dictionary
   
 func init() {
-\tSTDict = &Dictionary{}`;
+\tTestDict = &Dictionary{}\n`;
   for (const prop of propData) {
-    res += `\tSTDict.${prop.namePascalCase} = "${prop.name}"\n`;
+    res += `\tTestDict.${prop.namePascalCase} = "${prop.name}"\n`;
   }
-  res += '}\n\n';
-  await mfs.writeFileAsync(serverPath('app/handler/localization/st_dictionary.go'), res);
+  res += '}\n';
+  await mfs.writeFileAsync(serverPath('app/handler/localization/test_dictionary.go'), res);
 }
 
 // When importing `app.ts`, `window.ls` must be present. Test files need to
