@@ -1,6 +1,6 @@
 {
   "localization": {
-    "dir": "../web/langs/data",
+    "dir": "./langs/data",
     "langs": ["en", "zh-Hans"]
   },
   "extern": {

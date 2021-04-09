@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "lib"
+    },
+    {
+      "path": "server"
+    },
+    {
+      "path": "web"
+    },
+    {
+      "path": "userland"
+    }
+  ],
+  "settings": {}
+}
