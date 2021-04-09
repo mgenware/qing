@@ -9,8 +9,9 @@ package handler
 
 import (
 	"bytes"
-	"encoding/json"
+	"fmt"
 	"io"
+	"reflect"
 )
 
 type TestTemplate struct {
@@ -22,12 +23,18 @@ func NewTestTemplate(name string) *TestTemplate {
 }
 
 func (tt *TestTemplate) Execute(wr io.Writer, data interface{}) error {
-	b, err := json.Marshal(data)
-	if err != nil {
-		return err
+	fmt.Fprintln(wr, "NAME: "+tt.name)
+	if data != nil {
+		fields := reflect.TypeOf(data)
+		values := reflect.ValueOf(data)
+		num := fields.NumField()
+		for i := 0; i < num; i++ {
+			field := fields.Field(i)
+			value := values.Field(i)
+			fmt.Fprintln(wr, field.Name+": "+fmt.Sprint(value))
+		}
 	}
-	_, err = wr.Write(b)
-	return err
+	return nil
 }
 
 func (tt *TestTemplate) ExecuteToString(data interface{}) (string, error) {

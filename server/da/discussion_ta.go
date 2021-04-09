@@ -439,6 +439,22 @@ func (da *TableTypeDiscussion) SelectItemSrc(queryable mingru.Queryable, id uint
 	return result, nil
 }
 
+// DiscussionTableTestSelectDatesResult ...
+type DiscussionTableTestSelectDatesResult struct {
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+}
+
+// TestSelectDates ...
+func (da *TableTypeDiscussion) TestSelectDates(queryable mingru.Queryable, id uint64) (DiscussionTableTestSelectDatesResult, error) {
+	var result DiscussionTableTestSelectDatesResult
+	err := queryable.QueryRow("SELECT `created_at`, `modified_at` FROM `discussion` WHERE `id` = ?", id).Scan(&result.CreatedAt, &result.ModifiedAt)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // UpdateMsgCount ...
 func (da *TableTypeDiscussion) UpdateMsgCount(queryable mingru.Queryable, id uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `discussion` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)

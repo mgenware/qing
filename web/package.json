@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@github/image-crop-element": "^4.1.1",
-    "@popperjs/core": "^2.9.1",
+    "@popperjs/core": "^2.9.2",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "basic-trie": "^0.2.0",
     "bowhead-js": "^6.0.0",
     "construct-style-sheets-polyfill": "^2.4.2",
-    "date-fns": "^2.19.0",
+    "date-fns": "^2.20.0",
     "debounce-fn": "^5.0.0",
     "f-array.splice": "^0.3.0",
     "fx214": "^2.0.0",
@@ -30,7 +30,7 @@
     "qing-keyed-array": "^0.3.0",
     "qing-overlay": "^0.11.4",
     "qing-stylelib": "^2.3.0",
-    "tslib": "^2.1.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^18.0.0",
@@ -38,9 +38,9 @@
     "@types/js-cookie": "^2.2.6",
     "@types/mocha": "^8.2.2",
     "@types/node": "^14.14.37",
-    "@typescript-eslint/eslint-plugin": "^4.20.0",
-    "@typescript-eslint/parser": "^4.20.0",
-    "@web/test-runner": "^0.12.17",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "@web/test-runner": "^0.12.19",
     "daizong": "^0.13.0",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-typescript-lite": "^12.1.1",
@@ -61,6 +61,6 @@
     "source-map-support": "^0.5.19",
     "ts-transform-esm-import": "^0.2.1",
     "ttypescript": "^1.5.12",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   }
 }

@@ -8,6 +8,7 @@
 package postp
 
 import (
+	"log"
 	"net/http"
 	"qing/app/appDB"
 	"qing/da"
@@ -20,11 +21,14 @@ var title = "TITLE"
 var content = "CONTENT"
 
 func TestGetProfile(t *testing.T) {
-	id, err := da.Post.InsertItem(appDB.DB(), title, content, st.UserID, 0, 0)
+	db := appDB.DB()
+	id, err := da.Post.InsertItem(db, title, content, st.UserID, 0, 0)
 	st.PanicIfErr(err)
+	// dates, err := da.Post.TestSelectDates(db, id)
 
 	eid := validator.EncodeID(id)
 	rr := st.HTTPGetRecorder("/p/{pid}", "/p/"+eid, GetPost)
 	st.Assert(t, rr.Code, http.StatusOK)
-	st.Assert(t, rr.Body.String(), "lire")
+	log.Print(rr.Body.String())
+	// st.Assert(t, rr.Body.String(), "")
 }

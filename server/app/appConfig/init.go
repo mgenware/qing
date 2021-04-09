@@ -26,20 +26,14 @@ func SetupConfig() *configs.SetupConfig {
 }
 
 func init() {
-	var configPath string
-
-	if os.Getenv("Q_ST") == "1" {
-		// Get server testing config.
-		conf = getSTConfig()
-		return
-	}
-
-	// Parse command-line arguments
-	flag.StringVar(&configPath, "config", "", "path of application config file")
-	flag.Parse()
+	configPath := os.Getenv("Q_TEST")
 
 	if configPath == "" {
-		// If --config is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
+		// Parse command-line arguments
+		flag.StringVar(&configPath, "config", "", "path of application config file")
+		flag.Parse()
+
+		// If `--config` is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
 		userArgs := os.Args[1:]
 		if len(userArgs) >= 1 {
 			configPath = config.GetDefaultConfigFilePath(userArgs[0] + ".json")

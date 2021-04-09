@@ -23,6 +23,8 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   // Optional actions.
   selectItemsForUserProfile: mm.Action;
   selectItemsForPostCenter: mm.Action;
+  // Used in tests to fetch time.
+  testSelectDates: mm.Action;
 
   // Other actions.
   deleteItem: mm.Action;
@@ -75,6 +77,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       .selectRow(...this.getEditingColumns())
       .whereSQL(this.updateConditions)
       .resultTypeNameAttr(getEntitySrcType);
+    this.testSelectDates = mm.selectRow(t.created_at, t.modified_at).by(t.id);
 
     const pcCols = this.getPCColumns();
     this.selectItemsForPostCenter = pcCols.length

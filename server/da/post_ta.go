@@ -442,3 +442,19 @@ func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, us
 	}
 	return result, nil
 }
+
+// PostTableTestSelectDatesResult ...
+type PostTableTestSelectDatesResult struct {
+	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+}
+
+// TestSelectDates ...
+func (da *TableTypePost) TestSelectDates(queryable mingru.Queryable, id uint64) (PostTableTestSelectDatesResult, error) {
+	var result PostTableTestSelectDatesResult
+	err := queryable.QueryRow("SELECT `created_at`, `modified_at` FROM `post` WHERE `id` = ?", id).Scan(&result.CreatedAt, &result.ModifiedAt)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
