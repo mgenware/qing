@@ -23,12 +23,11 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-const configDir = "./config/"
-const schemaFileName = "config.schema.json"
+const schemaFileName = "qing-conf.schema.json"
 
 // GetDefaultConfigFilePath returns a config file path in default app config dir.
 func GetDefaultConfigFilePath(name string) string {
-	return filepath.Join(configDir, name)
+	return filepath.Join("./config/", name)
 }
 
 // Config is the root configuration type for your application.
@@ -124,16 +123,17 @@ func MustReadConfig(file string) *Config {
 		panic(err)
 	}
 
-	mustValidateConfig(conf)
+	schemaPath := filepath.Join(filepath.Dir(absFile), schemaFileName)
+	mustValidateConfig(conf, schemaPath)
 	conf.mustCoerceConfig()
 	return conf
 }
 
-func mustValidateConfig(conf *Config) {
+func mustValidateConfig(conf *Config, schemaFilePath string) {
 	// Validate with JSON schema.
-	schemaFilePath := toFileURI(mustGetAbsPath(filepath.Join(configDir, schemaFileName)))
 	log.Printf("🚙 Validate config against schema \"%v\"", schemaFilePath)
 
+	schemaFilePath = toFileURI(schemaFilePath)
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
 	documentLoader := gojsonschema.NewGoLoader(conf)
 
