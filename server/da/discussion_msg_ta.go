@@ -164,8 +164,8 @@ func (da *TableTypeDiscussionMsg) DeleteReply(db *sql.DB, id uint64, userID uint
 }
 
 // EditItem ...
-func (da *TableTypeDiscussionMsg) EditItem(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `discussion_msg` SET `modified_at` = UTC_TIMESTAMP(), `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
+func (da *TableTypeDiscussionMsg) EditItem(queryable mingru.Queryable, id uint64, userID uint64, content string, modifiedAt time.Time, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `discussion_msg` SET `content` = ?, `modified_at` = ? WHERE `id` = ? AND `user_id` = ?", content, modifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -207,8 +207,8 @@ func (da *TableTypeDiscussionMsg) InsertCmt(db *sql.DB, content string, userID u
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypeDiscussionMsg) insertItemChild1(queryable mingru.Queryable, content string, userID uint64, discussionID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `discussion_msg` (`content`, `user_id`, `discussion_id`, `created_at`, `modified_at`, `cmt_count`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, 0)", content, userID, discussionID)
+func (da *TableTypeDiscussionMsg) insertItemChild1(queryable mingru.Queryable, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, discussionID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `discussion_msg` (`content`, `user_id`, `created_at`, `modified_at`, `discussion_id`, `cmt_count`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0)", content, userID, createdAt, modifiedAt, discussionID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -217,11 +217,11 @@ func (da *TableTypeDiscussionMsg) insertItemChild2(queryable mingru.Queryable, i
 }
 
 // InsertItem ...
-func (da *TableTypeDiscussionMsg) InsertItem(db *sql.DB, content string, userID uint64, discussionID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypeDiscussionMsg) InsertItem(db *sql.DB, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, discussionID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertItemChild1(tx, content, userID, discussionID)
+		insertedID, err := da.insertItemChild1(tx, content, userID, createdAt, modifiedAt, discussionID)
 		if err != nil {
 			return err
 		}
@@ -359,22 +359,6 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 func (da *TableTypeDiscussionMsg) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `content` FROM `discussion_msg` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-// DiscussionMsgTableTestSelectDatesResult ...
-type DiscussionMsgTableTestSelectDatesResult struct {
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
-	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
-}
-
-// TestSelectDates ...
-func (da *TableTypeDiscussionMsg) TestSelectDates(queryable mingru.Queryable, id uint64) (DiscussionMsgTableTestSelectDatesResult, error) {
-	var result DiscussionMsgTableTestSelectDatesResult
-	err := queryable.QueryRow("SELECT `created_at`, `modified_at` FROM `discussion_msg` WHERE `id` = ?", id).Scan(&result.CreatedAt, &result.ModifiedAt)
 	if err != nil {
 		return result, err
 	}

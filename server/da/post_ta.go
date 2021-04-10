@@ -151,8 +151,8 @@ func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error
 }
 
 // EditItem ...
-func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `post` SET `modified_at` = UTC_TIMESTAMP(), `title` = ?, `content` = ? WHERE `id` = ? AND `user_id` = ?", title, content, id, userID)
+func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, modifiedAt time.Time, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE `id` = ? AND `user_id` = ?", title, content, modifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -194,8 +194,8 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ho
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", title, content, userID)
+func (da *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, content string, userID uint64, createdAt time.Time, modifiedAt time.Time) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", title, content, userID, createdAt, modifiedAt)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -204,11 +204,11 @@ func (da *TableTypePost) insertItemChild2(queryable mingru.Queryable, userID uin
 }
 
 // InsertItem ...
-func (da *TableTypePost) InsertItem(db *sql.DB, title string, content string, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypePost) InsertItem(db *sql.DB, title string, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertItemChild1(tx, title, content, userID)
+		insertedID, err := da.insertItemChild1(tx, title, content, userID, createdAt, modifiedAt)
 		if err != nil {
 			return err
 		}
@@ -437,22 +437,6 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.ContentHTML)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-// PostTableTestSelectDatesResult ...
-type PostTableTestSelectDatesResult struct {
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
-	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
-}
-
-// TestSelectDates ...
-func (da *TableTypePost) TestSelectDates(queryable mingru.Queryable, id uint64) (PostTableTestSelectDatesResult, error) {
-	var result PostTableTestSelectDatesResult
-	err := queryable.QueryRow("SELECT `created_at`, `modified_at` FROM `post` WHERE `id` = ?", id).Scan(&result.CreatedAt, &result.ModifiedAt)
 	if err != nil {
 		return result, err
 	}

@@ -20,6 +20,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
+	"time"
 )
 
 func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -56,10 +57,11 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 			forumID = &forumIDValue
 		}
 
+		now := time.Now()
 		switch entityType {
 		case defs.Shared.EntityPost:
 			{
-				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, sanitizedToken, captResult)
+				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, now, now, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Post(insertedID)
@@ -68,7 +70,7 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case defs.Shared.EntityDiscussion:
 			{
-				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
+				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Discussion(insertedID)
@@ -78,14 +80,14 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case defs.Shared.EntityDiscussionMsg:
 			{
 				discussionID := validator.GetIDFromDict(params, "discussionID")
-				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, discussionID, sanitizedToken, captResult)
+				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, now, now, discussionID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 				break
 			}
 
 		case defs.Shared.EntityQuestion:
 			{
-				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, sanitizedToken, captResult)
+				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Question(insertedID)
@@ -97,10 +99,11 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 	} else {
 		// Edit an existing entry.
+		now := time.Now()
 		switch entityType {
 		case defs.Shared.EntityPost:
 			{
-				err = da.Post.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
+				err = da.Post.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Post(id)
@@ -108,13 +111,13 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 			}
 		case defs.Shared.EntityDiscussion:
 			{
-				err = da.Discussion.EditItem(db, id, uid, title, contentHTML, sanitizedToken)
+				err = da.Discussion.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
 		case defs.Shared.EntityDiscussionMsg:
 			{
-				err = da.DiscussionMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
+				err = da.DiscussionMsg.EditItem(db, id, uid, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
