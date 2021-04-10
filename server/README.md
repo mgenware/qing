@@ -13,3 +13,18 @@ We strictly follow the standard Go naming convensions with some additions.
   - `t` testing
   - `da` data access
   - `fx` frameworks
+
+## Run tests
+
+To run all unit tests
+
+```sh
+Q_TEST=/qing/userland/test.json go test ./...
+```
+
+To run an specific test:
+
+```sh
+# cd to the directory of the test you want to run.
+Q_TEST=/qing/userland/test.json go test . -v -count=1
+```
