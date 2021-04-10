@@ -20,6 +20,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const queScript = "queEntry"
+
 // GetQuestion is the HTTP handler for questions.
 func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pid, err := validator.DecodeID(chi.URLParam(r, "qid"))
@@ -33,6 +35,6 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	queModel := NewQuestionPageModel(&que)
 	title := que.Title
 	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(queModel))
-	d.Scripts = appHandler.MainPage().AssetManager().JS.Post
+	d.Scripts = appHandler.MainPage().ScriptString(queScript)
 	return resp.MustComplete(d)
 }

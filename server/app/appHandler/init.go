@@ -12,7 +12,6 @@ import (
 	"qing/app/appConfig"
 	"qing/app/appLog"
 	"qing/app/handler"
-	"qing/app/handler/assetmgr"
 )
 
 var mainPageManager handler.CorePageManager
@@ -21,11 +20,10 @@ func init() {
 	conf := appConfig.Get()
 	logger := appLog.Get()
 
-	assMgr := assetmgr.NewAssetsManager(conf.Debug)
 	if conf.TestMode {
-		mainPageManager = handler.MustCreateTestPageManager(conf, assMgr, logger)
+		mainPageManager = handler.MustCreateTestPageManager(conf, logger)
 	} else {
-		mainPageManager = handler.MustCreateMainPageManager(conf, assMgr, logger)
+		mainPageManager = handler.MustCreateMainPageManager(conf, logger)
 		log.Printf("✅ App handler: Loaded at \"%v\"", conf.Templates.Dir)
 	}
 }

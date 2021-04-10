@@ -15,7 +15,6 @@ import (
 	"qing/app/appcom"
 	"qing/app/config"
 
-	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 
 	"github.com/mgenware/go-packagex/v6/httpx"
@@ -29,13 +28,11 @@ type TestPageManager struct {
 	errorView PageTemplateType
 	logger    app.CoreLog
 
-	locMgr   localization.CoreManager
-	assetMgr *assetmgr.AssetManager
+	locMgr localization.CoreManager
 }
 
 func MustCreateTestPageManager(
 	conf *config.Config,
-	assetMgr *assetmgr.AssetManager,
 	logger app.CoreLog,
 ) *TestPageManager {
 	locMgr, err := localization.NewTestManagerFromConfig(conf.Localization)
@@ -44,18 +41,17 @@ func MustCreateTestPageManager(
 	}
 
 	t := &TestPageManager{
-		locMgr:   locMgr,
-		assetMgr: assetMgr,
-		logger:   logger,
-		conf:     conf,
+		locMgr: locMgr,
+		logger: logger,
+		conf:   conf,
 	}
 	t.mainView = t.MustParseView("main_test.html")
 	t.errorView = t.MustParseView("error.html")
 	return t
 }
 
-func (m *TestPageManager) AssetManager() *assetmgr.AssetManager {
-	return m.assetMgr
+func (m *TestPageManager) ScriptString(name string) string {
+	return "<script." + name + ">"
 }
 
 func (m *TestPageManager) LocalizationManager() localization.CoreManager {

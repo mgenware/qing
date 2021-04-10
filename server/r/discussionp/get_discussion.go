@@ -24,6 +24,8 @@ import (
 
 const defaultPageSize = 20
 
+const discussionScript = "discussionEntry"
+
 // GetDiscussion is the HTTP handler for discussions.
 func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tid, err := validator.DecodeID(chi.URLParam(r, "tid"))
@@ -55,7 +57,7 @@ func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	discussionModel := NewDiscussionPageModel(&discussion, msgListBuilder.String(), pageBarHTML)
 	title := discussion.Title
 	d := appHandler.MainPageData(title, vDiscussionPage.MustExecuteToString(discussionModel))
-	d.Scripts = appHandler.MainPage().AssetManager().JS.Discussion
+	d.Scripts = appHandler.MainPage().ScriptString(discussionScript)
 	d.WindData = DiscussionPageWindData{EID: discussionModel.EID, ReplyCount: discussion.ReplyCount}
 	return resp.MustComplete(d)
 }

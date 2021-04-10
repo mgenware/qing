@@ -15,6 +15,8 @@ import (
 	"golang.org/x/text/language/display"
 )
 
+const langScript = "langEntry"
+
 // LangHandler handles route of lang settings.
 func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
@@ -35,7 +37,7 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().JS.Lang
+	d.Scripts = appHandler.MainPage().ScriptString(langScript)
 	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"
 

@@ -23,6 +23,8 @@ import (
 )
 
 const defaultPageSize = 10
+const homeStdScript = "homeStdEntry"
+const homeForumScript = "homeFrmEntry"
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
@@ -62,7 +64,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 		d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
-		d.Scripts = appHandler.MainPage().AssetManager().JS.HomeStd
+		d.Scripts = appHandler.MainPage().ScriptString(homeStdScript)
 		return resp.MustComplete(d)
 	}
 
@@ -121,6 +123,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	d := appHandler.MainPageData("", mainHTML)
-	d.Scripts = appHandler.MainPage().AssetManager().JS.HomeFrm
+	d.Scripts = appHandler.MainPage().ScriptString(homeForumScript)
 	return resp.MustComplete(d)
 }

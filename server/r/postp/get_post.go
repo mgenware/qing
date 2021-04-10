@@ -20,6 +20,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const postScript = "postEntry"
+
 // GetPost is the HTTP handler for posts.
 func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pid, err := validator.DecodeID(chi.URLParam(r, "pid"))
@@ -33,7 +35,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	postModel := NewPostPageModel(&post)
 	title := post.Title
 	d := appHandler.MainPageData(title, vPostPage.MustExecuteToString(postModel))
-	d.Scripts = appHandler.MainPage().AssetManager().JS.Post
+	d.Scripts = appHandler.MainPage().ScriptString(postScript)
 	d.WindData = PostPageWindData{EID: postModel.EID, CmtCount: postModel.CmtCount, InitialLikes: postModel.Likes}
 	return resp.MustComplete(d)
 }

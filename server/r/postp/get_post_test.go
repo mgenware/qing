@@ -31,4 +31,6 @@ func TestGetProfile(t *testing.T) {
 	st.Assert(t, rr.Code, http.StatusOK)
 	log.Print(rr.Body.String())
 	// st.Assert(t, rr.Body.String(), "")
+
+	st.PanicIfErr(da.Post.DeleteItem(db, id, st.UserID))
 }

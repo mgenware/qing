@@ -21,7 +21,7 @@ import (
 	"qing/app/config"
 	txt "text/template"
 
-	"qing/app/handler/assetmgr"
+	"qing/app/handler/jsm"
 	"qing/app/handler/localization"
 
 	"github.com/mgenware/go-packagex/v6/httpx"
@@ -39,14 +39,13 @@ type MainPageManager struct {
 	mainView  PageTemplateType
 	errorView PageTemplateType
 	locMgr    localization.CoreManager
-	assetMgr  *assetmgr.AssetManager
+	jsMgr     *jsm.JSManager
 	logger    app.CoreLog
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
 	conf *config.Config,
-	assetMgr *assetmgr.AssetManager,
 	logger app.CoreLog,
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
@@ -55,14 +54,16 @@ func MustCreateMainPageManager(
 	}
 
 	// Create the localization manager used by localized template views.
-	localizationManager, err := localization.NewManagerFromConfig(conf.Localization)
+	locMgr, err := localization.NewManagerFromConfig(conf.Localization)
 	if err != nil {
 		panic(err)
 	}
 
+	jsMgr := jsm.NewJSManager(conf.DevMode())
+
 	t := &MainPageManager{
-		locMgr:               localizationManager,
-		assetMgr:             assetMgr,
+		locMgr:               locMgr,
+		jsMgr:                jsMgr,
 		logger:               logger,
 		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
@@ -78,8 +79,8 @@ func MustCreateMainPageManager(
 	return t
 }
 
-func (m *MainPageManager) AssetManager() *assetmgr.AssetManager {
-	return m.assetMgr
+func (m *MainPageManager) ScriptString(name string) string {
+	return m.jsMgr.ScriptString(name)
 }
 
 func (m *MainPageManager) LocalizationManager() localization.CoreManager {
@@ -109,8 +110,6 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	d.Title = m.PageTitle(lang, d.Title)
 
 	// Setup additional assets
-	js := m.AssetManager().JS
-
 	d.Header = d.Header
 	d.AppLang = lang
 	d.AppForumsMode = m.conf.Setup.ForumsMode
@@ -120,7 +119,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		d.AppWindDataString = string(jsonBytes)
 	}
 
-	script := ""
+	scripts := m.jsMgr.SystemScripts
 	// Language file, this should be loaded first as the main.js relies on it.
 	if m.conf.DevMode() {
 		// Read the JSON content and inject it to main page in dev mode.
@@ -135,14 +134,11 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		if err != nil {
 			panic(err) // can panic in dev mode
 		}
-		script += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
+		scripts += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
 	}
 
-	// Main JS files
-	script += js.Loader + js.Polyfills + js.Main
-
 	// System scripts come before user scripts
-	d.Scripts = script + d.Scripts
+	d.Scripts = scripts + d.Scripts
 
 	// User info
 	user := appcom.ContextUser(ctx)

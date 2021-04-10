@@ -10,7 +10,6 @@ package handler
 import (
 	"net/http"
 
-	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 )
 
@@ -22,6 +21,6 @@ type CorePageManager interface {
 	Dictionary(lang string) *localization.Dictionary
 	PageTitle(lang, s string) string
 
-	AssetManager() *assetmgr.AssetManager
+	ScriptString(name string) string
 	LocalizationManager() localization.CoreManager
 }

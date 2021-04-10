@@ -17,6 +17,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const forumSettingsScript = "forumSettingsEntry"
+
 // ForumSettingsPageWindData ...
 type ForumSettingsPageWindData struct {
 	EID string
@@ -38,7 +40,7 @@ func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().JS.ForumSettings
+	d.Scripts = appHandler.MainPage().ScriptString(forumSettingsScript)
 	d.WindData = NewForumSettingsPageWindData(fid)
 
 	return resp.MustComplete(d)
