@@ -122,7 +122,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 	script := ""
 	// Language file, this should be loaded first as the main.js relies on it.
-	if m.conf.Debug != nil {
+	if m.conf.DevMode() {
 		// Read the JSON content and inject it to main page in dev mode.
 		jsonFileName := fmt.Sprintf("%v.json", lang)
 		jsonFile := filepath.Join(m.conf.Localization.Dir, jsonFileName)

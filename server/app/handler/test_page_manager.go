@@ -8,29 +8,25 @@
 package handler
 
 import (
-	"bytes"
-	"database/sql"
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"os"
 	"path/filepath"
 	"qing/app"
 	"qing/app/appcom"
 	"qing/app/config"
-	txt "text/template"
 
 	"qing/app/handler/assetmgr"
 	"qing/app/handler/localization"
 
 	"github.com/mgenware/go-packagex/v6/httpx"
+	"github.com/mgenware/go-packagex/v6/templatex"
 )
 
 // TestPageManager is used to generate site main HTML page.
 type TestPageManager struct {
 	conf      *config.Config
-	mainView  *TestTemplate
-	errorView *TestTemplate
+	mainView  PageTemplateType
+	errorView PageTemplateType
 	logger    app.CoreLog
 
 	locMgr   localization.CoreManager
@@ -48,13 +44,13 @@ func MustCreateTestPageManager(
 	}
 
 	t := &TestPageManager{
-		locMgr:    locMgr,
-		assetMgr:  assetMgr,
-		logger:    logger,
-		conf:      conf,
-		errorView: NewTestTemplate("error"),
-		mainView:  NewTestTemplate("main"),
+		locMgr:   locMgr,
+		assetMgr: assetMgr,
+		logger:   logger,
+		conf:     conf,
 	}
+	t.mainView = t.MustParseView("main_test.html")
+	t.errorView = t.MustParseView("error.html")
 	return t
 }
 
@@ -88,10 +84,6 @@ func (m *TestPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	// Add site name to title
 	d.Title = m.PageTitle(lang, d.Title)
 
-	// Setup additional assets
-	js := m.AssetManager().JS
-
-	d.Header = d.Header
 	d.AppLang = lang
 	d.AppForumsMode = m.conf.Setup.ForumsMode
 	d.AppHTMLLang = lang
@@ -99,30 +91,6 @@ func (m *TestPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		jsonBytes, _ := json.Marshal(d.WindData)
 		d.AppWindDataString = string(jsonBytes)
 	}
-
-	script := ""
-	// Language file, this should be loaded first as the main.js relies on it.
-	if m.conf.Debug != nil {
-		// Read the JSON content and inject it to main page in dev mode.
-		jsonFileName := fmt.Sprintf("%v.json", lang)
-		jsonFile := filepath.Join(m.conf.Localization.Dir, jsonFileName)
-		jsonBytes, err := os.ReadFile(jsonFile)
-		if err != nil {
-			panic(err) // can panic in dev mode
-		}
-		var buffer bytes.Buffer
-		err = json.Compact(&buffer, jsonBytes)
-		if err != nil {
-			panic(err) // can panic in dev mode
-		}
-		script += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
-	}
-
-	// Main JS files
-	script += js.Loader + js.Polyfills + js.Main
-
-	// System scripts come before user scripts
-	d.Scripts = script + d.Scripts
 
 	// User info
 	user := appcom.ContextUser(ctx)
@@ -139,29 +107,7 @@ func (m *TestPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 // MustError executes the main view template with the specified data and panics if error occurs.
 func (m *TestPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
-	d := &ErrorPageData{Message: err.Error()}
-	// Handle unexpected errors
-	if !expected {
-		if err == sql.ErrNoRows {
-			// Consider `sql.ErrNoRows` as 404 not found error
-			w.WriteHeader(http.StatusNotFound)
-			// Set `expected` to `true`
-			expected = true
-
-			d.Message = m.Dictionary(lang).ResourceNotFound
-			if m.conf.HTTP.Log404Error {
-				m.logger.NotFound("sql", r.URL.String())
-			}
-		} else {
-			// At this point, this should be a 500 server internal error
-			w.WriteHeader(http.StatusInternalServerError)
-			m.logger.Error("fatal-error", "msg", d.Message)
-		}
-	}
-	errorHTML := m.errorView.MustExecuteToString(d)
-	htmlData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
-	m.MustComplete(r, lang, htmlData, w)
-	return HTML(0)
+	panic("Not supported")
 }
 
 // PageTitle returns the given string followed by the localized site name.
@@ -175,7 +121,8 @@ func (m *TestPageManager) PageTitle(lang, s string) string {
 
 // MustParseView creates a new View with the given relative path.
 func (m *TestPageManager) MustParseView(relativePath string) PageTemplateType {
-	return NewTestTemplate(relativePath)
+	file := filepath.Join(m.conf.Templates.Dir, relativePath)
+	return templatex.MustParseView(file, false)
 }
 
 // Dictionary returns a localized dictionary with the specified language ID.
