@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="./web/static/img/main/qing.svg" width="300" height="300" alt="The Qing Project">
+	<img src="./userland/static/img/main/qing.svg" width="300" height="300" alt="The Qing Project">
 	<br>
 	<h1>Qing [Work in Progress]</h1>
 </div>
