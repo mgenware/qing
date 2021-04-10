@@ -11,11 +11,14 @@ import (
 	"flag"
 	"log"
 	"os"
+	"path/filepath"
 	"qing/app/config"
 	"qing/app/config/configs"
 )
 
 var conf *config.Config
+var confPath string
+var confDir string
 
 func Get() *config.Config {
 	return conf
@@ -26,17 +29,17 @@ func SetupConfig() *configs.SetupConfig {
 }
 
 func init() {
-	configPath := os.Getenv("Q_TEST")
+	confPath := os.Getenv("Q_TEST")
 
-	if configPath == "" {
+	if confPath == "" {
 		// Parse command-line arguments
-		flag.StringVar(&configPath, "config", "", "path of application config file")
+		flag.StringVar(&confPath, "config", "", "path of application config file")
 		flag.Parse()
 
-		// If `--config` is not specified, check if user has an extra argument like "go run main.go dev", which we consider it as --config "./config/dev.json"
+		// If `--config` is not specified, check if user has an extra argument like `go run main.go dev`, which we consider it as `--config "./userland/dev.json"`.
 		userArgs := os.Args[1:]
 		if len(userArgs) >= 1 {
-			configPath = config.GetDefaultConfigFilePath(userArgs[0] + ".json")
+			confPath = getDefaultConfigFilePath(userArgs[0] + ".json")
 		} else {
 			flag.PrintDefaults()
 			os.Exit(1)
@@ -44,9 +47,10 @@ func init() {
 	}
 
 	// Read config file
-	conf = config.MustReadConfig(configPath)
+	conf = config.MustReadConfig(confPath)
+	confDir = filepath.Dir(confPath)
 
-	log.Printf("✅ App config: Loaded at \"%v\"", configPath)
+	log.Printf("✅ App config: Loaded at \"%v\"", confPath)
 	if conf.DevMode() {
 		log.Printf("😡 Application running in dev mode")
 	}

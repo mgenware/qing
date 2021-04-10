@@ -57,7 +57,7 @@ if (!isProd) {
 export default {
   input: input.map((s) => 'src/' + s),
   output: {
-    dir: 'static/d/js',
+    dir: '../userland/static/d/js',
     format: 'system',
     sourcemap: true,
   },

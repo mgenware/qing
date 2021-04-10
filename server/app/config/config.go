@@ -25,11 +25,6 @@ import (
 
 const schemaFileName = "qing-conf.schema.json"
 
-// GetDefaultConfigFilePath returns a config file path in default app config dir.
-func GetDefaultConfigFilePath(name string) string {
-	return filepath.Join("./config/", name)
-}
-
 // Config is the root configuration type for your application.
 type Config struct {
 	// Extends specifies another file which this file extends from.
@@ -117,7 +112,15 @@ func readConfigCore(absFile string) (*Config, error) {
 
 // MustReadConfig constructs a config object from the given file.
 func MustReadConfig(file string) *Config {
-	absFile := mustGetAbsPath(file)
+	absFile := file
+	if !filepath.IsAbs(file) {
+		s, err := filepath.Abs(file)
+		if err != nil {
+			panic(err)
+		}
+		absFile = s
+	}
+	configDir := filepath.Dir(absFile)
 	conf, err := readConfigCore(absFile)
 	if err != nil {
 		panic(err)
@@ -125,7 +128,7 @@ func MustReadConfig(file string) *Config {
 
 	schemaPath := filepath.Join(filepath.Dir(absFile), schemaFileName)
 	mustValidateConfig(conf, schemaPath)
-	conf.mustCoerceConfig()
+	conf.mustCoerceConfig(configDir)
 	return conf
 }
 
@@ -151,50 +154,46 @@ func mustValidateConfig(conf *Config, schemaFilePath string) {
 	}
 }
 
-func (conf *Config) mustCoerceConfig() {
+func (conf *Config) mustCoerceConfig(dir string) {
 	// AppProfile
 	appProfileConfig := conf.AppProfile
-	mustCoercePath(&appProfileConfig.Dir)
+	mustCoercePathPtr(dir, &appProfileConfig.Dir)
 
 	// HTTP
 	httpConfig := conf.HTTP
 	httpStaticConfig := httpConfig.Static
 	if httpStaticConfig != nil {
-		mustCoercePath(&httpStaticConfig.Dir)
+		mustCoercePathPtr(dir, &httpStaticConfig.Dir)
 	}
 
 	// Templates
 	templatesConfig := conf.Templates
-	mustCoercePath(&templatesConfig.Dir)
+	mustCoercePathPtr(dir, &templatesConfig.Dir)
 
 	// Localization
 	localizationConfig := conf.Localization
-	mustCoercePath(&localizationConfig.Dir)
+	mustCoercePathPtr(dir, &localizationConfig.Dir)
 
 	// Res
 	resConfig := conf.ResServer
-	mustCoercePath(&resConfig.Dir)
+	mustCoercePathPtr(dir, &resConfig.Dir)
 }
 
-func mustGetAbsPath(p string) string {
+func mustCoercePath(dir, p string) string {
 	if p == "" {
 		return p
 	}
 	if filepath.IsAbs(p) {
 		return p
 	}
-	res, err := filepath.Abs(p)
-	if err != nil {
-		panic(err)
-	}
-	return res
+	return filepath.Join(dir, p)
 }
 
-func mustCoercePath(p *string) {
+func mustCoercePathPtr(dir string, p *string) {
 	if p == nil {
 		return
 	}
-	absPath := mustGetAbsPath(*p)
+	absPath := mustCoercePath(dir, *p)
 	*p = absPath
 }
 

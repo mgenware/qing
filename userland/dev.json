@@ -4,12 +4,12 @@
     "port": 12001,
     "static": {
       "url": "/static",
-      "dir": "../web/static"
+      "dir": "./static"
     },
     "log_404_error": true
   },
   "templates": {
-    "dir": "../web/templates"
+    "dir": "./templates"
   },
   "logging": {
     "dir": "../appdata/log/dev"
