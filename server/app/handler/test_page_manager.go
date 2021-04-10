@@ -45,7 +45,7 @@ func MustCreateTestPageManager(
 		logger: logger,
 		conf:   conf,
 	}
-	t.mainView = t.MustParseView("main_test.html")
+	t.mainView = t.MustParseView("main_test.txt")
 	t.errorView = t.MustParseView("error.html")
 	return t
 }
