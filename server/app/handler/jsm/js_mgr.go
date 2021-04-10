@@ -73,6 +73,7 @@ type JSManager struct {
 func NewJSManager(dev bool) *JSManager {
 	r := &JSManager{}
 	r.dev = dev
+	r.entries = make(map[string]string)
 
 	var mainEntryJS string
 	if r.dev {
