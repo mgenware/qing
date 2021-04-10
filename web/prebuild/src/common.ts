@@ -5,6 +5,8 @@
  * be found in the LICENSE file.
  */
 
+import * as mfs from 'm-fs';
+
 export const copyrightString = `/*
  * Copyright (C) The Qing Project. All rights reserved.
  *
@@ -12,10 +14,29 @@ export const copyrightString = `/*
  * can be found in the LICENSE file.
  */\n\n`;
 
+export const langsDir = '../userland/langs/';
+export const langsDataDir = langsDir + 'data/';
+
+export const defaultLangPath = langsDataDir + 'en.json';
+
 export function serverPath(path: string): string {
   return `../server/${path}`;
 }
 
 export function webPath(path: string): string {
   return `./${path}`;
+}
+
+export async function langNamesAsync(): Promise<string[]> {
+  const jsonFile = langsDir + 'langs.json';
+  const obj = JSON.parse(await mfs.readTextFileAsync(jsonFile)) as any;
+  const names = obj.langs as string[];
+  if (!Array.isArray(names)) {
+    throw new Error(`Assertion failed. \`names\` is not an array. Got: ${names}`);
+  }
+  return names;
+}
+
+export function langDataPath(name: string): string {
+  return langsDataDir + `${name}.json`;
 }

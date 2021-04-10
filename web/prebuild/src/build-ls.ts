@@ -6,9 +6,16 @@
  */
 
 import * as mfs from 'm-fs';
-import * as nodepath from 'path';
 import { goConstGenCore, PropData } from 'go-const-gen';
-import { webPath, serverPath, copyrightString } from './common.js';
+import {
+  webPath,
+  serverPath,
+  copyrightString,
+  langNamesAsync,
+  langDataPath,
+  defaultLangPath,
+  langsDir,
+} from './common.js';
 
 async function buildWebLSDef(content: string): Promise<void> {
   const lsObj = JSON.parse(content);
@@ -45,7 +52,7 @@ var TestDict *Dictionary
 func init() {
 \tTestDict = &Dictionary{}\n`;
   for (const prop of propData) {
-    res += `\tTestDict.${prop.namePascalCase} = "${prop.name}"\n`;
+    res += `\tTestDict.${prop.namePascalCase} = "ls.${prop.name}"\n`;
   }
   res += '}\n';
   await mfs.writeFileAsync(serverPath('app/handler/localization/test_dictionary.go'), res);
@@ -61,16 +68,16 @@ async function writeENLangForTesting(content: string): Promise<void> {
 async function buildDistJS(name: string, file: string): Promise<void> {
   const content = await mfs.readTextFileAsync(file);
   const out = `window.ls = ${content}`;
-  await mfs.writeFileAsync(webPath(`langs/dist/${name}.js`), out);
+  await mfs.writeFileAsync(webPath(`${langsDir}/dist/${name}.js`), out);
 }
 
 async function buildLangs() {
-  const names = (await mfs.subFiles(webPath('langs/data'))).map((s) => nodepath.parse(s).name);
-  const files = names.map((s) => webPath(`langs/data/${s}.json`));
+  const names = await langNamesAsync();
+  const files = names.map(langDataPath);
   await Promise.all(files.map((f, idx) => buildDistJS(names[idx] as string, f)));
 }
 
-const lsString = await mfs.readTextFileAsync(webPath('langs/data/en.json'));
+const lsString = await mfs.readTextFileAsync(defaultLangPath);
 await Promise.all([
   buildWebLSDef(lsString),
   buildServerDictFiles(lsString),
