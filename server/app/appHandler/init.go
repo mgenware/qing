@@ -22,7 +22,7 @@ func init() {
 	logger := appLog.Get()
 
 	assMgr := assetmgr.NewAssetsManager(conf.Debug)
-	if conf.IsUnitTesting {
+	if conf.TestMode {
 		mainPageManager = handler.MustCreateTestPageManager(conf, assMgr, logger)
 	} else {
 		mainPageManager = handler.MustCreateMainPageManager(conf, assMgr, logger)

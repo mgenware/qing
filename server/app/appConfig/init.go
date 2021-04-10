@@ -51,7 +51,9 @@ func init() {
 	confDir = filepath.Dir(confPath)
 
 	log.Printf("✅ App config: Loaded at \"%v\"", confPath)
-	if conf.DevMode() {
-		log.Printf("😡 Application running in dev mode")
+	if conf.TestMode {
+		log.Printf("🟣 Application running in test mode")
+	} else if conf.DevMode() {
+		log.Printf("🟡 Application running in dev mode")
 	}
 }

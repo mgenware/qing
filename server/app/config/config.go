@@ -49,7 +49,7 @@ type Config struct {
 	// Extern config data.
 	Extern *configs.ExternConfig `json:"extern"`
 
-	IsUnitTesting bool `json:"is_unit_mode"`
+	TestMode bool `json:"test_mode"`
 }
 
 // DevMode checks if debug config field is on.
@@ -134,7 +134,7 @@ func MustReadConfig(file string) *Config {
 
 func mustValidateConfig(conf *Config, schemaFilePath string) {
 	// Validate with JSON schema.
-	log.Printf("🚙 Validate config against schema \"%v\"", schemaFilePath)
+	log.Printf("Validate config against schema \"%v\"", schemaFilePath)
 
 	schemaFilePath = toFileURI(schemaFilePath)
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)

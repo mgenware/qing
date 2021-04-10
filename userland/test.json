@@ -1,3 +1,4 @@
 {
-  "extends": "dev.json"
+  "extends": "dev.json",
+  "test_mode": true
 }
