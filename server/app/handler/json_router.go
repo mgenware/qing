@@ -18,7 +18,7 @@ type JSONHandlerFunc func(http.ResponseWriter, *http.Request) JSON
 
 // JSONRouter wraps a chi.Router and provides methods for create JSON-related router.
 type JSONRouter struct {
-	Core chi.Router
+	Core *chi.Mux
 }
 
 // NewJSONRouter creates a JSON router.

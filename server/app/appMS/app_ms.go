@@ -43,27 +43,27 @@ func newAppMSConn(pool *redis.Pool) *AppMSConn {
 	return &AppMSConn{pool: pool}
 }
 
-func (store *AppMSConn) Pool() *redis.Pool {
-	return store.pool
+func (conn *AppMSConn) Pool() *redis.Pool {
+	return conn.pool
 }
 
-func (store *AppMSConn) Destroy() error {
-	return store.pool.Close()
+func (conn *AppMSConn) Destroy() error {
+	return conn.pool.Close()
 }
 
-func (store *AppMSConn) SetStringValue(key string, val string, expiresInSecs int) error {
+func (conn *AppMSConn) SetStringValue(key string, val string, expiresInSecs int) error {
 	if expiresInSecs > 0 {
-		return store.setValueWithTimeoutInternal(key, val, expiresInSecs)
+		return conn.setValueWithTimeoutInternal(key, val, expiresInSecs)
 	}
-	return store.setValueInternal(key, val)
+	return conn.setValueInternal(key, val)
 }
 
-func (store *AppMSConn) Exist(key string) (bool, error) {
-	c := store.pool.Get()
+func (conn *AppMSConn) Exist(key string) (bool, error) {
+	c := conn.pool.Get()
 	defer c.Close()
 
 	exists, err := redis.Bool(c.Do("EXISTS", key))
-	if err == store.NilValueErr() {
+	if err == conn.nilValueErr() {
 		return false, nil
 	}
 	if err != nil {
@@ -72,39 +72,35 @@ func (store *AppMSConn) Exist(key string) (bool, error) {
 	return exists, nil
 }
 
-func (store *AppMSConn) GetStringValue(key string) (string, error) {
-	c := store.pool.Get()
+func (conn *AppMSConn) GetStringValue(key string) (string, error) {
+	c := conn.pool.Get()
 	defer c.Close()
 
-	return redis.String(c.Do("GET", key))
-}
-
-func (store *AppMSConn) GetStringValueOrDefault(key string) (string, error) {
-	value, err := store.GetStringValue(key)
-	if err == store.NilValueErr() {
+	value, err := redis.String(c.Do("GET", key))
+	if err == conn.nilValueErr() {
 		return "", nil
 	}
 	return value, err
 }
 
-func (store *AppMSConn) RemoveValue(key string) error {
-	c := store.pool.Get()
+func (conn *AppMSConn) RemoveValue(key string) error {
+	c := conn.pool.Get()
 	defer c.Close()
 
 	_, err := c.Do("DEL", key)
 	return err
 }
 
-func (store *AppMSConn) Clear() error {
-	c := store.pool.Get()
+func (conn *AppMSConn) Clear() error {
+	c := conn.pool.Get()
 	defer c.Close()
 
 	_, err := c.Do("FLUSHALL")
 	return err
 }
 
-func (store *AppMSConn) Ping() error {
-	c := store.pool.Get()
+func (conn *AppMSConn) Ping() error {
+	c := conn.pool.Get()
 	defer c.Close()
 
 	res, err := redis.String(c.Do("PING"))
@@ -117,32 +113,24 @@ func (store *AppMSConn) Ping() error {
 	return nil
 }
 
-func (store *AppMSConn) Select(index int) error {
-	c := store.pool.Get()
-	defer c.Close()
-
-	_, err := c.Do("SELECT", index)
-	return err
-}
-
-func (store *AppMSConn) NilValueErr() error {
-	return redis.ErrNil
-}
-
 /*** Internal functions ***/
 
-func (store *AppMSConn) setValueInternal(key string, val interface{}) error {
-	c := store.pool.Get()
+func (conn *AppMSConn) setValueInternal(key string, val interface{}) error {
+	c := conn.pool.Get()
 	defer c.Close()
 
 	_, err := c.Do("SET", key, val)
 	return err
 }
 
-func (store *AppMSConn) setValueWithTimeoutInternal(key string, val interface{}, expires int) error {
-	c := store.pool.Get()
+func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val interface{}, expires int) error {
+	c := conn.pool.Get()
 	defer c.Close()
 
 	_, err := c.Do("SETEX", key, expires, val)
 	return err
+}
+
+func (conn *AppMSConn) nilValueErr() error {
+	return redis.ErrNil
 }

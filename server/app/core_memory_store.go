@@ -8,16 +8,13 @@
 package app
 
 type CoreMemoryStoreConn interface {
-	SetStringValue(key string, val string, expiresInSecs int) error
+	Ping() error
 	Exist(key string) (bool, error)
 	GetStringValue(key string) (string, error)
-	GetStringValueOrDefault(key string) (string, error)
+	SetStringValue(key string, val string, expiresInSecs int) error
 	RemoveValue(key string) error
-	Destroy() error
 	Clear() error
-	Ping() error
-	Select(index int) error
-	NilValueErr() error
+	Destroy() error
 }
 
 type CoreMemoryStore interface {

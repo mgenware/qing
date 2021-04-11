@@ -41,7 +41,7 @@ func (ev *EmailVerificator) Add(email, data string) (string, error) {
 	pendingID, err := ev.conn.GetStringValue(emailToIDKey)
 
 	// Ignore key not found error.
-	if err != nil && err != ev.conn.NilValueErr() {
+	if err != nil {
 		return "", err
 	}
 	if pendingID != "" {
@@ -79,11 +79,10 @@ func (ev *EmailVerificator) Verify(id string) (string, error) {
 	// Getting data from memory store.
 	data, err := ev.conn.GetStringValue(ev.getIDToDataKey(email, id))
 	if err != nil {
-		// Key not found in memory store.
-		if err == ev.conn.NilValueErr() {
-			return "", nil
-		}
 		return "", err
+	}
+	if data == "" {
+		return "", nil
 	}
 
 	// Value found, remove two keys associated.
