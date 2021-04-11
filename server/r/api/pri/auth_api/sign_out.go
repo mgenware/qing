@@ -16,7 +16,7 @@ import (
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	err := appUserManager.Get().SessionManager.Logout(w, r)
+	err := appUserManager.Get().Logout(w, r)
 	if err != nil {
 		return resp.MustFail(err)
 	}

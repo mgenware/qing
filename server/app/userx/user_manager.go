@@ -20,9 +20,9 @@ import (
 
 // UserManager manages user sessions.
 type UserManager struct {
-	SessionManager  *SessionManager
-	MainPageManager handler.CorePageManager
-	DB              app.CoreDB
+	sessionManager  *SessionManager
+	mainPageManager handler.CorePageManager
+	db              app.CoreDB
 
 	appURL      *urlx.URL
 	forumsMode  bool
@@ -38,13 +38,34 @@ func NewUserManager(
 	forumsMode bool,
 	debugConfig *configs.DebugConfig,
 ) *UserManager {
-	ret := &UserManager{DB: db, SessionManager: ssMgr, MainPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
+	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
 	return ret
 }
 
-// CreateUserSessionFromUID creates a User from the given uid.
-func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
-	db := appu.DB
+func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Request) error {
+	user, err := appu.createUserSessionFromUID(uid)
+	if err != nil {
+		return err
+	}
+
+	return appu.sessionManager.Login(w, r, user)
+}
+
+func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
+	return appu.Logout(w, r)
+}
+
+func (appu *UserManager) UpdateUserSession(sid string, user *appcom.SessionUser) error {
+	return appu.sessionManager.SetUserSession(sid, user)
+}
+
+func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {
+	return appu.sessionManager.ParseUserSessionMiddleware(next)
+}
+
+// createUserSessionFromUID fetches user info from DB and creates a `appcom.SessionUser`.
+func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
+	db := appu.db
 	if appu.forumsMode {
 		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
 		if err != nil {
@@ -54,14 +75,14 @@ func (appu *UserManager) CreateUserSessionFromUID(uid uint64) (*appcom.SessionUs
 		if u.IsForumMod != nil {
 			isForumMod = true
 		}
-		user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, isForumMod)
+		user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, isForumMod)
 		return user, nil
 	}
 	u, err := da.User.SelectSessionData(db.DB(), uid)
 	if err != nil {
 		return nil, err
 	}
-	user := appu.SessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, false)
+	user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Status, false)
 	return user, nil
 }
 

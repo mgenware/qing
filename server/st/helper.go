@@ -9,6 +9,7 @@
 package st
 
 import (
+	"qing/app/appUserManager"
 	"runtime/debug"
 	"testing"
 
@@ -35,5 +36,17 @@ func Assert(t *testing.T, b bool) {
 func PanicIfErr(err error) {
 	if err != nil {
 		panic(err)
+	}
+}
+
+func Login(uid uint64) {
+	user, err := appUserManager.Get().CreateUserSessionFromUID(uid)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = appUserManager.Get().SessionManager.Login(w, r, user)
+	if err != nil {
+		panic(err.Error())
 	}
 }

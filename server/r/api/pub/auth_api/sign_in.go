@@ -57,15 +57,11 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
 	}
 
-	user, err := appUserManager.Get().CreateUserSessionFromUID(uid)
+	err = appUserManager.Get().Login(uid, w, r)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	err = appUserManager.Get().SessionManager.Login(w, r, user)
-	if err != nil {
-		panic(err.Error())
-	}
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	return handler.JSON(0)
 }

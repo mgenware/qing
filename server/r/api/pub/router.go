@@ -18,7 +18,7 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Core.Use(middleware.ParseJSONMiddleware)
+	Router.Core.Use(middleware.ParseJSON)
 
 	Router.Mount("/cmt", cmtapi.Router)
 	Router.Mount("/auth", authapi.Router)

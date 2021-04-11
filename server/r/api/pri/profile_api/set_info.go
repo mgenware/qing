@@ -67,7 +67,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Update session
 	sUser.Name = nick
 	sid := app.ContextSID(r)
-	err = appUserManager.Get().SessionManager.SetUserSession(sid, sUser)
+	err = appUserManager.Get().UpdateUserSession(sid, sUser)
 	if err != nil {
 		return resp.MustFail(err)
 	}

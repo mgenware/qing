@@ -24,10 +24,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := strconvx.ParseUint64(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 
-	user, err := appUserManager.Get().CreateUserSessionFromUID(uid)
-	app.PanicIfErr(err)
-
-	err = appUserManager.Get().SessionManager.Login(w, r, user)
+	err = appUserManager.Get().Login(uid, w, r)
 	app.PanicIfErr(err)
 
 	return resp.Redirect("/", http.StatusTemporaryRedirect)
@@ -35,7 +32,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
-	err := appUserManager.Get().SessionManager.Logout(w, r)
+	err := appUserManager.Get().Logout(w, r)
 	app.PanicIfErr(err)
 
 	return resp.Redirect("/", http.StatusTemporaryRedirect)

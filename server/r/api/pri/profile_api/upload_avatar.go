@@ -149,7 +149,7 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	// Update session.
 	user.IconName = avatarName
 	sid := appcom.ContextSID(ctx)
-	err = appUserManager.Get().SessionManager.SetUserSession(sid, user)
+	err = appUserManager.Get().UpdateUserSession(sid, user)
 	if err != nil {
 		return 0, "", err
 	}

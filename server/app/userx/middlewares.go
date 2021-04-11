@@ -15,18 +15,25 @@ import (
 )
 
 func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcom.SessionUser) error {
-	sid, err := newSessionID(user.ID)
+	sid, err := sm.LoginCore(user)
 	if err != nil {
 		return err
 	}
-	err = sm.SetUserSession(sid, user)
-	if err != nil {
-		return err
-	}
-
 	cookie := newSessionCookie(sid)
 	http.SetCookie(w, cookie)
 	return nil
+}
+
+func (sm *SessionManager) LoginCore(user *appcom.SessionUser) (string, error) {
+	sid, err := newSessionID(user.ID)
+	if err != nil {
+		return "", err
+	}
+	err = sm.SetUserSession(sid, user)
+	if err != nil {
+		return "", err
+	}
+	return sid, nil
 }
 
 func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
@@ -40,7 +47,7 @@ func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// server: remove session
-	err := sm.RemoveUserSession(uid, sid)
+	err := sm.LogoutCore(uid, sid)
 	if err != nil {
 		sm.logger.Warn("session.logout.removeSession", "err", err.Error())
 		return nil
@@ -50,6 +57,10 @@ func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
 	cookie := newDeletedSessionCookie(sid)
 	http.SetCookie(w, cookie)
 	return nil
+}
+
+func (sm *SessionManager) LogoutCore(uid uint64, sid string) error {
+	return sm.RemoveUserSession(uid, sid)
 }
 
 /* cookies */

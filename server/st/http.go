@@ -16,9 +16,28 @@ import (
 )
 
 func HTTPGetRecorder(route, url string, h handler.HTMLHandlerFunc) *httptest.ResponseRecorder {
+	if url == "" {
+		url = route
+	}
 	rt := chi.NewRouter()
 	rt.Handle(route, handler.HTMLHandlerToHTTPHandler(h))
 	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+	rr := httptest.NewRecorder()
+	rt.ServeHTTP(rr, req)
+	return rr
+}
+
+func HTTPRecorderFromRouter(rt *chi.Mux, url string, post bool) *httptest.ResponseRecorder {
+	var method string
+	if post {
+		method = "POST"
+	} else {
+		method = "GET"
+	}
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		panic(err)
 	}

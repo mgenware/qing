@@ -60,7 +60,7 @@ func Start() {
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
 	r.Use(sys.PanicMiddleware)
 	// User session middleware.
-	r.Use(appUserManager.Get().SessionManager.ParseUserSessionMiddleware)
+	r.Use(appUserManager.Get().ParseUserSessionMiddleware)
 
 	// Mount static file server.
 	httpStaticConf := httpConf.Static
