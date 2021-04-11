@@ -19,7 +19,7 @@ import (
 var title = "TITLE"
 var content = "CONTENT"
 
-func TestGetProfile(t *testing.T) {
+func TestGetPost(t *testing.T) {
 	db := appDB.DB()
 	id, err := da.Post.InsertItem(db, title, content, st.UserID, st.Date, st.Date, 0, 0)
 	st.PanicIfErr(err)

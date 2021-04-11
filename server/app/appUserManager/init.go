@@ -31,7 +31,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, setupConf.ForumsMode, conf.Debug)
+	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, setupConf.ForumsMode, conf)
 }
 
 func Get() *userx.UserManager {

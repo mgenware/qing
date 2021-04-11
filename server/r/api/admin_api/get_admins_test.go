@@ -17,13 +17,11 @@ import (
 func TestGetAdmins_Visitor(t *testing.T) {
 	rr := st.HTTPRecorderFromRouter(Router.Core, "/get-admin", true)
 	st.AssertEqual(t, rr.Code, http.StatusOK)
-	log.Print(rr.Body.String())
-	// st.Assert(t, strings.Contains(rr.Body.String(), `{"eid":"2t","name":"UT","url":"/user/2t","iconURL":"/res/user_icon/101/50_ut.png"}`))
+	st.AssertEqual(t, rr.Body).String(), `{"code":10001,"message":"Error code: 10001"}`)
 }
 
 func TestGetAdmins_Admin(t *testing.T) {
 	rr := st.HTTPRecorderFromRouter(Router.Core, "/get-admin", true)
 	st.AssertEqual(t, rr.Code, http.StatusOK)
-	log.Print(rr.Body.String())
-	// st.Assert(t, strings.Contains(rr.Body.String(), `{"eid":"2t","name":"UT","url":"/user/2t","iconURL":"/res/user_icon/101/50_ut.png"}`))
+	st.Assert(t, strings.Contains(rr.Body.String(), `{"eid":"2t","name":"UT","url":"/user/2t","iconURL":"/res/user_icon/101/50_ut.png"}`))
 }

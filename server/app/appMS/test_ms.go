@@ -23,6 +23,13 @@ type TestMS struct {
 	d map[string]string
 }
 
+func NewTestMS() *TestMS {
+	r := &TestMS{
+		d: make(map[string]string),
+	}
+	return r
+}
+
 func (store *TestMS) GetConn() app.CoreMemoryStoreConn {
 	return store
 }

@@ -8,10 +8,11 @@
 package userx
 
 import (
+	"fmt"
 	"net/http"
 	"qing/app"
 	"qing/app/appcom"
-	"qing/app/config/configs"
+	"qing/app/config"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/app/urlx"
@@ -24,9 +25,12 @@ type UserManager struct {
 	mainPageManager handler.CorePageManager
 	db              app.CoreDB
 
-	appURL      *urlx.URL
-	forumsMode  bool
-	debugConfig *configs.DebugConfig
+	appURL     *urlx.URL
+	forumsMode bool
+	conf       *config.Config
+
+	// [Test mode only] K: UID, V: SID.
+	testSIDMap map[uint64]string
 }
 
 // NewUserManager creates a new UserManager.
@@ -36,9 +40,12 @@ func NewUserManager(
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
 	forumsMode bool,
-	debugConfig *configs.DebugConfig,
+	conf *config.Config,
 ) *UserManager {
-	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, debugConfig: debugConfig, forumsMode: forumsMode}
+	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf, forumsMode: forumsMode}
+	if conf.TestMode {
+		ret.testSIDMap = make(map[uint64]string)
+	}
 	return ret
 }
 
@@ -51,8 +58,38 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 	return appu.sessionManager.Login(w, r, user)
 }
 
+func (appu *UserManager) TestLogin(uid uint64) {
+	conf := appu.conf
+	if !conf.TestMode {
+		panic("This func is only available in text mode")
+	}
+	user, err := appu.createUserSessionFromUID(uid)
+	if err != nil {
+		panic(err)
+	}
+
+	sid, err := appu.sessionManager.LoginCore(user)
+	if err != nil {
+		panic(err)
+	}
+	appu.testSIDMap[uid] = sid
+}
+
 func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
-	return appu.Logout(w, r)
+	return appu.sessionManager.Logout(w, r)
+}
+
+func (appu *UserManager) TestLogout(uid uint64) error {
+	conf := appu.conf
+	if !conf.TestMode {
+		panic("This func is only available in text mode")
+	}
+
+	sid := appu.testSIDMap[uid]
+	if sid == "" {
+		panic(fmt.Sprintf("UID %v not found", uid))
+	}
+	return appu.sessionManager.LogoutCore(uid, sid)
 }
 
 func (appu *UserManager) UpdateUserSession(sid string, user *appcom.SessionUser) error {

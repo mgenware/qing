@@ -30,7 +30,7 @@ func HTTPGetRecorder(route, url string, h handler.HTMLHandlerFunc) *httptest.Res
 	return rr
 }
 
-func HTTPRecorderFromRouter(rt *chi.Mux, url string, post bool) *httptest.ResponseRecorder {
+func HTTPRecorderFromRouter(rt *chi.Mux, url string, post bool, uid uint64) *httptest.ResponseRecorder {
 	var method string
 	if post {
 		method = "POST"

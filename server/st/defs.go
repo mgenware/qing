@@ -10,8 +10,10 @@ package st
 import "time"
 
 const (
-	UserID  = 101
-	UserEID = "2t"
+	AdminUserID  = 101
+	AdminUserEID = "2t"
+	UserID       = 102
+	UserEID      = "2u"
 )
 
 var Date time.Time

@@ -19,7 +19,7 @@ func init() {
 	conf := appConfig.Get()
 
 	if conf.TestMode {
-		appMS = &TestMS{}
+		appMS = NewTestMS()
 	} else {
 		port := conf.Extern.Redis.Port
 		appMS = newAppMS(port)
