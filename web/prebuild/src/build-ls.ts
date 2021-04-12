@@ -20,8 +20,7 @@ import {
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${copyrightString}${codeWarning}`;
 
-async function buildWebLSDef(content: string): Promise<void> {
-  const lsObj = JSON.parse(content);
+async function buildWebLSDef(lsObj: Record<string, string>): Promise<void> {
   let out = `${commonHeader}export default interface LSDefs {\n`;
   for (const key of Object.keys(lsObj)) {
     out += `  ${key}: string;\n`;
@@ -30,8 +29,8 @@ async function buildWebLSDef(content: string): Promise<void> {
   await mfs.writeFileAsync(webPath('src/lsDefs.ts'), out);
 }
 
-async function buildServerLSDef(content: string): Promise<PropData[]> {
-  const [result, props] = await goConstGenCore(JSON.parse(content), {
+async function buildServerLSDef(lsObj: Record<string, string>): Promise<PropData[]> {
+  const [result, props] = await goConstGenCore(lsObj, {
     packageName: 'localization',
     typeName: 'Dictionary',
     parseFunc: true,
@@ -44,8 +43,8 @@ async function buildServerLSDef(content: string): Promise<PropData[]> {
   return props;
 }
 
-async function buildServerDictFiles(content: string): Promise<void> {
-  const propData = await buildServerLSDef(content);
+async function buildServerDictFiles(lsObj: Record<string, string>): Promise<void> {
+  const propData = await buildServerLSDef(lsObj);
   let res = `${commonHeader}package localization
 
 // TestDict is a Dictionary implementation for server testing.
@@ -80,9 +79,10 @@ async function buildLangs() {
 }
 
 const lsString = await mfs.readTextFileAsync(defaultLangPath);
+const lsObj = JSON.parse(lsString) as Record<string, string>;
 await Promise.all([
-  buildWebLSDef(lsString),
-  buildServerDictFiles(lsString),
+  buildWebLSDef(lsObj),
+  buildServerDictFiles(lsObj),
   writeENLangForTesting(lsString),
   buildLangs(),
 ]);
