@@ -17,9 +17,12 @@ import {
   langsDir,
 } from './common.js';
 
+const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
+const commonHeader = `${copyrightString}${codeWarning}`;
+
 async function buildWebLSDef(content: string): Promise<void> {
   const lsObj = JSON.parse(content);
-  let out = 'export default interface LSDefs {\n';
+  let out = `${commonHeader}export default interface LSDefs {\n`;
   for (const key of Object.keys(lsObj)) {
     out += `  ${key}: string;\n`;
   }
@@ -43,8 +46,7 @@ async function buildServerLSDef(content: string): Promise<PropData[]> {
 
 async function buildServerDictFiles(content: string): Promise<void> {
   const propData = await buildServerLSDef(content);
-  let res = copyrightString;
-  res += `/* Automatically generated. Do not edit. */\n\npackage localization
+  let res = `${commonHeader}package localization
 
 // TestDict is a Dictionary implementation for server testing.
 var TestDict *Dictionary
