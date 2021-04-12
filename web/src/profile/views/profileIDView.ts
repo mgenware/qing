@@ -34,8 +34,8 @@ export class ProfileIDView extends BaseElement {
   render() {
     const { value } = this;
     return html`
-      <span>${value} </span>
-      <qing-button class="small" @click=${this.handleCopyClick}>${ls.copy}</qing-button>
+      <span>${value}</span>
+      <qing-button class="small m-l-sm" @click=${this.handleCopyClick}>${ls.copy}</qing-button>
     `;
   }
 
