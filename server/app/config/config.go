@@ -57,6 +57,11 @@ func (conf *Config) DevMode() bool {
 	return conf.Debug != nil
 }
 
+// ProductionMode = !DevMode().
+func (conf *Config) ProductionMode() bool {
+	return !conf.DevMode()
+}
+
 func readConfigCore(absFile string) (*Config, error) {
 	log.Printf("🚙 Loading config at \"%v\"", absFile)
 	var conf Config

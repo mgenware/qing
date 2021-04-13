@@ -8,9 +8,32 @@
 package main
 
 import (
+	"qing/app/appConfig"
+	"qing/app/appDB"
+	"qing/app/appHandler"
+	"qing/app/appLog"
+	"qing/app/appMS"
+	"qing/app/appProfile"
+	"qing/app/appService"
+	"qing/app/appURL"
+	"qing/app/appUserManager"
 	"qing/r"
 )
 
 func main() {
 	r.Start()
+
+	conf := appConfig.Get()
+
+	// Preload core modules in production mode.
+	if conf.ProductionMode() {
+		appProfile.Get()
+		appLog.Get()
+		appDB.Get()
+		appMS.GetConn()
+		appHandler.MainPage()
+		appUserManager.Get()
+		appURL.Get()
+		appService.Get()
+	}
 }
