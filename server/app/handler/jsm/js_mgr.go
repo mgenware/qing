@@ -82,7 +82,7 @@ func NewJSManager(dev bool) *JSManager {
 		mainEntryJS = pageJS("coreEntry")
 	}
 
-	r.SystemScripts = libJS("s6.3.2.min") + libJS("webcomponents-bundle") + mainEntryJS
+	r.SystemScripts = libJS("s6.3.2.min") + mainEntryJS
 	return r
 }
 
