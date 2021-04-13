@@ -120,6 +120,16 @@ func (da *TableTypeUser) SelectIsAdmin(queryable mingru.Queryable, id uint64) (b
 	return result, nil
 }
 
+// SelectName ...
+func (da *TableTypeUser) SelectName(queryable mingru.Queryable, id uint64) (string, error) {
+	var result string
+	err := queryable.QueryRow("SELECT `name` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 // UserTableSelectProfileResult ...
 type UserTableSelectProfileResult struct {
 	Bio      *string `json:"bio,omitempty"`

@@ -8,28 +8,23 @@
 import * as mm from 'mingru-models';
 import user from '../user/user';
 
-export class Cmt extends mm.Table {
+export class CmtCore extends mm.Table {
   // Common fields for both cmt and reply.
   id = mm.pk();
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
   created_at = mm.datetime('utc');
   modified_at = mm.datetime('utc');
+}
 
+export class Cmt extends CmtCore {
   reply_count = mm.uInt().default(0);
   likes = mm.uInt().default(0);
 }
 
 export const cmt = mm.table(Cmt);
 
-export class Reply extends mm.Table {
-  // Common fields for both cmt and reply.
-  id = mm.pk();
-  content = mm.text().setModelName('ContentHTML');
-  user_id = user.id;
-  created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc');
-
+export class Reply extends CmtCore {
   to_user_id = user.id;
   parent_id = cmt.id;
   likes = mm.uInt().default(0);

@@ -27,6 +27,10 @@ type SetCmtResponse struct {
 	Cmt *apicom.Cmt `json:"cmt"`
 }
 
+type SetCmtReplyResponse struct {
+	Cmt *apicom.Reply `json:"cmt"`
+}
+
 func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:
@@ -46,6 +50,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentData := validator.MustGetDictFromDict(params, "contentData")
 	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(validator.MustGetTextFromDict(contentData, "contentHTML"))
 
+	db := appDB.DB()
 	if id == 0 {
 		// Create a comment or reply.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
@@ -68,23 +73,27 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			if toUserID == 0 {
 				panic("Missing param \"toUserID\"")
 			}
-			cmtID, err = cmtCore.InsertReply(appDB.DB(), content, uid, toUserID, parentCmtID, hostID, sanitizedToken, captResult)
+			cmtID, err = cmtCore.InsertReply(db, content, uid, toUserID, parentCmtID, hostID, sanitizedToken, captResult)
 		} else {
-			cmtID, err = cmtCore.InsertCmt(appDB.DB(), content, uid, hostID, sanitizedToken, captResult)
+			cmtID, err = cmtCore.InsertCmt(db, content, uid, hostID, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()
-		cmtd := &da.CmtData{CmtID: cmtID}
-		cmtd.CreatedAt = now
-		cmtd.ModifiedAt = now
-		cmtd.ContentHTML = content
-		cmtd.UserID = uid
-		cmtd.UserName = user.Name
-		cmtd.UserIconName = user.IconName
+		d := &da.CmtData{ID: cmtID}
+		d.CreatedAt = now
+		d.ModifiedAt = now
+		d.ContentHTML = content
+		d.UserID = uid
+		d.UserName = user.Name
+		d.UserIconName = user.IconName
+		d.ToUserID = toUserID
+		toUserName, err := da.User.SelectName(db, toUserID)
+		app.PanicIfErr(err)
+		d.ToUserName = toUserName
 
-		cmt := apicom.NewCmt(cmtd)
+		cmt := apicom.NewCmt(d)
 		cmt.ContentHTML = content
 
 		respData := SetCmtResponse{Cmt: &cmt}
@@ -94,10 +103,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		isReply := validator.MustGetIntFromDict(params, "isReply")
 
 		if isReply == 0 {
-			err := da.Cmt.EditCmt(appDB.DB(), id, uid, content, sanitizedToken)
+			err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
 			app.PanicIfErr(err)
 		} else {
-			err := da.Reply.EditReply(appDB.DB(), id, uid, content, sanitizedToken)
+			err := da.Reply.EditReply(db, id, uid, content, sanitizedToken)
 			app.PanicIfErr(err)
 		}
 		cmt := &apicom.Cmt{EID: validator.EncodeID(id)}

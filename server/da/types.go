@@ -26,9 +26,12 @@ type CmtData struct {
 	CmtID        uint64    `json:"-"`
 	ContentHTML  string    `json:"contentHTML,omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	ID           uint64    `json:"-"`
 	Likes        uint      `json:"likes,omitempty"`
 	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
 	ReplyCount   uint      `json:"replyCount,omitempty"`
+	ToUserID     uint64    `json:"-"`
+	ToUserName   string    `json:"toUserName,omitempty"`
 	UserIconName string    `json:"-"`
 	UserID       uint64    `json:"-"`
 	UserName     string    `json:"userName,omitempty"`
@@ -46,20 +49,6 @@ type FindUserResult struct {
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 	Status   string `json:"status,omitempty"`
-}
-
-// ReplyData ...
-type ReplyData struct {
-	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
-	ID           uint64    `json:"-"`
-	Likes        uint      `json:"likes,omitempty"`
-	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
-	ToUserID     uint64    `json:"-"`
-	ToUserName   string    `json:"toUserName,omitempty"`
-	UserIconName string    `json:"-"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"userName,omitempty"`
 }
 
 // UserThreadInterface ...
@@ -98,5 +87,5 @@ type LikeInterface interface {
 
 // ReplyInterface ...
 type ReplyInterface interface {
-	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]ReplyData, bool, error)
+	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }

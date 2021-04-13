@@ -25,6 +25,7 @@ export class UserTA extends mm.TableActions {
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
   selectIsAdmin = mm.selectField(t.admin).by(t.id);
+  selectName = mm.selectField(t.name).by(t.id);
 
   findUserByID = mm
     .selectRow(...coreCols)

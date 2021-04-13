@@ -46,7 +46,7 @@ func (da *TableTypeReply) InsertReplyCore(queryable mingru.Queryable, content st
 }
 
 // SelectReplies ...
-func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]ReplyData, bool, error) {
+func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -62,13 +62,13 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]ReplyData, 0, limit)
+	result := make([]CmtData, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item ReplyData
+			var item CmtData
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
 			if err != nil {
 				return nil, false, err

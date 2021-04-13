@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import { reply as t } from '../../models/cmt/cmt';
 import * as cm from '../../models/common';
 import user from '../../models/user/user';
-import { replyInterface, replyResultType } from './cmtTAUtils';
+import { cmtResultType, replyInterface } from './cmtTAUtils';
 import { defaultUpdateConditions } from '../common';
 import { getEntitySrcType } from '../defs';
 
@@ -31,7 +31,7 @@ export class ReplyTA extends mm.TableActions {
     .by(t.parent_id)
     .orderByDesc(t.created_at)
     .attr(mm.ActionAttribute.groupTypeName, replyInterface)
-    .resultTypeNameAttr(replyResultType);
+    .resultTypeNameAttr(cmtResultType);
   editReply = mm
     .updateOne()
     .setInputs(t.content)

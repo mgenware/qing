@@ -52,7 +52,7 @@ func newGetCmtsRespData(cmts []da.CmtData, hasNext bool) GetCmtsRespData {
 	return res
 }
 
-func newGetRepliesRespData(replies []da.ReplyData, hasNext bool) GetRepliesRespData {
+func newGetRepliesRespData(replies []da.CmtData, hasNext bool) GetRepliesRespData {
 	repliesConverted := make([]apicom.Reply, len(replies))
 	for i := 0; i < len(replies); i++ {
 		repliesConverted[i] = apicom.NewReply(&replies[i])

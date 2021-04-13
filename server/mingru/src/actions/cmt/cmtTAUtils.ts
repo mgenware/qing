@@ -15,7 +15,6 @@ export interface CmtHostTable extends TableWithIDAndUserID {
 export const cmtInterface = 'CmtInterface';
 export const cmtResultType = 'CmtData';
 export const replyInterface = 'ReplyInterface';
-export const replyResultType = 'ReplyData';
 
 export interface CmtRelationTable extends mm.Table {
   cmt_id: mm.Column;
