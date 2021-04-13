@@ -27,10 +27,6 @@ type SetCmtResponse struct {
 	Cmt *apicom.Cmt `json:"cmt"`
 }
 
-type SetCmtReplyResponse struct {
-	Cmt *apicom.Reply `json:"cmt"`
-}
-
 func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:

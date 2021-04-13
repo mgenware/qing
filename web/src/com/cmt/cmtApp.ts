@@ -161,7 +161,6 @@ export class CmtApp extends BaseElement {
     const status = await appTask.critical(loader, ls.publishing);
     if (status.data) {
       const serverCmt = status.data.cmt;
-      console.log(' ---- ', serverCmt);
       this.closeEditor();
 
       if (!editorProps.editing) {
