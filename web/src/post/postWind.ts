@@ -11,6 +11,7 @@ export interface PostWind {
   EID: string;
   CmtCount: number;
   InitialLikes: number;
+  InitialHasLiked: boolean;
 }
 
 export default appPageState.windData<PostWind>();

@@ -32,9 +32,10 @@ type PostPageModel struct {
 
 // PostPageWindData ...
 type PostPageWindData struct {
-	EID          string
-	CmtCount     uint
-	InitialLikes uint
+	EID             string
+	CmtCount        uint
+	InitialLikes    uint
+	InitialHasLiked bool
 }
 
 // NewPostPageModel creates a PostPageModel.

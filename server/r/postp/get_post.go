@@ -28,14 +28,24 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	post, err := da.Post.SelectItemByID(appDB.DB(), pid)
+	db := appDB.DB()
+	post, err := da.Post.SelectItemByID(db, pid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)
+	uid := resp.UserID()
+
+	hasLiked := false
+	if uid != 0 {
+		liked, err := da.PostLike.HasLiked(db, pid, uid)
+		app.PanicIfErr(err)
+		hasLiked = liked
+	}
+
 	postModel := NewPostPageModel(&post)
 	title := post.Title
 	d := appHandler.MainPageData(title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().ScriptString(postScript)
-	d.WindData = PostPageWindData{EID: postModel.EID, CmtCount: postModel.CmtCount, InitialLikes: postModel.Likes}
+	d.WindData = PostPageWindData{EID: postModel.EID, CmtCount: postModel.CmtCount, InitialLikes: postModel.Likes, InitialHasLiked: hasLiked}
 	return resp.MustComplete(d)
 }

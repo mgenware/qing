@@ -42,7 +42,6 @@ export default buildTree({
         signOut: 'signout',
       },
       like: {
-        get: 'get',
         set: 'set',
       },
       // My posts.

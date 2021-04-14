@@ -30,11 +30,13 @@ export class PostPayloadApp extends BaseElement {
     const hostID = postWind.EID;
     const cmtCount = postWind.CmtCount;
     const initialLikes = postWind.InitialLikes;
+    const initialHasLiked = postWind.InitialHasLiked;
 
     return html`
       <like-app
         .iconSize=${'md'}
         .initialLikes=${initialLikes}
+        .initialHasLiked=${initialHasLiked}
         .hostID=${hostID}
         .hostType=${entityPost}
       ></like-app>
