@@ -14,6 +14,7 @@ import { CmtRelationTable, cmtInterface, cmtResultType, CmtHostTable } from './c
 import replyTA from './replyTA';
 import { updateCounterAction } from '../misc/counterColumnTAFactory';
 import { defaultUpdateConditions } from '../common';
+import { cmtLike } from '../../models/like/likeableTables';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
@@ -23,23 +24,35 @@ const replyCount = 'replyCount';
 const hostIDAndReplyCount = 'hostIDAndReplyCount';
 const cmtIDAndHostID = 'cmtIDAndHostID';
 
-export function selectCmts(rt: CmtRelationTable): mm.SelectAction {
+export function selectCmts(rt: CmtRelationTable, withLike: boolean): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
+  const cols: mm.SelectedColumn[] = [
+    rt.cmt_id.as('id').privateAttr(),
+    jCmt.content,
+    jCmt.created_at,
+    jCmt.modified_at,
+    jCmt.reply_count,
+    jCmt.likes,
+    jCmt.user_id.privateAttr(),
+    jCmt.user_id.join(user).name,
+    jCmt.user_id.join(user).icon_name.privateAttr(),
+  ];
+  let whereSQL: mm.SQL;
+  if (withLike) {
+    const likeUserID = rt.cmt_id.leftJoin(cmtLike, cmtLike.host_id).user_id;
+    cols.push(likeUserID.as('hasLiked'));
+    whereSQL = mm.and(
+      rt.host_id.isEqualToInput(),
+      mm.and(likeUserID.isNotNull(), likeUserID.isEqualToInput('viewerUserID')),
+    );
+  } else {
+    whereSQL = rt.host_id.isEqualToInput();
+  }
   return mm
-    .selectRows(
-      rt.cmt_id.privateAttr(),
-      jCmt.content,
-      jCmt.created_at,
-      jCmt.modified_at,
-      jCmt.reply_count,
-      jCmt.likes,
-      jCmt.user_id.privateAttr(),
-      jCmt.user_id.join(user).name,
-      jCmt.user_id.join(user).icon_name.privateAttr(),
-    )
+    .selectRows(...cols)
     .from(rt)
     .pageMode()
-    .by(rt.host_id)
+    .whereSQL(whereSQL)
     .orderByDesc(jCmt.created_at)
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .resultTypeNameAttr(cmtResultType);

@@ -45,7 +45,7 @@ func (da *TableTypePost) deleteCmtChild1(queryable mingru.Queryable, id uint64) 
 }
 
 func (da *TableTypePost) deleteCmtChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	result, err := queryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -76,7 +76,7 @@ func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
 }
 
 func (da *TableTypePost) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	result, err := queryable.Exec("DELETE FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -152,7 +152,7 @@ func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error
 
 // EditItem ...
 func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, modifiedAt time.Time, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE `id` = ? AND `user_id` = ?", title, content, modifiedAt, id, userID)
+	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, content, modifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -267,7 +267,7 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `cmt_id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -278,7 +278,45 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.CmtID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
+}
+
+// SelectCmtsWithLike ...
+func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, hostID uint64, viewerUserID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name`, `join_3`.`user_id` AS `hasLiked` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `post_cmt`.`cmt_id` WHERE (`post_cmt`.`host_id` = ? AND (`join_3`.`user_id` IS NOT NULL AND `join_3`.`user_id` = ?)) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, viewerUserID, limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]CmtData, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			var item CmtData
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err
 			}
@@ -436,7 +474,7 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 // SelectItemSrc ...
 func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.Title, &result.ContentHTML)
+	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
 	if err != nil {
 		return result, err
 	}

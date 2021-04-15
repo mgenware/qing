@@ -29,13 +29,13 @@ var Reply = &TableTypeReply{}
 
 // DeleteReplyCore ...
 func (da *TableTypeReply) DeleteReplyCore(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID)
+	result, err := queryable.Exec("DELETE FROM `reply` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // EditReply ...
 func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
+	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", content, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -86,7 +86,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 // SelectReplySource ...
 func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
+	err := queryable.QueryRow("SELECT `content` FROM `reply` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err
 	}

@@ -25,7 +25,7 @@ var ForumGroupMod = &TableTypeForumGroupMod{}
 
 // DeleteMod ...
 func (da *TableTypeForumGroupMod) DeleteMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `forum_group_mod` WHERE `object_id` = ? AND `user_id` = ?", objectID, userID)
+	result, err := queryable.Exec("DELETE FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -38,7 +38,7 @@ func (da *TableTypeForumGroupMod) InsertMod(queryable mingru.Queryable, objectID
 // SelectIsMod ...
 func (da *TableTypeForumGroupMod) SelectIsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE `object_id` = ? AND `user_id` = ?)", objectID, userID).Scan(&result)
+	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}

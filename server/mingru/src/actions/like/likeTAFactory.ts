@@ -19,28 +19,23 @@ function updateLikesAction(hostTable: LikeableTable, offset: number): mm.UpdateA
 }
 
 export default function getLikeTableActions(
-  table: LikeTable,
+  t: LikeTable,
   hostTable: LikeableTable,
 ): mm.TableActions {
   const actions = {
     cancelLike: mm
       .transact(
-        mm
-          .deleteOne()
-          .whereSQL(mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput())),
+        mm.deleteOne().whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput())),
         updateLikesAction(hostTable, -1),
       )
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
     like: mm
-      .transact(
-        mm.insertOne().setInputs(table.host_id, table.user_id),
-        updateLikesAction(hostTable, 1),
-      )
+      .transact(mm.insertOne().setInputs(t.host_id, t.user_id), updateLikesAction(hostTable, 1))
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
     hasLiked: mm
       .selectExists()
-      .whereSQL(mm.and(table.host_id.isEqualToInput(), table.user_id.isEqualToInput()))
+      .whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput()))
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
   };
-  return mm.tableActionsCore(table, null, actions, undefined);
+  return mm.tableActionsCore(t, null, actions, undefined);
 }

@@ -29,7 +29,7 @@ var ForumMod = &TableTypeForumMod{}
 
 // DeleteMod ...
 func (da *TableTypeForumMod) DeleteMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `object_id` = ? AND `user_id` = ?", objectID, userID)
+	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -43,7 +43,7 @@ func (da *TableTypeForumMod) DeleteUserFromForumMods(queryable mingru.Queryable,
 	for _, item := range forumIDs {
 		queryParams = append(queryParams, item)
 	}
-	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE `user_id` = ? AND `object_id` IN "+mingru.InputPlaceholders(len(forumIDs)), queryParams...)
+	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE (`user_id` = ? AND `object_id` IN "+mingru.InputPlaceholders(len(forumIDs))+")", queryParams...)
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 
@@ -56,7 +56,7 @@ func (da *TableTypeForumMod) InsertMod(queryable mingru.Queryable, objectID uint
 // SelectIsMod ...
 func (da *TableTypeForumMod) SelectIsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_mod` WHERE `object_id` = ? AND `user_id` = ?)", objectID, userID).Scan(&result)
+	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}

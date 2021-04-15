@@ -28,7 +28,7 @@ var PostLike = &TableTypePostLike{}
 // ------------ Actions ------------
 
 func (da *TableTypePostLike) cancelLikeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `post_like` WHERE `host_id` = ? AND `user_id` = ?", hostID, userID)
+	result, err := queryable.Exec("DELETE FROM `post_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -57,7 +57,7 @@ func (da *TableTypePostLike) CancelLike(db *sql.DB, hostID uint64, userID uint64
 // HasLiked ...
 func (da *TableTypePostLike) HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `post_like` WHERE `host_id` = ? AND `user_id` = ?)", hostID, userID).Scan(&result)
+	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `post_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}

@@ -28,7 +28,7 @@ var ReplyLike = &TableTypeReplyLike{}
 // ------------ Actions ------------
 
 func (da *TableTypeReplyLike) cancelLikeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `reply_like` WHERE `host_id` = ? AND `user_id` = ?", hostID, userID)
+	result, err := queryable.Exec("DELETE FROM `reply_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -57,7 +57,7 @@ func (da *TableTypeReplyLike) CancelLike(db *sql.DB, hostID uint64, userID uint6
 // HasLiked ...
 func (da *TableTypeReplyLike) HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `reply_like` WHERE `host_id` = ? AND `user_id` = ?)", hostID, userID).Scan(&result)
+	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `reply_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}

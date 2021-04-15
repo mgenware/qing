@@ -25,14 +25,14 @@ var Cmt = &TableTypeCmt{}
 
 // EditCmt ...
 func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE `id` = ? AND `user_id` = ?", content, id, userID)
+	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", content, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // SelectCmtSource ...
 func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE `id` = ? AND `user_id` = ?", id, userID).Scan(&result.ContentHTML)
+	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err
 	}
@@ -41,6 +41,6 @@ func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, u
 
 // UpdateReplyCount ...
 func (da *TableTypeCmt) UpdateReplyCount(queryable mingru.Queryable, id uint64, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ? AND `user_id` = ?", offset, id, userID)
+	result, err := queryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE (`id` = ? AND `user_id` = ?)", offset, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

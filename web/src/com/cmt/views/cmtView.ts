@@ -103,6 +103,7 @@ export class CmtView extends BaseElement {
             <like-app
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes}
+              .initialHasLiked=${!!cmt.hasLiked}
               .hostID=${cmt.id}
               .hostType=${isReply ? entityReply : entityCmt}
             ></like-app>

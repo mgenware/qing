@@ -18,6 +18,8 @@ export default interface Cmt {
   userURL: string;
   userIconURL: string;
   likes: number;
+  // `CmtData` -> HasLiked *uint64 `json:"hasLiked,omitempty"`
+  hasLiked?: boolean;
 
   // Reply only properties.
   toUserID?: string;

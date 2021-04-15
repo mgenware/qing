@@ -66,6 +66,7 @@ func newGetRepliesRespData(replies []da.CmtData, hasNext bool) GetRepliesRespDat
 func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
+	uid := resp.UserID()
 
 	parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
 	page := validator.GetPageParamFromDict(params)
@@ -86,16 +87,23 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hostID := validator.MustGetIDFromDict(params, "hostID")
 	hostType := validator.MustGetIntFromDict(params, "hostType")
 	var respData GetCmtsRespData
+	var cmts []da.CmtData
+	var hasNext bool
+	var err error
+
 	switch hostType {
 	case defs.Shared.EntityPost:
 		{
-			cmts, hasNext, err := da.Post.SelectCmts(db, hostID, page, kCmtPageSize)
+			if uid == 0 {
+				cmts, hasNext, err = da.Post.SelectCmts(db, hostID, page, kCmtPageSize)
+			} else {
+				cmts, hasNext, err = da.Post.SelectCmtsWithLike(db, hostID, uid, page, kCmtPageSize)
+			}
 			if err != nil {
 				app.PanicIfErr(err)
 			}
 			respData = newGetCmtsRespData(cmts, hasNext)
 		}
-		break
 	default:
 		{
 			panic("Unsupported entity type")
