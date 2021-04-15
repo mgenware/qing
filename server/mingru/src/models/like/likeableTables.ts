@@ -19,3 +19,6 @@ const likeableTables = new Map<LikeableTable, LikeTable>(
 );
 
 export default likeableTables;
+export const postLike = likeableTables.get(post)!;
+export const cmtLike = likeableTables.get(cmt)!;
+export const replyLike = likeableTables.get(reply)!;
