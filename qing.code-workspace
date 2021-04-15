@@ -13,5 +13,7 @@
       "path": "userland"
     }
   ],
-  "settings": {}
+  "settings": {
+    "cSpell.words": ["mingru", "Qing", "cmts", "datetime", "userland"]
+  }
 }
