@@ -39,12 +39,14 @@ export function selectCmts(rt: CmtRelationTable, withLike: boolean): mm.SelectAc
   ];
   let whereSQL: mm.SQL;
   if (withLike) {
-    const likeUserID = rt.cmt_id.leftJoin(cmtLike, cmtLike.host_id).user_id;
+    const likeUserID = rt.cmt_id.leftJoin(
+      cmtLike,
+      cmtLike.host_id,
+      undefined,
+      (jt) => mm.sql`AND ${jt.user_id.isEqualToInput('viewerUserID')}`,
+    ).user_id;
     cols.push(likeUserID.as('hasLiked'));
-    whereSQL = mm.and(
-      rt.host_id.isEqualToInput(),
-      mm.and(likeUserID.isNotNull(), likeUserID.isEqualToInput('viewerUserID')),
-    );
+    whereSQL = rt.host_id.isEqualToInput();
   } else {
     whereSQL = rt.host_id.isEqualToInput();
   }
