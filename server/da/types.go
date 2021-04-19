@@ -89,4 +89,5 @@ type LikeInterface interface {
 // ReplyInterface ...
 type ReplyInterface interface {
 	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }

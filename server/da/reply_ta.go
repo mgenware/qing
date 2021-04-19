@@ -83,6 +83,44 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	return result, itemCounter > len(result), nil
 }
 
+// SelectRepliesWithLike ...
+func (da *TableTypeReply) SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `content`, `reply`.`created_at` AS `created_at`, `reply`.`modified_at` AS `modified_at`, `reply`.`likes` AS `likes`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name`, `join_3`.`user_id` AS `hasLiked` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` LEFT JOIN `reply_like` AS `join_3` ON `join_3`.`host_id` = `reply`.`id` AND `join_3`.`user_id` = ? WHERE `reply`.`parent_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]CmtData, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			var item CmtData
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName, &item.HasLiked)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
+}
+
 // SelectReplySource ...
 func (da *TableTypeReply) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
