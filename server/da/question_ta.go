@@ -293,7 +293,7 @@ func (da *TableTypeQuestion) SelectCmts(queryable mingru.Queryable, hostID uint6
 }
 
 // SelectCmtsWithLike ...
-func (da *TableTypeQuestion) SelectCmtsWithLike(queryable mingru.Queryable, hostID uint64, viewerUserID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (da *TableTypeQuestion) SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -305,7 +305,7 @@ func (da *TableTypeQuestion) SelectCmtsWithLike(queryable mingru.Queryable, host
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `question_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name`, `join_3`.`user_id` AS `hasLiked` FROM `question_cmt` AS `question_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `question_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `question_cmt`.`cmt_id` WHERE (`question_cmt`.`host_id` = ? AND (`join_3`.`user_id` IS NOT NULL AND `join_3`.`user_id` = ?)) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, viewerUserID, limit, offset)
+	rows, err := queryable.Query("SELECT `question_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name`, `join_3`.`user_id` AS `hasLiked` FROM `question_cmt` AS `question_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `question_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `question_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `question_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

@@ -76,7 +76,7 @@ type CmtInterface interface {
 	InsertCmt(db *sql.DB, content string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
 	InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
 	SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
-	SelectCmtsWithLike(queryable mingru.Queryable, hostID uint64, viewerUserID uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
 // LikeInterface ...

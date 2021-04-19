@@ -97,7 +97,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 			if uid == 0 {
 				cmts, hasNext, err = da.Post.SelectCmts(db, hostID, page, kCmtPageSize)
 			} else {
-				cmts, hasNext, err = da.Post.SelectCmtsWithLike(db, hostID, uid, page, kCmtPageSize)
+				cmts, hasNext, err = da.Post.SelectCmtsWithLike(db, uid, hostID, page, kCmtPageSize)
 			}
 			if err != nil {
 				app.PanicIfErr(err)
