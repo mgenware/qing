@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "go-const-gen": "^1.4.0",
-    "mingru": "^0.44.2",
-    "mingru-models": "^0.54.1",
+    "mingru": "^0.45.0",
+    "mingru-models": "^0.55.0",
     "mingru-tsconfig": "^4.0.0"
   }
 }
