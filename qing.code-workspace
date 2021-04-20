@@ -11,6 +11,9 @@
     },
     {
       "path": "userland"
+    },
+    {
+      "path": "it"
     }
   ],
   "settings": {

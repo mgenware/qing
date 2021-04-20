@@ -1,0 +1,10 @@
+{
+  "name": "qing-it-br",
+  "type": "module",
+  "version": "0.0.0",
+  "main": "main.js",
+  "private": true,
+  "dependencies": {
+    "puppeteer": "^8.0.0"
+  }
+}
