@@ -5,4 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import './home/home.js';
+export const serverURL = 'http://localhost:12001';
+
+export const user = {
+  visitor: 0,
+  user: 1,
+  admin: 2,
+};

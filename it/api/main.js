@@ -5,17 +5,4 @@
  * be found in the LICENSE file.
  */
 
-package adminapi
-
-import (
-	"os"
-	"qing/st"
-	"testing"
-)
-
-func TestMain(m *testing.M) {
-	st.LoginAdmin()
-	r := m.Run()
-	st.LogoutAdmin()
-	os.Exit(r)
-}
+import './admin/get_admins.js';

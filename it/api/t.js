@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import puppeteer from 'puppeteer';
+import fetch from 'node-fetch';
 import { serverURL } from '../common.js';
+export * as ass from '../ass.js';
+export { user } from '../common.js';
 
-const browserPromise = puppeteer.launch();
-
-export class Browser {
+export class Context {
   /**
    * Creates a `Browser`.
    * @param {puppeteer.BrowserContext} context
@@ -60,22 +60,29 @@ export class Browser {
 }
 
 /**
- * Description of the function
- * @name ItCallback
+ * @name PostCallback
  * @function
- * @param {Browser} br
+ * @param {object} data
  */
 
 /**
  *
  * @param {string} name
- * @param {ItCallback} handler
+ * @param {string} url
+ * @param {number} user
+ * @param {PostCallback} handler
  */
-export async function it(name, handler) {
-  const globalBrowser = await browserPromise;
-  const context = await globalBrowser.createIncognitoBrowserContext();
-  const page = await context.newPage();
-  const userBrowser = new Browser(name, context, page);
-  await handler(userBrowser);
-  await userBrowser.dispose();
+export async function post(name, url, usr, body, handler) {
+  const response = await fetch(`${serverURL}/s${url}`, {
+    method: 'POST',
+    body: body ? JSON.stringify(body) : '',
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+  const data = await response.json();
+  await handler(data);
 }
