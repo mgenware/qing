@@ -5,8 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { post, user, assUtil } from '../t.js';
+import * as ass from '../ass.js';
 
-post('Get admins - Visitor', '/admin/get-admins', 0, null, (data) => {
-  assUtil.notAuthorized(data);
-});
+/**
+ * @param {*} data
+ */
+export function notAuthorized(data) {
+  ass.de(data, { code: 10001, message: 'Error code: 10001' });
+}

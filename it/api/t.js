@@ -8,6 +8,7 @@
 import fetch from 'node-fetch';
 import { serverURL } from '../common.js';
 export * as ass from '../ass.js';
+export * as assUtil from './assUtil.js';
 export { user } from '../common.js';
 
 export class Context {
