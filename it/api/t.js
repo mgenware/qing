@@ -79,7 +79,7 @@ export async function post(name, url, uid, body, handler) {
   // Login if needed.
   let cookies = '';
   if (uid) {
-    const loginResp = await fetch(`${serverURL}${loginURL}/${uid}`);
+    const loginResp = await fetch(`${serverURL}${loginURL}/-${uid}`);
     cookies = loginResp.headers.raw()['set-cookie'];
   }
   const response = await fetch(`${serverURL}/s${url}`, {

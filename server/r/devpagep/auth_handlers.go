@@ -9,11 +9,13 @@ package devpagep
 
 import (
 	"net/http"
+	"strings"
 
 	"qing/app"
 	"qing/app/appHandler"
 	"qing/app/appUserManager"
 	"qing/app/handler"
+	"qing/lib/validator"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v6/strconvx"
@@ -21,8 +23,17 @@ import (
 
 func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
-	uid, err := strconvx.ParseUint64(chi.URLParam(r, "uid"))
-	app.PanicIfErr(err)
+	val := chi.URLParam(r, "uid")
+
+	var uid uint64
+	var err error
+	if strings.HasPrefix(val, "-") {
+		uid, err = validator.DecodeID(strings.TrimLeft(val, "-"))
+		app.PanicIfErr(err)
+	} else {
+		uid, err = strconvx.ParseUint64(val)
+		app.PanicIfErr(err)
+	}
 
 	err = appUserManager.Get().Login(uid, w, r)
 	app.PanicIfErr(err)

@@ -10,6 +10,6 @@ export const loginURL = '/__/auth/in';
 
 export const user = {
   visitor: 0,
-  user: 102,
-  admin: 101,
+  user: '2u',
+  admin: '2t',
 };
