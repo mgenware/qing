@@ -75,11 +75,11 @@ export class Context {
  * @param {number} user
  * @param {PostCallback} handler
  */
-export async function post(name, url, uid, body, handler) {
+export async function post(name, url, usr, body, handler) {
   // Login if needed.
   let cookies = '';
-  if (uid) {
-    const loginResp = await fetch(`${serverURL}${loginURL}/-${uid}`);
+  if (usr) {
+    const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
     cookies = loginResp.headers.raw()['set-cookie'];
   }
   const response = await fetch(`${serverURL}/s${url}`, {

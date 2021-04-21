@@ -16,9 +16,6 @@ post('get-admins: user', '/admin/get-admins', user.user, null, (data) => {
 });
 
 post('get-admins: admin', '/admin/get-admins', user.admin, null, (data) => {
-  ass.de(data, {
-    data: [
-      { eid: '2t', name: 'ADMIN', url: '/user/2t', iconURL: '/res/user_icon/101/50_admin.png' },
-    ],
-  });
+  const adminData = data.data.find((d) => d.eid === user.admin.eid);
+  ass.de(adminData, user.admin);
 });
