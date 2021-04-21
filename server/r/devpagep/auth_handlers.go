@@ -27,7 +27,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 	err = appUserManager.Get().Login(uid, w, r)
 	app.PanicIfErr(err)
 
-	return resp.Redirect("/", http.StatusTemporaryRedirect)
+	return resp.MustCompleteWithContent("<p>We have signed in.</p>", w)
 }
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.HTML {
@@ -35,5 +35,5 @@ func signOut(w http.ResponseWriter, r *http.Request) handler.HTML {
 	err := appUserManager.Get().Logout(w, r)
 	app.PanicIfErr(err)
 
-	return resp.Redirect("/", http.StatusTemporaryRedirect)
+	return resp.MustCompleteWithContent("<p>We have signed out.</p>", w)
 }

@@ -155,7 +155,7 @@ func (appu *UserManager) UnsafeRequireAdminMiddlewareJSON(next http.Handler) htt
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		user := appcom.ContextUser(ctx)
-		if user != nil {
+		if user != nil && user.Admin {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
 			resp := handler.NewJSONResponse(r, w)

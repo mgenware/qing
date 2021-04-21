@@ -6,9 +6,10 @@
  */
 
 export const serverURL = 'http://localhost:12001';
+export const loginURL = '/__/auth/in';
 
 export const user = {
   visitor: 0,
-  user: 1,
-  admin: 2,
+  user: 102,
+  admin: 101,
 };

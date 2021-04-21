@@ -6,7 +6,9 @@
  */
 
 import fetch from 'node-fetch';
-import { serverURL } from '../common.js';
+import { loginURL, serverURL } from '../common.js';
+
+// Exports.
 export * as ass from '../ass.js';
 export * as assUtil from './assUtil.js';
 export { user } from '../common.js';
@@ -73,12 +75,19 @@ export class Context {
  * @param {number} user
  * @param {PostCallback} handler
  */
-export async function post(name, url, usr, body, handler) {
+export async function post(name, url, uid, body, handler) {
+  // Login if needed.
+  let cookies = '';
+  if (uid) {
+    const loginResp = await fetch(`${serverURL}${loginURL}/${uid}`);
+    cookies = loginResp.headers.raw()['set-cookie'];
+  }
   const response = await fetch(`${serverURL}/s${url}`, {
     method: 'POST',
     body: body ? JSON.stringify(body) : '',
     headers: {
-      'content-type': 'application/json',
+      'content-type': body ? 'application/json' : '',
+      cookie: cookies,
     },
   });
   if (!response.ok) {
