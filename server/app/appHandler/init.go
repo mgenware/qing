@@ -20,12 +20,8 @@ func init() {
 	conf := appConfig.Get()
 	logger := appLog.Get()
 
-	if conf.TestMode {
-		mainPageManager = handler.MustCreateTestPageManager(conf, logger)
-	} else {
-		mainPageManager = handler.MustCreateMainPageManager(conf, logger)
-		log.Printf("✅ App handler: Loaded at \"%v\"", conf.Templates.Dir)
-	}
+	mainPageManager = handler.MustCreateMainPageManager(conf, logger)
+	log.Printf("✅ App handler: Loaded at \"%v\"", conf.Templates.Dir)
 }
 
 func MainPage() handler.CorePageManager {

@@ -29,9 +29,6 @@ func SetupConfig() *configs.SetupConfig {
 }
 
 func init() {
-	qTestEnv := os.Getenv("Q_TEST")
-	confPath := qTestEnv
-
 	if confPath == "" {
 		// Parse command-line arguments
 		flag.StringVar(&confPath, "config", "", "path of application config file")
@@ -50,11 +47,6 @@ func init() {
 	// Read config file
 	conf = config.MustReadConfig(confPath)
 	confDir = filepath.Dir(confPath)
-
-	// Since test config extends `dev.json`, we need to remove some dev-only fields.
-	if qTestEnv != "" {
-		conf.Debug = nil
-	}
 
 	log.Printf("✅ App config: Loaded at \"%v\"", confPath)
 	if conf.TestMode {

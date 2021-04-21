@@ -18,13 +18,9 @@ var appMS app.CoreMemoryStore
 func init() {
 	conf := appConfig.Get()
 
-	if conf.TestMode {
-		appMS = NewTestMS()
-	} else {
-		port := conf.Extern.Redis.Port
-		appMS = newAppMS(port)
-		log.Printf("✅ App MS: connected at \"%v\"", port)
-	}
+	port := conf.Extern.Redis.Port
+	appMS = newAppMS(port)
+	log.Printf("✅ App MS: connected at \"%v\"", port)
 }
 
 func GetConn() app.CoreMemoryStoreConn {
