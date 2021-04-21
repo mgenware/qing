@@ -61,7 +61,7 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 func (appu *UserManager) TestLogin(uid uint64) {
 	conf := appu.conf
 	if !conf.TestMode {
-		panic("This func is only available in text mode")
+		panic("This func is only available in test mode")
 	}
 	user, err := appu.createUserSessionFromUID(uid)
 	if err != nil {
