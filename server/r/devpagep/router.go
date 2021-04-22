@@ -11,22 +11,24 @@ import (
 	"net/http"
 	"qing/app/appHandler"
 	"qing/app/handler"
+
+	"github.com/go-chi/chi"
 )
 
-var Router = handler.NewHTMLRouter()
+var Router = chi.NewRouter()
 
 const devPageScript = "devPageEntry"
 
 func init() {
 	// Auth router.
-	authRouter := handler.NewHTMLRouter()
-	authRouter.Get("/in/{uid}", signIn)
-	authRouter.Get("/out", signOut)
+	authRouter := chi.NewRouter()
+	authRouter.Get("/in/{uid}", handler.HTMLHandlerToHTTPHandler(signInHandler))
+	authRouter.Get("/out", handler.HTMLHandlerToHTTPHandler(signOutHandler))
+	authRouter.Post("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
 	// We have to define a fallback handler for each router.
-	authRouter.Get("/*", defaultHandler)
 	Router.Mount("/auth", authRouter)
 
-	Router.Get("/*", defaultHandler)
+	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {

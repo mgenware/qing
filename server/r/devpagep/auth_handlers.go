@@ -21,7 +21,7 @@ import (
 	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
-func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
+func signInHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	val := chi.URLParam(r, "uid")
 
@@ -41,7 +41,15 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return resp.MustCompleteWithContent("<p>We have signed in.</p>", w)
 }
 
-func signOut(w http.ResponseWriter, r *http.Request) handler.HTML {
+func signOutHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := appHandler.HTMLResponse(w, r)
+	err := appUserManager.Get().Logout(w, r)
+	app.PanicIfErr(err)
+
+	return resp.MustCompleteWithContent("<p>We have signed out.</p>", w)
+}
+
+func newUserHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
 	app.PanicIfErr(err)

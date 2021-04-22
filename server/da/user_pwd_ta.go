@@ -81,3 +81,48 @@ func (da *TableTypeUserPwd) SelectHashByID(queryable mingru.Queryable, id uint64
 	}
 	return result, nil
 }
+
+func (da *TableTypeUserPwd) testEraseUserChild1(queryable mingru.Queryable, id uint64) (int, error) {
+	result, err := queryable.Exec("DELETE FROM `user_pwd` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+func (da *TableTypeUserPwd) testEraseUserChild2(queryable mingru.Queryable, id uint64) (int, error) {
+	result, err := queryable.Exec("DELETE FROM `user_auth` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+func (da *TableTypeUserPwd) testEraseUserChild3(queryable mingru.Queryable, id uint64) (int, error) {
+	result, err := queryable.Exec("DELETE FROM `user_stats` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+func (da *TableTypeUserPwd) testEraseUserChild4(queryable mingru.Queryable, id uint64) (int, error) {
+	result, err := queryable.Exec("DELETE FROM `user` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+// TestEraseUser ...
+func (da *TableTypeUserPwd) TestEraseUser(db *sql.DB, id uint64) error {
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		_, err = da.testEraseUserChild1(tx, id)
+		if err != nil {
+			return err
+		}
+		_, err = da.testEraseUserChild2(tx, id)
+		if err != nil {
+			return err
+		}
+		_, err = da.testEraseUserChild3(tx, id)
+		if err != nil {
+			return err
+		}
+		_, err = da.testEraseUserChild4(tx, id)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
+}
