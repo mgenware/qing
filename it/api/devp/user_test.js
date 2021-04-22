@@ -8,5 +8,5 @@
 import { post, user, assUtil, ass } from '../t.js';
 
 post('info', `/__/auth/info/${user.admin.eid}`, 0, null, (r) => {
-  ass.de(r, { data: { admin: true, name: 'ADMIN' } });
+  ass.de(r, { data: { admin: true, iconName: 'admin.png', ID: 101, name: 'ADMIN' } });
 });
