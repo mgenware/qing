@@ -17,10 +17,14 @@ const sessionCols = [...coreCols, t.admin];
 
 export class UserTA extends mm.TableActions {
   selectProfile = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
-  selectSessionData = mm.selectRow(...sessionCols).by(t.id);
+  selectSessionData = mm
+    .selectRow(...sessionCols)
+    .by(t.id)
+    .attr(mm.ActionAttribute.ignorePrivateColumns, true);
   selectSessionDataForumMode = mm
     .selectRow(...sessionCols, t.id.leftJoin(forumIsUserMod).id.as('is_forum_mod'))
-    .by(t.id);
+    .by(t.id)
+    .attr(mm.ActionAttribute.ignorePrivateColumns, true);
   selectEditingData = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
