@@ -69,19 +69,12 @@ export class Context {
  */
 
 /**
- *
- * @param {string} name
  * @param {string} url
- * @param {number} user
+ * @param {string} cookies
+ * @param {Object} body
  * @param {PostCallback} handler
  */
-export async function post(name, url, usr, body, handler) {
-  // Login if needed.
-  let cookies = '';
-  if (usr) {
-    const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
-    cookies = loginResp.headers.raw()['set-cookie'];
-  }
+export async function fetchPost(url, cookies, body, handler) {
   const response = await fetch(`${serverURL}/s${url}`, {
     method: 'POST',
     body: body ? JSON.stringify(body) : '',
@@ -95,4 +88,21 @@ export async function post(name, url, usr, body, handler) {
   }
   const data = await response.json();
   await handler(data);
+}
+
+/**
+ * @param {string} name
+ * @param {string} url
+ * @param {Object} usr
+ * @param {Object} body
+ * @param {PostCallback} handler
+ */
+export async function post(name, url, usr, body, handler) {
+  // Login if needed.
+  let cookies = '';
+  if (usr) {
+    const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
+    cookies = loginResp.headers.raw()['set-cookie'];
+  }
+  return await fetchPost(url, cookies, body, handler);
 }
