@@ -25,9 +25,8 @@ func init() {
 	authRouter.Get("/in/{uid}", handler.HTMLHandlerToHTTPHandler(signInHandler))
 	authRouter.Get("/out", handler.HTMLHandlerToHTTPHandler(signOutHandler))
 	authRouter.Post("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
-	authRouter.Post("/del", handler.JSONHandlerToHTTPHandler(deleteUser))
-	authRouter.Post("/info", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
-	// We have to define a fallback handler for each router.
+	authRouter.Post("/del/{uid}", handler.JSONHandlerToHTTPHandler(deleteUser))
+	authRouter.Post("/info/{uid}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
 	Router.Mount("/auth", authRouter)
 
 	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))

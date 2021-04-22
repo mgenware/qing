@@ -75,7 +75,11 @@ export class Context {
  * @param {PostCallback} handler
  */
 export async function fetchPost(url, cookies, body, handler) {
-  const response = await fetch(`${serverURL}/s${url}`, {
+  if (!url || !handler) {
+    throw new Error('Invalid params');
+  }
+  url = url.charAt(0) === '/' ? url : `/s/${url}`;
+  const response = await fetch(`${serverURL}${url}`, {
     method: 'POST',
     body: body ? JSON.stringify(body) : '',
     headers: {
