@@ -21,7 +21,7 @@ import (
 
 	"qing/r/api"
 	"qing/r/authp"
-	"qing/r/devpagep"
+	"qing/r/devp"
 	"qing/r/discussionp"
 	"qing/r/forump"
 	"qing/r/homep"
@@ -106,7 +106,7 @@ func Start() {
 		// DEBUG only setup.
 		if debugConfig.QuickLogin {
 			log.Print("⚠️ QuickLogin routes are on")
-			r.Mount("/"+defs.Shared.RouteDevPage, devpagep.Router)
+			r.Mount("/"+defs.Shared.RouteDevPage, devp.Router)
 		}
 	}
 

@@ -15,7 +15,7 @@ import (
 	"path/filepath"
 	"qing/app"
 	"qing/fx/imgx"
-	"qing/lib/mathlib"
+	"qing/lib/randlib"
 )
 
 const (
@@ -54,7 +54,7 @@ func (svc *Service) GetAvatarFilePath(uid uint64, size int, avatarName string) s
 // SetAvatarFromFile updates the given user's avatar with the specified file path.
 func (svc *Service) SetAvatarFromFile(src string, uid uint64) (string, error) {
 	ext := path.Ext(src)
-	avatarName := mathlib.RandString(6) + ext
+	avatarName := randlib.RandString(6) + ext
 	for _, size := range resizedSizes {
 		fileNameWithSize := fmt.Sprintf("%v_%v", size, avatarName)
 		newfilepath, err := svc.allocFilepathForThumb(uid, fileNameWithSize)

@@ -5,16 +5,19 @@
  * be found in the LICENSE file.
  */
 
-package devpagep
+package devp
 
 import (
 	"net/http"
 	"strings"
 
 	"qing/app"
+	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appUserManager"
 	"qing/app/handler"
+	"qing/da"
+	"qing/lib/randlib"
 	"qing/lib/validator"
 
 	"github.com/go-chi/chi"
@@ -49,10 +52,31 @@ func signOutHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return resp.MustCompleteWithContent("<p>We have signed out.</p>", w)
 }
 
-func newUserHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
-	err := appUserManager.Get().Logout(w, r)
+func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+	email := randlib.RandString(16)
+	db := appDB.DB()
+	uid, err := da.User.TestAddUser(db, email+"@t.com", "T")
 	app.PanicIfErr(err)
+	us, err := da.User.SelectSessionData(db, uid)
+	app.PanicIfErr(err)
+	return resp.MustComplete(us)
+}
 
-	return resp.MustCompleteWithContent("<p>We have signed out.</p>", w)
+func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	app.PanicIfErr(err)
+	err = da.User.TestEraseUser(appDB.DB(), uid)
+	app.PanicIfErr(err)
+	return resp.MustComplete(nil)
+}
+
+func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	app.PanicIfErr(err)
+	us, err := da.User.SelectSessionData(appDB.DB(), uid)
+	app.PanicIfErr(err)
+	return resp.MustComplete(us)
 }

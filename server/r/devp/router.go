@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package devpagep
+package devp
 
 import (
 	"net/http"
@@ -25,6 +25,8 @@ func init() {
 	authRouter.Get("/in/{uid}", handler.HTMLHandlerToHTTPHandler(signInHandler))
 	authRouter.Get("/out", handler.HTMLHandlerToHTTPHandler(signOutHandler))
 	authRouter.Post("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
+	authRouter.Post("/del", handler.JSONHandlerToHTTPHandler(deleteUser))
+	authRouter.Post("/info", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
 	// We have to define a fallback handler for each router.
 	Router.Mount("/auth", authRouter)
 

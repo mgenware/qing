@@ -55,6 +55,15 @@ export class UserTA extends mm.TableActions {
       this.addUserStatsEntryInternal.wrap({ id: mm.valueRef(addUserInsertedIDVar) }),
     ];
   }
+
+  testAddUser = mm
+    .transact(...this.getAddUserEntryTXMembers())
+    .setReturnValues(addUserInsertedIDVar);
+
+  testEraseUser = mm.transact(
+    mm.deleteSome().by(t.id),
+    mm.deleteSome().from(userStats).by(userStats.id),
+  );
 }
 
 export default mm.tableActions(t, UserTA);

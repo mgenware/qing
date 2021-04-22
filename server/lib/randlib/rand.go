@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package mathlib
+package randlib
 
 import (
 	"math/rand"

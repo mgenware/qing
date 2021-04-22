@@ -9,9 +9,7 @@ import * as mm from 'mingru-models';
 import t from '../../models/user/userPwd';
 import userTA, { addUserInsertedIDVar } from './userTA';
 import userAuthTA from './userAuthTA';
-import userAuth, { UserAuthType } from '../../models/user/userAuth';
-import userStats from '../../models/user/userStats';
-import user from '../../models/user/user';
+import { UserAuthType } from '../../models/user/userAuth';
 
 export class UserPwdTA extends mm.TableActions {
   selectHashByID = mm.selectField(t.pwd_hash).by(t.id);
@@ -30,13 +28,6 @@ export class UserPwdTA extends mm.TableActions {
       }),
     )
     .setReturnValues(addUserInsertedIDVar);
-
-  testEraseUser = mm.transact(
-    mm.deleteSome().by(t.id),
-    mm.deleteSome().from(userAuth).by(userAuth.id),
-    mm.deleteSome().from(userStats).by(userStats.id),
-    mm.deleteSome().from(user).by(user.id),
-  );
 }
 
 export default mm.tableActions(t, UserPwdTA);

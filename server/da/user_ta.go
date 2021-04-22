@@ -12,7 +12,11 @@
 
 package da
 
-import "github.com/mgenware/mingru-go-lib"
+import (
+	"database/sql"
+
+	"github.com/mgenware/mingru-go-lib"
+)
 
 // TableTypeUser ...
 type TableTypeUser struct {
@@ -189,6 +193,56 @@ func (da *TableTypeUser) SelectSessionDataForumMode(queryable mingru.Queryable, 
 		return result, err
 	}
 	return result, nil
+}
+
+func (da *TableTypeUser) testAddUserChild2(queryable mingru.Queryable, id uint64) error {
+	return da.AddUserStatsEntryInternal(queryable, id)
+}
+
+// TestAddUser ...
+func (da *TableTypeUser) TestAddUser(db *sql.DB, email string, name string) (uint64, error) {
+	var insertedUserIDExported uint64
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		insertedUserID, err := da.AddUserEntryInternal(tx, email, name)
+		if err != nil {
+			return err
+		}
+		err = da.testAddUserChild2(tx, insertedUserID)
+		if err != nil {
+			return err
+		}
+		insertedUserIDExported = insertedUserID
+		return nil
+	})
+	return insertedUserIDExported, txErr
+}
+
+func (da *TableTypeUser) testEraseUserChild1(queryable mingru.Queryable, id uint64) (int, error) {
+	result, err := queryable.Exec("DELETE FROM `user` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+func (da *TableTypeUser) testEraseUserChild2(queryable mingru.Queryable, id uint64) (int, error) {
+	result, err := queryable.Exec("DELETE FROM `user_stats` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
+// TestEraseUser ...
+func (da *TableTypeUser) TestEraseUser(db *sql.DB, id uint64) error {
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		_, err = da.testEraseUserChild1(tx, id)
+		if err != nil {
+			return err
+		}
+		_, err = da.testEraseUserChild2(tx, id)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return txErr
 }
 
 // UserTableUnsafeSelectAdminsResult ...
