@@ -9,7 +9,6 @@ import fg from 'fast-glob';
 import chalk from 'chalk';
 
 const entries = await fg(['**/*_test.js'], { dot: true });
-console.log(entries);
 await Promise.all(
   entries.map(async (s) => {
     console.log(chalk.gray(s));
