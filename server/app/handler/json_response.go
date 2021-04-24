@@ -40,8 +40,10 @@ func NewJSONResponse(r *http.Request, wr http.ResponseWriter) *JSONResponse {
 // MustFailWithError finishes the response with the specified `code`, `error` and `expected` args, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSON {
 	d := &APIResult{Code: code, Error: err}
-	if err == sql.ErrNoRows {
+	// Hide SQL row not found errors.
+	if err == sql.ErrNoRows && code == defs.Shared.ErrGeneric {
 		d.Message = "resource not found"
+		d.Code = defs.Shared.ErrResourceNotFound
 	} else {
 		d.Message = err.Error()
 	}

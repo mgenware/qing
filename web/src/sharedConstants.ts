@@ -51,6 +51,7 @@ export const errNeedAuth = 10001;
 export const errCaptchaNotFound = 10002;
 export const errCaptchaNotMatch = 10003;
 export const errPermissionDenied = 10004;
+export const errResourceNotFound = 10005;
 export const keyPosts = "posts";
 export const keyDiscussions = "discussions";
 export const keyAnswers = "answers";

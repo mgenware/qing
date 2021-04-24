@@ -37,6 +37,7 @@ type SharedConstantsType struct {
 	ErrInvalidUserOrPwd int
 	ErrNeedAuth int
 	ErrPermissionDenied int
+	ErrResourceNotFound int
 	ForumStatusArchived int
 	ForumStatusOpen int
 	KeyAnswers string
@@ -95,6 +96,7 @@ func init() {
 		ErrInvalidUserOrPwd: 1,
 		ErrNeedAuth: 10001,
 		ErrPermissionDenied: 10004,
+		ErrResourceNotFound: 10005,
 		ForumStatusArchived: 1,
 		ForumStatusOpen: 0,
 		KeyAnswers: "answers",
