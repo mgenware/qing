@@ -16,6 +16,6 @@ post('get-admins: user', 'admin/get-admins', user.user, (r) => {
 });
 
 post('get-admins: admin', 'admin/get-admins', user.admin, (r) => {
-  const adminData = r.data.find((d) => d.eid === user.admin.eid);
+  const adminData = r.d.find((d) => d.eid === user.admin.eid);
   ass.de(adminData, user.admin);
 });

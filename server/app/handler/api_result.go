@@ -16,7 +16,7 @@ type APIResult struct {
 	Message string `json:"message,omitempty"`
 
 	// Data represents the requested value in a successful result.
-	Data interface{} `json:"data,omitempty"`
+	Data interface{} `json:"d,omitempty"`
 
 	// Error holds the internal go error object of this result.
 	Error error `json:"-"`

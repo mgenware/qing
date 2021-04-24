@@ -13,7 +13,7 @@ import LoadingStatus from './loadingStatus';
 export interface APIResponse {
   code?: number;
   message?: string;
-  data?: unknown;
+  d?: unknown;
 }
 
 export default class Loader<T> {
@@ -86,7 +86,7 @@ export default class Loader<T> {
   }
 
   handleSuccess(resp: APIResponse): T {
-    const data = resp.data as T;
+    const data = resp.d as T;
     this.onLoadingStatusChanged(LoadingStatus.success);
     return data;
   }
