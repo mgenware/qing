@@ -24,6 +24,25 @@ import (
 	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
+type UserInfo struct {
+	Admin    bool   `json:"admin,omitempty"`
+	IconName string `json:"iconName,omitempty"`
+	EID      string `json:"eid,omitempty"`
+	Name     string `json:"name,omitempty"`
+	Status   string `json:"status,omitempty"`
+}
+
+func NewUserInfo(d da.UserTableSelectSessionDataResult) UserInfo {
+	r := UserInfo{
+		Admin:    d.Admin,
+		IconName: d.IconName,
+		Name:     d.Name,
+		Status:   d.Status,
+	}
+	r.EID = validator.EncodeID(d.ID)
+	return r
+}
+
 func signInHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	val := chi.URLParam(r, "uid")
@@ -60,7 +79,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 	us, err := da.User.SelectSessionData(db, uid)
 	app.PanicIfErr(err)
-	return resp.MustComplete(us)
+	return resp.MustComplete(NewUserInfo(us))
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -78,5 +97,5 @@ func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	app.PanicIfErr(err)
-	return resp.MustComplete(us)
+	return resp.MustComplete(NewUserInfo(us))
 }

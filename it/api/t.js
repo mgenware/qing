@@ -14,6 +14,19 @@ export * as assUtil from './assUtil.js';
 export { user } from '../common.js';
 
 /**
+ * @callback FetchCallback
+ * @param {object} data - Response data.
+ *
+ * @typedef {Object} FetchOptions
+ * @property {string} url - Request URL.
+ * @property {Object} body - Request body.
+ * @property {string} cookies - Request cookies.
+ * @property {boolean} get - True if it's a GET request.
+ *
+ * @typedef {string|FetchOptions} FetchInput
+ */
+
+/**
  * @param {string} name
  * @param {PostCallback} handler
  * @returns {Promise<Object>}
@@ -23,24 +36,36 @@ export async function it(name, handler) {
 }
 
 /**
- * @name PostCallback
- * @function
- * @param {object} data
+ * @param {FetchInput}} input - Fetch input parameters.
+ * @returns {FetchOptions}
  */
+function fetchInputToOptions(input) {
+  let opts;
+  if (typeof input === 'string') {
+    opts = { url: input };
+  } else {
+    opts = input;
+  }
+  return opts;
+}
 
 /**
- * @param {string} url
- * @param {string} cookies
- * @param {Object} body
- * @param {PostCallback} handler
+ * @param {FetchInput}} input - Fetch input parameters.
+ * @returns {Object}
  */
-export async function fetchPost(url, cookies, body, handler) {
-  if (!url || !handler) {
-    throw new Error('Invalid params');
+export async function fetchPost(input) {
+  if (!input) {
+    throw new Error('Unexpected empty fetch input');
+  }
+  const opts = fetchInputToOptions(input);
+  const { body, cookies, get } = opts;
+  let { url } = opts;
+  if (!url) {
+    throw new Error(`Unexpected empty URL in options ${JSON.stringify(opts)}`);
   }
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
   const response = await fetch(`${serverURL}${url}`, {
-    method: 'POST',
+    method: get ? 'GET' : 'POST',
     body: body ? JSON.stringify(body) : '',
     headers: {
       'content-type': body ? 'application/json' : '',
@@ -50,19 +75,17 @@ export async function fetchPost(url, cookies, body, handler) {
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`);
   }
-  const data = await response.json();
-  await handler(data);
+  return await response.json();
 }
 
 /**
  * @param {string} name
- * @param {string} url
+ * @param {FetchInput} input
  * @param {Object} usr
- * @param {Object} body
- * @param {PostCallback} handler
+ * @param {FetchCallback} handler
  * @returns {Promise<Object>}
  */
-export async function post(name, url, usr, body, handler) {
+export async function post(name, input, usr, handler) {
   return it(name, async () => {
     // Log in if needed.
     let cookies = '';
@@ -70,7 +93,9 @@ export async function post(name, url, usr, body, handler) {
       const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
       cookies = loginResp.headers.raw()['set-cookie'];
     }
-    return await fetchPost(url, cookies, body, handler);
+    const opts = fetchInputToOptions(input);
+    const d = await fetchPost({ ...opts, cookies });
+    handler(d);
   });
 }
 
@@ -90,9 +115,8 @@ export class TempUser {
 
 /**
  * @param {string} name
- * @param {PostCallback} handler
  * @returns {Promise<Object>}
  */
-export async function newUser(handler) {
-  return fetchPost('/__/auth/new', handler);
+export async function newUser() {
+  return fetchPost('/__/auth/new');
 }

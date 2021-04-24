@@ -5,8 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { post, user, assUtil, ass } from '../t.js';
+import { post, user, assUtil, ass, it, newUser } from '../t.js';
 
-post('info', `/__/auth/info/${user.admin.eid}`, 0, null, (r) => {
-  ass.de(r, { data: { admin: true, iconName: 'admin.png', ID: 101, name: 'ADMIN' } });
+post('User info`', `/__/auth/info/${user.admin.eid}`, 0, (r) => {
+  ass.de(r, { data: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
+});
+
+it('Add and remove an user', async () => {
+  const d = await newUser();
+  const { eid } = d.data;
+  ass.de(d, { data: { name: 'T', eid: eid } });
 });
