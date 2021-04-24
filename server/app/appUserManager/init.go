@@ -33,7 +33,7 @@ func init() {
 		panic(err)
 	}
 	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, setupConf.ForumsMode, conf)
-	if conf.DevMode() {
+	if conf.TestMode {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)
 		}

@@ -10,7 +10,7 @@
   "columnLikes": "likes",
   "columnComments": "comments",
   "columnMessages": "messages",
-  "routeUser": "user",
+  "routeUser": "u",
   "routePost": "p",
   "routeAuth": "auth",
   "routeDevPage": "__",

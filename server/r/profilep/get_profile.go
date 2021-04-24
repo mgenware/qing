@@ -36,16 +36,16 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tab := r.FormValue(defs.Shared.KeyTab)
 	resp := appHandler.HTMLResponse(w, r)
 
+	db := appDB.DB()
 	// User profile
-	user, err := da.User.SelectProfile(appDB.DB(), uid)
+	user, err := da.User.SelectProfile(db, uid)
 	app.PanicIfErr(err)
 
 	// User stats
-	stats, err := da.UserStats.SelectStats(appDB.DB(), uid)
+	stats, err := da.UserStats.SelectStats(db, uid)
 	app.PanicIfErr(err)
 
 	pageTitle := user.Name
-	db := appDB.DB()
 
 	var feedListHTML string
 	var hasNext bool

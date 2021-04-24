@@ -8,7 +8,6 @@
 package validator
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"qing/app/defs"
@@ -31,9 +30,6 @@ func EncodeID(id uint64) string {
 
 // DecodeID decodes the given string ID to an integer.
 func DecodeID(str string) (uint64, error) {
-	if str == "" {
-		return 0, errors.New("empty input")
-	}
 	return strconv.ParseUint(str, 36, 64)
 }
 

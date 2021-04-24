@@ -124,6 +124,6 @@ func init() {
 		RouteMx: "mx",
 		RoutePost: "p",
 		RouteQuestion: "q",
-		RouteUser: "user",
+		RouteUser: "u",
 	}
 }
