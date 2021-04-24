@@ -5,9 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { CSSResult, TemplateResult } from 'lit-element';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { render, html } from 'lit-html';
+import { CSSResult, TemplateResult } from 'll';
+import { render, html } from 'lit';
 
 export function ready(fn: () => void) {
   if (document.readyState !== 'loading') {

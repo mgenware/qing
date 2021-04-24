@@ -5,17 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import { ls, formatLS } from 'ls';
-import BaseElement from 'baseElement';
 import 'ui/editor/editBarApp';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';
 import 'com/like/likeApp';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { unsafeHTML } from 'lit/directives/unsafe-html';
 import { staticMainImage } from 'urls';
 import Cmt, { isCmtReply } from '../data/cmt';
 import { CHECK } from 'checks';

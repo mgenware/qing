@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css } from 'll';
 import ls from 'ls';
 import { Editor } from 'kangxi-editor';
 import styles from 'kangxi-editor/dist/editor.css';

@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
 import ls, { formatLS } from 'ls';

@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { html, customElement, BaseElement, lp } from 'll';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 

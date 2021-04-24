@@ -6,9 +6,7 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import 'qing-button';
 import { staticMainImage } from 'urls';
 import 'ui/widgets/svgIcon';

@@ -5,12 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import { staticMainImage } from 'urls';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { cache } from 'lit-html/directives/cache';
+import { cache } from 'lit/directives/cache';
 import { tif } from 'lib/htmlLib';
 
 const defaultIconSize = 30;

@@ -6,9 +6,7 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { html, customElement, BaseElement, lp } from 'll';
 
 @customElement('link-button')
 export class LinkButton extends BaseElement {

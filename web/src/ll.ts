@@ -5,16 +5,21 @@
  * be found in the LICENSE file.
  */
 
-import { CSSResultArray, CSSResultOrNative, LitElement } from 'lit-element';
+import { CSSResultArray, CSSResultOrNative, LitElement } from 'lit';
 import { InputView } from 'ui/form/inputView';
 import coreStyles from './app/styles/bundle';
 
-export default class BaseElement extends LitElement {
+export * from 'lit/decorators.js';
+export * as lp from 'lit-props';
+export * from 'lit';
+
+export class BaseElement extends LitElement {
   static get styles(): CSSResultOrNative | CSSResultArray {
     return [coreStyles];
   }
 
   private mustGetShadowRoot(): ShadowRoot {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!this.shadowRoot) {
       throw new Error('shadowRoot null');
     }

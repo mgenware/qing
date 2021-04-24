@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import { CHECK } from 'checks';
 import './likeView';
 import LikeHostType from './loaders/likeHostType';

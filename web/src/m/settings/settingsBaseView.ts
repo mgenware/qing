@@ -5,11 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html } from 'lit-element';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { repeat } from 'lit-html/directives/repeat';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, BaseElement, lp } from 'll';
+import { repeat } from 'lit/directives/repeat';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 

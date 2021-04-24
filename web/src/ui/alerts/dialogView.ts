@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html, TemplateResult } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { customElement, css, html, TemplateResult, BaseElement, lp } from 'll';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
 import { staticMainImage } from 'urls';

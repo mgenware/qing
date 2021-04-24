@@ -5,17 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
 import Cmt, { isCmtReply } from '../data/cmt';
 import './cmtFooterView';
 import { CHECK } from 'checks';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';

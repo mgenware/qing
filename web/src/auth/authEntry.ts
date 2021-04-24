@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html } from 'lit-element';
+import { html } from 'll';
 import ls from 'ls';
 import rs from 'routes';
 import './reg/regApp';

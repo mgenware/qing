@@ -5,11 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { html, customElement, css, BaseElement, lp } from 'll';
+import { unsafeHTML } from 'lit/directives/unsafe-html';
 import './views/rootCmtList';
 import { CHECK } from 'checks';
 import 'qing-overlay';

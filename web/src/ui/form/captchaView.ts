@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property, css } from 'lit-element';
+import { html, customElement, property, css } from 'll';
 import ls from 'ls';
 import BaseElement from 'baseElement';
 import routes from 'routes';

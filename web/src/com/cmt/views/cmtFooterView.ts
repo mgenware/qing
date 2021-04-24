@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import { formatLS, ls } from 'ls';
 import 'ui/status/statusView';
 import LoadingStatus from 'lib/loadingStatus';

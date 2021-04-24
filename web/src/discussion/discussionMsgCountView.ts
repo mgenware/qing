@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css } from 'll';
 import ls, { formatLS } from 'ls';
 import BaseElement from 'baseElement';
 import discussionWind from './discussionWind';

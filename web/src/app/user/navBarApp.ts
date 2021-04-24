@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
-import BaseElement from 'baseElement';
 import { staticMainImage } from 'urls';
 import routes from 'routes';
 import * as defs from 'defs';

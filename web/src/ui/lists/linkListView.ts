@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html } from 'lit-element';
+import { customElement, css, html } from 'll';
 import BaseElement from 'baseElement';
 
 export const linkListActiveClass = 'link-active';

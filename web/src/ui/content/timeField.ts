@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property } from 'lit-element';
+import { html, customElement, property } from 'll';
 import ls from 'ls';
 import { formatRelative, Locale } from 'date-fns';
 import { enUS, zhCN } from 'date-fns/locale';

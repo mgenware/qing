@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css } from 'll';
 import BaseElement from 'baseElement';
 
 @customElement('heading-view')

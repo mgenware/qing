@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, TemplateResult, css } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { html, TemplateResult, css, BaseElement, lp } from 'll';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/alerts/noticeView';

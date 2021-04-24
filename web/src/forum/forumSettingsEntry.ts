@@ -6,7 +6,7 @@
  */
 
 import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
-import { TemplateResult, html } from 'lit-element';
+import { TemplateResult, html } from 'll';
 import routes from 'routes';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView';

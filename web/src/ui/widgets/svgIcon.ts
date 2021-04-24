@@ -5,11 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement, lp } from 'll';
+import { unsafeHTML } from 'lit/directives/unsafe-html';
 import { AppViewStyleNullable } from '../types/appViewStyle';
 
 function processSVG(svg: string, width: number, height: number): string {

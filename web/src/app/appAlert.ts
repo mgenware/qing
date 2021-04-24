@@ -7,7 +7,7 @@
 
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
-import { html } from 'lit-element';
+import { html } from 'll';
 import 'ui/status/spinnerView';
 import 'ui/alerts/dialogView';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView';

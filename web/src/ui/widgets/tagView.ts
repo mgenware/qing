@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import BaseElement from 'baseElement';
-import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('tag-view')

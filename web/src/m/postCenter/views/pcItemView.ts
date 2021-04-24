@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
 
 @customElement('pc-item-view')
 export class PCItemView extends BaseElement {

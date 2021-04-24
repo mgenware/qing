@@ -5,12 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
-import BaseElement from 'baseElement';
 import { CHECK } from 'checks';
 import { entityPost, entityDiscussionMsg } from 'sharedConstants';
 import 'qing-overlay';

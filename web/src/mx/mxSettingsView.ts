@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css } from 'lit-element';
+import { customElement, css } from 'll';
 import ls from 'ls';
 import routes from 'routes';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';

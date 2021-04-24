@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, property, LitElement } from 'lit-element';
+import { html, customElement, css, property, LitElement } from 'll';
 
 // A spinner view(block) that fills available horizontal space.
 @customElement('spinner-view')

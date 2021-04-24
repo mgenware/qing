@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement, css } from 'lit-element';
+import { html, customElement, css } from 'll';
 import BaseElement from 'baseElement';
 
 @customElement('button-list')

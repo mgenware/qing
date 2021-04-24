@@ -5,11 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { classMap } from 'lit-html/directives/class-map';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
+import { classMap } from 'lit/directives/class-map';
 
 @customElement('container-view')
 export class ContainerView extends BaseElement {

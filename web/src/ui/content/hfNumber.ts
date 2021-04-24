@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, customElement, BaseElement, lp } from 'll';
 import ls from 'ls';
 
 @customElement('hf-number')

@@ -8,7 +8,7 @@
 import { formatLS, ls } from 'ls';
 import { entityPost } from 'sharedConstants';
 import { renderTemplateResult } from 'lib/htmlLib';
-import { html } from 'lit-element';
+import { html } from 'll';
 import { editBarID, EditBarApp } from 'ui/editor/editBarApp';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
 import 'ui/editor/editBarApp';

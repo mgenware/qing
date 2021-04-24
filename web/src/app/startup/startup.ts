@@ -7,7 +7,7 @@
 
 import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
-import { CSSResult } from 'lit-element';
+import { CSSResult } from 'll';
 import { injectStyles, ready } from 'lib/htmlLib';
 import appSettings from 'app/appSettings';
 import { localizedErrDict } from 'defs';

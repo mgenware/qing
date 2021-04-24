@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, TemplateResult, PropertyValues } from 'lit-element';
-import * as lp from 'lit-props';
+import { html, customElement, css, TemplateResult, PropertyValues, BaseElement, lp } from 'll';
 import { ls, formatLS } from 'ls';
-import BaseElement from 'baseElement';
 import './editorView';
 import 'ui/form/inputView';
 import 'ui/status/statusView';

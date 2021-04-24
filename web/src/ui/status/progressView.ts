@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property, css } from 'lit-element';
-import BaseElement from 'baseElement';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { html, customElement, property, css, BaseElement } from 'll';
+import { ifDefined } from 'lit/directives/if-defined';
 
 @customElement('progress-view')
 export default class ProgressView extends BaseElement {

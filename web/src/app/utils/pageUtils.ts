@@ -6,7 +6,7 @@
  */
 
 import { renderTemplateResult } from 'lib/htmlLib';
-import { TemplateResult, html } from 'lit-element';
+import { TemplateResult, html } from 'll';
 import ls from 'ls';
 
 export class PageUtils {

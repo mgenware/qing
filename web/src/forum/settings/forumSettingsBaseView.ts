@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
-import * as lp from 'lit-props';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 import { CHECK } from 'checks';

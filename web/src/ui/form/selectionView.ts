@@ -6,10 +6,7 @@
  */
 
 /* eslint-disable arrow-body-style */
-import { html, customElement, css, TemplateResult } from 'lit-element';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
-
+import { html, customElement, css, TemplateResult, BaseElement, lp } from 'll';
 export interface SelectionViewItem {
   text: string;
   value?: unknown;

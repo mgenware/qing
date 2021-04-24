@@ -6,7 +6,7 @@
  */
 
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import { html, TemplateResult } from 'lit-element';
+import { html, TemplateResult } from 'll';
 import routes from './devRoutes';
 import './devView';
 import './auth/authDevPage';

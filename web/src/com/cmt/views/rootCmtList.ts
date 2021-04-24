@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { html, customElement, css, BaseElement, lp } from 'll';
 import { ls, formatLS } from 'ls';
 import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
@@ -15,8 +13,7 @@ import { listenForVisibilityChange } from 'lib/htmlLib';
 import Cmt from '../data/cmt';
 import './cmtBlock';
 import './cmtFooterView';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit/directives/repeat';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';

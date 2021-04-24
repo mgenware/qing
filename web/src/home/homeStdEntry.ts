@@ -9,7 +9,7 @@ import { injectStyles, ready } from 'lib/htmlLib';
 import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
-import { css } from 'lit-element';
+import { css } from 'll';
 import { keyTab } from 'sharedConstants';
 
 const defaultHighlightedTab = 'home';

@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html } from 'lit-element';
-import BaseElement from 'baseElement';
-import * as lp from 'lit-props';
+import { customElement, css, html, BaseElement, lp } from 'll';
 import 'qing-dock-box';
 
 @customElement('notice-view')

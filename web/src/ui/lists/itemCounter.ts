@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement } from 'lit-element';
+import { html, customElement, BaseElement, lp } from 'll';
 import { formatLS, ls } from 'ls';
-import * as lp from 'lit-props';
-import BaseElement from 'baseElement';
 
 @customElement('item-counter')
 export class ItemCounter extends BaseElement {
