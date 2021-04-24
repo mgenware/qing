@@ -13,53 +13,13 @@ export * as ass from '../ass.js';
 export * as assUtil from './assUtil.js';
 export { user } from '../common.js';
 
-export class Context {
-  /**
-   * Creates a `Browser`.
-   * @param {puppeteer.BrowserContext} context
-   * @param {string} context
-   */
-  constructor(name, context, page) {
-    /**
-     * Gets the name of this test.
-     * @param {string}
-     * @public
-     */
-    this.name = name;
-    /**
-     * Gets the puppeteer context.
-     * @param {puppeteer.BrowserContext}
-     * @public
-     */
-    this.context = context;
-    /**
-     * Gets the puppeteer page.
-     * @param {puppeteer.Page}
-     * @public
-     */
-    this.page = page;
-  }
-
-  /**
-   * Navigates to the specified URL.
-   * @param {string} url
-   * @returns {Promise<puppeteer.HTTPResponse | null>}
-   */
-  goto(url) {
-    return this.page.goto(`${serverURL}${url}`);
-  }
-
-  /**
-   * Gets the content of the page.
-   * @returns {Promise<string>}
-   */
-  content() {
-    return this.page.content();
-  }
-
-  dispose() {
-    return this.context.close();
-  }
+/**
+ * @param {string} name
+ * @param {PostCallback} handler
+ * @returns {Promise<Object>}
+ */
+export async function it(name, handler) {
+  return handler();
 }
 
 /**
@@ -100,13 +60,39 @@ export async function fetchPost(url, cookies, body, handler) {
  * @param {Object} usr
  * @param {Object} body
  * @param {PostCallback} handler
+ * @returns {Promise<Object>}
  */
 export async function post(name, url, usr, body, handler) {
-  // Login if needed.
-  let cookies = '';
-  if (usr) {
-    const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
-    cookies = loginResp.headers.raw()['set-cookie'];
+  return it(name, async () => {
+    // Log in if needed.
+    let cookies = '';
+    if (usr) {
+      const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
+      cookies = loginResp.headers.raw()['set-cookie'];
+    }
+    return await fetchPost(url, cookies, body, handler);
+  });
+}
+
+export class TempUser {
+  constructor(d) {
+    /**
+     * @param {Object}
+     * @public
+     */
+    this.d = d;
   }
-  return await fetchPost(url, cookies, body, handler);
+
+  async dispose() {
+    await fetchPost(`/__/auth/del/${this.d.eid}`);
+  }
+}
+
+/**
+ * @param {string} name
+ * @param {PostCallback} handler
+ * @returns {Promise<Object>}
+ */
+export async function newUser(handler) {
+  return fetchPost('/__/auth/new', handler);
 }
