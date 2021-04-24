@@ -11,17 +11,17 @@ import { loginURL, serverURL } from '../common.js';
 // Exports.
 export * as ass from '../ass.js';
 export * as assUtil from './assUtil.js';
-export { user } from '../common.js';
+export { usr } from '../common.js';
 
 /**
  * @callback FetchCallback
  * @param {object} data - Response data.
  *
  * @typedef {Object} FetchOptions
- * @property {string} url - Request URL.
- * @property {Object} body - Request body.
- * @property {string} cookies - Request cookies.
- * @property {boolean} get - True if it's a GET request.
+ * @property {string} url
+ * @property {Object} body
+ * @property {Object} user
+ * @property {boolean} get
  *
  * @typedef {string|FetchOptions} FetchInput
  *
@@ -63,11 +63,19 @@ export async function sendPost(input) {
     throw new Error('Unexpected empty fetch input');
   }
   const opts = fetchInputToOptions(input);
-  const { body, cookies, get } = opts;
+  const { body, get, user } = opts;
   let { url } = opts;
   if (!url) {
     throw new Error(`Unexpected empty URL in options ${JSON.stringify(opts)}`);
   }
+
+  // Log in if needed.
+  let cookies = '';
+  if (user) {
+    const loginResp = await fetch(`${serverURL}${loginURL}/-${user.eid}`);
+    cookies = loginResp.headers.raw()['set-cookie'];
+  }
+
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
   const response = await fetch(`${serverURL}${url}`, {
     method: get ? 'GET' : 'POST',
@@ -86,20 +94,14 @@ export async function sendPost(input) {
 /**
  * @param {string} name
  * @param {FetchInput} input
- * @param {Object} usr
+ * @param {Object} user
  * @param {FetchCallback} handler
  * @returns {Promise<Object>}
  */
-export async function post(name, input, usr, handler) {
+export async function post(name, input, user, handler) {
   return it(name, async () => {
-    // Log in if needed.
-    let cookies = '';
-    if (usr) {
-      const loginResp = await fetch(`${serverURL}${loginURL}/-${usr.eid}`);
-      cookies = loginResp.headers.raw()['set-cookie'];
-    }
     const opts = fetchInputToOptions(input);
-    const d = await sendPost({ ...opts, cookies });
+    const d = await sendPost({ ...opts, user });
     handler(d);
   });
 }

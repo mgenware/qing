@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { checkAPIResult } from '../common.js';
 import { sendPost } from './t.js';
 
 export class TempUser {
@@ -17,6 +18,13 @@ export class TempUser {
      * @public
      */
     this.r = r;
+  }
+
+  /**
+   * @returns {string}
+   */
+  get eid() {
+    return this.r.d.eid;
   }
 
   /**
@@ -35,7 +43,9 @@ export class TempUser {
  * @returns {Promise<TempUser>}
  */
 export async function requestNewUser() {
-  return new TempUser(await sendPost('/__/auth/new'));
+  const r = await sendPost('/__/auth/new');
+  checkAPIResult(r);
+  return new TempUser(r);
 }
 
 /**

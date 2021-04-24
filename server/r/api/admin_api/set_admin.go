@@ -31,13 +31,7 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	db := appDB.DB()
-	isAdmin, err := da.User.SelectIsAdmin(db, targetUserID)
-	app.PanicIfErr(err)
-	if isAdmin {
-		return resp.MustFailWithCode(defs.Shared.ErrAlreadyAdmin)
-	}
-
-	err = da.User.UnsafeUpdateAdmin(db, targetUserID, value == 1)
+	err := da.User.UnsafeUpdateAdmin(db, targetUserID, value == 1)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)
 }
