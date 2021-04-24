@@ -21,7 +21,7 @@ function panic(msg) {
  */
 export function e(a, b) {
   if (a !== b) {
-    panic(`${JSON.stringify(a)} !== ${JSON.stringify(b)}`);
+    panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
   }
 }
 
@@ -31,7 +31,7 @@ export function e(a, b) {
  */
 export function ne(a, b) {
   if (a === b) {
-    panic(`${JSON.stringify(a)} === ${JSON.stringify(b)}`);
+    panic(`${JSON.stringify(a)} should not be equal to ${JSON.stringify(b)}`);
   }
 }
 
@@ -41,7 +41,7 @@ export function ne(a, b) {
  */
 export function de(a, b) {
   if (!deepEqual(a, b)) {
-    panic(`${JSON.stringify(a)} does not equals to ${JSON.stringify(b)}`);
+    panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
   }
 }
 
@@ -50,7 +50,7 @@ export function de(a, b) {
  */
 export function t(a) {
   if (!a) {
-    panic(`${JSON.stringify(a)} is false`);
+    panic(`${JSON.stringify(a)} should not be false`);
   }
 }
 
@@ -59,6 +59,6 @@ export function t(a) {
  */
 export function f(a) {
   if (a) {
-    panic(`${JSON.stringify(a)} is true`);
+    panic(`${JSON.stringify(a)} should not be true`);
   }
 }
