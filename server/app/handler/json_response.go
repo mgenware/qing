@@ -8,6 +8,7 @@
 package handler
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -38,7 +39,12 @@ func NewJSONResponse(r *http.Request, wr http.ResponseWriter) *JSONResponse {
 
 // MustFailWithError finishes the response with the specified `code`, `error` and `expected` args, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSON {
-	d := &APIResult{Code: code, Error: err, Message: err.Error()}
+	d := &APIResult{Code: code, Error: err}
+	if err == sql.ErrNoRows {
+		d.Message = "resource not found"
+	} else {
+		d.Message = err.Error()
+	}
 	j.mustWriteData(d)
 	return JSON(0)
 }

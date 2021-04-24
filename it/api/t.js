@@ -24,12 +24,17 @@ export { user } from '../common.js';
  * @property {boolean} get - True if it's a GET request.
  *
  * @typedef {string|FetchOptions} FetchInput
+ *
+ * @typedef {Object} APIResult
+ * @property {number} code
+ * @property {string} message
+ * @property {Object} d
  */
 
 /**
  * @param {string} name
  * @param {PostCallback} handler
- * @returns {Promise<Object>}
+ * @returns {Promise<APIResult>}
  */
 export async function it(name, handler) {
   return handler();
@@ -51,9 +56,9 @@ function fetchInputToOptions(input) {
 
 /**
  * @param {FetchInput}} input - Fetch input parameters.
- * @returns {Object}
+ * @returns {Promise<APIResult>}
  */
-export async function fetchPost(input) {
+export async function sendPost(input) {
   if (!input) {
     throw new Error('Unexpected empty fetch input');
   }
@@ -94,29 +99,7 @@ export async function post(name, input, usr, handler) {
       cookies = loginResp.headers.raw()['set-cookie'];
     }
     const opts = fetchInputToOptions(input);
-    const d = await fetchPost({ ...opts, cookies });
+    const d = await sendPost({ ...opts, cookies });
     handler(d);
   });
-}
-
-export class TempUser {
-  constructor(d) {
-    /**
-     * @param {Object}
-     * @public
-     */
-    this.d = d;
-  }
-
-  async dispose() {
-    await fetchPost(`/__/auth/del/${this.d.eid}`);
-  }
-}
-
-/**
- * @param {string} name
- * @returns {Promise<Object>}
- */
-export async function newUser() {
-  return fetchPost('/__/auth/new');
 }
