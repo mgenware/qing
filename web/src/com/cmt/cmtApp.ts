@@ -6,7 +6,7 @@
  */
 
 import { html, customElement, css, BaseElement, lp } from 'll';
-import { unsafeHTML } from 'lit/directives/unsafe-html';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './views/rootCmtList';
 import { CHECK } from 'checks';
 import 'qing-overlay';
@@ -89,7 +89,7 @@ export class CmtApp extends BaseElement {
         <h2>${heading}</h2>
         ${tif(
           editorProps.replyingTo,
-          html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML)}</blockquote>`,
+          html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML ?? '')}</blockquote>`,
         )}
         <composer-view
           id=${composerID}

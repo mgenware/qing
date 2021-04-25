@@ -5,9 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'll';
+import { html, customElement, css, BaseElement } from 'll';
 import ls, { formatLS } from 'ls';
-import BaseElement from 'baseElement';
 import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';

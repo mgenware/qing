@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html } from 'll';
-import BaseElement from 'baseElement';
+import { customElement, css, html, BaseElement } from 'll';
 
 export const tabViewActiveClass = 'tab-active';
 

@@ -6,7 +6,7 @@
  */
 
 import { html, BaseElement, lp } from 'll';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 

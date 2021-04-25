@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'll';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement } from 'll';
 
 @customElement('heading-view')
 export class HeadingView extends BaseElement {

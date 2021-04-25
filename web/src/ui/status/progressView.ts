@@ -6,7 +6,7 @@
  */
 
 import { html, customElement, property, css, BaseElement } from 'll';
-import { ifDefined } from 'lit/directives/if-defined';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 @customElement('progress-view')
 export default class ProgressView extends BaseElement {

@@ -12,7 +12,7 @@ import './cmtView';
 import Cmt, { isCmtReply } from '../data/cmt';
 import './cmtFooterView';
 import { CHECK } from 'checks';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';

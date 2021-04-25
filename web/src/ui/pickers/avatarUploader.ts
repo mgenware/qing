@@ -5,10 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property, css } from 'll';
+import { html, customElement, property, css, BaseElement } from 'll';
 import 'qing-overlay';
 import ls from 'ls';
-import BaseElement from 'baseElement';
 import { staticMainImage } from 'urls';
 import 'ui/status/progressView';
 import '@github/image-crop-element';

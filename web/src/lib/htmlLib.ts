@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { CSSResult, TemplateResult } from 'll';
-import { render, html } from 'lit';
+import { TemplateResult } from 'll';
+import { render, html, CSSResultGroup, CSSResult } from 'lit';
 
 export function ready(fn: () => void) {
   if (document.readyState !== 'loading') {
@@ -69,14 +69,24 @@ export function listenForVisibilityChange(
   }
 }
 
-export function injectStyles(styles: CSSResult[]) {
+export function injectStyles(styles: CSSResultGroup) {
+  if (!Array.isArray(styles)) {
+    // eslint-disable-next-line no-param-reassign
+    styles = [styles];
+  }
   for (const style of styles) {
-    const css = style.cssText;
-    // TODO: use constructable styles
-    const styleElement = document.createElement('style') as HTMLStyleElement;
-    styleElement.type = 'text/css';
-    styleElement.innerHTML = css;
-    document.head.appendChild(styleElement);
+    if (Array.isArray(style)) {
+      injectStyles(style);
+    } else if (style instanceof CSSResult) {
+      const css = style.cssText;
+      // TODO: use constructable styles.
+      const styleElement = document.createElement('style') as HTMLStyleElement;
+      styleElement.innerHTML = css;
+      document.head.appendChild(styleElement);
+    } else {
+      // `style` is `CSSStyleSheet`.
+      throw new Error('CSSStyleSheet is not supported');
+    }
   }
 }
 

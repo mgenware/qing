@@ -11,9 +11,9 @@
     "r": "daizong"
   },
   "devDependencies": {
-    "clean-css-cli": "^5.0.0",
+    "clean-css-cli": "^5.2.2",
     "concat": "^1.0.3",
-    "daizong": "^0.12.2"
+    "daizong": "^0.13.0"
   },
   "files": [
     "dist/**/*.js",

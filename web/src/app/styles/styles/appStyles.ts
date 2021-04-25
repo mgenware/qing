@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { css } from 'll';
+import { css } from 'lit';
 
 export default css`
   /**********************************************************

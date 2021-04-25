@@ -5,9 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property, css } from 'll';
+import { html, customElement, property, css, BaseElement } from 'll';
 import ls from 'ls';
-import BaseElement from 'baseElement';
 import routes from 'routes';
 import 'ui/form/inputView';
 

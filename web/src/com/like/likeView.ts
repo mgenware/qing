@@ -7,7 +7,7 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import { staticMainImage } from 'urls';
-import { cache } from 'lit/directives/cache';
+import { cache } from 'lit/directives/cache.js';
 import { tif } from 'lib/htmlLib';
 
 const defaultIconSize = 30;

@@ -6,7 +6,7 @@
  */
 
 import { html, customElement, css, BaseElement, lp } from 'll';
-import { unsafeHTML } from 'lit/directives/unsafe-html';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { AppViewStyleNullable } from '../types/appViewStyle';
 
 function processSVG(svg: string, width: number, height: number): string {

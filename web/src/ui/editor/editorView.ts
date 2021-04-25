@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'll';
+import { html, customElement, css, BaseElement } from 'll';
 import ls from 'ls';
 import { Editor } from 'kangxi-editor';
 import styles from 'kangxi-editor/dist/editor.css';
-import BaseElement from 'baseElement';
 
 const editorID = 'editor';
 

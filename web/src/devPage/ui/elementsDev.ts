@@ -6,8 +6,7 @@
  */
 
 /* eslint-disable no-alert */
-import { html, customElement, css } from 'll';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement } from 'll';
 import 'qing-button';
 import 'qing-dock-box';
 import 'ui/alerts/alertView';

@@ -13,7 +13,7 @@ import { listenForVisibilityChange } from 'lib/htmlLib';
 import Cmt from '../data/cmt';
 import './cmtBlock';
 import './cmtFooterView';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 import { CmtDataHub } from '../data/cmtDataHub';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';

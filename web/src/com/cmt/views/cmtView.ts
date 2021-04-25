@@ -12,7 +12,7 @@ import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';
 import 'com/like/likeApp';
-import { unsafeHTML } from 'lit/directives/unsafe-html';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { staticMainImage } from 'urls';
 import Cmt, { isCmtReply } from '../data/cmt';
 import { CHECK } from 'checks';

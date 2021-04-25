@@ -36,7 +36,7 @@ const styles = css`
     padding: 0.2rem 0.7rem;
   }
 `;
-injectStyles([styles]);
+injectStyles(styles);
 
 ready(() => {
   const qs = new URLSearchParams(window.location.search);

@@ -158,19 +158,19 @@ chalk@^4.1.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-clean-css-cli@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/clean-css-cli/-/clean-css-cli-5.0.0.tgz#d0fe16eacdfb7300025c0671d4c2f69354fb06f5"
-  integrity sha512-/oop9svxk5zbqxWPco+O24FN+gALRtjF2Iac9vzcye81JlbyT0O6nT2IZvr2gHPtio4EFTfvGcsHqivDhg2y8g==
+clean-css-cli@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/clean-css-cli/-/clean-css-cli-5.2.2.tgz#df41b04baace3531b0eb8eb1aa26c2331123fa81"
+  integrity sha512-XlgBVTpEAsU/aT7gxAZ/g5Q8P9glHZeg6yfNvE7hYuvoozMdw5Wd46b12QtzuDVs8/7UZ/GCulS0VR9TI5NWRg==
   dependencies:
-    clean-css "^5.0.1"
+    clean-css "^5.1.2"
     commander "7.x"
     glob "^7.1.6"
 
-clean-css@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-5.0.1.tgz#f84c6ad82c5a8246a680206da8bceef483ccc0b6"
-  integrity sha512-F1zAGOowUCg8yxT0O4UR+nmbMauf3YwbiUS60CPxpzJU7ulpamGzQomFrJSK4w/HqHtMmQKSHJUNue+dQQYQdg==
+clean-css@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-5.1.2.tgz#6ea0da7286b4ddc2469a1b776e2461a5007eed54"
+  integrity sha512-QcaGg9OuMo+0Ds933yLOY+gHPWbxhxqF0HDexmToPf8pczvmvZGYzd+QqWp9/mkucAOKViI+dSFOqoZIvXbeBw==
   dependencies:
     source-map "~0.6.0"
 
@@ -245,17 +245,17 @@ cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-daizong@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/daizong/-/daizong-0.12.2.tgz#f0983c8cae875b0abe986e2a060dcd0a6c3c07ba"
-  integrity sha512-uEPiRpmRcBRkz+GrLumzPsU2hpH8w+7sLU16FDCU3dfJCxGoZYskTo7ALSbq4qy1ux/94DDsGjSmc9IBiaCiYw==
+daizong@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/daizong/-/daizong-0.13.0.tgz#89190aca0d282f2510bc4ee04e5eee81c4f100cb"
+  integrity sha512-AS9OvZOv4okmdEwe42cFBBHPIup8uuv8S2tSCncN47wEyMUHpqnHY9PVWSHTGQveffmb8Ou339EPUQuE4Ltsyw==
   dependencies:
     chalk "^4.1.0"
     cosmiconfig "^7.0.0"
     del "^6.0.0"
     execa "^5.0.0"
     make-dir "^3.1.0"
-    meow "^8.0.0"
+    meow "^9.0.0"
     p-map "^4.0.0"
 
 decamelize-keys@^1.1.0:
@@ -266,7 +266,7 @@ decamelize-keys@^1.1.0:
     decamelize "^1.1.0"
     map-obj "^1.0.0"
 
-decamelize@^1.1.0:
+decamelize@^1.1.0, decamelize@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
@@ -579,13 +579,14 @@ map-obj@^4.0.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.1.0.tgz#b91221b542734b9f14256c0132c897c5d7256fd5"
   integrity sha512-glc9y00wgtwcDmp7GaE/0b0OnxpNJsVf3ael/An6Fe2Q51LLwN1er6sdomLRzz5h0+yMpiYLhWYF5R7HeqVd4g==
 
-meow@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/meow/-/meow-8.0.0.tgz#1aa10ee61046719e334ffdc038bb5069250ec99a"
-  integrity sha512-nbsTRz2fwniJBFgUkcdISq8y/q9n9VbiHYbfwklFh5V4V2uAcxtKQkDc0yCLPM/kP0d+inZBewn3zJqewHE7kg==
+meow@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/meow/-/meow-9.0.0.tgz#cd9510bc5cac9dee7d03c73ee1f9ad959f4ea364"
+  integrity sha512-+obSblOQmRhcyBt62furQqRAQpNyWXo8BuQ5bN7dG8wmwQ+vwHKp/rCFD4CrTP8CsDQD1sjoZ94K417XEUk8IQ==
   dependencies:
     "@types/minimist" "^1.2.0"
     camelcase-keys "^6.2.2"
+    decamelize "^1.2.0"
     decamelize-keys "^1.1.0"
     hard-rejection "^2.1.0"
     minimist-options "4.1.0"

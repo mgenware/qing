@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css } from 'll';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import 'ui/editor/composerView';

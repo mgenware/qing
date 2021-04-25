@@ -6,8 +6,7 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement, css } from 'll';
-import BaseElement from 'baseElement';
+import { html, customElement, css, BaseElement } from 'll';
 
 @customElement('button-list')
 export class ButtonList extends BaseElement {

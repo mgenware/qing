@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property } from 'll';
+import { html, customElement, property, BaseElement } from 'll';
 import ls from 'ls';
 import { formatRelative, Locale } from 'date-fns';
 import { enUS, zhCN } from 'date-fns/locale';
-import BaseElement from 'baseElement';
 
 @customElement('time-field')
 export class TimeField extends BaseElement {

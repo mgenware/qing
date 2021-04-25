@@ -6,7 +6,7 @@
  */
 
 import { html, customElement, css, BaseElement, lp } from 'll';
-import { classMap } from 'lit/directives/class-map';
+import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('container-view')
 export class ContainerView extends BaseElement {
