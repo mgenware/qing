@@ -55,6 +55,16 @@ function fetchInputToOptions(input) {
 }
 
 /**
+ * @param {string}} eid
+ * @returns {Promise<string>} - Returns cookies of the signed in user.
+ */
+export async function signIn(eid) {
+  const loginResp = await fetch(`${serverURL}${loginURL}/-${eid}`);
+  cookies = loginResp.headers.raw()['set-cookie'];
+  return cookies;
+}
+
+/**
  * @param {FetchInput}} input - Fetch input parameters.
  * @returns {Promise<APIResult>}
  */
@@ -72,8 +82,7 @@ export async function sendPost(input) {
   // Log in if needed.
   let cookies = '';
   if (user) {
-    const loginResp = await fetch(`${serverURL}${loginURL}/-${user.eid}`);
-    cookies = loginResp.headers.raw()['set-cookie'];
+    cookies = await signIn(user.eid);
   }
 
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
