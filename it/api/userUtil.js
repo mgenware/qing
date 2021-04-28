@@ -53,5 +53,5 @@ export async function requestNewUser() {
  * @returns {Promise<APIResult>}
  */
 export async function requestUserInfo(id) {
-  return await sendPost(`/__/auth/info/${id}`);
+  return sendPost(`/__/auth/info/${id}`);
 }

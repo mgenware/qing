@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { it } from '../t.js';
 import * as assert from 'assert';
+import { it } from '../t.js';
 
 it('Home page', async (br) => {
   await br.goto('/');

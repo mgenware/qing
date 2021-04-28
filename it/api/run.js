@@ -7,4 +7,6 @@
 
 import { run } from '../runner.js';
 
-await run((s) => import(s));
+(async () => {
+  await run((s) => import(s));
+})();

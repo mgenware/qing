@@ -105,7 +105,7 @@ func Start() {
 	if debugConfig != nil {
 		// DEBUG only setup.
 		if debugConfig.QuickLogin {
-			log.Print("⚠️ QuickLogin routes are on")
+			log.Print("😡 QuickLogin routes are on")
 			r.Mount("/"+defs.Shared.RouteDevPage, devp.Router)
 		}
 	}

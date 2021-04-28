@@ -58,9 +58,9 @@ function fetchInputToOptions(input) {
  * @param {string}} eid
  * @returns {Promise<string>} - Returns cookies of the signed in user.
  */
-export async function signIn(eid) {
+export async function requestLogin(eid) {
   const loginResp = await fetch(`${serverURL}${loginURL}/-${eid}`);
-  cookies = loginResp.headers.raw()['set-cookie'];
+  const cookies = loginResp.headers.raw()['set-cookie'];
   return cookies;
 }
 
@@ -82,11 +82,12 @@ export async function sendPost(input) {
   // Log in if needed.
   let cookies = '';
   if (user) {
-    cookies = await signIn(user.eid);
+    cookies = await requestLogin(user.eid);
   }
 
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
-  const response = await fetch(`${serverURL}${url}`, {
+  url = `${serverURL}${url}`;
+  const response = await fetch(url, {
     method: get ? 'GET' : 'POST',
     body: body ? JSON.stringify(body) : '',
     headers: {
@@ -97,7 +98,7 @@ export async function sendPost(input) {
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`);
   }
-  return await response.json();
+  return response.json();
 }
 
 /**

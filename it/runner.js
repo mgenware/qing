@@ -17,6 +17,7 @@ export async function run(importFn) {
   const entries = await fg([glob ? `**/*${glob}*.js` : '**/*_test.js'], { dot: true });
   await Promise.all(
     entries.map(async (s) => {
+      // eslint-disable-next-line no-console
       console.log(chalk.gray(s));
       importFn(`./${s}`);
     }),

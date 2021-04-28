@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { post, usr, assUtil, ass, it } from '../t.js';
+import { post, usr, ass, it } from '../t.js';
 import { requestUserInfo, requestNewUser } from '../userUtil.js';
 
 post('User info`', `/__/auth/info/${usr.admin.eid}`, 0, (r) => {
@@ -15,11 +15,11 @@ post('User info`', `/__/auth/info/${usr.admin.eid}`, 0, (r) => {
 it('Add and remove a user', async () => {
   const tu = await requestNewUser();
   const { eid } = tu.r.d;
-  ass.de(tu.r, { d: { name: 'T', eid: eid } });
+  ass.de(tu.r, { d: { name: 'T', eid } });
 
   // Make sure `__/auth/info` also works.
   const rInfo = await requestUserInfo(eid);
-  ass.de(rInfo, { d: { name: 'T', eid: eid } });
+  ass.de(rInfo, { d: { name: 'T', eid } });
 
   // `TempUser.dispose` calls `__/auth/del` to remove the user.
   const rDel = await tu.dispose();
