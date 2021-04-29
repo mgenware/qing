@@ -62,3 +62,13 @@ export function f(a) {
     panic(`${JSON.stringify(a)} should not be true`);
   }
 }
+
+/**
+ * @param {string} s
+ * @param {RegExp} r
+ */
+export function regex(s, r) {
+  if (!r.test(s)) {
+    panic(`"${s}" does not match "${r}"`);
+  }
+}
