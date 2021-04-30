@@ -6,6 +6,7 @@
  */
 
 import fetch from 'node-fetch';
+import chalk from 'chalk';
 import { loginURL, serverURL } from '../common.js';
 
 // Exports.
@@ -112,6 +113,8 @@ export async function post(name, input, user, handler) {
   return it(name, async () => {
     const opts = fetchInputToOptions(input);
     const d = await sendPost({ ...opts, user });
-    handler(d);
+    await handler(d);
+    // eslint-disable-next-line no-console
+    console.log(chalk.green(name));
   });
 }
