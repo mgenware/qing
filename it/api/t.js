@@ -50,11 +50,13 @@ export async function it(input, handler) {
   }
   if (!opts.queue) {
     await handler();
+    // eslint-disable-next-line no-console
+    console.log(chalk.green(opts.name));
   } else {
     await queueTask(opts.queue, handler);
+    // eslint-disable-next-line no-console
+    console.log(`${chalk.green(opts.name)} ${chalk.gray(`(${opts.queue})`)}`);
   }
-  // eslint-disable-next-line no-console
-  console.log(chalk.green(opts.name));
 }
 
 /**

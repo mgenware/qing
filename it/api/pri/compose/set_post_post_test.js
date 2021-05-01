@@ -32,7 +32,9 @@ function getQueuedName(name) {
 function verifyPostAPIResult(r) {
   ensureSuccess(r);
   const id = postIDRegex.exec(r.d)[1];
-  ass.t(typeof id === 'string');
+  if (typeof id !== 'string' || !id.length) {
+    throw new Error(`Invalid id "${id}"`);
+  }
   return id;
 }
 
@@ -99,4 +101,33 @@ it(getQueuedName('Add'), async () => {
 
 itPost('Add: visitor', { url, body: addPostBody }, 0, (r) => {
   assUtil.notAuthorized(r);
+});
+
+it(getQueuedName('Edit'), async () => {
+  const u = usr.user;
+  const id = await newTmpPost(u);
+
+  // Post content.
+  const pc = await getPostCount(u.eid);
+  const r = await post({ url, body: { ...addPostBody, id }, user: u });
+  verifyPostAPIResult(r);
+  ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
+
+  const pc2 = await getPostCount(u.eid);
+  ass.e(pc, pc2);
+  await deletePost(id, u);
+});
+
+it(getQueuedName('Edit: wrong user'), async () => {
+  const u = usr.user;
+  const id = await newTmpPost(u);
+
+  // Post content.
+  const pc = await getPostCount(u.eid);
+  const r = await post({ url, body: { ...addPostBody, id }, user: usr.admin });
+  assUtil.rowNotUpdated(r);
+
+  const pc2 = await getPostCount(u.eid);
+  ass.e(pc, pc2);
+  await deletePost(id, u);
 });

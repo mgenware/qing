@@ -13,3 +13,10 @@ import * as ass from '../ass.js';
 export function notAuthorized(r) {
   ass.de(r, { code: 10001 });
 }
+
+/**
+ * @param {*} r
+ */
+export function rowNotUpdated(r) {
+  ass.de(r, { code: 10000, message: 'Expected 1 rows affected, got 0.' });
+}

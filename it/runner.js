@@ -36,6 +36,7 @@ export async function queueTask(name, handler) {
   let q = queuedTasks.get(name);
   if (!q) {
     q = new PQueue({ concurrency: 1 });
+    queuedTasks.set(name, q);
   }
   await q.add(handler);
 }
