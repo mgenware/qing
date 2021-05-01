@@ -27,5 +27,5 @@ it('Add and remove a user', async () => {
 
   // Check if the user has been removed.
   const nullInfo = await requestUserInfo(eid);
-  ass.de(nullInfo, { code: 10005, message: 'resource not found' });
+  ass.de(nullInfo, { code: 10005, message: 'Resource not found' });
 });

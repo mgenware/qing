@@ -6,7 +6,7 @@
  */
 
 import { checkAPIResult } from '../common.js';
-import { sendPost } from './t.js';
+import { post } from './t.js';
 
 export class TempUser {
   /**
@@ -35,7 +35,7 @@ export class TempUser {
     if (!eid) {
       throw new Error('Empty EID');
     }
-    await sendPost(`/__/auth/del/${eid}`);
+    await post(`/__/auth/del/${eid}`);
   }
 }
 
@@ -43,7 +43,7 @@ export class TempUser {
  * @returns {Promise<TempUser>}
  */
 export async function requestNewUser() {
-  const r = await sendPost('/__/auth/new');
+  const r = await post('/__/auth/new');
   checkAPIResult(r);
   return new TempUser(r);
 }
@@ -53,5 +53,5 @@ export async function requestNewUser() {
  * @returns {Promise<APIResult>}
  */
 export async function requestUserInfo(id) {
-  return sendPost(`/__/auth/info/${id}`);
+  return post(`/__/auth/info/${id}`);
 }

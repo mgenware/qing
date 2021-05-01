@@ -6,7 +6,9 @@
  */
 
 import puppeteer from 'puppeteer';
+import chalk from 'chalk';
 import { serverURL } from '../common.js';
+import { queueTask } from '../runner.js';
 
 const browserPromise = puppeteer.launch();
 
@@ -60,22 +62,47 @@ export class Browser {
 }
 
 /**
- * Description of the function
  * @name ItCallback
  * @function
  * @param {Browser} br
+ *
+ * @typedef {Object} ItOptions
+ * @property {string} name
+ * @property {string} queue
  */
 
 /**
- *
- * @param {string} name
+ * @property {string} name
  * @param {ItCallback} handler
+ * @return {Promise}
  */
-export async function it(name, handler) {
+async function runHandler(name, handler) {
   const globalBrowser = await browserPromise;
   const context = await globalBrowser.createIncognitoBrowserContext();
   const page = await context.newPage();
   const userBrowser = new Browser(name, context, page);
   await handler(userBrowser);
   await userBrowser.dispose();
+}
+
+/**
+ *
+ * @param {ItOptions} input
+ * @param {ItCallback} handler
+ * @return {Promise}
+ */
+export async function it(input, handler) {
+  const opts = typeof input === 'string' ? { name: input } : input;
+  if (!opts.name) {
+    throw new Error('Unnamed test');
+  }
+  if (!opts.queue) {
+    await runHandler(handler);
+    // eslint-disable-next-line no-console
+    console.log(chalk.green(opts.name));
+  } else {
+    await queueTask(opts.queue, () => runHandler(handler));
+    // eslint-disable-next-line no-console
+    console.log(`${chalk.green(opts.name)} ${chalk.gray(`(${opts.queue})`)}`);
+  }
 }

@@ -44,7 +44,7 @@ it('set-admin: admin', async () => {
   ass.de(adminData, {
     eid,
     name: 'T',
-    url: `/user/${eid}`,
+    url: `/u/${eid}`,
     iconURL: '/static/img/main/defavatar_50.png',
   });
 
@@ -70,6 +70,6 @@ itPost(
   { url, body: { target_user_id: usr.admin.eid, value: 0 } },
   usr.admin,
   async (r) => {
-    ass.de(r, { code: 1, message: 'Error code: 1' });
+    ass.de(r, { code: 1 });
   },
 );
