@@ -13,7 +13,7 @@
     "fast-glob": "^3.2.5",
     "node-fetch": "^2.6.1",
     "p-queue": "^7.1.0",
-    "puppeteer": "^8.0.0"
+    "puppeteer": "^9.0.0"
   },
   "devDependencies": {
     "eslint": "^7.25.0",
