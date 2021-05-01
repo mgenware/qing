@@ -42,7 +42,7 @@ func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSO
 	if err != nil {
 		// Hide SQL row not found errors.
 		if err == sql.ErrNoRows && code == defs.Shared.ErrGeneric {
-			d.Message = "resource not found"
+			d.Message = "Resource not found"
 			d.Code = defs.Shared.ErrResourceNotFound
 		} else {
 			d.Message = err.Error()
