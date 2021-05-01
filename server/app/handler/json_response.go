@@ -11,7 +11,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"qing/app/defs"
 
@@ -40,12 +39,14 @@ func NewJSONResponse(r *http.Request, wr http.ResponseWriter) *JSONResponse {
 // MustFailWithError finishes the response with the specified `code`, `error` and `expected` args, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSON {
 	d := &APIResult{Code: code, Error: err}
-	// Hide SQL row not found errors.
-	if err == sql.ErrNoRows && code == defs.Shared.ErrGeneric {
-		d.Message = "resource not found"
-		d.Code = defs.Shared.ErrResourceNotFound
-	} else {
-		d.Message = err.Error()
+	if err != nil {
+		// Hide SQL row not found errors.
+		if err == sql.ErrNoRows && code == defs.Shared.ErrGeneric {
+			d.Message = "resource not found"
+			d.Code = defs.Shared.ErrResourceNotFound
+		} else {
+			d.Message = err.Error()
+		}
 	}
 	j.mustWriteData(d)
 	return JSON(0)
@@ -65,7 +66,7 @@ func (j *JSONResponse) MustFailWithUserError(msg string) JSON {
 
 // MustFailWithCode finishes the response with the specified error code, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithCode(code int) JSON {
-	j.MustFailWithError(code, fmt.Errorf("Error code: %v", code), false)
+	j.MustFailWithError(code, nil, false)
 	return JSON(0)
 }
 

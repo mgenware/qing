@@ -8,8 +8,8 @@
 import * as ass from '../ass.js';
 
 /**
- * @param {*} data
+ * @param {*} r
  */
-export function notAuthorized(data) {
-  ass.de(data, { code: 10001, message: 'Error code: 10001' });
+export function notAuthorized(r) {
+  ass.de(r, { code: 10001 });
 }

@@ -38,7 +38,9 @@ export { usr } from '../common.js';
  * @returns {Promise<APIResult>}
  */
 export async function it(name, handler) {
-  return handler();
+  await handler();
+  // eslint-disable-next-line no-console
+  console.log(chalk.green(name));
 }
 
 /**
@@ -83,6 +85,9 @@ export async function sendPost(input) {
   // Log in if needed.
   let cookies = '';
   if (user) {
+    if (!user.eid) {
+      throw new Error(`EID null on object ${JSON.stringify(user)}`);
+    }
     cookies = await requestLogin(user.eid);
   }
 
@@ -114,7 +119,16 @@ export async function post(name, input, user, handler) {
     const opts = fetchInputToOptions(input);
     const d = await sendPost({ ...opts, user });
     await handler(d);
-    // eslint-disable-next-line no-console
-    console.log(chalk.green(name));
   });
+}
+
+/**
+ * @param {APIResult} r
+ * @returns {APIResult}
+ */
+export function ensureSuccess(r) {
+  if (r.code) {
+    throw new Error(`Result failed: ${JSON.stringify(r)}`);
+  }
+  return r;
 }

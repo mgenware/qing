@@ -29,6 +29,14 @@ func init() {
 	authRouter.Post("/info/{uid}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
 	Router.Mount("/auth", authRouter)
 
+	// User router.
+	userRouter := handler.NewJSONRouter()
+	userRouter.Post("/post_count/{uid}", userPostCount)
+	userRouter.Post("/question_count/{uid}", userQuestionCount)
+	userRouter.Post("/answer_count/{uid}", userAnswerCount)
+	userRouter.Post("/discussion_count/{uid}", userDiscussionCount)
+	Router.Mount("/user", userRouter.Core)
+
 	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
 }
 

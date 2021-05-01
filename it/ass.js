@@ -11,7 +11,7 @@ import deepEqual from 'fast-deep-equal/es6/index.js';
  * Throws an error with the given message.
  * @param {string} msg
  */
-function panic(msg) {
+export function panic(msg) {
   throw new Error(`Assertion failed: ${msg}`);
 }
 
