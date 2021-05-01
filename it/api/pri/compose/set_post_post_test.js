@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { post, usr, assUtil, ass, sendPost, ensureSuccess, it } from '../../t.js';
+import { post, usr, assUtil, ass, itPost, ensureSuccess, it } from '../../t.js';
 import defs from '../../defs.js';
 
 const url = 'pri/compose/set-post';
@@ -14,22 +14,35 @@ const deletePostURL = 'pri/compose/delete-post';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 const addPostBody = {
-  entityType: defs.entityPost,
+  entityType: defs.entity.post,
   content: { contentHTML: '_POST_', title: '_TITLE_' },
 };
 
 const getPostCountURL = '/__/user/post_count/';
+const getPostSrcURL = 'pri/compose/get-entity-src';
+
+function getQueuedName(name) {
+  return { name, queue: defs.queue.userPostCount };
+}
+
+/**
+ * @param {APIResult} r
+ * @returns {string}
+ */
+function verifyPostAPIResult(r) {
+  ensureSuccess(r);
+  const id = postIDRegex.exec(r.d)[1];
+  ass.t(typeof id === 'string');
+  return id;
+}
 
 /**
  * @param {Object} user
  * @returns {Promise<string>}
  */
 async function newTmpPost(user) {
-  const r = await sendPost({ url, body: addPostBody, user });
-  ensureSuccess(r);
-  const id = postIDRegex.exec(r.d)[1];
-  ass.t(typeof id === 'string');
-  return id;
+  const r = await post({ url, body: addPostBody, user });
+  return verifyPostAPIResult(r);
 }
 
 /**
@@ -39,7 +52,7 @@ async function newTmpPost(user) {
  */
 async function deletePost(id, user) {
   return ensureSuccess(
-    await sendPost({ url: deletePostURL, user, body: { id, entityType: defs.entityPost } }),
+    await post({ url: deletePostURL, user, body: { id, entityType: defs.entity.post } }),
   );
 }
 
@@ -48,20 +61,42 @@ async function deletePost(id, user) {
  * @returns {Promise<number>}
  */
 async function getPostCount(id) {
-  const r = await sendPost(`${getPostCountURL}${id}`);
+  const r = await post(`${getPostCountURL}${id}`);
   ensureSuccess(r);
   return parseInt(r.d, 10);
 }
 
-it('Add', async () => {
+/**
+ * @param {string} id
+ * @param {Object} user
+ * @returns {Promise<Object>}
+ */
+async function getPostSrc(id, user) {
+  const r = await post({
+    url: getPostSrcURL,
+    user,
+    body: { entityID: id, entityType: defs.entity.post },
+  });
+  ensureSuccess(r);
+  return r.d;
+}
+
+it(getQueuedName('Add'), async () => {
   const u = usr.user;
   const pc = await getPostCount(u.eid);
   const id = await newTmpPost(u);
+
+  // Post content.
+  ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
+
+  // User post_count.
   const pc2 = await getPostCount(u.eid);
   ass.e(pc + 1, pc2);
+
+  // Clean up.
   await deletePost(id, u);
 });
 
-post('Add: visitor', { url, body: addPostBody }, 0, (r) => {
+itPost('Add: visitor', { url, body: addPostBody }, 0, (r) => {
   assUtil.notAuthorized(r);
 });

@@ -8,6 +8,7 @@
 import fetch from 'node-fetch';
 import chalk from 'chalk';
 import { loginURL, serverURL } from '../common.js';
+import { queueTask } from '../runner.js';
 
 // Exports.
 export * as ass from '../ass.js';
@@ -24,7 +25,12 @@ export { usr } from '../common.js';
  * @property {Object} user
  * @property {boolean} get
  *
+ * @typedef {Object} ItOptions
+ * @property {string} name
+ * @property {string} queue
+ *
  * @typedef {string|FetchOptions} FetchInput
+ * @typedef {string|ItOptions} ItInput
  *
  * @typedef {Object} APIResult
  * @property {number} code
@@ -33,14 +39,22 @@ export { usr } from '../common.js';
  */
 
 /**
- * @param {string} name
+ * @param {ItInput} intput
  * @param {PostCallback} handler
  * @returns {Promise<APIResult>}
  */
-export async function it(name, handler) {
-  await handler();
+export async function it(input, handler) {
+  const opts = typeof input === 'string' ? { name: input } : input;
+  if (!opts.name) {
+    throw new Error('Unnamed test');
+  }
+  if (!opts.queue) {
+    await handler();
+  } else {
+    await queueTask(opts.queue, handler);
+  }
   // eslint-disable-next-line no-console
-  console.log(chalk.green(name));
+  console.log(chalk.green(opts.name));
 }
 
 /**
@@ -68,10 +82,10 @@ export async function requestLogin(eid) {
 }
 
 /**
- * @param {FetchInput}} input - Fetch input parameters.
+ * @param {FetchInput} input - Fetch input parameters.
  * @returns {Promise<APIResult>}
  */
-export async function sendPost(input) {
+export async function post(input) {
   if (!input) {
     throw new Error('Unexpected empty fetch input');
   }
@@ -108,16 +122,16 @@ export async function sendPost(input) {
 }
 
 /**
- * @param {string} name
+ * @param {ItInput} itInput
  * @param {FetchInput} input
  * @param {Object} user
  * @param {FetchCallback} handler
  * @returns {Promise<Object>}
  */
-export async function post(name, input, user, handler) {
-  return it(name, async () => {
+export async function itPost(itInput, input, user, handler) {
+  return it(itInput, async () => {
     const opts = fetchInputToOptions(input);
-    const d = await sendPost({ ...opts, user });
+    const d = await post({ ...opts, user });
     await handler(d);
   });
 }

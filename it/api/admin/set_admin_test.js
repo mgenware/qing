@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ass, assUtil, it, sendPost, usr, post } from '../t.js';
+import { ass, assUtil, it, itPost, usr, post } from '../t.js';
 import { requestNewUser } from '../userUtil.js';
 
 const url = 'admin/set-admin';
@@ -13,13 +13,13 @@ const getAdminsURL = 'admin/get-admins';
 
 it('set-admin: visitor', async () => {
   const tu = await requestNewUser();
-  const r = await sendPost({ url, body: { target_user_id: tu.eid, value: 1 } });
+  const r = await post({ url, body: { target_user_id: tu.eid, value: 1 } });
   assUtil.notAuthorized(r);
 });
 
 it('set-admin: user', async () => {
   const tu = await requestNewUser();
-  const r = await sendPost({
+  const r = await post({
     url,
     user: usr.user,
     body: { target_user_id: tu.eid, value: 1 },
@@ -31,7 +31,7 @@ it('set-admin: admin', async () => {
   // Set an admin.
   const tu = await requestNewUser();
   const { eid } = tu;
-  let r = await sendPost({
+  let r = await post({
     url,
     user: usr.admin,
     body: { target_user_id: eid, value: 1 },
@@ -39,7 +39,7 @@ it('set-admin: admin', async () => {
   ass.de(r, {});
 
   // Check status.
-  r = await sendPost({ url: getAdminsURL, user: usr.admin });
+  r = await post({ url: getAdminsURL, user: usr.admin });
   let adminData = r.d.find((d) => d.eid === eid);
   ass.de(adminData, {
     eid,
@@ -49,7 +49,7 @@ it('set-admin: admin', async () => {
   });
 
   // Remove an admin.
-  r = await sendPost({
+  r = await post({
     url,
     user: usr.admin,
     body: { target_user_id: eid, value: 0 },
@@ -57,7 +57,7 @@ it('set-admin: admin', async () => {
   ass.de(r, {});
 
   // Check status.
-  r = await sendPost({ url: getAdminsURL, user: usr.admin });
+  r = await post({ url: getAdminsURL, user: usr.admin });
   adminData = r.d.find((d) => d.eid === eid);
   ass.e(adminData, undefined);
 
@@ -65,7 +65,7 @@ it('set-admin: admin', async () => {
   await tu.eid;
 });
 
-post(
+itPost(
   'Admin cannot remove itself',
   { url, body: { target_user_id: usr.admin.eid, value: 0 } },
   usr.admin,

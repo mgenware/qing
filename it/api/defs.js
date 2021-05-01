@@ -6,15 +6,20 @@
  */
 
 export default {
-  entityPost: 1,
-  entityCmt: 2,
-  entityReply: 3,
-  entityDiscussion: 4,
-  entityQuestion: 5,
-  entityDiscussionMsg: 6,
-  entityAnswer: 7,
-  entityForumDiscussion: 8,
-  entityForumQuestion: 9,
-  entityForum: 10,
-  entityForumGroup: 11,
+  entity: {
+    post: 1,
+    cmt: 2,
+    reply: 3,
+    discussion: 4,
+    question: 5,
+    discussionMsg: 6,
+    answer: 7,
+    forumDiscussion: 8,
+    forumQuestion: 9,
+    forum: 10,
+    forumGroup: 11,
+  },
+  queue: {
+    userPostCount: 'userPostCount',
+  },
 };

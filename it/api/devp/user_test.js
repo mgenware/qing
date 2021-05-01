@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { post, usr, ass, it } from '../t.js';
+import { itPost, usr, ass, it } from '../t.js';
 import { requestUserInfo, requestNewUser } from '../userUtil.js';
 
-post('User info`', `/__/auth/info/${usr.admin.eid}`, 0, (r) => {
+itPost('User info`', `/__/auth/info/${usr.admin.eid}`, 0, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
 });
 

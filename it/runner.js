@@ -7,6 +7,7 @@
 
 import fg from 'fast-glob';
 import chalk from 'chalk';
+import PQueue from 'p-queue';
 
 const glob = process.argv[2];
 
@@ -22,4 +23,19 @@ export async function run(importFn) {
       importFn(`./${s}`);
     }),
   );
+}
+
+/** @type {Map<string, PQueue>} */
+const queuedTasks = new Map();
+
+/**
+ * @param {string} name
+ * @returns {Promise}
+ */
+export async function queueTask(name, handler) {
+  let q = queuedTasks.get(name);
+  if (!q) {
+    q = new PQueue({ concurrency: 1 });
+  }
+  await q.add(handler);
 }
