@@ -8,5 +8,5 @@
 import { run } from '../runner.js';
 
 (async () => {
-  await run((s) => import(s));
+  await run('API tests', (s) => import(s));
 })();

@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import * as assert from 'assert';
-import { it } from '../t.js';
+import { it, ass } from '../t.js';
 
 it('Home page', async (br) => {
   await br.goto('/');
   const c = await br.content();
-  assert.ok(c.length);
+  ass.t(c.length);
 });

@@ -14,13 +14,16 @@ const glob = process.argv[2];
 /**
  * @returns {Promise}
  */
-export async function run(importFn) {
+export async function run(name, importFn) {
+  if (!name || !importFn) {
+    throw new Error('Invalid arguments');
+  }
   const entries = await fg([glob ? `**/*${glob}*.js` : '**/*_test.js'], { dot: true });
   await Promise.all(
     entries.map(async (s) => {
       // eslint-disable-next-line no-console
-      console.log(chalk.gray(s));
-      importFn(`./${s}`);
+      console.log(`📄 ${chalk.gray(s)}`);
+      await importFn(`./${s}`);
     }),
   );
 }

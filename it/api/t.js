@@ -10,10 +10,10 @@ import chalk from 'chalk';
 import { loginURL, serverURL } from '../common.js';
 import { queueTask } from '../runner.js';
 
-// Exports.
+// Re-exports.
 export * as ass from '../ass.js';
-export * as assUtil from './assUtil.js';
 export { usr } from '../common.js';
+export * as assUtil from './assUtil.js';
 
 /**
  * @callback FetchCallback

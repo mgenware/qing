@@ -10,7 +10,16 @@ import chalk from 'chalk';
 import { serverURL } from '../common.js';
 import { queueTask } from '../runner.js';
 
+// Re-exports.
+export * as ass from '../ass.js';
+export { usr } from '../common.js';
+
 const browserPromise = puppeteer.launch();
+
+export async function dispose() {
+  const globalBrowser = await browserPromise;
+  globalBrowser.close();
+}
 
 export class Browser {
   /**
@@ -97,11 +106,11 @@ export async function it(input, handler) {
     throw new Error('Unnamed test');
   }
   if (!opts.queue) {
-    await runHandler(handler);
+    await runHandler(opts.name, handler);
     // eslint-disable-next-line no-console
     console.log(chalk.green(opts.name));
   } else {
-    await queueTask(opts.queue, () => runHandler(handler));
+    await queueTask(opts.queue, () => runHandler(opts.name, handler));
     // eslint-disable-next-line no-console
     console.log(`${chalk.green(opts.name)} ${chalk.gray(`(${opts.queue})`)}`);
   }
