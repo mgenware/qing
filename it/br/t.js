@@ -5,22 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import puppeteer from 'puppeteer';
-import chalk from 'chalk';
 import { serverURL } from '../common.js';
-import { queueTask } from '../runner.js';
+import { runTask } from '../runner.js';
+import { createContext } from './browser.js';
 
 // Re-exports.
 export * as ass from '../ass.js';
 export { usr } from '../common.js';
-
-const browserPromise = puppeteer.launch();
-
-export async function dispose() {
-  const globalBrowser = await browserPromise;
-  globalBrowser.close();
-}
-
 export class Browser {
   /**
    * Creates a `Browser`.
@@ -65,7 +56,10 @@ export class Browser {
     return this.page.content();
   }
 
-  dispose() {
+  /**
+   * @returns {Promise<void>}
+   */
+  async dispose() {
     return this.context.close();
   }
 }
@@ -86,8 +80,7 @@ export class Browser {
  * @return {Promise}
  */
 async function runHandler(name, handler) {
-  const globalBrowser = await browserPromise;
-  const context = await globalBrowser.createIncognitoBrowserContext();
+  const context = await createContext();
   const page = await context.newPage();
   const userBrowser = new Browser(name, context, page);
   await handler(userBrowser);
@@ -105,13 +98,9 @@ export async function it(input, handler) {
   if (!opts.name) {
     throw new Error('Unnamed test');
   }
-  if (!opts.queue) {
-    await runHandler(opts.name, handler);
-    // eslint-disable-next-line no-console
-    console.log(chalk.green(opts.name));
-  } else {
-    await queueTask(opts.queue, () => runHandler(opts.name, handler));
-    // eslint-disable-next-line no-console
-    console.log(`${chalk.green(opts.name)} ${chalk.gray(`(${opts.queue})`)}`);
+  if (typeof handler !== 'function') {
+    throw new Error(`\`handler\` is not a function, got ${handler}`);
   }
+
+  await runTask(opts.name, () => runHandler(opts.name, handler), opts.queue);
 }

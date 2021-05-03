@@ -6,7 +6,10 @@
  */
 
 import { run } from '../runner.js';
+import { closeBrowser, launchBrowser } from './browser.js';
 
 (async () => {
+  await launchBrowser();
   await run('BR tests', (s) => import(s));
+  await closeBrowser();
 })();

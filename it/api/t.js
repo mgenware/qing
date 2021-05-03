@@ -6,9 +6,8 @@
  */
 
 import fetch from 'node-fetch';
-import chalk from 'chalk';
 import { loginURL, serverURL } from '../common.js';
-import { queueTask } from '../runner.js';
+import { runTask } from '../runner.js';
 
 // Re-exports.
 export * as ass from '../ass.js';
@@ -48,15 +47,10 @@ export async function it(input, handler) {
   if (!opts.name) {
     throw new Error('Unnamed test');
   }
-  if (!opts.queue) {
-    await handler();
-    // eslint-disable-next-line no-console
-    console.log(chalk.green(opts.name));
-  } else {
-    await queueTask(opts.queue, handler);
-    // eslint-disable-next-line no-console
-    console.log(`${chalk.green(opts.name)} ${chalk.gray(`(${opts.queue})`)}`);
+  if (typeof handler !== 'function') {
+    throw new Error(`\`handler\` is not a function, got ${handler}`);
   }
+  await runTask(opts.name, handler, opts.queue);
 }
 
 /**
