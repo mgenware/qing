@@ -4482,10 +4482,10 @@ puppeteer-core@^8.0.0:
     unbzip2-stream "^1.3.3"
     ws "^7.2.3"
 
-qing-button@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-7.1.0.tgz#4fe1c4822a92106d997f7a25ef21026fb3975658"
-  integrity sha512-fcUS8Nxrryg1J1IdnC9iFNsY9mEJeSVl51Vmh4s5rmx9lXCHBd372euNtBw+8vxYztyGckR0bFQK3m/xLnyquA==
+qing-button@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/qing-button/-/qing-button-8.0.0.tgz#f2bd7c2d73915512c4305db7b77dc6de2ddb6a65"
+  integrity sha512-SUf4sHEIDTCwQ+dwknm/5/8XisCN6VpXPp3yQ/eFh/NYd5RrY9LqLyaPnFE5i+NgHJUj7P9WoqWpjz69FHZ6BQ==
 
 qing-dock-box@^0.2.0:
   version "0.2.0"
