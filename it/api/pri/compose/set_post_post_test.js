@@ -5,82 +5,20 @@
  * be found in the LICENSE file.
  */
 
-import { post, usr, assUtil, ass, itPost, ensureSuccess, it } from '../../t.js';
 import defs from '../../defs.js';
-
-const url = 'pri/compose/set-post';
-
-const deletePostURL = 'pri/compose/delete-post';
-const postIDRegex = /\/p\/([a-z0-9]+)$/;
-
-const addPostBody = {
-  entityType: defs.entity.post,
-  content: { contentHTML: '_POST_', title: '_TITLE_' },
-};
-
-const getPostCountURL = '/__/user/post_count/';
-const getPostSrcURL = 'pri/compose/get-entity-src';
+import { post, usr, assUtil, ass, itPost, it } from '../../t.js';
+import {
+  addPostURL,
+  deletePost,
+  getPostCount,
+  getPostSrc,
+  newTmpPost,
+  addPostBody,
+  verifyPostAPIResult,
+} from './post_helper.js';
 
 function getQueuedName(name) {
   return { name, queue: defs.queue.userPostCount };
-}
-
-/**
- * @param {APIResult} r
- * @returns {string}
- */
-function verifyPostAPIResult(r) {
-  ensureSuccess(r);
-  const id = postIDRegex.exec(r.d)[1];
-  if (typeof id !== 'string' || !id.length) {
-    throw new Error(`Invalid id "${id}"`);
-  }
-  return id;
-}
-
-/**
- * @param {Object} user
- * @returns {Promise<string>}
- */
-async function newTmpPost(user) {
-  const r = await post({ url, body: addPostBody, user });
-  return verifyPostAPIResult(r);
-}
-
-/**
- * @param {string} id
- * @param {Object} user
- * @returns {Promise}
- */
-async function deletePost(id, user) {
-  return ensureSuccess(
-    await post({ url: deletePostURL, user, body: { id, entityType: defs.entity.post } }),
-  );
-}
-
-/**
- * @param {string} id
- * @returns {Promise<number>}
- */
-async function getPostCount(id) {
-  const r = await post(`${getPostCountURL}${id}`);
-  ensureSuccess(r);
-  return parseInt(r.d, 10);
-}
-
-/**
- * @param {string} id
- * @param {Object} user
- * @returns {Promise<Object>}
- */
-async function getPostSrc(id, user) {
-  const r = await post({
-    url: getPostSrcURL,
-    user,
-    body: { entityID: id, entityType: defs.entity.post },
-  });
-  ensureSuccess(r);
-  return r.d;
 }
 
 it(getQueuedName('Add'), async () => {
@@ -99,7 +37,7 @@ it(getQueuedName('Add'), async () => {
   await deletePost(id, u);
 });
 
-itPost('Add: visitor', { url, body: addPostBody }, 0, (r) => {
+itPost('Add: visitor', { url: addPostURL, body: addPostBody }, 0, (r) => {
   assUtil.notAuthorized(r);
 });
 
@@ -109,7 +47,7 @@ it(getQueuedName('Edit'), async () => {
 
   // Post content.
   const pc = await getPostCount(u.eid);
-  const r = await post({ url, body: { ...addPostBody, id }, user: u });
+  const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: u });
   verifyPostAPIResult(r);
   ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
 
@@ -124,7 +62,7 @@ it(getQueuedName('Edit: wrong user'), async () => {
 
   // Post content.
   const pc = await getPostCount(u.eid);
-  const r = await post({ url, body: { ...addPostBody, id }, user: usr.admin });
+  const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: usr.admin });
   assUtil.rowNotUpdated(r);
 
   const pc2 = await getPostCount(u.eid);

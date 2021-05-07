@@ -93,7 +93,7 @@ async function runHandler(name, handler) {
  * @param {ItCallback} handler
  * @return {Promise}
  */
-export async function it(input, handler) {
+export async function test(input, handler) {
   const opts = typeof input === 'string' ? { name: input } : input;
   if (!opts.name) {
     throw new Error('Unnamed test');

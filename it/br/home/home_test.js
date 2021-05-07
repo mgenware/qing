@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { it, ass } from '../t.js';
+import { test, ass } from '../t.js';
 
-it('Home page', async (br) => {
+test('Home page', async (br) => {
   await br.goto('/');
   const c = await br.content();
   ass.t(c.length);
