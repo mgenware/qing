@@ -37,7 +37,7 @@ export function verifyPostAPIResult(r) {
  * @param {Object} user
  * @returns {Promise<string>}
  */
-export async function newTmpPost(user) {
+async function newTmpPostCore(user) {
   const r = await post({ url: addPostURL, body: addPostBody, user });
   return verifyPostAPIResult(r);
 }
@@ -47,10 +47,33 @@ export async function newTmpPost(user) {
  * @param {Object} user
  * @returns {Promise}
  */
-export async function deletePost(id, user) {
+async function deletePostCore(id, user) {
   return ensureSuccess(
     await post({ url: deletePostURL, user, body: { id, entityType: defs.entity.post } }),
   );
+}
+
+/**
+ * @name NewTmpPostCallback
+ * @function
+ * @param {String} id
+ */
+
+/**
+ * @param {Object} user
+ * @param {NewTmpPostCallback} cb
+ * @returns {Promise<string>}
+ */
+export async function newTmpPost(user, cb) {
+  let id = null;
+  try {
+    id = await newTmpPostCore(user);
+    cb(id);
+  } finally {
+    if (id) {
+      await deletePostCore(id, user);
+    }
+  }
 }
 
 /**

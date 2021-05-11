@@ -9,7 +9,6 @@ import defs from '../../defs.js';
 import { post, usr, assUtil, ass, itPost, it } from '../../t.js';
 import {
   addPostURL,
-  deletePost,
   getPostCount,
   getPostSrc,
   newTmpPost,
@@ -24,17 +23,14 @@ function getQueuedName(name) {
 it(getQueuedName('Add'), async () => {
   const u = usr.user;
   const pc = await getPostCount(u.eid);
-  const id = await newTmpPost(u);
+  await newTmpPost(u, async (id) => {
+    // Post content.
+    ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
 
-  // Post content.
-  ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
-
-  // User post_count.
-  const pc2 = await getPostCount(u.eid);
-  ass.e(pc + 1, pc2);
-
-  // Clean up.
-  await deletePost(id, u);
+    // User post_count.
+    const pc2 = await getPostCount(u.eid);
+    ass.e(pc + 1, pc2);
+  });
 });
 
 itPost('Add: visitor', { url: addPostURL, body: addPostBody }, 0, (r) => {
@@ -43,29 +39,27 @@ itPost('Add: visitor', { url: addPostURL, body: addPostBody }, 0, (r) => {
 
 it(getQueuedName('Edit'), async () => {
   const u = usr.user;
-  const id = await newTmpPost(u);
+  await newTmpPost(u, async (id) => {
+    // Post content.
+    const pc = await getPostCount(u.eid);
+    const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: u });
+    verifyPostAPIResult(r);
+    ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
 
-  // Post content.
-  const pc = await getPostCount(u.eid);
-  const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: u });
-  verifyPostAPIResult(r);
-  ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
-
-  const pc2 = await getPostCount(u.eid);
-  ass.e(pc, pc2);
-  await deletePost(id, u);
+    const pc2 = await getPostCount(u.eid);
+    ass.e(pc, pc2);
+  });
 });
 
 it(getQueuedName('Edit: wrong user'), async () => {
   const u = usr.user;
-  const id = await newTmpPost(u);
+  await newTmpPost(u, async (id) => {
+    // Post content.
+    const pc = await getPostCount(u.eid);
+    const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: usr.admin });
+    assUtil.rowNotUpdated(r);
 
-  // Post content.
-  const pc = await getPostCount(u.eid);
-  const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: usr.admin });
-  assUtil.rowNotUpdated(r);
-
-  const pc2 = await getPostCount(u.eid);
-  ass.e(pc, pc2);
-  await deletePost(id, u);
+    const pc2 = await getPostCount(u.eid);
+    ass.e(pc, pc2);
+  });
 });
