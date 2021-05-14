@@ -20,5 +20,6 @@ module.exports = {
     'import/order': 'off',
     'class-methods-use-this': 'off',
     'no-underscore-dangle': 'off',
+    'import/extensions': 'off',
   },
 };
