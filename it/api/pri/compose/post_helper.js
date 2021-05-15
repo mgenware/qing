@@ -68,7 +68,7 @@ export async function newTmpPost(user, cb) {
   let id = null;
   try {
     id = await newTmpPostCore(user);
-    cb(id);
+    await cb(id);
   } finally {
     if (id) {
       await deletePostCore(id, user);
