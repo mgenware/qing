@@ -14,8 +14,8 @@ import {
   getUserQuestionCols,
   userThreadInterface,
   userThreadTypeColumnName,
-} from '../com/userThreadCommon';
-import sharedDefs from '../../shared_constants';
+} from '../com/userThreadCommon.js';
+import sharedDefs from '../../shared_constants.js';
 
 export class ForumTA extends mm.TableActions {
   selectForum = mm.selectRow(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);

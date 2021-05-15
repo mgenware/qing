@@ -18,7 +18,7 @@ import {
   getUserQuestionCols,
   getUserDiscussionCols,
   userThreadTypeColumnName,
-} from '../com/userThreadCommon';
+} from '../com/userThreadCommon.js';
 
 export class Home extends mm.GhostTable {}
 

@@ -9,6 +9,13 @@ import { newLikeTable, LikeTable, LikeableTable } from './likeTableFactory.js';
 import post from '../post/post.js';
 import { cmt, reply } from '../cmt/cmt.js';
 
+function notNull<T>(val: T | null | undefined): T {
+  if (val === null || val === undefined) {
+    throw new Error('Unexpected nullable value');
+  }
+  return val;
+}
+
 const hostTables = [post, cmt, reply];
 
 const likeableTables = new Map<LikeableTable, LikeTable>(
@@ -19,6 +26,6 @@ const likeableTables = new Map<LikeableTable, LikeTable>(
 );
 
 export default likeableTables;
-export const postLike = likeableTables.get(post)!;
-export const cmtLike = likeableTables.get(cmt)!;
-export const replyLike = likeableTables.get(reply)!;
+export const postLike = notNull(likeableTables.get(post));
+export const cmtLike = notNull(likeableTables.get(cmt));
+export const replyLike = notNull(likeableTables.get(reply));

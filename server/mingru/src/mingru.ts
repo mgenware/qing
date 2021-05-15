@@ -9,9 +9,12 @@ import * as mr from 'mingru';
 import * as nodepath from 'path';
 import gen from 'go-const-gen';
 import { promises as fsPromises } from 'fs';
+import { fileURLToPath } from 'url';
 import actions from './actions/actions.js';
 import models from './models/models.js';
 import sharedConstants from './shared_constants.js';
+
+const dirname = nodepath.dirname(fileURLToPath(import.meta.url));
 
 const packageName = 'da';
 
@@ -41,7 +44,7 @@ async function buildConstantsAsync(path: string) {
 (async () => {
   const dialect = new mr.MySQL();
   // Build Go code to '../da/` directory
-  const daPath = nodepath.join(__dirname, `../../${packageName}/`);
+  const daPath = nodepath.join(dirname, `../../${packageName}/`);
   const builder = new mr.Builder(dialect, daPath, {
     cleanBuild: true,
     jsonEncoding: {

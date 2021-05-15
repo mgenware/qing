@@ -7,7 +7,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "r": "del-cli ./dist && tsc && node ./dist/mingru.js",
+    "r": "del-cli ./dist && tsc && node --experimental-json-modules ./dist/mingru.js",
     "build": "eslint --max-warnings 0 --ext .ts ./src && yarn run r"
   },
   "devDependencies": {

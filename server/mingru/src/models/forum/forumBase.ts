@@ -6,11 +6,11 @@
  */
 
 import * as mm from 'mingru-models';
-import { maxNameLen } from '../../constants.json';
+import c from '../../constants.json';
 
 export default class ForumBase extends mm.Table {
   id = mm.pk();
-  name = mm.varChar(maxNameLen);
+  name = mm.varChar(c.maxNameLen);
   desc = mm.text().setModelName('DescHTML');
   order_index = mm.uInt().default(0);
 

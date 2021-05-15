@@ -17,11 +17,11 @@ import {
   CmtHostTable,
   hasLikedProp,
   viewerUserIDInput,
-} from './cmtTAUtils';
-import replyTA from './replyTA';
-import { updateCounterAction } from '../misc/counterColumnTAFactory';
-import { defaultUpdateConditions } from '../common';
-import { cmtLike } from '../../models/like/likeableTables';
+} from './cmtTAUtils.js';
+import replyTA from './replyTA.js';
+import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
+import { defaultUpdateConditions } from '../common.js';
+import { cmtLike } from '../../models/like/likeableTables.js';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
