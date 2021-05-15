@@ -6,12 +6,12 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase';
-import ContentCmtBase from '../../models/com/contentCmtCore';
-import t from '../../models/discussion/discussionMsg';
-import discussionMsgCmt from '../../models/discussion/discussionMsgCmt';
-import ContentBaseTA from '../com/contentBaseTA';
-import discussionTA from './discussionTA';
+import ContentBase from '../../models/com/contentBase.js';
+import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import t from '../../models/discussion/discussionMsg.js';
+import discussionMsgCmt from '../../models/discussion/discussionMsgCmt.js';
+import ContentBaseTA from '../com/contentBaseTA.js';
+import discussionTA from './discussionTA.js';
 
 const discussionID = 'discussionID';
 

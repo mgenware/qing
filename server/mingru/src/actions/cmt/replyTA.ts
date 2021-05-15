@@ -6,13 +6,13 @@
  */
 
 import * as mm from 'mingru-models';
-import { reply as t } from '../../models/cmt/cmt';
-import * as cm from '../../models/common';
-import user from '../../models/user/user';
-import { cmtResultType, hasLikedProp, replyInterface, viewerUserIDInput } from './cmtTAUtils';
-import { defaultUpdateConditions } from '../common';
-import { getEntitySrcType } from '../defs';
-import { replyLike } from '../../models/like/likeableTables';
+import { reply as t } from '../../models/cmt/cmt.js';
+import * as cm from '../../models/common.js';
+import user from '../../models/user/user.js';
+import { cmtResultType, hasLikedProp, replyInterface, viewerUserIDInput } from './cmtTAUtils.js';
+import { defaultUpdateConditions } from '../common.js';
+import { getEntitySrcType } from '../defs.js';
+import { replyLike } from '../../models/like/likeableTables.js';
 
 export class ReplyTA extends mm.TableActions {
   selectReplies: mm.SelectAction;

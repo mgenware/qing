@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import { cmt } from '../cmt/cmt';
-import ContentBase from './contentBase';
+import { cmt } from '../cmt/cmt.js';
+import ContentBase from './contentBase.js';
 
 export default abstract class ContentCmtBase extends mm.Table {
   // Comment ID.

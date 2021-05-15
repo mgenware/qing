@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import t from '../../models/forum/forumMod';
-import { createForumModTA } from './forumModTAFactory';
+import t from '../../models/forum/forumMod.js';
+import { createForumModTA } from './forumModTAFactory.js';
 
 export default createForumModTA(t, {
   deleteUserFromForumMods: mm

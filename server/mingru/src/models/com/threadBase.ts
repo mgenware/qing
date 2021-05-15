@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import forum from '../forum/forum';
-import ContentWithTitleBase from './contentWithTitleBase';
+import forum from '../forum/forum.js';
+import ContentWithTitleBase from './contentWithTitleBase.js';
 
 export default class ThreadBase extends ContentWithTitleBase {
   forum_id = mm.fk(forum.id).nullable;

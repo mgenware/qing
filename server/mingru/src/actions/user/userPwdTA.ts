@@ -6,10 +6,10 @@
  */
 
 import * as mm from 'mingru-models';
-import t from '../../models/user/userPwd';
-import userTA, { addUserInsertedIDVar } from './userTA';
-import userAuthTA from './userAuthTA';
-import { UserAuthType } from '../../models/user/userAuth';
+import t from '../../models/user/userPwd.js';
+import userTA, { addUserInsertedIDVar } from './userTA.js';
+import userAuthTA from './userAuthTA.js';
+import { UserAuthType } from '../../models/user/userAuth.js';
 
 export class UserPwdTA extends mm.TableActions {
   selectHashByID = mm.selectField(t.pwd_hash).by(t.id);

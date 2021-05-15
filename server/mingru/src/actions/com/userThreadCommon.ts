@@ -6,11 +6,11 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase';
-import { Post } from '../../models/post/post';
-import user from '../../models/user/user';
-import { Discussion } from '../../models/discussion/discussion';
-import { Question } from '../../models/qna/question';
+import ContentBase from '../../models/com/contentBase.js';
+import { Post } from '../../models/post/post.js';
+import user from '../../models/user/user.js';
+import { Discussion } from '../../models/discussion/discussion.js';
+import { Question } from '../../models/qna/question.js';
 
 /**
  * In order to support selecting all kinds of user threads and reuse code for difference

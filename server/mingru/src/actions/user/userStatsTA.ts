@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import t from '../../models/user/userStats';
+import t from '../../models/user/userStats.js';
 
 function updateCounterAction(column: mm.Column): mm.UpdateAction {
   return mm

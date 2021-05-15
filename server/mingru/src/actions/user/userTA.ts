@@ -6,9 +6,9 @@
  */
 
 import * as mm from 'mingru-models';
-import forumIsUserMod from '../../models/forum/forumIsUserMod';
-import t from '../../models/user/user';
-import userStats from '../../models/user/userStats';
+import forumIsUserMod from '../../models/forum/forumIsUserMod.js';
+import t from '../../models/user/user.js';
+import userStats from '../../models/user/userStats.js';
 
 export const addUserInsertedIDVar = 'insertedUserID';
 const findUserResult = 'FindUserResult';

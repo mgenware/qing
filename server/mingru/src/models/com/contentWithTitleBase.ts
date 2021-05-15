@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from './contentBase';
+import ContentBase from './contentBase.js';
 import { maxTitleLen } from '../../constants.json';
 
 export default class ContentWithTitleBase extends ContentBase {

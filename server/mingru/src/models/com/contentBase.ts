@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import user from '../user/user';
+import user from '../user/user.js';
 
 export default class ContentBase extends mm.Table {
   id = mm.pk();

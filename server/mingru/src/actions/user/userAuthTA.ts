@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import t from '../../models/user/userAuth';
+import t from '../../models/user/userAuth.js';
 
 export class UserAuthTA extends mm.TableActions {
   addUserAuth = mm.insertOne().setInputs();

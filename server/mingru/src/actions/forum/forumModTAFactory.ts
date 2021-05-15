@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import ForumModBase from '../../models/forum/forumModBase';
+import ForumModBase from '../../models/forum/forumModBase.js';
 
 export function createForumModTA(
   t: ForumModBase,

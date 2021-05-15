@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import question from './question';
-import ContentBase from '../com/contentBase';
+import question from './question.js';
+import ContentBase from '../com/contentBase.js';
 
 export class Answer extends ContentBase {
   question_id = question.id;

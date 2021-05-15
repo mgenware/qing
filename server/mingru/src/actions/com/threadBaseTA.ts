@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import ThreadBase from '../../models/com/threadBase';
-import ContentBaseTA from './contentBaseTA';
+import ThreadBase from '../../models/com/threadBase.js';
+import ContentBaseTA from './contentBaseTA.js';
 
 export default abstract class ThreadBaseTA extends ContentBaseTA {
   getStartingInsertionInputColumns(): mm.Column[] {

@@ -6,12 +6,12 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase';
-import ContentCmtBase from '../../models/com/contentCmtCore';
-import t from '../../models/post/post';
-import postCmt from '../../models/post/postCmt';
-import ContentBaseTA from '../com/contentBaseTA';
-import userStatsTA from '../user/userStatsTA';
+import ContentBase from '../../models/com/contentBase.js';
+import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import t from '../../models/post/post.js';
+import postCmt from '../../models/post/postCmt.js';
+import ContentBaseTA from '../com/contentBaseTA.js';
+import userStatsTA from '../user/userStatsTA.js';
 
 export class PostTA extends ContentBaseTA {
   getBaseTable(): ContentBase {

@@ -6,10 +6,10 @@
  */
 
 import * as mm from 'mingru-models';
-import { cmt, reply } from '../../models/cmt/cmt';
-import user from '../../models/user/user';
-import * as cm from '../../models/common';
-import cmtTA from './cmtTA';
+import { cmt, reply } from '../../models/cmt/cmt.js';
+import user from '../../models/user/user.js';
+import * as cm from '../../models/common.js';
+import cmtTA from './cmtTA.js';
 import {
   CmtRelationTable,
   cmtInterface,

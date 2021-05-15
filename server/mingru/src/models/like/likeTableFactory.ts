@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import { TableWithID } from '../common';
-import user from '../user/user';
+import { TableWithID } from '../common.js';
+import user from '../user/user.js';
 
 export interface LikeTable extends mm.Table {
   user_id: mm.Column;

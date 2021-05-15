@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import t from '../../models/forum/forumGroup';
+import t from '../../models/forum/forumGroup.js';
 
 export class ForumGroupTA extends mm.TableActions {
   selectGroup = mm.selectRow(t.id, t.name, t.desc, t.created_at, t.forum_count).by(t.id);

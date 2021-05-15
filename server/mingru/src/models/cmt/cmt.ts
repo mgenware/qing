@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import user from '../user/user';
+import user from '../user/user.js';
 
 export class CmtCore extends mm.Table {
   // Common fields for both cmt and reply.

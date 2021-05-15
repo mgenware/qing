@@ -6,9 +6,9 @@
  */
 
 import * as mm from 'mingru-models';
-import user from '../user/user';
-import forum from './forum';
-import ForumModBase from './forumModBase';
+import user from '../user/user.js';
+import forum from './forum.js';
+import ForumModBase from './forumModBase.js';
 
 export class ForumMod extends mm.Table implements ForumModBase {
   object_id = mm.pk(forum.id);

@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import ThreadBase from '../com/threadBase';
+import ThreadBase from '../com/threadBase.js';
 
 export class Question extends ThreadBase {
   votes = mm.uInt().default(0);

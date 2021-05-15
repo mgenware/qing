@@ -6,12 +6,12 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase';
-import ContentCmtBase from '../../models/com/contentCmtCore';
-import t from '../../models/qna/answer';
-import answerCmt from '../../models/qna/answerCmt';
-import ContentBaseTA from '../com/contentBaseTA';
-import questionTA from './questionTA';
+import ContentBase from '../../models/com/contentBase.js';
+import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import t from '../../models/qna/answer.js';
+import answerCmt from '../../models/qna/answerCmt.js';
+import ContentBaseTA from '../com/contentBaseTA.js';
+import questionTA from './questionTA.js';
 
 const questionID = 'questionID';
 

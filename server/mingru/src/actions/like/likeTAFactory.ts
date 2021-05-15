@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import { LikeTable, LikeableTable } from '../../models/like/likeTableFactory';
+import { LikeTable, LikeableTable } from '../../models/like/likeTableFactory.js';
 
 const likeInterface = 'LikeInterface';
 

@@ -9,9 +9,9 @@ import * as mr from 'mingru';
 import * as nodepath from 'path';
 import gen from 'go-const-gen';
 import { promises as fsPromises } from 'fs';
-import actions from './actions/actions';
-import models from './models/models';
-import sharedConstants from './shared_constants';
+import actions from './actions/actions.js';
+import models from './models/models.js';
+import sharedConstants from './shared_constants.js';
 
 const packageName = 'da';
 

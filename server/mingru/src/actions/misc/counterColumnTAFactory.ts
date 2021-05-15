@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import { TableWithIDAndUserID } from '../../models/common';
+import { TableWithIDAndUserID } from '../../models/common.js';
 
 export interface UpdateCounterActionOptions {
   offsetInputName?: string;

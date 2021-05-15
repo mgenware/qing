@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import discussion from './discussion';
-import ContentBase from '../com/contentBase';
+import discussion from './discussion.js';
+import ContentBase from '../com/contentBase.js';
 
 export class DiscussionMsg extends ContentBase {
   discussion_id = discussion.id;

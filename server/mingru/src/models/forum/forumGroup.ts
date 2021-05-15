@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import ForumBase from './forumBase';
+import ForumBase from './forumBase.js';
 
 export class ForumGroup extends ForumBase {
   forum_count = mm.uInt().default(0);

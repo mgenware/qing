@@ -6,13 +6,13 @@
  */
 
 import * as mm from 'mingru-models';
-import user, { User } from '../../models/user/user';
-import * as cm from '../../models/common';
-import * as cmtf from '../cmt/cmtTAFactory';
-import { defaultUpdateConditions } from '../common';
-import ContentBase from '../../models/com/contentBase';
-import ContentCmtBase from '../../models/com/contentCmtCore';
-import { getEntitySrcType } from '../defs';
+import user, { User } from '../../models/user/user.js';
+import * as cm from '../../models/common.js';
+import * as cmtf from '../cmt/cmtTAFactory.js';
+import { defaultUpdateConditions } from '../common.js';
+import ContentBase from '../../models/com/contentBase.js';
+import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import { getEntitySrcType } from '../defs.js';
 
 const insertedIDVar = 'insertedID';
 
@@ -52,11 +52,9 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     const t = this.getBaseTable();
     const idCol = t.id.privateAttr();
     this.joinedUserTable = t.user_id.join(user);
-    this.userColumns = [
-      t.user_id,
-      this.joinedUserTable.name,
-      this.joinedUserTable.icon_name,
-    ].map((c) => c.privateAttr());
+    this.userColumns = [t.user_id, this.joinedUserTable.name, this.joinedUserTable.icon_name].map(
+      (c) => c.privateAttr(),
+    );
     this.dateColumns = [t.created_at, t.modified_at];
 
     const { dateColumns } = this;

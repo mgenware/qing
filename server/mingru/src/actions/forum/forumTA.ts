@@ -6,9 +6,9 @@
  */
 
 import * as mm from 'mingru-models';
-import discussion from '../../models/discussion/discussion';
-import t from '../../models/forum/forum';
-import question from '../../models/qna/question';
+import discussion from '../../models/discussion/discussion.js';
+import t from '../../models/forum/forum.js';
+import question from '../../models/qna/question.js';
 import {
   getUserDiscussionCols,
   getUserQuestionCols,

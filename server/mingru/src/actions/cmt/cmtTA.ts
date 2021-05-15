@@ -6,10 +6,10 @@
  */
 
 import * as mm from 'mingru-models';
-import { cmt as t } from '../../models/cmt/cmt';
-import * as cm from '../../models/common';
-import { getEntitySrcType } from '../defs';
-import { defaultUpdateConditions } from '../common';
+import { cmt as t } from '../../models/cmt/cmt.js';
+import * as cm from '../../models/common.js';
+import { getEntitySrcType } from '../defs.js';
+import { defaultUpdateConditions } from '../common.js';
 
 // Most cmt/reply-related funcs are built into the host table itself.
 // Those in `CmtTA` are ones don't rely on `host.cmt_count`.

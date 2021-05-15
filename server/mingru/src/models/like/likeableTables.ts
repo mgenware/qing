@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { newLikeTable, LikeTable, LikeableTable } from './likeTableFactory';
-import post from '../post/post';
-import { cmt, reply } from '../cmt/cmt';
+import { newLikeTable, LikeTable, LikeableTable } from './likeTableFactory.js';
+import post from '../post/post.js';
+import { cmt, reply } from '../cmt/cmt.js';
 
 const hostTables = [post, cmt, reply];
 

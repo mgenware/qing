@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import ForumBase from './forumBase';
-import forumGroup from './forumGroup';
+import ForumBase from './forumBase.js';
+import forumGroup from './forumGroup.js';
 
 export class Forum extends ForumBase {
   group_id = mm.fk(forumGroup.id).nullable;

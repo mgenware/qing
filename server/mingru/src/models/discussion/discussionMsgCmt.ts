@@ -6,9 +6,9 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../com/contentBase';
-import ContentCmtBase from '../com/contentCmtCore';
-import discussionMsg from './discussionMsg';
+import ContentBase from '../com/contentBase.js';
+import ContentCmtBase from '../com/contentCmtCore.js';
+import discussionMsg from './discussionMsg.js';
 
 export class DiscussionMsgCmt extends ContentCmtBase {
   getHostTable(): ContentBase {

@@ -43,7 +43,6 @@
     "@web/test-runner": "^0.13.4",
     "daizong": "^0.13.0",
     "eslint": "^7.26.0",
-    "eslint-config-airbnb-typescript-lite": "^12.1.2",
     "eslint-config-mgenware": "^0.1.0",
     "eslint-plugin-import": "^2.22.1",
     "go-const-gen": "^2.1.0",

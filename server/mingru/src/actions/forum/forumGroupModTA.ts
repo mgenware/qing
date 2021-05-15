@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import t from '../../models/forum/forumGroupMod';
-import { createForumModTA } from './forumModTAFactory';
+import t from '../../models/forum/forumGroupMod.js';
+import { createForumModTA } from './forumModTAFactory.js';
 
 export default createForumModTA(t);

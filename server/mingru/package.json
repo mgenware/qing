@@ -5,6 +5,7 @@
   "author": "Mgen",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "scripts": {
     "r": "del-cli ./dist && tsc && node ./dist/mingru.js",
     "build": "eslint --max-warnings 0 --ext .ts ./src && yarn run r"
@@ -15,7 +16,6 @@
     "@typescript-eslint/parser": "^4.23.0",
     "del-cli": "^3.0.1",
     "eslint": "^7.26.0",
-    "eslint-config-airbnb-typescript-lite": "^12.1.2",
     "eslint-config-mgenware": "^0.1.0",
     "eslint-plugin-import": "^2.23.0",
     "mgenware-tsconfig-node": "^14.0.2",

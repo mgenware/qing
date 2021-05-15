@@ -6,13 +6,13 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase';
-import ContentCmtBase from '../../models/com/contentCmtCore';
-import t from '../../models/qna/question';
-import questionCmt from '../../models/qna/questionCmt';
-import ThreadBaseTA from '../com/threadBaseTA';
-import { updateCounterAction } from '../misc/counterColumnTAFactory';
-import userStatsTA from '../user/userStatsTA';
+import ContentBase from '../../models/com/contentBase.js';
+import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import t from '../../models/qna/question.js';
+import questionCmt from '../../models/qna/questionCmt.js';
+import ThreadBaseTA from '../com/threadBaseTA.js';
+import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
+import userStatsTA from '../user/userStatsTA.js';
 
 export class QuestionTA extends ThreadBaseTA {
   updateMsgCount = updateCounterAction(t, t.reply_count);
