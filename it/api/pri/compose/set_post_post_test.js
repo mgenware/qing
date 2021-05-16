@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import defs from '../../defs.js';
+import defs from '../../../defs.js';
 import { post, usr, assUtil, ass, itPost, it } from '../../t.js';
 import {
   addPostURL,
@@ -14,7 +14,7 @@ import {
   newTmpPost,
   addPostBody,
   verifyPostAPIResult,
-} from './post_helper.js';
+} from '../../../helper/post_helper.js';
 
 function getQueuedName(name) {
   return { name, queue: defs.queue.userPostCount };

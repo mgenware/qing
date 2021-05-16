@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import defs from '../../defs.js';
-import { ensureSuccess, post } from '../../t.js';
+import defs from '../defs.js';
+import { ensureSuccess, post } from '../common.js';
 
 export const addPostURL = 'pri/compose/set-post';
 export const deletePostURL = 'pri/compose/delete-post';

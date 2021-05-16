@@ -18,11 +18,6 @@ export * as assUtil from './assUtil.js';
  * @property {string} queue
  *
  * @typedef {string|ItOptions} ItInput
- *
- * @typedef {Object} APIResult
- * @property {number} code
- * @property {string} message
- * @property {Object} d
  */
 
 /**
@@ -54,15 +49,4 @@ export async function itPost(itInput, input, user, handler) {
     const d = await post({ ...opts, user });
     await handler(d);
   });
-}
-
-/**
- * @param {APIResult} r
- * @returns {APIResult}
- */
-export function ensureSuccess(r) {
-  if (r.code) {
-    throw new Error(`Result failed: ${JSON.stringify(r)}`);
-  }
-  return r;
 }

@@ -11,7 +11,7 @@ import { createContext } from './browser.js';
 
 // Re-exports.
 export * as ass from '../ass.js';
-export { usr } from '../common.js';
+export { usr, post } from '../common.js';
 export class Browser {
   /**
    * Creates a `Browser`.

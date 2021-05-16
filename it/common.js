@@ -8,16 +8,38 @@
 import fetch from 'node-fetch';
 import * as urls from './com/urls.js';
 
+/**
+ * @typedef {Object} APIResult
+ * @property {number} code
+ * @property {string} message
+ * @property {Object} d
+ */
+
 export const usr = {
   visitor: 0,
   user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/101/50_user.png' },
   admin: { eid: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/101/50_admin.png' },
 };
 
+/**
+ *
+ * @param {APIResult} r
+ */
 export function checkAPIResult(r) {
   if (r.code) {
     throw new Error(`The API you are calling returns an error: ${JSON.stringify(r)}`);
   }
+}
+
+/**
+ * @param {APIResult} r
+ * @returns {APIResult}
+ */
+export function ensureSuccess(r) {
+  if (r.code) {
+    throw new Error(`Result failed: ${JSON.stringify(r)}`);
+  }
+  return r;
 }
 
 /**
