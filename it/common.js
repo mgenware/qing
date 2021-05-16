@@ -54,7 +54,7 @@ export async function requestLogin(eid) {
 
 /**
  * @callback PostCallback
- * @param {object} data - Response data.
+ * @param {APIResult} data - Response data.
  *
  * @typedef {Object} PostOptions
  * @property {string} url
