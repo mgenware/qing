@@ -65,18 +65,18 @@ export class Browser {
 }
 
 /**
- * @name ItCallback
+ * @name TestCallback
  * @function
  * @param {Browser} br
  *
- * @typedef {Object} ItOptions
+ * @typedef {Object} TestOptions
  * @property {string} name
  * @property {string} queue
  */
 
 /**
  * @property {string} name
- * @param {ItCallback} handler
+ * @param {TestCallback} handler
  * @return {Promise}
  */
 async function runHandler(name, handler) {
@@ -89,8 +89,8 @@ async function runHandler(name, handler) {
 
 /**
  *
- * @param {ItOptions} input
- * @param {ItCallback} handler
+ * @param {TestOptions} input
+ * @param {TestCallback} handler
  * @return {Promise}
  */
 export async function test(input, handler) {

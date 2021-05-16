@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-export const serverURL = 'http://localhost:12001';
-export const loginURL = '/__/auth/in';
+import fetch from 'node-fetch';
+import * as urls from './com/urls.js';
 
 export const usr = {
   visitor: 0,
@@ -18,4 +18,81 @@ export function checkAPIResult(r) {
   if (r.code) {
     throw new Error(`The API you are calling returns an error: ${JSON.stringify(r)}`);
   }
+}
+
+/**
+ * @param {string}} eid
+ * @returns {Promise<string>} - Returns cookies of the signed in user.
+ */
+export async function requestLogin(eid) {
+  const loginResp = await fetch(`${urls.serverURL}${urls.loginURL}/-${eid}`);
+  const cookies = loginResp.headers.raw()['set-cookie'];
+  return cookies;
+}
+
+/**
+ * @callback PostCallback
+ * @param {object} data - Response data.
+ *
+ * @typedef {Object} PostOptions
+ * @property {string} url
+ * @property {Object} body
+ * @property {Object} user
+ * @property {boolean} get
+ *
+ * @typedef {string|PostOptions} PostInput
+ */
+
+/**
+ * @param {PostInput}} input
+ * @returns {PostOptions}
+ */
+export function postInputToOptions(input) {
+  let opts;
+  if (typeof input === 'string') {
+    opts = { url: input };
+  } else {
+    opts = input;
+  }
+  return opts;
+}
+
+/**
+ * @param {PostInput} input - Fetch input parameters.
+ * @returns {Promise<APIResult>}
+ */
+export async function post(input) {
+  if (!input) {
+    throw new Error('Unexpected empty fetch input');
+  }
+  const opts = postInputToOptions(input);
+  const { body, get, user } = opts;
+  let { url } = opts;
+  if (!url) {
+    throw new Error(`Unexpected empty URL in options ${JSON.stringify(opts)}`);
+  }
+
+  // Log in if needed.
+  let cookies = '';
+  if (user) {
+    if (!user.eid) {
+      throw new Error(`EID null on object ${JSON.stringify(user)}`);
+    }
+    cookies = await requestLogin(user.eid);
+  }
+
+  url = url.charAt(0) === '/' ? url : `/s/${url}`;
+  url = `${urls.serverURL}${url}`;
+  const response = await fetch(url, {
+    method: get ? 'GET' : 'POST',
+    body: body ? JSON.stringify(body) : '',
+    headers: {
+      'content-type': body ? 'application/json' : '',
+      cookie: cookies,
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+  return response.json();
 }
