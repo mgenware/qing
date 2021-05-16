@@ -25,7 +25,7 @@ it(getQueuedName('Add'), async () => {
   const pc = await getPostCount(u.eid);
   await newTmpPost(u, async (id) => {
     // Post content.
-    ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
+    ass.de(await getPostSrc(id, u), { contentHTML: '<p>post_c</p>', title: '<p>post_t</p>' });
 
     // User post_count.
     const pc2 = await getPostCount(u.eid);
@@ -44,7 +44,7 @@ it(getQueuedName('Edit'), async () => {
     const pc = await getPostCount(u.eid);
     const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: u });
     verifyPostAPIResult(r);
-    ass.de(await getPostSrc(id, u), { contentHTML: '_POST_', title: '_TITLE_' });
+    ass.de(await getPostSrc(id, u), { contentHTML: '<p>post_c</p>', title: '<p>post_t</p>' });
 
     const pc2 = await getPostCount(u.eid);
     ass.e(pc, pc2);

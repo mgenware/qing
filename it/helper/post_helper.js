@@ -14,7 +14,7 @@ const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 export const addPostBody = {
   entityType: defs.entity.post,
-  content: { contentHTML: '_POST_', title: '_TITLE_' },
+  content: { contentHTML: '<p>post_c</p>', title: '<p>post_t</p>' },
 };
 
 const getPostCountURL = '/__/user/post_count/';

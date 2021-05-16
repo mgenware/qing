@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { serverURL } from '../common.js';
+import puppeteer from 'puppeteer';
+import { serverURL } from '../com/urls.js';
 import { runTask } from '../runner.js';
 import { createContext } from './browser.js';
 
@@ -62,11 +63,17 @@ export class Browser {
   async dispose() {
     return this.context.close();
   }
+
+  // Make sure `import puppeteer from 'puppeteer'` is used so that
+  // we can use the `puppeteer` namespace in JSDoc comments.
+  // eslint-disable-next-line class-methods-use-this, no-underscore-dangle
+  __dummy() {
+    return puppeteer.Browser;
+  }
 }
 
 /**
- * @name TestCallback
- * @function
+ * @callback TestCallback
  * @param {Browser} br
  *
  * @typedef {Object} TestOptions
