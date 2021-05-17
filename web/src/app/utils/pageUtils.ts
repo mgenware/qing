@@ -11,7 +11,7 @@ import ls from 'ls';
 
 export class PageUtils {
   get mainContentElement(): HTMLElement {
-    const element = window.document.getElementById('main-body');
+    const element = window.document.getElementById('body > main');
     if (!element) {
       throw new Error('Fatal error: main content element is null');
     }
