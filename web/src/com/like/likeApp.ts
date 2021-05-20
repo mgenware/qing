@@ -28,8 +28,10 @@ export class LikeApp extends BaseElement {
     ];
   }
 
-  @lp.string hostID = '';
-  @lp.string hostType: LikeHostType = 0;
+  // Reflected: used for quick locating the view during testing.
+  @lp.reflected.string hostID = '';
+  // Reflected: used for quick locating the view during testing.
+  @lp.reflected.number hostType: LikeHostType = 0;
   @lp.number initialLikes = 0;
   @lp.bool initialHasLiked = false;
   @lp.string iconSize = sizeMD;
