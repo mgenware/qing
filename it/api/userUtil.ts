@@ -5,53 +5,36 @@
  * be found in the LICENSE file.
  */
 
-import { checkAPIResult } from '../common.js';
-import { post } from './t.js';
+import { APIResult, checkAPIResult, post, User } from 'base/post';
+import { throwIfEmpty } from 'throw-if-arg-empty';
 
 export class TempUser {
-  /**
-   * @param {APIResult} r
-   */
-  constructor(r) {
-    /**
-     * @type {APIResult}
-     * @public
-     */
-    this.r = r;
+  constructor(public r: APIResult) {}
+
+  get user(): User {
+    const { d } = this.r;
+    throwIfEmpty(d, 'user');
+    return d as User;
   }
 
-  /**
-   * @returns {string}
-   */
-  get eid() {
-    return this.r.d.eid;
+  get eid(): string {
+    const { eid } = this.user;
+    throwIfEmpty(eid, 'eid');
+    return eid;
   }
 
-  /**
-   * @param {APIResult} r
-   */
   async dispose() {
-    const { eid } = this.r.d;
-    if (!eid) {
-      throw new Error('Empty EID');
-    }
+    const { eid } = this;
     await post(`/__/auth/del/${eid}`);
   }
 }
 
-/**
- * @returns {Promise<TempUser>}
- */
-export async function requestNewUser() {
+export async function requestNewUser(): Promise<TempUser> {
   const r = await post('/__/auth/new');
   checkAPIResult(r);
   return new TempUser(r);
 }
 
-/**
- * @param {string} id
- * @returns {Promise<APIResult>}
- */
-export async function requestUserInfo(id) {
+export async function requestUserInfo(id: string): Promise<APIResult> {
   return post(`/__/auth/info/${id}`);
 }

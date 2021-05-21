@@ -1,9 +1,11 @@
 {
   "extends": "mgenware-tsconfig-node",
   "compilerOptions": {
-    "module": "commonjs",
-    "baseUrl": "./src",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": "./dist",
     "sourceMap": false,
+    "declaration": false,
     "plugins": [
       {
         "transform": "ts-transform-esm-import",
@@ -11,9 +13,9 @@
         "afterDeclarations": true,
         "type": "config",
 
-        "rootDir": "./src",
+        "rootDir": ".",
         "outDir": "./dist",
-        "resolvers": [{ "dir": "./src", "sourceDir": true }]
+        "resolvers": [{ "dir": ".", "sourceDir": true }]
       }
     ]
   }

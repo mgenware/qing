@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint --max-warnings 0 .",
-    "a": "tsc -b api && node ./dist/api/run.js"
+    "dev": "ttsc -p . -w"
   },
   "dependencies": {
     "chalk": "^4.1.1",
@@ -15,15 +15,17 @@
     "node-fetch": "^2.6.1",
     "p-queue": "^7.1.0",
     "puppeteer": "^9.0.0",
-    "throw-if-arg-empty": "^3.1.0",
-    "typescript": "^4.2.4"
+    "throw-if-arg-empty": "^3.1.0"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.10",
+    "typescript": "^4.2.4",
     "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
-    "mgenware-tsconfig-node": "^14.0.2"
+    "mgenware-tsconfig-node": "^14.0.2",
+    "ts-transform-esm-import": "^0.3.0",
+    "ttypescript": "^1.5.12"
   }
 }
