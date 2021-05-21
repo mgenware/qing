@@ -8,69 +8,62 @@
 import fetch from 'node-fetch';
 import * as urls from './urls';
 
-/**
- * @typedef {Object} APIResult
- * @property {number} code
- * @property {string} message
- * @property {Object} d
- */
+export interface APIResult {
+  code: number;
+  message: string;
+  d: unknown;
+}
 
-export const usr = {
-  visitor: 0,
+export interface User {
+  eid: string;
+  name: string;
+  url: string;
+  iconURL: string;
+}
+
+export const usr: { user: User; admin: User } = {
   user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/101/50_user.png' },
   admin: { eid: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/101/50_admin.png' },
 };
 
-/**
- *
- * @param {APIResult} r
- */
-export function checkAPIResult(r) {
+export function checkAPIResult(r: APIResult) {
   if (r.code) {
     throw new Error(`The API you are calling returns an error: ${JSON.stringify(r)}`);
   }
 }
 
-/**
- * @param {APIResult} r
- * @returns {APIResult}
- */
-export function ensureSuccess(r) {
+export function ensureSuccess(r: APIResult): APIResult {
   if (r.code) {
     throw new Error(`Result failed: ${JSON.stringify(r)}`);
   }
   return r;
 }
 
-/**
- * @param {string}} eid
- * @returns {Promise<string>} - Returns cookies of the signed in user.
- */
-export async function requestLogin(eid) {
+export async function requestLogin(eid: string): Promise<string> {
   const loginResp = await fetch(`${urls.serverURL}${urls.loginURL}/-${eid}`);
   const cookies = loginResp.headers.raw()['set-cookie'];
-  return cookies;
+  if (!cookies) {
+    return '';
+  }
+  if (cookies.length > 1) {
+    throw new Error(`Unexpected cookies: ${JSON.stringify(cookies)}`);
+  }
+  return cookies[0] ?? '';
 }
 
-/**
- * @callback PostCallback
- * @param {APIResult} data - Response data.
- *
- * @typedef {Object} PostOptions
- * @property {string} url
- * @property {Object} body
- * @property {Object} user
- * @property {boolean} get
- *
- * @typedef {string|PostOptions} PostInput
- */
+export type PostCallback = (r: APIResult) => Promise<unknown>;
 
-/**
- * @param {PostInput}} input
- * @returns {PostOptions}
- */
-export function postInputToOptions(input) {
-  let opts;
+export interface PostOptions {
+  url: string;
+  body?: unknown;
+  user?: User;
+  get?: boolean;
+}
+
+export type PostInput = string | PostOptions;
+
+export function postInputToOptions(input: PostInput): PostOptions {
+  let opts: PostOptions;
   if (typeof input === 'string') {
     opts = { url: input };
   } else {
@@ -79,11 +72,7 @@ export function postInputToOptions(input) {
   return opts;
 }
 
-/**
- * @param {PostInput} input - Fetch input parameters.
- * @returns {Promise<APIResult>}
- */
-export async function post(input) {
+export async function post(input: PostInput): Promise<APIResult> {
   if (!input) {
     throw new Error('Unexpected empty fetch input');
   }
