@@ -1547,6 +1547,11 @@ through@^2.3.8:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
 
+throw-if-arg-empty@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/throw-if-arg-empty/-/throw-if-arg-empty-3.1.0.tgz#c3a5f4148b3d5d412eaa3da4071a133afe168dd9"
+  integrity sha512-lASzhBMDVbGUbQDpvILbjCcVv9jiJqtmjZQvvHd2TTEYpHaGW1EvUUMGoOmnsaY0V6yX2kEw2gO/S8/YZjVwoA==
+
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"
