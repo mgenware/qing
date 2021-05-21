@@ -6,7 +6,7 @@
  */
 
 import fetch from 'node-fetch';
-import * as urls from './com/urls.js';
+import * as urls from './urls';
 
 /**
  * @typedef {Object} APIResult

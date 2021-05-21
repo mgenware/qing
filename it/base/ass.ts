@@ -7,67 +7,41 @@
 
 import deepEqual from 'fast-deep-equal/es6/index.js';
 
-/**
- * Throws an error with the given message.
- * @param {string} msg
- */
-export function panic(msg) {
+export function panic(msg: string) {
   throw new Error(`Assertion failed: ${msg}`);
 }
 
-/**
- * @param {*} a
- * @param {*} b
- */
-export function e(a, b) {
+export function e(a: unknown, b: unknown) {
   if (a !== b) {
     panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
   }
 }
 
-/**
- * @param {*} a
- * @param {*} b
- */
-export function ne(a, b) {
+export function ne(a: unknown, b: unknown) {
   if (a === b) {
     panic(`${JSON.stringify(a)} should not be equal to ${JSON.stringify(b)}`);
   }
 }
 
-/**
- * @param {*} a
- * @param {*} b
- */
-export function de(a, b) {
+export function de(a: unknown, b: unknown) {
   if (!deepEqual(a, b)) {
     panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
   }
 }
 
-/**
- * @param {*} a
- */
-export function t(a) {
+export function t(a: unknown) {
   if (!a) {
     panic(`${JSON.stringify(a)} should not be false`);
   }
 }
 
-/**
- * @param {*} a
- */
-export function f(a) {
+export function f(a: unknown) {
   if (a) {
     panic(`${JSON.stringify(a)} should not be true`);
   }
 }
 
-/**
- * @param {string} s
- * @param {RegExp} r
- */
-export function regex(s, r) {
+export function regex(s: string, r: RegExp) {
   if (!r.test(s)) {
     panic(`"${s}" does not match "${r}"`);
   }

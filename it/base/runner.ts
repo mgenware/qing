@@ -13,16 +13,10 @@ import PQueue from 'p-queue';
 
 const glob = process.argv[2];
 
-/** @type {Map<string, PQueue>} */
-const queuedTasks = new Map();
+const queuedTasks: Map<string, PQueue> = new Map();
+const tasks: Array<Promise<unknown>> = [];
 
-/** @type {Array<Promise>} */
-const tasks = [];
-
-/**
- * @returns {Promise}
- */
-export async function run(name, importFn) {
+export async function run(name: string, importFn: (p: string) => Promise<unknown>) {
   if (!name || !importFn) {
     throw new Error('Invalid arguments');
   }
@@ -39,7 +33,7 @@ export async function run(name, importFn) {
   console.log(`🎉 ${name} completed successfully.`);
 }
 
-function printTaskResult(name, queue, err) {
+function printTaskResult(name: string, queue: string, err: Error | null) {
   const colorFn = err ? chalk.red : chalk.green;
   let taskName;
   if (queue) {
@@ -59,7 +53,7 @@ function printTaskResult(name, queue, err) {
  * @param {string} queue
  * @returns {Promise}
  */
-export async function runTask(name, handler, queue) {
+export async function runTask(name: string, handler: () => Promise<unknown>, queue: string) {
   if (typeof name !== 'string' || !name.length) {
     throw new Error(`Invalid \`name\`, got ${name}`);
   }
