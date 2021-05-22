@@ -29,7 +29,7 @@ export function de<T>(a: T, b: T) {
   }
 }
 
-export function t(a: unknown) {
+export function t(a: unknown): asserts a {
   if (!a) {
     panic(`${JSON.stringify(a)} should not be false`);
   }
