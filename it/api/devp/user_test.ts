@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { itPost, usr, ass, it } from '../t.js';
+import { itPost, usr, ass, it } from 'base/it';
 import { requestUserInfo, requestNewUser } from '../userUtil.js';
 
-itPost('User info`', `/__/auth/info/${usr.admin.eid}`, 0, (r) => {
+itPost('User info`', `/__/auth/info/${usr.admin.eid}`, null, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
 });
 
 it('Add and remove a user', async () => {
   const tu = await requestNewUser();
-  const { eid } = tu.r.d;
+  const { eid } = tu.user;
   ass.de(tu.r, { d: { name: 'T', eid } });
 
   // Make sure `__/auth/info` also works.

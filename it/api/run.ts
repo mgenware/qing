@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { run } from '../runner.js';
+import { run } from 'base/runner';
 
 (async () => {
   await run('API tests', (s) => import(s));

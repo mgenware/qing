@@ -11,19 +11,19 @@ export function panic(msg: string) {
   throw new Error(`Assertion failed: ${msg}`);
 }
 
-export function e(a: unknown, b: unknown) {
+export function e<T>(a: T, b: T) {
   if (a !== b) {
     panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
   }
 }
 
-export function ne(a: unknown, b: unknown) {
+export function ne<T>(a: T, b: T) {
   if (a === b) {
     panic(`${JSON.stringify(a)} should not be equal to ${JSON.stringify(b)}`);
   }
 }
 
-export function de(a: unknown, b: unknown) {
+export function de<T>(a: T, b: T) {
   if (!deepEqual(a, b)) {
     panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
   }

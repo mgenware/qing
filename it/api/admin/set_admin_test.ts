@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ass, assUtil, it, itPost, usr, post } from '../t.js';
+import { ass, assUtil, it, itPost, usr, post } from 'base/it';
 import { requestNewUser } from '../userUtil.js';
 
 const url = 'admin/set-admin';
@@ -40,7 +40,7 @@ it('set-admin: admin', async () => {
 
   // Check status.
   r = await post({ url: getAdminsURL, user: usr.admin });
-  let adminData = r.d.find((d) => d.eid === eid);
+  let adminData = (r.d as any).find((d: any) => d.eid === eid);
   ass.de(adminData, {
     eid,
     name: 'T',
@@ -58,7 +58,7 @@ it('set-admin: admin', async () => {
 
   // Check status.
   r = await post({ url: getAdminsURL, user: usr.admin });
-  adminData = r.d.find((d) => d.eid === eid);
+  adminData = (r.d as any).find((d: any) => d.eid === eid);
   ass.e(adminData, undefined);
 
   // Clean up.

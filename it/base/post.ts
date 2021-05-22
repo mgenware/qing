@@ -9,9 +9,9 @@ import fetch from 'node-fetch';
 import * as urls from './urls';
 
 export interface APIResult {
-  code: number;
-  message: string;
-  d: unknown;
+  code?: number;
+  message?: string;
+  d?: unknown;
 }
 
 export interface User {

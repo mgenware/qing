@@ -15,12 +15,16 @@ const glob = process.argv[2];
 
 const queuedTasks: Map<string, PQueue> = new Map();
 const tasks: Array<Promise<unknown>> = [];
+const globStart = '**';
 
 export async function run(name: string, importFn: (p: string) => Promise<unknown>) {
   if (!name || !importFn) {
     throw new Error('Invalid arguments');
   }
-  const entries = await fg([glob ? `**/*${glob}*.js` : '**/*_test.js'], { dot: true });
+  const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*_test.js`], {
+    dot: true,
+    cwd: './dist/api',
+  });
   await Promise.all(
     entries.map(async (s) => {
       // eslint-disable-next-line no-console
@@ -33,7 +37,7 @@ export async function run(name: string, importFn: (p: string) => Promise<unknown
   console.log(`🎉 ${name} completed successfully.`);
 }
 
-function printTaskResult(name: string, queue: string, err: Error | null) {
+function printTaskResult(name: string, queue: string | undefined | number, err: Error | null) {
   const colorFn = err ? chalk.red : chalk.green;
   let taskName;
   if (queue) {
@@ -53,7 +57,11 @@ function printTaskResult(name: string, queue: string, err: Error | null) {
  * @param {string} queue
  * @returns {Promise}
  */
-export async function runTask(name: string, handler: () => Promise<unknown>, queue: string) {
+export async function runTask(
+  name: string,
+  handler: () => Promise<unknown>,
+  queue: string | undefined,
+) {
   if (typeof name !== 'string' || !name.length) {
     throw new Error(`Invalid \`name\`, got ${name}`);
   }

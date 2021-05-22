@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { itPost, usr, assUtil, ass } from '../t.js';
+import { itPost, usr, assUtil, ass } from 'base/it';
 
 const url = 'admin/get-admins';
 
-itPost('get-admins: visitor', url, 0, (r) => {
+itPost('get-admins: visitor', url, null, (r) => {
   assUtil.notAuthorized(r);
 });
 
@@ -18,6 +18,6 @@ itPost('get-admins: user', url, usr.user, (r) => {
 });
 
 itPost('get-admins: admin', url, usr.admin, (r) => {
-  const adminData = r.d.find((d) => d.eid === usr.admin.eid);
+  const adminData = (r as any).d.find((d: any) => d.eid === usr.admin.eid);
   ass.de(adminData, usr.admin);
 });

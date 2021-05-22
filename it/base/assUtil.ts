@@ -5,18 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import * as ass from '../ass.js';
+import * as ass from './ass';
+import { APIResult } from './post.js';
 
-/**
- * @param {*} r
- */
-export function notAuthorized(r) {
+export function notAuthorized(r: APIResult) {
   ass.de(r, { code: 10001 });
 }
 
-/**
- * @param {*} r
- */
-export function rowNotUpdated(r) {
+export function rowNotUpdated(r: APIResult) {
   ass.de(r, { code: 10000, message: 'Expected 1 rows affected, got 0.' });
 }

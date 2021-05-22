@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import defs from '../defs.js';
-import { ensureSuccess, post } from '../common.js';
+import defs from 'base/defs';
+import { APIResult, ensureSuccess, post, User } from 'base/post';
 
 export const addPostURL = 'pri/compose/set-post';
 export const deletePostURL = 'pri/compose/delete-post';
@@ -20,51 +20,30 @@ export const addPostBody = {
 const getPostCountURL = '/__/user/post_count/';
 const getPostSrcURL = 'pri/compose/get-entity-src';
 
-/**
- * @param {APIResult} r
- * @returns {string}
- */
-export function verifyPostAPIResult(r) {
+export function verifyPostAPIResult(r: APIResult): string {
   ensureSuccess(r);
-  const id = postIDRegex.exec(r.d)[1];
+  if (typeof r.d !== 'string') {
+    throw new Error(`Unexpected API result: ${JSON.stringify(r)}`);
+  }
+  const id = postIDRegex.exec(r.d)?.[1];
   if (typeof id !== 'string' || !id.length) {
     throw new Error(`Invalid id "${id}"`);
   }
   return id;
 }
 
-/**
- * @param {Object} user
- * @returns {Promise<string>}
- */
-async function newTmpPostCore(user) {
+async function newTmpPostCore(user: User | undefined) {
   const r = await post({ url: addPostURL, body: addPostBody, user });
   return verifyPostAPIResult(r);
 }
 
-/**
- * @param {string} id
- * @param {Object} user
- * @returns {Promise}
- */
-async function deletePostCore(id, user) {
+async function deletePostCore(id: string, user: User | undefined) {
   return ensureSuccess(
     await post({ url: deletePostURL, user, body: { id, entityType: defs.entity.post } }),
   );
 }
 
-/**
- * @name NewTmpPostCallback
- * @function
- * @param {String} id
- */
-
-/**
- * @param {Object} user
- * @param {NewTmpPostCallback} cb
- * @returns {Promise<string>}
- */
-export async function newTmpPost(user, cb) {
+export async function newTmpPost(user: User | undefined, cb: (id: string) => Promise<unknown>) {
   let id = null;
   try {
     id = await newTmpPostCore(user);
@@ -76,22 +55,16 @@ export async function newTmpPost(user, cb) {
   }
 }
 
-/**
- * @param {string} id
- * @returns {Promise<number>}
- */
-export async function getPostCount(id) {
+export async function getPostCount(id: string): Promise<number> {
   const r = await post(`${getPostCountURL}${id}`);
   ensureSuccess(r);
+  if (typeof r.d !== 'string') {
+    throw new Error(`Wrong API response: ${JSON.stringify(r)}`);
+  }
   return parseInt(r.d, 10);
 }
 
-/**
- * @param {string} id
- * @param {Object} user
- * @returns {Promise<Object>}
- */
-export async function getPostSrc(id, user) {
+export async function getPostSrc(id: string, user: User | undefined) {
   const r = await post({
     url: getPostSrcURL,
     user,
