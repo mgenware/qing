@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { itPost, usr, assUtil, ass } from 'base/it';
+import { itPost, usr, assUtil, ass } from 'base/api';
 
 const url = 'admin/get-admins';
 

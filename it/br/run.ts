@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { run } from '../runner.js';
-import { closeBrowser, launchBrowser } from './browser.js';
+import { run } from 'base/runner';
+import { closeBrowser, launchBrowser } from 'base/browserInstance';
 
 (async () => {
   await launchBrowser();

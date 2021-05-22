@@ -5,20 +5,20 @@
  * be found in the LICENSE file.
  */
 
-import { ass, assUtil, it, itPost, usr, post } from 'base/it';
-import { requestNewUser } from '../userUtil.js';
+import { ass, assUtil, it, itPost, usr, post } from 'base/api';
+import { newUser } from 'helper/user';
 
 const url = 'admin/set-admin';
 const getAdminsURL = 'admin/get-admins';
 
 it('set-admin: visitor', async () => {
-  const tu = await requestNewUser();
+  const tu = await newUser();
   const r = await post({ url, body: { target_user_id: tu.eid, value: 1 } });
   assUtil.notAuthorized(r);
 });
 
 it('set-admin: user', async () => {
-  const tu = await requestNewUser();
+  const tu = await newUser();
   const r = await post({
     url,
     user: usr.user,
@@ -29,7 +29,7 @@ it('set-admin: user', async () => {
 
 it('set-admin: admin', async () => {
   // Set an admin.
-  const tu = await requestNewUser();
+  const tu = await newUser();
   const { eid } = tu;
   let r = await post({
     url,

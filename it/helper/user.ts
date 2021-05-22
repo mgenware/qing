@@ -29,12 +29,12 @@ export class TempUser {
   }
 }
 
-export async function requestNewUser(): Promise<TempUser> {
+export async function newUser(): Promise<TempUser> {
   const r = await post('/__/auth/new');
   checkAPIResult(r);
   return new TempUser(r);
 }
 
-export async function requestUserInfo(id: string): Promise<APIResult> {
+export async function userInfo(id: string): Promise<APIResult> {
   return post(`/__/auth/info/${id}`);
 }

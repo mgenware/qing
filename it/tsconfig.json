@@ -1,5 +1,5 @@
 {
-  "extends": "mgenware-tsconfig-node",
+  "extends": "mgenware-tsconfig-browser",
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": ".",

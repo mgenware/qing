@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { test, ass } from '../t.js';
+import { test, ass } from 'base/br';
 
 test('Home page', async (br) => {
   await br.goto('/');

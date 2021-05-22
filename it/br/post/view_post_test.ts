@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { newTmpPost } from '../../helper/post_helper.js';
+import { newTmpPost } from 'helper/post_helper.js';
+import { test, ass, usr } from 'base/br';
 import { checkLikes } from '../c/like_helper.js';
-import { test, ass, usr } from '../t.js';
 
 test('View post', async (br) => {
   await newTmpPost(usr.user, async (id) => {
@@ -20,6 +20,7 @@ test('View post', async (br) => {
 
     // Like button.
     const likeAppEl = await br.page.$('pierce/post-payload-app > like-app');
+    ass.t(likeAppEl);
     await checkLikes(likeAppEl, 0, false);
   });
 });

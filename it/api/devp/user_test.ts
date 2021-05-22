@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { itPost, usr, ass, it } from 'base/it';
-import { requestUserInfo, requestNewUser } from '../userUtil.js';
+import { itPost, usr, ass, it } from 'base/api';
+import { requestUserInfo, requestNewUser } from 'base/userUtil';
 
 itPost('User info`', `/__/auth/info/${usr.admin.eid}`, null, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });

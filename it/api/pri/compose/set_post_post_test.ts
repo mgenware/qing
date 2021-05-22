@@ -6,7 +6,7 @@
  */
 
 import defs from 'base/defs';
-import { post, usr, assUtil, ass, itPost, it } from 'base/it';
+import { post, usr, assUtil, ass, itPost, it } from 'base/api';
 import {
   addPostURL,
   getPostCount,

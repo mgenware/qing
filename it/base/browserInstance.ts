@@ -7,25 +7,16 @@
 
 import puppeteer from 'puppeteer';
 
-let browser;
+let browser: puppeteer.Browser;
 
-/**
- * @return {Promise}
- */
 export async function launchBrowser() {
   browser = await puppeteer.launch();
 }
 
-/**
- * @return {Promise<puppeteer.BrowserContext>}
- */
 export async function createContext() {
   return browser.createIncognitoBrowserContext();
 }
 
-/**
- * @return {Promise}
- */
 export async function closeBrowser() {
   return browser.close();
 }
