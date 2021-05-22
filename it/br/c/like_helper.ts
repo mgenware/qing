@@ -18,8 +18,12 @@ export async function checkLikes(
 
   // Element value.
   const numEl = await btnEl.$('span.num');
-  ass.t(numEl);
-  ass.e(await numEl.evaluate((el: HTMLElement) => el.textContent), `${value}`);
+  if (value) {
+    ass.t(numEl);
+    ass.e(await numEl.evaluate((el: HTMLElement) => el.textContent), `${value}`);
+  } else {
+    ass.f(numEl);
+  }
 
   // Liked status.
   const svgEl = await btnEl.$('svg-icon');
