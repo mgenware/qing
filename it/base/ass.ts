@@ -46,3 +46,30 @@ export function regex(s: string, r: RegExp) {
     panic(`"${s}" does not match "${r}"`);
   }
 }
+
+export function isNumber(v: unknown): number {
+  if (typeof v !== 'number') {
+    panic(`${v} is expected to be a number`);
+    // Not reachable.
+    return 0;
+  }
+  return v;
+}
+
+export function isString(v: unknown): string {
+  if (typeof v !== 'string' || !v) {
+    panic(`${v} is expected to be a string`);
+    // Not reachable.
+    return '';
+  }
+  return v;
+}
+
+export function isElement(v: unknown): HTMLElement {
+  if (v instanceof HTMLElement) {
+    return v;
+  }
+  panic(`${v} is expected to be an HTMLElement`);
+  // Not reachable.
+  return new HTMLElement();
+}

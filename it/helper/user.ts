@@ -22,19 +22,30 @@ export class TempUser {
     throwIfEmpty(eid, 'eid');
     return eid;
   }
-
-  async dispose() {
-    const { eid } = this;
-    await post(`/__/auth/del/${eid}`);
-  }
 }
 
-export async function newUser(): Promise<TempUser> {
+async function newUserCore(): Promise<TempUser> {
   const r = await post('/__/auth/new');
   checkAPIResult(r);
   return new TempUser(r);
 }
 
+async function deleteUser(eid: string) {
+  await post(`/__/auth/del/${eid}`);
+}
+
 export async function userInfo(id: string): Promise<APIResult> {
   return post(`/__/auth/info/${id}`);
+}
+
+export async function newUser(cb: (u: TempUser) => void) {
+  let u: TempUser | undefined;
+  try {
+    u = await newUserCore();
+    await cb(u);
+  } finally {
+    if (u) {
+      await deleteUser(u.eid);
+    }
+  }
 }

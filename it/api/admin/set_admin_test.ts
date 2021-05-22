@@ -12,57 +12,56 @@ const url = 'admin/set-admin';
 const getAdminsURL = 'admin/get-admins';
 
 it('set-admin: visitor', async () => {
-  const tu = await newUser();
-  const r = await post({ url, body: { target_user_id: tu.eid, value: 1 } });
-  assUtil.notAuthorized(r);
+  await newUser(async (tu) => {
+    const r = await post({ url, body: { target_user_id: tu.eid, value: 1 } });
+    assUtil.notAuthorized(r);
+  });
 });
 
 it('set-admin: user', async () => {
-  const tu = await newUser();
-  const r = await post({
-    url,
-    user: usr.user,
-    body: { target_user_id: tu.eid, value: 1 },
+  await newUser(async (tu) => {
+    const r = await post({
+      url,
+      user: usr.user,
+      body: { target_user_id: tu.eid, value: 1 },
+    });
+    assUtil.notAuthorized(r);
   });
-  assUtil.notAuthorized(r);
 });
 
 it('set-admin: admin', async () => {
-  // Set an admin.
-  const tu = await newUser();
-  const { eid } = tu;
-  let r = await post({
-    url,
-    user: usr.admin,
-    body: { target_user_id: eid, value: 1 },
+  await newUser(async (tu) => {
+    const { eid } = tu;
+    let r = await post({
+      url,
+      user: usr.admin,
+      body: { target_user_id: eid, value: 1 },
+    });
+    ass.de(r, {});
+
+    // Check status.
+    r = await post({ url: getAdminsURL, user: usr.admin });
+    let adminData = (r.d as any).find((d: any) => d.eid === eid);
+    ass.de(adminData, {
+      eid,
+      name: 'T',
+      url: `/u/${eid}`,
+      iconURL: '/static/img/main/defavatar_50.png',
+    });
+
+    // Remove an admin.
+    r = await post({
+      url,
+      user: usr.admin,
+      body: { target_user_id: eid, value: 0 },
+    });
+    ass.de(r, {});
+
+    // Check status.
+    r = await post({ url: getAdminsURL, user: usr.admin });
+    adminData = (r.d as any).find((d: any) => d.eid === eid);
+    ass.e(adminData, undefined);
   });
-  ass.de(r, {});
-
-  // Check status.
-  r = await post({ url: getAdminsURL, user: usr.admin });
-  let adminData = (r.d as any).find((d: any) => d.eid === eid);
-  ass.de(adminData, {
-    eid,
-    name: 'T',
-    url: `/u/${eid}`,
-    iconURL: '/static/img/main/defavatar_50.png',
-  });
-
-  // Remove an admin.
-  r = await post({
-    url,
-    user: usr.admin,
-    body: { target_user_id: eid, value: 0 },
-  });
-  ass.de(r, {});
-
-  // Check status.
-  r = await post({ url: getAdminsURL, user: usr.admin });
-  adminData = (r.d as any).find((d: any) => d.eid === eid);
-  ass.e(adminData, undefined);
-
-  // Clean up.
-  await tu.eid;
 });
 
 itPost(

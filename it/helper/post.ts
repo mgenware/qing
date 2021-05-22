@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { ass } from 'base/api';
 import defs from 'base/defs';
 import { APIResult, ensureSuccess, post, User } from 'base/post';
 
@@ -26,10 +27,7 @@ export function verifyPostAPIResult(r: APIResult): string {
     throw new Error(`Unexpected API result: ${JSON.stringify(r)}`);
   }
   const id = postIDRegex.exec(r.d)?.[1];
-  if (typeof id !== 'string' || !id.length) {
-    throw new Error(`Invalid id "${id}"`);
-  }
-  return id;
+  return ass.isString(id);
 }
 
 async function newTmpPostCore(user: User | undefined) {
@@ -43,7 +41,7 @@ async function deletePostCore(id: string, user: User | undefined) {
   );
 }
 
-export async function newTmpPost(user: User | undefined, cb: (id: string) => Promise<unknown>) {
+export async function newPost(user: User | undefined, cb: (id: string) => Promise<unknown>) {
   let id = null;
   try {
     id = await newTmpPostCore(user);
@@ -58,10 +56,7 @@ export async function newTmpPost(user: User | undefined, cb: (id: string) => Pro
 export async function getPostCount(id: string): Promise<number> {
   const r = await post(`${getPostCountURL}${id}`);
   ensureSuccess(r);
-  if (typeof r.d !== 'string') {
-    throw new Error(`Wrong API response: ${JSON.stringify(r)}`);
-  }
-  return parseInt(r.d, 10);
+  return ass.isNumber(r.d);
 }
 
 export async function getPostSrc(id: string, user: User | undefined) {

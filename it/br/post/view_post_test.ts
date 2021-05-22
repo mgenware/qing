@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { newTmpPost } from 'helper/post_helper.js';
+import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { checkLikes } from '../c/like_helper.js';
 
 test('View post', async (br) => {
-  await newTmpPost(usr.user, async (id) => {
+  await newPost(usr.user, async (id) => {
     await br.goto(`/p/${id}`);
 
     // Page content.

@@ -11,10 +11,10 @@ import {
   addPostURL,
   getPostCount,
   getPostSrc,
-  newTmpPost,
+  newPost,
   addPostBody,
   verifyPostAPIResult,
-} from '../../../helper/post_helper.js';
+} from 'helper/post';
 
 function getQueuedName(name: string) {
   return { name, queue: defs.queue.userPostCount };
@@ -23,7 +23,7 @@ function getQueuedName(name: string) {
 it(getQueuedName('Add'), async () => {
   const u = usr.user;
   const pc = await getPostCount(u.eid);
-  await newTmpPost(u, async (id) => {
+  await newPost(u, async (id) => {
     // Post content.
     ass.de(await getPostSrc(id, u), { contentHTML: '<p>post_c</p>', title: '<p>post_t</p>' });
 
@@ -39,7 +39,7 @@ itPost('Add: visitor', { url: addPostURL, body: addPostBody }, null, (r) => {
 
 it(getQueuedName('Edit'), async () => {
   const u = usr.user;
-  await newTmpPost(u, async (id) => {
+  await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.eid);
     const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: u });
@@ -53,7 +53,7 @@ it(getQueuedName('Edit'), async () => {
 
 it(getQueuedName('Edit: wrong user'), async () => {
   const u = usr.user;
-  await newTmpPost(u, async (id) => {
+  await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.eid);
     const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: usr.admin });
