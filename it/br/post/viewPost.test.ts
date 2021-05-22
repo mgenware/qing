@@ -7,7 +7,7 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkLikes } from '../c/like_helper.js';
+import { checkLikes } from '../c/likeHelper.js';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {

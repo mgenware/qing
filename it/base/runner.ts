@@ -27,7 +27,7 @@ export async function run(
   if (!name || !importFn) {
     throw new Error('Invalid arguments');
   }
-  const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*_test.js`], {
+  const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*.test.js`], {
     dot: true,
     cwd: `./dist/${dirName}`,
   });
