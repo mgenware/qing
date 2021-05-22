@@ -17,13 +17,17 @@ const queuedTasks: Map<string, PQueue> = new Map();
 const tasks: Array<Promise<unknown>> = [];
 const globStart = '**';
 
-export async function run(name: string, importFn: (p: string) => Promise<unknown>) {
+export async function run(
+  name: string,
+  dirName: string,
+  importFn: (p: string) => Promise<unknown>,
+) {
   if (!name || !importFn) {
     throw new Error('Invalid arguments');
   }
   const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*_test.js`], {
     dot: true,
-    cwd: './dist/api',
+    cwd: `./dist/${dirName}`,
   });
   await Promise.all(
     entries.map(async (s) => {

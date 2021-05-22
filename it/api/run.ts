@@ -8,5 +8,5 @@
 import { run } from 'base/runner';
 
 (async () => {
-  await run('API tests', (s) => import(s));
+  await run('API tests', 'api', (s) => import(s));
 })();

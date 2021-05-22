@@ -31,13 +31,13 @@ export function de<T>(a: T, b: T) {
 
 export function t(a: unknown): asserts a {
   if (!a) {
-    panic(`${JSON.stringify(a)} should not be false`);
+    panic(`${JSON.stringify(a)} is expected to be truthy`);
   }
 }
 
 export function f(a: unknown) {
   if (a) {
-    panic(`${JSON.stringify(a)} should not be true`);
+    panic(`${JSON.stringify(a)} is expected to be falsy`);
   }
 }
 
