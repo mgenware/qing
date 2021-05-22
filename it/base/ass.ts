@@ -6,9 +6,15 @@
  */
 
 import deepEqual from 'fast-deep-equal/es6/index.js';
+import { debugMode } from './debug';
 
 export function panic(msg: string) {
-  throw new Error(`Assertion failed: ${msg}`);
+  const s = `Assertion failed: ${msg}`;
+  if (debugMode()) {
+    console.warn(s);
+  } else {
+    throw new Error(s);
+  }
 }
 
 export function e<T>(a: T, b: T) {

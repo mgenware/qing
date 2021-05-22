@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import puppeteer from 'puppeteer';
+import playwright from 'playwright';
 
-let browser: puppeteer.Browser;
+let browser: playwright.Browser;
 
 export async function launchBrowser() {
-  browser = await puppeteer.launch();
+  browser = await playwright.chromium.launch();
 }
 
 export async function createContext() {
-  return browser.createIncognitoBrowserContext();
+  return browser.newContext();
 }
 
 export async function closeBrowser() {

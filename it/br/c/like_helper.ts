@@ -5,28 +5,24 @@
  * be found in the LICENSE file.
  */
 
-import puppeteer from 'puppeteer';
+import playwright from 'playwright';
 import * as ass from 'base/ass';
 
 export async function checkLikes(
-  likeAppEl: puppeteer.ElementHandle,
+  likeAppEl: playwright.ElementHandle,
   value: number,
   liked: boolean,
 ) {
-  const domInfo = await likeAppEl.evaluate((el: HTMLElement) => {
-    const btnEl = el.querySelector('like-view')?.shadowRoot?.querySelector('qing-button');
-    if (!btnEl) {
-      return null;
-    }
-    const numEl = btnEl.querySelector('span.num');
-    const svgEl = btnEl.querySelector('svg-icon');
-    return {
-      val: numEl?.textContent,
-      selectedStatus: svgEl?.className,
-    };
-  });
-  ass.de(domInfo, {
-    val: `${value}`,
-    selectedStatus: liked ? 'liked' : 'not-liked',
-  });
+  const btnEl = await likeAppEl.$('like-view qing-button');
+  ass.t(btnEl);
+
+  // Element value.
+  const numEl = await btnEl.$('span.num');
+  ass.t(numEl);
+  ass.e(await numEl.evaluate((el: HTMLElement) => el.textContent), `${value}`);
+
+  // Liked status.
+  const svgEl = await btnEl.$('svg-icon');
+  ass.t(svgEl);
+  ass.e(await svgEl.evaluate((el: HTMLElement) => el.className), liked ? 'liked' : 'not-liked');
 }

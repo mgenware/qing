@@ -19,7 +19,7 @@ test('View post', async (br) => {
     ass.t(html.includes('<p>post_c</p>'));
 
     // Like button.
-    const likeAppEl = await br.page.$('pierce/post-payload-app like-app');
+    const likeAppEl = await br.page.$('post-payload-app like-app');
     ass.t(likeAppEl);
     await checkLikes(likeAppEl, 0, false);
   });

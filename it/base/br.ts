@@ -5,10 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import puppeteer from 'puppeteer';
+import playwright from 'playwright';
 import { serverURL } from 'base/urls';
 import { runTask } from 'base/runner';
 import { createContext } from './browserInstance';
+import { debugMode } from './debug';
 
 // Re-exports.
 export * as ass from 'base/ass';
@@ -16,12 +17,12 @@ export { usr, post } from 'base/post';
 export class Browser {
   constructor(
     public name: string,
-    public context: puppeteer.BrowserContext,
-    public page: puppeteer.Page,
+    public context: playwright.BrowserContext,
+    public page: playwright.Page,
   ) {}
 
   goto(url: string) {
-    return this.page.goto(`${serverURL}${url}`);
+    return this.page.goto(`${serverURL}${url}`, { waitUntil: 'load' });
   }
 
   content() {
@@ -30,13 +31,6 @@ export class Browser {
 
   async dispose() {
     return this.context.close();
-  }
-
-  // Make sure `import puppeteer from 'puppeteer'` is used so that
-  // we can use the `puppeteer` namespace in JSDoc comments.
-  // eslint-disable-next-line class-methods-use-this, no-underscore-dangle
-  __dummy() {
-    return puppeteer.Browser;
   }
 }
 
@@ -52,7 +46,9 @@ async function runHandler(name: string, handler: (br: Browser) => void) {
   const page = await context.newPage();
   const userBrowser = new Browser(name, context, page);
   await handler(userBrowser);
-  await userBrowser.dispose();
+  if (!debugMode()) {
+    await userBrowser.dispose();
+  }
 }
 
 export async function test(input: TestInput, handler: (br: Browser) => void) {

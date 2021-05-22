@@ -8,8 +8,10 @@
 
 import fg from 'fast-glob';
 import chalk from 'chalk';
+import { setTimeout } from 'timers/promises';
 // eslint-disable-next-line import/no-unresolved
 import PQueue from 'p-queue';
+import { debugMode } from './debug';
 
 const glob = process.argv[2];
 
@@ -37,8 +39,13 @@ export async function run(
     }),
   );
   await Promise.all(tasks);
-  // eslint-disable-next-line no-console
-  console.log(`🎉 ${name} completed successfully.`);
+
+  if (debugMode()) {
+    await setTimeout(500000);
+  } else {
+    // eslint-disable-next-line no-console
+    console.log(`🎉 ${name} completed successfully.`);
+  }
 }
 
 function printTaskResult(name: string, queue: string | undefined | number, err: Error | null) {
