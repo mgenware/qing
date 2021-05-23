@@ -49,6 +49,7 @@ const input = [
   'forum/forumEntry.ts',
   'forum/forumSettingsEntry.ts',
   'lang/langEntry.ts',
+  'qna/qnaEntry.ts',
 ];
 if (!isProd) {
   input.push('devPage/devPageEntry.ts');
