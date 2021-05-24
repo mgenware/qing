@@ -5,14 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import playwright from 'playwright';
+import testing from 'testing';
 import * as ass from 'base/ass';
 
-export async function checkLikes(
-  likeAppEl: playwright.ElementHandle,
-  value: number,
-  liked: boolean,
-) {
+export async function checkLikes(likeAppEl: testing.ElementHandle, value: number, liked: boolean) {
   ass.t(await likeAppEl.isVisible());
   const btnEl = await likeAppEl.$('like-view qing-button');
   ass.t(btnEl);

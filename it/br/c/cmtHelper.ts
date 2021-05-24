@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import playwright from 'playwright';
+import testing from 'testing';
 import * as ass from 'base/ass';
 
-export async function checkNoComments(cmtAppEl: playwright.ElementHandle) {
+export async function checkNoComments(cmtAppEl: testing.ElementHandle) {
   ass.t(await cmtAppEl.isVisible());
   const contentEl = await cmtAppEl.$('text=No comments');
   ass.t(contentEl);
