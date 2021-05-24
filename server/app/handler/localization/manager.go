@@ -16,7 +16,7 @@ import (
 
 	"golang.org/x/text/language"
 
-	"qing/app/appHandler"
+	"qing/app/appCookies"
 	"qing/app/config/configs"
 	"qing/app/defs"
 )
@@ -122,6 +122,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := appHandler.NewCookie(defs.Shared.KeyLang, lang)
+	c := appCookies.NewCookie(defs.Shared.KeyLang, lang)
 	http.SetCookie(w, c)
 }
