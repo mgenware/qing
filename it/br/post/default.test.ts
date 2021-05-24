@@ -8,6 +8,7 @@
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { checkLikes } from '../c/likeHelper.js';
+import { checkNoComments } from '../c/cmtHelper.js';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -22,5 +23,10 @@ test('View post', async (br) => {
     const likeAppEl = await br.page.$('post-payload-app like-app');
     ass.t(likeAppEl);
     await checkLikes(likeAppEl, 0, false);
+
+    // No comments.
+    const cmtAppEl = await br.page.$('post-payload-app cmt-app');
+    ass.t(cmtAppEl);
+    await checkNoComments(cmtAppEl);
   });
 });

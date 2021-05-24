@@ -13,6 +13,7 @@ export async function checkLikes(
   value: number,
   liked: boolean,
 ) {
+  ass.t(await likeAppEl.isVisible());
   const btnEl = await likeAppEl.$('like-view qing-button');
   ass.t(btnEl);
 
