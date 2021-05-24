@@ -9,9 +9,9 @@ package userx
 
 import (
 	"net/http"
+	"qing/app/appHandler"
 	"qing/app/appcom"
 	"qing/app/defs"
-	"time"
 )
 
 func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcom.SessionUser) error {
@@ -63,21 +63,10 @@ func (sm *SessionManager) LogoutCore(uid uint64, sid string) error {
 	return sm.RemoveUserSession(uid, sid)
 }
 
-/* cookies */
 func newSessionCookie(sid string) *http.Cookie {
-	t := time.Now()
-	exptime := t.AddDate(0, 0, 30)
-	cookie := &http.Cookie{Name: defs.SessionCookieKey, Value: sid}
-	cookie.Path = "/"
-	cookie.Expires = exptime
-	return cookie
+	return appHandler.NewCookie(defs.SessionCookieKey, sid)
 }
 
 func newDeletedSessionCookie(sid string) *http.Cookie {
-	t := time.Now()
-	exptime := t.AddDate(-1, -1, -1)
-	cookie := &http.Cookie{Name: defs.SessionCookieKey, Value: ""}
-	cookie.Path = "/"
-	cookie.Expires = exptime
-	return cookie
+	return appHandler.DeleteCookie(defs.SessionCookieKey)
 }

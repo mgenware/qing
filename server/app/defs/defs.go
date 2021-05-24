@@ -48,5 +48,6 @@ const (
 )
 
 const (
-	Timespan30DaysInSecs = 2592000
+	MSExpirySecs      = 2592000
+	CookiesExpirySecs = 2592000
 )

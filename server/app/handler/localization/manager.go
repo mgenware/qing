@@ -13,10 +13,10 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
-	"time"
 
 	"golang.org/x/text/language"
 
+	"qing/app/appHandler"
 	"qing/app/config/configs"
 	"qing/app/defs"
 )
@@ -122,7 +122,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	expires := time.Now().Add(30 * 24 * time.Hour)
-	c := &http.Cookie{Name: defs.Shared.KeyLang, Value: lang, Expires: expires}
+	c := appHandler.NewCookie(defs.Shared.KeyLang, lang)
 	http.SetCookie(w, c)
 }
