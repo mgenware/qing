@@ -159,4 +159,5 @@ export default interface LSDefs {
   langSettings: string;
   doYouWantToChangeLangTo: string;
   close: string;
+  signInToLikeThisEntity: string;
 }

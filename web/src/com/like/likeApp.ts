@@ -12,6 +12,8 @@ import LikeHostType from './loaders/likeHostType';
 import SetLikeLoader from './loaders/setLikeLoader';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
+import appPageState from 'app/appPageState';
+import ls, { formatLS } from 'ls';
 
 const sizeMD = 'md';
 
@@ -64,6 +66,12 @@ export class LikeApp extends BaseElement {
     if (this.isWorking) {
       return;
     }
+
+    if (!appPageState.user) {
+      await appAlert.warn(formatLS(ls.signInToLikeThisEntity, ls.post));
+      return;
+    }
+
     const loader = new SetLikeLoader(this.hostID, this.hostType, !this.hasLiked);
     const res = await appTask.local(loader, (s) => (this.isWorking = s.isWorking));
 

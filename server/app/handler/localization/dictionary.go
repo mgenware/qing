@@ -144,6 +144,7 @@ type Dictionary struct {
 	Send                              string `json:"send"`
 	Settings                          string `json:"settings"`
 	SignIn                            string `json:"signIn"`
+	SignInToLikeThisEntity            string `json:"signInToLikeThisEntity"`
 	SignOut                           string `json:"signOut"`
 	SignUp                            string `json:"signUp"`
 	Strikethrough                     string `json:"strikethrough"`

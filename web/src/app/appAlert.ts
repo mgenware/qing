@@ -27,6 +27,17 @@ export class AppAlert {
     });
   }
 
+  async warn(message: string, title?: string): Promise<void> {
+    await this.showDialogViewAsync({
+      message,
+      title: title || ls.warning,
+      buttons: [ls.ok],
+      icon: DialogIcon.warning,
+      defaultButtonIndex: 0,
+      cancelButtonIndex: 0,
+    });
+  }
+
   async successToast(title: string): Promise<void> {
     await this.showDialogViewAsync({
       message: '',
