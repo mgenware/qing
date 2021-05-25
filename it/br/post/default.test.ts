@@ -7,8 +7,8 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkLikes } from '../c/likeHelper.js';
-import { checkNoComments } from '../c/cmtHelper.js';
+import { checkLikes } from '../helper/like.js';
+import { checkNoComments } from '../helper/cmt.js';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
