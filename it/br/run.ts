@@ -6,10 +6,10 @@
  */
 
 import { run } from 'base/runner';
-import { closeBrowser, launchBrowser } from 'base/browserInstance';
+import { disposeBrowser, launchBrowser } from 'base/browserInstance';
 
 (async () => {
   await launchBrowser();
   await run('BR tests', 'br', (s) => import(s));
-  await closeBrowser();
+  await disposeBrowser();
 })();

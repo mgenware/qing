@@ -49,7 +49,6 @@ export async function checkVisibleAlert(
 ) {
   const el = await br.page.$('#__global_dialog_container dialog-view');
   ass.t(el);
-  // ass.t(await el.isVisible());
   ass.e(await el.getAttribute('open'), '');
 
   // Title.

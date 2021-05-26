@@ -17,6 +17,6 @@ export async function createContext() {
   return browser.newContext();
 }
 
-export async function closeBrowser() {
+export async function disposeBrowser() {
   return browser.close();
 }
