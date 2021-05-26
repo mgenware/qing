@@ -9,6 +9,7 @@ import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { checkLikes } from '../helper/like.js';
 import { checkNoComments } from '../helper/cmt.js';
+import { AlertType, checkVisibleAlert } from '../helper/alert.js';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -28,5 +29,9 @@ test('View post', async (br) => {
     const cmtAppEl = await br.page.$('post-payload-app cmt-app');
     ass.t(cmtAppEl);
     await checkNoComments(cmtAppEl);
+
+    // Click the like button.
+    await likeAppEl.click();
+    checkVisibleAlert(br, '', 'Sign in to like this post', AlertType.warning, ['OK'], 0);
   });
 });

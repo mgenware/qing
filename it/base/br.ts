@@ -14,6 +14,7 @@ import { debugMode } from './debug';
 // Re-exports.
 export * as ass from 'base/ass';
 export { usr, post } from 'base/post';
+
 export class Browser {
   constructor(
     public name: string,

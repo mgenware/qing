@@ -71,6 +71,15 @@ export function isString(v: unknown): string {
   return v;
 }
 
+export function equalsToString(v: unknown, expected: string | null, trim?: boolean): string {
+  let s = isString(v);
+  if (trim) {
+    s = s.trim();
+  }
+  e(s, expected);
+  return s;
+}
+
 export function isElement(v: unknown): HTMLElement {
   if (v instanceof HTMLElement) {
     return v;
