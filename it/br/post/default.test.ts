@@ -15,6 +15,14 @@ test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
     await br.goto(`/p/${id}`);
 
+    // User content.
+    // <img src="/res/user_icon/101/50_admin.png" class="avatar-m" width="50" height="50">
+    ass.t(
+      await br.page.isVisible(
+        'a[href="/u/2t"] img[src="/res/user_icon/101/50_admin.png"][width="50"][height="50"]',
+      ),
+    );
+
     // Page content.
     const html = await br.content();
     ass.t(html.includes('&lt;p&gt;post_t&lt;/p&gt;'));
