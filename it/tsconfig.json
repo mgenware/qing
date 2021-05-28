@@ -1,6 +1,7 @@
 {
-  "extends": "mgenware-tsconfig-browser",
+  "extends": "mgenware-tsconfig-node-x",
   "compilerOptions": {
+    "lib": ["es2020", "DOM", "DOM.Iterable"],
     "rootDir": ".",
     "baseUrl": ".",
     "outDir": "./dist",
