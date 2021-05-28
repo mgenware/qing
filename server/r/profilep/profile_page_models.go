@@ -43,14 +43,18 @@ type ProfilePageWindData struct {
 type ProfilePostItem struct {
 	da.PostTableSelectItemsForUserProfileResult
 
-	URL string
+	URL        string
+	CreatedAt  string
+	ModifiedAt string
 }
 
 // ProfileDiscussionItem is a wrapper around DiscussionTableSelectItemsForUserProfileResult.
 type ProfileDiscussionItem struct {
 	da.DiscussionTableSelectItemsForUserProfileResult
 
-	URL string
+	URL        string
+	CreatedAt  string
+	ModifiedAt string
 }
 
 // NewProfilePageModelFromUser creates a new ProfileModel from profile DB result.
@@ -75,6 +79,8 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) ProfilePostItem {
 	d := ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
 	d.URL = appURL.Get().Post(item.ID)
+	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
+	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	return d
 }
 

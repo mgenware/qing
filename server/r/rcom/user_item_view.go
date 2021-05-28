@@ -11,7 +11,6 @@ import (
 	"qing/app/appHandler"
 	"qing/app/appURL"
 	"qing/lib/fmtx"
-	"time"
 )
 
 var vUserView = appHandler.MainPage().MustParseView("/com/userItemView.html")
@@ -25,12 +24,12 @@ type UserItemViewData struct {
 	UserName       string
 	UserURL        string
 	UserIconURL    string
-	ItemCreatedAt  time.Time
-	ItemModifiedAt time.Time
+	ItemCreatedAt  string
+	ItemModifiedAt string
 }
 
 // GetUserItemViewHTML returns user item view HTML with the given params.
-func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated time.Time, itemModified time.Time) string {
+func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated string, itemModified string) string {
 	d := &UserItemViewData{}
 	d.ItemEID = itemEID
 	d.UserEID = fmtx.EncodeID(uid)

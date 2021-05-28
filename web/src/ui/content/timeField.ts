@@ -20,17 +20,6 @@ export class TimeField extends BaseElement {
     const curLang = ls._lang;
     // TODO: remove hardcoded lang codes.
     this.locale = curLang === 'zh-Hans' ? zhCN : enUS;
-    const content = this.textContent;
-    // Load time properties from content if it's present.
-    if (content) {
-      const parts = content.split('|');
-      if (parts.length > 0) {
-        this.createdAt = parts[0] ?? '';
-      }
-      if (parts.length > 1) {
-        this.modifiedAt = parts[1] ?? '';
-      }
-    }
   }
 
   render() {

@@ -12,6 +12,7 @@ import (
 	"qing/app/appHandler"
 	"qing/app/appURL"
 	"qing/da"
+	"qing/lib/fmtx"
 )
 
 var vThreadPostView = appHandler.MainPage().MustParseView("/com/threads/postView.html")
@@ -25,6 +26,8 @@ type UserThreadModel struct {
 	ThreadURL   string
 	UserURL     string
 	UserIconURL string
+	CreatedAt   string
+	ModifiedAt  string
 }
 
 // NewUserThreadModel creates a new UserThreadModel.
@@ -33,22 +36,21 @@ func NewUserThreadModel(item *da.UserThreadInterface) (UserThreadModel, error) {
 	switch item.ThreadType {
 	case da.Constants.ThreadTypePost:
 		d.ThreadURL = appURL.Get().Post(item.ID)
-		break
 
 	case da.Constants.ThreadTypeQuestion:
 		d.ThreadURL = appURL.Get().Question(item.ID)
-		break
 
 	case da.Constants.ThreadTypeDiscussion:
 		d.ThreadURL = appURL.Get().Discussion(item.ID)
-		break
 
 	default:
-		return d, fmt.Errorf("Invalid item type %v", item.ThreadType)
+		return d, fmt.Errorf("invalid item type %v", item.ThreadType)
 	}
 	uid := item.UserID
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.UserIconURL = appURL.Get().UserIconURL50(uid, item.UserIconName)
+	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
+	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	return d, nil
 }
 
@@ -59,12 +61,12 @@ func MustRunUserThreadViewTemplate(d *UserThreadModel) string {
 		return vThreadPostView.MustExecuteToString(d)
 
 	case da.Constants.ThreadTypeQuestion:
-		return vThreadPostView.MustExecuteToString(d)
+		return vThreadQuestionView.MustExecuteToString(d)
 
 	case da.Constants.ThreadTypeDiscussion:
-		return vThreadPostView.MustExecuteToString(d)
+		return vThreadDiscussionView.MustExecuteToString(d)
 
 	default:
-		panic(fmt.Errorf("Invalid item type %v", d.ThreadType))
+		panic(fmt.Errorf("invalid item type %v", d.ThreadType))
 	}
 }

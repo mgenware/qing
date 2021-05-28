@@ -20,6 +20,8 @@ type Cmt struct {
 	UserEID     string `json:"userID,omitempty"`
 	UserURL     string `json:"userURL,omitempty"`
 	UserIconURL string `json:"userIconURL,omitempty"`
+	CreatedAt   string `json:"createdAt,omitempty"`
+	ModifiedAt  string `json:"modifiedAt,omitempty"`
 }
 
 func NewCmt(d *da.CmtData) Cmt {
@@ -28,6 +30,8 @@ func NewCmt(d *da.CmtData) Cmt {
 	r.UserEID = fmtx.EncodeID(d.UserID)
 	r.UserURL = appURL.Get().UserProfile(r.UserID)
 	r.UserIconURL = appURL.Get().UserIconURL50(r.UserID, r.UserIconName)
+	r.CreatedAt = fmtx.Time(d.RawCreatedAt)
+	r.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	return r
 }
 

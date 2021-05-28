@@ -7,8 +7,10 @@
   <div class="col">
     <div><a href="{{.UserURL}}">{{html .UserName}}</a></div>
     <p>
-      <!-- prettier-ignore -->
-      <time-field>{{.ItemCreatedAt.Format "2006-01-02T15:04:05Z07:00"}}{{if .ItemModifiedAt}}|{{.ItemModifiedAt.Format "2006-01-02T15:04:05Z07:00"}}{{end}}</time-field>
+      <time-field
+        createdAt="{{html .ItemCreatedAt}}"
+        modifiedAt="{{html .ItemModifiedAt}}"
+      ></time-field>
       <!-- `id` format should be in sync with `editBarApp.ts`: `editBarID` -->
       <edit-bar-app
         class="m-l-md"

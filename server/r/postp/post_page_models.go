@@ -23,11 +23,13 @@ type PostPageModel struct {
 	da.PostTableSelectItemByIDResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
-	PostURL  string
-	EID      string
-	Liked    bool
-	UserEID  string
-	UserHTML string
+	PostURL    string
+	EID        string
+	Liked      bool
+	UserEID    string
+	UserHTML   string
+	CreatedAt  string
+	ModifiedAt string
 }
 
 // PostPageWindData ...
@@ -45,6 +47,8 @@ func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid
 	d.UserEID = fmtx.EncodeID(d.UserID)
+	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
+	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	return d
 }

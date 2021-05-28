@@ -79,8 +79,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()
 		d := &da.CmtData{ID: cmtID}
-		d.CreatedAt = now
-		d.ModifiedAt = now
+		d.RawCreatedAt = now
+		d.RawModifiedAt = now
 		d.ContentHTML = content
 		d.UserID = uid
 		d.UserName = user.Name
@@ -109,7 +109,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmt := &apicom.Cmt{EID: fmtx.EncodeID(id)}
 		cmt.ContentHTML = content
 		now := time.Now()
-		cmt.ModifiedAt = now
+		cmt.ModifiedAt = fmtx.Time(now)
 
 		respData := &SetCmtResponse{Cmt: cmt}
 		return resp.MustComplete(respData)

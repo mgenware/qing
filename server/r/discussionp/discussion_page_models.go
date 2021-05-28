@@ -29,6 +29,8 @@ type DiscussionPageModel struct {
 	EID             string
 	MessageListHTML string
 	PageBarHTML     string
+	CreatedAt       string
+	ModifiedAt      string
 }
 
 // DiscussionPageWindData ...
@@ -44,6 +46,8 @@ type DiscussionMsgModel struct {
 	DiscussionURL string
 	UserHTML      string
 	EID           string
+	CreatedAt     string
+	ModifiedAt    string
 }
 
 // NewDiscussionPageModel creates a DiscussionPageModel.
@@ -52,6 +56,8 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 	eid := fmtx.EncodeID(p.ID)
 	d.DiscussionURL = eid
 	d.EID = fmtx.EncodeID(p.ID)
+	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
+	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
 	d.MessageListHTML = msgListHTML
 	d.PageBarHTML = pageBarHTML
