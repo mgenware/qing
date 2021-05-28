@@ -7,13 +7,13 @@
 
 import testing from 'testing';
 import * as ass from 'base/ass';
+import { checkDefaultTimeField } from './timeField';
 
 export async function checkUserView(
   el: testing.ElementHandle | null,
   id: string,
   iconURL: string,
   name: string,
-  time: string,
 ) {
   ass.t(el);
   ass.t(await el.isVisible());
@@ -23,5 +23,5 @@ export async function checkUserView(
   // Name link.
   ass.t(await el.$(`a[href="/u/${id}"]:has-text("${name}")`));
   // Time field.
-  ass.t(await el.$(`time-field:has-text("${time}")`));
+  await checkDefaultTimeField(el);
 }

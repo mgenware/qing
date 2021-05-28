@@ -11,7 +11,6 @@ import { checkLikes } from 'br/helper/like';
 import { checkNoComments } from 'br/helper/cmt';
 import { AlertType, checkVisibleAlert } from 'br/helper/alert';
 import { checkUserView } from 'br/helper/userView';
-import defs from 'base/defs';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -20,13 +19,7 @@ test('View post', async (br) => {
 
     // User content.
     const u = usr.user;
-    checkUserView(
-      await page.$('main > container-view > .qing-user-view'),
-      u.eid,
-      u.iconURL,
-      u.name,
-      defs.defaultTimeString,
-    );
+    checkUserView(await page.$('main > container-view > .m-user-view'), u.eid, u.iconURL, u.name);
 
     // Page content.
     const html = await br.content();
