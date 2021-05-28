@@ -12,7 +12,7 @@ import (
 	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"qing/r/rcom"
 )
 
@@ -49,9 +49,9 @@ type DiscussionMsgModel struct {
 // NewDiscussionPageModel creates a DiscussionPageModel.
 func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) DiscussionPageModel {
 	d := DiscussionPageModel{DiscussionTableSelectItemByIDResult: *p}
-	eid := validator.EncodeID(p.ID)
+	eid := fmtx.EncodeID(p.ID)
 	d.DiscussionURL = eid
-	d.EID = validator.EncodeID(p.ID)
+	d.EID = fmtx.EncodeID(p.ID)
 	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
 	d.MessageListHTML = msgListHTML
 	d.PageBarHTML = pageBarHTML
@@ -61,7 +61,7 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 // NewDiscussionMsgModel creates a DiscussionMsgModel.
 func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) DiscussionMsgModel {
 	d := DiscussionMsgModel{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
-	eid := validator.EncodeID(p.ID)
+	eid := fmtx.EncodeID(p.ID)
 	d.DiscussionURL = appURL.Get().Discussion(p.ID)
 	d.EID = eid
 	d.UserHTML = rcom.GetUserItemViewHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)

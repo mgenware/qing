@@ -18,6 +18,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/api/apicom"
 	"time"
@@ -105,7 +106,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			err := da.Reply.EditReply(db, id, uid, content, sanitizedToken)
 			app.PanicIfErr(err)
 		}
-		cmt := &apicom.Cmt{EID: validator.EncodeID(id)}
+		cmt := &apicom.Cmt{EID: fmtx.EncodeID(id)}
 		cmt.ContentHTML = content
 		now := time.Now()
 		cmt.ModifiedAt = now

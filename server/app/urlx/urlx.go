@@ -13,7 +13,7 @@ import (
 	"qing/app/config"
 	"qing/app/defs"
 	"qing/fx/avatar"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"strconv"
 )
 
@@ -57,7 +57,7 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 }
 
 func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
-	s := "/" + defs.Shared.RouteUser + "/" + validator.EncodeID(uid)
+	s := "/" + defs.Shared.RouteUser + "/" + fmtx.EncodeID(uid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
@@ -93,11 +93,11 @@ func (u *URL) UserProfile(uid uint64) string {
 }
 
 func (u *URL) Post(pid uint64) string {
-	return "/" + defs.Shared.RoutePost + "/" + validator.EncodeID(pid)
+	return "/" + defs.Shared.RoutePost + "/" + fmtx.EncodeID(pid)
 }
 
 func (u *URL) DiscussionWithPage(pid uint64, page int) string {
-	s := "/" + defs.Shared.RouteDiscussion + "/" + validator.EncodeID(pid)
+	s := "/" + defs.Shared.RouteDiscussion + "/" + fmtx.EncodeID(pid)
 	if page > 1 {
 		s += fmt.Sprintf("&%v=%v", defs.Shared.KeyPage, page)
 	}
@@ -109,7 +109,7 @@ func (u *URL) Discussion(pid uint64) string {
 }
 
 func (u *URL) QuestionWithPage(pid uint64, page int) string {
-	s := "/" + defs.Shared.RouteQuestion + "/" + validator.EncodeID(pid)
+	s := "/" + defs.Shared.RouteQuestion + "/" + fmtx.EncodeID(pid)
 	if page > 1 {
 		s += fmt.Sprintf("&%v=%v", defs.Shared.KeyPage, page)
 	}
@@ -129,7 +129,7 @@ func (u *URL) RegEmailVerification(publicID string) string {
 }
 
 func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
-	s := "/" + defs.Shared.RouteForum + "/" + validator.EncodeID(fid)
+	s := "/" + defs.Shared.RouteForum + "/" + fmtx.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
@@ -145,9 +145,9 @@ func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
 }
 
 func (u *URL) ForumSettings(fid uint64) string {
-	return "/" + defs.Shared.RouteForum + "/" + validator.EncodeID(fid) + "/settings"
+	return "/" + defs.Shared.RouteForum + "/" + fmtx.EncodeID(fid) + "/settings"
 }
 
 func (u *URL) ForumGroup(id uint64) string {
-	return "/" + defs.Shared.RouteForumGroup + "/" + validator.EncodeID(id)
+	return "/" + defs.Shared.RouteForumGroup + "/" + fmtx.EncodeID(id)
 }

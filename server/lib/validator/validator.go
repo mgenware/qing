@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app/defs"
-	"strconv"
+	"qing/lib/fmtx"
 	"unicode/utf8"
 
 	"github.com/mgenware/go-packagex/v6/jsonx"
@@ -21,16 +21,6 @@ import (
 func panicMissingArg(key string) {
 	// panic with a string for non-fatal errors
 	panic(fmt.Sprintf("The argument `%v` is required", key))
-}
-
-// EncodeID encodes the given integer ID to a string.
-func EncodeID(id uint64) string {
-	return strconv.FormatUint(id, 36)
-}
-
-// DecodeID decodes the given string ID to an integer.
-func DecodeID(str string) (uint64, error) {
-	return strconv.ParseUint(str, 36, 64)
 }
 
 // MustGetUnsafeStringFromDict converts the value for the specified key to string, and panics on error.
@@ -125,7 +115,7 @@ func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	if !ok {
 		return 0
 	}
-	id, err := DecodeID(val)
+	id, err := fmtx.DecodeID(val)
 	if err != nil {
 		panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 	}
@@ -156,7 +146,7 @@ func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {
-			id, err := DecodeID(idStr)
+			id, err := fmtx.DecodeID(idStr)
 			if err != nil {
 				panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 			}

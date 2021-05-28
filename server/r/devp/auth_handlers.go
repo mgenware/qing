@@ -17,8 +17,8 @@ import (
 	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/randlib"
-	"qing/lib/validator"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/go-packagex/v6/strconvx"
@@ -39,7 +39,7 @@ func NewUserInfo(d da.UserTableSelectSessionDataResult) UserInfo {
 		Name:     d.Name,
 		Status:   d.Status,
 	}
-	r.EID = validator.EncodeID(d.ID)
+	r.EID = fmtx.EncodeID(d.ID)
 	return r
 }
 
@@ -50,7 +50,7 @@ func signInHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var uid uint64
 	var err error
 	if strings.HasPrefix(val, "-") {
-		uid, err = validator.DecodeID(strings.TrimLeft(val, "-"))
+		uid, err = fmtx.DecodeID(strings.TrimLeft(val, "-"))
 		app.PanicIfErr(err)
 	} else {
 		uid, err = strconvx.ParseUint64(val)
@@ -84,7 +84,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 
 	db := appDB.DB()
@@ -99,7 +99,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	app.PanicIfErr(err)

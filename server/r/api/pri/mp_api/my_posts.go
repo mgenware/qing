@@ -16,6 +16,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/api/apicom"
 )
@@ -40,7 +41,7 @@ type pcPost struct {
 func newPCPost(p *da.PostTableSelectItemsForPostCenterResult, uid uint64) pcPost {
 	d := pcPost{PostTableSelectItemsForPostCenterResult: *p}
 	d.URL = appURL.Get().Post(p.ID)
-	d.EID = validator.EncodeID(uid)
+	d.EID = fmtx.EncodeID(uid)
 	return d
 }
 

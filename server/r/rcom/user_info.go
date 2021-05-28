@@ -9,7 +9,7 @@ package rcom
 
 import (
 	"qing/app/appURL"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 )
 
 // UserInfo contains general information about a user.
@@ -23,10 +23,10 @@ type UserInfo struct {
 // NewUserInfo creates a new UserInfo with the given params.
 func NewUserInfo(uid uint64, name, iconName string) UserInfo {
 	r := UserInfo{}
-	r.EID = validator.EncodeID(uid)
+	r.EID = fmtx.EncodeID(uid)
 	r.Name = name
 	r.URL = appURL.Get().UserProfile(uid)
 	r.IconURL = appURL.Get().UserIconURL50(uid, iconName)
-	r.EID = validator.EncodeID(uid)
+	r.EID = fmtx.EncodeID(uid)
 	return r
 }

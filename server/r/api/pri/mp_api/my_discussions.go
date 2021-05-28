@@ -16,6 +16,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/api/apicom"
 )
@@ -39,7 +40,7 @@ type pcDiscussion struct {
 func newPCDiscussion(p *da.DiscussionTableSelectItemsForPostCenterResult, uid uint64) pcDiscussion {
 	d := pcDiscussion{DiscussionTableSelectItemsForPostCenterResult: *p}
 	d.URL = appURL.Get().Discussion(p.ID)
-	d.EID = validator.EncodeID(uid)
+	d.EID = fmtx.EncodeID(uid)
 	return d
 }
 

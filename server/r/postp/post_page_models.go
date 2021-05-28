@@ -12,7 +12,7 @@ import (
 	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"qing/r/rcom"
 )
 
@@ -41,10 +41,10 @@ type PostPageWindData struct {
 // NewPostPageModel creates a PostPageModel.
 func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d := PostPageModel{PostTableSelectItemByIDResult: *p}
-	eid := validator.EncodeID(p.ID)
+	eid := fmtx.EncodeID(p.ID)
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid
-	d.UserEID = validator.EncodeID(d.UserID)
+	d.UserEID = fmtx.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	return d
 }

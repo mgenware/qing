@@ -15,6 +15,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/rcom"
 	"qing/r/sys"
@@ -28,7 +29,7 @@ const profileScript = "profileEntry"
 
 // GetProfile handles user profile routes.
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}

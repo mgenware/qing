@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"qing/app/appHandler"
 	"qing/app/handler"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"qing/r/sys"
 
 	"github.com/go-chi/chi"
@@ -27,13 +27,13 @@ type ForumSettingsPageWindData struct {
 // NewForumSettingsPageWindData creates a new ForumSettingsPageWindData.
 func NewForumSettingsPageWindData(fid uint64) ForumSettingsPageWindData {
 	d := ForumSettingsPageWindData{}
-	d.EID = validator.EncodeID(fid)
+	d.EID = fmtx.EncodeID(fid)
 	return d
 }
 
 func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
-	fid, err := validator.DecodeID(chi.URLParam(r, "fid"))
+	fid, err := fmtx.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}

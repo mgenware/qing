@@ -14,7 +14,7 @@ import (
 	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"qing/r/sys"
 
 	"github.com/go-chi/chi"
@@ -24,7 +24,7 @@ const qnaEntry = "qnaEntry"
 
 // GetQuestion is the HTTP handler for questions.
 func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
-	pid, err := validator.DecodeID(chi.URLParam(r, "qid"))
+	pid, err := fmtx.DecodeID(chi.URLParam(r, "qid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}

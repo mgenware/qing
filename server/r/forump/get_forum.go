@@ -15,6 +15,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/rcom"
 	"qing/r/sys"
@@ -31,7 +32,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.DB()
 	var err error
 
-	fid, err := validator.DecodeID(chi.URLParam(r, "fid"))
+	fid, err := fmtx.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}

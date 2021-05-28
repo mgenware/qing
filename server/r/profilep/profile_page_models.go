@@ -12,7 +12,7 @@ import (
 	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 )
 
 var vProfilePage = appHandler.MainPage().MustParseView("/profile/profilePage.html")
@@ -58,7 +58,7 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	d := ProfilePageModel{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
-	d.EID = validator.EncodeID(uid)
+	d.EID = fmtx.EncodeID(uid)
 	d.IconURL = appURL.Get().UserIconURL250(uid, profile.IconName)
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.PostCount = stats.PostCount

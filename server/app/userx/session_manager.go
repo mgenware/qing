@@ -18,7 +18,7 @@ import (
 	"qing/app/appcom"
 	"qing/app/defs"
 	"qing/app/urlx"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 
 	"github.com/google/uuid"
 )
@@ -161,7 +161,7 @@ func (sm *SessionManager) computeUserFields(u *appcom.SessionUser) {
 	uid := u.ID
 	u.URL = sm.appURL.UserProfile(uid)
 	u.IconURL = sm.appURL.UserIconURL50(uid, u.IconName)
-	u.EID = validator.EncodeID(uid)
+	u.EID = fmtx.EncodeID(uid)
 }
 
 func (sm *SessionManager) deserializeUserJSON(b []byte) (*appcom.SessionUser, error) {

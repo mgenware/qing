@@ -14,6 +14,7 @@ import (
 	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
+	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/rcom"
 	"qing/r/sys"
@@ -28,7 +29,7 @@ const discussionScript = "discussionEntry"
 
 // GetDiscussion is the HTTP handler for discussions.
 func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
-	tid, err := validator.DecodeID(chi.URLParam(r, "tid"))
+	tid, err := fmtx.DecodeID(chi.URLParam(r, "tid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}

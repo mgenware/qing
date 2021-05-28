@@ -10,7 +10,7 @@ package rcom
 import (
 	"qing/app/appHandler"
 	"qing/app/appURL"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"time"
 )
 
@@ -33,7 +33,7 @@ type UserItemViewData struct {
 func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated time.Time, itemModified time.Time) string {
 	d := &UserItemViewData{}
 	d.ItemEID = itemEID
-	d.UserEID = validator.EncodeID(uid)
+	d.UserEID = fmtx.EncodeID(uid)
 	d.UserName = name
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.UserIconURL = appURL.Get().UserIconURL50(uid, iconName)

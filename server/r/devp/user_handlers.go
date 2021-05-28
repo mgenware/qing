@@ -15,14 +15,14 @@ import (
 	"qing/app/appHandler"
 	"qing/app/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 
 	"github.com/go-chi/chi"
 )
 
 func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 	c, err := da.UserStats.TestSelectPostCount(appDB.DB(), uid)
 	app.PanicIfErr(err)
@@ -31,7 +31,7 @@ func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func userDiscussionCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 	c, err := da.UserStats.TestSelectDiscussionCount(appDB.DB(), uid)
 	app.PanicIfErr(err)
@@ -40,7 +40,7 @@ func userDiscussionCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func userQuestionCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 	c, err := da.UserStats.TestSelectQuestionCount(appDB.DB(), uid)
 	app.PanicIfErr(err)
@@ -49,7 +49,7 @@ func userQuestionCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func userAnswerCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid, err := validator.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 	c, err := da.UserStats.TestSelectAnswerCount(appDB.DB(), uid)
 	app.PanicIfErr(err)

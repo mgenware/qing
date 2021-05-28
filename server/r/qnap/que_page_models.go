@@ -12,7 +12,7 @@ import (
 	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 	"qing/r/rcom"
 )
 
@@ -33,10 +33,10 @@ type QuestionPageModel struct {
 // NewQuestionPageModel creates a PostPageModel.
 func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult) QuestionPageModel {
 	d := QuestionPageModel{QuestionTableSelectItemByIDResult: *p}
-	eid := validator.EncodeID(p.ID)
+	eid := fmtx.EncodeID(p.ID)
 	d.QuestionURL = appURL.Get().Question(p.ID)
 	d.EID = eid
-	d.UserEID = validator.EncodeID(d.UserID)
+	d.UserEID = fmtx.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	return d
 }

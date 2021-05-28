@@ -10,7 +10,7 @@ package apicom
 import (
 	"qing/app/appURL"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/fmtx"
 )
 
 type Cmt struct {
@@ -24,8 +24,8 @@ type Cmt struct {
 
 func NewCmt(d *da.CmtData) Cmt {
 	r := Cmt{CmtData: *d}
-	r.EID = validator.EncodeID(d.ID)
-	r.UserEID = validator.EncodeID(d.UserID)
+	r.EID = fmtx.EncodeID(d.ID)
+	r.UserEID = fmtx.EncodeID(d.UserID)
 	r.UserURL = appURL.Get().UserProfile(r.UserID)
 	r.UserIconURL = appURL.Get().UserIconURL50(r.UserID, r.UserIconName)
 	return r
@@ -41,7 +41,7 @@ type Reply struct {
 func NewReply(d *da.CmtData) Reply {
 	c := NewCmt(d)
 	r := Reply{Cmt: c}
-	r.ToUserEID = validator.EncodeID(d.ToUserID)
+	r.ToUserEID = fmtx.EncodeID(d.ToUserID)
 	r.ToUserURL = appURL.Get().UserProfile(r.ToUserID)
 	return r
 }
