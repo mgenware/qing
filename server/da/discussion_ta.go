@@ -334,9 +334,9 @@ func (da *TableTypeDiscussion) SelectCmtsWithLike(queryable mingru.Queryable, vi
 type DiscussionTableSelectItemByIDResult struct {
 	CmtCount     uint      `json:"cmtCount,omitempty"`
 	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	CreatedAt    time.Time `json:"-"`
 	ID           uint64    `json:"-"`
-	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt   time.Time `json:"-"`
 	ReplyCount   uint      `json:"replyCount,omitempty"`
 	Title        string    `json:"title,omitempty"`
 	UserIconName string    `json:"-"`
@@ -362,9 +362,9 @@ const (
 
 // DiscussionTableSelectItemsForPostCenterResult ...
 type DiscussionTableSelectItemsForPostCenterResult struct {
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	CreatedAt  time.Time `json:"-"`
 	ID         uint64    `json:"-"`
-	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt time.Time `json:"-"`
 	ReplyCount uint      `json:"replyCount,omitempty"`
 	Title      string    `json:"title,omitempty"`
 }
@@ -423,9 +423,9 @@ func (da *TableTypeDiscussion) SelectItemsForPostCenter(queryable mingru.Queryab
 
 // DiscussionTableSelectItemsForUserProfileResult ...
 type DiscussionTableSelectItemsForUserProfileResult struct {
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
+	CreatedAt  time.Time `json:"-"`
 	ID         uint64    `json:"-"`
-	ModifiedAt time.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt time.Time `json:"-"`
 	Title      string    `json:"title,omitempty"`
 }
 

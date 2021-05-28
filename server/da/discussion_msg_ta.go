@@ -347,9 +347,9 @@ func (da *TableTypeDiscussionMsg) SelectCmtsWithLike(queryable mingru.Queryable,
 type DiscussionMsgTableSelectItemsByDiscussionResult struct {
 	CmtCount     uint      `json:"cmtCount,omitempty"`
 	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	CreatedAt    time.Time `json:"-"`
 	ID           uint64    `json:"-"`
-	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt   time.Time `json:"-"`
 	UserIconName string    `json:"-"`
 	UserID       uint64    `json:"-"`
 	UserName     string    `json:"-"`

@@ -24,11 +24,11 @@ import (
 // CmtData ...
 type CmtData struct {
 	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"createdAt,omitempty"`
+	CreatedAt    time.Time `json:"-"`
 	HasLiked     *uint64   `json:"hasLiked,omitempty"`
 	ID           uint64    `json:"-"`
 	Likes        uint      `json:"likes,omitempty"`
-	ModifiedAt   time.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt   time.Time `json:"-"`
 	ReplyCount   uint      `json:"replyCount,omitempty"`
 	ToUserID     uint64    `json:"-"`
 	ToUserName   string    `json:"toUserName,omitempty"`
@@ -53,10 +53,10 @@ type FindUserResult struct {
 
 // UserThreadInterface ...
 type UserThreadInterface struct {
-	CreatedAt     time.Time  `json:"createdAt,omitempty"`
+	CreatedAt     time.Time  `json:"-"`
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
-	ModifiedAt    time.Time  `json:"modifiedAt,omitempty"`
+	ModifiedAt    time.Time  `json:"-"`
 	ThreadType    int        `json:"threadType,omitempty"`
 	Title         string     `json:"title,omitempty"`
 	UserIconName  string     `json:"-"`

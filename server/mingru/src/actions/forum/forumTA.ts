@@ -18,7 +18,9 @@ import {
 import sharedDefs from '../../shared_constants.js';
 
 export class ForumTA extends mm.TableActions {
-  selectForum = mm.selectRow(t.id, t.name, t.desc, t.created_at, t.thread_count).by(t.id);
+  selectForum = mm
+    .selectRow(t.id, t.name, t.desc, t.created_at.privateAttr(), t.thread_count)
+    .by(t.id);
   selectGroupID = mm.selectField(t.group_id).by(t.id);
   selectForumIDsForGroup = mm.selectFieldRows(t.id).where`${t.group_id.isEqualToInput(undefined, {
     nullable: false,

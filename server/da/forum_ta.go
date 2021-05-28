@@ -80,7 +80,7 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 
 // ForumTableSelectForumResult ...
 type ForumTableSelectForumResult struct {
-	CreatedAt   time.Time `json:"createdAt,omitempty"`
+	CreatedAt   time.Time `json:"-"`
 	DescHTML    string    `json:"descHTML,omitempty"`
 	ID          uint64    `json:"ID,omitempty"`
 	Name        string    `json:"name,omitempty"`

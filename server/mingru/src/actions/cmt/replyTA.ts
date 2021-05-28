@@ -40,8 +40,8 @@ export class ReplyTA extends mm.TableActions {
     const cols: mm.SelectedColumn[] = [
       t.id.privateAttr(),
       t.content,
-      t.created_at,
-      t.modified_at,
+      t.created_at.privateAttr(),
+      t.modified_at.privateAttr(),
       t.likes,
       t.user_id.privateAttr(),
       t.to_user_id.privateAttr(),

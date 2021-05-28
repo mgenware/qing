@@ -45,7 +45,7 @@ function getCommonThreadCols(t: ContentBase): mm.SelectedColumn[] {
   const userCols = [t.id, t.user_id, joinedUserTable.name, joinedUserTable.icon_name].map((c) =>
     c.privateAttr(),
   );
-  return [...userCols, t.created_at, t.modified_at];
+  return [...userCols, t.created_at.privateAttr(), t.modified_at.privateAttr()];
 }
 
 function placeholderValueColumn(name: string): mm.RawColumn {

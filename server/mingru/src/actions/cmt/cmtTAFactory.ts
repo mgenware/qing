@@ -36,8 +36,8 @@ export function selectCmts(rt: CmtRelationTable, withLike: boolean): mm.SelectAc
   const cols: mm.SelectedColumn[] = [
     rt.cmt_id.as('id').privateAttr(),
     jCmt.content,
-    jCmt.created_at,
-    jCmt.modified_at,
+    jCmt.created_at.privateAttr(),
+    jCmt.modified_at.privateAttr(),
     jCmt.reply_count,
     jCmt.likes,
     jCmt.user_id.privateAttr(),
