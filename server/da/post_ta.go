@@ -278,7 +278,7 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -316,7 +316,7 @@ func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUs
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err
 			}
@@ -332,22 +332,22 @@ func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUs
 
 // PostTableSelectItemByIDResult ...
 type PostTableSelectItemByIDResult struct {
-	CmtCount     uint      `json:"cmtCount,omitempty"`
-	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"-"`
-	ID           uint64    `json:"-"`
-	Likes        uint      `json:"likes,omitempty"`
-	ModifiedAt   time.Time `json:"-"`
-	Title        string    `json:"title,omitempty"`
-	UserIconName string    `json:"-"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"-"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
 }
 
 // SelectItemByID ...
 func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
 	var result PostTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at`, `post`.`content` AS `content`, `post`.`title` AS `title`, `post`.`cmt_count` AS `cmt_count`, `post`.`likes` AS `likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
+	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at`, `post`.`content` AS `content`, `post`.`title` AS `title`, `post`.`cmt_count` AS `cmt_count`, `post`.`likes` AS `likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
 	if err != nil {
 		return result, err
 	}
@@ -363,12 +363,12 @@ const (
 
 // PostTableSelectItemsForPostCenterResult ...
 type PostTableSelectItemsForPostCenterResult struct {
-	CmtCount   uint      `json:"cmtCount,omitempty"`
-	CreatedAt  time.Time `json:"-"`
-	ID         uint64    `json:"-"`
-	Likes      uint      `json:"likes,omitempty"`
-	ModifiedAt time.Time `json:"-"`
-	Title      string    `json:"title,omitempty"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
 }
 
 // SelectItemsForPostCenter ...
@@ -411,7 +411,7 @@ func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, us
 		itemCounter++
 		if itemCounter <= max {
 			var item PostTableSelectItemsForPostCenterResult
-			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.CmtCount, &item.Likes)
+			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount, &item.Likes)
 			if err != nil {
 				return nil, false, err
 			}
@@ -427,10 +427,10 @@ func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, us
 
 // PostTableSelectItemsForUserProfileResult ...
 type PostTableSelectItemsForUserProfileResult struct {
-	CreatedAt  time.Time `json:"-"`
-	ID         uint64    `json:"-"`
-	ModifiedAt time.Time `json:"-"`
-	Title      string    `json:"title,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
 }
 
 // SelectItemsForUserProfile ...
@@ -457,7 +457,7 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 		itemCounter++
 		if itemCounter <= max {
 			var item PostTableSelectItemsForUserProfileResult
-			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title)
+			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title)
 			if err != nil {
 				return nil, false, err
 			}

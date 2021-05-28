@@ -278,7 +278,7 @@ func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uin
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -316,7 +316,7 @@ func (da *TableTypeDiscussion) SelectCmtsWithLike(queryable mingru.Queryable, vi
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err
 			}
@@ -332,22 +332,22 @@ func (da *TableTypeDiscussion) SelectCmtsWithLike(queryable mingru.Queryable, vi
 
 // DiscussionTableSelectItemByIDResult ...
 type DiscussionTableSelectItemByIDResult struct {
-	CmtCount     uint      `json:"cmtCount,omitempty"`
-	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"-"`
-	ID           uint64    `json:"-"`
-	ModifiedAt   time.Time `json:"-"`
-	ReplyCount   uint      `json:"replyCount,omitempty"`
-	Title        string    `json:"title,omitempty"`
-	UserIconName string    `json:"-"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"-"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	ReplyCount    uint      `json:"replyCount,omitempty"`
+	Title         string    `json:"title,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
 }
 
 // SelectItemByID ...
 func (da *TableTypeDiscussion) SelectItemByID(queryable mingru.Queryable, id uint64) (DiscussionTableSelectItemByIDResult, error) {
 	var result DiscussionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`content` AS `content`, `discussion`.`title` AS `title`, `discussion`.`cmt_count` AS `cmt_count`, `discussion`.`reply_count` AS `reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.CreatedAt, &result.ModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion`.`created_at` AS `created_at`, `discussion`.`modified_at` AS `modified_at`, `discussion`.`content` AS `content`, `discussion`.`title` AS `title`, `discussion`.`cmt_count` AS `cmt_count`, `discussion`.`reply_count` AS `reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
@@ -362,11 +362,11 @@ const (
 
 // DiscussionTableSelectItemsForPostCenterResult ...
 type DiscussionTableSelectItemsForPostCenterResult struct {
-	CreatedAt  time.Time `json:"-"`
-	ID         uint64    `json:"-"`
-	ModifiedAt time.Time `json:"-"`
-	ReplyCount uint      `json:"replyCount,omitempty"`
-	Title      string    `json:"title,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	ReplyCount    uint      `json:"replyCount,omitempty"`
+	Title         string    `json:"title,omitempty"`
 }
 
 // SelectItemsForPostCenter ...
@@ -407,7 +407,7 @@ func (da *TableTypeDiscussion) SelectItemsForPostCenter(queryable mingru.Queryab
 		itemCounter++
 		if itemCounter <= max {
 			var item DiscussionTableSelectItemsForPostCenterResult
-			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.ReplyCount)
+			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.ReplyCount)
 			if err != nil {
 				return nil, false, err
 			}
@@ -423,10 +423,10 @@ func (da *TableTypeDiscussion) SelectItemsForPostCenter(queryable mingru.Queryab
 
 // DiscussionTableSelectItemsForUserProfileResult ...
 type DiscussionTableSelectItemsForUserProfileResult struct {
-	CreatedAt  time.Time `json:"-"`
-	ID         uint64    `json:"-"`
-	ModifiedAt time.Time `json:"-"`
-	Title      string    `json:"title,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
 }
 
 // SelectItemsForUserProfile ...
@@ -453,7 +453,7 @@ func (da *TableTypeDiscussion) SelectItemsForUserProfile(queryable mingru.Querya
 		itemCounter++
 		if itemCounter <= max {
 			var item DiscussionTableSelectItemsForUserProfileResult
-			err = rows.Scan(&item.ID, &item.CreatedAt, &item.ModifiedAt, &item.Title)
+			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title)
 			if err != nil {
 				return nil, false, err
 			}

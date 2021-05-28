@@ -13,8 +13,8 @@ export class CmtCore extends mm.Table {
   id = mm.pk();
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
-  created_at = mm.datetime('utc');
-  modified_at = mm.datetime('utc');
+  created_at = mm.datetime('utc').setModelName('RawCreatedAt');
+  modified_at = mm.datetime('utc').setModelName('RawModifiedAt');
 }
 
 export class Cmt extends CmtCore {

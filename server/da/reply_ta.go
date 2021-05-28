@@ -69,7 +69,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -107,7 +107,7 @@ func (da *TableTypeReply) SelectRepliesWithLike(queryable mingru.Queryable, view
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName, &item.HasLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.UserID, &item.ToUserID, &item.UserName, &item.UserIconName, &item.ToUserName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err
 			}

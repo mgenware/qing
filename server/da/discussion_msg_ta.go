@@ -291,7 +291,7 @@ func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID 
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -329,7 +329,7 @@ func (da *TableTypeDiscussionMsg) SelectCmtsWithLike(queryable mingru.Queryable,
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.CreatedAt, &item.ModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err
 			}
@@ -345,14 +345,14 @@ func (da *TableTypeDiscussionMsg) SelectCmtsWithLike(queryable mingru.Queryable,
 
 // DiscussionMsgTableSelectItemsByDiscussionResult ...
 type DiscussionMsgTableSelectItemsByDiscussionResult struct {
-	CmtCount     uint      `json:"cmtCount,omitempty"`
-	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"-"`
-	ID           uint64    `json:"-"`
-	ModifiedAt   time.Time `json:"-"`
-	UserIconName string    `json:"-"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"-"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
 }
 
 // SelectItemsByDiscussion ...
@@ -379,7 +379,7 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 		itemCounter++
 		if itemCounter <= max {
 			var item DiscussionMsgTableSelectItemsByDiscussionResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.ContentHTML, &item.CmtCount)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}

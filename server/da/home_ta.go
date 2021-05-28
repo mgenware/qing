@@ -51,7 +51,7 @@ func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int,
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}
@@ -153,7 +153,7 @@ func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageS
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}
@@ -191,7 +191,7 @@ func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageS
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}
@@ -229,7 +229,7 @@ func (da *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, p
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
 			if err != nil {
 				return nil, false, err
 			}

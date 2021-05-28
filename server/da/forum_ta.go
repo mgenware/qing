@@ -64,7 +64,7 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
 			}
@@ -80,17 +80,17 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, page int
 
 // ForumTableSelectForumResult ...
 type ForumTableSelectForumResult struct {
-	CreatedAt   time.Time `json:"-"`
-	DescHTML    string    `json:"descHTML,omitempty"`
-	ID          uint64    `json:"ID,omitempty"`
-	Name        string    `json:"name,omitempty"`
-	ThreadCount uint      `json:"threadCount,omitempty"`
+	DescHTML     string    `json:"descHTML,omitempty"`
+	ID           uint64    `json:"ID,omitempty"`
+	Name         string    `json:"name,omitempty"`
+	RawCreatedAt time.Time `json:"-"`
+	ThreadCount  uint      `json:"threadCount,omitempty"`
 }
 
 // SelectForum ...
 func (da *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (ForumTableSelectForumResult, error) {
 	var result ForumTableSelectForumResult
-	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.ThreadCount)
+	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ThreadCount)
 	if err != nil {
 		return result, err
 	}
@@ -170,7 +170,7 @@ func (da *TableTypeForum) SelectQuestions(queryable mingru.Queryable, page int, 
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
 			}
@@ -208,7 +208,7 @@ func (da *TableTypeForum) SelectThreads(queryable mingru.Queryable, page int, pa
 		itemCounter++
 		if itemCounter <= max {
 			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.CreatedAt, &item.ModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
+			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
 			}

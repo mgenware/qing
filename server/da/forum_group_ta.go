@@ -41,17 +41,17 @@ func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name stri
 
 // ForumGroupTableSelectGroupResult ...
 type ForumGroupTableSelectGroupResult struct {
-	CreatedAt  time.Time `json:"-"`
-	DescHTML   string    `json:"descHTML,omitempty"`
-	ForumCount uint      `json:"forumCount,omitempty"`
-	ID         uint64    `json:"ID,omitempty"`
-	Name       string    `json:"name,omitempty"`
+	DescHTML     string    `json:"descHTML,omitempty"`
+	ForumCount   uint      `json:"forumCount,omitempty"`
+	ID           uint64    `json:"ID,omitempty"`
+	Name         string    `json:"name,omitempty"`
+	RawCreatedAt time.Time `json:"-"`
 }
 
 // SelectGroup ...
 func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectGroupResult, error) {
 	var result ForumGroupTableSelectGroupResult
-	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.CreatedAt, &result.ForumCount)
+	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ForumCount)
 	if err != nil {
 		return result, err
 	}

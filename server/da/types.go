@@ -23,18 +23,18 @@ import (
 
 // CmtData ...
 type CmtData struct {
-	ContentHTML  string    `json:"contentHTML,omitempty"`
-	CreatedAt    time.Time `json:"-"`
-	HasLiked     *uint64   `json:"hasLiked,omitempty"`
-	ID           uint64    `json:"-"`
-	Likes        uint      `json:"likes,omitempty"`
-	ModifiedAt   time.Time `json:"-"`
-	ReplyCount   uint      `json:"replyCount,omitempty"`
-	ToUserID     uint64    `json:"-"`
-	ToUserName   string    `json:"toUserName,omitempty"`
-	UserIconName string    `json:"-"`
-	UserID       uint64    `json:"-"`
-	UserName     string    `json:"userName,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	HasLiked      *uint64   `json:"hasLiked,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	ReplyCount    uint      `json:"replyCount,omitempty"`
+	ToUserID      uint64    `json:"-"`
+	ToUserName    string    `json:"toUserName,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"userName,omitempty"`
 }
 
 // EntityGetSrcResult ...
@@ -53,10 +53,10 @@ type FindUserResult struct {
 
 // UserThreadInterface ...
 type UserThreadInterface struct {
-	CreatedAt     time.Time  `json:"-"`
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
-	ModifiedAt    time.Time  `json:"-"`
+	RawCreatedAt  time.Time  `json:"-"`
+	RawModifiedAt time.Time  `json:"-"`
 	ThreadType    int        `json:"threadType,omitempty"`
 	Title         string     `json:"title,omitempty"`
 	UserIconName  string     `json:"-"`
