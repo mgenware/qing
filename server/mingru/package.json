@@ -1,10 +1,8 @@
 {
-  "name": "mingru-example",
-  "version": "1.0.0",
-  "main": "./dist/mingru.js",
-  "author": "Mgen",
-  "license": "MIT",
+  "name": "qing-mingru",
+  "version": "0.0.0",
   "private": true,
+  "main": "./dist/mingru.js",
   "type": "module",
   "scripts": {
     "r": "del-cli ./dist && tsc && node --experimental-json-modules ./dist/mingru.js",
