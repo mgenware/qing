@@ -22,4 +22,5 @@ export default {
   queue: {
     userPostCount: 'userPostCount',
   },
+  defaultTimeString: '1990-10-27T10:11:12Z',
 };

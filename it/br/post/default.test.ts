@@ -7,20 +7,25 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkLikes } from '../helper/like.js';
-import { checkNoComments } from '../helper/cmt.js';
-import { AlertType, checkVisibleAlert } from '../helper/alert.js';
+import { checkLikes } from 'br/helper/like';
+import { checkNoComments } from 'br/helper/cmt';
+import { AlertType, checkVisibleAlert } from 'br/helper/alert';
+import { checkUserView } from 'br/helper/userView';
+import defs from 'base/defs';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
     await br.goto(`/p/${id}`);
+    const { page } = br;
 
     // User content.
-    // <img src="/res/user_icon/101/50_admin.png" class="avatar-m" width="50" height="50">
-    ass.t(
-      await br.page.isVisible(
-        'a[href="/u/2t"] img[src="/res/user_icon/101/50_admin.png"][width="50"][height="50"]',
-      ),
+    const u = usr.user;
+    checkUserView(
+      await page.$('main > container-view > .qing-user-view'),
+      u.eid,
+      u.iconURL,
+      u.name,
+      defs.defaultTimeString,
     );
 
     // Page content.
@@ -29,12 +34,12 @@ test('View post', async (br) => {
     ass.t(html.includes('<p>post_c</p>'));
 
     // Like button.
-    const likeAppEl = await br.page.$('post-payload-app like-app');
+    const likeAppEl = await page.$('post-payload-app like-app');
     ass.t(likeAppEl);
     await checkLikes(likeAppEl, 0, false);
 
     // No comments.
-    const cmtAppEl = await br.page.$('post-payload-app cmt-app');
+    const cmtAppEl = await page.$('post-payload-app cmt-app');
     ass.t(cmtAppEl);
     await checkNoComments(cmtAppEl);
 

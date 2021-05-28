@@ -22,8 +22,8 @@ export interface User {
 }
 
 export const usr: { user: User; admin: User } = {
-  user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/101/50_user.png' },
-  admin: { eid: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/101/50_admin.png' },
+  user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/2u/50_user.png' },
+  admin: { eid: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/2t/50_admin.png' },
 };
 
 export function checkAPIResult(r: APIResult) {
