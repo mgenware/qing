@@ -7,8 +7,11 @@
 
 package avatar
 
-import "fmt"
+import (
+	"fmt"
+	"qing/lib/validator"
+)
 
 func GetAvatarURL(prefix string, uid uint64, size int, avatarName string) string {
-	return fmt.Sprintf("/%v/%v/%v_%v", prefix, uid, size, avatarName)
+	return fmt.Sprintf("/%v/%v/%v_%v", prefix, validator.EncodeID(uid), size, avatarName)
 }
