@@ -30,6 +30,7 @@ export async function run(
   const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*.test.js`], {
     dot: true,
     cwd: `./dist/${dirName}`,
+    caseSensitiveMatch: false,
   });
   await Promise.all(
     entries.map(async (s) => {
@@ -44,7 +45,7 @@ export async function run(
     await setTimeout(500000);
   } else {
     // eslint-disable-next-line no-console
-    console.log(`🎉 ${name} completed successfully.`);
+    console.log(entries.length ? `🎉 ${name} completed successfully.` : `❌ No matching files.`);
   }
 }
 
