@@ -14,7 +14,7 @@ import { checkUserView } from 'br/helper/userView';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
-    await br.goto(`/p/${id}`);
+    await br.goto(`/p/${id}`, null);
     const { page } = br;
 
     // User content.

@@ -8,7 +8,7 @@
 import { test, ass } from 'base/br';
 
 test('Home page', async (br) => {
-  await br.goto('/');
+  await br.goto('/', null);
   const c = await br.content();
   ass.t(c.length);
 });

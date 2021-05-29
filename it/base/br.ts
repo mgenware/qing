@@ -10,6 +10,8 @@ import { serverURL } from 'base/urls';
 import { runTask } from 'base/runner';
 import { createContext } from './browserInstance';
 import { debugMode } from './debug';
+import { User } from 'base/post';
+import * as urls from './urls';
 
 // Re-exports.
 export * as ass from 'base/ass';
@@ -22,7 +24,10 @@ export class Browser {
     public page: playwright.Page,
   ) {}
 
-  goto(url: string) {
+  async goto(url: string, user: User | null) {
+    if (user) {
+      await this.page.goto(`${urls.serverURL}${urls.loginURL}/-${user.eid}`);
+    }
     return this.page.goto(`${serverURL}${url}`, { waitUntil: 'load' });
   }
 
@@ -42,14 +47,24 @@ export interface TestOptions {
 
 export type TestInput = string | TestOptions;
 
-async function runHandler(name: string, handler: (br: Browser) => void) {
+async function newBrowser(name: string): Promise<Browser> {
   const context = await createContext();
   const page = await context.newPage();
-  const userBrowser = new Browser(name, context, page);
-  await handler(userBrowser);
+  return new Browser(name, context, page);
+}
+
+async function runHandler(name: string, handler: (br: Browser) => void) {
+  const br = await newBrowser(name);
+  await handler(br);
   if (!debugMode()) {
-    await userBrowser.dispose();
+    await br.dispose();
   }
+}
+
+export async function tmpBrowserPage(handler: (br: Browser) => void) {
+  const br = await newBrowser('TMP');
+  await handler(br);
+  await br.dispose();
 }
 
 export async function test(input: TestInput, handler: (br: Browser) => void) {

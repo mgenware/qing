@@ -21,9 +21,11 @@ export interface User {
   iconURL: string;
 }
 
-export const usr: { user: User; admin: User } = {
-  user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/2u/50_user.png' },
+export const usr: { user: User; admin: User; admin2: User; user2: User } = {
   admin: { eid: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/2t/50_admin.png' },
+  user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/2u/50_user.png' },
+  admin2: { eid: '2v', name: 'ADMIN', url: '/u/2v', iconURL: '/res/user_icon/2v/50_admin2.png' },
+  user2: { eid: '2w', name: 'USER', url: '/u/2w', iconURL: '/res/user_icon/2w/50_user2.png' },
 };
 
 export function checkAPIResult(r: APIResult) {
