@@ -8,7 +8,7 @@
 import { itPost, usr, ass, it } from 'base/api';
 import { userInfo, newUser } from 'helper/user';
 
-itPost('User info`', `/__/auth/info/${usr.admin.eid}`, null, (r) => {
+itPost('User info', { url: `/__/auth/info/${usr.admin.eid}`, get: true }, null, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
 });
 
@@ -25,5 +25,5 @@ it('Add and remove a user', async () => {
   // Check if the user has been removed.
   ass.t(eid);
   const nullInfo = await userInfo(eid);
-  ass.de(nullInfo, { code: 10005, message: 'Resource not found' });
+  ass.de(nullInfo, { code: 10005 });
 });

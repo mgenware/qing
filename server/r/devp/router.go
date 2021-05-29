@@ -24,9 +24,9 @@ func init() {
 	authRouter := chi.NewRouter()
 	authRouter.Get("/in/{uid}", handler.HTMLHandlerToHTTPHandler(signInHandler))
 	authRouter.Get("/out", handler.HTMLHandlerToHTTPHandler(signOutHandler))
-	authRouter.Post("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
-	authRouter.Post("/del/{uid}", handler.JSONHandlerToHTTPHandler(deleteUser))
-	authRouter.Post("/info/{uid}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
+	authRouter.Get("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
+	authRouter.Get("/del/{uid}", handler.JSONHandlerToHTTPHandler(deleteUser))
+	authRouter.Get("/info/{uid}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
 	Router.Mount("/auth", authRouter)
 
 	// User router.

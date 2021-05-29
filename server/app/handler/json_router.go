@@ -76,7 +76,7 @@ func (r *JSONRouter) Mount(pattern string, h *JSONRouter) {
 	r.Core.Mount(pattern, h)
 }
 
-// ServeHTTP imlements http.Handler.
+// ServeHTTP implements http.Handler.
 func (r *JSONRouter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	r.Core.ServeHTTP(w, req)
 }

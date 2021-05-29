@@ -39,7 +39,7 @@ export function ensureSuccess(r: APIResult): APIResult {
   return r;
 }
 
-export async function requestLogin(eid: string): Promise<string> {
+async function requestLogin(eid: string): Promise<string> {
   const loginResp = await fetch(`${urls.serverURL}${urls.loginURL}/-${eid}`);
   const cookies = loginResp.headers.raw()['set-cookie'];
   if (!cookies) {
@@ -58,6 +58,7 @@ export interface PostOptions {
   body?: unknown;
   user?: User;
   get?: boolean;
+  converts404ToAPIResult?: boolean;
 }
 
 export type PostInput = string | PostOptions;
@@ -96,13 +97,20 @@ export async function post(input: PostInput): Promise<APIResult> {
   url = `${urls.serverURL}${url}`;
   const response = await fetch(url, {
     method: get ? 'GET' : 'POST',
-    body: body ? JSON.stringify(body) : '',
+    body: body ? JSON.stringify(body) : undefined,
     headers: {
-      'content-type': body ? 'application/json' : '',
+      'content-type': 'application/json',
       cookie: cookies,
     },
   });
   if (!response.ok) {
+    // Use by `/__/auth/info`, which is a GET request but called by both
+    // BR and API tests. When `converts404ToAPIResult` is true, 404 errors
+    // won't throw and instead return an `APIResult` of 10005.
+    if (opts.converts404ToAPIResult && response.status === 404) {
+      return { code: 10005 };
+    }
+    console.log(`[Request info] ${JSON.stringify(opts)}`);
     throw new Error(`HTTP error: ${response.status}`);
   }
   return response.json();
