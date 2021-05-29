@@ -39,6 +39,12 @@ export function t(a: unknown): asserts a {
   if (!a) {
     panic(`${JSON.stringify(a)} is expected to be truthy`);
   }
+  if (typeof a === 'function') {
+    throw new Error(`value cannot be a function, got ${a}`);
+  }
+  if (typeof (a as any).then === 'function') {
+    throw new Error(`value cannot be a Promise, got ${a}`);
+  }
 }
 
 export function f(a: unknown) {
