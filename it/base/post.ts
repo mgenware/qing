@@ -97,7 +97,7 @@ export async function post(input: PostInput): Promise<APIResult> {
   url = `${urls.serverURL}${url}`;
   const response = await fetch(url, {
     method: get ? 'GET' : 'POST',
-    body: body ? JSON.stringify(body) : undefined,
+    body: get ? undefined : JSON.stringify(body ?? null),
     headers: {
       'content-type': 'application/json',
       cookie: cookies,
