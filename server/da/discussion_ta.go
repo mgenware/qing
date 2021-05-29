@@ -477,6 +477,12 @@ func (da *TableTypeDiscussion) SelectItemSrc(queryable mingru.Queryable, id uint
 	return result, nil
 }
 
+// TestUpdateDates ...
+func (da *TableTypeDiscussion) TestUpdateDates(queryable mingru.Queryable, id uint64, createdAt time.Time, modifiedAt time.Time) error {
+	result, err := queryable.Exec("UPDATE `discussion` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", createdAt, modifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 // UpdateMsgCount ...
 func (da *TableTypeDiscussion) UpdateMsgCount(queryable mingru.Queryable, id uint64, offset int) error {
 	result, err := queryable.Exec("UPDATE `discussion` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)

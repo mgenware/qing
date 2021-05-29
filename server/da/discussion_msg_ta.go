@@ -402,3 +402,9 @@ func (da *TableTypeDiscussionMsg) SelectItemSrc(queryable mingru.Queryable, id u
 	}
 	return result, nil
 }
+
+// TestUpdateDates ...
+func (da *TableTypeDiscussionMsg) TestUpdateDates(queryable mingru.Queryable, id uint64, createdAt time.Time, modifiedAt time.Time) error {
+	result, err := queryable.Exec("UPDATE `discussion_msg` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", createdAt, modifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}

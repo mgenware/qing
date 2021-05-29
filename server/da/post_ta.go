@@ -480,3 +480,9 @@ func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, us
 	}
 	return result, nil
 }
+
+// TestUpdateDates ...
+func (da *TableTypePost) TestUpdateDates(queryable mingru.Queryable, id uint64, createdAt time.Time, modifiedAt time.Time) error {
+	result, err := queryable.Exec("UPDATE `post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", createdAt, modifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}

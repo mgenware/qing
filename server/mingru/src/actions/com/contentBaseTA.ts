@@ -37,6 +37,8 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   insertReply: mm.TransactAction;
   deleteReply: mm.TransactAction;
 
+  testUpdateDates: mm.UpdateAction;
+
   // Joined user table.
   protected joinedUserTable: User;
   // User-related columns;
@@ -120,6 +122,8 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     this.deleteCmt = cmtf.deleteCmtAction(t, this.getCmtBaseTable());
     this.insertReply = cmtf.insertReplyAction(t);
     this.deleteReply = cmtf.deleteReplyAction(t, this.getCmtBaseTable());
+
+    this.testUpdateDates = mm.updateOne().setInputs(t.created_at, t.modified_at).by(t.id);
   }
 
   // Gets the underlying `ContentBase` table.
