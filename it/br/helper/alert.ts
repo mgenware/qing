@@ -6,6 +6,7 @@
  */
 
 import { Browser, ass } from 'base/br';
+import sleep from 'base/sleep';
 
 export enum AlertType {
   error,
@@ -47,6 +48,9 @@ export async function checkVisibleAlert(
   buttons: string[],
   focused: number,
 ) {
+  // Wait for the alert to be fully shown.
+  await sleep();
+
   const el = await br.page.$('#__global_dialog_container dialog-view');
   ass.t(el);
   ass.e(await el.getAttribute('open'), '');
@@ -69,11 +73,13 @@ export async function checkVisibleAlert(
     ass.t(btn);
     ass.equalsToString(await btn.textContent(), buttons[i] ?? null);
   }
+
   // Focused button.
+  // Get the qing-overlay element to check the active element.
   ass.t(
     await btns[focused]?.evaluate((el) => {
-      console.log(' ---- ', document.activeElement);
-      return el === document.activeElement;
+      const overlayEl = (el.getRootNode() as any).host as HTMLElement;
+      return el === overlayEl.shadowRoot?.activeElement;
     }),
   );
 }

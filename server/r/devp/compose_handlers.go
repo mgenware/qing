@@ -9,7 +9,6 @@ package devp
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"qing/app"
 	"qing/app/appDB"
@@ -39,8 +38,6 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := validator.MustGetIDFromDict(params, "id")
 	entityType := validator.MustGetIntFromDict(params, "type")
 	db := appDB.DB()
-
-	log.Print(id, entityType)
 
 	switch entityType {
 	case defs.Shared.EntityPost:
