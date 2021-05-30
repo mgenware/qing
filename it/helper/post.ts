@@ -7,7 +7,7 @@
 
 import { ass } from 'base/api';
 import defs from 'base/defs';
-import { APIResult, ensureSuccess, post, User } from 'base/post';
+import { APIResult, ensureSuccess, post, updateEntityTime, User } from 'base/post';
 
 export const addPostURL = 'pri/compose/set-post';
 export const deletePostURL = 'pri/compose/delete-post';
@@ -32,7 +32,9 @@ export function verifyPostAPIResult(r: APIResult): string {
 
 async function newTmpPostCore(user: User | undefined) {
   const r = await post({ url: addPostURL, body: addPostBody, user });
-  return verifyPostAPIResult(r);
+  const id = verifyPostAPIResult(r);
+  ensureSuccess(await updateEntityTime(id, defs.entity.post));
+  return id;
 }
 
 async function deletePostCore(id: string, user: User | undefined) {

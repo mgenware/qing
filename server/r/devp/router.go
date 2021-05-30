@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"qing/app/appHandler"
 	"qing/app/handler"
+	"qing/app/middleware"
 
 	"github.com/go-chi/chi"
 )
@@ -31,13 +32,20 @@ func init() {
 
 	// User router.
 	userRouter := handler.NewJSONRouter()
+	userRouter.Core.Use(middleware.ParseJSON)
 	userRouter.Post("/post_count/{uid}", userPostCount)
 	userRouter.Post("/question_count/{uid}", userQuestionCount)
 	userRouter.Post("/answer_count/{uid}", userAnswerCount)
 	userRouter.Post("/discussion_count/{uid}", userDiscussionCount)
 	Router.Mount("/user", userRouter.Core)
 
-	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
+	// Compose router.
+	composeRouter := handler.NewJSONRouter()
+	composeRouter.Core.Use(middleware.ParseJSON)
+	composeRouter.Post("/set-debug-time", setDebugTime)
+	Router.Mount("/compose", composeRouter.Core)
+
+	Router.Get("/", handler.HTMLHandlerToHTTPHandler(defaultHandler))
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {

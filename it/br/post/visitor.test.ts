@@ -20,6 +20,9 @@ test('View post', async (br) => {
     // User content.
     const u = usr.user;
     checkUserView(await page.$('main > container-view > .m-user-view'), u.eid, u.iconURL, u.name);
+    // No edit or delete button.
+    ass.f(await page.$('.m-user-view edit-bar-app a:has-text("Edit")'));
+    ass.f(await page.$('.m-user-view edit-bar-app a:has-text("Delete")'));
 
     // Page content.
     const html = await br.content();

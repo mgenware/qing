@@ -7,3 +7,4 @@
 
 export const serverURL = 'http://localhost:12001';
 export const loginURL = '/__/auth/in';
+export const setDebugTimeURL = '/__/compose/set-debug-time';

@@ -53,6 +53,10 @@ async function requestLogin(eid: string): Promise<string> {
   return cookies[0] ?? '';
 }
 
+export async function updateEntityTime(id: string, type: number) {
+  return post({ url: urls.setDebugTimeURL, body: { id, type } });
+}
+
 export type PostCallback = (r: APIResult) => Promise<unknown>;
 
 export interface PostOptions {

@@ -70,5 +70,10 @@ export async function checkVisibleAlert(
     ass.equalsToString(await btn.textContent(), buttons[i] ?? null);
   }
   // Focused button.
-  ass.t(btns[focused]?.evaluate((el) => el === document.activeElement));
+  ass.t(
+    await btns[focused]?.evaluate((el) => {
+      console.log(' ---- ', document.activeElement);
+      return el === document.activeElement;
+    }),
+  );
 }

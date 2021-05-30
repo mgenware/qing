@@ -41,7 +41,7 @@ export async function run(
   );
   await Promise.all(tasks);
 
-  if (debugMode()) {
+  if (entries.length && debugMode()) {
     await setTimeout(500000);
   } else {
     // eslint-disable-next-line no-console
