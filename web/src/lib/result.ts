@@ -1,7 +1,7 @@
 import ErrorWithCode from './errorWithCode';
 
 export default class Result<TData> {
-  constructor(public error: ErrorWithCode | null, public data: TData | null) {}
+  private constructor(public error: ErrorWithCode | null, public data: TData | null) {}
 
   static error<T>(err: ErrorWithCode): Result<T> {
     return new Result<T>(err, null);
