@@ -38,7 +38,7 @@ export default css`
   a.link-btn,
   a.link-btn:visited {
     color: var(--app-default-primary-fore-color);
-    padding: 12px 20px;
+    padding: 0.75rem 1.25rem;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -363,9 +363,9 @@ export default css`
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 100px;
-    font-size: 15px;
+    font-size: 0.9rem;
     text-align: center;
-    padding: 10px 0 0 0;
+    padding: 0.6rem 0 0 0;
     background-color: var(--app-footer-back-color);
     color: var(--app-footer-fore-color);
     border-top: 1px solid var(--app-footer-fore-color);

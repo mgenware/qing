@@ -41,8 +41,8 @@ export class SpinnerView extends LitElement {
       .spinner-root {
         color: #868e96;
         font-size: 14px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
       }
 
       .double-bounce1,

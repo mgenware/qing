@@ -56,9 +56,9 @@ export default class NavBarApp extends BaseElement {
           display: block;
           color: var(--app-navbar-fore-color);
           text-align: center;
-          padding: 14px 16px;
+          padding: 0.875rem 1rem;
           text-decoration: none;
-          font-size: 17px;
+          font-size: 1.125rem;
         }
 
         navbar .toggler {
@@ -75,7 +75,7 @@ export default class NavBarApp extends BaseElement {
           border: none;
           outline: none;
           color: inherit;
-          padding: 14px 16px;
+          padding: 0.875rem 1rem;
           background-color: inherit;
           font-family: inherit;
           margin: 0;
@@ -94,7 +94,7 @@ export default class NavBarApp extends BaseElement {
 
         .dropdown-content a {
           float: none;
-          padding: 12px 16px;
+          padding: 0.75rem 1rem;
           text-decoration: none;
           display: block;
           text-align: left;
