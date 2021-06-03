@@ -12,7 +12,4 @@ import "database/sql"
 type CoreDB interface {
 	// DB returns a `*sql.DB`.
 	DB() *sql.DB
-
-	// Mock returns a mock for testing.
-	Mock() interface{}
 }
