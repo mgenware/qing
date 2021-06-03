@@ -11,11 +11,11 @@ import ls from 'ls';
 
 export class PageUtils {
   get mainContentElement(): HTMLElement {
-    const element = window.document.getElementById('body > main');
+    const element = window.document.querySelector('body > main');
     if (!element) {
       throw new Error('Fatal error: main content element is null');
     }
-    return element;
+    return element as HTMLElement;
   }
 
   jumpToURL(url: string) {
