@@ -33,10 +33,10 @@ func init() {
 	// User router.
 	userRouter := handler.NewJSONRouter()
 	userRouter.Core.Use(middleware.ParseJSON)
-	userRouter.Post("/post_count/{uid}", userPostCount)
-	userRouter.Post("/question_count/{uid}", userQuestionCount)
-	userRouter.Post("/answer_count/{uid}", userAnswerCount)
-	userRouter.Post("/discussion_count/{uid}", userDiscussionCount)
+	userRouter.Post("/post-count/{uid}", userPostCount)
+	userRouter.Post("/question-count/{uid}", userQuestionCount)
+	userRouter.Post("/answer-count/{uid}", userAnswerCount)
+	userRouter.Post("/discussion-count/{uid}", userDiscussionCount)
 	Router.Mount("/user", userRouter.Core)
 
 	// Compose router.
