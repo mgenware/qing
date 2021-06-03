@@ -5,7 +5,6 @@
   "exports": "./dist/main.js",
   "types": "./dist/main.d.ts",
   "author": "Mgenware",
-  "license": "MIT",
   "scripts": {
     "prepublishOnly": "daizong build",
     "r": "daizong"
