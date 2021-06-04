@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package emailver_test
+package emailver
 
 import (
 	"qing/app/servicex/emailver"
