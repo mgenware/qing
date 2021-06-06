@@ -11,18 +11,16 @@ import { checkLikes } from 'br/helper/like';
 import { checkNoComments } from 'br/helper/cmt';
 import { AlertType, checkVisibleAlert } from 'br/helper/alert';
 import { checkUserView } from 'br/helper/userView';
+import { userViewQuery } from './common';
 
 test('View post', async (br) => {
   await newPost(usr.user, async (id) => {
     await br.goto(`/p/${id}`, null);
     const { page } = br;
 
-    // User content.
+    // User view.
     const u = usr.user;
-    checkUserView(await page.$('main > container-view > .m-user-view'), u.eid, u.iconURL, u.name);
-    // No edit or delete button.
-    ass.f(await page.$('.m-user-view edit-bar-app a:has-text("Edit")'));
-    ass.f(await page.$('.m-user-view edit-bar-app a:has-text("Delete")'));
+    checkUserView(await page.$(userViewQuery), u.eid, u.iconURL, u.name, false);
 
     // Page content.
     const html = await br.content();

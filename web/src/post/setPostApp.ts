@@ -32,7 +32,7 @@ export default class SetPostApp extends BaseElement {
     ];
   }
 
-  @lp.string editedID = '';
+  @lp.string postID = '';
   @lp.string postTitle = '';
   @lp.number entityType = 0;
   @lp.string headerText = '';
@@ -58,8 +58,8 @@ export default class SetPostApp extends BaseElement {
       }
     }
 
-    if (this.editedID) {
-      const loader = new GetEntitySourceLoader(entityPost, this.editedID);
+    if (this.postID) {
+      const loader = new GetEntitySourceLoader(entityPost, this.postID);
       const status = await appTask.critical(loader);
       if (status.data) {
         const postData = status.data;
@@ -81,7 +81,7 @@ export default class SetPostApp extends BaseElement {
           .id=${composerID}
           .showTitleInput=${this.showTitleInput}
           .inputTitle=${this.postTitle}
-          .entityID=${this.editedID}
+          .entityID=${this.postID}
           .entityType=${entityPost}
           .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
@@ -101,11 +101,11 @@ export default class SetPostApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const loader = new SetPostLoader(this.editedID, e.detail, this.entityType);
+    const loader = new SetPostLoader(this.postID, e.detail, this.entityType);
     if (this.discussionID) {
       loader.discussionID = this.discussionID;
     }
-    const status = await appTask.critical(loader, this.editedID ? ls.saving : ls.publishing);
+    const status = await appTask.critical(loader, this.postID ? ls.saving : ls.publishing);
     if (status.data) {
       this.composerEl?.markAsSaved();
       pageUtils.setURL(status.data);

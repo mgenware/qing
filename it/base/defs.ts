@@ -23,4 +23,5 @@ export default {
     userPostCount: 'userPostCount',
   },
   defaultTimeString: '1990-10-27T10:11:12Z',
+  defaultUpdatedContent: '_MOD_',
 };

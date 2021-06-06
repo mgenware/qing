@@ -51,7 +51,7 @@ function hookUpEditBarEvents() {
       editPostApp = renderTemplateResult(
         '',
         html`<set-post-app
-          .editedID=${wind.EID}
+          .postID=${wind.EID}
           entityType=${entityPost}
           headerText=${ls.newPost}
         ></set-post-app>`,

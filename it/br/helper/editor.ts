@@ -10,8 +10,15 @@ import * as ass from 'base/ass';
 import defs from 'base/defs';
 import { waitForGlobalSpinner } from './spinner';
 
-export async function updateEditor(page: testing.Page, okBtn: string, cancelBtn: string | null) {
-  const composerEl = await page.$('#composer');
+const composerID = '#composer';
+
+export async function checkEditorUpdate(
+  page: testing.Page,
+  okBtn: string,
+  cancelBtn: string | null,
+) {
+  await page.waitForSelector(composerID);
+  const composerEl = await page.$(composerID);
   ass.t(composerEl);
   ass.t(await composerEl.isVisible());
 
