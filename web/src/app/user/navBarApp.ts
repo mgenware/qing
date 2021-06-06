@@ -211,9 +211,9 @@ export default class NavBarApp extends BaseElement {
                   <a href=${routes.m.yourDiscussions}>${ls.yourDiscussions}</a>
                   <a href=${routes.m.yourQuestion}>${ls.yourQuestions}</a>
                   <hr />
-                  <a href=${routes.m.newPost}>${ls.newPost}</a>
-                  <a href=${routes.m.newDiscussion}>${ls.newDiscussion}</a>
-                  <a href=${routes.m.newQuestion}>${ls.newQuestion}</a>
+                  <a href=${routes.m.newPost} target="_blank">${ls.newPost}</a>
+                  <a href=${routes.m.newDiscussion} target="_blank">${ls.newDiscussion}</a>
+                  <a href=${routes.m.newQuestion} target="_blank">${ls.newQuestion}</a>
                   <hr />
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
                   ${tif(
