@@ -23,7 +23,13 @@ test('Edit a post', async (br) => {
     checkUserView(userView, u.eid, u.iconURL, u.name, true);
 
     const editBtn = await getEditBarEditButton(userView);
-    await editBtn?.click();
-    await checkEditorUpdate(page, 'Update', 'Cancel');
+    ass.t(editBtn);
+    await editBtn.click();
+    await checkEditorUpdate(page, 'Save', 'Cancel');
+
+    // "Edit post" heading is not part of the editor.
+    const overlayEl = await page.$('set-post-app qing-overlay');
+    ass.t(overlayEl);
+    ass.t(await overlayEl.$('h2:has-text("Edit post")'));
   });
 });

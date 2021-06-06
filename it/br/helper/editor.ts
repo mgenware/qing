@@ -10,6 +10,7 @@ import * as ass from 'base/ass';
 import defs from 'base/defs';
 import { waitForGlobalSpinner } from './spinner';
 
+const overlayID = 'qing-overlay.immersive';
 const composerID = '#composer';
 
 export async function checkEditorUpdate(
@@ -17,15 +18,15 @@ export async function checkEditorUpdate(
   okBtn: string,
   cancelBtn: string | null,
 ) {
-  await page.waitForSelector(composerID);
-  const composerEl = await page.$(composerID);
+  await page.waitForSelector(overlayID, { state: 'attached' });
+  const overlayEl = await page.$(overlayID);
+  ass.t(overlayEl);
+  const composerEl = await overlayEl.$(composerID);
   ass.t(composerEl);
-  ass.t(await composerEl.isVisible());
 
   // Check bottom buttons.
   const okBtnEl = await composerEl.$(`qing-button:has-text("${okBtn}")`);
   ass.t(okBtnEl);
-  ass.t(await okBtnEl.isVisible());
   if (cancelBtn) {
     const cancelBtnEl = await composerEl.$(`qing-button:has-text("${cancelBtn}")`);
     ass.t(cancelBtnEl);
@@ -35,7 +36,9 @@ export async function checkEditorUpdate(
   // Update editor content.
   const editorEl = await composerEl.$('#editor');
   ass.t(editorEl);
-  await page.fill('#composer #editor kx-content', defs.defaultUpdatedContent);
+  const contentEl = await editorEl.$('.kx-content');
+  ass.t(contentEl);
+  await contentEl.fill(defs.defaultUpdatedContent);
 
   // Click the update button.
   await okBtnEl.click();
