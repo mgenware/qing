@@ -21,7 +21,8 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 
 - Frontend
   - TypeScript
-  - Web components (lit-element)
+  - Web components (lit)
+  - Playwright (E2E testing)
 - Backend
   - Go
   - [mingru](https://github.com/mgenware/mingru) for database access layer
