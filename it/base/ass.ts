@@ -42,7 +42,7 @@ export function t(a: unknown): asserts a {
   if (typeof a === 'function') {
     throw new Error(`value cannot be a function, got ${a}`);
   }
-  if (typeof (a as any).then === 'function') {
+  if (a && typeof (a as any).then === 'function') {
     throw new Error(`value cannot be a Promise, got ${a}`);
   }
 }
