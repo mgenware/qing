@@ -38,6 +38,7 @@ export async function checkEditorUpdate(
   ass.t(editorEl);
   const contentEl = await editorEl.$('.kx-content');
   ass.t(contentEl);
+  ass.t(await contentEl.isVisible());
   await contentEl.fill(defs.defaultUpdatedContent);
 
   // Click the update button.

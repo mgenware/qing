@@ -3374,10 +3374,10 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-kangxi-editor@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/kangxi-editor/-/kangxi-editor-0.11.0.tgz#2f07fafd2d36e2ef3d98f7b81a30c2853b648ed4"
-  integrity sha512-GUy7AsozmY2BS3Evi8LRMfkRpKW15dO5S52FNZCugng+36nHAkxySMGHuIo8jRjbFkrzxsWlrYw1KjIErXfg7w==
+kangxi-editor@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/kangxi-editor/-/kangxi-editor-0.12.0.tgz#7bd9dbe4576e3db2af0d0d994a559ea602771c72"
+  integrity sha512-xV9id4xips/Z5yau6H3mvrG7Gdl9bcvtFybAjxiq7cjjCP8gai5PLnCC1qnquMHUyIZ+4yzwtlNtrKnk3o43zA==
   dependencies:
     prosemirror-commands "^1.0.0"
     prosemirror-dropcursor "^1.0.0"
@@ -3389,7 +3389,7 @@ kangxi-editor@^0.11.0:
     prosemirror-schema-list "^1.0.0"
     prosemirror-state "^1.0.0"
     prosemirror-view "^1.0.0"
-    throw-if-arg-empty "^2.2.1"
+    throw-if-arg-empty "^3.1.0"
     to-type-string "^2.0.0"
 
 keygrip@~1.1.0:
@@ -5375,10 +5375,10 @@ through@^2.3.8:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
 
-throw-if-arg-empty@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/throw-if-arg-empty/-/throw-if-arg-empty-2.2.1.tgz#11943398b93dec94531d2834b0216950b9b9ca8d"
-  integrity sha512-/xUwfM9w3W2pzpQkA9eC0SXbgPwDirTXCcPsvlg+BF1A0hpWtptpzUlMv0D9ZiSJ8rFu3Wm93bisKp+co07iMw==
+throw-if-arg-empty@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/throw-if-arg-empty/-/throw-if-arg-empty-3.1.0.tgz#c3a5f4148b3d5d412eaa3da4071a133afe168dd9"
+  integrity sha512-lASzhBMDVbGUbQDpvILbjCcVv9jiJqtmjZQvvHd2TTEYpHaGW1EvUUMGoOmnsaY0V6yX2kEw2gO/S8/YZjVwoA==
 
 to-object-path@^0.3.0:
   version "0.3.0"
