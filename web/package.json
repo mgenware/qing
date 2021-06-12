@@ -21,7 +21,7 @@
     "f-array.splice": "^0.3.0",
     "fx214": "^2.0.0",
     "js-cookie": "^3.0.0-rc.1",
-    "kangxi-editor": "^0.12.0",
+    "kangxi-editor": "^0.13.0",
     "lit": "^2.0.0-rc.2",
     "lit-props": "^3.0.1",
     "plum-element": "^0.0.6",
@@ -30,7 +30,7 @@
     "qing-keyed-array": "^0.3.0",
     "qing-overlay": "^0.12.0",
     "qing-stylelib": "^2.3.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.0",
