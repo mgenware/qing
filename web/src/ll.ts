@@ -9,9 +9,10 @@ import { CSSResultArray, CSSResultOrNative, LitElement } from 'lit';
 import { InputView } from 'ui/form/inputView';
 import coreStyles from './app/styles/bundle';
 
-export * from 'lit/decorators.js';
-export * as lp from 'lit-props';
 export * from 'lit';
+export * as lp from 'lit-props';
+export * from 'lit/decorators.js';
+export * from 'lit/directives/ref';
 
 export class BaseElement extends LitElement {
   static get styles(): CSSResultOrNative | CSSResultArray {
