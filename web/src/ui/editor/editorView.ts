@@ -47,20 +47,20 @@ export default class EditorView extends BaseElement {
     ];
   }
 
-  // ==========
-  // We're using a standard property instead of a lit-element property for performance reason.
-  // Keep assigning and comparing lit-element property changes hurts performance.
-  // ==========
-  // Use to store the property value before editor instance is created.
-  private initialContentHTML = '';
-  get contentHTML(): string {
-    return this.editor ? this.editor.contentHTML : this.initialContentHTML;
+  // Used to store content HTML when editor view is not available.
+  private backupContentHTML = '';
+  getContentHTML(): string {
+    return this.editor ? this.editor.contentHTML() : this.backupContentHTML;
   }
 
-  set contentHTML(val: string) {
-    this.initialContentHTML = val;
+  setContentHTML(val: string, canUndo: boolean) {
+    this.backupContentHTML = val;
     if (this.editor) {
-      this.editor.contentHTML = val;
+      if (canUndo) {
+        this.editor.setContentHTML(val);
+      } else {
+        this.editor.resetContentHTML(val);
+      }
     }
   }
 
@@ -77,7 +77,7 @@ export default class EditorView extends BaseElement {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lang: ls as any,
     });
-    editor.contentHTML = this.contentHTML;
+    editor.resetContentHTML(this.backupContentHTML);
     this.editor = editor;
   }
 

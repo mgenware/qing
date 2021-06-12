@@ -76,13 +76,13 @@ export class ComposerView extends BaseElement {
       return false;
     }
     return (
-      this.lastSavedContent !== this.contentHTML ||
+      this.lastSavedContent !== this.getContentHTML() ||
       (this.showTitleInput && this.lastSavedTitle !== this.inputTitle)
     );
   }
 
   markAsSaved() {
-    this.lastSavedContent = this.contentHTML;
+    this.lastSavedContent = this.getContentHTML();
     if (this.showTitleInput) {
       this.lastSavedTitle = this.inputTitle;
     }
@@ -93,14 +93,14 @@ export class ComposerView extends BaseElement {
     this.lastSavedTitle = '';
     this.initialContentHTML = '';
     this.inputTitle = '';
-    this.contentHTML = '';
+    this.setContentHTML('', false);
   }
 
-  private updateEditorContent(title: string, contentHTML: string) {
+  private updateEditorContent(title: string, contentHTML: string, canUndo: boolean) {
     const { editorEl } = this;
     this.inputTitle = title;
     if (editorEl) {
-      editorEl.contentHTML = contentHTML;
+      editorEl.setContentHTML(contentHTML, canUndo);
       this.markAsSaved();
     }
   }
@@ -134,20 +134,16 @@ export class ComposerView extends BaseElement {
     this.markAsSaved();
   }
 
-  // ==========
-  // We're using a standard property instead of a lit-element property for performance reason.
-  // Keep assigning and comparing lit-element property might hurt performance?
-  // ==========
   // Used to store the property value before editor instance is created.
   private initialContentHTML = '';
-  get contentHTML(): string {
-    return this.editorEl ? this.editorEl.contentHTML : this.initialContentHTML;
+  getContentHTML(): string {
+    return this.editorEl ? this.editorEl.getContentHTML() : this.initialContentHTML;
   }
 
-  set contentHTML(val: string) {
+  setContentHTML(val: string, canUndo: boolean) {
     this.initialContentHTML = val;
     if (this.editorEl) {
-      this.editorEl.contentHTML = val;
+      this.editorEl.setContentHTML(val, canUndo);
     }
   }
 
@@ -217,13 +213,14 @@ export class ComposerView extends BaseElement {
         this.titleInputEl?.focus(),
       );
     }
-    if (!this.contentHTML) {
+    const content = this.contentHTML();
+    if (!content) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
         this.editorEl?.focus(),
       );
     }
     const payload: ComposerContent = {
-      contentHTML: this.contentHTML,
+      contentHTML: content,
     };
     if (this.showTitleInput) {
       payload.title = this.inputTitle;
@@ -234,9 +231,7 @@ export class ComposerView extends BaseElement {
   private async handleSubmit() {
     try {
       const payload = this.getPayload();
-      this.dispatchEvent(
-        new CustomEvent<ComposerContent>('onSubmit', { detail: payload }),
-      );
+      this.dispatchEvent(new CustomEvent<ComposerContent>('onSubmit', { detail: payload }));
     } catch (err) {
       await appAlert.error(err.message);
       if (err instanceof ValidationError) {
@@ -283,7 +278,7 @@ export class ComposerView extends BaseElement {
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
-      this.updateEditorContent(postData.title ?? '', postData.contentHTML);
+      this.updateEditorContent(postData.title ?? '', postData.contentHTML, false);
     }
   }
 }

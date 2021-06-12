@@ -95,7 +95,7 @@ export default class SetPostApp extends BaseElement {
     const { composerEl } = this;
     this.postTitle = title;
     if (composerEl) {
-      composerEl.contentHTML = contentHTML;
+      composerEl.setContentHTML(contentHTML, false);
       composerEl.markAsSaved();
     }
   }
