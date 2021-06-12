@@ -12,7 +12,7 @@ import coreStyles from './app/styles/bundle';
 export * from 'lit';
 export * as lp from 'lit-props';
 export * from 'lit/decorators.js';
-export * from 'lit/directives/ref';
+export * from 'lit/directives/ref.js';
 
 export class BaseElement extends LitElement {
   static get styles(): CSSResultOrNative | CSSResultArray {

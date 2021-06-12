@@ -91,7 +91,7 @@ export class ComposerView extends BaseElement {
   resetEditor() {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
-    this.initialContentHTML = '';
+    this.backupContentHTML = '';
     this.inputTitle = '';
     this.setContentHTML('', false);
   }
@@ -129,19 +129,19 @@ export class ComposerView extends BaseElement {
     // Sync `contentHTML` (`contentHTML` might be set before editor el is connected to DOM).
     const { editorEl } = this;
     if (editorEl) {
-      editorEl.contentHTML = this.contentHTML;
+      editorEl.setContentHTML(this.backupContentHTML, false);
     }
     this.markAsSaved();
   }
 
-  // Used to store the property value before editor instance is created.
-  private initialContentHTML = '';
+  // Used to store content HTML when editor view is not available.
+  private backupContentHTML = '';
   getContentHTML(): string {
-    return this.editorEl ? this.editorEl.getContentHTML() : this.initialContentHTML;
+    return this.editorEl ? this.editorEl.getContentHTML() : this.backupContentHTML;
   }
 
   setContentHTML(val: string, canUndo: boolean) {
-    this.initialContentHTML = val;
+    this.backupContentHTML = val;
     if (this.editorEl) {
       this.editorEl.setContentHTML(val, canUndo);
     }
@@ -213,7 +213,7 @@ export class ComposerView extends BaseElement {
         this.titleInputEl?.focus(),
       );
     }
-    const content = this.contentHTML();
+    const content = this.getContentHTML();
     if (!content) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
         this.editorEl?.focus(),
