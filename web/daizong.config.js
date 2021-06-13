@@ -21,7 +21,7 @@ function getPrebuildTask(name) {
 
 const prebuildTasks = ['build-shared-const'].map(getPrebuildTask);
 
-module.exports = {
+export default {
   lint: {
     run: ['eslint --max-warnings 0 --ext .ts src/', 'lit-analyzer "src/**/*.ts"'],
   },
