@@ -175,7 +175,7 @@ export class ComposerView extends BaseElement {
     }
 
     const bottomContent = html`
-      <div class="m-t-md flex-auto text-center">
+      <div class="m-t-md flex-auto text-center editor-buttons">
         ${tif(
           loadingStatus.isSuccess,
           html` <qing-button btnStyle="success" @click=${this.handleSubmit}>
