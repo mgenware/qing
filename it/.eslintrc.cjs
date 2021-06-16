@@ -1,9 +1,22 @@
+/*
+ * Copyright (C) 2019 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
 module.exports = {
-  extends: ['airbnb-base', 'prettier'],
-  parserOptions: { ecmaVersion: 2021, sourceType: 'module' },
+  parser: '@typescript-eslint/parser',
+  extends: ['mgenware', 'plugin:@typescript-eslint/recommended'],
+  parserOptions: {
+    sourceType: 'module',
+    project: './tsconfig.json',
+  },
   rules: {
-    'import/prefer-default-export': 'off',
+    'import/order': 'off',
+    'class-methods-use-this': 'off',
+    'no-underscore-dangle': 'off',
     'import/extensions': 'off',
-    'import/named': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 };

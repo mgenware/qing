@@ -5,7 +5,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "lint": "eslint --max-warnings 0 .",
+    "lint": "eslint --max-warnings 0 --ext .ts .",
     "dev": "del dist && ttsc -p . -w",
     "api": "node -r source-map-support/register dist/api/run.js",
     "br": "node -r source-map-support/register dist/br/run.js",
@@ -26,6 +26,7 @@
     "del-cli": "^4.0.0",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-mgenware": "^0.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
     "mgenware-tsconfig-node-x": "^16.0.0",
