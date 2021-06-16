@@ -2,7 +2,7 @@
 
 ## Naming convensions
 
-We strictly follow the standard Go naming convensions with some additions.
+We strictly follow the standard Go naming conventions with some additions.
 
 - Directory name can use snake_case for readability, e.g. `profile_api` as directory name, `profileapi` for package name.
 - All `GET` requests use `page` or simply `p` as suffix, all `POST` requests use `api` as suffix.
