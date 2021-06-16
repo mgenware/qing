@@ -7,6 +7,6 @@
 
 import testing from 'testing';
 
-export async function waitForGlobalSpinner(page: testing.Page) {
+export async function waitForGlobalSpinnerAsync(page: testing.Page) {
   await page.waitForSelector('__global_spinner_container spinner-view', { state: 'hidden' });
 }

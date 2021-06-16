@@ -7,6 +7,7 @@
 
 /* eslint-disable arrow-body-style */
 import { html, customElement, css, TemplateResult, BaseElement, lp } from 'll';
+
 export interface SelectionViewItem {
   text: string;
   value?: unknown;
@@ -147,9 +148,7 @@ export class SelectionView extends BaseElement {
       index,
       checked,
     };
-    this.dispatchEvent(
-      new CustomEvent<SelectionViewItemEvent>('onSelectionChange', { detail }),
-    );
+    this.dispatchEvent(new CustomEvent<SelectionViewItemEvent>('onSelectionChange', { detail }));
   }
 }
 

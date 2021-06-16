@@ -7,10 +7,10 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkLikes } from 'br/helper/like';
-import { checkNoComments } from 'br/helper/cmt';
-import { AlertType, checkVisibleAlert } from 'br/helper/alert';
-import { checkUserView } from 'br/helper/userView';
+import { checkLikesAsync } from 'br/helper/like';
+import { checkNoCommentsAsync } from 'br/helper/cmt';
+import { AlertType, checkVisibleAlertAsync } from 'br/helper/alert';
+import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
 
 test('View post', async (br) => {
@@ -20,7 +20,7 @@ test('View post', async (br) => {
 
     // User view.
     const u = usr.user;
-    checkUserView(await page.$(userViewQuery), u.eid, u.iconURL, u.name, false);
+    await checkUserViewAsync(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
 
     // Page content.
     const html = await br.content();
@@ -30,15 +30,15 @@ test('View post', async (br) => {
     // Like button.
     const likeAppEl = await page.$('post-payload-app like-app');
     ass.t(likeAppEl);
-    await checkLikes(likeAppEl, 0, false);
+    await checkLikesAsync(likeAppEl, 0, false);
 
     // No comments.
     const cmtAppEl = await page.$('post-payload-app cmt-app');
     ass.t(cmtAppEl);
-    await checkNoComments(cmtAppEl);
+    await checkNoCommentsAsync(cmtAppEl);
 
     // Click the like button.
     await likeAppEl.click();
-    await checkVisibleAlert(br, '', 'Sign in to like this post', AlertType.warning, ['OK'], 0);
+    await checkVisibleAlertAsync(br, '', 'Sign in to like this post', AlertType.warning, ['OK'], 0);
   });
 });

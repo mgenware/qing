@@ -9,7 +9,7 @@ import testing from 'testing';
 import defs from 'base/defs';
 import * as ass from 'base/ass';
 
-export async function checkDefaultTimeField(rootEl: testing.ElementHandle) {
+export async function checkDefaultTimeFieldAsync(rootEl: testing.ElementHandle) {
   const el = await rootEl.$(
     `time-field[createdat="${defs.defaultTimeString}"][modifiedat="${defs.defaultTimeString}"]`,
   );

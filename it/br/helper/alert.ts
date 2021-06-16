@@ -40,7 +40,7 @@ function typeToString(type: AlertType): string {
   }
 }
 
-export async function checkVisibleAlert(
+export async function checkVisibleAlertAsync(
   br: Browser,
   title: string,
   content: string,
