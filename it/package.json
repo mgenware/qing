@@ -5,11 +5,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "lint": "eslint --max-warnings 0 --ext .ts .",
-    "dev": "del dist && ttsc -p . -w",
-    "api": "node -r source-map-support/register dist/api/run.js",
-    "br": "node -r source-map-support/register dist/br/run.js",
-    "all": "yarn api && yarn br"
+    "r": "daizong"
   },
   "dependencies": {
     "chalk": "^4.1.1",
@@ -23,6 +19,7 @@
   "devDependencies": {
     "@types/node": "^15.6.1",
     "@types/node-fetch": "^2.5.10",
+    "daizong": "^0.15.2",
     "del-cli": "^4.0.0",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
