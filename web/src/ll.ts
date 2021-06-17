@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { CHECK } from 'checks';
 import { CSSResultArray, CSSResultOrNative, LitElement } from 'lit';
 import { InputView } from 'ui/form/inputView';
 import coreStyles from './app/styles/bundle';
@@ -33,6 +34,12 @@ export class BaseElement extends LitElement {
 
   protected queryShadowElement<T extends HTMLElement>(sel: string): T | null {
     return this.mustGetShadowRoot().querySelector(sel) ?? null;
+  }
+
+  protected checkProps(...params: unknown[]) {
+    for (const pa of params) {
+      CHECK(pa);
+    }
   }
 
   /**
