@@ -8,27 +8,40 @@
 import { ass } from 'base/api';
 import testing from 'testing';
 
+const editText = 'Edit';
+const deleteText = 'Delete';
+
 export interface EditBarButtons {
   editBtn: testing.ElementHandle;
   deleteBtn: testing.ElementHandle;
 }
 
-export async function getEditBarButtons(
+async function getEditBarEl(
+  rootEl: testing.ElementHandle,
+  entityType: number,
+  eid: string,
+  uid: string,
+) {
+  const el = await rootEl.$(`#edit-bar-${entityType}-${eid}`);
+  ass.t(el);
+  ass.e(await el.getAttribute('uid'), uid);
+  return el;
+}
+
+async function getButton(el: testing.ElementHandle, text: string) {
+  const btn = await el.$(`a:has-text("${text}")`);
+  ass.t(btn);
+  return btn;
+}
+
+export async function checkEditBarAsync(
   rootEl: testing.ElementHandle,
   entityType: number,
   eid: string,
   uid: string,
 ): Promise<EditBarButtons> {
-  const el = await rootEl.$(`#edit-bar-${entityType}-${eid}`);
-  ass.t(el);
-  ass.e(await el.getAttribute('uid'), uid);
-
-  const editBtn = await el.$('qing-button:has-text("Edit")');
-  ass.t(editBtn);
-  const deleteBtn = await el.$('qing-button:has-text("Delete")');
-  ass.t(deleteBtn);
-  return {
-    editBtn,
-    deleteBtn,
-  };
+  const el = await getEditBarEl(rootEl, entityType, eid, uid);
+  const editBtn = await getButton(el, editText);
+  const deleteBtn = await getButton(el, deleteText);
+  return { editBtn, deleteBtn };
 }

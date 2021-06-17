@@ -7,9 +7,11 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkUserView, getEditBarEditButton } from 'br/helper/userView';
-import { checkEditorUpdate } from 'br/helper/editor';
+import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
+import { checkEditBarAsync } from 'br/helper/editBar';
+import defs from 'base/defs';
+import { checkEditorUpdateAsync } from 'br/helper/editor';
 
 test('Edit a post', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -20,16 +22,18 @@ test('Edit a post', async (br) => {
     const u = usr.user;
     const userView = await page.$(userViewQuery);
     ass.t(userView);
-    checkUserView(userView, u.eid, u.iconURL, u.name, true);
+    await checkUserViewAsync(userView, u.eid, u.iconURL, u.name);
+    const { editBtn } = await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
 
-    const editBtn = await getEditBarEditButton(userView);
     ass.t(editBtn);
     await editBtn.click();
-    await checkEditorUpdate(page, 'Save', 'Cancel');
 
+    // Make the editor show up.
     // "Edit post" heading is not part of the editor.
     const overlayEl = await page.$('set-post-app qing-overlay');
     ass.t(overlayEl);
     ass.t(await overlayEl.$('h2:has-text("Edit post")'));
+
+    await checkEditorUpdateAsync(page, 'Save', 'Cancel');
   });
 });

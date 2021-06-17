@@ -69,11 +69,6 @@ export default class EditorView extends BaseElement {
     return this.getShadowElement(editorID);
   }
 
-  // Used by BR tests to stimulate editor changes.
-  get kangxiEditor(): Editor | undefined {
-    return this.editor;
-  }
-
   firstUpdated() {
     if (!this.editorEl) {
       return;
