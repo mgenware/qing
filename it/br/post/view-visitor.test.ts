@@ -13,7 +13,7 @@ import { AlertType, checkVisibleAlertAsync } from 'br/helper/alert';
 import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
 
-test('View post', async (br) => {
+test('View post - visitor', async (br) => {
   await newPost(usr.user, async (id) => {
     await br.goto(`/p/${id}`, null);
     const { page } = br;

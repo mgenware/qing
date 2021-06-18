@@ -13,16 +13,21 @@ import { waitForGlobalSpinnerAsync } from './spinner';
 const overlayID = 'qing-overlay.immersive[open]';
 const composerID = '#composer';
 
-export async function checkEditorUpdateAsync(
-  page: testing.Page,
-  okBtn: string,
-  cancelBtn: string | null,
-) {
+async function waitForOverlayAsync(page: testing.Page) {
   await page.waitForSelector(overlayID, { state: 'attached' });
   const overlayEl = await page.$(overlayID);
   ass.t(overlayEl);
   const composerEl = await overlayEl.$(composerID);
   ass.t(composerEl);
+  return { overlayEl, composerEl };
+}
+
+export async function checkEditorUpdateAsync(
+  page: testing.Page,
+  okBtn: string,
+  cancelBtn: string | null,
+) {
+  const { composerEl } = await waitForOverlayAsync(page);
 
   // Check bottom buttons.
   const btnGroup = await composerEl.$('.editor-buttons');
@@ -49,4 +54,11 @@ export async function checkEditorUpdateAsync(
   // Click the update button.
   await okBtnEl.click();
   await waitForGlobalSpinnerAsync(page);
+}
+
+export async function checkEditorCancellationAsync(page: testing.Page, cancelBtn: string) {
+  const { composerEl, overlayEl } = await waitForOverlayAsync(page);
+  const cancelBtnEl = await composerEl.$(`qing-button:has-text("${cancelBtn}")`);
+  ass.t(cancelBtnEl);
+  ass.e(await overlayEl.getAttribute('open'), '');
 }
