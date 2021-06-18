@@ -22,6 +22,12 @@ export default {
   queue: {
     userPostCount: 'userPostCount',
   },
-  defaultTimeString: '1990-10-27T10:11:12Z',
-  defaultUpdatedContent: '_MOD_',
+  sd: {
+    timeString: '1990-10-27T10:11:12Z',
+    updatedContent: '<p>_MOD_</p>',
+    postContent: '<p>post_c</p>',
+    postTitle: '<p>post_t</p>',
+    postTitleEscaped: '&lt;p&gt;post_t&lt;/p&gt;',
+    updatedContentEscaped: '&lt;p&gt;_MOD_&lt;/p&gt;',
+  },
 };

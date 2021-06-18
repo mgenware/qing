@@ -12,6 +12,7 @@ import { checkNoCommentsAsync } from 'br/helper/cmt';
 import { AlertType, checkVisibleAlertAsync } from 'br/helper/alert';
 import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
+import defs from 'base/defs';
 
 test('View post - visitor', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -24,8 +25,8 @@ test('View post - visitor', async (br) => {
 
     // Page content.
     const html = await br.content();
-    ass.t(html.includes('&lt;p&gt;post_t&lt;/p&gt;'));
-    ass.t(html.includes('<p>post_c</p>'));
+    ass.t(html.includes(defs.sd.postTitleEscaped));
+    ass.t(html.includes(defs.sd.postContent));
 
     // Like button.
     const likeAppEl = await page.$('post-payload-app like-app');

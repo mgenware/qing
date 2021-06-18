@@ -7,37 +7,50 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
 import { checkEditBarAsync } from 'br/helper/editBar';
 import defs from 'base/defs';
-import { checkEditorCancellationAsync, checkEditorUpdateAsync } from 'br/helper/editor';
+import { checkEditorCancellationAsync, checkEditorUpdateAsync, EditorPart } from 'br/helper/editor';
 
-test('Edit a post (updated)', async (br) => {
-  await newPost(usr.user, async (id) => {
-    await br.goto(`/p/${id}`, usr.user);
-    const { page } = br;
+function testEditorUpdate(part: EditorPart) {
+  test(`Edit a post (update ${part === EditorPart.title ? 'title' : 'content'})`, async (br) => {
+    await newPost(usr.user, async (id) => {
+      await br.goto(`/p/${id}`, usr.user);
+      const { page } = br;
 
-    // User view.
-    const u = usr.user;
-    const userView = await page.$(userViewQuery);
-    ass.t(userView);
-    await checkUserViewAsync(userView, u.eid, u.iconURL, u.name);
-    const { editBtn } = await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
+      // Show editor popup.
+      const u = usr.user;
+      const userView = await page.$(userViewQuery);
+      ass.t(userView);
+      const { editBtn } = await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
+      await editBtn.click();
 
-    ass.t(editBtn);
-    // Make the editor show up.
-    await editBtn.click();
+      // Check editor title.
+      const overlayEl = await page.$('set-post-app qing-overlay');
+      ass.t(overlayEl);
+      ass.t(await overlayEl.$('h2:has-text("Edit post")'));
 
-    // Check editor title.
-    const overlayEl = await page.$('set-post-app qing-overlay');
-    ass.t(overlayEl);
-    ass.t(await overlayEl.$('h2:has-text("Edit post")'));
+      // Check editor update.
+      await checkEditorUpdateAsync(page, part, 'Save', 'Cancel');
 
-    // Check editor update.
-    await checkEditorUpdateAsync(page, 'Save', 'Cancel');
+      // Verify page content.
+      const html = await br.content();
+      ass.t(
+        html.includes(
+          part === EditorPart.title ? defs.sd.updatedContentEscaped : defs.sd.postTitleEscaped,
+        ),
+      );
+      ass.t(
+        html.includes(
+          part === EditorPart.title ? defs.sd.postContent : defs.sd.updatedContentEscaped,
+        ),
+      );
+    });
   });
-});
+}
+
+testEditorUpdate(EditorPart.title);
+testEditorUpdate(EditorPart.content);
 
 test('Edit a post (cancelled)', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -49,8 +62,8 @@ test('Edit a post (cancelled)', async (br) => {
     const userView = await page.$(userViewQuery);
     ass.t(userView);
     const { editBtn } = await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
-
     ass.t(editBtn);
+
     // Make the editor show up.
     await editBtn.click();
 
@@ -61,5 +74,10 @@ test('Edit a post (cancelled)', async (br) => {
 
     // Check editor cancellation.
     await checkEditorCancellationAsync(page, 'Cancel');
+
+    // Verify page content.
+    const html = await br.content();
+    ass.t(html.includes(defs.sd.postTitleEscaped));
+    ass.t(html.includes(defs.sd.postContent));
   });
 });

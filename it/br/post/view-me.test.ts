@@ -10,19 +10,18 @@ import { test, ass, usr } from 'base/br';
 import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
 import defs from 'base/defs';
+import { checkEditBarAsync } from 'br/helper/editBar';
 
 test('View post - user', async (br) => {
   await newPost(usr.user, async (id) => {
-    await br.goto(`/p/${id}`, usr.user2);
+    await br.goto(`/p/${id}`, usr.user);
     const { page } = br;
 
     // User view.
     const u = usr.user;
-    await checkUserViewAsync(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
-
-    // Page content.
-    const html = await br.content();
-    ass.t(html.includes(defs.sd.postTitleEscaped));
-    ass.t(html.includes(defs.sd.postContent));
+    const userView = await page.$(userViewQuery);
+    ass.t(userView);
+    await checkUserViewAsync(userView, u.eid, u.iconURL, u.name);
+    await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
   });
 });

@@ -11,7 +11,7 @@ import * as ass from 'base/ass';
 
 export async function checkDefaultTimeFieldAsync(rootEl: testing.ElementHandle) {
   const el = await rootEl.$(
-    `time-field[createdat="${defs.defaultTimeString}"][modifiedat="${defs.defaultTimeString}"]`,
+    `time-field[createdat="${defs.sd.timeString}"][modifiedat="${defs.sd.timeString}"]`,
   );
   ass.t(el);
   ass.t(await el.isVisible());

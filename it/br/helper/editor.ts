@@ -13,6 +13,11 @@ import { waitForGlobalSpinnerAsync } from './spinner';
 const overlayID = 'qing-overlay.immersive[open]';
 const composerID = '#composer';
 
+export enum EditorPart {
+  content,
+  title,
+}
+
 async function waitForOverlayAsync(page: testing.Page) {
   await page.waitForSelector(overlayID, { state: 'attached' });
   const overlayEl = await page.$(overlayID);
@@ -24,6 +29,7 @@ async function waitForOverlayAsync(page: testing.Page) {
 
 export async function checkEditorUpdateAsync(
   page: testing.Page,
+  part: EditorPart,
   okBtn: string,
   cancelBtn: string | null,
 ) {
@@ -46,10 +52,24 @@ export async function checkEditorUpdateAsync(
   // Update editor content.
   const editorEl = await composerEl.$('#editor');
   ass.t(editorEl);
-  const contentEl = await editorEl.$('.kx-content');
-  ass.t(contentEl);
-  ass.t(await contentEl.isVisible());
-  await contentEl.fill(defs.defaultUpdatedContent);
+  switch (part) {
+    case EditorPart.content: {
+      const contentEl = await editorEl.$('.kx-content');
+      ass.t(contentEl);
+      ass.t(await contentEl.isVisible());
+      await contentEl.fill(defs.sd.updatedContent);
+      break;
+    }
+
+    case EditorPart.title: {
+      const inputEl = await composerEl.$('input-view input');
+      ass.t(inputEl);
+      await inputEl.fill(defs.sd.updatedContent);
+      break;
+    }
+    default:
+      throw new Error(`Unknown editor part ${part}`);
+  }
 
   // Click the update button.
   await okBtnEl.click();
