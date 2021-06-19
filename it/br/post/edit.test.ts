@@ -10,10 +10,10 @@ import { test, ass, usr } from 'base/br';
 import { userViewQuery } from './common';
 import { checkEditBarAsync } from 'br/helper/editBar';
 import defs from 'base/defs';
-import { checkEditorCancellationAsync, checkEditorUpdateAsync, EditorPart } from 'br/helper/editor';
+import { checkEditorDismissalAsync, checkEditorUpdateAsync, EditorPart } from 'br/helper/editor';
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Edit a post (update ${part === EditorPart.title ? 'title' : 'content'})`, async (br) => {
+  test(`Updated ${part === EditorPart.title ? 'title' : 'content'}`, async (br) => {
     await newPost(usr.user, async (id) => {
       await br.goto(`/p/${id}`, usr.user);
       const { page } = br;
@@ -49,10 +49,7 @@ function testEditorUpdate(part: EditorPart) {
   });
 }
 
-testEditorUpdate(EditorPart.title);
-testEditorUpdate(EditorPart.content);
-
-test('Edit a post (cancelled)', async (br) => {
+test('Cancelled', async (br) => {
   await newPost(usr.user, async (id) => {
     await br.goto(`/p/${id}`, usr.user);
     const { page } = br;
@@ -72,8 +69,8 @@ test('Edit a post (cancelled)', async (br) => {
     ass.t(overlayEl);
     ass.t(await overlayEl.$('h2:has-text("Edit post")'));
 
-    // Check editor cancellation.
-    await checkEditorCancellationAsync(page, 'Cancel');
+    // Check editor dismissal.
+    await checkEditorDismissalAsync(page, 'Cancel');
 
     // Verify page content.
     const html = await br.content();
@@ -81,3 +78,6 @@ test('Edit a post (cancelled)', async (br) => {
     ass.t(html.includes(defs.sd.postContent));
   });
 });
+
+testEditorUpdate(EditorPart.title);
+testEditorUpdate(EditorPart.content);
