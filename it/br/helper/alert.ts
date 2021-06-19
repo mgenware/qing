@@ -57,6 +57,7 @@ export async function checkVisibleAlertAsync(
   ass.e(await el.getAttribute('open'), '');
 
   // Title.
+  // eslint-disable-next-line no-param-reassign
   title ??= typeToTitle(type);
   ass.t(await el.$(`h2:has-text("${title}")`));
 
@@ -72,6 +73,7 @@ export async function checkVisibleAlertAsync(
   for (let i = 0; i < btns.length; i++) {
     const btn = btns[i];
     ass.t(btn);
+    // eslint-disable-next-line no-await-in-loop
     ass.equalsToString(await btn.textContent(), buttons[i] ?? null);
   }
 
