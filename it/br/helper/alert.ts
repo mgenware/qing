@@ -5,8 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { Browser, ass } from 'base/br';
+import { ass } from 'base/br';
 import sleep from 'base/sleep';
+import testing from 'testing';
 
 export enum AlertType {
   error,
@@ -41,7 +42,7 @@ function typeToString(type: AlertType): string {
 }
 
 export async function checkVisibleAlertAsync(
-  br: Browser,
+  page: testing.Page,
   title: string,
   content: string,
   type: AlertType,
@@ -51,7 +52,7 @@ export async function checkVisibleAlertAsync(
   // Wait for the alert to be fully shown.
   await sleep();
 
-  const el = await br.page.$('#__global_dialog_container dialog-view');
+  const el = await page.$('#__global_dialog_container dialog-view');
   ass.t(el);
   ass.e(await el.getAttribute('open'), '');
 

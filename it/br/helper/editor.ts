@@ -9,7 +9,6 @@ import testing from 'testing';
 import * as ass from 'base/ass';
 import defs from 'base/defs';
 import { waitForGlobalSpinnerAsync } from './spinner';
-import { checkVisibleAlertAsync } from './alert';
 
 const overlayID = 'qing-overlay.immersive[open]';
 const composerID = '#composer';

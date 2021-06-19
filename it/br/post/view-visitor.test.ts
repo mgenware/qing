@@ -40,6 +40,13 @@ test('View post - visitor', async (br) => {
 
     // Click the like button.
     await likeAppEl.click();
-    await checkVisibleAlertAsync(br, '', 'Sign in to like this post', AlertType.warning, ['OK'], 0);
+    await checkVisibleAlertAsync(
+      page,
+      '',
+      'Sign in to like this post',
+      AlertType.warning,
+      ['OK'],
+      0,
+    );
   });
 });
