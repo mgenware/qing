@@ -9,7 +9,12 @@ import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { checkLikesAsync } from 'br/helper/like';
 import { checkNoCommentsAsync } from 'br/helper/cmt';
-import { AlertType, checkVisibleAlertAsync } from 'br/helper/alert';
+import {
+  AlertButtons,
+  AlertType,
+  checkNoVisibleAlertAsync,
+  checkVisibleAlertAsync,
+} from 'br/helper/alert';
 import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
 import defs from 'base/defs';
@@ -40,13 +45,15 @@ test('View post - visitor', async (br) => {
 
     // Click the like button.
     await likeAppEl.click();
-    await checkVisibleAlertAsync(
+    const [okBtn] = await checkVisibleAlertAsync(
       page,
       '',
       'Sign in to like this post',
       AlertType.warning,
-      ['OK'],
+      AlertButtons.OK,
       0,
     );
+    await okBtn?.click();
+    await checkNoVisibleAlertAsync(page);
   });
 });
