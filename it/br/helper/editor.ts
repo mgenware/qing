@@ -9,6 +9,7 @@ import testing from 'testing';
 import * as ass from 'base/ass';
 import defs from 'base/defs';
 import { waitForGlobalSpinnerAsync } from './spinner';
+import { AlertButtons, AlertType, checkVisibleAlertAsync } from './alert';
 
 const overlayID = 'qing-overlay.immersive[open]';
 const composerID = '#composer';
@@ -48,14 +49,15 @@ async function clickBtnAsync(composerEl: testing.ElementHandle, btnText: string)
   await btnEl.click();
 }
 
-async function checkOverlayClosedAsync(overlayEl: testing.ElementHandle) {
-  ass.e(await overlayEl.getAttribute('open'), '');
+async function checkOverlayOpenAsync(overlayEl: testing.ElementHandle, open: boolean) {
+  ass.e(await overlayEl.getAttribute('open'), open ? '' : null);
 }
 
 async function waitForOverlayAsync(page: testing.Page) {
   await page.waitForSelector(overlayID, { state: 'attached' });
   const overlayEl = await page.$(overlayID);
   ass.t(overlayEl);
+  await checkOverlayOpenAsync(overlayEl, true);
   const composerEl = await overlayEl.$(composerID);
   ass.t(composerEl);
   return { overlayEl, composerEl };
@@ -94,7 +96,7 @@ export async function checkEditorUpdateAsync(
 export async function checkEditorDismissalAsync(page: testing.Page, cancelBtn: string) {
   const { composerEl, overlayEl } = await waitForOverlayAsync(page);
   await clickBtnAsync(composerEl, cancelBtn);
-  await checkOverlayClosedAsync(overlayEl);
+  await checkOverlayOpenAsync(overlayEl, false);
 }
 
 export async function checkDiscardedChangesAsync(
@@ -104,7 +106,16 @@ export async function checkDiscardedChangesAsync(
 ) {
   const { composerEl, overlayEl } = await waitForOverlayAsync(page);
   await updateEditorContentAsync(part, composerEl);
-
   await clickBtnAsync(composerEl, cancelBtn);
-  await checkOverlayClosedAsync(overlayEl);
+
+  await checkVisibleAlertAsync(
+    page,
+    'Do you want to discard your changes?',
+    "You haven't saved your changes.",
+    AlertType.warning,
+    AlertButtons.YesNo,
+    1,
+  );
+
+  await checkOverlayOpenAsync(overlayEl, false);
 }
