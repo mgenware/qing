@@ -150,5 +150,5 @@
   "langSettings": "Language settings",
   "doYouWantToChangeLangTo": "Do you want to change website language to {0}?",
   "close": "Close",
-  "signInToLikeThisEntity": "Sign in to like this {0}"
+  "signInToLikeThisEntity": "Sign in to like this {0:lowercase}"
 }
