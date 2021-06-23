@@ -48,7 +48,7 @@ test('View post - visitor', async (br) => {
     const [okBtn] = await checkVisibleAlertAsync(
       page,
       '',
-      'Sign in to like this post',
+      'Sign in to like this post.',
       AlertType.warning,
       AlertButtons.OK,
       0,
