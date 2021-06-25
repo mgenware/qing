@@ -11,7 +11,6 @@ import ls from 'ls';
 import { staticMainImage } from 'urls';
 import 'ui/status/progressView';
 import '@github/image-crop-element';
-import styles from '@github/image-crop-element/dist/index.css';
 import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
 import { QingOverlay } from 'qing-overlay';
 import appTask from 'app/appTask';
@@ -28,7 +27,6 @@ export class AvatarUploader extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      styles,
       css`
         .crop-container {
           overflow-y: auto;
@@ -131,9 +129,7 @@ export class AvatarUploader extends BaseElement {
   }
 
   private onUpdated(data: AvatarUploadResponse) {
-    this.dispatchEvent(
-      new CustomEvent<AvatarUploadResponse>('onUpdated', { detail: data }),
-    );
+    this.dispatchEvent(new CustomEvent<AvatarUploadResponse>('onUpdated', { detail: data }));
   }
 
   private async handleOKClick() {
