@@ -8,7 +8,7 @@
 import { html, customElement, css, BaseElement } from 'll';
 import ls from 'ls';
 import { Editor } from 'kangxi-editor';
-import styles from 'kangxi-editor/dist/editor.css';
+import styles from 'kangxi-editor/dist/editor.css.js';
 
 const editorID = 'editor';
 

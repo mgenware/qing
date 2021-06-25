@@ -9,7 +9,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
-import litcss from 'rollup-plugin-lit-css';
 import minifyTemplates from 'rollup-plugin-minify-html-literals';
 
 const isProd = process.env.NODE_ENV == 'production';
@@ -24,7 +23,6 @@ let plugins = [
   typescript({
     tsconfig: './tsconfig.json',
   }),
-  litcss(),
 ];
 
 if (isProd) {
