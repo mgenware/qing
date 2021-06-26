@@ -166,7 +166,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, exp
 
 			d.Message = m.Dictionary(lang).ResourceNotFound
 			if m.conf.HTTP.Log404Error {
-				m.logger.NotFound("sql", r.URL.String())
+				m.logger.NotFound("DB", r.URL.String())
 			}
 		} else {
 			// At this point, this should be a 500 server internal error
