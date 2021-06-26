@@ -53,7 +53,7 @@ async function newBrowser(name: string): Promise<Browser> {
   return new Browser(name, context, page);
 }
 
-async function runHandler(name: string, handler: (br: Browser) => void) {
+async function runHandler(name: string, handler: (br: Browser) => Promise<void>) {
   const br = await newBrowser(name);
   await handler(br);
   if (!debugMode()) {
@@ -61,13 +61,13 @@ async function runHandler(name: string, handler: (br: Browser) => void) {
   }
 }
 
-export async function tmpBrowserPage(handler: (br: Browser) => void) {
+export async function tmpBrowserPage(handler: (br: Browser) => Promise<void>) {
   const br = await newBrowser('TMP');
   await handler(br);
   await br.dispose();
 }
 
-export async function test(input: TestInput, handler: (br: Browser) => void) {
+export async function test(input: TestInput, handler: (br: Browser) => Promise<void>) {
   const opts = typeof input === 'string' ? { name: input } : input;
   if (!opts.name) {
     throw new Error('Unnamed test');

@@ -8,7 +8,7 @@
 
 import fg from 'fast-glob';
 import chalk from 'chalk';
-import { setTimeout } from 'timers/promises';
+import { setTimeout as nodeSetTimeout } from 'timers/promises';
 // eslint-disable-next-line import/no-unresolved
 import PQueue from 'p-queue';
 import { debugMode } from './debug';
@@ -24,7 +24,7 @@ export async function run(
   dirName: string,
   importFn: (p: string) => Promise<unknown>,
 ) {
-  if (!name || !importFn) {
+  if (!name) {
     throw new Error('Invalid arguments');
   }
   const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*.test.js`], {
@@ -42,14 +42,14 @@ export async function run(
   await Promise.all(tasks);
 
   if (entries.length && debugMode()) {
-    await setTimeout(500000);
+    await nodeSetTimeout(500000);
   } else {
     // eslint-disable-next-line no-console
-    console.log(entries.length ? `🎉 ${name} completed successfully.` : `❌ No matching files.`);
+    console.log(entries.length ? `🎉 ${name} completed successfully.` : '❌ No matching files.');
   }
 }
 
-function printTaskResult(name: string, queue: string | undefined | number, err: Error | null) {
+function printTaskResult(name: string, queue: string | undefined, err: Error | null) {
   const colorFn = err ? chalk.red : chalk.green;
   let taskName;
   if (queue) {

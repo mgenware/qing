@@ -11,13 +11,18 @@ const url = 'admin/get-admins';
 
 itPost('get-admins: visitor', url, null, (r) => {
   assUtil.notAuthorized(r);
+  return Promise.resolve();
 });
 
 itPost('get-admins: user', url, usr.user, (r) => {
   assUtil.notAuthorized(r);
+  return Promise.resolve();
 });
 
 itPost('get-admins: admin', url, usr.admin, (r) => {
+  // eslint-disable-next-line max-len
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
   const adminData = (r as any).d.find((d: any) => d.eid === usr.admin.eid);
   ass.de(adminData, usr.admin);
+  return Promise.resolve();
 });

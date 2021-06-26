@@ -10,11 +10,13 @@ import { userInfo, newUser } from 'helper/user';
 
 itPost('User info', { url: `/__/auth/info/${usr.admin.eid}`, get: true }, null, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
+  return Promise.resolve();
 });
 
 it('Add and remove a user', async () => {
   let eid = '';
   await newUser(async (tu) => {
+    // eslint-disable-next-line prefer-destructuring
     eid = tu.user.eid;
     ass.de(tu.r, { d: { name: 'T', eid } });
 

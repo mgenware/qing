@@ -5,4 +5,5 @@
  * be found in the LICENSE file.
  */
 
+// eslint-disable-next-line no-useless-rename
 export { default as default } from 'playwright';

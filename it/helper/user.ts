@@ -39,7 +39,7 @@ export async function userInfo(id: string): Promise<APIResult> {
   return post({ url: `/__/auth/info/${id}`, get: true, converts404ToAPIResult: true });
 }
 
-export async function newUser(cb: (u: TempUser) => void) {
+export async function newUser(cb: (u: TempUser) => Promise<void>) {
   let u: TempUser | undefined;
   try {
     u = await newUserCore();

@@ -20,28 +20,23 @@ export function panic(msg: string) {
 export function e<T>(a: T, b: T) {
   if (a !== b) {
     panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
-    // Not reachable.
-    return;
   }
 }
 
 export function ne<T>(a: T, b: T) {
   if (a === b) {
     panic(`${JSON.stringify(a)} should not be equal to ${JSON.stringify(b)}`);
-    // Not reachable.
-    return;
   }
 }
 
 export function de<T>(a: T, b: T) {
   if (!deepEqual(a, b)) {
     panic(`Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}.`);
-    // Not reachable.
-    return;
   }
 }
 
 export function t(a: unknown): asserts a {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!a) {
     panic(`${JSON.stringify(a)} is expected to be truthy`);
     // Not reachable.
@@ -50,24 +45,22 @@ export function t(a: unknown): asserts a {
   if (typeof a === 'function') {
     throw new Error(`value cannot be a function, got ${a}`);
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (typeof (a as any).then === 'function') {
     throw new Error(`value cannot be a Promise, got ${a}`);
   }
 }
 
 export function f(a: unknown) {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (a) {
     panic(`${JSON.stringify(a)} is expected to be falsy`);
-    // Not reachable.
-    return;
   }
 }
 
 export function regex(s: string, r: RegExp) {
   if (!r.test(s)) {
     panic(`"${s}" does not match "${r}"`);
-    // Not reachable.
-    return;
   }
 }
 

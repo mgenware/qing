@@ -7,7 +7,7 @@
 
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: ['mgenware', 'plugin:@typescript-eslint/recommended'],
+  extends: ['mgenware'],
   parserOptions: {
     sourceType: 'module',
     project: './tsconfig.json',
@@ -18,5 +18,9 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'import/extensions': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    // TODO: turn this rule on when we migrate away from runner.js
+    '@typescript-eslint/no-floating-promises': 'off',
+    // TODO: turn this rule on when we migrate away from runner.js
+    '@typescript-eslint/no-misused-promises': 'off',
   },
 };

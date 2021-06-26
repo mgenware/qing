@@ -105,6 +105,7 @@ export async function checkVisibleAlertAsync(
   // Focused button.
   // Get the qing-overlay element to check the active element.
   ass.t(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     await btns[focused]?.evaluate((el) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const overlayEl = (el.getRootNode() as any).host as HTMLElement;

@@ -41,6 +41,8 @@ it('set-admin: admin', async () => {
 
     // Check status.
     r = await post({ url: getAdminsURL, user: usr.admin });
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
     let adminData = (r.d as any).find((d: any) => d.eid === eid);
     ass.de(adminData, {
       eid,
@@ -59,6 +61,8 @@ it('set-admin: admin', async () => {
 
     // Check status.
     r = await post({ url: getAdminsURL, user: usr.admin });
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
     adminData = (r.d as any).find((d: any) => d.eid === eid);
     ass.e(adminData, undefined);
   });
@@ -68,7 +72,8 @@ itPost(
   'Admin cannot remove itself',
   { url, body: { target_user_id: usr.admin.eid, value: 0 } },
   usr.admin,
-  async (r) => {
+  (r) => {
     ass.de(r, { code: 1 });
+    return Promise.resolve();
   },
 );

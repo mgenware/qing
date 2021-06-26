@@ -35,6 +35,7 @@ it(getQueuedName('Add'), async () => {
 
 itPost('Add: visitor', { url: addPostURL, body: addPostBody }, null, (r) => {
   assUtil.notAuthorized(r);
+  return Promise.resolve();
 });
 
 it(getQueuedName('Edit'), async () => {

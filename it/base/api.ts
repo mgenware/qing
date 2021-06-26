@@ -33,7 +33,7 @@ export async function itPost(
   itInput: ItInput,
   postInput: PostInput,
   user: User | null,
-  handler: (d: APIResult) => void,
+  handler: (d: APIResult) => Promise<void>,
 ) {
   return it(itInput, async () => {
     const opts = postInputToOptions(postInput);

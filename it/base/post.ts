@@ -54,6 +54,7 @@ async function requestLogin(eid: string): Promise<string> {
 }
 
 export async function updateEntityTime(id: string, type: number) {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return post({ url: urls.setDebugTimeURL, body: { id, type } });
 }
 
@@ -80,6 +81,7 @@ export function postInputToOptions(input: PostInput): PostOptions {
 }
 
 export async function post(input: PostInput): Promise<APIResult> {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!input) {
     throw new Error('Unexpected empty fetch input');
   }
@@ -116,8 +118,9 @@ export async function post(input: PostInput): Promise<APIResult> {
     if (opts.converts404ToAPIResult && response.status === 404) {
       return { code: 10005 };
     }
+    // eslint-disable-next-line no-console
     console.log(`[Request info] ${JSON.stringify(opts)}`);
     throw new Error(`HTTP error: ${response.status}`);
   }
-  return response.json();
+  return response.json() as APIResult;
 }
