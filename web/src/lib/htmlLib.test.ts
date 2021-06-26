@@ -53,7 +53,7 @@ it('renderTemplateResult - empty ID', async () => {
   expect(el2.outerHTML).to.eq('<p>2</p>');
 });
 
-it('tif', async () => {
+it('tif', () => {
   expect(tif(1, 'haha')).to.eq('haha');
   expect(tif(0, 'haha')).to.eq('');
   expect(tif(false, 'haha')).to.eq('');

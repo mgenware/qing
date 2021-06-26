@@ -80,8 +80,13 @@ export abstract class PCListApp<T> extends BaseElement {
     `;
   }
 
-  firstUpdated() {
-    this.startLoading(1, defaultPageSize, this.currentSortedColumn, this.currentSortedColumnDesc);
+  async firstUpdated() {
+    await this.startLoading(
+      1,
+      defaultPageSize,
+      this.currentSortedColumn,
+      this.currentSortedColumnDesc,
+    );
   }
 
   abstract sectionHeader(): TemplateResult | null;

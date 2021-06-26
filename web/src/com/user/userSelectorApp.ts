@@ -177,16 +177,14 @@ export class UserSelectorApp extends BaseElement {
     this.popoverVisible = true;
   }
 
-  private async handleUserRowClick(user: UserInfo) {
+  private handleUserRowClick(user: UserInfo) {
     this.selectedUser = user;
     this.popoverVisible = false;
     this.onSelectionChanged(user);
   }
 
   private onSelectionChanged(detail: UserInfo | null) {
-    this.dispatchEvent(
-      new CustomEvent<UserInfo | null>('selectionChanged', { detail }),
-    );
+    this.dispatchEvent(new CustomEvent<UserInfo | null>('selectionChanged', { detail }));
   }
 
   private async handleValueChangeDebounced() {

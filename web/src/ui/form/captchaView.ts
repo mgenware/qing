@@ -43,8 +43,8 @@ export class CaptchaView extends BaseElement {
   @property({ type: Number }) entityType = 0;
   @property({ type: Number }) private timestamp = Date.now();
 
-  private get textElement(): HTMLInputElement {
-    return this.mustGetShadowElement('inputElement');
+  private get textElement(): HTMLInputElement | null {
+    return this.getShadowElement('inputElement');
   }
 
   render() {
@@ -78,7 +78,7 @@ export class CaptchaView extends BaseElement {
   }
 
   focus() {
-    this.textElement.focus();
+    this.textElement?.focus();
   }
 
   refresh() {
@@ -86,7 +86,7 @@ export class CaptchaView extends BaseElement {
   }
 
   get value(): string {
-    return this.textElement.value;
+    return this.textElement?.value ?? '';
   }
 
   private handleClick(e: Event) {

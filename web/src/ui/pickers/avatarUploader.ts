@@ -104,7 +104,8 @@ export class AvatarUploader extends BaseElement {
   }
 
   private hookFileUploadEvents(domFile: HTMLInputElement) {
-    domFile.addEventListener('change', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    domFile.addEventListener('change', () => {
       if (domFile.files && domFile.files[0] !== undefined) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -121,9 +122,13 @@ export class AvatarUploader extends BaseElement {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleImageCrop(e: any) {
     this.cropInfo = {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       x: e.detail.x,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       y: e.detail.y,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       width: e.detail.width,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       height: e.detail.height,
     };
   }

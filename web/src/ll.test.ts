@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
+import { BaseElement } from 'll';
 import { expect, html, fixture, tDOM } from 'qing-t';
-import BaseElement from './baseElement';
 
 class TElement extends BaseElement {
   render() {

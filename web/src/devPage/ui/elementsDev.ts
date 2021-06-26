@@ -197,7 +197,7 @@ export class ElementsDev extends BaseElement {
         >Success toast</qing-button
       >
       <qing-button
-        @click=${async () =>
+        @click=${() =>
           this.shadowRoot?.getElementById('qing-overlay-immersive')?.setAttribute('open', '')}
         >immersive dialog</qing-button
       >

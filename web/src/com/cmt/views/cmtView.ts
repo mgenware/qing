@@ -112,23 +112,17 @@ export class CmtView extends BaseElement {
 
   private handleEditClick() {
     CHECK(this.cmt);
-    this.dispatchEvent(
-      new CustomEvent<Cmt>('editClick', { detail: this.cmt }),
-    );
+    this.dispatchEvent(new CustomEvent<Cmt>('editClick', { detail: this.cmt }));
   }
 
   private handleDeleteClick() {
     CHECK(this.cmt);
-    this.dispatchEvent(
-      new CustomEvent<Cmt>('deleteClick', { detail: this.cmt }),
-    );
+    this.dispatchEvent(new CustomEvent<Cmt>('deleteClick', { detail: this.cmt }));
   }
 
-  private async handleReplyClick() {
+  private handleReplyClick() {
     CHECK(this.cmt);
-    this.dispatchEvent(
-      new CustomEvent<Cmt>('replyClick', { detail: this.cmt }),
-    );
+    this.dispatchEvent(new CustomEvent<Cmt>('replyClick', { detail: this.cmt }));
   }
 }
 

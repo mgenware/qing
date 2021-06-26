@@ -80,7 +80,7 @@ export function injectStyles(styles: CSSResultGroup) {
     } else if (style instanceof CSSResult) {
       const css = style.cssText;
       // TODO: use constructable styles.
-      const styleElement = document.createElement('style') as HTMLStyleElement;
+      const styleElement = document.createElement('style');
       styleElement.innerHTML = css;
       document.head.appendChild(styleElement);
     } else {

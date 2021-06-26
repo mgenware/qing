@@ -52,6 +52,7 @@ export class SvgIcon extends BaseElement {
         this.height || this.size,
       );
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       console.error(`Error downloading file "${this.oneTimeSrc}", ${err.message}.`);
     }
   }

@@ -20,6 +20,7 @@ export function formatLS(str: string, ...data: any[]): string {
 }
 
 export function getLSByKey(key: string): string {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return (ls as any)[key];
 }
 

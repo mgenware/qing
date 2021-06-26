@@ -71,6 +71,7 @@ export default class Loader<T> {
       }
 
       errWithCode.message = `${errWithCode.message} [${ls.request}: "${this.requestURL()}"]`;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       errWithCode.stack = err.stack;
       this.onLoadingStatusChanged(LoadingStatus.error(errWithCode));
       throw errWithCode;

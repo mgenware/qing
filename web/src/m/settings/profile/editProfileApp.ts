@@ -152,7 +152,7 @@ export class EditProfileApp extends BaseElement {
     await this.reloadDataAsync();
   }
 
-  private async handleAvatarUploaded(e: CustomEvent<AvatarUploadResponse>) {
+  private handleAvatarUploaded(e: CustomEvent<AvatarUploadResponse>) {
     const resp = e.detail;
     this.avatarURL = resp.iconL || '';
 

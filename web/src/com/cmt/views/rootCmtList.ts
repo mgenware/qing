@@ -52,7 +52,7 @@ export class RootCmtList extends BaseElement {
 
   hub?: CmtDataHub;
 
-  firstUpdated() {
+  async firstUpdated() {
     CHECK(this.hostID);
     CHECK(this.hostType);
 
@@ -69,9 +69,10 @@ export class RootCmtList extends BaseElement {
     });
 
     if (this.loadOnVisible) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       listenForVisibilityChange([this], () => this.loadMore());
     } else {
-      this.loadMore();
+      await this.loadMore();
     }
     this.hub = hub;
   }

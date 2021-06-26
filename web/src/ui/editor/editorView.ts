@@ -7,7 +7,7 @@
 
 import { html, customElement, css, BaseElement } from 'll';
 import ls from 'ls';
-import { Editor } from 'kangxi-editor';
+import { Editor, Lang } from 'kangxi-editor';
 import styles from 'kangxi-editor/dist/editor.css.js';
 
 const editorID = 'editor';
@@ -16,6 +16,7 @@ const editorID = 'editor';
 @customElement('editor-view')
 export default class EditorView extends BaseElement {
   static get styles() {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return [
       super.styles,
       styles,
@@ -74,14 +75,14 @@ export default class EditorView extends BaseElement {
       return;
     }
     const editor = new Editor(this.editorEl, {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      lang: ls as any,
+      lang: ls as Lang,
     });
     editor.resetContentHTML(this.backupContentHTML);
     this.editor = editor;
   }
 
   focus() {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     this.editor?.view.focus();
   }
 

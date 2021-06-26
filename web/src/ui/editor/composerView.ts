@@ -201,9 +201,9 @@ export class ComposerView extends BaseElement {
     `;
   }
 
-  updated(changedProperties: PropertyValues<this>) {
+  async updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('entityID') && this.entityID) {
-      this.loadEntitySource();
+      await this.loadEntitySource();
     }
   }
 
@@ -235,14 +235,13 @@ export class ComposerView extends BaseElement {
     } catch (err) {
       await appAlert.error(err.message);
       if (err instanceof ValidationError) {
-        const verr = err as ValidationError;
-        verr.callback();
+        err.callback();
       }
     }
   }
 
-  clickCancel() {
-    this.handleCancel();
+  async clickCancel() {
+    await this.handleCancel();
   }
 
   private async handleCancel() {

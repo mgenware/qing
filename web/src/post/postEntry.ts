@@ -34,6 +34,7 @@ function hookUpEditBarEvents() {
   if (!editBarElement) {
     return;
   }
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   editBarElement.addEventListener('deleteClick', async () => {
     if (await appAlert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {
       appAlert.showLoadingOverlay(ls.working);
@@ -46,7 +47,8 @@ function hookUpEditBarEvents() {
     }
   });
 
-  editBarElement.addEventListener('editClick', async () => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  editBarElement.addEventListener('editClick', () => {
     if (!editPostApp) {
       editPostApp = renderTemplateResult(
         '',
