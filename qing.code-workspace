@@ -17,6 +17,13 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["mingru", "Qing", "cmts", "datetime", "userland"]
+    "cSpell.words": [
+      "Qing",
+      "cmts",
+      "datetime",
+      "mgenware",
+      "mingru",
+      "userland"
+    ]
   }
 }
