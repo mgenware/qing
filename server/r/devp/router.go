@@ -45,7 +45,8 @@ func init() {
 	composeRouter.Post("/set-debug-time", setDebugTime)
 	Router.Mount("/compose", composeRouter.Core)
 
-	Router.Get("/", handler.HTMLHandlerToHTTPHandler(defaultHandler))
+	// The "*" is required cuz some routes are handled completely at frontend.
+	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {

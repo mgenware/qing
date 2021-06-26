@@ -30,20 +30,20 @@ export function verifyPostAPIResult(r: APIResult): string {
   return ass.isString(id);
 }
 
-async function newTmpPostCore(user: User | undefined) {
+async function newTmpPostCore(user: User) {
   const r = await post({ url: addPostURL, body: addPostBody, user });
   const id = verifyPostAPIResult(r);
   ensureSuccess(await updateEntityTime(id, defs.entity.post));
   return id;
 }
 
-async function deletePostCore(id: string, user: User | undefined) {
+async function deletePostCore(id: string, user: User) {
   return ensureSuccess(
     await post({ url: deletePostURL, user, body: { id, entityType: defs.entity.post } }),
   );
 }
 
-export async function newPost(user: User | undefined, cb: (id: string) => Promise<unknown>) {
+export async function newPost(user: User, cb: (id: string) => Promise<unknown>) {
   let id = null;
   try {
     id = await newTmpPostCore(user);
