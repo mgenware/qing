@@ -3,7 +3,10 @@ export default {
     run: 'eslint --max-warnings 0 --ext .ts .',
   },
   dev: {
-    run: 'del dist && ttsc -p . -w',
+    run: 'ttsc -p . -w',
+    before: {
+      del: 'dist',
+    },
   },
   api: {
     run: 'node -r source-map-support/register dist/api/run.js',
