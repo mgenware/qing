@@ -8,9 +8,9 @@
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { userViewQuery } from './common';
-import { checkEditBarAsync } from 'br/helper/editBar';
+import { checkEditBar } from 'br/helper/editBar';
 import defs from 'base/defs';
-import { checkEditorDismissalAsync, checkEditorUpdateAsync, EditorPart } from 'br/helper/editor';
+import { checkEditorDismissal, checkEditorUpdate, EditorPart } from 'br/helper/editor';
 
 function testEditorUpdate(part: EditorPart) {
   test(`Updated ${part === EditorPart.title ? 'title' : 'content'}`, async (br) => {
@@ -22,7 +22,7 @@ function testEditorUpdate(part: EditorPart) {
       const u = usr.user;
       const userView = await page.$(userViewQuery);
       ass.t(userView);
-      const { editBtn } = await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
+      const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.eid);
       await editBtn.click();
 
       // Check editor title.
@@ -31,7 +31,7 @@ function testEditorUpdate(part: EditorPart) {
       ass.t(await overlayEl.$('h2:has-text("Edit post")'));
 
       // Check editor update.
-      await checkEditorUpdateAsync(page, part, 'Save', 'Cancel');
+      await checkEditorUpdate(page, part, 'Save', 'Cancel');
 
       // Verify page content.
       const html = await br.content();
@@ -58,7 +58,7 @@ test('Cancelled', async (br) => {
     const u = usr.user;
     const userView = await page.$(userViewQuery);
     ass.t(userView);
-    const { editBtn } = await checkEditBarAsync(userView, defs.entity.post, id, u.eid);
+    const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.eid);
     ass.t(editBtn);
 
     // Make the editor show up.
@@ -70,7 +70,7 @@ test('Cancelled', async (br) => {
     ass.t(await overlayEl.$('h2:has-text("Edit post")'));
 
     // Check editor dismissal.
-    await checkEditorDismissalAsync(page, 'Cancel');
+    await checkEditorDismissal(page, 'Cancel');
 
     // Verify page content.
     const html = await br.content();

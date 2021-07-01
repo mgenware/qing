@@ -7,9 +7,9 @@
 
 import testing from 'testing';
 import * as ass from 'base/ass';
-import { checkDefaultTimeFieldAsync } from './timeField';
+import { checkDefaultTimeField } from './timeField';
 
-export async function checkUserViewAsync(
+export async function checkUserView(
   el: testing.ElementHandle | null,
   id: string,
   iconURL: string,
@@ -23,5 +23,5 @@ export async function checkUserViewAsync(
   // Name link.
   ass.t(await el.$(`a[href="/u/${id}"]:has-text("${name}")`));
   // Time field.
-  await checkDefaultTimeFieldAsync(el);
+  await checkDefaultTimeField(el);
 }

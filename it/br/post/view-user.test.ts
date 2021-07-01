@@ -7,7 +7,7 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkUserViewAsync } from 'br/helper/userView';
+import { checkUserView } from 'br/helper/userView';
 import { userViewQuery } from './common';
 import defs from 'base/defs';
 
@@ -18,7 +18,7 @@ test('View post - user', async (br) => {
 
     // User view.
     const u = usr.user;
-    await checkUserViewAsync(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
+    await checkUserView(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
 
     // Page content.
     const html = await br.content();

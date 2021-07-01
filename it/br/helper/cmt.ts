@@ -8,7 +8,7 @@
 import testing from 'testing';
 import * as ass from 'base/ass';
 
-export async function checkNoCommentsAsync(cmtAppEl: testing.ElementHandle) {
+export async function checkNoComments(cmtAppEl: testing.ElementHandle) {
   // Root element is visible.
   ass.t(await cmtAppEl.isVisible());
 

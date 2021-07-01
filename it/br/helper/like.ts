@@ -8,11 +8,7 @@
 import testing from 'testing';
 import * as ass from 'base/ass';
 
-export async function checkLikesAsync(
-  likeAppEl: testing.ElementHandle,
-  value: number,
-  liked: boolean,
-) {
+export async function checkLikes(likeAppEl: testing.ElementHandle, value: number, liked: boolean) {
   ass.t(await likeAppEl.isVisible());
   const btnEl = await likeAppEl.$('like-view qing-button');
   ass.t(btnEl);
