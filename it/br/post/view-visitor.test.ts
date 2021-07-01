@@ -18,6 +18,7 @@ import {
 import { checkUserViewAsync } from 'br/helper/userView';
 import { userViewQuery } from './common';
 import defs from 'base/defs';
+import sleep from 'base/sleep';
 
 test('View post - visitor', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -54,6 +55,7 @@ test('View post - visitor', async (br) => {
       0,
     );
     await okBtn?.click();
+    await sleep();
     await checkNoVisibleAlertAsync(page);
   });
 });
