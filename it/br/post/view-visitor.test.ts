@@ -7,17 +7,13 @@
 
 import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
-import { checkLikesAsync } from 'br/helper/like';
-import { checkNoCommentsAsync } from 'br/helper/cmt';
-import {
-  AlertButtons,
-  AlertType,
-  checkNoVisibleAlertAsync,
-  checkVisibleAlertAsync,
-} from 'br/helper/alert';
-import { checkUserViewAsync } from 'br/helper/userView';
+import { checkLikes } from 'br/helper/like';
+import { checkNoComments } from 'br/helper/cmt';
+import { AlertButtons, AlertType, checkNoVisibleAlert, checkVisibleAlert } from 'br/helper/alert';
+import { checkUserView } from 'br/helper/userView';
 import { userViewQuery } from './common';
 import defs from 'base/defs';
+import sleep from 'base/sleep';
 
 test('View post - visitor', async (br) => {
   await newPost(usr.user, async (id) => {
@@ -26,7 +22,7 @@ test('View post - visitor', async (br) => {
 
     // User view.
     const u = usr.user;
-    await checkUserViewAsync(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
+    await checkUserView(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
 
     // Page content.
     const html = await br.content();
@@ -36,16 +32,16 @@ test('View post - visitor', async (br) => {
     // Like button.
     const likeAppEl = await page.$('post-payload-app like-app');
     ass.t(likeAppEl);
-    await checkLikesAsync(likeAppEl, 0, false);
+    await checkLikes(likeAppEl, 0, false);
 
     // No comments.
     const cmtAppEl = await page.$('post-payload-app cmt-app');
     ass.t(cmtAppEl);
-    await checkNoCommentsAsync(cmtAppEl);
+    await checkNoComments(cmtAppEl);
 
     // Click the like button.
     await likeAppEl.click();
-    const [okBtn] = await checkVisibleAlertAsync(
+    const [okBtn] = await checkVisibleAlert(
       page,
       '',
       'Sign in to like this post.',
@@ -54,6 +50,7 @@ test('View post - visitor', async (br) => {
       0,
     );
     await okBtn?.click();
-    await checkNoVisibleAlertAsync(page);
+    await sleep();
+    await checkNoVisibleAlert(page);
   });
 });

@@ -34,7 +34,7 @@ async function getButton(el: testing.ElementHandle, text: string) {
   return btn;
 }
 
-export async function checkEditBarAsync(
+export async function checkEditBar(
   rootEl: testing.ElementHandle,
   entityType: number,
   eid: string,

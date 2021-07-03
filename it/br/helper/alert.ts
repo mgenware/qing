@@ -61,12 +61,12 @@ async function getDialogEl(page: testing.Page) {
   return page.$('#__global_dialog_container dialog-view');
 }
 
-export async function checkNoVisibleAlertAsync(page: testing.Page) {
+export async function checkNoVisibleAlert(page: testing.Page) {
   const el = await getDialogEl(page);
   ass.f(el);
 }
 
-export async function checkVisibleAlertAsync(
+export async function checkVisibleAlert(
   page: testing.Page,
   title: string,
   content: string,
