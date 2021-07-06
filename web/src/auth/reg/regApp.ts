@@ -53,6 +53,7 @@ export class RegApp extends BaseElement {
         <input-view
           class="m-t-md"
           required
+          isEmail
           type="email"
           label=${ls.email}
           value=${this.email}

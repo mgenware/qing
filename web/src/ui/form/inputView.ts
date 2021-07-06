@@ -80,7 +80,11 @@ export class InputView extends BaseElement {
   @lp.string type: InputType = 'text';
   @lp.string value = '';
   @lp.string placeholder = '';
+  @lp.bool isEmail = false;
   @lp.bool debounceOnChange = false;
+
+  @lp.string private autocomplete = '';
+  @lp.string private inputmode = '';
 
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
@@ -97,6 +101,10 @@ export class InputView extends BaseElement {
     if (this.debounceOnChange) {
       this.debouncedOnChangeHandler = debounceFn(this.onChangeDebounced, { wait: 500 });
     }
+    if (this.isEmail) {
+      this.autocomplete = 'email';
+      this.inputmode = 'email';
+    }
   }
 
   render() {
@@ -110,6 +118,8 @@ export class InputView extends BaseElement {
         ?required=${this.required}
         type=${this.type}
         value=${this.value}
+        autocomplete=${this.autocomplete}
+        inputmode=${this.inputmode}
         placeholder=${this.placeholder}
         @input=${this.handleInput}
         style=${`margin-bottom: ${validationError ? '0.5rem' : '0'}`}
