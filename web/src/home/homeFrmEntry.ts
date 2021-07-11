@@ -10,6 +10,8 @@ import 'ui/alerts/noticeView';
 import { ready } from 'lib/htmlLib';
 import { keyTab } from 'sharedConstants';
 import { tabViewActiveClass } from 'ui/lists/tabView';
+// Required by empty content view.
+import 'ui/alerts/noContentView';
 
 const defaultHighlightedTab = 'threads';
 

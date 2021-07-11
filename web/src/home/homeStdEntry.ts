@@ -11,6 +11,8 @@ import 'ui/alerts/noticeView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import { css } from 'll';
 import { keyTab } from 'sharedConstants';
+// Required by empty content view.
+import 'ui/alerts/noContentView';
 
 const defaultHighlightedTab = 'home';
 

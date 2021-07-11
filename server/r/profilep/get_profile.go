@@ -84,7 +84,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
 
 	if feedListHTML == "" {
-		feedListHTML = "<no-content-view></no-content-view>"
+		feedListHTML = rcom.MustRunNoContentViewTemplate()
 	}
 	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(pageData))
 	d := appHandler.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))

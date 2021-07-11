@@ -52,10 +52,14 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 		app.PanicIfErr(err)
 
 		var feedListHTMLBuilder strings.Builder
-		for _, item := range items {
-			itemModel, err := rcom.NewUserThreadModel(&item)
-			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
+		if len(items) == 0 {
+			feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
+		} else {
+			for _, item := range items {
+				itemModel, err := rcom.NewUserThreadModel(&item)
+				app.PanicIfErr(err)
+				feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
+			}
 		}
 
 		pageURLFormatter := &HomePageURLFormatter{Tab: tab}

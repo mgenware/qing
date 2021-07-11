@@ -13,6 +13,8 @@ import { tabViewActiveClass } from 'ui/lists/tabView';
 import 'ui/widgets/tagView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 import './views/profileIDView';
+// Required by empty content view.
+import 'ui/alerts/noContentView';
 import profileWind from './profileWind';
 
 const defaultHighlightedTab = keyPosts;
