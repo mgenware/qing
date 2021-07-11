@@ -452,7 +452,7 @@ export default css`
     display: flex;
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
-    padding: 1.25rem;
+    padding: 0 1.25rem 1.25rem 1.25rem;
   }
 
   qing-overlay.immersive::part(overlay) {
