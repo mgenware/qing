@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import libStyles from 'qing-stylelib';
-import appStyles from './styles/appStyles';
-import themesStyles from './styles/themesStyles';
+import libCSS from 'qing-stylelib';
+import varsCSS from './styles/varsCSS';
+import appCSS from './styles/appCSS';
 
-export default [libStyles, themesStyles, appStyles];
+export default [libCSS, varsCSS, appCSS];

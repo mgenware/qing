@@ -50,6 +50,14 @@ export class ComposerView extends BaseElement {
           /** Make sure it stretches to parent height */
           flex: 1 1 auto;
         }
+
+        .editor-buttons qing-button {
+          min-width: var(--app-dialog-btn-min-width);
+        }
+
+        .editor-buttons qing-button:not(:first-child) {
+          margin-left: var(--app-dialog-btn-spacing);
+        }
       `,
     ];
   }
@@ -178,11 +186,11 @@ export class ComposerView extends BaseElement {
       <div class="m-t-md flex-auto text-center editor-buttons">
         ${tif(
           loadingStatus.isSuccess,
-          html` <qing-button btnStyle="success" @click=${this.handleSubmit}>
+          html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
             ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
           </qing-button>`,
         )}
-        <qing-button class="m-l-sm" @click=${this.handleCancel}
+        <qing-button @click=${this.handleCancel}
           >${loadingStatus.hasError ? ls.close : ls.cancel}</qing-button
         >
       </div>

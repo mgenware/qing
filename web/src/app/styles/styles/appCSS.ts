@@ -11,7 +11,7 @@ export default css`
   /**********************************************************
   Common styles, available to all components and templates.
 
-  NOTE: For theme-related styles, refer to \`themes.css\`.
+  NOTE: For theme-related styles, refer to \`varsCSS.ts.\`.
   Please keep this file as small as possible by moving styles
   to components.
  **********************************************************/

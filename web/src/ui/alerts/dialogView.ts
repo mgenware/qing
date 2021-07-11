@@ -34,6 +34,14 @@ export class DialogView extends BaseElement {
         qing-overlay::part(overlay) {
           padding: 0;
         }
+
+        .dialog-btn {
+          min-width: var(--app-dialog-btn-min-width);
+        }
+
+        .dialog-btn:not(:first-child) {
+          margin-left: var(--app-dialog-btn-spacing);
+        }
       `,
     ];
   }
@@ -84,9 +92,7 @@ export class DialogView extends BaseElement {
 
   private renderButtons() {
     return this.buttons.map(
-      (b, i) => html`<qing-button
-        class=${i ? 'm-l-md' : ''}
-        @click=${() => this.handleButtonClick(b, i)}
+      (b, i) => html`<qing-button class="dialog-btn" @click=${() => this.handleButtonClick(b, i)}
         >${b}</qing-button
       >`,
     );
@@ -108,9 +114,7 @@ export class DialogView extends BaseElement {
         this.getButtonElement('def')?.focus();
         this.dispatchEvent(new CustomEvent('dialogShown'));
       } else {
-        this.dispatchEvent(
-          new CustomEvent<number>('dialogClosed', { detail: this.closingButton }),
-        );
+        this.dispatchEvent(new CustomEvent<number>('dialogClosed', { detail: this.closingButton }));
       }
     }, transitionDelay);
   }
