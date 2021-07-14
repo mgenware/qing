@@ -27,7 +27,7 @@ it(getQueuedName('Add'), async () => {
     // Post content.
     ass.de(await getPostSrc(id, u), {
       contentHTML: defs.sd.postContentSan,
-      title: defs.sd.postTitles,
+      title: defs.sd.postTitleRaw,
     });
 
     // User post_count.

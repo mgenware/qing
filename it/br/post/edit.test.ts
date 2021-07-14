@@ -37,13 +37,13 @@ function testEditorUpdate(part: EditorPart) {
       // Verify post title.
       ass.t(
         html.includes(
-          part === EditorPart.title ? defs.sd.updatedContentHTML : defs.sd.postTitleHTML,
+          part === EditorPart.title ? defs.sd.updatedContentHTMLFull : defs.sd.postTitleHTML,
         ),
       );
       // Verify post content.
       ass.t(
         html.includes(
-          part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentSan,
+          part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentHTML,
         ),
       );
     });
