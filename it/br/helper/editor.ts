@@ -28,14 +28,14 @@ async function updateEditorContent(part: EditorPart, composerEl: testing.Element
       const contentEl = await editorEl.$('.kx-content');
       ass.t(contentEl);
       ass.t(await contentEl.isVisible());
-      await contentEl.fill(defs.sd.updatedContent);
+      await contentEl.fill(defs.sd.updatedContentRaw);
       break;
     }
 
     case EditorPart.title: {
       const inputEl = await composerEl.$('input-view input');
       ass.t(inputEl);
-      await inputEl.fill(defs.sd.updatedContent);
+      await inputEl.fill(defs.sd.updatedContentRaw);
       break;
     }
     default:

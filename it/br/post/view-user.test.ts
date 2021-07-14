@@ -22,7 +22,7 @@ test('View post - user', async (br) => {
 
     // Page content.
     const html = await br.content();
-    ass.t(html.includes(defs.sd.postTitleEscaped));
-    ass.t(html.includes(defs.sd.postContent));
+    ass.t(html.includes(defs.sd.postTitleHTML));
+    ass.t(html.includes(defs.sd.postContentSan));
   });
 });

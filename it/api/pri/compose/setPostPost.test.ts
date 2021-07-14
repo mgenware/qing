@@ -25,7 +25,10 @@ it(getQueuedName('Add'), async () => {
   const pc = await getPostCount(u.eid);
   await newPost(u, async (id) => {
     // Post content.
-    ass.de(await getPostSrc(id, u), { contentHTML: defs.sd.postContent, title: defs.sd.postTitle });
+    ass.de(await getPostSrc(id, u), {
+      contentHTML: defs.sd.postContentSan,
+      title: defs.sd.postTitles,
+    });
 
     // User post_count.
     const pc2 = await getPostCount(u.eid);
@@ -45,7 +48,10 @@ it(getQueuedName('Edit'), async () => {
     const pc = await getPostCount(u.eid);
     const r = await post({ url: addPostURL, body: { ...addPostBody, id }, user: u });
     verifyPostAPIResult(r);
-    ass.de(await getPostSrc(id, u), { contentHTML: defs.sd.postContent, title: defs.sd.postTitle });
+    ass.de(await getPostSrc(id, u), {
+      contentHTML: defs.sd.postContentRaw,
+      title: defs.sd.postTitleRaw,
+    });
 
     const pc2 = await getPostCount(u.eid);
     ass.e(pc, pc2);

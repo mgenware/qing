@@ -33,16 +33,17 @@ function testEditorUpdate(part: EditorPart) {
       // Check editor update.
       await checkEditorUpdate(page, part, 'Save', 'Cancel');
 
-      // Verify page content.
       const html = await br.content();
+      // Verify post title.
       ass.t(
         html.includes(
-          part === EditorPart.title ? defs.sd.updatedContentEscaped : defs.sd.postTitleEscaped,
+          part === EditorPart.title ? defs.sd.updatedContentHTML : defs.sd.postTitleHTML,
         ),
       );
+      // Verify post content.
       ass.t(
         html.includes(
-          part === EditorPart.title ? defs.sd.postContent : defs.sd.updatedContentEscaped,
+          part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentSan,
         ),
       );
     });
@@ -74,8 +75,8 @@ test('Cancelled', async (br) => {
 
     // Verify page content.
     const html = await br.content();
-    ass.t(html.includes(defs.sd.postTitleEscaped));
-    ass.t(html.includes(defs.sd.postContent));
+    ass.t(html.includes(defs.sd.postTitleHTML));
+    ass.t(html.includes(defs.sd.postContentSan));
   });
 });
 
