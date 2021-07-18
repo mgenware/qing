@@ -10,9 +10,6 @@ import buildTree from 'fx214';
 export default buildTree({
   // Management APIs.
   m: {
-    newPost: 'new-post',
-    newDiscussion: 'new-discussion',
-    newQuestion: 'new-question',
     yourPosts: 'your-posts',
     yourDiscussions: 'your-discussions',
     yourQuestion: 'your-questions',

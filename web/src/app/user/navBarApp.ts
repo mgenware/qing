@@ -12,13 +12,16 @@ import routes from 'routes';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
-import { tif } from 'lib/htmlLib';
+import { renderTemplateResult, tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
+import SetPostApp from 'post/setPostApp';
+import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
+import { CHECK } from 'checks';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -163,6 +166,8 @@ export default class NavBarApp extends BaseElement {
   @lp.object user: User | null = null;
   @lp.number currentTheme = defs.UserTheme.light;
 
+  private setPostApps = new Map<number, SetPostApp>();
+
   firstUpdated() {
     this.user = appPageState.user;
     this.currentTheme = appSettings.theme;
@@ -211,9 +216,13 @@ export default class NavBarApp extends BaseElement {
                   <a href=${routes.m.yourDiscussions}>${ls.yourDiscussions}</a>
                   <a href=${routes.m.yourQuestion}>${ls.yourQuestions}</a>
                   <hr />
-                  <a href=${routes.m.newPost} target="_blank">${ls.newPost}</a>
-                  <a href=${routes.m.newDiscussion} target="_blank">${ls.newDiscussion}</a>
-                  <a href=${routes.m.newQuestion} target="_blank">${ls.newQuestion}</a>
+                  <a href="#" @click=${() => this.handleNewPostClick(entityPost)}>${ls.newPost}</a>
+                  <a href="#" @click=${() => this.handleNewPostClick(entityDiscussion)}
+                    >${ls.newDiscussion}</a
+                  >
+                  <a href="#" @click=${() => this.handleNewPostClick(entityQuestion)}
+                    >${ls.newQuestion}</a
+                  >
                   <hr />
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
                   ${tif(
@@ -260,6 +269,40 @@ export default class NavBarApp extends BaseElement {
     if (res.isSuccess) {
       pageUtils.reload();
     }
+  }
+
+  private handleNewPostClick(entityType: number) {
+    let title: string;
+    switch (entityType) {
+      case entityPost: {
+        title = ls.newPost;
+        break;
+      }
+      case entityDiscussion: {
+        title = ls.newDiscussion;
+        break;
+      }
+      case entityQuestion: {
+        title = ls.newQuestion;
+        break;
+      }
+      default: {
+        throw new Error(`Invalid entity type ${entityType}`);
+      }
+    }
+
+    let app: SetPostApp | null;
+    const t = this.setPostApps.get(entityType);
+    if (t) {
+      app = t;
+    } else {
+      app = renderTemplateResult<SetPostApp>(
+        '',
+        html`<set-post-app open .entityType=${entityType} .headerText=${title}></set-post-app>`,
+      );
+    }
+    CHECK(app);
+    app.open = true;
   }
 }
 

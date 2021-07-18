@@ -13,8 +13,6 @@ import './settings/profile/editProfileApp';
 import 'post/setPostApp';
 import './postCenter/myPostsApp';
 import './postCenter/myDiscussionsApp';
-import { entityPost, entityQuestion, entityDiscussion } from 'sharedConstants';
-import { CHECK } from 'checks';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import pageUtils from 'app/utils/pageUtils';
 
@@ -26,51 +24,6 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
     html`<m-settings-view .selectedItem=${selectedItem}>${content}</m-settings-view>`,
   );
 }
-
-function loadNewPostContent(entityType: number) {
-  CHECK(entityType);
-
-  let url: string;
-  let title: string;
-  switch (entityType) {
-    case entityPost: {
-      url = routes.m.newPost;
-      title = ls.newPost;
-      break;
-    }
-    case entityDiscussion: {
-      url = routes.m.newDiscussion;
-      title = ls.newDiscussion;
-      break;
-    }
-    case entityQuestion: {
-      url = routes.m.newQuestion;
-      title = ls.newQuestion;
-      break;
-    }
-    default: {
-      throw new Error(`Invalid entity type ${entityType}`);
-    }
-  }
-
-  router.register(url, () =>
-    pageUtils.setTitleAndMainContent(
-      [title],
-      html`
-        <set-post-app
-          open
-          .goBackOnCancel=${true}
-          .entityType=${entityType}
-          .headerText=${title}
-        ></set-post-app>
-      `,
-    ),
-  );
-}
-
-[entityPost, entityDiscussion, entityQuestion].forEach((entityType) => {
-  loadNewPostContent(entityType);
-});
 
 router.register(routes.m.settings.profile, () => {
   loadSettingsContent(ls.profile, html` <edit-profile-app></edit-profile-app> `);

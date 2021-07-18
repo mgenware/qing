@@ -21,6 +21,7 @@ import appPageState from 'app/appPageState';
 import appAlert from 'app/appAlert';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
+import { CHECK } from 'checks';
 
 let editPostApp: SetPostApp | null = null;
 
@@ -47,7 +48,6 @@ function hookUpEditBarEvents() {
     }
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   editBarElement.addEventListener('editClick', () => {
     if (!editPostApp) {
       editPostApp = renderTemplateResult(
@@ -59,9 +59,8 @@ function hookUpEditBarEvents() {
         ></set-post-app>`,
       );
     }
-    if (editPostApp) {
-      editPostApp.open = true;
-    }
+    CHECK(editPostApp);
+    editPostApp.open = true;
   });
 }
 
