@@ -7,12 +7,12 @@
 
 import { html, customElement, TemplateResult, css } from 'll';
 import ls from 'ls';
-import routes from 'routes';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader, PCDiscussion } from './loaders/getPCPostsLoader';
+import { AppCommands, runCommand } from 'app/appCommands';
 
 @customElement('my-discussions-app')
 export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
@@ -48,7 +48,7 @@ export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
       <div class="row align-items-center">
         <div class="col">${ls.yourDiscussions}</div>
         <div class="col-auto">
-          <qing-button btnStyle="success" href=${routes.m.newDiscussion}
+          <qing-button btnStyle="success" @click=${this.handleNewDiscussionClick}
             >${ls.newDiscussion}</qing-button
           >
         </div>
@@ -84,6 +84,10 @@ export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
 
   defaultOrderingForColumn(_: string): boolean {
     return true;
+  }
+
+  private handleNewDiscussionClick() {
+    runCommand(AppCommands.newEntity, entityDiscussion);
   }
 }
 

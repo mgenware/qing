@@ -7,7 +7,6 @@
 
 import { html, customElement, TemplateResult, css } from 'll';
 import ls from 'ls';
-import routes from 'routes';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
