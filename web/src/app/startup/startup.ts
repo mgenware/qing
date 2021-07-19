@@ -7,11 +7,15 @@
 
 import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
-import { CSSResult } from 'll';
-import { injectStyles, ready } from 'lib/htmlLib';
+import { CSSResult, html } from 'll';
+import { injectStyles, ready, renderTemplateResult } from 'lib/htmlLib';
 import appSettings from 'app/appSettings';
 import { localizedErrDict } from 'defs';
 import Loader from 'lib/loader';
+import * as cmd from '../appCommands';
+import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
+import SetPostApp from 'post/setPostApp';
+import { CHECK } from 'checks';
 
 const localizedStringSlotClass = '__qing_ls__';
 
@@ -61,4 +65,34 @@ ready(() => {
 
   // Handle localization slots left by server templates.
   handleLocalizedStringSlots();
+
+  // App commands.
+  cmd.setCommand(cmd.AppCommands.newEntity, (arg) => {
+    const entityType = arg as number;
+    let title: string;
+    switch (entityType) {
+      case entityPost: {
+        title = ls.newPost;
+        break;
+      }
+      case entityDiscussion: {
+        title = ls.newDiscussion;
+        break;
+      }
+      case entityQuestion: {
+        title = ls.newQuestion;
+        break;
+      }
+      default: {
+        throw new Error(`Invalid entity type ${entityType}`);
+      }
+    }
+
+    const app = renderTemplateResult<SetPostApp>(
+      '',
+      html`<set-post-app open .entityType=${entityType} .headerText=${title}></set-post-app>`,
+    );
+    CHECK(app);
+    app.open = true;
+  });
 });

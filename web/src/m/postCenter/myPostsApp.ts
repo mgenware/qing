@@ -13,6 +13,7 @@ import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader, PCPost } from './loaders/getPCPostsLoader';
+import { AppCommands, runCommand } from 'app/appCommands';
 
 @customElement('my-posts-app')
 export default class MyPostsApp extends PCListApp<PCPost> {
@@ -48,7 +49,9 @@ export default class MyPostsApp extends PCListApp<PCPost> {
       <div class="row align-items-center">
         <div class="col">${ls.yourPosts}</div>
         <div class="col-auto">
-          <qing-button btnStyle="success" href=${routes.m.newPost}>${ls.newPost}</qing-button>
+          <qing-button btnStyle="success" @click=${this.handleNewPostClick}
+            >${ls.newPost}</qing-button
+          >
         </div>
       </div>
     `;
@@ -84,6 +87,10 @@ export default class MyPostsApp extends PCListApp<PCPost> {
 
   defaultOrderingForColumn(_: string): boolean {
     return true;
+  }
+
+  private handleNewPostClick() {
+    runCommand(AppCommands.newEntity, entityPost);
   }
 }
 

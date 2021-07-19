@@ -12,16 +12,15 @@ import routes from 'routes';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
-import { renderTemplateResult, tif } from 'lib/htmlLib';
+import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
-import SetPostApp from 'post/setPostApp';
 import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
-import { CHECK } from 'checks';
+import { AppCommands, runCommand } from 'app/appCommands';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -166,8 +165,6 @@ export default class NavBarApp extends BaseElement {
   @lp.object user: User | null = null;
   @lp.number currentTheme = defs.UserTheme.light;
 
-  private setPostApps = new Map<number, SetPostApp>();
-
   firstUpdated() {
     this.user = appPageState.user;
     this.currentTheme = appSettings.theme;
@@ -272,37 +269,7 @@ export default class NavBarApp extends BaseElement {
   }
 
   private handleNewPostClick(entityType: number) {
-    let title: string;
-    switch (entityType) {
-      case entityPost: {
-        title = ls.newPost;
-        break;
-      }
-      case entityDiscussion: {
-        title = ls.newDiscussion;
-        break;
-      }
-      case entityQuestion: {
-        title = ls.newQuestion;
-        break;
-      }
-      default: {
-        throw new Error(`Invalid entity type ${entityType}`);
-      }
-    }
-
-    let app: SetPostApp | null;
-    const t = this.setPostApps.get(entityType);
-    if (t) {
-      app = t;
-    } else {
-      app = renderTemplateResult<SetPostApp>(
-        '',
-        html`<set-post-app open .entityType=${entityType} .headerText=${title}></set-post-app>`,
-      );
-    }
-    CHECK(app);
-    app.open = true;
+    runCommand(AppCommands.newEntity, entityType);
   }
 }
 
