@@ -7,7 +7,7 @@
     "r": "daizong"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@github/image-crop-element": "^5.0.0",
