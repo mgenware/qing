@@ -48,7 +48,6 @@
     "go-const-gen": "^2.1.0",
     "json-to-js-const": "^0.1.0",
     "lit-analyzer": "^1.2.1",
-    "m-fs": "^5.0.0",
     "mgenware-tsconfig-browser": "^3.0.1",
     "mgenware-tsconfig-node": "^14.0.2",
     "qing-t": "^5.0.2",

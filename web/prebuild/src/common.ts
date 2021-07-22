@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as mfs from 'm-fs';
+import { promises as fs } from 'fs';
 
 export const copyrightString = `/*
  * Copyright (C) The Qing Project. All rights reserved.
@@ -29,7 +29,7 @@ export function webPath(path: string): string {
 
 export async function langNamesAsync(): Promise<string[]> {
   const jsonFile = langsDir + 'langs.json';
-  const obj = JSON.parse(await mfs.readTextFileAsync(jsonFile)) as any;
+  const obj = JSON.parse(await fs.readFile(jsonFile, 'utf8')) as any;
   const names = obj.langs as string[];
   if (!Array.isArray(names)) {
     throw new Error(`Assertion failed. \`names\` is not an array. Got: ${names}`);
