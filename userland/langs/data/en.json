@@ -21,7 +21,7 @@
   "yes": "Yes",
   "no": "No",
   "cancel": "Cancel",
-  "pPlzEnterThe": "Please enter the {0|lowercase}",
+  "pPlzEnterThe": "Please enter the {0|lowercase}.",
   "name": "Name",
   "saved": "Saved",
   "retry": "Retry",
