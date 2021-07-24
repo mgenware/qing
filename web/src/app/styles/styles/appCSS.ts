@@ -476,6 +476,7 @@ export default css`
       width: calc(100vw - 4rem);
       height: calc(100vh - 4rem);
       padding: 0 1.25rem 1.25rem 1.25rem;
+      max-width: 1320px;
     }
   }
 `;
