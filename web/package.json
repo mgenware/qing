@@ -21,7 +21,7 @@
     "f-array.splice": "^0.3.0",
     "fx214": "^2.0.0",
     "js-cookie": "^3.0.0-rc.1",
-    "kangxi-editor": "^0.14.1",
+    "kangxi-editor": "^0.14.2",
     "lit": "^2.0.0-rc.2",
     "lit-props": "^3.0.1",
     "plum-element": "^0.0.6",
