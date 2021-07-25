@@ -14,7 +14,8 @@ import { localizedErrDict } from 'defs';
 import Loader from 'lib/loader';
 import * as cmd from '../appCommands';
 import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
-import SetPostApp from 'post/setPostApp';
+import 'com/postCore/setPostApp';
+import SetPostApp from 'com/postCore/setPostApp';
 import { CHECK } from 'checks';
 
 const localizedStringSlotClass = '__qing_ls__';

@@ -9,7 +9,7 @@ import { html, customElement, css, BaseElement } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import 'ui/editor/composerView';
-import 'post/setPostApp';
+import 'com/postCore/setPostApp';
 import { entityDiscussionMsg } from 'sharedConstants';
 import discussionWind from './discussionWind';
 import { CHECK } from 'checks';

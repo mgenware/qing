@@ -10,7 +10,6 @@ import ls from 'ls';
 import routes from 'routes';
 import './settings/mSettingsView';
 import './settings/profile/editProfileApp';
-import 'post/setPostApp';
 import './postCenter/myPostsApp';
 import './postCenter/myDiscussionsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';

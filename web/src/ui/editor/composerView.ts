@@ -16,7 +16,7 @@ import { tif } from 'lib/htmlLib';
 import appAlert from 'app/appAlert';
 import LoadingStatus from 'lib/loadingStatus';
 import appTask from 'app/appTask';
-import { GetEntitySourceLoader } from 'post/loaders/getEntitySourceLoader';
+import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader';
 
 const editorID = 'editor';
 const titleInputID = 'title-input';
