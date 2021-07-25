@@ -8,6 +8,7 @@
 import { newLikeTable, LikeTable, LikeableTable } from './likeTableFactory.js';
 import post from '../post/post.js';
 import { cmt, reply } from '../cmt/cmt.js';
+import question from '../qna/question.js';
 
 function notNull<T>(val: T | null | undefined): T {
   if (val === null || val === undefined) {
@@ -16,7 +17,7 @@ function notNull<T>(val: T | null | undefined): T {
   return val;
 }
 
-const hostTables = [post, cmt, reply];
+const hostTables = [post, cmt, reply, question];
 
 const likeableTables = new Map<LikeableTable, LikeTable>(
   hostTables.map((hostTable) => [
@@ -29,3 +30,4 @@ export default likeableTables;
 export const postLike = notNull(likeableTables.get(post));
 export const cmtLike = notNull(likeableTables.get(cmt));
 export const replyLike = notNull(likeableTables.get(reply));
+export const questionLike = notNull(likeableTables.get(question));

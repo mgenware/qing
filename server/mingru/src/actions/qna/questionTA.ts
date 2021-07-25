@@ -42,7 +42,7 @@ export class QuestionTA extends ThreadBaseTA {
   }
 
   getExtraFullColumns(): mm.SelectedColumn[] {
-    return [t.title, t.cmt_count, t.reply_count, t.votes, t.up_votes, t.down_votes];
+    return [t.title, t.cmt_count, t.reply_count, t.likes];
   }
 
   getContainerUpdateCounterAction(): mm.Action {

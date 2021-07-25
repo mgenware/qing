@@ -83,9 +83,8 @@ export function getUserQuestionCols(t: Question, includeLastReplied: boolean): m
   const cols = [
     ...getCommonThreadCols(t),
     t.title,
-    t.reply_count.as(userThreadValue1ColumnName),
-    t.up_votes.as(userThreadValue2ColumnName),
-    t.down_votes.as(userThreadValue3ColumnName),
+    t.likes.as(userThreadValue1ColumnName),
+    t.reply_count.as(userThreadValue2ColumnName),
   ];
   if (includeLastReplied) {
     cols.push(t.last_replied_at);
