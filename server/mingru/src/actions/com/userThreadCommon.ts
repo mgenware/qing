@@ -85,6 +85,7 @@ export function getUserQuestionCols(t: Question, includeLastReplied: boolean): m
     t.title,
     t.likes.as(userThreadValue1ColumnName),
     t.reply_count.as(userThreadValue2ColumnName),
+    placeholderValueColumn(userThreadValue3ColumnName),
   ];
   if (includeLastReplied) {
     cols.push(t.last_replied_at);
