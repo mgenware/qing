@@ -28,12 +28,23 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	que, err := da.Question.SelectItemByID(appDB.DB(), pid)
+	db := appDB.DB()
+	que, err := da.Question.SelectItemByID(db, pid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)
-	queModel := NewQuestionPageModel(&que)
+	uid := resp.UserID()
 	title := que.Title
+
+	hasLiked := false
+	if uid != 0 {
+		liked, err := da.QuestionLike.HasLiked(db, pid, uid)
+		app.PanicIfErr(err)
+		hasLiked = liked
+	}
+
+	queModel := NewQuestionPageModel(&que, hasLiked)
+
 	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(queModel))
 	d.Scripts = appHandler.MainPage().ScriptString(qnaEntry)
 	return resp.MustComplete(d)

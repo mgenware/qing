@@ -30,10 +30,11 @@ type QuestionPageModel struct {
 	UserHTML    string
 	CreatedAt   string
 	ModifiedAt  string
+	HasLiked    int
 }
 
 // NewQuestionPageModel creates a PostPageModel.
-func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult) QuestionPageModel {
+func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool) QuestionPageModel {
 	d := QuestionPageModel{QuestionTableSelectItemByIDResult: *p}
 	eid := fmtx.EncodeID(p.ID)
 	d.QuestionURL = appURL.Get().Question(p.ID)
@@ -42,5 +43,8 @@ func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult) QuestionPageM
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserEID = fmtx.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
+	if hasLiked {
+		d.HasLiked = 1
+	}
 	return d
 }

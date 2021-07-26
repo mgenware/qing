@@ -1,16 +1,5 @@
 <container-view>
-  <question-app
-    initialVotes="{{.Votes}}"
-    initialUpVotes="{{.UpVotes}}"
-    initialDownVotes="{{.DownVotes}}"
-    initialAnsCount="{{.ReplyCount}}"
-    initialCmtCount="{{.CmtCount}}"
-  >
-    <h2>
-      <a href="{{.QuestionURL}}">{{html .Title}}</a>
-    </h2>
-    {{.UserHTML}}
-    <hr />
-    <div>{{.ContentHTML}}</div>
-  </question-app>
+  {{.QuestionAppHTML}}
+  <hr />
+  <div>{{.ContentHTML}}</div>
 </container-view>

@@ -22,17 +22,27 @@ export class QuestionApp extends BaseElement {
     ];
   }
 
-  @lp.number initialVotes = 0;
-  @lp.number initialUpVotes = 0;
-  @lp.number initialDownVotes = 0;
+  @lp.number initialLikes = 0;
+  // Intentionally set as a number as server bool values are easy
+  // to passed down as numbers when set as attributes.
+  // See `questionView.html`.
+  @lp.number initialHasLiked = 0;
   @lp.number initialCmtCount = 0;
   @lp.number initialAnsCount = 0;
 
   render() {
     return html`
-      <div class="row">
-        <div class="col-md-auto"></div>
-        <div class="col"><slot></slot></div>
+      <div>
+        <slot></slot>
+        <div class="m-t-md">
+          <like-app
+            .iconSize=${'md'}
+            .initialLikes=${this.initialLikes}
+            .initialHasLiked=${!!this.initialHasLiked}
+            .hostID=${hostID}
+            .hostType=${entityPost}
+          ></like-app>
+        </div>
       </div>
     `;
   }
