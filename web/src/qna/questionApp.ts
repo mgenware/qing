@@ -7,6 +7,7 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import 'com/cmt/cmtApp';
+import { entityQuestion } from 'sharedConstants';
 
 // Handles rendering of question votes and comments.
 @customElement('question-app')
@@ -29,6 +30,7 @@ export class QuestionApp extends BaseElement {
   @lp.number initialHasLiked = 0;
   @lp.number initialCmtCount = 0;
   @lp.number initialAnsCount = 0;
+  @lp.string eid = '';
 
   render() {
     return html`
@@ -39,8 +41,8 @@ export class QuestionApp extends BaseElement {
             .iconSize=${'md'}
             .initialLikes=${this.initialLikes}
             .initialHasLiked=${!!this.initialHasLiked}
-            .hostID=${hostID}
-            .hostType=${entityPost}
+            .hostID=${this.eid}
+            .hostType=${entityQuestion}
           ></like-app>
         </div>
       </div>
