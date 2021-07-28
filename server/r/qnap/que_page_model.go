@@ -17,11 +17,12 @@ var vQuestionPage = appHandler.MainPage().MustParseView("/qna/questionPage.html"
 type QuestionPageModel struct {
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
 	QuestionAppHTML string
-	ContentHTML     string
+	AnsListHTML     string
+	PageBarHTML     string
 }
 
 // NewQuestionPageModel creates a QuestionPageModel.
-func NewQuestionPageModel(queAppHTML, contentHTML string) QuestionPageModel {
-	d := QuestionPageModel{QuestionAppHTML: queAppHTML, ContentHTML: contentHTML}
+func NewQuestionPageModel(queAppHTML, ansListHTML, pageBarHTML string) QuestionPageModel {
+	d := QuestionPageModel{QuestionAppHTML: queAppHTML, AnsListHTML: ansListHTML, PageBarHTML: pageBarHTML}
 	return d
 }
