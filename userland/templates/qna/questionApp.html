@@ -3,10 +3,12 @@
   initialLikes="{{.Likes}}"
   initialAnsCount="{{.ReplyCount}}"
   initialCmtCount="{{.CmtCount}}"
-  initialHasLiked="{{.InitialHasLiked}}"
+  initialHasLiked="{{.HasLikedNum}}"
 >
   <h2>
     <a href="{{.QuestionURL}}">{{html .Title}}</a>
   </h2>
+  {{.UserHTML}}
+  <hr />
   {{.ContentHTML}}
 </question-app>

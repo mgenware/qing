@@ -43,9 +43,11 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 		hasLiked = liked
 	}
 
-	queModel := NewQuestionPageModel(&que, hasLiked)
+	queAppModel := NewQuestionAppModel(&que, hasLiked)
 
-	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(queModel))
+	quePageModel := NewQuestionPageModel(vQuestionApp.MustExecuteToString(queAppModel), "")
+
+	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(quePageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(qnaEntry)
 	return resp.MustComplete(d)
 }

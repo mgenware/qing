@@ -16,10 +16,10 @@ import (
 	"qing/r/rcom"
 )
 
-var vQuestionPage = appHandler.MainPage().MustParseView("/qna/questionPage.html")
+var vQuestionApp = appHandler.MainPage().MustParseView("/qna/questionApp.html")
 
-// QuestionPageModel is a wrapper around da.QuestionTableSelectPostByIDResult.
-type QuestionPageModel struct {
+// QuestionAppModel ...
+type QuestionAppModel struct {
 	da.QuestionTableSelectItemByIDResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
@@ -30,12 +30,12 @@ type QuestionPageModel struct {
 	UserHTML    string
 	CreatedAt   string
 	ModifiedAt  string
-	HasLiked    int
+	HasLikedNum int
 }
 
-// NewQuestionPageModel creates a PostPageModel.
-func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool) QuestionPageModel {
-	d := QuestionPageModel{QuestionTableSelectItemByIDResult: *p}
+// NewQuestionAppModel creates a QuestionAppModel.
+func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool) QuestionAppModel {
+	d := QuestionAppModel{QuestionTableSelectItemByIDResult: *p}
 	eid := fmtx.EncodeID(p.ID)
 	d.QuestionURL = appURL.Get().Question(p.ID)
 	d.EID = eid
@@ -44,7 +44,7 @@ func NewQuestionPageModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool
 	d.UserEID = fmtx.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	if hasLiked {
-		d.HasLiked = 1
+		d.HasLikedNum = 1
 	}
 	return d
 }
