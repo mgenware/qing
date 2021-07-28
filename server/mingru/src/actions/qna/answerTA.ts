@@ -31,45 +31,45 @@ export class AnswerTA extends ContentBaseTA {
       .orderByAsc(t.created_at);
   }
 
-  getBaseTable(): ContentBase {
+  override getBaseTable(): ContentBase {
     return t;
   }
 
-  getCmtBaseTable(): ContentCmtBase {
+  override getCmtBaseTable(): ContentCmtBase {
     return answerCmt;
   }
 
   // Post center is not supported.
-  getPCColumns(): mm.SelectedColumn[] {
+  override getPCColumns(): mm.SelectedColumn[] {
     return [];
   }
 
-  getPCOrderByColumns(): mm.SelectedColumn[] {
+  override getPCOrderByColumns(): mm.SelectedColumn[] {
     return [];
   }
 
   // Profile is not supported.
-  getProfileColumns(): mm.SelectedColumn[] {
+  override getProfileColumns(): mm.SelectedColumn[] {
     return [];
   }
 
-  getEditingColumns(): mm.Column[] {
+  override getEditingColumns(): mm.Column[] {
     return [t.content];
   }
 
-  getExtraFullColumns(): mm.SelectedColumn[] {
+  override getExtraFullColumns(): mm.SelectedColumn[] {
     return [t.cmt_count];
   }
 
-  getContainerUpdateCounterAction(): mm.Action {
+  override getContainerUpdateCounterAction(): mm.Action {
     return questionTA.updateMsgCount.wrap({ id: mm.valueRef(questionID), offset: '-1' });
   }
 
-  getExtraInsertionInputColumns(): mm.Column[] {
+  override getExtraInsertionInputColumns(): mm.Column[] {
     return [t.question_id];
   }
 
-  deleteItemOverride(): mm.Action | null {
+  override deleteItemOverride(): mm.Action | null {
     return mm.transact(
       mm.selectField(t.question_id).by(t.id).declareReturnValue(mm.ReturnValues.result, questionID),
       mm.deleteOne().whereSQL(this.updateConditions),

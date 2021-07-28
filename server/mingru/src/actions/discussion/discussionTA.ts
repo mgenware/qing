@@ -17,35 +17,35 @@ import userStatsTA from '../user/userStatsTA.js';
 export class DiscussionTA extends ThreadBaseTA {
   updateMsgCount = updateCounterAction(t, t.reply_count);
 
-  getBaseTable(): ContentBase {
+  override getBaseTable(): ContentBase {
     return t;
   }
 
-  getCmtBaseTable(): ContentCmtBase {
+  override getCmtBaseTable(): ContentCmtBase {
     return discussionCmt;
   }
 
-  getPCColumns(): mm.SelectedColumn[] {
+  override getPCColumns(): mm.SelectedColumn[] {
     return [t.title, t.reply_count];
   }
 
-  getPCOrderByColumns(): mm.SelectedColumn[] {
+  override getPCOrderByColumns(): mm.SelectedColumn[] {
     return [t.created_at, t.reply_count];
   }
 
-  getProfileColumns(): mm.SelectedColumn[] {
+  override getProfileColumns(): mm.SelectedColumn[] {
     return [t.title];
   }
 
-  getEditingColumns(): mm.Column[] {
+  override getEditingColumns(): mm.Column[] {
     return [t.title, t.content];
   }
 
-  getExtraFullColumns(): mm.SelectedColumn[] {
+  override getExtraFullColumns(): mm.SelectedColumn[] {
     return [t.title, t.cmt_count, t.reply_count];
   }
 
-  getContainerUpdateCounterAction(): mm.Action {
+  override getContainerUpdateCounterAction(): mm.Action {
     return userStatsTA.updateDiscussionCount;
   }
 }
