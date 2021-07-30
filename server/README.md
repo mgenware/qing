@@ -1,6 +1,6 @@
 # qing.server
 
-## Naming convensions
+## Naming conventions
 
 We strictly follow the standard Go naming conventions with some additions.
 
@@ -16,13 +16,13 @@ We strictly follow the standard Go naming conventions with some additions.
 
 ## Run tests
 
-To run all unit tests
+Run server unit tests:
 
 ```sh
 Q_TEST=/qing/userland/test.json go test ./...
 ```
 
-To run an specific test:
+To run a specific test:
 
 ```sh
 # cd to the directory of the test you want to run.
