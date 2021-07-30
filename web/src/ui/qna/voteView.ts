@@ -16,8 +16,8 @@ import { tif } from 'lib/htmlLib';
 
 const voteBtnSize = 20;
 
-@customElement('voting-view')
-export class VotingView extends BaseElement {
+@customElement('vote-view')
+export class VoteView extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -113,6 +113,6 @@ export class VotingView extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'voting-view': VotingView;
+    'vote-view': VoteView;
   }
 }
