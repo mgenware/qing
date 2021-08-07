@@ -24,6 +24,7 @@ import forumTA from './forum/forumTA.js';
 import forumIsUserModTA from './forum/forumIsUserModTA.js';
 import forumGroupModTA from './forum/forumGroupModTA.js';
 import forumModTA from './forum/forumModTA.js';
+import voteTAs from './vote/voteTAs.js';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -36,6 +37,7 @@ const actions: mm.TableActions[] = [
   discussionTA,
   discussionMsgTA,
   ...likeTAs,
+  ...voteTAs,
   homeTA,
   questionTA,
   answerTA,

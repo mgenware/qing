@@ -14,6 +14,7 @@ import userStats from './user/userStats.js';
 import userPwd from './user/userPwd.js';
 import userAuth from './user/userAuth.js';
 import likes from './like/likeableTables.js';
+import votes from './vote/votableTables.js';
 import discussion from './discussion/discussion.js';
 import discussionCmt from './discussion/discussionCmt.js';
 import discussionMsg from './discussion/discussionMsg.js';
@@ -46,6 +47,7 @@ const tables: mm.Table[] = [
   answer,
   answerCmt,
   ...likes.values(),
+  ...votes.values(),
   forum,
   forumGroup,
   forumMod,
