@@ -55,6 +55,7 @@ type SharedConstantsType struct {
 	MaxUserPwdLen int
 	MinUserPwdLen int
 	RouteApi string
+	RouteAnswer string
 	RouteAuth string
 	RouteDevPage string
 	RouteDiscussion string
@@ -114,6 +115,7 @@ func init() {
 		MaxUserPwdLen: 30,
 		MinUserPwdLen: 6,
 		RouteApi: "s",
+		RouteAnswer: "a",
 		RouteAuth: "auth",
 		RouteDevPage: "__",
 		RouteDiscussion: "d",

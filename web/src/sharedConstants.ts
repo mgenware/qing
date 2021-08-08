@@ -34,6 +34,7 @@ export const routeForum = "f";
 export const routeDiscussion = "d";
 export const routeForumGroup = "g";
 export const routeQuestion = "q";
+export const routeAnswer = "a";
 export const routeLang = "lang";
 export const entityPost = 1;
 export const entityCmt = 2;

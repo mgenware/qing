@@ -21,6 +21,7 @@
   "routeDiscussion": "d",
   "routeForumGroup": "g",
   "routeQuestion": "q",
+  "routeAnswer": "a",
   "routeLang": "lang",
   "entityPost": 1,
   "entityCmt": 2,
