@@ -15,12 +15,12 @@ type HomePageURLFormatter struct {
 }
 
 // NewHomePageURLFormatter creates a HomePageURLFormatter.
-func NewHomePageURLFormatter(tab string) *HomePageURLFormatter {
-	r := &HomePageURLFormatter{Tab: tab}
+func NewHomePageURLFormatter(tab string) HomePageURLFormatter {
+	r := HomePageURLFormatter{Tab: tab}
 	return r
 }
 
 // GetURL returns the URL result.
-func (formatter *HomePageURLFormatter) GetURL(page int) string {
+func (formatter HomePageURLFormatter) GetURL(page int) string {
 	return appURL.Get().HomeAdv(formatter.Tab, page)
 }

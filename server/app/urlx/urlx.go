@@ -120,6 +120,11 @@ func (u *URL) Question(pid uint64) string {
 	return u.QuestionWithPage(pid, 1)
 }
 
+func (u *URL) Answer(aid uint64) string {
+	s := "/" + defs.Shared.RouteAnswer + "/" + fmtx.EncodeID(aid)
+	return s
+}
+
 func (u *URL) SignIn() string {
 	return "/" + defs.Shared.RouteAuth + "/sign/in"
 }

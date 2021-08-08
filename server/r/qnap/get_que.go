@@ -28,13 +28,13 @@ const defaultPageSize = 10
 
 // GetQuestion is the HTTP handler for questions.
 func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
-	pid, err := fmtx.DecodeID(chi.URLParam(r, "qid"))
+	qid, err := fmtx.DecodeID(chi.URLParam(r, "qid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 	page := validator.GetPageParamFromRequestQueryString(r)
 	db := appDB.DB()
-	que, err := da.Question.SelectItemByID(db, pid)
+	que, err := da.Question.SelectItemByID(db, qid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)
@@ -43,17 +43,15 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	hasLiked := false
 	if uid != 0 {
-		liked, err := da.QuestionLike.HasLiked(db, pid, uid)
+		liked, err := da.QuestionLike.HasLiked(db, qid, uid)
 		app.PanicIfErr(err)
 		hasLiked = liked
 	}
 
 	queAppModel := NewQuestionAppModel(&que, hasLiked)
 
-	quePageModel := NewQuestionPageModel(vQuestionApp.MustExecuteToString(queAppModel), "")
-
 	// Fetch answers.
-	ansList, hasNext, err = da.Answer.SelectItemsByQuestion(db, pid, page, defaultPageSize)
+	ansList, hasNext, err := da.Answer.SelectItemsByQuestion(db, qid, page, defaultPageSize)
 	app.PanicIfErr(err)
 
 	var ansListHTMLBuilder strings.Builder
@@ -61,12 +59,17 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 		ansListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range ansList {
-			itemModel, err := rcom.NewUserThreadModel(&item)
+			itemModel := NewAnswerAppModel(&item)
 			app.PanicIfErr(err)
-			ansListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
+			ansListHTMLBuilder.WriteString(vAnswerApp.MustExecuteToString(itemModel))
 		}
 	}
 
+	queURLFormatter := NewQueURLFormatter(qid)
+	pageData := rcom.NewPageData(page, hasNext, queURLFormatter, 0)
+	pageBarHTML := rcom.GetPageBarHTML(pageData)
+
+	quePageModel := NewQuestionPageModel(vQuestionApp.MustExecuteToString(queAppModel), ansListHTMLBuilder.String(), pageBarHTML)
 	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(quePageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(qnaEntryScriptName)
 	return resp.MustComplete(d)
