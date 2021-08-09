@@ -12,7 +12,7 @@ import { terser } from 'rollup-plugin-terser';
 import minifyTemplates from 'rollup-plugin-minify-html-literals';
 
 const isProd = process.env.NODE_ENV == 'production';
-console.log(`Build started on ${isProd ? `⚠️⚠️⚠️ PRODUCTION ⚠️⚠️⚠️` : `😜 dev`} mode`);
+console.log(`Build started on ${isProd ? `!!! PRODUCTION !!!` : `😜 dev`} mode`);
 
 let plugins = [
   nodeResolve({
