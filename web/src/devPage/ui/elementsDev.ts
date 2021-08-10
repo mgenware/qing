@@ -17,7 +17,7 @@ import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
-import 'ui/qna/votingView';
+import 'ui/qna/voteView';
 import 'ui/lists/linkListView';
 import 'com/like/likeView';
 import 'com/postCore/setPostApp';
