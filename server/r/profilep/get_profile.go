@@ -25,7 +25,7 @@ import (
 )
 
 const userPostsLimit = 10
-const profileScript = "profileEntry"
+const profileScript = "profile/profileEntry"
 
 // GetProfile handles user profile routes.
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {

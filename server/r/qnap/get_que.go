@@ -23,7 +23,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-const qnaEntryScriptName = "qnaEntry"
+const qnaEntryScriptName = "qna/questionEntry"
 const defaultPageSize = 10
 
 // GetQuestion is the HTTP handler for questions.

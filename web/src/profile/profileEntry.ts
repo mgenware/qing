@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 // Used in profile post list.
 import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'll';

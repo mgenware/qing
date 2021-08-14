@@ -5,4 +5,5 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 import './questionApp';
