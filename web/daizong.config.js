@@ -28,8 +28,11 @@ export default {
 
   /** Standard mode */
   dev: {
-    run: ['#prepare', 'rollup -c -w'],
+    run: ['#prepare', 'tsc -w'],
     env: devEnv,
+  },
+  dd: {
+    run: 'node esbuild.cjs',
   },
   build: {
     run: ['#lint', '#prepare', 'rollup -c'],
@@ -80,13 +83,13 @@ export default {
       prepare: {
         run: '#prebuild',
         after: {
-          del: '../userland/static/d/js',
+          del: ['dist', '../userland/static/d/js'],
         },
       },
       'prepare-turbo': {
         run: '#prebuild',
         before: {
-          del: 'dist',
+          del: 'dist-turbo',
         },
       },
     },

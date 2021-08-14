@@ -2,6 +2,7 @@
   "extends": "mgenware-tsconfig-browser",
   "include": ["./src/**/*"],
   "compilerOptions": {
+    "outDir": "./dist",
     "importHelpers": true,
     "rootDir": "./src",
     "baseUrl": "./src",
