@@ -33,8 +33,6 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
     "@types/js-cookie": "^2.2.7",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.4.13",
@@ -51,10 +49,6 @@
     "mgenware-tsconfig-browser": "^3.0.1",
     "mgenware-tsconfig-node": "^14.0.2",
     "qing-t": "^5.0.2",
-    "rollup": "^2.56.1",
-    "rollup-plugin-minify-html-literals": "^1.2.6",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
     "source-map-support": "^0.5.19",
     "ts-transform-esm-import": "^0.3.0",
     "ttypescript": "^1.5.12",
