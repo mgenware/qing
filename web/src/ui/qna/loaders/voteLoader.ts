@@ -9,8 +9,13 @@ import Loader from 'lib/loader';
 import routes from 'routes';
 import { CHECK } from 'checks';
 
-export default class SetLikeLoader extends Loader<string> {
-  constructor(public id: string, public type: LikeHostType, public liked: boolean) {
+export enum VoteValue {
+  clear = 0,
+  up = 1,
+  down = -1,
+}
+export class VoteLoader extends Loader<string> {
+  constructor(public id: string, public value: VoteValue) {
     super();
     CHECK(id);
   }
@@ -22,8 +27,7 @@ export default class SetLikeLoader extends Loader<string> {
   requestParams(): Record<string, unknown> {
     return {
       id: this.id,
-      value: +this.liked,
-      type: +this.type,
+      value: +this.value,
     };
   }
 }

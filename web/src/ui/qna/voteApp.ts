@@ -8,8 +8,7 @@
 import { html, customElement, css, BaseElement, lp } from 'll';
 import { CHECK } from 'checks';
 import './likeView';
-import LikeHostType from './loaders/likeHostType';
-import SetLikeLoader from './loaders/setLikeLoader';
+import { VoteLoader, VoteValue } from './loaders/voteLoader';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import appPageState from 'app/appPageState';
@@ -17,8 +16,8 @@ import ls, { formatLS } from 'ls';
 
 const sizeMD = 'md';
 
-@customElement('like-app')
-export class LikeApp extends BaseElement {
+@customElement('vote-app')
+export class VoteApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -32,33 +31,30 @@ export class LikeApp extends BaseElement {
 
   // Reflected: used for quick locating the view during testing.
   @lp.reflected.string hostID = '';
-  // Reflected: used for quick locating the view during testing.
-  @lp.reflected.number hostType: LikeHostType = 0;
   @lp.number initialLikes = 0;
-  @lp.bool initialHasLiked = false;
+  @lp.bool initialMyVote = VoteValue.clear;
   @lp.string iconSize = sizeMD;
 
   @lp.number private likes = 0;
   @lp.bool private isWorking = false;
-  @lp.bool private hasLiked = false;
+  @lp.bool private myVote = VoteValue.clear;
 
   firstUpdated() {
     CHECK(this.hostID);
-    CHECK(this.hostType);
 
     this.likes = this.initialLikes ?? 0;
-    this.hasLiked = this.initialHasLiked;
+    this.myVote = this.initialMyVote;
   }
 
   render() {
     return html`
-      <like-view
+      <vote-view
         .isWorking=${this.isWorking}
-        .hasLiked=${this.hasLiked}
+        ..myVote=${this.initialMyVote}
         .likes=${this.likes}
         .iconSize=${this.iconSize === sizeMD ? 30 : 22}
         @click=${this.handleClick}
-      ></like-view>
+      ></vote-view>
     `;
   }
 
@@ -72,14 +68,13 @@ export class LikeApp extends BaseElement {
       return;
     }
 
-    const loader = new SetLikeLoader(this.hostID, this.hostType, !this.hasLiked);
+    const loader = new VoteLoader(this.hostID, this.myVote);
     const res = await appTask.local(loader, (s) => (this.isWorking = s.isWorking));
 
     if (res.error) {
       await appAlert.error(res.error.message);
     } else {
-      this.hasLiked = !this.hasLiked;
-      this.likes += this.hasLiked ? 1 : -1;
+      // TODO: handle vote change.
     }
   }
 }
