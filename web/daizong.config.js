@@ -79,6 +79,9 @@ export default {
     privateTasks: {
       prepare: {
         run: '#prebuild',
+        after: {
+          del: '../userland/static/d/js',
+        },
       },
       'prepare-turbo': {
         run: '#prebuild',
