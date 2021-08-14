@@ -20,7 +20,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-const postScript = "postEntry"
+const postScript = "post/postEntry"
 
 // GetPost is the HTTP handler for posts.
 func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {

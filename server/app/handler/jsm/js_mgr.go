@@ -36,34 +36,22 @@ func match(rootDir string, file string) (string, error) {
 	return "/static/" + rel, nil
 }
 
-func htmlScript(src string, module bool) string {
-	s := "<script src=\"" + src + "\""
-	if module {
-		s += " type=\"module\""
-	}
-	s += "></script>"
-	return s
+func scriptTag(src string) string {
+	return "<script src=\"" + src + "\"></script>"
 }
 
-func sysScript(src string) string {
-	return "<script>System.import('" + src + "')</script>"
+func appScriptTag(name string) string {
+	return scriptTag("/static/g/app/" + name + ".js")
 }
 
-func libJS(name string) string {
-	return htmlScript("/static/lib/"+name+".js", false)
-}
-
-func pageJS(name string) string {
-	return sysScript("/static/d/js/" + name + ".js")
+func langScriptTag(name string) string {
+	return scriptTag("/static/g/lang/" + name + ".js")
 }
 
 // JSManager manages JS assets.
 type JSManager struct {
 	dev  bool
 	conf *configs.TurboWebConfig
-
-	// SystemScripts are scripts that have to be applied before page scripts.
-	SystemScripts string
 
 	// K: name, V: <script> string.
 	entries map[string]string
@@ -74,23 +62,18 @@ func NewJSManager(dev bool) *JSManager {
 	r := &JSManager{}
 	r.dev = dev
 	r.entries = make(map[string]string)
-
-	var mainEntryJS string
-	if r.dev {
-		mainEntryJS = pageJS("coreEntryDev")
-	} else {
-		mainEntryJS = pageJS("coreEntry")
-	}
-
-	r.SystemScripts = libJS("s6.3.2.min") + mainEntryJS
 	return r
 }
 
 func (jsm *JSManager) ScriptString(name string) string {
 	v := jsm.entries[name]
 	if v == "" {
-		v = pageJS(name)
+		v = appScriptTag(name)
 		jsm.entries[name] = v
 	}
 	return v
+}
+
+func (jsm *JSManager) LangScriptString(name string) string {
+	return langScriptTag(name)
 }

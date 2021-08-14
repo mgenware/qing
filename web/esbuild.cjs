@@ -13,13 +13,13 @@ const entryPoints = [
   'forum/forumSettingsEntry.ts',
   'lang/langEntry.ts',
   'qna/questionEntry.ts',
-];
+].map((s) => `src/${s}`);
 
 esbuild
   .build({
     entryPoints,
     bundle: true,
-    outdir: 'dist-es',
+    outdir: '../userland/static/g/app',
     define: {
       'window.__qing_dev__': true,
     },

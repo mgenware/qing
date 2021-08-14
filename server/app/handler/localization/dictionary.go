@@ -81,6 +81,7 @@ type Dictionary struct {
 	Italic                            string `json:"italic"`
 	LangSettings                      string `json:"langSettings"`
 	Likes                             string `json:"likes"`
+	Link                              string `json:"link"`
 	Loading                           string `json:"loading"`
 	Location                          string `json:"location"`
 	Moderators                        string `json:"moderators"`

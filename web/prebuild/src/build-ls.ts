@@ -7,6 +7,7 @@
 
 import { goConstGenCore, PropData } from 'go-const-gen';
 import { promises as fs } from 'fs';
+import * as path from 'path';
 import {
   webPath,
   serverPath,
@@ -14,7 +15,6 @@ import {
   langNamesAsync,
   langDataPath,
   defaultLangPath,
-  langsDir,
 } from './common.js';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
@@ -59,17 +59,13 @@ func init() {
   await fs.writeFile(serverPath('app/handler/localization/test_dictionary.go'), res);
 }
 
-// When importing `app.ts`, `window.ls` must be present. Test files need to
-// import this file to make sure import `app.ts` doesn't break.
-async function writeENLangForTesting(content: string): Promise<void> {
-  const out = `/* eslint-disable */\n(window as any).ls = ${content}`;
-  await fs.writeFile(webPath('src/debug/d/injectLangEN.ts'), out);
-}
-
 async function buildDistJS(name: string, file: string): Promise<void> {
   const content = await fs.readFile(file, 'utf8');
-  const out = `window.ls = ${content}`;
-  await fs.writeFile(webPath(`${langsDir}/dist/${name}.js`), out);
+  const outContent = `window.ls = ${content}`;
+  const outDir = webPath('../userland/static/g/lang');
+  await fs.mkdir(outDir, { recursive: true });
+  const outFile = path.join(outDir, `${name}.js`);
+  await fs.writeFile(outFile, outContent);
 }
 
 async function buildLangs() {
@@ -80,9 +76,4 @@ async function buildLangs() {
 
 const lsString = await fs.readFile(defaultLangPath, 'utf8');
 const lsObj = JSON.parse(lsString) as Record<string, string>;
-await Promise.all([
-  buildWebLSDef(lsObj),
-  buildServerDictFiles(lsObj),
-  writeENLangForTesting(lsString),
-  buildLangs(),
-]);
+await Promise.all([buildWebLSDef(lsObj), buildServerDictFiles(lsObj), buildLangs()]);

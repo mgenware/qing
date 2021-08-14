@@ -8,18 +8,14 @@
 package handler
 
 import (
-	"bytes"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
 	"qing/app"
 	"qing/app/appcom"
 	"qing/app/config"
-	txt "text/template"
 
 	"qing/app/handler/jsm"
 	"qing/app/handler/localization"
@@ -110,7 +106,6 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	d.Title = m.PageTitle(lang, d.Title)
 
 	// Setup additional assets
-	d.Header = d.Header
 	d.AppLang = lang
 	d.AppForumsMode = m.conf.Setup.ForumsMode
 	d.AppHTMLLang = lang
@@ -119,26 +114,8 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		d.AppWindDataString = string(jsonBytes)
 	}
 
-	scripts := m.jsMgr.SystemScripts
-	// Language file, this should be loaded first as the main.js relies on it.
-	if m.conf.DevMode() {
-		// Read the JSON content and inject it to main page in dev mode.
-		jsonFileName := fmt.Sprintf("%v.json", lang)
-		jsonFile := filepath.Join(m.conf.Localization.Dir, jsonFileName)
-		jsonBytes, err := os.ReadFile(jsonFile)
-		if err != nil {
-			panic(err) // can panic in dev mode
-		}
-		var buffer bytes.Buffer
-		err = json.Compact(&buffer, jsonBytes)
-		if err != nil {
-			panic(err) // can panic in dev mode
-		}
-		scripts += "<script>window.ls=JSON.parse(\"" + txt.JSEscapeString(buffer.String()) + "\")</script>"
-	}
-
-	// System scripts come before user scripts
-	d.Scripts = scripts + d.Scripts
+	// Lang script comes before user scripts
+	d.Scripts = m.jsMgr.LangScriptString(lang) + d.Scripts
 
 	// User info
 	user := appcom.ContextUser(ctx)

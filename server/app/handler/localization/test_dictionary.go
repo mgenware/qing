@@ -76,6 +76,7 @@ func init() {
 	TestDict.Italic = "ls.italic"
 	TestDict.LangSettings = "ls.langSettings"
 	TestDict.Likes = "ls.likes"
+	TestDict.Link = "ls.link"
 	TestDict.Loading = "ls.loading"
 	TestDict.Location = "ls.location"
 	TestDict.Moderators = "ls.moderators"
