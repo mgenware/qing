@@ -13,7 +13,8 @@ import (
 )
 
 var dbSources = map[int]da.LikeInterface{
-	defs.Shared.EntityPost:  da.PostLike,
-	defs.Shared.EntityCmt:   da.CmtLike,
-	defs.Shared.EntityReply: da.ReplyLike,
+	defs.Shared.EntityPost:     da.PostLike,
+	defs.Shared.EntityCmt:      da.CmtLike,
+	defs.Shared.EntityReply:    da.ReplyLike,
+	defs.Shared.EntityQuestion: da.QuestionLike,
 }
