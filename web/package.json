@@ -12,7 +12,6 @@
   "dependencies": {
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.9.3",
-    "@webcomponents/webcomponentsjs": "^2.6.0",
     "basic-trie": "^0.2.0",
     "bowhead-js": "^6.0.1",
     "construct-style-sheets-polyfill": "^2.4.2",
