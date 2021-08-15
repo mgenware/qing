@@ -23,8 +23,8 @@ import (
 )
 
 const defaultPageSize = 10
-const homeStdScript = "homeStdEntry"
-const homeForumScript = "homeFrmEntry"
+const homeStdScript = "home/homeStdEntry"
+const homeForumScript = "home/homeFrmEntry"
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {

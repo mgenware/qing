@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';
 import { ready } from 'lib/htmlLib';

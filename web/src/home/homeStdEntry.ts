@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 import { injectStyles, ready } from 'lib/htmlLib';
 import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';

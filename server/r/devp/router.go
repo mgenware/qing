@@ -18,7 +18,7 @@ import (
 
 var Router = chi.NewRouter()
 
-const devPageScript = "devPageEntry"
+const devPageScript = "devPage/devPageEntry"
 
 func init() {
 	// Auth router.

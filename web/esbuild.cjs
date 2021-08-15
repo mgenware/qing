@@ -13,6 +13,7 @@ const entryPoints = [
   'forum/forumSettingsEntry.ts',
   'lang/langEntry.ts',
   'qna/questionEntry.ts',
+  'devPage/devPageEntry.ts',
 ].map((s) => `src/${s}`);
 
 esbuild

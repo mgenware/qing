@@ -17,7 +17,7 @@ import (
 // Router ...
 var Router = handler.NewHTMLRouter()
 
-const mScript = "mEntry"
+const mScript = "m/mEntry"
 
 func init() {
 	Router.Core.Use(appUserManager.Get().RequireLoginHTMLMiddleware)

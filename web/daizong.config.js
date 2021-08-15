@@ -28,11 +28,8 @@ export default {
 
   /** Standard mode */
   dev: {
-    run: ['#prepare', 'tsc -w'],
+    run: ['#prepare', 'tsc-watch --onSuccess "node esbuild.cjs"'],
     env: devEnv,
-  },
-  dd: {
-    run: 'node esbuild.cjs',
   },
   build: {
     run: ['#lint', '#prepare', 'rollup -c'],

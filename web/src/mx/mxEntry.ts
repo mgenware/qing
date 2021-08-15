@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
 import routes from 'routes';
