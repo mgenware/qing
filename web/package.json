@@ -14,7 +14,6 @@
     "@popperjs/core": "^2.9.3",
     "basic-trie": "^0.2.0",
     "bowhead-js": "^6.0.1",
-    "construct-style-sheets-polyfill": "^3.0.0",
     "date-fns": "^2.23.0",
     "debounce-fn": "^5.0.0",
     "f-array.splice": "^0.3.0",
