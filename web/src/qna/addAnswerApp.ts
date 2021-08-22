@@ -8,7 +8,6 @@
 import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
 import { parseString } from 'narwhal-js';
-import { entityAnswer } from 'sharedConstants';
 import appPageState from 'app/appPageState';
 
 @customElement('add-answer-app')
@@ -24,33 +23,26 @@ export class AddAnswerApp extends BaseElement {
     ];
   }
 
-  @lp.number initialLikes = 0;
-  // Intentionally set as a number as server bool values are easy
-  // to passed down as numbers when set as attributes.
-  // See `questionView.html`.
-  @lp.number initialHasLiked = 0;
-  @lp.number initialCmtCount = 0;
-  @lp.number initialAnsCount = 0;
-  @lp.string eid = '';
+  @lp.string myAnswerURL = '';
+  @lp.bool isMyAnswer = false;
 
   render() {
+    // Render "login to answer" for visitors.
     if (!appPageState.user) {
       return this.renderLoginToAddYourAnswer();
     }
-    return html`
-      <div>
-        <slot></slot>
-        <div class="m-t-md">
-          <like-app
-            .iconSize=${'md'}
-            .initialLikes=${this.initialLikes}
-            .initialHasLiked=${!!this.initialHasLiked}
-            .hostID=${this.eid}
-            .hostType=${entityAnswer}
-          ></like-app>
-        </div>
-      </div>
-    `;
+
+    // Render nothing if current page is my answer.
+    if (this.isMyAnswer) {
+      return '';
+    }
+
+    // Render "go to my answer" button if `myAnswerURL` is not empty.
+    if (this.myAnswerURL) {
+      return html`<qing-button btnStyle="primary">${ls.goToMyAnswer}</qing-button>`;
+    }
+
+    return html``;
   }
 
   private renderLoginToAddYourAnswer() {

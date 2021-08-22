@@ -72,6 +72,7 @@ type Dictionary struct {
 	FeatureOnlyAvailableToAdmins      string `json:"featureOnlyAvailableToAdmins"`
 	FindUsersByColon                  string `json:"findUsersByColon"`
 	General                           string `json:"general"`
+	GoToMyAnswer                      string `json:"goToMyAnswer"`
 	GoToPage                          string `json:"goToPage"`
 	GoToYourEmail                     string `json:"goToYourEmail"`
 	Home                              string `json:"home"`

@@ -67,6 +67,7 @@ func init() {
 	TestDict.FeatureOnlyAvailableToAdmins = "ls.featureOnlyAvailableToAdmins"
 	TestDict.FindUsersByColon = "ls.findUsersByColon"
 	TestDict.General = "ls.general"
+	TestDict.GoToMyAnswer = "ls.goToMyAnswer"
 	TestDict.GoToPage = "ls.goToPage"
 	TestDict.GoToYourEmail = "ls.goToYourEmail"
 	TestDict.Home = "ls.home"
