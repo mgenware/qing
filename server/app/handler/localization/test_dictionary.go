@@ -108,6 +108,7 @@ func init() {
 	TestDict.PageControlPageFormat = "ls.pageControlPageFormat"
 	TestDict.PageNumberOutOfBounds = "ls.pageNumberOutOfBounds"
 	TestDict.Password = "ls.password"
+	TestDict.PlsLoginToAddYourAnswer = "ls.plsLoginToAddYourAnswer"
 	TestDict.PlsLoginToComment = "ls.plsLoginToComment"
 	TestDict.Post = "ls.post"
 	TestDict.PostAMsgToThisDiscussion = "ls.postAMsgToThisDiscussion"

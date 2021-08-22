@@ -113,6 +113,7 @@ type Dictionary struct {
 	PageControlPageFormat             string `json:"pageControlPageFormat"`
 	PageNumberOutOfBounds             string `json:"pageNumberOutOfBounds"`
 	Password                          string `json:"password"`
+	PlsLoginToAddYourAnswer           string `json:"plsLoginToAddYourAnswer"`
 	PlsLoginToComment                 string `json:"plsLoginToComment"`
 	Post                              string `json:"post"`
 	PostAMsgToThisDiscussion          string `json:"postAMsgToThisDiscussion"`

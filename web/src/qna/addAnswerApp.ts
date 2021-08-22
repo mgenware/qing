@@ -5,9 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { splitLocalizedString } from 'lib/stringUtils';
 import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
+import { parseString } from 'narwhal-js';
+import { entityAnswer } from 'sharedConstants';
+import appPageState from 'app/appPageState';
 
 @customElement('add-answer-app')
 export class AddAnswerApp extends BaseElement {
@@ -32,6 +34,9 @@ export class AddAnswerApp extends BaseElement {
   @lp.string eid = '';
 
   render() {
+    if (!appPageState.user) {
+      return this.renderLoginToAddYourAnswer();
+    }
     return html`
       <div>
         <slot></slot>
@@ -49,14 +54,16 @@ export class AddAnswerApp extends BaseElement {
   }
 
   private renderLoginToAddYourAnswer() {
-    const loginToCommentTextArray = splitLocalizedString(ls.plsLoginToAddYourAnswer);
     return html`
       <div>
-        <span>${loginToCommentTextArray[0]}</span>
-        <qing-button btnStyle="success" class="m-l-xs m-r-xs"
-          >${loginToCommentTextArray[1]}</qing-button
-        >
-        <span>${loginToCommentTextArray[2]}</span>
+        ${parseString(ls.plsLoginToAddYourAnswer).map((sg) => {
+          if (!sg.type) {
+            return html`<span>${sg.value}</span>`;
+          }
+          return html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
+            >${sg.value}</qing-button
+          >`;
+        })}
       </div>
     `;
   }

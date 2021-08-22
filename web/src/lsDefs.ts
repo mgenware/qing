@@ -70,6 +70,7 @@ export default interface LSDefs {
   noComments: string;
   writeAComment: string;
   plsLoginToComment: string;
+  plsLoginToAddYourAnswer: string;
   comment: string;
   request: string;
   errorCode: string;

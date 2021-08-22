@@ -7,7 +7,6 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import { ls, formatLS } from 'ls';
-import { splitLocalizedString } from 'lib/stringUtils';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
 import Cmt from '../data/cmt';
@@ -18,6 +17,7 @@ import { CmtDataHub } from '../data/cmtDataHub';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
 import appCmtHubState from '../data/appCmtHubState';
+import { parseString } from 'narwhal-js';
 
 @customElement('root-cmt-list')
 // Displays a list of <cmt-block>.
@@ -143,14 +143,16 @@ export class RootCmtList extends BaseElement {
   }
 
   private renderLoginToComment() {
-    const loginToCommentTextArray = splitLocalizedString(ls.plsLoginToComment);
     return html`
       <div>
-        <span>${loginToCommentTextArray[0]}</span>
-        <qing-button btnStyle="success" class="m-l-xs m-r-xs"
-          >${loginToCommentTextArray[1]}</qing-button
-        >
-        <span>${loginToCommentTextArray[2]}</span>
+        ${parseString(ls.plsLoginToComment).map((sg) => {
+          if (!sg.type) {
+            return html`<span>${sg.value}</span>`;
+          }
+          return html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
+            >${sg.value}</qing-button
+          >`;
+        })}
       </div>
     `;
   }
