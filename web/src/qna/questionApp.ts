@@ -8,6 +8,7 @@
 import { html, customElement, css, BaseElement, lp } from 'll';
 import 'com/cmt/cmtApp';
 import { entityQuestion } from 'sharedConstants';
+import { CHECK } from 'checks';
 
 // Handles rendering of question votes and comments.
 @customElement('question-app')
@@ -31,6 +32,10 @@ export class QuestionApp extends BaseElement {
   @lp.number initialCmtCount = 0;
   @lp.number initialAnsCount = 0;
   @lp.string eid = '';
+
+  firstUpdated() {
+    CHECK(this.eid);
+  }
 
   render() {
     return html`

@@ -23,6 +23,7 @@ import { CHECK } from 'checks';
 let editPostApp: SetPostApp | null = null;
 
 export function hookUpEditBarEvents(eid: string, entityType: number) {
+  CHECK(eid);
   if (!appPageState.user) {
     return;
   }
