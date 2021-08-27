@@ -32,6 +32,8 @@ import ErrorWithCode from 'lib/errorWithCode';
 const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
+const immersiveDialogID = 'qing-overlay-immersive';
+
 @customElement('elements-dev')
 export class ElementsDev extends BaseElement {
   static get styles() {
@@ -197,18 +199,23 @@ export class ElementsDev extends BaseElement {
         >Success toast</qing-button
       >
       <qing-button
-        @click=${() =>
-          this.shadowRoot?.getElementById('qing-overlay-immersive')?.setAttribute('open', '')}
+        @click=${() => {
+          this.shadowRoot?.getElementById(immersiveDialogID)?.setAttribute('open', '');
+          setTimeout(
+            () => this.shadowRoot?.getElementById(immersiveDialogID)?.removeAttribute('open'),
+            3000,
+          );
+        }}
         >immersive dialog</qing-button
       >
       <qing-overlay
-        id="qing-overlay-immersive"
+        id=${immersiveDialogID}
         class="immersive"
         .buttons=${['ok']}
         .cancelButtonIndex=${0}
       >
         <div class="flex-grow">
-          <h2>Full dialog</h2>
+          <h2>Full dialog (will close in 3 seconds)</h2>
           <p>Hello world</p>
         </div>
       </qing-overlay>
