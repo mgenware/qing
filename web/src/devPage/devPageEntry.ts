@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
 import routes from './devRoutes';
