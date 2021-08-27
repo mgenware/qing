@@ -285,9 +285,9 @@ export class ElementsDev extends BaseElement {
         <p>text text text text text text text text text text</p>
       </status-overlay>
       <h2>Misc</h2>
-      <like-view></like-view>
-      <like-view class="m-l-md" .likes=${1} hasLiked></like-view>
-      <like-view class="m-l-md" .likes=${1} hasLiked isWorking></like-view>
+      <p>Default<like-view class="m-l-sm"></like-view></p>
+      <p>Liked<like-view class="m-l-sm" .likes=${1} hasLiked></like-view></p>
+      <p>Working<like-view class="m-l-sm" .likes=${1} hasLiked isWorking></like-view></p>
       <h2>Flexbox utils</h2>
       <div class="d-flex">
         <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>
