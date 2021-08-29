@@ -56,7 +56,7 @@
   "pDoYouWantToDeleteThis": "您确定要删除这个{0}吗？",
   "post": "文章",
   "working": "工作中...",
-  "editPost": "编辑文章",
+  "pEditEntity": "编辑{0}",
   "comments": "评论",
   "noComments": "暂无评论",
   "writeAComment": "发表评论",
@@ -155,5 +155,6 @@
   "link": "链接",
   "goToMyAnswer": "前往我的答案",
   "answer": "回答",
-  "discussion": "讨论"
+  "discussion": "讨论",
+  "question": "提问"
 }

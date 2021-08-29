@@ -65,7 +65,7 @@ export default interface LSDefs {
   pDoYouWantToDeleteThis: string;
   post: string;
   working: string;
-  editPost: string;
+  pEditEntity: string;
   comments: string;
   noComments: string;
   writeAComment: string;
@@ -165,4 +165,5 @@ export default interface LSDefs {
   goToMyAnswer: string;
   answer: string;
   discussion: string;
+  question: string;
 }

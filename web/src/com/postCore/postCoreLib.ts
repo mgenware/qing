@@ -34,7 +34,7 @@ export function entityTypeToLS(entityType: number): string {
     case entityPost:
       return ls.post;
     case entityQuestion:
-      return ls.questions;
+      return ls.question;
     case entityAnswer:
       return ls.answer;
     case entityCmt:
@@ -80,7 +80,7 @@ export function hookUpEditBarEvents(eid: string, entityType: number) {
         html`<set-post-app
           .postID=${eid}
           entityType=${entityType}
-          headerText=${ls.editPost}
+          headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entityType))}
         ></set-post-app>`,
       );
     }

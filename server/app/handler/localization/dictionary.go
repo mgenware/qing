@@ -63,7 +63,6 @@ type Dictionary struct {
 	Downvote                          string `json:"downvote"`
 	Edit                              string `json:"edit"`
 	EditComment                       string `json:"editComment"`
-	EditPost                          string `json:"editPost"`
 	EditedAt                          string `json:"editedAt"`
 	Email                             string `json:"email"`
 	EnterCaptchaPlz                   string `json:"enterCaptchaPlz"`
@@ -105,6 +104,7 @@ type Dictionary struct {
 	Ok                                string `json:"ok"`
 	OneItem                           string `json:"oneItem"`
 	PDoYouWantToDeleteThis            string `json:"pDoYouWantToDeleteThis"`
+	PEditEntity                       string `json:"pEditEntity"`
 	PNoComments                       string `json:"pNOComments"`
 	PNoReplies                        string `json:"pNOReplies"`
 	PPageNotFound                     string `json:"pPageNotFound"`
@@ -129,6 +129,7 @@ type Dictionary struct {
 	Publish                           string `json:"publish"`
 	Publishing                        string `json:"publishing"`
 	PwdDontMatch                      string `json:"pwdDontMatch"`
+	Question                          string `json:"question"`
 	Questions                         string `json:"questions"`
 	Redo                              string `json:"redo"`
 	RegEmailSentContent               string `json:"regEmailSentContent"`
