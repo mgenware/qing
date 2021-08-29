@@ -163,4 +163,6 @@ export default interface LSDefs {
   signInToLikeThisEntity: string;
   link: string;
   goToMyAnswer: string;
+  answer: string;
+  discussion: string;
 }

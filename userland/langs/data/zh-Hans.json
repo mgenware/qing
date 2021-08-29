@@ -153,5 +153,7 @@
   "close": "关闭",
   "signInToLikeThisEntity": "登录后才可以点赞。",
   "link": "链接",
-  "goToMyAnswer": "前往我的答案"
+  "goToMyAnswer": "前往我的答案",
+  "answer": "回答",
+  "discussion": "讨论"
 }

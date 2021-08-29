@@ -153,5 +153,7 @@
   "close": "Close",
   "signInToLikeThisEntity": "Sign in to like this {0|lowercase}.",
   "link": "Link",
-  "goToMyAnswer": "Go to my answer"
+  "goToMyAnswer": "Go to my answer",
+  "answer": "Answer",
+  "discussion": "Discussion"
 }

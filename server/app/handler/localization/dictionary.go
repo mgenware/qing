@@ -28,6 +28,7 @@ type Dictionary struct {
 	AdminAccounts                     string `json:"adminAccounts"`
 	AdminSettings                     string `json:"adminSettings"`
 	AllThreads                        string `json:"allThreads"`
+	Answer                            string `json:"answer"`
 	Bio                               string `json:"bio"`
 	Blockquote                        string `json:"blockquote"`
 	Bold                              string `json:"bold"`
@@ -55,6 +56,7 @@ type Dictionary struct {
 	DecreaseIndent                    string `json:"decreaseIndent"`
 	Delete                            string `json:"delete"`
 	Description                       string `json:"description"`
+	Discussion                        string `json:"discussion"`
 	Discussions                       string `json:"discussions"`
 	DoYouWantDoDiscardYourChanges     string `json:"doYouWantDoDiscardYourChanges"`
 	DoYouWantToChangeLangTo           string `json:"doYouWantToChangeLangTo"`
