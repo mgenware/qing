@@ -5,5 +5,10 @@
  * be found in the LICENSE file.
  */
 
+import { hookUpEditBarEvents } from 'com/postCore/postCoreLib';
 import 'core';
+import { entityQuestion } from 'sharedConstants';
 import './questionApp';
+import wind from './questionWind';
+
+hookUpEditBarEvents(wind.EID, entityQuestion);

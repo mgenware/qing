@@ -28,9 +28,7 @@ export function hookUpEditBarEvents(eid: string, entityType: number) {
     return;
   }
   const editBarElement = document.getElementById(editBarID(entityType, eid)) as EditBarApp | null;
-  if (!editBarElement) {
-    return;
-  }
+  CHECK(editBarElement);
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   editBarElement.addEventListener('deleteClick', async () => {
     if (await appAlert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.post))) {

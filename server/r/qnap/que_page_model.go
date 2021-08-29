@@ -26,3 +26,8 @@ func NewQuestionPageModel(queAppHTML, ansListHTML, pageBarHTML string) QuestionP
 	d := QuestionPageModel{QuestionAppHTML: queAppHTML, AnsListHTML: ansListHTML, PageBarHTML: pageBarHTML}
 	return d
 }
+
+// QuestionPageWindData ...
+type QuestionPageWindData struct {
+	EID string
+}

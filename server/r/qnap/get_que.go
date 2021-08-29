@@ -72,5 +72,6 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	quePageModel := NewQuestionPageModel(vQuestionApp.MustExecuteToString(queAppModel), ansListHTMLBuilder.String(), pageBarHTML)
 	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(quePageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(qnaEntryScriptName)
+	d.WindData = QuestionPageWindData{EID: fmtx.EncodeID(qid)}
 	return resp.MustComplete(d)
 }

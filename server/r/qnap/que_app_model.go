@@ -42,7 +42,7 @@ func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool)
 	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserEID = fmtx.EncodeID(d.UserID)
-	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityQuestion, d.CreatedAt, d.ModifiedAt)
 	if hasLiked {
 		d.HasLikedNum = 1
 	}
