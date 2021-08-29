@@ -121,6 +121,12 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 				app.PanicIfErr(err)
 				break
 			}
+		case defs.Shared.EntityQuestion:
+			{
+				err = da.Question.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
+				app.PanicIfErr(err)
+				break
+			}
 		default:
 			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
 		}
