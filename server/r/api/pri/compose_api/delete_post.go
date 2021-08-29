@@ -45,6 +45,18 @@ func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
 			app.PanicIfErr(err)
 			break
 		}
+	case defs.Shared.EntityQuestion:
+		{
+			err = da.Question.DeleteItem(db, id, uid)
+			app.PanicIfErr(err)
+			break
+		}
+	case defs.Shared.EntityAnswer:
+		{
+			err = da.Answer.DeleteItem(db, id, uid)
+			app.PanicIfErr(err)
+			break
+		}
 	default:
 		panic(fmt.Sprintf("Unsupported entity type %v", entityType))
 	}
