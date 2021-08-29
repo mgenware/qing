@@ -23,7 +23,7 @@ import (
 	"time"
 )
 
-func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -105,8 +105,6 @@ func setPost(w http.ResponseWriter, r *http.Request) handler.JSON {
 			{
 				err = da.Post.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
-
-				result = appURL.Get().Post(id)
 				break
 			}
 		case defs.Shared.EntityDiscussion:

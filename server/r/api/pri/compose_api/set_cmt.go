@@ -32,6 +32,10 @@ func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:
 		return da.Post, nil
+	case defs.Shared.EntityQuestion:
+		return da.Question, nil
+	case defs.Shared.EntityAnswer:
+		return da.Answer, nil
 	default:
 		return nil, fmt.Errorf("Unknown cmt data provider: %v", hostType)
 	}

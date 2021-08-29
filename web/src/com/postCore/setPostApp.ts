@@ -10,7 +10,7 @@ import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { CHECK } from 'checks';
-import { entityPost, entityDiscussionMsg } from 'sharedConstants';
+import { entityDiscussionMsg } from 'sharedConstants';
 import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
@@ -58,7 +58,7 @@ export default class SetPostApp extends BaseElement {
     }
 
     if (this.postID) {
-      const loader = new GetEntitySourceLoader(entityPost, this.postID);
+      const loader = new GetEntitySourceLoader(this.entityType, this.postID);
       const status = await appTask.critical(loader);
       if (status.data) {
         const postData = status.data;
@@ -81,7 +81,7 @@ export default class SetPostApp extends BaseElement {
           .showTitleInput=${this.showTitleInput}
           .inputTitle=${this.postTitle}
           .entityID=${this.postID}
-          .entityType=${entityPost}
+          .entityType=${this.entityType}
           .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
           @onDiscard=${this.handleDiscard}
@@ -105,9 +105,13 @@ export default class SetPostApp extends BaseElement {
       loader.discussionID = this.discussionID;
     }
     const status = await appTask.critical(loader, this.postID ? ls.saving : ls.publishing);
-    if (status.data) {
+    if (status.isSuccess) {
       this.composerEl?.markAsSaved();
-      pageUtils.setURL(status.data);
+      if (status.data) {
+        pageUtils.setURL(status.data);
+      } else {
+        pageUtils.reload();
+      }
     }
   }
 

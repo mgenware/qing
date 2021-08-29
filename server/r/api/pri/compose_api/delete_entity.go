@@ -20,7 +20,7 @@ import (
 	"qing/lib/validator"
 )
 
-func deletePost(w http.ResponseWriter, r *http.Request) handler.JSON {
+func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
