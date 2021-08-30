@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import 'core';
 import { ready } from 'lib/htmlLib';
 import { keyTab } from 'sharedConstants';
 import 'ui/content/headingView';

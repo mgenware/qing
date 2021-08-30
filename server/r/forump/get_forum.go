@@ -25,7 +25,7 @@ import (
 )
 
 const defaultPageSize = 10
-const forumScript = "forumEntry"
+const forumScript = "forum/forumEntry"
 
 func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
