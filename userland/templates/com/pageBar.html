@@ -1,5 +1,6 @@
 <!-- An SEO-friendly page bar. -->
 <!-- Refer to `server:r/rcm/pageData.go` for template fields. -->
+{{if or .HasPrevPage .HasNextPage}}
 <p class="text-center">
   {{if .TotalPage}}
   <a class="link-btn" href="{{.FirstPageURL}}">&lt;&lt;</a> {{end}}
@@ -13,3 +14,4 @@
   <a class="link-btn" href="{{.LastPageURL}}">&gt;&gt;</a>
   {{end}}
 </p>
+{{end}}

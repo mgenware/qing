@@ -11,6 +11,8 @@ import { keyTab } from 'sharedConstants';
 import 'ui/content/headingView';
 import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
+// Required by empty content view.
+import 'ui/alerts/noContentView';
 
 const defaultHighlightedTab = 'threads';
 
