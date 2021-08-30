@@ -1,6 +1,7 @@
 const esbuild = require('esbuild');
 
 const entryPoints = [
+  'core',
   'm/mEntry',
   'mx/mxEntry',
   'post/postEntry',

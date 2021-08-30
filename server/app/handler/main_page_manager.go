@@ -24,6 +24,9 @@ import (
 	"github.com/mgenware/go-packagex/v6/templatex"
 )
 
+// Used by error page.
+const coreScriptEntry = "core"
+
 // MainPageManager is used to generate site main HTML page.
 type MainPageManager struct {
 	dir         string
@@ -153,6 +156,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, exp
 	}
 	errorHTML := m.errorView.MustExecuteToString(d)
 	htmlData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
+	htmlData.Scripts = m.ScriptString(coreScriptEntry)
 	m.MustComplete(r, lang, htmlData, w)
 	return HTML(0)
 }
