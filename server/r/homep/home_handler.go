@@ -24,55 +24,62 @@ import (
 
 const defaultPageSize = 10
 const homeStdScript = "home/homeStdEntry"
-const homeForumScript = "home/homeFrmEntry"
+const homeFrmScript = "home/homeFrmEntry"
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
-	db := appDB.DB()
-
 	// Non-forums mode.
 	if !appConfig.SetupConfig().ForumsMode {
-		page := validator.GetPageParamFromRequestQueryString(r)
-		tab := r.FormValue(defs.Shared.KeyTab)
+		return renderStdPage(w, r)
+	}
+	return renderFrmPage(w, r)
+}
 
-		var items []da.UserThreadInterface
-		var hasNext bool
-		var err error
+func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := appHandler.HTMLResponse(w, r)
+	db := appDB.DB()
+	page := validator.GetPageParamFromRequestQueryString(r)
+	tab := r.FormValue(defs.Shared.KeyTab)
 
-		if tab == defs.Shared.KeyPosts {
-			items, hasNext, err = da.Home.SelectPosts(db, page, defaultPageSize)
-		} else if tab == defs.Shared.KeyDiscussions {
-			items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
-		} else if tab == defs.Shared.KeyQuestions {
-			items, hasNext, err = da.Home.SelectQuestions(db, page, defaultPageSize)
-		} else {
-			items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)
+	var items []da.UserThreadInterface
+	var hasNext bool
+	var err error
+
+	if tab == defs.Shared.KeyPosts {
+		items, hasNext, err = da.Home.SelectPosts(db, page, defaultPageSize)
+	} else if tab == defs.Shared.KeyDiscussions {
+		items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
+	} else if tab == defs.Shared.KeyQuestions {
+		items, hasNext, err = da.Home.SelectQuestions(db, page, defaultPageSize)
+	} else {
+		items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)
+	}
+	app.PanicIfErr(err)
+
+	var feedListHTMLBuilder strings.Builder
+	if len(items) == 0 {
+		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
+	} else {
+		for _, item := range items {
+			itemModel, err := rcom.NewUserThreadModel(&item)
+			app.PanicIfErr(err)
+			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
 		}
-		app.PanicIfErr(err)
-
-		var feedListHTMLBuilder strings.Builder
-		if len(items) == 0 {
-			feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
-		} else {
-			for _, item := range items {
-				itemModel, err := rcom.NewUserThreadModel(&item)
-				app.PanicIfErr(err)
-				feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
-			}
-		}
-
-		pageURLFormatter := &HomePageURLFormatter{Tab: tab}
-		pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
-		pageBarHTML := rcom.GetPageBarHTML(pageData)
-
-		pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-		d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
-		d.Scripts = appHandler.MainPage().ScriptString(homeStdScript)
-		return resp.MustComplete(d)
 	}
 
-	// Forums mode.
+	pageURLFormatter := &HomePageURLFormatter{Tab: tab}
+	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
+	pageBarHTML := rcom.GetPageBarHTML(pageData)
+
+	pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
+	d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
+	d.Scripts = appHandler.MainPage().ScriptString(homeStdScript)
+	return resp.MustComplete(d)
+}
+
+func renderFrmPage(w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := appHandler.HTMLResponse(w, r)
+	db := appDB.DB()
 	forumGroups, err := da.Home.SelectForumGroups(db)
 	app.PanicIfErr(err)
 
@@ -127,6 +134,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	d := appHandler.MainPageData("", mainHTML)
-	d.Scripts = appHandler.MainPage().ScriptString(homeForumScript)
+	d.Scripts = appHandler.MainPage().ScriptString(homeFrmScript)
 	return resp.MustComplete(d)
 }

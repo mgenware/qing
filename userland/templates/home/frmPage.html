@@ -1,13 +1,1 @@
-<container-view>
-  <tab-view>
-    <a id="m-home-tab-home" href="/" class="__qing_ls__">home</a>
-    <a id="m-home-tab-posts" href="{{.HomePostsURL}}" class="__qing_ls__">posts</a>
-    <a id="m-home-tab-questions" href="{{.HomeQuestionsURL}}" class="__qing_ls__">questions</a>
-    <a id="m-home-tab-discussions" href="{{.HomeDiscussionsURL}}" class="__qing_ls__"
-      >discussions</a
-    >
-  </tab-view>
-
-  <div class="m-t-sm">{{.FeedListHTML}}</div>
-  {{.PageBarHTML}}
-</container-view>
+<container-view> {{.ContentHTML}} </container-view>
