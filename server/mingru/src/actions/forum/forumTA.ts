@@ -45,6 +45,7 @@ export class ForumTA extends mm.TableActions {
         ...getUserDiscussionCols(discussion, true),
       )
       .from(discussion)
+      .by(discussion.forum_id)
       .pageMode()
       .orderByAsc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
@@ -54,6 +55,7 @@ export class ForumTA extends mm.TableActions {
         ...getUserQuestionCols(question, true),
       )
       .from(question)
+      .by(question.forum_id)
       .pageMode()
       .orderByAsc(question.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
