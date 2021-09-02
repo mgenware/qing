@@ -51,7 +51,7 @@ export class ElementsDev extends BaseElement {
         }
 
         .text span {
-          font-size: 20px;
+          font-size: 1.2rem;
           font-weight: bold;
           margin-right: 1rem;
         }
