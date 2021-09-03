@@ -10,12 +10,13 @@ import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { CHECK } from 'checks';
-import { entityDiscussionMsg } from 'sharedConstants';
+import { entityDiscussionMsg, entityPost } from 'sharedConstants';
 import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
+import appPageState from 'app/appPageState';
 
 const composerID = 'composer';
 
@@ -38,6 +39,7 @@ export default class SetPostApp extends BaseElement {
   @lp.string headerText = '';
   @lp.bool showTitleInput = true;
   @lp.string submitButtonText = '';
+  @lp.string forumID = '';
 
   @lp.bool open = false;
 
@@ -100,7 +102,10 @@ export default class SetPostApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const loader = new SetPostLoader(this.postID, e.detail, this.entityType);
+    if (appPageState.forumsMode && this.entityType !== entityPost && !this.forumID) {
+      throw new Error('`forumID` is required for questions and discussions');
+    }
+    const loader = new SetPostLoader(this.postID, e.detail, this.entityType, this.forumID);
     if (this.discussionID) {
       loader.discussionID = this.discussionID;
     }

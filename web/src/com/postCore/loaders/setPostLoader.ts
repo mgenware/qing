@@ -18,6 +18,7 @@ export class SetPostLoader extends Loader<string> {
     public id: string | null,
     public content: ComposerContent,
     public entityType: number,
+    public forumID: string,
   ) {
     super();
   }
@@ -40,6 +41,9 @@ export class SetPostLoader extends Loader<string> {
         throw new Error('`discussionID` is required when `entityType` is discussion msg');
       }
       params.discussionID = this.discussionID;
+    }
+    if (this.forumID) {
+      params.forumID = this.forumID;
     }
     return params;
   }
