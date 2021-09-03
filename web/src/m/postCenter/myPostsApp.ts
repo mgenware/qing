@@ -12,7 +12,7 @@ import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader, PCPost } from './loaders/getPCPostsLoader';
-import { AppCommands, runCommand } from 'app/appCommands';
+import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('my-posts-app')
 export default class MyPostsApp extends PCListApp<PCPost> {
@@ -89,7 +89,7 @@ export default class MyPostsApp extends PCListApp<PCPost> {
   }
 
   private handleNewPostClick() {
-    runCommand(AppCommands.newEntity, entityPost);
+    runNewEntityCommand(entityPost);
   }
 }
 

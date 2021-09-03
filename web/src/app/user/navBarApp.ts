@@ -20,7 +20,7 @@ import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
 import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
-import { AppCommands, runCommand } from 'app/appCommands';
+import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -269,7 +269,7 @@ export default class NavBarApp extends BaseElement {
   }
 
   private handleNewPostClick(entityType: number) {
-    runCommand(AppCommands.newEntity, entityType);
+    runNewEntityCommand(entityType);
   }
 }
 

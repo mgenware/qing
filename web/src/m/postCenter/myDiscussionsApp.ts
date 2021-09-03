@@ -12,7 +12,7 @@ import Loader from 'lib/loader';
 import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader, PCDiscussion } from './loaders/getPCPostsLoader';
-import { AppCommands, runCommand } from 'app/appCommands';
+import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('my-discussions-app')
 export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
@@ -87,7 +87,7 @@ export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
   }
 
   private handleNewDiscussionClick() {
-    runCommand(AppCommands.newEntity, entityDiscussion);
+    runNewEntityCommand(entityDiscussion);
   }
 }
 

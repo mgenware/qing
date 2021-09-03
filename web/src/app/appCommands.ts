@@ -13,12 +13,16 @@ type Runner = (arg: unknown) => void;
 
 const runners = new Map<AppCommands, Runner>();
 
-export function runCommand(cmd: AppCommands, arg: unknown) {
+function runCommand(cmd: AppCommands, arg: unknown) {
   const runner = runners.get(cmd);
   if (!runner) {
     throw new Error(`Unknown command ${cmd}`);
   }
   runner(arg);
+}
+
+export function runNewEntityCommand(entityType: number) {
+  runCommand(AppCommands.newEntity, entityType);
 }
 
 export function setCommand(cmd: AppCommands, runner: Runner) {
