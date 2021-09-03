@@ -88,6 +88,7 @@ func init() {
 	TestDict.NewDiscussion = "ls.newDiscussion"
 	TestDict.NewPost = "ls.newPost"
 	TestDict.NewQuestion = "ls.newQuestion"
+	TestDict.NewThread = "ls.newThread"
 	TestDict.NextPage = "ls.nextPage"
 	TestDict.No = "ls.no"
 	TestDict.NoComments = "ls.noComments"

@@ -93,6 +93,7 @@ type Dictionary struct {
 	NewDiscussion                     string `json:"newDiscussion"`
 	NewPost                           string `json:"newPost"`
 	NewQuestion                       string `json:"newQuestion"`
+	NewThread                         string `json:"newThread"`
 	NextPage                          string `json:"nextPage"`
 	No                                string `json:"no"`
 	NoComments                        string `json:"noComments"`

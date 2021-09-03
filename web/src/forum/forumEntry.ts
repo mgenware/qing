@@ -13,6 +13,7 @@ import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 // Required by empty content view.
 import 'ui/alerts/noContentView';
+import './newThreadApp';
 
 const defaultHighlightedTab = 'threads';
 

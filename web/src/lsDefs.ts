@@ -166,4 +166,5 @@ export default interface LSDefs {
   answer: string;
   discussion: string;
   question: string;
+  newThread: string;
 }
