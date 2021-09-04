@@ -102,7 +102,12 @@ export default class SetPostApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    if (appPageState.forumsMode && this.entityType !== entityPost && !this.forumID) {
+    if (
+      appPageState.forumsMode &&
+      !this.postID &&
+      this.entityType !== entityPost &&
+      !this.forumID
+    ) {
       throw new Error('`forumID` is required for questions and discussions');
     }
     const loader = new SetPostLoader(this.postID, e.detail, this.entityType, this.forumID);

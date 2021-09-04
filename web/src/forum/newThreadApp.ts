@@ -36,8 +36,8 @@ export class NewThreadApp extends BaseElement {
       </p>
       <qing-overlay ?open=${this.threadTypeDialogOpen} @escKeyDown=${this.closeThreadTypeModal}>
         <p>
-          <qing-button @click=${this.newQuestionClick}>${ls.newDiscussion}</qing-button>
-          <qing-button>${ls.newQuestion}</qing-button>
+          <qing-button>${ls.newDiscussion}</qing-button>
+          <qing-button @click=${this.newQuestionClick}>${ls.newQuestion}</qing-button>
         </p>
         <div class="text-center">
           <div style="margin-top: 1.2rem">
@@ -60,7 +60,7 @@ export class NewThreadApp extends BaseElement {
 
   private newQuestionClick() {
     this.closeThreadTypeModal();
-    runNewEntityCommand(entityQuestion, wind.EID);
+    runNewEntityCommand(entityQuestion, wind.FID);
   }
 }
 

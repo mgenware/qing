@@ -8,7 +8,7 @@
 import appPageState from 'app/appPageState';
 
 export interface ForumWind {
-  EID: string;
+  FID: string;
   Editable: boolean;
 }
 
