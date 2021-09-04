@@ -45,14 +45,14 @@ export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
 
   sectionHeader(): TemplateResult {
     return html`
-      <div class="row align-items-center">
-        <div class="col">${ls.yourDiscussions}</div>
-        <div class="col-auto">
+      <heading-view>
+        <div>${ls.yourDiscussions}</div>
+        <div slot="decorator">
           <qing-button btnStyle="success" @click=${this.handleNewDiscussionClick}
             >${ls.newDiscussion}</qing-button
           >
         </div>
-      </div>
+      </heading-view>
     `;
   }
 

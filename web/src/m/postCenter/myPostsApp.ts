@@ -8,6 +8,7 @@
 import { html, customElement, TemplateResult, css } from 'll';
 import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
+import 'ui/content/headingView';
 import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
@@ -45,14 +46,14 @@ export default class MyPostsApp extends PCListApp<PCPost> {
 
   sectionHeader(): TemplateResult {
     return html`
-      <div class="row align-items-center">
-        <div class="col">${ls.yourPosts}</div>
-        <div class="col-auto">
+      <heading-view>
+        <div>${ls.yourPosts}</div>
+        <div slot="decorator">
           <qing-button btnStyle="success" @click=${this.handleNewPostClick}
             >${ls.newPost}</qing-button
           >
         </div>
-      </div>
+      </heading-view>
     `;
   }
 
