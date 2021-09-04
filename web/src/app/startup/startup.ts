@@ -69,7 +69,7 @@ ready(() => {
 
   // App commands.
   cmd.setCommand(cmd.AppCommands.newEntity, (arg) => {
-    const entityType = arg as number;
+    const [entityType, forumID] = arg as [number, string];
     let title: string;
     switch (entityType) {
       case entityPost: {
@@ -91,7 +91,12 @@ ready(() => {
 
     const app = renderTemplateResult<SetPostApp>(
       '',
-      html`<set-post-app open .entityType=${entityType} .headerText=${title}></set-post-app>`,
+      html`<set-post-app
+        open
+        .entityType=${entityType}
+        .headerText=${title}
+        .forumID=${forumID}
+      ></set-post-app>`,
     );
     CHECK(app);
     app.open = true;

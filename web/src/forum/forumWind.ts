@@ -5,7 +5,11 @@
  * be found in the LICENSE file.
  */
 
-export default interface ForumWind {
+import appPageState from 'app/appPageState';
+
+export interface ForumWind {
   EID: string;
   Editable: boolean;
 }
+
+export default appPageState.windData<ForumWind>();

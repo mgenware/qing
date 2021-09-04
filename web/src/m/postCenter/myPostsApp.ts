@@ -89,7 +89,7 @@ export default class MyPostsApp extends PCListApp<PCPost> {
   }
 
   private handleNewPostClick() {
-    runNewEntityCommand(entityPost);
+    runNewEntityCommand(entityPost, null);
   }
 }
 

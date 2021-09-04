@@ -21,8 +21,8 @@ function runCommand(cmd: AppCommands, arg: unknown) {
   runner(arg);
 }
 
-export function runNewEntityCommand(entityType: number) {
-  runCommand(AppCommands.newEntity, entityType);
+export function runNewEntityCommand(entityType: number, forumID: string | null) {
+  runCommand(AppCommands.newEntity, [entityType, forumID ?? '']);
 }
 
 export function setCommand(cmd: AppCommands, runner: Runner) {

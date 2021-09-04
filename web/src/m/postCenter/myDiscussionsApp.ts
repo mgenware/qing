@@ -87,7 +87,7 @@ export default class MyDiscussionsApp extends PCListApp<PCDiscussion> {
   }
 
   private handleNewDiscussionClick() {
-    runNewEntityCommand(entityDiscussion);
+    runNewEntityCommand(entityDiscussion, null);
   }
 }
 

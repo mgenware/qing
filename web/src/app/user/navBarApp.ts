@@ -269,7 +269,7 @@ export default class NavBarApp extends BaseElement {
   }
 
   private handleNewPostClick(entityType: number) {
-    runNewEntityCommand(entityType);
+    runNewEntityCommand(entityType, null);
   }
 }
 
