@@ -33,14 +33,18 @@ func init() {
 type pcDiscussion struct {
 	da.DiscussionTableSelectItemsForPostCenterResult
 
-	EID string `json:"id"`
-	URL string `json:"url"`
+	EID        string `json:"id"`
+	URL        string `json:"url"`
+	CreatedAt  string `json:"createdAt"`
+	ModifiedAt string `json:"modifiedAt"`
 }
 
 func newPCDiscussion(p *da.DiscussionTableSelectItemsForPostCenterResult, uid uint64) pcDiscussion {
 	d := pcDiscussion{DiscussionTableSelectItemsForPostCenterResult: *p}
 	d.URL = appURL.Get().Discussion(p.ID)
 	d.EID = fmtx.EncodeID(uid)
+	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
+	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	return d
 }
 
