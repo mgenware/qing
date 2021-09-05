@@ -62,7 +62,7 @@ export default class MyQuestionsApp extends PCListApp {
       <thead>
         <th>${ls.title}</th>
         ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
-        ${this.renderSortableColumn(columnMessages, ls.msgs)}
+        ${this.renderSortableColumn(columnMessages, ls.answers)}
       </thead>
       <tbody>
         ${this.items.map(

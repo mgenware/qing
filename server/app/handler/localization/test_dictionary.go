@@ -24,6 +24,7 @@ func init() {
 	TestDict.AdminSettings = "ls.adminSettings"
 	TestDict.AllThreads = "ls.allThreads"
 	TestDict.Answer = "ls.answer"
+	TestDict.Answers = "ls.answers"
 	TestDict.Bio = "ls.bio"
 	TestDict.Blockquote = "ls.blockquote"
 	TestDict.Bold = "ls.bold"

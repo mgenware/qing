@@ -29,6 +29,7 @@ type Dictionary struct {
 	AdminSettings                     string `json:"adminSettings"`
 	AllThreads                        string `json:"allThreads"`
 	Answer                            string `json:"answer"`
+	Answers                           string `json:"answers"`
 	Bio                               string `json:"bio"`
 	Blockquote                        string `json:"blockquote"`
 	Bold                              string `json:"bold"`
