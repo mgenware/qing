@@ -8,28 +8,10 @@
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import routes from 'routes';
-import { entityPost, entityDiscussion } from 'sharedConstants';
+import { entityPost, entityDiscussion, entityQuestion } from 'sharedConstants';
+import PCPost from '../pcPost';
 
-export interface PCPost {
-  id: string;
-  url: string;
-  title: string;
-  cmtCount: number;
-  likes: number;
-  createdAt: string;
-  modifiedAt: string;
-}
-
-export interface PCDiscussion {
-  id: string;
-  url: string;
-  title: string;
-  createdAt: string;
-  modifiedAt: string;
-  msgCount: number;
-}
-
-export class GetPCPostsLoader<T> extends Loader<PaginatedList<T>> {
+export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
   constructor(
     public entityType: number,
     public page: number,
@@ -47,6 +29,9 @@ export class GetPCPostsLoader<T> extends Loader<PaginatedList<T>> {
 
       case entityDiscussion:
         return routes.s.pri.mp.discussions;
+
+      case entityQuestion:
+        return routes.s.pri.mp.questions;
 
       default:
         throw new Error(`Unsupported entity type ${this.entityType}`);

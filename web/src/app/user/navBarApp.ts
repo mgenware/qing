@@ -211,7 +211,7 @@ export default class NavBarApp extends BaseElement {
                   <a href=${user.url}>${ls.profile}</a>
                   <a href=${routes.m.yourPosts}>${ls.yourPosts}</a>
                   <a href=${routes.m.yourDiscussions}>${ls.yourDiscussions}</a>
-                  <a href=${routes.m.yourQuestion}>${ls.yourQuestions}</a>
+                  <a href=${routes.m.yourQuestions}>${ls.yourQuestions}</a>
                   <hr />
                   <a href="#" @click=${() => this.handleNewPostClick(entityPost)}>${ls.newPost}</a>
                   <a href="#" @click=${() => this.handleNewPostClick(entityDiscussion)}

@@ -13,6 +13,7 @@ import './settings/mSettingsView';
 import './settings/profile/editProfileApp';
 import './postCenter/myPostsApp';
 import './postCenter/myDiscussionsApp';
+import './postCenter/myQuestionsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import pageUtils from 'app/utils/pageUtils';
 
@@ -36,6 +37,9 @@ router.register(routes.m.yourDiscussions, () => {
     [ls.yourDiscussions],
     html`<my-discussions-app></my-discussions-app>`,
   );
+});
+router.register(routes.m.yourQuestions, () => {
+  pageUtils.setTitleAndMainContent([ls.yourQuestions], html`<my-questions-app></my-questions-app>`);
 });
 
 router.startOnce();

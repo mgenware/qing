@@ -15,4 +15,5 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Post("/posts", myPosts)
 	Router.Post("/discussions", myDiscussions)
+	Router.Post("/questions", myQuestions)
 }

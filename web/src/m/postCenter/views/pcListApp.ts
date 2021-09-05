@@ -15,10 +15,11 @@ import './pcPageControl';
 import Loader from 'lib/loader';
 import ls from 'ls';
 import appTask from 'app/appTask';
+import PCPost from '../pcPost';
 
 const defaultPageSize = 10;
 
-export abstract class PCListApp<T> extends BaseElement {
+export abstract class PCListApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -35,7 +36,7 @@ export abstract class PCListApp<T> extends BaseElement {
   }
 
   @lp.object loadingStatus = LoadingStatus.working;
-  @lp.array items: T[] = [];
+  @lp.array items: PCPost[] = [];
 
   // Set those properties in child classes to have a default sorted column.
   @lp.string currentSortedColumn = '';
@@ -91,7 +92,7 @@ export abstract class PCListApp<T> extends BaseElement {
 
   abstract sectionHeader(): TemplateResult | null;
   abstract renderTable(): TemplateResult | null;
-  abstract getLoader(page: number, pageSize: number): Loader<PaginatedList<T> | null>;
+  abstract getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null>;
   abstract defaultOrderingForColumn(name: string): boolean;
 
   async startLoading(

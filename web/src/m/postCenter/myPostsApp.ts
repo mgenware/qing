@@ -12,11 +12,12 @@ import 'ui/content/headingView';
 import Loader from 'lib/loader';
 import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
-import { GetPCPostsLoader, PCPost } from './loaders/getPCPostsLoader';
+import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import { runNewEntityCommand } from 'app/appCommands';
+import PCPost from './pcPost';
 
 @customElement('my-posts-app')
-export default class MyPostsApp extends PCListApp<PCPost> {
+export default class MyPostsApp extends PCListApp {
   static get styles() {
     return [
       super.styles,

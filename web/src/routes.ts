@@ -12,7 +12,7 @@ export default buildTree({
   m: {
     yourPosts: 'your-posts',
     yourDiscussions: 'your-discussions',
-    yourQuestion: 'your-questions',
+    yourQuestions: 'your-questions',
     settings: {
       profile: 'profile',
     },
@@ -45,6 +45,7 @@ export default buildTree({
       mp: {
         posts: 'posts',
         discussions: 'discussions',
+        questions: 'questions',
       },
       user: {
         findUsers: 'find-users',

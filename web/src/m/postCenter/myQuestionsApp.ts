@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Qing Project. All rights reserved.
+ * Copyright (C) 2021 The Qing Project. All rights reserved.
  *
  * Use of this source code is governed by a license that can
  * be found in the LICENSE file.
@@ -9,14 +9,14 @@ import { html, customElement, TemplateResult, css } from 'll';
 import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import { columnCreated, entityDiscussion, columnMessages } from 'sharedConstants';
+import { columnCreated, columnMessages, entityQuestion } from 'sharedConstants';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
-import { runNewEntityCommand } from 'app/appCommands';
 import PCPost from './pcPost';
+import { runNewEntityCommand } from 'app/appCommands';
 
-@customElement('my-discussions-app')
-export default class MyDiscussionsApp extends PCListApp {
+@customElement('my-questions-app')
+export default class MyQuestionsApp extends PCListApp {
   static get styles() {
     return [
       super.styles,
@@ -36,7 +36,7 @@ export default class MyDiscussionsApp extends PCListApp {
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      entityDiscussion,
+      entityQuestion,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -47,10 +47,10 @@ export default class MyDiscussionsApp extends PCListApp {
   sectionHeader(): TemplateResult {
     return html`
       <heading-view>
-        <div>${ls.yourDiscussions}</div>
+        <div>${ls.yourQuestions}</div>
         <div slot="decorator">
-          <qing-button btnStyle="success" @click=${this.handleNewDiscussionClick}
-            >${ls.newDiscussion}</qing-button
+          <qing-button btnStyle="success" @click=${this.handleNewQuestionClick}
+            >${ls.newQuestion}</qing-button
           >
         </div>
       </heading-view>
@@ -87,13 +87,13 @@ export default class MyDiscussionsApp extends PCListApp {
     return true;
   }
 
-  private handleNewDiscussionClick() {
-    runNewEntityCommand(entityDiscussion, null);
+  private handleNewQuestionClick() {
+    runNewEntityCommand(entityQuestion, null);
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-discussion-app': MyDiscussionsApp;
+    'my-questions-app': MyQuestionsApp;
   }
 }
