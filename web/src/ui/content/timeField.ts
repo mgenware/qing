@@ -27,7 +27,7 @@ export class TimeField extends BaseElement {
 
     let content = this.formatDate(createdAt);
     if (modifiedAt !== createdAt) {
-      content += ` ${ls.editedAt} ${this.formatDate(modifiedAt)}`;
+      content += ` [${ls.editedAt} ${this.formatDate(modifiedAt)}]`;
     }
     return html` <small class="is-secondary"> ${content} </small> `;
   }
