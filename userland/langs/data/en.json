@@ -59,6 +59,7 @@
   "pEditEntity": "Edit {0|lowercase}",
   "comments": "Comments",
   "noComments": "No comments",
+  "noAnswers": "No answers",
   "writeAComment": "Write a comment",
   "plsLoginToComment": "[button]<<Sign in>> to comment.",
   "plsLoginToAddYourAnswer": "[button]<<Sign in>> to add your answer.",

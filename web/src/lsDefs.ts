@@ -68,6 +68,7 @@ export default interface LSDefs {
   pEditEntity: string;
   comments: string;
   noComments: string;
+  noAnswers: string;
   writeAComment: string;
   plsLoginToComment: string;
   plsLoginToAddYourAnswer: string;

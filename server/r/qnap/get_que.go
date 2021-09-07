@@ -56,7 +56,7 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var ansListHTMLBuilder strings.Builder
 	if len(ansList) == 0 {
-		ansListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
+		ansListHTMLBuilder.WriteString("<p class=\"__qing_ls__\">noAnswers</p>")
 	} else {
 		for _, item := range ansList {
 			itemModel := NewAnswerAppModel(&item)

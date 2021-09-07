@@ -92,6 +92,7 @@ func init() {
 	TestDict.NewThread = "ls.newThread"
 	TestDict.NextPage = "ls.nextPage"
 	TestDict.No = "ls.no"
+	TestDict.NoAnswers = "ls.noAnswers"
 	TestDict.NoComments = "ls.noComments"
 	TestDict.NoContentAvailable = "ls.noContentAvailable"
 	TestDict.NoResultsFound = "ls.noResultsFound"
