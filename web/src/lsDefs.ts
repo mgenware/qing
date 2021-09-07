@@ -169,4 +169,5 @@ export default interface LSDefs {
   question: string;
   newThread: string;
   answers: string;
+  postAnAnswer: string;
 }

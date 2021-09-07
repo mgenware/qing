@@ -118,6 +118,7 @@ func init() {
 	TestDict.PlsLoginToComment = "ls.plsLoginToComment"
 	TestDict.Post = "ls.post"
 	TestDict.PostAMsgToThisDiscussion = "ls.postAMsgToThisDiscussion"
+	TestDict.PostAnAnswer = "ls.postAnAnswer"
 	TestDict.Posts = "ls.posts"
 	TestDict.PpItemsCounter = "ls.ppItemsCounter"
 	TestDict.PreviousPage = "ls.previousPage"

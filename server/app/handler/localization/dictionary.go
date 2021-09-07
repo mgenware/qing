@@ -123,6 +123,7 @@ type Dictionary struct {
 	PlsLoginToComment                 string `json:"plsLoginToComment"`
 	Post                              string `json:"post"`
 	PostAMsgToThisDiscussion          string `json:"postAMsgToThisDiscussion"`
+	PostAnAnswer                      string `json:"postAnAnswer"`
 	Posts                             string `json:"posts"`
 	PpItemsCounter                    string `json:"ppItemsCounter"`
 	PreviousPage                      string `json:"previousPage"`

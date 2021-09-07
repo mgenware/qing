@@ -42,7 +42,8 @@ export class AddAnswerApp extends BaseElement {
       return html`<qing-button btnStyle="primary">${ls.goToMyAnswer}</qing-button>`;
     }
 
-    return html``;
+    // Render "post an answer".
+    return html`<qing-button>${ls.postAnAnswer}</qing-button>`;
   }
 
   private renderLoginToAddYourAnswer() {
