@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "r": "del-cli ./dist && tsc && node --experimental-json-modules ./dist/mingru.js",
-    "lint": "eslint --max-warnings 0 --ext .ts ./src",
-    "build": "npm run lint && yarn run r"
+    "lint": "eslint --max-warnings 0 --ext .ts ./src"
   },
   "devDependencies": {
     "@types/node": "^16.7.7",
