@@ -9,6 +9,7 @@ import { hookUpEditBarEvents } from 'com/postCore/postCoreLib';
 import 'core';
 import { entityQuestion } from 'sharedConstants';
 import './questionApp';
+import './addAnswerApp';
 import wind from './questionWind';
 
 hookUpEditBarEvents(wind.EID, entityQuestion);

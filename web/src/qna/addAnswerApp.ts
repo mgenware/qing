@@ -43,7 +43,7 @@ export class AddAnswerApp extends BaseElement {
     }
 
     // Render "post an answer".
-    return html`<qing-button>${ls.postAnAnswer}</qing-button>`;
+    return html`<qing-button btnStyle="success">${ls.postAnAnswer}</qing-button>`;
   }
 
   private renderLoginToAddYourAnswer() {
