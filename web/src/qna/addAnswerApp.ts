@@ -9,6 +9,11 @@ import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
 import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
+import { entityAnswer } from 'sharedConstants';
+import 'com/postCore/setPostApp';
+import { SetPostApp } from 'com/postCore/setPostApp';
+
+const setPostAppID = 'set-post-app';
 
 @customElement('add-answer-app')
 export class AddAnswerApp extends BaseElement {
@@ -43,13 +48,16 @@ export class AddAnswerApp extends BaseElement {
     }
 
     // Render "post an answer".
-    return html`<qing-button btnStyle="success">${ls.postAnAnswer}</qing-button>`;
+    return html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
+        >${ls.postAnAnswer}</qing-button
+      >
+      <set-post-app entityType=${entityAnswer} headerText=${ls.goToMyAnswer}></set-post-app>`;
   }
 
   private renderLoginToAddYourAnswer() {
     return html`
       <div>
-        ${parseString(ls.plsLoginToAddYourAnswer).map((sg) => {
+        ${parseString(ls.postAnAnswer).map((sg) => {
           if (!sg.type) {
             return html`<span>${sg.value}</span>`;
           }
@@ -59,6 +67,10 @@ export class AddAnswerApp extends BaseElement {
         })}
       </div>
     `;
+  }
+
+  private handlePostAnAnswerClick() {
+    this.answerDialogOpen = true;
   }
 }
 
