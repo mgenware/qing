@@ -38,7 +38,6 @@ export class AddDiscussionMsgApp extends BaseElement {
         .entityType=${entityDiscussionMsg}
         .submitButtonText=${ls.send}
         .discussionID=${discussionWind.EID}
-        .showCancelButton=${true}
         .showTitleInput=${false}
       ></set-post-app>
     `;
