@@ -348,7 +348,7 @@ export default css`
   }
 
   #main-footer {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-align: center;
     background-color: var(--app-footer-back-color);
     color: var(--app-footer-fore-color);
@@ -357,6 +357,11 @@ export default css`
 
   #main-footer a {
     color: var(--app-footer-fore-color);
+  }
+
+  #main-footer p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   /* Avatar helpers ------------------------- */
