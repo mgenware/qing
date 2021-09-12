@@ -29,5 +29,6 @@ func NewQuestionPageModel(queAppHTML, ansListHTML, pageBarHTML string) QuestionP
 
 // QuestionPageWindData ...
 type QuestionPageWindData struct {
-	EID string
+	QuestionID string
+	ForumID    string
 }
