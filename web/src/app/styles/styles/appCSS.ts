@@ -347,25 +347,9 @@ export default css`
     padding-left: 8rem;
   }
 
-  /* Sticky footer used in main page ------------------------- */
-  html {
-    position: relative;
-    min-height: 100%;
-  }
-  body {
-    /* Margin bottom by footer height */
-    margin-bottom: 100px;
-  }
-
   #main-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 100px;
     font-size: 0.9rem;
     text-align: center;
-    padding: 0.6rem 0 0 0;
     background-color: var(--app-footer-back-color);
     color: var(--app-footer-fore-color);
     border-top: 1px solid var(--app-footer-fore-color);

@@ -4,12 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{html .Title}}</title>
+    <style>
+      body {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+    </style>
     {{.Header}}
   </head>
 
   <body>
-    <nav-bar-app></nav-bar-app>
+    <header><nav-bar-app></nav-bar-app></header>
     <main>{{.ContentHTML}}</main>
+    <footer id="main-footer">
+      <container-view>
+        <p><a href="/">Qing</a></p>
+        <p>
+          <span class="__qing_ls__">copyright</span> ©
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          &nbsp;<span
+            ><a href="https://github.com/mgenware/qing">https://github.com/mgenware/qing</a></span
+          >
+        </p>
+      </container-view>
+    </footer>
 
     <script>
       window.appUserID = '{{js .AppUserID}}';
@@ -21,23 +42,6 @@
       window.appForumsMode = '{{.AppForumsMode}}' === 'true';
       window.appWindData = JSON.parse('{{js .AppWindDataString}}' || null);
     </script>
-
-    <footer id="main-footer">
-      <container-view>
-        <span>
-          <a href="/">Qing</a>
-          <br />
-          <span class="__qing_ls__">copyright</span> ©
-          <script>
-            document.write(new Date().getFullYear());
-          </script>
-          &nbsp;<span
-            ><a href="https://github.com/mgenware/qing">https://github.com/mgenware/qing</a></span
-          >
-        </span>
-      </container-view>
-    </footer>
-
     {{.Scripts}}
   </body>
 </html>
