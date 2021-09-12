@@ -11,9 +11,6 @@ import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
 import { entityAnswer } from 'sharedConstants';
 import 'com/postCore/setPostApp';
-import { SetPostApp } from 'com/postCore/setPostApp';
-
-const setPostAppID = 'set-post-app';
 
 @customElement('add-answer-app')
 export class AddAnswerApp extends BaseElement {
@@ -30,6 +27,7 @@ export class AddAnswerApp extends BaseElement {
 
   @lp.string myAnswerURL = '';
   @lp.bool isMyAnswer = false;
+  @lp.bool answerDialogOpen = false;
 
   render() {
     // Render "login to answer" for visitors.
@@ -51,7 +49,13 @@ export class AddAnswerApp extends BaseElement {
     return html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
         >${ls.postAnAnswer}</qing-button
       >
-      <set-post-app entityType=${entityAnswer} headerText=${ls.goToMyAnswer}></set-post-app>`;
+      <set-post-app
+        ?open=${this.answerDialogOpen}
+        .showTitleInput=${false}
+        entityType=${entityAnswer}
+        headerText=${ls.postAnAnswer}
+        @editorClose=${this.handleAnswerDialogClose}
+      ></set-post-app>`;
   }
 
   private renderLoginToAddYourAnswer() {
@@ -71,6 +75,10 @@ export class AddAnswerApp extends BaseElement {
 
   private handlePostAnAnswerClick() {
     this.answerDialogOpen = true;
+  }
+
+  private handleAnswerDialogClose() {
+    this.answerDialogOpen = false;
   }
 }
 

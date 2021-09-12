@@ -78,6 +78,7 @@ export function hookUpEditBarEvents(eid: string, entityType: number) {
       editPostApp = renderTemplateResult(
         '',
         html`<set-post-app
+          autoClose
           .postID=${eid}
           entityType=${entityType}
           headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entityType))}

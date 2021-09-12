@@ -301,7 +301,11 @@ export class ElementsDev extends BaseElement {
   firstUpdated() {
     this.#setPostApp = renderTemplateResult(
       '',
-      html`<set-post-app entityType=${entityPost} headerText="Create a new post"></set-post-app>`,
+      html`<set-post-app
+        autoClose
+        entityType=${entityPost}
+        headerText="Create a new post"
+      ></set-post-app>`,
     );
   }
 

@@ -42,6 +42,7 @@ export default class SetPostApp extends BaseElement {
   @lp.string forumID = '';
 
   @lp.bool open = false;
+  @lp.bool autoClose = false;
 
   // Used when `entityType` is discussion msg.
   @lp.string discussionID: string | undefined;
@@ -126,7 +127,11 @@ export default class SetPostApp extends BaseElement {
   }
 
   private handleDiscard() {
-    this.open = false;
+    if (this.autoClose) {
+      this.open = false;
+    } else {
+      this.dispatchEvent(new CustomEvent('editorClose'));
+    }
   }
 
   private handleEscDown() {

@@ -92,7 +92,7 @@ ready(() => {
     const app = renderTemplateResult<SetPostApp>(
       '',
       html`<set-post-app
-        open
+        autoClose
         .entityType=${entityType}
         .headerText=${title}
         .forumID=${forumID}
