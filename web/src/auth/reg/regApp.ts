@@ -88,7 +88,7 @@ export class RegApp extends BaseElement {
         >${ls.signUp}</qing-button
       >
       <qing-overlay
-        .open=${this.isCompletionModalOpen}
+        ?open=${this.isCompletionModalOpen}
         @openChanged=${this.handleCompletionModalOpenChanged}
       >
         <div>
