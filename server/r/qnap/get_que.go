@@ -72,6 +72,11 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	quePageModel := NewQuestionPageModel(vQuestionApp.MustExecuteToString(queAppModel), ansListHTMLBuilder.String(), pageBarHTML)
 	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(quePageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(qnaEntryScriptName)
-	d.WindData = QuestionPageWindData{QuestionID: fmtx.EncodeID(qid)}
+
+	forumID := ""
+	if que.ForumID != nil {
+		forumID = fmtx.EncodeID(*que.ForumID)
+	}
+	d.WindData = NewQuestionPageWindData(fmtx.EncodeID(qid), forumID)
 	return resp.MustComplete(d)
 }

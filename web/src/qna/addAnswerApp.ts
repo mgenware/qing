@@ -7,10 +7,14 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
+import { CHECK } from 'checks';
 import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
 import { entityAnswer } from 'sharedConstants';
 import 'com/postCore/setPostApp';
+import wind from './questionWind';
+
+CHECK(wind.ForumID);
 
 @customElement('add-answer-app')
 export class AddAnswerApp extends BaseElement {
@@ -54,6 +58,7 @@ export class AddAnswerApp extends BaseElement {
         .showTitleInput=${false}
         entityType=${entityAnswer}
         headerText=${ls.postAnAnswer}
+        .forumID=${wind.ForumID}
         @editorClose=${this.handleAnswerDialogClose}
       ></set-post-app>`;
   }

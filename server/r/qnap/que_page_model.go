@@ -32,3 +32,7 @@ type QuestionPageWindData struct {
 	QuestionID string
 	ForumID    string
 }
+
+func NewQuestionPageWindData(questionID, forumID string) QuestionPageWindData {
+	return QuestionPageWindData{QuestionID: questionID, ForumID: forumID}
+}

@@ -12,4 +12,4 @@ import './questionApp';
 import './addAnswerApp';
 import wind from './questionWind';
 
-hookUpEditBarEvents(wind.EID, entityQuestion);
+hookUpEditBarEvents(wind.QuestionID, entityQuestion);

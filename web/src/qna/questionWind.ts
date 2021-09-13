@@ -8,7 +8,8 @@
 import appPageState from 'app/appPageState';
 
 export interface QuestionWind {
-  EID: string;
+  QuestionID: string;
+  ForumID: string;
 }
 
 export default appPageState.windData<QuestionWind>();
