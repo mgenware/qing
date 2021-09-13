@@ -59,6 +59,7 @@ export class AddAnswerApp extends BaseElement {
         entityType=${entityAnswer}
         headerText=${ls.postAnAnswer}
         .forumID=${wind.ForumID}
+        .questionID=${wind.QuestionID}
         @editorClose=${this.handleAnswerDialogClose}
       ></set-post-app>`;
   }

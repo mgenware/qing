@@ -10,7 +10,7 @@ import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { CHECK } from 'checks';
-import { entityDiscussionMsg, entityPost } from 'sharedConstants';
+import { entityPost } from 'sharedConstants';
 import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
 import { SetPostLoader } from './loaders/setPostLoader';
@@ -44,8 +44,8 @@ export default class SetPostApp extends BaseElement {
   @lp.bool open = false;
   @lp.bool autoClose = false;
 
-  // Used when `entityType` is discussion msg.
   @lp.string discussionID: string | undefined;
+  @lp.string questionID: string | undefined;
 
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
@@ -54,11 +54,6 @@ export default class SetPostApp extends BaseElement {
   async firstUpdated() {
     const { entityType } = this;
     CHECK(entityType);
-    if (entityType === entityDiscussionMsg) {
-      if (!this.discussionID) {
-        throw new Error('`discussionID` is required when `entityType` is discussion msg');
-      }
-    }
 
     if (this.postID) {
       const loader = new GetEntitySourceLoader(this.entityType, this.postID);
@@ -114,6 +109,9 @@ export default class SetPostApp extends BaseElement {
     const loader = new SetPostLoader(this.postID, e.detail, this.entityType, this.forumID);
     if (this.discussionID) {
       loader.discussionID = this.discussionID;
+    }
+    if (this.questionID) {
+      loader.questionID = this.questionID;
     }
     const status = await appTask.critical(loader, this.postID ? ls.saving : ls.publishing);
     if (status.isSuccess) {

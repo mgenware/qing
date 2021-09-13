@@ -35,7 +35,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentDict := validator.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType != defs.Shared.EntityDiscussionMsg {
+	if entityType != defs.Shared.EntityDiscussionMsg && entityType != defs.Shared.EntityAnswer {
 		title = validator.MustGetStringFromDict(contentDict, "title", defs.DB.MaxTitleLen)
 	}
 
@@ -88,6 +88,16 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case defs.Shared.EntityQuestion:
 			{
 				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
+				app.PanicIfErr(err)
+
+				result = appURL.Get().Question(insertedID)
+				break
+			}
+
+		case defs.Shared.EntityAnswer:
+			{
+				questionID := validator.GetIDFromDict(params, "questionID")
+				insertedID, err := da.Answer.InsertItem(db, contentHTML, uid, now, now, questionID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Question(insertedID)

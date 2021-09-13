@@ -7,12 +7,14 @@
 
 import Loader from 'lib/loader';
 import routes from 'routes';
-import { entityDiscussionMsg } from 'sharedConstants';
+import { entityDiscussionMsg, entityAnswer } from 'sharedConstants';
 import { ComposerContent } from 'ui/editor/composerView';
 
 export class SetPostLoader extends Loader<string> {
   // Used when `entityType` is `discussionMsg`;
   discussionID?: string;
+  // Used when `entityType` is `discussionAnswer`;
+  questionID?: string;
 
   constructor(
     public id: string | null,
@@ -38,9 +40,14 @@ export class SetPostLoader extends Loader<string> {
     }
     if (entityType === entityDiscussionMsg) {
       if (!this.discussionID) {
-        throw new Error('`discussionID` is required when `entityType` is discussion msg');
+        throw new Error('`discussionID` is required when `entityType` is `entityDiscussionMsg`');
       }
       params.discussionID = this.discussionID;
+    } else if (entityType === entityAnswer) {
+      if (!this.questionID) {
+        throw new Error('`questionID` is required when `entityType` is `entityAnswer`');
+      }
+      params.questionID = this.questionID;
     }
     if (this.forumID) {
       params.forumID = this.forumID;
