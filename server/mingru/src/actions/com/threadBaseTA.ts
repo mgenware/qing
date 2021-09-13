@@ -10,11 +10,19 @@ import ThreadBase from '../../models/com/threadBase.js';
 import ContentBaseTA from './contentBaseTA.js';
 
 export default abstract class ThreadBaseTA extends ContentBaseTA {
-  override getStartingInsertionInputColumns(): mm.Column[] {
+  protected getThreadBaseTable(): ThreadBase {
     const t = this.getBaseTable();
     if (t instanceof ThreadBase) {
-      return [t.forum_id];
+      return t;
     }
-    throw new Error(`t is not a \`ThreadCore\`, got ${t}`);
+    throw new Error(`t is not a \`ThreadBase\`, got ${t}`);
+  }
+
+  override getStartingInsertionInputColumns(): mm.Column[] {
+    return [this.getThreadBaseTable().forum_id];
+  }
+
+  override getFullColumns(): mm.SelectedColumn[] {
+    return [...super.getFullColumns(), this.getThreadBaseTable().forum_id];
   }
 }

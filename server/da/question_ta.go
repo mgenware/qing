@@ -334,6 +334,7 @@ func (da *TableTypeQuestion) SelectCmtsWithLike(queryable mingru.Queryable, view
 type QuestionTableSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -348,7 +349,7 @@ type QuestionTableSelectItemByIDResult struct {
 // SelectItemByID ...
 func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint64) (QuestionTableSelectItemByIDResult, error) {
 	var result QuestionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`content` AS `content`, `question`.`title` AS `title`, `question`.`cmt_count` AS `cmt_count`, `question`.`reply_count` AS `reply_count`, `question`.`likes` AS `likes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Likes)
+	err := queryable.QueryRow("SELECT `question`.`id` AS `id`, `question`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `question`.`created_at` AS `created_at`, `question`.`modified_at` AS `modified_at`, `question`.`content` AS `content`, `question`.`forum_id` AS `forum_id`, `question`.`title` AS `title`, `question`.`cmt_count` AS `cmt_count`, `question`.`reply_count` AS `reply_count`, `question`.`likes` AS `likes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Likes)
 	if err != nil {
 		return result, err
 	}

@@ -138,7 +138,6 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   // Returns [] if profile is not supported.
   abstract getProfileColumns(): mm.SelectedColumn[];
   abstract getEditingColumns(): mm.Column[];
-  abstract getExtraFullColumns(): mm.SelectedColumn[];
 
   // Gets extra columns that are considered inputs during insertion.
   getExtraInsertionInputColumns(): mm.Column[] {
@@ -156,13 +155,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   protected getFullColumns(): mm.SelectedColumn[] {
     const t = this.getBaseTable();
     const idCol = t.id.privateAttr();
-    return [
-      idCol,
-      ...this.userColumns,
-      ...this.dateColumns,
-      t.content,
-      ...this.getExtraFullColumns(),
-    ];
+    return [idCol, ...this.userColumns, ...this.dateColumns, t.content];
   }
 
   // Used by threads as `forum_id` should be the first param during insertion.

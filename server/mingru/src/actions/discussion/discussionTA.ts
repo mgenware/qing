@@ -41,8 +41,8 @@ export class DiscussionTA extends ThreadBaseTA {
     return [t.title, t.content];
   }
 
-  override getExtraFullColumns(): mm.SelectedColumn[] {
-    return [t.title, t.cmt_count, t.reply_count];
+  override getFullColumns(): mm.SelectedColumn[] {
+    return [...super.getFullColumns(), t.title, t.cmt_count, t.reply_count];
   }
 
   override getContainerUpdateCounterAction(): mm.Action {

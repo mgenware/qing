@@ -57,8 +57,8 @@ export class DiscussionMsgTA extends ContentBaseTA {
     return [t.content];
   }
 
-  override getExtraFullColumns(): mm.SelectedColumn[] {
-    return [t.cmt_count];
+  override getFullColumns(): mm.SelectedColumn[] {
+    return [...super.getFullColumns(), t.cmt_count];
   }
 
   override getContainerUpdateCounterAction(): mm.Action {

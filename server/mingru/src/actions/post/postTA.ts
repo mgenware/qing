@@ -38,8 +38,8 @@ export class PostTA extends ContentBaseTA {
     return [t.title, t.content];
   }
 
-  override getExtraFullColumns(): mm.SelectedColumn[] {
-    return [t.title, t.cmt_count, t.likes];
+  override getFullColumns(): mm.SelectedColumn[] {
+    return [...super.getFullColumns(), t.title, t.cmt_count, t.likes];
   }
 
   override getContainerUpdateCounterAction(): mm.Action {
