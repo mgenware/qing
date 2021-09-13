@@ -48,6 +48,10 @@ export class VoteView extends BaseElement {
           margin-right: 0.8rem;
           min-width: 60px;
         }
+
+        qing-button.voted {
+          border-left: 8px solid var(--app-default-primary-fore-color);
+        }
       `,
     ];
   }
@@ -55,6 +59,7 @@ export class VoteView extends BaseElement {
   @lp.number value = 0;
   @lp.number ups = 0;
   @lp.number downs = 0;
+  @lp.string myVote = '';
 
   render() {
     const { value, ups, downs } = this;
@@ -67,14 +72,22 @@ export class VoteView extends BaseElement {
     return html`
       <div class="root">
         <div class="flex-auto d-flex flex-column">
-          <qing-button title=${ls.upvote} class="flex-full">
+          <qing-button
+            title=${ls.upvote}
+            class="flex-full"
+            .btnStyle=${this.myVote === 'up' ? 'primary' : ''}
+          >
             <svg-icon
               iconStyle="success"
               .oneTimeSrc=${staticMainImage('plus-sign.svg')}
               .size=${voteBtnSize}
             ></svg-icon>
           </qing-button>
-          <qing-button title=${ls.downvote} class="flex-full">
+          <qing-button
+            title=${ls.downvote}
+            class="flex-full"
+            .btnStyle=${this.myVote === 'down' ? 'primary' : ''}
+          >
             <svg-icon
               iconStyle="danger"
               .oneTimeSrc=${staticMainImage('minus-sign.svg')}
