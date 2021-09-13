@@ -13,8 +13,8 @@ import "qing/app/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/set-post", setEntity)
-	Router.Post("/delete-post", deleteEntity)
+	Router.Post("/set-entity", setEntity)
+	Router.Post("/delete-entity", deleteEntity)
 	Router.Post("/get-entity-src", getEntitySrc)
 	Router.Post("/set-cmt", setCmt)
 	Router.Post("/delete-cmt", deleteCmt)

@@ -9,7 +9,7 @@ import { html, customElement, css, BaseElement } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import 'ui/editor/composerView';
-import 'com/postCore/setPostApp';
+import 'com/postCore/setEntityApp';
 import { entityDiscussionMsg } from 'sharedConstants';
 import discussionWind from './discussionWind';
 import { CHECK } from 'checks';
@@ -33,13 +33,13 @@ export class AddDiscussionMsgApp extends BaseElement {
 
   render() {
     return html`
-      <set-post-app
+      <set-entity-app
         .headerText=${ls.postAMsgToThisDiscussion}
         .entityType=${entityDiscussionMsg}
         .submitButtonText=${ls.send}
         .discussionID=${discussionWind.EID}
         .showTitleInput=${false}
-      ></set-post-app>
+      ></set-entity-app>
     `;
   }
 }

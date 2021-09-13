@@ -20,10 +20,10 @@ import 'ui/form/selectionView';
 import 'ui/qna/voteView';
 import 'ui/lists/linkListView';
 import 'com/like/likeView';
-import 'com/postCore/setPostApp';
+import 'com/postCore/setEntityApp';
 import LoadingStatus from 'lib/loadingStatus';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
-import SetPostApp from 'com/postCore/setPostApp';
+import SetEntityApp from 'com/postCore/setEntityApp';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { entityPost } from 'sharedConstants';
 import appAlert from 'app/appAlert';
@@ -122,7 +122,7 @@ export class ElementsDev extends BaseElement {
     ];
   }
 
-  #setPostApp: SetPostApp | null = null;
+  #setEntityApp: SetEntityApp | null = null;
 
   render() {
     return html`
@@ -299,13 +299,13 @@ export class ElementsDev extends BaseElement {
   }
 
   firstUpdated() {
-    this.#setPostApp = renderTemplateResult(
+    this.#setEntityApp = renderTemplateResult(
       '',
-      html`<set-post-app
+      html`<set-entity-app
         autoClose
         entityType=${entityPost}
         headerText="Create a new post"
-      ></set-post-app>`,
+      ></set-entity-app>`,
     );
   }
 
@@ -317,8 +317,8 @@ export class ElementsDev extends BaseElement {
   }
 
   private showPostEditor() {
-    if (this.#setPostApp) {
-      this.#setPostApp.open = true;
+    if (this.#setEntityApp) {
+      this.#setEntityApp.open = true;
     }
   }
 }

@@ -11,7 +11,7 @@ import { CHECK } from 'checks';
 import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
 import { entityAnswer } from 'sharedConstants';
-import 'com/postCore/setPostApp';
+import 'com/postCore/setEntityApp';
 import wind from './questionWind';
 
 CHECK(wind.ForumID);
@@ -53,7 +53,7 @@ export class AddAnswerApp extends BaseElement {
     return html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
         >${ls.postAnAnswer}</qing-button
       >
-      <set-post-app
+      <set-entity-app
         ?open=${this.answerDialogOpen}
         .showTitleInput=${false}
         entityType=${entityAnswer}
@@ -61,7 +61,7 @@ export class AddAnswerApp extends BaseElement {
         .forumID=${wind.ForumID}
         .questionID=${wind.QuestionID}
         @editorClose=${this.handleAnswerDialogClose}
-      ></set-post-app>`;
+      ></set-entity-app>`;
   }
 
   private renderLoginToAddYourAnswer() {

@@ -10,7 +10,7 @@ import routes from 'routes';
 import { entityDiscussionMsg, entityAnswer } from 'sharedConstants';
 import { ComposerContent } from 'ui/editor/composerView';
 
-export class SetPostLoader extends Loader<string> {
+export class SetEntityLoader extends Loader<string> {
   // Used when `entityType` is `discussionMsg`;
   discussionID?: string;
   // Used when `entityType` is `discussionAnswer`;
@@ -26,7 +26,7 @@ export class SetPostLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.setPost;
+    return routes.s.pri.compose.setEntity;
   }
 
   requestParams(): Record<string, unknown> {

@@ -8,13 +8,13 @@
 import Loader from 'lib/loader';
 import routes from 'routes';
 
-export default class DeletePostLoader extends Loader<string> {
+export default class DeleteEntityLoader extends Loader<string> {
   constructor(public pid: string | null, public entityType: number) {
     super();
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.deletePost;
+    return routes.s.pri.compose.deleteEntity;
   }
 
   requestParams(): Record<string, unknown> {

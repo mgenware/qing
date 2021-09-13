@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import './setPostApp';
+import './setEntityApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<set-post-app></set-post-app>`);
+  const el = await fixture<HTMLElement>(html`<set-entity-app></set-entity-app>`);
 
   tDOM.isBlockElement(el);
 });

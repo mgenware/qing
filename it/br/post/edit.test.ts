@@ -26,7 +26,7 @@ function testEditorUpdate(part: EditorPart) {
       await editBtn.click();
 
       // Check editor title.
-      const overlayEl = await page.$('set-post-app qing-overlay');
+      const overlayEl = await page.$('set-entity-app qing-overlay');
       ass.t(overlayEl);
       ass.t(await overlayEl.$('h2:has-text("Edit post")'));
 
@@ -66,7 +66,7 @@ test('Cancelled', async (br) => {
     await editBtn.click();
 
     // Check editor title.
-    const overlayEl = await page.$('set-post-app qing-overlay');
+    const overlayEl = await page.$('set-entity-app qing-overlay');
     ass.t(overlayEl);
     ass.t(await overlayEl.$('h2:has-text("Edit post")'));
 

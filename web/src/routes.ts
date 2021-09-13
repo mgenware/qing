@@ -28,8 +28,8 @@ export default buildTree({
         setBio: 'set-bio',
       },
       compose: {
-        setPost: 'set-post',
-        deletePost: 'delete-post',
+        setEntity: 'set-entity',
+        deleteEntity: 'delete-entity',
         getEntitySource: 'get-entity-src',
         setCmt: 'set-cmt',
         getCmtSource: 'get-cmt-src',

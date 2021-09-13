@@ -13,15 +13,15 @@ import { CHECK } from 'checks';
 import { entityPost } from 'sharedConstants';
 import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
-import { SetPostLoader } from './loaders/setPostLoader';
+import { SetEntityLoader } from './loaders/setEntityLoader';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appPageState from 'app/appPageState';
 
 const composerID = 'composer';
 
-@customElement('set-post-app')
-export default class SetPostApp extends BaseElement {
+@customElement('set-entity-app')
+export default class SetEntityApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -106,7 +106,7 @@ export default class SetPostApp extends BaseElement {
     ) {
       throw new Error('`forumID` is required for questions and discussions');
     }
-    const loader = new SetPostLoader(this.postID, e.detail, this.entityType, this.forumID);
+    const loader = new SetEntityLoader(this.postID, e.detail, this.entityType, this.forumID);
     if (this.discussionID) {
       loader.discussionID = this.discussionID;
     }
@@ -139,6 +139,6 @@ export default class SetPostApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'set-post-app': SetPostApp;
+    'set-entity-app': SetEntityApp;
   }
 }

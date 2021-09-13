@@ -9,8 +9,8 @@ import { ass } from 'base/api';
 import defs from 'base/defs';
 import { APIResult, ensureSuccess, post, updateEntityTime, User } from 'base/post';
 
-export const addPostURL = 'pri/compose/set-post';
-export const deletePostURL = 'pri/compose/delete-post';
+export const addEntityURL = 'pri/compose/set-entity';
+export const deleteEntityURL = 'pri/compose/delete-entity';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 export const addPostBody = {

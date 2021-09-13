@@ -11,9 +11,9 @@ import { html } from 'll';
 import { editBarID, EditBarApp } from 'ui/editor/editBarApp';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
 import 'ui/editor/editBarApp';
-import DeletePostLoader from './loaders/deletePostLoader';
-import './setPostApp';
-import SetPostApp from './setPostApp';
+import DeleteEntityLoader from './loaders/deleteEntityLoader';
+import './setEntityApp';
+import SetEntityApp from './setEntityApp';
 import appPageState from 'app/appPageState';
 import appAlert from 'app/appAlert';
 import appTask from 'app/appTask';
@@ -27,7 +27,7 @@ import {
   entityQuestion,
 } from 'sharedConstants';
 
-let editPostApp: SetPostApp | null = null;
+let editPostApp: SetEntityApp | null = null;
 
 export function entityTypeToLS(entityType: number): string {
   switch (entityType) {
@@ -64,7 +64,7 @@ export function hookUpEditBarEvents(eid: string, entityType: number) {
       )
     ) {
       appAlert.showLoadingOverlay(ls.working);
-      const loader = new DeletePostLoader(eid, entityType);
+      const loader = new DeleteEntityLoader(eid, entityType);
       const status = await appTask.critical(loader, ls.working);
       if (status.data) {
         // Redirect to profile page since this page has been deleted.
@@ -77,12 +77,12 @@ export function hookUpEditBarEvents(eid: string, entityType: number) {
     if (!editPostApp) {
       editPostApp = renderTemplateResult(
         '',
-        html`<set-post-app
+        html`<set-entity-app
           autoClose
           .postID=${eid}
           entityType=${entityType}
           headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entityType))}
-        ></set-post-app>`,
+        ></set-entity-app>`,
       );
     }
     CHECK(editPostApp);

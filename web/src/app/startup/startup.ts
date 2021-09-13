@@ -14,8 +14,8 @@ import { localizedErrDict } from 'defs';
 import Loader from 'lib/loader';
 import * as cmd from '../appCommands';
 import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
-import 'com/postCore/setPostApp';
-import SetPostApp from 'com/postCore/setPostApp';
+import 'com/postCore/setEntityApp';
+import SetEntityApp from 'com/postCore/setEntityApp';
 import { CHECK } from 'checks';
 
 const localizedStringSlotClass = '__qing_ls__';
@@ -89,14 +89,14 @@ ready(() => {
       }
     }
 
-    const app = renderTemplateResult<SetPostApp>(
+    const app = renderTemplateResult<SetEntityApp>(
       '',
-      html`<set-post-app
+      html`<set-entity-app
         autoClose
         .entityType=${entityType}
         .headerText=${title}
         .forumID=${forumID}
-      ></set-post-app>`,
+      ></set-entity-app>`,
     );
     CHECK(app);
     app.open = true;
