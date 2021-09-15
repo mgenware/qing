@@ -160,5 +160,6 @@
   "question": "Question",
   "newThread": "New thread",
   "answers": "Answers",
-  "postAnAnswer": "Post an answer"
+  "postAnAnswer": "Post an answer",
+  "signInToVoteThisAnswer": "Sign in to vote this answer."
 }

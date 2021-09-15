@@ -155,6 +155,7 @@ type Dictionary struct {
 	Settings                          string `json:"settings"`
 	SignIn                            string `json:"signIn"`
 	SignInToLikeThisEntity            string `json:"signInToLikeThisEntity"`
+	SignInToVoteThisAnswer            string `json:"signInToVoteThisAnswer"`
 	SignOut                           string `json:"signOut"`
 	SignUp                            string `json:"signUp"`
 	Strikethrough                     string `json:"strikethrough"`

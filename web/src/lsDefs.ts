@@ -170,4 +170,5 @@ export default interface LSDefs {
   newThread: string;
   answers: string;
   postAnAnswer: string;
+  signInToVoteThisAnswer: string;
 }

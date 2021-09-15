@@ -150,6 +150,7 @@ func init() {
 	TestDict.Settings = "ls.settings"
 	TestDict.SignIn = "ls.signIn"
 	TestDict.SignInToLikeThisEntity = "ls.signInToLikeThisEntity"
+	TestDict.SignInToVoteThisAnswer = "ls.signInToVoteThisAnswer"
 	TestDict.SignOut = "ls.signOut"
 	TestDict.SignUp = "ls.signUp"
 	TestDict.Strikethrough = "ls.strikethrough"

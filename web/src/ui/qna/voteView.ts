@@ -13,6 +13,7 @@ import 'ui/widgets/svgIcon';
 import 'ui/content/hfNumber';
 import ls from 'ls';
 import { tif } from 'lib/htmlLib';
+import { VoteValue } from './loaders/voteLoader';
 
 const voteBtnSize = 20;
 
@@ -59,7 +60,7 @@ export class VoteView extends BaseElement {
   @lp.number value = 0;
   @lp.number ups = 0;
   @lp.number downs = 0;
-  @lp.string myVote = '';
+  @lp.string myVote: VoteValue = 0;
 
   render() {
     const { value, ups, downs } = this;
@@ -75,7 +76,8 @@ export class VoteView extends BaseElement {
           <qing-button
             title=${ls.upvote}
             class="flex-full"
-            .btnStyle=${this.myVote === 'up' ? 'primary' : ''}
+            @click=${this.handleUpVoteClick}
+            .btnStyle=${this.myVote === VoteValue.up ? 'primary' : ''}
           >
             <svg-icon
               iconStyle="success"
@@ -86,7 +88,8 @@ export class VoteView extends BaseElement {
           <qing-button
             title=${ls.downvote}
             class="flex-full"
-            .btnStyle=${this.myVote === 'down' ? 'primary' : ''}
+            @click=${this.handleDownVoteClick}
+            .btnStyle=${this.myVote === VoteValue.down ? 'primary' : ''}
           >
             <svg-icon
               iconStyle="danger"
@@ -121,6 +124,14 @@ export class VoteView extends BaseElement {
         </div>
       </div>
     `;
+  }
+
+  private handleUpVoteClick() {
+    this.dispatchEvent(new CustomEvent('upVoteClick'));
+  }
+
+  private handleDownVoteClick() {
+    this.dispatchEvent(new CustomEvent('downVoteClick'));
   }
 }
 
