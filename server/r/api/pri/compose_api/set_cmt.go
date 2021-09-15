@@ -90,9 +90,11 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		d.UserName = user.Name
 		d.UserIconName = user.IconName
 		d.ToUserID = toUserID
-		toUserName, err := da.User.SelectName(db, toUserID)
-		app.PanicIfErr(err)
-		d.ToUserName = toUserName
+		if toUserID != 0 {
+			toUserName, err := da.User.SelectName(db, toUserID)
+			app.PanicIfErrEx(err, "GetToUserName")
+			d.ToUserName = toUserName
+		}
 
 		cmt := apicom.NewCmt(d)
 		cmt.ContentHTML = content
