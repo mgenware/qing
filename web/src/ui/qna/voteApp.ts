@@ -8,10 +8,11 @@
 import { html, customElement, css, BaseElement, lp } from 'll';
 import { CHECK } from 'checks';
 import './likeView';
-import { VoteLoader, VoteValue } from './loaders/voteLoader';
+import { VoteLoader } from './loaders/voteLoader';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import appPageState from 'app/appPageState';
+import { upVoteValue, downVoteValue, noVoteValue } from 'sharedConstants';
 import ls from 'ls';
 
 @customElement('vote-app')
@@ -29,15 +30,23 @@ export class VoteApp extends BaseElement {
 
   // Reflected: used for quick locating the view during testing.
   @lp.reflected.string hostID = '';
+  @lp.number initialValue = 0;
+  @lp.number initialUps = 0;
+  @lp.number initialDowns = 0;
+  @lp.number initialMyVote = 0;
 
   @lp.bool private isWorking = false;
-  @lp.reflected.number value = 0;
-  @lp.reflected.number ups = 0;
-  @lp.reflected.number downs = 0;
-  @lp.reflected.number myVote: VoteValue = 0;
+  @lp.number private value = 0;
+  @lp.number private ups = 0;
+  @lp.number private downs = 0;
+  @lp.number private myVote = 0;
 
   firstUpdated() {
     CHECK(this.hostID);
+    this.value = this.initialValue;
+    this.ups = this.initialUps;
+    this.downs = this.initialDowns;
+    this.myVote = this.initialMyVote;
   }
 
   render() {
@@ -48,14 +57,14 @@ export class VoteApp extends BaseElement {
           .ups=${this.ups}
           .downs=${this.downs}
           .myVote=${this.myVote}
-          @upVoteClick=${() => this.doVote(VoteValue.up)}
-          @downVoteClick=${() => this.doVote(VoteValue.down)}
+          @upVoteClick=${() => this.doVote(upVoteValue)}
+          @downVoteClick=${() => this.doVote(downVoteValue)}
         ></vote-view>
       </div>
     `;
   }
 
-  private async doVote(voteButton: VoteValue) {
+  private async doVote(voteButton: number) {
     if (this.isWorking) {
       return;
     }
@@ -65,11 +74,11 @@ export class VoteApp extends BaseElement {
       return;
     }
 
-    let nextVoteValue: VoteValue;
+    let nextVoteValue: number;
     let isRetractingVote = false;
     if (voteButton === this.myVote) {
       // The user is retracting the vote.
-      nextVoteValue = VoteValue.clear;
+      nextVoteValue = noVoteValue;
       isRetractingVote = true;
     } else {
       nextVoteValue = voteButton;
@@ -83,7 +92,7 @@ export class VoteApp extends BaseElement {
       return;
     }
     if (isRetractingVote) {
-      this.myVote = VoteValue.clear;
+      this.myVote = noVoteValue;
     } else {
       this.myVote = voteButton;
     }

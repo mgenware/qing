@@ -13,7 +13,7 @@ import 'ui/widgets/svgIcon';
 import 'ui/content/hfNumber';
 import ls from 'ls';
 import { tif } from 'lib/htmlLib';
-import { VoteValue } from './loaders/voteLoader';
+import { upVoteValue, downVoteValue } from 'sharedConstants';
 
 const voteBtnSize = 20;
 
@@ -60,7 +60,7 @@ export class VoteView extends BaseElement {
   @lp.number value = 0;
   @lp.number ups = 0;
   @lp.number downs = 0;
-  @lp.string myVote: VoteValue = 0;
+  @lp.string myVote = 0;
 
   render() {
     const { value, ups, downs } = this;
@@ -77,7 +77,7 @@ export class VoteView extends BaseElement {
             title=${ls.upvote}
             class="flex-full"
             @click=${this.handleUpVoteClick}
-            .btnStyle=${this.myVote === VoteValue.up ? 'primary' : ''}
+            .btnStyle=${this.myVote === upVoteValue ? 'primary' : ''}
           >
             <svg-icon
               iconStyle="success"
@@ -89,7 +89,7 @@ export class VoteView extends BaseElement {
             title=${ls.downvote}
             class="flex-full"
             @click=${this.handleDownVoteClick}
-            .btnStyle=${this.myVote === VoteValue.down ? 'primary' : ''}
+            .btnStyle=${this.myVote === downVoteValue ? 'primary' : ''}
           >
             <svg-icon
               iconStyle="danger"

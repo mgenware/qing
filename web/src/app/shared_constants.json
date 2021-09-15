@@ -51,5 +51,8 @@
   "keyForumSettings": "forumSettings",
   "keyLang": "lang",
   "forumStatusOpen": 0,
-  "forumStatusArchived": 1
+  "forumStatusArchived": 1,
+  "upVoteValue": 1,
+  "downVoteValue": -1,
+  "noVoteValue": 0
 }

@@ -30,10 +30,11 @@ type AnswerAppModel struct {
 	UserHTML   string
 	CreatedAt  string
 	ModifiedAt string
+	MyVote     int
 }
 
 // NewAnswerAppModel creates a AnswerAppModel.
-func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult) AnswerAppModel {
+func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult, myVote int) AnswerAppModel {
 	d := AnswerAppModel{AnswerTableSelectItemsByQuestionResult: *p}
 	eid := fmtx.EncodeID(p.ID)
 	d.AnswerURL = appURL.Get().Answer(p.ID)
@@ -42,5 +43,6 @@ func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult) AnswerAppMo
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserEID = fmtx.EncodeID(d.UserID)
 	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
+	d.MyVote = myVote
 	return d
 }

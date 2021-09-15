@@ -7,7 +7,9 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import 'com/cmt/cmtApp';
-import { entityAnswer } from 'sharedConstants';
+import 'ui/qna/voteApp';
+import { upVoteValue, downVoteValue, noVoteValue } from 'sharedConstants';
+import { CHECK } from 'checks';
 
 @customElement('answer-app')
 export class AnswerApp extends BaseElement {
@@ -22,30 +24,42 @@ export class AnswerApp extends BaseElement {
     ];
   }
 
-  @lp.number initialLikes = 0;
-  // Intentionally set as a number as server bool values are easy
-  // to passed down as numbers when set as attributes.
-  // See `questionView.html`.
-  @lp.number initialHasLiked = 0;
-  @lp.number initialCmtCount = 0;
-  @lp.number initialAnsCount = 0;
   @lp.string eid = '';
+  @lp.number initialValue = 0;
+  @lp.number initialUps = 0;
+  @lp.number initialDowns = 0;
+  @lp.number initialMyVoteString = '';
+
+  firstUpdated() {
+    CHECK(this.eid);
+  }
 
   render() {
     return html`
       <div>
         <slot></slot>
         <div class="m-t-md">
-          <like-app
-            .iconSize=${'md'}
-            .initialLikes=${this.initialLikes}
-            .initialHasLiked=${!!this.initialHasLiked}
+          <vote-app
             .hostID=${this.eid}
-            .hostType=${entityAnswer}
-          ></like-app>
+            .initialUps=${this.initialUps}
+            .initialDowns=${this.initialDowns}
+            .initialValue=${this.initialValue}
+            .initialMyVote=${this.voteStringToValue(this.initialMyVoteString)}
+          ></vote-app>
         </div>
       </div>
     `;
+  }
+
+  private voteStringToValue(s: string): number {
+    switch (s) {
+      case 'up':
+        return upVoteValue;
+      case 'down':
+        return downVoteValue;
+      default:
+        return noVoteValue;
+    }
   }
 }
 

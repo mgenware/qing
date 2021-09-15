@@ -18,6 +18,7 @@ type SharedConstantsType struct {
 	ColumnCreated string
 	ColumnLikes string
 	ColumnMessages string
+	DownVoteValue int
 	EntityAnswer int
 	EntityCmt int
 	EntityDiscussion int
@@ -54,6 +55,7 @@ type SharedConstantsType struct {
 	MaxGenericStringLen int
 	MaxUserPwdLen int
 	MinUserPwdLen int
+	NoVoteValue int
 	RouteApi string
 	RouteAnswer string
 	RouteAuth string
@@ -67,6 +69,7 @@ type SharedConstantsType struct {
 	RoutePost string
 	RouteQuestion string
 	RouteUser string
+	UpVoteValue int
 }
 
 // Shared ...
@@ -78,6 +81,7 @@ func init() {
 		ColumnCreated: "createdAt",
 		ColumnLikes: "likes",
 		ColumnMessages: "messages",
+		DownVoteValue: -1,
 		EntityAnswer: 7,
 		EntityCmt: 2,
 		EntityDiscussion: 4,
@@ -114,6 +118,7 @@ func init() {
 		MaxGenericStringLen: 100,
 		MaxUserPwdLen: 30,
 		MinUserPwdLen: 6,
+		NoVoteValue: 0,
 		RouteApi: "s",
 		RouteAnswer: "a",
 		RouteAuth: "auth",
@@ -127,5 +132,6 @@ func init() {
 		RoutePost: "p",
 		RouteQuestion: "q",
 		RouteUser: "u",
+		UpVoteValue: 1,
 	}
 }

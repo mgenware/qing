@@ -65,3 +65,6 @@ export const keyForumSettings = "forumSettings";
 export const keyLang = "lang";
 export const forumStatusOpen = 0;
 export const forumStatusArchived = 1;
+export const upVoteValue = 1;
+export const downVoteValue = -1;
+export const noVoteValue = 0;
