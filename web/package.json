@@ -21,7 +21,7 @@
     "js-cookie": "^3.0.0-rc.1",
     "kangxi-editor": "^0.14.2",
     "lit": "^2.0.0-rc.4",
-    "lit-props": "^3.0.1",
+    "lit-props": "^3.1.0",
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.6",
     "qing-button": "^8.1.0",
