@@ -6,6 +6,7 @@
  */
 
 import * as sc from 'sharedConstants';
+import { PANIC } from 'checks';
 
 export default class ErrorWithCode extends Error {
   code: number;
@@ -15,5 +16,11 @@ export default class ErrorWithCode extends Error {
     super(message);
     this.code = code;
     this.message = message;
+  }
+
+  static assert(err: unknown): asserts err is ErrorWithCode {
+    if (err instanceof ErrorWithCode === false) {
+      PANIC('err is not an ErrorWithCode');
+    }
   }
 }

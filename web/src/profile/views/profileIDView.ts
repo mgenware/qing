@@ -7,6 +7,7 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import ls from 'ls';
+import { ERR } from 'checks';
 import appAlert from 'app/appAlert';
 
 @customElement('profile-id-view')
@@ -45,6 +46,7 @@ export class ProfileIDView extends BaseElement {
       await navigator.clipboard.writeText(this.value);
       await appAlert.successToast(ls.copied);
     } catch (err) {
+      ERR(err);
       await appAlert.error(err.message);
     }
   }

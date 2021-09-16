@@ -8,6 +8,7 @@
 import { html, customElement, css, TemplateResult, PropertyValues, BaseElement, lp } from 'll';
 import { ls, formatLS } from 'ls';
 import './editorView';
+import { ERR } from 'checks';
 import 'ui/form/inputView';
 import 'ui/status/statusView';
 import EditorView from './editorView';
@@ -241,6 +242,7 @@ export class ComposerView extends BaseElement {
       const payload = this.getPayload();
       this.dispatchEvent(new CustomEvent<ComposerContent>('onSubmit', { detail: payload }));
     } catch (err) {
+      ERR(err);
       await appAlert.error(err.message);
       if (err instanceof ValidationError) {
         err.callback();

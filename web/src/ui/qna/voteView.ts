@@ -57,10 +57,10 @@ export class VoteView extends BaseElement {
     ];
   }
 
-  @lp.number value = 0;
-  @lp.number ups = 0;
-  @lp.number downs = 0;
-  @lp.string myVote = 0;
+  @lp.reflected.number value = 0;
+  @lp.reflected.number ups = 0;
+  @lp.reflected.number downs = 0;
+  @lp.reflected.string myVote = 0;
 
   render() {
     const { value, ups, downs } = this;
@@ -105,7 +105,7 @@ export class VoteView extends BaseElement {
             ></span>
           </div>
           ${tif(
-            ups || downs,
+            ups && downs,
             html` <div class="flex-full d-flex">
               ${tif(
                 ups,
@@ -116,7 +116,7 @@ export class VoteView extends BaseElement {
               ${tif(
                 downs,
                 html`<div class="flex-full text-center flex-v-align">
-                  <span class="color-down size-md"><hf-number .value=${downs}></hf-number></span>
+                  <span class="color-down size-md"><hf-number .value=${-downs}></hf-number></span>
                 </div>`,
               )}
             </div>`,

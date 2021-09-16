@@ -8,6 +8,7 @@
 import { html, customElement, css, BaseElement, lp } from 'll';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
+import { ERR } from 'checks';
 import ls, { formatLS } from 'ls';
 import appAlert from 'app/appAlert';
 
@@ -89,8 +90,9 @@ export class PCPageControl extends BaseElement {
         throw new Error(ls.pageNumberOutOfBounds);
       }
       this.onGotoPage(page);
-    } catch (ex) {
-      await appAlert.error(ex.message);
+    } catch (err) {
+      ERR(err);
+      await appAlert.error(err.message);
       this.pageInputElement?.select();
     }
   }

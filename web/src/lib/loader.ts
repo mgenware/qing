@@ -7,6 +7,7 @@
 
 import { ls, formatLS, getLSByKey } from 'ls';
 import { errGeneric } from 'sharedConstants';
+import { ERR } from 'checks';
 import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
 
@@ -63,6 +64,7 @@ export default class Loader<T> {
         return this.handleSuccess(resp);
       }
     } catch (err) {
+      ERR(err);
       let errWithCode: ErrorWithCode;
       if (err instanceof ErrorWithCode) {
         errWithCode = err;

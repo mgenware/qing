@@ -2,6 +2,7 @@ import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import Result from 'lib/result';
 import ls from 'ls';
+import ErrorWithCode from 'lib/errorWithCode';
 import appAlert from './appAlert';
 
 export class AppTask {
@@ -12,6 +13,7 @@ export class AppTask {
       const data = await loader.startAsync();
       return Result.data(data);
     } catch (err) {
+      ErrorWithCode.assert(err);
       // Note: error is also handled in loader.loadingStatusChanged.
       return Result.error<T>(err);
     }
@@ -34,6 +36,7 @@ export class AppTask {
       appAlert.hideLoadingOverlay();
       return Result.data(data);
     } catch (err) {
+      ErrorWithCode.assert(err);
       appAlert.hideLoadingOverlay();
       await appAlert.error(err.message);
       return Result.error<T>(err);

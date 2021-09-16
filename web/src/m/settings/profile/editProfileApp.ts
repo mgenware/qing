@@ -7,6 +7,7 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import { ls, formatLS } from 'ls';
+import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
@@ -133,6 +134,7 @@ export class EditProfileApp extends BaseElement {
         throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
       }
     } catch (err) {
+      ERR(err);
       await appAlert.error(err.message);
       return;
     }
