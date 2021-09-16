@@ -20,7 +20,6 @@ export default buildTree({
   // Service APIs.
   s: {
     pri: {
-      reqCapt: 'req-capt',
       profile: {
         getInfo: 'get-info',
         setInfo: 'set-info',
@@ -40,6 +39,9 @@ export default buildTree({
       },
       like: {
         set: 'set',
+      },
+      vote: {
+        vote: 'vote',
       },
       // My posts.
       mp: {
