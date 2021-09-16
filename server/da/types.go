@@ -94,11 +94,11 @@ type ReplyInterface interface {
 
 // VoteInterface ...
 type VoteInterface interface {
-	CancelDownVote(db *sql.DB, hostID uint64, userID uint64) error
-	CancelUpVote(db *sql.DB, hostID uint64, userID uint64) error
 	MyVote(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
 	NewDownVote(db *sql.DB, hostID uint64, userID uint64) error
 	NewUpVote(db *sql.DB, hostID uint64, userID uint64) error
+	RetractDownVote(db *sql.DB, hostID uint64, userID uint64) error
+	RetractUpVote(db *sql.DB, hostID uint64, userID uint64) error
 	SwitchToDownVote(db *sql.DB, hostID uint64, userID uint64) error
 	SwitchToUpVote(db *sql.DB, hostID uint64, userID uint64) error
 }

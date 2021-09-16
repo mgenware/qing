@@ -19,6 +19,7 @@ import (
 	mpapi "qing/r/api/pri/mp_api"
 	profileapi "qing/r/api/pri/profile_api"
 	userapi "qing/r/api/pri/user_api"
+	voteapi "qing/r/api/pri/vote_api"
 )
 
 // Router ...
@@ -32,6 +33,7 @@ func init() {
 	Router.Mount("/profile", profileapi.Router)
 	Router.Mount("/auth", authapi.Router)
 	Router.Mount("/like", likeapi.Router)
+	Router.Mount("/vote", voteapi.Router)
 	Router.Mount("/mp", mpapi.Router)
 	Router.Mount("/user", userapi.Router)
 	Router.Mount("/forum", forumapi.Router)

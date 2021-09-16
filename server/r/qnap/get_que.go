@@ -16,6 +16,7 @@ import (
 	"qing/da"
 	"qing/lib/fmtx"
 	"qing/lib/validator"
+	voteapi "qing/r/api/pri/vote_api"
 	"qing/r/rcom"
 	"qing/r/sys"
 	"strings"
@@ -59,7 +60,9 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 		ansListHTMLBuilder.WriteString("<p class=\"__qing_ls__\">noAnswers</p>")
 	} else {
 		for _, item := range ansList {
-			itemModel := NewAnswerAppModel(&item)
+			myVote, err := voteapi.FetchMyVote(item.ID, uid)
+			app.PanicIfErr(err)
+			itemModel := NewAnswerAppModel(&item, myVote)
 			app.PanicIfErr(err)
 			ansListHTMLBuilder.WriteString(vAnswerApp.MustExecuteToString(itemModel))
 		}

@@ -10,6 +10,7 @@ import 'core';
 import { entityQuestion } from 'sharedConstants';
 import './questionApp';
 import './addAnswerApp';
+import './answerApp';
 import wind from './questionWind';
 
 hookUpEditBarEvents(wind.QuestionID, entityQuestion);

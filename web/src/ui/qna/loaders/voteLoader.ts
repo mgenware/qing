@@ -16,7 +16,7 @@ export class VoteLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.like.set;
+    return routes.s.pri.vote.vote;
   }
 
   requestParams(): Record<string, unknown> {

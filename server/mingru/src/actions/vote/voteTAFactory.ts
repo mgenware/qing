@@ -30,7 +30,7 @@ function updateVoteAction(
   return action.by(hostTable.id, 'hostID');
 }
 
-function getCancelVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boolean) {
+function getRetractVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boolean) {
   return mm
     .transact(
       mm.deleteOne().whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput())),
@@ -73,8 +73,8 @@ export default function getVoteTableActions(
     newUpVote: getNewVoteAction(t, hostTable, true),
     newDownVote: getNewVoteAction(t, hostTable, false),
 
-    cancelUpVote: getCancelVoteAction(t, hostTable, true),
-    cancelDownVote: getCancelVoteAction(t, hostTable, false),
+    retractUpVote: getRetractVoteAction(t, hostTable, true),
+    retractDownVote: getRetractVoteAction(t, hostTable, false),
 
     switchToUpVote: getSwitchVoteAction(t, hostTable, true),
     switchToDownVote: getSwitchVoteAction(t, hostTable, false),

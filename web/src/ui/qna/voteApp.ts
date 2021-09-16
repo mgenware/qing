@@ -7,7 +7,7 @@
 
 import { html, customElement, css, BaseElement, lp } from 'll';
 import { CHECK } from 'checks';
-import './likeView';
+import './voteView';
 import { VoteLoader } from './loaders/voteLoader';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
@@ -92,10 +92,44 @@ export class VoteApp extends BaseElement {
       return;
     }
     if (isRetractingVote) {
+      // Retracting a vote.
+      if (nextVoteValue === upVoteValue) {
+        this.updateDowns(1);
+      } else if (nextVoteValue === downVoteValue) {
+        this.updateDowns(1);
+      }
       this.myVote = noVoteValue;
     } else {
+      if (this.myVote === noVoteValue) {
+        // New vote.
+        if (nextVoteValue === upVoteValue) {
+          this.updateUps(1);
+        } else if (nextVoteValue === downVoteValue) {
+          this.updateDowns(1);
+        }
+      } else {
+        // Switch votes.
+        // eslint-disable-next-line no-lonely-if
+        if (nextVoteValue === upVoteValue) {
+          this.updateUps(1);
+          this.updateDowns(-1);
+        } else if (nextVoteValue === downVoteValue) {
+          this.updateDowns(1);
+          this.updateUps(-1);
+        }
+      }
       this.myVote = voteButton;
     }
+  }
+
+  private updateDowns(offset: number) {
+    this.downs += offset;
+    this.value += -offset;
+  }
+
+  private updateUps(offset: number) {
+    this.ups += offset;
+    this.value += offset;
   }
 }
 

@@ -3,13 +3,13 @@
   initialValue="{{.Votes}}"
   initialUps="{{.UpVotes}}"
   initialDowns="{{.DownVotes}}"
-  initialMyVote="{{.MyVoteString}}"
+  initialMyVote="{{.MyVote}}"
   initialCmtCount="{{.CmtCount}}"
 >
-  <h2>
-    <a href="{{.AnswerURL}}" class="__qing_ls__">link</a>
-  </h2>
   <div>{{.UserHTML}}</div>
   <hr />
   <div>{{.ContentHTML}}</div>
+  <p>
+    <a href="{{.AnswerURL}}" class="__qing_ls__">link</a>
+  </p>
 </answer-app>
