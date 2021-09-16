@@ -12,7 +12,7 @@ import ContentBase from '../com/contentBase.js';
 export class Answer extends ContentBase {
   question_id = question.id;
 
-  votes = mm.uInt().default(0);
+  votes = mm.int().default(0);
   up_votes = mm.uInt().default(0);
   down_votes = mm.uInt().default(0);
 }

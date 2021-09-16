@@ -355,7 +355,7 @@ type AnswerTableSelectItemsByQuestionResult struct {
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"-"`
-	Votes         uint      `json:"votes,omitempty"`
+	Votes         int       `json:"votes,omitempty"`
 }
 
 // SelectItemsByQuestion ...
