@@ -57,10 +57,10 @@ export class VoteView extends BaseElement {
     ];
   }
 
-  @lp.reflected.number value = 0;
-  @lp.reflected.number ups = 0;
-  @lp.reflected.number downs = 0;
-  @lp.reflected.string myVote = 0;
+  @lp.number value = 0;
+  @lp.number ups = 0;
+  @lp.number downs = 0;
+  @lp.number myVote = 0;
 
   render() {
     const { value, ups, downs } = this;
@@ -77,7 +77,7 @@ export class VoteView extends BaseElement {
             title=${ls.upvote}
             class="flex-full"
             @click=${this.handleUpVoteClick}
-            .btnStyle=${this.myVote === upVoteValue ? 'primary' : ''}
+            btnStyle=${this.myVote === upVoteValue ? 'primary' : ''}
           >
             <svg-icon
               iconStyle="success"
@@ -89,7 +89,7 @@ export class VoteView extends BaseElement {
             title=${ls.downvote}
             class="flex-full"
             @click=${this.handleDownVoteClick}
-            .btnStyle=${this.myVote === downVoteValue ? 'primary' : ''}
+            btnStyle=${this.myVote === downVoteValue ? 'primary' : ''}
           >
             <svg-icon
               iconStyle="danger"

@@ -8,7 +8,6 @@
 import { html, customElement, css, BaseElement, lp } from 'll';
 import 'com/cmt/cmtApp';
 import 'ui/qna/voteApp';
-import { upVoteValue, downVoteValue, noVoteValue } from 'sharedConstants';
 import { CHECK } from 'checks';
 
 @customElement('answer-app')
@@ -28,7 +27,7 @@ export class AnswerApp extends BaseElement {
   @lp.number initialValue = 0;
   @lp.number initialUps = 0;
   @lp.number initialDowns = 0;
-  @lp.number initialMyVoteString = '';
+  @lp.number initialMyVote = 0;
 
   firstUpdated() {
     CHECK(this.eid);
@@ -44,22 +43,11 @@ export class AnswerApp extends BaseElement {
             .initialUps=${this.initialUps}
             .initialDowns=${this.initialDowns}
             .initialValue=${this.initialValue}
-            .initialMyVote=${this.voteStringToValue(this.initialMyVoteString)}
+            .initialMyVote=${this.initialMyVote}
           ></vote-app>
         </div>
       </div>
     `;
-  }
-
-  private voteStringToValue(s: string): number {
-    switch (s) {
-      case 'up':
-        return upVoteValue;
-      case 'down':
-        return downVoteValue;
-      default:
-        return noVoteValue;
-    }
   }
 }
 

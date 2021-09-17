@@ -25,7 +25,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
 import SetEntityApp from 'com/postCore/setEntityApp';
 import { renderTemplateResult } from 'lib/htmlLib';
-import { entityPost } from 'sharedConstants';
+import { entityPost, upVoteValue, downVoteValue } from 'sharedConstants';
 import appAlert from 'app/appAlert';
 import ErrorWithCode from 'lib/errorWithCode';
 
@@ -242,8 +242,8 @@ export class ElementsDev extends BaseElement {
       </error-view>
       <h2>Vote view</h2>
       <vote-view .value=${-20} .ups=${100} .downs=${4003489394}></vote-view>
-      <vote-view .value=${2000003430} .downs=${400} myVote="up"></vote-view>
-      <vote-view .value=${20} .ups=${400} myVote="down"></vote-view>
+      <vote-view .value=${2000003430} .downs=${400} .myVote=${upVoteValue}></vote-view>
+      <vote-view .value=${20} .ups=${400} .myVote=${downVoteValue}></vote-view>
       <vote-view></vote-view>
       <h2>Link list view</h2>
       <h3>Default style</h3>
