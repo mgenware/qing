@@ -17,7 +17,7 @@ import (
 	"qing/lib/validator"
 )
 
-func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
+func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -31,10 +31,18 @@ func setLike(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic(fmt.Sprintf("Unsupported type %v", category))
 	}
 
+	db := appDB.DB()
+	currentVal, err := dbSrc.HasLiked(db, id, uid)
+	app.PanicIfErr(err)
+
+	if currentVal == (value == 1) {
+		panic(fmt.Errorf("Like status mismatch: %v", currentVal))
+	}
+
 	if value == 1 {
-		app.PanicIfErr(dbSrc.Like(appDB.DB(), id, uid))
+		app.PanicIfErr(dbSrc.Like(db, id, uid))
 	} else {
-		app.PanicIfErr(dbSrc.CancelLike(appDB.DB(), id, uid))
+		app.PanicIfErr(dbSrc.CancelLike(db, id, uid))
 	}
 	return resp.MustComplete(nil)
 }
