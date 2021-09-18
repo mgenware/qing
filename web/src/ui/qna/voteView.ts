@@ -39,7 +39,7 @@ export class VoteView extends BaseElement {
           color: var(--app-default-success-fore-color);
         }
         .size-md {
-          font-size: 1.3rem;
+          font-size: 1rem;
         }
         .size-lg {
           font-size: 1.5rem;
@@ -48,6 +48,10 @@ export class VoteView extends BaseElement {
           margin-left: 0.8rem;
           margin-right: 0.8rem;
           min-width: 60px;
+        }
+
+        .bold {
+          font-weight: bold;
         }
 
         qing-button.voted {
@@ -100,7 +104,7 @@ export class VoteView extends BaseElement {
         </div>
         <div class="flex-full d-flex flex-column value-column">
           <div class="flex-full text-center flex-v-align">
-            <span class=${`size-lg ${valueColorClass}`}
+            <span class=${`size-lg ${valueColorClass} bold`}
               ><hf-number .value=${value || 0}></hf-number
             ></span>
           </div>

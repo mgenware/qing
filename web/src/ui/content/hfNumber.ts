@@ -19,6 +19,10 @@ export class HFNumber extends BaseElement {
     this.formatter = new Intl.NumberFormat(ls._lang, { notation: 'compact' });
   }
 
+  override createRenderRoot() {
+    return this;
+  }
+
   render() {
     const { value, formatter } = this;
     if (Number.isNaN(value)) {
