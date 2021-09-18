@@ -34,7 +34,7 @@ function getRetractVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boo
   return mm
     .transact(
       mm.deleteOne().whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput())),
-      updateVoteAction(hostTable, upVote ? -1 : 0, upVote ? 0 : -1, -1),
+      updateVoteAction(hostTable, upVote ? -1 : 0, upVote ? 0 : -1, upVote ? -1 : 1),
     )
     .attr(mm.ActionAttribute.groupTypeName, voteInterface);
 }
@@ -43,7 +43,7 @@ function getNewVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boolean
   return mm
     .transact(
       mm.insertOne().setInputs(t.host_id, t.user_id).set(t.vote, mm.constants.t),
-      updateVoteAction(hostTable, upVote ? 1 : 0, upVote ? 0 : 1, 1),
+      updateVoteAction(hostTable, upVote ? 1 : 0, upVote ? 0 : 1, upVote ? 1 : -1),
     )
     .attr(mm.ActionAttribute.groupTypeName, voteInterface);
 }
@@ -55,7 +55,7 @@ function getSwitchVoteAction(t: VoteTable, hostTable: VotableTable, upVote: bool
         .updateOne()
         .set(t.vote, upVote ? mm.constants.t : mm.constants.f)
         .whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput())),
-      updateVoteAction(hostTable, upVote ? 1 : -1, upVote ? -1 : 1, 0),
+      updateVoteAction(hostTable, upVote ? 1 : -1, upVote ? -1 : 1, upVote ? 2 : -2),
     )
     .attr(mm.ActionAttribute.groupTypeName, voteInterface);
 }

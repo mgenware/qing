@@ -43,7 +43,7 @@ func (da *TableTypeAnswerVote) newDownVoteChild1(queryable mingru.Queryable, hos
 }
 
 func (da *TableTypeAnswerVote) newDownVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + 1, `votes` = `votes` + 1 WHERE `id` = ?", hostID)
+	result, err := queryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + 1, `votes` = `votes` + -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -97,7 +97,7 @@ func (da *TableTypeAnswerVote) retractDownVoteChild1(queryable mingru.Queryable,
 }
 
 func (da *TableTypeAnswerVote) retractDownVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + -1, `votes` = `votes` + -1 WHERE `id` = ?", hostID)
+	result, err := queryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + -1, `votes` = `votes` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -151,7 +151,7 @@ func (da *TableTypeAnswerVote) switchToDownVoteChild1(queryable mingru.Queryable
 }
 
 func (da *TableTypeAnswerVote) switchToDownVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + -1, `down_votes` = `down_votes` + 1 WHERE `id` = ?", hostID)
+	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + -1, `down_votes` = `down_votes` + 1, `votes` = `votes` + -2 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -178,7 +178,7 @@ func (da *TableTypeAnswerVote) switchToUpVoteChild1(queryable mingru.Queryable, 
 }
 
 func (da *TableTypeAnswerVote) switchToUpVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + 1, `down_votes` = `down_votes` + -1 WHERE `id` = ?", hostID)
+	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + 1, `down_votes` = `down_votes` + -1, `votes` = `votes` + 2 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
