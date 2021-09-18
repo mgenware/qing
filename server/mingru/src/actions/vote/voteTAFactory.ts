@@ -42,7 +42,10 @@ function getRetractVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boo
 function getNewVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boolean) {
   return mm
     .transact(
-      mm.insertOne().setInputs(t.host_id, t.user_id).set(t.vote, mm.constants.t),
+      mm
+        .insertOne()
+        .setInputs(t.host_id, t.user_id)
+        .set(t.vote, upVote ? mm.constants.t : mm.constants.f),
       updateVoteAction(hostTable, upVote ? 1 : 0, upVote ? 0 : 1, upVote ? 1 : -1),
     )
     .attr(mm.ActionAttribute.groupTypeName, voteInterface);

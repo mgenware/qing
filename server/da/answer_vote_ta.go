@@ -38,7 +38,7 @@ func (da *TableTypeAnswerVote) MyVote(queryable mingru.Queryable, hostID uint64,
 }
 
 func (da *TableTypeAnswerVote) newDownVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `answer_vote` (`host_id`, `user_id`, `vote`) VALUES (?, ?, 1)", hostID, userID)
+	_, err := queryable.Exec("INSERT INTO `answer_vote` (`host_id`, `user_id`, `vote`) VALUES (?, ?, 0)", hostID, userID)
 	return err
 }
 
