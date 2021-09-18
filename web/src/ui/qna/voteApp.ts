@@ -74,46 +74,36 @@ export class VoteApp extends BaseElement {
       return;
     }
 
-    let nextVoteValue: number;
-    let isRetractingVote = false;
-    if (voteButton === this.myVote) {
-      // The user is retracting the vote.
-      nextVoteValue = noVoteValue;
-      isRetractingVote = true;
-    } else {
-      nextVoteValue = voteButton;
-    }
-
-    const loader = new VoteLoader(this.hostID, nextVoteValue);
+    const loader = new VoteLoader(this.hostID, voteButton);
     const res = await appTask.local(loader, (s) => (this.isWorking = s.isWorking));
 
     if (res.error) {
       await appAlert.error(res.error.message);
       return;
     }
-    if (isRetractingVote) {
+    if (voteButton === this.myVote) {
       // Retracting a vote.
-      if (nextVoteValue === upVoteValue) {
-        this.updateDowns(1);
-      } else if (nextVoteValue === downVoteValue) {
-        this.updateDowns(1);
+      if (voteButton === upVoteValue) {
+        this.updateUps(-1);
+      } else if (voteButton === downVoteValue) {
+        this.updateDowns(-1);
       }
       this.myVote = noVoteValue;
     } else {
       if (this.myVote === noVoteValue) {
         // New vote.
-        if (nextVoteValue === upVoteValue) {
+        if (voteButton === upVoteValue) {
           this.updateUps(1);
-        } else if (nextVoteValue === downVoteValue) {
+        } else if (voteButton === downVoteValue) {
           this.updateDowns(1);
         }
       } else {
         // Switch votes.
         // eslint-disable-next-line no-lonely-if
-        if (nextVoteValue === upVoteValue) {
+        if (voteButton === upVoteValue) {
           this.updateUps(1);
           this.updateDowns(-1);
-        } else if (nextVoteValue === downVoteValue) {
+        } else if (voteButton === downVoteValue) {
           this.updateDowns(1);
           this.updateUps(-1);
         }
