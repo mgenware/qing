@@ -1,23 +1,7 @@
-<div class="m-t-md row m-user-view">
-  <div class="col-auto">
-    <a href="{{.UserURL}}">
-      <img src="{{.UserIconURL}}" class="avatar-m" width="50" height="50" />
-    </a>
-  </div>
-  <div class="col">
-    <div><a href="{{.UserURL}}">{{html .UserName}}</a></div>
-    <p>
-      <time-field
-        createdAt="{{html .ItemCreatedAt}}"
-        modifiedAt="{{html .ItemModifiedAt}}"
-      ></time-field>
-      <!-- `id` format should be in sync with `editBarApp.ts`: `editBarID` -->
-      <edit-bar-app
-        class="m-l-md"
-        id="edit-bar-{{.ItemType}}-{{.ItemEID}}"
-        uid="{{.UserEID}}"
-        hasLeftMargin
-      ></edit-bar-app>
-    </p>
-  </div>
-</div>
+<user-view>
+  <a href="{{.UserURL}}" slot="img">
+    <img src="{{.UserIconURL}}" class="avatar-m" width="50" height="50" />
+  </a>
+  <a href="{{.UserURL}}" slot="name">{{html .UserName}}</a>
+  <span slot="status">{{.StatusHTML}}</span>
+</user-view>
