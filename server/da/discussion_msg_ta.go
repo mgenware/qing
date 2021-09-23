@@ -350,6 +350,7 @@ type DiscussionMsgTableSelectItemsByDiscussionResult struct {
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
+	StatusHTML    string    `json:"-"`
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"-"`
@@ -368,7 +369,7 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `discussion_msg`.`id` AS `id`, `discussion_msg`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `discussion_msg`.`created_at` AS `created_at`, `discussion_msg`.`modified_at` AS `modified_at`, `discussion_msg`.`content` AS `content`, `discussion_msg`.`cmt_count` AS `cmt_count` FROM `discussion_msg` AS `discussion_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion_msg`.`user_id` WHERE `discussion_msg`.`discussion_id` = ? ORDER BY `created_at` LIMIT ? OFFSET ?", discussionID, limit, offset)
+	rows, err := queryable.Query("SELECT `discussion_msg`.`id` AS `id`, `discussion_msg`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_1`.`status` AS `user_status`, `discussion_msg`.`created_at` AS `created_at`, `discussion_msg`.`modified_at` AS `modified_at`, `discussion_msg`.`content` AS `content`, `discussion_msg`.`cmt_count` AS `cmt_count` FROM `discussion_msg` AS `discussion_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion_msg`.`user_id` WHERE `discussion_msg`.`discussion_id` = ? ORDER BY `created_at` LIMIT ? OFFSET ?", discussionID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -379,7 +380,7 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 		itemCounter++
 		if itemCounter <= max {
 			var item DiscussionMsgTableSelectItemsByDiscussionResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.StatusHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}

@@ -351,6 +351,7 @@ type AnswerTableSelectItemsByQuestionResult struct {
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
+	StatusHTML    string    `json:"-"`
 	UpVotes       uint      `json:"upVotes,omitempty"`
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
@@ -371,7 +372,7 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `answer`.`id` AS `id`, `answer`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `answer`.`created_at` AS `created_at`, `answer`.`modified_at` AS `modified_at`, `answer`.`content` AS `content`, `answer`.`cmt_count` AS `cmt_count`, `answer`.`up_votes` AS `up_votes`, `answer`.`down_votes` AS `down_votes`, `answer`.`votes` AS `votes` FROM `answer` AS `answer` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `answer`.`user_id` WHERE `answer`.`question_id` = ? ORDER BY `created_at` LIMIT ? OFFSET ?", questionID, limit, offset)
+	rows, err := queryable.Query("SELECT `answer`.`id` AS `id`, `answer`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_1`.`status` AS `user_status`, `answer`.`created_at` AS `created_at`, `answer`.`modified_at` AS `modified_at`, `answer`.`content` AS `content`, `answer`.`cmt_count` AS `cmt_count`, `answer`.`up_votes` AS `up_votes`, `answer`.`down_votes` AS `down_votes`, `answer`.`votes` AS `votes` FROM `answer` AS `answer` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `answer`.`user_id` WHERE `answer`.`question_id` = ? ORDER BY `created_at` LIMIT ? OFFSET ?", questionID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -382,7 +383,7 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 		itemCounter++
 		if itemCounter <= max {
 			var item AnswerTableSelectItemsByQuestionResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount, &item.UpVotes, &item.DownVotes, &item.Votes)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.StatusHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount, &item.UpVotes, &item.DownVotes, &item.Votes)
 			if err != nil {
 				return nil, false, err
 			}

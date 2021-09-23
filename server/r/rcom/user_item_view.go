@@ -24,16 +24,18 @@ type UserItemViewData struct {
 	UserName       string
 	UserURL        string
 	UserIconURL    string
+	UserStatusHTML string
 	ItemCreatedAt  string
 	ItemModifiedAt string
 }
 
 // GetUserItemViewHTML returns user item view HTML with the given params.
-func GetUserItemViewHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated string, itemModified string) string {
+func GetUserItemViewHTML(uid uint64, name, iconName, itemEID, statusHTML string, itemType int, itemCreated string, itemModified string) string {
 	d := &UserItemViewData{}
 	d.ItemEID = itemEID
 	d.UserEID = fmtx.EncodeID(uid)
 	d.UserName = name
+	d.UserStatusHTML = statusHTML
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.UserIconURL = appURL.Get().UserIconURL50(uid, iconName)
 	d.ItemCreatedAt = itemCreated

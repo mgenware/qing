@@ -25,19 +25,19 @@ import (
 )
 
 type UserInfo struct {
-	Admin    bool   `json:"admin,omitempty"`
-	IconName string `json:"iconName,omitempty"`
-	EID      string `json:"eid,omitempty"`
-	Name     string `json:"name,omitempty"`
-	Status   string `json:"status,omitempty"`
+	Admin      bool   `json:"admin,omitempty"`
+	IconName   string `json:"iconName,omitempty"`
+	EID        string `json:"eid,omitempty"`
+	Name       string `json:"name,omitempty"`
+	StatusHTML string `json:"status,omitempty"`
 }
 
 func NewUserInfo(d da.UserTableSelectSessionDataResult) UserInfo {
 	r := UserInfo{
-		Admin:    d.Admin,
-		IconName: d.IconName,
-		Name:     d.Name,
-		Status:   d.Status,
+		Admin:      d.Admin,
+		IconName:   d.IconName,
+		Name:       d.Name,
+		StatusHTML: d.StatusHTML,
 	}
 	r.EID = fmtx.EncodeID(d.ID)
 	return r
