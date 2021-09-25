@@ -37,7 +37,7 @@ type DiscussionTableDeleteCmtChild1Result struct {
 
 func (da *TableTypeDiscussion) deleteCmtChild1(queryable mingru.Queryable, id uint64) (DiscussionTableDeleteCmtChild1Result, error) {
 	var result DiscussionTableDeleteCmtChild1Result
-	err := queryable.QueryRow("SELECT `discussion_cmt`.`host_id` AS `host_id`, `join_1`.`reply_count` AS `ReplyCount` FROM `discussion_cmt` AS `discussion_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_cmt`.`cmt_id` WHERE `discussion_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `discussion_cmt`.`host_id`, `join_1`.`reply_count` FROM `discussion_cmt` AS `discussion_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_cmt`.`cmt_id` WHERE `discussion_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
@@ -109,7 +109,7 @@ type DiscussionTableDeleteReplyChild1Result struct {
 
 func (da *TableTypeDiscussion) deleteReplyChild1(queryable mingru.Queryable, id uint64) (DiscussionTableDeleteReplyChild1Result, error) {
 	var result DiscussionTableDeleteReplyChild1Result
-	err := queryable.QueryRow("SELECT `reply`.`parent_id` AS `parent_id`, `join_2`.`host_id` AS `ParentHostID` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `discussion_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
+	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `discussion_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
 		return result, err
 	}
@@ -267,7 +267,7 @@ func (da *TableTypeDiscussion) SelectCmts(queryable mingru.Queryable, hostID uin
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `discussion_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `ContentHTML`, `join_1`.`created_at` AS `RawCreatedAt`, `join_1`.`modified_at` AS `RawModifiedAt`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `discussion_cmt` AS `discussion_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `discussion_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `discussion_cmt`.`cmt_id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `discussion_cmt` AS `discussion_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `discussion_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -305,7 +305,7 @@ func (da *TableTypeDiscussion) SelectCmtsWithLike(queryable mingru.Queryable, vi
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `discussion_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `ContentHTML`, `join_1`.`created_at` AS `RawCreatedAt`, `join_1`.`modified_at` AS `RawModifiedAt`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name`, `join_3`.`user_id` AS `hasLiked` FROM `discussion_cmt` AS `discussion_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `discussion_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `discussion_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `discussion_cmt`.`cmt_id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` FROM `discussion_cmt` AS `discussion_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `discussion_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `discussion_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -349,7 +349,7 @@ type DiscussionTableSelectItemByIDResult struct {
 // SelectItemByID ...
 func (da *TableTypeDiscussion) SelectItemByID(queryable mingru.Queryable, id uint64) (DiscussionTableSelectItemByIDResult, error) {
 	var result DiscussionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `discussion`.`id` AS `id`, `discussion`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_1`.`status` AS `user_StatusHTML`, `discussion`.`created_at` AS `RawCreatedAt`, `discussion`.`modified_at` AS `RawModifiedAt`, `discussion`.`content` AS `ContentHTML`, `discussion`.`forum_id` AS `forum_id`, `discussion`.`title` AS `title`, `discussion`.`cmt_count` AS `cmt_count`, `discussion`.`reply_count` AS `reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatusHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`content`, `discussion`.`forum_id`, `discussion`.`title`, `discussion`.`cmt_count`, `discussion`.`reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatusHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
