@@ -71,7 +71,7 @@ export class ForumTA extends mm.TableActions {
     return new mm.RawColumn(
       mm.sql`${itemType.toString()}`,
       userThreadTypeColumnName,
-      mm.int().__mustGetType(),
+      mm.int().__type(),
     );
   }
 }

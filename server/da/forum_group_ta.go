@@ -34,8 +34,8 @@ func (da *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64
 }
 
 // InsertGroup ...
-func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, desc string) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `forum_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), 0)", name, desc)
+func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, descHTML string) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `forum_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), 0)", name, descHTML)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -75,7 +75,7 @@ func (da *TableTypeForumGroup) SelectInfoForEditing(queryable mingru.Queryable, 
 }
 
 // UpdateInfo ...
-func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, desc string) error {
-	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, desc, id)
+func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, descHTML string) error {
+	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

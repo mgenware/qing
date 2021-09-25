@@ -188,7 +188,7 @@ type UserTableSelectSessionDataForumModeResult struct {
 // SelectSessionDataForumMode ...
 func (da *TableTypeUser) SelectSessionDataForumMode(queryable mingru.Queryable, id uint64) (UserTableSelectSessionDataForumModeResult, error) {
 	var result UserTableSelectSessionDataForumModeResult
-	err := queryable.QueryRow("SELECT `user`.`id` AS `id`, `user`.`name` AS `name`, `user`.`icon_name` AS `icon_name`, `user`.`status` AS `status`, `user`.`admin` AS `admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.StatusHTML, &result.Admin, &result.IsForumMod)
+	err := queryable.QueryRow("SELECT `user`.`id` AS `id`, `user`.`name` AS `name`, `user`.`icon_name` AS `icon_name`, `user`.`status` AS `StatusHTML`, `user`.`admin` AS `admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.StatusHTML, &result.Admin, &result.IsForumMod)
 	if err != nil {
 		return result, err
 	}
@@ -283,8 +283,8 @@ func (da *TableTypeUser) UnsafeUpdateAdmin(queryable mingru.Queryable, id uint64
 }
 
 // UpdateBio ...
-func (da *TableTypeUser) UpdateBio(queryable mingru.Queryable, id uint64, bio *string) error {
-	result, err := queryable.Exec("UPDATE `user` SET `bio` = ? WHERE `id` = ?", bio, id)
+func (da *TableTypeUser) UpdateBio(queryable mingru.Queryable, id uint64, bioHTML *string) error {
+	result, err := queryable.Exec("UPDATE `user` SET `bio` = ? WHERE `id` = ?", bioHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -301,7 +301,7 @@ func (da *TableTypeUser) UpdateProfile(queryable mingru.Queryable, id uint64, na
 }
 
 // UpdateStatus ...
-func (da *TableTypeUser) UpdateStatus(queryable mingru.Queryable, id uint64, status string) error {
-	result, err := queryable.Exec("UPDATE `user` SET `status` = ? WHERE `id` = ?", status, id)
+func (da *TableTypeUser) UpdateStatus(queryable mingru.Queryable, id uint64, statusHTML string) error {
+	result, err := queryable.Exec("UPDATE `user` SET `status` = ? WHERE `id` = ?", statusHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

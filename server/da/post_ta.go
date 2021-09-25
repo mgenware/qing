@@ -151,13 +151,13 @@ func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error
 }
 
 // EditItem ...
-func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, content string, modifiedAt time.Time, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, content, modifiedAt, id, userID)
+func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePost) insertCmtChild1(queryable mingru.Queryable, content string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `reply_count`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", content, userID)
+func (da *TableTypePost) insertCmtChild1(queryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `reply_count`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -172,11 +172,11 @@ func (da *TableTypePost) insertCmtChild3(queryable mingru.Queryable, hostID uint
 }
 
 // InsertCmt ...
-func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypePost) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := da.insertCmtChild1(tx, content, userID)
+		cmtID, err := da.insertCmtChild1(tx, contentHTML, userID)
 		if err != nil {
 			return err
 		}
@@ -194,8 +194,8 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, content string, userID uint64, ho
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, content string, userID uint64, createdAt time.Time, modifiedAt time.Time) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", title, content, userID, createdAt, modifiedAt)
+func (da *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -204,11 +204,11 @@ func (da *TableTypePost) insertItemChild2(queryable mingru.Queryable, userID uin
 }
 
 // InsertItem ...
-func (da *TableTypePost) InsertItem(db *sql.DB, title string, content string, userID uint64, createdAt time.Time, modifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertItemChild1(tx, title, content, userID, createdAt, modifiedAt)
+		insertedID, err := da.insertItemChild1(tx, title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
 		if err != nil {
 			return err
 		}
@@ -232,11 +232,11 @@ func (da *TableTypePost) insertReplyChild3(queryable mingru.Queryable, hostID ui
 }
 
 // InsertReply ...
-func (da *TableTypePost) InsertReply(db *sql.DB, content string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (da *TableTypePost) InsertReply(db *sql.DB, contentHTML string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Reply.InsertReplyCore(tx, content, userID, toUserID, parentID)
+		replyID, err := Reply.InsertReplyCore(tx, contentHTML, userID, toUserID, parentID)
 		if err != nil {
 			return err
 		}
@@ -267,7 +267,7 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `ContentHTML`, `join_1`.`created_at` AS `RawCreatedAt`, `join_1`.`modified_at` AS `RawModifiedAt`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -305,7 +305,7 @@ func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUs
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `content`, `join_1`.`created_at` AS `created_at`, `join_1`.`modified_at` AS `modified_at`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name`, `join_3`.`user_id` AS `hasLiked` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `post_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `post_cmt`.`host_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content` AS `ContentHTML`, `join_1`.`created_at` AS `RawCreatedAt`, `join_1`.`modified_at` AS `RawModifiedAt`, `join_1`.`reply_count` AS `reply_count`, `join_1`.`likes` AS `likes`, `join_1`.`user_id` AS `user_id`, `join_2`.`name` AS `user_name`, `join_2`.`icon_name` AS `user_icon_name`, `join_3`.`user_id` AS `hasLiked` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `post_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `post_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -332,23 +332,23 @@ func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUs
 
 // PostTableSelectItemByIDResult ...
 type PostTableSelectItemByIDResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ContentHTML   string    `json:"contentHTML,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	StatusHTML    string    `json:"-"`
-	Title         string    `json:"title,omitempty"`
-	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
-	UserName      string    `json:"-"`
+	CmtCount       uint      `json:"cmtCount,omitempty"`
+	ContentHTML    string    `json:"contentHTML,omitempty"`
+	ID             uint64    `json:"-"`
+	Likes          uint      `json:"likes,omitempty"`
+	RawCreatedAt   time.Time `json:"-"`
+	RawModifiedAt  time.Time `json:"-"`
+	Title          string    `json:"title,omitempty"`
+	UserIconName   string    `json:"-"`
+	UserID         uint64    `json:"-"`
+	UserName       string    `json:"-"`
+	UserStatusHTML string    `json:"-"`
 }
 
 // SelectItemByID ...
 func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
 	var result PostTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_1`.`status` AS `user_status`, `post`.`created_at` AS `created_at`, `post`.`modified_at` AS `modified_at`, `post`.`content` AS `content`, `post`.`title` AS `title`, `post`.`cmt_count` AS `cmt_count`, `post`.`likes` AS `likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.StatusHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
+	err := queryable.QueryRow("SELECT `post`.`id` AS `id`, `post`.`user_id` AS `user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_1`.`status` AS `user_StatusHTML`, `post`.`created_at` AS `RawCreatedAt`, `post`.`modified_at` AS `RawModifiedAt`, `post`.`content` AS `ContentHTML`, `post`.`title` AS `title`, `post`.`cmt_count` AS `cmt_count`, `post`.`likes` AS `likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatusHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
 	if err != nil {
 		return result, err
 	}
@@ -377,7 +377,7 @@ func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, us
 	var orderBy1SQL string
 	switch orderBy1 {
 	case PostTableSelectItemsForPostCenterOrderBy1CreatedAt:
-		orderBy1SQL = "`created_at`"
+		orderBy1SQL = "`RawCreatedAt`"
 	case PostTableSelectItemsForPostCenterOrderBy1Likes:
 		orderBy1SQL = "`likes`"
 	case PostTableSelectItemsForPostCenterOrderBy1CmtCount:
@@ -447,7 +447,7 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `post` WHERE `user_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -483,7 +483,7 @@ func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, us
 }
 
 // TestUpdateDates ...
-func (da *TableTypePost) TestUpdateDates(queryable mingru.Queryable, id uint64, createdAt time.Time, modifiedAt time.Time) error {
-	result, err := queryable.Exec("UPDATE `post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", createdAt, modifiedAt, id)
+func (da *TableTypePost) TestUpdateDates(queryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+	result, err := queryable.Exec("UPDATE `post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

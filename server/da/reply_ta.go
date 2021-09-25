@@ -34,14 +34,14 @@ func (da *TableTypeReply) DeleteReplyCore(queryable mingru.Queryable, id uint64,
 }
 
 // EditReply ...
-func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", content, id, userID)
+func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertReplyCore ...
-func (da *TableTypeReply) InsertReplyCore(queryable mingru.Queryable, content string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?, 0)", content, userID, toUserID, parentID)
+func (da *TableTypeReply) InsertReplyCore(queryable mingru.Queryable, contentHTML string, userID uint64, toUserID uint64, parentID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `reply` (`content`, `user_id`, `created_at`, `modified_at`, `to_user_id`, `parent_id`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), ?, ?, 0)", contentHTML, userID, toUserID, parentID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -58,7 +58,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `content`, `reply`.`created_at` AS `created_at`, `reply`.`modified_at` AS `modified_at`, `reply`.`likes` AS `likes`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` WHERE `reply`.`parent_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `ContentHTML`, `reply`.`created_at` AS `RawCreatedAt`, `reply`.`modified_at` AS `RawModifiedAt`, `reply`.`likes` AS `likes`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` WHERE `reply`.`parent_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -96,7 +96,7 @@ func (da *TableTypeReply) SelectRepliesWithLike(queryable mingru.Queryable, view
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `content`, `reply`.`created_at` AS `created_at`, `reply`.`modified_at` AS `modified_at`, `reply`.`likes` AS `likes`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name`, `join_3`.`user_id` AS `hasLiked` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` LEFT JOIN `reply_like` AS `join_3` ON `join_3`.`host_id` = `reply`.`id` AND `join_3`.`user_id` = ? WHERE `reply`.`parent_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := queryable.Query("SELECT `reply`.`id` AS `id`, `reply`.`content` AS `ContentHTML`, `reply`.`created_at` AS `RawCreatedAt`, `reply`.`modified_at` AS `RawModifiedAt`, `reply`.`likes` AS `likes`, `reply`.`user_id` AS `user_id`, `reply`.`to_user_id` AS `to_user_id`, `join_1`.`name` AS `user_name`, `join_1`.`icon_name` AS `user_icon_name`, `join_2`.`name` AS `to_user_name`, `join_3`.`user_id` AS `hasLiked` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` LEFT JOIN `reply_like` AS `join_3` ON `join_3`.`host_id` = `reply`.`id` AND `join_3`.`user_id` = ? WHERE `reply`.`parent_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

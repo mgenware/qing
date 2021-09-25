@@ -24,8 +24,8 @@ var Cmt = &TableTypeCmt{}
 // ------------ Actions ------------
 
 // EditCmt ...
-func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, content string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", content, id, userID)
+func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

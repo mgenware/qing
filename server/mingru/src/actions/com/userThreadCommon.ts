@@ -49,7 +49,7 @@ function getCommonThreadCols(t: ContentBase): mm.SelectedColumn[] {
 }
 
 function placeholderValueColumn(name: string): mm.RawColumn {
-  return mm.sel(mm.sql`0`, name, mm.uInt().__mustGetType());
+  return mm.sel(mm.sql`0`, name, mm.uInt().__type());
 }
 
 export function getUserPostCols(t: Post): mm.SelectedColumn[] {
