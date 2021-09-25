@@ -49,6 +49,6 @@ func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d.UserEID = fmtx.EncodeID(d.UserID)
 	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
-	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetUserItemViewHTML(d.UserID, d.UserName, d.UserIconName, p.UserStatusHTML, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	return d
 }

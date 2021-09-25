@@ -30,7 +30,7 @@ type UserItemViewData struct {
 }
 
 // GetUserItemViewHTML returns user item view HTML with the given params.
-func GetUserItemViewHTML(uid uint64, name, iconName, itemEID, statusHTML string, itemType int, itemCreated string, itemModified string) string {
+func GetUserItemViewHTML(uid uint64, name, iconName, statusHTML, itemEID string, itemType int, itemCreated string, itemModified string) string {
 	d := &UserItemViewData{}
 	d.ItemEID = itemEID
 	d.UserEID = fmtx.EncodeID(uid)
