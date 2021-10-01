@@ -6,7 +6,7 @@
  */
 
 import { CHECK } from 'checks';
-import { LitElement } from 'lit';
+import { LitElement, CSSResultGroup } from 'lit';
 import { InputView } from 'ui/form/inputView';
 import coreStyles from './app/styles/bundle';
 
@@ -16,7 +16,7 @@ export * from 'lit/decorators.js';
 export * from 'lit/directives/ref.js';
 
 export class BaseElement extends LitElement {
-  static get styles() {
+  static get styles(): CSSResultGroup {
     return coreStyles;
   }
 
