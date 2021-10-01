@@ -58,7 +58,7 @@ func (da *TableTypeReply) SelectReplies(queryable mingru.Queryable, parentID uin
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `reply`.`id`, `reply`.`content`, `reply`.`created_at`, `reply`.`modified_at`, `reply`.`likes`, `reply`.`user_id`, `reply`.`to_user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`name` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` WHERE `reply`.`parent_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := queryable.Query("SELECT `reply`.`id`, `reply`.`content`, `reply`.`created_at`, `reply`.`modified_at`, `reply`.`likes`, `reply`.`user_id`, `reply`.`to_user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`name` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` WHERE `reply`.`parent_id` = ? ORDER BY `reply`.`created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -96,7 +96,7 @@ func (da *TableTypeReply) SelectRepliesWithLike(queryable mingru.Queryable, view
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `reply`.`id`, `reply`.`content`, `reply`.`created_at`, `reply`.`modified_at`, `reply`.`likes`, `reply`.`user_id`, `reply`.`to_user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`name`, `join_3`.`user_id` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` LEFT JOIN `reply_like` AS `join_3` ON `join_3`.`host_id` = `reply`.`id` AND `join_3`.`user_id` = ? WHERE `reply`.`parent_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := queryable.Query("SELECT `reply`.`id`, `reply`.`content`, `reply`.`created_at`, `reply`.`modified_at`, `reply`.`likes`, `reply`.`user_id`, `reply`.`to_user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`name`, `join_3`.`user_id` AS `has_liked` FROM `reply` AS `reply` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `reply`.`user_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `reply`.`to_user_id` LEFT JOIN `reply_like` AS `join_3` ON `join_3`.`host_id` = `reply`.`id` AND `join_3`.`user_id` = ? WHERE `reply`.`parent_id` = ? ORDER BY `reply`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

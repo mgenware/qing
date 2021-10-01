@@ -48,7 +48,6 @@ async function buildConstantsAsync(path: string) {
   const daPath = nodepath.join(dirname, `../../${packageName}/`);
   const builder = new mr.Builder(dialect, daPath, {
     cleanBuild: true,
-    noColumnAlias: true,
     jsonEncoding: {
       encodingStyle: mr.JSONEncodingStyle.camelCase,
       excludeEmptyValues: true,

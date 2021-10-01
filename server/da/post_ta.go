@@ -37,7 +37,7 @@ type PostTableDeleteCmtChild1Result struct {
 
 func (da *TableTypePost) deleteCmtChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteCmtChild1Result, error) {
 	var result PostTableDeleteCmtChild1Result
-	err := queryable.QueryRow("SELECT `post_cmt`.`host_id`, `join_1`.`reply_count` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` WHERE `post_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `post_cmt`.`host_id`, `join_1`.`reply_count` AS `reply_count` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` WHERE `post_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
@@ -109,7 +109,7 @@ type PostTableDeleteReplyChild1Result struct {
 
 func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteReplyChild1Result, error) {
 	var result PostTableDeleteReplyChild1Result
-	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `post_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
+	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `post_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
 		return result, err
 	}
@@ -267,7 +267,7 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `post_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -305,7 +305,7 @@ func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUs
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `post_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `post_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `post_cmt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `post_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `post_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -377,7 +377,7 @@ func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, us
 	var orderBy1SQL string
 	switch orderBy1 {
 	case PostTableSelectItemsForPostCenterOrderBy1CreatedAt:
-		orderBy1SQL = "`RawCreatedAt`"
+		orderBy1SQL = "`created_at`"
 	case PostTableSelectItemsForPostCenterOrderBy1Likes:
 		orderBy1SQL = "`likes`"
 	case PostTableSelectItemsForPostCenterOrderBy1CmtCount:
@@ -447,7 +447,7 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `post` WHERE `user_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

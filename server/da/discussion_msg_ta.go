@@ -37,7 +37,7 @@ type DiscussionMsgTableDeleteCmtChild1Result struct {
 
 func (da *TableTypeDiscussionMsg) deleteCmtChild1(queryable mingru.Queryable, id uint64) (DiscussionMsgTableDeleteCmtChild1Result, error) {
 	var result DiscussionMsgTableDeleteCmtChild1Result
-	err := queryable.QueryRow("SELECT `discussion_msg_cmt`.`host_id`, `join_1`.`reply_count` FROM `discussion_msg_cmt` AS `discussion_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_msg_cmt`.`cmt_id` WHERE `discussion_msg_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `discussion_msg_cmt`.`host_id`, `join_1`.`reply_count` AS `reply_count` FROM `discussion_msg_cmt` AS `discussion_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_msg_cmt`.`cmt_id` WHERE `discussion_msg_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
@@ -122,7 +122,7 @@ type DiscussionMsgTableDeleteReplyChild1Result struct {
 
 func (da *TableTypeDiscussionMsg) deleteReplyChild1(queryable mingru.Queryable, id uint64) (DiscussionMsgTableDeleteReplyChild1Result, error) {
 	var result DiscussionMsgTableDeleteReplyChild1Result
-	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `discussion_msg_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
+	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `discussion_msg_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
 	if err != nil {
 		return result, err
 	}
@@ -280,7 +280,7 @@ func (da *TableTypeDiscussionMsg) SelectCmts(queryable mingru.Queryable, hostID 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `discussion_msg_cmt`.`cmt_id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `discussion_msg_cmt` AS `discussion_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_msg_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `discussion_msg_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `discussion_msg_cmt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `discussion_msg_cmt` AS `discussion_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_msg_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `discussion_msg_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -318,7 +318,7 @@ func (da *TableTypeDiscussionMsg) SelectCmtsWithLike(queryable mingru.Queryable,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `discussion_msg_cmt`.`cmt_id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` FROM `discussion_msg_cmt` AS `discussion_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_msg_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `discussion_msg_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `discussion_msg_cmt`.`host_id` = ? ORDER BY `RawCreatedAt` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := queryable.Query("SELECT `discussion_msg_cmt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM `discussion_msg_cmt` AS `discussion_msg_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `discussion_msg_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `discussion_msg_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `discussion_msg_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -369,7 +369,7 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `discussion_msg`.`id`, `discussion_msg`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `discussion_msg`.`created_at`, `discussion_msg`.`modified_at`, `discussion_msg`.`content`, `discussion_msg`.`cmt_count` FROM `discussion_msg` AS `discussion_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion_msg`.`user_id` WHERE `discussion_msg`.`discussion_id` = ? ORDER BY `RawCreatedAt` LIMIT ? OFFSET ?", discussionID, limit, offset)
+	rows, err := queryable.Query("SELECT `discussion_msg`.`id`, `discussion_msg`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `discussion_msg`.`created_at`, `discussion_msg`.`modified_at`, `discussion_msg`.`content`, `discussion_msg`.`cmt_count` FROM `discussion_msg` AS `discussion_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion_msg`.`user_id` WHERE `discussion_msg`.`discussion_id` = ? ORDER BY `discussion_msg`.`created_at` LIMIT ? OFFSET ?", discussionID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
