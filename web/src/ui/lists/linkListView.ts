@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html, BaseElement } from 'll';
+import * as ll from 'll';
 
 export const linkListActiveClass = 'link-active';
 export const linkListActiveFilledClass = 'link-active-filled';
 
-@customElement('link-list-view')
-export class LinkListView extends BaseElement {
+@ll.customElement('link-list-view')
+export class LinkListView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -62,7 +62,7 @@ export class LinkListView extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <div class="menu">
         <slot></slot>
       </div>

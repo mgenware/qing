@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import SignInLoader from './loaders/signInLoader';
@@ -14,12 +14,12 @@ import 'ui/form/inputErrorView';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 
-@customElement('sign-in-app')
-export class SignInApp extends BaseElement {
+@ll.customElement('sign-in-app')
+export class SignInApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -27,11 +27,11 @@ export class SignInApp extends BaseElement {
     ];
   }
 
-  @lp.string private email = '';
-  @lp.string private password = '';
+  @ll.string private email = '';
+  @ll.string private password = '';
 
   render() {
-    return html`
+    return ll.html`
       <h2>${ls.createAnAcc}</h2>
       <div>
         <input-view
@@ -39,8 +39,7 @@ export class SignInApp extends BaseElement {
           type="email"
           label=${ls.email}
           value=${this.email}
-          @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
         <input-view
           class="m-t-md"
@@ -48,8 +47,7 @@ export class SignInApp extends BaseElement {
           type="password"
           label=${ls.password}
           value=${this.password}
-          @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
       </div>
       <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignInClick}
         >${ls.signIn}</qing-button

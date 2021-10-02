@@ -11,7 +11,7 @@ import { InputView } from 'ui/form/inputView';
 import coreStyles from './app/styles/bundle';
 
 export * from 'lit';
-export * as lp from 'lit-props';
+export * from 'lit-props';
 export * from 'lit/decorators.js';
 export * from 'lit/directives/ref.js';
 

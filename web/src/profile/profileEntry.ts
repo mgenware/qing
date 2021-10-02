@@ -8,7 +8,7 @@
 import 'core';
 // Used in profile post list.
 import { injectStyles, ready } from 'lib/htmlLib';
-import { css } from 'll';
+import * as ll from 'll';
 import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import 'ui/widgets/tagView';
@@ -20,7 +20,7 @@ import profileWind from './profileWind';
 
 const defaultHighlightedTab = keyPosts;
 
-const styles = css`
+const styles = ll.css`
   .is-boxed {
     border-top: 1px solid var(--app-default-separator-color);
     border-bottom: 1px solid var(--app-default-separator-color);

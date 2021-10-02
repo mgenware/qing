@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { ls, formatLS } from 'ls';
 import 'ui/editor/editBarApp';
 import 'ui/status/statusOverlay';
@@ -20,12 +20,12 @@ import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';
 import { editBarID } from 'ui/editor/editBarApp';
 
-@customElement('cmt-view')
-export class CmtView extends BaseElement {
+@ll.customElement('cmt-view')
+export class CmtView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -37,9 +37,9 @@ export class CmtView extends BaseElement {
     ];
   }
 
-  @lp.object cmt: Cmt | null = null;
+  @ll.object cmt: Cmt | null = null;
   // Only available to replies.
-  @lp.string parentCmtID: string | null = null;
+  @ll.string parentCmtID: string | null = null;
 
   firstUpdated() {
     const { cmt } = this;
@@ -50,7 +50,7 @@ export class CmtView extends BaseElement {
     const { cmt } = this;
     CHECK(cmt);
     const isReply = isCmtReply(cmt);
-    return html`
+    return ll.html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
         <div class="col-auto">
           <a href=${cmt.userURL}>
@@ -60,33 +60,35 @@ export class CmtView extends BaseElement {
         <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
-            ${cmt.toUserID
-              ? html`
+            ${
+              cmt.toUserID
+                ? ll.html`
                   <span>
                     <svg-icon
                       title=${formatLS(ls.pReplyTo, cmt.toUserName)}
                       iconStyle="info"
                       .oneTimeSrc=${staticMainImage('reply-to.svg')}
-                      .size=${16}
-                    >
+                      .size=${16}>
                     </svg-icon>
                     <a href=${cmt.toUserURL || '#'}>${cmt.toUserName}</a>
                   </span>
                 `
-              : ''}
+                : ''
+            }
             <time-field .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></time-field>
-            ${cmt.userID === appPageState.userEID
-              ? html`
+            ${
+              cmt.userID === appPageState.userEID
+                ? ll.html`
                   <edit-bar-app
                     class="m-l-md"
                     id=${editBarID(entityCmt, cmt.id)}
                     uid=${cmt.userID}
                     .hasLeftMargin=${true}
                     @editClick=${this.handleEditClick}
-                    @deleteClick=${this.handleDeleteClick}
-                  ></edit-bar-app>
+                    @deleteClick=${this.handleDeleteClick}></edit-bar-app>
                 `
-              : ''}
+                : ''
+            }
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
           <div>
@@ -102,8 +104,7 @@ export class CmtView extends BaseElement {
               .initialLikes=${cmt.likes}
               .initialHasLiked=${!!cmt.hasLiked}
               .hostID=${cmt.id}
-              .hostType=${isReply ? entityReply : entityCmt}
-            ></like-app>
+              .hostType=${isReply ? entityReply : entityCmt}></like-app>
           </div>
         </div>
       </div>

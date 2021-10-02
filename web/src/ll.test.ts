@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement } from 'll';
+import * as ll from 'll';
 import { expect, html, fixture, tDOM } from 'qing-t';
 
-class TElement extends BaseElement {
+class TElement extends ll.BaseElement {
   render() {
-    return html`<div id="id" class="cls">content</div>`;
+    return ll.html`<div id="id" class="cls">content</div>`;
   }
 
   getShadowElementImpl(id: string): HTMLElement | null {

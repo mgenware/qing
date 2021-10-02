@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable arrow-body-style */
-import { html, customElement, css, TemplateResult, BaseElement, lp } from 'll';
+import * as ll from 'll';
 
 export interface SelectionViewItem {
   text: string;
@@ -21,12 +21,12 @@ export interface SelectionViewItemEvent {
   index: number;
 }
 
-@customElement('selection-view')
-export class SelectionView extends BaseElement {
+@ll.customElement('selection-view')
+export class SelectionView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -94,11 +94,11 @@ export class SelectionView extends BaseElement {
     ];
   }
 
-  @lp.array dataSource: SelectionViewItem[] = [];
-  @lp.bool multiSelect = false;
+  @ll.array dataSource: SelectionViewItem[] = [];
+  @ll.bool multiSelect = false;
 
   render() {
-    return html`
+    return ll.html`
       <div>
         ${this.dataSource.map((item, index) => {
           return this.multiSelect
@@ -109,32 +109,30 @@ export class SelectionView extends BaseElement {
     `;
   }
 
-  private renderCheckBox(item: SelectionViewItem, index: number): TemplateResult {
+  private renderCheckBox(item: SelectionViewItem, index: number): ll.TemplateResult {
     const name = 'check-box';
-    return html`
+    return ll.html`
       <label>
         <input
           type="checkbox"
           .checked=${!!item.checked}
           name=${name}
-          @change=${(e: Event) => this.handleOnChange(e, item, index)}
-        />
+          @change=${(e: Event) => this.handleOnChange(e, item, index)} />
         <span>${item.text}</span>
       </label>
     `;
   }
 
-  private renderRadioBox(item: SelectionViewItem, index: number): TemplateResult {
+  private renderRadioBox(item: SelectionViewItem, index: number): ll.TemplateResult {
     // Name is required to make sure each option is mutually exclusive.
     const name = 'radio-box';
-    return html`
+    return ll.html`
       <label>
         <input
           type="radio"
           .checked=${!!item.checked}
           name=${name}
-          @change=${(e: Event) => this.handleOnChange(e, item, index)}
-        />
+          @change=${(e: Event) => this.handleOnChange(e, item, index)} />
         <span>${item.text}</span>
       </label>
     `;

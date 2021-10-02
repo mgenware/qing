@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './views/rootCmtList';
 import { CHECK } from 'checks';
@@ -24,12 +24,12 @@ import appCmtHubState from './data/appCmtHubState';
 
 const composerID = 'composer';
 
-@customElement('cmt-app')
-export class CmtApp extends BaseElement {
+@ll.customElement('cmt-app')
+export class CmtApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -37,14 +37,14 @@ export class CmtApp extends BaseElement {
     ];
   }
 
-  @lp.number initialTotalCmtCount = 0;
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
+  @ll.number initialTotalCmtCount = 0;
+  @ll.string hostID = '';
+  @ll.number hostType = 0;
 
-  @lp.object editorProps = this.closedEditorProps();
+  @ll.object editorProps = this.closedEditorProps();
 
   // The number of all comments and their replies.
-  @lp.number private totalCmtCount = 0;
+  @ll.number private totalCmtCount = 0;
   private hub: CmtDataHub | null = null;
 
   firstUpdated() {
@@ -79,18 +79,19 @@ export class CmtApp extends BaseElement {
       heading = ls.writeAComment;
     }
 
-    return html`
+    return ll.html`
       <root-cmt-list
         .totalCmtCount=${this.totalCmtCount}
         .hostID=${this.hostID}
         .hostType=${this.hostType}
-        .loadOnVisible=${!!this.initialTotalCmtCount}
-      ></root-cmt-list>
+        .loadOnVisible=${!!this.initialTotalCmtCount}></root-cmt-list>
       <qing-overlay class="immersive" ?open=${editorProps.open}>
         <h2>${heading}</h2>
         ${tif(
           editorProps.replyingTo,
-          html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML ?? '')}</blockquote>`,
+          ll.html`<blockquote>${unsafeHTML(
+            editorProps.replyingTo?.contentHTML ?? '',
+          )}</blockquote>`,
         )}
         <composer-view
           id=${composerID}
@@ -98,8 +99,7 @@ export class CmtApp extends BaseElement {
           .entityType=${isReply ? entityReply : entityCmt}
           .submitButtonText=${editorProps.editing ? ls.save : ls.send}
           @onSubmit=${this.handleSubmit}
-          @onDiscard=${this.handleDiscard}
-        ></composer-view>
+          @onDiscard=${this.handleDiscard}></composer-view>
       </qing-overlay>
     `;
   }

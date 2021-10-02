@@ -7,7 +7,7 @@
 
 import { formatLS, ls } from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
-import { html } from 'll';
+import * as ll from 'll';
 import { editBarID, EditBarApp } from 'ui/editor/editBarApp';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
 import 'ui/editor/editBarApp';
@@ -77,7 +77,7 @@ export function hookUpEditBarEvents(eid: string, entityType: number) {
     if (!editPostApp) {
       editPostApp = renderTemplateResult(
         '',
-        html`<set-entity-app
+        ll.html`<set-entity-app
           autoClose
           .postID=${eid}
           entityType=${entityType}

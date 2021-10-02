@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 
@@ -14,10 +14,10 @@ export function editBarID(type: number, id: string): string {
   return `edit-bar-${type}-${id}`;
 }
 
-@customElement('edit-bar-app')
-export class EditBarApp extends BaseElement {
-  @lp.string uid = '';
-  @lp.bool private visible = false;
+@ll.customElement('edit-bar-app')
+export class EditBarApp extends ll.BaseElement {
+  @ll.string uid = '';
+  @ll.bool private visible = false;
 
   firstUpdated() {
     const cur = appPageState.userEID;
@@ -26,9 +26,9 @@ export class EditBarApp extends BaseElement {
 
   render() {
     if (!this.visible) {
-      return html``;
+      return ll.html``;
     }
-    return html`
+    return ll.html`
       <span>
         <a href="#" @click=${this.handleEditClick}>${ls.edit}</a>
         <a class="m-l-sm" href="#" @click=${this.handleDeleteClick}>${ls.delete}</a>

@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement } from 'll';
+import * as ll from 'll';
 
-@customElement('user-view')
-export class UserView extends BaseElement {
+@ll.customElement('user-view')
+export class UserView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -21,7 +21,7 @@ export class UserView extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <div class="m-t-md row m-user-view">
         <div class="col-auto">
           <slot name="link"></slot>

@@ -6,14 +6,14 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement, BaseElement, lp } from 'll';
+import * as ll from 'll';
 
-@customElement('link-button')
-export class LinkButton extends BaseElement {
-  @lp.bool disabled = false;
+@ll.customElement('link-button')
+export class LinkButton extends ll.BaseElement {
+  @ll.bool disabled = false;
 
   render() {
-    return html`
+    return ll.html`
       <a href="#" class=${this.disabled ? 'content-disabled' : ''} @click=${this.handleClick}
         ><slot></slot
       ></a>

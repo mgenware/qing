@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, TemplateResult, PropertyValues, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { ls, formatLS } from 'ls';
 import './editorView';
 import { ERR } from 'checks';
@@ -39,12 +39,12 @@ export interface ComposerContent {
  *   Warns the user about unsaved changes.
  *   Submit and cancel buttons.
  */
-@customElement('composer-view')
-export class ComposerView extends BaseElement {
+@ll.customElement('composer-view')
+export class ComposerView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: flex;
           flex-direction: column;
@@ -63,22 +63,24 @@ export class ComposerView extends BaseElement {
     ];
   }
 
-  @lp.number entityType = 0;
+  @ll.number entityType = 0;
 
   // Title field value.
-  @lp.string inputTitle = '';
-  @lp.bool showTitleInput = false;
+  @ll.string inputTitle = '';
+  @ll.bool showTitleInput = false;
 
-  @lp.string entityID = '';
-  @lp.string submitButtonText = '';
+  @ll.string entityID = '';
+  @ll.string submitButtonText = '';
 
   // Source loading will start when `entityID` changes, it has to default to
   // `true`.
-  @lp.object loadingStatus = LoadingStatus.success;
+  @ll.object loadingStatus = LoadingStatus.success;
 
   // Used to check if editor content has changed.
   private lastSavedTitle = '';
   private lastSavedContent = '';
+
+  private editorEl: Ref<EditorView> = createRef;
 
   hasContentChanged(): boolean {
     if (!this.editorEl) {
@@ -112,10 +114,6 @@ export class ComposerView extends BaseElement {
       editorEl.setContentHTML(contentHTML, canUndo);
       this.markAsSaved();
     }
-  }
-
-  private get editorEl(): EditorView | null {
-    return this.getShadowElement(editorID);
   }
 
   private get titleInputEl(): HTMLInputElement | null {
@@ -161,33 +159,31 @@ export class ComposerView extends BaseElement {
 
     let editorContent: TemplateResult;
     if (loadingStatus.isSuccess) {
-      editorContent = html`${tif(
-          this.showTitleInput,
-          html`
+      editorContent = ll.html`${tif(
+        this.showTitleInput,
+        ll.html`
             <div class="p-b-sm flex-auto">
               <input-view
                 id=${titleInputID}
                 required
                 .placeholder=${ls.title}
                 .value=${this.inputTitle}
-                @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}
-              ></input-view>
+                @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}></input-view>
             </div>
           `,
-        )} <editor-view id=${editorID}></editor-view>`;
+      )} <editor-view id=${editorID}></editor-view>`;
     } else {
-      editorContent = html` <status-view
+      editorContent = ll.html` <status-view
         .status=${loadingStatus}
         .canRetry=${true}
-        @onRetry=${this.loadEntitySource}
-      ></status-view>`;
+        @onRetry=${this.loadEntitySource}></status-view>`;
     }
 
-    const bottomContent = html`
+    const bottomContent = ll.html`
       <div class="m-t-md flex-auto text-center editor-buttons">
         ${tif(
           loadingStatus.isSuccess,
-          html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
+          ll.html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
             ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
           </qing-button>`,
         )}
@@ -197,12 +193,11 @@ export class ComposerView extends BaseElement {
       </div>
     `;
 
-    return html`
+    return ll.html`
       <div class="d-flex flex-column flex-full">
         <div
           class="d-flex flex-column flex-full"
-          style=${loadingStatus.isSuccess ? '' : 'justify-content: center'}
-        >
+          style=${loadingStatus.isSuccess ? '' : 'justify-content: center'}>
           ${editorContent}
         </div>
         ${bottomContent}

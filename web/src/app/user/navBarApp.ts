@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
 import routes from 'routes';
@@ -22,12 +22,12 @@ import appSettings from 'app/appSettings';
 import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
 import { runNewEntityCommand } from 'app/appCommands';
 
-@customElement('nav-bar-app')
-export default class NavBarApp extends BaseElement {
+@ll.customElement('nav-bar-app')
+export default class NavBarApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -162,8 +162,8 @@ export default class NavBarApp extends BaseElement {
     ];
   }
 
-  @lp.object user: User | null = null;
-  @lp.number currentTheme = defs.UserTheme.light;
+  @ll.object user: User | null = null;
+  @ll.number currentTheme = defs.UserTheme.light;
 
   firstUpdated() {
     this.user = appPageState.user;
@@ -179,7 +179,7 @@ export default class NavBarApp extends BaseElement {
   render() {
     const { user } = this;
 
-    return html`
+    return ll.html`
       <navbar id="main-navbar">
         <a href="/">
           <img
@@ -187,15 +187,15 @@ export default class NavBarApp extends BaseElement {
             src=${staticMainImage('qing.svg')}
             height="25"
             width="25"
-            alt="Qing"
-          />
+            alt="Qing" />
           <span class="m-l-sm vertical-align-middle">Qing</span>
         </a>
 
         <div class="fill-space"></div>
 
-        ${user
-          ? html`
+        ${
+          user
+            ? ll.html`
               <div class="dropdown">
                 <button class="dropdown-btn">
                   <img
@@ -203,8 +203,7 @@ export default class NavBarApp extends BaseElement {
                     src=${user.iconURL}
                     width="20"
                     height="20"
-                    class="avatar-s vertical-align-middle"
-                  />
+                    class="avatar-s vertical-align-middle" />
                   <span class="m-l-sm">${user.name}</span> &#x25BE;
                 </button>
                 <div class="dropdown-content">
@@ -224,20 +223,21 @@ export default class NavBarApp extends BaseElement {
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
                   ${tif(
                     user.admin,
-                    html`<a href=${routes.mx.usersAndGroups}>${ls.adminSettings}</a>`,
+                    ll.html`<a href=${routes.mx.usersAndGroups}>${ls.adminSettings}</a>`,
                   )}
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>
             `
-          : html`
+            : ll.html`
               <a href=${routes.auth.signIn}>
                 <span class="m-l-sm">${ls.signIn}</span>
               </a>
               <a href=${routes.auth.signUp}>
                 <span class="m-l-sm">${ls.signUp}</span>
               </a>
-            `}
+            `
+        }
 
         <a href="#" @click=${this.toggleTheme}>
           ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}

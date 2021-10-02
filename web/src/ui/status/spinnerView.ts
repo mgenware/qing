@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, property, LitElement } from 'll';
+import * as ll from 'll';
 
 // A spinner view(block) that fills available horizontal space.
-@customElement('spinner-view')
-export class SpinnerView extends LitElement {
+@ll.customElement('spinner-view')
+export class SpinnerView extends ll.LitElement {
   static get styles() {
-    return css`
+    return ll.css`
       :host {
         display: block;
       }
@@ -89,10 +89,10 @@ export class SpinnerView extends LitElement {
     `;
   }
 
-  @property({ type: Boolean }) fullScreen = false;
+  @ll.bool fullScreen = false;
 
   render() {
-    const content = html`
+    const content = ll.html`
       <div class="spinner-root">
         <div class="spinner">
           <div class="double-bounce1"></div>
@@ -102,7 +102,7 @@ export class SpinnerView extends LitElement {
       </div>
     `;
     if (this.fullScreen) {
-      return html` <div class="spinner-screen-overlay">${content}</div> `;
+      return ll.html` <div class="spinner-screen-overlay">${content}</div> `;
     }
     return content;
   }

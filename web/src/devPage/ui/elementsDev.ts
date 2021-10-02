@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable no-alert */
-import { html, customElement, css, BaseElement } from 'll';
+import * as ll from 'll';
 import 'qing-button';
 import 'qing-dock-box';
 import 'ui/alerts/alertView';
@@ -34,12 +34,12 @@ const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
 const immersiveDialogID = 'qing-overlay-immersive';
 
-@customElement('elements-dev')
-export class ElementsDev extends BaseElement {
+@ll.customElement('elements-dev')
+export class ElementsDev extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
           color: var(--app-default-fore-color);
@@ -125,7 +125,7 @@ export class ElementsDev extends BaseElement {
   #setEntityApp: SetEntityApp | null = null;
 
   render() {
-    return html`
+    return ll.html`
       <h2>Default context</h2>
       <div class="text">
         <span>Welcome to <a href="https://github.com/mgenware/qing" target="_blank">Qing</a></span>
@@ -212,8 +212,7 @@ export class ElementsDev extends BaseElement {
         id=${immersiveDialogID}
         class="immersive"
         .buttons=${['ok']}
-        .cancelButtonIndex=${0}
-      >
+        .cancelButtonIndex=${0}>
         <div class="flex-grow">
           <h2>Full dialog (will close in 3 seconds)</h2>
           <p>Hello world</p>
@@ -224,12 +223,18 @@ export class ElementsDev extends BaseElement {
       <selection-view
         class="m-t-md"
         multiSelect
-        .dataSource=${[{ text: 'Qing', checked: true }, { text: 'Ming' }, { text: 'Yuan' }]}
-      ></selection-view>
+        .dataSource=${[
+          { text: 'Qing', checked: true },
+          { text: 'Ming' },
+          { text: 'Yuan' },
+        ]}></selection-view>
       <selection-view
         class="m-t-md"
-        .dataSource=${[{ text: 'Qing', checked: true }, { text: 'Ming' }, { text: 'Yuan' }]}
-      ></selection-view>
+        .dataSource=${[
+          { text: 'Qing', checked: true },
+          { text: 'Ming' },
+          { text: 'Yuan' },
+        ]}></selection-view>
       <h2>Alerts</h2>
       <alert-view>Default</alert-view>
       <alert-view alertStyle="primary">Primary</alert-view>
@@ -301,11 +306,10 @@ export class ElementsDev extends BaseElement {
   firstUpdated() {
     this.#setEntityApp = renderTemplateResult(
       '',
-      html`<set-entity-app
+      ll.html`<set-entity-app
         autoClose
         entityType=${entityPost}
-        headerText="Create a new post"
-      ></set-entity-app>`,
+        headerText="Create a new post"></set-entity-app>`,
     );
   }
 

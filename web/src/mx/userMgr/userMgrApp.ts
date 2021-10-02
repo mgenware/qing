@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import LoadingStatus from 'lib/loadingStatus';
 import ls, { formatLS } from 'ls';
 import 'ui/content/headingView';
@@ -24,12 +24,12 @@ import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 
-@customElement('user-mgr-app')
-export class UserMgrApp extends BaseElement {
+@ll.customElement('user-mgr-app')
+export class UserMgrApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -37,10 +37,10 @@ export class UserMgrApp extends BaseElement {
     ];
   }
 
-  @lp.bool adminSectionStatus = LoadingStatus.working;
+  @ll.bool adminSectionStatus = LoadingStatus.working;
   // TODO: Pagination.
-  @lp.array private admins: UserInfo[] = [];
-  @lp.object private userCandidate: UserInfo | null = null;
+  @ll.array private admins: UserInfo[] = [];
+  @ll.object private userCandidate: UserInfo | null = null;
 
   private getAdminLoader = new GetAdminsLoader();
 
@@ -52,17 +52,17 @@ export class UserMgrApp extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <status-overlay .status=${this.adminSectionStatus}>
         <heading-view>${ls.adminAccounts}</heading-view>
         ${this.renderAdmins()}
         <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
         <user-selector-app
-          @selectionChanged=${(e: CustomEvent<UserInfo | null>) => (this.userCandidate = e.detail)}
-        ></user-selector-app>
+          @selectionChanged=${(e: CustomEvent<UserInfo | null>) =>
+            (this.userCandidate = e.detail)}></user-selector-app>
         ${tif(
           this.userCandidate,
-          html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
+          ll.html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
             ${ls.add}
           </qing-button>`,
         )}
@@ -73,9 +73,9 @@ export class UserMgrApp extends BaseElement {
   private renderAdmins() {
     const { admins } = this;
     if (!admins.length) {
-      return html`<notice-view>${ls.noContentAvailable}</notice-view>`;
+      return ll.html`<notice-view>${ls.noContentAvailable}</notice-view>`;
     }
-    return html`<div class="app-table-container m-t-md">
+    return ll.html`<div class="app-table-container m-t-md">
       <table class="app-table">
         <thead>
           <th>${ls.name}</th>
@@ -90,7 +90,7 @@ export class UserMgrApp extends BaseElement {
 
   private renderUserRow(user: UserInfo) {
     const thisIsYou = appPageState.userEID === user.eid;
-    return html`
+    return ll.html`
       <tr>
         <td>
           <a href=${user.url} target="_blank">
@@ -98,11 +98,13 @@ export class UserMgrApp extends BaseElement {
           </a>
         </td>
         <td>
-          ${thisIsYou
-            ? html`<tag-view tagStyle="warning">${ls.thisIsYou}</tag-view>`
-            : html`<link-button @click=${() => this.handleRemoveAdmin(user)}
+          ${
+            thisIsYou
+              ? ll.html`<tag-view tagStyle="warning">${ls.thisIsYou}</tag-view>`
+              : ll.html`<link-button @click=${() => this.handleRemoveAdmin(user)}
                 >${ls.removeAdmin}</link-button
-              >`}
+              >`
+          }
         </td>
       </tr>
     `;

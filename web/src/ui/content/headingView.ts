@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement } from 'll';
+import * as ll from 'll';
 
-@customElement('heading-view')
-export class HeadingView extends BaseElement {
+@ll.customElement('heading-view')
+export class HeadingView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -33,7 +33,7 @@ export class HeadingView extends BaseElement {
   }
 
   render() {
-    return html` <div class="row">
+    return ll.html` <div class="row">
       <div class="col">
         <h2><slot></slot></h2>
       </div>

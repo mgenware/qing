@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
 import { ERR } from 'checks';
@@ -14,12 +14,12 @@ import appAlert from 'app/appAlert';
 
 const pageInputID = 'page-input';
 
-@customElement('pc-page-control')
-export class PCPageControl extends BaseElement {
+@ll.customElement('pc-page-control')
+export class PCPageControl extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -27,11 +27,11 @@ export class PCPageControl extends BaseElement {
     ];
   }
 
-  @lp.number shownItemCount = 0;
-  @lp.number totalItemCount = 0;
-  @lp.number page = 0;
-  @lp.number pageSize = 0;
-  @lp.string pageInputString = '';
+  @ll.number shownItemCount = 0;
+  @ll.number totalItemCount = 0;
+  @ll.number page = 0;
+  @ll.number pageSize = 0;
+  @ll.string pageInputString = '';
 
   private get totalPages(): number {
     const { pageSize, totalItemCount } = this;
@@ -44,7 +44,7 @@ export class PCPageControl extends BaseElement {
 
   render() {
     const { page, totalPages } = this;
-    return html`
+    return ll.html`
       <div class="row">
         <div class="col-auto">
           ${formatLS(ls.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}
@@ -58,8 +58,7 @@ export class PCPageControl extends BaseElement {
             type="text"
             size="3"
             value=${this.pageInputString}
-            @change=${this.handlePageInput}
-          />
+            @change=${this.handlePageInput} />
           <link-button @click=${this.handleGotoClick}>${ls.goToPage}</link-button> |
           <link-button @click=${() => this.handlePageButtonClick(-1)} .disabled=${page === 1}
             >${ls.previousPage}</link-button

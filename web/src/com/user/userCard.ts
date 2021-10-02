@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import UserInfo from './userInfo';
 
-@customElement('user-card')
-export class UserCard extends BaseElement {
+@ll.customElement('user-card')
+export class UserCard extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -21,14 +21,14 @@ export class UserCard extends BaseElement {
     ];
   }
 
-  @lp.object user: UserInfo | null = null;
+  @ll.object user: UserInfo | null = null;
 
   render() {
     const { user } = this;
     if (!user) {
       return '';
     }
-    return html`
+    return ll.html`
       <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="40" height="40" />
       <span class="m-l-xs">${user.name}</span>
     `;

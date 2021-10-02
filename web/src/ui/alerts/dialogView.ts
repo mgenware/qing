@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html, TemplateResult, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
 import { staticMainImage } from 'urls';
@@ -20,12 +20,12 @@ export enum DialogIcon {
   warning,
 }
 
-@customElement('dialog-view')
-export class DialogView extends BaseElement {
+@ll.customElement('dialog-view')
+export class DialogView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -46,24 +46,23 @@ export class DialogView extends BaseElement {
     ];
   }
 
-  @lp.bool open = false;
-  @lp.string title = '';
-  @lp.string message = '';
-  @lp.number icon: DialogIcon = 0;
-  @lp.array buttons: string[] = [];
-  @lp.number defaultButton = -1;
-  @lp.number cancelButton = -1;
+  @ll.bool open = false;
+  @ll.string title = '';
+  @ll.string message = '';
+  @ll.number icon: DialogIcon = 0;
+  @ll.array buttons: string[] = [];
+  @ll.number defaultButton = -1;
+  @ll.number cancelButton = -1;
 
   private closingButton = -1;
 
   render() {
     const iconEl = this.getIconElement(this.icon);
-    return html`
+    return ll.html`
       <qing-overlay
         ?open=${this.open}
         @openChanged=${this.handleOpenChanged}
-        @escKeyDown=${this.handleEscDown}
-      >
+        @escKeyDown=${this.handleEscDown}>
         <div class="text-center" style="margin: 1rem">
           <div class="m-t-lg">${iconEl}</div>
           <h2>${this.title}</h2>
@@ -92,7 +91,7 @@ export class DialogView extends BaseElement {
 
   private renderButtons() {
     return this.buttons.map(
-      (b, i) => html`<qing-button class="dialog-btn" @click=${() => this.handleButtonClick(b, i)}
+      (b, i) => ll.html`<qing-button class="dialog-btn" @click=${() => this.handleButtonClick(b, i)}
         >${b}</qing-button
       >`,
     );
@@ -123,7 +122,7 @@ export class DialogView extends BaseElement {
     this.getButtonElement('esc')?.click();
   }
 
-  private getIconElement(icon: DialogIcon): TemplateResult {
+  private getIconElement(icon: DialogIcon): ll.TemplateResult {
     let iconName = '';
     // See `svg-icon.iconStyle`.
     let iconStyle = '';
@@ -142,13 +141,12 @@ export class DialogView extends BaseElement {
         break;
     }
     if (!iconName) {
-      return html``;
+      return ll.html``;
     }
-    return html`<svg-icon
+    return ll.html`<svg-icon
       iconStyle=${iconStyle}
       .oneTimeSrc=${staticMainImage(`${iconName}.svg`)}
-      .size=${iconSize}
-    ></svg-icon>`;
+      .size=${iconSize}></svg-icon>`;
   }
 }
 

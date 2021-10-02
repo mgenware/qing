@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'com/cmt/cmtApp';
 import 'ui/qna/voteApp';
 import { CHECK } from 'checks';
 
-@customElement('answer-app')
-export class AnswerApp extends BaseElement {
+@ll.customElement('answer-app')
+export class AnswerApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -23,18 +23,18 @@ export class AnswerApp extends BaseElement {
     ];
   }
 
-  @lp.string eid = '';
-  @lp.number initialValue = 0;
-  @lp.number initialUps = 0;
-  @lp.number initialDowns = 0;
-  @lp.number initialMyVote = 0;
+  @ll.string eid = '';
+  @ll.number initialValue = 0;
+  @ll.number initialUps = 0;
+  @ll.number initialDowns = 0;
+  @ll.number initialMyVote = 0;
 
   firstUpdated() {
     CHECK(this.eid);
   }
 
   render() {
-    return html`
+    return ll.html`
       <div>
         <slot></slot>
         <div class="m-t-md">
@@ -43,8 +43,7 @@ export class AnswerApp extends BaseElement {
             .initialUps=${this.initialUps}
             .initialDowns=${this.initialDowns}
             .initialValue=${this.initialValue}
-            .initialMyVote=${this.initialMyVote}
-          ></vote-app>
+            .initialMyVote=${this.initialMyVote}></vote-app>
         </div>
       </div>
     `;

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -21,12 +21,12 @@ import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 
-@customElement('edit-profile-app')
-export class EditProfileApp extends BaseElement {
+@ll.customElement('edit-profile-app')
+export class EditProfileApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -42,13 +42,13 @@ export class EditProfileApp extends BaseElement {
     ];
   }
 
-  @lp.string name = '';
-  @lp.string url = '';
-  @lp.string company = '';
-  @lp.string location = '';
-  @lp.object loadingStatus = LoadingStatus.notStarted;
-  @lp.bool updateInfoStatus = LoadingStatus.success;
-  @lp.string avatarURL = '';
+  @ll.string name = '';
+  @ll.string url = '';
+  @ll.string company = '';
+  @ll.string location = '';
+  @ll.object loadingStatus = LoadingStatus.notStarted;
+  @ll.bool updateInfoStatus = LoadingStatus.success;
+  @ll.string avatarURL = '';
 
   async firstUpdated() {
     await this.reloadDataAsync();
@@ -56,23 +56,22 @@ export class EditProfileApp extends BaseElement {
 
   render() {
     const { loadingStatus } = this;
-    return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
+    return ll.html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }
 
   renderProgress() {
     const { loadingStatus } = this;
-    return html`
+    return ll.html`
       <status-view
         .progressViewPadding=${'md'}
         .status=${loadingStatus}
         .canRetry=${true}
-        @onRetry=${this.handleLoadingRetry}
-      ></status-view>
+        @onRetry=${this.handleLoadingRetry}></status-view>
     `;
   }
 
   renderContent() {
-    return html`
+    return ll.html`
       <heading-view>${ls.profilePicture}</heading-view>
       <p>
         <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
@@ -86,26 +85,22 @@ export class EditProfileApp extends BaseElement {
           required
           label=${ls.name}
           value=${this.name}
-          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
         <input-view
           label=${ls.url}
           value=${this.url}
-          @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}></input-view>
 
         <input-view
           label=${ls.company}
           value=${this.company}
-          @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}></input-view>
 
         <input-view
           label=${ls.location}
           value=${this.location}
-          @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
         <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
           ${ls.save}

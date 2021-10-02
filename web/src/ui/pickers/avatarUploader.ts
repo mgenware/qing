@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, property, css, BaseElement } from 'll';
+import * as ll from 'll';
 import 'qing-overlay';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -22,12 +22,12 @@ interface ImageCropInfo {
   width: number;
 }
 
-@customElement('avatar-uploader')
-export class AvatarUploader extends BaseElement {
+@ll.customElement('avatar-uploader')
+export class AvatarUploader extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         .crop-container {
           overflow-y: auto;
           border: 1px solid var(--app-default-separator-color);
@@ -36,7 +36,7 @@ export class AvatarUploader extends BaseElement {
     ];
   }
 
-  @property() private imageDataURL: string | null = null;
+  @ll.string private imageDataURL: string | null = null;
 
   cropInfo: ImageCropInfo | null = null;
 
@@ -62,14 +62,13 @@ export class AvatarUploader extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <div>
         <qing-overlay
           id="modalElement"
           .isOpen=${!!this.imageDataURL}
           @escKeyDown=${this.handleCancelClick}
-          @openChanged=${this.handleOpenChanged}
-        >
+          @openChanged=${this.handleOpenChanged}>
           <div class="m-b-md crop-container">
             <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
           </div>
@@ -86,8 +85,7 @@ export class AvatarUploader extends BaseElement {
                 id="uploadElement"
                 name="avatarMain"
                 accept=".jpg,.jpeg,.png"
-                style="display: none"
-              />
+                style="display: none" />
               <span class="file-cta">
                 <span class="file-icon">
                   <img src=${staticMainImage('upload.svg')} width="16" height="16" />

@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import { ERR } from 'checks';
 import appAlert from 'app/appAlert';
 
-@customElement('profile-id-view')
-export class ProfileIDView extends BaseElement {
+@ll.customElement('profile-id-view')
+export class ProfileIDView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -28,11 +28,11 @@ export class ProfileIDView extends BaseElement {
     ];
   }
 
-  @lp.string value = '';
+  @ll.string value = '';
 
   render() {
     const { value } = this;
-    return html`
+    return ll.html`
       <span>${value}</span>
       <qing-button class="small m-l-sm" @click=${this.handleCopyClick}>${ls.copy}</qing-button>
     `;

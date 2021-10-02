@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement } from 'll';
+import * as ll from 'll';
 import ls, { formatLS } from 'ls';
 import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
@@ -14,12 +14,12 @@ import appAlert from 'app/appAlert';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
 
-@customElement('lang-page-view')
-export class LangPageView extends BaseElement {
+@ll.customElement('lang-page-view')
+export class LangPageView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -37,14 +37,14 @@ export class LangPageView extends BaseElement {
 
   render() {
     const curLang = ls._lang;
-    return html`
+    return ll.html`
       <container-view>
         <h2>${ls.langSettings}</h2>
         <hr />
         <link-list-view>
           ${this.tags.map(
             (t) =>
-              html`<a
+              ll.html`<a
                 href="#"
                 @click=${() => this.handleLangChange(t)}
                 class=${curLang === t.ID ? linkListActiveFilledClass : ''}

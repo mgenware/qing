@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 
-@customElement('hf-number')
-export class HFNumber extends BaseElement {
+@ll.customElement('hf-number')
+export class HFNumber extends ll.BaseElement {
   private formatter: Intl.NumberFormat;
-  @lp.reflected.number value = Number.NaN;
+  @ll.reflected.number value = Number.NaN;
 
   constructor() {
     super();
@@ -28,7 +28,7 @@ export class HFNumber extends BaseElement {
     if (Number.isNaN(value)) {
       return '';
     }
-    return html` <span> ${formatter.format(value)} </span>`;
+    return ll.html` <span> ${formatter.format(value)} </span>`;
   }
 }
 

@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { formatLS, ls } from 'ls';
 import 'ui/status/statusView';
 import LoadingStatus from 'lib/loadingStatus';
 
-@customElement('cmt-footer-view')
-export class CmtFooterView extends BaseElement {
+@ll.customElement('cmt-footer-view')
+export class CmtFooterView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -23,16 +23,16 @@ export class CmtFooterView extends BaseElement {
     ];
   }
 
-  @lp.object status = LoadingStatus.notStarted;
-  @lp.bool hasNext = false;
-  @lp.bool replies = false;
-  @lp.number loadedCount = 0;
+  @ll.object status = LoadingStatus.notStarted;
+  @ll.bool hasNext = false;
+  @ll.bool replies = false;
+  @ll.number loadedCount = 0;
 
   render() {
     const { status } = this;
     if (status.isSuccess) {
       if (this.hasNext) {
-        return html`
+        return ll.html`
           <div>
             <a href="#" @click=${this.handleMoreButtonClick}
               >${formatLS(
@@ -44,15 +44,14 @@ export class CmtFooterView extends BaseElement {
         `;
       }
       // If success and `hasNext` is false, nothing to show.
-      return html``;
+      return ll.html``;
     }
 
-    return html`
+    return ll.html`
       <status-view
         .status=${status}
         .canRetry=${true}
-        @onRetry=${this.handleMoreButtonClick}
-      ></status-view>
+        @onRetry=${this.handleMoreButtonClick}></status-view>
     `;
   }
 

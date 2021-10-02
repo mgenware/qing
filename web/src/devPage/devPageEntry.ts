@@ -7,7 +7,7 @@
 
 import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import { html, TemplateResult } from 'll';
+import * as ll from 'll';
 import routes from './devRoutes';
 import './devView';
 import './auth/authDevPage';
@@ -17,19 +17,22 @@ import pageUtils from 'app/utils/pageUtils';
 
 const devRouter = new MiniURLRouter();
 
-function loadPageContent(title: string, content: TemplateResult) {
-  pageUtils.setTitleAndMainContent([title], html` <container-view> ${content} </container-view> `);
+function loadPageContent(title: string, content: ll.TemplateResult) {
+  pageUtils.setTitleAndMainContent(
+    [title],
+    ll.html` <container-view> ${content} </container-view> `,
+  );
 }
 
 devRouter.register(routes.authRoot, () => {
-  loadPageContent('Auth dev page', html`<auth-dev-page></auth-dev-page>`);
+  loadPageContent('Auth dev page', ll.html`<auth-dev-page></auth-dev-page>`);
 });
 devRouter.register(routes.elements, () => {
-  loadPageContent('Elements dev page', html`<elements-dev></elements-dev>`);
+  loadPageContent('Elements dev page', ll.html`<elements-dev></elements-dev>`);
 });
 
 devRouter.register(`/${routeDevPage}`, () => {
-  loadPageContent('Dev page', html` <dev-view></dev-view>`);
+  loadPageContent('Dev page', ll.html` <dev-view></dev-view>`);
 });
 
 devRouter.startOnce();

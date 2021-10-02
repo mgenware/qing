@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { classMap } from 'lit/directives/class-map.js';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
@@ -13,12 +13,12 @@ import 'ui/status/spinnerView';
 import 'qing-dock-box';
 import '../alerts/errorView';
 
-@customElement('status-overlay')
-export class StatusOverlay extends BaseElement {
+@ll.customElement('status-overlay')
+export class StatusOverlay extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -35,44 +35,48 @@ export class StatusOverlay extends BaseElement {
     ];
   }
 
-  @lp.object status = LoadingStatus.notStarted;
-  @lp.string loadingText = '';
-  @lp.bool canRetry = false;
-  @lp.string errorTitle = '';
-  @lp.string height = '';
+  @ll.object status = LoadingStatus.notStarted;
+  @ll.string loadingText = '';
+  @ll.bool canRetry = false;
+  @ll.string errorTitle = '';
+  @ll.string height = '';
 
   render() {
     const { status } = this;
-    return html`
+    return ll.html`
       <div class="root-div">
         <div
           class=${classMap({
             'content-disabled': !status.isSuccess,
             content: true,
-          })}
-        >
+          })}>
           <slot></slot>
         </div>
-        ${!status.isSuccess
-          ? html`
+        ${
+          !status.isSuccess
+            ? ll.html`
               <qing-dock-box class="overlay" style=${`height: ${this.height || '100%'}`}>
-                ${status.isWorking
-                  ? html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `
-                  : html``}
-                ${status.error
-                  ? html`
+                ${
+                  status.isWorking
+                    ? ll.html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `
+                    : ll.html``
+                }
+                ${
+                  status.error
+                    ? ll.html`
                       <error-view
                         .canRetry=${this.canRetry}
                         .headerText=${this.errorTitle || ls.errOccurred}
-                        @onRetry=${this.handleRetry}
-                      >
+                        @onRetry=${this.handleRetry}>
                         ${status.error.message}
                       </error-view>
                     `
-                  : html``}
+                    : ll.html``
+                }
               </qing-dock-box>
             `
-          : html``}
+            : ll.html``
+        }
       </div>
     `;
   }

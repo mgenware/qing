@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import ls from 'ls';
@@ -23,12 +23,12 @@ import appTask from 'app/appTask';
 const inputViewID = 'input-view';
 const popoverRootID = 'popover-root';
 
-@customElement('user-selector-app')
-export class UserSelectorApp extends BaseElement {
+@ll.customElement('user-selector-app')
+export class UserSelectorApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -78,12 +78,12 @@ export class UserSelectorApp extends BaseElement {
     ];
   }
 
-  @lp.bool byID = true;
-  @lp.string value = '';
-  @lp.array private users: UserInfo[] = [];
-  @lp.object private status = LoadingStatus.notStarted;
-  @lp.bool private popoverVisible = false;
-  @lp.object private selectedUser: UserInfo | null = null;
+  @ll.bool byID = true;
+  @ll.string value = '';
+  @ll.array private users: UserInfo[] = [];
+  @ll.object private status = LoadingStatus.notStarted;
+  @ll.bool private popoverVisible = false;
+  @ll.object private selectedUser: UserInfo | null = null;
 
   private get inputView(): HTMLElement | null {
     return this.getShadowElement(inputViewID);
@@ -95,10 +95,11 @@ export class UserSelectorApp extends BaseElement {
 
   render() {
     const { users, selectedUser } = this;
-    return html`
+    return ll.html`
       <div>${ls.findUsersByColon}</div>
-      ${selectedUser
-        ? html`<div class="selected-user-row m-t-md">
+      ${
+        selectedUser
+          ? ll.html`<div class="selected-user-row m-t-md">
             <qing-button
               class="vertical-align-middle"
               title=${ls.cancel}
@@ -106,11 +107,10 @@ export class UserSelectorApp extends BaseElement {
               >✖</qing-button
             ><user-card class="m-l-md" .user=${selectedUser}></user-card>
           </div>`
-        : html`<selection-view
+          : ll.html`<selection-view
               class="m-t-md"
               .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
-              @onSelectionChange=${this.handleByIDSelectionChange}
-            ></selection-view>
+              @onSelectionChange=${this.handleByIDSelectionChange}></selection-view>
             <input-view
               class="m-t-md"
               id=${inputViewID}
@@ -118,27 +118,28 @@ export class UserSelectorApp extends BaseElement {
               .value=${this.value}
               debounceOnChange
               @onChange=${this.handleValueChange}
-              @onChangeDebounced=${this.handleValueChangeDebounced}
-            ></input-view>
+              @onChangeDebounced=${this.handleValueChangeDebounced}></input-view>
             <status-overlay
               id=${popoverRootID}
               .status=${this.status}
-              style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}
-            >
+              style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}>
               <div class="list-view">
-                ${users.length
-                  ? users.map((item) => this.renderUserRow(item))
-                  : tif(
-                      this.status.isWorking,
-                      html`<div class="no-result-row">${ls.noResultsFound}</div>`,
-                    )}
+                ${
+                  users.length
+                    ? users.map((item) => this.renderUserRow(item))
+                    : tif(
+                        this.status.isWorking,
+                        ll.html`<div class="no-result-row">${ls.noResultsFound}</div>`,
+                      )
+                }
               </div>
-            </status-overlay>`}
+            </status-overlay>`
+      }
     `;
   }
 
   private renderUserRow(user: UserInfo) {
-    return html`
+    return ll.html`
       <a class="user-row" href="#" @click=${() => this.handleUserRowClick(user)}>
         <user-card .user=${user}></user-card>
       </a>

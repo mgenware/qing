@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { CHECK } from 'checks';
 import './likeView';
 import LikeHostType from './loaders/likeHostType';
@@ -17,12 +17,12 @@ import ls, { formatLS } from 'ls';
 
 const sizeMD = 'md';
 
-@customElement('like-app')
-export class LikeApp extends BaseElement {
+@ll.customElement('like-app')
+export class LikeApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: inline-block;
         }
@@ -31,16 +31,16 @@ export class LikeApp extends BaseElement {
   }
 
   // Reflected: used for quick locating the view during testing.
-  @lp.reflected.string hostID = '';
+  @ll.reflected.string hostID = '';
   // Reflected: used for quick locating the view during testing.
-  @lp.reflected.number hostType: LikeHostType = 0;
-  @lp.number initialLikes = 0;
-  @lp.bool initialHasLiked = false;
-  @lp.string iconSize = sizeMD;
+  @ll.reflected.number hostType: LikeHostType = 0;
+  @ll.number initialLikes = 0;
+  @ll.bool initialHasLiked = false;
+  @ll.string iconSize = sizeMD;
 
-  @lp.number private likes = 0;
-  @lp.bool private isWorking = false;
-  @lp.bool private hasLiked = false;
+  @ll.number private likes = 0;
+  @ll.bool private isWorking = false;
+  @ll.bool private hasLiked = false;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -51,14 +51,13 @@ export class LikeApp extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <like-view
         .isWorking=${this.isWorking}
         .hasLiked=${this.hasLiked}
         .likes=${this.likes}
         .iconSize=${this.iconSize === sizeMD ? 30 : 22}
-        @click=${this.handleClick}
-      ></like-view>
+        @click=${this.handleClick}></like-view>
     `;
   }
 

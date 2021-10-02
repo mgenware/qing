@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, TemplateResult, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/alerts/noticeView';
@@ -19,11 +19,11 @@ import PCPost from '../pcPost';
 
 const defaultPageSize = 10;
 
-export abstract class PCListApp extends BaseElement {
+export abstract class PCListApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -35,48 +35,48 @@ export abstract class PCListApp extends BaseElement {
     ];
   }
 
-  @lp.object loadingStatus = LoadingStatus.working;
-  @lp.array items: PCPost[] = [];
+  @ll.object loadingStatus = LoadingStatus.working;
+  @ll.array items: PCPost[] = [];
 
   // Set those properties in child classes to have a default sorted column.
-  @lp.string currentSortedColumn = '';
-  @lp.bool currentSortedColumnDesc = false;
+  @ll.string currentSortedColumn = '';
+  @ll.bool currentSortedColumnDesc = false;
 
-  @lp.number private totalCount = 0;
-  @lp.number private shownCount = 0;
-  @lp.number private page = 1;
-  @lp.number private pageSize = defaultPageSize;
+  @ll.number private totalCount = 0;
+  @ll.number private shownCount = 0;
+  @ll.number private page = 1;
+  @ll.number private pageSize = defaultPageSize;
 
   render() {
     const { loadingStatus } = this;
     if (!loadingStatus.isSuccess) {
-      return html`<status-view
+      return ll.html`<status-view
         .progressViewPadding=${'md'}
         .status=${loadingStatus}
         canRetry
-        @onRetry=${this.handleRetry}
-      ></status-view>`;
+        @onRetry=${this.handleRetry}></status-view>`;
     }
 
     const hasItems = !!this.items.length;
-    return html`
+    return ll.html`
       <section-view sectionStyle="info">
         <div slot="header">${this.sectionHeader()}</div>
-        ${hasItems
-          ? html`<div class="app-table-container m-t-md">
+        ${
+          hasItems
+            ? ll.html`<div class="app-table-container m-t-md">
               <table class="app-table">
                 ${this.renderTable()}
               </table>
             </div>`
-          : html`<notice-view>${ls.noContentAvailable}</notice-view>`}
+            : ll.html`<notice-view>${ls.noContentAvailable}</notice-view>`
+        }
         <hr />
         <pc-page-control
           .page=${this.page}
           .pageSize=${this.pageSize}
           .totalItemCount=${this.totalCount}
           .shownItemCount=${this.shownCount}
-          @gotoPage=${this.handleGotoPage}
-        ></pc-page-control>
+          @gotoPage=${this.handleGotoPage}></pc-page-control>
       </section-view>
     `;
   }
@@ -90,8 +90,8 @@ export abstract class PCListApp extends BaseElement {
     );
   }
 
-  abstract sectionHeader(): TemplateResult | null;
-  abstract renderTable(): TemplateResult | null;
+  abstract sectionHeader(): ll.TemplateResult | null;
+  abstract renderTable(): ll.TemplateResult | null;
   abstract getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null>;
   abstract defaultOrderingForColumn(name: string): boolean;
 
@@ -125,9 +125,9 @@ export abstract class PCListApp extends BaseElement {
   renderSortableColumn(key: string, name: string) {
     const content =
       this.currentSortedColumn === key
-        ? html`${name}&nbsp;${this.currentSortedColumnDesc ? '▼' : '▲'}`
-        : html`${name}`;
-    return html`<th class="sortable-th" @click=${() => this.sortColumn(key)}>${content}</th>`;
+        ? ll.html`${name}&nbsp;${this.currentSortedColumnDesc ? '▼' : '▲'}`
+        : ll.html`${name}`;
+    return ll.html`<th class="sortable-th" @click=${() => this.sortColumn(key)}>${content}</th>`;
   }
 
   private async sortColumn(key: string) {

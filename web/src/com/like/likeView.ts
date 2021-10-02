@@ -5,19 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { staticMainImage } from 'urls';
 import { cache } from 'lit/directives/cache.js';
 import { tif } from 'lib/htmlLib';
 
 const defaultIconSize = 30;
 
-@customElement('like-view')
-export class LikeView extends BaseElement {
+@ll.customElement('like-view')
+export class LikeView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: inline-block;
         }
@@ -48,29 +48,27 @@ export class LikeView extends BaseElement {
     ];
   }
 
-  @lp.number likes = 0;
-  @lp.bool isWorking = false;
-  @lp.bool hasLiked = false;
-  @lp.number iconSize = defaultIconSize;
+  @ll.number likes = 0;
+  @ll.bool isWorking = false;
+  @ll.bool hasLiked = false;
+  @ll.number iconSize = defaultIconSize;
 
   render() {
     const { iconSize } = this;
-    return html`
+    return ll.html`
       <qing-button disableSelectedStyle ?disabled=${this.isWorking} @click=${this.handleClick}>
         ${cache(
           this.hasLiked
-            ? html` <svg-icon
+            ? ll.html` <svg-icon
                 class="liked"
                 .oneTimeSrc=${staticMainImage('heart-filled.svg')}
-                .size=${iconSize}
-              ></svg-icon>`
-            : html` <svg-icon
+                .size=${iconSize}></svg-icon>`
+            : ll.html` <svg-icon
                 class="not-liked"
                 .oneTimeSrc=${staticMainImage('heart.svg')}
-                .size=${iconSize}
-              ></svg-icon>`,
+                .size=${iconSize}></svg-icon>`,
         )}
-        ${tif(this.likes, html`<span class="num">${this.likes}</span>`)}
+        ${tif(this.likes, ll.html`<span class="num">${this.likes}</span>`)}
       </qing-button>
     `;
   }

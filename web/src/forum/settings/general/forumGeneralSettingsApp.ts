@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -24,12 +24,12 @@ import appAlert from 'app/appAlert';
 
 const editorElementID = 'editor';
 
-@customElement('forum-general-settings-app')
-export class ForumGeneralSettingsApp extends BaseElement {
+@ll.customElement('forum-general-settings-app')
+export class ForumGeneralSettingsApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -41,11 +41,11 @@ export class ForumGeneralSettingsApp extends BaseElement {
     ];
   }
 
-  @lp.string fid = '';
-  @lp.string name = '';
-  @lp.object loadingStatus = LoadingStatus.notStarted;
-  @lp.bool updateInfoStatus = LoadingStatus.success;
-  @lp.string avatarURL = '';
+  @ll.string fid = '';
+  @ll.string name = '';
+  @ll.object loadingStatus = LoadingStatus.notStarted;
+  @ll.bool updateInfoStatus = LoadingStatus.success;
+  @ll.string avatarURL = '';
 
   get descEditorView(): EditorView | null {
     return this.getShadowElement(editorElementID);
@@ -59,31 +59,29 @@ export class ForumGeneralSettingsApp extends BaseElement {
 
   render() {
     const { loadingStatus } = this;
-    return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
+    return ll.html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }
 
   renderProgress() {
     const { loadingStatus } = this;
-    return html`
+    return ll.html`
       <status-view
         .status=${loadingStatus}
         .canRetry=${true}
         .progressViewPadding=${'md'}
-        @onRetry=${this.handleLoadingRetry}
-      ></status-view>
+        @onRetry=${this.handleLoadingRetry}></status-view>
     `;
   }
 
   renderContent() {
-    return html`
+    return ll.html`
       <status-overlay .status=${this.updateInfoStatus}>
         <heading-view>${ls.general}</heading-view>
         <input-view
           required
           label=${ls.name}
           value=${this.name}
-          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}
-        ></input-view>
+          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
         <label class="app-form-label m-t-md" for=${editorElementID}>${ls.description}</label>
         <editor-view class="m-t-md" id=${editorElementID}></editor-view>

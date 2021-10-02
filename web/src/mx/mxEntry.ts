@@ -6,7 +6,7 @@
  */
 
 import 'core';
-import { html, TemplateResult } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import routes from 'routes';
 import './userMgr/userMgrApp';
@@ -16,15 +16,15 @@ import pageUtils from 'app/utils/pageUtils';
 
 const router = new MiniURLRouter();
 
-function loadSettingsContent(selectedItem: string, content: TemplateResult) {
+function loadSettingsContent(selectedItem: string, content: ll.TemplateResult) {
   pageUtils.setTitleAndMainContent(
     [selectedItem, ls.adminSettings],
-    html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
+    ll.html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
   );
 }
 
 router.register(routes.mx.usersAndGroups, () => {
-  loadSettingsContent(ls.usersAndGroups, html` <user-mgr-app></user-mgr-app> `);
+  loadSettingsContent(ls.usersAndGroups, ll.html` <user-mgr-app></user-mgr-app> `);
 });
 
 router.startOnce();

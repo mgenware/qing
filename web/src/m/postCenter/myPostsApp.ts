@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, TemplateResult, css } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import 'ui/content/headingView';
@@ -16,12 +16,12 @@ import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import { runNewEntityCommand } from 'app/appCommands';
 import PCPost from './pcPost';
 
-@customElement('my-posts-app')
+@ll.customElement('my-posts-app')
 export default class MyPostsApp extends PCListApp {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -45,8 +45,8 @@ export default class MyPostsApp extends PCListApp {
     );
   }
 
-  sectionHeader(): TemplateResult {
-    return html`
+  sectionHeader(): ll.TemplateResult {
+    return ll.html`
       <heading-view>
         <div>${ls.yourPosts}</div>
         <div slot="decorator">
@@ -58,8 +58,8 @@ export default class MyPostsApp extends PCListApp {
     `;
   }
 
-  renderTable(): TemplateResult | null {
-    return html`
+  renderTable(): ll.TemplateResult | null {
+    return ll.html`
       <thead>
         <th>${ls.title}</th>
         ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
@@ -68,14 +68,13 @@ export default class MyPostsApp extends PCListApp {
       </thead>
       <tbody>
         ${this.items.map(
-          (item) => html`
+          (item) => ll.html`
             <tr>
               <td style="width: 100%"><a href=${item.url}>${item.title}</a></td>
               <td>
                 <time-field
                   .createdAt=${item.createdAt}
-                  .modifiedAt=${item.modifiedAt}
-                ></time-field>
+                  .modifiedAt=${item.modifiedAt}></time-field>
               </td>
               <td>${item.cmtCount || 0}</td>
               <td>${item.likes || 0}</td>

@@ -6,14 +6,14 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement, css, BaseElement } from 'll';
+import * as ll from 'll';
 
-@customElement('button-list')
-export class ButtonList extends BaseElement {
+@ll.customElement('button-list')
+export class ButtonList extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -26,7 +26,7 @@ export class ButtonList extends BaseElement {
   }
 
   render() {
-    return html` <div><slot></slot></div> `;
+    return ll.html` <div><slot></slot></div> `;
   }
 }
 

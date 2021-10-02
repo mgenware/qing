@@ -5,19 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import routes from 'routes';
 import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
 
 const items: SettingsBaseItem[] = [{ name: ls.profile, link: routes.m.settings.profile }];
 
-@customElement('m-settings-view')
+@ll.customElement('m-settings-view')
 export class MSettingsView extends SettingsBaseView {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { ERR } from 'checks';
 import { AppViewStyleNullable } from '../types/appViewStyle';
@@ -19,21 +19,21 @@ function processSVG(svg: string, width: number, height: number): string {
   return element.outerHTML;
 }
 
-@customElement('svg-icon')
-export class SvgIcon extends BaseElement {
-  @lp.string oneTimeSrc = '';
-  @lp.reflected.string iconStyle: AppViewStyleNullable = '';
-  @lp.number width = 0;
-  @lp.number height = 0;
-  @lp.number size = 0;
+@ll.customElement('svg-icon')
+export class SvgIcon extends ll.BaseElement {
+  @ll.string oneTimeSrc = '';
+  @ll.reflected.string iconStyle: AppViewStyleNullable = '';
+  @ll.number width = 0;
+  @ll.number height = 0;
+  @ll.number size = 0;
 
-  @lp.string private svgHTML = '';
+  @ll.string private svgHTML = '';
 
   static get styles() {
     // All CSS classes have an `svg-` prefix.
     return [
       super.styles,
-      css`
+      ll.css`
         svg {
           fill: var(--svg-icon-fill);
         }
@@ -61,7 +61,7 @@ export class SvgIcon extends BaseElement {
 
   render() {
     const { svgHTML } = this;
-    return html`
+    return ll.html`
       <span style="vertical-align: middle"> ${svgHTML ? unsafeHTML(svgHTML) : ''} </span>
     `;
   }

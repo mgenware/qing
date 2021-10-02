@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
@@ -20,12 +20,12 @@ import appPageState from 'app/appPageState';
 
 const composerID = 'composer';
 
-@customElement('set-entity-app')
-export default class SetEntityApp extends BaseElement {
+@ll.customElement('set-entity-app')
+export default class SetEntityApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -33,19 +33,19 @@ export default class SetEntityApp extends BaseElement {
     ];
   }
 
-  @lp.string postID = '';
-  @lp.string postTitle = '';
-  @lp.number entityType = 0;
-  @lp.string headerText = '';
-  @lp.bool showTitleInput = true;
-  @lp.string submitButtonText = '';
-  @lp.string forumID = '';
+  @ll.string postID = '';
+  @ll.string postTitle = '';
+  @ll.number entityType = 0;
+  @ll.string headerText = '';
+  @ll.bool showTitleInput = true;
+  @ll.string submitButtonText = '';
+  @ll.string forumID = '';
 
-  @lp.bool open = false;
-  @lp.bool autoClose = false;
+  @ll.bool open = false;
+  @ll.bool autoClose = false;
 
-  @lp.string discussionID: string | undefined;
-  @lp.string questionID: string | undefined;
+  @ll.string discussionID: string | undefined;
+  @ll.string questionID: string | undefined;
 
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
@@ -66,13 +66,12 @@ export default class SetEntityApp extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <qing-overlay
         class="immersive"
         ?open=${this.open}
         @openChanged=${(e: CustomEvent<boolean>) => (this.open = e.detail)}
-        @escKeyDown=${this.handleEscDown}
-      >
+        @escKeyDown=${this.handleEscDown}>
         <h2>${this.headerText}</h2>
         <composer-view
           .id=${composerID}
@@ -82,8 +81,7 @@ export default class SetEntityApp extends BaseElement {
           .entityType=${this.entityType}
           .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
-          @onDiscard=${this.handleDiscard}
-        ></composer-view>
+          @onDiscard=${this.handleDiscard}></composer-view>
       </qing-overlay>
     `;
   }

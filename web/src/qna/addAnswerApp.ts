@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 import { CHECK } from 'checks';
 import { parseString } from 'narwhal-js';
@@ -16,12 +16,12 @@ import wind from './questionWind';
 
 CHECK(wind.ForumID);
 
-@customElement('add-answer-app')
-export class AddAnswerApp extends BaseElement {
+@ll.customElement('add-answer-app')
+export class AddAnswerApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -29,9 +29,9 @@ export class AddAnswerApp extends BaseElement {
     ];
   }
 
-  @lp.string myAnswerURL = '';
-  @lp.bool isMyAnswer = false;
-  @lp.bool answerDialogOpen = false;
+  @ll.string myAnswerURL = '';
+  @ll.bool isMyAnswer = false;
+  @ll.bool answerDialogOpen = false;
 
   render() {
     // Render "login to answer" for visitors.
@@ -46,11 +46,11 @@ export class AddAnswerApp extends BaseElement {
 
     // Render "go to my answer" button if `myAnswerURL` is not empty.
     if (this.myAnswerURL) {
-      return html`<qing-button btnStyle="primary">${ls.goToMyAnswer}</qing-button>`;
+      return ll.html`<qing-button btnStyle="primary">${ls.goToMyAnswer}</qing-button>`;
     }
 
     // Render "post an answer".
-    return html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
+    return ll.html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
         >${ls.postAnAnswer}</qing-button
       >
       <set-entity-app
@@ -60,18 +60,17 @@ export class AddAnswerApp extends BaseElement {
         headerText=${ls.postAnAnswer}
         .forumID=${wind.ForumID}
         .questionID=${wind.QuestionID}
-        @editorClose=${this.handleAnswerDialogClose}
-      ></set-entity-app>`;
+        @editorClose=${this.handleAnswerDialogClose}></set-entity-app>`;
   }
 
   private renderLoginToAddYourAnswer() {
-    return html`
+    return ll.html`
       <div>
         ${parseString(ls.postAnAnswer).map((sg) => {
           if (!sg.type) {
-            return html`<span>${sg.value}</span>`;
+            return ll.html`<span>${sg.value}</span>`;
           }
-          return html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
+          return ll.html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
             >${sg.value}</qing-button
           >`;
         })}

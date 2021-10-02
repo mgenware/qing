@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, html, BaseElement } from 'll';
+import * as ll from 'll';
 
 export const tabViewActiveClass = 'tab-active';
 
-@customElement('tab-view')
-export class TabView extends BaseElement {
+@ll.customElement('tab-view')
+export class TabView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -43,7 +43,7 @@ export class TabView extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <div class="bar">
         <slot></slot>
       </div>

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import debounceFn from 'debounce-fn';
 import './inputErrorView';
 
@@ -36,13 +36,13 @@ export type InputType =
   | 'reset'
   | 'button';
 
-@customElement('input-view')
+@ll.customElement('input-view')
 // Text input view (block). Use `app-inline-text-input` in `app.css` for inline inputs.
-export class InputView extends BaseElement {
+export class InputView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -75,23 +75,23 @@ export class InputView extends BaseElement {
     ];
   }
 
-  @lp.string label = '';
-  @lp.bool required = false;
-  @lp.string type: InputType = 'text';
-  @lp.string value = '';
-  @lp.string placeholder = '';
-  @lp.bool isEmail = false;
-  @lp.bool debounceOnChange = false;
+  @ll.string label = '';
+  @ll.bool required = false;
+  @ll.string type: InputType = 'text';
+  @ll.string value = '';
+  @ll.string placeholder = '';
+  @ll.bool isEmail = false;
+  @ll.bool debounceOnChange = false;
 
-  @lp.string private autocomplete = '';
-  @lp.string private inputmode = '';
+  @ll.string private autocomplete = '';
+  @ll.string private inputmode = '';
 
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
 
   private debouncedOnChangeHandler?: () => void;
 
-  @lp.string private validationError = '';
+  @ll.string private validationError = '';
 
   private get inputEl(): HTMLInputElement {
     return this.unsafeGetShadowElement(inputID);
@@ -110,8 +110,12 @@ export class InputView extends BaseElement {
   render() {
     const { inputValidated } = this;
     const validationError = inputValidated ? this.validationError : '';
-    return html`
-      ${this.label ? html`<label class="app-form-label" for=${inputID}>${this.label}</label>` : ''}
+    return ll.html`
+      ${
+        this.label
+          ? ll.html`<label class="app-form-label" for=${inputID}>${this.label}</label>`
+          : ''
+      }
       <input
         class=${inputValidated ? 'validated' : ''}
         id=${inputID}
@@ -122,11 +126,12 @@ export class InputView extends BaseElement {
         inputmode=${this.inputmode}
         placeholder=${this.placeholder}
         @input=${this.handleInput}
-        style=${`margin-bottom: ${validationError ? '0.5rem' : '0'}`}
-      />
-      ${validationError
-        ? html`<input-error-view message=${validationError}></input-error-view>`
-        : ''}
+        style=${`margin-bottom: ${validationError ? '0.5rem' : '0'}`} />
+      ${
+        validationError
+          ? ll.html`<input-error-view message=${validationError}></input-error-view>`
+          : ''
+      }
     `;
   }
 

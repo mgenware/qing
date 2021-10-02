@@ -7,7 +7,7 @@
 
 import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
-import { CSSResult, html } from 'll';
+import * as ll from 'll';
 import { injectStyles, ready, renderTemplateResult } from 'lib/htmlLib';
 import appSettings from 'app/appSettings';
 import { localizedErrDict } from 'defs';
@@ -62,7 +62,7 @@ ready(() => {
   appSettings.applySettings();
 
   // Make core styles cross all shadow roots.
-  injectStyles(coreStyles as CSSResult[]);
+  injectStyles(coreStyles as ll.CSSResult[]);
 
   // Handle localization slots left by server templates.
   handleLocalizedStringSlots();
@@ -91,7 +91,7 @@ ready(() => {
 
     const app = renderTemplateResult<SetEntityApp>(
       '',
-      html`<set-entity-app
+      ll.html`<set-entity-app
         autoClose
         .entityType=${entityType}
         .headerText=${title}

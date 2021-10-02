@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'ui/form/inputView';
 import 'qing-button';
 import routes from '../devRoutes';
 
-@customElement('auth-dev-page')
-export class AuthDevPage extends BaseElement {
+@ll.customElement('auth-dev-page')
+export class AuthDevPage extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -23,12 +23,12 @@ export class AuthDevPage extends BaseElement {
     ];
   }
 
-  @lp.string loginUserID = '10';
-  @lp.string newUserID = '';
-  @lp.bool newUserAdmin = false;
+  @ll.string loginUserID = '10';
+  @ll.string newUserID = '';
+  @ll.bool newUserAdmin = false;
 
   render() {
-    return html`
+    return ll.html`
       <container-view>
         <h1>Auth dev page</h1>
         <hr />
@@ -38,15 +38,14 @@ export class AuthDevPage extends BaseElement {
   }
 
   private renderQuickLoginSection() {
-    return html`
+    return ll.html`
       <div>
         <h2>Quick login</h2>
         <input-view
           required
           label="Quick login"
           value=${this.loginUserID}
-          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}
-        >
+          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}>
         </input-view>
         <p>
           <qing-button @click=${this.handleSignIn}>Sign in</qing-button>

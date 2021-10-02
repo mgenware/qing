@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement } from 'll';
+import * as ll from 'll';
 import ls, { formatLS } from 'ls';
 import discussionWind from './discussionWind';
 
-@customElement('discussion-msg-count-view')
-export class DiscussionMsgCountView extends BaseElement {
+@ll.customElement('discussion-msg-count-view')
+export class DiscussionMsgCountView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -23,7 +23,7 @@ export class DiscussionMsgCountView extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <div>
         <h2>${formatLS(ls.numOfMsgs, discussionWind.ReplyCount)}</h2>
       </div>

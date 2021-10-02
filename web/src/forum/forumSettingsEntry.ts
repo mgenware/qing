@@ -6,7 +6,7 @@
  */
 
 import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
-import { TemplateResult, html } from 'll';
+import * as ll from 'll';
 import routes from 'routes';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView';
@@ -31,11 +31,11 @@ function FR(r: string): string {
 function loadSettingsContent(
   selectedPage: ForumSettingsPages,
   title: string,
-  content: TemplateResult,
+  content: ll.TemplateResult,
 ) {
   pageUtils.setTitleAndMainContent(
     [title],
-    html`<forum-settings-base-view .fid=${fid} .selectedPage=${selectedPage}
+    ll.html`<forum-settings-base-view .fid=${fid} .selectedPage=${selectedPage}
       >${content}</forum-settings-base-view
     >`,
   );
@@ -45,7 +45,7 @@ const generalPageHandler: MiniURLRouterHandler = () => {
   loadSettingsContent(
     ForumSettingsPages.general,
     ls.general,
-    html` <forum-general-settings-app .fid=${fid}></forum-general-settings-app> `,
+    ll.html` <forum-general-settings-app .fid=${fid}></forum-general-settings-app> `,
   );
 };
 settingsRouter.register(FR(routes.f.id.settingsRoot), generalPageHandler);

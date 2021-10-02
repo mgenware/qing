@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { ls, formatLS } from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
@@ -19,13 +19,13 @@ import appPageState from 'app/appPageState';
 import appCmtHubState from '../data/appCmtHubState';
 import { parseString } from 'narwhal-js';
 
-@customElement('root-cmt-list')
+@ll.customElement('root-cmt-list')
 // Displays a list of <cmt-block>.
-export class RootCmtList extends BaseElement {
+export class RootCmtList extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -34,21 +34,21 @@ export class RootCmtList extends BaseElement {
   }
 
   // The number of all comments and their replies.
-  @lp.number totalCmtCount = 0;
+  @ll.number totalCmtCount = 0;
 
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
+  @ll.string hostID = '';
+  @ll.number hostType = 0;
 
   // Starts loading comment when the component is first visible.
-  @lp.bool loadOnVisible = false;
+  @ll.bool loadOnVisible = false;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
-  @lp.array private items: readonly Cmt[] = [];
-  @lp.bool hasNext = false;
+  @ll.array private items: readonly Cmt[] = [];
+  @ll.bool hasNext = false;
 
-  @lp.object collectorLoadingStatus = LoadingStatus.notStarted;
+  @ll.object collectorLoadingStatus = LoadingStatus.notStarted;
 
   hub?: CmtDataHub;
 
@@ -83,11 +83,11 @@ export class RootCmtList extends BaseElement {
     }
 
     const { totalCmtCount, collectorLoadingStatus } = this;
-    let titleGroup = html` <h2>${ls.comments}</h2> `;
-    let contentGroup = html``;
+    let titleGroup = ll.html` <h2>${ls.comments}</h2> `;
+    let contentGroup = ll.html``;
 
     if (!totalCmtCount && (collectorLoadingStatus.isSuccess || !collectorLoadingStatus.isStarted)) {
-      titleGroup = html`
+      titleGroup = ll.html`
         ${titleGroup}
         <p>${ls.noComments}</p>
       `;
@@ -98,40 +98,40 @@ export class RootCmtList extends BaseElement {
         // Use p-t-md instead of m-t-md to prevent margin-collapsing with
         // load-more-button of previous `cmt-block`.
         (it) =>
-          html`
+          ll.html`
             <cmt-block
               class="p-t-md"
               .hostType=${this.hostType}
               .hostID=${this.hostID}
-              .cmt=${it}
-            ></cmt-block>
+              .cmt=${it}></cmt-block>
           `,
       );
-      contentGroup = html`
+      contentGroup = ll.html`
         <div class="m-t-md">
           <div>${childViews}</div>
-          ${this.totalCmtCount
-            ? html`
+          ${
+            this.totalCmtCount
+              ? ll.html`
                 <div>
                   <small class="is-secondary"
                     >${formatLS(ls.pNOComments, this.totalCmtCount)}</small
                   >
                 </div>
               `
-            : html``}
+              : ll.html``
+          }
           <cmt-footer-view
             class="m-t-sm"
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
             .loadedCount=${this.items.length}
-            @viewMoreClick=${this.handleViewMoreClick}
-          ></cmt-footer-view>
+            @viewMoreClick=${this.handleViewMoreClick}></cmt-footer-view>
         </div>
       `;
     }
 
     const addCmtGroup = this.renderCommentComposer();
-    return html` ${titleGroup}${addCmtGroup}${contentGroup} `;
+    return ll.html` ${titleGroup}${addCmtGroup}${contentGroup} `;
   }
 
   private async handleViewMoreClick() {
@@ -143,13 +143,13 @@ export class RootCmtList extends BaseElement {
   }
 
   private renderLoginToComment() {
-    return html`
+    return ll.html`
       <div>
         ${parseString(ls.plsLoginToComment).map((sg) => {
           if (!sg.type) {
-            return html`<span>${sg.value}</span>`;
+            return ll.html`<span>${sg.value}</span>`;
           }
-          return html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
+          return ll.html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
             >${sg.value}</qing-button
           >`;
         })}
@@ -158,7 +158,7 @@ export class RootCmtList extends BaseElement {
   }
 
   private renderCommentComposer() {
-    return html`
+    return ll.html`
       <p>
         <qing-button btnStyle="success" @click=${this.handleAddCommentButtonClick}
           >${ls.writeAComment}</qing-button

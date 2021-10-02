@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
@@ -18,13 +18,13 @@ import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
 import appCmtHubState from '../data/appCmtHubState';
 
-@customElement('cmt-block')
+@ll.customElement('cmt-block')
 // Shows a comment view along with its replies.
-export class CmtBlock extends BaseElement {
+export class CmtBlock extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -38,19 +38,19 @@ export class CmtBlock extends BaseElement {
     ];
   }
 
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
-  @lp.object cmt: Cmt | null = null;
+  @ll.string hostID = '';
+  @ll.number hostType = 0;
+  @ll.object cmt: Cmt | null = null;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
-  @lp.array private items: ReadonlyArray<Cmt> = [];
-  @lp.bool hasNext = false;
+  @ll.array private items: ReadonlyArray<Cmt> = [];
+  @ll.bool hasNext = false;
 
   // Number of replies under this comment.
-  @lp.number totalCount = 0;
-  @lp.object private collectorLoadingStatus = LoadingStatus.success;
+  @ll.number totalCount = 0;
+  @ll.object private collectorLoadingStatus = LoadingStatus.success;
 
   hub?: CmtDataHub;
 
@@ -78,42 +78,41 @@ export class CmtBlock extends BaseElement {
     const childViews = repeat(
       this.items,
       (it) => it.id,
-      (it) => html`
+      (it) => ll.html`
         <cmt-view
           class="m-t-md"
           .cmt=${it}
           .parentCmtID=${cmt.id}
           @replyClick=${this.handleCmtReplyClick}
           @editClick=${this.handleCmtEditClick}
-          @deleteClick=${this.handleCmtDeleteClick}
-        ></cmt-view>
+          @deleteClick=${this.handleCmtDeleteClick}></cmt-view>
       `,
     );
-    return html`
+    return ll.html`
       <div>
         <cmt-view
           .cmt=${cmt}
           @replyClick=${this.handleCmtReplyClick}
           @editClick=${this.handleCmtEditClick}
-          @deleteClick=${this.handleCmtDeleteClick}
-        ></cmt-view>
+          @deleteClick=${this.handleCmtDeleteClick}></cmt-view>
         <div class="reply-block">
           ${childViews}
-          ${this.totalCount
-            ? html`
+          ${
+            this.totalCount
+              ? ll.html`
                 <div>
                   <small class="is-secondary">${formatLS(ls.pNOReplies, this.totalCount)}</small>
                 </div>
               `
-            : html``}
+              : ll.html``
+          }
           <cmt-footer-view
             class="m-t-sm m-b-md"
             .replies=${true}
             .status=${this.collectorLoadingStatus}
             .hasNext=${this.hasNext}
             .loadedCount=${this.items.length}
-            @viewMoreClick=${this.handleMoreRepliesClick}
-          ></cmt-footer-view>
+            @viewMoreClick=${this.handleMoreRepliesClick}></cmt-footer-view>
         </div>
       </div>
     `;

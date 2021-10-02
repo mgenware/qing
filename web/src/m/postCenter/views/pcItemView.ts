@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import ls from 'ls';
 
-@customElement('pc-item-view')
-export class PCItemView extends BaseElement {
+@ll.customElement('pc-item-view')
+export class PCItemView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -21,12 +21,12 @@ export class PCItemView extends BaseElement {
     ];
   }
 
-  @lp.string name = '';
-  @lp.string link = '';
-  @lp.string id = '';
+  @ll.string name = '';
+  @ll.string link = '';
+  @ll.string id = '';
 
   render() {
-    return html`
+    return ll.html`
       <tr>
         <td><a href=${this.link}>${this.name}</a></td>
         <td>
@@ -39,9 +39,7 @@ export class PCItemView extends BaseElement {
   private handleDeleteClick(e: Event) {
     e.preventDefault();
 
-    this.dispatchEvent(
-      new CustomEvent<string>('deleteClick', { detail: this.id }),
-    );
+    this.dispatchEvent(new CustomEvent<string>('deleteClick', { detail: this.id }));
   }
 }
 

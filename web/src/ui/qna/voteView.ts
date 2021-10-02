@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import 'qing-button';
 import { staticMainImage } from 'urls';
 import 'ui/widgets/svgIcon';
@@ -17,12 +17,12 @@ import { upVoteValue, downVoteValue } from 'sharedConstants';
 
 const voteBtnSize = 20;
 
-@customElement('vote-view')
-export class VoteView extends BaseElement {
+@ll.customElement('vote-view')
+export class VoteView extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: block;
         }
@@ -61,10 +61,10 @@ export class VoteView extends BaseElement {
     ];
   }
 
-  @lp.number value = 0;
-  @lp.number ups = 0;
-  @lp.number downs = 0;
-  @lp.number myVote = 0;
+  @ll.number value = 0;
+  @ll.number ups = 0;
+  @ll.number downs = 0;
+  @ll.number myVote = 0;
 
   render() {
     const { value, ups, downs } = this;
@@ -74,32 +74,28 @@ export class VoteView extends BaseElement {
     } else if (value < 0) {
       valueColorClass = 'color-down';
     }
-    return html`
+    return ll.html`
       <div class="root">
         <div class="flex-auto d-flex flex-column">
           <qing-button
             title=${ls.upvote}
             class="flex-full"
             @click=${this.handleUpVoteClick}
-            btnStyle=${this.myVote === upVoteValue ? 'primary' : ''}
-          >
+            btnStyle=${this.myVote === upVoteValue ? 'primary' : ''}>
             <svg-icon
               iconStyle="success"
               .oneTimeSrc=${staticMainImage('plus-sign.svg')}
-              .size=${voteBtnSize}
-            ></svg-icon>
+              .size=${voteBtnSize}></svg-icon>
           </qing-button>
           <qing-button
             title=${ls.downvote}
             class="flex-full"
             @click=${this.handleDownVoteClick}
-            btnStyle=${this.myVote === downVoteValue ? 'primary' : ''}
-          >
+            btnStyle=${this.myVote === downVoteValue ? 'primary' : ''}>
             <svg-icon
               iconStyle="danger"
               .oneTimeSrc=${staticMainImage('minus-sign.svg')}
-              .size=${voteBtnSize}
-            ></svg-icon>
+              .size=${voteBtnSize}></svg-icon>
           </qing-button>
         </div>
         <div class="flex-full d-flex flex-column value-column">
@@ -110,16 +106,16 @@ export class VoteView extends BaseElement {
           </div>
           ${tif(
             ups && downs,
-            html` <div class="flex-full d-flex">
+            ll.html` <div class="flex-full d-flex">
               ${tif(
                 ups,
-                html`<div class="flex-full text-center flex-v-align">
+                ll.html`<div class="flex-full text-center flex-v-align">
                   <span class="color-up size-md"><hf-number .value=${ups}></hf-number></span>
                 </div>`,
               )}
               ${tif(
                 downs,
-                html`<div class="flex-full text-center flex-v-align">
+                ll.html`<div class="flex-full text-center flex-v-align">
                   <span class="color-down size-md"><hf-number .value=${-downs}></hf-number></span>
                 </div>`,
               )}

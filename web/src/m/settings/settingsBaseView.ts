@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { repeat } from 'lit/directives/repeat.js';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
@@ -15,13 +15,13 @@ export interface SettingsBaseItem {
   link: string;
 }
 
-export class SettingsBaseView extends BaseElement {
-  @lp.number selectedItem = '';
-  @lp.string settingsTitle = '';
-  @lp.array items: SettingsBaseItem[] = [];
+export class SettingsBaseView extends ll.BaseElement {
+  @ll.number selectedItem = '';
+  @ll.string settingsTitle = '';
+  @ll.array items: SettingsBaseItem[] = [];
 
   render() {
-    return html`
+    return ll.html`
       <div class="row">
         <div class="col-md-auto p-b-md">
           <h3>${this.settingsTitle}</h3>
@@ -41,7 +41,7 @@ export class SettingsBaseView extends BaseElement {
   }
 
   private menuLink(item: SettingsBaseItem) {
-    return html`<a
+    return ll.html`<a
       class=${this.selectedItem === item.name ? linkListActiveClass : ''}
       href=${item.link}
       >${item.name}</a

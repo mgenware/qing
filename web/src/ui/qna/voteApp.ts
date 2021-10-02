@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, customElement, css, BaseElement, lp } from 'll';
+import * as ll from 'll';
 import { CHECK } from 'checks';
 import './voteView';
 import { VoteLoader } from './loaders/voteLoader';
@@ -15,12 +15,12 @@ import appPageState from 'app/appPageState';
 import { upVoteValue, downVoteValue, noVoteValue } from 'sharedConstants';
 import ls from 'ls';
 
-@customElement('vote-app')
-export class VoteApp extends BaseElement {
+@ll.customElement('vote-app')
+export class VoteApp extends ll.BaseElement {
   static get styles() {
     return [
       super.styles,
-      css`
+      ll.css`
         :host {
           display: inline-block;
         }
@@ -29,17 +29,17 @@ export class VoteApp extends BaseElement {
   }
 
   // Reflected: used for quick locating the view during testing.
-  @lp.reflected.string hostID = '';
-  @lp.number initialValue = 0;
-  @lp.number initialUps = 0;
-  @lp.number initialDowns = 0;
-  @lp.number initialMyVote = 0;
+  @ll.reflected.string hostID = '';
+  @ll.number initialValue = 0;
+  @ll.number initialUps = 0;
+  @ll.number initialDowns = 0;
+  @ll.number initialMyVote = 0;
 
-  @lp.bool private isWorking = false;
-  @lp.number private value = 0;
-  @lp.number private ups = 0;
-  @lp.number private downs = 0;
-  @lp.number private myVote = 0;
+  @ll.bool private isWorking = false;
+  @ll.number private value = 0;
+  @ll.number private ups = 0;
+  @ll.number private downs = 0;
+  @ll.number private myVote = 0;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -50,7 +50,7 @@ export class VoteApp extends BaseElement {
   }
 
   render() {
-    return html`
+    return ll.html`
       <div class=${this.isWorking ? 'content-disabled' : ''}>
         <vote-view
           .value=${this.value}
@@ -58,8 +58,7 @@ export class VoteApp extends BaseElement {
           .downs=${this.downs}
           .myVote=${this.myVote}
           @upVoteClick=${() => this.doVote(upVoteValue)}
-          @downVoteClick=${() => this.doVote(downVoteValue)}
-        ></vote-view>
+          @downVoteClick=${() => this.doVote(downVoteValue)}></vote-view>
       </div>
     `;
   }
