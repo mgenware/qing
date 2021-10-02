@@ -19,9 +19,6 @@ import LoadingStatus from 'lib/loadingStatus';
 import appTask from 'app/appTask';
 import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader';
 
-const editorID = 'editor';
-const titleInputID = 'title-input';
-
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
     super(msg);
@@ -80,10 +77,11 @@ export class ComposerView extends ll.BaseElement {
   private lastSavedTitle = '';
   private lastSavedContent = '';
 
-  private editorEl: Ref<EditorView> = createRef;
+  private editorEl: ll.Ref<EditorView> = ll.createRef();
+  private titleInputEl: ll.Ref<HTMLInputElement> = ll.createRef();
 
   hasContentChanged(): boolean {
-    if (!this.editorEl) {
+    if (!this.editorEl.value) {
       return false;
     }
     return (
@@ -110,14 +108,10 @@ export class ComposerView extends ll.BaseElement {
   private updateEditorContent(title: string, contentHTML: string, canUndo: boolean) {
     const { editorEl } = this;
     this.inputTitle = title;
-    if (editorEl) {
-      editorEl.setContentHTML(contentHTML, canUndo);
+    if (editorEl?.value) {
+      editorEl?.value.setContentHTML(contentHTML, canUndo);
       this.markAsSaved();
     }
-  }
-
-  private get titleInputEl(): HTMLInputElement | null {
-    return this.getShadowElement(titleInputID);
   }
 
   connectedCallback() {
@@ -135,8 +129,8 @@ export class ComposerView extends ll.BaseElement {
 
     // Sync `contentHTML` (`contentHTML` might be set before editor el is connected to DOM).
     const { editorEl } = this;
-    if (editorEl) {
-      editorEl.setContentHTML(this.backupContentHTML, false);
+    if (editorEl.value) {
+      editorEl.value.setContentHTML(this.backupContentHTML, false);
     }
     this.markAsSaved();
   }
@@ -144,34 +138,34 @@ export class ComposerView extends ll.BaseElement {
   // Used to store content HTML when editor view is not available.
   private backupContentHTML = '';
   getContentHTML(): string {
-    return this.editorEl ? this.editorEl.getContentHTML() : this.backupContentHTML;
+    return this.editorEl.value ? this.editorEl.value.getContentHTML() : this.backupContentHTML;
   }
 
   setContentHTML(val: string, canUndo: boolean) {
     this.backupContentHTML = val;
-    if (this.editorEl) {
-      this.editorEl.setContentHTML(val, canUndo);
+    if (this.editorEl.value) {
+      this.editorEl.value.setContentHTML(val, canUndo);
     }
   }
 
   render() {
     const { loadingStatus } = this;
 
-    let editorContent: TemplateResult;
+    let editorContent: ll.TemplateResult;
     if (loadingStatus.isSuccess) {
       editorContent = ll.html`${tif(
         this.showTitleInput,
         ll.html`
             <div class="p-b-sm flex-auto">
               <input-view
-                id=${titleInputID}
+              ${ll.ref(this.titleInputEl)}
                 required
                 .placeholder=${ls.title}
                 .value=${this.inputTitle}
                 @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}></input-view>
             </div>
           `,
-      )} <editor-view id=${editorID}></editor-view>`;
+      )} <editor-view ${ll.ref(this.editorEl)}></editor-view>`;
     } else {
       editorContent = ll.html` <status-view
         .status=${loadingStatus}
@@ -205,7 +199,7 @@ export class ComposerView extends ll.BaseElement {
     `;
   }
 
-  async updated(changedProperties: PropertyValues<this>) {
+  async updated(changedProperties: ll.PropertyValues<this>) {
     if (changedProperties.has('entityID') && this.entityID) {
       await this.loadEntitySource();
     }
@@ -214,13 +208,13 @@ export class ComposerView extends ll.BaseElement {
   private getPayload(): ComposerContent {
     if (this.showTitleInput && !this.inputTitle) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () =>
-        this.titleInputEl?.focus(),
+        this.titleInputEl.value?.focus(),
       );
     }
     const content = this.getContentHTML();
     if (!content) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
-        this.editorEl?.focus(),
+        this.editorEl?.value?.focus(),
       );
     }
     const payload: ComposerContent = {
