@@ -3,7 +3,12 @@
     <div class="col-md-auto">
       <div class="text-center">
         <p>
-          <img src="{{.IconURL}}" width="250" height="250" class="avatar-l" />
+          <img
+            src="{{html .IconURL}}"
+            alt="{{html .Name}}"
+            width="250"
+            height="250"
+            class="avatar-l" />
         </p>
       </div>
     </div>
@@ -37,7 +42,7 @@
         <p class="m-t-md">
           <tag-view class="__qing_ls__">userID</tag-view>
         </p>
-        <p class="m-t-sm"><profile-id-view value="{{.EID}}"></profile-id-view></p>
+        <p class="m-t-sm"><profile-id-view value="{{html .EID}}"></profile-id-view></p>
         {{if .BioHTML}}
         <p class="m-t-md">
           <tag-view class="__qing_ls__">bio</tag-view>
@@ -54,10 +59,10 @@
     <div class="col-md-10 is-boxed">
       <div id="m-scroll-list"></div>
       <tab-view>
-        <a id="m-profile-tab-posts" href="{{.ProfilePostsURL}}"
+        <a id="m-profile-tab-posts" href="{{html .ProfilePostsURL}}"
           ><span class="__qing_ls__">posts</span> {{if .PostCount}}({{.PostCount}}){{end}}</a
         >
-        <a id="m-profile-tab-discussions" href="{{.ProfileDiscussionsURL}}"
+        <a id="m-profile-tab-discussions" href="{{html .ProfileDiscussionsURL}}"
           ><span class="__qing_ls__">discussions</span> {{if
           .DiscussionCount}}({{.DiscussionCount}}){{end}}</a
         >

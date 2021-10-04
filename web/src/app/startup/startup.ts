@@ -62,7 +62,7 @@ ready(() => {
   appSettings.applySettings();
 
   // Make core styles cross all shadow roots.
-  injectStyles(coreStyles as ll.CSSResult[]);
+  injectStyles(coreStyles);
 
   // Handle localization slots left by server templates.
   handleLocalizedStringSlots();

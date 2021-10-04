@@ -1,15 +1,14 @@
 <answer-app
-  eid="{{.EID}}"
-  initialValue="{{.Votes}}"
-  initialUps="{{.UpVotes}}"
-  initialDowns="{{.DownVotes}}"
-  initialMyVote="{{.MyVote}}"
-  initialCmtCount="{{.CmtCount}}"
->
+  eid="{{html .EID}}"
+  initialValue="{{html .Votes}}"
+  initialUps="{{html .UpVotes}}"
+  initialDowns="{{html .DownVotes}}"
+  initialMyVote="{{html .MyVote}}"
+  initialCmtCount="{{html .CmtCount}}">
   <div>{{.UserHTML}}</div>
   <hr />
   <div>{{.ContentHTML}}</div>
   <p>
-    <a href="{{.AnswerURL}}" class="__qing_ls__">link</a>
+    <a href="{{html .AnswerURL}}" class="__qing_ls__">link</a>
   </p>
 </answer-app>

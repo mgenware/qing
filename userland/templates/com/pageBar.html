@@ -3,15 +3,15 @@
 {{if or .HasPrevPage .HasNextPage}}
 <p class="text-center">
   {{if .TotalPage}}
-  <a class="link-btn" href="{{.FirstPageURL}}">&lt;&lt;</a> {{end}}
-  <a class="link-btn {{if not .HasPrevPage}}content-disabled{{end}}" href="{{.PrevPageURL}}"
+  <a class="link-btn" href="{{html .FirstPageURL}}">&lt;&lt;</a> {{end}}
+  <a class="link-btn {{if not .HasPrevPage}}content-disabled{{end}}" href="{{html .PrevPageURL}}"
     ><span class="__qing_ls__">previousPage</span></a
   >
-  <a class="link-btn {{if not .HasNextPage}}content-disabled{{end}}" href="{{.NextPageURL}}"
+  <a class="link-btn {{if not .HasNextPage}}content-disabled{{end}}" href="{{html .NextPageURL}}"
     ><span class="__qing_ls__">nextPage</span></a
   >
   {{if .TotalPage}}
-  <a class="link-btn" href="{{.LastPageURL}}">&gt;&gt;</a>
+  <a class="link-btn" href="{{html .LastPageURL}}">&gt;&gt;</a>
   {{end}}
 </p>
 {{end}}

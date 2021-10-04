@@ -1,12 +1,11 @@
 <question-app
-  eid="{{.EID}}"
-  initialLikes="{{.Likes}}"
-  initialAnsCount="{{.ReplyCount}}"
-  initialCmtCount="{{.CmtCount}}"
-  initialHasLiked="{{.HasLikedNum}}"
->
+  eid="{{html .EID}}"
+  initialLikes="{{html .Likes}}"
+  initialAnsCount="{{html .ReplyCount}}"
+  initialCmtCount="{{html .CmtCount}}"
+  initialHasLiked="{{html .HasLikedNum}}">
   <h2>
-    <a href="{{.QuestionURL}}">{{html .Title}}</a>
+    <a href="{{html .QuestionURL}}">{{html .Title}}</a>
   </h2>
   <div>{{.UserHTML}}</div>
   <hr />
