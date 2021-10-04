@@ -17,14 +17,8 @@
     }
   ],
   "settings": {
-    "cSpell.words": [
-      "Qing",
-      "cmts",
-      "daizong",
-      "datetime",
-      "mgenware",
-      "mingru",
-      "userland"
-    ]
+    "cSpell.words": ["Qing", "cmts", "daizong", "datetime", "mgenware", "mingru", "userland"],
+    "lit-plugin.cssTemplateTags": ["ll.css", "css"],
+    "lit-plugin.htmlTemplateTags": ["ll.html", "ll.raw", "html", "raw"]
   }
 }
