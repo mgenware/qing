@@ -1,6 +1,11 @@
 <user-view>
   <a href="{{html .UserURL}}" slot="img">
-    <img src="{{html .UserIconURL}}" class="avatar-m" width="50" height="50" />
+    <img
+      src="{{html .UserIconURL}}"
+      alt="{{html .UserName}}"
+      class="avatar-m"
+      width="50"
+      height="50" />
   </a>
   <a href="{{html .UserURL}}" slot="name">{{html .UserName}}</a>
   <span slot="status">{{.UserStatus}}</span>
