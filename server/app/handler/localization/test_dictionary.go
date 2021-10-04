@@ -124,6 +124,7 @@ func init() {
 	TestDict.PreviousPage = "ls.previousPage"
 	TestDict.Profile = "ls.profile"
 	TestDict.ProfilePicture = "ls.profilePicture"
+	TestDict.ProfileStatus = "ls.profileStatus"
 	TestDict.ProfileUpdated = "ls.profileUpdated"
 	TestDict.Publish = "ls.publish"
 	TestDict.Publishing = "ls.publishing"

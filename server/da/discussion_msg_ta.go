@@ -345,15 +345,15 @@ func (da *TableTypeDiscussionMsg) SelectCmtsWithLike(queryable mingru.Queryable,
 
 // DiscussionMsgTableSelectItemsByDiscussionResult ...
 type DiscussionMsgTableSelectItemsByDiscussionResult struct {
-	CmtCount       uint      `json:"cmtCount,omitempty"`
-	ContentHTML    string    `json:"contentHTML,omitempty"`
-	ID             uint64    `json:"-"`
-	RawCreatedAt   time.Time `json:"-"`
-	RawModifiedAt  time.Time `json:"-"`
-	UserIconName   string    `json:"-"`
-	UserID         uint64    `json:"-"`
-	UserName       string    `json:"-"`
-	UserStatusHTML string    `json:"-"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
+	UserStatus    string    `json:"-"`
 }
 
 // SelectItemsByDiscussion ...
@@ -380,7 +380,7 @@ func (da *TableTypeDiscussionMsg) SelectItemsByDiscussion(queryable mingru.Query
 		itemCounter++
 		if itemCounter <= max {
 			var item DiscussionMsgTableSelectItemsByDiscussionResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.UserStatusHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.UserStatus, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}

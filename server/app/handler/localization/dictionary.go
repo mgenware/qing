@@ -129,6 +129,7 @@ type Dictionary struct {
 	PreviousPage                      string `json:"previousPage"`
 	Profile                           string `json:"profile"`
 	ProfilePicture                    string `json:"profilePicture"`
+	ProfileStatus                     string `json:"profileStatus"`
 	ProfileUpdated                    string `json:"profileUpdated"`
 	Publish                           string `json:"publish"`
 	Publishing                        string `json:"publishing"`

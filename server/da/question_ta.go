@@ -332,25 +332,25 @@ func (da *TableTypeQuestion) SelectCmtsWithLike(queryable mingru.Queryable, view
 
 // QuestionTableSelectItemByIDResult ...
 type QuestionTableSelectItemByIDResult struct {
-	CmtCount       uint      `json:"cmtCount,omitempty"`
-	ContentHTML    string    `json:"contentHTML,omitempty"`
-	ForumID        *uint64   `json:"forumID,omitempty"`
-	ID             uint64    `json:"-"`
-	Likes          uint      `json:"likes,omitempty"`
-	RawCreatedAt   time.Time `json:"-"`
-	RawModifiedAt  time.Time `json:"-"`
-	ReplyCount     uint      `json:"replyCount,omitempty"`
-	Title          string    `json:"title,omitempty"`
-	UserIconName   string    `json:"-"`
-	UserID         uint64    `json:"-"`
-	UserName       string    `json:"-"`
-	UserStatusHTML string    `json:"-"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	ReplyCount    uint      `json:"replyCount,omitempty"`
+	Title         string    `json:"title,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
+	UserStatus    string    `json:"-"`
 }
 
 // SelectItemByID ...
 func (da *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint64) (QuestionTableSelectItemByIDResult, error) {
 	var result QuestionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `question`.`created_at`, `question`.`modified_at`, `question`.`content`, `question`.`forum_id`, `question`.`title`, `question`.`cmt_count`, `question`.`reply_count`, `question`.`likes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatusHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Likes)
+	err := queryable.QueryRow("SELECT `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `question`.`created_at`, `question`.`modified_at`, `question`.`content`, `question`.`forum_id`, `question`.`title`, `question`.`cmt_count`, `question`.`reply_count`, `question`.`likes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatus, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Likes)
 	if err != nil {
 		return result, err
 	}

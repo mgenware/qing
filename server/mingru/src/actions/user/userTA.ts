@@ -39,10 +39,11 @@ export class UserTA extends mm.TableActions {
     .noOrderBy()
     .resultTypeNameAttr(findUserResult);
 
-  updateProfile = mm.updateOne().setInputs(t.name, t.website, t.company, t.location).by(t.id);
+  updateProfile = mm
+    .updateOne()
+    .setInputs(t.name, t.website, t.company, t.location, t.status, t.bio)
+    .by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
-  updateStatus = mm.updateOne().setInputs(t.status).by(t.id);
-  updateBio = mm.updateOne().setInputs(t.bio).by(t.id);
 
   // Unsafe methods. Need extra admin check.
   unsafeSelectAdmins = mm.selectRows(...coreCols).where`${t.admin} = 1`.orderByAsc(t.id);

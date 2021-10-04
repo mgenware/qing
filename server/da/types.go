@@ -45,10 +45,10 @@ type EntityGetSrcResult struct {
 
 // FindUserResult ...
 type FindUserResult struct {
-	IconName   string `json:"-"`
-	ID         uint64 `json:"-"`
-	Name       string `json:"name,omitempty"`
-	StatusHTML string `json:"statusHTML,omitempty"`
+	IconName string `json:"-"`
+	ID       uint64 `json:"-"`
+	Name     string `json:"name,omitempty"`
+	Status   string `json:"status,omitempty"`
 }
 
 // UserThreadInterface ...

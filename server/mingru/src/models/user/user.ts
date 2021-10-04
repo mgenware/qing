@@ -14,7 +14,7 @@ export class User extends mm.Table {
   name = mm.varChar(c.maxNameLen);
   icon_name = mm.varChar(c.maxFileNameLen).default('');
   raw_created_at = mm.datetime('utc').setDBName('created_at');
-  status = mm.varChar(c.maxUserStatusLen).default('').setModelName('StatusHTML');
+  status = mm.varChar(c.maxUserStatusLen).default('');
 
   company = mm.varChar(c.maxUserInfoFieldLen).default('');
   website = mm.varChar(c.maxURLLen).default('');

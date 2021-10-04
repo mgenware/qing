@@ -12,38 +12,12 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
-	"qing/app/appURL"
 	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/da"
 
 	"github.com/mgenware/go-packagex/v6/jsonx"
 )
-
-type infoData struct {
-	da.UserTableSelectEditingDataResult
-
-	IconURL string `json:"iconURL"`
-}
-
-func newInfoData(u *da.UserTableSelectEditingDataResult) infoData {
-	d := infoData{UserTableSelectEditingDataResult: *u}
-	d.IconURL = appURL.Get().UserIconURL250(u.ID, u.IconName)
-	return d
-}
-
-func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
-	uid := resp.UserID()
-
-	dbInfo, err := da.User.SelectEditingData(appDB.DB(), uid)
-	if err != nil {
-		return resp.MustFail(err)
-	}
-
-	data := newInfoData(&dbInfo)
-	return resp.MustComplete(data)
-}
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
@@ -58,9 +32,15 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	website := jsonx.GetStringOrDefault(params, "website")
 	company := jsonx.GetStringOrDefault(params, "company")
 	location := jsonx.GetStringOrDefault(params, "location")
+	status := jsonx.GetStringOrDefault(params, "status")
+	bio := jsonx.GetStringOrDefault(params, "bio")
+	var bioPtr *string
+	if bio != "" {
+		bioPtr = &bio
+	}
 
 	// Update DB
-	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location)
+	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location, status, bioPtr)
 	if err != nil {
 		return resp.MustFail(err)
 	}

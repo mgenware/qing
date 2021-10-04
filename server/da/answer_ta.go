@@ -345,18 +345,18 @@ func (da *TableTypeAnswer) SelectCmtsWithLike(queryable mingru.Queryable, viewer
 
 // AnswerTableSelectItemsByQuestionResult ...
 type AnswerTableSelectItemsByQuestionResult struct {
-	CmtCount       uint      `json:"cmtCount,omitempty"`
-	ContentHTML    string    `json:"contentHTML,omitempty"`
-	DownVotes      uint      `json:"downVotes,omitempty"`
-	ID             uint64    `json:"-"`
-	RawCreatedAt   time.Time `json:"-"`
-	RawModifiedAt  time.Time `json:"-"`
-	UpVotes        uint      `json:"upVotes,omitempty"`
-	UserIconName   string    `json:"-"`
-	UserID         uint64    `json:"-"`
-	UserName       string    `json:"-"`
-	UserStatusHTML string    `json:"-"`
-	Votes          int       `json:"votes,omitempty"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	DownVotes     uint      `json:"downVotes,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	UpVotes       uint      `json:"upVotes,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
+	UserStatus    string    `json:"-"`
+	Votes         int       `json:"votes,omitempty"`
 }
 
 // SelectItemsByQuestion ...
@@ -383,7 +383,7 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 		itemCounter++
 		if itemCounter <= max {
 			var item AnswerTableSelectItemsByQuestionResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.UserStatusHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount, &item.UpVotes, &item.DownVotes, &item.Votes)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.UserStatus, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount, &item.UpVotes, &item.DownVotes, &item.Votes)
 			if err != nil {
 				return nil, false, err
 			}
