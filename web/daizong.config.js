@@ -23,7 +23,16 @@ const prebuildTasks = ['build-shared-const'].map(getPrebuildTask);
 
 export default {
   lint: {
-    run: ['eslint --max-warnings 0 --ext .ts src/', 'lit-analyzer "src/**/*.ts"'],
+    ts: {
+      run: 'eslint --max-warnings 0 --ext .ts src/',
+    },
+    lit: {
+      run: 'lit-analyzer "src/**/*.ts"',
+    },
+    html: {
+      run: 'html-validate "../userland/templates/**/*.html"',
+    },
+    run: ['#lint ts', '#lint html', '#lint lit'],
   },
 
   /** Standard mode */

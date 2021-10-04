@@ -44,6 +44,7 @@
     "eslint-config-mgenware": "^0.2.0",
     "eslint-plugin-import": "^2.24.2",
     "go-const-gen": "^2.1.0",
+    "html-validate": "^6.1.0",
     "json-to-js-const": "^0.1.0",
     "lit-analyzer": "^1.2.1",
     "mgenware-tsconfig-browser": "^3.0.1",
