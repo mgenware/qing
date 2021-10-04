@@ -14,7 +14,8 @@ export interface GetProfileInfoResult {
   website?: string;
   company?: string;
   location?: string;
-  bio?: string;
+  status?: string;
+  bioHTML?: string;
 }
 
 export class GetProfileInfoLoader extends Loader<GetProfileInfoResult> {

@@ -161,5 +161,6 @@
   "newThread": "新帖子",
   "answers": "回答",
   "postAnAnswer": "添加回答",
-  "signInToVoteThisAnswer": "登录后才可以投票。"
+  "signInToVoteThisAnswer": "登录后才可以投票。",
+  "profileStatus": "状态"
 }

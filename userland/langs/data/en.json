@@ -161,5 +161,6 @@
   "newThread": "New thread",
   "answers": "Answers",
   "postAnAnswer": "Post an answer",
-  "signInToVoteThisAnswer": "Sign in to vote this answer."
+  "signInToVoteThisAnswer": "Sign in to vote this answer.",
+  "profileStatus": "Status"
 }

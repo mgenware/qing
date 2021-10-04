@@ -14,6 +14,8 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
     public website: string,
     public company: string,
     public location: string,
+    public status: string,
+    public bio: string,
   ) {
     super();
   }
@@ -28,6 +30,8 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
       website: this.website,
       company: this.company,
       location: this.location,
+      status: this.status,
+      bio: this.bio,
     };
   }
 }

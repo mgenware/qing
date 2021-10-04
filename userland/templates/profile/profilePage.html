@@ -10,6 +10,9 @@
     <div class="col-md">
       <h2>{{html .Name}}</h2>
       <hr />
+      {{if .Status}}
+      <p>{{html .Status}}</p>
+      {{end}}
 
       <!-- info -->
       <div class="m-t-lg m-b-lg">
@@ -30,16 +33,17 @@
         <p class="m-t-sm">
           <a id="m-profile-url" href="#">{{html .Website}}</a>
         </p>
-        {{end}} {{if .BioHTML}}
-        <p class="m-t-md">
-          <tag-view" class="__qing_ls__">bio</tag-view>
-        </p>
-        <p class="m-t-sm">{{.BioHTML}}</p>
         {{end}}
         <p class="m-t-md">
           <tag-view class="__qing_ls__">userID</tag-view>
         </p>
         <p class="m-t-sm"><profile-id-view value="{{.EID}}"></profile-id-view></p>
+        {{if .BioHTML}}
+        <p class="m-t-md">
+          <tag-view class="__qing_ls__">bio</tag-view>
+        </p>
+        <p class="m-t-sm">{{.BioHTML}}</p>
+        {{end}}
       </div>
     </div>
     <!-- column 2 -->
@@ -54,7 +58,8 @@
           ><span class="__qing_ls__">posts</span> {{if .PostCount}}({{.PostCount}}){{end}}</a
         >
         <a id="m-profile-tab-discussions" href="{{.ProfileDiscussionsURL}}"
-          ><span class="__qing_ls__">discussions</span> {{if .DiscussionCount}}({{.DiscussionCount}}){{end}}</a
+          ><span class="__qing_ls__">discussions</span> {{if
+          .DiscussionCount}}({{.DiscussionCount}}){{end}}</a
         >
       </tab-view>
       <div class="m-t-sm">{{.FeedListHTML}}</div>

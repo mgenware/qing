@@ -24,7 +24,6 @@ export default buildTree({
         getInfo: 'get-info',
         setInfo: 'set-info',
         setAvatar: 'set-avatar',
-        setBio: 'set-bio',
       },
       compose: {
         setEntity: 'set-entity',

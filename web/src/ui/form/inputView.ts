@@ -8,6 +8,7 @@
 import * as ll from 'll';
 import debounceFn from 'debounce-fn';
 import './inputErrorView';
+import './labelView';
 
 const inputID = 'input-id';
 
@@ -111,11 +112,7 @@ export class InputView extends ll.BaseElement {
     const { inputValidated } = this;
     const validationError = inputValidated ? this.validationError : '';
     return ll.html`
-      ${
-        this.label
-          ? ll.html`<label class="app-form-label" for=${inputID}>${this.label}</label>`
-          : ''
-      }
+      ${this.label ? ll.html`<label-view for=${inputID}>${this.label}</label-view>` : ''}
       <input
         class=${inputValidated ? 'validated' : ''}
         id=${inputID}

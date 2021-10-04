@@ -20,6 +20,11 @@ import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
+import 'ui/editor/editorView';
+import EditorView from 'ui/editor/editorView';
+import 'ui/form/labelView';
+
+const editorID = 'editor';
 
 @ll.customElement('edit-profile-app')
 export class EditProfileApp extends ll.BaseElement {
@@ -38,17 +43,27 @@ export class EditProfileApp extends ll.BaseElement {
         input-view {
           margin-bottom: 1rem;
         }
+
+        .bio-editor {
+          min-height: 250px;
+          margin-bottom: 1rem;
+        }
       `,
     ];
   }
 
   @ll.string name = '';
+  @ll.string status = '';
   @ll.string url = '';
   @ll.string company = '';
   @ll.string location = '';
   @ll.object loadingStatus = LoadingStatus.notStarted;
   @ll.bool updateInfoStatus = LoadingStatus.success;
   @ll.string avatarURL = '';
+
+  private get editorEl(): EditorView | null {
+    return this.getShadowElement<EditorView>(editorID);
+  }
 
   async firstUpdated() {
     await this.reloadDataAsync();
@@ -61,7 +76,7 @@ export class EditProfileApp extends ll.BaseElement {
 
   renderProgress() {
     const { loadingStatus } = this;
-    return ll.html`
+    return ll.html` 
       <status-view
         .progressViewPadding=${'md'}
         .status=${loadingStatus}
@@ -86,6 +101,12 @@ export class EditProfileApp extends ll.BaseElement {
           label=${ls.name}
           value=${this.name}
           @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+          
+        <input-view
+          required
+          label=${ls.profileStatus}
+          value=${this.status}
+          @onChange=${(e: CustomEvent<string>) => (this.status = e.detail)}></input-view>
 
         <input-view
           label=${ls.url}
@@ -102,6 +123,9 @@ export class EditProfileApp extends ll.BaseElement {
           value=${this.location}
           @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
+        <label-view for=${editorID}>${ls.bio}</label-view>
+        <editor-view id=${editorID} class="bio-editor"></editor-view>
+
         <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
           ${ls.save}
         </qing-button>
@@ -114,11 +138,13 @@ export class EditProfileApp extends ll.BaseElement {
     const status = await appTask.critical(loader, undefined, (s) => (this.loadingStatus = s));
     if (status.data) {
       const profile = status.data;
-      this.name = profile.name || '';
-      this.url = profile.website || '';
-      this.company = profile.company || '';
-      this.location = profile.location || '';
-      this.avatarURL = profile.iconURL || '';
+      this.name = profile.name ?? '';
+      this.url = profile.website ?? '';
+      this.company = profile.company ?? '';
+      this.location = profile.location ?? '';
+      this.avatarURL = profile.iconURL ?? '';
+      this.status = profile.status ?? '';
+      this.editorEl?.setContentHTML(profile.bioHTML ?? '', false);
     }
   }
 
@@ -133,7 +159,14 @@ export class EditProfileApp extends ll.BaseElement {
       await appAlert.error(err.message);
       return;
     }
-    const loader = new SetProfileInfoLoader(this.name, this.url, this.company, this.location);
+    const loader = new SetProfileInfoLoader(
+      this.name,
+      this.url,
+      this.company,
+      this.location,
+      this.status,
+      this.editorEl?.getContentHTML() ?? '',
+    );
     const status = await appTask.critical(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;
     });
