@@ -1,4 +1,9 @@
-<user-view>
+<post-user-app
+  createdAt="{{html .ItemCreatedAt}}"
+  modifiedAt="{{html .ItemModifiedAt}}"
+  uid="{{html .UserEID}}"
+  entityType="{{html .EntityType}}"
+  eid="{{html .ItemEID}}">
   <a href="{{html .UserURL}}" slot="img">
     <img
       src="{{html .UserIconURL}}"
@@ -9,4 +14,4 @@
   </a>
   <a href="{{html .UserURL}}" slot="name">{{html .UserName}}</a>
   <span slot="status">{{.UserStatus}}</span>
-</user-view>
+</post-user-app>

@@ -13,13 +13,12 @@ import (
 	"qing/lib/fmtx"
 )
 
-var vUserView = appHandler.MainPage().MustParseView("/com/userItemView.html")
+var vUserView = appHandler.MainPage().MustParseView("/com/postUserApp.html")
 
-// UserItemViewData contains properties required to generate a user item view.
-type UserItemViewData struct {
-	ItemEID string
-	// ItemType is part of ID of <edit-bar>.
-	ItemType       int
+// PostUserAppData provides data for frontend `PostUserApp`.
+type PostUserAppData struct {
+	ItemEID        string
+	EntityType     int
 	UserEID        string
 	UserName       string
 	UserURL        string
@@ -29,9 +28,9 @@ type UserItemViewData struct {
 	ItemModifiedAt string
 }
 
-// GetUserItemViewHTML returns user item view HTML with the given params.
-func GetUserItemViewHTML(uid uint64, name, iconName, status, itemEID string, itemType int, itemCreated string, itemModified string) string {
-	d := &UserItemViewData{}
+// GetPostUserAppHTML generates an HTML string for frontend `PostUserApp`.
+func GetPostUserAppHTML(uid uint64, name, iconName, status, itemEID string, itemType int, itemCreated string, itemModified string) string {
+	d := &PostUserAppData{}
 	d.ItemEID = itemEID
 	d.UserEID = fmtx.EncodeID(uid)
 	d.UserName = name
@@ -40,6 +39,6 @@ func GetUserItemViewHTML(uid uint64, name, iconName, status, itemEID string, ite
 	d.UserIconURL = appURL.Get().UserIconURL50(uid, iconName)
 	d.ItemCreatedAt = itemCreated
 	d.ItemModifiedAt = itemModified
-	d.ItemType = itemType
+	d.EntityType = itemType
 	return vUserView.MustExecuteToString(d)
 }

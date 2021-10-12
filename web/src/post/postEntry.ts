@@ -6,9 +6,4 @@
  */
 
 import 'core';
-import { hookUpEditBarEvents } from 'com/postCore/postCoreLib';
-import { entityPost } from 'sharedConstants';
-import wind from './postWind';
 import './postPayloadApp';
-
-hookUpEditBarEvents(wind.EID, entityPost);

@@ -9,11 +9,6 @@ import * as ll from 'll';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 
-export function editBarID(type: number, id: string): string {
-  // IMPORTANT: changes to this format can break HTML templates.
-  return `edit-bar-${type}-${id}`;
-}
-
 @ll.customElement('edit-bar-app')
 export class EditBarApp extends ll.BaseElement {
   @ll.string uid = '';

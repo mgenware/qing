@@ -18,7 +18,7 @@ import Cmt, { isCmtReply } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';
-import { editBarID } from 'ui/editor/editBarApp';
+import 'com/user/postUserApp';
 
 @ll.customElement('cmt-view')
 export class CmtView extends ll.BaseElement {
@@ -52,6 +52,9 @@ export class CmtView extends ll.BaseElement {
     const isReply = isCmtReply(cmt);
     return ll.html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
+
+        <post-user-app .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></post-user-app>
+
         <div class="col-auto">
           <a href=${cmt.userURL}>
             <img src=${cmt.userIconURL} class="avatar-m" width="50" height="50" />
@@ -81,7 +84,6 @@ export class CmtView extends ll.BaseElement {
                 ? ll.html`
                   <edit-bar-app
                     class="m-l-md"
-                    id=${editBarID(entityCmt, cmt.id)}
                     uid=${cmt.userID}
                     .hasLeftMargin=${true}
                     @editClick=${this.handleEditClick}
