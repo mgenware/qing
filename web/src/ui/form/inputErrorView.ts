@@ -5,14 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 
-@ll.customElement('input-error-view')
-export class InputErrorView extends ll.BaseElement {
+@customElement('input-error-view')
+export class InputErrorView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: inline-block;
         }
@@ -27,14 +28,14 @@ export class InputErrorView extends ll.BaseElement {
     ];
   }
 
-  @ll.string message = '';
+  @lp.string message = '';
 
   render() {
     const { message } = this;
     if (!message) {
-      return ll.html``;
+      return html``;
     }
-    return ll.html` <div>${message}</div> `;
+    return html` <div>${message}</div> `;
   }
 }
 

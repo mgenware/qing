@@ -5,19 +5,20 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import 'qing-overlay';
 import wind from './forumWind';
 import { entityQuestion } from 'sharedConstants';
 import { runNewEntityCommand } from 'app/appCommands';
 
-@ll.customElement('new-thread-app')
-export class NewThreadApp extends ll.BaseElement {
+@customElement('new-thread-app')
+export class NewThreadApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -25,10 +26,10 @@ export class NewThreadApp extends ll.BaseElement {
     ];
   }
 
-  @ll.bool threadTypeDialogOpen = false;
+  @lp.bool threadTypeDialogOpen = false;
 
   render() {
-    return ll.html`
+    return html`
       <p>
         <qing-button btnStyle="success" @click=${this.handleNewThreadClick}
           >${ls.newThread}</qing-button

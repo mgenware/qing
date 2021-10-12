@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'qing-overlay';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -22,12 +23,12 @@ interface ImageCropInfo {
   width: number;
 }
 
-@ll.customElement('avatar-uploader')
-export class AvatarUploader extends ll.BaseElement {
+@customElement('avatar-uploader')
+export class AvatarUploader extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         .crop-container {
           overflow-y: auto;
           border: 1px solid var(--app-default-separator-color);
@@ -36,7 +37,7 @@ export class AvatarUploader extends ll.BaseElement {
     ];
   }
 
-  @ll.string private imageDataURL: string | null = null;
+  @lp.string private imageDataURL: string | null = null;
 
   cropInfo: ImageCropInfo | null = null;
 
@@ -62,7 +63,7 @@ export class AvatarUploader extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`
+    return html`
       <div>
         <qing-overlay
           id="modalElement"

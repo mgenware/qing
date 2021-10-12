@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import '../alerts/errorView';
@@ -14,12 +15,12 @@ import 'qing-dock-box';
 
 // A status view used to display `LoadingStatus`.
 // It has 3 states: loading, success and error.
-@ll.customElement('status-view')
-export class StatusView extends ll.BaseElement {
+@customElement('status-view')
+export class StatusView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -32,27 +33,27 @@ export class StatusView extends ll.BaseElement {
   }
 
   // The underlying status of this view.
-  @ll.object status = LoadingStatus.notStarted;
+  @lp.object status = LoadingStatus.notStarted;
   // The loading text when in loading state.
-  @ll.string loadingText = '';
+  @lp.string loadingText = '';
   // If a "retry" button is displayed when in error state.
-  @ll.bool canRetry = false;
+  @lp.bool canRetry = false;
   // The title of error state view.
-  @ll.string errorTitle = '';
+  @lp.string errorTitle = '';
 
-  @ll.string progressViewPadding: 'md' | '' = '';
+  @lp.string progressViewPadding: 'md' | '' = '';
 
   render() {
     const { status } = this;
     if (status.isWorking) {
-      return ll.html`
+      return html`
         <qing-dock-box class=${this.progressViewPadding === 'md' ? 'withPaddingMD' : ''}
           ><spinner-view>${this.loadingText || ls.loading}</spinner-view></qing-dock-box
         >
       `;
     }
     if (status.error) {
-      return ll.html`
+      return html`
         <error-view
           .canRetry=${this.canRetry}
           .headerText=${this.errorTitle || ls.errOccurred}
@@ -61,7 +62,7 @@ export class StatusView extends ll.BaseElement {
         </error-view>
       `;
     }
-    return ll.html``;
+    return html``;
   }
 
   private handleRetry() {

@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
-@ll.customElement('alert-view')
-export class AlertView extends ll.BaseElement {
+@customElement('alert-view')
+export class AlertView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -27,10 +28,10 @@ export class AlertView extends ll.BaseElement {
     ];
   }
 
-  @ll.reflected.string alertStyle: AppViewStyleNullable = '';
+  @lp.reflected.string alertStyle: AppViewStyleNullable = '';
 
   render() {
-    return ll.html`
+    return html`
       <div class="root">
         <slot></slot>
       </div>

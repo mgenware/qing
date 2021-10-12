@@ -7,7 +7,7 @@
 
 import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
-import * as ll from 'll';
+import { html } from 'll';
 import { injectStyles, ready, renderTemplateResult } from 'lib/htmlLib';
 import appSettings from 'app/appSettings';
 import { localizedErrDict } from 'defs';
@@ -91,12 +91,11 @@ ready(() => {
 
     const app = renderTemplateResult<SetEntityApp>(
       '',
-      ll.html`<set-entity-app
+      html`<set-entity-app
         autoClose
         .entityType=${entityType}
         .headerText=${title}
-        .forumID=${forumID}
-      ></set-entity-app>`,
+        .forumID=${forumID}></set-entity-app>`,
     );
     CHECK(app);
     app.open = true;

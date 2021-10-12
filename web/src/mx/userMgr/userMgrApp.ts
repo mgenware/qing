@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import ls, { formatLS } from 'ls';
 import 'ui/content/headingView';
@@ -24,12 +25,12 @@ import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 
-@ll.customElement('user-mgr-app')
-export class UserMgrApp extends ll.BaseElement {
+@customElement('user-mgr-app')
+export class UserMgrApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -37,10 +38,10 @@ export class UserMgrApp extends ll.BaseElement {
     ];
   }
 
-  @ll.bool adminSectionStatus = LoadingStatus.working;
+  @lp.bool adminSectionStatus = LoadingStatus.working;
   // TODO: Pagination.
-  @ll.array private admins: UserInfo[] = [];
-  @ll.object private userCandidate: UserInfo | null = null;
+  @lp.array private admins: UserInfo[] = [];
+  @lp.object private userCandidate: UserInfo | null = null;
 
   private getAdminLoader = new GetAdminsLoader();
 
@@ -52,7 +53,7 @@ export class UserMgrApp extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`
+    return html`
       <status-overlay .status=${this.adminSectionStatus}>
         <heading-view>${ls.adminAccounts}</heading-view>
         ${this.renderAdmins()}
@@ -62,7 +63,7 @@ export class UserMgrApp extends ll.BaseElement {
             (this.userCandidate = e.detail)}></user-selector-app>
         ${tif(
           this.userCandidate,
-          ll.html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
+          html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
             ${ls.add}
           </qing-button>`,
         )}
@@ -73,9 +74,9 @@ export class UserMgrApp extends ll.BaseElement {
   private renderAdmins() {
     const { admins } = this;
     if (!admins.length) {
-      return ll.html`<notice-view>${ls.noContentAvailable}</notice-view>`;
+      return html`<notice-view>${ls.noContentAvailable}</notice-view>`;
     }
-    return ll.html`<div class="app-table-container m-t-md">
+    return html`<div class="app-table-container m-t-md">
       <table class="app-table">
         <thead>
           <th>${ls.name}</th>
@@ -90,7 +91,7 @@ export class UserMgrApp extends ll.BaseElement {
 
   private renderUserRow(user: UserInfo) {
     const thisIsYou = appPageState.userEID === user.eid;
-    return ll.html`
+    return html`
       <tr>
         <td>
           <a href=${user.url} target="_blank">
@@ -98,13 +99,11 @@ export class UserMgrApp extends ll.BaseElement {
           </a>
         </td>
         <td>
-          ${
-            thisIsYou
-              ? ll.html`<tag-view tagStyle="warning">${ls.thisIsYou}</tag-view>`
-              : ll.html`<link-button @click=${() => this.handleRemoveAdmin(user)}
+          ${thisIsYou
+            ? html`<tag-view tagStyle="warning">${ls.thisIsYou}</tag-view>`
+            : html`<link-button @click=${() => this.handleRemoveAdmin(user)}
                 >${ls.removeAdmin}</link-button
-              >`
-          }
+              >`}
         </td>
       </tr>
     `;

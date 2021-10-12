@@ -5,19 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { customElement, css } from 'll';
 import ls from 'ls';
 import routes from 'routes';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
 const items: SettingsBaseItem[] = [{ name: ls.usersAndGroups, link: routes.mx.usersAndGroups }];
 
-@ll.customElement('mx-settings-view')
+@customElement('mx-settings-view')
 export class MXSettingsView extends SettingsBaseView {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }

@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import { CHECK } from 'checks';
 import { parseString } from 'narwhal-js';
@@ -16,12 +17,12 @@ import wind from './questionWind';
 
 CHECK(wind.ForumID);
 
-@ll.customElement('add-answer-app')
-export class AddAnswerApp extends ll.BaseElement {
+@customElement('add-answer-app')
+export class AddAnswerApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -29,9 +30,9 @@ export class AddAnswerApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string myAnswerURL = '';
-  @ll.bool isMyAnswer = false;
-  @ll.bool answerDialogOpen = false;
+  @lp.string myAnswerURL = '';
+  @lp.bool isMyAnswer = false;
+  @lp.bool answerDialogOpen = false;
 
   render() {
     // Render "login to answer" for visitors.
@@ -46,11 +47,11 @@ export class AddAnswerApp extends ll.BaseElement {
 
     // Render "go to my answer" button if `myAnswerURL` is not empty.
     if (this.myAnswerURL) {
-      return ll.html`<qing-button btnStyle="primary">${ls.goToMyAnswer}</qing-button>`;
+      return html`<qing-button btnStyle="primary">${ls.goToMyAnswer}</qing-button>`;
     }
 
     // Render "post an answer".
-    return ll.html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
+    return html`<qing-button btnStyle="success" @click=${this.handlePostAnAnswerClick}
         >${ls.postAnAnswer}</qing-button
       >
       <set-entity-app
@@ -64,13 +65,13 @@ export class AddAnswerApp extends ll.BaseElement {
   }
 
   private renderLoginToAddYourAnswer() {
-    return ll.html`
+    return html`
       <div>
         ${parseString(ls.postAnAnswer).map((sg) => {
           if (!sg.type) {
-            return ll.html`<span>${sg.value}</span>`;
+            return html`<span>${sg.value}</span>`;
           }
-          return ll.html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
+          return html`<qing-button btnStyle="success" class="m-l-xs m-r-xs"
             >${sg.value}</qing-button
           >`;
         })}

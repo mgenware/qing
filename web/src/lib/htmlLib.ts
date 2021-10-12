@@ -6,7 +6,7 @@
  */
 
 import { TemplateResult } from 'll';
-import * as ll from 'll';
+import { html, render, CSSResult, CSSResultGroup } from 'll';
 
 export function ready(fn: () => void) {
   if (document.readyState !== 'loading') {
@@ -50,7 +50,7 @@ export function renderTemplateResult<T extends HTMLElement>(
   // See the note above for why we create this extra div.
   const div = document.createElement('div');
   containerElement.appendChild(div);
-  ll.render(template ?? ll.html``, div);
+  render(template ?? html``, div);
   // Template is rendered under the div element.
   return div.firstElementChild as T | null;
 }
@@ -69,7 +69,7 @@ export function listenForVisibilityChange(
   }
 }
 
-export function injectStyles(styles: ll.CSSResultGroup) {
+export function injectStyles(styles: CSSResultGroup) {
   if (!Array.isArray(styles)) {
     // eslint-disable-next-line no-param-reassign
     styles = [styles];
@@ -77,7 +77,7 @@ export function injectStyles(styles: ll.CSSResultGroup) {
   for (const style of styles) {
     if (Array.isArray(style)) {
       injectStyles(style);
-    } else if (style instanceof ll.CSSResult) {
+    } else if (style instanceof CSSResult) {
       const css = style.cssText;
       // TODO: use constructable styles.
       const styleElement = document.createElement('style');

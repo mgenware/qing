@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import SignInLoader from './loaders/signInLoader';
@@ -14,12 +15,12 @@ import 'ui/form/inputErrorView';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 
-@ll.customElement('sign-in-app')
-export class SignInApp extends ll.BaseElement {
+@customElement('sign-in-app')
+export class SignInApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -27,11 +28,11 @@ export class SignInApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string private email = '';
-  @ll.string private password = '';
+  @lp.string private email = '';
+  @lp.string private password = '';
 
   render() {
-    return ll.html`
+    return html`
       <h2>${ls.createAnAcc}</h2>
       <div>
         <input-view

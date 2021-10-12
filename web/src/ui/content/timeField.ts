@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import { formatRelative, Locale } from 'date-fns';
 import { enUS, zhCN } from 'date-fns/locale';
 
-@ll.customElement('time-field')
-export class TimeField extends ll.BaseElement {
-  @ll.string createdAt = '';
-  @ll.string modifiedAt = '';
+@customElement('time-field')
+export class TimeField extends BaseElement {
+  @lp.string createdAt = '';
+  @lp.string modifiedAt = '';
   locale?: Locale;
 
   firstUpdated() {
@@ -29,7 +30,7 @@ export class TimeField extends ll.BaseElement {
     if (modifiedAt !== createdAt) {
       content += ` [${ls.editedAt} ${this.formatDate(modifiedAt)}]`;
     }
-    return ll.html` <small class="is-secondary"> ${content} </small> `;
+    return html` <small class="is-secondary"> ${content} </small> `;
   }
 
   private formatDate(s: string): string {

@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './views/rootCmtList';
 import { CHECK } from 'checks';
@@ -24,12 +25,12 @@ import appCmtHubState from './data/appCmtHubState';
 
 const composerID = 'composer';
 
-@ll.customElement('cmt-app')
-export class CmtApp extends ll.BaseElement {
+@customElement('cmt-app')
+export class CmtApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -37,14 +38,14 @@ export class CmtApp extends ll.BaseElement {
     ];
   }
 
-  @ll.number initialTotalCmtCount = 0;
-  @ll.string hostID = '';
-  @ll.number hostType = 0;
+  @lp.number initialTotalCmtCount = 0;
+  @lp.string hostID = '';
+  @lp.number hostType = 0;
 
-  @ll.object editorProps = this.closedEditorProps();
+  @lp.object editorProps = this.closedEditorProps();
 
   // The number of all comments and their replies.
-  @ll.number private totalCmtCount = 0;
+  @lp.number private totalCmtCount = 0;
   private hub: CmtDataHub | null = null;
 
   firstUpdated() {
@@ -79,7 +80,7 @@ export class CmtApp extends ll.BaseElement {
       heading = ls.writeAComment;
     }
 
-    return ll.html`
+    return html`
       <root-cmt-list
         .totalCmtCount=${this.totalCmtCount}
         .hostID=${this.hostID}
@@ -89,9 +90,7 @@ export class CmtApp extends ll.BaseElement {
         <h2>${heading}</h2>
         ${tif(
           editorProps.replyingTo,
-          ll.html`<blockquote>${unsafeHTML(
-            editorProps.replyingTo?.contentHTML ?? '',
-          )}</blockquote>`,
+          html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML ?? '')}</blockquote>`,
         )}
         <composer-view
           id=${composerID}

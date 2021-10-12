@@ -6,7 +6,7 @@
  */
 
 import { renderTemplateResult } from 'lib/htmlLib';
-import * as ll from 'll';
+import { html, TemplateResult } from 'll';
 import ls from 'ls';
 
 export class PageUtils {
@@ -38,14 +38,14 @@ export class PageUtils {
     document.title = `${titles.join(' - ')} - ${ls._siteName}`;
   }
 
-  setMainContent(content: ll.TemplateResult) {
+  setMainContent(content: TemplateResult) {
     renderTemplateResult(
       this.mainContentElement,
-      ll.html`<container-view>${content}</container-view>`,
+      html`<container-view>${content}</container-view>`,
     );
   }
 
-  setTitleAndMainContent(titles: string[], content: ll.TemplateResult) {
+  setTitleAndMainContent(titles: string[], content: TemplateResult) {
     this.setTitle(titles);
     this.setMainContent(content);
   }

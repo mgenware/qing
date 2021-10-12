@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { CHECK } from 'checks';
 import './likeView';
 import LikeHostType from './loaders/likeHostType';
@@ -17,12 +18,12 @@ import ls, { formatLS } from 'ls';
 
 const sizeMD = 'md';
 
-@ll.customElement('like-app')
-export class LikeApp extends ll.BaseElement {
+@customElement('like-app')
+export class LikeApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: inline-block;
         }
@@ -31,16 +32,16 @@ export class LikeApp extends ll.BaseElement {
   }
 
   // Reflected: used for quick locating the view during testing.
-  @ll.reflected.string hostID = '';
+  @lp.reflected.string hostID = '';
   // Reflected: used for quick locating the view during testing.
-  @ll.reflected.number hostType: LikeHostType = 0;
-  @ll.number initialLikes = 0;
-  @ll.bool initialHasLiked = false;
-  @ll.string iconSize = sizeMD;
+  @lp.reflected.number hostType: LikeHostType = 0;
+  @lp.number initialLikes = 0;
+  @lp.bool initialHasLiked = false;
+  @lp.string iconSize = sizeMD;
 
-  @ll.number private likes = 0;
-  @ll.bool private isWorking = false;
-  @ll.bool private hasLiked = false;
+  @lp.number private likes = 0;
+  @lp.bool private isWorking = false;
+  @lp.bool private hasLiked = false;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -51,7 +52,7 @@ export class LikeApp extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`
+    return html`
       <like-view
         .isWorking=${this.isWorking}
         .hasLiked=${this.hasLiked}

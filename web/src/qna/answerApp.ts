@@ -5,17 +5,18 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'com/cmt/cmtApp';
 import 'ui/qna/voteApp';
 import { CHECK } from 'checks';
 
-@ll.customElement('answer-app')
-export class AnswerApp extends ll.BaseElement {
+@customElement('answer-app')
+export class AnswerApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -23,18 +24,18 @@ export class AnswerApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string eid = '';
-  @ll.number initialValue = 0;
-  @ll.number initialUps = 0;
-  @ll.number initialDowns = 0;
-  @ll.number initialMyVote = 0;
+  @lp.string eid = '';
+  @lp.number initialValue = 0;
+  @lp.number initialUps = 0;
+  @lp.number initialDowns = 0;
+  @lp.number initialMyVote = 0;
 
   firstUpdated() {
     CHECK(this.eid);
   }
 
   render() {
-    return ll.html`
+    return html`
       <div>
         <slot></slot>
         <div class="m-t-md">

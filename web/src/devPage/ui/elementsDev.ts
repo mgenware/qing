@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable no-alert */
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
 import 'qing-button';
 import 'qing-dock-box';
 import 'ui/alerts/alertView';
@@ -34,12 +34,12 @@ const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
 const immersiveDialogID = 'qing-overlay-immersive';
 
-@ll.customElement('elements-dev')
-export class ElementsDev extends ll.BaseElement {
+@customElement('elements-dev')
+export class ElementsDev extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
           color: var(--app-default-fore-color);
@@ -125,7 +125,7 @@ export class ElementsDev extends ll.BaseElement {
   #setEntityApp: SetEntityApp | null = null;
 
   render() {
-    return ll.html`
+    return html`
       <h2>Default context</h2>
       <div class="text">
         <span>Welcome to <a href="https://github.com/mgenware/qing" target="_blank">Qing</a></span>
@@ -306,7 +306,7 @@ export class ElementsDev extends ll.BaseElement {
   firstUpdated() {
     this.#setEntityApp = renderTemplateResult(
       '',
-      ll.html`<set-entity-app
+      html`<set-entity-app
         autoClose
         entityType=${entityPost}
         headerText="Create a new post"></set-entity-app>`,

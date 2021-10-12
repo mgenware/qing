@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
 import ls from 'ls';
 import './noticeView';
 
-@ll.customElement('no-content-view')
-export class NoContentView extends ll.BaseElement {
+@customElement('no-content-view')
+export class NoContentView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -23,7 +23,7 @@ export class NoContentView extends ll.BaseElement {
   }
 
   render() {
-    return ll.html` <notice-view>${ls.noContentAvailable}</notice-view> `;
+    return html` <notice-view>${ls.noContentAvailable}</notice-view> `;
   }
 }
 

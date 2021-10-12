@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { classMap } from 'lit/directives/class-map.js';
 
-@ll.customElement('container-view')
-export class ContainerView extends ll.BaseElement {
+@customElement('container-view')
+export class ContainerView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -26,10 +27,10 @@ export class ContainerView extends ll.BaseElement {
   }
 
   // No bottom spacing.
-  @ll.bool nobs = false;
+  @lp.bool nobs = false;
 
   render() {
-    return ll.html`
+    return html`
       <div
         class=${classMap({
           container: true,

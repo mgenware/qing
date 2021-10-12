@@ -5,14 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 
-@ll.customElement('edit-bar-app')
-export class EditBarApp extends ll.BaseElement {
-  @ll.string uid = '';
-  @ll.bool private visible = false;
+@customElement('edit-bar-app')
+export class EditBarApp extends BaseElement {
+  @lp.string uid = '';
+  @lp.bool private visible = false;
 
   firstUpdated() {
     const cur = appPageState.userEID;
@@ -21,9 +22,9 @@ export class EditBarApp extends ll.BaseElement {
 
   render() {
     if (!this.visible) {
-      return ll.html``;
+      return html``;
     }
-    return ll.html`
+    return html`
       <span>
         <a href="#" @click=${this.handleEditClick}>${ls.edit}</a>
         <a class="m-l-sm" href="#" @click=${this.handleDeleteClick}>${ls.delete}</a>

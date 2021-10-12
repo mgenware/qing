@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
 import ls from 'ls';
 import { Editor, Lang } from 'kangxi-editor';
 import styles from 'kangxi-editor/dist/editor.css.js';
@@ -13,14 +13,14 @@ import styles from 'kangxi-editor/dist/editor.css.js';
 const editorID = 'editor';
 
 // A wrapper around the kangxi editor.
-@ll.customElement('editor-view')
-export default class EditorView extends ll.BaseElement {
+@customElement('editor-view')
+export default class EditorView extends BaseElement {
   static get styles() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return [
       super.styles,
       styles,
-      ll.css`
+      css`
         :host {
           display: flex;
           flex-direction: column;
@@ -86,7 +86,7 @@ export default class EditorView extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`<div id=${editorID} class="kx-editor flex-full"></div>`;
+    return html`<div id=${editorID} class="kx-editor flex-full"></div>`;
   }
 }
 

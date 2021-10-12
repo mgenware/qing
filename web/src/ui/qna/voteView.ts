@@ -6,7 +6,8 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'qing-button';
 import { staticMainImage } from 'urls';
 import 'ui/widgets/svgIcon';
@@ -17,12 +18,12 @@ import { upVoteValue, downVoteValue } from 'sharedConstants';
 
 const voteBtnSize = 20;
 
-@ll.customElement('vote-view')
-export class VoteView extends ll.BaseElement {
+@customElement('vote-view')
+export class VoteView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -61,10 +62,10 @@ export class VoteView extends ll.BaseElement {
     ];
   }
 
-  @ll.number value = 0;
-  @ll.number ups = 0;
-  @ll.number downs = 0;
-  @ll.number myVote = 0;
+  @lp.number value = 0;
+  @lp.number ups = 0;
+  @lp.number downs = 0;
+  @lp.number myVote = 0;
 
   render() {
     const { value, ups, downs } = this;
@@ -74,7 +75,7 @@ export class VoteView extends ll.BaseElement {
     } else if (value < 0) {
       valueColorClass = 'color-down';
     }
-    return ll.html`
+    return html`
       <div class="root">
         <div class="flex-auto d-flex flex-column">
           <qing-button
@@ -106,16 +107,16 @@ export class VoteView extends ll.BaseElement {
           </div>
           ${tif(
             ups && downs,
-            ll.html` <div class="flex-full d-flex">
+            html` <div class="flex-full d-flex">
               ${tif(
                 ups,
-                ll.html`<div class="flex-full text-center flex-v-align">
+                html`<div class="flex-full text-center flex-v-align">
                   <span class="color-up size-md"><hf-number .value=${ups}></hf-number></span>
                 </div>`,
               )}
               ${tif(
                 downs,
-                ll.html`<div class="flex-full text-center flex-v-align">
+                html`<div class="flex-full text-center flex-v-align">
                   <span class="color-down size-md"><hf-number .value=${-downs}></hf-number></span>
                 </div>`,
               )}

@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
-@ll.customElement('progress-view')
-export default class ProgressView extends ll.BaseElement {
+@customElement('progress-view')
+export default class ProgressView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: inline-block;
         }
@@ -21,11 +22,11 @@ export default class ProgressView extends ll.BaseElement {
     ];
   }
 
-  @ll.number progress = 0;
+  @lp.number progress = 0;
 
   render() {
     const { progress } = this;
-    return ll.html`
+    return html`
       <progress value=${ifDefined(progress < 0 ? undefined : progress.toString())} max="100">
         ${progress} %
       </progress>

@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css, ref, Ref, createRef } from 'll';
+import * as lp from 'lit-props';
 import { formatLS, ls } from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { EditBarApp } from 'ui/editor/editBarApp';
@@ -49,12 +50,12 @@ export function entityTypeToLS(entityType: number): string {
   }
 }
 
-@ll.customElement('post-user-app')
-export class PostUserApp extends ll.BaseElement {
+@customElement('post-user-app')
+export class PostUserApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -62,54 +63,47 @@ export class PostUserApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string createdAt = '';
-  @ll.string modifiedAt = '';
-  @ll.string uid = '';
-  @ll.string eid = '';
-  @ll.number entityType = 0;
+  @lp.string createdAt = '';
+  @lp.string modifiedAt = '';
+  @lp.string uid = '';
+  @lp.string eid = '';
+  @lp.number entityType = 0;
 
   // Optional properties (can be overridden by named slots).
-  @ll.string userIconURL = '';
-  @ll.string userURL = '';
-  @ll.string userStatus = '';
-  @ll.string userName = '';
+  @lp.string userIconURL = '';
+  @lp.string userURL = '';
+  @lp.string userStatus = '';
+  @lp.string userName = '';
 
-  private editBarAppEl: ll.Ref<EditBarApp> = ll.createRef();
+  private editBarAppEl: Ref<EditBarApp> = createRef();
 
   render() {
     const imgSlot =
       this.userURL && this.userIconURL
-        ? ll.html`<a href="{{html .UserURL}}" slot="img">
-                <img
-                  src=${this.userIconURL}
-                  alt=${this.userName}
-                  class="avatar-m"
-                  width="50"
-                  height="50" />
-              </a>`
-        : ll.html`<slot name="img"></slot>`;
+        ? html`<a href="{{html .UserURL}}" slot="img">
+            <img
+              src=${this.userIconURL}
+              alt=${this.userName}
+              class="avatar-m"
+              width="50"
+              height="50" />
+          </a>`
+        : html`<slot name="img"></slot>`;
     const nameSlot = this.userName
-      ? ll.html`<a href="{{html .UserURL}}" slot="name">${this.userName}</a>`
-      : ll.html`<slot name="name"></slot>`;
+      ? html`<a href="{{html .UserURL}}" slot="name">${this.userName}</a>`
+      : html`<slot name="name"></slot>`;
     const statusSlot = this.userStatus
-      ? ll.html`<span slot="status">${this.userStatus}</span>`
-      : ll.html`<slot name="status"></slot>`;
-    return ll.html`
+      ? html`<span slot="status">${this.userStatus}</span>`
+      : html`<slot name="status"></slot>`;
+    return html`
       <div class="m-t-md row m-user-view">
-        <div class="col-auto">
-          ${imgSlot}
-        </div>
+        <div class="col-auto">${imgSlot}</div>
         <div class="col">
           <div>${nameSlot}<span class="m-l-md"> ${statusSlot}</span></div>
-          <p>      <time-field
-        .createdAt=${this.createdAt}
-        .modifiedAt=${this.modifiedAt}
-      ></time-field>
-      <edit-bar-app
-      ${ll.ref(this.editBarAppEl)}
-        class="m-l-md"
-        uid=${this.uid}
-      ></edit-bar-app></p>
+          <p>
+            <time-field .createdAt=${this.createdAt} .modifiedAt=${this.modifiedAt}></time-field>
+            <edit-bar-app ${ref(this.editBarAppEl)} class="m-l-md" uid=${this.uid}></edit-bar-app>
+          </p>
         </div>
       </div>
     `;
@@ -149,12 +143,14 @@ export class PostUserApp extends ll.BaseElement {
       if (!editPostApp) {
         editPostApp = renderTemplateResult(
           '',
-          ll.html`<set-entity-app
+          html`<set-entity-app
             autoClose
             .postID=${this.eid}
             entityType=${this.entityType}
-            headerText=${formatLS(ls.pEditEntity, entityTypeToLS(this.entityType))}
-          ></set-entity-app>`,
+            headerText=${formatLS(
+              ls.pEditEntity,
+              entityTypeToLS(this.entityType),
+            )}></set-entity-app>`,
         );
       }
       CHECK(editPostApp);

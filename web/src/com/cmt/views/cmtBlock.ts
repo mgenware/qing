@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
@@ -18,13 +19,13 @@ import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
 import appCmtHubState from '../data/appCmtHubState';
 
-@ll.customElement('cmt-block')
+@customElement('cmt-block')
 // Shows a comment view along with its replies.
-export class CmtBlock extends ll.BaseElement {
+export class CmtBlock extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -38,19 +39,19 @@ export class CmtBlock extends ll.BaseElement {
     ];
   }
 
-  @ll.string hostID = '';
-  @ll.number hostType = 0;
-  @ll.object cmt: Cmt | null = null;
+  @lp.string hostID = '';
+  @lp.number hostType = 0;
+  @lp.object cmt: Cmt | null = null;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
-  @ll.array private items: ReadonlyArray<Cmt> = [];
-  @ll.bool hasNext = false;
+  @lp.array private items: ReadonlyArray<Cmt> = [];
+  @lp.bool hasNext = false;
 
   // Number of replies under this comment.
-  @ll.number totalCount = 0;
-  @ll.object private collectorLoadingStatus = LoadingStatus.success;
+  @lp.number totalCount = 0;
+  @lp.object private collectorLoadingStatus = LoadingStatus.success;
 
   hub?: CmtDataHub;
 
@@ -78,7 +79,7 @@ export class CmtBlock extends ll.BaseElement {
     const childViews = repeat(
       this.items,
       (it) => it.id,
-      (it) => ll.html`
+      (it) => html`
         <cmt-view
           class="m-t-md"
           .cmt=${it}
@@ -88,7 +89,7 @@ export class CmtBlock extends ll.BaseElement {
           @deleteClick=${this.handleCmtDeleteClick}></cmt-view>
       `,
     );
-    return ll.html`
+    return html`
       <div>
         <cmt-view
           .cmt=${cmt}
@@ -97,15 +98,13 @@ export class CmtBlock extends ll.BaseElement {
           @deleteClick=${this.handleCmtDeleteClick}></cmt-view>
         <div class="reply-block">
           ${childViews}
-          ${
-            this.totalCount
-              ? ll.html`
+          ${this.totalCount
+            ? html`
                 <div>
                   <small class="is-secondary">${formatLS(ls.pNOReplies, this.totalCount)}</small>
                 </div>
               `
-              : ll.html``
-          }
+            : html``}
           <cmt-footer-view
             class="m-t-sm m-b-md"
             .replies=${true}

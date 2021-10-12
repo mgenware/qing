@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import routes from './devRoutes';
 
-@ll.customElement('dev-view')
-export class DevView extends ll.BaseElement {
+@customElement('dev-view')
+export class DevView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -21,10 +22,10 @@ export class DevView extends ll.BaseElement {
     ];
   }
 
-  @ll.string loginUserID = '1';
+  @lp.string loginUserID = '1';
 
   render() {
-    return ll.html`
+    return html`
       <h1>Qing Debug Page</h1>
       <hr />
       <ul>

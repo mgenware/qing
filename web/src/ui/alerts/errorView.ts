@@ -5,16 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/alerts/alertView';
 
-@ll.customElement('error-view')
-export class ErrorView extends ll.BaseElement {
+@customElement('error-view')
+export class ErrorView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -22,26 +23,24 @@ export class ErrorView extends ll.BaseElement {
     ];
   }
 
-  @ll.string headerText = '';
-  @ll.bool canRetry = false;
+  @lp.string headerText = '';
+  @lp.bool canRetry = false;
 
   render() {
-    return ll.html`
+    return html`
       <alert-view alertStyle="danger">
         <h3>${this.headerText || ls.errOccurred}</h3>
         <p><slot></slot></p>
 
-        ${
-          this.canRetry
-            ? ll.html`
+        ${this.canRetry
+          ? html`
               <div class="m-t-md">
                 <qing-button btnStyle="primary" @click=${this.handleRetryClick}>
                   ${ls.retry}
                 </qing-button>
               </div>
             `
-            : ''
-        }
+          : ''}
       </alert-view>
     `;
   }

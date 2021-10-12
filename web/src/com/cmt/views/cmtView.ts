@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import 'ui/editor/editBarApp';
 import 'ui/status/statusOverlay';
@@ -20,12 +21,12 @@ import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';
 import 'com/user/postUserApp';
 
-@ll.customElement('cmt-view')
-export class CmtView extends ll.BaseElement {
+@customElement('cmt-view')
+export class CmtView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -37,9 +38,9 @@ export class CmtView extends ll.BaseElement {
     ];
   }
 
-  @ll.object cmt: Cmt | null = null;
+  @lp.object cmt: Cmt | null = null;
   // Only available to replies.
-  @ll.string parentCmtID: string | null = null;
+  @lp.string parentCmtID: string | null = null;
 
   firstUpdated() {
     const { cmt } = this;
@@ -50,9 +51,8 @@ export class CmtView extends ll.BaseElement {
     const { cmt } = this;
     CHECK(cmt);
     const isReply = isCmtReply(cmt);
-    return ll.html`
+    return html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
-
         <post-user-app .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></post-user-app>
 
         <div class="col-auto">
@@ -63,9 +63,8 @@ export class CmtView extends ll.BaseElement {
         <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
-            ${
-              cmt.toUserID
-                ? ll.html`
+            ${cmt.toUserID
+              ? html`
                   <span>
                     <svg-icon
                       title=${formatLS(ls.pReplyTo, cmt.toUserName)}
@@ -76,12 +75,10 @@ export class CmtView extends ll.BaseElement {
                     <a href=${cmt.toUserURL || '#'}>${cmt.toUserName}</a>
                   </span>
                 `
-                : ''
-            }
+              : ''}
             <time-field .createdAt=${cmt.createdAt} .modifiedAt=${cmt.modifiedAt}></time-field>
-            ${
-              cmt.userID === appPageState.userEID
-                ? ll.html`
+            ${cmt.userID === appPageState.userEID
+              ? html`
                   <edit-bar-app
                     class="m-l-md"
                     uid=${cmt.userID}
@@ -89,8 +86,7 @@ export class CmtView extends ll.BaseElement {
                     @editClick=${this.handleEditClick}
                     @deleteClick=${this.handleDeleteClick}></edit-bar-app>
                 `
-                : ''
-            }
+              : ''}
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
           <div>

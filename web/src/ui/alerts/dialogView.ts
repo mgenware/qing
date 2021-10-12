@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css, TemplateResult } from 'll';
+import * as lp from 'lit-props';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
 import { staticMainImage } from 'urls';
@@ -20,12 +21,12 @@ export enum DialogIcon {
   warning,
 }
 
-@ll.customElement('dialog-view')
-export class DialogView extends ll.BaseElement {
+@customElement('dialog-view')
+export class DialogView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -46,19 +47,19 @@ export class DialogView extends ll.BaseElement {
     ];
   }
 
-  @ll.bool open = false;
-  @ll.string title = '';
-  @ll.string message = '';
-  @ll.number icon: DialogIcon = 0;
-  @ll.array buttons: string[] = [];
-  @ll.number defaultButton = -1;
-  @ll.number cancelButton = -1;
+  @lp.bool open = false;
+  @lp.string title = '';
+  @lp.string message = '';
+  @lp.number icon: DialogIcon = 0;
+  @lp.array buttons: string[] = [];
+  @lp.number defaultButton = -1;
+  @lp.number cancelButton = -1;
 
   private closingButton = -1;
 
   render() {
     const iconEl = this.getIconElement(this.icon);
-    return ll.html`
+    return html`
       <qing-overlay
         ?open=${this.open}
         @openChanged=${this.handleOpenChanged}
@@ -91,7 +92,7 @@ export class DialogView extends ll.BaseElement {
 
   private renderButtons() {
     return this.buttons.map(
-      (b, i) => ll.html`<qing-button class="dialog-btn" @click=${() => this.handleButtonClick(b, i)}
+      (b, i) => html`<qing-button class="dialog-btn" @click=${() => this.handleButtonClick(b, i)}
         >${b}</qing-button
       >`,
     );
@@ -122,7 +123,7 @@ export class DialogView extends ll.BaseElement {
     this.getButtonElement('esc')?.click();
   }
 
-  private getIconElement(icon: DialogIcon): ll.TemplateResult {
+  private getIconElement(icon: DialogIcon): TemplateResult {
     let iconName = '';
     // See `svg-icon.iconStyle`.
     let iconStyle = '';
@@ -141,9 +142,9 @@ export class DialogView extends ll.BaseElement {
         break;
     }
     if (!iconName) {
-      return ll.html``;
+      return html``;
     }
-    return ll.html`<svg-icon
+    return html`<svg-icon
       iconStyle=${iconStyle}
       .oneTimeSrc=${staticMainImage(`${iconName}.svg`)}
       .size=${iconSize}></svg-icon>`;

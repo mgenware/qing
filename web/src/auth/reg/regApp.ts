@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
@@ -15,12 +16,12 @@ import 'ui/form/inputErrorView';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 
-@ll.customElement('reg-app')
-export class RegApp extends ll.BaseElement {
+@customElement('reg-app')
+export class RegApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -28,18 +29,18 @@ export class RegApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string private name = '';
-  @ll.string private email = '';
-  @ll.string private password = '';
-  @ll.string private confirmPassword = '';
+  @lp.string private name = '';
+  @lp.string private email = '';
+  @lp.string private password = '';
+  @lp.string private confirmPassword = '';
 
-  @ll.bool private isCompletionModalOpen = false;
+  @lp.bool private isCompletionModalOpen = false;
 
   // Additional passwords mismatch error message displayed under "Confirm password" input.
-  @ll.string private passwordsMismatchErr = '';
+  @lp.string private passwordsMismatchErr = '';
 
   render() {
-    return ll.html`
+    return html`
       <h2>${ls.createAnAcc}</h2>
       <div>
         <input-view
@@ -73,13 +74,11 @@ export class RegApp extends ll.BaseElement {
           label=${ls.confirmPassword}
           value=${this.confirmPassword}
           @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}></input-view>
-        ${
-          this.passwordsMismatchErr
-            ? ll.html`<input-error-view
+        ${this.passwordsMismatchErr
+          ? html`<input-error-view
               class="m-t-md"
               message=${this.passwordsMismatchErr}></input-error-view>`
-            : ''
-        }
+          : ''}
       </div>
       <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignUpClick}
         >${ls.signUp}</qing-button

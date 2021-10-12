@@ -5,19 +5,20 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html } from 'll';
+import * as lp from 'lit-props';
 import { formatLS, ls } from 'ls';
 
-@ll.customElement('item-counter')
-export class ItemCounter extends ll.BaseElement {
-  @ll.number shown = 0;
-  @ll.number total = 0;
+@customElement('item-counter')
+export class ItemCounter extends BaseElement {
+  @lp.number shown = 0;
+  @lp.number total = 0;
 
   render() {
     if (this.total <= 1) {
-      return ll.html` <span>${ls.oneItem}</span> `;
+      return html` <span>${ls.oneItem}</span> `;
     }
-    return ll.html` <span>${formatLS(ls.ppItemsCounter, this.shown, this.total)}</span> `;
+    return html` <span>${formatLS(ls.ppItemsCounter, this.shown, this.total)}</span> `;
   }
 }
 

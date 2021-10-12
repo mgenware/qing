@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { CHECK } from 'checks';
 import './voteView';
 import { VoteLoader } from './loaders/voteLoader';
@@ -15,12 +16,12 @@ import appPageState from 'app/appPageState';
 import { upVoteValue, downVoteValue, noVoteValue } from 'sharedConstants';
 import ls from 'ls';
 
-@ll.customElement('vote-app')
-export class VoteApp extends ll.BaseElement {
+@customElement('vote-app')
+export class VoteApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: inline-block;
         }
@@ -29,17 +30,17 @@ export class VoteApp extends ll.BaseElement {
   }
 
   // Reflected: used for quick locating the view during testing.
-  @ll.reflected.string hostID = '';
-  @ll.number initialValue = 0;
-  @ll.number initialUps = 0;
-  @ll.number initialDowns = 0;
-  @ll.number initialMyVote = 0;
+  @lp.reflected.string hostID = '';
+  @lp.number initialValue = 0;
+  @lp.number initialUps = 0;
+  @lp.number initialDowns = 0;
+  @lp.number initialMyVote = 0;
 
-  @ll.bool private isWorking = false;
-  @ll.number private value = 0;
-  @ll.number private ups = 0;
-  @ll.number private downs = 0;
-  @ll.number private myVote = 0;
+  @lp.bool private isWorking = false;
+  @lp.number private value = 0;
+  @lp.number private ups = 0;
+  @lp.number private downs = 0;
+  @lp.number private myVote = 0;
 
   firstUpdated() {
     CHECK(this.hostID);
@@ -50,7 +51,7 @@ export class VoteApp extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`
+    return html`
       <div class=${this.isWorking ? 'content-disabled' : ''}>
         <vote-view
           .value=${this.value}

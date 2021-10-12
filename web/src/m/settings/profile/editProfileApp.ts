@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -26,12 +27,12 @@ import 'ui/form/labelView';
 
 const editorID = 'editor';
 
-@ll.customElement('edit-profile-app')
-export class EditProfileApp extends ll.BaseElement {
+@customElement('edit-profile-app')
+export class EditProfileApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -52,14 +53,14 @@ export class EditProfileApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string name = '';
-  @ll.string status = '';
-  @ll.string url = '';
-  @ll.string company = '';
-  @ll.string location = '';
-  @ll.object loadingStatus = LoadingStatus.notStarted;
-  @ll.bool updateInfoStatus = LoadingStatus.success;
-  @ll.string avatarURL = '';
+  @lp.string name = '';
+  @lp.string status = '';
+  @lp.string url = '';
+  @lp.string company = '';
+  @lp.string location = '';
+  @lp.object loadingStatus = LoadingStatus.notStarted;
+  @lp.bool updateInfoStatus = LoadingStatus.success;
+  @lp.string avatarURL = '';
 
   private get editorEl(): EditorView | null {
     return this.getShadowElement<EditorView>(editorID);
@@ -71,12 +72,12 @@ export class EditProfileApp extends ll.BaseElement {
 
   render() {
     const { loadingStatus } = this;
-    return ll.html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
+    return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }
 
   renderProgress() {
     const { loadingStatus } = this;
-    return ll.html` 
+    return html`
       <status-view
         .progressViewPadding=${'md'}
         .status=${loadingStatus}
@@ -86,7 +87,7 @@ export class EditProfileApp extends ll.BaseElement {
   }
 
   renderContent() {
-    return ll.html`
+    return html`
       <heading-view>${ls.profilePicture}</heading-view>
       <p>
         <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
@@ -101,7 +102,7 @@ export class EditProfileApp extends ll.BaseElement {
           label=${ls.name}
           value=${this.name}
           @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
-          
+
         <input-view
           required
           label=${ls.profileStatus}

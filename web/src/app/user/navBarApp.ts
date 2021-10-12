@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
 import routes from 'routes';
@@ -22,12 +23,12 @@ import appSettings from 'app/appSettings';
 import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
 import { runNewEntityCommand } from 'app/appCommands';
 
-@ll.customElement('nav-bar-app')
-export default class NavBarApp extends ll.BaseElement {
+@customElement('nav-bar-app')
+export default class NavBarApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -162,8 +163,8 @@ export default class NavBarApp extends ll.BaseElement {
     ];
   }
 
-  @ll.object user: User | null = null;
-  @ll.number currentTheme = defs.UserTheme.light;
+  @lp.object user: User | null = null;
+  @lp.number currentTheme = defs.UserTheme.light;
 
   firstUpdated() {
     this.user = appPageState.user;
@@ -179,7 +180,7 @@ export default class NavBarApp extends ll.BaseElement {
   render() {
     const { user } = this;
 
-    return ll.html`
+    return html`
       <navbar id="main-navbar">
         <a href="/">
           <img
@@ -193,9 +194,8 @@ export default class NavBarApp extends ll.BaseElement {
 
         <div class="fill-space"></div>
 
-        ${
-          user
-            ? ll.html`
+        ${user
+          ? html`
               <div class="dropdown">
                 <button class="dropdown-btn">
                   <img
@@ -223,21 +223,20 @@ export default class NavBarApp extends ll.BaseElement {
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
                   ${tif(
                     user.admin,
-                    ll.html`<a href=${routes.mx.usersAndGroups}>${ls.adminSettings}</a>`,
+                    html`<a href=${routes.mx.usersAndGroups}>${ls.adminSettings}</a>`,
                   )}
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>
             `
-            : ll.html`
+          : html`
               <a href=${routes.auth.signIn}>
                 <span class="m-l-sm">${ls.signIn}</span>
               </a>
               <a href=${routes.auth.signUp}>
                 <span class="m-l-sm">${ls.signUp}</span>
               </a>
-            `
-        }
+            `}
 
         <a href="#" @click=${this.toggleTheme}>
           ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}

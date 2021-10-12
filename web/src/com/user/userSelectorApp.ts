@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'ui/form/inputView';
 import 'ui/form/selectionView';
 import ls from 'ls';
@@ -23,12 +24,12 @@ import appTask from 'app/appTask';
 const inputViewID = 'input-view';
 const popoverRootID = 'popover-root';
 
-@ll.customElement('user-selector-app')
-export class UserSelectorApp extends ll.BaseElement {
+@customElement('user-selector-app')
+export class UserSelectorApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -78,12 +79,12 @@ export class UserSelectorApp extends ll.BaseElement {
     ];
   }
 
-  @ll.bool byID = true;
-  @ll.string value = '';
-  @ll.array private users: UserInfo[] = [];
-  @ll.object private status = LoadingStatus.notStarted;
-  @ll.bool private popoverVisible = false;
-  @ll.object private selectedUser: UserInfo | null = null;
+  @lp.bool byID = true;
+  @lp.string value = '';
+  @lp.array private users: UserInfo[] = [];
+  @lp.object private status = LoadingStatus.notStarted;
+  @lp.bool private popoverVisible = false;
+  @lp.object private selectedUser: UserInfo | null = null;
 
   private get inputView(): HTMLElement | null {
     return this.getShadowElement(inputViewID);
@@ -95,11 +96,10 @@ export class UserSelectorApp extends ll.BaseElement {
 
   render() {
     const { users, selectedUser } = this;
-    return ll.html`
+    return html`
       <div>${ls.findUsersByColon}</div>
-      ${
-        selectedUser
-          ? ll.html`<div class="selected-user-row m-t-md">
+      ${selectedUser
+        ? html`<div class="selected-user-row m-t-md">
             <qing-button
               class="vertical-align-middle"
               title=${ls.cancel}
@@ -107,7 +107,7 @@ export class UserSelectorApp extends ll.BaseElement {
               >✖</qing-button
             ><user-card class="m-l-md" .user=${selectedUser}></user-card>
           </div>`
-          : ll.html`<selection-view
+        : html`<selection-view
               class="m-t-md"
               .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
               @onSelectionChange=${this.handleByIDSelectionChange}></selection-view>
@@ -124,22 +124,19 @@ export class UserSelectorApp extends ll.BaseElement {
               .status=${this.status}
               style=${`visibility: ${this.popoverVisible ? 'visible' : 'collapse'}`}>
               <div class="list-view">
-                ${
-                  users.length
-                    ? users.map((item) => this.renderUserRow(item))
-                    : tif(
-                        this.status.isWorking,
-                        ll.html`<div class="no-result-row">${ls.noResultsFound}</div>`,
-                      )
-                }
+                ${users.length
+                  ? users.map((item) => this.renderUserRow(item))
+                  : tif(
+                      this.status.isWorking,
+                      html`<div class="no-result-row">${ls.noResultsFound}</div>`,
+                    )}
               </div>
-            </status-overlay>`
-      }
+            </status-overlay>`}
     `;
   }
 
   private renderUserRow(user: UserInfo) {
-    return ll.html`
+    return html`
       <a class="user-row" href="#" @click=${() => this.handleUserRowClick(user)}>
         <user-card .user=${user}></user-card>
       </a>

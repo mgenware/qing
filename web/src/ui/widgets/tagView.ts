@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
-@ll.customElement('tag-view')
-export class TagView extends ll.BaseElement {
+@customElement('tag-view')
+export class TagView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         .tag {
           padding: 0.1rem 0.3rem;
           margin-left: 0.2rem;
@@ -28,10 +29,10 @@ export class TagView extends ll.BaseElement {
     ];
   }
 
-  @ll.string tagStyle: AppViewStyleNullable = '';
+  @lp.string tagStyle: AppViewStyleNullable = '';
 
   render() {
-    return ll.html`<span class="tag"><slot></slot></span>`;
+    return html`<span class="tag"><slot></slot></span>`;
   }
 }
 

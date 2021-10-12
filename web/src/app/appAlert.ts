@@ -7,7 +7,7 @@
 
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
-import * as ll from 'll';
+import { html } from 'll';
 import 'ui/status/spinnerView';
 import 'ui/alerts/dialogView';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
@@ -87,7 +87,7 @@ export class AppAlert {
   showLoadingOverlay(text: string) {
     this.hideLoadingOverlay();
 
-    const template = ll.html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
+    const template = html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
     renderTemplateResult(spinnerContainerID, template);
   }
 
@@ -106,7 +106,7 @@ export class AppAlert {
     timeout?: number;
   }): Promise<number> {
     return new Promise<number>((resolve, reject) => {
-      const template = ll.html`<dialog-view
+      const template = html`<dialog-view
         open
         .buttons=${args.buttons}
         .defaultButton=${args.defaultButtonIndex ?? -1}
@@ -117,8 +117,7 @@ export class AppAlert {
         @dialogClosed=${(e: CustomEvent<number>) => {
           resolve(e.detail);
           renderTemplateResult(dialogContainerID, null);
-        }}
-      ></dialog-view>`;
+        }}></dialog-view>`;
 
       const dialogView = renderTemplateResult<DialogView>(dialogContainerID, template);
       if (!dialogView) {

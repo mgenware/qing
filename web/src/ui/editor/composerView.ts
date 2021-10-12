@@ -5,7 +5,18 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import {
+  BaseElement,
+  customElement,
+  html,
+  css,
+  Ref,
+  createRef,
+  ref,
+  PropertyValues,
+  TemplateResult,
+} from 'll';
+import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import './editorView';
 import { ERR } from 'checks';
@@ -36,12 +47,12 @@ export interface ComposerContent {
  *   Warns the user about unsaved changes.
  *   Submit and cancel buttons.
  */
-@ll.customElement('composer-view')
-export class ComposerView extends ll.BaseElement {
+@customElement('composer-view')
+export class ComposerView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: flex;
           flex-direction: column;
@@ -60,25 +71,25 @@ export class ComposerView extends ll.BaseElement {
     ];
   }
 
-  @ll.number entityType = 0;
+  @lp.number entityType = 0;
 
   // Title field value.
-  @ll.string inputTitle = '';
-  @ll.bool showTitleInput = false;
+  @lp.string inputTitle = '';
+  @lp.bool showTitleInput = false;
 
-  @ll.string entityID = '';
-  @ll.string submitButtonText = '';
+  @lp.string entityID = '';
+  @lp.string submitButtonText = '';
 
   // Source loading will start when `entityID` changes, it has to default to
   // `true`.
-  @ll.object loadingStatus = LoadingStatus.success;
+  @lp.object loadingStatus = LoadingStatus.success;
 
   // Used to check if editor content has changed.
   private lastSavedTitle = '';
   private lastSavedContent = '';
 
-  private editorEl: ll.Ref<EditorView> = ll.createRef();
-  private titleInputEl: ll.Ref<HTMLInputElement> = ll.createRef();
+  private editorEl: Ref<EditorView> = createRef();
+  private titleInputEl: Ref<HTMLInputElement> = createRef();
 
   hasContentChanged(): boolean {
     if (!this.editorEl.value) {
@@ -151,33 +162,33 @@ export class ComposerView extends ll.BaseElement {
   render() {
     const { loadingStatus } = this;
 
-    let editorContent: ll.TemplateResult;
+    let editorContent: TemplateResult;
     if (loadingStatus.isSuccess) {
-      editorContent = ll.html`${tif(
-        this.showTitleInput,
-        ll.html`
+      editorContent = html`${tif(
+          this.showTitleInput,
+          html`
             <div class="p-b-sm flex-auto">
               <input-view
-              ${ll.ref(this.titleInputEl)}
+                ${ref(this.titleInputEl)}
                 required
                 .placeholder=${ls.title}
                 .value=${this.inputTitle}
                 @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}></input-view>
             </div>
           `,
-      )} <editor-view ${ll.ref(this.editorEl)}></editor-view>`;
+        )} <editor-view ${ref(this.editorEl)}></editor-view>`;
     } else {
-      editorContent = ll.html` <status-view
+      editorContent = html` <status-view
         .status=${loadingStatus}
         .canRetry=${true}
         @onRetry=${this.loadEntitySource}></status-view>`;
     }
 
-    const bottomContent = ll.html`
+    const bottomContent = html`
       <div class="m-t-md flex-auto text-center editor-buttons">
         ${tif(
           loadingStatus.isSuccess,
-          ll.html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
+          html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
             ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
           </qing-button>`,
         )}
@@ -187,7 +198,7 @@ export class ComposerView extends ll.BaseElement {
       </div>
     `;
 
-    return ll.html`
+    return html`
       <div class="d-flex flex-column flex-full">
         <div
           class="d-flex flex-column flex-full"
@@ -199,7 +210,7 @@ export class ComposerView extends ll.BaseElement {
     `;
   }
 
-  async updated(changedProperties: ll.PropertyValues<this>) {
+  async updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('entityID') && this.entityID) {
       await this.loadEntitySource();
     }

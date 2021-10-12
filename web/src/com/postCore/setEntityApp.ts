@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
@@ -20,12 +21,12 @@ import appPageState from 'app/appPageState';
 
 const composerID = 'composer';
 
-@ll.customElement('set-entity-app')
-export default class SetEntityApp extends ll.BaseElement {
+@customElement('set-entity-app')
+export default class SetEntityApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -33,19 +34,19 @@ export default class SetEntityApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string postID = '';
-  @ll.string postTitle = '';
-  @ll.number entityType = 0;
-  @ll.string headerText = '';
-  @ll.bool showTitleInput = true;
-  @ll.string submitButtonText = '';
-  @ll.string forumID = '';
+  @lp.string postID = '';
+  @lp.string postTitle = '';
+  @lp.number entityType = 0;
+  @lp.string headerText = '';
+  @lp.bool showTitleInput = true;
+  @lp.string submitButtonText = '';
+  @lp.string forumID = '';
 
-  @ll.bool open = false;
-  @ll.bool autoClose = false;
+  @lp.bool open = false;
+  @lp.bool autoClose = false;
 
-  @ll.string discussionID: string | undefined;
-  @ll.string questionID: string | undefined;
+  @lp.string discussionID: string | undefined;
+  @lp.string questionID: string | undefined;
 
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
@@ -66,7 +67,7 @@ export default class SetEntityApp extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`
+    return html`
       <qing-overlay
         class="immersive"
         ?open=${this.open}

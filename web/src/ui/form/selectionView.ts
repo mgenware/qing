@@ -6,7 +6,8 @@
  */
 
 /* eslint-disable arrow-body-style */
-import * as ll from 'll';
+import { BaseElement, customElement, html, css, TemplateResult } from 'll';
+import * as lp from 'lit-props';
 
 export interface SelectionViewItem {
   text: string;
@@ -21,12 +22,12 @@ export interface SelectionViewItemEvent {
   index: number;
 }
 
-@ll.customElement('selection-view')
-export class SelectionView extends ll.BaseElement {
+@customElement('selection-view')
+export class SelectionView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -94,11 +95,11 @@ export class SelectionView extends ll.BaseElement {
     ];
   }
 
-  @ll.array dataSource: SelectionViewItem[] = [];
-  @ll.bool multiSelect = false;
+  @lp.array dataSource: SelectionViewItem[] = [];
+  @lp.bool multiSelect = false;
 
   render() {
-    return ll.html`
+    return html`
       <div>
         ${this.dataSource.map((item, index) => {
           return this.multiSelect
@@ -109,9 +110,9 @@ export class SelectionView extends ll.BaseElement {
     `;
   }
 
-  private renderCheckBox(item: SelectionViewItem, index: number): ll.TemplateResult {
+  private renderCheckBox(item: SelectionViewItem, index: number): TemplateResult {
     const name = 'check-box';
-    return ll.html`
+    return html`
       <label>
         <input
           type="checkbox"
@@ -123,10 +124,10 @@ export class SelectionView extends ll.BaseElement {
     `;
   }
 
-  private renderRadioBox(item: SelectionViewItem, index: number): ll.TemplateResult {
+  private renderRadioBox(item: SelectionViewItem, index: number): TemplateResult {
     // Name is required to make sure each option is mutually exclusive.
     const name = 'radio-box';
-    return ll.html`
+    return html`
       <label>
         <input
           type="radio"

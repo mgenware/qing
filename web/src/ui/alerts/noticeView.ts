@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'qing-dock-box';
 
-@ll.customElement('notice-view')
-export class NoticeView extends ll.BaseElement {
+@customElement('notice-view')
+export class NoticeView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -26,10 +27,10 @@ export class NoticeView extends ll.BaseElement {
     ];
   }
 
-  @ll.string height = '400px';
+  @lp.string height = '400px';
 
   render() {
-    return ll.html`
+    return html`
       <qing-dock-box class="root-container" style=${`height:${this.height}`}
         ><slot></slot
       ></qing-dock-box>

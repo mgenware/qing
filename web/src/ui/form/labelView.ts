@@ -5,25 +5,26 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 
-@ll.customElement('label-view')
-export class LabelView extends ll.BaseElement {
+@customElement('label-view')
+export class LabelView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
-            :host {
-              display: block;
-            }
-          `,
+      css`
+        :host {
+          display: block;
+        }
+      `,
     ];
   }
 
-  @ll.string for = '';
+  @lp.string for = '';
 
   render() {
-    return ll.html`<label class="app-form-label" for=${this.for}><slot></slot></label>`;
+    return html`<label class="app-form-label" for=${this.for}><slot></slot></label>`;
   }
 }
 

@@ -5,17 +5,18 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { formatLS, ls } from 'ls';
 import 'ui/status/statusView';
 import LoadingStatus from 'lib/loadingStatus';
 
-@ll.customElement('cmt-footer-view')
-export class CmtFooterView extends ll.BaseElement {
+@customElement('cmt-footer-view')
+export class CmtFooterView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -23,16 +24,16 @@ export class CmtFooterView extends ll.BaseElement {
     ];
   }
 
-  @ll.object status = LoadingStatus.notStarted;
-  @ll.bool hasNext = false;
-  @ll.bool replies = false;
-  @ll.number loadedCount = 0;
+  @lp.object status = LoadingStatus.notStarted;
+  @lp.bool hasNext = false;
+  @lp.bool replies = false;
+  @lp.number loadedCount = 0;
 
   render() {
     const { status } = this;
     if (status.isSuccess) {
       if (this.hasNext) {
-        return ll.html`
+        return html`
           <div>
             <a href="#" @click=${this.handleMoreButtonClick}
               >${formatLS(
@@ -44,10 +45,10 @@ export class CmtFooterView extends ll.BaseElement {
         `;
       }
       // If success and `hasNext` is false, nothing to show.
-      return ll.html``;
+      return html``;
     }
 
-    return ll.html`
+    return html`
       <status-view
         .status=${status}
         .canRetry=${true}

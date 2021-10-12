@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { customElement, html, css, TemplateResult } from 'll';
 import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
@@ -15,12 +15,12 @@ import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import PCPost from './pcPost';
 import { runNewEntityCommand } from 'app/appCommands';
 
-@ll.customElement('my-questions-app')
+@customElement('my-questions-app')
 export default class MyQuestionsApp extends PCListApp {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -44,8 +44,8 @@ export default class MyQuestionsApp extends PCListApp {
     );
   }
 
-  sectionHeader(): ll.TemplateResult {
-    return ll.html`
+  sectionHeader(): TemplateResult {
+    return html`
       <heading-view>
         <div>${ls.yourQuestions}</div>
         <div slot="decorator">
@@ -57,8 +57,8 @@ export default class MyQuestionsApp extends PCListApp {
     `;
   }
 
-  renderTable(): ll.TemplateResult | null {
-    return ll.html`
+  renderTable(): TemplateResult | null {
+    return html`
       <thead>
         <th>${ls.title}</th>
         ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
@@ -66,7 +66,7 @@ export default class MyQuestionsApp extends PCListApp {
       </thead>
       <tbody>
         ${this.items.map(
-          (item) => ll.html`
+          (item) => html`
             <tr>
               <td style="width: 100%"><a href=${item.url}>${item.title}</a></td>
               <td>

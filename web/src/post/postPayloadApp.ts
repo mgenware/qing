@@ -5,19 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
 import 'com/cmt/cmtApp';
 import postWind from './postWind';
 import 'com/like/likeApp';
 import { entityPost } from 'sharedConstants';
 
 // Handles loading of post likes and comments.
-@ll.customElement('post-payload-app')
-export class PostPayloadApp extends ll.BaseElement {
+@customElement('post-payload-app')
+export class PostPayloadApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -31,7 +31,7 @@ export class PostPayloadApp extends ll.BaseElement {
     const initialLikes = postWind.InitialLikes;
     const initialHasLiked = postWind.InitialHasLiked;
 
-    return ll.html`
+    return html`
       <like-app
         .iconSize=${'md'}
         .initialLikes=${initialLikes}

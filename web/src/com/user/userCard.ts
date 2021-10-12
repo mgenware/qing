@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import UserInfo from './userInfo';
 
-@ll.customElement('user-card')
-export class UserCard extends ll.BaseElement {
+@customElement('user-card')
+export class UserCard extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -21,14 +22,14 @@ export class UserCard extends ll.BaseElement {
     ];
   }
 
-  @ll.object user: UserInfo | null = null;
+  @lp.object user: UserInfo | null = null;
 
   render() {
     const { user } = this;
     if (!user) {
       return '';
     }
-    return ll.html`
+    return html`
       <img src=${user.iconURL} class="avatar-m vertical-align-middle" width="40" height="40" />
       <span class="m-l-xs">${user.name}</span>
     `;

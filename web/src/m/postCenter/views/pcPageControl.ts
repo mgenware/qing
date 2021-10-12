@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
 import { ERR } from 'checks';
@@ -14,12 +15,12 @@ import appAlert from 'app/appAlert';
 
 const pageInputID = 'page-input';
 
-@ll.customElement('pc-page-control')
-export class PCPageControl extends ll.BaseElement {
+@customElement('pc-page-control')
+export class PCPageControl extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -27,11 +28,11 @@ export class PCPageControl extends ll.BaseElement {
     ];
   }
 
-  @ll.number shownItemCount = 0;
-  @ll.number totalItemCount = 0;
-  @ll.number page = 0;
-  @ll.number pageSize = 0;
-  @ll.string pageInputString = '';
+  @lp.number shownItemCount = 0;
+  @lp.number totalItemCount = 0;
+  @lp.number page = 0;
+  @lp.number pageSize = 0;
+  @lp.string pageInputString = '';
 
   private get totalPages(): number {
     const { pageSize, totalItemCount } = this;
@@ -44,7 +45,7 @@ export class PCPageControl extends ll.BaseElement {
 
   render() {
     const { page, totalPages } = this;
-    return ll.html`
+    return html`
       <div class="row">
         <div class="col-auto">
           ${formatLS(ls.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}

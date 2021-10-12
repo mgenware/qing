@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import 'ui/editor/composerView';
@@ -14,12 +14,12 @@ import { entityDiscussionMsg } from 'sharedConstants';
 import discussionWind from './discussionWind';
 import { CHECK } from 'checks';
 
-@ll.customElement('add-discussion-msg-app')
-export class AddDiscussionMsgApp extends ll.BaseElement {
+@customElement('add-discussion-msg-app')
+export class AddDiscussionMsgApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -32,7 +32,7 @@ export class AddDiscussionMsgApp extends ll.BaseElement {
   }
 
   render() {
-    return ll.html`
+    return html`
       <set-entity-app
         .headerText=${ls.postAMsgToThisDiscussion}
         .entityType=${entityDiscussionMsg}

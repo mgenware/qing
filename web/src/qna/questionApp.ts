@@ -5,18 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'com/cmt/cmtApp';
 import { entityQuestion } from 'sharedConstants';
 import { CHECK } from 'checks';
 
 // Handles rendering of question votes and comments.
-@ll.customElement('question-app')
-export class QuestionApp extends ll.BaseElement {
+@customElement('question-app')
+export class QuestionApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -24,21 +25,21 @@ export class QuestionApp extends ll.BaseElement {
     ];
   }
 
-  @ll.number initialLikes = 0;
+  @lp.number initialLikes = 0;
   // Intentionally set as a number as server bool values are easy
   // to passed down as numbers when set as attributes.
   // See `questionView.html`.
-  @ll.number initialHasLiked = 0;
-  @ll.number initialCmtCount = 0;
-  @ll.number initialAnsCount = 0;
-  @ll.string eid = '';
+  @lp.number initialHasLiked = 0;
+  @lp.number initialCmtCount = 0;
+  @lp.number initialAnsCount = 0;
+  @lp.string eid = '';
 
   firstUpdated() {
     CHECK(this.eid);
   }
 
   render() {
-    return ll.html`
+    return html`
       <div>
         <slot></slot>
         <div class="m-t-md">

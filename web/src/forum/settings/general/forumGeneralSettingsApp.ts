@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -24,12 +25,12 @@ import appAlert from 'app/appAlert';
 
 const editorElementID = 'editor';
 
-@ll.customElement('forum-general-settings-app')
-export class ForumGeneralSettingsApp extends ll.BaseElement {
+@customElement('forum-general-settings-app')
+export class ForumGeneralSettingsApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -41,11 +42,11 @@ export class ForumGeneralSettingsApp extends ll.BaseElement {
     ];
   }
 
-  @ll.string fid = '';
-  @ll.string name = '';
-  @ll.object loadingStatus = LoadingStatus.notStarted;
-  @ll.bool updateInfoStatus = LoadingStatus.success;
-  @ll.string avatarURL = '';
+  @lp.string fid = '';
+  @lp.string name = '';
+  @lp.object loadingStatus = LoadingStatus.notStarted;
+  @lp.bool updateInfoStatus = LoadingStatus.success;
+  @lp.string avatarURL = '';
 
   get descEditorView(): EditorView | null {
     return this.getShadowElement(editorElementID);
@@ -59,12 +60,12 @@ export class ForumGeneralSettingsApp extends ll.BaseElement {
 
   render() {
     const { loadingStatus } = this;
-    return ll.html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
+    return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }
 
   renderProgress() {
     const { loadingStatus } = this;
-    return ll.html`
+    return html`
       <status-view
         .status=${loadingStatus}
         .canRetry=${true}
@@ -74,7 +75,7 @@ export class ForumGeneralSettingsApp extends ll.BaseElement {
   }
 
   renderContent() {
-    return ll.html`
+    return html`
       <status-overlay .status=${this.updateInfoStatus}>
         <heading-view>${ls.general}</heading-view>
         <input-view

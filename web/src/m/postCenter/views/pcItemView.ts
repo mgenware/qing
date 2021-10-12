@@ -5,15 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import * as ll from 'll';
+import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import ls from 'ls';
 
-@ll.customElement('pc-item-view')
-export class PCItemView extends ll.BaseElement {
+@customElement('pc-item-view')
+export class PCItemView extends BaseElement {
   static get styles() {
     return [
       super.styles,
-      ll.css`
+      css`
         :host {
           display: block;
         }
@@ -21,12 +22,12 @@ export class PCItemView extends ll.BaseElement {
     ];
   }
 
-  @ll.string name = '';
-  @ll.string link = '';
-  @ll.string id = '';
+  @lp.string name = '';
+  @lp.string link = '';
+  @lp.string id = '';
 
   render() {
-    return ll.html`
+    return html`
       <tr>
         <td><a href=${this.link}>${this.name}</a></td>
         <td>
