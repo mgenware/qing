@@ -7,3 +7,12 @@
 
 import 'core';
 import './postPayloadApp';
+import { setupHandlers } from 'com/postCore/postEditHandlers';
+import { PostUserApp } from 'com/postCore/postUserApp';
+import { entityPost } from 'sharedConstants';
+import wind from './postWind';
+
+const postUserApp = document.querySelector<PostUserApp>('.m-post-user');
+if (postUserApp) {
+  setupHandlers(postUserApp, wind.EID, entityPost);
+}

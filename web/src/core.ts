@@ -17,4 +17,4 @@ import 'app/user/navBarApp';
 import 'qing-button';
 import 'ui/content/timeField';
 import 'ui/panels/containerView';
-import 'com/user/postUserApp';
+import 'com/postCore/postUserApp';
