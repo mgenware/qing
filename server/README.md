@@ -1,5 +1,14 @@
 # qing.server
 
+## Folder structure
+
+- `app` shared application modules
+- `da` data access layer
+- `fx` internal modules
+- `lib` library related helpers
+- `mingru` data access source files
+- `r` routes
+
 ## Naming conventions
 
 We strictly follow the standard Go naming conventions with some additions.
