@@ -15,13 +15,8 @@ We strictly follow the standard Go naming conventions with some additions.
 
 - Directory name can use snake_case for readability, e.g. `profile_api` as directory name, `profileapi` for package name.
 - All `GET` requests use `page` or simply `p` as suffix, all `POST` requests use `api` as suffix.
-- App-wide components use `x` as suffix, e.g. `logx`.
 - URLs should use `-` instead of `_` as separators, e.g. prefer `new-post` over `new_post`.
-- Some frequently used abbrs
-  - `sr` service restricted: APIs require user logged in
-  - `t` testing
-  - `da` data access
-  - `fx` frameworks
+- Some app modules have a `x` as suffix, e.g. `logx`, to avoid conflicts with standard go modules.
 
 ## Run tests
 
