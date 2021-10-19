@@ -13,7 +13,7 @@ import appPageState from 'app/appPageState';
 @customElement('edit-bar-app')
 export class EditBarApp extends BaseElement {
   @lp.string uid = '';
-  @lp.bool private visible = false;
+  @lp.state private visible = false;
 
   firstUpdated() {
     const cur = appPageState.userEID;
