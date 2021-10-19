@@ -121,8 +121,8 @@ func (da *TableTypePost) deleteReplyChild3(queryable mingru.Queryable, hostID ui
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePost) deleteReplyChild4(queryable mingru.Queryable, id uint64, userID uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, userID, -1)
+func (da *TableTypePost) deleteReplyChild4(queryable mingru.Queryable, id uint64) error {
+	return Cmt.UpdateReplyCount(queryable, id, -1)
 }
 
 // DeleteReply ...
@@ -141,7 +141,7 @@ func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error
 		if err != nil {
 			return err
 		}
-		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID, userID)
+		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID)
 		if err != nil {
 			return err
 		}
@@ -222,8 +222,8 @@ func (da *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string
 	return insertedIDExported, txErr
 }
 
-func (da *TableTypePost) insertReplyChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, userID, 1)
+func (da *TableTypePost) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
+	return Cmt.UpdateReplyCount(queryable, id, 1)
 }
 
 func (da *TableTypePost) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
@@ -240,7 +240,7 @@ func (da *TableTypePost) InsertReply(db *sql.DB, contentHTML string, userID uint
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild2(tx, parentID, userID)
+		err = da.insertReplyChild2(tx, parentID)
 		if err != nil {
 			return err
 		}

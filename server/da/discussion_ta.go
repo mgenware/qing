@@ -121,8 +121,8 @@ func (da *TableTypeDiscussion) deleteReplyChild3(queryable mingru.Queryable, hos
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeDiscussion) deleteReplyChild4(queryable mingru.Queryable, id uint64, userID uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, userID, -1)
+func (da *TableTypeDiscussion) deleteReplyChild4(queryable mingru.Queryable, id uint64) error {
+	return Cmt.UpdateReplyCount(queryable, id, -1)
 }
 
 // DeleteReply ...
@@ -141,7 +141,7 @@ func (da *TableTypeDiscussion) DeleteReply(db *sql.DB, id uint64, userID uint64)
 		if err != nil {
 			return err
 		}
-		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID, userID)
+		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID)
 		if err != nil {
 			return err
 		}
@@ -222,8 +222,8 @@ func (da *TableTypeDiscussion) InsertItem(db *sql.DB, forumID *uint64, title str
 	return insertedIDExported, txErr
 }
 
-func (da *TableTypeDiscussion) insertReplyChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, userID, 1)
+func (da *TableTypeDiscussion) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
+	return Cmt.UpdateReplyCount(queryable, id, 1)
 }
 
 func (da *TableTypeDiscussion) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
@@ -240,7 +240,7 @@ func (da *TableTypeDiscussion) InsertReply(db *sql.DB, contentHTML string, userI
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild2(tx, parentID, userID)
+		err = da.insertReplyChild2(tx, parentID)
 		if err != nil {
 			return err
 		}

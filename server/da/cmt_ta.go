@@ -40,7 +40,7 @@ func (da *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, u
 }
 
 // UpdateReplyCount ...
-func (da *TableTypeCmt) UpdateReplyCount(queryable mingru.Queryable, id uint64, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE (`id` = ? AND `user_id` = ?)", offset, id, userID)
+func (da *TableTypeCmt) UpdateReplyCount(queryable mingru.Queryable, id uint64, offset int) error {
+	result, err := queryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -28,7 +28,7 @@ export class CmtTA extends mm.TableActions {
   updateReplyCount = mm
     .updateOne()
     .set(t.reply_count, mm.sql`${t.reply_count} + ${mm.int().toInput('offset')}`)
-    .whereSQL(defaultUpdateConditions(t));
+    .by(t.id); // DO NOT add `user_id` check here since parent cmt's `reply_count` might be a different user.
 }
 
 export default mm.tableActions(t, CmtTA);
