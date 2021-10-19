@@ -131,8 +131,9 @@ export class CmtBlock extends BaseElement {
     hub.openEditorRequested.dispatch({
       open: true,
       editing: null,
-      // No matter we're reply to a comment or reply, we're creating a reply.
-      // It must have a parent ID, which is current comment.
+      // We're always creating a reply on reply button click regardless of whether it's
+      // replying to a comment or another reply.
+      // The new reply is inserted as a child of current comment.
       parent: this.cmt,
       replyingTo: target,
     });
@@ -155,9 +156,7 @@ export class CmtBlock extends BaseElement {
     hub.openEditorRequested.dispatch({
       open: true,
       editing: target,
-      // No matter we're reply to a comment or reply, we're creating a reply.
-      // It must have a parent ID, which is current comment.
-      parent: isReply ? this.cmt : null,
+      parent: isReply ? this.cmt : null, // null if the root comment is being edited.
       replyingTo: null,
     });
   }

@@ -30,7 +30,6 @@ export default buildTree({
         deleteEntity: 'delete-entity',
         getEntitySource: 'get-entity-src',
         setCmt: 'set-cmt',
-        getCmtSource: 'get-cmt-src',
         deleteCmt: 'delete-cmt',
       },
       auth: {

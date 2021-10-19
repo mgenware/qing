@@ -60,7 +60,7 @@ export class CmtView extends BaseElement {
         <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
-            ${cmt.toUserID
+            ${isReply
               ? html`
                   <span>
                     <svg-icon

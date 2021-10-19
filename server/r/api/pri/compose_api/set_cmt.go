@@ -28,6 +28,12 @@ type SetCmtResponse struct {
 	Cmt *apicom.Cmt `json:"cmt"`
 }
 
+// On web side, replies are incorporated into the comment type, so here we're returning
+// a `Reply` object with the exact same name of `cmt`.
+type SetCmtReplyResponse struct {
+	Reply *apicom.Reply `json:"cmt"`
+}
+
 func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:
@@ -90,17 +96,21 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		d.UserName = user.Name
 		d.UserIconName = user.IconName
 		d.ToUserID = toUserID
-		if toUserID != 0 {
+
+		if parentCmtID != 0 && toUserID != 0 {
+			// `toUserID` is ignored if `parentCmtID` is not available.
 			toUserName, err := da.User.SelectName(db, toUserID)
 			app.PanicIfErrEx(err, "GetToUserName")
+			d.ToUserID = toUserID
 			d.ToUserName = toUserName
+			rpl := apicom.NewReply(d)
+			respData := SetCmtReplyResponse{Reply: &rpl}
+			return resp.MustComplete(respData)
+		} else {
+			cmt := apicom.NewCmt(d)
+			respData := SetCmtResponse{Cmt: &cmt}
+			return resp.MustComplete(respData)
 		}
-
-		cmt := apicom.NewCmt(d)
-		cmt.ContentHTML = content
-
-		respData := SetCmtResponse{Cmt: &cmt}
-		return resp.MustComplete(respData)
 	} else {
 		// Edit a comment or reply.
 		isReply := validator.MustGetIntFromDict(params, "isReply")
@@ -117,6 +127,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		now := time.Now()
 		cmt.ModifiedAt = fmtx.Time(now)
 
+		// NOTE: when editing a comment or reply, this always returns response the `cmt` field set.
 		respData := &SetCmtResponse{Cmt: cmt}
 		return resp.MustComplete(respData)
 	}

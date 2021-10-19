@@ -22,7 +22,6 @@ export default interface Cmt {
   hasLiked?: boolean;
 
   // Reply only properties.
-  toUserID?: string;
   toUserName?: string;
   toUserURL?: string;
 
@@ -38,5 +37,5 @@ export interface CmtCountChangedEventDetail {
 }
 
 export function isCmtReply(cmt: Cmt): boolean {
-  return !!cmt.toUserID;
+  return !!cmt.toUserURL;
 }
