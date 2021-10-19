@@ -14,4 +14,7 @@
   </a>
   <a href="{{html .UserURL}}" slot="name">{{html .UserName}}</a>
   <span slot="status">{{.UserStatus}}</span>
+  <span slot="toolbar">
+    <edit-bar-app uid="{{html .UserEID}}"></edit-bar-app>
+  </span>
 </post-user-app>

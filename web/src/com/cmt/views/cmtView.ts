@@ -19,7 +19,6 @@ import Cmt, { isCmtReply } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';
-import 'com/postCore/postUserApp';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
@@ -53,13 +52,6 @@ export class CmtView extends BaseElement {
     const isReply = isCmtReply(cmt);
     return html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
-        <post-user-app
-          .createdAt=${cmt.createdAt}
-          .modifiedAt=${cmt.modifiedAt}
-          .uid=${cmt.userID}
-          .entityType=${entityCmt}
-          .eid=${cmt.id}></post-user-app>
-
         <div class="col-auto">
           <a href=${cmt.userURL}>
             <img src=${cmt.userIconURL} class="avatar-m" width="50" height="50" />

@@ -5,10 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, ref, Ref, createRef } from 'll';
+import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
-import 'ui/editor/editBarApp';
-import { EditBarApp } from 'ui/editor/editBarApp';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
 import 'ui/editor/editBarApp';
 import 'com/postCore/setEntityApp';
@@ -39,8 +37,6 @@ export class PostUserApp extends BaseElement {
   @lp.string userStatus = '';
   @lp.string userName = '';
 
-  private editBarAppEl: Ref<EditBarApp> = createRef();
-
   render() {
     const imgSlot =
       this.userURL && this.userIconURL
@@ -64,10 +60,12 @@ export class PostUserApp extends BaseElement {
         <div class="col-auto">${imgSlot}</div>
         <div class="col">
           <div>${nameSlot}<span class="m-l-md"> ${statusSlot}</span></div>
-          <p>
+          <div class="m-t-md">
             <time-field .createdAt=${this.createdAt} .modifiedAt=${this.modifiedAt}></time-field>
-            <edit-bar-app ${ref(this.editBarAppEl)} class="m-l-md" uid=${this.uid}></edit-bar-app>
-          </p>
+            <span class="m-l-md">
+              <slot name="toolbar"></slot>
+            </span>
+          </div>
         </div>
       </div>
     `;
