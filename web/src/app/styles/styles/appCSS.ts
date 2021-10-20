@@ -24,9 +24,6 @@ export default css`
     text-decoration: none;
     cursor: hand;
   }
-  a:hover {
-    filter: brightness(120%);
-  }
   a:active {
     filter: brightness(80%);
   }
