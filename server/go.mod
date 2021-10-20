@@ -13,7 +13,7 @@ require (
 	github.com/mgenware/go-packagex/v6 v6.1.0
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/mingru-go-lib v0.0.1
-	github.com/microcosm-cc/bluemonday v1.0.15
+	github.com/microcosm-cc/bluemonday v1.0.16
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0
 	go.uber.org/atomic v1.9.0 // indirect
