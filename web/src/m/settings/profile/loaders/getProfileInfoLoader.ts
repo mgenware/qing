@@ -14,7 +14,6 @@ export interface GetProfileInfoResult {
   website?: string;
   company?: string;
   location?: string;
-  status?: string;
   bioHTML?: string;
 }
 

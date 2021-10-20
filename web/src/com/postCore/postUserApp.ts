@@ -34,7 +34,6 @@ export class PostUserApp extends BaseElement {
   // Optional properties (can be overridden by named slots).
   @lp.string userIconURL = '';
   @lp.string userURL = '';
-  @lp.string userStatus = '';
   @lp.string userName = '';
 
   render() {
@@ -52,14 +51,11 @@ export class PostUserApp extends BaseElement {
     const nameSlot = this.userName
       ? html`<a href="{{html .UserURL}}" slot="name">${this.userName}</a>`
       : html`<slot name="name"></slot>`;
-    const statusSlot = this.userStatus
-      ? html`<span slot="status">${this.userStatus}</span>`
-      : html`<slot name="status"></slot>`;
     return html`
       <div class="m-t-md row m-user-view">
         <div class="col-auto">${imgSlot}</div>
         <div class="col">
-          <div>${nameSlot}<span class="m-l-md"> ${statusSlot}</span></div>
+          <div>${nameSlot}</div>
           <div class="m-t-md">
             <time-field .createdAt=${this.createdAt} .modifiedAt=${this.modifiedAt}></time-field>
             <span class="m-l-md">

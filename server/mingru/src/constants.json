@@ -3,7 +3,6 @@
   "maxEmailLen": 200,
   "maxNameLen": 100,
   "maxFileNameLen": 255,
-  "maxUserStatusLen": 200,
   "maxUserInfoFieldLen": 100,
   "maxURLLen": 200,
   "maxPwdHashLen": 255

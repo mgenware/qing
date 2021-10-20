@@ -58,7 +58,7 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 	d.EID = fmtx.EncodeID(p.ID)
 	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
-	d.UserHTML = rcom.GetPostUserAppHTML(p.UserID, p.UserName, p.UserIconName, p.UserStatus, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetPostUserAppHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
 	d.MessageListHTML = msgListHTML
 	d.PageBarHTML = pageBarHTML
 	return d
@@ -70,6 +70,6 @@ func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult
 	eid := fmtx.EncodeID(p.ID)
 	d.DiscussionURL = appURL.Get().Discussion(p.ID)
 	d.EID = eid
-	d.UserHTML = rcom.GetPostUserAppHTML(p.UserID, p.UserName, p.UserIconName, p.UserStatus, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetPostUserAppHTML(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)
 	return d
 }

@@ -15,7 +15,6 @@ type SessionUser struct {
 	Name       string `json:"name,omitempty"`
 	IconName   string `json:"icon,omitempty"`
 	Admin      bool   `json:"admin,omitempty"`
-	Status     string `json:"status,omitempty"`
 	IsForumMod bool   `json:"is_mod,omitempty"`
 
 	// Generated props when deserialized

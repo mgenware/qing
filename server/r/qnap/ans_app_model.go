@@ -42,7 +42,7 @@ func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult, myVote int)
 	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserEID = fmtx.EncodeID(d.UserID)
-	d.UserHTML = rcom.GetPostUserAppHTML(d.UserID, d.UserName, d.UserIconName, p.UserStatus, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetPostUserAppHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	d.MyVote = myVote
 	return d
 }

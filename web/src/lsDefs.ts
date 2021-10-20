@@ -171,5 +171,4 @@ export default interface LSDefs {
   answers: string;
   postAnAnswer: string;
   signInToVoteThisAnswer: string;
-  profileStatus: string;
 }

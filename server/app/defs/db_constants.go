@@ -21,7 +21,6 @@ type DBConstantsType struct {
 	MaxTitleLen int
 	MaxUrlLen int
 	MaxUserInfoFieldLen int
-	MaxUserStatusLen int
 }
 
 // DB ...
@@ -36,6 +35,5 @@ func init() {
 		MaxTitleLen: 200,
 		MaxUrlLen: 200,
 		MaxUserInfoFieldLen: 100,
-		MaxUserStatusLen: 200,
 	}
 }

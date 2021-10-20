@@ -54,7 +54,6 @@ export class EditProfileApp extends BaseElement {
   }
 
   @lp.string name = '';
-  @lp.string status = '';
   @lp.string url = '';
   @lp.string company = '';
   @lp.string location = '';
@@ -104,12 +103,6 @@ export class EditProfileApp extends BaseElement {
           @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
         <input-view
-          required
-          label=${ls.profileStatus}
-          value=${this.status}
-          @onChange=${(e: CustomEvent<string>) => (this.status = e.detail)}></input-view>
-
-        <input-view
           label=${ls.url}
           value=${this.url}
           @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}></input-view>
@@ -144,7 +137,6 @@ export class EditProfileApp extends BaseElement {
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
       this.avatarURL = profile.iconURL ?? '';
-      this.status = profile.status ?? '';
       this.editorEl?.setContentHTML(profile.bioHTML ?? '', false);
     }
   }
@@ -165,7 +157,6 @@ export class EditProfileApp extends BaseElement {
       this.url,
       this.company,
       this.location,
-      this.status,
       this.editorEl?.getContentHTML() ?? '',
     );
     const status = await appTask.critical(loader, ls.saving, (s) => {

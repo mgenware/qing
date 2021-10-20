@@ -29,7 +29,6 @@ type UserInfo struct {
 	IconName string `json:"iconName,omitempty"`
 	EID      string `json:"eid,omitempty"`
 	Name     string `json:"name,omitempty"`
-	Status   string `json:"status,omitempty"`
 }
 
 func NewUserInfo(d da.UserTableSelectSessionDataResult) UserInfo {
@@ -37,7 +36,6 @@ func NewUserInfo(d da.UserTableSelectSessionDataResult) UserInfo {
 		Admin:    d.Admin,
 		IconName: d.IconName,
 		Name:     d.Name,
-		Status:   d.Status,
 	}
 	r.EID = fmtx.EncodeID(d.ID)
 	return r
