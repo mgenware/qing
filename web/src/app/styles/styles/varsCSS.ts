@@ -137,8 +137,8 @@ export default css`
   /* qing-button ------------------------- */
   qing-button.small::part(button) {
     font-size: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 0.75rem;
+    padding: 0.3rem 0.45rem;
+    margin-bottom: 0.45rem;
   }
   qing-button.large::part(button) {
     font-size: 1.25rem;

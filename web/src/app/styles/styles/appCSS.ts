@@ -471,7 +471,7 @@ export default css`
 
   /* Button group ------------------------- */
   .qing-btn-group {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
   }
   .qing-btn-group qing-button {

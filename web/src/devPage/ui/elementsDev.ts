@@ -222,10 +222,17 @@ export class ElementsDev extends BaseElement {
       </qing-overlay>
       <h2>Forms</h2>
       <h3>Button group</h3>
-      <div class="qing-btn-group">
-        <qing-button>Qing</qing-button>
-        <qing-button btnStyle="warning">Ming</qing-button>
-        <qing-button btnStyle="success">Song</qing-button>
+      <div>
+        <span class="qing-btn-group">
+          <qing-button>Qing</qing-button>
+          <qing-button btnStyle="warning">Ming</qing-button>
+          <qing-button btnStyle="success">Song</qing-button>
+        </span>
+        <span class="qing-btn-group">
+          <qing-button>Zheng</qing-button>
+          <qing-button>Liu</qing-button>
+          <qing-button>Chen</qing-button>
+        </span>
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
       <selection-view
