@@ -25,18 +25,47 @@ type PostUserAppData struct {
 	UserIconURL    string
 	ItemCreatedAt  string
 	ItemModifiedAt string
+	ExtraLink      string
+	ExtraLinkLS    string
+}
+
+// PostUserAppInput contains parameters to create a PostUserAppData.
+type PostUserAppInput struct {
+	UID          uint64
+	Name         string
+	IconName     string
+	ItemEID      string
+	ItemType     int
+	ItemCreated  string
+	ItemModified string
+	ExtraLink    string
+	ExtraLinkLS  string
+}
+
+// NewPostUserAppInput creates a PostUserAppInput.
+func NewPostUserAppInput(uid uint64, name, iconName, itemEID string, itemType int, itemCreated string, itemModified string) PostUserAppInput {
+	return PostUserAppInput{
+		UID:          uid,
+		Name:         name,
+		ItemEID:      itemEID,
+		ItemType:     itemType,
+		ItemCreated:  itemCreated,
+		ItemModified: itemModified,
+	}
 }
 
 // GetPostUserAppHTML generates an HTML string for frontend `PostUserApp`.
-func GetPostUserAppHTML(uid uint64, name, iconName, itemEID string, itemType int, itemCreated string, itemModified string) string {
+func GetPostUserAppHTML(input *PostUserAppInput) string {
 	d := &PostUserAppData{}
-	d.ItemEID = itemEID
-	d.UserEID = fmtx.EncodeID(uid)
-	d.UserName = name
-	d.UserURL = appURL.Get().UserProfile(uid)
-	d.UserIconURL = appURL.Get().UserIconURL50(uid, iconName)
-	d.ItemCreatedAt = itemCreated
-	d.ItemModifiedAt = itemModified
-	d.EntityType = itemType
+	d.ItemEID = input.ItemEID
+	d.UserEID = fmtx.EncodeID(input.UID)
+	d.UserName = input.Name
+	d.UserURL = appURL.Get().UserProfile(input.UID)
+	d.UserIconURL = appURL.Get().UserIconURL50(input.UID, input.IconName)
+	d.ItemCreatedAt = input.ItemCreated
+	d.ItemModifiedAt = input.ItemModified
+	d.EntityType = input.ItemType
+	d.ExtraLink = input.ExtraLink
+	d.ExtraLinkLS = input.ExtraLinkLS
 	return vUserView.MustExecuteToString(d)
 }

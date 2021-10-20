@@ -42,7 +42,8 @@ func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool)
 	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserEID = fmtx.EncodeID(d.UserID)
-	d.UserHTML = rcom.GetPostUserAppHTML(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityQuestion, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityQuestion, d.CreatedAt, d.ModifiedAt)
+	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	if hasLiked {
 		d.HasLikedNum = 1
 	}

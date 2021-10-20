@@ -1,5 +1,6 @@
 <answer-app
   eid="{{html .EID}}"
+  answerLink="{{html .AnswerURL}}"
   initialValue="{{html .Votes}}"
   initialUps="{{html .UpVotes}}"
   initialDowns="{{html .DownVotes}}"
@@ -8,7 +9,4 @@
   <div>{{.UserHTML}}</div>
   <hr />
   <div>{{.ContentHTML}}</div>
-  <p>
-    <a href="{{html .AnswerURL}}" class="__qing_ls__">link</a>
-  </p>
 </answer-app>

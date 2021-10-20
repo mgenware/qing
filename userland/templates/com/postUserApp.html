@@ -14,6 +14,9 @@
   </a>
   <a href="{{html .UserURL}}" slot="name">{{html .UserName}}</a>
   <span slot="toolbar">
+    {{if .ExtraLink}}<a href="{{html .ExtraLink}}"
+      ><span class="__qing_ls__ m-r-sm">{{html .ExtraLinkLS}}</span></a
+    >{{end}}
     <edit-bar-app uid="{{html .UserEID}}"></edit-bar-app>
   </span>
 </post-user-app>

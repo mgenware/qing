@@ -5,31 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 
 @customElement('edit-bar-app')
 export class EditBarApp extends BaseElement {
-  static get styles() {
-    return [
-      super.styles,
-      css`
-        .btn-group {
-          background-color: var(--app-info-back-color);
-          color: var(--app-info-fore-color);
-          padding: 0.2rem 0.5rem;
-          border-radius: 5px;
-        }
-
-        .btn-group a {
-          color: var(--app-info-fore-color);
-        }
-      `,
-    ];
-  }
-
   @lp.string uid = '';
   @lp.state private visible = false;
 
@@ -43,7 +25,7 @@ export class EditBarApp extends BaseElement {
       return html``;
     }
     return html`
-      <span class="btn-group">
+      <span>
         <a href="#" @click=${this.handleEditClick}>${ls.edit}</a>
         <a href="#" class="m-l-sm" @click=${this.handleDeleteClick}>${ls.delete}</a>
       </span>
