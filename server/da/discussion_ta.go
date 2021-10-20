@@ -343,13 +343,12 @@ type DiscussionTableSelectItemByIDResult struct {
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"-"`
-	UserStatus    string    `json:"-"`
 }
 
 // SelectItemByID ...
 func (da *TableTypeDiscussion) SelectItemByID(queryable mingru.Queryable, id uint64) (DiscussionTableSelectItemByIDResult, error) {
 	var result DiscussionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`content`, `discussion`.`forum_id`, `discussion`.`title`, `discussion`.`cmt_count`, `discussion`.`reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatus, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount)
+	err := queryable.QueryRow("SELECT `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`content`, `discussion`.`forum_id`, `discussion`.`title`, `discussion`.`cmt_count`, `discussion`.`reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}

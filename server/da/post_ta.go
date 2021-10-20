@@ -342,13 +342,12 @@ type PostTableSelectItemByIDResult struct {
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"-"`
-	UserStatus    string    `json:"-"`
 }
 
 // SelectItemByID ...
 func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
 	var result PostTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`title`, `post`.`cmt_count`, `post`.`likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.UserStatus, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
+	err := queryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`title`, `post`.`cmt_count`, `post`.`likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
 	if err != nil {
 		return result, err
 	}

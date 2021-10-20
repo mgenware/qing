@@ -12,7 +12,7 @@ import userStats from '../../models/user/userStats.js';
 
 export const addUserInsertedIDVar = 'insertedUserID';
 const findUserResult = 'FindUserResult';
-const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr(), t.status];
+const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr()];
 const sessionCols = [...coreCols, t.admin];
 
 export class UserTA extends mm.TableActions {
@@ -41,7 +41,7 @@ export class UserTA extends mm.TableActions {
 
   updateProfile = mm
     .updateOne()
-    .setInputs(t.name, t.website, t.company, t.location, t.status, t.bio)
+    .setInputs(t.name, t.website, t.company, t.location, t.bio)
     .by(t.id);
   updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
 

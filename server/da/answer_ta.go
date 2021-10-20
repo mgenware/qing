@@ -355,7 +355,6 @@ type AnswerTableSelectItemsByQuestionResult struct {
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"-"`
-	UserStatus    string    `json:"-"`
 	Votes         int       `json:"votes,omitempty"`
 }
 
@@ -372,7 +371,7 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `answer`.`id`, `answer`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_1`.`status`, `answer`.`created_at`, `answer`.`modified_at`, `answer`.`content`, `answer`.`cmt_count`, `answer`.`up_votes`, `answer`.`down_votes`, `answer`.`votes` FROM `answer` AS `answer` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `answer`.`user_id` WHERE `answer`.`question_id` = ? ORDER BY `answer`.`created_at` LIMIT ? OFFSET ?", questionID, limit, offset)
+	rows, err := queryable.Query("SELECT `answer`.`id`, `answer`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `answer`.`created_at`, `answer`.`modified_at`, `answer`.`content`, `answer`.`cmt_count`, `answer`.`up_votes`, `answer`.`down_votes`, `answer`.`votes` FROM `answer` AS `answer` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `answer`.`user_id` WHERE `answer`.`question_id` = ? ORDER BY `answer`.`created_at` LIMIT ? OFFSET ?", questionID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -383,7 +382,7 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 		itemCounter++
 		if itemCounter <= max {
 			var item AnswerTableSelectItemsByQuestionResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.UserStatus, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount, &item.UpVotes, &item.DownVotes, &item.Votes)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.CmtCount, &item.UpVotes, &item.DownVotes, &item.Votes)
 			if err != nil {
 				return nil, false, err
 			}

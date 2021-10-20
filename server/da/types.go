@@ -48,7 +48,6 @@ type FindUserResult struct {
 	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
-	Status   string `json:"status,omitempty"`
 }
 
 // UserThreadInterface ...

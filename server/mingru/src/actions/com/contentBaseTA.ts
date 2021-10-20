@@ -54,12 +54,9 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     const t = this.getBaseTable();
     const idCol = t.id.privateAttr();
     this.joinedUserTable = t.user_id.join(user);
-    this.userColumns = [
-      t.user_id,
-      this.joinedUserTable.name,
-      this.joinedUserTable.icon_name,
-      this.joinedUserTable.status,
-    ].map((c) => c.privateAttr());
+    this.userColumns = [t.user_id, this.joinedUserTable.name, this.joinedUserTable.icon_name].map(
+      (c) => c.privateAttr(),
+    );
     this.dateColumns = [t.created_at.privateAttr(), t.modified_at.privateAttr()];
 
     const { dateColumns } = this;
