@@ -126,6 +126,8 @@ export class ElementsDev extends BaseElement {
 
   render() {
     return html`
+      <h1>Colors</h1>
+      <hr />
       <h2>Default context</h2>
       <div class="text">
         <span>Welcome to <a href="https://github.com/mgenware/qing" target="_blank">Qing</a></span>
@@ -219,7 +221,13 @@ export class ElementsDev extends BaseElement {
         </div>
       </qing-overlay>
       <h2>Forms</h2>
-      <input-view required type="email" label="Email"></input-view>
+      <h3>Button group</h3>
+      <div class="qing-btn-group">
+        <qing-button>Qing</qing-button>
+        <qing-button btnStyle="warning">Ming</qing-button>
+        <qing-button btnStyle="success">Song</qing-button>
+      </div>
+      <p><input-view required type="email" label="Email"></input-view></p>
       <selection-view
         class="m-t-md"
         multiSelect
@@ -290,10 +298,11 @@ export class ElementsDev extends BaseElement {
         <p>text text text text text text text text text text</p>
       </status-overlay>
       <h2>Misc</h2>
+      <h3>Like Views</h3>
       <p>Default<like-view class="m-l-sm"></like-view></p>
       <p>Liked<like-view class="m-l-sm" .likes=${1} hasLiked></like-view></p>
       <p>Working<like-view class="m-l-sm" .likes=${1} hasLiked isWorking></like-view></p>
-      <h2>Flexbox utils</h2>
+      <h3>Flexbox utils</h3>
       <div class="d-flex">
         <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>
         <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>

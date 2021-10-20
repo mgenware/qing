@@ -468,4 +468,25 @@ export default css`
       max-width: 1320px;
     }
   }
+
+  /* Button group ------------------------- */
+  .qing-btn-group {
+    display: flex;
+    flex-direction: row;
+  }
+  .qing-btn-group qing-button {
+    min-width: 50px;
+  }
+  .qing-btn-group qing-button::part(button) {
+    border: none;
+  }
+  .qing-btn-group qing-button:not(:last-child)::part(button) {
+    border-right: none;
+  }
+  .qing-btn-group qing-button:first-child::part(button) {
+    border-radius: 5px 0 0 5px;
+  }
+  .qing-btn-group qing-button:last-child::part(button) {
+    border-radius: 0 5px 5px 0;
+  }
 `;
