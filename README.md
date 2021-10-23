@@ -32,8 +32,6 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
   - Redis: in-memory cache
   - ImageMagick: image processing
 
-Qing intended to run on docker in future.
-
 ## Roadmap
 
 ✅ Available 🚧 Work-in-progress ❌ Not started
@@ -47,4 +45,4 @@ Qing intended to run on docker in future.
 | Forums                 | 🚧  |
 | QnA                    | ❌  |
 | 3rd-party OAuth login  | ❌  |
-| Dockerfy               | ❌  |
+| Dockerfy               | 🚧  |
