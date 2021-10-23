@@ -1,0 +1,26 @@
+version: "3.9"
+
+x-volumes:
+  &volumes
+  - ../web:/web
+  - ../server:/server
+  - ../userland:/userland
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: web.dockerfile
+    volumes: *volumes
+  server:
+    build:
+      context: .
+      dockerfile: server.dockerfile
+    volumes: *volumes
+    ports:
+      - "12001:12001"
+    depends_on:
+      - web
+      - redis
+  redis:
+    image: "redis:6"
