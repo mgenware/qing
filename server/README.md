@@ -34,10 +34,10 @@ docker-compose run migrate up <N>
 docker-compose run migrate down <N>
 
 # Migrate to version V
-docker-compose run goto <V>
+docker-compose run migrate goto <V>
 
 # Drop everything in DB
-docker-compose run drop
+docker-compose run migrate drop
 ```
 
 ## Run tests
