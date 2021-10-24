@@ -31,13 +31,18 @@ import forumIsUserMod from './forum/forumIsUserMod.js';
 
 const tables: mm.Table[] = [
   user,
+  userStats,
+  userPwd,
+  userAuth,
+  forumGroup,
+  forum,
+  forumMod,
+  forumGroupMod,
+  forumIsUserMod,
   cmt,
   reply,
   post,
   postCmt,
-  userStats,
-  userPwd,
-  userAuth,
   discussion,
   discussionCmt,
   discussionMsg,
@@ -48,10 +53,5 @@ const tables: mm.Table[] = [
   answerCmt,
   ...likes.values(),
   ...votes.values(),
-  forum,
-  forumGroup,
-  forumMod,
-  forumGroupMod,
-  forumIsUserMod,
 ];
 export default tables;
