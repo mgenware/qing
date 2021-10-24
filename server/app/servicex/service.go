@@ -36,7 +36,8 @@ func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger 
 	s := &Service{}
 	s.Sanitizer = sanitizer.NewSanitizer()
 	s.Captcha = captchax.NewCaptchaService(msConn)
-	s.Imgx = mustSetupImgx(conf, logger)
+	// TODO: Update this when image proxy integration is ready.
+	// s.Imgx = mustSetupImgx(conf, logger)
 	s.Avatar = mustSetupAvatarService(conf, logger, s.Imgx)
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
 	s.RegEmailVerificator = emailver.NewEmailVerificator(msConn, defs.MSRegEmailPrefix, defs.MSRegEmailTimeout)
