@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  server:
+    build: .
+    volumes:
+      - .:/server
+      - ../web:/web
+      - ../userland:/userland
+    ports:
+      - "12001:12001"
+    depends_on:
+      - redis
+      - mariadb
+  redis:
+    image: "redis:6"
+  mariadb:
+    image: "mariadb:10.6"
