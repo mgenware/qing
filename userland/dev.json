@@ -1,7 +1,7 @@
 {
   "extends": "base.json",
   "http": {
-    "port": 12001,
+    "port": 8000,
     "static": {
       "url": "/static",
       "dir": "./static"
@@ -15,7 +15,7 @@
     "dir": "../appdata/log/dev"
   },
   "db": {
-    "conn_string": "root:123456@tcp(localhost:3306)/t_qing?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
+    "conn_string": "qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
   },
   "res_server": {
     "url": "/res",

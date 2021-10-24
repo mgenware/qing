@@ -8,11 +8,18 @@ services:
       - ../web:/web
       - ../userland:/userland
     ports:
-      - "12001:12001"
+      - "8000:8000"
     depends_on:
       - redis
-      - mariadb
+      - db
   redis:
     image: "redis:6"
-  mariadb:
+  db:
     image: "mariadb:10.6"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: qing_dev_root_pwd
+      MYSQL_USER: qing_dev
+      MYSQL_PASSWORD: qing_dev_pwd
+      MYSQL_DATABASE: qing_dev_db
