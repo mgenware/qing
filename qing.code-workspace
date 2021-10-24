@@ -16,10 +16,21 @@
       "path": "it"
     },
     {
-      "path": "dev"
+      "path": "migrations"
+    },
+    {
+      "path": ".devcontainer"
     }
   ],
   "settings": {
-    "cSpell.words": ["Qing", "cmts", "daizong", "datetime", "mgenware", "mingru", "userland"]
+    "cSpell.words": [
+      "Qing",
+      "cmts",
+      "daizong",
+      "datetime",
+      "mgenware",
+      "mingru",
+      "userland"
+    ]
   }
 }
