@@ -18,6 +18,28 @@ We strictly follow the standard Go naming conventions with some additions.
 - URLs should use `-` instead of `_` as separators, e.g. prefer `new-post` over `new_post`.
 - Some app modules have a `x` as suffix, e.g. `logx`, to avoid conflicts with standard go modules.
 
+## Development scripts
+
+Spin up the server:
+```sh
+docker-compose up
+```
+
+Perform migrations:
+```sh
+# Apply N up migrations
+docker-compose run migrate up <N>
+
+# Apply N down migrations
+docker-compose run migrate down <N>
+
+# Migrate to version V
+docker-compose run goto <V>
+
+# Drop everything in DB
+docker-compose run drop
+```
+
 ## Run tests
 
 Run server unit tests:
