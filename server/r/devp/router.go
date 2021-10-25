@@ -19,16 +19,17 @@ import (
 var Router = chi.NewRouter()
 
 const devPageScript = "devPage/devPageEntry"
+const uidStrParam = "uidstr"
 
 func init() {
 	// Auth router.
 	authRouter := chi.NewRouter()
-	authRouter.Get("/in/{uid}", handler.HTMLHandlerToHTTPHandler(signInHandler))
+	authRouter.Get("/in/{"+uidStrParam+"}", handler.HTMLHandlerToHTTPHandler(signInHandler))
 	authRouter.Get("/out", handler.HTMLHandlerToHTTPHandler(signOutHandler))
 	authRouter.Get("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
-	authRouter.Get("/del/{uid}", handler.JSONHandlerToHTTPHandler(deleteUser))
-	authRouter.Get("/info/{uid}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
-	Router.Mount("/auth_get_api", authRouter)
+	authRouter.Get("/del/{"+uidStrParam+"}", handler.JSONHandlerToHTTPHandler(deleteUser))
+	authRouter.Get("/info/{"+uidStrParam+"}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
+	Router.Mount("/auth-get-api", authRouter)
 
 	// User router.
 	userRouter := handler.NewJSONRouter()

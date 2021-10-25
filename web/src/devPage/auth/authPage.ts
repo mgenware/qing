@@ -20,12 +20,15 @@ export class AuthDevPage extends BaseElement {
         :host {
           display: block;
         }
+
+        p qing-button {
+          margin-right: 1rem;
+        }
       `,
     ];
   }
 
-  @lp.string loginUserID = '10';
-  @lp.string newUserID = '';
+  @lp.string uidStr = '10';
   @lp.bool newUserAdmin = false;
 
   render() {
@@ -33,38 +36,56 @@ export class AuthDevPage extends BaseElement {
       <div>
         <h1>Auth dev page</h1>
         <hr />
-        ${this.renderQuickLoginSection()}
+        <blockquote>
+          UID should be a <code>uint64</code>, use <code>-&lt;EID&gt;</code> for encoded IDs.
+        </blockquote>
+        ${this.renderUserSection()}
       </div>
     `;
   }
 
-  private renderQuickLoginSection() {
+  private renderUserSection() {
     return html`
       <div>
-        <h2>Quick login</h2>
         <input-view
           required
-          label="Quick login"
-          value=${this.loginUserID}
-          @onChange=${(e: CustomEvent<string>) => (this.loginUserID = e.detail)}>
+          label="UID"
+          value=${this.uidStr}
+          @onChange=${(e: CustomEvent<string>) => (this.uidStr = e.detail)}>
         </input-view>
         <p>
           <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
           <qing-button @click=${this.handleSignOut}>Sign out</qing-button>
+        </p>
+        <p>
+          <qing-button @click=${this.handleNewUser}>New user</qing-button
+          ><qing-button @click=${this.handleGetInfo}>Get info</qing-button>
         </p>
       </div>
     `;
   }
 
   private handleSignIn() {
-    if (!this.loginUserID) {
+    if (!this.uidStr) {
       return;
     }
-    window.location.href = `${routes.authGetApi.in}/${this.loginUserID}`;
+    this.navigateToURL(`${routes.auth_get_api.in}/${this.uidStr}`);
   }
 
   private handleSignOut() {
-    window.location.href = routes.authGetApi.out;
+    this.navigateToURL(routes.auth_get_api.out);
+  }
+
+  private handleNewUser() {
+    this.navigateToURL(routes.auth_get_api.new);
+  }
+
+  private handleGetInfo() {
+    this.navigateToURL(`${routes.auth_get_api.info}/${this.uidStr}`);
+  }
+
+  private navigateToURL(s: string) {
+    window.location.href = s;
   }
 }
 

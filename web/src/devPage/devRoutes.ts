@@ -7,17 +7,23 @@
 
 import buildTree from 'fx214';
 
-const routes = buildTree({
-  __: {
-    elements: 'elements',
-    auth: 'auth',
-    // GET routes used in auth page.
-    authGetApi: {
-      createUser: 'create-user',
-      in: 'in',
-      out: 'out',
+const routes = buildTree(
+  {
+    __: {
+      // Prevent `underscoresToHyphens` from convert the root `__` to `--`.
+      __content__: '__',
+      elements: 'elements',
+      auth: 'auth',
+      // GET routes used in auth page.
+      auth_get_api: {
+        new: 'new',
+        in: 'in',
+        out: 'out',
+        info: 'info',
+      },
     },
   },
-});
+  { underscoresToHyphens: true },
+);
 
 export default routes.__;
