@@ -14,7 +14,7 @@ export default buildTree({
     yourDiscussions: 'your-discussions',
     yourQuestions: 'your-questions',
     settings: {
-      profile: 'profile',
+      profile: '',
     },
   },
   // Service APIs.
@@ -36,10 +36,10 @@ export default buildTree({
         signOut: 'signout',
       },
       like: {
-        set: 'set',
+        set: '',
       },
       vote: {
-        vote: 'vote',
+        vote: '',
       },
       // My posts.
       mp: {
@@ -59,7 +59,7 @@ export default buildTree({
     },
     pub: {
       cmt: {
-        get: 'get',
+        get: '',
       },
       auth: {
         createNewUser: 'create-pwd-user',
@@ -77,7 +77,7 @@ export default buildTree({
   },
   static: {
     img: {
-      main: 'main',
+      main: '',
     },
   },
   // Forums.
@@ -86,7 +86,7 @@ export default buildTree({
       __content__: '{0}',
       settingsRoot: 'settings',
       settings: {
-        mods: 'mods',
+        mods: '',
       },
     },
   },
