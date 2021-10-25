@@ -20,14 +20,15 @@
     }
   ],
   "settings": {
-    "cSpell.words": [
-      "Qing",
-      "cmts",
-      "daizong",
-      "datetime",
-      "mgenware",
-      "mingru",
-      "userland"
+    "cSpell.words": ["Qing", "cmts", "daizong", "datetime", "mgenware", "mingru", "userland"]
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "runem.lit-plugin",
+      "golang.Go",
+      "redhat.vscode-yaml"
     ]
   }
 }
