@@ -34,8 +34,8 @@ const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
 const immersiveDialogID = 'qing-overlay-immersive';
 
-@customElement('elements-dev')
-export class ElementsDev extends BaseElement {
+@customElement('elements-page')
+export class ElementsPage extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -345,6 +345,6 @@ export class ElementsDev extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'elements-dev': ElementsDev;
+    'elements-page': ElementsPage;
   }
 }

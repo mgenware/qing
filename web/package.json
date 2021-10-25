@@ -17,7 +17,7 @@
     "date-fns": "^2.25.0",
     "debounce-fn": "^5.0.0",
     "f-array.splice": "^0.3.0",
-    "fx214": "^2.0.0",
+    "fx214": "^2.1.1",
     "js-cookie": "^3.0.1",
     "kangxi-editor": "^0.14.2",
     "lit": "^2.0.2",

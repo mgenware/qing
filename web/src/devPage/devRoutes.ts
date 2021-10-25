@@ -10,8 +10,9 @@ import buildTree from 'fx214';
 const routes = buildTree({
   __: {
     elements: 'elements',
-    authRoot: 'auth',
-    auth: {
+    auth: 'auth',
+    // GET routes used in auth page.
+    authGetApi: {
       createUser: 'create-user',
       in: 'in',
       out: 'out',

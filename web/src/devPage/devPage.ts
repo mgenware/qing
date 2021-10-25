@@ -9,14 +9,19 @@ import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import routes from './devRoutes';
 
-@customElement('dev-view')
-export class DevView extends BaseElement {
+@customElement('dev-page')
+export class DevPage extends BaseElement {
   static get styles() {
     return [
       super.styles,
       css`
         :host {
           display: block;
+        }
+
+        div.root-list a {
+          display: block;
+          padding: 0.5rem 0;
         }
       `,
     ];
@@ -26,18 +31,18 @@ export class DevView extends BaseElement {
 
   render() {
     return html`
-      <h1>Qing Debug Page</h1>
+      <h1>qing.dev</h1>
       <hr />
-      <ul>
-        <li><a href=${routes.authRoot}>Auth</a></li>
-        <li><a href=${routes.elements}>Elements</a></li>
-      </ul>
+      <div class="root-list">
+        <a href=${routes.auth}>Auth</a>
+        <a href=${routes.elements}>Elements</a>
+      </div>
     `;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'dev-view': DevView;
+    'dev-page': DevPage;
   }
 }

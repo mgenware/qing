@@ -28,7 +28,7 @@ func init() {
 	authRouter.Get("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
 	authRouter.Get("/del/{uid}", handler.JSONHandlerToHTTPHandler(deleteUser))
 	authRouter.Get("/info/{uid}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
-	Router.Mount("/auth", authRouter)
+	Router.Mount("/auth_get_api", authRouter)
 
 	// User router.
 	userRouter := handler.NewJSONRouter()

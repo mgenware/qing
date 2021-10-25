@@ -11,7 +11,7 @@ import 'ui/form/inputView';
 import 'qing-button';
 import routes from '../devRoutes';
 
-@customElement('auth-dev-page')
+@customElement('auth-page')
 export class AuthDevPage extends BaseElement {
   static get styles() {
     return [
@@ -30,11 +30,11 @@ export class AuthDevPage extends BaseElement {
 
   render() {
     return html`
-      <container-view>
+      <div>
         <h1>Auth dev page</h1>
         <hr />
         ${this.renderQuickLoginSection()}
-      </container-view>
+      </div>
     `;
   }
 
@@ -60,16 +60,16 @@ export class AuthDevPage extends BaseElement {
     if (!this.loginUserID) {
       return;
     }
-    window.location.href = `${routes.auth.in}/${this.loginUserID}`;
+    window.location.href = `${routes.authGetApi.in}/${this.loginUserID}`;
   }
 
   private handleSignOut() {
-    window.location.href = routes.auth.out;
+    window.location.href = routes.authGetApi.out;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'auth-dev-page': AuthDevPage;
+    'auth-page': AuthDevPage;
   }
 }

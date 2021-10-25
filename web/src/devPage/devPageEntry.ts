@@ -9,27 +9,27 @@ import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
 import routes from './devRoutes';
-import './devView';
-import './auth/authDevPage';
-import './ui/elementsDev';
+import './devPage';
 import { routeDevPage } from 'sharedConstants';
+import './auth/authPage';
+import './ui/elementsPage';
 import pageUtils from 'app/utils/pageUtils';
 
 const devRouter = new MiniURLRouter();
 
 function loadPageContent(title: string, content: TemplateResult) {
-  pageUtils.setTitleAndMainContent([title], html` <container-view> ${content} </container-view> `);
+  pageUtils.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
 }
 
-devRouter.register(routes.authRoot, () => {
-  loadPageContent('Auth dev page', html`<auth-dev-page></auth-dev-page>`);
+devRouter.register(routes.auth, () => {
+  loadPageContent('Auth dev page', html`<auth-page></auth-page>`);
 });
 devRouter.register(routes.elements, () => {
-  loadPageContent('Elements dev page', html`<elements-dev></elements-dev>`);
+  loadPageContent('Elements dev page', html`<elements-page></elements-page>`);
 });
 
 devRouter.register(`/${routeDevPage}`, () => {
-  loadPageContent('Dev page', html` <dev-view></dev-view>`);
+  loadPageContent('Dev page', html` <dev-page></dev-page>`);
 });
 
 devRouter.startOnce();
