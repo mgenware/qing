@@ -11,12 +11,17 @@ package configs
 type ExternConfig struct {
 	// Redis ...
 	Redis *ExternRedisConfig `json:"redis"`
-	// ImgxCmd ...
-	ImgxCmd string `json:"imgx_cmd"`
+	// ImageProxy ...
+	ImageProxy *ImgProxyConfig `json:"img_proxy"`
 }
 
 // ExternRedisConfig ...
 type ExternRedisConfig struct {
 	// Port is the port redis will be connect to.
+	Port int `json:"port"`
+}
+
+// ImgProxyConfig ...
+type ImgProxyConfig struct {
 	Port int `json:"port"`
 }

@@ -12,15 +12,16 @@ import (
 	"net/http"
 	"qing/app/appDB"
 	"qing/app/appHandler"
-	"qing/app/appService"
 	"qing/app/appURL"
 	"qing/app/appUserManager"
 	"qing/app/appcom"
+	"qing/app/defs"
 	"qing/da"
-	"qing/fx/avatar"
 	"qing/lib/iolib"
+	"qing/s/avatar"
+	"qing/s/imgproxy"
+	"qing/s/tmp"
 
-	"github.com/mgenware/go-packagex/v6/filepathx"
 	"github.com/mgenware/go-packagex/v6/strconvx"
 )
 
@@ -28,7 +29,8 @@ const (
 	errUnsupportedExt = 10
 	errNoHeaderFound  = 11
 	errFileTooLarge   = 12
-	maxUploadSize     = 5 * 1024 * 1024 //5 MB max size.
+	errParams         = 13
+	maxUploadSize     = 5 * 1024 * 1024 // 5 MB max size.
 )
 
 type avatarUpdateResult struct {
@@ -64,9 +66,12 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	width, _ := strconvx.ParseInt(r.FormValue("width"))
 	height, _ := strconvx.ParseInt(r.FormValue("height"))
 
-	// If any crop params is wrong, we assume no crop info received.
+	// If any crop params are wrong, we assume no crop info received.
 	if x >= 0 && y >= 0 && width > 0 && height > 0 {
 		cropInfo = &avatarCropInfo{X: x, Y: y, Width: width, Height: height}
+	} else {
+		resp.MustFailWithCode(errParams)
+		return
 	}
 
 	form := r.MultipartForm
@@ -89,29 +94,30 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer srcFile.Close()
+
 	// Copy reader content to a temp file.
-	tmpFullFile, err := filepathx.TempFilePath("", "avatar-srv", ext)
+	tmpImgFile, err := tmp.NewFile(defs.TmpFileAvatarUpload, ext)
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
-	err = iolib.CopyReaderToFile(srcFile, tmpFullFile)
+	err = iolib.CopyReaderToFile(srcFile, tmpImgFile.Path())
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
-	// defer os.Remove(tmpFullFile)
+	defer tmpImgFile.Delete()
 
 	// Crop the image if necessary.
 	if cropInfo != nil {
-		err = appService.Get().Imgx.CropFile(tmpFullFile, tmpFullFile, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
+		err = imgproxy.Get().Crop(tmpImgFile.Path(), tmpImgFile.Path(), cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
 		if err != nil {
 			resp.MustFail(err)
 			return
 		}
 	}
 
-	uid, avatarName, err := updateAvatarFromFile(resp.Context(), tmpFullFile)
+	uid, avatarName, err := updateAvatarFromOriginalFile(resp.Context(), tmpImgFile.Path())
 	if err != nil {
 		resp.MustFail(err)
 		return
@@ -123,7 +129,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	resp.MustComplete(apiRes)
 }
 
-func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, error) {
+func updateAvatarFromOriginalFile(ctx context.Context, file string) (uint64, string, error) {
 	user := appcom.ContextUser(ctx)
 	uid := user.ID
 	curAvatarName, err := da.User.SelectIconName(appDB.DB(), uid)
@@ -132,10 +138,10 @@ func updateAvatarFromFile(ctx context.Context, file string) (uint64, string, err
 	}
 	// Remove old avatar files.
 	if curAvatarName != "" {
-		appService.Get().Avatar.RemoveAvatarFiles(uid, curAvatarName)
+		avatar.Get().RemoveAvatarFiles(uid, curAvatarName)
 	}
 
-	avatarName, err := appService.Get().Avatar.SetAvatarFromFile(file, uid)
+	avatarName, err := avatar.Get().SetAvatarFromFile(file, uid)
 	if err != nil {
 		return 0, "", err
 	}

@@ -12,6 +12,7 @@ services:
     depends_on:
       - redis
       - db
+      - img_proxy
   redis:
     image: 'redis:6'
     ports:
@@ -40,3 +41,9 @@ services:
       ]
     depends_on:
       - db
+  img_proxy:
+    image: 'h2non/imaginary'
+    ports:
+      - '9000:9000'
+    volumes:
+      - ../tmp:/tmp

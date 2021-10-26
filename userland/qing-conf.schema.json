@@ -81,6 +81,7 @@
       },
       "required": ["dir"]
     },
+    "tmp_dir": { "type": "string" },
     "db_config": {
       "type": "object",
       "properties": {
@@ -109,9 +110,18 @@
           },
           "required": ["port"]
         },
-        "imgx_cmd": { "type": "string" }
+        "img_proxy": {
+          "type": "object",
+          "properties": {
+            "port": {
+              "type": "number",
+              "minimum": 1
+            }
+          },
+          "required": ["port"]
+        }
       },
-      "required": ["redis", "imgx_cmd"]
+      "required": ["redis", "img_proxy"]
     }
   },
   "properties": {
@@ -136,6 +146,7 @@
     "app_profile",
     "db",
     "res_server",
-    "extern"
+    "extern",
+    "tmp_dir"
   ]
 }

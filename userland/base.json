@@ -7,7 +7,9 @@
     "redis": {
       "port": 6379
     },
-    "imgx_cmd": "magick"
+    "img_proxy": {
+      "port": 9000
+    }
   },
   "setup": {}
 }

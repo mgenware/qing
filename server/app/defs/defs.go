@@ -10,7 +10,7 @@ package defs
 type ContextKey string
 
 const (
-	AvatarResKey = "user_icon"
+	AvatarResKey = "avatars"
 )
 
 // Cookie keys
@@ -50,4 +50,9 @@ const (
 const (
 	MSExpirySecs      = 2592000
 	CookiesExpirySecs = 2592000
+)
+
+const (
+	// Tmp file to save cropped avatar image.
+	TmpFileAvatarUpload = "avatar-upload"
 )

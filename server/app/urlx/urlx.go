@@ -12,8 +12,8 @@ import (
 	"net/url"
 	"qing/app/config"
 	"qing/app/defs"
-	"qing/fx/avatar"
 	"qing/lib/fmtx"
+	"qing/s/avatar"
 	"strconv"
 )
 

@@ -14,8 +14,11 @@ import (
 	"path"
 	"path/filepath"
 	"qing/app"
-	"qing/fx/imgx"
+	"qing/app/appConfig"
+	"qing/app/appLog"
+	"qing/app/defs"
 	"qing/lib/randlib"
+	"qing/s/imgproxy"
 )
 
 const (
@@ -26,42 +29,50 @@ const (
 
 var resizedSizes = []int{AvatarSize250, AvatarSize150, AvatarSize50}
 
-// Service is the avatar service type.
-type Service struct {
-	imaging *imgx.Imgx
-	OutDir  string
-	Logger  app.CoreLog
+type AvatarService struct {
+	OutDir string
+	Logger app.CoreLog
 }
 
-// NewService creates a new avatar service object.
-func NewService(outDir string, imaging *imgx.Imgx, logger app.CoreLog) (*Service, error) {
-	s := &Service{}
+var service *AvatarService
+
+func init() {
+	conf := appConfig.Get()
+	svc, err := newService(path.Join(conf.ResServer.Dir, defs.AvatarResKey))
+	app.PanicIfErr(err)
+	service = svc
+}
+
+func Get() *AvatarService {
+	return service
+}
+
+func newService(outDir string) (*AvatarService, error) {
+	s := &AvatarService{}
 	if !filepath.IsAbs(outDir) {
-		panic(fmt.Sprintf("avatar service outDir must be an absolute path, got \"%v\"", outDir))
+		return nil, (fmt.Errorf("Avatar service `outDir` must be an absolute path, got \"%v\"", outDir))
 	}
-	logger.Info("avatar-service.starting", "path", outDir)
+	appLog.Get().Info("avatar-service.starting", "path", outDir)
 	s.OutDir = outDir
-	s.Logger = logger
-	s.imaging = imaging
 	return s, nil
 }
 
 // GetAvatarFilePath returns the physical avatar file path.
-func (svc *Service) GetAvatarFilePath(uid uint64, size int, avatarName string) string {
+func (svc *AvatarService) GetAvatarFilePath(uid uint64, size int, avatarName string) string {
 	return fmt.Sprintf("/%v/%v/%v_%v", svc.OutDir, uid, size, avatarName)
 }
 
 // SetAvatarFromFile updates the given user's avatar with the specified file path.
-func (svc *Service) SetAvatarFromFile(src string, uid uint64) (string, error) {
+func (svc *AvatarService) SetAvatarFromFile(src string, uid uint64) (string, error) {
 	ext := path.Ext(src)
 	avatarName := randlib.RandString(6) + ext
 	for _, size := range resizedSizes {
 		fileNameWithSize := fmt.Sprintf("%v_%v", size, avatarName)
-		newfilepath, err := svc.allocFilepathForThumb(uid, fileNameWithSize)
+		newfilepath, err := svc.allocFilepathForThumbnail(uid, fileNameWithSize)
 		if err != nil {
 			return "", err
 		}
-		err = svc.imaging.ResizeFile(src, newfilepath, size, size)
+		err = imgproxy.Get().Resize(src, newfilepath, size, size)
 		if err != nil {
 			return "", err
 		}
@@ -70,7 +81,7 @@ func (svc *Service) SetAvatarFromFile(src string, uid uint64) (string, error) {
 }
 
 // RemoveAvatarFiles deletes old avatar files of a specified user.
-func (svc *Service) RemoveAvatarFiles(uid uint64, avatarName string) {
+func (svc *AvatarService) RemoveAvatarFiles(uid uint64, avatarName string) {
 	for _, size := range resizedSizes {
 		file := fmt.Sprintf("%v/%v/%v_%v", svc.OutDir, uid, size, avatarName)
 		err := os.Remove(file)
@@ -80,17 +91,17 @@ func (svc *Service) RemoveAvatarFiles(uid uint64, avatarName string) {
 	}
 }
 
-func (svc *Service) allocFilepathForThumb(uid uint64, filename string) (string, error) {
+func (svc *AvatarService) allocFilepathForThumbnail(uid uint64, filename string) (string, error) {
 	dir := fmt.Sprintf("%v/%v", svc.OutDir, uid)
 
-	err := os.MkdirAll(dir, 0755)
+	err := os.MkdirAll(dir, os.ModeDir)
 	if err != nil {
 		return "", err
 	}
 	return dir + "/" + filename, nil
 }
 
-func (svc *Service) copyStringArray(arr []string) []string {
+func (svc *AvatarService) copyStringArray(arr []string) []string {
 	dest := make([]string, len(arr))
 	copy(dest, arr)
 	return dest
