@@ -24,7 +24,7 @@ func (store *AppMS) GetConn() app.CoreMemoryStoreConn {
 		MaxIdle:   80,
 		MaxActive: 12000, // max number of connections
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", fmt.Sprintf(":%v", store.Port))
+			return redis.Dial("tcp", fmt.Sprintf("redis:%v", store.Port))
 		},
 	}
 

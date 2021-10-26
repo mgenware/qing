@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   server:
@@ -8,26 +8,35 @@ services:
       - ../web:/web
       - ../userland:/userland
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - redis
       - db
   redis:
-    image: "redis:6"
-  db:
-    image: "mariadb:10.6"
+    image: 'redis:6'
     ports:
-      - "3306:3306"
+      - '6379:6379'
+  db:
+    image: 'mariadb:10.6'
+    ports:
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: qing_dev_root_pwd
       MYSQL_USER: qing_dev
       MYSQL_PASSWORD: qing_dev_pwd
       MYSQL_DATABASE: qing_dev_db
   migrate:
-    image: "migrate/migrate"
-    profiles: ["oth"]
+    image: 'migrate/migrate'
+    profiles: ['oth']
     volumes:
       - ../migrations:/migrations
-    entrypoint: ["migrate", "-path", "/migrations", "-database",  "mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?multiStatements=true"]
+    entrypoint:
+      [
+        'migrate',
+        '-path',
+        '/migrations',
+        '-database',
+        'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?multiStatements=true',
+      ]
     depends_on:
       - db

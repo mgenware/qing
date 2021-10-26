@@ -20,6 +20,10 @@ func init() {
 
 	port := conf.Extern.Redis.Port
 	appMS = newAppMS(port)
+	err := appMS.GetConn().Ping()
+	if err != nil {
+		panic(err)
+	}
 	log.Printf("✅ App MS: connected at \"%v\"", port)
 }
 
