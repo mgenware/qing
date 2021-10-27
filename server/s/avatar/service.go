@@ -38,7 +38,7 @@ var service *AvatarService
 
 func init() {
 	conf := appConfig.Get()
-	svc, err := newService(path.Join(conf.ResServer.Dir, defs.AvatarResKey))
+	svc, err := newService(filepath.Join(conf.ResServer.Dir, defs.AvatarResKey))
 	app.PanicIfErr(err)
 	service = svc
 }
@@ -62,9 +62,9 @@ func (svc *AvatarService) GetAvatarFilePath(uid uint64, size int, avatarName str
 	return fmt.Sprintf("/%v/%v/%v_%v", svc.OutDir, uid, size, avatarName)
 }
 
-// SetAvatarFromFile updates the given user's avatar with the specified file path.
-func (svc *AvatarService) SetAvatarFromFile(src string, uid uint64) (string, error) {
-	ext := path.Ext(src)
+// SetAvatarFromVolumeFile updates the given user's avatar with the specified volume file path.
+func (svc *AvatarService) SetAvatarFromVolumeFile(volumeSrc string, uid uint64) (string, error) {
+	ext := path.Ext(volumeSrc)
 	avatarName := randlib.RandString(6) + ext
 	for _, size := range resizedSizes {
 		fileNameWithSize := fmt.Sprintf("%v_%v", size, avatarName)
@@ -72,7 +72,7 @@ func (svc *AvatarService) SetAvatarFromFile(src string, uid uint64) (string, err
 		if err != nil {
 			return "", err
 		}
-		err = imgproxy.Get().Resize(src, newfilepath, size, size)
+		err = imgproxy.Get().Resize(volumeSrc, newfilepath, size, size)
 		if err != nil {
 			return "", err
 		}

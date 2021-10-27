@@ -46,4 +46,4 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - ../tmp:/tmp
+      - ../appdata/tmp:/app_tmp

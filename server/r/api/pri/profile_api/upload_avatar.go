@@ -101,7 +101,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 		resp.MustFail(err)
 		return
 	}
-	err = iolib.CopyReaderToFile(srcFile, tmpImgFile.Path())
+	err = iolib.CopyReaderToFile(srcFile, tmpImgFile.PhysicalPath())
 	if err != nil {
 		resp.MustFail(err)
 		return
@@ -110,14 +110,14 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 
 	// Crop the image if necessary.
 	if cropInfo != nil {
-		err = imgproxy.Get().Crop(tmpImgFile.Path(), tmpImgFile.Path(), cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
+		err = imgproxy.Get().Crop(tmpImgFile.VolumePath(), tmpImgFile.PhysicalPath(), cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
 		if err != nil {
 			resp.MustFail(err)
 			return
 		}
 	}
 
-	uid, avatarName, err := updateAvatarFromOriginalFile(resp.Context(), tmpImgFile.Path())
+	uid, avatarName, err := updateAvatarFromVolumeFile(resp.Context(), tmpImgFile.VolumePath())
 	if err != nil {
 		resp.MustFail(err)
 		return
@@ -129,7 +129,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	resp.MustComplete(apiRes)
 }
 
-func updateAvatarFromOriginalFile(ctx context.Context, file string) (uint64, string, error) {
+func updateAvatarFromVolumeFile(ctx context.Context, file string) (uint64, string, error) {
 	user := appcom.ContextUser(ctx)
 	uid := user.ID
 	curAvatarName, err := da.User.SelectIconName(appDB.DB(), uid)
@@ -141,7 +141,7 @@ func updateAvatarFromOriginalFile(ctx context.Context, file string) (uint64, str
 		avatar.Get().RemoveAvatarFiles(uid, curAvatarName)
 	}
 
-	avatarName, err := avatar.Get().SetAvatarFromFile(file, uid)
+	avatarName, err := avatar.Get().SetAvatarFromVolumeFile(file, uid)
 	if err != nil {
 		return 0, "", err
 	}

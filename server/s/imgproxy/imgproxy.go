@@ -20,7 +20,7 @@ func init() {
 	conf := appConfig.Get()
 	imgProxy = &ImgProxy{}
 	imgProxy.port = conf.Extern.ImageProxy.Port
-	imgProxy.host = fmt.Sprintf("img_proxy:%v", imgProxy.port)
+	imgProxy.host = fmt.Sprintf("http://img_proxy:%v", imgProxy.port)
 }
 
 func (p *ImgProxy) getURL(api, file string, values *url.Values) string {

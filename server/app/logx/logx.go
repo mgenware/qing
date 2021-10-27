@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
+	"path/filepath"
 	"runtime/debug"
 
 	"github.com/fatih/color"
@@ -103,7 +103,7 @@ func createLogger(dir string, name string, dev bool, disableExtraInfo bool) (*za
 	cfg := zap.NewProductionConfig()
 	cfg.Development = dev
 	cfg.OutputPaths = []string{
-		path.Join(dir, name),
+		filepath.Join(dir, name),
 	}
 	cfg.ErrorOutputPaths = []string{"stderr"}
 	if disableExtraInfo {
