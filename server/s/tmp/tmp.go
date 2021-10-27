@@ -13,12 +13,8 @@ type TmpService struct {
 }
 
 type TmpFile struct {
-	relPath      string
-	physicalPath string
-	volumePath   string
+	path string
 }
-
-const volumeTmpDir = "/app_tmp"
 
 var tmpService *TmpService
 
@@ -40,33 +36,20 @@ func NewFile(dirName, ext string) (TmpFile, error) {
 	fileName := id.String() + ext
 
 	dir := filepath.Join(tmpService.TmpDir(), dirName)
-	if err != nil {
-		return res, err
-	}
 	err = os.MkdirAll(dir, os.ModeDir)
 	if err != nil {
 		return res, err
 	}
 
 	file := filepath.Join(dir, fileName)
-	res.physicalPath = file
-	res.relPath = filepath.Join(dirName, fileName)
-	res.volumePath = volumeTmpDir + "/" + res.relPath
+	res.path = file
 	return res, nil
 }
 
 func (t *TmpFile) Delete() error {
-	return os.Remove(t.physicalPath)
+	return os.Remove(t.path)
 }
 
-func (t *TmpFile) RelPath() string {
-	return t.relPath
-}
-
-func (t *TmpFile) PhysicalPath() string {
-	return t.physicalPath
-}
-
-func (t *TmpFile) VolumePath() string {
-	return t.volumePath
+func (t *TmpFile) Path() string {
+	return t.path
 }

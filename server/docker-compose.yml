@@ -7,6 +7,8 @@ services:
       - .:/server
       - ../web:/web
       - ../userland:/userland
+      - ../app_data:/app_data
+      - &volume_app_tmp '../app_tmp:/app_tmp'
     ports:
       - '8000:8000'
     depends_on:
@@ -46,4 +48,4 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - ../appdata/tmp:/app_tmp
+      - *volume_app_tmp

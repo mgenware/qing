@@ -101,23 +101,25 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 		resp.MustFail(err)
 		return
 	}
-	err = iolib.CopyReaderToFile(srcFile, tmpImgFile.PhysicalPath())
+
+	tmpImgFilePath := tmpImgFile.Path()
+	err = iolib.CopyReaderToFile(srcFile, tmpImgFilePath)
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
-	defer tmpImgFile.Delete()
+	// defer tmpImgFile.Delete()
 
 	// Crop the image if necessary.
 	if cropInfo != nil {
-		err = imgproxy.Get().Crop(tmpImgFile.VolumePath(), tmpImgFile.PhysicalPath(), cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
+		err = imgproxy.Get().Crop(tmpImgFilePath, tmpImgFilePath, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
 		if err != nil {
 			resp.MustFail(err)
 			return
 		}
 	}
 
-	uid, avatarName, err := updateAvatarFromVolumeFile(resp.Context(), tmpImgFile.VolumePath())
+	uid, avatarName, err := updateAvatarFromVolumeFile(resp.Context(), tmpImgFilePath)
 	if err != nil {
 		resp.MustFail(err)
 		return
