@@ -22,7 +22,7 @@ import (
 	"qing/s/imgproxy"
 	"qing/s/tmp"
 
-	"github.com/mgenware/go-packagex/v6/strconvx"
+	"github.com/mgenware/goutil/strconvx"
 )
 
 const (

@@ -16,7 +16,7 @@ import (
 	"qing/app/handler"
 	"qing/da"
 
-	"github.com/mgenware/go-packagex/v6/jsonx"
+	"github.com/mgenware/goutil/jsonx"
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {

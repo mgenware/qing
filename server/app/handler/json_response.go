@@ -14,7 +14,7 @@ import (
 	"net/http"
 	"qing/app/defs"
 
-	"github.com/mgenware/go-packagex/v6/httpx"
+	"github.com/mgenware/goutil/httpx"
 )
 
 // JSONResponse helps you create a HTTP response in JSON.

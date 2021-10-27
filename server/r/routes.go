@@ -34,7 +34,7 @@ import (
 	"qing/r/sys"
 
 	"github.com/go-chi/chi"
-	"github.com/mgenware/go-packagex/v6/iox"
+	"github.com/mgenware/goutil/iox"
 )
 
 var r *chi.Mux

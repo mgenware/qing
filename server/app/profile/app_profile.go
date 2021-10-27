@@ -13,7 +13,7 @@ import (
 	"os"
 	"qing/app/profile/profiles"
 
-	"github.com/mgenware/go-packagex/v6/iox"
+	"github.com/mgenware/goutil/iox"
 )
 
 // AppProfile stores information that controls how application runs. It is generated when application first runs.

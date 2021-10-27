@@ -14,8 +14,8 @@ import (
 	"qing/lib/fmtx"
 	"unicode/utf8"
 
-	"github.com/mgenware/go-packagex/v6/jsonx"
-	"github.com/mgenware/go-packagex/v6/strconvx"
+	"github.com/mgenware/goutil/jsonx"
+	"github.com/mgenware/goutil/strconvx"
 )
 
 func panicMissingArg(key string) {

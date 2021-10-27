@@ -17,7 +17,7 @@ import (
 	"qing/da"
 	"qing/lib/validator"
 
-	"github.com/mgenware/go-packagex/v6/jsonx"
+	"github.com/mgenware/goutil/jsonx"
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {

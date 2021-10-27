@@ -14,8 +14,8 @@ github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LB
 github.com/gomodule/redigo v2.0.0+incompatible h1:K/R+8tc58AaqLkqG2Ol3Qk+DR/TlNuhuh457pBFPtt0=
 github.com/gomodule/redigo v2.0.0+incompatible/go.mod h1:B4C85qUVwatsJoIUNIfCRsp7qO0iAmpGFZ4EELWSbC4=
 github.com/google/go-cmp v0.5.2/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
-github.com/google/go-cmp v0.5.5 h1:Khx7svrCpmxxtHBq5j2mp/xVjsi8hQMfNLvJFAlrGgU=
-github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
+github.com/google/go-cmp v0.5.6 h1:BKbKCqvP6I+rmFHt06ZmyQtvB8xAkWdhFyr0ZUNZcxQ=
+github.com/google/go-cmp v0.5.6/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/gorilla/css v1.0.0 h1:BQqNyPTi50JCFMTw/b67hByjMVXZRwGha6wxVGkeihY=
@@ -35,10 +35,10 @@ github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470 h1:hMbjgXRju+Nzu
 github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470/go.mod h1:xii9EU0ai5k6z8+mbDpcvQwEiVySDXGBqIv3exxm/p4=
 github.com/mgenware/go-captcha v1.0.0 h1:MSZIsA8bThCzT63Q5WL4Un1GHl9FFTSn6PqrxrDWPS8=
 github.com/mgenware/go-captcha v1.0.0/go.mod h1:RFvEjGpO5STdFq/7X0mpwbYt0kGfQqRlv7Vc9Ew2dGk=
-github.com/mgenware/go-packagex/v6 v6.1.0 h1:RzK5X/W1ppD+RI3XE1Msrt2Iza2ypnjzBo8PKrFXixA=
-github.com/mgenware/go-packagex/v6 v6.1.0/go.mod h1:CgyeYGxYLW0XzOqnxWRF2UJuguXvYe894t9DhgYNM+M=
 github.com/mgenware/go-string-format v1.0.1 h1:lbydtuCDsg9i9oEteEAKcry4uPvJypgnOhvhEoTH288=
 github.com/mgenware/go-string-format v1.0.1/go.mod h1:8hBsDl3Qt0yAUnzk+S401hC62//++GSpDEfBuSTeFgw=
+github.com/mgenware/goutil v1.0.0 h1:z3YtyrDwYMlZqlnijCqZdLLELxqDqoRXw4VoS4sV4u0=
+github.com/mgenware/goutil v1.0.0/go.mod h1:LEhLHdMwWrEU+K/TV+MWDSr17mGXib6OlysG1pk/kdw=
 github.com/mgenware/mingru-go-lib v0.0.1 h1:hpVGEdzQ6pfJB95R9EyNC6CErJb6Xisr8uL6Sk82l0I=
 github.com/mgenware/mingru-go-lib v0.0.1/go.mod h1:aVZ63jzpFJm2hA9A5NaDdRcwpWjyYURzwY4OdV0q20g=
 github.com/microcosm-cc/bluemonday v1.0.16 h1:kHmAq2t7WPWLjiGvzKa5o3HzSfahUKiOq7fAPUiMNIc=

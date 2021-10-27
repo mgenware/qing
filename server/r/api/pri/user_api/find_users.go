@@ -19,7 +19,7 @@ import (
 	"qing/lib/validator"
 	"qing/r/rcom"
 
-	"github.com/mgenware/go-packagex/v6/jsonx"
+	"github.com/mgenware/goutil/jsonx"
 )
 
 func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {

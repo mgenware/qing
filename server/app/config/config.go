@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/imdario/mergo"
-	"github.com/mgenware/go-packagex/v6/iox"
+	"github.com/mgenware/goutil/iox"
 	"github.com/xeipuuv/gojsonschema"
 )
 

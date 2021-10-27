@@ -15,7 +15,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 
-	"github.com/mgenware/go-packagex/v6/httpx"
+	"github.com/mgenware/goutil/httpx"
 )
 
 // ParseJSON is a middleware that parses the request body as JSON and stores the result to the context.

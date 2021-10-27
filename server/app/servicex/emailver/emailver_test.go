@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mgenware/go-packagex/v6/test"
+	"github.com/mgenware/goutil/test"
 )
 
 var (

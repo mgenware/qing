@@ -20,8 +20,8 @@ import (
 	"qing/app/handler/jsm"
 	"qing/app/handler/localization"
 
-	"github.com/mgenware/go-packagex/v6/httpx"
-	"github.com/mgenware/go-packagex/v6/templatex"
+	"github.com/mgenware/goutil/httpx"
+	"github.com/mgenware/goutil/templatex"
 )
 
 // Used by error page.

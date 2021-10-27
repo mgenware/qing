@@ -23,8 +23,8 @@ import (
 	"qing/lib/randlib"
 
 	"github.com/go-chi/chi"
-	"github.com/mgenware/go-packagex/v6/strconvx"
-	"github.com/mgenware/go-packagex/v6/templatex"
+	"github.com/mgenware/goutil/strconvx"
+	"github.com/mgenware/goutil/templatex"
 )
 
 var outTemplate *template.Template
