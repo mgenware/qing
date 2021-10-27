@@ -6,6 +6,7 @@ import (
 	"qing/app/appConfig"
 
 	"github.com/google/uuid"
+	"github.com/mgenware/goutil/iox"
 )
 
 type TmpService struct {
@@ -36,7 +37,7 @@ func NewFile(dirName, ext string) (TmpFile, error) {
 	fileName := id.String() + ext
 
 	dir := filepath.Join(tmpService.TmpDir(), dirName)
-	err = os.MkdirAll(dir, os.ModeDir)
+	err = iox.Mkdirp(dir)
 	if err != nil {
 		return res, err
 	}

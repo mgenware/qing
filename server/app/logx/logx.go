@@ -10,11 +10,11 @@ package logx
 import (
 	"fmt"
 	"log"
-	"os"
 	"path/filepath"
 	"runtime/debug"
 
 	"github.com/fatih/color"
+	"github.com/mgenware/goutil/iox"
 	"github.com/mgenware/goutil/stringsx"
 	"go.uber.org/zap"
 )
@@ -32,7 +32,7 @@ type Logger struct {
 
 // NewLogger creates a new logger.
 func NewLogger(dir string, dev bool) (*Logger, error) {
-	err := os.MkdirAll(dir, os.ModePerm)
+	err := iox.Mkdirp(dir)
 	if err != nil {
 		return nil, err
 	}

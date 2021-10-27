@@ -19,6 +19,8 @@ import (
 	"qing/app/defs"
 	"qing/lib/randlib"
 	"qing/s/imgproxy"
+
+	"github.com/mgenware/goutil/iox"
 )
 
 const (
@@ -94,7 +96,7 @@ func (svc *AvatarService) RemoveAvatarFiles(uid uint64, avatarName string) {
 func (svc *AvatarService) allocFilepathForThumbnail(uid uint64, filename string) (string, error) {
 	dir := fmt.Sprintf("%v/%v", svc.OutDir, uid)
 
-	err := os.MkdirAll(dir, os.ModeDir)
+	err := iox.Mkdirp(dir)
 	if err != nil {
 		return "", err
 	}
