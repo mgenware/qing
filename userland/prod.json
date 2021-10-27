@@ -12,6 +12,6 @@
     "dir": "./assets/templates"
   },
   "log": {
-    "dir": "../app_data/log/prod"
+    "dir": "/qing_data/log/prod"
   }
 }

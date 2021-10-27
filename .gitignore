@@ -10,7 +10,7 @@ node_modules
 # TypeScript temp artifacts
 *.tsbuildinfo
 
-/app_data/*
-!/app_data/README.md
-/app_tmp/*
-!/app_tmp/README.md
+/qing_data/*
+!/qing_data/README.md
+/qing_tmp/*
+!/qing_tmp/README.md

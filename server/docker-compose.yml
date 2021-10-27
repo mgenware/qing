@@ -4,11 +4,11 @@ services:
   server:
     build: .
     volumes:
-      - .:/server
-      - ../web:/web
-      - ../userland:/userland
-      - ../app_data:/app_data
-      - &volume_app_tmp '../app_tmp:/app_tmp'
+      - .:/qing/server
+      - ../web:/qing/web
+      - ../userland:/qing/userland
+      - ../qing_data:/qing_data
+      - &volume_qing_tmp '../qing_tmp:/qing_tmp'
     ports:
       - '8000:8000'
     depends_on:
@@ -32,7 +32,7 @@ services:
     image: 'migrate/migrate'
     profiles: ['oth']
     volumes:
-      - ../migrations:/migrations
+      - ../migrations:/qing/migrations
     entrypoint:
       [
         'migrate',
@@ -48,4 +48,4 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - *volume_app_tmp
+      - *volume_qing_tmp

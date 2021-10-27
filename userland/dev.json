@@ -12,14 +12,14 @@
     "dir": "./templates"
   },
   "logging": {
-    "dir": "/app_data/log/dev"
+    "dir": "/qing_data/log/dev"
   },
   "db": {
     "conn_string": "qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
   },
   "res_server": {
     "url": "/res",
-    "dir": "/app_data/res_server"
+    "dir": "/qing_data/res_server"
   },
   "debug": {
     "quick_login": true,
@@ -27,12 +27,12 @@
     "panic_on_unexpected_html_errors": false,
     "panic_on_unexpected_json_errors": false,
     "turbo_web": {
-      "dir": "/web",
+      "dir": "/qing/web",
       "url": "/static-turbo"
     }
   },
   "app_profile": {
-    "dir": "/app_data/app_profile.json"
+    "dir": "/qing_data/app_profile.json"
   },
-  "tmp_dir": "/app_tmp"
+  "tmp_dir": "/qing_tmp"
 }
