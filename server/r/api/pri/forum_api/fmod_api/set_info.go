@@ -25,7 +25,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	fid := appcom.ContextForumID(r.Context())
-	name := validator.MustGetStringFromDict(params, "name", defs.DB.MaxNameLen)
+	name := validator.MustGetStringFromDict(params, "name", defs.Shared.MaxNameLen)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
 	db := appDB.DB()
