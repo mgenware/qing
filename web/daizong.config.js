@@ -13,13 +13,6 @@ const devEnv = {
 const prodEnv = {
   NODE_ENV: 'production',
 };
-const prebuildDirName = 'prebuild';
-
-function getPrebuildTask(name) {
-  return `node ./${prebuildDirName}/dist/${name}.js`;
-}
-
-const prebuildTasks = ['build-shared-const'].map(getPrebuildTask);
 
 export default {
   lint: {
@@ -67,34 +60,15 @@ export default {
     run: ['#turbo-build', '#ut t'],
   },
 
-  /** Prebuild */
-  prebuild: {
-    build: {
-      run: `tsc -p ./${prebuildDirName}`,
-    },
-    runTasks: {
-      run: prebuildTasks,
-      parallel: true,
-    },
-    run: ['#prebuild build', '#prebuild runTasks'],
-  },
-
-  'build-langs': {
-    alias: 'l',
-    run: ['#prebuild build', getPrebuildTask('build-ls')],
-  },
-
   _: {
     privateTasks: {
       prepare: {
-        run: '#prebuild',
-        after: {
+        run: {
           del: ['dist', '../userland/static/d/js'],
         },
       },
       'prepare-turbo': {
-        run: '#prebuild',
-        before: {
+        run: {
           del: 'dist-turbo',
         },
       },

@@ -31,7 +31,7 @@ export function webPath(path: string): string {
 }
 
 export async function langNamesAsync(): Promise<string[]> {
-  const jsonFile = langsDir + 'langs.json';
+  const jsonFile = langsDir + '/langs.json';
   const obj = JSON.parse(await fs.readFile(jsonFile, 'utf8')) as any;
   const names = obj.langs as string[];
   if (!Array.isArray(names)) {
@@ -41,5 +41,5 @@ export async function langNamesAsync(): Promise<string[]> {
 }
 
 export function langDataPath(name: string): string {
-  return langsDataDir + `${name}.json`;
+  return `${langsDataDir}/${name}.json`;
 }

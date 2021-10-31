@@ -15,7 +15,7 @@ import {
   langNamesAsync,
   langDataPath,
   defaultLangPath,
-} from './common.js';
+} from '../common/common.js';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${copyrightString}${codeWarning}`;
