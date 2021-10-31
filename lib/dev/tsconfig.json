@@ -5,7 +5,9 @@
     "declaration": false,
     "outDir": "./dist",
     "rootDir": ".",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "incremental": true,
+    "tsBuildInfoFile": "build.tsbuildinfo"
   },
   "exclude": ["node_modules", "dist"]
 }

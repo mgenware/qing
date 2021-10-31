@@ -54,5 +54,12 @@
   "forumStatusArchived": 1,
   "upVoteValue": 1,
   "downVoteValue": -1,
-  "noVoteValue": 0
+  "noVoteValue": 0,
+  "maxTitleLen": 200,
+  "maxEmailLen": 200,
+  "maxNameLen": 100,
+  "maxFileNameLen": 255,
+  "maxUserInfoFieldLen": 100,
+  "maxURLLen": 200,
+  "maxPwdHashLen": 255
 }

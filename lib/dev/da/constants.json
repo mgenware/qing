@@ -1,9 +1,0 @@
-{
-  "maxTitleLen": 200,
-  "maxEmailLen": 200,
-  "maxNameLen": 100,
-  "maxFileNameLen": 255,
-  "maxUserInfoFieldLen": 100,
-  "maxURLLen": 200,
-  "maxPwdHashLen": 255
-}

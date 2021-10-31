@@ -8,7 +8,11 @@
 import { promises as fsPromises } from 'fs';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
-import { serverPath, webPath, copyrightString } from './common.js';
+import nodePath from 'path';
+import { fileURLToPath } from 'url';
+import { serverPath, webPath, copyrightString } from '../common/common.js';
+
+const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
 
 async function buildJSONFileAsync(
   src: string,
@@ -36,9 +40,9 @@ async function buildJSONFileAsync(
   ]);
 }
 
-async function buildSharedConstantsAsync() {
+async function buildConstantsAsync() {
   return buildJSONFileAsync(
-    webPath('src/app/shared_constants.json'),
+    nodePath.join(dirPath, 'main.json'),
     webPath('src/sharedConstants.ts'),
     serverPath('app/defs/shared_constants.go'),
     'defs',
@@ -47,15 +51,4 @@ async function buildSharedConstantsAsync() {
   );
 }
 
-async function buildDBConstantsAsync() {
-  return buildJSONFileAsync(
-    serverPath('mingru/src/constants.json'),
-    webPath('src/dbConstants.ts'),
-    serverPath('app/defs/db_constants.go'),
-    'defs',
-    'DBConstantsType',
-    'DB',
-  );
-}
-
-await Promise.all([buildSharedConstantsAsync(), buildDBConstantsAsync()]);
+await buildConstantsAsync();

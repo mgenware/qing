@@ -21,9 +21,9 @@ if (process.platform === 'win32') {
   process.exit(1);
 }
 
-const dirname = nodepath.dirname(fileURLToPath(import.meta.url));
+const dirPath = nodepath.dirname(fileURLToPath(import.meta.url));
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const pkg = JSON.parse(await readFile(nodepath.join(dirname, '../package.json'), 'utf8'));
+const pkg = JSON.parse(await readFile(nodepath.join(dirPath, '../package.json'), 'utf8'));
 
 const args = process.argv.slice(2);
 

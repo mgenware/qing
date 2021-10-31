@@ -52,7 +52,14 @@ type SharedConstantsType struct {
 	KeyTab string
 	KeyValue string
 	MaxCaptchaLen int
+	MaxEmailLen int
+	MaxFileNameLen int
 	MaxGenericStringLen int
+	MaxNameLen int
+	MaxPwdHashLen int
+	MaxTitleLen int
+	MaxUrlLen int
+	MaxUserInfoFieldLen int
 	MaxUserPwdLen int
 	MinUserPwdLen int
 	NoVoteValue int
@@ -115,7 +122,14 @@ func init() {
 		KeyTab: "tab",
 		KeyValue: "value",
 		MaxCaptchaLen: 10,
+		MaxEmailLen: 200,
+		MaxFileNameLen: 255,
 		MaxGenericStringLen: 100,
+		MaxNameLen: 100,
+		MaxPwdHashLen: 255,
+		MaxTitleLen: 200,
+		MaxUrlLen: 200,
+		MaxUserInfoFieldLen: 100,
 		MaxUserPwdLen: 30,
 		MinUserPwdLen: 6,
 		NoVoteValue: 0,

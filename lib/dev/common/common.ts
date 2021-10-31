@@ -6,6 +6,8 @@
  */
 
 import { promises as fs } from 'fs';
+import nodePath from 'path';
+import { fileURLToPath } from 'url';
 
 export const copyrightString = `/*
  * Copyright (C) The Qing Project. All rights reserved.
@@ -14,17 +16,18 @@ export const copyrightString = `/*
  * can be found in the LICENSE file.
  */\n\n`;
 
-export const langsDir = '../userland/langs/';
-export const langsDataDir = langsDir + 'data/';
-
-export const defaultLangPath = langsDataDir + 'en.json';
+const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
+const rootDir = nodePath.join(dirPath, '../../../..');
+export const langsDir = `${rootDir}/userland/langs`;
+export const langsDataDir = `${langsDir}/data`;
+export const defaultLangPath = `${langsDataDir}/en.json`;
 
 export function serverPath(path: string): string {
-  return `../server/${path}`;
+  return `${rootDir}/server/${path}`;
 }
 
 export function webPath(path: string): string {
-  return `./${path}`;
+  return `${rootDir}/web/${path}`;
 }
 
 export async function langNamesAsync(): Promise<string[]> {
