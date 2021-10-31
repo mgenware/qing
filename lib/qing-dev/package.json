@@ -1,0 +1,45 @@
+{
+  "name": "qing-dev",
+  "version": "1.0.0",
+  "description": "CLI for Qing development",
+  "private": true,
+  "type": "module",
+  "exports": "./dist/cli.js",
+  "author": "Mgenware (https://github.com/mgenware)",
+  "homepage": "https://github.com/mgenware/qing",
+  "bin": {
+    "qing": "./dist/cli.js"
+  },
+  "scripts": {
+    "r": "daizong",
+    "test": "daizong build"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.ts",
+    "dist/**/*.html",
+    "dist/**/*.css",
+    "dist/**/*.map"
+  ],
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.4",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "daizong": "^0.17.0",
+    "eslint": "^7.32.0",
+    "eslint-config-mgenware": "^0.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "mgenware-tsconfig-node": "^14.0.2",
+    "tempy": "^2.0.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "arg": "^5.0.1",
+    "catch-err-msg": "^1.0.0",
+    "js-yaml": "^4.1.0"
+  }
+}
