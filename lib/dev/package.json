@@ -1,27 +1,26 @@
 {
-  "name": "qing-mingru",
+  "name": "qing-dev",
   "private": true,
-  "main": "./dist/mingru.js",
   "type": "module",
   "scripts": {
-    "r": "del-cli ./dist && tsc && node --experimental-json-modules ./dist/mingru.js",
-    "lint": "eslint --max-warnings 0 --ext .ts ./src"
+    "r": "daizong"
   },
   "devDependencies": {
-    "@types/node": "^16.10.1",
+    "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
+    "daizong": "^0.17.0",
     "del-cli": "^4.0.1",
     "eslint": "^7.32.0",
     "eslint-config-mgenware": "^0.2.0",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-import": "^2.25.2",
     "mgenware-tsconfig-node-x": "^16.0.0",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "go-const-gen": "^2.1.0",
     "mingru": "^0.50.1",
-    "mingru-models": "^0.57.0",
+    "mingru-models": "^0.57.1",
     "mingru-tsconfig": "^4.0.0"
   }
 }

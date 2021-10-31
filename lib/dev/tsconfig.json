@@ -4,7 +4,8 @@
     "downlevelIteration": true,
     "declaration": false,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }
