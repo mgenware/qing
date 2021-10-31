@@ -41,6 +41,10 @@ function printUsage() {
       w          Start web dev
       s          Start server dev in containers
       s_l        Start server dev in local environment
+      d <name>   Run scripts in '/lib/dev'
+        const      - Rebuild shared constants
+        da         - Rebuild data access layer
+        ls         - Rebuild localized strings
 
       rootdir    Print project root directory
       help       Print help information
@@ -50,6 +54,7 @@ function printUsage() {
 }
 
 const inputCmd = args[0];
+const arg1 = args[1];
 
 if (!inputCmd) {
   console.error('No input commands');
@@ -58,6 +63,7 @@ if (!inputCmd) {
 
 const webDir = 'web';
 const serverDir = 'server';
+const libDev = 'lib/dev';
 
 async function getRootDir(): Promise<string> {
   const res = await execAsync('git rev-parse --show-toplevel');
@@ -66,6 +72,12 @@ async function getRootDir(): Promise<string> {
 
 async function getProjectDir(name: string): Promise<string> {
   return nodepath.join(await getRootDir(), name);
+}
+
+function checkArg(s: string | undefined, name: string): asserts s {
+  if (!s) {
+    throw new Error(`"${name}" is undefined`);
+  }
 }
 
 export default async function spawnCmd(cmd: string, cwd?: string): Promise<void> {
@@ -114,6 +126,11 @@ export default async function spawnCmd(cmd: string, cwd?: string): Promise<void>
 
       case 's_l':
         await spawnCmd('go run main.go dev', await getProjectDir(serverDir));
+        break;
+
+      case 'd':
+        checkArg(arg1, 'arg1');
+        await spawnCmd(`npm run r ${arg1}`, await getProjectDir(libDev));
         break;
 
       default:
