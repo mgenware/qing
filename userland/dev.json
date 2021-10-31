@@ -15,7 +15,12 @@
     "dir": "/qing_data/log/dev"
   },
   "db": {
-    "conn_string": "qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
+    "user": "qing_dev",
+    "pwd": "qing_dev_pwd",
+    "host": "db",
+    "port": 3306,
+    "database": "qing_dev_db",
+    "params": "?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
   },
   "res_server": {
     "url": "/res",

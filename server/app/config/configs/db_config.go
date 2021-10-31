@@ -9,5 +9,10 @@ package configs
 
 // DBConfig ...
 type DBConfig struct {
-	ConnString string `json:"conn_string"`
+	User     string `json:"user"`
+	Pwd      string `json:"pwd"`
+	Database string `json:"database"`
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	Params   string `json:"params"`
 }

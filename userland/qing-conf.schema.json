@@ -85,9 +85,14 @@
     "db_config": {
       "type": "object",
       "properties": {
-        "conn_string": { "type": "string" }
+        "user": { "type": "string" },
+        "pwd": { "type": "string" },
+        "database": { "type": "string" },
+        "host": { "type": "string" },
+        "port": { "type": "number" },
+        "params": { "type": "string" }
       },
-      "required": ["conn_string"]
+      "required": ["user", "pwd", "database", "host", "port", "params"]
     },
     "res_server_config": {
       "type": "object",
