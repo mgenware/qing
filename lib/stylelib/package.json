@@ -4,7 +4,8 @@
   "type": "module",
   "exports": "./dist/main.js",
   "types": "./dist/main.d.ts",
-  "author": "Mgenware",
+  "author": "Mgenware (https://github.com/mgenware)",
+  "homepage": "https://github.com/mgenware/qing",
   "scripts": {
     "prepublishOnly": "daizong build",
     "r": "daizong"
