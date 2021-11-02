@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "go-const-gen": "^2.1.0",
+    "jsconfgen": "^0.1.0",
     "json-to-js-const": "^0.1.0",
     "mingru": "^0.50.1",
     "mingru-models": "^0.57.1",

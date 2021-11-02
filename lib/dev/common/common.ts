@@ -16,6 +16,13 @@ export const copyrightString = `/*
  * can be found in the LICENSE file.
  */\n\n`;
 
+export const copyrightStringYAML = `#
+ # Copyright (C) The Qing Project. All rights reserved.
+ #
+ # Use of this source code is governed by a license that
+ # can be found in the LICENSE file.
+ #/\n\n`;
+
 const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
 const rootDir = nodePath.join(dirPath, '../../../..');
 export const langsDir = `${rootDir}/userland/langs`;
