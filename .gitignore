@@ -10,6 +10,9 @@ node_modules
 # TypeScript temp artifacts
 *.tsbuildinfo
 
+# qing dev folder
+.qing-dev
+
 /qing_data/*
 !/qing_data/README.md
 /qing_tmp/*
