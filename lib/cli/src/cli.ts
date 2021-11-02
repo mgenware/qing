@@ -7,23 +7,26 @@
  * be found in the LICENSE file.
  */
 
-import { readFile } from 'fs/promises';
-import nodepath from 'path';
+import { mkdir, readFile, stat, writeFile } from 'fs/promises';
+import nodePath from 'path';
 import { fileURLToPath } from 'url';
 import errMsg from 'catch-err-msg';
 import { exec, spawn } from 'child_process';
 import { promisify } from 'util';
 
 const execAsync = promisify(exec);
+const qingDevDirName = '.qing-dev';
+const npmInstallTimeFileName = 'npmInstallTime.txt';
+const migrateCmd = 'docker compose run migrate';
 
 if (process.platform === 'win32') {
-  console.error('qing-dev does not support Windows');
+  console.error('Qing CLI does not support Windows, please use WSL2 on Windows.');
   process.exit(1);
 }
 
-const dirPath = nodepath.dirname(fileURLToPath(import.meta.url));
+const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const pkg = JSON.parse(await readFile(nodepath.join(dirPath, '../package.json'), 'utf8'));
+const pkg = JSON.parse(await readFile(nodePath.join(dirPath, '../package.json'), 'utf8'));
 
 const args = process.argv.slice(2);
 
@@ -38,17 +41,21 @@ function printUsage() {
     Usage
       $ ${pkg.name} <command> [command arguments]
     Command
-      w          Start web dev
-      s          Start server dev in containers
-      s_l        Start server dev in local environment
-      d <name>   Run scripts in '/lib/dev'
-        const      - Rebuild shared constants
-        da         - Rebuild data access layer
-        ls         - Rebuild localized strings
-
-      rootdir    Print project root directory
-      help       Print help information
-      version    Print version information
+      w               Start web dev
+      s               Start server dev in containers
+      s_l             Start server dev in local environment
+      d <name>        Run scripts in '/lib/dev'
+        const           - Rebuild shared constants
+        da              - Rebuild data access layer
+        ls              - Rebuild localized strings
+      migrate <cmd>   Run database migrations
+        +<N>            - Apply N up migrations
+        -<N>            - Apply N down migrations
+        <N>             - Migrate to version N
+        drop            - Drop everything in database
+      rootdir         Print project root directory
+      help            Print help information
+      version         Print version information
       
   `);
 }
@@ -71,7 +78,7 @@ async function getRootDir(): Promise<string> {
 }
 
 async function getProjectDir(name: string): Promise<string> {
-  return nodepath.join(await getRootDir(), name);
+  return nodePath.join(await getRootDir(), name);
 }
 
 function checkArg(s: string | undefined, name: string): asserts s {
@@ -80,7 +87,7 @@ function checkArg(s: string | undefined, name: string): asserts s {
   }
 }
 
-export default async function spawnCmd(cmd: string, cwd?: string): Promise<void> {
+async function spawnCmd(cmd: string, cwd: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const process = spawn(cmd, {
       shell: true,
@@ -100,6 +107,51 @@ export default async function spawnCmd(cmd: string, cwd?: string): Promise<void>
   });
 }
 
+async function mtime(path: string): Promise<number> {
+  const { mtime } = await stat(path);
+  return mtime.getTime();
+}
+
+async function readNPMInstallTime(dir: string): Promise<number> {
+  try {
+    const installTimeStr = await readFile(
+      nodePath.join(dir, qingDevDirName, npmInstallTimeFileName),
+      'utf8',
+    );
+    return parseInt(installTimeStr.trim(), 10);
+  } catch (_) {
+    return 0;
+  }
+}
+
+async function writeNPMInstallTime(dir: string, time: number): Promise<void> {
+  const destDir = nodePath.join(dir, qingDevDirName);
+  await mkdir(destDir, { recursive: true });
+  await writeFile(nodePath.join(destDir, npmInstallTimeFileName), time.toString());
+}
+
+async function spawnNPMCmd(cmd: string, dir: string): Promise<void> {
+  const pkgMtime = await mtime(nodePath.join(dir, 'package.json'));
+  const pkgLockMtime = await mtime(nodePath.join(dir, 'package-lock.json'));
+  const diskTime = Math.max(pkgMtime, pkgLockMtime);
+  const installTime = await readNPMInstallTime(dir);
+  if (diskTime > installTime) {
+    console.log('# package.json or lock file changed, re-run npm install...');
+    await spawnCmd('npm i', dir);
+    await writeNPMInstallTime(dir, new Date().getTime());
+  } else {
+    console.log('# package.json or lock file not changed.');
+  }
+
+  await spawnCmd(cmd, dir);
+}
+
+function checkMigrationNumber(num: number) {
+  if (num < 1) {
+    throw new Error(`Migration number must be greater than or equal to 1, got ${num}.`);
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
   try {
@@ -117,7 +169,7 @@ export default async function spawnCmd(cmd: string, cwd?: string): Promise<void>
         break;
 
       case 'w':
-        await spawnCmd('npm run r dev', await getProjectDir(webDir));
+        await spawnNPMCmd('npm run r dev', await getProjectDir(webDir));
         break;
 
       case 's':
@@ -130,8 +182,25 @@ export default async function spawnCmd(cmd: string, cwd?: string): Promise<void>
 
       case 'd':
         checkArg(arg1, 'arg1');
-        await spawnCmd(`npm run r ${arg1}`, await getProjectDir(libDev));
+        await spawnNPMCmd(`npm run r ${arg1}`, await getProjectDir(libDev));
         break;
+
+      case 'migrate':
+        checkArg(arg1, 'arg1');
+        if (arg1 === 'drop') {
+          await spawnCmd(`${migrateCmd} drop`, await getProjectDir(serverDir));
+        } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
+          const num = parseInt(arg1.substr(1), 10);
+          checkMigrationNumber(num);
+          await spawnCmd(
+            `${migrateCmd} ${arg1[0] === '+' ? 'up' : 'down'} ${num}`,
+            await getProjectDir(serverDir),
+          );
+        } else {
+          const num = parseInt(arg1, 10);
+          checkMigrationNumber(num);
+          await spawnCmd(`${migrateCmd} goto ${num}`, await getProjectDir(serverDir));
+        }
 
       default:
         throw new Error(`Unknown command "${inputCmd}"`);
