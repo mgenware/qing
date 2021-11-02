@@ -39,16 +39,16 @@ function printUsage() {
   // eslint-disable-next-line no-console
   console.log(`
     Usage
-      $ ${pkg.name} <command> [command arguments]
+      $ qing <command> [command arguments]
     Command
       w               Start web dev
       s               Start server dev in containers
       s_l             Start server dev in local environment
-      d <name>        Run scripts in '/lib/dev'
+      d <arg>         Run scripts in '/lib/dev'
         const           - Rebuild shared constants
         da              - Rebuild data access layer
         ls              - Rebuild localized strings
-      migrate <cmd>   Run database migrations
+      migrate <arg>   Run database migrations
         +<N>            - Apply N up migrations
         -<N>            - Apply N down migrations
         <N>             - Migrate to version N

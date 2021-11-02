@@ -2,7 +2,6 @@
   "name": "qing-dev",
   "version": "1.0.0",
   "description": "CLI for Qing development",
-  "private": true,
   "type": "module",
   "exports": "./dist/cli.js",
   "author": "Mgenware (https://github.com/mgenware)",
