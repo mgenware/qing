@@ -9,7 +9,7 @@
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
-    "daizong": "^0.17.0",
+    "daizong": "^0.17.2",
     "del-cli": "^4.0.1",
     "eslint": "^7.32.0",
     "eslint-config-mgenware": "^0.2.0",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "go-const-gen": "^2.1.0",
-    "jsconfgen": "^0.1.0",
+    "jsconfgen": "^0.2.0",
     "json-to-js-const": "^0.1.0",
     "mingru": "^0.50.1",
     "mingru-models": "^0.57.1",
