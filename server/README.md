@@ -21,23 +21,25 @@ We strictly follow the standard Go naming conventions with some additions.
 ## Development scripts
 
 Spin up the server:
+
 ```sh
-docker-compose up
+docker compose up
 ```
 
 Perform migrations:
+
 ```sh
 # Apply N up migrations
-docker-compose run migrate up <N>
+docker compose run migrate up <N>
 
 # Apply N down migrations
-docker-compose run migrate down <N>
+docker compose run migrate down <N>
 
 # Migrate to version V
-docker-compose run migrate goto <V>
+docker compose run migrate goto <V>
 
 # Drop everything in DB
-docker-compose run migrate drop
+docker compose run migrate drop
 ```
 
 ## Run tests

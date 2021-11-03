@@ -1,5 +1,4 @@
 version: '3.9'
-
 services:
   server:
     build: .
@@ -7,20 +6,20 @@ services:
       - .:/qing/server
       - ../web:/qing/web
       - ../userland:/qing/userland
-      - ../qing_data:/qing_data
-      - &volume_qing_tmp '../qing_tmp:/qing_tmp'
+      - ../volumes/qing_data:/qing_data
+      - ../volumes/qing_tmp:/qing_tmp
     ports:
       - '8000:8000'
     depends_on:
-      - redis
+      - ms
       - db
       - img_proxy
-  redis:
-    image: 'redis:6'
+  ms:
+    image: redis:6
     ports:
       - '6379:6379'
   db:
-    image: 'mariadb:10.6'
+    image: mariadb:10.6
     ports:
       - '3306:3306'
     environment:
@@ -29,23 +28,23 @@ services:
       MYSQL_PASSWORD: qing_dev_pwd
       MYSQL_DATABASE: qing_dev_db
   migrate:
-    image: 'migrate/migrate'
-    profiles: ['oth']
+    image: migrate/migrate
+    profiles:
+      - oth
     volumes:
       - ../migrations:/qing/migrations
     entrypoint:
-      [
-        'migrate',
-        '-path',
-        '/migrations',
-        '-database',
-        'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?multiStatements=true',
-      ]
+      - migrate
+      - '-path'
+      - /qing/migrations
+      - '-database'
+      - >-
+        mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?multiStatements=true
     depends_on:
       - db
   img_proxy:
-    image: 'h2non/imaginary'
+    image: h2non/imaginary
     ports:
       - '9000:9000'
     volumes:
-      - *volume_qing_tmp
+      - ../volumes/qing_tmp:/qing_tmp

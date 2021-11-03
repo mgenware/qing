@@ -20,13 +20,18 @@ const sMS = 'ms';
 const sMigrate = 'migrate';
 const sImgProxy = 'img_proxy';
 
+const volumesSrcDir = '../volumes';
+const volumeAppData = `${volumesSrcDir}/qing_data:${conAppDataDir}`;
+const volumeTmp = `${volumesSrcDir}/qing_tmp:${conAppTmpDir}`;
+
 const server = {
   build: '.',
   volumes: [
     `.:${conAppDir}/server`,
     `../web:${conAppDir}/web`,
     `../userland:${conAppDir}/userland`,
-    `../qing_tmp:${conAppTmpDir}`,
+    volumeAppData,
+    volumeTmp,
   ],
   ports: ['8000:8000'],
   depends_on: [sMS, sDB, sImgProxy],
@@ -37,15 +42,44 @@ const ms = {
   ports: ['6379:6379'],
 };
 
+const dbConf = devConf.db;
 const db = {
   image: 'mariadb:10.6',
   ports: ['3306:3306'],
+  environment: {
+    MYSQL_ROOT_PASSWORD: 'qing_dev_root_pwd',
+    MYSQL_USER: dbConf.user,
+    MYSQL_PASSWORD: dbConf.pwd,
+    MYSQL_DATABASE: dbConf.database,
+  },
+};
+
+const migrate = {
+  image: 'migrate/migrate',
+  profiles: ['oth'],
+  volumes: [`../migrations:${conAppDir}/migrations`],
+  entrypoint: [
+    'migrate',
+    '-path',
+    `${conAppDir}/migrations`,
+    '-database',
+    'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?multiStatements=true',
+  ],
+  depends_on: [sDB],
+};
+
+const img_proxy = {
+  image: 'h2non/imaginary',
+  ports: ['9000:9000'],
+  volumes: [volumeTmp],
 };
 
 const services = {
   [sServer]: server,
   [sMS]: ms,
   [sDB]: db,
+  [sMigrate]: migrate,
+  [sImgProxy]: img_proxy,
 };
 
 const config = {

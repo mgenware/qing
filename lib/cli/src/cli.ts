@@ -18,6 +18,7 @@ const execAsync = promisify(exec);
 const qingDevDirName = '.qing-dev';
 const npmInstallTimeFileName = 'npmInstallTime.txt';
 const migrateCmd = 'docker compose run migrate';
+const composeUpCmd = 'docker compose up';
 
 if (process.platform === 'win32') {
   console.error('Qing CLI does not support Windows, please use WSL2 on Windows.');
@@ -41,10 +42,12 @@ function printUsage() {
     Usage
       $ qing <command> [command arguments]
     Command
-      w               Start web dev
-      s               Start server dev in containers
-      s_l             Start server dev in local environment
+      w               Build web files
+      s               Build and start server in containers
+      s-f             Build and start server in containers (force recreation)
+      s-l             Build and start server locally
       d <arg>         Run scripts in '/lib/dev'
+        conf            - Rebuild config files
         const           - Rebuild shared constants
         da              - Rebuild data access layer
         ls              - Rebuild localized strings
@@ -156,36 +159,48 @@ function checkMigrationNumber(num: number) {
 (async () => {
   try {
     switch (inputCmd) {
-      case 'help':
+      case 'help': {
         printUsage();
         break;
+      }
 
-      case 'version':
+      case 'version': {
         print(pkg.version);
         break;
+      }
 
-      case 'rootdir':
+      case 'rootdir': {
         print(await getRootDir());
         break;
+      }
 
-      case 'w':
+      case 'w': {
         await spawnNPMCmd('npm run r dev', await getProjectDir(webDir));
         break;
+      }
 
-      case 's':
-        await spawnCmd('docker-compose up', await getProjectDir(serverDir));
+      case 's': {
+        await spawnCmd(composeUpCmd, await getProjectDir(serverDir));
         break;
+      }
 
-      case 's_l':
+      case 's-f': {
+        await spawnCmd(composeUpCmd + ' --force-recreate', await getProjectDir(serverDir));
+        break;
+      }
+
+      case 's-l': {
         await spawnCmd('go run main.go dev', await getProjectDir(serverDir));
         break;
+      }
 
-      case 'd':
+      case 'd': {
         checkArg(arg1, 'arg1');
         await spawnNPMCmd(`npm run r ${arg1}`, await getProjectDir(libDev));
         break;
+      }
 
-      case 'migrate':
+      case 'migrate': {
         checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
           await spawnCmd(`${migrateCmd} drop`, await getProjectDir(serverDir));
@@ -201,9 +216,12 @@ function checkMigrationNumber(num: number) {
           checkMigrationNumber(num);
           await spawnCmd(`${migrateCmd} goto ${num}`, await getProjectDir(serverDir));
         }
+        break;
+      }
 
-      default:
+      default: {
         throw new Error(`Unknown command "${inputCmd}"`);
+      }
     }
   } catch (err) {
     console.error(`Error: ${errMsg(err)}`);
