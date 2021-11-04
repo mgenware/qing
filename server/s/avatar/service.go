@@ -92,10 +92,10 @@ func (svc *AvatarService) UpdateAvatar(oldAvatarName string, srcReader io.Reader
 		return "", err
 	}
 
-	// err = imgproxy.Get().Crop(tmpOriginPath, tmpOriginPath, x, y, width, height)
-	// if err != nil {
-	// 	return "", err
-	// }
+	err = imgproxy.Get().Crop(tmpOriginPath, tmpOriginPath, x, y, width, height)
+	if err != nil {
+		return "", err
+	}
 
 	avatarName := randlib.RandString(6) + ext
 	for _, size := range resizedSizes {

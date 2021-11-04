@@ -42,11 +42,11 @@ func (p *ImgProxy) execToFile(url, destFile string) error {
 
 func (p *ImgProxy) Crop(src, dest string, x, y, width, height int) error {
 	values := url.Values{}
-	values.Add("x", strconv.Itoa(x))
-	values.Add("y", strconv.Itoa(y))
-	values.Add("width", strconv.Itoa(width))
-	values.Add("height", strconv.Itoa(height))
-	return p.execToFile(p.getURL("crop", src, &values), dest)
+	values.Add("left", strconv.Itoa(x))
+	values.Add("top", strconv.Itoa(y))
+	values.Add("areawidth", strconv.Itoa(width))
+	values.Add("areaheight", strconv.Itoa(height))
+	return p.execToFile(p.getURL("extract", src, &values), dest)
 }
 
 func (p *ImgProxy) Resize(src, dest string, width, height int) error {
