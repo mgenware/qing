@@ -91,7 +91,7 @@ func (svc *AvatarService) UpdateAvatar(oldAvatarName string, srcReader io.Reader
 	if err != nil {
 		return "", err
 	}
-
+	defer os.Remove(tmpOriginPath)
 	err = imgproxy.Get().Crop(tmpOriginPath, tmpOriginPath, x, y, width, height)
 	if err != nil {
 		return "", err
