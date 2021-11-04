@@ -12,12 +12,19 @@ import (
 	"strings"
 )
 
-// IsImagePath checks if the specified path is an image.
-func IsImagePath(p string) (bool, string) {
-	ext := path.Ext(p)
-	ext = strings.ToLower(ext)
-	if ext == ".jpg" || ext == ".jpeg" || ext == ".png" {
-		return true, ext
+var supportedExtensions map[string]bool
+
+func init() {
+	supportedExtensions = map[string]bool{
+		".jpg":  true,
+		".jpeg": true,
+		".png":  true,
+		".webp": true,
 	}
-	return false, ext
+}
+
+// IsImageFile checks if the specified path is an image.
+func IsImageFile(p string) (bool, string) {
+	ext := strings.ToLower(path.Ext(p))
+	return supportedExtensions[ext], ext
 }

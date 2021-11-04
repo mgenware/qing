@@ -78,7 +78,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fileHeader := headers[0]
-	isImg, ext := iolib.IsImagePath(fileHeader.Filename)
+	isImg, ext := iolib.IsImageFile(fileHeader.Filename)
 	if !isImg {
 		resp.MustFailWithCode(errUnsupportedExt)
 		return
