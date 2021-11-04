@@ -41,10 +41,11 @@ npm i qing-dev -g
 
 Once server is up and running, go to `localhost:8000` to test Qing in browser.
 
-## Troubleshooting
+## Troubleshooting building issues
 
-Q: `Error 1146: Table 'qing_dev_db.<table name>' doesn't exist` when visiting `localhost:8000`.
-A: Some tables are missing in database. Make sure you've run database migrations.
-
-Q: Command not found: qing
-A: Run `npm i qing-dev -g` in terminal.
+- Error 1146: Table 'qing_dev_db.table_name' doesn't exist when visiting `localhost:8000`.
+  - Some tables are missing in database. Make sure you've run database migrations.
+- Command not found: qing
+  - Run `npm i qing-dev -g` in terminal.
+- Windows WSL2: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running
+  - Go to Docker Desktop - Settings - Resources - WSL Integration - Make sure your host linux distro has WSL integration enabled.
