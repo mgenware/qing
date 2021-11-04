@@ -36,7 +36,7 @@ export class MiniURLRouter {
   }
 
   handle(urlString: string): boolean {
-    const url = new URL(urlString);
+    const url = new URL(this.trimTrailingSlash(urlString));
     const path = url.pathname;
     this.log(`Handling path "${path}"`);
     if (!path) {
@@ -82,5 +82,16 @@ export class MiniURLRouter {
       // eslint-disable-next-line no-console
       console.log(`🚃 ${s}`);
     }
+  }
+
+  private trimTrailingSlash(url: string): string {
+    // Don't trim "/".
+    if (url.length <= 1) {
+      return url;
+    }
+    if (url.endsWith('/')) {
+      return url.substr(0, url.length - 1);
+    }
+    return url;
   }
 }

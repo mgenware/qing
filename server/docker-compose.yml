@@ -17,7 +17,6 @@ services:
       - ../web:/qing/web
       - ../userland:/qing/userland
       - ../volumes/qing_data:/qing_data
-      - ../volumes/qing_tmp:/qing_tmp
     ports:
       - '8000:8000'
     depends_on:
@@ -56,5 +55,6 @@ services:
     image: h2non/imaginary
     ports:
       - '9000:9000'
+    command: '-enable-url-source'
     volumes:
-      - ../volumes/qing_tmp:/qing_tmp
+      - ../volumes/qing_data:/qing_data

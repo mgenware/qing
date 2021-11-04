@@ -33,6 +33,10 @@ func (p *ImgProxy) execToFile(url, destFile string) error {
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("%v returns %v", url, resp.StatusCode)
+	}
 	return iolib.CopyReaderToFile(resp.Body, destFile)
 }
 

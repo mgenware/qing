@@ -11,8 +11,6 @@ import devConf from '../userland/dev.json';
 const conAppDir = '/qing';
 // App data dir in containers.
 const conAppDataDir = '/qing_data';
-// App tmp dir in containers.
-const conAppTmpDir = '/qing_tmp';
 
 const sServer = 'server';
 const sDB = 'db';
@@ -22,7 +20,6 @@ const sImgProxy = 'img_proxy';
 
 const volumesSrcDir = '../volumes';
 const volumeAppData = `${volumesSrcDir}/qing_data:${conAppDataDir}`;
-const volumeTmp = `${volumesSrcDir}/qing_tmp:${conAppTmpDir}`;
 
 const server = {
   build: '.',
@@ -31,7 +28,6 @@ const server = {
     `../web:${conAppDir}/web`,
     `../userland:${conAppDir}/userland`,
     volumeAppData,
-    volumeTmp,
   ],
   ports: ['8000:8000'],
   depends_on: [sMS, sDB, sImgProxy],
@@ -71,7 +67,8 @@ const migrate = {
 const img_proxy = {
   image: 'h2non/imaginary',
   ports: ['9000:9000'],
-  volumes: [volumeTmp],
+  command: '-enable-url-source',
+  volumes: [volumeAppData],
 };
 
 const services = {

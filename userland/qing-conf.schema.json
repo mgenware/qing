@@ -81,7 +81,6 @@
       },
       "required": ["dir"]
     },
-    "tmp_dir": { "type": "string" },
     "db_config": {
       "type": "object",
       "properties": {
@@ -151,7 +150,6 @@
     "app_profile",
     "db",
     "res_server",
-    "extern",
-    "tmp_dir"
+    "extern"
   ]
 }

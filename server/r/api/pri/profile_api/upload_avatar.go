@@ -8,19 +8,15 @@
 package profileapi
 
 import (
-	"context"
 	"net/http"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appURL"
 	"qing/app/appUserManager"
 	"qing/app/appcom"
-	"qing/app/defs"
 	"qing/da"
 	"qing/lib/iolib"
 	"qing/s/avatar"
-	"qing/s/imgproxy"
-	"qing/s/tmp"
 
 	"github.com/mgenware/goutil/strconvx"
 )
@@ -88,38 +84,33 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	srcFile, err := fileHeader.Open()
+	srcReader, err := fileHeader.Open()
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
-	defer srcFile.Close()
+	defer srcReader.Close()
 
-	// Copy reader content to a temp file.
-	tmpImgFile, err := tmp.NewFile(defs.TmpFileAvatarUpload, ext)
+	user := appcom.ContextUser(resp.Context())
+	uid := user.ID
+
+	avatarName, err := avatar.Get().UpdateAvatar(user.IconName, srcReader, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height, uid, ext)
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
 
-	tmpImgFilePath := tmpImgFile.Path()
-	err = iolib.CopyReaderToFile(srcFile, tmpImgFilePath)
+	// Update DB.
+	err = da.User.UpdateIconName(appDB.DB(), uid, avatarName)
 	if err != nil {
 		resp.MustFail(err)
 		return
 	}
-	// defer tmpImgFile.Delete()
 
-	// Crop the image if necessary.
-	if cropInfo != nil {
-		err = imgproxy.Get().Crop(tmpImgFilePath, tmpImgFilePath, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height)
-		if err != nil {
-			resp.MustFail(err)
-			return
-		}
-	}
-
-	uid, avatarName, err := updateAvatarFromVolumeFile(resp.Context(), tmpImgFilePath)
+	// Update session.
+	user.IconName = avatarName
+	sid := appcom.ContextSID(resp.Context())
+	err = appUserManager.Get().UpdateUserSession(sid, user)
 	if err != nil {
 		resp.MustFail(err)
 		return
@@ -129,37 +120,4 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	apiRes.IconL = appURL.Get().UserIconURL(uid, avatarName, avatar.AvatarSize250)
 	apiRes.IconS = appURL.Get().UserIconURL(uid, avatarName, avatar.AvatarSize50)
 	resp.MustComplete(apiRes)
-}
-
-func updateAvatarFromVolumeFile(ctx context.Context, file string) (uint64, string, error) {
-	user := appcom.ContextUser(ctx)
-	uid := user.ID
-	curAvatarName, err := da.User.SelectIconName(appDB.DB(), uid)
-	if err != nil {
-		return 0, "", err
-	}
-	// Remove old avatar files.
-	if curAvatarName != "" {
-		avatar.Get().RemoveAvatarFiles(uid, curAvatarName)
-	}
-
-	avatarName, err := avatar.Get().SetAvatarFromVolumeFile(file, uid)
-	if err != nil {
-		return 0, "", err
-	}
-
-	// Update DB.
-	err = da.User.UpdateIconName(appDB.DB(), uid, avatarName)
-	if err != nil {
-		return 0, "", err
-	}
-
-	// Update session.
-	user.IconName = avatarName
-	sid := appcom.ContextSID(ctx)
-	err = appUserManager.Get().UpdateUserSession(sid, user)
-	if err != nil {
-		return 0, "", err
-	}
-	return uid, avatarName, nil
 }

@@ -13,7 +13,5 @@ node_modules
 # qing dev folder
 .qing-dev
 
-/qing_data/*
-!/qing_data/README.md
-/qing_tmp/*
-!/qing_tmp/README.md
+/volumes/*
+!/volumes/README.md

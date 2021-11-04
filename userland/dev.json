@@ -38,6 +38,5 @@
   },
   "app_profile": {
     "dir": "/qing_data/app_profile.json"
-  },
-  "tmp_dir": "/qing_tmp"
+  }
 }

@@ -48,7 +48,6 @@ type Config struct {
 	ResServer *configs.ResServerConfig `json:"res_server"`
 	// Extern config data.
 	Extern *configs.ExternConfig `json:"extern"`
-	TmpDir string                `json:"tmp_dir"`
 
 	TestMode bool `json:"test_mode"`
 }
