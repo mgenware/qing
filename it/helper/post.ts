@@ -9,11 +9,11 @@ import { ass } from 'base/api';
 import defs from 'base/defs';
 import { APIResult, ensureSuccess, post, updateEntityTime, User } from 'base/post';
 
-export const addEntityURL = 'pri/compose/set-entity';
+export const setEntityURL = 'pri/compose/set-entity';
 export const deleteEntityURL = 'pri/compose/delete-entity';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
-export const addPostBody = {
+export const setEntityBody = {
   entityType: defs.entity.post,
   content: { contentHTML: defs.sd.postContentRaw, title: defs.sd.postTitleRaw },
 };
@@ -31,7 +31,7 @@ export function verifyPostAPIResult(r: APIResult): string {
 }
 
 async function newTmpPostCore(user: User) {
-  const r = await post({ url: addPostURL, body: addPostBody, user });
+  const r = await post({ url: setEntityURL, body: setEntityBody, user });
   const id = verifyPostAPIResult(r);
   ensureSuccess(await updateEntityTime(id, defs.entity.post));
   return id;
@@ -39,7 +39,7 @@ async function newTmpPostCore(user: User) {
 
 async function deletePostCore(id: string, user: User) {
   return ensureSuccess(
-    await post({ url: deletePostURL, user, body: { id, entityType: defs.entity.post } }),
+    await post({ url: deleteEntityURL, user, body: { id, entityType: defs.entity.post } }),
   );
 }
 

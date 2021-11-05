@@ -96,7 +96,7 @@ export async function runTask(
     await task;
     printTaskResult(name, queue, null);
   } catch (err) {
-    printTaskResult(name, queue, err);
+    printTaskResult(name, queue, err as Error);
     throw err;
   }
 }
