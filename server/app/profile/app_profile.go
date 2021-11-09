@@ -59,23 +59,23 @@ func newAppProfile() *AppProfile {
 
 // GetAppProfile loads an app profile from the specified path, and creates one if it
 // does not exist.
-func GetAppProfile(file string) (*AppProfile, error) {
+func GetAppProfile(file string) (bool, *AppProfile, error) {
 	// Creates a new app profile if it does not exist.
 	hasAppProfile, err := iox.FileExists(file)
 	if err != nil {
-		return nil, err
+		return false, nil, err
 	}
 	if !hasAppProfile {
 		newProfile := newAppProfile()
 		err := writeAppProfile(newProfile, file)
 		if err != nil {
-			return nil, err
+			return false, nil, err
 		}
-		return newProfile, nil
+		return false, newProfile, nil
 	}
 	profile, err := readAppProfileCore(file)
 	if err != nil {
-		return nil, err
+		return false, nil, err
 	}
-	return profile, nil
+	return hasAppProfile, profile, nil
 }

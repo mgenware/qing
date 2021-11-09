@@ -15,19 +15,25 @@ import (
 )
 
 var appProfile *profile.AppProfile
+var isNewProfile bool
 
 func init() {
 	conf := appConfig.Get()
 
 	dir := conf.AppProfile.Dir
-	pro, err := profile.GetAppProfile(dir)
+	hasProfile, pro, err := profile.GetAppProfile(dir)
 	if err != nil {
 		panic(fmt.Errorf("Error getting app profile, %v", err))
 	}
 	appProfile = pro
+	isNewProfile = !hasProfile
 	log.Printf("✅ App profile: loaded at \"%v\"", dir)
 }
 
 func Get() *profile.AppProfile {
 	return appProfile
+}
+
+func IsNewProfile() bool {
+	return isNewProfile
 }
