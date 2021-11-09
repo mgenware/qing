@@ -42,8 +42,8 @@ function printUsage() {
     Usage
       $ qing <command> [command arguments]
     Command
-      w               Build web files
-      s               Build and start server in containers
+      w or f          Build and watch web files
+      s or b          Build and start server in containers
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
       d <arg>         Run scripts in '/lib/dev'
@@ -174,12 +174,14 @@ function checkMigrationNumber(num: number) {
         break;
       }
 
-      case 'w': {
+      case 'w':
+      case 'f': {
         await spawnNPMCmd('npm run r dev', await getProjectDir(webDir));
         break;
       }
 
-      case 's': {
+      case 's':
+      case 'b': {
         await spawnCmd(composeUpCmd, await getProjectDir(serverDir));
         break;
       }
