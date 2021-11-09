@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import c from '../../../constants/main.json';
+import c from '../../../defs/constants.json';
 
 export class User extends mm.Table {
   id = mm.pk();

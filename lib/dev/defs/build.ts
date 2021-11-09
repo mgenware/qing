@@ -42,7 +42,7 @@ async function buildJSONFileAsync(
 
 async function buildConstantsAsync() {
   return buildJSONFileAsync(
-    nodePath.join(dirPath, 'main.json'),
+    nodePath.join(dirPath, 'constants.json'),
     webPath('src/sharedConstants.ts'),
     serverPath('app/defs/shared_constants.go'),
     'defs',

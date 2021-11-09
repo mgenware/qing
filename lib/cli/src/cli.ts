@@ -48,7 +48,7 @@ function printUsage() {
       s-l             Build and start server locally
       d <arg>         Run scripts in '/lib/dev'
         conf            - Rebuild config files
-        const           - Rebuild shared constants
+        defs            - Rebuild shared definitions
         da              - Rebuild data access layer
         ls              - Rebuild localized strings
       migrate <arg>   Run database migrations

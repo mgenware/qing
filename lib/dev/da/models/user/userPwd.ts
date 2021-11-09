@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import c from '../../../constants/main.json';
+import c from '../../../defs/constants.json';
 
 export class UserPwd extends mm.Table {
   // `id` is from `user.id`.

@@ -15,6 +15,7 @@ import '@github/image-crop-element';
 import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
 import { QingOverlay } from 'qing-overlay';
 import appTask from 'app/appTask';
+import { formUploadMain } from 'sharedConstants';
 
 interface ImageCropInfo {
   x: number;
@@ -84,7 +85,7 @@ export class AvatarUploader extends BaseElement {
               <input
                 type="file"
                 id="uploadElement"
-                name="avatarMain"
+                name=${formUploadMain}
                 accept=".jpg,.jpeg,.png,.webp"
                 style="display: none" />
               <span class="file-cta">

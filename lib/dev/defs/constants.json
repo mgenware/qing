@@ -61,5 +61,6 @@
   "maxFileNameLen": 255,
   "maxUserInfoFieldLen": 100,
   "maxURLLen": 200,
-  "maxPwdHashLen": 255
+  "maxPwdHashLen": 255,
+  "formUploadMain":"main"
 }
