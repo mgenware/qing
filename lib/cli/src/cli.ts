@@ -37,8 +37,7 @@ function print(s: string) {
 }
 
 function printUsage() {
-  // eslint-disable-next-line no-console
-  console.log(`
+  print(`
     Usage
       $ qing <command> [command arguments]
     Command
@@ -110,7 +109,7 @@ async function spawnCmd(cmd: string, cwd: string): Promise<void> {
   });
 }
 
-async function mtime(path: string): Promise<number> {
+async function getMTime(path: string): Promise<number> {
   const { mtime } = await stat(path);
   return mtime.getTime();
 }
@@ -134,16 +133,16 @@ async function writeNPMInstallTime(dir: string, time: number): Promise<void> {
 }
 
 async function spawnNPMCmd(cmd: string, dir: string): Promise<void> {
-  const pkgMtime = await mtime(nodePath.join(dir, 'package.json'));
-  const pkgLockMtime = await mtime(nodePath.join(dir, 'package-lock.json'));
+  const pkgMtime = await getMTime(nodePath.join(dir, 'package.json'));
+  const pkgLockMtime = await getMTime(nodePath.join(dir, 'package-lock.json'));
   const diskTime = Math.max(pkgMtime, pkgLockMtime);
   const installTime = await readNPMInstallTime(dir);
   if (diskTime > installTime) {
-    console.log('# package.json or lock file changed, re-run npm install...');
+    print('# package.json or lock file changed, re-run npm install...');
     await spawnCmd('npm i', dir);
     await writeNPMInstallTime(dir, new Date().getTime());
   } else {
-    console.log('# package.json or lock file not changed.');
+    print('# package.json or lock file not changed.');
   }
 
   await spawnCmd(cmd, dir);
