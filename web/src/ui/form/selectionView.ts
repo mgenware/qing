@@ -8,6 +8,7 @@
 /* eslint-disable arrow-body-style */
 import { BaseElement, customElement, html, css, TemplateResult } from 'll';
 import * as lp from 'lit-props';
+import './checkBox';
 
 export interface SelectionViewItem {
   text: string;
@@ -62,35 +63,6 @@ export class SelectionView extends BaseElement {
           );
           border-color: var(--app-default-primary-fore-color);
         }
-
-        /** Checkbox */
-        /** https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
- */
-        label > input[type='checkbox'] {
-          display: none;
-        }
-        label > input[type='checkbox'] + *::before {
-          content: '';
-          display: inline-block;
-          vertical-align: bottom;
-          width: 1.2rem;
-          height: 1.2rem;
-          margin-right: 0.3rem;
-          border-radius: 10%;
-          border-style: solid;
-          border-width: 0.1rem;
-          border-color: var(--app-default-secondary-fore-color);
-        }
-        label > input[type='checkbox']:checked + * {
-          font-weight: bold;
-        }
-        label > input[type='checkbox']:checked + *::before {
-          content: '✓';
-          color: var(--app-primary-fore-color);
-          text-align: center;
-          background: var(--app-primary-back-color);
-          border-color: var(--app-primary-back-color);
-        }
       `,
     ];
   }
@@ -111,16 +83,12 @@ export class SelectionView extends BaseElement {
   }
 
   private renderCheckBox(item: SelectionViewItem, index: number): TemplateResult {
-    const name = 'check-box';
     return html`
-      <label>
-        <input
-          type="checkbox"
-          .checked=${!!item.checked}
-          name=${name}
-          @change=${(e: Event) => this.handleOnChange(e, item, index)} />
-        <span>${item.text}</span>
-      </label>
+      <check-box
+        .checked=${!!item.checked}
+        @change=${(e: Event) => this.handleOnChange(e, item, index)}
+        >${item.text}</check-box
+      >
     `;
   }
 
