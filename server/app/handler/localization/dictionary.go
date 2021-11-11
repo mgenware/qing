@@ -66,6 +66,8 @@ type Dictionary struct {
 	EditComment                       string `json:"editComment"`
 	EditedAt                          string `json:"editedAt"`
 	Email                             string `json:"email"`
+	EnableForumGroups                 string `json:"enableForumGroups"`
+	EnableForums                      string `json:"enableForums"`
 	EnterCaptchaPlz                   string `json:"enterCaptchaPlz"`
 	ErrOccurred                       string `json:"errOccurred"`
 	Error                             string `json:"error"`
@@ -73,6 +75,7 @@ type Dictionary struct {
 	Exceed5MbErr                      string `json:"exceed5MBErr"`
 	FeatureOnlyAvailableToAdmins      string `json:"featureOnlyAvailableToAdmins"`
 	FindUsersByColon                  string `json:"findUsersByColon"`
+	Forums                            string `json:"forums"`
 	General                           string `json:"general"`
 	GoToMyAnswer                      string `json:"goToMyAnswer"`
 	GoToPage                          string `json:"goToPage"`

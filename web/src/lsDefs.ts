@@ -171,4 +171,7 @@ export default interface LSDefs {
   answers: string;
   postAnAnswer: string;
   signInToVoteThisAnswer: string;
+  forums: string;
+  enableForums: string;
+  enableForumGroups: string;
 }

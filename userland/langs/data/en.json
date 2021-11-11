@@ -161,5 +161,8 @@
   "newThread": "New thread",
   "answers": "Answers",
   "postAnAnswer": "Post an answer",
-  "signInToVoteThisAnswer": "Sign in to vote this answer."
+  "signInToVoteThisAnswer": "Sign in to vote this answer.",
+  "forums": "Forums",
+  "enableForums": "Enable forums",
+  "enableForumGroups": "Enable forum groups"
 }
