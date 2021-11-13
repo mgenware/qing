@@ -1,11 +1,11 @@
-# Building Qing
+# Building
 
 ## Prerequisites
 
 Qing supports building on Windows, macOS and Linux. You need to install the following softwares on you host operating system to build Qing.
 
 - Latest Docker
-  - Windows users: Only Windows 10 or higher with WSL2 installed are supported
+  - Windows users: Only Windows 10 or higher with WSL2 installed are supported.
 - Latest Node.js LTS version
 
 ### Check out the source
@@ -30,6 +30,15 @@ npm i qing-dev -g
 - Navigate to project root directory in terminal.
 - Open the VSCode workspace file by running `code qing.code-workspace` in terminal.
 - VSCode should prompt you to install recommended extensions from workspace, click "Install".
+
+#### Optional setup for VSCode
+
+- To have Go language support in vscode, you need to install Go and have `GOPATH` environment variable defined. An example of `GOPATH` in `.zshrc`:
+
+```sh
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+```
 
 ## Build from the source
 

@@ -46,3 +46,7 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 | QnA                    | ❌  |
 | 3rd-party OAuth login  | ❌  |
 | Dockerfy               | 🚧  |
+
+## Documentation
+
+[Building](https://github.com/mgenware/qing/blob/main/docs/building.md)
