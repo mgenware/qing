@@ -9,7 +9,7 @@ package appHandler
 
 import (
 	"log"
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/app/appLog"
 	"qing/app/handler"
 )
@@ -17,7 +17,7 @@ import (
 var mainPageManager handler.CorePageManager
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 	logger := appLog.Get()
 
 	mainPageManager = handler.MustCreateMainPageManager(conf, logger)

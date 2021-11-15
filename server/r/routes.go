@@ -10,7 +10,7 @@ package r
 import (
 	"log"
 	"net/http"
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/app/appHandler"
 	"qing/app/appLog"
 	"qing/app/appUserManager"
@@ -53,7 +53,7 @@ func startFileServer(r chi.Router, name, url, dir string) {
 // Start starts the web router.
 func Start() {
 	r = chi.NewRouter()
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 	httpConf := conf.HTTP
 
 	// ----------------- Middlewares -----------------
@@ -139,7 +139,7 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 }
 
 func langRouter() chi.Router {
-	if appConfig.Get().Localization.MultipleLangs() {
+	if app.CoreConfig().Localization.MultipleLangs() {
 		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
 	}
 	return r

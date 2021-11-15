@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
-	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appService"
@@ -24,6 +23,7 @@ import (
 )
 
 func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
+	conf := app.CoreConfig()
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -45,14 +45,14 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.
-		captResult, err := appService.Get().Captcha.Verify(uid, defs.Shared.EntityPost, "", appConfig.Get().DevMode())
+		captResult, err := appService.Get().Captcha.Verify(uid, defs.Shared.EntityPost, "", conf.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
 
 		var forumID *uint64
-		if appConfig.SetupConfig().ForumsMode && entityType != defs.Shared.EntityPost {
+		if app.CoreSetupConfig().ForumsMode && entityType != defs.Shared.EntityPost {
 			forumIDValue := validator.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

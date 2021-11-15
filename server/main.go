@@ -8,7 +8,7 @@
 package main
 
 import (
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appLog"
@@ -22,8 +22,7 @@ import (
 
 func main() {
 	r.Start()
-
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 
 	// Preload core modules in production mode.
 	if conf.ProductionMode() {

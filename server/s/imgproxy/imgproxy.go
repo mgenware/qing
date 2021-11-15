@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/lib/iolib"
 	"strconv"
 )
@@ -17,7 +17,7 @@ type ImgProxy struct {
 var imgProxy *ImgProxy
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 	imgProxy = &ImgProxy{}
 	imgProxy.port = conf.Extern.ImageProxy.Port
 	imgProxy.host = fmt.Sprintf("http://img_proxy:%v", imgProxy.port)

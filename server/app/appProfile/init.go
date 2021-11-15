@@ -10,7 +10,7 @@ package appProfile
 import (
 	"fmt"
 	"log"
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/app/profile"
 )
 
@@ -18,7 +18,7 @@ var appProfile *profile.AppProfile
 var isNewProfile bool
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 
 	dir := conf.AppProfile.Dir
 	hasProfile, pro, err := profile.GetAppProfile(dir)

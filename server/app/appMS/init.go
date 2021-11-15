@@ -10,13 +10,12 @@ package appMS
 import (
 	"log"
 	"qing/app"
-	"qing/app/appConfig"
 )
 
 var appMS app.CoreMemoryStore
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 
 	port := conf.Extern.Redis.Port
 	appMS = newAppMS(port)

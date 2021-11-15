@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
-	"qing/app/appConfig"
 	"qing/app/appHandler"
 	"qing/app/appService"
 	"qing/app/appURL"
@@ -73,7 +72,7 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// TODO: send email.
 
 	// Print URL to console for debugging purposes.
-	if appConfig.Get().DevMode() {
+	if app.CoreConfig().DevMode() {
 		fmt.Printf("[DEBUG] reg-v-url: %v\n", url)
 	}
 	return resp.MustComplete(nil)

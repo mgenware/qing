@@ -11,13 +11,12 @@ import (
 	"database/sql"
 	"log"
 	"qing/app"
-	"qing/app/appConfig"
 )
 
 var appDB app.CoreDB
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 
 	appDB = newAppDB(conf)
 	log.Printf("✅ App DB: Loaded")

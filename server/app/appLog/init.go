@@ -10,14 +10,13 @@ package appLog
 import (
 	"log"
 	"qing/app"
-	"qing/app/appConfig"
 	"qing/app/logx"
 )
 
 var appLog app.CoreLog
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 	if conf.TestMode {
 		appLog = NewTestLogger()
 	} else {

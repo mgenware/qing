@@ -10,7 +10,6 @@ package homep
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/defs"
@@ -29,7 +28,7 @@ const homeFrmScript = "home/homeFrmEntry"
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Non-forums mode.
-	if !appConfig.SetupConfig().ForumsMode {
+	if !app.CoreSetupConfig().ForumsMode {
 		return renderStdPage(w, r)
 	}
 	return renderFrmPage(w, r)

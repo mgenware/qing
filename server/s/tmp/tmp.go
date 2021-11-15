@@ -3,7 +3,7 @@ package tmp
 import (
 	"os"
 	"path/filepath"
-	"qing/app/appConfig"
+	"qing/app"
 
 	"github.com/google/uuid"
 	"github.com/mgenware/goutil/iox"
@@ -20,7 +20,7 @@ type TmpFile struct {
 var tmpService *TmpService
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 	tmpService = &TmpService{tmpDir: conf.TmpDir}
 }
 

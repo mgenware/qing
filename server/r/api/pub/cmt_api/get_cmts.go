@@ -10,7 +10,6 @@ package cmtapi
 import (
 	"net/http"
 	"qing/app"
-	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/defs"
@@ -23,7 +22,7 @@ import (
 var kCmtPageSize int
 
 func init() {
-	if appConfig.Get().DevMode() {
+	if app.CoreConfig().DevMode() {
 		// Use a smaller for testing purposes.
 		kCmtPageSize = 3
 	} else {

@@ -11,7 +11,7 @@ import (
 	"errors"
 	"net/http"
 
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/app/appHandler"
 	"qing/app/appLog"
 	"qing/app/handler"
@@ -26,7 +26,7 @@ func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	msg := strf.Format(resp.LocalizedDictionary().PPageNotFound, r.URL.String())
 
-	if appConfig.Get().HTTP.Log404Error {
+	if app.CoreConfig().HTTP.Log404Error {
 		appLog.Get().NotFound("http", r.URL.String())
 	}
 

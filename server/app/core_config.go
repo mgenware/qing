@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package appConfig
+package app
 
 import (
 	"flag"
@@ -20,12 +20,12 @@ var conf *config.Config
 var confPath string
 var confDir string
 
-func Get() *config.Config {
+func CoreConfig() *config.Config {
 	return conf
 }
 
-func SetupConfig() *configs.SetupConfig {
-	return Get().Setup
+func CoreSetupConfig() *configs.SetupConfig {
+	return CoreConfig().Setup
 }
 
 func init() {
@@ -54,4 +54,9 @@ func init() {
 	} else if conf.DevMode() {
 		log.Printf("🟡 Application running in dev mode")
 	}
+}
+
+// getDefaultConfigFilePath returns a config file path in default app config dir.
+func getDefaultConfigFilePath(name string) string {
+	return filepath.Join("../userland/", name)
 }

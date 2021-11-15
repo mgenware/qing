@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
-	"qing/app/appConfig"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appService"
@@ -68,7 +67,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
 
-		captResult, err := appService.Get().Captcha.Verify(uid, hostType, "", appConfig.Get().DevMode())
+		captResult, err := appService.Get().Captcha.Verify(uid, hostType, "", app.CoreConfig().DevMode())
 		app.PanicIfErr(err)
 
 		if captResult != 0 {

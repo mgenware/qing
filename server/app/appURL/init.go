@@ -8,14 +8,14 @@
 package appURL
 
 import (
-	"qing/app/appConfig"
+	"qing/app"
 	"qing/app/urlx"
 )
 
 var appURL *urlx.URL
 
 func init() {
-	conf := appConfig.Get()
+	conf := app.CoreConfig()
 	appURL = urlx.NewURL(conf)
 }
 
