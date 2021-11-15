@@ -22,7 +22,6 @@ const entryPoints = [
   'lang/langEntry',
   'qna/questionEntry',
   'devPage/devPageEntry',
-  'root/rootEntry',
 ].map((s) => `dist/${s}.js`);
 
 esbuild

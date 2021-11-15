@@ -27,4 +27,8 @@ router.register(routes.mx.usersAndGroups, () => {
   loadSettingsContent(ls.usersAndGroups, html` <user-mgr-app></user-mgr-app> `);
 });
 
+router.register(routes.mx.forums, () => {
+  loadSettingsContent(ls.forums, html` <forums-settings></forums-settings> `);
+});
+
 router.startOnce();
