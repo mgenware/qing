@@ -40,6 +40,6 @@
     "dir": "/qing_data/app_profile.json"
   },
   "app_settings": {
-    "dir": "/qing_data/app_settings.json"
+    "file": "/qing_data/app_settings.json"
   }
 }

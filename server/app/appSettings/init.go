@@ -21,13 +21,13 @@ var appSettings *AppSettings
 func init() {
 	conf := app.CoreConfig()
 
-	dir := conf.AppSettings.Dir
-	_, settings, err := GetAppSettings(dir)
+	file := conf.AppSettings.File
+	_, settings, err := GetAppSettings(file)
 	if err != nil {
 		panic(fmt.Errorf("Error getting app settings, %v", err))
 	}
 	appSettings = settings
-	log.Printf("✅ App settings: loaded at \"%v\"", dir)
+	log.Printf("✅ App settings: loaded at \"%v\"", file)
 }
 
 func Get() *AppSettings {
