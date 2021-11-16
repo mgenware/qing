@@ -1,1 +1,0 @@
-{"auth":{"hashing":{"memory":65536,"iterations":3,"parallelism":2,"salt_length":16,"key_length":32}}}
