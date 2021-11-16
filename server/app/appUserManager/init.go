@@ -21,7 +21,6 @@ var testAccounts = []uint64{101, 102}
 
 func init() {
 	conf := app.CoreConfig()
-	setupConf := app.CoreSetupConfig()
 	logger := appLog.Get()
 	urlx := appURL.Get()
 	db := appDB.Get()
@@ -32,7 +31,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, setupConf.ForumsMode, conf)
+	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, conf)
 	if conf.TestMode {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)

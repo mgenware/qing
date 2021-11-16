@@ -13,7 +13,6 @@ import (
 	"os"
 	"path/filepath"
 	"qing/app/config"
-	"qing/app/config/configs"
 )
 
 var conf *config.Config
@@ -22,10 +21,6 @@ var confDir string
 
 func CoreConfig() *config.Config {
 	return conf
-}
-
-func CoreSetupConfig() *configs.SetupConfig {
-	return CoreConfig().Setup
 }
 
 func init() {

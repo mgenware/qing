@@ -12,6 +12,7 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appSettings"
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/da"
@@ -28,7 +29,7 @@ const homeFrmScript = "home/homeFrmEntry"
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Non-forums mode.
-	if !app.CoreSetupConfig().ForumsMode {
+	if !appSettings.Get().ForumsMode() {
 		return renderStdPage(w, r)
 	}
 	return renderFrmPage(w, r)

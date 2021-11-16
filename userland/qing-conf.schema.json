@@ -3,13 +3,6 @@
   "title": "qing-conf-schema",
   "type": "object",
   "definitions": {
-    "setup_config": {
-      "type": "object",
-      "properties": {
-        "forums_mode": { "type": "boolean" },
-        "forum_groups": { "type": "boolean" }
-      }
-    },
     "debug_config": {
       "type": "object",
       "properties": {
@@ -81,6 +74,13 @@
       },
       "required": ["dir"]
     },
+    "app_settings_config": {
+      "type": "object",
+      "properties": {
+        "dir": { "type": "string" }
+      },
+      "required": ["dir"]
+    },
     "db_config": {
       "type": "object",
       "properties": {
@@ -131,13 +131,13 @@
   "properties": {
     "extends": { "type": "string" },
     "test_mode": { "type": "boolean" },
-    "setup": { "$ref": "#/definitions/setup_config" },
     "debug": { "$ref": "#/definitions/debug_config" },
     "logging": { "$ref": "#/definitions/logging_config" },
     "http": { "$ref": "#/definitions/http_config" },
     "templates": { "$ref": "#/definitions/templates_config" },
     "localization": { "$ref": "#/definitions/localization_config" },
     "app_profile": { "$ref": "#/definitions/app_profile_config" },
+    "app_settings": { "$ref": "#/definitions/app_settings_config" },
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
     "extern": { "$ref": "#/definitions/extern_config" }
@@ -148,6 +148,7 @@
     "templates",
     "localization",
     "app_profile",
+    "app_settings",
     "db",
     "res_server",
     "extern"

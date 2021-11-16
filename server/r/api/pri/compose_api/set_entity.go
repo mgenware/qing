@@ -14,6 +14,7 @@ import (
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/appService"
+	"qing/app/appSettings"
 	"qing/app/appURL"
 	"qing/app/defs"
 	"qing/app/handler"
@@ -52,7 +53,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 
 		var forumID *uint64
-		if app.CoreSetupConfig().ForumsMode && entityType != defs.Shared.EntityPost {
+		if appSettings.Get().ForumsMode() && entityType != defs.Shared.EntityPost {
 			forumIDValue := validator.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

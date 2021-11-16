@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/app"
+	"qing/app/appSettings"
 	"qing/app/appcom"
 	"qing/app/config"
 	"qing/app/defs"
@@ -25,9 +26,8 @@ type UserManager struct {
 	mainPageManager handler.CorePageManager
 	db              app.CoreDB
 
-	appURL     *urlx.URL
-	forumsMode bool
-	conf       *config.Config
+	appURL *urlx.URL
+	conf   *config.Config
 
 	// [Test mode only] K: UID, V: SID.
 	testSIDMap map[uint64]string
@@ -39,10 +39,9 @@ func NewUserManager(
 	ssMgr *SessionManager,
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
-	forumsMode bool,
 	conf *config.Config,
 ) *UserManager {
-	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf, forumsMode: forumsMode}
+	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf}
 	if conf.TestMode {
 		ret.testSIDMap = make(map[uint64]string)
 	}
@@ -103,7 +102,7 @@ func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Hand
 // createUserSessionFromUID fetches user info from DB and creates a `appcom.SessionUser`.
 func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
 	db := appu.db
-	if appu.forumsMode {
+	if appSettings.Get().ForumsMode() {
 		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
 		if err != nil {
 			return nil, err
