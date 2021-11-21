@@ -113,7 +113,7 @@
   "home": "主页",
   "adminAccounts": "管理员账号",
   "featureOnlyAvailableToAdmins": "此特性只有管理员账号可见。",
-  "usersAndGroups": "用户和组",
+  "admins": "管理员账户",
   "userID": "用户ID",
   "copy": "复制",
   "copied": "复制完毕",

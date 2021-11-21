@@ -221,10 +221,7 @@ export default class NavBarApp extends BaseElement {
                   >
                   <hr />
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
-                  ${tif(
-                    user.admin,
-                    html`<a href=${routes.mx.usersAndGroups}>${ls.adminSettings}</a>`,
-                  )}
+                  ${tif(user.admin, html`<a href=${routes.mx.admins}>${ls.adminSettings}</a>`)}
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>

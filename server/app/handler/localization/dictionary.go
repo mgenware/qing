@@ -27,6 +27,7 @@ type Dictionary struct {
 	AddAnAdmin                        string `json:"addAnAdmin"`
 	AdminAccounts                     string `json:"adminAccounts"`
 	AdminSettings                     string `json:"adminSettings"`
+	Admins                            string `json:"admins"`
 	AllThreads                        string `json:"allThreads"`
 	Answer                            string `json:"answer"`
 	Answers                           string `json:"answers"`
@@ -149,6 +150,7 @@ type Dictionary struct {
 	Request                           string `json:"request"`
 	Reset                             string `json:"reset"`
 	ResourceNotFound                  string `json:"resourceNotFound"`
+	RestartServerToTakeEffect         string `json:"restartServerToTakeEffect"`
 	Retry                             string `json:"retry"`
 	RysDiscardChanges                 string `json:"rysDiscardChanges"`
 	Save                              string `json:"save"`
@@ -175,7 +177,6 @@ type Dictionary struct {
 	Url                               string `json:"url"`
 	UserId                            string `json:"userID"`
 	UserIsAlreadyAdmin                string `json:"userIsAlreadyAdmin"`
-	UsersAndGroups                    string `json:"usersAndGroups"`
 	Warning                           string `json:"warning"`
 	Working                           string `json:"working"`
 	WriteAComment                     string `json:"writeAComment"`

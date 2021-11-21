@@ -25,8 +25,8 @@ import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 
-@customElement('user-mgr-app')
-export class UserMgrApp extends BaseElement {
+@customElement('admins-settings')
+export class AdminsSettings extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -143,6 +143,6 @@ export class UserMgrApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'user-mgr-app': UserMgrApp;
+    'admins-settings': AdminsSettings;
   }
 }

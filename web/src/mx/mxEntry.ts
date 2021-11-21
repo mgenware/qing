@@ -9,7 +9,7 @@ import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
 import routes from 'routes';
-import './userMgr/userMgrApp';
+import './admins/adminsSettings';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import pageUtils from 'app/utils/pageUtils';
@@ -23,8 +23,8 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   );
 }
 
-router.register(routes.mx.usersAndGroups, () => {
-  loadSettingsContent(ls.usersAndGroups, html` <user-mgr-app></user-mgr-app> `);
+router.register(routes.mx.admins, () => {
+  loadSettingsContent(ls.admins, html` <admins-settings></admins-settings> `);
 });
 
 router.register(routes.mx.forums, () => {

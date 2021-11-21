@@ -92,7 +92,7 @@ export default buildTree({
   },
   // Management X APIs (Admin).
   mx: {
-    usersAndGroups: 'users-n-groups',
+    admins: '',
     forums: '',
   },
 });

@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import './userMgrApp';
+import './adminsSettings';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<user-mgr-app></user-mgr-app>`);
+  const el = await fixture<HTMLElement>(html`<admins-settings></admins-settings>`);
 
   tDOM.isBlockElement(el);
 });

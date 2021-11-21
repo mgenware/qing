@@ -122,7 +122,7 @@ export default interface LSDefs {
   home: string;
   adminAccounts: string;
   featureOnlyAvailableToAdmins: string;
-  usersAndGroups: string;
+  admins: string;
   userID: string;
   copy: string;
   copied: string;
@@ -174,4 +174,5 @@ export default interface LSDefs {
   forums: string;
   enableForums: string;
   enableForumGroups: string;
+  restartServerToTakeEffect: string;
 }
