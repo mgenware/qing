@@ -10,6 +10,7 @@ import { html, TemplateResult } from 'll';
 import ls from 'ls';
 import routes from 'routes';
 import './admins/adminsSettings';
+import './forums/forumsSettings';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import pageUtils from 'app/utils/pageUtils';

@@ -10,7 +10,10 @@ import ls from 'ls';
 import routes from 'routes';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
-const items: SettingsBaseItem[] = [{ name: ls.adminAccounts, link: routes.mx.admins }];
+const items: SettingsBaseItem[] = [
+  { name: ls.adminAccounts, link: routes.mx.admins },
+  { name: ls.forums, link: routes.mx.forums },
+];
 
 @customElement('mx-settings-view')
 export class MXSettingsView extends SettingsBaseView {
