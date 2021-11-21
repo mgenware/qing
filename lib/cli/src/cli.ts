@@ -45,11 +45,10 @@ function printUsage() {
       s or b          Build and start server in containers
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
-      d <arg>         Run scripts in '/lib/dev'
-        conf            - Rebuild config files
-        defs            - Rebuild shared definitions
-        da              - Rebuild data access layer
-        ls              - Rebuild localized strings
+      conf            Rebuild config files
+      defs            Rebuild shared definitions
+      da              Rebuild data access layer
+      ls              Rebuild localized strings
       migrate <arg>   Run database migrations
         +<N>            - Apply N up migrations
         -<N>            - Apply N down migrations
@@ -195,9 +194,11 @@ function checkMigrationNumber(num: number) {
         break;
       }
 
-      case 'd': {
-        checkArg(arg1, 'arg1');
-        await spawnNPMCmd(`npm run r ${arg1}`, await getProjectDir(libDev));
+      case 'conf':
+      case 'defs':
+      case 'da':
+      case 'ls': {
+        await spawnNPMCmd(`npm run r ${inputCmd}`, await getProjectDir(libDev));
         break;
       }
 
