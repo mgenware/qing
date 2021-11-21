@@ -22,7 +22,6 @@ func init() {
 	TestDict.AddAnAdmin = "ls.addAnAdmin"
 	TestDict.AdminAccounts = "ls.adminAccounts"
 	TestDict.AdminSettings = "ls.adminSettings"
-	TestDict.Admins = "ls.admins"
 	TestDict.AllThreads = "ls.allThreads"
 	TestDict.Answer = "ls.answer"
 	TestDict.Answers = "ls.answers"

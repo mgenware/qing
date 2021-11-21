@@ -122,7 +122,6 @@ export default interface LSDefs {
   home: string;
   adminAccounts: string;
   featureOnlyAvailableToAdmins: string;
-  admins: string;
   userID: string;
   copy: string;
   copied: string;

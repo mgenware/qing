@@ -27,7 +27,6 @@ type Dictionary struct {
 	AddAnAdmin                        string `json:"addAnAdmin"`
 	AdminAccounts                     string `json:"adminAccounts"`
 	AdminSettings                     string `json:"adminSettings"`
-	Admins                            string `json:"admins"`
 	AllThreads                        string `json:"allThreads"`
 	Answer                            string `json:"answer"`
 	Answers                           string `json:"answers"`

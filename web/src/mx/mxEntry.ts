@@ -24,7 +24,7 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
 }
 
 router.register(routes.mx.admins, () => {
-  loadSettingsContent(ls.admins, html` <admins-settings></admins-settings> `);
+  loadSettingsContent(ls.adminAccounts, html` <admins-settings></admins-settings> `);
 });
 
 router.register(routes.mx.forums, () => {
