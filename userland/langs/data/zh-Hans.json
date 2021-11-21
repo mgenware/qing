@@ -164,5 +164,6 @@
   "signInToVoteThisAnswer": "登录后才可以投票。",
   "forums": "论坛",
   "enableForums": "打开论坛",
-  "enableForumGroups": "支持论坛分组"
+  "enableForumGroups": "支持论坛分组",
+  "restartServerToTakeEffect": "你需要重启服务器来让改变生效。"
 }

@@ -17,12 +17,13 @@ import (
 )
 
 var appSettings *AppSettings
+var needRestart bool
 
 func init() {
 	conf := app.CoreConfig()
 
 	file := conf.AppSettings.File
-	_, settings, err := GetAppSettings(file)
+	_, settings, err := getAppSettings(file)
 	if err != nil {
 		panic(fmt.Errorf("Error getting app settings, %v", err))
 	}
@@ -32,6 +33,23 @@ func init() {
 
 func Get() *AppSettings {
 	return appSettings
+}
+
+func NeedRestart() bool {
+	return needRestart
+}
+
+// Called by `update_settings` API. Calling this func always results in
+// `needRestart` to be set to true.
+func WriteAppSettings(settings *AppSettings) error {
+	conf := app.CoreConfig()
+
+	file := conf.AppSettings.File
+	err := writeAppSettings(settings, file)
+	if err != nil {
+		needRestart = true
+	}
+	return err
 }
 
 func readAppSettingsCore(file string) (*AppSettings, error) {
@@ -56,9 +74,9 @@ func newAppSettings() *AppSettings {
 	return profile
 }
 
-// GetAppSettings loads app settings from the given path, and creates one if it
+// getAppSettings loads app settings from the given path, and creates one if it
 // does not exist.
-func GetAppSettings(file string) (bool, *AppSettings, error) {
+func getAppSettings(file string) (bool, *AppSettings, error) {
 	// Creates a new app settings if it does not exist.
 	hasAppSettings, err := iox.FileExists(file)
 	if err != nil {

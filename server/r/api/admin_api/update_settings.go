@@ -8,30 +8,48 @@
 package adminapi
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"qing/app"
-	"qing/app/appDB"
 	"qing/app/appHandler"
-	"qing/app/defs"
+	"qing/app/appSettings"
 	"qing/app/handler"
-	"qing/da"
 	"qing/lib/validator"
+)
+
+const (
+	forumsKey = "forums"
 )
 
 func updateSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
-	uid := app.ContextUserID(r)
 
-	targetUserID := validator.MustGetIDFromDict(params, "target_user_id")
-	value := validator.MustGetIntFromDict(params, "value")
+	// A note on update app settings. Go doesn't guarantee atomic read/write on primitive data types.
+	// We don't want to add any performance penalty to achieve that since some settings like forums mode
+	// are accessed quite frequently. So we require a server restart on a app settings change.
+	// This API will first deep clone the current app settings, and save the modified cloned settings
+	// into the disk.
 
-	if uid == targetUserID {
-		return resp.MustFailWithCode(defs.Shared.ErrCannotSetAdminOfYourself)
+	settingsDict := validator.MustGetDictFromDict(params, "settings")
+	copy, err := appSettings.Get().DeepClone()
+	app.PanicIfErr(err)
+
+	for k, _ := range settingsDict {
+		switch k {
+		case forumsKey:
+			var forumsSettings *appSettings.ForumsSettings
+			err := json.Unmarshal([]byte(validator.MustGetTextFromDict(settingsDict, forumsKey)), &forumsSettings)
+			app.PanicIfErr(err)
+			copy.Forums = forumsSettings
+			appSettings.AddRestartSettings(appSettings.ForumsRestartSettings)
+		default:
+			return resp.MustFail(fmt.Errorf("Unknown settings key \"%v\"", k))
+		}
 	}
 
-	db := appDB.DB()
-	err := da.User.UnsafeUpdateAdmin(db, targetUserID, value == 1)
+	err = appSettings.WriteAppSettings(copy)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)
 }

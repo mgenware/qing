@@ -164,5 +164,6 @@
   "signInToVoteThisAnswer": "Sign in to vote this answer.",
   "forums": "Forums",
   "enableForums": "Enable forums",
-  "enableForumGroups": "Enable forum groups"
+  "enableForumGroups": "Enable forum groups",
+  "restartServerToTakeEffect": "You need to restart the server for changes to take effect."
 }
