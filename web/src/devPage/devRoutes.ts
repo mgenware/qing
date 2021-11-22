@@ -13,12 +13,11 @@ const routes = buildTree(
       // Prevent `underscoresToHyphens` from convert the root `__` to `--`.
       __content__: '__',
       elements: '',
-      auth: '',
+      authRoot: '',
       // GET routes used in auth page.
-      auth_get_api: {
+      auth: {
         new: '',
         in: '',
-        out: '',
         info: '',
       },
     },

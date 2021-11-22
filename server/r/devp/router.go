@@ -19,21 +19,22 @@ import (
 var Router = chi.NewRouter()
 
 const devPageScript = "devPage/devPageEntry"
-const uidStrParam = "uidstr"
 
 func init() {
 	// Auth router.
-	authRouter := chi.NewRouter()
-	authRouter.Get("/in/{"+uidStrParam+"}", handler.HTMLHandlerToHTTPHandler(signInHandler))
-	authRouter.Get("/out", handler.HTMLHandlerToHTTPHandler(signOutHandler))
-	authRouter.Get("/new", handler.JSONHandlerToHTTPHandler(newUserHandler))
-	authRouter.Get("/del/{"+uidStrParam+"}", handler.JSONHandlerToHTTPHandler(deleteUser))
-	authRouter.Get("/info/{"+uidStrParam+"}", handler.JSONHandlerToHTTPHandler(fetchUserInfo))
-	Router.Mount("/auth-get-api", authRouter)
+	authRouter := handler.NewJSONRouter()
+	authRouter.Core.Use(middleware.ParseJSON)
+
+	authRouter.Post("/in", signInHandler)
+	authRouter.Post("/new", newUserHandler)
+	authRouter.Post("/del", deleteUser)
+	authRouter.Post("/info", fetchUserInfo)
+	Router.Mount("/auth", authRouter)
 
 	// User router.
 	userRouter := handler.NewJSONRouter()
 	userRouter.Core.Use(middleware.ParseJSON)
+
 	userRouter.Post("/post-count/{uid}", userPostCount)
 	userRouter.Post("/question-count/{uid}", userQuestionCount)
 	userRouter.Post("/answer-count/{uid}", userAnswerCount)
@@ -43,6 +44,7 @@ func init() {
 	// Compose router.
 	composeRouter := handler.NewJSONRouter()
 	composeRouter.Core.Use(middleware.ParseJSON)
+
 	composeRouter.Post("/set-debug-time", setDebugTime)
 	Router.Mount("/compose", composeRouter.Core)
 

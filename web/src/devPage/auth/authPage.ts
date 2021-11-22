@@ -9,7 +9,8 @@ import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import 'ui/form/inputView';
 import 'qing-button';
-import routes from '../devRoutes';
+import * as loaders from './loaders';
+import appTask from 'app/appTask';
 
 @customElement('auth-page')
 export class AuthDevPage extends BaseElement {
@@ -55,7 +56,6 @@ export class AuthDevPage extends BaseElement {
         </input-view>
         <p>
           <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
-          <qing-button @click=${this.handleSignOut}>Sign out</qing-button>
         </p>
         <p>
           <qing-button @click=${this.handleNewUser}>New user</qing-button
@@ -65,27 +65,33 @@ export class AuthDevPage extends BaseElement {
     `;
   }
 
-  private handleSignIn() {
+  private async handleSignIn() {
     if (!this.uidStr) {
       return;
     }
-    this.navigateToURL(`${routes.auth_get_api.in}/${this.uidStr}`);
+    const loader = new loaders.InLoader(this.uidStr);
+    const status = await appTask.critical(loader);
+    if (status.isSuccess) {
+      window.location.href = '/';
+    }
   }
 
-  private handleSignOut() {
-    this.navigateToURL(routes.auth_get_api.out);
+  private async handleNewUser() {
+    const loader = new loaders.NewUserLoader();
+    const status = await appTask.critical(loader);
+    if (status.data) {
+      // eslint-disable-next-line no-alert
+      alert(`New user created with ID ${status.data}`);
+    }
   }
 
-  private handleNewUser() {
-    this.navigateToURL(routes.auth_get_api.new);
-  }
-
-  private handleGetInfo() {
-    this.navigateToURL(`${routes.auth_get_api.info}/${this.uidStr}`);
-  }
-
-  private navigateToURL(s: string) {
-    window.location.href = s;
+  private async handleGetInfo() {
+    const loader = new loaders.InfoLoader(this.uidStr);
+    const status = await appTask.critical(loader);
+    if (status.isSuccess) {
+      // eslint-disable-next-line no-alert
+      alert(status.data);
+    }
   }
 }
 

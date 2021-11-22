@@ -34,7 +34,7 @@ export class DevPage extends BaseElement {
       <h1>qing.dev</h1>
       <hr />
       <div class="root-list">
-        <a href=${routes.auth}>Auth</a>
+        <a href=${routes.authRoot}>Auth</a>
         <a href=${routes.elements}>Elements</a>
       </div>
     `;

@@ -11,7 +11,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"text/template"
 
 	"qing/app"
 	"qing/app/appDB"
@@ -21,21 +20,13 @@ import (
 	"qing/da"
 	"qing/lib/fmtx"
 	"qing/lib/randlib"
+	"qing/lib/validator"
 
-	"github.com/go-chi/chi"
 	"github.com/mgenware/goutil/strconvx"
-	"github.com/mgenware/goutil/templatex"
 )
 
-var outTemplate *template.Template
-
-func init() {
-	var err error
-	outTemplate, err = template.New("test").Parse("<p>{{html .}}</p>")
-	if err != nil {
-		panic(err)
-	}
-}
+const uidParam = "uid"
+const uidMaxLength = 500
 
 type UserInfo struct {
 	da.UserTableSelectSessionDataResult
@@ -54,7 +45,9 @@ func userInfoString(d *da.UserTableSelectSessionDataResult) string {
 }
 
 func getUIDFromUIDString(r *http.Request) uint64 {
-	val := chi.URLParam(r, uidStrParam)
+	params := app.ContextDict(r)
+	val := validator.MustGetStringFromDict(params, uidParam, uidMaxLength)
+
 	var uid uint64
 	var err error
 	if strings.HasPrefix(val, "-") {
@@ -67,33 +60,24 @@ func getUIDFromUIDString(r *http.Request) uint64 {
 	return uid
 }
 
-func signInHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
 
 	uid := getUIDFromUIDString(r)
 	err := appUserManager.Get().Login(uid, w, r)
 	app.PanicIfErr(err)
 
-	return resp.MustCompleteWithContent(templatex.MustExecuteToString(outTemplate, "The specified user has successfully signed in."), w)
+	return resp.MustComplete(nil)
 }
 
-func signOutHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
-	err := appUserManager.Get().Logout(w, r)
-	app.PanicIfErr(err)
-
-	return resp.MustCompleteWithContent(templatex.MustExecuteToString(outTemplate, "The specified user has successfully signed out."), w)
-}
-
-func newUserHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
 	email := randlib.RandString(16)
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email+"@t.com", "T")
 	app.PanicIfErr(err)
-	us, err := da.User.SelectSessionData(db, uid)
-	app.PanicIfErr(err)
-	return resp.MustCompleteWithContent(templatex.MustExecuteToString(outTemplate, "User created. "+userInfoString(&us)), w)
+	eid := fmtx.EncodeID(uid)
+	return resp.MustComplete(eid)
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -110,10 +94,10 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromUIDString(r)
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	app.PanicIfErr(err)
-	return resp.MustCompleteWithContent(templatex.MustExecuteToString(outTemplate, userInfoString(&us)), w)
+	return resp.MustComplete(us)
 }
