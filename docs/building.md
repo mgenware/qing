@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Qing supports building on Windows, macOS and Linux. You need to install the following softwares on you host operating system to build Qing.
+Qing supports building on Windows, macOS and Linux. You need to install the following softwares on your host operating system to build Qing.
 
 - Latest Docker
   - Windows users: Only Windows 10 or higher with WSL2 installed are supported.
