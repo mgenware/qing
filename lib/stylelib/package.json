@@ -13,7 +13,7 @@
   "devDependencies": {
     "clean-css-cli": "^5.4.2",
     "concat": "^1.0.3",
-    "daizong": "^0.16.1"
+    "daizong": "^0.17.2"
   },
   "files": [
     "dist/**/*.js",
