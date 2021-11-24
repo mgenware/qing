@@ -36,13 +36,6 @@ export function checkAPIResult(r: APIResult) {
   }
 }
 
-export function ensureSuccess(r: APIResult): APIResult {
-  if (r.code) {
-    throw new Error(`Result failed: ${JSON.stringify(r)}`);
-  }
-  return r;
-}
-
 export type PostInput = string | PostOptions;
 
 export function postInputToOptions(input: PostInput): PostOptions {
@@ -85,9 +78,7 @@ export interface PostOptions {
   url: string;
   body?: unknown;
   user?: User;
-  get?: boolean;
   cookies?: string;
-  converts404ToAPIResult?: boolean;
 }
 
 export async function post(input: PostInput): Promise<APIResult> {
@@ -96,7 +87,7 @@ export async function post(input: PostInput): Promise<APIResult> {
     throw new Error('Unexpected empty fetch input');
   }
   const opts = postInputToOptions(input);
-  const { body, get, user } = opts;
+  const { body, user } = opts;
   let { url } = opts;
   if (!url) {
     throw new Error(`Unexpected empty URL in options ${JSON.stringify(opts)}`);
@@ -114,23 +105,25 @@ export async function post(input: PostInput): Promise<APIResult> {
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
   url = `${urls.serverURL}${url}`;
   const response = await fetch(url, {
-    method: get ? 'GET' : 'POST',
-    body: get ? undefined : JSON.stringify(body ?? null),
+    method: 'POST',
+    body: JSON.stringify(body ?? null),
     headers: {
       'content-type': 'application/json',
       cookie: cookies,
     },
   });
   if (!response.ok) {
-    // Use by `/__/auth/info`, which is a GET request but called by both
-    // BR and API tests. When `converts404ToAPIResult` is true, 404 errors
-    // won't throw and instead return an `APIResult` of `errResourceNotFound`.
-    if (opts.converts404ToAPIResult && response.status === 404) {
-      return { code: errResourceNotFound };
-    }
     // eslint-disable-next-line no-console
     console.log(`[Request info] ${JSON.stringify(opts)}`);
     throw new Error(`HTTP error: ${response.status}`);
   }
-  return response.json() as APIResult;
+  const apiRes = response.json() as APIResult;
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  if (!apiRes) {
+    throw new Error(`Unexpected null result from URL ${url}`);
+  }
+  if (apiRes.code) {
+    throw new Error(`API failed: ${JSON.stringify(apiRes)}. URL: ${url}`);
+  }
+  return apiRes;
 }

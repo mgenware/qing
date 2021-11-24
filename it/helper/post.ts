@@ -7,7 +7,7 @@
 
 import { ass } from 'base/api';
 import defs from 'base/defs';
-import { APIResult, ensureSuccess, post, updateEntityTime, User } from 'base/post';
+import { APIResult, post, updateEntityTime, User } from 'base/post';
 
 export const setEntityURL = 'pri/compose/set-entity';
 export const deleteEntityURL = 'pri/compose/delete-entity';
@@ -18,11 +18,10 @@ export const setEntityBody = {
   content: { contentHTML: defs.sd.postContentRaw, title: defs.sd.postTitleRaw },
 };
 
-const getPostCountURL = '/__/user/post_count/';
+const getPostCountURL = '/__/user/post-count/';
 const getPostSrcURL = 'pri/compose/get-entity-src';
 
 export function verifyPostAPIResult(r: APIResult): string {
-  ensureSuccess(r);
   if (typeof r.d !== 'string') {
     throw new Error(`Unexpected API result: ${JSON.stringify(r)}`);
   }
@@ -33,14 +32,12 @@ export function verifyPostAPIResult(r: APIResult): string {
 async function newTmpPostCore(user: User) {
   const r = await post({ url: setEntityURL, body: setEntityBody, user });
   const id = verifyPostAPIResult(r);
-  ensureSuccess(await updateEntityTime(id, defs.entity.post));
+  await updateEntityTime(id, defs.entity.post);
   return id;
 }
 
 async function deletePostCore(id: string, user: User) {
-  return ensureSuccess(
-    await post({ url: deleteEntityURL, user, body: { id, entityType: defs.entity.post } }),
-  );
+  return post({ url: deleteEntityURL, user, body: { id, entityType: defs.entity.post } });
 }
 
 export async function newPost(user: User, cb: (id: string) => Promise<unknown>) {
@@ -57,7 +54,6 @@ export async function newPost(user: User, cb: (id: string) => Promise<unknown>) 
 
 export async function getPostCount(id: string): Promise<number> {
   const r = await post(`${getPostCountURL}${id}`);
-  ensureSuccess(r);
   return ass.isNumber(r.d);
 }
 
@@ -67,6 +63,5 @@ export async function getPostSrc(id: string, user: User | undefined) {
     user,
     body: { entityID: id, entityType: defs.entity.post },
   });
-  ensureSuccess(r);
   return r.d;
 }
