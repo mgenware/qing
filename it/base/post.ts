@@ -5,8 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import fetch from 'node-fetch';
 import * as urls from './urls';
+import fetch from 'node-fetch';
+
+const errResourceNotFound = 10005;
 
 export interface APIResult {
   code?: number;
@@ -41,9 +43,28 @@ export function ensureSuccess(r: APIResult): APIResult {
   return r;
 }
 
+export type PostInput = string | PostOptions;
+
+export function postInputToOptions(input: PostInput): PostOptions {
+  let opts: PostOptions;
+  if (typeof input === 'string') {
+    opts = { url: input };
+  } else {
+    opts = input;
+  }
+  return opts;
+}
+
 async function requestLogin(eid: string): Promise<string> {
-  const loginResp = await fetch(`${urls.serverURL}${urls.loginURL}/-${eid}`);
-  const cookies = loginResp.headers.raw()['set-cookie'];
+  const resp = await fetch(`${urls.serverURL}${urls.loginURL}`, {
+    method: 'POST',
+    body: JSON.stringify({ uid: `-${eid}` }),
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
+
+  const cookies = resp.headers.raw()['set-cookie'];
   if (!cookies) {
     return '';
   }
@@ -65,19 +86,8 @@ export interface PostOptions {
   body?: unknown;
   user?: User;
   get?: boolean;
+  cookies?: string;
   converts404ToAPIResult?: boolean;
-}
-
-export type PostInput = string | PostOptions;
-
-export function postInputToOptions(input: PostInput): PostOptions {
-  let opts: PostOptions;
-  if (typeof input === 'string') {
-    opts = { url: input };
-  } else {
-    opts = input;
-  }
-  return opts;
 }
 
 export async function post(input: PostInput): Promise<APIResult> {
@@ -114,9 +124,9 @@ export async function post(input: PostInput): Promise<APIResult> {
   if (!response.ok) {
     // Use by `/__/auth/info`, which is a GET request but called by both
     // BR and API tests. When `converts404ToAPIResult` is true, 404 errors
-    // won't throw and instead return an `APIResult` of 10005.
+    // won't throw and instead return an `APIResult` of `errResourceNotFound`.
     if (opts.converts404ToAPIResult && response.status === 404) {
-      return { code: 10005 };
+      return { code: errResourceNotFound };
     }
     // eslint-disable-next-line no-console
     console.log(`[Request info] ${JSON.stringify(opts)}`);
