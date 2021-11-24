@@ -25,18 +25,18 @@ export class TempUser {
 }
 
 async function newUserCore(): Promise<TempUser> {
-  const r = await post({ url: '/__/auth/new' });
+  const r = await post('/__/auth/new');
   checkAPIResult(r);
   return new TempUser(r);
 }
 
-async function deleteUser(eid: string) {
-  await post({ url: `/__/auth/del/${eid}` });
+async function deleteUser(uid: string) {
+  await post('/__/auth/del', { body: { uid } });
 }
 
 // Returns null if the specified user doesn't exist.
-export async function userInfo(id: string): Promise<APIResult> {
-  return post({ url: `/__/auth/info/${id}` });
+export async function userInfo(uid: string): Promise<APIResult> {
+  return post('/__/auth/info', { body: { uid } });
 }
 
 export async function newUser(cb: (u: TempUser) => Promise<void>) {

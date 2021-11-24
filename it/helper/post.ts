@@ -30,14 +30,14 @@ export function verifyPostAPIResult(r: APIResult): string {
 }
 
 async function newTmpPostCore(user: User) {
-  const r = await post({ url: setEntityURL, body: setEntityBody, user });
+  const r = await post(setEntityURL, { body: setEntityBody, user });
   const id = verifyPostAPIResult(r);
   await updateEntityTime(id, defs.entity.post);
   return id;
 }
 
 async function deletePostCore(id: string, user: User) {
-  return post({ url: deleteEntityURL, user, body: { id, entityType: defs.entity.post } });
+  return post(deleteEntityURL, { user, body: { id, entityType: defs.entity.post } });
 }
 
 export async function newPost(user: User, cb: (id: string) => Promise<unknown>) {
@@ -53,13 +53,12 @@ export async function newPost(user: User, cb: (id: string) => Promise<unknown>) 
 }
 
 export async function getPostCount(uid: string): Promise<number> {
-  const r = await post(getPostCountURL, { uid });
+  const r = await post(getPostCountURL, { body: { uid } });
   return ass.isNumber(r.d);
 }
 
 export async function getPostSrc(id: string, user: User | undefined) {
-  const r = await post({
-    url: getPostSrcURL,
+  const r = await post(getPostSrcURL, {
     user,
     body: { entityID: id, entityType: defs.entity.post },
   });

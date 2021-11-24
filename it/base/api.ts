@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 import { runTask } from './runner';
-import { postInputToOptions, post, PostInput, User, APIResult } from './post';
+import { post, APIResult, PostParams, User } from './post';
 
 export * as ass from './ass';
 export * as assUtil from './assUtil';
@@ -31,13 +31,17 @@ export async function it(input: ItInput, handler: () => Promise<unknown>) {
 
 export async function itPost(
   itInput: ItInput,
-  postInput: PostInput,
+  url: string,
   user: User | null,
+  postParams: PostParams | null,
   handler: (d: APIResult) => Promise<void>,
 ) {
   return it(itInput, async () => {
-    const opts = postInputToOptions(postInput);
-    const d = await post({ ...opts, user: user ?? undefined });
+    const p = postParams ?? {};
+    if (user != null) {
+      p.user = user;
+    }
+    const d = await post(url, p);
     await handler(d);
   });
 }

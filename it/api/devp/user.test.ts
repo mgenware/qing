@@ -8,7 +8,7 @@
 import { itPost, usr, ass, it } from 'base/api';
 import { userInfo, newUser } from 'helper/user';
 
-itPost('User info', { url: `/__/auth/info/${usr.admin.eid}` }, null, (r) => {
+itPost('User info', '/__/auth/info', null, { body: { uid: usr.admin.eid } }, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
   return Promise.resolve();
 });

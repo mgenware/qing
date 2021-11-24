@@ -34,18 +34,6 @@ export function checkAPIResult(r: APIResult) {
   }
 }
 
-export type PostInput = string | PostOptions;
-
-export function postInputToOptions(input: PostInput): PostOptions {
-  let opts: PostOptions;
-  if (typeof input === 'string') {
-    opts = { url: input };
-  } else {
-    opts = input;
-  }
-  return opts;
-}
-
 async function requestLogin(eid: string): Promise<string> {
   const resp = await fetch(`${urls.serverURL}${urls.loginURL}`, {
     method: 'POST',
@@ -67,44 +55,36 @@ async function requestLogin(eid: string): Promise<string> {
 
 export async function updateEntityTime(id: string, type: number) {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return post({ url: urls.setDebugTimeURL, body: { id, type } });
+  return post(urls.setDebugTimeURL, { body: { id, type } });
 }
 
 export type PostCallback = (r: APIResult) => Promise<unknown>;
 
-export interface PostOptions {
-  url: string;
+export interface PostParams {
   body?: unknown;
   user?: User;
   cookies?: string;
 }
 
-export async function post(input: PostInput): Promise<APIResult> {
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!input) {
-    throw new Error('Unexpected empty fetch input');
-  }
-  const opts = postInputToOptions(input);
-  const { body, user } = opts;
-  let { url } = opts;
-  if (!url) {
-    throw new Error(`Unexpected empty URL in options ${JSON.stringify(opts)}`);
-  }
+export async function post(url: string, params?: PostParams): Promise<APIResult> {
+  const p = params ?? {};
 
   // Log in if needed.
   let cookies = '';
-  if (user) {
-    if (!user.eid) {
-      throw new Error(`EID null on object ${JSON.stringify(user)}`);
+  if (p.user) {
+    if (!p.user.eid) {
+      throw new Error(`EID null on object ${JSON.stringify(p.user)}`);
     }
-    cookies = await requestLogin(user.eid);
+    cookies = await requestLogin(p.user.eid);
   }
 
+  // eslint-disable-next-line no-param-reassign
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
+  // eslint-disable-next-line no-param-reassign
   url = `${urls.serverURL}${url}`;
   const response = await fetch(url, {
     method: 'POST',
-    body: JSON.stringify(body ?? null),
+    body: JSON.stringify(p.body ?? null),
     headers: {
       'content-type': 'application/json',
       cookie: cookies,
@@ -112,8 +92,8 @@ export async function post(input: PostInput): Promise<APIResult> {
   });
   if (!response.ok) {
     // eslint-disable-next-line no-console
-    console.log(`[Request info] ${JSON.stringify(opts)}`);
-    throw new Error(`HTTP error: ${response.status}`);
+    console.log(`[Request info] ${JSON.stringify(p)}`);
+    throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
   const apiRes = response.json() as APIResult;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

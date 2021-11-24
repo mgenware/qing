@@ -36,7 +36,7 @@ it(getQueuedName('Add'), async () => {
   });
 });
 
-itPost('Add: visitor', { url: setEntityURL, body: setEntityBody }, null, (r) => {
+itPost('Add: visitor', setEntityURL, null, { body: setEntityBody }, (r) => {
   assUtil.notAuthorized(r);
   return Promise.resolve();
 });
@@ -46,7 +46,7 @@ it(getQueuedName('Edit'), async () => {
   await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.eid);
-    const r = await post({ url: setEntityURL, body: { ...setEntityBody, id }, user: u });
+    const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: u });
     verifyPostAPIResult(r);
     ass.de(await getPostSrc(id, u), {
       contentHTML: defs.sd.postContentRaw,
@@ -63,7 +63,7 @@ it(getQueuedName('Edit: wrong user'), async () => {
   await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.eid);
-    const r = await post({ url: setEntityURL, body: { ...setEntityBody, id }, user: usr.admin });
+    const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: usr.admin });
     assUtil.rowNotUpdated(r);
 
     const pc2 = await getPostCount(u.eid);

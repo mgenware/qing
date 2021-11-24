@@ -45,7 +45,7 @@ func userInfoString(d *da.UserTableSelectSessionDataResult) string {
 
 func getUIDFromRequest(r *http.Request) uint64 {
 	params := app.ContextDict(r)
-	val := jsonx.GetStringOrDefault(params, "uid_s")
+	val := jsonx.GetStringOrDefault(params, "uid")
 	if val != "" {
 		uid, err := fmtx.DecodeID(val)
 		app.PanicIfErr(err)
