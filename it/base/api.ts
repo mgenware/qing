@@ -38,6 +38,7 @@ export async function itPost(
 ) {
   return it(itInput, async () => {
     const p = postParams ?? {};
+    p.ignoreAPIResultErrors = true;
     if (user != null) {
       p.user = user;
     }

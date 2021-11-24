@@ -64,6 +64,7 @@ export interface PostParams {
   body?: unknown;
   user?: User;
   cookies?: string;
+  ignoreAPIResultErrors?: boolean;
 }
 
 export async function post(url: string, params?: PostParams): Promise<APIResult> {
@@ -100,7 +101,7 @@ export async function post(url: string, params?: PostParams): Promise<APIResult>
   if (!apiRes) {
     throw new Error(`Unexpected null result from URL ${url}`);
   }
-  if (apiRes.code) {
+  if (apiRes.code && !p.ignoreAPIResultErrors) {
     throw new Error(`API failed: ${JSON.stringify(apiRes)}. URL: ${url}`);
   }
   return apiRes;
