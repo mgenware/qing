@@ -18,7 +18,7 @@ export const setEntityBody = {
   content: { contentHTML: defs.sd.postContentRaw, title: defs.sd.postTitleRaw },
 };
 
-const getPostCountURL = '/__/user/post-count/';
+const getPostCountURL = '/__/user/post-count';
 const getPostSrcURL = 'pri/compose/get-entity-src';
 
 export function verifyPostAPIResult(r: APIResult): string {
@@ -52,8 +52,8 @@ export async function newPost(user: User, cb: (id: string) => Promise<unknown>) 
   }
 }
 
-export async function getPostCount(id: string): Promise<number> {
-  const r = await post(`${getPostCountURL}${id}`);
+export async function getPostCount(uid: string): Promise<number> {
+  const r = await post(getPostCountURL, { uid });
   return ass.isNumber(r.d);
 }
 

@@ -10,7 +10,6 @@ package devp
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 
 	"qing/app"
 	"qing/app/appDB"
@@ -22,10 +21,10 @@ import (
 	"qing/lib/randlib"
 	"qing/lib/validator"
 
+	"github.com/mgenware/goutil/jsonx"
 	"github.com/mgenware/goutil/strconvx"
 )
 
-const uidParam = "uid"
 const uidMaxLength = 500
 
 type UserInfo struct {
@@ -44,26 +43,25 @@ func userInfoString(d *da.UserTableSelectSessionDataResult) string {
 	return string(bytes)
 }
 
-func getUIDFromUIDString(r *http.Request) uint64 {
+func getUIDFromRequest(r *http.Request) uint64 {
 	params := app.ContextDict(r)
-	val := validator.MustGetStringFromDict(params, uidParam, uidMaxLength)
-
-	var uid uint64
-	var err error
-	if strings.HasPrefix(val, "-") {
-		uid, err = fmtx.DecodeID(strings.TrimLeft(val, "-"))
+	val := jsonx.GetStringOrDefault(params, "uid_s")
+	if val != "" {
+		uid, err := fmtx.DecodeID(val)
 		app.PanicIfErr(err)
-	} else {
-		uid, err = strconvx.ParseUint64(val)
-		app.PanicIfErr(err)
+		return uid
 	}
+
+	val = validator.MustGetTextFromDict(params, "uid_i")
+	uid, err := strconvx.ParseUint64(val)
+	app.PanicIfErr(err)
 	return uid
 }
 
 func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
-	uid := getUIDFromUIDString(r)
+	uid := getUIDFromRequest(r)
 	err := appUserManager.Get().Login(uid, w, r)
 	app.PanicIfErr(err)
 
@@ -82,7 +80,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid := getUIDFromUIDString(r)
+	uid := getUIDFromRequest(r)
 
 	db := appDB.DB()
 	// Try selecting the user before deleting it.
@@ -96,7 +94,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	uid := getUIDFromUIDString(r)
+	uid := getUIDFromRequest(r)
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(us)

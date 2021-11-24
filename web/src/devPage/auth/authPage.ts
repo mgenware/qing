@@ -37,9 +37,6 @@ export class AuthDevPage extends BaseElement {
       <div>
         <h1>Auth dev page</h1>
         <hr />
-        <blockquote>
-          UID should be a <code>uint64</code>, use <code>-&lt;EID&gt;</code> for encoded IDs.
-        </blockquote>
         ${this.renderUserSection()}
       </div>
     `;
@@ -90,7 +87,7 @@ export class AuthDevPage extends BaseElement {
     const status = await appTask.critical(loader);
     if (status.isSuccess) {
       // eslint-disable-next-line no-alert
-      alert(status.data);
+      alert(JSON.stringify(status.data));
     }
   }
 }

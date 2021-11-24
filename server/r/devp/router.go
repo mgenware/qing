@@ -35,10 +35,10 @@ func init() {
 	userRouter := handler.NewJSONRouter()
 	userRouter.Core.Use(middleware.ParseJSON)
 
-	userRouter.Post("/post-count/{uid}", userPostCount)
-	userRouter.Post("/question-count/{uid}", userQuestionCount)
-	userRouter.Post("/answer-count/{uid}", userAnswerCount)
-	userRouter.Post("/discussion-count/{uid}", userDiscussionCount)
+	userRouter.Post("/post-count", userPostCount)
+	userRouter.Post("/question-count", userQuestionCount)
+	userRouter.Post("/answer-count", userAnswerCount)
+	userRouter.Post("/discussion-count", userDiscussionCount)
 	Router.Mount("/user", userRouter.Core)
 
 	// Compose router.
@@ -48,7 +48,7 @@ func init() {
 	composeRouter.Post("/set-debug-time", setDebugTime)
 	Router.Mount("/compose", composeRouter.Core)
 
-	// The "*" is required cuz some routes are handled completely at frontend.
+	// GET routes are all handled at frontend.
 	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
 }
 

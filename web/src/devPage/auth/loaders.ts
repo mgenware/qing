@@ -21,7 +21,7 @@ export class InLoader extends Loader<void> {
 
   requestParams(): Record<string, unknown> {
     return {
-      uid: this.uid,
+      uid_i: this.uid,
     };
   }
 }
@@ -45,7 +45,7 @@ export class InfoLoader extends Loader<void> {
 
   requestParams(): Record<string, unknown> {
     return {
-      uid: this.uid,
+      uid_i: this.uid,
     };
   }
 }

@@ -8,8 +8,6 @@
 import * as urls from './urls';
 import fetch from 'node-fetch';
 
-const errResourceNotFound = 10005;
-
 export interface APIResult {
   code?: number;
   message?: string;
