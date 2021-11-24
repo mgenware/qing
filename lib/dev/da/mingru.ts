@@ -6,7 +6,7 @@
  */
 
 import * as mr from 'mingru';
-import * as nodepath from 'path';
+import * as nodePath from 'path';
 import gen from 'go-const-gen';
 import { promises as fsPromises } from 'fs';
 import { fileURLToPath } from 'url';
@@ -14,7 +14,7 @@ import actions from './actions/actions.js';
 import models from './models/models.js';
 import sharedConstants from './shared_constants.js';
 
-const dirname = nodepath.dirname(fileURLToPath(import.meta.url));
+const dirname = nodePath.dirname(fileURLToPath(import.meta.url));
 
 const packageName = 'da';
 
@@ -57,11 +57,11 @@ const mingruHeader = `/*
 (async () => {
   const dialect = new mr.MySQL();
   // Build Go code to '../da/` directory
-  const daPath = nodepath.join(dirname, `../../${packageName}/`);
+  const daPath = nodePath.join(dirname, `../../${packageName}/`);
   const builder = new mr.Builder(dialect, daPath, {
     cleanBuild: true,
-    jsonEncoding: {
-      encodingStyle: mr.JSONEncodingStyle.camelCase,
+    jsonTags: {
+      keyStyle: mr.JSONKeyStyle.camelCase,
       excludeEmptyValues: true,
     },
     sqlFileHeader: mingruHeader,
@@ -75,5 +75,5 @@ const mingruHeader = `/*
     ]);
   });
   // Build `constants.go`.
-  await buildConstantsAsync(nodepath.join(daPath, 'constants.go'));
+  await buildConstantsAsync(nodePath.join(daPath, 'constants.go'));
 })();
