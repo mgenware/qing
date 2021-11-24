@@ -9,12 +9,10 @@ import * as mr from 'mingru';
 import * as nodePath from 'path';
 import gen from 'go-const-gen';
 import { promises as fsPromises } from 'fs';
-import { fileURLToPath } from 'url';
 import actions from './actions/actions.js';
 import models from './models/models.js';
+import { serverPath } from '../common/common.js';
 import sharedConstants from './shared_constants.js';
-
-const dirname = nodePath.dirname(fileURLToPath(import.meta.url));
 
 const packageName = 'da';
 
@@ -56,8 +54,8 @@ const mingruHeader = `/*
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
   const dialect = new mr.MySQL();
-  // Build Go code to '../da/` directory
-  const daPath = nodePath.join(dirname, `../../${packageName}/`);
+  // Build Go code to '/server/da/` directory
+  const daPath = serverPath('da');
   const builder = new mr.Builder(dialect, daPath, {
     cleanBuild: true,
     jsonTags: {
