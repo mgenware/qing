@@ -95,7 +95,7 @@ export async function post(url: string, params?: PostParams): Promise<APIResult>
     console.log(`[Request info] ${JSON.stringify(p)}`);
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
-  const apiRes = response.json() as APIResult;
+  const apiRes = (await response.json()) as APIResult;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!apiRes) {
     throw new Error(`Unexpected null result from URL ${url}`);
