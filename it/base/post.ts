@@ -28,12 +28,6 @@ export const usr: { user: User; admin: User; admin2: User; user2: User } = {
   user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/user_icon/2w/50_user2.png' },
 };
 
-export function checkAPIResult(r: APIResult) {
-  if (r.code) {
-    throw new Error(`The API you are calling returns an error: ${JSON.stringify(r)}`);
-  }
-}
-
 async function requestLogin(eid: string): Promise<string> {
   const resp = await fetch(`${urls.serverURL}${urls.loginURL}`, {
     method: 'POST',

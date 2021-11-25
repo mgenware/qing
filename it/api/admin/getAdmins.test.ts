@@ -7,6 +7,13 @@
 
 import { itPost, usr, assUtil, ass, User } from 'base/api';
 
+interface UserInfo {
+  eid: string;
+  name: string;
+  iconURL: string;
+  url: string;
+}
+
 const url = 'admin/get-admins';
 
 itPost('get-admins: visitor', url, null, null, (r) => {
