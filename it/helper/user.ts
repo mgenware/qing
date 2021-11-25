@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { APIResult, checkAPIResult, post, User } from 'base/post';
+import { APIResult, post, User } from 'base/post';
 import { throwIfEmpty } from 'throw-if-arg-empty';
 
 export class TempUser {
@@ -26,7 +26,6 @@ export class TempUser {
 
 async function newUserCore(): Promise<TempUser> {
   const r = await post('/__/auth/new');
-  checkAPIResult(r);
   return new TempUser(r);
 }
 
