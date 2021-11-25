@@ -9,6 +9,7 @@ package adminapi
 
 import (
 	"net/http"
+	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
 	"qing/app/handler"
@@ -20,9 +21,7 @@ func getAdmins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
-	if err != nil {
-		panic(err)
-	}
+	app.PanicIfErr(err)
 	userModels := make([]rcom.UserInfo, len(admins))
 	for i, user := range admins {
 		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)

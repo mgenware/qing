@@ -15,17 +15,17 @@ export interface APIResult {
 }
 
 export interface User {
-  eid: string;
+  id: string;
   name: string;
   url: string;
   iconURL: string;
 }
 
 export const usr: { user: User; admin: User; admin2: User; user2: User } = {
-  admin: { eid: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/2t/50_admin.png' },
-  user: { eid: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/2u/50_user.png' },
-  admin2: { eid: '2v', name: 'ADMIN2', url: '/u/2v', iconURL: '/res/user_icon/2v/50_admin2.png' },
-  user2: { eid: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/user_icon/2w/50_user2.png' },
+  admin: { id: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/2t/50_admin.png' },
+  user: { id: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/2u/50_user.png' },
+  admin2: { id: '2v', name: 'ADMIN2', url: '/u/2v', iconURL: '/res/user_icon/2v/50_admin2.png' },
+  user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/user_icon/2w/50_user2.png' },
 };
 
 export function checkAPIResult(r: APIResult) {
@@ -73,10 +73,10 @@ export async function post(url: string, params?: PostParams): Promise<APIResult>
   // Log in if needed.
   let cookies = '';
   if (p.user) {
-    if (!p.user.eid) {
-      throw new Error(`EID null on object ${JSON.stringify(p.user)}`);
+    if (!p.user.id) {
+      throw new Error(`${JSON.stringify(p.user)} must have a valid ID`);
     }
-    cookies = await requestLogin(p.user.eid);
+    cookies = await requestLogin(p.user.id);
   }
 
   // eslint-disable-next-line no-param-reassign

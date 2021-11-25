@@ -8,7 +8,6 @@
 package devp
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"qing/app"
@@ -28,19 +27,19 @@ import (
 const uidMaxLength = 500
 
 type UserInfo struct {
-	da.UserTableSelectSessionDataResult
-	EID string
+	Admin    bool   `json:"admin,omitempty"`
+	IconName string `json:"iconName,omitempty"`
+	ID       string `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
-func userInfoString(d *da.UserTableSelectSessionDataResult) string {
-	r := UserInfo{UserTableSelectSessionDataResult: *d}
-	r.EID = fmtx.EncodeID(d.ID)
-
-	bytes, err := json.Marshal(r)
-	if err != nil {
-		panic(err)
-	}
-	return string(bytes)
+func newUserInfoResult(d *da.UserTableSelectSessionDataResult) *UserInfo {
+	r := &UserInfo{}
+	r.Admin = d.Admin
+	r.IconName = d.IconName
+	r.Name = d.Name
+	r.ID = fmtx.EncodeID(d.ID)
+	return r
 }
 
 func getUIDFromRequest(r *http.Request) uint64 {
@@ -74,8 +73,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email+"@t.com", "T")
 	app.PanicIfErr(err)
-	eid := fmtx.EncodeID(uid)
-	return resp.MustComplete(eid)
+	return resp.MustComplete(getDBUserInfo(uid))
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -92,10 +90,14 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
+func getDBUserInfo(uid uint64) *UserInfo {
+	us, err := da.User.SelectSessionData(appDB.DB(), uid)
+	app.PanicIfErr(err)
+	return newUserInfoResult(&us)
+}
+
 func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
-	us, err := da.User.SelectSessionData(appDB.DB(), uid)
-	app.PanicIfErr(err)
-	return resp.MustComplete(us)
+	return resp.MustComplete(getDBUserInfo(uid))
 }

@@ -34,7 +34,7 @@ export async function itPost(
   url: string,
   user: User | null,
   postParams: PostParams | null,
-  handler: (d: APIResult) => Promise<void>,
+  handler: (d: APIResult) => Promise<void> | void,
 ) {
   return it(itInput, async () => {
     const p = postParams ?? {};
@@ -43,6 +43,6 @@ export async function itPost(
       p.user = user;
     }
     const d = await post(url, p);
-    await handler(d);
+    return handler(d);
   });
 }

@@ -18,7 +18,7 @@ test('View post - user', async (br) => {
 
     // User view.
     const u = usr.user;
-    await checkUserView(await page.$(userViewQuery), u.eid, u.iconURL, u.name);
+    await checkUserView(await page.$(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
     const html = await br.content();

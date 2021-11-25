@@ -22,7 +22,7 @@ function testEditorUpdate(part: EditorPart) {
       const u = usr.user;
       const userView = await page.$(userViewQuery);
       ass.t(userView);
-      const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.eid);
+      const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.id);
       await editBtn.click();
 
       // Check editor title.
@@ -59,7 +59,7 @@ test('Cancelled', async (br) => {
     const u = usr.user;
     const userView = await page.$(userViewQuery);
     ass.t(userView);
-    const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.eid);
+    const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.id);
     ass.t(editBtn);
 
     // Make the editor show up.

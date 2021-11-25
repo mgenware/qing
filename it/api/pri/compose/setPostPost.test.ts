@@ -22,7 +22,7 @@ function getQueuedName(name: string) {
 
 it(getQueuedName('Add'), async () => {
   const u = usr.user;
-  const pc = await getPostCount(u.eid);
+  const pc = await getPostCount(u.id);
   await newPost(u, async (id) => {
     // Post content.
     ass.de(await getPostSrc(id, u), {
@@ -31,7 +31,7 @@ it(getQueuedName('Add'), async () => {
     });
 
     // User post_count.
-    const pc2 = await getPostCount(u.eid);
+    const pc2 = await getPostCount(u.id);
     ass.e(pc + 1, pc2);
   });
 });
@@ -45,7 +45,7 @@ it(getQueuedName('Edit'), async () => {
   const u = usr.user;
   await newPost(u, async (id) => {
     // Post content.
-    const pc = await getPostCount(u.eid);
+    const pc = await getPostCount(u.id);
     const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: u });
     verifyPostAPIResult(r);
     ass.de(await getPostSrc(id, u), {
@@ -53,7 +53,7 @@ it(getQueuedName('Edit'), async () => {
       title: defs.sd.postTitleRaw,
     });
 
-    const pc2 = await getPostCount(u.eid);
+    const pc2 = await getPostCount(u.id);
     ass.e(pc, pc2);
   });
 });
@@ -62,11 +62,11 @@ it(getQueuedName('Edit: wrong user'), async () => {
   const u = usr.user;
   await newPost(u, async (id) => {
     // Post content.
-    const pc = await getPostCount(u.eid);
+    const pc = await getPostCount(u.id);
     const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: usr.admin });
     assUtil.rowNotUpdated(r);
 
-    const pc2 = await getPostCount(u.eid);
+    const pc2 = await getPostCount(u.id);
     ass.e(pc, pc2);
   });
 });

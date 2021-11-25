@@ -8,8 +8,8 @@
 import { itPost, usr, ass, it } from 'base/api';
 import { userInfo, newUser } from 'helper/user';
 
-itPost('User info', '/__/auth/info', null, { body: { uid: usr.admin.eid } }, (r) => {
-  ass.de(r, { d: { admin: true, iconName: 'admin.png', eid: '2t', name: 'ADMIN' } });
+itPost('User info', '/__/auth/info', null, { body: { uid: usr.admin.id } }, (r) => {
+  ass.de(r, { d: { admin: true, iconName: 'admin.png', id: '2t', name: 'ADMIN' } });
   return Promise.resolve();
 });
 
@@ -17,7 +17,7 @@ it('Add and remove a user', async () => {
   let eid = '';
   await newUser(async (tu) => {
     // eslint-disable-next-line prefer-destructuring
-    eid = tu.user.eid;
+    eid = tu.user.id;
     ass.de(tu.r, { d: { name: 'T', eid } });
 
     // Make sure `__/auth/info` also works.

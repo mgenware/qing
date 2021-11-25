@@ -17,10 +17,10 @@ export class TempUser {
     return d as User;
   }
 
-  get eid(): string {
-    const { eid } = this.user;
-    throwIfEmpty(eid, 'eid');
-    return eid;
+  get id(): string {
+    const { id } = this.user;
+    throwIfEmpty(id, 'id');
+    return id;
   }
 }
 
@@ -46,7 +46,7 @@ export async function newUser(cb: (u: TempUser) => Promise<void>) {
     await cb(u);
   } finally {
     if (u) {
-      await deleteUser(u.eid);
+      await deleteUser(u.id);
     }
   }
 }
