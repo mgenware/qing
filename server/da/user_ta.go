@@ -158,7 +158,7 @@ func (da *TableTypeUser) SelectProfile(queryable mingru.Queryable, id uint64) (U
 type UserTableSelectSessionDataResult struct {
 	Admin    bool   `json:"admin,omitempty"`
 	IconName string `json:"iconName,omitempty"`
-	ID       uint64 `json:"ID,omitempty"`
+	ID       uint64 `json:"id,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
@@ -176,7 +176,7 @@ func (da *TableTypeUser) SelectSessionData(queryable mingru.Queryable, id uint64
 type UserTableSelectSessionDataForumModeResult struct {
 	Admin      bool    `json:"admin,omitempty"`
 	IconName   string  `json:"iconName,omitempty"`
-	ID         uint64  `json:"ID,omitempty"`
+	ID         uint64  `json:"id,omitempty"`
 	IsForumMod *uint64 `json:"isForumMod,omitempty"`
 	Name       string  `json:"name,omitempty"`
 }

@@ -81,7 +81,7 @@ func (da *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, forumID 
 // ForumTableSelectForumResult ...
 type ForumTableSelectForumResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
-	ID           uint64    `json:"ID,omitempty"`
+	ID           uint64    `json:"id,omitempty"`
 	Name         string    `json:"name,omitempty"`
 	RawCreatedAt time.Time `json:"-"`
 	ThreadCount  uint      `json:"threadCount,omitempty"`
