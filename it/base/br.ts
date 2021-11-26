@@ -10,12 +10,12 @@ import { serverURL } from 'base/urls';
 import { runTask } from 'base/runner';
 import { createContext } from './browserInstance';
 import { debugMode } from './debug';
-import { User } from 'base/post';
+import { User } from 'base/call';
 import * as urls from './urls';
 
 // Re-exports.
 export * as ass from 'base/ass';
-export { usr, post } from 'base/post';
+export { usr, call } from 'base/call';
 
 export class Browser {
   constructor(

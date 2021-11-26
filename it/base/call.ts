@@ -8,12 +8,14 @@
 import * as urls from './urls';
 import fetch, { Response } from 'node-fetch';
 
+// The result of an API call.
 export interface APIResult {
   code?: number;
   message?: string;
   d?: unknown;
 }
 
+// Represents user information in API calls.
 export interface User {
   id: string;
   name: string;
@@ -21,6 +23,7 @@ export interface User {
   iconURL: string;
 }
 
+// Pre-defined user constants.
 export const usr: { user: User; admin: User; admin2: User; user2: User } = {
   admin: { id: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/avatars/2t/50_admin.png' },
   user: { id: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/avatars/2u/50_user.png' },
@@ -28,30 +31,33 @@ export const usr: { user: User; admin: User; admin2: User; user2: User } = {
   user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/avatars/2w/50_user2.png' },
 };
 
+// Pre-defined error codes.
 export const errorCodes = {
   generic: 10000,
   notAuthorized: 10001,
   resNotFound: 10005,
 };
 
+// Pre-defined API error results.
 export const errorResults = {
   notAuthorized: { code: errorCodes.notAuthorized },
   rowNotUpdated: { code: errorCodes.generic, message: 'Expected 1 rows affected, got 0.' },
   resNotFound: { code: errorCodes.resNotFound, message: 'Resource not found' },
 };
 
-export type PostCallback = (r: APIResult) => Promise<unknown>;
+export type CallCallback = (r: APIResult) => Promise<unknown>;
 
-export interface PostParams {
+export interface CallParams {
   body?: unknown;
   user?: User;
   cookies?: string;
   ignoreAPIResultErrors?: boolean;
 }
 
+// Sends a login request and returns session cookies.
 async function requestLogin(id: string): Promise<string> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const resp = await postCore(urls.loginURL, {
+  const resp = await callCore(urls.loginURL, {
     body: { uid: id },
   });
 
@@ -67,10 +73,11 @@ async function requestLogin(id: string): Promise<string> {
 
 export async function updateEntityTime(id: string, type: number) {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return post(urls.setDebugTimeURL, { body: { id, type } });
+  return call(urls.setDebugTimeURL, { body: { id, type } });
 }
 
-async function postCore(url: string, params?: PostParams): Promise<Response> {
+// Wrapper around a node-fetch POST request.
+async function callCore(url: string, params?: CallParams): Promise<Response> {
   const p = params ?? {};
 
   // Log in if needed.
@@ -102,8 +109,9 @@ async function postCore(url: string, params?: PostParams): Promise<Response> {
   return response;
 }
 
-export async function post(url: string, params?: PostParams): Promise<APIResult> {
-  const response = await postCore(url, params);
+// Initiates an API call with the given params.
+export async function call(url: string, params?: CallParams): Promise<APIResult> {
+  const response = await callCore(url, params);
   const apiRes = (await response.json()) as APIResult;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!apiRes) {

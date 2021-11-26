@@ -6,7 +6,7 @@
  */
 
 import * as defs from 'base/defs';
-import { post, usr, ass, itaNotAuthorized, it, errorResults } from 'base/api';
+import { call, usr, ass, itaNotAuthorized, it, errorResults } from 'base/api';
 import {
   setEntityURL,
   getPostCount,
@@ -43,7 +43,7 @@ it(getQueuedName('Edit'), async () => {
   await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.id);
-    const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: u });
+    const r = await call(setEntityURL, { body: { ...setEntityBody, id }, user: u });
     verifyPostAPIResult(r);
     ass.de(await getPostSrc(id, u), {
       contentHTML: defs.sd.postContentRaw,
@@ -60,7 +60,7 @@ it(getQueuedName('Edit: wrong user'), async () => {
   await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.id);
-    const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: usr.admin });
+    const r = await call(setEntityURL, { body: { ...setEntityBody, id }, user: usr.admin });
     ass.de(r, errorResults.rowNotUpdated);
 
     const pc2 = await getPostCount(u.id);

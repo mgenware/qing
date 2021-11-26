@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { APIResult, post, User } from 'base/post';
+import { APIResult, call, User } from 'base/call';
 import { throwIfEmpty } from 'throw-if-arg-empty';
 
 export class TempUser {
@@ -25,12 +25,12 @@ export class TempUser {
 }
 
 async function newUserCore(): Promise<TempUser> {
-  const r = await post('/__/auth/new');
+  const r = await call('/__/auth/new');
   return new TempUser(r);
 }
 
 async function deleteUser(uid: string) {
-  await post('/__/auth/del', { body: { uid } });
+  await call('/__/auth/del', { body: { uid } });
 }
 
 // Returns null if the specified user doesn't exist.
@@ -38,7 +38,7 @@ export async function userInfo(
   uid: string,
   opts?: { ignoreAPIError?: boolean },
 ): Promise<APIResult> {
-  return post('/__/auth/info', { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
+  return call('/__/auth/info', { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
 }
 
 export async function newUser(cb: (u: TempUser) => Promise<void>) {
