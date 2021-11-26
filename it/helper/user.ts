@@ -34,8 +34,11 @@ async function deleteUser(uid: string) {
 }
 
 // Returns null if the specified user doesn't exist.
-export async function userInfo(uid: string): Promise<APIResult> {
-  return post('/__/auth/info', { body: { uid } });
+export async function userInfo(
+  uid: string,
+  opts?: { ignoreAPIError?: boolean },
+): Promise<APIResult> {
+  return post('/__/auth/info', { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
 }
 
 export async function newUser(cb: (u: TempUser) => Promise<void>) {

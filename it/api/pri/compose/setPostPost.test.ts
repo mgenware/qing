@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import defs from 'base/defs';
-import { post, usr, assUtil, ass, itPost, it } from 'base/api';
+import * as defs from 'base/defs';
+import { post, usr, ass, itaNotAuthorized, it, errorResults } from 'base/api';
 import {
   setEntityURL,
   getPostCount,
@@ -36,10 +36,7 @@ it(getQueuedName('Add'), async () => {
   });
 });
 
-itPost('Add: visitor', setEntityURL, null, { body: setEntityBody }, (r) => {
-  assUtil.notAuthorized(r);
-  return Promise.resolve();
-});
+itaNotAuthorized('Add: visitor', setEntityURL, null, { body: setEntityBody });
 
 it(getQueuedName('Edit'), async () => {
   const u = usr.user;
@@ -64,7 +61,7 @@ it(getQueuedName('Edit: wrong user'), async () => {
     // Post content.
     const pc = await getPostCount(u.id);
     const r = await post(setEntityURL, { body: { ...setEntityBody, id }, user: usr.admin });
-    assUtil.rowNotUpdated(r);
+    ass.de(r, errorResults.rowNotUpdated);
 
     const pc2 = await getPostCount(u.id);
     ass.e(pc, pc2);

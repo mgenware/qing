@@ -9,7 +9,7 @@ import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { userViewQuery } from './common';
 import { checkEditBar } from 'br/helper/editBar';
-import defs from 'base/defs';
+import * as defs from 'base/defs';
 import { checkEditorDismissal, checkEditorUpdate, EditorPart } from 'br/helper/editor';
 
 function testEditorUpdate(part: EditorPart) {

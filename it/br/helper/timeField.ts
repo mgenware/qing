@@ -6,7 +6,7 @@
  */
 
 import testing from 'testing';
-import defs from 'base/defs';
+import * as defs from 'base/defs';
 import * as ass from 'base/ass';
 
 export async function checkDefaultTimeField(rootEl: testing.ElementHandle) {

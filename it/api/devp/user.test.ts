@@ -5,27 +5,26 @@
  * be found in the LICENSE file.
  */
 
-import { itPost, usr, ass, it } from 'base/api';
+import { ita, usr, ass, it, errorResults } from 'base/api';
 import { userInfo, newUser } from 'helper/user';
 
-itPost('User info', '/__/auth/info', null, { body: { uid: usr.admin.id } }, (r) => {
+ita('User info', '/__/auth/info', null, { body: { uid: usr.admin.id } }, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', id: '2t', name: 'ADMIN' } });
-  return Promise.resolve();
 });
 
 it('Add and remove a user', async () => {
-  let eid = '';
+  let id = '';
   await newUser(async (tu) => {
     // eslint-disable-next-line prefer-destructuring
-    eid = tu.user.id;
-    ass.de(tu.r, { d: { name: 'T', eid } });
+    id = tu.user.id;
+    ass.de(tu.r, { d: { name: 'T', id } });
 
     // Make sure `__/auth/info` also works.
-    const rInfo = await userInfo(eid);
-    ass.de(rInfo, { d: { name: 'T', eid } });
+    const rInfo = await userInfo(id);
+    ass.de(rInfo, { d: { name: 'T', id } });
   });
   // Check if the user has been removed.
-  ass.t(eid);
-  const nullInfo = await userInfo(eid);
-  ass.de(nullInfo, { code: 10005 });
+  ass.t(id);
+  const nullInfo = await userInfo(id, { ignoreAPIError: true });
+  ass.de(nullInfo, errorResults.resNotFound);
 });

@@ -7,7 +7,7 @@
 
 import testing from 'testing';
 import * as ass from 'base/ass';
-import defs from 'base/defs';
+import * as defs from 'base/defs';
 import { waitForGlobalSpinner } from './spinner';
 import { AlertButtons, AlertType, checkVisibleAlert } from './alert';
 

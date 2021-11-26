@@ -6,7 +6,7 @@
  */
 
 import { ass } from 'base/api';
-import defs from 'base/defs';
+import * as defs from 'base/defs';
 import { APIResult, post, updateEntityTime, User } from 'base/post';
 
 export const setEntityURL = 'pri/compose/set-entity';

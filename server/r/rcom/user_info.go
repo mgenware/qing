@@ -14,7 +14,7 @@ import (
 
 // UserInfo contains general information about a user.
 type UserInfo struct {
-	EID     string `json:"eid"`
+	ID      string `json:"id"`
 	Name    string `json:"name"`
 	URL     string `json:"url"`
 	IconURL string `json:"iconURL"`
@@ -23,10 +23,9 @@ type UserInfo struct {
 // NewUserInfo creates a new UserInfo with the given params.
 func NewUserInfo(uid uint64, name, iconName string) UserInfo {
 	r := UserInfo{}
-	r.EID = fmtx.EncodeID(uid)
 	r.Name = name
 	r.URL = appURL.Get().UserProfile(uid)
 	r.IconURL = appURL.Get().UserIconURL50(uid, iconName)
-	r.EID = fmtx.EncodeID(uid)
+	r.ID = fmtx.EncodeID(uid)
 	return r
 }

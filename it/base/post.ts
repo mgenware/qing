@@ -6,7 +6,7 @@
  */
 
 import * as urls from './urls';
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 
 export interface APIResult {
   code?: number;
@@ -22,19 +22,37 @@ export interface User {
 }
 
 export const usr: { user: User; admin: User; admin2: User; user2: User } = {
-  admin: { id: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/user_icon/2t/50_admin.png' },
-  user: { id: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/user_icon/2u/50_user.png' },
-  admin2: { id: '2v', name: 'ADMIN2', url: '/u/2v', iconURL: '/res/user_icon/2v/50_admin2.png' },
-  user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/user_icon/2w/50_user2.png' },
+  admin: { id: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/avatars/2t/50_admin.png' },
+  user: { id: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/avatars/2u/50_user.png' },
+  admin2: { id: '2v', name: 'ADMIN2', url: '/u/2v', iconURL: '/res/avatars/2v/50_admin2.png' },
+  user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/avatars/2w/50_user2.png' },
 };
 
-async function requestLogin(eid: string): Promise<string> {
-  const resp = await fetch(`${urls.serverURL}${urls.loginURL}`, {
-    method: 'POST',
-    body: JSON.stringify({ uid: `-${eid}` }),
-    headers: {
-      'content-type': 'application/json',
-    },
+export const errorCodes = {
+  generic: 10000,
+  notAuthorized: 10001,
+  resNotFound: 10005,
+};
+
+export const errorResults = {
+  notAuthorized: { code: errorCodes.notAuthorized },
+  rowNotUpdated: { code: errorCodes.generic, message: 'Expected 1 rows affected, got 0.' },
+  resNotFound: { code: errorCodes.resNotFound, message: 'Resource not found' },
+};
+
+export type PostCallback = (r: APIResult) => Promise<unknown>;
+
+export interface PostParams {
+  body?: unknown;
+  user?: User;
+  cookies?: string;
+  ignoreAPIResultErrors?: boolean;
+}
+
+async function requestLogin(id: string): Promise<string> {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const resp = await postCore(urls.loginURL, {
+    body: { uid: id },
   });
 
   const cookies = resp.headers.raw()['set-cookie'];
@@ -52,16 +70,7 @@ export async function updateEntityTime(id: string, type: number) {
   return post(urls.setDebugTimeURL, { body: { id, type } });
 }
 
-export type PostCallback = (r: APIResult) => Promise<unknown>;
-
-export interface PostParams {
-  body?: unknown;
-  user?: User;
-  cookies?: string;
-  ignoreAPIResultErrors?: boolean;
-}
-
-export async function post(url: string, params?: PostParams): Promise<APIResult> {
+async function postCore(url: string, params?: PostParams): Promise<Response> {
   const p = params ?? {};
 
   // Log in if needed.
@@ -90,12 +99,17 @@ export async function post(url: string, params?: PostParams): Promise<APIResult>
     console.log(`[Request info] ${JSON.stringify(p)}`);
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
+  return response;
+}
+
+export async function post(url: string, params?: PostParams): Promise<APIResult> {
+  const response = await postCore(url, params);
   const apiRes = (await response.json()) as APIResult;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!apiRes) {
     throw new Error(`Unexpected null result from URL ${url}`);
   }
-  if (apiRes.code && !p.ignoreAPIResultErrors) {
+  if (apiRes.code && !params?.ignoreAPIResultErrors) {
     throw new Error(`API failed: ${JSON.stringify(apiRes)}. URL: ${url}`);
   }
   return apiRes;

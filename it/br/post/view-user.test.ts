@@ -9,7 +9,7 @@ import { newPost } from 'helper/post';
 import { test, ass, usr } from 'base/br';
 import { checkUserView } from 'br/helper/userView';
 import { userViewQuery } from './common';
-import defs from 'base/defs';
+import * as defs from 'base/defs';
 
 test('View post - user', async (br) => {
   await newPost(usr.user, async (id) => {

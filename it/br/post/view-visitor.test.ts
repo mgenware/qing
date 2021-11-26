@@ -12,7 +12,7 @@ import { checkNoComments } from 'br/helper/cmt';
 import { AlertButtons, AlertType, checkNoVisibleAlert, checkVisibleAlert } from 'br/helper/alert';
 import { checkUserView } from 'br/helper/userView';
 import { userViewQuery } from './common';
-import defs from 'base/defs';
+import * as defs from 'base/defs';
 import sleep from 'base/sleep';
 
 test('View post - visitor', async (br) => {

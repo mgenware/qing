@@ -8,7 +8,7 @@
 import deepEqual from 'fast-deep-equal/es6/index.js';
 import { debugMode } from './debug';
 
-export function panic(msg: string) {
+function panic(msg: string) {
   const s = `Assertion failed: ${msg}`;
   if (debugMode()) {
     console.warn(s);

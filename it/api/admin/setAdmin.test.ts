@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ass, assUtil, it, itPost, usr, post } from 'base/api';
+import { ass, errorResults, it, itaResult, usr, post } from 'base/api';
 import { User } from 'base/post';
 import { newUser } from 'helper/user';
 
@@ -14,8 +14,11 @@ const getAdminsURL = 'admin/get-admins';
 
 it('set-admin: visitor', async () => {
   await newUser(async (tu) => {
-    const r = await post(url, { body: { target_user_id: tu.id, value: 1 } });
-    assUtil.notAuthorized(r);
+    const r = await post(url, {
+      body: { target_user_id: tu.id, value: 1 },
+      ignoreAPIResultErrors: true,
+    });
+    ass.de(r, errorResults.notAuthorized);
   });
 });
 
@@ -24,8 +27,9 @@ it('set-admin: user', async () => {
     const r = await post(url, {
       user: usr.user,
       body: { target_user_id: tu.id, value: 1 },
+      ignoreAPIResultErrors: true,
     });
-    assUtil.notAuthorized(r);
+    ass.de(r, errorResults.notAuthorized);
   });
 });
 
@@ -64,13 +68,10 @@ it('set-admin: admin', async () => {
   });
 });
 
-itPost(
+itaResult(
   'Admin cannot remove itself',
   url,
   usr.admin,
   { body: { target_user_id: usr.admin.id, value: 0 } },
-  (r) => {
-    ass.de(r, { code: 1 });
-    return Promise.resolve();
-  },
+  { code: 1 },
 );

@@ -5,26 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { itPost, usr, assUtil, ass, User } from 'base/api';
-
-interface UserInfo {
-  eid: string;
-  name: string;
-  iconURL: string;
-  url: string;
-}
+import { ita, itaNotAuthorized, usr, ass, User } from 'base/api';
 
 const url = 'admin/get-admins';
 
-itPost('get-admins: visitor', url, null, null, (r) => {
-  assUtil.notAuthorized(r);
-});
+itaNotAuthorized('get-admins: visitor', url, null, null);
 
-itPost('get-admins: user', url, usr.user, null, (r) => {
-  assUtil.notAuthorized(r);
-});
+itaNotAuthorized('get-admins: user', url, usr.user, null);
 
-itPost('get-admins: admin', url, usr.admin, null, (r) => {
+ita('get-admins: admin', url, usr.admin, null, (r) => {
   const admins = r.d as User[];
   const adminData = admins.find((d) => d.id === usr.admin.id);
   ass.de(adminData, usr.admin);
