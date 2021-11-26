@@ -21,7 +21,7 @@ export const setEntityBody = {
 const getPostCountURL = '/__/user/post-count';
 const getPostSrcURL = 'pri/compose/get-entity-src';
 
-export function verifyPostAPIResult(r: APIResult): string {
+export function verifyNewPostAPIResult(r: APIResult): string {
   if (typeof r.d !== 'string') {
     throw new Error(`Unexpected API result: ${JSON.stringify(r)}`);
   }
@@ -31,7 +31,7 @@ export function verifyPostAPIResult(r: APIResult): string {
 
 async function newTmpPostCore(user: User) {
   const r = await call(setEntityURL, { body: setEntityBody, user });
-  const id = verifyPostAPIResult(r);
+  const id = verifyNewPostAPIResult(r);
   await updateEntityTime(id, defs.entity.post);
   return id;
 }

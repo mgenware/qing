@@ -7,14 +7,7 @@
 
 import * as defs from 'base/defs';
 import { call, usr, ass, itaNotAuthorized, it, errorResults } from 'base/api';
-import {
-  setEntityURL,
-  getPostCount,
-  getPostSrc,
-  newPost,
-  setEntityBody,
-  verifyPostAPIResult,
-} from 'helper/post';
+import { setEntityURL, getPostCount, getPostSrc, newPost, setEntityBody } from 'helper/post';
 
 function getQueuedName(name: string) {
   return { name, queue: defs.queue.userPostCount };
@@ -43,10 +36,9 @@ it(getQueuedName('Edit'), async () => {
   await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.id);
-    const r = await call(setEntityURL, { body: { ...setEntityBody, id }, user: u });
-    verifyPostAPIResult(r);
+    await call(setEntityURL, { body: { ...setEntityBody, id }, user: u });
     ass.de(await getPostSrc(id, u), {
-      contentHTML: defs.sd.postContentRaw,
+      contentHTML: defs.sd.postContentSan,
       title: defs.sd.postTitleRaw,
     });
 
@@ -60,7 +52,11 @@ it(getQueuedName('Edit: wrong user'), async () => {
   await newPost(u, async (id) => {
     // Post content.
     const pc = await getPostCount(u.id);
-    const r = await call(setEntityURL, { body: { ...setEntityBody, id }, user: usr.admin });
+    const r = await call(setEntityURL, {
+      body: { ...setEntityBody, id },
+      user: usr.admin,
+      ignoreAPIResultErrors: true,
+    });
     ass.de(r, errorResults.rowNotUpdated);
 
     const pc2 = await getPostCount(u.id);
