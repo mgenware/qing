@@ -1,12 +1,6 @@
 # Build and run
 
-## Prerequisites
-
-Qing supports building on Windows, macOS and Linux. You need to install the following softwares on your host operating system to build Qing.
-
-- Latest Docker
-  - Windows users: Only Windows 10 or higher with WSL2 installed are supported.
-- Latest Node.js LTS version
+> Make sure you've run through all steps in [Prerequisites](prerequisites.md).
 
 ### Check out the source
 

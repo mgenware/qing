@@ -16,6 +16,7 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 - Universal, works on desktop and mobile
 - Configurable and extensible
 - Builtin dark theme support
+- Runs in containers
 
 ## Tech stack
 
@@ -30,7 +31,7 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
   - MariaDB (or compatible versions of MySQL)
 - External dependencies
   - Redis: in-memory cache
-  - ImageMagick: image processing
+  - libvips: image processing
 
 ## Roadmap
 
