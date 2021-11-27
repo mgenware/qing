@@ -8,7 +8,7 @@
     "r": "daizong"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "fast-deep-equal": "^3.1.3",
     "fast-glob": "^3.2.7",
     "node-fetch": "^3.1.0",
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/node": "^16.11.10",
     "@types/node-fetch": "^3.0.3",
-    "daizong": "^0.17.2",
+    "daizong": "^0.20.0",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-mgenware": "^0.5.0",
@@ -28,7 +28,7 @@
     "mgenware-tsconfig-node-x": "^16.0.0",
     "source-map-support": "^0.5.21",
     "ts-transform-esm-import": "^0.5.1",
-    "ttypescript": "^1.5.12",
+    "ttypescript": "^1.5.13",
     "typescript": "^4.5.2"
   }
 }
