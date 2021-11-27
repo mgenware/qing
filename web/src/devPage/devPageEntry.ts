@@ -21,7 +21,7 @@ function loadPageContent(title: string, content: TemplateResult) {
   pageUtils.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
 }
 
-devRouter.register(routes.authRoot, () => {
+devRouter.register(routes.auth, () => {
   loadPageContent('Auth dev page', html`<auth-page></auth-page>`);
 });
 devRouter.register(routes.elements, () => {

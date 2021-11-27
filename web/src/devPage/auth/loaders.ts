@@ -16,7 +16,7 @@ export class InLoader extends Loader<void> {
   }
 
   requestURL(): string {
-    return routes.auth.in;
+    return routes.api.auth.in;
   }
 
   requestParams(): Record<string, unknown> {
@@ -28,7 +28,7 @@ export class InLoader extends Loader<void> {
 
 export class NewUserLoader extends Loader<string> {
   requestURL(): string {
-    return routes.auth.new;
+    return routes.api.auth.new;
   }
 }
 
@@ -40,7 +40,7 @@ export class InfoLoader extends Loader<void> {
   }
 
   requestURL(): string {
-    return routes.auth.info;
+    return routes.api.auth.info;
   }
 
   requestParams(): Record<string, unknown> {

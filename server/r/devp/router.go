@@ -21,35 +21,37 @@ var Router = chi.NewRouter()
 const devPageScript = "devPage/devPageEntry"
 
 func init() {
+	Router.Mount("/api", apiRouter())
+	// GET routes are all handled on frontend.
+	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
+}
+
+func apiRouter() *handler.JSONRouter {
+	r := handler.NewJSONRouter()
+	r.Core.Use(middleware.ParseJSON)
+
 	// Auth router.
 	authRouter := handler.NewJSONRouter()
-	authRouter.Core.Use(middleware.ParseJSON)
-
 	authRouter.Post("/in", signInHandler)
 	authRouter.Post("/new", newUserHandler)
 	authRouter.Post("/del", deleteUser)
 	authRouter.Post("/info", fetchUserInfo)
-	Router.Mount("/auth", authRouter)
+	r.Mount("/auth", authRouter)
 
 	// User router.
 	userRouter := handler.NewJSONRouter()
-	userRouter.Core.Use(middleware.ParseJSON)
-
 	userRouter.Post("/post-count", userPostCount)
 	userRouter.Post("/question-count", userQuestionCount)
 	userRouter.Post("/answer-count", userAnswerCount)
 	userRouter.Post("/discussion-count", userDiscussionCount)
-	Router.Mount("/user", userRouter.Core)
+	r.Mount("/user", userRouter)
 
 	// Compose router.
 	composeRouter := handler.NewJSONRouter()
-	composeRouter.Core.Use(middleware.ParseJSON)
-
 	composeRouter.Post("/set-debug-time", setDebugTime)
-	Router.Mount("/compose", composeRouter.Core)
+	r.Mount("/compose", composeRouter)
 
-	// GET routes are all handled at frontend.
-	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
+	return r
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
