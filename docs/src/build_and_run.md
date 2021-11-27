@@ -1,4 +1,4 @@
-# Building
+# Build and run
 
 ## Prerequisites
 
@@ -22,29 +22,14 @@ git clone https://github.com/mgenware/qing
 npm i qing-dev -g
 ```
 
-### Install and Configure VSCode [Optional]
+## Create database schemas
 
-> It's highly recommended to use VSCode for development since Qing comes with a VSCode workspace to help you get your VSCode environment set up in seconds.
+> You can skip this step if your database is already set up correctly.
 
-- Install VSCode.
-- Navigate to project root directory in terminal.
-- Open the VSCode workspace file by running `code qing.code-workspace` in terminal.
-- VSCode should prompt you to install recommended extensions from workspace, click "Install".
+Run `qing migrate 1` to create the initial database schemas.
 
-#### Optional setup for VSCode
+## Build and run
 
-- To have Go language support in vscode, you need to install Go and have `GOPATH` environment variable defined. An example of `GOPATH` in `.zshrc`:
-
-```sh
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go
-```
-
-## Build from the source
-
-- Navigate to the project root directory in terminal.
-- Set up database and migrations (You can skip this step if your database is already set up correctly)
-  - Run `qing migrate 1`.
 - Build web project via `qing w`.
 - Build and start server project via `qing s`.
 

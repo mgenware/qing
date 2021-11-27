@@ -1,0 +1,6 @@
+[book]
+authors = ["Qing authors"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Qing Documentation"
