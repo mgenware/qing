@@ -49,4 +49,4 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 
 ## Documentation
 
-[Building](https://github.com/mgenware/qing/blob/main/docs/building.md)
+[Documentation](https://github.com/mgenware/qing/tree/main/docs)
