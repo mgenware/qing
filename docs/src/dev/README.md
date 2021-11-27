@@ -1,1 +1,1 @@
-In this section you'll learn how to setup your local development environment for Qing.
+This section contains all information about developing Qing.
