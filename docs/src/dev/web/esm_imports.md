@@ -1,6 +1,6 @@
 # ES modules imports
 
-## Compatibility ES modules imports
+## Compatibility with ES modules imports
 
 Qing runs on node ES modules mode but Qing web source code is not strictly written in ES modules for the following features we are using.
 
@@ -28,11 +28,11 @@ import 'ui/view'; // No `.js` extension needed.
 
 ## Run source on ES modules mode
 
-So how can we run Qing on node ES modules with code that is not compatible with ES modules syntax since TypeScript doesn't rewrite imports? We have two approaches to tackle this:
+So how can we run Qing on node ES modules with code that is not compatible with ES modules syntax? We have two approaches to tackle this:
 
 - Use esbuild for main app bundle, which handles this issue perfectly.
 - Use a so-called turbo mode to handle other cases.
 
 ### Turbo mode
 
-Turbo mode works by using [ts-transform-esm-import](https://github.com/mgenware/ts-transform-esm-import) to transform TypeScript imports into valid ES modules imports. Turbo modes are used primarily in unit tests and integration tests.
+Turbo mode works by using [ts-transform-esm-import](https://github.com/mgenware/ts-transform-esm-import) to transform TypeScript imports into valid ES modules imports. Turbo mode is used primarily in unit tests and integration tests.
