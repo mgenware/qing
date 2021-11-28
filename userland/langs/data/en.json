@@ -135,7 +135,7 @@
   "userIsAlreadyAdmin": "\"{0}\" is already an admin",
   "youCannotChangeYourOwnAdminStatus": "You cannot change your own admin status.",
   "add": "Add",
-  "adminSettings": "Admin settings",
+  "siteSettings": "Site settings",
   "bold": "Bold",
   "italic": "Italic",
   "underline": "Underline",

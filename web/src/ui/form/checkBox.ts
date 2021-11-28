@@ -46,9 +46,10 @@ export class CheckBox extends BaseElement {
   }
 
   @lp.reflected.bool checked = false;
+  @lp.reflected.bool disabled = false;
 
   render() {
-    return html`<label>
+    return html`<label class=${this.disabled ? 'content-disabled' : ''}>
       <input type="checkbox" .checked=${this.checked} @change=${this.handleOnChange} />
       <span><slot></slot></span>
     </label>`;

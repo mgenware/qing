@@ -22,7 +22,7 @@ const (
 	forumsKey = "forums"
 )
 
-func updateSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
+func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 

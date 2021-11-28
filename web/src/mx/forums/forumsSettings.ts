@@ -28,11 +28,28 @@ export class ForumsSettings extends BaseElement {
   }
 
   @lp.bool savingStatus = LoadingStatus.success;
+  @lp.bool forumsEnabled = false;
+  @lp.bool forumGroupsEnabled = false;
 
   render() {
     return html`
       <status-overlay .status=${this.savingStatus}>
         <heading-view>${ls.forums}</heading-view>
+        <p>
+          <check-box
+            .checked=${this.forumsEnabled}
+            @check=${(e: CustomEvent<boolean>) => (this.forumsEnabled = e.detail)}
+            >${ls.enableForums}</check-box
+          >
+        </p>
+        <p>
+          <check-box
+            .checked=${this.forumGroupsEnabled}
+            .disabled=${!this.forumsEnabled}
+            @check=${(e: CustomEvent<boolean>) => (this.forumGroupsEnabled = e.detail)}
+            >${ls.enableForumGroups}</check-box
+          >
+        </p>
         <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
       </status-overlay>
     `;
