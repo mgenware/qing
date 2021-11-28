@@ -1,7 +1,8 @@
 # Summary
 
 - [Introduction](introduction.md)
-- [Build and run](build_and_run.md)
+- [Prerequisites](build_and_run/prerequisites.md)
+- [Build and run](build_and_run/build_and_run.md)
 - [Development](dev/README.md)
 
   - [Set up environment](dev/set_up_env/README.md)
