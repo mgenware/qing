@@ -8,18 +8,18 @@ Qing supports building on Windows, macOS and Linux. You need to install the foll
 
 ## Node.js version manager
 
-It's recommended to use a Node.js version manager to quickly switch Node.js version in your local environment. [nvm](https://github.com/nvm-sh/nvm) and [n](https://github.com/tj/n).
+It's recommended to use a Node.js version manager to quickly switch Node.js versions in your local environment. Common choices are [nvm](https://github.com/nvm-sh/nvm) and [n](https://github.com/tj/n).
 
 ### Windows WSL2 users
 
-It's recommended to use [n](https://github.com/tj/n) instead of nvm on Windows WSL2. nvm has trouble running `node` or `npm` as root.
+It's recommended to use [n](https://github.com/tj/n) instead of nvm on Windows WSL2. nvm has trouble running `node` or `npm` as root. Playwright (our E2E test runner) needs to run `npm` as root to install additional dependencies on WSL2.
 
 ### Installing [n](https://github.com/tj/n)
 
-Refer to n installation [docs](https://github.com/tj/n#installation) for installation. Some notes:
+Refer to n installation [docs](https://github.com/tj/n#installation). Some notable things:
 
-- n can be installed when `npm` is not available
-- Installing n might need root access. But you **should NOT** install npm global modules (including n) as root.
+- n can be installed when `npm` is not available.
+- Installing n may need root access. But you **should NOT** install npm global modules (including n) as root.
 - If you encountered any permission issues running `npm add -g <package>`, you should take ownership of some system directories as shown below.
 
 <blockquote>
