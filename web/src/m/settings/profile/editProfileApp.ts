@@ -5,14 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
-import 'ui/status/statusView';
 import 'ui/content/headingView';
+import 'ui/status/statefulPage';
+import { StatefulPage } from 'ui/status/statefulPage';
 import 'ui/form/inputView';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
@@ -28,7 +29,7 @@ import 'ui/form/labelView';
 const editorID = 'editor';
 
 @customElement('edit-profile-app')
-export class EditProfileApp extends BaseElement {
+export class EditProfileApp extends StatefulPage {
   static get styles() {
     return [
       super.styles,
@@ -65,27 +66,7 @@ export class EditProfileApp extends BaseElement {
     return this.getShadowElement<EditorView>(editorID);
   }
 
-  async firstUpdated() {
-    await this.reloadDataAsync();
-  }
-
-  render() {
-    const { loadingStatus } = this;
-    return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
-  }
-
-  renderProgress() {
-    const { loadingStatus } = this;
-    return html`
-      <status-view
-        .progressViewPadding=${'md'}
-        .status=${loadingStatus}
-        .canRetry=${true}
-        @onRetry=${this.handleLoadingRetry}></status-view>
-    `;
-  }
-
-  renderContent() {
+  override renderContent() {
     return html`
       <heading-view>${ls.profilePicture}</heading-view>
       <p>
@@ -127,7 +108,7 @@ export class EditProfileApp extends BaseElement {
     `;
   }
 
-  private async reloadDataAsync() {
+  override async reloadDataAsync() {
     const loader = new GetProfileInfoLoader();
     const status = await appTask.critical(loader, undefined, (s) => (this.loadingStatus = s));
     if (status.data) {
@@ -168,10 +149,6 @@ export class EditProfileApp extends BaseElement {
         appPageState.updateUser({ name: this.name });
       }
     }
-  }
-
-  private async handleLoadingRetry() {
-    await this.reloadDataAsync();
   }
 
   private handleAvatarUploaded(e: CustomEvent<AvatarUploadResponse>) {
