@@ -5,17 +5,21 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import 'ui/form/checkBox';
-import 'ui/status/statusOverlay';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
+import 'ui/status/statefulPage';
+import { StatefulPage } from 'ui/status/statefulPage';
+import GetSiteSettingsLoader from './loaders/getSiteSettingsLoader';
+import { forumsSettingsKey } from './loaders/settingsKey';
+import appTask from 'app/appTask';
 
 @customElement('forums-settings')
-export class ForumsSettings extends BaseElement {
+export class ForumsSettings extends StatefulPage {
   static get styles() {
     return [
       super.styles,
@@ -31,7 +35,7 @@ export class ForumsSettings extends BaseElement {
   @lp.bool forumsEnabled = false;
   @lp.bool forumGroupsEnabled = false;
 
-  render() {
+  override renderContent() {
     return html`
       <status-overlay .status=${this.savingStatus}>
         <heading-view>${ls.forums}</heading-view>
@@ -53,6 +57,16 @@ export class ForumsSettings extends BaseElement {
         <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
       </status-overlay>
     `;
+  }
+
+  override async reloadStatefulPageDataAsync() {
+    const loader = new GetSiteSettingsLoader(forumsSettingsKey);
+    const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
+    if (status.data) {
+      const settings = status.data;
+      this.forumsEnabled = !!settings.forums_enabled;
+      this.forumGroupsEnabled = !!settings.forum_groups_enabled;
+    }
   }
 
   private handleSaveClick() {}

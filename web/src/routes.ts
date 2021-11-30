@@ -69,6 +69,8 @@ export default buildTree({
     admin: {
       setAdmin: 'set-admin',
       getAdmins: 'get-admins',
+      getSiteSettings: 'get-site-settings',
+      updateSiteSettings: 'update-site-settings',
     },
   },
   auth: {

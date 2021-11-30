@@ -10,6 +10,10 @@ import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import 'ui/status/statusView';
 
+// Base class for displaying a loading status with a status-view. If the status
+// is success, it renders the result of `renderContent`.
+// Use status-overlay if you would like to display a status-view on top of the
+// content view.
 export abstract class StatefulPage extends BaseElement {
   static get styles() {
     return [
@@ -25,10 +29,10 @@ export abstract class StatefulPage extends BaseElement {
   @lp.object loadingStatus = LoadingStatus.notStarted;
 
   async firstUpdated() {
-    await this.reloadDataAsync();
+    await this.reloadStatefulPageDataAsync();
   }
 
-  abstract reloadDataAsync(): Promise<void>;
+  abstract reloadStatefulPageDataAsync(): Promise<void>;
   abstract renderContent(): TemplateResult;
   renderProgress() {
     const { loadingStatus } = this;
@@ -47,6 +51,6 @@ export abstract class StatefulPage extends BaseElement {
   }
 
   private async handleLoadingRetry() {
-    await this.reloadDataAsync();
+    await this.reloadStatefulPageDataAsync();
   }
 }

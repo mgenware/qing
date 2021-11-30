@@ -108,9 +108,9 @@ export class EditProfileApp extends StatefulPage {
     `;
   }
 
-  override async reloadDataAsync() {
+  override async reloadStatefulPageDataAsync() {
     const loader = new GetProfileInfoLoader();
-    const status = await appTask.critical(loader, undefined, (s) => (this.loadingStatus = s));
+    const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (status.data) {
       const profile = status.data;
       this.name = profile.name ?? '';

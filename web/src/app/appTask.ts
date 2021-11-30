@@ -5,7 +5,9 @@ import ls from 'ls';
 import ErrorWithCode from 'lib/errorWithCode';
 import appAlert from './appAlert';
 
+// Helper class for executing tasks (loaders).
 export class AppTask {
+  // Starts a loader and calls the given callback when status changes.
   async local<T>(loader: Loader<T>, cb: (status: LoadingStatus) => void): Promise<Result<T>> {
     try {
       // eslint-disable-next-line no-param-reassign
@@ -19,6 +21,7 @@ export class AppTask {
     }
   }
 
+  // Starts a loader and displays a global loading overlay.
   async critical<T>(
     loader: Loader<T>,
     overlayText?: string,

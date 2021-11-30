@@ -14,6 +14,8 @@ import 'ui/status/spinnerView';
 import 'qing-dock-box';
 import '../alerts/errorView';
 
+// Displays a status-view on top of the content view.
+// Useful for rendering the status of updating something.
 @customElement('status-overlay')
 export class StatusOverlay extends BaseElement {
   static get styles() {

@@ -5,13 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { customElement, html, css } from 'll';
 import * as lp from 'lit-props';
-import LoadingStatus from 'lib/loadingStatus';
 import ls, { formatLS } from 'ls';
 import 'ui/content/headingView';
 import 'ui/content/subheadingView';
-import 'ui/status/statusOverlay';
 import 'ui/widgets/tagView';
 import 'ui/buttons/linkButton';
 import 'ui/alerts/noticeView';
@@ -24,9 +22,11 @@ import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
+import 'ui/status/statefulPage';
+import { StatefulPage } from 'ui/status/statefulPage';
 
 @customElement('admins-settings')
-export class AdminsSettings extends BaseElement {
+export class AdminsSettings extends StatefulPage {
   static get styles() {
     return [
       super.styles,
@@ -38,23 +38,21 @@ export class AdminsSettings extends BaseElement {
     ];
   }
 
-  @lp.bool adminSectionStatus = LoadingStatus.working;
   // TODO: Pagination.
   @lp.array private admins: UserInfo[] = [];
   @lp.object private userCandidate: UserInfo | null = null;
 
-  private getAdminLoader = new GetAdminsLoader();
-
-  async firstUpdated() {
-    const res = await appTask.local(this.getAdminLoader, (st) => (this.adminSectionStatus = st));
+  override async reloadStatefulPageDataAsync() {
+    const loader = new GetAdminsLoader();
+    const res = await appTask.local(loader, (st) => (this.loadingStatus = st));
     if (res.data) {
       this.admins = res.data;
     }
   }
 
-  render() {
+  override renderContent() {
     return html`
-      <status-overlay .status=${this.adminSectionStatus}>
+      <div>
         <heading-view>${ls.adminAccounts}</heading-view>
         ${this.renderAdmins()}
         <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
@@ -67,7 +65,7 @@ export class AdminsSettings extends BaseElement {
             ${ls.add}
           </qing-button>`,
         )}
-      </status-overlay>
+      </div>
     `;
   }
 
