@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import './voteView';
+import './voteApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<vote-view></vote-view>`);
+  const el = await fixture<HTMLElement>(html`<vote-app></vote-app>`);
 
-  tDOM.isBlockElement(el);
+  tDOM.isInlineBlockElement(el);
 });
