@@ -32,7 +32,7 @@ export class MXSettingsView extends SettingsBaseView {
     super();
 
     this.items = items;
-    this.settingsTitle = ls.adminSettings;
+    this.settingsTitle = ls.siteSettings;
   }
 }
 

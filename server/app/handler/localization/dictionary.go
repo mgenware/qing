@@ -26,7 +26,6 @@ type Dictionary struct {
 	Add                               string `json:"add"`
 	AddAnAdmin                        string `json:"addAnAdmin"`
 	AdminAccounts                     string `json:"adminAccounts"`
-	AdminSettings                     string `json:"adminSettings"`
 	AllThreads                        string `json:"allThreads"`
 	Answer                            string `json:"answer"`
 	Answers                           string `json:"answers"`
@@ -162,6 +161,7 @@ type Dictionary struct {
 	SignInToVoteThisAnswer            string `json:"signInToVoteThisAnswer"`
 	SignOut                           string `json:"signOut"`
 	SignUp                            string `json:"signUp"`
+	SiteSettings                      string `json:"siteSettings"`
 	Strikethrough                     string `json:"strikethrough"`
 	ThemeDark                         string `json:"themeDark"`
 	ThemeLight                        string `json:"themeLight"`

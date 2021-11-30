@@ -19,7 +19,7 @@ const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pageUtils.setTitleAndMainContent(
-    [selectedItem, ls.adminSettings],
+    [selectedItem, ls.siteSettings],
     html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
   );
 }
