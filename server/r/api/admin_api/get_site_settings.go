@@ -18,18 +18,26 @@ import (
 	"qing/lib/validator"
 )
 
+type GetSiteSettingsResult struct {
+	Settings    interface{} `json:"settings"`
+	NeedRestart bool        `json:"need_restart,omitempty"`
+}
+
 func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	var res interface{}
+	var settings interface{}
+	var needRestart bool
 	key := validator.MustGetStringFromDict(params, "key", defs.Shared.MaxNameLen)
 	switch key {
 	case forumsKey:
-		res = appSettings.Get().Forums
+		settings = appSettings.Get().Forums
+		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
 	default:
 		return resp.MustFail(fmt.Errorf("Unknown settings key \"%v\"", key))
 	}
 
+	res := GetSiteSettingsResult{Settings: settings, NeedRestart: needRestart}
 	return resp.MustComplete(res)
 }

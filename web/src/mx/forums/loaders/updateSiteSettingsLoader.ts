@@ -7,9 +7,10 @@
 
 import Loader from 'lib/loader';
 import routes from 'routes';
+import ForumsSettingsJSON from './forumsSettingsJSON';
 
 export default class UpdateSiteSettingsLoader extends Loader<void> {
-  constructor(public settings: Record<string, unknown>) {
+  constructor(public settings: ForumsSettingsJSON) {
     super();
   }
 

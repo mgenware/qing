@@ -7,9 +7,13 @@
 
 import Loader from 'lib/loader';
 import routes from 'routes';
-import ForumsSettingsJSON from './forumsSettingsJSON';
 
-export default class GetSiteSettingsLoader extends Loader<ForumsSettingsJSON> {
+export interface GetSiteSettingsResult {
+  settings?: Record<string, unknown>;
+  need_restart?: boolean;
+}
+
+export default class GetSiteSettingsLoader extends Loader<GetSiteSettingsResult> {
   constructor(public key: string) {
     super();
   }

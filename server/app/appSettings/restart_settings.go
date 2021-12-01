@@ -11,10 +11,10 @@ func init() {
 	restartSettings = make(map[int]bool)
 }
 
-func GetRestartSettings() map[int]bool {
-	return restartSettings
+func GetRestartSettings(name int) bool {
+	return restartSettings[name]
 }
 
-func AddRestartSettings(name int) {
+func SetRestartSettings(name int) {
 	restartSettings[name] = true
 }
