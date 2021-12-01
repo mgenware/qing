@@ -43,7 +43,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 			err := json.Unmarshal([]byte(validator.MustGetTextFromDict(settingsDict, forumsKey)), &forumsSettings)
 			app.PanicIfErr(err)
 			copy.Forums = forumsSettings
-			appSettings.AddRestartSettings(appSettings.ForumsRestartSettings)
+			appSettings.SetRestartSettings(appSettings.ForumsRestartSettings)
 		default:
 			return resp.MustFail(fmt.Errorf("Unknown settings key \"%v\"", k))
 		}
