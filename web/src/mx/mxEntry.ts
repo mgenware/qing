@@ -9,8 +9,8 @@ import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
 import routes from 'routes';
-import './admins/adminsSettings';
-import './forums/forumsSettings';
+import './admins/adminsSettingsPage';
+import './forums/forumsSettingsPage';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import pageUtils from 'app/utils/pageUtils';
@@ -25,11 +25,11 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
 }
 
 router.register(routes.mx.admins, () => {
-  loadSettingsContent(ls.adminAccounts, html` <admins-settings></admins-settings> `);
+  loadSettingsContent(ls.adminAccounts, html`<admins-settings-page></admins-settings-page>`);
 });
 
 router.register(routes.mx.forums, () => {
-  loadSettingsContent(ls.forums, html` <forums-settings></forums-settings> `);
+  loadSettingsContent(ls.forums, html`<forums-settings-page></forums-settings-page>`);
 });
 
 router.startOnce();

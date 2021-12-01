@@ -25,8 +25,8 @@ import appAlert from 'app/appAlert';
 import 'ui/status/statefulPage';
 import { StatefulPage } from 'ui/status/statefulPage';
 
-@customElement('admins-settings')
-export class AdminsSettings extends StatefulPage {
+@customElement('admins-settings-page')
+export class AdminsSettingsPage extends StatefulPage {
   static get styles() {
     return [
       super.styles,
@@ -141,6 +141,6 @@ export class AdminsSettings extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'admins-settings': AdminsSettings;
+    'admins-settings-page': AdminsSettingsPage;
   }
 }

@@ -21,8 +21,8 @@ import { forumsSettingsKey } from './loaders/settingsKey';
 import ForumsSettingsJSON from './loaders/forumsSettingsJSON';
 import appTask from 'app/appTask';
 
-@customElement('forums-settings')
-export class ForumsSettings extends StatefulPage {
+@customElement('forums-settings-page')
+export class ForumsSettingsPage extends StatefulPage {
   static get styles() {
     return [
       super.styles,
@@ -89,6 +89,6 @@ export class ForumsSettings extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'forums-settings': ForumsSettings;
+    'forums-settings-page': ForumsSettingsPage;
   }
 }
