@@ -8,14 +8,11 @@
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
-import { CHECK } from 'checks';
 import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
 import { entityAnswer } from 'sharedConstants';
 import 'com/postCore/setEntityApp';
 import wind from './questionWind';
-
-CHECK(wind.ForumID);
 
 @customElement('add-answer-app')
 export class AddAnswerApp extends BaseElement {
