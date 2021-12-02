@@ -45,8 +45,11 @@ export class ForumsSettingsPage extends StatefulPage {
   override renderContent() {
     return html`
       <status-overlay .status=${this.savingStatus}>
-        ${tif(this.needRestart, html`<alert-view>${ls.restartServerToTakeEffect}</alert-view>`)}
         <heading-view>${ls.forums}</heading-view>
+        ${tif(
+          this.needRestart,
+          html`<alert-view alertStyle="warning">${ls.restartServerToTakeEffect}</alert-view>`,
+        )}
         <p>
           <check-box
             .checked=${this.forumsEnabled}
