@@ -31,7 +31,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var needRestart bool
 	key := validator.MustGetStringFromDict(params, "key", defs.Shared.MaxNameLen)
 	switch key {
-	case forumsKey:
+	case defs.Shared.AppSettingsForumsKey:
 		settings = appSettings.Get().Forums
 		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
 	default:

@@ -14,6 +14,7 @@ package defs
 
 // SharedConstantsType ...
 type SharedConstantsType struct {
+	AppSettingsForumsKey string
 	ColumnComments string
 	ColumnCreated string
 	ColumnLikes string
@@ -85,6 +86,7 @@ var Shared *SharedConstantsType
 
 func init() {
 	Shared = &SharedConstantsType{
+		AppSettingsForumsKey: "forums",
 		ColumnComments: "comments",
 		ColumnCreated: "createdAt",
 		ColumnLikes: "likes",

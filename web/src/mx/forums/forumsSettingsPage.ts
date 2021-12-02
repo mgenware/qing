@@ -14,12 +14,15 @@ import 'ui/form/checkBox';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/status/statefulPage';
+import 'ui/alerts/alertView';
 import { StatefulPage } from 'ui/status/statefulPage';
 import GetSiteSettingsLoader from './loaders/getSiteSettingsLoader';
 import UpdateSiteSettingsLoader from './loaders/updateSiteSettingsLoader';
 import { forumsSettingsKey } from './loaders/settingsKey';
 import ForumsSettingsJSON from './loaders/forumsSettingsJSON';
+import { tif } from 'lib/htmlLib';
 import appTask from 'app/appTask';
+import * as sc from 'sharedConstants';
 
 @customElement('forums-settings-page')
 export class ForumsSettingsPage extends StatefulPage {
@@ -42,6 +45,7 @@ export class ForumsSettingsPage extends StatefulPage {
   override renderContent() {
     return html`
       <status-overlay .status=${this.savingStatus}>
+        ${tif(this.needRestart, html`<alert-view>${ls.restartServerToTakeEffect}</alert-view>`)}
         <heading-view>${ls.forums}</heading-view>
         <p>
           <check-box
@@ -76,7 +80,7 @@ export class ForumsSettingsPage extends StatefulPage {
   }
 
   private async handleSaveClick() {
-    const loader = new UpdateSiteSettingsLoader({
+    const loader = new UpdateSiteSettingsLoader(sc.appSettingsForumsKey, {
       forums_enabled: this.forumsEnabled,
       forum_groups_enabled: this.forumGroupsEnabled,
     });

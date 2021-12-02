@@ -14,12 +14,9 @@ import (
 	"qing/app"
 	"qing/app/appHandler"
 	"qing/app/appSettings"
+	"qing/app/defs"
 	"qing/app/handler"
 	"qing/lib/validator"
-)
-
-const (
-	forumsKey = "forums"
 )
 
 func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -36,11 +33,16 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	copy, err := appSettings.Get().DeepClone()
 	app.PanicIfErr(err)
 
-	for k, _ := range settingsDict {
+	// k: settings key, v: settings JSON string.
+	for k, v := range settingsDict {
+		vString, ok := v.(string)
+		if !ok {
+			return resp.MustFail(fmt.Errorf("Settings value is not a valid string. Key: %v, got: %v", k, v))
+		}
 		switch k {
-		case forumsKey:
+		case defs.Shared.AppSettingsForumsKey:
 			var forumsSettings *appSettings.ForumsSettings
-			err := json.Unmarshal([]byte(validator.MustGetTextFromDict(settingsDict, forumsKey)), &forumsSettings)
+			err := json.Unmarshal([]byte(vString), &forumsSettings)
 			app.PanicIfErr(err)
 			copy.Forums = forumsSettings
 			appSettings.SetRestartSettings(appSettings.ForumsRestartSettings)

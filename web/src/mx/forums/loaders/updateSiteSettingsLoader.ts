@@ -10,7 +10,7 @@ import routes from 'routes';
 import ForumsSettingsJSON from './forumsSettingsJSON';
 
 export default class UpdateSiteSettingsLoader extends Loader<void> {
-  constructor(public settings: ForumsSettingsJSON) {
+  constructor(public key: string, public settings: ForumsSettingsJSON) {
     super();
   }
 
@@ -20,7 +20,9 @@ export default class UpdateSiteSettingsLoader extends Loader<void> {
 
   requestParams(): Record<string, unknown> {
     return {
-      settings: this.settings,
+      settings: {
+        [this.key]: JSON.stringify(this.settings),
+      },
     };
   }
 }
