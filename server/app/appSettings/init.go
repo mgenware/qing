@@ -23,6 +23,7 @@ func init() {
 	conf := app.CoreConfig()
 
 	file := conf.AppSettings.File
+	log.Printf("🚙 Loading app settings at \"%v\"", file)
 	_, settings, err := getAppSettings(file)
 	if err != nil {
 		panic(fmt.Errorf("Error getting app settings, %v", err))
@@ -31,10 +32,25 @@ func init() {
 	log.Printf("✅ App settings: loaded at \"%v\"", file)
 }
 
+// Gets the app settings that are loaded when server starts.
 func Get() *AppSettings {
 	return appSettings
 }
 
+// Gets the app settings on disk (settings on disk may need a server reboot
+// to take effect).
+func GetFromDisk() (*AppSettings, error) {
+	conf := app.CoreConfig()
+
+	file := conf.AppSettings.File
+	_, settings, err := getAppSettings(file)
+	if err != nil {
+		return nil, err
+	}
+	return settings, nil
+}
+
+// Gets whether disk settings are changed. This value is reset when server is restarted.
 func NeedRestart() bool {
 	return needRestart
 }
@@ -53,7 +69,6 @@ func WriteAppSettings(settings *AppSettings) error {
 }
 
 func readAppSettingsCore(file string) (*AppSettings, error) {
-	log.Printf("🚙 Loading app settings at \"%v\"", file)
 	var settings AppSettings
 	err := iolib.ReadJSONFile(file, &settings)
 	if err != nil {
@@ -74,7 +89,7 @@ func newAppSettings() *AppSettings {
 	return profile
 }
 
-// getAppSettings loads app settings from the given path, and creates one if it
+// Loads app settings from the given path, and creates one if it
 // does not exist.
 func getAppSettings(file string) (bool, *AppSettings, error) {
 	// Creates a new app settings if it does not exist.
