@@ -57,7 +57,7 @@ export interface CallParams {
 // Sends a login request and returns session cookies.
 async function requestLogin(id: string): Promise<string> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const resp = await callCore(urls.loginURL, {
+  const resp = await callCore(urls.loginAPIURL, {
     body: { uid: id },
   });
 
@@ -73,7 +73,7 @@ async function requestLogin(id: string): Promise<string> {
 
 export async function updateEntityTime(id: string, type: number) {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return call(urls.setDebugTimeURL, { body: { id, type } });
+  return call(`${urls.apiURL}/compose/set-debug-time`, { body: { id, type } });
 }
 
 // Wrapper around a node-fetch POST request.

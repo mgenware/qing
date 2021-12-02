@@ -26,7 +26,7 @@ export class Browser {
 
   async goto(url: string, user: User | null) {
     if (user) {
-      await this.page.goto(`${urls.serverURL}${urls.loginURL}/-${user.id}`);
+      await this.page.goto(`${urls.serverURL}${urls.loginAPIURL}/-${user.id}`);
     }
     return this.page.goto(`${serverURL}${url}`, { waitUntil: 'load' });
   }

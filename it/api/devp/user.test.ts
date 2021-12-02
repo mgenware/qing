@@ -7,8 +7,9 @@
 
 import { ita, usr, ass, it, errorResults } from 'base/api';
 import { userInfo, newUser } from 'helper/user';
+import { apiURL } from 'base/urls';
 
-ita('User info', '/__/auth/info', null, { body: { uid: usr.admin.id } }, (r) => {
+ita('User info', `${apiURL}/auth/info`, null, { body: { uid: usr.admin.id } }, (r) => {
   ass.de(r, { d: { admin: true, iconName: 'admin.png', id: '2t', name: 'ADMIN' } });
 });
 

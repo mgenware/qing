@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import buildTree from 'fx214';
+import urlTree from 'fx214';
 
-const routes = buildTree(
+const routes = urlTree(
   {
     __: {
       // Prevent `underscoresToHyphens` from convert the root `__` to `--`.

@@ -8,6 +8,7 @@
 import { ass } from 'base/api';
 import * as defs from 'base/defs';
 import { APIResult, call, updateEntityTime, User } from 'base/call';
+import { apiURL } from 'base/urls';
 
 export const setEntityURL = 'pri/compose/set-entity';
 export const deleteEntityURL = 'pri/compose/delete-entity';
@@ -18,7 +19,7 @@ export const setEntityBody = {
   content: { contentHTML: defs.sd.postContentRaw, title: defs.sd.postTitleRaw },
 };
 
-const getPostCountURL = '/__/user/post-count';
+const getPostCountURL = 'user/post-count';
 const getPostSrcURL = 'pri/compose/get-entity-src';
 
 export function verifyNewPostAPIResult(r: APIResult): string {

@@ -11,7 +11,7 @@ import 'com/cmt/cmtApp';
 import { entityQuestion } from 'sharedConstants';
 import { CHECK } from 'checks';
 
-// Handles rendering of question votes and comments.
+// Renders a question and handles votes and comments.
 @customElement('question-app')
 export class QuestionApp extends BaseElement {
   static get styles() {

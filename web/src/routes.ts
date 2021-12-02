@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import buildTree from 'fx214';
+import urlTree from 'fx214';
 
-export default buildTree({
+export default urlTree({
   // Management APIs.
   m: {
     yourPosts: 'your-posts',
