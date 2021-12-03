@@ -8,7 +8,7 @@
 import { ass } from 'base/api';
 import * as defs from 'base/defs';
 import { APIResult, call, updateEntityTime, User } from 'base/call';
-import { apiURL } from 'base/urls';
+import urls from 'base/urls';
 
 export const setEntityURL = 'pri/compose/set-entity';
 export const deleteEntityURL = 'pri/compose/delete-entity';
@@ -19,7 +19,6 @@ export const setEntityBody = {
   content: { contentHTML: defs.sd.postContentRaw, title: defs.sd.postTitleRaw },
 };
 
-const getPostCountURL = 'user/post-count';
 const getPostSrcURL = 'pri/compose/get-entity-src';
 
 export function verifyNewPostAPIResult(r: APIResult): string {
@@ -54,7 +53,7 @@ export async function newPost(user: User, cb: (id: string) => Promise<unknown>) 
 }
 
 export async function getPostCount(uid: string): Promise<number> {
-  const r = await call(getPostCountURL, { body: { uid } });
+  const r = await call(urls.user.post_count, { body: { uid } });
   return ass.isNumber(r.d);
 }
 

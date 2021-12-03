@@ -6,12 +6,11 @@
  */
 
 import playwright from 'playwright';
-import { serverURL } from 'base/urls';
 import { runTask } from 'base/runner';
 import { createContext } from './browserInstance';
 import { debugMode } from './debug';
 import { User } from 'base/call';
-import * as urls from './urls';
+import urls, { serverURL } from './urls';
 
 // Re-exports.
 export * as ass from 'base/ass';
@@ -26,7 +25,8 @@ export class Browser {
 
   async goto(url: string, user: User | null) {
     if (user) {
-      await this.page.goto(`${urls.serverURL}${urls.loginAPIURL}/-${user.id}`);
+      // Playwright has to use the GET version of the login API route.
+      await this.page.goto(`${serverURL}${urls.auth.in_get}/${user.id}`);
     }
     return this.page.goto(`${serverURL}${url}`, { waitUntil: 'load' });
   }

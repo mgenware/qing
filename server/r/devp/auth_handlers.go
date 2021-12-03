@@ -20,6 +20,7 @@ import (
 	"qing/lib/randlib"
 	"qing/lib/validator"
 
+	"github.com/go-chi/chi"
 	"github.com/mgenware/goutil/jsonx"
 	"github.com/mgenware/goutil/strconvx"
 )
@@ -57,14 +58,29 @@ func getUIDFromRequest(r *http.Request) uint64 {
 	return uid
 }
 
+func signInCore(uid uint64, w http.ResponseWriter, r *http.Request) error {
+	return appUserManager.Get().Login(uid, w, r)
+}
+
 func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	uid := getUIDFromRequest(r)
-	err := appUserManager.Get().Login(uid, w, r)
+	err := signInCore(uid, w, r)
 	app.PanicIfErr(err)
 
 	return resp.MustComplete(nil)
+}
+
+func signInGETHandler(w http.ResponseWriter, r *http.Request) {
+	resp := appHandler.HTMLResponse(w, r)
+
+	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
+	app.PanicIfErr(err)
+	err = signInCore(uid, w, r)
+	app.PanicIfErr(err)
+
+	resp.MustCompleteWithContent("<p>You have successfully logged in.</p>", w)
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {

@@ -7,6 +7,7 @@
 
 import { APIResult, call, User } from 'base/call';
 import { throwIfEmpty } from 'throw-if-arg-empty';
+import urls from '../base/urls';
 
 export class TempUser {
   constructor(public r: APIResult) {}
@@ -25,12 +26,12 @@ export class TempUser {
 }
 
 async function newUserCore(): Promise<TempUser> {
-  const r = await call('/__/auth/new');
+  const r = await call(urls.auth.new);
   return new TempUser(r);
 }
 
 async function deleteUser(uid: string) {
-  await call('/__/auth/del', { body: { uid } });
+  await call(urls.auth.del, { body: { uid } });
 }
 
 // Returns null if the specified user doesn't exist.
@@ -38,7 +39,7 @@ export async function userInfo(
   uid: string,
   opts?: { ignoreAPIError?: boolean },
 ): Promise<APIResult> {
-  return call('/__/auth/info', { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
+  return call(urls.auth.info, { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
 }
 
 export async function newUser(cb: (u: TempUser) => Promise<void>) {

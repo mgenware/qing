@@ -9,22 +9,33 @@ import urlTree from 'fx214';
 
 export const serverURL = 'http://localhost:8000';
 
-// Intentional copy of `devRoutes.ts` as it needs to be used in this separate project.
-export const devAPIs = urlTree(
+const devRoutes = urlTree(
   {
     __: {
       // Prevent `underscoresToHyphens` from convert the root `__` to `--`.
       __content__: '__',
-      elements: '',
-      auth: '',
       api: {
         auth: {
           new: '',
           in: '',
           info: '',
+          del: '',
+          // The GET version of `in`.
+          in_get: '',
+        },
+        user: {
+          post_count: '',
+          question_count: '',
+          answer_count: '',
+          discussion_count: '',
+        },
+        compose: {
+          set_debug_time: '',
         },
       },
     },
   },
   { underscoresToHyphens: true },
 );
+
+export default devRoutes.__.api;
