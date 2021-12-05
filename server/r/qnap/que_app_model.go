@@ -25,6 +25,7 @@ type QuestionAppModel struct {
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
 	QuestionURL string
 	EID         string
+	ForumEID    string
 	Liked       bool
 	UserEID     string
 	UserHTML    string
@@ -39,6 +40,9 @@ func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool)
 	eid := fmtx.EncodeID(p.ID)
 	d.QuestionURL = appURL.Get().Question(p.ID)
 	d.EID = eid
+	if d.ForumID != nil {
+		d.ForumEID = fmtx.EncodeID(*d.ForumID)
+	}
 	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
 	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
 	d.UserEID = fmtx.EncodeID(d.UserID)

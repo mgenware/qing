@@ -19,7 +19,12 @@ import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import { renderTemplateResult } from 'lib/htmlLib';
 
-export function setupHandlers(editBarElement: EditBarApp, eid: string, entityType: number) {
+export function setupHandlers(
+  editBarElement: EditBarApp,
+  eid: string,
+  forumID: string | null,
+  entityType: number,
+) {
   if (!appPageState.user) {
     return;
   }
@@ -47,6 +52,7 @@ export function setupHandlers(editBarElement: EditBarApp, eid: string, entityTyp
       html`<set-entity-app
         autoClose
         .postID=${eid}
+        .forumID=${forumID || ''}
         entityType=${entityType}
         headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entityType))}></set-entity-app>`,
     );
