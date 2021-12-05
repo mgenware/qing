@@ -9,3 +9,6 @@ import 'core';
 import './questionApp';
 import './addAnswerApp';
 import './answerApp';
+import { hookUpQueAppEditorEvents } from './common';
+
+hookUpQueAppEditorEvents();
