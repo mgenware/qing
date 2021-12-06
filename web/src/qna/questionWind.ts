@@ -6,10 +6,14 @@
  */
 
 import appPageState from 'app/appPageState';
+import { CHECK } from 'checks';
 
 export interface QuestionWind {
   QuestionID: string;
   ForumID: string;
 }
 
-export default appPageState.windData<QuestionWind>();
+const wind = appPageState.windData<QuestionWind>();
+CHECK(wind.ForumID);
+CHECK(wind.QuestionID);
+export default wind;
