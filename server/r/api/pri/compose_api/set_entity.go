@@ -53,7 +53,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 
 		var forumID *uint64
-		if appSettings.Get().ForumsMode() && entityType != defs.Shared.EntityPost {
+		if appSettings.Get().CommunityMode && entityType != defs.Shared.EntityPost {
 			forumIDValue := validator.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

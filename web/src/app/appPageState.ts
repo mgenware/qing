@@ -15,14 +15,14 @@ interface MainWind {
   appUserName: string;
   appUserIconURL: string;
   appLang: string;
-  appForumsMode: boolean;
+  appCommunityMode: boolean;
   appUserAdmin: boolean;
   appWindData: unknown;
 }
 
 function getMainPageWindData(): MainWind {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (window as any) as MainWind;
+  return window as any as MainWind;
 }
 
 appState.register(appStateName.user, () => {
@@ -44,9 +44,9 @@ appState.register(appStateName.windData, () => {
   return wind.appWindData ?? {};
 });
 
-appState.register(appStateName.forumsMode, () => {
+appState.register(appStateName.communityMode, () => {
   const wind = getMainPageWindData();
-  return wind.appForumsMode;
+  return wind.appCommunityMode;
 });
 
 export class AppPageState {
@@ -58,8 +58,8 @@ export class AppPageState {
     return appState.get(appStateName.windData);
   }
 
-  get forumsMode(): boolean {
-    return appState.get(appStateName.forumsMode);
+  get communityMode(): boolean {
+    return appState.get(appStateName.communityMode);
   }
 
   // Helpers.

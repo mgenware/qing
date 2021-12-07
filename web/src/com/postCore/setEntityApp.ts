@@ -98,7 +98,7 @@ export default class SetEntityApp extends BaseElement {
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     if (
-      appPageState.forumsMode &&
+      appPageState.communityMode &&
       !this.postID &&
       this.entityType !== entityPost &&
       !this.forumID
