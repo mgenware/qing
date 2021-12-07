@@ -19,8 +19,7 @@ import (
 // AppProfile stores information that controls how application runs. It is generated when application first runs.
 type AppProfile struct {
 	// Auth contains information about authentication.
-	Auth   *profiles.AuthData       `json:"auth"`
-	Forums *profiles.ForumsSettings `json:"forums"`
+	Auth *profiles.AuthData `json:"auth"`
 }
 
 func readAppProfileCore(file string) (*AppProfile, error) {

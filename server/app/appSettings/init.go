@@ -83,9 +83,7 @@ func writeAppSettings(settings *AppSettings, path string) error {
 }
 
 func newAppSettings() *AppSettings {
-	profile := &AppSettings{
-		Forums: &ForumsSettings{},
-	}
+	profile := &AppSettings{}
 	return profile
 }
 

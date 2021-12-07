@@ -10,16 +10,9 @@ package appSettings
 import "encoding/json"
 
 type AppSettings struct {
-	Forums *ForumsSettings `json:"forums"`
-}
-
-type ForumsSettings struct {
-	ForumsEnabled      bool `json:"forums_enabled"`
-	ForumGroupsEnabled bool `json:"forum_groups_enabled"`
-}
-
-func (s *AppSettings) ForumsMode() bool {
-	return s.Forums.ForumsEnabled
+	CommunityMode      bool `json:"communityMode"`
+	ForumsEnabled      bool `json:"forumsMode"`
+	ForumGroupsEnabled bool `json:"forumGroupsMode"`
 }
 
 func (s *AppSettings) DeepClone() (*AppSettings, error) {
