@@ -14,6 +14,8 @@ export interface QuestionWind {
 }
 
 const wind = appPageState.windData<QuestionWind>();
-CHECK(wind.ForumID);
 CHECK(wind.QuestionID);
+if (appPageState.forumsMode) {
+  CHECK(wind.ForumID);
+}
 export default wind;
