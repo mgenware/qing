@@ -6,7 +6,7 @@
  */
 
 import { goConstGenCore, PropData } from 'go-const-gen';
-import mfs from 'm-fs';
+import * as mfs from 'm-fs';
 import * as path from 'path';
 import {
   webPath,

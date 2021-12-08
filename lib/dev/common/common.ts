@@ -6,7 +6,7 @@
  */
 
 import nodePath from 'path';
-import mfs from 'm-fs';
+import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 
 export const copyrightString = `/*
@@ -37,8 +37,12 @@ export function webPath(path: string): string {
   return `${rootDir}/web/${path}`;
 }
 
-export function sodPath(): string {
-  return `${rootDir}/lib/dev/sod/objects`;
+export function sodPath(path?: string): string {
+  const root = `${rootDir}/lib/dev/sod/objects`;
+  if (path) {
+    return root + '/' + path;
+  }
+  return root;
 }
 
 export function serverSodPath(): string {

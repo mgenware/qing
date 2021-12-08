@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import mfs from 'm-fs';
+import * as mfs from 'm-fs';
 import nodePath from 'path';
 import { genGoType, TypeMember } from 'gen-go-type';
 import { copyrightString, sodPath, webSodPath, serverSodPath } from '../common/common.js';
@@ -23,7 +23,7 @@ function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function goCode(cls: string, obj: SourceDict): string {
+function goCode(cls: string, pkgName: string, obj: SourceDict): string {
   let members: TypeMember[] = [];
   for (const [k, v] of Object.entries(obj)) {
     members.push({
@@ -32,7 +32,7 @@ function goCode(cls: string, obj: SourceDict): string {
       tag: `\`json:"${k}"\``,
     });
   }
-  return copyrightString + genGoType('struct', cls, members);
+  return copyrightString + `package ${pkgName}\n\n` + genGoType('struct', cls, members);
 }
 
 function sourceTypeFieldToTSType(type: string): string {
@@ -51,23 +51,33 @@ function sourceTypeFieldToTSType(type: string): string {
 }
 
 function tsCode(cls: string, obj: SourceDict): string {
-  let s = `export default interface ${cls} {`;
+  let s = `export default interface ${cls} {\n`;
   for (const [k, v] of Object.entries(obj)) {
-    s += `  ${k}: ${sourceTypeFieldToTSType(v)}?;\n`;
+    s += `  ${k}?: ${sourceTypeFieldToTSType(v)};\n`;
   }
   s += `}\n`;
   return copyrightString + s;
 }
 
+function trimJSONExtension(s: string): string {
+  return s.substr(0, s.length - '.json'.length);
+}
+
 (async () => {
-  const fullInput = nodePath.resolve(input);
+  const fullInput = sodPath(input + '.json');
   const relPath = nodePath.relative(sodPath(), fullInput);
-  const serverFile = nodePath.join(serverSodPath(), relPath);
-  const webFile = nodePath.join(webSodPath(), relPath);
+  const relPathWithoutJSONExt = trimJSONExtension(relPath);
+  const serverFile = nodePath.join(serverSodPath(), relPathWithoutJSONExt);
+  const webFile = nodePath.join(webSodPath(), relPathWithoutJSONExt);
   const typeName = capitalize(nodePath.basename(input));
-  const sourceDict = JSON.parse(await mfs.readTextFileAsync(input)) as SourceDict;
+  const sourceDict = JSON.parse(await mfs.readTextFileAsync(fullInput)) as SourceDict;
+  const pkgName = nodePath.basename(nodePath.dirname(fullInput));
+
   await Promise.all([
-    mfs.writeFileAsync(serverFile, goCode(typeName, sourceDict)),
-    mfs.writeFileAsync(webFile, tsCode(typeName, sourceDict)),
+    mfs.writeFileAsync(
+      trimJSONExtension(serverFile) + '.go',
+      goCode(typeName, pkgName, sourceDict),
+    ),
+    mfs.writeFileAsync(trimJSONExtension(webFile) + '.ts', tsCode(typeName, sourceDict)),
   ]);
 })();

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import mfs from 'm-fs';
+import * as mfs from 'm-fs';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
 import nodePath from 'path';

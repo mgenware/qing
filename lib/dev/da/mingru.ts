@@ -8,7 +8,7 @@
 import * as mr from 'mingru';
 import * as nodePath from 'path';
 import gen from 'go-const-gen';
-import mfs from 'm-fs';
+import * as mfs from 'm-fs';
 import actions from './actions/actions.js';
 import models from './models/models.js';
 import { serverPath, copyrightString } from '../common/common.js';
