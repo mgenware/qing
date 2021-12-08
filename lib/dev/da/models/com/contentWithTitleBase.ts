@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from './contentBase.js';
-import c from '../../../defs/constants.json';
+import c from '../../../const/constants.json';
 
 export default class ContentWithTitleBase extends ContentBase {
   title = mm.varChar(c.maxTitleLen);

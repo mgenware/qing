@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import c from '../../../defs/constants.json';
+import c from '../../../const/constants.json';
 
 export default class ForumBase extends mm.Table {
   id = mm.pk();

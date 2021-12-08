@@ -37,6 +37,18 @@ export function webPath(path: string): string {
   return `${rootDir}/web/${path}`;
 }
 
+export function sodPath(): string {
+  return `${rootDir}/lib/dev/sod/objects`;
+}
+
+export function serverSodPath(): string {
+  return serverPath('sod');
+}
+
+export function webSodPath(): string {
+  return webPath('sod');
+}
+
 export async function langNamesAsync(): Promise<string[]> {
   const jsonFile = langsDir + '/langs.json';
   const obj = JSON.parse(await fs.readFile(jsonFile, 'utf8')) as any;
