@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { promises as fs } from 'fs';
 import nodePath from 'path';
+import mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 
 export const copyrightString = `/*
@@ -51,7 +51,7 @@ export function webSodPath(): string {
 
 export async function langNamesAsync(): Promise<string[]> {
   const jsonFile = langsDir + '/langs.json';
-  const obj = JSON.parse(await fs.readFile(jsonFile, 'utf8')) as any;
+  const obj = JSON.parse(await mfs.readTextFileAsync(jsonFile)) as any;
   const names = obj.langs as string[];
   if (!Array.isArray(names)) {
     throw new Error(`Assertion failed. \`names\` is not an array. Got: ${names}`);

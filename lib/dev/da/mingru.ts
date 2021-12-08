@@ -8,7 +8,7 @@
 import * as mr from 'mingru';
 import * as nodePath from 'path';
 import gen from 'go-const-gen';
-import { promises as fsPromises } from 'fs';
+import mfs from 'm-fs';
 import actions from './actions/actions.js';
 import models from './models/models.js';
 import { serverPath, copyrightString } from '../common/common.js';
@@ -31,7 +31,7 @@ async function buildConstantsAsync(path: string) {
  ******************************************************************************************/\n\n`,
   });
 
-  await fsPromises.writeFile(path, goCode);
+  await mfs.writeFileAsync(path, goCode);
 }
 
 const mingruHeader =

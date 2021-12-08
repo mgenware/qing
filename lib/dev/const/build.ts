@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { promises as fsPromises } from 'fs';
+import mfs from 'm-fs';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
 import nodePath from 'path';
@@ -22,7 +22,7 @@ async function buildJSONFileAsync(
   typeName: string,
   variableName: string,
 ) {
-  const json = await fsPromises.readFile(src, 'utf8');
+  const json = await mfs.readTextFileAsync(src);
 
   const jsonObj = JSON.parse(json);
   const goResult = await goConvert(jsonObj, {
@@ -35,8 +35,8 @@ async function buildJSONFileAsync(
   const tsResult = tsConvert(jsonObj);
 
   await Promise.all([
-    fsPromises.writeFile(serverDest, copyrightString + goResult),
-    fsPromises.writeFile(webDest, copyrightString + tsResult),
+    mfs.writeFileAsync(serverDest, copyrightString + goResult),
+    mfs.writeFileAsync(webDest, copyrightString + tsResult),
   ]);
 }
 

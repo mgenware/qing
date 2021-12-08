@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { promises as fsPromises } from 'fs';
+import mfs from 'm-fs';
 import nodePath from 'path';
 import { genGoType, TypeMember } from 'gen-go-type';
 import { copyrightString, sodPath, webSodPath, serverSodPath } from '../common/common.js';
@@ -65,9 +65,9 @@ function tsCode(cls: string, obj: SourceDict): string {
   const serverFile = nodePath.join(serverSodPath(), relPath);
   const webFile = nodePath.join(webSodPath(), relPath);
   const typeName = capitalize(nodePath.basename(input));
-  const sourceDict = JSON.parse(await fsPromises.readFile(input, 'utf8')) as SourceDict;
+  const sourceDict = JSON.parse(await mfs.readTextFileAsync(input)) as SourceDict;
   await Promise.all([
-    fsPromises.writeFile(serverFile, goCode(typeName, sourceDict)),
-    fsPromises.writeFile(webFile, tsCode(typeName, sourceDict)),
+    mfs.writeFileAsync(serverFile, goCode(typeName, sourceDict)),
+    mfs.writeFileAsync(webFile, tsCode(typeName, sourceDict)),
   ]);
 })();
