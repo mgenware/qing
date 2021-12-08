@@ -63,5 +63,5 @@
   "maxURLLen": 200,
   "maxPwdHashLen": 255,
   "formUploadMain": "main",
-  "appSettingsForumsKey": "forums"
+  "communitySettingsKey": "community"
 }

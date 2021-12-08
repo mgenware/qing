@@ -10,6 +10,10 @@ package appSettings
 import "encoding/json"
 
 type AppSettings struct {
+	Community *CommunitySettings `json:"community"`
+}
+
+type CommunitySettings struct {
 	CommunityMode      bool `json:"communityMode"`
 	ForumsEnabled      bool `json:"forumsMode"`
 	ForumGroupsEnabled bool `json:"forumGroupsMode"`
