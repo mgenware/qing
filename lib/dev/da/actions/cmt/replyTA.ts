@@ -37,7 +37,7 @@ export class ReplyTA extends mm.TableActions {
   }
 
   private getSelectRepliesAction(withLike: boolean): mm.SelectAction {
-    const cols: mm.SelectedColumn[] = [
+    const cols: mm.SelectedColumnTypes[] = [
       t.id.privateAttr(),
       t.content,
       t.created_at.privateAttr(),

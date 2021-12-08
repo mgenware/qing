@@ -57,7 +57,7 @@ export class AnswerTA extends ContentBaseTA {
     return [t.content];
   }
 
-  override getFullColumns(): mm.SelectedColumn[] {
+  override getFullColumns(): mm.SelectedColumnTypes[] {
     return [...super.getFullColumns(), t.cmt_count, t.up_votes, t.down_votes, t.votes];
   }
 

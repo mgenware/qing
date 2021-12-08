@@ -33,7 +33,7 @@ const cmtIDAndHostID = 'cmtIDAndHostID';
 
 export function selectCmts(rt: CmtRelationTable, withLike: boolean): mm.SelectAction {
   const jCmt = rt.cmt_id.associativeJoin(cmt);
-  const cols: mm.SelectedColumn[] = [
+  const cols: mm.SelectedColumnTypes[] = [
     rt.cmt_id.as('id').privateAttr(),
     jCmt.content,
     jCmt.created_at.privateAttr(),

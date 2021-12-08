@@ -22,15 +22,15 @@ export class PostTA extends ContentBaseTA {
     return postCmt;
   }
 
-  override getPCColumns(): mm.SelectedColumn[] {
+  override getPCColumns(): mm.SelectedColumnTypes[] {
     return [t.title, t.cmt_count, t.likes];
   }
 
-  override getPCOrderByColumns(): mm.SelectedColumn[] {
+  override getPCOrderByColumns(): mm.SelectedColumnTypes[] {
     return [t.created_at, t.likes, t.cmt_count];
   }
 
-  override getProfileColumns(): mm.SelectedColumn[] {
+  override getProfileColumns(): mm.SelectedColumnTypes[] {
     return [t.title];
   }
 
@@ -38,7 +38,7 @@ export class PostTA extends ContentBaseTA {
     return [t.title, t.content];
   }
 
-  override getFullColumns(): mm.SelectedColumn[] {
+  override getFullColumns(): mm.SelectedColumnTypes[] {
     return [...super.getFullColumns(), t.title, t.cmt_count, t.likes];
   }
 

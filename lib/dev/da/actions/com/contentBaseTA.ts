@@ -133,10 +133,10 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   abstract getCmtBaseTable(): ContentCmtBase;
 
   // Returns [] if post center is not supported.
-  abstract getPCColumns(): mm.SelectedColumn[];
-  abstract getPCOrderByColumns(): mm.SelectedColumn[];
+  abstract getPCColumns(): mm.SelectedColumnTypes[];
+  abstract getPCOrderByColumns(): mm.SelectedColumnTypes[];
   // Returns [] if profile is not supported.
-  abstract getProfileColumns(): mm.SelectedColumn[];
+  abstract getProfileColumns(): mm.SelectedColumnTypes[];
   abstract getEditingColumns(): mm.Column[];
 
   // Gets extra columns that are considered inputs during insertion.
@@ -152,7 +152,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     return null;
   }
 
-  protected getFullColumns(): mm.SelectedColumn[] {
+  protected getFullColumns(): mm.SelectedColumnTypes[] {
     const t = this.getBaseTable();
     const idCol = t.id.privateAttr();
     return [idCol, ...this.userColumns, ...this.dateColumns, t.content];

@@ -75,19 +75,19 @@ export class HomeTA extends mm.TableActions {
       .resultTypeNameAttr(userThreadInterface);
   }
 
-  private typeCol(itemType: number): mm.RawColumn {
-    return new mm.RawColumn(
+  private typeCol(itemType: number): mm.SelectedColumn {
+    return new mm.SelectedColumn(
       mm.sql`${itemType.toString()}`,
       userThreadTypeColumnName,
       mm.int().__type(),
     );
   }
 
-  private getForumGroupCols(t: ForumGroup): mm.SelectedColumn[] {
+  private getForumGroupCols(t: ForumGroup): mm.SelectedColumnTypes[] {
     return [t.id.privateAttr(), t.name, t.order_index, t.forum_count, t.desc];
   }
 
-  private getForumCols(t: Forum): mm.SelectedColumn[] {
+  private getForumCols(t: Forum): mm.SelectedColumnTypes[] {
     return [t.id.privateAttr(), t.name, t.order_index, t.thread_count, t.group_id];
   }
 }

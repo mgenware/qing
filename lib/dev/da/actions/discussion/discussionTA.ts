@@ -25,15 +25,15 @@ export class DiscussionTA extends ThreadBaseTA {
     return discussionCmt;
   }
 
-  override getPCColumns(): mm.SelectedColumn[] {
+  override getPCColumns(): mm.SelectedColumnTypes[] {
     return [t.title, t.reply_count];
   }
 
-  override getPCOrderByColumns(): mm.SelectedColumn[] {
+  override getPCOrderByColumns(): mm.SelectedColumnTypes[] {
     return [t.created_at, t.reply_count];
   }
 
-  override getProfileColumns(): mm.SelectedColumn[] {
+  override getProfileColumns(): mm.SelectedColumnTypes[] {
     return [t.title];
   }
 
@@ -41,7 +41,7 @@ export class DiscussionTA extends ThreadBaseTA {
     return [t.title, t.content];
   }
 
-  override getFullColumns(): mm.SelectedColumn[] {
+  override getFullColumns(): mm.SelectedColumnTypes[] {
     return [...super.getFullColumns(), t.title, t.cmt_count, t.reply_count];
   }
 

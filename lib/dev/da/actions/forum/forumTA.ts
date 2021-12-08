@@ -67,8 +67,8 @@ export class ForumTA extends mm.TableActions {
       .resultTypeNameAttr(userThreadInterface);
   }
 
-  private typeCol(itemType: number): mm.RawColumn {
-    return new mm.RawColumn(
+  private typeCol(itemType: number): mm.SelectedColumn {
+    return new mm.SelectedColumn(
       mm.sql`${itemType.toString()}`,
       userThreadTypeColumnName,
       mm.int().__type(),

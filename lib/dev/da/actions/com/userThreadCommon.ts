@@ -48,11 +48,11 @@ function getCommonThreadCols(t: ContentBase): mm.SelectedColumn[] {
   return [...userCols, t.created_at.privateAttr(), t.modified_at.privateAttr()];
 }
 
-function placeholderValueColumn(name: string): mm.RawColumn {
+function placeholderValueColumn(name: string): mm.SelectedColumn {
   return mm.sel(mm.sql`0`, name, mm.uInt().__type());
 }
 
-export function getUserPostCols(t: Post): mm.SelectedColumn[] {
+export function getUserPostCols(t: Post): mm.SelectedColumnTypes[] {
   return [
     ...getCommonThreadCols(t),
     t.title,
@@ -65,7 +65,7 @@ export function getUserPostCols(t: Post): mm.SelectedColumn[] {
 export function getUserDiscussionCols(
   t: Discussion,
   includeLastReplied: boolean,
-): mm.SelectedColumn[] {
+): mm.SelectedColumnTypes[] {
   const cols = [
     ...getCommonThreadCols(t),
     t.title,
@@ -79,7 +79,10 @@ export function getUserDiscussionCols(
   return cols;
 }
 
-export function getUserQuestionCols(t: Question, includeLastReplied: boolean): mm.SelectedColumn[] {
+export function getUserQuestionCols(
+  t: Question,
+  includeLastReplied: boolean,
+): mm.SelectedColumnTypes[] {
   const cols = [
     ...getCommonThreadCols(t),
     t.title,

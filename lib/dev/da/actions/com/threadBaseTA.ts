@@ -22,7 +22,7 @@ export default abstract class ThreadBaseTA extends ContentBaseTA {
     return [this.getThreadBaseTable().forum_id];
   }
 
-  override getFullColumns(): mm.SelectedColumn[] {
+  override getFullColumns(): mm.SelectedColumnTypes[] {
     return [...super.getFullColumns(), this.getThreadBaseTable().forum_id];
   }
 }

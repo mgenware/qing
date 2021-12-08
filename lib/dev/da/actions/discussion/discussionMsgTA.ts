@@ -40,16 +40,16 @@ export class DiscussionMsgTA extends ContentBaseTA {
   }
 
   // Post center is not supported.
-  override getPCColumns(): mm.SelectedColumn[] {
+  override getPCColumns(): mm.SelectedColumnTypes[] {
     return [];
   }
 
-  override getPCOrderByColumns(): mm.SelectedColumn[] {
+  override getPCOrderByColumns(): mm.SelectedColumnTypes[] {
     return [];
   }
 
   // Profile is not supported.
-  override getProfileColumns(): mm.SelectedColumn[] {
+  override getProfileColumns(): mm.SelectedColumnTypes[] {
     return [];
   }
 
@@ -57,7 +57,7 @@ export class DiscussionMsgTA extends ContentBaseTA {
     return [t.content];
   }
 
-  override getFullColumns(): mm.SelectedColumn[] {
+  override getFullColumns(): mm.SelectedColumnTypes[] {
     return [...super.getFullColumns(), t.cmt_count];
   }
 
