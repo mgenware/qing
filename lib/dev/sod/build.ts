@@ -71,9 +71,8 @@ function print(s: string) {
   const fullInput = sodPath(input + '.json');
   const relPath = nodePath.relative(sodPath(), fullInput);
   const relPathWithoutJSONExt = trimJSONExtension(relPath);
-  const serverFile =
-    trimJSONExtension(nodePath.join(serverSodPath(), relPathWithoutJSONExt)) + '.go';
-  const webFile = trimJSONExtension(nodePath.join(webSodPath(), relPathWithoutJSONExt)) + '.ts';
+  const serverFile = nodePath.join(serverSodPath(), relPathWithoutJSONExt) + '.go';
+  const webFile = nodePath.join(webSodPath(), relPathWithoutJSONExt) + '.ts';
   const typeName = capitalize(nodePath.basename(input));
   const sourceDict = JSON.parse(await mfs.readTextFileAsync(fullInput)) as SourceDict;
   const pkgName = nodePath.basename(nodePath.dirname(fullInput));

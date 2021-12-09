@@ -5,9 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import nodePath from 'path';
+import * as nodePath from 'path';
 import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
+
+const join = nodePath.join;
 
 export const copyrightString = `/*
  * Copyright (C) The Qing Project. All rights reserved.
@@ -24,25 +26,25 @@ export const copyrightStringYAML = `#
 #\n\n`;
 
 const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
-const rootDir = nodePath.join(dirPath, '../../../..');
-export const langsDir = `${rootDir}/userland/langs`;
-export const langsDataDir = `${langsDir}/data`;
-export const defaultLangPath = `${langsDataDir}/en.json`;
+const rootDir = join(dirPath, '../../../..');
+export const langsDir = join(rootDir, 'userland/langs');
+export const langsDataDir = join(langsDir, 'data');
+export const defaultLangPath = join(langsDataDir, 'en.json');
 
-export function serverPath(path: string): string {
-  return `${rootDir}/server/${path}`;
+export function serverPath(path?: string): string {
+  return join(rootDir, 'server', path || '');
 }
 
-export function webPath(path: string): string {
-  return `${rootDir}/web/${path}`;
+export function webPath(path?: string): string {
+  return join(rootDir, 'web', path || '');
+}
+
+export function webSrcPath(path?: string): string {
+  return join(webPath('src'), path || '');
 }
 
 export function sodPath(path?: string): string {
-  const root = `${rootDir}/lib/dev/sod/objects`;
-  if (path) {
-    return root + '/' + path;
-  }
-  return root;
+  return join(rootDir, 'lib/dev/sod/objects', path || '');
 }
 
 export function serverSodPath(): string {
@@ -50,11 +52,11 @@ export function serverSodPath(): string {
 }
 
 export function webSodPath(): string {
-  return webPath('sod');
+  return webSrcPath('sod');
 }
 
 export async function langNamesAsync(): Promise<string[]> {
-  const jsonFile = langsDir + '/langs.json';
+  const jsonFile = join(langsDir, 'langs.json');
   const obj = JSON.parse(await mfs.readTextFileAsync(jsonFile)) as any;
   const names = obj.langs as string[];
   if (!Array.isArray(names)) {
@@ -64,5 +66,5 @@ export async function langNamesAsync(): Promise<string[]> {
 }
 
 export function langDataPath(name: string): string {
-  return `${langsDataDir}/${name}.json`;
+  return join(langsDataDir, `${name}.json`);
 }
