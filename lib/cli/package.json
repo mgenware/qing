@@ -11,7 +11,8 @@
   },
   "scripts": {
     "r": "daizong",
-    "test": "daizong build"
+    "test": "daizong build",
+    "prepublishOnly": "npm test"
   },
   "engines": {
     "node": ">=14.0.0"
