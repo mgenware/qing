@@ -25,15 +25,23 @@ if (process.platform === 'win32') {
   process.exit(1);
 }
 
-const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const pkg = JSON.parse(await readFile(nodePath.join(dirPath, '../package.json'), 'utf8'));
-
 const args = process.argv.slice(2);
 
 function print(s: string) {
   // eslint-disable-next-line no-console
   console.log(s);
+}
+
+async function getVersion(): Promise<string> {
+  const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const pkgVersion = JSON.parse(await readFile(nodePath.join(dirPath, '../package.json'), 'utf8'))
+    .version as string;
+  if (!pkgVersion) {
+    console.error('Error getting version string.');
+    process.exit(1);
+  }
+  return pkgVersion;
 }
 
 function printUsage() {
@@ -167,7 +175,7 @@ function appendArg(arg: string | undefined): string {
       }
 
       case 'version': {
-        print(pkg.version);
+        print(await getVersion());
         break;
       }
 
