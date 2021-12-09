@@ -153,6 +153,10 @@ function checkMigrationNumber(num: number) {
   }
 }
 
+function appendArg(arg: string | undefined): string {
+  return arg ? ` ${arg}` : '';
+}
+
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
   try {
@@ -197,8 +201,9 @@ function checkMigrationNumber(num: number) {
       case 'conf':
       case 'defs':
       case 'da':
-      case 'ls': {
-        await spawnNPMCmd(`npm run r ${inputCmd}`, await getProjectDir(libDev));
+      case 'ls':
+      case 'sod': {
+        await spawnNPMCmd(`npm run r ${inputCmd}${appendArg(arg1)}`, await getProjectDir(libDev));
         break;
       }
 

@@ -63,21 +63,26 @@ function trimJSONExtension(s: string): string {
   return s.substr(0, s.length - '.json'.length);
 }
 
+function print(s: string) {
+  console.log(s);
+}
+
 (async () => {
   const fullInput = sodPath(input + '.json');
   const relPath = nodePath.relative(sodPath(), fullInput);
   const relPathWithoutJSONExt = trimJSONExtension(relPath);
-  const serverFile = nodePath.join(serverSodPath(), relPathWithoutJSONExt);
-  const webFile = nodePath.join(webSodPath(), relPathWithoutJSONExt);
+  const serverFile =
+    trimJSONExtension(nodePath.join(serverSodPath(), relPathWithoutJSONExt)) + '.go';
+  const webFile = trimJSONExtension(nodePath.join(webSodPath(), relPathWithoutJSONExt)) + '.ts';
   const typeName = capitalize(nodePath.basename(input));
   const sourceDict = JSON.parse(await mfs.readTextFileAsync(fullInput)) as SourceDict;
   const pkgName = nodePath.basename(nodePath.dirname(fullInput));
 
   await Promise.all([
-    mfs.writeFileAsync(
-      trimJSONExtension(serverFile) + '.go',
-      goCode(typeName, pkgName, sourceDict),
-    ),
-    mfs.writeFileAsync(trimJSONExtension(webFile) + '.ts', tsCode(typeName, sourceDict)),
+    mfs.writeFileAsync(serverFile, goCode(typeName, pkgName, sourceDict)),
+    mfs.writeFileAsync(webFile, tsCode(typeName, sourceDict)),
   ]);
+  print(`Files written:`);
+  print(serverFile);
+  print(webFile);
 })();
