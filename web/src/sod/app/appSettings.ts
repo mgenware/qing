@@ -5,8 +5,12 @@
  * can be found in the LICENSE file.
  */
 
-export default interface CommunitySettings {
-  communityMode?: boolean;
+export interface AppSettings {
+  community?: CommunitySettings;
+}
+
+export interface CommunitySettings {
+  queAndDis?: boolean;
   forumsEnabled?: boolean;
   forumGroupsEnabled?: boolean;
 }

@@ -5,10 +5,14 @@
  * can be found in the LICENSE file.
  */
 
-package appSettingsObj
+package appSettings
+
+type AppSettings struct {
+	Community CommunitySettings `json:"community"`
+}
 
 type CommunitySettings struct {
-	CommunityMode      bool `json:"communityMode"`
+	QueAndDis          bool `json:"queAndDis"`
 	ForumsEnabled      bool `json:"forumsEnabled"`
 	ForumGroupsEnabled bool `json:"forumGroupsEnabled"`
 }

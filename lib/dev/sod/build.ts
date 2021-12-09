@@ -16,23 +16,32 @@ if (!input) {
   process.exit(1);
 }
 
-type SourceTypeField = 'bool' | 'int' | 'uint64' | 'double' | 'string';
-type SourceDict = Record<string, SourceTypeField>;
+type SourceDict = Record<string, Record<string, string>>;
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function goCode(cls: string, pkgName: string, obj: SourceDict): string {
-  let members: TypeMember[] = [];
-  for (const [k, v] of Object.entries(obj)) {
-    members.push({
-      name: capitalize(k),
-      type: v,
-      tag: `\`json:"${k}"\``,
-    });
+function goCode(pkgName: string, dict: SourceDict): string {
+  let s = '';
+  let isFirst = true;
+  for (const [clsName, fields] of Object.entries(dict)) {
+    if (isFirst) {
+      isFirst = false;
+    } else {
+      s += '\n';
+    }
+    let members: TypeMember[] = [];
+    for (const [k, v] of Object.entries(fields)) {
+      members.push({
+        name: capitalize(k),
+        type: v,
+        tag: `\`json:"${k}"\``,
+      });
+    }
+    s += genGoType('struct', clsName, members);
   }
-  return copyrightString + `package ${pkgName}\n\n` + genGoType('struct', cls, members);
+  return copyrightString + `package ${pkgName}\n\n` + s;
 }
 
 function sourceTypeFieldToTSType(type: string): string {
@@ -46,16 +55,25 @@ function sourceTypeFieldToTSType(type: string): string {
     case 'string':
       return 'string';
     default:
-      throw new Error(`Unknown type "${type}"`);
+      return type;
   }
 }
 
-function tsCode(cls: string, obj: SourceDict): string {
-  let s = `export default interface ${cls} {\n`;
-  for (const [k, v] of Object.entries(obj)) {
-    s += `  ${k}?: ${sourceTypeFieldToTSType(v)};\n`;
+function tsCode(dict: SourceDict): string {
+  let s = '';
+  let isFirst = true;
+  for (const [clsName, fields] of Object.entries(dict)) {
+    if (isFirst) {
+      isFirst = false;
+    } else {
+      s += '\n';
+    }
+    s += `export interface ${clsName} {\n`;
+    for (const [k, v] of Object.entries(fields)) {
+      s += `  ${k}?: ${sourceTypeFieldToTSType(v)};\n`;
+    }
+    s += `}\n`;
   }
-  s += `}\n`;
   return copyrightString + s;
 }
 
@@ -68,20 +86,30 @@ function print(s: string) {
 }
 
 (async () => {
-  const fullInput = sodPath(input + '.json');
-  const relPath = nodePath.relative(sodPath(), fullInput);
-  const relPathWithoutJSONExt = trimJSONExtension(relPath);
-  const serverFile = nodePath.join(serverSodPath(), relPathWithoutJSONExt) + '.go';
-  const webFile = nodePath.join(webSodPath(), relPathWithoutJSONExt) + '.ts';
-  const typeName = capitalize(nodePath.basename(input));
-  const sourceDict = JSON.parse(await mfs.readTextFileAsync(fullInput)) as SourceDict;
-  const pkgName = nodePath.basename(nodePath.dirname(fullInput));
+  try {
+    const fullInput = sodPath(input + '.json');
+    const relPath = nodePath.relative(sodPath(), fullInput);
+    const relPathWithoutJSONExt = trimJSONExtension(relPath);
+    const pkgName = nodePath.basename(input);
+    const webFile = nodePath.join(webSodPath(), relPathWithoutJSONExt) + '.ts';
 
-  await Promise.all([
-    mfs.writeFileAsync(serverFile, goCode(typeName, pkgName, sourceDict)),
-    mfs.writeFileAsync(webFile, tsCode(typeName, sourceDict)),
-  ]);
-  print(`Files written:`);
-  print(serverFile);
-  print(webFile);
+    // NOTE: Unlike .ts file, .go files are put in an extra folder named the same as the extracted package name
+    const serverFile = nodePath.join(serverSodPath(), relPathWithoutJSONExt, pkgName) + '.go';
+    const rawSource = JSON.parse(await mfs.readTextFileAsync(fullInput));
+    if (typeof rawSource !== 'object' || Array.isArray(rawSource)) {
+      throw new Error(`Source JSON must be an object. Got ${JSON.stringify(rawSource)}`);
+    }
+    const srcDict = rawSource as SourceDict;
+
+    await Promise.all([
+      mfs.writeFileAsync(serverFile, goCode(pkgName, srcDict)),
+      mfs.writeFileAsync(webFile, tsCode(srcDict)),
+    ]);
+    print(`Files written:`);
+    print(serverFile);
+    print(webFile);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 })();
