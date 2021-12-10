@@ -53,10 +53,11 @@ function printUsage() {
       s or b          Build and start server in containers
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
-      conf            Rebuild config files
-      defs            Rebuild shared definitions
-      da              Rebuild data access layer
-      ls              Rebuild localized strings
+      conf            Build config files
+      const           Build shared constants
+      da              Build data access layer
+      ls              Build localized strings
+      sod <arg>       Build SOD (Shared Object Definition)           
       migrate <arg>   Run database migrations
         +<N>            - Apply N up migrations
         -<N>            - Apply N down migrations
@@ -207,7 +208,7 @@ function appendArg(arg: string | undefined): string {
       }
 
       case 'conf':
-      case 'defs':
+      case 'const':
       case 'da':
       case 'ls':
       case 'sod': {
