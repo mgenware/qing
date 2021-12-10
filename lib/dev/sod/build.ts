@@ -92,7 +92,7 @@ function tsCode(input: string, dict: SourceDict): string {
     }
     s += `}\n`;
   }
-  return copyrightString + noticeComment(input) + s;
+  return '/* eslint-disable */\n\n' + copyrightString + noticeComment(input) + s;
 }
 
 function trimYAMLExtension(s: string): string {
