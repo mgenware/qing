@@ -11,13 +11,11 @@ import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { CHECK } from 'checks';
-import { entityPost } from 'sharedConstants';
 import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
 import { SetEntityLoader } from './loaders/setEntityLoader';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
-import appPageState from 'app/appPageState';
 
 const composerID = 'composer';
 
@@ -97,14 +95,6 @@ export default class SetEntityApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    if (
-      appPageState.communityMode &&
-      !this.postID &&
-      this.entityType !== entityPost &&
-      !this.forumID
-    ) {
-      throw new Error('`forumID` is required for questions and discussions');
-    }
     const loader = new SetEntityLoader(this.postID, e.detail, this.entityType, this.forumID);
     if (this.discussionID) {
       loader.discussionID = this.discussionID;

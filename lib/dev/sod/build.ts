@@ -18,7 +18,9 @@ import {
 } from '../common/common.js';
 
 const yamlExt = '.yaml';
+const attrPrefix = '__';
 const goOutDirAttr = '__go_out_dir';
+const goCtorAttr = '__go_ctor';
 const goSuffix = 'Obj';
 
 const input = process.argv.slice(2)[0];
@@ -39,6 +41,13 @@ function noticeComment(input: string): string {
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function trimEnd(s: string, suffix: string): string {
+  if (s.endsWith(suffix)) {
+    return s.substr(0, s.length - suffix.length);
+  }
+  return s;
 }
 
 function sourceTypeFieldToTSType(type: string): string {
@@ -66,14 +75,27 @@ function goCode(input: string, pkgName: string, dict: SourceDict): string {
       s += '\n';
     }
     let members: TypeMember[] = [];
-    for (const [k, v] of Object.entries(fields)) {
+    let ctor = false;
+    for (const [_k, v] of Object.entries(fields)) {
+      // Ignore the ! suffix used in TS code.
+      const k = trimEnd(_k, '!');
+      if (k.startsWith(attrPrefix)) {
+        const unknownValue = v as unknown;
+        ctor = k === goCtorAttr && unknownValue === true;
+        continue;
+      }
       members.push({
         name: capitalize(k),
         type: v,
         tag: `\`json:"${k},omitempty"\``,
       });
     }
-    s += genGoType('struct', clsName, members);
+    s += genGoType(
+      'struct',
+      clsName,
+      members,
+      ctor ? { ctorFunc: true, returnValueInCtor: true } : undefined,
+    );
   }
   return copyrightString + noticeComment(input) + `package ${pkgName}\n\n` + s;
 }
@@ -88,8 +110,13 @@ function tsCode(input: string, dict: SourceDict): string {
       s += '\n';
     }
     s += `export interface ${clsName} {\n`;
-    for (const [k, v] of Object.entries(fields)) {
-      s += `  ${k}?: ${sourceTypeFieldToTSType(v)};\n`;
+    for (const [_k, v] of Object.entries(fields)) {
+      const notOptional = _k.endsWith('!');
+      const k = trimEnd(_k, '!');
+      if (k.startsWith(attrPrefix)) {
+        continue;
+      }
+      s += `  ${k}${notOptional ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
     }
     s += `}\n`;
   }

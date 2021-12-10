@@ -7,15 +7,8 @@
 
 import appPageState from 'app/appPageState';
 import { CHECK } from 'checks';
+import { QnaWind } from 'sod/qna/qnaWind';
 
-export interface QuestionWind {
-  QuestionID: string;
-  ForumID: string;
-}
-
-const wind = appPageState.windData<QuestionWind>();
-CHECK(wind.QuestionID);
-if (appPageState.communityMode) {
-  CHECK(wind.ForumID);
-}
+const wind = appPageState.windData<QnaWind>();
+CHECK(wind.questionID);
 export default wind;

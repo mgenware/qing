@@ -26,13 +26,3 @@ func NewQuestionPageModel(queAppHTML, ansListHTML, pageBarHTML string) QuestionP
 	d := QuestionPageModel{QuestionAppHTML: queAppHTML, AnsListHTML: ansListHTML, PageBarHTML: pageBarHTML}
 	return d
 }
-
-// QuestionPageWindData ...
-type QuestionPageWindData struct {
-	QuestionID string
-	ForumID    string
-}
-
-func NewQuestionPageWindData(questionID, forumID string) QuestionPageWindData {
-	return QuestionPageWindData{QuestionID: questionID, ForumID: forumID}
-}

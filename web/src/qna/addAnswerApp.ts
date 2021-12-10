@@ -12,7 +12,7 @@ import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
 import { entityAnswer } from 'sharedConstants';
 import 'com/postCore/setEntityApp';
-import wind from './questionWind';
+import wind from './qnaWind';
 
 @customElement('add-answer-app')
 export class AddAnswerApp extends BaseElement {
@@ -56,8 +56,8 @@ export class AddAnswerApp extends BaseElement {
         .showTitleInput=${false}
         entityType=${entityAnswer}
         headerText=${ls.postAnAnswer}
-        .forumID=${wind.ForumID}
-        .questionID=${wind.QuestionID}
+        .forumID=${wind.forumID || ''}
+        .questionID=${wind.questionID}
         @editorClose=${this.handleAnswerDialogClose}></set-entity-app>`;
   }
 

@@ -22,7 +22,7 @@ import { renderTemplateResult } from 'lib/htmlLib';
 export function setupHandlers(
   editBarElement: EditBarApp,
   eid: string,
-  forumID: string | null,
+  forumID: string | undefined,
   entityType: number,
 ) {
   if (!appPageState.user) {

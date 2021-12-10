@@ -19,6 +19,7 @@ import (
 	voteapi "qing/r/api/pri/vote_api"
 	"qing/r/rcom"
 	"qing/r/sys"
+	"qing/sod/qna/qnaWindObj"
 	"strings"
 
 	"github.com/go-chi/chi"
@@ -80,6 +81,6 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if que.ForumID != nil {
 		forumID = fmtx.EncodeID(*que.ForumID)
 	}
-	d.WindData = NewQuestionPageWindData(fmtx.EncodeID(qid), forumID)
+	d.WindData = qnaWindObj.NewQnaWind(fmtx.EncodeID(qid), forumID)
 	return resp.MustComplete(d)
 }
