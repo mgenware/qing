@@ -19,6 +19,6 @@ type RawMainPageWind struct {
 	AppUserURL        string `json:"appUserURL,omitempty"`
 	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
 	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
-	AppLang           string `json:"appLang,omitempty"`
+	AppLang           string `json:"appLang"`
 	AppWindDataString string `json:"appWindDataString,omitempty"`
 }

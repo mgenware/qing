@@ -76,7 +76,7 @@ function goCode(input: string, pkgName: string, dict: SourceDict): string {
     let members: TypeMember[] = [];
     let ctor = false;
     for (const [_k, v] of Object.entries(fields)) {
-      // Ignore the ! suffix used in TS code.
+      const requiredProp = _k.endsWith('!');
       const k = trimEnd(_k, '!');
       if (k.startsWith(attrPrefix)) {
         const unknownValue = v as unknown;
@@ -86,7 +86,7 @@ function goCode(input: string, pkgName: string, dict: SourceDict): string {
       members.push({
         name: capitalize(k),
         type: v,
-        tag: `\`json:"${k},omitempty"\``,
+        tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,
       });
     }
     s += genGoType(
@@ -110,12 +110,12 @@ function tsCode(input: string, dict: SourceDict): string {
     }
     s += `export interface ${clsName} {\n`;
     for (const [_k, v] of Object.entries(fields)) {
-      const notOptional = _k.endsWith('!');
+      const requiredProp = _k.endsWith('!');
       const k = trimEnd(_k, '!');
       if (k.startsWith(attrPrefix)) {
         continue;
       }
-      s += `  ${k}${notOptional ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
+      s += `  ${k}${requiredProp ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
     }
     s += `}\n`;
   }

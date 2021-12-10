@@ -14,7 +14,7 @@
 package qnaWind
 
 type QnaWind struct {
-	QuestionID string `json:"questionID,omitempty"`
+	QuestionID string `json:"questionID"`
 	ForumID    string `json:"forumID,omitempty"`
 }
 
