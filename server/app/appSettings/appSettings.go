@@ -8,6 +8,7 @@
 package appSettings
 
 import (
+	"errors"
 	"qing/sod/app/appSettingsObj"
 )
 
@@ -27,10 +28,9 @@ func (st *AppSettings) ForumGroups() bool {
 	return st.QueAndDis() && st.raw.Community.ForumGroups
 }
 
-func (st *AppSettings) Raw() appSettingsObj.AppSettings {
-	return *st.raw
-}
-
 func NewAppSettings(obj *appSettingsObj.AppSettings) *AppSettings {
+	if obj == nil {
+		panic(errors.New("`obj` cannot be nil"))
+	}
 	return &AppSettings{raw: obj}
 }

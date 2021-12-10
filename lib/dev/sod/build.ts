@@ -52,20 +52,7 @@ function sourceTypeFieldToTSType(type: string): string {
     case 'string':
       return 'string';
     default:
-      return type;
-  }
-}
-
-function sourceTypeFieldToGoType(type: string): string {
-  switch (type) {
-    case 'bool':
-    case 'int':
-    case 'uint64':
-    case 'double':
-    case 'string':
-      return type;
-    default:
-      return `*${type}`;
+      return type.startsWith('*') ? type.substring(1) : type;
   }
 }
 
@@ -82,7 +69,7 @@ function goCode(input: string, pkgName: string, dict: SourceDict): string {
     for (const [k, v] of Object.entries(fields)) {
       members.push({
         name: capitalize(k),
-        type: sourceTypeFieldToGoType(v),
+        type: v,
         tag: `\`json:"${k}"\``,
       });
     }

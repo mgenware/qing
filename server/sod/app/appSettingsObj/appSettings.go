@@ -14,7 +14,7 @@
 package appSettingsObj
 
 type AppSettings struct {
-	Community *CommunitySettings `json:"community"`
+	Community CommunitySettings `json:"community"`
 }
 
 type CommunitySettings struct {
