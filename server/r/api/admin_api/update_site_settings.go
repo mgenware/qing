@@ -30,7 +30,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// into the disk.
 
 	settingsDict := validator.MustGetDictFromDict(params, "settings")
-	copy, err := appSettings.Get().DeepClone()
+	copy, err := DeepCloneSettings(appSettings.Get())
 	app.PanicIfErr(err)
 
 	// k: settings key, v: settings JSON string.
