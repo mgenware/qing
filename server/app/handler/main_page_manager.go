@@ -110,7 +110,6 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 	// Setup additional assets
 	d.AppLang = lang
-	d.AppHTMLLang = lang
 	if d.WindData != nil {
 		jsonBytes, _ := json.Marshal(d.WindData)
 		d.AppWindDataString = string(jsonBytes)

@@ -7,30 +7,18 @@
 
 package handler
 
+import "qing/sod/app/rawMainPageWind"
+
 // MainPageData holds the data needed in main page template.
 type MainPageData struct {
-	// User properties.
+	// Inherited properties are shared between server and web via SOD.
+	rawMainPageWind.RawMainPageWind
+
 	Title       string
 	ContentHTML string
 	Header      string
 	Scripts     string
 	WindData    interface{}
-
-	// HTML-complaint version of `AppLang`.
-	AppHTMLLang string
-
-	// Additional fields set in script area.
-	AppUserID         string
-	AppUserName       string
-	AppUserURL        string
-	AppUserIconURL    string
-	AppUserAdmin      bool
-	AppLang           string
-	AppWindDataString string
-}
-
-// This wraps a MainPageData and is used internally by template manager.
-type MainPageDataWrapper struct {
 }
 
 // NewMainPageData creates a new MainPageData.

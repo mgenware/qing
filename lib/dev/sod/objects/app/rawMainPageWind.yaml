@@ -1,0 +1,12 @@
+---
+RawMainPageWind:
+  # Information about current user.
+  appUserID: string
+  appUserName: string
+  appUserURL: string
+  appUserIconURL: string
+  appUserAdmin: bool
+  # Current language ID, cannot be empty.
+  appLang!: string
+  # Extra wind data passed by pages.
+  appWindDataString: string

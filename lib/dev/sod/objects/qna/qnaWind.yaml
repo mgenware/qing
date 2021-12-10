@@ -1,5 +1,5 @@
 ---
 QnaWind:
   __go_ctor: true
-  'questionID!': string
+  questionID!: string
   forumID: string

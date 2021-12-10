@@ -8,21 +8,16 @@
 import appState from './appState';
 import appStateName from './appStateName';
 import User from './user/user';
+import { RawMainPageWind } from 'sod/app/rawMainPageWind';
 
-interface MainWind {
-  appUserID: string;
-  appUserURL: string;
-  appUserName: string;
-  appUserIconURL: string;
-  appLang: string;
-  appCommunityMode: boolean;
-  appUserAdmin: boolean;
+export interface MainPageWind extends RawMainPageWind {
+  // See `window.appWindData` in `main.html`.
   appWindData: unknown;
 }
 
-function getMainPageWindData(): MainWind {
+function getMainPageWindData(): MainPageWind {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return window as any as MainWind;
+  return window as any as MainPageWind;
 }
 
 appState.register(appStateName.user, () => {
