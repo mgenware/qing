@@ -20,6 +20,7 @@
   "dependencies": {
     "gen-go-type": "^1.0.0",
     "go-const-gen": "^2.1.0",
+    "js-yaml": "^4.1.0",
     "jsconfgen": "^0.2.0",
     "json-to-js-const": "^0.1.0",
     "m-fs": "^5.1.0",
