@@ -17,6 +17,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/lib/validator"
+	"qing/sod/app/appSettingsObj"
 )
 
 func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -30,7 +31,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// into the disk.
 
 	settingsDict := validator.MustGetDictFromDict(params, "settings")
-	copy, err := DeepCloneSettings(appSettings.Get())
+	diskST, err := appSettings.LoadFromDisk()
 	app.PanicIfErr(err)
 
 	// k: settings key, v: settings JSON string.
@@ -40,18 +41,18 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 			return resp.MustFail(fmt.Errorf("Settings value is not a valid string. Key: %v, got: %v", k, v))
 		}
 		switch k {
-		case defs.Shared.AppSettingsForumsKey:
-			var forumsSettings *appSettings.ForumsSettings
-			err := json.Unmarshal([]byte(vString), &forumsSettings)
+		case defs.Shared.KeyCommunitySettings:
+			var comST *appSettingsObj.CommunitySettings
+			err := json.Unmarshal([]byte(vString), &comST)
 			app.PanicIfErr(err)
-			copy.Forums = forumsSettings
+			diskST.Community = comST
 			appSettings.SetRestartSettings(appSettings.ForumsRestartSettings)
 		default:
 			return resp.MustFail(fmt.Errorf("Unknown settings key \"%v\"", k))
 		}
 	}
 
-	err = appSettings.WriteAppSettings(copy)
+	err = appSettings.WriteAppSettings(diskST)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)
 }

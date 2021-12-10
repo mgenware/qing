@@ -4,7 +4,5 @@ AppSettings:
 
 CommunitySettings:
   queAndDis: bool
-  forumsEnabled: bool
-  forumGroupsEnabled: bool
-
-__go_out_dir: app/appSettings
+  forums: bool
+  forumGroups: bool

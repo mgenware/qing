@@ -48,7 +48,7 @@
   "keyTab": "tab",
   "keyValue": "value",
   "keyQuestions": "questions",
-  "keyForumSettings": "forumSettings",
+  "keyCommunitySettings": "communitySettings",
   "keyLang": "lang",
   "forumStatusOpen": 0,
   "forumStatusArchived": 1,

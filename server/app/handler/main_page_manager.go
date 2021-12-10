@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"qing/app"
-	"qing/app/appSettings"
 	"qing/app/appcom"
 	"qing/app/config"
 
@@ -111,7 +110,6 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 	// Setup additional assets
 	d.AppLang = lang
-	d.AppCommunityMode = appSettings.Get().CommunityMode
 	d.AppHTMLLang = lang
 	if d.WindData != nil {
 		jsonBytes, _ := json.Marshal(d.WindData)

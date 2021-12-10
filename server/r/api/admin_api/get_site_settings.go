@@ -27,14 +27,14 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	diskSettings, err := appSettings.GetFromDisk()
+	diskSettings, err := appSettings.LoadFromDisk()
 	app.PanicIfErr(err)
 	var settings interface{}
 	var needRestart bool
 	key := validator.MustGetStringFromDict(params, "key", defs.Shared.MaxNameLen)
 	switch key {
-	case defs.Shared.AppSettingsForumsKey:
-		settings = diskSettings.Forums
+	case defs.Shared.KeyCommunitySettings:
+		settings = diskSettings.Community
 		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
 	default:
 		return resp.MustFail(fmt.Errorf("Unknown settings key \"%v\"", key))

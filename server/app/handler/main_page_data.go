@@ -26,7 +26,6 @@ type MainPageData struct {
 	AppUserIconURL    string
 	AppUserAdmin      bool
 	AppLang           string
-	AppCommunityMode  bool
 	AppWindDataString string
 }
 

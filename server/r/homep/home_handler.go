@@ -29,7 +29,7 @@ const homeFrmScript = "home/homeFrmEntry"
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Non-forums mode.
-	if !appSettings.Get().CommunityMode {
+	if !appSettings.Get().Forums() {
 		return renderStdPage(w, r)
 	}
 	return renderFrmPage(w, r)

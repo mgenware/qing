@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /*
  * Copyright (C) The Qing Project. All rights reserved.
  *
@@ -13,12 +11,14 @@
   * See `lib/dev/sod/objects/app/appSettings.yaml` for details.
   ******************************************************************************************/
 
-export interface AppSettings {
-  community?: CommunitySettings;
+package appSettingsObj
+
+type AppSettings struct {
+	Community *CommunitySettings `json:"community"`
 }
 
-export interface CommunitySettings {
-  queAndDis?: boolean;
-  forums?: boolean;
-  forumGroups?: boolean;
+type CommunitySettings struct {
+	QueAndDis   bool `json:"queAndDis"`
+	Forums      bool `json:"forums"`
+	ForumGroups bool `json:"forumGroups"`
 }

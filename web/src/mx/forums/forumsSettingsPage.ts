@@ -83,7 +83,7 @@ export class ForumsSettingsPage extends StatefulPage {
   }
 
   private async handleSaveClick() {
-    const loader = new UpdateSiteSettingsLoader(sc.keyForumSettings, {
+    const loader = new UpdateSiteSettingsLoader(sc.keyCommunitySettings, {
       forums_enabled: this.forumsEnabled,
       forum_groups_enabled: this.forumGroupsEnabled,
     });
