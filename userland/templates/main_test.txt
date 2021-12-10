@@ -6,6 +6,5 @@ Title:{{html .Title}}{{if .Header}}Header:{{.Header}}
 {{end}}{{if .AppUserIconURL}}AppUserIconURL:{{js .AppUserIconURL}}
 {{end}}{{if .AppUserAdmin}}AppUserAdmin:{{.AppUserAdmin}}
 {{end}}{{if not (eq .AppLang "en")}}AppLang:{{js .AppLang}}
-{{end}}{{if .AppCommunityMode}}AppCommunityMode:{{.AppCommunityMode}}
 {{end}}{{if .AppWindDataString}}AppWindDataString:{{js .AppWindDataString}}
 {{end}}ContentHTML:{{.ContentHTML}}

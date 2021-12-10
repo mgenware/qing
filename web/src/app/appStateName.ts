@@ -7,7 +7,6 @@
 export class AppStateName {
   user = 'user';
   windData = 'windData';
-  communityMode = 'communityMode';
   private cmtHub = 'cmtHub';
 
   getCmtHub(type: number, id: string): string {

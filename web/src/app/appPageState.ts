@@ -44,11 +44,6 @@ appState.register(appStateName.windData, () => {
   return wind.appWindData ?? {};
 });
 
-appState.register(appStateName.communityMode, () => {
-  const wind = getMainPageWindData();
-  return wind.appCommunityMode;
-});
-
 export class AppPageState {
   get user(): User | null {
     return appState.get(appStateName.user);
@@ -56,10 +51,6 @@ export class AppPageState {
 
   windData<T>(): T {
     return appState.get(appStateName.windData);
-  }
-
-  get communityMode(): boolean {
-    return appState.get(appStateName.communityMode);
   }
 
   // Helpers.
