@@ -17,7 +17,7 @@ import (
 	"qing/app/defs"
 	"qing/app/handler"
 	"qing/lib/validator"
-	"qing/sod/app/appSettingsObj"
+	"qing/sod/app/appRawSettings"
 )
 
 func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -42,7 +42,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 		switch k {
 		case defs.Shared.KeyCommunitySettings:
-			var comST appSettingsObj.CommunitySettings
+			var comST appRawSettings.CommunityRawSettings
 			err := json.Unmarshal([]byte(vString), &comST)
 			app.PanicIfErr(err)
 			diskST.Community = comST

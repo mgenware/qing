@@ -21,7 +21,6 @@ const yamlExt = '.yaml';
 const attrPrefix = '__';
 const goOutDirAttr = '__go_out_dir';
 const goCtorAttr = '__go_ctor';
-const goSuffix = 'Obj';
 
 const input = process.argv.slice(2)[0];
 if (!input) {
@@ -156,7 +155,7 @@ function getDictAttribute(dict: Record<string, string>, key: string): string | n
     const relPath = nodePath.relative(sodPath(), fullInput);
     const relPathWithoutYAMLExt = trimYAMLExtension(relPath);
     const inputFileName = nodePath.basename(input);
-    const pkgName = inputFileName + goSuffix;
+    const pkgName = inputFileName;
     const webFile = nodePath.join(webSodPath(), relPathWithoutYAMLExt) + '.ts';
 
     const goFileName = inputFileName + '.go';
@@ -166,7 +165,7 @@ function getDictAttribute(dict: Record<string, string>, key: string): string | n
       serverFile = nodePath.join(serverPath(), goOutDir, goFileName);
     } else {
       // NOTE: Unlike .ts file, .go files are put in an extra folder named the same as the extracted package name.
-      serverFile = nodePath.join(serverSodPath(), relPathWithoutYAMLExt + goSuffix, goFileName);
+      serverFile = nodePath.join(serverSodPath(), relPathWithoutYAMLExt, goFileName);
     }
 
     await Promise.all([

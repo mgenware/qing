@@ -1,0 +1,8 @@
+---
+AppRawSettings:
+  community: CommunityRawSettings
+
+CommunityRawSettings:
+  queAndDis: bool
+  forums: bool
+  forumGroups: bool

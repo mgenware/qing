@@ -1,8 +1,0 @@
----
-AppSettings:
-  community: CommunitySettings
-
-CommunitySettings:
-  queAndDis: bool
-  forums: bool
-  forumGroups: bool
