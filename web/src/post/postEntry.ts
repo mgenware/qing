@@ -15,5 +15,5 @@ import wind from './postWind';
 
 const editBar = document.querySelector<EditBarApp>('.m-post-user edit-bar-app');
 if (editBar) {
-  setupHandlers(editBar, wind.EID, undefined, entityPost);
+  setupHandlers(editBar, wind.id, undefined, entityPost);
 }

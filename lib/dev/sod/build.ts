@@ -39,6 +39,9 @@ function noticeComment(input: string): string {
 }
 
 function capitalize(s: string) {
+  if (s == 'id') {
+    return 'ID';
+  }
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
@@ -54,6 +57,7 @@ function sourceTypeFieldToTSType(type: string): string {
     case 'bool':
       return 'boolean';
     case 'int':
+    case 'uint':
     case 'uint64':
     case 'double':
       return 'number';
@@ -85,6 +89,7 @@ function goCode(input: string, pkgName: string, dict: SourceDict): string {
       }
       members.push({
         name: capitalize(k),
+        paramName: k,
         type: v,
         tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,
       });

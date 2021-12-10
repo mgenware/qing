@@ -32,14 +32,6 @@ type PostPageModel struct {
 	ModifiedAt string
 }
 
-// PostPageWindData ...
-type PostPageWindData struct {
-	EID             string
-	CmtCount        uint
-	InitialLikes    uint
-	InitialHasLiked bool
-}
-
 // NewPostPageModel creates a PostPageModel.
 func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d := PostPageModel{PostTableSelectItemByIDResult: *p}

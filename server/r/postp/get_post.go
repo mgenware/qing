@@ -16,6 +16,7 @@ import (
 	"qing/da"
 	"qing/lib/fmtx"
 	"qing/r/sys"
+	"qing/sod/post/postWind"
 
 	"github.com/go-chi/chi"
 )
@@ -46,6 +47,6 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	title := post.Title
 	d := appHandler.MainPageData(title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().ScriptString(postScript)
-	d.WindData = PostPageWindData{EID: postModel.EID, CmtCount: postModel.CmtCount, InitialLikes: postModel.Likes, InitialHasLiked: hasLiked}
+	d.WindData = postWind.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked)
 	return resp.MustComplete(d)
 }

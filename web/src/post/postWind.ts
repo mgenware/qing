@@ -6,12 +6,6 @@
  */
 
 import appPageState from 'app/appPageState';
-
-export interface PostWind {
-  EID: string;
-  CmtCount: number;
-  InitialLikes: number;
-  InitialHasLiked: boolean;
-}
+import { PostWind } from 'sod/post/postWind';
 
 export default appPageState.windData<PostWind>();
