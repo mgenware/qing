@@ -14,11 +14,11 @@
 package appSettingsObj
 
 type AppSettings struct {
-	Community CommunitySettings `json:"community"`
+	Community CommunitySettings `json:"community,omitempty"`
 }
 
 type CommunitySettings struct {
-	QueAndDis   bool `json:"queAndDis"`
-	Forums      bool `json:"forums"`
-	ForumGroups bool `json:"forumGroups"`
+	QueAndDis   bool `json:"queAndDis,omitempty"`
+	Forums      bool `json:"forums,omitempty"`
+	ForumGroups bool `json:"forumGroups,omitempty"`
 }

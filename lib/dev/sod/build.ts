@@ -70,7 +70,7 @@ function goCode(input: string, pkgName: string, dict: SourceDict): string {
       members.push({
         name: capitalize(k),
         type: v,
-        tag: `\`json:"${k}"\``,
+        tag: `\`json:"${k},omitempty"\``,
       });
     }
     s += genGoType('struct', clsName, members);
