@@ -23,4 +23,5 @@ module.exports = {
     // Unbound methods are handled by lit.
     '@typescript-eslint/unbound-method': 'off',
   },
+  ignorePatterns: ['src/sod'],
 };

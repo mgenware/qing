@@ -124,7 +124,7 @@ function tsCode(input: string, dict: SourceDict): string {
     }
     s += `}\n`;
   }
-  return '/* eslint-disable */\n\n' + copyrightString + noticeComment(input) + s;
+  return copyrightString + noticeComment(input) + s;
 }
 
 function trimYAMLExtension(s: string): string {

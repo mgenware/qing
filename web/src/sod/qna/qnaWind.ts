@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /*
  * Copyright (C) The Qing Project. All rights reserved.
  *
