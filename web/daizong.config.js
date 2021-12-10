@@ -25,7 +25,7 @@ export default {
     html: {
       run: 'html-validate "../userland/templates/**/*.html"',
     },
-    run: ['#lint ts', '#lint html', '#lint lit'],
+    run: ['#lint-ts', '#lint-html', '#lint-lit'],
   },
 
   /** Standard mode */
@@ -57,7 +57,7 @@ export default {
     tw: {
       run: utCmd + ' --watch',
     },
-    run: ['#turbo-build', '#ut t'],
+    run: ['#turbo-build', '#ut-t'],
   },
 
   _: {
