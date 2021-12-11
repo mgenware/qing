@@ -91,10 +91,12 @@ export class CommunitySettingsPage extends StatefulPage {
   }
 
   private async handleSaveClick() {
-    const loader = new UpdateSiteSettingsLoader(sc.keyCommunitySettings, {
-      forums_enabled: this.forumsEnabled,
-      forum_groups_enabled: this.forumGroupsEnabled,
-    });
+    const communityST: Required<CommunityRawSettings> = {
+      queAndDisEnabled: this.queAndDisEnabled,
+      forumsEnabled: this.forumsEnabled,
+      forumGroupsEnabled: this.forumGroupsEnabled,
+    };
+    const loader = new UpdateSiteSettingsLoader(sc.keyCommunitySettings, communityST);
     const status = await appTask.critical(loader, ls.saving, (s) => (this.savingStatus = s));
     if (status.isSuccess) {
       this.needRestart = true;
