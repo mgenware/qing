@@ -76,4 +76,3 @@ export const maxUserInfoFieldLen = 100;
 export const maxURLLen = 200;
 export const maxPwdHashLen = 255;
 export const formUploadMain = "main";
-export const communitySettingsKey = "community";

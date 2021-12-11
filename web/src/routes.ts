@@ -95,7 +95,7 @@ export default urlTree({
   // Management X APIs (Admin).
   mx: {
     admins: '',
-    forums: '',
+    community: '',
   },
 });
 

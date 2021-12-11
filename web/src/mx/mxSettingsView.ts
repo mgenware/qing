@@ -12,7 +12,7 @@ import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseVi
 
 const items: SettingsBaseItem[] = [
   { name: ls.adminAccounts, link: routes.mx.admins },
-  { name: ls.forums, link: routes.mx.forums },
+  { name: ls.communitySettingsName, link: routes.mx.community },
 ];
 
 @customElement('mx-settings-view')

@@ -43,6 +43,7 @@ type Dictionary struct {
 	Code                              string `json:"code"`
 	Comment                           string `json:"comment"`
 	Comments                          string `json:"comments"`
+	CommunitySettingsName             string `json:"communitySettingsName"`
 	Company                           string `json:"company"`
 	ConfirmAddUserAsAdmin             string `json:"confirmAddUserAsAdmin"`
 	ConfirmPassword                   string `json:"confirmPassword"`
@@ -67,6 +68,7 @@ type Dictionary struct {
 	Email                             string `json:"email"`
 	EnableForumGroups                 string `json:"enableForumGroups"`
 	EnableForums                      string `json:"enableForums"`
+	EnableQueAndDis                   string `json:"enableQueAndDis"`
 	EnterCaptchaPlz                   string `json:"enterCaptchaPlz"`
 	ErrOccurred                       string `json:"errOccurred"`
 	Error                             string `json:"error"`

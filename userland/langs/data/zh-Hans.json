@@ -164,5 +164,7 @@
   "forums": "论坛",
   "enableForums": "打开论坛",
   "enableForumGroups": "支持论坛分组",
-  "restartServerToTakeEffect": "你需要重启服务器来让改变生效。"
+  "restartServerToTakeEffect": "你需要重启服务器来让改变生效。",
+  "enableQueAndDis": "支持问题和讨论",
+  "communitySettingsName": "社区"
 }

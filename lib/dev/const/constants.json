@@ -62,6 +62,5 @@
   "maxUserInfoFieldLen": 100,
   "maxURLLen": 200,
   "maxPwdHashLen": 255,
-  "formUploadMain": "main",
-  "communitySettingsKey": "community"
+  "formUploadMain": "main"
 }

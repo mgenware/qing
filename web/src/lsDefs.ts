@@ -174,4 +174,6 @@ export default interface LSDefs {
   enableForums: string;
   enableForumGroups: string;
   restartServerToTakeEffect: string;
+  enableQueAndDis: string;
+  communitySettingsName: string;
 }

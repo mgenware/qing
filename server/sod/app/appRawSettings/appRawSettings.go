@@ -18,7 +18,7 @@ type AppRawSettings struct {
 }
 
 type CommunityRawSettings struct {
-	QueAndDis   bool `json:"queAndDis,omitempty"`
-	Forums      bool `json:"forums,omitempty"`
-	ForumGroups bool `json:"forumGroups,omitempty"`
+	QueAndDisEnabled   bool `json:"queAndDisEnabled,omitempty"`
+	ForumsEnabled      bool `json:"forumsEnabled,omitempty"`
+	ForumGroupsEnabled bool `json:"forumGroupsEnabled,omitempty"`
 }

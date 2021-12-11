@@ -18,14 +18,13 @@ import 'ui/alerts/alertView';
 import { StatefulPage } from 'ui/status/statefulPage';
 import GetSiteSettingsLoader from './loaders/getSiteSettingsLoader';
 import UpdateSiteSettingsLoader from './loaders/updateSiteSettingsLoader';
-import { forumsSettingsKey } from './loaders/settingsKey';
-import ForumsSettingsJSON from './loaders/forumsSettingsJSON';
 import { tif } from 'lib/htmlLib';
 import appTask from 'app/appTask';
 import * as sc from 'sharedConstants';
+import { CommunityRawSettings } from 'sod/app/appRawSettings';
 
-@customElement('forums-settings-page')
-export class ForumsSettingsPage extends StatefulPage {
+@customElement('community-settings-page')
+export class CommunitySettingsPage extends StatefulPage {
   static get styles() {
     return [
       super.styles,
@@ -38,6 +37,7 @@ export class ForumsSettingsPage extends StatefulPage {
   }
 
   @lp.bool savingStatus = LoadingStatus.success;
+  @lp.bool queAndDisEnabled = false;
   @lp.bool forumsEnabled = false;
   @lp.bool forumGroupsEnabled = false;
   @lp.bool needRestart = false;
@@ -50,6 +50,13 @@ export class ForumsSettingsPage extends StatefulPage {
           this.needRestart,
           html`<alert-view alertStyle="warning">${ls.restartServerToTakeEffect}</alert-view>`,
         )}
+        <p>
+          <check-box
+            .checked=${this.queAndDisEnabled}
+            @check=${(e: CustomEvent<boolean>) => (this.queAndDisEnabled = e.detail)}
+            >${ls.enableQueAndDis}</check-box
+          >
+        </p>
         <p>
           <check-box
             .checked=${this.forumsEnabled}
@@ -71,13 +78,14 @@ export class ForumsSettingsPage extends StatefulPage {
   }
 
   override async reloadStatefulPageDataAsync() {
-    const loader = new GetSiteSettingsLoader(forumsSettingsKey);
+    const loader = new GetSiteSettingsLoader(sc.keyCommunitySettings);
     const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (status.data) {
-      const settings = status.data.settings as ForumsSettingsJSON | undefined;
+      const settings = status.data.settings as CommunityRawSettings | undefined;
       CHECK(settings);
-      this.forumsEnabled = !!settings.forums_enabled;
-      this.forumGroupsEnabled = !!settings.forum_groups_enabled;
+      this.queAndDisEnabled = !!settings.queAndDisEnabled;
+      this.forumsEnabled = !!settings.forumsEnabled;
+      this.forumGroupsEnabled = !!settings.forumGroupsEnabled;
       this.needRestart = !!status.data.need_restart;
     }
   }
@@ -96,6 +104,6 @@ export class ForumsSettingsPage extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'forums-settings-page': ForumsSettingsPage;
+    'community-settings-page': CommunitySettingsPage;
   }
 }

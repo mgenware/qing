@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import './forumsSettingsPage';
+import './communitySettingsPage';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<forums-settings-page></forums-settings-page>`);
+  const el = await fixture<HTMLElement>(html`<community-settings-page></community-settings-page>`);
 
   tDOM.isBlockElement(el);
 });
