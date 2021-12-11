@@ -10,15 +10,13 @@ export default {
     run: 'eslint --max-warnings 0 --ext .ts .',
   },
   dev: {
-    // Not a typo. We use `ttsc` instead of `tsc` to transform imports.
-    run: 'ttsc -p . -w',
+    run: 'tsc -p . -w',
     before: {
       del: 'dist',
     },
   },
   build: {
-    // Not a typo. We use `ttsc` instead of `tsc` to transform imports.
-    run: 'ttsc -p .',
+    run: 'tsc -p .',
   },
   api: {
     run: 'node -r source-map-support/register dist/api/run.js',

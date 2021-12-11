@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-const turboBuildCmd = 'ttsc -p ./tsconfig-turbo.json';
+const turboBuildCmd = 'tsc -p ./tsconfig-turbo.json';
 const utCmd = 'web-test-runner "./dist/**/*.test.js" --node-resolve';
 const devEnv = {
   NODE_ENV: 'development',
@@ -40,7 +40,6 @@ export default {
 
   /** Turbo mode */
   turbo: {
-    // Use `ttsc` instead of `tsc` to enable path rewriting.
     run: ['#prepare-turbo', turboBuildCmd + ' -w'],
     env: devEnv,
   },
