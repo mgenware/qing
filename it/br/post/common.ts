@@ -5,4 +5,4 @@
  * be found in the LICENSE file.
  */
 
-export const userViewQuery = 'main > container-view > div.m-t-md.row.m-user-view';
+export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
