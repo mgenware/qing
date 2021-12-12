@@ -40,11 +40,11 @@ export default {
 
   /** Turbo mode */
   turbo: {
-    run: ['#prepare-turbo', turboBuildCmd + ' -w'],
+    run: ['#prepare_turbo', turboBuildCmd + ' -w'],
     env: devEnv,
   },
   'turbo-build': {
-    run: ['#prepare-turbo', turboBuildCmd],
+    run: ['#prepare_turbo', turboBuildCmd],
     env: prodEnv,
   },
 
@@ -66,7 +66,7 @@ export default {
           del: ['dist', '../userland/static/d/js'],
         },
       },
-      'prepare-turbo': {
+      prepare_turbo: {
         run: {
           del: 'dist-turbo',
         },

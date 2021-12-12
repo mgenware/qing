@@ -30,7 +30,7 @@
     "mgenware-tsconfig-node-x": "^16.0.0",
     "source-map-support": "^0.5.21",
     "ts-patch": "^2.0.1",
-    "ts-transform-esm-import": "^0.6.0",
+    "ts-transform-esm-import": "^0.7.0",
     "typescript": "^4.5.3"
   }
 }

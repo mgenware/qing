@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "r": "daizong"
+    "r": "daizong",
+    "prepare": "ts-patch install -s"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -50,7 +51,7 @@
     "qing-t": "^5.0.2",
     "source-map-support": "^0.5.21",
     "ts-patch": "^2.0.1",
-    "ts-transform-esm-import": "^0.6.0",
+    "ts-transform-esm-import": "^0.7.0",
     "tsc-watch": "^4.5.0",
     "typescript": "^4.5.2"
   }
