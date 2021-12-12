@@ -59,6 +59,11 @@ export default {
     run: ['#turbo-build', '#ut-t'],
   },
 
+  clean: {
+    run: ['#prepare', '#prepare_turbo'],
+    parallel: true,
+  },
+
   _: {
     privateTasks: {
       prepare: {
