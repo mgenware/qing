@@ -5,6 +5,8 @@
  * be found in the LICENSE file.
  */
 
+const brCmd = 'node -r source-map-support/register dist/br/run.js';
+
 export default {
   lint: {
     run: 'eslint --max-warnings 0 --ext .ts .',
@@ -22,7 +24,13 @@ export default {
     run: 'node -r source-map-support/register dist/api/run.js',
   },
   br: {
-    run: 'node -r source-map-support/register dist/br/run.js',
+    run: brCmd,
+    t: {
+      run: brCmd,
+      env: {
+        PWDEBUG: 1,
+      },
+    },
   },
   all: {
     run: ['#api', '#br'],

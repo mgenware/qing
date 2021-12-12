@@ -10,3 +10,9 @@ A browser test is a kind of integration test. Qing browser tests are stored in `
 - Run browser tests: `dz br`.
 
 > NOTE: On Windows WSL2, you might need to run `sudo npx playwright install-deps` to install additional dependencies for playwright to run.
+
+## Start browsing testing in debug mode
+
+```
+dz br-t
+```
