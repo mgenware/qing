@@ -58,6 +58,11 @@ function printUsage() {
       da              Build data access layer
       ls              Build localized strings
       sod <arg>       Build SOD (Shared Object Definition)           
+      it <arg>        Run integration tests
+        dev             - Start development (default)
+        all             - Run all integration tests
+        api             - Run API tests
+        br              - Run browser (E2E) tests
       migrate <arg>   Run database migrations
         +<N>            - Apply N up migrations
         -<N>            - Apply N down migrations
@@ -79,7 +84,9 @@ if (!inputCmd) {
 
 const webDir = 'web';
 const serverDir = 'server';
-const libDev = 'lib/dev';
+const libDevDir = 'lib/dev';
+const itDir = 'it';
+const npmRunR = 'npm run r';
 
 async function getRootDir(): Promise<string> {
   const res = await execAsync('git rev-parse --show-toplevel');
@@ -181,7 +188,7 @@ function appendArg(arg: string | undefined): string {
 
       case 'w':
       case 'f': {
-        await spawnNPMCmd('npm run r dev', await getProjectDir(webDir));
+        await spawnNPMCmd(`${npmRunR} dev`, await getProjectDir(webDir));
         break;
       }
 
@@ -206,7 +213,15 @@ function appendArg(arg: string | undefined): string {
       case 'da':
       case 'ls':
       case 'sod': {
-        await spawnNPMCmd(`npm run r ${inputCmd}${appendArg(arg1)}`, await getProjectDir(libDev));
+        await spawnNPMCmd(
+          `${npmRunR} ${inputCmd}${appendArg(arg1)}`,
+          await getProjectDir(libDevDir),
+        );
+        break;
+      }
+
+      case 'it': {
+        await spawnNPMCmd(`${npmRunR} ${arg1 || 'dev'}`, await getProjectDir(itDir));
         break;
       }
 
