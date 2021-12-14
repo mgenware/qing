@@ -64,7 +64,6 @@ function printUsage() {
         <N>             - Migrate to version N
         drop            - Drop everything in database
       rootdir         Print project root directory
-      help            Print help information
       version         Print version information
       
   `);
@@ -74,8 +73,8 @@ const inputCmd = args[0];
 const arg1 = args[1];
 
 if (!inputCmd) {
-  console.error('No input commands');
-  process.exit(1);
+  printUsage();
+  process.exit(0);
 }
 
 const webDir = 'web';
@@ -170,11 +169,6 @@ function appendArg(arg: string | undefined): string {
 (async () => {
   try {
     switch (inputCmd) {
-      case 'help': {
-        printUsage();
-        break;
-      }
-
       case 'version': {
         print(await getVersion());
         break;
