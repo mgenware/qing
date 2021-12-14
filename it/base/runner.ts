@@ -9,11 +9,17 @@
 import fg from 'fast-glob';
 import chalk from 'chalk';
 import { setTimeout as nodeSetTimeout } from 'timers/promises';
+import globalContext from './globalContext';
 // eslint-disable-next-line import/no-unresolved
 import PQueue from 'p-queue';
 import { debugMode } from './debug';
 
-const glob = process.argv[2];
+const args = process.argv.slice(2);
+const fileGlob = args[0];
+const nameFilter = args[1];
+if (nameFilter) {
+  globalContext.nameFilter = nameFilter;
+}
 
 const queuedTasks: Map<string, PQueue> = new Map();
 const tasks: Array<Promise<unknown>> = [];
@@ -27,11 +33,14 @@ export async function run(
   if (!name) {
     throw new Error('Invalid arguments');
   }
-  const entries = await fg([glob ? `${globStart}/*${glob}*.js` : `${globStart}/*.test.js`], {
-    dot: true,
-    cwd: `./dist/${dirName}`,
-    caseSensitiveMatch: false,
-  });
+  const entries = await fg(
+    [fileGlob ? `${globStart}/*${fileGlob}*.test.js` : `${globStart}/*.test.js`],
+    {
+      dot: true,
+      cwd: `./dist/${dirName}`,
+      caseSensitiveMatch: false,
+    },
+  );
   await Promise.all(
     entries.map(async (s) => {
       // eslint-disable-next-line no-console

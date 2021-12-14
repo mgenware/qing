@@ -8,6 +8,7 @@
 import { runTask } from './runner';
 import { call, APIResult, CallParams, User, errorResults } from './call';
 import * as ass from './ass';
+import globalContext from './globalContext';
 
 export * as ass from './ass';
 export * from './call';
@@ -21,6 +22,11 @@ export type ItInput = string | ItOptions;
 
 export async function it(input: ItInput, handler: () => Promise<unknown>) {
   const opts = typeof input === 'string' ? { name: input } : input;
+  if (globalContext.nameFilter) {
+    if (!opts.name?.includes(globalContext.nameFilter)) {
+      return;
+    }
+  }
   if (!opts.name) {
     throw new Error('Unnamed test');
   }

@@ -11,6 +11,7 @@ import { createContext } from './browserInstance';
 import { debugMode } from './debug';
 import { User } from 'base/call';
 import urls, { serverURL } from './urls';
+import globalContext from './globalContext';
 
 // Re-exports.
 export * as ass from 'base/ass';
@@ -69,6 +70,11 @@ export async function tmpBrowserPage(handler: (br: Browser) => Promise<void>) {
 
 export async function test(input: TestInput, handler: (br: Browser) => Promise<void>) {
   const opts = typeof input === 'string' ? { name: input } : input;
+  if (globalContext.nameFilter) {
+    if (!opts.name?.includes(globalContext.nameFilter)) {
+      return;
+    }
+  }
   if (!opts.name) {
     throw new Error('Unnamed test');
   }
