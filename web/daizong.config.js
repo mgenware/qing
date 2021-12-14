@@ -16,15 +16,9 @@ const prodEnv = {
 
 export default {
   lint: {
-    ts: {
-      run: 'eslint --max-warnings 0 --ext .ts src/',
-    },
-    lit: {
-      run: 'lit-analyzer "src/**/*.ts"',
-    },
-    html: {
-      run: 'html-validate "../userland/templates/**/*.html"',
-    },
+    ts: 'eslint --max-warnings 0 --ext .ts src/',
+    lit: 'lit-analyzer "src/**/*.ts"',
+    html: 'html-validate "../userland/templates/**/*.html"',
     run: ['#lint-ts', '#lint-html', '#lint-lit'],
   },
 
@@ -50,12 +44,8 @@ export default {
 
   /** UT */
   ut: {
-    t: {
-      run: utCmd,
-    },
-    tw: {
-      run: utCmd + ' --watch',
-    },
+    t: utCmd,
+    tw: utCmd + ' --watch',
     run: ['#turbo-build', '#ut-t'],
   },
 

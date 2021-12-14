@@ -8,21 +8,15 @@
 const brCmd = 'node -r source-map-support/register dist/br/run.js';
 
 export default {
-  lint: {
-    run: 'eslint --max-warnings 0 --ext .ts .',
-  },
+  lint: 'eslint --max-warnings 0 --ext .ts .',
   dev: {
     run: 'tsc -p . -w',
     before: {
       del: 'dist',
     },
   },
-  build: {
-    run: 'tsc -p .',
-  },
-  api: {
-    run: 'node -r source-map-support/register dist/api/run.js',
-  },
+  build: 'tsc -p .',
+  api: 'node -r source-map-support/register dist/api/run.js',
   br: {
     run: brCmd,
     t: {
@@ -32,7 +26,5 @@ export default {
       },
     },
   },
-  all: {
-    run: ['#api', '#br'],
-  },
+  all: ['#api', '#br'],
 };

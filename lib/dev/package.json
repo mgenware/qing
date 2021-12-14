@@ -9,7 +9,7 @@
     "@types/node": "^16.11.12",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
-    "daizong": "^0.21.0",
+    "daizong": "^0.22.0",
     "del-cli": "^4.0.1",
     "eslint": "^8.4.1",
     "eslint-config-mgenware": "^0.5.0",
