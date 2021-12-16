@@ -13,16 +13,17 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
+	"qing/app/appURL"
 	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/da"
 	"qing/lib/fmtx"
 	"qing/lib/randlib"
 	"qing/lib/validator"
+	"qing/sod/dev/auth/tUserInfo"
 
 	"github.com/go-chi/chi"
 	"github.com/mgenware/goutil/jsonx"
-	"github.com/mgenware/goutil/strconvx"
 )
 
 const uidMaxLength = 500
@@ -34,13 +35,10 @@ type UserInfo struct {
 	Name     string `json:"name,omitempty"`
 }
 
-func newUserInfoResult(d *da.UserTableSelectSessionDataResult) *UserInfo {
-	r := &UserInfo{}
-	r.Admin = d.Admin
-	r.IconName = d.IconName
-	r.Name = d.Name
-	r.ID = fmtx.EncodeID(d.ID)
-	return r
+func newUserInfoResult(d *da.UserTableSelectSessionDataResult) tUserInfo.TUserInfo {
+	return tUserInfo.NewTUserInfo(
+		d.Admin, fmtx.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
+	)
 }
 
 func getUIDFromRequest(r *http.Request) uint64 {
@@ -52,9 +50,7 @@ func getUIDFromRequest(r *http.Request) uint64 {
 		return uid
 	}
 
-	val = validator.MustGetTextFromDict(params, "uid_i")
-	uid, err := strconvx.ParseUint64(val)
-	app.PanicIfErr(err)
+	uid := validator.MustGetUint64FromDict(params, "uid_i")
 	return uid
 }
 
@@ -106,7 +102,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func getDBUserInfo(uid uint64) *UserInfo {
+func getDBUserInfo(uid uint64) tUserInfo.TUserInfo {
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	app.PanicIfErr(err)
 	return newUserInfoResult(&us)

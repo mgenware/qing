@@ -23,7 +23,7 @@ func panicMissingArg(key string) {
 	panic(fmt.Sprintf("The argument `%v` is required", key))
 }
 
-// MustGetUnsafeStringFromDict converts the value for the specified key to string, and panics on error.
+// MustGetUnsafeStringFromDict converts the value for the specified key to string, or panics on error.
 func MustGetUnsafeStringFromDict(dict map[string]interface{}, key string) string {
 	val, ok := dict[key].(string)
 	if !ok {
@@ -59,7 +59,7 @@ func MustGetMinMaxStringFromDict(dict map[string]interface{}, key string, min, m
 	return val
 }
 
-// MustGetDictFromDict converts the value for the specified key to map[string]interface{}, and panics on error.
+// MustGetDictFromDict converts the value for the specified key to map[string]interface{}, or panics on error.
 func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]interface{} {
 	val, ok := dict[key].(map[string]interface{})
 	if !ok {
@@ -68,7 +68,7 @@ func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]int
 	return val
 }
 
-// MustGetIntFromDict converts the value for the specified key to int, and panics on error.
+// MustGetIntFromDict converts the value for the specified key to int, or panics on error.
 func MustGetIntFromDict(dict map[string]interface{}, key string) int {
 	// All number types are encoded as float64.
 	val, ok := dict[key].(float64)
@@ -76,6 +76,16 @@ func MustGetIntFromDict(dict map[string]interface{}, key string) int {
 		panicMissingArg(key)
 	}
 	return int(val)
+}
+
+// MustGetUint64FromDict converts the value for the specified key to uint64, or panics on error.
+func MustGetUint64FromDict(dict map[string]interface{}, key string) uint64 {
+	// All number types are encoded as float64.
+	val, ok := dict[key].(float64)
+	if !ok {
+		panicMissingArg(key)
+	}
+	return uint64(val)
 }
 
 func coercePage(page int) int {

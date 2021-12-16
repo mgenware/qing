@@ -6,13 +6,12 @@
  */
 
 import Loader from 'lib/loader';
+import { TUserInfo } from 'sod/dev/auth/tUserInfo';
 import routes from '../devRoutes';
 
 export class InLoader extends Loader<void> {
-  uid = '';
-  constructor(uid: string) {
+  constructor(public uid: string, public isUidString: boolean) {
     super();
-    this.uid = uid;
   }
 
   requestURL(): string {
@@ -20,19 +19,24 @@ export class InLoader extends Loader<void> {
   }
 
   requestParams(): Record<string, unknown> {
-    return {
-      uid_i: this.uid,
-    };
+    if (!this.isUidString) {
+      const id = parseInt(this.uid, 10);
+      if (!id) {
+        throw new Error(`UID number must be greater than 0. Got ${this.uid}`);
+      }
+      return { uid_i: id };
+    }
+    return { uid: this.uid };
   }
 }
 
-export class NewUserLoader extends Loader<string> {
+export class NewUserLoader extends Loader<TUserInfo> {
   requestURL(): string {
     return routes.api.auth.new;
   }
 }
 
-export class InfoLoader extends Loader<void> {
+export class InfoLoader extends Loader<TUserInfo> {
   uid = '';
   constructor(uid: string) {
     super();
