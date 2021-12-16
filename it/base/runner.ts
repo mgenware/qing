@@ -50,6 +50,9 @@ export async function startRunner(
     },
     { concurrency: 5 },
   );
+  // All files are handled here, meaning all tasks are queued.
+  // Wait for all tasks to complete.
+  await taskQueue.onIdle();
 
   if (entries.length && debugMode()) {
     await nodeSetTimeout(500000);
