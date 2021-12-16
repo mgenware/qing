@@ -16,9 +16,9 @@ package tUserInfo
 type TUserInfo struct {
 	Admin   bool   `json:"admin,omitempty"`
 	ID      string `json:"id"`
-	IconURL string `json:"iconURL,omitempty"`
-	Url     string `json:"url,omitempty"`
-	Name    string `json:"name,omitempty"`
+	IconURL string `json:"iconURL"`
+	Url     string `json:"url"`
+	Name    string `json:"name"`
 }
 
 func NewTUserInfo(admin bool, id string, iconURL string, url string, name string) TUserInfo {

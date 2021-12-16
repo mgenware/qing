@@ -9,25 +9,24 @@ import { APIResult, call, User } from 'base/call';
 import { throwIfEmpty } from 'throw-if-arg-empty';
 import urls from '../base/urls';
 
-export class TempUser {
-  constructor(public r: APIResult) {}
-
-  get user(): User {
-    const { d } = this.r;
-    throwIfEmpty(d, 'user');
-    return d as User;
-  }
-
-  get id(): string {
-    const { id } = this.user;
-    throwIfEmpty(id, 'id');
-    return id;
-  }
+// Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
+export interface TUserInfo {
+  admin?: boolean;
+  id: string;
+  iconURL: string;
+  url: string;
+  name: string;
 }
 
-async function newUserCore(): Promise<TempUser> {
+function checkUser(res: APIResult): User {
+  const u = res.d as TUserInfo;
+  throwIfEmpty(u.id, 'uid');
+  return u;
+}
+
+async function newUserCore(): Promise<User> {
   const r = await call(urls.auth.new);
-  return new TempUser(r);
+  return checkUser(r);
 }
 
 async function deleteUser(uid: string) {
@@ -42,8 +41,8 @@ export async function userInfo(
   return call(urls.auth.info, { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
 }
 
-export async function newUser(cb: (u: TempUser) => Promise<void>) {
-  let u: TempUser | undefined;
+export async function newUser(cb: (u: User) => Promise<void>) {
+  let u: User | undefined;
   try {
     u = await newUserCore();
     await cb(u);

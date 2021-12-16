@@ -14,7 +14,7 @@
 export interface TUserInfo {
   admin?: boolean;
   id: string;
-  iconURL?: string;
-  url?: string;
-  name?: string;
+  iconURL: string;
+  url: string;
+  name: string;
 }

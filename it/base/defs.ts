@@ -19,10 +19,6 @@ export const entity = {
   forumGroup: 11,
 };
 
-export const queue = {
-  userPostCount: 'userPostCount',
-};
-
 export const sd = {
   timeString: '1990-10-27T10:11:12Z',
   updatedContentRaw: "<p>_MOD_</p><script>alert('-39')</script>",

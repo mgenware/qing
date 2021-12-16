@@ -10,19 +10,28 @@ import { userInfo, newUser } from 'helper/user';
 import urls from 'base/urls';
 
 ita('User info', urls.auth.info, null, { body: { uid: usr.admin.id } }, (r) => {
-  ass.de(r, { d: { admin: true, iconName: 'admin.png', id: '2t', name: 'ADMIN' } });
+  ass.de(r, {
+    d: {
+      admin: true,
+      id: '2t',
+      iconURL: '/res/avatars/2t/50_admin.png',
+      url: '/u/2t',
+      name: 'ADMIN',
+    },
+  });
 });
 
 it('Add and remove a user', async () => {
   let id = '';
-  await newUser(async (tu) => {
+  await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
-    id = tu.user.id;
-    ass.de(tu.r, { d: { name: 'T', id } });
+    id = u.id;
+    const ud = { id, iconURL: '/static/img/main/defavatar_50.png', url: `/u/${id}`, name: 'T' };
+    ass.de(u, ud);
 
     // Make sure `__/auth/info` also works.
     const rInfo = await userInfo(id);
-    ass.de(rInfo, { d: { name: 'T', id } });
+    ass.de(rInfo, { d: ud });
   });
   // Check if the user has been removed.
   ass.t(id);
