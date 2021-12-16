@@ -15,6 +15,7 @@
     "fx214": "^2.3.0",
     "jest-diff": "^27.4.2",
     "node-fetch": "^3.1.0",
+    "p-map": "^5.3.0",
     "p-queue": "^7.1.0",
     "playwright": "^1.17.1",
     "throw-if-arg-empty": "^3.1.0"

@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { run } from 'base/runner';
+import { startRunner } from 'base/runner';
 import { disposeBrowser, launchBrowser } from 'base/browserInstance';
 
 (async () => {
   await launchBrowser();
-  await run('BR tests', 'br', (s) => import(s));
+  await startRunner('BR tests', 'br', (s) => import(s));
   await disposeBrowser();
 })();

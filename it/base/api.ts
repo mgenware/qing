@@ -13,38 +13,27 @@ import globalContext from './globalContext';
 export * as ass from './ass';
 export * from './call';
 
-export interface ItOptions {
-  name: string;
-  queue?: string;
-}
-
-export type ItInput = string | ItOptions;
-
-export async function it(input: ItInput, handler: () => Promise<unknown>) {
-  const opts = typeof input === 'string' ? { name: input } : input;
+export async function it(name: string, handler: () => Promise<unknown>) {
   if (globalContext.nameFilter) {
-    if (!opts.name?.includes(globalContext.nameFilter)) {
+    if (!name.includes(globalContext.nameFilter)) {
       return;
     }
-  }
-  if (!opts.name) {
-    throw new Error('Unnamed test');
   }
   if (typeof handler !== 'function') {
     throw new Error(`\`handler\` is not a function, got ${handler}`);
   }
-  await runTask(opts.name, handler, opts.queue);
+  await runTask(name, handler);
 }
 
 export async function itaCore(
-  itInput: ItInput,
+  name: string,
   url: string,
   user: User | null,
   callParams: CallParams | null,
   ignoreAPIResultErrors: boolean,
   handler: (d: APIResult) => Promise<void> | void,
 ) {
-  return it(itInput, async () => {
+  return it(name, async () => {
     const p = callParams ?? {};
     p.ignoreAPIResultErrors = ignoreAPIResultErrors;
     if (user != null) {
@@ -56,32 +45,32 @@ export async function itaCore(
 }
 
 export async function ita(
-  itInput: ItInput,
+  name: string,
   url: string,
   user: User | null,
   callParams: CallParams | null,
   handler: (d: APIResult) => Promise<void> | void,
 ) {
-  return itaCore(itInput, url, user, callParams, false, handler);
+  return itaCore(name, url, user, callParams, false, handler);
 }
 
 export async function itaResult(
-  itInput: ItInput,
+  name: string,
   url: string,
   user: User | null,
   callParams: CallParams | null,
   apiResult: APIResult,
 ) {
-  return itaCore(itInput, url, user, callParams, true, (r) => {
+  return itaCore(name, url, user, callParams, true, (r) => {
     ass.de(r, apiResult);
   });
 }
 
 export async function itaNotAuthorized(
-  itInput: ItInput,
+  name: string,
   url: string,
   user: User | null,
   callParams: CallParams | null,
 ) {
-  return itaResult(itInput, url, user, callParams, errorResults.notAuthorized);
+  return itaResult(name, url, user, callParams, errorResults.notAuthorized);
 }

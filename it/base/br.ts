@@ -82,5 +82,5 @@ export async function test(input: TestInput, handler: (br: Browser) => Promise<v
     throw new Error(`\`handler\` is not a function, got ${handler}`);
   }
 
-  await runTask(opts.name, () => runHandler(opts.name, handler), opts.queue);
+  await runTask(opts.name, () => runHandler(opts.name, handler));
 }

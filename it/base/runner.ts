@@ -10,7 +10,7 @@ import fg from 'fast-glob';
 import chalk from 'chalk';
 import { setTimeout as nodeSetTimeout } from 'timers/promises';
 import globalContext from './globalContext';
-// eslint-disable-next-line import/no-unresolved
+import pMap from 'p-map';
 import PQueue from 'p-queue';
 import { debugMode } from './debug';
 
@@ -21,11 +21,10 @@ if (nameFilter) {
   globalContext.nameFilter = nameFilter;
 }
 
-const queuedTasks: Map<string, PQueue> = new Map();
-const tasks: Array<Promise<unknown>> = [];
 const globStart = '**';
+const taskQueue = new PQueue({ concurrency: 10 });
 
-export async function run(
+export async function startRunner(
   name: string,
   dirName: string,
   importFn: (p: string) => Promise<unknown>,
@@ -41,14 +40,16 @@ export async function run(
       caseSensitiveMatch: false,
     },
   );
-  await Promise.all(
-    entries.map(async (s) => {
+
+  await pMap(
+    entries,
+    async (s) => {
       // eslint-disable-next-line no-console
       console.log(`📄 ${chalk.gray(s)}`);
       await importFn(`./${s}`);
-    }),
+    },
+    { concurrency: 5 },
   );
-  await Promise.all(tasks);
 
   if (entries.length && debugMode()) {
     await nodeSetTimeout(500000);
@@ -58,31 +59,16 @@ export async function run(
   }
 }
 
-function printTaskResult(name: string, queue: string | undefined, err: Error | null) {
+function printTaskResult(name: string, err: Error | null) {
   const colorFn = err ? chalk.red : chalk.green;
-  let taskName;
-  if (queue) {
-    taskName = `${colorFn(name)} ${chalk.gray(`(${queue})`)}`;
-  } else {
-    taskName = colorFn(name);
-  }
+  const taskName = colorFn(name);
   console.log(taskName);
   if (err) {
     console.log(chalk.red(err.message));
   }
 }
 
-/**
- * @param {string} name
- * @param {Function} handler
- * @param {string} queue
- * @returns {Promise}
- */
-export async function runTask(
-  name: string,
-  handler: () => Promise<unknown>,
-  queue: string | undefined,
-) {
+export async function runTask(name: string, handler: () => Promise<unknown>) {
   if (typeof name !== 'string' || !name.length) {
     throw new Error(`Invalid \`name\`, got ${name}`);
   }
@@ -90,22 +76,10 @@ export async function runTask(
     throw new Error(`\`handler\` is not a function, got ${handler}`);
   }
   try {
-    let task;
-    if (queue) {
-      let q = queuedTasks.get(queue);
-      if (!q) {
-        q = new PQueue({ concurrency: 1 });
-        queuedTasks.set(queue, q);
-      }
-      task = q.add(handler);
-    } else {
-      task = handler();
-    }
-    tasks.push(task);
-    await task;
-    printTaskResult(name, queue, null);
+    await taskQueue.add(() => handler());
+    printTaskResult(name, null);
   } catch (err) {
-    printTaskResult(name, queue, err as Error);
+    printTaskResult(name, err as Error);
     throw err;
   }
 }

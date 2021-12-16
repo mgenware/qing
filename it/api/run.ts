@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { run } from 'base/runner';
+import { startRunner } from 'base/runner';
 
 (async () => {
-  await run('API tests', 'api', (s) => import(s));
+  await startRunner('API tests', 'api', (s) => import(s));
 })();
