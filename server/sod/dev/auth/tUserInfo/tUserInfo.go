@@ -14,17 +14,19 @@
 package tUserInfo
 
 type TUserInfo struct {
-	ID       string `json:"id"`
-	Name     string `json:"name,omitempty"`
-	IconName string `json:"iconName,omitempty"`
-	Admin    bool   `json:"admin,omitempty"`
+	Admin   bool   `json:"admin,omitempty"`
+	ID      string `json:"id"`
+	IconURL string `json:"iconURL,omitempty"`
+	Url     string `json:"url,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
-func NewTUserInfo(id string, name string, iconName string, admin bool) TUserInfo {
+func NewTUserInfo(admin bool, id string, iconURL string, url string, name string) TUserInfo {
 	return TUserInfo{
-		ID: id,
-		Name: name,
-		IconName: iconName,
 		Admin: admin,
+		ID: id,
+		IconURL: iconURL,
+		Url: url,
+		Name: name,
 	}
 }
