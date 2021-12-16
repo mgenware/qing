@@ -15,10 +15,10 @@ ita('User info', urls.auth.info, null, { body: { uid: usr.admin.id } }, (r) => {
 
 it('Add and remove a user', async () => {
   let id = '';
-  await newUser(async (tu) => {
+  await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
-    id = tu.user.id;
-    ass.de(tu.r, { d: { name: 'T', id } });
+    id = u.id;
+    ass.de(u, { name: 'T', id: u.id });
 
     // Make sure `__/auth/info` also works.
     const rInfo = await userInfo(id);

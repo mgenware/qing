@@ -13,7 +13,6 @@ import (
 	"qing/app"
 	"qing/app/appDB"
 	"qing/app/appHandler"
-	"qing/app/appURL"
 	"qing/app/appUserManager"
 	"qing/app/handler"
 	"qing/da"
@@ -37,7 +36,7 @@ type UserInfo struct {
 
 func newUserInfoResult(d *da.UserTableSelectSessionDataResult) tUserInfo.TUserInfo {
 	return tUserInfo.NewTUserInfo(
-		d.Admin, fmtx.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
+		fmtx.EncodeID(d.ID), d.Name, d.IconName, d.Admin,
 	)
 }
 
