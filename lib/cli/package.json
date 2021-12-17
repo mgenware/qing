@@ -1,6 +1,6 @@
 {
   "name": "qing-dev",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "CLI for Qing development",
   "type": "module",
   "exports": "./dist/cli.js",
@@ -11,7 +11,8 @@
   },
   "scripts": {
     "r": "daizong",
-    "test": "daizong build"
+    "test": "daizong build",
+    "prepublishOnly": "npm test"
   },
   "engines": {
     "node": ">=14.0.0"
