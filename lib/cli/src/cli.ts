@@ -25,7 +25,7 @@ if (process.platform === 'win32') {
   process.exit(1);
 }
 
-const args = process.argv.slice(2);
+const processArgs = process.argv.slice(2);
 
 function print(s: string) {
   // eslint-disable-next-line no-console
@@ -74,7 +74,7 @@ function printUsage() {
   `);
 }
 
-const inputCmd = args[0];
+const inputCmd = processArgs[0];
 
 if (!inputCmd) {
   printUsage();
@@ -208,12 +208,16 @@ function checkMigrationNumber(num: number) {
       case 'da':
       case 'ls':
       case 'sod': {
-        await spawnNPMCmd(`${npmRunR} ${inputCmd}`, await getProjectDir(libDevDir), args.slice(1));
+        await spawnNPMCmd(
+          `${npmRunR} ${inputCmd}`,
+          await getProjectDir(libDevDir),
+          processArgs.slice(1),
+        );
         break;
       }
 
       case 'it': {
-        const itArgs = args.slice(1);
+        const itArgs = processArgs.slice(1);
         await spawnNPMCmd(
           `${npmRunR} ${itArgs[0] || 'dev'}`,
           await getProjectDir(itDir),
@@ -223,7 +227,7 @@ function checkMigrationNumber(num: number) {
       }
 
       case 'migrate': {
-        const arg1 = args[1];
+        const arg1 = processArgs[1];
         checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
           await spawnCmd(`${migrateCmd} drop`, await getProjectDir(serverDir), null);

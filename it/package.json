@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/node": "^16.11.12",
     "@types/node-fetch": "^3.0.3",
-    "daizong": "^0.21.0",
+    "daizong": "^0.22.0",
     "eslint": "^8.4.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-mgenware": "^0.5.1",
@@ -33,6 +33,6 @@
     "source-map-support": "^0.5.21",
     "ts-patch": "^2.0.1",
     "ts-transform-esm-import": "^0.7.0",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.4"
   }
 }
