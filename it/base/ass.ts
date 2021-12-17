@@ -9,24 +9,18 @@ import deepEqual from 'fast-deep-equal/es6/index.js';
 import { diff } from 'jest-diff';
 import { debugMode } from './debug';
 
-function panic(msg: string | null) {
-  const s = `Assertion failed: ${msg}`;
+class AssertionError extends Error {}
+
+function panic(msg: string) {
   if (debugMode()) {
-    console.warn(s);
-    // eslint-disable-next-line no-console
-    console.trace();
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(s);
-    // eslint-disable-next-line no-console
-    console.trace();
-    process.exit(1);
+    console.error('Assertion failed');
   }
+  throw new AssertionError(msg);
 }
 
 export function e<T>(a: T, b: T) {
   if (a !== b) {
-    panic(diff(a, b));
+    panic(diff(a, b) || `Expected ${JSON.stringify(a)}, got ${JSON.stringify(b)}`);
   }
 }
 
@@ -38,7 +32,7 @@ export function ne<T>(a: T, b: T) {
 
 export function de<T>(a: T, b: T) {
   if (!deepEqual(a, b)) {
-    panic(diff(a, b));
+    panic(diff(a, b) || `Expected ${JSON.stringify(a)}, got ${JSON.stringify(b)}`);
   }
 }
 

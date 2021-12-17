@@ -6,5 +6,7 @@
  */
 
 export default function sleep(ms?: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms ?? 300));
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms ?? 300);
+  });
 }

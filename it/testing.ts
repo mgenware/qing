@@ -5,5 +5,6 @@
  * be found in the LICENSE file.
  */
 
-// eslint-disable-next-line no-useless-rename
+// A hack to mute funny ESLint warnings.
+// eslint-disable-next-line no-useless-rename, no-restricted-exports
 export { default as default } from 'playwright';

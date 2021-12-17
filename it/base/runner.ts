@@ -24,6 +24,11 @@ if (nameFilter) {
 const globStart = '**';
 const taskQueue = new PQueue({ concurrency: 10 });
 
+function print(arg: unknown) {
+  // eslint-disable-next-line no-console
+  console.log(arg);
+}
+
 export async function startRunner(
   name: string,
   dirName: string,
@@ -44,8 +49,7 @@ export async function startRunner(
   await pMap(
     entries,
     async (s) => {
-      // eslint-disable-next-line no-console
-      console.log(`📄 ${chalk.gray(s)}`);
+      print(`📄 ${chalk.gray(s)}`);
       await importFn(`./${s}`);
     },
     { concurrency: 5 },
@@ -57,17 +61,16 @@ export async function startRunner(
   if (entries.length && debugMode()) {
     await nodeSetTimeout(500000);
   } else {
-    // eslint-disable-next-line no-console
-    console.log(entries.length ? `🎉 ${name} completed successfully.` : '❌ No matching files.');
+    print(entries.length ? `🎉 ${name} completed successfully.` : '❌ No matching files.');
   }
 }
 
 function printTaskResult(name: string, err: Error | null) {
   const colorFn = err ? chalk.red : chalk.green;
   const taskName = colorFn(name);
-  console.log(taskName);
+  print(taskName);
   if (err) {
-    console.log(chalk.red(err.message));
+    print(chalk.red(err.message));
   }
 }
 
@@ -82,7 +85,18 @@ export async function runTask(name: string, handler: () => Promise<unknown>) {
     await taskQueue.add(() => handler());
     printTaskResult(name, null);
   } catch (err) {
-    printTaskResult(name, err as Error);
-    throw err;
+    if (err instanceof Error) {
+      printTaskResult(name, err);
+    } else {
+      console.error(`Error: ${err}`);
+      console.trace();
+      process.exit(1);
+    }
+    if (debugMode()) {
+      console.error(`ERROR: ${err.message}`);
+      console.error(`${err.stack}`);
+    } else {
+      throw err;
+    }
   }
 }
