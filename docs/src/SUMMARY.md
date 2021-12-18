@@ -9,7 +9,7 @@
     - [Set up VSCode](dev/set_up_env/vscode.md)
     - [ZSH aliases](dev/set_up_env/zsh_aliases.md)
   - [Web](dev/web/README.md)
-    - [ES modules imports](dev/web/esm_imports.md)
+    - [ESM imports](dev/web/esm_imports.md)
 
 - [Tests](tests/README.md)
   - [Web unit tests](tests/web_unit_tests.md)
