@@ -6,7 +6,7 @@
  */
 
 import * as defs from 'base/defs';
-import { call, usr, ass, itaNotAuthorized, it, errorResults } from 'base/api';
+import { call, usr, expect, itaNotAuthorized, it, errorResults } from 'api';
 import { setEntityURL, getPostCount, getPostSrc, newPost, setEntityBody } from 'helper/post';
 import { newUser } from 'helper/user';
 
@@ -15,14 +15,14 @@ it('Add', async () => {
     const pc = await getPostCount(u.id);
     await newPost(u, async (id) => {
       // Post content.
-      ass.de(await getPostSrc(id, u), {
+      expect(await getPostSrc(id, u)).toEqual({
         contentHTML: defs.sd.postContentSan,
         title: defs.sd.postTitleRaw,
       });
 
       // User post_count.
       const pc2 = await getPostCount(u.id);
-      ass.e(pc + 1, pc2);
+      expect(pc + 1).toBe(pc2);
     });
   });
 });
@@ -35,13 +35,13 @@ it('Edit', async () => {
       // Post content.
       const pc = await getPostCount(u.id);
       await call(setEntityURL, { body: { ...setEntityBody, id }, user: u });
-      ass.de(await getPostSrc(id, u), {
+      expect(await getPostSrc(id, u)).toEqual({
         contentHTML: defs.sd.postContentSan,
         title: defs.sd.postTitleRaw,
       });
 
       const pc2 = await getPostCount(u.id);
-      ass.e(pc, pc2);
+      expect(pc).toBe(pc2);
     });
   });
 });
@@ -56,10 +56,10 @@ it('Edit: wrong user', async () => {
         user: usr.admin,
         ignoreAPIResultErrors: true,
       });
-      ass.de(r, errorResults.rowNotUpdated);
+      expect(r).toEqual(errorResults.rowNotUpdated);
 
       const pc2 = await getPostCount(u.id);
-      ass.e(pc, pc2);
+      expect(pc).toBe(pc2);
     });
   });
 });

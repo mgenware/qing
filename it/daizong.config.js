@@ -16,7 +16,7 @@ export default {
     },
   },
   build: 'tsc -p .',
-  api: 'node -r source-map-support/register dist/api/run.js',
+  api: 'mocha --parallel --require source-map-support/register dist/api/**/*.test.js',
   br: {
     run: brCmd,
     t: {

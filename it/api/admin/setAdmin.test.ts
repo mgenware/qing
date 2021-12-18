@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ass, errorResults, it, itaResult, usr, call } from 'base/api';
+import { errorResults, it, itaResult, usr, call, expect } from 'api';
 import { User } from 'base/call';
 import { newUser } from 'helper/user';
 
@@ -18,7 +18,7 @@ it('set-admin: visitor', async () => {
       body: { target_user_id: tu.id, value: 1 },
       ignoreAPIResultErrors: true,
     });
-    ass.de(r, errorResults.notAuthorized);
+    expect(r).toEqual(errorResults.notAuthorized);
   });
 });
 
@@ -29,7 +29,7 @@ it('set-admin: user', async () => {
       body: { target_user_id: tu.id, value: 1 },
       ignoreAPIResultErrors: true,
     });
-    ass.de(r, errorResults.notAuthorized);
+    expect(r).toEqual(errorResults.notAuthorized);
   });
 });
 
@@ -40,13 +40,13 @@ it('set-admin: admin', async () => {
       user: usr.admin,
       body: { target_user_id: id, value: 1 },
     });
-    ass.de(r, {});
+    expect(r).toEqual({});
 
     // Check status.
     r = await call(getAdminsURL, { user: usr.admin });
     let admins = r.d as User[];
     let adminData = admins.find((d) => d.id === id);
-    ass.de(adminData, {
+    expect(adminData).toEqual({
       id,
       name: 'T',
       url: `/u/${id}`,
@@ -58,13 +58,13 @@ it('set-admin: admin', async () => {
       user: usr.admin,
       body: { target_user_id: id, value: 0 },
     });
-    ass.de(r, {});
+    expect(r).toEqual({});
 
     // Check status.
     r = await call(getAdminsURL, { user: usr.admin });
     admins = r.d as User[];
     adminData = admins.find((d) => d.id === id);
-    ass.e(adminData, undefined);
+    expect(adminData).toBe(undefined);
   });
 });
 

@@ -5,9 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { ass } from 'base/api';
 import * as defs from 'base/defs';
-import { APIResult, call, updateEntityTime, User } from 'base/call';
+import { APIResult, call, updateEntityTime, User } from 'api';
 import urls from 'base/urls';
 
 export const setEntityURL = 'pri/compose/set-entity';
@@ -26,7 +25,10 @@ export function verifyNewPostAPIResult(r: APIResult): string {
     throw new Error(`Unexpected API result: ${JSON.stringify(r)}`);
   }
   const id = postIDRegex.exec(r.d)?.[1];
-  return ass.isString(id);
+  if (typeof id === 'string') {
+    return id;
+  }
+  throw new Error(`ID is not a valid string, got ${id}`);
 }
 
 async function newTmpPostCore(user: User) {
@@ -54,7 +56,10 @@ export async function newPost(user: User, cb: (id: string) => Promise<unknown>) 
 
 export async function getPostCount(uid: string): Promise<number> {
   const r = await call(urls.user.post_count, { body: { uid } });
-  return ass.isNumber(r.d);
+  if (typeof r.d === 'number') {
+    return r.d;
+  }
+  throw new Error(`Result data is not a valid number, got ${r.d}`);
 }
 
 export async function getPostSrc(id: string, user: User | undefined) {

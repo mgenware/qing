@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ita, itaNotAuthorized, usr, ass, User } from 'base/api';
+import { ita, itaNotAuthorized, usr, User, expect } from 'api';
 
 const url = 'admin/get-admins';
 
@@ -16,5 +16,5 @@ itaNotAuthorized('get-admins: user', url, usr.user, null);
 ita('get-admins: admin', url, usr.admin, null, (r) => {
   const admins = r.d as User[];
   const adminData = admins.find((d) => d.id === usr.admin.id);
-  ass.de(adminData, usr.admin);
+  expect(adminData).toEqual(usr.admin);
 });

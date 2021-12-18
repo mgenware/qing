@@ -5,27 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { runTask } from './runner';
-import { call, APIResult, CallParams, User, errorResults } from './call';
-import * as ass from './ass';
-import globalContext from './globalContext';
+import { call, APIResult, CallParams, User, errorResults } from 'base/call';
+import * as m from 'mocha';
+import expect from 'expect';
 
-export * as ass from './ass';
-export * from './call';
+// Re-exports.
+export * from 'base/call';
+export { default as expect } from 'expect';
+export { it } from 'mocha';
 
-export async function it(name: string, handler: () => Promise<unknown>) {
-  if (globalContext.nameFilter) {
-    if (!name.includes(globalContext.nameFilter)) {
-      return;
-    }
-  }
-  if (typeof handler !== 'function') {
-    throw new Error(`\`handler\` is not a function, got ${handler}`);
-  }
-  await runTask(name, handler);
-}
-
-export async function itaCore(
+export function itaCore(
   name: string,
   url: string,
   user: User | null,
@@ -33,7 +22,8 @@ export async function itaCore(
   ignoreAPIResultErrors: boolean,
   handler: (d: APIResult) => Promise<void> | void,
 ) {
-  return it(name, async () => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  m.it(name, async () => {
     const p = callParams ?? {};
     p.ignoreAPIResultErrors = ignoreAPIResultErrors;
     if (user != null) {
@@ -44,7 +34,7 @@ export async function itaCore(
   });
 }
 
-export async function ita(
+export function ita(
   name: string,
   url: string,
   user: User | null,
@@ -54,7 +44,7 @@ export async function ita(
   return itaCore(name, url, user, callParams, false, handler);
 }
 
-export async function itaResult(
+export function itaResult(
   name: string,
   url: string,
   user: User | null,
@@ -62,11 +52,11 @@ export async function itaResult(
   apiResult: APIResult,
 ) {
   return itaCore(name, url, user, callParams, true, (r) => {
-    ass.de(r, apiResult);
+    expect(r).toEqual(apiResult);
   });
 }
 
-export async function itaNotAuthorized(
+export function itaNotAuthorized(
   name: string,
   url: string,
   user: User | null,
