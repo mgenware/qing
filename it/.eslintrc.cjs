@@ -22,5 +22,6 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 'off',
     // TODO: turn this rule on when we migrate away from runner.js
     '@typescript-eslint/no-misused-promises': 'off',
+    'prefer-template': 'off',
   },
 };

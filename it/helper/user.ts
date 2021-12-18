@@ -7,7 +7,7 @@
 
 import { APIResult, call, User } from 'base/call';
 import { throwIfEmpty } from 'throw-if-arg-empty';
-import urls from '../base/urls';
+import { api } from '../base/urls';
 
 // Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
 export interface TUserInfo {
@@ -25,12 +25,12 @@ function checkUser(res: APIResult): User {
 }
 
 async function newUserCore(): Promise<User> {
-  const r = await call(urls.auth.new);
+  const r = await call(api.auth.new);
   return checkUser(r);
 }
 
 async function deleteUser(uid: string) {
-  await call(urls.auth.del, { body: { uid } });
+  await call(api.auth.del, { body: { uid } });
 }
 
 // Returns null if the specified user doesn't exist.
@@ -38,7 +38,7 @@ export async function userInfo(
   uid: string,
   opts?: { ignoreAPIError?: boolean },
 ): Promise<APIResult> {
-  return call(urls.auth.info, { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
+  return call(api.auth.info, { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
 }
 
 export async function newUser(cb: (u: User) => Promise<void>) {

@@ -8,7 +8,8 @@
 
 import * as pw from '@playwright/test';
 
-export { expect, Expect, test as pwTest } from '@playwright/test';
+// `expect` has to be patched to handle wrappers like `Element` and `ElementCollection`.
+export { expect as pwExpect, Expect, test as pwTest } from '@playwright/test';
 
 function mustGetHTMLElement(e: HTMLElement | SVGElement): HTMLElement {
   if (e instanceof HTMLElement) {

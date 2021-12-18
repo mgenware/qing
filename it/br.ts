@@ -7,7 +7,7 @@
 
 import * as brt from 'brt';
 import { User } from 'base/call';
-import urls, { serverURL } from 'base/urls';
+import { auth, serverURL } from 'base/urls';
 
 // Re-exports.
 export { usr, call } from 'base/call';
@@ -20,14 +20,25 @@ export interface HandlerArg {
 
 export type HandlerType = (e: HandlerArg) => Promise<void>;
 
-function newHandlerArg(page: brt.Page): HandlerArg {
+function patchedExpect(actual: unknown) {
+  if (actual instanceof brt.LocatorCore) {
+    return brt.pwExpect(actual.c);
+  }
+  return brt.pwExpect(actual);
+}
+
+function newHandlerArg(expect: brt.Expect, page: brt.Page): HandlerArg {
   return {
     page,
-    expect: brt.expect,
+    // TODO: This is an unsafe cast. Some members of `pw.Expect` are ignored.
+    expect: ((actual: unknown) => patchedExpect(actual)) as brt.Expect,
     goto: async (url: string, user: User | null) => {
       if (user) {
         // Playwright has to use the GET version of the login API route.
-        await page.goto(`${serverURL}${urls.auth.in_get}/${user.id}`);
+        await page.goto(`${serverURL}${auth.in}/${user.id}`);
+        expect(await page.content()).toBe(
+          '<html><head></head><body><p>You have successfully logged in.</p></body></html>',
+        );
       }
       await page.goto(`${serverURL}${url}`);
     },
@@ -35,5 +46,5 @@ function newHandlerArg(page: brt.Page): HandlerArg {
 }
 
 export function test(name: string, handler: HandlerType) {
-  return brt.pwTest(name, ({ page }) => handler(newHandlerArg(new brt.Page(page))));
+  return brt.pwTest(name, ({ page }) => handler(newHandlerArg(brt.pwExpect, new brt.Page(page))));
 }

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-const brCmd = 'npx playwright test --project=webkit --config="pw.config.ts"';
+const brCmd = 'npx playwright test --project=chromium --config="pw.config.ts"';
 
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',
@@ -20,10 +20,7 @@ export default {
   br: {
     run: brCmd,
     t: {
-      run: brCmd,
-      env: {
-        PWDEBUG: 1,
-      },
+      run: brCmd + ' --debug',
     },
   },
   all: ['#api', '#br'],

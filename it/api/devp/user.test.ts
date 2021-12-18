@@ -7,9 +7,9 @@
 
 import { ita, usr, expect, it, errorResults } from 'api';
 import { userInfo, newUser } from 'helper/user';
-import urls from 'base/urls';
+import { api } from 'base/urls';
 
-ita('User info', urls.auth.info, null, { body: { uid: usr.admin.id } }, (r) => {
+ita('User info', api.auth.info, null, { body: { uid: usr.admin.id } }, (r) => {
   expect(r).toEqual({
     d: {
       admin: true,

@@ -7,7 +7,7 @@
 
 import * as defs from 'base/defs';
 import { APIResult, call, updateEntityTime, User } from 'api';
-import urls from 'base/urls';
+import { api } from 'base/urls';
 
 export const setEntityURL = 'pri/compose/set-entity';
 export const deleteEntityURL = 'pri/compose/delete-entity';
@@ -55,7 +55,7 @@ export async function newPost(user: User, cb: (id: string) => Promise<unknown>) 
 }
 
 export async function getPostCount(uid: string): Promise<number> {
-  const r = await call(urls.user.post_count, { body: { uid } });
+  const r = await call(api.user.post_count, { body: { uid } });
   if (typeof r.d === 'number') {
     return r.d;
   }

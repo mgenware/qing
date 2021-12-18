@@ -68,7 +68,7 @@ func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func signInGETHandler(w http.ResponseWriter, r *http.Request) {
+func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
@@ -76,7 +76,7 @@ func signInGETHandler(w http.ResponseWriter, r *http.Request) {
 	err = signInCore(uid, w, r)
 	app.PanicIfErr(err)
 
-	resp.MustCompleteWithContent("<p>You have successfully logged in.</p>", w)
+	return resp.MustCompleteWithContent("<p>You have successfully logged in.</p>", w)
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {

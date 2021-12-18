@@ -9,19 +9,21 @@ import urlTree from 'fx214';
 
 export const serverURL = 'http://localhost:8000';
 
-const devRoutes = urlTree(
+const urls = urlTree(
   {
     __: {
       // Prevent `underscoresToHyphens` from convert the root `__` to `--`.
       __content__: '__',
+      auth: {
+        // The GET route for user login used in BR tests.
+        in: '',
+      },
       api: {
         auth: {
           new: '',
           in: '',
           info: '',
           del: '',
-          // The GET version of `in`.
-          in_get: '',
         },
         user: {
           post_count: '',
@@ -38,4 +40,6 @@ const devRoutes = urlTree(
   { underscoresToHyphens: true },
 );
 
-export default devRoutes.__.api;
+const r = urls.__;
+export const { api } = r;
+export const { auth } = r;
