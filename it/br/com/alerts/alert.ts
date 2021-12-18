@@ -57,7 +57,7 @@ function typeToString(type: AlertType): string {
 }
 
 function getDialogEl(page: brt.Page) {
-  return page.locator('#__global_dialog_container dialog-view');
+  return page.$('#__global_dialog_container dialog-view');
 }
 
 export async function checkNoVisibleAlert(expect: brt.Expect, page: brt.Page) {
@@ -72,7 +72,7 @@ export async function checkVisibleAlert(
   type: AlertType,
   buttons: AlertButtons,
   focused: number,
-): Promise<brt.Locator> {
+): Promise<brt.ElementCollection> {
   // Wait for the alert to be fully shown.
   await sleep();
   const el = getDialogEl(page);
@@ -82,20 +82,20 @@ export async function checkVisibleAlert(
   // Title.
   // eslint-disable-next-line no-param-reassign
   title ??= typeToTitle(type);
-  await expect(el.locator(`h2:has-text("${title}")`)).toBeVisible();
+  await expect(el.$(`h2:has-text("${title}")`)).toBeVisible();
 
   // Icon.
-  await expect(el.locator(`svg-icon[iconstyle='${typeToString(type)}']`)).toBeVisible();
+  await expect(el.$(`svg-icon[iconstyle='${typeToString(type)}']`)).toBeVisible();
 
   // Content.
-  await expect(el.locator(`p:has-text("${content}")`)).toBeVisible();
+  await expect(el.$(`p:has-text("${content}")`)).toBeVisible();
 
   // Buttons.
-  const btns = el.locator('#__buttons qing-button');
+  const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(buttons);
   await expect(btns).toHaveCount(btnNames.length);
   for (let i = 0; i < btnNames.length; i++) {
-    const btn = btns.nth(i);
+    const btn = btns.item(i);
     // eslint-disable-next-line no-await-in-loop
     await expect(btn.textContent()).toBe(btnNames[i] ?? null);
   }
@@ -104,7 +104,7 @@ export async function checkVisibleAlert(
   // Get the qing-overlay element to check the active element.
   // eslint-disable-next-line @typescript-eslint/no-shadow
   await expect(
-    btns.nth(focused).evaluate((el) => {
+    btns.item(focused).evaluate((el) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const overlayEl = (el.getRootNode() as any).host as HTMLElement;
       return el === overlayEl.shadowRoot?.activeElement;

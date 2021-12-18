@@ -7,15 +7,15 @@
 
 import * as brt from 'brt';
 
-export async function checkNoComments(expect: brt.Expect, el: brt.Locator) {
+export async function checkNoComments(expect: brt.Expect, el: brt.Element) {
   // Root element is visible.
   await expect(el).toBeVisible();
 
   // "No comments" element.
-  const contentEl = el.locator('text=No comments');
+  const contentEl = el.$('text=No comments');
   await expect(contentEl).toHaveCount(1);
 
   // "Sign in" to comment.
-  await expect(el.locator('qing-button:has-text("Sign in")')).toHaveCount(1);
-  await expect(el.locator('span:has-text("to comment")')).toHaveCount(1);
+  await expect(el.$('qing-button:has-text("Sign in")')).toHaveCount(1);
+  await expect(el.$('span:has-text("to comment")')).toHaveCount(1);
 }

@@ -11,32 +11,32 @@ const editText = 'Edit';
 const deleteText = 'Delete';
 
 export interface EditBarButtons {
-  editBtn: brt.Locator;
-  deleteBtn: brt.Locator;
+  editBtn: brt.Element;
+  deleteBtn: brt.Element;
 }
 
 async function getEditBarEl(
   expect: brt.Expect,
-  rootEl: brt.Locator,
+  rootEl: brt.Element,
   entityType: number,
   eid: string,
   uid: string,
 ) {
-  const el = rootEl.locator(`#edit-bar-${entityType}-${eid}`).first();
+  const el = rootEl.$(`#edit-bar-${entityType}-${eid}`);
   await expect(el).toBeVisible();
   await expect(el.getAttribute('uid')).toBe(uid);
   return el;
 }
 
-async function getButton(expect: brt.Expect, el: brt.Locator, text: string) {
-  const btn = el.locator(`a:has-text("${text}")`);
+async function getButton(expect: brt.Expect, el: brt.Element, text: string) {
+  const btn = el.$(`a:has-text("${text}")`);
   await expect(btn).toBeVisible();
   return btn;
 }
 
 export async function checkEditBar(
   expect: brt.Expect,
-  rootEl: brt.Locator,
+  rootEl: brt.Element,
   entityType: number,
   eid: string,
   uid: string,

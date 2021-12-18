@@ -8,9 +8,9 @@
 import * as brt from 'brt';
 import * as defs from 'base/defs';
 
-export async function checkDefaultTimeField(expect: brt.Expect, el: brt.Locator) {
+export async function checkDefaultTimeField(expect: brt.Expect, el: brt.Element) {
   await expect(el).toBeVisible();
   await expect(
-    el.locator(`time-field[createdat="${defs.sd.timeString}"][modifiedat="${defs.sd.timeString}"]`),
+    el.$(`time-field[createdat="${defs.sd.timeString}"][modifiedat="${defs.sd.timeString}"]`),
   ).toBeVisible();
 }

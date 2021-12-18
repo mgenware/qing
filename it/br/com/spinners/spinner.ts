@@ -8,5 +8,5 @@
 import * as brt from 'brt';
 
 export async function waitForGlobalSpinner(page: brt.Page) {
-  await page.waitForSelector('__global_spinner_container spinner-view', { state: 'hidden' });
+  await page.c.waitForSelector('__global_spinner_container spinner-view', { state: 'hidden' });
 }

@@ -17,7 +17,7 @@ test('View post - user', async ({ goto, page, expect }) => {
 
     // User view.
     const u = usr.user;
-    await checkUserView(expect, page.locator(userViewQuery), u.id, u.iconURL, u.name);
+    await checkUserView(expect, page.$(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
     const html = await page.content();

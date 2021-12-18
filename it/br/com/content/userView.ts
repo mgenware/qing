@@ -10,7 +10,7 @@ import { checkDefaultTimeField } from './timeField';
 
 export async function checkUserView(
   expect: brt.Expect,
-  el: brt.Locator,
+  el: brt.Element,
   id: string,
   iconURL: string,
   name: string,
@@ -19,10 +19,10 @@ export async function checkUserView(
 
   // Profile image link.
   await expect(
-    el.locator(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`),
+    el.$(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`),
   ).toBeVisible();
   // Name link.
-  await expect(el.locator(`a[href="/u/${id}"]:has-text("${name}")`)).toBeVisible();
+  await expect(el.$(`a[href="/u/${id}"]:has-text("${name}")`)).toBeVisible();
   // Time field.
   await checkDefaultTimeField(expect, el);
 }

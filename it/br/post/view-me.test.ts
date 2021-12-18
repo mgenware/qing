@@ -18,7 +18,7 @@ test('View post - user', async ({ goto, page, expect }) => {
 
     // User view.
     const u = usr.user;
-    const userView = page.locator(userViewQuery);
+    const userView = page.$(userViewQuery);
     await checkUserView(expect, userView, u.id, u.iconURL, u.name);
     await checkEditBar(expect, userView, defs.entity.post, id, u.id);
   });

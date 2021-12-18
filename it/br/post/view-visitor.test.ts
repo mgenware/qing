@@ -26,7 +26,7 @@ test('View post - visitor', async ({ page, expect, goto }) => {
 
     // User view.
     const u = usr.user;
-    await checkUserView(expect, page.locator(userViewQuery), u.id, u.iconURL, u.name);
+    await checkUserView(expect, page.$(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
     const html = await page.content();
@@ -34,11 +34,11 @@ test('View post - visitor', async ({ page, expect, goto }) => {
     expect(html).toContain(defs.sd.postContentSan);
 
     // Like button.
-    const likeAppEl = page.locator('post-payload-app like-app').first();
+    const likeAppEl = page.$('post-payload-app like-app');
     await checkLikes(expect, likeAppEl, 0, false);
 
     // No comments.
-    const cmtAppEl = page.locator('post-payload-app cmt-app');
+    const cmtAppEl = page.$('post-payload-app cmt-app');
     await checkNoComments(expect, cmtAppEl);
 
     // Click the like button.
@@ -52,8 +52,8 @@ test('View post - visitor', async ({ page, expect, goto }) => {
       AlertButtons.OK,
       0,
     );
-    const okBtn = btns.nth(0);
-    await okBtn?.click();
+    const okBtn = btns.item(0);
+    await okBtn.click();
     await sleep();
     await checkNoVisibleAlert(expect, page);
   });

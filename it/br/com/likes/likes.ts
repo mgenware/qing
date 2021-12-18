@@ -9,24 +9,22 @@ import * as brt from 'brt';
 
 export async function checkLikes(
   expect: brt.Expect,
-  el: brt.Locator,
+  el: brt.Element,
   value: number,
   liked: boolean,
 ) {
   await expect(el).toBeVisible();
-  const btnEl = el.locator('like-view qing-button').first();
+  const btnEl = el.$('like-view qing-button');
 
   // Element value.
-  const numEl = btnEl.locator('span.num');
+  const numEl = btnEl.$('span.num');
   if (value) {
-    await expect(numEl.first().evaluate((e) => e.textContent)).toBe(`${value}`);
+    await expect(numEl.evaluate((e) => e.textContent)).toBe(`${value}`);
   } else {
     await expect(numEl).toHaveCount(0);
   }
 
   // Liked status.
-  const svgEl = btnEl.locator('svg-icon').first();
-  await expect(svgEl.evaluate((e) => brt.asHTMLElement(e).className)).toBe(
-    liked ? 'liked' : 'not-liked',
-  );
+  const svgEl = btnEl.$('svg-icon');
+  await expect(svgEl.evaluate((e) => e.className)).toBe(liked ? 'liked' : 'not-liked');
 }

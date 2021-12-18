@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-const brCmd = 'node -r source-map-support/register dist/br/run.js';
+const brCmd = 'npx playwright test --project=webkit --config="pw.config.ts"';
 
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',

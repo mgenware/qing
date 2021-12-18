@@ -13,7 +13,7 @@ test('Like a post', async ({ goto, page, expect }) => {
   await newPost(usr.user, async (id) => {
     await goto(`/p/${id}`, usr.user);
 
-    const likeAppEl = page.locator('post-payload-app like-app');
+    const likeAppEl = page.$('post-payload-app like-app');
     await expect(likeAppEl).toBeVisible();
     await checkLikes(expect, likeAppEl, 0, false);
 
@@ -22,7 +22,7 @@ test('Like a post', async ({ goto, page, expect }) => {
 
     {
       await goto(`/p/${id}`, usr.user2);
-      const likeAppEl2 = page.locator('post-payload-app like-app');
+      const likeAppEl2 = page.$('post-payload-app like-app');
       await expect(likeAppEl2).toBeVisible();
       await checkLikes(expect, likeAppEl, 1, false);
 
