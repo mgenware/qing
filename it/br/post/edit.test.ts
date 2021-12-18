@@ -6,77 +6,74 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, ass, usr } from 'base/br';
+import { test, usr } from 'br';
 import { userViewQuery } from './common';
-import { checkEditBar } from 'br/helper/editBar';
+import { checkEditBar } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
-import { checkEditorDismissal, checkEditorUpdate, EditorPart } from 'br/helper/editor';
+import { checkEditorDismissal, checkEditorUpdate, EditorPart } from 'br/com/editor/editor';
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Updated ${part === EditorPart.title ? 'title' : 'content'}`, async (br) => {
+  test(`Updated ${part === EditorPart.title ? 'title' : 'content'}`, async ({
+    page,
+    goto,
+    expect,
+  }) => {
     await newPost(usr.user, async (id) => {
-      await br.goto(`/p/${id}`, usr.user);
-      const { page } = br;
+      await goto(`/p/${id}`, usr.user);
 
       // Show editor popup.
       const u = usr.user;
-      const userView = await page.$(userViewQuery);
-      ass.t(userView);
-      const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.id);
+      const userView = page.locator(userViewQuery).first();
+      await expect(userView).toBeVisible();
+      const { editBtn } = await checkEditBar(expect, userView, defs.entity.post, id, u.id);
       await editBtn.click();
 
       // Check editor title.
-      const overlayEl = await page.$('set-entity-app qing-overlay');
-      ass.t(overlayEl);
-      ass.t(await overlayEl.$('h2:has-text("Edit post")'));
+      const overlayEl = page.locator('set-entity-app qing-overlay').first();
+      await expect(overlayEl).toBeVisible();
+      await expect(overlayEl.locator('h2:has-text("Edit post")').first()).toBeVisible();
 
       // Check editor update.
       await checkEditorUpdate(page, part, 'Save', 'Cancel');
 
-      const html = await br.content();
+      const html = await page.content();
       // Verify post title.
-      ass.t(
-        html.includes(
-          part === EditorPart.title ? defs.sd.updatedContentHTMLFull : defs.sd.postTitleHTML,
-        ),
+      expect(html).toContain(
+        part === EditorPart.title ? defs.sd.updatedContentHTMLFull : defs.sd.postTitleHTML,
       );
       // Verify post content.
-      ass.t(
-        html.includes(
-          part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentHTML,
-        ),
+      expect(html).toContain(
+        part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentHTML,
       );
     });
   });
 }
 
-test('Cancelled', async (br) => {
+test('Cancelled', async ({ page, expect, goto }) => {
   await newPost(usr.user, async (id) => {
-    await br.goto(`/p/${id}`, usr.user);
-    const { page } = br;
+    await goto(`/p/${id}`, usr.user);
 
     // User view.
     const u = usr.user;
-    const userView = await page.$(userViewQuery);
-    ass.t(userView);
-    const { editBtn } = await checkEditBar(userView, defs.entity.post, id, u.id);
-    ass.t(editBtn);
+    const userView = page.locator(userViewQuery).first();
+    await expect(userView).toBeVisible();
+    const { editBtn } = await checkEditBar(expect, userView, defs.entity.post, id, u.id);
 
     // Make the editor show up.
     await editBtn.click();
 
     // Check editor title.
-    const overlayEl = await page.$('set-entity-app qing-overlay');
-    ass.t(overlayEl);
-    ass.t(await overlayEl.$('h2:has-text("Edit post")'));
+    const overlayEl = page.locator('set-entity-app qing-overlay').first();
+    await expect(overlayEl).toBeVisible();
+    await expect(overlayEl.locator('h2:has-text("Edit post")').first()).toBeVisible();
 
     // Check editor dismissal.
     await checkEditorDismissal(page, 'Cancel');
 
     // Verify page content.
-    const html = await br.content();
-    ass.t(html.includes(defs.sd.postTitleHTML));
-    ass.t(html.includes(defs.sd.postContentSan));
+    const html = await page.content();
+    expect(html).toContain(defs.sd.postTitleHTML);
+    expect(html).toContain(defs.sd.postContentSan);
   });
 });
 

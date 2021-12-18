@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import playwright from 'playwright';
+import * as playwright from '@playwright/test';
 
 let browser: playwright.Browser;
 

@@ -6,42 +6,45 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, ass, usr } from 'base/br';
-import { checkLikes } from 'br/helper/like';
-import { checkNoComments } from 'br/helper/cmt';
-import { AlertButtons, AlertType, checkNoVisibleAlert, checkVisibleAlert } from 'br/helper/alert';
-import { checkUserView } from 'br/helper/userView';
+import { test, usr } from 'br';
+import { checkLikes } from 'br/com/likes/likes';
+import { checkNoComments } from 'br/com/cmt/cmt';
+import {
+  AlertButtons,
+  AlertType,
+  checkNoVisibleAlert,
+  checkVisibleAlert,
+} from 'br/com/alerts/alert';
+import { checkUserView } from 'br/com/content/userView';
 import { userViewQuery } from './common';
 import * as defs from 'base/defs';
 import sleep from 'base/sleep';
 
-test('View post - visitor', async (br) => {
+test('View post - visitor', async ({ page, expect, goto }) => {
   await newPost(usr.user, async (id) => {
-    await br.goto(`/p/${id}`, null);
-    const { page } = br;
+    await goto(`/p/${id}`, null);
 
     // User view.
     const u = usr.user;
-    await checkUserView(await page.$(userViewQuery), u.id, u.iconURL, u.name);
+    await checkUserView(expect, page.locator(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
-    const html = await br.content();
-    ass.t(html.includes(defs.sd.postTitleHTML));
-    ass.t(html.includes(defs.sd.postContentSan));
+    const html = await page.content();
+    expect(html).toContain(defs.sd.postTitleHTML);
+    expect(html).toContain(defs.sd.postContentSan);
 
     // Like button.
-    const likeAppEl = await page.$('post-payload-app like-app');
-    ass.t(likeAppEl);
-    await checkLikes(likeAppEl, 0, false);
+    const likeAppEl = page.locator('post-payload-app like-app').first();
+    await checkLikes(expect, likeAppEl, 0, false);
 
     // No comments.
-    const cmtAppEl = await page.$('post-payload-app cmt-app');
-    ass.t(cmtAppEl);
-    await checkNoComments(cmtAppEl);
+    const cmtAppEl = page.locator('post-payload-app cmt-app');
+    await checkNoComments(expect, cmtAppEl);
 
     // Click the like button.
     await likeAppEl.click();
-    const [okBtn] = await checkVisibleAlert(
+    const btns = await checkVisibleAlert(
+      expect,
       page,
       '',
       'Sign in to like this post.',
@@ -49,8 +52,9 @@ test('View post - visitor', async (br) => {
       AlertButtons.OK,
       0,
     );
+    const okBtn = btns.nth(0);
     await okBtn?.click();
     await sleep();
-    await checkNoVisibleAlert(page);
+    await checkNoVisibleAlert(expect, page);
   });
 });

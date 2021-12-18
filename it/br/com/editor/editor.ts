@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import testing from 'testing';
-import * as ass from 'base/ass';
+import * as brt from 'brt';
 import * as defs from 'base/defs';
-import { waitForGlobalSpinner } from './spinner';
-import { AlertButtons, AlertType, checkVisibleAlert } from './alert';
+import { waitForGlobalSpinner } from '../spinners/spinner';
+import { AlertButtons, AlertType, checkVisibleAlert } from '../alerts/alert';
 
 const overlayID = 'qing-overlay.immersive[open]';
 const composerID = '#composer';
@@ -20,21 +19,20 @@ export enum EditorPart {
   title,
 }
 
-async function updateEditorContent(part: EditorPart, composerEl: testing.ElementHandle) {
-  const editorEl = await composerEl.$('#editor');
-  ass.t(editorEl);
+async function updateEditorContent(expect: brt.Expect, part: EditorPart, composerEl: brt.Locator) {
+  const editorEl = composerEl.locator('#editor');
+  await expect(editorEl).toBeVisible();
   switch (part) {
     case EditorPart.content: {
-      const contentEl = await editorEl.$('.kx-content');
-      ass.t(contentEl);
-      ass.t(await contentEl.isVisible());
+      const contentEl = editorEl.locator('.kx-content');
+      await expect(contentEl).toBeVisible();
       await contentEl.fill(defs.sd.updatedContentRaw);
       break;
     }
 
     case EditorPart.title: {
-      const inputEl = await composerEl.$('input-view input');
-      ass.t(inputEl);
+      const inputEl = composerEl.locator('input-view input');
+      await expect(inputEl).toBeVisible();
       await inputEl.fill(defs.sd.updatedContentRaw);
       break;
     }
@@ -43,33 +41,36 @@ async function updateEditorContent(part: EditorPart, composerEl: testing.Element
   }
 }
 
-async function clickBtn(composerEl: testing.ElementHandle, btnText: string) {
-  const btnEl = await composerEl.$(`${editorButtonsGroup} qing-button:has-text("${btnText}")`);
-  ass.t(btnEl);
-  await btnEl.click();
+async function clickBtn(composerEl: brt.Locator, btnText: string) {
+  const btnEl = composerEl
+    .locator(`${editorButtonsGroup} qing-button:has-text("${btnText}")`)
+    .first();
+  await btnEl.first().click();
 }
 
-async function checkOverlayOpen(overlayEl: testing.ElementHandle, open: boolean) {
-  ass.e(await overlayEl.getAttribute('open'), open ? '' : null);
+async function checkOverlayOpen(expect: brt.Expect, overlayEl: brt.Locator, open: boolean) {
+  await expect(overlayEl.getAttribute('open')).toBe(open ? '' : null);
 }
 
-async function waitForOverlay(page: testing.Page) {
+async function waitForOverlay(expect: brt.Expect, page: brt.Page) {
   await page.waitForSelector(overlayID, { state: 'attached' });
-  const overlayEl = await page.$(overlayID);
-  ass.t(overlayEl);
-  await checkOverlayOpen(overlayEl, true);
-  const composerEl = await overlayEl.$(composerID);
-  ass.t(composerEl);
+  const overlayEl = page.locator(overlayID).first();
+  await expect(overlayEl).toBeVisible();
+
+  await checkOverlayOpen(expect, overlayEl, true);
+  const composerEl = overlayEl.locator(composerID).first();
+  await expect(composerEl).toBeVisible();
   return { overlayEl, composerEl };
 }
 
 export async function checkEditorUpdate(
-  page: testing.Page,
+  expect: brt.Expect,
+  page: brt.Page,
   part: EditorPart,
   okBtn: string,
   cancelBtn: string | null,
 ) {
-  const { composerEl } = await waitForOverlay(page);
+  const { composerEl } = await waitForOverlay(expect, page);
 
   // Check bottom buttons.
   const btnGroup = await composerEl.$(editorButtonsGroup);

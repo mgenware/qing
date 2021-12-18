@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { test, ass } from 'base/br';
+import { test } from 'br';
 
-test('Home page', async (br) => {
-  await br.goto('/', null);
-  const c = await br.content();
-  ass.t(c.length);
+test('Home page', async ({ page, goto, expect }) => {
+  await goto('/', null);
+  const c = await page.content();
+  expect(c.length).toBeTruthy();
 });

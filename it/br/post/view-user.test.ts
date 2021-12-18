@@ -6,23 +6,22 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, ass, usr } from 'base/br';
-import { checkUserView } from 'br/helper/userView';
+import { test, usr } from 'br';
+import { checkUserView } from 'br/com/content/userView';
 import { userViewQuery } from './common';
 import * as defs from 'base/defs';
 
-test('View post - user', async (br) => {
+test('View post - user', async ({ goto, page, expect }) => {
   await newPost(usr.user, async (id) => {
-    await br.goto(`/p/${id}`, usr.user2);
-    const { page } = br;
+    await goto(`/p/${id}`, usr.user2);
 
     // User view.
     const u = usr.user;
-    await checkUserView(await page.$(userViewQuery), u.id, u.iconURL, u.name);
+    await checkUserView(expect, page.locator(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
-    const html = await br.content();
-    ass.t(html.includes(defs.sd.postTitleHTML));
-    ass.t(html.includes(defs.sd.postContentSan));
+    const html = await page.content();
+    expect(html).toContain(defs.sd.postTitleHTML);
+    expect(html).toContain(defs.sd.postContentSan);
   });
 });

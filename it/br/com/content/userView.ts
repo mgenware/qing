@@ -5,23 +5,24 @@
  * be found in the LICENSE file.
  */
 
-import testing from 'testing';
-import * as ass from 'base/ass';
+import * as brt from 'brt';
 import { checkDefaultTimeField } from './timeField';
 
 export async function checkUserView(
-  el: testing.ElementHandle | null,
+  expect: brt.Expect,
+  el: brt.Locator,
   id: string,
   iconURL: string,
   name: string,
 ) {
-  ass.t(el);
-  ass.t(await el.isVisible());
+  await expect(el).toBeVisible();
 
   // Profile image link.
-  ass.t(await el.$(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`));
+  await expect(
+    el.locator(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`),
+  ).toBeVisible();
   // Name link.
-  ass.t(await el.$(`a[href="/u/${id}"]:has-text("${name}")`));
+  await expect(el.locator(`a[href="/u/${id}"]:has-text("${name}")`)).toBeVisible();
   // Time field.
-  await checkDefaultTimeField(el);
+  await checkDefaultTimeField(expect, el);
 }
