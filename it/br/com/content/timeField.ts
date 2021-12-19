@@ -8,7 +8,7 @@
 import * as brt from 'brt';
 import * as defs from 'base/defs';
 
-export async function checkDefaultTimeField(el: brt.Element) {
+export async function timeFieldShouldAppear(el: brt.Element) {
   await el
     .$(`time-field[createdat="${defs.sd.timeString}"][modifiedat="${defs.sd.timeString}"]`)
     .shouldBeVisible();

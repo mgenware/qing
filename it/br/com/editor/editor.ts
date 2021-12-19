@@ -8,7 +8,7 @@
 import * as brt from 'brt';
 import * as defs from 'base/defs';
 import { waitForGlobalSpinner } from '../spinners/spinner';
-import { AlertButtons, AlertType, checkVisibleAlert } from '../alerts/alert';
+import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
 
 const closedOverlayID = 'qing-overlay.immersive';
@@ -106,7 +106,7 @@ export async function editorShouldDiscardChanges(
   await updateEditorContent(part, composerEl);
   await clickBtn(composerEl, cancelBtn);
 
-  const alertBtns = await checkVisibleAlert(
+  const alertBtns = await alertShouldAppear(
     page,
     'Do you want to discard your changes?',
     "You haven't saved your changes.",

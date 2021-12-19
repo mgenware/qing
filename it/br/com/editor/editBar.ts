@@ -31,7 +31,7 @@ export function getDeleteButton(el: brt.Element, uid: string) {
   return getButton(getEditBarEl(el, uid), deleteText);
 }
 
-export async function checkEditBarVisible(el: brt.Element, uid: string) {
+export async function editBarShouldAppear(el: brt.Element, uid: string) {
   const edit = getEditButton(el, uid);
   const del = getDeleteButton(el, uid);
   await edit.shouldBeVisible();

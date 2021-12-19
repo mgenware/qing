@@ -7,7 +7,7 @@
 
 import * as brt from 'brt';
 
-export async function checkLikes(el: brt.Element, value: number, liked: boolean) {
+export async function likesShouldAppear(el: brt.Element, value: number, liked: boolean) {
   const { expect } = el;
   const btnEl = await el.$('like-view qing-button').shouldBeVisible();
 

@@ -6,13 +6,18 @@
  */
 
 import * as brt from 'brt';
-import { checkDefaultTimeField } from './timeField';
+import { timeFieldShouldAppear } from './timeField';
 
-export async function checkUserView(el: brt.Element, id: string, iconURL: string, name: string) {
+export async function userViewShouldAppear(
+  el: brt.Element,
+  id: string,
+  iconURL: string,
+  name: string,
+) {
   // Profile image link.
   await el.$(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`).shouldBeVisible();
   // Name link.
   await el.$(`a[href="/u/${id}"]:has-text("${name}")`).shouldBeVisible();
   // Time field.
-  await checkDefaultTimeField(el);
+  await timeFieldShouldAppear(el);
 }

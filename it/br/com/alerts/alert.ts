@@ -63,7 +63,7 @@ export function waitForAlertDetached(page: brt.Page) {
   return getDialogEl(page).waitForDetached();
 }
 
-export async function checkVisibleAlert(
+export async function alertShouldAppear(
   page: brt.Page,
   title: string,
   content: string,
@@ -91,11 +91,7 @@ export async function checkVisibleAlert(
   const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(buttons);
   await btns.shouldHaveCount(btnNames.length);
-  for (let i = 0; i < btnNames.length; i++) {
-    const btn = btns.item(i);
-    // eslint-disable-next-line no-await-in-loop
-    await expect(btn.textContent()).toBe(btnNames[i] ?? null);
-  }
+  await Promise.all(btnNames.map((b, i) => expect(btns.item(i).shouldHaveTextContent(b))));
 
   // Focused button.
   // Get the qing-overlay element to check the active element.

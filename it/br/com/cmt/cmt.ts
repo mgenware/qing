@@ -7,7 +7,7 @@
 
 import * as brt from 'brt';
 
-export async function checkNoComments(el: brt.Element) {
+export async function noCommentsShouldAppear(el: brt.Element) {
   // "No comments" element.
   const contentEl = el.$('text=No comments');
   await contentEl.shouldBeVisible();

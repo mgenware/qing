@@ -8,7 +8,7 @@
 import { newPost } from 'helper/post';
 import { test, usr } from 'br';
 import * as brt from 'brt';
-import { userViewQuery, checkPostTitle, checkPostHTML } from './common';
+import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
 import {
@@ -25,7 +25,7 @@ async function clickEdit(page: brt.Page) {
   await editBtn.click();
 }
 
-test('Post editor appears', async ({ page, goto }) => {
+test('Post editor appeared', async ({ page, goto }) => {
   await newPost(usr.user, async (id) => {
     await goto(`/p/${id}`, usr.user);
 
@@ -38,7 +38,7 @@ test('Post editor appears', async ({ page, goto }) => {
 });
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Post editor updates -> ${part === EditorPart.title ? 'title' : 'content'}`, async ({
+  test(`Post editor updated -> ${part === EditorPart.title ? 'title' : 'content'}`, async ({
     page,
     goto,
   }) => {
@@ -51,13 +51,13 @@ function testEditorUpdate(part: EditorPart) {
       await editorShouldUpdate(page, part);
 
       // Verify post title.
-      await checkPostTitle(
+      await postShouldHaveTitle(
         page,
         part === EditorPart.title ? defs.sd.updatedContentRaw : defs.sd.postTitleRaw,
         `/p/${id}`,
       );
       // Verify post content.
-      await checkPostHTML(
+      await postShouldHaveContent(
         page,
         part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentRawHTML,
       );
@@ -65,7 +65,7 @@ function testEditorUpdate(part: EditorPart) {
   });
 }
 
-test('Post editor dismisses', async ({ page, goto }) => {
+test('Post editor dismissed', async ({ page, goto }) => {
   await newPost(usr.user, async (id) => {
     await goto(`/p/${id}`, usr.user);
 
@@ -75,8 +75,8 @@ test('Post editor dismisses', async ({ page, goto }) => {
     await editorShouldBeDismissed(page, 'Cancel');
 
     // Verify page content.
-    await checkPostTitle(page, defs.sd.postTitleRaw, `/p/${id}`);
-    await checkPostHTML(page, defs.sd.postContentSan);
+    await postShouldHaveTitle(page, defs.sd.postTitleRaw, `/p/${id}`);
+    await postShouldHaveContent(page, defs.sd.postContentSan);
   });
 });
 
