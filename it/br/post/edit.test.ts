@@ -59,7 +59,7 @@ function testEditorUpdate(part: EditorPart) {
       // Verify post content.
       await postShouldHaveContent(
         page,
-        part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentRawHTML,
+        part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentRawHTMLWrapped,
       );
     });
   });

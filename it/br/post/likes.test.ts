@@ -11,7 +11,8 @@ import { likesShouldAppear } from 'br/com/likes/likes';
 
 test('Post liked', async ({ goto, page }) => {
   await newPost(usr.user, async (id) => {
-    await goto(`/p/${id}`, usr.user);
+    const link = `/p/${id}`;
+    await goto(link, usr.user);
 
     const likeAppEl = page.$('post-payload-app like-app');
     await likesShouldAppear(likeAppEl, 0, false);
@@ -31,6 +32,7 @@ test('Post liked', async ({ goto, page }) => {
       await likesShouldAppear(likeAppEl, 1, false);
     }
 
+    await goto(link, usr.user);
     await likeAppEl.click();
     await likesShouldAppear(likeAppEl, 0, false);
   });

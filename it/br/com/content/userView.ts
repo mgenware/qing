@@ -19,5 +19,5 @@ export async function userViewShouldAppear(
   // Name link.
   await el.$(`a[href="/u/${id}"]:has-text("${name}")`).shouldBeVisible();
   // Time field.
-  await timeFieldShouldAppear(el);
+  await timeFieldShouldAppear(el.$('time-field small'));
 }

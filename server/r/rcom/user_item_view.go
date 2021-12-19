@@ -47,6 +47,7 @@ func NewPostUserAppInput(uid uint64, name, iconName, itemEID string, itemType in
 	return PostUserAppInput{
 		UID:          uid,
 		Name:         name,
+		IconName:     iconName,
 		ItemEID:      itemEID,
 		ItemType:     itemType,
 		ItemCreated:  itemCreated,

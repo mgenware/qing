@@ -8,18 +8,16 @@
 import * as brt from 'brt';
 
 export async function likesShouldAppear(el: brt.Element, value: number, liked: boolean) {
-  const { expect } = el;
   const btnEl = await el.$('like-view qing-button').shouldBeVisible();
 
   // Element value.
   const numEl = btnEl.$('span.num');
   if (value) {
-    await expect(numEl.evaluate((e) => e.textContent)).toBe(`${value}`);
+    await numEl.shouldHaveTextContent(`${value}`);
   } else {
     await numEl.shouldNotExist();
   }
 
   // Liked status.
-  const svgEl = btnEl.$('svg-icon');
-  await expect(svgEl.evaluate((e) => e.className)).toBe(liked ? 'liked' : 'not-liked');
+  await btnEl.$('svg-icon').shouldHaveAttr('class', liked ? 'liked' : 'not-liked');
 }

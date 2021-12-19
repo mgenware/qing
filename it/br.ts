@@ -10,12 +10,14 @@ import { User } from 'base/call';
 import { auth, serverURL } from 'base/urls';
 
 // Re-exports.
-export { usr, call } from 'base/call';
+export { usr, call, User } from 'base/call';
+
+export type GoToFn = (url: string, user: User | null) => Promise<void>;
 
 export interface HandlerArg {
   page: brt.Page;
   expect: brt.Expect;
-  goto: (url: string, user: User | null) => Promise<void>;
+  goto: GoToFn;
 }
 
 export type HandlerType = (e: HandlerArg) => Promise<void>;

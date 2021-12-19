@@ -6,6 +6,11 @@
  */
 
 import * as brt from 'brt';
+import { User, GoToFn } from 'br';
+import { likesShouldAppear } from 'br/com/likes/likes';
+import { noCommentsShouldAppear } from 'br/com/cmt/cmt';
+import { userViewShouldAppear } from 'br/com/content/userView';
+import * as defs from 'base/defs';
 
 export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
 
@@ -19,4 +24,34 @@ export async function postShouldHaveTitle(page: brt.Page, title: string, link: s
   const { expect } = page;
   expect((await aEl.getAttribute('href'))?.endsWith(link)).toBeTruthy();
   expect(await aEl.textContent()).toBe(title);
+}
+
+export async function postCoreTraitsShouldAppear(
+  page: brt.Page,
+  goto: GoToFn,
+  id: string,
+  author: User,
+  user: User | null,
+) {
+  const link = `/p/${id}`;
+  await goto(link, user);
+
+  // User view.
+  await userViewShouldAppear(page.$(userViewQuery), author.id, author.iconURL, author.name);
+
+  // Page content.
+  await postShouldHaveTitle(page, defs.sd.postTitleRaw, link);
+  await postShouldHaveContent(page, defs.sd.postContentSan);
+
+  // Like button.
+  const likeAppEl = page.$('post-payload-app like-app');
+  await likesShouldAppear(likeAppEl, 0, false);
+
+  // No comments.
+  const cmtAppEl = page.$('post-payload-app cmt-app');
+  await noCommentsShouldAppear(cmtAppEl, !!user);
+
+  return {
+    likeAppEl,
+  };
 }

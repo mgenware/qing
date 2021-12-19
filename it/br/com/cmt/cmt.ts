@@ -6,13 +6,23 @@
  */
 
 import * as brt from 'brt';
+import { buttonShouldAppear } from '../buttons/button';
 
-export async function noCommentsShouldAppear(el: brt.Element) {
+async function commentsHeadingShouldAppear(el: brt.Element) {
+  return el.$('h2:has-text("Comments")').shouldBeVisible();
+}
+
+export async function noCommentsShouldAppear(el: brt.Element, user: boolean) {
+  await commentsHeadingShouldAppear(el);
+
   // "No comments" element.
-  const contentEl = el.$('text=No comments');
-  await contentEl.shouldBeVisible();
+  await el.$('text=No comments').shouldBeVisible();
 
-  // "Sign in" to comment.
-  await el.$('qing-button:has-text("Sign in")').shouldBeVisible();
-  await el.$('span:has-text("to comment")').shouldBeVisible();
+  if (user) {
+    await buttonShouldAppear(el.$('qing-button'), { text: 'Write a comment', style: 'success' });
+  } else {
+    // "Sign in" to comment.
+    await el.$('qing-button:has-text("Sign in")').shouldBeVisible();
+    await el.$('span:has-text("to comment")').shouldBeVisible();
+  }
 }
