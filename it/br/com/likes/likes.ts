@@ -7,21 +7,16 @@
 
 import * as brt from 'brt';
 
-export async function checkLikes(
-  expect: brt.Expect,
-  el: brt.Element,
-  value: number,
-  liked: boolean,
-) {
-  await expect(el).toBeVisible();
-  const btnEl = el.$('like-view qing-button');
+export async function checkLikes(el: brt.Element, value: number, liked: boolean) {
+  const { expect } = el;
+  const btnEl = await el.$('like-view qing-button').shouldBeVisible();
 
   // Element value.
   const numEl = btnEl.$('span.num');
   if (value) {
     await expect(numEl.evaluate((e) => e.textContent)).toBe(`${value}`);
   } else {
-    await expect(numEl).toHaveCount(0);
+    await numEl.shouldNotExist();
   }
 
   // Liked status.

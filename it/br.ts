@@ -20,18 +20,10 @@ export interface HandlerArg {
 
 export type HandlerType = (e: HandlerArg) => Promise<void>;
 
-function patchedExpect(actual: unknown) {
-  if (actual instanceof brt.LocatorCore) {
-    return brt.pwExpect(actual.c);
-  }
-  return brt.pwExpect(actual);
-}
-
 function newHandlerArg(expect: brt.Expect, page: brt.Page): HandlerArg {
   return {
     page,
-    // TODO: This is an unsafe cast. Some members of `pw.Expect` are ignored.
-    expect: ((actual: unknown) => patchedExpect(actual)) as brt.Expect,
+    expect,
     goto: async (url: string, user: User | null) => {
       if (user) {
         // Playwright has to use the GET version of the login API route.
@@ -46,5 +38,7 @@ function newHandlerArg(expect: brt.Expect, page: brt.Page): HandlerArg {
 }
 
 export function test(name: string, handler: HandlerType) {
-  return brt.pwTest(name, ({ page }) => handler(newHandlerArg(brt.pwExpect, new brt.Page(page))));
+  return brt.pwTest(name, ({ page }) =>
+    handler(newHandlerArg(brt.pwExpect, new brt.Page(page, brt.pwExpect))),
+  );
 }

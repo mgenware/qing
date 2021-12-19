@@ -15,34 +15,19 @@ export interface EditBarButtons {
   deleteBtn: brt.Element;
 }
 
-async function getEditBarEl(
-  expect: brt.Expect,
-  rootEl: brt.Element,
-  entityType: number,
-  eid: string,
-  uid: string,
-) {
-  const el = rootEl.$(`#edit-bar-${entityType}-${eid}`);
-  await expect(el).toBeVisible();
-  await expect(el.getAttribute('uid')).toBe(uid);
+async function getEditBarEl(rootEl: brt.Element, uid: string) {
+  const el = await rootEl.$(`edit-bar-app[uid="${uid}"]`).shouldBeVisible();
+  el.expect(await el.getAttribute('uid')).toBe(uid);
   return el;
 }
 
-async function getButton(expect: brt.Expect, el: brt.Element, text: string) {
-  const btn = el.$(`a:has-text("${text}")`);
-  await expect(btn).toBeVisible();
-  return btn;
+async function getButton(el: brt.Element, text: string) {
+  return el.$(`a:has-text("${text}")`).shouldBeVisible();
 }
 
-export async function checkEditBar(
-  expect: brt.Expect,
-  rootEl: brt.Element,
-  entityType: number,
-  eid: string,
-  uid: string,
-): Promise<EditBarButtons> {
-  const el = await getEditBarEl(expect, rootEl, entityType, eid, uid);
-  const editBtn = await getButton(expect, el, editText);
-  const deleteBtn = await getButton(expect, el, deleteText);
+export async function checkEditBar(rootEl: brt.Element, eid: string): Promise<EditBarButtons> {
+  const el = await getEditBarEl(rootEl, eid);
+  const editBtn = await getButton(el, editText);
+  const deleteBtn = await getButton(el, deleteText);
   return { editBtn, deleteBtn };
 }

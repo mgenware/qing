@@ -8,21 +8,11 @@
 import * as brt from 'brt';
 import { checkDefaultTimeField } from './timeField';
 
-export async function checkUserView(
-  expect: brt.Expect,
-  el: brt.Element,
-  id: string,
-  iconURL: string,
-  name: string,
-) {
-  await expect(el).toBeVisible();
-
+export async function checkUserView(el: brt.Element, id: string, iconURL: string, name: string) {
   // Profile image link.
-  await expect(
-    el.$(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`),
-  ).toBeVisible();
+  await el.$(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`).shouldBeVisible();
   // Name link.
-  await expect(el.$(`a[href="/u/${id}"]:has-text("${name}")`)).toBeVisible();
+  await el.$(`a[href="/u/${id}"]:has-text("${name}")`).shouldBeVisible();
   // Time field.
-  await checkDefaultTimeField(expect, el);
+  await checkDefaultTimeField(el);
 }

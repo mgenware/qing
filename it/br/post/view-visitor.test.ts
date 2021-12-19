@@ -12,13 +12,12 @@ import { checkNoComments } from 'br/com/cmt/cmt';
 import {
   AlertButtons,
   AlertType,
-  checkNoVisibleAlert,
+  waitForAlertDetached,
   checkVisibleAlert,
 } from 'br/com/alerts/alert';
 import { checkUserView } from 'br/com/content/userView';
 import { userViewQuery } from './common';
 import * as defs from 'base/defs';
-import sleep from 'base/sleep';
 
 test('View post - visitor', async ({ page, expect, goto }) => {
   await newPost(usr.user, async (id) => {
@@ -26,7 +25,7 @@ test('View post - visitor', async ({ page, expect, goto }) => {
 
     // User view.
     const u = usr.user;
-    await checkUserView(expect, page.$(userViewQuery), u.id, u.iconURL, u.name);
+    await checkUserView(page.$(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
     const html = await page.content();
@@ -35,16 +34,15 @@ test('View post - visitor', async ({ page, expect, goto }) => {
 
     // Like button.
     const likeAppEl = page.$('post-payload-app like-app');
-    await checkLikes(expect, likeAppEl, 0, false);
+    await checkLikes(likeAppEl, 0, false);
 
     // No comments.
     const cmtAppEl = page.$('post-payload-app cmt-app');
-    await checkNoComments(expect, cmtAppEl);
+    await checkNoComments(cmtAppEl);
 
     // Click the like button.
     await likeAppEl.click();
     const btns = await checkVisibleAlert(
-      expect,
       page,
       '',
       'Sign in to like this post.',
@@ -54,7 +52,6 @@ test('View post - visitor', async ({ page, expect, goto }) => {
     );
     const okBtn = btns.item(0);
     await okBtn.click();
-    await sleep();
-    await checkNoVisibleAlert(expect, page);
+    await waitForAlertDetached(page);
   });
 });

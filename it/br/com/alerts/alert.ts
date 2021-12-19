@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import sleep from 'base/sleep';
 import * as brt from 'brt';
 
 export enum AlertType {
@@ -60,12 +59,11 @@ function getDialogEl(page: brt.Page) {
   return page.$('#__global_dialog_container dialog-view');
 }
 
-export async function checkNoVisibleAlert(expect: brt.Expect, page: brt.Page) {
-  await expect(getDialogEl(page)).toHaveCount(0);
+export function waitForAlertDetached(page: brt.Page) {
+  return getDialogEl(page).waitForDetached();
 }
 
 export async function checkVisibleAlert(
-  expect: brt.Expect,
   page: brt.Page,
   title: string,
   content: string,
@@ -73,27 +71,26 @@ export async function checkVisibleAlert(
   buttons: AlertButtons,
   focused: number,
 ): Promise<brt.ElementCollection> {
+  const { expect } = page;
   // Wait for the alert to be fully shown.
-  await sleep();
-  const el = getDialogEl(page);
-  await expect(el).toBeVisible();
+  const el = await getDialogEl(page).waitForVisible();
   await expect(el.getAttribute('open')).toBe('');
 
   // Title.
   // eslint-disable-next-line no-param-reassign
   title ??= typeToTitle(type);
-  await expect(el.$(`h2:has-text("${title}")`)).toBeVisible();
+  await el.$(`h2:has-text("${title}")`).shouldBeVisible();
 
   // Icon.
-  await expect(el.$(`svg-icon[iconstyle='${typeToString(type)}']`)).toBeVisible();
+  await el.$(`svg-icon[iconstyle='${typeToString(type)}']`).shouldBeVisible();
 
   // Content.
-  await expect(el.$(`p:has-text("${content}")`)).toBeVisible();
+  await el.$(`p:has-text("${content}")`).shouldBeVisible();
 
   // Buttons.
   const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(buttons);
-  await expect(btns).toHaveCount(btnNames.length);
+  await btns.shouldHaveCount(btnNames.length);
   for (let i = 0; i < btnNames.length; i++) {
     const btn = btns.item(i);
     // eslint-disable-next-line no-await-in-loop

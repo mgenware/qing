@@ -10,7 +10,8 @@ import * as defs from 'base/defs';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import { AlertButtons, AlertType, checkVisibleAlert } from '../alerts/alert';
 
-const overlayID = 'qing-overlay.immersive[open]';
+const closedOverlayID = 'qing-overlay.immersive';
+const openOverlayID = `${closedOverlayID}[open=""]`;
 const composerID = '#composer';
 const editorButtonsGroup = '.editor-buttons';
 
@@ -19,20 +20,17 @@ export enum EditorPart {
   title,
 }
 
-async function updateEditorContent(expect: brt.Expect, part: EditorPart, composerEl: brt.Element) {
-  const editorEl = composerEl.$('#editor');
-  await expect(editorEl).toBeVisible();
+async function updateEditorContent(part: EditorPart, composerEl: brt.Element) {
+  const editorEl = await composerEl.$('#editor').shouldBeVisible();
   switch (part) {
     case EditorPart.content: {
-      const contentEl = editorEl.$('.kx-content');
-      await expect(contentEl).toBeVisible();
+      const contentEl = await editorEl.$('.kx-content').shouldBeVisible();
       await contentEl.fill(defs.sd.updatedContentRaw);
       break;
     }
 
     case EditorPart.title: {
-      const inputEl = composerEl.$('input-view input');
-      await expect(inputEl).toBeVisible();
+      const inputEl = await composerEl.$('input-view input').shouldBeVisible();
       await inputEl.fill(defs.sd.updatedContentRaw);
       break;
     }
@@ -46,69 +44,54 @@ async function clickBtn(composerEl: brt.Element, btnText: string) {
   await btnEl.click();
 }
 
-async function checkOverlayOpen(expect: brt.Expect, overlayEl: brt.Element, open: boolean) {
-  await expect(overlayEl.getAttribute('open')).toBe(open ? '' : null);
-}
-
-async function waitForOverlay(expect: brt.Expect, page: brt.Page) {
-  await page.c.waitForSelector(overlayID, { state: 'attached' });
-  const overlayEl = page.$(overlayID);
-  await expect(overlayEl).toBeVisible();
-
-  await checkOverlayOpen(expect, overlayEl, true);
-  const composerEl = overlayEl.$(composerID);
-  await expect(composerEl).toBeVisible();
+async function waitForOverlayVisible(page: brt.Page) {
+  const overlayEl = await page.$(openOverlayID).waitForAttached();
+  const composerEl = await overlayEl.$(composerID).shouldBeVisible();
   return { overlayEl, composerEl };
 }
 
+async function waitForOverlayClosed(page: brt.Page) {
+  const overlayEl = page.$(closedOverlayID);
+  await overlayEl.shouldExist();
+}
+
 export async function checkEditorUpdate(
-  expect: brt.Expect,
   page: brt.Page,
   part: EditorPart,
   okBtn: string,
   cancelBtn: string | null,
 ) {
-  const { composerEl } = await waitForOverlay(expect, page);
+  const { composerEl } = await waitForOverlayVisible(page);
 
   // Check bottom buttons.
-  const btnGroup = composerEl.$(editorButtonsGroup);
-  await expect(btnGroup).toBeVisible();
-  const btns = btnGroup.$$('qing-button');
-  expect(btns).toHaveCount(2);
-  expect((await btns.item(0).innerText()).trim()).toBe(okBtn);
-  const okBtnEl = composerEl.$(`qing-button:has-text("${okBtn}")`);
-  await expect(okBtn).toBeVisible();
+  const btnGroup = await composerEl.$(editorButtonsGroup).shouldBeVisible();
+  const btns = await btnGroup.$$('qing-button').shouldHaveCount(2);
+  btns.expect((await btns.item(0).innerText()).trim()).toBe(okBtn);
+  const okBtnEl = await composerEl.$(`qing-button:has-text("${okBtn}")`).shouldExist();
   if (cancelBtn) {
-    const cancelBtnEl = composerEl.$(`qing-button:has-text("${cancelBtn}")`);
-    await expect(cancelBtnEl).toBeVisible();
+    await composerEl.$(`qing-button:has-text("${cancelBtn}")`).shouldExist();
   }
 
   // Update editor content.
-  await updateEditorContent(expect, part, composerEl);
+  await updateEditorContent(part, composerEl);
 
   // Click the update button.
   await okBtnEl.click();
   await waitForGlobalSpinner(page);
 }
 
-export async function checkEditorDismissal(expect: brt.Expect, page: brt.Page, cancelBtn: string) {
-  const { composerEl, overlayEl } = await waitForOverlay(expect, page);
+export async function checkEditorDismissal(page: brt.Page, cancelBtn: string) {
+  const { composerEl } = await waitForOverlayVisible(page);
   await clickBtn(composerEl, cancelBtn);
-  await checkOverlayOpen(expect, overlayEl, false);
+  await waitForOverlayClosed(page);
 }
 
-export async function checkDiscardedChanges(
-  expect: brt.Expect,
-  page: brt.Page,
-  part: EditorPart,
-  cancelBtn: string,
-) {
-  const { composerEl, overlayEl } = await waitForOverlay(expect, page);
-  await updateEditorContent(expect, part, composerEl);
+export async function checkDiscardedChanges(page: brt.Page, part: EditorPart, cancelBtn: string) {
+  const { composerEl } = await waitForOverlayVisible(page);
+  await updateEditorContent(part, composerEl);
   await clickBtn(composerEl, cancelBtn);
 
-  await checkVisibleAlert(
-    expect,
+  const alertBtns = await checkVisibleAlert(
     page,
     'Do you want to discard your changes?',
     "You haven't saved your changes.",
@@ -117,5 +100,8 @@ export async function checkDiscardedChanges(
     1,
   );
 
-  await checkOverlayOpen(expect, overlayEl, false);
+  // Click the No button.
+  await alertBtns.item(1).click();
+
+  await waitForOverlayClosed(page);
 }

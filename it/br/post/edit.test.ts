@@ -24,17 +24,15 @@ function testEditorUpdate(part: EditorPart) {
       // Show editor popup.
       const u = usr.user;
       const userView = page.$(userViewQuery);
-      await expect(userView).toBeVisible();
-      const { editBtn } = await checkEditBar(expect, userView, defs.entity.post, id, u.id);
+      const { editBtn } = await checkEditBar(userView, u.id);
       await editBtn.click();
 
       // Check editor title.
       const overlayEl = page.$('set-entity-app qing-overlay');
-      await expect(overlayEl).toBeVisible();
-      await expect(overlayEl.$('h2:has-text("Edit post")')).toBeVisible();
+      await overlayEl.$('h2:has-text("Edit post")').shouldBeVisible();
 
       // Check editor update.
-      await checkEditorUpdate(expect, page, part, 'Save', 'Cancel');
+      await checkEditorUpdate(page, part, 'Save', 'Cancel');
 
       const html = await page.content();
       // Verify post title.
@@ -56,19 +54,17 @@ test('Cancelled', async ({ page, expect, goto }) => {
     // User view.
     const u = usr.user;
     const userView = page.$(userViewQuery);
-    await expect(userView).toBeVisible();
-    const { editBtn } = await checkEditBar(expect, userView, defs.entity.post, id, u.id);
+    const { editBtn } = await checkEditBar(userView, u.id);
 
     // Make the editor show up.
     await editBtn.click();
 
     // Check editor title.
     const overlayEl = page.$('set-entity-app qing-overlay');
-    await expect(overlayEl).toBeVisible();
-    await expect(overlayEl.$('h2:has-text("Edit post")')).toBeVisible();
+    await overlayEl.$('h2:has-text("Edit post")').shouldBeVisible();
 
     // Check editor dismissal.
-    await checkEditorDismissal(expect, page, 'Cancel');
+    await checkEditorDismissal(page, 'Cancel');
 
     // Verify page content.
     const html = await page.content();
