@@ -37,13 +37,22 @@ export class ElementCollection extends LocatorCore {
     return new Element(this.c.nth(idx), this.expect);
   }
 
-  get count() {
+  count() {
     return this.c.count();
   }
 
   async shouldHaveCount(count: number) {
     await this.expect(this.c).toHaveCount(count);
     return this;
+  }
+
+  async items() {
+    const items: Element[] = [];
+    const count = await this.count();
+    for (let i = 0; i < count; i++) {
+      items.push(this.item(i));
+    }
+    return items;
   }
 }
 
@@ -112,6 +121,26 @@ export class Element extends LocatorCore {
   async shouldNotExist() {
     await this.expect(this.c).toHaveCount(0);
   }
+
+  async shouldHaveAttr(name: string, value: string) {
+    await this.expect(this.c).toHaveAttribute(name, value);
+  }
+
+  async shouldNotHaveAttr(name: string, value: string) {
+    await this.expect(this.c).not.toHaveAttribute(name, value);
+  }
+
+  async shouldHaveTextContent(val: string) {
+    this.expect((await this.c.textContent())?.trim()).toBe(val);
+  }
+
+  async shouldHaveHTMLContent(val: string) {
+    this.expect((await this.c.innerHTML()).trim()).toBe(val);
+  }
+
+  shouldHaveFocus() {
+    return this.expect(this.c).toBeFocused();
+  }
 }
 
 export class Page {
@@ -127,9 +156,5 @@ export class Page {
 
   goto(url: string) {
     return this.c.goto(url);
-  }
-
-  content() {
-    return this.c.content();
   }
 }

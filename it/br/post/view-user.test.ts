@@ -8,10 +8,10 @@
 import { newPost } from 'helper/post';
 import { test, usr } from 'br';
 import { checkUserView } from 'br/com/content/userView';
-import { userViewQuery } from './common';
+import { userViewQuery, checkPostTitle, checkPostHTML } from './common';
 import * as defs from 'base/defs';
 
-test('View post - user', async ({ goto, page, expect }) => {
+test('View post - user', async ({ goto, page }) => {
   await newPost(usr.user, async (id) => {
     await goto(`/p/${id}`, usr.user2);
 
@@ -20,8 +20,7 @@ test('View post - user', async ({ goto, page, expect }) => {
     await checkUserView(page.$(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
-    const html = await page.content();
-    expect(html).toContain(defs.sd.postTitleHTML);
-    expect(html).toContain(defs.sd.postContentSan);
+    await checkPostTitle(page, defs.sd.postTitleRaw, `/p/${id}`);
+    await checkPostHTML(page, defs.sd.postContentSan);
   });
 });

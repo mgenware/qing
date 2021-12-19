@@ -23,10 +23,9 @@ export const sd = {
   timeString: '1990-10-27T10:11:12Z',
   updatedContentRaw: "<p>_MOD_</p><script>alert('-39')</script>",
   updatedContentSan: '<p>_MOD_</p>',
-  updatedContentHTML: '&lt;p&gt;_MOD_&lt;/p&gt;',
-  updatedContentHTMLFull: "&lt;p&gt;_MOD_&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;",
+  updatedContentSanHTML: '&lt;p&gt;_MOD_&lt;/p&gt;',
+  updatedContentRawHTML: "&lt;p&gt;_MOD_&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;",
   postContentRaw: "<p>post_c</p><script>alert('-39')</script>",
   postContentSan: '<p>post_c</p>',
   postTitleRaw: "<p>post_t</p><script>alert('-39')</script>",
-  postTitleHTML: "&lt;p&gt;post_t&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;",
 };

@@ -28,7 +28,7 @@ function newHandlerArg(expect: brt.Expect, page: brt.Page): HandlerArg {
       if (user) {
         // Playwright has to use the GET version of the login API route.
         await page.goto(`${serverURL}${auth.in}/${user.id}`);
-        expect(await page.content()).toBe(
+        expect(await page.c.content()).toBe(
           '<html><head></head><body><p>You have successfully logged in.</p></body></html>',
         );
       }

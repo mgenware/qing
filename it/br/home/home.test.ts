@@ -9,6 +9,6 @@ import { test } from 'br';
 
 test('Home page', async ({ page, goto, expect }) => {
   await goto('/', null);
-  const c = await page.content();
+  const c = await page.c.content();
   expect(c.length).toBeTruthy();
 });

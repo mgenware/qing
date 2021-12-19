@@ -7,69 +7,76 @@
 
 import { newPost } from 'helper/post';
 import { test, usr } from 'br';
-import { userViewQuery } from './common';
-import { checkEditBar } from 'br/com/editor/editBar';
+import * as brt from 'brt';
+import { userViewQuery, checkPostTitle, checkPostHTML } from './common';
+import { getEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
-import { checkEditorDismissal, checkEditorUpdate, EditorPart } from 'br/com/editor/editor';
+import {
+  editorShouldBeDismissed,
+  editorShouldUpdate,
+  EditorPart,
+  editorShouldAppear,
+} from 'br/com/editor/editor';
+
+async function clickEdit(page: brt.Page) {
+  const u = usr.user;
+  const userView = page.$(userViewQuery);
+  const editBtn = getEditButton(userView, u.id);
+  await editBtn.click();
+}
+
+test('Post editor appears', async ({ page, goto }) => {
+  await newPost(usr.user, async (id) => {
+    await goto(`/p/${id}`, usr.user);
+
+    await clickEdit(page);
+    await editorShouldAppear(page, defs.sd.postTitleRaw, defs.sd.postContentSan, [
+      { text: 'Save', style: 'success' },
+      { text: 'Cancel' },
+    ]);
+  });
+});
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Updated ${part === EditorPart.title ? 'title' : 'content'}`, async ({
+  test(`Post editor updates -> ${part === EditorPart.title ? 'title' : 'content'}`, async ({
     page,
     goto,
-    expect,
   }) => {
     await newPost(usr.user, async (id) => {
       await goto(`/p/${id}`, usr.user);
 
-      // Show editor popup.
-      const u = usr.user;
-      const userView = page.$(userViewQuery);
-      const { editBtn } = await checkEditBar(userView, u.id);
-      await editBtn.click();
-
-      // Check editor title.
-      const overlayEl = page.$('set-entity-app qing-overlay');
-      await overlayEl.$('h2:has-text("Edit post")').shouldBeVisible();
+      await clickEdit(page);
 
       // Check editor update.
-      await checkEditorUpdate(page, part, 'Save', 'Cancel');
+      await editorShouldUpdate(page, part);
 
-      const html = await page.content();
       // Verify post title.
-      expect(html).toContain(
-        part === EditorPart.title ? defs.sd.updatedContentHTMLFull : defs.sd.postTitleHTML,
+      await checkPostTitle(
+        page,
+        part === EditorPart.title ? defs.sd.updatedContentRaw : defs.sd.postTitleRaw,
+        `/p/${id}`,
       );
       // Verify post content.
-      expect(html).toContain(
-        part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentHTML,
+      await checkPostHTML(
+        page,
+        part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentRawHTML,
       );
     });
   });
 }
 
-test('Cancelled', async ({ page, expect, goto }) => {
+test('Post editor dismisses', async ({ page, goto }) => {
   await newPost(usr.user, async (id) => {
     await goto(`/p/${id}`, usr.user);
 
-    // User view.
-    const u = usr.user;
-    const userView = page.$(userViewQuery);
-    const { editBtn } = await checkEditBar(userView, u.id);
-
-    // Make the editor show up.
-    await editBtn.click();
-
-    // Check editor title.
-    const overlayEl = page.$('set-entity-app qing-overlay');
-    await overlayEl.$('h2:has-text("Edit post")').shouldBeVisible();
+    await clickEdit(page);
 
     // Check editor dismissal.
-    await checkEditorDismissal(page, 'Cancel');
+    await editorShouldBeDismissed(page, 'Cancel');
 
     // Verify page content.
-    const html = await page.content();
-    expect(html).toContain(defs.sd.postTitleHTML);
-    expect(html).toContain(defs.sd.postContentSan);
+    await checkPostTitle(page, defs.sd.postTitleRaw, `/p/${id}`);
+    await checkPostHTML(page, defs.sd.postContentSan);
   });
 });
 

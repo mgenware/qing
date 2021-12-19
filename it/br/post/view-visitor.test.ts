@@ -16,10 +16,10 @@ import {
   checkVisibleAlert,
 } from 'br/com/alerts/alert';
 import { checkUserView } from 'br/com/content/userView';
-import { userViewQuery } from './common';
+import { userViewQuery, checkPostTitle, checkPostHTML } from './common';
 import * as defs from 'base/defs';
 
-test('View post - visitor', async ({ page, expect, goto }) => {
+test('View post - visitor', async ({ page, goto }) => {
   await newPost(usr.user, async (id) => {
     await goto(`/p/${id}`, null);
 
@@ -28,9 +28,8 @@ test('View post - visitor', async ({ page, expect, goto }) => {
     await checkUserView(page.$(userViewQuery), u.id, u.iconURL, u.name);
 
     // Page content.
-    const html = await page.content();
-    expect(html).toContain(defs.sd.postTitleHTML);
-    expect(html).toContain(defs.sd.postContentSan);
+    await checkPostTitle(page, defs.sd.postTitleRaw, `/p/${id}`);
+    await checkPostHTML(page, defs.sd.postContentSan);
 
     // Like button.
     const likeAppEl = page.$('post-payload-app like-app');

@@ -9,7 +9,7 @@ import { newPost } from 'helper/post';
 import { test, usr } from 'br';
 import { checkUserView } from 'br/com/content/userView';
 import { userViewQuery } from './common';
-import { checkEditBar } from 'br/com/editor/editBar';
+import { checkEditBarVisible } from 'br/com/editor/editBar';
 
 test('View post - user', async ({ goto, page }) => {
   await newPost(usr.user, async (id) => {
@@ -19,6 +19,6 @@ test('View post - user', async ({ goto, page }) => {
     const u = usr.user;
     const userView = page.$(userViewQuery);
     await checkUserView(userView, u.id, u.iconURL, u.name);
-    await checkEditBar(userView, u.id);
+    await checkEditBarVisible(userView, u.id);
   });
 });
