@@ -79,10 +79,6 @@ export class RootCmtList extends BaseElement {
   }
 
   render() {
-    if (!appPageState.user) {
-      return this.renderLoginToComment();
-    }
-
     const { totalCmtCount, collectorLoadingStatus } = this;
     let titleGroup = html` <h2>${ls.comments}</h2> `;
     let contentGroup = html``;
@@ -129,7 +125,9 @@ export class RootCmtList extends BaseElement {
       `;
     }
 
-    const addCmtGroup = this.renderCommentComposer();
+    const addCmtGroup = appPageState.user
+      ? this.renderCommentComposer()
+      : this.renderLoginToComment();
     return html` ${titleGroup}${addCmtGroup}${contentGroup} `;
   }
 
