@@ -34,6 +34,9 @@ export class LocatorCore {
 
 export class ElementCollection extends LocatorCore {
   item(idx: number) {
+    if (idx < 0) {
+      throw new Error(`Index should not be negative. Got ${idx}`);
+    }
     return new Element(this.c.nth(idx), this.expect);
   }
 

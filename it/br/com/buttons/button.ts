@@ -13,11 +13,14 @@ export interface ButtonTraits {
   style?: string;
 }
 
-// `el`: an instance of `qing-button`.
+export async function buttonShouldHaveFocus(el: brt.Element) {
+  await el.$('button').shouldHaveFocus();
+}
+
 export async function buttonShouldAppear(el: brt.Element, traits: ButtonTraits) {
   await el.shouldHaveTextContent(traits.text);
   if (traits.focused) {
-    await el.$('button').shouldHaveFocus();
+    await buttonShouldHaveFocus(el);
   }
   if (traits.style) {
     await el.shouldHaveAttr('btnStyle', traits.style);
