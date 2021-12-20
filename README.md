@@ -12,7 +12,6 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 
 - Fast and modern, built with Go, TypeScript, Web Components, mingru
 - SEO-friendly, no SPA on public pages
-- i18n
 - Universal, works on desktop and mobile
 - Configurable and extensible
 - Builtin dark theme support
@@ -42,11 +41,12 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 | Login and registration | ✅  |
 | Blogging               | ✅  |
 | Dashboard              | ✅  |
-| Integration tests      | 🚧  |
-| Forums                 | 🚧  |
-| QnA                    | ❌  |
+| QnA                    | 🚧  |
+| Forum discussions      | 🚧  |
+| Forum groups           | ❌  |
+| Forum admins           | ❌  |
+| Forum management       | ❌  |
 | 3rd-party OAuth login  | ❌  |
-| Dockerfy               | 🚧  |
 
 ## Documentation
 
