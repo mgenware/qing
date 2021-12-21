@@ -7,7 +7,7 @@
 
 import { test } from 'br';
 
-test('Home page viewed', async ({ page, goto, expect }) => {
+test('Home page', async ({ page, goto, expect }) => {
   await goto('/', null);
   const c = await page.c.content();
   expect(c.length).toBeTruthy();

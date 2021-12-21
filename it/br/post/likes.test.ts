@@ -9,7 +9,7 @@ import { newPost } from 'helper/post';
 import { test, usr } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
 
-test('Post liked', async ({ goto, page }) => {
+test('Like a post', async ({ goto, page }) => {
   await newPost(usr.user, async (id) => {
     const link = `/p/${id}`;
     await goto(link, usr.user);

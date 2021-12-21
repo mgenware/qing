@@ -15,7 +15,7 @@ import {
 } from 'br/com/alerts/alert';
 import { postCoreTraitsShouldAppear } from './common';
 
-test('Post viewed by visitor', async ({ page, goto }) => {
+test('Post page (visitor)', async ({ page, goto }) => {
   await newPost(usr.user, async (id) => {
     const { likeAppEl } = await postCoreTraitsShouldAppear(page, goto, id, usr.user, null);
 
