@@ -38,7 +38,7 @@ export class AuthDevPage extends BaseElement {
   render() {
     return html`
       <div>
-        <h1>Auth dev page</h1>
+        <h1>Auth</h1>
         <hr />
         ${this.renderUserSection()}
       </div>

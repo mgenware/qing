@@ -144,6 +144,10 @@ export class Element extends LocatorCore {
   shouldHaveFocus() {
     return this.expect(this.c).toBeFocused();
   }
+
+  shouldHaveValue(val: string) {
+    return this.shouldHaveAttr('value', val);
+  }
 }
 
 export class Page {

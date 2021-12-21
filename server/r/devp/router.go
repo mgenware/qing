@@ -24,6 +24,7 @@ func init() {
 	// A single `auth/in` route to support user login in BR tests.
 	authRouter := handler.NewHTMLRouter()
 	authRouter.Get("/in/{uid}", signInGETHandler)
+	authRouter.Get("/*", defaultHandler)
 	Router.Mount("/auth", authRouter)
 
 	Router.Mount("/api", apiRouter())
