@@ -18,7 +18,7 @@ import (
 	"qing/r/sys"
 	"qing/sod/post/postWind"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 const postScript = "post/postEntry"

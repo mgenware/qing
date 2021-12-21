@@ -22,7 +22,7 @@ import (
 	"qing/lib/validator"
 	"qing/sod/dev/auth/tUserInfo"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/jsonx"
 )
 

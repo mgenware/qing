@@ -18,7 +18,7 @@ import (
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {

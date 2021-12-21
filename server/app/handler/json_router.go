@@ -10,7 +10,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 // JSONHandlerFunc is an http.HandlerFunc with a return value representing the result of the handler.

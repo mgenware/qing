@@ -21,7 +21,7 @@ import (
 	"qing/r/sys"
 	"strings"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 const userPostsLimit = 10

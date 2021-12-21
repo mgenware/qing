@@ -13,7 +13,7 @@ import (
 	"qing/app/handler"
 	"qing/app/middleware"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 var Router = chi.NewRouter()

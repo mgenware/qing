@@ -22,7 +22,7 @@ import (
 	"qing/sod/qna/qnaWind"
 	"strings"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 const qnaEntryScriptName = "qna/questionEntry"

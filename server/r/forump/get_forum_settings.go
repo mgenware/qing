@@ -14,7 +14,7 @@ import (
 	"qing/lib/fmtx"
 	"qing/r/sys"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 const forumSettingsScript = "forumSettingsEntry"
