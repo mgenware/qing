@@ -17,7 +17,7 @@ var appLog app.CoreLog
 
 func init() {
 	conf := app.CoreConfig()
-	if conf.TestMode {
+	if conf.UnitTest() {
 		appLog = NewTestLogger()
 	} else {
 		logger, err := logx.NewLogger(conf.Log.Dir, conf.DevMode())

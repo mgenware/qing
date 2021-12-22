@@ -24,6 +24,13 @@ import (
 
 const schemaFileName = "qing-conf.schema.json"
 
+const (
+	testNone = iota
+	testUnit = iota
+	testAPI  = iota
+	testBR   = iota
+)
+
 // Config is the root configuration type for your application.
 type Config struct {
 	// Extends specifies another file which this file extends from.
@@ -44,10 +51,14 @@ type Config struct {
 
 	DB        *configs.DBConfig        `json:"db"`
 	ResServer *configs.ResServerConfig `json:"res_server"`
+
 	// Extern config data.
 	Extern *configs.ExternConfig `json:"extern"`
-
-	TestMode bool `json:"test_mode"`
+	// Possible values:
+	// `u`: unit tests, `api`: API tests, `br`: browser tests.
+	TestMode *string `json:"test_mode"`
+	// Integer representation of `TestMode` used for faster comparison.
+	testModeNum int
 }
 
 // DevMode checks if debug config field is on.
@@ -58,6 +69,18 @@ func (conf *Config) DevMode() bool {
 // ProductionMode = !DevMode().
 func (conf *Config) ProductionMode() bool {
 	return !conf.DevMode()
+}
+
+func (conf *Config) UnitTest() bool {
+	return conf.testModeNum == testUnit
+}
+
+func (conf *Config) APITest() bool {
+	return conf.testModeNum == testAPI
+}
+
+func (conf *Config) BRTest() bool {
+	return conf.testModeNum == testBR
 }
 
 func readConfigCore(absFile string) (*Config, error) {
@@ -109,7 +132,7 @@ func readConfigCore(absFile string) (*Config, error) {
 }
 
 // MustReadConfig constructs a config object from the given file.
-func MustReadConfig(file string) *Config {
+func MustReadConfig(file string, workingDir string) *Config {
 	absFile := file
 	if !filepath.IsAbs(file) {
 		s, err := filepath.Abs(file)
@@ -118,7 +141,6 @@ func MustReadConfig(file string) *Config {
 		}
 		absFile = s
 	}
-	configDir := filepath.Dir(absFile)
 	conf, err := readConfigCore(absFile)
 	if err != nil {
 		panic(err)
@@ -126,7 +148,7 @@ func MustReadConfig(file string) *Config {
 
 	schemaPath := filepath.Join(filepath.Dir(absFile), schemaFileName)
 	mustValidateConfig(conf, schemaPath)
-	conf.mustCoerceConfig(configDir)
+	conf.mustCoerceConfig(workingDir)
 	return conf
 }
 
@@ -153,6 +175,24 @@ func mustValidateConfig(conf *Config, schemaFilePath string) {
 }
 
 func (conf *Config) mustCoerceConfig(dir string) {
+	if conf.TestMode != nil {
+		// Test flag is forbidden in production.
+		if conf.ProductionMode() {
+			panic("You cannot have test mode set in production mode")
+		}
+		modeString := *conf.TestMode
+		switch modeString {
+		case "u":
+			conf.testModeNum = testUnit
+		case "api":
+			conf.testModeNum = testAPI
+		case "br":
+			conf.testModeNum = testBR
+		default:
+			panic(fmt.Errorf("Unknown test mode value \"%v\"", modeString))
+		}
+	}
+
 	// AppProfile
 	appProfileConfig := conf.AppProfile
 	mustCoercePathPtr(dir, &appProfileConfig.Dir)

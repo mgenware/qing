@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import devConf from '../userland/dev.json';
+import devConf from '../userland/config/dev.json';
 
 // App dir in containers.
 const conAppDir = '/qing';

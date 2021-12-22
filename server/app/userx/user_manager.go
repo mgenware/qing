@@ -42,7 +42,7 @@ func NewUserManager(
 	conf *config.Config,
 ) *UserManager {
 	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf}
-	if conf.TestMode {
+	if conf.UnitTest() {
 		ret.testSIDMap = make(map[uint64]string)
 	}
 	return ret
@@ -59,8 +59,8 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 
 func (appu *UserManager) TestLogin(uid uint64) {
 	conf := appu.conf
-	if !conf.TestMode {
-		panic("This func is only available in test mode")
+	if !conf.UnitTest() {
+		panic("This func is only available in unit tests")
 	}
 	user, err := appu.createUserSessionFromUID(uid)
 	if err != nil {
@@ -80,8 +80,8 @@ func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
 
 func (appu *UserManager) TestLogout(uid uint64) error {
 	conf := appu.conf
-	if !conf.TestMode {
-		panic("This func is only available in text mode")
+	if !conf.UnitTest() {
+		panic("This func is only available in unit tests")
 	}
 
 	sid := appu.testSIDMap[uid]

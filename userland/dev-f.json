@@ -1,6 +1,0 @@
-{
-  "extends": "dev.json",
-  "setup": {
-    "forums_mode": true
-  }
-}

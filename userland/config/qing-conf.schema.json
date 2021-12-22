@@ -130,7 +130,7 @@
   },
   "properties": {
     "extends": { "type": "string" },
-    "test_mode": { "type": "boolean" },
+    "test_mode": { "type": ["string", "null"], "enum": ["u", "api", "br", null] },
     "debug": { "$ref": "#/definitions/debug_config" },
     "logging": { "$ref": "#/definitions/logging_config" },
     "http": { "$ref": "#/definitions/http_config" },
