@@ -11,7 +11,7 @@ import gen from 'go-const-gen';
 import * as mfs from 'm-fs';
 import actions from './actions/actions.js';
 import models from './models/models.js';
-import { serverPath, copyrightString } from '../common/common.js';
+import { serverPath, copyrightString, webPath } from '../common/common.js';
 import sharedConstants from './shared_constants.js';
 
 const packageName = 'da';
@@ -46,6 +46,7 @@ const mingruHeader =
   const dialect = new mr.MySQL();
   // Build Go code to '/server/da/` directory
   const daPath = serverPath('da');
+  const tsOutDir = webPath('src/sod/da');
   const builder = new mr.Builder(dialect, daPath, {
     cleanBuild: true,
     jsonTags: {
@@ -54,6 +55,7 @@ const mingruHeader =
     },
     sqlFileHeader: mingruHeader,
     goFileHeader: mingruHeader,
+    tsOutDir,
   });
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   await builder.buildAsync(async (): Promise<void> => {
