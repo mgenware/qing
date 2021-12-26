@@ -15,6 +15,8 @@ export interface Cmt extends CmtCore, UICmtCore {}
 
 export interface Reply extends ReplyCore, UICmtCore {}
 
+export default Cmt;
+
 export interface CmtCountChangedEventDetail {
   // The number of items after change.
   count: number;
@@ -24,4 +26,11 @@ export interface CmtCountChangedEventDetail {
 
 export function isCmtReply(cmt: Cmt): boolean {
   return !!(cmt as Reply).toUserURL;
+}
+
+export function toReply(cmt: Cmt): Reply | null {
+  if (isCmtReply(cmt)) {
+    return cmt as Reply;
+  }
+  return null;
 }

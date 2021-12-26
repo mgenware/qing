@@ -12,7 +12,7 @@ import { CHECK } from 'checks';
 import { EventEmitter, EventEntry } from 'lib/eventEmitter';
 import { ItemsChangedEvent, ItemsChangedSource } from 'lib/itemCollector';
 import LoadingStatus from 'lib/loadingStatus';
-import Cmt from './cmt';
+import { Cmt } from './cmt';
 import CmtCollector from './cmtCollector';
 
 const startPage = 1;
@@ -142,7 +142,7 @@ export class CmtDataHub {
   private initRootCmtCollector(cmt: Cmt) {
     const collector = new CmtCollector(
       // Use `cmt.replyCount` as the initial count for this collector.
-      cmt.replyCount,
+      cmt.replyCount ?? 0,
       undefined,
       {
         parentCmtID: cmt.id,

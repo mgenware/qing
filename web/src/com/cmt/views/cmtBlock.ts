@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
-import Cmt, { isCmtReply } from '../data/cmt';
+import { Cmt, isCmtReply } from '../data/cmt';
 import './cmtFooterView';
 import { CHECK } from 'checks';
 import { repeat } from 'lit/directives/repeat.js';
@@ -59,7 +59,7 @@ export class CmtBlock extends BaseElement {
     const { cmt } = this;
     CHECK(cmt);
 
-    this.totalCount = cmt.replyCount;
+    this.totalCount = cmt.replyCount ?? 0;
     this.hasNext = !!this.totalCount;
 
     const hub = appCmtHubState.getHub(this.hostType, this.hostID);

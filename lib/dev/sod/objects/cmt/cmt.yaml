@@ -12,12 +12,12 @@ Cmt:
     id: eID
     userID: userEID
 
-  id: string
-  userURL: string
-  userID: string
-  userIconURL: string
-  createdAt: string
-  modifiedAt: string
+  id!: string
+  userURL!: string
+  userID!: string
+  userIconURL!: string
+  createdAt!: string
+  modifiedAt!: string
 
 Reply:
   __go_ctor: true
@@ -27,5 +27,6 @@ Reply:
     name: Cmt
   __go_rename:
     toUserID: toUserEID
-  toUserID: string
-  toUserURL: string
+  toUserID!: string
+  toUserName: string
+  toUserURL!: string

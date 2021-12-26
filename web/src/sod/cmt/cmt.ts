@@ -14,15 +14,16 @@
 import { CmtData } from '../da/cmtData.js';
 
 export interface Cmt extends CmtData {
-  id?: string;
-  userURL?: string;
-  userID?: string;
-  userIconURL?: string;
-  createdAt?: string;
-  modifiedAt?: string;
+  id: string;
+  userURL: string;
+  userID: string;
+  userIconURL: string;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export interface Reply extends Cmt {
-  toUserID?: string;
-  toUserURL?: string;
+  toUserID: string;
+  toUserName?: string;
+  toUserURL: string;
 }

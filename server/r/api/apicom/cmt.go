@@ -28,5 +28,5 @@ func NewReply(d *da.CmtData) cmt.Reply {
 	c := NewCmt(d)
 	toUserEID := fmtx.EncodeID(d.ToUserID)
 	toUserURL := appURL.Get().UserProfile(d.ToUserID)
-	return cmt.NewReply(&c, toUserEID, toUserURL)
+	return cmt.NewReply(&c, toUserEID, d.ToUserName, toUserURL)
 }

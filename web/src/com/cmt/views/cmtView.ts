@@ -15,7 +15,7 @@ import 'ui/widgets/svgIcon';
 import 'com/like/likeApp';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { staticMainImage } from 'urls';
-import Cmt, { isCmtReply } from '../data/cmt';
+import Cmt, { toReply } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';
@@ -49,7 +49,7 @@ export class CmtView extends BaseElement {
   render() {
     const { cmt } = this;
     CHECK(cmt);
-    const isReply = isCmtReply(cmt);
+    const reply = toReply(cmt);
     return html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
         <div class="col-auto">
@@ -60,16 +60,16 @@ export class CmtView extends BaseElement {
         <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
-            ${isReply
+            ${reply
               ? html`
                   <span>
                     <svg-icon
-                      title=${formatLS(ls.pReplyTo, cmt.toUserName)}
+                      title=${formatLS(ls.pReplyTo, reply.toUserName)}
                       iconStyle="info"
                       .oneTimeSrc=${staticMainImage('reply-to.svg')}
                       .size=${16}>
                     </svg-icon>
-                    <a href=${cmt.toUserURL || '#'}>${cmt.toUserName}</a>
+                    <a href=${reply.toUserURL || '#'}>${reply.toUserName}</a>
                   </span>
                 `
               : ''}
@@ -99,10 +99,10 @@ export class CmtView extends BaseElement {
             </qing-button>
             <like-app
               .iconSize=${'sm'}
-              .initialLikes=${cmt.likes}
+              .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.hasLiked}
               .hostID=${cmt.id}
-              .hostType=${isReply ? entityReply : entityCmt}></like-app>
+              .hostType=${reply ? entityReply : entityCmt}></like-app>
           </div>
         </div>
       </div>

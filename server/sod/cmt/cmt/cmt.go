@@ -18,12 +18,12 @@ import "qing/da"
 type Cmt struct {
 	da.CmtData
 
-	EID         string `json:"id,omitempty"`
-	UserURL     string `json:"userURL,omitempty"`
-	UserEID     string `json:"userID,omitempty"`
-	UserIconURL string `json:"userIconURL,omitempty"`
-	CreatedAt   string `json:"createdAt,omitempty"`
-	ModifiedAt  string `json:"modifiedAt,omitempty"`
+	EID         string `json:"id"`
+	UserURL     string `json:"userURL"`
+	UserEID     string `json:"userID"`
+	UserIconURL string `json:"userIconURL"`
+	CreatedAt   string `json:"createdAt"`
+	ModifiedAt  string `json:"modifiedAt"`
 }
 
 func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userIconURL string, createdAt string, modifiedAt string) Cmt {
@@ -41,14 +41,16 @@ func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userI
 type Reply struct {
 	Cmt
 
-	ToUserEID string `json:"toUserID,omitempty"`
-	ToUserURL string `json:"toUserURL,omitempty"`
+	ToUserEID  string `json:"toUserID"`
+	ToUserName string `json:"toUserName,omitempty"`
+	ToUserURL  string `json:"toUserURL"`
 }
 
-func NewReply(cmt *Cmt, toUserID string, toUserURL string) Reply {
+func NewReply(cmt *Cmt, toUserID string, toUserName string, toUserURL string) Reply {
 	return Reply{
 		Cmt: *cmt,
 		ToUserEID: toUserID,
+		ToUserName: toUserName,
 		ToUserURL: toUserURL,
 	}
 }
