@@ -21,3 +21,8 @@ export interface Cmt extends CmtData {
   createdAt?: string;
   modifiedAt?: string;
 }
+
+export interface Reply extends Cmt {
+  toUserID?: string;
+  toUserURL?: string;
+}

@@ -26,13 +26,29 @@ type Cmt struct {
 	ModifiedAt  string `json:"modifiedAt,omitempty"`
 }
 
-func NewCmt(id string, userURL string, userID string, userIconURL string, createdAt string, modifiedAt string) Cmt {
+func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userIconURL string, createdAt string, modifiedAt string) Cmt {
 	return Cmt{
+		CmtData: *cmtData,
 		EID: id,
 		UserURL: userURL,
 		UserEID: userID,
 		UserIconURL: userIconURL,
 		CreatedAt: createdAt,
 		ModifiedAt: modifiedAt,
+	}
+}
+
+type Reply struct {
+	Cmt
+
+	ToUserEID string `json:"toUserID,omitempty"`
+	ToUserURL string `json:"toUserURL,omitempty"`
+}
+
+func NewReply(cmt *Cmt, toUserID string, toUserURL string) Reply {
+	return Reply{
+		Cmt: *cmt,
+		ToUserEID: toUserID,
+		ToUserURL: toUserURL,
 	}
 }
