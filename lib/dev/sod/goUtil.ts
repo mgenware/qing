@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { genGoType, TypeMember, Options } from 'gen-go-type';
-import sortedObjEntries from 'sorted-object-entries';
+import { genGoType, TypeMember, Options, BaseType } from 'gen-go-type';
 import * as cm from './common.js';
 
 export const goOutDirAttr = '__go_out_dir';
@@ -71,7 +70,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
   let baseType: cm.ExtendsField | undefined;
   let renameMap: Record<string, string> = {};
   let imports = new Set<string>();
-  for (const [clsName, fields] of sortedObjEntries(dict)) {
+  for (const [typeName, typeDef] of Object.entries(dict)) {
     if (isFirst) {
       isFirst = false;
     } else {
@@ -79,10 +78,9 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     }
     let members: TypeMember[] = [];
     let ctor = false;
-    for (const [_k, v] of sortedObjEntries(fields)) {
-      const requiredProp = _k.endsWith('!');
-      const k = cm.trimEnd(_k, '!');
-      if (k.startsWith(cm.attrPrefix)) {
+    cm.scanTypeDef(
+      typeDef,
+      (k, v) => {
         // Attribute values may not be a string.
         const unknownValue = v as unknown;
         switch (k) {
@@ -100,31 +98,36 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
             renameMap = cm.parseRenameMap(unknownValue);
             break;
           }
-
-          default: {
-            cm.checkAttr(k);
-          }
         }
-        continue;
-      }
-
-      members.push({
-        name: cm.capitalize(renameMap[k] || k),
-        paramName: k,
-        type: v,
-        tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,
-      });
-    }
+      },
+      (k, v, requiredProp) => {
+        members.push({
+          name: cm.capitalizeFirstLetter(renameMap[k] || k),
+          paramName: k,
+          type: v,
+          tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,
+        });
+      },
+    );
     const genOpt: Options = {};
     if (ctor) {
       genOpt.ctorFunc = true;
       genOpt.returnValueInCtor = true;
     }
+    let goGenBaseTypes: BaseType[] | undefined;
     if (baseType) {
-      genOpt.bodyHeader = `\n\t${baseType.name}\n`;
-      imports.add(baseType.path);
+      goGenBaseTypes = [
+        {
+          name: baseType.name,
+          paramName: cm.lowerFirstLetter(baseType.name),
+          packageName: baseType.packageName,
+        },
+      ];
+      if (baseType.path) {
+        imports.add(baseType.path);
+      }
     }
-    s += genGoType('struct', clsName, members, genOpt);
+    s += genGoType('struct', typeName, members, genOpt, goGenBaseTypes);
   }
   const importCode = imports.size ? makeImports([...imports.values()]) : '';
   return cm.copyrightString + cm.noticeComment(input) + `package ${pkgName}\n\n` + importCode + s;

@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import sortedObjEntries from 'sorted-object-entries';
 import * as cm from './common.js';
 
 const tsExtendsAttr = '__ts_extends';
@@ -29,41 +28,45 @@ export function sourceTypeFieldToTSType(type: string): string {
 }
 
 export function tsCode(input: string, dict: cm.SourceDict): string {
-  let s = '';
+  let code = '';
   let isFirst = true;
-  let baseType: cm.ExtendsField | undefined;
-  for (const [clsName, fields] of sortedObjEntries(dict)) {
+  const imports = new Set<string>();
+  for (const [typeName, typeDef] of Object.entries(dict)) {
+    let baseType: cm.ExtendsField | undefined;
     if (isFirst) {
       isFirst = false;
     } else {
-      s += '\n';
+      code += '\n';
     }
-    for (const [_k, v] of sortedObjEntries(fields)) {
-      const requiredProp = _k.endsWith('!');
-      const k = cm.trimEnd(_k, '!');
-      if (k.startsWith(cm.attrPrefix)) {
-        // Attribute values may not be a string.
-        const unknownValue = v as unknown;
+    let typeCode = '';
+    cm.scanTypeDef(
+      typeDef,
+      (k, v) => {
         switch (k) {
           case tsExtendsAttr: {
-            baseType = cm.parseExtendsFieldObj(unknownValue);
+            baseType = cm.parseExtendsFieldObj(v);
             break;
           }
-
-          default: {
-            cm.checkAttr(k);
-          }
         }
-        continue;
-      }
-      s += `  ${k}${requiredProp ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
-    } // end of for.
-    s += `}\n`;
+      },
+      (k, v, requiredProp) => {
+        typeCode += `  ${k}${requiredProp ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
+      },
+    );
+    typeCode += `}\n`;
 
     // Interface declaration is handled at last since base class can
     // only be determined when all attrs are processed.
-    s = `export interface ${clsName}${baseType?.name ? ` extends ${baseType?.name}` : ''} {\n` + s;
+    typeCode =
+      `export interface ${typeName}${baseType?.name ? ` extends ${baseType?.name}` : ''} {\n` +
+      typeCode;
+
+    if (baseType?.path) {
+      imports.add(`import { ${baseType?.name} } from '${baseType.path}';`);
+    }
+
+    code += typeCode;
   }
-  const imports = baseType?.path ? `import { ${baseType?.name} } from '${baseType.path}';\n\n` : '';
-  return cm.copyrightString + cm.noticeComment(input) + imports + s;
+  const importCode = imports.size ? [...imports.values()].map((s) => `${s}\n`).join('') + '\n' : '';
+  return cm.copyrightString + cm.noticeComment(input) + importCode + code;
 }
