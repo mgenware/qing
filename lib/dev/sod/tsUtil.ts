@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import sortedObjEntries from 'sorted-object-entries';
 import * as cm from './common.js';
 
 const tsExtendsAttr = '__ts_extends';
@@ -31,13 +32,13 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
   let s = '';
   let isFirst = true;
   let baseType: cm.ExtendsField | undefined;
-  for (const [clsName, fields] of Object.entries(dict)) {
+  for (const [clsName, fields] of sortedObjEntries(dict)) {
     if (isFirst) {
       isFirst = false;
     } else {
       s += '\n';
     }
-    for (const [_k, v] of Object.entries(fields)) {
+    for (const [_k, v] of sortedObjEntries(fields)) {
       const requiredProp = _k.endsWith('!');
       const k = cm.trimEnd(_k, '!');
       if (k.startsWith(cm.attrPrefix)) {

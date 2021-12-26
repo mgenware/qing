@@ -6,13 +6,15 @@
  */
 
 import { genGoType, TypeMember, Options } from 'gen-go-type';
+import sortedObjEntries from 'sorted-object-entries';
 import * as cm from './common.js';
 
 export const goOutDirAttr = '__go_out_dir';
 const goCtorAttr = '__go_ctor';
 const goExtendsAttr = '__go_extends';
+const goRenameAttr = '__go_rename';
 
-cm.addAllowedAttrs([goCtorAttr, goExtendsAttr]);
+cm.addAllowedAttrs([goCtorAttr, goExtendsAttr, goRenameAttr]);
 
 function joinImports(imports: string[], newline: boolean): string {
   if (!imports.length) {
@@ -67,8 +69,9 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
   let s = '';
   let isFirst = true;
   let baseType: cm.ExtendsField | undefined;
+  let renameMap: Record<string, string> = {};
   let imports = new Set<string>();
-  for (const [clsName, fields] of Object.entries(dict)) {
+  for (const [clsName, fields] of sortedObjEntries(dict)) {
     if (isFirst) {
       isFirst = false;
     } else {
@@ -76,7 +79,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     }
     let members: TypeMember[] = [];
     let ctor = false;
-    for (const [_k, v] of Object.entries(fields)) {
+    for (const [_k, v] of sortedObjEntries(fields)) {
       const requiredProp = _k.endsWith('!');
       const k = cm.trimEnd(_k, '!');
       if (k.startsWith(cm.attrPrefix)) {
@@ -93,14 +96,20 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
             break;
           }
 
+          case goRenameAttr: {
+            renameMap = cm.parseRenameMap(unknownValue);
+            break;
+          }
+
           default: {
             cm.checkAttr(k);
           }
         }
         continue;
       }
+
       members.push({
-        name: cm.capitalize(k),
+        name: cm.capitalize(renameMap[k] || k),
         paramName: k,
         type: v,
         tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,

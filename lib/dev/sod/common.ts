@@ -75,3 +75,10 @@ export function parseExtendsFieldObj(obj: unknown): ExtendsField {
   }
   return { name, path };
 }
+
+export function parseRenameMap(obj: unknown): Record<string, string> {
+  if (typeof obj !== 'object') {
+    throw new Error(`Expected an object, got ${JSON.stringify(obj)}`);
+  }
+  return obj as Record<string, string>;
+}

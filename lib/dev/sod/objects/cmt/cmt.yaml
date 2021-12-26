@@ -1,0 +1,19 @@
+---
+Cmt:
+  __go_ctor: true
+  __go_extends:
+    name: da.CmtData
+    path: qing/da
+  __ts_extends:
+    name: CmtData
+    path: '../da/cmtData.js'
+  __go_rename:
+    id: eID
+    userID: userEID
+
+  id: string
+  userURL: string
+  userID: string
+  userIconURL: string
+  createdAt: string
+  modifiedAt: string
