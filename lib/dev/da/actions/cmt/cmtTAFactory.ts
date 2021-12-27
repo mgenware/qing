@@ -60,7 +60,8 @@ export function selectCmts(rt: CmtRelationTable, withLike: boolean): mm.SelectAc
     .by(rt.host_id)
     .orderByDesc(jCmt.created_at)
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
-    .resultTypeNameAttr(cmtResultType);
+    .resultTypeNameAttr(cmtResultType)
+    .attr(mm.ActionAttribute.tsTypeName, cmtResultType);
 }
 
 export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQL): mm.Action {

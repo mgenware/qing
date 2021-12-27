@@ -20,17 +20,18 @@ import (
 	"qing/lib/fmtx"
 	"qing/lib/validator"
 	"qing/r/api/apicom"
+	"qing/sod/cmt/cmt"
 	"time"
 )
 
 type SetCmtResponse struct {
-	Cmt *apicom.Cmt `json:"cmt"`
+	Cmt *cmt.Cmt `json:"cmt"`
 }
 
 // On web side, replies are incorporated into the comment type, so here we're returning
 // a `Reply` object with the exact same name of `cmt`.
 type SetCmtReplyResponse struct {
-	Reply *apicom.Reply `json:"cmt"`
+	Reply *cmt.Reply `json:"cmt"`
 }
 
 func getCmtTA(hostType int) (da.CmtInterface, error) {
@@ -121,7 +122,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			err := da.Reply.EditReply(db, id, uid, content, sanitizedToken)
 			app.PanicIfErr(err)
 		}
-		cmt := &apicom.Cmt{EID: fmtx.EncodeID(id)}
+		cmt := &cmt.Cmt{EID: fmtx.EncodeID(id)}
 		cmt.ContentHTML = content
 		now := time.Now()
 		cmt.ModifiedAt = fmtx.Time(now)

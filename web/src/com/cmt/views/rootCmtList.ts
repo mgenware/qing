@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import { listenForVisibilityChange } from 'lib/htmlLib';
-import Cmt from '../data/cmt';
+import { Cmt } from '../data/cmt';
 import './cmtBlock';
 import './cmtFooterView';
 import { repeat } from 'lit/directives/repeat.js';

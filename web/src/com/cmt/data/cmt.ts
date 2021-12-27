@@ -5,29 +5,17 @@
  * be found in the LICENSE file.
  */
 
-export default interface Cmt {
-  id: string;
-  title: string;
-  createdAt: string;
-  modifiedAt: string;
-  // Might not be updated in <cmt-app>, which uses `cmtCollector.totalCount` instead.
-  replyCount: number;
-  contentHTML: string;
-  userID: string;
-  userName: string;
-  userURL: string;
-  userIconURL: string;
-  likes: number;
-  // `CmtData` -> HasLiked *uint64 `json:"hasLiked,omitempty"`
-  hasLiked?: boolean;
+import { Cmt as CmtCore, Reply as ReplyCore } from 'sod/cmt/cmt';
 
-  // Reply only properties.
-  toUserName?: string;
-  toUserURL?: string;
-
-  // UI properties.
+interface UICmtCore {
   uiHighlighted?: boolean;
 }
+
+export interface Cmt extends CmtCore, UICmtCore {}
+
+export interface Reply extends ReplyCore, UICmtCore {}
+
+export default Cmt;
 
 export interface CmtCountChangedEventDetail {
   // The number of items after change.
@@ -37,5 +25,12 @@ export interface CmtCountChangedEventDetail {
 }
 
 export function isCmtReply(cmt: Cmt): boolean {
-  return !!cmt.toUserURL;
+  return !!(cmt as Reply).toUserURL;
+}
+
+export function toReply(cmt: Cmt): Reply | null {
+  if (isCmtReply(cmt)) {
+    return cmt as Reply;
+  }
+  return null;
 }

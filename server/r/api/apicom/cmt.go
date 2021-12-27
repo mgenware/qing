@@ -11,41 +11,22 @@ import (
 	"qing/app/appURL"
 	"qing/da"
 	"qing/lib/fmtx"
+	"qing/sod/cmt/cmt"
 )
 
-type Cmt struct {
-	da.CmtData
-
-	EID         string `json:"id"`
-	UserEID     string `json:"userID,omitempty"`
-	UserURL     string `json:"userURL,omitempty"`
-	UserIconURL string `json:"userIconURL,omitempty"`
-	CreatedAt   string `json:"createdAt,omitempty"`
-	ModifiedAt  string `json:"modifiedAt,omitempty"`
+func NewCmt(d *da.CmtData) cmt.Cmt {
+	eid := fmtx.EncodeID(d.ID)
+	userEID := fmtx.EncodeID(d.UserID)
+	userURL := appURL.Get().UserProfile(d.UserID)
+	userIconURL := appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
+	createdAt := fmtx.Time(d.RawCreatedAt)
+	modifiedAt := fmtx.Time(d.RawModifiedAt)
+	return cmt.NewCmt(d, eid, userURL, userEID, userIconURL, createdAt, modifiedAt)
 }
 
-func NewCmt(d *da.CmtData) Cmt {
-	r := Cmt{CmtData: *d}
-	r.EID = fmtx.EncodeID(d.ID)
-	r.UserEID = fmtx.EncodeID(d.UserID)
-	r.UserURL = appURL.Get().UserProfile(r.UserID)
-	r.UserIconURL = appURL.Get().UserIconURL50(r.UserID, r.UserIconName)
-	r.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	r.ModifiedAt = fmtx.Time(d.RawModifiedAt)
-	return r
-}
-
-type Reply struct {
-	Cmt
-
-	ToUserEID string `json:"toUserID,omitempty"`
-	ToUserURL string `json:"toUserURL,omitempty"`
-}
-
-func NewReply(d *da.CmtData) Reply {
+func NewReply(d *da.CmtData) cmt.Reply {
 	c := NewCmt(d)
-	r := Reply{Cmt: c}
-	r.ToUserEID = fmtx.EncodeID(d.ToUserID)
-	r.ToUserURL = appURL.Get().UserProfile(r.ToUserID)
-	return r
+	toUserEID := fmtx.EncodeID(d.ToUserID)
+	toUserURL := appURL.Get().UserProfile(d.ToUserID)
+	return cmt.NewReply(&c, toUserEID, d.ToUserName, toUserURL)
 }

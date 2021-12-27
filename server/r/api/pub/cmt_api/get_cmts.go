@@ -17,6 +17,7 @@ import (
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/api/apicom"
+	"qing/sod/cmt/cmt"
 )
 
 var kCmtPageSize int
@@ -31,17 +32,17 @@ func init() {
 }
 
 type GetCmtsRespData struct {
-	Items   []apicom.Cmt `json:"items"`
-	HasNext bool         `json:"hasNext"`
+	Items   []cmt.Cmt `json:"items"`
+	HasNext bool      `json:"hasNext"`
 }
 
 type GetRepliesRespData struct {
-	Items   []apicom.Reply `json:"items"`
-	HasNext bool           `json:"hasNext"`
+	Items   []cmt.Reply `json:"items"`
+	HasNext bool        `json:"hasNext"`
 }
 
 func newGetCmtsRespData(cmts []da.CmtData, hasNext bool) GetCmtsRespData {
-	cmtsConverted := make([]apicom.Cmt, len(cmts))
+	cmtsConverted := make([]cmt.Cmt, len(cmts))
 	for i := 0; i < len(cmts); i++ {
 		cmtsConverted[i] = apicom.NewCmt(&cmts[i])
 	}
@@ -52,7 +53,7 @@ func newGetCmtsRespData(cmts []da.CmtData, hasNext bool) GetCmtsRespData {
 }
 
 func newGetRepliesRespData(replies []da.CmtData, hasNext bool) GetRepliesRespData {
-	repliesConverted := make([]apicom.Reply, len(replies))
+	repliesConverted := make([]cmt.Reply, len(replies))
 	for i := 0; i < len(replies); i++ {
 		repliesConverted[i] = apicom.NewReply(&replies[i])
 	}
