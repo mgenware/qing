@@ -15,6 +15,7 @@ export interface ButtonTraits {
 
 export async function buttonShouldHaveFocus(el: brt.Element) {
   await el.$('button').shouldHaveFocus();
+  return el;
 }
 
 export async function buttonShouldAppear(el: brt.Element, traits: ButtonTraits) {
@@ -25,4 +26,5 @@ export async function buttonShouldAppear(el: brt.Element, traits: ButtonTraits) 
   if (traits.style) {
     await el.shouldHaveAttr('btnStyle', traits.style);
   }
+  return el;
 }
