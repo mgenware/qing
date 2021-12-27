@@ -6,7 +6,7 @@
  */
 
 import * as mr from 'mingru';
-import * as nodePath from 'path';
+import * as np from 'path';
 import gen from 'go-const-gen';
 import * as mfs from 'm-fs';
 import actions from './actions/actions.js';
@@ -65,5 +65,5 @@ const mingruHeader =
     ]);
   });
   // Build `constants.go`.
-  await buildConstantsAsync(nodePath.join(daPath, 'constants.go'));
+  await buildConstantsAsync(np.join(daPath, 'constants.go'));
 })();

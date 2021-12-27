@@ -8,11 +8,11 @@
 import * as mfs from 'm-fs';
 import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
-import nodePath from 'path';
+import np from 'path';
 import { fileURLToPath } from 'url';
 import { serverPath, webPath, copyrightString } from '../common/common.js';
 
-const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
+const dirPath = np.dirname(fileURLToPath(import.meta.url));
 
 async function buildJSONFileAsync(
   src: string,
@@ -42,7 +42,7 @@ async function buildJSONFileAsync(
 
 async function buildConstantsAsync() {
   return buildJSONFileAsync(
-    nodePath.join(dirPath, 'constants.json'),
+    np.join(dirPath, 'constants.json'),
     webPath('src/sharedConstants.ts'),
     serverPath('app/defs/shared_constants.go'),
     'defs',

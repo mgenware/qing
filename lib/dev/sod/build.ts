@@ -6,7 +6,7 @@
  */
 
 import * as mfs from 'm-fs';
-import nodePath from 'path';
+import np from 'path';
 import yaml from 'js-yaml';
 import { sodPath, webSodPath, serverSodPath, serverPath } from '../common/common.js';
 import * as cm from './common.js';
@@ -42,20 +42,20 @@ function print(s: string) {
     }
 
     const srcDict = rawSource as cm.SourceDict;
-    const relPath = nodePath.relative(sodPath(), fullInput);
+    const relPath = np.relative(sodPath(), fullInput);
     const relPathWithoutYAMLExt = trimYAMLExtension(relPath);
-    const inputFileName = nodePath.basename(input);
+    const inputFileName = np.basename(input);
     const pkgName = inputFileName;
-    const webFile = nodePath.join(webSodPath(), relPathWithoutYAMLExt) + '.ts';
+    const webFile = np.join(webSodPath(), relPathWithoutYAMLExt) + '.ts';
 
     const goFileName = inputFileName + '.go';
     const goOutDir = getAttr(go.goOutDirAttr);
     let serverFile: string;
     if (goOutDir) {
-      serverFile = nodePath.join(serverPath(), goOutDir, goFileName);
+      serverFile = np.join(serverPath(), goOutDir, goFileName);
     } else {
       // NOTE: Unlike .ts file, .go files are put in an extra folder named the same as the extracted package name.
-      serverFile = nodePath.join(serverSodPath(), relPathWithoutYAMLExt, goFileName);
+      serverFile = np.join(serverSodPath(), relPathWithoutYAMLExt, goFileName);
     }
 
     await Promise.all([

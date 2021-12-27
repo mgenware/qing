@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import * as nodePath from 'path';
+import * as np from 'path';
 import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 
-const join = nodePath.join;
+const join = np.join;
 
 export const copyrightString = `/*
  * Copyright (C) The Qing Project. All rights reserved.
@@ -25,7 +25,7 @@ export const copyrightStringYAML = `#
 # can be found in the LICENSE file.
 #\n\n`;
 
-const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
+const dirPath = np.dirname(fileURLToPath(import.meta.url));
 const rootDir = join(dirPath, '../../../..');
 export const langsDir = join(rootDir, 'userland/langs');
 export const langsDataDir = join(langsDir, 'data');

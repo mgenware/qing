@@ -8,7 +8,7 @@
  */
 
 import { mkdir, readFile, stat, writeFile } from 'fs/promises';
-import nodePath from 'path';
+import np from 'path';
 import { fileURLToPath } from 'url';
 import errMsg from 'catch-err-msg';
 import { exec, spawn } from 'child_process';
@@ -33,9 +33,9 @@ function print(s: string) {
 }
 
 async function getVersion(): Promise<string> {
-  const dirPath = nodePath.dirname(fileURLToPath(import.meta.url));
+  const dirPath = np.dirname(fileURLToPath(import.meta.url));
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const pkgVersion = JSON.parse(await readFile(nodePath.join(dirPath, '../package.json'), 'utf8'))
+  const pkgVersion = JSON.parse(await readFile(np.join(dirPath, '../package.json'), 'utf8'))
     .version as string;
   if (!pkgVersion) {
     console.error('Error getting version string.');
@@ -93,7 +93,7 @@ async function getRootDir(): Promise<string> {
 }
 
 async function getProjectDir(name: string): Promise<string> {
-  return nodePath.join(await getRootDir(), name);
+  return np.join(await getRootDir(), name);
 }
 
 function checkArg(s: string | undefined, name: string): asserts s {
@@ -130,7 +130,7 @@ async function getMTime(path: string): Promise<number> {
 async function readNPMInstallTime(dir: string): Promise<number> {
   try {
     const installTimeStr = await readFile(
-      nodePath.join(dir, qingDevDirName, npmInstallTimeFileName),
+      np.join(dir, qingDevDirName, npmInstallTimeFileName),
       'utf8',
     );
     return parseInt(installTimeStr.trim(), 10);
@@ -140,14 +140,14 @@ async function readNPMInstallTime(dir: string): Promise<number> {
 }
 
 async function writeNPMInstallTime(dir: string, time: number): Promise<void> {
-  const destDir = nodePath.join(dir, qingDevDirName);
+  const destDir = np.join(dir, qingDevDirName);
   await mkdir(destDir, { recursive: true });
-  await writeFile(nodePath.join(destDir, npmInstallTimeFileName), time.toString());
+  await writeFile(np.join(destDir, npmInstallTimeFileName), time.toString());
 }
 
 async function spawnNPMCmd(cmd: string, dir: string, args: string[] | null): Promise<void> {
-  const pkgMtime = await getMTime(nodePath.join(dir, 'package.json'));
-  const pkgLockMtime = await getMTime(nodePath.join(dir, 'package-lock.json'));
+  const pkgMtime = await getMTime(np.join(dir, 'package.json'));
+  const pkgLockMtime = await getMTime(np.join(dir, 'package-lock.json'));
   const diskTime = Math.max(pkgMtime, pkgLockMtime);
   const installTime = await readNPMInstallTime(dir);
   if (diskTime > installTime) {
