@@ -8,7 +8,6 @@
 package r
 
 import (
-	"log"
 	"net/http"
 	"qing/app"
 	"qing/app/appHandler"
@@ -104,10 +103,9 @@ func Start() {
 	debugConfig := conf.Debug
 	if debugConfig != nil {
 		// DEBUG only setup.
-		if debugConfig.QuickLogin {
-			log.Print("😡 QuickLogin routes are on")
-			r.Mount("/"+defs.Shared.RouteDevPage, devp.Router)
-		}
+
+		// Dev page.
+		r.Mount("/"+defs.Shared.RouteDevPage, devp.Router)
 	}
 
 	appLog.Get().Info("server-starting", "port", httpConf.Port)
