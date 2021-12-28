@@ -10,7 +10,6 @@ package avatar
 import (
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"path/filepath"
 	"qing/app"
@@ -35,7 +34,7 @@ var resizedSizes = []int{AvatarSize250, AvatarSize150, AvatarSize50}
 
 type AvatarService struct {
 	OutDir string
-	Logger app.CoreLog
+	Logger app.CoreLogger
 }
 
 var service *AvatarService
@@ -111,7 +110,7 @@ func (svc *AvatarService) UpdateAvatar(oldAvatarName string, srcReader io.Reader
 			oldAvatarFile := svc.avatarFilePath(dir, size, oldAvatarName)
 			err := os.Remove(oldAvatarFile)
 			if err != nil {
-				log.Print("Error removing old avatar files: ", err.Error())
+				appLog.Get().Error("Error removing old avatar files: ", err.Error())
 			}
 		}
 	}

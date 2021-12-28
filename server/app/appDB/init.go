@@ -9,8 +9,8 @@ package appDB
 
 import (
 	"database/sql"
-	"log"
 	"qing/app"
+	"qing/app/appLog"
 )
 
 var appDB app.CoreDB
@@ -19,7 +19,7 @@ func init() {
 	conf := app.CoreConfig()
 
 	appDB = newAppDB(conf)
-	log.Printf("✅ App DB: Loaded")
+	appLog.Get().Info("App DB Loaded")
 }
 
 func Get() app.CoreDB {

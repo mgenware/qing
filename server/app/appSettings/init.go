@@ -9,8 +9,8 @@ package appSettings
 
 import (
 	"fmt"
-	"log"
 	"qing/app"
+	"qing/app/appLog"
 	"qing/sod/app/appRawSettings"
 )
 
@@ -21,13 +21,12 @@ func init() {
 	conf := app.CoreConfig()
 
 	file := conf.AppSettings.File
-	log.Printf("🚙 Loading app settings at \"%v\"", file)
 	_, settings, err := getAppSettings(file)
 	if err != nil {
-		panic(fmt.Errorf("Error getting app settings, %v", err))
+		panic(fmt.Errorf("error getting app settings, %v", err))
 	}
 	appSettings = settings
-	log.Printf("✅ App settings: loaded at \"%v\"", file)
+	appLog.Get().Info("App settings loaded", file)
 }
 
 // Gets the app settings that are loaded when server starts.

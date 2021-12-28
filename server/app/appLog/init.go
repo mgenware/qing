@@ -8,27 +8,25 @@
 package appLog
 
 import (
-	"log"
 	"qing/app"
 	"qing/app/logx"
 )
 
-var appLog app.CoreLog
+var logger app.CoreLogger
 
 func init() {
 	conf := app.CoreConfig()
 	if conf.UnitTest() {
-		appLog = NewTestLogger()
+		logger = NewTestLogger()
 	} else {
-		logger, err := logx.NewLogger(conf.Log.Dir, conf.DevMode())
+		var err error
+		logger, err = logx.NewLogger(conf.Log.Dir, conf.DevMode())
 		if err != nil {
 			panic(err)
 		}
-		appLog = logger
-		log.Printf("✅ App log: Loaded at \"%v\"", conf.Log.Dir)
 	}
 }
 
-func Get() app.CoreLog {
-	return appLog
+func Get() app.CoreLogger {
+	return logger
 }

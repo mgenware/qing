@@ -8,8 +8,8 @@
 package appMS
 
 import (
-	"log"
 	"qing/app"
+	"qing/app/appLog"
 )
 
 var appMS app.CoreMemoryStore
@@ -23,7 +23,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	log.Printf("✅ App MS: connected at \"%v\"", port)
+	appLog.Get().Info("App MS connected", port)
 }
 
 func GetConn() app.CoreMemoryStoreConn {

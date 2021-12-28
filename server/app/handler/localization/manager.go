@@ -10,13 +10,13 @@ package localization
 import (
 	"context"
 	"errors"
-	"log"
 	"net/http"
 	"path/filepath"
 
 	"golang.org/x/text/language"
 
 	"qing/app/appCookies"
+	"qing/app/appLog"
 	"qing/app/config/configs"
 	"qing/app/defs"
 )
@@ -46,7 +46,7 @@ func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 			return nil, err
 		}
 		dicts[langName] = d
-		log.Printf("✅ Loaded localization file \"%v\"", langName)
+		appLog.Get().Info("Loaded localization file", langName)
 	}
 
 	fallbackLang := conf.Langs[0]

@@ -94,7 +94,7 @@ func (logger *Logger) Error(key string, args ...interface{}) {
 // NotFound logs an HTTP 404 message.
 func (logger *Logger) NotFound(key string, url string) {
 	if logger.DevMode {
-		log.Println(color.HiYellowString(fmt.Sprintf("⛔️ Not found: %v: %v", key, url)))
+		log.Println(color.HiYellowString(fmt.Sprintf("❌ 404: %v: %v", key, url)))
 	}
 	logger.notFoundLogger.Info(key, zap.String("url", url))
 }
@@ -114,5 +114,5 @@ func createLogger(dir string, name string, dev bool, disableExtraInfo bool) (*za
 }
 
 func formatOutputStr(key string, args []interface{}) string {
-	return fmt.Sprintf("✉️ %v: %v", key, stringsx.JoinAll(args, " | "))
+	return fmt.Sprintf("%v: %v", key, stringsx.JoinAll(args, " | "))
 }

@@ -84,7 +84,7 @@ func (conf *Config) BRTest() bool {
 }
 
 func readConfigCore(absFile string) (*Config, error) {
-	log.Printf("🚙 Loading config at \"%v\"", absFile)
+	log.Printf("Loading config at \"%v\"", absFile)
 	var conf Config
 
 	err := iolib.ReadJSONFile(absFile, &conf)
@@ -154,7 +154,7 @@ func MustReadConfig(file string, workingDir string) *Config {
 
 func mustValidateConfig(conf *Config, schemaFilePath string) {
 	// Validate with JSON schema.
-	log.Printf("Validate config against schema \"%v\"", schemaFilePath)
+	log.Printf("Validating config against schema \"%v\"", schemaFilePath)
 
 	schemaFilePath = toFileURI(schemaFilePath)
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)

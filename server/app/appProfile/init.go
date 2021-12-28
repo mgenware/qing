@@ -9,8 +9,8 @@ package appProfile
 
 import (
 	"fmt"
-	"log"
 	"qing/app"
+	"qing/app/appLog"
 	"qing/app/profile"
 )
 
@@ -23,11 +23,11 @@ func init() {
 	dir := conf.AppProfile.Dir
 	hasProfile, pro, err := profile.GetAppProfile(dir)
 	if err != nil {
-		panic(fmt.Errorf("Error getting app profile, %v", err))
+		panic(fmt.Errorf("error getting app profile, %v", err))
 	}
 	appProfile = pro
 	isNewProfile = !hasProfile
-	log.Printf("✅ App profile: loaded at \"%v\"", dir)
+	appLog.Get().Info("App profile loaded", dir)
 }
 
 func Get() *profile.AppProfile {

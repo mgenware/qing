@@ -10,7 +10,6 @@ package handler
 import (
 	"database/sql"
 	"encoding/json"
-	"log"
 	"net/http"
 	"path/filepath"
 	"qing/app"
@@ -39,18 +38,15 @@ type MainPageManager struct {
 	errorView PageTemplateType
 	locMgr    localization.CoreManager
 	jsMgr     *jsm.JSManager
-	logger    app.CoreLog
+	logger    app.CoreLogger
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
 	conf *config.Config,
-	logger app.CoreLog,
+	logger app.CoreLogger,
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
-	if reloadViewsOnRefresh {
-		log.Print("😡 View dev mode is on")
-	}
 
 	// Create the localization manager used by localized template views.
 	locMgr, err := localization.NewManagerFromConfig(conf.Localization)

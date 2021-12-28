@@ -41,12 +41,12 @@ func userIDToSIDKey(uid uint64) string {
 
 // SessionManager ...
 type SessionManager struct {
-	logger app.CoreLog
+	logger app.CoreLogger
 	appURL *urlx.URL
 }
 
 // NewMemoryBasedSessionManager creates a memory-backed SessionManager.
-func NewMemoryBasedSessionManager(logger app.CoreLog, appURL *urlx.URL) (*SessionManager, error) {
+func NewMemoryBasedSessionManager(logger app.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
 	return &SessionManager{logger: logger, appURL: appURL}, nil
 }
 

@@ -9,7 +9,6 @@ package app
 
 import (
 	"flag"
-	"log"
 	"os"
 	"path/filepath"
 	"qing/app/config"
@@ -40,13 +39,6 @@ func init() {
 
 	// Read config file
 	conf = config.MustReadConfig(confPath, userlandDir())
-
-	log.Printf("✅ App config: Loaded at \"%v\"", confPath)
-	if conf.TestMode != nil {
-		log.Printf("🟣 Application running in test mode: %v", conf.TestMode)
-	} else if conf.DevMode() {
-		log.Printf("🟡 Application running in dev mode")
-	}
 }
 
 func userlandDir() string {

@@ -8,8 +8,8 @@
 package appSettings
 
 import (
-	"log"
 	"qing/app"
+	"qing/app/appLog"
 	"qing/lib/iolib"
 	"qing/sod/app/appRawSettings"
 
@@ -44,7 +44,7 @@ func readAppSettingsObj(file string) (*appRawSettings.AppRawSettings, error) {
 }
 
 func writeAppSettingsObj(settings *appRawSettings.AppRawSettings, path string) error {
-	log.Printf("🚗 Writing app settings to \"%v\"", path)
+	appLog.Get().Info("Writing app settings", path)
 	return iolib.WriteJSONFile(path, settings)
 }
 

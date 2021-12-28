@@ -9,8 +9,8 @@ package profile
 
 import (
 	"encoding/json"
-	"log"
 	"os"
+	"qing/app/appLog"
 	"qing/app/profile/profiles"
 
 	"github.com/mgenware/goutil/iox"
@@ -23,7 +23,7 @@ type AppProfile struct {
 }
 
 func readAppProfileCore(file string) (*AppProfile, error) {
-	log.Printf("🚙 Loading app profile at \"%v\"", file)
+	appLog.Get().Info("Loading app profile", file)
 	var profile AppProfile
 
 	bytes, err := os.ReadFile(file)
@@ -40,7 +40,7 @@ func readAppProfileCore(file string) (*AppProfile, error) {
 }
 
 func writeAppProfile(profile *AppProfile, path string) error {
-	log.Printf("🚗 Writing app profile to \"%v\"", path)
+	appLog.Get().Info("Writing app profile", path)
 
 	bytes, err := json.Marshal(profile)
 	if err != nil {

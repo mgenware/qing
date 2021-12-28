@@ -8,7 +8,6 @@
 package appHandler
 
 import (
-	"log"
 	"qing/app"
 	"qing/app/appLog"
 	"qing/app/handler"
@@ -21,7 +20,7 @@ func init() {
 	logger := appLog.Get()
 
 	mainPageManager = handler.MustCreateMainPageManager(conf, logger)
-	log.Printf("✅ App handler: Loaded at \"%v\"", conf.Templates.Dir)
+	appLog.Get().Info("App handler Loaded", conf.Templates.Dir)
 }
 
 func MainPage() handler.CorePageManager {

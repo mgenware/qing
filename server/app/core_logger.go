@@ -7,7 +7,7 @@
 
 package app
 
-type CoreLog interface {
+type CoreLogger interface {
 	Info(key string, args ...interface{})
 	Error(key string, args ...interface{})
 	Warn(key string, args ...interface{})

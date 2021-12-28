@@ -27,7 +27,7 @@ type Service struct {
 }
 
 // MustNewService creates a new Service object.
-func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger app.CoreLog, msConn app.CoreMemoryStoreConn) *Service {
+func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger app.CoreLogger, msConn app.CoreMemoryStoreConn) *Service {
 	s := &Service{}
 	s.Sanitizer = sanitizer.NewSanitizer()
 	s.Captcha = captchax.NewCaptchaService(msConn)
