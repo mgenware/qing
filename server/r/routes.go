@@ -15,8 +15,8 @@ import (
 	"qing/app/appUserManager"
 	"qing/app/defs"
 	"qing/app/handler"
+	"qing/lib/iolib"
 	"strconv"
-	"strings"
 
 	"qing/r/api"
 	"qing/r/authp"
@@ -37,17 +37,6 @@ import (
 )
 
 var r *chi.Mux
-
-func startFileServer(r chi.Router, name, url, dir string) {
-	appLog.Get().Info(name,
-		"url", url,
-		"dir", dir,
-	)
-	fileServer(r, url, http.Dir(dir))
-	if !iox.IsDirectory(dir) {
-		appLog.Get().Warn(name+".not-found", "dir", dir)
-	}
-}
 
 // Start starts the web router.
 func Start() {
@@ -116,26 +105,19 @@ func Start() {
 	}
 }
 
-// fileServer conveniently sets up a http.FileServer handler to serve
-// static files from a http.FileSystem.
-func fileServer(r chi.Router, path string, root http.FileSystem) {
-	if strings.ContainsAny(path, "{}*") {
-		panic("FileServer does not permit URL parameters.")
+// Starts serving static files.
+func startFileServer(r chi.Router, name, url, dir string) {
+	appLog.Get().Info(name,
+		"url", url,
+		"dir", dir,
+	)
+	iolib.AddFileServerHandler(r, url, http.Dir(dir))
+	if !iox.IsDirectory(dir) {
+		appLog.Get().Warn(name+".not-found", "dir", dir)
 	}
-
-	fs := http.StripPrefix(path, http.FileServer(root))
-
-	if path != "/" && path[len(path)-1] != '/' {
-		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
-		path += "/"
-	}
-	path += "*"
-
-	r.Get(path, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fs.ServeHTTP(w, r)
-	}))
 }
 
+// Gets a router with context localization enabled.
 func langRouter() chi.Router {
 	if app.CoreConfig().Localization.MultipleLangs() {
 		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
