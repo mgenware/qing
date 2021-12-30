@@ -8,14 +8,14 @@
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import 'ui/form/inputView';
-import 'ui/form/selectionView';
+import 'ui/form/checklistView';
 import ls from 'ls';
 import 'ui/alerts/noticeView';
 import UserInfo from './userInfo';
 import 'ui/status/statusOverlay';
 import LoadingStatus from 'lib/loadingStatus';
 import FindUsersLoader from './loaders/findUsersLoader';
-import { SelectionViewItemEvent } from 'ui/form/selectionView';
+import { ChecklistViewItemEvent } from 'ui/form/checklistView';
 import { createPopper } from '@popperjs/core';
 import './userCard';
 import { tif } from 'lib/htmlLib';
@@ -107,10 +107,10 @@ export class UserSelectorApp extends BaseElement {
               >✖</qing-button
             ><user-card class="m-l-md" .user=${selectedUser}></user-card>
           </div>`
-        : html`<selection-view
+        : html`<checklist-view
               class="m-t-md"
               .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
-              @onSelectionChange=${this.handleByIDSelectionChange}></selection-view>
+              @onSelectionChange=${this.handleByIDSelectionChange}></checklist-view>
             <input-view
               class="m-t-md"
               id=${inputViewID}
@@ -143,7 +143,7 @@ export class UserSelectorApp extends BaseElement {
     `;
   }
 
-  private async handleByIDSelectionChange(e: SelectionViewItemEvent) {
+  private async handleByIDSelectionChange(e: ChecklistViewItemEvent) {
     this.byID = e.index === 0;
     await this.startRequestAsync();
   }

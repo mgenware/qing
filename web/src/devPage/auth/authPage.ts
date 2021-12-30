@@ -8,11 +8,11 @@
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import 'ui/form/inputView';
-import 'ui/form/selectionView';
+import 'ui/form/checklistView';
 import 'qing-button';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
-import { SelectionViewItemEvent } from 'ui/form/selectionView';
+import { ChecklistViewItemEvent } from 'ui/form/checklistView';
 
 @customElement('auth-page')
 export class AuthDevPage extends BaseElement {
@@ -50,13 +50,13 @@ export class AuthDevPage extends BaseElement {
     return html`
       <div>
         <p>
-          <selection-view
+          <checklist-view
             class="m-t-md"
             @selectionChanged=${this.handleUIDTypeChange}
             .dataSource=${[
               { text: 'Unsigned number', checked: !isUidString },
               { text: 'Encoded string', checked: isUidString },
-            ]}></selection-view>
+            ]}></checklist-view>
         </p>
         <input-view
           required
@@ -75,7 +75,7 @@ export class AuthDevPage extends BaseElement {
     `;
   }
 
-  private handleUIDTypeChange(e: CustomEvent<SelectionViewItemEvent>) {
+  private handleUIDTypeChange(e: CustomEvent<ChecklistViewItemEvent>) {
     this.isUidString = e.detail.index !== 0;
   }
 

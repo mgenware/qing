@@ -16,7 +16,7 @@ import 'ui/status/spinnerView';
 import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
 import 'ui/form/inputView';
-import 'ui/form/selectionView';
+import 'ui/form/checklistView';
 import 'ui/qna/voteView';
 import 'ui/lists/linkListView';
 import 'com/like/likeView';
@@ -235,21 +235,21 @@ export class ElementsPage extends BaseElement {
         </span>
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
-      <selection-view
+      <checklist-view
         class="m-t-md"
         multiSelect
         .dataSource=${[
           { text: 'Qing', checked: true },
           { text: 'Ming' },
           { text: 'Yuan' },
-        ]}></selection-view>
-      <selection-view
+        ]}></checklist-view>
+      <checklist-view
         class="m-t-md"
         .dataSource=${[
           { text: 'Qing', checked: true },
           { text: 'Ming' },
           { text: 'Yuan' },
-        ]}></selection-view>
+        ]}></checklist-view>
       <h2>Alerts</h2>
       <alert-view>Default</alert-view>
       <alert-view alertStyle="primary">Primary</alert-view>

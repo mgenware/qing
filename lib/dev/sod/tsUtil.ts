@@ -68,5 +68,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     code += typeCode;
   }
   const importCode = imports.size ? [...imports.values()].map((s) => `${s}\n`).join('') + '\n' : '';
-  return cm.copyrightString + cm.noticeComment(input) + importCode + code;
+  return (
+    cm.copyrightString + '/* eslint-disable */\n\n' + cm.noticeComment(input) + importCode + code
+  );
 }

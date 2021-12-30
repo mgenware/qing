@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import './selectionView';
+import './checklistView';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<selection-view></selection-view>`);
+  const el = await fixture<HTMLElement>(html`<checklist-view></checklist-view>`);
 
   tDOM.isBlockElement(el);
 });
