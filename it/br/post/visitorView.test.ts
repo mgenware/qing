@@ -13,7 +13,8 @@ import {
   waitForAlertDetached,
   alertShouldAppear,
 } from 'br/com/alerts/alert';
-import { postCoreTraitsShouldAppear } from './common';
+import { postCoreTraitsShouldAppear, cmtAppSelector } from './common';
+import { testCmtAllVisitorMode } from 'br/com/cmt/cmt';
 
 test('Post page (visitor)', async ({ page, goto }) => {
   await newPost(usr.user, async (id) => {
@@ -34,3 +35,5 @@ test('Post page (visitor)', async ({ page, goto }) => {
     await waitForAlertDetached(page);
   });
 });
+
+testCmtAllVisitorMode('[post]', (p) => p.$(cmtAppSelector));

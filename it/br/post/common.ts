@@ -8,11 +8,11 @@
 import * as brt from 'brt';
 import { User, GoToFn } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
-import { noCommentsShouldAppear } from 'br/com/cmt/cmt';
 import { userViewShouldAppear } from 'br/com/content/userView';
 import * as defs from 'base/defs';
 
 export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
+export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export async function postShouldHaveContent(page: brt.Page, html: string) {
   const contentDiv = page.$('.m-post-user + hr + div');
@@ -46,10 +46,6 @@ export async function postCoreTraitsShouldAppear(
   // Like button.
   const likeAppEl = page.$('post-payload-app like-app');
   await likesShouldAppear(likeAppEl, 0, false);
-
-  // No comments.
-  const cmtAppEl = page.$('post-payload-app cmt-app');
-  await noCommentsShouldAppear(cmtAppEl, !!user);
 
   return {
     likeAppEl,

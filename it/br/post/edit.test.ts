@@ -30,10 +30,11 @@ test('Post editor', async ({ page, goto }) => {
     await goto(`/p/${id}`, usr.user);
 
     await clickEdit(page);
-    await editorShouldAppear(page, defs.sd.postTitleRaw, defs.sd.postContentSan, [
-      { text: 'Save', style: 'success' },
-      { text: 'Cancel' },
-    ]);
+    await editorShouldAppear(page, {
+      title: defs.sd.postTitleRaw,
+      contentHTML: defs.sd.postContentSan,
+      buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
+    });
   });
 });
 

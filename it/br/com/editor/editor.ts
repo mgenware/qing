@@ -57,26 +57,27 @@ async function waitForOverlayClosed(page: brt.Page) {
   await overlayEl.shouldExist();
 }
 
-export async function editorShouldAppear(
-  page: brt.Page,
-  title: string,
-  contentHTML: string,
-  btnTraitsList: ButtonTraits[],
-) {
+export interface EditorShouldAppearArgs {
+  title: string;
+  contentHTML: string;
+  buttons: ButtonTraits[];
+}
+
+export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppearArgs) {
   const { composerEl } = await waitForOverlayVisible(page);
 
   // Title.
   const titleInputEl = await composerEl.$(editorTitleSel).shouldBeVisible();
-  await titleInputEl.shouldHaveAttr('value', title);
+  await titleInputEl.shouldHaveAttr('value', args.title);
 
   const contentInputEl = await composerEl.$(editorContentSel).shouldBeVisible();
-  await contentInputEl.shouldHaveHTMLContent(contentHTML);
+  await contentInputEl.shouldHaveHTMLContent(args.contentHTML);
 
   // Check bottom buttons.
   const btnGroupEl = await composerEl.$(editorButtonsGroupSel).shouldBeVisible();
-  const btnsEl = await btnGroupEl.$$('qing-button').shouldHaveCount(btnTraitsList.length);
+  const btnsEl = await btnGroupEl.$$('qing-button').shouldHaveCount(args.buttons.length);
 
-  await Promise.all(btnTraitsList.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
+  await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
 }
 
 export async function editorShouldUpdate(page: brt.Page, part: EditorPart) {

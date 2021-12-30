@@ -8,6 +8,7 @@
 import * as brt from 'brt';
 import { test } from 'br';
 import { buttonShouldAppear } from '../buttons/button';
+import { editorShouldAppear } from '../editor/editor';
 
 async function commentsHeadingShouldAppear(el: brt.Element) {
   return el.$('h2:has-text("Comments")').shouldBeVisible();
@@ -20,8 +21,12 @@ async function noCommentsShouldAppear(el: brt.Element) {
   await el.$('text=No comments').shouldBeVisible();
 }
 
-export function testCmtMainVisitor(cmtApp: brt.Element, groupName: string) {
-  test(`${groupName} No comments (visitor)`, async () => {
+export function testCmtAllVisitorMode(
+  groupName: string,
+  cmtAppSelector: (page: brt.Page) => brt.Element,
+) {
+  test(`${groupName} No comments (visitor)`, async ({ page }) => {
+    const cmtApp = cmtAppSelector(page);
     await noCommentsShouldAppear(cmtApp);
 
     // "Sign in" to comment.
@@ -30,8 +35,12 @@ export function testCmtMainVisitor(cmtApp: brt.Element, groupName: string) {
   });
 }
 
-export function testCmtMainUser(cmtApp: brt.Element, groupName: string) {
-  test(`${groupName} No comments (user)`, async () => {
+export function testCmtAllUserMode(
+  groupName: string,
+  cmtAppSelector: (page: brt.Page) => brt.Element,
+) {
+  test(`${groupName} No comments (user)`, async ({ page }) => {
+    const cmtApp = cmtAppSelector(page);
     await noCommentsShouldAppear(cmtApp);
 
     // "Write a comment" button.
@@ -41,7 +50,8 @@ export function testCmtMainUser(cmtApp: brt.Element, groupName: string) {
     });
   });
 
-  test(`${groupName} Write a comment`, async () => {
+  test(`${groupName} Write a comment`, async ({ page }) => {
+    const cmtApp = cmtAppSelector(page);
     await noCommentsShouldAppear(cmtApp);
 
     const writeCmtBtn = await buttonShouldAppear(cmtApp.$('qing-button'), {
@@ -49,5 +59,10 @@ export function testCmtMainUser(cmtApp: brt.Element, groupName: string) {
       style: 'success',
     });
     await writeCmtBtn.click();
+    await editorShouldAppear(page, {
+      title: 'Write a comment',
+      contentHTML: '',
+      buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
+    });
   });
 }
