@@ -39,8 +39,8 @@ export class ChecklistView extends BaseElement {
         .root {
           display: flex;
           flex-wrap: wrap;
-          row-gap: 10px;
-          column-gap: 10px;
+          row-gap: 2rem;
+          column-gap: 1rem;
         }
       `,
     ];
