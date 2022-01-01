@@ -6,7 +6,7 @@
  */
 
 const turboBuildCmd = 'tsc -p ./tsconfig-turbo.json';
-const utCmd = 'wtr "./dist-turbo/**/*.test.js" --node-resolve --playwright --browsers webkit';
+const utCmd = 'wtr "./dist-turbo/**/*.test.js" --node-resolve --playwright --browsers chromium';
 const devEnv = {
   NODE_ENV: 'development',
 };

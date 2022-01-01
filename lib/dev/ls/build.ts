@@ -20,6 +20,7 @@ import {
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${copyrightString}${codeWarning}`;
 
+// Builds TypeScript definitions for web.
 async function buildWebLSDef(lsObj: Record<string, string>): Promise<void> {
   let out = `${commonHeader}export default interface LSDefs {\n`;
   for (const key of Object.keys(lsObj)) {
@@ -29,6 +30,13 @@ async function buildWebLSDef(lsObj: Record<string, string>): Promise<void> {
   await mfs.writeFileAsync(webPath('src/lsDefs.ts'), out);
 }
 
+// Updates the `en.ts` which is used in unit tests.
+async function buildDefaultUTLang(json: string) {
+  const out = `${commonHeader}/* eslint-disable */\n\(window as any).ls = ${json}\n`;
+  await mfs.writeFileAsync(webPath('src/dev/en.ts'), out);
+}
+
+// Builds Go definitions for server.
 async function buildServerLSDef(lsObj: Record<string, string>): Promise<PropData[]> {
   const [result, props] = await goConstGenCore(lsObj, {
     packageName: 'localization',
@@ -73,6 +81,11 @@ async function buildLangs() {
   await Promise.all(files.map((f, idx) => buildDistJS(names[idx] as string, f)));
 }
 
-const lsString = await mfs.readTextFileAsync(defaultLangPath);
-const lsObj = JSON.parse(lsString) as Record<string, string>;
-await Promise.all([buildWebLSDef(lsObj), buildServerDictFiles(lsObj), buildLangs()]);
+const lsJSON = await mfs.readTextFileAsync(defaultLangPath);
+const lsObj = JSON.parse(lsJSON) as Record<string, string>;
+await Promise.all([
+  buildWebLSDef(lsObj),
+  buildServerDictFiles(lsObj),
+  buildLangs(),
+  buildDefaultUTLang(lsJSON),
+]);

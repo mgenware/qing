@@ -6,7 +6,7 @@
  */
 
 import { html, fixture, tDOM } from 'qing-t';
-import 'debug/d/injectLangEN';
+import 'dev/en';
 import './statusView';
 
 it('Display', async () => {

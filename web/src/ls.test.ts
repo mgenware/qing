@@ -6,7 +6,7 @@
  */
 
 import { expect } from 'qing-t';
-import 'debug/d/injectLangEN';
+import 'dev/en';
 import { ls, formatLS } from './ls';
 
 it('ls', () => {
