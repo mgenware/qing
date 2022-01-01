@@ -7,6 +7,7 @@
 
 /* eslint-disable no-alert */
 import { BaseElement, customElement, html, css } from 'll';
+import * as lp from 'lit-props';
 import 'qing-button';
 import 'qing-dock-box';
 import 'ui/alerts/alertView';
@@ -33,6 +34,7 @@ const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
 const immersiveDialogID = 'qing-overlay-immersive';
+const checklistViewData = ['Zhang', 'Chen', 'Liu', 'Zheng'];
 
 @customElement('elements-page')
 export class ElementsPage extends BaseElement {
@@ -123,6 +125,9 @@ export class ElementsPage extends BaseElement {
   }
 
   #setEntityApp: SetEntityApp | null = null;
+
+  @lp.array checklistIndices1: number[] = [];
+  @lp.array checklistIndices2: number[] = [];
 
   render() {
     return html`
@@ -236,20 +241,16 @@ export class ElementsPage extends BaseElement {
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
       <checklist-view
+        @selectionChanged=${(e: CustomEvent<number[]>) => (this.checklistIndices1 = e.detail)}
         class="m-t-md"
         multiSelect
-        .dataSource=${[
-          { text: 'Qing', checked: true },
-          { text: 'Ming' },
-          { text: 'Yuan' },
-        ]}></checklist-view>
+        .selectedIndices=${this.checklistIndices1}
+        .dataSource=${checklistViewData}></checklist-view>
       <checklist-view
+        @selectionChanged=${(e: CustomEvent<number[]>) => (this.checklistIndices2 = e.detail)}
         class="m-t-md"
-        .dataSource=${[
-          { text: 'Qing', checked: true },
-          { text: 'Ming' },
-          { text: 'Yuan' },
-        ]}></checklist-view>
+        .selectedIndices=${this.checklistIndices2}
+        .dataSource=${checklistViewData}></checklist-view>
       <h2>Alerts</h2>
       <alert-view>Default</alert-view>
       <alert-view alertStyle="primary">Primary</alert-view>

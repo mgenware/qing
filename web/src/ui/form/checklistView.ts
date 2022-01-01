@@ -13,19 +13,6 @@ import './checkBox';
 const parentContainerID = 'parent-container';
 const itemContainerID = 'item-container';
 
-export interface ChecklistViewItem {
-  text: string;
-  value?: unknown;
-  checked?: boolean;
-}
-
-export interface ChecklistViewItemEvent {
-  checked: boolean;
-  text: string;
-  value: unknown;
-  index: number;
-}
-
 @customElement('checklist-view')
 export class ChecklistView extends BaseElement {
   static get styles() {
@@ -46,38 +33,59 @@ export class ChecklistView extends BaseElement {
     ];
   }
 
-  @lp.array dataSource: ChecklistViewItem[] = [];
+  @lp.array dataSource: ReadonlyArray<string> = [];
   @lp.bool multiSelect = false;
+  @lp.array selectedIndices: ReadonlyArray<number> = [];
+
+  // Gets updated whenever `selectedIndices` changes.
+  private selectedIndexSet = new Set<number>();
 
   render() {
     return html`
       <div class="root" part=${parentContainerID}>
-        ${this.dataSource.map((item, index) => this.renderCheckBox(item, index, !this.multiSelect))}
+        ${this.dataSource.map((val, index) =>
+          this.renderCheckBox(val, this.selectedIndexSet.has(index), index, !this.multiSelect),
+        )}
       </div>
     `;
   }
 
-  private renderCheckBox(item: ChecklistViewItem, index: number, radio: boolean): TemplateResult {
+  override willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has('selectedIndices')) {
+      this.selectedIndexSet = new Set(this.selectedIndices);
+    }
+  }
+
+  private renderCheckBox(
+    val: string,
+    checked: boolean,
+    index: number,
+    radio: boolean,
+  ): TemplateResult {
     return html`
       <check-box
         part=${itemContainerID}
-        .checked=${!!item.checked}
+        .checked=${checked}
         ?radio=${radio}
-        @change=${(e: Event) => this.handleOnChange(e, item, index)}
-        >${item.text}</check-box
+        @checked=${(e: CustomEvent<boolean>) => this.handleOnChange(e, index)}
+        >${val}</check-box
       >
     `;
   }
 
-  private handleOnChange(e: Event, item: ChecklistViewItem, index: number) {
-    const { checked } = e.target as HTMLInputElement;
-    const detail: ChecklistViewItemEvent = {
-      text: item.text,
-      value: item.value,
-      index,
-      checked,
-    };
-    this.dispatchEvent(new CustomEvent<ChecklistViewItemEvent>('onSelectionChange', { detail }));
+  private handleOnChange(e: CustomEvent<boolean>, index: number) {
+    const checked = e.detail;
+    let indices: number[];
+    if (this.multiSelect) {
+      if (checked) {
+        indices = [...this.selectedIndices, index];
+      } else {
+        indices = this.selectedIndices.filter((v) => v !== index);
+      }
+    } else {
+      indices = checked ? [index] : [];
+    }
+    this.dispatchEvent(new CustomEvent<number[]>('selectionChanged', { detail: indices }));
   }
 }
 

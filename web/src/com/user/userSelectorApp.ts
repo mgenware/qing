@@ -15,7 +15,6 @@ import UserInfo from './userInfo';
 import 'ui/status/statusOverlay';
 import LoadingStatus from 'lib/loadingStatus';
 import FindUsersLoader from './loaders/findUsersLoader';
-import { ChecklistViewItemEvent } from 'ui/form/checklistView';
 import { createPopper } from '@popperjs/core';
 import './userCard';
 import { tif } from 'lib/htmlLib';
@@ -109,8 +108,7 @@ export class UserSelectorApp extends BaseElement {
           </div>`
         : html`<checklist-view
               class="m-t-md"
-              .dataSource=${[{ text: ls.userID, checked: true }, { text: ls.name }]}
-              @onSelectionChange=${this.handleByIDSelectionChange}></checklist-view>
+              @selectionChanged=${this.handleByIDSelectionChange}></checklist-view>
             <input-view
               class="m-t-md"
               id=${inputViewID}
@@ -143,8 +141,8 @@ export class UserSelectorApp extends BaseElement {
     `;
   }
 
-  private async handleByIDSelectionChange(e: ChecklistViewItemEvent) {
-    this.byID = e.index === 0;
+  private async handleByIDSelectionChange(e: CustomEvent<number[]>) {
+    this.byID = e.detail[0] === 0;
     await this.startRequestAsync();
   }
 

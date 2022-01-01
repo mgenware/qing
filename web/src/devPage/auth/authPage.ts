@@ -12,7 +12,6 @@ import 'ui/form/checklistView';
 import 'qing-button';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
-import { ChecklistViewItemEvent } from 'ui/form/checklistView';
 
 @customElement('auth-page')
 export class AuthDevPage extends BaseElement {
@@ -46,17 +45,14 @@ export class AuthDevPage extends BaseElement {
   }
 
   private renderUserSection() {
-    const { isUidString } = this;
     return html`
       <div>
         <p>
           <checklist-view
             class="m-t-md"
             @selectionChanged=${this.handleUIDTypeChange}
-            .dataSource=${[
-              { text: 'Unsigned number', checked: !isUidString },
-              { text: 'Encoded string', checked: isUidString },
-            ]}></checklist-view>
+            .selectedIndices=${[+this.isUidString]}
+            .dataSource=${['Raw', 'Encoded']}></checklist-view>
         </p>
         <input-view
           required
@@ -75,8 +71,8 @@ export class AuthDevPage extends BaseElement {
     `;
   }
 
-  private handleUIDTypeChange(e: CustomEvent<ChecklistViewItemEvent>) {
-    this.isUidString = e.detail.index !== 0;
+  private handleUIDTypeChange(e: CustomEvent<number[]>) {
+    this.isUidString = !!e.detail[0];
   }
 
   private async handleSignIn() {
