@@ -8,7 +8,7 @@
 import { BaseElement, customElement, html, css } from 'll';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import * as lp from 'lit-props';
-import debounceFn from 'debounce-fn';
+import debounceFn from 'lib/debounce';
 import './inputErrorView';
 import './labelView';
 
@@ -159,7 +159,7 @@ export class InputView extends BaseElement {
 
   firstUpdated() {
     if (this.debounceOnChange) {
-      this.debouncedOnChangeHandler = debounceFn(this.onChangeDebounced, { wait: 500 });
+      this.debouncedOnChangeHandler = debounceFn(500, this.onChangeDebounced);
     }
     if (this.isEmail) {
       this.autocomplete = 'email';

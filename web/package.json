@@ -16,7 +16,6 @@
     "basic-trie": "^0.2.0",
     "bowhead-js": "^6.0.1",
     "date-fns": "^2.28.0",
-    "debounce-fn": "^5.0.0",
     "f-array.splice": "^1.0.1",
     "fx214": "^2.3.0",
     "js-cookie": "^3.0.1",
