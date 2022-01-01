@@ -99,7 +99,7 @@ export class CmtDataHub {
   onChildLoadingStatusChanged(cmtID: string, cb: (e: LoadingStatus) => void) {
     this.childLoadingStatusChanged.on((arg) => {
       const typedArgs = arg as [Cmt, LoadingStatus];
-      if (typedArgs[0]?.id === cmtID) {
+      if (typedArgs[0].id === cmtID) {
         cb(typedArgs[1]);
       }
     });
@@ -108,7 +108,7 @@ export class CmtDataHub {
   onChildItemsChanged(cmtID: string, cb: (e: ItemsChangedEvent<Cmt>) => void) {
     this.childItemsChanged.on((arg) => {
       const typedArgs = arg as [Cmt, ItemsChangedEvent<Cmt>];
-      if (typedArgs[0]?.id === cmtID) {
+      if (typedArgs[0].id === cmtID) {
         cb(typedArgs[1]);
       }
     });

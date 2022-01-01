@@ -15,7 +15,7 @@ import 'ui/widgets/svgIcon';
 import 'com/like/likeApp';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { staticMainImage } from 'urls';
-import Cmt, { toReply } from '../data/cmt';
+import { Cmt, toReply } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt, entityReply } from 'sharedConstants';
 import appPageState from 'app/appPageState';

@@ -141,7 +141,7 @@ export class AvatarUploader extends BaseElement {
     const fd = new FormData(this.formElement);
     if (this.cropInfo) {
       for (const [k, v] of Object.entries(this.cropInfo)) {
-        fd.set(k, v);
+        fd.set(k, `${v}`);
       }
     }
     const loader = new AvatarUploadLoader(fd);

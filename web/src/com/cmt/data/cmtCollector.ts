@@ -9,7 +9,7 @@ import { ItemCollector, ItemsChangedEvent, ItemsLoadedResp } from 'lib/itemColle
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
-import Cmt from './cmt';
+import { Cmt } from './cmt';
 
 // `page` param is managed internally by `CmtCollector`.
 export type GetCmtsInputsWithoutPage = Exclude<GetCmtsInputs, 'page'>;

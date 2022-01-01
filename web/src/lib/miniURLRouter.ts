@@ -59,7 +59,7 @@ export class MiniURLRouter {
   }
 
   private checkPath(path: string, throws: boolean): string[] {
-    if (!path?.startsWith('/')) {
+    if (!path.startsWith('/')) {
       if (throws) {
         throw new Error(`Path must start with /, got "${path}"`);
       } else {

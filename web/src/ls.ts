@@ -15,7 +15,7 @@ if (!windLS) {
 }
 export const ls = windLS;
 
-export function formatLS(str: string, ...data: any[]): string {
+export function formatLS(str: string, ...data: unknown[]): string {
   return fmt(str, ...data);
 }
 

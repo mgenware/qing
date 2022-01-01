@@ -119,8 +119,8 @@ export class ComposerView extends BaseElement {
   private updateEditorContent(title: string, contentHTML: string, canUndo: boolean) {
     const { editorEl } = this;
     this.inputTitle = title;
-    if (editorEl?.value) {
-      editorEl?.value.setContentHTML(contentHTML, canUndo);
+    if (editorEl.value) {
+      editorEl.value.setContentHTML(contentHTML, canUndo);
       this.markAsSaved();
     }
   }
@@ -225,7 +225,7 @@ export class ComposerView extends BaseElement {
     const content = this.getContentHTML();
     if (!content) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
-        this.editorEl?.value?.focus(),
+        this.editorEl.value?.focus(),
       );
     }
     const payload: ComposerContent = {

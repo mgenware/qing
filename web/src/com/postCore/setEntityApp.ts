@@ -122,7 +122,7 @@ export default class SetEntityApp extends BaseElement {
   }
 
   private handleEscDown() {
-    this.composerEl?.clickCancel();
+    return this.composerEl?.clickCancel();
   }
 }
 

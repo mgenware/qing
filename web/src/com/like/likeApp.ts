@@ -47,7 +47,7 @@ export class LikeApp extends BaseElement {
     CHECK(this.hostID);
     CHECK(this.hostType);
 
-    this.likes = this.initialLikes ?? 0;
+    this.likes = this.initialLikes || 0;
     this.hasLiked = this.initialHasLiked;
   }
 

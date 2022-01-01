@@ -22,6 +22,7 @@ export function entityTypeToLS(entityType: number): string {
       return ls.discussion;
     default: {
       CHECK(false);
+      return '';
     }
   }
 }
