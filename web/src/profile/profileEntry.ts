@@ -11,6 +11,7 @@ import { injectStyles, ready } from 'lib/htmlLib';
 import { css } from 'll';
 import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
+import delay from 'lib/delay';
 import 'ui/widgets/tagView';
 import { keyPage, keyPosts, keyTab } from 'sharedConstants';
 import './views/profileIDView';
@@ -41,14 +42,16 @@ const styles = css`
 `;
 injectStyles(styles);
 
-ready(() => {
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+ready(async () => {
   const qs = new URLSearchParams(window.location.search);
   const tab = qs.get(keyTab);
   const page = qs.get(keyPage);
 
   // Scroll to feed list tab if `tab` or `page` are present.
   if (tab || page) {
-    setTimeout(() => document.getElementById('m-profile-posts')?.scrollIntoView(true), 500);
+    await delay(500);
+    document.getElementById('m-profile-posts')?.scrollIntoView(true);
   }
 
   // Highlight a tab in tab view.

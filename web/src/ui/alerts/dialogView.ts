@@ -9,6 +9,7 @@ import { BaseElement, customElement, html, css, TemplateResult } from 'll';
 import * as lp from 'lit-props';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
+import delay from 'lib/delay';
 import { staticMainImage } from 'urls';
 
 const iconSize = 58;
@@ -103,20 +104,20 @@ export class DialogView extends BaseElement {
     this.open = false;
   }
 
-  private handleOpenChanged(e: CustomEvent<boolean>) {
+  private async handleOpenChanged(e: CustomEvent<boolean>) {
     const opened = e.detail;
     this.open = opened;
+
+    await delay(transitionDelay);
     // Delay events a little bit to wait for transition completion.
-    setTimeout(() => {
-      if (opened) {
-        // Focus the default button. This must happens before `dialogShown` fires, as
-        // `dialogShown` might change the focus later.
-        this.getButtonElement('def')?.focus();
-        this.dispatchEvent(new CustomEvent('dialogShown'));
-      } else {
-        this.dispatchEvent(new CustomEvent<number>('dialogClosed', { detail: this.closingButton }));
-      }
-    }, transitionDelay);
+    if (opened) {
+      // Focus the default button. This must happens before `dialogShown` fires, as
+      // `dialogShown` might change the focus later.
+      this.getButtonElement('def')?.focus();
+      this.dispatchEvent(new CustomEvent('dialogShown'));
+    } else {
+      this.dispatchEvent(new CustomEvent<number>('dialogClosed', { detail: this.closingButton }));
+    }
   }
 
   private handleEscDown() {

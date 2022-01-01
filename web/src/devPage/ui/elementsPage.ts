@@ -29,6 +29,7 @@ import { renderTemplateResult } from 'lib/htmlLib';
 import { entityPost, upVoteValue, downVoteValue } from 'sharedConstants';
 import appAlert from 'app/appAlert';
 import ErrorWithCode from 'lib/errorWithCode';
+import delay from 'lib/delay';
 
 const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
@@ -208,10 +209,6 @@ export class ElementsPage extends BaseElement {
       <qing-button
         @click=${() => {
           this.shadowRoot?.getElementById(immersiveDialogID)?.setAttribute('open', '');
-          setTimeout(
-            () => this.shadowRoot?.getElementById(immersiveDialogID)?.removeAttribute('open'),
-            3000,
-          );
         }}
         >immersive dialog</qing-button
       >
@@ -330,11 +327,10 @@ export class ElementsPage extends BaseElement {
     );
   }
 
-  private startFullscreenSpinner() {
+  private async startFullscreenSpinner() {
     appAlert.showLoadingOverlay('Loading...');
-    setTimeout(() => {
-      appAlert.hideLoadingOverlay();
-    }, 2000);
+    await delay(2000);
+    appAlert.hideLoadingOverlay();
   }
 
   private showPostEditor() {
