@@ -22,9 +22,9 @@ it('Debounce', async () => {
 
   await delay(20);
   f();
-  expect(count).to.eq(1);
+  expect(count).to.eq(0);
   f();
 
-  await delay(100);
-  expect(count).to.eq(2);
+  await delay(50);
+  expect(count).to.eq(1);
 });
