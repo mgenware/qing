@@ -6,6 +6,7 @@
  */
 
 import { BaseElement, customElement, html, css } from 'll';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import * as lp from 'lit-props';
 import debounceFn from 'debounce-fn';
 import './inputErrorView';
@@ -13,7 +14,7 @@ import './labelView';
 
 const inputID = 'input-id';
 
-export type InputType =
+export type InputTypeValues =
   | 'hidden'
   | 'text'
   | 'search'
@@ -37,6 +38,63 @@ export type InputType =
   | 'image'
   | 'reset'
   | 'button';
+
+export type AutoCompleteValues =
+  | 'on'
+  | 'off'
+  | 'name'
+  | 'honorific-prefix'
+  | 'given-name'
+  | 'additional-name'
+  | 'family-name'
+  | 'honorific-suffix'
+  | 'nickname'
+  | 'email'
+  | 'username'
+  | 'new-password'
+  | 'current-password'
+  | 'one-time-code'
+  | 'organization-title'
+  | 'organization'
+  | 'street-address'
+  | 'address-line1'
+  | 'address-line2'
+  | 'address-line3'
+  | 'address-level4'
+  | 'address-level3'
+  | 'address-level2'
+  | 'address-level1'
+  | 'country'
+  | 'country-name'
+  | 'postal-code'
+  | 'cc-name'
+  | 'cc-given-name'
+  | 'cc-additional-name'
+  | 'cc-family-name'
+  | 'cc-number'
+  | 'cc-exp'
+  | 'cc-exp-month'
+  | 'cc-exp-year'
+  | 'cc-csc'
+  | 'cc-type'
+  | 'transaction-currency'
+  | 'transaction-amount'
+  | 'language'
+  | 'bday'
+  | 'bday-day'
+  | 'bday-month'
+  | 'bday-year'
+  | 'sex'
+  | 'search'
+  | 'tel'
+  | 'tel-country-code'
+  | 'tel-national'
+  | 'tel-area-code'
+  | 'tel-local'
+  | 'tel-extension'
+  | 'impp'
+  | 'url'
+  | 'photo';
 
 @customElement('input-view')
 // Text input view (block). Use `app-inline-text-input` in `app.css` for inline inputs.
@@ -79,13 +137,13 @@ export class InputView extends BaseElement {
 
   @lp.string label = '';
   @lp.bool required = false;
-  @lp.string type: InputType = 'text';
+  @lp.string type: InputTypeValues = 'text';
   @lp.string value = '';
   @lp.string placeholder = '';
   @lp.bool isEmail = false;
   @lp.bool debounceOnChange = false;
 
-  @lp.string private autocomplete = '';
+  @lp.string private autocomplete?: AutoCompleteValues;
   @lp.string private inputmode = '';
 
   // True if content has changed or `checkValidity` is called.
@@ -120,7 +178,7 @@ export class InputView extends BaseElement {
         ?required=${this.required}
         type=${this.type}
         value=${this.value}
-        autocomplete=${this.autocomplete}
+        autocomplete=${ifDefined(this.autocomplete)}
         inputmode=${this.inputmode}
         placeholder=${this.placeholder}
         @input=${this.handleInput}
