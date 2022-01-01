@@ -6,7 +6,7 @@
  */
 
 const turboBuildCmd = 'tsc -p ./tsconfig-turbo.json';
-const utCmd = 'web-test-runner "./dist/**/*.test.js" --node-resolve';
+const utCmd = 'wtr "./dist-turbo/**/*.test.js" --node-resolve --playwright --browsers webkit';
 const devEnv = {
   NODE_ENV: 'development',
 };
@@ -24,21 +24,17 @@ export default {
 
   /** Standard mode */
   dev: {
-    run: ['#prepare', 'tsc-watch --onSuccess "node esbuild.cjs"'],
+    run: ['#clean', 'tsc-watch --onSuccess "node esbuild.cjs"'],
     env: devEnv,
-  },
-  build: {
-    run: ['#lint', '#prepare', 'rollup -c'],
-    env: prodEnv,
   },
 
   /** Turbo mode */
   turbo: {
-    run: ['#prepare_turbo', turboBuildCmd + ' -w'],
+    run: ['#clean', turboBuildCmd + ' -w'],
     env: devEnv,
   },
   'turbo-build': {
-    run: ['#prepare_turbo', turboBuildCmd],
+    run: ['#clean', turboBuildCmd],
     env: prodEnv,
   },
 
