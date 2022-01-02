@@ -30,6 +30,9 @@ export class AvatarUploader extends BaseElement {
     return [
       super.styles,
       css`
+        :host {
+          display: inline-block;
+        }
         .crop-container {
           overflow-y: auto;
           border: 1px solid var(--app-default-separator-color);

@@ -11,5 +11,5 @@ import './elementsPage';
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<elements-page></elements-page>`);
 
-  tDOM.isInlineElement(el);
+  tDOM.isBlockElement(el);
 });

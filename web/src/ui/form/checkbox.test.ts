@@ -11,5 +11,5 @@ import './checkBox';
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<check-box></check-box>`);
 
-  tDOM.isBlockElement(el);
+  tDOM.isInlineElement(el);
 });
