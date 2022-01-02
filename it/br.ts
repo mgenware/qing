@@ -14,21 +14,21 @@ export { usr, call, User } from 'base/call';
 export type HandlerType = (page: brt.Page) => Promise<void>;
 
 export function test(name: string, handler: HandlerType) {
-  return brt.test(name, ({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+  return brt.test(name, ({ page }) => handler(new brt.Page(page)));
 }
 
 export function beforeEach(handler: HandlerType) {
-  return brt.test.beforeEach(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+  return brt.test.beforeEach(({ page }) => handler(new brt.Page(page)));
 }
 
 export function beforeAll(handler: HandlerType) {
-  return brt.test.beforeAll(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+  return brt.test.beforeAll(({ page }) => handler(new brt.Page(page)));
 }
 
 export function afterEach(handler: HandlerType) {
-  return brt.test.afterEach(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+  return brt.test.afterEach(({ page }) => handler(new brt.Page(page)));
 }
 
 export function afterAll(handler: HandlerType) {
-  return brt.test.afterAll(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+  return brt.test.afterAll(({ page }) => handler(new brt.Page(page)));
 }

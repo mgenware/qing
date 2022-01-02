@@ -23,14 +23,14 @@ function mustGetHTMLElement(e: HTMLElement | SVGElement): HTMLElement {
 }
 
 export class LocatorCore {
-  constructor(public c: pw.Locator, public expect: pw.Expect) {}
+  constructor(public c: pw.Locator) {}
 
   $(sel: string) {
-    return new Element(this.c.locator(sel).first(), this.expect);
+    return new Element(this.c.locator(sel).first());
   }
 
   $$(sel: string) {
-    return new ElementCollection(this.c.locator(sel), this.expect);
+    return new ElementCollection(this.c.locator(sel));
   }
 }
 
@@ -39,7 +39,7 @@ export class ElementCollection extends LocatorCore {
     if (idx < 0) {
       throw new Error(`Index should not be negative. Got ${idx}`);
     }
-    return new Element(this.c.nth(idx), this.expect);
+    return new Element(this.c.nth(idx));
   }
 
   count() {
@@ -47,7 +47,7 @@ export class ElementCollection extends LocatorCore {
   }
 
   async shouldHaveCount(count: number) {
-    await this.expect(this.c).toHaveCount(count);
+    await pw.expect(this.c).toHaveCount(count);
     return this;
   }
 
@@ -114,37 +114,37 @@ export class Element extends LocatorCore {
   }
 
   async shouldExist() {
-    await this.expect(this.c).toHaveCount(1);
+    await pw.expect(this.c).toHaveCount(1);
     return this;
   }
 
   async shouldBeVisible() {
-    await this.expect(this.c).toBeVisible();
+    await pw.expect(this.c).toBeVisible();
     return this;
   }
 
   async shouldNotExist() {
-    await this.expect(this.c).toHaveCount(0);
+    await pw.expect(this.c).toHaveCount(0);
   }
 
   async shouldHaveAttr(name: string, value: string) {
-    await this.expect(this.c).toHaveAttribute(name, value);
+    await pw.expect(this.c).toHaveAttribute(name, value);
   }
 
   async shouldNotHaveAttr(name: string, value: string) {
-    await this.expect(this.c).not.toHaveAttribute(name, value);
+    await pw.expect(this.c).not.toHaveAttribute(name, value);
   }
 
   async shouldHaveTextContent(val: string) {
-    this.expect((await this.c.textContent())?.trim()).toBe(val);
+    pw.expect((await this.c.textContent())?.trim()).toBe(val);
   }
 
   async shouldHaveHTMLContent(val: string) {
-    this.expect((await this.c.innerHTML()).trim()).toBe(val);
+    pw.expect((await this.c.innerHTML()).trim()).toBe(val);
   }
 
   shouldHaveFocus() {
-    return this.expect(this.c).toBeFocused();
+    return pw.expect(this.c).toBeFocused();
   }
 
   shouldHaveValue(val: string) {
@@ -177,6 +177,5 @@ export class Page {
       }
     }
     await page.goto(`${serverURL}${url}`);
-    return page.goto(url);
   }
 }

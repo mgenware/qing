@@ -8,7 +8,7 @@
 import { test } from 'br';
 
 test('__/auth', async (page) => {
-  await goto('/__/auth', null);
+  await page.goto('/__/auth', null);
 
   await page.$('h1:has-text("Auth")').shouldBeVisible();
   await page.$('h2:has-text("Default context")').shouldBeVisible();

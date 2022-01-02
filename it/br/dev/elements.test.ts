@@ -8,7 +8,7 @@
 import { test } from 'br';
 
 test('__/elements', async (page) => {
-  await goto('/__/elements', null);
+  await page.goto('/__/elements', null);
 
   // Do a brief check on elements page.
   await page.$('h1:has-text("Colors")').shouldBeVisible();

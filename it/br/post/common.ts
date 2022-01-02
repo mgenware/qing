@@ -6,7 +6,7 @@
  */
 
 import * as brt from 'brt';
-import { User } from 'br';
+import { User, expect } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
 import { userViewShouldAppear } from 'br/com/content/userView';
 import * as defs from 'base/defs';
@@ -16,12 +16,11 @@ export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export async function postShouldHaveContent(page: brt.Page, html: string) {
   const contentDiv = page.$('.m-post-user + hr + div');
-  page.expect(await contentDiv.innerHTML()).toBe(html);
+  expect(await contentDiv.innerHTML()).toBe(html);
 }
 
 export async function postShouldHaveTitle(page: brt.Page, title: string, link: string) {
   const aEl = page.$('main > container-view > h2 > a');
-  const { expect } = page;
   expect((await aEl.getAttribute('href'))?.endsWith(link)).toBeTruthy();
   expect(await aEl.textContent()).toBe(title);
 }

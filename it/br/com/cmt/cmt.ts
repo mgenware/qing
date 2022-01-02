@@ -39,7 +39,7 @@ export function testCmtAllUserMode(
   groupName: string,
   cmtAppSelector: (page: brt.Page) => brt.Element,
 ) {
-  test(`${groupName} No comments (user)`, async ({ page }) => {
+  test(`${groupName} No comments (user)`, async (page) => {
     const cmtApp = cmtAppSelector(page);
     await noCommentsShouldAppear(cmtApp);
 
@@ -50,7 +50,7 @@ export function testCmtAllUserMode(
     });
   });
 
-  test(`${groupName} Write a comment`, async ({ page }) => {
+  test(`${groupName} Write a comment`, async (page) => {
     const cmtApp = cmtAppSelector(page);
     await noCommentsShouldAppear(cmtApp);
 

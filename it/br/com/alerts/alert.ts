@@ -72,7 +72,6 @@ export async function alertShouldAppear(
   // TODO: Re-enable focus check.
   _focused: number,
 ): Promise<brt.ElementCollection> {
-  const { expect } = page;
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
   await el.shouldHaveAttr('open', '');
@@ -92,7 +91,7 @@ export async function alertShouldAppear(
   const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(buttons);
   await btns.shouldHaveCount(btnNames.length);
-  await Promise.all(btnNames.map((b, i) => expect(btns.item(i).shouldHaveTextContent(b))));
+  await Promise.all(btnNames.map((b, i) => brt.expect(btns.item(i).shouldHaveTextContent(b))));
 
   // TODO: Re-enable focus check.
   // await buttonShouldHaveFocus(btns.item(focused));
