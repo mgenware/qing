@@ -1,4 +1,4 @@
-import { expect } from 'qing-t';
+import { expect } from 'dev/t';
 import ls from 'ls';
 import { entityTypeToLS } from './strings';
 import {

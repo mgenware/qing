@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { expect, html, fixture, elementUpdated, aTimeout } from 'qing-t';
+import { expect, html, fixture, elementUpdated, aTimeout } from 'dev/t';
 import { html as litHTML } from 'll';
 import { renderTemplateResult, tif } from './htmlLib';
 

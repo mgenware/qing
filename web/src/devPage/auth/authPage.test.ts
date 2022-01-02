@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'qing-t';
+import { html, fixture, tDOM } from 'dev/t';
 import './authPage';
 
 it('Display', async () => {

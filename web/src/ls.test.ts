@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'qing-t';
-import 'dev/en';
+import { expect } from 'dev/t';
 import { ls, formatLS } from './ls';
 
 it('ls', () => {

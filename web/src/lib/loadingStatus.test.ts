@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'qing-t';
+import { expect } from 'dev/t';
 import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
 

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'qing-t';
+import { html, fixture, tDOM } from 'dev/t';
 import './sectionView';
 
 it('Display', async () => {

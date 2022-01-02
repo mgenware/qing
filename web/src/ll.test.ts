@@ -6,7 +6,7 @@
  */
 
 import { BaseElement } from 'll';
-import { expect, html, fixture, tDOM } from 'qing-t';
+import { expect, html, fixture, tDOM } from 'dev/t';
 
 class TElement extends BaseElement {
   render() {
