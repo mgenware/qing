@@ -85,7 +85,7 @@ const webDir = 'web';
 const serverDir = 'server';
 const libDevDir = 'lib/dev';
 const itDir = 'it';
-const npmRunR = 'npm run r';
+const npmRunR = 'npm run r --';
 
 async function getRootDir(): Promise<string> {
   const res = await execAsync('git rev-parse --show-toplevel');
