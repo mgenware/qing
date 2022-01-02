@@ -25,9 +25,9 @@ async function clickEdit(page: brt.Page) {
   await editBtn.click();
 }
 
-test('Post editor', async ({ page, goto }) => {
+test('Post editor', async (page) => {
   await newPost(usr.user, async (id) => {
-    await goto(`/p/${id}`, usr.user);
+    await page.goto(`/p/${id}`, usr.user);
 
     await clickEdit(page);
     await editorShouldAppear(page, {
@@ -39,12 +39,9 @@ test('Post editor', async ({ page, goto }) => {
 });
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Update post -> ${part === EditorPart.title ? 'title' : 'content'}`, async ({
-    page,
-    goto,
-  }) => {
+  test(`Update post -> ${part === EditorPart.title ? 'title' : 'content'}`, async (page) => {
     await newPost(usr.user, async (id) => {
-      await goto(`/p/${id}`, usr.user);
+      await page.goto(`/p/${id}`, usr.user);
 
       await clickEdit(page);
 
@@ -66,9 +63,9 @@ function testEditorUpdate(part: EditorPart) {
   });
 }
 
-test('Dismiss post editor', async ({ page, goto }) => {
+test('Dismiss post editor', async (page) => {
   await newPost(usr.user, async (id) => {
-    await goto(`/p/${id}`, usr.user);
+    await page.goto(`/p/${id}`, usr.user);
 
     await clickEdit(page);
 

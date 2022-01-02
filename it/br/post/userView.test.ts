@@ -10,9 +10,9 @@ import { test, usr } from 'br';
 import { testCmtAllUserMode } from 'br/com/cmt/cmt';
 import { postCoreTraitsShouldAppear, cmtAppSelector } from './common';
 
-test('Post page (user)', async ({ goto, page }) => {
+test('Post page (user)', async (page) => {
   await newPost(usr.user, async (id) => {
-    await postCoreTraitsShouldAppear(page, goto, id, usr.user, usr.user2);
+    await postCoreTraitsShouldAppear(page, id, usr.user, usr.user2);
   });
 });
 

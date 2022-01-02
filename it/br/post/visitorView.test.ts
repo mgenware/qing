@@ -16,9 +16,9 @@ import {
 import { postCoreTraitsShouldAppear, cmtAppSelector } from './common';
 import { testCmtAllVisitorMode } from 'br/com/cmt/cmt';
 
-test('Post page (visitor)', async ({ page, goto }) => {
+test('Post page (visitor)', async (page) => {
   await newPost(usr.user, async (id) => {
-    const { likeAppEl } = await postCoreTraitsShouldAppear(page, goto, id, usr.user, null);
+    const { likeAppEl } = await postCoreTraitsShouldAppear(page, id, usr.user, null);
 
     // Click the like button.
     await likeAppEl.click();

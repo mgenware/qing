@@ -3,7 +3,7 @@
 ## Browser tests
 
 ```ts
-test('Post editor appears', async ({ page, goto }) => {
+test('Post editor appears', async (page) => {
   // Test code.
 });
 ```

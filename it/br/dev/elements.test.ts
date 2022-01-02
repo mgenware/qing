@@ -7,7 +7,7 @@
 
 import { test } from 'br';
 
-test('__/elements', async ({ page, goto }) => {
+test('__/elements', async (page) => {
   await goto('/__/elements', null);
 
   // Do a brief check on elements page.

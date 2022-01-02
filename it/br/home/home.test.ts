@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { test } from 'br';
+import { test, expect } from 'br';
 
-test('Home page', async ({ page, goto, expect }) => {
-  await goto('/', null);
+test('Home page', async (page) => {
+  await page.goto('/', null);
   const c = await page.c.content();
   expect(c.length).toBeTruthy();
 });

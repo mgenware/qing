@@ -25,7 +25,7 @@ export function testCmtAllVisitorMode(
   groupName: string,
   cmtAppSelector: (page: brt.Page) => brt.Element,
 ) {
-  test(`${groupName} No comments (visitor)`, async ({ page }) => {
+  test(`${groupName} No comments (visitor)`, async (page) => {
     const cmtApp = cmtAppSelector(page);
     await noCommentsShouldAppear(cmtApp);
 

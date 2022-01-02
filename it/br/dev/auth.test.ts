@@ -7,7 +7,7 @@
 
 import { test } from 'br';
 
-test('__/auth', async ({ page, goto }) => {
+test('__/auth', async (page) => {
   await goto('/__/auth', null);
 
   await page.$('h1:has-text("Auth")').shouldBeVisible();

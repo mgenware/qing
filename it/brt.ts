@@ -7,9 +7,11 @@
  */
 
 import * as pw from '@playwright/test';
+import { User } from 'base/call';
+import { auth, serverURL } from 'base/urls';
 
 // `expect` has to be patched to handle wrappers like `Element` and `ElementCollection`.
-export { expect as pwExpect, Expect, test as pwTest } from '@playwright/test';
+export { expect, Expect, test } from '@playwright/test';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
@@ -151,17 +153,30 @@ export class Element extends LocatorCore {
 }
 
 export class Page {
-  constructor(public c: pw.Page, public expect: pw.Expect) {}
+  constructor(public c: pw.Page) {}
 
   $(sel: string) {
-    return new Element(this.c.locator(sel).first(), this.expect);
+    return new Element(this.c.locator(sel).first());
   }
 
   $$(sel: string) {
     return this.c.locator(sel);
   }
 
-  goto(url: string) {
-    return this.c.goto(url);
+  async goto(url: string, user: User | null) {
+    const page = this.c;
+    if (user) {
+      // Playwright has to use the GET version of the login API route.
+      await page.goto(`${serverURL}${auth.in}/${user.id}`);
+      const pageResponse = await page.content();
+      if (
+        pageResponse !==
+        '<html><head></head><body><p>You have successfully logged in.</p></body></html>'
+      ) {
+        throw new Error(`Login failed. Got "${pageResponse}"`);
+      }
+    }
+    await page.goto(`${serverURL}${url}`);
+    return page.goto(url);
   }
 }

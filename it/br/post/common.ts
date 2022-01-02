@@ -6,7 +6,7 @@
  */
 
 import * as brt from 'brt';
-import { User, GoToFn } from 'br';
+import { User } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
 import { userViewShouldAppear } from 'br/com/content/userView';
 import * as defs from 'base/defs';
@@ -28,13 +28,12 @@ export async function postShouldHaveTitle(page: brt.Page, title: string, link: s
 
 export async function postCoreTraitsShouldAppear(
   page: brt.Page,
-  goto: GoToFn,
   id: string,
   author: User,
   user: User | null,
 ) {
   const link = `/p/${id}`;
-  await goto(link, user);
+  await page.goto(link, user);
 
   // User view.
   await userViewShouldAppear(page.$(userViewQuery), author.id, author.iconURL, author.name);

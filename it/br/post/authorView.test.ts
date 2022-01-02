@@ -9,8 +9,8 @@ import { newPost } from 'helper/post';
 import { test, usr } from 'br';
 import { postCoreTraitsShouldAppear } from './common';
 
-test('Post page (author)', async ({ goto, page }) => {
+test('Post page (author)', async (page) => {
   await newPost(usr.user, async (id) => {
-    await postCoreTraitsShouldAppear(page, goto, id, usr.user, usr.user);
+    await postCoreTraitsShouldAppear(page, id, usr.user, usr.user);
   });
 });

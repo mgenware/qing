@@ -6,41 +6,29 @@
  */
 
 import * as brt from 'brt';
-import { User } from 'base/call';
-import { auth, serverURL } from 'base/urls';
 
 // Re-exports.
+export { expect, Expect } from 'brt';
 export { usr, call, User } from 'base/call';
 
-export type GoToFn = (url: string, user: User | null) => Promise<void>;
-
-export interface HandlerArg {
-  page: brt.Page;
-  expect: brt.Expect;
-  goto: GoToFn;
-}
-
-export type HandlerType = (e: HandlerArg) => Promise<void>;
-
-function newHandlerArg(expect: brt.Expect, page: brt.Page): HandlerArg {
-  return {
-    page,
-    expect,
-    goto: async (url: string, user: User | null) => {
-      if (user) {
-        // Playwright has to use the GET version of the login API route.
-        await page.goto(`${serverURL}${auth.in}/${user.id}`);
-        expect(await page.c.content()).toBe(
-          '<html><head></head><body><p>You have successfully logged in.</p></body></html>',
-        );
-      }
-      await page.goto(`${serverURL}${url}`);
-    },
-  };
-}
+export type HandlerType = (page: brt.Page) => Promise<void>;
 
 export function test(name: string, handler: HandlerType) {
-  return brt.pwTest(name, ({ page }) =>
-    handler(newHandlerArg(brt.pwExpect, new brt.Page(page, brt.pwExpect))),
-  );
+  return brt.test(name, ({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+}
+
+export function beforeEach(handler: HandlerType) {
+  return brt.test.beforeEach(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+}
+
+export function beforeAll(handler: HandlerType) {
+  return brt.test.beforeAll(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+}
+
+export function afterEach(handler: HandlerType) {
+  return brt.test.afterEach(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
+}
+
+export function afterAll(handler: HandlerType) {
+  return brt.test.afterAll(({ page }) => handler(new brt.Page(page, brt.pwExpect)));
 }
