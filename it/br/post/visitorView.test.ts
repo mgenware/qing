@@ -6,24 +6,24 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, usr } from 'br';
+import { test, usr, $ } from 'br';
 import {
   AlertButtons,
   AlertType,
   waitForAlertDetached,
   alertShouldAppear,
 } from 'br/com/alerts/alert';
-import { postCoreTraitsShouldAppear, cmtAppSelector } from './common';
-import { testCmtAllVisitorMode } from 'br/com/cmt/cmt';
+import { postCoreTraitsShouldAppear } from './common';
 
-test('Post page (visitor)', async (page) => {
+test('Post page (visitor)', async ({ page }) => {
+  const p = $(page);
   await newPost(usr.user, async (id) => {
-    const { likeAppEl } = await postCoreTraitsShouldAppear(page, id, usr.user, null);
+    const { likeAppEl } = await postCoreTraitsShouldAppear(p, id, usr.user, null);
 
     // Click the like button.
     await likeAppEl.click();
     const btns = await alertShouldAppear(
-      page,
+      p,
       '',
       'Sign in to like this post.',
       AlertType.warning,
@@ -32,8 +32,6 @@ test('Post page (visitor)', async (page) => {
     );
     const okBtn = btns.item(0);
     await okBtn.click();
-    await waitForAlertDetached(page);
+    await waitForAlertDetached(p);
   });
 });
-
-testCmtAllVisitorMode('[post]', (p) => p.$(cmtAppSelector));

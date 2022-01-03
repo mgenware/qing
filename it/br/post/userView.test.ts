@@ -6,14 +6,11 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, usr } from 'br';
-import { testCmtAllUserMode } from 'br/com/cmt/cmt';
-import { postCoreTraitsShouldAppear, cmtAppSelector } from './common';
+import { test, usr, $ } from 'br';
+import { postCoreTraitsShouldAppear } from './common';
 
-test('Post page (user)', async (page) => {
+test('Post page (user)', async ({ page }) => {
   await newPost(usr.user, async (id) => {
-    await postCoreTraitsShouldAppear(page, id, usr.user, usr.user2);
+    await postCoreTraitsShouldAppear($(page), id, usr.user, usr.user2);
   });
 });
-
-testCmtAllUserMode('[post]', (p) => p.$(cmtAppSelector));

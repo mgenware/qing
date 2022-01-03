@@ -6,7 +6,6 @@
  */
 
 import * as brt from 'brt';
-import * as defs from 'base/defs';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
@@ -23,17 +22,17 @@ export enum EditorPart {
   title,
 }
 
-async function updateEditorContent(part: EditorPart, composerEl: brt.Element) {
+async function updateEditorContent(part: EditorPart, content: string, composerEl: brt.Element) {
   switch (part) {
     case EditorPart.content: {
       const contentEl = composerEl.$(editorContentSel);
-      await contentEl.fill(defs.sd.updatedContentRaw);
+      await contentEl.fill(content);
       break;
     }
 
     case EditorPart.title: {
       const inputEl = composerEl.$(editorTitleSel);
-      await inputEl.fill(defs.sd.updatedContentRaw);
+      await inputEl.fill(content);
       break;
     }
     default:
@@ -58,7 +57,8 @@ async function waitForOverlayClosed(page: brt.Page) {
 }
 
 export interface EditorShouldAppearArgs {
-  title: string;
+  // `null` indicates the title bar is not visible.
+  title: string | null;
   contentHTML: string;
   buttons: ButtonTraits[];
 }
@@ -67,8 +67,12 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
   const { composerEl } = await waitForOverlayVisible(page);
 
   // Title.
-  const titleInputEl = await composerEl.$(editorTitleSel).shouldBeVisible();
-  await titleInputEl.shouldHaveAttr('value', args.title);
+  if (args.title) {
+    const titleInputEl = await composerEl.$(editorTitleSel).shouldBeVisible();
+    await titleInputEl.shouldHaveAttr('value', args.title);
+  } else {
+    await composerEl.$(editorTitleSel).shouldNotExist();
+  }
 
   const contentInputEl = await composerEl.$(editorContentSel).shouldBeVisible();
   await contentInputEl.shouldHaveHTMLContent(args.contentHTML);
@@ -80,11 +84,11 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
   await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
 }
 
-export async function editorShouldUpdate(page: brt.Page, part: EditorPart) {
+export async function editorShouldUpdate(page: brt.Page, part: EditorPart, content: string) {
   const { composerEl } = await waitForOverlayVisible(page);
 
   // Update editor content.
-  await updateEditorContent(part, composerEl);
+  await updateEditorContent(part, content, composerEl);
 
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');
@@ -104,7 +108,7 @@ export async function editorShouldDiscardChanges(
   cancelBtn: string,
 ) {
   const { composerEl } = await waitForOverlayVisible(page);
-  await updateEditorContent(part, composerEl);
+  await updateEditorContent(part, '_CHANGES_DISCARDED_', composerEl);
   await clickBtn(composerEl, cancelBtn);
 
   const alertBtns = await alertShouldAppear(

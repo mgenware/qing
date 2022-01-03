@@ -5,12 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { test } from 'br';
+import { test, $ } from 'br';
 
-test('__/elements', async (page) => {
-  await page.goto('/__/elements', null);
+test('__/elements', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/__/elements', null);
 
   // Do a brief check on elements page.
-  await page.$('h1:has-text("Colors")').shouldBeVisible();
-  await page.$('h2:has-text("Default context")').shouldBeVisible();
+  await p.$('h1:has-text("Colors")').shouldBeVisible();
+  await p.$('h2:has-text("Default context")').shouldBeVisible();
 });

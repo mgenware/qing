@@ -19,6 +19,7 @@ export const entity = {
   forumGroup: 11,
 };
 
+// `sd` sample data.
 export const sd = {
   timeString: '10/27/1990',
   updatedContentRaw: "<p>_MOD_</p><script>alert('-39')</script>",

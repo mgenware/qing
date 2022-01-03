@@ -6,7 +6,7 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, usr } from 'br';
+import { test, usr, $ } from 'br';
 import * as brt from 'brt';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditButton } from 'br/com/editor/editBar';
@@ -25,12 +25,13 @@ async function clickEdit(page: brt.Page) {
   await editBtn.click();
 }
 
-test('Post editor', async (page) => {
+test('Post editor', async ({ page }) => {
+  const p = $(page);
   await newPost(usr.user, async (id) => {
-    await page.goto(`/p/${id}`, usr.user);
+    await p.goto(`/p/${id}`, usr.user);
 
-    await clickEdit(page);
-    await editorShouldAppear(page, {
+    await clickEdit(p);
+    await editorShouldAppear(p, {
       title: defs.sd.postTitleRaw,
       contentHTML: defs.sd.postContentSan,
       buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
@@ -39,42 +40,44 @@ test('Post editor', async (page) => {
 });
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Update post -> ${part === EditorPart.title ? 'title' : 'content'}`, async (page) => {
+  test(`Update post -> ${part === EditorPart.title ? 'title' : 'content'}`, async ({ page }) => {
+    const p = $(page);
     await newPost(usr.user, async (id) => {
-      await page.goto(`/p/${id}`, usr.user);
+      await p.goto(`/p/${id}`, usr.user);
 
-      await clickEdit(page);
+      await clickEdit(p);
 
       // Check editor update.
-      await editorShouldUpdate(page, part);
+      await editorShouldUpdate(p, part, defs.sd.updatedContentRaw);
 
       // Verify post title.
       await postShouldHaveTitle(
-        page,
+        p,
         part === EditorPart.title ? defs.sd.updatedContentRaw : defs.sd.postTitleRaw,
         `/p/${id}`,
       );
       // Verify post content.
       await postShouldHaveContent(
-        page,
+        p,
         part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentRawHTMLWrapped,
       );
     });
   });
 }
 
-test('Dismiss post editor', async (page) => {
+test('Dismiss post editor', async ({ page }) => {
+  const p = $(page);
   await newPost(usr.user, async (id) => {
-    await page.goto(`/p/${id}`, usr.user);
+    await p.goto(`/p/${id}`, usr.user);
 
-    await clickEdit(page);
+    await clickEdit(p);
 
     // Check editor dismissal.
-    await editorShouldBeDismissed(page, 'Cancel');
+    await editorShouldBeDismissed(p, 'Cancel');
 
     // Verify page content.
-    await postShouldHaveTitle(page, defs.sd.postTitleRaw, `/p/${id}`);
-    await postShouldHaveContent(page, defs.sd.postContentSan);
+    await postShouldHaveTitle(p, defs.sd.postTitleRaw, `/p/${id}`);
+    await postShouldHaveContent(p, defs.sd.postContentSan);
   });
 });
 

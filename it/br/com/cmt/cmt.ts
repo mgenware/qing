@@ -6,9 +6,18 @@
  */
 
 import * as brt from 'brt';
-import { test } from 'br';
+import { $ } from 'br';
+import * as pw from '@playwright/test';
 import { buttonShouldAppear } from '../buttons/button';
 import { editorShouldAppear } from '../editor/editor';
+
+export type TestInputType = pw.TestType<
+  pw.PlaywrightTestArgs &
+    pw.PlaywrightTestOptions & {
+      cmtApp: brt.Element;
+    },
+  pw.PlaywrightWorkerArgs & pw.PlaywrightWorkerOptions
+>;
 
 async function commentsHeadingShouldAppear(el: brt.Element) {
   return el.$('h2:has-text("Comments")').shouldBeVisible();
@@ -21,12 +30,8 @@ async function noCommentsShouldAppear(el: brt.Element) {
   await el.$('text=No comments').shouldBeVisible();
 }
 
-export function testCmtAllVisitorMode(
-  groupName: string,
-  cmtAppSelector: (page: brt.Page) => brt.Element,
-) {
-  test(`${groupName} No comments (visitor)`, async (page) => {
-    const cmtApp = cmtAppSelector(page);
+export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
+  test(`${groupName} No comments (visitor)`, async ({ cmtApp }) => {
     await noCommentsShouldAppear(cmtApp);
 
     // "Sign in" to comment.
@@ -35,12 +40,8 @@ export function testCmtAllVisitorMode(
   });
 }
 
-export function testCmtAllUserMode(
-  groupName: string,
-  cmtAppSelector: (page: brt.Page) => brt.Element,
-) {
-  test(`${groupName} No comments (user)`, async (page) => {
-    const cmtApp = cmtAppSelector(page);
+export function testCmtOnUserMode(groupName: string, test: TestInputType) {
+  test(`${groupName} No comments (user)`, async ({ cmtApp }) => {
     await noCommentsShouldAppear(cmtApp);
 
     // "Write a comment" button.
@@ -50,8 +51,8 @@ export function testCmtAllUserMode(
     });
   });
 
-  test(`${groupName} Write a comment`, async (page) => {
-    const cmtApp = cmtAppSelector(page);
+  test(`${groupName} Write a comment`, async ({ page, cmtApp }) => {
+    const p = $(page);
     await noCommentsShouldAppear(cmtApp);
 
     const writeCmtBtn = await buttonShouldAppear(cmtApp.$('qing-button'), {
@@ -59,7 +60,7 @@ export function testCmtAllUserMode(
       style: 'success',
     });
     await writeCmtBtn.click();
-    await editorShouldAppear(page, {
+    await editorShouldAppear(p, {
       title: 'Write a comment',
       contentHTML: '',
       buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],

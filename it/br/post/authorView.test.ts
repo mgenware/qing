@@ -6,11 +6,12 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, usr } from 'br';
+import { test, usr, $ } from 'br';
 import { postCoreTraitsShouldAppear } from './common';
 
-test('Post page (author)', async (page) => {
+test('Post page (author)', async ({ page }) => {
+  const p = $(page);
   await newPost(usr.user, async (id) => {
-    await postCoreTraitsShouldAppear(page, id, usr.user, usr.user);
+    await postCoreTraitsShouldAppear(p, id, usr.user, usr.user);
   });
 });

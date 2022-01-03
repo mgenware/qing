@@ -10,7 +10,6 @@ import * as pw from '@playwright/test';
 import { User } from 'base/call';
 import { auth, serverURL } from 'base/urls';
 
-// `expect` has to be patched to handle wrappers like `Element` and `ElementCollection`.
 export { expect, Expect, test } from '@playwright/test';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
@@ -178,4 +177,8 @@ export class Page {
     }
     await page.goto(`${serverURL}${url}`);
   }
+}
+
+export function $(page: pw.Page) {
+  return new Page(page);
 }

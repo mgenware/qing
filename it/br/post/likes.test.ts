@@ -6,23 +6,24 @@
  */
 
 import { newPost } from 'helper/post';
-import { test, usr } from 'br';
+import { test, usr, $ } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
 
-test('Like a post', async (page) => {
+test('Like a post', async ({ page }) => {
+  const p = $(page);
   await newPost(usr.user, async (id) => {
     const link = `/p/${id}`;
-    await page.goto(link, usr.user);
+    await p.goto(link, usr.user);
 
-    const likeAppEl = page.$('post-payload-app like-app');
+    const likeAppEl = p.$('post-payload-app like-app');
     await likesShouldAppear(likeAppEl, 0, false);
 
     await likeAppEl.click();
     await likesShouldAppear(likeAppEl, 1, true);
 
     {
-      await page.goto(`/p/${id}`, usr.user2);
-      const likeAppEl2 = page.$('post-payload-app like-app');
+      await p.goto(`/p/${id}`, usr.user2);
+      const likeAppEl2 = p.$('post-payload-app like-app');
       await likesShouldAppear(likeAppEl, 1, false);
 
       await likeAppEl2.click();
@@ -32,7 +33,7 @@ test('Like a post', async (page) => {
       await likesShouldAppear(likeAppEl, 1, false);
     }
 
-    await page.goto(link, usr.user);
+    await p.goto(link, usr.user);
     await likeAppEl.click();
     await likesShouldAppear(likeAppEl, 0, false);
   });
