@@ -6,18 +6,21 @@
  */
 
 import * as brt from 'brt';
+import { User } from 'br';
 import { timeFieldShouldAppear } from './timeField';
 
-export async function userViewShouldAppear(
-  el: brt.Element,
-  id: string,
-  iconURL: string,
-  name: string,
-) {
+export interface CheckUserViewArgs {
+  author: User;
+}
+
+export async function userViewShouldAppear(el: brt.Element, e: CheckUserViewArgs) {
+  const { author } = e;
   // Profile image link.
-  await el.$(`a[href="/u/${id}"] img[src="${iconURL}"][width="50"][height="50"]`).shouldBeVisible();
+  await el
+    .$(`a[href="/u/${author.id}"] img[src="${author.iconURL}"][width="50"][height="50"]`)
+    .shouldBeVisible();
   // Name link.
-  await el.$(`a[href="/u/${id}"]:has-text("${name}")`).shouldBeVisible();
+  await el.$(`a[href="/u/${author.id}"]:has-text("${author.name}")`).shouldBeVisible();
   // Time field.
   await timeFieldShouldAppear(el.$('time-field small'));
 }

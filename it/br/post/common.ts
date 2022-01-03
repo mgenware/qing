@@ -39,7 +39,7 @@ export async function postCoreTraitsShouldAppear(
   await page.goto(link, user);
 
   // User view.
-  await userViewShouldAppear(page.$(userViewQuery), author.id, author.iconURL, author.name);
+  await userViewShouldAppear(page.$(userViewQuery), { author });
 
   // Page content.
   await postShouldHaveTitle(page, defs.sd.postTitleRaw, link);

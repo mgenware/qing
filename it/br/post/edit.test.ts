@@ -40,7 +40,7 @@ test('Post editor', async ({ page }) => {
 });
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Update post -> ${part === EditorPart.title ? 'title' : 'content'}`, async ({ page }) => {
+  test(`Update post -> ${part === 'title' ? 'title' : 'content'}`, async ({ page }) => {
     const p = $(page);
     await newPost(usr.user, async (id) => {
       await p.goto(`/p/${id}`, usr.user);
@@ -53,13 +53,13 @@ function testEditorUpdate(part: EditorPart) {
       // Verify post title.
       await postShouldHaveTitle(
         p,
-        part === EditorPart.title ? defs.sd.updatedContentRaw : defs.sd.postTitleRaw,
+        part === 'title' ? defs.sd.updatedContentRaw : defs.sd.postTitleRaw,
         `/p/${id}`,
       );
       // Verify post content.
       await postShouldHaveContent(
         p,
-        part === EditorPart.title ? defs.sd.postContentSan : defs.sd.updatedContentRawHTMLWrapped,
+        part === 'title' ? defs.sd.postContentSan : defs.sd.updatedContentRawHTMLWrapped,
       );
     });
   });
@@ -81,5 +81,5 @@ test('Dismiss post editor', async ({ page }) => {
   });
 });
 
-testEditorUpdate(EditorPart.title);
-testEditorUpdate(EditorPart.content);
+testEditorUpdate('title');
+testEditorUpdate('content');

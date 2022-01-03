@@ -17,20 +17,17 @@ const editorButtonsGroupSel = '.editor-buttons';
 const editorContentSel = 'editor-view .kx-content';
 const editorTitleSel = 'input[placeholder="Title"]';
 
-export enum EditorPart {
-  content,
-  title,
-}
+export type EditorPart = 'content' | 'title';
 
 async function updateEditorContent(part: EditorPart, content: string, composerEl: brt.Element) {
   switch (part) {
-    case EditorPart.content: {
+    case 'content': {
       const contentEl = composerEl.$(editorContentSel);
       await contentEl.fill(content);
       break;
     }
 
-    case EditorPart.title: {
+    case 'title': {
       const inputEl = composerEl.$(editorTitleSel);
       await inputEl.fill(content);
       break;
