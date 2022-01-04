@@ -15,7 +15,7 @@ const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 export const setEntityBody = {
   entityType: defs.entity.post,
-  content: { contentHTML: defs.sd.postContentRaw, title: defs.sd.postTitleRaw },
+  content: { contentHTML: defs.sd.content.input, title: defs.sd.title.input },
 };
 
 const getPostSrcURL = 'pri/compose/get-entity-src';

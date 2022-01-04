@@ -130,6 +130,14 @@ export class Element extends LocatorCore {
     await pw.expect(this.c).toHaveAttribute(name, value);
   }
 
+  async shouldHaveClass(name: string) {
+    await pw.expect(this.c).toHaveClass(name);
+  }
+
+  async shouldNotHaveClass(name: string) {
+    await pw.expect(this.c).not.toHaveClass(name);
+  }
+
   async shouldNotHaveAttr(name: string, value: string) {
     await pw.expect(this.c).not.toHaveAttribute(name, value);
   }

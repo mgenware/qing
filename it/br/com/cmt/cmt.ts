@@ -6,10 +6,12 @@
  */
 
 import * as brt from 'brt';
-import { $ } from 'br';
+import { $, User, usr } from 'br';
 import * as pw from '@playwright/test';
+import * as defs from 'base/defs';
+import { userViewShouldAppear } from 'br/com/content/userView';
 import { buttonShouldAppear } from '../buttons/button';
-import { editorShouldAppear } from '../editor/editor';
+import { editorShouldAppear, editorShouldUpdate } from '../editor/editor';
 
 export type TestInputType = pw.TestType<
   pw.PlaywrightTestArgs &
@@ -28,6 +30,36 @@ async function noCommentsShouldAppear(el: brt.Element) {
 
   // "No comments" element.
   await el.$('text=No comments').shouldBeVisible();
+}
+
+export interface CheckCmtArgs {
+  author: User;
+  content: string;
+  authorView?: boolean;
+  highlighted?: boolean;
+}
+
+async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
+  // User view.
+  const row = el.$('.row');
+  await userViewShouldAppear(row, { author: e.author });
+
+  // Comment content.
+  await el.$('.col:nth-child(2)').shouldHaveTextContent(defs.sd.content.san);
+
+  // Edit buttons.
+  const editBar = el.$('.col:first-child');
+  if (e.authorView) {
+    await editBar.shouldBeVisible();
+  } else {
+    await editBar.shouldNotExist();
+  }
+
+  if (e.highlighted) {
+    await row.shouldHaveClass('highlighted');
+  } else {
+    await row.shouldNotHaveClass('highlighted');
+  }
 }
 
 export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
@@ -64,6 +96,14 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
       title: 'Write a comment',
       contentHTML: '',
       buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
+    });
+
+    await editorShouldUpdate(p, 'content', defs.sd.content.input);
+    await cmtShouldAppear(cmtApp, {
+      author: usr.user,
+      content: defs.sd.content.san,
+      highlighted: true,
+      authorView: true,
     });
   });
 }

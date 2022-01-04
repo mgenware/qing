@@ -42,8 +42,8 @@ export async function postCoreTraitsShouldAppear(
   await userViewShouldAppear(page.$(userViewQuery), { author });
 
   // Page content.
-  await postShouldHaveTitle(page, defs.sd.postTitleRaw, link);
-  await postShouldHaveContent(page, defs.sd.postContentSan);
+  await postShouldHaveTitle(page, defs.sd.title.input, link);
+  await postShouldHaveContent(page, defs.sd.content.san);
 
   // Like button.
   const likeAppEl = page.$('post-payload-app like-app');

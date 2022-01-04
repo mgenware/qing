@@ -8,7 +8,7 @@
 import { newPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as brt from 'brt';
-import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
+import { userViewQuery, postShouldHaveTitle, postShouldHaveContent, postLink } from './common';
 import { getEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
 import {
@@ -32,8 +32,8 @@ test('Post editor', async ({ page }) => {
 
     await clickEdit(p);
     await editorShouldAppear(p, {
-      title: defs.sd.postTitleRaw,
-      contentHTML: defs.sd.postContentSan,
+      title: defs.sd.title.inputHTML,
+      contentHTML: defs.sd.content.sanHTML,
       buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
     });
   });
@@ -48,18 +48,18 @@ function testEditorUpdate(part: EditorPart) {
       await clickEdit(p);
 
       // Check editor update.
-      await editorShouldUpdate(p, part, defs.sd.updatedContentRaw);
+      await editorShouldUpdate(p, part, defs.sd.updated.input);
 
       // Verify post title.
       await postShouldHaveTitle(
         p,
-        part === 'title' ? defs.sd.updatedContentRaw : defs.sd.postTitleRaw,
+        part === 'title' ? defs.sd.updated.inputHTML : defs.sd.title.inputHTML,
         `/p/${id}`,
       );
       // Verify post content.
       await postShouldHaveContent(
         p,
-        part === 'title' ? defs.sd.postContentSan : defs.sd.updatedContentRawHTMLWrapped,
+        part === 'title' ? defs.sd.content.sanHTML : defs.sd.updated.sanHTML,
       );
     });
   });
@@ -76,8 +76,8 @@ test('Dismiss post editor', async ({ page }) => {
     await editorShouldBeDismissed(p, 'Cancel');
 
     // Verify page content.
-    await postShouldHaveTitle(p, defs.sd.postTitleRaw, `/p/${id}`);
-    await postShouldHaveContent(p, defs.sd.postContentSan);
+    await postShouldHaveTitle(p, defs.sd.title.inputHTML, postLink(id));
+    await postShouldHaveContent(p, defs.sd.content.sanHTML);
   });
 });
 
