@@ -17,8 +17,6 @@ import { promisify } from 'util';
 const execAsync = promisify(exec);
 const qingDevDirName = '.qing-dev';
 const npmInstallTimeFileName = 'npmInstallTime.txt';
-const migrateCmd = 'docker compose run migrate';
-const composeUpCmd = 'docker compose up';
 
 if (process.platform === 'win32') {
   console.error('Qing CLI does not support Windows, please use WSL2 on Windows.');
@@ -85,7 +83,6 @@ const webDir = 'web';
 const serverDir = 'server';
 const libDevDir = 'lib/dev';
 const itDir = 'it';
-const npmRunR = 'npm run r --';
 
 async function getRootDir(): Promise<string> {
   const res = await execAsync('git rev-parse --show-toplevel');
@@ -102,10 +99,13 @@ function checkArg(s: string | undefined, name: string): asserts s {
   }
 }
 
-async function spawnCmd(command: string, workingDir: string, args: string[] | null): Promise<void> {
+async function pipedSpawn(
+  command: string,
+  args: readonly string[] | null,
+  workingDir: string,
+): Promise<void> {
   return new Promise((resolve, reject) => {
-    const process = spawn(args?.length ? `${command} ${args.join(' ')}` : command, {
-      shell: true,
+    const process = spawn(command, args ?? [], {
       stdio: 'inherit',
       cwd: workingDir,
     });
@@ -139,26 +139,34 @@ async function readNPMInstallTime(dir: string): Promise<number> {
   }
 }
 
-async function writeNPMInstallTime(dir: string, time: number): Promise<void> {
+async function writeNPMInstallTime(dir: string, time: number) {
   const destDir = np.join(dir, qingDevDirName);
   await mkdir(destDir, { recursive: true });
   await writeFile(np.join(destDir, npmInstallTimeFileName), time.toString());
 }
 
-async function spawnNPMCmd(cmd: string, dir: string, args: string[] | null): Promise<void> {
+async function spawnDZCmd(cmd: string, args: string[] | null, dir: string) {
   const pkgMtime = await getMTime(np.join(dir, 'package.json'));
   const pkgLockMtime = await getMTime(np.join(dir, 'package-lock.json'));
   const diskTime = Math.max(pkgMtime, pkgLockMtime);
   const installTime = await readNPMInstallTime(dir);
   if (diskTime > installTime) {
     print('# package.json or lock file changed, re-run npm install...');
-    await spawnCmd('npm i', dir, null);
+    await pipedSpawn('npm', ['i'], dir);
     await writeNPMInstallTime(dir, new Date().getTime());
   } else {
     print('# package.json or lock file not changed.');
   }
 
-  await spawnCmd(cmd, dir, args);
+  await pipedSpawn('dz', [cmd, ...(args ?? [])], dir);
+}
+
+async function spawnDockerComposeCmd(args: string[], dir: string) {
+  return pipedSpawn('docker', ['compose', ...args], dir);
+}
+
+async function spawnDockerComposeMigrate(args: string[], dir: string) {
+  return pipedSpawn('docker', ['compose', 'run', 'migrate', ...args], dir);
 }
 
 function checkMigrationNumber(num: number) {
@@ -183,23 +191,23 @@ function checkMigrationNumber(num: number) {
 
       case 'w':
       case 'f': {
-        await spawnNPMCmd(`${npmRunR} dev`, await getProjectDir(webDir), null);
+        await spawnDZCmd('dev', null, await getProjectDir(webDir));
         break;
       }
 
       case 's':
       case 'b': {
-        await spawnCmd(composeUpCmd, await getProjectDir(serverDir), null);
+        await spawnDockerComposeCmd(['up'], await getProjectDir(serverDir));
         break;
       }
 
       case 's-f': {
-        await spawnCmd(composeUpCmd + ' --force-recreate', await getProjectDir(serverDir), null);
+        await spawnDockerComposeCmd(['up', '--force-recreate'], await getProjectDir(serverDir));
         break;
       }
 
       case 's-l': {
-        await spawnCmd('go run main.go dev', await getProjectDir(serverDir), null);
+        await pipedSpawn('go', ['run', 'main.go', 'dev'], await getProjectDir(serverDir));
         break;
       }
 
@@ -208,21 +216,13 @@ function checkMigrationNumber(num: number) {
       case 'da':
       case 'ls':
       case 'sod': {
-        await spawnNPMCmd(
-          `${npmRunR} ${inputCmd}`,
-          await getProjectDir(libDevDir),
-          processArgs.slice(1),
-        );
+        await spawnDZCmd(inputCmd, processArgs.slice(1), await getProjectDir(libDevDir));
         break;
       }
 
       case 'it': {
         const itArgs = processArgs.slice(1);
-        await spawnNPMCmd(
-          `${npmRunR} ${itArgs[0] || 'dev'}`,
-          await getProjectDir(itDir),
-          itArgs.slice(1),
-        );
+        await spawnDZCmd(itArgs[0] || 'dev', itArgs.slice(1), await getProjectDir(itDir));
         break;
       }
 
@@ -230,19 +230,18 @@ function checkMigrationNumber(num: number) {
         const arg1 = processArgs[1];
         checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
-          await spawnCmd(`${migrateCmd} drop`, await getProjectDir(serverDir), null);
+          await spawnDockerComposeMigrate(['drop'], await getProjectDir(serverDir));
         } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
           const num = parseInt(arg1.substr(1), 10);
           checkMigrationNumber(num);
-          await spawnCmd(
-            `${migrateCmd} ${arg1[0] === '+' ? 'up' : 'down'} ${num}`,
+          await spawnDockerComposeMigrate(
+            [arg1[0] === '+' ? 'up' : 'down', num.toString()],
             await getProjectDir(serverDir),
-            null,
           );
         } else {
           const num = parseInt(arg1, 10);
           checkMigrationNumber(num);
-          await spawnCmd(`${migrateCmd} goto ${num}`, await getProjectDir(serverDir), null);
+          await spawnDockerComposeMigrate(['goto', num.toString()], await getProjectDir(serverDir));
         }
         break;
       }
