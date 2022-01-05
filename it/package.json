@@ -5,8 +5,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "prepare": "ts-patch install -s",
-    "r": "daizong"
+    "prepare": "ts-patch install -s"
   },
   "dependencies": {
     "@playwright/test": "^1.17.1",
@@ -26,7 +25,6 @@
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.12",
     "@types/node-fetch": "^3.0.3",
-    "daizong": "^0.22.1",
     "eslint": "^8.4.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-mgenware": "^0.6.1",

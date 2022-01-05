@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "r": "daizong",
     "prepare": "ts-patch install -s"
   },
   "engines": {
@@ -39,7 +38,6 @@
     "@typescript-eslint/parser": "^5.8.1",
     "@web/test-runner": "^0.13.23",
     "@web/test-runner-playwright": "^0.8.8",
-    "daizong": "^0.22.1",
     "esbuild": "^0.14.10",
     "eslint": "^8.6.0",
     "eslint-config-mgenware": "^0.6.1",
