@@ -1,9 +1,8 @@
 # Prerequisites
 
-Qing supports building on Windows, macOS and Linux. You need to install the following dependencies on your host operating system to build Qing.
+Qing supports building on Windows (via WSL2), macOS and Linux. You need to install the following dependencies on your host operating system to build Qing.
 
 - Latest Docker
-  - Windows users: Only Windows 10+ with WSL2 installed are supported.
 - Latest Node.js LTS version
 
 ## Node.js version manager
@@ -12,9 +11,9 @@ It's recommended to use a Node.js version manager to quickly switch Node.js vers
 
 ### Windows WSL2 users
 
-It's recommended to use [n](https://github.com/tj/n) instead of nvm on Windows WSL2. nvm has trouble running `node` or `npm` as root. Playwright (our E2E test runner) needs to run `npm` as root to install additional dependencies on WSL2.
+It's recommended to use [n](https://github.com/tj/n) instead of `nvm` on Windows WSL2. `nvm` has trouble running `node` or `npm` as root. Playwright (our E2E test runner) needs to run `npm` as root to install additional dependencies on WSL2.
 
-### Installing [n](https://github.com/tj/n)
+### Install [n](https://github.com/tj/n)
 
 Refer to n installation [docs](https://github.com/tj/n#installation). Some notable things:
 

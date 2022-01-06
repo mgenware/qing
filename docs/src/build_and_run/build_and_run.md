@@ -8,12 +8,13 @@
 git clone https://github.com/mgenware/qing
 ```
 
-### Install `qing-dev`
+### Install `qing-dev` and `daizong-cli`
 
-> `qing-dev` is a CLI to run commands during development.
+> `qing-dev` is a CLI tool to run qing-related scripts during development.
+> `daizong-cli` is used to run [daizong](https://github.com/mgenware/daizong) tasks in a shorter way. `daizong` tasks are used in many projects in qing.
 
 ```sh
-npm i qing-dev -g
+npm i qing-dev daizong-cli -g
 ```
 
 ## Create database schemas
@@ -24,6 +25,7 @@ Run `qing migrate 1` to create the initial database schemas.
 
 ## Build and run
 
+- Build localized strings `qing ls`.
 - Build web project via `qing w`.
 - Build and start server project via `qing s`.
 
