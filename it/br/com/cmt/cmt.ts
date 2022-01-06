@@ -62,6 +62,10 @@ async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
   }
 }
 
+export function cmtShouldHaveCount(el: brt.Element, count: number) {
+  return el.$('.br-cmt-c').shouldHaveTextContent(count === 1 ? '1 comment' : `${count} comments`);
+}
+
 export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
   test(`${groupName} No comments (visitor)`, async ({ cmtApp }) => {
     await noCommentsShouldAppear(cmtApp);
@@ -93,8 +97,9 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
     });
     await writeCmtBtn.click();
     await editorShouldAppear(p, {
-      title: 'Write a comment',
-      contentHTML: '',
+      heading: 'Write a comment',
+      titleValue: null,
+      contentValue: '',
       buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
     });
 

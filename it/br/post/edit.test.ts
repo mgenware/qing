@@ -32,8 +32,9 @@ test('Post editor', async ({ page }) => {
 
     await clickEdit(p);
     await editorShouldAppear(p, {
-      title: defs.sd.title.inputHTML,
-      contentHTML: defs.sd.content.sanHTML,
+      heading: 'Edit post',
+      titleValue: defs.sd.title.input,
+      contentValue: defs.sd.content.sanHTML,
       buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
     });
   });

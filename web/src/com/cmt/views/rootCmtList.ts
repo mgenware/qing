@@ -109,7 +109,7 @@ export class RootCmtList extends BaseElement {
           ${this.totalCmtCount
             ? html`
                 <div>
-                  <small class="is-secondary"
+                  <small class="is-secondary br-cmt-c"
                     >${formatLS(ls.pNOComments, this.totalCmtCount)}</small
                   >
                 </div>
