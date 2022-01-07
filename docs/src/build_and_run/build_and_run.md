@@ -8,13 +8,13 @@
 git clone https://github.com/mgenware/qing
 ```
 
-### Install `qing-dev` and `daizong-cli`
+### Install `qing-dev` and `daizong`
 
-> `qing-dev` is a CLI tool to run qing-related scripts during development.
-> `daizong-cli` is used to run [daizong](https://github.com/mgenware/daizong) tasks in a shorter way. `daizong` tasks are used in many projects in qing.
+> `qing-dev` is a CLI utility to ease your work during development.
+> `daizong` is used extensively in qing to run scripts.
 
 ```sh
-npm i qing-dev daizong-cli -g
+npm i qing-dev daizong -g
 ```
 
 ## Create database schemas
