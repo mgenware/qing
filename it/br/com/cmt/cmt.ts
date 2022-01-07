@@ -45,10 +45,10 @@ async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
   await userViewShouldAppear(row, { author: e.author });
 
   // Comment content.
-  await el.$('.col:nth-child(2)').shouldHaveTextContent(defs.sd.content.san);
+  await el.$('.col.div:nth-child(2)').shouldHaveTextContent(e.content);
 
   // Edit buttons.
-  const editBar = el.$('.col:first-child');
+  const editBar = el.$('.col.div:first-child');
   if (e.authorView) {
     await editBar.shouldBeVisible();
   } else {
@@ -106,7 +106,7 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
     await editorShouldUpdate(p, 'content', defs.sd.content.input);
     await cmtShouldAppear(cmtApp, {
       author: usr.user,
-      content: defs.sd.content.san,
+      content: defs.sd.content.input,
       highlighted: true,
       authorView: true,
     });

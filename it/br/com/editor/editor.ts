@@ -62,10 +62,10 @@ export interface EditorShouldAppearArgs {
 }
 
 export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppearArgs) {
-  const { composerEl } = await waitForOverlayVisible(page);
+  const { composerEl, overlayEl } = await waitForOverlayVisible(page);
 
   // Heading
-  await composerEl.$('h2').shouldHaveTextContent(args.heading);
+  await overlayEl.$('h2').shouldHaveTextContent(args.heading);
 
   // Title value.
   if (args.titleValue) {
@@ -76,7 +76,7 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
   }
 
   const contentInputEl = await composerEl.$(editorContentSel).shouldBeVisible();
-  await contentInputEl.shouldHaveHTMLContent(args.contentValue);
+  await contentInputEl.shouldHaveHTMLContent(args.contentValue || '<p><br></p>');
 
   // Check bottom buttons.
   const btnGroupEl = await composerEl.$(editorButtonsGroupSel).shouldBeVisible();
@@ -86,8 +86,7 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
 }
 
 export async function editorShouldUpdate(page: brt.Page, part: EditorPart, content: string) {
-  const { composerEl } = await waitForOverlayVisible(page);
-
+  const composerEl = page.$(composerID);
   // Update editor content.
   await updateEditorContent(part, content, composerEl);
 

@@ -6,9 +6,15 @@
  */
 
 import * as brt from 'brt';
-import * as defs from 'base/defs';
 
-export async function timeFieldShouldAppear(el: brt.Element) {
+function validateData(s: string, edited: boolean) {
+  brt.expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
+  const hasEdited = s.includes('[');
+  brt.expect(hasEdited).toBe(edited);
+}
+
+export async function timeFieldShouldAppear(el: brt.Element, edited: boolean) {
   await el.shouldBeVisible();
-  await el.shouldHaveTextContent(defs.sd.timeString);
+  const tsString = await el.c.textContent();
+  validateData(tsString || '', edited);
 }

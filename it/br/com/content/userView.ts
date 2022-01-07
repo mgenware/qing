@@ -22,5 +22,5 @@ export async function userViewShouldAppear(el: brt.Element, e: CheckUserViewArgs
   // Name link.
   await el.$(`a[href="/u/${author.id}"]:has-text("${author.name}")`).shouldBeVisible();
   // Time field.
-  await timeFieldShouldAppear(el.$('time-field small'));
+  await timeFieldShouldAppear(el.$('time-field small'), false);
 }
