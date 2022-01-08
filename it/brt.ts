@@ -25,7 +25,8 @@ export class LocatorCore {
   constructor(public c: pw.Locator) {}
 
   $(sel: string) {
-    return new Element(this.c.locator(sel).first());
+    const locator = this.c.locator(sel);
+    return new Element(sel.startsWith('#') ? locator : locator.first());
   }
 
   $$(sel: string) {
