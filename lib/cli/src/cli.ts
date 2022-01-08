@@ -154,8 +154,6 @@ async function spawnDZCmd(cmd: string, args: string[] | null, dir: string) {
     print('# package.json or lock file changed, re-run npm install...');
     await pipedSpawn('npm', ['i'], dir);
     await writeNPMInstallTime(dir, new Date().getTime());
-  } else {
-    print('# package.json or lock file not changed.');
   }
 
   await pipedSpawn('dz', [cmd, ...(args ?? [])], dir);
