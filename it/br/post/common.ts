@@ -14,9 +14,8 @@ import * as defs from 'base/defs';
 export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
 export const cmtAppSelector = 'post-payload-app cmt-app';
 
-export async function postShouldHaveContent(page: brt.Page, html: string) {
-  const contentDiv = page.$('.m-post-user + hr + div');
-  expect(await contentDiv.innerHTML()).toBe(html);
+export async function postShouldHaveContent(page: brt.Page, text: string) {
+  await page.$('.m-post-user + hr + div').shouldHaveTextContent(text);
 }
 
 export async function postShouldHaveTitle(page: brt.Page, title: string, link: string) {
@@ -42,8 +41,8 @@ export async function postCoreTraitsShouldAppear(
   await userViewShouldAppear(page.$(userViewQuery), { author });
 
   // Page content.
-  await postShouldHaveTitle(page, defs.sd.title.input, link);
-  await postShouldHaveContent(page, defs.sd.content.san);
+  await postShouldHaveTitle(page, defs.sd.title, link);
+  await postShouldHaveContent(page, defs.sd.content);
 
   // Like button.
   const likeAppEl = page.$('post-payload-app like-app');

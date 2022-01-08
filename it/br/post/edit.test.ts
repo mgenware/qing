@@ -18,50 +18,41 @@ import {
   editorShouldAppear,
 } from 'br/com/editor/editor';
 
-async function clickEdit(page: brt.Page) {
+async function clickEditButton(page: brt.Page) {
   const u = usr.user;
   const userView = page.$(userViewQuery);
   const editBtn = getEditButton(userView, u.id);
   await editBtn.click();
 }
 
-test('Post editor', async ({ page }) => {
-  const p = $(page);
-  await newPost(usr.user, async (id) => {
-    await p.goto(`/p/${id}`, usr.user);
-
-    await clickEdit(p);
-    await editorShouldAppear(p, {
-      heading: 'Edit post',
-      titleValue: defs.sd.title.input,
-      contentValue: defs.sd.content.sanHTML,
-      buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
-    });
+async function postEditorShouldAppear(page: brt.Page) {
+  await editorShouldAppear(page, {
+    name: 'Edit post',
+    title: defs.sd.title,
+    contentHTML: defs.sd.contentHTML,
+    buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
   });
-});
+}
 
 function testEditorUpdate(part: EditorPart) {
-  test(`Update post -> ${part === 'title' ? 'title' : 'content'}`, async ({ page }) => {
+  test(`Update post ${part === 'title' ? 'title' : 'content'}`, async ({ page }) => {
     const p = $(page);
     await newPost(usr.user, async (id) => {
-      await p.goto(`/p/${id}`, usr.user);
-
-      await clickEdit(p);
+      await p.goto(postLink(id), usr.user);
+      await clickEditButton(p);
 
       // Check editor update.
-      await editorShouldUpdate(p, part, defs.sd.updated.input);
+      await postEditorShouldAppear(p);
+      await editorShouldUpdate(p, part, defs.sd.updated);
 
       // Verify post title.
       await postShouldHaveTitle(
         p,
-        part === 'title' ? defs.sd.updated.inputHTML : defs.sd.title.inputHTML,
-        `/p/${id}`,
+        part === 'title' ? defs.sd.updated : defs.sd.title,
+        postLink(id),
       );
       // Verify post content.
-      await postShouldHaveContent(
-        p,
-        part === 'title' ? defs.sd.content.sanHTML : defs.sd.updated.sanHTML,
-      );
+      await postShouldHaveContent(p, part === 'title' ? defs.sd.content : defs.sd.updated);
     });
   });
 }
@@ -69,16 +60,16 @@ function testEditorUpdate(part: EditorPart) {
 test('Dismiss post editor', async ({ page }) => {
   const p = $(page);
   await newPost(usr.user, async (id) => {
-    await p.goto(`/p/${id}`, usr.user);
+    await p.goto(postLink(id), usr.user);
 
-    await clickEdit(p);
+    await clickEditButton(p);
 
     // Check editor dismissal.
     await editorShouldBeDismissed(p, 'Cancel');
 
     // Verify page content.
-    await postShouldHaveTitle(p, defs.sd.title.inputHTML, postLink(id));
-    await postShouldHaveContent(p, defs.sd.content.sanHTML);
+    await postShouldHaveTitle(p, defs.sd.title, postLink(id));
+    await postShouldHaveContent(p, defs.sd.content);
   });
 });
 

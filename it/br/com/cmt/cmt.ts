@@ -45,20 +45,13 @@ async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
   await userViewShouldAppear(row, { author: e.author });
 
   // Comment content.
-  await el.$('.col.div:nth-child(2)').shouldHaveTextContent(e.content);
+  await row.$('div.col > div:nth-child(2)').shouldHaveTextContent(e.content);
 
-  // Edit buttons.
-  const editBar = el.$('.col.div:first-child');
-  if (e.authorView) {
-    await editBar.shouldBeVisible();
-  } else {
-    await editBar.shouldNotExist();
-  }
-
+  const highlightedCls = 'row highlighted';
   if (e.highlighted) {
-    await row.shouldHaveClass('highlighted');
+    await row.shouldHaveClass(highlightedCls);
   } else {
-    await row.shouldNotHaveClass('highlighted');
+    await row.shouldNotHaveClass(highlightedCls);
   }
 }
 
@@ -97,16 +90,16 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
     });
     await writeCmtBtn.click();
     await editorShouldAppear(p, {
-      heading: 'Write a comment',
-      titleValue: null,
-      contentValue: '',
+      name: 'Write a comment',
+      title: null,
+      contentHTML: '',
       buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
     });
 
-    await editorShouldUpdate(p, 'content', defs.sd.content.input);
+    await editorShouldUpdate(p, 'content', defs.sd.content);
     await cmtShouldAppear(cmtApp, {
       author: usr.user,
-      content: defs.sd.content.input,
+      content: defs.sd.content,
       highlighted: true,
       authorView: true,
     });

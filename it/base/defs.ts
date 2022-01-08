@@ -19,20 +19,21 @@ export const entity = {
   forumGroup: 11,
 };
 
-// Return a set of sample data with the given content string.
-function makeSD(content: string) {
-  return {
-    input: `<p>${content}</p><script>alert('-39')</script>`,
-    san: `<p>${content}</p>`,
-    inputHTML: `&lt;p&gt;${content}&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;`,
-    sanHTML: `&lt;p&gt;${content}&lt;/p&gt;`,
-  };
+function makeText(content: string) {
+  return `<p>${content}</p><script>alert('-39')</script>`;
+}
+
+function makeHTML(content: string) {
+  // Content HTML has an extra <p> added by editor.
+  return `<p>&lt;p&gt;${content}&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;</p>`;
 }
 
 // `sd` sample data.
 export const sd = {
   timeString: '10/27/1990',
-  title: makeSD('title'),
-  content: makeSD('content'),
-  updated: makeSD('updated'),
+  title: makeText('title'),
+  content: makeText('content'),
+  contentHTML: makeHTML('content'),
+  updated: makeText('updated'),
+  updatedHTML: makeHTML('updated'),
 };

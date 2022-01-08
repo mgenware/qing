@@ -54,29 +54,29 @@ async function waitForOverlayClosed(page: brt.Page) {
 }
 
 export interface EditorShouldAppearArgs {
-  heading: string;
+  name: string;
   // `null` indicates the title bar is not visible.
-  titleValue: string | null;
-  contentValue: string;
+  title: string | null;
+  contentHTML: string;
   buttons: ButtonTraits[];
 }
 
 export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppearArgs) {
   const { composerEl, overlayEl } = await waitForOverlayVisible(page);
 
-  // Heading
-  await overlayEl.$('h2').shouldHaveTextContent(args.heading);
+  // Dialog name.
+  await overlayEl.$('h2').shouldHaveTextContent(args.name);
 
   // Title value.
-  if (args.titleValue) {
+  if (args.title) {
     const titleInputEl = await composerEl.$(editorTitleSel).shouldBeVisible();
-    await titleInputEl.shouldHaveAttr('value', args.titleValue);
+    await titleInputEl.shouldHaveAttr('value', args.title);
   } else {
     await composerEl.$(editorTitleSel).shouldNotExist();
   }
 
   const contentInputEl = await composerEl.$(editorContentSel).shouldBeVisible();
-  await contentInputEl.shouldHaveHTMLContent(args.contentValue || '<p><br></p>');
+  await contentInputEl.shouldHaveHTMLContent(args.contentHTML || '<p><br></p>');
 
   // Check bottom buttons.
   const btnGroupEl = await composerEl.$(editorButtonsGroupSel).shouldBeVisible();

@@ -16,8 +16,8 @@ it('Add', async () => {
     await newPost(u, async (id) => {
       // Post content.
       expect(await getPostSrc(id, u)).toEqual({
-        contentHTML: defs.sd.content.sanHTML,
-        title: defs.sd.title.input,
+        contentHTML: defs.sd.contentHTML,
+        title: defs.sd.title,
       });
 
       // User post_count.
@@ -36,8 +36,8 @@ it('Edit', async () => {
       const pc = await getPostCount(u.id);
       await call(setEntityURL, { body: { ...setEntityBody, id }, user: u });
       expect(await getPostSrc(id, u)).toEqual({
-        contentHTML: defs.sd.content.sanHTML,
-        title: defs.sd.title.input,
+        contentHTML: defs.sd.contentHTML,
+        title: defs.sd.title,
       });
 
       const pc2 = await getPostCount(u.id);
