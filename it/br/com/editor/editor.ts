@@ -10,9 +10,8 @@ import { waitForGlobalSpinner } from '../spinners/spinner';
 import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
 
-const closedOverlayID = 'qing-overlay.immersive';
-const openOverlayID = `${closedOverlayID}[open=""]`;
-const composerID = '#composer';
+const closedOverlaySel = 'qing-overlay.immersive';
+const openOverlaySel = `${closedOverlaySel}[open=""]`;
 const editorButtonsGroupSel = '.editor-buttons';
 const editorContentSel = 'editor-view .kx-content';
 const editorTitleSel = 'input[placeholder="Title"]';
@@ -37,20 +36,24 @@ async function updateEditorContent(part: EditorPart, content: string, composerEl
   }
 }
 
+function getComposerEl(overlay: brt.Element) {
+  return overlay.$('#composer');
+}
+
 async function clickBtn(composerEl: brt.Element, btnText: string) {
   const btnEl = composerEl.$(`${editorButtonsGroupSel} qing-button:has-text("${btnText}")`);
   await btnEl.click();
 }
 
 async function waitForOverlayVisible(page: brt.Page) {
-  const overlayEl = await page.$(openOverlayID).waitForAttached();
-  const composerEl = await overlayEl.$(composerID).shouldBeVisible();
+  const overlayEl = await page.$(openOverlaySel).waitForAttached();
+  const composerEl = await getComposerEl(overlayEl).shouldBeVisible();
   return { overlayEl, composerEl };
 }
 
 async function waitForOverlayClosed(page: brt.Page) {
-  const overlayEl = page.$(closedOverlayID);
-  await overlayEl.shouldExist();
+  const overlayEl = page.$(openOverlaySel);
+  await overlayEl.shouldNotExist();
 }
 
 export interface EditorShouldAppearArgs {
@@ -86,7 +89,8 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
 }
 
 export async function editorShouldUpdate(page: brt.Page, part: EditorPart, content: string) {
-  const composerEl = page.$(composerID);
+  const overlayEl = await page.$(openOverlaySel).waitForAttached();
+  const composerEl = getComposerEl(overlayEl);
   // Update editor content.
   await updateEditorContent(part, content, composerEl);
 

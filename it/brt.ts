@@ -21,16 +21,30 @@ function mustGetHTMLElement(e: HTMLElement | SVGElement): HTMLElement {
   throw new Error(`Element is not an HTML element. Got ${e}`);
 }
 
+interface PWLocatable {
+  locator(selector: string): pw.Locator;
+}
+
+// Some shared selector wrappers around `pw.Page` and `pw.Locator`.
+class PWLocatableWrapper {
+  static $(lt: PWLocatable, sel: string) {
+    return new Element(lt.locator(sel).first());
+  }
+
+  static $$(lt: PWLocatable, sel: string) {
+    return new ElementCollection(lt.locator(sel));
+  }
+}
+
 export class LocatorCore {
   constructor(public c: pw.Locator) {}
 
   $(sel: string) {
-    const locator = this.c.locator(sel);
-    return new Element(sel.startsWith('#') ? locator : locator.first());
+    return PWLocatableWrapper.$(this.c, sel);
   }
 
   $$(sel: string) {
-    return new ElementCollection(this.c.locator(sel));
+    return PWLocatableWrapper.$$(this.c, sel);
   }
 }
 
@@ -164,11 +178,11 @@ export class Page {
   constructor(public c: pw.Page) {}
 
   $(sel: string) {
-    return new Element(this.c.locator(sel).first());
+    return PWLocatableWrapper.$(this.c, sel);
   }
 
   $$(sel: string) {
-    return this.c.locator(sel);
+    return PWLocatableWrapper.$$(this.c, sel);
   }
 
   async goto(url: string, user: User | null) {

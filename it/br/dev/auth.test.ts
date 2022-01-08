@@ -12,6 +12,5 @@ test('__/auth', async ({ page }) => {
   await p.goto('/__/auth', null);
 
   await p.$('h1:has-text("Auth")').shouldBeVisible();
-  await p.$('h2:has-text("Default context")').shouldBeVisible();
   await p.$('#input-id').shouldHaveValue('');
 });
