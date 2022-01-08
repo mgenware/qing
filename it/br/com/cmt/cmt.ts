@@ -11,7 +11,7 @@ import * as pw from '@playwright/test';
 import * as defs from 'base/defs';
 import { userViewShouldAppear } from 'br/com/content/userView';
 import { buttonShouldAppear } from '../buttons/button';
-import { editorShouldAppear, editorShouldUpdate } from '../editor/editor';
+import { performWriteComment } from './util';
 
 export type TestInputType = pw.TestType<
   pw.PlaywrightTestArgs &
@@ -84,19 +84,7 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
     const p = $(page);
     await noCommentsShouldAppear(cmtApp);
 
-    const writeCmtBtn = await buttonShouldAppear(cmtApp.$('qing-button'), {
-      text: 'Write a comment',
-      style: 'success',
-    });
-    await writeCmtBtn.click();
-    await editorShouldAppear(p, {
-      name: 'Write a comment',
-      title: null,
-      contentHTML: '',
-      buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
-    });
-
-    await editorShouldUpdate(p, 'content', defs.sd.content);
+    await performWriteComment(p, { cmtApp, content: defs.sd.content }, true);
     await cmtShouldAppear(cmtApp, {
       author: usr.user,
       content: defs.sd.content,

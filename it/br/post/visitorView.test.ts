@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
+import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import {
   AlertButtons,
@@ -17,8 +17,8 @@ import { postCoreTraitsShouldAppear } from './common';
 
 test('Post page (visitor)', async ({ page }) => {
   const p = $(page);
-  await newPost(usr.user, async (id) => {
-    const { likeAppEl } = await postCoreTraitsShouldAppear(p, id, usr.user, null);
+  await scPost(usr.user, async ({ link }) => {
+    const { likeAppEl } = await postCoreTraitsShouldAppear(p, link, usr.user, null);
 
     // Click the like button.
     await likeAppEl.click();

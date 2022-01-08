@@ -42,11 +42,19 @@ async function deletePostCore(id: string, user: User) {
   return call(deleteEntityURL, { user, body: { id, entityType: defs.entity.post } });
 }
 
-export async function newPost(user: User, cb: (id: string) => Promise<unknown>) {
+function postLink(id: string) {
+  return `/p/${id}`;
+}
+
+// Creates a self-destructing post.
+export async function scPost(
+  user: User,
+  cb: (arg: { id: string; link: string }) => Promise<unknown>,
+) {
   let id = null;
   try {
     id = await newTmpPostCore(user);
-    await cb(id);
+    await cb({ id, link: postLink(id) });
   } finally {
     if (id) {
       await deletePostCore(id, user);

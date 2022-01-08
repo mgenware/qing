@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
+import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import { postCoreTraitsShouldAppear } from './common';
 
 test('Post page (author)', async ({ page }) => {
   const p = $(page);
-  await newPost(usr.user, async (id) => {
-    await postCoreTraitsShouldAppear(p, id, usr.user, usr.user);
+  await scPost(usr.user, async ({ link }) => {
+    await postCoreTraitsShouldAppear(p, link, usr.user, usr.user);
   });
 });

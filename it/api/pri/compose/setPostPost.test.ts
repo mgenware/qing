@@ -7,13 +7,13 @@
 
 import * as defs from 'base/defs';
 import { call, usr, expect, itaNotAuthorized, it, errorResults } from 'api';
-import { setEntityURL, getPostCount, getPostSrc, newPost, setEntityBody } from 'helper/post';
+import { setEntityURL, getPostCount, getPostSrc, scPost, setEntityBody } from 'helper/post';
 import { newUser } from 'helper/user';
 
 it('Add', async () => {
   await newUser(async (u) => {
     const pc = await getPostCount(u.id);
-    await newPost(u, async (id) => {
+    await scPost(u, async ({ id }) => {
       // Post content.
       expect(await getPostSrc(id, u)).toEqual({
         contentHTML: defs.sd.contentHTML,
@@ -31,7 +31,7 @@ itaNotAuthorized('Add: visitor', setEntityURL, null, { body: setEntityBody });
 
 it('Edit', async () => {
   await newUser(async (u) => {
-    await newPost(u, async (id) => {
+    await scPost(u, async ({ id }) => {
       // Post content.
       const pc = await getPostCount(u.id);
       await call(setEntityURL, { body: { ...setEntityBody, id }, user: u });
@@ -48,7 +48,7 @@ it('Edit', async () => {
 
 it('Edit: wrong user', async () => {
   await newUser(async (u) => {
-    await newPost(u, async (id) => {
+    await scPost(u, async (id) => {
       // Post content.
       const pc = await getPostCount(u.id);
       const r = await call(setEntityURL, {

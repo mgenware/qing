@@ -5,14 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
+import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
 
 test('Like a post', async ({ page }) => {
   const p = $(page);
-  await newPost(usr.user, async (id) => {
-    const link = `/p/${id}`;
+  await scPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
 
     const likeAppEl = p.$('post-payload-app like-app');
@@ -22,7 +21,7 @@ test('Like a post', async ({ page }) => {
     await likesShouldAppear(likeAppEl, 1, true);
 
     {
-      await p.goto(`/p/${id}`, usr.user2);
+      await p.goto(link, usr.user2);
       const likeAppEl2 = p.$('post-payload-app like-app');
       await likesShouldAppear(likeAppEl, 1, false);
 

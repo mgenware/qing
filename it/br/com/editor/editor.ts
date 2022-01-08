@@ -18,7 +18,11 @@ const editorTitleSel = 'input[placeholder="Title"]';
 
 export type EditorPart = 'content' | 'title';
 
-async function updateEditorContent(part: EditorPart, content: string, composerEl: brt.Element) {
+export async function updateEditorContent(
+  part: EditorPart,
+  content: string,
+  composerEl: brt.Element,
+) {
   switch (part) {
     case 'content': {
       const contentEl = composerEl.$(editorContentSel);

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
+import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as brt from 'brt';
-import { userViewQuery, postShouldHaveTitle, postShouldHaveContent, postLink } from './common';
+import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
 import {
@@ -34,11 +34,11 @@ async function postEditorShouldAppear(page: brt.Page) {
   });
 }
 
-function testEditorUpdate(part: EditorPart) {
+function testPostUpdates(part: EditorPart) {
   test(`Update post ${part === 'title' ? 'title' : 'content'}`, async ({ page }) => {
     const p = $(page);
-    await newPost(usr.user, async (id) => {
-      await p.goto(postLink(id), usr.user);
+    await scPost(usr.user, async ({ link }) => {
+      await p.goto(link, usr.user);
       await clickEditButton(p);
 
       // Check editor update.
@@ -46,11 +46,7 @@ function testEditorUpdate(part: EditorPart) {
       await editorShouldUpdate(p, part, defs.sd.updated);
 
       // Verify post title.
-      await postShouldHaveTitle(
-        p,
-        part === 'title' ? defs.sd.updated : defs.sd.title,
-        postLink(id),
-      );
+      await postShouldHaveTitle(p, part === 'title' ? defs.sd.updated : defs.sd.title, link);
       // Verify post content.
       await postShouldHaveContent(p, part === 'title' ? defs.sd.content : defs.sd.updated);
     });
@@ -59,8 +55,8 @@ function testEditorUpdate(part: EditorPart) {
 
 test('Dismiss post editor', async ({ page }) => {
   const p = $(page);
-  await newPost(usr.user, async (id) => {
-    await p.goto(postLink(id), usr.user);
+  await scPost(usr.user, async ({ link }) => {
+    await p.goto(link, usr.user);
 
     await clickEditButton(p);
 
@@ -68,10 +64,10 @@ test('Dismiss post editor', async ({ page }) => {
     await editorShouldBeDismissed(p, 'Cancel');
 
     // Verify page content.
-    await postShouldHaveTitle(p, defs.sd.title, postLink(id));
+    await postShouldHaveTitle(p, defs.sd.title, link);
     await postShouldHaveContent(p, defs.sd.content);
   });
 });
 
-testEditorUpdate('title');
-testEditorUpdate('content');
+testPostUpdates('title');
+testPostUpdates('content');

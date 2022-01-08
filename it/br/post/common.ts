@@ -24,17 +24,12 @@ export async function postShouldHaveTitle(page: brt.Page, title: string, link: s
   expect(await aEl.textContent()).toBe(title);
 }
 
-export function postLink(id: string) {
-  return `/p/${id}`;
-}
-
 export async function postCoreTraitsShouldAppear(
   page: brt.Page,
-  id: string,
+  link: string,
   author: User,
   user: User | null,
 ) {
-  const link = postLink(id);
   await page.goto(link, user);
 
   // User view.
