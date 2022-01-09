@@ -12,7 +12,6 @@ import * as defs from 'base/defs';
 import { performUpdateEditor } from 'br/com/editor/editor';
 import { getEditBarEditButton } from '../editor/editBar';
 import { userViewShouldAppear } from 'br/com/content/userView';
-import { buttonShouldAppear } from '../buttons/button';
 import { performWriteComment } from './util';
 
 export type TestInputType = pw.TestType<
@@ -25,13 +24,6 @@ export type TestInputType = pw.TestType<
 
 async function commentsHeadingShouldAppear(el: brt.Element) {
   return el.$('h2:has-text("Comments")').shouldBeVisible();
-}
-
-async function noCommentsShouldAppear(el: brt.Element) {
-  await commentsHeadingShouldAppear(el);
-
-  // "No comments" element.
-  await el.$('text=No comments').shouldBeVisible();
 }
 
 function getNthCmt(cmtApp: brt.Element, index: number) {
@@ -68,13 +60,16 @@ async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
   }
 }
 
-export function cmtShouldHaveCount(el: brt.Element, count: number) {
-  return el.$('.br-cmt-c').shouldHaveTextContent(count === 1 ? '1 comment' : `${count} comments`);
+export function shouldHaveComments(el: brt.Element, count: number) {
+  return el
+    .$('.br-cmt-c')
+    .shouldHaveTextContent(count === 1 ? '1 comment' : `${count || 'No'} comments`);
 }
 
 export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
   test(`${groupName} No comments (visitor)`, async ({ cmtApp }) => {
-    await noCommentsShouldAppear(cmtApp);
+    await commentsHeadingShouldAppear(cmtApp);
+    await shouldHaveComments(cmtApp, 0);
 
     // "Sign in" to comment.
     await cmtApp.$qingButton('Sign in').shouldBeVisible();
@@ -84,20 +79,15 @@ export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
 
 export function testCmtOnUserMode(groupName: string, test: TestInputType) {
   test(`${groupName} No comments (user)`, async ({ cmtApp }) => {
-    await noCommentsShouldAppear(cmtApp);
-
-    // "Write a comment" button.
-    await buttonShouldAppear(cmtApp.$('qing-button'), {
-      text: 'Write a comment',
-      style: 'success',
-    });
+    await commentsHeadingShouldAppear(cmtApp);
+    await shouldHaveComments(cmtApp, 0);
   });
 
   test(`${groupName} Core (no comments, write, view, edit)`, async ({ page, cmtApp }) => {
     const p = $(page);
-    await noCommentsShouldAppear(cmtApp);
+    await commentsHeadingShouldAppear(cmtApp);
 
-    // Case: write a comment.
+    // Write a comment.
     await performWriteComment(p, { cmtApp, content: defs.sd.content }, true);
     await cmtShouldAppear(getNthCmt(cmtApp, 0), {
       author: usr.user,
@@ -105,8 +95,9 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
       highlighted: true,
       canEdit: true,
     });
+    await shouldHaveComments(cmtApp, 1);
 
-    // Case: Refresh and view the comment.
+    // Refresh and view the comment.
     await page.reload();
     await cmtShouldAppear(getNthCmt(cmtApp, 0), {
       author: usr.user,
@@ -114,8 +105,9 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
       highlighted: false,
       canEdit: true,
     });
+    await shouldHaveComments(cmtApp, 1);
 
-    // Case: Edit the comment.
+    // Edit the comment.
     await getEditBarEditButton(getNthCmt(cmtApp, 0), usr.user.id).click();
     await performUpdateEditor(p, { part: 'content' });
     await cmtShouldAppear(getNthCmt(cmtApp, 0), {
@@ -124,5 +116,16 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
       highlighted: false,
       canEdit: true,
     });
+    await shouldHaveComments(cmtApp, 1);
+
+    // Write another comment.
+    await performWriteComment(p, { cmtApp, content: defs.sd.content }, true);
+    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+      author: usr.user,
+      content: defs.sd.content,
+      highlighted: true,
+      canEdit: true,
+    });
+    await shouldHaveComments(cmtApp, 2);
   });
 }

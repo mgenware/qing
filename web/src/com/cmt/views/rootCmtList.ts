@@ -86,7 +86,7 @@ export class RootCmtList extends BaseElement {
     if (!totalCmtCount && (collectorLoadingStatus.isSuccess || !collectorLoadingStatus.isStarted)) {
       titleGroup = html`
         ${titleGroup}
-        <p>${ls.noComments}</p>
+        <p class="br-cmt-c">${ls.noComments}</p>
       `;
     } else {
       const childViews = repeat(
