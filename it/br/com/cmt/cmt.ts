@@ -40,7 +40,7 @@ export interface CheckCmtArgs {
 async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
   // User view.
   const row = el.$('.row');
-  await userViewShouldAppear(row, { author: e.author });
+  await userViewShouldAppear(row, e.author);
 
   // Comment content.
   await row.$('div.col > div:nth-child(2)').shouldHaveTextContent(e.content);

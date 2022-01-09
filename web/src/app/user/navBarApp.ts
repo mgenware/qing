@@ -199,7 +199,7 @@ export default class NavBarApp extends BaseElement {
               <div class="dropdown">
                 <button class="dropdown-btn">
                   <img
-                    alt="Qing"
+                    alt=${user.name}
                     src=${user.iconURL}
                     width="20"
                     height="20"

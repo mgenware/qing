@@ -213,19 +213,19 @@ export class Page {
     await page.reload();
   }
 
-  async signOut(page: pw.Page) {
-    await page.goto(`${serverURL}${auth.out}`);
-    const pageResponse = await page.content();
-    if (pageResponse !== '<html><head></head><body>Success</body></html>') {
-      throw new Error(`Login failed. Got "${pageResponse}"`);
-    }
+  async signOut(page: Page) {
+    await page.c.goto(`${serverURL}${auth.out}`);
+    this.checkGETAPIResult(await this.c.content());
   }
 
   private async signIn(user: User) {
     await this.c.goto(`${serverURL}${auth.in}/${user.id}`);
-    const pageResponse = await this.c.content();
-    if (pageResponse !== '<html><head></head><body>Success</body></html>') {
-      throw new Error(`Login failed. Got "${pageResponse}"`);
+    this.checkGETAPIResult(await this.c.content());
+  }
+
+  private checkGETAPIResult(html: string) {
+    if (!html.includes('>Success<')) {
+      throw new Error(`Login failed. Got "${html}"`);
     }
   }
 }
