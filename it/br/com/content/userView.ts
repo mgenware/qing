@@ -9,14 +9,17 @@ import * as brt from 'brt';
 import { User } from 'br';
 import { timeFieldShouldAppear } from './timeField';
 
-const navbarUserButtonSel = '#main-navbar dropdown dropdown-btn';
+const navbarUserButtonSel = '#main-navbar .dropdown .dropdown-btn';
 
-export async function userIconShouldAppear(el: brt.Element, u: User) {
-  // Profile image link.
+async function userIconShouldAppear(el: brt.Element, u: User) {
   const img = await el
     .$(`a[href="/u/${u.id}"] img[src="${u.iconURL}"][width="50"][height="50"]`)
     .shouldBeVisible();
-  // A11y.
+  await img.shouldHaveAttr('alt', u.name);
+}
+
+async function navbarUserIconShouldAppear(el: brt.Element, u: User) {
+  const img = await el.$(`img[src="${u.iconURL}"][width="20"][height="20"]`).shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }
 
@@ -34,6 +37,6 @@ export async function navbarUserViewShouldNotAppear(page: brt.Page) {
 
 export async function navbarUserViewShouldAppear(page: brt.Page, u: User) {
   const navbar = page.$(navbarUserButtonSel);
-  await userIconShouldAppear(navbar, u);
+  await navbarUserIconShouldAppear(navbar, u);
   await navbar.$('> span:has-text("${u.name}"');
 }

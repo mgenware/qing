@@ -208,9 +208,12 @@ export class Page {
   async reload(user: User | null) {
     const page = this.c;
     if (user) {
+      const url = page.url();
       await this.signIn(user);
+      await page.goto(url);
+    } else {
+      await page.reload();
     }
-    await page.reload();
   }
 
   async signOut(page: Page) {
