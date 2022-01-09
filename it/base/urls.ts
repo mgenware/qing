@@ -17,6 +17,7 @@ const urls = urlTree(
       auth: {
         // The GET route for user login used in BR tests.
         in: '',
+        out: '',
       },
       api: {
         auth: {

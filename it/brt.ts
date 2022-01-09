@@ -199,29 +199,32 @@ export class Page {
   }
 
   async goto(url: string, user: User | null) {
-    const page = this.c;
     if (user) {
-      await this.login(page, user);
+      await this.signIn(user);
     }
-    await page.goto(`${serverURL}${url}`);
+    await this.c.goto(`${serverURL}${url}`);
   }
 
   async reload(user: User | null) {
     const page = this.c;
     if (user) {
-      await this.login(page, user);
+      await this.signIn(user);
     }
     await page.reload();
   }
 
-  private async login(page: pw.Page, user: User) {
-    // Playwright has to use the GET version of the login API route.
-    await page.goto(`${serverURL}${auth.in}/${user.id}`);
+  async signOut(page: pw.Page) {
+    await page.goto(`${serverURL}${auth.out}`);
     const pageResponse = await page.content();
-    if (
-      pageResponse !==
-      '<html><head></head><body><p>You have successfully logged in.</p></body></html>'
-    ) {
+    if (pageResponse !== '<html><head></head><body>Success</body></html>') {
+      throw new Error(`Login failed. Got "${pageResponse}"`);
+    }
+  }
+
+  private async signIn(user: User) {
+    await this.c.goto(`${serverURL}${auth.in}/${user.id}`);
+    const pageResponse = await this.c.content();
+    if (pageResponse !== '<html><head></head><body>Success</body></html>') {
       throw new Error(`Login failed. Got "${pageResponse}"`);
     }
   }

@@ -76,7 +76,15 @@ func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	err = signInCore(uid, w, r)
 	app.PanicIfErr(err)
 
-	return resp.MustCompleteWithContent("<p>You have successfully logged in.</p>", w)
+	return resp.MustCompleteWithContent("Success", w)
+}
+
+func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := appHandler.HTMLResponse(w, r)
+	err := appUserManager.Get().Logout(w, r)
+	app.PanicIfErr(err)
+
+	return resp.MustCompleteWithContent("Success", w)
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {

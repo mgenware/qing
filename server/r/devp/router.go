@@ -21,9 +21,10 @@ var Router = chi.NewRouter()
 const devPageScript = "devPage/devPageEntry"
 
 func init() {
-	// A single `auth/in` route to support user login in BR tests.
+	// Some auth related routes are GET only. They are used in BR tests.
 	authRouter := handler.NewHTMLRouter()
 	authRouter.Get("/in/{uid}", signInGETHandler)
+	authRouter.Get("/out", signOutGETHandler)
 	authRouter.Get("/*", defaultHandler)
 	Router.Mount("/auth", authRouter)
 
