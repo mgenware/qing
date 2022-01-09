@@ -177,8 +177,18 @@ export class CmtApp extends BaseElement {
         // make sense here.
         const newCmt: Cmt = {
           ...editorProps.editing,
-          ...serverCmt,
         };
+
+        // We have to iterate through response cmt properties and only update non-empty
+        // properties.
+        for (const [k, v] of Object.entries(serverCmt)) {
+          if (v) {
+            // eslint-disable-next-line max-len
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-explicit-any
+            (newCmt as any)[k] = v;
+          }
+        }
+
         newCmt.createdAt = editorProps.editing.createdAt;
         hub.updateCmt(editorProps.parent?.id ?? null, newCmt);
       }

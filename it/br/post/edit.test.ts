@@ -9,11 +9,11 @@ import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as brt from 'brt';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
-import { getEditButton } from 'br/com/editor/editBar';
+import { getEditBarEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
 import {
   editorShouldBeDismissed,
-  editorShouldUpdate,
+  performUpdateEditor,
   EditorPart,
   editorShouldAppear,
 } from 'br/com/editor/editor';
@@ -21,7 +21,7 @@ import {
 async function clickEditButton(page: brt.Page) {
   const u = usr.user;
   const userView = page.$(userViewQuery);
-  const editBtn = getEditButton(userView, u.id);
+  const editBtn = getEditBarEditButton(userView, u.id);
   await editBtn.click();
 }
 
@@ -43,7 +43,7 @@ function testPostUpdates(part: EditorPart) {
 
       // Check editor update.
       await postEditorShouldAppear(p);
-      await editorShouldUpdate(p, part, defs.sd.updated);
+      await performUpdateEditor(p, { part: part, content: defs.sd.updated });
 
       // Verify post title.
       await postShouldHaveTitle(p, part === 'title' ? defs.sd.updated : defs.sd.title, link);

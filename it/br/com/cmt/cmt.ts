@@ -9,6 +9,8 @@ import * as brt from 'brt';
 import { $, User, usr } from 'br';
 import * as pw from '@playwright/test';
 import * as defs from 'base/defs';
+import { performUpdateEditor } from 'br/com/editor/editor';
+import { getEditBarEditButton } from '../editor/editBar';
 import { userViewShouldAppear } from 'br/com/content/userView';
 import { buttonShouldAppear } from '../buttons/button';
 import { performWriteComment } from './util';
@@ -32,11 +34,15 @@ async function noCommentsShouldAppear(el: brt.Element) {
   await el.$('text=No comments').shouldBeVisible();
 }
 
+function getNthCmt(cmtApp: brt.Element, index: number) {
+  return cmtApp.$$('cmt-block').item(index);
+}
+
 export interface CheckCmtArgs {
   author: User;
   content: string;
-  authorView?: boolean;
-  highlighted?: boolean;
+  canEdit: boolean;
+  highlighted: boolean;
 }
 
 async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
@@ -46,6 +52,13 @@ async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
 
   // Comment content.
   await row.$('div.col > div:nth-child(2)').shouldHaveTextContent(e.content);
+
+  const editBtn = getEditBarEditButton(el, e.author.id);
+  if (e.canEdit) {
+    await editBtn.shouldBeVisible();
+  } else {
+    await editBtn.shouldNotExist();
+  }
 
   const highlightedCls = 'row highlighted';
   if (e.highlighted) {
@@ -64,7 +77,7 @@ export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
     await noCommentsShouldAppear(cmtApp);
 
     // "Sign in" to comment.
-    await cmtApp.$('qing-button:has-text("Sign in")').shouldBeVisible();
+    await cmtApp.$qingButton('Sign in').shouldBeVisible();
     await cmtApp.$('span:has-text("to comment")').shouldBeVisible();
   });
 }
@@ -80,16 +93,36 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
     });
   });
 
-  test(`${groupName} Write a comment`, async ({ page, cmtApp }) => {
+  test(`${groupName} Core (no comments, write, view, edit)`, async ({ page, cmtApp }) => {
     const p = $(page);
     await noCommentsShouldAppear(cmtApp);
 
+    // Case: write a comment.
     await performWriteComment(p, { cmtApp, content: defs.sd.content }, true);
-    await cmtShouldAppear(cmtApp, {
+    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
       author: usr.user,
       content: defs.sd.content,
       highlighted: true,
-      authorView: true,
+      canEdit: true,
+    });
+
+    // Case: Refresh and view the comment.
+    await page.reload();
+    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+      author: usr.user,
+      content: defs.sd.content,
+      highlighted: false,
+      canEdit: true,
+    });
+
+    // Case: Edit the comment.
+    await getEditBarEditButton(getNthCmt(cmtApp, 0), usr.user.id).click();
+    await performUpdateEditor(p, { part: 'content' });
+    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+      author: usr.user,
+      content: defs.sd.updated,
+      highlighted: false,
+      canEdit: true,
     });
   });
 }

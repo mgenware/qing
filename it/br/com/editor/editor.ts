@@ -9,6 +9,7 @@ import * as brt from 'brt';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
+import * as defs from 'base/defs';
 
 const closedOverlaySel = 'qing-overlay.immersive';
 const openOverlaySel = `${closedOverlaySel}[open=""]`;
@@ -92,11 +93,17 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
   await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
 }
 
-export async function editorShouldUpdate(page: brt.Page, part: EditorPart, content: string) {
+export interface PerformUpdateEditorArgs {
+  part: EditorPart;
+  content?: string;
+}
+
+export async function performUpdateEditor(page: brt.Page, e: PerformUpdateEditorArgs) {
   const overlayEl = await page.$(openOverlaySel).waitForAttached();
   const composerEl = getComposerEl(overlayEl);
+
   // Update editor content.
-  await updateEditorContent(part, content, composerEl);
+  await updateEditorContent(e.part, e.content ?? defs.sd.updated, composerEl);
 
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');

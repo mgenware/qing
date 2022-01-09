@@ -30,7 +30,7 @@ export class AuthDevPage extends BaseElement {
     ];
   }
 
-  @lp.string uidStr = '10';
+  @lp.string uidStr = '';
   @lp.bool newUserAdmin = false;
   @lp.bool isUidString = false;
 

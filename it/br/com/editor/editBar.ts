@@ -19,21 +19,17 @@ function getEditBarEl(rootEl: brt.Element, uid: string) {
   return rootEl.$(`edit-bar-app[uid="${uid}"]`);
 }
 
-function getButton(el: brt.Element, text: string) {
-  return el.$(`a:has-text("${text}")`);
+export function getEditBarEditButton(el: brt.Element, uid: string) {
+  return getEditBarEl(el, uid).$linkButton(editText);
 }
 
-export function getEditButton(el: brt.Element, uid: string) {
-  return getButton(getEditBarEl(el, uid), editText);
-}
-
-export function getDeleteButton(el: brt.Element, uid: string) {
-  return getButton(getEditBarEl(el, uid), deleteText);
+export function getEditBarDeleteButton(el: brt.Element, uid: string) {
+  return getEditBarEl(el, uid).$linkButton(deleteText);
 }
 
 export async function editBarShouldAppear(el: brt.Element, uid: string) {
-  const edit = getEditButton(el, uid);
-  const del = getDeleteButton(el, uid);
+  const edit = getEditBarEditButton(el, uid);
+  const del = getEditBarDeleteButton(el, uid);
   await edit.shouldBeVisible();
   await del.shouldBeVisible();
 }

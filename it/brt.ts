@@ -21,7 +21,7 @@ function mustGetHTMLElement(e: HTMLElement | SVGElement): HTMLElement {
   throw new Error(`Element is not an HTML element. Got ${e}`);
 }
 
-interface PWLocatable {
+export interface PWLocatable {
   locator(selector: string): pw.Locator;
 }
 
@@ -46,6 +46,11 @@ export class LocatorCore {
   $$(sel: string) {
     return PWLocatableWrapper.$$(this.c, sel);
   }
+}
+
+export interface Selectable {
+  $(sel: string): Element;
+  $$(sel: string): ElementCollection;
 }
 
 export class ElementCollection extends LocatorCore {
@@ -172,6 +177,14 @@ export class Element extends LocatorCore {
   shouldHaveValue(val: string) {
     return this.shouldHaveAttr('value', val);
   }
+
+  $qingButton(text: string) {
+    return this.$(`qing-button:has-text("${text}")`);
+  }
+
+  $linkButton(text: string) {
+    return this.$(`a:has-text("${text}")`);
+  }
 }
 
 export class Page {
@@ -188,17 +201,29 @@ export class Page {
   async goto(url: string, user: User | null) {
     const page = this.c;
     if (user) {
-      // Playwright has to use the GET version of the login API route.
-      await page.goto(`${serverURL}${auth.in}/${user.id}`);
-      const pageResponse = await page.content();
-      if (
-        pageResponse !==
-        '<html><head></head><body><p>You have successfully logged in.</p></body></html>'
-      ) {
-        throw new Error(`Login failed. Got "${pageResponse}"`);
-      }
+      await this.login(page, user);
     }
     await page.goto(`${serverURL}${url}`);
+  }
+
+  async reload(user: User | null) {
+    const page = this.c;
+    if (user) {
+      await this.login(page, user);
+    }
+    await page.reload();
+  }
+
+  private async login(page: pw.Page, user: User) {
+    // Playwright has to use the GET version of the login API route.
+    await page.goto(`${serverURL}${auth.in}/${user.id}`);
+    const pageResponse = await page.content();
+    if (
+      pageResponse !==
+      '<html><head></head><body><p>You have successfully logged in.</p></body></html>'
+    ) {
+      throw new Error(`Login failed. Got "${pageResponse}"`);
+    }
   }
 }
 
