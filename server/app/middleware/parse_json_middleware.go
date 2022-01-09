@@ -11,6 +11,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"qing/app/defs"
 	"qing/app/handler"
@@ -27,10 +28,10 @@ func ParseJSON(next http.Handler) http.Handler {
 			decoder := json.NewDecoder(r.Body)
 			jsonMap := make(map[string]interface{})
 			err := decoder.Decode(&jsonMap)
-			if err != nil {
+			if err != nil && err != io.EOF {
 				resp := handler.NewJSONResponse(r, w)
 				// JSON parsing errors are considered user errors, so we pass `true` as `expected` and don't log them.
-				resp.MustFailWithError(defs.Shared.ErrGeneric, fmt.Errorf("Error parsing body JSON, \"%v\"", err.Error()), true)
+				resp.MustFailWithError(defs.Shared.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()), true)
 				return
 			}
 			ctx = context.WithValue(ctx, defs.DictContextKey, jsonMap)
