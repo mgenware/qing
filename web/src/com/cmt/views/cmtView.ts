@@ -54,7 +54,12 @@ export class CmtView extends BaseElement {
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
         <div class="col-auto">
           <a href=${cmt.userURL}>
-            <img src=${cmt.userIconURL} class="avatar-m" width="50" height="50" />
+            <img
+              src=${cmt.userIconURL}
+              alt=${cmt.userName ?? ''}
+              class="avatar-m"
+              width="50"
+              height="50" />
           </a>
         </div>
         <div class="col" style="padding-left: 0">

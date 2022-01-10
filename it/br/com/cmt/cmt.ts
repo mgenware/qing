@@ -83,7 +83,7 @@ export function testCmtOnUserMode(groupName: string, test: TestInputType) {
     await shouldHaveComments(cmtApp, 0);
   });
 
-  test(`${groupName} Core (no comments, write, view, edit)`, async ({ page, cmtApp }) => {
+  test(`${groupName} Cmt core (no comments, write, view, edit)`, async ({ page, cmtApp }) => {
     const p = $(page);
     await commentsHeadingShouldAppear(cmtApp);
 
