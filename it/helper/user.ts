@@ -6,7 +6,6 @@
  */
 
 import { APIResult, call, User } from 'base/call';
-import { throwIfEmpty } from 'throw-if-arg-empty';
 import { api } from '../base/urls';
 
 // Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
@@ -20,7 +19,6 @@ export interface TUserInfo {
 
 function checkUser(res: APIResult): User {
   const u = res.d as TUserInfo;
-  throwIfEmpty(u.id, 'uid');
   return u;
 }
 
