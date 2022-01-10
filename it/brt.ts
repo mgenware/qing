@@ -216,9 +216,11 @@ export class Page {
     }
   }
 
-  async signOut(page: Page) {
-    await page.c.goto(`${serverURL}${auth.out}`);
+  async signOut() {
+    const url = this.c.url();
+    await this.c.goto(`${serverURL}${auth.out}`);
     this.checkGETAPIResult(await this.c.content());
+    await this.c.goto(url);
   }
 
   private async signIn(user: User) {

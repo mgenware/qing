@@ -37,6 +37,6 @@ test('`br.page.reload` called with a different user', async ({ page }) => {
 test('`br.page.signOut`', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await p.signOut(p);
+  await p.signOut();
   await navbarUserViewShouldNotAppear(p);
 });
