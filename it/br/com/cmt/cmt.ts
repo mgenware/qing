@@ -6,7 +6,7 @@
  */
 
 import * as brt from 'brt';
-import { $, User, usr } from 'br';
+import { $, User, usr, test } from 'br';
 import * as pw from '@playwright/test';
 import * as defs from 'base/defs';
 import { performUpdateEditor } from 'br/com/editor/editor';
@@ -66,66 +66,101 @@ export function shouldHaveComments(el: brt.Element, count: number) {
     .shouldHaveTextContent(count === 1 ? '1 comment' : `${count || 'No'} comments`);
 }
 
-export function testCmtOnVisitorMode(groupName: string, test: TestInputType) {
-  test(`${groupName} No comments (visitor)`, async ({ cmtApp }) => {
-    await commentsHeadingShouldAppear(cmtApp);
-    await shouldHaveComments(cmtApp, 0);
-
-    // "Sign in" to comment.
-    await cmtApp.$qingButton('Sign in').shouldBeVisible();
-    await cmtApp.$('span:has-text("to comment")').shouldBeVisible();
-  });
+export interface FixtureStartArg {
+  page: brt.Page;
+  user: User | null;
 }
 
-export function testCmtOnUserMode(groupName: string, test: TestInputType) {
-  test(`${groupName} No comments (user)`, async ({ cmtApp }) => {
-    await commentsHeadingShouldAppear(cmtApp);
-    await shouldHaveComments(cmtApp, 0);
+export abstract class CmtFixture {
+  abstract start(arg: FixtureStartArg, cb: () => void): Promise<void>;
+  abstract getCmtApp(page: brt.Page): Promise<brt.Element>;
+}
+
+class CmtFixtureInternal {
+  constructor(public groupName: string, public fixture: CmtFixture) {}
+
+  test(name: string, initialViewer: User | null, cb: (arg: { page: brt.Page }) => Promise<void>) {
+    return test(`[${this.groupName}] ${name}`, async ({ page }) => {
+      const p = $(page);
+      await this.fixture.start({ page: p, user: initialViewer }, () => {
+        return cb({ page: p });
+      });
+    });
+  }
+
+  getCmtApp(page: brt.Page) {
+    return this.fixture.getCmtApp(page);
+  }
+}
+
+export function testCmt(groupName: string, fixture: CmtFixture) {
+  const h = new CmtFixtureInternal(groupName, fixture);
+  h.test('No comments', null, async ({ page }) => {
+    {
+      // Visitor view.
+      const cmtApp = await h.getCmtApp(page);
+      await commentsHeadingShouldAppear(cmtApp);
+      await shouldHaveComments(cmtApp, 0);
+
+      // "Sign in" to comment.
+      await cmtApp.$qingButton('Sign in').shouldBeVisible();
+      await cmtApp.$('span:has-text("to comment")').shouldBeVisible();
+    }
+    {
+      // User view.
+      page.reload(usr.user);
+      const cmtApp = await h.getCmtApp(page);
+      await commentsHeadingShouldAppear(cmtApp);
+      await shouldHaveComments(cmtApp, 0);
+    }
   });
 
-  test(`${groupName} Cmt core (no comments, write, view, edit)`, async ({ page, cmtApp }) => {
-    const p = $(page);
-    await commentsHeadingShouldAppear(cmtApp);
+  h.test('Cmt core (no comments, write, view, edit)', usr.user, async ({ page }) => {
+    {
+      // User view.
+      const cmtApp = await h.getCmtApp(page);
+      await commentsHeadingShouldAppear(cmtApp);
 
-    // Write a comment.
-    await performWriteComment(p, { cmtApp, content: defs.sd.content }, true);
-    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
-      author: usr.user,
-      content: defs.sd.content,
-      highlighted: true,
-      canEdit: true,
-    });
-    await shouldHaveComments(cmtApp, 1);
+      // Write a comment.
+      await performWriteComment(page, { cmtApp, content: defs.sd.content }, true);
+      await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+        author: usr.user,
+        content: defs.sd.content,
+        highlighted: true,
+        canEdit: true,
+      });
+      await shouldHaveComments(cmtApp, 1);
 
-    // Refresh and view the comment.
-    await page.reload();
-    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
-      author: usr.user,
-      content: defs.sd.content,
-      highlighted: false,
-      canEdit: true,
-    });
-    await shouldHaveComments(cmtApp, 1);
+      // Refresh and view the comment.
+      await page.reload(null);
+      await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+        author: usr.user,
+        content: defs.sd.content,
+        highlighted: false,
+        canEdit: true,
+      });
+      await shouldHaveComments(cmtApp, 1);
 
-    // Edit the comment.
-    await getEditBarEditButton(getNthCmt(cmtApp, 0), usr.user.id).click();
-    await performUpdateEditor(p, { part: 'content' });
-    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
-      author: usr.user,
-      content: defs.sd.updated,
-      highlighted: false,
-      canEdit: true,
-    });
-    await shouldHaveComments(cmtApp, 1);
+      // Edit the comment.
+      await getEditBarEditButton(getNthCmt(cmtApp, 0), usr.user.id).click();
+      await performUpdateEditor(page, { part: 'content' });
+      await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+        author: usr.user,
+        content: defs.sd.updated,
+        highlighted: false,
+        canEdit: true,
+      });
+      await shouldHaveComments(cmtApp, 1);
 
-    // Write another comment.
-    await performWriteComment(p, { cmtApp, content: defs.sd.content }, true);
-    await cmtShouldAppear(getNthCmt(cmtApp, 0), {
-      author: usr.user,
-      content: defs.sd.content,
-      highlighted: true,
-      canEdit: true,
-    });
-    await shouldHaveComments(cmtApp, 2);
+      // Write another comment.
+      await performWriteComment(page, { cmtApp, content: defs.sd.content }, true);
+      await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+        author: usr.user,
+        content: defs.sd.content,
+        highlighted: true,
+        canEdit: true,
+      });
+      await shouldHaveComments(cmtApp, 2);
+    }
   });
 }
