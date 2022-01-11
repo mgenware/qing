@@ -7,7 +7,7 @@
 
 package rcom
 
-import "qing/app/appHandler"
+import "qing/a/appHandler"
 
 var vPageBar = appHandler.MainPage().MustParseView("/com/pageBar.html")
 

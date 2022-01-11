@@ -8,9 +8,9 @@
 package pri
 
 import (
-	"qing/app/appUserManager"
-	"qing/app/handler"
-	"qing/app/middleware"
+	"qing/a/appUserManager"
+	"qing/a/handler"
+	"qing/a/middleware"
 	authapi "qing/r/api/pri/auth_api"
 	captchaapi "qing/r/api/pri/captcha_api"
 	composeapi "qing/r/api/pri/compose_api"

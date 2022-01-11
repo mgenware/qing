@@ -7,7 +7,7 @@
 
 package discussionp
 
-import "qing/app/appURL"
+import "qing/a/appURL"
 
 type DiscussionPageURLFormatter struct {
 	ID uint64

@@ -8,7 +8,7 @@
 package forumapi
 
 import (
-	"qing/app/handler"
+	"qing/a/handler"
 	fgmodapi "qing/r/api/pri/forum_api/fgmod_api"
 	fmodapi "qing/r/api/pri/forum_api/fmod_api"
 )

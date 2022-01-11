@@ -7,7 +7,7 @@
 
 package homep
 
-import "qing/app/appURL"
+import "qing/a/appURL"
 
 // HomePageURLFormatter helps generate a home page URL.
 type HomePageURLFormatter struct {

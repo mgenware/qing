@@ -8,15 +8,15 @@
 package main
 
 import (
+	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appLog"
+	"qing/a/appMS"
+	"qing/a/appProfile"
+	"qing/a/appService"
+	"qing/a/appURL"
+	"qing/a/appUserManager"
 	"qing/app"
-	"qing/app/appDB"
-	"qing/app/appHandler"
-	"qing/app/appLog"
-	"qing/app/appMS"
-	"qing/app/appProfile"
-	"qing/app/appService"
-	"qing/app/appURL"
-	"qing/app/appUserManager"
 	"qing/r"
 )
 

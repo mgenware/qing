@@ -9,12 +9,12 @@ package profileapi
 
 import (
 	"net/http"
-	"qing/app/appDB"
-	"qing/app/appHandler"
-	"qing/app/appURL"
-	"qing/app/appUserManager"
-	"qing/app/appcom"
-	"qing/app/defs"
+	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appURL"
+	"qing/a/appUserManager"
+	"qing/a/appcom"
+	"qing/a/defs"
 	"qing/da"
 	"qing/lib/iolib"
 	"qing/s/avatar"

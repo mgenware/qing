@@ -12,9 +12,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"qing/a/appHandler"
+	"qing/a/defs"
 	"qing/app"
-	"qing/app/appHandler"
-	"qing/app/defs"
 )
 
 // PanicMiddleware handles panics.

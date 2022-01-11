@@ -11,9 +11,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"qing/app/appcom"
-	"qing/app/defs"
-	"qing/app/handler"
+	"qing/a/appcom"
+	"qing/a/defs"
+	"qing/a/handler"
 	"qing/lib/validator"
 	modutil "qing/r/api/pri/forum_api/mod_util"
 )

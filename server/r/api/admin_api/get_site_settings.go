@@ -10,11 +10,11 @@ package adminapi
 import (
 	"fmt"
 	"net/http"
+	"qing/a/appHandler"
+	"qing/a/appSettings"
+	"qing/a/defs"
+	"qing/a/handler"
 	"qing/app"
-	"qing/app/appHandler"
-	"qing/app/appSettings"
-	"qing/app/defs"
-	"qing/app/handler"
 	"qing/lib/validator"
 )
 

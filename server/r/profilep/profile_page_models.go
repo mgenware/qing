@@ -8,9 +8,9 @@
 package profilep
 
 import (
-	"qing/app/appHandler"
-	"qing/app/appURL"
-	"qing/app/defs"
+	"qing/a/appHandler"
+	"qing/a/appURL"
+	"qing/a/defs"
 	"qing/da"
 	"qing/lib/fmtx"
 )

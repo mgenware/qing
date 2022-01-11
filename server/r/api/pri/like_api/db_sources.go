@@ -8,7 +8,7 @@
 package likeapi
 
 import (
-	"qing/app/defs"
+	"qing/a/defs"
 	"qing/da"
 )
 

@@ -7,7 +7,7 @@
 
 package mpapi
 
-import "qing/app/handler"
+import "qing/a/handler"
 
 // Router ...
 var Router = handler.NewJSONRouter()

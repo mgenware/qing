@@ -9,8 +9,8 @@ package forump
 
 import (
 	"net/http"
-	"qing/app/appHandler"
-	"qing/app/handler"
+	"qing/a/appHandler"
+	"qing/a/handler"
 	"qing/lib/fmtx"
 	"qing/r/sys"
 

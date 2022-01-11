@@ -8,8 +8,8 @@
 package modutil
 
 import (
-	"qing/app/appDB"
-	"qing/app/appcom"
+	"qing/a/appDB"
+	"qing/a/appcom"
 	"qing/da"
 )
 

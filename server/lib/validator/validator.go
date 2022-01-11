@@ -10,7 +10,7 @@ package validator
 import (
 	"fmt"
 	"net/http"
-	"qing/app/defs"
+	"qing/a/defs"
 	"qing/lib/fmtx"
 	"unicode/utf8"
 

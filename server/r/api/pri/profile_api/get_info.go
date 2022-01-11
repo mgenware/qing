@@ -9,10 +9,10 @@ package profileapi
 
 import (
 	"net/http"
-	"qing/app/appDB"
-	"qing/app/appHandler"
-	"qing/app/appURL"
-	"qing/app/handler"
+	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appURL"
+	"qing/a/handler"
 	"qing/da"
 )
 

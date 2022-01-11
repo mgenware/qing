@@ -9,12 +9,12 @@ package homep
 
 import (
 	"net/http"
+	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appSettings"
+	"qing/a/defs"
+	"qing/a/handler"
 	"qing/app"
-	"qing/app/appDB"
-	"qing/app/appHandler"
-	"qing/app/appSettings"
-	"qing/app/defs"
-	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/rcom"

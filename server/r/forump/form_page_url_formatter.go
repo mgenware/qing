@@ -7,7 +7,7 @@
 
 package forump
 
-import "qing/app/appURL"
+import "qing/a/appURL"
 
 // ForumPageURLFormatter helps generate a forum page URL.
 type ForumPageURLFormatter struct {

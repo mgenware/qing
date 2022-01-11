@@ -8,7 +8,7 @@
 package rcom
 
 import (
-	"qing/app/appURL"
+	"qing/a/appURL"
 	"qing/lib/fmtx"
 )
 

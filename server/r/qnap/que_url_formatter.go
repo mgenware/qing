@@ -7,7 +7,7 @@
 
 package qnap
 
-import "qing/app/appURL"
+import "qing/a/appURL"
 
 // QueURLFormatter ...
 type QueURLFormatter struct {

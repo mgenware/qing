@@ -8,7 +8,7 @@
 package cmtapi
 
 import (
-	"qing/app/handler"
+	"qing/a/handler"
 )
 
 // Router ...

@@ -9,7 +9,7 @@ package forump
 
 import (
 	"context"
-	"qing/app/appcom"
+	"qing/a/appcom"
 	modutil "qing/r/api/pri/forum_api/mod_util"
 )
 

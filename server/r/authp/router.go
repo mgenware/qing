@@ -9,8 +9,8 @@ package authp
 
 import (
 	"net/http"
-	"qing/app/appHandler"
-	"qing/app/handler"
+	"qing/a/appHandler"
+	"qing/a/handler"
 )
 
 // Router ...

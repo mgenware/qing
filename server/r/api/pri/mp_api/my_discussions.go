@@ -9,12 +9,12 @@ package mpapi
 
 import (
 	"net/http"
+	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appURL"
+	"qing/a/defs"
+	"qing/a/handler"
 	"qing/app"
-	"qing/app/appDB"
-	"qing/app/appHandler"
-	"qing/app/appURL"
-	"qing/app/defs"
-	"qing/app/handler"
 	"qing/da"
 	"qing/lib/fmtx"
 	"qing/lib/validator"

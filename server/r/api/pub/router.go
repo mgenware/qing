@@ -8,8 +8,8 @@
 package pub
 
 import (
-	"qing/app/handler"
-	"qing/app/middleware"
+	"qing/a/handler"
+	"qing/a/middleware"
 	authapi "qing/r/api/pub/auth_api"
 	cmtapi "qing/r/api/pub/cmt_api"
 )

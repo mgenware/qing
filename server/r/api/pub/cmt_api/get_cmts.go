@@ -9,11 +9,11 @@ package cmtapi
 
 import (
 	"net/http"
+	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/defs"
+	"qing/a/handler"
 	"qing/app"
-	"qing/app/appDB"
-	"qing/app/appHandler"
-	"qing/app/defs"
-	"qing/app/handler"
 	"qing/da"
 	"qing/lib/validator"
 	"qing/r/api/apicom"

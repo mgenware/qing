@@ -9,12 +9,12 @@ package r
 
 import (
 	"net/http"
+	"qing/a/appHandler"
+	"qing/a/appLog"
+	"qing/a/appUserManager"
+	"qing/a/defs"
+	"qing/a/handler"
 	"qing/app"
-	"qing/app/appHandler"
-	"qing/app/appLog"
-	"qing/app/appUserManager"
-	"qing/app/defs"
-	"qing/app/handler"
 	"qing/lib/iolib"
 	"strconv"
 

@@ -8,9 +8,9 @@
 package adminapi
 
 import (
-	"qing/app/appUserManager"
-	"qing/app/handler"
-	"qing/app/middleware"
+	"qing/a/appUserManager"
+	"qing/a/handler"
+	"qing/a/middleware"
 )
 
 // Router ...

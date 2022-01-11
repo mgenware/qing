@@ -9,9 +9,9 @@ package mxp
 
 import (
 	"net/http"
-	"qing/app/appHandler"
-	"qing/app/appUserManager"
-	"qing/app/handler"
+	"qing/a/appHandler"
+	"qing/a/appUserManager"
+	"qing/a/handler"
 )
 
 // Router ...

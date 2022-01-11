@@ -9,8 +9,8 @@ package langp
 
 import (
 	"net/http"
-	"qing/app/appHandler"
-	"qing/app/handler"
+	"qing/a/appHandler"
+	"qing/a/handler"
 
 	"golang.org/x/text/language/display"
 )

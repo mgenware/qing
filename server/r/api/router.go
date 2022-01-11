@@ -8,7 +8,7 @@
 package api
 
 import (
-	"qing/app/handler"
+	"qing/a/handler"
 	adminapi "qing/r/api/admin_api"
 	"qing/r/api/pri"
 	"qing/r/api/pub"

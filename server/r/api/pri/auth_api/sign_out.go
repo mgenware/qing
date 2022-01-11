@@ -9,9 +9,9 @@ package authapi
 
 import (
 	"net/http"
-	"qing/app/appHandler"
-	"qing/app/appUserManager"
-	"qing/app/handler"
+	"qing/a/appHandler"
+	"qing/a/appUserManager"
+	"qing/a/handler"
 )
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.JSON {

@@ -8,7 +8,7 @@
 package apicom
 
 import (
-	"qing/app/appURL"
+	"qing/a/appURL"
 	"qing/da"
 	"qing/lib/fmtx"
 	"qing/sod/cmt/cmt"

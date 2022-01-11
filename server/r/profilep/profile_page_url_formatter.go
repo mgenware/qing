@@ -7,7 +7,7 @@
 
 package profilep
 
-import "qing/app/appURL"
+import "qing/a/appURL"
 
 // ProfilePageURLFormatter helps generate a profile page URL.
 type ProfilePageURLFormatter struct {

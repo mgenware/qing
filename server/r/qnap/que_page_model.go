@@ -8,7 +8,7 @@
 package qnap
 
 import (
-	"qing/app/appHandler"
+	"qing/a/appHandler"
 )
 
 var vQuestionPage = appHandler.MainPage().MustParseView("/qna/questionPage.html")

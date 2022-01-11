@@ -9,8 +9,8 @@ package voteapi
 
 import (
 	"database/sql"
-	"qing/app/appDB"
-	"qing/app/defs"
+	"qing/a/appDB"
+	"qing/a/defs"
 	"qing/da"
 )
 
