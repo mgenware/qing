@@ -1,8 +1,15 @@
+/*
+ * Copyright (C) 2021 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
 import * as brt from 'brt';
 import { User } from 'br';
-import { editorShouldAppear, performUpdateEditor } from '../editor/editor';
-import { getEditBarEditButton } from '../editor/editBar';
-import { buttonShouldAppear } from '../buttons/button';
+import { editorShouldAppear, performUpdateEditor } from 'br/com/editor/editor';
+import { getEditBarEditButton } from 'br/com/editor/editBar';
+import { buttonShouldAppear } from 'br/com/buttons/button';
 
 export interface PerformWriteCommentArgs {
   cmtApp: brt.Element;

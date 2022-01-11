@@ -8,7 +8,8 @@
 import { scPost } from 'helper/post';
 import { usr } from 'br';
 import * as brt from 'brt';
-import { testCmt, CmtFixture, FixtureStartArg } from 'br/com/cmt/cmt';
+import testCmt from 'br/com/cmt/test';
+import { CmtFixture, FixtureStartArg } from 'br/com/cmt/fixture';
 import { cmtAppSelector } from './common';
 
 class PostCmtFixture extends CmtFixture {

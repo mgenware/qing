@@ -23,11 +23,13 @@ import (
 var kCmtPageSize int
 
 func init() {
-	if app.CoreConfig().DevMode() {
-		// Use a smaller for testing purposes.
+	cc := app.CoreConfig()
+	if cc.ProductionMode() {
+		kCmtPageSize = 10
+	} else if cc.DevMode() {
 		kCmtPageSize = 3
 	} else {
-		kCmtPageSize = 10
+		kCmtPageSize = 2
 	}
 }
 
