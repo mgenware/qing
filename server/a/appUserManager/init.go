@@ -8,12 +8,12 @@
 package appUserManager
 
 import (
+	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appURL"
 	"qing/a/userx"
-	"qing/app"
 )
 
 var userManager *userx.UserManager

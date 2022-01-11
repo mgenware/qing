@@ -10,13 +10,13 @@ package userx
 import (
 	"fmt"
 	"net/http"
+	"qing/a/app"
 	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/a/urlx"
-	"qing/app"
 	"qing/da"
 )
 

@@ -8,13 +8,13 @@
 package servicex
 
 import (
+	"qing/a/app"
 	"qing/a/config"
 	"qing/a/defs"
 	"qing/a/profile"
 	"qing/a/servicex/captchax"
 	"qing/a/servicex/emailver"
 	hashingalg "qing/a/servicex/hashingAlg"
-	"qing/app"
 	"qing/fx/sanitizer"
 )
 

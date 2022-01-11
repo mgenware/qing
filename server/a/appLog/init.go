@@ -8,8 +8,8 @@
 package appLog
 
 import (
+	"qing/a/app"
 	"qing/a/logx"
-	"qing/app"
 )
 
 var logger app.CoreLogger

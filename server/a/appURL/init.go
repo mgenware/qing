@@ -8,8 +8,8 @@
 package appURL
 
 import (
+	"qing/a/app"
 	"qing/a/urlx"
-	"qing/app"
 )
 
 var appURL *urlx.URL

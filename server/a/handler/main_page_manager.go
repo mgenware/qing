@@ -12,9 +12,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"path/filepath"
+	"qing/a/app"
 	"qing/a/appcom"
 	"qing/a/config"
-	"qing/app"
 
 	"qing/a/handler/jsm"
 	"qing/a/handler/localization"

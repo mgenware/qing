@@ -8,8 +8,8 @@
 package appSettings
 
 import (
+	"qing/a/app"
 	"qing/a/appLog"
-	"qing/app"
 	"qing/lib/iolib"
 	"qing/sod/app/appRawSettings"
 

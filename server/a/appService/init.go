@@ -8,11 +8,11 @@
 package appService
 
 import (
+	"qing/a/app"
 	"qing/a/appLog"
 	"qing/a/appMS"
 	"qing/a/appProfile"
 	"qing/a/servicex"
-	"qing/app"
 )
 
 var service *servicex.Service

@@ -8,8 +8,8 @@
 package appMS
 
 import (
+	"qing/a/app"
 	"qing/a/appLog"
-	"qing/app"
 )
 
 var appMS app.CoreMemoryStore

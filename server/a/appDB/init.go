@@ -9,8 +9,8 @@ package appDB
 
 import (
 	"database/sql"
+	"qing/a/app"
 	"qing/a/appLog"
-	"qing/app"
 )
 
 var appDB app.CoreDB

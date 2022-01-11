@@ -9,8 +9,8 @@ package captchaapi
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appService"
-	"qing/app"
 
 	"github.com/mgenware/goutil/httpx"
 	"github.com/mgenware/goutil/strconvx"

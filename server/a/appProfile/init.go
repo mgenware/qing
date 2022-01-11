@@ -9,9 +9,9 @@ package appProfile
 
 import (
 	"fmt"
+	"qing/a/app"
 	"qing/a/appLog"
 	"qing/a/profile"
-	"qing/app"
 )
 
 var appProfile *profile.AppProfile

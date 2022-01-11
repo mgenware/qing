@@ -10,7 +10,7 @@ package emailver
 import (
 	"encoding/base64"
 	"fmt"
-	"qing/app"
+	"qing/a/app"
 	"strings"
 
 	"github.com/google/uuid"

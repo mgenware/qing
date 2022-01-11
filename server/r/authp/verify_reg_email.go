@@ -9,12 +9,12 @@ package authp
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
 	"qing/a/handler"
-	"qing/app"
 	"qing/da"
 	authapi "qing/r/api/pub/auth_api"
 

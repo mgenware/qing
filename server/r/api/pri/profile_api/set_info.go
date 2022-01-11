@@ -9,11 +9,11 @@ package profileapi
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appUserManager"
 	"qing/a/handler"
-	"qing/app"
 	"qing/da"
 
 	"github.com/mgenware/goutil/jsonx"

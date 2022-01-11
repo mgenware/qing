@@ -8,6 +8,7 @@
 package main
 
 import (
+	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appLog"
@@ -16,7 +17,6 @@ import (
 	"qing/a/appService"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
-	"qing/app"
 	"qing/r"
 )
 

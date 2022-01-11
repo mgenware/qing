@@ -9,8 +9,8 @@ package appSettings
 
 import (
 	"fmt"
+	"qing/a/app"
 	"qing/a/appLog"
-	"qing/app"
 	"qing/sod/app/appRawSettings"
 )
 

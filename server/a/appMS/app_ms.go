@@ -10,7 +10,7 @@ package appMS
 import (
 	"errors"
 	"fmt"
-	"qing/app"
+	"qing/a/app"
 
 	"github.com/gomodule/redigo/redis"
 )

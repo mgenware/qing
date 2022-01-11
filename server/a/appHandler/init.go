@@ -8,9 +8,9 @@
 package appHandler
 
 import (
+	"qing/a/app"
 	"qing/a/appLog"
 	"qing/a/handler"
-	"qing/app"
 )
 
 var mainPageManager handler.CorePageManager

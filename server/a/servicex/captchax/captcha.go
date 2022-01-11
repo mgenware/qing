@@ -11,9 +11,9 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"qing/a/app"
 	"qing/a/appMS"
 	"qing/a/defs"
-	"qing/app"
 	"strconv"
 
 	"github.com/mgenware/go-captcha"
