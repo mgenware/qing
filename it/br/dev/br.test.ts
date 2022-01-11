@@ -20,10 +20,10 @@ test('`br.page.signIn`', async ({ page }) => {
   await navbarUserViewShouldAppear(p, usr.user);
 });
 
-test('`br.page.reload` should not change user status', async ({ page }) => {
+test('`br.page.reload()`', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await p.reload(null);
+  await p.reload();
   await navbarUserViewShouldAppear(p, usr.user);
 });
 
@@ -32,6 +32,13 @@ test('`br.page.reload` called with a different user', async ({ page }) => {
   await p.goto('/', usr.user);
   await p.reload(usr.user2);
   await navbarUserViewShouldAppear(p, usr.user2);
+});
+
+test('`br.page.reload` called to sign out', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/', usr.user);
+  await p.reload(null);
+  await navbarUserViewShouldNotAppear(p);
 });
 
 test('`br.page.signOut`', async ({ page }) => {

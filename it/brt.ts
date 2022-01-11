@@ -205,15 +205,21 @@ export class Page {
     await this.c.goto(`${serverURL}${url}`);
   }
 
-  async reload(user: User | null) {
+  // Reloads current page.
+  // `user`: undefined -> no change to credentials. null -> visitor.
+  async reload(user?: User | null) {
     const page = this.c;
-    if (user) {
-      const url = page.url();
-      await this.signIn(user);
-      await page.goto(url);
-    } else {
+    if (user === undefined) {
       await page.reload();
+      return;
     }
+    const url = page.url();
+    if (user) {
+      await this.signIn(user);
+    } else {
+      await this.signOut();
+    }
+    await page.goto(url);
   }
 
   async signOut() {

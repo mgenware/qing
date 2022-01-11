@@ -33,14 +33,15 @@ function getNthCmt(cmtApp: brt.Element, index: number) {
 export interface CheckCmtArgs {
   author: User;
   content: string;
-  canEdit: boolean;
-  highlighted: boolean;
+  canEdit?: boolean;
+  highlighted?: boolean;
+  hasEdited?: boolean;
 }
 
 async function cmtShouldAppear(el: brt.Element, e: CheckCmtArgs) {
   // User view.
   const row = el.$('.row');
-  await userViewShouldAppear(row, e.author);
+  await userViewShouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
 
   // Comment content.
   await row.$('div.col > div:nth-child(2)').shouldHaveTextContent(e.content);
@@ -117,8 +118,8 @@ export function testCmt(groupName: string, fixture: CmtFixture) {
 
   h.test('Cmt core (no comments, write, view, edit)', usr.user, async ({ page }) => {
     {
-      // User view.
-      const cmtApp = await h.getCmtApp(page);
+      // User 1.
+      let cmtApp = await h.getCmtApp(page);
       await commentsHeadingShouldAppear(cmtApp);
 
       // Write a comment.
@@ -132,11 +133,12 @@ export function testCmt(groupName: string, fixture: CmtFixture) {
       await shouldHaveComments(cmtApp, 1);
 
       // Refresh and view the comment.
-      await page.reload(null);
+      await page.reload();
+      // Update `cmtApp` when page gets reloaded.
+      cmtApp = await h.getCmtApp(page);
       await cmtShouldAppear(getNthCmt(cmtApp, 0), {
         author: usr.user,
         content: defs.sd.content,
-        highlighted: false,
         canEdit: true,
       });
       await shouldHaveComments(cmtApp, 1);
@@ -147,18 +149,45 @@ export function testCmt(groupName: string, fixture: CmtFixture) {
       await cmtShouldAppear(getNthCmt(cmtApp, 0), {
         author: usr.user,
         content: defs.sd.updated,
-        highlighted: false,
         canEdit: true,
+        hasEdited: true,
       });
       await shouldHaveComments(cmtApp, 1);
-
+    }
+    {
+      // User 2.
       // Write another comment.
+      await page.reload(usr.user2);
+      const cmtApp = await h.getCmtApp(page);
       await performWriteComment(page, { cmtApp, content: defs.sd.content }, true);
       await cmtShouldAppear(getNthCmt(cmtApp, 0), {
-        author: usr.user,
+        author: usr.user2,
         content: defs.sd.content,
         highlighted: true,
         canEdit: true,
+      });
+      await cmtShouldAppear(getNthCmt(cmtApp, 1), {
+        author: usr.user,
+        content: defs.sd.updated,
+        hasEdited: true,
+      });
+      await shouldHaveComments(cmtApp, 2);
+    }
+    {
+      // Visitor.
+      await page.reload(null);
+      const cmtApp = await h.getCmtApp(page);
+      await cmtShouldAppear(getNthCmt(cmtApp, 0), {
+        author: usr.user2,
+        content: defs.sd.content,
+        highlighted: false,
+        canEdit: false,
+      });
+      await cmtShouldAppear(getNthCmt(cmtApp, 1), {
+        author: usr.user,
+        content: defs.sd.updated,
+        highlighted: false,
+        canEdit: false,
       });
       await shouldHaveComments(cmtApp, 2);
     }
