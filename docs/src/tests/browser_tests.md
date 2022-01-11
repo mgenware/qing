@@ -1,18 +1,26 @@
 # Browser tests
 
-A browser test is a kind of integration test. Qing browser tests are stored in `/it/br`. They are the most comprehensive tests in Qing, every feature must comes with a browser test.
+Qing browser tests are stored in `/it/br`. They are the most comprehensive tests in Qing, every feature must come with a browser test.
 
-## Build and run browser tests locally
+## Run browser tests locally
 
 - Make sure server is running.
-- Go to integration tests project `/it`.
-- Start building and watching: `dz dev`.
-- Run browser tests: `dz br`.
+- Build integration tests `qing it`.
+- Run browser tests `qing it br`.
+  - To run a specific API test by name: `qing it br -g "<regex>"`
 
 > NOTE: On Windows WSL2, you might need to run `sudo npx playwright install-deps` to install additional dependencies for playwright to run.
 
-## Start browsing testing in debug mode
+## Debug mode
 
+To start browser tests in debug mode:
+
+```sh
+qing it br-t
 ```
-dz br-t
+
+To run a specific browser test in debug mode:
+
+```sh
+qing it br-t -g "<regex>"
 ```

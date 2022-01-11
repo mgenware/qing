@@ -1,10 +1,10 @@
 # API tests
 
-An API test is a kind of integration test. Qing API tests are stored in `/it/api`. They test all backend APIs with different credentials.
+Qing API tests are stored under `/it/api`. They test all backend APIs with different credentials.
 
-## Build and run API tests locally
+## Run API tests locally
 
 - Make sure server is running.
-- Go to integration tests project `/it`.
-- Start building and watching: `dz dev`.
-- Run API tests: `dz api`.
+- Build integration tests `qing it`.
+- Run API tests `qing it api`.
+  - To run a specific API test by name: `qing it api -g "<regex>"`
