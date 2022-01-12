@@ -20,7 +20,7 @@ export class ReplyTA extends mm.TableActions {
 
   editReply = mm
     .updateOne()
-    .setInputs(t.content)
+    .setInputs(t.content, t.modified_at)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
   selectReplySource = mm

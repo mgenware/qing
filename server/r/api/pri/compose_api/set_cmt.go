@@ -114,17 +114,17 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		// Edit a comment or reply.
 		isReply := validator.MustGetIntFromDict(params, "isReply")
+		now := time.Now()
 
 		if isReply == 0 {
-			err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
+			err := da.Cmt.EditCmt(db, id, uid, content, now, sanitizedToken)
 			app.PanicIfErr(err)
 		} else {
-			err := da.Reply.EditReply(db, id, uid, content, sanitizedToken)
+			err := da.Reply.EditReply(db, id, uid, content, now, sanitizedToken)
 			app.PanicIfErr(err)
 		}
 		cmt := &cmt.Cmt{EID: fmtx.EncodeID(id)}
 		cmt.ContentHTML = content
-		now := time.Now()
 		cmt.ModifiedAt = fmtx.Time(now)
 
 		// NOTE: when editing a comment or reply, this always returns response the `cmt` field set.

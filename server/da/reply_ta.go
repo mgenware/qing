@@ -14,6 +14,7 @@ package da
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/mgenware/mingru-go-lib"
 )
@@ -34,8 +35,8 @@ func (da *TableTypeReply) DeleteReplyCore(queryable mingru.Queryable, id uint64,
 }
 
 // EditReply ...
-func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `reply` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
+func (da *TableTypeReply) EditReply(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `reply` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

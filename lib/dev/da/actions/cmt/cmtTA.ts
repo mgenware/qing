@@ -16,7 +16,7 @@ import { defaultUpdateConditions } from '../common.js';
 export class CmtTA extends mm.TableActions {
   editCmt = mm
     .updateOne()
-    .setInputs(t.content)
+    .setInputs(t.content, t.modified_at)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
 

@@ -12,7 +12,11 @@
 
 package da
 
-import "github.com/mgenware/mingru-go-lib"
+import (
+	"time"
+
+	"github.com/mgenware/mingru-go-lib"
+)
 
 // TableTypeCmt ...
 type TableTypeCmt struct {
@@ -24,8 +28,8 @@ var Cmt = &TableTypeCmt{}
 // ------------ Actions ------------
 
 // EditCmt ...
-func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
+func (da *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
