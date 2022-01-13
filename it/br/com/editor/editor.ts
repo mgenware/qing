@@ -6,16 +6,9 @@
  */
 
 import * as brt from 'brt';
-import { waitForGlobalSpinner } from '../spinners/spinner';
 import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
-import * as defs from 'base/defs';
-
-const closedOverlaySel = 'qing-overlay.immersive';
-const openOverlaySel = `${closedOverlaySel}[open=""]`;
-const editorButtonsGroupSel = '.editor-buttons';
-const editorContentSel = 'editor-view .kx-content';
-const editorTitleSel = 'input[placeholder="Title"]';
+import * as cm from './common';
 
 export type EditorPart = 'content' | 'title';
 
@@ -26,13 +19,13 @@ export async function updateEditorContent(
 ) {
   switch (part) {
     case 'content': {
-      const contentEl = composerEl.$(editorContentSel);
+      const contentEl = composerEl.$(cm.editorContentSel);
       await contentEl.fill(content);
       break;
     }
 
     case 'title': {
-      const inputEl = composerEl.$(editorTitleSel);
+      const inputEl = composerEl.$(cm.editorTitleSel);
       await inputEl.fill(content);
       break;
     }
@@ -41,23 +34,23 @@ export async function updateEditorContent(
   }
 }
 
-function getComposerEl(overlay: brt.Element) {
+export function getComposerEl(overlay: brt.Element) {
   return overlay.$('#composer');
 }
 
 async function clickBtn(composerEl: brt.Element, btnText: string) {
-  const btnEl = composerEl.$(`${editorButtonsGroupSel} qing-button:has-text("${btnText}")`);
+  const btnEl = composerEl.$(`${cm.editorButtonsGroupSel} qing-button:has-text("${btnText}")`);
   await btnEl.click();
 }
 
 async function waitForOverlayVisible(page: brt.Page) {
-  const overlayEl = await page.$(openOverlaySel).waitForAttached();
+  const overlayEl = await page.$(cm.openOverlaySel).waitForAttached();
   const composerEl = await getComposerEl(overlayEl).shouldBeVisible();
   return { overlayEl, composerEl };
 }
 
 async function waitForOverlayClosed(page: brt.Page) {
-  const overlayEl = page.$(openOverlaySel);
+  const overlayEl = page.$(cm.openOverlaySel);
   await overlayEl.shouldNotExist();
 }
 
@@ -77,38 +70,20 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
 
   // Title value.
   if (args.title) {
-    const titleInputEl = await composerEl.$(editorTitleSel).shouldBeVisible();
+    const titleInputEl = await composerEl.$(cm.editorTitleSel).shouldBeVisible();
     await titleInputEl.shouldHaveAttr('value', args.title);
   } else {
-    await composerEl.$(editorTitleSel).shouldNotExist();
+    await composerEl.$(cm.editorTitleSel).shouldNotExist();
   }
 
-  const contentInputEl = await composerEl.$(editorContentSel).shouldBeVisible();
+  const contentInputEl = await composerEl.$(cm.editorContentSel).shouldBeVisible();
   await contentInputEl.shouldHaveHTMLContent(args.contentHTML || '<p><br></p>');
 
   // Check bottom buttons.
-  const btnGroupEl = await composerEl.$(editorButtonsGroupSel).shouldBeVisible();
+  const btnGroupEl = await composerEl.$(cm.editorButtonsGroupSel).shouldBeVisible();
   const btnsEl = await btnGroupEl.$$('qing-button').shouldHaveCount(args.buttons.length);
 
   await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
-}
-
-export interface PerformUpdateEditorArgs {
-  part: EditorPart;
-  content?: string;
-}
-
-export async function performUpdateEditor(page: brt.Page, e: PerformUpdateEditorArgs) {
-  const overlayEl = await page.$(openOverlaySel).waitForAttached();
-  const composerEl = getComposerEl(overlayEl);
-
-  // Update editor content.
-  await updateEditorContent(e.part, e.content ?? defs.sd.updated, composerEl);
-
-  // Update button is always the first button.
-  const btnEl = composerEl.$('qing-button');
-  await btnEl.click();
-  await waitForGlobalSpinner(page);
 }
 
 export async function editorShouldBeDismissed(page: brt.Page, cancelBtn: string) {

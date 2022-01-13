@@ -16,13 +16,17 @@ export interface PerformWriteCommentArgs {
   content: string;
 }
 
-export async function performWriteComment(p: brt.Page, e: PerformWriteCommentArgs, test: boolean) {
+export async function performWriteComment(
+  p: brt.Page,
+  e: PerformWriteCommentArgs,
+  checkVisuals: boolean,
+) {
   const writeCmtBtn = await buttonShouldAppear(e.cmtApp.$('qing-button'), {
     text: 'Write a comment',
     style: 'success',
   });
   await writeCmtBtn.click();
-  if (test) {
+  if (checkVisuals) {
     await editorShouldAppear(p, {
       name: 'Write a comment',
       title: null,
@@ -42,9 +46,13 @@ export interface PerformEditCommentArgs {
   contentHTMLTest?: string;
 }
 
-export async function performEditComment(p: brt.Page, e: PerformEditCommentArgs, test: boolean) {
+export async function performEditComment(
+  p: brt.Page,
+  e: PerformEditCommentArgs,
+  checkVisuals: boolean,
+) {
   await getEditBarEditButton(e.cmt, e.author.id).click();
-  if (test) {
+  if (checkVisuals) {
     await editorShouldAppear(p, {
       name: 'Edit comment',
       title: null,
