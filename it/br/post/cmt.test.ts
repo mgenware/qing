@@ -23,7 +23,7 @@ class PostCmtFixture extends CmtFixture {
   }
 
   override async getCmtApp(page: brt.Page): Promise<brt.Element> {
-    return page.$(cmtAppSelector);
+    return Promise.resolve(page.$(cmtAppSelector));
   }
 }
 

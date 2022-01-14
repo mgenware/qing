@@ -112,7 +112,7 @@ async function callCore(url: string, params?: CallParams): Promise<Response> {
 // Initiates an API call with the given params.
 export async function call(url: string, params?: CallParams): Promise<APIResult> {
   const response = await callCore(url, params);
-  const apiRes = (await response.json()) as APIResult;
+  const apiRes = (await response.json()) as APIResult | null;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!apiRes) {
     throw new Error(`Unexpected null result from URL ${url}`);

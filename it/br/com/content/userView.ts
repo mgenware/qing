@@ -39,11 +39,11 @@ export async function userViewShouldAppear(el: brt.Element, arg: UserViewShouldA
 }
 
 export async function navbarUserViewShouldNotAppear(page: brt.Page) {
-  return await page.$(navbarUserButtonSel).shouldNotExist();
+  return page.$(navbarUserButtonSel).shouldNotExist();
 }
 
 export async function navbarUserViewShouldAppear(page: brt.Page, u: User) {
   const navbar = page.$(navbarUserButtonSel);
   await navbarUserIconShouldAppear(navbar, { user: u });
-  await navbar.$('> span:has-text("${u.name}"');
+  await navbar.$(`> span:has-text("${u.name}"`).shouldExist();
 }

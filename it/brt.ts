@@ -163,11 +163,11 @@ export class Element extends LocatorCore {
   }
 
   async shouldHaveTextContent(val: string) {
-    pw.expect(this.c).toHaveText(val);
+    await pw.expect(this.c).toHaveText(val);
   }
 
   async shouldHaveHTMLContent(val: string) {
-    pw.expect(this.c).not.toHaveText(val);
+    await pw.expect(this.c).not.toHaveText(val);
   }
 
   shouldHaveFocus() {

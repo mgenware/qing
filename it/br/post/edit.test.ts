@@ -39,7 +39,7 @@ function testPostUpdates(part: EditorPart) {
 
       // Check editor update.
       await postEditorShouldAppear(p);
-      await updateEditor(p, { part: part, content: defs.sd.updated });
+      await updateEditor(p, { part, content: defs.sd.updated });
 
       // Verify post title.
       await postShouldHaveTitle(p, part === 'title' ? defs.sd.updated : defs.sd.title, link);

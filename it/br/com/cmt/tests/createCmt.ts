@@ -52,12 +52,14 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
     {
       {
         // User 1.
-        let cmtApp = await w.getCmtApp(page);
+        const cmtApp = await w.getCmtApp(page);
         const total = 3;
         for (let i = 0; i < total; i++) {
+          // eslint-disable-next-line no-await-in-loop
           await writeCmt(page, { cmtApp, content: `${i + 1}` }, true);
         }
         for (let i = 0; i < total; i++) {
+          // eslint-disable-next-line no-await-in-loop
           await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, i), {
             author: usr.user,
             content: `${i + 1}`,
@@ -65,7 +67,7 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
             canEdit: true,
           });
         }
-        await cm.shouldHaveComments(cmtApp, 3);
+        await cm.shouldHaveComments(cmtApp, total);
       }
       {
         // Visitor.

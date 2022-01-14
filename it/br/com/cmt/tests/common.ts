@@ -62,9 +62,7 @@ export class CmtFixtureWrapper {
   test(name: string, initialViewer: User | null, cb: (arg: { page: brt.Page }) => Promise<void>) {
     return test(`${this.groupName} - ${name}`, async ({ page }) => {
       const p = $(page);
-      await this.fixture.start({ page: p, user: initialViewer }, () => {
-        return cb({ page: p });
-      });
+      await this.fixture.start({ page: p, user: initialViewer }, () => cb({ page: p }));
     });
   }
 
