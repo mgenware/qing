@@ -8,13 +8,13 @@
 import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
-import { performUpdateEditor } from 'br/com/editor/editor';
+import { performUpdateEditor } from 'br/com/editor/performers';
 import * as defs from 'base/defs';
 import * as cm from './common';
 import { performWriteComment } from './performers';
 
 function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test('Edit a cmt' + (fresh ? ' (fresh)' : ''), usr.user, async ({ page }) => {
+  w.test('Edit a cmt' + (fresh ? ' - Fresh' : ''), usr.user, async ({ page }) => {
     {
       {
         let cmtApp = await w.getCmtApp(page);
@@ -31,6 +31,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
           content: defs.sd.updated,
+          highlighted: fresh,
           canEdit: true,
           hasEdited: true,
         });
@@ -44,6 +45,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
           content: defs.sd.updated,
+          hasEdited: true,
         });
         await cm.shouldHaveComments(cmtApp, 1);
       }

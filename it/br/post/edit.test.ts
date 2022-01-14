@@ -11,12 +11,8 @@ import * as brt from 'brt';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
-import {
-  editorShouldBeDismissed,
-  performUpdateEditor,
-  EditorPart,
-  editorShouldAppear,
-} from 'br/com/editor/editor';
+import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editor/editor';
+import { performUpdateEditor } from 'br/com/editor/performers';
 
 async function clickEditButton(page: brt.Page) {
   const u = usr.user;

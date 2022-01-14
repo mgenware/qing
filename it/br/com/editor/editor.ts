@@ -101,14 +101,13 @@ export async function editorShouldDiscardChanges(
   await updateEditorContent(part, '_CHANGES_DISCARDED_', composerEl);
   await clickBtn(composerEl, cancelBtn);
 
-  const alertBtns = await alertShouldAppear(
-    page,
-    'Do you want to discard your changes?',
-    "You haven't saved your changes.",
-    AlertType.warning,
-    AlertButtons.YesNo,
-    1,
-  );
+  const alertBtns = await alertShouldAppear(page, {
+    title: 'Do you want to discard your changes?',
+    content: "You haven't saved your changes.",
+    type: AlertType.warning,
+    buttons: AlertButtons.YesNo,
+    focusedBtn: 1,
+  });
 
   // Click the No button.
   await alertBtns.item(1).click();

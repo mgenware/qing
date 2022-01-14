@@ -63,14 +63,17 @@ export function waitForAlertDetached(page: brt.Page) {
   return getDialogEl(page).waitForDetached();
 }
 
+export interface AlertShouldAppearArgs {
+  title?: string;
+  content: string;
+  type: AlertType;
+  buttons: AlertButtons;
+  focusedBtn?: number;
+}
+
 export async function alertShouldAppear(
   page: brt.Page,
-  title: string,
-  content: string,
-  type: AlertType,
-  buttons: AlertButtons,
-  // TODO: Re-enable focus check.
-  _focused: number,
+  arg: AlertShouldAppearArgs,
 ): Promise<brt.ElementCollection> {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
@@ -78,18 +81,18 @@ export async function alertShouldAppear(
 
   // Title.
   // eslint-disable-next-line no-param-reassign
-  title ??= typeToTitle(type);
+  const title = arg.title ?? typeToTitle(arg.type);
   await el.$(`h2:has-text("${title}")`).shouldBeVisible();
 
   // Icon.
-  await el.$(`svg-icon[iconstyle='${typeToString(type)}']`).shouldBeVisible();
+  await el.$(`svg-icon[iconstyle='${typeToString(arg.type)}']`).shouldBeVisible();
 
   // Content.
-  await el.$(`p:has-text("${content}")`).shouldBeVisible();
+  await el.$(`p:has-text("${arg.content}")`).shouldBeVisible();
 
   // Buttons.
   const btns = el.$$('#__buttons qing-button');
-  const btnNames = alertButtonsToArray(buttons);
+  const btnNames = alertButtonsToArray(arg.buttons);
   await btns.shouldHaveCount(btnNames.length);
   await Promise.all(btnNames.map((b, i) => brt.expect(btns.item(i).shouldHaveTextContent(b))));
 

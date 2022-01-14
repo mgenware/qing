@@ -22,14 +22,11 @@ test('Post page (visitor)', async ({ page }) => {
 
     // Click the like button.
     await likeAppEl.click();
-    const btns = await alertShouldAppear(
-      p,
-      '',
-      'Sign in to like this post.',
-      AlertType.warning,
-      AlertButtons.OK,
-      0,
-    );
+    const btns = await alertShouldAppear(p, {
+      content: 'Sign in to like this post.',
+      type: AlertType.warning,
+      buttons: AlertButtons.OK,
+    });
     const okBtn = btns.item(0);
     await okBtn.click();
     await waitForAlertDetached(p);

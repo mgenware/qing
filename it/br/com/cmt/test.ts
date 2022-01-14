@@ -12,10 +12,12 @@ import { CmtFixtureWrapper } from './tests/common';
 import testNoCmts from './tests/noCmt';
 import testCreateCmt from './tests/createCmt';
 import testEditCmt from './tests/editCmt';
+import testDeleteCmt from './tests/deleteCmt';
 
 export default function testCmt(groupName: string, fixture: CmtFixture) {
   const w = new CmtFixtureWrapper(groupName, fixture);
   testNoCmts(w);
   testCreateCmt(w);
   testEditCmt(w);
+  testDeleteCmt(w);
 }

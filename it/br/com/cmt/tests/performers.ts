@@ -7,7 +7,8 @@
 
 import * as brt from 'brt';
 import { User } from 'br';
-import { editorShouldAppear, performUpdateEditor } from 'br/com/editor/editor';
+import { editorShouldAppear } from 'br/com/editor/editor';
+import { performUpdateEditor } from 'br/com/editor/performers';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
 
