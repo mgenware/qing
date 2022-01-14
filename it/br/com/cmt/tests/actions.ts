@@ -8,20 +8,18 @@
 import * as brt from 'brt';
 import { User } from 'br';
 import { editorShouldAppear } from 'br/com/editor/editor';
-import { performUpdateEditor } from 'br/com/editor/performers';
+import { updateEditor } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
 
-export interface PerformWriteCommentArgs {
+const loadMoreCmtText = 'Load more comments';
+
+export interface WriteCmtArgs {
   cmtApp: brt.Element;
   content: string;
 }
 
-export async function performWriteComment(
-  p: brt.Page,
-  e: PerformWriteCommentArgs,
-  checkVisuals: boolean,
-) {
+export async function writeCmt(p: brt.Page, e: WriteCmtArgs, checkVisuals: boolean) {
   const writeCmtBtn = await buttonShouldAppear(e.cmtApp.$('qing-button'), {
     text: 'Write a comment',
     style: 'success',
@@ -36,23 +34,19 @@ export async function performWriteComment(
     });
   }
 
-  await performUpdateEditor(p, { part: 'content', content: e.content });
+  await updateEditor(p, { part: 'content', content: e.content });
 }
 
-export interface PerformEditCommentArgs {
-  cmt: brt.Element;
+export interface EditCmtArgs {
+  cmtApp: brt.Element;
   author: User;
   content: string;
   // Properties needed when `test` is true.
   contentHTMLTest?: string;
 }
 
-export async function performEditComment(
-  p: brt.Page,
-  e: PerformEditCommentArgs,
-  checkVisuals: boolean,
-) {
-  await getEditBarEditButton(e.cmt, e.author.id).click();
+export async function editCmt(p: brt.Page, e: EditCmtArgs, checkVisuals: boolean) {
+  await getEditBarEditButton(e.cmtApp, e.author.id).click();
   if (checkVisuals) {
     await editorShouldAppear(p, {
       name: 'Edit comment',
@@ -62,5 +56,13 @@ export async function performEditComment(
     });
   }
 
-  await performUpdateEditor(p, { part: 'content', content: e.content });
+  await updateEditor(p, { part: 'content', content: e.content });
+}
+
+export function clickMoreCmt(cmtApp: brt.Element) {
+  return cmtApp.$linkButton(loadMoreCmtText).click();
+}
+
+export function noMoreCmts(cmtApp: brt.Element) {
+  return cmtApp.$linkButton(loadMoreCmtText).shouldNotExist();
 }

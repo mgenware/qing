@@ -9,7 +9,7 @@ import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import * as defs from 'base/defs';
 import * as cm from './common';
-import { performWriteComment } from './performers';
+import { writeCmt, clickMoreCmt } from './actions';
 
 function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test('Create a cmt' + (fresh ? ' (fresh)' : ''), usr.user, async ({ page }) => {
@@ -17,7 +17,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
       {
         // User 1.
         let cmtApp = await w.getCmtApp(page);
-        await performWriteComment(page, { cmtApp, content: defs.sd.content }, true);
+        await writeCmt(page, { cmtApp, content: defs.sd.content }, true);
 
         if (!fresh) {
           await page.reload();
@@ -47,7 +47,53 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   });
 }
 
+function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
+  w.test('Create cmts, pagination', usr.user, async ({ page }) => {
+    {
+      {
+        // User 1.
+        let cmtApp = await w.getCmtApp(page);
+        const total = 3;
+        for (let i = 0; i < total; i++) {
+          await writeCmt(page, { cmtApp, content: `${i + 1}` }, true);
+        }
+        for (let i = 0; i < total; i++) {
+          await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, i), {
+            author: usr.user,
+            content: `${i + 1}`,
+            highlighted: true,
+            canEdit: true,
+          });
+        }
+        await cm.shouldHaveComments(cmtApp, 3);
+      }
+      {
+        // Visitor.
+        await page.reload(null);
+        const cmtApp = await w.getCmtApp(page);
+
+        await cm.shouldHaveComments(cmtApp, 3);
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+          author: usr.user,
+          content: '3',
+        });
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 1), {
+          author: usr.user,
+          content: '2',
+        });
+        await clickMoreCmt(cmtApp);
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 2), {
+          author: usr.user,
+          content: '1',
+        });
+      }
+    }
+  });
+}
+
 export default function testCreateCmt(w: CmtFixtureWrapper) {
   testCreateCmtCore(w, true);
   testCreateCmtCore(w, false);
+  testCreateCmtsAndPagination(w);
 }

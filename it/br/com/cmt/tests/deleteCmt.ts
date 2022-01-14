@@ -11,14 +11,14 @@ import { getEditBarDeleteButton } from 'br/com/editor/editBar';
 import { alertShouldAppear, AlertType, AlertButtons } from 'br/com/alerts/alert';
 import * as defs from 'base/defs';
 import * as cm from './common';
-import { performWriteComment } from './performers';
+import { writeCmt } from './actions';
 
 function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test('Delete a cmt' + (fresh ? ' (fresh)' : ''), usr.user, async ({ page }) => {
     {
       {
         let cmtApp = await w.getCmtApp(page);
-        await performWriteComment(page, { cmtApp, content: defs.sd.content }, true);
+        await writeCmt(page, { cmtApp, content: defs.sd.content }, true);
 
         if (!fresh) {
           await page.reload();

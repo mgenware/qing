@@ -4,12 +4,12 @@ import * as cm from './common';
 import * as defs from 'base/defs';
 import * as brt from 'brt';
 
-export interface PerformUpdateEditorArgs {
+export interface UpdateEditorArgs {
   part: EditorPart;
   content?: string;
 }
 
-export async function performUpdateEditor(page: brt.Page, e: PerformUpdateEditorArgs) {
+export async function updateEditor(page: brt.Page, e: UpdateEditorArgs) {
   const overlayEl = await page.$(cm.openOverlaySel).waitForAttached();
   const composerEl = getComposerEl(overlayEl);
 
