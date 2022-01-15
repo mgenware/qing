@@ -17,7 +17,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
       {
         // User 1.
         let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: defs.sd.content }, true);
+        await writeCmt(page, { cmtApp, content: defs.sd.content, checkVisuals: true });
 
         if (!fresh) {
           await page.reload();
@@ -56,7 +56,7 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
         const total = 3;
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await writeCmt(page, { cmtApp, content: `${i + 1}` }, true);
+          await writeCmt(page, { cmtApp, content: `${i + 1}` });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop

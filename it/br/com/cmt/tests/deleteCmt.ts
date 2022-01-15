@@ -18,7 +18,7 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
     {
       {
         let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: defs.sd.content }, true);
+        await writeCmt(page, { cmtApp, content: defs.sd.content });
 
         if (!fresh) {
           await page.reload();

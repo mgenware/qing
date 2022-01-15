@@ -17,15 +17,16 @@ const loadMoreCmtText = 'Load more comments';
 export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
+  checkVisuals?: boolean;
 }
 
-export async function writeCmt(p: br.Page, e: WriteCmtArgs, checkVisuals: boolean) {
-  const writeCmtBtn = await buttonShouldAppear(e.cmtApp.$('qing-button'), {
+export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
+  const writeCmtBtn = await buttonShouldAppear(a.cmtApp.$('qing-button'), {
     text: 'Write a comment',
     style: 'success',
   });
   await writeCmtBtn.click();
-  if (checkVisuals) {
+  if (a.checkVisuals) {
     await editorShouldAppear(p, {
       name: 'Write a comment',
       title: null,
@@ -34,7 +35,7 @@ export async function writeCmt(p: br.Page, e: WriteCmtArgs, checkVisuals: boolea
     });
   }
 
-  await updateEditorNTC(p, { part: 'content', content: e.content });
+  await updateEditorNTC(p, { part: 'content', content: a.content });
 }
 
 export interface EditCmtArgs {
@@ -42,16 +43,15 @@ export interface EditCmtArgs {
   author: User;
   content?: string;
   visuals?: {
-    page: br.Page;
     contentHTML: string;
   };
 }
 
-export async function editCmt(cmtApp: br.Element, a: EditCmtArgs) {
-  await getEditBarEditButton(cmtApp, a.author.id).click();
+export async function editCmt(page: br.Page, a: EditCmtArgs) {
+  await getEditBarEditButton(a.cmtApp, a.author.id).click();
   const v = a.visuals;
   if (v) {
-    await editorShouldAppear(v.page, {
+    await editorShouldAppear(page, {
       name: 'Edit comment',
       title: null,
       contentHTML: v.contentHTML,
@@ -59,7 +59,7 @@ export async function editCmt(cmtApp: br.Element, a: EditCmtArgs) {
     });
   }
 
-  await updateEditorTC(v?.page, { part: 'content', content: a.content });
+  await updateEditorTC(page, { part: 'content', content: a.content });
 }
 
 export function clickMoreCmt(cmtApp: br.Element) {
