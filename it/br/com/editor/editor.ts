@@ -12,20 +12,16 @@ import * as cm from './common';
 
 export type EditorPart = 'content' | 'title';
 
-export async function updateEditorContent(
-  part: EditorPart,
-  content: string,
-  composerEl: brt.Element,
-) {
+export async function updateEditorContent(el: brt.Element, part: EditorPart, content: string) {
   switch (part) {
     case 'content': {
-      const contentEl = composerEl.$(cm.editorContentSel);
+      const contentEl = el.$(cm.editorContentSel);
       await contentEl.fill(content);
       break;
     }
 
     case 'title': {
-      const inputEl = composerEl.$(cm.editorTitleSel);
+      const inputEl = el.$(cm.editorTitleSel);
       await inputEl.fill(content);
       break;
     }
@@ -98,7 +94,7 @@ export async function editorShouldDiscardChanges(
   cancelBtn: string,
 ) {
   const { composerEl } = await waitForOverlayVisible(page);
-  await updateEditorContent(part, '_CHANGES_DISCARDED_', composerEl);
+  await updateEditorContent(composerEl, part, '_CHANGES_DISCARDED_');
   await clickBtn(composerEl, cancelBtn);
 
   const alertBtns = await alertShouldAppear(page, {

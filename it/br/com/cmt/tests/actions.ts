@@ -8,7 +8,7 @@
 import * as brt from 'brt';
 import { User } from 'br';
 import { editorShouldAppear } from 'br/com/editor/editor';
-import { updateEditor } from 'br/com/editor/actions';
+import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
 
@@ -34,29 +34,32 @@ export async function writeCmt(p: brt.Page, e: WriteCmtArgs, checkVisuals: boole
     });
   }
 
-  await updateEditor(p, { part: 'content', content: e.content });
+  await updateEditorNTC(p, { part: 'content', content: e.content });
 }
 
 export interface EditCmtArgs {
   cmtApp: brt.Element;
   author: User;
-  content: string;
-  // Properties needed when `test` is true.
-  contentHTMLTest?: string;
+  content?: string;
+  visuals?: {
+    page: brt.Page;
+    contentHTML: string;
+  };
 }
 
-export async function editCmt(p: brt.Page, e: EditCmtArgs, checkVisuals: boolean) {
-  await getEditBarEditButton(e.cmtApp, e.author.id).click();
-  if (checkVisuals) {
-    await editorShouldAppear(p, {
+export async function editCmt(cmtApp: brt.Element, a: EditCmtArgs) {
+  await getEditBarEditButton(cmtApp, a.author.id).click();
+  const v = a.visuals;
+  if (v) {
+    await editorShouldAppear(v.page, {
       name: 'Edit comment',
       title: null,
-      contentHTML: e.contentHTMLTest ?? '',
+      contentHTML: v.contentHTML,
       buttons: [{ text: 'Edit', style: 'success' }, { text: 'Cancel' }],
     });
   }
 
-  await updateEditor(p, { part: 'content', content: e.content });
+  await updateEditorTC(v?.page, { part: 'content', content: a.content });
 }
 
 export function clickMoreCmt(cmtApp: brt.Element) {

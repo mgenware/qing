@@ -7,14 +7,14 @@
 
 import * as brt from 'brt';
 
-function validateData(s: string, edited: boolean) {
+function checkTimeString(s: string, edited: boolean) {
   brt.expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
-  const hasEdited = s.includes('[');
+  const hasEdited = s.includes('[Edited');
   brt.expect(hasEdited).toBe(edited);
 }
 
 export async function timeFieldShouldAppear(el: brt.Element, edited: boolean) {
   await el.shouldBeVisible();
   const tsString = await el.c.textContent();
-  validateData(tsString || '', edited);
+  checkTimeString(tsString || '', edited);
 }

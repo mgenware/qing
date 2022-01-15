@@ -62,7 +62,7 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
           // eslint-disable-next-line no-await-in-loop
           await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, i), {
             author: usr.user,
-            content: `${i + 1}`,
+            content: `${3 - i}`,
             highlighted: true,
             canEdit: true,
           });
