@@ -35,7 +35,7 @@ export async function userViewShouldAppear(el: br.Element, arg: UserViewShouldAp
   // Name link.
   await el.$(`a[href="/u/${u.id}"]:has-text("${u.name}")`).shouldBeVisible();
   // Time field.
-  await timeFieldShouldAppear(el.$('time-field small'), !!arg.hasEdited);
+  await timeFieldShouldAppear(el.$('time-field'), !!arg.hasEdited);
 }
 
 export async function navbarUserViewShouldNotAppear(page: br.Page) {

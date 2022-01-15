@@ -55,7 +55,7 @@ export async function editCmt(page: br.Page, a: EditCmtArgs) {
       name: 'Edit comment',
       title: null,
       contentHTML: v.contentHTML,
-      buttons: [{ text: 'Edit', style: 'success' }, { text: 'Cancel' }],
+      buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
     });
   }
 

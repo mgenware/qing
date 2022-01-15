@@ -9,12 +9,15 @@ import * as br from 'br';
 
 function checkTimeString(s: string, edited: boolean) {
   br.expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
-  const hasEdited = s.includes('[Edited');
+  const hasEdited = s.includes('Edited');
   br.expect(hasEdited).toBe(edited);
 }
 
 export async function timeFieldShouldAppear(el: br.Element, edited: boolean) {
   await el.shouldBeVisible();
-  const tsString = await el.c.textContent();
+  if (edited) {
+    await el.$hasText('small', 'Edited').waitForVisible();
+  }
+  const tsString = await el.$('small').textContent();
   checkTimeString(tsString || '', edited);
 }

@@ -26,6 +26,6 @@ export async function updateEditorNTC(page: br.Page, a: UpdateEditorArgs) {
 
 // Updates editor with DB time change.
 export async function updateEditorTC(page: br.Page, a: UpdateEditorArgs) {
-  await updateEditorNTC(page, a);
   await waitForMinTimeChange();
+  await updateEditorNTC(page, a);
 }
