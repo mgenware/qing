@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 
-export async function waitForGlobalSpinner(page: brt.Page) {
+export async function waitForGlobalSpinner(page: br.Page) {
   await page.c.waitForSelector('__global_spinner_container spinner-view', { state: 'hidden' });
 }

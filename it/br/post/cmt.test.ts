@@ -7,7 +7,7 @@
 
 import { scPost } from 'helper/post';
 import { usr } from 'br';
-import * as brt from 'brt';
+import * as br from 'br';
 import testCmt from 'br/com/cmt/test';
 import { CmtFixture, FixtureStartArg } from 'br/com/cmt/fixture';
 import { cmtAppSelector } from './common';
@@ -22,7 +22,7 @@ class PostCmtFixture extends CmtFixture {
     });
   }
 
-  override async getCmtApp(page: brt.Page): Promise<brt.Element> {
+  override async getCmtApp(page: br.Page): Promise<br.Element> {
     return Promise.resolve(page.$(cmtAppSelector));
   }
 }

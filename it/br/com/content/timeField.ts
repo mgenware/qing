@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 
 function checkTimeString(s: string, edited: boolean) {
-  brt.expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
+  br.expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
   const hasEdited = s.includes('[Edited');
-  brt.expect(hasEdited).toBe(edited);
+  br.expect(hasEdited).toBe(edited);
 }
 
-export async function timeFieldShouldAppear(el: brt.Element, edited: boolean) {
+export async function timeFieldShouldAppear(el: br.Element, edited: boolean) {
   await el.shouldBeVisible();
   const tsString = await el.c.textContent();
   checkTimeString(tsString || '', edited);

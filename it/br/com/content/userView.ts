@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 import { User } from 'br';
 import { timeFieldShouldAppear } from './timeField';
 
@@ -16,20 +16,20 @@ export interface UserViewShouldAppearArg {
   hasEdited?: boolean;
 }
 
-async function userIconShouldAppear(el: brt.Element, u: User) {
+async function userIconShouldAppear(el: br.Element, u: User) {
   const img = await el
     .$(`a[href="/u/${u.id}"] img[src="${u.iconURL}"][width="50"][height="50"]`)
     .shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }
 
-async function navbarUserIconShouldAppear(el: brt.Element, arg: UserViewShouldAppearArg) {
+async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
   const img = await el.$(`img[src="${u.iconURL}"][width="20"][height="20"]`).shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }
 
-export async function userViewShouldAppear(el: brt.Element, arg: UserViewShouldAppearArg) {
+export async function userViewShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
   await userIconShouldAppear(el, u);
   // Name link.
@@ -38,11 +38,11 @@ export async function userViewShouldAppear(el: brt.Element, arg: UserViewShouldA
   await timeFieldShouldAppear(el.$('time-field small'), !!arg.hasEdited);
 }
 
-export async function navbarUserViewShouldNotAppear(page: brt.Page) {
+export async function navbarUserViewShouldNotAppear(page: br.Page) {
   return page.$(navbarUserButtonSel).shouldNotExist();
 }
 
-export async function navbarUserViewShouldAppear(page: brt.Page, u: User) {
+export async function navbarUserViewShouldAppear(page: br.Page, u: User) {
   const navbar = page.$(navbarUserButtonSel);
   await navbarUserIconShouldAppear(navbar, { user: u });
   await navbar.$hasText('span', u.name).shouldExist();

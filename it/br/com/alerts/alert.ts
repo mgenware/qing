@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 
 export enum AlertType {
   error,
@@ -55,11 +55,11 @@ function typeToString(type: AlertType): string {
   }
 }
 
-function getDialogEl(page: brt.Page) {
+function getDialogEl(page: br.Page) {
   return page.$('#__global_dialog_container dialog-view');
 }
 
-export function waitForAlertDetached(page: brt.Page) {
+export function waitForAlertDetached(page: br.Page) {
   return getDialogEl(page).waitForDetached();
 }
 
@@ -72,9 +72,9 @@ export interface AlertShouldAppearArgs {
 }
 
 export async function alertShouldAppear(
-  page: brt.Page,
+  page: br.Page,
   arg: AlertShouldAppearArgs,
-): Promise<brt.ElementCollection> {
+): Promise<br.ElementCollection> {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
   await el.shouldHaveAttr('open', '');
@@ -94,7 +94,7 @@ export async function alertShouldAppear(
   const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(arg.buttons);
   await btns.shouldHaveCount(btnNames.length);
-  await Promise.all(btnNames.map((b, i) => brt.expect(btns.item(i).shouldHaveTextContent(b))));
+  await Promise.all(btnNames.map((b, i) => br.expect(btns.item(i).shouldHaveTextContent(b))));
 
   // TODO: Re-enable focus check.
   // await buttonShouldHaveFocus(btns.item(focused));

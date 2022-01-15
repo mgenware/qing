@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 import { User } from 'br';
 import { editorShouldAppear } from 'br/com/editor/editor';
 import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
@@ -15,11 +15,11 @@ import { buttonShouldAppear } from 'br/com/buttons/button';
 const loadMoreCmtText = 'Load more comments';
 
 export interface WriteCmtArgs {
-  cmtApp: brt.Element;
+  cmtApp: br.Element;
   content: string;
 }
 
-export async function writeCmt(p: brt.Page, e: WriteCmtArgs, checkVisuals: boolean) {
+export async function writeCmt(p: br.Page, e: WriteCmtArgs, checkVisuals: boolean) {
   const writeCmtBtn = await buttonShouldAppear(e.cmtApp.$('qing-button'), {
     text: 'Write a comment',
     style: 'success',
@@ -38,16 +38,16 @@ export async function writeCmt(p: brt.Page, e: WriteCmtArgs, checkVisuals: boole
 }
 
 export interface EditCmtArgs {
-  cmtApp: brt.Element;
+  cmtApp: br.Element;
   author: User;
   content?: string;
   visuals?: {
-    page: brt.Page;
+    page: br.Page;
     contentHTML: string;
   };
 }
 
-export async function editCmt(cmtApp: brt.Element, a: EditCmtArgs) {
+export async function editCmt(cmtApp: br.Element, a: EditCmtArgs) {
   await getEditBarEditButton(cmtApp, a.author.id).click();
   const v = a.visuals;
   if (v) {
@@ -62,10 +62,10 @@ export async function editCmt(cmtApp: brt.Element, a: EditCmtArgs) {
   await updateEditorTC(v?.page, { part: 'content', content: a.content });
 }
 
-export function clickMoreCmt(cmtApp: brt.Element) {
+export function clickMoreCmt(cmtApp: br.Element) {
   return cmtApp.$linkButton(loadMoreCmtText).click();
 }
 
-export function noMoreCmts(cmtApp: brt.Element) {
+export function noMoreCmts(cmtApp: br.Element) {
   return cmtApp.$linkButton(loadMoreCmtText).shouldNotExist();
 }

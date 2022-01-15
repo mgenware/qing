@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 
 export interface ButtonTraits {
   text: string;
@@ -13,12 +13,12 @@ export interface ButtonTraits {
   style?: string;
 }
 
-export async function buttonShouldHaveFocus(el: brt.Element) {
+export async function buttonShouldHaveFocus(el: br.Element) {
   await el.$('button').shouldHaveFocus();
   return el;
 }
 
-export async function buttonShouldAppear(el: brt.Element, traits: ButtonTraits) {
+export async function buttonShouldAppear(el: br.Element, traits: ButtonTraits) {
   await el.shouldHaveTextContent(traits.text);
   if (traits.focused) {
     await buttonShouldHaveFocus(el);

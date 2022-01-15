@@ -2,7 +2,7 @@ import { EditorPart, getComposerEl, updateEditorContent } from './editor';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import * as cm from './common';
 import * as defs from 'base/defs';
-import * as brt from 'brt';
+import * as br from 'br';
 import { waitForMinTimeChange } from 'base/delay';
 
 export interface UpdateEditorArgs {
@@ -11,7 +11,7 @@ export interface UpdateEditorArgs {
 }
 
 // Updates editor without DB time change.
-export async function updateEditorNTC(page: brt.Page, a: UpdateEditorArgs) {
+export async function updateEditorNTC(page: br.Page, a: UpdateEditorArgs) {
   const overlayEl = await page.$(cm.openOverlaySel).waitForAttached();
   const composerEl = getComposerEl(overlayEl);
 
@@ -25,7 +25,7 @@ export async function updateEditorNTC(page: brt.Page, a: UpdateEditorArgs) {
 }
 
 // Updates editor with DB time change.
-export async function updateEditorTC(page: brt.Page, a: UpdateEditorArgs) {
+export async function updateEditorTC(page: br.Page, a: UpdateEditorArgs) {
   await updateEditorNTC(page, a);
   await waitForMinTimeChange();
 }

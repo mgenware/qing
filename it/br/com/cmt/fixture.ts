@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 import { User } from 'br';
 
 export interface FixtureStartArg {
-  page: brt.Page;
+  page: br.Page;
   user: User | null;
 }
 
 export abstract class CmtFixture {
   abstract start(arg: FixtureStartArg, cb: () => void): Promise<void>;
-  abstract getCmtApp(page: brt.Page): Promise<brt.Element>;
+  abstract getCmtApp(page: br.Page): Promise<br.Element>;
 }

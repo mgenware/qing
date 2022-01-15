@@ -7,21 +7,21 @@
 
 import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
-import * as brt from 'brt';
+import * as br from 'br';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import * as defs from 'base/defs';
 import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editor/editor';
 import { updateEditorTC } from 'br/com/editor/actions';
 
-async function clickEditButton(page: brt.Page) {
+async function clickEditButton(page: br.Page) {
   const u = usr.user;
   const userView = page.$(userViewQuery);
   const editBtn = getEditBarEditButton(userView, u.id);
   await editBtn.click();
 }
 
-async function postEditorShouldAppear(page: brt.Page) {
+async function postEditorShouldAppear(page: br.Page) {
   await editorShouldAppear(page, {
     name: 'Edit post',
     title: defs.sd.title,

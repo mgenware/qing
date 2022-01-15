@@ -5,29 +5,29 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 
 const editText = 'Edit';
 const deleteText = 'Delete';
 
 export interface EditBarButtons {
-  editBtn: brt.Element;
-  deleteBtn: brt.Element;
+  editBtn: br.Element;
+  deleteBtn: br.Element;
 }
 
-function getEditBarEl(rootEl: brt.Element, uid: string) {
+function getEditBarEl(rootEl: br.Element, uid: string) {
   return rootEl.$(`edit-bar-app[uid="${uid}"]`);
 }
 
-export function getEditBarEditButton(el: brt.Element, uid: string) {
+export function getEditBarEditButton(el: br.Element, uid: string) {
   return getEditBarEl(el, uid).$linkButton(editText);
 }
 
-export function getEditBarDeleteButton(el: brt.Element, uid: string) {
+export function getEditBarDeleteButton(el: br.Element, uid: string) {
   return getEditBarEl(el, uid).$linkButton(deleteText);
 }
 
-export async function editBarShouldAppear(el: brt.Element, uid: string) {
+export async function editBarShouldAppear(el: br.Element, uid: string) {
   const edit = getEditBarEditButton(el, uid);
   const del = getEditBarDeleteButton(el, uid);
   await edit.shouldBeVisible();

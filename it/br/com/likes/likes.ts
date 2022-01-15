@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 
-export async function likesShouldAppear(el: brt.Element, value: number, liked: boolean) {
+export async function likesShouldAppear(el: br.Element, value: number, liked: boolean) {
   const btnEl = await el.$('like-view qing-button').shouldBeVisible();
 
   // Element value.

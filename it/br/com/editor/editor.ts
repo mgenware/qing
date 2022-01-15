@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import * as brt from 'brt';
+import * as br from 'br';
 import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
 import * as cm from './common';
 
 export type EditorPart = 'content' | 'title';
 
-export async function updateEditorContent(el: brt.Element, part: EditorPart, content: string) {
+export async function updateEditorContent(el: br.Element, part: EditorPart, content: string) {
   switch (part) {
     case 'content': {
       const contentEl = el.$(cm.editorContentSel);
@@ -30,22 +30,22 @@ export async function updateEditorContent(el: brt.Element, part: EditorPart, con
   }
 }
 
-export function getComposerEl(overlay: brt.Element) {
+export function getComposerEl(overlay: br.Element) {
   return overlay.$('#composer');
 }
 
-async function clickBtn(composerEl: brt.Element, btnText: string) {
+async function clickBtn(composerEl: br.Element, btnText: string) {
   const btnEl = composerEl.$(`${cm.editorButtonsGroupSel} qing-button:has-text("${btnText}")`);
   await btnEl.click();
 }
 
-async function waitForOverlayVisible(page: brt.Page) {
+async function waitForOverlayVisible(page: br.Page) {
   const overlayEl = await page.$(cm.openOverlaySel).waitForAttached();
   const composerEl = await getComposerEl(overlayEl).shouldBeVisible();
   return { overlayEl, composerEl };
 }
 
-async function waitForOverlayClosed(page: brt.Page) {
+async function waitForOverlayClosed(page: br.Page) {
   const overlayEl = page.$(cm.openOverlaySel);
   await overlayEl.shouldNotExist();
 }
@@ -58,7 +58,7 @@ export interface EditorShouldAppearArgs {
   buttons: ButtonTraits[];
 }
 
-export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppearArgs) {
+export async function editorShouldAppear(page: br.Page, args: EditorShouldAppearArgs) {
   const { composerEl, overlayEl } = await waitForOverlayVisible(page);
 
   // Dialog name.
@@ -82,14 +82,14 @@ export async function editorShouldAppear(page: brt.Page, args: EditorShouldAppea
   await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
 }
 
-export async function editorShouldBeDismissed(page: brt.Page, cancelBtn: string) {
+export async function editorShouldBeDismissed(page: br.Page, cancelBtn: string) {
   const { composerEl } = await waitForOverlayVisible(page);
   await clickBtn(composerEl, cancelBtn);
   await waitForOverlayClosed(page);
 }
 
 export async function editorShouldDiscardChanges(
-  page: brt.Page,
+  page: br.Page,
   part: EditorPart,
   cancelBtn: string,
 ) {
