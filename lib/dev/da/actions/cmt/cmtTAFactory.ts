@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import { cmt, reply } from '../../models/cmt/cmt.js';
+import cmt from '../../models/cmt/cmt.js';
 import user from '../../models/user/user.js';
 import * as cm from '../../models/common.js';
 import cmtTA from './cmtTA.js';
@@ -18,7 +18,6 @@ import {
   hasLikedProp,
   viewerUserIDInput,
 } from './cmtTAUtils.js';
-import replyTA from './replyTA.js';
 import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 import { defaultUpdateConditions } from '../common.js';
 import { cmtLike } from '../../models/like/likeableTables.js';
@@ -83,6 +82,24 @@ export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
     .setReturnValues(cmtID);
 }
 
+export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
+  return mm
+    .transact(
+      // Insert the reply.
+      cmtTA.insertCore.declareInsertedID(replyID),
+      // cmt.replyCount++.
+      cmtTA.updateReplyCount.wrap({
+        offset: '1',
+        id: mm.valueRef(parentID),
+      }),
+      // host.cmtCount++.
+      updateCmtCountAction(ht, 1),
+    )
+    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
+    .argStubs(cm.sanitizedStub, cm.captStub)
+    .setReturnValues(replyID);
+}
+
 export function deleteCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   const cmtTableJoin = rt.cmt_id.join(cmt);
   const hostIDProp = 'HostID';
@@ -107,24 +124,6 @@ export function deleteCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface);
 }
 
-export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
-  return mm
-    .transact(
-      // Insert the reply.
-      replyTA.insertReplyCore.declareInsertedID(replyID),
-      // cmt.replyCount++.
-      cmtTA.updateReplyCount.wrap({
-        offset: '1',
-        id: mm.valueRef(parentID),
-      }),
-      // host.cmtCount++.
-      updateCmtCountAction(ht, 1),
-    )
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
-    .argStubs(cm.sanitizedStub, cm.captStub)
-    .setReturnValues(replyID);
-}
-
 export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   const parentHostIDProp = 'ParentHostID';
   const parentIDProp = 'ParentID';
@@ -133,14 +132,14 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
       // Get cmt ID and host ID.
       mm
         .selectRow(
-          reply.parent_id,
-          mm.sel(reply.parent_id.join(cmt).id.join(rt).host_id, parentHostIDProp),
+          cmt.parent_id,
+          mm.sel(cmt.parent_id.join(cmt).id.join(rt).host_id, parentHostIDProp),
         )
-        .from(reply)
-        .by(reply.id)
+        .from(cmt)
+        .by(cmt.id)
         .declareReturnValue(mm.ReturnValues.result, cmtIDAndHostID),
       // Delete the reply.
-      replyTA.deleteReplyCore,
+      cmtTA.deleteReplyCore,
       // cmt.replyCount--.
       updateCmtCountAction(ht, -1).wrap({
         hostID: mm.valueRef(`${cmtIDAndHostID}.${parentHostIDProp}`),

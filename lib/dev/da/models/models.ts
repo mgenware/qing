@@ -8,7 +8,7 @@
 import * as mm from 'mingru-models';
 import post from './post/post.js';
 import user from './user/user.js';
-import { cmt, reply } from './cmt/cmt.js';
+import cmt from './cmt/cmt.js';
 import postCmt from './post/postCmt.js';
 import userStats from './user/userStats.js';
 import userPwd from './user/userPwd.js';
@@ -40,7 +40,6 @@ const tables: mm.Table[] = [
   forumGroupMod,
   forumIsUserMod,
   cmt,
-  reply,
   post,
   postCmt,
   discussion,

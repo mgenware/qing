@@ -10,7 +10,6 @@ import userTA from './user/userTA.js';
 import postTA from './post/postTA.js';
 import userStatsTA from './user/userStatsTA.js';
 import cmtTA from './cmt/cmtTA.js';
-import replyTA from './cmt/replyTA.js';
 import userAuthTA from './user/userAuthTA.js';
 import userPwdTA from './user/userPwdTA.js';
 import likeTAs from './like/likeTAs.js';
@@ -31,7 +30,6 @@ const actions: mm.TableActions[] = [
   postTA,
   userStatsTA,
   cmtTA,
-  replyTA,
   userAuthTA,
   userPwdTA,
   discussionTA,
