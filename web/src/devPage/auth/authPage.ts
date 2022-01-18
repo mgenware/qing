@@ -46,7 +46,7 @@ export class AuthDevPage extends BaseElement {
 
   private renderUserSection() {
     return html`
-      <div>
+      <div class="br-user">
         <p>
           <checklist-view
             class="m-t-md"
