@@ -190,6 +190,10 @@ export class Element extends LocatorCore {
   $hasText(sel: string, text: string) {
     return this.$(`${sel}:has-text(${JSON.stringify(text)})`);
   }
+
+  $checkBox(a: { text: string; radio?: boolean }) {
+    return this.$hasText('check-box' + (a.radio ? '[radio]' : ''), a.text);
+  }
 }
 
 export class Page {

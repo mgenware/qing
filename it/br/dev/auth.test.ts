@@ -10,8 +10,11 @@ import { navbarUserViewShouldAppear } from 'br/com/content/userView';
 
 const url = '/__/auth';
 
-async function clickSignInButton(p: Page, s: string) {
+async function clickSignInButton(p: Page, s: string, eid: boolean) {
   const el = p.$('.br-user');
+  if (eid) {
+    await el.$checkBox({ text: 'Encoded', radio: true }).click();
+  }
   await el.$('input-view[label="UID"] input').fill(s);
   await el.$qingButton('Sign in').click();
 }
@@ -19,13 +22,13 @@ async function clickSignInButton(p: Page, s: string) {
 test('__/auth login by ID', async ({ page }) => {
   const p = $(page);
   await p.goto(url, null);
-  await clickSignInButton(p, '103');
+  await clickSignInButton(p, '103', false);
   await navbarUserViewShouldAppear(p, usr.admin2);
 });
 
 test('__/auth login by EID', async ({ page }) => {
   const p = $(page);
   await p.goto(url, null);
-  await clickSignInButton(p, usr.admin2.id);
+  await clickSignInButton(p, usr.admin2.id, true);
   await navbarUserViewShouldAppear(p, usr.admin2);
 });
