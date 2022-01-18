@@ -180,11 +180,11 @@ export class Element extends LocatorCore {
   }
 
   $qingButton(text: string) {
-    return this.$(`qing-button:has-text("${text}")`);
+    return this.$hasText('qing-button', text);
   }
 
   $linkButton(text: string) {
-    return this.$(`a:has-text("${text}")`);
+    return this.$hasText('a', text);
   }
 
   $hasText(sel: string, text: string) {
@@ -194,6 +194,10 @@ export class Element extends LocatorCore {
 
 export class Page {
   constructor(public c: pw.Page) {}
+
+  get body(): Element {
+    return this.$('body');
+  }
 
   $(sel: string) {
     return PWLocatableWrapper.$(this.c, sel);

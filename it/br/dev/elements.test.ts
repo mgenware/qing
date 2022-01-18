@@ -12,6 +12,6 @@ test('__/elements', async ({ page }) => {
   await p.goto('/__/elements', null);
 
   // Do a brief check on elements page.
-  await p.$('h1:has-text("Colors")').shouldBeVisible();
-  await p.$('h2:has-text("Default context")').shouldBeVisible();
+  await p.body.$hasText('h1', 'Colors').shouldBeVisible();
+  await p.body.$hasText('h2', 'Default context').shouldBeVisible();
 });

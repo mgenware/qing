@@ -11,7 +11,7 @@ import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { CmtFixture } from '../fixture';
 
 export async function commentsHeadingShouldAppear(el: br.Element) {
-  return el.$('h2:has-text("Comments")').shouldBeVisible();
+  return el.$hasText('h2', 'Comments').shouldBeVisible();
 }
 
 export function getNthCmt(cmtApp: br.Element, index: number) {

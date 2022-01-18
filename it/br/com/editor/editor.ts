@@ -35,7 +35,7 @@ export function getComposerEl(overlay: br.Element) {
 }
 
 async function clickBtn(composerEl: br.Element, btnText: string) {
-  const btnEl = composerEl.$(`${cm.editorButtonsGroupSel} qing-button:has-text("${btnText}")`);
+  const btnEl = composerEl.$hasText(`${cm.editorButtonsGroupSel} qing-button`, btnText);
   await btnEl.click();
 }
 

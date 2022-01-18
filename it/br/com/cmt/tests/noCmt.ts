@@ -19,7 +19,7 @@ export default function testNoCmts(w: CmtFixtureWrapper) {
 
       // "Sign in" to comment.
       await cmtApp.$qingButton('Sign in').shouldBeVisible();
-      await cmtApp.$('span:has-text("to comment")').shouldBeVisible();
+      await cmtApp.$hasText('span', 'to comment').shouldBeVisible();
     }
     {
       // User view.

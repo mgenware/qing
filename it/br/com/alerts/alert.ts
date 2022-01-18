@@ -82,13 +82,13 @@ export async function alertShouldAppear(
   // Title.
   // eslint-disable-next-line no-param-reassign
   const title = arg.title ?? typeToTitle(arg.type);
-  await el.$(`h2:has-text("${title}")`).shouldBeVisible();
+  await el.$hasText('h2', title).shouldBeVisible();
 
   // Icon.
   await el.$(`svg-icon[iconstyle='${typeToString(arg.type)}']`).shouldBeVisible();
 
   // Content.
-  await el.$(`p:has-text("${arg.content}")`).shouldBeVisible();
+  await el.$hasText('p', arg.content).shouldBeVisible();
 
   // Buttons.
   const btns = el.$$('#__buttons qing-button');

@@ -33,7 +33,7 @@ export async function userViewShouldAppear(el: br.Element, arg: UserViewShouldAp
   const u = arg.user;
   await userIconShouldAppear(el, u);
   // Name link.
-  await el.$(`a[href="/u/${u.id}"]:has-text("${u.name}")`).shouldBeVisible();
+  await el.$hasText(`a[href="/u/${u.id}"]`, u.name).shouldBeVisible();
   // Time field.
   await timeFieldShouldAppear(el.$('time-field'), !!arg.hasEdited);
 }
