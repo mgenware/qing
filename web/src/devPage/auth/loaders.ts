@@ -9,47 +9,37 @@ import Loader from 'lib/loader';
 import { TUserInfo } from 'sod/dev/auth/tUserInfo';
 import routes from '../devRoutes';
 
-export class InLoader extends Loader<void> {
-  constructor(public uid: string, public isUidString: boolean) {
+class LoaderBase<T> extends Loader<T> {
+  constructor(public uidInput: string, public isEID: boolean) {
     super();
   }
 
-  requestURL(): string {
-    return routes.api.auth.in;
-  }
-
-  requestParams(): Record<string, unknown> {
-    if (!this.isUidString) {
-      const id = parseInt(this.uid, 10);
+  override requestParams(): Record<string, unknown> {
+    if (!this.isEID) {
+      const id = parseInt(this.uidInput, 10);
       if (!id) {
-        throw new Error(`UID number must be greater than 0. Got ${this.uid}`);
+        throw new Error(`UID number must be greater than 0. Got ${this.uidInput}`);
       }
       return { uid_i: id };
     }
-    return { uid: this.uid };
+    return { uid: this.uidInput };
   }
 }
 
-export class NewUserLoader extends Loader<TUserInfo> {
-  requestURL(): string {
+export class InLoader extends LoaderBase<void> {
+  override requestURL(): string {
+    return routes.api.auth.in;
+  }
+}
+
+export class NewUserLoader extends Loader<void> {
+  override requestURL(): string {
     return routes.api.auth.new;
   }
 }
 
-export class InfoLoader extends Loader<TUserInfo> {
-  uid = '';
-  constructor(uid: string) {
-    super();
-    this.uid = uid;
-  }
-
-  requestURL(): string {
+export class InfoLoader extends LoaderBase<TUserInfo> {
+  override requestURL(): string {
     return routes.api.auth.info;
-  }
-
-  requestParams(): Record<string, unknown> {
-    return {
-      uid_i: this.uid,
-    };
   }
 }

@@ -32,7 +32,7 @@ export class AuthDevPage extends BaseElement {
 
   @lp.string uidStr = '';
   @lp.bool newUserAdmin = false;
-  @lp.bool isUidString = false;
+  @lp.bool isEID = false;
 
   render() {
     return html`
@@ -51,7 +51,7 @@ export class AuthDevPage extends BaseElement {
           <checklist-view
             class="m-t-md"
             @selectionChanged=${this.handleUIDTypeChange}
-            .selectedIndices=${[+this.isUidString]}
+            .selectedIndices=${[+this.isEID]}
             .dataSource=${['Raw', 'Encoded']}></checklist-view>
         </p>
         <input-view
@@ -72,14 +72,14 @@ export class AuthDevPage extends BaseElement {
   }
 
   private handleUIDTypeChange(e: CustomEvent<number[]>) {
-    this.isUidString = !!e.detail[0];
+    this.isEID = !!e.detail[0];
   }
 
   private async handleSignIn() {
     if (!this.uidStr) {
       return;
     }
-    const loader = new loaders.InLoader(this.uidStr, this.isUidString);
+    const loader = new loaders.InLoader(this.uidStr, this.isEID);
     const status = await appTask.critical(loader);
     if (status.isSuccess) {
       window.location.href = '/';
@@ -96,7 +96,7 @@ export class AuthDevPage extends BaseElement {
   }
 
   private async handleGetInfo() {
-    const loader = new loaders.InfoLoader(this.uidStr);
+    const loader = new loaders.InfoLoader(this.uidStr, this.isEID);
     const status = await appTask.critical(loader);
     if (status.isSuccess) {
       // eslint-disable-next-line no-alert
