@@ -2,6 +2,8 @@
 
 > Qing comes with a VSCode workspace to help you get your VSCode environment set up in seconds.
 
+> Windows users: Install vscode on Windows side, and make sure you have [Remote development extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) installed.
+
 - Install VSCode.
 - Navigate to project root directory in terminal.
 - Open the VSCode workspace file by running `code qing.code-workspace` in terminal.
