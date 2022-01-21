@@ -71,7 +71,7 @@ export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
   return mm
     .transact(
       // Insert the cmt.
-      mm.insertOne().from(cmt).setDefaults().setInputs().declareInsertedID(cmtID),
+      cmtTA.insertCmt.declareInsertedID(cmtID),
       // Set up relationship with host.
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       // cmt count ++.
@@ -86,7 +86,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
       // Insert the reply.
-      cmtTA.insertCore.declareInsertedID(replyID),
+      cmtTA.insertReply.declareInsertedID(replyID),
       // cmt.replyCount++.
       cmtTA.updateReplyCount.wrap({
         offset: '1',

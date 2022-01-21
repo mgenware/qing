@@ -66,11 +66,6 @@ func (mrTable *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, us
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypePost) insertCmtChild1(queryable mingru.Queryable, parentID *uint64, contentHTML string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
-	return mingru.GetLastInsertIDUint64WithError(result, err)
-}
-
 func (mrTable *TableTypePost) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `post_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
@@ -86,7 +81,7 @@ func (mrTable *TableTypePost) InsertCmt(db *sql.DB, parentID *uint64, contentHTM
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := mrTable.insertCmtChild1(tx, parentID, contentHTML, userID)
+		cmtID, err := Cmt.InsertCmt(tx, parentID, contentHTML, userID)
 		if err != nil {
 			return err
 		}
@@ -142,11 +137,11 @@ func (mrTable *TableTypePost) insertReplyChild3(queryable mingru.Queryable, host
 }
 
 // InsertReply ...
-func (mrTable *TableTypePost) InsertReply(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypePost) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Cmt.InsertCore(tx, parentID, contentHTML, userID)
+		replyID, err := Cmt.InsertReply(tx, parentID, contentHTML, userID)
 		if err != nil {
 			return err
 		}

@@ -51,8 +51,14 @@ func (mrTable *TableTypeCmt) EditReply(queryable mingru.Queryable, id uint64, us
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// InsertCore ...
-func (mrTable *TableTypeCmt) InsertCore(queryable mingru.Queryable, parentID *uint64, contentHTML string, userID uint64) (uint64, error) {
+// InsertCmt ...
+func (mrTable *TableTypeCmt) InsertCmt(queryable mingru.Queryable, parentID *uint64, contentHTML string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
+	return mingru.GetLastInsertIDUint64WithError(result, err)
+}
+
+// InsertReply ...
+func (mrTable *TableTypeCmt) InsertReply(queryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
