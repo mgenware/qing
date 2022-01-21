@@ -25,16 +25,21 @@ type TableTypeForumGroup struct {
 // ForumGroup ...
 var ForumGroup = &TableTypeForumGroup{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeForumGroup) MingruSQLName() string {
+	return "forum_group"
+}
+
 // ------------ Actions ------------
 
 // DeleteGroup ...
-func (da *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypeForumGroup) DeleteGroup(queryable mingru.Queryable, id uint64) error {
 	result, err := queryable.Exec("DELETE FROM `forum_group` WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertGroup ...
-func (da *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, descHTML string) (uint64, error) {
+func (mrTable *TableTypeForumGroup) InsertGroup(queryable mingru.Queryable, name string, descHTML string) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `forum_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), 0)", name, descHTML)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
@@ -49,7 +54,7 @@ type ForumGroupTableSelectGroupResult struct {
 }
 
 // SelectGroup ...
-func (da *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectGroupResult, error) {
+func (mrTable *TableTypeForumGroup) SelectGroup(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectGroupResult, error) {
 	var result ForumGroupTableSelectGroupResult
 	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ForumCount)
 	if err != nil {
@@ -65,7 +70,7 @@ type ForumGroupTableSelectInfoForEditingResult struct {
 }
 
 // SelectInfoForEditing ...
-func (da *TableTypeForumGroup) SelectInfoForEditing(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectInfoForEditingResult, error) {
+func (mrTable *TableTypeForumGroup) SelectInfoForEditing(queryable mingru.Queryable, id uint64) (ForumGroupTableSelectInfoForEditingResult, error) {
 	var result ForumGroupTableSelectInfoForEditingResult
 	err := queryable.QueryRow("SELECT `name`, `desc` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
 	if err != nil {
@@ -75,7 +80,7 @@ func (da *TableTypeForumGroup) SelectInfoForEditing(queryable mingru.Queryable, 
 }
 
 // UpdateInfo ...
-func (da *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, descHTML string) error {
+func (mrTable *TableTypeForumGroup) UpdateInfo(queryable mingru.Queryable, id uint64, name string, descHTML string) error {
 	result, err := queryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

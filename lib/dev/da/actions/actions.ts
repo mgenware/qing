@@ -24,6 +24,7 @@ import forumIsUserModTA from './forum/forumIsUserModTA.js';
 import forumGroupModTA from './forum/forumGroupModTA.js';
 import forumModTA from './forum/forumModTA.js';
 import voteTAs from './vote/voteTAs.js';
+import contentBaseSharedTA from './com/contentBaseSharedTA.js';
 
 const actions: mm.TableActions[] = [
   userTA,
@@ -44,6 +45,7 @@ const actions: mm.TableActions[] = [
   forumModTA,
   forumGroupModTA,
   forumIsUserModTA,
+  contentBaseSharedTA,
 ];
 
 export default actions;

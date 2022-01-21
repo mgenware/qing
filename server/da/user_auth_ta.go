@@ -21,10 +21,15 @@ type TableTypeUserAuth struct {
 // UserAuth ...
 var UserAuth = &TableTypeUserAuth{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeUserAuth) MingruSQLName() string {
+	return "user_auth"
+}
+
 // ------------ Actions ------------
 
 // AddUserAuth ...
-func (da *TableTypeUserAuth) AddUserAuth(queryable mingru.Queryable, id uint64, authType uint16) error {
+func (mrTable *TableTypeUserAuth) AddUserAuth(queryable mingru.Queryable, id uint64, authType uint16) error {
 	_, err := queryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
 	return err
 }

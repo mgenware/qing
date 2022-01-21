@@ -12,7 +12,6 @@
 
 DROP TABLE IF EXISTS answer_vote;
 DROP TABLE IF EXISTS question_like;
-DROP TABLE IF EXISTS reply_like;
 DROP TABLE IF EXISTS cmt_like;
 DROP TABLE IF EXISTS post_like;
 DROP TABLE IF EXISTS answer_cmt;
@@ -25,7 +24,6 @@ DROP TABLE IF EXISTS discussion_cmt;
 DROP TABLE IF EXISTS discussion;
 DROP TABLE IF EXISTS post_cmt;
 DROP TABLE IF EXISTS post;
-DROP TABLE IF EXISTS reply;
 DROP TABLE IF EXISTS cmt;
 DROP TABLE IF EXISTS forum_is_user_mod;
 DROP TABLE IF EXISTS forum_group_mod;

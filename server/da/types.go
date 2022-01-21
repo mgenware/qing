@@ -30,8 +30,6 @@ type CmtData struct {
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
 	ReplyCount    uint      `json:"replyCount,omitempty"`
-	ToUserID      uint64    `json:"-"`
-	ToUserName    string    `json:"toUserName,omitempty"`
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"userName,omitempty"`
@@ -70,10 +68,8 @@ type UserThreadInterface struct {
 
 // CmtInterface ...
 type CmtInterface interface {
-	DeleteCmt(db *sql.DB, id uint64, userID uint64) error
-	DeleteReply(db *sql.DB, id uint64, userID uint64) error
-	InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
-	InsertReply(db *sql.DB, contentHTML string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
+	InsertCmt(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
+	InsertReply(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
 	SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 	SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
@@ -87,8 +83,8 @@ type LikeInterface interface {
 
 // ReplyInterface ...
 type ReplyInterface interface {
-	SelectReplies(queryable mingru.Queryable, parentID uint64, page int, pageSize int) ([]CmtData, bool, error)
-	SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectReplies(queryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
 // VoteInterface ...

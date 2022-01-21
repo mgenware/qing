@@ -21,10 +21,15 @@ type TableTypeForumIsUserMod struct {
 // ForumIsUserMod ...
 var ForumIsUserMod = &TableTypeForumIsUserMod{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeForumIsUserMod) MingruSQLName() string {
+	return "forum_is_user_mod"
+}
+
 // ------------ Actions ------------
 
 // Has ...
-func (da *TableTypeForumIsUserMod) Has(queryable mingru.Queryable, id uint64) (bool, error) {
+func (mrTable *TableTypeForumIsUserMod) Has(queryable mingru.Queryable, id uint64) (bool, error) {
 	var result bool
 	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_is_user_mod` WHERE `id` = ?)", id).Scan(&result)
 	if err != nil {

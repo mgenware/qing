@@ -25,27 +25,32 @@ type TableTypeQuestionLike struct {
 // QuestionLike ...
 var QuestionLike = &TableTypeQuestionLike{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeQuestionLike) MingruSQLName() string {
+	return "question_like"
+}
+
 // ------------ Actions ------------
 
-func (da *TableTypeQuestionLike) cancelLikeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
+func (mrTable *TableTypeQuestionLike) cancelLikeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeQuestionLike) cancelLikeChild2(queryable mingru.Queryable, hostID uint64) error {
+func (mrTable *TableTypeQuestionLike) cancelLikeChild2(queryable mingru.Queryable, hostID uint64) error {
 	result, err := queryable.Exec("UPDATE `question` SET `likes` = `likes` + -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // CancelLike ...
-func (da *TableTypeQuestionLike) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
+func (mrTable *TableTypeQuestionLike) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.cancelLikeChild1(tx, hostID, userID)
+		err = mrTable.cancelLikeChild1(tx, hostID, userID)
 		if err != nil {
 			return err
 		}
-		err = da.cancelLikeChild2(tx, hostID)
+		err = mrTable.cancelLikeChild2(tx, hostID)
 		if err != nil {
 			return err
 		}
@@ -55,7 +60,7 @@ func (da *TableTypeQuestionLike) CancelLike(db *sql.DB, hostID uint64, userID ui
 }
 
 // HasLiked ...
-func (da *TableTypeQuestionLike) HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
+func (mrTable *TableTypeQuestionLike) HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
 	if err != nil {
@@ -64,25 +69,25 @@ func (da *TableTypeQuestionLike) HasLiked(queryable mingru.Queryable, hostID uin
 	return result, nil
 }
 
-func (da *TableTypeQuestionLike) likeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
+func (mrTable *TableTypeQuestionLike) likeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `question_like` (`host_id`, `user_id`) VALUES (?, ?)", hostID, userID)
 	return err
 }
 
-func (da *TableTypeQuestionLike) likeChild2(queryable mingru.Queryable, hostID uint64) error {
+func (mrTable *TableTypeQuestionLike) likeChild2(queryable mingru.Queryable, hostID uint64) error {
 	result, err := queryable.Exec("UPDATE `question` SET `likes` = `likes` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // Like ...
-func (da *TableTypeQuestionLike) Like(db *sql.DB, hostID uint64, userID uint64) error {
+func (mrTable *TableTypeQuestionLike) Like(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.likeChild1(tx, hostID, userID)
+		err = mrTable.likeChild1(tx, hostID, userID)
 		if err != nil {
 			return err
 		}
-		err = da.likeChild2(tx, hostID)
+		err = mrTable.likeChild2(tx, hostID)
 		if err != nil {
 			return err
 		}

@@ -139,7 +139,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
         .by(cmt.id)
         .declareReturnValue(mm.ReturnValues.result, cmtIDAndHostID),
       // Delete the reply.
-      cmtTA.deleteReplyCore,
+      cmtTA.deleteCore,
       // cmt.replyCount--.
       updateCmtCountAction(ht, -1).wrap({
         hostID: mm.valueRef(`${cmtIDAndHostID}.${parentHostIDProp}`),

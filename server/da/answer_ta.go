@@ -27,55 +27,14 @@ type TableTypeAnswer struct {
 // Answer ...
 var Answer = &TableTypeAnswer{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeAnswer) MingruSQLName() string {
+	return "answer"
+}
+
 // ------------ Actions ------------
 
-// AnswerTableDeleteCmtChild1Result ...
-type AnswerTableDeleteCmtChild1Result struct {
-	HostID     uint64 `json:"hostID,omitempty"`
-	ReplyCount uint   `json:"replyCount,omitempty"`
-}
-
-func (da *TableTypeAnswer) deleteCmtChild1(queryable mingru.Queryable, id uint64) (AnswerTableDeleteCmtChild1Result, error) {
-	var result AnswerTableDeleteCmtChild1Result
-	err := queryable.QueryRow("SELECT `answer_cmt`.`host_id`, `join_1`.`reply_count` AS `reply_count` FROM `answer_cmt` AS `answer_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `answer_cmt`.`cmt_id` WHERE `answer_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-func (da *TableTypeAnswer) deleteCmtChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-func (da *TableTypeAnswer) deleteCmtChild3(queryable mingru.Queryable, hostID uint64, replyCount uint) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` - ? - 1 WHERE `id` = ?", replyCount, hostID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-// DeleteCmt ...
-func (da *TableTypeAnswer) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		hostIDAndReplyCount, err := da.deleteCmtChild1(tx, id)
-		if err != nil {
-			return err
-		}
-		err = da.deleteCmtChild2(tx, id, userID)
-		if err != nil {
-			return err
-		}
-		err = da.deleteCmtChild3(tx, hostIDAndReplyCount.HostID, hostIDAndReplyCount.ReplyCount)
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-	return txErr
-}
-
-func (da *TableTypeAnswer) deleteItemChild1(queryable mingru.Queryable, id uint64) (uint64, error) {
+func (mrTable *TableTypeAnswer) deleteItemChild1(queryable mingru.Queryable, id uint64) (uint64, error) {
 	var result uint64
 	err := queryable.QueryRow("SELECT `question_id` FROM `answer` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -84,77 +43,28 @@ func (da *TableTypeAnswer) deleteItemChild1(queryable mingru.Queryable, id uint6
 	return result, nil
 }
 
-func (da *TableTypeAnswer) deleteItemChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
+func (mrTable *TableTypeAnswer) deleteItemChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `answer` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeAnswer) deleteItemChild3(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypeAnswer) deleteItemChild3(queryable mingru.Queryable, id uint64) error {
 	return Question.UpdateMsgCount(queryable, id, -1)
 }
 
 // DeleteItem ...
-func (da *TableTypeAnswer) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
+func (mrTable *TableTypeAnswer) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		questionID, err := da.deleteItemChild1(tx, id)
+		questionID, err := mrTable.deleteItemChild1(tx, id)
 		if err != nil {
 			return err
 		}
-		err = da.deleteItemChild2(tx, id, userID)
+		err = mrTable.deleteItemChild2(tx, id, userID)
 		if err != nil {
 			return err
 		}
-		err = da.deleteItemChild3(tx, questionID)
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-	return txErr
-}
-
-// AnswerTableDeleteReplyChild1Result ...
-type AnswerTableDeleteReplyChild1Result struct {
-	ParentHostID uint64 `json:"parentHostID,omitempty"`
-	ParentID     uint64 `json:"parentID,omitempty"`
-}
-
-func (da *TableTypeAnswer) deleteReplyChild1(queryable mingru.Queryable, id uint64) (AnswerTableDeleteReplyChild1Result, error) {
-	var result AnswerTableDeleteReplyChild1Result
-	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `answer_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-func (da *TableTypeAnswer) deleteReplyChild3(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", hostID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-func (da *TableTypeAnswer) deleteReplyChild4(queryable mingru.Queryable, id uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, -1)
-}
-
-// DeleteReply ...
-func (da *TableTypeAnswer) DeleteReply(db *sql.DB, id uint64, userID uint64) error {
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		cmtIDAndHostID, err := da.deleteReplyChild1(tx, id)
-		if err != nil {
-			return err
-		}
-		err = Reply.DeleteReplyCore(tx, id, userID)
-		if err != nil {
-			return err
-		}
-		err = da.deleteReplyChild3(tx, cmtIDAndHostID.ParentHostID)
-		if err != nil {
-			return err
-		}
-		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID)
+		err = mrTable.deleteItemChild3(tx, questionID)
 		if err != nil {
 			return err
 		}
@@ -164,40 +74,40 @@ func (da *TableTypeAnswer) DeleteReply(db *sql.DB, id uint64, userID uint64) err
 }
 
 // EditItem ...
-func (da *TableTypeAnswer) EditItem(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+func (mrTable *TableTypeAnswer) EditItem(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `answer` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypeAnswer) insertCmtChild1(queryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `reply_count`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", contentHTML, userID)
+func (mrTable *TableTypeAnswer) insertCmtChild1(queryable mingru.Queryable, parentID *uint64, contentHTML string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypeAnswer) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
+func (mrTable *TableTypeAnswer) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `answer_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
-func (da *TableTypeAnswer) insertCmtChild3(queryable mingru.Queryable, hostID uint64) error {
+func (mrTable *TableTypeAnswer) insertCmtChild3(queryable mingru.Queryable, hostID uint64) error {
 	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertCmt ...
-func (da *TableTypeAnswer) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeAnswer) InsertCmt(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := da.insertCmtChild1(tx, contentHTML, userID)
+		cmtID, err := mrTable.insertCmtChild1(tx, parentID, contentHTML, userID)
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild2(tx, cmtID, hostID)
+		err = mrTable.insertCmtChild2(tx, cmtID, hostID)
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild3(tx, hostID)
+		err = mrTable.insertCmtChild3(tx, hostID)
 		if err != nil {
 			return err
 		}
@@ -207,25 +117,25 @@ func (da *TableTypeAnswer) InsertCmt(db *sql.DB, contentHTML string, userID uint
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypeAnswer) insertItemChild1(queryable mingru.Queryable, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, questionID uint64) (uint64, error) {
+func (mrTable *TableTypeAnswer) insertItemChild1(queryable mingru.Queryable, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, questionID uint64) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `answer` (`content`, `user_id`, `created_at`, `modified_at`, `question_id`, `cmt_count`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0)", contentHTML, userID, rawCreatedAt, rawModifiedAt, questionID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypeAnswer) insertItemChild2(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypeAnswer) insertItemChild2(queryable mingru.Queryable, id uint64) error {
 	return Question.UpdateMsgCount(queryable, id, 1)
 }
 
 // InsertItem ...
-func (da *TableTypeAnswer) InsertItem(db *sql.DB, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, questionID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeAnswer) InsertItem(db *sql.DB, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, questionID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertItemChild1(tx, contentHTML, userID, rawCreatedAt, rawModifiedAt, questionID)
+		insertedID, err := mrTable.insertItemChild1(tx, contentHTML, userID, rawCreatedAt, rawModifiedAt, questionID)
 		if err != nil {
 			return err
 		}
-		err = da.insertItemChild2(tx, questionID)
+		err = mrTable.insertItemChild2(tx, questionID)
 		if err != nil {
 			return err
 		}
@@ -235,29 +145,29 @@ func (da *TableTypeAnswer) InsertItem(db *sql.DB, contentHTML string, userID uin
 	return insertedIDExported, txErr
 }
 
-func (da *TableTypeAnswer) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypeAnswer) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
 	return Cmt.UpdateReplyCount(queryable, id, 1)
 }
 
-func (da *TableTypeAnswer) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
+func (mrTable *TableTypeAnswer) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
 	result, err := queryable.Exec("UPDATE `answer` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertReply ...
-func (da *TableTypeAnswer) InsertReply(db *sql.DB, contentHTML string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeAnswer) InsertReply(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Reply.InsertReplyCore(tx, contentHTML, userID, toUserID, parentID)
+		replyID, err := Cmt.InsertCore(tx, parentID, contentHTML, userID)
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild2(tx, parentID)
+		err = mrTable.insertReplyChild2(tx, parentID)
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild3(tx, hostID)
+		err = mrTable.insertReplyChild3(tx, hostID)
 		if err != nil {
 			return err
 		}
@@ -268,7 +178,7 @@ func (da *TableTypeAnswer) InsertReply(db *sql.DB, contentHTML string, userID ui
 }
 
 // SelectCmts ...
-func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -306,7 +216,7 @@ func (da *TableTypeAnswer) SelectCmts(queryable mingru.Queryable, hostID uint64,
 }
 
 // SelectCmtsWithLike ...
-func (da *TableTypeAnswer) SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeAnswer) SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -359,7 +269,7 @@ type AnswerTableSelectItemsByQuestionResult struct {
 }
 
 // SelectItemsByQuestion ...
-func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, questionID uint64, page int, pageSize int) ([]AnswerTableSelectItemsByQuestionResult, bool, error) {
+func (mrTable *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, questionID uint64, page int, pageSize int) ([]AnswerTableSelectItemsByQuestionResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -397,7 +307,7 @@ func (da *TableTypeAnswer) SelectItemsByQuestion(queryable mingru.Queryable, que
 }
 
 // SelectItemSrc ...
-func (da *TableTypeAnswer) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+func (mrTable *TableTypeAnswer) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `content` FROM `answer` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
@@ -407,7 +317,7 @@ func (da *TableTypeAnswer) SelectItemSrc(queryable mingru.Queryable, id uint64, 
 }
 
 // TestUpdateDates ...
-func (da *TableTypeAnswer) TestUpdateDates(queryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+func (mrTable *TableTypeAnswer) TestUpdateDates(queryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := queryable.Exec("UPDATE `answer` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

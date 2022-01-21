@@ -27,121 +27,31 @@ type TableTypePost struct {
 // Post ...
 var Post = &TableTypePost{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypePost) MingruSQLName() string {
+	return "post"
+}
+
 // ------------ Actions ------------
 
-// PostTableDeleteCmtChild1Result ...
-type PostTableDeleteCmtChild1Result struct {
-	HostID     uint64 `json:"hostID,omitempty"`
-	ReplyCount uint   `json:"replyCount,omitempty"`
-}
-
-func (da *TableTypePost) deleteCmtChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteCmtChild1Result, error) {
-	var result PostTableDeleteCmtChild1Result
-	err := queryable.QueryRow("SELECT `post_cmt`.`host_id`, `join_1`.`reply_count` AS `reply_count` FROM `post_cmt` AS `post_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `post_cmt`.`cmt_id` WHERE `post_cmt`.`cmt_id` = ?", id).Scan(&result.HostID, &result.ReplyCount)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-func (da *TableTypePost) deleteCmtChild2(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-func (da *TableTypePost) deleteCmtChild3(queryable mingru.Queryable, hostID uint64, replyCount uint) error {
-	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` - ? - 1 WHERE `id` = ?", replyCount, hostID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-// DeleteCmt ...
-func (da *TableTypePost) DeleteCmt(db *sql.DB, id uint64, userID uint64) error {
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		hostIDAndReplyCount, err := da.deleteCmtChild1(tx, id)
-		if err != nil {
-			return err
-		}
-		err = da.deleteCmtChild2(tx, id, userID)
-		if err != nil {
-			return err
-		}
-		err = da.deleteCmtChild3(tx, hostIDAndReplyCount.HostID, hostIDAndReplyCount.ReplyCount)
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-	return txErr
-}
-
-func (da *TableTypePost) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
+func (mrTable *TableTypePost) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePost) deleteItemChild2(queryable mingru.Queryable, userID uint64) error {
+func (mrTable *TableTypePost) deleteItemChild2(queryable mingru.Queryable, userID uint64) error {
 	return UserStats.UpdatePostCount(queryable, userID, -1)
 }
 
 // DeleteItem ...
-func (da *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
+func (mrTable *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		err = da.deleteItemChild1(tx, id, userID)
+		err = mrTable.deleteItemChild1(tx, id, userID)
 		if err != nil {
 			return err
 		}
-		err = da.deleteItemChild2(tx, userID)
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-	return txErr
-}
-
-// PostTableDeleteReplyChild1Result ...
-type PostTableDeleteReplyChild1Result struct {
-	ParentHostID uint64 `json:"parentHostID,omitempty"`
-	ParentID     uint64 `json:"parentID,omitempty"`
-}
-
-func (da *TableTypePost) deleteReplyChild1(queryable mingru.Queryable, id uint64) (PostTableDeleteReplyChild1Result, error) {
-	var result PostTableDeleteReplyChild1Result
-	err := queryable.QueryRow("SELECT `reply`.`parent_id`, `join_2`.`host_id` AS `parent_host_id` FROM `reply` AS `reply` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `reply`.`parent_id` INNER JOIN `post_cmt` AS `join_2` ON `join_2`.`cmt_id` = `join_1`.`id` WHERE `reply`.`id` = ?", id).Scan(&result.ParentID, &result.ParentHostID)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-func (da *TableTypePost) deleteReplyChild3(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", hostID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-func (da *TableTypePost) deleteReplyChild4(queryable mingru.Queryable, id uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, -1)
-}
-
-// DeleteReply ...
-func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error {
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		cmtIDAndHostID, err := da.deleteReplyChild1(tx, id)
-		if err != nil {
-			return err
-		}
-		err = Reply.DeleteReplyCore(tx, id, userID)
-		if err != nil {
-			return err
-		}
-		err = da.deleteReplyChild3(tx, cmtIDAndHostID.ParentHostID)
-		if err != nil {
-			return err
-		}
-		err = da.deleteReplyChild4(tx, cmtIDAndHostID.ParentID)
+		err = mrTable.deleteItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -151,40 +61,40 @@ func (da *TableTypePost) DeleteReply(db *sql.DB, id uint64, userID uint64) error
 }
 
 // EditItem ...
-func (da *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+func (mrTable *TableTypePost) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := queryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (da *TableTypePost) insertCmtChild1(queryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `modified_at`, `reply_count`, `likes`) VALUES (?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0)", contentHTML, userID)
+func (mrTable *TableTypePost) insertCmtChild1(queryable mingru.Queryable, parentID *uint64, contentHTML string, userID uint64) (uint64, error) {
+	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypePost) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
+func (mrTable *TableTypePost) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `post_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
-func (da *TableTypePost) insertCmtChild3(queryable mingru.Queryable, hostID uint64) error {
+func (mrTable *TableTypePost) insertCmtChild3(queryable mingru.Queryable, hostID uint64) error {
 	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertCmt ...
-func (da *TableTypePost) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypePost) InsertCmt(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := da.insertCmtChild1(tx, contentHTML, userID)
+		cmtID, err := mrTable.insertCmtChild1(tx, parentID, contentHTML, userID)
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild2(tx, cmtID, hostID)
+		err = mrTable.insertCmtChild2(tx, cmtID, hostID)
 		if err != nil {
 			return err
 		}
-		err = da.insertCmtChild3(tx, hostID)
+		err = mrTable.insertCmtChild3(tx, hostID)
 		if err != nil {
 			return err
 		}
@@ -194,25 +104,25 @@ func (da *TableTypePost) InsertCmt(db *sql.DB, contentHTML string, userID uint64
 	return cmtIDExported, txErr
 }
 
-func (da *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
+func (mrTable *TableTypePost) insertItemChild1(queryable mingru.Queryable, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
 	result, err := queryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (da *TableTypePost) insertItemChild2(queryable mingru.Queryable, userID uint64) error {
+func (mrTable *TableTypePost) insertItemChild2(queryable mingru.Queryable, userID uint64) error {
 	return UserStats.UpdatePostCount(queryable, userID, 1)
 }
 
 // InsertItem ...
-func (da *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := da.insertItemChild1(tx, title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
+		insertedID, err := mrTable.insertItemChild1(tx, title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
 		if err != nil {
 			return err
 		}
-		err = da.insertItemChild2(tx, userID)
+		err = mrTable.insertItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -222,29 +132,29 @@ func (da *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string
 	return insertedIDExported, txErr
 }
 
-func (da *TableTypePost) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypePost) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
 	return Cmt.UpdateReplyCount(queryable, id, 1)
 }
 
-func (da *TableTypePost) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
+func (mrTable *TableTypePost) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
 	result, err := queryable.Exec("UPDATE `post` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertReply ...
-func (da *TableTypePost) InsertReply(db *sql.DB, contentHTML string, userID uint64, toUserID uint64, parentID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypePost) InsertReply(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Reply.InsertReplyCore(tx, contentHTML, userID, toUserID, parentID)
+		replyID, err := Cmt.InsertCore(tx, parentID, contentHTML, userID)
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild2(tx, parentID)
+		err = mrTable.insertReplyChild2(tx, parentID)
 		if err != nil {
 			return err
 		}
-		err = da.insertReplyChild3(tx, hostID)
+		err = mrTable.insertReplyChild3(tx, hostID)
 		if err != nil {
 			return err
 		}
@@ -255,7 +165,7 @@ func (da *TableTypePost) InsertReply(db *sql.DB, contentHTML string, userID uint
 }
 
 // SelectCmts ...
-func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -293,7 +203,7 @@ func (da *TableTypePost) SelectCmts(queryable mingru.Queryable, hostID uint64, p
 }
 
 // SelectCmtsWithLike ...
-func (da *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypePost) SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -345,7 +255,7 @@ type PostTableSelectItemByIDResult struct {
 }
 
 // SelectItemByID ...
-func (da *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
+func (mrTable *TableTypePost) SelectItemByID(queryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
 	var result PostTableSelectItemByIDResult
 	err := queryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`title`, `post`.`cmt_count`, `post`.`likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
 	if err != nil {
@@ -372,7 +282,7 @@ type PostTableSelectItemsForPostCenterResult struct {
 }
 
 // SelectItemsForPostCenter ...
-func (da *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *TableTypePost) SelectItemsForPostCenter(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case PostTableSelectItemsForPostCenterOrderBy1CreatedAt:
@@ -434,7 +344,7 @@ type PostTableSelectItemsForUserProfileResult struct {
 }
 
 // SelectItemsForUserProfile ...
-func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostTableSelectItemsForUserProfileResult, bool, error) {
+func (mrTable *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -472,7 +382,7 @@ func (da *TableTypePost) SelectItemsForUserProfile(queryable mingru.Queryable, u
 }
 
 // SelectItemSrc ...
-func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+func (mrTable *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := queryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
 	if err != nil {
@@ -482,7 +392,7 @@ func (da *TableTypePost) SelectItemSrc(queryable mingru.Queryable, id uint64, us
 }
 
 // TestUpdateDates ...
-func (da *TableTypePost) TestUpdateDates(queryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+func (mrTable *TableTypePost) TestUpdateDates(queryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := queryable.Exec("UPDATE `post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

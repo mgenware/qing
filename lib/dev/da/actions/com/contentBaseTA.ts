@@ -33,9 +33,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   selectCmts: mm.SelectAction;
   selectCmtsWithLike: mm.SelectAction;
   insertCmt: mm.TransactAction;
-  deleteCmt: mm.TransactAction;
   insertReply: mm.TransactAction;
-  deleteReply: mm.TransactAction;
 
   testUpdateDates: mm.UpdateAction;
 
@@ -119,9 +117,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     this.selectCmts = cmtf.selectCmts(this.getCmtBaseTable(), false);
     this.selectCmtsWithLike = cmtf.selectCmts(this.getCmtBaseTable(), true);
     this.insertCmt = cmtf.insertCmtAction(t, this.getCmtBaseTable());
-    this.deleteCmt = cmtf.deleteCmtAction(t, this.getCmtBaseTable());
     this.insertReply = cmtf.insertReplyAction(t);
-    this.deleteReply = cmtf.deleteReplyAction(t, this.getCmtBaseTable());
 
     this.testUpdateDates = mm.updateOne().setInputs(t.created_at, t.modified_at).by(t.id);
   }

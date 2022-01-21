@@ -25,10 +25,15 @@ type TableTypeHome struct {
 // Home ...
 var Home = &TableTypeHome{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeHome) MingruSQLName() string {
+	return "home"
+}
+
 // ------------ Actions ------------
 
 // SelectDiscussions ...
-func (da *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -75,7 +80,7 @@ type HomeTableSelectForumGroupsResult struct {
 }
 
 // SelectForumGroups ...
-func (da *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]HomeTableSelectForumGroupsResult, error) {
+func (mrTable *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]HomeTableSelectForumGroupsResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
@@ -107,7 +112,7 @@ type HomeTableSelectForumsResult struct {
 }
 
 // SelectForums ...
-func (da *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]HomeTableSelectForumsResult, error) {
+func (mrTable *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]HomeTableSelectForumsResult, error) {
 	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
 	if err != nil {
 		return nil, err
@@ -130,7 +135,7 @@ func (da *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]HomeTableSe
 }
 
 // SelectItems ...
-func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -168,7 +173,7 @@ func (da *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageS
 }
 
 // SelectPosts ...
-func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -206,7 +211,7 @@ func (da *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageS
 }
 
 // SelectQuestions ...
-func (da *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err

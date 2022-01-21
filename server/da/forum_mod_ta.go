@@ -25,16 +25,21 @@ type TableTypeForumMod struct {
 // ForumMod ...
 var ForumMod = &TableTypeForumMod{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeForumMod) MingruSQLName() string {
+	return "forum_mod"
+}
+
 // ------------ Actions ------------
 
 // DeleteMod ...
-func (da *TableTypeForumMod) DeleteMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
+func (mrTable *TableTypeForumMod) DeleteMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
 	result, err := queryable.Exec("DELETE FROM `forum_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // DeleteUserFromForumMods ...
-func (da *TableTypeForumMod) DeleteUserFromForumMods(queryable mingru.Queryable, userID uint64, forumIDs []uint64) (int, error) {
+func (mrTable *TableTypeForumMod) DeleteUserFromForumMods(queryable mingru.Queryable, userID uint64, forumIDs []uint64) (int, error) {
 	if len(forumIDs) == 0 {
 		return 0, fmt.Errorf("The array argument `forumIDs` cannot be empty")
 	}
@@ -48,13 +53,13 @@ func (da *TableTypeForumMod) DeleteUserFromForumMods(queryable mingru.Queryable,
 }
 
 // InsertMod ...
-func (da *TableTypeForumMod) InsertMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
+func (mrTable *TableTypeForumMod) InsertMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
 	_, err := queryable.Exec("INSERT INTO `forum_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
 }
 
 // SelectIsMod ...
-func (da *TableTypeForumMod) SelectIsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
+func (mrTable *TableTypeForumMod) SelectIsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
 	if err != nil {

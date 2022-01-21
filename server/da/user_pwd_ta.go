@@ -25,22 +25,27 @@ type TableTypeUserPwd struct {
 // UserPwd ...
 var UserPwd = &TableTypeUserPwd{}
 
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeUserPwd) MingruSQLName() string {
+	return "user_pwd"
+}
+
 // ------------ Actions ------------
 
-func (da *TableTypeUserPwd) addPwdBasedUserChild2(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypeUserPwd) addPwdBasedUserChild2(queryable mingru.Queryable, id uint64) error {
 	return User.AddUserStatsEntryInternal(queryable, id)
 }
 
-func (da *TableTypeUserPwd) addPwdBasedUserChild3(queryable mingru.Queryable, id uint64) error {
+func (mrTable *TableTypeUserPwd) addPwdBasedUserChild3(queryable mingru.Queryable, id uint64) error {
 	return UserAuth.AddUserAuth(queryable, id, 1)
 }
 
-func (da *TableTypeUserPwd) addPwdBasedUserChild4(queryable mingru.Queryable, id uint64, pwdHash string) error {
-	return da.AddUserPwdInternal(queryable, id, pwdHash)
+func (mrTable *TableTypeUserPwd) addPwdBasedUserChild4(queryable mingru.Queryable, id uint64, pwdHash string) error {
+	return mrTable.AddUserPwdInternal(queryable, id, pwdHash)
 }
 
 // AddPwdBasedUser ...
-func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
+func (mrTable *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
 	var insertedUserIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -48,15 +53,15 @@ func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name strin
 		if err != nil {
 			return err
 		}
-		err = da.addPwdBasedUserChild2(tx, insertedUserID)
+		err = mrTable.addPwdBasedUserChild2(tx, insertedUserID)
 		if err != nil {
 			return err
 		}
-		err = da.addPwdBasedUserChild3(tx, insertedUserID)
+		err = mrTable.addPwdBasedUserChild3(tx, insertedUserID)
 		if err != nil {
 			return err
 		}
-		err = da.addPwdBasedUserChild4(tx, insertedUserID, pwdHash)
+		err = mrTable.addPwdBasedUserChild4(tx, insertedUserID, pwdHash)
 		if err != nil {
 			return err
 		}
@@ -67,13 +72,13 @@ func (da *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name strin
 }
 
 // AddUserPwdInternal ...
-func (da *TableTypeUserPwd) AddUserPwdInternal(queryable mingru.Queryable, id uint64, pwdHash string) error {
+func (mrTable *TableTypeUserPwd) AddUserPwdInternal(queryable mingru.Queryable, id uint64, pwdHash string) error {
 	_, err := queryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
 	return err
 }
 
 // SelectHashByID ...
-func (da *TableTypeUserPwd) SelectHashByID(queryable mingru.Queryable, id uint64) (string, error) {
+func (mrTable *TableTypeUserPwd) SelectHashByID(queryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := queryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
