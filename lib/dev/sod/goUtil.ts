@@ -104,7 +104,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
         members.push({
           name: cm.capitalizeFirstLetter(renameMap[k] || k),
           paramName: k,
-          type: v,
+          type: requiredProp ? v : `*${v}`,
           tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,
         });
       },
