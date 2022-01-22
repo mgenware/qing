@@ -23,10 +23,3 @@ func NewCmt(d *da.CmtData) cmt.Cmt {
 	modifiedAt := fmtx.Time(d.RawModifiedAt)
 	return cmt.NewCmt(d, eid, userURL, userEID, userIconURL, createdAt, modifiedAt)
 }
-
-func NewReply(d *da.CmtData) cmt.Reply {
-	c := NewCmt(d)
-	toUserEID := fmtx.EncodeID(d.ToUserID)
-	toUserURL := appURL.Get().UserProfile(d.ToUserID)
-	return cmt.NewReply(&c, toUserEID, d.ToUserName, toUserURL)
-}

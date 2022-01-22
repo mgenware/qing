@@ -24,9 +24,10 @@ type Cmt struct {
 	UserIconURL string `json:"userIconURL"`
 	CreatedAt   string `json:"createdAt"`
 	ModifiedAt  string `json:"modifiedAt"`
+	ParentID    string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userIconURL string, createdAt string, modifiedAt string) Cmt {
+func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userIconURL string, createdAt string, modifiedAt string, parentID string) Cmt {
 	return Cmt{
 		CmtData: *cmtData,
 		EID: id,
@@ -35,22 +36,6 @@ func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userI
 		UserIconURL: userIconURL,
 		CreatedAt: createdAt,
 		ModifiedAt: modifiedAt,
-	}
-}
-
-type Reply struct {
-	Cmt
-
-	ToUserEID  string `json:"toUserID"`
-	ToUserName string `json:"toUserName,omitempty"`
-	ToUserURL  string `json:"toUserURL"`
-}
-
-func NewReply(cmt *Cmt, toUserID string, toUserName string, toUserURL string) Reply {
-	return Reply{
-		Cmt: *cmt,
-		ToUserEID: toUserID,
-		ToUserName: toUserName,
-		ToUserURL: toUserURL,
+		ParentID: parentID,
 	}
 }

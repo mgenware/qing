@@ -134,8 +134,6 @@ export class CmtApp extends BaseElement {
         loader = SetCmtLoader.newReply(
           this.hostID,
           this.hostType,
-          // `toUserID`:
-          editorProps.replyingTo.userID,
           // `parentCmtID`:
           editorProps.parent.id,
           e.detail,
