@@ -45,7 +45,7 @@ async function buildServerLSDef(lsObj: Record<string, string>): Promise<PropData
   });
 
   await mfs.writeFileAsync(
-    serverPath('app/handler/localization/dictionary.go'),
+    serverPath('a/handler/localization/dictionary.go'),
     copyrightString + result,
   );
   return props;

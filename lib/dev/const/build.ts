@@ -44,7 +44,7 @@ async function buildConstantsAsync() {
   return buildJSONFileAsync(
     np.join(dirPath, 'constants.json'),
     webPath('src/sharedConstants.ts'),
-    serverPath('app/defs/shared_constants.go'),
+    serverPath('a/defs/shared_constants.go'),
     'defs',
     'SharedConstantsType',
     'Shared',

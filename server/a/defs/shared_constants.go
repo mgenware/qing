@@ -29,7 +29,6 @@ type SharedConstantsType struct {
 	EntityForumQuestion int
 	EntityPost int
 	EntityQuestion int
-	EntityReply int
 	ErrAlreadyAdmin int
 	ErrCannotSetAdminOfYourself int
 	ErrCaptchaNotFound int
@@ -100,7 +99,6 @@ func init() {
 		EntityForumQuestion: 9,
 		EntityPost: 1,
 		EntityQuestion: 5,
-		EntityReply: 3,
 		ErrAlreadyAdmin: 2,
 		ErrCannotSetAdminOfYourself: 1,
 		ErrCaptchaNotFound: 10002,
