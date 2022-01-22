@@ -12,7 +12,7 @@ require (
 	github.com/mgenware/go-captcha v1.0.0
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/goutil v1.0.0
-	github.com/mgenware/mingru-go-lib v0.0.1
+	github.com/mgenware/mingru-go-lib v0.1.1
 	github.com/microcosm-cc/bluemonday v1.0.16
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0
