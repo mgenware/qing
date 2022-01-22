@@ -77,11 +77,11 @@ func (mrTable *TableTypePost) insertCmtChild3(queryable mingru.Queryable, hostID
 }
 
 // InsertCmt ...
-func (mrTable *TableTypePost) InsertCmt(db *sql.DB, parentID *uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypePost) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := Cmt.InsertCmt(tx, parentID, contentHTML, userID)
+		cmtID, err := Cmt.InsertCmt(tx, contentHTML, userID)
 		if err != nil {
 			return err
 		}

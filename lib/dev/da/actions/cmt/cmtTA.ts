@@ -47,7 +47,7 @@ export class CmtTA extends mm.TableActions {
     .selectRow(t.content)
     .whereSQL(defaultUpdateConditions(t))
     .resultTypeNameAttr(getEntitySrcType);
-  insertCmt = mm.insertOne().setDefaults().setInputs();
+  insertCmt = mm.insertOne().set(t.parent_id, 'NULL').setDefaults().setInputs();
   // `parent_id` is required when inserting a reply.
   insertReply = mm
     .insertOne()
