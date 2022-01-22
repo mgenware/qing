@@ -63,16 +63,16 @@ func (mrTable *TableTypeCmt) InsertReply(queryable mingru.Queryable, parentID ui
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-// CmtTableSelectCmtDataForDeletionResult ...
-type CmtTableSelectCmtDataForDeletionResult struct {
+// CmtTableMemLockedGetCmtDataForDeletionResult ...
+type CmtTableMemLockedGetCmtDataForDeletionResult struct {
 	ParentID   *uint64 `json:"parentID,omitempty"`
 	ReplyCount uint    `json:"replyCount,omitempty"`
 }
 
-// SelectCmtDataForDeletion ...
-func (mrTable *TableTypeCmt) SelectCmtDataForDeletion(queryable mingru.Queryable, id uint64) (CmtTableSelectCmtDataForDeletionResult, error) {
-	var result CmtTableSelectCmtDataForDeletionResult
-	err := queryable.QueryRow("SELECT `parent_id`, `reply_count` FROM `cmt` WHERE `id` = ?", id).Scan(&result.ParentID, &result.ReplyCount)
+// MemLockedGetCmtDataForDeletion ...
+func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(queryable mingru.Queryable, id uint64) (CmtTableMemLockedGetCmtDataForDeletionResult, error) {
+	var result CmtTableMemLockedGetCmtDataForDeletionResult
+	err := queryable.QueryRow("SELECT `parent_id`, `reply_count` FROM `cmt` WHERE `id` = ? LOCK IN SHARE MODE", id).Scan(&result.ParentID, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
