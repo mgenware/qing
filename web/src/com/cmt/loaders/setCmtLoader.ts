@@ -21,7 +21,7 @@ export interface SetCmtData {
   id?: string;
   isReply?: number;
   // Only used when creating a reply.
-  parentCmtID?: string;
+  parentID?: string;
 }
 
 export interface SetCmtResponse {
@@ -56,13 +56,13 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
   static newReply(
     hostID: string,
     hostType: number,
-    parentCmtID: string,
+    parentID: string,
     contentData: ComposerContent,
   ): SetCmtLoader {
     return new SetCmtLoader({
       hostID,
       hostType,
-      parentCmtID,
+      parentID,
       contentData,
     });
   }

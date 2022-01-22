@@ -28,12 +28,6 @@ type SetCmtResponse struct {
 	Cmt *cmt.Cmt `json:"cmt"`
 }
 
-// On web side, replies are incorporated into the comment type, so here we're returning
-// a `Reply` object with the exact same name of `cmt`.
-type SetCmtReplyResponse struct {
-	Reply *cmt.Reply `json:"cmt"`
-}
-
 func getCmtTA(hostType int) (da.CmtInterface, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:
@@ -62,7 +56,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Create a comment or reply.
 		hostType := validator.MustGetIntFromDict(params, "hostType")
 		hostID := validator.MustGetIDFromDict(params, "hostID")
-		parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
+		parentID := validator.GetIDFromDict(params, "parentID")
 
 		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
@@ -75,8 +69,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 
 		var cmtID uint64
-		if parentCmtID != 0 {
-			cmtID, err = cmtCore.InsertReply(db, content, uid, parentCmtID, hostID, sanitizedToken, captResult)
+		if parentID != 0 {
+			cmtID, err = cmtCore.InsertReply(db, parentID, content, uid, hostID, sanitizedToken, captResult)
 		} else {
 			cmtID, err = cmtCore.InsertCmt(db, content, uid, hostID, sanitizedToken, captResult)
 		}

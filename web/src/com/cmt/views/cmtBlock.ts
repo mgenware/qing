@@ -83,7 +83,7 @@ export class CmtBlock extends BaseElement {
         <cmt-view
           class="m-t-md"
           .cmt=${it}
-          .parentCmtID=${cmt.id}
+          .parentID=${cmt.id}
           @replyClick=${this.handleCmtReplyClick}
           @editClick=${this.handleCmtEditClick}
           @deleteClick=${this.handleCmtDeleteClick}></cmt-view>

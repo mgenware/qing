@@ -145,7 +145,7 @@ export class CmtDataHub {
       cmt.replyCount ?? 0,
       undefined,
       {
-        parentCmtID: cmt.id,
+        parentID: cmt.id,
         page: startPage,
       },
       (status) => this.childLoadingStatusChanged.dispatch([cmt, status]),

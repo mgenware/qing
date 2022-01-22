@@ -54,7 +54,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	parentCmtID := validator.GetIDFromDict(params, "parentCmtID")
+	parentID := validator.GetIDFromDict(params, "parentID")
 	page := validator.GetPageParamFromDict(params)
 
 	db := appDB.DB()
@@ -64,11 +64,11 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var err error
 
 	// Selecting replies.
-	if parentCmtID != 0 {
+	if parentID != 0 {
 		if uid == 0 {
-			items, hasNext, err = da.Cmt.SelectReplies(db, &parentCmtID, page, kCmtPageSize)
+			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize)
 		} else {
-			items, hasNext, err = da.Cmt.SelectRepliesWithLike(db, uid, &parentCmtID, page, kCmtPageSize)
+			items, hasNext, err = da.Cmt.SelectRepliesWithLike(db, uid, &parentID, page, kCmtPageSize)
 		}
 		if err != nil {
 			app.PanicIfErr(err)

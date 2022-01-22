@@ -18,7 +18,7 @@ export interface GetCmtsInputs {
 }
 
 export interface GetRepliesInputs {
-  parentCmtID: string;
+  parentID: string;
   page: number;
 }
 
@@ -39,7 +39,7 @@ export default class GetCmtsLoader extends Loader<ItemsLoadedResp<Cmt>> {
   }
 
   static reply(inputs: GetRepliesInputs): GetCmtsLoader {
-    CHECK(inputs.parentCmtID);
+    CHECK(inputs.parentID);
     const res = new GetCmtsLoader();
     res.replyInputs = inputs;
     return res;

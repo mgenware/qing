@@ -31,7 +31,6 @@ func init() {
 	allowedTypes = make(map[int]bool)
 	allowedTypes[defs.Shared.EntityPost] = true
 	allowedTypes[defs.Shared.EntityCmt] = true
-	allowedTypes[defs.Shared.EntityReply] = true
 	allowedTypes[defs.Shared.EntityDiscussion] = true
 	allowedTypes[defs.Shared.EntityDiscussionMsg] = true
 }

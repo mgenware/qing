@@ -36,8 +36,6 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 		res, err = da.Post.SelectItemSrc(db, id, uid)
 	case defs.Shared.EntityCmt:
 		res, err = da.Cmt.SelectCmtSource(db, id, uid)
-	case defs.Shared.EntityReply:
-		res, err = da.Reply.SelectReplySource(db, id, uid)
 	case defs.Shared.EntityQuestion:
 		res, err = da.Question.SelectItemSrc(db, id, uid)
 	case defs.Shared.EntityAnswer:
