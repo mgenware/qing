@@ -5,15 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { Cmt as CmtCore, Reply as ReplyCore } from 'sod/cmt/cmt';
+import { Cmt as CmtCore } from 'sod/cmt/cmt';
 
 interface UICmtCore {
   uiHighlighted?: boolean;
 }
 
 export interface Cmt extends CmtCore, UICmtCore {}
-
-export interface Reply extends ReplyCore, UICmtCore {}
 
 export default Cmt;
 
@@ -25,12 +23,5 @@ export interface CmtCountChangedEventDetail {
 }
 
 export function isCmtReply(cmt: Cmt): boolean {
-  return !!(cmt as Reply).toUserURL;
-}
-
-export function toReply(cmt: Cmt): Reply | null {
-  if (isCmtReply(cmt)) {
-    return cmt as Reply;
-  }
-  return null;
+  return !!cmt.parentID;
 }

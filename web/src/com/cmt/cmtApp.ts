@@ -14,7 +14,7 @@ import 'qing-overlay';
 import 'ui/editor/composerView';
 import { Cmt, isCmtReply } from './data/cmt';
 import { tif } from 'lib/htmlLib';
-import { entityCmt, entityReply } from 'sharedConstants';
+import { entityCmt } from 'sharedConstants';
 import ls, { formatLS } from 'ls';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { SetCmtLoader } from './loaders/setCmtLoader';
@@ -69,8 +69,6 @@ export class CmtApp extends BaseElement {
 
   render() {
     const { editorProps } = this;
-    const isReply = !!editorProps.parent;
-
     let heading: string;
     if (editorProps.replyingTo) {
       heading = formatLS(ls.pReplyTo, editorProps.replyingTo.userName);
@@ -95,7 +93,7 @@ export class CmtApp extends BaseElement {
         <composer-view
           id=${composerID}
           .entityID=${editorProps.editing?.id ?? ''}
-          .entityType=${isReply ? entityReply : entityCmt}
+          .entityType=${entityCmt}
           .submitButtonText=${editorProps.editing ? ls.save : ls.send}
           @onSubmit=${this.handleSubmit}
           @onDiscard=${this.handleDiscard}></composer-view>

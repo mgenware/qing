@@ -18,15 +18,4 @@ Cmt:
   userIconURL!: string
   createdAt!: string
   modifiedAt!: string
-
-Reply:
-  __go_ctor: true
-  __go_extends:
-    name: Cmt
-  __ts_extends:
-    name: Cmt
-  __go_rename:
-    toUserID: toUserEID
-  toUserID!: string
-  toUserName: string
-  toUserURL!: string
+  parentID: string

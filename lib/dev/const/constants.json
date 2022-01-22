@@ -25,7 +25,6 @@
   "routeLang": "lang",
   "entityPost": 1,
   "entityCmt": 2,
-  "entityReply": 3,
   "entityDiscussion": 4,
   "entityQuestion": 5,
   "entityDiscussionMsg": 6,

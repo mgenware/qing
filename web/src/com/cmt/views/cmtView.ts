@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
-import { ls, formatLS } from 'ls';
+import { ls } from 'ls';
 import 'ui/editor/editBarApp';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
@@ -15,9 +15,9 @@ import 'ui/widgets/svgIcon';
 import 'com/like/likeApp';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { staticMainImage } from 'urls';
-import { Cmt, toReply } from '../data/cmt';
+import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
-import { entityCmt, entityReply } from 'sharedConstants';
+import { entityCmt } from 'sharedConstants';
 import appPageState from 'app/appPageState';
 
 @customElement('cmt-view')
@@ -49,7 +49,6 @@ export class CmtView extends BaseElement {
   render() {
     const { cmt } = this;
     CHECK(cmt);
-    const reply = toReply(cmt);
     return html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
         <div class="col-auto">
@@ -65,19 +64,6 @@ export class CmtView extends BaseElement {
         <div class="col" style="padding-left: 0">
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
-            ${reply
-              ? html`
-                  <span>
-                    <svg-icon
-                      title=${formatLS(ls.pReplyTo, reply.toUserName)}
-                      iconStyle="info"
-                      .oneTimeSrc=${staticMainImage('reply-to.svg')}
-                      .size=${16}>
-                    </svg-icon>
-                    <a href=${reply.toUserURL || '#'}>${reply.toUserName}</a>
-                  </span>
-                `
-              : ''}
             <time-field
               class="m-l-sm"
               .createdAt=${cmt.createdAt}
@@ -107,7 +93,7 @@ export class CmtView extends BaseElement {
               .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.hasLiked}
               .hostID=${cmt.id}
-              .hostType=${reply ? entityReply : entityCmt}></like-app>
+              .hostType=${entityCmt}></like-app>
           </div>
         </div>
       </div>

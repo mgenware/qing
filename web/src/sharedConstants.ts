@@ -38,7 +38,6 @@ export const routeAnswer = "a";
 export const routeLang = "lang";
 export const entityPost = 1;
 export const entityCmt = 2;
-export const entityReply = 3;
 export const entityDiscussion = 4;
 export const entityQuestion = 5;
 export const entityDiscussionMsg = 6;
