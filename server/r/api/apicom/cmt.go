@@ -21,5 +21,5 @@ func NewCmt(d *da.CmtData) cmt.Cmt {
 	userIconURL := appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
 	createdAt := fmtx.Time(d.RawCreatedAt)
 	modifiedAt := fmtx.Time(d.RawModifiedAt)
-	return cmt.NewCmt(d, eid, userURL, userEID, userIconURL, createdAt, modifiedAt)
+	return cmt.NewCmt(d, eid, userURL, userEID, userIconURL, createdAt, modifiedAt, nil)
 }
