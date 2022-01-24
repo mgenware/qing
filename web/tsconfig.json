@@ -8,7 +8,6 @@
     "baseUrl": "./src",
     "declaration": false,
     "incremental": true,
-    "preserveWatchOutput": true,
-    "tsBuildInfoFile": "./dist/qing.tsbuildinfo"
+    "preserveWatchOutput": true
   }
 }

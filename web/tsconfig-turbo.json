@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist-turbo",
     "sourceMap": false,
-    "tsBuildInfoFile": "./dist-turbo/qing.tsbuildinfo",
     "plugins": [
       {
         "transform": "ts-transform-esm-import",
