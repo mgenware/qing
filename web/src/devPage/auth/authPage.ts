@@ -89,7 +89,7 @@ export class AuthDevPage extends BaseElement {
   private async handleNewUser() {
     const loader = new loaders.NewUserLoader();
     const status = await appTask.critical(loader);
-    if (status.data) {
+    if (status.isSuccess) {
       // eslint-disable-next-line no-alert
       alert(`New user created with ID ${JSON.stringify(status.data)}`);
     }
