@@ -52,7 +52,7 @@ export class DialogView extends BaseElement {
   @lp.string title = '';
   @lp.string message = '';
   @lp.number icon: DialogIcon = 0;
-  @lp.array buttons: string[] = [];
+  @lp.array buttons: readonly string[] = [];
   @lp.number defaultButton = -1;
   @lp.number cancelButton = -1;
 

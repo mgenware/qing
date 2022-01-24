@@ -80,7 +80,7 @@ export class UserSelectorApp extends BaseElement {
 
   @lp.bool byID = true;
   @lp.string value = '';
-  @lp.array private users: UserInfo[] = [];
+  @lp.array private users: readonly UserInfo[] = [];
   @lp.object private status = LoadingStatus.notStarted;
   @lp.bool private popoverVisible = false;
   @lp.object private selectedUser: UserInfo | null = null;

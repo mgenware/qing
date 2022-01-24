@@ -37,7 +37,7 @@ export abstract class PCListApp extends BaseElement {
   }
 
   @lp.object loadingStatus = LoadingStatus.working;
-  @lp.array items: PCPost[] = [];
+  @lp.array items: readonly PCPost[] = [];
 
   // Set those properties in child classes to have a default sorted column.
   @lp.string currentSortedColumn = '';

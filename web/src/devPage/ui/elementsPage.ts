@@ -127,8 +127,8 @@ export class ElementsPage extends BaseElement {
 
   #setEntityApp: SetEntityApp | null = null;
 
-  @lp.array checklistIndices1: number[] = [];
-  @lp.array checklistIndices2: number[] = [];
+  @lp.array checklistIndices1: readonly number[] = [];
+  @lp.array checklistIndices2: readonly number[] = [];
 
   render() {
     return html`

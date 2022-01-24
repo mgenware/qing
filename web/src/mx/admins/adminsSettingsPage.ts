@@ -39,7 +39,7 @@ export class AdminsSettingsPage extends StatefulPage {
   }
 
   // TODO: Pagination.
-  @lp.array private admins: UserInfo[] = [];
+  @lp.array private admins: readonly UserInfo[] = [];
   @lp.object private userCandidate: UserInfo | null = null;
 
   override async reloadStatefulPageDataAsync() {

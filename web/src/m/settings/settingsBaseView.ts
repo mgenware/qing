@@ -19,7 +19,7 @@ export interface SettingsBaseItem {
 export class SettingsBaseView extends BaseElement {
   @lp.number selectedItem = '';
   @lp.string settingsTitle = '';
-  @lp.array items: SettingsBaseItem[] = [];
+  @lp.array items: readonly SettingsBaseItem[] = [];
 
   render() {
     return html`
