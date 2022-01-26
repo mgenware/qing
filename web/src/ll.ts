@@ -13,6 +13,7 @@ import coreStyles from './app/styles/bundle';
 export * from 'lit';
 export * from 'lit/decorators.js';
 export * from 'lit/directives/ref.js';
+export * from 'lit/directives/when.js';
 
 export class BaseElement extends LitElement {
   static get styles(): CSSResultGroup {
