@@ -6,14 +6,13 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import 'qing-button';
 import { staticMainImage } from 'urls';
 import 'ui/widgets/svgIcon';
 import 'ui/content/hfNumber';
 import ls from 'ls';
-import { tif } from 'lib/htmlLib';
 import { upVoteValue, downVoteValue } from 'sharedConstants';
 
 const voteBtnSize = 20;
@@ -105,18 +104,18 @@ export class VoteView extends BaseElement {
               ><hf-number .value=${value || 0}></hf-number
             ></span>
           </div>
-          ${tif(
+          ${when(
             ups && downs,
-            html` <div class="flex-full d-flex">
-              ${tif(
+            () => html` <div class="flex-full d-flex">
+              ${when(
                 ups,
-                html`<div class="flex-full text-center flex-v-align">
+                () => html`<div class="flex-full text-center flex-v-align">
                   <span class="color-up size-md"><hf-number .value=${ups}></hf-number></span>
                 </div>`,
               )}
-              ${tif(
+              ${when(
                 downs,
-                html`<div class="flex-full text-center flex-v-align">
+                () => html`<div class="flex-full text-center flex-v-align">
                   <span class="color-down size-md"><hf-number .value=${-downs}></hf-number></span>
                 </div>`,
               )}

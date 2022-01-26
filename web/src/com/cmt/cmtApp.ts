@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './views/rootCmtList';
@@ -86,9 +86,10 @@ export class CmtApp extends BaseElement {
         .loadOnVisible=${!!this.initialTotalCmtCount}></root-cmt-list>
       <qing-overlay class="immersive" ?open=${editorProps.open}>
         <h2>${heading}</h2>
-        ${tif(
+        ${when(
           editorProps.replyingTo,
-          html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML ?? '')}</blockquote>`,
+          () =>
+            html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML ?? '')}</blockquote>`,
         )}
         <composer-view
           id=${composerID}

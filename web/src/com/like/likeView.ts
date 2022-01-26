@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import { staticMainImage } from 'urls';
 import { cache } from 'lit/directives/cache.js';
@@ -69,7 +69,7 @@ export class LikeView extends BaseElement {
                 .oneTimeSrc=${staticMainImage('heart.svg')}
                 .size=${iconSize}></svg-icon>`,
         )}
-        ${tif(this.likes, html`<span class="num">${this.likes}</span>`)}
+        ${when(this.likes, () => html`<span class="num">${this.likes}</span>`)}
       </qing-button>
     `;
   }

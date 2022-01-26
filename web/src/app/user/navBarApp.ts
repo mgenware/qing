@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -221,7 +221,10 @@ export default class NavBarApp extends BaseElement {
                   >
                   <hr />
                   <a href=${routes.m.settings.profile}>${ls.settings}</a>
-                  ${tif(user.admin, html`<a href=${routes.mx.admins}>${ls.siteSettings}</a>`)}
+                  ${when(
+                    user.admin,
+                    () => html`<a href=${routes.mx.admins}>${ls.siteSettings}</a>`,
+                  )}
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>

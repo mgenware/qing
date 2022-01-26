@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css } from 'll';
+import { customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import { CHECK } from 'checks';
 import ls from 'ls';
@@ -18,7 +18,6 @@ import 'ui/alerts/alertView';
 import { StatefulPage } from 'ui/status/statefulPage';
 import GetSiteSettingsLoader from './loaders/getSiteSettingsLoader';
 import UpdateSiteSettingsLoader from './loaders/updateSiteSettingsLoader';
-import { tif } from 'lib/htmlLib';
 import appTask from 'app/appTask';
 import * as sc from 'sharedConstants';
 import { CommunityRawSettings } from 'sod/app/appRawSettings';
@@ -46,7 +45,7 @@ export class CommunitySettingsPage extends StatefulPage {
     return html`
       <status-overlay .status=${this.savingStatus}>
         <heading-view>${ls.forums}</heading-view>
-        ${tif(
+        ${when(
           this.needRestart,
           html`<alert-view alertStyle="warning">${ls.restartServerToTakeEffect}</alert-view>`,
         )}

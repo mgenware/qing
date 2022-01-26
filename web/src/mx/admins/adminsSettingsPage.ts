@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css } from 'll';
+import { customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import ls, { formatLS } from 'ls';
 import 'ui/content/headingView';
@@ -18,7 +18,6 @@ import GetAdminsLoader from './loaders/getAdminsLoader';
 import UserInfo from 'com/user/userInfo';
 import SetAdminLoader from './loaders/setAdminLoader';
 import 'com/user/userCard';
-import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
@@ -59,9 +58,9 @@ export class AdminsSettingsPage extends StatefulPage {
         <user-selector-app
           @selectionChanged=${(e: CustomEvent<UserInfo | null>) =>
             (this.userCandidate = e.detail)}></user-selector-app>
-        ${tif(
+        ${when(
           this.userCandidate,
-          html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
+          () => html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
             ${ls.add}
           </qing-button>`,
         )}

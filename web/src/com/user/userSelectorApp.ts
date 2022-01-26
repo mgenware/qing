@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import 'ui/form/inputView';
 import 'ui/form/checklistView';
@@ -17,7 +17,6 @@ import LoadingStatus from 'lib/loadingStatus';
 import FindUsersLoader from './loaders/findUsersLoader';
 import { createPopper } from '@popperjs/core';
 import './userCard';
-import { tif } from 'lib/htmlLib';
 import appTask from 'app/appTask';
 
 const inputViewID = 'input-view';
@@ -124,7 +123,7 @@ export class UserSelectorApp extends BaseElement {
               <div class="list-view">
                 ${users.length
                   ? users.map((item) => this.renderUserRow(item))
-                  : tif(
+                  : when(
                       this.status.isWorking,
                       html`<div class="no-result-row">${ls.noResultsFound}</div>`,
                     )}

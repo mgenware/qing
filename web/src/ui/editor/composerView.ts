@@ -15,6 +15,7 @@ import {
   ref,
   PropertyValues,
   TemplateResult,
+  when,
 } from 'll';
 import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
@@ -24,7 +25,6 @@ import 'ui/form/inputView';
 import 'ui/status/statusView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';
-import { tif } from 'lib/htmlLib';
 import appAlert from 'app/appAlert';
 import LoadingStatus from 'lib/loadingStatus';
 import appTask from 'app/appTask';
@@ -164,9 +164,9 @@ export class ComposerView extends BaseElement {
 
     let editorContent: TemplateResult;
     if (loadingStatus.isSuccess) {
-      editorContent = html`${tif(
+      editorContent = html`${when(
           this.showTitleInput,
-          html`
+          () => html`
             <div class="p-b-sm flex-auto">
               <input-view
                 ${ref(this.titleInputEl)}
@@ -186,9 +186,9 @@ export class ComposerView extends BaseElement {
 
     const bottomContent = html`
       <div class="m-t-md flex-auto text-center editor-buttons">
-        ${tif(
+        ${when(
           loadingStatus.isSuccess,
-          html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
+          () => html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
             ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
           </qing-button>`,
         )}
