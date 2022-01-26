@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect, html, fixture, elementUpdated, aTimeout } from 'dev/t';
 import { html as litHTML } from 'll';
-import { renderTemplateResult, tif } from './htmlLib';
+import { renderTemplateResult } from './htmlLib';
 
 it('renderTemplateResult', async () => {
   const el: HTMLElement = await fixture(html`<section><q>1</q></section>`);
@@ -51,11 +51,4 @@ it('renderTemplateResult - empty ID', async () => {
   );
   expect(el1.outerHTML).to.eq('<p>1</p>');
   expect(el2.outerHTML).to.eq('<p>2</p>');
-});
-
-it('tif', () => {
-  expect(tif(1, 'haha')).to.eq('haha');
-  expect(tif(0, 'haha')).to.eq('');
-  expect(tif(false, 'haha')).to.eq('');
-  expect(tif('', 'haha')).to.eq('');
 });
