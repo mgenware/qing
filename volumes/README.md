@@ -5,4 +5,3 @@
 # Subdirectories
 
 - `qing_data`: User data generated at runtime, e.g. user profile images, logs...
-- `qing-tmp`: Temporary files
