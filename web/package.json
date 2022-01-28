@@ -25,7 +25,7 @@
     "plum-element": "^0.0.7",
     "qing-button": "^8.2.5",
     "qing-dock-box": "^0.2.1",
-    "qing-keyed-array": "^1.0.0",
+    "qing-keyed-array": "^1.0.1",
     "qing-overlay": "^0.14.0",
     "qing-stylelib": "^2.3.0",
     "tslib": "^2.3.1"
