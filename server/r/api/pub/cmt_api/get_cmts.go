@@ -26,8 +26,6 @@ func init() {
 	cc := app.CoreConfig()
 	if cc.ProductionMode() {
 		kCmtPageSize = 10
-	} else if cc.DevMode() {
-		kCmtPageSize = 3
 	} else {
 		kCmtPageSize = 2
 	}
