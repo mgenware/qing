@@ -14,7 +14,7 @@ export interface ItemsLoadedResp<T> {
   hasNext?: boolean;
 }
 
-export enum ItemsChangedSource {
+export enum ItemsChangeSource {
   userAction,
   loadMore,
 }
@@ -26,7 +26,7 @@ export interface ItemsChangedEvent<T> {
   totalCount: number;
   detail: ArrayChangedEvent<string>;
   sender: ItemCollector<T>;
-  source: ItemsChangedSource;
+  source: ItemsChangeSource;
 }
 
 export abstract class ItemCollector<T> {
@@ -35,16 +35,20 @@ export abstract class ItemCollector<T> {
   // directly. Later when user scrolls down to load more items from server,
   // the same item from server could get added again. `itemMap` can help detect
   // duplicates and prevent this from happening.
-  items: KeyedArray<string, T>;
+  private _observableItems: KeyedArray<string, T>;
 
   page = 1;
   hasNext = false;
   totalCount: number;
   // Used to identity if the change is triggered by "viewMore".
-  private changeSource = ItemsChangedSource.userAction;
+  private changeSource = ItemsChangeSource.userAction;
 
   get count(): number {
-    return this.items.count;
+    return this._observableItems.count;
+  }
+
+  get observableItems() {
+    return this._observableItems;
   }
 
   constructor(
@@ -55,14 +59,14 @@ export abstract class ItemCollector<T> {
   ) {
     this.totalCount = initialTotalCount;
     this.hasNext = !!initialTotalCount;
-    this.items = new KeyedArray<string, T>(true, keyFn);
-    this.items.onArrayChanged = (_, e) => {
-      if (this.changeSource === ItemsChangedSource.userAction) {
+    this._observableItems = new KeyedArray<string, T>(true, keyFn);
+    this._observableItems.onArrayChanged = (sender, e) => {
+      if (this.changeSource === ItemsChangeSource.userAction) {
         this.totalCount += e.numberOfChanges;
       }
-      const { items, hasNext, totalCount } = this;
+      const { hasNext, totalCount } = this;
       itemsChanged({
-        items: items.array,
+        items: sender.array,
         hasNext,
         totalCount,
         changed: e.numberOfChanges,
@@ -71,8 +75,8 @@ export abstract class ItemCollector<T> {
         source: this.changeSource,
       });
 
-      // Always reset `changeSource`.
-      this.changeSource = ItemsChangedSource.userAction;
+      // Always reset `changeSource` at the end of the func.
+      this.changeSource = ItemsChangeSource.userAction;
     };
   }
 
@@ -85,9 +89,10 @@ export abstract class ItemCollector<T> {
 
     this.hasNext = payload.hasNext ?? false;
     this.page += 1;
-    // Set this before calling `push`.
-    this.changeSource = ItemsChangedSource.loadMore;
-    this.items.push(...newItems);
+    // Set `changeSource` before calling `push` as this affects
+    // how items changed event is handled.
+    this.changeSource = ItemsChangeSource.loadMore;
+    this._observableItems.push(...newItems);
   }
 
   protected abstract createLoader(): Loader<ItemsLoadedResp<T>>;
