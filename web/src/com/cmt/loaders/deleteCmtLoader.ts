@@ -5,20 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { CHECK } from 'checks';
 import Loader from 'lib/loader';
 import routes from 'routes';
+import Entity from 'lib/entity';
 
 export default class DeleteCmtLoader extends Loader<string> {
-  constructor(
-    public id: string | null,
-    public hostType: number,
-    public hostID: string,
-    public isReply: boolean,
-  ) {
+  constructor(public id: string | null, public host: Entity) {
     super();
-    CHECK(hostID);
-    CHECK(hostType);
   }
 
   requestURL(): string {
@@ -28,9 +21,8 @@ export default class DeleteCmtLoader extends Loader<string> {
   requestParams(): Record<string, unknown> {
     return {
       id: this.id,
-      hostType: this.hostType,
-      hostID: this.hostID,
-      isReply: +this.isReply,
+      hostType: this.host.type,
+      hostID: this.host.id,
     };
   }
 }

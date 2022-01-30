@@ -5,17 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { CHECK } from 'checks';
 import Loader from 'lib/loader';
 import routes from 'routes';
 import { ComposerContent } from 'ui/editor/composerView';
 import { Cmt } from '../data/cmt';
+import Entity from 'lib/entity';
 
 // DON'T change the names below. They're used by server as well.
 export interface SetCmtData {
-  // Always required.
-  hostID: string;
-  hostType: number;
+  host: Entity;
   contentData: ComposerContent;
   // Only used when editing a cmt or reply.
   id?: string;
@@ -29,39 +27,30 @@ export interface SetCmtResponse {
 }
 
 export class SetCmtLoader extends Loader<SetCmtResponse> {
-  static newCmt(hostID: string, hostType: number, contentData: ComposerContent): SetCmtLoader {
+  static newCmt(host: Entity, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
-      hostID,
-      hostType,
+      host,
       contentData,
     });
   }
 
   static editCmt(
-    hostID: string,
-    hostType: number,
+    host: Entity,
     id: string,
     isReply: boolean,
     contentData: ComposerContent,
   ): SetCmtLoader {
     return new SetCmtLoader({
-      hostID,
-      hostType,
+      host,
       contentData,
       id,
       isReply: +isReply,
     });
   }
 
-  static newReply(
-    hostID: string,
-    hostType: number,
-    parentID: string,
-    contentData: ComposerContent,
-  ): SetCmtLoader {
+  static newReply(host: Entity, parentID: string, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
-      hostID,
-      hostType,
+      host,
       parentID,
       contentData,
     });
@@ -69,9 +58,6 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
 
   private constructor(public data: SetCmtData) {
     super();
-
-    CHECK(data.hostID);
-    CHECK(data.hostType);
   }
 
   requestURL(): string {

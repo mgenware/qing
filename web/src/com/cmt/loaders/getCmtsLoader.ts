@@ -7,13 +7,13 @@
 
 import Loader from 'lib/loader';
 import routes from 'routes';
+import Entity from 'lib/entity';
 import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
 import { ItemsLoadedResp } from 'lib/itemCollector';
 
 export interface GetCmtsInputs {
-  hostID: string;
-  hostType: number;
+  host: Entity;
   page: number;
 }
 
@@ -31,8 +31,6 @@ export default class GetCmtsLoader extends Loader<ItemsLoadedResp<Cmt>> {
   }
 
   static cmt(inputs: GetCmtsInputs): GetCmtsLoader {
-    CHECK(inputs.hostID);
-    CHECK(inputs.hostType);
     const res = new GetCmtsLoader();
     res.cmtInputs = inputs;
     return res;
