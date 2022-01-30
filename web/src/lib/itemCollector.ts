@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import KeyedArray, { ArrayChangedEvent } from 'qing-keyed-array';
+import { KeyedObservableArray, ChangeInfo } from 'qing-keyed-array';
 import Loader from './loader';
 import LoadingStatus from './loadingStatus';
 
@@ -14,19 +14,15 @@ export interface ItemsLoadedResp<T> {
   hasNext?: boolean;
 }
 
-export enum ItemsChangeSource {
-  userAction,
-  loadMore,
-}
-
 export interface ItemsChangedEvent<T> {
-  items: ReadonlyArray<T>;
+  items: readonly T[];
   hasNext: boolean;
   changed: number;
   totalCount: number;
-  detail: ArrayChangedEvent<string>;
+  detail: ChangeInfo<string>;
   sender: ItemCollector<T>;
-  source: ItemsChangeSource;
+  // This change was triggered by loading more items.
+  triggeredByLoading: boolean;
 }
 
 export abstract class ItemCollector<T> {
@@ -35,13 +31,11 @@ export abstract class ItemCollector<T> {
   // directly. Later when user scrolls down to load more items from server,
   // the same item from server could get added again. `itemMap` can help detect
   // duplicates and prevent this from happening.
-  private _observableItems: KeyedArray<string, T>;
+  private _observableItems: KeyedObservableArray<string, T>;
 
   page = 1;
   hasNext = false;
   totalCount: number;
-  // Used to identity if the change is triggered by "viewMore".
-  private changeSource = ItemsChangeSource.userAction;
 
   get count(): number {
     return this._observableItems.count;
@@ -59,10 +53,11 @@ export abstract class ItemCollector<T> {
   ) {
     this.totalCount = initialTotalCount;
     this.hasNext = !!initialTotalCount;
-    this._observableItems = new KeyedArray<string, T>(true, keyFn);
-    this._observableItems.onArrayChanged = (sender, e) => {
-      if (this.changeSource === ItemsChangeSource.userAction) {
-        this.totalCount += e.numberOfChanges;
+    this._observableItems = new KeyedObservableArray<string, T>(true, keyFn);
+    this._observableItems.changed = (sender, e) => {
+      const triggeredByLoading = !!e.tag;
+      if (!triggeredByLoading) {
+        this.totalCount += e.countDelta;
       }
       const { hasNext, totalCount } = this;
       itemsChanged({
@@ -72,11 +67,8 @@ export abstract class ItemCollector<T> {
         changed: e.numberOfChanges,
         detail: e,
         sender: this,
-        source: this.changeSource,
+        triggeredByLoading,
       });
-
-      // Always reset `changeSource` at the end of the func.
-      this.changeSource = ItemsChangeSource.userAction;
     };
   }
 
@@ -89,9 +81,10 @@ export abstract class ItemCollector<T> {
 
     this.hasNext = payload.hasNext ?? false;
     this.page += 1;
-    // Set `changeSource` before calling `push` as this affects
-    // how items changed event is handled.
-    this.changeSource = ItemsChangeSource.loadMore;
+    // Set `tag` to true to indicate this change is triggered by
+    // loading more items.
+    // The `tag` gets reset after `changed` fires.
+    this._observableItems.tag = true;
     this._observableItems.push(...newItems);
   }
 
