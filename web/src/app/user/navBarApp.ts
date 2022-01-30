@@ -13,7 +13,6 @@ import routes from 'routes';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
-import { tif } from 'lib/htmlLib';
 import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import appStateName from 'app/appStateName';

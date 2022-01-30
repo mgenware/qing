@@ -8,8 +8,6 @@
 import { Cmt } from './cmt';
 
 export interface CmtEditorProps {
-  open: boolean;
-
   // If not null, we're editing a comment or reply.
   editing: Cmt | null;
   // The cmt the user is replying to.

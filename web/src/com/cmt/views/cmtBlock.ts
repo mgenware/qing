@@ -19,7 +19,6 @@ import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
 import CmtCollector from '../data/cmtCollector';
 import { listenForVisibilityChange } from 'lib/htmlLib';
-import APIEventDetail from 'lib/api/apiEventDetail';
 import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
 
@@ -145,17 +144,20 @@ export class CmtBlock extends BaseElement {
 
   // When adding a cmt to root-cmt-list, it's called by <root-cmt-list>.
   // When adding a reply, it's called by `handleReplyClick`.
-  sendNewCmtRequest(props: Omit<CmtEditorProps, 'done'>) {
+  openCmtEditor(props: Omit<CmtEditorProps, 'done'>) {
     const detail: CmtEditorProps = {
       ...props,
-      done: (res) => {
-        if (!res.data) {
-          return;
+      done: (cmt) => {
+        if (props.editing) {
+          this._collector?.observableItems.update(cmt);
+        } else {
+          this._collector?.observableItems.insert(0, cmt);
         }
-        this._collector?.observableItems.insert(0, res.data);
       },
     };
-    this.dispatchEvent(new CustomEvent<CmtEditorProps>('newCmtRequested', { detail }));
+    this.dispatchEvent(
+      new CustomEvent<CmtEditorProps>('openCmtEditorRequested', { detail, composed: true }),
+    );
   }
 
   private async handleViewMore() {
@@ -163,8 +165,7 @@ export class CmtBlock extends BaseElement {
   }
 
   private handleReplyClick() {
-    this.sendNewCmtRequest({
-      open: true,
+    this.openCmtEditor({
       editing: null,
       to: this.cmt,
     });
@@ -192,16 +193,7 @@ export class CmtBlock extends BaseElement {
   }
 
   private handleEditClick() {
-    const detail = new APIEventDetail<Cmt>((res) => {
-      if (res.data) {
-        this.cmt = res.data;
-      }
-    });
-    this.dispatchEvent(
-      new CustomEvent<APIEventDetail<Cmt>>('editCmtRequested', {
-        detail,
-      }),
-    );
+    this.openCmtEditor({ editing: this.cmt, to: null });
   }
 
   private handleCollectorItemsChanged(e: ItemsChangedEvent<Cmt>) {
@@ -220,7 +212,9 @@ export class CmtBlock extends BaseElement {
     }
     this._hasNext = e.hasNext;
     this._items = e.items;
-    this.dispatchEvent(new CustomEvent<ItemsChangedEvent<Cmt>>('cmtItemsChanged', { detail: e }));
+    this.dispatchEvent(
+      new CustomEvent<ItemsChangedEvent<Cmt>>('cmtItemsChanged', { detail: e, composed: true }),
+    );
   }
 
   private handleReplyDeleteMeRequest(e: CustomEvent<Cmt>) {

@@ -40,6 +40,7 @@ type Dictionary struct {
 	ChooseAFileBtn                    string `json:"chooseAFileBtn"`
 	ClickToRefreshCapt                string `json:"clickToRefreshCapt"`
 	Close                             string `json:"close"`
+	CmtDeleted                        string `json:"cmtDeleted"`
 	Code                              string `json:"code"`
 	Comment                           string `json:"comment"`
 	Comments                          string `json:"comments"`

@@ -176,4 +176,5 @@ export default interface LSDefs {
   restartServerToTakeEffect: string;
   enableQueAndDis: string;
   communitySettingsName: string;
+  cmtDeleted: string;
 }

@@ -9,21 +9,26 @@ import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './views/rootCmtList';
+import Entity from 'lib/entity';
 import { CHECK } from 'checks';
 import 'qing-overlay';
 import 'ui/editor/composerView';
 import { Cmt, isCmtReply } from './data/cmt';
-import { tif } from 'lib/htmlLib';
 import { entityCmt } from 'sharedConstants';
 import ls, { formatLS } from 'ls';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { SetCmtLoader } from './loaders/setCmtLoader';
-import { CmtDataHub, CmtEditorProps } from './data/cmtDataHub';
-import DeleteCmtLoader from './loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
-import appCmtHubState from './data/appCmtHubState';
+import { CmtEditorProps } from './data/events';
+import { ItemsChangedEvent } from 'lib/itemCollector';
 
 const composerID = 'composer';
+
+// Wrapper around `CmtEditorProps` used internally in `CmtApp`.
+interface InternalCmtEditorProps extends CmtEditorProps {
+  // Whether the editor is open.
+  open: boolean;
+}
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -39,28 +44,16 @@ export class CmtApp extends BaseElement {
   }
 
   @lp.number initialTotalCmtCount = 0;
-  @lp.string hostID = '';
-  @lp.number hostType = 0;
+  @lp.object host!: Entity;
 
-  @lp.object editorProps = this.closedEditorProps();
+  @lp.state private _editorProps = this.closedEditorProps();
 
   // The number of all comments and their replies.
-  @lp.number private totalCmtCount = 0;
-  private hub: CmtDataHub | null = null;
+  @lp.state private _totalCmtCount = 0;
 
   firstUpdated() {
-    CHECK(this.hostID);
-    CHECK(this.hostType);
-
-    this.totalCmtCount = this.initialTotalCmtCount;
-    this.editorProps = this.closedEditorProps();
-    const hub = new CmtDataHub(this.hostID, this.hostType);
-    hub.openEditorRequested.on((req) => (this.editorProps = req));
-    hub.totalCmtCountChangedWithOffset.on((offset) => (this.totalCmtCount += offset));
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    hub.deleteCmtRequested.on(async (e) => this.handleDeleteCmt(e));
-    appCmtHubState.setHub(this.hostType, this.hostID, hub);
-    this.hub = hub;
+    CHECK(this.host);
+    this._totalCmtCount = this.initialTotalCmtCount;
   }
 
   private get composerEl(): ComposerView | null {
@@ -68,10 +61,10 @@ export class CmtApp extends BaseElement {
   }
 
   render() {
-    const { editorProps } = this;
+    const { _editorProps: editorProps } = this;
     let heading: string;
-    if (editorProps.replyingTo) {
-      heading = formatLS(ls.pReplyTo, editorProps.replyingTo.userName);
+    if (editorProps.to) {
+      heading = formatLS(ls.pReplyTo, editorProps.to.userName);
     } else if (editorProps.editing) {
       heading = ls.editComment;
     } else {
@@ -80,16 +73,16 @@ export class CmtApp extends BaseElement {
 
     return html`
       <root-cmt-list
-        .totalCmtCount=${this.totalCmtCount}
-        .hostID=${this.hostID}
-        .hostType=${this.hostType}
-        .loadOnVisible=${!!this.initialTotalCmtCount}></root-cmt-list>
+        .totalCmtCount=${this._totalCmtCount}
+        .host=${this.host}
+        .loadOnVisible=${!!this.initialTotalCmtCount}
+        @cmtItemsChanged=${this.handleAnyItemsChanged}
+        @openCmtEditorRequested=${this.handleOpenCmtEditorRequested}></root-cmt-list>
       <qing-overlay class="immersive" ?open=${editorProps.open}>
         <h2>${heading}</h2>
         ${when(
-          editorProps.replyingTo,
-          () =>
-            html`<blockquote>${unsafeHTML(editorProps.replyingTo?.contentHTML ?? '')}</blockquote>`,
+          editorProps.to,
+          () => html`<blockquote>${unsafeHTML(editorProps.to?.contentHTML ?? '')}</blockquote>`,
         )}
         <composer-view
           id=${composerID}
@@ -107,45 +100,31 @@ export class CmtApp extends BaseElement {
   }
 
   private closeEditor() {
-    this.editorProps = this.closedEditorProps();
+    this._editorProps = this.closedEditorProps();
     this.composerEl?.resetEditor();
   }
 
-  private async handleDeleteCmt(e: [string, Cmt]) {
-    const [parentID, cmt] = e;
-    const isReply = isCmtReply(cmt);
-    const loader = new DeleteCmtLoader(cmt.id, this.hostType, this.hostID, isReply);
-    const status = await appTask.critical(loader, ls.working);
-    if (status.isSuccess) {
-      this.hub?.removeCmt(isReply ? parentID : null, cmt.id);
-    }
-  }
-
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const { editorProps, hub } = this;
-    CHECK(hub);
+    const { _editorProps: editorProps } = this;
 
     let loader: SetCmtLoader;
     if (!editorProps.editing) {
-      if (editorProps.parent) {
-        CHECK(editorProps.replyingTo);
+      if (editorProps.to) {
         // Add a reply.
         loader = SetCmtLoader.newReply(
-          this.hostID,
-          this.hostType,
+          this.host,
           // `parentID`:
-          editorProps.parent.id,
+          editorProps.to.id,
           e.detail,
         );
       } else {
         // Add a comment.
-        loader = SetCmtLoader.newCmt(this.hostID, this.hostType, e.detail);
+        loader = SetCmtLoader.newCmt(this.host, e.detail);
       }
     } else {
       // Edit a comment or reply.
       loader = SetCmtLoader.editCmt(
-        this.hostID,
-        this.hostType,
+        this.host,
         editorProps.editing.id,
         isCmtReply(editorProps.editing),
         e.detail,
@@ -158,21 +137,16 @@ export class CmtApp extends BaseElement {
       this.closeEditor();
 
       if (!editorProps.editing) {
-        if (editorProps.parent) {
-          // Add a reply.
-          hub.addCmt(editorProps.parent.id, serverCmt);
-        } else {
-          // Add a comment.
-          hub.addCmt(null, serverCmt);
-        }
+        // Adding a cmt or reply.
+        editorProps.done(serverCmt);
       } else {
-        // Edit a comment or reply.
+        // Editing a cmt or reply.
 
         // Copy all properties from the comment returned from server except for `createdAt`.
         // We're hot patching the cmt object, and the `createdAt` property
         // is something server must return (an empty timestamp) but doesn't
         // make sense here.
-        const newCmt: Cmt = {
+        const updatedCmt: Cmt = {
           ...editorProps.editing,
         };
 
@@ -182,22 +156,40 @@ export class CmtApp extends BaseElement {
           if (v) {
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-explicit-any
-            (newCmt as any)[k] = v;
+            (updatedCmt as any)[k] = v;
           }
         }
 
-        newCmt.createdAt = editorProps.editing.createdAt;
-        hub.updateCmt(editorProps.parent?.id ?? null, newCmt);
+        updatedCmt.createdAt = editorProps.editing.createdAt;
+        editorProps.done(updatedCmt);
       }
     }
   }
 
-  private closedEditorProps(): CmtEditorProps {
+  private closedEditorProps(): InternalCmtEditorProps {
     return {
       open: false,
       editing: null,
-      parent: null,
-      replyingTo: null,
+      to: null,
+      done: () => {},
+    };
+  }
+
+  // Handles all `cmtItemsChanged` events from descendants.
+  // This is to track cmt count changes.
+  private handleAnyItemsChanged(e: CustomEvent<ItemsChangedEvent<Cmt>>) {
+    e.stopPropagation();
+    const change = e.detail;
+    if (!change.triggeredByLoading) {
+      this._totalCmtCount += change.detail.countDelta;
+    }
+  }
+
+  private handleOpenCmtEditorRequested(e: CustomEvent<CmtEditorProps>) {
+    e.stopPropagation();
+    this._editorProps = {
+      ...e.detail,
+      open: true,
     };
   }
 }
