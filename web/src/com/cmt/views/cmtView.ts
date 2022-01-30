@@ -49,6 +49,9 @@ export class CmtView extends BaseElement {
   render() {
     const { cmt } = this;
     CHECK(cmt);
+    if (cmt.uiDeleted) {
+      return html`<div class="p-md">${ls.cmtDeleted}</div>`;
+    }
     return html`
       <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
         <div class="col-auto">

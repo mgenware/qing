@@ -166,5 +166,6 @@
   "enableForumGroups": "Enable forum groups",
   "restartServerToTakeEffect": "You need to restart the server for changes to take effect.",
   "enableQueAndDis": "Support questions and discussions",
-  "communitySettingsName": "Community"
+  "communitySettingsName": "Community",
+  "cmtDeleted": "Comment deleted"
 }
