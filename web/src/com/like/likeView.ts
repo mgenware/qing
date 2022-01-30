@@ -9,7 +9,6 @@ import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import { staticMainImage } from 'urls';
 import { cache } from 'lit/directives/cache.js';
-import { tif } from 'lib/htmlLib';
 
 const defaultIconSize = 30;
 

@@ -125,7 +125,7 @@ export class UserSelectorApp extends BaseElement {
                   ? users.map((item) => this.renderUserRow(item))
                   : when(
                       this.status.isWorking,
-                      html`<div class="no-result-row">${ls.noResultsFound}</div>`,
+                      () => html`<div class="no-result-row">${ls.noResultsFound}</div>`,
                     )}
               </div>
             </status-overlay>`}

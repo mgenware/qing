@@ -47,7 +47,7 @@ export class CommunitySettingsPage extends StatefulPage {
         <heading-view>${ls.forums}</heading-view>
         ${when(
           this.needRestart,
-          html`<alert-view alertStyle="warning">${ls.restartServerToTakeEffect}</alert-view>`,
+          () => html`<alert-view alertStyle="warning">${ls.restartServerToTakeEffect}</alert-view>`,
         )}
         <p>
           <check-box
