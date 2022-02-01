@@ -13,7 +13,8 @@ import Entity from 'lib/entity';
 
 // DON'T change the names below. They're used by server as well.
 export interface SetCmtData {
-  host: Entity;
+  hostID: string;
+  hostType: number;
   contentData: ComposerContent;
   // Only used when editing a cmt or reply.
   id?: string;
@@ -29,7 +30,8 @@ export interface SetCmtResponse {
 export class SetCmtLoader extends Loader<SetCmtResponse> {
   static newCmt(host: Entity, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
-      host,
+      hostID: host.id,
+
       contentData,
     });
   }

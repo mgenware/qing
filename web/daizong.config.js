@@ -54,12 +54,12 @@ export default {
     privateTasks: {
       prepare: {
         run: {
-          del: ['dist', '../userland/static/d/js'],
+          del: ['dist', '../userland/static/d/js', 'tsconfig.tsbuildinfo'],
         },
       },
       prepare_turbo: {
         run: {
-          del: 'dist-turbo',
+          del: ['dist-turbo', 'tsconfig-turbo.tsbuildinfo'],
         },
       },
     },

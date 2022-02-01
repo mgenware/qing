@@ -23,7 +23,16 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["Qing", "cmts", "daizong", "datetime", "mgenware", "mingru", "userland"],
+    "cSpell.words": [
+      "clib",
+      "cmts",
+      "daizong",
+      "datetime",
+      "mgenware",
+      "mingru",
+      "Qing",
+      "userland"
+    ],
     "editor.formatOnSave": true,
     "files.insertFinalNewline": true,
     "[typescript]": {

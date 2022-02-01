@@ -16,6 +16,8 @@ import appPageState from 'app/appPageState';
 import { parseString } from 'narwhal-js';
 import Entity from 'lib/entity';
 
+const brCmtCountCls = 'br-cmt-c';
+
 @customElement('root-cmt-list')
 // Displays root cmts in <cmt-block> and handles cases like no comments and login views.
 export class RootCmtList extends BaseElement {
@@ -42,38 +44,30 @@ export class RootCmtList extends BaseElement {
 
   render() {
     const { totalCmtCount } = this;
-    let titleGroup = html` <h2>${ls.comments}</h2> `;
-    let contentGroup = html``;
-
-    if (!totalCmtCount) {
-      titleGroup = html`
-        ${titleGroup}
-        <p class="br-cmt-c">${ls.noComments}</p>
-      `;
-    } else {
-      contentGroup = html`
-        <div class="m-t-md">
-          <cmt-block
-            ${ref(this._cmtBlockEl)}
-            class="p-t-md"
-            .loadOnVisible=${true}
-            .host=${this.host}></cmt-block>
-          ${when(
-            this.totalCmtCount,
-            () => html`<div>
-              <small class="is-secondary br-cmt-c"
-                >${formatLS(ls.pNOComments, this.totalCmtCount)}</small
-              >
-            </div>`,
-          )}
-        </div>
-      `;
-    }
+    const titleEl = html`<h2>${ls.comments}</h2>
+      ${when(!totalCmtCount, () => html`<p class=${brCmtCountCls}>${ls.noComments}</p>`)}`;
+    const contentEl = html`
+      <div class="m-t-md">
+        <cmt-block
+          ${ref(this._cmtBlockEl)}
+          class="p-t-md"
+          .loadOnVisible=${true}
+          .host=${this.host}></cmt-block>
+        ${when(
+          this.totalCmtCount,
+          () => html`<div>
+            <small class="is-secondary br-cmt-c"
+              >${formatLS(ls.pNOComments, this.totalCmtCount)}</small
+            >
+          </div>`,
+        )}
+      </div>
+    `;
 
     const addCmtGroup = appPageState.user
       ? this.renderCommentComposer()
       : this.renderLoginToComment();
-    return html` ${titleGroup}${addCmtGroup}${contentGroup} `;
+    return html`${titleEl}${addCmtGroup}${contentEl}`;
   }
 
   private renderLoginToComment() {
@@ -94,14 +88,14 @@ export class RootCmtList extends BaseElement {
   private renderCommentComposer() {
     return html`
       <p>
-        <qing-button btnStyle="success" @click=${this.handleAddCommentButtonClick}
+        <qing-button btnStyle="success" @click=${this.handleAddCommentClick}
           >${ls.writeAComment}</qing-button
         >
       </p>
     `;
   }
 
-  private handleAddCommentButtonClick() {
+  private handleAddCommentClick() {
     this._cmtBlockEl.value?.openCmtEditor({ editing: null, to: null });
   }
 }

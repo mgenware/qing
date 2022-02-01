@@ -35,8 +35,7 @@ export class PostPayloadApp extends BaseElement {
         .hostID=${hostID}
         .hostType=${entityPost}></like-app>
       <cmt-app
-        .hostID=${hostID}
-        .hostType=${entityPost}
+        .host=${{ id: hostID, type: entityPost }}
         .initialTotalCmtCount=${postWind.cmtCount}></cmt-app>
     `;
   }

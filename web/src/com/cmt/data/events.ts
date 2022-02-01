@@ -7,6 +7,8 @@
 
 import { Cmt } from './cmt';
 
+export const openCmtEditorRequestedEvent = 'openCmtEditorRequested';
+
 export interface CmtEditorProps {
   // If not null, we're editing a comment or reply.
   editing: Cmt | null;

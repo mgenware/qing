@@ -13,7 +13,7 @@ import { formatLS, ls } from 'ls';
 import './cmtView';
 import './cmtFooterView';
 import { Cmt } from '../data/cmt';
-import { CmtEditorProps } from '../data/events';
+import { CmtEditorProps, openCmtEditorRequestedEvent } from '../data/events';
 import { CHECK } from 'checks';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
@@ -156,7 +156,7 @@ export class CmtBlock extends BaseElement {
       },
     };
     this.dispatchEvent(
-      new CustomEvent<CmtEditorProps>('openCmtEditorRequested', { detail, composed: true }),
+      new CustomEvent<CmtEditorProps>(openCmtEditorRequestedEvent, { detail, composed: true }),
     );
   }
 
