@@ -16,7 +16,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/rcom"
 	"sort"
 	"strings"
@@ -38,7 +38,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
-	page := validator.GetPageParamFromRequestQueryString(r)
+	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(defs.Shared.KeyTab)
 
 	var items []da.UserThreadInterface

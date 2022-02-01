@@ -17,8 +17,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/api/apicom"
 	"qing/sod/cmt/cmt"
 	"time"
@@ -47,16 +46,16 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	user := resp.User()
 	uid := user.ID
 
-	id := validator.GetIDFromDict(params, "id")
-	contentData := validator.MustGetDictFromDict(params, "contentData")
-	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(validator.MustGetTextFromDict(contentData, "contentHTML"))
+	id := clib.GetIDFromDict(params, "id")
+	contentData := clib.MustGetDictFromDict(params, "contentData")
+	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentData, "contentHTML"))
 
 	db := appDB.DB()
 	if id == 0 {
 		// Create a comment or reply.
-		hostType := validator.MustGetIntFromDict(params, "hostType")
-		hostID := validator.MustGetIDFromDict(params, "hostID")
-		parentID := validator.GetIDFromDict(params, "parentID")
+		hostType := clib.MustGetIntFromDict(params, "hostType")
+		hostID := clib.MustGetIDFromDict(params, "hostID")
+		parentID := clib.GetIDFromDict(params, "parentID")
 
 		cmtCore, err := getCmtTA(hostType)
 		app.PanicIfErr(err)
@@ -94,9 +93,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		err := da.Cmt.EditCmt(db, id, uid, content, now, sanitizedToken)
 		app.PanicIfErr(err)
-		cmt := &cmt.Cmt{EID: fmtx.EncodeID(id)}
+		cmt := &cmt.Cmt{EID: clib.EncodeID(id)}
 		cmt.ContentHTML = content
-		cmt.ModifiedAt = fmtx.Time(now)
+		cmt.ModifiedAt = clib.TimeString(now)
 
 		// NOTE: when editing a comment or reply, this always returns response the `cmt` field set.
 		respData := &SetCmtResponse{Cmt: cmt}

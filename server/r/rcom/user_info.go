@@ -9,7 +9,7 @@ package rcom
 
 import (
 	"qing/a/appURL"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 )
 
 // UserInfo contains general information about a user.
@@ -26,6 +26,6 @@ func NewUserInfo(uid uint64, name, iconName string) UserInfo {
 	r.Name = name
 	r.URL = appURL.Get().UserProfile(uid)
 	r.IconURL = appURL.Get().UserIconURL50(uid, iconName)
-	r.ID = fmtx.EncodeID(uid)
+	r.ID = clib.EncodeID(uid)
 	return r
 }

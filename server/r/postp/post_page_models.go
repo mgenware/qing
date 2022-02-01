@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/r/rcom"
 )
 
@@ -35,12 +35,12 @@ type PostPageModel struct {
 // NewPostPageModel creates a PostPageModel.
 func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d := PostPageModel{PostTableSelectItemByIDResult: *p}
-	eid := fmtx.EncodeID(p.ID)
+	eid := clib.EncodeID(p.ID)
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid
-	d.UserEID = fmtx.EncodeID(d.UserID)
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
+	d.UserEID = clib.EncodeID(d.UserID)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	return d

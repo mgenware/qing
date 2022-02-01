@@ -15,8 +15,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/rcom"
 	"qing/r/sys"
 	"strings"
@@ -32,11 +31,11 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.DB()
 	var err error
 
-	fid, err := fmtx.DecodeID(chi.URLParam(r, "fid"))
+	fid, err := clib.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	page := validator.GetPageParamFromRequestQueryString(r)
+	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(defs.Shared.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, fid)

@@ -14,7 +14,7 @@ import (
 	"qing/a/appcom"
 	"qing/a/defs"
 	"qing/a/handler"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
 )
 
@@ -26,7 +26,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 		sUser := appcom.ContextUser(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
-		forumID := validator.GetIDFromDict(params, ForumIDParamName)
+		forumID := clib.GetIDFromDict(params, ForumIDParamName)
 		if forumID == 0 {
 			resp.MustFailWithUserError(fmt.Sprintf("The argument `%v` is empty", ForumIDParamName))
 			return

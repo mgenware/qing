@@ -15,7 +15,7 @@ import (
 	"qing/a/appSettings"
 	"qing/a/defs"
 	"qing/a/handler"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 type GetSiteSettingsResult struct {
@@ -31,7 +31,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 	var settings interface{}
 	var needRestart bool
-	key := validator.MustGetStringFromDict(params, "key", defs.Shared.MaxNameLen)
+	key := clib.MustGetStringFromDict(params, "key", defs.Shared.MaxNameLen)
 	switch key {
 	case defs.Shared.KeyCommunitySettings:
 		settings = diskSettings.Community

@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/r/rcom"
 )
 
@@ -37,15 +37,15 @@ type QuestionAppModel struct {
 // NewQuestionAppModel creates a QuestionAppModel.
 func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool) QuestionAppModel {
 	d := QuestionAppModel{QuestionTableSelectItemByIDResult: *p}
-	eid := fmtx.EncodeID(p.ID)
+	eid := clib.EncodeID(p.ID)
 	d.QuestionURL = appURL.Get().Question(p.ID)
 	d.EID = eid
 	if d.ForumID != nil {
-		d.ForumEID = fmtx.EncodeID(*d.ForumID)
+		d.ForumEID = clib.EncodeID(*d.ForumID)
 	}
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
-	d.UserEID = fmtx.EncodeID(d.UserID)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
+	d.UserEID = clib.EncodeID(d.UserID)
 	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityQuestion, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	if hasLiked {

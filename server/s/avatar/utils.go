@@ -9,9 +9,9 @@ package avatar
 
 import (
 	"fmt"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 )
 
 func GetAvatarURL(prefix string, uid uint64, size int, avatarName string) string {
-	return fmt.Sprintf("/%v/%v/%v_%v", prefix, fmtx.EncodeID(uid), size, avatarName)
+	return fmt.Sprintf("/%v/%v/%v_%v", prefix, clib.EncodeID(uid), size, avatarName)
 }

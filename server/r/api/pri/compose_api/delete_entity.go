@@ -17,7 +17,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -25,8 +25,8 @@ func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	id := validator.MustGetIDFromDict(params, "id")
-	entityType := validator.MustGetIntFromDict(params, "entityType")
+	id := clib.MustGetIDFromDict(params, "id")
+	entityType := clib.MustGetIntFromDict(params, "entityType")
 	db := appDB.DB()
 	var err error
 	var result interface{}

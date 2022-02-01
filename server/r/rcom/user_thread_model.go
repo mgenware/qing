@@ -12,7 +12,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 )
 
 var vThreadPostView = appHandler.MainPage().MustParseView("/com/threads/postView.html")
@@ -49,8 +49,8 @@ func NewUserThreadModel(item *da.UserThreadInterface) (UserThreadModel, error) {
 	uid := item.UserID
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.UserIconURL = appURL.Get().UserIconURL50(uid, item.UserIconName)
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	return d, nil
 }
 

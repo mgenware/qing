@@ -10,16 +10,16 @@ package apicom
 import (
 	"qing/a/appURL"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/sod/cmt/cmt"
 )
 
 func NewCmt(d *da.CmtData) cmt.Cmt {
-	eid := fmtx.EncodeID(d.ID)
-	userEID := fmtx.EncodeID(d.UserID)
+	eid := clib.EncodeID(d.ID)
+	userEID := clib.EncodeID(d.UserID)
 	userURL := appURL.Get().UserProfile(d.UserID)
 	userIconURL := appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
-	createdAt := fmtx.Time(d.RawCreatedAt)
-	modifiedAt := fmtx.Time(d.RawModifiedAt)
+	createdAt := clib.TimeString(d.RawCreatedAt)
+	modifiedAt := clib.TimeString(d.RawModifiedAt)
 	return cmt.NewCmt(d, eid, userURL, userEID, userIconURL, createdAt, modifiedAt, nil)
 }

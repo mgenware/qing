@@ -15,7 +15,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -23,8 +23,8 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := app.ContextUserID(r)
 
-	targetUserID := validator.MustGetIDFromDict(params, "target_user_id")
-	value := validator.MustGetIntFromDict(params, "value")
+	targetUserID := clib.MustGetIDFromDict(params, "target_user_id")
+	value := clib.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
 		return resp.MustFailWithCode(defs.Shared.ErrCannotSetAdminOfYourself)

@@ -16,8 +16,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/api/apicom"
 )
 
@@ -42,9 +41,9 @@ type pcQuestion struct {
 func newPCQuestion(p *da.QuestionTableSelectItemsForPostCenterResult, uid uint64) pcQuestion {
 	d := pcQuestion{QuestionTableSelectItemsForPostCenterResult: *p}
 	d.URL = appURL.Get().Question(p.ID)
-	d.EID = fmtx.EncodeID(uid)
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
+	d.EID = clib.EncodeID(uid)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	return d
 }
 
@@ -53,10 +52,10 @@ func myQuestions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	page := validator.GetPageParamFromDict(params)
-	pageSize := validator.MustGetIntFromDict(params, defs.Shared.KeyPageSize)
-	sortBy := validator.MustGetStringFromDict(params, "sort", defs.Shared.MaxGenericStringLen)
-	desc := validator.MustGetIntFromDict(params, "desc") != 0
+	page := clib.GetPageParamFromDict(params)
+	pageSize := clib.MustGetIntFromDict(params, defs.Shared.KeyPageSize)
+	sortBy := clib.MustGetStringFromDict(params, "sort", defs.Shared.MaxGenericStringLen)
+	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
 	rawQuestions, hasNext, err := da.Question.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myQuestionsColumnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)

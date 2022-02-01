@@ -16,7 +16,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"time"
 )
 
@@ -35,8 +35,8 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	var err error
 
-	id := validator.MustGetIDFromDict(params, "id")
-	entityType := validator.MustGetIntFromDict(params, "type")
+	id := clib.MustGetIDFromDict(params, "id")
+	entityType := clib.MustGetIntFromDict(params, "type")
 	db := appDB.DB()
 
 	switch entityType {

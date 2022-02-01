@@ -10,7 +10,7 @@ package rcom
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 )
 
 var vUserView = appHandler.MainPage().MustParseView("/com/postUserApp.html")
@@ -59,7 +59,7 @@ func NewPostUserAppInput(uid uint64, name, iconName, itemEID string, itemType in
 func GetPostUserAppHTML(input *PostUserAppInput) string {
 	d := &PostUserAppData{}
 	d.ItemEID = input.ItemEID
-	d.UserEID = fmtx.EncodeID(input.UID)
+	d.UserEID = clib.EncodeID(input.UID)
 	d.UserName = input.Name
 	d.UserURL = appURL.Get().UserProfile(input.UID)
 	d.UserIconURL = appURL.Get().UserIconURL50(input.UID, input.IconName)

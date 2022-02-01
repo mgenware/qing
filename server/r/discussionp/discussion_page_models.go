@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/r/rcom"
 )
 
@@ -53,11 +53,11 @@ type DiscussionMsgModel struct {
 // NewDiscussionPageModel creates a DiscussionPageModel.
 func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHTML string, pageBarHTML string) DiscussionPageModel {
 	d := DiscussionPageModel{DiscussionTableSelectItemByIDResult: *p}
-	eid := fmtx.EncodeID(p.ID)
+	eid := clib.EncodeID(p.ID)
 	d.DiscussionURL = eid
-	d.EID = fmtx.EncodeID(p.ID)
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
+	d.EID = clib.EncodeID(p.ID)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	pu := rcom.NewPostUserAppInput(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	d.MessageListHTML = msgListHTML
@@ -68,7 +68,7 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 // NewDiscussionMsgModel creates a DiscussionMsgModel.
 func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult) DiscussionMsgModel {
 	d := DiscussionMsgModel{DiscussionMsgTableSelectItemsByDiscussionResult: *p}
-	eid := fmtx.EncodeID(p.ID)
+	eid := clib.EncodeID(p.ID)
 	d.DiscussionURL = appURL.Get().Discussion(p.ID)
 	d.EID = eid
 	pu := rcom.NewPostUserAppInput(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)

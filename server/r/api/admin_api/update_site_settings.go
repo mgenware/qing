@@ -16,7 +16,7 @@ import (
 	"qing/a/appSettings"
 	"qing/a/defs"
 	"qing/a/handler"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/sod/app/appRawSettings"
 )
 
@@ -30,7 +30,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// This API will first deep clone the current app settings, and save the modified cloned settings
 	// into the disk.
 
-	settingsDict := validator.MustGetDictFromDict(params, "settings")
+	settingsDict := clib.MustGetDictFromDict(params, "settings")
 	diskST, err := appSettings.LoadFromDisk()
 	app.PanicIfErr(err)
 

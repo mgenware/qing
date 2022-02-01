@@ -19,7 +19,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"time"
 )
 
@@ -30,17 +30,17 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 	var err error
 
-	id := validator.GetIDFromDict(params, "id")
+	id := clib.GetIDFromDict(params, "id")
 	hasID := id != 0
-	entityType := validator.MustGetIntFromDict(params, "entityType")
+	entityType := clib.MustGetIntFromDict(params, "entityType")
 
-	contentDict := validator.MustGetDictFromDict(params, "content")
+	contentDict := clib.MustGetDictFromDict(params, "content")
 	var title string
 	if entityType != defs.Shared.EntityDiscussionMsg && entityType != defs.Shared.EntityAnswer {
-		title = validator.MustGetStringFromDict(contentDict, "title", defs.Shared.MaxTitleLen)
+		title = clib.MustGetStringFromDict(contentDict, "title", defs.Shared.MaxTitleLen)
 	}
 
-	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(validator.MustGetTextFromDict(contentDict, "contentHTML"))
+	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "contentHTML"))
 
 	var result interface{}
 	db := appDB.DB()
@@ -54,7 +54,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		var forumID *uint64
 		if appSettings.Get().Forums() && entityType != defs.Shared.EntityPost {
-			forumIDValue := validator.MustGetIDFromDict(params, "forumID")
+			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}
 
@@ -80,7 +80,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case defs.Shared.EntityDiscussionMsg:
 			{
-				discussionID := validator.GetIDFromDict(params, "discussionID")
+				discussionID := clib.GetIDFromDict(params, "discussionID")
 				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, now, now, discussionID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 				break
@@ -97,7 +97,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case defs.Shared.EntityAnswer:
 			{
-				questionID := validator.GetIDFromDict(params, "questionID")
+				questionID := clib.GetIDFromDict(params, "questionID")
 				insertedID, err := da.Answer.InsertItem(db, contentHTML, uid, now, now, questionID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 

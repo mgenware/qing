@@ -14,8 +14,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/rcom"
 	"qing/r/sys"
 	"strings"
@@ -29,13 +28,13 @@ const discussionScript = "discussionEntry"
 
 // GetDiscussion is the HTTP handler for discussions.
 func GetDiscussion(w http.ResponseWriter, r *http.Request) handler.HTML {
-	tid, err := fmtx.DecodeID(chi.URLParam(r, "tid"))
+	tid, err := clib.DecodeID(chi.URLParam(r, "tid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 
 	// Get discussion.
-	page := validator.GetPageParamFromRequestQueryString(r)
+	page := clib.GetPageParamFromRequestQueryString(r)
 	discussion, err := da.Discussion.SelectItemByID(appDB.DB(), tid)
 	app.PanicIfErr(err)
 

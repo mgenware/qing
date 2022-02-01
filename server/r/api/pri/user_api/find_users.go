@@ -16,7 +16,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/rcom"
 
 	"github.com/mgenware/goutil/jsonx"
@@ -31,7 +31,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var users []da.FindUserResult
 	db := appDB.DB()
 	if byID != 0 {
-		id := validator.MustGetIDFromDict(params, "value")
+		id := clib.MustGetIDFromDict(params, "value")
 		user, err := da.User.FindUserByID(db, id)
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)
@@ -39,7 +39,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicIfErr(err)
 		users = []da.FindUserResult{user}
 	} else {
-		name := validator.MustGetStringFromDict(params, "value", defs.Shared.MaxNameLen)
+		name := clib.MustGetStringFromDict(params, "value", defs.Shared.MaxNameLen)
 		users, err = da.User.FindUsersByName(db, "%"+name+"%")
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)

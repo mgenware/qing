@@ -15,7 +15,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	"qing/r/api/apicom"
 	"qing/sod/cmt/cmt"
 )
@@ -52,8 +52,8 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	parentID := validator.GetIDFromDict(params, "parentID")
-	page := validator.GetPageParamFromDict(params)
+	parentID := clib.GetIDFromDict(params, "parentID")
+	page := clib.GetPageParamFromDict(params)
 
 	db := appDB.DB()
 	var respData GetCmtsRespData
@@ -77,8 +77,8 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	// Selecting comments.
-	hostID := validator.MustGetIDFromDict(params, "hostID")
-	hostType := validator.MustGetIntFromDict(params, "hostType")
+	hostID := clib.MustGetIDFromDict(params, "hostID")
+	hostType := clib.MustGetIntFromDict(params, "hostType")
 
 	switch hostType {
 	case defs.Shared.EntityPost:

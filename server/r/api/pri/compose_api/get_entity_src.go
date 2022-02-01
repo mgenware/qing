@@ -16,7 +16,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -24,8 +24,8 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	id := validator.MustGetIDFromDict(params, "entityID")
-	entityType := validator.MustGetIntFromDict(params, "entityType")
+	id := clib.MustGetIDFromDict(params, "entityID")
+	entityType := clib.MustGetIntFromDict(params, "entityType")
 
 	db := appDB.DB()
 	var res da.EntityGetSrcResult

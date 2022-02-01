@@ -14,8 +14,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	voteapi "qing/r/api/pri/vote_api"
 	"qing/r/rcom"
 	"qing/r/sys"
@@ -30,11 +29,11 @@ const defaultPageSize = 10
 
 // GetQuestion is the HTTP handler for questions.
 func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
-	qid, err := fmtx.DecodeID(chi.URLParam(r, "qid"))
+	qid, err := clib.DecodeID(chi.URLParam(r, "qid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
-	page := validator.GetPageParamFromRequestQueryString(r)
+	page := clib.GetPageParamFromRequestQueryString(r)
 	db := appDB.DB()
 	que, err := da.Question.SelectItemByID(db, qid)
 	app.PanicIfErr(err)
@@ -79,8 +78,8 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	forumID := ""
 	if que.ForumID != nil {
-		forumID = fmtx.EncodeID(*que.ForumID)
+		forumID = clib.EncodeID(*que.ForumID)
 	}
-	d.WindData = qnaWind.NewQnaWind(fmtx.EncodeID(qid), forumID)
+	d.WindData = qnaWind.NewQnaWind(clib.EncodeID(qid), forumID)
 	return resp.MustComplete(d)
 }

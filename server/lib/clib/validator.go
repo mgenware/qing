@@ -5,13 +5,12 @@
  * be found in the LICENSE file.
  */
 
-package validator
+package clib
 
 import (
 	"fmt"
 	"net/http"
 	"qing/a/defs"
-	"qing/lib/fmtx"
 	"unicode/utf8"
 
 	"github.com/mgenware/goutil/jsonx"
@@ -125,7 +124,7 @@ func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	if !ok {
 		return 0
 	}
-	id, err := fmtx.DecodeID(val)
+	id, err := DecodeID(val)
 	if err != nil {
 		panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 	}
@@ -156,7 +155,7 @@ func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {
-			id, err := fmtx.DecodeID(idStr)
+			id, err := DecodeID(idStr)
 			if err != nil {
 				panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 			}

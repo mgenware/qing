@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/r/rcom"
 )
 
@@ -36,12 +36,12 @@ type AnswerAppModel struct {
 // NewAnswerAppModel creates a AnswerAppModel.
 func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult, myVote int) AnswerAppModel {
 	d := AnswerAppModel{AnswerTableSelectItemsByQuestionResult: *p}
-	eid := fmtx.EncodeID(p.ID)
+	eid := clib.EncodeID(p.ID)
 	d.AnswerURL = appURL.Get().Answer(p.ID)
 	d.EID = eid
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
-	d.UserEID = fmtx.EncodeID(d.UserID)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
+	d.UserEID = clib.EncodeID(d.UserID)
 	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
 	pu.ExtraLinkLS = "link"
 	pu.ExtraLink = d.AnswerURL

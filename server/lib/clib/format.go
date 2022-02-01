@@ -5,24 +5,24 @@
  * be found in the LICENSE file.
  */
 
-package fmtx
+package clib
 
 import (
 	"strconv"
 	"time"
 )
 
-// EncodeID encodes the given integer ID to a string.
+// Encodes the given integer ID to a string.
 func EncodeID(id uint64) string {
 	return strconv.FormatUint(id, 36)
 }
 
-// DecodeID decodes the given string ID to an integer.
+// Decodes the given string ID to an integer.
 func DecodeID(str string) (uint64, error) {
 	return strconv.ParseUint(str, 36, 64)
 }
 
-// Time formats the given time to RFC3339 formart.
-func Time(t time.Time) string {
+// Formats the given time to RFC3339 formart.
+func TimeString(t time.Time) string {
 	return t.Format(time.RFC3339)
 }

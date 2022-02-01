@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 )
 
 var vProfilePage = appHandler.MainPage().MustParseView("/profile/profilePage.html")
@@ -62,7 +62,7 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	d := ProfilePageModel{UserTableSelectProfileResult: *profile}
 	uid := profile.ID
 
-	d.EID = fmtx.EncodeID(uid)
+	d.EID = clib.EncodeID(uid)
 	d.IconURL = appURL.Get().UserIconURL250(uid, profile.IconName)
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.PostCount = stats.PostCount
@@ -79,8 +79,8 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) ProfilePostItem {
 	d := ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
 	d.URL = appURL.Get().Post(item.ID)
-	d.CreatedAt = fmtx.Time(d.RawCreatedAt)
-	d.ModifiedAt = fmtx.Time(d.RawModifiedAt)
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	return d
 }
 

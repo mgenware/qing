@@ -15,7 +15,7 @@ import (
 	"qing/a/appcom"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -30,8 +30,8 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic("Unexpected empty group ID in setForumGroupMod")
 	}
 
-	targetUserID := validator.MustGetIDFromDict(params, "target_user_id")
-	value := validator.MustGetIntFromDict(params, "value")
+	targetUserID := clib.MustGetIDFromDict(params, "target_user_id")
+	value := clib.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
 		panic("You cannot change moderator status of your own account")

@@ -14,7 +14,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/r/sys"
 	"qing/sod/post/postWind"
 
@@ -25,7 +25,7 @@ const postScript = "post/postEntry"
 
 // GetPost is the HTTP handler for posts.
 func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
-	pid, err := fmtx.DecodeID(chi.URLParam(r, "pid"))
+	pid, err := clib.DecodeID(chi.URLParam(r, "pid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}

@@ -14,7 +14,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/handler"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -22,9 +22,9 @@ func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	category := validator.MustGetIntFromDict(params, "type")
-	id := validator.MustGetIDFromDict(params, "id")
-	value := validator.MustGetIntFromDict(params, "value")
+	category := clib.MustGetIntFromDict(params, "type")
+	id := clib.MustGetIDFromDict(params, "id")
+	value := clib.MustGetIntFromDict(params, "value")
 	dbSrc := dbSources[category]
 
 	if dbSrc == nil {

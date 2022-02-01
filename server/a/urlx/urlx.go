@@ -12,7 +12,7 @@ import (
 	"net/url"
 	"qing/a/config"
 	"qing/a/defs"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/s/avatar"
 	"strconv"
 )
@@ -57,7 +57,7 @@ func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 }
 
 func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
-	s := "/" + defs.Shared.RouteUser + "/" + fmtx.EncodeID(uid)
+	s := "/" + defs.Shared.RouteUser + "/" + clib.EncodeID(uid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
@@ -93,11 +93,11 @@ func (u *URL) UserProfile(uid uint64) string {
 }
 
 func (u *URL) Post(pid uint64) string {
-	return "/" + defs.Shared.RoutePost + "/" + fmtx.EncodeID(pid)
+	return "/" + defs.Shared.RoutePost + "/" + clib.EncodeID(pid)
 }
 
 func (u *URL) DiscussionWithPage(pid uint64, page int) string {
-	s := "/" + defs.Shared.RouteDiscussion + "/" + fmtx.EncodeID(pid)
+	s := "/" + defs.Shared.RouteDiscussion + "/" + clib.EncodeID(pid)
 	if page > 1 {
 		s += fmt.Sprintf("&%v=%v", defs.Shared.KeyPage, page)
 	}
@@ -109,7 +109,7 @@ func (u *URL) Discussion(pid uint64) string {
 }
 
 func (u *URL) QuestionWithPage(pid uint64, page int) string {
-	s := "/" + defs.Shared.RouteQuestion + "/" + fmtx.EncodeID(pid)
+	s := "/" + defs.Shared.RouteQuestion + "/" + clib.EncodeID(pid)
 	if page > 1 {
 		s += fmt.Sprintf("&%v=%v", defs.Shared.KeyPage, page)
 	}
@@ -121,7 +121,7 @@ func (u *URL) Question(pid uint64) string {
 }
 
 func (u *URL) Answer(aid uint64) string {
-	s := "/" + defs.Shared.RouteAnswer + "/" + fmtx.EncodeID(aid)
+	s := "/" + defs.Shared.RouteAnswer + "/" + clib.EncodeID(aid)
 	return s
 }
 
@@ -134,7 +134,7 @@ func (u *URL) RegEmailVerification(publicID string) string {
 }
 
 func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
-	s := "/" + defs.Shared.RouteForum + "/" + fmtx.EncodeID(fid)
+	s := "/" + defs.Shared.RouteForum + "/" + clib.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(defs.Shared.KeyPage, strconv.Itoa(page))
@@ -150,9 +150,9 @@ func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
 }
 
 func (u *URL) ForumSettings(fid uint64) string {
-	return "/" + defs.Shared.RouteForum + "/" + fmtx.EncodeID(fid) + "/settings"
+	return "/" + defs.Shared.RouteForum + "/" + clib.EncodeID(fid) + "/settings"
 }
 
 func (u *URL) ForumGroup(id uint64) string {
-	return "/" + defs.Shared.RouteForumGroup + "/" + fmtx.EncodeID(id)
+	return "/" + defs.Shared.RouteForumGroup + "/" + clib.EncodeID(id)
 }

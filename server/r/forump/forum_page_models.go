@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 )
 
 var vForumPage = appHandler.MainPage().MustParseView("/forum/forumPage.html")
@@ -44,7 +44,7 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 	d := ForumPageModel{ForumTableSelectForumResult: *f}
 
 	fid := f.ID
-	d.ForumEID = fmtx.EncodeID(fid)
+	d.ForumEID = clib.EncodeID(fid)
 	d.ForumURL = appURL.Get().ForumAdv(fid, "", 1)
 	d.ForumQuestionsURL = appURL.Get().ForumAdv(fid, defs.Shared.KeyQuestions, 1)
 	d.ForumDiscussionsURL = appURL.Get().ForumAdv(fid, defs.Shared.KeyDiscussions, 1)

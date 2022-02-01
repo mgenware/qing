@@ -17,9 +17,8 @@ import (
 	"qing/a/appUserManager"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/fmtx"
+	"qing/lib/clib"
 	"qing/lib/randlib"
-	"qing/lib/validator"
 	"qing/sod/dev/auth/tUserInfo"
 
 	"github.com/go-chi/chi/v5"
@@ -37,7 +36,7 @@ type UserInfo struct {
 
 func newUserInfoResult(d *da.UserTableSelectSessionDataResult) tUserInfo.TUserInfo {
 	return tUserInfo.NewTUserInfo(
-		d.Admin, fmtx.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
+		d.Admin, clib.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
 	)
 }
 
@@ -45,12 +44,12 @@ func getUIDFromRequest(r *http.Request) uint64 {
 	params := app.ContextDict(r)
 	val := jsonx.GetStringOrDefault(params, "uid")
 	if val != "" {
-		uid, err := fmtx.DecodeID(val)
+		uid, err := clib.DecodeID(val)
 		app.PanicIfErr(err)
 		return uid
 	}
 
-	uid := validator.MustGetUint64FromDict(params, "uid_i")
+	uid := clib.MustGetUint64FromDict(params, "uid_i")
 	return uid
 }
 
@@ -71,7 +70,7 @@ func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
-	uid, err := fmtx.DecodeID(chi.URLParam(r, "uid"))
+	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicIfErr(err)
 	err = signInCore(uid, w, r)
 	app.PanicIfErr(err)

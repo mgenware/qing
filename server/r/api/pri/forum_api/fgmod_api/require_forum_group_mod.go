@@ -13,7 +13,7 @@ import (
 	"qing/a/appcom"
 	"qing/a/defs"
 	"qing/a/handler"
-	"qing/lib/validator"
+	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
 )
 
@@ -25,7 +25,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 		sUser := appcom.ContextUser(ctx)
 
 		resp := handler.NewJSONResponse(r, w)
-		groupID := validator.GetIDFromDict(params, "forumGroupID")
+		groupID := clib.GetIDFromDict(params, "forumGroupID")
 		if groupID == 0 {
 			resp.MustFailWithUserError("forum_group_id is empty")
 			return

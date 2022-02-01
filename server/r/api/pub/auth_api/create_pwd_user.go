@@ -17,7 +17,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/a/handler"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 // CreateUserData contains the information stored in memory store during user email verification.
@@ -50,9 +50,9 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	name := validator.MustGetStringFromDict(params, "name", defs.Shared.MaxNameLen)
-	email := validator.MustGetStringFromDict(params, "email", defs.Shared.MaxEmailLen)
-	pwd := validator.MustGetMinMaxStringFromDict(params, "pwd", defs.Shared.MinUserPwdLen, defs.Shared.MaxUserPwdLen)
+	name := clib.MustGetStringFromDict(params, "name", defs.Shared.MaxNameLen)
+	email := clib.MustGetStringFromDict(params, "email", defs.Shared.MaxEmailLen)
+	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", defs.Shared.MinUserPwdLen, defs.Shared.MaxUserPwdLen)
 
 	// Put user pwd to memory store and wait for user email verification.
 	createUserData := &CreateUserData{

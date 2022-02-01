@@ -15,7 +15,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 
 	"github.com/mgenware/goutil/jsonx"
 )
@@ -24,8 +24,8 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	id := validator.MustGetIDFromDict(params, "id")
-	name := validator.MustGetStringFromDict(params, "name", defs.Shared.MaxNameLen)
+	id := clib.MustGetIDFromDict(params, "id")
+	name := clib.MustGetStringFromDict(params, "name", defs.Shared.MaxNameLen)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
 	db := appDB.DB()

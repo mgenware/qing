@@ -18,15 +18,15 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	email := validator.MustGetStringFromDict(params, "email", defs.Shared.MaxEmailLen)
-	pwd := validator.MustGetStringFromDict(params, "pwd", defs.Shared.MaxUserPwdLen)
+	email := clib.MustGetStringFromDict(params, "email", defs.Shared.MaxEmailLen)
+	pwd := clib.MustGetStringFromDict(params, "pwd", defs.Shared.MaxUserPwdLen)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)

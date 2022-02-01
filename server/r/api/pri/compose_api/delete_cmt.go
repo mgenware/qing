@@ -14,7 +14,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/dax"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -22,7 +22,7 @@ func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	id := validator.MustGetIDFromDict(params, "id")
+	id := clib.MustGetIDFromDict(params, "id")
 	err := dax.DeleteCmt(appDB.DB(), id, uid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)

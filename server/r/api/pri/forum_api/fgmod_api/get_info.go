@@ -14,14 +14,14 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	id := validator.MustGetIDFromDict(params, "id")
+	id := clib.MustGetIDFromDict(params, "id")
 
 	db := appDB.DB()
 	res, err := da.ForumGroup.SelectInfoForEditing(db, id)

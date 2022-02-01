@@ -15,7 +15,7 @@ import (
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/validator"
+	"qing/lib/clib"
 )
 
 func vote(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -23,8 +23,8 @@ func vote(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	id := validator.MustGetIDFromDict(params, "id")
-	newValue := validator.MustGetIntFromDict(params, "value")
+	id := clib.MustGetIDFromDict(params, "id")
+	newValue := clib.MustGetIntFromDict(params, "value")
 
 	db := appDB.DB()
 	currentValue, err := FetchMyVote(id, uid)
