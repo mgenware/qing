@@ -42,6 +42,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     cm.scanTypeDef(
       typeDef,
       (k, v) => {
+        // eslint-disable-next-line default-case
         switch (k) {
           case tsExtendsAttr: {
             baseType = cm.parseExtendsFieldObj(v);
@@ -53,16 +54,16 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
         typeCode += `  ${k}${requiredProp ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
       },
     );
-    typeCode += `}\n`;
+    typeCode += '}\n';
 
     // Interface declaration is handled at last since base class can
     // only be determined when all attrs are processed.
-    typeCode =
-      `export interface ${typeName}${baseType?.name ? ` extends ${baseType?.name}` : ''} {\n` +
-      typeCode;
+    typeCode = `export interface ${typeName}${
+      baseType?.name ? ` extends ${baseType.name}` : ''
+    } {\n${typeCode}`;
 
     if (baseType?.path) {
-      imports.add(`import { ${baseType?.name} } from '${baseType.path}';`);
+      imports.add(`import { ${baseType.name} } from '${baseType.path}';`);
     }
 
     code += typeCode;

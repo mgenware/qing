@@ -15,9 +15,14 @@ import * as ts from './tsUtil.js';
 
 const yamlExt = '.yaml';
 
+function print(s: string) {
+  // eslint-disable-next-line no-console
+  console.log(s);
+}
+
 const input = process.argv.slice(2)[0];
 if (!input) {
-  console.log('No input.');
+  print('No input.');
   process.exit(1);
 }
 
@@ -25,10 +30,7 @@ function trimYAMLExtension(s: string): string {
   return s.substr(0, s.length - yamlExt.length);
 }
 
-function print(s: string) {
-  console.log(s);
-}
-
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
   try {
     const fullInput = sodPath(input + yamlExt);
@@ -37,8 +39,9 @@ function print(s: string) {
       throw new Error(`Source YAML must be an object. Got ${JSON.stringify(rawSource)}`);
     }
 
+    // eslint-disable-next-line no-inner-declarations
     function getAttr(key: string): string | null {
-      return cm.getDictAttribute(rawSource as Record<string, string>, key);
+      return cm.popDictAttribute(rawSource as Record<string, string>, key);
     }
 
     const srcDict = rawSource as cm.SourceDict;
@@ -54,7 +57,8 @@ function print(s: string) {
     if (goOutDir) {
       serverFile = np.join(serverPath(), goOutDir, goFileName);
     } else {
-      // NOTE: Unlike .ts file, .go files are put in an extra folder named the same as the extracted package name.
+      // NOTE: Unlike .ts file, .go files are put in an extra folder named the same
+      // as the extracted package name.
       serverFile = np.join(serverSodPath(), relPathWithoutYAMLExt, goFileName);
     }
 
@@ -62,7 +66,7 @@ function print(s: string) {
       mfs.writeFileAsync(serverFile, go.goCode(input, pkgName, srcDict)),
       mfs.writeFileAsync(webFile, ts.tsCode(input, srcDict)),
     ]);
-    print(`Files written:`);
+    print('Files written:');
     print(serverFile);
     print(webFile);
   } catch (err) {

@@ -10,6 +10,7 @@ import goConvert from 'go-const-gen';
 import tsConvert from 'json-to-js-const';
 import np from 'path';
 import { fileURLToPath } from 'url';
+import isObj from 'is-plain-obj';
 import { serverPath, webPath, copyrightString } from '../common/common.js';
 
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
@@ -24,8 +25,11 @@ async function buildJSONFileAsync(
 ) {
   const json = await mfs.readTextFileAsync(src);
 
-  const jsonObj = JSON.parse(json);
-  const goResult = await goConvert(jsonObj, {
+  const jsonObj = JSON.parse(json) as unknown;
+  if (!isObj(jsonObj)) {
+    throw new Error(`Expect an object. Got ${json}`);
+  }
+  const goResult = goConvert(jsonObj, {
     packageName,
     typeName,
     variableName,

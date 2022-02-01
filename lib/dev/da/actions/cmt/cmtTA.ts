@@ -28,10 +28,11 @@ export class CmtTA extends mm.TableActions {
     .whereSQL(defaultUpdateConditions(t))
     .resultTypeNameAttr(getEntitySrcType);
 
+  // DO NOT add `user_id` check here since parent cmt's `reply_count` might be a different user.
   updateReplyCount = mm
     .updateOne()
     .set(t.reply_count, mm.sql`${t.reply_count} + ${mm.int().toInput('offset')}`)
-    .by(t.id); // DO NOT add `user_id` check here since parent cmt's `reply_count` might be a different user.
+    .by(t.id);
 
   memLockedGetCmtDataForDeletion = mm
     .selectRow(t.parent_id, t.reply_count)

@@ -20,34 +20,42 @@ import {
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${copyrightString}${codeWarning}`;
 
+function print(s: string) {
+  // eslint-disable-next-line no-console
+  console.log(s);
+}
+
 // Builds TypeScript definitions for web.
 async function buildWebLSDef(lsObj: Record<string, string>): Promise<void> {
-  let out = `${commonHeader}export default interface LSDefs {\n`;
+  let code = `${commonHeader}export default interface LSDefs {\n`;
   for (const key of Object.keys(lsObj)) {
-    out += `  ${key}: string;\n`;
+    code += `  ${key}: string;\n`;
   }
-  out += '}\n';
-  await mfs.writeFileAsync(webPath('src/lsDefs.ts'), out);
+  code += '}\n';
+  const outFile = webPath('src/lsDefs.ts');
+  print(`Building web LS def "${outFile}"`);
+  await mfs.writeFileAsync(outFile, code);
 }
 
 // Updates the `en.ts` which is used in unit tests.
 async function buildDefaultUTLang(json: string) {
-  const out = `${commonHeader}/* eslint-disable */\n\(window as any).ls = ${json}\n`;
-  await mfs.writeFileAsync(webPath('src/dev/en.ts'), out);
+  const code = `${commonHeader}/* eslint-disable */\n(window as any).ls = ${json}\n`;
+  const outFile = webPath('src/dev/en.ts');
+  print(`Building web UT lang "${outFile}"`);
+  await mfs.writeFileAsync(outFile, code);
 }
 
 // Builds Go definitions for server.
 async function buildServerLSDef(lsObj: Record<string, string>): Promise<PropData[]> {
-  const [result, props] = await goConstGenCore(lsObj, {
+  const [result, props] = goConstGenCore(lsObj, {
     packageName: 'localization',
     typeName: 'Dictionary',
     parseFunc: true,
   });
 
-  await mfs.writeFileAsync(
-    serverPath('a/handler/localization/dictionary.go'),
-    copyrightString + result,
-  );
+  const outFile = serverPath('a/handler/localization/dictionary.go');
+  print(`Building server LS def "${outFile}"`);
+  await mfs.writeFileAsync(outFile, copyrightString + result);
   return props;
 }
 
@@ -64,7 +72,9 @@ func init() {
     res += `\tTestDict.${prop.namePascalCase} = "ls.${prop.name}"\n`;
   }
   res += '}\n';
-  await mfs.writeFileAsync(serverPath('app/handler/localization/test_dictionary.go'), res);
+  const outFile = serverPath('a/handler/localization/test_dictionary.go');
+  print(`Building server UI lang "${outFile}"`);
+  await mfs.writeFileAsync(outFile, res);
 }
 
 async function buildDistJS(name: string, file: string): Promise<void> {
@@ -72,6 +82,7 @@ async function buildDistJS(name: string, file: string): Promise<void> {
   const outContent = `window.ls = ${content}`;
   const outDir = webPath('../userland/static/g/lang');
   const outFile = path.join(outDir, `${name}.js`);
+  print(`Building dist JS "${outFile}"`);
   await mfs.writeFileAsync(outFile, outContent);
 }
 

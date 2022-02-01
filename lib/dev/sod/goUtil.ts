@@ -69,37 +69,39 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
   let isFirst = true;
   let baseType: cm.ExtendsField | undefined;
   let renameMap: Record<string, string> = {};
-  let imports = new Set<string>();
+  const imports = new Set<string>();
   for (const [typeName, typeDef] of Object.entries(dict)) {
     if (isFirst) {
       isFirst = false;
     } else {
       s += '\n';
     }
-    let members: TypeMember[] = [];
+    const members: TypeMember[] = [];
     let ctor = false;
     cm.scanTypeDef(
       typeDef,
+      // eslint-disable-next-line @typescript-eslint/no-loop-func
       (k, v) => {
         // Attribute values may not be a string.
-        const unknownValue = v as unknown;
+        // eslint-disable-next-line default-case
         switch (k) {
           case goCtorAttr: {
-            ctor = unknownValue === true;
+            ctor = v === true;
             break;
           }
 
           case goExtendsAttr: {
-            baseType = cm.parseExtendsFieldObj(unknownValue);
+            baseType = cm.parseExtendsFieldObj(v);
             break;
           }
 
           case goRenameAttr: {
-            renameMap = cm.parseRenameMap(unknownValue);
+            renameMap = cm.parseRenameMap(v);
             break;
           }
         }
       },
+      // eslint-disable-next-line @typescript-eslint/no-loop-func
       (k, v, requiredProp) => {
         members.push({
           name: cm.capitalizeFirstLetter(renameMap[k] || k),
@@ -110,6 +112,8 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       },
     );
     const genOpt: Options = {};
+    // False positive. `ctor` is changed in closure.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (ctor) {
       genOpt.ctorFunc = true;
       genOpt.returnValueInCtor = true;

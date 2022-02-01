@@ -34,14 +34,14 @@ export function noticeComment(input: string): string {
 }
 
 export function capitalizeFirstLetter(s: string) {
-  if (s == 'id') {
+  if (s === 'id') {
     return 'ID';
   }
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 export function lowerFirstLetter(s: string) {
-  if (s == 'ID') {
+  if (s === 'ID') {
     return 'id';
   }
   return s.charAt(0).toLocaleLowerCase() + s.slice(1);
@@ -54,9 +54,10 @@ export function trimEnd(s: string, suffix: string): string {
   return s;
 }
 
-export function getDictAttribute(dict: Record<string, string>, key: string): string | null {
+export function popDictAttribute(dict: Record<string, string>, key: string): string | null {
   const val = dict[key];
   if (val) {
+    // eslint-disable-next-line no-param-reassign
     delete dict[key];
     return val;
   }
@@ -103,6 +104,7 @@ export function scanTypeDef(
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   for (const [_k, v] of Object.entries(src)) {
     if (_k.startsWith(attrPrefix)) {
       continue;
