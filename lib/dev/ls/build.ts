@@ -79,7 +79,8 @@ func init() {
 
 async function buildDistJS(name: string, file: string): Promise<void> {
   const content = await mfs.readTextFileAsync(file);
-  const outContent = `window.ls = ${content}`;
+  // Parse and stringify the file content to make sure it's valid JSON.
+  const outContent = `window.ls = ${JSON.stringify(JSON.parse(content))}`;
   const outDir = webPath('../userland/static/g/lang');
   const outFile = path.join(outDir, `${name}.js`);
   print(`Building dist JS "${outFile}"`);

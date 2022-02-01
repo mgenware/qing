@@ -35,6 +35,7 @@ func init() {
 	TestDict.ChooseAFileBtn = "ls.chooseAFileBtn"
 	TestDict.ClickToRefreshCapt = "ls.clickToRefreshCapt"
 	TestDict.Close = "ls.close"
+	TestDict.CmtDeleted = "ls.cmtDeleted"
 	TestDict.Code = "ls.code"
 	TestDict.Comment = "ls.comment"
 	TestDict.Comments = "ls.comments"
