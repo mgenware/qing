@@ -79,7 +79,6 @@ export default interface LSDefs {
   ppItemsCounter: string;
   oneItem: string;
   pViewMore: string;
-  pView: string;
   replies: string;
   warning: string;
   editComment: string;
@@ -88,8 +87,9 @@ export default interface LSDefs {
   copyright: string;
   reply: string;
   pReplyTo: string;
-  pNOComments: string;
-  pNOReplies: string;
+  pNumOfComments: string;
+  pNumOfReplies: string;
+  pCollapseNumOfReplies: string;
   createAnAcc: string;
   email: string;
   password: string;

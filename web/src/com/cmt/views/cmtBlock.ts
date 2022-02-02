@@ -12,6 +12,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
 import './cmtFooterView';
+import 'ui/buttons/linkButton';
 import { Cmt } from '../data/cmt';
 import { CmtEditorProps, openCmtEditorRequestedEvent } from '../data/events';
 import { CHECK } from 'checks';
@@ -36,10 +37,16 @@ export class CmtBlock extends BaseElement {
           display: block;
         }
 
-        .reply-block {
-          border-left: 1px solid var(--app-default-separator-color);
+        .with-indent {
           margin-left: 1.5rem;
           padding-left: 1.5rem;
+          border-left: 1px solid var(--app-default-separator-color);
+        }
+
+        /** Used on buttons between cmts */
+        .btn-in-cmts {
+          margin-top: 1rem;
+          margin-bottom: 1.4rem;
         }
       `,
     ];
@@ -61,10 +68,13 @@ export class CmtBlock extends BaseElement {
 
   // Number of replies under this comment.
   // Not available when `cmt` is null.
-  @lp.state _totalReplyCount = 0;
+  @lp.state _replyCount = 0;
   @lp.state _collectorLoadingStatus = LoadingStatus.success;
 
-  private _collector?: CmtCollector;
+  // True if `loadMore` is called.
+  @lp.state _hasLoadedOnce = false;
+
+  private _collector!: CmtCollector;
 
   firstUpdated() {
     CHECK(this.host);
@@ -80,7 +90,7 @@ export class CmtBlock extends BaseElement {
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),
       );
-      this._totalReplyCount = cmt.replyCount ?? 0;
+      this._replyCount = cmt.replyCount ?? 0;
     } else {
       // We are displaying root cmts from a post.
       this._collector = CmtCollector.rootCmts(
@@ -95,7 +105,7 @@ export class CmtBlock extends BaseElement {
 
     if (this.loadOnVisible) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      listenForVisibilityChange([this], () => this._collector?.loadMoreAsync());
+      listenForVisibilityChange([this], () => this.loadMore());
     }
   }
 
@@ -111,20 +121,24 @@ export class CmtBlock extends BaseElement {
           .cmt=${it}
           @deleteMeRequested=${this.handleReplyDeleteMeRequest}></cmt-block>`,
     );
-    const itemsContainer = html`<div class=${cmt ? 'reply-block' : ''}>
-      ${itemsView}
-      ${this._totalReplyCount
-        ? html`<div>
-            <small class="is-secondary">${formatLS(ls.pNOReplies, this._totalReplyCount)}</small>
-          </div>`
-        : html``}
+    const itemsContainer = html`<div class=${cmt ? 'with-indent' : ''}>
+      ${when(
+        cmt && this._replyCount,
+        () =>
+          html`<div class="btn-in-cmts">
+            <link-button @click=${this.loadMore}
+              >${formatLS(ls.pNumOfReplies, this._replyCount)}</link-button
+            >
+          </div>`,
+      )}
+      <div>${itemsView}</div>
       <cmt-footer-view
-        class="m-t-sm m-b-md"
-        .replies=${true}
+        class="btn-in-cmts"
+        .replies=${!!cmt}
         .status=${this._collectorLoadingStatus}
         .hasNext=${this._hasNext}
-        .loadedCount=${this._items.length}
-        @viewMoreClick=${this.handleViewMore}></cmt-footer-view>
+        .hasLoadedOnce=${this._hasLoadedOnce}
+        @viewMoreClick=${this.loadMore}></cmt-footer-view>
     </div>`;
 
     return html`
@@ -149,9 +163,9 @@ export class CmtBlock extends BaseElement {
       ...props,
       done: (cmt) => {
         if (props.editing) {
-          this._collector?.observableItems.update(cmt);
+          this._collector.observableItems.update(cmt);
         } else {
-          this._collector?.observableItems.insert(0, cmt);
+          this._collector.observableItems.insert(0, cmt);
         }
       },
     };
@@ -160,8 +174,9 @@ export class CmtBlock extends BaseElement {
     );
   }
 
-  private async handleViewMore() {
-    await this._collector?.loadMoreAsync();
+  private async loadMore() {
+    await this._collector.loadMoreAsync();
+    this._hasLoadedOnce = true;
   }
 
   private handleReplyClick() {
@@ -179,7 +194,7 @@ export class CmtBlock extends BaseElement {
       if (status.isSuccess) {
         // If there are replies, erase the cmt content.
         // Otherwise, request deleting this cmt instead.
-        if (this._totalReplyCount) {
+        if (this._replyCount) {
           this.cmt = {
             ...this.cmt,
             contentHTML: '',
@@ -220,7 +235,7 @@ export class CmtBlock extends BaseElement {
   private handleReplyDeleteMeRequest(e: CustomEvent<Cmt>) {
     // MUST BE handled by immediate parent.
     e.stopPropagation();
-    this._collector?.observableItems.deleteByKey(e.detail.id);
+    this._collector.observableItems.deleteByKey(e.detail.id);
   }
 }
 

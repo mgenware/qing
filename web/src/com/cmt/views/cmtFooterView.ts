@@ -27,20 +27,30 @@ export class CmtFooterView extends BaseElement {
   @lp.object status = LoadingStatus.notStarted;
   @lp.bool hasNext = false;
   @lp.bool replies = false;
-  @lp.number loadedCount = 0;
+  // Whether `loadMore` has been called once.
+  @lp.bool hasLoadedOnce = false;
+  @lp.number replyCount = 0;
 
   render() {
     const { status } = this;
+    let loadMoreText: string;
+    if (this.replies) {
+      if (this.hasLoadedOnce) {
+        loadMoreText = formatLS(ls.pViewMore, ls.replies);
+      } else {
+        loadMoreText = formatLS(ls.pNumOfReplies, this.replyCount);
+      }
+    } else {
+      // Always show "More comments" in root-cmt mode.
+      // 1. `hasLoadedOnce` is always true in this mode.
+      // 2. We don't know how many root level cmts are there.
+      loadMoreText = formatLS(ls.pViewMore, ls.comments);
+    }
     if (status.isSuccess) {
       if (this.hasNext) {
         return html`
           <div>
-            <a href="#" @click=${this.handleMoreButtonClick}
-              >${formatLS(
-                this.loadedCount ? ls.pViewMore : ls.pView,
-                this.replies ? ls.replies : ls.comments,
-              )}</a
-            >
+            <a href="#" @click=${this.handleMoreButtonClick}>${loadMoreText}</a>
           </div>
         `;
       }

@@ -13,7 +13,7 @@ it('ls', () => {
 });
 
 it('formatLS', () => {
-  expect(formatLS(ls.pNOComments, 0)).to.eq('0 comments');
-  expect(formatLS(ls.pNOComments, 1)).to.eq('1 comment');
-  expect(formatLS(ls.pNOComments, 2)).to.eq('2 comments');
+  expect(formatLS(ls.pNumOfComments, 0)).to.eq('0 comments');
+  expect(formatLS(ls.pNumOfComments, 1)).to.eq('1 comment');
+  expect(formatLS(ls.pNumOfComments, 2)).to.eq('2 comments');
 });

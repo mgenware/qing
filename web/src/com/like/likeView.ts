@@ -27,9 +27,7 @@ export class LikeView extends BaseElement {
           color: var(--app-default-secondary-fore-color);
           background-color: transparent;
           border: 0;
-          padding: 0;
-          padding-top: 0.5rem;
-          padding-bottom: 0.5rem;
+          padding: 0.2rem;
         }
 
         .num {
@@ -59,11 +57,11 @@ export class LikeView extends BaseElement {
       <qing-button disableSelectedStyle ?disabled=${this.isWorking} @click=${this.handleClick}>
         ${cache(
           this.hasLiked
-            ? html` <svg-icon
+            ? html`<svg-icon
                 class="liked"
                 .oneTimeSrc=${staticMainImage('heart-filled.svg')}
                 .size=${iconSize}></svg-icon>`
-            : html` <svg-icon
+            : html`<svg-icon
                 class="not-liked"
                 .oneTimeSrc=${staticMainImage('heart.svg')}
                 .size=${iconSize}></svg-icon>`,

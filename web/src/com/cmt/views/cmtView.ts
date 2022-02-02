@@ -14,7 +14,6 @@ import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';
 import 'com/like/likeApp';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { staticMainImage } from 'urls';
 import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
 import { entityCmt } from 'sharedConstants';
@@ -84,19 +83,13 @@ export class CmtView extends BaseElement {
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
           <div>
-            <qing-button
-              class="icon no-left-padding"
-              title=${ls.reply}
-              disableSelectedStyle
-              @click=${this.handleReplyClick}
-              ><svg-icon .oneTimeSrc=${staticMainImage('add-cmt.svg')} size="22"></svg-icon>
-            </qing-button>
             <like-app
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.hasLiked}
               .hostID=${cmt.id}
               .hostType=${entityCmt}></like-app>
+            <link-button class="m-l-md" @click=${this.handleReplyClick}>${ls.reply}</link-button>
           </div>
         </div>
       </div>
@@ -113,7 +106,8 @@ export class CmtView extends BaseElement {
     this.dispatchEvent(new CustomEvent<Cmt>('deleteClick', { detail: this.cmt }));
   }
 
-  private handleReplyClick() {
+  private handleReplyClick(e: Event) {
+    e.preventDefault();
     CHECK(this.cmt);
     this.dispatchEvent(new CustomEvent<Cmt>('replyClick', { detail: this.cmt }));
   }

@@ -111,14 +111,14 @@ type Dictionary struct {
 	NumberedList                      string `json:"numberedList"`
 	Ok                                string `json:"ok"`
 	OneItem                           string `json:"oneItem"`
+	PCollapseNumOfReplies             string `json:"pCollapseNumOfReplies"`
 	PDoYouWantToDeleteThis            string `json:"pDoYouWantToDeleteThis"`
 	PEditEntity                       string `json:"pEditEntity"`
-	PNoComments                       string `json:"pNOComments"`
-	PNoReplies                        string `json:"pNOReplies"`
+	PNumOfComments                    string `json:"pNumOfComments"`
+	PNumOfReplies                     string `json:"pNumOfReplies"`
 	PPageNotFound                     string `json:"pPageNotFound"`
 	PPlzEnterThe                      string `json:"pPlzEnterThe"`
 	PReplyTo                          string `json:"pReplyTo"`
-	PView                             string `json:"pView"`
 	PViewMore                         string `json:"pViewMore"`
 	PageControlItemFormat             string `json:"pageControlItemFormat"`
 	PageControlPageFormat             string `json:"pageControlPageFormat"`

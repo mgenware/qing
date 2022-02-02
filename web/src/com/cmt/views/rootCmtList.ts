@@ -48,19 +48,15 @@ export class RootCmtList extends BaseElement {
       ${when(!totalCmtCount, () => html`<p class=${brCmtCountCls}>${ls.noComments}</p>`)}`;
     const contentEl = html`
       <div class="m-t-md">
-        <cmt-block
-          ${ref(this._cmtBlockEl)}
-          class="p-t-md"
-          .loadOnVisible=${true}
-          .host=${this.host}></cmt-block>
         ${when(
           this.totalCmtCount,
           () => html`<div>
-            <small class="is-secondary br-cmt-c"
-              >${formatLS(ls.pNOComments, this.totalCmtCount)}</small
+            <small class=${`is-secondary ${brCmtCountCls}`}
+              >${formatLS(ls.pNumOfComments, this.totalCmtCount)}</small
             >
           </div>`,
         )}
+        <cmt-block ${ref(this._cmtBlockEl)} .loadOnVisible=${true} .host=${this.host}></cmt-block>
       </div>
     `;
 

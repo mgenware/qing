@@ -283,7 +283,7 @@ export class ComposerView extends BaseElement {
     if (!entityID) {
       return;
     }
-    const loader = new GetEntitySourceLoader(entityType, entityID);
+    const loader = new GetEntitySourceLoader({ type: entityType, id: entityID });
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
