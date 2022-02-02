@@ -25,13 +25,13 @@ func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	id := clib.MustGetIDFromDict(params, "id")
-	entityType := clib.MustGetIntFromDict(params, "entityType")
+	entity := clib.MustGetEntityInfoFromDict(params, "entity")
+	id := entity.ID
 	db := appDB.DB()
 	var err error
 	var result interface{}
 
-	switch entityType {
+	switch entity.Type {
 	case defs.Shared.EntityPost:
 		{
 			err := da.Post.DeleteItem(appDB.DB(), id, uid)
@@ -58,7 +58,7 @@ func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			break
 		}
 	default:
-		panic(fmt.Sprintf("Unsupported entity type %v", entityType))
+		panic(fmt.Sprintf("Unsupported entity type %v", entity.Type))
 	}
 
 	return resp.MustComplete(result)

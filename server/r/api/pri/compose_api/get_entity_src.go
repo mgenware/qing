@@ -24,14 +24,13 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 
-	id := clib.MustGetIDFromDict(params, "entityID")
-	entityType := clib.MustGetIntFromDict(params, "entityType")
-
+	entity := clib.MustGetEntityInfoFromDict(params, "entity")
+	id := entity.ID
 	db := appDB.DB()
 	var res da.EntityGetSrcResult
 	var err error
 
-	switch entityType {
+	switch entity.Type {
 	case defs.Shared.EntityPost:
 		res, err = da.Post.SelectItemSrc(db, id, uid)
 	case defs.Shared.EntityCmt:
@@ -41,7 +40,7 @@ func getEntitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	case defs.Shared.EntityAnswer:
 		res, err = da.Answer.SelectItemSrc(db, id, uid)
 	default:
-		return resp.MustFailWithUserError(fmt.Sprintf("Unsupported entity type %v", entityType))
+		return resp.MustFailWithUserError(fmt.Sprintf("Unsupported entity type %v", entity.Type))
 	}
 	app.PanicIfErr(err)
 	return resp.MustComplete(res)

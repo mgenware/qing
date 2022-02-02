@@ -36,7 +36,7 @@ func getCmtTA(hostType int) (da.CmtInterface, error) {
 	case defs.Shared.EntityAnswer:
 		return da.Answer, nil
 	default:
-		return nil, fmt.Errorf("Unknown cmt data provider: %v", hostType)
+		return nil, fmt.Errorf("unknown cmt data provider: %v", hostType)
 	}
 }
 
@@ -53,14 +53,13 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	if id == 0 {
 		// Create a comment or reply.
-		hostType := clib.MustGetIntFromDict(params, "hostType")
-		hostID := clib.MustGetIDFromDict(params, "hostID")
+		host := clib.MustGetEntityInfoFromDict(params, "host")
 		parentID := clib.GetIDFromDict(params, "parentID")
 
-		cmtCore, err := getCmtTA(hostType)
+		cmtCore, err := getCmtTA(host.Type)
 		app.PanicIfErr(err)
 
-		captResult, err := appService.Get().Captcha.Verify(uid, hostType, "", app.CoreConfig().DevMode())
+		captResult, err := appService.Get().Captcha.Verify(uid, host.Type, "", app.CoreConfig().DevMode())
 		app.PanicIfErr(err)
 
 		if captResult != 0 {
@@ -69,9 +68,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		var cmtID uint64
 		if parentID != 0 {
-			cmtID, err = cmtCore.InsertReply(db, parentID, content, uid, hostID, sanitizedToken, captResult)
+			cmtID, err = cmtCore.InsertReply(db, parentID, content, uid, host.ID, sanitizedToken, captResult)
 		} else {
-			cmtID, err = cmtCore.InsertCmt(db, content, uid, hostID, sanitizedToken, captResult)
+			cmtID, err = cmtCore.InsertCmt(db, content, uid, host.ID, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 

@@ -17,6 +17,12 @@ import (
 	"github.com/mgenware/goutil/strconvx"
 )
 
+// Used in APIs to represent an entity.
+type EntityInfo struct {
+	ID   uint64
+	Type int
+}
+
 func panicMissingArg(key string) {
 	// panic with a string for non-fatal errors
 	panic(fmt.Sprintf("The argument `%v` is required", key))
@@ -113,7 +119,7 @@ func MustToPageOrDefault(s string) int {
 	}
 	if val <= 0 {
 		// panic with a string for non-fatal errors
-		panic("The \"page\" arugment must be a positive integer")
+		panic("The \"page\" argument must be a positive integer")
 	}
 	return val
 }
@@ -129,6 +135,20 @@ func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
 		panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
 	}
 	return id
+}
+
+func GetEntityInfoFromDict(dict map[string]interface{}, key string) EntityInfo {
+	dict = jsonx.GetDictOrEmpty(dict, key)
+	id := GetIDFromDict(dict, "id")
+	eType := jsonx.GetIntOrDefault(dict, "type")
+	return EntityInfo{ID: id, Type: eType}
+}
+
+func MustGetEntityInfoFromDict(dict map[string]interface{}, key string) EntityInfo {
+	dict = jsonx.GetDictOrEmpty(dict, key)
+	id := MustGetIDFromDict(dict, "id")
+	eType := MustGetIntFromDict(dict, "type")
+	return EntityInfo{ID: id, Type: eType}
 }
 
 // MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.

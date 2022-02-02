@@ -7,9 +7,10 @@
 
 import Loader from 'lib/loader';
 import routes from 'routes';
+import Entity from 'lib/entity';
 
 export default class DeleteEntityLoader extends Loader<string> {
-  constructor(public pid: string | null, public entityType: number) {
+  constructor(public entity: Entity) {
     super();
   }
 
@@ -19,8 +20,7 @@ export default class DeleteEntityLoader extends Loader<string> {
 
   requestParams(): Record<string, unknown> {
     return {
-      id: this.pid,
-      entityType: this.entityType,
+      entity: this.entity,
     };
   }
 }

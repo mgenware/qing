@@ -18,12 +18,12 @@ import SetEntityApp from 'com/postCore/setEntityApp';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import { renderTemplateResult } from 'lib/htmlLib';
+import Entity from 'lib/entity';
 
 export function setupHandlers(
   editBarElement: EditBarApp,
-  eid: string,
+  entity: Entity,
   forumID: string | undefined,
-  entityType: number,
 ) {
   if (!appPageState.user) {
     return;
@@ -33,11 +33,11 @@ export function setupHandlers(
     if (
       await appAlert.confirm(
         ls.warning,
-        formatLS(ls.pDoYouWantToDeleteThis, entityTypeToLS(entityType)),
+        formatLS(ls.pDoYouWantToDeleteThis, entityTypeToLS(entity.type)),
       )
     ) {
       appAlert.showLoadingOverlay(ls.working);
-      const loader = new DeleteEntityLoader(eid, entityType);
+      const loader = new DeleteEntityLoader(entity);
       const status = await appTask.critical(loader, ls.working);
       if (status.data) {
         // Redirect to profile page since this page has been deleted.
@@ -51,10 +51,10 @@ export function setupHandlers(
       '',
       html`<set-entity-app
         autoClose
-        .postID=${eid}
+        .postID=${entity.id}
         .forumID=${forumID || ''}
-        entityType=${entityType}
-        headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entityType))}></set-entity-app>`,
+        entityType=${entity.type}
+        headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entity.type))}></set-entity-app>`,
     );
     if (editPostApp) {
       editPostApp.open = true;

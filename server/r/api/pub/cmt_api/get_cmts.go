@@ -8,6 +8,7 @@
 package cmtapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -77,16 +78,15 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	// Selecting comments.
-	hostID := clib.MustGetIDFromDict(params, "hostID")
-	hostType := clib.MustGetIntFromDict(params, "hostType")
+	host := clib.MustGetEntityInfoFromDict(params, "host")
 
-	switch hostType {
+	switch host.Type {
 	case defs.Shared.EntityPost:
 		{
 			if uid == 0 {
-				items, hasNext, err = da.Post.SelectCmts(db, hostID, page, kCmtPageSize)
+				items, hasNext, err = da.Post.SelectCmts(db, host.ID, page, kCmtPageSize)
 			} else {
-				items, hasNext, err = da.Post.SelectCmtsWithLike(db, uid, hostID, page, kCmtPageSize)
+				items, hasNext, err = da.Post.SelectCmtsWithLike(db, uid, host.ID, page, kCmtPageSize)
 			}
 			if err != nil {
 				app.PanicIfErr(err)
@@ -95,7 +95,7 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 	default:
 		{
-			panic("Unsupported entity type")
+			panic(fmt.Errorf("Unsupported entity type %v", host.Type))
 		}
 	}
 	return resp.MustComplete(respData)

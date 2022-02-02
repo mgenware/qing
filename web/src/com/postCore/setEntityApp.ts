@@ -55,7 +55,7 @@ export default class SetEntityApp extends BaseElement {
     CHECK(entityType);
 
     if (this.postID) {
-      const loader = new GetEntitySourceLoader(this.entityType, this.postID);
+      const loader = new GetEntitySourceLoader({ type: this.entityType, id: this.postID });
       const status = await appTask.critical(loader);
       if (status.data) {
         const postData = status.data;

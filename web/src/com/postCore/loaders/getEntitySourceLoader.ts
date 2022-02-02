@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { CHECK } from 'checks';
 import Loader from 'lib/loader';
+import Entity from 'lib/entity';
 import routes from 'routes';
 
 export interface GetEntitySourceResult {
@@ -15,11 +15,8 @@ export interface GetEntitySourceResult {
 }
 
 export class GetEntitySourceLoader extends Loader<GetEntitySourceResult> {
-  constructor(public entityType: number, public entityID: string) {
+  constructor(public entity: Entity) {
     super();
-
-    CHECK(entityType);
-    CHECK(entityID);
   }
 
   requestURL(): string {
@@ -28,8 +25,7 @@ export class GetEntitySourceLoader extends Loader<GetEntitySourceResult> {
 
   requestParams(): Record<string, unknown> {
     return {
-      entityID: this.entityID,
-      entityType: this.entityType,
+      entity: this.entity,
     };
   }
 }
