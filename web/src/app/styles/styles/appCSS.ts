@@ -429,9 +429,6 @@ export default css`
   qing-button.icon svg-icon {
     --svg-icon-fill: var(--app-default-secondary-fore-color);
   }
-  qing-button.no-left-padding::part(button) {
-    padding-inline-start: 0;
-  }
 
   /* qing-overlay ------------------------- */
   qing-overlay::part(overlay) {
