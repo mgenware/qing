@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
-import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/discussion/discussion.js';
 import discussionCmt from '../../models/discussion/discussionCmt.js';
 import ThreadBaseTA from '../com/threadBaseTA.js';
@@ -21,7 +21,7 @@ export class DiscussionTA extends ThreadBaseTA {
     return t;
   }
 
-  override getCmtBaseTable(): ContentCmtBase {
+  override getCmtBaseTable(): ContentBaseCmt {
     return discussionCmt;
   }
 

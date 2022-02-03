@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import { cmt } from '../cmt/cmt.js';
 import ContentBase from './contentBase.js';
 
-export default abstract class ContentCmtBase extends mm.Table {
+export default abstract class ContentBaseCmt extends mm.Table {
   // Comment ID.
   cmt_id = mm.pk(cmt.id);
 

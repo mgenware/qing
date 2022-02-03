@@ -11,7 +11,7 @@ import * as cm from '../../models/common.js';
 import * as cmtf from '../cmt/cmtTAFactory.js';
 import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
-import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import { getEntitySrcType } from '../defs.js';
 
 const insertedIDVar = 'insertedID';
@@ -126,7 +126,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   abstract getBaseTable(): ContentBase;
 
   // Gets the underlying `ContentCmtBase` table.
-  abstract getCmtBaseTable(): ContentCmtBase;
+  abstract getCmtBaseTable(): ContentBaseCmt;
 
   // Returns [] if post center is not supported.
   abstract getPCColumns(): mm.SelectedColumnTypes[];

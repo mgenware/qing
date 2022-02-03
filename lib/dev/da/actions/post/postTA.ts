@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
-import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/post/post.js';
 import postCmt from '../../models/post/postCmt.js';
 import ContentBaseTA from '../com/contentBaseTA.js';
@@ -18,7 +18,7 @@ export class PostTA extends ContentBaseTA {
     return t;
   }
 
-  override getCmtBaseTable(): ContentCmtBase {
+  override getCmtBaseTable(): ContentBaseCmt {
     return postCmt;
   }
 

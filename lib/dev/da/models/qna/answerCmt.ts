@@ -7,10 +7,10 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../com/contentBase.js';
-import ContentCmtBase from '../com/contentCmtCore.js';
+import ContentBaseCmt from '../com/contentBaseCmt.js';
 import answer from './answer.js';
 
-export class AnswerCmt extends ContentCmtBase {
+export class AnswerCmt extends ContentBaseCmt {
   getHostTable(): ContentBase {
     return answer;
   }

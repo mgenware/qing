@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
-import ContentCmtBase from '../../models/com/contentCmtCore.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/qna/answer.js';
 import answerCmt from '../../models/qna/answerCmt.js';
 import ContentBaseTA from '../com/contentBaseTA.js';
@@ -35,7 +35,7 @@ export class AnswerTA extends ContentBaseTA {
     return t;
   }
 
-  override getCmtBaseTable(): ContentCmtBase {
+  override getCmtBaseTable(): ContentBaseCmt {
     return answerCmt;
   }
 
