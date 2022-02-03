@@ -7,20 +7,11 @@
 
 import * as mm from 'mingru-models';
 import cmt from '../../models/cmt/cmt.js';
-import user from '../../models/user/user.js';
 import * as cm from '../../models/common.js';
 import cmtTA from './cmtTA.js';
-import {
-  CmtRelationTable,
-  cmtInterface,
-  cmtResultType,
-  CmtHostTable,
-  hasLikedProp,
-  viewerUserIDInput,
-} from './cmtTAUtils.js';
+import { CmtRelationTable, cmtInterface, CmtHostTable } from './cmtTAUtils.js';
 import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 import { defaultUpdateConditions } from '../common.js';
-import { cmtLike } from '../../models/like/likeableTables.js';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
@@ -29,39 +20,6 @@ const replyID = 'replyID';
 const replyCount = 'replyCount';
 const hostIDAndReplyCount = 'hostIDAndReplyCount';
 const cmtIDAndHostID = 'cmtIDAndHostID';
-
-export function selectCmts(rt: CmtRelationTable, withLike: boolean): mm.SelectAction {
-  const jCmt = rt.cmt_id.associativeJoin(cmt);
-  const cols: mm.SelectedColumnTypes[] = [
-    rt.cmt_id.as('id').privateAttr(),
-    jCmt.content,
-    jCmt.created_at.privateAttr(),
-    jCmt.modified_at.privateAttr(),
-    jCmt.reply_count,
-    jCmt.likes,
-    jCmt.user_id.privateAttr(),
-    jCmt.user_id.join(user).name,
-    jCmt.user_id.join(user).icon_name.privateAttr(),
-  ];
-  if (withLike) {
-    const likeUserID = rt.cmt_id.leftJoin(
-      cmtLike,
-      cmtLike.host_id,
-      undefined,
-      (jt) => mm.sql`AND ${jt.user_id.isEqualToInput(viewerUserIDInput)}`,
-    ).user_id;
-    cols.push(likeUserID.as(hasLikedProp));
-  }
-  return mm
-    .selectRows(...cols)
-    .from(rt)
-    .pageMode()
-    .by(rt.host_id)
-    .orderByDesc(jCmt.created_at)
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
-    .resultTypeNameAttr(cmtResultType)
-    .attr(mm.ActionAttribute.tsTypeName, cmtResultType);
-}
 
 export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQL): mm.Action {
   return updateCounterAction(pt, pt.cmt_count, { rawOffsetSQL: offsetSQL, idInputName: hostID });

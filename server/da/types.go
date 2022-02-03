@@ -72,6 +72,9 @@ type CmtInterface interface {
 	InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error)
 	SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 	SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectReplies(queryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectRootCmts(queryable mingru.Queryable, mrFromTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
 // LikeInterface ...
@@ -79,12 +82,6 @@ type LikeInterface interface {
 	CancelLike(db *sql.DB, hostID uint64, userID uint64) error
 	HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
 	Like(db *sql.DB, hostID uint64, userID uint64) error
-}
-
-// ReplyInterface ...
-type ReplyInterface interface {
-	SelectReplies(queryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
-	SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
 // VoteInterface ...

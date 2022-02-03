@@ -13,6 +13,7 @@ import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import { getEntitySrcType } from '../defs.js';
+import { getSelectCmtsAction } from '../cmt/cmtTAUtils.js';
 
 const insertedIDVar = 'insertedID';
 
@@ -114,8 +115,8 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
-    this.selectCmts = cmtf.selectCmts(this.getCmtBaseTable(), false);
-    this.selectCmtsWithLike = cmtf.selectCmts(this.getCmtBaseTable(), true);
+    this.selectCmts = getSelectCmtsAction(this.getCmtBaseTable(), false);
+    this.selectCmtsWithLike = getSelectCmtsAction(this.getCmtBaseTable(), true);
     this.insertCmt = cmtf.insertCmtAction(t, this.getCmtBaseTable());
     this.insertReply = cmtf.insertReplyAction(t);
 
