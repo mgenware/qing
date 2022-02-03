@@ -10,25 +10,27 @@ import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import ContentBase from '../../models/com/contentBase.js';
 import { getSelectCmtsAction } from '../cmt/cmtTAUtils.js';
 
-class VContentBase extends ContentBase {}
+class ContentBaseUtil extends ContentBase {}
 
-const vContentBase = mm.table(VContentBase);
+const contentBaseUtil = mm.table(ContentBaseUtil);
 
-export class VContentBaseCmt extends ContentBaseCmt {
+class ContentBaseCmtUtil extends ContentBaseCmt {
   override getHostTable(): ContentBase {
-    return vContentBase;
+    return contentBaseUtil;
   }
 }
 
-const vContentBaseCmt = mm.table(VContentBaseCmt);
+const contentBaseCmtUtil = mm.table(ContentBaseCmtUtil);
 
-export class ContentBaseCmtCTA extends mm.TableActions {
+export class ContentBaseCmtUTA extends mm.TableActions {
   selectRootCmts: mm.SelectAction;
 
   constructor() {
     super();
-    this.selectRootCmts = getSelectCmtsAction(vContentBaseCmt, false);
+    this.selectRootCmts = getSelectCmtsAction(contentBaseCmtUtil, false);
   }
 }
 
-export default mm.tableActions(vContentBaseCmt, ContentBaseCmtCTA, { configurableTable: true });
+export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtUTA, {
+  configurableTable: true,
+});

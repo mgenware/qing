@@ -12,6 +12,7 @@
 
 export interface CmtData {
   contentHTML?: string;
+  hasLiked?: number;
   likes?: number;
   replyCount?: number;
   userName?: string;
