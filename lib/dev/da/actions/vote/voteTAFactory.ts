@@ -45,7 +45,7 @@ function getNewVoteAction(t: VoteTable, hostTable: VotableTable, upVote: boolean
       mm
         .insertOne()
         .setInputs(t.host_id, t.user_id)
-        .set(t.vote, upVote ? mm.constants.t : mm.constants.f),
+        .set(t.vote, upVote ? mm.constants.T : mm.constants.T),
       updateVoteAction(hostTable, upVote ? 1 : 0, upVote ? 0 : 1, upVote ? 1 : -1),
     )
     .attr(mm.ActionAttribute.groupTypeName, voteInterface);
@@ -56,7 +56,7 @@ function getSwitchVoteAction(t: VoteTable, hostTable: VotableTable, upVote: bool
     .transact(
       mm
         .updateOne()
-        .set(t.vote, upVote ? mm.constants.t : mm.constants.f)
+        .set(t.vote, upVote ? mm.constants.T : mm.constants.F)
         .whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput())),
       updateVoteAction(hostTable, upVote ? 1 : -1, upVote ? -1 : 1, upVote ? 2 : -2),
     )

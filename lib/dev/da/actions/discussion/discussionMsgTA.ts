@@ -62,7 +62,7 @@ export class DiscussionMsgTA extends ContentBaseTA {
   }
 
   override getContainerUpdateCounterAction(): mm.Action {
-    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef(discussionID), offset: '-1' });
+    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef(discussionID), offset: -1 });
   }
 
   override getExtraInsertionInputColumns(): mm.Column[] {

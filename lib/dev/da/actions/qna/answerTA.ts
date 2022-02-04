@@ -62,7 +62,7 @@ export class AnswerTA extends ContentBaseTA {
   }
 
   override getContainerUpdateCounterAction(): mm.Action {
-    return questionTA.updateMsgCount.wrap({ id: mm.valueRef(questionID), offset: '-1' });
+    return questionTA.updateMsgCount.wrap({ id: mm.valueRef(questionID), offset: -1 });
   }
 
   override getExtraInsertionInputColumns(): mm.Column[] {

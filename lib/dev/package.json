@@ -21,8 +21,8 @@
     "jsconfgen": "^0.2.0",
     "json-to-js-const": "^0.1.0",
     "m-fs": "^5.1.0",
-    "mingru": "^0.53.1",
-    "mingru-models": "^0.59.1",
+    "mingru": "^0.53.2",
+    "mingru-models": "^0.59.3",
     "mingru-tsconfig": "^4.0.0"
   }
 }

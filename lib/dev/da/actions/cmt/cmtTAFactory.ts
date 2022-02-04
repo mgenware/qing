@@ -47,7 +47,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
       cmtTA.insertReply.declareInsertedID(replyID),
       // cmt.replyCount++.
       cmtTA.updateReplyCount.wrap({
-        offset: '1',
+        offset: 1,
         id: mm.valueRef(parentID),
       }),
       // host.cmtCount++.
@@ -104,7 +104,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
       }),
       // host.cmtCount--.
       cmtTA.updateReplyCount.wrap({
-        offset: '-1',
+        offset: -1,
         id: mm.valueRef(`${cmtIDAndHostID}.${parentIDProp}`),
       }),
     )

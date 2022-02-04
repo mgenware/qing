@@ -89,7 +89,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       this.deleteItemOverride() ??
       mm.transact(
         mm.deleteOne().whereSQL(this.updateConditions),
-        this.getContainerUpdateCounterAction().wrap({ offset: '-1' }),
+        this.getContainerUpdateCounterAction().wrap({ offset: -1 }),
       );
     this.insertItem = mm
       .transact(
@@ -105,7 +105,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
           )
           .setDefaults()
           .declareInsertedID(insertedIDVar),
-        this.getContainerUpdateCounterAction().wrap({ offset: '1' }),
+        this.getContainerUpdateCounterAction().wrap({ offset: 1 }),
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
       .setReturnValues(insertedIDVar);
