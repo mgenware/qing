@@ -32,16 +32,16 @@ func (mrTable *TableTypeUserPwd) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeUserPwd) addPwdBasedUserChild2(queryable mingru.Queryable, id uint64) error {
-	return User.AddUserStatsEntryInternal(queryable, id)
+func (mrTable *TableTypeUserPwd) addPwdBasedUserChild2(mrQueryable mingru.Queryable, id uint64) error {
+	return User.AddUserStatsEntryInternal(mrQueryable, id)
 }
 
-func (mrTable *TableTypeUserPwd) addPwdBasedUserChild3(queryable mingru.Queryable, id uint64) error {
-	return UserAuth.AddUserAuth(queryable, id, 1)
+func (mrTable *TableTypeUserPwd) addPwdBasedUserChild3(mrQueryable mingru.Queryable, id uint64) error {
+	return UserAuth.AddUserAuth(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypeUserPwd) addPwdBasedUserChild4(queryable mingru.Queryable, id uint64, pwdHash string) error {
-	return mrTable.AddUserPwdInternal(queryable, id, pwdHash)
+func (mrTable *TableTypeUserPwd) addPwdBasedUserChild4(mrQueryable mingru.Queryable, id uint64, pwdHash string) error {
+	return mrTable.AddUserPwdInternal(mrQueryable, id, pwdHash)
 }
 
 // AddPwdBasedUser ...
@@ -72,15 +72,15 @@ func (mrTable *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name 
 }
 
 // AddUserPwdInternal ...
-func (mrTable *TableTypeUserPwd) AddUserPwdInternal(queryable mingru.Queryable, id uint64, pwdHash string) error {
-	_, err := queryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
+func (mrTable *TableTypeUserPwd) AddUserPwdInternal(mrQueryable mingru.Queryable, id uint64, pwdHash string) error {
+	_, err := mrQueryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
 	return err
 }
 
 // SelectHashByID ...
-func (mrTable *TableTypeUserPwd) SelectHashByID(queryable mingru.Queryable, id uint64) (string, error) {
+func (mrTable *TableTypeUserPwd) SelectHashByID(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
-	err := queryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}

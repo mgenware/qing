@@ -32,13 +32,13 @@ func (mrTable *TableTypeQuestionLike) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeQuestionLike) cancelLikeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
+func (mrTable *TableTypeQuestionLike) cancelLikeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeQuestionLike) cancelLikeChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `question` SET `likes` = `likes` + -1 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeQuestionLike) cancelLikeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `likes` = `likes` + -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -60,22 +60,22 @@ func (mrTable *TableTypeQuestionLike) CancelLike(db *sql.DB, hostID uint64, user
 }
 
 // HasLiked ...
-func (mrTable *TableTypeQuestionLike) HasLiked(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
+func (mrTable *TableTypeQuestionLike) HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}
 	return result, nil
 }
 
-func (mrTable *TableTypeQuestionLike) likeChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `question_like` (`host_id`, `user_id`) VALUES (?, ?)", hostID, userID)
+func (mrTable *TableTypeQuestionLike) likeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO `question_like` (`host_id`, `user_id`) VALUES (?, ?)", hostID, userID)
 	return err
 }
 
-func (mrTable *TableTypeQuestionLike) likeChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `question` SET `likes` = `likes` + 1 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeQuestionLike) likeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `likes` = `likes` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

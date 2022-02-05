@@ -34,32 +34,32 @@ func (mrTable *TableTypeCmt) MingruSQLName() string {
 // ------------ Actions ------------
 
 // DeleteCore ...
-func (mrTable *TableTypeCmt) DeleteCore(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
+func (mrTable *TableTypeCmt) DeleteCore(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // EditCmt ...
-func (mrTable *TableTypeCmt) EditCmt(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
+func (mrTable *TableTypeCmt) EditCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // EditReply ...
-func (mrTable *TableTypeCmt) EditReply(queryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
+func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertCmt ...
-func (mrTable *TableTypeCmt) InsertCmt(queryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (NULL, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", contentHTML, userID)
+func (mrTable *TableTypeCmt) InsertCmt(mrQueryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (NULL, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 // InsertReply ...
-func (mrTable *TableTypeCmt) InsertReply(queryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
+func (mrTable *TableTypeCmt) InsertReply(mrQueryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -70,9 +70,9 @@ type CmtTableMemLockedGetCmtDataForDeletionResult struct {
 }
 
 // MemLockedGetCmtDataForDeletion ...
-func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(queryable mingru.Queryable, id uint64) (CmtTableMemLockedGetCmtDataForDeletionResult, error) {
+func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Queryable, id uint64) (CmtTableMemLockedGetCmtDataForDeletionResult, error) {
 	var result CmtTableMemLockedGetCmtDataForDeletionResult
-	err := queryable.QueryRow("SELECT `parent_id`, `reply_count` FROM `cmt` WHERE `id` = ? LOCK IN SHARE MODE", id).Scan(&result.ParentID, &result.ReplyCount)
+	err := mrQueryable.QueryRow("SELECT `parent_id`, `reply_count` FROM `cmt` WHERE `id` = ? LOCK IN SHARE MODE", id).Scan(&result.ParentID, &result.ReplyCount)
 	if err != nil {
 		return result, err
 	}
@@ -80,9 +80,9 @@ func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(queryable mingru.Que
 }
 
 // SelectCmtSource ...
-func (mrTable *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+func (mrTable *TableTypeCmt) SelectCmtSource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
+	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err
 	}
@@ -90,7 +90,7 @@ func (mrTable *TableTypeCmt) SelectCmtSource(queryable mingru.Queryable, id uint
 }
 
 // SelectReplies ...
-func (mrTable *TableTypeCmt) SelectReplies(queryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -102,7 +102,7 @@ func (mrTable *TableTypeCmt) SelectReplies(queryable mingru.Queryable, parentID 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`reply_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`reply_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -128,7 +128,7 @@ func (mrTable *TableTypeCmt) SelectReplies(queryable mingru.Queryable, parentID 
 }
 
 // SelectRepliesWithLike ...
-func (mrTable *TableTypeCmt) SelectRepliesWithLike(queryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -140,7 +140,7 @@ func (mrTable *TableTypeCmt) SelectRepliesWithLike(queryable mingru.Queryable, v
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`reply_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `has_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`reply_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `has_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -166,9 +166,9 @@ func (mrTable *TableTypeCmt) SelectRepliesWithLike(queryable mingru.Queryable, v
 }
 
 // SelectReplySource ...
-func (mrTable *TableTypeCmt) SelectReplySource(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+func (mrTable *TableTypeCmt) SelectReplySource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
+	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err
 	}
@@ -176,7 +176,7 @@ func (mrTable *TableTypeCmt) SelectReplySource(queryable mingru.Queryable, id ui
 }
 
 // UpdateReplyCount ...
-func (mrTable *TableTypeCmt) UpdateReplyCount(queryable mingru.Queryable, id uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
+func (mrTable *TableTypeCmt) UpdateReplyCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

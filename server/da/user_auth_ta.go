@@ -29,7 +29,7 @@ func (mrTable *TableTypeUserAuth) MingruSQLName() string {
 // ------------ Actions ------------
 
 // AddUserAuth ...
-func (mrTable *TableTypeUserAuth) AddUserAuth(queryable mingru.Queryable, id uint64, authType uint16) error {
-	_, err := queryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
+func (mrTable *TableTypeUserAuth) AddUserAuth(mrQueryable mingru.Queryable, id uint64, authType uint16) error {
+	_, err := mrQueryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
 	return err
 }

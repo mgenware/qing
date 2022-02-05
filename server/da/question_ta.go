@@ -34,13 +34,19 @@ func (mrTable *TableTypeQuestion) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeQuestion) deleteItemChild1(queryable mingru.Queryable, id uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `question` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
+// DecrementCmtCount ...
+func (mrTable *TableTypeQuestion) DecrementCmtCount(mrQueryable mingru.Queryable, id uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeQuestion) deleteItemChild2(queryable mingru.Queryable, userID uint64) error {
-	return UserStats.UpdateQuestionCount(queryable, userID, -1)
+func (mrTable *TableTypeQuestion) deleteItemChild1(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `question` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *TableTypeQuestion) deleteItemChild2(mrQueryable mingru.Queryable, userID uint64) error {
+	return UserStats.UpdateQuestionCount(mrQueryable, userID, -1)
 }
 
 // DeleteItem ...
@@ -61,23 +67,25 @@ func (mrTable *TableTypeQuestion) DeleteItem(db *sql.DB, id uint64, userID uint6
 }
 
 // EditItem ...
-func (mrTable *TableTypeQuestion) EditItem(queryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := queryable.Exec("UPDATE `question` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
+func (mrTable *TableTypeQuestion) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeQuestion) insertCmtChild2(queryable mingru.Queryable, cmtID uint64, hostID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `question_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
+// IncrementCmtCount ...
+func (mrTable *TableTypeQuestion) IncrementCmtCount(mrQueryable mingru.Queryable, id uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *TableTypeQuestion) insertCmtChild2(mrQueryable mingru.Queryable, cmtID uint64, hostID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO `question_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
-func (mrTable *TableTypeQuestion) insertCmtChild3(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `question` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
 
 // InsertCmt ...
-func (mrTable *TableTypeQuestion) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeQuestion) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -89,7 +97,7 @@ func (mrTable *TableTypeQuestion) InsertCmt(db *sql.DB, contentHTML string, user
 		if err != nil {
 			return err
 		}
-		err = mrTable.insertCmtChild3(tx, hostID)
+		err = mrTable.IncrementCmtCount(tx, id)
 		if err != nil {
 			return err
 		}
@@ -99,13 +107,13 @@ func (mrTable *TableTypeQuestion) InsertCmt(db *sql.DB, contentHTML string, user
 	return cmtIDExported, txErr
 }
 
-func (mrTable *TableTypeQuestion) insertItemChild1(queryable mingru.Queryable, forumID *uint64, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `question` (`forum_id`, `title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `reply_count`, `last_replied_at`, `likes`) VALUES (?, ?, ?, ?, ?, ?, 0, 0, NULL, 0)", forumID, title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
+func (mrTable *TableTypeQuestion) insertItemChild1(mrQueryable mingru.Queryable, forumID *uint64, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `question` (`forum_id`, `title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `reply_count`, `last_replied_at`, `likes`) VALUES (?, ?, ?, ?, ?, ?, 0, 0, NULL, 0)", forumID, title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (mrTable *TableTypeQuestion) insertItemChild2(queryable mingru.Queryable, userID uint64) error {
-	return UserStats.UpdateQuestionCount(queryable, userID, 1)
+func (mrTable *TableTypeQuestion) insertItemChild2(mrQueryable mingru.Queryable, userID uint64) error {
+	return UserStats.UpdateQuestionCount(mrQueryable, userID, 1)
 }
 
 // InsertItem ...
@@ -127,17 +135,13 @@ func (mrTable *TableTypeQuestion) InsertItem(db *sql.DB, forumID *uint64, title 
 	return insertedIDExported, txErr
 }
 
-func (mrTable *TableTypeQuestion) insertReplyChild2(queryable mingru.Queryable, id uint64) error {
-	return Cmt.UpdateReplyCount(queryable, id, 1)
+func (mrTable *TableTypeQuestion) insertReplyChild2(mrQueryable mingru.Queryable, id uint64) error {
+	return Cmt.UpdateReplyCount(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypeQuestion) insertReplyChild3(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `question` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", hostID)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
 
 // InsertReply ...
-func (mrTable *TableTypeQuestion) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeQuestion) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -149,7 +153,7 @@ func (mrTable *TableTypeQuestion) InsertReply(db *sql.DB, parentID uint64, conte
 		if err != nil {
 			return err
 		}
-		err = mrTable.insertReplyChild3(tx, hostID)
+		err = mrTable.IncrementCmtCount(tx, id)
 		if err != nil {
 			return err
 		}
@@ -157,82 +161,6 @@ func (mrTable *TableTypeQuestion) InsertReply(db *sql.DB, parentID uint64, conte
 		return nil
 	})
 	return replyIDExported, txErr
-}
-
-// SelectCmts ...
-func (mrTable *TableTypeQuestion) SelectCmts(queryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := queryable.Query("SELECT `question_cmt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `question_cmt` AS `question_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `question_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `question_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]CmtData, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
-// SelectCmtsWithLike ...
-func (mrTable *TableTypeQuestion) SelectCmtsWithLike(queryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := queryable.Query("SELECT `question_cmt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM `question_cmt` AS `question_cmt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `question_cmt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `question_cmt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `question_cmt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]CmtData, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
 }
 
 // QuestionTableSelectItemByIDResult ...
@@ -252,9 +180,9 @@ type QuestionTableSelectItemByIDResult struct {
 }
 
 // SelectItemByID ...
-func (mrTable *TableTypeQuestion) SelectItemByID(queryable mingru.Queryable, id uint64) (QuestionTableSelectItemByIDResult, error) {
+func (mrTable *TableTypeQuestion) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (QuestionTableSelectItemByIDResult, error) {
 	var result QuestionTableSelectItemByIDResult
-	err := queryable.QueryRow("SELECT `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`content`, `question`.`forum_id`, `question`.`title`, `question`.`cmt_count`, `question`.`reply_count`, `question`.`likes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Likes)
+	err := mrQueryable.QueryRow("SELECT `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`content`, `question`.`forum_id`, `question`.`title`, `question`.`cmt_count`, `question`.`reply_count`, `question`.`likes` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount, &result.Likes)
 	if err != nil {
 		return result, err
 	}
@@ -277,7 +205,7 @@ type QuestionTableSelectItemsForPostCenterResult struct {
 }
 
 // SelectItemsForPostCenter ...
-func (mrTable *TableTypeQuestion) SelectItemsForPostCenter(queryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]QuestionTableSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *TableTypeQuestion) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]QuestionTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt:
@@ -303,7 +231,7 @@ func (mrTable *TableTypeQuestion) SelectItemsForPostCenter(queryable mingru.Quer
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `reply_count` FROM `question` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `reply_count` FROM `question` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -337,7 +265,7 @@ type QuestionTableSelectItemsForUserProfileResult struct {
 }
 
 // SelectItemsForUserProfile ...
-func (mrTable *TableTypeQuestion) SelectItemsForUserProfile(queryable mingru.Queryable, userID uint64, page int, pageSize int) ([]QuestionTableSelectItemsForUserProfileResult, bool, error) {
+func (mrTable *TableTypeQuestion) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]QuestionTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -349,7 +277,7 @@ func (mrTable *TableTypeQuestion) SelectItemsForUserProfile(queryable mingru.Que
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `question` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `question` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -375,9 +303,9 @@ func (mrTable *TableTypeQuestion) SelectItemsForUserProfile(queryable mingru.Que
 }
 
 // SelectItemSrc ...
-func (mrTable *TableTypeQuestion) SelectItemSrc(queryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+func (mrTable *TableTypeQuestion) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := queryable.QueryRow("SELECT `title`, `content` FROM `question` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
+	err := mrQueryable.QueryRow("SELECT `title`, `content` FROM `question` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
 	if err != nil {
 		return result, err
 	}
@@ -385,13 +313,13 @@ func (mrTable *TableTypeQuestion) SelectItemSrc(queryable mingru.Queryable, id u
 }
 
 // TestUpdateDates ...
-func (mrTable *TableTypeQuestion) TestUpdateDates(queryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
-	result, err := queryable.Exec("UPDATE `question` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
+func (mrTable *TableTypeQuestion) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateMsgCount ...
-func (mrTable *TableTypeQuestion) UpdateMsgCount(queryable mingru.Queryable, id uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `question` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
+func (mrTable *TableTypeQuestion) UpdateMsgCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `question` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

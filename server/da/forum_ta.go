@@ -34,19 +34,19 @@ func (mrTable *TableTypeForum) MingruSQLName() string {
 // ------------ Actions ------------
 
 // DeleteItem ...
-func (mrTable *TableTypeForum) DeleteItem(queryable mingru.Queryable, id uint64) error {
-	result, err := queryable.Exec("DELETE FROM `forum` WHERE `id` = ?", id)
+func (mrTable *TableTypeForum) DeleteItem(mrQueryable mingru.Queryable, id uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `forum` WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertItem ...
-func (mrTable *TableTypeForum) InsertItem(queryable mingru.Queryable, name string, descHTML string, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, threadCount uint, status uint8) (uint64, error) {
-	result, err := queryable.Exec("INSERT INTO `forum` (`name`, `desc`, `order_index`, `created_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)", name, descHTML, orderIndex, rawCreatedAt, groupID, threadCount, status)
+func (mrTable *TableTypeForum) InsertItem(mrQueryable mingru.Queryable, name string, descHTML string, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, threadCount uint, status uint8) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `forum` (`name`, `desc`, `order_index`, `created_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)", name, descHTML, orderIndex, rawCreatedAt, groupID, threadCount, status)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 // SelectDiscussions ...
-func (mrTable *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeForum) SelectDiscussions(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -58,7 +58,7 @@ func (mrTable *TableTypeForum) SelectDiscussions(queryable mingru.Queryable, for
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3`, `discussion`.`last_replied_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`forum_id` = ? ORDER BY `discussion`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3`, `discussion`.`last_replied_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`forum_id` = ? ORDER BY `discussion`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -93,9 +93,9 @@ type ForumTableSelectForumResult struct {
 }
 
 // SelectForum ...
-func (mrTable *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64) (ForumTableSelectForumResult, error) {
+func (mrTable *TableTypeForum) SelectForum(mrQueryable mingru.Queryable, id uint64) (ForumTableSelectForumResult, error) {
 	var result ForumTableSelectForumResult
-	err := queryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ThreadCount)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ThreadCount)
 	if err != nil {
 		return result, err
 	}
@@ -103,8 +103,8 @@ func (mrTable *TableTypeForum) SelectForum(queryable mingru.Queryable, id uint64
 }
 
 // SelectForumIDsForGroup ...
-func (mrTable *TableTypeForum) SelectForumIDsForGroup(queryable mingru.Queryable, groupID uint64) ([]uint64, error) {
-	rows, err := queryable.Query("SELECT `id` FROM `forum` WHERE `group_id` = ?", groupID)
+func (mrTable *TableTypeForum) SelectForumIDsForGroup(mrQueryable mingru.Queryable, groupID uint64) ([]uint64, error) {
+	rows, err := mrQueryable.Query("SELECT `id` FROM `forum` WHERE `group_id` = ?", groupID)
 	if err != nil {
 		return nil, err
 	}
@@ -126,9 +126,9 @@ func (mrTable *TableTypeForum) SelectForumIDsForGroup(queryable mingru.Queryable
 }
 
 // SelectGroupID ...
-func (mrTable *TableTypeForum) SelectGroupID(queryable mingru.Queryable, id uint64) (*uint64, error) {
+func (mrTable *TableTypeForum) SelectGroupID(mrQueryable mingru.Queryable, id uint64) (*uint64, error) {
 	var result *uint64
-	err := queryable.QueryRow("SELECT `group_id` FROM `forum` WHERE `id` = ?", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `group_id` FROM `forum` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}
@@ -142,9 +142,9 @@ type ForumTableSelectInfoForEditingResult struct {
 }
 
 // SelectInfoForEditing ...
-func (mrTable *TableTypeForum) SelectInfoForEditing(queryable mingru.Queryable, id uint64) (ForumTableSelectInfoForEditingResult, error) {
+func (mrTable *TableTypeForum) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumTableSelectInfoForEditingResult, error) {
 	var result ForumTableSelectInfoForEditingResult
-	err := queryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
+	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
 	if err != nil {
 		return result, err
 	}
@@ -152,7 +152,7 @@ func (mrTable *TableTypeForum) SelectInfoForEditing(queryable mingru.Queryable, 
 }
 
 // SelectQuestions ...
-func (mrTable *TableTypeForum) SelectQuestions(queryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeForum) SelectQuestions(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -164,7 +164,7 @@ func (mrTable *TableTypeForum) SelectQuestions(queryable mingru.Queryable, forum
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3`, `question`.`last_replied_at` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`forum_id` = ? ORDER BY `question`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3`, `question`.`last_replied_at` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`forum_id` = ? ORDER BY `question`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -190,7 +190,7 @@ func (mrTable *TableTypeForum) SelectQuestions(queryable mingru.Queryable, forum
 }
 
 // SelectThreads ...
-func (mrTable *TableTypeForum) SelectThreads(queryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -202,7 +202,7 @@ func (mrTable *TableTypeForum) SelectThreads(queryable mingru.Queryable, forumID
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("(SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3`, `discussion`.`last_replied_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`forum_id` = ? LIMIT ? OFFSET ?) UNION (SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3`, `question`.`last_replied_at` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`forum_id` = ? LIMIT ? OFFSET ?) ORDER BY `last_replied_at` DESC LIMIT ? OFFSET ?", forumID, limit, offset, forumID, limit, offset, limit, offset)
+	rows, err := mrQueryable.Query("(SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3`, `discussion`.`last_replied_at` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`forum_id` = ? LIMIT ? OFFSET ?) UNION (SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3`, `question`.`last_replied_at` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` WHERE `question`.`forum_id` = ? LIMIT ? OFFSET ?) ORDER BY `last_replied_at` DESC LIMIT ? OFFSET ?", forumID, limit, offset, forumID, limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -228,7 +228,7 @@ func (mrTable *TableTypeForum) SelectThreads(queryable mingru.Queryable, forumID
 }
 
 // UpdateInfo ...
-func (mrTable *TableTypeForum) UpdateInfo(queryable mingru.Queryable, id uint64, name string, descHTML string) error {
-	result, err := queryable.Exec("UPDATE `forum` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
+func (mrTable *TableTypeForum) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {
+	result, err := mrQueryable.Exec("UPDATE `forum` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

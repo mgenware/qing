@@ -37,9 +37,9 @@ type UserStatsTableSelectStatsResult struct {
 }
 
 // SelectStats ...
-func (mrTable *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id uint64) (UserStatsTableSelectStatsResult, error) {
+func (mrTable *TableTypeUserStats) SelectStats(mrQueryable mingru.Queryable, id uint64) (UserStatsTableSelectStatsResult, error) {
 	var result UserStatsTableSelectStatsResult
-	err := queryable.QueryRow("SELECT `post_count`, `discussion_count`, `question_count`, `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount, &result.QuestionCount, &result.AnswerCount)
+	err := mrQueryable.QueryRow("SELECT `post_count`, `discussion_count`, `question_count`, `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount, &result.QuestionCount, &result.AnswerCount)
 	if err != nil {
 		return result, err
 	}
@@ -47,9 +47,9 @@ func (mrTable *TableTypeUserStats) SelectStats(queryable mingru.Queryable, id ui
 }
 
 // TestSelectAnswerCount ...
-func (mrTable *TableTypeUserStats) TestSelectAnswerCount(queryable mingru.Queryable, id uint64) (uint, error) {
+func (mrTable *TableTypeUserStats) TestSelectAnswerCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
-	err := queryable.QueryRow("SELECT `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}
@@ -57,9 +57,9 @@ func (mrTable *TableTypeUserStats) TestSelectAnswerCount(queryable mingru.Querya
 }
 
 // TestSelectDiscussionCount ...
-func (mrTable *TableTypeUserStats) TestSelectDiscussionCount(queryable mingru.Queryable, id uint64) (uint, error) {
+func (mrTable *TableTypeUserStats) TestSelectDiscussionCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
-	err := queryable.QueryRow("SELECT `discussion_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `discussion_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}
@@ -67,9 +67,9 @@ func (mrTable *TableTypeUserStats) TestSelectDiscussionCount(queryable mingru.Qu
 }
 
 // TestSelectPostCount ...
-func (mrTable *TableTypeUserStats) TestSelectPostCount(queryable mingru.Queryable, id uint64) (uint, error) {
+func (mrTable *TableTypeUserStats) TestSelectPostCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
-	err := queryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}
@@ -77,9 +77,9 @@ func (mrTable *TableTypeUserStats) TestSelectPostCount(queryable mingru.Queryabl
 }
 
 // TestSelectQuestionCount ...
-func (mrTable *TableTypeUserStats) TestSelectQuestionCount(queryable mingru.Queryable, id uint64) (uint, error) {
+func (mrTable *TableTypeUserStats) TestSelectQuestionCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
-	err := queryable.QueryRow("SELECT `question_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `question_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}
@@ -87,25 +87,25 @@ func (mrTable *TableTypeUserStats) TestSelectQuestionCount(queryable mingru.Quer
 }
 
 // UpdateAnswerCount ...
-func (mrTable *TableTypeUserStats) UpdateAnswerCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `answer_count` = `answer_count` + ? WHERE `id` = ?", offset, userID)
+func (mrTable *TableTypeUserStats) UpdateAnswerCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `answer_count` = `answer_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateDiscussionCount ...
-func (mrTable *TableTypeUserStats) UpdateDiscussionCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `discussion_count` = `discussion_count` + ? WHERE `id` = ?", offset, userID)
+func (mrTable *TableTypeUserStats) UpdateDiscussionCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `discussion_count` = `discussion_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdatePostCount ...
-func (mrTable *TableTypeUserStats) UpdatePostCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
+func (mrTable *TableTypeUserStats) UpdatePostCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // UpdateQuestionCount ...
-func (mrTable *TableTypeUserStats) UpdateQuestionCount(queryable mingru.Queryable, userID uint64, offset int) error {
-	result, err := queryable.Exec("UPDATE `user_stats` SET `question_count` = `question_count` + ? WHERE `id` = ?", offset, userID)
+func (mrTable *TableTypeUserStats) UpdateQuestionCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `question_count` = `question_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

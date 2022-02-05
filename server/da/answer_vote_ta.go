@@ -33,22 +33,22 @@ func (mrTable *TableTypeAnswerVote) MingruSQLName() string {
 // ------------ Actions ------------
 
 // MyVote ...
-func (mrTable *TableTypeAnswerVote) MyVote(queryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
+func (mrTable *TableTypeAnswerVote) MyVote(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT `vote` FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT `vote` FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}
 	return result, nil
 }
 
-func (mrTable *TableTypeAnswerVote) newDownVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `answer_vote` (`host_id`, `user_id`, `vote`) VALUES (?, ?, 1)", hostID, userID)
+func (mrTable *TableTypeAnswerVote) newDownVoteChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO `answer_vote` (`host_id`, `user_id`, `vote`) VALUES (?, ?, 1)", hostID, userID)
 	return err
 }
 
-func (mrTable *TableTypeAnswerVote) newDownVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + 1, `votes` = `votes` + -1 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeAnswerVote) newDownVoteChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + 1, `votes` = `votes` + -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -69,13 +69,13 @@ func (mrTable *TableTypeAnswerVote) NewDownVote(db *sql.DB, hostID uint64, userI
 	return txErr
 }
 
-func (mrTable *TableTypeAnswerVote) newUpVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `answer_vote` (`host_id`, `user_id`, `vote`) VALUES (?, ?, 1)", hostID, userID)
+func (mrTable *TableTypeAnswerVote) newUpVoteChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO `answer_vote` (`host_id`, `user_id`, `vote`) VALUES (?, ?, 1)", hostID, userID)
 	return err
 }
 
-func (mrTable *TableTypeAnswerVote) newUpVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + 1, `votes` = `votes` + 1 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeAnswerVote) newUpVoteChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + 1, `votes` = `votes` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -96,13 +96,13 @@ func (mrTable *TableTypeAnswerVote) NewUpVote(db *sql.DB, hostID uint64, userID 
 	return txErr
 }
 
-func (mrTable *TableTypeAnswerVote) retractDownVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
+func (mrTable *TableTypeAnswerVote) retractDownVoteChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeAnswerVote) retractDownVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + -1, `votes` = `votes` + 1 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeAnswerVote) retractDownVoteChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer` SET `down_votes` = `down_votes` + -1, `votes` = `votes` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -123,13 +123,13 @@ func (mrTable *TableTypeAnswerVote) RetractDownVote(db *sql.DB, hostID uint64, u
 	return txErr
 }
 
-func (mrTable *TableTypeAnswerVote) retractUpVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
+func (mrTable *TableTypeAnswerVote) retractUpVoteChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeAnswerVote) retractUpVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + -1, `votes` = `votes` + -1 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeAnswerVote) retractUpVoteChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + -1, `votes` = `votes` + -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -150,13 +150,13 @@ func (mrTable *TableTypeAnswerVote) RetractUpVote(db *sql.DB, hostID uint64, use
 	return txErr
 }
 
-func (mrTable *TableTypeAnswerVote) switchToDownVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer_vote` SET `vote` = 0 WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
+func (mrTable *TableTypeAnswerVote) switchToDownVoteChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer_vote` SET `vote` = 0 WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeAnswerVote) switchToDownVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + -1, `down_votes` = `down_votes` + 1, `votes` = `votes` + -2 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeAnswerVote) switchToDownVoteChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + -1, `down_votes` = `down_votes` + 1, `votes` = `votes` + -2 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -177,13 +177,13 @@ func (mrTable *TableTypeAnswerVote) SwitchToDownVote(db *sql.DB, hostID uint64, 
 	return txErr
 }
 
-func (mrTable *TableTypeAnswerVote) switchToUpVoteChild1(queryable mingru.Queryable, hostID uint64, userID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer_vote` SET `vote` = 1 WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
+func (mrTable *TableTypeAnswerVote) switchToUpVoteChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer_vote` SET `vote` = 1 WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeAnswerVote) switchToUpVoteChild2(queryable mingru.Queryable, hostID uint64) error {
-	result, err := queryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + 1, `down_votes` = `down_votes` + -1, `votes` = `votes` + 2 WHERE `id` = ?", hostID)
+func (mrTable *TableTypeAnswerVote) switchToUpVoteChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `answer` SET `up_votes` = `up_votes` + 1, `down_votes` = `down_votes` + -1, `votes` = `votes` + 2 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

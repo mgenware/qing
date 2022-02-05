@@ -8,6 +8,8 @@
 import * as mm from 'mingru-models';
 import { TableWithIDAndUserID } from '../../models/common.js';
 
+export const offsetParamName = 'offset';
+
 export interface UpdateCounterActionOptions {
   offsetInputName?: string;
   idInputName?: string;
@@ -33,7 +35,7 @@ export function updateCounterAction(
     }
     offsetSQL = mm.sql`${counterCol} ${offsetSQL}`;
   } else {
-    offsetSQL = mm.sql`${counterCol} + ${mm.int().toInput(opt.offsetInputName || 'offset')}`;
+    offsetSQL = mm.sql`${counterCol} + ${mm.int().toInput(opt.offsetInputName || offsetParamName)}`;
   }
   return mm
     .updateOne()

@@ -33,7 +33,7 @@ func (mrTable *TableTypeHome) MingruSQLName() string {
 // ------------ Actions ------------
 
 // SelectDiscussions ...
-func (mrTable *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectDiscussions(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -45,7 +45,7 @@ func (mrTable *TableTypeHome) SelectDiscussions(queryable mingru.Queryable, page
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `discussion`.`created_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := mrQueryable.Query("SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` ORDER BY `discussion`.`created_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -80,8 +80,8 @@ type HomeTableSelectForumGroupsResult struct {
 }
 
 // SelectForumGroups ...
-func (mrTable *TableTypeHome) SelectForumGroups(queryable mingru.Queryable) ([]HomeTableSelectForumGroupsResult, error) {
-	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
+func (mrTable *TableTypeHome) SelectForumGroups(mrQueryable mingru.Queryable) ([]HomeTableSelectForumGroupsResult, error) {
+	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
 	}
@@ -112,8 +112,8 @@ type HomeTableSelectForumsResult struct {
 }
 
 // SelectForums ...
-func (mrTable *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]HomeTableSelectForumsResult, error) {
-	rows, err := queryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
+func (mrTable *TableTypeHome) SelectForums(mrQueryable mingru.Queryable) ([]HomeTableSelectForumsResult, error) {
+	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +135,7 @@ func (mrTable *TableTypeHome) SelectForums(queryable mingru.Queryable) ([]HomeTa
 }
 
 // SelectItems ...
-func (mrTable *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectItems(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -147,7 +147,7 @@ func (mrTable *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("(SELECT 1 AS `thread_type`, `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes` AS `value1`, `post`.`cmt_count` AS `value2`, 0 AS `value3` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset, limit, offset)
+	rows, err := mrQueryable.Query("(SELECT 1 AS `thread_type`, `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes` AS `value1`, `post`.`cmt_count` AS `value2`, 0 AS `value3` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 3 AS `thread_type`, `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`title`, `discussion`.`reply_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` LIMIT ? OFFSET ?) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -173,7 +173,7 @@ func (mrTable *TableTypeHome) SelectItems(queryable mingru.Queryable, page int, 
 }
 
 // SelectPosts ...
-func (mrTable *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -185,7 +185,7 @@ func (mrTable *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 1 AS `thread_type`, `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes` AS `value1`, `post`.`cmt_count` AS `value2`, 0 AS `value3` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := mrQueryable.Query("SELECT 1 AS `thread_type`, `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes` AS `value1`, `post`.`cmt_count` AS `value2`, 0 AS `value3` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -211,7 +211,7 @@ func (mrTable *TableTypeHome) SelectPosts(queryable mingru.Queryable, page int, 
 }
 
 // SelectQuestions ...
-func (mrTable *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeHome) SelectQuestions(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -223,7 +223,7 @@ func (mrTable *TableTypeHome) SelectQuestions(queryable mingru.Queryable, page i
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` ORDER BY `question`.`created_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := mrQueryable.Query("SELECT 2 AS `thread_type`, `question`.`id`, `question`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `question`.`created_at`, `question`.`modified_at`, `question`.`title`, `question`.`likes` AS `value1`, `question`.`reply_count` AS `value2`, 0 AS `value3` FROM `question` AS `question` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `question`.`user_id` ORDER BY `question`.`created_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

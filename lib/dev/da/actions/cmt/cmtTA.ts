@@ -49,7 +49,7 @@ export class CmtTA extends mm.TableActions {
     .selectRow(t.content)
     .whereSQL(defaultUpdateConditions(t))
     .resultTypeNameAttr(getEntitySrcType);
-  insertCmt = mm.insertOne().set(t.parent_id, 'NULL').setDefaults().setInputs();
+  insertCmt = mm.insertOne().set(t.parent_id, mm.constants.NULL).setDefaults().setInputs();
   // `parent_id` is required when inserting a reply.
   insertReply = mm
     .insertOne()
@@ -63,8 +63,8 @@ export class CmtTA extends mm.TableActions {
 
   constructor() {
     super();
-    this.selectReplies = getSelectCmtsAction(null, false);
-    this.selectRepliesWithLike = getSelectCmtsAction(null, true);
+    this.selectReplies = getSelectCmtsAction({ rt: null, fetchLikes: false });
+    this.selectRepliesWithLike = getSelectCmtsAction({ rt: null, fetchLikes: true });
   }
 }
 

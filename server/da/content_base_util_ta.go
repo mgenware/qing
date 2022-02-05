@@ -29,13 +29,13 @@ func (mrTable *TableTypeContentBaseUtil) MingruSQLName() string {
 // ------------ Actions ------------
 
 // DecrementCmtCount ...
-func (mrTable *TableTypeContentBaseUtil) DecrementCmtCount(queryable mingru.Queryable, mrFromTable mingru.Table, id uint64) error {
-	result, err := queryable.Exec("UPDATE "+mrFromTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", id)
+func (mrTable *TableTypeContentBaseUtil) DecrementCmtCount(mrQueryable mingru.Queryable, mrFromTable mingru.Table, id uint64) error {
+	result, err := mrQueryable.Exec("UPDATE "+mrFromTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // IncrementCmtCount ...
-func (mrTable *TableTypeContentBaseUtil) IncrementCmtCount(queryable mingru.Queryable, mrFromTable mingru.Table, id uint64) error {
-	result, err := queryable.Exec("UPDATE "+mrFromTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", id)
+func (mrTable *TableTypeContentBaseUtil) IncrementCmtCount(mrQueryable mingru.Queryable, mrFromTable mingru.Table, id uint64) error {
+	result, err := mrQueryable.Exec("UPDATE "+mrFromTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -29,9 +29,9 @@ func (mrTable *TableTypeForumIsUserMod) MingruSQLName() string {
 // ------------ Actions ------------
 
 // Has ...
-func (mrTable *TableTypeForumIsUserMod) Has(queryable mingru.Queryable, id uint64) (bool, error) {
+func (mrTable *TableTypeForumIsUserMod) Has(mrQueryable mingru.Queryable, id uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_is_user_mod` WHERE `id` = ?)", id).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_is_user_mod` WHERE `id` = ?)", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}

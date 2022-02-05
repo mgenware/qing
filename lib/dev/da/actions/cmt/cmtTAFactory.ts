@@ -24,23 +24,25 @@ const cmtIDAndHostID = 'cmtIDAndHostID';
 export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQL): mm.Action {
   return updateCounterAction(pt, pt.cmt_count, { rawOffsetSQL: offsetSQL, idInputName: hostID });
 }
-
-export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
+export function insertCmtAction(
+  rt: CmtRelationTable,
+  updateCmtCountAction: mm.UpdateAction,
+): mm.TransactAction {
   return mm
     .transact(
       // Insert the cmt.
       cmtTA.insertCmt.declareInsertedID(cmtID),
       // Set up relationship with host.
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
-      // cmt count ++.
-      updateCmtCountAction(ht, 1),
+      // host.cmtCount++.
+      updateCmtCountAction,
     )
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
+export function insertReplyAction(updateCmtCountAction: mm.UpdateAction): mm.TransactAction {
   return mm
     .transact(
       // Insert the reply.
@@ -51,7 +53,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
         id: mm.valueRef(parentID),
       }),
       // host.cmtCount++.
-      updateCmtCountAction(ht, 1),
+      updateCmtCountAction,
     )
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)

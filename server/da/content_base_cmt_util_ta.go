@@ -33,7 +33,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) MingruSQLName() string {
 // ------------ Actions ------------
 
 // SelectRootCmts ...
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(queryable mingru.Queryable, mrFromTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Queryable, mrFromTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -45,7 +45,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(queryable mingru.Quer
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := queryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+mrFromTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+mrFromTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

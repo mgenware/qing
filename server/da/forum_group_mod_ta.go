@@ -29,21 +29,21 @@ func (mrTable *TableTypeForumGroupMod) MingruSQLName() string {
 // ------------ Actions ------------
 
 // DeleteMod ...
-func (mrTable *TableTypeForumGroupMod) DeleteMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
-	result, err := queryable.Exec("DELETE FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
+func (mrTable *TableTypeForumGroupMod) DeleteMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertMod ...
-func (mrTable *TableTypeForumGroupMod) InsertMod(queryable mingru.Queryable, objectID uint64, userID uint64) error {
-	_, err := queryable.Exec("INSERT INTO `forum_group_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
+func (mrTable *TableTypeForumGroupMod) InsertMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO `forum_group_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
 }
 
 // SelectIsMod ...
-func (mrTable *TableTypeForumGroupMod) SelectIsMod(queryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
+func (mrTable *TableTypeForumGroupMod) SelectIsMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
-	err := queryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
+	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
 	if err != nil {
 		return result, err
 	}

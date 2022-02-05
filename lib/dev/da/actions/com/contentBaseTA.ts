@@ -13,7 +13,7 @@ import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import { getEntitySrcType } from '../defs.js';
-import { getSelectCmtsAction } from '../cmt/cmtTAUtils.js';
+import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 
 const insertedIDVar = 'insertedID';
 
@@ -31,10 +31,10 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   editItem: mm.UpdateAction;
 
   // Cmt-related actions.
-  selectCmts: mm.SelectAction;
-  selectCmtsWithLike: mm.SelectAction;
   insertCmt: mm.TransactAction;
   insertReply: mm.TransactAction;
+  incrementCmtCount: mm.UpdateAction;
+  decrementCmtCount: mm.UpdateAction;
 
   testUpdateDates: mm.UpdateAction;
 
@@ -115,10 +115,14 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
-    this.selectCmts = getSelectCmtsAction(this.getCmtBaseTable(), false);
-    this.selectCmtsWithLike = getSelectCmtsAction(this.getCmtBaseTable(), true);
-    this.insertCmt = cmtf.insertCmtAction(t, this.getCmtBaseTable());
-    this.insertReply = cmtf.insertReplyAction(t);
+    this.incrementCmtCount = updateCounterAction(t, t.cmt_count, {
+      rawOffsetSQL: 1,
+    });
+    this.decrementCmtCount = updateCounterAction(t, t.cmt_count, {
+      rawOffsetSQL: -1,
+    });
+    this.insertCmt = cmtf.insertCmtAction(this.getCmtBaseTable(), this.incrementCmtCount);
+    this.insertReply = cmtf.insertReplyAction(this.incrementCmtCount);
 
     this.testUpdateDates = mm.updateOne().setInputs(t.created_at, t.modified_at).by(t.id);
   }

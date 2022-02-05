@@ -27,7 +27,7 @@ export class ContentBaseCmtUTA extends mm.TableActions {
 
   constructor() {
     super();
-    this.selectRootCmts = getSelectCmtsAction(contentBaseCmtUtil, false);
+    this.selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
   }
 }
 

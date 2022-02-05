@@ -48,7 +48,7 @@ const mingruHeader =
   const daPath = serverPath('da');
   const tsOutDir = webPath('src/sod/da');
   const builder = new mr.Builder(dialect, daPath, {
-    cleanBuild: true,
+    cleanOutDir: true,
     jsonTags: {
       keyStyle: mr.JSONKeyStyle.camelCase,
       excludeEmptyValues: true,

@@ -26,15 +26,15 @@ export interface CmtRelationTable extends mm.Table {
   host_id: mm.Column;
 }
 
-export function getSelectCmtsAction(
+export function getSelectCmtsAction(opt: {
   // If present, it's selecting root cmts.
   // Otherwise, it's selecting replies.
-  rt: CmtRelationTable | null,
-  fetchLikes: boolean,
-): mm.SelectAction {
-  const jCmt = rt ? rt.cmt_id.associativeJoin(cmt) : cmt;
+  rt: CmtRelationTable | null;
+  fetchLikes: boolean;
+}): mm.SelectAction {
+  const jCmt = opt.rt ? opt.rt.cmt_id.associativeJoin(cmt) : cmt;
   const cols: mm.SelectedColumnTypes[] = [
-    rt ? rt.cmt_id.as('id').privateAttr() : jCmt.id.privateAttr(),
+    opt.rt ? opt.rt.cmt_id.as('id').privateAttr() : jCmt.id.privateAttr(),
     jCmt.content,
     jCmt.created_at.privateAttr(),
     jCmt.modified_at.privateAttr(),
@@ -44,8 +44,8 @@ export function getSelectCmtsAction(
     jCmt.user_id.join(user).name,
     jCmt.user_id.join(user).icon_name.privateAttr(),
   ];
-  if (fetchLikes) {
-    const likeUserID = (rt ? rt.cmt_id : cmt.id).leftJoin(
+  if (opt.fetchLikes) {
+    const likeUserID = (opt.rt ? opt.rt.cmt_id : cmt.id).leftJoin(
       cmtLike,
       cmtLike.host_id,
       undefined,
@@ -55,9 +55,9 @@ export function getSelectCmtsAction(
   }
   return mm
     .selectRows(...cols)
-    .from(rt ? rt : cmt)
+    .from(opt.rt ? opt.rt : cmt)
     .pageMode()
-    .by(rt ? rt.host_id : cmt.parent_id)
+    .by(opt.rt ? opt.rt.host_id : cmt.parent_id)
     .orderByDesc(jCmt.created_at)
     .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .resultTypeNameAttr(cmtResultType)
