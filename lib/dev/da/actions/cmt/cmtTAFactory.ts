@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import cmt from '../../models/cmt/cmt.js';
 import * as cm from '../../models/common.js';
 import cmtTA from './cmtTA.js';
-import { CmtRelationTable, cmtInterface, CmtHostTable } from './cmtTAUtils.js';
+import { CmtRelationTable, cmtHostTableInterface, CmtHostTable } from './cmtTAUtils.js';
 import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 import { defaultUpdateConditions } from '../common.js';
 
@@ -37,7 +37,6 @@ export function insertCmtAction(
       // host.cmtCount++.
       updateCmtCountAction,
     )
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
@@ -55,7 +54,6 @@ export function insertReplyAction(updateCmtCountAction: mm.UpdateAction): mm.Tra
       // host.cmtCount++.
       updateCmtCountAction,
     )
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);
 }
@@ -64,24 +62,22 @@ export function deleteCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
   const cmtTableJoin = rt.cmt_id.join(cmt);
   const hostIDProp = 'HostID';
   const replyCountProp = 'ReplyCount';
-  return mm
-    .transact(
-      // Fetch host ID and reply count.
-      mm
-        .selectRow(rt.host_id, mm.sel(cmtTableJoin.reply_count, replyCountProp))
-        .by(rt.cmt_id, 'id')
-        .from(rt)
-        .declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
-      // Delete the cmt.
-      mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
-      // host.cmtCount = host.cmtCount - replyCount - 1 (the comment itself)
-      // The inputs of `updateCmtCountAction` are from the results of the first mem of this TX.
-      updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
-        replyCount: mm.valueRef(`${hostIDAndReplyCount}.${replyCountProp}`),
-        hostID: mm.valueRef(`${hostIDAndReplyCount}.${hostIDProp}`),
-      }),
-    )
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface);
+  return mm.transact(
+    // Fetch host ID and reply count.
+    mm
+      .selectRow(rt.host_id, mm.sel(cmtTableJoin.reply_count, replyCountProp))
+      .by(rt.cmt_id, 'id')
+      .from(rt)
+      .declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
+    // Delete the cmt.
+    mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
+    // host.cmtCount = host.cmtCount - replyCount - 1 (the comment itself)
+    // The inputs of `updateCmtCountAction` are from the results of the first mem of this TX.
+    updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
+      replyCount: mm.valueRef(`${hostIDAndReplyCount}.${replyCountProp}`),
+      hostID: mm.valueRef(`${hostIDAndReplyCount}.${hostIDProp}`),
+    }),
+  );
 }
 
 export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
@@ -110,5 +106,5 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
         id: mm.valueRef(`${cmtIDAndHostID}.${parentIDProp}`),
       }),
     )
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface);
+    .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface);
 }

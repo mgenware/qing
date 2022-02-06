@@ -15,7 +15,7 @@ export interface CmtHostTable extends TableWithIDAndUserID {
   cmt_count: mm.Column;
 }
 
-export const cmtInterface = 'CmtInterface';
+export const cmtHostTableInterface = 'CmtHostTableInterface';
 export const cmtResultType = 'CmtData';
 export const replyInterface = 'ReplyInterface';
 export const hasLikedProp = 'hasLiked';
@@ -59,7 +59,7 @@ export function getSelectCmtsAction(opt: {
     .pageMode()
     .by(opt.rt ? opt.rt.host_id : cmt.parent_id)
     .orderByDesc(jCmt.created_at)
-    .attr(mm.ActionAttribute.groupTypeName, cmtInterface)
+    .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface)
     .resultTypeNameAttr(cmtResultType)
-    .attr(mm.ActionAttribute.tsTypeName, cmtResultType);
+    .attr(mm.ActionAttribute.enableTSResultType, true);
 }

@@ -66,10 +66,8 @@ type UserThreadInterface struct {
 
 // ------------ Interfaces ------------
 
-// CmtInterface ...
-type CmtInterface interface {
-	InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error)
-	InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error)
+// CmtHostTableInterface ...
+type CmtHostTableInterface interface {
 	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
 	SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
 	SelectRootCmts(mrQueryable mingru.Queryable, mrFromTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
