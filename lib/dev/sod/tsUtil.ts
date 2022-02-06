@@ -27,6 +27,13 @@ export function sourceTypeFieldToTSType(type: string): string {
   }
 }
 
+function handleImportPath(s: string) {
+  if (s === '_da') {
+    return '../da/types.js';
+  }
+  return s;
+}
+
 export function tsCode(input: string, dict: cm.SourceDict): string {
   let code = '';
   let isFirst = true;
@@ -63,7 +70,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     } {\n${typeCode}`;
 
     if (baseType?.path) {
-      imports.add(`import { ${baseType.name} } from '${baseType.path}';`);
+      imports.add(`import { ${baseType.name} } from '${handleImportPath(baseType.path)}';`);
     }
 
     code += typeCode;

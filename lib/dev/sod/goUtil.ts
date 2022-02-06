@@ -64,6 +64,13 @@ function makeImports(imports: string[]): string {
   ${code})\n\n`;
 }
 
+function handleImportPath(s: string) {
+  if (s === '_da') {
+    return 'qing/da';
+  }
+  return s;
+}
+
 export function goCode(input: string, pkgName: string, dict: cm.SourceDict): string {
   let s = '';
   let isFirst = true;
@@ -128,7 +135,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
         },
       ];
       if (baseType.path) {
-        imports.add(baseType.path);
+        imports.add(handleImportPath(baseType.path));
       }
     }
     s += genGoType('struct', typeName, members, genOpt, goGenBaseTypes);

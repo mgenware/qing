@@ -13,7 +13,7 @@
   * See `lib/dev/sod/objects/cmt/cmt.yaml` for details.
   ******************************************************************************************/
 
-import { CmtData } from '../da/cmtData.js';
+import { CmtData } from '../da/types.js';
 
 export interface Cmt extends CmtData {
   id: string;

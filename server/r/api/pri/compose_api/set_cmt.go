@@ -27,7 +27,7 @@ type SetCmtResponse struct {
 	Cmt *cmt.Cmt `json:"cmt"`
 }
 
-func getCmtTA(hostType int) (da.CmtInterface, error) {
+func getCmtTA(hostType int) (da.CmtHostTableInterface, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:
 		return da.Post, nil

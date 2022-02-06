@@ -4,10 +4,10 @@ Cmt:
   __go_extends:
     name: CmtData
     packageName: da
-    path: qing/da
+    path: _da
   __ts_extends:
     name: CmtData
-    path: '../da/cmtData.js'
+    path: '_da'
   __go_rename:
     id: eID
     userID: userEID
