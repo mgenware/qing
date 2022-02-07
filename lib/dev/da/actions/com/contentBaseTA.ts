@@ -8,12 +8,10 @@
 import * as mm from 'mingru-models';
 import user, { User } from '../../models/user/user.js';
 import * as cm from '../../models/common.js';
-import * as cmtf from '../cmt/cmtTAFactory.js';
 import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import { getEntitySrcType } from '../defs.js';
-import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 
 const insertedIDVar = 'insertedID';
 
@@ -29,12 +27,6 @@ export default abstract class ContentBaseTA extends mm.TableActions {
   deleteItem: mm.Action;
   insertItem: mm.Action;
   editItem: mm.UpdateAction;
-
-  // Cmt-related actions.
-  insertCmt: mm.TransactAction;
-  insertReply: mm.TransactAction;
-  incrementCmtCount: mm.UpdateAction;
-  decrementCmtCount: mm.UpdateAction;
 
   testUpdateDates: mm.UpdateAction;
 
@@ -114,15 +106,6 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       .setInputs(...this.getEditingColumns(), t.modified_at)
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
-
-    this.incrementCmtCount = updateCounterAction(t, t.cmt_count, {
-      rawOffsetSQL: 1,
-    });
-    this.decrementCmtCount = updateCounterAction(t, t.cmt_count, {
-      rawOffsetSQL: -1,
-    });
-    this.insertCmt = cmtf.insertCmtAction(this.getCmtBaseTable(), this.incrementCmtCount);
-    this.insertReply = cmtf.insertReplyAction(this.incrementCmtCount);
 
     this.testUpdateDates = mm.updateOne().setInputs(t.created_at, t.modified_at).by(t.id);
   }

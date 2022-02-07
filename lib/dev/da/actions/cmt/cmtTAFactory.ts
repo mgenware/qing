@@ -26,7 +26,7 @@ export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQ
 }
 export function insertCmtAction(
   rt: CmtRelationTable,
-  updateCmtCountAction: mm.UpdateAction,
+  updateCmtCountAction: mm.Action,
 ): mm.TransactAction {
   return mm
     .transact(

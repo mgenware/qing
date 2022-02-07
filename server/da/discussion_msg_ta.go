@@ -34,12 +34,6 @@ func (mrTable *TableTypeDiscussionMsg) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// DecrementCmtCount ...
-func (mrTable *TableTypeDiscussionMsg) DecrementCmtCount(mrQueryable mingru.Queryable, id uint64) error {
-	result, err := mrQueryable.Exec("UPDATE `discussion_msg` SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", id)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
 func (mrTable *TableTypeDiscussionMsg) deleteItemChild1(mrQueryable mingru.Queryable, id uint64) (uint64, error) {
 	var result uint64
 	err := mrQueryable.QueryRow("SELECT `discussion_id` FROM `discussion_msg` WHERE `id` = ?", id).Scan(&result)
@@ -85,41 +79,6 @@ func (mrTable *TableTypeDiscussionMsg) EditItem(mrQueryable mingru.Queryable, id
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// IncrementCmtCount ...
-func (mrTable *TableTypeDiscussionMsg) IncrementCmtCount(mrQueryable mingru.Queryable, id uint64) error {
-	result, err := mrQueryable.Exec("UPDATE `discussion_msg` SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", id)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-func (mrTable *TableTypeDiscussionMsg) insertCmtChild2(mrQueryable mingru.Queryable, cmtID uint64, hostID uint64) error {
-	_, err := mrQueryable.Exec("INSERT INTO `discussion_msg_cmt` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
-	return err
-}
-
-
-// InsertCmt ...
-func (mrTable *TableTypeDiscussionMsg) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
-	var cmtIDExported uint64
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		cmtID, err := Cmt.InsertCmt(tx, contentHTML, userID)
-		if err != nil {
-			return err
-		}
-		err = mrTable.insertCmtChild2(tx, cmtID, hostID)
-		if err != nil {
-			return err
-		}
-		err = mrTable.IncrementCmtCount(tx, id)
-		if err != nil {
-			return err
-		}
-		cmtIDExported = cmtID
-		return nil
-	})
-	return cmtIDExported, txErr
-}
-
 func (mrTable *TableTypeDiscussionMsg) insertItemChild1(mrQueryable mingru.Queryable, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, discussionID uint64) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `discussion_msg` (`content`, `user_id`, `created_at`, `modified_at`, `discussion_id`, `cmt_count`, `votes`, `up_votes`, `down_votes`) VALUES (?, ?, ?, ?, ?, 0, 0, 0, 0)", contentHTML, userID, rawCreatedAt, rawModifiedAt, discussionID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
@@ -146,34 +105,6 @@ func (mrTable *TableTypeDiscussionMsg) InsertItem(db *sql.DB, contentHTML string
 		return nil
 	})
 	return insertedIDExported, txErr
-}
-
-func (mrTable *TableTypeDiscussionMsg) insertReplyChild2(mrQueryable mingru.Queryable, id uint64) error {
-	return Cmt.UpdateReplyCount(mrQueryable, id, 1)
-}
-
-
-// InsertReply ...
-func (mrTable *TableTypeDiscussionMsg) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
-	var replyIDExported uint64
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		replyID, err := Cmt.InsertReply(tx, parentID, contentHTML, userID)
-		if err != nil {
-			return err
-		}
-		err = mrTable.insertReplyChild2(tx, parentID)
-		if err != nil {
-			return err
-		}
-		err = mrTable.IncrementCmtCount(tx, id)
-		if err != nil {
-			return err
-		}
-		replyIDExported = replyID
-		return nil
-	})
-	return replyIDExported, txErr
 }
 
 // DiscussionMsgTableSelectItemsByDiscussionResult ...

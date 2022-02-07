@@ -21,13 +21,15 @@ import (
 	"qing/r/api/apicom"
 	"qing/sod/cmt/cmt"
 	"time"
+
+	"github.com/mgenware/mingru-go-lib"
 )
 
 type SetCmtResponse struct {
 	Cmt *cmt.Cmt `json:"cmt"`
 }
 
-func getCmtTA(hostType int) (da.CmtHostTableInterface, error) {
+func getCmtHostTable(hostType int) (mingru.Table, error) {
 	switch hostType {
 	case defs.Shared.EntityPost:
 		return da.Post, nil
@@ -56,7 +58,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		host := clib.MustGetEntityInfoFromDict(params, "host")
 		parentID := clib.GetIDFromDict(params, "parentID")
 
-		cmtCore, err := getCmtTA(host.Type)
+		cmtHostTable, err := getCmtHostTable(host.Type)
 		app.PanicIfErr(err)
 
 		captResult, err := appService.Get().Captcha.Verify(uid, host.Type, "", app.CoreConfig().DevMode())
@@ -68,9 +70,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		var cmtID uint64
 		if parentID != 0 {
-			cmtID, err = cmtCore.InsertReply(db, parentID, content, uid, host.ID, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtUtil.InsertCmt.InsertReply(db, parentID, content, uid, host.ID, sanitizedToken, captResult)
 		} else {
-			cmtID, err = cmtCore.InsertCmt(db, content, uid, host.ID, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 

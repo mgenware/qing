@@ -22,4 +22,8 @@ class ContentBaseUTA extends mm.TableActions {
   });
 }
 
-export default mm.tableActions(contentBaseUtil, ContentBaseUTA, { configurableTable: true });
+export const contentBaseTableParam = 'contentBaseTable';
+
+export const contentBaseUTA = mm.tableActions(contentBaseUtil, ContentBaseUTA, {
+  configurableTableName: contentBaseTableParam,
+});

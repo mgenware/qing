@@ -9,6 +9,8 @@ import * as mm from 'mingru-models';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import ContentBase from '../../models/com/contentBase.js';
 import { getSelectCmtsAction } from '../cmt/cmtTAUtils.js';
+import * as cmtf from '../cmt/cmtTAFactory.js';
+import { contentBaseUTA, contentBaseTableParam } from '../com/contentBaseUTA.js';
 
 class ContentBaseUtil extends ContentBase {}
 
@@ -22,20 +24,22 @@ class ContentBaseCmtUtil extends ContentBaseCmt {
 
 const contentBaseCmtUtil = mm.table(ContentBaseCmtUtil);
 
-export class ContentBaseCmtUTA extends mm.TableActions {
-  selectRootCmts: mm.SelectAction;
-  selectRootCmtsWithLikes: mm.SelectAction;
+export const cmtHostTableParam = 'cmtHostTable';
 
-  constructor() {
-    super();
-    this.selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
-    this.selectRootCmtsWithLikes = getSelectCmtsAction({
-      rt: contentBaseCmtUtil,
-      fetchLikes: true,
-    });
-  }
+export class ContentBaseCmtUTA extends mm.TableActions {
+  selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
+  selectRootCmtsWithLikes = getSelectCmtsAction({
+    rt: contentBaseCmtUtil,
+    fetchLikes: true,
+  });
+  insertCmt = cmtf.insertCmtAction(
+    contentBaseCmtUtil,
+    contentBaseUTA.incrementCmtCount.wrap({
+      [contentBaseTableParam]: mm.valueRef(cmtHostTableParam),
+    }),
+  );
 }
 
 export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtUTA, {
-  configurableTable: true,
+  configurableTableName: cmtHostTableParam,
 });

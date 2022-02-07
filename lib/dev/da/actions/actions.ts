@@ -24,7 +24,7 @@ import forumIsUserModTA from './forum/forumIsUserModTA.js';
 import forumGroupModTA from './forum/forumGroupModTA.js';
 import forumModTA from './forum/forumModTA.js';
 import voteTAs from './vote/voteTAs.js';
-import contentBaseUTA from './com/contentBaseUTA.js';
+import { contentBaseUTA } from './com/contentBaseUTA.js';
 import contentBaseCmtUTA from './cmt/contentBaseCmtUTA.js';
 
 const actions: mm.TableActions[] = [
