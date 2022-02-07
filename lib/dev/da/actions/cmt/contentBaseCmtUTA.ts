@@ -24,10 +24,15 @@ const contentBaseCmtUtil = mm.table(ContentBaseCmtUtil);
 
 export class ContentBaseCmtUTA extends mm.TableActions {
   selectRootCmts: mm.SelectAction;
+  selectRootCmtsWithLikes: mm.SelectAction;
 
   constructor() {
     super();
     this.selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
+    this.selectRootCmtsWithLikes = getSelectCmtsAction({
+      rt: contentBaseCmtUtil,
+      fetchLikes: true,
+    });
   }
 }
 

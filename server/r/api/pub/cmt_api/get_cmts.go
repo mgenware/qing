@@ -19,6 +19,8 @@ import (
 	"qing/lib/clib"
 	"qing/r/api/apicom"
 	"qing/sod/cmt/cmt"
+
+	"github.com/mgenware/mingru-go-lib"
 )
 
 var kCmtPageSize int
@@ -79,24 +81,28 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
+	var cmtHostTable mingru.Table
 
 	switch host.Type {
 	case defs.Shared.EntityPost:
 		{
-			if uid == 0 {
-				items, hasNext, err = da.Post.SelectCmts(db, host.ID, page, kCmtPageSize)
-			} else {
-				items, hasNext, err = da.Post.SelectCmtsWithLike(db, uid, host.ID, page, kCmtPageSize)
-			}
-			if err != nil {
-				app.PanicIfErr(err)
-			}
-			respData = newGetCmtsRespData(items, hasNext)
+			cmtHostTable = da.Post
 		}
 	default:
 		{
 			panic(fmt.Errorf("Unsupported entity type %v", host.Type))
 		}
 	}
+
+	if uid == 0 {
+		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmts(db, cmtHostTable, host.ID, page, kCmtPageSize)
+	} else {
+		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmtsWithLikes(db, cmtHostTable, uid, host.ID, page, kCmtPageSize)
+	}
+	if err != nil {
+		app.PanicIfErr(err)
+	}
+	respData = newGetCmtsRespData(items, hasNext)
+
 	return resp.MustComplete(respData)
 }
