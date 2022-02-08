@@ -8,17 +8,17 @@
 import * as mm from 'mingru-models';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import ContentBase from '../../models/com/contentBase.js';
-import { getSelectCmtsAction } from '../cmt/cmtTAUtils.js';
-import * as cmtf from '../cmt/cmtTAFactory.js';
-import { contentBaseUTA, contentBaseTableParam } from '../com/contentBaseUTA.js';
+import { getSelectCmtsAction } from './cmtTAUtils.js';
+import * as cmtf from './cmtTAFactory.js';
+import { contentBaseSTA, contentBaseTableParam } from '../com/contentBaseSTA.js';
 
-class ContentBaseUtil extends ContentBase {}
+class ContentBaseVT extends ContentBase {}
 
-const contentBaseUtil = mm.table(ContentBaseUtil);
+const contentBaseVT = mm.table(ContentBaseVT);
 
 class ContentBaseCmtUtil extends ContentBaseCmt {
   override getHostTable(): ContentBase {
-    return contentBaseUtil;
+    return contentBaseVT;
   }
 }
 
@@ -34,7 +34,7 @@ export class ContentBaseCmtUTA extends mm.TableActions {
   });
   insertCmt = cmtf.insertCmtAction(
     contentBaseCmtUtil,
-    contentBaseUTA.incrementCmtCount.wrap({
+    contentBaseSTA.incrementCmtCount.wrap({
       [contentBaseTableParam]: mm.valueRef(cmtHostTableParam),
     }),
   );

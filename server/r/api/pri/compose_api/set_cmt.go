@@ -70,7 +70,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		var cmtID uint64
 		if parentID != 0 {
-			cmtID, err = da.ContentBaseCmtUtil.InsertCmt.InsertReply(db, parentID, content, uid, host.ID, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, parentID, content, uid, host.ID, sanitizedToken, captResult)
 		} else {
 			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)
 		}

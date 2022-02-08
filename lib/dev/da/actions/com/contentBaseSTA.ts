@@ -9,21 +9,21 @@ import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
 import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 
-class ContentBaseUtil extends ContentBase {}
+class ContentBaseVT extends ContentBase {}
 
-const contentBaseUtil = mm.table(ContentBaseUtil);
+const contentBaseVT = mm.table(ContentBaseVT);
 
 class ContentBaseUTA extends mm.TableActions {
-  incrementCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count, {
+  incrementCmtCount = updateCounterAction(contentBaseVT, contentBaseVT.cmt_count, {
     rawOffsetSQL: 1,
   });
-  decrementCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count, {
+  decrementCmtCount = updateCounterAction(contentBaseVT, contentBaseVT.cmt_count, {
     rawOffsetSQL: -1,
   });
 }
 
 export const contentBaseTableParam = 'contentBaseTable';
 
-export const contentBaseUTA = mm.tableActions(contentBaseUtil, ContentBaseUTA, {
+export const contentBaseSTA = mm.tableActions(contentBaseVT, ContentBaseUTA, {
   configurableTableName: contentBaseTableParam,
 });

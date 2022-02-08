@@ -14,28 +14,28 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-// TableTypeContentBaseUtil ...
-type TableTypeContentBaseUtil struct {
+// TableTypeContentBaseVt ...
+type TableTypeContentBaseVt struct {
 }
 
-// ContentBaseUtil ...
-var ContentBaseUtil = &TableTypeContentBaseUtil{}
+// ContentBaseVt ...
+var ContentBaseVt = &TableTypeContentBaseVt{}
 
 // MingruSQLName returns the name of this table.
-func (mrTable *TableTypeContentBaseUtil) MingruSQLName() string {
-	return "content_base_util"
+func (mrTable *TableTypeContentBaseVt) MingruSQLName() string {
+	return "content_base_vt"
 }
 
 // ------------ Actions ------------
 
 // DecrementCmtCount ...
-func (mrTable *TableTypeContentBaseUtil) DecrementCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
+func (mrTable *TableTypeContentBaseVt) DecrementCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
 	result, err := mrQueryable.Exec("UPDATE "+contentBaseTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // IncrementCmtCount ...
-func (mrTable *TableTypeContentBaseUtil) IncrementCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
+func (mrTable *TableTypeContentBaseVt) IncrementCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
 	result, err := mrQueryable.Exec("UPDATE "+contentBaseTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` + 1 WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -39,7 +39,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild2(mrQueryable mingru.Q
 }
 
 func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild3(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
-	return ContentBaseUtil.IncrementCmtCount(mrQueryable, contentBaseTable, id)
+	return ContentBaseVt.IncrementCmtCount(mrQueryable, contentBaseTable, id)
 }
 
 // InsertCmt ...
