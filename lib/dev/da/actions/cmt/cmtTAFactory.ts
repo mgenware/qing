@@ -11,23 +11,17 @@ import * as cm from '../../models/common.js';
 import cmtTA from './cmtTA.js';
 import { CmtRelationTable, cmtHostTableInterface, CmtHostTable } from './cmtTAUtils.js';
 import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
-import { defaultUpdateConditions } from '../common.js';
 
 const hostID = 'hostID';
 const cmtID = 'cmtID';
 const parentID = 'parentID';
 const replyID = 'replyID';
-const replyCount = 'replyCount';
-const hostIDAndReplyCount = 'hostIDAndReplyCount';
 const cmtIDAndHostID = 'cmtIDAndHostID';
 
-export function updateCmtCountAction(pt: CmtHostTable, offsetSQL: number | mm.SQL): mm.Action {
-  return updateCounterAction(pt, pt.cmt_count, { rawOffsetSQL: offsetSQL, idInputName: hostID });
+function updateCmtCountAction(ht: CmtHostTable, offset: number): mm.Action {
+  return updateCounterAction(ht, ht.cmt_count, { offsetNumber: offset, idInputName: hostID });
 }
-export function insertCmtAction(
-  rt: CmtRelationTable,
-  updateCmtCountAction: mm.Action,
-): mm.TransactAction {
+export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   return mm
     .transact(
       // Insert the cmt.
@@ -35,13 +29,13 @@ export function insertCmtAction(
       // Set up relationship with host.
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       // host.cmtCount++.
-      updateCmtCountAction,
+      updateCmtCountAction(ht, 2),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function insertReplyAction(updateCmtCountAction: mm.UpdateAction): mm.TransactAction {
+export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
   return mm
     .transact(
       // Insert the reply.
@@ -52,33 +46,34 @@ export function insertReplyAction(updateCmtCountAction: mm.UpdateAction): mm.Tra
         id: mm.valueRef(parentID),
       }),
       // host.cmtCount++.
-      updateCmtCountAction,
+      updateCmtCountAction(ht, 2),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);
 }
 
-export function deleteCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
-  const cmtTableJoin = rt.cmt_id.join(cmt);
-  const hostIDProp = 'HostID';
-  const replyCountProp = 'ReplyCount';
-  return mm.transact(
-    // Fetch host ID and reply count.
-    mm
-      .selectRow(rt.host_id, mm.sel(cmtTableJoin.reply_count, replyCountProp))
-      .by(rt.cmt_id, 'id')
-      .from(rt)
-      .declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
-    // Delete the cmt.
-    mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
-    // host.cmtCount = host.cmtCount - replyCount - 1 (the comment itself)
-    // The inputs of `updateCmtCountAction` are from the results of the first mem of this TX.
-    updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
-      replyCount: mm.valueRef(`${hostIDAndReplyCount}.${replyCountProp}`),
-      hostID: mm.valueRef(`${hostIDAndReplyCount}.${hostIDProp}`),
-    }),
-  );
-}
+// TODO: Move `deleteCmtAction` to dax.
+// export function deleteCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
+//   const cmtTableJoin = rt.cmt_id.join(cmt);
+//   const hostIDProp = 'HostID';
+//   const replyCountProp = 'ReplyCount';
+//   return mm.transact(
+//     // Fetch host ID and reply count.
+//     mm
+//       .selectRow(rt.host_id, mm.sel(cmtTableJoin.reply_count, replyCountProp))
+//       .by(rt.cmt_id, 'id')
+//       .from(rt)
+//       .declareReturnValue(mm.ReturnValues.result, hostIDAndReplyCount),
+//     // Delete the cmt.
+//     mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
+//     // host.cmtCount = host.cmtCount - replyCount - 1 (the comment itself)
+//     // The inputs of `updateCmtCountAction` are from the results of the first mem of this TX.
+//     updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
+//       replyCount: mm.valueRef(`${hostIDAndReplyCount}.${replyCountProp}`),
+//       hostID: mm.valueRef(`${hostIDAndReplyCount}.${hostIDProp}`),
+//     }),
+//   );
+// }
 
 export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
   const parentHostIDProp = 'ParentHostID';

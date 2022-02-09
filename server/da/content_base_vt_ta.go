@@ -30,7 +30,7 @@ func (mrTable *TableTypeContentBaseVt) MingruSQLName() string {
 
 // DecrementCmtCount ...
 func (mrTable *TableTypeContentBaseVt) DecrementCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
-	result, err := mrQueryable.Exec("UPDATE "+contentBaseTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` -1 WHERE `id` = ?", id)
+	result, err := mrQueryable.Exec("UPDATE "+contentBaseTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` - 1 WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

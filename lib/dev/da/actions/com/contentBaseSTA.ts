@@ -15,10 +15,10 @@ const contentBaseVT = mm.table(ContentBaseVT);
 
 class ContentBaseUTA extends mm.TableActions {
   incrementCmtCount = updateCounterAction(contentBaseVT, contentBaseVT.cmt_count, {
-    rawOffsetSQL: 1,
+    offsetNumber: 1,
   });
   decrementCmtCount = updateCounterAction(contentBaseVT, contentBaseVT.cmt_count, {
-    rawOffsetSQL: -1,
+    offsetNumber: -1,
   });
 }
 

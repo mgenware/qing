@@ -19,31 +19,32 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeContentBaseCmtUtil ...
-type TableTypeContentBaseCmtUtil struct {
+// TableTypeContentBaseCmtVt ...
+type TableTypeContentBaseCmtVt struct {
 }
 
-// ContentBaseCmtUtil ...
-var ContentBaseCmtUtil = &TableTypeContentBaseCmtUtil{}
+// ContentBaseCmtVt ...
+var ContentBaseCmtVt = &TableTypeContentBaseCmtVt{}
 
 // MingruSQLName returns the name of this table.
-func (mrTable *TableTypeContentBaseCmtUtil) MingruSQLName() string {
-	return "content_base_cmt_util"
+func (mrTable *TableTypeContentBaseCmtVt) MingruSQLName() string {
+	return "content_base_cmt_vt"
 }
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild2(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, cmtID uint64, hostID uint64) error {
+func (mrTable *TableTypeContentBaseCmtVt) insertCmtChild2(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, cmtID uint64, hostID uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO "+cmtHostTable.MingruSQLName()+" (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild3(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
-	return ContentBaseVt.IncrementCmtCount(mrQueryable, contentBaseTable, id)
+func (mrTable *TableTypeContentBaseCmtVt) insertCmtChild3(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE "+cmtHostTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` + 2 WHERE `id` = ?", hostID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 // InsertCmt ...
-func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, contentHTML string, userID uint64, cmtHostTable mingru.Table, hostID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeContentBaseCmtVt) InsertCmt(db *sql.DB, contentHTML string, userID uint64, cmtHostTable mingru.Table, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -55,7 +56,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, contentHTML st
 		if err != nil {
 			return err
 		}
-		err = mrTable.insertCmtChild3(tx, cmtHostTable, id)
+		err = mrTable.insertCmtChild3(tx, cmtHostTable, hostID)
 		if err != nil {
 			return err
 		}
@@ -66,7 +67,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, contentHTML st
 }
 
 // SelectRootCmts ...
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeContentBaseCmtVt) SelectRootCmts(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -78,7 +79,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+cmtHostTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_vt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+cmtHostTable.MingruSQLName()+" AS `content_base_cmt_vt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_vt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_vt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -104,7 +105,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 }
 
 // SelectRootCmtsWithLikes ...
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeContentBaseCmtVt) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -116,7 +117,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM "+cmtHostTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `content_base_cmt_util`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_vt`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM "+cmtHostTable.MingruSQLName()+" AS `content_base_cmt_vt` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_vt`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `content_base_cmt_vt`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `content_base_cmt_vt`.`host_id` = ? ORDER BY `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

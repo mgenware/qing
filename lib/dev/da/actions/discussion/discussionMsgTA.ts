@@ -62,7 +62,7 @@ export class DiscussionMsgTA extends ContentBaseTA {
   }
 
   override getContainerUpdateCounterAction(): mm.Action {
-    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef(discussionID), offset: -1 });
+    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef(discussionID) });
   }
 
   override getExtraInsertionInputColumns(): mm.Column[] {
@@ -76,7 +76,7 @@ export class DiscussionMsgTA extends ContentBaseTA {
         .by(t.id)
         .declareReturnValue(mm.ReturnValues.result, discussionID),
       mm.deleteOne().whereSQL(this.updateConditions),
-      this.getContainerUpdateCounterAction(),
+      this.getContainerUpdateCounterAction().wrap({ offset: -1 }),
     );
   }
 }

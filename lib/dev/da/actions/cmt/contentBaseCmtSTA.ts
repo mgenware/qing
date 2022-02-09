@@ -10,36 +10,30 @@ import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import ContentBase from '../../models/com/contentBase.js';
 import { getSelectCmtsAction } from './cmtTAUtils.js';
 import * as cmtf from './cmtTAFactory.js';
-import { contentBaseSTA, contentBaseTableParam } from '../com/contentBaseSTA.js';
 
 class ContentBaseVT extends ContentBase {}
 
 const contentBaseVT = mm.table(ContentBaseVT);
 
-class ContentBaseCmtUtil extends ContentBaseCmt {
+class ContentBaseCmtVT extends ContentBaseCmt {
   override getHostTable(): ContentBase {
     return contentBaseVT;
   }
 }
 
-const contentBaseCmtUtil = mm.table(ContentBaseCmtUtil);
+const contentBaseCmtVT = mm.table(ContentBaseCmtVT);
 
 export const cmtHostTableParam = 'cmtHostTable';
 
-export class ContentBaseCmtUTA extends mm.TableActions {
-  selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
+export class ContentBaseCmtSTA extends mm.TableActions {
+  selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtVT, fetchLikes: false });
   selectRootCmtsWithLikes = getSelectCmtsAction({
-    rt: contentBaseCmtUtil,
+    rt: contentBaseCmtVT,
     fetchLikes: true,
   });
-  insertCmt = cmtf.insertCmtAction(
-    contentBaseCmtUtil,
-    contentBaseSTA.incrementCmtCount.wrap({
-      [contentBaseTableParam]: mm.valueRef(cmtHostTableParam),
-    }),
-  );
+  insertCmt = cmtf.insertCmtAction(contentBaseVT, contentBaseCmtVT);
 }
 
-export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtUTA, {
+export default mm.tableActions(contentBaseCmtVT, ContentBaseCmtSTA, {
   configurableTableName: cmtHostTableParam,
 });

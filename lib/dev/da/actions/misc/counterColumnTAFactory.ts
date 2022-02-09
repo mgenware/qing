@@ -14,7 +14,8 @@ export interface UpdateCounterActionOptions {
   offsetInputName?: string;
   idInputName?: string;
   whereSQL?: mm.SQL;
-  rawOffsetSQL?: number | mm.SQL;
+  offsetNumber?: number;
+  offsetSQL?: mm.SQL;
 }
 
 export function updateCounterAction(
@@ -24,19 +25,18 @@ export function updateCounterAction(
 ): mm.UpdateAction {
   // eslint-disable-next-line no-param-reassign
   opt = opt || {};
-  const { rawOffsetSQL } = opt;
   let offsetSQL: mm.SQL | string;
-  if (rawOffsetSQL !== undefined) {
-    if (rawOffsetSQL instanceof mm.SQL) {
-      offsetSQL = rawOffsetSQL;
-    } else {
-      // Produce: `+ <offset>` or `- <offset>`.
-      offsetSQL = rawOffsetSQL < 0 ? rawOffsetSQL.toString() : `+ ${rawOffsetSQL}`;
-    }
-    offsetSQL = mm.sql`${counterCol} ${offsetSQL}`;
+  if (opt.offsetSQL) {
+    offsetSQL = opt.offsetSQL;
+  } else if (opt.offsetNumber) {
+    offsetSQL = mm.sql`${opt.offsetNumber < 0 ? '-' : '+'} ${Math.abs(
+      opt.offsetNumber,
+    ).toString()}`;
   } else {
-    offsetSQL = mm.sql`${counterCol} + ${mm.int().toInput(opt.offsetInputName || offsetParamName)}`;
+    offsetSQL = mm.sql`+ ${mm.int().toInput(opt.offsetInputName || offsetParamName)}`;
   }
+
+  offsetSQL = mm.sql`${counterCol} ${offsetSQL}`;
   return mm
     .updateOne()
     .from(table)
