@@ -10,14 +10,11 @@ import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import ContentBase from '../../models/com/contentBase.js';
 import { getSelectCmtsAction } from './cmtTAUtils.js';
 import * as cmtf from './cmtTAFactory.js';
-
-class ContentBaseVT extends ContentBase {}
-
-const contentBaseVT = mm.table(ContentBaseVT);
+import contentBaseUtil from '../../models/com/contentBaseUtil.js';
 
 class ContentBaseCmtVT extends ContentBaseCmt {
   override getHostTable(): ContentBase {
-    return contentBaseVT;
+    return contentBaseUtil;
   }
 }
 
@@ -31,7 +28,7 @@ export class ContentBaseCmtSTA extends mm.TableActions {
     rt: contentBaseCmtVT,
     fetchLikes: true,
   });
-  insertCmt = cmtf.insertCmtAction(contentBaseVT, contentBaseCmtVT);
+  insertCmt = cmtf.insertCmtAction(contentBaseUtil, contentBaseCmtVT);
 }
 
 export default mm.tableActions(contentBaseCmtVT, ContentBaseCmtSTA, {

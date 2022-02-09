@@ -6,24 +6,20 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase.js';
+import contentBaseUtil from '../../models/com/contentBaseUtil.js';
 import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 
-class ContentBaseVT extends ContentBase {}
-
-const contentBaseVT = mm.table(ContentBaseVT);
-
-class ContentBaseUTA extends mm.TableActions {
-  incrementCmtCount = updateCounterAction(contentBaseVT, contentBaseVT.cmt_count, {
+class ContentBaseUtilTA extends mm.TableActions {
+  incrementCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count, {
     offsetNumber: 1,
   });
-  decrementCmtCount = updateCounterAction(contentBaseVT, contentBaseVT.cmt_count, {
+  decrementCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count, {
     offsetNumber: -1,
   });
 }
 
 export const contentBaseTableParam = 'contentBaseTable';
 
-export const contentBaseSTA = mm.tableActions(contentBaseVT, ContentBaseUTA, {
+export const contentBaseUtilTA = mm.tableActions(contentBaseUtil, ContentBaseUtilTA, {
   configurableTableName: contentBaseTableParam,
 });
