@@ -29,17 +29,16 @@ import contentBaseCmtUtilTA from './cmt/contentBaseCmtUtilTA.js';
 
 const source: Array<mm.TableActions | mm.Table> = [
   userTA,
-  postTA,
-  postTA.getCmtBaseTable(),
   userStatsTA,
-  cmtTA,
   userAuthTA,
   userPwdTA,
+  cmtTA,
+  postTA,
+  postTA.getCmtBaseTable(),
   discussionTA,
   discussionTA.getCmtBaseTable(),
   discussionMsgTA,
-  ...likeTAs,
-  ...voteTAs,
+  discussionMsgTA.getCmtBaseTable(),
   homeTA,
   questionTA,
   questionTA.getCmtBaseTable(),
@@ -52,6 +51,8 @@ const source: Array<mm.TableActions | mm.Table> = [
   forumIsUserModTA,
   contentBaseUtilTA,
   contentBaseCmtUtilTA,
+  ...likeTAs,
+  ...voteTAs,
 ];
 
 export default source;
