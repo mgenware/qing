@@ -24,5 +24,5 @@ export function newLikeTable(hostName: string, hostIDColumn: mm.Column): LikeTab
     user_id: mm.pk(user.id),
     host_id: mm.pk(hostIDColumn),
   };
-  return mm.tableCore(className, undefined, undefined, cols) as LikeTable;
+  return mm.tableCore(className, undefined, cols) as LikeTable;
 }

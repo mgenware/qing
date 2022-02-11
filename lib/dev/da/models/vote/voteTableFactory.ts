@@ -28,5 +28,5 @@ export function newVoteTable(hostName: string, hostIDColumn: mm.Column): VoteTab
     host_id: mm.pk(hostIDColumn),
     vote: mm.bool(),
   };
-  return mm.tableCore(className, undefined, undefined, cols) as VoteTable;
+  return mm.tableCore(className, undefined, cols) as VoteTable;
 }
