@@ -15,4 +15,4 @@ export class ContentBaseCmtUtil extends ContentBaseCmt {
   }
 }
 
-export default mm.table(ContentBaseCmtUtil);
+export default mm.table(ContentBaseCmtUtil, { virtualTable: true });

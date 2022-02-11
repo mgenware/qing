@@ -92,4 +92,4 @@ export class HomeTA extends mm.TableActions {
   }
 }
 
-export default mm.tableActions(mm.table(Home), HomeTA);
+export default mm.tableActions(mm.table(Home, { virtualTable: true }), HomeTA);

@@ -10,4 +10,4 @@ import ContentBase from './contentBase.js';
 
 export class ContentBaseUtil extends ContentBase {}
 
-export default mm.table(ContentBaseUtil);
+export default mm.table(ContentBaseUtil, { virtualTable: true });
