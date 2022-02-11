@@ -27,20 +27,24 @@ import voteTAs from './vote/voteTAs.js';
 import { contentBaseUtilTA } from './com/contentBaseUtilTA.js';
 import contentBaseCmtUtilTA from './cmt/contentBaseCmtUtilTA.js';
 
-const actions: mm.TableActions[] = [
+const source: Array<mm.TableActions | mm.Table> = [
   userTA,
   postTA,
+  postTA.getCmtBaseTable(),
   userStatsTA,
   cmtTA,
   userAuthTA,
   userPwdTA,
   discussionTA,
+  discussionTA.getCmtBaseTable(),
   discussionMsgTA,
   ...likeTAs,
   ...voteTAs,
   homeTA,
   questionTA,
+  questionTA.getCmtBaseTable(),
   answerTA,
+  answerTA.getCmtBaseTable(),
   forumTA,
   forumGroupTA,
   forumModTA,
@@ -50,4 +54,4 @@ const actions: mm.TableActions[] = [
   contentBaseCmtUtilTA,
 ];
 
-export default actions;
+export default source;

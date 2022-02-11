@@ -9,14 +9,13 @@ import * as mr from 'mingru';
 import * as np from 'path';
 import gen from 'go-const-gen';
 import * as mfs from 'm-fs';
-import actions from './actions/actions.js';
-import models from './models/models.js';
+import source from './actions/source.js';
 import { serverPath, copyrightString, webPath } from '../common/common.js';
 import sharedConstants from './shared_constants.js';
 
 const packageName = 'da';
 
-async function buildConstantsAsync(path: string) {
+async function buildConstants(path: string) {
   const goCode = gen(sharedConstants, {
     packageName,
     typeName: 'SharedConstants',
@@ -56,14 +55,10 @@ const mingruHeader =
     sqlFileHeader: mingruHeader,
     goFileHeader: mingruHeader,
     tsOutDir,
+    createTableSQL: true,
   });
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  await builder.buildAsync(async (): Promise<void> => {
-    await Promise.all([
-      await builder.buildActionsAsync(actions),
-      await builder.buildCreateTableSQLFilesAsync(models),
-    ]);
-  });
+  await builder.build(source);
   // Build `constants.go`.
-  await buildConstantsAsync(np.join(daPath, 'constants.go'));
+  await buildConstants(np.join(daPath, 'constants.go'));
 })();
