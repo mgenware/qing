@@ -81,23 +81,23 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
-	var cmtHostTable mingru.Table
+	var cmtRelTable mingru.Table
 
 	switch host.Type {
 	case defs.Shared.EntityPost:
 		{
-			cmtHostTable = da.Post
+			cmtRelTable = da.PostCmt
 		}
 	default:
 		{
-			panic(fmt.Errorf("Unsupported entity type %v", host.Type))
+			panic(fmt.Errorf("unsupported entity type %v", host.Type))
 		}
 	}
 
 	if uid == 0 {
-		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmts(db, cmtHostTable, host.ID, page, kCmtPageSize)
+		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize)
 	} else {
-		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmtsWithLikes(db, cmtHostTable, uid, host.ID, page, kCmtPageSize)
+		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize)
 	}
 	if err != nil {
 		app.PanicIfErr(err)

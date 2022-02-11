@@ -11,7 +11,7 @@ import * as cmtf from './cmtTAFactory.js';
 import contentBaseUtil from '../../models/com/contentBaseUtil.js';
 import contentBaseCmtUtil from '../../models/com/contentBaseCmtUtil.js';
 
-export const cmtHostTableParam = 'cmtHostTable';
+export const cmtRelationTable = 'cmtRelationTable';
 
 export class ContentBaseCmtSTA extends mm.TableActions {
   selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
@@ -24,5 +24,5 @@ export class ContentBaseCmtSTA extends mm.TableActions {
 }
 
 export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtSTA, {
-  configurableTableName: cmtHostTableParam,
+  configurableTableName: cmtRelationTable,
 });

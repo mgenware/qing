@@ -70,8 +70,8 @@ type UserThreadInterface struct {
 type CmtHostTableInterface interface {
 	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
 	SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
-	SelectRootCmts(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
-	SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtHostTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectRootCmts(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
+	SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
 // LikeInterface ...
