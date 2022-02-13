@@ -27,6 +27,7 @@ export function updateCounterAction(
   opt = opt || {};
   let offsetSQL: mm.SQL | string;
   if (opt.offsetSQL) {
+    // eslint-disable-next-line prefer-destructuring
     offsetSQL = opt.offsetSQL;
   } else if (opt.offsetNumber) {
     offsetSQL = mm.sql`${opt.offsetNumber < 0 ? '-' : '+'} ${Math.abs(

@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
-import ContentBaseCmt from '../../models/com/contentBaseCmt';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/qna/question.js';
 import questionCmt from '../../models/qna/questionCmt.js';
 import ThreadBaseTA from '../com/threadBaseTA.js';
