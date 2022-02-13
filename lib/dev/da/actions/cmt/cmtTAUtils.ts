@@ -58,6 +58,7 @@ export function getSelectCmtsAction(opt: {
     .from(opt.rt ? opt.rt : cmt)
     .pageMode()
     .by(opt.rt ? opt.rt.host_id : cmt.parent_id)
+    .orderByDesc(jCmt.likes)
     .orderByDesc(jCmt.created_at)
     .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface)
     .resultTypeNameAttr(cmtResultType)
