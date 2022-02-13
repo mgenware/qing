@@ -11,7 +11,7 @@ import ContentBaseCmt from '../com/contentBaseCmt.js';
 import answer from './answer.js';
 
 export class AnswerCmt extends ContentBaseCmt {
-  getHostTable(): ContentBase {
+  override getCmtHostTable(): ContentBase {
     return answer;
   }
 }

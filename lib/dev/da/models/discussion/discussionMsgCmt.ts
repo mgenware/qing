@@ -11,7 +11,7 @@ import ContentBaseCmt from '../com/contentBaseCmt.js';
 import discussionMsg from './discussionMsg.js';
 
 export class DiscussionMsgCmt extends ContentBaseCmt {
-  getHostTable(): ContentBase {
+  override getCmtHostTable(): ContentBase {
     return discussionMsg;
   }
 }

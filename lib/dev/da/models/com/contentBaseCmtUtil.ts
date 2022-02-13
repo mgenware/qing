@@ -10,7 +10,7 @@ import ContentBaseCmt from './contentBaseCmt.js';
 import contentBaseUtil from './contentBaseUtil.js';
 
 export class ContentBaseCmtUtil extends ContentBaseCmt {
-  override getHostTable() {
+  override getCmtHostTable() {
     return contentBaseUtil;
   }
 }

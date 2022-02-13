@@ -11,7 +11,7 @@ import ContentBaseCmt from '../com/contentBaseCmt.js';
 import post from './post.js';
 
 export class PostCmt extends ContentBaseCmt {
-  getHostTable(): ContentBase {
+  override getCmtHostTable(): ContentBase {
     return post;
   }
 }

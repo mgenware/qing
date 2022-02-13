@@ -20,8 +20,8 @@ export default abstract class ContentBaseCmt extends mm.Table {
 
   constructor() {
     super();
-    this.host_id = mm.pk(this.getHostTable().id);
+    this.host_id = mm.pk(this.getCmtHostTable().id);
   }
 
-  abstract getHostTable(): ContentBase;
+  abstract getCmtHostTable(): ContentBase;
 }
