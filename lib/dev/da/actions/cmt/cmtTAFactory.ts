@@ -10,18 +10,19 @@ import cmt from '../../models/cmt/cmt.js';
 import * as cm from '../../models/common.js';
 import cmtTA from './cmtTA.js';
 import { CmtRelationTable, cmtHostTableInterface, CmtHostTable } from './cmtTAUtils.js';
-import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
+import { contentBaseUtilTA, contentBaseTableParam } from '../../actions/com/contentBaseUtilTA.js';
 
-const hostID = 'hostID';
 const cmtID = 'cmtID';
 const parentID = 'parentID';
 const replyID = 'replyID';
 const cmtIDAndHostID = 'cmtIDAndHostID';
+const hostID = 'hostID';
 
-function updateCmtCountAction(ht: CmtHostTable, offset: number): mm.Action {
-  return updateCounterAction(ht, ht.cmt_count, { offsetNumber: offset, idInputName: hostID });
+function getIncrementCmtCountAction() {
+  return contentBaseUtilTA.incrementCmtCount.wrap({ id: mm.valueRef(hostID) });
 }
-export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.TransactAction {
+
+export function insertCmtAction(rt: CmtRelationTable): mm.TransactAction {
   return mm
     .transact(
       // Insert the cmt.
@@ -29,13 +30,13 @@ export function insertCmtAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tran
       // Set up relationship with host.
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       // host.cmtCount++.
-      updateCmtCountAction(ht, 2),
+      getIncrementCmtCountAction(),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
+export function insertReplyAction(): mm.TransactAction {
   return mm
     .transact(
       // Insert the reply.
@@ -46,7 +47,7 @@ export function insertReplyAction(ht: CmtHostTable): mm.TransactAction {
         id: mm.valueRef(parentID),
       }),
       // host.cmtCount++.
-      updateCmtCountAction(ht, 2),
+      getIncrementCmtCountAction(),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);
@@ -92,9 +93,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
       // Delete the reply.
       cmtTA.deleteCore,
       // cmt.replyCount--.
-      updateCmtCountAction(ht, -1).wrap({
-        hostID: mm.valueRef(`${cmtIDAndHostID}.${parentHostIDProp}`),
-      }),
+      contentBaseUtilTA.decrementCmtCount.wrap({ [contentBaseTableParam]: ht }),
       // host.cmtCount--.
       cmtTA.updateReplyCount.wrap({
         offset: -1,

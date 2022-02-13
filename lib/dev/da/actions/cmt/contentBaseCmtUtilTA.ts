@@ -8,7 +8,6 @@
 import * as mm from 'mingru-models';
 import { getSelectCmtsAction } from './cmtTAUtils.js';
 import * as cmtf from './cmtTAFactory.js';
-import contentBaseUtil from '../../models/com/contentBaseUtil.js';
 import contentBaseCmtUtil from '../../models/com/contentBaseCmtUtil.js';
 
 export const cmtRelationTable = 'cmtRelationTable';
@@ -19,8 +18,8 @@ export class ContentBaseCmtSTA extends mm.TableActions {
     rt: contentBaseCmtUtil,
     fetchLikes: true,
   });
-  insertCmt = cmtf.insertCmtAction(contentBaseUtil, contentBaseCmtUtil);
-  insertReply = cmtf.insertReplyAction(contentBaseUtil);
+  insertCmt = cmtf.insertCmtAction(contentBaseCmtUtil);
+  insertReply = cmtf.insertReplyAction();
 }
 
 export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtSTA, {

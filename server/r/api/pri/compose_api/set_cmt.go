@@ -38,7 +38,20 @@ func getCmtHostTable(hostType int) (mingru.Table, error) {
 	case defs.Shared.EntityAnswer:
 		return da.Answer, nil
 	default:
-		return nil, fmt.Errorf("unknown cmt data provider: %v", hostType)
+		return nil, fmt.Errorf("unknown cmt host table %v", hostType)
+	}
+}
+
+func getCmtRelationTable(hostType int) (mingru.Table, error) {
+	switch hostType {
+	case defs.Shared.EntityPost:
+		return da.PostCmt, nil
+	case defs.Shared.EntityQuestion:
+		return da.QuestionCmt, nil
+	case defs.Shared.EntityAnswer:
+		return da.AnswerCmt, nil
+	default:
+		return nil, fmt.Errorf("unknown cmt relation table %v", hostType)
 	}
 }
 
@@ -72,7 +85,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, parentID, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)
 		} else {
-			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)
+			cmtRelationTable, err := getCmtRelationTable(host.Type)
+			app.PanicIfErr(err)
+
+			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, cmtRelationTable, host.ID, cmtHostTable, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 
