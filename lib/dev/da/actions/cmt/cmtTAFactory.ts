@@ -18,8 +18,15 @@ const replyID = 'replyID';
 const cmtIDAndHostID = 'cmtIDAndHostID';
 const hostID = 'hostID';
 
-function getIncrementCmtCountAction() {
-  return contentBaseUtilTA.incrementCmtCount.wrap({ id: mm.valueRef(hostID) });
+function getIncrementCmtCountAction(rootCmt: boolean) {
+  // When fetching root cmts, `hostID` is exposed via cmt relation table,
+  // we only need to reference the outer `hostID` variable via `ValueRef`.
+  // When fetching replies, no `hostID` was exposed, we have to explicitly
+  // expose the param via `RenameArg`, which renames the `id` param from
+  // `contentBaseUtilTA.incrementCmtCount` to `hostID`.
+  return contentBaseUtilTA.incrementCmtCount.wrap({
+    id: rootCmt ? mm.valueRef(hostID) : mm.renameArg(hostID),
+  });
 }
 
 export function insertCmtAction(rt: CmtRelationTable): mm.TransactAction {
@@ -30,7 +37,7 @@ export function insertCmtAction(rt: CmtRelationTable): mm.TransactAction {
       // Set up relationship with host.
       mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
       // host.cmtCount++.
-      getIncrementCmtCountAction(),
+      getIncrementCmtCountAction(true),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
@@ -47,7 +54,7 @@ export function insertReplyAction(): mm.TransactAction {
         id: mm.valueRef(parentID),
       }),
       // host.cmtCount++.
-      getIncrementCmtCountAction(),
+      getIncrementCmtCountAction(false),
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);
