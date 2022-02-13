@@ -8,19 +8,15 @@
 package cmtapi
 
 import (
-	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
 	"qing/sod/cmt/cmt"
-
-	"github.com/mgenware/mingru-go-lib"
 )
 
 var kCmtPageSize int
@@ -81,18 +77,8 @@ func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
-	var cmtRelTable mingru.Table
-
-	switch host.Type {
-	case defs.Shared.EntityPost:
-		{
-			cmtRelTable = da.PostCmt
-		}
-	default:
-		{
-			panic(fmt.Errorf("unsupported entity type %v", host.Type))
-		}
-	}
+	cmtRelTable, err := apicom.GetCmtRelationTable(host.Type)
+	app.PanicIfErr(err)
 
 	if uid == 0 {
 		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize)

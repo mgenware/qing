@@ -8,51 +8,21 @@
 package composeapi
 
 import (
-	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
-	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
 	"qing/sod/cmt/cmt"
 	"time"
-
-	"github.com/mgenware/mingru-go-lib"
 )
 
 type SetCmtResponse struct {
 	Cmt *cmt.Cmt `json:"cmt"`
-}
-
-func getCmtHostTable(hostType int) (mingru.Table, error) {
-	switch hostType {
-	case defs.Shared.EntityPost:
-		return da.Post, nil
-	case defs.Shared.EntityQuestion:
-		return da.Question, nil
-	case defs.Shared.EntityAnswer:
-		return da.Answer, nil
-	default:
-		return nil, fmt.Errorf("unknown cmt host table %v", hostType)
-	}
-}
-
-func getCmtRelationTable(hostType int) (mingru.Table, error) {
-	switch hostType {
-	case defs.Shared.EntityPost:
-		return da.PostCmt, nil
-	case defs.Shared.EntityQuestion:
-		return da.QuestionCmt, nil
-	case defs.Shared.EntityAnswer:
-		return da.AnswerCmt, nil
-	default:
-		return nil, fmt.Errorf("unknown cmt relation table %v", hostType)
-	}
 }
 
 func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -71,7 +41,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		host := clib.MustGetEntityInfoFromDict(params, "host")
 		parentID := clib.GetIDFromDict(params, "parentID")
 
-		cmtHostTable, err := getCmtHostTable(host.Type)
+		cmtHostTable, err := apicom.GetCmtHostTable(host.Type)
 		app.PanicIfErr(err)
 
 		captResult, err := appService.Get().Captcha.Verify(uid, host.Type, "", app.CoreConfig().DevMode())
@@ -85,7 +55,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, parentID, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)
 		} else {
-			cmtRelationTable, err := getCmtRelationTable(host.Type)
+			cmtRelationTable, err := apicom.GetCmtRelationTable(host.Type)
 			app.PanicIfErr(err)
 
 			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, cmtRelationTable, host.ID, cmtHostTable, sanitizedToken, captResult)
