@@ -58,8 +58,8 @@ export default urlTree({
       },
     },
     pub: {
-      cmt: {
-        get: '',
+      ent: {
+        cmts: '',
       },
       auth: {
         createNewUser: 'create-pwd-user',

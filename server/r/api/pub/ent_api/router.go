@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package cmtapi
+package entapi
 
 import (
 	"qing/a/handler"
@@ -15,5 +15,5 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/get", getCmts)
+	Router.Post("/cmts", getCmts)
 }

@@ -44,7 +44,7 @@ export default class GetCmtsLoader extends Loader<ItemsLoadedResp<Cmt>> {
   }
 
   requestURL(): string {
-    return routes.s.pub.cmt.get;
+    return routes.s.pub.ent.cmts;
   }
 
   requestParams(): Record<string, unknown> {

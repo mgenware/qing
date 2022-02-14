@@ -11,7 +11,7 @@ import (
 	"qing/a/handler"
 	"qing/a/middleware"
 	authapi "qing/r/api/pub/auth_api"
-	cmtapi "qing/r/api/pub/cmt_api"
+	entapi "qing/r/api/pub/ent_api"
 )
 
 // Router ...
@@ -20,6 +20,6 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Core.Use(middleware.ParseJSON)
 
-	Router.Mount("/cmt", cmtapi.Router)
+	Router.Mount("/ent", entapi.Router)
 	Router.Mount("/auth", authapi.Router)
 }

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package cmtapi
+package entapi
 
 import (
 	"net/http"
