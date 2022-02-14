@@ -14,11 +14,9 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-// TableTypeForumGroupMod ...
 type TableTypeForumGroupMod struct {
 }
 
-// ForumGroupMod ...
 var ForumGroupMod = &TableTypeForumGroupMod{}
 
 // MingruSQLName returns the name of this table.
@@ -28,19 +26,16 @@ func (mrTable *TableTypeForumGroupMod) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// DeleteMod ...
 func (mrTable *TableTypeForumGroupMod) DeleteMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// InsertMod ...
 func (mrTable *TableTypeForumGroupMod) InsertMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO `forum_group_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
 }
 
-// SelectIsMod ...
 func (mrTable *TableTypeForumGroupMod) SelectIsMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)

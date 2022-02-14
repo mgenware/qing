@@ -20,11 +20,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeDiscussion ...
 type TableTypeDiscussion struct {
 }
 
-// Discussion ...
 var Discussion = &TableTypeDiscussion{}
 
 // MingruSQLName returns the name of this table.
@@ -43,7 +41,6 @@ func (mrTable *TableTypeDiscussion) deleteItemChild2(mrQueryable mingru.Queryabl
 	return UserStats.UpdateDiscussionCount(mrQueryable, userID, -1)
 }
 
-// DeleteItem ...
 func (mrTable *TableTypeDiscussion) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -60,7 +57,6 @@ func (mrTable *TableTypeDiscussion) DeleteItem(db *sql.DB, id uint64, userID uin
 	return txErr
 }
 
-// EditItem ...
 func (mrTable *TableTypeDiscussion) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -75,7 +71,6 @@ func (mrTable *TableTypeDiscussion) insertItemChild2(mrQueryable mingru.Queryabl
 	return UserStats.UpdateDiscussionCount(mrQueryable, userID, 1)
 }
 
-// InsertItem ...
 func (mrTable *TableTypeDiscussion) InsertItem(db *sql.DB, forumID *uint64, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
@@ -94,7 +89,6 @@ func (mrTable *TableTypeDiscussion) InsertItem(db *sql.DB, forumID *uint64, titl
 	return insertedIDExported, txErr
 }
 
-// DiscussionTableSelectItemByIDResult ...
 type DiscussionTableSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
@@ -109,7 +103,6 @@ type DiscussionTableSelectItemByIDResult struct {
 	UserName      string    `json:"-"`
 }
 
-// SelectItemByID ...
 func (mrTable *TableTypeDiscussion) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (DiscussionTableSelectItemByIDResult, error) {
 	var result DiscussionTableSelectItemByIDResult
 	err := mrQueryable.QueryRow("SELECT `discussion`.`id`, `discussion`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `discussion`.`created_at`, `discussion`.`modified_at`, `discussion`.`content`, `discussion`.`forum_id`, `discussion`.`title`, `discussion`.`cmt_count`, `discussion`.`reply_count` FROM `discussion` AS `discussion` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `discussion`.`user_id` WHERE `discussion`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.ForumID, &result.Title, &result.CmtCount, &result.ReplyCount)
@@ -119,13 +112,11 @@ func (mrTable *TableTypeDiscussion) SelectItemByID(mrQueryable mingru.Queryable,
 	return result, nil
 }
 
-// DiscussionTableSelectItemsForPostCenterOrderBy1 ...
 const (
 	DiscussionTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
 	DiscussionTableSelectItemsForPostCenterOrderBy1ReplyCount
 )
 
-// DiscussionTableSelectItemsForPostCenterResult ...
 type DiscussionTableSelectItemsForPostCenterResult struct {
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -134,7 +125,6 @@ type DiscussionTableSelectItemsForPostCenterResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-// SelectItemsForPostCenter ...
 func (mrTable *TableTypeDiscussion) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]DiscussionTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
@@ -186,7 +176,6 @@ func (mrTable *TableTypeDiscussion) SelectItemsForPostCenter(mrQueryable mingru.
 	return result, itemCounter > len(result), nil
 }
 
-// DiscussionTableSelectItemsForUserProfileResult ...
 type DiscussionTableSelectItemsForUserProfileResult struct {
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -194,7 +183,6 @@ type DiscussionTableSelectItemsForUserProfileResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-// SelectItemsForUserProfile ...
 func (mrTable *TableTypeDiscussion) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]DiscussionTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -232,7 +220,6 @@ func (mrTable *TableTypeDiscussion) SelectItemsForUserProfile(mrQueryable mingru
 	return result, itemCounter > len(result), nil
 }
 
-// SelectItemSrc ...
 func (mrTable *TableTypeDiscussion) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `title`, `content` FROM `discussion` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
@@ -242,13 +229,11 @@ func (mrTable *TableTypeDiscussion) SelectItemSrc(mrQueryable mingru.Queryable, 
 	return result, nil
 }
 
-// TestUpdateDates ...
 func (mrTable *TableTypeDiscussion) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// UpdateMsgCount ...
 func (mrTable *TableTypeDiscussion) UpdateMsgCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

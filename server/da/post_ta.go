@@ -20,11 +20,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypePost ...
 type TableTypePost struct {
 }
 
-// Post ...
 var Post = &TableTypePost{}
 
 // MingruSQLName returns the name of this table.
@@ -43,7 +41,6 @@ func (mrTable *TableTypePost) deleteItemChild2(mrQueryable mingru.Queryable, use
 	return UserStats.UpdatePostCount(mrQueryable, userID, -1)
 }
 
-// DeleteItem ...
 func (mrTable *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -60,7 +57,6 @@ func (mrTable *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) e
 	return txErr
 }
 
-// EditItem ...
 func (mrTable *TableTypePost) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -75,7 +71,6 @@ func (mrTable *TableTypePost) insertItemChild2(mrQueryable mingru.Queryable, use
 	return UserStats.UpdatePostCount(mrQueryable, userID, 1)
 }
 
-// InsertItem ...
 func (mrTable *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
@@ -94,7 +89,6 @@ func (mrTable *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML s
 	return insertedIDExported, txErr
 }
 
-// PostTableSelectItemByIDResult ...
 type PostTableSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
@@ -108,7 +102,6 @@ type PostTableSelectItemByIDResult struct {
 	UserName      string    `json:"-"`
 }
 
-// SelectItemByID ...
 func (mrTable *TableTypePost) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
 	var result PostTableSelectItemByIDResult
 	err := mrQueryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`title`, `post`.`cmt_count`, `post`.`likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
@@ -118,14 +111,12 @@ func (mrTable *TableTypePost) SelectItemByID(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-// PostTableSelectItemsForPostCenterOrderBy1 ...
 const (
 	PostTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
 	PostTableSelectItemsForPostCenterOrderBy1Likes
 	PostTableSelectItemsForPostCenterOrderBy1CmtCount
 )
 
-// PostTableSelectItemsForPostCenterResult ...
 type PostTableSelectItemsForPostCenterResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ID            uint64    `json:"-"`
@@ -135,7 +126,6 @@ type PostTableSelectItemsForPostCenterResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-// SelectItemsForPostCenter ...
 func (mrTable *TableTypePost) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
@@ -189,7 +179,6 @@ func (mrTable *TableTypePost) SelectItemsForPostCenter(mrQueryable mingru.Querya
 	return result, itemCounter > len(result), nil
 }
 
-// PostTableSelectItemsForUserProfileResult ...
 type PostTableSelectItemsForUserProfileResult struct {
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -197,7 +186,6 @@ type PostTableSelectItemsForUserProfileResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-// SelectItemsForUserProfile ...
 func (mrTable *TableTypePost) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -235,7 +223,6 @@ func (mrTable *TableTypePost) SelectItemsForUserProfile(mrQueryable mingru.Query
 	return result, itemCounter > len(result), nil
 }
 
-// SelectItemSrc ...
 func (mrTable *TableTypePost) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
@@ -245,7 +232,6 @@ func (mrTable *TableTypePost) SelectItemSrc(mrQueryable mingru.Queryable, id uin
 	return result, nil
 }
 
-// TestUpdateDates ...
 func (mrTable *TableTypePost) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

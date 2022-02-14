@@ -18,11 +18,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypePostLike ...
 type TableTypePostLike struct {
 }
 
-// PostLike ...
 var PostLike = &TableTypePostLike{}
 
 // MingruSQLName returns the name of this table.
@@ -42,7 +40,6 @@ func (mrTable *TableTypePostLike) cancelLikeChild2(mrQueryable mingru.Queryable,
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// CancelLike ...
 func (mrTable *TableTypePostLike) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -59,7 +56,6 @@ func (mrTable *TableTypePostLike) CancelLike(db *sql.DB, hostID uint64, userID u
 	return txErr
 }
 
-// HasLiked ...
 func (mrTable *TableTypePostLike) HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `post_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
@@ -79,7 +75,6 @@ func (mrTable *TableTypePostLike) likeChild2(mrQueryable mingru.Queryable, hostI
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// Like ...
 func (mrTable *TableTypePostLike) Like(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error

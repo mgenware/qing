@@ -18,11 +18,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeUserPwd ...
 type TableTypeUserPwd struct {
 }
 
-// UserPwd ...
 var UserPwd = &TableTypeUserPwd{}
 
 // MingruSQLName returns the name of this table.
@@ -44,7 +42,6 @@ func (mrTable *TableTypeUserPwd) addPwdBasedUserChild4(mrQueryable mingru.Querya
 	return mrTable.AddUserPwdInternal(mrQueryable, id, pwdHash)
 }
 
-// AddPwdBasedUser ...
 func (mrTable *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
 	var insertedUserIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
@@ -71,13 +68,11 @@ func (mrTable *TableTypeUserPwd) AddPwdBasedUser(db *sql.DB, email string, name 
 	return insertedUserIDExported, txErr
 }
 
-// AddUserPwdInternal ...
 func (mrTable *TableTypeUserPwd) AddUserPwdInternal(mrQueryable mingru.Queryable, id uint64, pwdHash string) error {
 	_, err := mrQueryable.Exec("INSERT INTO `user_pwd` (`id`, `pwd_hash`) VALUES (?, ?)", id, pwdHash)
 	return err
 }
 
-// SelectHashByID ...
 func (mrTable *TableTypeUserPwd) SelectHashByID(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := mrQueryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)

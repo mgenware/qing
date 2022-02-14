@@ -19,11 +19,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeCmt ...
 type TableTypeCmt struct {
 }
 
-// Cmt ...
 var Cmt = &TableTypeCmt{}
 
 // MingruSQLName returns the name of this table.
@@ -33,43 +31,36 @@ func (mrTable *TableTypeCmt) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// DeleteCore ...
 func (mrTable *TableTypeCmt) DeleteCore(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// EditCmt ...
 func (mrTable *TableTypeCmt) EditCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// EditReply ...
 func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// InsertCmt ...
 func (mrTable *TableTypeCmt) InsertCmt(mrQueryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (NULL, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-// InsertReply ...
 func (mrTable *TableTypeCmt) InsertReply(mrQueryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP())", parentID, contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-// CmtTableMemLockedGetCmtDataForDeletionResult ...
 type CmtTableMemLockedGetCmtDataForDeletionResult struct {
 	ParentID   *uint64 `json:"parentID,omitempty"`
 	ReplyCount uint    `json:"replyCount,omitempty"`
 }
 
-// MemLockedGetCmtDataForDeletion ...
 func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Queryable, id uint64) (CmtTableMemLockedGetCmtDataForDeletionResult, error) {
 	var result CmtTableMemLockedGetCmtDataForDeletionResult
 	err := mrQueryable.QueryRow("SELECT `parent_id`, `reply_count` FROM `cmt` WHERE `id` = ? LOCK IN SHARE MODE", id).Scan(&result.ParentID, &result.ReplyCount)
@@ -79,7 +70,6 @@ func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Q
 	return result, nil
 }
 
-// SelectCmtSource ...
 func (mrTable *TableTypeCmt) SelectCmtSource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
@@ -89,7 +79,6 @@ func (mrTable *TableTypeCmt) SelectCmtSource(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-// SelectReplies ...
 func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -127,7 +116,6 @@ func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentI
 	return result, itemCounter > len(result), nil
 }
 
-// SelectRepliesWithLike ...
 func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -165,7 +153,6 @@ func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable,
 	return result, itemCounter > len(result), nil
 }
 
-// SelectReplySource ...
 func (mrTable *TableTypeCmt) SelectReplySource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
@@ -175,7 +162,6 @@ func (mrTable *TableTypeCmt) SelectReplySource(mrQueryable mingru.Queryable, id 
 	return result, nil
 }
 
-// UpdateReplyCount ...
 func (mrTable *TableTypeCmt) UpdateReplyCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

@@ -19,11 +19,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeContentBaseCmtUtil ...
 type TableTypeContentBaseCmtUtil struct {
 }
 
-// ContentBaseCmtUtil ...
 var ContentBaseCmtUtil = &TableTypeContentBaseCmtUtil{}
 
 // MingruSQLName returns the name of this table.
@@ -42,7 +40,6 @@ func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild3(mrQueryable mingru.Q
 	return ContentBaseUtil.IncrementCmtCount(mrQueryable, contentBaseTable, id)
 }
 
-// InsertCmt ...
 func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, contentHTML string, userID uint64, cmtRelationTable mingru.Table, hostID uint64, contentBaseTable mingru.Table, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
@@ -73,7 +70,6 @@ func (mrTable *TableTypeContentBaseCmtUtil) insertReplyChild3(mrQueryable mingru
 	return ContentBaseUtil.IncrementCmtCount(mrQueryable, contentBaseTable, hostID)
 }
 
-// InsertReply ...
 func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, contentBaseTable mingru.Table, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
@@ -96,7 +92,6 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, parentID uin
 	return replyIDExported, txErr
 }
 
-// SelectRootCmts ...
 func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -134,7 +129,6 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 	return result, itemCounter > len(result), nil
 }
 
-// SelectRootCmtsWithLikes ...
 func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)

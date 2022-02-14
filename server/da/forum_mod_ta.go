@@ -18,11 +18,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeForumMod ...
 type TableTypeForumMod struct {
 }
 
-// ForumMod ...
 var ForumMod = &TableTypeForumMod{}
 
 // MingruSQLName returns the name of this table.
@@ -32,13 +30,11 @@ func (mrTable *TableTypeForumMod) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// DeleteMod ...
 func (mrTable *TableTypeForumMod) DeleteMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `forum_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// DeleteUserFromForumMods ...
 func (mrTable *TableTypeForumMod) DeleteUserFromForumMods(mrQueryable mingru.Queryable, userID uint64, forumIDs []uint64) (int, error) {
 	if len(forumIDs) == 0 {
 		return 0, fmt.Errorf("The array argument `forumIDs` cannot be empty")
@@ -52,13 +48,11 @@ func (mrTable *TableTypeForumMod) DeleteUserFromForumMods(mrQueryable mingru.Que
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 
-// InsertMod ...
 func (mrTable *TableTypeForumMod) InsertMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO `forum_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
 }
 
-// SelectIsMod ...
 func (mrTable *TableTypeForumMod) SelectIsMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)

@@ -19,11 +19,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeForum ...
 type TableTypeForum struct {
 }
 
-// Forum ...
 var Forum = &TableTypeForum{}
 
 // MingruSQLName returns the name of this table.
@@ -33,19 +31,16 @@ func (mrTable *TableTypeForum) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// DeleteItem ...
 func (mrTable *TableTypeForum) DeleteItem(mrQueryable mingru.Queryable, id uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `forum` WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// InsertItem ...
 func (mrTable *TableTypeForum) InsertItem(mrQueryable mingru.Queryable, name string, descHTML string, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, threadCount uint, status uint8) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `forum` (`name`, `desc`, `order_index`, `created_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)", name, descHTML, orderIndex, rawCreatedAt, groupID, threadCount, status)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-// SelectDiscussions ...
 func (mrTable *TableTypeForum) SelectDiscussions(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -83,7 +78,6 @@ func (mrTable *TableTypeForum) SelectDiscussions(mrQueryable mingru.Queryable, f
 	return result, itemCounter > len(result), nil
 }
 
-// ForumTableSelectForumResult ...
 type ForumTableSelectForumResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
 	ID           uint64    `json:"id,omitempty"`
@@ -92,7 +86,6 @@ type ForumTableSelectForumResult struct {
 	ThreadCount  uint      `json:"threadCount,omitempty"`
 }
 
-// SelectForum ...
 func (mrTable *TableTypeForum) SelectForum(mrQueryable mingru.Queryable, id uint64) (ForumTableSelectForumResult, error) {
 	var result ForumTableSelectForumResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ThreadCount)
@@ -102,7 +95,6 @@ func (mrTable *TableTypeForum) SelectForum(mrQueryable mingru.Queryable, id uint
 	return result, nil
 }
 
-// SelectForumIDsForGroup ...
 func (mrTable *TableTypeForum) SelectForumIDsForGroup(mrQueryable mingru.Queryable, groupID uint64) ([]uint64, error) {
 	rows, err := mrQueryable.Query("SELECT `id` FROM `forum` WHERE `group_id` = ?", groupID)
 	if err != nil {
@@ -125,7 +117,6 @@ func (mrTable *TableTypeForum) SelectForumIDsForGroup(mrQueryable mingru.Queryab
 	return result, nil
 }
 
-// SelectGroupID ...
 func (mrTable *TableTypeForum) SelectGroupID(mrQueryable mingru.Queryable, id uint64) (*uint64, error) {
 	var result *uint64
 	err := mrQueryable.QueryRow("SELECT `group_id` FROM `forum` WHERE `id` = ?", id).Scan(&result)
@@ -135,13 +126,11 @@ func (mrTable *TableTypeForum) SelectGroupID(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-// ForumTableSelectInfoForEditingResult ...
 type ForumTableSelectInfoForEditingResult struct {
 	DescHTML string `json:"descHTML,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
-// SelectInfoForEditing ...
 func (mrTable *TableTypeForum) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumTableSelectInfoForEditingResult, error) {
 	var result ForumTableSelectInfoForEditingResult
 	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
@@ -151,7 +140,6 @@ func (mrTable *TableTypeForum) SelectInfoForEditing(mrQueryable mingru.Queryable
 	return result, nil
 }
 
-// SelectQuestions ...
 func (mrTable *TableTypeForum) SelectQuestions(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -189,7 +177,6 @@ func (mrTable *TableTypeForum) SelectQuestions(mrQueryable mingru.Queryable, for
 	return result, itemCounter > len(result), nil
 }
 
-// SelectThreads ...
 func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -227,7 +214,6 @@ func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forum
 	return result, itemCounter > len(result), nil
 }
 
-// UpdateInfo ...
 func (mrTable *TableTypeForum) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {
 	result, err := mrQueryable.Exec("UPDATE `forum` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

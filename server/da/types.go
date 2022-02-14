@@ -21,7 +21,6 @@ import (
 
 // ------------ Result types ------------
 
-// CmtData ...
 type CmtData struct {
 	ContentHTML   string    `json:"contentHTML,omitempty"`
 	HasLiked      *uint64   `json:"hasLiked,omitempty"`
@@ -35,20 +34,17 @@ type CmtData struct {
 	UserName      string    `json:"userName,omitempty"`
 }
 
-// EntityGetSrcResult ...
 type EntityGetSrcResult struct {
 	ContentHTML string `json:"contentHTML,omitempty"`
 	Title       string `json:"title,omitempty"`
 }
 
-// FindUserResult ...
 type FindUserResult struct {
 	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 }
 
-// UserThreadInterface ...
 type UserThreadInterface struct {
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
@@ -66,7 +62,6 @@ type UserThreadInterface struct {
 
 // ------------ Interfaces ------------
 
-// CmtHostTableInterface ...
 type CmtHostTableInterface interface {
 	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
 	SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error)
@@ -74,14 +69,12 @@ type CmtHostTableInterface interface {
 	SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error)
 }
 
-// LikeInterface ...
 type LikeInterface interface {
 	CancelLike(db *sql.DB, hostID uint64, userID uint64) error
 	HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
 	Like(db *sql.DB, hostID uint64, userID uint64) error
 }
 
-// VoteInterface ...
 type VoteInterface interface {
 	MyVote(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
 	NewDownVote(db *sql.DB, hostID uint64, userID uint64) error

@@ -18,11 +18,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeQuestionLike ...
 type TableTypeQuestionLike struct {
 }
 
-// QuestionLike ...
 var QuestionLike = &TableTypeQuestionLike{}
 
 // MingruSQLName returns the name of this table.
@@ -42,7 +40,6 @@ func (mrTable *TableTypeQuestionLike) cancelLikeChild2(mrQueryable mingru.Querya
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// CancelLike ...
 func (mrTable *TableTypeQuestionLike) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -59,7 +56,6 @@ func (mrTable *TableTypeQuestionLike) CancelLike(db *sql.DB, hostID uint64, user
 	return txErr
 }
 
-// HasLiked ...
 func (mrTable *TableTypeQuestionLike) HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `question_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
@@ -79,7 +75,6 @@ func (mrTable *TableTypeQuestionLike) likeChild2(mrQueryable mingru.Queryable, h
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// Like ...
 func (mrTable *TableTypeQuestionLike) Like(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error

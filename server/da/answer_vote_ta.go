@@ -18,11 +18,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeAnswerVote ...
 type TableTypeAnswerVote struct {
 }
 
-// AnswerVote ...
 var AnswerVote = &TableTypeAnswerVote{}
 
 // MingruSQLName returns the name of this table.
@@ -32,7 +30,6 @@ func (mrTable *TableTypeAnswerVote) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// MyVote ...
 func (mrTable *TableTypeAnswerVote) MyVote(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT `vote` FROM `answer_vote` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID).Scan(&result)
@@ -52,7 +49,6 @@ func (mrTable *TableTypeAnswerVote) newDownVoteChild2(mrQueryable mingru.Queryab
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// NewDownVote ...
 func (mrTable *TableTypeAnswerVote) NewDownVote(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -79,7 +75,6 @@ func (mrTable *TableTypeAnswerVote) newUpVoteChild2(mrQueryable mingru.Queryable
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// NewUpVote ...
 func (mrTable *TableTypeAnswerVote) NewUpVote(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -106,7 +101,6 @@ func (mrTable *TableTypeAnswerVote) retractDownVoteChild2(mrQueryable mingru.Que
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// RetractDownVote ...
 func (mrTable *TableTypeAnswerVote) RetractDownVote(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -133,7 +127,6 @@ func (mrTable *TableTypeAnswerVote) retractUpVoteChild2(mrQueryable mingru.Query
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// RetractUpVote ...
 func (mrTable *TableTypeAnswerVote) RetractUpVote(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -160,7 +153,6 @@ func (mrTable *TableTypeAnswerVote) switchToDownVoteChild2(mrQueryable mingru.Qu
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// SwitchToDownVote ...
 func (mrTable *TableTypeAnswerVote) SwitchToDownVote(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -187,7 +179,6 @@ func (mrTable *TableTypeAnswerVote) switchToUpVoteChild2(mrQueryable mingru.Quer
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// SwitchToUpVote ...
 func (mrTable *TableTypeAnswerVote) SwitchToUpVote(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error

@@ -14,11 +14,9 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-// TableTypeUserAuth ...
 type TableTypeUserAuth struct {
 }
 
-// UserAuth ...
 var UserAuth = &TableTypeUserAuth{}
 
 // MingruSQLName returns the name of this table.
@@ -28,7 +26,6 @@ func (mrTable *TableTypeUserAuth) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// AddUserAuth ...
 func (mrTable *TableTypeUserAuth) AddUserAuth(mrQueryable mingru.Queryable, id uint64, authType uint16) error {
 	_, err := mrQueryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
 	return err

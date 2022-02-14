@@ -18,11 +18,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeForumGroup ...
 type TableTypeForumGroup struct {
 }
 
-// ForumGroup ...
 var ForumGroup = &TableTypeForumGroup{}
 
 // MingruSQLName returns the name of this table.
@@ -32,19 +30,16 @@ func (mrTable *TableTypeForumGroup) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// DeleteGroup ...
 func (mrTable *TableTypeForumGroup) DeleteGroup(mrQueryable mingru.Queryable, id uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `forum_group` WHERE `id` = ?", id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// InsertGroup ...
 func (mrTable *TableTypeForumGroup) InsertGroup(mrQueryable mingru.Queryable, name string, descHTML string) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `forum_group` (`name`, `desc`, `order_index`, `created_at`, `forum_count`) VALUES (?, ?, 0, UTC_TIMESTAMP(), 0)", name, descHTML)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-// ForumGroupTableSelectGroupResult ...
 type ForumGroupTableSelectGroupResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
 	ForumCount   uint      `json:"forumCount,omitempty"`
@@ -53,7 +48,6 @@ type ForumGroupTableSelectGroupResult struct {
 	RawCreatedAt time.Time `json:"-"`
 }
 
-// SelectGroup ...
 func (mrTable *TableTypeForumGroup) SelectGroup(mrQueryable mingru.Queryable, id uint64) (ForumGroupTableSelectGroupResult, error) {
 	var result ForumGroupTableSelectGroupResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ForumCount)
@@ -63,13 +57,11 @@ func (mrTable *TableTypeForumGroup) SelectGroup(mrQueryable mingru.Queryable, id
 	return result, nil
 }
 
-// ForumGroupTableSelectInfoForEditingResult ...
 type ForumGroupTableSelectInfoForEditingResult struct {
 	DescHTML string `json:"descHTML,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
-// SelectInfoForEditing ...
 func (mrTable *TableTypeForumGroup) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumGroupTableSelectInfoForEditingResult, error) {
 	var result ForumGroupTableSelectInfoForEditingResult
 	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
@@ -79,7 +71,6 @@ func (mrTable *TableTypeForumGroup) SelectInfoForEditing(mrQueryable mingru.Quer
 	return result, nil
 }
 
-// UpdateInfo ...
 func (mrTable *TableTypeForumGroup) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {
 	result, err := mrQueryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

@@ -14,11 +14,9 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-// TableTypeForumIsUserMod ...
 type TableTypeForumIsUserMod struct {
 }
 
-// ForumIsUserMod ...
 var ForumIsUserMod = &TableTypeForumIsUserMod{}
 
 // MingruSQLName returns the name of this table.
@@ -28,7 +26,6 @@ func (mrTable *TableTypeForumIsUserMod) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// Has ...
 func (mrTable *TableTypeForumIsUserMod) Has(mrQueryable mingru.Queryable, id uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_is_user_mod` WHERE `id` = ?)", id).Scan(&result)

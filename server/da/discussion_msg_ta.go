@@ -20,11 +20,9 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-// TableTypeDiscussionMsg ...
 type TableTypeDiscussionMsg struct {
 }
 
-// DiscussionMsg ...
 var DiscussionMsg = &TableTypeDiscussionMsg{}
 
 // MingruSQLName returns the name of this table.
@@ -52,7 +50,6 @@ func (mrTable *TableTypeDiscussionMsg) deleteItemChild3(mrQueryable mingru.Query
 	return Discussion.UpdateMsgCount(mrQueryable, id, -1)
 }
 
-// DeleteItem ...
 func (mrTable *TableTypeDiscussionMsg) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -73,7 +70,6 @@ func (mrTable *TableTypeDiscussionMsg) DeleteItem(db *sql.DB, id uint64, userID 
 	return txErr
 }
 
-// EditItem ...
 func (mrTable *TableTypeDiscussionMsg) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion_msg` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -88,7 +84,6 @@ func (mrTable *TableTypeDiscussionMsg) insertItemChild2(mrQueryable mingru.Query
 	return Discussion.UpdateMsgCount(mrQueryable, id, 1)
 }
 
-// InsertItem ...
 func (mrTable *TableTypeDiscussionMsg) InsertItem(db *sql.DB, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, discussionID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
@@ -107,7 +102,6 @@ func (mrTable *TableTypeDiscussionMsg) InsertItem(db *sql.DB, contentHTML string
 	return insertedIDExported, txErr
 }
 
-// DiscussionMsgTableSelectItemsByDiscussionResult ...
 type DiscussionMsgTableSelectItemsByDiscussionResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
@@ -119,7 +113,6 @@ type DiscussionMsgTableSelectItemsByDiscussionResult struct {
 	UserName      string    `json:"-"`
 }
 
-// SelectItemsByDiscussion ...
 func (mrTable *TableTypeDiscussionMsg) SelectItemsByDiscussion(mrQueryable mingru.Queryable, discussionID uint64, page int, pageSize int) ([]DiscussionMsgTableSelectItemsByDiscussionResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -157,7 +150,6 @@ func (mrTable *TableTypeDiscussionMsg) SelectItemsByDiscussion(mrQueryable mingr
 	return result, itemCounter > len(result), nil
 }
 
-// SelectItemSrc ...
 func (mrTable *TableTypeDiscussionMsg) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `content` FROM `discussion_msg` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
@@ -167,7 +159,6 @@ func (mrTable *TableTypeDiscussionMsg) SelectItemSrc(mrQueryable mingru.Queryabl
 	return result, nil
 }
 
-// TestUpdateDates ...
 func (mrTable *TableTypeDiscussionMsg) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion_msg` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

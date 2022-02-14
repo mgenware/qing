@@ -14,11 +14,9 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-// TableTypeUserStats ...
 type TableTypeUserStats struct {
 }
 
-// UserStats ...
 var UserStats = &TableTypeUserStats{}
 
 // MingruSQLName returns the name of this table.
@@ -28,7 +26,6 @@ func (mrTable *TableTypeUserStats) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-// UserStatsTableSelectStatsResult ...
 type UserStatsTableSelectStatsResult struct {
 	AnswerCount     uint `json:"answerCount,omitempty"`
 	DiscussionCount uint `json:"discussionCount,omitempty"`
@@ -36,7 +33,6 @@ type UserStatsTableSelectStatsResult struct {
 	QuestionCount   uint `json:"questionCount,omitempty"`
 }
 
-// SelectStats ...
 func (mrTable *TableTypeUserStats) SelectStats(mrQueryable mingru.Queryable, id uint64) (UserStatsTableSelectStatsResult, error) {
 	var result UserStatsTableSelectStatsResult
 	err := mrQueryable.QueryRow("SELECT `post_count`, `discussion_count`, `question_count`, `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.DiscussionCount, &result.QuestionCount, &result.AnswerCount)
@@ -46,7 +42,6 @@ func (mrTable *TableTypeUserStats) SelectStats(mrQueryable mingru.Queryable, id 
 	return result, nil
 }
 
-// TestSelectAnswerCount ...
 func (mrTable *TableTypeUserStats) TestSelectAnswerCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `answer_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
@@ -56,7 +51,6 @@ func (mrTable *TableTypeUserStats) TestSelectAnswerCount(mrQueryable mingru.Quer
 	return result, nil
 }
 
-// TestSelectDiscussionCount ...
 func (mrTable *TableTypeUserStats) TestSelectDiscussionCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `discussion_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
@@ -66,7 +60,6 @@ func (mrTable *TableTypeUserStats) TestSelectDiscussionCount(mrQueryable mingru.
 	return result, nil
 }
 
-// TestSelectPostCount ...
 func (mrTable *TableTypeUserStats) TestSelectPostCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
@@ -76,7 +69,6 @@ func (mrTable *TableTypeUserStats) TestSelectPostCount(mrQueryable mingru.Querya
 	return result, nil
 }
 
-// TestSelectQuestionCount ...
 func (mrTable *TableTypeUserStats) TestSelectQuestionCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `question_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
@@ -86,25 +78,21 @@ func (mrTable *TableTypeUserStats) TestSelectQuestionCount(mrQueryable mingru.Qu
 	return result, nil
 }
 
-// UpdateAnswerCount ...
 func (mrTable *TableTypeUserStats) UpdateAnswerCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `answer_count` = `answer_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// UpdateDiscussionCount ...
 func (mrTable *TableTypeUserStats) UpdateDiscussionCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `discussion_count` = `discussion_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// UpdatePostCount ...
 func (mrTable *TableTypeUserStats) UpdatePostCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `post_count` = `post_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-// UpdateQuestionCount ...
 func (mrTable *TableTypeUserStats) UpdateQuestionCount(mrQueryable mingru.Queryable, userID uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `question_count` = `question_count` + ? WHERE `id` = ?", offset, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)

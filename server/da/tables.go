@@ -12,11 +12,9 @@
 
 package da
 
-// TableTypePostCmt ...
 type TableTypePostCmt struct {
 }
 
-// PostCmt ...
 var PostCmt = &TableTypePostCmt{}
 
 // MingruSQLName returns the name of this table.
@@ -24,11 +22,9 @@ func (mrTable *TableTypePostCmt) MingruSQLName() string {
 	return "post_cmt"
 }
 
-// TableTypeDiscussionCmt ...
 type TableTypeDiscussionCmt struct {
 }
 
-// DiscussionCmt ...
 var DiscussionCmt = &TableTypeDiscussionCmt{}
 
 // MingruSQLName returns the name of this table.
@@ -36,11 +32,9 @@ func (mrTable *TableTypeDiscussionCmt) MingruSQLName() string {
 	return "discussion_cmt"
 }
 
-// TableTypeDiscussionMsgCmt ...
 type TableTypeDiscussionMsgCmt struct {
 }
 
-// DiscussionMsgCmt ...
 var DiscussionMsgCmt = &TableTypeDiscussionMsgCmt{}
 
 // MingruSQLName returns the name of this table.
@@ -48,11 +42,9 @@ func (mrTable *TableTypeDiscussionMsgCmt) MingruSQLName() string {
 	return "discussion_msg_cmt"
 }
 
-// TableTypeQuestionCmt ...
 type TableTypeQuestionCmt struct {
 }
 
-// QuestionCmt ...
 var QuestionCmt = &TableTypeQuestionCmt{}
 
 // MingruSQLName returns the name of this table.
@@ -60,11 +52,9 @@ func (mrTable *TableTypeQuestionCmt) MingruSQLName() string {
 	return "question_cmt"
 }
 
-// TableTypeAnswerCmt ...
 type TableTypeAnswerCmt struct {
 }
 
-// AnswerCmt ...
 var AnswerCmt = &TableTypeAnswerCmt{}
 
 // MingruSQLName returns the name of this table.
