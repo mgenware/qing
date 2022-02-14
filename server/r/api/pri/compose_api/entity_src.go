@@ -13,14 +13,13 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/appURL"
 	"qing/a/defs"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 )
 
-func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
+func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -28,38 +27,21 @@ func deleteEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	entity := clib.MustGetEntityInfoFromDict(params, "entity")
 	id := entity.ID
 	db := appDB.DB()
+	var res da.EntityGetSrcResult
 	var err error
-	var result interface{}
 
 	switch entity.Type {
 	case defs.Shared.EntityPost:
-		{
-			err := da.Post.DeleteItem(appDB.DB(), id, uid)
-			app.PanicIfErr(err)
-			result = appURL.Get().UserProfile(uid)
-			break
-		}
-	case defs.Shared.EntityDiscussion:
-		{
-			err = da.Discussion.DeleteItem(db, id, uid)
-			app.PanicIfErr(err)
-			break
-		}
+		res, err = da.Post.SelectItemSrc(db, id, uid)
+	case defs.Shared.EntityCmt:
+		res, err = da.Cmt.SelectCmtSource(db, id, uid)
 	case defs.Shared.EntityQuestion:
-		{
-			err = da.Question.DeleteItem(db, id, uid)
-			app.PanicIfErr(err)
-			break
-		}
+		res, err = da.Question.SelectItemSrc(db, id, uid)
 	case defs.Shared.EntityAnswer:
-		{
-			err = da.Answer.DeleteItem(db, id, uid)
-			app.PanicIfErr(err)
-			break
-		}
+		res, err = da.Answer.SelectItemSrc(db, id, uid)
 	default:
-		panic(fmt.Sprintf("Unsupported entity type %v", entity.Type))
+		return resp.MustFailWithUserError(fmt.Sprintf("Unsupported entity type %v", entity.Type))
 	}
-
-	return resp.MustComplete(result)
+	app.PanicIfErr(err)
+	return resp.MustComplete(res)
 }

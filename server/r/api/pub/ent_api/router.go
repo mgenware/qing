@@ -15,5 +15,5 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/cmts", getCmts)
+	Router.Post("/cmts", cmts)
 }

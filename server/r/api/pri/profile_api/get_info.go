@@ -28,7 +28,7 @@ func newInfoData(u *da.UserTableSelectEditingDataResult) infoData {
 	return d
 }
 
-func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
+func info(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := resp.UserID()
 

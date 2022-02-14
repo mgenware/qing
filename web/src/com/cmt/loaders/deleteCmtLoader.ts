@@ -15,7 +15,7 @@ export default class DeleteCmtLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.deleteCmt;
+    return routes.s.pri.compose.delCmt;
   }
 
   requestParams(): Record<string, unknown> {

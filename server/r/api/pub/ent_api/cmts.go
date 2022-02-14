@@ -46,7 +46,7 @@ func newGetCmtsRespData(cmts []da.CmtData, hasNext bool) GetCmtsRespData {
 	return res
 }
 
-func getCmts(w http.ResponseWriter, r *http.Request) handler.JSON {
+func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()

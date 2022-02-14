@@ -21,16 +21,16 @@ export default urlTree({
   s: {
     pri: {
       profile: {
-        getInfo: 'get-info',
+        info: 'info',
         setInfo: 'set-info',
         setAvatar: 'set-avatar',
       },
       compose: {
         setEntity: 'set-entity',
-        deleteEntity: 'delete-entity',
-        getEntitySource: 'get-entity-src',
+        delEntity: 'del-entity',
+        entitySource: 'entity-src',
         setCmt: 'set-cmt',
-        deleteCmt: 'delete-cmt',
+        delCmt: 'del-cmt',
       },
       auth: {
         signOut: 'signout',

@@ -17,7 +17,7 @@ import (
 	"qing/lib/clib"
 )
 
-func deleteCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
+func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()

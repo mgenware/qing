@@ -14,8 +14,8 @@ var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Post("/set-entity", setEntity)
-	Router.Post("/delete-entity", deleteEntity)
-	Router.Post("/get-entity-src", getEntitySrc)
+	Router.Post("/del-entity", delEntity)
+	Router.Post("/entity-src", entitySrc)
 	Router.Post("/set-cmt", setCmt)
-	Router.Post("/delete-cmt", deleteCmt)
+	Router.Post("/del-cmt", delCmt)
 }

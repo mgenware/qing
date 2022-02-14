@@ -20,7 +20,7 @@ export class GetEntitySourceLoader extends Loader<GetEntitySourceResult> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.getEntitySource;
+    return routes.s.pri.compose.entitySource;
   }
 
   requestParams(): Record<string, unknown> {

@@ -15,7 +15,7 @@ export default class DeleteEntityLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.deleteEntity;
+    return routes.s.pri.compose.delEntity;
   }
 
   requestParams(): Record<string, unknown> {
