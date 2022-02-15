@@ -11,6 +11,6 @@ import * as adminRoute from 'routes/s/admin';
 
 export default class GetAdminsLoader extends Loader<UserInfo[]> {
   requestURL(): string {
-    return adminRoute.getAdmins;
+    return adminRoute.admins;
   }
 }

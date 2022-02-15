@@ -10,7 +10,7 @@ import { User } from 'base/call';
 import { newUser } from 'helper/user';
 
 const url = 'admin/set-admin';
-const getAdminsURL = 'admin/get-admins';
+const getAdminsURL = 'admin/admins';
 
 it('set-admin: visitor', async () => {
   await newUser(async (tu) => {

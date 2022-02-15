@@ -16,5 +16,5 @@ func init() {
 	Router.Core.Use(RequireGroupModeJSONMiddleware)
 
 	Router.Post("/set-info", setInfo)
-	Router.Post("/get-info", getInfo)
+	Router.Post("/info", getInfo)
 }

@@ -10,6 +10,6 @@ import root from './root.js';
 const admin = `${root}/fmoadmind`;
 
 export const setAdmin = `${admin}/set-admin`;
-export const getAdmins = `${admin}/get-admins`;
-export const getSiteSettings = `${admin}/get-site-settings`;
+export const admins = `${admin}/admins`;
+export const siteSettings = `${admin}/site-settings`;
 export const updateSiteSettings = `${admin}/update-site-settings`;

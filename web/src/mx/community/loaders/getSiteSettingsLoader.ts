@@ -19,7 +19,7 @@ export default class GetSiteSettingsLoader extends Loader<GetSiteSettingsResult>
   }
 
   requestURL(): string {
-    return adminRoute.getSiteSettings;
+    return adminRoute.siteSettings;
   }
 
   requestParams(): Record<string, unknown> {

@@ -22,7 +22,7 @@ func init() {
 	Router.Core.Use(middleware.ParseJSON)
 
 	Router.Post("/set-admin", setAdmin)
-	Router.Post("/get-admins", getAdmins)
-	Router.Post("/get-site-settings", getSiteSettings)
+	Router.Post("/admins", getAdmins)
+	Router.Post("/site-settings", getSiteSettings)
 	Router.Post("/update-site-settings", updateSiteSettings)
 }

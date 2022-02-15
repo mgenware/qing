@@ -9,5 +9,5 @@ import root from './root.js';
 
 const fmod = `${root}/fmod`;
 
-export const getInfo = `${fmod}/get-info`;
+export const info = `${fmod}/info`;
 export const setInfo = `${fmod}/set-info`;
