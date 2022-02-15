@@ -8,7 +8,7 @@
 import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import routes from './devRoutes';
+import * as topRoute from './routes/top';
 import './devPage';
 import { routeDevPage } from 'sharedConstants';
 import './auth/authPage';
@@ -21,10 +21,10 @@ function loadPageContent(title: string, content: TemplateResult) {
   pageUtils.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
 }
 
-devRouter.register(routes.auth, () => {
+devRouter.register(topRoute.auth, () => {
   loadPageContent('Auth dev page', html`<auth-page></auth-page>`);
 });
-devRouter.register(routes.elements, () => {
+devRouter.register(topRoute.elements, () => {
   loadPageContent('Elements dev page', html`<elements-page></elements-page>`);
 });
 

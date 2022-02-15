@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import { TUserInfo } from 'sod/dev/auth/tUserInfo';
-import routes from '../devRoutes';
+import * as authRoute from '../routes/api/auth';
 
 class LoaderBase<T> extends Loader<T> {
   constructor(public uidInput: string, public isEID: boolean) {
@@ -28,18 +28,18 @@ class LoaderBase<T> extends Loader<T> {
 
 export class InLoader extends LoaderBase<void> {
   override requestURL(): string {
-    return routes.api.auth.in;
+    return authRoute.in_;
   }
 }
 
 export class NewUserLoader extends Loader<void> {
   override requestURL(): string {
-    return routes.api.auth.new;
+    return authRoute.new_;
   }
 }
 
 export class InfoLoader extends LoaderBase<TUserInfo> {
   override requestURL(): string {
-    return routes.api.auth.info;
+    return authRoute.info;
   }
 }
