@@ -15,6 +15,7 @@ import (
 	"qing/a/app"
 	"qing/a/appLog"
 	"qing/a/defs"
+	"qing/lib/clib"
 	"qing/lib/iolib"
 	"qing/lib/randlib"
 	"qing/s/imgproxy"
@@ -61,7 +62,7 @@ func newService(outDir string) (*AvatarService, error) {
 }
 
 func (svc *AvatarService) prepareUserFolder(uid uint64) (string, error) {
-	dir := fmt.Sprintf("/%v/%v", svc.OutDir, uid)
+	dir := fmt.Sprintf("/%v/%v", svc.OutDir, clib.EncodeID(uid))
 	err := iox.Mkdirp(dir)
 	if err != nil {
 		return "", err
