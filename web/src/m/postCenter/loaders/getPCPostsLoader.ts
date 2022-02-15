@@ -7,7 +7,7 @@
 
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as mpRoute from 'routes/s/pri/mp';
 import { entityPost, entityDiscussion, entityQuestion } from 'sharedConstants';
 import PCPost from '../pcPost';
 
@@ -25,13 +25,13 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
   requestURL(): string {
     switch (this.entityType) {
       case entityPost:
-        return routes.s.pri.mp.posts;
+        return mpRoute.posts;
 
       case entityDiscussion:
-        return routes.s.pri.mp.discussions;
+        return mpRoute.discussions;
 
       case entityQuestion:
-        return routes.s.pri.mp.questions;
+        return mpRoute.questions;
 
       default:
         throw new Error(`Unsupported entity type ${this.entityType}`);

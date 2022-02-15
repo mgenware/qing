@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as composeRoute from 'routes/s/pri/compose';
 import Entity from 'lib/entity';
 
 export default class DeleteEntityLoader extends Loader<string> {
@@ -15,7 +15,7 @@ export default class DeleteEntityLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.delEntity;
+    return composeRoute.delEntity;
   }
 
   requestParams(): Record<string, unknown> {

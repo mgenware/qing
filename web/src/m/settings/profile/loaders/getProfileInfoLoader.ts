@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as profileRoute from 'routes/s/pri/profile';
 
 export interface GetProfileInfoResult {
   iconURL?: string;
@@ -19,6 +19,6 @@ export interface GetProfileInfoResult {
 
 export class GetProfileInfoLoader extends Loader<GetProfileInfoResult> {
   requestURL(): string {
-    return routes.s.pri.profile.info;
+    return profileRoute.info;
   }
 }

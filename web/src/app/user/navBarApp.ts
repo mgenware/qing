@@ -9,7 +9,9 @@ import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
-import routes from 'routes';
+import * as mRoute from 'routes/m';
+import * as mxRoute from 'routes/mx';
+import * as authRoute from 'routes/auth';
 import * as defs from 'defs';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
@@ -207,9 +209,9 @@ export default class NavBarApp extends BaseElement {
                 </button>
                 <div class="dropdown-content">
                   <a href=${user.url}>${ls.profile}</a>
-                  <a href=${routes.m.yourPosts}>${ls.yourPosts}</a>
-                  <a href=${routes.m.yourDiscussions}>${ls.yourDiscussions}</a>
-                  <a href=${routes.m.yourQuestions}>${ls.yourQuestions}</a>
+                  <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
+                  <a href=${mRoute.yourDiscussions}>${ls.yourDiscussions}</a>
+                  <a href=${mRoute.yourQuestions}>${ls.yourQuestions}</a>
                   <hr />
                   <a href="#" @click=${() => this.handleNewPostClick(entityPost)}>${ls.newPost}</a>
                   <a href="#" @click=${() => this.handleNewPostClick(entityDiscussion)}
@@ -219,20 +221,17 @@ export default class NavBarApp extends BaseElement {
                     >${ls.newQuestion}</a
                   >
                   <hr />
-                  <a href=${routes.m.settings.profile}>${ls.settings}</a>
-                  ${when(
-                    user.admin,
-                    () => html`<a href=${routes.mx.admins}>${ls.siteSettings}</a>`,
-                  )}
+                  <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+                  ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
                   <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>
             `
           : html`
-              <a href=${routes.auth.signIn}>
+              <a href=${authRoute.signIn}>
                 <span class="m-l-sm">${ls.signIn}</span>
               </a>
-              <a href=${routes.auth.signUp}>
+              <a href=${authRoute.signUp}>
                 <span class="m-l-sm">${ls.signUp}</span>
               </a>
             `}

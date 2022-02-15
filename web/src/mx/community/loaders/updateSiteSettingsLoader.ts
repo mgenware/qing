@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as adminRoute from 'routes/s/admin';
 
 export default class UpdateSiteSettingsLoader extends Loader<void> {
   constructor(public key: string, public settings: unknown) {
@@ -14,7 +14,7 @@ export default class UpdateSiteSettingsLoader extends Loader<void> {
   }
 
   requestURL(): string {
-    return routes.s.admin.updateSiteSettings;
+    return adminRoute.updateSiteSettings;
   }
 
   requestParams(): Record<string, unknown> {

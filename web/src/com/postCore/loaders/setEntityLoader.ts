@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as composeRoute from 'routes/s/pri/compose';
 import { entityDiscussionMsg, entityAnswer } from 'sharedConstants';
 import { ComposerContent } from 'ui/editor/composerView';
 
@@ -26,7 +26,7 @@ export class SetEntityLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.setEntity;
+    return composeRoute.setEntity;
   }
 
   requestParams(): Record<string, unknown> {

@@ -7,10 +7,10 @@
 
 import { customElement, css } from 'll';
 import ls from 'ls';
-import routes from 'routes';
+import * as mRoute from 'routes/m';
 import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
 
-const items: SettingsBaseItem[] = [{ name: ls.profile, link: routes.m.settings.profile }];
+const items: SettingsBaseItem[] = [{ name: ls.profile, link: mRoute.settingsProfile }];
 
 @customElement('m-settings-view')
 export class MSettingsView extends SettingsBaseView {

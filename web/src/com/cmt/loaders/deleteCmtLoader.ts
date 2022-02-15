@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as composeRoute from 'routes/s/pri/compose';
 import Entity from 'lib/entity';
 
 export default class DeleteCmtLoader extends Loader<string> {
@@ -15,7 +15,7 @@ export default class DeleteCmtLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.delCmt;
+    return composeRoute.delCmt;
   }
 
   requestParams(): Record<string, unknown> {

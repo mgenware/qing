@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as adminRoute from 'routes/s/admin';
 
 export interface GetSiteSettingsResult {
   settings?: Record<string, unknown>;
@@ -19,7 +19,7 @@ export default class GetSiteSettingsLoader extends Loader<GetSiteSettingsResult>
   }
 
   requestURL(): string {
-    return routes.s.admin.getSiteSettings;
+    return adminRoute.getSiteSettings;
   }
 
   requestParams(): Record<string, unknown> {

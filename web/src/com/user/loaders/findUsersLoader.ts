@@ -8,7 +8,7 @@
 import { CHECK } from 'checks';
 import Loader from 'lib/loader';
 import UserInfo from '../userInfo';
-import routes from 'routes';
+import * as userRoute from 'routes/s/pri/user';
 
 export default class FindUsersLoader extends Loader<UserInfo[]> {
   constructor(public byID: boolean, public value: string) {
@@ -17,7 +17,7 @@ export default class FindUsersLoader extends Loader<UserInfo[]> {
   }
 
   requestURL(): string {
-    return routes.s.pri.user.findUsers;
+    return userRoute.findUsers;
   }
 
   requestParams(): Record<string, unknown> {

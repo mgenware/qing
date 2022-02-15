@@ -7,13 +7,12 @@
 
 import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import routes from 'routes';
+import * as fRoute from 'routes/f';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView';
 import './settings/general/forumGeneralSettingsApp';
 import ls from 'ls';
 import ForumSettingsWind from './forumSettingsWind';
-import strf from 'bowhead-js';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
 import pageUtils from 'app/utils/pageUtils';
@@ -22,11 +21,6 @@ const settingsRouter = new MiniURLRouter();
 const forumSettingsWind = appPageState.windData<ForumSettingsWind>();
 const fid = forumSettingsWind.EID;
 CHECK(fid);
-
-// FR formats the specified route and returns a route with forum EID attached.
-function FR(r: string): string {
-  return strf(r, fid);
-}
 
 function loadSettingsContent(
   selectedPage: ForumSettingsPages,
@@ -48,6 +42,6 @@ const generalPageHandler: MiniURLRouterHandler = () => {
     html` <forum-general-settings-app .fid=${fid}></forum-general-settings-app> `,
   );
 };
-settingsRouter.register(FR(routes.f.id.settingsRoot), generalPageHandler);
+settingsRouter.register(fRoute.settings(fid), generalPageHandler);
 
 settingsRouter.startOnce();

@@ -11,8 +11,7 @@ import ls from 'ls';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 import { CHECK } from 'checks';
-import routes from 'routes';
-import strf from 'bowhead-js';
+import * as fRoute from 'routes/f';
 
 export enum ForumSettingsPages {
   general,
@@ -46,16 +45,8 @@ export class ForumSettingsBaseView extends BaseElement {
         <div class="col-md-auto p-b-md">
           <h3>${ls.settings}</h3>
           <link-list-view>
-            ${this.menuLink(
-              ForumSettingsPages.general,
-              strf(routes.f.id.settingsRoot, fid),
-              ls.general,
-            )}
-            ${this.menuLink(
-              ForumSettingsPages.mods,
-              strf(routes.f.id.settings.mods, fid),
-              ls.moderators,
-            )}
+            ${this.menuLink(ForumSettingsPages.general, fRoute.settings(fid), ls.general)}
+            ${this.menuLink(ForumSettingsPages.mods, fRoute.settingsMods(fid), ls.moderators)}
           </link-list-view>
         </div>
         <div class="col-md">

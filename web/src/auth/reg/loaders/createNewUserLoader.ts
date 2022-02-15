@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as authRoute from 'routes/s/pub/auth';
 
 export default class CreateNewUserLoader extends Loader<undefined> {
   constructor(public name: string, public email: string, public pwd: string) {
@@ -14,7 +14,7 @@ export default class CreateNewUserLoader extends Loader<undefined> {
   }
 
   requestURL(): string {
-    return routes.s.pub.auth.createNewUser;
+    return authRoute.createNewUser;
   }
 
   requestParams(): Record<string, unknown> {

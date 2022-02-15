@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import routes from './routes';
+import * as staticRoute from 'routes/static';
 
 export function staticMainImage(file: string): string {
-  return `${routes.static.img.main}/${file}`;
+  return `${staticRoute.imgMain}/${file}`;
 }

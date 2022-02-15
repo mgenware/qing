@@ -8,7 +8,7 @@
 import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
-import routes from 'routes';
+import * as mxRoute from 'routes/mx';
 import './admins/adminsSettingsPage';
 import './community/communitySettingsPage';
 import './mxSettingsView';
@@ -24,11 +24,11 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   );
 }
 
-router.register(routes.mx.admins, () => {
+router.register(mxRoute.admins, () => {
   loadSettingsContent(ls.adminAccounts, html`<admins-settings-page></admins-settings-page>`);
 });
 
-router.register(routes.mx.community, () => {
+router.register(mxRoute.community, () => {
   loadSettingsContent(
     ls.communitySettingsName,
     html`<community-settings-page></community-settings-page>`,

@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as likeRoute from 'routes/s/pri/like';
 import { CHECK } from 'checks';
 import LikeHostType from './likeHostType';
 
@@ -17,7 +17,7 @@ export default class SetLikeLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.like.set;
+    return likeRoute.set;
   }
 
   requestParams(): Record<string, unknown> {

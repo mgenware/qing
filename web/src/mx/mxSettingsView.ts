@@ -7,12 +7,12 @@
 
 import { customElement, css } from 'll';
 import ls from 'ls';
-import routes from 'routes';
+import * as mxRoute from 'routes/mx';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
 const items: SettingsBaseItem[] = [
-  { name: ls.adminAccounts, link: routes.mx.admins },
-  { name: ls.communitySettingsName, link: routes.mx.community },
+  { name: ls.adminAccounts, link: mxRoute.admins },
+  { name: ls.communitySettingsName, link: mxRoute.community },
 ];
 
 @customElement('mx-settings-view')

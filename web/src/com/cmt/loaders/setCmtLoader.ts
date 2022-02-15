@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as composeRoute from 'routes/s/pri/compose';
 import { ComposerContent } from 'ui/editor/composerView';
 import { Cmt } from '../data/cmt';
 import Entity from 'lib/entity';
@@ -61,7 +61,7 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.setCmt;
+    return composeRoute.setCmt;
   }
 
   requestParams(): Record<string, unknown> {

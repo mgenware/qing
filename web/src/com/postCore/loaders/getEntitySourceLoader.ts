@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import Entity from 'lib/entity';
-import routes from 'routes';
+import * as composeRoute from 'routes/s/pri/compose';
 
 export interface GetEntitySourceResult {
   title?: string;
@@ -20,7 +20,7 @@ export class GetEntitySourceLoader extends Loader<GetEntitySourceResult> {
   }
 
   requestURL(): string {
-    return routes.s.pri.compose.entitySource;
+    return composeRoute.entitySource;
   }
 
   requestParams(): Record<string, unknown> {

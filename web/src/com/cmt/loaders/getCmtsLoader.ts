@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as entRoute from 'routes/s/pub/ent';
 import Entity from 'lib/entity';
 import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
@@ -44,7 +44,7 @@ export default class GetCmtsLoader extends Loader<ItemsLoadedResp<Cmt>> {
   }
 
   requestURL(): string {
-    return routes.s.pub.ent.cmts;
+    return entRoute.cmts;
   }
 
   requestParams(): Record<string, unknown> {

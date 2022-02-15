@@ -8,7 +8,7 @@
 import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
-import routes from 'routes';
+import * as mRoute from 'routes/m';
 import './settings/mSettingsView';
 import './settings/profile/editProfileApp';
 import './postCenter/myPostsApp';
@@ -26,19 +26,19 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   );
 }
 
-router.register(routes.m.settings.profile, () => {
+router.register(mRoute.settingsProfile, () => {
   loadSettingsContent(ls.profile, html` <edit-profile-app></edit-profile-app> `);
 });
-router.register(routes.m.yourPosts, () => {
+router.register(mRoute.yourPosts, () => {
   pageUtils.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
-router.register(routes.m.yourDiscussions, () => {
+router.register(mRoute.yourDiscussions, () => {
   pageUtils.setTitleAndMainContent(
     [ls.yourDiscussions],
     html`<my-discussions-app></my-discussions-app>`,
   );
 });
-router.register(routes.m.yourQuestions, () => {
+router.register(mRoute.yourQuestions, () => {
   pageUtils.setTitleAndMainContent([ls.yourQuestions], html`<my-questions-app></my-questions-app>`);
 });
 

@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as profileRoute from 'routes/s/pri/profile';
 
 export default class SetProfileInfoLoader extends Loader<undefined> {
   constructor(
@@ -20,7 +20,7 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
   }
 
   requestURL(): string {
-    return routes.s.pri.profile.setInfo;
+    return profileRoute.setInfo;
   }
 
   requestParams(): Record<string, unknown> {

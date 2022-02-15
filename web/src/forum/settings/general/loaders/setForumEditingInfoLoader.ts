@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import routes from 'routes';
+import * as fmodRoute from 'routes/s/pri/forum/fmod';
 import FModBaseLoader from './fmodBaseLoader';
 
 export default class SetForumEditingInfoLoader extends FModBaseLoader<undefined> {
@@ -14,7 +14,7 @@ export default class SetForumEditingInfoLoader extends FModBaseLoader<undefined>
   }
 
   requestURL(): string {
-    return routes.s.pri.forum.fmod.setInfo;
+    return fmodRoute.setInfo;
   }
 
   requestParams(): Record<string, unknown> {

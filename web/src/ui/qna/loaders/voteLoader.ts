@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import routes from 'routes';
+import * as voteRoute from 'routes/s/pri/vote';
 import { CHECK } from 'checks';
 
 export class VoteLoader extends Loader<string> {
@@ -16,7 +16,7 @@ export class VoteLoader extends Loader<string> {
   }
 
   requestURL(): string {
-    return routes.s.pri.vote.vote;
+    return voteRoute.vote;
   }
 
   requestParams(): Record<string, unknown> {

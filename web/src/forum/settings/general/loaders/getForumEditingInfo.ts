@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import routes from 'routes';
+import * as fmodRoute from 'routes/s/pri/forum/fmod';
 import FModBaseLoader from './fmodBaseLoader';
 
 export interface GetForumEditingInfo {
@@ -15,6 +15,6 @@ export interface GetForumEditingInfo {
 
 export class GetForumEditingInfoLoader extends FModBaseLoader<GetForumEditingInfo> {
   requestURL(): string {
-    return routes.s.pri.forum.fmod.getInfo;
+    return fmodRoute.getInfo;
   }
 }
