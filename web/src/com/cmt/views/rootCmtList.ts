@@ -10,7 +10,6 @@ import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import './cmtBlock';
 import { CmtBlock } from './cmtBlock';
-import './cmtFooterView';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
 import { parseString } from 'narwhal-js';

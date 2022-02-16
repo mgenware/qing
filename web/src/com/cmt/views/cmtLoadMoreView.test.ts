@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './cmtFooterView';
+import './cmtLoadMoreView';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<cmt-footer-view></cmt-footer-view>`);
+  const el = await fixture<HTMLElement>(html`<cmt-load-more-view></cmt-load-more-view>`);
 
   tDOM.isBlockElement(el);
 });

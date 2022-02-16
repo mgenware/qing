@@ -7,11 +7,12 @@
 
 import { BaseElement, customElement, html, css, when, repeat } from 'll';
 import * as lp from 'lit-props';
+import { cache } from 'lit/directives/cache.js';
 import Entity from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
 import { formatLS, ls } from 'ls';
 import './cmtView';
-import './cmtFooterView';
+import './cmtLoadMoreView';
 import 'ui/buttons/linkButton';
 import { Cmt } from '../data/cmt';
 import { CmtEditorProps, openCmtEditorRequestedEvent } from '../data/events';
@@ -71,10 +72,11 @@ export class CmtBlock extends BaseElement {
   @lp.state _replyCount = 0;
   @lp.state _collectorLoadingStatus = LoadingStatus.success;
 
-  // True if `loadMore` is called.
-  @lp.state _hasLoadedOnce = false;
+  @lp.state _replyViewVisible = false;
 
   private _collector!: CmtCollector;
+  // Tracks if `loadMore` has been called once. Used in reply view click handler.
+  private _loadMoreCalled = false;
 
   firstUpdated() {
     CHECK(this.host);
@@ -126,19 +128,22 @@ export class CmtBlock extends BaseElement {
         cmt && this._replyCount,
         () =>
           html`<div class="btn-in-cmts">
-            <link-button @click=${this.loadMore}
+            <link-button @click=${this.handleRepliesLabelClick}
               >${formatLS(ls.pNumOfReplies, this._replyCount)}</link-button
             >
           </div>`,
       )}
-      <div>${itemsView}</div>
-      <cmt-footer-view
-        class="btn-in-cmts"
-        .replies=${!!cmt}
-        .status=${this._collectorLoadingStatus}
-        .hasNext=${this._hasNext}
-        .hasLoadedOnce=${this._hasLoadedOnce}
-        @viewMoreClick=${this.loadMore}></cmt-footer-view>
+      ${cache(
+        !cmt || this._replyViewVisible
+          ? html`<div>${itemsView}</div>
+              <cmt-load-more-view
+                class="btn-in-cmts"
+                .replies=${!!cmt}
+                .status=${this._collectorLoadingStatus}
+                .hasNext=${this._hasNext}
+                @viewMoreClick=${this.loadMore}></cmt-load-more-view>`
+          : '',
+      )}
     </div>`;
 
     return html`
@@ -176,7 +181,6 @@ export class CmtBlock extends BaseElement {
 
   private async loadMore() {
     await this._collector.loadMoreAsync();
-    this._hasLoadedOnce = true;
   }
 
   private handleReplyClick() {
@@ -184,6 +188,16 @@ export class CmtBlock extends BaseElement {
       editing: null,
       to: this.cmt,
     });
+  }
+
+  private async handleRepliesLabelClick() {
+    this._replyViewVisible = !this._replyViewVisible;
+
+    // Call `loadMore` if it's not called once.
+    if (!this._loadMoreCalled) {
+      this._loadMoreCalled = true;
+      await this.loadMore();
+    }
   }
 
   private async handleDeleteClick() {
