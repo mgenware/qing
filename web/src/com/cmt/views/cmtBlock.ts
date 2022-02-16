@@ -129,7 +129,8 @@ export class CmtBlock extends BaseElement {
         () =>
           html`<div class="btn-in-cmts">
             <link-button @click=${this.handleRepliesLabelClick}
-              >${formatLS(ls.pNumOfReplies, this._replyCount)}</link-button
+              >${formatLS(ls.pNumOfReplies, this._replyCount) +
+              (this._replyViewVisible ? ' ↑' : '')}</link-button
             >
           </div>`,
       )}

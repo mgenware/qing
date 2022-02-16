@@ -83,13 +83,14 @@ export class CmtView extends BaseElement {
           </div>
           <div>${unsafeHTML(cmt.contentHTML)}</div>
           <div>
+            <link-button @click=${this.handleReplyClick}>${ls.reply}</link-button>
             <like-app
+              class="m-l-md"
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.hasLiked}
               .hostID=${cmt.id}
               .hostType=${entityCmt}></like-app>
-            <link-button class="m-l-md" @click=${this.handleReplyClick}>${ls.reply}</link-button>
           </div>
         </div>
       </div>
