@@ -1,3 +1,3 @@
 {
-  "extends": "mgenware-tsconfig-node"
+  "extends": "mgenware-tsconfig-node-x"
 }
