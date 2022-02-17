@@ -10,7 +10,7 @@ import { APIResult, call, updateEntityTime, User } from 'api';
 import { api } from 'base/urls';
 
 export const setEntityURL = 'pri/compose/set-entity';
-export const deleteEntityURL = 'pri/compose/delete-entity';
+export const deleteEntityURL = 'pri/compose/del-entity';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 export const setEntityBody = {
@@ -39,7 +39,7 @@ async function newTmpPostCore(user: User) {
 }
 
 async function deletePostCore(id: string, user: User) {
-  return call(deleteEntityURL, { user, body: { id, entityType: defs.entity.post } });
+  return call(deleteEntityURL, { user, body: { entity: { id, type: defs.entity.post } } });
 }
 
 function postLink(id: string) {
