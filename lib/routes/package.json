@@ -1,0 +1,21 @@
+{
+  "name": "@qing/routes",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "scripts": {
+    "prepare": "dz build"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.ts",
+    "dist/**/*.html",
+    "dist/**/*.css",
+    "dist/**/*.map"
+  ],
+  "peerDependencies": {
+    "bowhead-js": "^6.0.0"
+  }
+}

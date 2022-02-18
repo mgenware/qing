@@ -8,6 +8,7 @@ importers:
       '@types/node': ^17.0.18
       '@typescript-eslint/eslint-plugin': ^5.12.0
       '@typescript-eslint/parser': ^5.12.0
+      bowhead-js: ^6.0.1
       daizong: ^0.22.6
       esbuild: ^0.14.22
       eslint: ^8.9.0
@@ -21,6 +22,7 @@ importers:
       tsc-watch: ^4.6.0
       typescript: ^4.5.5
     dependencies:
+      bowhead-js: 6.0.1
       lit: 2.2.0
     devDependencies:
       '@tsconfig/node16': 1.0.2
@@ -89,6 +91,9 @@ importers:
     devDependencies:
       del-cli: 4.0.1
 
+  lib/routes:
+    specifiers: {}
+
   lib/stylelib:
     specifiers:
       bootstrap: ^5.1.3
@@ -113,7 +118,6 @@ importers:
       '@web/test-runner': ^0.13.27
       '@web/test-runner-playwright': ^0.8.8
       basic-trie: ^0.2.0
-      bowhead-js: ^6.0.1
       date-fns: ^2.28.0
       f-array.splice: ^1.1.0
       html-validate: 6.4.0
@@ -135,7 +139,6 @@ importers:
       '@popperjs/core': 2.11.2
       '@qing/stylelib': link:../lib/stylelib
       basic-trie: 0.2.0
-      bowhead-js: 6.0.1
       date-fns: 2.28.0
       f-array.splice: 1.1.0
       js-cookie: 3.0.1

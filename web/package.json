@@ -14,7 +14,6 @@
     "@popperjs/core": "^2.11.2",
     "@qing/stylelib": "workspace:*",
     "basic-trie": "^0.2.0",
-    "bowhead-js": "^6.0.1",
     "date-fns": "^2.28.0",
     "f-array.splice": "^1.1.0",
     "js-cookie": "^3.0.1",
