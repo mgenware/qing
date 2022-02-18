@@ -8,7 +8,7 @@
 import { CHECK } from 'checks';
 import Loader from 'lib/loader';
 import UserInfo from '../userInfo';
-import * as userRoute from 'routes/s/pri/user';
+import * as userRoute from '@qing/routes/s/pri/user';
 
 export default class FindUsersLoader extends Loader<UserInfo[]> {
   constructor(public byID: boolean, public value: string) {

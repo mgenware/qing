@@ -11,7 +11,7 @@ import ls from 'ls';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 import { CHECK } from 'checks';
-import * as fRoute from 'routes/f';
+import * as fRoute from '@qing/routes/f';
 
 export enum ForumSettingsPages {
   general,

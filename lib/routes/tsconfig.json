@@ -1,3 +1,6 @@
 {
-  "extends": "mgenware-tsconfig-node-x"
+  "extends": "mgenware-tsconfig-node-x",
+  "compilerOptions": {
+    "module": "commonjs"
+  }
 }

@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import UserInfo from 'com/user/userInfo';
-import * as adminRoute from 'routes/s/admin';
+import * as adminRoute from '@qing/routes/s/admin';
 import { CHECK } from 'checks';
 
 export default class SetAdminLoader extends Loader<UserInfo[]> {

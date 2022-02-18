@@ -8,7 +8,7 @@
 import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
-import * as mxRoute from 'routes/mx';
+import * as mxRoute from '@qing/routes/mx';
 import './admins/adminsSettingsPage';
 import './community/communitySettingsPage';
 import './mxSettingsView';

@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as profileRoute from 'routes/s/pri/profile';
+import * as profileRoute from '@qing/routes/s/pri/profile';
 
 export interface GetProfileInfoResult {
   iconURL?: string;

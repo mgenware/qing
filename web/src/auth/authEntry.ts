@@ -8,7 +8,7 @@
 import 'core';
 import { html } from 'll';
 import ls from 'ls';
-import * as authRoute from 'routes/auth';
+import * as authRoute from '@qing/routes/auth';
 import './reg/regApp';
 import './signIn/signInApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';

@@ -7,7 +7,7 @@
 
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import * as mpRoute from 'routes/s/pri/mp';
+import * as mpRoute from '@qing/routes/s/pri/mp';
 import { entityPost, entityDiscussion, entityQuestion } from 'sharedConstants';
 import PCPost from '../pcPost';
 

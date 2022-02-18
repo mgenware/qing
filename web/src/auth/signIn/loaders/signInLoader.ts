@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as authRoute from 'routes/s/pub/auth';
+import * as authRoute from '@qing/routes/s/pub/auth';
 
 export default class SignInLoader extends Loader<undefined> {
   constructor(public email: string, public pwd: string) {

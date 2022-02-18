@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as fmodRoute from 'routes/s/pri/forum/fmod';
+import * as fmodRoute from '@qing/routes/s/pri/forum/fmod';
 import FModBaseLoader from './fmodBaseLoader';
 
 export interface GetForumEditingInfo {

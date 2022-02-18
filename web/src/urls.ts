@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as staticRoute from 'routes/static';
+import * as staticRoute from '@qing/routes/static';
 
 export function staticMainImage(file: string): string {
   return `${staticRoute.imgMain}/${file}`;

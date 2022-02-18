@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as composeRoute from 'routes/s/pri/compose';
+import * as composeRoute from '@qing/routes/s/pri/compose';
 import Entity from 'lib/entity';
 
 export default class DeleteCmtLoader extends Loader<string> {

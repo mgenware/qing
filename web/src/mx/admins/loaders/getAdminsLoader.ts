@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import UserInfo from 'com/user/userInfo';
-import * as adminRoute from 'routes/s/admin';
+import * as adminRoute from '@qing/routes/s/admin';
 
 export default class GetAdminsLoader extends Loader<UserInfo[]> {
   requestURL(): string {

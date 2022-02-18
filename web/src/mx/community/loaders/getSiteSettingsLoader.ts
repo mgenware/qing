@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as adminRoute from 'routes/s/admin';
+import * as adminRoute from '@qing/routes/s/admin';
 
 export interface GetSiteSettingsResult {
   settings?: Record<string, unknown>;
