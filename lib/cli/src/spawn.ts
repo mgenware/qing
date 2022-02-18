@@ -6,20 +6,31 @@
  */
 
 import np from 'path';
-import { print, pipedSpawn, getMTime, readNPMInstallTime, writeNPMInstallTime } from './ioutil.js';
+import {
+  print,
+  pipedSpawn,
+  getMTime,
+  readNPMInstallTime,
+  writeNPMInstallTime,
+  getRootDir,
+} from './ioutil.js';
 
-export async function spawnDZCmd(cmd: string, args: string[] | null, dir: string) {
-  const pkgMtime = await getMTime(np.join(dir, 'package.json'));
-  const pkgLockMtime = await getMTime(np.join(dir, 'package-lock.json'));
+export async function spawnDZCmd(cmd: string, args: string[] | null, daizongDir: string) {
+  const rootDir = await getRootDir();
+  if (!rootDir) {
+    throw new Error('Error finding the project root directory');
+  }
+  const pkgMtime = await getMTime(np.join(rootDir, 'package.json'));
+  const pkgLockMtime = await getMTime(np.join(rootDir, 'pnpm-lock.yaml'));
   const diskTime = Math.max(pkgMtime, pkgLockMtime);
-  const installTime = await readNPMInstallTime(dir);
+  const installTime = await readNPMInstallTime(rootDir);
   if (diskTime > installTime) {
-    print('# package.json or lock file changed, re-run npm install...');
-    await pipedSpawn('npm', ['i'], dir);
-    await writeNPMInstallTime(dir, new Date().getTime());
+    print('# Running pnpm install...');
+    await pipedSpawn('pnpm', ['i'], rootDir);
+    await writeNPMInstallTime(rootDir, new Date().getTime());
   }
 
-  await pipedSpawn('dz', [cmd, ...(args ?? [])], dir);
+  await pipedSpawn('dz', [cmd, ...(args ?? [])], daizongDir);
 }
 
 export async function spawnDockerComposeCmd(args: string[], dir: string) {
