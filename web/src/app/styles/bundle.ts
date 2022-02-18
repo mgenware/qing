@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import libCSS from 'qing-stylelib';
+import libCSS from '@qing/stylelib';
 import varsCSS from './styles/varsCSS';
 import appCSS from './styles/appCSS';
 

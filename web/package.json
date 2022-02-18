@@ -12,6 +12,7 @@
   "dependencies": {
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.2",
+    "@qing/stylelib": "workspace:*",
     "basic-trie": "^0.2.0",
     "bowhead-js": "^6.0.1",
     "date-fns": "^2.28.0",
@@ -26,30 +27,15 @@
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^2.1.0",
     "qing-overlay": "^0.14.0",
-    "qing-stylelib": "^2.3.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.1",
-    "@types/mocha": "^9.1.0",
-    "@types/node": "^17.0.18",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
     "@web/test-runner": "^0.13.27",
     "@web/test-runner-playwright": "^0.8.8",
-    "esbuild": "^0.14.21",
-    "eslint": "^8.9.0",
-    "eslint-config-mgenware": "^0.7.1",
-    "eslint-plugin-import": "^2.25.4",
     "html-validate": "^6.3.1",
     "lit-analyzer": "^1.2.1",
     "mgenware-tsconfig-browser": "^3.0.1",
-    "mgenware-tsconfig-node": "^14.0.2",
-    "qing-t": "^6.0.1",
-    "source-map-support": "^0.5.21",
-    "ts-patch": "^2.0.1",
-    "ts-transform-esm-import": "^0.7.0",
-    "tsc-watch": "^4.6.0",
-    "typescript": "^4.5.5"
+    "qing-t": "^6.0.1"
   }
 }
