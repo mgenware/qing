@@ -9,7 +9,7 @@ import { ita, usr, expect, it, errorResults } from 'api';
 import { userInfo, newUser } from 'helper/user';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 
-ita('User info', apiAuth.info, null, { body: { uid: usr.admin.id } }, (r) => {
+ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
   expect(r).toEqual({
     d: {
       admin: true,

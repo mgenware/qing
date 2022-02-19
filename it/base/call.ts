@@ -6,7 +6,6 @@
  */
 
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
-import * as apiCompose from '@qing/routes/d/dev/api/compose';
 import { serverURL } from './defs';
 import fetch, { Response } from 'node-fetch';
 
@@ -49,12 +48,14 @@ export const errorResults = {
 
 export type CallCallback = (r: APIResult) => Promise<unknown>;
 
-export interface CallParams {
+export interface CallCoreOptions {
   body?: unknown;
-  user?: User;
   cookies?: string;
-  ignoreAPIResultErrors?: boolean;
+  ignoreAPIError?: boolean;
 }
+
+// `cookies` field is used internally to track login status.
+export type CallOptions = Omit<CallCoreOptions, 'cookies'>;
 
 // Sends a login request and returns session cookies.
 async function requestLogin(id: string): Promise<string> {
@@ -73,54 +74,49 @@ async function requestLogin(id: string): Promise<string> {
   return cookies[0] ?? '';
 }
 
-export async function updateEntityTime(id: string, type: number) {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return call(apiCompose.setDebugTime, { body: { id, type } });
-}
-
 // Wrapper around a node-fetch POST request.
-async function callCore(url: string, params?: CallParams): Promise<Response> {
-  const p = params ?? {};
-
-  // Log in if needed.
-  let cookies = '';
-  if (p.user) {
-    if (!p.user.id) {
-      throw new Error(`${JSON.stringify(p.user)} must have a valid ID`);
-    }
-    cookies = await requestLogin(p.user.id);
-  }
-
+async function callCore(
+  url: string,
+  body: Record<string, unknown> | null,
+  opt?: CallCoreOptions,
+): Promise<Response> {
   // eslint-disable-next-line no-param-reassign
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
   // eslint-disable-next-line no-param-reassign
   url = `${serverURL}${url}`;
   const response = await fetch(url, {
     method: 'POST',
-    body: JSON.stringify(p.body ?? null),
+    body: body ? JSON.stringify(body) : null,
     headers: {
       'content-type': 'application/json',
-      cookie: cookies,
+      cookie: opt?.cookies ?? '',
     },
   });
   if (!response.ok) {
-    // eslint-disable-next-line no-console
-    console.log(`[Request info] ${JSON.stringify(p)}`);
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
   return response;
 }
 
 // Initiates an API call with the given params.
-export async function call(url: string, params?: CallParams): Promise<APIResult> {
-  const response = await callCore(url, params);
+export async function call(
+  url: string,
+  body: Record<string, unknown> | null,
+  user: User | null,
+  opt?: CallOptions,
+): Promise<APIResult> {
+  let cookies = '';
+  if (user !== null) {
+    cookies = await requestLogin(user.id);
+  }
+  const response = await callCore(url, body, { ...opt, cookies });
   const apiRes = (await response.json()) as APIResult | null;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!apiRes) {
     throw new Error(`Unexpected null result from URL ${url}`);
   }
-  if (apiRes.code && !params?.ignoreAPIResultErrors) {
-    throw new Error(`API failed: ${JSON.stringify(apiRes)}. URL: ${url}`);
+  if (apiRes.code && !opt?.ignoreAPIError) {
+    throw new Error(`API failed with error ${JSON.stringify(apiRes)}. URL: ${url}`);
   }
   return apiRes;
 }

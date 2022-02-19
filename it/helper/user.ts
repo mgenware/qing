@@ -5,8 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { APIResult, call, User } from 'base/call';
+import { APIResult, call, User, CallOptions } from 'base/call';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
+import * as apiUser from '@qing/routes/d/dev/api/user';
 
 // Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
 export interface TUserInfo {
@@ -23,20 +24,17 @@ function checkUser(res: APIResult): User {
 }
 
 async function newUserCore(): Promise<User> {
-  const r = await call(apiAuth.new_);
+  const r = await call(apiAuth.new_, null, null);
   return checkUser(r);
 }
 
-async function deleteUser(uid: string) {
-  await call(apiAuth.del, { body: { uid } });
+async function deleteUser(user: User) {
+  await call(apiAuth.del, { uid: user.id }, null);
 }
 
 // Returns null if the specified user doesn't exist.
-export async function userInfo(
-  uid: string,
-  opts?: { ignoreAPIError?: boolean },
-): Promise<APIResult> {
-  return call(apiAuth.info, { body: { uid }, ignoreAPIResultErrors: opts?.ignoreAPIError });
+export async function userInfo(uid: string, opt?: CallOptions): Promise<APIResult> {
+  return call(apiAuth.info, { uid }, null, opt);
 }
 
 export async function newUser(cb: (u: User) => Promise<void>) {
@@ -46,7 +44,15 @@ export async function newUser(cb: (u: User) => Promise<void>) {
     await cb(u);
   } finally {
     if (u) {
-      await deleteUser(u.id);
+      await deleteUser(u);
     }
   }
+}
+
+export async function postCount(user: User): Promise<number> {
+  const r = await call(apiUser.postCount, { uid: user.id }, null);
+  if (typeof r.d === 'number') {
+    return r.d;
+  }
+  throw new Error(`Result data is not a valid number, got ${r.d}`);
 }

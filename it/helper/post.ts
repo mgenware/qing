@@ -6,20 +6,15 @@
  */
 
 import * as defs from 'base/defs';
-import { APIResult, call, updateEntityTime, User } from 'api';
-import * as apiUser from '@qing/routes/d/dev/api/user';
+import { APIResult, User } from 'api';
+import * as entityUtil from './entity';
 import { entityPost } from 'base/sharedConstants';
 
-export const setEntityURL = 'pri/compose/set-entity';
-export const deleteEntityURL = 'pri/compose/del-entity';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
-export const setEntityBody = {
-  entityType: entityPost,
+const entityBody = {
   content: { contentHTML: defs.sd.contentHTML, title: defs.sd.title },
 };
-
-const getPostSrcURL = 'pri/compose/get-entity-src';
 
 export function verifyNewPostAPIResult(r: APIResult): string {
   if (typeof r.d !== 'string') {
@@ -33,14 +28,10 @@ export function verifyNewPostAPIResult(r: APIResult): string {
 }
 
 async function newTmpPostCore(user: User) {
-  const r = await call(setEntityURL, { body: setEntityBody, user });
+  const r = await entityUtil.setEntity(entityPost, entityBody, user);
   const id = verifyNewPostAPIResult(r);
-  await updateEntityTime(id, entityPost);
+  await entityUtil.updateEntityTime(id, entityPost);
   return id;
-}
-
-async function deletePostCore(id: string, user: User) {
-  return call(deleteEntityURL, { user, body: { entity: { id, type: entityPost } } });
 }
 
 function postLink(id: string) {
@@ -58,23 +49,7 @@ export async function scPost(
     await cb({ id, link: postLink(id) });
   } finally {
     if (id) {
-      await deletePostCore(id, user);
+      await entityUtil.delEntity(id, entityPost, user);
     }
   }
-}
-
-export async function getPostCount(uid: string): Promise<number> {
-  const r = await call(apiUser.postCount, { body: { uid } });
-  if (typeof r.d === 'number') {
-    return r.d;
-  }
-  throw new Error(`Result data is not a valid number, got ${r.d}`);
-}
-
-export async function getPostSrc(id: string, user: User | undefined) {
-  const r = await call(getPostSrcURL, {
-    user,
-    body: { entity: { id, type: entityPost } },
-  });
-  return r.d;
 }

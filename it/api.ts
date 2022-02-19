@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { call, APIResult, CallParams, User, errorResults } from 'base/call';
+import { call, APIResult, CallOptions, User, errorResults } from 'base/call';
 import * as m from 'mocha';
 import expect from 'expect';
 
@@ -14,53 +14,67 @@ export * from 'base/call';
 export { default as expect } from 'expect';
 export { it } from 'mocha';
 
+// `it` for APIs (aka `ita`).
 export function itaCore(
   name: string,
   url: string,
+  body: Record<string, unknown> | null,
   user: User | null,
-  callParams: CallParams | null,
   ignoreAPIResultErrors: boolean,
   handler: (d: APIResult) => Promise<void> | void,
+  callOpt: CallOptions | undefined,
 ) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   m.it(name, async () => {
-    const p = callParams ?? {};
-    p.ignoreAPIResultErrors = ignoreAPIResultErrors;
-    if (user != null) {
-      p.user = user;
-    }
-    const d = await call(url, p);
+    // eslint-disable-next-line no-param-reassign
+    callOpt = callOpt ?? {};
+    // eslint-disable-next-line no-param-reassign
+    callOpt.ignoreAPIError = ignoreAPIResultErrors;
+    const d = await call(url, body, user, callOpt);
     return handler(d);
   });
 }
 
+// Wrapper around `itaCore`.
 export function ita(
   name: string,
   url: string,
+  body: Record<string, unknown> | null,
   user: User | null,
-  callParams: CallParams | null,
   handler: (d: APIResult) => Promise<void> | void,
+  callOpt?: CallOptions,
 ) {
-  return itaCore(name, url, user, callParams, false, handler);
+  return itaCore(name, url, body, user, false, handler, callOpt);
 }
 
+// Calls `itaCore` and checks API results.
 export function itaResult(
   name: string,
   url: string,
+  body: Record<string, unknown> | null,
   user: User | null,
-  callParams: CallParams | null,
   apiResult: APIResult,
+  callOpt?: CallOptions,
 ) {
-  return itaCore(name, url, user, callParams, true, (r) => {
-    expect(r).toEqual(apiResult);
-  });
+  return itaCore(
+    name,
+    url,
+    body,
+    user,
+    true,
+    (r) => {
+      expect(r).toEqual(apiResult);
+    },
+    callOpt,
+  );
 }
 
+// Calls `itaResult` and checks the result is `errorResults.notAuthorized`.
 export function itaNotAuthorized(
   name: string,
   url: string,
   user: User | null,
-  callParams: CallParams | null,
+  callOpt?: CallOptions,
 ) {
-  return itaResult(name, url, user, callParams, errorResults.notAuthorized);
+  return itaResult(name, url, null, user, errorResults.notAuthorized, callOpt);
 }
