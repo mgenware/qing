@@ -7,7 +7,7 @@
 
 import * as defs from 'base/defs';
 import { APIResult, call, updateEntityTime, User } from 'api';
-import { api } from 'base/urls';
+import * as apiUser from '@qing/routes/d/dev/api/user';
 import { entityPost } from 'base/sharedConstants';
 
 export const setEntityURL = 'pri/compose/set-entity';
@@ -64,7 +64,7 @@ export async function scPost(
 }
 
 export async function getPostCount(uid: string): Promise<number> {
-  const r = await call(api.user.post_count, { body: { uid } });
+  const r = await call(apiUser.postCount, { body: { uid } });
   if (typeof r.d === 'number') {
     return r.d;
   }

@@ -7,11 +7,9 @@
 
 import root from './root';
 
-const auth = `${root}/auth`;
+// This file contains the GET routes for user login and logout used in BR tests.
+export const authRoot = `${root}/auth`;
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const new_ = `${auth}/new`;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const in_ = `${auth}/in`;
-export const info = `${auth}/info`;
-export const del = `${auth}/del`;
+export const in_ = `${authRoot}/in`;
+export const out = `${authRoot}/out`;

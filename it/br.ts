@@ -8,7 +8,8 @@
 
 import * as pw from '@playwright/test';
 import { User } from 'base/call';
-import { auth, serverURL } from 'base/urls';
+import authRoute from '@qing/routes/d/dev/auth';
+import { serverURL } from 'base/defs';
 
 export { expect, Expect, test } from '@playwright/test';
 export { usr, call, User } from 'base/call';
@@ -237,13 +238,13 @@ export class Page {
 
   async signOut() {
     const url = this.c.url();
-    await this.c.goto(`${serverURL}${auth.out}`);
+    await this.c.goto(`${serverURL}${authRoute.out}`);
     this.checkGETAPIResult(await this.c.content());
     await this.c.goto(url);
   }
 
   private async signIn(user: User) {
-    await this.c.goto(`${serverURL}${auth.in}/${user.id}`);
+    await this.c.goto(`${serverURL}${authRoute.in_}/${user.id}`);
     this.checkGETAPIResult(await this.c.content());
   }
 

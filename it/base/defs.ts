@@ -5,6 +5,8 @@
  * be found in the LICENSE file.
  */
 
+export const serverURL = 'http://localhost:8000';
+
 function makeText(content: string) {
   return `<p>${content}</p><script>alert('-39')</script>`;
 }

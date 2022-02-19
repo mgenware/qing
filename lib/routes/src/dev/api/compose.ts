@@ -7,5 +7,6 @@
 
 import root from './root';
 
-export const auth = `${root}/auth`;
-export const elements = `${root}/elements`;
+const compose = `${root}/compose`;
+
+export const setDebugTime = `${compose}/set_debug_time`;

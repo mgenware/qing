@@ -8,6 +8,7 @@
     "prepare": "ts-patch install -s"
   },
   "dependencies": {
+    "@qing/routes": "workspace:*",
     "@playwright/test": "^1.17.2",
     "expect": "^27.4.6",
     "fx214": "^2.3.0",

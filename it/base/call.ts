@@ -5,7 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { api, serverURL } from './urls';
+import * as apiAuth from '@qing/routes/d/dev/api/auth';
+import * as apiCompose from '@qing/routes/d/dev/api/compose';
+import { serverURL } from './defs';
 import fetch, { Response } from 'node-fetch';
 
 // The result of an API call.
@@ -57,7 +59,7 @@ export interface CallParams {
 // Sends a login request and returns session cookies.
 async function requestLogin(id: string): Promise<string> {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const resp = await callCore(api.auth.in, {
+  const resp = await callCore(apiAuth.in_, {
     body: { uid: id },
   });
 
@@ -73,7 +75,7 @@ async function requestLogin(id: string): Promise<string> {
 
 export async function updateEntityTime(id: string, type: number) {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return call(api.compose.set_debug_time, { body: { id, type } });
+  return call(apiCompose.setDebugTime, { body: { id, type } });
 }
 
 // Wrapper around a node-fetch POST request.
