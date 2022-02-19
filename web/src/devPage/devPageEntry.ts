@@ -8,7 +8,7 @@
 import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import * as topRoute from './routes/top';
+import * as topRoute from '@qing/routes/d/dev/top';
 import './devPage';
 import { routeDevPage } from 'sharedConstants';
 import './auth/authPage';

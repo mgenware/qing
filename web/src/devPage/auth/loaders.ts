@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import { TUserInfo } from 'sod/dev/auth/tUserInfo';
-import * as authRoute from '../routes/api/auth';
+import * as authRoute from '@qing/routes/d/dev/api/auth';
 
 class LoaderBase<T> extends Loader<T> {
   constructor(public uidInput: string, public isEID: boolean) {

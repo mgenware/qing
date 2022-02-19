@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
-import * as topRoute from './routes/top';
+import * as topRoute from '@qing/routes/d/dev/top';
 
 @customElement('dev-page')
 export class DevPage extends BaseElement {
