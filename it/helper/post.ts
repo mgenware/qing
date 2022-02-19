@@ -8,13 +8,14 @@
 import * as defs from 'base/defs';
 import { APIResult, call, updateEntityTime, User } from 'api';
 import { api } from 'base/urls';
+import { entityPost } from 'base/sharedConstants';
 
 export const setEntityURL = 'pri/compose/set-entity';
 export const deleteEntityURL = 'pri/compose/del-entity';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 export const setEntityBody = {
-  entityType: defs.entity.post,
+  entityType: entityPost,
   content: { contentHTML: defs.sd.contentHTML, title: defs.sd.title },
 };
 
@@ -34,12 +35,12 @@ export function verifyNewPostAPIResult(r: APIResult): string {
 async function newTmpPostCore(user: User) {
   const r = await call(setEntityURL, { body: setEntityBody, user });
   const id = verifyNewPostAPIResult(r);
-  await updateEntityTime(id, defs.entity.post);
+  await updateEntityTime(id, entityPost);
   return id;
 }
 
 async function deletePostCore(id: string, user: User) {
-  return call(deleteEntityURL, { user, body: { entity: { id, type: defs.entity.post } } });
+  return call(deleteEntityURL, { user, body: { entity: { id, type: entityPost } } });
 }
 
 function postLink(id: string) {
@@ -73,7 +74,7 @@ export async function getPostCount(uid: string): Promise<number> {
 export async function getPostSrc(id: string, user: User | undefined) {
   const r = await call(getPostSrcURL, {
     user,
-    body: { entityID: id, entityType: defs.entity.post },
+    body: { entity: { id, type: entityPost } },
   });
   return r.d;
 }

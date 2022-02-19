@@ -5,20 +5,6 @@
  * be found in the LICENSE file.
  */
 
-export const entity = {
-  post: 1,
-  cmt: 2,
-  reply: 3,
-  discussion: 4,
-  question: 5,
-  discussionMsg: 6,
-  answer: 7,
-  forumDiscussion: 8,
-  forumQuestion: 9,
-  forum: 10,
-  forumGroup: 11,
-};
-
 function makeText(content: string) {
   return `<p>${content}</p><script>alert('-39')</script>`;
 }

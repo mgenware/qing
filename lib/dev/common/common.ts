@@ -30,20 +30,24 @@ export const langsDir = np.join(rootDir, 'userland/langs');
 export const langsDataDir = np.join(langsDir, 'data');
 export const defaultLangPath = np.join(langsDataDir, 'en.json');
 
-export function serverPath(path?: string): string {
-  return np.join(rootDir, 'server', path || '');
+export function serverPath(path = ''): string {
+  return np.join(rootDir, 'server', path);
 }
 
-export function webPath(path?: string): string {
-  return np.join(rootDir, 'web', path || '');
+export function webPath(path = ''): string {
+  return np.join(rootDir, 'web', path);
 }
 
-export function webSrcPath(path?: string): string {
-  return np.join(webPath('src'), path || '');
+export function webSrcPath(path = ''): string {
+  return np.join(webPath('src'), path);
 }
 
-export function sodPath(path?: string): string {
-  return np.join(rootDir, 'lib/dev/sod/objects', path || '');
+export function itPath(path = ''): string {
+  return np.join(rootDir, 'it', path);
+}
+
+export function sodPath(path = ''): string {
+  return np.join(rootDir, 'lib/dev/sod/objects', path);
 }
 
 export function serverSodPath(): string {

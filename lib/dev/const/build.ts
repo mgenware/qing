@@ -11,13 +11,13 @@ import tsConvert from 'json-to-js-const';
 import np from 'path';
 import { fileURLToPath } from 'url';
 import isObj from 'is-plain-obj';
-import { serverPath, webPath, copyrightString } from '../common/common.js';
+import * as cm from '../common/common.js';
 
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
 
 async function buildJSONFileAsync(
   src: string,
-  webDest: string,
+  webDests: string[],
   serverDest: string,
   packageName: string,
   typeName: string,
@@ -39,16 +39,16 @@ async function buildJSONFileAsync(
   const tsResult = tsConvert(jsonObj);
 
   await Promise.all([
-    mfs.writeFileAsync(serverDest, copyrightString + goResult),
-    mfs.writeFileAsync(webDest, copyrightString + tsResult),
+    mfs.writeFileAsync(serverDest, cm.copyrightString + goResult),
+    ...webDests.map((s) => mfs.writeFileAsync(s, cm.copyrightString + tsResult)),
   ]);
 }
 
 async function buildConstantsAsync() {
   return buildJSONFileAsync(
     np.join(dirPath, 'constants.json'),
-    webPath('src/sharedConstants.ts'),
-    serverPath('a/defs/shared_constants.go'),
+    [cm.webSrcPath('sharedConstants.ts'), cm.itPath('base/sharedConstants.ts')],
+    cm.serverPath('a/defs/shared_constants.go'),
     'defs',
     'SharedConstantsType',
     'Shared',
