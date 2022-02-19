@@ -20,10 +20,6 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    // TODO: turn this rule on when we migrate away from runner.js
-    '@typescript-eslint/no-floating-promises': 'off',
-    // TODO: turn this rule on when we migrate away from runner.js
-    '@typescript-eslint/no-misused-promises': 'off',
     'prefer-template': 'off',
   },
 };
