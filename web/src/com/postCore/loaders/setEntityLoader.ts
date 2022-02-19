@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as composeRoute from '@qing/routes/s/pri/compose';
+import * as composeRoute from '@qing/routes/d/s/pri/compose';
 import { entityDiscussionMsg, entityAnswer } from 'sharedConstants';
 import { ComposerContent } from 'ui/editor/composerView';
 

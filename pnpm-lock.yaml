@@ -9,7 +9,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.12.0
       '@typescript-eslint/parser': ^5.12.0
       bowhead-js: ^6.0.1
-      daizong: ^0.22.6
+      daizong: ^0.22.7
       esbuild: ^0.14.22
       eslint: ^8.9.0
       eslint-config-mgenware: ^0.7.1
@@ -29,7 +29,7 @@ importers:
       '@types/node': 17.0.18
       '@typescript-eslint/eslint-plugin': 5.12.0_c467cf9bb49b295941e83ce479a578b7
       '@typescript-eslint/parser': 5.12.0_eslint@8.9.0+typescript@4.5.5
-      daizong: 0.22.6
+      daizong: 0.22.7
       esbuild: 0.14.22
       eslint: 8.9.0
       eslint-config-mgenware: 0.7.1_f9b0c49af310072bbdee65353413f68f
@@ -2444,8 +2444,8 @@ packages:
       type-fest: 1.4.0
     dev: false
 
-  /daizong/0.22.6:
-    resolution: {integrity: sha512-szwjbLVw0yBr8OzaEXBvXZnLSTj0zkj5uHWpGF0JWNb+CdRllF0xDwOXjYqkkB2mOEu2x31cCP4b3Cu4KmHd8Q==}
+  /daizong/0.22.7:
+    resolution: {integrity: sha512-tNmwQ1IeaZw0P8Tz8MPB4xRnup0vdup56h0k2NUyOfPW6szdpnQh5dtCLKUrdIS1e/n5EEE/KImyCrAbQuWrzA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:

@@ -1,6 +1,5 @@
 node_modules
-dist/
-dist_tests/
+d/
 
 *.log
 *.pid

@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as adminRoute from '@qing/routes/s/admin';
+import * as adminRoute from '@qing/routes/d/s/admin';
 
 export default class UpdateSiteSettingsLoader extends Loader<void> {
   constructor(public key: string, public settings: unknown) {

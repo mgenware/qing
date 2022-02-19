@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as voteRoute from '@qing/routes/s/pri/vote';
+import * as voteRoute from '@qing/routes/d/s/pri/vote';
 import { CHECK } from 'checks';
 
 export class VoteLoader extends Loader<string> {

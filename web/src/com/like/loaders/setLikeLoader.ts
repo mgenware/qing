@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as likeRoute from '@qing/routes/s/pri/like';
+import * as likeRoute from '@qing/routes/d/s/pri/like';
 import { CHECK } from 'checks';
 import LikeHostType from './likeHostType';
 

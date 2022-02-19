@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as entRoute from '@qing/routes/s/pub/ent';
+import * as entRoute from '@qing/routes/d/s/pub/ent';
 import Entity from 'lib/entity';
 import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';

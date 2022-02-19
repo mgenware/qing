@@ -7,7 +7,7 @@
 
 import { customElement, css } from 'll';
 import ls from 'ls';
-import * as mRoute from '@qing/routes/m';
+import * as mRoute from '@qing/routes/d/m';
 import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
 
 const items: SettingsBaseItem[] = [{ name: ls.profile, link: mRoute.settingsProfile }];

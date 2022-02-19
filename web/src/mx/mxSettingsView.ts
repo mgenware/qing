@@ -7,7 +7,7 @@
 
 import { customElement, css } from 'll';
 import ls from 'ls';
-import * as mxRoute from '@qing/routes/mx';
+import * as mxRoute from '@qing/routes/d/mx';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
 const items: SettingsBaseItem[] = [

@@ -8,7 +8,7 @@
 import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
-import * as mRoute from '@qing/routes/m';
+import * as mRoute from '@qing/routes/d/m';
 import './settings/mSettingsView';
 import './settings/profile/editProfileApp';
 import './postCenter/myPostsApp';

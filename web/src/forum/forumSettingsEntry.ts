@@ -7,7 +7,7 @@
 
 import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import * as fRoute from '@qing/routes/f';
+import * as fRoute from '@qing/routes/d/f';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView';
 import './settings/general/forumGeneralSettingsApp';

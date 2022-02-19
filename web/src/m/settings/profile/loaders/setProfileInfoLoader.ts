@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as profileRoute from '@qing/routes/s/pri/profile';
+import * as profileRoute from '@qing/routes/d/s/pri/profile';
 
 export default class SetProfileInfoLoader extends Loader<undefined> {
   constructor(
