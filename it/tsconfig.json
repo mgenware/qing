@@ -16,7 +16,10 @@
 
         "rootDir": ".",
         "outDir": "./dist",
-        "resolvers": [{ "dir": ".", "sourceDir": true }]
+        "resolvers": [
+          { "dir": ".", "sourceDir": true },
+          { "dir": "./node_modules", "filter": "^@qing/routes/", "mode": "addExt" }
+        ]
       }
     ]
   }

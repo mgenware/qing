@@ -18,7 +18,7 @@ importers:
       mgenware-tsconfig-node-x: ^16.0.0
       source-map-support: ^0.5.21
       ts-patch: ^2.0.1
-      ts-transform-esm-import: ^0.7.0
+      ts-transform-esm-import: ^0.9.0
       tsc-watch: ^4.6.0
       typescript: ^4.5.5
     dependencies:
@@ -37,7 +37,7 @@ importers:
       mgenware-tsconfig-node-x: 16.0.0
       source-map-support: 0.5.21
       ts-patch: 2.0.1_typescript@4.5.5
-      ts-transform-esm-import: 0.7.0_typescript@4.5.5
+      ts-transform-esm-import: 0.9.0_typescript@4.5.5
       tsc-watch: 4.6.0_typescript@4.5.5
       typescript: 4.5.5
 
@@ -6394,8 +6394,8 @@ packages:
     resolution: {integrity: sha512-zKmsCQs4dZaeSKjEA7pLFDv7FHHqAFLPd0Mr//OIJvu8M+4p4bgSFJwZSEBEg3ec9W7RzRz1vi8giiX0+mheBQ==}
     dev: true
 
-  /ts-transform-esm-import/0.7.0_typescript@4.5.5:
-    resolution: {integrity: sha512-yCQomoOBg5Ze1DC3J4aMQW/CePFJDyb9S+6VCt5ibN69/2CtdOnAjmEZ9+ADTCaLjk7fc7y26UfcV7dgP8UUEA==}
+  /ts-transform-esm-import/0.9.0_typescript@4.5.5:
+    resolution: {integrity: sha512-gexh5PoWwXQTcLkzexqsdPkML1q72b6Syjbzrs7SLfxkCla2SRgQYHIuoZDV4Vc9/Hn9ol9lkSeeXYW8FEi8Pg==}
     peerDependencies:
       typescript: ^4.5.0
     dependencies:
