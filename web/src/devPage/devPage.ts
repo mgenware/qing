@@ -7,7 +7,8 @@
 
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
-import * as topRoute from '@qing/routes/d/dev/top';
+import { authRoot } from '@qing/routes/d/dev/auth';
+import elementsRoot from '@qing/routes/d/dev/elements';
 
 @customElement('dev-page')
 export class DevPage extends BaseElement {
@@ -34,8 +35,8 @@ export class DevPage extends BaseElement {
       <h1>qing.dev</h1>
       <hr />
       <div class="root-list">
-        <a href=${topRoute.auth}>Auth</a>
-        <a href=${topRoute.elements}>Elements</a>
+        <a href=${authRoot}>Auth</a>
+        <a href=${elementsRoot}>Elements</a>
       </div>
     `;
   }

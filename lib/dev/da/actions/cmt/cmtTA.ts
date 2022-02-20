@@ -24,7 +24,8 @@ export class CmtTA extends mm.TableActions {
   selectCmtSource = mm
     .selectRow(t.content)
     .whereSQL(defaultUpdateConditions(t))
-    .resultTypeNameAttr(getEntitySrcType);
+    .resultTypeNameAttr(getEntitySrcType)
+    .attr(mm.ActionAttribute.enableTSResultType, true);
 
   // DO NOT add `user_id` check here since parent cmt's `reply_count` might be a different user.
   updateReplyCount = mm

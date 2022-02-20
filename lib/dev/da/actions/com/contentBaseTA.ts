@@ -66,7 +66,8 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     this.selectItemSrc = mm
       .selectRow(...this.getEditingColumns())
       .whereSQL(this.updateConditions)
-      .resultTypeNameAttr(getEntitySrcType);
+      .resultTypeNameAttr(getEntitySrcType)
+      .attr(mm.ActionAttribute.enableTSResultType, true);
 
     const pcCols = this.getPCColumns();
     this.selectItemsForPostCenter = pcCols.length

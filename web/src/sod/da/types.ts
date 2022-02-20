@@ -17,3 +17,8 @@ export interface CmtData {
   replyCount?: number;
   userName?: string;
 }
+
+export interface EntityGetSrcResult {
+  contentHTML?: string;
+  title?: string;
+}

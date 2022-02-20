@@ -8,13 +8,9 @@
 import Loader from 'lib/loader';
 import Entity from 'lib/entity';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
+import { EntityGetSrcResult } from 'sod/da/types';
 
-export interface GetEntitySourceResult {
-  title?: string;
-  contentHTML: string;
-}
-
-export class GetEntitySourceLoader extends Loader<GetEntitySourceResult> {
+export class GetEntitySourceLoader extends Loader<EntityGetSrcResult> {
   constructor(public entity: Entity) {
     super();
   }

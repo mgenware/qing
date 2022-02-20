@@ -59,7 +59,7 @@ export default class SetEntityApp extends BaseElement {
       const status = await appTask.critical(loader);
       if (status.data) {
         const postData = status.data;
-        this.updateContent(postData.title ?? '', postData.contentHTML);
+        this.updateContent(postData.title ?? '', postData.contentHTML ?? '');
       }
     }
   }

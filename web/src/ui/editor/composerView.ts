@@ -287,7 +287,7 @@ export class ComposerView extends BaseElement {
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
-      this.updateEditorContent(postData.title ?? '', postData.contentHTML, false);
+      this.updateEditorContent(postData.title ?? '', postData.contentHTML ?? '', false);
     }
   }
 }
