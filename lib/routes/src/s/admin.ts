@@ -7,7 +7,7 @@
 
 import root from './root.js';
 
-const admin = `${root}/fmoadmind`;
+const admin = `${root}/admin`;
 
 export const setAdmin = `${admin}/set-admin`;
 export const admins = `${admin}/admins`;

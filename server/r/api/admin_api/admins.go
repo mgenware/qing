@@ -17,7 +17,7 @@ import (
 	"qing/r/rcom"
 )
 
-func getAdmins(w http.ResponseWriter, r *http.Request) handler.JSON {
+func admins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
