@@ -38,7 +38,7 @@ func NewJSONResponse(r *http.Request, wr http.ResponseWriter) *JSONResponse {
 
 // MustFailWithError finishes the response with the specified `code`, `error` and `expected` args, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSON {
-	d := &APIResult{Code: code, Error: err}
+	d := APIResult{Code: code, Error: err}
 	if err != nil {
 		// Hide SQL row not found errors.
 		if err == sql.ErrNoRows && code == defs.Shared.ErrGeneric {
@@ -48,7 +48,7 @@ func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSO
 			d.Message = err.Error()
 		}
 	}
-	j.mustWriteData(d)
+	j.mustWriteData(&d)
 	return JSON(0)
 }
 
@@ -72,14 +72,14 @@ func (j *JSONResponse) MustFailWithCode(code int) JSON {
 
 // MustComplete finishes the response with the given data, and panics if unexpected error happens.
 func (j *JSONResponse) MustComplete(data interface{}) JSON {
-	d := &APIResult{Data: data}
-	j.mustWriteData(d)
+	d := APIResult{Data: data}
+	j.mustWriteData(&d)
 	return JSON(0)
 }
 
 func (j *JSONResponse) mustWriteData(d *APIResult) {
 	if j.isCompleted {
-		panic(errors.New("Result has completed"))
+		panic(errors.New("response has been written"))
 	}
 	j.isCompleted = true
 
