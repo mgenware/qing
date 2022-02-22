@@ -23,7 +23,7 @@ type GetSiteSettingsResult struct {
 	NeedRestart bool        `json:"need_restart,omitempty"`
 }
 
-func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
+func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
