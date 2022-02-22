@@ -47,14 +47,12 @@ importers:
       '@qing/routes': workspace:*
       '@types/mocha': ^9.0.0
       expect: ^27.4.6
-      fx214: ^2.3.0
       mocha: ^9.1.3
       node-fetch: ^3.1.1
     dependencies:
       '@playwright/test': 1.19.1
       '@qing/routes': link:../lib/routes
       expect: 27.5.1
-      fx214: 2.3.0
       node-fetch: 3.2.0
     devDependencies:
       '@types/mocha': 9.1.0
@@ -3560,11 +3558,6 @@ packages:
 
   /functional-red-black-tree/1.0.1:
     resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
-
-  /fx214/2.3.0:
-    resolution: {integrity: sha512-JFNTPO+jse6qeMW+WyQbARMzKWljwAA/p7QusNJOgH/ViDUN4em0O05ehWTpn7ylw+MFvaaTyLx38YQKYSd4ww==}
-    engines: {node: '>=12.0.0'}
-    dev: false
 
   /gen-go-type/1.4.0:
     resolution: {integrity: sha512-B2/s4imEYnto+kBTWDedE9jRzdfuRVV0QH3QDZLOtQ1WI4GVJGy3BRfSsnot5HZlT0xb0U/YNAlpghjOpjU+JQ==}
