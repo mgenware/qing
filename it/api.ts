@@ -15,27 +15,6 @@ export { default as expect } from 'expect';
 export { it } from 'mocha';
 
 // `it` for APIs (aka `ita`).
-export function itaCore(
-  name: string,
-  url: string,
-  body: Record<string, unknown> | null,
-  user: User | null,
-  ignoreAPIResultErrors: boolean,
-  handler: (d: APIResult) => Promise<void> | void,
-  callOpt: CallOptions | undefined,
-) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  m.it(name, async () => {
-    // eslint-disable-next-line no-param-reassign
-    callOpt = callOpt ?? {};
-    // eslint-disable-next-line no-param-reassign
-    callOpt.ignoreAPIError = ignoreAPIResultErrors;
-    const d = await call(url, body, user, callOpt);
-    return handler(d);
-  });
-}
-
-// Wrapper around `itaCore`.
 export function ita(
   name: string,
   url: string,
@@ -44,10 +23,14 @@ export function ita(
   handler: (d: APIResult) => Promise<void> | void,
   callOpt?: CallOptions,
 ) {
-  return itaCore(name, url, body, user, false, handler, callOpt);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  m.it(name, async () => {
+    const d = await call(url, body, user, callOpt);
+    return handler(d);
+  });
 }
 
-// Calls `itaCore` and checks API results.
+// Calls `ita` and checks API results.
 export function itaResult(
   name: string,
   url: string,
@@ -56,12 +39,15 @@ export function itaResult(
   apiResult: APIResult,
   callOpt?: CallOptions,
 ) {
-  return itaCore(
+  // eslint-disable-next-line no-param-reassign
+  callOpt ??= {};
+  // eslint-disable-next-line no-param-reassign
+  callOpt.ignoreAPIError = true;
+  return ita(
     name,
     url,
     body,
     user,
-    true,
     (r) => {
       expect(r).toEqual(apiResult);
     },
