@@ -31,11 +31,11 @@ ita(
 
 ita(
   'Panic',
-  apiRes.success,
+  apiRes.panic,
   null,
   null,
   (r) => {
-    expect(r).toEqual({ code: 1, message: 'API error for testing' });
+    expect(r).toEqual({ code: 10000, message: 'API panic error for testing' });
   },
   { ignoreAPIError: true },
 );
