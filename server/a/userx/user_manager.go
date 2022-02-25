@@ -149,8 +149,8 @@ func (appu *UserManager) RequireLoginJSONMiddleware(next http.Handler) http.Hand
 	})
 }
 
-// UnsafeRequireAdminMiddlewareJSON must be called after RequireLoginJSONMiddleware, it makes sure only admins have access to the underlying handlers.
-func (appu *UserManager) UnsafeRequireAdminMiddlewareJSON(next http.Handler) http.Handler {
+// UnsafeRequireAdminJSONMiddleware must be called after RequireLoginJSONMiddleware, it makes sure only admins have access to the underlying handlers.
+func (appu *UserManager) UnsafeRequireAdminJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		user := appcom.ContextUser(ctx)
