@@ -27,7 +27,7 @@
   "retry": "Retry",
   "chooseAFileBtn": "Upload file...",
   "uploadProfileImgDesc": "Max file size allowed: 5 MB.",
-  "unsupportedImgExtErr": "Unsupported file format (supported formats: jpg, jpeg, gif, png).",
+  "unsupportedImgExtErr": "Unsupported file format (supported formats are jpg, jpeg, gif, png and jfif).",
   "exceed5MBErr": "File exceeded the maximum allowed size (5 MB).",
   "resourceNotFound": "The resource you requested does not exist.",
   "reset": "Reset",

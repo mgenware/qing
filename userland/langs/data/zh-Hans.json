@@ -27,7 +27,7 @@
   "retry": "重试",
   "chooseAFileBtn": "选择文件...",
   "uploadProfileImgDesc": "允许的最大文件大小：5 MB",
-  "unsupportedImgExtErr": "不支持的文件扩展名(允许的扩展名是：jpg, jpeg, gif, png)",
+  "unsupportedImgExtErr": "不支持的文件扩展名(允许的扩展名是：jpg, jpeg, gif, png, jfif)",
   "exceed5MBErr": "文件大小超过最大值(5 MB)",
   "resourceNotFound": "您访问的资源不存在。",
   "reset": "重置",
