@@ -89,7 +89,7 @@ export class AvatarUploader extends BaseElement {
                 type="file"
                 id="uploadElement"
                 name=${formUploadMain}
-                accept=".jpg,.jpeg,.png,.webp"
+                accept=".jpg,.jpeg,.png,.webp,.jfif"
                 style="display: none" />
               <span class="file-cta">
                 <span class="file-icon">
