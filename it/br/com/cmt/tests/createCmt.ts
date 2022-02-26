@@ -12,7 +12,7 @@ import * as cm from './common';
 import { writeCmt, clickMoreCmt } from './actions';
 
 function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test('Create a cmt' + (fresh ? ' (fresh)' : ''), usr.user, async ({ page }) => {
+  w.test(`Create a ${fresh ? 'fresh ' : ''}cmt`, usr.user, async ({ page }) => {
     {
       {
         // User 1.

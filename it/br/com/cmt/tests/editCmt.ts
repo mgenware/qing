@@ -12,7 +12,7 @@ import * as cm from './common';
 import { writeCmt, editCmt } from './actions';
 
 function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test('Edit a cmt - ' + (fresh ? 'Fresh' : 'Not fresh'), usr.user, async ({ page }) => {
+  w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ page }) => {
     {
       {
         let cmtApp = await w.getCmtApp(page);
