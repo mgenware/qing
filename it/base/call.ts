@@ -79,7 +79,7 @@ async function requestLogin(id: string): Promise<string> {
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const response = await callCore(url, {
-    body: { uid: id },
+    uid: id,
   });
 
   const res = await apiResultFromResponse(response, url);
