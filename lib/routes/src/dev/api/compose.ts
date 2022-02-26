@@ -9,4 +9,4 @@ import root from './root';
 
 const compose = `${root}/compose`;
 
-export const setDebugTime = `${compose}/set_debug_time`;
+export const setDebugTime = `${compose}/set-debug-time`;
