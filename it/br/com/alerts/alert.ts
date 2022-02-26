@@ -94,7 +94,7 @@ export async function alertShouldAppear(
   const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(arg.buttons);
   await btns.shouldHaveCount(btnNames.length);
-  await Promise.all(btnNames.map((b, i) => br.expect(btns.item(i).shouldHaveTextContent(b))));
+  await Promise.all(btnNames.map((b, i) => btns.item(i).shouldHaveTextContent(b)));
 
   // TODO: Re-enable focus check.
   // await buttonShouldHaveFocus(btns.item(focused));
