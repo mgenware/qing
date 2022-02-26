@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-const brCmd = 'npx playwright test --project=chromium --config=pw.config.ts';
+const brCmd = 'npx playwright test --browser=chromium --config=pw.config.cjs';
 
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',
