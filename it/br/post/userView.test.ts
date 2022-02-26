@@ -9,7 +9,7 @@ import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import { postCoreTraitsShouldAppear } from './common';
 
-test('Post page (user)', async ({ page }) => {
+test('Post page in user view', async ({ page }) => {
   await scPost(usr.user, async ({ link }) => {
     await postCoreTraitsShouldAppear($(page), link, usr.user, usr.user2);
   });

@@ -15,7 +15,7 @@ import {
 } from 'br/com/alerts/alert';
 import { postCoreTraitsShouldAppear } from './common';
 
-test('Post page (visitor)', async ({ page }) => {
+test('Post page in visitor view', async ({ page }) => {
   const p = $(page);
   await scPost(usr.user, async ({ link }) => {
     const { likeAppEl } = await postCoreTraitsShouldAppear(p, link, usr.user, null);
