@@ -9,6 +9,8 @@ import * as apiAuth from '@qing/routes/d/dev/api/auth';
 import { serverURL } from './defs';
 import fetch, { Response } from 'node-fetch';
 
+const emptyCookieErr = 'Unexpected empty cookies from login API';
+
 // The result of an API call.
 export interface APIResult {
   code?: number;
@@ -57,21 +59,44 @@ export interface CallCoreOptions {
 // `cookies` field is used internally to track login status.
 export type CallOptions = Omit<CallCoreOptions, 'cookies'>;
 
+function checkAPISuccess(res: APIResult, url: string) {
+  if (res.code) {
+    throw new Error(`API failed with error ${JSON.stringify(res)}. URL: ${url}`);
+  }
+}
+
+async function apiResultFromResponse(response: Response, url: string) {
+  const apiRes = (await response.json()) as APIResult | null;
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  if (!apiRes) {
+    throw new Error(`Unexpected null result from URL ${url}`);
+  }
+  return apiRes;
+}
+
 // Sends a login request and returns session cookies.
 async function requestLogin(id: string): Promise<string> {
+  const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const resp = await callCore(apiAuth.in_, {
+  const response = await callCore(url, {
     body: { uid: id },
   });
 
-  const cookies = resp.headers.raw()['set-cookie'];
+  const res = await apiResultFromResponse(response, url);
+  checkAPISuccess(res, url);
+
+  const cookies = response.headers.raw()['set-cookie'];
   if (!cookies) {
-    return '';
+    throw new Error(emptyCookieErr);
   }
+  // There mustn't be more than 1 cookies.
   if (cookies.length > 1) {
-    throw new Error(`Unexpected cookies: ${JSON.stringify(cookies)}`);
+    throw new Error(`Unexpected cookies: ${JSON.stringify(cookies)} from login API`);
   }
-  return cookies[0] ?? '';
+  if (!cookies[0]) {
+    throw new Error(emptyCookieErr);
+  }
+  return cookies[0];
 }
 
 // Wrapper around a node-fetch POST request.
@@ -110,13 +135,9 @@ export async function call(
     cookies = await requestLogin(user.id);
   }
   const response = await callCore(url, body, { ...opt, cookies });
-  const apiRes = (await response.json()) as APIResult | null;
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!apiRes) {
-    throw new Error(`Unexpected null result from URL ${url}`);
-  }
-  if (apiRes.code && !opt?.ignoreAPIError) {
-    throw new Error(`API failed with error ${JSON.stringify(apiRes)}. URL: ${url}`);
+  const apiRes = await apiResultFromResponse(response, url);
+  if (!opt?.ignoreAPIError) {
+    checkAPISuccess(apiRes, url);
   }
   return apiRes;
 }

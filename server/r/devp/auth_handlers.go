@@ -25,8 +25,6 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-const uidMaxLength = 500
-
 type UserInfo struct {
 	Admin    bool   `json:"admin,omitempty"`
 	IconName string `json:"iconName,omitempty"`
@@ -63,7 +61,6 @@ func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := getUIDFromRequest(r)
 	err := signInCore(uid, w, r)
 	app.PanicIfErr(err)
-
 	return resp.MustComplete(nil)
 }
 
