@@ -8,7 +8,7 @@
 
 import * as pw from '@playwright/test';
 import { User } from 'base/call';
-import authRoute from '@qing/routes/d/dev/auth';
+import * as authRoute from '@qing/routes/d/dev/auth';
 import { serverURL } from 'base/defs';
 
 export { expect, Expect, test } from '@playwright/test';

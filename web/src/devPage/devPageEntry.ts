@@ -8,8 +8,8 @@
 import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import { authRoot } from '@qing/routes/d/dev/auth';
-import elementsRoot from '@qing/routes/d/dev/elements';
+import * as authRoute from '@qing/routes/d/dev/auth';
+import * as elementsRoute from '@qing/routes/d/dev/elements';
 import './devPage';
 import { routeDevPage } from 'sharedConstants';
 import './auth/authPage';
@@ -22,10 +22,10 @@ function loadPageContent(title: string, content: TemplateResult) {
   pageUtils.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
 }
 
-devRouter.register(authRoot, () => {
+devRouter.register(authRoute.authRoot, () => {
   loadPageContent('Auth dev page', html`<auth-page></auth-page>`);
 });
-devRouter.register(elementsRoot, () => {
+devRouter.register(elementsRoute.elementsRoot, () => {
   loadPageContent('Elements dev page', html`<elements-page></elements-page>`);
 });
 

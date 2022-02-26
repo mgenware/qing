@@ -7,4 +7,4 @@
 
 import root from './root';
 
-export default `${root}/elements`;
+export const elementsRoot = `${root}/elements`;
