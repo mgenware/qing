@@ -1,27 +1,28 @@
 {
-	"name": "qing",
-	"author": "Mgenware (https://github.com/mgenware)",
-	"homepage": "https://github.com/mgenware/qing",
-	"private": true,
-	"devDependencies": {
-		"@tsconfig/node16": "^1.0.2",
-		"@types/node": "^17.0.18",
-		"@typescript-eslint/eslint-plugin": "^5.12.0",
-		"@typescript-eslint/parser": "^5.12.0",
-		"daizong": "^0.22.7",
-		"esbuild": "^0.14.22",
-		"eslint": "^8.9.0",
-		"eslint-config-mgenware": "^0.7.1",
-		"eslint-plugin-import": "^2.25.4",
-		"mgenware-tsconfig-node-x": "^16.0.0",
-		"source-map-support": "^0.5.21",
-		"ts-patch": "^2.0.1",
-		"ts-transform-esm-import": "^0.9.0",
-		"tsc-watch": "^4.6.0",
-		"typescript": "^4.5.5"
-	},
-	"dependencies": {
-		"bowhead-js": "^6.0.1",
-		"lit": "^2.2.0"
-	}
+  "name": "qing",
+  "author": "Mgenware (https://github.com/mgenware)",
+  "homepage": "https://github.com/mgenware/qing",
+  "private": true,
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "daizong": "^0.23.0",
+    "esbuild": "^0.14.23",
+    "eslint": "^8.10.0",
+    "eslint-config-mgenware": "^0.7.1",
+    "eslint-plugin-import": "^2.25.4",
+    "mgenware-tsconfig-node-x": "^16.1.0",
+    "mgenware-tsconfig-browser": "^3.1.0",
+    "source-map-support": "^0.5.21",
+    "ts-patch": "^2.0.1",
+    "ts-transform-esm-import": "^0.9.0",
+    "tsc-watch": "^4.6.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "bowhead-js": "^6.0.1",
+    "lit": "^2.2.0"
+  }
 }
