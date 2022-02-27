@@ -31,6 +31,7 @@ esbuild
     outdir: '../userland/static/g/app',
     define: {
       'window.__qing_dev__': true,
+      this: 'window',
     },
   })
   .catch(() => process.exit(1));
