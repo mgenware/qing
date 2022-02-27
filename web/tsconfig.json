@@ -3,11 +3,12 @@
   "include": ["./src/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
-    "importHelpers": true,
+    "importHelpers": false,
     "rootDir": "./src",
     "baseUrl": "./src",
     "declaration": false,
     "incremental": true,
+    "sourceMap": true,
     "preserveWatchOutput": true
   }
 }
