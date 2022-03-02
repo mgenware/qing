@@ -20,6 +20,7 @@
     "js-cookie": "^3.0.1",
     "kangxi-editor": "^0.14.2",
     "lit-props": "^3.2.0",
+    "mahur": "^0.0.2",
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
     "qing-button": "^8.2.5",

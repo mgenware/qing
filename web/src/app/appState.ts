@@ -6,17 +6,16 @@
  */
 
 import { CHECK } from 'checks';
+import { EventEmitter, CancelEventFunc } from 'mahur';
 
 interface AppStateEntry {
   constructorFn?: () => void;
   value?: unknown;
 }
 
-type ListenerFn = (name: string, value: unknown) => void;
-
 export class AppState {
   private entries: Record<string, AppStateEntry> = {};
-  private listeners: ListenerFn[] = [];
+  private listeners = new EventEmitter();
 
   register(name: string, ctorFn: () => unknown) {
     CHECK(!this.entries[name]);
@@ -36,19 +35,14 @@ export class AppState {
     return entry.value as T;
   }
 
-  observe<T>(listener: (name: string, value: T) => void): () => void {
-    this.listeners.push(listener as ListenerFn);
-    return () => {
-      this.listeners = this.listeners.filter((fn) => fn !== listener);
-    };
+  observe(name: string, handler: (arg: unknown) => void): CancelEventFunc {
+    return this.listeners.on(name, handler);
   }
 
   set(name: string, value: unknown) {
     const entry = { name, value };
     this.entries[name] = entry;
-    for (const listener of this.listeners) {
-      listener(name, value);
-    }
+    this.listeners.dispatch(name, value);
   }
 }
 

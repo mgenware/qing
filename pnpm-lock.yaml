@@ -128,6 +128,7 @@ importers:
       kangxi-editor: ^0.14.2
       lit-analyzer: ^1.2.1
       lit-props: ^3.2.0
+      mahur: ^0.0.2
       narwhal-js: ^0.0.1
       plum-element: ^0.0.7
       qing-button: ^8.2.5
@@ -147,6 +148,7 @@ importers:
       js-cookie: 3.0.1
       kangxi-editor: 0.14.2
       lit-props: 3.2.0_lit@2.2.0
+      mahur: 0.0.2
       narwhal-js: 0.0.1
       plum-element: 0.0.7
       qing-button: 8.2.5_lit@2.2.0
@@ -4672,6 +4674,11 @@ packages:
   /m-fs/5.1.0:
     resolution: {integrity: sha512-4G/YaeHoc+TrN2NU+/pC+M73W5b+bFi+iOFtLS/CheH2xzQWpuC+78kyqmseIsCi8TRRbuWkqs6HmlnScl7v/A==}
     engines: {node: '>=12.0.0'}
+    dev: false
+
+  /mahur/0.0.2:
+    resolution: {integrity: sha512-CPWNT2Ok4ThQKJjJ5FPDcjPp13Uld0BE2NXUnUvtuqt2n/KKgeTvVAet4cw7SxuqzKm8n7Ruq29jksGpdUMvTQ==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /make-dir/3.1.0:

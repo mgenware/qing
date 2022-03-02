@@ -171,10 +171,8 @@ export default class NavBarApp extends BaseElement {
     this.user = appPageState.user;
     this.currentTheme = appSettings.theme;
 
-    appState.observe<User>((name, value) => {
-      if (name === appStateName.user) {
-        this.user = value;
-      }
+    appState.observe(appStateName.user, (arg) => {
+      this.user = arg as User;
     });
   }
 
