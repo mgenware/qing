@@ -7,12 +7,23 @@
 
 import { Cmt } from './cmt';
 
-export const openCmtEditorRequestedEvent = 'openCmtEditorRequested';
+const eventPrefix = 'open-cmt-editor-';
+let sessionCounter = 1;
+
+export function newSessionID() {
+  return `${sessionCounter++}`;
+}
+
+export function openEditorResultEvent(session: string) {
+  return `${eventPrefix}-response-${session}`;
+}
 
 export interface CmtEditorProps {
   // If not null, we're editing a comment or reply.
   editing: Cmt | null;
   // The cmt the user is replying to.
   to: Cmt | null;
-  done: (cmt: Cmt) => void;
+  // A non-null value forces the editor to open.
+  // Call `newSessionID` to grab a session value.
+  editorSession: string | null;
 }
