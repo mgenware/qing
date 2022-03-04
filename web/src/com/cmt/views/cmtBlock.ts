@@ -172,9 +172,9 @@ export class CmtBlock extends BaseElement {
       const { cmt } = res;
       if (cmt) {
         if (props.editing) {
-          this._collector.observableItems.update(cmt);
+          CHECK(this._collector.observableItems.update(cmt));
         } else {
-          this._collector.observableItems.insert(0, cmt);
+          CHECK(this._collector.observableItems.insert(0, cmt));
         }
       }
     });
