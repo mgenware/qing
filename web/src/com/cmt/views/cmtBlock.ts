@@ -122,7 +122,8 @@ export class CmtBlock extends BaseElement {
           class="m-t-md"
           .host=${this.host}
           .cmt=${it}
-          @deleteMeRequested=${this.handleReplyDeleteMeRequest}></cmt-block>`,
+          @onRequestDeleteChild=${this.handleRequestDeleteChild}
+          @onRequestUpdateChild=${this.handleRequestUpdateChild}></cmt-block>`,
     );
     const itemsContainer = html`<div class=${cmt ? 'with-indent' : ''}>
       ${when(
@@ -172,7 +173,7 @@ export class CmtBlock extends BaseElement {
       const { cmt } = res;
       if (cmt) {
         if (props.editing) {
-          CHECK(this._collector.observableItems.update(cmt));
+          this.dispatchEvent(new CustomEvent<Cmt>('onRequestUpdateChild', { detail: cmt }));
         } else {
           CHECK(this._collector.observableItems.insert(0, cmt));
         }
@@ -223,7 +224,7 @@ export class CmtBlock extends BaseElement {
             uiDeleted: true,
           };
         } else {
-          this.dispatchEvent(new CustomEvent<Cmt>('deleteMeRequested', { detail: this.cmt }));
+          this.dispatchEvent(new CustomEvent<Cmt>('onRequestDeleteChild', { detail: this.cmt }));
         }
       }
     }
@@ -242,9 +243,8 @@ export class CmtBlock extends BaseElement {
       const newID = e.detail.added?.[0];
       if (newID) {
         const newCmt = e.sender.observableItems.map.get(newID);
-        if (newCmt) {
-          newCmt.uiHighlighted = true;
-        }
+        CHECK(newCmt);
+        newCmt.uiHighlighted = true;
       }
     }
     this._hasNext = e.hasNext;
@@ -254,10 +254,16 @@ export class CmtBlock extends BaseElement {
     );
   }
 
-  private handleReplyDeleteMeRequest(e: CustomEvent<Cmt>) {
+  private handleRequestDeleteChild(e: CustomEvent<Cmt>) {
     // MUST BE handled by immediate parent.
     e.stopPropagation();
-    this._collector.observableItems.deleteByKey(e.detail.id);
+    CHECK(this._collector.observableItems.deleteByKey(e.detail.id));
+  }
+
+  private handleRequestUpdateChild(e: CustomEvent<Cmt>) {
+    // MUST BE handled by immediate parent.
+    e.stopPropagation();
+    CHECK(this._collector.observableItems.update(e.detail));
   }
 }
 
