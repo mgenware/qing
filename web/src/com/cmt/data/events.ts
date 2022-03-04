@@ -6,6 +6,7 @@
  */
 
 import { Cmt } from './cmt';
+import ErrorWithCode from 'lib/errorWithCode';
 
 const eventPrefix = 'open-cmt-editor-';
 let sessionCounter = 1;
@@ -18,6 +19,12 @@ export function openEditorResultEvent(session: string) {
   return `${eventPrefix}-response-${session}`;
 }
 
+export interface CmtEditorResult {
+  canceled?: boolean;
+  err?: ErrorWithCode;
+  cmt?: Cmt;
+}
+
 export interface CmtEditorProps {
   // If not null, we're editing a comment or reply.
   editing: Cmt | null;
@@ -25,5 +32,5 @@ export interface CmtEditorProps {
   to: Cmt | null;
   // A non-null value forces the editor to open.
   // Call `newSessionID` to grab a session value.
-  editorSession: string | null;
+  session: string | null;
 }

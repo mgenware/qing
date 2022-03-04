@@ -15,7 +15,7 @@ import './cmtView';
 import './cmtLoadMoreView';
 import 'ui/buttons/linkButton';
 import { Cmt } from '../data/cmt';
-import { CmtEditorProps, openCmtEditorRequestedEvent } from '../data/events';
+import * as ev from '../data/events';
 import { CHECK } from 'checks';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
@@ -23,6 +23,7 @@ import CmtCollector from '../data/cmtCollector';
 import { listenForVisibilityChange } from 'lib/htmlLib';
 import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
+import appEventEmitter from 'app/appEventEmitter';
 
 const startPage = 1;
 
@@ -164,19 +165,25 @@ export class CmtBlock extends BaseElement {
 
   // When adding a cmt to root-cmt-list, it's called by <root-cmt-list>.
   // When adding a reply, it's called by `handleReplyClick`.
-  openCmtEditor(props: Omit<CmtEditorProps, 'done'>) {
-    const detail: CmtEditorProps = {
-      ...props,
-      done: (cmt) => {
+  openCmtEditor(props: Omit<ev.CmtEditorProps, 'session'>) {
+    const session = ev.newSessionID();
+    appEventEmitter.once(ev.openEditorResultEvent(session), (rawRes) => {
+      const res = rawRes as ev.CmtEditorResult;
+      const { cmt } = res;
+      if (cmt) {
         if (props.editing) {
           this._collector.observableItems.update(cmt);
         } else {
           this._collector.observableItems.insert(0, cmt);
         }
-      },
+      }
+    });
+    const detail: ev.CmtEditorProps = {
+      ...props,
+      session,
     };
     this.dispatchEvent(
-      new CustomEvent<CmtEditorProps>(openCmtEditorRequestedEvent, { detail, composed: true }),
+      new CustomEvent<ev.CmtEditorProps>('onRequestCmtEditorOpen', { detail, composed: true }),
     );
   }
 
@@ -243,7 +250,7 @@ export class CmtBlock extends BaseElement {
     this._hasNext = e.hasNext;
     this._items = e.items;
     this.dispatchEvent(
-      new CustomEvent<ItemsChangedEvent<Cmt>>('cmtItemsChanged', { detail: e, composed: true }),
+      new CustomEvent<ItemsChangedEvent<Cmt>>('onCmtItemsChange', { detail: e, composed: true }),
     );
   }
 

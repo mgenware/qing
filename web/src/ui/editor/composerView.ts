@@ -255,17 +255,17 @@ export class ComposerView extends BaseElement {
   }
 
   private async handleCancel() {
-    const fireEvent = () => {
+    const fireEvent = (contentDiscarded: boolean) => {
       this.markAsSaved();
-      this.dispatchEvent(new CustomEvent('onDiscard'));
+      this.dispatchEvent(new CustomEvent<boolean>('onCancel', { detail: contentDiscarded }));
     };
     if (this.hasContentChanged()) {
       // Warn user of unsaved changes.
       if (await appAlert.warnUnsavedChanges()) {
-        fireEvent();
+        fireEvent(true);
       }
     } else {
-      fireEvent();
+      fireEvent(false);
     }
   }
 

@@ -80,7 +80,7 @@ export default class SetEntityApp extends BaseElement {
           .entityType=${this.entityType}
           .submitButtonText=${this.submitButtonText}
           @onSubmit=${this.handleSubmit}
-          @onDiscard=${this.handleDiscard}></composer-view>
+          @onCancel=${this.handleCancel}></composer-view>
       </qing-overlay>
     `;
   }
@@ -113,11 +113,11 @@ export default class SetEntityApp extends BaseElement {
     }
   }
 
-  private handleDiscard() {
+  private handleCancel() {
     if (this.autoClose) {
       this.open = false;
     } else {
-      this.dispatchEvent(new CustomEvent('editorClose'));
+      this.dispatchEvent(new CustomEvent('onEditorClose'));
     }
   }
 

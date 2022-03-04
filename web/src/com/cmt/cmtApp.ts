@@ -19,16 +19,11 @@ import ls, { formatLS } from 'ls';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
 import { SetCmtLoader } from './loaders/setCmtLoader';
 import appTask from 'app/appTask';
-import { CmtEditorProps } from './data/events';
+import { CmtEditorProps, openEditorResultEvent, CmtEditorResult } from './data/events';
 import { ItemsChangedEvent } from 'lib/itemCollector';
+import appEventEmitter from 'app/appEventEmitter';
 
 const composerID = 'composer';
-
-// Wrapper around `CmtEditorProps` used internally in `CmtApp`.
-interface InternalCmtEditorProps extends CmtEditorProps {
-  // Whether the editor is open.
-  open: boolean;
-}
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -76,9 +71,9 @@ export class CmtApp extends BaseElement {
         .totalCmtCount=${this._totalCmtCount}
         .host=${this.host}
         .loadOnVisible=${!!this.initialTotalCmtCount}
-        @cmtItemsChanged=${this.handleAnyItemsChanged}
-        @openCmtEditorRequested=${this.handleOpenCmtEditorRequested}></root-cmt-list>
-      <qing-overlay class="immersive" ?open=${editorProps.open}>
+        @onCmtItemsChange=${this.handleAnyItemsChanged}
+        @onRequestCmtEditorOpen=${this.handleOpenCmtEditorRequested}></root-cmt-list>
+      <qing-overlay class="immersive" ?open=${!!editorProps.session}>
         <h2>${heading}</h2>
         ${when(
           editorProps.to,
@@ -90,12 +85,13 @@ export class CmtApp extends BaseElement {
           .entityType=${entityCmt}
           .submitButtonText=${editorProps.editing ? ls.save : ls.send}
           @onSubmit=${this.handleSubmit}
-          @onDiscard=${this.handleDiscard}></composer-view>
+          @onCancel=${this.handleCancel}></composer-view>
       </qing-overlay>
     `;
   }
 
-  private handleDiscard() {
+  private handleCancel() {
+    this.sendEditorResult({ canceled: true });
     this.closeEditor();
   }
 
@@ -104,8 +100,16 @@ export class CmtApp extends BaseElement {
     this.composerEl?.resetEditor();
   }
 
+  private sendEditorResult(res: CmtEditorResult) {
+    const { session } = this._editorProps;
+    CHECK(session);
+    const event = openEditorResultEvent(session);
+    appEventEmitter.dispatch(event, res);
+  }
+
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const { _editorProps: editorProps } = this;
+    CHECK(editorProps.session);
 
     let loader: SetCmtLoader;
     if (!editorProps.editing) {
@@ -131,14 +135,15 @@ export class CmtApp extends BaseElement {
       );
     }
 
-    const status = await appTask.critical(loader, ls.publishing);
-    if (status.data) {
-      const serverCmt = status.data.cmt;
-      this.closeEditor();
+    const apiRes = await appTask.critical(loader, ls.publishing);
+    if (apiRes.error) {
+      this.sendEditorResult({ err: apiRes.error });
+    } else if (apiRes.data) {
+      const serverCmt = apiRes.data.cmt;
 
       if (!editorProps.editing) {
         // Adding a cmt or reply.
-        editorProps.done(serverCmt);
+        this.sendEditorResult({ cmt: serverCmt });
       } else {
         // Editing a cmt or reply.
 
@@ -161,21 +166,23 @@ export class CmtApp extends BaseElement {
         }
 
         updatedCmt.createdAt = editorProps.editing.createdAt;
-        editorProps.done(updatedCmt);
+        this.sendEditorResult({ cmt: updatedCmt });
       }
+
+      // Close editor only when API is successfully completed.
+      this.closeEditor();
     }
   }
 
-  private closedEditorProps(): InternalCmtEditorProps {
+  private closedEditorProps(): CmtEditorProps {
     return {
-      open: false,
       editing: null,
       to: null,
-      done: () => {},
+      session: null,
     };
   }
 
-  // Handles all `cmtItemsChanged` events from descendants.
+  // Handles all `onCmtItemsChange` events from descendants.
   // This is to track cmt count changes.
   private handleAnyItemsChanged(e: CustomEvent<ItemsChangedEvent<Cmt>>) {
     e.stopPropagation();
@@ -187,10 +194,7 @@ export class CmtApp extends BaseElement {
 
   private handleOpenCmtEditorRequested(e: CustomEvent<CmtEditorProps>) {
     e.stopPropagation();
-    this._editorProps = {
-      ...e.detail,
-      open: true,
-    };
+    this._editorProps = e.detail;
   }
 }
 
