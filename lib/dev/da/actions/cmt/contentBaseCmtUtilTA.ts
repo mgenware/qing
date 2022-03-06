@@ -12,7 +12,7 @@ import contentBaseCmtUtil from '../../models/com/contentBaseCmtUtil.js';
 
 export const cmtRelationTable = 'cmtRelationTable';
 
-export class ContentBaseCmtSTA extends mm.TableActions {
+export class ContentBaseCmtUtilTA extends mm.TableActions {
   selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
   selectRootCmtsWithLikes = getSelectCmtsAction({
     rt: contentBaseCmtUtil,
@@ -22,6 +22,6 @@ export class ContentBaseCmtSTA extends mm.TableActions {
   insertReply = cmtf.insertReplyAction();
 }
 
-export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtSTA, {
+export default mm.tableActions(contentBaseCmtUtil, ContentBaseCmtUtilTA, {
   configurableTableName: cmtRelationTable,
 });

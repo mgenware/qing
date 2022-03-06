@@ -61,5 +61,7 @@
   "maxUserInfoFieldLen": 100,
   "maxURLLen": 200,
   "maxPwdHashLen": 255,
-  "formUploadMain": "main"
+  "formUploadMain": "main",
+  "deleteFlagAuthor": 1,
+  "deleteFlagHost": 2
 }

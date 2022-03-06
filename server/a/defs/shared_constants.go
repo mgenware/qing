@@ -18,6 +18,8 @@ type SharedConstantsType struct {
 	ColumnCreated string
 	ColumnLikes string
 	ColumnMessages string
+	DeleteFlagAuthor int
+	DeleteFlagHost int
 	DownVoteValue int
 	EntityAnswer int
 	EntityCmt int
@@ -88,6 +90,8 @@ func init() {
 		ColumnCreated: "createdAt",
 		ColumnLikes: "likes",
 		ColumnMessages: "messages",
+		DeleteFlagAuthor: 1,
+		DeleteFlagHost: 2,
 		DownVoteValue: -1,
 		EntityAnswer: 7,
 		EntityCmt: 2,

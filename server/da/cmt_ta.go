@@ -46,6 +46,11 @@ func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, id uint64, 
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
+func (mrTable *TableTypeCmt) EraseCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, delFlag uint8) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `del_flag` = ?, `content` =  WHERE (`id` = ? AND `user_id` = ?)", delFlag, id, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 func (mrTable *TableTypeCmt) InsertCmt(mrQueryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`, `del_flag`) VALUES (NULL, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", contentHTML, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)

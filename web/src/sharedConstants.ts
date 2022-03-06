@@ -75,3 +75,5 @@ export const maxUserInfoFieldLen = 100;
 export const maxURLLen = 200;
 export const maxPwdHashLen = 255;
 export const formUploadMain = "main";
+export const deleteFlagAuthor = 1;
+export const deleteFlagHost = 2;

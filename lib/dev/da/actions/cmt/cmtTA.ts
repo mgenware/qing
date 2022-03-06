@@ -62,6 +62,12 @@ export class CmtTA extends mm.TableActions {
     .setInputs();
   deleteCore = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 
+  eraseCmt = mm
+    .updateOne()
+    .setInputs(t.del_flag)
+    .set(t.content, '')
+    .whereSQL(defaultUpdateConditions(t));
+
   constructor() {
     super();
     this.selectReplies = getSelectCmtsAction({ rt: null, fetchLikes: false });
