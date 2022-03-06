@@ -17,6 +17,8 @@ export class Cmt extends mm.Table {
   likes = mm.uInt().default(0);
   created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
   modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
+
+  del_flag = mm.uTinyInt().default(0);
 }
 
 export const cmt = mm.table(Cmt);
