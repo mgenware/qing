@@ -15,8 +15,8 @@ export class Cmt extends mm.Table {
   user_id = user.id;
   reply_count = mm.uInt().default(0);
   likes = mm.uInt().default(0);
-  created_at = mm.datetime('utc').setModelName('RawCreatedAt');
-  modified_at = mm.datetime('utc').setModelName('RawModifiedAt');
+  created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
+  modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
 }
 
 export const cmt = mm.table(Cmt);

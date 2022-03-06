@@ -13,8 +13,8 @@ export default class ContentBase extends mm.Table {
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
 
-  created_at = mm.datetime('utc').setModelName('RawCreatedAt');
-  modified_at = mm.datetime('utc').setModelName('RawModifiedAt');
+  created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
+  modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
 
   cmt_count = mm.uInt().default(0);
 }

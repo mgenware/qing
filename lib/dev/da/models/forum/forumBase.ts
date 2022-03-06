@@ -14,5 +14,5 @@ export default class ForumBase extends mm.Table {
   desc = mm.text().setModelName('DescHTML');
   order_index = mm.uInt().default(0);
 
-  created_at = mm.datetime('utc').setModelName('RawCreatedAt');
+  created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
 }

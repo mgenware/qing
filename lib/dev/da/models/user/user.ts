@@ -13,14 +13,14 @@ export class User extends mm.Table {
   email = mm.varChar(c.maxEmailLen).uniqueConstraint;
   name = mm.varChar(c.maxNameLen);
   icon_name = mm.varChar(c.maxFileNameLen).default('');
-  raw_created_at = mm.datetime('utc').setDBName('created_at');
+  raw_created_at = mm.datetime({ defaultToNow: 'utc' }).setDBName('created_at');
 
   company = mm.varChar(c.maxUserInfoFieldLen).default('');
   website = mm.varChar(c.maxURLLen).default('');
   location = mm.varChar(c.maxUserInfoFieldLen).default('');
   bio = mm.text().nullable.default(null).setModelName('BioHTML');
 
-  admin = mm.bool().default(false);
+  admin = mm.bool().default(0);
 }
 
 export default mm.table(User);

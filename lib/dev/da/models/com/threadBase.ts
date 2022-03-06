@@ -12,5 +12,5 @@ import ContentWithTitleBase from './contentWithTitleBase.js';
 export default class ThreadBase extends ContentWithTitleBase {
   forum_id = mm.fk(forum.id).nullable;
   reply_count = mm.uInt().default(0);
-  last_replied_at = mm.datetime('utc').nullable.default(null);
+  last_replied_at = mm.datetime({ defaultToNow: 'utc' }).nullable.default(null);
 }
