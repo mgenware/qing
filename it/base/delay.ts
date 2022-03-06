@@ -14,5 +14,5 @@ export default function delay(ms = 500) {
 // Server uses MySQL `DATETIME` to track dates, we have to wait at least
 // 1 sec to make an entity considered updated in DB.
 export function waitForMinTimeChange() {
-  return delay(1200);
+  return delay(1100);
 }

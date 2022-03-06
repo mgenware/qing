@@ -56,7 +56,7 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
         const total = 3;
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await writeCmt(page, { cmtApp, content: `${i + 1}` });
+          await writeCmt(page, { cmtApp, content: `${i + 1}`, waitForTimeChange: true });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop

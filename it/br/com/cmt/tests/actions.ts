@@ -11,13 +11,15 @@ import { editorShouldAppear } from 'br/com/editor/editor';
 import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
+import { waitForMinTimeChange } from 'base/delay';
 
-const loadMoreCmtText = 'Load more comments';
+const loadMoreCmtText = 'More comments';
 
 export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
   checkVisuals?: boolean;
+  waitForTimeChange?: boolean;
 }
 
 export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
@@ -36,6 +38,9 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
   }
 
   await updateEditorNTC(p, { part: 'content', content: a.content });
+  if (a.waitForTimeChange) {
+    await waitForMinTimeChange();
+  }
 }
 
 export interface EditCmtArgs {
