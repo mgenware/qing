@@ -15,7 +15,7 @@ export async function commentsHeadingShouldAppear(el: br.Element) {
 }
 
 export function getNthCmt(cmtApp: br.Element, index: number) {
-  return cmtApp.$$('cmt-block').item(index);
+  return cmtApp.$(`div > div > div > cmt-block:nth-child(${index + 1})`);
 }
 
 export interface CheckCmtArgs {
