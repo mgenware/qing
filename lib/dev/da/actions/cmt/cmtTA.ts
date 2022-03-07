@@ -11,6 +11,7 @@ import * as cm from '../../models/common.js';
 import { getEntitySrcType } from '../defs.js';
 import { defaultUpdateConditions } from '../common.js';
 import { getSelectCmtsAction } from './cmtTAUtils.js';
+import { updateCounterAction } from '../com/updateCounterAction.js';
 
 // Most cmt/reply-related funcs are built into the host table itself.
 // Those in `CmtTA` are ones don't rely on `host.cmt_count`.
@@ -27,11 +28,7 @@ export class CmtTA extends mm.TableActions {
     .resultTypeNameAttr(getEntitySrcType)
     .attr(mm.ActionAttribute.enableTSResultType, true);
 
-  // DO NOT add `user_id` check here since parent cmt's `reply_count` might be a different user.
-  updateReplyCount = mm
-    .updateOne()
-    .set(t.reply_count, mm.sql`${t.reply_count} + ${mm.int().toInput('offset')}`)
-    .by(t.id);
+  updateReplyCount = updateCounterAction(t, t.reply_count);
 
   memLockedGetCmtDataForDeletion = mm
     .selectRow(t.parent_id, t.reply_count)

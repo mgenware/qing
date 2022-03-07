@@ -11,12 +11,9 @@ import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/qna/question.js';
 import questionCmt from '../../models/qna/questionCmt.js';
 import ThreadBaseTA from '../com/threadBaseTA.js';
-import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
 import userStatsTA from '../user/userStatsTA.js';
 
 export class QuestionTA extends ThreadBaseTA {
-  updateMsgCount = updateCounterAction(t, t.reply_count);
-
   override getBaseTable(): ContentBase {
     return t;
   }
@@ -45,8 +42,8 @@ export class QuestionTA extends ThreadBaseTA {
     return [...super.getFullColumns(), t.title, t.cmt_count, t.reply_count, t.likes];
   }
 
-  override getContainerUpdateCounterAction(): mm.Action {
-    return userStatsTA.updateQuestionCount;
+  override getContainerUpdateCounterActions(): mm.Action[] {
+    return [userStatsTA.updateQuestionCount];
   }
 }
 

@@ -7,13 +7,7 @@
 
 import * as mm from 'mingru-models';
 import t from '../../models/user/userStats.js';
-
-function updateCounterAction(column: mm.Column): mm.UpdateAction {
-  return mm
-    .updateOne()
-    .set(column, mm.sql`${column} + ${mm.int().toInput('offset')}`)
-    .by(t.id, 'userID');
-}
+import * as uca from '../com/updateCounterAction.js';
 
 function selectFieldAction(col: mm.Column): mm.SelectAction {
   return mm.selectField(col).by(t.id);
@@ -24,10 +18,10 @@ export class UserStatsTA extends mm.TableActions {
     .selectRow(t.post_count, t.discussion_count, t.question_count, t.answer_count)
     .by(t.id);
 
-  updatePostCount = updateCounterAction(t.post_count);
-  updateDiscussionCount = updateCounterAction(t.discussion_count);
-  updateQuestionCount = updateCounterAction(t.question_count);
-  updateAnswerCount = updateCounterAction(t.answer_count);
+  updatePostCount = uca.updateCounterAction(t, t.post_count);
+  updateDiscussionCount = uca.updateCounterAction(t, t.discussion_count);
+  updateQuestionCount = uca.updateCounterAction(t, t.question_count);
+  updateAnswerCount = uca.updateCounterAction(t, t.answer_count);
 
   testSelectPostCount = selectFieldAction(t.post_count);
   testSelectDiscussionCount = selectFieldAction(t.discussion_count);

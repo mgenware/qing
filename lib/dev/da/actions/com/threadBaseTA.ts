@@ -15,7 +15,7 @@ export default abstract class ThreadBaseTA extends ContentBaseTA {
     if (t instanceof ThreadBase) {
       return t;
     }
-    throw new Error(`t is not a \`ThreadBase\`, got ${t}`);
+    throw new Error(`\`t\` is not a \`ThreadBase\`, got ${t}`);
   }
 
   override getStartingInsertionInputColumns(): mm.Column[] {

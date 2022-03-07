@@ -82,7 +82,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
       this.deleteItemOverride() ??
       mm.transact(
         mm.deleteOne().whereSQL(this.updateConditions),
-        this.getContainerUpdateCounterAction().wrap({ offset: -1 }),
+        ...this.getDecrementContainerCounterActions(),
       );
     this.insertItem = mm
       .transact(
@@ -98,7 +98,7 @@ export default abstract class ContentBaseTA extends mm.TableActions {
           )
           .setDefaults()
           .declareInsertedID(insertedIDVar),
-        this.getContainerUpdateCounterAction().wrap({ offset: 1 }),
+        ...this.getIncrementContainerCounterActions(),
       )
       .argStubs(cm.sanitizedStub, cm.captStub)
       .setReturnValues(insertedIDVar);
@@ -129,9 +129,25 @@ export default abstract class ContentBaseTA extends mm.TableActions {
     return [];
   }
 
-  // Gets the update action of container table to update the counter in response
+  // Gets a list of update actions of container table to update the counters in response
   // to a insertion or deletion.
-  abstract getContainerUpdateCounterAction(): mm.Action;
+  // For top entities like posts, it returns a single action to update `user_post_count`.
+  // For sub-entities like answers, it returns 2 actions, one for updating `user_answer_count`.
+  // the other is for updating `parent_question.reply_count`.
+  // NOTE: Comments have their own TA due to recursive structure.
+  abstract getContainerUpdateCounterActions(): mm.Action[];
+
+  private callContainerUpdateCounterActions(offset: number) {
+    return this.getContainerUpdateCounterActions().map((a) => a.wrap({ offset }));
+  }
+
+  protected getIncrementContainerCounterActions() {
+    return this.callContainerUpdateCounterActions(1);
+  }
+
+  protected getDecrementContainerCounterActions() {
+    return this.callContainerUpdateCounterActions(-1);
+  }
 
   protected deleteItemOverride(): mm.Action | null {
     return null;

@@ -11,7 +11,7 @@ import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/discussion/discussionMsg.js';
 import discussionMsgCmt from '../../models/discussion/discussionMsgCmt.js';
 import ContentBaseTA from '../com/contentBaseTA.js';
-import discussionTA from './discussionTA.js';
+import { threadBaseUtilTA, threadBaseTableParam } from '../com/threadBaseUtilTA.js';
 
 const discussionID = 'discussionID';
 
@@ -61,8 +61,13 @@ export class DiscussionMsgTA extends ContentBaseTA {
     return [...super.getFullColumns(), t.cmt_count];
   }
 
-  override getContainerUpdateCounterAction(): mm.Action {
-    return discussionTA.updateMsgCount.wrap({ id: mm.valueRef(discussionID) });
+  override getContainerUpdateCounterActions(): mm.Action[] {
+    return [
+      threadBaseUtilTA.updateReplyCount.wrap({
+        [threadBaseTableParam]: t,
+        id: mm.valueRef(discussionID),
+      }),
+    ];
   }
 
   override getExtraInsertionInputColumns(): mm.Column[] {
@@ -76,7 +81,7 @@ export class DiscussionMsgTA extends ContentBaseTA {
         .by(t.id)
         .declareReturnValue(mm.ReturnValues.result, discussionID),
       mm.deleteOne().whereSQL(this.updateConditions),
-      this.getContainerUpdateCounterAction().wrap({ offset: -1 }),
+      ...this.getDecrementContainerCounterActions(),
     );
   }
 }

@@ -42,8 +42,8 @@ export class PostTA extends ContentBaseTA {
     return [...super.getFullColumns(), t.title, t.cmt_count, t.likes];
   }
 
-  override getContainerUpdateCounterAction(): mm.Action {
-    return userStatsTA.updatePostCount;
+  override getContainerUpdateCounterActions(): mm.Action[] {
+    return [userStatsTA.updatePostCount];
   }
 }
 

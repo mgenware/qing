@@ -11,7 +11,7 @@ import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/qna/answer.js';
 import answerCmt from '../../models/qna/answerCmt.js';
 import ContentBaseTA from '../com/contentBaseTA.js';
-import questionTA from './questionTA.js';
+import { threadBaseUtilTA, threadBaseTableParam } from '../com/threadBaseUtilTA.js';
 
 const questionID = 'questionID';
 
@@ -61,8 +61,13 @@ export class AnswerTA extends ContentBaseTA {
     return [...super.getFullColumns(), t.cmt_count, t.up_votes, t.down_votes, t.votes];
   }
 
-  override getContainerUpdateCounterAction(): mm.Action {
-    return questionTA.updateMsgCount.wrap({ id: mm.valueRef(questionID), offset: -1 });
+  override getContainerUpdateCounterActions(): mm.Action[] {
+    return [
+      threadBaseUtilTA.updateReplyCount.wrap({
+        [threadBaseTableParam]: t,
+        id: mm.valueRef(questionID),
+      }),
+    ];
   }
 
   override getExtraInsertionInputColumns(): mm.Column[] {
@@ -73,7 +78,7 @@ export class AnswerTA extends ContentBaseTA {
     return mm.transact(
       mm.selectField(t.question_id).by(t.id).declareReturnValue(mm.ReturnValues.result, questionID),
       mm.deleteOne().whereSQL(this.updateConditions),
-      this.getContainerUpdateCounterAction(),
+      ...this.getDecrementContainerCounterActions(),
     );
   }
 }

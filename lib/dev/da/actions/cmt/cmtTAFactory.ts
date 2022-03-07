@@ -24,8 +24,9 @@ function getIncrementCmtCountAction(rootCmt: boolean) {
   // When fetching replies, no `hostID` was exposed, we have to explicitly
   // expose the param via `RenameArg`, which renames the `id` param from
   // `contentBaseUtilTA.incrementCmtCount` to `hostID`.
-  return contentBaseUtilTA.incrementCmtCount.wrap({
+  return contentBaseUtilTA.updateCmtCount.wrap({
     id: rootCmt ? mm.valueRef(hostID) : mm.renameArg(hostID),
+    offset: 1,
   });
 }
 
@@ -100,7 +101,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
       // Delete the reply.
       cmtTA.deleteCore,
       // cmt.replyCount--.
-      contentBaseUtilTA.decrementCmtCount.wrap({ [contentBaseTableParam]: ht }),
+      contentBaseUtilTA.updateCmtCount.wrap({ [contentBaseTableParam]: ht, offset: -1 }),
       // host.cmtCount--.
       cmtTA.updateReplyCount.wrap({
         offset: -1,

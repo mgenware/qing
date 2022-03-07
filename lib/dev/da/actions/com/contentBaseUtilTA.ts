@@ -7,15 +7,10 @@
 
 import * as mm from 'mingru-models';
 import contentBaseUtil from '../../models/com/contentBaseUtil.js';
-import { updateCounterAction } from '../misc/counterColumnTAFactory.js';
+import { updateCounterAction } from './updateCounterAction.js';
 
 class ContentBaseUtilTA extends mm.TableActions {
-  incrementCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count, {
-    offsetNumber: 1,
-  });
-  decrementCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count, {
-    offsetNumber: -1,
-  });
+  updateCmtCount = updateCounterAction(contentBaseUtil, contentBaseUtil.cmt_count);
 }
 
 export const contentBaseTableParam = 'contentBaseTable';
