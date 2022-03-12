@@ -25,7 +25,7 @@ function getIncrementCmtCountAction(rootCmt: boolean) {
   // expose the param via `RenameArg`, which renames the `id` param from
   // `contentBaseUtilTA.incrementCmtCount` to `hostID`.
   return contentBaseUtilTA.updateCmtCount.wrap({
-    id: rootCmt ? mm.valueRef(hostID) : mm.renameArg(hostID),
+    id: rootCmt ? mm.captureVar(hostID) : mm.renameArg(hostID),
     offset: 1,
   });
 }
@@ -52,7 +52,7 @@ export function insertReplyAction(): mm.TransactAction {
       // cmt.replyCount++.
       cmtTA.updateReplyCount.wrap({
         offset: 1,
-        id: mm.valueRef(parentID),
+        id: mm.captureVar(parentID),
       }),
       // host.cmtCount++.
       getIncrementCmtCountAction(false),
@@ -105,7 +105,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
       // host.cmtCount--.
       cmtTA.updateReplyCount.wrap({
         offset: -1,
-        id: mm.valueRef(`${cmtIDAndHostID}.${parentIDProp}`),
+        id: mm.captureVar(`${cmtIDAndHostID}.${parentIDProp}`),
       }),
     )
     .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface);

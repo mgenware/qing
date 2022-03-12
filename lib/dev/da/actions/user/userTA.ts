@@ -57,7 +57,7 @@ export class UserTA extends mm.TableActions {
   getAddUserEntryTXMembers(): mm.TransactionMemberTypes[] {
     return [
       this.addUserEntryInternal.declareInsertedID(addUserInsertedIDVar),
-      this.addUserStatsEntryInternal.wrap({ id: mm.valueRef(addUserInsertedIDVar) }),
+      this.addUserStatsEntryInternal.wrap({ id: mm.captureVar(addUserInsertedIDVar) }),
     ];
   }
 

@@ -65,7 +65,7 @@ export class DiscussionMsgTA extends ContentBaseTA {
     return [
       threadBaseUtilTA.updateReplyCount.wrap({
         [threadBaseTableParam]: t,
-        id: mm.valueRef(discussionID),
+        id: mm.captureVar(discussionID),
       }),
     ];
   }

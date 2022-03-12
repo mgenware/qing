@@ -65,7 +65,7 @@ export class AnswerTA extends ContentBaseTA {
     return [
       threadBaseUtilTA.updateReplyCount.wrap({
         [threadBaseTableParam]: t,
-        id: mm.valueRef(questionID),
+        id: mm.captureVar(questionID),
       }),
     ];
   }
