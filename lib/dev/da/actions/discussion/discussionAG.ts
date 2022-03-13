@@ -8,26 +8,26 @@
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
-import t from '../../models/post/post.js';
-import postCmt from '../../models/post/postCmt.js';
-import ContentBaseAG from '../com/contentBaseAG.js';
+import t from '../../models/discussion/discussion.js';
+import discussionCmt from '../../models/discussion/discussionCmt.js';
+import ThreadBaseAG from '../com/threadBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
-export class PostAG extends ContentBaseAG {
+export class DiscussionAG extends ThreadBaseAG {
   override getBaseTable(): ContentBase {
     return t;
   }
 
   override getCmtBaseTable(): ContentBaseCmt {
-    return postCmt;
+    return discussionCmt;
   }
 
   override getPCColumns(): mm.SelectedColumnTypes[] {
-    return [t.title, t.cmt_count, t.likes];
+    return [t.title, t.reply_count];
   }
 
   override getPCOrderByColumns(): mm.SelectedColumnTypes[] {
-    return [t.created_at, t.likes, t.cmt_count];
+    return [t.created_at, t.reply_count];
   }
 
   override getProfileColumns(): mm.SelectedColumnTypes[] {
@@ -39,12 +39,12 @@ export class PostAG extends ContentBaseAG {
   }
 
   override getFullColumns(): mm.SelectedColumnTypes[] {
-    return [...super.getFullColumns(), t.title, t.cmt_count, t.likes];
+    return [...super.getFullColumns(), t.title, t.cmt_count, t.reply_count];
   }
 
   override getContainerUpdateCounterActions(): mm.Action[] {
-    return [userStatsAG.updatePostCount];
+    return [userStatsAG.updateDiscussionCount];
   }
 }
 
-export default mm.actionGroup(t, PostAG);
+export default mm.actionGroup(t, DiscussionAG);

@@ -6,53 +6,55 @@
  */
 
 import * as mm from 'mingru-models';
-import userTA from './user/userTA.js';
-import postTA from './post/postTA.js';
-import userStatsTA from './user/userStatsTA.js';
-import cmtTA from './cmt/cmtTA.js';
-import userAuthTA from './user/userAuthTA.js';
-import userPwdTA from './user/userPwdTA.js';
-import likeTAs from './like/likeTAs.js';
-import discussionTA from './discussion/discussionTA.js';
-import discussionMsgTA from './discussion/discussionMsgTA.js';
-import homeTA from './home/homeTA.js';
-import questionTA from './qna/questionTA.js';
-import answerTA from './qna/answerTA.js';
-import forumGroupTA from './forum/forumGroupTA.js';
-import forumTA from './forum/forumTA.js';
-import forumIsUserModTA from './forum/forumIsUserModTA.js';
-import forumGroupModTA from './forum/forumGroupModTA.js';
-import forumModTA from './forum/forumModTA.js';
-import voteTAs from './vote/voteTAs.js';
-import { contentBaseUtilTA } from './com/contentBaseUtilTA.js';
-import contentBaseCmtUtilTA from './cmt/contentBaseCmtUtilTA.js';
+import userAG from './user/userAG.js';
+import postAG from './post/postAG.js';
+import userStatsAG from './user/userStatsAG.js';
+import cmtAG from './cmt/cmtAG.js';
+import userAuthAG from './user/userAuthAG.js';
+import userPwdAG from './user/userPwdAG.js';
+import likeAGs from './like/likeAGs.js';
+import discussionAG from './discussion/discussionAG.js';
+import discussionMsgAG from './discussion/discussionMsgAG.js';
+import homeAG from './home/homeAG.js';
+import questionAG from './qna/questionAG.js';
+import answerAG from './qna/answerAG.js';
+import forumGroupAG from './forum/forumGroupAG.js';
+import forumAG from './forum/forumAG.js';
+import forumIsUserModAG from './forum/forumIsUserModAG.js';
+import forumGroupModAG from './forum/forumGroupModAG.js';
+import forumModAG from './forum/forumModAG.js';
+import voteAGs from './vote/voteAGs.js';
+import { contentBaseUtilAG } from './com/contentBaseUtilAG.js';
+import contentBaseCmtUtilAG from './cmt/contentBaseCmtUtilAG.js';
+import { threadBaseUtilAG } from './com/threadBaseUtilAG.js';
 
-const source: Array<mm.TableActions | mm.Table> = [
-  userTA,
-  userStatsTA,
-  userAuthTA,
-  userPwdTA,
-  cmtTA,
-  postTA,
-  postTA.getCmtBaseTable(),
-  discussionTA,
-  discussionTA.getCmtBaseTable(),
-  discussionMsgTA,
-  discussionMsgTA.getCmtBaseTable(),
-  homeTA,
-  questionTA,
-  questionTA.getCmtBaseTable(),
-  answerTA,
-  answerTA.getCmtBaseTable(),
-  forumTA,
-  forumGroupTA,
-  forumModTA,
-  forumGroupModTA,
-  forumIsUserModTA,
-  contentBaseUtilTA,
-  contentBaseCmtUtilTA,
-  ...likeTAs,
-  ...voteTAs,
+const source: Array<mm.ActionGroup | mm.Table> = [
+  userAG,
+  userStatsAG,
+  userAuthAG,
+  userPwdAG,
+  cmtAG,
+  postAG,
+  postAG.getCmtBaseTable(),
+  discussionAG,
+  discussionAG.getCmtBaseTable(),
+  discussionMsgAG,
+  discussionMsgAG.getCmtBaseTable(),
+  homeAG,
+  questionAG,
+  questionAG.getCmtBaseTable(),
+  answerAG,
+  answerAG.getCmtBaseTable(),
+  forumAG,
+  forumGroupAG,
+  forumModAG,
+  forumGroupModAG,
+  forumIsUserModAG,
+  contentBaseUtilAG,
+  contentBaseCmtUtilAG,
+  threadBaseUtilAG,
+  ...likeAGs,
+  ...voteAGs,
 ];
 
 export default source;
