@@ -28,7 +28,6 @@ function printUsage() {
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
       conf            Build config files
-      const           Build shared constants
       da              Build data access layer
       ls              Build localized strings
       sod <arg>       Build SOD (Shared Object Definition)           
@@ -106,7 +105,6 @@ function checkMigrationNumber(num: number) {
       }
 
       case 'conf':
-      case 'const':
       case 'da':
       case 'ls':
       case 'sod': {
