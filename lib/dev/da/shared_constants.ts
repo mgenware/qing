@@ -9,4 +9,8 @@ export default {
   threadTypePost: 1,
   threadTypeQuestion: 2,
   threadTypeDiscussion: 3,
+  cmtHostPost: 1,
+  cmtHostQuestion: 2,
+  cmtHostDiscussion: 3,
+  cmtHostAnswer: 4,
 };

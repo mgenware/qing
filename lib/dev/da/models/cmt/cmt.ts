@@ -19,6 +19,9 @@ export class Cmt extends mm.Table {
   modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
 
   del_flag = mm.uTinyInt().default(0);
+
+  host_id = mm.uBigInt();
+  host_type = mm.uTinyInt();
 }
 
 export const cmt = mm.table(Cmt);

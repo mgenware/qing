@@ -20,6 +20,10 @@ package da
 
 // SharedConstants ...
 type SharedConstants struct {
+	CmtHostAnswer int
+	CmtHostDiscussion int
+	CmtHostPost int
+	CmtHostQuestion int
 	ThreadTypeDiscussion int
 	ThreadTypePost int
 	ThreadTypeQuestion int
@@ -30,6 +34,10 @@ var Constants *SharedConstants
 
 func init() {
 	Constants = &SharedConstants{
+		CmtHostAnswer: 4,
+		CmtHostDiscussion: 3,
+		CmtHostPost: 1,
+		CmtHostQuestion: 2,
 		ThreadTypeDiscussion: 3,
 		ThreadTypePost: 1,
 		ThreadTypeQuestion: 2,

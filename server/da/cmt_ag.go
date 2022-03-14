@@ -51,13 +51,13 @@ func (mrTable *TableTypeCmt) EraseCmt(mrQueryable mingru.Queryable, id uint64, u
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeCmt) InsertCmt(mrQueryable mingru.Queryable, contentHTML string, userID uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`, `del_flag`) VALUES (NULL, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", contentHTML, userID)
+func (mrTable *TableTypeCmt) InsertCmt(mrQueryable mingru.Queryable, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`, `del_flag`, `host_id`, `host_type`) VALUES (NULL, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, ?, ?)", contentHTML, userID, hostID, hostType)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (mrTable *TableTypeCmt) InsertReply(mrQueryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`, `del_flag`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0)", parentID, contentHTML, userID)
+func (mrTable *TableTypeCmt) InsertReply(mrQueryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `content`, `user_id`, `reply_count`, `likes`, `created_at`, `modified_at`, `del_flag`, `host_id`, `host_type`) VALUES (?, ?, ?, 0, 0, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, ?, ?)", parentID, contentHTML, userID, hostID, hostType)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
