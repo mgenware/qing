@@ -5,4 +5,5 @@
  * be found in the LICENSE file.
  */
 
-export * as app from './lib/app.js';
+export * as appDef from './lib/app.js';
+export * as dbDef from './lib/db.js';

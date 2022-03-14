@@ -11,7 +11,7 @@ import discussion from '../../models/discussion/discussion.js';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup.js';
 import forum, { Forum } from '../../models/forum/forum.js';
 import question from '../../models/qna/question.js';
-import sharedDefs from '../../shared_constants.js';
+import { dbDef } from '@qing/def';
 import {
   getUserPostCols,
   userThreadInterface,
@@ -43,23 +43,20 @@ export class HomeAG extends mm.ActionGroup {
     super();
 
     this.selectPosts = mm
-      .selectRows(this.typeCol(sharedDefs.threadTypePost), ...getUserPostCols(post))
+      .selectRows(this.typeCol(dbDef.threadTypePost), ...getUserPostCols(post))
       .from(post)
       .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectRows(
-        this.typeCol(sharedDefs.threadTypeQuestion),
-        ...getUserQuestionCols(question, false),
-      )
+      .selectRows(this.typeCol(dbDef.threadTypeQuestion), ...getUserQuestionCols(question, false))
       .from(question)
       .pageMode()
       .orderByAsc(question.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectDiscussions = mm
       .selectRows(
-        this.typeCol(sharedDefs.threadTypeDiscussion),
+        this.typeCol(dbDef.threadTypeDiscussion),
         ...getUserDiscussionCols(discussion, false),
       )
       .pageMode()

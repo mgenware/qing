@@ -6,12 +6,12 @@
  */
 
 import * as mm from 'mingru-models';
-import c from '../../../const/constants.json' assert { type: 'json' };
+import { appDef } from '@qing/def';
 
 export class UserPwd extends mm.Table {
   // `id` is from `user.id`.
   id = mm.pk().noAutoIncrement;
-  pwd_hash = mm.varChar(c.maxPwdHashLen);
+  pwd_hash = mm.varChar(appDef.maxPwdHashLen);
 }
 
 export default mm.table(UserPwd);

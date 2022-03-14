@@ -6,6 +6,7 @@
     "del-cli": "^4.0.1"
   },
   "dependencies": {
+    "@qing/def": "workspace:*",
     "gen-go-type": "^1.4.0",
     "go-const-gen": "^2.1.0",
     "is-plain-obj": "^4.0.0",
@@ -13,8 +14,8 @@
     "jsconfgen": "^0.2.0",
     "json-to-js-const": "^0.1.0",
     "m-fs": "^5.1.0",
-    "mingru": "^0.56.1",
-    "mingru-models": "^0.62.1",
+    "mingru": "^0.57.0",
+    "mingru-models": "^0.62.4",
     "mingru-tsconfig": "^4.0.0"
   }
 }

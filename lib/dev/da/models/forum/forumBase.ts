@@ -6,11 +6,11 @@
  */
 
 import * as mm from 'mingru-models';
-import c from '../../../const/constants.json' assert { type: 'json' };
+import { appDef } from '@qing/def';
 
 export default class ForumBase extends mm.Table {
   id = mm.pk();
-  name = mm.varChar(c.maxNameLen);
+  name = mm.varChar(appDef.maxNameLen);
   desc = mm.text().setModelName('DescHTML');
   order_index = mm.uInt().default(0);
 

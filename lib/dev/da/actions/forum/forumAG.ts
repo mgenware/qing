@@ -15,7 +15,7 @@ import {
   userThreadInterface,
   userThreadTypeColumnName,
 } from '../com/userThreadCommon.js';
-import sharedDefs from '../../shared_constants.js';
+import { dbDef } from '@qing/def';
 
 export class ForumAG extends mm.ActionGroup {
   selectForum = mm
@@ -41,7 +41,7 @@ export class ForumAG extends mm.ActionGroup {
 
     this.selectDiscussions = mm
       .selectRows(
-        this.typeCol(sharedDefs.threadTypeDiscussion),
+        this.typeCol(dbDef.threadTypeDiscussion),
         ...getUserDiscussionCols(discussion, true),
       )
       .from(discussion)
@@ -50,10 +50,7 @@ export class ForumAG extends mm.ActionGroup {
       .orderByAsc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectRows(
-        this.typeCol(sharedDefs.threadTypeQuestion),
-        ...getUserQuestionCols(question, true),
-      )
+      .selectRows(this.typeCol(dbDef.threadTypeQuestion), ...getUserQuestionCols(question, true))
       .from(question)
       .by(question.forum_id)
       .pageMode()
