@@ -38,7 +38,7 @@ func (mrTable *TableTypeDiscussion) deleteItemChild1(mrQueryable mingru.Queryabl
 }
 
 func (mrTable *TableTypeDiscussion) deleteItemChild2(mrQueryable mingru.Queryable, id uint64) error {
-	return UserStats.UpdateDiscussionCount(mrQueryable, -1, id)
+	return UserStats.UpdateDiscussionCount(mrQueryable, id, -1)
 }
 
 func (mrTable *TableTypeDiscussion) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
@@ -57,7 +57,7 @@ func (mrTable *TableTypeDiscussion) DeleteItem(db *sql.DB, id uint64, userID uin
 	return txErr
 }
 
-func (mrTable *TableTypeDiscussion) EditItem(mrQueryable mingru.Queryable, title string, contentHTML string, rawModifiedAt time.Time, id uint64, userID uint64, sanitizedStub int) error {
+func (mrTable *TableTypeDiscussion) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
@@ -68,7 +68,7 @@ func (mrTable *TableTypeDiscussion) insertItemChild1(mrQueryable mingru.Queryabl
 }
 
 func (mrTable *TableTypeDiscussion) insertItemChild2(mrQueryable mingru.Queryable, id uint64) error {
-	return UserStats.UpdateDiscussionCount(mrQueryable, 1, id)
+	return UserStats.UpdateDiscussionCount(mrQueryable, id, 1)
 }
 
 func (mrTable *TableTypeDiscussion) InsertItem(db *sql.DB, forumID *uint64, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, id uint64, sanitizedStub int, captStub int) (uint64, error) {
@@ -229,7 +229,7 @@ func (mrTable *TableTypeDiscussion) SelectItemSrc(mrQueryable mingru.Queryable, 
 	return result, nil
 }
 
-func (mrTable *TableTypeDiscussion) TestUpdateDates(mrQueryable mingru.Queryable, rawCreatedAt time.Time, rawModifiedAt time.Time, id uint64) error {
+func (mrTable *TableTypeDiscussion) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `discussion` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

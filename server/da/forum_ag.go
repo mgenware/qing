@@ -214,7 +214,7 @@ func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forum
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeForum) UpdateInfo(mrQueryable mingru.Queryable, name string, descHTML string, id uint64) error {
+func (mrTable *TableTypeForum) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {
 	result, err := mrQueryable.Exec("UPDATE `forum` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

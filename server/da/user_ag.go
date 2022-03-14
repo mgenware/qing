@@ -254,17 +254,17 @@ func (mrTable *TableTypeUser) UnsafeSelectAdmins(mrQueryable mingru.Queryable) (
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) UnsafeUpdateAdmin(mrQueryable mingru.Queryable, admin bool, id uint64) error {
+func (mrTable *TableTypeUser) UnsafeUpdateAdmin(mrQueryable mingru.Queryable, id uint64, admin bool) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `admin` = ? WHERE `id` = ?", admin, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeUser) UpdateIconName(mrQueryable mingru.Queryable, iconName string, id uint64) error {
+func (mrTable *TableTypeUser) UpdateIconName(mrQueryable mingru.Queryable, id uint64, iconName string) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `icon_name` = ? WHERE `id` = ?", iconName, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeUser) UpdateProfile(mrQueryable mingru.Queryable, name string, website string, company string, location string, bioHTML *string, id uint64) error {
+func (mrTable *TableTypeUser) UpdateProfile(mrQueryable mingru.Queryable, id uint64, name string, website string, company string, location string, bioHTML *string) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ?, `bio` = ? WHERE `id` = ?", name, website, company, location, bioHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

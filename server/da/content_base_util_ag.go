@@ -26,7 +26,7 @@ func (mrTable *TableTypeContentBaseUtil) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeContentBaseUtil) UpdateCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, offset int, id uint64) error {
+func (mrTable *TableTypeContentBaseUtil) UpdateCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE "+contentBaseTable.MingruSQLName()+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

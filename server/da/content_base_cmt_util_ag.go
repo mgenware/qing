@@ -37,7 +37,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild2(mrQueryable mingru.Q
 }
 
 func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild3(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
-	return ContentBaseUtil.UpdateCmtCount(mrQueryable, contentBaseTable, 1, id)
+	return ContentBaseUtil.UpdateCmtCount(mrQueryable, contentBaseTable, id, 1)
 }
 
 func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, contentHTML string, userID uint64, cmtRelationTable mingru.Table, hostID uint64, contentBaseTable mingru.Table, sanitizedStub int, captStub int) (uint64, error) {
@@ -63,11 +63,11 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, contentHTML st
 }
 
 func (mrTable *TableTypeContentBaseCmtUtil) insertReplyChild2(mrQueryable mingru.Queryable, id uint64) error {
-	return Cmt.UpdateReplyCount(mrQueryable, 1, id)
+	return Cmt.UpdateReplyCount(mrQueryable, id, 1)
 }
 
 func (mrTable *TableTypeContentBaseCmtUtil) insertReplyChild3(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, hostID uint64) error {
-	return ContentBaseUtil.UpdateCmtCount(mrQueryable, contentBaseTable, 1, hostID)
+	return ContentBaseUtil.UpdateCmtCount(mrQueryable, contentBaseTable, hostID, 1)
 }
 
 func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, contentBaseTable mingru.Table, hostID uint64, sanitizedStub int, captStub int) (uint64, error) {

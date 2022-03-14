@@ -71,7 +71,7 @@ func (mrTable *TableTypeForumGroup) SelectInfoForEditing(mrQueryable mingru.Quer
 	return result, nil
 }
 
-func (mrTable *TableTypeForumGroup) UpdateInfo(mrQueryable mingru.Queryable, name string, descHTML string, id uint64) error {
+func (mrTable *TableTypeForumGroup) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {
 	result, err := mrQueryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

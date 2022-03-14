@@ -36,17 +36,17 @@ func (mrTable *TableTypeCmt) DeleteCore(mrQueryable mingru.Queryable, id uint64,
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeCmt) EditCmt(mrQueryable mingru.Queryable, contentHTML string, rawModifiedAt time.Time, id uint64, userID uint64, sanitizedStub int) error {
+func (mrTable *TableTypeCmt) EditCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, contentHTML string, rawModifiedAt time.Time, id uint64, userID uint64, sanitizedStub int) error {
+func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeCmt) EraseCmt(mrQueryable mingru.Queryable, delFlag uint8, id uint64, userID uint64) error {
+func (mrTable *TableTypeCmt) EraseCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, delFlag uint8) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `del_flag` = ?, `content` =  WHERE (`id` = ? AND `user_id` = ?)", delFlag, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
@@ -167,7 +167,7 @@ func (mrTable *TableTypeCmt) SelectReplySource(mrQueryable mingru.Queryable, id 
 	return result, nil
 }
 
-func (mrTable *TableTypeCmt) UpdateReplyCount(mrQueryable mingru.Queryable, offset int, id uint64) error {
+func (mrTable *TableTypeCmt) UpdateReplyCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

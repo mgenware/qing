@@ -26,7 +26,7 @@ func (mrTable *TableTypeThreadBaseUtil) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeThreadBaseUtil) UpdateReplyCount(mrQueryable mingru.Queryable, threadBaseTable mingru.Table, offset int, id uint64) error {
+func (mrTable *TableTypeThreadBaseUtil) UpdateReplyCount(mrQueryable mingru.Queryable, threadBaseTable mingru.Table, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE "+threadBaseTable.MingruSQLName()+" SET `reply_count` = `reply_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
