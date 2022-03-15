@@ -13,7 +13,7 @@ import { staticMainImage } from 'urls';
 import 'ui/widgets/svgIcon';
 import 'ui/content/hfNumber';
 import ls from 'ls';
-import { upVoteValue, downVoteValue } from 'sharedConstants';
+import { appDef } from '@qing/def';
 
 const voteBtnSize = 20;
 
@@ -81,7 +81,7 @@ export class VoteView extends BaseElement {
             title=${ls.upvote}
             class="flex-full"
             @click=${this.handleUpVoteClick}
-            btnStyle=${this.myVote === upVoteValue ? 'primary' : ''}>
+            btnStyle=${this.myVote === appDef.upVoteValue ? 'primary' : ''}>
             <svg-icon
               iconStyle="success"
               .oneTimeSrc=${staticMainImage('plus-sign.svg')}
@@ -91,7 +91,7 @@ export class VoteView extends BaseElement {
             title=${ls.downvote}
             class="flex-full"
             @click=${this.handleDownVoteClick}
-            btnStyle=${this.myVote === downVoteValue ? 'primary' : ''}>
+            btnStyle=${this.myVote === appDef.downVoteValue ? 'primary' : ''}>
             <svg-icon
               iconStyle="danger"
               .oneTimeSrc=${staticMainImage('minus-sign.svg')}

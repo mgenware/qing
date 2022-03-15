@@ -5,6 +5,9 @@
  * be found in the LICENSE file.
  */
 
+/**
+ * IMPORTANT! DO NOT CHANGE THE VALUES BELOW. DB DEFS ARE WRITTEN TO DATABASE.
+ */
 export const threadTypePost = 1;
 export const threadTypeQuestion = 2;
 export const threadTypeDiscussion = 3;

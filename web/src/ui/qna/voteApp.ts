@@ -13,7 +13,7 @@ import { VoteLoader } from './loaders/voteLoader';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import appPageState from 'app/appPageState';
-import { upVoteValue, downVoteValue, noVoteValue } from 'sharedConstants';
+import { appDef } from '@qing/def';
 import ls from 'ls';
 
 @customElement('vote-app')
@@ -58,8 +58,8 @@ export class VoteApp extends BaseElement {
           .ups=${this.ups}
           .downs=${this.downs}
           .myVote=${this.myVote}
-          @upVoteClick=${() => this.doVote(upVoteValue)}
-          @downVoteClick=${() => this.doVote(downVoteValue)}></vote-view>
+          @upVoteClick=${() => this.doVote(appDef.upVoteValue)}
+          @downVoteClick=${() => this.doVote(appDef.downVoteValue)}></vote-view>
       </div>
     `;
   }
@@ -83,27 +83,27 @@ export class VoteApp extends BaseElement {
     }
     if (voteButton === this.myVote) {
       // Retracting a vote.
-      if (voteButton === upVoteValue) {
+      if (voteButton === appDef.upVoteValue) {
         this.updateUps(-1);
-      } else if (voteButton === downVoteValue) {
+      } else if (voteButton === appDef.downVoteValue) {
         this.updateDowns(-1);
       }
-      this.myVote = noVoteValue;
+      this.myVote = appDef.noVoteValue;
     } else {
-      if (this.myVote === noVoteValue) {
+      if (this.myVote === appDef.noVoteValue) {
         // New vote.
-        if (voteButton === upVoteValue) {
+        if (voteButton === appDef.upVoteValue) {
           this.updateUps(1);
-        } else if (voteButton === downVoteValue) {
+        } else if (voteButton === appDef.downVoteValue) {
           this.updateDowns(1);
         }
       } else {
         // Switch votes.
         // eslint-disable-next-line no-lonely-if
-        if (voteButton === upVoteValue) {
+        if (voteButton === appDef.upVoteValue) {
           this.updateUps(1);
           this.updateDowns(-1);
-        } else if (voteButton === downVoteValue) {
+        } else if (voteButton === appDef.downVoteValue) {
           this.updateDowns(1);
           this.updateUps(-1);
         }
