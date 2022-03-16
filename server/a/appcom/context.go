@@ -9,24 +9,24 @@ package appcom
 
 import (
 	"context"
-	"qing/a/defs"
+	"qing/a/def"
 )
 
 // ContextLanguage returns context localization language ID from the given request.
 func ContextLanguage(ctx context.Context) string {
-	result, _ := ctx.Value(defs.LanguageContextKey).(string)
+	result, _ := ctx.Value(def.LanguageContextKey).(string)
 	return result
 }
 
 // ContextSID returns context SID from the given request.
 func ContextSID(ctx context.Context) string {
-	result, _ := ctx.Value(defs.SIDContextKey).(string)
+	result, _ := ctx.Value(def.SIDContextKey).(string)
 	return result
 }
 
 // ContextUser returns context user from the given request.
 func ContextUser(ctx context.Context) *SessionUser {
-	result, _ := ctx.Value(defs.UserContextKey).(*SessionUser)
+	result, _ := ctx.Value(def.UserContextKey).(*SessionUser)
 	return result
 }
 
@@ -41,18 +41,18 @@ func ContextUserID(ctx context.Context) uint64 {
 
 // ContextDict returns context dict from the given request.
 func ContextDict(ctx context.Context) map[string]interface{} {
-	result, _ := ctx.Value(defs.DictContextKey).(map[string]interface{})
+	result, _ := ctx.Value(def.DictContextKey).(map[string]interface{})
 	return result
 }
 
 // ContextForumID returns context forum ID from the given request.
 func ContextForumID(ctx context.Context) uint64 {
-	result, _ := ctx.Value(defs.ForumIDContextKey).(uint64)
+	result, _ := ctx.Value(def.ForumIDContextKey).(uint64)
 	return result
 }
 
 // ContextForumGroupID returns context forum group ID from the given request.
 func ContextForumGroupID(ctx context.Context) uint64 {
-	result, _ := ctx.Value(defs.ForumGroupIDContextKey).(uint64)
+	result, _ := ctx.Value(def.ForumGroupIDContextKey).(uint64)
 	return result
 }

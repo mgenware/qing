@@ -15,7 +15,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appUserManager"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -25,14 +25,14 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	email := clib.MustGetStringFromDict(params, "email", defs.Shared.MaxEmailLen)
-	pwd := clib.MustGetStringFromDict(params, "pwd", defs.Shared.MaxUserPwdLen)
+	email := clib.MustGetStringFromDict(params, "email", def.App.MaxEmailLen)
+	pwd := clib.MustGetStringFromDict(params, "pwd", def.App.MaxUserPwdLen)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
+			return resp.MustFailWithCode(def.App.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -44,7 +44,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hash, err := da.UserPwd.SelectHashByID(appDB.DB(), uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
+			return resp.MustFailWithCode(def.App.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -54,7 +54,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 	if !pwdValid {
-		return resp.MustFailWithCode(defs.Shared.ErrInvalidUserOrPwd)
+		return resp.MustFailWithCode(def.App.ErrInvalidUserOrPwd)
 	}
 
 	err = appUserManager.Get().Login(uid, w, r)

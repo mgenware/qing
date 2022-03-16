@@ -14,7 +14,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/appUserManager"
 	"qing/a/appcom"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/da"
 	"qing/lib/iolib"
 	"qing/s/avatar"
@@ -72,7 +72,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	form := r.MultipartForm
-	headers := form.File[defs.Shared.FormUploadMain]
+	headers := form.File[def.App.FormUploadMain]
 	if headers == nil || len(headers) == 0 {
 		resp.MustFailWithCode(errNoHeaderFound)
 		return

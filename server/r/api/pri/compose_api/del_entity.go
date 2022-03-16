@@ -14,7 +14,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -32,26 +32,26 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var result interface{}
 
 	switch entity.Type {
-	case defs.Shared.EntityPost:
+	case def.App.EntityPost:
 		{
 			err := da.Post.DeleteItem(appDB.DB(), id, uid)
 			app.PanicIfErr(err)
 			result = appURL.Get().UserProfile(uid)
 			break
 		}
-	case defs.Shared.EntityDiscussion:
+	case def.App.EntityDiscussion:
 		{
 			err = da.Discussion.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)
 			break
 		}
-	case defs.Shared.EntityQuestion:
+	case def.App.EntityQuestion:
 		{
 			err = da.Question.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)
 			break
 		}
-	case defs.Shared.EntityAnswer:
+	case def.App.EntityAnswer:
 		{
 			err = da.Answer.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)

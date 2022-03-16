@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"qing/a/appCookies"
 	"qing/a/appcom"
-	"qing/a/defs"
+	"qing/a/def"
 )
 
 func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcom.SessionUser) error {
@@ -64,9 +64,9 @@ func (sm *SessionManager) LogoutCore(uid uint64, sid string) error {
 }
 
 func newSessionCookie(sid string) *http.Cookie {
-	return appCookies.NewCookie(defs.SessionCookieKey, sid)
+	return appCookies.NewCookie(def.SessionCookieKey, sid)
 }
 
 func newDeletedSessionCookie(sid string) *http.Cookie {
-	return appCookies.DeleteCookie(defs.SessionCookieKey)
+	return appCookies.DeleteCookie(def.SessionCookieKey)
 }

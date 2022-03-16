@@ -13,7 +13,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -31,13 +31,13 @@ func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var err error
 
 	switch entity.Type {
-	case defs.Shared.EntityPost:
+	case def.App.EntityPost:
 		res, err = da.Post.SelectItemSrc(db, id, uid)
-	case defs.Shared.EntityCmt:
+	case def.App.EntityCmt:
 		res, err = da.Cmt.SelectCmtSource(db, id, uid)
-	case defs.Shared.EntityQuestion:
+	case def.App.EntityQuestion:
 		res, err = da.Question.SelectItemSrc(db, id, uid)
-	case defs.Shared.EntityAnswer:
+	case def.App.EntityAnswer:
 		res, err = da.Answer.SelectItemSrc(db, id, uid)
 	default:
 		return resp.MustFailWithUserError(fmt.Sprintf("Unsupported entity type %v", entity.Type))

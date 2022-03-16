@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -27,7 +27,7 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	value := clib.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
-		return resp.MustFailWithCode(defs.Shared.ErrCannotSetAdminOfYourself)
+		return resp.MustFailWithCode(def.App.ErrCannotSetAdminOfYourself)
 	}
 
 	db := appDB.DB()

@@ -14,7 +14,7 @@ import (
 	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/appSettings"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/clib"
 	"qing/sod/app/appRawSettings"
@@ -41,7 +41,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 			return resp.MustFail(fmt.Errorf("settings value is not a valid string. Key: %v, got: %v", k, v))
 		}
 		switch k {
-		case defs.Shared.KeyCommunitySettings:
+		case def.App.KeyCommunitySettings:
 			var comST appRawSettings.CommunityRawSettings
 			err := json.Unmarshal([]byte(vString), &comST)
 			app.PanicIfErr(err)

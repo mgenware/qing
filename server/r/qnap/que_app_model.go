@@ -10,7 +10,7 @@ package qnap
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
@@ -46,7 +46,7 @@ func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	d.UserEID = clib.EncodeID(d.UserID)
-	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityQuestion, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, def.App.EntityQuestion, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	if hasLiked {
 		d.HasLikedNum = 1

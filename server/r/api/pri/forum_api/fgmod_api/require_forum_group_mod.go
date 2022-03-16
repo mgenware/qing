@@ -11,7 +11,7 @@ import (
 	"context"
 	"net/http"
 	"qing/a/appcom"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
@@ -37,10 +37,10 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForumGroup {
-			resp.MustFailWithCode(defs.Shared.ErrPermissionDenied)
+			resp.MustFailWithCode(def.App.ErrPermissionDenied)
 			return
 		}
-		ctx = context.WithValue(ctx, defs.ForumGroupIDContextKey, groupID)
+		ctx = context.WithValue(ctx, def.ForumGroupIDContextKey, groupID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

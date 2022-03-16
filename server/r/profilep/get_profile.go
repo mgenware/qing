@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -33,7 +33,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(defs.Shared.KeyTab)
+	tab := r.FormValue(def.App.KeyTab)
 	resp := appHandler.HTMLResponse(w, r)
 
 	db := appDB.DB()
@@ -64,7 +64,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 			break
 		}
 
-	case defs.Shared.KeyDiscussions:
+	case def.App.KeyDiscussions:
 		{
 			var discussions []da.DiscussionTableSelectItemsForUserProfileResult
 			discussions, hasNext, err = da.Discussion.SelectItemsForUserProfile(db, uid, page, userPostsLimit)

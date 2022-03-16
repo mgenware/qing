@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/appcom"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
@@ -38,11 +38,11 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForum {
-			resp.MustFailWithCode(defs.Shared.ErrPermissionDenied)
+			resp.MustFailWithCode(def.App.ErrPermissionDenied)
 			return
 		}
 
-		ctx = context.WithValue(ctx, defs.ForumIDContextKey, forumID)
+		ctx = context.WithValue(ctx, def.ForumIDContextKey, forumID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

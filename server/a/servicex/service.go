@@ -10,7 +10,7 @@ package servicex
 import (
 	"qing/a/app"
 	"qing/a/config"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/profile"
 	"qing/a/servicex/captchax"
 	"qing/a/servicex/emailver"
@@ -32,6 +32,6 @@ func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger 
 	s.Sanitizer = sanitizer.NewSanitizer()
 	s.Captcha = captchax.NewCaptchaService(msConn)
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
-	s.RegEmailVerificator = emailver.NewEmailVerificator(msConn, defs.MSRegEmailPrefix, defs.MSRegEmailTimeout)
+	s.RegEmailVerificator = emailver.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailTimeout)
 	return s
 }

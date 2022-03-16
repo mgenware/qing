@@ -10,7 +10,7 @@ package profilep
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/da"
 	"qing/lib/clib"
 )
@@ -70,8 +70,8 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	d.FeedListHTML = feedHTML
 	d.PageBarHTML = pageBarHTML
 
-	d.ProfilePostsURL = appURL.Get().UserProfileAdv(uid, defs.Shared.KeyPosts, 1)
-	d.ProfileDiscussionsURL = appURL.Get().UserProfileAdv(uid, defs.Shared.KeyDiscussions, 1)
+	d.ProfilePostsURL = appURL.Get().UserProfileAdv(uid, def.App.KeyPosts, 1)
+	d.ProfileDiscussionsURL = appURL.Get().UserProfileAdv(uid, def.App.KeyDiscussions, 1)
 	return d
 }
 

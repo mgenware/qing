@@ -13,7 +13,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -24,8 +24,8 @@ var myQuestionsColumnNameToEnumMap map[string]int
 
 func init() {
 	myQuestionsColumnNameToEnumMap = map[string]int{
-		defs.Shared.ColumnMessages: da.QuestionTableSelectItemsForPostCenterOrderBy1ReplyCount,
-		defs.Shared.ColumnCreated:  da.QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt,
+		def.App.ColumnMessages: da.QuestionTableSelectItemsForPostCenterOrderBy1ReplyCount,
+		def.App.ColumnCreated:  da.QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt,
 	}
 }
 
@@ -53,8 +53,8 @@ func myQuestions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	page := clib.GetPageParamFromDict(params)
-	pageSize := clib.MustGetIntFromDict(params, defs.Shared.KeyPageSize)
-	sortBy := clib.MustGetStringFromDict(params, "sort", defs.Shared.MaxGenericStringLen)
+	pageSize := clib.MustGetIntFromDict(params, def.App.KeyPageSize)
+	sortBy := clib.MustGetStringFromDict(params, "sort", def.App.MaxGenericStringLen)
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
 	rawQuestions, hasNext, err := da.Question.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myQuestionsColumnNameToEnumMap[sortBy], desc)

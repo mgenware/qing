@@ -15,7 +15,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/clib"
 )
@@ -50,9 +50,9 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	name := clib.MustGetStringFromDict(params, "name", defs.Shared.MaxNameLen)
-	email := clib.MustGetStringFromDict(params, "email", defs.Shared.MaxEmailLen)
-	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", defs.Shared.MinUserPwdLen, defs.Shared.MaxUserPwdLen)
+	name := clib.MustGetStringFromDict(params, "name", def.App.MaxNameLen)
+	email := clib.MustGetStringFromDict(params, "email", def.App.MaxEmailLen)
+	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", def.App.MinUserPwdLen, def.App.MaxUserPwdLen)
 
 	// Put user pwd to memory store and wait for user email verification.
 	createUserData := &CreateUserData{

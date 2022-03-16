@@ -9,12 +9,12 @@ package appCookies
 
 import (
 	"net/http"
-	"qing/a/defs"
+	"qing/a/def"
 	"time"
 )
 
 func NewCookie(k, v string) *http.Cookie {
-	return &http.Cookie{Name: k, Value: v, Path: "/", Expires: time.Now().Add(time.Second * defs.CookiesExpirySecs)}
+	return &http.Cookie{Name: k, Value: v, Path: "/", Expires: time.Now().Add(time.Second * def.CookiesExpirySecs)}
 }
 
 func DeleteCookie(k string) *http.Cookie {

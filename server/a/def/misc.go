@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package defs
+package def
 
 type ContextKey string
 

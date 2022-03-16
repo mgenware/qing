@@ -13,7 +13,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appUserManager"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/iolib"
 	"strconv"
@@ -67,34 +67,34 @@ func Start() {
 	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router.
-	langRouter().Get("/"+defs.Shared.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
+	langRouter().Get("/"+def.App.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
-	langRouter().Get("/"+defs.Shared.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	langRouter().Get("/"+def.App.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Question router.
-	langRouter().Get("/"+defs.Shared.RouteQuestion+"/{qid}", handler.HTMLHandlerToHTTPHandler(qnap.GetQuestion))
+	langRouter().Get("/"+def.App.RouteQuestion+"/{qid}", handler.HTMLHandlerToHTTPHandler(qnap.GetQuestion))
 	// Discussion router.
-	langRouter().Get("/"+defs.Shared.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
+	langRouter().Get("/"+def.App.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
 	// M (Management) router.
-	langRouter().Mount("/"+defs.Shared.RouteM, mp.Router)
+	langRouter().Mount("/"+def.App.RouteM, mp.Router)
 	// MX (Admin management) router.
-	langRouter().Mount("/"+defs.Shared.RouteMx, mxp.Router)
+	langRouter().Mount("/"+def.App.RouteMx, mxp.Router)
 	// Forum router.
-	langRouter().Mount("/"+defs.Shared.RouteForum, forump.Router)
+	langRouter().Mount("/"+def.App.RouteForum, forump.Router)
 	// Auth router.
-	langRouter().Mount("/"+defs.Shared.RouteAuth, authp.Router)
+	langRouter().Mount("/"+def.App.RouteAuth, authp.Router)
 	// API router.
-	r.Mount("/"+defs.Shared.RouteApi, api.Router)
+	r.Mount("/"+def.App.RouteApi, api.Router)
 	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 	// Language settings router.
-	langRouter().Mount("/"+defs.Shared.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
+	langRouter().Mount("/"+def.App.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
 	debugConfig := conf.Debug
 	if debugConfig != nil {
 		// DEBUG only setup.
 
 		// Dev page.
-		r.Mount("/"+defs.Shared.RouteDevPage, devp.Router)
+		r.Mount("/"+def.App.RouteDevPage, devp.Router)
 	}
 
 	appLog.Get().Info("server-starting", "port", httpConf.Port)

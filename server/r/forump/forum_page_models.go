@@ -10,7 +10,7 @@ package forump
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/da"
 	"qing/lib/clib"
 )
@@ -46,8 +46,8 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 	fid := f.ID
 	d.ForumEID = clib.EncodeID(fid)
 	d.ForumURL = appURL.Get().ForumAdv(fid, "", 1)
-	d.ForumQuestionsURL = appURL.Get().ForumAdv(fid, defs.Shared.KeyQuestions, 1)
-	d.ForumDiscussionsURL = appURL.Get().ForumAdv(fid, defs.Shared.KeyDiscussions, 1)
+	d.ForumQuestionsURL = appURL.Get().ForumAdv(fid, def.App.KeyQuestions, 1)
+	d.ForumDiscussionsURL = appURL.Get().ForumAdv(fid, def.App.KeyDiscussions, 1)
 	d.FeedListHTML = feedListHTML
 	d.PageBarHTML = pageBarHTML
 	d.ForumEditable = editable

@@ -10,7 +10,7 @@ package postp
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
@@ -41,7 +41,7 @@ func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
 	d.UserEID = clib.EncodeID(d.UserID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
-	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, defs.Shared.EntityPost, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, def.App.EntityPost, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	return d
 }

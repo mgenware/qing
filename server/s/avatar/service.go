@@ -14,7 +14,7 @@ import (
 	"path/filepath"
 	"qing/a/app"
 	"qing/a/appLog"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/lib/clib"
 	"qing/lib/iolib"
 	"qing/lib/randlib"
@@ -42,7 +42,7 @@ var service *AvatarService
 
 func init() {
 	conf := app.CoreConfig()
-	svc, err := newService(filepath.Join(conf.ResServer.Dir, defs.AvatarResKey))
+	svc, err := newService(filepath.Join(conf.ResServer.Dir, def.AvatarResKey))
 	app.PanicIfErr(err)
 	service = svc
 }

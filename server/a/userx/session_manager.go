@@ -16,7 +16,7 @@ import (
 	"qing/a/app"
 	"qing/a/appMS"
 	"qing/a/appcom"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/urlx"
 	"qing/lib/clib"
 
@@ -32,11 +32,11 @@ func newSessionID(uid uint64) (string, error) {
 }
 
 func sidToUserKey(sid string) string {
-	return fmt.Sprintf(defs.MSSIDToUser, sid)
+	return fmt.Sprintf(def.MSSIDToUser, sid)
 }
 
 func userIDToSIDKey(uid uint64) string {
-	return fmt.Sprintf(defs.MSUserIDToSID, fmt.Sprint(uid))
+	return fmt.Sprintf(def.MSUserIDToSID, fmt.Sprint(uid))
 }
 
 // SessionManager ...
@@ -63,13 +63,13 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 
 	msConn := appMS.GetConn()
 	keySIDToUser := sidToUserKey(sid)
-	err = msConn.SetStringValue(keySIDToUser, bytes, defs.MSExpirySecs)
+	err = msConn.SetStringValue(keySIDToUser, bytes, def.MSExpirySecs)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(user.ID)
-	err = msConn.SetStringValue(keyUIDToSID, sid, defs.MSExpirySecs)
+	err = msConn.SetStringValue(keyUIDToSID, sid, def.MSExpirySecs)
 	if err != nil {
 		return err
 	}
@@ -117,7 +117,7 @@ func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {
 func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// get cookie session id
-		sidcookie, _ := r.Cookie(defs.SessionCookieKey)
+		sidcookie, _ := r.Cookie(def.SessionCookieKey)
 		if sidcookie == nil || sidcookie.String() == "" {
 			// no sid in cookie
 			next.ServeHTTP(w, r)
@@ -143,8 +143,8 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 		if user != nil {
 			// logged in
 			// set info to ctx
-			ctx = context.WithValue(ctx, defs.SIDContextKey, sid)
-			ctx = context.WithValue(ctx, defs.UserContextKey, user)
+			ctx = context.WithValue(ctx, def.SIDContextKey, sid)
+			ctx = context.WithValue(ctx, def.UserContextKey, user)
 		}
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

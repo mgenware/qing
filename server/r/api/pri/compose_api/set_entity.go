@@ -16,7 +16,7 @@ import (
 	"qing/a/appService"
 	"qing/a/appSettings"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -36,8 +36,8 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentDict := clib.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType != defs.Shared.EntityDiscussionMsg && entityType != defs.Shared.EntityAnswer {
-		title = clib.MustGetStringFromDict(contentDict, "title", defs.Shared.MaxTitleLen)
+	if entityType != def.App.EntityDiscussionMsg && entityType != def.App.EntityAnswer {
+		title = clib.MustGetStringFromDict(contentDict, "title", def.App.MaxTitleLen)
 	}
 
 	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "contentHTML"))
@@ -46,21 +46,21 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.
-		captResult, err := appService.Get().Captcha.Verify(uid, defs.Shared.EntityPost, "", conf.DevMode())
+		captResult, err := appService.Get().Captcha.Verify(uid, def.App.EntityPost, "", conf.DevMode())
 		app.PanicIfErr(err)
 		if captResult != 0 {
 			return resp.MustFailWithCode(captResult)
 		}
 
 		var forumID *uint64
-		if appSettings.Get().Forums() && entityType != defs.Shared.EntityPost {
+		if appSettings.Get().Forums() && entityType != def.App.EntityPost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}
 
 		now := time.Now()
 		switch entityType {
-		case defs.Shared.EntityPost:
+		case def.App.EntityPost:
 			{
 				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, now, now, sanitizedToken, captResult)
 				app.PanicIfErr(err)
@@ -69,7 +69,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Shared.EntityDiscussion:
+		case def.App.EntityDiscussion:
 			{
 				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
 				app.PanicIfErr(err)
@@ -78,7 +78,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Shared.EntityDiscussionMsg:
+		case def.App.EntityDiscussionMsg:
 			{
 				discussionID := clib.GetIDFromDict(params, "discussionID")
 				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, now, now, discussionID, sanitizedToken, captResult)
@@ -86,7 +86,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Shared.EntityQuestion:
+		case def.App.EntityQuestion:
 			{
 				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
 				app.PanicIfErr(err)
@@ -95,7 +95,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case defs.Shared.EntityAnswer:
+		case def.App.EntityAnswer:
 			{
 				questionID := clib.GetIDFromDict(params, "questionID")
 				insertedID, err := da.Answer.InsertItem(db, contentHTML, uid, now, now, questionID, sanitizedToken, captResult)
@@ -112,25 +112,25 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Edit an existing entry.
 		now := time.Now()
 		switch entityType {
-		case defs.Shared.EntityPost:
+		case def.App.EntityPost:
 			{
 				err = da.Post.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Shared.EntityDiscussion:
+		case def.App.EntityDiscussion:
 			{
 				err = da.Discussion.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Shared.EntityDiscussionMsg:
+		case def.App.EntityDiscussionMsg:
 			{
 				err = da.DiscussionMsg.EditItem(db, id, uid, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case defs.Shared.EntityQuestion:
+		case def.App.EntityQuestion:
 			{
 				err = da.Question.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
 				app.PanicIfErr(err)

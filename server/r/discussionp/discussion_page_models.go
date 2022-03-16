@@ -10,7 +10,7 @@ package discussionp
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
@@ -58,7 +58,7 @@ func NewDiscussionPageModel(p *da.DiscussionTableSelectItemByIDResult, msgListHT
 	d.EID = clib.EncodeID(p.ID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
-	pu := rcom.NewPostUserAppInput(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(p.UserID, p.UserName, p.UserIconName, eid, def.App.EntityDiscussion, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	d.MessageListHTML = msgListHTML
 	d.PageBarHTML = pageBarHTML
@@ -71,7 +71,7 @@ func NewDiscussionMsgModel(p *da.DiscussionMsgTableSelectItemsByDiscussionResult
 	eid := clib.EncodeID(p.ID)
 	d.DiscussionURL = appURL.Get().Discussion(p.ID)
 	d.EID = eid
-	pu := rcom.NewPostUserAppInput(p.UserID, p.UserName, p.UserIconName, eid, defs.Shared.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(p.UserID, p.UserName, p.UserIconName, eid, def.App.EntityDiscussionMsg, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	return d
 }

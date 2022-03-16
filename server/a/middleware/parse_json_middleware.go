@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/a/handler"
 
 	"github.com/mgenware/goutil/httpx"
@@ -31,10 +31,10 @@ func ParseJSON(next http.Handler) http.Handler {
 			if err != nil && err != io.EOF {
 				resp := handler.NewJSONResponse(r, w)
 				// JSON parsing errors are considered user errors, so we pass `true` as `expected` and don't log them.
-				resp.MustFailWithError(defs.Shared.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()), true)
+				resp.MustFailWithError(def.App.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()), true)
 				return
 			}
-			ctx = context.WithValue(ctx, defs.DictContextKey, jsonMap)
+			ctx = context.WithValue(ctx, def.DictContextKey, jsonMap)
 		}
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

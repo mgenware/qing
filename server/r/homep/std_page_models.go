@@ -10,7 +10,7 @@ package homep
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/defs"
+	"qing/a/def"
 	"qing/r/rcom"
 )
 
@@ -33,8 +33,8 @@ func NewStdPageModel(pageData *rcom.PageData, feedHTML, pageBarHTML string) *Std
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML
-	d.HomePostsURL = appURL.Get().HomeAdv(defs.Shared.KeyPosts, 1)
-	d.HomeQuestionsURL = appURL.Get().HomeAdv(defs.Shared.KeyQuestions, 1)
-	d.HomeDiscussionsURL = appURL.Get().HomeAdv(defs.Shared.KeyDiscussions, 1)
+	d.HomePostsURL = appURL.Get().HomeAdv(def.App.KeyPosts, 1)
+	d.HomeQuestionsURL = appURL.Get().HomeAdv(def.App.KeyQuestions, 1)
+	d.HomeDiscussionsURL = appURL.Get().HomeAdv(def.App.KeyDiscussions, 1)
 	return d
 }

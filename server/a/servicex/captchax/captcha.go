@@ -13,7 +13,7 @@ import (
 	"io"
 	"qing/a/app"
 	"qing/a/appMS"
-	"qing/a/defs"
+	"qing/a/def"
 	"strconv"
 
 	"github.com/mgenware/go-captcha"
@@ -29,10 +29,10 @@ var allowedTypes map[int]bool
 
 func init() {
 	allowedTypes = make(map[int]bool)
-	allowedTypes[defs.Shared.EntityPost] = true
-	allowedTypes[defs.Shared.EntityCmt] = true
-	allowedTypes[defs.Shared.EntityDiscussion] = true
-	allowedTypes[defs.Shared.EntityDiscussionMsg] = true
+	allowedTypes[def.App.EntityPost] = true
+	allowedTypes[def.App.EntityCmt] = true
+	allowedTypes[def.App.EntityDiscussion] = true
+	allowedTypes[def.App.EntityDiscussionMsg] = true
 }
 
 // NewCaptchaService creates a CaptchaService.
@@ -74,22 +74,22 @@ func (c *CaptchaService) Verify(uid uint64, entityType int, code string, devMode
 		return 0, err
 	}
 	if result == "" {
-		return defs.Shared.ErrCaptchaNotFound, nil
+		return def.App.ErrCaptchaNotFound, nil
 	}
 	if result != code {
-		return defs.Shared.ErrCaptchaNotMatch, nil
+		return def.App.ErrCaptchaNotMatch, nil
 	}
 	return 0, nil
 }
 
 func (c *CaptchaService) getMSKey(uid uint64, entityType int) string {
-	return fmt.Sprintf(defs.MSCaptcha, uid, entityType)
+	return fmt.Sprintf(def.MSCaptcha, uid, entityType)
 }
 
 func (c *CaptchaService) registerCaptcha(uid uint64, category int, value string) error {
 	msConn := appMS.GetConn()
 	key := c.getMSKey(uid, category)
-	return msConn.SetStringValue(key, value, defs.MSCaptchaTimeout)
+	return msConn.SetStringValue(key, value, def.MSCaptchaTimeout)
 }
 
 // Converts bytes from `captcha.RandomDigits` to a string.
