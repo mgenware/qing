@@ -14,6 +14,7 @@ importers:
       eslint: ^8.10.0
       eslint-config-mgenware: ^0.7.1
       eslint-plugin-import: ^2.25.4
+      is-plain-obj: ^4.0.0
       lit: ^2.2.0
       m-fs: ^5.1.0
       mgenware-tsconfig-browser: ^3.1.0
@@ -36,6 +37,7 @@ importers:
       eslint: 8.10.0
       eslint-config-mgenware: 0.7.1_5813502aeaebe415d30f406ae0c00e3b
       eslint-plugin-import: 2.25.4_eslint@8.10.0
+      is-plain-obj: 4.0.0
       m-fs: 5.1.0
       mgenware-tsconfig-browser: 3.1.0
       mgenware-tsconfig-node-x: 16.1.0
@@ -77,10 +79,8 @@ importers:
       del-cli: ^4.0.1
       gen-go-type: ^1.4.0
       go-const-gen: ^2.1.0
-      is-plain-obj: ^4.0.0
       js-yaml: ^4.1.0
       jsconfgen: ^0.2.0
-      m-fs: ^5.1.0
       mingru: ^0.57.0
       mingru-models: ^0.62.4
       mingru-tsconfig: ^4.0.0
@@ -88,10 +88,8 @@ importers:
       '@qing/def': link:../def
       gen-go-type: 1.4.0
       go-const-gen: 2.1.0
-      is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      m-fs: 5.1.0
       mingru: 0.57.0_5813502aeaebe415d30f406ae0c00e3b
       mingru-models: 0.62.4
       mingru-tsconfig: 4.0.0
@@ -4172,7 +4170,7 @@ packages:
   /is-plain-obj/4.0.0:
     resolution: {integrity: sha512-NXRbBtUdBioI73y/HmOhogw/U5msYPC9DAtGkJXeFcFWSFZw0mCUsPxk/snTuJHzNKA8kLBK4rH97RMB1BfCXw==}
     engines: {node: '>=12'}
-    dev: false
+    dev: true
 
   /is-plain-object/2.0.4:
     resolution: {integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==}

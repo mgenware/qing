@@ -14,6 +14,7 @@
     "eslint-config-mgenware": "^0.7.1",
     "eslint-plugin-import": "^2.25.4",
     "m-fs": "^5.1.0",
+    "is-plain-obj": "^4.0.0",
     "mgenware-tsconfig-browser": "^3.1.0",
     "mgenware-tsconfig-node-x": "^16.1.0",
     "source-map-support": "^0.5.21",
