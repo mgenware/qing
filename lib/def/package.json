@@ -18,6 +18,6 @@
   "devDependencies": {
     "json-to-js-const": "^0.5.0",
     "go-const-gen": "^2.1.0",
-    "@qing/util": "workspace:*"
+    "@qing/devutil": "workspace:*"
   }
 }

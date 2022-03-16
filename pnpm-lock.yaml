@@ -72,11 +72,11 @@ importers:
 
   lib/def:
     specifiers:
-      '@qing/util': workspace:*
+      '@qing/devutil': workspace:*
       go-const-gen: ^2.1.0
       json-to-js-const: ^0.5.0
     devDependencies:
-      '@qing/util': link:../util
+      '@qing/devutil': link:../devutil
       go-const-gen: 2.1.0
       json-to-js-const: 0.5.0
 
@@ -103,6 +103,12 @@ importers:
     devDependencies:
       del-cli: 4.0.1
 
+  lib/devutil:
+    specifiers:
+      '@pnpm/find-workspace-dir': ^3.0.2
+    dependencies:
+      '@pnpm/find-workspace-dir': 3.0.2
+
   lib/routes:
     specifiers: {}
 
@@ -120,12 +126,6 @@ importers:
     devDependencies:
       clean-css-cli: 5.5.2
       concat: 1.0.3
-
-  lib/util:
-    specifiers:
-      '@pnpm/find-workspace-dir': ^3.0.2
-    dependencies:
-      '@pnpm/find-workspace-dir': 3.0.2
 
   web:
     specifiers:

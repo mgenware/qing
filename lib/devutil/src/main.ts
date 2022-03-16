@@ -5,5 +5,5 @@
  * be found in the LICENSE file.
  */
 
-export * as cm from './lib/cm.js';
-export * as pathUtil from './lib/path.js';
+export * from './lib/cm.js';
+export * from './lib/path.js';

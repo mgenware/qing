@@ -5,8 +5,6 @@
  * be found in the LICENSE file.
  */
 
-export { copyrightString } from '../common/common.js';
-
 export const attrPrefix = '__';
 
 const allowedAttrs = new Set<string>();
