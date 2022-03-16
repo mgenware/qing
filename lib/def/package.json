@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": "./dist/main.js",
-  "types": "./dist/main.d.ts",
+  "exports": "./main.js",
+  "types": "./main.d.ts",
   "scripts": {
     "prepare": "dz build"
   },
@@ -14,5 +14,10 @@
     "dist/**/*.html",
     "dist/**/*.css",
     "dist/**/*.map"
-  ]
+  ],
+  "devDependencies": {
+    "json-to-js-const": "^0.5.0",
+    "go-const-gen": "^2.1.0",
+    "@qing/util": "workspace:*"
+  }
 }
