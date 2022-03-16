@@ -10,20 +10,6 @@ import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 import isObj from 'is-plain-obj';
 
-export const copyrightString = `/*
- * Copyright (C) The Qing Project. All rights reserved.
- *
- * Use of this source code is governed by a license that
- * can be found in the LICENSE file.
- */\n\n`;
-
-export const copyrightStringYAML = `#
-# Copyright (C) The Qing Project. All rights reserved.
-#
-# Use of this source code is governed by a license that
-# can be found in the LICENSE file.
-#\n\n`;
-
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
 const rootDir = np.join(dirPath, '../../../..');
 export const langsDir = np.join(rootDir, 'userland/langs');
