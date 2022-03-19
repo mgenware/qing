@@ -14,6 +14,7 @@ import (
 	"qing/a/appURL"
 	"qing/a/appUserManager"
 	"qing/a/appcom"
+	"qing/a/def/appdef"
 	"qing/da"
 	"qing/lib/iolib"
 	"qing/s/avatar"

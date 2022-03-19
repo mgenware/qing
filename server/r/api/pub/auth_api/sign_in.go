@@ -15,6 +15,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appUserManager"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"

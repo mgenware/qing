@@ -10,6 +10,7 @@ package profilep
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/def/appdef"
 	"qing/da"
 	"qing/lib/clib"
 )

@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"qing/a/appcom"
 	"qing/a/def"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"

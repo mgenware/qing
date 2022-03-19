@@ -10,6 +10,7 @@ package qnap
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/def/appdef"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
@@ -41,7 +42,7 @@ func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult, myVote int)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	d.UserEID = clib.EncodeID(d.UserID)
-	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.EntityPost, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypeAns, d.CreatedAt, d.ModifiedAt)
 	pu.ExtraLinkLS = "link"
 	pu.ExtraLink = d.AnswerURL
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)

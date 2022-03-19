@@ -14,6 +14,7 @@ import (
 	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/a/urlx"
 	"qing/da"

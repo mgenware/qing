@@ -23,16 +23,6 @@
   "routeQuestion": "q",
   "routeAnswer": "a",
   "routeLang": "lang",
-  "entityPost": 1,
-  "entityCmt": 2,
-  "entityDiscussion": 4,
-  "entityQuestion": 5,
-  "entityDiscussionMsg": 6,
-  "entityAnswer": 7,
-  "entityForumDiscussion": 8,
-  "entityForumQuestion": 9,
-  "entityForum": 10,
-  "entityForumGroup": 11,
   "errGeneric": 10000,
   "errNeedAuth": 10001,
   "errCaptchaNotFound": 10002,
@@ -63,5 +53,8 @@
   "maxPwdHashLen": 255,
   "formUploadMain": "main",
   "deleteFlagAuthor": 1,
-  "deleteFlagHost": 2
+  "deleteFlagHost": 2,
+  "__enums": {
+    "contentBaseType": ["post", "cmt", "dis", "que", "disMsg", "ans"]
+  }
 }

@@ -65,3 +65,14 @@ const MaxPwdHashLen = 255
 const FormUploadMain = "main"
 const DeleteFlagAuthor = 1
 const DeleteFlagHost = 2
+
+type ContentBaseType int
+
+const (
+	ContentBaseTypePost ContentBaseType = iota + 1
+	ContentBaseTypeCmt
+	ContentBaseTypeDis
+	ContentBaseTypeQue
+	ContentBaseTypeDisMsg
+	ContentBaseTypeAns
+)

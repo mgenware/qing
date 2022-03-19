@@ -13,6 +13,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
+	"qing/a/def/dbdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -41,7 +42,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		host := clib.MustGetEntityInfoFromDict(params, "host")
 		parentID := clib.GetIDFromDict(params, "parentID")
 
-		cmtHostTable, err := apicom.GetCmtHostTable(host.Type)
+		cmtHostTable, err := apicom.GetCmtHostTable(dbdef.CmtHostType(host.Type))
 		app.PanicIfErr(err)
 
 		captResult, err := appService.Get().Captcha.Verify(uid, host.Type, "", app.CoreConfig().DevMode())
@@ -55,7 +56,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, parentID, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)
 		} else {
-			cmtRelationTable, err := apicom.GetCmtRelationTable(host.Type)
+			cmtRelationTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
 			app.PanicIfErr(err)
 
 			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, cmtRelationTable, host.ID, cmtHostTable, sanitizedToken, captResult)

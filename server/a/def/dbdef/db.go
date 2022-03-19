@@ -19,11 +19,19 @@ const (
 	ThreadTypeDis
 )
 
-type CmtHost int
+type CmtHostType int
 
 const (
-	CmtHostPost CmtHost = iota + 1
-	CmtHostQue
-	CmtHostDis
-	CmtHostAns
+	CmtHostTypePost CmtHostType = iota + 1
+	CmtHostTypeQue
+	CmtHostTypeDis
+	CmtHostTypeAns
+)
+
+type LikeHostType int
+
+const (
+	LikeHostTypePost LikeHostType = iota + 1
+	LikeHostTypeQue
+	LikeHostTypeCmt
 )

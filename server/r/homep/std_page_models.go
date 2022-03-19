@@ -10,6 +10,7 @@ package homep
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/def/appdef"
 	"qing/r/rcom"
 )
 

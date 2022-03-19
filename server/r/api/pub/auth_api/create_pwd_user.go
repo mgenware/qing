@@ -15,6 +15,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
 )

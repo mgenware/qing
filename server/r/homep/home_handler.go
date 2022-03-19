@@ -13,6 +13,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appSettings"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"

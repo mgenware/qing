@@ -20,7 +20,7 @@ import (
 // Used in APIs to represent an entity.
 type EntityInfo struct {
 	ID   uint64
-	Type int
+	Type appdef.ContentBaseType
 }
 
 func panicMissingArg(key string) {
@@ -141,14 +141,14 @@ func GetEntityInfoFromDict(dict map[string]interface{}, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := GetIDFromDict(dict, "id")
 	eType := jsonx.GetIntOrDefault(dict, "type")
-	return EntityInfo{ID: id, Type: eType}
+	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
 }
 
 func MustGetEntityInfoFromDict(dict map[string]interface{}, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := MustGetIDFromDict(dict, "id")
 	eType := MustGetIntFromDict(dict, "type")
-	return EntityInfo{ID: id, Type: eType}
+	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
 }
 
 // MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.
