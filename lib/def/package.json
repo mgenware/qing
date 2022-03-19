@@ -16,8 +16,7 @@
     "dist/**/*.map"
   ],
   "devDependencies": {
-    "json-to-js-const": "^0.5.0",
-    "go-const-gen": "^2.1.0",
-    "@qing/devutil": "workspace:*"
+    "@qing/devutil": "workspace:*",
+    "qing-shared-const": "^0.0.2"
   }
 }
