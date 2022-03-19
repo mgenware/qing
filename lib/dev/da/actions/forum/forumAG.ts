@@ -40,17 +40,14 @@ export class ForumAG extends mm.ActionGroup {
     super();
 
     this.selectDiscussions = mm
-      .selectRows(
-        this.typeCol(dbDef.threadTypeDiscussion),
-        ...getUserDiscussionCols(discussion, true),
-      )
+      .selectRows(this.typeCol(dbDef.ThreadType.dis), ...getUserDiscussionCols(discussion, true))
       .from(discussion)
       .by(discussion.forum_id)
       .pageMode()
       .orderByAsc(discussion.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectRows(this.typeCol(dbDef.threadTypeQuestion), ...getUserQuestionCols(question, true))
+      .selectRows(this.typeCol(dbDef.ThreadType.que), ...getUserQuestionCols(question, true))
       .from(question)
       .by(question.forum_id)
       .pageMode()

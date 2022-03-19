@@ -43,22 +43,19 @@ export class HomeAG extends mm.ActionGroup {
     super();
 
     this.selectPosts = mm
-      .selectRows(this.typeCol(dbDef.threadTypePost), ...getUserPostCols(post))
+      .selectRows(this.typeCol(dbDef.ThreadType.post), ...getUserPostCols(post))
       .from(post)
       .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectQuestions = mm
-      .selectRows(this.typeCol(dbDef.threadTypeQuestion), ...getUserQuestionCols(question, false))
+      .selectRows(this.typeCol(dbDef.ThreadType.que), ...getUserQuestionCols(question, false))
       .from(question)
       .pageMode()
       .orderByAsc(question.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectDiscussions = mm
-      .selectRows(
-        this.typeCol(dbDef.threadTypeDiscussion),
-        ...getUserDiscussionCols(discussion, false),
-      )
+      .selectRows(this.typeCol(dbDef.ThreadType.dis), ...getUserDiscussionCols(discussion, false))
       .pageMode()
       .from(discussion)
       .orderByAsc(discussion.created_at)

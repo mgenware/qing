@@ -1,6 +1,6 @@
 {
   "__enums": {
-    "threadType": ["post", "que", "dis"],
+    "threadType": ["que", "dis"],
     "cmtHostType": ["post", "que", "dis", "ans"],
     "likeHostType": ["post", "que", "cmt"]
   }

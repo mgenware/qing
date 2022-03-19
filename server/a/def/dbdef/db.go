@@ -14,8 +14,7 @@
 type ThreadType int
 
 const (
-	ThreadTypePost ThreadType = iota + 1
-	ThreadTypeQue
+	ThreadTypeQue ThreadType = iota + 1
 	ThreadTypeDis
 )
 

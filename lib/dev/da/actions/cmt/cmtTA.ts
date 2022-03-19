@@ -28,6 +28,9 @@ export class CmtAG extends mm.ActionGroup {
     .resultTypeNameAttr(getEntitySrcType)
     .attr(mm.ActionAttribute.enableTSResultType, true);
 
+  // Used by APIs to select host data
+  selectHostDataInternal = mm.selectRow(t.host_id, t.host_type);
+
   updateReplyCount = updateCounterAction(t, t.reply_count);
 
   memLockedGetCmtDataForDeletion = mm
