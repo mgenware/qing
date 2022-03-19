@@ -8,17 +8,10 @@
 import { goConstGenCore, PropData } from 'go-const-gen';
 import * as mfs from 'm-fs';
 import * as path from 'path';
-import {
-  webPath,
-  serverPath,
-  copyrightString,
-  langNamesAsync,
-  langDataPath,
-  defaultLangPath,
-} from '../common/common.js';
+import * as qdu from '@qing/devutil';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
-const commonHeader = `${copyrightString}${codeWarning}`;
+const commonHeader = `${qdu.copyrightString}${codeWarning}`;
 
 function print(s: string) {
   // eslint-disable-next-line no-console
@@ -32,7 +25,7 @@ async function buildWebLSDef(lsObj: Record<string, string>): Promise<void> {
     code += `  ${key}: string;\n`;
   }
   code += '}\n';
-  const outFile = webPath('src/lsDefs.ts');
+  const outFile = qdu.webPath('src/lsDefs.ts');
   print(`Building web LS def "${outFile}"`);
   await mfs.writeFileAsync(outFile, code);
 }
@@ -40,7 +33,7 @@ async function buildWebLSDef(lsObj: Record<string, string>): Promise<void> {
 // Updates the `en.ts` which is used in unit tests.
 async function buildDefaultUTLang(json: string) {
   const code = `${commonHeader}/* eslint-disable */\n(window as any).ls = ${json}\n`;
-  const outFile = webPath('src/dev/en.ts');
+  const outFile = qdu.webPath('src/dev/en.ts');
   print(`Building web UT lang "${outFile}"`);
   await mfs.writeFileAsync(outFile, code);
 }
@@ -53,9 +46,9 @@ async function buildServerLSDef(lsObj: Record<string, string>): Promise<PropData
     parseFunc: true,
   });
 
-  const outFile = serverPath('a/handler/localization/dictionary.go');
+  const outFile = qdu.serverPath('a/handler/localization/dictionary.go');
   print(`Building server LS def "${outFile}"`);
-  await mfs.writeFileAsync(outFile, copyrightString + result);
+  await mfs.writeFileAsync(outFile, qdu.copyrightString + result);
   return props;
 }
 
@@ -72,7 +65,7 @@ func init() {
     res += `\tTestDict.${prop.namePascalCase} = "ls.${prop.name}"\n`;
   }
   res += '}\n';
-  const outFile = serverPath('a/handler/localization/test_dictionary.go');
+  const outFile = qdu.serverPath('a/handler/localization/test_dictionary.go');
   print(`Building server UI lang "${outFile}"`);
   await mfs.writeFileAsync(outFile, res);
 }
@@ -81,19 +74,19 @@ async function buildDistJS(name: string, file: string): Promise<void> {
   const content = await mfs.readTextFileAsync(file);
   // Parse and stringify the file content to make sure it's valid JSON.
   const outContent = `window.ls = ${JSON.stringify(JSON.parse(content))}`;
-  const outDir = webPath('../userland/static/g/lang');
+  const outDir = qdu.webPath('../userland/static/g/lang');
   const outFile = path.join(outDir, `${name}.js`);
   print(`Building dist JS "${outFile}"`);
   await mfs.writeFileAsync(outFile, outContent);
 }
 
 async function buildLangs() {
-  const names = await langNamesAsync();
-  const files = names.map(langDataPath);
+  const names = await qdu.langNamesAsync();
+  const files = names.map(qdu.langDataPath);
   await Promise.all(files.map((f, idx) => buildDistJS(names[idx] as string, f)));
 }
 
-const lsJSON = await mfs.readTextFileAsync(defaultLangPath);
+const lsJSON = await mfs.readTextFileAsync(qdu.defaultLangPath);
 const lsObj = JSON.parse(lsJSON) as Record<string, string>;
 await Promise.all([
   buildWebLSDef(lsObj),

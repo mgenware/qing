@@ -7,6 +7,7 @@
 
 import { genGoType, TypeMember, Options, BaseType } from 'gen-go-type';
 import * as cm from './common.js';
+import * as qdu from '@qing/devutil';
 
 export const goOutDirAttr = '__go_out_dir';
 const goCtorAttr = '__go_ctor';
@@ -141,5 +142,5 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     s += genGoType('struct', typeName, members, genOpt, goGenBaseTypes);
   }
   const importCode = imports.size ? makeImports([...imports.values()]) : '';
-  return cm.copyrightString + cm.noticeComment(input) + `package ${pkgName}\n\n` + importCode + s;
+  return qdu.copyrightString + cm.noticeComment(input) + `package ${pkgName}\n\n` + importCode + s;
 }

@@ -81,6 +81,7 @@ importers:
   lib/dev:
     specifiers:
       '@qing/def': workspace:*
+      '@qing/devutil': workspace:*
       del-cli: ^4.0.1
       gen-go-type: ^1.4.0
       go-const-gen: ^2.1.0
@@ -91,6 +92,7 @@ importers:
       mingru-tsconfig: ^4.0.0
     dependencies:
       '@qing/def': link:../def
+      '@qing/devutil': link:../devutil
       gen-go-type: 1.4.0
       go-const-gen: 2.1.0
       js-yaml: 4.1.0
