@@ -14,7 +14,6 @@ import (
 	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
-	"qing/a/def"
 	"qing/a/handler"
 	"qing/a/urlx"
 	"qing/da"
@@ -144,7 +143,7 @@ func (appu *UserManager) RequireLoginJSONMiddleware(next http.Handler) http.Hand
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
 			resp := handler.NewJSONResponse(r, w)
-			resp.MustFailWithCode(def.App.ErrNeedAuth)
+			resp.MustFailWithCode(appdef.ErrNeedAuth)
 		}
 	})
 }
@@ -158,7 +157,7 @@ func (appu *UserManager) UnsafeRequireAdminJSONMiddleware(next http.Handler) htt
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
 			resp := handler.NewJSONResponse(r, w)
-			resp.MustFailWithCode(def.App.ErrNeedAuth)
+			resp.MustFailWithCode(appdef.ErrNeedAuth)
 		}
 	})
 }

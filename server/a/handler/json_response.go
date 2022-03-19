@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"qing/a/def"
+	"qing/a/def/appdef"
 
 	"github.com/mgenware/goutil/httpx"
 )
@@ -41,9 +41,9 @@ func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSO
 	d := APIResult{Code: code, Error: err}
 	if err != nil {
 		// Hide SQL row not found errors.
-		if err == sql.ErrNoRows && code == def.App.ErrGeneric {
+		if err == sql.ErrNoRows && code == appdef.ErrGeneric {
 			d.Message = "Resource not found"
-			d.Code = def.App.ErrResourceNotFound
+			d.Code = appdef.ErrResourceNotFound
 		} else {
 			d.Message = err.Error()
 		}
@@ -54,13 +54,13 @@ func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSO
 
 // MustFail finishes the response with the specified error object, and panics if unexpected error happens.
 func (j *JSONResponse) MustFail(err error) JSON {
-	j.MustFailWithError(def.App.ErrGeneric, err, false)
+	j.MustFailWithError(appdef.ErrGeneric, err, false)
 	return JSON(0)
 }
 
 // MustFailWithUserError finishes the response with an user error (expected error) message, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithUserError(msg string) JSON {
-	j.MustFailWithError(def.App.ErrGeneric, errors.New(msg), true)
+	j.MustFailWithError(appdef.ErrGeneric, errors.New(msg), true)
 	return JSON(0)
 }
 

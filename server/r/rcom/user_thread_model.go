@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/def/dbdef"
 	"qing/da"
 	"qing/lib/clib"
 )
@@ -34,13 +35,13 @@ type UserThreadModel struct {
 func NewUserThreadModel(item *da.UserThreadInterface) (UserThreadModel, error) {
 	d := UserThreadModel{UserThreadInterface: *item}
 	switch item.ThreadType {
-	case da.Constants.ThreadTypePost:
+	case int(dbdef.ThreadTypePost):
 		d.ThreadURL = appURL.Get().Post(item.ID)
 
-	case da.Constants.ThreadTypeQuestion:
+	case int(dbdef.ThreadTypeQue):
 		d.ThreadURL = appURL.Get().Question(item.ID)
 
-	case da.Constants.ThreadTypeDiscussion:
+	case int(dbdef.ThreadTypeDis):
 		d.ThreadURL = appURL.Get().Discussion(item.ID)
 
 	default:
@@ -57,13 +58,13 @@ func NewUserThreadModel(item *da.UserThreadInterface) (UserThreadModel, error) {
 // MustRunUserThreadViewTemplate runs an appropriate template associated with the given user thread model, and panics if any error happened.
 func MustRunUserThreadViewTemplate(d *UserThreadModel) string {
 	switch d.ThreadType {
-	case da.Constants.ThreadTypePost:
+	case int(dbdef.ThreadTypePost):
 		return vThreadPostView.MustExecuteToString(d)
 
-	case da.Constants.ThreadTypeQuestion:
+	case int(dbdef.ThreadTypeQue):
 		return vThreadQuestionView.MustExecuteToString(d)
 
-	case da.Constants.ThreadTypeDiscussion:
+	case int(dbdef.ThreadTypeDis):
 		return vThreadDiscussionView.MustExecuteToString(d)
 
 	default:

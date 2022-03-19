@@ -37,7 +37,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForumGroup {
-			resp.MustFailWithCode(def.App.ErrPermissionDenied)
+			resp.MustFailWithCode(appdef.ErrPermissionDenied)
 			return
 		}
 		ctx = context.WithValue(ctx, def.ForumGroupIDContextKey, groupID)

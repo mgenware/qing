@@ -19,6 +19,7 @@ import (
 	"qing/a/appLog"
 	"qing/a/config/configs"
 	"qing/a/def"
+	"qing/a/def/appdef"
 )
 
 type Manager struct {
@@ -86,7 +87,7 @@ func (mgr *Manager) Dictionary(lang string) *Dictionary {
 
 func (mgr *Manager) getLanguageFromRequest(w http.ResponseWriter, r *http.Request) string {
 	// Check if user has explicitly set a language.
-	cookieLang, _ := r.Cookie(def.App.KeyLang)
+	cookieLang, _ := r.Cookie(appdef.KeyLang)
 	if cookieLang != nil {
 		return cookieLang.Value
 	}
@@ -122,6 +123,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := appCookies.NewCookie(def.App.KeyLang, lang)
+	c := appCookies.NewCookie(appdef.KeyLang, lang)
 	http.SetCookie(w, c)
 }

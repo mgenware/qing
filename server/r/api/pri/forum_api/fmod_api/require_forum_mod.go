@@ -38,7 +38,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForum {
-			resp.MustFailWithCode(def.App.ErrPermissionDenied)
+			resp.MustFailWithCode(appdef.ErrPermissionDenied)
 			return
 		}
 

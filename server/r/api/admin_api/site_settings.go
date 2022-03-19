@@ -13,7 +13,6 @@ import (
 	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/appSettings"
-	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/clib"
 )
@@ -31,9 +30,9 @@ func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 	var settings interface{}
 	var needRestart bool
-	key := clib.MustGetStringFromDict(params, "key", def.App.MaxNameLen)
+	key := clib.MustGetStringFromDict(params, "key", appdef.MaxNameLen)
 	switch key {
-	case def.App.KeyCommunitySettings:
+	case appdef.KeyCommunitySettings:
 		settings = diskSettings.Community
 		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
 	default:

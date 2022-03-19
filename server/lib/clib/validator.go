@@ -10,7 +10,7 @@ package clib
 import (
 	"fmt"
 	"net/http"
-	"qing/a/def"
+	"qing/a/def/appdef"
 	"unicode/utf8"
 
 	"github.com/mgenware/goutil/jsonx"
@@ -102,12 +102,12 @@ func coercePage(page int) int {
 
 // GetPageParamFromDict returns the page number param from the given dict.
 func GetPageParamFromDict(dict map[string]interface{}) int {
-	return coercePage(jsonx.GetIntOrDefault(dict, def.App.KeyPage))
+	return coercePage(jsonx.GetIntOrDefault(dict, appdef.KeyPage))
 }
 
 // GetPageParamFromRequestQueryString returns the page number param from the given request.
 func GetPageParamFromRequestQueryString(r *http.Request) int {
-	page, _ := strconvx.ParseInt(r.FormValue(def.App.KeyPage))
+	page, _ := strconvx.ParseInt(r.FormValue(appdef.KeyPage))
 	return coercePage(page)
 }
 

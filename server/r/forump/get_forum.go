@@ -12,7 +12,6 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -36,7 +35,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(def.App.KeyTab)
+	tab := r.FormValue(appdef.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, fid)
 	app.PanicIfErr(err)
@@ -44,9 +43,9 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var items []da.UserThreadInterface
 	var hasNext bool
 
-	if tab == def.App.KeyDiscussions {
+	if tab == appdef.KeyDiscussions {
 		items, hasNext, err = da.Forum.SelectDiscussions(db, &fid, page, defaultPageSize)
-	} else if tab == def.App.KeyQuestions {
+	} else if tab == appdef.KeyQuestions {
 		items, hasNext, err = da.Forum.SelectQuestions(db, &fid, page, defaultPageSize)
 	} else {
 		items, hasNext, err = da.Forum.SelectThreads(db, &fid, page, defaultPageSize)

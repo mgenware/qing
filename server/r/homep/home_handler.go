@@ -13,7 +13,6 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appSettings"
-	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -39,17 +38,17 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(def.App.KeyTab)
+	tab := r.FormValue(appdef.KeyTab)
 
 	var items []da.UserThreadInterface
 	var hasNext bool
 	var err error
 
-	if tab == def.App.KeyPosts {
+	if tab == appdef.KeyPosts {
 		items, hasNext, err = da.Home.SelectPosts(db, page, defaultPageSize)
-	} else if tab == def.App.KeyDiscussions {
+	} else if tab == appdef.KeyDiscussions {
 		items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
-	} else if tab == def.App.KeyQuestions {
+	} else if tab == appdef.KeyQuestions {
 		items, hasNext, err = da.Home.SelectQuestions(db, page, defaultPageSize)
 	} else {
 		items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)

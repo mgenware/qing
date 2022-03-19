@@ -31,7 +31,7 @@ func ParseJSON(next http.Handler) http.Handler {
 			if err != nil && err != io.EOF {
 				resp := handler.NewJSONResponse(r, w)
 				// JSON parsing errors are considered user errors, so we pass `true` as `expected` and don't log them.
-				resp.MustFailWithError(def.App.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()), true)
+				resp.MustFailWithError(appdef.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()), true)
 				return
 			}
 			ctx = context.WithValue(ctx, def.DictContextKey, jsonMap)

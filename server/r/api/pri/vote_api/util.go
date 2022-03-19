@@ -10,7 +10,7 @@ package voteapi
 import (
 	"database/sql"
 	"qing/a/appDB"
-	"qing/a/def"
+	"qing/a/def/appdef"
 	"qing/da"
 )
 
@@ -23,12 +23,12 @@ func FetchMyVote(aid, uid uint64) (int, error) {
 	val, err := da.AnswerVote.MyVote(appDB.DB(), aid, uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return def.App.NoVoteValue, nil
+			return appdef.NoVoteValue, nil
 		}
 		return 0, err
 	}
 	if val {
-		return def.App.UpVoteValue, nil
+		return appdef.UpVoteValue, nil
 	}
-	return def.App.DownVoteValue, nil
+	return appdef.DownVoteValue, nil
 }

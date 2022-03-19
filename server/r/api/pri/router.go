@@ -12,7 +12,6 @@ import (
 	"qing/a/handler"
 	"qing/a/middleware"
 	authapi "qing/r/api/pri/auth_api"
-	captchaapi "qing/r/api/pri/captcha_api"
 	composeapi "qing/r/api/pri/compose_api"
 	forumapi "qing/r/api/pri/forum_api"
 	likeapi "qing/r/api/pri/like_api"
@@ -37,5 +36,4 @@ func init() {
 	Router.Mount("/mp", mpapi.Router)
 	Router.Mount("/user", userapi.Router)
 	Router.Mount("/forum", forumapi.Router)
-	Router.Core.Get("/req-capt", captchaapi.ReqCaptcha)
 }

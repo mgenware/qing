@@ -13,7 +13,6 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -40,19 +39,19 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 
 	switch entityType {
-	case def.App.EntityPost:
+	case appdef.EntityPost:
 		{
 			err = da.Post.TestUpdateDates(db, id, defTime, defTime)
 			app.PanicIfErr(err)
 			break
 		}
-	case def.App.EntityDiscussion:
+	case appdef.EntityDiscussion:
 		{
 			err = da.Discussion.TestUpdateDates(db, id, defTime, defTime)
 			app.PanicIfErr(err)
 			break
 		}
-	case def.App.EntityDiscussionMsg:
+	case appdef.EntityDiscussionMsg:
 		{
 			err = da.DiscussionMsg.TestUpdateDates(db, id, defTime, defTime)
 			app.PanicIfErr(err)

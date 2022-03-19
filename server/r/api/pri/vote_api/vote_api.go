@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -29,25 +29,25 @@ func vote(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	currentValue, err := FetchMyVote(id, uid)
 	app.PanicIfErr(err)
-	if currentValue == def.App.NoVoteValue {
+	if currentValue == appdef.NoVoteValue {
 		// New vote.
-		if newValue == def.App.UpVoteValue {
+		if newValue == appdef.UpVoteValue {
 			err = da.AnswerVote.NewUpVote(db, id, uid)
-		} else if newValue == def.App.DownVoteValue {
+		} else if newValue == appdef.DownVoteValue {
 			err = da.AnswerVote.NewDownVote(db, id, uid)
 		}
 	} else if currentValue == newValue {
 		// Retract an existing vote.
-		if newValue == def.App.UpVoteValue {
+		if newValue == appdef.UpVoteValue {
 			err = da.AnswerVote.RetractUpVote(db, id, uid)
-		} else if newValue == def.App.DownVoteValue {
+		} else if newValue == appdef.DownVoteValue {
 			err = da.AnswerVote.RetractDownVote(db, id, uid)
 		}
 	} else {
 		// Switch an existing vote.
-		if newValue == def.App.UpVoteValue {
+		if newValue == appdef.UpVoteValue {
 			err = da.AnswerVote.SwitchToUpVote(db, id, uid)
-		} else if newValue == def.App.DownVoteValue {
+		} else if newValue == appdef.DownVoteValue {
 			err = da.AnswerVote.SwitchToDownVote(db, id, uid)
 		}
 	}

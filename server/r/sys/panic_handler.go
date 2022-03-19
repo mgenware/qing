@@ -14,7 +14,7 @@ import (
 
 	"qing/a/app"
 	"qing/a/appHandler"
-	"qing/a/def"
+	"qing/a/def/appdef"
 )
 
 // PanicMiddleware handles panics.
@@ -54,7 +54,7 @@ func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 		resp := appHandler.JSONResponse(w, r)
-		resp.MustFailWithError(def.App.ErrGeneric, err, expected)
+		resp.MustFailWithError(appdef.ErrGeneric, err, expected)
 	} else {
 		if !expected && conf.Debug != nil && conf.Debug.PanicOnUnexpectedHTMLErrors {
 			panic(err)

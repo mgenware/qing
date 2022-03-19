@@ -9,7 +9,6 @@ package apicom
 
 import (
 	"fmt"
-	"qing/a/def"
 	"qing/da"
 
 	"github.com/mgenware/mingru-go-lib"
@@ -17,11 +16,11 @@ import (
 
 func GetCmtHostTable(hostType int) (mingru.Table, error) {
 	switch hostType {
-	case def.App.EntityPost:
+	case appdef.EntityPost:
 		return da.Post, nil
-	case def.App.EntityQuestion:
+	case appdef.EntityQuestion:
 		return da.Question, nil
-	case def.App.EntityAnswer:
+	case appdef.EntityAnswer:
 		return da.Answer, nil
 	default:
 		return nil, fmt.Errorf("unknown cmt host table %v", hostType)
@@ -30,11 +29,11 @@ func GetCmtHostTable(hostType int) (mingru.Table, error) {
 
 func GetCmtRelationTable(hostType int) (mingru.Table, error) {
 	switch hostType {
-	case def.App.EntityPost:
+	case appdef.EntityPost:
 		return da.PostCmt, nil
-	case def.App.EntityQuestion:
+	case appdef.EntityQuestion:
 		return da.QuestionCmt, nil
-	case def.App.EntityAnswer:
+	case appdef.EntityAnswer:
 		return da.AnswerCmt, nil
 	default:
 		return nil, fmt.Errorf("unknown cmt relation table %v", hostType)

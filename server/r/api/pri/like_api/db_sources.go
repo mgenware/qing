@@ -8,12 +8,11 @@
 package likeapi
 
 import (
-	"qing/a/def"
 	"qing/da"
 )
 
 var dbSources = map[int]da.LikeInterface{
-	def.App.EntityPost:     da.PostLike,
-	def.App.EntityCmt:      da.CmtLike,
-	def.App.EntityQuestion: da.QuestionLike,
+	appdef.EntityPost:     da.PostLike,
+	appdef.EntityCmt:      da.CmtLike,
+	appdef.EntityQuestion: da.QuestionLike,
 }
