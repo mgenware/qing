@@ -35,9 +35,6 @@ const (
 	MSSIDToUser = "auth-ss:%v"
 	// K: user id, V: sid
 	MSUserIDToSID = "auth-us:%v"
-	// K: cap:<user id>:<type> V: captcha value.
-	MSCaptcha        = "captcha:%v:%v"
-	MSCaptchaTimeout = 3 * 60
 
 	MSRegEmailTimeout = 60 * 60
 	// K: Secret ID sent to user email, V: user pwd.

@@ -45,13 +45,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		cmtHostTable, err := apicom.GetCmtHostTable(dbdef.CmtHostType(host.Type))
 		app.PanicIfErr(err)
 
-		captResult, err := appService.Get().Captcha.Verify(uid, host.Type, "", app.CoreConfig().DevMode())
-		app.PanicIfErr(err)
-
-		if captResult != 0 {
-			return resp.MustFailWithCode(captResult)
-		}
-
+		captResult := 0
 		var cmtID uint64
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, parentID, content, uid, cmtHostTable, host.ID, sanitizedToken, captResult)

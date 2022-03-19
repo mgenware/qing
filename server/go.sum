@@ -33,8 +33,6 @@ github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
 github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470 h1:hMbjgXRju+NzuqxUW7nCaXQ75FMbtSAWv5u6IpPAb3s=
 github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470/go.mod h1:xii9EU0ai5k6z8+mbDpcvQwEiVySDXGBqIv3exxm/p4=
-github.com/mgenware/go-captcha v1.0.0 h1:MSZIsA8bThCzT63Q5WL4Un1GHl9FFTSn6PqrxrDWPS8=
-github.com/mgenware/go-captcha v1.0.0/go.mod h1:RFvEjGpO5STdFq/7X0mpwbYt0kGfQqRlv7Vc9Ew2dGk=
 github.com/mgenware/go-string-format v1.0.1 h1:lbydtuCDsg9i9oEteEAKcry4uPvJypgnOhvhEoTH288=
 github.com/mgenware/go-string-format v1.0.1/go.mod h1:8hBsDl3Qt0yAUnzk+S401hC62//++GSpDEfBuSTeFgw=
 github.com/mgenware/goutil v1.0.0 h1:z3YtyrDwYMlZqlnijCqZdLLELxqDqoRXw4VoS4sV4u0=

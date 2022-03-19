@@ -9,7 +9,6 @@ require (
 	github.com/imdario/mergo v0.3.12
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470
-	github.com/mgenware/go-captcha v1.0.0
 	github.com/mgenware/go-string-format v1.0.1
 	github.com/mgenware/goutil v1.0.0
 	github.com/mgenware/mingru-go-lib v0.1.1

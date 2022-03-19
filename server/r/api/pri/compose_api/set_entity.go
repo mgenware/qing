@@ -45,12 +45,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.
-		captResult, err := appService.Get().Captcha.Verify(uid, appdef.EntityPost, "", conf.DevMode())
-		app.PanicIfErr(err)
-		if captResult != 0 {
-			return resp.MustFailWithCode(captResult)
-		}
-
+		captResult := 0
 		var forumID *uint64
 		if appSettings.Get().Forums() && entityType != appdef.EntityPost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
