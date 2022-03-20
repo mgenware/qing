@@ -7,13 +7,19 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/thread/threadMsg.js';
+import threadMsgCmt from '../../models/thread/threadMsgCmt.js';
 import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
 export class ThreadMsgAG extends ContentWithTitleBaseAG {
   override baseTable(): ContentBase {
     return t;
+  }
+
+  override baseCmtTable(): ContentBaseCmt {
+    return threadMsgCmt;
   }
 
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {

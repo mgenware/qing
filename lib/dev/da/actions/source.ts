@@ -13,20 +13,16 @@ import cmtAG from './cmt/cmtAG.js';
 import userAuthAG from './user/userAuthAG.js';
 import userPwdAG from './user/userPwdAG.js';
 import likeAGs from './like/likeAGs.js';
-import discussionAG from './discussion/discussionAG.js';
-import discussionMsgAG from './discussion/discussionMsgAG.js';
 import homeAG from './home/homeAG.js';
-import questionAG from './qna/questionAG.js';
-import answerAG from './qna/answerAG.js';
+import threadAG from './thread/threadAG.js';
+import threadMsgAG from './thread/threadMsgAG.js';
 import forumGroupAG from './forum/forumGroupAG.js';
 import forumAG from './forum/forumAG.js';
 import forumIsUserModAG from './forum/forumIsUserModAG.js';
 import forumGroupModAG from './forum/forumGroupModAG.js';
 import forumModAG from './forum/forumModAG.js';
-import voteAGs from './vote/voteAGs.js';
 import { contentBaseUtilAG } from './com/contentBaseUtilAG.js';
 import contentBaseCmtUtilAG from './cmt/contentBaseCmtUtilAG.js';
-import { threadBaseUtilAG } from './com/threadBaseUtilAG.js';
 
 const source: Array<mm.ActionGroup | mm.Table> = [
   userAG,
@@ -35,16 +31,10 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   userPwdAG,
   cmtAG,
   postAG,
-  postAG.getCmtBaseTable(),
-  discussionAG,
-  discussionAG.getCmtBaseTable(),
-  discussionMsgAG,
-  discussionMsgAG.getCmtBaseTable(),
+  postAG.baseCmtTable(),
+  threadAG,
+  threadMsgAG.baseCmtTable(),
   homeAG,
-  questionAG,
-  questionAG.getCmtBaseTable(),
-  answerAG,
-  answerAG.getCmtBaseTable(),
   forumAG,
   forumGroupAG,
   forumModAG,
@@ -52,9 +42,7 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   forumIsUserModAG,
   contentBaseUtilAG,
   contentBaseCmtUtilAG,
-  threadBaseUtilAG,
   ...likeAGs,
-  ...voteAGs,
 ];
 
 export default source;

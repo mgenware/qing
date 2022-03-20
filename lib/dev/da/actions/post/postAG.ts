@@ -7,13 +7,19 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t from '../../models/post/post.js';
+import postCmt from '../../models/post/postCmt.js';
 import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
 export class PostAG extends ContentWithTitleBaseAG {
   override baseTable(): ContentBase {
     return t;
+  }
+
+  override baseCmtTable(): ContentBaseCmt {
+    return postCmt;
   }
 
   override getContainerUpdateCounterActions(): mm.Action[] {

@@ -10,6 +10,7 @@ import user, { User } from '../../models/user/user.js';
 import * as cm from '../../models/common.js';
 import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
+import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import { getEntitySrcType } from '../defs.js';
 
 const insertedIDVar = 'insertedID';
@@ -105,6 +106,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
 
   // Gets the underlying `ContentBase` table.
   abstract baseTable(): ContentBase;
+  abstract baseCmtTable(): ContentBaseCmt;
 
   // Returns [] if post center is not supported.
   colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
