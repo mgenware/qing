@@ -6,18 +6,10 @@
  */
 
 import * as mm from 'mingru-models';
-import user from '../user/user.js';
+import ContentBase from '../com/contentBase';
 
-export class Cmt extends mm.Table {
-  id = mm.pk();
+export class Cmt extends ContentBase {
   parent_id = mm.uBigInt().nullable;
-  content = mm.text().setModelName('ContentHTML');
-  user_id = user.id;
-  reply_count = mm.uInt().default(0);
-  likes = mm.uInt().default(0);
-  created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
-  modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
-
   del_flag = mm.uTinyInt().default(0);
 
   host_id = mm.uBigInt();

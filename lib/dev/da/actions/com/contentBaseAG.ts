@@ -10,7 +10,6 @@ import user, { User } from '../../models/user/user.js';
 import * as cm from '../../models/common.js';
 import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
-import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import { getEntitySrcType } from '../defs.js';
 
 const insertedIDVar = 'insertedID';
@@ -42,7 +41,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
   constructor() {
     super();
 
-    const t = this.getBaseTable();
+    const t = this.baseTable();
     const idCol = t.id.privateAttr();
     this.joinedUserTable = t.user_id.join(user);
     this.userColumns = [t.user_id, this.joinedUserTable.name, this.joinedUserTable.icon_name].map(
@@ -53,9 +52,9 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
     const { dateColumns } = this;
 
     this.updateConditions = defaultUpdateConditions(t);
-    this.selectItemByID = mm.selectRow(...this.getFullColumns()).by(t.id);
+    this.selectItemByID = mm.selectRow(...this.selectItemCols()).by(t.id);
 
-    const profileCols = this.getProfileColumns();
+    const profileCols = this.colsOfSelectItemsForUserProfile();
     this.selectItemsForUserProfile = profileCols.length
       ? mm
           .selectRows(idCol, ...dateColumns, ...profileCols)
@@ -64,18 +63,18 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
           .orderByDesc(t.created_at)
       : mm.emptyAction;
     this.selectItemSrc = mm
-      .selectRow(...this.getEditingColumns())
+      .selectRow(t.content, ...this.colsOfSelectItemSrc())
       .whereSQL(this.updateConditions)
       .resultTypeNameAttr(getEntitySrcType)
       .attr(mm.ActionAttribute.enableTSResultType, true);
 
-    const pcCols = this.getPCColumns();
+    const pcCols = this.colsOfSelectItemsForPostCenter();
     this.selectItemsForPostCenter = pcCols.length
       ? mm
-          .selectRows(idCol, ...dateColumns, ...pcCols)
+          .selectRows(idCol, ...this.dateColumns, t.likes, t.cmt_count, ...pcCols)
           .pageMode()
           .by(t.user_id)
-          .orderByInput(...this.getPCOrderByColumns())
+          .orderByInput(...this.orderByParamsOfSelectItemsForPostCenter())
       : mm.emptyAction;
 
     this.deleteItem =
@@ -88,14 +87,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
       .transact(
         mm
           .insertOne()
-          .setInputs(
-            ...this.getStartingInsertionInputColumns(),
-            ...this.getEditingColumns(),
-            t.user_id,
-            t.created_at,
-            t.modified_at,
-            ...this.getExtraInsertionInputColumns(),
-          )
+          .setInputs(...this.insertItemCols())
           .setDefaults()
           .declareInsertedID(insertedIDVar),
         ...this.getIncrementContainerCounterActions(),
@@ -104,7 +96,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
       .setReturnValues(insertedIDVar);
     this.editItem = mm
       .updateOne()
-      .setInputs(...this.getEditingColumns(), t.modified_at)
+      .setInputs(...this.colsOfSelectItemSrc(), t.modified_at)
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
@@ -112,21 +104,27 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
   }
 
   // Gets the underlying `ContentBase` table.
-  abstract getBaseTable(): ContentBase;
-
-  // Gets the underlying `ContentCmtBase` table.
-  abstract getCmtBaseTable(): ContentBaseCmt;
+  abstract baseTable(): ContentBase;
 
   // Returns [] if post center is not supported.
-  abstract getPCColumns(): mm.SelectedColumnTypes[];
-  abstract getPCOrderByColumns(): mm.SelectedColumnTypes[];
-  // Returns [] if profile is not supported.
-  abstract getProfileColumns(): mm.SelectedColumnTypes[];
-  abstract getEditingColumns(): mm.Column[];
-
-  // Gets extra columns that are considered inputs during insertion.
-  getExtraInsertionInputColumns(): mm.Column[] {
+  colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
     return [];
+  }
+  protected orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+    const t = this.baseTable();
+    return [t.created_at, t.likes, t.cmt_count];
+  }
+  // Returns [] if profile is not supported.
+  protected colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
+    return [];
+  }
+  protected colsOfSelectItemSrc(): mm.Column[] {
+    return [];
+  }
+
+  protected insertItemCols() {
+    const t = this.baseTable();
+    return [...this.colsOfSelectItemSrc(), t.user_id, t.created_at, t.modified_at];
   }
 
   // Gets a list of update actions of container table to update the counters in response
@@ -135,7 +133,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
   // For sub-entities like answers, it returns 2 actions, one for updating `user_answer_count`.
   // the other is for updating `parent_question.reply_count`.
   // NOTE: Comments have their own TA due to recursive structure.
-  abstract getContainerUpdateCounterActions(): mm.Action[];
+  protected abstract getContainerUpdateCounterActions(): mm.Action[];
 
   private callContainerUpdateCounterActions(offset: number) {
     return this.getContainerUpdateCounterActions().map((a) => a.wrap({ offset }));
@@ -153,14 +151,9 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
     return null;
   }
 
-  protected getFullColumns(): mm.SelectedColumnTypes[] {
-    const t = this.getBaseTable();
+  protected selectItemCols(): mm.SelectedColumnTypes[] {
+    const t = this.baseTable();
     const idCol = t.id.privateAttr();
-    return [idCol, ...this.userColumns, ...this.dateColumns, t.content];
-  }
-
-  // Used by threads as `forum_id` should be the first param during insertion.
-  protected getStartingInsertionInputColumns(): mm.Column[] {
-    return [];
+    return [idCol, ...this.userColumns, ...this.dateColumns, t.content, t.likes, t.cmt_count];
   }
 }

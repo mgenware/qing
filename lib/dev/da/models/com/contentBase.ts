@@ -16,5 +16,8 @@ export default class ContentBase extends mm.Table {
   created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
   modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
 
+  // For cmt, it's the number of direct replies.
+  // For post, it's the number of all cmts associated with it.
   cmt_count = mm.uInt().default(0);
+  likes = mm.uInt().default(0);
 }

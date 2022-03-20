@@ -8,8 +8,6 @@
 import * as mm from 'mingru-models';
 import ContentWithTitleBase from '../com/contentWithTitleBase.js';
 
-export class Post extends ContentWithTitleBase {
-  likes = mm.uInt().default(0);
-}
+export class Post extends ContentWithTitleBase {}
 
 export default mm.table(Post);

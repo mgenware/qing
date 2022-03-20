@@ -7,10 +7,12 @@
 
 import * as mm from 'mingru-models';
 import forum from '../forum/forum.js';
-import ContentWithTitleBase from './contentWithTitleBase.js';
+import ContentWithTitleBase from '../com/contentWithTitleBase.js';
 
-export default class ThreadBase extends ContentWithTitleBase {
+export class Thread extends ContentWithTitleBase {
   forum_id = mm.fk(forum.id).nullable;
-  reply_count = mm.uInt().default(0);
+  msg_count = mm.uInt().default(0);
   last_replied_at = mm.datetime({ defaultToNow: 'utc' }).nullable.default(null);
 }
+
+export default mm.table(Thread);

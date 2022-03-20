@@ -8,12 +8,12 @@
 import * as mm from 'mingru-models';
 import ContentBase from '../com/contentBase.js';
 import ContentBaseCmt from '../com/contentBaseCmt.js';
-import discussion from './discussion.js';
+import thread from './thread.js';
 
-export class DiscussionCmt extends ContentBaseCmt {
+export class ThreadCmt extends ContentBaseCmt {
   override getCmtHostTable(): ContentBase {
-    return discussion;
+    return thread;
   }
 }
 
-export default mm.table(DiscussionCmt);
+export default mm.table(ThreadCmt);

@@ -6,14 +6,11 @@
  */
 
 import * as mm from 'mingru-models';
+import thread from './thread.js';
 import ContentBase from '../com/contentBase.js';
-import ContentBaseCmt from '../com/contentBaseCmt.js';
-import question from './question.js';
 
-export class QuestionCmt extends ContentBaseCmt {
-  override getCmtHostTable(): ContentBase {
-    return question;
-  }
+export class ThreadMsg extends ContentBase {
+  thread_id = thread.id;
 }
 
-export default mm.table(QuestionCmt);
+export default mm.table(ThreadMsg);

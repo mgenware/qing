@@ -11,13 +11,6 @@
 ******************************************************************************************/package dbdef
 
 
-type ThreadType int
-
-const (
-	ThreadTypeQue ThreadType = iota + 1
-	ThreadTypeDis
-)
-
 type CmtHostType int
 
 const (
@@ -25,12 +18,4 @@ const (
 	CmtHostTypeQue
 	CmtHostTypeDis
 	CmtHostTypeAns
-)
-
-type LikeHostType int
-
-const (
-	LikeHostTypePost LikeHostType = iota + 1
-	LikeHostTypeQue
-	LikeHostTypeCmt
 )

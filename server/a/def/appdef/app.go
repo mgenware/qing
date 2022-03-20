@@ -72,7 +72,5 @@ const (
 	ContentBaseTypePost ContentBaseType = iota + 1
 	ContentBaseTypeCmt
 	ContentBaseTypeDis
-	ContentBaseTypeQue
-	ContentBaseTypeDisMsg
 	ContentBaseTypeAns
 )
