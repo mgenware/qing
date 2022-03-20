@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@github/image-crop-element": "^5.0.0",
-    "@popperjs/core": "^2.11.2",
+    "@popperjs/core": "^2.11.4",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "@qing/stylelib": "workspace:*",
