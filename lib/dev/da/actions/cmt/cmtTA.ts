@@ -31,10 +31,10 @@ export class CmtAG extends mm.ActionGroup {
   // Used by APIs to select host data
   selectHostDataInternal = mm.selectRow(t.host_id, t.host_type);
 
-  updateReplyCount = updateCounterAction(t, t.reply_count);
+  updateReplyCount = updateCounterAction(t, t.cmt_count);
 
   memLockedGetCmtDataForDeletion = mm
-    .selectRow(t.parent_id, t.reply_count)
+    .selectRow(t.parent_id, t.cmt_count)
     .by(t.id)
     .lock(mm.SelectActionLockMode.inShareMode);
 

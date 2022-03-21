@@ -6,7 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../com/contentBase';
+import ContentBase from '../com/contentBase.js';
 
 export class Cmt extends ContentBase {
   parent_id = mm.uBigInt().nullable;

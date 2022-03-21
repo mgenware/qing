@@ -28,10 +28,10 @@ export class CmtAG extends mm.ActionGroup {
     .resultTypeNameAttr(getEntitySrcType)
     .attr(mm.ActionAttribute.enableTSResultType, true);
 
-  updateReplyCount = updateCounterAction(t, t.reply_count);
+  updateReplyCount = updateCounterAction(t, t.cmt_count);
 
   memLockedGetCmtDataForDeletion = mm
-    .selectRow(t.parent_id, t.reply_count)
+    .selectRow(t.parent_id, t.cmt_count)
     .by(t.id)
     .lock(mm.SelectActionLockMode.inShareMode);
 
