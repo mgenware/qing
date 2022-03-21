@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import t from '../../models/user/userAuth.js';
 
 export class UserAuthAG extends mm.ActionGroup {
-  addUserAuth = mm.insertOne().setInputs();
+  addUserAuth = mm.insertOne().setParams();
 }
 
 export default mm.actionGroup(t, UserAuthAG);

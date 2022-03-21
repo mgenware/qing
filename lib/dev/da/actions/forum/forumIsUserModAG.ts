@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import t from '../../models/forum/forumIsUserMod.js';
 
 export class ForumIsUserModAG extends mm.ActionGroup {
-  has = mm.selectExists().whereSQL(t.id.isEqualToInput());
+  has = mm.selectExists().whereSQL(t.id.isEqualToParam());
 }
 
 export default mm.actionGroup(t, ForumIsUserModAG);

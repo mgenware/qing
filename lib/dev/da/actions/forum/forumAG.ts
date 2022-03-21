@@ -22,14 +22,14 @@ export class ForumAG extends mm.ActionGroup {
     .selectRow(t.id, t.name, t.desc, t.created_at.privateAttr(), t.thread_count)
     .by(t.id);
   selectGroupID = mm.selectField(t.group_id).by(t.id);
-  selectForumIDsForGroup = mm.selectFieldRows(t.id).where`${t.group_id.isEqualToInput(undefined, {
+  selectForumIDsForGroup = mm.selectFieldRows(t.id).where`${t.group_id.isEqualToParam(undefined, {
     nullable: false,
   })}`.noOrderBy();
   selectInfoForEditing = mm.selectRow(t.name, t.desc).by(t.id);
 
   deleteItem = mm.deleteOne().by(t.id);
-  updateInfo = mm.updateOne().setInputs(t.name, t.desc).by(t.id);
-  insertItem = mm.insertOne().setInputs(t.name, t.desc).setInputs();
+  updateInfo = mm.updateOne().setParams(t.name, t.desc).by(t.id);
+  insertItem = mm.insertOne().setParams(t.name, t.desc).setParams();
 
   // Select threads.
   selectThreads: mm.SelectAction;

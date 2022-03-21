@@ -10,8 +10,8 @@ import { TableWithIDAndUserID } from '../models/common.js';
 
 export function defaultUpdateConditions(table: TableWithIDAndUserID, idInputName?: string): mm.SQL {
   return mm.and(
-    mm.sql`${table.id.isEqualToInput(idInputName)}`,
-    mm.sql`${table.user_id.isEqualToInput()}`,
+    mm.sql`${table.id.isEqualToParam(idInputName)}`,
+    mm.sql`${table.user_id.isEqualToParam()}`,
   );
 }
 
@@ -21,6 +21,6 @@ export function defaultBatchUpdateConditions(
 ): mm.SQL {
   return mm.and(
     mm.sql`${table.id.isInArrayInput(idsInputName || 'ids')}`,
-    mm.sql`${table.user_id.isEqualToInput()}`,
+    mm.sql`${table.user_id.isEqualToParam()}`,
   );
 }

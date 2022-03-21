@@ -14,7 +14,7 @@ import { UserAuthType } from '../../models/user/userAuth.js';
 export class UserPwdAG extends mm.ActionGroup {
   selectHashByID = mm.selectField(t.pwd_hash).by(t.id);
 
-  addUserPwdInternal = mm.insertOne().setInputs();
+  addUserPwdInternal = mm.insertOne().setParams();
 
   addPwdBasedUser = mm
     .transact(

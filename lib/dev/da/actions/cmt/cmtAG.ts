@@ -18,7 +18,7 @@ import { updateCounterAction } from '../com/updateCounterAction.js';
 export class CmtAG extends mm.ActionGroup {
   editCmt = mm
     .updateOne()
-    .setInputs(t.content, t.modified_at)
+    .setParams(t.content, t.modified_at)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
 
@@ -40,14 +40,14 @@ export class CmtAG extends mm.ActionGroup {
 
   editReply = mm
     .updateOne()
-    .setInputs(t.content, t.modified_at)
+    .setParams(t.content, t.modified_at)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
   selectReplySource = mm
     .selectRow(t.content)
     .whereSQL(defaultUpdateConditions(t))
     .resultTypeNameAttr(getEntitySrcType);
-  insertCmt = mm.insertOne().set(t.parent_id, mm.constants.NULL).setDefaults().setInputs();
+  insertCmt = mm.insertOne().set(t.parent_id, mm.constants.NULL).setDefaults().setParams();
   // `parent_id` is required when inserting a reply.
   insertReply = mm
     .insertOne()
@@ -56,12 +56,12 @@ export class CmtAG extends mm.ActionGroup {
       new mm.SQLVariable(t.parent_id.__type(), t.parent_id.__getDBName(), false, undefined, false),
     )
     .setDefaults()
-    .setInputs();
+    .setParams();
   deleteCore = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 
   eraseCmt = mm
     .updateOne()
-    .setInputs(t.del_flag)
+    .setParams(t.del_flag)
     .set(t.content, '')
     .whereSQL(defaultUpdateConditions(t));
 

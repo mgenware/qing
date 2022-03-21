@@ -25,16 +25,16 @@ export default function getLikeTableActions(
   const actions = {
     cancelLike: mm
       .transact(
-        mm.deleteOne().whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput())),
+        mm.deleteOne().whereSQL(mm.and(t.host_id.isEqualToParam(), t.user_id.isEqualToParam())),
         updateLikesAction(hostTable, -1),
       )
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
     like: mm
-      .transact(mm.insertOne().setInputs(t.host_id, t.user_id), updateLikesAction(hostTable, 1))
+      .transact(mm.insertOne().setParams(t.host_id, t.user_id), updateLikesAction(hostTable, 1))
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
     hasLiked: mm
       .selectExists()
-      .whereSQL(mm.and(t.host_id.isEqualToInput(), t.user_id.isEqualToInput()))
+      .whereSQL(mm.and(t.host_id.isEqualToParam(), t.user_id.isEqualToParam()))
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
   };
   return mm.actionGroupCore(t, null, actions, undefined);

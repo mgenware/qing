@@ -49,7 +49,7 @@ export function getSelectCmtsAction(opt: {
       cmtLike,
       cmtLike.host_id,
       undefined,
-      (jt) => mm.sql`AND ${jt.user_id.isEqualToInput(viewerUserIDInput)}`,
+      (jt) => mm.sql`AND ${jt.user_id.isEqualToParam(viewerUserIDInput)}`,
     ).user_id;
     cols.push(likeUserID.as(hasLikedProp));
   }

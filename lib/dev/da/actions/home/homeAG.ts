@@ -7,10 +7,9 @@
 
 import * as mm from 'mingru-models';
 import post from '../../models/post/post.js';
-import discussion from '../../models/discussion/discussion.js';
+import thread from '../../models/thread/thread.js';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup.js';
 import forum, { Forum } from '../../models/forum/forum.js';
-import question from '../../models/qna/question.js';
 import { dbDef } from '@qing/def';
 import {
   getUserPostCols,
@@ -48,7 +47,7 @@ export class HomeAG extends mm.ActionGroup {
       .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
-    this.selectQuestions = mm
+    this.selectThreads = mm
       .selectRows(this.typeCol(dbDef.ThreadType.que), ...getUserQuestionCols(question, false))
       .from(question)
       .pageMode()

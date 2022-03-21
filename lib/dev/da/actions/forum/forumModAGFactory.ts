@@ -15,11 +15,11 @@ export function createForumModTA(
   const actions = {
     selectIsMod: mm
       .selectExists()
-      .whereSQL(mm.and(t.object_id.isEqualToInput(), t.user_id.isEqualToInput())),
-    insertMod: mm.insertOne().setInputs(t.object_id, t.user_id),
+      .whereSQL(mm.and(t.object_id.isEqualToParam(), t.user_id.isEqualToParam())),
+    insertMod: mm.insertOne().setParams(t.object_id, t.user_id),
     deleteMod: mm
       .deleteOne()
-      .whereSQL(mm.and(t.object_id.isEqualToInput(), t.user_id.isEqualToInput())),
+      .whereSQL(mm.and(t.object_id.isEqualToParam(), t.user_id.isEqualToParam())),
   };
   if (extraActions) {
     Object.assign(actions, extraActions);

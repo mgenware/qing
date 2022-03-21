@@ -88,7 +88,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
       .transact(
         mm
           .insertOne()
-          .setInputs(...this.insertItemCols())
+          .setParams(...this.insertItemCols())
           .setDefaults()
           .declareInsertedID(insertedIDVar),
         ...this.getIncrementContainerCounterActions(),
@@ -97,11 +97,11 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
       .setReturnValues(insertedIDVar);
     this.editItem = mm
       .updateOne()
-      .setInputs(...this.colsOfSelectItemSrc(), t.modified_at)
+      .setParams(...this.colsOfSelectItemSrc(), t.modified_at)
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
-    this.testUpdateDates = mm.updateOne().setInputs(t.created_at, t.modified_at).by(t.id);
+    this.testUpdateDates = mm.updateOne().setParams(t.created_at, t.modified_at).by(t.id);
   }
 
   // Gets the underlying `ContentBase` table.

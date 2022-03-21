@@ -11,8 +11,8 @@ import { TableWithID } from '../../models/common.js';
 const offsetParamName = 'offset';
 
 export function updateCounterAction(table: TableWithID, counterCol: mm.Column) {
-  const valueSQL = mm.sql`${counterCol} + ${mm.int().toInput(offsetParamName)}`;
-  const whereSQL = mm.sql`${table.id.isEqualToInput()}`;
+  const valueSQL = mm.sql`${counterCol} + ${mm.int().toParam(offsetParamName)}`;
+  const whereSQL = mm.sql`${table.id.isEqualToParam()}`;
   return mm.updateOne().set(counterCol, valueSQL).whereSQL(whereSQL);
 }
 

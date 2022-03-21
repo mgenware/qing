@@ -36,7 +36,7 @@ export function insertCmtAction(rt: CmtRelationTable): mm.TransactAction {
       // Insert the cmt.
       cmtAG.insertCmt.declareInsertedID(cmtID),
       // Set up relationship with host.
-      mm.insertOne().from(rt).setInputs().wrapAsRefs({ cmtID }),
+      mm.insertOne().from(rt).setParams().wrapAsRefs({ cmtID }),
       // host.cmtCount++.
       getIncrementCmtCountAction(true),
     )
@@ -77,7 +77,7 @@ export function insertReplyAction(): mm.TransactAction {
 //     mm.deleteOne().from(cmt).whereSQL(defaultUpdateConditions(cmt)),
 //     // host.cmtCount = host.cmtCount - replyCount - 1 (the comment itself)
 //     // The inputs of `updateCmtCountAction` are from the results of the first mem of this TX.
-//     updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toInput(replyCount)} - 1`).wrap({
+//     updateCmtCountAction(ht, mm.sql`- ${mm.uInt().toParam(replyCount)} - 1`).wrap({
 //       replyCount: mm.valueRef(`${hostIDAndReplyCount}.${replyCountProp}`),
 //       hostID: mm.valueRef(`${hostIDAndReplyCount}.${hostIDProp}`),
 //     }),

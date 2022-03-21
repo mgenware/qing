@@ -27,7 +27,7 @@ export class UserAG extends mm.ActionGroup {
     .attr(mm.ActionAttribute.ignorePrivateColumns, true);
   selectEditingData = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
-  selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToInput());
+  selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToParam());
   selectIsAdmin = mm.selectField(t.admin).by(t.id);
   selectName = mm.selectField(t.name).by(t.id);
 
@@ -35,22 +35,22 @@ export class UserAG extends mm.ActionGroup {
     .selectRow(...coreCols)
     .by(t.id)
     .resultTypeNameAttr(findUserResult);
-  findUsersByName = mm.selectRows(...coreCols).where`${t.name} LIKE ${t.name.toInput()}`
+  findUsersByName = mm.selectRows(...coreCols).where`${t.name} LIKE ${t.name.toParam()}`
     .noOrderBy()
     .resultTypeNameAttr(findUserResult);
 
   updateProfile = mm
     .updateOne()
-    .setInputs(t.name, t.website, t.company, t.location, t.bio)
+    .setParams(t.name, t.website, t.company, t.location, t.bio)
     .by(t.id);
-  updateIconName = mm.updateOne().setInputs(t.icon_name).by(t.id);
+  updateIconName = mm.updateOne().setParams(t.icon_name).by(t.id);
 
   // Unsafe methods. Need extra admin check.
   unsafeSelectAdmins = mm.selectRows(...coreCols).where`${t.admin} = 1`.orderByAsc(t.id);
-  unsafeUpdateAdmin = mm.updateOne().setInputs(t.admin).by(t.id);
+  unsafeUpdateAdmin = mm.updateOne().setParams(t.admin).by(t.id);
 
-  private addUserEntryInternal = mm.insertOne().setDefaults().setInputs();
-  private addUserStatsEntryInternal = mm.insertOne().from(userStats).setDefaults().setInputs();
+  private addUserEntryInternal = mm.insertOne().setDefaults().setParams();
+  private addUserStatsEntryInternal = mm.insertOne().from(userStats).setDefaults().setParams();
 
   // Used by other user auth provider such as pwd provider to add an entry
   // in both user and user stats tables.

@@ -15,8 +15,8 @@ export class ForumGroupAG extends mm.ActionGroup {
   selectInfoForEditing = mm.selectRow(t.name, t.desc).by(t.id);
 
   deleteGroup = mm.deleteOne().by(t.id);
-  updateInfo = mm.updateOne().setInputs(t.name, t.desc).by(t.id);
-  insertGroup = mm.insertOne().setInputs(t.name, t.desc).setDefaults();
+  updateInfo = mm.updateOne().setParams(t.name, t.desc).by(t.id);
+  insertGroup = mm.insertOne().setParams(t.name, t.desc).setDefaults();
 }
 
 export default mm.actionGroup(t, ForumGroupAG);
