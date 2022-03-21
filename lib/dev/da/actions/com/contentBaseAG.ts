@@ -75,7 +75,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
           .selectRows(idCol, ...this.dateColumns, t.likes, t.cmt_count, ...pcCols)
           .pageMode()
           .by(t.user_id)
-          .orderByInput(...this.orderByParamsOfSelectItemsForPostCenter())
+          .orderByParams(...this.orderByParamsOfSelectItemsForPostCenter())
       : mm.emptyAction;
 
     this.deleteItem =

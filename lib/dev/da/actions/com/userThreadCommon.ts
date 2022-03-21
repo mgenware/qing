@@ -9,8 +9,7 @@ import * as mm from 'mingru-models';
 import ContentBase from '../../models/com/contentBase.js';
 import { Post } from '../../models/post/post.js';
 import user from '../../models/user/user.js';
-import { Discussion } from '../../models/discussion/discussion.js';
-import { Question } from '../../models/qna/question.js';
+import { Thread } from '../../models/thread/thread.js';
 
 /**
  * In order to support selecting all kinds of user threads and reuse code for difference
@@ -62,32 +61,15 @@ export function getUserPostCols(t: Post): mm.SelectedColumnTypes[] {
   ];
 }
 
-export function getUserDiscussionCols(
-  t: Discussion,
+export function getUserThreadCols(
+  t: Thread,
   includeLastReplied: boolean,
 ): mm.SelectedColumnTypes[] {
   const cols = [
     ...getCommonThreadCols(t),
     t.title,
-    t.reply_count.as(userThreadValue1ColumnName),
+    t.msg_count.as(userThreadValue1ColumnName),
     placeholderValueColumn(userThreadValue2ColumnName),
-    placeholderValueColumn(userThreadValue3ColumnName),
-  ];
-  if (includeLastReplied) {
-    cols.push(t.last_replied_at);
-  }
-  return cols;
-}
-
-export function getUserQuestionCols(
-  t: Question,
-  includeLastReplied: boolean,
-): mm.SelectedColumnTypes[] {
-  const cols = [
-    ...getCommonThreadCols(t),
-    t.title,
-    t.likes.as(userThreadValue1ColumnName),
-    t.reply_count.as(userThreadValue2ColumnName),
     placeholderValueColumn(userThreadValue3ColumnName),
   ];
   if (includeLastReplied) {

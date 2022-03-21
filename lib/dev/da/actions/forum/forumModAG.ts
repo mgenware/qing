@@ -12,5 +12,5 @@ import { createForumModTA } from './forumModAGFactory.js';
 export default createForumModTA(t, {
   deleteUserFromForumMods: mm
     .deleteSome()
-    .whereSQL(mm.and(t.user_id.isEqualToParam(), t.object_id.isInArrayInput('forumIDs'))),
+    .whereSQL(mm.and(t.user_id.isEqualToParam(), t.object_id.isInArrayParam('forumIDs'))),
 });

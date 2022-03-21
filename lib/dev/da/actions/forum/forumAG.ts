@@ -6,16 +6,9 @@
  */
 
 import * as mm from 'mingru-models';
-import discussion from '../../models/discussion/discussion.js';
+import thread from '../../models/thread/thread.js';
 import t from '../../models/forum/forum.js';
-import question from '../../models/qna/question.js';
-import {
-  getUserDiscussionCols,
-  getUserQuestionCols,
-  userThreadInterface,
-  userThreadTypeColumnName,
-} from '../com/userThreadCommon.js';
-import { dbDef } from '@qing/def';
+import { userThreadInterface, getUserThreadCols } from '../com/userThreadCommon.js';
 
 export class ForumAG extends mm.ActionGroup {
   selectForum = mm
@@ -33,40 +26,17 @@ export class ForumAG extends mm.ActionGroup {
 
   // Select threads.
   selectThreads: mm.SelectAction;
-  selectDiscussions: mm.SelectAction;
-  selectQuestions: mm.SelectAction;
 
   constructor() {
     super();
 
-    this.selectDiscussions = mm
-      .selectRows(this.typeCol(dbDef.ThreadType.dis), ...getUserDiscussionCols(discussion, true))
-      .from(discussion)
-      .by(discussion.forum_id)
+    this.selectThreads = mm
+      .selectRows(...getUserThreadCols(thread, true))
+      .from(thread)
+      .by(thread.forum_id)
       .pageMode()
-      .orderByAsc(discussion.last_replied_at)
+      .orderByAsc(thread.last_replied_at)
       .resultTypeNameAttr(userThreadInterface);
-    this.selectQuestions = mm
-      .selectRows(this.typeCol(dbDef.ThreadType.que), ...getUserQuestionCols(question, true))
-      .from(question)
-      .by(question.forum_id)
-      .pageMode()
-      .orderByAsc(question.last_replied_at)
-      .resultTypeNameAttr(userThreadInterface);
-
-    this.selectThreads = this.selectDiscussions
-      .union(this.selectQuestions)
-      .pageMode()
-      .orderByDesc(discussion.last_replied_at)
-      .resultTypeNameAttr(userThreadInterface);
-  }
-
-  private typeCol(itemType: number): mm.SelectedColumn {
-    return new mm.SelectedColumn(
-      mm.sql`${itemType.toString()}`,
-      userThreadTypeColumnName,
-      mm.int().__type(),
-    );
   }
 }
 

@@ -10,12 +10,11 @@ import post from '../../models/post/post.js';
 import thread from '../../models/thread/thread.js';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup.js';
 import forum, { Forum } from '../../models/forum/forum.js';
-import { dbDef } from '@qing/def';
+import { appDef } from '@qing/def';
 import {
   getUserPostCols,
   userThreadInterface,
-  getUserQuestionCols,
-  getUserDiscussionCols,
+  getUserThreadCols,
   userThreadTypeColumnName,
 } from '../com/userThreadCommon.js';
 
@@ -24,8 +23,7 @@ export class Home extends mm.GhostTable {}
 export class HomeAG extends mm.ActionGroup {
   // Non-forum mode.
   selectPosts: mm.SelectAction;
-  selectDiscussions: mm.SelectAction;
-  selectQuestions: mm.SelectAction;
+  selectThreads: mm.SelectAction;
   selectItems: mm.SelectAction;
 
   // Forum mode.
@@ -42,27 +40,20 @@ export class HomeAG extends mm.ActionGroup {
     super();
 
     this.selectPosts = mm
-      .selectRows(this.typeCol(dbDef.ThreadType.post), ...getUserPostCols(post))
+      .selectRows(this.typeCol(appDef.HomePageFeedType.post), ...getUserPostCols(post))
       .from(post)
       .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(userThreadInterface);
     this.selectThreads = mm
-      .selectRows(this.typeCol(dbDef.ThreadType.que), ...getUserQuestionCols(question, false))
-      .from(question)
+      .selectRows(this.typeCol(appDef.HomePageFeedType.thread), ...getUserThreadCols(thread, false))
+      .from(thread)
       .pageMode()
-      .orderByAsc(question.created_at)
-      .resultTypeNameAttr(userThreadInterface);
-    this.selectDiscussions = mm
-      .selectRows(this.typeCol(dbDef.ThreadType.dis), ...getUserDiscussionCols(discussion, false))
-      .pageMode()
-      .from(discussion)
-      .orderByAsc(discussion.created_at)
+      .orderByAsc(thread.created_at)
       .resultTypeNameAttr(userThreadInterface);
 
     this.selectItems = this.selectPosts
-      .union(this.selectQuestions)
-      .union(this.selectDiscussions)
+      .union(this.selectThreads)
       .orderByDesc(post.created_at)
       .pageMode()
       .resultTypeNameAttr(userThreadInterface);

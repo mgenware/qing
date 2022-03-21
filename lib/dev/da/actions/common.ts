@@ -20,7 +20,7 @@ export function defaultBatchUpdateConditions(
   idsInputName?: string,
 ): mm.SQL {
   return mm.and(
-    mm.sql`${table.id.isInArrayInput(idsInputName || 'ids')}`,
+    mm.sql`${table.id.isInArrayParam(idsInputName || 'ids')}`,
     mm.sql`${table.user_id.isEqualToParam()}`,
   );
 }

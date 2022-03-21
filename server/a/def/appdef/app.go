@@ -74,3 +74,10 @@ const (
 	ContentBaseTypeDis
 	ContentBaseTypeAns
 )
+
+type HomePageFeedType int
+
+const (
+	HomePageFeedTypePost HomePageFeedType = iota + 1
+	HomePageFeedTypeThread
+)
