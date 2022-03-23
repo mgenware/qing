@@ -12,8 +12,8 @@
     "go-const-gen": "^2.1.0",
     "js-yaml": "^4.1.0",
     "jsconfgen": "^0.2.0",
-    "mingru": "^0.58.0",
-    "mingru-models": "^0.63.0",
+    "mingru": "^0.58.1",
+    "mingru-models": "^0.63.1",
     "mingru-tsconfig": "^4.0.0"
   }
 }
