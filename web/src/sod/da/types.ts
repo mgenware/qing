@@ -11,14 +11,16 @@
  ******************************************************************************************/
 
 export interface CmtData {
+  cmtCount?: number;
   contentHTML?: string;
   hasLiked?: number;
   likes?: number;
-  replyCount?: number;
   userName?: string;
 }
 
 export interface EntityGetSrcResult {
   contentHTML?: string;
+  forumID?: number;
+  msgCount?: number;
   title?: string;
 }

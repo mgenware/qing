@@ -22,42 +22,12 @@ func (mrTable *TableTypePostCmt) MingruSQLName() string {
 	return "post_cmt"
 }
 
-type TableTypeDiscussionCmt struct {
+type TableTypeThreadMsgCmt struct {
 }
 
-var DiscussionCmt = &TableTypeDiscussionCmt{}
+var ThreadMsgCmt = &TableTypeThreadMsgCmt{}
 
 // MingruSQLName returns the name of this table.
-func (mrTable *TableTypeDiscussionCmt) MingruSQLName() string {
-	return "discussion_cmt"
-}
-
-type TableTypeDiscussionMsgCmt struct {
-}
-
-var DiscussionMsgCmt = &TableTypeDiscussionMsgCmt{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeDiscussionMsgCmt) MingruSQLName() string {
-	return "discussion_msg_cmt"
-}
-
-type TableTypeQuestionCmt struct {
-}
-
-var QuestionCmt = &TableTypeQuestionCmt{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeQuestionCmt) MingruSQLName() string {
-	return "question_cmt"
-}
-
-type TableTypeAnswerCmt struct {
-}
-
-var AnswerCmt = &TableTypeAnswerCmt{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeAnswerCmt) MingruSQLName() string {
-	return "answer_cmt"
+func (mrTable *TableTypeThreadMsgCmt) MingruSQLName() string {
+	return "thread_msg_cmt"
 }

@@ -57,13 +57,13 @@ func (mrTable *TableTypePost) DeleteItem(db *sql.DB, id uint64, userID uint64) e
 	return txErr
 }
 
-func (mrTable *TableTypePost) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `post` SET `title` = ?, `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, contentHTML, rawModifiedAt, id, userID)
+func (mrTable *TableTypePost) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, rawModifiedAt time.Time, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `post` SET `title` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, rawModifiedAt, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypePost) insertItemChild1(mrQueryable mingru.Queryable, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `post` (`title`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
+func (mrTable *TableTypePost) insertItemChild1(mrQueryable mingru.Queryable, title string, userID uint64, contentHTML string, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `post` (`title`, `user_id`, `content`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", title, userID, contentHTML, rawCreatedAt, rawModifiedAt)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -71,11 +71,11 @@ func (mrTable *TableTypePost) insertItemChild2(mrQueryable mingru.Queryable, id 
 	return UserStats.UpdatePostCount(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypePost) InsertItem(db *sql.DB, title string, contentHTML string, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypePost) InsertItem(db *sql.DB, title string, userID uint64, contentHTML string, rawCreatedAt time.Time, rawModifiedAt time.Time, id uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := mrTable.insertItemChild1(tx, title, contentHTML, userID, rawCreatedAt, rawModifiedAt)
+		insertedID, err := mrTable.insertItemChild1(tx, title, userID, contentHTML, rawCreatedAt, rawModifiedAt)
 		if err != nil {
 			return err
 		}
@@ -104,7 +104,7 @@ type PostTableSelectItemByIDResult struct {
 
 func (mrTable *TableTypePost) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
 	var result PostTableSelectItemByIDResult
-	err := mrQueryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`title`, `post`.`cmt_count`, `post`.`likes` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Title, &result.CmtCount, &result.Likes)
+	err := mrQueryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`likes`, `post`.`cmt_count`, `post`.`title` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title)
 	if err != nil {
 		return result, err
 	}
@@ -154,7 +154,7 @@ func (mrTable *TableTypePost) SelectItemsForPostCenter(mrQueryable mingru.Querya
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `cmt_count`, `likes` FROM `post` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `id`, `created_at`, `modified_at`, `likes`, `title`, `cmt_count` FROM `post` WHERE `user_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -165,7 +165,7 @@ func (mrTable *TableTypePost) SelectItemsForPostCenter(mrQueryable mingru.Querya
 		itemCounter++
 		if itemCounter <= max {
 			var item PostTableSelectItemsForPostCenterResult
-			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount, &item.Likes)
+			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.Title, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}
@@ -180,6 +180,7 @@ func (mrTable *TableTypePost) SelectItemsForPostCenter(mrQueryable mingru.Querya
 }
 
 type PostTableSelectItemsForUserProfileResult struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
@@ -198,7 +199,7 @@ func (mrTable *TableTypePost) SelectItemsForUserProfile(mrQueryable mingru.Query
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `id`, `created_at`, `modified_at`, `title` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `id`, `created_at`, `modified_at`, `title`, `cmt_count` FROM `post` WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ? OFFSET ?", userID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -209,7 +210,7 @@ func (mrTable *TableTypePost) SelectItemsForUserProfile(mrQueryable mingru.Query
 		itemCounter++
 		if itemCounter <= max {
 			var item PostTableSelectItemsForUserProfileResult
-			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title)
+			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}
@@ -225,7 +226,7 @@ func (mrTable *TableTypePost) SelectItemsForUserProfile(mrQueryable mingru.Query
 
 func (mrTable *TableTypePost) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := mrQueryable.QueryRow("SELECT `title`, `content` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.Title, &result.ContentHTML)
+	err := mrQueryable.QueryRow("SELECT `content`, `title` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.Title)
 	if err != nil {
 		return result, err
 	}

@@ -104,7 +104,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+cmtRelationTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`likes` DESC, `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+cmtRelationTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`likes` DESC, `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -115,7 +115,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -141,7 +141,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`reply_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM "+cmtRelationTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `content_base_cmt_util`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`likes` DESC, `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_util`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `has_liked` FROM "+cmtRelationTable.MingruSQLName()+" AS `content_base_cmt_util` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_util`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `content_base_cmt_util`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `content_base_cmt_util`.`host_id` = ? ORDER BY `join_1`.`likes` DESC, `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -152,7 +152,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable 
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtData
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.ReplyCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err
 			}

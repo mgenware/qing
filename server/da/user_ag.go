@@ -36,7 +36,7 @@ func (mrTable *TableTypeUser) AddUserEntryInternal(mrQueryable mingru.Queryable,
 }
 
 func (mrTable *TableTypeUser) AddUserStatsEntryInternal(mrQueryable mingru.Queryable, id uint64) error {
-	_, err := mrQueryable.Exec("INSERT INTO `user_stats` (`id`, `post_count`, `discussion_count`, `question_count`, `answer_count`) VALUES (?, 0, 0, 0, 0)", id)
+	_, err := mrQueryable.Exec("INSERT INTO `user_stats` (`id`, `post_count`, `thread_count`, `thread_msg_count`) VALUES (?, 0, 0, 0)", id)
 	return err
 }
 

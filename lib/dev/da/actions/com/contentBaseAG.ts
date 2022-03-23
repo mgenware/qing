@@ -15,7 +15,7 @@ import { getEntitySrcType } from '../defs.js';
 
 const insertedIDVar = 'insertedID';
 
-export default abstract class ContentBaseAG extends mm.ActionGroup {
+export default abstract class ContentBaseAG<T extends ContentBase> extends mm.ActionGroup {
   // SELECT actions.
   selectItemByID: mm.Action;
   selectItemSrc: mm.SelectAction;
@@ -105,7 +105,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
   }
 
   // Gets the underlying `ContentBase` table.
-  abstract baseTable(): ContentBase;
+  abstract baseTable(): T;
   abstract baseCmtTable(): ContentBaseCmt;
 
   // Returns [] if post center is not supported.

@@ -6,20 +6,23 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
-import t from '../../models/thread/threadMsg.js';
+import t, { ThreadMsg } from '../../models/thread/threadMsg.js';
 import threadMsgCmt from '../../models/thread/threadMsgCmt.js';
-import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
+import ContentBaseAG from '../com/contentBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
-export class ThreadMsgAG extends ContentWithTitleBaseAG {
-  override baseTable(): ContentBase {
+export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
+  override baseTable() {
     return t;
   }
 
   override baseCmtTable(): ContentBaseCmt {
     return threadMsgCmt;
+  }
+
+  override extendedCoreCols(): mm.Column[] {
+    return [...super.extendedCoreCols(), t.thread_id];
   }
 
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
@@ -28,14 +31,6 @@ export class ThreadMsgAG extends ContentWithTitleBaseAG {
 
   override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
     return [...super.colsOfSelectItemsForUserProfile(), t.thread_id];
-  }
-
-  override extendedCoreCols(): mm.Column[] {
-    return [t.thread_id];
-  }
-
-  override colsOfSelectItem(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItem(), t.thread_id];
   }
 
   override getContainerUpdateCounterActions(): mm.Action[] {

@@ -6,15 +6,14 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
-import t from '../../models/thread/thread.js';
+import t, { Thread } from '../../models/thread/thread.js';
 import threadCmt from '../../models/thread/threadCmt.js';
 import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
-export class ThreadAG extends ContentWithTitleBaseAG {
-  override baseTable(): ContentBase {
+export class ThreadAG extends ContentWithTitleBaseAG<Thread> {
+  override baseTable() {
     return t;
   }
 
@@ -31,7 +30,7 @@ export class ThreadAG extends ContentWithTitleBaseAG {
   }
 
   override extendedCoreCols(): mm.Column[] {
-    return [...super.extendedCoreCols(), t.msg_count];
+    return [...super.extendedCoreCols(), t.msg_count, t.forum_id];
   }
 
   override getContainerUpdateCounterActions(): mm.Action[] {

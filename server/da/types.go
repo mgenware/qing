@@ -22,21 +22,23 @@ import (
 // ------------ Result types ------------
 
 type CmtData struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
 	HasLiked      *uint64   `json:"hasLiked,omitempty"`
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
-	ReplyCount    uint      `json:"replyCount,omitempty"`
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`
 	UserName      string    `json:"userName,omitempty"`
 }
 
 type EntityGetSrcResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-	Title       string `json:"title,omitempty"`
+	ContentHTML string  `json:"contentHTML,omitempty"`
+	ForumID     *uint64 `json:"forumID,omitempty"`
+	MsgCount    uint    `json:"msgCount,omitempty"`
+	Title       string  `json:"title,omitempty"`
 }
 
 type FindUserResult struct {
@@ -73,14 +75,4 @@ type LikeInterface interface {
 	CancelLike(db *sql.DB, hostID uint64, userID uint64) error
 	HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
 	Like(db *sql.DB, hostID uint64, userID uint64) error
-}
-
-type VoteInterface interface {
-	MyVote(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error)
-	NewDownVote(db *sql.DB, hostID uint64, userID uint64) error
-	NewUpVote(db *sql.DB, hostID uint64, userID uint64) error
-	RetractDownVote(db *sql.DB, hostID uint64, userID uint64) error
-	RetractUpVote(db *sql.DB, hostID uint64, userID uint64) error
-	SwitchToDownVote(db *sql.DB, hostID uint64, userID uint64) error
-	SwitchToUpVote(db *sql.DB, hostID uint64, userID uint64) error
 }
