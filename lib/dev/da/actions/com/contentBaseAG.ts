@@ -53,7 +53,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
     const { dateColumns } = this;
 
     this.updateConditions = defaultUpdateConditions(t);
-    this.selectItemByID = mm.selectRow(...this.selectItemCols()).by(t.id);
+    this.selectItemByID = mm.selectRow(...this.colsOfSelectItem()).by(t.id);
 
     const profileCols = this.colsOfSelectItemsForUserProfile();
     this.selectItemsForUserProfile = profileCols.length
@@ -64,7 +64,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
           .orderByDesc(t.created_at)
       : mm.emptyAction;
     this.selectItemSrc = mm
-      .selectRow(t.content, ...this.colsOfSelectItemSrc())
+      .selectRow(t.content, ...this.extendedCoreCols())
       .whereSQL(this.updateConditions)
       .resultTypeNameAttr(getEntitySrcType)
       .attr(mm.ActionAttribute.enableTSResultType, true);
@@ -72,7 +72,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
     const pcCols = this.colsOfSelectItemsForPostCenter();
     this.selectItemsForPostCenter = pcCols.length
       ? mm
-          .selectRows(idCol, ...this.dateColumns, t.likes, t.cmt_count, ...pcCols)
+          .selectRows(idCol, ...this.dateColumns, t.likes, ...pcCols)
           .pageMode()
           .by(t.user_id)
           .orderByParams(...this.orderByParamsOfSelectItemsForPostCenter())
@@ -88,7 +88,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
       .transact(
         mm
           .insertOne()
-          .setParams(...this.insertItemCols())
+          .setParams(...this.colsOfInsertItem())
           .setDefaults()
           .declareInsertedID(insertedIDVar),
         ...this.getIncrementContainerCounterActions(),
@@ -97,7 +97,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
       .setReturnValues(insertedIDVar);
     this.editItem = mm
       .updateOne()
-      .setParams(...this.colsOfSelectItemSrc(), t.modified_at)
+      .setParams(...this.extendedCoreCols(), t.modified_at)
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
@@ -109,7 +109,7 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
   abstract baseCmtTable(): ContentBaseCmt;
 
   // Returns [] if post center is not supported.
-  colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+  protected colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
     return [];
   }
   protected orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
@@ -120,13 +120,15 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
   protected colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
     return [];
   }
-  protected colsOfSelectItemSrc(): mm.Column[] {
+
+  // Extended columns that are used in 'selectItem', 'selectSrc', 'update' and 'insert' actions.
+  protected extendedCoreCols(): mm.Column[] {
     return [];
   }
 
-  protected insertItemCols() {
+  protected colsOfInsertItem() {
     const t = this.baseTable();
-    return [...this.colsOfSelectItemSrc(), t.user_id, t.created_at, t.modified_at];
+    return [...this.extendedCoreCols(), t.user_id, t.content, t.created_at, t.modified_at];
   }
 
   // Gets a list of update actions of container table to update the counters in response
@@ -153,9 +155,17 @@ export default abstract class ContentBaseAG extends mm.ActionGroup {
     return null;
   }
 
-  protected selectItemCols(): mm.SelectedColumnTypes[] {
+  protected colsOfSelectItem(): mm.SelectedColumnTypes[] {
     const t = this.baseTable();
     const idCol = t.id.privateAttr();
-    return [idCol, ...this.userColumns, ...this.dateColumns, t.content, t.likes, t.cmt_count];
+    return [
+      idCol,
+      ...this.userColumns,
+      ...this.dateColumns,
+      t.content,
+      t.likes,
+      t.cmt_count,
+      ...this.extendedCoreCols(),
+    ];
   }
 }

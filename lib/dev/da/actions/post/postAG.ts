@@ -25,6 +25,14 @@ export class PostAG extends ContentWithTitleBaseAG {
   override getContainerUpdateCounterActions(): mm.Action[] {
     return [userStatsAG.updatePostCount];
   }
+
+  override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+    return [...super.colsOfSelectItemsForPostCenter(), t.cmt_count];
+  }
+
+  override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
+    return [...super.colsOfSelectItemsForUserProfile(), t.cmt_count];
+  }
 }
 
 export default mm.actionGroup(t, PostAG);

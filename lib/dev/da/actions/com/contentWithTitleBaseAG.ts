@@ -18,11 +18,7 @@ export default abstract class ContentWithTitleBaseAG extends ContentBaseAG {
     return [...super.colsOfSelectItemsForUserProfile(), t.title];
   }
 
-  override colsOfSelectItemSrc(): mm.Column[] {
+  override extendedCoreCols(): mm.Column[] {
     return [t.title];
-  }
-
-  override selectItemCols(): mm.SelectedColumnTypes[] {
-    return [...super.selectItemCols(), t.title];
   }
 }

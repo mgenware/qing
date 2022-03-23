@@ -30,12 +30,8 @@ export class ThreadAG extends ContentWithTitleBaseAG {
     return [...super.colsOfSelectItemsForUserProfile(), t.msg_count];
   }
 
-  override colsOfSelectItemSrc(): mm.Column[] {
-    return [t.msg_count];
-  }
-
-  override selectItemCols(): mm.SelectedColumnTypes[] {
-    return [...super.selectItemCols(), t.msg_count];
+  override extendedCoreCols(): mm.Column[] {
+    return [...super.extendedCoreCols(), t.msg_count];
   }
 
   override getContainerUpdateCounterActions(): mm.Action[] {
