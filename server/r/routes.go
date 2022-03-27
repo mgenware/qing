@@ -28,8 +28,8 @@ import (
 	"qing/r/mxp"
 	"qing/r/postp"
 	"qing/r/profilep"
-	"qing/r/qnap"
 	"qing/r/sys"
+	"qing/r/threadp"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/iox"
@@ -70,7 +70,7 @@ func Start() {
 	// Post router.
 	langRouter().Get("/"+appdef.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Question router.
-	langRouter().Get("/"+appdef.RouteQuestion+"/{qid}", handler.HTMLHandlerToHTTPHandler(qnap.GetQuestion))
+	langRouter().Get("/"+appdef.RouteThread+"/{qid}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
 	// Discussion router.
 	langRouter().Get("/"+appdef.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
 	// M (Management) router.

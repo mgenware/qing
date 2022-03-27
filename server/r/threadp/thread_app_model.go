@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package qnap
+package threadp
 
 import (
 	"qing/a/appHandler"
@@ -16,14 +16,13 @@ import (
 	"qing/r/rcom"
 )
 
-var vQuestionApp = appHandler.MainPage().MustParseView("/qna/questionApp.html")
+var vThreadApp = appHandler.MainPage().MustParseView("/thread/threadApp.html")
 
-// QuestionAppModel ...
-type QuestionAppModel struct {
-	da.QuestionTableSelectItemByIDResult
+type ThreadAppModel struct {
+	da.ThreadTableSelectItemByIDResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
-	QuestionURL string
+	ThreadURL   string
 	EID         string
 	ForumEID    string
 	Liked       bool
@@ -34,11 +33,10 @@ type QuestionAppModel struct {
 	HasLikedNum int
 }
 
-// NewQuestionAppModel creates a QuestionAppModel.
-func NewQuestionAppModel(p *da.QuestionTableSelectItemByIDResult, hasLiked bool) QuestionAppModel {
-	d := QuestionAppModel{QuestionTableSelectItemByIDResult: *p}
+func NewThreadAppModel(p *da.ThreadTableSelectItemByIDResult, hasLiked bool) ThreadAppModel {
+	d := ThreadAppModel{ThreadTableSelectItemByIDResult: *p}
 	eid := clib.EncodeID(p.ID)
-	d.QuestionURL = appURL.Get().Question(p.ID)
+	d.ThreadURL = appURL.Get().Thread(p.ID)
 	d.EID = eid
 	if d.ForumID != nil {
 		d.ForumEID = clib.EncodeID(*d.ForumID)

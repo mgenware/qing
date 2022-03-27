@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package qnap
+package threadp
 
 import (
 	"qing/a/appHandler"
@@ -16,28 +16,26 @@ import (
 	"qing/r/rcom"
 )
 
-var vAnswerApp = appHandler.MainPage().MustParseView("/qna/answerApp.html")
+var vThreadMsgApp = appHandler.MainPage().MustParseView("/qna/threadMsgApp.html")
 
-// AnswerAppModel ...
-type AnswerAppModel struct {
-	da.AnswerTableSelectItemsByQuestionResult
+type ThreadMsgAppModel struct {
+	da.ThreadMsgTableSelectItemsByQuestionResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
-	AnswerURL  string
-	EID        string
-	Vote       int
-	UserEID    string
-	UserHTML   string
-	CreatedAt  string
-	ModifiedAt string
-	MyVote     int
+	ThreadMsgURL string
+	EID          string
+	Vote         int
+	UserEID      string
+	UserHTML     string
+	CreatedAt    string
+	ModifiedAt   string
+	MyVote       int
 }
 
-// NewAnswerAppModel creates a AnswerAppModel.
-func NewAnswerAppModel(p *da.AnswerTableSelectItemsByQuestionResult, myVote int) AnswerAppModel {
-	d := AnswerAppModel{AnswerTableSelectItemsByQuestionResult: *p}
+func NewThreadMsgAppModel(p *da.ThreadMsgTableSelectItemsByQuestionResult, myVote int) ThreadMsgAppModel {
+	d := ThreadMsgAppModel{ThreadMsgTableSelectItemsByQuestionResult: *p}
 	eid := clib.EncodeID(p.ID)
-	d.AnswerURL = appURL.Get().Answer(p.ID)
+	d.ThreadMsgURL = appURL.Get().ThreadMsg(p.ID)
 	d.EID = eid
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)

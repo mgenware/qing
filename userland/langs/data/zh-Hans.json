@@ -59,7 +59,7 @@
   "pEditEntity": "编辑{0}",
   "comments": "评论",
   "noComments": "暂无评论",
-  "noAnswers": "暂无回答",
+  "noReplies": "暂无回复",
   "writeAComment": "发表评论",
   "plsLoginToComment": "请[button]<<登录>>后评论。",
   "plsLoginToAddYourAnswer": "请[button]<<登录>>后添加回答。",

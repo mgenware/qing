@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package qnap
+package threadp
 
 import (
 	"net/http"
@@ -23,18 +23,17 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-const qnaEntryScriptName = "qna/questionEntry"
+const threadEntryScriptName = "thread/threadEntry"
 const defaultPageSize = 10
 
-// GetQuestion is the HTTP handler for questions.
-func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
+func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	qid, err := clib.DecodeID(chi.URLParam(r, "qid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	db := appDB.DB()
-	que, err := da.Question.SelectItemByID(db, qid)
+	que, err := da.Thread.SelectItemByID(db, qid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)
@@ -43,37 +42,37 @@ func GetQuestion(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	hasLiked := false
 	if uid != 0 {
-		liked, err := da.QuestionLike.HasLiked(db, qid, uid)
+		liked, err := da.ThreadLike.HasLiked(db, qid, uid)
 		app.PanicIfErr(err)
 		hasLiked = liked
 	}
 
-	queAppModel := NewQuestionAppModel(&que, hasLiked)
+	queAppModel := NewThreadAppModel(&que, hasLiked)
 
-	// Fetch answers.
-	ansList, hasNext, err := da.Answer.SelectItemsByQuestion(db, qid, page, defaultPageSize)
+	// Fetch thread messages.
+	threadMsgList, hasNext, err := da.ThreadMsg.SelectItemsByThread(db, qid, page, defaultPageSize)
 	app.PanicIfErr(err)
 
 	var ansListHTMLBuilder strings.Builder
-	if len(ansList) == 0 {
-		ansListHTMLBuilder.WriteString("<p class=\"__qing_ls__\">noAnswers</p>")
+	if len(threadMsgList) == 0 {
+		ansListHTMLBuilder.WriteString("<p class=\"__qing_ls__\">noReplies</p>")
 	} else {
-		for _, item := range ansList {
+		for _, item := range threadMsgList {
 			myVote, err := voteapi.FetchMyVote(item.ID, uid)
 			app.PanicIfErr(err)
-			itemModel := NewAnswerAppModel(&item, myVote)
+			itemModel := NewThreadMsgAppModel(&item, myVote)
 			app.PanicIfErr(err)
 			ansListHTMLBuilder.WriteString(vAnswerApp.MustExecuteToString(itemModel))
 		}
 	}
 
-	queURLFormatter := NewQueURLFormatter(qid)
-	pageData := rcom.NewPageData(page, hasNext, queURLFormatter, 0)
+	threadURLFormatter := NewThreadURLFormatter(qid)
+	pageData := rcom.NewPageData(page, hasNext, threadURLFormatter, 0)
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
-	quePageModel := NewQuestionPageModel(vQuestionApp.MustExecuteToString(queAppModel), ansListHTMLBuilder.String(), pageBarHTML)
-	d := appHandler.MainPageData(title, vQuestionPage.MustExecuteToString(quePageModel))
-	d.Scripts = appHandler.MainPage().ScriptString(qnaEntryScriptName)
+	threadPageModel := NewThreadPageModel(vThreadApp.MustExecuteToString(threadAppModel), ansListHTMLBuilder.String(), pageBarHTML)
+	d := appHandler.MainPageData(title, vThreadPage.MustExecuteToString(threadPageModel))
+	d.Scripts = appHandler.MainPage().ScriptString(threadEntryScriptName)
 
 	forumID := ""
 	if que.ForumID != nil {

@@ -1,0 +1,10 @@
+<thread-msg-app
+  eid="{{html .EID}}"
+  threadMsgLink="{{html .ThreadMsgURL}}"
+  initialLikes="{{html .Likes}}"
+  initialLiked="{{html .Liked}}"
+  initialCmtCount="{{html .CmtCount}}">
+  <div>{{.UserHTML}}</div>
+  <hr />
+  <div>{{.ContentHTML}}</div>
+</thread-msg-app>
