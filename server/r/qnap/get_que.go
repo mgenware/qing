@@ -15,7 +15,6 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
-	voteapi "qing/r/api/pri/vote_api"
 	"qing/r/rcom"
 	"qing/r/sys"
 	"qing/sod/qna/qnaWind"
