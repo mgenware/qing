@@ -18,7 +18,7 @@
   "routeMX": "mx",
   "routeAPI": "s",
   "routeForum": "f",
-  "routeDiscussion": "d",
+  "routeThreadMsg": "r",
   "routeForumGroup": "g",
   "routeThread": "t",
   "routeLang": "lang",
@@ -30,7 +30,7 @@
   "errResourceNotFound": 10005,
   "keyPosts": "posts",
   "keyDiscussions": "discussions",
-  "keyAnswers": "answers",
+  "keyReplies": "replies",
   "keyPage": "page",
   "keyPageSize": "pageSize",
   "keyTab": "tab",
@@ -54,7 +54,7 @@
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
   "__enums": {
-    "contentBaseType": ["post", "cmt", "dis", "ans"],
+    "contentBaseType": ["post", "cmt", "thread"],
     "homePageFeedType": ["post", "thread"]
   }
 }

@@ -13,6 +13,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
 )
@@ -25,7 +26,7 @@ func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	category := clib.MustGetIntFromDict(params, "type")
 	id := clib.MustGetIDFromDict(params, "id")
 	value := clib.MustGetIntFromDict(params, "value")
-	dbSrc := dbSources[category]
+	dbSrc := dbSources[appdef.ContentBaseType(category)]
 
 	if dbSrc == nil {
 		panic(fmt.Sprintf("Unsupported type %v", category))

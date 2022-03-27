@@ -29,7 +29,7 @@ const RouteM = "m"
 const RouteMX = "mx"
 const RouteAPI = "s"
 const RouteForum = "f"
-const RouteDiscussion = "d"
+const RouteThreadMsg = "r"
 const RouteForumGroup = "g"
 const RouteThread = "t"
 const RouteLang = "lang"
@@ -41,7 +41,7 @@ const ErrPermissionDenied = 10004
 const ErrResourceNotFound = 10005
 const KeyPosts = "posts"
 const KeyDiscussions = "discussions"
-const KeyAnswers = "answers"
+const KeyReplies = "replies"
 const KeyPage = "page"
 const KeyPageSize = "pageSize"
 const KeyTab = "tab"
@@ -70,8 +70,7 @@ type ContentBaseType int
 const (
 	ContentBaseTypePost ContentBaseType = iota + 1
 	ContentBaseTypeCmt
-	ContentBaseTypeDis
-	ContentBaseTypeAns
+	ContentBaseTypeThread
 )
 
 type HomePageFeedType int

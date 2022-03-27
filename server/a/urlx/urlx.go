@@ -97,33 +97,20 @@ func (u *URL) Post(pid uint64) string {
 	return "/" + appdef.RoutePost + "/" + clib.EncodeID(pid)
 }
 
-func (u *URL) DiscussionWithPage(pid uint64, page int) string {
-	s := "/" + appdef.RouteDiscussion + "/" + clib.EncodeID(pid)
+func (u *URL) ThreadWithPage(pid uint64, page int) string {
+	s := "/" + appdef.RouteThread + "/" + clib.EncodeID(pid)
 	if page > 1 {
 		s += fmt.Sprintf("&%v=%v", appdef.KeyPage, page)
 	}
 	return s
 }
 
-func (u *URL) Discussion(pid uint64) string {
-	return u.DiscussionWithPage(pid, 1)
+func (u *URL) Thread(tid uint64) string {
+	return u.ThreadWithPage(tid, 1)
 }
 
-func (u *URL) QuestionWithPage(pid uint64, page int) string {
-	s := "/" + appdef.RouteQuestion + "/" + clib.EncodeID(pid)
-	if page > 1 {
-		s += fmt.Sprintf("&%v=%v", appdef.KeyPage, page)
-	}
-	return s
-}
-
-func (u *URL) Question(pid uint64) string {
-	return u.QuestionWithPage(pid, 1)
-}
-
-func (u *URL) Answer(aid uint64) string {
-	s := "/" + appdef.RouteAnswer + "/" + clib.EncodeID(aid)
-	return s
+func (u *URL) ThreadMsg(tid uint64, mid uint64) string {
+	return u.Thread(tid) + appdef.RouteThreadMsg + "/" + clib.EncodeID(mid)
 }
 
 func (u *URL) SignIn() string {
