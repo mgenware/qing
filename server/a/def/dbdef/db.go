@@ -15,7 +15,6 @@ type CmtHostType int
 
 const (
 	CmtHostTypePost CmtHostType = iota + 1
-	CmtHostTypeQue
-	CmtHostTypeDis
-	CmtHostTypeAns
+	CmtHostTypeThread
+	CmtHostTypeThreadMsg
 )

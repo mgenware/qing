@@ -1,5 +1,5 @@
 {
   "__enums": {
-    "cmtHostType": ["post", "que", "dis", "ans"]
+    "cmtHostType": ["post", "thread", "threadMsg"]
   }
 }
