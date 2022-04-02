@@ -14,6 +14,8 @@ import userAuthAG from './user/userAuthAG.js';
 import userPwdAG from './user/userPwdAG.js';
 import likeAGs from './like/likeAGs.js';
 import homeAG from './home/homeAG.js';
+import comHomeAG from './home/comHomeAG.js';
+import forumHomeAG from './home/forumHomeAG.js';
 import threadAG from './thread/threadAG.js';
 import threadMsgAG from './thread/threadMsgAG.js';
 import forumGroupAG from './forum/forumGroupAG.js';
@@ -35,6 +37,8 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   threadAG,
   threadMsgAG.baseCmtTable(),
   homeAG,
+  comHomeAG,
+  forumHomeAG,
   forumAG,
   forumGroupAG,
   forumModAG,

@@ -8,7 +8,7 @@
 import * as mm from 'mingru-models';
 import thread from '../../models/thread/thread.js';
 import t from '../../models/forum/forum.js';
-import { userThreadInterface, getUserThreadCols } from '../com/userThreadCommon.js';
+import { threadFeedCols, threadFeedInterface } from '../thread/cm.js';
 
 export class ForumAG extends mm.ActionGroup {
   selectForum = mm
@@ -31,12 +31,12 @@ export class ForumAG extends mm.ActionGroup {
     super();
 
     this.selectThreads = mm
-      .selectRows(...getUserThreadCols(thread, true))
+      .selectRows(...threadFeedCols())
       .from(thread)
       .by(thread.forum_id)
       .pageMode()
       .orderByAsc(thread.last_replied_at)
-      .resultTypeNameAttr(userThreadInterface);
+      .resultTypeNameAttr(threadFeedInterface);
   }
 }
 

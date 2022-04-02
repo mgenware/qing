@@ -12,11 +12,7 @@
 
 package da
 
-import (
-	"fmt"
-
-	"github.com/mgenware/mingru-go-lib"
-)
+import "github.com/mgenware/mingru-go-lib"
 
 type TableTypeHome struct {
 }
@@ -88,115 +84,4 @@ func (mrTable *TableTypeHome) SelectForums(mrQueryable mingru.Queryable) ([]Home
 		return nil, err
 	}
 	return result, nil
-}
-
-func (mrTable *TableTypeHome) SelectItems(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := mrQueryable.Query("(SELECT 1 AS `thread_type`, `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes` AS `value1`, `post`.`cmt_count` AS `value2`, 0 AS `value3` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` LIMIT ? OFFSET ?) UNION (SELECT 2 AS `thread_type`, `thread`.`id`, `thread`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread`.`created_at`, `thread`.`modified_at`, `thread`.`title`, `thread`.`msg_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` LIMIT ? OFFSET ?) ORDER BY `created_at` DESC LIMIT ? OFFSET ?", limit, offset, limit, offset, limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]UserThreadInterface, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
-func (mrTable *TableTypeHome) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := mrQueryable.Query("SELECT 1 AS `thread_type`, `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes` AS `value1`, `post`.`cmt_count` AS `value2`, 0 AS `value3` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]UserThreadInterface, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
-func (mrTable *TableTypeHome) SelectThreads(mrQueryable mingru.Queryable, page int, pageSize int) ([]UserThreadInterface, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := mrQueryable.Query("SELECT 2 AS `thread_type`, `thread`.`id`, `thread`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread`.`created_at`, `thread`.`modified_at`, `thread`.`title`, `thread`.`msg_count` AS `value1`, 0 AS `value2`, 0 AS `value3` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` ORDER BY `thread`.`created_at` LIMIT ? OFFSET ?", limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]UserThreadInterface, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item UserThreadInterface
-			err = rows.Scan(&item.ThreadType, &item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
 }

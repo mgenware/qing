@@ -47,19 +47,17 @@ type FindUserResult struct {
 	Name     string `json:"name,omitempty"`
 }
 
-type UserThreadInterface struct {
+type ThreadFeedInterface struct {
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
+	Likes         uint       `json:"likes,omitempty"`
+	MsgCount      uint       `json:"msgCount,omitempty"`
 	RawCreatedAt  time.Time  `json:"-"`
 	RawModifiedAt time.Time  `json:"-"`
-	ThreadType    int        `json:"threadType,omitempty"`
 	Title         string     `json:"title,omitempty"`
 	UserIconName  string     `json:"-"`
 	UserID        uint64     `json:"-"`
 	UserName      string     `json:"-"`
-	Value1        uint       `json:"value1,omitempty"`
-	Value2        uint       `json:"value2,omitempty"`
-	Value3        uint       `json:"value3,omitempty"`
 }
 
 // ------------ Interfaces ------------

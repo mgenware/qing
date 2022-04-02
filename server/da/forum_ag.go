@@ -103,7 +103,7 @@ func (mrTable *TableTypeForum) SelectInfoForEditing(mrQueryable mingru.Queryable
 	return result, nil
 }
 
-func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]UserThreadInterface, bool, error) {
+func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]ThreadFeedInterface, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -115,18 +115,18 @@ func (mrTable *TableTypeForum) SelectThreads(mrQueryable mingru.Queryable, forum
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `thread`.`id`, `thread`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread`.`created_at`, `thread`.`modified_at`, `thread`.`title`, `thread`.`msg_count` AS `value1`, 0 AS `value2`, 0 AS `value3`, `thread`.`last_replied_at` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`forum_id` = ? ORDER BY `thread`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `thread`.`id`, `thread`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread`.`created_at`, `thread`.`modified_at`, `thread`.`title`, `thread`.`likes`, `thread`.`msg_count`, `thread`.`last_replied_at` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`forum_id` = ? ORDER BY `thread`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]UserThreadInterface, 0, limit)
+	result := make([]ThreadFeedInterface, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item UserThreadInterface
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Value1, &item.Value2, &item.Value3, &item.LastRepliedAt)
+			var item ThreadFeedInterface
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.MsgCount, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
 			}
