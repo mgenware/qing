@@ -19,10 +19,10 @@ func GetCmtHostTable(hostType dbdef.CmtHostType) (mingru.Table, error) {
 	switch hostType {
 	case dbdef.CmtHostTypePost:
 		return da.Post, nil
-	case dbdef.CmtHostTypeQue:
-		return da.Question, nil
-	case dbdef.CmtHostTypeAns:
-		return da.Answer, nil
+	case dbdef.CmtHostTypeThread:
+		return da.Thread, nil
+	case dbdef.CmtHostTypeThreadMsg:
+		return da.ThreadMsg, nil
 	default:
 		return nil, fmt.Errorf("unknown cmt host table %v", hostType)
 	}
@@ -32,10 +32,10 @@ func GetCmtRelationTable(hostType dbdef.CmtHostType) (mingru.Table, error) {
 	switch hostType {
 	case dbdef.CmtHostTypePost:
 		return da.PostCmt, nil
-	case dbdef.CmtHostTypeQue:
-		return da.QuestionCmt, nil
-	case dbdef.CmtHostTypeAns:
-		return da.AnswerCmt, nil
+	case dbdef.CmtHostTypeThread:
+		return da.ThreadCmt, nil
+	case dbdef.CmtHostTypeThreadMsg:
+		return da.ThreadMsgCmt, nil
 	default:
 		return nil, fmt.Errorf("unknown cmt relation table %v", hostType)
 	}

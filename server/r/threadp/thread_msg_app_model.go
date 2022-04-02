@@ -28,18 +28,18 @@ type ThreadMsgAppModel struct {
 	UserHTML string
 }
 
-func NewThreadMsgAppModel(p *da.ThreadMsgTableSelectItemsByThreadResult, myVote int) ThreadMsgAppModel {
-	d := ThreadMsgAppModel{ThreadMsgTableSelectItemsByQuestionResult: *p}
+func NewThreadMsgAppModel(p *da.ThreadMsgTableSelectItemsByThreadResult, liked bool) ThreadMsgAppModel {
+	d := ThreadMsgAppModel{ThreadMsgTableSelectItemsByThreadResult: *p}
 	eid := clib.EncodeID(p.ID)
-	d.ThreadMsgURL = appURL.Get().ThreadMsg(p.ID)
+	d.URL = appURL.Get().ThreadMsg(p.ThreadID, p.ID)
 	d.EID = eid
+	d.Liked = liked
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	d.UserEID = clib.EncodeID(d.UserID)
-	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypeAns, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypeThreadMsg, d.CreatedAt, d.ModifiedAt)
 	pu.ExtraLinkLS = "link"
-	pu.ExtraLink = d.AnswerURL
+	pu.ExtraLink = d.URL
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
-	d.MyVote = myVote
 	return d
 }

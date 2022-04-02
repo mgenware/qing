@@ -54,7 +54,7 @@
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
   "__enums": {
-    "contentBaseType": ["post", "cmt", "thread"],
+    "contentBaseType": ["post", "cmt", "thread", "threadMsg"],
     "homePageFeedType": ["post", "thread"]
   }
 }
