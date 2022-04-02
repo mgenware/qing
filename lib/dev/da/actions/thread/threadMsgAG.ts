@@ -13,6 +13,17 @@ import ContentBaseAG from '../com/contentBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
 export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
+  selectItemsByThread: mm.Action;
+
+  constructor() {
+    super();
+    this.selectItemsByThread = mm
+      .selectRows(...this.colsOfSelectItem())
+      .pageMode()
+      .by(t.thread_id)
+      .orderByAsc(t.likes);
+  }
+
   override baseTable() {
     return t;
   }

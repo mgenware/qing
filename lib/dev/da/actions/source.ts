@@ -35,6 +35,8 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   postAG,
   postAG.baseCmtTable(),
   threadAG,
+  threadAG.baseCmtTable(),
+  threadMsgAG,
   threadMsgAG.baseCmtTable(),
   homeAG,
   comHomeAG,

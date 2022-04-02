@@ -22,6 +22,16 @@ func (mrTable *TableTypePostCmt) MingruSQLName() string {
 	return "post_cmt"
 }
 
+type TableTypeThreadCmt struct {
+}
+
+var ThreadCmt = &TableTypeThreadCmt{}
+
+// MingruSQLName returns the name of this table.
+func (mrTable *TableTypeThreadCmt) MingruSQLName() string {
+	return "thread_cmt"
+}
+
 type TableTypeThreadMsgCmt struct {
 }
 
