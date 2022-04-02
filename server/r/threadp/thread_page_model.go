@@ -20,7 +20,7 @@ type ThreadPageModel struct {
 	PageBarHTML       string
 }
 
-func NewThreadPageModel(queAppHTML, ansListHTML, pageBarHTML string) ThreadPageModel {
-	d := ThreadPageModel{ThreadAppHTML: threadAppHTML, ThreadMsgListHTML: threadMsgListHTML, PageBarHTML: pageBarHTML}
+func NewThreadPageModel(threadAppHTML, msgListHTML, pageBarHTML string) ThreadPageModel {
+	d := ThreadPageModel{ThreadAppHTML: threadAppHTML, ThreadMsgListHTML: msgListHTML, PageBarHTML: pageBarHTML}
 	return d
 }

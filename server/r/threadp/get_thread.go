@@ -27,7 +27,7 @@ const threadEntryScriptName = "thread/threadEntry"
 const defaultPageSize = 10
 
 func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
-	qid, err := clib.DecodeID(chi.URLParam(r, "qid"))
+	tid, err := clib.DecodeID(chi.URLParam(r, "tid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
@@ -38,7 +38,7 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	resp := appHandler.HTMLResponse(w, r)
 	uid := resp.UserID()
-	title := que.Title
+	title := thread.Title
 
 	hasLiked := false
 	if uid != 0 {
@@ -47,7 +47,7 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 		hasLiked = liked
 	}
 
-	queAppModel := NewThreadAppModel(&que, hasLiked)
+	threadAppModel := NewThreadAppModel(&thread, hasLiked)
 
 	// Fetch thread messages.
 	threadMsgList, hasNext, err := da.ThreadMsg.SelectItemsByThread(db, qid, page, defaultPageSize)
