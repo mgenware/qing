@@ -10,6 +10,7 @@
     "@qing/devutil": "workspace:*",
     "gen-go-type": "^1.4.0",
     "go-const-gen": "^2.1.0",
+    "is-plain-obj": "^4.0.0",
     "js-yaml": "^4.1.0",
     "jsconfgen": "^0.2.0",
     "mingru": "^0.58.1",

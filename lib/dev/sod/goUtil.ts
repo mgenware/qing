@@ -75,7 +75,7 @@ function handleImportPath(s: string) {
 export function goCode(input: string, pkgName: string, dict: cm.SourceDict): string {
   let s = '';
   let isFirst = true;
-  let baseType: cm.ExtendsField | undefined;
+  let baseTypes: cm.ExtendsField[] = [];
   let renameMap: Record<string, string> = {};
   const imports = new Set<string>();
   for (const [typeName, typeDef] of Object.entries(dict)) {
@@ -99,7 +99,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
           }
 
           case goExtendsAttr: {
-            baseType = cm.parseExtendsFieldObj(v);
+            baseTypes = cm.parseExtendsValue(v);
             break;
           }
 
@@ -126,18 +126,19 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       genOpt.ctorFunc = true;
       genOpt.returnValueInCtor = true;
     }
-    let goGenBaseTypes: BaseType[] | undefined;
-    if (baseType) {
-      goGenBaseTypes = [
-        {
-          name: baseType.name,
-          paramName: cm.lowerFirstLetter(baseType.name),
-          packageName: baseType.packageName,
-        },
-      ];
-      if (baseType.path) {
-        imports.add(handleImportPath(baseType.path));
-      }
+    let goGenBaseTypes: BaseType[] = [];
+    if (baseTypes.length) {
+      baseTypes.forEach((t) => {
+        goGenBaseTypes.push({
+          name: t.name,
+          paramName: cm.lowerFirstLetter(t.name),
+          packageName: t.packageName,
+        });
+
+        if (t.path) {
+          imports.add(handleImportPath(t.path));
+        }
+      });
     }
     s += genGoType('struct', typeName, members, genOpt, goGenBaseTypes);
   }

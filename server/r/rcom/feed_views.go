@@ -17,10 +17,10 @@ var vThreadFeedView = appHandler.MainPage().MustParseView("/com/feed/threadFeedV
 
 type PostFeedModel struct {
 	da.HomeTableSelectPostsResult
-	ContentBasePubProps
+	ContentBaseExtraProps
 }
 
 type ThreadFeedModel struct {
 	da.ThreadFeedInterface
-	ContentBasePubProps
+	ContentBaseExtraProps
 }

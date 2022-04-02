@@ -18,9 +18,5 @@ import { CmtData } from '../da/types.js';
 export interface Cmt extends CmtData {
   id: string;
   userURL: string;
-  userID: string;
-  userIconURL: string;
-  createdAt: string;
-  modifiedAt: string;
   parentID?: string;
 }

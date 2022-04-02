@@ -13,29 +13,26 @@
 
 package cmt
 
-import "qing/da"
+import (
+  	"qing/da"
+	"qing/r/rcom"
+)
 
 type Cmt struct {
 	da.CmtData
+	rcom.ContentBaseExtraProps
 
-	EID         string  `json:"id"`
-	UserURL     string  `json:"userURL"`
-	UserEID     string  `json:"userID"`
-	UserIconURL string  `json:"userIconURL"`
-	CreatedAt   string  `json:"createdAt"`
-	ModifiedAt  string  `json:"modifiedAt"`
-	ParentID    *string `json:"parentID,omitempty"`
+	EID      string  `json:"id"`
+	UserURL  string  `json:"userURL"`
+	ParentID *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtData *da.CmtData, id string, userURL string, userID string, userIconURL string, createdAt string, modifiedAt string, parentID *string) Cmt {
+func NewCmt(cmtData *da.CmtData, contentBaseExtraProps *rcom.ContentBaseExtraProps, id string, userURL string, parentID *string) Cmt {
 	return Cmt{
 		CmtData: *cmtData,
+		ContentBaseExtraProps: *contentBaseExtraProps,
 		EID: id,
 		UserURL: userURL,
-		UserEID: userID,
-		UserIconURL: userIconURL,
-		CreatedAt: createdAt,
-		ModifiedAt: modifiedAt,
 		ParentID: parentID,
 	}
 }

@@ -40,7 +40,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
   let isFirst = true;
   const imports = new Set<string>();
   for (const [typeName, typeDef] of Object.entries(dict)) {
-    let baseType: cm.ExtendsField | undefined;
+    let baseTypes: cm.ExtendsField[] = [];
     if (isFirst) {
       isFirst = false;
     } else {
@@ -53,7 +53,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
         // eslint-disable-next-line default-case
         switch (k) {
           case tsExtendsAttr: {
-            baseType = cm.parseExtendsFieldObj(v);
+            baseTypes = cm.parseExtendsValue(v);
             break;
           }
         }
@@ -67,12 +67,14 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     // Interface declaration is handled at last since base class can
     // only be determined when all attrs are processed.
     typeCode = `export interface ${typeName}${
-      baseType?.name ? ` extends ${baseType.name}` : ''
+      baseTypes.length ? ` extends ${baseTypes.map((t) => t.name).join(', ')}` : ''
     } {\n${typeCode}`;
 
-    if (baseType?.path) {
-      imports.add(`import { ${baseType.name} } from '${handleImportPath(baseType.path)}';`);
-    }
+    baseTypes.forEach((t) => {
+      if (t.path) {
+        imports.add(`import { ${t.name} } from '${handleImportPath(t.path)}';`);
+      }
+    });
 
     code += typeCode;
   }

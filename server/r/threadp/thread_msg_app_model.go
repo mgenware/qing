@@ -19,20 +19,16 @@ import (
 var vThreadMsgApp = appHandler.MainPage().MustParseView("/thread/threadMsgApp.html")
 
 type ThreadMsgAppModel struct {
-	da.ThreadMsgTableSelectItemsByQuestionResult
+	da.ThreadMsgTableSelectItemsByThreadResult
+	rcom.ContentBaseExtraProps
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
-	ThreadMsgURL string
-	EID          string
-	Vote         int
-	UserEID      string
-	UserHTML     string
-	CreatedAt    string
-	ModifiedAt   string
-	MyVote       int
+	EID      string
+	UserEID  string
+	UserHTML string
 }
 
-func NewThreadMsgAppModel(p *da.ThreadMsgTableSelectItemsByQuestionResult, myVote int) ThreadMsgAppModel {
+func NewThreadMsgAppModel(p *da.ThreadMsgTableSelectItemsByThreadResult, myVote int) ThreadMsgAppModel {
 	d := ThreadMsgAppModel{ThreadMsgTableSelectItemsByQuestionResult: *p}
 	eid := clib.EncodeID(p.ID)
 	d.ThreadMsgURL = appURL.Get().ThreadMsg(p.ID)

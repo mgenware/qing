@@ -2,20 +2,19 @@
 Cmt:
   __go_ctor: true
   __go_extends:
-    name: CmtData
-    packageName: da
-    path: _da
+    - name: CmtData
+      packageName: da
+      path: _da
+    - name: ContentBaseExtraProps
+      packageName: rcom
+      path: qing/r/rcom
   __ts_extends:
-    name: CmtData
-    path: '_da'
+    - name: CmtData
+      path: '_da'
   __go_rename:
     id: eID
     userID: userEID
 
   id!: string
   userURL!: string
-  userID!: string
-  userIconURL!: string
-  createdAt!: string
-  modifiedAt!: string
   parentID: string

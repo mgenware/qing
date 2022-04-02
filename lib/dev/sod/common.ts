@@ -5,6 +5,8 @@
  * be found in the LICENSE file.
  */
 
+import isPlainObj from 'is-plain-obj';
+
 export const attrPrefix = '__';
 
 const allowedAttrs = new Set<string>();
@@ -68,8 +70,8 @@ export interface ExtendsField {
   packageName?: string;
 }
 
-export function parseExtendsFieldObj(obj: unknown): ExtendsField {
-  if (typeof obj !== 'object') {
+function parseExtendsFieldObj(obj: unknown): ExtendsField {
+  if (!isPlainObj(obj)) {
     throw new Error(`Expected an object, got ${JSON.stringify(obj)}`);
   }
   const objDict = obj as Record<string, string>;
@@ -78,6 +80,13 @@ export function parseExtendsFieldObj(obj: unknown): ExtendsField {
     throw new Error(`Missing name param. Got ${JSON.stringify(obj)}`);
   }
   return { name, path, packageName };
+}
+
+export function parseExtendsValue(obj: unknown): ExtendsField[] {
+  if (!Array.isArray(obj)) {
+    throw new Error(`Expected an array, got ${JSON.stringify(obj)}`);
+  }
+  return obj.map((o) => parseExtendsFieldObj(o));
 }
 
 export function parseRenameMap(obj: unknown): Record<string, string> {
