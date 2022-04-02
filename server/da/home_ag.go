@@ -12,7 +12,12 @@
 
 package da
 
-import "github.com/mgenware/mingru-go-lib"
+import (
+	"fmt"
+	"time"
+
+	"github.com/mgenware/mingru-go-lib"
+)
 
 type TableTypeHome struct {
 }
@@ -26,62 +31,51 @@ func (mrTable *TableTypeHome) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-type HomeTableSelectForumGroupsResult struct {
-	DescHTML   string `json:"descHTML,omitempty"`
-	ForumCount uint   `json:"forumCount,omitempty"`
-	ID         uint64 `json:"-"`
-	Name       string `json:"name,omitempty"`
-	OrderIndex uint   `json:"orderIndex,omitempty"`
+type HomeTableSelectPostsResult struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
 }
 
-func (mrTable *TableTypeHome) SelectForumGroups(mrQueryable mingru.Queryable) ([]HomeTableSelectForumGroupsResult, error) {
-	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
-	if err != nil {
-		return nil, err
+func (mrTable *TableTypeHome) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeTableSelectPostsResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
 	}
-	var result []HomeTableSelectForumGroupsResult
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]HomeTableSelectPostsResult, 0, limit)
+	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
-		var item HomeTableSelectForumGroupsResult
-		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ForumCount, &item.DescHTML)
-		if err != nil {
-			return nil, err
+		itemCounter++
+		if itemCounter <= max {
+			var item HomeTableSelectPostsResult
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
 		}
-		result = append(result, item)
 	}
 	err = rows.Err()
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
-	return result, nil
-}
-
-type HomeTableSelectForumsResult struct {
-	GroupID     *uint64 `json:"groupID,omitempty"`
-	ID          uint64  `json:"-"`
-	Name        string  `json:"name,omitempty"`
-	OrderIndex  uint    `json:"orderIndex,omitempty"`
-	ThreadCount uint    `json:"threadCount,omitempty"`
-}
-
-func (mrTable *TableTypeHome) SelectForums(mrQueryable mingru.Queryable) ([]HomeTableSelectForumsResult, error) {
-	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
-	if err != nil {
-		return nil, err
-	}
-	var result []HomeTableSelectForumsResult
-	defer rows.Close()
-	for rows.Next() {
-		var item HomeTableSelectForumsResult
-		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ThreadCount, &item.GroupID)
-		if err != nil {
-			return nil, err
-		}
-		result = append(result, item)
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
+	return result, itemCounter > len(result), nil
 }

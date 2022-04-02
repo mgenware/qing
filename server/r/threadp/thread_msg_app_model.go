@@ -16,7 +16,7 @@ import (
 	"qing/r/rcom"
 )
 
-var vThreadMsgApp = appHandler.MainPage().MustParseView("/qna/threadMsgApp.html")
+var vThreadMsgApp = appHandler.MainPage().MustParseView("/thread/threadMsgApp.html")
 
 type ThreadMsgAppModel struct {
 	da.ThreadMsgTableSelectItemsByQuestionResult

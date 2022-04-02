@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import thread from '../../models/thread/thread.js';
 import { threadFeedCols, threadFeedInterface } from '../thread/cm.js';
 
-class Home extends mm.GhostTable {}
+class ComHome extends mm.GhostTable {}
 
 export class ComHomeAG extends mm.ActionGroup {
   selectThreads: mm.SelectAction;
@@ -26,4 +26,4 @@ export class ComHomeAG extends mm.ActionGroup {
   }
 }
 
-export default mm.actionGroup(mm.table(Home, { virtualTable: true }), ComHomeAG);
+export default mm.actionGroup(mm.table(ComHome, { virtualTable: true }), ComHomeAG);
