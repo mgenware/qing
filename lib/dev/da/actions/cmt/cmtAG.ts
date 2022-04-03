@@ -16,19 +16,17 @@ import { updateCounterAction } from '../com/updateCounterAction.js';
 // Most cmt/reply-related funcs are built into the host table itself.
 // Those in `CmtTA` are ones don't rely on `host.cmt_count`.
 export class CmtAG extends mm.ActionGroup {
-  editCmt = mm
-    .updateOne()
-    .setParams(t.content, t.modified_at)
-    .argStubs(cm.sanitizedStub)
-    .whereSQL(defaultUpdateConditions(t));
-
   selectCmtSource = mm
     .selectRow(t.content)
     .whereSQL(defaultUpdateConditions(t))
     .resultTypeNameAttr(getEntitySrcType)
     .attr(mm.ActionAttribute.enableTSResultType, true);
+  selectReplySource = mm
+    .selectRow(t.content)
+    .whereSQL(defaultUpdateConditions(t))
+    .resultTypeNameAttr(getEntitySrcType);
 
-  updateReplyCount = updateCounterAction(t, t.cmt_count);
+  selectHostInfo = mm.selectRow(t.host_id, t.host_type).by(t.id);
 
   memLockedGetCmtDataForDeletion = mm
     .selectRow(t.parent_id, t.cmt_count)
@@ -38,15 +36,19 @@ export class CmtAG extends mm.ActionGroup {
   selectReplies: mm.SelectAction;
   selectRepliesWithLikes: mm.SelectAction;
 
-  editReply = mm
+  editCmt = mm
     .updateOne()
     .setParams(t.content, t.modified_at)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
-  selectReplySource = mm
-    .selectRow(t.content)
-    .whereSQL(defaultUpdateConditions(t))
-    .resultTypeNameAttr(getEntitySrcType);
+  editReply = mm
+    .updateOne()
+    .setParams(t.modified_at, t.content)
+    .argStubs(cm.sanitizedStub)
+    .whereSQL(defaultUpdateConditions(t));
+
+  updateReplyCount = updateCounterAction(t, t.cmt_count);
+
   insertCmt = mm.insertOne().set(t.parent_id, mm.constants.NULL).setDefaults().setParams();
   // `parent_id` is required when inserting a reply.
   insertReply = mm

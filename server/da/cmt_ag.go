@@ -41,8 +41,8 @@ func (mrTable *TableTypeCmt) EditCmt(mrQueryable mingru.Queryable, id uint64, us
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `cmt` SET `content` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, rawModifiedAt, id, userID)
+func (mrTable *TableTypeCmt) EditReply(mrQueryable mingru.Queryable, id uint64, userID uint64, rawModifiedAt time.Time, contentHTML string, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `modified_at` = ?, `content` = ? WHERE (`id` = ? AND `user_id` = ?)", rawModifiedAt, contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -78,6 +78,20 @@ func (mrTable *TableTypeCmt) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Q
 func (mrTable *TableTypeCmt) SelectCmtSource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+type CmtTableSelectHostInfoResult struct {
+	HostID   uint64 `json:"hostID,omitempty"`
+	HostType uint8  `json:"hostType,omitempty"`
+}
+
+func (mrTable *TableTypeCmt) SelectHostInfo(mrQueryable mingru.Queryable, id uint64) (CmtTableSelectHostInfoResult, error) {
+	var result CmtTableSelectHostInfoResult
+	err := mrQueryable.QueryRow("SELECT `host_id`, `host_type` FROM `cmt` WHERE `id` = ?", id).Scan(&result.HostID, &result.HostType)
 	if err != nil {
 		return result, err
 	}

@@ -12,9 +12,12 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/def/dbdef"
 	"qing/a/handler"
+	"qing/da"
 	"qing/dax"
 	"qing/lib/clib"
+	"qing/r/api/apicom"
 )
 
 func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -23,7 +26,14 @@ func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	id := clib.MustGetIDFromDict(params, "id")
-	err := dax.DeleteCmt(appDB.DB(), id, uid)
+	db := appDB.DB()
+	hostInfo, err := da.Cmt.SelectHostInfo(db, id)
+	app.PanicIfErr(err)
+
+	hostTable, err := apicom.GetCmtHostTable(dbdef.CmtHostType(hostInfo.HostType))
+	app.PanicIfErr(err)
+
+	err = dax.DeleteCmt(db, id, uid, hostTable, hostInfo.HostID)
 	app.PanicIfErr(err)
 	return resp.MustComplete(nil)
 }
