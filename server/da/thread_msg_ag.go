@@ -321,6 +321,15 @@ func (mrTable *TableTypeThreadMsg) SelectMsgsByThreadWithLikes(mrQueryable mingr
 	return result, itemCounter > len(result), nil
 }
 
+func (mrTable *TableTypeThreadMsg) SelectThread(mrQueryable mingru.Queryable, id uint64) (uint64, error) {
+	var result uint64
+	err := mrQueryable.QueryRow("SELECT `thread_id` FROM `thread_msg` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (mrTable *TableTypeThreadMsg) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

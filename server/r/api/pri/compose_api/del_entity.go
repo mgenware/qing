@@ -47,7 +47,10 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 	case appdef.ContentBaseTypeThreadMsg:
 		{
-			err = da.ThreadMsg.DeleteItem(db, id, uid)
+			threadID, err := da.ThreadMsg.SelectThread(db, id)
+			app.PanicIfErr(err)
+
+			err = da.ThreadMsg.DeleteItem(db, id, uid, threadID)
 			app.PanicIfErr(err)
 			break
 		}

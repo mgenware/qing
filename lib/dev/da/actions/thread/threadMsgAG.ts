@@ -21,12 +21,14 @@ const threadIDParam = 'threadID';
 export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
   selectMsgsByThread: mm.Action;
   selectMsgsByThreadWithLikes: mm.Action;
+  selectThread: mm.Action;
 
   constructor() {
     super();
 
     this.selectMsgsByThread = this.getSelectMsgsByThread(false);
     this.selectMsgsByThreadWithLikes = this.getSelectMsgsByThread(true);
+    this.selectThread = mm.selectField(t.thread_id).by(t.id);
   }
 
   private getSelectMsgsByThread(withLikes: boolean) {
