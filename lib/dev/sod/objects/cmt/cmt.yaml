@@ -7,16 +7,16 @@ Cmt:
       path: :da
     - name: ContentBaseModelBase
       packageName: contentBaseSod
-      path: qing/r/rcom
+      path: :sod:contentBase
   __ts_extends:
     - name: CmtResult
       path: :da
     - name: ContentBaseModelBase
-      path: :sod:contentBase/ContentBaseModelBase
+      path: :sod:contentBase
   __go_rename:
     id: eID
     userID: userEID
 
-  id!: string
-  userURL!: string
-  parentID: string
+  id: string
+  userURL: string
+  parentID?: string

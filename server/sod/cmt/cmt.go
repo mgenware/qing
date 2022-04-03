@@ -15,15 +15,15 @@ package cmtSod
 
 import (
   	"qing/da"
-	"qing/r/rcom"
+	"qing/server/sod/contentBase"
 )
 
 type Cmt struct {
 	da.CmtResult
 	contentBaseSod.ContentBaseModelBase
 
-	EID      string  `json:"id"`
-	UserURL  string  `json:"userURL"`
+	EID      string  `json:"id,omitempty"`
+	UserURL  string  `json:"userURL,omitempty"`
 	ParentID *string `json:"parentID,omitempty"`
 }
 

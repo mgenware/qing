@@ -12,28 +12,31 @@ const tsExtendsAttr = '__ts_extends';
 
 cm.addAllowedAttrs([tsExtendsAttr]);
 
-export function sourceTypeFieldToTSType(type: string): string {
+function sourceTypeFieldToTSType(type: string, optional: boolean): [string, boolean] {
+  // Some types are always optional because SOD Go types have omitifempty tags on.
+  // So even if a field set in Go, it can be omitted in JSON.
   switch (type) {
     case 'bool':
-      return 'boolean';
+      return ['boolean', true];
     case 'int':
     case 'uint':
     case 'uint64':
     case 'double':
-      return 'number';
+      return ['number', true];
     case 'string':
-      return 'string';
+      return ['string', optional];
     default:
-      return type.startsWith('*') ? type.substring(1) : type;
+      // Strip pointer indicator (*). No pointers in JS.
+      return [type.startsWith('*') ? type.substring(1) : type, optional];
   }
 }
 
-function handleImportPath(s: string) {
+function handleImportPath(s: string, name: string) {
   if (s === cm.daPathPrefix) {
     return '../da/types.js';
   }
   if (s.startsWith(cm.sodPathPrefix)) {
-    return `../${s.substring(cm.sodPathPrefix.length)}.js`;
+    return `../${s.substring(cm.sodPathPrefix.length)}/${cm.lowerFirstLetter(name)}.js`;
   }
   return s;
 }
@@ -61,8 +64,9 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
           }
         }
       },
-      (k, v, requiredProp) => {
-        typeCode += `  ${k}${requiredProp ? '' : '?'}: ${sourceTypeFieldToTSType(v)};\n`;
+      (k, v, optional) => {
+        const [type, optionalResolved] = sourceTypeFieldToTSType(v, optional);
+        typeCode += `  ${k}${optionalResolved ? '?' : ''}: ${type};\n`;
       },
     );
     typeCode += '}\n';
@@ -75,7 +79,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
 
     baseTypes.forEach((t) => {
       if (t.path) {
-        imports.add(`import { ${t.name} } from '${handleImportPath(t.path)}';`);
+        imports.add(`import { ${t.name} } from '${handleImportPath(t.path, t.name)}';`);
       }
     });
 

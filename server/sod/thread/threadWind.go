@@ -14,14 +14,13 @@
 package threadSod
 
 type ThreadWind struct {
-
-	ThreadID string  `json:"threadID"`
-	ForumID  *string `json:"forumID,omitempty"`
+	ThreadID! string `json:"threadID!,omitempty"`
+	ForumID   string `json:"forumID,omitempty"`
 }
 
-func NewThreadWind(threadID string, forumID *string) ThreadWind {
+func NewThreadWind(threadID! string, forumID string) ThreadWind {
 	return ThreadWind{
-		ThreadID: threadID,
+		ThreadID!: threadID!,
 		ForumID: forumID,
 	}
 }

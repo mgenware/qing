@@ -101,7 +101,7 @@ export function parseRenameMap(obj: unknown): Record<string, string> {
 export function scanTypeDef(
   src: Record<string, unknown>,
   attrCb: (k: string, v: unknown) => void,
-  propCb: (k: string, v: string, required: boolean) => void,
+  propCb: (k: string, v: string, optional: boolean) => void,
 ) {
   // Handle attrs first.
   for (const [k, v] of Object.entries(src)) {
@@ -121,9 +121,9 @@ export function scanTypeDef(
       if (typeof v !== 'string') {
         throw new Error(`Property value must be a string. Got ${v}`);
       }
-      const requiredProp = _k.endsWith('!');
-      const k = trimEnd(_k, '!');
-      propCb(k, v, requiredProp);
+      const optional = _k.endsWith('?');
+      const k = trimEnd(_k, '?');
+      propCb(k, v, optional);
     }
   }
 }

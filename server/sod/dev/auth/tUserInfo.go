@@ -14,20 +14,19 @@
 package authSod
 
 type TUserInfo struct {
-
-	Admin   *bool  `json:"admin,omitempty"`
-	ID      string `json:"id"`
-	IconURL string `json:"iconURL"`
-	Url     string `json:"url"`
-	Name    string `json:"name"`
+	Admin    bool   `json:"admin,omitempty"`
+	Id!      string `json:"id!,omitempty"`
+	IconURL! string `json:"iconURL!,omitempty"`
+	Url!     string `json:"url!,omitempty"`
+	Name!    string `json:"name!,omitempty"`
 }
 
-func NewTUserInfo(admin *bool, id string, iconURL string, url string, name string) TUserInfo {
+func NewTUserInfo(admin bool, id! string, iconURL! string, url! string, name! string) TUserInfo {
 	return TUserInfo{
 		Admin: admin,
-		ID: id,
-		IconURL: iconURL,
-		Url: url,
-		Name: name,
+		Id!: id!,
+		IconURL!: iconURL!,
+		Url!: url!,
+		Name!: name!,
 	}
 }

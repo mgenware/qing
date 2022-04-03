@@ -14,12 +14,11 @@
 package contentBaseSod
 
 type ContentBaseModelBase struct {
-
-	Url         string `json:"url"`
-	UserUrl     string `json:"userUrl"`
-	UserIconUrl string `json:"userIconUrl"`
-	CreatedAt   string `json:"createdAt"`
-	ModifiedAt  string `json:"modifiedAt"`
+	Url         string `json:"url,omitempty"`
+	UserUrl     string `json:"userUrl,omitempty"`
+	UserIconUrl string `json:"userIconUrl,omitempty"`
+	CreatedAt   string `json:"createdAt,omitempty"`
+	ModifiedAt  string `json:"modifiedAt,omitempty"`
 }
 
 func NewContentBaseModelBase(url string, userUrl string, userIconUrl string, createdAt string, modifiedAt string) ContentBaseModelBase {

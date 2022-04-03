@@ -14,12 +14,11 @@
 package appSod
 
 type RawMainPageWind struct {
-
-	AppUserID         *string `json:"appUserID,omitempty"`
-	AppUserName       *string `json:"appUserName,omitempty"`
-	AppUserURL        *string `json:"appUserURL,omitempty"`
-	AppUserIconURL    *string `json:"appUserIconURL,omitempty"`
-	AppUserAdmin      *bool   `json:"appUserAdmin,omitempty"`
-	AppLang           string  `json:"appLang"`
-	AppWindDataString *string `json:"appWindDataString,omitempty"`
+	AppUserID         string `json:"appUserID,omitempty"`
+	AppUserName       string `json:"appUserName,omitempty"`
+	AppUserURL        string `json:"appUserURL,omitempty"`
+	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
+	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
+	AppLang!          string `json:"appLang!,omitempty"`
+	AppWindDataString string `json:"appWindDataString,omitempty"`
 }

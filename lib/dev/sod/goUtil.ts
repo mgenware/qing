@@ -113,12 +113,12 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-loop-func
-      (k, v, requiredProp) => {
+      (k, v, optional) => {
         members.push({
           name: cm.capitalizeFirstLetter(renameMap[k] || k),
           paramName: k,
-          type: requiredProp ? v : `*${v}`,
-          tag: `\`json:"${k}${requiredProp ? '' : ',omitempty'}"\``,
+          type: optional ? `*${v}` : v,
+          tag: `\`json:"${k},omitempty"\``,
         });
       },
     );

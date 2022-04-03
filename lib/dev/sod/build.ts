@@ -43,7 +43,7 @@ if (!input) {
     const srcDict = rawSource as cm.SourceDict;
     const relDir = np.dirname(input);
     const pkgName = np.basename(relDir) + 'Sod';
-    const webFile = np.join(qdu.webSodPath(), relDir) + '.ts';
+    const webFile = np.join(qdu.webSodPath(), input) + '.ts';
 
     const goOutDir = getAttr(go.goOutDirAttr);
     let serverFile: string;
