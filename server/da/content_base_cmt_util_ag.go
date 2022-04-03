@@ -92,7 +92,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, parentID uin
 	return replyIDExported, txErr
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -108,13 +108,13 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtData, 0, limit)
+	result := make([]CmtResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtData
+			var item CmtResult
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -129,7 +129,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -145,13 +145,13 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable 
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtData, 0, limit)
+	result := make([]CmtResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtData
+			var item CmtResult
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err

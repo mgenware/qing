@@ -16,8 +16,7 @@ export interface CmtHostTable extends TableWithIDAndUserID {
 }
 
 export const cmtHostTableInterface = 'CmtHostTableInterface';
-export const cmtResultType = 'CmtData';
-export const replyInterface = 'ReplyInterface';
+export const cmtResultType = 'CmtResult';
 export const hasLikedProp = 'hasLiked';
 export const viewerUserIDInput = 'viewerUserID';
 

@@ -29,7 +29,6 @@
   "errPermissionDenied": 10004,
   "errResourceNotFound": 10005,
   "keyPosts": "posts",
-  "keyDiscussions": "discussions",
   "keyReplies": "replies",
   "keyPage": "page",
   "keyPageSize": "pageSize",

@@ -9,7 +9,9 @@ package rcom
 
 import (
 	"qing/a/appHandler"
+	"qing/a/appURL"
 	"qing/da"
+	"qing/lib/clib"
 )
 
 var vPostFeedView = appHandler.MainPage().MustParseView("/com/feed/postFeedView.html")
@@ -20,7 +22,41 @@ type PostFeedModel struct {
 	ContentBaseExtraProps
 }
 
+func MustRenderPostFeedView(d *PostFeedModel) {
+	vPostFeedView.MustExecuteToString(d)
+}
+
+func NewPostFeedModel(src da.HomeTableSelectPostsResult) PostFeedModel {
+	d := PostFeedModel{HomeTableSelectPostsResult: src}
+
+	// ContentBaseExtraProps
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
+	d.UserURL = appURL.Get().UserProfile(d.UserID)
+	d.UserIconURL = appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
+
+	d.URL = appURL.Get().Post(d.ID)
+	return d
+}
+
 type ThreadFeedModel struct {
-	da.ThreadFeedInterface
+	da.ThreadFeed
 	ContentBaseExtraProps
+}
+
+func NewThreadFeedModel(src da.ThreadFeed) ThreadFeedModel {
+	d := ThreadFeedModel{ThreadFeed: src}
+
+	// ContentBaseExtraProps
+	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
+	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
+	d.UserURL = appURL.Get().UserProfile(d.UserID)
+	d.UserIconURL = appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
+
+	d.URL = appURL.Get().Thread(d.ID)
+	return d
+}
+
+func MustRenderThreadFeedView(d *da.ThreadFeed) {
+	vThreadFeedView.MustExecuteToString(d)
 }

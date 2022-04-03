@@ -40,7 +40,6 @@ const ErrCaptchaNotMatch = 10003
 const ErrPermissionDenied = 10004
 const ErrResourceNotFound = 10005
 const KeyPosts = "posts"
-const KeyDiscussions = "discussions"
 const KeyReplies = "replies"
 const KeyPage = "page"
 const KeyPageSize = "pageSize"

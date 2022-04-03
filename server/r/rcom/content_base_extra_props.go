@@ -13,5 +13,4 @@ type ContentBaseExtraProps struct {
 	UserIconURL string `json:"userIconURL"`
 	CreatedAt   string `json:"createdAt"`
 	ModifiedAt  string `json:"modifiedAt"`
-	Liked       bool   `json:"liked"`
 }

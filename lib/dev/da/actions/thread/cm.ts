@@ -8,7 +8,7 @@
 import thread from '../../models/thread/thread.js';
 import user from '../../models/user/user.js';
 
-export const threadFeedInterface = 'ThreadFeedInterface';
+export const threadFeedType = 'ThreadFeedResult';
 
 // Used by both home page and forum page.
 export function threadFeedCols() {

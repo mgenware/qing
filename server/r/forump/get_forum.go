@@ -41,16 +41,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	forum, err := da.Forum.SelectForum(db, fid)
 	app.PanicIfErr(err)
 
-	var items []da.UserThreadInterface
-	var hasNext bool
-
-	if tab == appdef.KeyDiscussions {
-		items, hasNext, err = da.Forum.SelectDiscussions(db, &fid, page, defaultPageSize)
-	} else if tab == appdef.KeyQuestions {
-		items, hasNext, err = da.Forum.SelectQuestions(db, &fid, page, defaultPageSize)
-	} else {
-		items, hasNext, err = da.Forum.SelectThreads(db, &fid, page, defaultPageSize)
-	}
+	items, hasNext, err := da.Forum.SelectThreads(db, &fid, page, defaultPageSize)
 	app.PanicIfErr(err)
 
 	var feedListHTMLBuilder strings.Builder
@@ -58,9 +49,8 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range items {
-			itemModel, err := rcom.NewUserThreadModel(&item)
-			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
+			itemModel := rcom.NewThreadFeedModel(item)
+			feedListHTMLBuilder.WriteString(rcom.MustRenderThreadFeedView(itemModel))
 		}
 	}
 

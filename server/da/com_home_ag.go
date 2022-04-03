@@ -30,7 +30,7 @@ func (mrTable *TableTypeComHome) MingruSQLName() string {
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeComHome) SelectThreads(mrQueryable mingru.Queryable, page int, pageSize int) ([]ThreadFeedInterface, bool, error) {
+func (mrTable *TableTypeComHome) SelectThreads(mrQueryable mingru.Queryable, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -46,13 +46,13 @@ func (mrTable *TableTypeComHome) SelectThreads(mrQueryable mingru.Queryable, pag
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]ThreadFeedInterface, 0, limit)
+	result := make([]ThreadFeedResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item ThreadFeedInterface
+			var item ThreadFeedResult
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.MsgCount, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err

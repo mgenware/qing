@@ -84,7 +84,7 @@ func (mrTable *TableTypeCmt) SelectCmtSource(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -100,13 +100,13 @@ func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentI
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtData, 0, limit)
+	result := make([]CmtResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtData
+			var item CmtResult
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -121,7 +121,7 @@ func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentI
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtData, bool, error) {
+func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -137,13 +137,13 @@ func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable,
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtData, 0, limit)
+	result := make([]CmtResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtData
+			var item CmtResult
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
 			if err != nil {
 				return nil, false, err

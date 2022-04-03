@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import thread from '../../models/thread/thread.js';
-import { threadFeedCols, threadFeedInterface } from '../thread/cm.js';
+import { threadFeedCols, threadFeedType } from '../thread/cm.js';
 
 class ComHome extends mm.GhostTable {}
 
@@ -22,7 +22,7 @@ export class ComHomeAG extends mm.ActionGroup {
       .from(thread)
       .pageMode()
       .orderByAsc(thread.created_at)
-      .resultTypeNameAttr(threadFeedInterface);
+      .resultTypeNameAttr(threadFeedType);
   }
 }
 

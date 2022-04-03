@@ -25,18 +25,10 @@ func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(c)
 }
 
-func userDiscussionCount(w http.ResponseWriter, r *http.Request) handler.JSON {
+func userThreadCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
-	c, err := da.UserStats.TestSelectDiscussionCount(appDB.DB(), uid)
-	app.PanicIfErr(err)
-	return resp.MustComplete(c)
-}
-
-func userQuestionCount(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
-	uid := getUIDFromRequest(r)
-	c, err := da.UserStats.TestSelectQuestionCount(appDB.DB(), uid)
+	c, err := da.UserStats.TestSelectThreadCount(appDB.DB(), uid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(c)
 }
