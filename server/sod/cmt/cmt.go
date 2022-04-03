@@ -15,24 +15,22 @@ package cmtSod
 
 import (
   	"qing/da"
-	"qing/server/sod/contentBase"
+	contentBaseSod "qing/sod/contentBase"
 )
 
 type Cmt struct {
 	da.CmtResult
 	contentBaseSod.ContentBaseModelBase
 
-	EID      string  `json:"id,omitempty"`
-	UserURL  string  `json:"userURL,omitempty"`
-	ParentID *string `json:"parentID,omitempty"`
+	EID      string `json:"id,omitempty"`
+	ParentID string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtResult *da.CmtResult, contentBaseModelBase *contentBaseSod.ContentBaseModelBase, id string, userURL string, parentID *string) Cmt {
+func NewCmt(cmtResult *da.CmtResult, contentBaseModelBase *contentBaseSod.ContentBaseModelBase, id string, parentID string) Cmt {
 	return Cmt{
 		CmtResult: *cmtResult,
 		ContentBaseModelBase: *contentBaseModelBase,
 		EID: id,
-		UserURL: userURL,
 		ParentID: parentID,
 	}
 }

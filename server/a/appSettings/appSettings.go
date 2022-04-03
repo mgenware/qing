@@ -9,11 +9,11 @@ package appSettings
 
 import (
 	"errors"
-	"qing/sod/app/appRawSettings"
+	appSod "qing/sod/app"
 )
 
 type AppSettings struct {
-	raw *appRawSettings.AppRawSettings
+	raw *appSod.AppRawSettings
 }
 
 func (st *AppSettings) QueAndDis() bool {
@@ -28,7 +28,7 @@ func (st *AppSettings) ForumGroups() bool {
 	return st.QueAndDis() && st.raw.Community.ForumGroupsEnabled
 }
 
-func NewAppSettings(obj *appRawSettings.AppRawSettings) *AppSettings {
+func NewAppSettings(obj *appSod.AppRawSettings) *AppSettings {
 	if obj == nil {
 		panic(errors.New("`obj` cannot be nil"))
 	}

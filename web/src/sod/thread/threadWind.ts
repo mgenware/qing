@@ -14,6 +14,6 @@
   ******************************************************************************************/
 
 export interface ThreadWind {
-  threadID!: string;
-  forumID: string;
+  threadID: string;
+  forumID?: string;
 }

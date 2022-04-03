@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"qing/a/app"
 	"qing/a/appLog"
-	"qing/sod/app/appRawSettings"
+	appSod "qing/sod/app"
 )
 
 var appSettings *AppSettings
@@ -36,7 +36,7 @@ func Get() *AppSettings {
 
 // Loads app settings from disk (settings on disk may need a server reboot
 // to take effect).
-func LoadFromDisk() (*appRawSettings.AppRawSettings, error) {
+func LoadFromDisk() (*appSod.AppRawSettings, error) {
 	conf := app.CoreConfig()
 
 	file := conf.AppSettings.File

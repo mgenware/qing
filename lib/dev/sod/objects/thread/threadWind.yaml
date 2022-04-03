@@ -1,5 +1,5 @@
 ---
 ThreadWind:
   __go_ctor: true
-  threadID!: string
-  forumID: string
+  threadID: string
+  forumID?: string

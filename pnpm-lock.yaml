@@ -99,7 +99,7 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.58.1
+      mingru: 0.58.1_1a3f98bf42a335fa5aa49fc0ce2fcb90
       mingru-models: 0.63.1
       mingru-tsconfig: 4.0.0
     devDependencies:
@@ -3057,19 +3057,6 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-config-airbnb-base/15.0.0:
-    resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==}
-    engines: {node: ^10.12.0 || >=12.0.0}
-    peerDependencies:
-      eslint: ^7.32.0 || ^8.2.0
-      eslint-plugin-import: ^2.25.2
-    dependencies:
-      confusing-browser-globals: 1.0.11
-      object.assign: 4.1.2
-      object.entries: 1.1.5
-      semver: 6.3.0
-    dev: false
-
   /eslint-config-airbnb-base/15.0.0_dae71b730d6620b67a20047a747b2eda:
     resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -3083,20 +3070,6 @@ packages:
       object.assign: 4.1.2
       object.entries: 1.1.5
       semver: 6.3.0
-    dev: true
-
-  /eslint-config-airbnb-typescript-lite/13.0.1:
-    resolution: {integrity: sha512-dv/ZKMK+UMoqBWjPXXrLQpMm6G4YYYKDO0p6+l5mEyIGZrDQyjV5VA4BxVJiKqpJ3xvkkkFWSVlA7dJM3BCP0A==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': ^5
-      '@typescript-eslint/parser': ^5
-      eslint: ^8
-    dependencies:
-      eslint-config-airbnb-base: 15.0.0
-    transitivePeerDependencies:
-      - eslint-plugin-import
-    dev: false
 
   /eslint-config-airbnb-typescript-lite/13.0.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
     resolution: {integrity: sha512-dv/ZKMK+UMoqBWjPXXrLQpMm6G4YYYKDO0p6+l5mEyIGZrDQyjV5VA4BxVJiKqpJ3xvkkkFWSVlA7dJM3BCP0A==}
@@ -3112,18 +3085,6 @@ packages:
       eslint-config-airbnb-base: 15.0.0_dae71b730d6620b67a20047a747b2eda
     transitivePeerDependencies:
       - eslint-plugin-import
-    dev: true
-
-  /eslint-config-mgenware/0.7.1:
-    resolution: {integrity: sha512-30sdAK30VUdZpCbO0GnddDLAOf4PKPuDS6fAjQ1+EsCp+T/tsRVFwyMkc9sop3VPbBUm+cAcG9T4u3n0ya7b4g==}
-    dependencies:
-      eslint-config-airbnb-typescript-lite: 13.0.1
-    transitivePeerDependencies:
-      - '@typescript-eslint/eslint-plugin'
-      - '@typescript-eslint/parser'
-      - eslint
-      - eslint-plugin-import
-    dev: false
 
   /eslint-config-mgenware/0.7.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
     resolution: {integrity: sha512-30sdAK30VUdZpCbO0GnddDLAOf4PKPuDS6fAjQ1+EsCp+T/tsRVFwyMkc9sop3VPbBUm+cAcG9T4u3n0ya7b4g==}
@@ -3134,7 +3095,6 @@ packages:
       - '@typescript-eslint/parser'
       - eslint
       - eslint-plugin-import
-    dev: true
 
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
@@ -4893,7 +4853,7 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.58.1:
+  /mingru/0.58.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
     resolution: {integrity: sha512-ABx2EzCQmp8G19HsA6Le28GzrQ1Ue86rx7p3jp4P0KC+ytHeACLPaXDPIK42zzYnRm2ynL8BrixdDL5kDxrpLQ==}
     engines: {node: '>=16.7.0'}
     dependencies:
@@ -4901,7 +4861,7 @@ packages:
       chalk: 5.0.1
       decamelize: 6.0.0
       del: 6.0.0
-      eslint-config-mgenware: 0.7.1
+      eslint-config-mgenware: 0.7.1_1a3f98bf42a335fa5aa49fc0ce2fcb90
       m-fs: 5.1.0
       must-be-err: 0.1.1
       tempy: 2.0.0

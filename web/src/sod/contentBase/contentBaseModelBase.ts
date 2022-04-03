@@ -15,8 +15,8 @@
 
 export interface ContentBaseModelBase {
   url: string;
-  userUrl: string;
-  userIconUrl: string;
+  userURL: string;
+  userIconURL: string;
   createdAt: string;
   modifiedAt: string;
 }

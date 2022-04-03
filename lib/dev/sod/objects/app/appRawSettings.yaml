@@ -3,6 +3,6 @@ AppRawSettings:
   community: CommunityRawSettings
 
 CommunityRawSettings:
-  queAndDisEnabled: bool
+  communityEnabled: bool
   forumsEnabled: bool
   forumGroupsEnabled: bool

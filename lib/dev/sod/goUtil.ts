@@ -6,6 +6,7 @@
  */
 
 import { genGoType, TypeMember, Options, BaseType } from 'gen-go-type';
+import * as np from 'path';
 import * as cm from './common.js';
 import * as qdu from '@qing/devutil';
 
@@ -16,20 +17,28 @@ const goRenameAttr = '__go_rename';
 
 cm.addAllowedAttrs([goCtorAttr, goExtendsAttr, goRenameAttr]);
 
-function joinImports(imports: string[], newline: boolean): string {
+function joinImports(
+  imports: string[],
+  aliases: Map<string, string> | undefined,
+  newline: boolean,
+): string {
   if (!imports.length) {
     return '';
   }
   if (!newline) {
-    return `"${imports[0]}"`;
+    const alias = aliases?.get(imports[0]!);
+    return `${alias ? `${alias} ` : ''}"${imports[0]}"`;
   }
   return imports
     .sort()
-    .map((s) => `\t"${s}"\n`)
+    .map((s) => {
+      const alias = aliases?.get(s);
+      return `\t${alias ? `${alias} ` : ''}"${s}"\n`;
+    })
     .join('');
 }
 
-function formatImports(imports: string[]): string {
+function formatImports(imports: string[], aliases: Map<string, string> | undefined): string {
   if (!imports.length) {
     return '';
   }
@@ -46,15 +55,15 @@ function formatImports(imports: string[]): string {
     }
   }
 
-  const sysStr = joinImports(sysImports, newlines);
-  const usrStr = joinImports(usrImports, newlines);
+  const sysStr = joinImports(sysImports, aliases, newlines);
+  const usrStr = joinImports(usrImports, aliases, newlines);
   // Add an empty line between system imports and user imports
   const hasSep = sysStr && usrStr;
   return `${sysStr}${hasSep ? '\n' : ''}${usrStr}`;
 }
 
-function makeImports(imports: string[]): string {
-  const code = formatImports(imports);
+function makeImports(imports: string[], aliases?: Map<string, string>): string {
+  const code = formatImports(imports, aliases);
   if (!code) {
     return '';
   }
@@ -70,7 +79,7 @@ function handleImportPath(s: string) {
     return 'qing/da';
   }
   if (s.startsWith(cm.sodPathPrefix)) {
-    return `qing/server/sod/${s.substring(cm.sodPathPrefix.length)}`;
+    return `qing/sod/${s.substring(cm.sodPathPrefix.length)}`;
   }
   return s;
 }
@@ -81,6 +90,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
   let baseTypes: cm.ExtendsField[] = [];
   let renameMap: Record<string, string> = {};
   const imports = new Set<string>();
+  const importAliases = new Map<string, string>();
   for (const [typeName, typeDef] of Object.entries(dict)) {
     if (isFirst) {
       isFirst = false;
@@ -113,11 +123,11 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-loop-func
-      (k, v, optional) => {
+      (k, v) => {
         members.push({
-          name: cm.capitalizeFirstLetter(renameMap[k] || k),
+          name: renameMap[k] || cm.capitalizeFirstLetter(k),
           paramName: k,
-          type: optional ? `*${v}` : v,
+          type: v,
           tag: `\`json:"${k},omitempty"\``,
         });
       },
@@ -139,12 +149,16 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
         });
 
         if (t.path) {
-          imports.add(handleImportPath(t.path));
+          const importPath = handleImportPath(t.path);
+          imports.add(importPath);
+          if (t.packageName && np.basename(importPath) !== t.packageName) {
+            importAliases.set(importPath, t.packageName);
+          }
         }
       });
     }
     s += genGoType('struct', typeName, members, genOpt, goGenBaseTypes);
   }
-  const importCode = imports.size ? makeImports([...imports.values()]) : '';
+  const importCode = imports.size ? makeImports([...imports.values()], importAliases) : '';
   return qdu.copyrightString + cm.noticeComment(input) + `package ${pkgName}\n\n` + importCode + s;
 }

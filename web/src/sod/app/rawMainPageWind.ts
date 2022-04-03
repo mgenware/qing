@@ -14,11 +14,11 @@
   ******************************************************************************************/
 
 export interface RawMainPageWind {
-  appUserID: string;
-  appUserName: string;
-  appUserURL: string;
-  appUserIconURL: string;
+  appUserID?: string;
+  appUserName?: string;
+  appUserURL?: string;
+  appUserIconURL?: string;
   appUserAdmin?: boolean;
-  appLang!: string;
-  appWindDataString: string;
+  appLang: string;
+  appWindDataString?: string;
 }

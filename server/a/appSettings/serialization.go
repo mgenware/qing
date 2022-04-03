@@ -11,7 +11,7 @@ import (
 	"qing/a/app"
 	"qing/a/appLog"
 	"qing/lib/iolib"
-	"qing/sod/app/appRawSettings"
+	appSod "qing/sod/app"
 
 	"github.com/mgenware/goutil/iox"
 )
@@ -23,7 +23,7 @@ func NeedRestart() bool {
 
 // Called by `update_settings` API. Calling this func always results in
 // `needRestart` to be set to true.
-func WriteAppSettings(settings *appRawSettings.AppRawSettings) error {
+func WriteAppSettings(settings *appSod.AppRawSettings) error {
 	conf := app.CoreConfig()
 
 	file := conf.AppSettings.File
@@ -34,8 +34,8 @@ func WriteAppSettings(settings *appRawSettings.AppRawSettings) error {
 	return err
 }
 
-func readAppSettingsObj(file string) (*appRawSettings.AppRawSettings, error) {
-	var settings appRawSettings.AppRawSettings
+func readAppSettingsObj(file string) (*appSod.AppRawSettings, error) {
+	var settings appSod.AppRawSettings
 	err := iolib.ReadJSONFile(file, &settings)
 	if err != nil {
 		return nil, err
@@ -43,13 +43,13 @@ func readAppSettingsObj(file string) (*appRawSettings.AppRawSettings, error) {
 	return &settings, nil
 }
 
-func writeAppSettingsObj(settings *appRawSettings.AppRawSettings, path string) error {
+func writeAppSettingsObj(settings *appSod.AppRawSettings, path string) error {
 	appLog.Get().Info("Writing app settings", path)
 	return iolib.WriteJSONFile(path, settings)
 }
 
-func newAppSettingsObj() *appRawSettings.AppRawSettings {
-	st := &appRawSettings.AppRawSettings{}
+func newAppSettingsObj() *appSod.AppRawSettings {
+	st := &appSod.AppRawSettings{}
 	return st
 }
 

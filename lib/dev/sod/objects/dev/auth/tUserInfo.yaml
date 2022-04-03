@@ -2,7 +2,7 @@
 TUserInfo:
   __go_ctor: true
   admin: bool
-  id!: string
-  iconURL!: string
-  url!: string
-  name!: string
+  id: string
+  iconURL: string
+  url: string
+  name: string

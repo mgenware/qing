@@ -7,12 +7,12 @@
 
 package handler
 
-import "qing/sod/app/rawMainPageWind"
+import appSod "qing/sod/app"
 
 // MainPageData holds the data needed in main page template.
 type MainPageData struct {
 	// Inherited properties are shared between server and web via SOD.
-	rawMainPageWind.RawMainPageWind
+	appSod.RawMainPageWind
 
 	Title       string
 	ContentHTML string

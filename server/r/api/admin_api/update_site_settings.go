@@ -17,7 +17,7 @@ import (
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
-	"qing/sod/app/appRawSettings"
+	appSod "qing/sod/app"
 )
 
 func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -42,7 +42,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 		switch k {
 		case appdef.KeyCommunitySettings:
-			var comST appRawSettings.CommunityRawSettings
+			var comST appSod.CommunityRawSettings
 			err := json.Unmarshal([]byte(vString), &comST)
 			app.PanicIfErr(err)
 			diskST.Community = comST

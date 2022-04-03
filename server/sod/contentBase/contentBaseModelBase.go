@@ -14,18 +14,18 @@
 package contentBaseSod
 
 type ContentBaseModelBase struct {
-	Url         string `json:"url,omitempty"`
-	UserUrl     string `json:"userUrl,omitempty"`
-	UserIconUrl string `json:"userIconUrl,omitempty"`
+	URL         string `json:"url,omitempty"`
+	UserURL     string `json:"userURL,omitempty"`
+	UserIconURL string `json:"userIconURL,omitempty"`
 	CreatedAt   string `json:"createdAt,omitempty"`
 	ModifiedAt  string `json:"modifiedAt,omitempty"`
 }
 
-func NewContentBaseModelBase(url string, userUrl string, userIconUrl string, createdAt string, modifiedAt string) ContentBaseModelBase {
+func NewContentBaseModelBase(url string, userURL string, userIconURL string, createdAt string, modifiedAt string) ContentBaseModelBase {
 	return ContentBaseModelBase{
-		Url: url,
-		UserUrl: userUrl,
-		UserIconUrl: userIconUrl,
+		URL: url,
+		UserURL: userURL,
+		UserIconURL: userIconURL,
 		CreatedAt: createdAt,
 		ModifiedAt: modifiedAt,
 	}

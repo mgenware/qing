@@ -3,7 +3,9 @@ ContentBaseModelBase:
   __go_ctor: true
 
   url: string
-  userUrl: string
-  userIconUrl: string
+  userURL: string
+  userIconURL: string
   createdAt: string
   modifiedAt: string
+  __go_rename:
+    url: URL

@@ -18,7 +18,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
-	"qing/sod/cmt/cmt"
+	cmtSod "qing/sod/cmt"
 	"time"
 )
 
@@ -59,7 +59,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()
-		d := &da.CmtData{ID: cmtID}
+		d := &da.CmtResult{ID: cmtID}
 		d.RawCreatedAt = now
 		d.RawModifiedAt = now
 		d.ContentHTML = content
@@ -75,7 +75,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		err := da.Cmt.EditCmt(db, id, uid, content, now, sanitizedToken)
 		app.PanicIfErr(err)
-		cmt := &cmt.Cmt{EID: clib.EncodeID(id)}
+		cmt := &cmtSod.Cmt{EID: clib.EncodeID(id)}
 		cmt.ContentHTML = content
 		cmt.ModifiedAt = clib.TimeString(now)
 

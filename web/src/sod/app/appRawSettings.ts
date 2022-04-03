@@ -18,7 +18,7 @@ export interface AppRawSettings {
 }
 
 export interface CommunityRawSettings {
-  queAndDisEnabled?: boolean;
+  communityEnabled?: boolean;
   forumsEnabled?: boolean;
   forumGroupsEnabled?: boolean;
 }

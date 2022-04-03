@@ -14,9 +14,8 @@ Cmt:
     - name: ContentBaseModelBase
       path: :sod:contentBase
   __go_rename:
-    id: eID
-    userID: userEID
+    id: EID
+    userID: UserEID
 
   id: string
-  userURL: string
   parentID?: string

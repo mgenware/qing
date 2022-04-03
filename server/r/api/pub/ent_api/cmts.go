@@ -12,11 +12,11 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/def/dbdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
-	"qing/sod/cmt/cmt"
 )
 
 var kCmtPageSize int
@@ -56,7 +56,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	var respData GetCmtsRespData
-	var items []da.CmtData
+	var items []da.CmtResult
 	var hasNext bool
 	var err error
 
@@ -65,7 +65,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if uid == 0 {
 			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize)
 		} else {
-			items, hasNext, err = da.Cmt.SelectRepliesWithLike(db, uid, &parentID, page, kCmtPageSize)
+			items, hasNext, err = da.Cmt.SelectRepliesWithLikes(db, uid, &parentID, page, kCmtPageSize)
 		}
 		if err != nil {
 			app.PanicIfErr(err)
@@ -77,7 +77,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
-	cmtRelTable, err := apicom.GetCmtRelationTable(host.Type)
+	cmtRelTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
 	app.PanicIfErr(err)
 
 	if uid == 0 {
