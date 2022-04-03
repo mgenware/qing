@@ -39,6 +39,10 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
   // SQL conditions.
   protected updateConditions: mm.SQL;
 
+  protected get userIDParam() {
+    return 'userID';
+  }
+
   constructor() {
     super();
 
@@ -64,7 +68,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .orderByDesc(t.created_at)
       : mm.emptyAction;
     this.selectItemSrc = mm
-      .selectRow(t.content, ...this.extendedCoreCols())
+      .selectRow(t.content, ...this.extraSelectSrcItemCols())
       .whereSQL(this.updateConditions)
       .resultTypeNameAttr(getEntitySrcType)
       .attr(mm.ActionAttribute.enableTSResultType, true);
@@ -97,7 +101,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
       .setReturnValues(insertedIDVar);
     this.editItem = mm
       .updateOne()
-      .setParams(...this.extendedCoreCols(), t.modified_at)
+      .setParams(t.modified_at, t.content, ...this.extraUpdateItemCols())
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
@@ -114,21 +118,29 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
   }
   protected orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
     const t = this.baseTable();
-    return [t.created_at, t.likes, t.cmt_count];
+    return [t.created_at, t.likes];
   }
   // Returns [] if profile is not supported.
   protected colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
     return [];
   }
 
-  // Extended columns that are used in 'selectItem', 'selectSrc', 'update' and 'insert' actions.
-  protected extendedCoreCols(): mm.Column[] {
+  protected extraSelectItemCols(): mm.Column[] {
+    return [];
+  }
+  protected extraSelectSrcItemCols(): mm.Column[] {
+    return [];
+  }
+  protected extraInsertItemCols(): mm.Column[] {
+    return [];
+  }
+  protected extraUpdateItemCols(): mm.Column[] {
     return [];
   }
 
   protected colsOfInsertItem() {
     const t = this.baseTable();
-    return [...this.extendedCoreCols(), t.user_id, t.content, t.created_at, t.modified_at];
+    return [t.user_id, t.created_at, t.modified_at, t.content, ...this.extraInsertItemCols()];
   }
 
   // Gets a list of update actions of container table to update the counters in response
@@ -137,19 +149,8 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
   // For sub-entities like answers, it returns 2 actions, one for updating `user_answer_count`.
   // the other is for updating `parent_question.reply_count`.
   // NOTE: Comments have their own TA due to recursive structure.
-  protected abstract getContainerUpdateCounterActions(): mm.Action[];
-
-  private callContainerUpdateCounterActions(offset: number) {
-    return this.getContainerUpdateCounterActions().map((a) => a.wrap({ offset }));
-  }
-
-  protected getIncrementContainerCounterActions() {
-    return this.callContainerUpdateCounterActions(1);
-  }
-
-  protected getDecrementContainerCounterActions() {
-    return this.callContainerUpdateCounterActions(-1);
-  }
+  protected abstract getIncrementContainerCounterActions(): mm.Action[];
+  protected abstract getDecrementContainerCounterActions(): mm.Action[];
 
   protected deleteItemOverride(): mm.Action | null {
     return null;
@@ -165,7 +166,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
       t.content,
       t.likes,
       t.cmt_count,
-      ...this.extendedCoreCols(),
+      ...this.extraSelectItemCols(),
     ];
   }
 }

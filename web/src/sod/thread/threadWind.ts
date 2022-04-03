@@ -15,5 +15,5 @@
 
 export interface ThreadWind {
   threadID: string;
-  forumID?: string;
+  forumID: string;
 }

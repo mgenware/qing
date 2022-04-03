@@ -18,4 +18,5 @@ Cmt:
     userID: UserEID
 
   id: string
-  parentID?: string
+  userEID: string
+  parentID: '*string'

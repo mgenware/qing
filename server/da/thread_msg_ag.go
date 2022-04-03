@@ -41,14 +41,22 @@ func (mrTable *TableTypeThreadMsg) deleteItemChild2(mrQueryable mingru.Queryable
 	return UserStats.UpdateThreadMsgCount(mrQueryable, id, -1)
 }
 
-func (mrTable *TableTypeThreadMsg) DeleteItem(db *sql.DB, id uint64, userID uint64) error {
+func (mrTable *TableTypeThreadMsg) deleteItemChild3(mrQueryable mingru.Queryable, threadID uint64) error {
+	return Thread.UpdateMsgCount(mrQueryable, threadID, -1)
+}
+
+func (mrTable *TableTypeThreadMsg) DeleteItem(db *sql.DB, id uint64, userID uint64, threadID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		err = mrTable.deleteItemChild1(tx, id, userID)
 		if err != nil {
 			return err
 		}
-		err = mrTable.deleteItemChild2(tx, id)
+		err = mrTable.deleteItemChild2(tx, userID)
+		if err != nil {
+			return err
+		}
+		err = mrTable.deleteItemChild3(tx, threadID)
 		if err != nil {
 			return err
 		}
@@ -57,13 +65,13 @@ func (mrTable *TableTypeThreadMsg) DeleteItem(db *sql.DB, id uint64, userID uint
 	return txErr
 }
 
-func (mrTable *TableTypeThreadMsg) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, threadID uint64, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `thread_id` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", threadID, rawModifiedAt, id, userID)
+func (mrTable *TableTypeThreadMsg) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, rawModifiedAt time.Time, contentHTML string, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `modified_at` = ?, `content` = ? WHERE (`id` = ? AND `user_id` = ?)", rawModifiedAt, contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeThreadMsg) insertItemChild1(mrQueryable mingru.Queryable, threadID uint64, userID uint64, contentHTML string, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`thread_id`, `user_id`, `content`, `created_at`, `modified_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", threadID, userID, contentHTML, rawCreatedAt, rawModifiedAt)
+func (mrTable *TableTypeThreadMsg) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`user_id`, `created_at`, `modified_at`, `content`, `thread_id`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", userID, rawCreatedAt, rawModifiedAt, contentHTML, threadID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -71,15 +79,23 @@ func (mrTable *TableTypeThreadMsg) insertItemChild2(mrQueryable mingru.Queryable
 	return UserStats.UpdateThreadMsgCount(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypeThreadMsg) InsertItem(db *sql.DB, threadID uint64, userID uint64, contentHTML string, rawCreatedAt time.Time, rawModifiedAt time.Time, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeThreadMsg) insertItemChild3(mrQueryable mingru.Queryable, id uint64) error {
+	return Thread.UpdateMsgCount(mrQueryable, id, 1)
+}
+
+func (mrTable *TableTypeThreadMsg) InsertItem(db *sql.DB, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := mrTable.insertItemChild1(tx, threadID, userID, contentHTML, rawCreatedAt, rawModifiedAt)
+		insertedID, err := mrTable.insertItemChild1(tx, userID, rawCreatedAt, rawModifiedAt, contentHTML, threadID)
 		if err != nil {
 			return err
 		}
-		err = mrTable.insertItemChild2(tx, id)
+		err = mrTable.insertItemChild2(tx, userID)
+		if err != nil {
+			return err
+		}
+		err = mrTable.insertItemChild3(tx, threadID)
 		if err != nil {
 			return err
 		}
@@ -224,7 +240,7 @@ func (mrTable *TableTypeThreadMsg) SelectItemsForUserProfile(mrQueryable mingru.
 
 func (mrTable *TableTypeThreadMsg) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := mrQueryable.QueryRow("SELECT `content`, `thread_id` FROM `thread_msg` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ThreadID)
+	err := mrQueryable.QueryRow("SELECT `content` FROM `thread_msg` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
 		return result, err
 	}

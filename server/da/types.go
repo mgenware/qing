@@ -35,11 +35,8 @@ type CmtResult struct {
 }
 
 type EntityGetSrcResult struct {
-	ContentHTML string  `json:"contentHTML,omitempty"`
-	ForumID     *uint64 `json:"forumID,omitempty"`
-	MsgCount    uint    `json:"msgCount,omitempty"`
-	ThreadID    uint64  `json:"threadID,omitempty"`
-	Title       string  `json:"title,omitempty"`
+	ContentHTML string `json:"contentHTML,omitempty"`
+	Title       string `json:"title,omitempty"`
 }
 
 type FindUserResult struct {

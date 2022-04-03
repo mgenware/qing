@@ -20,8 +20,5 @@ export interface CmtResult {
 
 export interface EntityGetSrcResult {
   contentHTML?: string;
-  forumID?: number;
-  msgCount?: number;
-  threadID?: number;
   title?: string;
 }

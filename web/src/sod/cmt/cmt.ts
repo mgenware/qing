@@ -18,5 +18,6 @@ import { ContentBaseModelBase } from '../contentBase/contentBaseModelBase.js';
 
 export interface Cmt extends CmtResult, ContentBaseModelBase {
   id: string;
-  parentID?: string;
+  userEID: string;
+  parentID: string;
 }

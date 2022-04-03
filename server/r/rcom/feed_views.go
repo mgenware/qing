@@ -58,6 +58,6 @@ func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {
 	return d
 }
 
-func MustRenderThreadFeedView(d *da.ThreadFeedResult) string {
+func MustRenderThreadFeedView(d *ThreadFeedModel) string {
 	return vThreadFeedView.MustExecuteToString(d)
 }

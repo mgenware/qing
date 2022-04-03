@@ -16,6 +16,7 @@ import (
 	"qing/a/appService"
 	"qing/a/appSettings"
 	"qing/a/appURL"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -23,7 +24,6 @@ import (
 )
 
 func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
-	conf := app.CoreConfig()
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -31,11 +31,11 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := clib.GetIDFromDict(params, "id")
 	hasID := id != 0
-	entityType := clib.MustGetIntFromDict(params, "entityType")
+	entityType := appdef.ContentBaseType(clib.MustGetIntFromDict(params, "entityType"))
 
 	contentDict := clib.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType != appdef.EntityDiscussionMsg && entityType != appdef.EntityAnswer {
+	if entityType == appdef.ContentBaseTypePost && entityType == appdef.ContentBaseTypeThread {
 		title = clib.MustGetStringFromDict(contentDict, "title", appdef.MaxTitleLen)
 	}
 
@@ -47,55 +47,38 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Add a new entry.
 		captResult := 0
 		var forumID *uint64
-		if appSettings.Get().Forums() && entityType != appdef.EntityPost {
+		if appSettings.Get().Forums() && entityType != appdef.ContentBaseTypePost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}
 
 		now := time.Now()
 		switch entityType {
-		case appdef.EntityPost:
+		case appdef.ContentBaseTypePost:
 			{
-				insertedID, err := da.Post.InsertItem(db, title, contentHTML, uid, now, now, sanitizedToken, captResult)
+				insertedID, err := da.Post.InsertItem(db, uid, now, now, contentHTML, title, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Post(insertedID)
 				break
 			}
 
-		case appdef.EntityDiscussion:
+		case appdef.ContentBaseTypeThread:
 			{
-				insertedID, err := da.Discussion.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
+				insertedID, err := da.Thread.InsertItem(db, uid, now, now, contentHTML, title, forumID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
-				result = appURL.Get().Discussion(insertedID)
+				result = appURL.Get().Thread(insertedID)
 				break
 			}
 
-		case appdef.EntityDiscussionMsg:
+		case appdef.ContentBaseTypeThreadMsg:
 			{
-				discussionID := clib.GetIDFromDict(params, "discussionID")
-				_, err := da.DiscussionMsg.InsertItem(db, contentHTML, uid, now, now, discussionID, sanitizedToken, captResult)
-				app.PanicIfErr(err)
-				break
-			}
-
-		case appdef.EntityQuestion:
-			{
-				insertedID, err := da.Question.InsertItem(db, forumID, title, contentHTML, uid, now, now, sanitizedToken, captResult)
+				threadID := clib.GetIDFromDict(params, "threadID")
+				insertedID, err := da.ThreadMsg.InsertItem(db, uid, now, now, contentHTML, threadID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
-				result = appURL.Get().Question(insertedID)
-				break
-			}
-
-		case appdef.EntityAnswer:
-			{
-				questionID := clib.GetIDFromDict(params, "questionID")
-				insertedID, err := da.Answer.InsertItem(db, contentHTML, uid, now, now, questionID, sanitizedToken, captResult)
-				app.PanicIfErr(err)
-
-				result = appURL.Get().Question(insertedID)
+				result = appURL.Get().ThreadMsg(threadID, insertedID)
 				break
 			}
 
@@ -106,27 +89,21 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Edit an existing entry.
 		now := time.Now()
 		switch entityType {
-		case appdef.EntityPost:
+		case appdef.ContentBaseTypePost:
 			{
-				err = da.Post.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
+				err = da.Post.EditItem(db, id, uid, now, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case appdef.EntityDiscussion:
+		case appdef.ContentBaseTypeThread:
 			{
-				err = da.Discussion.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
+				err = da.Thread.EditItem(db, id, uid, now, title, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
-		case appdef.EntityDiscussionMsg:
+		case appdef.ContentBaseTypeThreadMsg:
 			{
-				err = da.DiscussionMsg.EditItem(db, id, uid, contentHTML, now, sanitizedToken)
-				app.PanicIfErr(err)
-				break
-			}
-		case appdef.EntityQuestion:
-			{
-				err = da.Question.EditItem(db, id, uid, title, contentHTML, now, sanitizedToken)
+				err = da.ThreadMsg.EditItem(db, id, uid, now, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}

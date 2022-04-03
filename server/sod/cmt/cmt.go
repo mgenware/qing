@@ -22,15 +22,17 @@ type Cmt struct {
 	da.CmtResult
 	contentBaseSod.ContentBaseModelBase
 
-	EID      string `json:"id,omitempty"`
-	ParentID string `json:"parentID,omitempty"`
+	EID      string  `json:"id,omitempty"`
+	UserEID  string  `json:"userEID,omitempty"`
+	ParentID *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtResult *da.CmtResult, contentBaseModelBase *contentBaseSod.ContentBaseModelBase, id string, parentID string) Cmt {
+func NewCmt(cmtResult *da.CmtResult, contentBaseModelBase *contentBaseSod.ContentBaseModelBase, id string, userEID string, parentID *string) Cmt {
 	return Cmt{
 		CmtResult: *cmtResult,
 		ContentBaseModelBase: *contentBaseModelBase,
 		EID: id,
+		UserEID: userEID,
 		ParentID: parentID,
 	}
 }

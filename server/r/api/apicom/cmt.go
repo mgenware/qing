@@ -11,19 +11,19 @@ import (
 	"qing/a/appURL"
 	"qing/da"
 	"qing/lib/clib"
-	"qing/r/rcom"
 	cmtSod "qing/sod/cmt"
+	contentBaseSod "qing/sod/contentBase"
 )
 
 func NewCmt(d *da.CmtResult) cmtSod.Cmt {
 	eid := clib.EncodeID(d.ID)
 	userEID := clib.EncodeID(d.UserID)
 
-	ep := rcom.ContentBaseExtraProps{}
+	ep := contentBaseSod.ContentBaseModelBase{}
 	ep.UserURL = appURL.Get().UserProfile(d.UserID)
 	ep.UserIconURL = appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
 	ep.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	ep.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 
-	return cmtSod.NewCmt(d, eid, userEID, nil)
+	return cmtSod.NewCmt(d, &ep, eid, userEID, nil)
 }

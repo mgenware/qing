@@ -16,16 +16,16 @@ type AppSettings struct {
 	raw *appSod.AppRawSettings
 }
 
-func (st *AppSettings) QueAndDis() bool {
-	return st.raw.Community.QueAndDisEnabled
+func (st *AppSettings) CommunityEnabled() bool {
+	return st.raw.Community.CommunityEnabled
 }
 
 func (st *AppSettings) Forums() bool {
-	return st.QueAndDis() && st.raw.Community.ForumsEnabled
+	return st.CommunityEnabled() && st.raw.Community.ForumsEnabled
 }
 
 func (st *AppSettings) ForumGroups() bool {
-	return st.QueAndDis() && st.raw.Community.ForumGroupsEnabled
+	return st.CommunityEnabled() && st.raw.Community.ForumGroupsEnabled
 }
 
 func NewAppSettings(obj *appSod.AppRawSettings) *AppSettings {

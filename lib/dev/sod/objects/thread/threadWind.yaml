@@ -2,4 +2,4 @@
 ThreadWind:
   __go_ctor: true
   threadID: string
-  forumID?: string
+  forumID: '*string'

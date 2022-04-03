@@ -22,5 +22,5 @@ func NewHomePageURLFormatter(tab string) HomePageURLFormatter {
 
 // GetURL returns the URL result.
 func (formatter HomePageURLFormatter) GetURL(page int) string {
-	return appURL.Get().HomeAdv(formatter.Tab, page)
+	return appURL.Get().HomeAdv(page)
 }

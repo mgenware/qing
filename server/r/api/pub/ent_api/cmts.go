@@ -17,6 +17,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
+	cmtSod "qing/sod/cmt"
 )
 
 var kCmtPageSize int
@@ -31,12 +32,12 @@ func init() {
 }
 
 type GetCmtsRespData struct {
-	Items   []cmt.Cmt `json:"items"`
-	HasNext bool      `json:"hasNext"`
+	Items   []cmtSod.Cmt `json:"items"`
+	HasNext bool         `json:"hasNext"`
 }
 
-func newGetCmtsRespData(cmts []da.CmtData, hasNext bool) GetCmtsRespData {
-	cmtsConverted := make([]cmt.Cmt, len(cmts))
+func newGetCmtsRespData(cmts []da.CmtResult, hasNext bool) GetCmtsRespData {
+	cmtsConverted := make([]cmtSod.Cmt, len(cmts))
 	for i := 0; i < len(cmts); i++ {
 		cmtsConverted[i] = apicom.NewCmt(&cmts[i])
 	}

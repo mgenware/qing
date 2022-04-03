@@ -12,9 +12,11 @@ import threadMsgCmt from '../../models/thread/threadMsgCmt.js';
 import { threadMsgLike } from '../../models/like/likeableTables.js';
 import ContentBaseAG from '../com/contentBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
+import threadAG from './threadAG.js';
 import { getLikedColFromEntityID } from '../com/likeUtil.js';
 
 const threadMsgResultType = 'ThreadMsgResult';
+const threadIDParam = 'threadID';
 
 export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
   selectMsgsByThread: mm.Action;
@@ -48,10 +50,6 @@ export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
     return threadMsgCmt;
   }
 
-  override extendedCoreCols(): mm.Column[] {
-    return [...super.extendedCoreCols(), t.thread_id];
-  }
-
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
     return [...super.colsOfSelectItemsForPostCenter(), t.thread_id];
   }
@@ -60,8 +58,37 @@ export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
     return [...super.colsOfSelectItemsForUserProfile(), t.thread_id];
   }
 
-  override getContainerUpdateCounterActions(): mm.Action[] {
-    return [userStatsAG.updateThreadMsgCount];
+  protected override getIncrementContainerCounterActions(): mm.Action[] {
+    return this.getUpdateStatAction(1);
+  }
+
+  protected override getDecrementContainerCounterActions(): mm.Action[] {
+    return this.getUpdateStatAction(-1);
+  }
+
+  private getUpdateStatAction(offset: number) {
+    return [
+      userStatsAG.updateThreadMsgCount.wrap({ offset, id: mm.captureVar(this.userIDParam) }),
+      threadAG.updateMsgCount.wrap({
+        offset,
+        // When inserting an item, reuse the `threadID` param from containing function.
+        // When deleting an item, no `threadID` in containing function, we declare it here.
+        id: offset < 0 ? mm.renameArg(threadIDParam) : mm.captureVar(threadIDParam),
+      }),
+    ];
+  }
+
+  override orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+    return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
+  }
+
+  protected override extraSelectItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraSelectItemCols(), t.thread_id];
+  }
+  protected override extraInsertItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraInsertItemCols(), t.thread_id];
   }
 }
 

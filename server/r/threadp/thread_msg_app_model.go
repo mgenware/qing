@@ -14,13 +14,14 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
+	contentBaseSod "qing/sod/contentBase"
 )
 
 var vThreadMsgApp = appHandler.MainPage().MustParseView("/thread/threadMsgApp.html")
 
 type ThreadMsgAppModel struct {
 	da.ThreadMsgResult
-	rcom.ContentBaseExtraProps
+	contentBaseSod.ContentBaseModelBase
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
 	EID      string

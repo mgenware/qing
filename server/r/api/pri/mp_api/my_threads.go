@@ -13,23 +13,24 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
 )
 
-var myQuestionsColumnNameToEnumMap map[string]int
+var myThreadsColumnNameToEnumMap map[string]int
 
 func init() {
-	myQuestionsColumnNameToEnumMap = map[string]int{
-		appdef.ColumnMessages: da.QuestionTableSelectItemsForPostCenterOrderBy1ReplyCount,
-		appdef.ColumnCreated:  da.QuestionTableSelectItemsForPostCenterOrderBy1CreatedAt,
+	myThreadsColumnNameToEnumMap = map[string]int{
+		appdef.ColumnMessages: da.ThreadTableSelectItemsForPostCenterOrderBy1MsgCount,
+		appdef.ColumnCreated:  da.ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt,
 	}
 }
 
-type pcQuestion struct {
-	da.QuestionTableSelectItemsForPostCenterResult
+type pcThread struct {
+	da.ThreadTableSelectItemsForPostCenterResult
 
 	EID        string `json:"id"`
 	URL        string `json:"url"`
@@ -37,16 +38,16 @@ type pcQuestion struct {
 	ModifiedAt string `json:"modifiedAt"`
 }
 
-func newPCQuestion(p *da.QuestionTableSelectItemsForPostCenterResult, uid uint64) pcQuestion {
-	d := pcQuestion{QuestionTableSelectItemsForPostCenterResult: *p}
-	d.URL = appURL.Get().Question(p.ID)
+func newPCThread(p *da.ThreadTableSelectItemsForPostCenterResult, uid uint64) pcThread {
+	d := pcThread{ThreadTableSelectItemsForPostCenterResult: *p}
+	d.URL = appURL.Get().Thread(p.ID)
 	d.EID = clib.EncodeID(uid)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	return d
 }
 
-func myQuestions(w http.ResponseWriter, r *http.Request) handler.JSON {
+func myThreads(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -56,16 +57,16 @@ func myQuestions(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.MaxGenericStringLen)
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
-	rawQuestions, hasNext, err := da.Question.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myQuestionsColumnNameToEnumMap[sortBy], desc)
+	rawThreads, hasNext, err := da.Thread.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myThreadsColumnNameToEnumMap[sortBy], desc)
 	app.PanicIfErr(err)
 
 	stats, err := da.UserStats.SelectStats(appDB.DB(), uid)
 	app.PanicIfErr(err)
 
-	questions := make([]pcQuestion, len(rawQuestions))
-	for i, p := range rawQuestions {
-		questions[i] = newPCQuestion(&p, uid)
+	threads := make([]pcThread, len(rawThreads))
+	for i, p := range rawThreads {
+		threads[i] = newPCThread(&p, uid)
 	}
-	respData := apicom.NewPaginatedList(questions, hasNext, stats.PostCount)
+	respData := apicom.NewPaginatedList(threads, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)
 }

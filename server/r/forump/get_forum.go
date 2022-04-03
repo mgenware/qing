@@ -49,8 +49,8 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range items {
-			itemModel := rcom.NewThreadFeedModel(item)
-			feedListHTMLBuilder.WriteString(rcom.MustRenderThreadFeedView(itemModel))
+			itemModel := rcom.NewThreadFeedModel(&item)
+			feedListHTMLBuilder.WriteString(rcom.MustRenderThreadFeedView(&itemModel))
 		}
 	}
 

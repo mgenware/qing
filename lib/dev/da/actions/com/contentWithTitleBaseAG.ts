@@ -22,8 +22,20 @@ export default abstract class ContentWithTitleBaseAG<
     return [...super.colsOfSelectItemsForUserProfile(), t.title];
   }
 
-  override extendedCoreCols(): mm.Column[] {
+  protected override extraSelectItemCols(): mm.Column[] {
     const t = this.baseTable();
-    return [t.title];
+    return [...super.extraSelectItemCols(), t.title];
+  }
+  protected override extraSelectSrcItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraSelectSrcItemCols(), t.title];
+  }
+  protected override extraInsertItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraInsertItemCols(), t.title];
+  }
+  protected override extraUpdateItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraUpdateItemCols(), t.title];
   }
 }

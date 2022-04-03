@@ -39,21 +39,15 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			result = appURL.Get().UserProfile(uid)
 			break
 		}
-	case appdef.ContentBaseTypeDis:
+	case appdef.ContentBaseTypeThread:
 		{
-			err = da.Discussion.DeleteItem(db, id, uid)
+			err = da.Thread.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)
 			break
 		}
-	case appdef.ContentBaseTypeQue:
+	case appdef.ContentBaseTypeThreadMsg:
 		{
-			err = da.Question.DeleteItem(db, id, uid)
-			app.PanicIfErr(err)
-			break
-		}
-	case appdef.ContentBaseTypeAns:
-		{
-			err = da.Answer.DeleteItem(db, id, uid)
+			err = da.ThreadMsg.DeleteItem(db, id, uid)
 			app.PanicIfErr(err)
 			break
 		}

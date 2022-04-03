@@ -21,8 +21,16 @@ export class PostAG extends ContentWithTitleBaseAG<Post> {
     return postCmt;
   }
 
-  override getContainerUpdateCounterActions(): mm.Action[] {
-    return [userStatsAG.updatePostCount];
+  protected override getIncrementContainerCounterActions(): mm.Action[] {
+    return [this.getUpdateUserStatAction(1)];
+  }
+
+  protected override getDecrementContainerCounterActions(): mm.Action[] {
+    return [this.getUpdateUserStatAction(-1)];
+  }
+
+  private getUpdateUserStatAction(offset: number) {
+    return userStatsAG.updatePostCount.wrap({ offset, id: mm.captureVar(this.userIDParam) });
   }
 
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
@@ -31,6 +39,10 @@ export class PostAG extends ContentWithTitleBaseAG<Post> {
 
   override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
     return [...super.colsOfSelectItemsForUserProfile(), t.cmt_count];
+  }
+
+  override orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+    return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
   }
 }
 

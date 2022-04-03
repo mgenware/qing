@@ -48,7 +48,7 @@ func (mrTable *TableTypeThread) DeleteItem(db *sql.DB, id uint64, userID uint64)
 		if err != nil {
 			return err
 		}
-		err = mrTable.deleteItemChild2(tx, id)
+		err = mrTable.deleteItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -57,13 +57,13 @@ func (mrTable *TableTypeThread) DeleteItem(db *sql.DB, id uint64, userID uint64)
 	return txErr
 }
 
-func (mrTable *TableTypeThread) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, title string, msgCount uint, forumID *uint64, rawModifiedAt time.Time, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `thread` SET `title` = ?, `msg_count` = ?, `forum_id` = ?, `modified_at` = ? WHERE (`id` = ? AND `user_id` = ?)", title, msgCount, forumID, rawModifiedAt, id, userID)
+func (mrTable *TableTypeThread) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, rawModifiedAt time.Time, contentHTML string, title string, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `thread` SET `modified_at` = ?, `content` = ?, `title` = ? WHERE (`id` = ? AND `user_id` = ?)", rawModifiedAt, contentHTML, title, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeThread) insertItemChild1(mrQueryable mingru.Queryable, title string, msgCount uint, forumID *uint64, userID uint64, contentHTML string, rawCreatedAt time.Time, rawModifiedAt time.Time) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `thread` (`title`, `msg_count`, `forum_id`, `user_id`, `content`, `created_at`, `modified_at`, `cmt_count`, `likes`, `last_replied_at`) VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, NULL)", title, msgCount, forumID, userID, contentHTML, rawCreatedAt, rawModifiedAt)
+func (mrTable *TableTypeThread) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, title string, forumID *uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `thread` (`user_id`, `created_at`, `modified_at`, `content`, `title`, `forum_id`, `cmt_count`, `likes`, `msg_count`, `last_replied_at`) VALUES (?, ?, ?, ?, ?, ?, 0, 0, 0, NULL)", userID, rawCreatedAt, rawModifiedAt, contentHTML, title, forumID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -71,15 +71,15 @@ func (mrTable *TableTypeThread) insertItemChild2(mrQueryable mingru.Queryable, i
 	return UserStats.UpdateThreadCount(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypeThread) InsertItem(db *sql.DB, title string, msgCount uint, forumID *uint64, userID uint64, contentHTML string, rawCreatedAt time.Time, rawModifiedAt time.Time, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *TableTypeThread) InsertItem(db *sql.DB, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, title string, forumID *uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := mrTable.insertItemChild1(tx, title, msgCount, forumID, userID, contentHTML, rawCreatedAt, rawModifiedAt)
+		insertedID, err := mrTable.insertItemChild1(tx, userID, rawCreatedAt, rawModifiedAt, contentHTML, title, forumID)
 		if err != nil {
 			return err
 		}
-		err = mrTable.insertItemChild2(tx, id)
+		err = mrTable.insertItemChild2(tx, userID)
 		if err != nil {
 			return err
 		}
@@ -116,7 +116,7 @@ func (mrTable *TableTypeThread) SelectItemByID(mrQueryable mingru.Queryable, id 
 const (
 	ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
 	ThreadTableSelectItemsForPostCenterOrderBy1Likes
-	ThreadTableSelectItemsForPostCenterOrderBy1CmtCount
+	ThreadTableSelectItemsForPostCenterOrderBy1MsgCount
 )
 
 type ThreadTableSelectItemsForPostCenterResult struct {
@@ -135,8 +135,8 @@ func (mrTable *TableTypeThread) SelectItemsForPostCenter(mrQueryable mingru.Quer
 		orderBy1SQL = "`created_at`"
 	case ThreadTableSelectItemsForPostCenterOrderBy1Likes:
 		orderBy1SQL = "`likes`"
-	case ThreadTableSelectItemsForPostCenterOrderBy1CmtCount:
-		orderBy1SQL = "`cmt_count`"
+	case ThreadTableSelectItemsForPostCenterOrderBy1MsgCount:
+		orderBy1SQL = "`msg_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
@@ -228,7 +228,7 @@ func (mrTable *TableTypeThread) SelectItemsForUserProfile(mrQueryable mingru.Que
 
 func (mrTable *TableTypeThread) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := mrQueryable.QueryRow("SELECT `content`, `title`, `msg_count`, `forum_id` FROM `thread` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.Title, &result.MsgCount, &result.ForumID)
+	err := mrQueryable.QueryRow("SELECT `content`, `title` FROM `thread` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.Title)
 	if err != nil {
 		return result, err
 	}
@@ -237,5 +237,10 @@ func (mrTable *TableTypeThread) SelectItemSrc(mrQueryable mingru.Queryable, id u
 
 func (mrTable *TableTypeThread) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `thread` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *TableTypeThread) UpdateMsgCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `thread` SET `msg_count` = `msg_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
