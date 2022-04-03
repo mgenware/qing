@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/app/appRawSettings.yaml` for details.
   ******************************************************************************************/
 
-package app
+package appSod
 
 type AppRawSettings struct {
 

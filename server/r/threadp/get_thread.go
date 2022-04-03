@@ -17,7 +17,7 @@ import (
 	"qing/lib/clib"
 	"qing/r/rcom"
 	"qing/r/sys"
-	"qing/sod/qna/qnaWind"
+	threadSod "qing/sod/thread"
 	"strings"
 
 	"github.com/go-chi/chi/v5"
@@ -77,10 +77,11 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d := appHandler.MainPageData(title, vThreadPage.MustExecuteToString(threadPageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(threadEntryScriptName)
 
-	forumID := ""
+	var forumID *string
 	if thread.ForumID != nil {
-		forumID = clib.EncodeID(*thread.ForumID)
+		fid := clib.EncodeID(*thread.ForumID)
+		forumID = &fid
 	}
-	d.WindData = qnaWind.NewQnaWind(clib.EncodeID(tid), forumID)
+	d.WindData = threadSod.NewThreadWind(clib.EncodeID(tid), forumID)
 	return resp.MustComplete(d)
 }

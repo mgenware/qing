@@ -12,10 +12,10 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
-	"qing/sod/cmt/cmt"
+	cmtSod "qing/sod/cmt"
 )
 
-func NewCmt(d *da.CmtResult) cmt.Cmt {
+func NewCmt(d *da.CmtResult) cmtSod.Cmt {
 	eid := clib.EncodeID(d.ID)
 	userEID := clib.EncodeID(d.UserID)
 
@@ -25,5 +25,5 @@ func NewCmt(d *da.CmtResult) cmt.Cmt {
 	ep.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	ep.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 
-	return cmt.NewCmt(d, eid, userEID, nil)
+	return cmtSod.NewCmt(d, eid, userEID, nil)
 }

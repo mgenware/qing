@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/cmt/cmt.yaml` for details.
   ******************************************************************************************/
 
-package cmt
+package cmtSod
 
 import (
   	"qing/da"
@@ -19,18 +19,18 @@ import (
 )
 
 type Cmt struct {
-	da.CmtData
-	contentBase.ContentBaseExtraProps
+	da.CmtResult
+	contentBaseSod.ContentBaseModelBase
 
 	EID      string  `json:"id"`
 	UserURL  string  `json:"userURL"`
 	ParentID *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtData *da.CmtData, contentBaseExtraProps *contentBase.ContentBaseExtraProps, id string, userURL string, parentID *string) Cmt {
+func NewCmt(cmtResult *da.CmtResult, contentBaseModelBase *contentBaseSod.ContentBaseModelBase, id string, userURL string, parentID *string) Cmt {
 	return Cmt{
-		CmtData: *cmtData,
-		ContentBaseExtraProps: *contentBaseExtraProps,
+		CmtResult: *cmtResult,
+		ContentBaseModelBase: *contentBaseModelBase,
 		EID: id,
 		UserURL: userURL,
 		ParentID: parentID,

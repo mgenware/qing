@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/post/postWind.yaml` for details.
   ******************************************************************************************/
 
-package post
+package postSod
 
 type PostWind struct {
 

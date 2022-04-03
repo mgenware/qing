@@ -2,11 +2,11 @@
 Cmt:
   __go_ctor: true
   __go_extends:
-    - name: CmtData
+    - name: CmtResult
       packageName: da
       path: :da
-    - name: ContentBaseExtraProps
-      packageName: contentBase
+    - name: ContentBaseModelBase
+      packageName: contentBaseSod
       path: qing/r/rcom
   __ts_extends:
     - name: CmtResult

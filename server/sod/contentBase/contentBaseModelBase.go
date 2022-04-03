@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/contentBase/contentBaseModelBase.yaml` for details.
   ******************************************************************************************/
 
-package contentBase
+package contentBaseSod
 
 type ContentBaseModelBase struct {
 

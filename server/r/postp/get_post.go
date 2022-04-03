@@ -16,7 +16,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/sys"
-	"qing/sod/post/postWind"
+	postSod "qing/sod/post"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -47,6 +47,6 @@ func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	title := post.Title
 	d := appHandler.MainPageData(title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().ScriptString(postScript)
-	d.WindData = postWind.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked)
+	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked)
 	return resp.MustComplete(d)
 }

@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/dev/auth/tUserInfo.yaml` for details.
   ******************************************************************************************/
 
-package auth
+package authSod
 
 type TUserInfo struct {
 

@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/thread/threadWind.yaml` for details.
   ******************************************************************************************/
 
-package thread
+package threadSod
 
 type ThreadWind struct {
 

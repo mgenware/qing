@@ -11,7 +11,7 @@
   * See `lib/dev/sod/objects/app/rawMainPageWind.yaml` for details.
   ******************************************************************************************/
 
-package app
+package appSod
 
 type RawMainPageWind struct {
 

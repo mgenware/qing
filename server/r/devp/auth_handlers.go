@@ -19,7 +19,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/lib/randlib"
-	"qing/sod/dev/auth/tUserInfo"
+	authSod "qing/sod/dev/auth"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/jsonx"
@@ -32,8 +32,8 @@ type UserInfo struct {
 	Name     string `json:"name,omitempty"`
 }
 
-func newUserInfoResult(d *da.UserTableSelectSessionDataResult) tUserInfo.TUserInfo {
-	return tUserInfo.NewTUserInfo(
+func newUserInfoResult(d *da.UserTableSelectSessionDataResult) authSod.TUserInfo {
+	return authSod.NewTUserInfo(
 		d.Admin, clib.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
 	)
 }
@@ -106,7 +106,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func getDBUserInfo(uid uint64) tUserInfo.TUserInfo {
+func getDBUserInfo(uid uint64) authSod.TUserInfo {
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	app.PanicIfErr(err)
 	return newUserInfoResult(&us)
