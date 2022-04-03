@@ -44,7 +44,7 @@ func NewThreadAppModel(p *da.ThreadTableSelectItemByIDResult, hasLiked bool) Thr
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	d.UserEID = clib.EncodeID(d.UserID)
-	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypeQue, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypeThread, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	if hasLiked {
 		d.HasLikedNum = 1

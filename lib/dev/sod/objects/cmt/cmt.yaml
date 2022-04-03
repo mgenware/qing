@@ -9,7 +9,7 @@ Cmt:
       packageName: rcom
       path: qing/r/rcom
   __ts_extends:
-    - name: CmtData
+    - name: CmtResult
       path: '_da'
   __go_rename:
     id: eID

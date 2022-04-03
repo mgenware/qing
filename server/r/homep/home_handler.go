@@ -31,7 +31,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if !appSettings.Get().Forums() {
 		return renderStdPage(w, r)
 	}
-	return renderFrmPage(w, r)
+	return renderForumPage(w, r)
 }
 
 func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {

@@ -13,9 +13,9 @@
   * See `lib/dev/sod/objects/cmt/cmt.yaml` for details.
   ******************************************************************************************/
 
-import { CmtData } from '../da/types.js';
+import { CmtResult } from '../da/types.js';
 
-export interface Cmt extends CmtData {
+export interface Cmt extends CmtResult {
   id: string;
   userURL: string;
   parentID?: string;

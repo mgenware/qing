@@ -44,7 +44,7 @@ type ForumModel struct {
 
 func NewForumModel(d *da.ForumHomeTableSelectForumsResult) *ForumModel {
 	r := &ForumModel{ForumHomeTableSelectForumsResult: *d}
-	r.URL = appURL.Get().ForumAdv(d.ID, "", 1)
+	r.URL = appURL.Get().ForumAdv(d.ID, 1)
 	return r
 }
 
