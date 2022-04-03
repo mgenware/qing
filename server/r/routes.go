@@ -13,6 +13,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appUserManager"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/iolib"
 	"strconv"
@@ -73,13 +74,13 @@ func Start() {
 	// M (Management) router.
 	langRouter().Mount("/"+appdef.RouteM, mp.Router)
 	// MX (Admin management) router.
-	langRouter().Mount("/"+appdef.RouteMx, mxp.Router)
+	langRouter().Mount("/"+appdef.RouteMX, mxp.Router)
 	// Forum router.
 	langRouter().Mount("/"+appdef.RouteForum, forump.Router)
 	// Auth router.
 	langRouter().Mount("/"+appdef.RouteAuth, authp.Router)
 	// API router.
-	r.Mount("/"+appdef.RouteApi, api.Router)
+	r.Mount("/"+appdef.RouteAPI, api.Router)
 	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 	// Language settings router.
