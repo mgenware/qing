@@ -33,40 +33,43 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	db := appDB.DB()
-	que, err := da.Thread.SelectItemByID(db, qid)
+	thread, err := da.Thread.SelectItemByID(db, tid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)
 	uid := resp.UserID()
 	title := thread.Title
 
-	hasLiked := false
+	isThreadLiked := false
 	if uid != 0 {
-		liked, err := da.ThreadLike.HasLiked(db, qid, uid)
+		isThreadLiked, err = da.ThreadLike.HasLiked(db, tid, uid)
 		app.PanicIfErr(err)
-		hasLiked = liked
 	}
-
-	threadAppModel := NewThreadAppModel(&thread, hasLiked)
+	threadAppModel := NewThreadAppModel(&thread, isThreadLiked)
 
 	// Fetch thread messages.
-	threadMsgList, hasNext, err := da.ThreadMsg.SelectItemsByThread(db, qid, page, defaultPageSize)
-	app.PanicIfErr(err)
+	var threadMsgList []da.ThreadMsgResult
+	var hasNext bool
+	if uid != 0 {
+		threadMsgList, hasNext, err = da.ThreadMsg.SelectMsgsByThreadWithLikes(db, uid, tid, page, defaultPageSize)
+		app.PanicIfErr(err)
+	} else {
+		threadMsgList, hasNext, err = da.ThreadMsg.SelectMsgsByThread(db, tid, page, defaultPageSize)
+		app.PanicIfErr(err)
+	}
 
 	var ansListHTMLBuilder strings.Builder
 	if len(threadMsgList) == 0 {
 		ansListHTMLBuilder.WriteString("<p class=\"__qing_ls__\">noReplies</p>")
 	} else {
 		for _, item := range threadMsgList {
-			myVote, err := voteapi.FetchMyVote(item.ID, uid)
+			itemModel := NewThreadMsgAppModel(&item)
 			app.PanicIfErr(err)
-			itemModel := NewThreadMsgAppModel(&item, myVote)
-			app.PanicIfErr(err)
-			ansListHTMLBuilder.WriteString(vAnswerApp.MustExecuteToString(itemModel))
+			ansListHTMLBuilder.WriteString(vThreadMsgApp.MustExecuteToString(itemModel))
 		}
 	}
 
-	threadURLFormatter := NewThreadURLFormatter(qid)
+	threadURLFormatter := NewThreadURLFormatter(tid)
 	pageData := rcom.NewPageData(page, hasNext, threadURLFormatter, 0)
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
@@ -75,9 +78,9 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d.Scripts = appHandler.MainPage().ScriptString(threadEntryScriptName)
 
 	forumID := ""
-	if que.ForumID != nil {
-		forumID = clib.EncodeID(*que.ForumID)
+	if thread.ForumID != nil {
+		forumID = clib.EncodeID(*thread.ForumID)
 	}
-	d.WindData = qnaWind.NewQnaWind(clib.EncodeID(qid), forumID)
+	d.WindData = qnaWind.NewQnaWind(clib.EncodeID(tid), forumID)
 	return resp.MustComplete(d)
 }

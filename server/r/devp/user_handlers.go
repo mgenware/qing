@@ -33,10 +33,10 @@ func userThreadCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(c)
 }
 
-func userAnswerCount(w http.ResponseWriter, r *http.Request) handler.JSON {
+func userThreadMsgCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
-	c, err := da.UserStats.TestSelectAnswerCount(appDB.DB(), uid)
+	c, err := da.UserStats.TestSelectThreadMsgCount(appDB.DB(), uid)
 	app.PanicIfErr(err)
 	return resp.MustComplete(c)
 }

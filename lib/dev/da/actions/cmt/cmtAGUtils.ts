@@ -10,6 +10,7 @@ import { TableWithIDAndUserID } from '../../models/common.js';
 import user from '../../models/user/user.js';
 import cmt from '../../models/cmt/cmt.js';
 import { cmtLike } from '../../models/like/likeableTables.js';
+import { getLikedColFromEntityID } from '../com/likeUtil.js';
 
 export interface CmtHostTable extends TableWithIDAndUserID {
   cmt_count: mm.Column;
@@ -17,8 +18,6 @@ export interface CmtHostTable extends TableWithIDAndUserID {
 
 export const cmtHostTableInterface = 'CmtHostTableInterface';
 export const cmtResultType = 'CmtResult';
-export const hasLikedProp = 'hasLiked';
-export const viewerUserIDInput = 'viewerUserID';
 
 export interface CmtRelationTable extends mm.Table {
   cmt_id: mm.Column;
@@ -44,13 +43,7 @@ export function getSelectCmtsAction(opt: {
     jCmt.user_id.join(user).icon_name.privateAttr(),
   ];
   if (opt.fetchLikes) {
-    const likeUserID = (opt.rt ? opt.rt.cmt_id : cmt.id).leftJoin(
-      cmtLike,
-      cmtLike.host_id,
-      undefined,
-      (jt) => mm.sql`AND ${jt.user_id.isEqualToParam(viewerUserIDInput)}`,
-    ).user_id;
-    cols.push(likeUserID.as(hasLikedProp));
+    cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : cmt.id, cmtLike));
   }
   return mm
     .selectRows(...cols)

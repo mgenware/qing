@@ -121,7 +121,7 @@ func (mrTable *TableTypeCmt) SelectReplies(mrQueryable mingru.Queryable, parentI
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+func (mrTable *TableTypeCmt) SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -133,7 +133,7 @@ func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `has_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`likes` DESC, `cmt`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`likes` DESC, `cmt`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -144,7 +144,7 @@ func (mrTable *TableTypeCmt) SelectRepliesWithLike(mrQueryable mingru.Queryable,
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtResult
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.HasLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err
 			}

@@ -19,7 +19,7 @@ import (
 var vThreadMsgApp = appHandler.MainPage().MustParseView("/thread/threadMsgApp.html")
 
 type ThreadMsgAppModel struct {
-	da.ThreadMsgTableSelectItemsByThreadResult
+	da.ThreadMsgResult
 	rcom.ContentBaseExtraProps
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
@@ -28,12 +28,11 @@ type ThreadMsgAppModel struct {
 	UserHTML string
 }
 
-func NewThreadMsgAppModel(p *da.ThreadMsgTableSelectItemsByThreadResult, liked bool) ThreadMsgAppModel {
-	d := ThreadMsgAppModel{ThreadMsgTableSelectItemsByThreadResult: *p}
+func NewThreadMsgAppModel(p *da.ThreadMsgResult) ThreadMsgAppModel {
+	d := ThreadMsgAppModel{ThreadMsgResult: *p}
 	eid := clib.EncodeID(p.ID)
 	d.URL = appURL.Get().ThreadMsg(p.ThreadID, p.ID)
 	d.EID = eid
-	d.Liked = liked
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	d.UserEID = clib.EncodeID(d.UserID)

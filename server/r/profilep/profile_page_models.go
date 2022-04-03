@@ -29,17 +29,15 @@ type ProfilePageModel struct {
 	PostCount       uint
 	DiscussionCount uint
 
-	ProfilePostsURL       string
-	ProfileDiscussionsURL string
-	PageBarHTML           string
+	ProfilePostsURL   string
+	ProfileThreadsURL string
+	PageBarHTML       string
 }
 
-// ProfilePageWindData ...
 type ProfilePageWindData struct {
 	Website string
 }
 
-// ProfilePostItem is a Model wrapper around PostTableSelectItemsForUserProfileResult.
 type ProfilePostItem struct {
 	da.PostTableSelectItemsForUserProfileResult
 
@@ -48,9 +46,8 @@ type ProfilePostItem struct {
 	ModifiedAt string
 }
 
-// ProfileDiscussionItem is a wrapper around DiscussionTableSelectItemsForUserProfileResult.
-type ProfileDiscussionItem struct {
-	da.DiscussionTableSelectItemsForUserProfileResult
+type ProfileThreadItem struct {
+	da.ThreadTableSelectItemsForUserProfileResult
 
 	URL        string
 	CreatedAt  string
@@ -66,16 +63,15 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	d.IconURL = appURL.Get().UserIconURL250(uid, profile.IconName)
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.PostCount = stats.PostCount
-	d.DiscussionCount = stats.DiscussionCount
+	d.DiscussionCount = stats.ThreadCount
 	d.FeedListHTML = feedHTML
 	d.PageBarHTML = pageBarHTML
 
 	d.ProfilePostsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyPosts, 1)
-	d.ProfileDiscussionsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyDiscussions, 1)
+	d.ProfileThreadsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyThreads, 1)
 	return d
 }
 
-// NewProfilePostItem creates a new ProfilePostItem from a post record.
 func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) ProfilePostItem {
 	d := ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
 	d.URL = appURL.Get().Post(item.ID)
@@ -84,9 +80,8 @@ func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) Profi
 	return d
 }
 
-// NewProfileDiscussionItem creates a new ProfileDiscussionItem from a dicussion record.
-func NewProfileDiscussionItem(item *da.DiscussionTableSelectItemsForUserProfileResult) ProfileDiscussionItem {
-	d := ProfileDiscussionItem{DiscussionTableSelectItemsForUserProfileResult: *item}
-	d.URL = appURL.Get().Discussion(item.ID)
+func NewProfileThreadItem(item *da.ThreadTableSelectItemsForUserProfileResult) ProfileThreadItem {
+	d := ProfileThreadItem{ThreadTableSelectItemsForUserProfileResult: *item}
+	d.URL = appURL.Get().Thread(item.ID)
 	return d
 }

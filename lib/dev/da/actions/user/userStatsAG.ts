@@ -22,7 +22,7 @@ export class UserStatsAG extends mm.ActionGroup {
 
   testSelectPostCount = selectFieldAction(t.post_count);
   testSelectThreadCount = selectFieldAction(t.thread_count);
-  testSelectAnswerCount = selectFieldAction(t.thread_msg_count);
+  testSelectThreadMsgCount = selectFieldAction(t.thread_msg_count);
 }
 
 export default mm.actionGroup(t, UserStatsAG);

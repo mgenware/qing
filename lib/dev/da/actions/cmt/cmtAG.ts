@@ -36,7 +36,7 @@ export class CmtAG extends mm.ActionGroup {
     .lock(mm.SelectActionLockMode.inShareMode);
 
   selectReplies: mm.SelectAction;
-  selectRepliesWithLike: mm.SelectAction;
+  selectRepliesWithLikes: mm.SelectAction;
 
   editReply = mm
     .updateOne()
@@ -68,7 +68,7 @@ export class CmtAG extends mm.ActionGroup {
   constructor() {
     super();
     this.selectReplies = getSelectCmtsAction({ rt: null, fetchLikes: false });
-    this.selectRepliesWithLike = getSelectCmtsAction({ rt: null, fetchLikes: true });
+    this.selectRepliesWithLikes = getSelectCmtsAction({ rt: null, fetchLikes: true });
   }
 }
 

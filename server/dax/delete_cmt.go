@@ -16,7 +16,7 @@ func DeleteCmt(db *sql.DB, id uint64, userID uint64, hostTable mingru.Table, hos
 			return err
 		}
 
-		if preData.ReplyCount != 0 {
+		if preData.CmtCount != 0 {
 			// This cmt contains replies, erase it.
 			err = da.Cmt.EraseCmt(db, id, userID, uint8(appdef.DeleteFlagAuthor))
 		} else {

@@ -18,7 +18,6 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
-	"sort"
 	"strings"
 )
 
@@ -41,19 +40,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
 
-	var items []da.UserThreadInterface
-	var hasNext bool
-	var err error
-
-	if tab == appdef.KeyPosts {
-		items, hasNext, err = da.Home.SelectPosts(db, page, defaultPageSize)
-	} else if tab == appdef.KeyDiscussions {
-		items, hasNext, err = da.Home.SelectDiscussions(db, page, defaultPageSize)
-	} else if tab == appdef.KeyQuestions {
-		items, hasNext, err = da.Home.SelectQuestions(db, page, defaultPageSize)
-	} else {
-		items, hasNext, err = da.Home.SelectItems(db, page, defaultPageSize)
-	}
+	items, hasNext, err := da.Home.SelectPosts(db, page, defaultPageSize)
 	app.PanicIfErr(err)
 
 	var feedListHTMLBuilder strings.Builder
@@ -61,9 +48,8 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range items {
-			itemModel, err := rcom.NewUserThreadModel(&item)
-			app.PanicIfErr(err)
-			feedListHTMLBuilder.WriteString(rcom.MustRunUserThreadViewTemplate(&itemModel))
+			itemModel := rcom.NewPostFeedModel(&item)
+			feedListHTMLBuilder.WriteString(rcom.MustRenderPostFeedView(&itemModel))
 		}
 	}
 
@@ -74,66 +60,5 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(homeStdScript)
-	return resp.MustComplete(d)
-}
-
-func renderFrmPage(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
-	db := appDB.DB()
-	forumGroups, err := da.Home.SelectForumGroups(db)
-	app.PanicIfErr(err)
-
-	var mainHTML string
-	if len(forumGroups) == 0 {
-		mainHTML = rcom.MustRunNoContentViewTemplate()
-	} else {
-		forums, err := da.Home.SelectForums(db)
-		app.PanicIfErr(err)
-
-		// Group forums by `group_id`.
-		groupMap := make(map[uint64][]da.HomeTableSelectForumsResult)
-		for _, f := range forums {
-			if f.GroupID == nil {
-				continue
-			}
-			gid := *f.GroupID
-			arr := groupMap[gid]
-			if arr == nil {
-				arr = make([]da.HomeTableSelectForumsResult, 0)
-			}
-			groupMap[gid] = append(arr, f)
-		}
-
-		// Sort forums in each group.
-		for _, v := range groupMap {
-			sort.Slice(v, func(i, j int) bool {
-				return v[i].OrderIndex < v[j].OrderIndex
-			})
-		}
-
-		var frmHTMLBuilder strings.Builder
-		// Iterate through forums.
-		for _, group := range forumGroups {
-			forums := groupMap[group.ID]
-			if len(forums) == 0 {
-				frmHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
-			} else {
-				var forumsHTMLBuilder strings.Builder
-				for _, forum := range forums {
-					forumModel := NewForumModel(&forum)
-					forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
-				}
-
-				groupModel := NewForumGroupModel(&group, forumsHTMLBuilder.String())
-				frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
-			}
-		}
-
-		frmPageModel := NewFrmPageModel(frmHTMLBuilder.String())
-		mainHTML = vFrmPage.MustExecuteToString(frmPageModel)
-	}
-
-	d := appHandler.MainPageData("", mainHTML)
-	d.Scripts = appHandler.MainPage().ScriptString(homeFrmScript)
 	return resp.MustComplete(d)
 }

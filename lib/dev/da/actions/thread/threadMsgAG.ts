@@ -9,19 +9,35 @@ import * as mm from 'mingru-models';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t, { ThreadMsg } from '../../models/thread/threadMsg.js';
 import threadMsgCmt from '../../models/thread/threadMsgCmt.js';
+import { threadMsgLike } from '../../models/like/likeableTables.js';
 import ContentBaseAG from '../com/contentBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
+import { getLikedColFromEntityID } from '../com/likeUtil.js';
+
+const threadMsgResultType = 'ThreadMsgResult';
 
 export class ThreadMsgAG extends ContentBaseAG<ThreadMsg> {
-  selectItemsByThread: mm.Action;
+  selectMsgsByThread: mm.Action;
+  selectMsgsByThreadWithLikes: mm.Action;
 
   constructor() {
     super();
-    this.selectItemsByThread = mm
-      .selectRows(...this.colsOfSelectItem())
+
+    this.selectMsgsByThread = this.getSelectMsgsByThread(false);
+    this.selectMsgsByThreadWithLikes = this.getSelectMsgsByThread(true);
+  }
+
+  private getSelectMsgsByThread(withLikes: boolean) {
+    const cols = this.colsOfSelectItem();
+    if (withLikes) {
+      cols.push(getLikedColFromEntityID(t.id, threadMsgLike));
+    }
+    return mm
+      .selectRows(...cols)
       .pageMode()
       .by(t.thread_id)
-      .orderByAsc(t.likes);
+      .orderByAsc(t.likes)
+      .resultTypeNameAttr(threadMsgResultType);
   }
 
   override baseTable() {

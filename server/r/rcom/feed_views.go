@@ -22,12 +22,12 @@ type PostFeedModel struct {
 	ContentBaseExtraProps
 }
 
-func MustRenderPostFeedView(d *PostFeedModel) {
-	vPostFeedView.MustExecuteToString(d)
+func MustRenderPostFeedView(d *PostFeedModel) string {
+	return vPostFeedView.MustExecuteToString(d)
 }
 
-func NewPostFeedModel(src da.HomeTableSelectPostsResult) PostFeedModel {
-	d := PostFeedModel{HomeTableSelectPostsResult: src}
+func NewPostFeedModel(src *da.HomeTableSelectPostsResult) PostFeedModel {
+	d := PostFeedModel{HomeTableSelectPostsResult: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -40,12 +40,12 @@ func NewPostFeedModel(src da.HomeTableSelectPostsResult) PostFeedModel {
 }
 
 type ThreadFeedModel struct {
-	da.ThreadFeed
+	da.ThreadFeedResult
 	ContentBaseExtraProps
 }
 
-func NewThreadFeedModel(src da.ThreadFeed) ThreadFeedModel {
-	d := ThreadFeedModel{ThreadFeed: src}
+func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {
+	d := ThreadFeedModel{ThreadFeedResult: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -57,6 +57,6 @@ func NewThreadFeedModel(src da.ThreadFeed) ThreadFeedModel {
 	return d
 }
 
-func MustRenderThreadFeedView(d *da.ThreadFeed) {
-	vThreadFeedView.MustExecuteToString(d)
+func MustRenderThreadFeedView(d *da.ThreadFeedResult) string {
+	return vThreadFeedView.MustExecuteToString(d)
 }

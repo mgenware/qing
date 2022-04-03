@@ -13,7 +13,7 @@
 export interface CmtResult {
   cmtCount?: number;
   contentHTML?: string;
-  hasLiked?: number;
+  isLiked?: number;
   likes?: number;
   userName?: string;
 }

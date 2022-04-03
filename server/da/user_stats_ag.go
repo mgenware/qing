@@ -41,15 +41,6 @@ func (mrTable *TableTypeUserStats) SelectStats(mrQueryable mingru.Queryable, id 
 	return result, nil
 }
 
-func (mrTable *TableTypeUserStats) TestSelectAnswerCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
-	var result uint
-	err := mrQueryable.QueryRow("SELECT `thread_msg_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
 func (mrTable *TableTypeUserStats) TestSelectPostCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
@@ -62,6 +53,15 @@ func (mrTable *TableTypeUserStats) TestSelectPostCount(mrQueryable mingru.Querya
 func (mrTable *TableTypeUserStats) TestSelectThreadCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `thread_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func (mrTable *TableTypeUserStats) TestSelectThreadMsgCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
+	var result uint
+	err := mrQueryable.QueryRow("SELECT `thread_msg_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}

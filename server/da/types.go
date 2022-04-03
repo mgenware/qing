@@ -24,8 +24,8 @@ import (
 type CmtResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
-	HasLiked      *uint64   `json:"hasLiked,omitempty"`
 	ID            uint64    `json:"-"`
+	IsLiked       *uint64   `json:"isLiked,omitempty"`
 	Likes         uint      `json:"likes,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
@@ -61,11 +61,25 @@ type ThreadFeedResult struct {
 	UserName      string     `json:"-"`
 }
 
+type ThreadMsgResult struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ID            uint64    `json:"-"`
+	IsLiked       *uint64   `json:"isLiked,omitempty"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	ThreadID      uint64    `json:"threadID,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
+}
+
 // ------------ Interfaces ------------
 
 type CmtHostTableInterface interface {
 	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error)
-	SelectRepliesWithLike(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error)
+	SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error)
 	SelectRootCmts(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error)
 	SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error)
 }

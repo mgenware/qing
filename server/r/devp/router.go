@@ -48,9 +48,8 @@ func apiRouter() *handler.JSONRouter {
 	// User router.
 	userRouter := handler.NewJSONRouter()
 	userRouter.Post("/post-count", userPostCount)
-	userRouter.Post("/question-count", userQuestionCount)
-	userRouter.Post("/answer-count", userAnswerCount)
-	userRouter.Post("/discussion-count", userDiscussionCount)
+	userRouter.Post("/thread-count", userThreadCount)
+	userRouter.Post("/thread-msg-count", userThreadMsgCount)
 	r.Mount("/user", userRouter)
 
 	// Compose router.

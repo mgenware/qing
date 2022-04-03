@@ -22,38 +22,33 @@ type FrmPageModel struct {
 	ContentHTML string
 }
 
-// ForumGroupModel wraps a da.HomeTableSelectForumGroupResult.
 type ForumGroupModel struct {
-	da.HomeTableSelectForumGroupsResult
+	da.ForumHomeTableSelectForumGroupsResult
 
 	URL        string
 	ForumsHTML string
 }
 
-// NewForumGroupModel creates a new ForumGroupModel.
-func NewForumGroupModel(d *da.HomeTableSelectForumGroupsResult, forumsHTML string) ForumGroupModel {
-	r := ForumGroupModel{HomeTableSelectForumGroupsResult: *d}
+func NewForumGroupModel(d *da.ForumHomeTableSelectForumGroupsResult, forumsHTML string) ForumGroupModel {
+	r := ForumGroupModel{ForumHomeTableSelectForumGroupsResult: *d}
 	r.URL = appURL.Get().ForumGroup(d.ID)
 	r.ForumsHTML = forumsHTML
 	return r
 }
 
-// ForumModel wraps a da.HomeTableSelectForumsResult.
 type ForumModel struct {
-	da.HomeTableSelectForumsResult
+	da.ForumHomeTableSelectForumsResult
 
 	URL string
 }
 
-// NewForumModel creates a new ForumModel.
-func NewForumModel(d *da.HomeTableSelectForumsResult) *ForumModel {
-	r := &ForumModel{HomeTableSelectForumsResult: *d}
+func NewForumModel(d *da.ForumHomeTableSelectForumsResult) *ForumModel {
+	r := &ForumModel{ForumHomeTableSelectForumsResult: *d}
 	r.URL = appURL.Get().ForumAdv(d.ID, "", 1)
 	return r
 }
 
-// NewFrmPageModel creates a new FrmPageModel.
-func NewFrmPageModel(contentHTML string) *FrmPageModel {
+func NewForumPageModel(contentHTML string) *FrmPageModel {
 	r := &FrmPageModel{}
 	r.ContentHTML = contentHTML
 	return r

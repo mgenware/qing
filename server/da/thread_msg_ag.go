@@ -111,56 +111,6 @@ func (mrTable *TableTypeThreadMsg) SelectItemByID(mrQueryable mingru.Queryable, 
 	return result, nil
 }
 
-type ThreadMsgTableSelectItemsByThreadResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ContentHTML   string    `json:"contentHTML,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	ThreadID      uint64    `json:"threadID,omitempty"`
-	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
-	UserName      string    `json:"-"`
-}
-
-func (mrTable *TableTypeThreadMsg) SelectItemsByThread(mrQueryable mingru.Queryable, threadID uint64, page int, pageSize int) ([]ThreadMsgTableSelectItemsByThreadResult, bool, error) {
-	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
-		return nil, false, err
-	}
-	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
-		return nil, false, err
-	}
-	limit := pageSize + 1
-	offset := (page - 1) * pageSize
-	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `thread_msg`.`id`, `thread_msg`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread_msg`.`created_at`, `thread_msg`.`modified_at`, `thread_msg`.`content`, `thread_msg`.`likes`, `thread_msg`.`cmt_count`, `thread_msg`.`thread_id` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` WHERE `thread_msg`.`thread_id` = ? ORDER BY `thread_msg`.`likes` LIMIT ? OFFSET ?", threadID, limit, offset)
-	if err != nil {
-		return nil, false, err
-	}
-	result := make([]ThreadMsgTableSelectItemsByThreadResult, 0, limit)
-	itemCounter := 0
-	defer rows.Close()
-	for rows.Next() {
-		itemCounter++
-		if itemCounter <= max {
-			var item ThreadMsgTableSelectItemsByThreadResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.Likes, &item.CmtCount, &item.ThreadID)
-			if err != nil {
-				return nil, false, err
-			}
-			result = append(result, item)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, false, err
-	}
-	return result, itemCounter > len(result), nil
-}
-
 const (
 	ThreadMsgTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
 	ThreadMsgTableSelectItemsForPostCenterOrderBy1Likes
@@ -279,6 +229,80 @@ func (mrTable *TableTypeThreadMsg) SelectItemSrc(mrQueryable mingru.Queryable, i
 		return result, err
 	}
 	return result, nil
+}
+
+func (mrTable *TableTypeThreadMsg) SelectMsgsByThread(mrQueryable mingru.Queryable, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := mrQueryable.Query("SELECT `thread_msg`.`id`, `thread_msg`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread_msg`.`created_at`, `thread_msg`.`modified_at`, `thread_msg`.`content`, `thread_msg`.`likes`, `thread_msg`.`cmt_count`, `thread_msg`.`thread_id` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` WHERE `thread_msg`.`thread_id` = ? ORDER BY `thread_msg`.`likes` LIMIT ? OFFSET ?", threadID, limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]ThreadMsgResult, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			var item ThreadMsgResult
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.Likes, &item.CmtCount, &item.ThreadID)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
+}
+
+func (mrTable *TableTypeThreadMsg) SelectMsgsByThreadWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := mrQueryable.Query("SELECT `thread_msg`.`id`, `thread_msg`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread_msg`.`created_at`, `thread_msg`.`modified_at`, `thread_msg`.`content`, `thread_msg`.`likes`, `thread_msg`.`cmt_count`, `thread_msg`.`thread_id`, `join_2`.`user_id` AS `is_liked` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` LEFT JOIN `thread_msg_like` AS `join_2` ON `join_2`.`host_id` = `thread_msg`.`id` AND `join_2`.`user_id` = ? WHERE `thread_msg`.`thread_id` = ? ORDER BY `thread_msg`.`likes` LIMIT ? OFFSET ?", viewerUserID, threadID, limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]ThreadMsgResult, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			var item ThreadMsgResult
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.ContentHTML, &item.Likes, &item.CmtCount, &item.ThreadID, &item.IsLiked)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
 }
 
 func (mrTable *TableTypeThreadMsg) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {

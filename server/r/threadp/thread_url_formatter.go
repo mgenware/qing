@@ -13,7 +13,7 @@ type ThreadURLFormatter struct {
 	TID uint64
 }
 
-func NewQueURLFormatter(tid uint64) ThreadURLFormatter {
+func NewThreadURLFormatter(tid uint64) ThreadURLFormatter {
 	r := ThreadURLFormatter{TID: tid}
 	return r
 }
