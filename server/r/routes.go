@@ -20,7 +20,6 @@ import (
 	"qing/r/api"
 	"qing/r/authp"
 	"qing/r/devp"
-	"qing/r/discussionp"
 	"qing/r/forump"
 	"qing/r/homep"
 	"qing/r/langp"
@@ -69,10 +68,8 @@ func Start() {
 	langRouter().Get("/"+appdef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
 	langRouter().Get("/"+appdef.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
-	// Question router.
-	langRouter().Get("/"+appdef.RouteThread+"/{qid}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
-	// Discussion router.
-	langRouter().Get("/"+appdef.RouteDiscussion+"/{tid}", handler.HTMLHandlerToHTTPHandler(discussionp.GetDiscussion))
+	// Thread router.
+	langRouter().Get("/"+appdef.RouteThread+"/{tid}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
 	// M (Management) router.
 	langRouter().Mount("/"+appdef.RouteM, mp.Router)
 	// MX (Admin management) router.

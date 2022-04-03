@@ -10,7 +10,6 @@ package forump
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/def/appdef"
 	"qing/da"
 	"qing/lib/clib"
 )
@@ -21,10 +20,8 @@ var vForumPage = appHandler.MainPage().MustParseView("/forum/forumPage.html")
 type ForumPageModel struct {
 	da.ForumTableSelectForumResult
 
-	ForumEID            string
-	ForumURL            string
-	ForumQuestionsURL   string
-	ForumDiscussionsURL string
+	ForumEID string
+	ForumURL string
 
 	FeedListHTML  string
 	PageBarHTML   string
@@ -45,9 +42,7 @@ func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarH
 
 	fid := f.ID
 	d.ForumEID = clib.EncodeID(fid)
-	d.ForumURL = appURL.Get().ForumAdv(fid, "", 1)
-	d.ForumQuestionsURL = appURL.Get().ForumAdv(fid, appdef.KeyQuestions, 1)
-	d.ForumDiscussionsURL = appURL.Get().ForumAdv(fid, appdef.KeyDiscussions, 1)
+	d.ForumURL = appURL.Get().ForumAdv(fid, 1)
 	d.FeedListHTML = feedListHTML
 	d.PageBarHTML = pageBarHTML
 	d.ForumEditable = editable

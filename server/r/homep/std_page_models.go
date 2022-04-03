@@ -9,8 +9,6 @@ package homep
 
 import (
 	"qing/a/appHandler"
-	"qing/a/appURL"
-	"qing/a/def/appdef"
 	"qing/r/rcom"
 )
 
@@ -21,10 +19,6 @@ type StdPageModel struct {
 	FeedListHTML string
 	PageBarHTML  string
 	PageData     *rcom.PageData
-
-	HomePostsURL       string
-	HomeQuestionsURL   string
-	HomeDiscussionsURL string
 }
 
 // NewStdPageModel creates a new StdPageModel.
@@ -33,8 +27,5 @@ func NewStdPageModel(pageData *rcom.PageData, feedHTML, pageBarHTML string) *Std
 	d.FeedListHTML = feedHTML
 	d.PageData = pageData
 	d.PageBarHTML = pageBarHTML
-	d.HomePostsURL = appURL.Get().HomeAdv(appdef.KeyPosts, 1)
-	d.HomeQuestionsURL = appURL.Get().HomeAdv(appdef.KeyQuestions, 1)
-	d.HomeDiscussionsURL = appURL.Get().HomeAdv(appdef.KeyDiscussions, 1)
 	return d
 }

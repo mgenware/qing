@@ -23,5 +23,5 @@ func NewForumPageURLFormatter(id uint64, tab string) *ForumPageURLFormatter {
 
 // GetURL returns the URL result.
 func (formatter *ForumPageURLFormatter) GetURL(page int) string {
-	return appURL.Get().ForumAdv(formatter.ID, formatter.Tab, page)
+	return appURL.Get().ForumAdv(formatter.ID, page)
 }

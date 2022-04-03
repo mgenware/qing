@@ -73,14 +73,11 @@ func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
 	return s
 }
 
-func (u *URL) HomeAdv(tab string, page int) string {
+func (u *URL) HomeAdv(page int) string {
 	s := "/"
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(appdef.KeyPage, strconv.Itoa(page))
-	}
-	if tab != "" {
-		qs.Set(appdef.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -121,14 +118,11 @@ func (u *URL) RegEmailVerification(publicID string) string {
 	return "/" + appdef.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
 }
 
-func (u *URL) ForumAdv(fid uint64, tab string, page int) string {
+func (u *URL) ForumAdv(fid uint64, page int) string {
 	s := "/" + appdef.RouteForum + "/" + clib.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
 		qs.Set(appdef.KeyPage, strconv.Itoa(page))
-	}
-	if tab != "" {
-		qs.Set(appdef.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
