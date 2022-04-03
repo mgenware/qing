@@ -29,8 +29,11 @@ export function sourceTypeFieldToTSType(type: string): string {
 }
 
 function handleImportPath(s: string) {
-  if (s === '_da') {
+  if (s === cm.daPathPrefix) {
     return '../da/types.js';
+  }
+  if (s.startsWith(cm.sodPathPrefix)) {
+    return `../${s.substring(cm.sodPathPrefix.length)}.js`;
   }
   return s;
 }

@@ -11,17 +11,18 @@
   * See `lib/dev/sod/objects/dev/auth/tUserInfo.yaml` for details.
   ******************************************************************************************/
 
-package tUserInfo
+package auth
 
 type TUserInfo struct {
-	Admin   bool   `json:"admin,omitempty"`
+
+	Admin   *bool  `json:"admin,omitempty"`
 	ID      string `json:"id"`
 	IconURL string `json:"iconURL"`
 	Url     string `json:"url"`
 	Name    string `json:"name"`
 }
 
-func NewTUserInfo(admin bool, id string, iconURL string, url string, name string) TUserInfo {
+func NewTUserInfo(admin *bool, id string, iconURL string, url string, name string) TUserInfo {
 	return TUserInfo{
 		Admin: admin,
 		ID: id,

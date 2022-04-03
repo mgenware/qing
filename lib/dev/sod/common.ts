@@ -8,6 +8,8 @@
 import isPlainObj from 'is-plain-obj';
 
 export const attrPrefix = '__';
+export const daPathPrefix = ':da';
+export const sodPathPrefix = ':sod:';
 
 const allowedAttrs = new Set<string>();
 

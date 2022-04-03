@@ -20,14 +20,14 @@ import (
 
 type Cmt struct {
 	da.CmtData
-	rcom.ContentBaseExtraProps
+	contentBase.ContentBaseExtraProps
 
 	EID      string  `json:"id"`
 	UserURL  string  `json:"userURL"`
 	ParentID *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtData *da.CmtData, contentBaseExtraProps *rcom.ContentBaseExtraProps, id string, userURL string, parentID *string) Cmt {
+func NewCmt(cmtData *da.CmtData, contentBaseExtraProps *contentBase.ContentBaseExtraProps, id string, userURL string, parentID *string) Cmt {
 	return Cmt{
 		CmtData: *cmtData,
 		ContentBaseExtraProps: *contentBaseExtraProps,

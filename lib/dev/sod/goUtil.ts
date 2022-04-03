@@ -66,8 +66,11 @@ function makeImports(imports: string[]): string {
 }
 
 function handleImportPath(s: string) {
-  if (s === '_da') {
+  if (s === cm.daPathPrefix) {
     return 'qing/da';
+  }
+  if (s.startsWith(cm.sodPathPrefix)) {
+    return `qing/server/sod/${s.substring(cm.sodPathPrefix.length)}`;
   }
   return s;
 }

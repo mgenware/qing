@@ -26,10 +26,6 @@ if (!input) {
   process.exit(1);
 }
 
-function trimYAMLExtension(s: string): string {
-  return s.substr(0, s.length - yamlExt.length);
-}
-
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
   try {
@@ -45,21 +41,18 @@ function trimYAMLExtension(s: string): string {
     }
 
     const srcDict = rawSource as cm.SourceDict;
-    const relPath = np.relative(qdu.sodPath(), fullInput);
-    const relPathWithoutYAMLExt = trimYAMLExtension(relPath);
-    const inputFileName = np.basename(input);
-    const pkgName = inputFileName;
-    const webFile = np.join(qdu.webSodPath(), relPathWithoutYAMLExt) + '.ts';
+    const relDir = np.dirname(input);
+    const pkgName = np.basename(relDir);
+    const webFile = np.join(qdu.webSodPath(), relDir) + '.ts';
 
-    const goFileName = inputFileName + '.go';
     const goOutDir = getAttr(go.goOutDirAttr);
     let serverFile: string;
     if (goOutDir) {
-      serverFile = np.join(qdu.serverPath(), goOutDir, goFileName);
+      serverFile = np.join(qdu.serverPath(), goOutDir, np.basename(input) + '.go');
     } else {
       // NOTE: Unlike .ts file, .go files are put in an extra folder named the same
       // as the extracted package name.
-      serverFile = np.join(qdu.serverSodPath(), relPathWithoutYAMLExt, goFileName);
+      serverFile = np.join(qdu.serverSodPath(), input + '.go');
     }
 
     await Promise.all([

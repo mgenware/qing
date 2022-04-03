@@ -4,13 +4,15 @@ Cmt:
   __go_extends:
     - name: CmtData
       packageName: da
-      path: _da
+      path: :da
     - name: ContentBaseExtraProps
-      packageName: rcom
+      packageName: contentBase
       path: qing/r/rcom
   __ts_extends:
     - name: CmtResult
-      path: '_da'
+      path: :da
+    - name: ContentBaseModelBase
+      path: :sod:contentBase/ContentBaseModelBase
   __go_rename:
     id: eID
     userID: userEID

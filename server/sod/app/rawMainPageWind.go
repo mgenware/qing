@@ -11,14 +11,15 @@
   * See `lib/dev/sod/objects/app/rawMainPageWind.yaml` for details.
   ******************************************************************************************/
 
-package rawMainPageWind
+package app
 
 type RawMainPageWind struct {
-	AppUserID         string `json:"appUserID,omitempty"`
-	AppUserName       string `json:"appUserName,omitempty"`
-	AppUserURL        string `json:"appUserURL,omitempty"`
-	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
-	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
-	AppLang           string `json:"appLang"`
-	AppWindDataString string `json:"appWindDataString,omitempty"`
+
+	AppUserID         *string `json:"appUserID,omitempty"`
+	AppUserName       *string `json:"appUserName,omitempty"`
+	AppUserURL        *string `json:"appUserURL,omitempty"`
+	AppUserIconURL    *string `json:"appUserIconURL,omitempty"`
+	AppUserAdmin      *bool   `json:"appUserAdmin,omitempty"`
+	AppLang           string  `json:"appLang"`
+	AppWindDataString *string `json:"appWindDataString,omitempty"`
 }

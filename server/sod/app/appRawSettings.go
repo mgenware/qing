@@ -11,14 +11,16 @@
   * See `lib/dev/sod/objects/app/appRawSettings.yaml` for details.
   ******************************************************************************************/
 
-package appRawSettings
+package app
 
 type AppRawSettings struct {
-	Community CommunityRawSettings `json:"community,omitempty"`
+
+	Community *CommunityRawSettings `json:"community,omitempty"`
 }
 
 type CommunityRawSettings struct {
-	QueAndDisEnabled   bool `json:"queAndDisEnabled,omitempty"`
-	ForumsEnabled      bool `json:"forumsEnabled,omitempty"`
-	ForumGroupsEnabled bool `json:"forumGroupsEnabled,omitempty"`
+
+	QueAndDisEnabled   *bool `json:"queAndDisEnabled,omitempty"`
+	ForumsEnabled      *bool `json:"forumsEnabled,omitempty"`
+	ForumGroupsEnabled *bool `json:"forumGroupsEnabled,omitempty"`
 }
