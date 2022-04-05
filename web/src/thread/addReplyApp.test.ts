@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './addDiscussionMsgApp';
+import './addReplyApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<add-discussion-msg-app></add-discussion-msg-app>`);
+  const el = await fixture<HTMLElement>(html`<add-reply-app></add-reply-app>`);
 
   tDOM.isBlockElement(el);
 });

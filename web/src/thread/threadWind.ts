@@ -6,10 +6,9 @@
  */
 
 import appPageState from 'app/appPageState';
+import { CHECK } from 'checks';
+import { ThreadWind } from 'sod/thread/threadWind';
 
-export interface DiscussionWind {
-  EID: string;
-  ReplyCount: number;
-}
-
-export default appPageState.windData<DiscussionWind>();
+const wind = appPageState.windData<ThreadWind>();
+CHECK(wind.threadID);
+export default wind;

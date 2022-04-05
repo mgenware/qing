@@ -27,8 +27,6 @@ type Dictionary struct {
 	AddAnAdmin                        string `json:"addAnAdmin"`
 	AdminAccounts                     string `json:"adminAccounts"`
 	AllThreads                        string `json:"allThreads"`
-	Answer                            string `json:"answer"`
-	Answers                           string `json:"answers"`
 	Bio                               string `json:"bio"`
 	Blockquote                        string `json:"blockquote"`
 	Bold                              string `json:"bold"`
@@ -58,8 +56,6 @@ type Dictionary struct {
 	DecreaseIndent                    string `json:"decreaseIndent"`
 	Delete                            string `json:"delete"`
 	Description                       string `json:"description"`
-	Discussion                        string `json:"discussion"`
-	Discussions                       string `json:"discussions"`
 	DoYouWantDoDiscardYourChanges     string `json:"doYouWantDoDiscardYourChanges"`
 	DoYouWantToChangeLangTo           string `json:"doYouWantToChangeLangTo"`
 	Downvote                          string `json:"downvote"`
@@ -67,9 +63,9 @@ type Dictionary struct {
 	EditComment                       string `json:"editComment"`
 	EditedAt                          string `json:"editedAt"`
 	Email                             string `json:"email"`
+	EnableCommunityMode               string `json:"enableCommunityMode"`
 	EnableForumGroups                 string `json:"enableForumGroups"`
 	EnableForums                      string `json:"enableForums"`
-	EnableQueAndDis                   string `json:"enableQueAndDis"`
 	EnterCaptchaPlz                   string `json:"enterCaptchaPlz"`
 	ErrOccurred                       string `json:"errOccurred"`
 	Error                             string `json:"error"`
@@ -79,7 +75,7 @@ type Dictionary struct {
 	FindUsersByColon                  string `json:"findUsersByColon"`
 	Forums                            string `json:"forums"`
 	General                           string `json:"general"`
-	GoToMyAnswer                      string `json:"goToMyAnswer"`
+	GoToMyReply                       string `json:"goToMyReply"`
 	GoToPage                          string `json:"goToPage"`
 	GoToYourEmail                     string `json:"goToYourEmail"`
 	Home                              string `json:"home"`
@@ -93,20 +89,17 @@ type Dictionary struct {
 	Loading                           string `json:"loading"`
 	Location                          string `json:"location"`
 	Moderators                        string `json:"moderators"`
-	Msgs                              string `json:"msgs"`
 	Name                              string `json:"name"`
 	NeedAuthErr                       string `json:"needAuthErr"`
-	NewDiscussion                     string `json:"newDiscussion"`
 	NewPost                           string `json:"newPost"`
-	NewQuestion                       string `json:"newQuestion"`
 	NewThread                         string `json:"newThread"`
 	NextPage                          string `json:"nextPage"`
 	No                                string `json:"no"`
-	NoAnswers                         string `json:"noAnswers"`
 	NoComments                        string `json:"noComments"`
 	NoContentAvailable                string `json:"noContentAvailable"`
+	NoReplies                         string `json:"noReplies"`
 	NoResultsFound                    string `json:"noResultsFound"`
-	NumOfMsgs                         string `json:"numOfMsgs"`
+	NumOfReplies                      string `json:"numOfReplies"`
 	NumOfThreads                      string `json:"numOfThreads"`
 	NumberedList                      string `json:"numberedList"`
 	Ok                                string `json:"ok"`
@@ -124,11 +117,10 @@ type Dictionary struct {
 	PageControlPageFormat             string `json:"pageControlPageFormat"`
 	PageNumberOutOfBounds             string `json:"pageNumberOutOfBounds"`
 	Password                          string `json:"password"`
-	PlsLoginToAddYourAnswer           string `json:"plsLoginToAddYourAnswer"`
 	PlsLoginToComment                 string `json:"plsLoginToComment"`
+	PlsLoginToReply                   string `json:"plsLoginToReply"`
 	Post                              string `json:"post"`
-	PostAMsgToThisDiscussion          string `json:"postAMsgToThisDiscussion"`
-	PostAnAnswer                      string `json:"postAnAnswer"`
+	PostAReply                        string `json:"postAReply"`
 	Posts                             string `json:"posts"`
 	PpItemsCounter                    string `json:"ppItemsCounter"`
 	PreviousPage                      string `json:"previousPage"`
@@ -138,8 +130,6 @@ type Dictionary struct {
 	Publish                           string `json:"publish"`
 	Publishing                        string `json:"publishing"`
 	PwdDontMatch                      string `json:"pwdDontMatch"`
-	Question                          string `json:"question"`
-	Questions                         string `json:"questions"`
 	Redo                              string `json:"redo"`
 	RegEmailSentContent               string `json:"regEmailSentContent"`
 	RegEmailSentTitle                 string `json:"regEmailSentTitle"`
@@ -161,7 +151,7 @@ type Dictionary struct {
 	Settings                          string `json:"settings"`
 	SignIn                            string `json:"signIn"`
 	SignInToLikeThisEntity            string `json:"signInToLikeThisEntity"`
-	SignInToVoteThisAnswer            string `json:"signInToVoteThisAnswer"`
+	SignInToLikeThisReply             string `json:"signInToLikeThisReply"`
 	SignOut                           string `json:"signOut"`
 	SignUp                            string `json:"signUp"`
 	SiteSettings                      string `json:"siteSettings"`
@@ -169,6 +159,8 @@ type Dictionary struct {
 	ThemeDark                         string `json:"themeDark"`
 	ThemeLight                        string `json:"themeLight"`
 	ThisIsYou                         string `json:"thisIsYou"`
+	Thread                            string `json:"thread"`
+	Threads                           string `json:"threads"`
 	Title                             string `json:"title"`
 	Underline                         string `json:"underline"`
 	Undo                              string `json:"undo"`
@@ -185,9 +177,8 @@ type Dictionary struct {
 	Yes                               string `json:"yes"`
 	YouCannotChangeYourOwnAdminStatus string `json:"youCannotChangeYourOwnAdminStatus"`
 	YouHaveNotSavedYourChanges        string `json:"youHaveNotSavedYourChanges"`
-	YourDiscussions                   string `json:"yourDiscussions"`
 	YourPosts                         string `json:"yourPosts"`
-	YourQuestions                     string `json:"yourQuestions"`
+	YourThreads                       string `json:"yourThreads"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.

@@ -7,8 +7,8 @@
 
 import 'core';
 import './questionApp';
-import './addAnswerApp';
-import './answerApp';
+import './addReplyApp';
+import './replyApp';
 import { hookUpQueAppEditorEvents } from './common';
 
 hookUpQueAppEditorEvents();

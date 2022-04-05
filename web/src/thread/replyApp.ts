@@ -11,8 +11,8 @@ import 'com/cmt/cmtApp';
 import 'ui/qna/voteApp';
 import { CHECK } from 'checks';
 
-@customElement('answer-app')
-export class AnswerApp extends BaseElement {
+@customElement('reply-app')
+export class ReplyApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -53,6 +53,6 @@ export class AnswerApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'answer-app': AnswerApp;
+    'reply-app': ReplyApp;
   }
 }

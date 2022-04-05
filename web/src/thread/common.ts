@@ -7,13 +7,17 @@
 
 import 'ui/editor/editBarApp';
 import { EditBarApp } from 'ui/editor/editBarApp';
-import { entityQuestion } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import wind from './qnaWind';
 import { setupHandlers } from 'com/postCore/postEditHandlers';
 
 export function hookUpQueAppEditorEvents() {
   const editBar = document.querySelector<EditBarApp>('question-app edit-bar-app');
   if (editBar) {
-    setupHandlers(editBar, { id: wind.questionID, type: entityQuestion }, wind.forumID);
+    setupHandlers(
+      editBar,
+      { id: wind.questionID, type: appdef.ContentBaseType.thread },
+      wind.forumID,
+    );
   }
 }
