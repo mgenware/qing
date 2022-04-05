@@ -24,6 +24,7 @@ export default {
 
   /** Standard mode */
   dev: {
+    alias: 'd',
     run: ['#clean', 'tsc-watch --onSuccess "node esbuild.cjs"'],
     env: devEnv,
   },
