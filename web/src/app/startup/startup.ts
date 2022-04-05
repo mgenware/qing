@@ -13,7 +13,7 @@ import appSettings from 'app/appSettings';
 import { localizedErrDict } from 'defs';
 import Loader from 'lib/loader';
 import * as cmd from '../appCommands';
-import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
 import SetEntityApp from 'com/postCore/setEntityApp';
 import { CHECK } from 'checks';
@@ -72,7 +72,7 @@ ready(() => {
     const [entityType, forumID] = arg as [number, string];
     let title: string;
     switch (entityType) {
-      case entityPost: {
+      case appdef.ContentBaseType.post: {
         title = ls.newPost;
         break;
       }

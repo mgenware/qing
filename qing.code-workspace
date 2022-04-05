@@ -31,7 +31,9 @@
       "mgenware",
       "mingru",
       "Qing",
-      "userland"
+      "userland",
+      "appdef",
+      "dbdef"
     ],
     "editor.formatOnSave": true,
     "files.insertFinalNewline": true,

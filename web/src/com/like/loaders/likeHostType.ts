@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { appDef } from '@qing/def';
+import { appdef } from '@qing/def';
 
 enum LikeHostType {
-  post = appDef.likeHostPost,
-  cmt = appDef.likeHostCmt,
+  post = appdef.likeHostPost,
+  cmt = appdef.likeHostCmt,
 }
 
 export default LikeHostType;

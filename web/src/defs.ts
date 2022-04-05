@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import * as sc from './sharedConstants';
+import { appdef } from '@qing/def';
 
 export const localizedErrDict = new Map<number, string>();
-localizedErrDict.set(sc.errNeedAuth, 'needAuthErr');
-localizedErrDict.set(sc.errCaptchaNotFound, 'captNotFoundErr');
-localizedErrDict.set(sc.errCaptchaNotMatch, 'captNotMatch');
+localizedErrDict.set(appdef.errNeedAuth, 'needAuthErr');
+localizedErrDict.set(appdef.errCaptchaNotFound, 'captNotFoundErr');
+localizedErrDict.set(appdef.errCaptchaNotMatch, 'captNotMatch');
 
 export class Cookies {
   // "Local" indicates that server is not aware of this cookie.

@@ -7,7 +7,7 @@
 
 import cookies from 'js-cookie';
 import * as defs from 'defs';
-import { appDef } from '@qing/def';
+import { appdef } from '@qing/def';
 
 const CSS_DARK_THEME = 'theme-dark';
 
@@ -25,11 +25,11 @@ export class AppSettings {
   }
 
   get lang(): string {
-    return this.getCookieString(appDef.keyLang);
+    return this.getCookieString(appdef.keyLang);
   }
 
   set lang(value: string) {
-    this.setCookieString(appDef.keyLang, value);
+    this.setCookieString(appdef.keyLang, value);
   }
 
   // Called on app startup.
