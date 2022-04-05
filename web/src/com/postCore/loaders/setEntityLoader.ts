@@ -7,14 +7,12 @@
 
 import Loader from 'lib/loader';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
-import { entityDiscussionMsg, entityAnswer } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { ComposerContent } from 'ui/editor/composerView';
 
 export class SetEntityLoader extends Loader<string> {
-  // Used when `entityType` is `discussionMsg`;
-  discussionID?: string;
-  // Used when `entityType` is `discussionAnswer`;
-  questionID?: string;
+  // Used when `entityType` is `thread`;
+  threadID?: string;
 
   constructor(
     public id: string | null,
@@ -38,16 +36,11 @@ export class SetEntityLoader extends Loader<string> {
     if (this.id) {
       params.id = this.id;
     }
-    if (entityType === entityDiscussionMsg) {
-      if (!this.discussionID) {
+    if (entityType === appdef.ContentBaseType.thread) {
+      if (!this.threadID) {
         throw new Error('`discussionID` is required when `entityType` is `entityDiscussionMsg`');
       }
-      params.discussionID = this.discussionID;
-    } else if (entityType === entityAnswer) {
-      if (!this.questionID) {
-        throw new Error('`questionID` is required when `entityType` is `entityAnswer`');
-      }
-      params.questionID = this.questionID;
+      params.threadID = this.threadID;
     }
     if (this.forumID) {
       params.forumID = this.forumID;

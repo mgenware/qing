@@ -12,7 +12,7 @@ import { parseString } from 'narwhal-js';
 import appPageState from 'app/appPageState';
 import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
-import wind from './qnaWind';
+import wind from './threadWind';
 
 @customElement('add-rep;y-app')
 export class AddReplyApp extends BaseElement {
@@ -57,7 +57,7 @@ export class AddReplyApp extends BaseElement {
         entityType=${appdef.ContentBaseType.threadMsg}
         headerText=${ls.postAReply}
         .forumID=${wind.forumID || ''}
-        .questionID=${wind.questionID}
+        .threadID=${wind.threadID}
         @onEditorClose=${this.handleReplyDialogClose}></set-entity-app>`;
   }
 

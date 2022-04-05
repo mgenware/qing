@@ -9,7 +9,7 @@ import { customElement, html, css, TemplateResult } from 'll';
 import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import { columnCreated, columnMessages, entityQuestion } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import PCPost from './pcPost';

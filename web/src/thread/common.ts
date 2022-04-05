@@ -8,15 +8,15 @@
 import 'ui/editor/editBarApp';
 import { EditBarApp } from 'ui/editor/editBarApp';
 import { appdef } from '@qing/def';
-import wind from './qnaWind';
+import wind from './threadWind';
 import { setupHandlers } from 'com/postCore/postEditHandlers';
 
 export function hookUpQueAppEditorEvents() {
-  const editBar = document.querySelector<EditBarApp>('question-app edit-bar-app');
+  const editBar = document.querySelector<EditBarApp>('thread-app edit-bar-app');
   if (editBar) {
     setupHandlers(
       editBar,
-      { id: wind.questionID, type: appdef.ContentBaseType.thread },
+      { id: wind.threadID, type: appdef.ContentBaseType.thread },
       wind.forumID,
     );
   }

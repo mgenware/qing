@@ -8,12 +8,12 @@
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import 'com/cmt/cmtApp';
-import { entityQuestion } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { CHECK } from 'checks';
 
-// Renders a question and handles votes and comments.
-@customElement('question-app')
-export class QuestionApp extends BaseElement {
+// Renders a thread and handles votes and comments.
+@customElement('thread-app')
+export class ThreadApp extends BaseElement {
   static get styles() {
     return [
       super.styles,
@@ -28,7 +28,7 @@ export class QuestionApp extends BaseElement {
   @lp.number initialLikes = 0;
   // Intentionally set as a number as server bool values are easy
   // to passed down as numbers when set as attributes.
-  // See `questionView.html`.
+  // See `threadView.html`.
   @lp.number initialHasLiked = 0;
   @lp.number initialCmtCount = 0;
   @lp.number initialAnsCount = 0;
@@ -48,7 +48,7 @@ export class QuestionApp extends BaseElement {
             .initialLikes=${this.initialLikes}
             .initialHasLiked=${!!this.initialHasLiked}
             .hostID=${this.eid}
-            .hostType=${entityQuestion}></like-app>
+            .hostType=${appdef.ContentBaseType.thread}></like-app>
         </div>
       </div>
     `;
@@ -57,6 +57,6 @@ export class QuestionApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'question-app': QuestionApp;
+    'thread-app': ThreadApp;
   }
 }
