@@ -73,10 +73,10 @@ importers:
   lib/def:
     specifiers:
       '@qing/devutil': workspace:*
-      qing-shared-const: ^0.0.5
+      qing-shared-const: ^0.1.0
     devDependencies:
       '@qing/devutil': link:../devutil
-      qing-shared-const: 0.0.5
+      qing-shared-const: 0.1.0
 
   lib/dev:
     specifiers:
@@ -5676,8 +5676,8 @@ packages:
       qing-button: 8.2.5_lit@2.2.1
     dev: false
 
-  /qing-shared-const/0.0.5:
-    resolution: {integrity: sha512-rvQnHC7Wv4fK39PHjXzwa4OnLjTlSSJNemNYgSAOSBNqZSErn0vu8CvlRGqw8zzzuk0vx14GOlN/dY9Xi1siew==}
+  /qing-shared-const/0.1.0:
+    resolution: {integrity: sha512-FGpqX5ulHfRBfMO/OrIOiXCnAwwszA34Wpj8mDaS17wYKEJW1gywIWgj7MeEYOW5CZbuXWNGBbbqV+ViP+zL+g==}
     engines: {node: '>=14.0.0'}
     dev: true
 

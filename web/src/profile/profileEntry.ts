@@ -13,7 +13,7 @@ import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import delay from 'lib/delay';
 import 'ui/widgets/tagView';
-import { keyPage, keyPosts, keyTab } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import './views/profileIDView';
 // Required by empty content view.
 import 'ui/alerts/noContentView';
@@ -45,7 +45,7 @@ injectStyles(styles);
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 ready(async () => {
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get(keyTab);
+  const tab = qs.get(appdef.Key.tab);
   const page = qs.get(keyPage);
 
   // Scroll to feed list tab if `tab` or `page` are present.
