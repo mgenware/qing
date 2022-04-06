@@ -19,7 +19,7 @@ import { StatefulPage } from 'ui/status/statefulPage';
 import GetSiteSettingsLoader from './loaders/getSiteSettingsLoader';
 import UpdateSiteSettingsLoader from './loaders/updateSiteSettingsLoader';
 import appTask from 'app/appTask';
-import * as sc from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { CommunityRawSettings } from 'sod/app/appRawSettings';
 
 @customElement('community-settings-page')
@@ -36,7 +36,7 @@ export class CommunitySettingsPage extends StatefulPage {
   }
 
   @lp.bool savingStatus = LoadingStatus.success;
-  @lp.bool queAndDisEnabled = false;
+  @lp.bool enableCommunityMode = false;
   @lp.bool forumsEnabled = false;
   @lp.bool forumGroupsEnabled = false;
   @lp.bool needRestart = false;
@@ -51,9 +51,9 @@ export class CommunitySettingsPage extends StatefulPage {
         )}
         <p>
           <check-box
-            .checked=${this.queAndDisEnabled}
-            @checked=${(e: CustomEvent<boolean>) => (this.queAndDisEnabled = e.detail)}
-            >${ls.enableQueAndDis}</check-box
+            .checked=${this.enableCommunityMode}
+            @checked=${(e: CustomEvent<boolean>) => (this.enableCommunityMode = e.detail)}
+            >${ls.enableCommunityMode}</check-box
           >
         </p>
         <p>
@@ -77,12 +77,12 @@ export class CommunitySettingsPage extends StatefulPage {
   }
 
   override async reloadStatefulPageDataAsync() {
-    const loader = new GetSiteSettingsLoader(sc.keyCommunitySettings);
+    const loader = new GetSiteSettingsLoader(appdef.keyCommunitySettings);
     const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (status.data) {
       const settings = status.data.settings as CommunityRawSettings | undefined;
       CHECK(settings);
-      this.queAndDisEnabled = !!settings.queAndDisEnabled;
+      this.enableCommunityMode = !!settings.communityEnabled;
       this.forumsEnabled = !!settings.forumsEnabled;
       this.forumGroupsEnabled = !!settings.forumGroupsEnabled;
       this.needRestart = !!status.data.need_restart;
@@ -91,11 +91,11 @@ export class CommunitySettingsPage extends StatefulPage {
 
   private async handleSaveClick() {
     const communityST: Required<CommunityRawSettings> = {
-      queAndDisEnabled: this.queAndDisEnabled,
+      communityEnabled: this.enableCommunityMode,
       forumsEnabled: this.forumsEnabled,
       forumGroupsEnabled: this.forumGroupsEnabled,
     };
-    const loader = new UpdateSiteSettingsLoader(sc.keyCommunitySettings, communityST);
+    const loader = new UpdateSiteSettingsLoader(appdef.keyCommunitySettings, communityST);
     const status = await appTask.critical(loader, ls.saving, (s) => (this.savingStatus = s));
     if (status.isSuccess) {
       this.needRestart = true;

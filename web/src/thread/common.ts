@@ -14,10 +14,6 @@ import { setupHandlers } from 'com/postCore/postEditHandlers';
 export function hookUpQueAppEditorEvents() {
   const editBar = document.querySelector<EditBarApp>('thread-app edit-bar-app');
   if (editBar) {
-    setupHandlers(
-      editBar,
-      { id: wind.threadID, type: appdef.ContentBaseType.thread },
-      wind.forumID,
-    );
+    setupHandlers(editBar, { id: wind.threadID, type: appdef.contentBaseTypeThread }, wind.forumID);
   }
 }

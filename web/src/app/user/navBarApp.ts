@@ -21,7 +21,7 @@ import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
-import { entityDiscussion, entityPost, entityQuestion } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('nav-bar-app')
@@ -208,15 +208,13 @@ export default class NavBarApp extends BaseElement {
                 <div class="dropdown-content">
                   <a href=${user.url}>${ls.profile}</a>
                   <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-                  <a href=${mRoute.yourDiscussions}>${ls.yourDiscussions}</a>
-                  <a href=${mRoute.yourQuestions}>${ls.yourQuestions}</a>
+                  <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
                   <hr />
-                  <a href="#" @click=${() => this.handleNewPostClick(entityPost)}>${ls.newPost}</a>
-                  <a href="#" @click=${() => this.handleNewPostClick(entityDiscussion)}
-                    >${ls.newDiscussion}</a
+                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+                    >${ls.newPost}</a
                   >
-                  <a href="#" @click=${() => this.handleNewPostClick(entityQuestion)}
-                    >${ls.newQuestion}</a
+                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+                    >${ls.newThread}</a
                   >
                   <hr />
                   <a href=${mRoute.settingsProfile}>${ls.settings}</a>

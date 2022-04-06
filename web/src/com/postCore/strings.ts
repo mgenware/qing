@@ -1,25 +1,17 @@
 import ls from 'ls';
 import { CHECK } from 'checks';
-import {
-  entityAnswer,
-  entityCmt,
-  entityDiscussion,
-  entityPost,
-  entityQuestion,
-} from 'sharedConstants';
+import { appdef } from '@qing/def';
 
 export function entityTypeToLS(entityType: number): string {
   switch (entityType) {
-    case entityPost:
+    case appdef.contentBaseTypePost:
       return ls.post;
-    case entityQuestion:
-      return ls.question;
-    case entityAnswer:
-      return ls.answer;
-    case entityCmt:
+    case appdef.contentBaseTypeThread:
+      return ls.thread;
+    case appdef.contentBaseTypeThreadMsg:
+      return ls.reply;
+    case appdef.contentBaseTypeCmt:
       return ls.comment;
-    case entityDiscussion:
-      return ls.discussion;
     default: {
       CHECK(false);
       return '';

@@ -72,16 +72,12 @@ ready(() => {
     const [entityType, forumID] = arg as [number, string];
     let title: string;
     switch (entityType) {
-      case appdef.ContentBaseType.post: {
+      case appdef.contentBaseTypePost: {
         title = ls.newPost;
         break;
       }
-      case entityDiscussion: {
-        title = ls.newDiscussion;
-        break;
-      }
-      case entityQuestion: {
-        title = ls.newQuestion;
+      case appdef.contentBaseTypeThread: {
+        title = ls.newThread;
         break;
       }
       default: {

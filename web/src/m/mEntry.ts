@@ -32,14 +32,8 @@ router.register(mRoute.settingsProfile, () => {
 router.register(mRoute.yourPosts, () => {
   pageUtils.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
-router.register(mRoute.yourDiscussions, () => {
-  pageUtils.setTitleAndMainContent(
-    [ls.yourDiscussions],
-    html`<my-discussions-app></my-discussions-app>`,
-  );
-});
-router.register(mRoute.yourQuestions, () => {
-  pageUtils.setTitleAndMainContent([ls.yourQuestions], html`<my-questions-app></my-questions-app>`);
+router.register(mRoute.yourThreads, () => {
+  pageUtils.setTitleAndMainContent([ls.yourThreads], html`<my-threads-app></my-threads-app>`);
 });
 
 router.startOnce();

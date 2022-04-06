@@ -85,7 +85,7 @@ export class CmtBlock extends BaseElement {
     if (cmt) {
       // We are displaying replies from a cmt.
       this._collector = CmtCollector.replies(
-        cmt.replyCount || 0,
+        cmt.cmtCount || 0,
         {
           parentID: cmt.id,
           page: startPage,
@@ -93,7 +93,7 @@ export class CmtBlock extends BaseElement {
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),
       );
-      this._replyCount = cmt.replyCount ?? 0;
+      this._replyCount = cmt.cmtCount ?? 0;
     } else {
       // We are displaying root cmts from a post.
       this._collector = CmtCollector.rootCmts(

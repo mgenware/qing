@@ -10,5 +10,4 @@ import root from './root.js';
 const mp = `${root}/mp`;
 
 export const posts = `${mp}/posts`;
-export const discussions = `${mp}/discussions`;
-export const questions = `${mp}/questions`;
+export const threads = `${mp}/threads`;

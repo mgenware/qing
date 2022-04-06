@@ -8,7 +8,6 @@
 const m = '/m';
 
 export const yourPosts = `${m}/your-posts`;
-export const yourDiscussions = `${m}/your-discussions`;
-export const yourQuestions = `${m}/your-questions`;
+export const yourThreads = `${m}/your-threads`;
 const settings = `${m}/settings`;
 export const settingsProfile = `${settings}/profile`;

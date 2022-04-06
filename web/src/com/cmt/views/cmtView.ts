@@ -16,7 +16,7 @@ import 'com/like/likeApp';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
-import { entityCmt } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import appPageState from 'app/appPageState';
 
 @customElement('cmt-view')
@@ -70,11 +70,11 @@ export class CmtView extends BaseElement {
               class="m-l-sm"
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}></time-field>
-            ${cmt.userID === appPageState.userEID
+            ${cmt.userEID === appPageState.userEID
               ? html`
                   <edit-bar-app
                     class="m-l-sm"
-                    uid=${cmt.userID}
+                    uid=${cmt.userEID}
                     .hasLeftMargin=${true}
                     @editClick=${this.handleEditClick}
                     @deleteClick=${this.handleDeleteClick}></edit-bar-app>
@@ -88,9 +88,9 @@ export class CmtView extends BaseElement {
               class="m-l-md"
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes || 0}
-              .initialHasLiked=${!!cmt.hasLiked}
+              .initialHasLiked=${!!cmt.isLiked}
               .hostID=${cmt.id}
-              .hostType=${entityCmt}></like-app>
+              .hostType=${appdef.contentBaseTypeCmt}></like-app>
           </div>
         </div>
       </div>

@@ -10,10 +10,10 @@ import './postPayloadApp';
 import { setupHandlers } from 'com/postCore/postEditHandlers';
 import 'ui/editor/editBarApp';
 import { EditBarApp } from 'ui/editor/editBarApp';
-import { entityPost } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import wind from './postWind';
 
 const editBar = document.querySelector<EditBarApp>('.m-post-user edit-bar-app');
 if (editBar) {
-  setupHandlers(editBar, { id: wind.id, type: entityPost }, undefined);
+  setupHandlers(editBar, { id: wind.id, type: appdef.contentBaseTypePost }, undefined);
 }

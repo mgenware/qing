@@ -48,7 +48,7 @@ export class ThreadApp extends BaseElement {
             .initialLikes=${this.initialLikes}
             .initialHasLiked=${!!this.initialHasLiked}
             .hostID=${this.eid}
-            .hostType=${appdef.ContentBaseType.thread}></like-app>
+            .hostType=${appdef.contentBaseTypeThread}></like-app>
         </div>
       </div>
     `;

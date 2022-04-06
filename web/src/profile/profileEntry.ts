@@ -19,7 +19,7 @@ import './views/profileIDView';
 import 'ui/alerts/noContentView';
 import profileWind from './profileWind';
 
-const defaultHighlightedTab = keyPosts;
+const defaultHighlightedTab = appdef.keyPosts;
 
 const styles = css`
   .is-boxed {
@@ -45,8 +45,8 @@ injectStyles(styles);
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 ready(async () => {
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get(appdef.Key.tab);
-  const page = qs.get(keyPage);
+  const tab = qs.get(appdef.keyTab);
+  const page = qs.get(appdef.keyPage);
 
   // Scroll to feed list tab if `tab` or `page` are present.
   if (tab || page) {

@@ -54,7 +54,7 @@ export class AddReplyApp extends BaseElement {
       <set-entity-app
         ?open=${this.replyDialogOpen}
         .showTitleInput=${false}
-        entityType=${appdef.ContentBaseType.threadMsg}
+        entityType=${appdef.contentBaseTypeThreadMsg}
         headerText=${ls.postAReply}
         .forumID=${wind.forumID || ''}
         .threadID=${wind.threadID}

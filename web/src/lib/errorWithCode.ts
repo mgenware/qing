@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import * as sc from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { PANIC } from 'checks';
 
 export default class ErrorWithCode extends Error {
   code: number;
   message: string;
 
-  constructor(message: string, code: number = sc.errGeneric) {
+  constructor(message: string, code: number = appdef.errGeneric) {
     super(message);
     this.code = code;
     this.message = message;

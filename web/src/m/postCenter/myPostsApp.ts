@@ -10,7 +10,7 @@ import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import 'ui/content/headingView';
 import Loader from 'lib/loader';
-import { columnCreated, columnLikes, columnComments, entityPost } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { PCListApp } from './views/pcListApp';
 import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import { runNewEntityCommand } from 'app/appCommands';
@@ -31,13 +31,13 @@ export default class MyPostsApp extends PCListApp {
 
   constructor() {
     super();
-    this.currentSortedColumn = columnCreated;
+    this.currentSortedColumn = appdef.keyCreated;
     this.currentSortedColumnDesc = true;
   }
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      entityPost,
+      appdef.contentBaseTypePost,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -62,9 +62,9 @@ export default class MyPostsApp extends PCListApp {
     return html`
       <thead>
         <th>${ls.title}</th>
-        ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
-        ${this.renderSortableColumn(columnComments, ls.comments)}
-        ${this.renderSortableColumn(columnLikes, ls.likes)}
+        ${this.renderSortableColumn(appdef.keyCreated, ls.dateCreated)}
+        ${this.renderSortableColumn(appdef.keyComments, ls.comments)}
+        ${this.renderSortableColumn(appdef.keyLikes, ls.likes)}
       </thead>
       <tbody>
         ${this.items.map(
@@ -90,7 +90,7 @@ export default class MyPostsApp extends PCListApp {
   }
 
   private handleNewPostClick() {
-    runNewEntityCommand(entityPost, null);
+    runNewEntityCommand(appdef.contentBaseTypePost, null);
   }
 }
 

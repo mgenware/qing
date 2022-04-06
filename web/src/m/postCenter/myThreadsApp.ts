@@ -15,8 +15,8 @@ import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import PCPost from './pcPost';
 import { runNewEntityCommand } from 'app/appCommands';
 
-@customElement('my-questions-app')
-export default class MyQuestionsApp extends PCListApp {
+@customElement('my-threads-app')
+export default class MyThreadsApp extends PCListApp {
   static get styles() {
     return [
       super.styles,
@@ -30,13 +30,13 @@ export default class MyQuestionsApp extends PCListApp {
 
   constructor() {
     super();
-    this.currentSortedColumn = columnCreated;
+    this.currentSortedColumn = appdef.keyCreated;
     this.currentSortedColumnDesc = true;
   }
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      entityQuestion,
+      appdef.contentBaseTypeThread,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -47,10 +47,10 @@ export default class MyQuestionsApp extends PCListApp {
   sectionHeader(): TemplateResult {
     return html`
       <heading-view>
-        <div>${ls.yourQuestions}</div>
+        <div>${ls.yourThreads}</div>
         <div slot="decorator">
           <qing-button btnStyle="success" @click=${this.handleNewQuestionClick}
-            >${ls.newQuestion}</qing-button
+            >${ls.newThread}</qing-button
           >
         </div>
       </heading-view>
@@ -61,8 +61,8 @@ export default class MyQuestionsApp extends PCListApp {
     return html`
       <thead>
         <th>${ls.title}</th>
-        ${this.renderSortableColumn(columnCreated, ls.dateCreated)}
-        ${this.renderSortableColumn(columnMessages, ls.answers)}
+        ${this.renderSortableColumn(appdef.keyCreated, ls.dateCreated)}
+        ${this.renderSortableColumn(appdef.keyMessages, ls.replies)}
       </thead>
       <tbody>
         ${this.items.map(
@@ -87,12 +87,12 @@ export default class MyQuestionsApp extends PCListApp {
   }
 
   private handleNewQuestionClick() {
-    runNewEntityCommand(entityQuestion, null);
+    runNewEntityCommand(appdef.contentBaseTypeThread, null);
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-questions-app': MyQuestionsApp;
+    'my-threads-app': MyThreadsApp;
   }
 }

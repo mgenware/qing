@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 import ls from 'ls';
 import 'qing-overlay';
 import wind from './forumWind';
-import { entityQuestion } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('new-thread-app')
@@ -37,8 +37,7 @@ export class NewThreadApp extends BaseElement {
       </p>
       <qing-overlay ?open=${this.threadTypeDialogOpen} @escKeyDown=${this.closeThreadTypeModal}>
         <p>
-          <qing-button>${ls.newDiscussion}</qing-button>
-          <qing-button @click=${this.newQuestionClick}>${ls.newQuestion}</qing-button>
+          <qing-button @click=${this.newThreadClick}>${ls.newThread}</qing-button>
         </p>
         <div class="text-center">
           <div style="margin-top: 1.2rem">
@@ -59,9 +58,9 @@ export class NewThreadApp extends BaseElement {
     this.threadTypeDialogOpen = true;
   }
 
-  private newQuestionClick() {
+  private newThreadClick() {
     this.closeThreadTypeModal();
-    runNewEntityCommand(entityQuestion, wind.FID);
+    runNewEntityCommand(appdef.contentBaseTypeThread, wind.FID);
   }
 }
 
