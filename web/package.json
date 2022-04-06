@@ -14,7 +14,6 @@
     "@popperjs/core": "^2.11.4",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
-    "@qing/stylelib": "workspace:*",
     "basic-trie": "^0.2.0",
     "date-fns": "^2.28.0",
     "f-array.splice": "^1.1.0",
@@ -28,6 +27,7 @@
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^2.1.2",
     "qing-overlay": "^0.14.0",
+    "qing-stylelib": "workspace:^2.5.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

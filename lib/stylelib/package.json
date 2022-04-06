@@ -1,13 +1,9 @@
 {
-  "name": "@qing/stylelib",
-  "version": "0.0.0",
-  "private": true,
+  "name": "qing-stylelib",
+  "version": "2.5.1",
   "type": "module",
   "exports": "./dist/main.js",
   "types": "./dist/main.d.ts",
-  "scripts": {
-    "prepare": "dz build"
-  },
   "devDependencies": {
     "clean-css-cli": "^5.6.0",
     "concat": "^1.0.3"
