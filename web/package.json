@@ -15,7 +15,6 @@
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "basic-trie": "^0.2.0",
-    "date-fns": "^2.28.0",
     "f-array.splice": "^1.1.0",
     "js-cookie": "^3.0.1",
     "kangxi-editor": "^0.14.2",

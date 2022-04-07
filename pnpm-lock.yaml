@@ -73,10 +73,10 @@ importers:
   lib/def:
     specifiers:
       '@qing/devutil': workspace:*
-      qing-shared-const: ^0.1.0
+      qing-shared-const: ^0.1.1
     devDependencies:
       '@qing/devutil': link:../devutil
-      qing-shared-const: 0.1.0
+      qing-shared-const: 0.1.1
 
   lib/dev:
     specifiers:
@@ -139,7 +139,6 @@ importers:
       '@web/test-runner': ^0.13.27
       '@web/test-runner-playwright': ^0.8.8
       basic-trie: ^0.2.0
-      date-fns: ^2.28.0
       f-array.splice: ^1.1.0
       html-validate: 6.6.1
       js-cookie: ^3.0.1
@@ -162,7 +161,6 @@ importers:
       '@qing/def': link:../lib/def
       '@qing/routes': link:../lib/routes
       basic-trie: 0.2.0
-      date-fns: 2.28.0
       f-array.splice: 1.1.0
       js-cookie: 3.0.1
       kangxi-editor: 0.14.2
@@ -2485,11 +2483,6 @@ packages:
   /data-uri-to-buffer/4.0.0:
     resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
     engines: {node: '>= 12'}
-    dev: false
-
-  /date-fns/2.28.0:
-    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
-    engines: {node: '>=0.11'}
     dev: false
 
   /debounce/1.2.1:
@@ -5676,8 +5669,8 @@ packages:
       qing-button: 8.2.5_lit@2.2.1
     dev: false
 
-  /qing-shared-const/0.1.0:
-    resolution: {integrity: sha512-FGpqX5ulHfRBfMO/OrIOiXCnAwwszA34Wpj8mDaS17wYKEJW1gywIWgj7MeEYOW5CZbuXWNGBbbqV+ViP+zL+g==}
+  /qing-shared-const/0.1.1:
+    resolution: {integrity: sha512-6ULrSku8Zk9OV5bxxt1tsVLhZcThAZ9suajvsTC0M9Kpzlij2dQQoXZhn0iKY4q3kV85HuPp4R/K+glbheRfcA==}
     engines: {node: '>=14.0.0'}
     dev: true
 
