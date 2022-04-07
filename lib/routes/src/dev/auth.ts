@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import root from './root';
+import root from './root.js';
 
 // This file contains the GET routes for user login and logout used in BR tests.
 export const authRoot = `${root}/auth`;

@@ -26,7 +26,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
 import SetEntityApp from 'com/postCore/setEntityApp';
 import { renderTemplateResult } from 'lib/htmlLib';
-import { entityPost, upVoteValue, downVoteValue } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import appAlert from 'app/appAlert';
 import ErrorWithCode from 'lib/errorWithCode';
 import delay from 'lib/delay';
@@ -260,8 +260,8 @@ export class ElementsPage extends BaseElement {
       </error-view>
       <h2>Vote view</h2>
       <vote-view .value=${-20} .ups=${100} .downs=${4003489394}></vote-view>
-      <vote-view .value=${2000003430} .downs=${400} .myVote=${upVoteValue}></vote-view>
-      <vote-view .value=${20} .ups=${400} .myVote=${downVoteValue}></vote-view>
+      <vote-view .value=${2000003430} .downs=${400} .myVote=${appdef.upVoteValue}></vote-view>
+      <vote-view .value=${20} .ups=${400} .myVote=${appdef.downVoteValue}></vote-view>
       <vote-view></vote-view>
       <h2>Link list view</h2>
       <h3>Default style</h3>
@@ -322,7 +322,7 @@ export class ElementsPage extends BaseElement {
       '',
       html`<set-entity-app
         autoClose
-        entityType=${entityPost}
+        entityType=${appdef.ContentBaseType.post}
         headerText="Create a new post"></set-entity-app>`,
     );
   }

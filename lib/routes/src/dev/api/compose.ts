@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import root from './root';
+import root from './root.js';
 
 const compose = `${root}/compose`;
 

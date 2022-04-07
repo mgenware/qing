@@ -6,7 +6,7 @@
  */
 
 import { ls, formatLS, getLSByKey } from 'ls';
-import { errGeneric } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import { ERR } from 'checks';
 import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
@@ -69,7 +69,7 @@ export default class Loader<T> {
       if (err instanceof ErrorWithCode) {
         errWithCode = err;
       } else {
-        errWithCode = new ErrorWithCode(err.message || ls.internalErr, errGeneric);
+        errWithCode = new ErrorWithCode(err.message || ls.internalErr, appdef.errGeneric);
       }
 
       errWithCode.message = `${errWithCode.message} [${ls.request}: "${this.requestURL()}"]`;

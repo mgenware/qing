@@ -10,5 +10,5 @@ import ContentBase from './contentBase.js';
 import { appdef } from '@qing/def';
 
 export default class ContentWithTitleBase extends ContentBase {
-  title = mm.varChar(appdef.maxTitleLen);
+  title = mm.varChar(appdef.lenMaxTitle);
 }

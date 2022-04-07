@@ -11,7 +11,7 @@ import { appdef } from '@qing/def';
 export class UserPwd extends mm.Table {
   // `id` is from `user.id`.
   id = mm.pk().noAutoIncrement;
-  pwd_hash = mm.varChar(appdef.maxPwdHashLen);
+  pwd_hash = mm.varChar(appdef.lenMaxPwdHash);
 }
 
 export default mm.table(UserPwd);

@@ -10,14 +10,14 @@ import { appdef } from '@qing/def';
 
 export class User extends mm.Table {
   id = mm.pk();
-  email = mm.varChar(appdef.maxEmailLen).uniqueConstraint;
-  name = mm.varChar(appdef.maxNameLen);
-  icon_name = mm.varChar(appdef.maxFileNameLen).default('');
+  email = mm.varChar(appdef.lenMaxEmail).uniqueConstraint;
+  name = mm.varChar(appdef.lenMaxName);
+  icon_name = mm.varChar(appdef.lenMaxFileName).default('');
   raw_created_at = mm.datetime({ defaultToNow: 'utc' }).setDBName('created_at');
 
-  company = mm.varChar(appdef.maxUserInfoFieldLen).default('');
-  website = mm.varChar(appdef.maxURLLen).default('');
-  location = mm.varChar(appdef.maxUserInfoFieldLen).default('');
+  company = mm.varChar(appdef.lenMaxUserInfoField).default('');
+  website = mm.varChar(appdef.lenMaxURL).default('');
+  location = mm.varChar(appdef.lenMaxUserInfoField).default('');
   bio = mm.text().nullable.default(null).setModelName('BioHTML');
 
   admin = mm.bool().default(0);

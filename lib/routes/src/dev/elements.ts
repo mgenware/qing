@@ -5,6 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import root from './root';
+import root from './root.js';
 
 export const elementsRoot = `${root}/elements`;

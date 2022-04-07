@@ -187,8 +187,8 @@ export default class NavBarApp extends BaseElement {
             src=${staticMainImage('qing.svg')}
             height="25"
             width="25"
-            alt="Qing" />
-          <span class="m-l-sm vertical-align-middle">Qing</span>
+            alt=${ls._siteName} />
+          <span class="m-l-sm vertical-align-middle">${ls._siteName}</span>
         </a>
 
         <div class="fill-space"></div>

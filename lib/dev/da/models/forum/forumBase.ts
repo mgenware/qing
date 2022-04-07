@@ -10,7 +10,7 @@ import { appdef } from '@qing/def';
 
 export default class ForumBase extends mm.Table {
   id = mm.pk();
-  name = mm.varChar(appdef.maxNameLen);
+  name = mm.varChar(appdef.lenMaxName);
   desc = mm.text().setModelName('DescHTML');
   order_index = mm.uInt().default(0);
 
