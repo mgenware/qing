@@ -35,10 +35,8 @@ const (
 	HomePageFeedTypeThread
 )
 
-type Route string
-
 const (
-	RouteM Route = "m"
+	RouteM = "m"
 	RouteMx = "mx"
 	RouteApi = "s"
 	RouteForum = "f"
@@ -52,10 +50,8 @@ const (
 	RouteUser = "u"
 )
 
-type Key string
-
 const (
-	KeyPosts Key = "posts"
+	KeyPosts = "posts"
 	KeyReplies = "replies"
 	KeyPage = "page"
 	KeyPageSize = "pageSize"
@@ -70,10 +66,8 @@ const (
 	KeyLang = "lang"
 )
 
-type Err int
-
 const (
-	ErrGeneric Err = 10000
+	ErrGeneric = 10000
 	ErrNeedAuth = 10001
 	ErrCaptchaNotFound = 10002
 	ErrCaptchaNotMatch = 10003
@@ -84,10 +78,8 @@ const (
 	ErrAlreadyAdmin = 2
 )
 
-type Len int
-
 const (
-	LenMaxTitle Len = 200
+	LenMaxTitle = 200
 	LenMaxEmail = 200
 	LenMaxName = 100
 	LenMaxFileName = 255

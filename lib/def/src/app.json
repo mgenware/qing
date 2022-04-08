@@ -8,60 +8,72 @@
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
   "__enums": {
-    "contentBaseType": ["post", "cmt", "thread", "threadMsg"],
-    "homePageFeedType": ["post", "thread"],
+    "contentBaseType": { "values": ["post", "cmt", "thread", "threadMsg"] },
+    "homePageFeedType": { "values": ["post", "thread"] },
     "route": {
-      "m": "m",
-      "mx": "mx",
-      "api": "s",
-      "forum": "f",
-      "threadMsg": "r",
-      "forumGroup": "g",
-      "thread": "t",
-      "langs": "lang",
-      "dev": "__",
-      "auth": "auth",
-      "post": "p",
-      "user": "u"
+      "weakBaseType": true,
+      "values": {
+        "m": "m",
+        "mx": "mx",
+        "api": "s",
+        "forum": "f",
+        "threadMsg": "r",
+        "forumGroup": "g",
+        "thread": "t",
+        "langs": "lang",
+        "dev": "__",
+        "auth": "auth",
+        "post": "p",
+        "user": "u"
+      }
     },
     "key": {
-      "posts": "posts",
-      "replies": "replies",
-      "page": "page",
-      "pageSize": "pageSize",
-      "tab": "tab",
-      "value": "value",
-      "threads": "threads",
-      "communitySettings": "communitySettings",
-      "created": "createdAt",
-      "likes": "likes",
-      "comments": "comments",
-      "messages": "messages",
-      "lang": "lang"
+      "weakBaseType": true,
+      "values": {
+        "posts": "posts",
+        "replies": "replies",
+        "page": "page",
+        "pageSize": "pageSize",
+        "tab": "tab",
+        "value": "value",
+        "threads": "threads",
+        "communitySettings": "communitySettings",
+        "created": "createdAt",
+        "likes": "likes",
+        "comments": "comments",
+        "messages": "messages",
+        "lang": "lang"
+      }
     },
     "err": {
-      "generic": 10000,
-      "needAuth": 10001,
-      "captchaNotFound": 10002,
-      "captchaNotMatch": 10003,
-      "permissionDenied": 10004,
-      "resourceNotFound": 10005,
-      "invalidUserOrPwd": 1,
-      "cannotSetAdminOfYourself": 1,
-      "alreadyAdmin": 2
+      "weakBaseType": true,
+      "values": {
+        "generic": 10000,
+        "needAuth": 10001,
+        "captchaNotFound": 10002,
+        "captchaNotMatch": 10003,
+        "permissionDenied": 10004,
+        "resourceNotFound": 10005,
+        "invalidUserOrPwd": 1,
+        "cannotSetAdminOfYourself": 1,
+        "alreadyAdmin": 2
+      }
     },
     "len": {
-      "maxTitle": 200,
-      "maxEmail": 200,
-      "maxName": 100,
-      "maxFileName": 255,
-      "maxUserInfoField": 100,
-      "maxURL": 200,
-      "maxPwdHash": 255,
-      "minUserPwd": 6,
-      "maxUserPwd": 30,
-      "maxCaptcha": 10,
-      "maxGenericString": 100
+      "weakBaseType": true,
+      "values": {
+        "maxTitle": 200,
+        "maxEmail": 200,
+        "maxName": 100,
+        "maxFileName": 255,
+        "maxUserInfoField": 100,
+        "maxURL": 200,
+        "maxPwdHash": 255,
+        "minUserPwd": 6,
+        "maxUserPwd": 30,
+        "maxCaptcha": 10,
+        "maxGenericString": 100
+      }
     }
   }
 }
