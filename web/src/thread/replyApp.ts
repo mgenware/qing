@@ -8,7 +8,6 @@
 import { BaseElement, customElement, html, css } from 'll';
 import * as lp from 'lit-props';
 import 'com/cmt/cmtApp';
-import 'ui/qna/voteApp';
 import { CHECK } from 'checks';
 
 @customElement('reply-app')

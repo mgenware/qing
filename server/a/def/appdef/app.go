@@ -70,7 +70,7 @@ const (
 	KeyLang = "lang"
 )
 
-type Err string
+type Err int
 
 const (
 	ErrGeneric Err = 10000
@@ -84,7 +84,7 @@ const (
 	ErrAlreadyAdmin = 2
 )
 
-type Len string
+type Len int
 
 const (
 	LenMaxTitle Len = 200

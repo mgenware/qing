@@ -24,13 +24,6 @@ var rtf = new Intl.RelativeTimeFormat(ls._lang, { numeric: 'auto' });
 export class TimeField extends BaseElement {
   @lp.string createdAt = '';
   @lp.string modifiedAt = '';
-  locale?: Locale;
-
-  firstUpdated() {
-    const curLang = ls._lang;
-    // TODO: remove hardcoded lang codes.
-    this.locale = curLang === 'zh-Hans' ? zhCN : enUS;
-  }
 
   render() {
     const { createdAt, modifiedAt } = this;

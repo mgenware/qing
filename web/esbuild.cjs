@@ -12,7 +12,6 @@ const entryPoints = [
   'm/mEntry',
   'mx/mxEntry',
   'post/postEntry',
-  'discussion/discussionEntry',
   'profile/profileEntry',
   'auth/authEntry',
   'home/homeStdEntry',
@@ -20,7 +19,7 @@ const entryPoints = [
   'forum/forumEntry',
   'forum/forumSettingsEntry',
   'lang/langEntry',
-  'qna/questionEntry',
+  'thread/threadEntry',
   'devPage/devPageEntry',
 ].map((s) => `dist/${s}.js`);
 

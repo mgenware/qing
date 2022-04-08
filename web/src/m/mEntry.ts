@@ -12,8 +12,7 @@ import * as mRoute from '@qing/routes/d/m';
 import './settings/mSettingsView';
 import './settings/profile/editProfileApp';
 import './postCenter/myPostsApp';
-import './postCenter/myDiscussionsApp';
-import './postCenter/myQuestionsApp';
+import './postCenter/myThreadsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import pageUtils from 'app/utils/pageUtils';
 

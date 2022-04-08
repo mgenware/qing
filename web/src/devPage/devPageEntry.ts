@@ -11,7 +11,7 @@ import { html, TemplateResult } from 'll';
 import * as authRoute from '@qing/routes/d/dev/auth';
 import * as elementsRoute from '@qing/routes/d/dev/elements';
 import './devPage';
-import { routeDevPage } from 'sharedConstants';
+import { appdef } from '@qing/def';
 import './auth/authPage';
 import './ui/elementsPage';
 import pageUtils from 'app/utils/pageUtils';
@@ -29,7 +29,7 @@ devRouter.register(elementsRoute.elementsRoot, () => {
   loadPageContent('Elements dev page', html`<elements-page></elements-page>`);
 });
 
-devRouter.register(`/${routeDevPage}`, () => {
+devRouter.register(`/${appdef.routeDev}`, () => {
   loadPageContent('Dev page', html` <dev-page></dev-page>`);
 });
 

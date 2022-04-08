@@ -64,7 +64,7 @@
   "plsLoginToComment": "请[button]<<登录>>后才可以评论。",
   "plsLoginToReply": "请[button]<<登录>>后才可以回复。",
   "comment": "评论",
-  "request": "请求",
+  "httpRequest": "请求",
   "errorCode": "错误码",
   "uploading": "上传中...",
   "ppItemsCounter": "{0} / {1} 个项目",

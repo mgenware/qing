@@ -18,7 +18,6 @@ import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
 import 'ui/form/inputView';
 import 'ui/form/checklistView';
-import 'ui/qna/voteView';
 import 'ui/lists/linkListView';
 import 'com/like/likeView';
 import 'com/postCore/setEntityApp';
@@ -322,7 +321,7 @@ export class ElementsPage extends BaseElement {
       '',
       html`<set-entity-app
         autoClose
-        entityType=${appdef.ContentBaseType.post}
+        entityType=${appdef.contentBaseTypePost}
         headerText="Create a new post"></set-entity-app>`,
     );
   }

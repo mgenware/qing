@@ -11,7 +11,7 @@ import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import { css } from 'll';
-import { keyTab } from 'sharedConstants';
+import { appdef } from '@qing/def';
 // Required by empty content view.
 import 'ui/alerts/noContentView';
 
@@ -27,7 +27,7 @@ injectStyles([styles]);
 ready(() => {
   // Highlight the selected tab.
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get(keyTab);
+  const tab = qs.get(appdef.keyTab);
   document
     .getElementById(`m-home-tab-${tab ?? defaultHighlightedTab}`)
     ?.classList.add(tabViewActiveClass);

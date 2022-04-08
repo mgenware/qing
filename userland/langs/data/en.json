@@ -64,7 +64,7 @@
   "plsLoginToComment": "[button]<<Sign in>> to comment.",
   "plsLoginToReply": "[button]<<Sign in>> to reply to this.",
   "comment": "Comment",
-  "request": "Request",
+  "httpRequest": "Request",
   "errorCode": "Error code",
   "uploading": "Uploading...",
   "ppItemsCounter": "{0} of {1} items",
