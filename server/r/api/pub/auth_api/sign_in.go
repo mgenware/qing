@@ -25,8 +25,8 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	email := clib.MustGetStringFromDict(params, "email", appdef.MaxEmailLen)
-	pwd := clib.MustGetStringFromDict(params, "pwd", appdef.MaxUserPwdLen)
+	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxEmail)
+	pwd := clib.MustGetStringFromDict(params, "pwd", appdef.LenMaxUserPwd)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)

@@ -25,7 +25,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 
 	id := clib.MustGetIDFromDict(params, "id")
-	name := clib.MustGetStringFromDict(params, "name", appdef.MaxNameLen)
+	name := clib.MustGetStringFromDict(params, "name", appdef.LenMaxName)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
 	db := appDB.DB()

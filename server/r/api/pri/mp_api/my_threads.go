@@ -24,8 +24,8 @@ var myThreadsColumnNameToEnumMap map[string]int
 
 func init() {
 	myThreadsColumnNameToEnumMap = map[string]int{
-		appdef.ColumnMessages: da.ThreadTableSelectItemsForPostCenterOrderBy1MsgCount,
-		appdef.ColumnCreated:  da.ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt,
+		appdef.KeyMessages: da.ThreadTableSelectItemsForPostCenterOrderBy1MsgCount,
+		appdef.KeyCreated:  da.ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt,
 	}
 }
 
@@ -54,7 +54,7 @@ func myThreads(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	page := clib.GetPageParamFromDict(params)
 	pageSize := clib.MustGetIntFromDict(params, appdef.KeyPageSize)
-	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.MaxGenericStringLen)
+	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.LenMaxGenericString)
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
 	rawThreads, hasNext, err := da.Thread.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myThreadsColumnNameToEnumMap[sortBy], desc)

@@ -74,24 +74,24 @@ func Start() {
 	// M (Management) router.
 	langRouter().Mount("/"+appdef.RouteM, mp.Router)
 	// MX (Admin management) router.
-	langRouter().Mount("/"+appdef.RouteMX, mxp.Router)
+	langRouter().Mount("/"+appdef.RouteMx, mxp.Router)
 	// Forum router.
 	langRouter().Mount("/"+appdef.RouteForum, forump.Router)
 	// Auth router.
 	langRouter().Mount("/"+appdef.RouteAuth, authp.Router)
 	// API router.
-	r.Mount("/"+appdef.RouteAPI, api.Router)
+	r.Mount("/"+appdef.RouteApi, api.Router)
 	// Home page.
 	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 	// Language settings router.
-	langRouter().Mount("/"+appdef.RouteLang, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
+	langRouter().Mount("/"+appdef.RouteLangs, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
 	debugConfig := conf.Debug
 	if debugConfig != nil {
 		// DEBUG only setup.
 
 		// Dev page.
-		r.Mount("/"+appdef.RouteDevPage, devp.Router)
+		r.Mount("/"+appdef.RouteDev, devp.Router)
 	}
 
 	appLog.Get().Info("server-starting", "port", httpConf.Port)

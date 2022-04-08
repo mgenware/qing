@@ -31,7 +31,7 @@ func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 	var settings interface{}
 	var needRestart bool
-	key := clib.MustGetStringFromDict(params, "key", appdef.MaxNameLen)
+	key := clib.MustGetStringFromDict(params, "key", appdef.LenMaxName)
 	switch key {
 	case appdef.KeyCommunitySettings:
 		settings = diskSettings.Community

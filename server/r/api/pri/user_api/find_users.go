@@ -39,7 +39,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicIfErr(err)
 		users = []da.FindUserResult{user}
 	} else {
-		name := clib.MustGetStringFromDict(params, "value", appdef.MaxNameLen)
+		name := clib.MustGetStringFromDict(params, "value", appdef.LenMaxName)
 		users, err = da.User.FindUsersByName(db, "%"+name+"%")
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)

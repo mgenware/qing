@@ -24,9 +24,9 @@ var myPostsColumnNameToEnumMap map[string]int
 
 func init() {
 	myPostsColumnNameToEnumMap = map[string]int{
-		appdef.ColumnComments: da.PostTableSelectItemsForPostCenterOrderBy1CmtCount,
-		appdef.ColumnCreated:  da.PostTableSelectItemsForPostCenterOrderBy1CreatedAt,
-		appdef.ColumnLikes:    da.PostTableSelectItemsForPostCenterOrderBy1Likes,
+		appdef.KeyComments: da.PostTableSelectItemsForPostCenterOrderBy1CmtCount,
+		appdef.KeyCreated:  da.PostTableSelectItemsForPostCenterOrderBy1CreatedAt,
+		appdef.KeyLikes:    da.PostTableSelectItemsForPostCenterOrderBy1Likes,
 	}
 }
 
@@ -55,7 +55,7 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	page := clib.GetPageParamFromDict(params)
 	pageSize := clib.MustGetIntFromDict(params, appdef.KeyPageSize)
-	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.MaxGenericStringLen)
+	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.LenMaxGenericString)
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
 	rawPosts, hasNext, err := da.Post.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
