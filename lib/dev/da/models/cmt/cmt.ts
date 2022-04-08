@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import ContentBase from '../com/contentBase.js';
 
 export class Cmt extends ContentBase {
-  parent_id = mm.uBigInt().nullable;
+  parent_id = mm.fk(this.id).nullable;
   del_flag = mm.uTinyInt().default(0);
 
   host_id = mm.uBigInt();
