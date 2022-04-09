@@ -99,7 +99,7 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.58.2
+      mingru: 0.58.2_1a3f98bf42a335fa5aa49fc0ce2fcb90
       mingru-models: 0.63.2
       mingru-tsconfig: 4.0.0
     devDependencies:
@@ -113,21 +113,6 @@ importers:
 
   lib/routes:
     specifiers: {}
-
-  lib/stylelib:
-    specifiers:
-      bootstrap: ^5.1.3
-      clean-css-cli: ^5.6.0
-      concat: ^1.0.3
-      modern-normalize: ^1.1.0
-      string-to-template-literal: ^2.0.0
-    dependencies:
-      bootstrap: 5.1.3
-      modern-normalize: 1.1.0
-      string-to-template-literal: 2.0.0
-    devDependencies:
-      clean-css-cli: 5.6.0
-      concat: 1.0.3
 
   web:
     specifiers:
@@ -149,10 +134,10 @@ importers:
       narwhal-js: ^0.0.1
       plum-element: ^0.0.7
       qing-button: ^8.2.5
+      qing-css-base: ^1.0.0
       qing-dock-box: ^0.2.1
       qing-keyed-array: ^2.1.2
       qing-overlay: ^0.14.0
-      qing-stylelib: workspace:^2.5.1
       qing-t: ^6.0.1
       tslib: ^2.3.1
     dependencies:
@@ -169,10 +154,10 @@ importers:
       narwhal-js: 0.0.1
       plum-element: 0.0.7
       qing-button: 8.2.5_lit@2.2.1
+      qing-css-base: 1.0.0_@popperjs+core@2.11.4+lit@2.2.1
       qing-dock-box: 0.2.1
       qing-keyed-array: 2.1.2
       qing-overlay: 0.14.0_lit@2.2.1+qing-button@8.2.5
-      qing-stylelib: link:../lib/stylelib
       tslib: 2.3.1
     devDependencies:
       '@types/js-cookie': 3.0.1
@@ -2022,10 +2007,12 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
-  /bootstrap/5.1.3:
+  /bootstrap/5.1.3_@popperjs+core@2.11.4:
     resolution: {integrity: sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==}
     peerDependencies:
       '@popperjs/core': ^2.10.2
+    dependencies:
+      '@popperjs/core': 2.11.4
     dev: false
 
   /bowhead-js/6.0.1:
@@ -2258,24 +2245,6 @@ packages:
       static-extend: 0.1.2
     dev: true
 
-  /clean-css-cli/5.6.0:
-    resolution: {integrity: sha512-68vorNEG808D1QzeerO9AlwQVTuaR8YSK4aqwIsjJq0wDSyPH11ApHY0O+EQrdEGUZcN+d72v+Nn/gpxjAFewQ==}
-    engines: {node: '>= 10.12.0'}
-    hasBin: true
-    dependencies:
-      chokidar: 3.5.3
-      clean-css: 5.3.0
-      commander: 7.2.0
-      glob: 7.2.0
-    dev: true
-
-  /clean-css/5.3.0:
-    resolution: {integrity: sha512-YYuuxv4H/iNb1Z/5IbMRoxgrzjWGhOEFfd+groZ5dMCVkpENiMZmwspdrzBo9286JjM1gZJPAyL7ZIdzuvu2AQ==}
-    engines: {node: '>= 10.0'}
-    dependencies:
-      source-map: 0.6.1
-    dev: true
-
   /clean-stack/2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
     engines: {node: '>=6'}
@@ -2378,15 +2347,6 @@ packages:
       typical: 5.2.0
     dev: true
 
-  /commander/2.20.3:
-    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
-    dev: true
-
-  /commander/7.2.0:
-    resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
-    engines: {node: '>= 10'}
-    dev: true
-
   /commander/8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
@@ -2397,14 +2357,6 @@ packages:
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
-
-  /concat/1.0.3:
-    resolution: {integrity: sha1-QPM1MInWVGdpXLGIa0Xt1jfYzKg=}
-    engines: {node: '>=6'}
-    hasBin: true
-    dependencies:
-      commander: 2.20.3
-    dev: true
 
   /confusing-browser-globals/1.0.11:
     resolution: {integrity: sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==}
@@ -3076,19 +3028,6 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-config-airbnb-base/15.0.0:
-    resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==}
-    engines: {node: ^10.12.0 || >=12.0.0}
-    peerDependencies:
-      eslint: ^7.32.0 || ^8.2.0
-      eslint-plugin-import: ^2.25.2
-    dependencies:
-      confusing-browser-globals: 1.0.11
-      object.assign: 4.1.2
-      object.entries: 1.1.5
-      semver: 6.3.0
-    dev: false
-
   /eslint-config-airbnb-base/15.0.0_dae71b730d6620b67a20047a747b2eda:
     resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -3102,20 +3041,6 @@ packages:
       object.assign: 4.1.2
       object.entries: 1.1.5
       semver: 6.3.0
-    dev: true
-
-  /eslint-config-airbnb-typescript-lite/13.0.1:
-    resolution: {integrity: sha512-dv/ZKMK+UMoqBWjPXXrLQpMm6G4YYYKDO0p6+l5mEyIGZrDQyjV5VA4BxVJiKqpJ3xvkkkFWSVlA7dJM3BCP0A==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': ^5
-      '@typescript-eslint/parser': ^5
-      eslint: ^8
-    dependencies:
-      eslint-config-airbnb-base: 15.0.0
-    transitivePeerDependencies:
-      - eslint-plugin-import
-    dev: false
 
   /eslint-config-airbnb-typescript-lite/13.0.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
     resolution: {integrity: sha512-dv/ZKMK+UMoqBWjPXXrLQpMm6G4YYYKDO0p6+l5mEyIGZrDQyjV5VA4BxVJiKqpJ3xvkkkFWSVlA7dJM3BCP0A==}
@@ -3131,18 +3056,6 @@ packages:
       eslint-config-airbnb-base: 15.0.0_dae71b730d6620b67a20047a747b2eda
     transitivePeerDependencies:
       - eslint-plugin-import
-    dev: true
-
-  /eslint-config-mgenware/0.7.1:
-    resolution: {integrity: sha512-30sdAK30VUdZpCbO0GnddDLAOf4PKPuDS6fAjQ1+EsCp+T/tsRVFwyMkc9sop3VPbBUm+cAcG9T4u3n0ya7b4g==}
-    dependencies:
-      eslint-config-airbnb-typescript-lite: 13.0.1
-    transitivePeerDependencies:
-      - '@typescript-eslint/eslint-plugin'
-      - '@typescript-eslint/parser'
-      - eslint
-      - eslint-plugin-import
-    dev: false
 
   /eslint-config-mgenware/0.7.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
     resolution: {integrity: sha512-30sdAK30VUdZpCbO0GnddDLAOf4PKPuDS6fAjQ1+EsCp+T/tsRVFwyMkc9sop3VPbBUm+cAcG9T4u3n0ya7b4g==}
@@ -3153,7 +3066,6 @@ packages:
       - '@typescript-eslint/parser'
       - eslint
       - eslint-plugin-import
-    dev: true
 
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
@@ -4929,7 +4841,7 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.58.2:
+  /mingru/0.58.2_1a3f98bf42a335fa5aa49fc0ce2fcb90:
     resolution: {integrity: sha512-TBQwAetwou2s8luaddfIPlXzZxILzf9lQJRfxPqIcmoDpy104uoV66tLI23p5ZsrCcfqVxwSvWh6k627LiYwkg==}
     engines: {node: '>=16.7.0'}
     dependencies:
@@ -4937,7 +4849,7 @@ packages:
       chalk: 5.0.1
       decamelize: 6.0.0
       del: 6.0.0
-      eslint-config-mgenware: 0.7.1
+      eslint-config-mgenware: 0.7.1_1a3f98bf42a335fa5aa49fc0ce2fcb90
       m-fs: 5.1.0
       must-be-err: 0.1.1
       tempy: 2.0.0
@@ -5727,6 +5639,19 @@ packages:
       lit: ^2.0.0
     dependencies:
       lit: 2.2.1
+    dev: false
+
+  /qing-css-base/1.0.0_@popperjs+core@2.11.4+lit@2.2.1:
+    resolution: {integrity: sha512-HF6Ml8d+yvGeiUebJemS/be31erW8YOLvAwp2GP/FC3+7tC09P7hRc7QwL8AIRqJK62wSSpja8fgGtyhPecb7w==}
+    peerDependencies:
+      lit: ^2.0.0
+    dependencies:
+      bootstrap: 5.1.3_@popperjs+core@2.11.4
+      lit: 2.2.1
+      modern-normalize: 1.1.0
+      string-to-template-literal: 2.0.0
+    transitivePeerDependencies:
+      - '@popperjs/core'
     dev: false
 
   /qing-dock-box/0.2.1:
