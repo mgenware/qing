@@ -6,13 +6,13 @@
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
     "@types/node": "^17.0.23",
-    "@typescript-eslint/eslint-plugin": "^5.17.0",
-    "@typescript-eslint/parser": "^5.17.0",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
     "daizong": "^0.23.0",
-    "esbuild": "^0.14.29",
-    "eslint": "^8.12.0",
+    "esbuild": "^0.14.34",
+    "eslint": "^8.13.0",
     "eslint-config-mgenware": "^0.7.1",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-import": "^2.26.0",
     "is-plain-obj": "^4.0.0",
     "m-fs": "^5.1.0",
     "mgenware-tsconfig-browser": "^3.1.0",
@@ -20,11 +20,11 @@
     "source-map-support": "^0.5.21",
     "ts-patch": "^2.0.1",
     "ts-transform-esm-import": "^0.9.0",
-    "tsc-watch": "^4.6.2",
+    "tsc-watch": "^5.0.3",
     "typescript": "^4.6.3"
   },
   "dependencies": {
     "bowhead-js": "^6.0.1",
-    "lit": "^2.2.1"
+    "lit": "^2.2.2"
   }
 }
