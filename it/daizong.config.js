@@ -10,6 +10,7 @@ const brCmd = 'npx playwright test --browser=chromium --config=pw.config.cjs';
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',
   dev: {
+    alias: 'd',
     run: 'tsc -p . -w',
     before: {
       del: 'dist',
