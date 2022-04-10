@@ -10,11 +10,11 @@ import { call, usr, expect, itaNotAuthorized, it, errorResults } from 'api';
 import { scPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
 import { postCount, newUser } from 'helper/user';
-import { entityPost } from 'base/sharedConstants';
+import { appdef } from '@qing/def';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
 
 const entityBody = {
-  entityType: entityPost,
+  entityType: appdef.contentBaseTypePost,
   content: { contentHTML: defs.sd.contentHTML, title: defs.sd.title },
 };
 
@@ -23,7 +23,7 @@ it('Add', async () => {
     const pc = await postCount(u);
     await scPost(u, async ({ id }) => {
       // Post content.
-      expect(await entitySrc(id, entityPost, u)).toEqual({
+      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
         contentHTML: defs.sd.contentHTML,
         title: defs.sd.title,
       });
@@ -43,7 +43,7 @@ it('Edit', async () => {
       // Post content.
       const pc = await postCount(u);
       await call(composeRoute.setEntity, { ...entityBody, id }, u);
-      expect(await entitySrc(id, entityPost, u)).toEqual({
+      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
         contentHTML: defs.sd.contentHTML,
         title: defs.sd.title,
       });

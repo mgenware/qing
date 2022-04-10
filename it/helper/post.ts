@@ -8,7 +8,7 @@
 import * as defs from 'base/defs';
 import { APIResult, User } from 'api';
 import * as entityUtil from './entity';
-import { entityPost } from 'base/sharedConstants';
+import { appdef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
@@ -28,9 +28,9 @@ export function verifyNewPostAPIResult(r: APIResult): string {
 }
 
 async function newTmpPostCore(user: User) {
-  const r = await entityUtil.setEntity(entityPost, entityBody, user);
+  const r = await entityUtil.setEntity(appdef.contentBaseTypePost, entityBody, user);
   const id = verifyNewPostAPIResult(r);
-  await entityUtil.updateEntityTime(id, entityPost);
+  await entityUtil.updateEntityTime(id, appdef.contentBaseTypePost);
   return id;
 }
 
@@ -49,7 +49,7 @@ export async function scPost(
     await cb({ id, link: postLink(id) });
   } finally {
     if (id) {
-      await entityUtil.delEntity(id, entityPost, user);
+      await entityUtil.delEntity(id, appdef.contentBaseTypePost, user);
     }
   }
 }

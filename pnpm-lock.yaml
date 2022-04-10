@@ -50,6 +50,7 @@ importers:
   it:
     specifiers:
       '@playwright/test': ^1.20.2
+      '@qing/def': workspace:*
       '@qing/routes': workspace:*
       '@types/mocha': ^9.0.0
       expect: ^27.4.6
@@ -57,6 +58,7 @@ importers:
       node-fetch: ^3.2.3
     dependencies:
       '@playwright/test': 1.20.2
+      '@qing/def': link:../lib/def
       '@qing/routes': link:../lib/routes
       expect: 27.5.1
       node-fetch: 3.2.3
@@ -99,7 +101,7 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.58.2_1a3f98bf42a335fa5aa49fc0ce2fcb90
+      mingru: 0.58.2_affbddfb479ee9ee2b2322bc347baa17
       mingru-models: 0.63.2
       mingru-tsconfig: 4.0.0
     devDependencies:
@@ -3016,38 +3018,6 @@ packages:
       object.assign: 4.1.2
       object.entries: 1.1.5
       semver: 6.3.0
-    dev: true
-
-  /eslint-config-airbnb-base/15.0.0_dae71b730d6620b67a20047a747b2eda:
-    resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==}
-    engines: {node: ^10.12.0 || >=12.0.0}
-    peerDependencies:
-      eslint: ^7.32.0 || ^8.2.0
-      eslint-plugin-import: ^2.25.2
-    dependencies:
-      confusing-browser-globals: 1.0.11
-      eslint: 8.12.0
-      eslint-plugin-import: 2.25.4_eslint@8.12.0
-      object.assign: 4.1.2
-      object.entries: 1.1.5
-      semver: 6.3.0
-    dev: false
-
-  /eslint-config-airbnb-typescript-lite/13.0.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
-    resolution: {integrity: sha512-dv/ZKMK+UMoqBWjPXXrLQpMm6G4YYYKDO0p6+l5mEyIGZrDQyjV5VA4BxVJiKqpJ3xvkkkFWSVlA7dJM3BCP0A==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': ^5
-      '@typescript-eslint/parser': ^5
-      eslint: ^8
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 5.17.0_689ff565753ecf7c3328c07fad067df5
-      '@typescript-eslint/parser': 5.17.0_eslint@8.12.0+typescript@4.6.3
-      eslint: 8.12.0
-      eslint-config-airbnb-base: 15.0.0_dae71b730d6620b67a20047a747b2eda
-    transitivePeerDependencies:
-      - eslint-plugin-import
-    dev: false
 
   /eslint-config-airbnb-typescript-lite/13.0.1_affbddfb479ee9ee2b2322bc347baa17:
     resolution: {integrity: sha512-dv/ZKMK+UMoqBWjPXXrLQpMm6G4YYYKDO0p6+l5mEyIGZrDQyjV5VA4BxVJiKqpJ3xvkkkFWSVlA7dJM3BCP0A==}
@@ -3063,18 +3033,6 @@ packages:
       eslint-config-airbnb-base: 15.0.0_25dbcfb8cfecb7418ebda712664abe37
     transitivePeerDependencies:
       - eslint-plugin-import
-    dev: true
-
-  /eslint-config-mgenware/0.7.1_1a3f98bf42a335fa5aa49fc0ce2fcb90:
-    resolution: {integrity: sha512-30sdAK30VUdZpCbO0GnddDLAOf4PKPuDS6fAjQ1+EsCp+T/tsRVFwyMkc9sop3VPbBUm+cAcG9T4u3n0ya7b4g==}
-    dependencies:
-      eslint-config-airbnb-typescript-lite: 13.0.1_1a3f98bf42a335fa5aa49fc0ce2fcb90
-    transitivePeerDependencies:
-      - '@typescript-eslint/eslint-plugin'
-      - '@typescript-eslint/parser'
-      - eslint
-      - eslint-plugin-import
-    dev: false
 
   /eslint-config-mgenware/0.7.1_affbddfb479ee9ee2b2322bc347baa17:
     resolution: {integrity: sha512-30sdAK30VUdZpCbO0GnddDLAOf4PKPuDS6fAjQ1+EsCp+T/tsRVFwyMkc9sop3VPbBUm+cAcG9T4u3n0ya7b4g==}
@@ -3085,7 +3043,6 @@ packages:
       - '@typescript-eslint/parser'
       - eslint
       - eslint-plugin-import
-    dev: true
 
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
@@ -4862,7 +4819,7 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.58.2_1a3f98bf42a335fa5aa49fc0ce2fcb90:
+  /mingru/0.58.2_affbddfb479ee9ee2b2322bc347baa17:
     resolution: {integrity: sha512-TBQwAetwou2s8luaddfIPlXzZxILzf9lQJRfxPqIcmoDpy104uoV66tLI23p5ZsrCcfqVxwSvWh6k627LiYwkg==}
     engines: {node: '>=16.7.0'}
     dependencies:
@@ -4870,7 +4827,7 @@ packages:
       chalk: 5.0.1
       decamelize: 6.0.0
       del: 6.0.0
-      eslint-config-mgenware: 0.7.1_1a3f98bf42a335fa5aa49fc0ce2fcb90
+      eslint-config-mgenware: 0.7.1_affbddfb479ee9ee2b2322bc347baa17
       m-fs: 5.1.0
       must-be-err: 0.1.1
       tempy: 2.0.0
