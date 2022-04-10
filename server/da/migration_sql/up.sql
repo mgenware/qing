@@ -56,6 +56,65 @@ CHARACTER SET=utf8mb4
 COLLATE=utf8mb4_unicode_ci
 ;
 
+CREATE TABLE `forum_group` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(100) NOT NULL,
+	`desc` TEXT NOT NULL,
+	`order_index` INT UNSIGNED NOT NULL DEFAULT 0,
+	`created_at` DATETIME NOT NULL,
+	`forum_count` INT UNSIGNED NOT NULL DEFAULT 0,
+	PRIMARY KEY (`id`)
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
+
+CREATE TABLE `forum` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(100) NOT NULL,
+	`desc` TEXT NOT NULL,
+	`order_index` INT UNSIGNED NOT NULL DEFAULT 0,
+	`created_at` DATETIME NOT NULL,
+	`group_id` BIGINT UNSIGNED NULL DEFAULT NULL,
+	`thread_count` INT UNSIGNED NOT NULL DEFAULT 0,
+	`status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+	PRIMARY KEY (`id`),
+	CONSTRAINT FOREIGN KEY(`group_id`) REFERENCES `forum_group` (`id`) ON DELETE CASCADE
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
+
+CREATE TABLE `forum_mod` (
+	`object_id` BIGINT UNSIGNED NOT NULL,
+	`user_id` BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (`object_id`, `user_id`),
+	CONSTRAINT FOREIGN KEY(`object_id`) REFERENCES `forum` (`id`) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
+
+CREATE TABLE `forum_group_mod` (
+	`object_id` BIGINT UNSIGNED NOT NULL,
+	`user_id` BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (`object_id`, `user_id`),
+	CONSTRAINT FOREIGN KEY(`object_id`) REFERENCES `forum_group` (`id`) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
+
+CREATE TABLE `forum_is_user_mod` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (`id`)
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
+
 CREATE TABLE `cmt` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`content` TEXT NOT NULL,
@@ -157,65 +216,6 @@ CREATE TABLE `thread_msg_cmt` (
 	PRIMARY KEY (`cmt_id`, `host_id`),
 	CONSTRAINT FOREIGN KEY(`cmt_id`) REFERENCES `cmt` (`id`) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `thread_msg` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `forum` (
-	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(100) NOT NULL,
-	`desc` TEXT NOT NULL,
-	`order_index` INT UNSIGNED NOT NULL DEFAULT 0,
-	`created_at` DATETIME NOT NULL,
-	`group_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-	`thread_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	`status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-	PRIMARY KEY (`id`),
-	CONSTRAINT FOREIGN KEY(`group_id`) REFERENCES `forum_group` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `forum_group` (
-	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(100) NOT NULL,
-	`desc` TEXT NOT NULL,
-	`order_index` INT UNSIGNED NOT NULL DEFAULT 0,
-	`created_at` DATETIME NOT NULL,
-	`forum_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	PRIMARY KEY (`id`)
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `forum_mod` (
-	`object_id` BIGINT UNSIGNED NOT NULL,
-	`user_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`object_id`, `user_id`),
-	CONSTRAINT FOREIGN KEY(`object_id`) REFERENCES `forum` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `forum_group_mod` (
-	`object_id` BIGINT UNSIGNED NOT NULL,
-	`user_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`object_id`, `user_id`),
-	CONSTRAINT FOREIGN KEY(`object_id`) REFERENCES `forum_group` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `forum_is_user_mod` (
-	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (`id`)
 )
 CHARACTER SET=utf8mb4
 COLLATE=utf8mb4_unicode_ci
