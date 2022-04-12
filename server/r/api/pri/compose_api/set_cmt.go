@@ -44,16 +44,15 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		cmtHostTable, err := apicom.GetCmtHostTable(dbdef.CmtHostType(host.Type))
 		app.PanicIfErr(err)
+		cmtRelationTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
+		app.PanicIfErr(err)
 
 		captResult := 0
 		var cmtID uint64
 		if parentID != 0 {
-			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, parentID, content, uid, host.ID, uint8(host.Type), cmtHostTable, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtUtil.InsertReply(db, cmtRelationTable, parentID, content, uid, host.ID, uint8(host.Type), cmtHostTable, sanitizedToken, captResult)
 		} else {
-			cmtRelationTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
-			app.PanicIfErr(err)
-
-			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, content, uid, host.ID, uint8(host.Type), cmtRelationTable, cmtHostTable, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtUtil.InsertCmt(db, cmtRelationTable, content, uid, host.ID, uint8(host.Type), cmtHostTable, sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
 
