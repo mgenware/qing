@@ -35,7 +35,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentDict := clib.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType == appdef.ContentBaseTypePost && entityType == appdef.ContentBaseTypeThread {
+	if entityType == appdef.ContentBaseTypePost || entityType == appdef.ContentBaseTypeThread {
 		title = clib.MustGetStringFromDict(contentDict, "title", appdef.LenMaxTitle)
 	}
 
