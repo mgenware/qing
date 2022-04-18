@@ -15,7 +15,11 @@ import (
 	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/def/appdef"
+
+	"github.com/mgenware/goutil/templatex"
 )
+
+var panicTemplate = templatex.MustParse("PanicTemplate", "{{html .}}")
 
 // PanicMiddleware handles panics.
 func PanicMiddleware(next http.Handler) http.Handler {
@@ -60,6 +64,6 @@ func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 		resp := appHandler.HTMLResponse(w, r)
-		resp.MustFailWithError(err, expected)
+		resp.MustCompleteWithContent(templatex.MustExecuteToString(panicTemplate, err.Error()), w)
 	}
 }
