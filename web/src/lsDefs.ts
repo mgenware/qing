@@ -73,7 +73,7 @@ export default interface LSDefs {
   plsLoginToComment: string;
   plsLoginToReply: string;
   comment: string;
-  request: string;
+  httpRequest: string;
   errorCode: string;
   uploading: string;
   ppItemsCounter: string;

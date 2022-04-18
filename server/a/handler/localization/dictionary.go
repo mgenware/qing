@@ -80,6 +80,7 @@ type Dictionary struct {
 	GoToYourEmail                     string `json:"goToYourEmail"`
 	Home                              string `json:"home"`
 	HorizontalRule                    string `json:"horizontalRule"`
+	HttpRequest                       string `json:"httpRequest"`
 	InternalErr                       string `json:"internalErr"`
 	InvalidPageNumber                 string `json:"invalidPageNumber"`
 	Italic                            string `json:"italic"`
@@ -138,7 +139,6 @@ type Dictionary struct {
 	RemoveAdminConfirmation           string `json:"removeAdminConfirmation"`
 	Replies                           string `json:"replies"`
 	Reply                             string `json:"reply"`
-	Request                           string `json:"request"`
 	Reset                             string `json:"reset"`
 	ResourceNotFound                  string `json:"resourceNotFound"`
 	RestartServerToTakeEffect         string `json:"restartServerToTakeEffect"`
