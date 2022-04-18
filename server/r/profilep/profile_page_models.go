@@ -22,12 +22,12 @@ var vProfileFeedItem = appHandler.MainPage().MustParseView("/profile/feedItem.ht
 type ProfilePageModel struct {
 	da.UserTableSelectProfileResult
 
-	EID             string
-	UserURL         string
-	IconURL         string
-	FeedListHTML    string
-	PostCount       uint
-	DiscussionCount uint
+	EID          string
+	UserURL      string
+	IconURL      string
+	FeedListHTML string
+	PostCount    uint
+	ThreadCount  uint
 
 	ProfilePostsURL   string
 	ProfileThreadsURL string
@@ -63,7 +63,7 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	d.IconURL = appURL.Get().UserIconURL250(uid, profile.IconName)
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.PostCount = stats.PostCount
-	d.DiscussionCount = stats.ThreadCount
+	d.ThreadCount = stats.ThreadCount
 	d.FeedListHTML = feedHTML
 	d.PageBarHTML = pageBarHTML
 
