@@ -44,7 +44,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, cmtRelationTab
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := Cmt.InsertCmt(tx, cmtRelationTable, contentHTML, userID, hostID, hostType)
+		cmtID, err := Cmt.InsertCmtTX(tx, cmtRelationTable, contentHTML, userID, hostID, hostType)
 		if err != nil {
 			return err
 		}
@@ -74,7 +74,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, cmtRelationT
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Cmt.InsertReply(tx, cmtRelationTable, parentID, contentHTML, userID, hostID, hostType)
+		replyID, err := Cmt.InsertReplyTX(tx, cmtRelationTable, parentID, contentHTML, userID, hostID, hostType)
 		if err != nil {
 			return err
 		}
