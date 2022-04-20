@@ -38,7 +38,7 @@ export class SetEntityLoader extends Loader<string> {
     }
     if (entityType === appdef.contentBaseTypeThread) {
       if (!this.threadID) {
-        throw new Error('`discussionID` is required when `entityType` is `entityDiscussionMsg`');
+        throw new Error('`threadID` is required when `entityType` is thread');
       }
       params.threadID = this.threadID;
     }

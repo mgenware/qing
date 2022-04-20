@@ -72,7 +72,7 @@ export default class Loader<T> {
         errWithCode = new ErrorWithCode(err.message || ls.internalErr, appdef.errGeneric);
       }
 
-      errWithCode.message = `${errWithCode.message} [${ls.request}: "${this.requestURL()}"]`;
+      errWithCode.message = `${errWithCode.message} [${ls.httpRequest}: "${this.requestURL()}"]`;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       errWithCode.stack = err.stack;
       this.onLoadingStatusChanged(LoadingStatus.error(errWithCode));
