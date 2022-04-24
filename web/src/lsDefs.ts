@@ -131,8 +131,6 @@ export default interface LSDefs {
   general: string;
   moderators: string;
   description: string;
-  upvote: string;
-  downvote: string;
   confirmAddUserAsAdmin: string;
   userIsAlreadyAdmin: string;
   youCannotChangeYourOwnAdminStatus: string;

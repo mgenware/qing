@@ -11,7 +11,7 @@ import 'com/cmt/cmtApp';
 import { appdef } from '@qing/def';
 import { CHECK } from 'checks';
 
-// Renders a thread and handles votes and comments.
+// Renders a thread and handles likes and comments.
 @customElement('thread-app')
 export class ThreadApp extends BaseElement {
   static get styles() {

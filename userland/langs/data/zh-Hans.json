@@ -122,8 +122,6 @@
   "general": "通用",
   "moderators": "论坛管理员",
   "description": "概述",
-  "upvote": "支持",
-  "downvote": "反对",
   "confirmAddUserAsAdmin": "是否将用户\"{0}\"加入到管理员？",
   "userIsAlreadyAdmin": "用户\"{0}\"已经是管理员。",
   "youCannotChangeYourOwnAdminStatus": "您无法改变您自己的管理员状态。",
