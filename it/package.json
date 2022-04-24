@@ -8,14 +8,14 @@
     "prepare": "ts-patch install -s"
   },
   "dependencies": {
-    "@playwright/test": "^1.21.0",
+    "@playwright/test": "^1.21.1",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "expect": "^27.4.6",
     "node-fetch": "^3.2.3"
   },
   "devDependencies": {
-    "@types/mocha": "^9.0.0",
+    "@types/mocha": "^9.1.1",
     "mocha": "^9.2.2"
   }
 }

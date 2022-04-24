@@ -27,10 +27,10 @@
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^2.1.2",
     "qing-overlay": "^0.14.0",
-    "tslib": "^2.3.1"
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.1",
+    "@types/js-cookie": "^3.0.2",
     "@web/test-runner": "^0.13.27",
     "@web/test-runner-playwright": "^0.8.8",
     "html-validate": "6.7.1",
