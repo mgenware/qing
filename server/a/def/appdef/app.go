@@ -12,9 +12,6 @@
 
 const ForumStatusOpen = 0
 const ForumStatusArchived = 1
-const UpVoteValue = 1
-const DownVoteValue = -1
-const NoVoteValue = 0
 const FormUploadMain = "main"
 const DeleteFlagAuthor = 1
 const DeleteFlagHost = 2

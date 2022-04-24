@@ -116,10 +116,6 @@ export class ElementsPage extends BaseElement {
         .with-border {
           border: 1px solid var(--app-default-separator-color);
         }
-
-        vote-view {
-          margin-bottom: 1rem;
-        }
       `,
     ];
   }
@@ -257,11 +253,6 @@ export class ElementsPage extends BaseElement {
       <error-view headerTitle="Error" .canRetry=${true}>
         <p>Hello <b>world</b></p>
       </error-view>
-      <h2>Vote view</h2>
-      <vote-view .value=${-20} .ups=${100} .downs=${4003489394}></vote-view>
-      <vote-view .value=${2000003430} .downs=${400} .myVote=${appdef.upVoteValue}></vote-view>
-      <vote-view .value=${20} .ups=${400} .myVote=${appdef.downVoteValue}></vote-view>
-      <vote-view></vote-view>
       <h2>Link list view</h2>
       <h3>Default style</h3>
       <link-list-view>

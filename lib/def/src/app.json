@@ -1,9 +1,6 @@
 {
   "forumStatusOpen": 0,
   "forumStatusArchived": 1,
-  "upVoteValue": 1,
-  "downVoteValue": -1,
-  "noVoteValue": 0,
   "formUploadMain": "main",
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
