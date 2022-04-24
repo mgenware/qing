@@ -18,19 +18,14 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-type TableTypeComHome struct {
+type ComHomeAGType struct {
 }
 
-var ComHome = &TableTypeComHome{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeComHome) MingruSQLName() string {
-	return "com_home"
-}
+var ComHomeAG = &ComHomeAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeComHome) SelectThreads(mrQueryable mingru.Queryable, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
+func (mrTable *ComHomeAGType) SelectThreads(mrQueryable mingru.Queryable, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err

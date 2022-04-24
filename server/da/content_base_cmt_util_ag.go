@@ -19,28 +19,23 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-type TableTypeContentBaseCmtUtil struct {
+type ContentBaseCmtUtilAGType struct {
 }
 
-var ContentBaseCmtUtil = &TableTypeContentBaseCmtUtil{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeContentBaseCmtUtil) MingruSQLName() string {
-	return "content_base_cmt_util"
-}
+var ContentBaseCmtUtilAG = &ContentBaseCmtUtilAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild2(mrQueryable mingru.Queryable, cmtID uint64, hostID uint64) error {
+func (mrTable *ContentBaseCmtUtilAGType) insertCmtChild2(mrQueryable mingru.Queryable, cmtID uint64, hostID uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO `content_base_cmt_util` (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) insertCmtChild3(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64) error {
+func (mrTable *ContentBaseCmtUtilAGType) insertCmtChild3(mrQueryable mingru.Queryable, contentBaseTable string, id uint64) error {
 	return ContentBaseUtil.UpdateCmtCount(mrQueryable, contentBaseTable, id, 1)
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, cmtRelationTable mingru.Table, contentHTML string, userID uint64, hostID uint64, hostType uint8, contentBaseTable mingru.Table, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtUtilAGType) InsertCmt(db *sql.DB, cmtRelationTable string, contentHTML string, userID uint64, hostID uint64, hostType uint8, contentBaseTable string, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -62,15 +57,15 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertCmt(db *sql.DB, cmtRelationTab
 	return cmtIDExported, txErr
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) insertReplyChild2(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, id uint64) error {
+func (mrTable *ContentBaseCmtUtilAGType) insertReplyChild2(mrQueryable mingru.Queryable, cmtRelationTable string, id uint64) error {
 	return Cmt.UpdateReplyCount(mrQueryable, cmtRelationTable, id, 1)
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) insertReplyChild3(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, hostID uint64) error {
+func (mrTable *ContentBaseCmtUtilAGType) insertReplyChild3(mrQueryable mingru.Queryable, contentBaseTable string, hostID uint64) error {
 	return ContentBaseUtil.UpdateCmtCount(mrQueryable, contentBaseTable, hostID, 1)
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, cmtRelationTable mingru.Table, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8, contentBaseTable mingru.Table, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtUtilAGType) InsertReply(db *sql.DB, cmtRelationTable string, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8, contentBaseTable string, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -92,7 +87,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) InsertReply(db *sql.DB, cmtRelationT
 	return replyIDExported, txErr
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtUtilAGType) SelectRootCmts(mrQueryable mingru.Queryable, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -129,7 +124,7 @@ func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmts(mrQueryable mingru.Qu
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeContentBaseCmtUtil) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtUtilAGType) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err

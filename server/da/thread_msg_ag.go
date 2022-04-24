@@ -20,32 +20,27 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-type TableTypeThreadMsg struct {
+type ThreadMsgAGType struct {
 }
 
-var ThreadMsg = &TableTypeThreadMsg{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeThreadMsg) MingruSQLName() string {
-	return "thread_msg"
-}
+var ThreadMsgAG = &ThreadMsgAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeThreadMsg) deleteItemChild1(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
+func (mrTable *ThreadMsgAGType) deleteItemChild1(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `thread_msg` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeThreadMsg) deleteItemChild2(mrQueryable mingru.Queryable, id uint64) error {
+func (mrTable *ThreadMsgAGType) deleteItemChild2(mrQueryable mingru.Queryable, id uint64) error {
 	return UserStats.UpdateThreadMsgCount(mrQueryable, id, -1)
 }
 
-func (mrTable *TableTypeThreadMsg) deleteItemChild3(mrQueryable mingru.Queryable, threadID uint64) error {
+func (mrTable *ThreadMsgAGType) deleteItemChild3(mrQueryable mingru.Queryable, threadID uint64) error {
 	return Thread.UpdateMsgCount(mrQueryable, threadID, -1)
 }
 
-func (mrTable *TableTypeThreadMsg) DeleteItem(db *sql.DB, id uint64, userID uint64, threadID uint64) error {
+func (mrTable *ThreadMsgAGType) DeleteItem(db *sql.DB, id uint64, userID uint64, threadID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		err = mrTable.deleteItemChild1(tx, id, userID)
@@ -65,25 +60,25 @@ func (mrTable *TableTypeThreadMsg) DeleteItem(db *sql.DB, id uint64, userID uint
 	return txErr
 }
 
-func (mrTable *TableTypeThreadMsg) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, rawModifiedAt time.Time, contentHTML string, sanitizedStub int) error {
+func (mrTable *ThreadMsgAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, rawModifiedAt time.Time, contentHTML string, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `modified_at` = ?, `content` = ? WHERE (`id` = ? AND `user_id` = ?)", rawModifiedAt, contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeThreadMsg) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64) (uint64, error) {
+func (mrTable *ThreadMsgAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`user_id`, `created_at`, `modified_at`, `content`, `thread_id`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", userID, rawCreatedAt, rawModifiedAt, contentHTML, threadID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (mrTable *TableTypeThreadMsg) insertItemChild2(mrQueryable mingru.Queryable, id uint64) error {
+func (mrTable *ThreadMsgAGType) insertItemChild2(mrQueryable mingru.Queryable, id uint64) error {
 	return UserStats.UpdateThreadMsgCount(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypeThreadMsg) insertItemChild3(mrQueryable mingru.Queryable, id uint64) error {
+func (mrTable *ThreadMsgAGType) insertItemChild3(mrQueryable mingru.Queryable, id uint64) error {
 	return Thread.UpdateMsgCount(mrQueryable, id, 1)
 }
 
-func (mrTable *TableTypeThreadMsg) InsertItem(db *sql.DB, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ThreadMsgAGType) InsertItem(db *sql.DB, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -118,7 +113,7 @@ type ThreadMsgTableSelectItemByIDResult struct {
 	UserName      string    `json:"-"`
 }
 
-func (mrTable *TableTypeThreadMsg) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (ThreadMsgTableSelectItemByIDResult, error) {
+func (mrTable *ThreadMsgAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (ThreadMsgTableSelectItemByIDResult, error) {
 	var result ThreadMsgTableSelectItemByIDResult
 	err := mrQueryable.QueryRow("SELECT `thread_msg`.`id`, `thread_msg`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread_msg`.`created_at`, `thread_msg`.`modified_at`, `thread_msg`.`content`, `thread_msg`.`likes`, `thread_msg`.`cmt_count`, `thread_msg`.`thread_id` FROM `thread_msg` AS `thread_msg` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread_msg`.`user_id` WHERE `thread_msg`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.ThreadID)
 	if err != nil {
@@ -141,7 +136,7 @@ type ThreadMsgTableSelectItemsForPostCenterResult struct {
 	ThreadID      uint64    `json:"threadID,omitempty"`
 }
 
-func (mrTable *TableTypeThreadMsg) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]ThreadMsgTableSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *ThreadMsgAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]ThreadMsgTableSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case ThreadMsgTableSelectItemsForPostCenterOrderBy1CreatedAt:
@@ -201,7 +196,7 @@ type ThreadMsgTableSelectItemsForUserProfileResult struct {
 	ThreadID      uint64    `json:"threadID,omitempty"`
 }
 
-func (mrTable *TableTypeThreadMsg) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]ThreadMsgTableSelectItemsForUserProfileResult, bool, error) {
+func (mrTable *ThreadMsgAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]ThreadMsgTableSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -238,7 +233,7 @@ func (mrTable *TableTypeThreadMsg) SelectItemsForUserProfile(mrQueryable mingru.
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeThreadMsg) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
+func (mrTable *ThreadMsgAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
 	err := mrQueryable.QueryRow("SELECT `content` FROM `thread_msg` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
 	if err != nil {
@@ -247,7 +242,7 @@ func (mrTable *TableTypeThreadMsg) SelectItemSrc(mrQueryable mingru.Queryable, i
 	return result, nil
 }
 
-func (mrTable *TableTypeThreadMsg) SelectMsgsByThread(mrQueryable mingru.Queryable, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
+func (mrTable *ThreadMsgAGType) SelectMsgsByThread(mrQueryable mingru.Queryable, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -284,7 +279,7 @@ func (mrTable *TableTypeThreadMsg) SelectMsgsByThread(mrQueryable mingru.Queryab
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeThreadMsg) SelectMsgsByThreadWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
+func (mrTable *ThreadMsgAGType) SelectMsgsByThreadWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -321,7 +316,7 @@ func (mrTable *TableTypeThreadMsg) SelectMsgsByThreadWithLikes(mrQueryable mingr
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *TableTypeThreadMsg) SelectThread(mrQueryable mingru.Queryable, id uint64) (uint64, error) {
+func (mrTable *ThreadMsgAGType) SelectThread(mrQueryable mingru.Queryable, id uint64) (uint64, error) {
 	var result uint64
 	err := mrQueryable.QueryRow("SELECT `thread_id` FROM `thread_msg` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -330,7 +325,7 @@ func (mrTable *TableTypeThreadMsg) SelectThread(mrQueryable mingru.Queryable, id
 	return result, nil
 }
 
-func (mrTable *TableTypeThreadMsg) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+func (mrTable *ThreadMsgAGType) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

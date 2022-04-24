@@ -12,32 +12,28 @@
 
 package da
 
-type TableTypePostCmt struct {
-}
-
-var PostCmt = &TableTypePostCmt{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypePostCmt) MingruSQLName() string {
-	return "post_cmt"
-}
-
-type TableTypeThreadCmt struct {
-}
-
-var ThreadCmt = &TableTypeThreadCmt{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeThreadCmt) MingruSQLName() string {
-	return "thread_cmt"
-}
-
-type TableTypeThreadMsgCmt struct {
-}
-
-var ThreadMsgCmt = &TableTypeThreadMsgCmt{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeThreadMsgCmt) MingruSQLName() string {
-	return "thread_msg_cmt"
-}
+const TableUser = "user"
+const TableUserStats = "user_stats"
+const TableUserAuth = "user_auth"
+const TableUserPwd = "user_pwd"
+const TableForumGroup = "forum_group"
+const TableForum = "forum"
+const TableForumMod = "forum_mod"
+const TableForumGroupMod = "forum_group_mod"
+const TableForumIsUserMod = "forum_is_user_mod"
+const TableForumHome = "forum_home"
+const TableContentBaseUtil = "content_base_util"
+const TableContentBaseCmtUtil = "content_base_cmt_util"
+const TableCmt = "cmt"
+const TablePost = "post"
+const TablePostCmt = "post_cmt"
+const TableThread = "thread"
+const TableThreadCmt = "thread_cmt"
+const TableThreadMsg = "thread_msg"
+const TableThreadMsgCmt = "thread_msg_cmt"
+const TableHome = "home"
+const TableComHome = "com_home"
+const TablePostLike = "post_like"
+const TableCmtLike = "cmt_like"
+const TableThreadLike = "thread_like"
+const TableThreadMsgLike = "thread_msg_like"

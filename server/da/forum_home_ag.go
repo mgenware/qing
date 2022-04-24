@@ -14,15 +14,10 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-type TableTypeForumHome struct {
+type ForumHomeAGType struct {
 }
 
-var ForumHome = &TableTypeForumHome{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeForumHome) MingruSQLName() string {
-	return "forum_home"
-}
+var ForumHomeAG = &ForumHomeAGType{}
 
 // ------------ Actions ------------
 
@@ -34,7 +29,7 @@ type ForumHomeTableSelectForumGroupsResult struct {
 	OrderIndex uint   `json:"orderIndex,omitempty"`
 }
 
-func (mrTable *TableTypeForumHome) SelectForumGroups(mrQueryable mingru.Queryable) ([]ForumHomeTableSelectForumGroupsResult, error) {
+func (mrTable *ForumHomeAGType) SelectForumGroups(mrQueryable mingru.Queryable) ([]ForumHomeTableSelectForumGroupsResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
@@ -64,7 +59,7 @@ type ForumHomeTableSelectForumsResult struct {
 	ThreadCount uint    `json:"threadCount,omitempty"`
 }
 
-func (mrTable *TableTypeForumHome) SelectForums(mrQueryable mingru.Queryable) ([]ForumHomeTableSelectForumsResult, error) {
+func (mrTable *ForumHomeAGType) SelectForums(mrQueryable mingru.Queryable) ([]ForumHomeTableSelectForumsResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
 	if err != nil {
 		return nil, err

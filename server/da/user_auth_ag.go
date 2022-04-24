@@ -14,19 +14,14 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-type TableTypeUserAuth struct {
+type UserAuthAGType struct {
 }
 
-var UserAuth = &TableTypeUserAuth{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeUserAuth) MingruSQLName() string {
-	return "user_auth"
-}
+var UserAuthAG = &UserAuthAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeUserAuth) AddUserAuth(mrQueryable mingru.Queryable, id uint64, authType uint16) error {
+func (mrTable *UserAuthAGType) AddUserAuth(mrQueryable mingru.Queryable, id uint64, authType uint16) error {
 	_, err := mrQueryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
 	return err
 }

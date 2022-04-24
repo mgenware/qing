@@ -18,29 +18,24 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-type TableTypeUser struct {
+type UserAGType struct {
 }
 
-var User = &TableTypeUser{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeUser) MingruSQLName() string {
-	return "user"
-}
+var UserAG = &UserAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *TableTypeUser) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string) (uint64, error) {
+func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string) (uint64, error) {
 	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `admin`) VALUES (?, ?, '', UTC_TIMESTAMP(), '', '', '', NULL, 0)", email, name)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (mrTable *TableTypeUser) AddUserStatsEntryInternal(mrQueryable mingru.Queryable, id uint64) error {
+func (mrTable *UserAGType) AddUserStatsEntryInternal(mrQueryable mingru.Queryable, id uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO `user_stats` (`id`, `post_count`, `thread_count`, `thread_msg_count`) VALUES (?, 0, 0, 0)", id)
 	return err
 }
 
-func (mrTable *TableTypeUser) FindUserByID(mrQueryable mingru.Queryable, id uint64) (FindUserResult, error) {
+func (mrTable *UserAGType) FindUserByID(mrQueryable mingru.Queryable, id uint64) (FindUserResult, error) {
 	var result FindUserResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
 	if err != nil {
@@ -49,7 +44,7 @@ func (mrTable *TableTypeUser) FindUserByID(mrQueryable mingru.Queryable, id uint
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) FindUsersByName(mrQueryable mingru.Queryable, name string) ([]FindUserResult, error) {
+func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name string) ([]FindUserResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `name` LIKE ?", name)
 	if err != nil {
 		return nil, err
@@ -81,7 +76,7 @@ type UserTableSelectEditingDataResult struct {
 	Website  string  `json:"website,omitempty"`
 }
 
-func (mrTable *TableTypeUser) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserTableSelectEditingDataResult, error) {
+func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserTableSelectEditingDataResult, error) {
 	var result UserTableSelectEditingDataResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML)
 	if err != nil {
@@ -90,7 +85,7 @@ func (mrTable *TableTypeUser) SelectEditingData(mrQueryable mingru.Queryable, id
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) SelectIconName(mrQueryable mingru.Queryable, id uint64) (string, error) {
+func (mrTable *UserAGType) SelectIconName(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := mrQueryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -99,7 +94,7 @@ func (mrTable *TableTypeUser) SelectIconName(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) SelectIDFromEmail(mrQueryable mingru.Queryable, email string) (uint64, error) {
+func (mrTable *UserAGType) SelectIDFromEmail(mrQueryable mingru.Queryable, email string) (uint64, error) {
 	var result uint64
 	err := mrQueryable.QueryRow("SELECT `id` FROM `user` WHERE `email` = ?", email).Scan(&result)
 	if err != nil {
@@ -108,7 +103,7 @@ func (mrTable *TableTypeUser) SelectIDFromEmail(mrQueryable mingru.Queryable, em
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) SelectIsAdmin(mrQueryable mingru.Queryable, id uint64) (bool, error) {
+func (mrTable *UserAGType) SelectIsAdmin(mrQueryable mingru.Queryable, id uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT `admin` FROM `user` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -117,7 +112,7 @@ func (mrTable *TableTypeUser) SelectIsAdmin(mrQueryable mingru.Queryable, id uin
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) SelectName(mrQueryable mingru.Queryable, id uint64) (string, error) {
+func (mrTable *UserAGType) SelectName(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := mrQueryable.QueryRow("SELECT `name` FROM `user` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
@@ -136,7 +131,7 @@ type UserTableSelectProfileResult struct {
 	Website  string  `json:"website,omitempty"`
 }
 
-func (mrTable *TableTypeUser) SelectProfile(mrQueryable mingru.Queryable, id uint64) (UserTableSelectProfileResult, error) {
+func (mrTable *UserAGType) SelectProfile(mrQueryable mingru.Queryable, id uint64) (UserTableSelectProfileResult, error) {
 	var result UserTableSelectProfileResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML)
 	if err != nil {
@@ -152,7 +147,7 @@ type UserTableSelectSessionDataResult struct {
 	Name     string `json:"name,omitempty"`
 }
 
-func (mrTable *TableTypeUser) SelectSessionData(mrQueryable mingru.Queryable, id uint64) (UserTableSelectSessionDataResult, error) {
+func (mrTable *UserAGType) SelectSessionData(mrQueryable mingru.Queryable, id uint64) (UserTableSelectSessionDataResult, error) {
 	var result UserTableSelectSessionDataResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin)
 	if err != nil {
@@ -169,7 +164,7 @@ type UserTableSelectSessionDataForumModeResult struct {
 	Name       string  `json:"name,omitempty"`
 }
 
-func (mrTable *TableTypeUser) SelectSessionDataForumMode(mrQueryable mingru.Queryable, id uint64) (UserTableSelectSessionDataForumModeResult, error) {
+func (mrTable *UserAGType) SelectSessionDataForumMode(mrQueryable mingru.Queryable, id uint64) (UserTableSelectSessionDataForumModeResult, error) {
 	var result UserTableSelectSessionDataForumModeResult
 	err := mrQueryable.QueryRow("SELECT `user`.`id`, `user`.`name`, `user`.`icon_name`, `user`.`admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin, &result.IsForumMod)
 	if err != nil {
@@ -178,11 +173,11 @@ func (mrTable *TableTypeUser) SelectSessionDataForumMode(mrQueryable mingru.Quer
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) testAddUserChild2(mrQueryable mingru.Queryable, id uint64) error {
+func (mrTable *UserAGType) testAddUserChild2(mrQueryable mingru.Queryable, id uint64) error {
 	return mrTable.AddUserStatsEntryInternal(mrQueryable, id)
 }
 
-func (mrTable *TableTypeUser) TestAddUser(db *sql.DB, email string, name string) (uint64, error) {
+func (mrTable *UserAGType) TestAddUser(db *sql.DB, email string, name string) (uint64, error) {
 	var insertedUserIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -200,17 +195,17 @@ func (mrTable *TableTypeUser) TestAddUser(db *sql.DB, email string, name string)
 	return insertedUserIDExported, txErr
 }
 
-func (mrTable *TableTypeUser) testEraseUserChild1(mrQueryable mingru.Queryable, id uint64) (int, error) {
+func (mrTable *UserAGType) testEraseUserChild1(mrQueryable mingru.Queryable, id uint64) (int, error) {
 	result, err := mrQueryable.Exec("DELETE FROM `user` WHERE `id` = ?", id)
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 
-func (mrTable *TableTypeUser) testEraseUserChild2(mrQueryable mingru.Queryable, id uint64) (int, error) {
+func (mrTable *UserAGType) testEraseUserChild2(mrQueryable mingru.Queryable, id uint64) (int, error) {
 	result, err := mrQueryable.Exec("DELETE FROM `user_stats` WHERE `id` = ?", id)
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 
-func (mrTable *TableTypeUser) TestEraseUser(db *sql.DB, id uint64) error {
+func (mrTable *UserAGType) TestEraseUser(db *sql.DB, id uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		_, err = mrTable.testEraseUserChild1(tx, id)
@@ -232,7 +227,7 @@ type UserTableUnsafeSelectAdminsResult struct {
 	Name     string `json:"name,omitempty"`
 }
 
-func (mrTable *TableTypeUser) UnsafeSelectAdmins(mrQueryable mingru.Queryable) ([]UserTableUnsafeSelectAdminsResult, error) {
+func (mrTable *UserAGType) UnsafeSelectAdmins(mrQueryable mingru.Queryable) ([]UserTableUnsafeSelectAdminsResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `admin` = 1 ORDER BY `id`")
 	if err != nil {
 		return nil, err
@@ -254,17 +249,17 @@ func (mrTable *TableTypeUser) UnsafeSelectAdmins(mrQueryable mingru.Queryable) (
 	return result, nil
 }
 
-func (mrTable *TableTypeUser) UnsafeUpdateAdmin(mrQueryable mingru.Queryable, id uint64, admin bool) error {
+func (mrTable *UserAGType) UnsafeUpdateAdmin(mrQueryable mingru.Queryable, id uint64, admin bool) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `admin` = ? WHERE `id` = ?", admin, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeUser) UpdateIconName(mrQueryable mingru.Queryable, id uint64, iconName string) error {
+func (mrTable *UserAGType) UpdateIconName(mrQueryable mingru.Queryable, id uint64, iconName string) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `icon_name` = ? WHERE `id` = ?", iconName, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *TableTypeUser) UpdateProfile(mrQueryable mingru.Queryable, id uint64, name string, website string, company string, location string, bioHTML *string) error {
+func (mrTable *UserAGType) UpdateProfile(mrQueryable mingru.Queryable, id uint64, name string, website string, company string, location string, bioHTML *string) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ?, `bio` = ? WHERE `id` = ?", name, website, company, location, bioHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -19,15 +19,10 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-type TableTypeHome struct {
+type HomeAGType struct {
 }
 
-var Home = &TableTypeHome{}
-
-// MingruSQLName returns the name of this table.
-func (mrTable *TableTypeHome) MingruSQLName() string {
-	return "home"
-}
+var HomeAG = &HomeAGType{}
 
 // ------------ Actions ------------
 
@@ -43,7 +38,7 @@ type HomeTableSelectPostsResult struct {
 	UserName      string    `json:"-"`
 }
 
-func (mrTable *TableTypeHome) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeTableSelectPostsResult, bool, error) {
+func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeTableSelectPostsResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
