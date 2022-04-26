@@ -90,7 +90,7 @@ importers:
       is-plain-obj: ^4.0.0
       js-yaml: ^4.1.0
       jsconfgen: ^0.2.0
-      mingru: ^0.59.0
+      mingru: ^0.59.1
       mingru-models: ^0.63.2
       mingru-tsconfig: ^4.0.0
     dependencies:
@@ -101,7 +101,7 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.59.0_aa8667a1f5901b7e1384ceaca324281d
+      mingru: 0.59.1_aa8667a1f5901b7e1384ceaca324281d
       mingru-models: 0.63.2
       mingru-tsconfig: 4.0.0
     devDependencies:
@@ -4857,8 +4857,8 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.59.0_aa8667a1f5901b7e1384ceaca324281d:
-    resolution: {integrity: sha512-TxbElX3Zx+pWVxKu48+kT9BSzA2+RBYh8mwdNEo1maqFp62qWxMuky6mMDfA9qYyN35zZvdFAvl/KWmv/nSWBg==}
+  /mingru/0.59.1_aa8667a1f5901b7e1384ceaca324281d:
+    resolution: {integrity: sha512-br5zS1xUSybTZbPKD9zXTTpq5VsnkUKD+Q6tmsozK/+lCntHjop6Ib11O58jXzDy77ayZoR3tb9iRD99b8rJ/w==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 6.3.0

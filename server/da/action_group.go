@@ -12,7 +12,11 @@
 
 package da
 
-import "github.com/mgenware/mingru-go-lib"
+import (
+	"database/sql"
+
+	"github.com/mgenware/mingru-go-lib"
+)
 
 type ActionGroupType struct {
 }
@@ -21,25 +25,25 @@ var ActionGroup = &ActionGroupType{}
 
 // ------------ Actions ------------
 
-func (mrTable *ActionGroupType) DeleteMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
-	result, err := mrQueryable.Exec("DELETE FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
+func (mrTable *ActionGroupType) cancelLikeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+	result, err := mrQueryable.Exec("DELETE FROM `thread_msg_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ActionGroupType) InsertMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
-	_, err := mrQueryable.Exec("INSERT INTO `forum_group_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
-	return err
+func (mrTable *ActionGroupType) cancelLikeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `likes` = `likes` + -1 WHERE `id` = ?", hostID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ActionGroupType) SelectIsMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
-	var result bool
-	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
- nil {
+func (mrTable *ActionGroupType) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		err = mrTable.cancelLikeChild1(tx, hostID, userID)
+		if err != nil {
+			return err
+		}
+		err = mrTable.cancelLikeChild2(tx, hostID)
+		if err != nil {
 			return err
 		}
 		return nil
