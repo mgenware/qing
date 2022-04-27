@@ -8,7 +8,6 @@
 import 'core';
 import './threadApp';
 import './addReplyApp';
-import './replyApp';
 import { hookUpQueAppEditorEvents } from './common';
 
 hookUpQueAppEditorEvents();
