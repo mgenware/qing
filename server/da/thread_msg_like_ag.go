@@ -18,24 +18,24 @@ import (
 	"github.com/mgenware/mingru-go-lib"
 )
 
-type ActionGroupType struct {
+type thread_msg_likeAGType struct {
 }
 
-var ActionGroup = &ActionGroupType{}
+var thread_msg_like = &thread_msg_likeAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *ActionGroupType) cancelLikeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+func (mrTable *thread_msg_likeAGType) cancelLikeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `thread_msg_like` WHERE (`host_id` = ? AND `user_id` = ?)", hostID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ActionGroupType) cancelLikeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+func (mrTable *thread_msg_likeAGType) cancelLikeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
 	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `likes` = `likes` + -1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ActionGroupType) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
+func (mrTable *thread_msg_likeAGType) CancelLike(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		err = mrTable.cancelLikeChild1(tx, hostID, userID)
@@ -51,7 +51,7 @@ func (mrTable *ActionGroupType) CancelLike(db *sql.DB, hostID uint64, userID uin
 	return txErr
 }
 
-func (mrTable *ActionGroupType) HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
+func (mrTable *thread_msg_likeAGType) HasLiked(mrQueryable mingru.Queryable, hostID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `thread_msg_like` WHERE (`host_id` = ? AND `user_id` = ?))", hostID, userID).Scan(&result)
 	if err != nil {
@@ -60,17 +60,17 @@ func (mrTable *ActionGroupType) HasLiked(mrQueryable mingru.Queryable, hostID ui
 	return result, nil
 }
 
-func (mrTable *ActionGroupType) likeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
+func (mrTable *thread_msg_likeAGType) likeChild1(mrQueryable mingru.Queryable, hostID uint64, userID uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO `thread_msg_like` (`host_id`, `user_id`) VALUES (?, ?)", hostID, userID)
 	return err
 }
 
-func (mrTable *ActionGroupType) likeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
+func (mrTable *thread_msg_likeAGType) likeChild2(mrQueryable mingru.Queryable, hostID uint64) error {
 	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `likes` = `likes` + 1 WHERE `id` = ?", hostID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ActionGroupType) Like(db *sql.DB, hostID uint64, userID uint64) error {
+func (mrTable *thread_msg_likeAGType) Like(db *sql.DB, hostID uint64, userID uint64) error {
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
 		err = mrTable.likeChild1(tx, hostID, userID)

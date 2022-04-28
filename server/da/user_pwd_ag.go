@@ -21,7 +21,7 @@ import (
 type UserPwdAGType struct {
 }
 
-var UserPwdAG = &UserPwdAGType{}
+var UserPwd = &UserPwdAGType{}
 
 // ------------ Actions ------------
 

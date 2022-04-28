@@ -22,7 +22,7 @@ import (
 type HomeAGType struct {
 }
 
-var HomeAG = &HomeAGType{}
+var Home = &HomeAGType{}
 
 // ------------ Actions ------------
 

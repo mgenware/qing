@@ -21,7 +21,7 @@ import (
 type ComHomeAGType struct {
 }
 
-var ComHomeAG = &ComHomeAGType{}
+var ComHome = &ComHomeAGType{}
 
 // ------------ Actions ------------
 

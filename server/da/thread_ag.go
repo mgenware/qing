@@ -23,7 +23,7 @@ import (
 type ThreadAGType struct {
 }
 
-var ThreadAG = &ThreadAGType{}
+var Thread = &ThreadAGType{}
 
 // ------------ Actions ------------
 

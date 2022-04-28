@@ -23,7 +23,7 @@ import (
 type PostAGType struct {
 }
 
-var PostAG = &PostAGType{}
+var Post = &PostAGType{}
 
 // ------------ Actions ------------
 
