@@ -22,7 +22,7 @@ import (
 type ContentBaseCmtUtilAGType struct {
 }
 
-var ContentBaseCmtUtilAG = &ContentBaseCmtUtilAGType{}
+var ContentBaseCmtUtil = &ContentBaseCmtUtilAGType{}
 
 // ------------ Actions ------------
 

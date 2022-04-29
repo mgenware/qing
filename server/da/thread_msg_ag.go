@@ -23,7 +23,7 @@ import (
 type ThreadMsgAGType struct {
 }
 
-var ThreadMsgAG = &ThreadMsgAGType{}
+var ThreadMsg = &ThreadMsgAGType{}
 
 // ------------ Actions ------------
 

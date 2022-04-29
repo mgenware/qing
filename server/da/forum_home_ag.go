@@ -17,7 +17,7 @@ import "github.com/mgenware/mingru-go-lib"
 type ForumHomeAGType struct {
 }
 
-var ForumHomeAG = &ForumHomeAGType{}
+var ForumHome = &ForumHomeAGType{}
 
 // ------------ Actions ------------
 

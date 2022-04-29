@@ -17,7 +17,7 @@ import "github.com/mgenware/mingru-go-lib"
 type UserAuthAGType struct {
 }
 
-var UserAuthAG = &UserAuthAGType{}
+var UserAuth = &UserAuthAGType{}
 
 // ------------ Actions ------------
 

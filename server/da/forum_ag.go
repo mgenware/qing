@@ -22,7 +22,7 @@ import (
 type ForumAGType struct {
 }
 
-var ForumAG = &ForumAGType{}
+var Forum = &ForumAGType{}
 
 // ------------ Actions ------------
 

@@ -17,7 +17,7 @@ import "github.com/mgenware/mingru-go-lib"
 type ForumIsUserModAGType struct {
 }
 
-var ForumIsUserModAG = &ForumIsUserModAGType{}
+var ForumIsUserMod = &ForumIsUserModAGType{}
 
 // ------------ Actions ------------
 

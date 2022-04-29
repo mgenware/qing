@@ -17,7 +17,7 @@ import "github.com/mgenware/mingru-go-lib"
 type UserStatsAGType struct {
 }
 
-var UserStatsAG = &UserStatsAGType{}
+var UserStats = &UserStatsAGType{}
 
 // ------------ Actions ------------
 

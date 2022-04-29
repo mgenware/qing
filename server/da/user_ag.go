@@ -21,7 +21,7 @@ import (
 type UserAGType struct {
 }
 
-var UserAG = &UserAGType{}
+var User = &UserAGType{}
 
 // ------------ Actions ------------
 

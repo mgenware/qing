@@ -21,7 +21,7 @@ import (
 type ForumGroupAGType struct {
 }
 
-var ForumGroupAG = &ForumGroupAGType{}
+var ForumGroup = &ForumGroupAGType{}
 
 // ------------ Actions ------------
 

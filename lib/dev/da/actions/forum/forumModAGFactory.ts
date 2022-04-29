@@ -24,5 +24,5 @@ export function createForumModTA(
   if (extraActions) {
     Object.assign(actions, extraActions);
   }
-  return mm.actionGroupCore(t, null, actions, undefined);
+  return mm.actionGroupCore(t, t.__getData().name, actions, undefined);
 }

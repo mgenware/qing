@@ -17,7 +17,7 @@ import "github.com/mgenware/mingru-go-lib"
 type ContentBaseUtilAGType struct {
 }
 
-var ContentBaseUtilAG = &ContentBaseUtilAGType{}
+var ContentBaseUtil = &ContentBaseUtilAGType{}
 
 // ------------ Actions ------------
 
