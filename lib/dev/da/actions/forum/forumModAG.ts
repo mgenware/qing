@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import t from '../../models/forum/forumMod.js';
 import { createForumModTA } from './forumModAGFactory.js';
 
-export default createForumModTA(t, 'ForumMod', {
+export default createForumModTA(t, {
   deleteUserFromForumMods: mm
     .deleteSome()
     .whereSQL(mm.and(t.user_id.isEqualToParam(), t.object_id.isInArrayParam('forumIDs'))),

@@ -8,4 +8,4 @@
 import t from '../../models/forum/forumGroupMod.js';
 import { createForumModTA } from './forumModAGFactory.js';
 
-export default createForumModTA(t, 'ForumGroupMod');
+export default createForumModTA(t);
