@@ -90,7 +90,7 @@ importers:
       is-plain-obj: ^4.0.0
       js-yaml: ^4.1.0
       jsconfgen: ^0.2.0
-      mingru: ^0.59.2
+      mingru: ^0.59.4
       mingru-models: ^0.63.4
       mingru-tsconfig: ^4.0.0
     dependencies:
@@ -101,7 +101,7 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.59.2
+      mingru: 0.59.4
       mingru-models: 0.63.4
       mingru-tsconfig: 4.0.0
     devDependencies:
@@ -5004,8 +5004,8 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.59.2:
-    resolution: {integrity: sha512-P50Gd7EGViDyEL2JMVSrb0yt+kexDblevtP6kSxcxyetKPlVhNULDt9+/mHXUQswolsUles5bm00rqmqOTs6SA==}
+  /mingru/0.59.4:
+    resolution: {integrity: sha512-Fv3zAL/Hw1s8UKTfdmoEuG733cjJS5kBUON1t5tWW6VB7cvjopLQaEgs/dweGU9rJeEyJI0gxZN2dhkRd/lfNw==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 6.3.0

@@ -21,7 +21,7 @@ var ContentBaseUtil = &ContentBaseUtilAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *ContentBaseUtilAGType) UpdateCmtCount(mrQueryable mingru.Queryable, contentBaseTable string, id uint64, offset int) error {
-	result, err := mrQueryable.Exec("UPDATE "+contentBaseTable+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
+func (mrTable *ContentBaseUtilAGType) UpdateCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE "+string(contentBaseTable)+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

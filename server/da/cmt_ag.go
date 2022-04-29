@@ -46,13 +46,13 @@ func (mrTable *CmtAGType) EraseCmt(mrQueryable mingru.Queryable, id uint64, user
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *CmtAGType) InsertCmtTX(mrQueryable mingru.Queryable, cmtRelationTable string, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO "+cmtRelationTable+" (`parent_id`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`) VALUES (NULL, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, ?, ?)", contentHTML, userID, hostID, hostType)
+func (mrTable *CmtAGType) InsertCmtTX(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO "+string(cmtRelationTable)+" (`parent_id`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`) VALUES (NULL, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, ?, ?)", contentHTML, userID, hostID, hostType)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (mrTable *CmtAGType) InsertReplyTX(mrQueryable mingru.Queryable, cmtRelationTable string, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO "+cmtRelationTable+" (`parent_id`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, ?, ?)", parentID, contentHTML, userID, hostID, hostType)
+func (mrTable *CmtAGType) InsertReplyTX(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO "+string(cmtRelationTable)+" (`parent_id`, `content`, `user_id`, `created_at`, `modified_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP(), 0, 0, 0, ?, ?)", parentID, contentHTML, userID, hostID, hostType)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -176,7 +176,7 @@ func (mrTable *CmtAGType) SelectReplySource(mrQueryable mingru.Queryable, id uin
 	return result, nil
 }
 
-func (mrTable *CmtAGType) UpdateReplyCount(mrQueryable mingru.Queryable, cmtRelationTable string, id uint64, offset int) error {
-	result, err := mrQueryable.Exec("UPDATE "+cmtRelationTable+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
+func (mrTable *CmtAGType) UpdateReplyCount(mrQueryable mingru.Queryable, cmtRelationTable mingru.Table, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE "+string(cmtRelationTable)+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
