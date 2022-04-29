@@ -11,8 +11,8 @@
     "@playwright/test": "^1.21.1",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
-    "expect": "^27.4.6",
-    "node-fetch": "^3.2.3"
+    "expect": "^28.0.2",
+    "node-fetch": "^3.2.4"
   },
   "devDependencies": {
     "@types/mocha": "^9.1.1",
