@@ -14,24 +14,24 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-type forum_group_modAGType struct {
+type ForumGroupModAGType struct {
 }
 
-var forum_group_mod = &forum_group_modAGType{}
+var ForumGroupMod = &ForumGroupModAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *forum_group_modAGType) DeleteMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
+func (mrTable *ForumGroupModAGType) DeleteMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?)", objectID, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *forum_group_modAGType) InsertMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
+func (mrTable *ForumGroupModAGType) InsertMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) error {
 	_, err := mrQueryable.Exec("INSERT INTO `forum_group_mod` (`object_id`, `user_id`) VALUES (?, ?)", objectID, userID)
 	return err
 }
 
-func (mrTable *forum_group_modAGType) SelectIsMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
+func (mrTable *ForumGroupModAGType) SelectIsMod(mrQueryable mingru.Queryable, objectID uint64, userID uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `forum_group_mod` WHERE (`object_id` = ? AND `user_id` = ?))", objectID, userID).Scan(&result)
 	if err != nil {

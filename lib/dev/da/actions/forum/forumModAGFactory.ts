@@ -10,6 +10,7 @@ import ForumModBase from '../../models/forum/forumModBase.js';
 
 export function createForumModTA(
   t: ForumModBase,
+  name: string,
   extraActions?: Record<string, mm.Action>,
 ): mm.ActionGroup {
   const actions = {
@@ -24,5 +25,5 @@ export function createForumModTA(
   if (extraActions) {
     Object.assign(actions, extraActions);
   }
-  return mm.actionGroupCore(t, t.__getData().name, actions, undefined);
+  return mm.actionGroupCore(t, name, actions, undefined);
 }
