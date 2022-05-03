@@ -35,7 +35,7 @@ func (mrTable *ContentBaseCmtStaticAGType) insertCmtChild3(mrQueryable mingru.Qu
 	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, id, 1)
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) InsertCmt(db *sql.DB, contentHTML string, userID uint64, hostID uint64, hostType uint8, contentBaseCmtTableParam mingru.Table, contentBaseTableParam mingru.Table, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtStaticAGType) InsertCmt(db *sql.DB, contentBaseCmtTableParam mingru.Table, contentBaseTableParam mingru.Table, contentHTML string, userID uint64, hostID uint64, hostType uint8, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
@@ -65,7 +65,7 @@ func (mrTable *ContentBaseCmtStaticAGType) insertReplyChild3(mrQueryable mingru.
 	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, hostID, 1)
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8, contentBaseTableParam mingru.Table, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTableParam mingru.Table, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
