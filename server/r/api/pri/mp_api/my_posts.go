@@ -24,14 +24,14 @@ var myPostsColumnNameToEnumMap map[string]int
 
 func init() {
 	myPostsColumnNameToEnumMap = map[string]int{
-		appdef.KeyComments: da.PostTableSelectItemsForPostCenterOrderBy1CmtCount,
-		appdef.KeyCreated:  da.PostTableSelectItemsForPostCenterOrderBy1CreatedAt,
-		appdef.KeyLikes:    da.PostTableSelectItemsForPostCenterOrderBy1Likes,
+		appdef.KeyComments: da.PostAGSelectItemsForPostCenterOrderBy1CmtCount,
+		appdef.KeyCreated:  da.PostAGSelectItemsForPostCenterOrderBy1CreatedAt,
+		appdef.KeyLikes:    da.PostAGSelectItemsForPostCenterOrderBy1Likes,
 	}
 }
 
 type pcPost struct {
-	da.PostTableSelectItemsForPostCenterResult
+	da.PostAGSelectItemsForPostCenterResult
 
 	EID        string `json:"id"`
 	URL        string `json:"url"`
@@ -39,8 +39,8 @@ type pcPost struct {
 	ModifiedAt string `json:"modifiedAt"`
 }
 
-func newPCPost(p *da.PostTableSelectItemsForPostCenterResult, uid uint64) pcPost {
-	d := pcPost{PostTableSelectItemsForPostCenterResult: *p}
+func newPCPost(p *da.PostAGSelectItemsForPostCenterResult, uid uint64) pcPost {
+	d := pcPost{PostAGSelectItemsForPostCenterResult: *p}
 	d.URL = appURL.Get().Post(p.ID)
 	d.EID = clib.EncodeID(uid)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)

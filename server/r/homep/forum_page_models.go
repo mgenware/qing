@@ -23,27 +23,27 @@ type FrmPageModel struct {
 }
 
 type ForumGroupModel struct {
-	da.ForumHomeTableSelectForumGroupsResult
+	da.ForumHomeAGSelectForumGroupsResult
 
 	URL        string
 	ForumsHTML string
 }
 
-func NewForumGroupModel(d *da.ForumHomeTableSelectForumGroupsResult, forumsHTML string) ForumGroupModel {
-	r := ForumGroupModel{ForumHomeTableSelectForumGroupsResult: *d}
+func NewForumGroupModel(d *da.ForumHomeAGSelectForumGroupsResult, forumsHTML string) ForumGroupModel {
+	r := ForumGroupModel{ForumHomeAGSelectForumGroupsResult: *d}
 	r.URL = appURL.Get().ForumGroup(d.ID)
 	r.ForumsHTML = forumsHTML
 	return r
 }
 
 type ForumModel struct {
-	da.ForumHomeTableSelectForumsResult
+	da.ForumHomeAGSelectForumsResult
 
 	URL string
 }
 
-func NewForumModel(d *da.ForumHomeTableSelectForumsResult) *ForumModel {
-	r := &ForumModel{ForumHomeTableSelectForumsResult: *d}
+func NewForumModel(d *da.ForumHomeAGSelectForumsResult) *ForumModel {
+	r := &ForumModel{ForumHomeAGSelectForumsResult: *d}
 	r.URL = appURL.Get().ForumAdv(d.ID, 1)
 	return r
 }

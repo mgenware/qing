@@ -21,14 +21,14 @@ var UserStats = &UserStatsAGType{}
 
 // ------------ Actions ------------
 
-type UserStatsTableSelectStatsResult struct {
+type UserStatsAGSelectStatsResult struct {
 	PostCount      uint `json:"postCount,omitempty"`
 	ThreadCount    uint `json:"threadCount,omitempty"`
 	ThreadMsgCount uint `json:"threadMsgCount,omitempty"`
 }
 
-func (mrTable *UserStatsAGType) SelectStats(mrQueryable mingru.Queryable, id uint64) (UserStatsTableSelectStatsResult, error) {
-	var result UserStatsTableSelectStatsResult
+func (mrTable *UserStatsAGType) SelectStats(mrQueryable mingru.Queryable, id uint64) (UserStatsAGSelectStatsResult, error) {
+	var result UserStatsAGSelectStatsResult
 	err := mrQueryable.QueryRow("SELECT `post_count`, `thread_count`, `thread_msg_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.ThreadCount, &result.ThreadMsgCount)
 	if err != nil {
 		return result, err

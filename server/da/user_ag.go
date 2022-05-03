@@ -66,7 +66,7 @@ func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name st
 	return result, nil
 }
 
-type UserTableSelectEditingDataResult struct {
+type UserAGSelectEditingDataResult struct {
 	BioHTML  *string `json:"bioHTML,omitempty"`
 	Company  string  `json:"company,omitempty"`
 	IconName string  `json:"-"`
@@ -76,8 +76,8 @@ type UserTableSelectEditingDataResult struct {
 	Website  string  `json:"website,omitempty"`
 }
 
-func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserTableSelectEditingDataResult, error) {
-	var result UserTableSelectEditingDataResult
+func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserAGSelectEditingDataResult, error) {
+	var result UserAGSelectEditingDataResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML)
 	if err != nil {
 		return result, err
@@ -121,7 +121,7 @@ func (mrTable *UserAGType) SelectName(mrQueryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
-type UserTableSelectProfileResult struct {
+type UserAGSelectProfileResult struct {
 	BioHTML  *string `json:"bioHTML,omitempty"`
 	Company  string  `json:"company,omitempty"`
 	IconName string  `json:"-"`
@@ -131,8 +131,8 @@ type UserTableSelectProfileResult struct {
 	Website  string  `json:"website,omitempty"`
 }
 
-func (mrTable *UserAGType) SelectProfile(mrQueryable mingru.Queryable, id uint64) (UserTableSelectProfileResult, error) {
-	var result UserTableSelectProfileResult
+func (mrTable *UserAGType) SelectProfile(mrQueryable mingru.Queryable, id uint64) (UserAGSelectProfileResult, error) {
+	var result UserAGSelectProfileResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML)
 	if err != nil {
 		return result, err
@@ -140,15 +140,15 @@ func (mrTable *UserAGType) SelectProfile(mrQueryable mingru.Queryable, id uint64
 	return result, nil
 }
 
-type UserTableSelectSessionDataResult struct {
+type UserAGSelectSessionDataResult struct {
 	Admin    bool   `json:"admin,omitempty"`
 	IconName string `json:"iconName,omitempty"`
 	ID       uint64 `json:"id,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
-func (mrTable *UserAGType) SelectSessionData(mrQueryable mingru.Queryable, id uint64) (UserTableSelectSessionDataResult, error) {
-	var result UserTableSelectSessionDataResult
+func (mrTable *UserAGType) SelectSessionData(mrQueryable mingru.Queryable, id uint64) (UserAGSelectSessionDataResult, error) {
+	var result UserAGSelectSessionDataResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin)
 	if err != nil {
 		return result, err
@@ -156,7 +156,7 @@ func (mrTable *UserAGType) SelectSessionData(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-type UserTableSelectSessionDataForumModeResult struct {
+type UserAGSelectSessionDataForumModeResult struct {
 	Admin      bool    `json:"admin,omitempty"`
 	IconName   string  `json:"iconName,omitempty"`
 	ID         uint64  `json:"id,omitempty"`
@@ -164,8 +164,8 @@ type UserTableSelectSessionDataForumModeResult struct {
 	Name       string  `json:"name,omitempty"`
 }
 
-func (mrTable *UserAGType) SelectSessionDataForumMode(mrQueryable mingru.Queryable, id uint64) (UserTableSelectSessionDataForumModeResult, error) {
-	var result UserTableSelectSessionDataForumModeResult
+func (mrTable *UserAGType) SelectSessionDataForumMode(mrQueryable mingru.Queryable, id uint64) (UserAGSelectSessionDataForumModeResult, error) {
+	var result UserAGSelectSessionDataForumModeResult
 	err := mrQueryable.QueryRow("SELECT `user`.`id`, `user`.`name`, `user`.`icon_name`, `user`.`admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin, &result.IsForumMod)
 	if err != nil {
 		return result, err
@@ -221,21 +221,21 @@ func (mrTable *UserAGType) TestEraseUser(db *sql.DB, id uint64) error {
 	return txErr
 }
 
-type UserTableUnsafeSelectAdminsResult struct {
+type UserAGUnsafeSelectAdminsResult struct {
 	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 }
 
-func (mrTable *UserAGType) UnsafeSelectAdmins(mrQueryable mingru.Queryable) ([]UserTableUnsafeSelectAdminsResult, error) {
+func (mrTable *UserAGType) UnsafeSelectAdmins(mrQueryable mingru.Queryable) ([]UserAGUnsafeSelectAdminsResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `admin` = 1 ORDER BY `id`")
 	if err != nil {
 		return nil, err
 	}
-	var result []UserTableUnsafeSelectAdminsResult
+	var result []UserAGUnsafeSelectAdminsResult
 	defer rows.Close()
 	for rows.Next() {
-		var item UserTableUnsafeSelectAdminsResult
+		var item UserAGUnsafeSelectAdminsResult
 		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
 		if err != nil {
 			return nil, err

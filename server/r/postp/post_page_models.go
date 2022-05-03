@@ -18,9 +18,8 @@ import (
 
 var vPostPage = appHandler.MainPage().MustParseView("/post/postPage.html")
 
-// PostPageModel is a wrapper around da.PostTableSelectPostByIDResult.
 type PostPageModel struct {
-	da.PostTableSelectItemByIDResult
+	da.PostAGSelectItemByIDResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
 	PostURL    string
@@ -32,9 +31,8 @@ type PostPageModel struct {
 	ModifiedAt string
 }
 
-// NewPostPageModel creates a PostPageModel.
-func NewPostPageModel(p *da.PostTableSelectItemByIDResult) PostPageModel {
-	d := PostPageModel{PostTableSelectItemByIDResult: *p}
+func NewPostPageModel(p *da.PostAGSelectItemByIDResult) PostPageModel {
+	d := PostPageModel{PostAGSelectItemByIDResult: *p}
 	eid := clib.EncodeID(p.ID)
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid

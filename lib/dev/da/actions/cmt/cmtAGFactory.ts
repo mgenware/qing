@@ -10,7 +10,10 @@ import cmt from '../../models/cmt/cmt.js';
 import * as cm from '../../models/common.js';
 import cmtAG from './cmtAG.js';
 import { CmtRelationTable, cmtHostTableInterface, CmtHostTable } from './cmtAGUtils.js';
-import { contentBaseUtilAG, contentBaseTableParam } from '../../actions/com/contentBaseUtilAG.js';
+import {
+  contentBaseStaticAG,
+  contentBaseStaticTableParam,
+} from '../../actions/com/contentBaseStaticAG.js';
 
 const cmtID = 'cmtID';
 const parentID = 'parentID';
@@ -24,7 +27,7 @@ function getIncrementCmtCountAction(rootCmt: boolean) {
   // When fetching replies, no `hostID` was exposed, we have to explicitly
   // expose the param via `RenameArg`, which renames the `id` param from
   // `contentBaseUtilAG.incrementCmtCount` to `hostID`.
-  return contentBaseUtilAG.updateCmtCount.wrap({
+  return contentBaseStaticAG.updateCmtCount.wrap({
     id: rootCmt ? mm.captureVar(hostID) : mm.renameArg(hostID),
     offset: 1,
   });
@@ -101,7 +104,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
       // Delete the reply.
       cmtAG.deleteCore,
       // cmt.replyCount--.
-      contentBaseUtilAG.updateCmtCount.wrap({ [contentBaseTableParam]: ht, offset: -1 }),
+      contentBaseStaticAG.updateCmtCount.wrap({ [contentBaseStaticTableParam]: ht, offset: -1 }),
       // host.cmtCount--.
       cmtAG.updateReplyCount.wrap({
         offset: -1,

@@ -7,12 +7,12 @@
 
 import * as mm from 'mingru-models';
 import ContentBaseCmt from './contentBaseCmt.js';
-import contentBaseUtil from './contentBaseUtil.js';
+import contentBaseTableParam from './contentBaseTableParam.js';
 
-export class ContentBaseCmtUtil extends ContentBaseCmt {
+export class ContentBaseCmtTableParam extends ContentBaseCmt {
   override getCmtHostTable() {
-    return contentBaseUtil;
+    return contentBaseTableParam;
   }
 }
 
-export default mm.table(ContentBaseCmtUtil, { virtualTable: true });
+export default mm.table(ContentBaseCmtTableParam, { tableParam: true });

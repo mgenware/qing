@@ -23,8 +23,8 @@ import forumAG from './forum/forumAG.js';
 import forumIsUserModAG from './forum/forumIsUserModAG.js';
 import forumGroupModAG from './forum/forumGroupModAG.js';
 import forumModAG from './forum/forumModAG.js';
-import { contentBaseUtilAG } from './com/contentBaseUtilAG.js';
-import contentBaseCmtUtilAG from './cmt/contentBaseCmtUtilAG.js';
+import { contentBaseStaticAG } from './com/contentBaseStaticAG.js';
+import contentBaseCmtStaticAG from './cmt/contentBaseCmtStaticAG.js';
 
 const source: Array<mm.ActionGroup | mm.Table> = [
   userAG,
@@ -37,8 +37,8 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   forumGroupModAG,
   forumIsUserModAG,
   forumHomeAG,
-  contentBaseUtilAG,
-  contentBaseCmtUtilAG,
+  contentBaseStaticAG,
+  contentBaseCmtStaticAG,
   cmtAG,
   postAG,
   postAG.baseCmtTable(),

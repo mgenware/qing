@@ -8,20 +8,18 @@
 import * as mm from 'mingru-models';
 import { getSelectCmtsAction } from './cmtAGUtils.js';
 import * as cmtf from './cmtAGFactory.js';
-import contentBaseCmtUtil from '../../models/com/contentBaseCmtUtil.js';
+import contentBaseCmtTableParam from '../../models/com/contentBaseCmtTableParam.js';
 
 export const cmtRelationTable = 'cmtRelationTable';
 
-export class ContentBaseCmtUtilAG extends mm.ActionGroup {
-  selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtUtil, fetchLikes: false });
+export class ContentBaseCmtStaticAG extends mm.ActionGroup {
+  selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtTableParam, fetchLikes: false });
   selectRootCmtsWithLikes = getSelectCmtsAction({
-    rt: contentBaseCmtUtil,
+    rt: contentBaseCmtTableParam,
     fetchLikes: true,
   });
-  insertCmt = cmtf.insertCmtAction(contentBaseCmtUtil);
+  insertCmt = cmtf.insertCmtAction(contentBaseCmtTableParam);
   insertReply = cmtf.insertReplyAction();
 }
 
-export default mm.actionGroup(contentBaseCmtUtil, ContentBaseCmtUtilAG, {
-  configurableTableName: cmtRelationTable,
-});
+export default mm.actionGroup(contentBaseCmtTableParam, ContentBaseCmtStaticAG);

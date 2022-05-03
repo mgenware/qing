@@ -18,9 +18,8 @@ import (
 var vProfilePage = appHandler.MainPage().MustParseView("/profile/profilePage.html")
 var vProfileFeedItem = appHandler.MainPage().MustParseView("/profile/feedItem.html")
 
-// ProfilePageModel ...
 type ProfilePageModel struct {
-	da.UserTableSelectProfileResult
+	da.UserAGSelectProfileResult
 
 	EID          string
 	UserURL      string
@@ -39,7 +38,7 @@ type ProfilePageWindData struct {
 }
 
 type ProfilePostItem struct {
-	da.PostTableSelectItemsForUserProfileResult
+	da.PostAGSelectItemsForUserProfileResult
 
 	URL        string
 	CreatedAt  string
@@ -47,7 +46,7 @@ type ProfilePostItem struct {
 }
 
 type ProfileThreadItem struct {
-	da.ThreadTableSelectItemsForUserProfileResult
+	da.ThreadAGSelectItemsForUserProfileResult
 
 	URL        string
 	CreatedAt  string
@@ -55,8 +54,8 @@ type ProfileThreadItem struct {
 }
 
 // NewProfilePageModelFromUser creates a new ProfileModel from profile DB result.
-func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats *da.UserStatsTableSelectStatsResult, feedHTML string, pageBarHTML string) ProfilePageModel {
-	d := ProfilePageModel{UserTableSelectProfileResult: *profile}
+func NewProfilePageModelFromUser(profile *da.UserAGSelectProfileResult, stats *da.UserStatsAGSelectStatsResult, feedHTML string, pageBarHTML string) ProfilePageModel {
+	d := ProfilePageModel{UserAGSelectProfileResult: *profile}
 	uid := profile.ID
 
 	d.EID = clib.EncodeID(uid)
@@ -72,16 +71,16 @@ func NewProfilePageModelFromUser(profile *da.UserTableSelectProfileResult, stats
 	return d
 }
 
-func NewProfilePostItem(item *da.PostTableSelectItemsForUserProfileResult) ProfilePostItem {
-	d := ProfilePostItem{PostTableSelectItemsForUserProfileResult: *item}
+func NewProfilePostItem(item *da.PostAGSelectItemsForUserProfileResult) ProfilePostItem {
+	d := ProfilePostItem{PostAGSelectItemsForUserProfileResult: *item}
 	d.URL = appURL.Get().Post(item.ID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	return d
 }
 
-func NewProfileThreadItem(item *da.ThreadTableSelectItemsForUserProfileResult) ProfileThreadItem {
-	d := ProfileThreadItem{ThreadTableSelectItemsForUserProfileResult: *item}
+func NewProfileThreadItem(item *da.ThreadAGSelectItemsForUserProfileResult) ProfileThreadItem {
+	d := ProfileThreadItem{ThreadAGSelectItemsForUserProfileResult: *item}
 	d.URL = appURL.Get().Thread(item.ID)
 	return d
 }

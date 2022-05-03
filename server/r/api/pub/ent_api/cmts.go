@@ -12,6 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/def/dbdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -77,15 +78,15 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
+	cmtRelTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
+	app.PanicIfErr(err)
 
 	if uid == 0 {
-		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmts(db, host.ID, page, kCmtPageSize)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize)
 	} else {
-		items, hasNext, err = da.ContentBaseCmtUtil.SelectRootCmtsWithLikes(db, uid, host.ID, page, kCmtPageSize)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize)
 	}
-	if err != nil {
-		app.PanicIfErr(err)
-	}
+	app.PanicIfErr(err)
 	respData = newGetCmtsRespData(items, hasNext)
 
 	return resp.MustComplete(respData)

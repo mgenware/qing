@@ -26,7 +26,7 @@ var Home = &HomeAGType{}
 
 // ------------ Actions ------------
 
-type HomeTableSelectPostsResult struct {
+type HomeAGSelectPostsResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
@@ -38,7 +38,7 @@ type HomeTableSelectPostsResult struct {
 	UserName      string    `json:"-"`
 }
 
-func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeTableSelectPostsResult, bool, error) {
+func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeAGSelectPostsResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -54,13 +54,13 @@ func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, p
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]HomeTableSelectPostsResult, 0, limit)
+	result := make([]HomeAGSelectPostsResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item HomeTableSelectPostsResult
+			var item HomeAGSelectPostsResult
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount)
 			if err != nil {
 				return nil, false, err

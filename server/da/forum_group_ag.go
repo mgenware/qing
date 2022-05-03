@@ -35,7 +35,7 @@ func (mrTable *ForumGroupAGType) InsertGroup(mrQueryable mingru.Queryable, name 
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-type ForumGroupTableSelectGroupResult struct {
+type ForumGroupAGSelectGroupResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
 	ForumCount   uint      `json:"forumCount,omitempty"`
 	ID           uint64    `json:"id,omitempty"`
@@ -43,8 +43,8 @@ type ForumGroupTableSelectGroupResult struct {
 	RawCreatedAt time.Time `json:"-"`
 }
 
-func (mrTable *ForumGroupAGType) SelectGroup(mrQueryable mingru.Queryable, id uint64) (ForumGroupTableSelectGroupResult, error) {
-	var result ForumGroupTableSelectGroupResult
+func (mrTable *ForumGroupAGType) SelectGroup(mrQueryable mingru.Queryable, id uint64) (ForumGroupAGSelectGroupResult, error) {
+	var result ForumGroupAGSelectGroupResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `forum_count` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ForumCount)
 	if err != nil {
 		return result, err
@@ -52,13 +52,13 @@ func (mrTable *ForumGroupAGType) SelectGroup(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
-type ForumGroupTableSelectInfoForEditingResult struct {
+type ForumGroupAGSelectInfoForEditingResult struct {
 	DescHTML string `json:"descHTML,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
-func (mrTable *ForumGroupAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumGroupTableSelectInfoForEditingResult, error) {
-	var result ForumGroupTableSelectInfoForEditingResult
+func (mrTable *ForumGroupAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumGroupAGSelectInfoForEditingResult, error) {
+	var result ForumGroupAGSelectInfoForEditingResult
 	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum_group` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
 	if err != nil {
 		return result, err

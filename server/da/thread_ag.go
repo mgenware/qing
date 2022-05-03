@@ -84,7 +84,7 @@ func (mrTable *ThreadAGType) InsertItem(db *sql.DB, userID uint64, rawCreatedAt 
 	return insertedIDExported, txErr
 }
 
-type ThreadTableSelectItemByIDResult struct {
+type ThreadAGSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
 	ForumID       *uint64   `json:"forumID,omitempty"`
@@ -99,8 +99,8 @@ type ThreadTableSelectItemByIDResult struct {
 	UserName      string    `json:"-"`
 }
 
-func (mrTable *ThreadAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (ThreadTableSelectItemByIDResult, error) {
-	var result ThreadTableSelectItemByIDResult
+func (mrTable *ThreadAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (ThreadAGSelectItemByIDResult, error) {
+	var result ThreadAGSelectItemByIDResult
 	err := mrQueryable.QueryRow("SELECT `thread`.`id`, `thread`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread`.`created_at`, `thread`.`modified_at`, `thread`.`content`, `thread`.`likes`, `thread`.`cmt_count`, `thread`.`title`, `thread`.`msg_count`, `thread`.`forum_id` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title, &result.MsgCount, &result.ForumID)
 	if err != nil {
 		return result, err
@@ -109,12 +109,12 @@ func (mrTable *ThreadAGType) SelectItemByID(mrQueryable mingru.Queryable, id uin
 }
 
 const (
-	ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
-	ThreadTableSelectItemsForPostCenterOrderBy1Likes
-	ThreadTableSelectItemsForPostCenterOrderBy1MsgCount
+	ThreadAGSelectItemsForPostCenterOrderBy1CreatedAt = iota
+	ThreadAGSelectItemsForPostCenterOrderBy1Likes
+	ThreadAGSelectItemsForPostCenterOrderBy1MsgCount
 )
 
-type ThreadTableSelectItemsForPostCenterResult struct {
+type ThreadAGSelectItemsForPostCenterResult struct {
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
 	MsgCount      uint      `json:"msgCount,omitempty"`
@@ -123,14 +123,14 @@ type ThreadTableSelectItemsForPostCenterResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-func (mrTable *ThreadAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]ThreadTableSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *ThreadAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]ThreadAGSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt:
+	case ThreadAGSelectItemsForPostCenterOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case ThreadTableSelectItemsForPostCenterOrderBy1Likes:
+	case ThreadAGSelectItemsForPostCenterOrderBy1Likes:
 		orderBy1SQL = "`likes`"
-	case ThreadTableSelectItemsForPostCenterOrderBy1MsgCount:
+	case ThreadAGSelectItemsForPostCenterOrderBy1MsgCount:
 		orderBy1SQL = "`msg_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -155,13 +155,13 @@ func (mrTable *ThreadAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryab
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]ThreadTableSelectItemsForPostCenterResult, 0, limit)
+	result := make([]ThreadAGSelectItemsForPostCenterResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item ThreadTableSelectItemsForPostCenterResult
+			var item ThreadAGSelectItemsForPostCenterResult
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.Title, &item.MsgCount)
 			if err != nil {
 				return nil, false, err
@@ -176,7 +176,7 @@ func (mrTable *ThreadAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryab
 	return result, itemCounter > len(result), nil
 }
 
-type ThreadTableSelectItemsForUserProfileResult struct {
+type ThreadAGSelectItemsForUserProfileResult struct {
 	ID            uint64    `json:"-"`
 	MsgCount      uint      `json:"msgCount,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -184,7 +184,7 @@ type ThreadTableSelectItemsForUserProfileResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-func (mrTable *ThreadAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]ThreadTableSelectItemsForUserProfileResult, bool, error) {
+func (mrTable *ThreadAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]ThreadAGSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -200,13 +200,13 @@ func (mrTable *ThreadAGType) SelectItemsForUserProfile(mrQueryable mingru.Querya
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]ThreadTableSelectItemsForUserProfileResult, 0, limit)
+	result := make([]ThreadAGSelectItemsForUserProfileResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item ThreadTableSelectItemsForUserProfileResult
+			var item ThreadAGSelectItemsForUserProfileResult
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.MsgCount)
 			if err != nil {
 				return nil, false, err

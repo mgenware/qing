@@ -52,7 +52,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	switch tab {
 	case appdef.KeyThreads:
 		{
-			var threads []da.ThreadTableSelectItemsForUserProfileResult
+			var threads []da.ThreadAGSelectItemsForUserProfileResult
 			threads, hasNext, err = da.Thread.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder
@@ -65,7 +65,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		}
 	default:
 		{
-			var posts []da.PostTableSelectItemsForUserProfileResult
+			var posts []da.PostAGSelectItemsForUserProfileResult
 			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder

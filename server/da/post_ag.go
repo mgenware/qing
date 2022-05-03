@@ -84,7 +84,7 @@ func (mrTable *PostAGType) InsertItem(db *sql.DB, userID uint64, rawCreatedAt ti
 	return insertedIDExported, txErr
 }
 
-type PostTableSelectItemByIDResult struct {
+type PostAGSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
 	ID            uint64    `json:"-"`
@@ -97,8 +97,8 @@ type PostTableSelectItemByIDResult struct {
 	UserName      string    `json:"-"`
 }
 
-func (mrTable *PostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostTableSelectItemByIDResult, error) {
-	var result PostTableSelectItemByIDResult
+func (mrTable *PostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostAGSelectItemByIDResult, error) {
+	var result PostAGSelectItemByIDResult
 	err := mrQueryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`likes`, `post`.`cmt_count`, `post`.`title` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title)
 	if err != nil {
 		return result, err
@@ -107,12 +107,12 @@ func (mrTable *PostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint6
 }
 
 const (
-	PostTableSelectItemsForPostCenterOrderBy1CreatedAt = iota
-	PostTableSelectItemsForPostCenterOrderBy1Likes
-	PostTableSelectItemsForPostCenterOrderBy1CmtCount
+	PostAGSelectItemsForPostCenterOrderBy1CreatedAt = iota
+	PostAGSelectItemsForPostCenterOrderBy1Likes
+	PostAGSelectItemsForPostCenterOrderBy1CmtCount
 )
 
-type PostTableSelectItemsForPostCenterResult struct {
+type PostAGSelectItemsForPostCenterResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
@@ -121,14 +121,14 @@ type PostTableSelectItemsForPostCenterResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostTableSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostAGSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
-	case PostTableSelectItemsForPostCenterOrderBy1CreatedAt:
+	case PostAGSelectItemsForPostCenterOrderBy1CreatedAt:
 		orderBy1SQL = "`created_at`"
-	case PostTableSelectItemsForPostCenterOrderBy1Likes:
+	case PostAGSelectItemsForPostCenterOrderBy1Likes:
 		orderBy1SQL = "`likes`"
-	case PostTableSelectItemsForPostCenterOrderBy1CmtCount:
+	case PostAGSelectItemsForPostCenterOrderBy1CmtCount:
 		orderBy1SQL = "`cmt_count`"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
@@ -153,13 +153,13 @@ func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostTableSelectItemsForPostCenterResult, 0, limit)
+	result := make([]PostAGSelectItemsForPostCenterResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostTableSelectItemsForPostCenterResult
+			var item PostAGSelectItemsForPostCenterResult
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.Title, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
@@ -174,7 +174,7 @@ func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable
 	return result, itemCounter > len(result), nil
 }
 
-type PostTableSelectItemsForUserProfileResult struct {
+type PostAGSelectItemsForUserProfileResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ID            uint64    `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -182,7 +182,7 @@ type PostTableSelectItemsForUserProfileResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostTableSelectItemsForUserProfileResult, bool, error) {
+func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostAGSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -198,13 +198,13 @@ func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryabl
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostTableSelectItemsForUserProfileResult, 0, limit)
+	result := make([]PostAGSelectItemsForUserProfileResult, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostTableSelectItemsForUserProfileResult
+			var item PostAGSelectItemsForUserProfileResult
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount)
 			if err != nil {
 				return nil, false, err

@@ -16,9 +16,8 @@ import (
 
 var vForumPage = appHandler.MainPage().MustParseView("/forum/forumPage.html")
 
-// ForumPageModel wraps a da.ForumTableSelectForumResult.
 type ForumPageModel struct {
-	da.ForumTableSelectForumResult
+	da.ForumAGSelectForumResult
 
 	ForumEID string
 	ForumURL string
@@ -37,8 +36,8 @@ type ForumPageWindData struct {
 }
 
 // NewForumPageModel creates a ForumPageModel.
-func NewForumPageModel(f *da.ForumTableSelectForumResult, feedListHTML, pageBarHTML string, editable bool) ForumPageModel {
-	d := ForumPageModel{ForumTableSelectForumResult: *f}
+func NewForumPageModel(f *da.ForumAGSelectForumResult, feedListHTML, pageBarHTML string, editable bool) ForumPageModel {
+	d := ForumPageModel{ForumAGSelectForumResult: *f}
 
 	fid := f.ID
 	d.ForumEID = clib.EncodeID(fid)

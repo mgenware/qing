@@ -27,7 +27,7 @@ func DeleteCmt(db *sql.DB, id uint64, userID uint64, hostTable mingru.Table, hos
 		if preData.ParentID == nil {
 			// Deleting a root cmt.
 			// hostPost.cmt_count--
-			err = da.ContentBaseUtil.UpdateCmtCount(db, hostTable, hostID, -1)
+			err = da.ContentBaseStatic.UpdateCmtCount(db, hostTable, hostID, -1)
 		} else {
 			// Deleting a reply.
 			// parentCmt.reply_count--

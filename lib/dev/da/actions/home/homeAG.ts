@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import post from '../../models/post/post.js';
 import user from '../../models/user/user.js';
 
-class Home extends mm.GhostTable {}
+class HomeGhost extends mm.GhostTable {}
 
 export class HomeAG extends mm.ActionGroup {
   selectPosts: mm.SelectAction;
@@ -39,4 +39,4 @@ export class HomeAG extends mm.ActionGroup {
   }
 }
 
-export default mm.actionGroup(mm.table(Home, { virtualTable: true }), HomeAG);
+export default mm.actionGroup(mm.table(HomeGhost), HomeAG);

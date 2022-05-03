@@ -8,6 +8,6 @@
 import * as mm from 'mingru-models';
 import ContentBase from './contentBase.js';
 
-export class ContentBaseUtil extends ContentBase {}
+export class ContentBaseTableParam extends ContentBase {}
 
-export default mm.table(ContentBaseUtil, { virtualTable: true });
+export default mm.table(ContentBaseTableParam, { tableParam: true });

@@ -36,7 +36,7 @@ func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, name string
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-type ForumTableSelectForumResult struct {
+type ForumAGSelectForumResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
 	ID           uint64    `json:"id,omitempty"`
 	Name         string    `json:"name,omitempty"`
@@ -44,8 +44,8 @@ type ForumTableSelectForumResult struct {
 	ThreadCount  uint      `json:"threadCount,omitempty"`
 }
 
-func (mrTable *ForumAGType) SelectForum(mrQueryable mingru.Queryable, id uint64) (ForumTableSelectForumResult, error) {
-	var result ForumTableSelectForumResult
+func (mrTable *ForumAGType) SelectForum(mrQueryable mingru.Queryable, id uint64) (ForumAGSelectForumResult, error) {
+	var result ForumAGSelectForumResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ThreadCount)
 	if err != nil {
 		return result, err
@@ -84,13 +84,13 @@ func (mrTable *ForumAGType) SelectGroupID(mrQueryable mingru.Queryable, id uint6
 	return result, nil
 }
 
-type ForumTableSelectInfoForEditingResult struct {
+type ForumAGSelectInfoForEditingResult struct {
 	DescHTML string `json:"descHTML,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
-func (mrTable *ForumAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumTableSelectInfoForEditingResult, error) {
-	var result ForumTableSelectInfoForEditingResult
+func (mrTable *ForumAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumAGSelectInfoForEditingResult, error) {
+	var result ForumAGSelectInfoForEditingResult
 	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
 	if err != nil {
 		return result, err

@@ -26,4 +26,4 @@ export class ComHomeAG extends mm.ActionGroup {
   }
 }
 
-export default mm.actionGroup(mm.table(ComHome, { virtualTable: true }), ComHomeAG);
+export default mm.actionGroup(mm.table(ComHome), ComHomeAG);

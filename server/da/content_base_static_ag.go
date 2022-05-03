@@ -14,14 +14,14 @@ package da
 
 import "github.com/mgenware/mingru-go-lib"
 
-type ContentBaseUtilAGType struct {
+type ContentBaseStaticAGType struct {
 }
 
-var ContentBaseUtil = &ContentBaseUtilAGType{}
+var ContentBaseStatic = &ContentBaseStaticAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *ContentBaseUtilAGType) UpdateCmtCount(mrQueryable mingru.Queryable, contentBaseTable mingru.Table, id uint64, offset int) error {
-	result, err := mrQueryable.Exec("UPDATE "+string(contentBaseTable)+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
+func (mrTable *ContentBaseStaticAGType) UpdateCmtCount(mrQueryable mingru.Queryable, contentBaseTableParam mingru.Table, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE "+string(contentBaseTableParam)+" SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

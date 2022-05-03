@@ -17,13 +17,13 @@ import (
 )
 
 type infoData struct {
-	da.UserTableSelectEditingDataResult
+	da.UserAGSelectEditingDataResult
 
 	IconURL string `json:"iconURL"`
 }
 
-func newInfoData(u *da.UserTableSelectEditingDataResult) infoData {
-	d := infoData{UserTableSelectEditingDataResult: *u}
+func newInfoData(u *da.UserAGSelectEditingDataResult) infoData {
+	d := infoData{UserAGSelectEditingDataResult: *u}
 	d.IconURL = appURL.Get().UserIconURL250(u.ID, u.IconName)
 	return d
 }

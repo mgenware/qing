@@ -21,7 +21,7 @@ var ForumHome = &ForumHomeAGType{}
 
 // ------------ Actions ------------
 
-type ForumHomeTableSelectForumGroupsResult struct {
+type ForumHomeAGSelectForumGroupsResult struct {
 	DescHTML   string `json:"descHTML,omitempty"`
 	ForumCount uint   `json:"forumCount,omitempty"`
 	ID         uint64 `json:"-"`
@@ -29,15 +29,15 @@ type ForumHomeTableSelectForumGroupsResult struct {
 	OrderIndex uint   `json:"orderIndex,omitempty"`
 }
 
-func (mrTable *ForumHomeAGType) SelectForumGroups(mrQueryable mingru.Queryable) ([]ForumHomeTableSelectForumGroupsResult, error) {
+func (mrTable *ForumHomeAGType) SelectForumGroups(mrQueryable mingru.Queryable) ([]ForumHomeAGSelectForumGroupsResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `forum_count`, `desc` FROM `forum_group` ORDER BY `order_index` DESC")
 	if err != nil {
 		return nil, err
 	}
-	var result []ForumHomeTableSelectForumGroupsResult
+	var result []ForumHomeAGSelectForumGroupsResult
 	defer rows.Close()
 	for rows.Next() {
-		var item ForumHomeTableSelectForumGroupsResult
+		var item ForumHomeAGSelectForumGroupsResult
 		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ForumCount, &item.DescHTML)
 		if err != nil {
 			return nil, err
@@ -51,7 +51,7 @@ func (mrTable *ForumHomeAGType) SelectForumGroups(mrQueryable mingru.Queryable) 
 	return result, nil
 }
 
-type ForumHomeTableSelectForumsResult struct {
+type ForumHomeAGSelectForumsResult struct {
 	GroupID     *uint64 `json:"groupID,omitempty"`
 	ID          uint64  `json:"-"`
 	Name        string  `json:"name,omitempty"`
@@ -59,15 +59,15 @@ type ForumHomeTableSelectForumsResult struct {
 	ThreadCount uint    `json:"threadCount,omitempty"`
 }
 
-func (mrTable *ForumHomeAGType) SelectForums(mrQueryable mingru.Queryable) ([]ForumHomeTableSelectForumsResult, error) {
+func (mrTable *ForumHomeAGType) SelectForums(mrQueryable mingru.Queryable) ([]ForumHomeAGSelectForumsResult, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
 	if err != nil {
 		return nil, err
 	}
-	var result []ForumHomeTableSelectForumsResult
+	var result []ForumHomeAGSelectForumsResult
 	defer rows.Close()
 	for rows.Next() {
-		var item ForumHomeTableSelectForumsResult
+		var item ForumHomeAGSelectForumsResult
 		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ThreadCount, &item.GroupID)
 		if err != nil {
 			return nil, err

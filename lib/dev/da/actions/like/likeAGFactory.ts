@@ -37,5 +37,5 @@ export default function getLikeActionGroups(
       .whereSQL(mm.and(t.host_id.isEqualToParam(), t.user_id.isEqualToParam()))
       .attr(mm.ActionAttribute.groupTypeName, likeInterface),
   };
-  return mm.actionGroupCore(t, t.__getData().name, actions, undefined);
+  return mm.actionGroupCore(t, t.__getData().name, actions);
 }

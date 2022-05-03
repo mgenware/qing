@@ -26,7 +26,7 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		app.PanicIfErr(err)
 
 		// Group forums by `group_id`.
-		groupMap := make(map[uint64][]da.ForumHomeTableSelectForumsResult)
+		groupMap := make(map[uint64][]da.ForumHomeAGSelectForumsResult)
 		for _, f := range forums {
 			if f.GroupID == nil {
 				continue
@@ -34,7 +34,7 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 			gid := *f.GroupID
 			arr := groupMap[gid]
 			if arr == nil {
-				arr = make([]da.ForumHomeTableSelectForumsResult, 0)
+				arr = make([]da.ForumHomeAGSelectForumsResult, 0)
 			}
 			groupMap[gid] = append(arr, f)
 		}

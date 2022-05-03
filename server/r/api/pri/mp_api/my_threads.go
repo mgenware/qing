@@ -24,13 +24,13 @@ var myThreadsColumnNameToEnumMap map[string]int
 
 func init() {
 	myThreadsColumnNameToEnumMap = map[string]int{
-		appdef.KeyMessages: da.ThreadTableSelectItemsForPostCenterOrderBy1MsgCount,
-		appdef.KeyCreated:  da.ThreadTableSelectItemsForPostCenterOrderBy1CreatedAt,
+		appdef.KeyMessages: da.ThreadAGSelectItemsForPostCenterOrderBy1MsgCount,
+		appdef.KeyCreated:  da.ThreadAGSelectItemsForPostCenterOrderBy1CreatedAt,
 	}
 }
 
 type pcThread struct {
-	da.ThreadTableSelectItemsForPostCenterResult
+	da.ThreadAGSelectItemsForPostCenterResult
 
 	EID        string `json:"id"`
 	URL        string `json:"url"`
@@ -38,8 +38,8 @@ type pcThread struct {
 	ModifiedAt string `json:"modifiedAt"`
 }
 
-func newPCThread(p *da.ThreadTableSelectItemsForPostCenterResult, uid uint64) pcThread {
-	d := pcThread{ThreadTableSelectItemsForPostCenterResult: *p}
+func newPCThread(p *da.ThreadAGSelectItemsForPostCenterResult, uid uint64) pcThread {
+	d := pcThread{ThreadAGSelectItemsForPostCenterResult: *p}
 	d.URL = appURL.Get().Thread(p.ID)
 	d.EID = clib.EncodeID(uid)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)

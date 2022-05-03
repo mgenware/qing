@@ -9,7 +9,7 @@ import * as mm from 'mingru-models';
 import forumGroup, { ForumGroup } from '../../models/forum/forumGroup.js';
 import forum, { Forum } from '../../models/forum/forum.js';
 
-class ForumHome extends mm.GhostTable {}
+class ForumHomeGhost extends mm.GhostTable {}
 
 export class ForumHomeAG extends mm.ActionGroup {
   selectForumGroups = mm
@@ -30,4 +30,4 @@ export class ForumHomeAG extends mm.ActionGroup {
   }
 }
 
-export default mm.actionGroup(mm.table(ForumHome, { virtualTable: true }), ForumHomeAG);
+export default mm.actionGroup(mm.table(ForumHomeGhost), ForumHomeAG);

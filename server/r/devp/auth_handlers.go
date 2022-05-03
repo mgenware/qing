@@ -32,7 +32,7 @@ type UserInfo struct {
 	Name     string `json:"name,omitempty"`
 }
 
-func newUserInfoResult(d *da.UserTableSelectSessionDataResult) authSod.TUserInfo {
+func newUserInfoResult(d *da.UserAGSelectSessionDataResult) authSod.TUserInfo {
 	return authSod.NewTUserInfo(
 		d.Admin, clib.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
 	)
