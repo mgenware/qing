@@ -26,9 +26,13 @@ var ContentBaseCmtStatic = &ContentBaseCmtStaticAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *ContentBaseCmtStaticAGType) insertCmtChild2(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, cmtID uint64, hostID uint64) error {
-	_, err := mrQueryable.Exec("INSERT INTO "+string(contentBaseCmtTableParam)+" (`cmt_id`, `host_id`) VALUES (?, ?)", contentBaseCmtTableParam, cmtID, hostID)
+func (mrTable *ContentBaseCmtStaticAGType) insertCmtChild2Core(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, cmtID uint64, hostID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO "+string(contentBaseCmtTableParam)+" (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
 	return err
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) insertCmtChild2(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, cmtID uint64, hostID uint64) error {
+	return mrTable.insertCmtChild2Core(mrQueryable, contentBaseCmtTableParam, cmtID, hostID)
 }
 
 func (mrTable *ContentBaseCmtStaticAGType) insertCmtChild3(mrQueryable mingru.Queryable, contentBaseTableParam mingru.Table, id uint64) error {
@@ -39,7 +43,7 @@ func (mrTable *ContentBaseCmtStaticAGType) InsertCmt(db *sql.DB, contentBaseCmtT
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := Cmt.InsertCmtTX(tx, contentHTML, userID, hostID, hostType)
+		cmtID, err := Cmt.InsertCmtTXM(tx, contentHTML, userID, hostID, hostType)
 		if err != nil {
 			return err
 		}
@@ -69,7 +73,7 @@ func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTa
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Cmt.InsertReplyTX(tx, parentID, contentHTML, userID, hostID, hostType)
+		replyID, err := Cmt.InsertReplyTXM(tx, parentID, contentHTML, userID, hostID, hostType)
 		if err != nil {
 			return err
 		}

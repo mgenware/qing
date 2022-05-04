@@ -49,12 +49,18 @@ export class CmtAG extends mm.ActionGroup {
 
   updateReplyCount = updateCounterAction(t, t.cmt_count);
 
-  // Used as a TX member.
-  insertCmtTX = mm.insertOne().set(t.parent_id, mm.constants.NULL).setDefaults().setParams();
-  // `parent_id` is required when inserting a reply.
-  // Used as a TX member.
-  insertReplyTX = mm
+  // Used as a TX member, and thus has `.from` called.
+  insertCmtTXM = mm
     .insertOne()
+    .from(t)
+    .set(t.parent_id, mm.constants.NULL)
+    .setDefaults()
+    .setParams();
+  // `parent_id` is required when inserting a reply.
+  // Used as a TX member, and thus has `.from` called.
+  insertReplyTXM = mm
+    .insertOne()
+    .from(t)
     .set(
       t.parent_id,
       new mm.SQLVariable(t.parent_id.__type(), t.parent_id.__getDBName(), false, undefined, false),
