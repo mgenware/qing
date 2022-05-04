@@ -3,7 +3,8 @@
 Qing supports building on Windows (via WSL2), macOS and Linux. You need to install the following dependencies on your host operating system to build Qing.
 
 - Latest Docker
-- Latest Node.js LTS and [pnpm](https://pnpm.io/)
+- Latest Node.js LTS
+- [pnpm](https://pnpm.io/)
 
 ## Node.js version manager
 
