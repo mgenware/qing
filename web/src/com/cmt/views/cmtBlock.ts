@@ -249,6 +249,14 @@ export class CmtBlock extends BaseElement {
     }
     this._hasNext = e.hasNext;
     this._items = e.items;
+
+    // When adding a reply when reply view is hidden, this forces reply view to open.
+    // Setting `_loadMoreCalled` to true also prevents more items showing when the user
+    // clicks the "<number of replies>" button to hide the reply view. Basically, we
+    // treat the newly added cmt as a newly loaded cmt.
+    this._replyViewVisible = true;
+    this._loadMoreCalled = true;
+
     this.dispatchEvent(
       new CustomEvent<ItemsChangedEvent<Cmt>>('onCmtItemsChange', { detail: e, composed: true }),
     );
