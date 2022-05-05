@@ -20,5 +20,6 @@ type RawMainPageWind struct {
 	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
 	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
 	AppLang           string `json:"appLang,omitempty"`
+	AppCommunityMode  int    `json:"appCommunityMode,omitempty"`
 	AppWindDataString string `json:"appWindDataString,omitempty"`
 }

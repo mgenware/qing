@@ -8,5 +8,6 @@ RawMainPageWind:
   appUserAdmin?: bool
   # Current language ID, cannot be empty.
   appLang: string
+  appCommunityMode: int
   # Extra wind data passed by pages.
   appWindDataString?: string

@@ -9,6 +9,7 @@ package appSettings
 
 import (
 	"errors"
+	"qing/a/def/appdef"
 	appSod "qing/sod/app"
 )
 
@@ -26,6 +27,18 @@ func (st *AppSettings) Forums() bool {
 
 func (st *AppSettings) ForumGroups() bool {
 	return st.CommunityEnabled() && st.raw.Community.ForumGroupsEnabled
+}
+
+// Used in main page template.
+func (st *AppSettings) CommunityMode() appdef.CommunityMode {
+	if st.CommunityEnabled() {
+		if st.Forums() {
+			return appdef.CommunityModeForums
+		}
+		return appdef.CommunityModeCommunity
+	} else {
+		return appdef.CommunityModeDisabled
+	}
 }
 
 func NewAppSettings(obj *appSod.AppRawSettings) *AppSettings {

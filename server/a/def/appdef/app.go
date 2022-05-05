@@ -32,6 +32,14 @@ const (
 	HomePageFeedTypeThread
 )
 
+type CommunityMode int
+
+const (
+	CommunityModeDisabled CommunityMode = iota + 1
+	CommunityModeCommunity
+	CommunityModeForums
+)
+
 const (
 	RouteM = "m"
 	RouteMx = "mx"

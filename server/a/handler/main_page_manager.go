@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"qing/a/app"
+	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
 
@@ -96,25 +97,28 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 
 	ctx := r.Context()
-	// Ensure lang always has a value
+	// Ensure lang always has a value.
 	if lang == "" {
 		lang = m.locMgr.FallbackLanguage()
 	}
 
-	// Add site name to title
+	// Add site name to title.
 	d.Title = m.PageTitle(lang, d.Title)
 
-	// Setup additional assets
+	// Setup additional assets.
 	d.AppLang = lang
 	if d.WindData != nil {
 		jsonBytes, _ := json.Marshal(d.WindData)
 		d.AppWindDataString = string(jsonBytes)
 	}
 
-	// Lang script comes before user scripts
+	// Lang script comes before user scripts.
 	d.Scripts = m.jsMgr.LangScriptString(lang) + d.Scripts
 
-	// User info
+	// Community mode settings.
+	d.AppCommunityMode = int(appSettings.Get().CommunityMode())
+
+	// User info.
 	user := appcom.ContextUser(ctx)
 	if user != nil {
 		d.AppUserID = user.EID
