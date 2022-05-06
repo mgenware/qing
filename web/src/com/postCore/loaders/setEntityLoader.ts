@@ -9,18 +9,19 @@ import Loader from 'lib/loader';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
 import { appdef } from '@qing/def';
 import { ComposerContent } from 'ui/editor/composerView';
+import appPageState from 'app/appPageState';
 
 export class SetEntityLoader extends Loader<string> {
-  // Used when `entityType` is `thread`;
-  threadID?: string;
-
   constructor(
     public id: string | null,
     public content: ComposerContent,
     public entityType: number,
-    public forumID: string,
+    public forumID: string | null,
   ) {
     super();
+    if (appPageState.communityMode >= appdef.communityModeCommunity && !forumID) {
+      throw new Error('`forumID` is required in community mode');
+    }
   }
 
   requestURL(): string {
@@ -35,12 +36,6 @@ export class SetEntityLoader extends Loader<string> {
     };
     if (this.id) {
       params.id = this.id;
-    }
-    if (entityType === appdef.contentBaseTypeThread) {
-      if (!this.threadID) {
-        throw new Error('`threadID` is required when `entityType` is thread');
-      }
-      params.threadID = this.threadID;
     }
     if (this.forumID) {
       params.forumID = this.forumID;

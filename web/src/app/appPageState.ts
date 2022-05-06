@@ -69,7 +69,7 @@ export class AppPageState {
     appState.set(appStateName.user, newUser);
   }
 
-  get communityMode() {
+  get communityMode(): number {
     return appState.get(appStateName.communityMode);
   }
 }

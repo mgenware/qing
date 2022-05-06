@@ -43,8 +43,6 @@ export default class SetEntityApp extends BaseElement {
   @lp.bool open = false;
   @lp.bool autoClose = false;
 
-  @lp.string threadID: string | undefined;
-
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
   }
@@ -95,9 +93,6 @@ export default class SetEntityApp extends BaseElement {
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
     const loader = new SetEntityLoader(this.postID, e.detail, this.entityType, this.forumID);
-    if (this.threadID) {
-      loader.threadID = this.threadID;
-    }
     const status = await appTask.critical(loader, this.postID ? ls.saving : ls.publishing);
     if (status.isSuccess) {
       this.composerEl?.markAsSaved();

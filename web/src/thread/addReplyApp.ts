@@ -14,7 +14,7 @@ import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
 import wind from './threadWind';
 
-@customElement('add-rep;y-app')
+@customElement('add-reply-app')
 export class AddReplyApp extends BaseElement {
   static get styles() {
     return [
