@@ -39,6 +39,7 @@
       window.appUserIconURL = '{{js .AppUserIconURL}}';
       window.appUserAdmin = '{{.AppUserAdmin}}' === 'true';
       window.appLang = '{{js .AppLang}}';
+      window.appCommunityMode = '{{js .AppCommunityMode}}';
       window.appWindData = JSON.parse('{{js .AppWindDataString}}' || null);
     </script>
     {{.Scripts}}

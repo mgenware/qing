@@ -6,6 +6,7 @@
  */
 export class AppStateName {
   user = 'user';
+  communityMode = 'communityMode';
   windData = 'windData';
   private cmtHub = 'cmtHub';
 

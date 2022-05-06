@@ -11,7 +11,7 @@ import User from './user/user';
 import { RawMainPageWind } from 'sod/app/rawMainPageWind';
 
 export interface MainPageWind extends RawMainPageWind {
-  // See `window.appWindData` in `main.html`.
+  // See `window.appWindData` in `main.html` for details.
   appWindData: unknown;
 }
 
@@ -34,6 +34,11 @@ appState.register(appStateName.user, () => {
   return null;
 });
 
+appState.register(appStateName.communityMode, () => {
+  const wind = getMainPageWindData();
+  return wind.appCommunityMode;
+});
+
 appState.register(appStateName.windData, () => {
   const wind = getMainPageWindData();
   return wind.appWindData ?? {};
@@ -48,7 +53,6 @@ export class AppPageState {
     return appState.get(appStateName.windData);
   }
 
-  // Helpers.
   get userEID(): string {
     const { user } = this;
     if (user) {
@@ -63,6 +67,10 @@ export class AppPageState {
       ...part,
     };
     appState.set(appStateName.user, newUser);
+  }
+
+  get communityMode() {
+    return appState.get(appStateName.communityMode);
   }
 }
 
