@@ -91,13 +91,13 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		switch entityType {
 		case appdef.ContentBaseTypePost:
 			{
-				err = da.Post.EditItem(db, id, uid, now, title, contentHTML, sanitizedToken)
+				err = da.Post.EditItem(db, id, uid, now, contentHTML, title, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
 		case appdef.ContentBaseTypeThread:
 			{
-				err = da.Thread.EditItem(db, id, uid, now, title, contentHTML, sanitizedToken)
+				err = da.Thread.EditItem(db, id, uid, now, contentHTML, title, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
