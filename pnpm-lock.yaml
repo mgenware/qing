@@ -127,7 +127,7 @@ importers:
       '@web/test-runner-playwright': ^0.8.8
       basic-trie: ^0.2.0
       f-array.splice: ^1.1.0
-      html-validate: 6.10.0
+      html-validate: 7.0.0
       js-cookie: ^3.0.1
       kangxi-editor: ^0.14.2
       lit-analyzer: ^1.2.1
@@ -151,21 +151,21 @@ importers:
       f-array.splice: 1.1.0
       js-cookie: 3.0.1
       kangxi-editor: 0.14.2
-      lit-props: 3.2.0_lit@2.2.3
+      lit-props: 3.2.0
       mahur: 0.0.2
       narwhal-js: 0.0.1
       plum-element: 0.0.7
-      qing-button: 8.2.5_lit@2.2.3
-      qing-css-base: 1.0.0_@popperjs+core@2.11.5+lit@2.2.3
+      qing-button: 8.2.5
+      qing-css-base: 1.0.0_@popperjs+core@2.11.5
       qing-dock-box: 0.2.1
       qing-keyed-array: 2.1.2
-      qing-overlay: 0.14.0_lit@2.2.3+qing-button@8.2.5
+      qing-overlay: 0.14.0_qing-button@8.2.5
       tslib: 2.4.0
     devDependencies:
       '@types/js-cookie': 3.0.2
       '@web/test-runner': 0.13.27
       '@web/test-runner-playwright': 0.8.8
-      html-validate: 6.10.0
+      html-validate: 7.0.0
       lit-analyzer: 1.2.1
       qing-t: 6.0.1
 
@@ -3338,6 +3338,15 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
+  /espree/9.3.2:
+    resolution: {integrity: sha512-D211tC7ZwouTIuY5x9XnS0E9sWNChB7IYKX/Xp5eQj3nFXhqmiUDB9q27y76oFl8jTg3pXcQx/bpxMfs3CIZbA==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dependencies:
+      acorn: 8.7.1
+      acorn-jsx: 5.3.2_acorn@8.7.1
+      eslint-visitor-keys: 3.3.0
+    dev: true
+
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
@@ -3904,14 +3913,14 @@ packages:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
 
-  /html-validate/6.10.0:
-    resolution: {integrity: sha512-YFh8hEZgK0eqE8jnL7+yAZUdiiujy0Y51+nlkn4ULMbnsgWvKoWpW108S6Z7RAojTlF8qTmAgN/rOEWJaneEBA==}
-    engines: {node: '>= 12.22'}
+  /html-validate/7.0.0:
+    resolution: {integrity: sha512-Sq+ZQQSnkabgjplF2qNjbA4RdTkOP/99V2Q7gP2rr4BLUEEjlpfJQx3DeHtpzfBJmKFA/NzT7wb2qrzGCpcilA==}
+    engines: {node: '>= 14.0'}
     hasBin: true
     peerDependencies:
-      jest: ^25.1 || ^26 || ^27
-      jest-diff: ^25.1 || ^26 || ^27
-      jest-snapshot: ^25.1 || ^26 || ^27
+      jest: ^25.1 || ^26 || ^27.1 || ^28
+      jest-diff: ^25.1 || ^26 || ^27.1 || ^28
+      jest-snapshot: ^25.1 || ^26 || ^27.1 || ^28
     peerDependenciesMeta:
       jest:
         optional: true
@@ -3926,7 +3935,7 @@ packages:
       acorn-walk: 8.2.0
       ajv: 8.11.0
       deepmerge: 4.2.2
-      espree: 9.3.1
+      espree: 9.3.2
       glob: 8.0.1
       ignore: 5.2.0
       kleur: 4.1.4
@@ -4701,13 +4710,11 @@ packages:
       '@types/trusted-types': 2.0.2
     dev: false
 
-  /lit-props/3.2.0_lit@2.2.3:
+  /lit-props/3.2.0:
     resolution: {integrity: sha512-QsFpFf9P/4Ih6/gCaVrdEdi3VGylpueJXGGtpRL9fY5UHHPCa6IMhxiR/i5qAlIwfrbgIcaNmDjOWhDg7MxiYw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       lit: ^2.0.0
-    dependencies:
-      lit: 2.2.3
     dev: false
 
   /lit/2.1.4:
@@ -5768,22 +5775,19 @@ packages:
       - utf-8-validate
     dev: true
 
-  /qing-button/8.2.5_lit@2.2.3:
+  /qing-button/8.2.5:
     resolution: {integrity: sha512-CNA6Zn+HH0x/iqH7hiHRsmh/2xeBJsZxnIb7x2rFzdHL91cXc8lIuvEtGUaPoYiQ3aJpEt3y2arrRfehKnNkyw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       lit: ^2.0.0
-    dependencies:
-      lit: 2.2.3
     dev: false
 
-  /qing-css-base/1.0.0_@popperjs+core@2.11.5+lit@2.2.3:
+  /qing-css-base/1.0.0_@popperjs+core@2.11.5:
     resolution: {integrity: sha512-HF6Ml8d+yvGeiUebJemS/be31erW8YOLvAwp2GP/FC3+7tC09P7hRc7QwL8AIRqJK62wSSpja8fgGtyhPecb7w==}
     peerDependencies:
       lit: ^2.0.0
     dependencies:
       bootstrap: 5.1.3_@popperjs+core@2.11.5
-      lit: 2.2.3
       modern-normalize: 1.1.0
       string-to-template-literal: 2.0.0
     transitivePeerDependencies:
@@ -5802,15 +5806,14 @@ packages:
       f-array.splice: 1.1.0
     dev: false
 
-  /qing-overlay/0.14.0_lit@2.2.3+qing-button@8.2.5:
+  /qing-overlay/0.14.0_qing-button@8.2.5:
     resolution: {integrity: sha512-t+EeDwYs4dwb1HnGZp83TI2FE+/fCOwfCxOomlgoCwlytbI1LpTgMWv66XqpKqyFbJsjwfotRb/1okV8DcCIvg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       lit: ^2.0.0
       qing-button: ^8.2.1
     dependencies:
-      lit: 2.2.3
-      qing-button: 8.2.5_lit@2.2.3
+      qing-button: 8.2.5
     dev: false
 
   /qing-shared-const/0.1.2:

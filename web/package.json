@@ -33,7 +33,7 @@
     "@types/js-cookie": "^3.0.2",
     "@web/test-runner": "^0.13.27",
     "@web/test-runner-playwright": "^0.8.8",
-    "html-validate": "6.10.0",
+    "html-validate": "7.0.0",
     "lit-analyzer": "^1.2.1",
     "qing-t": "^6.0.1"
   }
