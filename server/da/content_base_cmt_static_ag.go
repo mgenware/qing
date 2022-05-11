@@ -91,7 +91,26 @@ func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTa
 	return replyIDExported, txErr
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+const (
+	ContentBaseCmtStaticAGSelectRootCmtsOrderBy1Likes = iota
+	ContentBaseCmtStaticAGSelectRootCmtsOrderBy1CreatedAt
+)
+
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+	var orderBy1SQL string
+	switch orderBy1 {
+	case ContentBaseCmtStaticAGSelectRootCmtsOrderBy1Likes:
+		orderBy1SQL = "`join_1`.`likes`"
+	case ContentBaseCmtStaticAGSelectRootCmtsOrderBy1CreatedAt:
+		orderBy1SQL = "`join_1`.`created_at`"
+	default:
+		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		return nil, false, err
+	}
+	if orderBy1Desc {
+		orderBy1SQL += " DESC"
+	}
+
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -103,7 +122,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `content_base_cmt_table_param`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+string(contentBaseCmtTableParam)+" AS `content_base_cmt_table_param` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_table_param`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_table_param`.`host_id` = ? ORDER BY `join_1`.`likes` DESC, `join_1`.`created_at` DESC LIMIT ? OFFSET ?", hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_table_param`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM "+string(contentBaseCmtTableParam)+" AS `content_base_cmt_table_param` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_table_param`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `content_base_cmt_table_param`.`host_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -128,7 +147,26 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+const (
+	ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1Likes = iota
+	ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1CreatedAt
+)
+
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+	var orderBy1SQL string
+	switch orderBy1 {
+	case ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1Likes:
+		orderBy1SQL = "`join_1`.`likes`"
+	case ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1CreatedAt:
+		orderBy1SQL = "`join_1`.`created_at`"
+	default:
+		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		return nil, false, err
+	}
+	if orderBy1Desc {
+		orderBy1SQL += " DESC"
+	}
+
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -140,7 +178,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable m
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `content_base_cmt_table_param`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `is_liked` FROM "+string(contentBaseCmtTableParam)+" AS `content_base_cmt_table_param` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_table_param`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `content_base_cmt_table_param`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `content_base_cmt_table_param`.`host_id` = ? ORDER BY `join_1`.`likes` DESC, `join_1`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `content_base_cmt_table_param`.`cmt_id` AS `id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `is_liked` FROM "+string(contentBaseCmtTableParam)+" AS `content_base_cmt_table_param` INNER JOIN `cmt` AS `join_1` ON `join_1`.`id` = `content_base_cmt_table_param`.`cmt_id` INNER JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `content_base_cmt_table_param`.`cmt_id` AND `join_3`.`user_id` = ? WHERE `content_base_cmt_table_param`.`host_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", viewerUserID, hostID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

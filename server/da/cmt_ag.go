@@ -93,7 +93,26 @@ func (mrTable *CmtAGType) SelectHostInfo(mrQueryable mingru.Queryable, id uint64
 	return result, nil
 }
 
-func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+const (
+	CmtAGSelectRepliesOrderBy1Likes = iota
+	CmtAGSelectRepliesOrderBy1CreatedAt
+)
+
+func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+	var orderBy1SQL string
+	switch orderBy1 {
+	case CmtAGSelectRepliesOrderBy1Likes:
+		orderBy1SQL = "`cmt`.`likes`"
+	case CmtAGSelectRepliesOrderBy1CreatedAt:
+		orderBy1SQL = "`cmt`.`created_at`"
+	default:
+		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		return nil, false, err
+	}
+	if orderBy1Desc {
+		orderBy1SQL += " DESC"
+	}
+
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -105,7 +124,7 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`likes` DESC, `cmt`.`created_at` DESC LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -130,7 +149,26 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int) ([]CmtResult, bool, error) {
+const (
+	CmtAGSelectRepliesWithLikesOrderBy1Likes = iota
+	CmtAGSelectRepliesWithLikesOrderBy1CreatedAt
+)
+
+func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+	var orderBy1SQL string
+	switch orderBy1 {
+	case CmtAGSelectRepliesWithLikesOrderBy1Likes:
+		orderBy1SQL = "`cmt`.`likes`"
+	case CmtAGSelectRepliesWithLikesOrderBy1CreatedAt:
+		orderBy1SQL = "`cmt`.`created_at`"
+	default:
+		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		return nil, false, err
+	}
+	if orderBy1Desc {
+		orderBy1SQL += " DESC"
+	}
+
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
 		return nil, false, err
@@ -142,7 +180,7 @@ func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, v
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY `cmt`.`likes` DESC, `cmt`.`created_at` DESC LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
