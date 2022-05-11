@@ -156,5 +156,6 @@
   "restartServerToTakeEffect": "You need to restart the server for changes to take effect.",
   "enableCommunityMode": "Enable community mode",
   "communitySettingsName": "Community",
-  "cmtDeleted": "Comment deleted"
+  "cmtDeleted": "Comment deleted",
+  "invalidDate": "Invalid date"
 }

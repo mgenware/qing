@@ -81,6 +81,7 @@ type Dictionary struct {
 	HorizontalRule                    string `json:"horizontalRule"`
 	HttpRequest                       string `json:"httpRequest"`
 	InternalErr                       string `json:"internalErr"`
+	InvalidDate                       string `json:"invalidDate"`
 	InvalidPageNumber                 string `json:"invalidPageNumber"`
 	Italic                            string `json:"italic"`
 	LangSettings                      string `json:"langSettings"`

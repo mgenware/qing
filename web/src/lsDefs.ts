@@ -166,4 +166,5 @@ export default interface LSDefs {
   enableCommunityMode: string;
   communitySettingsName: string;
   cmtDeleted: string;
+  invalidDate: string;
 }

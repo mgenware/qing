@@ -156,5 +156,6 @@
   "restartServerToTakeEffect": "你需要重启服务器来让改变生效。",
   "enableCommunityMode": "打开社区模式",
   "communitySettingsName": "社区",
-  "cmtDeleted": "评论已被删除"
+  "cmtDeleted": "评论已被删除",
+  "invalidDate": "错误的日期"
 }

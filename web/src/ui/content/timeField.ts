@@ -28,19 +28,22 @@ export class TimeField extends BaseElement {
   render() {
     const { createdAt, modifiedAt } = this;
 
-    let content = this.formatDate(createdAt);
+    let [dateString, date] = this.formatDate(createdAt);
     if (modifiedAt !== createdAt) {
-      content += ` [${ls.editedAt} ${this.formatDate(modifiedAt)}]`;
+      const [modDateString] = this.formatDate(modifiedAt);
+      dateString += ` [${ls.editedAt} ${modDateString}]`;
     }
-    return html`<small class="is-secondary">${content}</small>`;
+    return html`<small class="is-secondary" title=${date?.toLocaleString() ?? ''}
+      >${dateString}</small
+    >`;
   }
 
-  private formatDate(s: string): string {
+  private formatDate(s: string): [string, Date | null] {
     try {
       const date = this.stringToDate(s);
-      return this.formatRelativeDate(date);
+      return [this.formatRelativeDate(date), date];
     } catch (err) {
-      return '[Invalid date]';
+      return [ls.invalidDate, null];
     }
   }
 

@@ -76,6 +76,7 @@ func init() {
 	TestDict.HorizontalRule = "ls.horizontalRule"
 	TestDict.HttpRequest = "ls.httpRequest"
 	TestDict.InternalErr = "ls.internalErr"
+	TestDict.InvalidDate = "ls.invalidDate"
 	TestDict.InvalidPageNumber = "ls.invalidPageNumber"
 	TestDict.Italic = "ls.italic"
 	TestDict.LangSettings = "ls.langSettings"
