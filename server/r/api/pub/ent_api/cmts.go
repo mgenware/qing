@@ -18,6 +18,8 @@ import (
 	"qing/lib/clib"
 	"qing/r/api/apicom"
 	cmtSod "qing/sod/cmt"
+
+	"github.com/mgenware/goutil/jsonx"
 )
 
 var kCmtPageSize int
@@ -53,6 +55,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	parentID := clib.GetIDFromDict(params, "parentID")
+	orderBy := jsonx.GetIntOrDefault(params, "sort")
 	page := clib.GetPageParamFromDict(params)
 
 	db := appDB.DB()
@@ -64,9 +67,9 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Selecting replies.
 	if parentID != 0 {
 		if uid == 0 {
-			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize)
+			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize, orderBy, false)
 		} else {
-			items, hasNext, err = da.Cmt.SelectRepliesWithLikes(db, uid, &parentID, page, kCmtPageSize)
+			items, hasNext, err = da.Cmt.SelectRepliesWithLikes(db, uid, &parentID, page, kCmtPageSize, orderBy, false)
 		}
 		if err != nil {
 			app.PanicIfErr(err)
@@ -82,9 +85,9 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 
 	if uid == 0 {
-		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, orderBy, false)
 	} else {
-		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize, orderBy, false)
 	}
 	app.PanicIfErr(err)
 	respData = newGetCmtsRespData(items, hasNext)
