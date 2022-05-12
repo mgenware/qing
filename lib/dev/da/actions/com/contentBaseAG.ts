@@ -147,7 +147,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
   // to a insertion or deletion.
   // For top entities like posts, it returns a single action to update `user_post_count`.
   // For sub-entities like answers, it returns 2 actions, one for updating `user_answer_count`.
-  // the other is for updating `parent_question.reply_count`.
+  // the other is for updating `parent_thread.reply_count`.
   // NOTE: Comments have their own TA due to recursive structure.
   protected abstract getIncrementContainerCounterActions(): mm.Action[];
   protected abstract getDecrementContainerCounterActions(): mm.Action[];

@@ -49,7 +49,7 @@ export default class MyThreadsApp extends PCListApp {
       <heading-view>
         <div>${ls.yourThreads}</div>
         <div slot="decorator">
-          <qing-button btnStyle="success" @click=${this.handleNewQuestionClick}
+          <qing-button btnStyle="success" @click=${this.handleNewThreadClick}
             >${ls.newThread}</qing-button
           >
         </div>
@@ -86,7 +86,7 @@ export default class MyThreadsApp extends PCListApp {
     return true;
   }
 
-  private handleNewQuestionClick() {
+  private handleNewThreadClick() {
     runNewEntityCommand(appdef.contentBaseTypeThread, null);
   }
 }
