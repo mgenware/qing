@@ -41,7 +41,6 @@ function printUsage() {
         -<N>            - Apply N down migrations
         <N>             - Migrate to version N
         drop            - Drop everything in database
-      rootdir         Print project root directory
       version         Print version information
       
   `);
@@ -71,11 +70,6 @@ function checkMigrationNumber(num: number) {
     switch (inputCmd) {
       case 'version': {
         iou.print(await iou.getVersion());
-        break;
-      }
-
-      case 'rootdir': {
-        iou.print(await iou.getRootDir());
         break;
       }
 
