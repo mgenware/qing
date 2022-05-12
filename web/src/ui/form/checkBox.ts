@@ -43,8 +43,7 @@ export class CheckBox extends BaseElement {
         }
 
         /** Radio-box */
-        /** https://dev.to/kallmanation/styling-a-radio-button-with-only-css-4llc
- */
+        /** https://dev.to/kallmanation/styling-a-radio-button-with-only-css-4llc */
         label > input[type='radio'] {
           display: none;
         }
