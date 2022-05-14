@@ -20,10 +20,10 @@ import (
 	"qing/r/api/apicom"
 )
 
-var myPostsColumnNameToEnumMap map[string]int
+var myPostsColumnNameToEnumMap map[string]da.PostAGSelectItemsForPostCenterOrderBy1
 
 func init() {
-	myPostsColumnNameToEnumMap = map[string]int{
+	myPostsColumnNameToEnumMap = map[string]da.PostAGSelectItemsForPostCenterOrderBy1{
 		appdef.KeyComments: da.PostAGSelectItemsForPostCenterOrderBy1CmtCount,
 		appdef.KeyCreated:  da.PostAGSelectItemsForPostCenterOrderBy1CreatedAt,
 		appdef.KeyLikes:    da.PostAGSelectItemsForPostCenterOrderBy1Likes,

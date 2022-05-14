@@ -45,12 +45,18 @@ export function getSelectCmtsAction(opt: {
   if (opt.fetchLikes) {
     cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : cmt.id, cmtLike));
   }
+
+  const orderByFollowingCols = new Map<mm.SelectedColumnTypesOrName, mm.OrderByColumn[]>();
+  // Sort by `created_at` DESC if `likes` are the same.
+  orderByFollowingCols.set(jCmt.likes, [new mm.OrderByColumn(jCmt.created_at, true)]);
+  // Sort by `likes` DESC if `created_at` are the same.
+  orderByFollowingCols.set(jCmt.created_at, [new mm.OrderByColumn(jCmt.likes, true)]);
   return mm
     .selectRows(...cols)
     .from(opt.rt ? opt.rt : cmt)
     .pageMode()
     .by(opt.rt ? opt.rt.host_id : cmt.parent_id)
-    .orderByParams(jCmt.likes, jCmt.created_at)
+    .orderByParams([jCmt.likes, jCmt.created_at], orderByFollowingCols)
     .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface)
     .resultTypeNameAttr(cmtResultType)
     .attr(mm.ActionAttribute.enableTSResultType, true);

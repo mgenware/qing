@@ -75,10 +75,10 @@ type ThreadMsgResult struct {
 // ------------ Interfaces ------------
 
 type CmtHostTableInterface interface {
-	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error)
+	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
+	SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesWithLikesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
+	SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
+	SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
 }
 
 type LikeInterface interface {

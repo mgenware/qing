@@ -91,12 +91,14 @@ func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTa
 	return replyIDExported, txErr
 }
 
+type ContentBaseCmtStaticAGSelectRootCmtsOrderBy1 int
+
 const (
-	ContentBaseCmtStaticAGSelectRootCmtsOrderBy1Likes = iota
+	ContentBaseCmtStaticAGSelectRootCmtsOrderBy1Likes ContentBaseCmtStaticAGSelectRootCmtsOrderBy1 = iota
 	ContentBaseCmtStaticAGSelectRootCmtsOrderBy1CreatedAt
 )
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case ContentBaseCmtStaticAGSelectRootCmtsOrderBy1Likes:
@@ -147,12 +149,14 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 	return result, itemCounter > len(result), nil
 }
 
+type ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1 int
+
 const (
-	ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1Likes = iota
+	ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1Likes ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1 = iota
 	ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1CreatedAt
 )
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1Likes:

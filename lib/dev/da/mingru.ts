@@ -18,11 +18,10 @@ const mingruHeader =
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
-  const dialect = new mr.MySQL();
   // Build Go code to '/server/da/` directory
   const daPath = qdu.serverPath('da');
   const tsOutDir = qdu.webPath('src/sod/da');
-  const builder = new mr.Builder(dialect, daPath, {
+  const builder = new mr.Builder(daPath, {
     cleanOutDir: true,
     jsonTags: {
       keyStyle: mr.JSONKeyStyle.camelCase,

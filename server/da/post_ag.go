@@ -106,8 +106,10 @@ func (mrTable *PostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint6
 	return result, nil
 }
 
+type PostAGSelectItemsForPostCenterOrderBy1 int
+
 const (
-	PostAGSelectItemsForPostCenterOrderBy1CreatedAt = iota
+	PostAGSelectItemsForPostCenterOrderBy1CreatedAt PostAGSelectItemsForPostCenterOrderBy1 = iota
 	PostAGSelectItemsForPostCenterOrderBy1Likes
 	PostAGSelectItemsForPostCenterOrderBy1CmtCount
 )
@@ -121,7 +123,7 @@ type PostAGSelectItemsForPostCenterResult struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]PostAGSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 PostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]PostAGSelectItemsForPostCenterResult, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case PostAGSelectItemsForPostCenterOrderBy1CreatedAt:

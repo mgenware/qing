@@ -67,9 +67,9 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Selecting replies.
 	if parentID != 0 {
 		if uid == 0 {
-			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize, orderBy, false)
+			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize, da.CmtAGSelectRepliesOrderBy1(orderBy), true)
 		} else {
-			items, hasNext, err = da.Cmt.SelectRepliesWithLikes(db, uid, &parentID, page, kCmtPageSize, orderBy, false)
+			items, hasNext, err = da.Cmt.SelectRepliesWithLikes(db, uid, &parentID, page, kCmtPageSize, da.CmtAGSelectRepliesWithLikesOrderBy1(orderBy), true)
 		}
 		if err != nil {
 			app.PanicIfErr(err)
@@ -85,9 +85,9 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 
 	if uid == 0 {
-		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, orderBy, false)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsOrderBy1(orderBy), true)
 	} else {
-		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize, orderBy, false)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1(orderBy), true)
 	}
 	app.PanicIfErr(err)
 	respData = newGetCmtsRespData(items, hasNext)

@@ -93,24 +93,30 @@ func (mrTable *CmtAGType) SelectHostInfo(mrQueryable mingru.Queryable, id uint64
 	return result, nil
 }
 
+type CmtAGSelectRepliesOrderBy1 int
+
 const (
-	CmtAGSelectRepliesOrderBy1Likes = iota
+	CmtAGSelectRepliesOrderBy1Likes CmtAGSelectRepliesOrderBy1 = iota
 	CmtAGSelectRepliesOrderBy1CreatedAt
 )
 
-func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
+	var orderBy1SQLFC string
 	switch orderBy1 {
 	case CmtAGSelectRepliesOrderBy1Likes:
 		orderBy1SQL = "`cmt`.`likes`"
+		orderBy1SQLFC += ", " + "`cmt`.`created_at` DESC"
 	case CmtAGSelectRepliesOrderBy1CreatedAt:
 		orderBy1SQL = "`cmt`.`created_at`"
+		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
 		orderBy1SQL += " DESC"
+		orderBy1SQL += orderBy1SQLFC
 	}
 
 	if page <= 0 {
@@ -149,24 +155,30 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	return result, itemCounter > len(result), nil
 }
 
+type CmtAGSelectRepliesWithLikesOrderBy1 int
+
 const (
-	CmtAGSelectRepliesWithLikesOrderBy1Likes = iota
+	CmtAGSelectRepliesWithLikesOrderBy1Likes CmtAGSelectRepliesWithLikesOrderBy1 = iota
 	CmtAGSelectRepliesWithLikesOrderBy1CreatedAt
 )
 
-func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 int, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesWithLikesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
+	var orderBy1SQLFC string
 	switch orderBy1 {
 	case CmtAGSelectRepliesWithLikesOrderBy1Likes:
 		orderBy1SQL = "`cmt`.`likes`"
+		orderBy1SQLFC += ", " + "`cmt`.`created_at` DESC"
 	case CmtAGSelectRepliesWithLikesOrderBy1CreatedAt:
 		orderBy1SQL = "`cmt`.`created_at`"
+		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
 		orderBy1SQL += " DESC"
+		orderBy1SQL += orderBy1SQLFC
 	}
 
 	if page <= 0 {

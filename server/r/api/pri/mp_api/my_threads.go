@@ -20,10 +20,10 @@ import (
 	"qing/r/api/apicom"
 )
 
-var myThreadsColumnNameToEnumMap map[string]int
+var myThreadsColumnNameToEnumMap map[string]da.ThreadAGSelectItemsForPostCenterOrderBy1
 
 func init() {
-	myThreadsColumnNameToEnumMap = map[string]int{
+	myThreadsColumnNameToEnumMap = map[string]da.ThreadAGSelectItemsForPostCenterOrderBy1{
 		appdef.KeyMessages: da.ThreadAGSelectItemsForPostCenterOrderBy1MsgCount,
 		appdef.KeyCreated:  da.ThreadAGSelectItemsForPostCenterOrderBy1CreatedAt,
 	}

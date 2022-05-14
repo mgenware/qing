@@ -79,7 +79,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .selectRows(idCol, ...this.dateColumns, t.likes, ...pcCols)
           .pageMode()
           .by(t.user_id)
-          .orderByParams(...this.orderByParamsOfSelectItemsForPostCenter())
+          .orderByParams(this.orderByParamsOfSelectItemsForPostCenter())
       : mm.emptyAction;
 
     this.deleteItem =
