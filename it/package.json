@@ -7,15 +7,13 @@
   "scripts": {
     "prepare": "ts-patch install -s"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@types/mocha": "^9.1.1",
     "@playwright/test": "^1.22.0",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "expect": "^28.1.0",
-    "node-fetch": "^3.2.4"
-  },
-  "devDependencies": {
-    "@types/mocha": "^9.1.1",
+    "node-fetch": "^3.2.4",
     "mocha": "^10.0.0"
   }
 }
