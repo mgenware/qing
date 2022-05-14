@@ -7,11 +7,11 @@
 
 import { call, APIResult, CallOptions, User, errorResults } from 'base/call';
 import * as m from 'mocha';
-import expect from 'expect';
+import { expect } from 'expect';
 
 // Re-exports.
 export * from 'base/call';
-export { default as expect } from 'expect';
+export { expect } from 'expect';
 export { it } from 'mocha';
 
 // `it` for APIs (aka `ita`).
