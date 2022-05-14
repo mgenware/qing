@@ -83,6 +83,7 @@ importers:
     specifiers:
       '@qing/def': workspace:*
       '@qing/devutil': workspace:*
+      '@types/js-yaml': ^4.0.5
       del-cli: ^4.0.1
       gen-go-type: ^1.4.1
       go-const-gen: ^2.1.0
@@ -104,6 +105,7 @@ importers:
       mingru-models: 0.64.6
       mingru-tsconfig: 4.0.0
     devDependencies:
+      '@types/js-yaml': 4.0.5
       del-cli: 4.0.1
 
   lib/devutil:
@@ -612,7 +614,6 @@ packages:
 
   /@types/js-yaml/4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
-    dev: false
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
