@@ -8,10 +8,10 @@
     "prepare": "ts-patch install -s"
   },
   "dependencies": {
-    "@playwright/test": "^1.21.1",
+    "@playwright/test": "^1.22.0",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
-    "expect": "^28.0.2",
+    "expect": "^28.1.0",
     "node-fetch": "^3.2.4"
   },
   "devDependencies": {
