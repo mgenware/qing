@@ -116,8 +116,8 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	}
 	if orderBy1Desc {
 		orderBy1SQL += " DESC"
-		orderBy1SQL += orderBy1SQLFC
 	}
+	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -178,8 +178,8 @@ func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, v
 	}
 	if orderBy1Desc {
 		orderBy1SQL += " DESC"
-		orderBy1SQL += orderBy1SQLFC
 	}
+	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
