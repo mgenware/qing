@@ -100,11 +100,14 @@ const (
 
 func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
+	var orderBy1SQLFC string
 	switch orderBy1 {
 	case ContentBaseCmtStaticAGSelectRootCmtsOrderBy1Likes:
 		orderBy1SQL = "`join_1`.`likes`"
+		orderBy1SQLFC += ", " + "`join_1`.`created_at` DESC"
 	case ContentBaseCmtStaticAGSelectRootCmtsOrderBy1CreatedAt:
 		orderBy1SQL = "`join_1`.`created_at`"
+		orderBy1SQLFC += ", " + "`join_1`.`likes` DESC"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
@@ -112,6 +115,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 	if orderBy1Desc {
 		orderBy1SQL += " DESC"
 	}
+	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)
@@ -158,11 +162,14 @@ const (
 
 func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
+	var orderBy1SQLFC string
 	switch orderBy1 {
 	case ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1Likes:
 		orderBy1SQL = "`join_1`.`likes`"
+		orderBy1SQLFC += ", " + "`join_1`.`created_at` DESC"
 	case ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1CreatedAt:
 		orderBy1SQL = "`join_1`.`created_at`"
+		orderBy1SQLFC += ", " + "`join_1`.`likes` DESC"
 	default:
 		err := fmt.Errorf("Unsupported value %v", orderBy1)
 		return nil, false, err
@@ -170,6 +177,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsWithLikes(mrQueryable m
 	if orderBy1Desc {
 		orderBy1SQL += " DESC"
 	}
+	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
 		err := fmt.Errorf("Invalid page %v", page)

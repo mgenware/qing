@@ -46,11 +46,12 @@ export function getSelectCmtsAction(opt: {
     cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : cmt.id, cmtLike));
   }
 
-  const orderByFollowingCols = new Map<mm.SelectedColumnTypesOrName, mm.OrderByColumn[]>();
-  // Sort by `created_at` DESC if `likes` are the same.
-  orderByFollowingCols.set(jCmt.likes, [new mm.OrderByColumn(jCmt.created_at, true)]);
-  // Sort by `likes` DESC if `created_at` are the same.
-  orderByFollowingCols.set(jCmt.created_at, [new mm.OrderByColumn(jCmt.likes, true)]);
+  const orderByFollowingCols = {
+    // Sort by `created_at` DESC if `likes` are the same.
+    [jCmt.likes.__getPath()]: [new mm.OrderByColumn(jCmt.created_at, true)],
+    // Sort by `likes` DESC if `created_at` are the same.
+    [jCmt.created_at.__getPath()]: [new mm.OrderByColumn(jCmt.likes, true)],
+  };
   return mm
     .selectRows(...cols)
     .from(opt.rt ? opt.rt : cmt)
