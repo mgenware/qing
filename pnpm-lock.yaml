@@ -90,8 +90,8 @@ importers:
       is-plain-obj: ^4.0.0
       js-yaml: ^4.1.0
       jsconfgen: ^0.2.0
-      mingru: ^0.60.1
-      mingru-models: ^0.64.6
+      mingru: ^0.60.2
+      mingru-models: ^0.64.8
       mingru-tsconfig: ^4.0.0
     dependencies:
       '@qing/def': link:../def
@@ -101,8 +101,8 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.60.1
-      mingru-models: 0.64.6
+      mingru: 0.60.2
+      mingru-models: 0.64.8
       mingru-tsconfig: 4.0.0
     devDependencies:
       '@types/js-yaml': 4.0.5
@@ -129,7 +129,7 @@ importers:
       '@web/test-runner-playwright': ^0.8.8
       basic-trie: ^0.2.0
       f-array.splice: ^1.1.0
-      html-validate: 7.0.0
+      html-validate: 7.1.0
       js-cookie: ^3.0.1
       kangxi-editor: ^0.14.2
       lit-analyzer: ^1.2.1
@@ -168,7 +168,7 @@ importers:
       '@types/mocha': 9.1.1
       '@web/test-runner': 0.13.27
       '@web/test-runner-playwright': 0.8.8
-      html-validate: 7.0.0
+      html-validate: 7.1.0
       lit-analyzer: 1.2.1
       qing-t: 6.1.0
 
@@ -468,9 +468,9 @@ packages:
       rollup: 2.67.2
     dev: true
 
-  /@sidvind/better-ajv-errors/1.1.1_ajv@8.11.0:
-    resolution: {integrity: sha512-CXnmMcV4QoyWuFA0zlDk0AWMHftaMFAIFWz68AH4EXOO2iUEq0gsonJEhY3OjM08xHYobqqDeCAPPEsL5E+8QA==}
-    engines: {node: '>= 12.13.0'}
+  /@sidvind/better-ajv-errors/2.0.0_ajv@8.11.0:
+    resolution: {integrity: sha512-S+3eyeMbWQifgbDF15eojGVJi8n5uU0bGJYQsvsHPyU4lmrMsXvfiCh7MM0IPEF4a4jRBsljMExtKlo7kM0jqQ==}
+    engines: {node: '>= 14.0.0'}
     peerDependencies:
       ajv: 4.11.8 - 8
     dependencies:
@@ -3213,8 +3213,8 @@ packages:
       once: 1.4.0
       path-is-absolute: 1.0.1
 
-  /glob/8.0.1:
-    resolution: {integrity: sha512-cF7FYZZ47YzmCu7dDy50xSRRfO3ErRfrXuLZcNIuyiJEco0XSrGtuilG19L5xp3NcwTx7Gn+X6Tv3fmsUPTbow==}
+  /glob/8.0.3:
+    resolution: {integrity: sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==}
     engines: {node: '>=12'}
     dependencies:
       fs.realpath: 1.0.0
@@ -3222,7 +3222,6 @@ packages:
       inherits: 2.0.4
       minimatch: 5.0.1
       once: 1.4.0
-      path-is-absolute: 1.0.1
     dev: true
 
   /global-prefix/3.0.0:
@@ -3390,8 +3389,8 @@ packages:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
 
-  /html-validate/7.0.0:
-    resolution: {integrity: sha512-Sq+ZQQSnkabgjplF2qNjbA4RdTkOP/99V2Q7gP2rr4BLUEEjlpfJQx3DeHtpzfBJmKFA/NzT7wb2qrzGCpcilA==}
+  /html-validate/7.1.0:
+    resolution: {integrity: sha512-sp/dyAk57tXfqpMP87jbnrX8UiyXvclVyQE7GK0RJBX5caPI5rJ4RaE3L9R4isT0rdeORXXLVdyxkH4KnKLprQ==}
     engines: {node: '>= 14.0'}
     hasBin: true
     peerDependencies:
@@ -3408,12 +3407,12 @@ packages:
     dependencies:
       '@babel/code-frame': 7.16.7
       '@html-validate/stylish': 2.0.1
-      '@sidvind/better-ajv-errors': 1.1.1_ajv@8.11.0
+      '@sidvind/better-ajv-errors': 2.0.0_ajv@8.11.0
       acorn-walk: 8.2.0
       ajv: 8.11.0
       deepmerge: 4.2.2
       espree: 9.3.2
-      glob: 8.0.1
+      glob: 8.0.3
       ignore: 5.2.0
       kleur: 4.1.4
       minimist: 1.2.6
@@ -4363,8 +4362,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  /mingru-models/0.64.6:
-    resolution: {integrity: sha512-hUjJZAS6XkpkYW3gw6YFp55KwlGr1tAXzcGRIJyvQyFe5FbmCpy6gYGEByW7rgOGKe2fN7A500/qiMnDTclyEg==}
+  /mingru-models/0.64.8:
+    resolution: {integrity: sha512-ej0EaXaH1v9nU+4qIulJfY7o8qVss9I+ISTfvAQGFKZ+xqBAABigGKwhMWQ8LnCA5IoLfhuUpzq7pCsoHLt6kA==}
     engines: {node: '>=14.0.0'}
     dependencies:
       decamelize: 6.0.0
@@ -4376,8 +4375,8 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.60.1:
-    resolution: {integrity: sha512-/+b+CP49Dk8Cytdq1YX08CsXf2Vp54nGFhvw8rjOHje9DCzyQcsdFE78QYCEkatisqb9EkwiytxsKRmi/FfM1w==}
+  /mingru/0.60.2:
+    resolution: {integrity: sha512-ycx0Vx0+JUGkjwC6AcWNUEjbA9fdQQ9BJJNwq/vMc8NJ94Vo09p1rjduJHpFzfXKeS4i8RwqV+S1gjj5x/rlkw==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 6.3.0

@@ -34,7 +34,7 @@
     "@types/mocha": "^9.1.1",
     "@web/test-runner": "^0.13.27",
     "@web/test-runner-playwright": "^0.8.8",
-    "html-validate": "7.0.0",
+    "html-validate": "7.1.0",
     "lit-analyzer": "^1.2.1",
     "qing-t": "^6.1.0"
   }
