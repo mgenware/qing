@@ -1,4 +1,4 @@
-FROM golang:1.18
+FROM golang:1.18.2
 
 WORKDIR /qing/server
 COPY . .
