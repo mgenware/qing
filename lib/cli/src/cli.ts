@@ -32,7 +32,7 @@ function printUsage() {
       ls              Build localized strings
       sod <arg>       Build SOD (Shared Object Definition)           
       it <arg>        Run integration tests
-        dev             - Start development (default)
+        dev (default)   - Start development (default)
         all             - Run all integration tests
         api             - Run API tests
         br              - Run browser (E2E) tests
