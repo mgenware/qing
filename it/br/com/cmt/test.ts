@@ -13,11 +13,13 @@ import testNoCmts from './tests/noCmtTests';
 import testCreateCmt from './tests/createCmtTests';
 import testEditCmt from './tests/editCmtTests';
 import testDeleteCmt from './tests/deleteCmtTests';
+import testCreateReply from './tests/createReplyTests';
 
 export default function testCmt(groupName: string, fixture: CmtFixture) {
   const w = new CmtFixtureWrapper(groupName, fixture);
   testNoCmts(w);
   testCreateCmt(w);
+  testCreateReply(w);
   testEditCmt(w);
   testDeleteCmt(w);
 }

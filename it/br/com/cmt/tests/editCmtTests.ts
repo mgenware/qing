@@ -44,7 +44,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           canEdit: true,
           hasEdited: true,
         });
-        await cm.shouldHaveComments(cmtApp, 1);
+        await cm.shouldHaveCmtCount(cmtApp, 1);
       }
       {
         // Visitor.
@@ -56,7 +56,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           content: def.sd.updated,
           hasEdited: true,
         });
-        await cm.shouldHaveComments(cmtApp, 1);
+        await cm.shouldHaveCmtCount(cmtApp, 1);
       }
     }
   });

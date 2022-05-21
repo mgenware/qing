@@ -10,12 +10,26 @@ import { userViewShouldAppear } from 'br/com/content/userView';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { CmtFixture } from '../fixture';
 
+const cmtChildrenClass = '.br-children';
+
 export async function commentsHeadingShouldAppear(el: br.Element) {
   return el.$hasText('h2', 'Comments').shouldBeVisible();
 }
 
 export function getNthCmt(cmtApp: br.Element, index: number) {
-  return cmtApp.$(`div > div > div > cmt-block:nth-child(${index + 1})`);
+  return cmtApp.$(`cmt-block ${cmtChildrenClass} > cmt-block:nth-child(${index + 1})`);
+}
+
+export function getNthReply(cmtApp: br.Element, index: number) {
+  return cmtApp.$(`${cmtChildrenClass} > cmt-block:nth-child(${index + 1})`);
+}
+
+export function getTopCmt(cmtApp: br.Element) {
+  return getNthCmt(cmtApp, 0);
+}
+
+export function getNthReplyFromTopCmt(cmtApp: br.Element, index: number) {
+  return getNthReply(getNthCmt(cmtApp, 0), index);
 }
 
 export interface CheckCmtArgs {
@@ -49,10 +63,20 @@ export async function cmtShouldAppear(el: br.Element, e: CheckCmtArgs) {
   }
 }
 
-export function shouldHaveComments(el: br.Element, count: number) {
+export function shouldHaveCmtCount(el: br.Element, count: number) {
   return el
     .$('.br-cmt-c')
     .shouldHaveTextContent(count === 1 ? '1 comment' : `${count || 'No'} comments`);
+}
+
+export function shouldHaveReplyCount(el: br.Element, count: number) {
+  return el
+    .$('.btn-in-cmts')
+    .shouldHaveTextContent(count === 1 ? '1 reply' : `${count || 'No'} replies`);
+}
+
+export function shouldNotHaveReplies(el: br.Element) {
+  return el.$(cmtChildrenClass).shouldNotExist();
 }
 
 export class CmtFixtureWrapper {

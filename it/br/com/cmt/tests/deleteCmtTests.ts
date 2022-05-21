@@ -34,13 +34,13 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           focusedBtn: 1,
         });
         await alertBtns.item(0).click();
-        await cm.shouldHaveComments(cmtApp, 0);
+        await cm.shouldHaveCmtCount(cmtApp, 0);
       }
       {
         // Visitor.
         await page.reload(null);
         const cmtApp = await w.getCmtApp(page);
-        await cm.shouldHaveComments(cmtApp, 0);
+        await cm.shouldHaveCmtCount(cmtApp, 0);
       }
     }
   });

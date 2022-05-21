@@ -138,7 +138,7 @@ export class CmtBlock extends BaseElement {
       )}
       ${cache(
         !cmt || this._replyViewVisible
-          ? html`<div>${itemsView}</div>
+          ? html`<div class="br-children">${itemsView}</div>
               <cmt-load-more-view
                 class="btn-in-cmts"
                 .replies=${!!cmt}
