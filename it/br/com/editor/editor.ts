@@ -39,13 +39,13 @@ async function clickBtn(composerEl: br.Element, btnText: string) {
   await btnEl.click();
 }
 
-async function waitForOverlayVisible(page: br.Page) {
+export async function waitForOverlayVisible(page: br.Page) {
   const overlayEl = await page.$(cm.openOverlaySel).waitForAttached();
   const composerEl = await getComposerEl(overlayEl).shouldBeVisible();
   return { overlayEl, composerEl };
 }
 
-async function waitForOverlayClosed(page: br.Page) {
+export async function waitForOverlayClosed(page: br.Page) {
   const overlayEl = page.$(cm.openOverlaySel);
   await overlayEl.shouldNotExist();
 }

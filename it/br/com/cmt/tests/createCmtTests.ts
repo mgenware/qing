@@ -10,6 +10,7 @@ import { usr } from 'br';
 import * as defs from 'base/defs';
 import * as cm from './common';
 import { writeCmt, clickMoreCmt } from './actions';
+import { editorShouldAppear } from 'br/com/editor/editor';
 
 function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(`Create a ${fresh ? 'fresh ' : ''}cmt`, usr.user, async ({ page }) => {
@@ -17,7 +18,18 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
       {
         // User 1.
         let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: defs.sd.content, checkVisuals: true });
+        await writeCmt(page, {
+          cmtApp,
+          content: defs.sd.content,
+          shownCb: async () => {
+            await editorShouldAppear(page, {
+              name: 'Write a comment',
+              title: null,
+              contentHTML: '',
+              buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
+            });
+          },
+        });
 
         if (!fresh) {
           await page.reload();

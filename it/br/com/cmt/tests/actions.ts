@@ -7,7 +7,7 @@
 
 import * as br from 'br';
 import { User } from 'br';
-import { editorShouldAppear } from 'br/com/editor/editor';
+import { editorShouldAppear, waitForOverlayVisible } from 'br/com/editor/editor';
 import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
@@ -18,8 +18,8 @@ const loadMoreCmtText = 'More comments';
 export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
-  checkVisuals?: boolean;
   waitForTimeChange?: boolean;
+  shownCb?: () => Promise<void>;
 }
 
 export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
@@ -28,15 +28,11 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
     style: 'success',
   });
   await writeCmtBtn.click();
-  if (a.checkVisuals) {
-    await editorShouldAppear(p, {
-      name: 'Write a comment',
-      title: null,
-      contentHTML: '',
-      buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
-    });
-  }
 
+  await waitForOverlayVisible(p);
+  if (a.shownCb) {
+    await a.shownCb();
+  }
   await updateEditorNTC(p, { part: 'content', content: a.content });
   if (a.waitForTimeChange) {
     await waitForMinTimeChange();
