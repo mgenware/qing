@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/mocha": "^9.1.1",
-    "@web/test-runner": "^0.13.27",
+    "@web/test-runner": "^0.13.28",
     "@web/test-runner-playwright": "^0.8.8",
     "html-validate": "7.1.0",
     "lit-analyzer": "^1.2.1",
