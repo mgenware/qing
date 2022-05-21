@@ -7,16 +7,17 @@
 
 import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt, editCmt } from './actions';
+import { editorShouldAppear } from 'br/com/editor/editor';
 
 function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ page }) => {
     {
       {
         let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: defs.sd.content });
+        await writeCmt(page, { cmtApp, content: def.sd.content });
 
         if (!fresh) {
           await page.reload();
@@ -27,11 +28,18 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         await editCmt(page, {
           cmtApp,
           author: usr.user,
-          visuals: { contentHTML: defs.sd.contentHTML },
+          shownCb: async () => {
+            await editorShouldAppear(page, {
+              name: 'Edit comment',
+              title: null,
+              contentHTML: def.sd.contentHTML,
+              buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
+            });
+          },
         });
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
-          content: defs.sd.updated,
+          content: def.sd.updated,
           highlighted: fresh,
           canEdit: true,
           hasEdited: true,
@@ -45,7 +53,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
-          content: defs.sd.updated,
+          content: def.sd.updated,
           hasEdited: true,
         });
         await cm.shouldHaveComments(cmtApp, 1);

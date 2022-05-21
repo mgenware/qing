@@ -9,7 +9,7 @@ import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import { getEditBarDeleteButton } from 'br/com/editor/editBar';
 import { alertShouldAppear, AlertType, AlertButtons } from 'br/com/alerts/alert';
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt } from './actions';
 
@@ -18,7 +18,7 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
     {
       {
         let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: defs.sd.content });
+        await writeCmt(page, { cmtApp, content: def.sd.content });
 
         if (!fresh) {
           await page.reload();

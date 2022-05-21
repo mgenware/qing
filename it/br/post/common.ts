@@ -9,7 +9,7 @@ import * as br from 'br';
 import { User, expect } from 'br';
 import { likesShouldAppear } from 'br/com/likes/likes';
 import { userViewShouldAppear } from 'br/com/content/userView';
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 
 export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
 export const cmtAppSelector = 'post-payload-app cmt-app';
@@ -36,8 +36,8 @@ export async function postCoreTraitsShouldAppear(
   await userViewShouldAppear(page.$(userViewQuery), { user: author });
 
   // Page content.
-  await postShouldHaveTitle(page, defs.sd.title, link);
-  await postShouldHaveContent(page, defs.sd.content);
+  await postShouldHaveTitle(page, def.sd.title, link);
+  await postShouldHaveContent(page, def.sd.content);
 
   // Like button.
   const likeAppEl = page.$('post-payload-app like-app');

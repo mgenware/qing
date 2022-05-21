@@ -6,7 +6,7 @@
  */
 
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
-import { serverURL } from './defs';
+import { serverURL } from './def';
 import fetch, { Response } from 'node-fetch';
 
 const emptyCookieErr = 'Unexpected empty cookies from login API';

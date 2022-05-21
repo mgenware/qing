@@ -9,7 +9,7 @@
 import * as pw from '@playwright/test';
 import { User } from 'base/call';
 import * as authRoute from '@qing/routes/d/dev/auth';
-import { serverURL } from 'base/defs';
+import { serverURL } from 'base/def';
 
 export { expect, Expect, test } from '@playwright/test';
 export { usr, call, User } from 'base/call';

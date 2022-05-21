@@ -1,7 +1,7 @@
 import { EditorPart, getComposerEl, updateEditorContent } from './editor';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import * as cm from './common';
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import * as br from 'br';
 import { waitForMinTimeChange } from 'base/delay';
 
@@ -16,7 +16,7 @@ export async function updateEditorNTC(page: br.Page, a: UpdateEditorArgs) {
   const composerEl = getComposerEl(overlayEl);
 
   // Update editor content.
-  await updateEditorContent(composerEl, a.part, a.content ?? defs.sd.updated);
+  await updateEditorContent(composerEl, a.part, a.content ?? def.sd.updated);
 
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');

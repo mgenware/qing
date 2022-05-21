@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import { call, usr, expect, itaNotAuthorized, it, errorResults } from 'api';
 import { scPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
@@ -15,7 +15,7 @@ import * as composeRoute from '@qing/routes/d/s/pri/compose';
 
 const entityBody = {
   entityType: appdef.contentBaseTypePost,
-  content: { contentHTML: defs.sd.contentHTML, title: defs.sd.title },
+  content: { contentHTML: def.sd.contentHTML, title: def.sd.title },
 };
 
 it('Add', async () => {
@@ -24,8 +24,8 @@ it('Add', async () => {
     await scPost(u, async ({ id }) => {
       // Post content.
       expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
-        contentHTML: defs.sd.contentHTML,
-        title: defs.sd.title,
+        contentHTML: def.sd.contentHTML,
+        title: def.sd.title,
       });
 
       // User post_count.
@@ -44,8 +44,8 @@ it('Edit', async () => {
       const pc = await postCount(u);
       await call(composeRoute.setEntity, { ...entityBody, id }, u);
       expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
-        contentHTML: defs.sd.contentHTML,
-        title: defs.sd.title,
+        contentHTML: def.sd.contentHTML,
+        title: def.sd.title,
       });
 
       const pc2 = await postCount(u);

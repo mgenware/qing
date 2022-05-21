@@ -10,7 +10,7 @@ import { test, usr, $ } from 'br';
 import * as br from 'br';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editor/editor';
 import { updateEditorTC } from 'br/com/editor/actions';
 
@@ -24,8 +24,8 @@ async function clickEditButton(page: br.Page) {
 async function postEditorShouldAppear(page: br.Page) {
   await editorShouldAppear(page, {
     name: 'Edit post',
-    title: defs.sd.title,
-    contentHTML: defs.sd.contentHTML,
+    title: def.sd.title,
+    contentHTML: def.sd.contentHTML,
     buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
   });
 }
@@ -39,12 +39,12 @@ function testPostUpdates(part: EditorPart) {
 
       // Check editor update.
       await postEditorShouldAppear(p);
-      await updateEditorTC(p, { part, content: defs.sd.updated });
+      await updateEditorTC(p, { part, content: def.sd.updated });
 
       // Verify post title.
-      await postShouldHaveTitle(p, part === 'title' ? defs.sd.updated : defs.sd.title, link);
+      await postShouldHaveTitle(p, part === 'title' ? def.sd.updated : def.sd.title, link);
       // Verify post content.
-      await postShouldHaveContent(p, part === 'title' ? defs.sd.content : defs.sd.updated);
+      await postShouldHaveContent(p, part === 'title' ? def.sd.content : def.sd.updated);
     });
   });
 }
@@ -60,8 +60,8 @@ test('Dismiss post editor', async ({ page }) => {
     await editorShouldBeDismissed(p, 'Cancel');
 
     // Verify page content.
-    await postShouldHaveTitle(p, defs.sd.title, link);
-    await postShouldHaveContent(p, defs.sd.content);
+    await postShouldHaveTitle(p, def.sd.title, link);
+    await postShouldHaveContent(p, def.sd.content);
   });
 });
 

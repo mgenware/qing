@@ -7,7 +7,7 @@
 
 import * as br from 'br';
 import { User } from 'br';
-import { editorShouldAppear, waitForOverlayVisible } from 'br/com/editor/editor';
+import { waitForOverlayVisible } from 'br/com/editor/editor';
 import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
@@ -43,24 +43,18 @@ export interface EditCmtArgs {
   cmtApp: br.Element;
   author: User;
   content?: string;
-  visuals?: {
-    contentHTML: string;
-  };
+  shownCb?: () => Promise<void>;
 }
 
-export async function editCmt(page: br.Page, a: EditCmtArgs) {
+export async function editCmt(p: br.Page, a: EditCmtArgs) {
   await getEditBarEditButton(a.cmtApp, a.author.id).click();
-  const v = a.visuals;
-  if (v) {
-    await editorShouldAppear(page, {
-      name: 'Edit comment',
-      title: null,
-      contentHTML: v.contentHTML,
-      buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
-    });
+
+  await waitForOverlayVisible(p);
+  if (a.shownCb) {
+    await a.shownCb();
   }
 
-  await updateEditorTC(page, { part: 'content', content: a.content });
+  await updateEditorTC(p, { part: 'content', content: a.content });
 }
 
 export function clickMoreCmt(cmtApp: br.Element) {

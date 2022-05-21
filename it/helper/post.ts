@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import { APIResult, User } from 'api';
 import * as entityUtil from './entity';
 import { appdef } from '@qing/def';
@@ -13,7 +13,7 @@ import { appdef } from '@qing/def';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 const entityBody = {
-  content: { contentHTML: defs.sd.contentHTML, title: defs.sd.title },
+  content: { contentHTML: def.sd.contentHTML, title: def.sd.title },
 };
 
 export function verifyNewPostAPIResult(r: APIResult): string {

@@ -7,7 +7,7 @@
 
 import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
-import * as defs from 'base/defs';
+import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt, clickMoreCmt } from './actions';
 import { editorShouldAppear } from 'br/com/editor/editor';
@@ -20,7 +20,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         let cmtApp = await w.getCmtApp(page);
         await writeCmt(page, {
           cmtApp,
-          content: defs.sd.content,
+          content: def.sd.content,
           shownCb: async () => {
             await editorShouldAppear(page, {
               name: 'Write a comment',
@@ -38,7 +38,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
-          content: defs.sd.content,
+          content: def.sd.content,
           highlighted: fresh,
           canEdit: true,
         });
@@ -51,7 +51,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
-          content: defs.sd.content,
+          content: def.sd.content,
         });
         await cm.shouldHaveComments(cmtApp, 1);
       }
