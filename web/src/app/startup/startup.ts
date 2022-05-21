@@ -29,6 +29,11 @@ window.onerror = (error, url, lineNumber) => {
   return false;
 };
 
+window.addEventListener('unhandledrejection', (event) => {
+  // eslint-disable-next-line no-alert
+  alert(`${ls.internalErr}: ${event.reason}`);
+});
+
 function handleLocalizedStringSlots() {
   const elements = document.getElementsByClassName(localizedStringSlotClass);
   for (const element of elements) {
