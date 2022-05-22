@@ -164,7 +164,7 @@ export class Element extends LocatorCore {
     await pw.expect(this.c).not.toHaveAttribute(name, value);
   }
 
-  async shouldHaveTextContent(val: string) {
+  async shouldHaveTextContent(val: string | RegExp) {
     await pw.expect(this.c).toHaveText(val);
   }
 

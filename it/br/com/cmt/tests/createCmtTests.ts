@@ -95,7 +95,7 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
           author: usr.user,
           content: '2',
         });
-        await act.clickMoreCmt(cmtApp);
+        await act.clickMoreCmts(cmtApp);
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 2), {
           author: usr.user,

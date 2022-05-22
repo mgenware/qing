@@ -11,8 +11,10 @@ import { waitForOverlayVisible } from 'br/com/editor/editor';
 import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
+import * as cm from './common';
 
-const loadMoreCmtText = 'More comments';
+const loadMoreCmtsText = 'More comments';
+const loadMoreRepliesText = 'More replies';
 
 export interface WriteCmtArgs {
   cmtApp: br.Element;
@@ -78,14 +80,18 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
   await updateEditorTC(p, { part: 'content', content: a.content });
 }
 
-export function clickMoreCmt(cmtApp: br.Element) {
-  return cmtApp.$linkButton(loadMoreCmtText).click();
+export function clickMoreCmts(cmtApp: br.Element) {
+  return cmtApp.$linkButton(loadMoreCmtsText).click();
 }
 
 export function noMoreCmts(cmtApp: br.Element) {
-  return cmtApp.$linkButton(loadMoreCmtText).shouldNotExist();
+  return cmtApp.$linkButton(loadMoreCmtsText).shouldNotExist();
+}
+
+export function clickMoreReplies(cmtApp: br.Element) {
+  return cmtApp.$linkButton(loadMoreRepliesText).click();
 }
 
 export function clickRepliesButton(cmtEl: br.Element) {
-  return cmtEl.$('.btn-in-cmts link-button').click();
+  return cmtEl.$(`${cm.repliesBtnClass} link-button`).click();
 }

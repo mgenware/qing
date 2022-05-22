@@ -25,7 +25,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
             cmtApp,
             content: def.sd.content,
           });
-          const cmtEl = cm.getTopCmt(cmtApp);
+          let cmtEl = cm.getTopCmt(cmtApp);
           await act.writeReply(page, {
             cmtEl,
             content: def.sd.content,
@@ -44,18 +44,19 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
           if (!fresh) {
             await page.reload();
             cmtApp = await w.getCmtApp(page);
+            cmtEl = cm.getTopCmt(cmtApp);
 
             // Replies should be hidden after reloading.
-            await cm.shouldHaveReplyCount(cmtEl, false, 1);
+            await cm.shouldHaveReplyCount(cmtEl, 1, 0);
             await cm.shouldNotHaveReplies(cm.getTopCmt(cmtApp));
             // Click replies.
             await act.clickRepliesButton(cm.getTopCmt(cmtApp));
           } else {
             // Replies are shown for refresh reply.
-            await cm.shouldHaveReplyCount(cmtEl, true, 1);
+            await cm.shouldHaveReplyCount(cmtEl, 1, 1);
           }
 
-          await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtApp, 0), {
+          await cm.cmtShouldAppear(cm.getNthReply(cmtApp, 0), {
             author: usr.user,
             content: def.sd.content,
             highlighted: fresh,
@@ -63,7 +64,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
           });
           // 2: 1 reply + 1 parent cmt.
           await cm.shouldHaveCmtCount(cmtApp, 2);
-          await cm.shouldHaveReplyCount(cm.getTopCmt(cmtApp), true, 1);
+          await cm.shouldHaveReplyCount(cm.getTopCmt(cmtApp), 1, 1);
         }
         {
           // Visitor.
@@ -72,18 +73,18 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
           const cmtEl = cm.getTopCmt(cmtApp);
 
           // Replies should be hidden.
-          await cm.shouldHaveReplyCount(cmtEl, false, 1);
+          await cm.shouldHaveReplyCount(cmtEl, 1, 0);
           await cm.shouldNotHaveReplies(cmtEl);
           // Click replies.
           await act.clickRepliesButton(cmtEl);
 
-          await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtApp, 0), {
+          await cm.cmtShouldAppear(cm.getNthReply(cm.getTopCmt(cmtApp), 0), {
             author: usr.user,
             content: def.sd.content,
           });
           // 2: 1 reply + 1 parent cmt.
           await cm.shouldHaveCmtCount(cmtApp, 2);
-          await cm.shouldHaveReplyCount(cmtEl, true, 1);
+          await cm.shouldHaveReplyCount(cmtEl, 1, 1);
         }
       }
     },
@@ -108,7 +109,7 @@ function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtEl, i), {
+          await cm.cmtShouldAppear(cm.getNthReply(cmtEl, i), {
             author: usr.user,
             content: `${3 - i}`,
             highlighted: true,
@@ -132,17 +133,23 @@ function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
         // Click replies.
         await act.clickRepliesButton(cmtEl);
 
-        await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtEl, 0), {
+        // Cmt should have 3 replies with 2 shown.
+        await cm.shouldHaveReplyCount(cmtEl, 3, 2);
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 0), {
           author: usr.user,
           content: '3',
         });
-        await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtEl, 1), {
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 1), {
           author: usr.user,
           content: '2',
         });
-        await act.clickMoreCmt(cmtApp);
 
-        await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtEl, 2), {
+        // Click more replies.
+        await act.clickMoreReplies(cmtApp);
+        // All replies are shown.
+        await cm.shouldHaveReplyCount(cmtEl, 3, 3);
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 2), {
           author: usr.user,
           content: '1',
         });
