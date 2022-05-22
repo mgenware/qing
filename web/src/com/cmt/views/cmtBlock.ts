@@ -246,6 +246,7 @@ export class CmtBlock extends BaseElement {
         CHECK(newCmt);
         newCmt.uiHighlighted = true;
       }
+      this._replyCount += e.detail.countDelta;
     }
     this._hasNext = e.hasNext;
     this._items = e.items;

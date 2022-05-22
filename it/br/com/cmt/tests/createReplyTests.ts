@@ -14,7 +14,7 @@ import { editorShouldAppear } from 'br/com/editor/editor';
 
 function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
-    `Create and view a ${fresh ? 'fresh ' : ''}reply, expander state`,
+    `Create and view a ${fresh ? 'fresh ' : ''}reply, default ordering, expander state`,
     usr.user,
     async ({ page }) => {
       {

@@ -49,7 +49,7 @@ export interface WriteReplyArgs {
 }
 
 export async function writeReply(p: br.Page, a: WriteReplyArgs) {
-  await a.cmtEl.$linkButton('Reply').click();
+  await a.cmtEl.$hasText('cmt-view link-button', 'Reply').click();
 
   await waitForOverlayVisible(p);
   if (a.shownCb) {

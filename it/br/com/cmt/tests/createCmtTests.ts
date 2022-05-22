@@ -13,50 +13,54 @@ import * as act from './actions';
 import { editorShouldAppear } from 'br/com/editor/editor';
 
 function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test(`Create and view a ${fresh ? 'fresh ' : ''}cmt`, usr.user, async ({ page }) => {
-    {
+  w.test(
+    `Create and view a ${fresh ? 'fresh ' : ''}cmt, default ordering`,
+    usr.user,
+    async ({ page }) => {
       {
-        // User 1.
-        let cmtApp = await w.getCmtApp(page);
-        await act.writeCmt(page, {
-          cmtApp,
-          content: def.sd.content,
-          shownCb: async () => {
-            await editorShouldAppear(page, {
-              name: 'Write a comment',
-              title: null,
-              contentHTML: '',
-              buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
-            });
-          },
-        });
+        {
+          // User 1.
+          let cmtApp = await w.getCmtApp(page);
+          await act.writeCmt(page, {
+            cmtApp,
+            content: def.sd.content,
+            shownCb: async () => {
+              await editorShouldAppear(page, {
+                name: 'Write a comment',
+                title: null,
+                contentHTML: '',
+                buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
+              });
+            },
+          });
 
-        if (!fresh) {
-          await page.reload();
-          cmtApp = await w.getCmtApp(page);
+          if (!fresh) {
+            await page.reload();
+            cmtApp = await w.getCmtApp(page);
+          }
+
+          await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+            author: usr.user,
+            content: def.sd.content,
+            highlighted: fresh,
+            canEdit: true,
+          });
+          await cm.shouldHaveCmtCount(cmtApp, 1);
         }
+        {
+          // Visitor.
+          await page.reload(null);
+          const cmtApp = await w.getCmtApp(page);
 
-        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
-          author: usr.user,
-          content: def.sd.content,
-          highlighted: fresh,
-          canEdit: true,
-        });
-        await cm.shouldHaveCmtCount(cmtApp, 1);
+          await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+            author: usr.user,
+            content: def.sd.content,
+          });
+          await cm.shouldHaveCmtCount(cmtApp, 1);
+        }
       }
-      {
-        // Visitor.
-        await page.reload(null);
-        const cmtApp = await w.getCmtApp(page);
-
-        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
-          author: usr.user,
-          content: def.sd.content,
-        });
-        await cm.shouldHaveCmtCount(cmtApp, 1);
-      }
-    }
-  });
+    },
+  );
 }
 
 function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
