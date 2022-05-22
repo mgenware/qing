@@ -15,7 +15,7 @@ CREATE TABLE `user` (
 	`email` VARCHAR(200) NOT NULL UNIQUE,
 	`name` VARCHAR(100) NOT NULL,
 	`icon_name` VARCHAR(255) NOT NULL DEFAULT '',
-	`created_at` DATETIME NOT NULL,
+	`created_at` DATETIME(3) NOT NULL,
 	`company` VARCHAR(100) NOT NULL DEFAULT '',
 	`website` VARCHAR(200) NOT NULL DEFAULT '',
 	`location` VARCHAR(100) NOT NULL DEFAULT '',

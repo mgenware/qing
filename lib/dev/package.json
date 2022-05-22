@@ -15,7 +15,7 @@
     "js-yaml": "^4.1.0",
     "jsconfgen": "^0.2.0",
     "mingru": "^0.60.2",
-    "mingru-models": "^0.64.8",
+    "mingru-models": "^0.64.9",
     "mingru-tsconfig": "^4.0.0"
   }
 }

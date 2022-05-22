@@ -6,8 +6,9 @@
  */
 
 import * as mr from 'mingru';
-import source from './actions/source.js';
+import './setEnv.js';
 import * as qdu from '@qing/devutil';
+import source from './actions/source.js';
 
 const mingruHeader =
   qdu.copyrightString +
