@@ -22,7 +22,9 @@ export class LinkButton extends BaseElement {
   }
 
   private handleClick(e: Event) {
+    e.stopPropagation();
     e.preventDefault();
+    this.dispatchEvent(new CustomEvent('click'));
   }
 }
 

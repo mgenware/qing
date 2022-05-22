@@ -44,11 +44,10 @@ export class LangPageView extends BaseElement {
         <link-list-view>
           ${this.tags.map(
             (t) =>
-              html`<a
-                href="#"
+              html`<link-button
                 @click=${() => this.handleLangChange(t)}
                 class=${curLang === t.ID ? linkListActiveFilledClass : ''}
-                >${t.Name} (${t.LocalizedName})</a
+                >${t.Name} (${t.LocalizedName})</link-button
               >`,
           )}
         </link-list-view>

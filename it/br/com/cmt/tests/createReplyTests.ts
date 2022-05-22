@@ -13,72 +13,85 @@ import * as act from './actions';
 import { editorShouldAppear } from 'br/com/editor/editor';
 
 function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test(`Create and view a ${fresh ? 'fresh ' : ''}reply`, usr.user, async ({ page }) => {
-    {
+  w.test(
+    `Create and view a ${fresh ? 'fresh ' : ''}reply, expander state`,
+    usr.user,
+    async ({ page }) => {
       {
-        // User 1.
-        let cmtApp = await w.getCmtApp(page);
-        await act.writeCmt(page, {
-          cmtApp,
-          content: def.sd.content,
-        });
-        await act.writeReply(page, {
-          cmtEl: cm.getTopCmt(cmtApp),
-          content: def.sd.content,
-          shownCb: async () => {
-            await editorShouldAppear(page, {
-              name: 'Write a comment',
-              title: null,
-              contentHTML: '',
-              buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
-            });
-          },
-        });
+        {
+          // User 1.
+          let cmtApp = await w.getCmtApp(page);
+          await act.writeCmt(page, {
+            cmtApp,
+            content: def.sd.content,
+          });
+          const cmtEl = cm.getTopCmt(cmtApp);
+          await act.writeReply(page, {
+            cmtEl,
+            content: def.sd.content,
+            shownCb: async () => {
+              await editorShouldAppear(page, {
+                name: 'Reply to USER',
+                title: null,
+                contentHTML: '',
+                buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
+              });
+            },
+          });
+          // 2: 1 reply + 1 parent cmt.
+          await cm.shouldHaveCmtCount(cmtApp, 2);
 
-        if (!fresh) {
-          await page.reload();
-          cmtApp = await w.getCmtApp(page);
+          if (!fresh) {
+            await page.reload();
+            cmtApp = await w.getCmtApp(page);
+
+            // Replies should be hidden after reloading.
+            await cm.shouldHaveReplyCount(cmtEl, false, 1);
+            await cm.shouldNotHaveReplies(cm.getTopCmt(cmtApp));
+            // Click replies.
+            await act.clickRepliesButton(cm.getTopCmt(cmtApp));
+          } else {
+            // Replies are shown for refresh reply.
+            await cm.shouldHaveReplyCount(cmtEl, true, 1);
+          }
+
+          await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtApp, 0), {
+            author: usr.user,
+            content: def.sd.content,
+            highlighted: fresh,
+            canEdit: true,
+          });
+          // 2: 1 reply + 1 parent cmt.
+          await cm.shouldHaveCmtCount(cmtApp, 2);
+          await cm.shouldHaveReplyCount(cm.getTopCmt(cmtApp), true, 1);
+        }
+        {
+          // Visitor.
+          await page.reload(null);
+          const cmtApp = await w.getCmtApp(page);
+          const cmtEl = cm.getTopCmt(cmtApp);
 
           // Replies should be hidden.
-          await cm.shouldNotHaveReplies(cm.getTopCmt(cmtApp));
+          await cm.shouldHaveReplyCount(cmtEl, false, 1);
+          await cm.shouldNotHaveReplies(cmtEl);
           // Click replies.
-          await act.clickRepliesButton(cm.getTopCmt(cmtApp));
+          await act.clickRepliesButton(cmtEl);
+
+          await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtApp, 0), {
+            author: usr.user,
+            content: def.sd.content,
+          });
+          // 2: 1 reply + 1 parent cmt.
+          await cm.shouldHaveCmtCount(cmtApp, 2);
+          await cm.shouldHaveReplyCount(cmtEl, true, 1);
         }
-
-        await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtApp, 0), {
-          author: usr.user,
-          content: def.sd.content,
-          highlighted: fresh,
-          canEdit: true,
-        });
-        // 2: 1 reply + 1 parent cmt.
-        await cm.shouldHaveCmtCount(cmtApp, 2);
-        await cm.shouldHaveReplyCount(cm.getTopCmt(cmtApp), 1);
       }
-      {
-        // Visitor.
-        await page.reload(null);
-        const cmtApp = await w.getCmtApp(page);
-
-        // Replies should be hidden.
-        await cm.shouldNotHaveReplies(cm.getTopCmt(cmtApp));
-        // Click replies.
-        await act.clickRepliesButton(cm.getTopCmt(cmtApp));
-
-        await cm.cmtShouldAppear(cm.getNthReplyFromTopCmt(cmtApp, 0), {
-          author: usr.user,
-          content: def.sd.content,
-        });
-        // 2: 1 reply + 1 parent cmt.
-        await cm.shouldHaveCmtCount(cmtApp, 2);
-        await cm.shouldHaveReplyCount(cm.getTopCmt(cmtApp), 1);
-      }
-    }
-  });
+    },
+  );
 }
 
 function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
-  w.test('Create cmts, pagination', usr.user, async ({ page }) => {
+  w.test('Create replies, pagination', usr.user, async ({ page }) => {
     {
       {
         // User 1.

@@ -26,8 +26,8 @@ export class EditBarApp extends BaseElement {
     }
     return html`
       <span>
-        <a href="#" @click=${this.handleEditClick}>${ls.edit}</a>
-        <a href="#" class="m-l-sm" @click=${this.handleDeleteClick}>${ls.delete}</a>
+        <link-button @click=${this.handleEditClick}>${ls.edit}</link-button>
+        <link-button class="m-l-sm" @click=${this.handleDeleteClick}>${ls.delete}</link-button>
       </span>
     `;
   }

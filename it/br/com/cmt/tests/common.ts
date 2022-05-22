@@ -69,10 +69,9 @@ export function shouldHaveCmtCount(el: br.Element, count: number) {
     .shouldHaveTextContent(count === 1 ? '1 comment' : `${count || 'No'} comments`);
 }
 
-export function shouldHaveReplyCount(el: br.Element, count: number) {
-  return el
-    .$('.btn-in-cmts')
-    .shouldHaveTextContent(count === 1 ? '1 reply' : `${count || 'No'} replies`);
+export function shouldHaveReplyCount(el: br.Element, expanded: boolean, count: number) {
+  const text = count === 1 ? '1 reply' : `${count || 'No'} replies`;
+  return el.$('.btn-in-cmts').shouldHaveTextContent(expanded ? `${text} ↑` : text);
 }
 
 export function shouldNotHaveReplies(el: br.Element) {

@@ -40,7 +40,7 @@ export class CmtLoadMoreView extends BaseElement {
       if (this.hasNext) {
         return html`
           <div>
-            <a href="#" @click=${this.handleMoreButtonClick}>${loadMoreText}</a>
+            <link-button @click=${this.handleMoreButtonClick}>${loadMoreText}</link-button>
           </div>
         `;
       }

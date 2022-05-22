@@ -185,7 +185,7 @@ export class Element extends LocatorCore {
   }
 
   $linkButton(text: string) {
-    return this.$hasText('a', text);
+    return this.$hasText('link-button', text);
   }
 
   $hasText(sel: string, text: string) {

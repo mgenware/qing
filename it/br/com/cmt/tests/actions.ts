@@ -87,5 +87,5 @@ export function noMoreCmts(cmtApp: br.Element) {
 }
 
 export function clickRepliesButton(cmtEl: br.Element) {
-  return cmtEl.$('.btn-in-cmts').click();
+  return cmtEl.$('.btn-in-cmts link-button').click();
 }
