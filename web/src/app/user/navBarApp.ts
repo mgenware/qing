@@ -210,16 +210,16 @@ export default class NavBarApp extends BaseElement {
                   <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
                   <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
                   <hr />
-                  <link-button @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
-                    >${ls.newPost}</link-button
+                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+                    >${ls.newPost}</a
                   >
-                  <link-button @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
-                    >${ls.newThread}</link-button
+                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+                    >${ls.newThread}</a
                   >
                   <hr />
                   <a href=${mRoute.settingsProfile}>${ls.settings}</a>
                   ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-                  <link-button @click=${this.handleSignOutClick}>${ls.signOut}</link-button>
+                  <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
                 </div>
               </div>
             `
@@ -232,11 +232,11 @@ export default class NavBarApp extends BaseElement {
               </a>
             `}
 
-        <link-button @click=${this.toggleTheme}>
+        <a href="#" @click=${this.toggleTheme}>
           ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}
-        </link-button>
+        </a>
 
-        <link-button class="toggler" @click=${this.togglerClick}>&#9776;</link-button>
+        <a href="#" class="toggler" @click=${this.togglerClick}>&#9776;</a>
       </navbar>
     `;
   }
