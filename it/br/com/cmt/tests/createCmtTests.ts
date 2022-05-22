@@ -63,13 +63,13 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   );
 }
 
-function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
+function testCreateCmtsPagination(w: CmtFixtureWrapper) {
   w.test('Create cmts, pagination', usr.user, async ({ page }) => {
     {
+      const total = 5;
       {
         // User 1.
         const cmtApp = await w.getCmtApp(page);
-        const total = 3;
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
           await act.writeCmt(page, { cmtApp, content: `${i + 1}`, waitForTimeChange: true });
@@ -78,33 +78,56 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
           // eslint-disable-next-line no-await-in-loop
           await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, i), {
             author: usr.user,
-            content: `${3 - i}`,
+            content: `${total - i}`,
             highlighted: true,
             canEdit: true,
           });
         }
         await cm.shouldHaveCmtCount(cmtApp, total);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, total);
       }
       {
         // Visitor.
         await page.reload(null);
         const cmtApp = await w.getCmtApp(page);
 
-        await cm.shouldHaveCmtCount(cmtApp, 3);
+        await cm.shouldHaveCmtCount(cmtApp, total);
+        // Only 2 are shown by default.
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 2);
+
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
-          content: '3',
+          content: '5',
         });
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 1), {
           author: usr.user,
-          content: '2',
+          content: '4',
         });
+
+        // Show more.
         await act.clickMoreCmts(cmtApp);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 4);
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 2), {
           author: usr.user,
+          content: '3',
+        });
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 3), {
+          author: usr.user,
+          content: '2',
+        });
+
+        // Show more.
+        await act.clickMoreCmts(cmtApp);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 5);
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 4), {
+          author: usr.user,
           content: '1',
         });
+
+        // Total cmt count should not change after loading.
+        await cm.shouldHaveCmtCount(cmtApp, total);
       }
     }
   });
@@ -113,5 +136,5 @@ function testCreateCmtsAndPagination(w: CmtFixtureWrapper) {
 export default function testCreateCmt(w: CmtFixtureWrapper) {
   testCreateCmtCore(w, true);
   testCreateCmtCore(w, false);
-  testCreateCmtsAndPagination(w);
+  testCreateCmtsPagination(w);
 }

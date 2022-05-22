@@ -60,10 +60,14 @@ export async function cmtShouldAppear(el: br.Element, e: CheckCmtArgs) {
   }
 }
 
-export function shouldHaveCmtCount(el: br.Element, count: number) {
-  return el
+export async function shouldHaveCmtCount(el: br.Element, count: number) {
+  await el
     .$('.br-cmt-c')
     .shouldHaveTextContent(count === 1 ? '1 comment' : `${count || 'No'} comments`);
+}
+
+export async function shouldHaveShownRootCmtCount(el: br.Element, count: number) {
+  await el.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(count);
 }
 
 export async function shouldHaveReplyCount(el: br.Element, count: number, shown: number) {

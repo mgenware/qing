@@ -91,9 +91,10 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
   );
 }
 
-function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
+function testCreateRepliesPagination(w: CmtFixtureWrapper) {
   w.test('Create replies, pagination', usr.user, async ({ page }) => {
     {
+      const total = 5;
       {
         // User 1.
         const cmtApp = await w.getCmtApp(page);
@@ -102,7 +103,6 @@ function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
           content: def.sd.content,
         });
         const cmtEl = cm.getTopCmt(cmtApp);
-        const total = 3;
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
           await act.writeReply(page, { cmtEl, content: `${i + 1}`, waitForTimeChange: true });
@@ -111,13 +111,14 @@ function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
           // eslint-disable-next-line no-await-in-loop
           await cm.cmtShouldAppear(cm.getNthReply(cmtEl, i), {
             author: usr.user,
-            content: `${3 - i}`,
+            content: `${total - i}`,
             highlighted: true,
             canEdit: true,
           });
         }
-        // + 1: 1 extra top cmt.
+        // + 1 extra top cmt.
         await cm.shouldHaveCmtCount(cmtApp, total + 1);
+        await cm.shouldHaveReplyCount(cmtEl, total, total);
       }
       {
         // Visitor.
@@ -125,31 +126,48 @@ function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
         const cmtApp = await w.getCmtApp(page);
         const cmtEl = cm.getTopCmt(cmtApp);
 
-        // 3 replies + 1 parent cmt.
-        await cm.shouldHaveCmtCount(cmtApp, 4);
+        // + 1 extra root cmt.
+        await cm.shouldHaveCmtCount(cmtApp, total + 1);
 
         // Replies should be hidden.
         await cm.shouldNotHaveReplies(cmtEl);
         // Click replies.
         await act.clickRepliesButton(cmtEl);
 
-        // Cmt should have 3 replies with 2 shown.
-        await cm.shouldHaveReplyCount(cmtEl, 3, 2);
+        // Cmt should have 5 replies with 2 shown.
+        await cm.shouldHaveReplyCount(cmtEl, total, 2);
 
         await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 0), {
           author: usr.user,
-          content: '3',
+          content: '5',
         });
         await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 1), {
+          author: usr.user,
+          content: '4',
+        });
+
+        // Click more replies.
+        await act.clickMoreReplies(cmtApp);
+
+        // Cmt should have 5 replies with 4 shown.
+        await cm.shouldHaveReplyCount(cmtEl, total, 4);
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 2), {
+          author: usr.user,
+          content: '3',
+        });
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 3), {
           author: usr.user,
           content: '2',
         });
 
         // Click more replies.
         await act.clickMoreReplies(cmtApp);
-        // All replies are shown.
-        await cm.shouldHaveReplyCount(cmtEl, 3, 3);
-        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 2), {
+
+        // All 5 replies are shown.
+        await cm.shouldHaveReplyCount(cmtEl, total, 5);
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 4), {
           author: usr.user,
           content: '1',
         });
@@ -161,5 +179,5 @@ function testCreateRepliesAndPagination(w: CmtFixtureWrapper) {
 export default function testCreateReply(w: CmtFixtureWrapper) {
   testCreateReplyCore(w, true);
   testCreateReplyCore(w, false);
-  testCreateRepliesAndPagination(w);
+  testCreateRepliesPagination(w);
 }
