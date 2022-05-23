@@ -25,10 +25,14 @@ export interface CmtRelationTable extends mm.Table {
 }
 
 export function getSelectCmtsAction(opt: {
-  // If present, it's selecting root cmts.
-  // Otherwise, it's selecting replies.
+  // If present, select root cmts.
+  // Otherwise, select replies.
   rt: CmtRelationTable | null;
-  fetchLikes: boolean;
+  // Whether likes of a specific user are fetched. User mode only.
+  userMode: boolean;
+  // Whether some cmts are excluded. Used when loading more cmts with dynamically added cmts
+  // on web side. User mode only.
+  filterMode: boolean;
 }): mm.SelectAction {
   const jCmt = opt.rt ? opt.rt.cmt_id.associativeJoin(cmt) : cmt;
   const cols: mm.SelectedColumnTypes[] = [
@@ -42,8 +46,8 @@ export function getSelectCmtsAction(opt: {
     jCmt.user_id.join(user).name,
     jCmt.user_id.join(user).icon_name.privateAttr(),
   ];
-  if (opt.fetchLikes) {
-    cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : cmt.id, cmtLike));
+  if (opt.userMode) {
+    cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : jCmt.id, cmtLike));
   }
 
   const orderByFollowingCols = {
@@ -52,12 +56,19 @@ export function getSelectCmtsAction(opt: {
     // Sort by `likes` DESC if `created_at` are the same.
     [jCmt.created_at.__getPath()]: [new mm.OrderByColumn(jCmt.likes, true)],
   };
+
+  let whereSQL = mm.sql`${(opt.rt ? opt.rt.host_id : jCmt.parent_id).isEqualToParam()}`;
+  if (opt.filterMode) {
+    whereSQL = mm.and(whereSQL, mm.sql`${jCmt.id} NOT IN ${jCmt.id.toArrayParam('excluded')}`);
+  }
+
   return mm
     .selectRows(...cols)
     .from(opt.rt ? opt.rt : cmt)
     .pageMode()
-    .by(opt.rt ? opt.rt.host_id : cmt.parent_id)
+    .whereSQL(whereSQL)
     .orderByParams([jCmt.likes, jCmt.created_at], orderByFollowingCols)
+    .orderByAsc(cmt.id)
     .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface)
     .resultTypeNameAttr(cmtResultType)
     .attr(mm.ActionAttribute.enableTSResultType, true);

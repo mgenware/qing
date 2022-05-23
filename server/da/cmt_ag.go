@@ -130,7 +130,7 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -155,21 +155,21 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	return result, itemCounter > len(result), nil
 }
 
-type CmtAGSelectRepliesWithLikesOrderBy1 int
+type CmtAGSelectRepliesUserModeOrderBy1 int
 
 const (
-	CmtAGSelectRepliesWithLikesOrderBy1Likes CmtAGSelectRepliesWithLikesOrderBy1 = iota
-	CmtAGSelectRepliesWithLikesOrderBy1CreatedAt
+	CmtAGSelectRepliesUserModeOrderBy1Likes CmtAGSelectRepliesUserModeOrderBy1 = iota
+	CmtAGSelectRepliesUserModeOrderBy1CreatedAt
 )
 
-func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesWithLikesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	var orderBy1SQL string
 	var orderBy1SQLFC string
 	switch orderBy1 {
-	case CmtAGSelectRepliesWithLikesOrderBy1Likes:
+	case CmtAGSelectRepliesUserModeOrderBy1Likes:
 		orderBy1SQL = "`cmt`.`likes`"
 		orderBy1SQLFC += ", " + "`cmt`.`created_at` DESC"
-	case CmtAGSelectRepliesWithLikesOrderBy1CreatedAt:
+	case CmtAGSelectRepliesUserModeOrderBy1CreatedAt:
 		orderBy1SQL = "`cmt`.`created_at`"
 		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
 	default:
@@ -192,7 +192,69 @@ func (mrTable *CmtAGType) SelectRepliesWithLikes(mrQueryable mingru.Queryable, v
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+" LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	if err != nil {
+		return nil, false, err
+	}
+	result := make([]CmtResult, 0, limit)
+	itemCounter := 0
+	defer rows.Close()
+	for rows.Next() {
+		itemCounter++
+		if itemCounter <= max {
+			var item CmtResult
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.UserID, &item.UserName, &item.UserIconName, &item.IsLiked)
+			if err != nil {
+				return nil, false, err
+			}
+			result = append(result, item)
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, false, err
+	}
+	return result, itemCounter > len(result), nil
+}
+
+type CmtAGSelectRepliesUserModeFilterModeOrderBy1 int
+
+const (
+	CmtAGSelectRepliesUserModeFilterModeOrderBy1Likes CmtAGSelectRepliesUserModeFilterModeOrderBy1 = iota
+	CmtAGSelectRepliesUserModeFilterModeOrderBy1CreatedAt
+)
+
+func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+	var orderBy1SQL string
+	var orderBy1SQLFC string
+	switch orderBy1 {
+	case CmtAGSelectRepliesUserModeFilterModeOrderBy1Likes:
+		orderBy1SQL = "`cmt`.`likes`"
+		orderBy1SQLFC += ", " + "`cmt`.`created_at` DESC"
+	case CmtAGSelectRepliesUserModeFilterModeOrderBy1CreatedAt:
+		orderBy1SQL = "`cmt`.`created_at`"
+		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
+	default:
+		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		return nil, false, err
+	}
+	if orderBy1Desc {
+		orderBy1SQL += " DESC"
+	}
+	orderBy1SQL += orderBy1SQLFC
+
+	if page <= 0 {
+		err := fmt.Errorf("Invalid page %v", page)
+		return nil, false, err
+	}
+	if pageSize <= 0 {
+		err := fmt.Errorf("Invalid page size %v", pageSize)
+		return nil, false, err
+	}
+	limit := pageSize + 1
+	offset := (page - 1) * pageSize
+	max := pageSize
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}

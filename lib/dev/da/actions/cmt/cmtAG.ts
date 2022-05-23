@@ -34,7 +34,8 @@ export class CmtAG extends mm.ActionGroup {
     .lock(mm.SelectActionLockMode.inShareMode);
 
   selectReplies: mm.SelectAction;
-  selectRepliesWithLikes: mm.SelectAction;
+  selectRepliesUserMode: mm.SelectAction;
+  selectRepliesUserModeFilterMode: mm.SelectAction;
 
   editCmt = mm
     .updateOne()
@@ -77,8 +78,17 @@ export class CmtAG extends mm.ActionGroup {
 
   constructor() {
     super();
-    this.selectReplies = getSelectCmtsAction({ rt: null, fetchLikes: false });
-    this.selectRepliesWithLikes = getSelectCmtsAction({ rt: null, fetchLikes: true });
+    this.selectReplies = getSelectCmtsAction({ rt: null, userMode: false, filterMode: false });
+    this.selectRepliesUserMode = getSelectCmtsAction({
+      rt: null,
+      userMode: true,
+      filterMode: false,
+    });
+    this.selectRepliesUserModeFilterMode = getSelectCmtsAction({
+      rt: null,
+      userMode: true,
+      filterMode: false,
+    });
   }
 }
 

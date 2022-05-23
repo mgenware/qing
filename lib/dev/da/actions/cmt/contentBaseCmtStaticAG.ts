@@ -13,10 +13,20 @@ import contentBaseCmtTableParam from '../../models/com/contentBaseCmtTableParam.
 export const cmtRelationTable = 'cmtRelationTable';
 
 export class ContentBaseCmtStaticAG extends mm.ActionGroup {
-  selectRootCmts = getSelectCmtsAction({ rt: contentBaseCmtTableParam, fetchLikes: false });
-  selectRootCmtsWithLikes = getSelectCmtsAction({
+  selectRootCmts = getSelectCmtsAction({
     rt: contentBaseCmtTableParam,
-    fetchLikes: true,
+    userMode: false,
+    filterMode: false,
+  });
+  selectRootCmtsUserMode = getSelectCmtsAction({
+    rt: contentBaseCmtTableParam,
+    userMode: true,
+    filterMode: false,
+  });
+  selectRootCmtsUserModeFilterMode = getSelectCmtsAction({
+    rt: contentBaseCmtTableParam,
+    userMode: true,
+    filterMode: true,
   });
   insertCmt = cmtf.insertCmtAction(contentBaseCmtTableParam);
   insertReply = cmtf.insertReplyAction();
