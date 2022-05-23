@@ -81,6 +81,13 @@ export class CmtBlock extends BaseElement {
 
   firstUpdated() {
     CHECK(this.host);
+
+    // Get newly added cmt IDs.
+    let excluded: string[] | null = this._items.filter((it) => it.uiHighlighted).map((it) => it.id);
+    if (!excluded.length) {
+      excluded = null;
+    }
+
     const { cmt } = this;
     if (cmt) {
       // We are displaying replies from a cmt.
@@ -89,6 +96,7 @@ export class CmtBlock extends BaseElement {
         {
           parentID: cmt.id,
           page: startPage,
+          excluded,
         },
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),
@@ -100,6 +108,7 @@ export class CmtBlock extends BaseElement {
         {
           host: this.host,
           page: startPage,
+          excluded,
         },
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),

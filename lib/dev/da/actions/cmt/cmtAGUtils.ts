@@ -68,7 +68,7 @@ export function getSelectCmtsAction(opt: {
     .pageMode()
     .whereSQL(whereSQL)
     .orderByParams([jCmt.likes, jCmt.created_at], orderByFollowingCols)
-    .orderByAsc(cmt.id)
+    .orderByAsc(jCmt.id)
     .attr(mm.ActionAttribute.groupTypeName, cmtHostTableInterface)
     .resultTypeNameAttr(cmtResultType)
     .attr(mm.ActionAttribute.enableTSResultType, true);

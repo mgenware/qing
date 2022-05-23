@@ -15,11 +15,13 @@ import { ItemsLoadedResp } from 'lib/itemCollector';
 export interface GetCmtsInputs {
   host: Entity;
   page: number;
+  excluded: string[] | null;
 }
 
 export interface GetRepliesInputs {
   parentID: string;
   page: number;
+  excluded: string[] | null;
 }
 
 export default class GetCmtsLoader extends Loader<ItemsLoadedResp<Cmt>> {

@@ -56,6 +56,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	parentID := clib.GetIDFromDict(params, "parentID")
 	orderBy := jsonx.GetIntOrDefault(params, "sort")
+	excludedCmts := clib.GetIDArrayFromDict(params, "excluded")
 	page := clib.GetPageParamFromDict(params)
 
 	db := appDB.DB()
@@ -68,8 +69,10 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if parentID != 0 {
 		if uid == 0 {
 			items, hasNext, err = da.Cmt.SelectReplies(db, &parentID, page, kCmtPageSize, da.CmtAGSelectRepliesOrderBy1(orderBy), true)
+		} else if len(excludedCmts) == 0 {
+			items, hasNext, err = da.Cmt.SelectRepliesUserMode(db, uid, &parentID, page, kCmtPageSize, da.CmtAGSelectRepliesUserModeOrderBy1(orderBy), true)
 		} else {
-			items, hasNext, err = da.Cmt.SelectRepliesWithLikes(db, uid, &parentID, page, kCmtPageSize, da.CmtAGSelectRepliesWithLikesOrderBy1(orderBy), true)
+			items, hasNext, err = da.Cmt.SelectRepliesUserModeFilterMode(db, uid, &parentID, excludedCmts, page, kCmtPageSize, da.CmtAGSelectRepliesUserModeFilterModeOrderBy1(orderBy), true)
 		}
 		if err != nil {
 			app.PanicIfErr(err)
@@ -86,8 +89,10 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	if uid == 0 {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsOrderBy1(orderBy), true)
+	} else if len(excludedCmts) == 0 {
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsUserMode(db, cmtRelTable, uid, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1(orderBy), true)
 	} else {
-		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsWithLikes(db, cmtRelTable, uid, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsWithLikesOrderBy1(orderBy), true)
+		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsUserModeFilterMode(db, cmtRelTable, uid, host.ID, excludedCmts, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1(orderBy), true)
 	}
 	app.PanicIfErr(err)
 	respData = newGetCmtsRespData(items, hasNext)

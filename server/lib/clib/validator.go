@@ -160,7 +160,14 @@ func MustGetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	return id
 }
 
-// MustGetStringArrayFromDict converts the value for the specified key to []string, and panics on error.
+func GetStringArrayFromDict(dict map[string]interface{}, key string) []string {
+	val, ok := dict[key].([]string)
+	if !ok {
+		return nil
+	}
+	return []string(val)
+}
+
 func MustGetStringArrayFromDict(dict map[string]interface{}, key string) []string {
 	val, ok := dict[key].([]string)
 	if !ok {
@@ -169,9 +176,8 @@ func MustGetStringArrayFromDict(dict map[string]interface{}, key string) []strin
 	return []string(val)
 }
 
-// MustGetIDArrayFromDict converts the value for the specified key to an array of IDs, and panics on error.
-func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
-	strArray := MustGetStringArrayFromDict(dict, key)
+func GetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
+	strArray := GetStringArrayFromDict(dict, key)
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {
@@ -183,5 +189,25 @@ func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
 		}
 		return ids
 	}
+	return nil
+}
+
+func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
+	strArray := MustGetStringArrayFromDict(dict, key)
+	if strArray != nil {
+		ids := make([]uint64, len(strArray))
+		for i, idStr := range strArray {
+			id, err := DecodeID(idStr)
+			if err != nil {
+				panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
+			}
+			ids[i] = id
+		}
+		if len(ids) == 0 {
+			panicMissingArg(key)
+		}
+		return ids
+	}
+	panicMissingArg(key)
 	return nil
 }

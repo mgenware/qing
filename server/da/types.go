@@ -77,7 +77,7 @@ type ThreadMsgResult struct {
 type CmtHostTableInterface interface {
 	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
 	SelectRepliesUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
+	SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, excluded []uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
 	SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
 	SelectRootCmtsUserMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
 	SelectRootCmtsUserModeFilterMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, excluded []uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)

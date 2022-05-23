@@ -87,7 +87,7 @@ export class CmtAG extends mm.ActionGroup {
     this.selectRepliesUserModeFilterMode = getSelectCmtsAction({
       rt: null,
       userMode: true,
-      filterMode: false,
+      filterMode: true,
     });
   }
 }
