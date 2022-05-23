@@ -39,12 +39,14 @@ export class CmtAG extends mm.ActionGroup {
 
   editCmt = mm
     .updateOne()
-    .setParams(t.content, t.modified_at)
+    .setDefaults(t.modified_at)
+    .setParams(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
   editReply = mm
     .updateOne()
-    .setParams(t.modified_at, t.content)
+    .setDefaults(t.modified_at)
+    .setParams(t.content)
     .argStubs(cm.sanitizedStub)
     .whereSQL(defaultUpdateConditions(t));
 
@@ -56,6 +58,7 @@ export class CmtAG extends mm.ActionGroup {
     .from(t)
     .set(t.parent_id, mm.constants.NULL)
     .setDefaults()
+    .set(t.modified_at, t.created_at)
     .setParams();
   // `parent_id` is required when inserting a reply.
   // Used as a TX member, and thus has `.from` called.
@@ -67,6 +70,7 @@ export class CmtAG extends mm.ActionGroup {
       new mm.SQLVariable(t.parent_id.__type(), t.parent_id.__getDBName(), false, undefined, false),
     )
     .setDefaults()
+    .set(t.modified_at, t.created_at)
     .setParams();
   deleteCore = mm.deleteOne().whereSQL(defaultUpdateConditions(t));
 

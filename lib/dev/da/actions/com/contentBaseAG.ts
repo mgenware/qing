@@ -94,6 +94,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .insertOne()
           .setParams(...this.colsOfInsertItem())
           .setDefaults()
+          .set(t.modified_at, t.created_at)
           .declareInsertedID(insertedIDVar),
         ...this.getIncrementContainerCounterActions(),
       )
@@ -101,7 +102,8 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
       .setReturnValues(insertedIDVar);
     this.editItem = mm
       .updateOne()
-      .setParams(t.modified_at, t.content, ...this.extraUpdateItemCols())
+      .setDefaults(t.modified_at)
+      .setParams(t.content, ...this.extraUpdateItemCols())
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
@@ -140,7 +142,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
 
   protected colsOfInsertItem() {
     const t = this.baseTable();
-    return [t.user_id, t.created_at, t.modified_at, t.content, ...this.extraInsertItemCols()];
+    return [t.user_id, t.content, ...this.extraInsertItemCols()];
   }
 
   // Gets a list of update actions of container table to update the counters in response

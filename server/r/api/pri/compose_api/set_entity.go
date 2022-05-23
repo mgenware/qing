@@ -52,7 +52,6 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			forumID = &forumIDValue
 		}
 
-		now := time.Now()
 		switch entityType {
 		case appdef.ContentBaseTypePost:
 			{

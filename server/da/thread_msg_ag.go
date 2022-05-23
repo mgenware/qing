@@ -60,13 +60,13 @@ func (mrTable *ThreadMsgAGType) DeleteItem(db *sql.DB, id uint64, userID uint64,
 	return txErr
 }
 
-func (mrTable *ThreadMsgAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, rawModifiedAt time.Time, contentHTML string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `modified_at` = ?, `content` = ? WHERE (`id` = ? AND `user_id` = ?)", rawModifiedAt, contentHTML, id, userID)
+func (mrTable *ThreadMsgAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `thread_msg` SET `modified_at` = UTC_TIMESTAMP(), `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ThreadMsgAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`user_id`, `created_at`, `modified_at`, `content`, `thread_id`, `cmt_count`, `likes`) VALUES (?, ?, ?, ?, ?, 0, 0)", userID, rawCreatedAt, rawModifiedAt, contentHTML, threadID)
+func (mrTable *ThreadMsgAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, threadID uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`user_id`, `content`, `thread_id`, `modified_at`, `created_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, `created_at`, UTC_TIMESTAMP(), 0, 0)", userID, contentHTML, threadID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -78,11 +78,11 @@ func (mrTable *ThreadMsgAGType) insertItemChild3(mrQueryable mingru.Queryable, i
 	return Thread.UpdateMsgCount(mrQueryable, id, 1)
 }
 
-func (mrTable *ThreadMsgAGType) InsertItem(db *sql.DB, userID uint64, rawCreatedAt time.Time, rawModifiedAt time.Time, contentHTML string, threadID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ThreadMsgAGType) InsertItem(db *sql.DB, userID uint64, contentHTML string, threadID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := mrTable.insertItemChild1(tx, userID, rawCreatedAt, rawModifiedAt, contentHTML, threadID)
+		insertedID, err := mrTable.insertItemChild1(tx, userID, contentHTML, threadID)
 		if err != nil {
 			return err
 		}
