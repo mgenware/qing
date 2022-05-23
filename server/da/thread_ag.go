@@ -58,7 +58,7 @@ func (mrTable *ThreadAGType) EditItem(mrQueryable mingru.Queryable, id uint64, u
 }
 
 func (mrTable *ThreadAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string, forumID *uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `thread` (`user_id`, `content`, `title`, `forum_id`, `modified_at`, `created_at`, `cmt_count`, `likes`, `msg_count`, `last_replied_at`) VALUES (?, ?, ?, ?, `created_at`, UTC_TIMESTAMP(), 0, 0, 0, NULL)", userID, contentHTML, title, forumID)
+	result, err := mrQueryable.Exec("INSERT INTO `thread` (`created_at`, `cmt_count`, `likes`, `msg_count`, `last_replied_at`, `user_id`, `content`, `title`, `forum_id`, `modified_at`) VALUES (UTC_TIMESTAMP(), 0, 0, 0, NULL, ?, ?, ?, ?, `created_at`)", userID, contentHTML, title, forumID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -135,7 +135,7 @@ func (mrTable *ThreadAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryab
 	case ThreadAGSelectItemsForPostCenterOrderBy1MsgCount:
 		orderBy1SQL = "`msg_count`"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -143,11 +143,11 @@ func (mrTable *ThreadAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryab
 	}
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -188,11 +188,11 @@ type ThreadAGSelectItemsForUserProfileResult struct {
 
 func (mrTable *ThreadAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]ThreadAGSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1

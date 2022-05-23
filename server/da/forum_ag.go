@@ -31,8 +31,8 @@ func (mrTable *ForumAGType) DeleteItem(mrQueryable mingru.Queryable, id uint64) 
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, name string, descHTML string, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, threadCount uint, status uint8) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `forum` (`name`, `desc`, `order_index`, `created_at`, `group_id`, `thread_count`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)", name, descHTML, orderIndex, rawCreatedAt, groupID, threadCount, status)
+func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, threadCount uint, status uint8, name string, descHTML string) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `forum` (`order_index`, `created_at`, `group_id`, `thread_count`, `status`, `name`, `desc`) VALUES (?, ?, ?, ?, ?, ?, ?)", orderIndex, rawCreatedAt, groupID, threadCount, status, name, descHTML)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -100,11 +100,11 @@ func (mrTable *ForumAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, i
 
 func (mrTable *ForumAGType) SelectThreads(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1

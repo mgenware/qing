@@ -20,7 +20,6 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
-	"time"
 )
 
 func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -55,7 +54,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		switch entityType {
 		case appdef.ContentBaseTypePost:
 			{
-				insertedID, err := da.Post.InsertItem(db, uid, now, now, contentHTML, title, sanitizedToken, captResult)
+				insertedID, err := da.Post.InsertItem(db, uid, contentHTML, title, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Post(insertedID)
@@ -64,7 +63,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case appdef.ContentBaseTypeThread:
 			{
-				insertedID, err := da.Thread.InsertItem(db, uid, now, now, contentHTML, title, forumID, sanitizedToken, captResult)
+				insertedID, err := da.Thread.InsertItem(db, uid, contentHTML, title, forumID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Thread(insertedID)
@@ -74,7 +73,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case appdef.ContentBaseTypeThreadMsg:
 			{
 				threadID := clib.GetIDFromDict(params, "threadID")
-				insertedID, err := da.ThreadMsg.InsertItem(db, uid, now, now, contentHTML, threadID, sanitizedToken, captResult)
+				insertedID, err := da.ThreadMsg.InsertItem(db, uid, contentHTML, threadID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().ThreadMsg(threadID, insertedID)
@@ -86,23 +85,22 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 	} else {
 		// Edit an existing entry.
-		now := time.Now()
 		switch entityType {
 		case appdef.ContentBaseTypePost:
 			{
-				err = da.Post.EditItem(db, id, uid, now, contentHTML, title, sanitizedToken)
+				err = da.Post.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
 		case appdef.ContentBaseTypeThread:
 			{
-				err = da.Thread.EditItem(db, id, uid, now, contentHTML, title, sanitizedToken)
+				err = da.Thread.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}
 		case appdef.ContentBaseTypeThreadMsg:
 			{
-				err = da.ThreadMsg.EditItem(db, id, uid, now, contentHTML, sanitizedToken)
+				err = da.ThreadMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}

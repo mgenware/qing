@@ -66,7 +66,7 @@ func (mrTable *ThreadMsgAGType) EditItem(mrQueryable mingru.Queryable, id uint64
 }
 
 func (mrTable *ThreadMsgAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, threadID uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`user_id`, `content`, `thread_id`, `modified_at`, `created_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, `created_at`, UTC_TIMESTAMP(), 0, 0)", userID, contentHTML, threadID)
+	result, err := mrQueryable.Exec("INSERT INTO `thread_msg` (`created_at`, `cmt_count`, `likes`, `user_id`, `content`, `thread_id`, `modified_at`) VALUES (UTC_TIMESTAMP(), 0, 0, ?, ?, ?, `created_at`)", userID, contentHTML, threadID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -148,7 +148,7 @@ func (mrTable *ThreadMsgAGType) SelectItemsForPostCenter(mrQueryable mingru.Quer
 	case ThreadMsgAGSelectItemsForPostCenterOrderBy1CmtCount:
 		orderBy1SQL = "`cmt_count`"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -156,11 +156,11 @@ func (mrTable *ThreadMsgAGType) SelectItemsForPostCenter(mrQueryable mingru.Quer
 	}
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -200,11 +200,11 @@ type ThreadMsgAGSelectItemsForUserProfileResult struct {
 
 func (mrTable *ThreadMsgAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]ThreadMsgAGSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -246,11 +246,11 @@ func (mrTable *ThreadMsgAGType) SelectItemSrc(mrQueryable mingru.Queryable, id u
 
 func (mrTable *ThreadMsgAGType) SelectMsgsByThread(mrQueryable mingru.Queryable, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -283,11 +283,11 @@ func (mrTable *ThreadMsgAGType) SelectMsgsByThread(mrQueryable mingru.Queryable,
 
 func (mrTable *ThreadMsgAGType) SelectMsgsByThreadWithLikes(mrQueryable mingru.Queryable, viewerUserID uint64, threadID uint64, page int, pageSize int) ([]ThreadMsgResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1

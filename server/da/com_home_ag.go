@@ -27,11 +27,11 @@ var ComHome = &ComHomeAGType{}
 
 func (mrTable *ComHomeAGType) SelectThreads(mrQueryable mingru.Queryable, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1

@@ -46,12 +46,12 @@ func (mrTable *CmtAGType) EraseCmt(mrQueryable mingru.Queryable, id uint64, user
 }
 
 func (mrTable *CmtAGType) InsertCmtTXM(mrQueryable mingru.Queryable, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `modified_at`, `content`, `user_id`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`) VALUES (NULL, `created_at`, ?, ?, UTC_TIMESTAMP(), 0, 0, 0, ?, ?)", contentHTML, userID, hostID, hostType)
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`, `parent_id`, `modified_at`) VALUES (?, ?, UTC_TIMESTAMP(), 0, 0, 0, ?, ?, NULL, `created_at`)", contentHTML, userID, hostID, hostType)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
-func (mrTable *CmtAGType) InsertReplyTXM(mrQueryable mingru.Queryable, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`parent_id`, `modified_at`, `content`, `user_id`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`) VALUES (?, `created_at`, ?, ?, UTC_TIMESTAMP(), 0, 0, 0, ?, ?)", parentID, contentHTML, userID, hostID, hostType)
+func (mrTable *CmtAGType) InsertReplyTXM(mrQueryable mingru.Queryable, contentHTML string, userID uint64, hostID uint64, hostType uint8, parentID uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`content`, `user_id`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`, `parent_id`, `modified_at`) VALUES (?, ?, UTC_TIMESTAMP(), 0, 0, 0, ?, ?, ?, `created_at`)", contentHTML, userID, hostID, hostType, parentID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -110,7 +110,7 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 		orderBy1SQL = "`cmt`.`created_at`"
 		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -119,11 +119,11 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -172,7 +172,7 @@ func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, vi
 		orderBy1SQL = "`cmt`.`created_at`"
 		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -181,11 +181,11 @@ func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, vi
 	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -225,7 +225,7 @@ const (
 
 func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, excluded []uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	if len(excluded) == 0 {
-		return nil, false, fmt.Errorf("The array argument `excluded` cannot be empty")
+		return nil, false, fmt.Errorf("the array argument `excluded` cannot be empty")
 	}
 	var orderBy1SQL string
 	var orderBy1SQLFC string
@@ -237,7 +237,7 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 		orderBy1SQL = "`cmt`.`created_at`"
 		orderBy1SQLFC += ", " + "`cmt`.`likes` DESC"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -246,11 +246,11 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1

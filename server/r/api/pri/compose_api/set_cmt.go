@@ -50,7 +50,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		captResult := 0
 		var cmtID uint64
 		if parentID != 0 {
-			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, parentID, content, uid, host.ID, uint8(host.Type), sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, uid, host.ID, uint8(host.Type), parentID, sanitizedToken, captResult)
 		} else {
 			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, uid, host.ID, uint8(host.Type), sanitizedToken, captResult)
 		}
@@ -70,12 +70,12 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		respData := SetCmtResponse{Cmt: &cmt}
 		return resp.MustComplete(respData)
 	} else {
-		now := time.Now()
-
-		err := da.Cmt.EditCmt(db, id, uid, content, now, sanitizedToken)
+		err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
 		app.PanicIfErr(err)
 		cmt := &cmtSod.Cmt{EID: clib.EncodeID(id)}
 		cmt.ContentHTML = content
+
+		now := time.Now()
 		cmt.ModifiedAt = clib.TimeString(now)
 
 		// NOTE: when editing a comment or reply, this always returns response the `cmt` field set.

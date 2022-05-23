@@ -58,7 +58,7 @@ func (mrTable *PostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, use
 }
 
 func (mrTable *PostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `post` (`user_id`, `content`, `title`, `modified_at`, `created_at`, `cmt_count`, `likes`) VALUES (?, ?, ?, `created_at`, UTC_TIMESTAMP(), 0, 0)", userID, contentHTML, title)
+	result, err := mrQueryable.Exec("INSERT INTO `post` (`created_at`, `cmt_count`, `likes`, `user_id`, `content`, `title`, `modified_at`) VALUES (UTC_TIMESTAMP(), 0, 0, ?, ?, ?, `created_at`)", userID, contentHTML, title)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -133,7 +133,7 @@ func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable
 	case PostAGSelectItemsForPostCenterOrderBy1CmtCount:
 		orderBy1SQL = "`cmt_count`"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -141,11 +141,11 @@ func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable
 	}
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -186,11 +186,11 @@ type PostAGSelectItemsForUserProfileResult struct {
 
 func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostAGSelectItemsForUserProfileResult, bool, error) {
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1

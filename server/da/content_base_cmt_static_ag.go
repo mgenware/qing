@@ -69,11 +69,11 @@ func (mrTable *ContentBaseCmtStaticAGType) insertReplyChild3(mrQueryable mingru.
 	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, hostID, 1)
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTableParam mingru.Table, parentID uint64, contentHTML string, userID uint64, hostID uint64, hostType uint8, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTableParam mingru.Table, contentHTML string, userID uint64, hostID uint64, hostType uint8, parentID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Cmt.InsertReplyTXM(tx, parentID, contentHTML, userID, hostID, hostType)
+		replyID, err := Cmt.InsertReplyTXM(tx, contentHTML, userID, hostID, hostType, parentID)
 		if err != nil {
 			return err
 		}
@@ -109,7 +109,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 		orderBy1SQL = "`join_1`.`created_at`"
 		orderBy1SQLFC += ", " + "`join_1`.`likes` DESC"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -118,11 +118,11 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -171,7 +171,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserMode(mrQueryable mi
 		orderBy1SQL = "`join_1`.`created_at`"
 		orderBy1SQLFC += ", " + "`join_1`.`likes` DESC"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -180,11 +180,11 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserMode(mrQueryable mi
 	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
@@ -224,7 +224,7 @@ const (
 
 func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, excluded []uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
 	if len(excluded) == 0 {
-		return nil, false, fmt.Errorf("The array argument `excluded` cannot be empty")
+		return nil, false, fmt.Errorf("the array argument `excluded` cannot be empty")
 	}
 	var orderBy1SQL string
 	var orderBy1SQLFC string
@@ -236,7 +236,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQu
 		orderBy1SQL = "`join_1`.`created_at`"
 		orderBy1SQLFC += ", " + "`join_1`.`likes` DESC"
 	default:
-		err := fmt.Errorf("Unsupported value %v", orderBy1)
+		err := fmt.Errorf("unsupported value %v", orderBy1)
 		return nil, false, err
 	}
 	if orderBy1Desc {
@@ -245,11 +245,11 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQu
 	orderBy1SQL += orderBy1SQLFC
 
 	if page <= 0 {
-		err := fmt.Errorf("Invalid page %v", page)
+		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
 	}
 	if pageSize <= 0 {
-		err := fmt.Errorf("Invalid page size %v", pageSize)
+		err := fmt.Errorf("invalid page size %v", pageSize)
 		return nil, false, err
 	}
 	limit := pageSize + 1
