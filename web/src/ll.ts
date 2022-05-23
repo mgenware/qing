@@ -15,6 +15,8 @@ export * from 'lit/decorators.js';
 export * from 'lit/directives/ref.js';
 export * from 'lit/directives/repeat.js';
 export * from 'lit/directives/when.js';
+export * from 'lit/directives/class-map.js';
+export * from 'lit/directives/style-map.js';
 
 export class BaseElement extends LitElement {
   static get styles(): CSSResultGroup {
