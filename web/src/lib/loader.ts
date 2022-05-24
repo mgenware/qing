@@ -38,10 +38,7 @@ export default class Loader<T> {
 
       if (!response.ok) {
         // Handle HTTP error.
-        const message =
-          response.status === 404
-            ? formatLS(ls.pPageNotFound, window.location.href)
-            : response.statusText;
+        const message = response.status === 404 ? formatLS(ls.resNotFound) : response.statusText;
         throw new ErrorWithCode(message);
       } else {
         // Handle server error if exists.

@@ -20,7 +20,6 @@ export default interface LSDefs {
   company: string;
   bio: string;
   errOccurred: string;
-  pPageNotFound: string;
   profilePicture: string;
   aboutMe: string;
   loading: string;
@@ -38,7 +37,7 @@ export default interface LSDefs {
   uploadProfileImgDesc: string;
   unsupportedImgExtErr: string;
   exceed5MBErr: string;
-  resourceNotFound: string;
+  resNotFound: string;
   reset: string;
   rysDiscardChanges: string;
   publish: string;

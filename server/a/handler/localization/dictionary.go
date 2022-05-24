@@ -110,7 +110,6 @@ type Dictionary struct {
 	PEditEntity                       string `json:"pEditEntity"`
 	PNumOfComments                    string `json:"pNumOfComments"`
 	PNumOfReplies                     string `json:"pNumOfReplies"`
-	PPageNotFound                     string `json:"pPageNotFound"`
 	PPlzEnterThe                      string `json:"pPlzEnterThe"`
 	PReplyTo                          string `json:"pReplyTo"`
 	PViewMore                         string `json:"pViewMore"`
@@ -139,8 +138,8 @@ type Dictionary struct {
 	RemoveAdminConfirmation           string `json:"removeAdminConfirmation"`
 	Replies                           string `json:"replies"`
 	Reply                             string `json:"reply"`
+	ResNotFound                       string `json:"resNotFound"`
 	Reset                             string `json:"reset"`
-	ResourceNotFound                  string `json:"resourceNotFound"`
 	RestartServerToTakeEffect         string `json:"restartServerToTakeEffect"`
 	Retry                             string `json:"retry"`
 	RysDiscardChanges                 string `json:"rysDiscardChanges"`
