@@ -13,7 +13,8 @@ import LoadingStatus from './loadingStatus';
 
 export interface APIResponse {
   code?: number;
-  message?: string;
+  msg?: string;
+  lsMsg?: string;
   d?: unknown;
 }
 
@@ -46,9 +47,10 @@ export default class Loader<T> {
         // Handle server error if exists.
         const resp = (await response.json()) as APIResponse;
         if (resp.code) {
-          let msg = resp.message;
+          // Check if `lsMsg` is available.
+          let msg = (resp.lsMsg ? getLSByKey(resp.lsMsg) : resp.msg) ?? resp.msg;
 
-          // If we have a localized message associated with the response code,
+          // If we have a localized message associated with the return code,
           // use that message(ignore response message).
           const localizedMsgKey = this.getLocalizedMessage(resp.code);
           if (localizedMsgKey) {

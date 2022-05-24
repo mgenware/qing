@@ -12,8 +12,11 @@ type APIResult struct {
 	// Code indicates the status code of this result. 0 means success.
 	Code int `json:"code,omitempty"`
 
-	// Message is the result of Error.Error().
-	Message string `json:"message,omitempty"`
+	// Error message.
+	Msg string `json:"msg,omitempty"`
+
+	// Localized error message key.
+	LSMsg string `json:"lsMsg,omitempty"`
 
 	// Data represents the requested value in a successful result.
 	Data interface{} `json:"d,omitempty"`
