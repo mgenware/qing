@@ -90,8 +90,8 @@ importers:
       is-plain-obj: ^4.0.0
       js-yaml: ^4.1.0
       jsconfgen: ^0.2.0
-      mingru: ^0.60.3
-      mingru-models: ^0.64.10
+      mingru: ^0.60.5
+      mingru-models: ^0.65.0
       mingru-tsconfig: ^4.0.0
     dependencies:
       '@qing/def': link:../def
@@ -101,8 +101,8 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.60.3
-      mingru-models: 0.64.10
+      mingru: 0.60.5
+      mingru-models: 0.65.0
       mingru-tsconfig: 4.0.0
     devDependencies:
       '@types/js-yaml': 4.0.5
@@ -2169,8 +2169,8 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /del/6.1.0:
-    resolution: {integrity: sha512-OpcRktOt7G7HBfyxP0srBH4Djg4824EQORX8E1qvIhIzthNNArxxhrB/Mm7dRMiLi1nvFyUpDhzD2cTtbBhV8A==}
+  /del/6.1.1:
+    resolution: {integrity: sha512-ua8BhapfP0JUJKC/zV9yHHDW/rDoDxP4Zhn3AkA6/xT6gY7jYXJiaeyBZznYVujhZZET+UgcbZiQ7sN3WqcImg==}
     engines: {node: '>=10'}
     dependencies:
       globby: 11.1.0
@@ -4474,8 +4474,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  /mingru-models/0.64.10:
-    resolution: {integrity: sha512-mi1FKRPwiooPVE15mQlrb/G9yDfzllew1W3CUix337FHEqCn+BV73wJJFoRbHZRVPsFsUoKS06QvIWXyAB8vgg==}
+  /mingru-models/0.65.0:
+    resolution: {integrity: sha512-cHYr4CruqCXpTu1H36jSjcl+j6JsTfnb/iSO4T8Sg8/306+5O+H5obACv+4jaIrPaF8fKzc1p/Sv+riUx6+T0g==}
     engines: {node: '>=14.0.0'}
     dependencies:
       decamelize: 6.0.0
@@ -4487,14 +4487,14 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.60.3:
-    resolution: {integrity: sha512-cAZmasaFqwVbJMaQxmZJgru+3BrDDbCu6k08lhDplFvOWC0jgZrgoSB9O65tYqdmNRERAb/Qbjmo5U4atPknCw==}
+  /mingru/0.60.5:
+    resolution: {integrity: sha512-D8uprAYzauQy2GyGt/01J+/wAXxtV6WBFhNwXLgBocYrPd9tnaVUMj4rwOnfiAI6EyEssTc5zmhJZkaGqfMREg==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 6.3.0
       chalk: 5.0.1
       decamelize: 6.0.0
-      del: 6.1.0
+      del: 6.1.1
       eslint-config-mgenware: 0.8.0
       m-fs: 5.1.0
       must-be-err: 0.1.1
@@ -5995,7 +5995,7 @@ packages:
     dependencies:
       is-stream: 3.0.0
       temp-dir: 2.0.0
-      type-fest: 2.12.2
+      type-fest: 2.13.0
       unique-string: 3.0.0
     dev: false
 
@@ -6196,8 +6196,8 @@ packages:
     resolution: {integrity: sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==}
     engines: {node: '>=10'}
 
-  /type-fest/2.12.2:
-    resolution: {integrity: sha512-qt6ylCGpLjZ7AaODxbpyBZSs9fCI9SkL3Z9q2oxMBQhs/uyY+VD8jHA8ULCGmWQJlBgqvO3EJeAngOHD8zQCrQ==}
+  /type-fest/2.13.0:
+    resolution: {integrity: sha512-lPfAm42MxE4/456+QyIaaVBAwgpJb6xZ8PRu09utnhPdWwcyj9vgy6Sq0Z5yNbJ21EdxB5dRU/Qg8bsyAMtlcw==}
     engines: {node: '>=12.20'}
     dev: false
 

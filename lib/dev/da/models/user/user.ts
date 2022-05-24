@@ -13,7 +13,7 @@ export class User extends mm.Table {
   email = mm.varChar(appdef.lenMaxEmail).uniqueConstraint;
   name = mm.varChar(appdef.lenMaxName);
   icon_name = mm.varChar(appdef.lenMaxFileName).default('');
-  raw_created_at = mm.datetime({ defaultToNow: 'utc' }).setDBName('created_at');
+  raw_created_at = mm.datetime({ defaultToNow: 'server' }).setDBName('created_at');
 
   company = mm.varChar(appdef.lenMaxUserInfoField).default('');
   website = mm.varChar(appdef.lenMaxURL).default('');

@@ -53,12 +53,12 @@ func (mrTable *ThreadAGType) DeleteItem(db *sql.DB, id uint64, userID uint64) er
 }
 
 func (mrTable *ThreadAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, title string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `thread` SET `modified_at` = UTC_TIMESTAMP(), `content` = ?, `title` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, title, id, userID)
+	result, err := mrQueryable.Exec("UPDATE `thread` SET `modified_at` = NOW(3), `content` = ?, `title` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, title, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 func (mrTable *ThreadAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string, forumID *uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `thread` (`created_at`, `cmt_count`, `likes`, `msg_count`, `last_replied_at`, `user_id`, `content`, `title`, `forum_id`, `modified_at`) VALUES (UTC_TIMESTAMP(), 0, 0, 0, NULL, ?, ?, ?, ?, `created_at`)", userID, contentHTML, title, forumID)
+	result, err := mrQueryable.Exec("INSERT INTO `thread` (`created_at`, `cmt_count`, `likes`, `msg_count`, `last_replied_at`, `user_id`, `content`, `title`, `forum_id`, `modified_at`) VALUES (NOW(3), 0, 0, 0, NULL, ?, ?, ?, ?, `created_at`)", userID, contentHTML, title, forumID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

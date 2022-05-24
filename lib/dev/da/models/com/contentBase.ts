@@ -13,8 +13,8 @@ export default class ContentBase extends mm.Table {
   content = mm.text().setModelName('ContentHTML');
   user_id = user.id;
 
-  created_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawCreatedAt');
-  modified_at = mm.datetime({ defaultToNow: 'utc' }).setModelName('RawModifiedAt');
+  created_at = mm.datetime({ defaultToNow: 'server' }).setModelName('RawCreatedAt');
+  modified_at = mm.datetime({ defaultToNow: 'server' }).setModelName('RawModifiedAt');
 
   // For cmt, it's the number of direct replies.
   // For post, it's the number of all cmts associated with it.
