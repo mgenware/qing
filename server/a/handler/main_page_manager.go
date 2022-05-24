@@ -142,7 +142,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, exp
 			// Set `expected` to `true`
 			expected = true
 
-			d.Message = m.Dictionary(lang).ResourceNotFound
+			d.Message = m.Dictionary(lang).ResNotFound
 			if m.conf.HTTP.Log404Error {
 				m.logger.NotFound("DB", r.URL.String())
 			}
