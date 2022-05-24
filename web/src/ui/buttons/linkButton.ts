@@ -15,7 +15,11 @@ export class LinkButton extends BaseElement {
 
   render() {
     return html`
-      <a href="#" class=${this.disabled ? 'content-disabled' : ''} @click=${this.handleClick}
+      <a
+        href="#"
+        part="a"
+        class=${this.disabled ? 'content-disabled' : ''}
+        @click=${this.handleClick}
         ><slot></slot
       ></a>
     `;
