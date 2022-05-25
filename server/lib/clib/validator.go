@@ -29,7 +29,7 @@ func panicMissingArg(key string) {
 }
 
 // MustGetUnsafeStringFromDict converts the value for the specified key to string, or panics on error.
-func MustGetUnsafeStringFromDict(dict map[string]interface{}, key string) string {
+func MustGetUnsafeStringFromDict(dict map[string]any, key string) string {
 	val, ok := dict[key].(string)
 	if !ok {
 		panicMissingArg(key)
@@ -38,7 +38,7 @@ func MustGetUnsafeStringFromDict(dict map[string]interface{}, key string) string
 }
 
 // MustGetStringFromDict calls MustGetUnsafeStringFromDict with an extra max length check.
-func MustGetStringFromDict(dict map[string]interface{}, key string, max int) string {
+func MustGetStringFromDict(dict map[string]any, key string, max int) string {
 	val := MustGetUnsafeStringFromDict(dict, key)
 	if utf8.RuneCountInString(val) > max {
 		panic(fmt.Sprintf("The argument `%v` has exceeded the max length (%v) allowed", key, max))
@@ -47,12 +47,12 @@ func MustGetStringFromDict(dict map[string]interface{}, key string, max int) str
 }
 
 // MustGetTextFromDict calls MustGetUnsafeStringFromDict with max length set to 15,000.
-func MustGetTextFromDict(dict map[string]interface{}, key string) string {
+func MustGetTextFromDict(dict map[string]any, key string) string {
 	return MustGetStringFromDict(dict, key, 15000)
 }
 
 // MustGetMinMaxStringFromDict calls MustGetUnsafeStringFromDict with a length check.
-func MustGetMinMaxStringFromDict(dict map[string]interface{}, key string, min, max int) string {
+func MustGetMinMaxStringFromDict(dict map[string]any, key string, min, max int) string {
 	val := MustGetUnsafeStringFromDict(dict, key)
 	length := utf8.RuneCountInString(val)
 	if length > max {
@@ -64,9 +64,9 @@ func MustGetMinMaxStringFromDict(dict map[string]interface{}, key string, min, m
 	return val
 }
 
-// MustGetDictFromDict converts the value for the specified key to map[string]interface{}, or panics on error.
-func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]interface{} {
-	val, ok := dict[key].(map[string]interface{})
+// MustGetDictFromDict converts the value for the specified key to map[string]any, or panics on error.
+func MustGetDictFromDict(dict map[string]any, key string) map[string]any {
+	val, ok := dict[key].(map[string]any)
 	if !ok {
 		panicMissingArg(key)
 	}
@@ -74,7 +74,7 @@ func MustGetDictFromDict(dict map[string]interface{}, key string) map[string]int
 }
 
 // MustGetIntFromDict converts the value for the specified key to int, or panics on error.
-func MustGetIntFromDict(dict map[string]interface{}, key string) int {
+func MustGetIntFromDict(dict map[string]any, key string) int {
 	// All number types are encoded as float64.
 	val, ok := dict[key].(float64)
 	if !ok {
@@ -84,7 +84,7 @@ func MustGetIntFromDict(dict map[string]interface{}, key string) int {
 }
 
 // MustGetUint64FromDict converts the value for the specified key to uint64, or panics on error.
-func MustGetUint64FromDict(dict map[string]interface{}, key string) uint64 {
+func MustGetUint64FromDict(dict map[string]any, key string) uint64 {
 	// All number types are encoded as float64.
 	val, ok := dict[key].(float64)
 	if !ok {
@@ -101,7 +101,7 @@ func coercePage(page int) int {
 }
 
 // GetPageParamFromDict returns the page number param from the given dict.
-func GetPageParamFromDict(dict map[string]interface{}) int {
+func GetPageParamFromDict(dict map[string]any) int {
 	return coercePage(jsonx.GetIntOrDefault(dict, appdef.KeyPage))
 }
 
@@ -125,7 +125,7 @@ func MustToPageOrDefault(s string) int {
 }
 
 // GetIDFromDict decodes the specified ID params in dictionary if exists.
-func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
+func GetIDFromDict(dict map[string]any, key string) uint64 {
 	val, ok := dict[key].(string)
 	if !ok {
 		return 0
@@ -137,14 +137,14 @@ func GetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	return id
 }
 
-func GetEntityInfoFromDict(dict map[string]interface{}, key string) EntityInfo {
+func GetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := GetIDFromDict(dict, "id")
 	eType := jsonx.GetIntOrDefault(dict, "type")
 	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
 }
 
-func MustGetEntityInfoFromDict(dict map[string]interface{}, key string) EntityInfo {
+func MustGetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := MustGetIDFromDict(dict, "id")
 	eType := MustGetIntFromDict(dict, "type")
@@ -152,7 +152,7 @@ func MustGetEntityInfoFromDict(dict map[string]interface{}, key string) EntityIn
 }
 
 // MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.
-func MustGetIDFromDict(dict map[string]interface{}, key string) uint64 {
+func MustGetIDFromDict(dict map[string]any, key string) uint64 {
 	id := GetIDFromDict(dict, key)
 	if id == 0 {
 		panicMissingArg(key)
@@ -160,7 +160,7 @@ func MustGetIDFromDict(dict map[string]interface{}, key string) uint64 {
 	return id
 }
 
-func GetStringArrayFromDict(dict map[string]interface{}, key string) []string {
+func GetStringArrayFromDict(dict map[string]any, key string) []string {
 	val, ok := dict[key].([]string)
 	if !ok {
 		return nil
@@ -168,7 +168,7 @@ func GetStringArrayFromDict(dict map[string]interface{}, key string) []string {
 	return []string(val)
 }
 
-func MustGetStringArrayFromDict(dict map[string]interface{}, key string) []string {
+func MustGetStringArrayFromDict(dict map[string]any, key string) []string {
 	val, ok := dict[key].([]string)
 	if !ok {
 		panicMissingArg(key)
@@ -176,7 +176,7 @@ func MustGetStringArrayFromDict(dict map[string]interface{}, key string) []strin
 	return []string(val)
 }
 
-func GetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
+func GetIDArrayFromDict(dict map[string]any, key string) []uint64 {
 	strArray := GetStringArrayFromDict(dict, key)
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
@@ -192,7 +192,7 @@ func GetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
 	return nil
 }
 
-func MustGetIDArrayFromDict(dict map[string]interface{}, key string) []uint64 {
+func MustGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
 	strArray := MustGetStringArrayFromDict(dict, key)
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))

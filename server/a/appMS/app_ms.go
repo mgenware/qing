@@ -115,7 +115,7 @@ func (conn *AppMSConn) Ping() error {
 
 /*** Internal functions ***/
 
-func (conn *AppMSConn) setValueInternal(key string, val interface{}) error {
+func (conn *AppMSConn) setValueInternal(key string, val any) error {
 	c := conn.pool.Get()
 	defer c.Close()
 
@@ -123,7 +123,7 @@ func (conn *AppMSConn) setValueInternal(key string, val interface{}) error {
 	return err
 }
 
-func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val interface{}, expires int) error {
+func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expires int) error {
 	c := conn.pool.Get()
 	defer c.Close()
 

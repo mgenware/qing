@@ -67,7 +67,7 @@ func NewLogger(dir string, dev bool) (*Logger, error) {
 }
 
 // Info logs an info message.
-func (logger *Logger) Info(key string, args ...interface{}) {
+func (logger *Logger) Info(key string, args ...any) {
 	if logger.DevMode {
 		log.Println(formatOutputStr(key, args))
 	}
@@ -75,7 +75,7 @@ func (logger *Logger) Info(key string, args ...interface{}) {
 }
 
 // Warn logs a warning message.
-func (logger *Logger) Warn(key string, args ...interface{}) {
+func (logger *Logger) Warn(key string, args ...any) {
 	if logger.DevMode {
 		log.Println(color.YellowString(formatOutputStr(key, args)))
 	}
@@ -83,7 +83,7 @@ func (logger *Logger) Warn(key string, args ...interface{}) {
 }
 
 // Error logs an error message.
-func (logger *Logger) Error(key string, args ...interface{}) {
+func (logger *Logger) Error(key string, args ...any) {
 	if logger.DevMode {
 		debug.PrintStack()
 		log.Println(color.RedString(formatOutputStr(key, args)))
@@ -113,6 +113,6 @@ func createLogger(dir string, name string, dev bool, disableExtraInfo bool) (*za
 	return cfg.Build()
 }
 
-func formatOutputStr(key string, args []interface{}) string {
+func formatOutputStr(key string, args []any) string {
 	return fmt.Sprintf("%v: %v", key, stringsx.JoinAll(args, " | "))
 }

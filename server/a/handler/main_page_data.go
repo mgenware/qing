@@ -18,7 +18,7 @@ type MainPageData struct {
 	ContentHTML string
 	Header      string
 	Scripts     string
-	WindData    interface{}
+	WindData    any
 }
 
 // NewMainPageData creates a new MainPageData.

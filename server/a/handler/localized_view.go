@@ -29,7 +29,7 @@ func (v *LocalizedView) MustExecute(lang string, wr io.Writer, data ILocalizedTe
 	v.view.MustExecute(wr, v.coerceTemplateData(data, lang))
 }
 
-func (v *LocalizedView) coerceTemplateData(data ILocalizedTemplateData, lang string) interface{} {
+func (v *LocalizedView) coerceTemplateData(data ILocalizedTemplateData, lang string) any {
 	dict := v.localizationManager.Dictionary(lang)
 	data.SetLS(dict)
 	return data

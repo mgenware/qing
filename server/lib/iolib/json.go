@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-func ReadJSONFile(file string, v interface{}) error {
+func ReadJSONFile(file string, v any) error {
 	bytes, err := os.ReadFile(file)
 	if err != nil {
 		return err
@@ -20,7 +20,7 @@ func ReadJSONFile(file string, v interface{}) error {
 	return json.Unmarshal(bytes, v)
 }
 
-func WriteJSONFile(file string, v interface{}) error {
+func WriteJSONFile(file string, v any) error {
 	bytes, err := json.Marshal(v)
 	if err != nil {
 		return err

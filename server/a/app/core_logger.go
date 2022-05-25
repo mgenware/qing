@@ -8,8 +8,8 @@
 package app
 
 type CoreLogger interface {
-	Info(key string, args ...interface{})
-	Error(key string, args ...interface{})
-	Warn(key string, args ...interface{})
+	Info(key string, args ...any)
+	Error(key string, args ...any)
+	Warn(key string, args ...any)
 	NotFound(key string, url string)
 }

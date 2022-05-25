@@ -19,7 +19,7 @@ type APIResult struct {
 	LSMsg string `json:"lsMsg,omitempty"`
 
 	// Data represents the requested value in a successful result.
-	Data interface{} `json:"d,omitempty"`
+	Data any `json:"d,omitempty"`
 
 	// Error holds the internal go error object of this result.
 	Error error `json:"-"`

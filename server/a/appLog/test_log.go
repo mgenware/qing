@@ -16,15 +16,15 @@ func NewTestLogger() *TestLogger {
 }
 
 // Info logs an info message.
-func (logger *TestLogger) Info(key string, args ...interface{}) {
+func (logger *TestLogger) Info(key string, args ...any) {
 }
 
 // Warn logs a warning message.
-func (logger *TestLogger) Warn(key string, args ...interface{}) {
+func (logger *TestLogger) Warn(key string, args ...any) {
 }
 
 // Error logs an error message.
-func (logger *TestLogger) Error(key string, args ...interface{}) {
+func (logger *TestLogger) Error(key string, args ...any) {
 }
 
 // NotFound logs an HTTP 404 message.

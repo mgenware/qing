@@ -40,7 +40,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "contentHTML"))
 
-	var result interface{}
+	var result any
 	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.

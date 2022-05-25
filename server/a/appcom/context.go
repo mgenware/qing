@@ -40,8 +40,8 @@ func ContextUserID(ctx context.Context) uint64 {
 }
 
 // ContextDict returns context dict from the given request.
-func ContextDict(ctx context.Context) map[string]interface{} {
-	result, _ := ctx.Value(def.DictContextKey).(map[string]interface{})
+func ContextDict(ctx context.Context) map[string]any {
+	result, _ := ctx.Value(def.DictContextKey).(map[string]any)
 	return result
 }
 

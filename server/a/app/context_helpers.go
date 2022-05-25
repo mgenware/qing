@@ -33,6 +33,6 @@ func ContextUserID(r *http.Request) uint64 {
 }
 
 // ContextDict returns context dict in the given request.
-func ContextDict(r *http.Request) map[string]interface{} {
+func ContextDict(r *http.Request) map[string]any {
 	return appcom.ContextDict(r.Context())
 }

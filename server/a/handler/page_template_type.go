@@ -10,8 +10,8 @@ package handler
 import "io"
 
 type PageTemplateType interface {
-	Execute(wr io.Writer, data interface{}) error
-	ExecuteToString(data interface{}) (string, error)
-	MustExecute(wr io.Writer, data interface{})
-	MustExecuteToString(data interface{}) string
+	Execute(wr io.Writer, data any) error
+	ExecuteToString(data any) (string, error)
+	MustExecute(wr io.Writer, data any)
+	MustExecuteToString(data any) string
 }

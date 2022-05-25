@@ -19,8 +19,8 @@ import (
 )
 
 type GetSiteSettingsResult struct {
-	Settings    interface{} `json:"settings"`
-	NeedRestart bool        `json:"need_restart,omitempty"`
+	Settings    any  `json:"settings"`
+	NeedRestart bool `json:"need_restart,omitempty"`
 }
 
 func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -29,7 +29,7 @@ func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	diskSettings, err := appSettings.LoadFromDisk()
 	app.PanicIfErr(err)
-	var settings interface{}
+	var settings any
 	var needRestart bool
 	key := clib.MustGetStringFromDict(params, "key", appdef.LenMaxName)
 	switch key {

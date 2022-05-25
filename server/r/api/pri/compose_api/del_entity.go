@@ -29,7 +29,7 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := entity.ID
 	db := appDB.DB()
 	var err error
-	var result interface{}
+	var result any
 
 	switch entity.Type {
 	case appdef.ContentBaseTypePost:

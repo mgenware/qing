@@ -27,7 +27,7 @@ func ParseJSON(next http.Handler) http.Handler {
 		contentType := r.Header.Get("Content-Type")
 		if contentType == httpx.MIMETypeJSON {
 			decoder := json.NewDecoder(r.Body)
-			jsonMap := make(map[string]interface{})
+			jsonMap := make(map[string]any)
 			err := decoder.Decode(&jsonMap)
 			if err != nil && err != io.EOF {
 				resp := handler.NewJSONResponse(r, w)
