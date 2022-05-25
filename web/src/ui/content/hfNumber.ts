@@ -24,7 +24,7 @@ export class HFNumber extends BaseElement {
     return this;
   }
 
-  render() {
+  override render() {
     const { value, formatter } = this;
     if (Number.isNaN(value)) {
       return '';

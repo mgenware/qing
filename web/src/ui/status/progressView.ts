@@ -11,7 +11,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 
 @customElement('progress-view')
 export default class ProgressView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -24,7 +24,7 @@ export default class ProgressView extends BaseElement {
 
   @lp.number progress = 0;
 
-  render() {
+  override render() {
     const { progress } = this;
     return html`
       <progress value=${ifDefined(progress < 0 ? undefined : progress.toString())} max="100">

@@ -27,7 +27,7 @@ const editorElementID = 'editor';
 
 @customElement('forum-general-settings-app')
 export class ForumGeneralSettingsApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -52,13 +52,13 @@ export class ForumGeneralSettingsApp extends BaseElement {
     return this.getShadowElement(editorElementID);
   }
 
-  async firstUpdated() {
+  override async firstUpdated() {
     CHECK(this.fid);
 
     await this.reloadDataAsync();
   }
 
-  render() {
+  override render() {
     const { loadingStatus } = this;
     return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }

@@ -9,7 +9,7 @@ import { BaseElement } from 'll';
 import { expect, html, fixture, tDOM } from 'dev/t';
 
 class TElement extends BaseElement {
-  render() {
+  override render() {
     return html`<div id="id" class="cls">content</div>`;
   }
 

@@ -49,7 +49,7 @@ export interface ComposerContent {
  */
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -125,17 +125,17 @@ export class ComposerView extends BaseElement {
     }
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('beforeunload', this.handleBeforeUnload);
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.entityType);
 
     // Sync `contentHTML` (`contentHTML` might be set before editor el is connected to DOM).
@@ -159,7 +159,7 @@ export class ComposerView extends BaseElement {
     }
   }
 
-  render() {
+  override render() {
     const { loadingStatus } = this;
 
     let editorContent: TemplateResult;
@@ -210,7 +210,7 @@ export class ComposerView extends BaseElement {
     `;
   }
 
-  async updated(changedProperties: PropertyValues<this>) {
+  override async updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('entityID') && this.entityID) {
       await this.loadEntitySource();
     }

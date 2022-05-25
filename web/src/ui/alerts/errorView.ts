@@ -12,7 +12,7 @@ import 'ui/alerts/alertView';
 
 @customElement('error-view')
 export class ErrorView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -26,7 +26,7 @@ export class ErrorView extends BaseElement {
   @lp.string headerText = '';
   @lp.bool canRetry = false;
 
-  render() {
+  override render() {
     return html`
       <alert-view alertStyle="danger">
         <h3>${this.headerText || ls.errOccurred}</h3>

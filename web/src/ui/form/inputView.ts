@@ -99,7 +99,7 @@ export type AutoCompleteValues =
 @customElement('input-view')
 // Text input view (block). Use `app-inline-text-input` in `app.css` for inline inputs.
 export class InputView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -157,7 +157,7 @@ export class InputView extends BaseElement {
     return this.unsafeGetShadowElement(inputID);
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     if (this.debounceOnChange) {
       this.debouncedOnChangeHandler = debounceFn(500, this.onChangeDebounced);
     }
@@ -167,7 +167,7 @@ export class InputView extends BaseElement {
     }
   }
 
-  render() {
+  override render() {
     const { inputValidated } = this;
     const validationError = inputValidated ? this.validationError : '';
     return html`
@@ -189,7 +189,7 @@ export class InputView extends BaseElement {
     `;
   }
 
-  focus() {
+  override focus() {
     this.inputEl.focus();
   }
 

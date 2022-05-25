@@ -15,7 +15,7 @@ const itemContainerID = 'item-container';
 
 @customElement('checklist-view')
 export class ChecklistView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -40,7 +40,7 @@ export class ChecklistView extends BaseElement {
   // Gets updated whenever `selectedIndices` changes.
   private selectedIndexSet = new Set<number>();
 
-  render() {
+  override render() {
     return html`
       <div class="root" part=${parentContainerID}>
         ${this.dataSource.map((val, index) =>

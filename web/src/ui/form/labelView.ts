@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 
 @customElement('label-view')
 export class LabelView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -23,7 +23,7 @@ export class LabelView extends BaseElement {
 
   @lp.string for = '';
 
-  render() {
+  override render() {
     return html`<label class="app-form-label" for=${this.for}><slot></slot></label>`;
   }
 }

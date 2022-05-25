@@ -11,7 +11,7 @@ import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('tag-view')
 export class TagView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -31,7 +31,7 @@ export class TagView extends BaseElement {
 
   @lp.string tagStyle: AppViewStyleNullable = '';
 
-  render() {
+  override render() {
     return html`<span class="tag"><slot></slot></span>`;
   }
 }

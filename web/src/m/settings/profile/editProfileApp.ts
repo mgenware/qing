@@ -30,7 +30,7 @@ const editorID = 'editor';
 
 @customElement('edit-profile-app')
 export class EditProfileApp extends StatefulPage {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -58,7 +58,6 @@ export class EditProfileApp extends StatefulPage {
   @lp.string url = '';
   @lp.string company = '';
   @lp.string location = '';
-  @lp.object loadingStatus = LoadingStatus.notStarted;
   @lp.bool updateInfoStatus = LoadingStatus.success;
   @lp.string avatarURL = '';
 

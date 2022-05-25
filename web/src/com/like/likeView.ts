@@ -14,7 +14,7 @@ const defaultIconSize = 30;
 
 @customElement('like-view')
 export class LikeView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -51,7 +51,7 @@ export class LikeView extends BaseElement {
   @lp.bool hasLiked = false;
   @lp.number iconSize = defaultIconSize;
 
-  render() {
+  override render() {
     const { iconSize } = this;
     return html`
       <qing-button disableSelectedStyle ?disabled=${this.isWorking} @click=${this.handleClick}>

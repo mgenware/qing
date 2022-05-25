@@ -24,7 +24,7 @@ import { CommunityRawSettings } from 'sod/app/appRawSettings';
 
 @customElement('community-settings-page')
 export class CommunitySettingsPage extends StatefulPage {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`

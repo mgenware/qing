@@ -15,7 +15,7 @@ import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('new-thread-app')
 export class NewThreadApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -28,7 +28,7 @@ export class NewThreadApp extends BaseElement {
 
   @lp.bool threadTypeDialogOpen = false;
 
-  render() {
+  override render() {
     return html`
       <p>
         <qing-button btnStyle="success" @click=${this.handleNewThreadClick}

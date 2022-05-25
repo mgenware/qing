@@ -15,7 +15,7 @@ import appTask from 'app/appTask';
 
 @customElement('auth-page')
 export class AuthDevPage extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -34,7 +34,7 @@ export class AuthDevPage extends BaseElement {
   @lp.bool newUserAdmin = false;
   @lp.bool isEID = false;
 
-  render() {
+  override render() {
     return html`
       <div>
         <h1>Auth</h1>

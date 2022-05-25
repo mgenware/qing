@@ -10,7 +10,6 @@ import { PANIC } from 'checks';
 
 export default class ErrorWithCode extends Error {
   code: number;
-  message: string;
 
   constructor(message: string, code: number = appdef.errGeneric) {
     super(message);

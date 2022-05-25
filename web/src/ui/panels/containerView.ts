@@ -11,7 +11,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('container-view')
 export class ContainerView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -29,7 +29,7 @@ export class ContainerView extends BaseElement {
   // No bottom spacing.
   @lp.bool nobs = false;
 
-  render() {
+  override render() {
     return html`
       <div
         class=${classMap({

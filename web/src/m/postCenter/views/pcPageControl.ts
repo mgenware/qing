@@ -17,7 +17,7 @@ const pageInputID = 'page-input';
 
 @customElement('pc-page-control')
 export class PCPageControl extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -43,7 +43,7 @@ export class PCPageControl extends BaseElement {
     return this.getShadowElement(pageInputID);
   }
 
-  render() {
+  override render() {
     const { page, totalPages } = this;
     return html`
       <div class="row">

@@ -30,7 +30,7 @@ export class SvgIcon extends BaseElement {
 
   @lp.string private svgHTML = '';
 
-  static get styles() {
+  static override get styles() {
     // All CSS classes have an `svg-` prefix.
     return [
       super.styles,
@@ -42,7 +42,7 @@ export class SvgIcon extends BaseElement {
     ];
   }
 
-  async firstUpdated() {
+  override async firstUpdated() {
     if (!this.oneTimeSrc) {
       return;
     }
@@ -60,7 +60,7 @@ export class SvgIcon extends BaseElement {
     }
   }
 
-  render() {
+  override render() {
     const { svgHTML } = this;
     return html`
       <span style="vertical-align: middle"> ${svgHTML ? unsafeHTML(svgHTML) : ''} </span>

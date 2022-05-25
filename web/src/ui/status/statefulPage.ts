@@ -15,7 +15,7 @@ import 'ui/status/statusView';
 // Use status-overlay if you would like to display a status-view on top of the
 // content view.
 export abstract class StatefulPage extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -28,7 +28,7 @@ export abstract class StatefulPage extends BaseElement {
 
   @lp.object loadingStatus = LoadingStatus.notStarted;
 
-  async firstUpdated() {
+  override async firstUpdated() {
     await this.reloadStatefulPageDataAsync();
   }
 
@@ -45,7 +45,7 @@ export abstract class StatefulPage extends BaseElement {
     `;
   }
 
-  render() {
+  override render() {
     const { loadingStatus } = this;
     return html` ${loadingStatus.isSuccess ? this.renderContent() : this.renderProgress()} `;
   }

@@ -11,7 +11,7 @@ import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('section-view')
 export class SectionView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -49,7 +49,7 @@ export class SectionView extends BaseElement {
 
   @lp.string sectionStyle: AppViewStyleNullable = '';
 
-  render() {
+  override render() {
     return html`
       <div class="section-container">
         <div class="section-header">

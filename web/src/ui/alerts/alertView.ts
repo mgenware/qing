@@ -11,7 +11,7 @@ import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('alert-view')
 export class AlertView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -30,7 +30,7 @@ export class AlertView extends BaseElement {
 
   @lp.reflected.string alertStyle: AppViewStyleNullable = '';
 
-  render() {
+  override render() {
     return html`
       <div class="root">
         <slot></slot>

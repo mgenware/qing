@@ -26,7 +26,7 @@ import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -167,7 +167,7 @@ export default class NavBarApp extends BaseElement {
   @lp.object user: User | null = null;
   @lp.number currentTheme = defs.UserTheme.light;
 
-  firstUpdated() {
+  override firstUpdated() {
     this.user = appPageState.user;
     this.currentTheme = appSettings.theme;
 
@@ -176,7 +176,7 @@ export default class NavBarApp extends BaseElement {
     });
   }
 
-  render() {
+  override render() {
     const { user } = this;
 
     return html`

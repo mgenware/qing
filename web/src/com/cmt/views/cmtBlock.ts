@@ -29,7 +29,7 @@ import appEventEmitter from 'app/appEventEmitter';
 // If `cmt` is present, it displays the cmt and its replies.
 // Otherwise, it displays a list of root level cmts.
 export class CmtBlock extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -77,7 +77,7 @@ export class CmtBlock extends BaseElement {
   // Tracks if `loadMore` has been called once. Used in reply view click handler.
   private _loadMoreCalled = false;
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.host);
 
     const { cmt } = this;
@@ -105,7 +105,7 @@ export class CmtBlock extends BaseElement {
     }
   }
 
-  render() {
+  override render() {
     const { cmt } = this;
     const itemsView = repeat(
       this._items,

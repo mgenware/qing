@@ -27,7 +27,7 @@ const composerID = 'composer';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -46,7 +46,7 @@ export class CmtApp extends BaseElement {
   // The number of all comments and their replies.
   @lp.state private _totalCmtCount = 0;
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.host);
     this._totalCmtCount = this.initialTotalCmtCount;
   }
@@ -55,7 +55,7 @@ export class CmtApp extends BaseElement {
     return this.getShadowElement(composerID);
   }
 
-  render() {
+  override render() {
     const { _editorProps: editorProps } = this;
     let heading: string;
     if (editorProps.to) {

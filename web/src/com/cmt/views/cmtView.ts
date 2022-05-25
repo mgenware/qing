@@ -21,7 +21,7 @@ import appPageState from 'app/appPageState';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -40,12 +40,12 @@ export class CmtView extends BaseElement {
   // Only available to replies.
   @lp.string parentID: string | null = null;
 
-  firstUpdated() {
+  override firstUpdated() {
     const { cmt } = this;
     CHECK(cmt);
   }
 
-  render() {
+  override render() {
     const { cmt } = this;
     CHECK(cmt);
     if (cmt.uiDeleted) {

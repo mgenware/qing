@@ -16,7 +16,7 @@ import wind from './threadWind';
 
 @customElement('add-reply-app')
 export class AddReplyApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -31,7 +31,7 @@ export class AddReplyApp extends BaseElement {
   @lp.bool isMyReply = false;
   @lp.bool replyDialogOpen = false;
 
-  render() {
+  override render() {
     // Render "login to reply" for visitors.
     if (!appPageState.user) {
       return this.renderLoginToAddYourReply();

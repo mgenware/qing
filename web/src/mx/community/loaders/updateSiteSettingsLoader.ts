@@ -13,11 +13,11 @@ export default class UpdateSiteSettingsLoader extends Loader<void> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return adminRoute.updateSiteSettings;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       settings: {
         [this.key]: JSON.stringify(this.settings),

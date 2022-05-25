@@ -20,7 +20,7 @@ const brCmtCountCls = 'br-cmt-c';
 @customElement('root-cmt-list')
 // Displays root cmts in <cmt-block> and handles cases like no comments and login views.
 export class RootCmtList extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -37,11 +37,11 @@ export class RootCmtList extends BaseElement {
 
   private _cmtBlockEl: Ref<CmtBlock> = createRef();
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.host);
   }
 
-  render() {
+  override render() {
     const { totalCmtCount } = this;
     const titleEl = html`<h2>${ls.comments}</h2>
       ${when(!totalCmtCount, () => html`<p class=${brCmtCountCls}>${ls.noComments}</p>`)}`;

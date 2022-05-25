@@ -20,7 +20,7 @@ const sizeMD = 'md';
 
 @customElement('like-app')
 export class LikeApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -43,7 +43,7 @@ export class LikeApp extends BaseElement {
   @lp.bool private isWorking = false;
   @lp.bool private hasLiked = false;
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.hostID);
     CHECK(this.hostType);
 
@@ -51,7 +51,7 @@ export class LikeApp extends BaseElement {
     this.hasLiked = this.initialHasLiked;
   }
 
-  render() {
+  override render() {
     return html`
       <like-view
         .isWorking=${this.isWorking}

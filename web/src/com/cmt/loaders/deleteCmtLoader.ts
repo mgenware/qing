@@ -14,11 +14,11 @@ export default class DeleteCmtLoader extends Loader<string> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return composeRoute.delCmt;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       id: this.id,
       hostType: this.host.type,

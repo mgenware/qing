@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 
 @customElement('input-error-view')
 export class InputErrorView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -30,7 +30,7 @@ export class InputErrorView extends BaseElement {
 
   @lp.string message = '';
 
-  render() {
+  override render() {
     const { message } = this;
     if (!message) {
       return html``;

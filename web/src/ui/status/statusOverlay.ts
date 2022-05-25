@@ -18,7 +18,7 @@ import '../alerts/errorView';
 // Useful for rendering the status of updating something.
 @customElement('status-overlay')
 export class StatusOverlay extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -44,7 +44,7 @@ export class StatusOverlay extends BaseElement {
   @lp.string errorTitle = '';
   @lp.string height = '';
 
-  render() {
+  override render() {
     const { status } = this;
     return html`
       <div class="root-div">

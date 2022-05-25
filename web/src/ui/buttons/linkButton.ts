@@ -13,7 +13,7 @@ import * as lp from 'lit-props';
 export class LinkButton extends BaseElement {
   @lp.bool disabled = false;
 
-  render() {
+  override render() {
     return html`
       <a
         href="#"

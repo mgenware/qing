@@ -24,7 +24,7 @@ const popoverRootID = 'popover-root';
 
 @customElement('user-selector-app')
 export class UserSelectorApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -92,7 +92,7 @@ export class UserSelectorApp extends BaseElement {
     return this.getShadowElement('popover-root');
   }
 
-  render() {
+  override render() {
     const { users, selectedUser } = this;
     return html`
       <div>${ls.findUsersByColon}</div>

@@ -14,7 +14,7 @@ import { CHECK } from 'checks';
 // Renders a thread and handles likes and comments.
 @customElement('thread-app')
 export class ThreadApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -34,11 +34,11 @@ export class ThreadApp extends BaseElement {
   @lp.number initialAnsCount = 0;
   @lp.string eid = '';
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.eid);
   }
 
-  render() {
+  override render() {
     return html`
       <div>
         <slot></slot>

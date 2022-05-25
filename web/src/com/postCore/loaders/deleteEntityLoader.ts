@@ -14,11 +14,11 @@ export default class DeleteEntityLoader extends Loader<string> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return composeRoute.delEntity;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       entity: this.entity,
     };

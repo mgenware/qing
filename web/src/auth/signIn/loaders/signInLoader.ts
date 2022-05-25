@@ -13,11 +13,11 @@ export default class SignInLoader extends Loader<undefined> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return authRoute.signIn;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       email: this.email,
       pwd: this.pwd,

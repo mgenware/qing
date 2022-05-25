@@ -14,7 +14,7 @@ export interface GetForumEditingInfo {
 }
 
 export class GetForumEditingInfoLoader extends FModBaseLoader<GetForumEditingInfo> {
-  requestURL(): string {
+  override requestURL(): string {
     return fmodRoute.info;
   }
 }

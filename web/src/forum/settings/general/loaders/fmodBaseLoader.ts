@@ -13,7 +13,7 @@ export default class FModBaseLoader<T> extends Loader<T> {
     super();
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       forumID: this.forumID,
     };

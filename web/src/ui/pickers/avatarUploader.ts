@@ -26,7 +26,7 @@ interface ImageCropInfo {
 
 @customElement('avatar-uploader')
 export class AvatarUploader extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -61,12 +61,12 @@ export class AvatarUploader extends BaseElement {
     return this.unsafeGetShadowElement('cropElement');
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     this.hookFileUploadEvents(this.uploadElement);
     this.cropElement.addEventListener('image-crop-change', (e) => this.handleImageCrop(e));
   }
 
-  render() {
+  override render() {
     return html`
       <div>
         <qing-overlay

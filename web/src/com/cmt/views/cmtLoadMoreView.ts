@@ -13,7 +13,7 @@ import LoadingStatus from 'lib/loadingStatus';
 
 @customElement('cmt-load-more-view')
 export class CmtLoadMoreView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -28,7 +28,7 @@ export class CmtLoadMoreView extends BaseElement {
   @lp.bool hasNext = false;
   @lp.bool replies = false;
 
-  render() {
+  override render() {
     const { status } = this;
     let loadMoreText: string;
     if (this.replies) {

@@ -17,7 +17,7 @@ import 'qing-dock-box';
 // It has 3 states: loading, success and error.
 @customElement('status-view')
 export class StatusView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -43,7 +43,7 @@ export class StatusView extends BaseElement {
 
   @lp.string progressViewPadding: 'md' | '' = '';
 
-  render() {
+  override render() {
     const { status } = this;
     if (status.isWorking) {
       return html`

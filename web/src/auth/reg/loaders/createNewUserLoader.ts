@@ -13,11 +13,11 @@ export default class CreateNewUserLoader extends Loader<undefined> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return authRoute.createNewUser;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       name: this.name,
       email: this.email,

@@ -17,7 +17,7 @@ import pageUtils from 'app/utils/pageUtils';
 
 @customElement('sign-in-app')
 export class SignInApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -31,7 +31,7 @@ export class SignInApp extends BaseElement {
   @lp.string private email = '';
   @lp.string private password = '';
 
-  render() {
+  override render() {
     return html`
       <h2>${ls.createAnAcc}</h2>
       <div>

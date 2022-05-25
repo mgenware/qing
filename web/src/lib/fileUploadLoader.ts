@@ -12,7 +12,7 @@ export default class FileUploadLoader<T> extends Loader<T> {
     super();
   }
 
-  fetchParams(): RequestInit {
+  override fetchParams(): RequestInit {
     return {
       method: 'POST',
       body: this.formData,

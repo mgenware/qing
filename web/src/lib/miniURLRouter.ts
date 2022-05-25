@@ -11,11 +11,11 @@ import Trie, { PayloadType } from 'basic-trie';
 export type MiniURLRouterHandler = (args: Readonly<Record<string, unknown>>) => void;
 
 class URLComponentTrie extends Trie<string, MiniURLRouterHandler> {
-  isKeyWildcard(key: string): boolean {
+  override isKeyWildcard(key: string): boolean {
     return key.startsWith(':');
   }
 
-  getWildcardPayload(
+  override getWildcardPayload(
     key: string,
     wildcardName: string,
     _wildcardValue: MiniURLRouterHandler | null,

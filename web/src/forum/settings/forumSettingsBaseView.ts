@@ -20,7 +20,7 @@ export enum ForumSettingsPages {
 
 @customElement('forum-settings-base-view')
 export class ForumSettingsBaseView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -34,11 +34,11 @@ export class ForumSettingsBaseView extends BaseElement {
   @lp.number selectedPage = ForumSettingsPages.general;
   @lp.string fid = '';
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.fid);
   }
 
-  render() {
+  override render() {
     const { fid } = this;
     return html`
       <div class="row">

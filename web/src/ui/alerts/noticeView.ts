@@ -11,7 +11,7 @@ import 'qing-dock-box';
 
 @customElement('notice-view')
 export class NoticeView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -29,7 +29,7 @@ export class NoticeView extends BaseElement {
 
   @lp.string height = '400px';
 
-  render() {
+  override render() {
     return html`
       <qing-dock-box class="root-container" style=${`height:${this.height}`}
         ><slot></slot

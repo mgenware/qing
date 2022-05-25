@@ -1,5 +1,5 @@
 {
-  "extends": "mgenware-tsconfig-browser",
+  "extends": "mgenware-tsconfig-browser-x",
   "include": ["./src/**/*"],
   "compilerOptions": {
     "outDir": "./dist",

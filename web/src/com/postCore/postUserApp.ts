@@ -14,7 +14,7 @@ import { CHECK } from 'checks';
 
 @customElement('post-user-app')
 export class PostUserApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -36,7 +36,7 @@ export class PostUserApp extends BaseElement {
   @lp.string userURL = '';
   @lp.string userName = '';
 
-  render() {
+  override render() {
     const imgSlot =
       this.userURL && this.userIconURL
         ? html`<a href="{{html .UserURL}}" slot="img">
@@ -67,7 +67,7 @@ export class PostUserApp extends BaseElement {
     `;
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     CHECK(this.eid);
     CHECK(this.entityType);
   }

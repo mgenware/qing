@@ -16,11 +16,11 @@ export default class FindUsersLoader extends Loader<UserInfo[]> {
     CHECK(value);
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return userRoute.findUsers;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       byID: +this.byID,
       value: this.value,

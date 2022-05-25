@@ -17,7 +17,7 @@ import { runNewEntityCommand } from 'app/appCommands';
 
 @customElement('my-threads-app')
 export default class MyThreadsApp extends PCListApp {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`

@@ -12,7 +12,7 @@ import * as elementsRoute from '@qing/routes/d/dev/elements';
 
 @customElement('dev-page')
 export class DevPage extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -30,7 +30,7 @@ export class DevPage extends BaseElement {
 
   @lp.string loginUserID = '1';
 
-  render() {
+  override render() {
     return html`
       <h1>qing.dev</h1>
       <hr />

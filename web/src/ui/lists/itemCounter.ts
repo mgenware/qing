@@ -14,7 +14,7 @@ export class ItemCounter extends BaseElement {
   @lp.number shown = 0;
   @lp.number total = 0;
 
-  render() {
+  override render() {
     if (this.total <= 1) {
       return html` <span>${ls.oneItem}</span> `;
     }

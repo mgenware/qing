@@ -26,7 +26,7 @@ import { StatefulPage } from 'ui/status/statefulPage';
 
 @customElement('admins-settings-page')
 export class AdminsSettingsPage extends StatefulPage {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`

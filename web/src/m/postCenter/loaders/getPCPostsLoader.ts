@@ -22,7 +22,7 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     switch (this.entityType) {
       case appdef.contentBaseTypePost:
         return mpRoute.posts;
@@ -35,7 +35,7 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
     }
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       page: this.page,
       pageSize: this.pageSize,

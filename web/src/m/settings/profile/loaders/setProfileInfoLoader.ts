@@ -19,11 +19,11 @@ export default class SetProfileInfoLoader extends Loader<undefined> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return profileRoute.setInfo;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       name: this.name,
       website: this.website,

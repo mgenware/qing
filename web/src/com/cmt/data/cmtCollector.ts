@@ -19,8 +19,8 @@ export default class CmtCollector extends ItemCollector<Cmt> {
     public host: Entity | undefined,
     // Used when getting replies.
     public parentID: string | undefined,
-    public loadingStatusChanged: (status: LoadingStatus) => void,
-    public itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
+    loadingStatusChanged: (status: LoadingStatus) => void,
+    itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
   ) {
     super(initialTotalCount, (it) => it.id, loadingStatusChanged, itemsChanged);
   }

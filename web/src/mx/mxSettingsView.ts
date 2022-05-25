@@ -17,7 +17,7 @@ const items: SettingsBaseItem[] = [
 
 @customElement('mx-settings-view')
 export class MXSettingsView extends SettingsBaseView {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`

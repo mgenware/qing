@@ -16,7 +16,7 @@ import appSettings from 'app/appSettings';
 
 @customElement('lang-page-view')
 export class LangPageView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -35,7 +35,7 @@ export class LangPageView extends BaseElement {
     this.tags = langWind.Langs;
   }
 
-  render() {
+  override render() {
     const curLang = ls._lang;
     return html`
       <container-view>

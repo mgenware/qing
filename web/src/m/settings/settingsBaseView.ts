@@ -21,7 +21,7 @@ export class SettingsBaseView extends BaseElement {
   @lp.string settingsTitle = '';
   @lp.array items: readonly SettingsBaseItem[] = [];
 
-  render() {
+  override render() {
     return html`
       <div class="row">
         <div class="col-md-auto p-b-md">

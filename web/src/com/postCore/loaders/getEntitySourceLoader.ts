@@ -15,11 +15,11 @@ export class GetEntitySourceLoader extends Loader<EntityGetSrcResult> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return composeRoute.entitySource;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       entity: this.entity,
     };

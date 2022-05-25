@@ -14,7 +14,7 @@ import { appdef } from '@qing/def';
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')
 export class PostPayloadApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -25,7 +25,7 @@ export class PostPayloadApp extends BaseElement {
     ];
   }
 
-  render() {
+  override render() {
     const hostID = postWind.id;
     return html`
       <like-app

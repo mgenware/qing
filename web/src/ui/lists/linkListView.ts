@@ -12,7 +12,7 @@ export const linkListActiveFilledClass = 'link-active-filled';
 
 @customElement('link-list-view')
 export class LinkListView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -61,7 +61,7 @@ export class LinkListView extends BaseElement {
     ];
   }
 
-  render() {
+  override render() {
     return html`
       <div class="menu">
         <slot></slot>

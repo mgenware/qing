@@ -15,12 +15,12 @@ export class EditBarApp extends BaseElement {
   @lp.string uid = '';
   @lp.state private visible = false;
 
-  firstUpdated() {
+  override firstUpdated() {
     const cur = appPageState.userEID;
     this.visible = !!cur && cur === this.uid;
   }
 
-  render() {
+  override render() {
     if (!this.visible) {
       return html``;
     }

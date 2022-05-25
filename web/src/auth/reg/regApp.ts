@@ -18,7 +18,7 @@ import pageUtils from 'app/utils/pageUtils';
 
 @customElement('reg-app')
 export class RegApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -39,7 +39,7 @@ export class RegApp extends BaseElement {
   // Additional passwords mismatch error message displayed under "Confirm password" input.
   @lp.string private passwordsMismatchErr = '';
 
-  render() {
+  override render() {
     return html`
       <h2>${ls.createAnAcc}</h2>
       <div>

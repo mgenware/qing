@@ -14,7 +14,7 @@ const items: SettingsBaseItem[] = [{ name: ls.profile, link: mRoute.settingsProf
 
 @customElement('m-settings-view')
 export class MSettingsView extends SettingsBaseView {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`

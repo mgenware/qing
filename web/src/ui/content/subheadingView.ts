@@ -9,7 +9,7 @@ import { BaseElement, customElement, html, css } from 'll';
 
 @customElement('subheading-view')
 export class SubheadingView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -20,7 +20,7 @@ export class SubheadingView extends BaseElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <h3><slot></slot></h3> `;
   }
 }

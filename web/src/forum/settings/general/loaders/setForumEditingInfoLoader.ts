@@ -13,11 +13,11 @@ export default class SetForumEditingInfoLoader extends FModBaseLoader<undefined>
     super(forumID);
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return fmodRoute.setInfo;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       ...super.requestParams(),
       name: this.name,

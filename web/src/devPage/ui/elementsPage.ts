@@ -38,7 +38,7 @@ const checklistViewData = ['Zhang', 'Chen', 'Liu', 'Zheng'];
 
 @customElement('elements-page')
 export class ElementsPage extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -125,7 +125,7 @@ export class ElementsPage extends BaseElement {
   @lp.array checklistIndices1: readonly number[] = [];
   @lp.array checklistIndices2: readonly number[] = [];
 
-  render() {
+  override render() {
     return html`
       <h1>Colors</h1>
       <hr />
@@ -307,7 +307,7 @@ export class ElementsPage extends BaseElement {
     `;
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     this.#setEntityApp = renderTemplateResult(
       '',
       html`<set-entity-app

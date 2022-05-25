@@ -25,7 +25,7 @@ export class TimeField extends BaseElement {
   @lp.string createdAt = '';
   @lp.string modifiedAt = '';
 
-  render() {
+  override render() {
     const { createdAt, modifiedAt } = this;
 
     let [dateString, date] = this.formatDate(createdAt);

@@ -60,11 +60,11 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return composeRoute.setCmt;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return { ...this.data };
   }
 }

@@ -45,11 +45,11 @@ export default class GetCmtsLoader extends Loader<ItemsLoadedResp<Cmt>> {
     return res;
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return entRoute.cmts;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     if (this.cmtInputs) {
       return { ...this.cmtInputs };
     }

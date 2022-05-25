@@ -11,7 +11,7 @@ export const tabViewActiveClass = 'tab-active';
 
 @customElement('tab-view')
 export class TabView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -42,7 +42,7 @@ export class TabView extends BaseElement {
     ];
   }
 
-  render() {
+  override render() {
     return html`
       <div class="bar">
         <slot></slot>

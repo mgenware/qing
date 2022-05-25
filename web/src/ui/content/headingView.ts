@@ -9,7 +9,7 @@ import { BaseElement, customElement, html, css } from 'll';
 
 @customElement('heading-view')
 export class HeadingView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -32,7 +32,7 @@ export class HeadingView extends BaseElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <div class="row">
       <div class="col">
         <h2><slot></slot></h2>

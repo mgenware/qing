@@ -15,7 +15,7 @@ export interface AvatarUploadResponse {
 }
 
 export default class AvatarUploadLoader extends FileUploadLoader<AvatarUploadResponse> {
-  requestURL(): string {
+  override requestURL(): string {
     return profileRoute.setAvatar;
   }
 }

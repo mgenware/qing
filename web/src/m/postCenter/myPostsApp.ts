@@ -18,7 +18,7 @@ import PCPost from './pcPost';
 
 @customElement('my-posts-app')
 export default class MyPostsApp extends PCListApp {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`

@@ -16,11 +16,11 @@ export default class SetAdminLoader extends Loader<UserInfo[]> {
     CHECK(targetUser);
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return adminRoute.setAdmin;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       target_user_id: this.targetUser,
       value: +this.value,

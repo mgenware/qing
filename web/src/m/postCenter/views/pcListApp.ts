@@ -21,7 +21,7 @@ import PCPost from '../pcPost';
 const defaultPageSize = 10;
 
 export abstract class PCListApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -48,7 +48,7 @@ export abstract class PCListApp extends BaseElement {
   @lp.number private page = 1;
   @lp.number private pageSize = defaultPageSize;
 
-  render() {
+  override render() {
     const { loadingStatus } = this;
     if (!loadingStatus.isSuccess) {
       return html`<status-view
@@ -80,7 +80,7 @@ export abstract class PCListApp extends BaseElement {
     `;
   }
 
-  async firstUpdated() {
+  override async firstUpdated() {
     await this.startLoading(
       1,
       defaultPageSize,

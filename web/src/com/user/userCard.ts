@@ -11,7 +11,7 @@ import UserInfo from './userInfo';
 
 @customElement('user-card')
 export class UserCard extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -24,7 +24,7 @@ export class UserCard extends BaseElement {
 
   @lp.object user: UserInfo | null = null;
 
-  render() {
+  override render() {
     const { user } = this;
     if (!user) {
       return '';

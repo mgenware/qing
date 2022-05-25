@@ -19,7 +19,7 @@ export * from 'lit/directives/class-map.js';
 export * from 'lit/directives/style-map.js';
 
 export class BaseElement extends LitElement {
-  static get styles(): CSSResultGroup {
+  static override get styles(): CSSResultGroup {
     return coreStyles;
   }
 

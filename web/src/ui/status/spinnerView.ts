@@ -11,7 +11,7 @@ import * as lp from 'lit-props';
 // A spinner view(block) that fills available horizontal space.
 @customElement('spinner-view')
 export class SpinnerView extends LitElement {
-  static get styles() {
+  static override get styles() {
     return css`
       :host {
         display: block;
@@ -92,7 +92,7 @@ export class SpinnerView extends LitElement {
 
   @lp.bool fullScreen = false;
 
-  render() {
+  override render() {
     const content = html`
       <div class="spinner-root">
         <div class="spinner">

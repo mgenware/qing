@@ -10,7 +10,7 @@ import * as lp from 'lit-props';
 
 @customElement('check-box')
 export class CheckBox extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -79,7 +79,7 @@ export class CheckBox extends BaseElement {
   @lp.reflected.bool disabled = false;
   @lp.reflected.bool radio = false;
 
-  render() {
+  override render() {
     return html`<label class=${this.disabled ? 'content-disabled' : ''}>
       <input
         type=${this.radio ? 'radio' : 'checkbox'}

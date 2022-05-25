@@ -24,11 +24,11 @@ export class SetEntityLoader extends Loader<string> {
     }
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return composeRoute.setEntity;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     const { entityType } = this;
     const params: Record<string, unknown> = {
       content: this.content,

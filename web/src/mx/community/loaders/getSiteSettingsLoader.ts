@@ -18,11 +18,11 @@ export default class GetSiteSettingsLoader extends Loader<GetSiteSettingsResult>
     super();
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return adminRoute.siteSettings;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       key: this.key,
     };

@@ -24,7 +24,7 @@ export enum DialogIcon {
 
 @customElement('dialog-view')
 export class DialogView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -49,7 +49,7 @@ export class DialogView extends BaseElement {
   }
 
   @lp.bool open = false;
-  @lp.string title = '';
+  @lp.string dialogTitle = '';
   @lp.string message = '';
   @lp.number icon: DialogIcon = 0;
   @lp.array buttons: readonly string[] = [];
@@ -58,7 +58,7 @@ export class DialogView extends BaseElement {
 
   private closingButton = -1;
 
-  render() {
+  override render() {
     const iconEl = this.getIconElement(this.icon);
     return html`
       <qing-overlay
@@ -67,7 +67,7 @@ export class DialogView extends BaseElement {
         @escKeyDown=${this.handleEscDown}>
         <div class="text-center" style="margin: 1rem">
           <div class="m-t-lg">${iconEl}</div>
-          <h2>${this.title}</h2>
+          <h2>${this.dialogTitle}</h2>
           <p>${this.message}</p>
           <!-- Don't use <p> here. Margins are handcrafted. -->
           <div id=${buttonContainerID} style="padding:0; margin-top: 1.2rem" class="text-center">

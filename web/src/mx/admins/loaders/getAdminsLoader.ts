@@ -10,7 +10,7 @@ import UserInfo from 'com/user/userInfo';
 import * as adminRoute from '@qing/routes/d/s/admin';
 
 export default class GetAdminsLoader extends Loader<UserInfo[]> {
-  requestURL(): string {
+  override requestURL(): string {
     return adminRoute.admins;
   }
 }

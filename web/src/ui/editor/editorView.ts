@@ -15,7 +15,7 @@ const editorID = 'editor';
 // A wrapper around the kangxi editor.
 @customElement('editor-view')
 export default class EditorView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return [
       super.styles,
@@ -69,7 +69,7 @@ export default class EditorView extends BaseElement {
     return this.getShadowElement(editorID);
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     if (!this.editorEl) {
       return;
     }
@@ -80,12 +80,12 @@ export default class EditorView extends BaseElement {
     this.editor = editor;
   }
 
-  focus() {
+  override focus() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     this.editor?.view.focus();
   }
 
-  render() {
+  override render() {
     return html`<div id=${editorID} class="kx-editor flex-full"></div>`;
   }
 }

@@ -11,7 +11,7 @@ import './noticeView';
 
 @customElement('no-content-view')
 export class NoContentView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -22,7 +22,7 @@ export class NoContentView extends BaseElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <notice-view>${ls.noContentAvailable}</notice-view> `;
   }
 }

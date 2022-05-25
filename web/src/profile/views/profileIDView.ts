@@ -13,7 +13,7 @@ import appAlert from 'app/appAlert';
 
 @customElement('profile-id-view')
 export class ProfileIDView extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -31,7 +31,7 @@ export class ProfileIDView extends BaseElement {
 
   @lp.string value = '';
 
-  render() {
+  override render() {
     const { value } = this;
     return html`
       <span>${value}</span>

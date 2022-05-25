@@ -16,11 +16,11 @@ export default class SetLikeLoader extends Loader<string> {
     CHECK(id);
   }
 
-  requestURL(): string {
+  override requestURL(): string {
     return likeRoute.set;
   }
 
-  requestParams(): Record<string, unknown> {
+  override requestParams(): Record<string, unknown> {
     return {
       id: this.id,
       value: +this.liked,

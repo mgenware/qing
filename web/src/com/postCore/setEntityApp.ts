@@ -21,7 +21,7 @@ const composerID = 'composer';
 
 @customElement('set-entity-app')
 export default class SetEntityApp extends BaseElement {
-  static get styles() {
+  static override get styles() {
     return [
       super.styles,
       css`
@@ -47,7 +47,7 @@ export default class SetEntityApp extends BaseElement {
     return this.getShadowElement(composerID);
   }
 
-  async firstUpdated() {
+  override async firstUpdated() {
     const { entityType } = this;
     CHECK(entityType);
 
@@ -61,7 +61,7 @@ export default class SetEntityApp extends BaseElement {
     }
   }
 
-  render() {
+  override render() {
     return html`
       <qing-overlay
         class="immersive"
