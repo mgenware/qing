@@ -154,10 +154,10 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         const cmtApp = await w.getCmtApp(page);
 
         // Create a cmt with "more cmts" never clicked.
-        await act.writeCmt(page, { cmtApp, content: 'new 1', dbTimeChange: true });
+        await act.writeCmt(page, { cmtApp, content: 'new 1' });
 
         await cm.shouldHaveCmtCount(cmtApp, total + 1);
-        // 3 cmts are shown by default.
+        // 3 cmts are shown.
         await cm.shouldHaveShownRootCmtCount(cmtApp, 3);
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
@@ -179,45 +179,61 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
 
         // Show more.
         await act.clickMoreCmts(cmtApp);
-        await cm.shouldHaveShownRootCmtCount(cmtApp, 4);
+        await cm.shouldHaveCmtCount(cmtApp, total + 1);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 5);
 
-        // Tests creating a cmt with "more cmts" clicked once but not fully loaded.
-        await act.writeCmt(page, { cmtApp, content: 'new 2', dbTimeChange: true });
+        // Create 2 cmts with "more cmts" clicked but not fully loaded.
+        await act.writeCmt(page, { cmtApp, content: 'new 2' });
+        await act.writeCmt(page, { cmtApp, content: 'new 3' });
+
+        await cm.shouldHaveCmtCount(cmtApp, total + 3);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 7);
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,
-          content: 'new 2',
+          content: 'new 3',
           highlighted: true,
           canEdit: true,
         });
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 1), {
           author: usr.user,
+          content: 'new 2',
+          highlighted: true,
+          canEdit: true,
+        });
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 2), {
+          author: usr.user,
           content: 'new 1',
           highlighted: true,
           canEdit: true,
         });
 
-        // NOTE: we added 1 extra cmt after last pulling, this session
-        // pulled 2 cmts with 1 considered duplicate (the one we dynamically added).
-        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 4), {
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 3), {
           author: usr.user,
-          content: '3',
+          content: '5',
+          canEdit: true,
+        });
+
+        // Item 4, 3 are skipped.
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 6), {
+          author: usr.user,
+          content: '2',
           canEdit: true,
         });
 
         // Show more.
+        // Pull the last 1 cmt.
         await act.clickMoreCmts(cmtApp);
-        // Pull the last 2 cmts.
-        await cm.shouldHaveShownRootCmtCount(cmtApp, 7);
+        await cm.shouldHaveCmtCount(cmtApp, total + 3);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 8);
 
-        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 6), {
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 7), {
           author: usr.user,
           content: '1',
           canEdit: true,
         });
-
-        await cm.shouldHaveCmtCount(cmtApp, total + 1);
       }
     }
   });

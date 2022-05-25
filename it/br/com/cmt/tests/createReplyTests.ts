@@ -176,8 +176,126 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
   });
 }
 
+// Forked from `testCreateRepliesPagination`.
+// Tests creating replies while loading more pages. Duplicates should not happen.
+function testCreateRepliesDedup(w: CmtFixtureWrapper) {
+  w.test('Create replies, dedup', usr.user, async ({ page }) => {
+    {
+      const total = 5;
+      {
+        // Setup predefined replies.
+        const cmtApp = await w.getCmtApp(page);
+        await act.writeCmt(page, {
+          cmtApp,
+          content: def.sd.content,
+        });
+        const cmtEl = cm.getTopCmt(cmtApp);
+
+        for (let i = 0; i < total; i++) {
+          // eslint-disable-next-line no-await-in-loop
+          await act.writeReply(page, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
+        }
+        // + 1 extra top cmt.
+        await cm.shouldHaveCmtCount(cmtApp, total + 1);
+        await cm.shouldHaveReplyCount(cmtEl, total, total);
+      }
+      {
+        await page.reload();
+        const cmtApp = await w.getCmtApp(page);
+        const cmtEl = cm.getTopCmt(cmtApp);
+
+        // By default, replies are collapsed.
+        await act.clickMoreReplies(cmtApp);
+
+        // Create a reply with "more replies" never clicked.
+        await act.writeReply(page, { cmtEl, content: 'new 1' });
+
+        await cm.shouldHaveCmtCount(cmtApp, total + 2);
+        // 3 replies are shown.
+        await cm.shouldHaveReplyCount(cmtEl, total + 1, 3);
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 0), {
+          author: usr.user,
+          content: 'new 1',
+          highlighted: true,
+          canEdit: true,
+        });
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 1), {
+          author: usr.user,
+          content: '5',
+          canEdit: true,
+        });
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 2), {
+          author: usr.user,
+          content: '4',
+          canEdit: true,
+        });
+
+        // Show more.
+        await act.clickMoreReplies(cmtEl);
+        await cm.shouldHaveCmtCount(cmtApp, total + 2);
+        await cm.shouldHaveReplyCount(cmtEl, total + 1, 5);
+
+        // Create 2 cmts with "more cmts" clicked but not fully loaded.
+        await act.writeReply(page, { cmtEl, content: 'new 2' });
+        await act.writeReply(page, { cmtEl, content: 'new 3' });
+
+        await cm.shouldHaveCmtCount(cmtApp, total + 4);
+        await cm.shouldHaveReplyCount(cmtApp, total + 3, 7);
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 0), {
+          author: usr.user,
+          content: 'new 3',
+          highlighted: true,
+          canEdit: true,
+        });
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 1), {
+          author: usr.user,
+          content: 'new 2',
+          highlighted: true,
+          canEdit: true,
+        });
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 2), {
+          author: usr.user,
+          content: 'new 1',
+          highlighted: true,
+          canEdit: true,
+        });
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 3), {
+          author: usr.user,
+          content: '5',
+          canEdit: true,
+        });
+
+        // Item 4, 3 are skipped.
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 6), {
+          author: usr.user,
+          content: '2',
+          canEdit: true,
+        });
+
+        // Show more.
+        // Pull the last 1 cmt.
+        await act.clickMoreReplies(cmtEl);
+        await cm.shouldHaveCmtCount(cmtApp, total + 4);
+        await cm.shouldHaveReplyCount(cmtEl, total + 3, 8);
+
+        await cm.cmtShouldAppear(cm.getNthReply(cmtEl, 7), {
+          author: usr.user,
+          content: '1',
+          canEdit: true,
+        });
+      }
+    }
+  });
+}
+
 export default function testCreateReply(w: CmtFixtureWrapper) {
   testCreateReplyCore(w, true);
   testCreateReplyCore(w, false);
   testCreateRepliesPagination(w);
+  testCreateRepliesDedup(w);
 }
