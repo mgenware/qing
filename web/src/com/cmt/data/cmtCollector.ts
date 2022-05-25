@@ -5,21 +5,20 @@
  * be found in the LICENSE file.
  */
 
+import Entity from 'lib/entity';
 import { ItemCollector, ItemsChangedEvent, ItemsLoadedResp } from 'lib/itemCollector';
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
-import GetCmtsLoader, { GetCmtsInputs, GetRepliesInputs } from '../loaders/getCmtsLoader';
+import GetCmtsLoader from '../loaders/getCmtsLoader';
 import { Cmt } from './cmt';
-
-// `page` param is managed internally by `CmtCollector`.
-export type GetCmtsInputsWithoutPage = Exclude<GetCmtsInputs, 'page'>;
-export type GetRepliesInputsWithoutPage = Exclude<GetRepliesInputs, 'page'>;
 
 export default class CmtCollector extends ItemCollector<Cmt> {
   private constructor(
     initialTotalCount: number,
-    public cmtInputs: GetCmtsInputsWithoutPage | undefined,
-    public replyInputs: GetRepliesInputsWithoutPage | undefined,
+    // Used when getting cmts.
+    public host: Entity | undefined,
+    // Used when getting replies.
+    public parentID: string | undefined,
     public loadingStatusChanged: (status: LoadingStatus) => void,
     public itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
   ) {
@@ -27,42 +26,44 @@ export default class CmtCollector extends ItemCollector<Cmt> {
   }
 
   static rootCmts(
-    cmtInputs: GetCmtsInputsWithoutPage,
+    entity: Entity | undefined,
     loadingStatusChanged: (status: LoadingStatus) => void,
     itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
   ) {
     // Total count is useless when collecting root cmts.
-    return new CmtCollector(0, cmtInputs, undefined, loadingStatusChanged, itemsChanged);
+    return new CmtCollector(0, entity, undefined, loadingStatusChanged, itemsChanged);
   }
 
   static replies(
     initialTotalCount: number,
-    replyInputs: GetRepliesInputsWithoutPage,
+    parentID: string | undefined,
     loadingStatusChanged: (status: LoadingStatus) => void,
     itemsChanged: (e: ItemsChangedEvent<Cmt>) => void,
   ) {
     return new CmtCollector(
       initialTotalCount,
       undefined,
-      replyInputs,
+      parentID,
       loadingStatusChanged,
       itemsChanged,
     );
   }
 
-  protected createLoader(): Loader<ItemsLoadedResp<Cmt>> {
-    if (this.cmtInputs) {
+  protected override createLoader(excluded: string[] | null): Loader<ItemsLoadedResp<Cmt>> {
+    if (this.host) {
       return GetCmtsLoader.cmt({
-        ...this.cmtInputs,
+        host: this.host,
         page: this.page,
+        excluded,
       });
     }
-    if (this.replyInputs) {
+    if (this.parentID) {
       return GetCmtsLoader.reply({
-        ...this.replyInputs,
+        parentID: this.parentID,
         page: this.page,
+        excluded,
       });
     }
-    throw new Error('Both `cmtInputs` and `replyInputs` are undefined.');
+    throw new Error('Both `host` and `parentID` are undefined.');
   }
 }

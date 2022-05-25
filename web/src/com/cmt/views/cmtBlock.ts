@@ -25,8 +25,6 @@ import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
 import appEventEmitter from 'app/appEventEmitter';
 
-const startPage = 1;
-
 @customElement('cmt-block')
 // If `cmt` is present, it displays the cmt and its replies.
 // Otherwise, it displays a list of root level cmts.
@@ -82,22 +80,12 @@ export class CmtBlock extends BaseElement {
   firstUpdated() {
     CHECK(this.host);
 
-    // Get newly added cmt IDs.
-    let excluded: string[] | null = this._items.filter((it) => it.uiHighlighted).map((it) => it.id);
-    if (!excluded.length) {
-      excluded = null;
-    }
-
     const { cmt } = this;
     if (cmt) {
       // We are displaying replies from a cmt.
       this._collector = CmtCollector.replies(
         cmt.cmtCount || 0,
-        {
-          parentID: cmt.id,
-          page: startPage,
-          excluded,
-        },
+        cmt.id,
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),
       );
@@ -105,11 +93,7 @@ export class CmtBlock extends BaseElement {
     } else {
       // We are displaying root cmts from a post.
       this._collector = CmtCollector.rootCmts(
-        {
-          host: this.host,
-          page: startPage,
-          excluded,
-        },
+        this.host,
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),
       );
@@ -198,7 +182,16 @@ export class CmtBlock extends BaseElement {
   }
 
   private async loadMore() {
-    await this._collector.loadMoreAsync();
+    await this._collector.loadMoreAsync(this.freshChildren());
+  }
+
+  private freshChildren() {
+    // Get newly added cmt IDs.
+    let excluded: string[] | null = this._items.filter((it) => it.uiHighlighted).map((it) => it.id);
+    if (!excluded.length) {
+      excluded = null;
+    }
+    return excluded;
   }
 
   private handleReplyClick() {

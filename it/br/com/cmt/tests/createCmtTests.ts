@@ -133,8 +133,99 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
   });
 }
 
+// Forked from `testCreateCmtsPagination`.
+// Tests creating cmts while loading more pages. Duplicates should not happen.
+function testCreateCmtsDedup(w: CmtFixtureWrapper) {
+  w.test('Create cmts, dedup', usr.user, async ({ page }) => {
+    {
+      const total = 5;
+      {
+        // Setup predefined cmts.
+        const cmtApp = await w.getCmtApp(page);
+        for (let i = 0; i < total; i++) {
+          // eslint-disable-next-line no-await-in-loop
+          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, waitForTimeChange: true });
+        }
+        await cm.shouldHaveCmtCount(cmtApp, total);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, total);
+      }
+      {
+        await page.reload();
+        const cmtApp = await w.getCmtApp(page);
+
+        // C a cmt with "more cmts" never clicked.
+        await act.writeCmt(page, { cmtApp, content: 'new 1', waitForTimeChange: true });
+
+        await cm.shouldHaveCmtCount(cmtApp, total + 1);
+        // 3 cmts are shown by default.
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 3);
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+          author: usr.user,
+          content: 'new 1',
+          highlighted: true,
+          canEdit: true,
+        });
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 1), {
+          author: usr.user,
+          content: '5',
+          canEdit: true,
+        });
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 2), {
+          author: usr.user,
+          content: '4',
+          canEdit: true,
+        });
+
+        // Show more.
+        await act.clickMoreCmts(cmtApp);
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 4);
+
+        // Tests creating a cmt with "more cmts" clicked once but not fully loaded.
+        await act.writeCmt(page, { cmtApp, content: 'new 2', waitForTimeChange: true });
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+          author: usr.user,
+          content: 'new 2',
+          highlighted: true,
+          canEdit: true,
+        });
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 1), {
+          author: usr.user,
+          content: 'new 1',
+          highlighted: true,
+          canEdit: true,
+        });
+
+        // NOTE: we added 1 extra cmt after last pulling, this session
+        // pulled 2 cmts with 1 considered duplicate (the one we dynamically added).
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 4), {
+          author: usr.user,
+          content: '3',
+          canEdit: true,
+        });
+
+        // Show more.
+        await act.clickMoreCmts(cmtApp);
+        // Pull the last 2 cmts.
+        await cm.shouldHaveShownRootCmtCount(cmtApp, 7);
+
+        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 6), {
+          author: usr.user,
+          content: '1',
+          canEdit: true,
+        });
+
+        await cm.shouldHaveCmtCount(cmtApp, total + 1);
+      }
+    }
+  });
+}
+
 export default function testCreateCmt(w: CmtFixtureWrapper) {
   testCreateCmtCore(w, true);
   testCreateCmtCore(w, false);
   testCreateCmtsPagination(w);
+  testCreateCmtsDedup(w);
 }

@@ -72,8 +72,8 @@ export abstract class ItemCollector<T> {
     };
   }
 
-  async loadMoreAsync() {
-    const loader = this.createLoader();
+  async loadMoreAsync(excluded: string[] | null) {
+    const loader = this.createLoader(excluded);
     loader.loadingStatusChanged = this.loadingStatusChanged;
     const payload = await loader.startAsync();
 
@@ -88,5 +88,7 @@ export abstract class ItemCollector<T> {
     this._observableItems.push(...newItems);
   }
 
-  protected abstract createLoader(): Loader<ItemsLoadedResp<T>>;
+  // `excluded`: an array of item IDs to be excluded from result.
+  // Used to filter out newly added (fresh) items.
+  protected abstract createLoader(excluded: string[] | null): Loader<ItemsLoadedResp<T>>;
 }
