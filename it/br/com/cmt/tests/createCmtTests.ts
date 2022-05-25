@@ -72,7 +72,7 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         const cmtApp = await w.getCmtApp(page);
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, waitForTimeChange: true });
+          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
@@ -144,7 +144,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         const cmtApp = await w.getCmtApp(page);
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, waitForTimeChange: true });
+          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
         }
         await cm.shouldHaveCmtCount(cmtApp, total);
         await cm.shouldHaveShownRootCmtCount(cmtApp, total);
@@ -153,8 +153,8 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         await page.reload();
         const cmtApp = await w.getCmtApp(page);
 
-        // C a cmt with "more cmts" never clicked.
-        await act.writeCmt(page, { cmtApp, content: 'new 1', waitForTimeChange: true });
+        // Create a cmt with "more cmts" never clicked.
+        await act.writeCmt(page, { cmtApp, content: 'new 1', dbTimeChange: true });
 
         await cm.shouldHaveCmtCount(cmtApp, total + 1);
         // 3 cmts are shown by default.
@@ -182,7 +182,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveShownRootCmtCount(cmtApp, 4);
 
         // Tests creating a cmt with "more cmts" clicked once but not fully loaded.
-        await act.writeCmt(page, { cmtApp, content: 'new 2', waitForTimeChange: true });
+        await act.writeCmt(page, { cmtApp, content: 'new 2', dbTimeChange: true });
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
           author: usr.user,

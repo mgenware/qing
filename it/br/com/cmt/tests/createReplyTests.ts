@@ -105,7 +105,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         const cmtEl = cm.getTopCmt(cmtApp);
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeReply(page, { cmtEl, content: `${i + 1}`, waitForTimeChange: true });
+          await act.writeReply(page, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop

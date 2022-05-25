@@ -59,7 +59,7 @@ export function getSelectCmtsAction(opt: {
 
   let whereSQL = mm.sql`${(opt.rt ? opt.rt.host_id : jCmt.parent_id).isEqualToParam()}`;
   if (opt.filterMode) {
-    whereSQL = mm.and(whereSQL, mm.sql`${jCmt.id} NOT IN ${jCmt.id.toArrayParam('excluded')}`);
+    whereSQL = mm.and(whereSQL, mm.sql`${jCmt.id} NOT IN (${jCmt.id.toArrayParam('excluded')})`);
   }
 
   return mm

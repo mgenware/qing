@@ -8,7 +8,7 @@
 import * as br from 'br';
 import { User } from 'br';
 import { waitForOverlayVisible } from 'br/com/editor/editor';
-import { updateEditorNTC, updateEditorTC } from 'br/com/editor/actions';
+import { updateEditor } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
 import * as cm from './common';
@@ -19,7 +19,7 @@ const loadMoreRepliesText = 'More replies';
 export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
-  waitForTimeChange?: boolean;
+  dbTimeChange?: boolean;
   shownCb?: () => Promise<void>;
 }
 
@@ -34,17 +34,17 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
   if (a.shownCb) {
     await a.shownCb();
   }
-  await updateEditorNTC(p, {
+  await updateEditor(p, {
     part: 'content',
     content: a.content,
-    waitForTimeChange: a.waitForTimeChange,
+    dbTimeChange: a.dbTimeChange,
   });
 }
 
 export interface WriteReplyArgs {
   cmtEl: br.Element;
   content: string;
-  waitForTimeChange?: boolean;
+  dbTimeChange?: boolean;
   shownCb?: () => Promise<void>;
 }
 
@@ -55,10 +55,10 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
   if (a.shownCb) {
     await a.shownCb();
   }
-  await updateEditorNTC(p, {
+  await updateEditor(p, {
     part: 'content',
     content: a.content,
-    waitForTimeChange: a.waitForTimeChange,
+    dbTimeChange: a.dbTimeChange,
   });
 }
 
@@ -77,7 +77,7 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
     await a.shownCb();
   }
 
-  await updateEditorTC(p, { part: 'content', content: a.content });
+  await updateEditor(p, { part: 'content', content: a.content, dbTimeChange: true });
 }
 
 export function clickMoreCmts(cmtApp: br.Element) {

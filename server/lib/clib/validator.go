@@ -160,24 +160,37 @@ func MustGetIDFromDict(dict map[string]any, key string) uint64 {
 	return id
 }
 
-func GetStringArrayFromDict(dict map[string]any, key string) []string {
-	val, ok := dict[key].([]string)
+func GetArrayFromDict(dict map[string]any, key string) []any {
+	val, ok := dict[key].([]any)
 	if !ok {
 		return nil
 	}
-	return []string(val)
+	return []any(val)
 }
 
-func MustGetStringArrayFromDict(dict map[string]any, key string) []string {
-	val, ok := dict[key].([]string)
+func MustGetArrayFromDict(dict map[string]any, key string) []any {
+	val, ok := dict[key].([]any)
 	if !ok {
 		panicMissingArg(key)
 	}
-	return []string(val)
+	return []any(val)
 }
 
-func GetIDArrayFromDict(dict map[string]any, key string) []uint64 {
-	strArray := GetStringArrayFromDict(dict, key)
+func MustConvertToStringArray(arr []any) []string {
+	res := make([]string, len(arr))
+	for i, el := range arr {
+		s, ok := el.(string)
+		if !ok {
+			panic("The argument `%v` is not a string")
+		}
+		res[i] = s
+	}
+	return res
+}
+
+// Unsafe means it may panic even through it does not start with 'Must'.
+func UnsafeGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
+	strArray := MustConvertToStringArray(GetArrayFromDict(dict, key))
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {
@@ -193,7 +206,7 @@ func GetIDArrayFromDict(dict map[string]any, key string) []uint64 {
 }
 
 func MustGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
-	strArray := MustGetStringArrayFromDict(dict, key)
+	strArray := MustConvertToStringArray(GetArrayFromDict(dict, key))
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {

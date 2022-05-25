@@ -56,7 +56,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	parentID := clib.GetIDFromDict(params, "parentID")
 	orderBy := jsonx.GetIntOrDefault(params, "sort")
-	excludedCmts := clib.GetIDArrayFromDict(params, "excluded")
+	excludedCmts := clib.UnsafeGetIDArrayFromDict(params, "excluded")
 	page := clib.GetPageParamFromDict(params)
 
 	db := appDB.DB()

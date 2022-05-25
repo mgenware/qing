@@ -12,7 +12,7 @@ import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './com
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import * as def from 'base/def';
 import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editor/editor';
-import { updateEditorTC } from 'br/com/editor/actions';
+import { updateEditor } from 'br/com/editor/actions';
 
 async function clickEditButton(page: br.Page) {
   const u = usr.user;
@@ -39,7 +39,7 @@ function testPostUpdates(part: EditorPart) {
 
       // Check editor update.
       await postEditorShouldAppear(p);
-      await updateEditorTC(p, { part, content: def.sd.updated });
+      await updateEditor(p, { part, content: def.sd.updated, dbTimeChange: true });
 
       // Verify post title.
       await postShouldHaveTitle(p, part === 'title' ? def.sd.updated : def.sd.title, link);
