@@ -80,18 +80,26 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
   await updateEditor(p, { part: 'content', content: a.content, dbTimeChange: true });
 }
 
-export function clickMoreCmts(cmtApp: br.Element) {
-  return cmtApp.$linkButton(loadMoreCmtsText).click();
+export interface CmtAppParam {
+  cmtApp: br.Element;
 }
 
-export function noMoreCmts(cmtApp: br.Element) {
-  return cmtApp.$linkButton(loadMoreCmtsText).shouldNotExist();
+export interface CmtElParam {
+  cmtEl: br.Element;
 }
 
-export function clickMoreReplies(cmtApp: br.Element) {
-  return cmtApp.$linkButton(loadMoreRepliesText).click();
+export function clickMoreCmts(a: CmtAppParam) {
+  return a.cmtApp.$linkButton(loadMoreCmtsText).click();
 }
 
-export function clickRepliesButton(cmtEl: br.Element) {
-  return cmtEl.$(`${cm.repliesBtnClass} link-button`).click();
+export function noMoreCmts(a: CmtAppParam) {
+  return a.cmtApp.$linkButton(loadMoreCmtsText).shouldNotExist();
+}
+
+export function clickMoreReplies(a: CmtElParam) {
+  return a.cmtEl.$linkButton(loadMoreRepliesText).click();
+}
+
+export function clickRepliesButton(a: CmtElParam) {
+  return a.cmtEl.$(`${cm.repliesBtnClass} link-button`).click();
 }

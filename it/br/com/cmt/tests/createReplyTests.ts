@@ -279,7 +279,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
 
         // Show more.
         // Pull the last 1 cmt.
-        await act.clickMoreReplies(cmtEl);
+        await act.clickMoreReplies({ cmtEl });
         await cm.shouldHaveCmtCount(cmtApp, total + 4);
         await cm.shouldHaveReplyCount(cmtEl, total + 3, 8);
 
