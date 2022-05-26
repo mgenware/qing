@@ -478,9 +478,9 @@ export default css`
     border-right: none;
   }
   .qing-btn-group qing-button:first-child::part(button) {
-    border-radius: 5px 0 0 5px;
+    border-radius: 0.3rem 0 0 0.3rem;
   }
   .qing-btn-group qing-button:last-child::part(button) {
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 0.3rem 0.3rem 0;
   }
 `;
