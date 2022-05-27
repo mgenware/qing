@@ -22,11 +22,11 @@
     "mahur": "^0.0.2",
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
-    "qing-button": "^8.2.5",
+    "qing-button": "^8.2.6",
     "qing-css-base": "^1.0.0",
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^2.1.2",
-    "qing-overlay": "^0.14.0",
+    "qing-overlay": "^0.15.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
@@ -34,8 +34,8 @@
     "@types/mocha": "^9.1.1",
     "@web/test-runner": "^0.13.28",
     "@web/test-runner-playwright": "^0.8.8",
-    "html-validate": "7.1.0",
-    "lit-analyzer": "^1.2.1",
+    "html-validate": "7.1.1",
+    "lit-analyzer": "2.0.0-pre.2",
     "qing-t": "^6.1.0"
   }
 }
