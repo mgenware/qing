@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ls, formatLS, getLSByKey } from 'ls';
+import { ls, getLSByKey } from 'ls';
 import { appdef } from '@qing/def';
 import { ERR } from 'checks';
 import ErrorWithCode from './errorWithCode';
@@ -38,7 +38,7 @@ export default class Loader<T> {
 
       if (!response.ok) {
         // Handle HTTP error.
-        const message = response.status === 404 ? formatLS(ls.resNotFound) : response.statusText;
+        const message = response.status === 404 ? ls.resNotFound : response.statusText;
         throw new ErrorWithCode(message);
       } else {
         // Handle server error if exists.
