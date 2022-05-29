@@ -20,6 +20,7 @@ func init() {
 		".jpeg": true,
 		".png":  true,
 		".webp": true,
+		".jfif": true,
 	}
 }
 
