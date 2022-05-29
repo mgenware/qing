@@ -50,7 +50,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
             await cm.shouldHaveReplyCount(cmtEl, 1, 0);
             await cm.shouldNotHaveReplies(cm.getTopCmt(cmtApp));
             // Click replies.
-            await act.clickRepliesButton(cm.getTopCmt(cmtApp));
+            await act.clickRepliesButton({ cmtEl: cm.getTopCmt(cmtApp) });
           } else {
             // Replies are shown for refresh reply.
             await cm.shouldHaveReplyCount(cmtEl, 1, 1);
@@ -76,7 +76,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
           await cm.shouldHaveReplyCount(cmtEl, 1, 0);
           await cm.shouldNotHaveReplies(cmtEl);
           // Click replies.
-          await act.clickRepliesButton(cmtEl);
+          await act.clickRepliesButton({ cmtEl });
 
           await cm.cmtShouldAppear(cm.getNthReply(cm.getTopCmt(cmtApp), 0), {
             author: usr.user,
@@ -132,7 +132,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         // Replies should be hidden.
         await cm.shouldNotHaveReplies(cmtEl);
         // Click replies.
-        await act.clickRepliesButton(cmtEl);
+        await act.clickRepliesButton({ cmtEl });
 
         // Cmt should have 5 replies with 2 shown.
         await cm.shouldHaveReplyCount(cmtEl, total, 2);
@@ -147,7 +147,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         });
 
         // Click more replies.
-        await act.clickMoreReplies(cmtApp);
+        await act.clickMoreReplies({ cmtEl });
 
         // Cmt should have 5 replies with 4 shown.
         await cm.shouldHaveReplyCount(cmtEl, total, 4);
@@ -162,7 +162,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         });
 
         // Click more replies.
-        await act.clickMoreReplies(cmtApp);
+        await act.clickMoreReplies({ cmtEl });
 
         // All 5 replies are shown.
         await cm.shouldHaveReplyCount(cmtEl, total, 5);
@@ -205,7 +205,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         const cmtEl = cm.getTopCmt(cmtApp);
 
         // By default, replies are collapsed.
-        await act.clickMoreReplies(cmtApp);
+        await act.clickMoreReplies({ cmtEl });
 
         // Create a reply with "more replies" never clicked.
         await act.writeReply(page, { cmtEl, content: 'new 1' });
@@ -232,7 +232,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         });
 
         // Show more.
-        await act.clickMoreReplies(cmtEl);
+        await act.clickMoreReplies({ cmtEl });
         await cm.shouldHaveCmtCount(cmtApp, total + 2);
         await cm.shouldHaveReplyCount(cmtEl, total + 1, 5);
 
