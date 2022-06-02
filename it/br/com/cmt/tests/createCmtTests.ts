@@ -105,7 +105,7 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         });
 
         // Show more.
-        await act.clickMoreCmts(cmtApp);
+        await act.clickMoreCmts({ cmtApp });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 4);
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 2), {
@@ -118,7 +118,7 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         });
 
         // Show more.
-        await act.clickMoreCmts(cmtApp);
+        await act.clickMoreCmts({ cmtApp });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 5);
 
         await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 4), {
@@ -178,7 +178,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         });
 
         // Show more.
-        await act.clickMoreCmts(cmtApp);
+        await act.clickMoreCmts({ cmtApp });
         await cm.shouldHaveCmtCount(cmtApp, total + 1);
         await cm.shouldHaveShownRootCmtCount(cmtApp, 5);
 
@@ -225,7 +225,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
 
         // Show more.
         // Pull the last 1 cmt.
-        await act.clickMoreCmts(cmtApp);
+        await act.clickMoreCmts({ cmtApp });
         await cm.shouldHaveCmtCount(cmtApp, total + 3);
         await cm.shouldHaveShownRootCmtCount(cmtApp, 8);
 
