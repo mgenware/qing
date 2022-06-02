@@ -90,8 +90,8 @@ importers:
       is-plain-obj: ^4.0.0
       js-yaml: ^4.1.0
       jsconfgen: ^0.2.0
-      mingru: ^0.60.5
-      mingru-models: ^0.65.0
+      mingru: ^0.60.6
+      mingru-models: ^0.65.1
       mingru-tsconfig: ^4.0.0
     dependencies:
       '@qing/def': link:../def
@@ -101,8 +101,8 @@ importers:
       is-plain-obj: 4.0.0
       js-yaml: 4.1.0
       jsconfgen: 0.2.0
-      mingru: 0.60.5
-      mingru-models: 0.65.0
+      mingru: 0.60.6
+      mingru-models: 0.65.1
       mingru-tsconfig: 4.0.0
     devDependencies:
       '@types/js-yaml': 4.0.5
@@ -2179,7 +2179,7 @@ packages:
       is-shared-array-buffer: 1.0.2
       is-string: 1.0.7
       is-weakref: 1.0.2
-      object-inspect: 1.12.1
+      object-inspect: 1.12.2
       object-keys: 1.1.1
       object.assign: 4.1.2
       regexp.prototype.flags: 1.4.3
@@ -4035,8 +4035,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  /mingru-models/0.65.0:
-    resolution: {integrity: sha512-cHYr4CruqCXpTu1H36jSjcl+j6JsTfnb/iSO4T8Sg8/306+5O+H5obACv+4jaIrPaF8fKzc1p/Sv+riUx6+T0g==}
+  /mingru-models/0.65.1:
+    resolution: {integrity: sha512-8hCf6Z7JuP+S+bmCRDoPCCvBKbaV+qsbK0+YKhKrR6lY0oqS2r/+DVcj4beUdiIEkX3l4k2/r9q1YU0/GzSPMg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       decamelize: 6.0.0
@@ -4048,8 +4048,8 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.60.5:
-    resolution: {integrity: sha512-D8uprAYzauQy2GyGt/01J+/wAXxtV6WBFhNwXLgBocYrPd9tnaVUMj4rwOnfiAI6EyEssTc5zmhJZkaGqfMREg==}
+  /mingru/0.60.6:
+    resolution: {integrity: sha512-QS3gudPN0WBTvW++9s/ZO0OJGv2dM2AO0rikWCxVr/rGTnXFv0IhwCdhijbYnDQQaz6HdEptc7crBG05Uh+vWw==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 6.3.0
@@ -4305,8 +4305,8 @@ packages:
     resolution: {integrity: sha512-Ho2z80bVIvJloH+YzRmpZVQe87+qASmBUKZDWgx9cu+KDrX2ZDH/3tMy+gXbZETVGs2M8YdxObOh7XAtim9Y0g==}
     dev: true
 
-  /object-inspect/1.12.1:
-    resolution: {integrity: sha512-Y/jF6vnvEtOPGiKD1+q+X0CiUYRQtEHp89MLLUJ7TUivtH8Ugn2+3A7Rynqk7BRsAoqeOQWnFnjpDrKSxDgIGA==}
+  /object-inspect/1.12.2:
+    resolution: {integrity: sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==}
 
   /object-keys/1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
@@ -5110,7 +5110,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       get-intrinsic: 1.1.1
-      object-inspect: 1.12.1
+      object-inspect: 1.12.2
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}

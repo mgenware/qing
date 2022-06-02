@@ -14,8 +14,8 @@
     "is-plain-obj": "^4.0.0",
     "js-yaml": "^4.1.0",
     "jsconfgen": "^0.2.0",
-    "mingru": "^0.60.5",
-    "mingru-models": "^0.65.0",
+    "mingru": "^0.60.6",
+    "mingru-models": "^0.65.1",
     "mingru-tsconfig": "^4.0.0"
   }
 }
