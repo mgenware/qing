@@ -61,6 +61,45 @@ func (mrTable *ContentBaseCmtStaticAGType) InsertCmt(db *sql.DB, contentBaseCmtT
 	return cmtIDExported, txErr
 }
 
+func (mrTable *ContentBaseCmtStaticAGType) insertCmtForPostsChild2Core(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, cmtID uint64, hostID uint64) error {
+	_, err := mrQueryable.Exec("INSERT INTO "+string(contentBaseCmtTableParam)+" (`cmt_id`, `host_id`) VALUES (?, ?)", cmtID, hostID)
+	return err
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) insertCmtForPostsChild2(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, cmtID uint64, hostID uint64) error {
+	return mrTable.insertCmtForPostsChild2Core(mrQueryable, contentBaseCmtTableParam, cmtID, hostID)
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) insertCmtForPostsChild3(mrQueryable mingru.Queryable, contentBaseTableParam mingru.Table, id uint64) error {
+	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, id, 1)
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) InsertCmtForPosts(db *sql.DB, contentBaseCmtTableParam mingru.Table, contentBaseTableParam mingru.Table, postTableParam mingru.Table, contentHTML string, userID uint64, hostID uint64, hostType uint8, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+	var cmtIDExported uint64
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		cmtID, err := Cmt.InsertCmtTXM(tx, contentHTML, userID, hostID, hostType)
+		if err != nil {
+			return err
+		}
+		err = mrTable.insertCmtForPostsChild2(tx, contentBaseCmtTableParam, cmtID, hostID)
+		if err != nil {
+			return err
+		}
+		err = mrTable.insertCmtForPostsChild3(tx, contentBaseTableParam, hostID)
+		if err != nil {
+			return err
+		}
+		err = PostStatic.UpdateLastRepliedAt(tx, postTableParam, id)
+		if err != nil {
+			return err
+		}
+		cmtIDExported = cmtID
+		return nil
+	})
+	return cmtIDExported, txErr
+}
+
 func (mrTable *ContentBaseCmtStaticAGType) insertReplyChild2(mrQueryable mingru.Queryable, id uint64) error {
 	return Cmt.UpdateReplyCount(mrQueryable, id, 1)
 }
@@ -82,6 +121,40 @@ func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTa
 			return err
 		}
 		err = mrTable.insertReplyChild3(tx, contentBaseTableParam, hostID)
+		if err != nil {
+			return err
+		}
+		replyIDExported = replyID
+		return nil
+	})
+	return replyIDExported, txErr
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) insertReplyForPostsChild2(mrQueryable mingru.Queryable, id uint64) error {
+	return Cmt.UpdateReplyCount(mrQueryable, id, 1)
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) insertReplyForPostsChild3(mrQueryable mingru.Queryable, contentBaseTableParam mingru.Table, hostID uint64) error {
+	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, hostID, 1)
+}
+
+func (mrTable *ContentBaseCmtStaticAGType) InsertReplyForPosts(db *sql.DB, contentBaseTableParam mingru.Table, postTableParam mingru.Table, contentHTML string, userID uint64, hostID uint64, hostType uint8, parentID uint64, id uint64, sanitizedStub int, captStub int) (uint64, error) {
+	var replyIDExported uint64
+	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
+		var err error
+		replyID, err := Cmt.InsertReplyTXM(tx, contentHTML, userID, hostID, hostType, parentID)
+		if err != nil {
+			return err
+		}
+		err = mrTable.insertReplyForPostsChild2(tx, parentID)
+		if err != nil {
+			return err
+		}
+		err = mrTable.insertReplyForPostsChild3(tx, contentBaseTableParam, hostID)
+		if err != nil {
+			return err
+		}
+		err = PostStatic.UpdateLastRepliedAt(tx, postTableParam, id)
 		if err != nil {
 			return err
 		}
@@ -255,7 +328,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQu
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	var queryParams []interface{}
+	var queryParams []any
 	queryParams = append(queryParams, viewerUserID)
 	queryParams = append(queryParams, hostID)
 	for _, item := range excluded {

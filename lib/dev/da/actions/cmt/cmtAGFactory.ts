@@ -14,6 +14,7 @@ import {
   contentBaseStaticAG,
   contentBaseStaticTableParam,
 } from '../../actions/com/contentBaseStaticAG.js';
+import { postStaticAG } from '../post/postStaticAG.js';
 
 const cmtID = 'cmtID';
 const parentID = 'parentID';
@@ -33,7 +34,10 @@ function getIncrementCmtCountAction(rootCmt: boolean) {
   });
 }
 
-export function insertCmtAction(rt: CmtRelationTable): mm.TransactAction {
+export function insertCmtAction(
+  rt: CmtRelationTable,
+  updateLastRepliedAt: boolean,
+): mm.TransactAction {
   return mm
     .transact(
       // Insert the cmt.
@@ -42,12 +46,13 @@ export function insertCmtAction(rt: CmtRelationTable): mm.TransactAction {
       mm.insertOne().from(rt).setParams().wrapAsRefs({ cmtID }),
       // host.cmtCount++.
       getIncrementCmtCountAction(true),
+      updateLastRepliedAt ? postStaticAG.updateLastRepliedAt : null,
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(cmtID);
 }
 
-export function insertReplyAction(): mm.TransactAction {
+export function insertReplyAction(updateLastRepliedAt: boolean): mm.TransactAction {
   return mm
     .transact(
       // Insert the reply.
@@ -59,6 +64,7 @@ export function insertReplyAction(): mm.TransactAction {
       }),
       // host.cmtCount++.
       getIncrementCmtCountAction(false),
+      updateLastRepliedAt ? postStaticAG.updateLastRepliedAt : null,
     )
     .argStubs(cm.sanitizedStub, cm.captStub)
     .setReturnValues(replyID);

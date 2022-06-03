@@ -34,7 +34,7 @@ func (mrTable *ForumModAGType) DeleteUserFromForumMods(mrQueryable mingru.Querya
 	if len(forumIDs) == 0 {
 		return 0, fmt.Errorf("the array argument `forumIDs` cannot be empty")
 	}
-	var queryParams []interface{}
+	var queryParams []any
 	queryParams = append(queryParams, userID)
 	for _, item := range forumIDs {
 		queryParams = append(queryParams, item)
