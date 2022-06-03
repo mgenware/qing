@@ -8,6 +8,8 @@
 import * as mm from 'mingru-models';
 import ContentWithTitleBase from '../com/contentWithTitleBase.js';
 
-export class Post extends ContentWithTitleBase {}
+export class Post extends ContentWithTitleBase {
+  last_replied_at = mm.datetime({ defaultToNow: 'server' }).nullable.default(null);
+}
 
 export default mm.table(Post);
