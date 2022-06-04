@@ -58,7 +58,7 @@ func (mrTable *PostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, use
 }
 
 func (mrTable *PostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `title`, `modified_at`) VALUES (NOW(3), 0, 0, NULL, ?, ?, ?, `created_at`)", userID, contentHTML, title)
+	result, err := mrQueryable.Exec("INSERT INTO `post` (`created_at`, `cmt_count`, `likes`, `user_id`, `content`, `title`, `modified_at`) VALUES (NOW(3), 0, 0, ?, ?, ?, `created_at`)", userID, contentHTML, title)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

@@ -256,7 +256,7 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	var queryParams []any
+	var queryParams []interface{}
 	queryParams = append(queryParams, viewerUserID)
 	queryParams = append(queryParams, parentID)
 	for _, item := range excluded {

@@ -28,10 +28,8 @@ export class ContentBaseCmtStaticAG extends mm.ActionGroup {
     userMode: true,
     filterMode: true,
   });
-  insertCmt = cmtf.insertCmtAction(contentBaseCmtTableParam, false);
-  insertReply = cmtf.insertReplyAction(false);
-  insertCmtForPosts = cmtf.insertCmtAction(contentBaseCmtTableParam, true);
-  insertReplyForPosts = cmtf.insertReplyAction(true);
+  insertCmt = cmtf.insertCmtAction(contentBaseCmtTableParam);
+  insertReply = cmtf.insertReplyAction();
 }
 
 export default mm.actionGroup(contentBaseCmtTableParam, ContentBaseCmtStaticAG);
