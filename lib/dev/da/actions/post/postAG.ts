@@ -13,6 +13,8 @@ import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
 export class PostAG extends ContentWithTitleBaseAG<Post> {
+  refreshLastRepliedAt = mm.updateOne().set(t.last_replied_at, mm.datetimeNow()).by(t.id);
+
   override baseTable() {
     return t;
   }

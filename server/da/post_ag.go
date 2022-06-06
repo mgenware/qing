@@ -84,6 +84,11 @@ func (mrTable *PostAGType) InsertItem(db *sql.DB, userID uint64, contentHTML str
 	return insertedIDExported, txErr
 }
 
+func (mrTable *PostAGType) RefreshLastRepliedAt(mrQueryable mingru.Queryable, id uint64) error {
+	result, err := mrQueryable.Exec("UPDATE `post` SET `last_replied_at` = NOW() WHERE `id` = ?", id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 type PostAGSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
