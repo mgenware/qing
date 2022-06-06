@@ -255,7 +255,7 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQu
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	var queryParams []interface{}
+	var queryParams []any
 	queryParams = append(queryParams, viewerUserID)
 	queryParams = append(queryParams, hostID)
 	for _, item := range excluded {
