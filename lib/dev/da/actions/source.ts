@@ -25,6 +25,7 @@ import forumGroupModAG from './forum/forumGroupModAG.js';
 import forumModAG from './forum/forumModAG.js';
 import { contentBaseStaticAG } from './com/contentBaseStaticAG.js';
 import contentBaseCmtStaticAG from './cmt/contentBaseCmtStaticAG.js';
+import fpostAG from './fpost/fpostAG.js';
 
 const source: Array<mm.ActionGroup | mm.Table> = [
   userAG,
@@ -42,6 +43,8 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   cmtAG,
   postAG,
   postAG.baseCmtTable(),
+  fpostAG,
+  fpostAG.baseCmtTable(),
   threadAG,
   threadAG.baseCmtTable(),
   threadMsgAG,

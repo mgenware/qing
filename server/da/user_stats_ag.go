@@ -36,6 +36,15 @@ func (mrTable *UserStatsAGType) SelectStats(mrQueryable mingru.Queryable, id uin
 	return result, nil
 }
 
+func (mrTable *UserStatsAGType) TestSelectFPostCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
+	var result uint
+	err := mrQueryable.QueryRow("SELECT `fpost_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (mrTable *UserStatsAGType) TestSelectPostCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `post_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
@@ -61,6 +70,11 @@ func (mrTable *UserStatsAGType) TestSelectThreadMsgCount(mrQueryable mingru.Quer
 		return result, err
 	}
 	return result, nil
+}
+
+func (mrTable *UserStatsAGType) UpdateFPostCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
+	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `fpost_count` = `fpost_count` + ? WHERE `id` = ?", offset, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 func (mrTable *UserStatsAGType) UpdatePostCount(mrQueryable mingru.Queryable, id uint64, offset int) error {

@@ -24,16 +24,17 @@
   ],
   "settings": {
     "cSpell.words": [
+      "appdef",
       "clib",
       "cmts",
       "daizong",
       "datetime",
+      "dbdef",
+      "fpost",
       "mgenware",
       "mingru",
       "Qing",
-      "userland",
-      "appdef",
-      "dbdef"
+      "userland"
     ],
     "editor.formatOnSave": true,
     "files.insertFinalNewline": true,

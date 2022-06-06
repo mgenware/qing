@@ -13,6 +13,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -54,6 +55,12 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, uid, host.ID, uint8(host.Type), sanitizedToken, captResult)
 		}
 		app.PanicIfErr(err)
+
+		// Update `last_replied_at` if necessary.
+		if host.Type == appdef.ContentBaseTypePost {
+			err = da.Post.RefreshLastRepliedAt(db, host.ID)
+			app.PanicIfErr(err)
+		}
 
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()
