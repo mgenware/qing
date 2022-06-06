@@ -13,7 +13,6 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
-	"qing/a/def/dbdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -42,9 +41,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		host := clib.MustGetEntityInfoFromDict(params, "host")
 		parentID := clib.GetIDFromDict(params, "parentID")
 
-		cmtHostTable, err := apicom.GetCmtHostTable(dbdef.CmtHostType(host.Type))
+		cmtHostTable, err := apicom.GetCmtHostTable(host.Type)
 		app.PanicIfErr(err)
-		cmtRelationTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
+		cmtRelationTable, err := apicom.GetCmtRelationTable(host.Type)
 		app.PanicIfErr(err)
 
 		captResult := 0

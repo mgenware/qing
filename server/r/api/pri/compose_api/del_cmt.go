@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def/dbdef"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/dax"
@@ -30,7 +30,8 @@ func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hostInfo, err := da.Cmt.SelectHostInfo(db, id)
 	app.PanicIfErr(err)
 
-	hostTable, err := apicom.GetCmtHostTable(dbdef.CmtHostType(hostInfo.HostType))
+	entityType := appdef.ContentBaseType(hostInfo.HostType)
+	hostTable, err := apicom.GetCmtHostTable(entityType)
 	app.PanicIfErr(err)
 
 	err = dax.DeleteCmt(db, id, uid, hostTable, hostInfo.HostID)

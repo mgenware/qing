@@ -12,7 +12,6 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def/dbdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -84,7 +83,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
-	cmtRelTable, err := apicom.GetCmtRelationTable(dbdef.CmtHostType(host.Type))
+	cmtRelTable, err := apicom.GetCmtRelationTable(host.Type)
 	app.PanicIfErr(err)
 
 	if uid == 0 {

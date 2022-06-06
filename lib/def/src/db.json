@@ -1,5 +1,3 @@
 {
-  "__enums": {
-    "cmtHostType": { "values": ["post", "thread", "threadMsg"] }
-  }
+  "__enums": {}
 }

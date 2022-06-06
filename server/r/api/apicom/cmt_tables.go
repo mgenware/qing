@@ -9,32 +9,32 @@ package apicom
 
 import (
 	"fmt"
-	"qing/a/def/dbdef"
+	"qing/a/def/appdef"
 	"qing/da"
 
 	"github.com/mgenware/mingru-go-lib"
 )
 
-func GetCmtHostTable(hostType dbdef.CmtHostType) (mingru.Table, error) {
+func GetCmtHostTable(hostType appdef.ContentBaseType) (mingru.Table, error) {
 	switch hostType {
-	case dbdef.CmtHostTypePost:
+	case appdef.ContentBaseTypePost:
 		return da.TablePost, nil
-	case dbdef.CmtHostTypeThread:
+	case appdef.ContentBaseTypeThread:
 		return da.TableThread, nil
-	case dbdef.CmtHostTypeThreadMsg:
+	case appdef.ContentBaseTypeThreadMsg:
 		return da.TableThreadMsg, nil
 	default:
 		return "", fmt.Errorf("unknown cmt host table %v", hostType)
 	}
 }
 
-func GetCmtRelationTable(hostType dbdef.CmtHostType) (mingru.Table, error) {
+func GetCmtRelationTable(hostType appdef.ContentBaseType) (mingru.Table, error) {
 	switch hostType {
-	case dbdef.CmtHostTypePost:
+	case appdef.ContentBaseTypePost:
 		return da.TablePostCmt, nil
-	case dbdef.CmtHostTypeThread:
+	case appdef.ContentBaseTypeThread:
 		return da.TableThreadCmt, nil
-	case dbdef.CmtHostTypeThreadMsg:
+	case appdef.ContentBaseTypeThreadMsg:
 		return da.TableThreadMsgCmt, nil
 	default:
 		return "", fmt.Errorf("unknown cmt relation table %v", hostType)
