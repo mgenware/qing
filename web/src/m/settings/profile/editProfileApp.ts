@@ -143,10 +143,10 @@ export class EditProfileApp extends StatefulPage {
       this.updateInfoStatus = s;
     });
     if (status.isSuccess) {
-      await appAlert.successToast(ls.profileUpdated);
       if (this.name !== appPageState.user?.name) {
         appPageState.updateUser({ name: this.name });
       }
+      await appAlert.successToast(ls.profileUpdated);
     }
   }
 
