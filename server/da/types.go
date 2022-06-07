@@ -46,30 +46,16 @@ type FindUserResult struct {
 }
 
 type ThreadFeedResult struct {
+	CmtCount      uint       `json:"cmtCount,omitempty"`
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
 	Likes         uint       `json:"likes,omitempty"`
-	MsgCount      uint       `json:"msgCount,omitempty"`
 	RawCreatedAt  time.Time  `json:"-"`
 	RawModifiedAt time.Time  `json:"-"`
 	Title         string     `json:"title,omitempty"`
 	UserIconName  string     `json:"-"`
 	UserID        uint64     `json:"-"`
 	UserName      string     `json:"-"`
-}
-
-type ThreadMsgResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ContentHTML   string    `json:"contentHTML,omitempty"`
-	ID            uint64    `json:"-"`
-	IsLiked       *uint64   `json:"isLiked,omitempty"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	ThreadID      uint64    `json:"threadID,omitempty"`
-	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
-	UserName      string    `json:"-"`
 }
 
 // ------------ Interfaces ------------

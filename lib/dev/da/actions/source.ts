@@ -16,8 +16,6 @@ import likeAGs from './like/likeAGs.js';
 import homeAG from './home/homeAG.js';
 import comHomeAG from './home/comHomeAG.js';
 import forumHomeAG from './home/forumHomeAG.js';
-import threadAG from './thread/threadAG.js';
-import threadMsgAG from './thread/threadMsgAG.js';
 import forumGroupAG from './forum/forumGroupAG.js';
 import forumAG from './forum/forumAG.js';
 import forumIsUserModAG from './forum/forumIsUserModAG.js';
@@ -45,10 +43,6 @@ const source: Array<mm.ActionGroup | mm.Table> = [
   postAG.baseCmtTable(),
   fpostAG,
   fpostAG.baseCmtTable(),
-  threadAG,
-  threadAG.baseCmtTable(),
-  threadMsgAG,
-  threadMsgAG.baseCmtTable(),
   homeAG,
   comHomeAG,
   ...likeAGs,

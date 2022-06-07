@@ -110,7 +110,7 @@ func (mrTable *ForumAGType) SelectThreads(mrQueryable mingru.Queryable, forumID 
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `thread`.`id`, `thread`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `thread`.`created_at`, `thread`.`modified_at`, `thread`.`title`, `thread`.`likes`, `thread`.`msg_count`, `thread`.`last_replied_at` FROM `thread` AS `thread` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `thread`.`user_id` WHERE `thread`.`forum_id` = ? ORDER BY `thread`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `f_post`.`id`, `f_post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `f_post`.`created_at`, `f_post`.`modified_at`, `f_post`.`title`, `f_post`.`likes`, `f_post`.`cmt_count`, `f_post`.`last_replied_at` FROM `f_post` AS `f_post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `f_post`.`user_id` WHERE `f_post`.`forum_id` = ? ORDER BY `f_post`.`last_replied_at` LIMIT ? OFFSET ?", forumID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -121,7 +121,7 @@ func (mrTable *ForumAGType) SelectThreads(mrQueryable mingru.Queryable, forumID 
 		itemCounter++
 		if itemCounter <= max {
 			var item ThreadFeedResult
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.MsgCount, &item.LastRepliedAt)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err
 			}

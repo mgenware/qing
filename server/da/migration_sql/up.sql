@@ -194,65 +194,6 @@ CHARACTER SET=utf8mb4
 COLLATE=utf8mb4_unicode_ci
 ;
 
-CREATE TABLE `thread` (
-	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`content` TEXT NOT NULL,
-	`user_id` BIGINT UNSIGNED NOT NULL,
-	`created_at` DATETIME(3) NOT NULL,
-	`modified_at` DATETIME(3) NOT NULL,
-	`cmt_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	`likes` INT UNSIGNED NOT NULL DEFAULT 0,
-	`title` VARCHAR(200) NOT NULL,
-	`forum_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-	`msg_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	`last_replied_at` DATETIME(3) NULL DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`forum_id`) REFERENCES `forum` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `thread_cmt` (
-	`cmt_id` BIGINT UNSIGNED NOT NULL,
-	`host_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`cmt_id`, `host_id`),
-	CONSTRAINT FOREIGN KEY(`cmt_id`) REFERENCES `cmt` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `thread` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `thread_msg` (
-	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`content` TEXT NOT NULL,
-	`user_id` BIGINT UNSIGNED NOT NULL,
-	`created_at` DATETIME(3) NOT NULL,
-	`modified_at` DATETIME(3) NOT NULL,
-	`cmt_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	`likes` INT UNSIGNED NOT NULL DEFAULT 0,
-	`thread_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`id`),
-	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`thread_id`) REFERENCES `thread` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `thread_msg_cmt` (
-	`cmt_id` BIGINT UNSIGNED NOT NULL,
-	`host_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`cmt_id`, `host_id`),
-	CONSTRAINT FOREIGN KEY(`cmt_id`) REFERENCES `cmt` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `thread_msg` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
 CREATE TABLE `post_like` (
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`host_id` BIGINT UNSIGNED NOT NULL,
@@ -270,28 +211,6 @@ CREATE TABLE `cmt_like` (
 	PRIMARY KEY (`user_id`, `host_id`),
 	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `cmt` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `thread_like` (
-	`user_id` BIGINT UNSIGNED NOT NULL,
-	`host_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`user_id`, `host_id`),
-	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `thread` (`id`) ON DELETE CASCADE
-)
-CHARACTER SET=utf8mb4
-COLLATE=utf8mb4_unicode_ci
-;
-
-CREATE TABLE `thread_msg_like` (
-	`user_id` BIGINT UNSIGNED NOT NULL,
-	`host_id` BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (`user_id`, `host_id`),
-	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `thread_msg` (`id`) ON DELETE CASCADE
 )
 CHARACTER SET=utf8mb4
 COLLATE=utf8mb4_unicode_ci

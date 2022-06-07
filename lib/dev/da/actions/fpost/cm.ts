@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import thread from '../../models/thread/thread.js';
+import fpost from '../../models/fpost/fpost.js';
 import user from '../../models/user/user.js';
 
 export const threadFeedType = 'ThreadFeedResult';
 
-// Used by both home page and forum page.
+// Used by both home page and forums page.
 export function threadFeedCols() {
-  const t = thread;
+  const t = fpost;
   const joinedUserTable = t.user_id.join(user);
   const priCols = [
     t.id,
@@ -22,5 +22,5 @@ export function threadFeedCols() {
     t.created_at,
     t.modified_at,
   ].map((c) => c.privateAttr());
-  return [...priCols, t.title, t.likes, t.msg_count, t.last_replied_at];
+  return [...priCols, t.title, t.likes, t.cmt_count, t.last_replied_at];
 }

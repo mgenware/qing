@@ -6,9 +6,9 @@
  */
 
 import * as mm from 'mingru-models';
-import thread from '../../models/thread/thread.js';
+import fpost from '../../models/fpost/fpost.js';
 import t from '../../models/forum/forum.js';
-import { threadFeedCols, threadFeedType } from '../thread/cm.js';
+import { threadFeedCols, threadFeedType } from '../fpost/cm.js';
 
 export class ForumAG extends mm.ActionGroup {
   selectForum = mm
@@ -32,10 +32,10 @@ export class ForumAG extends mm.ActionGroup {
 
     this.selectThreads = mm
       .selectRows(...threadFeedCols())
-      .from(thread)
-      .by(thread.forum_id)
+      .from(fpost)
+      .by(fpost.forum_id)
       .pageMode()
-      .orderByAsc(thread.last_replied_at)
+      .orderByAsc(fpost.last_replied_at)
       .resultTypeNameAttr(threadFeedType);
   }
 }

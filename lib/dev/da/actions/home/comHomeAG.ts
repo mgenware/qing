@@ -6,8 +6,8 @@
  */
 
 import * as mm from 'mingru-models';
-import thread from '../../models/thread/thread.js';
-import { threadFeedCols, threadFeedType } from '../thread/cm.js';
+import fpost from '../../models/fpost/fpost.js';
+import { threadFeedCols, threadFeedType } from '../fpost/cm.js';
 
 class ComHome extends mm.GhostTable {}
 
@@ -19,9 +19,9 @@ export class ComHomeAG extends mm.ActionGroup {
 
     this.selectThreads = mm
       .selectRows(...threadFeedCols())
-      .from(thread)
+      .from(fpost)
       .pageMode()
-      .orderByAsc(thread.created_at)
+      .orderByAsc(fpost.created_at)
       .resultTypeNameAttr(threadFeedType);
   }
 }
