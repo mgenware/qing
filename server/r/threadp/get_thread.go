@@ -33,7 +33,7 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	db := appDB.DB()
-	thread, err := da.Thread.SelectItemByID(db, tid)
+	thread, err := da.FPost.SelectItemByID(db, tid)
 	app.PanicIfErr(err)
 
 	resp := appHandler.HTMLResponse(w, r)
@@ -42,21 +42,10 @@ func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	isThreadLiked := false
 	if uid != 0 {
-		isThreadLiked, err = da.ThreadLike.HasLiked(db, tid, uid)
+		isThreadLiked, err = da.FPostLike.HasLiked(db, tid, uid)
 		app.PanicIfErr(err)
 	}
 	threadAppModel := NewThreadAppModel(&thread, isThreadLiked)
-
-	// Fetch thread messages.
-	var threadMsgList []da.ThreadMsgResult
-	var hasNext bool
-	if uid != 0 {
-		threadMsgList, hasNext, err = da.ThreadMsg.SelectMsgsByThreadWithLikes(db, uid, tid, page, defaultPageSize)
-		app.PanicIfErr(err)
-	} else {
-		threadMsgList, hasNext, err = da.ThreadMsg.SelectMsgsByThread(db, tid, page, defaultPageSize)
-		app.PanicIfErr(err)
-	}
 
 	var ansListHTMLBuilder strings.Builder
 	if len(threadMsgList) == 0 {

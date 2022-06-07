@@ -92,6 +92,7 @@ func (mrTable *FPostAGType) RefreshLastRepliedAt(mrQueryable mingru.Queryable, i
 type FPostAGSelectItemByIDResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
@@ -104,7 +105,7 @@ type FPostAGSelectItemByIDResult struct {
 
 func (mrTable *FPostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (FPostAGSelectItemByIDResult, error) {
 	var result FPostAGSelectItemByIDResult
-	err := mrQueryable.QueryRow("SELECT `f_post`.`id`, `f_post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `f_post`.`created_at`, `f_post`.`modified_at`, `f_post`.`content`, `f_post`.`likes`, `f_post`.`cmt_count`, `f_post`.`title` FROM `f_post` AS `f_post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `f_post`.`user_id` WHERE `f_post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title)
+	err := mrQueryable.QueryRow("SELECT `f_post`.`id`, `f_post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `f_post`.`created_at`, `f_post`.`modified_at`, `f_post`.`content`, `f_post`.`likes`, `f_post`.`cmt_count`, `f_post`.`title`, `f_post`.`forum_id` FROM `f_post` AS `f_post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `f_post`.`user_id` WHERE `f_post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title, &result.ForumID)
 	if err != nil {
 		return result, err
 	}

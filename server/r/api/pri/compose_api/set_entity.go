@@ -63,20 +63,10 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case appdef.ContentBaseTypeThread:
 			{
-				insertedID, err := da.Thread.InsertItem(db, uid, contentHTML, title, forumID, sanitizedToken, captResult)
+				insertedID, err := da.FPost.InsertItem(db, uid, contentHTML, title, forumID, sanitizedToken, captResult)
 				app.PanicIfErr(err)
 
 				result = appURL.Get().Thread(insertedID)
-				break
-			}
-
-		case appdef.ContentBaseTypeThreadMsg:
-			{
-				threadID := clib.GetIDFromDict(params, "threadID")
-				insertedID, err := da.ThreadMsg.InsertItem(db, uid, contentHTML, threadID, sanitizedToken, captResult)
-				app.PanicIfErr(err)
-
-				result = appURL.Get().ThreadMsg(threadID, insertedID)
 				break
 			}
 
@@ -94,13 +84,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			}
 		case appdef.ContentBaseTypeThread:
 			{
-				err = da.Thread.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
-				app.PanicIfErr(err)
-				break
-			}
-		case appdef.ContentBaseTypeThreadMsg:
-			{
-				err = da.ThreadMsg.EditItem(db, id, uid, contentHTML, sanitizedToken)
+				err = da.FPost.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
 				app.PanicIfErr(err)
 				break
 			}

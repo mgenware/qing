@@ -22,7 +22,6 @@ const (
 	ContentBaseTypePost ContentBaseType = iota + 1
 	ContentBaseTypeCmt
 	ContentBaseTypeThread
-	ContentBaseTypeThreadMsg
 )
 
 type HomePageFeedType int

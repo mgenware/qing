@@ -47,6 +47,11 @@ export class FPostAG extends ContentWithTitleBaseAG<FPost> {
     return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
   }
 
+  protected override extraSelectItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraSelectItemCols(), t.forum_id];
+  }
+
   protected override extraInsertItemCols(): mm.Column[] {
     const t = this.baseTable();
     return [...super.extraInsertItemCols(), t.forum_id];

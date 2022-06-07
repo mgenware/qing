@@ -36,9 +36,7 @@ func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	case appdef.ContentBaseTypeCmt:
 		res, err = da.Cmt.SelectCmtSource(db, id, uid)
 	case appdef.ContentBaseTypeThread:
-		res, err = da.Thread.SelectItemSrc(db, id, uid)
-	case appdef.ContentBaseTypeThreadMsg:
-		res, err = da.ThreadMsg.SelectItemSrc(db, id, uid)
+		res, err = da.FPost.SelectItemSrc(db, id, uid)
 	default:
 		return resp.MustFailWithUserError(fmt.Sprintf("Unsupported entity type %v", entity.Type))
 	}

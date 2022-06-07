@@ -19,7 +19,7 @@ import (
 var vThreadApp = appHandler.MainPage().MustParseView("/thread/threadApp.html")
 
 type ThreadAppModel struct {
-	da.ThreadAGSelectItemByIDResult
+	da.FPostAGSelectItemByIDResult
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
 	ThreadURL   string
@@ -33,8 +33,8 @@ type ThreadAppModel struct {
 	HasLikedNum int
 }
 
-func NewThreadAppModel(p *da.ThreadAGSelectItemByIDResult, hasLiked bool) ThreadAppModel {
-	d := ThreadAppModel{ThreadAGSelectItemByIDResult: *p}
+func NewThreadAppModel(p *da.FPostAGSelectItemByIDResult, hasLiked bool) ThreadAppModel {
+	d := ThreadAppModel{FPostAGSelectItemByIDResult: *p}
 	eid := clib.EncodeID(p.ID)
 	d.ThreadURL = appURL.Get().Thread(p.ID)
 	d.EID = eid

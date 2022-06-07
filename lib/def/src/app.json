@@ -5,7 +5,7 @@
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
   "__enums": {
-    "contentBaseType": { "values": ["post", "cmt", "thread", "threadMsg"] },
+    "contentBaseType": { "values": ["post", "cmt", "thread"] },
     "homePageFeedType": { "values": ["post", "thread"] },
     "communityMode": { "values": ["disabled", "community", "forums"] },
     "route": {
