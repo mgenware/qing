@@ -215,3 +215,14 @@ CREATE TABLE `cmt_like` (
 CHARACTER SET=utf8mb4
 COLLATE=utf8mb4_unicode_ci
 ;
+
+CREATE TABLE `f_post_like` (
+	`user_id` BIGINT UNSIGNED NOT NULL,
+	`host_id` BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (`user_id`, `host_id`),
+	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY(`host_id`) REFERENCES `f_post` (`id`) ON DELETE CASCADE
+)
+CHARACTER SET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+;
