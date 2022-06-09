@@ -19,7 +19,6 @@ const entryPoints = [
   'forum/forumEntry',
   'forum/forumSettingsEntry',
   'lang/langEntry',
-  'thread/threadEntry',
   'devPage/devPageEntry',
 ].map((s) => `dist/${s}.js`);
 
