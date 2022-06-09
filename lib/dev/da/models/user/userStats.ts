@@ -19,7 +19,6 @@ export class UserStats extends mm.Table {
   post_count = createCounterColumn();
   fpost_count = createCounterColumn();
   thread_count = createCounterColumn();
-  thread_msg_count = createCounterColumn();
 }
 
 export default mm.table(UserStats);

@@ -32,7 +32,6 @@ CREATE TABLE `user_stats` (
 	`post_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	`fpost_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	`thread_count` INT UNSIGNED NOT NULL DEFAULT 0,
-	`thread_msg_count` INT UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`)
 )
 CHARACTER SET=utf8mb4

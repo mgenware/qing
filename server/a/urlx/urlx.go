@@ -106,10 +106,6 @@ func (u *URL) Thread(tid uint64) string {
 	return u.ThreadWithPage(tid, 1)
 }
 
-func (u *URL) ThreadMsg(tid uint64, mid uint64) string {
-	return u.Thread(tid) + appdef.RouteThreadMsg + "/" + clib.EncodeID(mid)
-}
-
 func (u *URL) SignIn() string {
 	return "/" + appdef.RouteAuth + "/sign/in"
 }

@@ -22,14 +22,13 @@ var UserStats = &UserStatsAGType{}
 // ------------ Actions ------------
 
 type UserStatsAGSelectStatsResult struct {
-	PostCount      uint `json:"postCount,omitempty"`
-	ThreadCount    uint `json:"threadCount,omitempty"`
-	ThreadMsgCount uint `json:"threadMsgCount,omitempty"`
+	PostCount   uint `json:"postCount,omitempty"`
+	ThreadCount uint `json:"threadCount,omitempty"`
 }
 
 func (mrTable *UserStatsAGType) SelectStats(mrQueryable mingru.Queryable, id uint64) (UserStatsAGSelectStatsResult, error) {
 	var result UserStatsAGSelectStatsResult
-	err := mrQueryable.QueryRow("SELECT `post_count`, `thread_count`, `thread_msg_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.ThreadCount, &result.ThreadMsgCount)
+	err := mrQueryable.QueryRow("SELECT `post_count`, `thread_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result.PostCount, &result.ThreadCount)
 	if err != nil {
 		return result, err
 	}
@@ -63,15 +62,6 @@ func (mrTable *UserStatsAGType) TestSelectThreadCount(mrQueryable mingru.Queryab
 	return result, nil
 }
 
-func (mrTable *UserStatsAGType) TestSelectThreadMsgCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
-	var result uint
-	err := mrQueryable.QueryRow("SELECT `thread_msg_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
 func (mrTable *UserStatsAGType) UpdateFPostCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `fpost_count` = `fpost_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -84,10 +74,5 @@ func (mrTable *UserStatsAGType) UpdatePostCount(mrQueryable mingru.Queryable, id
 
 func (mrTable *UserStatsAGType) UpdateThreadCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `thread_count` = `thread_count` + ? WHERE `id` = ?", offset, id)
-	return mingru.CheckOneRowAffectedWithError(result, err)
-}
-
-func (mrTable *UserStatsAGType) UpdateThreadMsgCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
-	result, err := mrQueryable.Exec("UPDATE `user_stats` SET `thread_msg_count` = `thread_msg_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
