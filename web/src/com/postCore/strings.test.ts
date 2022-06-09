@@ -7,5 +7,4 @@ it('entityTypeToLS', () => {
   expect(entityTypeToLS(appdef.contentBaseTypePost)).to.eq(ls.post);
   expect(entityTypeToLS(appdef.contentBaseTypeCmt)).to.eq(ls.comment);
   expect(entityTypeToLS(appdef.contentBaseTypeThread)).to.eq(ls.thread);
-  expect(entityTypeToLS(appdef.contentBaseTypeThreadMsg)).to.eq(ls.reply);
 });
