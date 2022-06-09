@@ -44,7 +44,6 @@ const (
 	RouteMx = "mx"
 	RouteApi = "s"
 	RouteForum = "f"
-	RouteThreadMsg = "r"
 	RouteForumGroup = "g"
 	RouteThread = "t"
 	RouteLangs = "lang"
