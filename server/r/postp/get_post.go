@@ -23,7 +23,6 @@ import (
 
 const postScript = "post/postEntry"
 
-// GetPost is the HTTP handler for posts.
 func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pid, err := clib.DecodeID(chi.URLParam(r, "pid"))
 	if err != nil {
