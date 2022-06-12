@@ -33,9 +33,9 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 
 	var post da.PostItem
 	if isThread {
-		post, err = da.Post.SelectItemByID(db, id)
-	} else {
 		post, err = da.FPost.SelectItemByID(db, id)
+	} else {
+		post, err = da.Post.SelectItemByID(db, id)
 	}
 	app.PanicIfErr(err)
 
