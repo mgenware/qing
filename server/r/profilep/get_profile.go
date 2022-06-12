@@ -65,7 +65,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		}
 	default:
 		{
-			var posts []da.PostAGSelectItemsForUserProfileResult
+			var posts []da.PostItemForProfile
 			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 			app.PanicIfErr(err)
 			var feedListHTMLBuilder strings.Builder

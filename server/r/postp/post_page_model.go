@@ -19,7 +19,7 @@ import (
 var vPostPage = appHandler.MainPage().MustParseView("/post/postPage.html")
 
 type PostPageModel struct {
-	da.PostAGSelectItemByIDResult
+	da.PostItem
 
 	// Those props are used by template and thus not exposed in any API. No JSON keys attached.
 	PostURL    string
@@ -29,10 +29,12 @@ type PostPageModel struct {
 	UserHTML   string
 	CreatedAt  string
 	ModifiedAt string
+	// Only available for threads.
+	ForumID string
 }
 
-func NewPostPageModel(p *da.PostAGSelectItemByIDResult) PostPageModel {
-	d := PostPageModel{PostAGSelectItemByIDResult: *p}
+func NewPostPageModel(p *da.PostItem) PostPageModel {
+	d := PostPageModel{PostItem: *p}
 	eid := clib.EncodeID(p.ID)
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid
@@ -41,5 +43,8 @@ func NewPostPageModel(p *da.PostAGSelectItemByIDResult) PostPageModel {
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
 	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypePost, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
+	if p.ForumID != nil {
+		d.ForumID = clib.EncodeID(*p.ForumID)
+	}
 	return d
 }

@@ -89,22 +89,8 @@ func (mrTable *FPostAGType) RefreshLastRepliedAt(mrQueryable mingru.Queryable, i
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-type FPostAGSelectItemByIDResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ContentHTML   string    `json:"contentHTML,omitempty"`
-	ForumID       *uint64   `json:"forumID,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	Title         string    `json:"title,omitempty"`
-	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
-	UserName      string    `json:"-"`
-}
-
-func (mrTable *FPostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (FPostAGSelectItemByIDResult, error) {
-	var result FPostAGSelectItemByIDResult
+func (mrTable *FPostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostItem, error) {
+	var result PostItem
 	err := mrQueryable.QueryRow("SELECT `f_post`.`id`, `f_post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `f_post`.`created_at`, `f_post`.`modified_at`, `f_post`.`content`, `f_post`.`likes`, `f_post`.`cmt_count`, `f_post`.`title`, `f_post`.`forum_id` FROM `f_post` AS `f_post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `f_post`.`user_id` WHERE `f_post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title, &result.ForumID)
 	if err != nil {
 		return result, err
@@ -120,17 +106,7 @@ const (
 	FPostAGSelectItemsForPostCenterOrderBy1CmtCount
 )
 
-type FPostAGSelectItemsForPostCenterResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ForumID       *uint64   `json:"forumID,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	Title         string    `json:"title,omitempty"`
-}
-
-func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 FPostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]FPostAGSelectItemsForPostCenterResult, bool, error) {
+func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 FPostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]PostForPostCenter, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case FPostAGSelectItemsForPostCenterOrderBy1CreatedAt:
@@ -162,13 +138,13 @@ func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryabl
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]FPostAGSelectItemsForPostCenterResult, 0, limit)
+	result := make([]PostForPostCenter, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item FPostAGSelectItemsForPostCenterResult
+			var item PostForPostCenter
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.Title, &item.CmtCount, &item.ForumID)
 			if err != nil {
 				return nil, false, err
@@ -183,16 +159,7 @@ func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryabl
 	return result, itemCounter > len(result), nil
 }
 
-type FPostAGSelectItemsForUserProfileResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ForumID       *uint64   `json:"forumID,omitempty"`
-	ID            uint64    `json:"-"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	Title         string    `json:"title,omitempty"`
-}
-
-func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]FPostAGSelectItemsForUserProfileResult, bool, error) {
+func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostItemForProfile, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -208,13 +175,13 @@ func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryab
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]FPostAGSelectItemsForUserProfileResult, 0, limit)
+	result := make([]PostItemForProfile, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item FPostAGSelectItemsForUserProfileResult
+			var item PostItemForProfile
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount, &item.ForumID)
 			if err != nil {
 				return nil, false, err

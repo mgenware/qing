@@ -37,16 +37,8 @@ type ProfilePageWindData struct {
 	Website string
 }
 
-type ProfilePostItem struct {
-	da.PostAGSelectItemsForUserProfileResult
-
-	URL        string
-	CreatedAt  string
-	ModifiedAt string
-}
-
-type ProfileThreadItem struct {
-	da.ThreadAGSelectItemsForUserProfileResult
+type ProfilePostItemModel struct {
+	da.PostItemForProfile
 
 	URL        string
 	CreatedAt  string
@@ -71,16 +63,10 @@ func NewProfilePageModelFromUser(profile *da.UserAGSelectProfileResult, stats *d
 	return d
 }
 
-func NewProfilePostItem(item *da.PostAGSelectItemsForUserProfileResult) ProfilePostItem {
-	d := ProfilePostItem{PostAGSelectItemsForUserProfileResult: *item}
+func NewProfilePostItem(item *da.PostItemForProfile) ProfilePostItemModel {
+	d := ProfilePostItemModel{PostItemForProfile: *item}
 	d.URL = appURL.Get().Post(item.ID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
-	return d
-}
-
-func NewProfileThreadItem(item *da.ThreadAGSelectItemsForUserProfileResult) ProfileThreadItem {
-	d := ProfileThreadItem{ThreadAGSelectItemsForUserProfileResult: *item}
-	d.URL = appURL.Get().Thread(item.ID)
 	return d
 }

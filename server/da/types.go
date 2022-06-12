@@ -45,6 +45,39 @@ type FindUserResult struct {
 	Name     string `json:"name,omitempty"`
 }
 
+type PostForPostCenter struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+}
+
+type PostItem struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
+}
+
+type PostItemForProfile struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
+	ID            uint64    `json:"-"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+}
+
 type ThreadFeedResult struct {
 	CmtCount      uint       `json:"cmtCount,omitempty"`
 	ID            uint64     `json:"-"`

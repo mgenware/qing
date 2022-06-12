@@ -48,6 +48,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
 
     const t = this.baseTable();
     const idCol = t.id.privateAttr();
+    const contentName = this.contentName();
     this.joinedUserTable = t.user_id.join(user);
     this.userColumns = [t.user_id, this.joinedUserTable.name, this.joinedUserTable.icon_name].map(
       (c) => c.privateAttr(),
@@ -57,7 +58,10 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
     const { dateColumns } = this;
 
     this.updateConditions = defaultUpdateConditions(t);
-    this.selectItemByID = mm.selectRow(...this.colsOfSelectItem()).by(t.id);
+    this.selectItemByID = mm
+      .selectRow(...this.colsOfSelectItem())
+      .by(t.id)
+      .resultTypeNameAttr(`${contentName}Item`);
 
     const profileCols = this.colsOfSelectItemsForUserProfile();
     this.selectItemsForUserProfile = profileCols.length
@@ -66,6 +70,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .pageMode()
           .by(t.user_id)
           .orderByDesc(t.created_at)
+          .resultTypeNameAttr(`${contentName}ItemForProfile`)
       : mm.emptyAction;
     this.selectItemSrc = mm
       .selectRow(t.content, ...this.extraSelectSrcItemCols())
@@ -80,6 +85,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .pageMode()
           .by(t.user_id)
           .orderByParams(this.orderByParamsOfSelectItemsForPostCenter())
+          .resultTypeNameAttr(`${contentName}ForPostCenter`)
       : mm.emptyAction;
 
     this.deleteItem =
@@ -111,6 +117,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
   }
 
   // Gets the underlying `ContentBase` table.
+  abstract contentName(): string;
   abstract baseTable(): T;
   abstract baseCmtTable(): ContentBaseCmt;
 

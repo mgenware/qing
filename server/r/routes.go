@@ -68,9 +68,9 @@ func Start() {
 	// User router.
 	langRouter().Get("/"+appdef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
-	langRouter().Get("/"+appdef.RoutePost+"/{pid}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	langRouter().Get("/"+appdef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// Thread router.
-	langRouter().Get("/"+appdef.RouteThread+"/{tid}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
+	langRouter().Get("/"+appdef.RouteThread+"/{id}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
 	// M (Management) router.
 	langRouter().Mount("/"+appdef.RouteM, mp.Router)
 	// MX (Admin management) router.

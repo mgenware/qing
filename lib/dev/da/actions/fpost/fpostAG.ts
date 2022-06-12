@@ -15,6 +15,11 @@ import userStatsAG from '../user/userStatsAG.js';
 export class FPostAG extends ContentWithTitleBaseAG<FPost> {
   refreshLastRepliedAt = mm.updateOne().set(t.last_replied_at, mm.datetimeNow()).by(t.id);
 
+  // `contentName` should be the same as `PostAG` so that they can share a single set of result types.
+  override contentName(): string {
+    return 'Post';
+  }
+
   override baseTable() {
     return t;
   }
