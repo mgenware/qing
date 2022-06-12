@@ -49,34 +49,20 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	var feedListHTML string
 	var hasNext bool
-	switch tab {
-	case appdef.KeyThreads:
-		{
-			var threads []da.ThreadAGSelectItemsForUserProfileResult
-			threads, hasNext, err = da.Thread.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
-			app.PanicIfErr(err)
-			var feedListHTMLBuilder strings.Builder
-			for _, thread := range threads {
-				threadData := NewProfileThreadItem(&thread)
-				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(threadData))
-			}
-			feedListHTML = feedListHTMLBuilder.String()
-			break
-		}
-	default:
-		{
-			var posts []da.PostItemForProfile
-			posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
-			app.PanicIfErr(err)
-			var feedListHTMLBuilder strings.Builder
-			for _, post := range posts {
-				postData := NewProfilePostItem(&post)
-				feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
-			}
-			feedListHTML = feedListHTMLBuilder.String()
-			break
-		}
+
+	var posts []da.PostItemForProfile
+	if tab == appdef.KeyThreads {
+		posts, hasNext, err = da.FPost.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
+	} else {
+		posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	}
+	app.PanicIfErr(err)
+	var feedListHTMLBuilder strings.Builder
+	for _, post := range posts {
+		postData := NewProfilePostItem(&post)
+		feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
+	}
+	feedListHTML = feedListHTMLBuilder.String()
 
 	pageURLFormatter := NewProfilePageURLFormatter(uid, tab)
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)

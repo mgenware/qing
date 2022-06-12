@@ -21,6 +21,7 @@ import (
 )
 
 var myPostsColumnNameToEnumMap map[string]da.PostAGSelectItemsForPostCenterOrderBy1
+var myThreadsColumnNameToEnumMap map[string]da.FPostAGSelectItemsForPostCenterOrderBy1
 
 func init() {
 	myPostsColumnNameToEnumMap = map[string]da.PostAGSelectItemsForPostCenterOrderBy1{
@@ -28,10 +29,15 @@ func init() {
 		appdef.KeyCreated:  da.PostAGSelectItemsForPostCenterOrderBy1CreatedAt,
 		appdef.KeyLikes:    da.PostAGSelectItemsForPostCenterOrderBy1Likes,
 	}
+	myThreadsColumnNameToEnumMap = map[string]da.FPostAGSelectItemsForPostCenterOrderBy1{
+		appdef.KeyComments: da.FPostAGSelectItemsForPostCenterOrderBy1CmtCount,
+		appdef.KeyCreated:  da.FPostAGSelectItemsForPostCenterOrderBy1CreatedAt,
+		appdef.KeyLikes:    da.FPostAGSelectItemsForPostCenterOrderBy1Likes,
+	}
 }
 
 type pcPost struct {
-	da.PostAGSelectItemsForPostCenterResult
+	da.PostForPostCenter
 
 	EID        string `json:"id"`
 	URL        string `json:"url"`
@@ -39,8 +45,8 @@ type pcPost struct {
 	ModifiedAt string `json:"modifiedAt"`
 }
 
-func newPCPost(p *da.PostAGSelectItemsForPostCenterResult, uid uint64) pcPost {
-	d := pcPost{PostAGSelectItemsForPostCenterResult: *p}
+func newPCPost(p *da.PostForPostCenter, uid uint64) pcPost {
+	d := pcPost{PostForPostCenter: *p}
 	d.URL = appURL.Get().Post(p.ID)
 	d.EID = clib.EncodeID(uid)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -48,7 +54,7 @@ func newPCPost(p *da.PostAGSelectItemsForPostCenterResult, uid uint64) pcPost {
 	return d
 }
 
-func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
+func myPostsCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -58,10 +64,18 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.LenMaxGenericString)
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
-	rawPosts, hasNext, err := da.Post.SelectItemsForPostCenter(appDB.DB(), uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
+	db := appDB.DB()
+	var rawPosts []da.PostForPostCenter
+	var hasNext bool
+	var err error
+	if isThread {
+		rawPosts, hasNext, err = da.FPost.SelectItemsForPostCenter(db, uid, page, pageSize, myThreadsColumnNameToEnumMap[sortBy], desc)
+	} else {
+		rawPosts, hasNext, err = da.Post.SelectItemsForPostCenter(db, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
+	}
 	app.PanicIfErr(err)
 
-	stats, err := da.UserStats.SelectStats(appDB.DB(), uid)
+	stats, err := da.UserStats.SelectStats(db, uid)
 	app.PanicIfErr(err)
 
 	posts := make([]pcPost, len(rawPosts))
@@ -70,4 +84,12 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 	respData := apicom.NewPaginatedList(posts, hasNext, stats.PostCount)
 	return resp.MustComplete(respData)
+}
+
+func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
+	return myPostsCore(w, r, false)
+}
+
+func myThreads(w http.ResponseWriter, r *http.Request) handler.JSON {
+	return myPostsCore(w, r, true)
 }

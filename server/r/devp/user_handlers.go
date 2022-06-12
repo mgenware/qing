@@ -32,11 +32,3 @@ func userThreadCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicIfErr(err)
 	return resp.MustComplete(c)
 }
-
-func userThreadMsgCount(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
-	uid := getUIDFromRequest(r)
-	c, err := da.UserStats.TestSelectThreadMsgCount(appDB.DB(), uid)
-	app.PanicIfErr(err)
-	return resp.MustComplete(c)
-}
