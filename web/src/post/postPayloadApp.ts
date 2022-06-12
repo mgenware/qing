@@ -27,15 +27,18 @@ export class PostPayloadApp extends BaseElement {
 
   override render() {
     const hostID = postWind.id;
+    const contentType = postWind.isThread
+      ? appdef.contentBaseTypeThread
+      : appdef.contentBaseTypePost;
     return html`
       <like-app
         .iconSize=${'md'}
         .initialLikes=${postWind.initialLikes ?? 0}
         .initialHasLiked=${!!postWind.initialHasLiked}
         .hostID=${hostID}
-        .hostType=${appdef.contentBaseTypePost}></like-app>
+        .hostType=${contentType}></like-app>
       <cmt-app
-        .host=${{ id: hostID, type: appdef.contentBaseTypePost }}
+        .host=${{ id: hostID, type: contentType }}
         .initialTotalCmtCount=${postWind.cmtCount ?? 0}></cmt-app>
     `;
   }

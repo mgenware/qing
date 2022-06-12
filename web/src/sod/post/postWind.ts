@@ -18,5 +18,6 @@ export interface PostWind {
   cmtCount?: number;
   initialLikes?: number;
   initialHasLiked?: boolean;
+  isThread?: boolean;
   forumID: string;
 }

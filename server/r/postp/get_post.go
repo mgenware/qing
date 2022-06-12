@@ -50,10 +50,14 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	}
 
 	postModel := NewPostPageModel(&post)
-	title := post.Title
-	d := appHandler.MainPageData(title, vPostPage.MustExecuteToString(postModel))
+	var fid *string
+	if post.ForumID != nil {
+		str := clib.EncodeID(*post.ForumID)
+		fid = &str
+	}
+	d := appHandler.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().ScriptString(postScript)
-	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, &postModel.ForumID)
+	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid)
 	return resp.MustComplete(d)
 }
 

@@ -18,15 +18,17 @@ type PostWind struct {
 	CmtCount        uint    `json:"cmtCount,omitempty"`
 	InitialLikes    uint    `json:"initialLikes,omitempty"`
 	InitialHasLiked bool    `json:"initialHasLiked,omitempty"`
+	IsThread        bool    `json:"isThread,omitempty"`
 	ForumID         *string `json:"forumID,omitempty"`
 }
 
-func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, forumID *string) PostWind {
+func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, isThread bool, forumID *string) PostWind {
 	return PostWind{
 		ID: id,
 		CmtCount: cmtCount,
 		InitialLikes: initialLikes,
 		InitialHasLiked: initialHasLiked,
+		IsThread: isThread,
 		ForumID: forumID,
 	}
 }
