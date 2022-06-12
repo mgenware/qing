@@ -5,3 +5,4 @@ PostWind:
   cmtCount: uint
   initialLikes: uint
   initialHasLiked: bool
+  forumID: '*string'

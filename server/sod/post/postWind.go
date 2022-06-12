@@ -14,17 +14,19 @@
 package postSod
 
 type PostWind struct {
-	ID              string `json:"id,omitempty"`
-	CmtCount        uint   `json:"cmtCount,omitempty"`
-	InitialLikes    uint   `json:"initialLikes,omitempty"`
-	InitialHasLiked bool   `json:"initialHasLiked,omitempty"`
+	ID              string  `json:"id,omitempty"`
+	CmtCount        uint    `json:"cmtCount,omitempty"`
+	InitialLikes    uint    `json:"initialLikes,omitempty"`
+	InitialHasLiked bool    `json:"initialHasLiked,omitempty"`
+	ForumID         *string `json:"forumID,omitempty"`
 }
 
-func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool) PostWind {
+func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, forumID *string) PostWind {
 	return PostWind{
 		ID: id,
 		CmtCount: cmtCount,
 		InitialLikes: initialLikes,
 		InitialHasLiked: initialHasLiked,
+		ForumID: forumID,
 	}
 }
