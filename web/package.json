@@ -32,8 +32,8 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/mocha": "^9.1.1",
-    "@web/test-runner": "^0.13.28",
-    "@web/test-runner-playwright": "^0.8.8",
+    "@web/test-runner": "^0.13.30",
+    "@web/test-runner-playwright": "^0.8.9",
     "html-validate": "7.1.1",
     "lit-analyzer": "2.0.0-pre.2",
     "qing-t": "^6.1.0"
