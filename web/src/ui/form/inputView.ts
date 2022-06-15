@@ -171,7 +171,7 @@ export class InputView extends BaseElement {
     const { inputValidated } = this;
     const validationError = inputValidated ? this.validationError : '';
     return html`
-      ${this.label ? html`<label-view for=${inputID}>${this.label}</label-view>` : ''}
+      ${this.label ? html`<label class="app-form-label" for=${inputID}>${this.label}</label>` : ''}
       <input
         class=${inputValidated ? 'validated' : ''}
         id=${inputID}

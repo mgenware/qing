@@ -97,7 +97,7 @@ export class EditProfileApp extends StatefulPage {
           value=${this.location}
           @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
-        <label-view for=${editorID}>${ls.bio}</label-view>
+        <label class="app-form-label" for=${editorID}>${ls.bio}</label>
         <editor-view id=${editorID} class="bio-editor"></editor-view>
 
         <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
