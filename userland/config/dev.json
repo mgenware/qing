@@ -28,6 +28,9 @@
   },
   "debug": {
     "reload_views_on_refresh": true,
+    "mailbox": {
+      "dir": "/qing_data/mailbox"
+    },
     "turbo_web": {
       "dir": "/qing/web",
       "url": "/static-turbo"

@@ -12,6 +12,8 @@ import (
 	"os"
 )
 
+const DefaultFileWritePerm = 0644
+
 // CopyReaderToFile writes the contents of the given reader to the specified file.
 func CopyReaderToFile(reader io.Reader, file string) error {
 	fileObj, err := os.Create(file)

@@ -12,6 +12,7 @@ import (
 	"os"
 	"qing/a/appLog"
 	"qing/a/profile/profiles"
+	"qing/lib/iolib"
 
 	"github.com/mgenware/goutil/iox"
 )
@@ -47,7 +48,7 @@ func writeAppProfile(profile *AppProfile, path string) error {
 		return err
 	}
 
-	return os.WriteFile(path, bytes, 0644)
+	return os.WriteFile(path, bytes, iolib.DefaultFileWritePerm)
 }
 
 func newAppProfile() *AppProfile {
