@@ -24,7 +24,6 @@ import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import 'ui/editor/editorView';
 import EditorView from 'ui/editor/editorView';
-import 'ui/form/labelView';
 
 const editorID = 'editor';
 

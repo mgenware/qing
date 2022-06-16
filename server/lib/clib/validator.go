@@ -56,10 +56,10 @@ func MustGetMinMaxStringFromDict(dict map[string]any, key string, min, max int) 
 	val := MustGetUnsafeStringFromDict(dict, key)
 	length := utf8.RuneCountInString(val)
 	if length > max {
-		panic(fmt.Sprintf("The argument `%v` has exceeded the max length (%v) allowed", key, max))
+		panic(fmt.Sprintf("The argument `%v` has exceeded the max allowed length %v", key, max))
 	}
 	if length < min {
-		panic(fmt.Sprintf("The argument `%v` is less than the required length (%v)", key, min))
+		panic(fmt.Sprintf("The argument `%v` is less than the required length %v", key, min))
 	}
 	return val
 }

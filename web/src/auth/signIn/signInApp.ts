@@ -33,7 +33,7 @@ export class SignInApp extends BaseElement {
 
   override render() {
     return html`
-      <h2>${ls.createAnAcc}</h2>
+      <h2>${ls.signIn}</h2>
       <div>
         <input-view
           required

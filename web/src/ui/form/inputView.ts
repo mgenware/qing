@@ -10,7 +10,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import * as lp from 'lit-props';
 import debounceFn from 'lib/debounce';
 import './inputErrorView';
-import './labelView';
 
 const inputID = 'input-id';
 
