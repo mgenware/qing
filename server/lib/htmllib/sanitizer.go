@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package sanitizer
+package htmllib
 
 import (
 	"github.com/microcosm-cc/bluemonday"
@@ -22,8 +22,8 @@ func NewSanitizer() *Sanitizer {
 	return &Sanitizer{policy: p}
 }
 
-// Sanitize sanitizes the given input string.
-func (s *Sanitizer) Sanitize(input string) (string, int) {
+// Sanitize sanitizes the given input HTML string.
+func (s *Sanitizer) Sanitize(html string) (string, int) {
 	// Return the sanitized content along with a dummy integer as an argument stub for later use
-	return s.policy.Sanitize(input), 0
+	return s.policy.Sanitize(html), 0
 }
