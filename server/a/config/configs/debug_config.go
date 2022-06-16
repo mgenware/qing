@@ -12,10 +12,15 @@ type TurboWebConfig struct {
 	URL string `json:"url"`
 }
 
+type MailBoxConfig struct {
+	Dir string `json:"dir"`
+}
+
 // DebugConfig ...
 type DebugConfig struct {
 	ReloadViewsOnRefresh        bool            `json:"reload_views_on_refresh"`
 	PanicOnUnexpectedHTMLErrors bool            `json:"panic_on_unexpected_html_errors"`
 	PanicOnUnexpectedJSONErrors bool            `json:"panic_on_unexpected_json_errors"`
 	TurboWeb                    *TurboWebConfig `json:"turbo_web"`
+	MailBox                     *MailBoxConfig  `json:"mailbox"`
 }

@@ -22,7 +22,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-const schemaFileName = "qing-conf.schema.json"
+const schemaFileName = "schema.json"
 
 const (
 	testNone = iota

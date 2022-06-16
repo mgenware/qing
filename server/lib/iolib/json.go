@@ -26,5 +26,5 @@ func WriteJSONFile(file string, v any) error {
 		return err
 	}
 
-	return os.WriteFile(file, bytes, 0644)
+	return os.WriteFile(file, bytes, DefaultFileWritePerm)
 }

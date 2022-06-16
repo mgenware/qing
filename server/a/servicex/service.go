@@ -14,21 +14,31 @@ import (
 	"qing/a/profile"
 	"qing/a/servicex/emailver"
 	hashingalg "qing/a/servicex/hashingAlg"
-	"qing/fx/sanitizer"
+	"qing/a/servicex/mailnoti"
+	"qing/lib/htmllib"
 )
 
 // Service contains components for curtain independent tasks.
 type Service struct {
-	Sanitizer           *sanitizer.Sanitizer
+	Sanitizer           *htmllib.Sanitizer
 	HashingAlg          *hashingalg.HashingAlg
 	RegEmailVerificator *emailver.EmailVerificator
+	MailNoti            *mailnoti.MailNoti
 }
 
 // MustNewService creates a new Service object.
 func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger app.CoreLogger, msConn app.CoreMemoryStoreConn) *Service {
 	s := &Service{}
-	s.Sanitizer = sanitizer.NewSanitizer()
+	debugConf := conf.Debug
+
+	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
 	s.RegEmailVerificator = emailver.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailTimeout)
+
+	var mailnotiDevDir string
+	if debugConf != nil {
+		mailnotiDevDir = debugConf.MailBox.Dir
+	}
+	s.MailNoti = mailnoti.NewMailNoti(mailnotiDevDir)
 	return s
 }

@@ -15,6 +15,12 @@
             "dir": { "type": "string" },
             "url": { "type": "string" }
           }
+        },
+        "mailbox": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string" }
+          }
         }
       }
     },
