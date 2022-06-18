@@ -89,12 +89,13 @@ async function buildLangJSFiles() {
 async function buildWeb() {
   const lsJSON = await mfs.readTextFileAsync(qdu.defaultWebLangFile);
   const lsObj = JSON.parse(lsJSON) as Record<string, string>;
-  return Promise.all([buildWebLSDef(lsObj), buildServerDictFiles(lsObj), buildLangJSFiles()]);
+  return Promise.all([buildWebLSDef(lsObj), buildLangJSFiles()]);
 }
 
 async function buildServer() {
-  const lsJSON = await mfs.readTextFileAsync(qdu.defaultWebLangFile);
-  return Promise.all([buildDefaultUTLang(lsJSON)]);
+  const lsJSON = await mfs.readTextFileAsync(qdu.defaultServerLangFile);
+  const lsObj = JSON.parse(lsJSON) as Record<string, string>;
+  return Promise.all([buildServerDictFiles(lsObj), buildDefaultUTLang(lsJSON)]);
 }
 
 await Promise.all([buildWeb(), buildServer()]);
