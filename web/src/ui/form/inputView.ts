@@ -139,11 +139,10 @@ export class InputView extends BaseElement {
   @lp.string type: InputTypeValues = 'text';
   @lp.string value = '';
   @lp.string placeholder = '';
-  @lp.bool isEmail = false;
   @lp.bool debounceOnChange = false;
 
-  @lp.string private autocomplete?: AutoCompleteValues;
-  @lp.string private inputmode = '';
+  @lp.string autocomplete?: AutoCompleteValues;
+  @lp.string inputmode?: InputTypeValues;
 
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
@@ -160,10 +159,6 @@ export class InputView extends BaseElement {
     if (this.debounceOnChange) {
       this.debouncedOnChangeHandler = debounceFn(500, this.onChangeDebounced);
     }
-    if (this.isEmail) {
-      this.autocomplete = 'email';
-      this.inputmode = 'email';
-    }
   }
 
   override render() {
@@ -178,7 +173,7 @@ export class InputView extends BaseElement {
         type=${this.type}
         value=${this.value}
         autocomplete=${ifDefined(this.autocomplete)}
-        inputmode=${this.inputmode}
+        inputmode=${ifDefined(this.inputmode)}
         placeholder=${this.placeholder}
         @input=${this.handleInput}
         style=${`margin-bottom: ${validationError ? '0.5rem' : '0'}`} />

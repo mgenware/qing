@@ -53,7 +53,8 @@ export class RegApp extends BaseElement {
         <input-view
           class="m-t-md"
           required
-          isEmail
+          .autocomplete=${'email'}
+          .inputmode=${'email'}
           type="email"
           label=${ls.email}
           value=${this.email}
@@ -63,6 +64,7 @@ export class RegApp extends BaseElement {
           class="m-t-md"
           required
           type="password"
+          .autocomplete=${'new-password'}
           label=${ls.password}
           value=${this.password}
           @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
@@ -71,6 +73,7 @@ export class RegApp extends BaseElement {
           class="m-t-md"
           required
           type="password"
+          .autocomplete=${'new-password'}
           label=${ls.confirmPassword}
           value=${this.confirmPassword}
           @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}></input-view>
