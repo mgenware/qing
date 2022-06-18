@@ -7,7 +7,7 @@
 
 import { goConstGenCore, PropData } from 'go-const-gen';
 import * as mfs from 'm-fs';
-import * as path from 'path';
+import * as np from 'path';
 import * as qdu from '@qing/devutil';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
@@ -75,22 +75,26 @@ async function buildDistJS(name: string, file: string): Promise<void> {
   // Parse and stringify the file content to make sure it's valid JSON.
   const outContent = `window.ls = ${JSON.stringify(JSON.parse(content))}`;
   const outDir = qdu.webPath('../userland/static/g/lang');
-  const outFile = path.join(outDir, `${name}.js`);
+  const outFile = np.join(outDir, `${name}.js`);
   print(`Building dist JS "${outFile}"`);
   await mfs.writeFileAsync(outFile, outContent);
 }
 
-async function buildLangs() {
+async function buildLangJSFiles() {
   const names = await qdu.langNamesAsync();
-  const files = names.map(qdu.langDataPath);
+  const files = names.map((name) => np.join(qdu.webLangDir, `${name}.json`));
   await Promise.all(files.map((f, idx) => buildDistJS(names[idx] as string, f)));
 }
 
-const lsJSON = await mfs.readTextFileAsync(qdu.defaultLangPath);
-const lsObj = JSON.parse(lsJSON) as Record<string, string>;
-await Promise.all([
-  buildWebLSDef(lsObj),
-  buildServerDictFiles(lsObj),
-  buildLangs(),
-  buildDefaultUTLang(lsJSON),
-]);
+async function buildWeb() {
+  const lsJSON = await mfs.readTextFileAsync(qdu.defaultWebLangFile);
+  const lsObj = JSON.parse(lsJSON) as Record<string, string>;
+  return Promise.all([buildWebLSDef(lsObj), buildServerDictFiles(lsObj), buildLangJSFiles()]);
+}
+
+async function buildServer() {
+  const lsJSON = await mfs.readTextFileAsync(qdu.defaultWebLangFile);
+  return Promise.all([buildDefaultUTLang(lsJSON)]);
+}
+
+await Promise.all([buildWeb(), buildServer()]);

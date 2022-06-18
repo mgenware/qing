@@ -10,11 +10,15 @@ import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 import isObj from 'is-plain-obj';
 
+const defaultLangFile = 'en.json';
+
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
 const rootDir = np.join(dirPath, '../../../..');
-export const langsDir = np.join(rootDir, 'userland/langs');
-export const langsDataDir = np.join(langsDir, 'data');
-export const defaultLangPath = np.join(langsDataDir, 'en.json');
+export const langDir = np.join(rootDir, 'userland/langs');
+export const webLangDir = np.join(langDir, 'web');
+export const defaultWebLangFile = np.join(webLangDir, defaultLangFile);
+export const serverLangDir = np.join(langDir, 'server');
+export const defaultServerLangFile = np.join(serverLangDir, defaultLangFile);
 
 export function serverPath(path = ''): string {
   return np.join(rootDir, 'server', path);
@@ -45,7 +49,7 @@ export function webSodPath(): string {
 }
 
 export async function langNamesAsync(): Promise<string[]> {
-  const jsonFile = np.join(langsDir, 'langs.json');
+  const jsonFile = np.join(langDir, 'langs.json');
   const obj = JSON.parse(await mfs.readTextFileAsync(jsonFile)) as unknown;
   if (!isObj(obj)) {
     throw new Error(`Expect an object. Got $${JSON.stringify(obj)}`);
@@ -55,8 +59,4 @@ export async function langNamesAsync(): Promise<string[]> {
     throw new Error(`Assertion failed. \`names\` is not an array. Got: ${names}`);
   }
   return names;
-}
-
-export function langDataPath(name: string): string {
-  return np.join(langsDataDir, `${name}.json`);
 }
