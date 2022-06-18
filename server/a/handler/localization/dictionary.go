@@ -19,7 +19,10 @@ import (
 
 // Dictionary ...
 type Dictionary struct {
-	SiteName string `json:"siteName"`
+	ErrOccurred         string `json:"errOccurred"`
+	RegEmailVeriExpired string `json:"regEmailVeriExpired"`
+	ResNotFound         string `json:"resNotFound"`
+	SiteName            string `json:"siteName"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.

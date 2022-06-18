@@ -14,5 +14,8 @@ var TestDict *Dictionary
   
 func init() {
 	TestDict = &Dictionary{}
+	TestDict.ErrOccurred = "ls.errOccurred"
+	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"
+	TestDict.ResNotFound = "ls.resNotFound"
 	TestDict.SiteName = "ls.siteName"
 }

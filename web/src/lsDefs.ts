@@ -97,7 +97,6 @@ export default interface LSDefs {
   regEmailSentTitle: string;
   regEmailSentContent: string;
   goToYourEmail: string;
-  regEmailVeriExpired: string;
   pwdDontMatch: string;
   noContentAvailable: string;
   yourPosts: string;

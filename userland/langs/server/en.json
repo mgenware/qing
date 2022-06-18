@@ -1,3 +1,6 @@
 {
-  "siteName": "Qing"
+  "siteName": "Qing",
+  "errOccurred": "An error occurred",
+  "resNotFound": "The resource you requested does not exist.",
+  "regEmailVeriExpired": "Link has expired, please sign up again."
 }

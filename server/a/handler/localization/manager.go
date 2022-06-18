@@ -36,7 +36,7 @@ type Manager struct {
 // NewManagerFromConfig creates a Manager from a config.
 func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 	if len(conf.Langs) == 0 {
-		return nil, errors.New("Unexpected empty `langs` config")
+		return nil, errors.New("unexpected empty `langs` config")
 	}
 
 	dicts := make(map[string]*Dictionary)
