@@ -18,12 +18,12 @@ import (
 var errRouter = chi.NewRouter()
 
 func init() {
-	errRouter.Get("panicServer", panicServerHandler)
-	errRouter.Get("panicUser", panicUserHandler)
-	errRouter.Get("failServer", failServerHandler)
-	errRouter.Get("failUser", failUserHandler)
-	errRouter.Post("panicServerAPI", panicServerAPI)
-	errRouter.Post("panicUserAPI", panicUserAPI)
+	errRouter.Get("/panicServer", panicServerHandler)
+	errRouter.Get("/panicUser", panicUserHandler)
+	errRouter.Get("/failServer", failServerHandler)
+	errRouter.Get("/failUser", failUserHandler)
+	errRouter.Post("/panicServerAPI", panicServerAPI)
+	errRouter.Post("/panicUserAPI", panicUserAPI)
 }
 
 func panicServerHandler(w http.ResponseWriter, r *http.Request) {
