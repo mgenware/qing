@@ -88,10 +88,12 @@ func Start() {
 
 	debugConfig := conf.Debug
 	if debugConfig != nil {
-		// DEBUG only setup.
+		// ======== DEBUG only setup ========
 
 		// Dev page.
 		r.Mount("/"+appdef.RouteDev, devp.Router)
+
+		// ======== End of DEBUG only setup ========
 	}
 
 	appLog.Get().Info("server-starting", "port", httpConf.Port)

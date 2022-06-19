@@ -26,6 +26,8 @@ func init() {
 	authRouter.Get("/in/{uid}", signInGETHandler)
 	authRouter.Get("/out", signOutGETHandler)
 	authRouter.Get("/*", defaultHandler)
+
+	Router.Mount("/err", errRouter)
 	Router.Mount("/auth", authRouter)
 
 	Router.Mount("/api", apiRouter())
