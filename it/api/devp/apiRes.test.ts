@@ -24,7 +24,7 @@ ita(
   null,
   null,
   (r) => {
-    expect(r).toEqual({ code: 1, message: 'API error for testing' });
+    expect(r).toEqual({ code: 1, msg: 'API error for testing' });
   },
   { ignoreAPIError: true },
 );
@@ -35,7 +35,7 @@ ita(
   null,
   null,
   (r) => {
-    expect(r).toEqual({ code: 10000, message: 'API panic error for testing' });
+    expect(r).toEqual({ code: 10000, msg: 'API panic error for testing' });
   },
   { ignoreAPIError: true },
 );

@@ -44,8 +44,8 @@ export const errorCodes = {
 // Pre-defined API error results.
 export const errorResults = {
   notAuthorized: { code: errorCodes.notAuthorized },
-  rowNotUpdated: { code: errorCodes.generic, message: 'Expected 1 rows affected, got 0.' },
-  resNotFound: { code: errorCodes.resNotFound, message: 'Resource not found' },
+  rowNotUpdated: { code: errorCodes.generic, msg: 'Expected 1 rows affected, got 0.' },
+  resNotFound: { code: errorCodes.resNotFound, msg: 'Resource not found' },
 };
 
 export type CallCallback = (r: APIResult) => Promise<unknown>;
