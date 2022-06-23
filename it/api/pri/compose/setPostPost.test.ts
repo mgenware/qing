@@ -21,7 +21,7 @@ const entityBody = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Add', async () => {
+test('Add a post', async () => {
   await newUser(async (u) => {
     const pc = await postCount(u);
     await scPost(u, async ({ id }) => {
@@ -41,7 +41,7 @@ test('Add', async () => {
 itaNotAuthorized('Add: visitor', composeRoute.setEntity, null);
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Edit', async () => {
+test('Edit a post', async () => {
   await newUser(async (u) => {
     await scPost(u, async ({ id }) => {
       // Post content.
@@ -59,9 +59,9 @@ test('Edit', async () => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Edit: wrong user', async () => {
+test('Edit a post with another user', async () => {
   await newUser(async (u) => {
-    await scPost(u, async (id) => {
+    await scPost(u, async ({ id }) => {
       // Post content.
       const pc = await postCount(u);
       const r = await call(composeRoute.setEntity, { ...entityBody, id }, usr.admin, {

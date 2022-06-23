@@ -13,7 +13,7 @@ function makeText(content: string) {
 
 function makeHTML(content: string) {
   // Content HTML has an extra <p> added by editor.
-  return `<p>&lt;p&gt;${content}&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;</p>`;
+  return `<p>&lt;p&gt;${content}&lt;/p&gt;&lt;script&gt;alert(&#39;-39&#39;)&lt;/script&gt;</p>`;
 }
 
 // `sd` sample data.
