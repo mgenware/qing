@@ -5,18 +5,20 @@
  * be found in the LICENSE file.
  */
 
-const brCmd = 'npx playwright test --browser=chromium --config=pw.config.cjs';
+const brCmd = 'npx playwright test --project=chromium -c dist';
 
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',
   dev: {
     alias: 'd',
-    run: 'tsc -p . -w',
+    run: 'tsc --incremental -p . -w',
+  },
+  build: {
+    run: 'tsc -p .',
     before: {
       del: 'dist',
     },
   },
-  build: 'tsc -p .',
   api: 'mocha --parallel --require source-map-support/register --reporter dot dist/api/**/*.test.js',
   br: {
     run: brCmd,

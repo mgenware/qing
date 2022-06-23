@@ -27,8 +27,7 @@ import { devices } from '@playwright/test';
     Runs the tests in debug mode.
  */
 const config: PlaywrightTestConfig = {
-  testDir: 'dist/br/',
-  testMatch: '*.test.js',
+  testDir: './br',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
