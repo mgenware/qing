@@ -6,7 +6,6 @@
  */
 
 import { errorResults, itaResult, usr, call } from 'api';
-import test from 'node:test';
 import * as assert from 'node:assert';
 import { User } from 'base/call';
 import { newUser } from 'helper/user';
@@ -15,7 +14,7 @@ const url = 'admin/set-admin';
 const getAdminsURL = 'admin/admins';
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('set-admin: visitor', async () => {
+it('`set-admin` - Visitor', async () => {
   await newUser(async (tu) => {
     const r = await call(url, { target_user_id: tu.id, value: 1 }, null, { ignoreAPIError: true });
     assert.deepStrictEqual(r, errorResults.notAuthorized);
@@ -23,7 +22,7 @@ test('set-admin: visitor', async () => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('set-admin: user', async () => {
+it('`set-admin` - User', async () => {
   await newUser(async (tu) => {
     const r = await call(url, { target_user_id: tu.id, value: 1 }, usr.user, {
       ignoreAPIError: true,
@@ -33,7 +32,7 @@ test('set-admin: user', async () => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('set-admin: admin', async () => {
+it('`set-admin` - Admin', async () => {
   await newUser(async (tu) => {
     const { id } = tu;
     let r = await call(url, { target_user_id: id, value: 1 }, usr.admin);

@@ -11,6 +11,8 @@
     "@playwright/test": "^1.22.2",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
+    "@types/mocha": "^9.1.1",
+    "mocha": "^10.0.0",
     "node-fetch": "^3.2.6",
     "source-map-support": "^0.5.21"
   }

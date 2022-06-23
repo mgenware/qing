@@ -7,7 +7,6 @@
 
 import * as def from 'base/def';
 import { call, usr, itaNotAuthorized, errorResults } from 'api';
-import test from 'node:test';
 import * as assert from 'node:assert';
 import { scPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
@@ -21,7 +20,7 @@ const entityBody = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Add a post', async () => {
+it('Add a post', async () => {
   await newUser(async (u) => {
     const pc = await postCount(u);
     await scPost(u, async ({ id }) => {
@@ -41,7 +40,7 @@ test('Add a post', async () => {
 itaNotAuthorized('Add: visitor', composeRoute.setEntity, null);
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Edit a post', async () => {
+it('Edit a post', async () => {
   await newUser(async (u) => {
     await scPost(u, async ({ id }) => {
       // Post content.
@@ -59,7 +58,7 @@ test('Edit a post', async () => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Edit a post with another user', async () => {
+it('Edit a post with another user', async () => {
   await newUser(async (u) => {
     await scPost(u, async ({ id }) => {
       // Post content.

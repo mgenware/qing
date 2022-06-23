@@ -6,7 +6,6 @@
  */
 
 import { ita, usr, errorResults } from 'api';
-import test from 'node:test';
 import * as assert from 'node:assert';
 import { userInfo, newUser } from 'helper/user';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
@@ -24,7 +23,7 @@ ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('Add and remove a user', async () => {
+it('Add and remove a user', async () => {
   let id = '';
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring

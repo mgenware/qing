@@ -6,7 +6,6 @@
  */
 
 import { call, APIResult, CallOptions, User, errorResults } from 'base/call';
-import test from 'node:test';
 import * as assert from 'node:assert';
 
 // Re-exports.
@@ -22,7 +21,7 @@ export function ita(
   callOpt?: CallOptions,
 ) {
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  test(name, async () => {
+  it(name, async () => {
     const d = await call(url, body, user, callOpt);
     return handler(d);
   });
