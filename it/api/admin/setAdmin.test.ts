@@ -5,40 +5,45 @@
  * be found in the LICENSE file.
  */
 
-import { errorResults, it, itaResult, usr, call, expect } from 'api';
+import { errorResults, itaResult, usr, call } from 'api';
+import test from 'node:test';
+import * as assert from 'node:assert';
 import { User } from 'base/call';
 import { newUser } from 'helper/user';
 
 const url = 'admin/set-admin';
 const getAdminsURL = 'admin/admins';
 
-it('set-admin: visitor', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('set-admin: visitor', async () => {
   await newUser(async (tu) => {
     const r = await call(url, { target_user_id: tu.id, value: 1 }, null, { ignoreAPIError: true });
-    expect(r).toEqual(errorResults.notAuthorized);
+    assert.deepStrictEqual(r, errorResults.notAuthorized);
   });
 });
 
-it('set-admin: user', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('set-admin: user', async () => {
   await newUser(async (tu) => {
     const r = await call(url, { target_user_id: tu.id, value: 1 }, usr.user, {
       ignoreAPIError: true,
     });
-    expect(r).toEqual(errorResults.notAuthorized);
+    assert.deepStrictEqual(r, errorResults.notAuthorized);
   });
 });
 
-it('set-admin: admin', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('set-admin: admin', async () => {
   await newUser(async (tu) => {
     const { id } = tu;
     let r = await call(url, { target_user_id: id, value: 1 }, usr.admin);
-    expect(r).toEqual({});
+    assert.deepStrictEqual(r, {});
 
     // Check status.
     r = await call(getAdminsURL, null, usr.admin);
     let admins = r.d as User[];
     let adminData = admins.find((d) => d.id === id);
-    expect(adminData).toEqual({
+    assert.deepStrictEqual(adminData, {
       id,
       name: 'T',
       url: `/u/${id}`,
@@ -47,13 +52,13 @@ it('set-admin: admin', async () => {
 
     // Remove an admin.
     r = await call(url, { target_user_id: id, value: 0 }, usr.admin);
-    expect(r).toEqual({});
+    assert.deepStrictEqual(r, {});
 
     // Check status.
     r = await call(getAdminsURL, null, usr.admin);
     admins = r.d as User[];
     adminData = admins.find((d) => d.id === id);
-    expect(adminData).toBe(undefined);
+    assert.strictEqual(adminData, undefined);
   });
 });
 

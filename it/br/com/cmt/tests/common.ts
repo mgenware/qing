@@ -88,6 +88,7 @@ export class CmtFixtureWrapper {
   test(name: string, initialViewer: br.User | null, cb: (arg: { page: br.Page }) => Promise<void>) {
     return br.test(`${this.groupName} - ${name}`, async ({ page }) => {
       const p = br.$(page);
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       await this.fixture.start({ page: p, user: initialViewer }, () => cb({ page: p }));
     });
   }

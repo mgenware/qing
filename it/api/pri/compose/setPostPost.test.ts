@@ -6,7 +6,9 @@
  */
 
 import * as def from 'base/def';
-import { call, usr, expect, itaNotAuthorized, it, errorResults } from 'api';
+import { call, usr, itaNotAuthorized, errorResults } from 'api';
+import test from 'node:test';
+import * as assert from 'node:assert';
 import { scPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
 import { postCount, newUser } from 'helper/user';
@@ -18,43 +20,46 @@ const entityBody = {
   content: { contentHTML: def.sd.contentHTML, title: def.sd.title },
 };
 
-it('Add', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('Add', async () => {
   await newUser(async (u) => {
     const pc = await postCount(u);
     await scPost(u, async ({ id }) => {
       // Post content.
-      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
+      assert.deepStrictEqual(await entitySrc(id, appdef.contentBaseTypePost, u), {
         contentHTML: def.sd.contentHTML,
         title: def.sd.title,
       });
 
       // User post_count.
       const pc2 = await postCount(u);
-      expect(pc + 1).toBe(pc2);
+      assert.strictEqual(pc + 1, pc2);
     });
   });
 });
 
 itaNotAuthorized('Add: visitor', composeRoute.setEntity, null);
 
-it('Edit', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('Edit', async () => {
   await newUser(async (u) => {
     await scPost(u, async ({ id }) => {
       // Post content.
       const pc = await postCount(u);
       await call(composeRoute.setEntity, { ...entityBody, id }, u);
-      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
+      assert.deepStrictEqual(await entitySrc(id, appdef.contentBaseTypePost, u), {
         contentHTML: def.sd.contentHTML,
         title: def.sd.title,
       });
 
       const pc2 = await postCount(u);
-      expect(pc).toBe(pc2);
+      assert.strictEqual(pc, pc2);
     });
   });
 });
 
-it('Edit: wrong user', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('Edit: wrong user', async () => {
   await newUser(async (u) => {
     await scPost(u, async (id) => {
       // Post content.
@@ -62,10 +67,10 @@ it('Edit: wrong user', async () => {
       const r = await call(composeRoute.setEntity, { ...entityBody, id }, usr.admin, {
         ignoreAPIError: true,
       });
-      expect(r).toEqual(errorResults.rowNotUpdated);
+      assert.deepStrictEqual(r, errorResults.rowNotUpdated);
 
       const pc2 = await postCount(u);
-      expect(pc).toBe(pc2);
+      assert.strictEqual(pc, pc2);
     });
   });
 });

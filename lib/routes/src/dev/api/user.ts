@@ -9,6 +9,5 @@ import root from './root.js';
 
 const user = `${root}/user`;
 
-export const postCount = `${user}/post_count`;
-export const threadCount = `${user}/thread_count`;
-export const threadMsgCount = `${user}/thread_msg_count`;
+export const postCount = `${user}/post-count`;
+export const threadCount = `${user}/thread-count`;

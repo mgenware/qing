@@ -5,12 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { ita, usr, expect, it, errorResults } from 'api';
+import { ita, usr, errorResults } from 'api';
+import test from 'node:test';
+import * as assert from 'node:assert';
 import { userInfo, newUser } from 'helper/user';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
-  expect(r).toEqual({
+  assert.deepStrictEqual(r, {
     d: {
       admin: true,
       id: '2t',
@@ -21,20 +23,21 @@ ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
   });
 });
 
-it('Add and remove a user', async () => {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+test('Add and remove a user', async () => {
   let id = '';
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
     const ud = { id, iconURL: '/static/img/main/defavatar_50.png', url: `/u/${id}`, name: 'T' };
-    expect(u).toEqual(ud);
+    assert.deepStrictEqual(u, ud);
 
     // Make sure `__/auth/info` also works.
     const rInfo = await userInfo(id);
-    expect(rInfo).toEqual({ d: ud });
+    assert.deepStrictEqual(rInfo, { d: ud });
   });
   // Check if the user has been removed.
-  expect(id).toBeTruthy();
+  assert.ok(id);
   const nullInfo = await userInfo(id, { ignoreAPIError: true });
-  expect(nullInfo).toEqual(errorResults.resNotFound);
+  assert.deepStrictEqual(nullInfo, errorResults.resNotFound);
 });

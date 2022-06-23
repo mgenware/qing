@@ -19,7 +19,7 @@ export default {
       del: 'dist',
     },
   },
-  api: 'mocha --parallel --require source-map-support/register --reporter dot dist/api/**/*.test.js',
+  api: 'node -r source-map-support/register --test dist/api/',
   br: {
     run: brCmd,
     t: {

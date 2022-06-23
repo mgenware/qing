@@ -6,13 +6,11 @@
  */
 
 import { call, APIResult, CallOptions, User, errorResults } from 'base/call';
-import * as m from 'mocha';
-import { expect } from 'expect';
+import test from 'node:test';
+import * as assert from 'node:assert';
 
 // Re-exports.
 export * from 'base/call';
-export { expect } from 'expect';
-export { it } from 'mocha';
 
 // `it` for APIs (aka `ita`).
 export function ita(
@@ -23,8 +21,8 @@ export function ita(
   handler: (d: APIResult) => Promise<void> | void,
   callOpt?: CallOptions,
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  m.it(name, async () => {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  test(name, async () => {
     const d = await call(url, body, user, callOpt);
     return handler(d);
   });
@@ -49,7 +47,7 @@ export function itaResult(
     body,
     user,
     (r) => {
-      expect(r).toEqual(apiResult);
+      assert.deepStrictEqual(r, apiResult);
     },
     callOpt,
   );

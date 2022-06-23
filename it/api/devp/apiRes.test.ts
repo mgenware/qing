@@ -5,11 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { ita, expect } from 'api';
+import { ita } from 'api';
 import * as apiRes from '@qing/routes/d/dev/api/apiResult';
+import * as assert from 'node:assert';
 
 ita('Success', apiRes.success, null, null, (r) => {
-  expect(r).toEqual({
+  assert.deepStrictEqual(r, {
     d: {
       One: 1,
       String: 'str',
@@ -24,7 +25,7 @@ ita(
   null,
   null,
   (r) => {
-    expect(r).toEqual({ code: 1, msg: 'API error for testing' });
+    assert.deepStrictEqual(r, { code: 1, msg: 'API error for testing' });
   },
   { ignoreAPIError: true },
 );
@@ -35,7 +36,7 @@ ita(
   null,
   null,
   (r) => {
-    expect(r).toEqual({ code: 10000, msg: 'API panic error for testing' });
+    assert.deepStrictEqual(r, { code: 10000, msg: 'API panic error for testing' });
   },
   { ignoreAPIError: true },
 );
