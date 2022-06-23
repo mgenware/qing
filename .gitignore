@@ -16,3 +16,5 @@ dist
 
 /volumes/*
 !/volumes/README.md
+
+.DS_Store
