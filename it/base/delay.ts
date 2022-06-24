@@ -13,5 +13,5 @@ export default function delay(ms = 500) {
 
 // DB uses MySQL `DATETIME(3)`, wait 100ms so that time field gets updated.
 export function waitForDBTimeChange() {
-  return delay(300);
+  return delay(500);
 }

@@ -11,7 +11,6 @@ import { waitForOverlayVisible } from 'br/com/editor/editor';
 import { updateEditor } from 'br/com/editor/actions';
 import { getEditBarEditButton } from 'br/com/editor/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
-import * as cm from './common';
 
 const loadMoreCmtsText = 'More comments';
 const loadMoreRepliesText = 'More replies';
@@ -104,10 +103,7 @@ export interface ClickRepliesArgs extends CmtElArgs {
   replyCount: number;
 }
 
-export function clickReplies(a: ClickRepliesArgs) {
-  return a.cmtEl.$linkButton(`${a.replyCount} ${a.replyCount > 1 ? 'Replies' : 'Reply'}`).click();
-}
-
-export function clickRepliesButton(a: CmtElArgs) {
-  return a.cmtEl.$(`${cm.repliesBtnClass} link-button`).click();
+export function clickRepliesButton(a: ClickRepliesArgs) {
+  const text = a.replyCount === 1 ? '1 reply' : `${a.replyCount || 'No'} replies`;
+  return a.cmtEl.$linkButton(text).click();
 }

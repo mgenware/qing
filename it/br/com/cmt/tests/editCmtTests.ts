@@ -37,26 +37,28 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
             });
           },
         });
-        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+        await cm.cmtShouldAppear({
+          cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: def.sd.updated,
           highlighted: fresh,
           canEdit: true,
           hasEdited: true,
         });
-        await cm.shouldHaveCmtCount(cmtApp, 1);
+        await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
       }
       {
         // Visitor.
         await page.reload(null);
         const cmtApp = await w.getCmtApp(page);
 
-        await cm.cmtShouldAppear(cm.getNthCmt(cmtApp, 0), {
+        await cm.cmtShouldAppear({
+          cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: def.sd.updated,
           hasEdited: true,
         });
-        await cm.shouldHaveCmtCount(cmtApp, 1);
+        await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
       }
     }
   });

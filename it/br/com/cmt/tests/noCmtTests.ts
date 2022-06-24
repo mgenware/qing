@@ -14,8 +14,8 @@ export default function testNoCmts(w: CmtFixtureWrapper) {
     {
       // Visitor view.
       const cmtApp = await w.getCmtApp(page);
-      await cm.commentsHeadingShouldAppear(cmtApp);
-      await cm.shouldHaveCmtCount(cmtApp, 0);
+      await cm.commentsHeadingShouldAppear({ cmtApp });
+      await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
 
       // "Sign in" to comment.
       await cmtApp.$qingButton('Sign in').shouldBeVisible();
@@ -25,8 +25,8 @@ export default function testNoCmts(w: CmtFixtureWrapper) {
       // User view.
       await page.reload(usr.user);
       const cmtApp = await w.getCmtApp(page);
-      await cm.commentsHeadingShouldAppear(cmtApp);
-      await cm.shouldHaveCmtCount(cmtApp, 0);
+      await cm.commentsHeadingShouldAppear({ cmtApp });
+      await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
     }
   });
 }

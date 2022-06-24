@@ -26,7 +26,7 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         }
 
         // Delete the comment.
-        await getEditBarDeleteButton(cm.getNthCmt(cmtApp, 0), usr.user.id).click();
+        await getEditBarDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click();
         const alertBtns = await alertShouldAppear(page, {
           content: 'Do you want to delete this comment?',
           type: AlertType.warning,
@@ -34,13 +34,13 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           focusedBtn: 1,
         });
         await alertBtns.item(0).click();
-        await cm.shouldHaveCmtCount(cmtApp, 0);
+        await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
       }
       {
         // Visitor.
         await page.reload(null);
         const cmtApp = await w.getCmtApp(page);
-        await cm.shouldHaveCmtCount(cmtApp, 0);
+        await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
       }
     }
   });

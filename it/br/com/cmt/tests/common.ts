@@ -13,23 +13,24 @@ import { CmtFixture } from '../fixture';
 export const cmtChildrenClass = '.br-children';
 export const repliesBtnClass = '.br-replies-btn';
 
-export async function commentsHeadingShouldAppear(el: br.Element) {
-  return el.$hasText('h2', 'Comments').shouldBeVisible();
+export async function commentsHeadingShouldAppear(e: { cmtApp: br.Element }) {
+  return e.cmtApp.$hasText('h2', 'Comments').shouldBeVisible();
 }
 
-export function getNthCmt(cmtApp: br.Element, index: number) {
-  return cmtApp.$(`cmt-block ${cmtChildrenClass} > cmt-block:nth-child(${index + 1})`);
+export function getNthCmt(e: { cmtApp: br.Element; index: number }) {
+  return e.cmtApp.$(`cmt-block ${cmtChildrenClass} > cmt-block:nth-child(${e.index + 1})`);
 }
 
-export function getNthReply(cmtEl: br.Element, index: number) {
-  return cmtEl.$(`${cmtChildrenClass} > cmt-block:nth-child(${index + 1})`);
+export function getNthReply(e: { cmtEl: br.Element; index: number }) {
+  return e.cmtEl.$(`${cmtChildrenClass} > cmt-block:nth-child(${e.index + 1})`);
 }
 
-export function getTopCmt(cmtApp: br.Element) {
-  return getNthCmt(cmtApp, 0);
+export function getTopCmt(e: { cmtApp: br.Element }) {
+  return getNthCmt({ cmtApp: e.cmtApp, index: 0 });
 }
 
 export interface CheckCmtArgs {
+  cmtEl: br.Element;
   author: br.User;
   content: string;
   canEdit?: boolean;
@@ -37,15 +38,15 @@ export interface CheckCmtArgs {
   hasEdited?: boolean;
 }
 
-export async function cmtShouldAppear(el: br.Element, e: CheckCmtArgs) {
+export async function cmtShouldAppear(e: CheckCmtArgs) {
   // User view.
-  const row = el.$('.row');
+  const row = e.cmtEl.$('.row');
   await userViewShouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
 
   // Comment content.
   await row.$('div.col > div:nth-child(2)').shouldHaveTextContent(e.content);
 
-  const editBtn = getEditBarEditButton(el, e.author.id);
+  const editBtn = getEditBarEditButton(e.cmtEl, e.author.id);
   if (e.canEdit) {
     await editBtn.shouldBeVisible();
   } else {
@@ -60,21 +61,23 @@ export async function cmtShouldAppear(el: br.Element, e: CheckCmtArgs) {
   }
 }
 
-export async function shouldHaveCmtCount(el: br.Element, count: number) {
-  await el
+export async function shouldHaveCmtCount(e: { cmtApp: br.Element; count: number }) {
+  await e.cmtApp
     .$('.br-cmt-c')
-    .shouldHaveTextContent(count === 1 ? '1 comment' : `${count || 'No'} comments`);
+    .shouldHaveTextContent(e.count === 1 ? '1 comment' : `${e.count || 'No'} comments`);
 }
 
 export async function shouldHaveShownRootCmtCount(el: br.Element, count: number) {
   await el.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(count);
 }
 
-export async function shouldHaveReplyCount(el: br.Element, count: number, shown: number) {
-  const text = count === 1 ? '1 reply' : `${count || 'No'} replies`;
-  await el.$(`${repliesBtnClass} link-button`).shouldHaveTextContent(shown ? `${text} ↑` : text);
-  if (shown) {
-    await el.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(shown);
+export async function shouldHaveReplyCount(e: { cmtEl: br.Element; count: number; shown: number }) {
+  const text = e.count === 1 ? '1 reply' : `${e.count || 'No'} replies`;
+  await e.cmtEl
+    .$(`${repliesBtnClass} link-button`)
+    .shouldHaveTextContent(e.shown ? `${text} ↑` : text);
+  if (e.shown) {
+    await e.cmtEl.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(e.shown);
   }
 }
 
