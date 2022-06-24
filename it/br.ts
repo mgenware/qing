@@ -120,56 +120,52 @@ export class Element extends LocatorCore {
     return this.c.waitFor({ state });
   }
 
-  async waitForVisible() {
-    await this.waitFor('visible');
-    return this;
+  waitForVisible() {
+    return this.waitFor('visible');
   }
 
-  async waitForAttached() {
-    await this.waitFor('attached');
-    return this;
+  waitForAttached() {
+    return this.waitFor('attached');
   }
 
   waitForDetached() {
     return this.waitFor('detached');
   }
 
-  async shouldExist() {
-    await pw.expect(this.c).toHaveCount(1);
-    return this;
+  shouldExist() {
+    return pw.expect(this.c).toHaveCount(1);
   }
 
-  async shouldBeVisible() {
-    await pw.expect(this.c).toBeVisible();
-    return this;
+  shouldBeVisible() {
+    return pw.expect(this.c).toBeVisible();
   }
 
-  async shouldNotExist() {
-    await pw.expect(this.c).toHaveCount(0);
+  shouldNotExist() {
+    return pw.expect(this.c).toHaveCount(0);
   }
 
-  async shouldHaveAttr(name: string, value: string) {
-    await pw.expect(this.c).toHaveAttribute(name, value);
+  shouldHaveAttr(name: string, value: string) {
+    return pw.expect(this.c).toHaveAttribute(name, value);
   }
 
-  async shouldHaveClass(name: string) {
-    await pw.expect(this.c).toHaveClass(name);
+  shouldHaveClass(name: string) {
+    return pw.expect(this.c).toHaveClass(name);
   }
 
-  async shouldNotHaveClass(name: string) {
-    await pw.expect(this.c).not.toHaveClass(name);
+  shouldNotHaveClass(name: string) {
+    return pw.expect(this.c).not.toHaveClass(name);
   }
 
-  async shouldNotHaveAttr(name: string, value: string) {
-    await pw.expect(this.c).not.toHaveAttribute(name, value);
+  shouldNotHaveAttr(name: string, value: string) {
+    return pw.expect(this.c).not.toHaveAttribute(name, value);
   }
 
-  async shouldHaveTextContent(val: string | RegExp) {
-    await pw.expect(this.c).toHaveText(val);
+  shouldHaveTextContent(val: string | RegExp) {
+    return pw.expect(this.c).toHaveText(val);
   }
 
-  async shouldHaveHTMLContent(val: string) {
-    await pw.expect(this.c).not.toHaveText(val);
+  shouldHaveHTMLContent(val: string) {
+    return pw.expect(this.c).not.toHaveText(val);
   }
 
   shouldHaveFocus() {

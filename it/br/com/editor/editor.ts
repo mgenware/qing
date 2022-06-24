@@ -40,8 +40,10 @@ async function clickBtn(composerEl: br.Element, btnText: string) {
 }
 
 export async function waitForOverlayVisible(page: br.Page) {
-  const overlayEl = await page.$(cm.openOverlaySel).waitForAttached();
-  const composerEl = await getComposerEl(overlayEl).shouldBeVisible();
+  const overlayEl = page.$(cm.openOverlaySel);
+  await overlayEl.waitForAttached();
+  const composerEl = getComposerEl(overlayEl);
+  await composerEl.shouldBeVisible();
   return { overlayEl, composerEl };
 }
 
@@ -62,21 +64,25 @@ export async function editorShouldAppear(page: br.Page, args: EditorShouldAppear
   const { composerEl, overlayEl } = await waitForOverlayVisible(page);
 
   // Dialog name.
-  await overlayEl.$('h2').shouldHaveTextContent(args.name);
+  const h2 = overlayEl.$('h2');
+  await h2.shouldHaveTextContent(args.name);
 
   // Title value.
   if (args.title) {
-    const titleInputEl = await composerEl.$(cm.editorTitleSel).shouldBeVisible();
+    const titleInputEl = composerEl.$(cm.editorTitleSel);
+    await titleInputEl.shouldBeVisible();
     await titleInputEl.shouldHaveAttr('value', args.title);
   } else {
     await composerEl.$(cm.editorTitleSel).shouldNotExist();
   }
 
-  const contentInputEl = await composerEl.$(cm.editorContentSel).shouldBeVisible();
+  const contentInputEl = composerEl.$(cm.editorContentSel);
+  await contentInputEl.shouldBeVisible();
   await contentInputEl.shouldHaveHTMLContent(args.contentHTML || '<p><br></p>');
 
   // Check bottom buttons.
-  const btnGroupEl = await composerEl.$(cm.editorButtonsGroupSel).shouldBeVisible();
+  const btnGroupEl = composerEl.$(cm.editorButtonsGroupSel);
+  await btnGroupEl.shouldBeVisible();
   const btnsEl = await btnGroupEl.$$('qing-button').shouldHaveCount(args.buttons.length);
 
   await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));

@@ -23,7 +23,7 @@ import (
 var defTime time.Time
 
 func init() {
-	t, err := time.Parse(time.RFC3339, "1990-10-27T10:11:12Z")
+	t, err := time.Parse(time.RFC3339, "2019-01-31T10:11:12Z")
 	if err != nil {
 		panic(err)
 	}

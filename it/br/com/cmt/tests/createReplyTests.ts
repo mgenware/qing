@@ -204,8 +204,8 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         const cmtApp = await w.getCmtApp(page);
         const cmtEl = cm.getTopCmt(cmtApp);
 
-        // By default, replies are collapsed.
-        await act.clickMoreReplies({ cmtEl });
+        // By default, replies are collapsed with a link button (5 replies).
+        await act.clickReplies({ cmtEl });
 
         // Create a reply with "more replies" never clicked.
         await act.writeReply(page, { cmtEl, content: 'new 1' });

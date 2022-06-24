@@ -8,7 +8,8 @@
 import * as br from 'br';
 
 export async function likesShouldAppear(el: br.Element, value: number, liked: boolean) {
-  const btnEl = await el.$('like-view qing-button').shouldBeVisible();
+  const btnEl = el.$('like-view qing-button');
+  await btnEl.shouldBeVisible();
 
   // Element value.
   const numEl = btnEl.$('span.num');

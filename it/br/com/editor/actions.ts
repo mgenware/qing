@@ -12,15 +12,16 @@ export interface UpdateEditorArgs {
 }
 
 export async function updateEditor(p: br.Page, a: UpdateEditorArgs) {
-  const overlayEl = await p.$(cm.openOverlaySel).waitForAttached();
+  const overlayEl = p.$(cm.openOverlaySel);
+  await overlayEl.waitForAttached();
   const composerEl = getComposerEl(overlayEl);
-
-  // Update editor content.
-  await updateEditorContent(composerEl, a.part, a.content ?? def.sd.updated);
 
   if (a.dbTimeChange) {
     await waitForDBTimeChange();
   }
+
+  // Update editor content.
+  await updateEditorContent(composerEl, a.part, a.content ?? def.sd.updated);
 
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');

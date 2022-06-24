@@ -17,15 +17,15 @@ export interface UserViewShouldAppearArg {
 }
 
 async function userIconShouldAppear(el: br.Element, u: User) {
-  const img = await el
-    .$(`a[href="/u/${u.id}"] img[src="${u.iconURL}"][width="50"][height="50"]`)
-    .shouldBeVisible();
+  const img = el.$(`a[href="/u/${u.id}"] img[src="${u.iconURL}"][width="50"][height="50"]`);
+  await img.shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }
 
 async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
-  const img = await el.$(`img[src="${u.iconURL}"][width="20"][height="20"]`).shouldBeVisible();
+  const img = el.$(`img[src="${u.iconURL}"][width="20"][height="20"]`);
+  await img.shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }
 
