@@ -18,7 +18,7 @@ function makeHTML(content: string) {
 
 // `sd` sample data.
 export const sd = {
-  timeString: '10/27/1990',
+  timeString: '1/31/2019',
   title: makeText('title'),
   content: makeText('content'),
   contentHTML: makeHTML('content'),
