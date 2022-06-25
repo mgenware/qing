@@ -132,9 +132,15 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 
 // MustError executes the main view template with the specified data and panics if error occurs.
 func (m *MainPageManager) MustError(r *http.Request, lang string, err error, statusCode int, w http.ResponseWriter) HTML {
-	w.WriteHeader(http.StatusInternalServerError)
+	w.WriteHeader(statusCode)
+
 	d := &ErrorPageData{Message: err.Error()}
-	m.logger.Error("fatal-error", "msg", d.Message)
+
+	if statusCode == http.StatusNotFound && app.CoreConfig().HTTP.Log404Error {
+		m.logger.NotFound("url", r.URL.String())
+	} else {
+		m.logger.Error("fatal-error", "msg", d.Message)
+	}
 	errorHTML := m.errorView.MustExecuteToString(d)
 	htmlData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	htmlData.Scripts = m.ScriptString(coreScriptEntry)
