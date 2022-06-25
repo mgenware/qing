@@ -19,8 +19,6 @@ import (
 
 // NotFoundGET is a application wide handler for 404 errors.
 func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
-	// Set 404 status code
-	w.WriteHeader(http.StatusNotFound)
 	resp := appHandler.HTMLResponse(w, r)
 	msg := resp.LocalizedDictionary().ResNotFound
 
