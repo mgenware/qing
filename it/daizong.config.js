@@ -19,6 +19,11 @@ export default {
       del: 'dist',
     },
   },
+  clean: {
+    run: {
+      del: 'dist',
+    },
+  },
   api: 'mocha --parallel --require source-map-support/register "dist/api/**/*.test.js"',
   br: {
     run: brCmd,

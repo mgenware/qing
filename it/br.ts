@@ -10,6 +10,7 @@ import * as pw from '@playwright/test';
 import { User } from 'base/call';
 import * as authRoute from '@qing/routes/d/dev/auth';
 import { serverURL } from 'base/def';
+import { expect } from '@playwright/test';
 
 export { expect, Expect, test } from '@playwright/test';
 export { usr, call, User } from 'base/call';
@@ -215,6 +216,10 @@ export class Page {
     return this.c.goto(`${serverURL}${url}`);
   }
 
+  async shouldBeUser(id: string | null) {
+    expect(await this.currentUserID()).toBe(id);
+  }
+
   // Reloads current page.
   // `user`: undefined -> no change to credentials. null -> visitor.
   async reload(user?: User | null) {
@@ -248,6 +253,11 @@ export class Page {
     if (!html.includes('>Success<')) {
       throw new Error(`Login failed. Got "${html}"`);
     }
+  }
+
+  private currentUserID() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return this.c.evaluate(() => (window as any).appUserID as string | null);
   }
 }
 
