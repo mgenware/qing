@@ -16,7 +16,7 @@ import (
 type CorePageManager interface {
 	MustCompleteWithContent(content []byte, w http.ResponseWriter)
 	MustComplete(r *http.Request, lang string, d *MainPageData, w http.ResponseWriter)
-	MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML
+	MustError(r *http.Request, lang string, err error, statusCode int, w http.ResponseWriter) HTML
 	MustParseView(relativePath string) PageTemplateType
 	Dictionary(lang string) *localization.Dictionary
 	PageTitle(lang, s string) string

@@ -58,13 +58,6 @@ func apiRouter() *handler.JSONRouter {
 	composeRouter.Post("/set-debug-time", setDebugTime)
 	r.Mount("/compose", composeRouter)
 
-	// API result router.
-	apiResRouter := handler.NewJSONRouter()
-	apiResRouter.Post("/succ", apiSuccResult)
-	apiResRouter.Post("/err", apiErrorResult)
-	apiResRouter.Post("/panic", apiPanicErrorResult)
-	r.Mount("/api-res", apiResRouter)
-
 	return r
 }
 

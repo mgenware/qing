@@ -8,7 +8,6 @@
 package handler
 
 import (
-	"database/sql"
 	"encoding/json"
 	"net/http"
 	"path/filepath"
@@ -132,26 +131,10 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
-func (m *MainPageManager) MustError(r *http.Request, lang string, err error, expected bool, w http.ResponseWriter) HTML {
+func (m *MainPageManager) MustError(r *http.Request, lang string, err error, statusCode int, w http.ResponseWriter) HTML {
+	w.WriteHeader(http.StatusInternalServerError)
 	d := &ErrorPageData{Message: err.Error()}
-	// Handle unexpected errors
-	if !expected {
-		if err == sql.ErrNoRows {
-			// Consider `sql.ErrNoRows` as 404 not found error
-			w.WriteHeader(http.StatusNotFound)
-			// Set `expected` to `true`
-			expected = true
-
-			d.Message = m.Dictionary(lang).ResNotFound
-			if m.conf.HTTP.Log404Error {
-				m.logger.NotFound("DB", r.URL.String())
-			}
-		} else {
-			// At this point, this should be a 500 server internal error
-			w.WriteHeader(http.StatusInternalServerError)
-			m.logger.Error("fatal-error", "msg", d.Message)
-		}
-	}
+	m.logger.Error("fatal-error", "msg", d.Message)
 	errorHTML := m.errorView.MustExecuteToString(d)
 	htmlData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	htmlData.Scripts = m.ScriptString(coreScriptEntry)

@@ -25,9 +25,9 @@ func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	msg := resp.LocalizedDictionary().ResNotFound
 
 	if app.CoreConfig().HTTP.Log404Error {
-		appLog.Get().NotFound("http", r.URL.String())
+		appLog.Get().NotFound("url", r.URL.String())
 	}
 
 	// Note that pass `true` as the `expected` param so that template manager won't treat it as a 500 error.
-	return appHandler.MainPage().MustError(r, resp.Lang(), errors.New(msg), true, w)
+	return appHandler.MainPage().MustError(r, resp.Lang(), errors.New(msg), http.StatusNotFound, w)
 }

@@ -18,36 +18,36 @@ import (
 var errRouter = chi.NewRouter()
 
 func init() {
-	errRouter.Get("/panicServer", panicServerHandler)
-	errRouter.Get("/panicUser", panicUserHandler)
-	errRouter.Get("/failServer", failServerHandler)
-	errRouter.Get("/failUser", failUserHandler)
-	errRouter.Post("/panicServerAPI", panicServerAPI)
-	errRouter.Post("/panicUserAPI", panicUserAPI)
+	errRouter.Get("/panicErr", panicErrHandler)
+	errRouter.Get("/panicObj", panicObjHandler)
+	errRouter.Get("/fail", failHandler)
+	errRouter.Get("/failAPI", failAPIHandler)
+	errRouter.Post("/panicErrAPI", panicErrAPI)
+	errRouter.Post("/panicObjAPI", panicObjAPI)
 }
 
-func panicServerHandler(w http.ResponseWriter, r *http.Request) {
+func panicErrHandler(w http.ResponseWriter, r *http.Request) {
 	panic(errors.New("test error"))
 }
 
-func panicUserHandler(w http.ResponseWriter, r *http.Request) {
-	panic("Test error")
+func panicObjHandler(w http.ResponseWriter, r *http.Request) {
+	panic(-32)
 }
 
-func failServerHandler(w http.ResponseWriter, r *http.Request) {
+func failHandler(w http.ResponseWriter, r *http.Request) {
 	resp := appHandler.HTMLResponse(w, r)
-	resp.MustFailWithError(errors.New("test error"), false)
+	resp.MustFailWithError(errors.New("test error"), http.StatusInternalServerError)
 }
 
-func failUserHandler(w http.ResponseWriter, r *http.Request) {
-	resp := appHandler.HTMLResponse(w, r)
-	resp.MustFailWithError(errors.New("test error"), true)
+func failAPIHandler(w http.ResponseWriter, r *http.Request) {
+	resp := appHandler.JSONResponse(w, r)
+	resp.MustFail(errors.New("test error"))
 }
 
-func panicServerAPI(w http.ResponseWriter, r *http.Request) {
+func panicErrAPI(w http.ResponseWriter, r *http.Request) {
 	panic(errors.New("test error"))
 }
 
-func panicUserAPI(w http.ResponseWriter, r *http.Request) {
-	panic("Test error")
+func panicObjAPI(w http.ResponseWriter, r *http.Request) {
+	panic(-32)
 }

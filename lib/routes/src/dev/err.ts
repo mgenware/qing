@@ -7,9 +7,10 @@
 
 import root from './root.js';
 
-export const panicServer = `${root}/panicServer`;
-export const panicUser = `${root}/panicUser`;
-export const failServer = `${root}/failServer`;
-export const failUser = `${root}/failUser`;
-export const panicServerAPI = `${root}/panicServerAPI`;
-export const panicUserAPI = `${root}/panicUserAPI`;
+export const errRoot = `${root}/err`;
+export const panicErr = `${errRoot}/panicErr`;
+export const panicObj = `${errRoot}/panicObj`;
+export const fail = `${errRoot}/fail`;
+export const failAPI = `${errRoot}/failAPI`;
+export const panicErrAPI = `${errRoot}/panicErrAPI`;
+export const panicObjAPI = `${errRoot}/panicObjAPI`;

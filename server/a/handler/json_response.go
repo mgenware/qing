@@ -36,8 +36,8 @@ func NewJSONResponse(r *http.Request, wr http.ResponseWriter) *JSONResponse {
 	}
 }
 
-// MustFailWithError finishes the response with the specified `code`, `error` and `expected` args, and panics if unexpected error happens.
-func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSON {
+// MustFailWithError finishes the response with the specified `code`, `error` args, and panics if unexpected error happens.
+func (j *JSONResponse) MustFailWithCodeAndError(code int, err error) JSON {
 	d := APIResult{Code: code, Error: err}
 	if err != nil {
 		// Hide SQL row not found errors.
@@ -54,19 +54,13 @@ func (j *JSONResponse) MustFailWithError(code int, err error, expected bool) JSO
 
 // MustFail finishes the response with the specified error object, and panics if unexpected error happens.
 func (j *JSONResponse) MustFail(err error) JSON {
-	j.MustFailWithError(int(appdef.ErrGeneric), err, false)
-	return JSON(0)
-}
-
-// MustFailWithUserError finishes the response with an user error (expected error) message, and panics if unexpected error happens.
-func (j *JSONResponse) MustFailWithUserError(msg string) JSON {
-	j.MustFailWithError(int(appdef.ErrGeneric), errors.New(msg), true)
+	j.MustFailWithCodeAndError(int(appdef.ErrGeneric), err)
 	return JSON(0)
 }
 
 // MustFailWithCode finishes the response with the specified error code, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithCode(code int) JSON {
-	j.MustFailWithError(code, nil, false)
+	j.MustFailWithCodeAndError(code, nil)
 	return JSON(0)
 }
 
