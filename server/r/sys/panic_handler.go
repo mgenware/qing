@@ -1,9 +1,6 @@
-/*
- * Copyright (C) 2019 The Qing Project. All rights reserved.
- *
- * Use of this source code is governed by a license that can
- * be found in the LICENSE file.
- */
+// The original work was derived from Goji's middleware, source:
+// https://github.com/zenazn/goji/tree/master/web/middleware
+// https://github.com/go-chi/chi/blob/master/middleware/recoverer.go
 
 package sys
 
@@ -12,58 +9,34 @@ import (
 	"fmt"
 	"net/http"
 
-	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/def/appdef"
-
-	"github.com/mgenware/goutil/templatex"
 )
 
-var panicTemplate = templatex.MustParse("PanicTemplate", "{{html .}}")
-
-// PanicMiddleware handles panics.
 func PanicMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer recoverFromPanic(w, r)
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if rvr := recover(); rvr != nil {
+				if rvr == http.ErrAbortHandler {
+					// we don't recover http.ErrAbortHandler so the response
+					// to the client is aborted, this should not be logged
+					panic(rvr)
+				}
+
+				msg := fmt.Sprintf("%v", rvr)
+
+				if r.Method == "POST" {
+					resp := appHandler.JSONResponse(w, r)
+					resp.MustFailWithCodeAndError(appdef.ErrGeneric, errors.New(msg))
+				} else {
+					w.WriteHeader(http.StatusInternalServerError)
+					fmt.Print(w, msg)
+				}
+			}
+		}()
+
 		next.ServeHTTP(w, r)
-	})
-}
-
-func recoverFromPanic(w http.ResponseWriter, r *http.Request) {
-	info := recover()
-	if info == nil {
-		return
-	}
-	// We consider `error` object as unexpected error, non-`error` object as expected error, e.g.
-	//     // Throwing an unexpected error
-	//     err := doSomething()
-	//		 if err != nil {
-	//		   panic(err)
-	//		 }
-	//
-	//		 // Throwing an expected error
-	//		 if name == "" {
-	//       panic("The argument \"name\" cannot be empty ")
-	//     }
-	expected := false
-	err, _ := info.(error)
-	if err == nil {
-		err = errors.New(fmt.Sprint(info))
-		expected = true
 	}
 
-	conf := app.CoreConfig()
-	if r.Method == "POST" {
-		if !expected && conf.Debug != nil && conf.Debug.PanicOnUnexpectedJSONErrors {
-			panic(err)
-		}
-		resp := appHandler.JSONResponse(w, r)
-		resp.MustFailWithError(appdef.ErrGeneric, err, expected)
-	} else {
-		if !expected && conf.Debug != nil && conf.Debug.PanicOnUnexpectedHTMLErrors {
-			panic(err)
-		}
-		resp := appHandler.HTMLResponse(w, r)
-		resp.MustCompleteWithContent(templatex.MustExecuteToString(panicTemplate, err.Error()), w)
-	}
+	return http.HandlerFunc(fn)
 }
