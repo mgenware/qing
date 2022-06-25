@@ -54,7 +54,7 @@ func Get() *AvatarService {
 func newService(outDir string) (*AvatarService, error) {
 	s := &AvatarService{}
 	if !filepath.IsAbs(outDir) {
-		return nil, (fmt.Errorf("Avatar service `outDir` must be an absolute path, got \"%v\"", outDir))
+		return nil, (fmt.Errorf("avatar service `outDir` must be an absolute path, got \"%v\"", outDir))
 	}
 	appLog.Get().Info("avatar-service.starting", "path", outDir)
 	s.OutDir = outDir
@@ -111,15 +111,9 @@ func (svc *AvatarService) UpdateAvatar(oldAvatarName string, srcReader io.Reader
 			oldAvatarFile := svc.avatarFilePath(dir, size, oldAvatarName)
 			err := os.Remove(oldAvatarFile)
 			if err != nil {
-				appLog.Get().Error("Error removing old avatar files: ", err.Error())
+				appLog.Get().Error("Error removing old avatar files", "err", err.Error())
 			}
 		}
 	}
 	return avatarName, nil
-}
-
-func (svc *AvatarService) copyStringArray(arr []string) []string {
-	dest := make([]string, len(arr))
-	copy(dest, arr)
-	return dest
 }

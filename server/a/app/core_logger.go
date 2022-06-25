@@ -11,5 +11,5 @@ type CoreLogger interface {
 	Info(key string, args ...any)
 	Error(key string, args ...any)
 	Warn(key string, args ...any)
-	NotFound(key string, url string)
+	NotFound(url string)
 }

@@ -28,5 +28,5 @@ func (logger *TestLogger) Error(key string, args ...any) {
 }
 
 // NotFound logs an HTTP 404 message.
-func (logger *TestLogger) NotFound(key string, url string) {
+func (logger *TestLogger) NotFound(url string) {
 }

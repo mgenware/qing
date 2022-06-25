@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"qing/a/appHandler"
+	"qing/a/appLog"
 	"qing/a/def/appdef"
 )
 
@@ -24,13 +25,14 @@ func PanicMiddleware(next http.Handler) http.Handler {
 				}
 
 				msg := fmt.Sprintf("%v", rvr)
+				appLog.Get().Error("fatal-page", "err", msg, "url", r.URL.String(), "method", r.Method)
 
 				if r.Method == "POST" {
 					resp := appHandler.JSONResponse(w, r)
 					resp.MustFailWithCodeAndError(appdef.ErrGeneric, errors.New(msg))
 				} else {
 					w.WriteHeader(http.StatusInternalServerError)
-					fmt.Print(w, msg)
+					fmt.Fprint(w, msg)
 				}
 			}
 		}()
