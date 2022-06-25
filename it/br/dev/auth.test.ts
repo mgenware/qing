@@ -7,8 +7,7 @@
 
 import { test, $, Page, usr } from 'br';
 import { navbarUserViewShouldAppear } from 'br/com/content/userView';
-
-const url = '/__/auth';
+import { authRoot } from '@qing/routes/d/dev/auth';
 
 async function clickSignInButton(p: Page, s: string, eid: boolean) {
   const el = p.$('.br-user');
@@ -21,14 +20,14 @@ async function clickSignInButton(p: Page, s: string, eid: boolean) {
 
 test('__/auth login by ID', async ({ page }) => {
   const p = $(page);
-  await p.goto(url, null);
+  await p.goto(authRoot, null);
   await clickSignInButton(p, '103', false);
   await navbarUserViewShouldAppear(p, usr.admin2);
 });
 
 test('__/auth login by EID', async ({ page }) => {
   const p = $(page);
-  await p.goto(url, null);
+  await p.goto(authRoot, null);
   await clickSignInButton(p, usr.admin2.id, true);
   await navbarUserViewShouldAppear(p, usr.admin2);
 });

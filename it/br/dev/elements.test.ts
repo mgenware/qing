@@ -6,10 +6,11 @@
  */
 
 import { test, $ } from 'br';
+import { elementsRoot } from '@qing/routes/d/dev/elements';
 
 test('__/elements', async ({ page }) => {
   const p = $(page);
-  await p.goto('/__/elements', null);
+  await p.goto(elementsRoot, null);
 
   // Do a brief check on elements page.
   await p.body.$hasText('h1', 'Colors').shouldBeVisible();

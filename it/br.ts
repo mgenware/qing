@@ -212,7 +212,7 @@ export class Page {
     if (user) {
       await this.signIn(user);
     }
-    await this.c.goto(`${serverURL}${url}`);
+    return this.c.goto(`${serverURL}${url}`);
   }
 
   // Reloads current page.
