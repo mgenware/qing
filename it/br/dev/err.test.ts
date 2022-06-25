@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Page } from 'br';
+import { test, $, Page, usr } from 'br';
 import errRoutes from '@qing/routes/d/dev/err';
 import { expect } from '@playwright/test';
 
@@ -29,6 +29,14 @@ test('404 page', async ({ page }) => {
   await errorPageShouldAppear(p, 'The resource you requested does not exist.');
 });
 
+test('404 page - logged in', async ({ page }) => {
+  const p = $(page);
+  const resp = await p.goto('/__NOT_EXIST__', usr.user);
+  expect(resp?.status()).toBe(404);
+  await errorPageShouldAppear(p, 'The resource you requested does not exist.');
+  await p.shouldBeUser(usr.user);
+});
+
 test(`Error page - ${errRoutes.panicErr}`, async ({ page }) => {
   const p = $(page);
   const resp = await p.goto(errRoutes.panicErr, null);
@@ -48,4 +56,12 @@ test(`Error page - ${errRoutes.fail}`, async ({ page }) => {
   const resp = await p.goto(errRoutes.fail, null);
   expect(resp?.status()).toBe(500);
   await errorPageShouldAppear(p, 'test error');
+});
+
+test(`Error page - ${errRoutes.fail} - logged in`, async ({ page }) => {
+  const p = $(page);
+  const resp = await p.goto(errRoutes.fail, usr.user);
+  expect(resp?.status()).toBe(500);
+  await errorPageShouldAppear(p, 'test error');
+  await p.shouldBeUser(usr.user);
 });

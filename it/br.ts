@@ -216,8 +216,8 @@ export class Page {
     return this.c.goto(`${serverURL}${url}`);
   }
 
-  async shouldBeUser(id: string | null) {
-    expect(await this.currentUserID()).toBe(id);
+  async shouldBeUser(user: User | null) {
+    expect(await this.currentUserID()).toBe(user ? user.id : null);
   }
 
   // Reloads current page.

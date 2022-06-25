@@ -32,3 +32,14 @@ ita(
   },
   { ignoreAPIError: true },
 );
+
+ita(
+  '`failAPI`',
+  errRoutes.failAPI,
+  null,
+  null,
+  (r) => {
+    assert.deepStrictEqual(r, { code: 10000, msg: 'test error' });
+  },
+  { ignoreAPIError: true },
+);

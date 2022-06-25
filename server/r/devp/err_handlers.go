@@ -21,7 +21,7 @@ func init() {
 	errRouter.Get("/panicErr", panicErrHandler)
 	errRouter.Get("/panicObj", panicObjHandler)
 	errRouter.Get("/fail", failHandler)
-	errRouter.Get("/failAPI", failAPIHandler)
+	errRouter.Post("/failAPI", failAPIHandler)
 	errRouter.Post("/panicErrAPI", panicErrAPI)
 	errRouter.Post("/panicObjAPI", panicObjAPI)
 }
