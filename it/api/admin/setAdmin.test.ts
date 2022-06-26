@@ -6,6 +6,7 @@
  */
 
 import { errorResults, itaResult, usr, call } from 'api';
+import { imgMain } from '@qing/routes/d/static';
 import * as assert from 'node:assert';
 import { User } from 'base/call';
 import { newUser } from 'helper/user';
@@ -46,7 +47,7 @@ it('`set-admin` - Admin', async () => {
       id,
       name: 'T',
       url: `/u/${id}`,
-      iconURL: '/static/img/main/user.svg',
+      iconURL: `${imgMain}/user.svg`,
     });
 
     // Remove an admin.

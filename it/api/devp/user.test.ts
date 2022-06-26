@@ -8,6 +8,7 @@
 import { ita, usr, errorResults } from 'api';
 import * as assert from 'node:assert';
 import { userInfo, newUser } from 'helper/user';
+import { imgMain } from '@qing/routes/d/static';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
@@ -28,7 +29,7 @@ it('Add and remove a user', async () => {
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
-    const ud = { id, iconURL: '/static/img/main/user.svg', url: `/u/${id}`, name: 'T' };
+    const ud = { id, iconURL: `${imgMain}/user.svg`, url: `/u/${id}`, name: 'T' };
     assert.deepStrictEqual(u, ud);
 
     // Make sure `__/auth/info` also works.
