@@ -165,6 +165,10 @@ export class Element extends LocatorCore {
     return pw.expect(this.c).toHaveText(val);
   }
 
+  shouldContainTextContent(val: string | RegExp) {
+    return pw.expect(this.c).toContainText(val);
+  }
+
   shouldHaveHTMLContent(val: string) {
     return pw.expect(this.c).not.toHaveText(val);
   }
