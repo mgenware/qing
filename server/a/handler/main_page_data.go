@@ -8,7 +8,6 @@
 package handler
 
 import (
-	"qing/a/handler/localization"
 	appSod "qing/sod/app"
 )
 
@@ -23,7 +22,8 @@ type MainPageData struct {
 	Scripts     string
 	WindData    any
 
-	LS *localization.Dictionary
+	LSSiteName string
+	LSSiteURL  string
 }
 
 // NewMainPageData creates a new MainPageData.

@@ -63,7 +63,11 @@ func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 		matcher = language.NewMatcher(tags)
 	}
 
-	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags}, nil
+	if fallbackDict == nil {
+		return nil, errors.New("unexpected nil `fallbackDict`")
+	}
+
+	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, conf: conf}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
@@ -77,6 +81,7 @@ func (mgr *Manager) LangTags() []language.Tag {
 }
 
 // Dictionary returns the Dictionary associated with the specified language.
+// If the given language is not found, it returns a fallback dictionary.
 func (mgr *Manager) Dictionary(lang string) *Dictionary {
 	dict := mgr.lsDict[lang]
 	if dict == nil {

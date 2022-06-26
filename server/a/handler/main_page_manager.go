@@ -112,6 +112,9 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 
 	// Lang script comes before user scripts.
 	d.Scripts = m.jsMgr.LangScriptString(lang) + d.Scripts
+	ls := m.locMgr.Dictionary(lang)
+	d.LSSiteName = ls.SiteName
+	d.LSSiteURL = ls.SiteUrl
 
 	// Community mode settings.
 	d.AppCommunityMode = int(appSettings.Get().CommunityMode())
@@ -158,7 +161,6 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	errorHTML := m.errorView.MustExecuteToString(d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	mainPageData.Scripts = m.ScriptString(coreScriptEntry)
-	mainPageData.LS = m.locMgr.Dictionary(lang)
 	m.MustComplete(r, lang, statusCode, mainPageData, w)
 	return HTML(0)
 }
