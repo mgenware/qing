@@ -9,6 +9,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"path/filepath"
 	"qing/a/app"
@@ -88,12 +89,10 @@ func (m *MainPageManager) MustCompleteWithContent(content []byte, w http.Respons
 	w.Write(content)
 }
 
-// MustComplete executes the main view template with the specified data and panics if error occurs.
-func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPageData, w http.ResponseWriter) {
+func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode int, d *MainPageData, w http.ResponseWriter) {
 	if d == nil {
-		panic("Unexpected empty `MainPageData` in `MustComplete`")
+		panic("Unexpected nil `MainPageData` in `MainPageManager.MustComplete`")
 	}
-	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 
 	ctx := r.Context()
 	// Ensure lang always has a value.
@@ -127,13 +126,28 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, d *MainPage
 		d.AppUserAdmin = user.Admin
 	}
 
-	m.mainView.MustExecute(w, d)
+	// Finalize HTTP response.
+	// Get content string first as `MustExecute` might panic.
+	contentHTML := m.mainView.MustExecuteToString(d)
+
+	// Any panics above are recovered by panic handler, which finalizes the response with 500 code.
+	// If no panic happened, we are writing the designated status code and finalizing the response here.
+	// Any panics below will trigger panic handler and thus set header status code again!
+	// --------------------- No panic code below ---------------------
+	// Write HTTP status code.
+	w.WriteHeader(statusCode)
+	// Write HTTP content type.
+	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
+	// Write HTTP content.
+	_, err := fmt.Fprint(w, contentHTML)
+	// The error here is defensive code. It should not happen in most cases.
+	if err != nil {
+		panic(err)
+	}
 }
 
 // MustError executes the main view template with the specified data and panics if error occurs.
 func (m *MainPageManager) MustError(r *http.Request, lang string, err error, statusCode int, w http.ResponseWriter) HTML {
-	w.WriteHeader(statusCode)
-
 	d := &ErrorPageData{Message: err.Error()}
 	url := r.URL.String()
 	if statusCode == http.StatusNotFound && app.CoreConfig().HTTP.Log404Error {
@@ -145,7 +159,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	mainPageData.Scripts = m.ScriptString(coreScriptEntry)
 	mainPageData.LS = m.locMgr.Dictionary(lang)
-	m.MustComplete(r, lang, mainPageData, w)
+	m.MustComplete(r, lang, statusCode, mainPageData, w)
 	return HTML(0)
 }
 

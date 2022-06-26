@@ -44,7 +44,7 @@ func (h *HTMLResponse) MustCompleteWithContent(content string, w http.ResponseWr
 // MustComplete finishes the response with the given MainPageData, and panics if unexpected error happens.
 func (h *HTMLResponse) MustComplete(d *MainPageData) HTML {
 	h.checkCompletion()
-	h.mainPageMgr.MustComplete(h.Request(), h.lang, d, h.writer)
+	h.mainPageMgr.MustComplete(h.Request(), h.lang, http.StatusOK, d, h.writer)
 	return HTML(0)
 }
 
