@@ -28,7 +28,7 @@ it('Add and remove a user', async () => {
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
-    const ud = { id, iconURL: '/static/img/main/defavatar_50.png', url: `/u/${id}`, name: 'T' };
+    const ud = { id, iconURL: '/static/img/main/user.svg', url: `/u/${id}`, name: 'T' };
     assert.deepStrictEqual(u, ud);
 
     // Make sure `__/auth/info` also works.

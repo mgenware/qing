@@ -18,6 +18,8 @@ import (
 	"strconv"
 )
 
+const userSvg = "/img/main/user.svg"
+
 // URL helps generate common URLs.
 type URL struct {
 	conf *config.Config
@@ -38,21 +40,21 @@ func (u *URL) ResURL(url string) string {
 
 func (u *URL) UserIconURL50(uid uint64, avatarName string) string {
 	if avatarName == "" {
-		return u.AssetURL("/img/main/defavatar_50.png")
+		return u.AssetURL(userSvg)
 	}
 	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, avatar.AvatarSize50, avatarName))
 }
 
 func (u *URL) UserIconURL250(uid uint64, avatarName string) string {
 	if avatarName == "" {
-		return u.AssetURL("/img/main/defavatar.png")
+		return u.AssetURL(userSvg)
 	}
 	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, avatar.AvatarSize250, avatarName))
 }
 
 func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
 	if avatarName == "" {
-		return u.AssetURL("/img/main/defavatar.png")
+		return u.AssetURL(userSvg)
 	}
 	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, size, avatarName))
 }

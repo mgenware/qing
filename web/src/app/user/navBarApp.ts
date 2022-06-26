@@ -203,7 +203,7 @@ export default class NavBarApp extends BaseElement {
                     width="20"
                     height="20"
                     class="avatar-s vertical-align-middle" />
-                  <span class="m-l-sm">${user.name}</span> &#x25BE;
+                  <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
                 </button>
                 <div class="dropdown-content">
                   <a href=${user.url}>${ls.profile}</a>

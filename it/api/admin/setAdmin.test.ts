@@ -46,7 +46,7 @@ it('`set-admin` - Admin', async () => {
       id,
       name: 'T',
       url: `/u/${id}`,
-      iconURL: '/static/img/main/defavatar_50.png',
+      iconURL: '/static/img/main/user.svg',
     });
 
     // Remove an admin.
