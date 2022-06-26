@@ -142,9 +142,10 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 		m.logger.Error("fatal-page", "err", d.Message, "url", url)
 	}
 	errorHTML := m.errorView.MustExecuteToString(d)
-	htmlData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
-	htmlData.Scripts = m.ScriptString(coreScriptEntry)
-	m.MustComplete(r, lang, htmlData, w)
+	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
+	mainPageData.Scripts = m.ScriptString(coreScriptEntry)
+	mainPageData.LS = m.locMgr.Dictionary(lang)
+	m.MustComplete(r, lang, mainPageData, w)
 	return HTML(0)
 }
 

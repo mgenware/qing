@@ -7,7 +7,10 @@
 
 package handler
 
-import appSod "qing/sod/app"
+import (
+	"qing/a/handler/localization"
+	appSod "qing/sod/app"
+)
 
 // MainPageData holds the data needed in main page template.
 type MainPageData struct {
@@ -19,6 +22,8 @@ type MainPageData struct {
 	Header      string
 	Scripts     string
 	WindData    any
+
+	LS *localization.Dictionary
 }
 
 // NewMainPageData creates a new MainPageData.

@@ -26,7 +26,7 @@ type Manager struct {
 	conf         *configs.LocalizationConfig
 	fallbackDict *Dictionary
 	fallbackLang string
-	dicts        map[string]*Dictionary
+	lsDict       map[string]*Dictionary
 	langTags     []language.Tag
 
 	// Could be nil if `conf.Langs` contain only one lang.
@@ -39,19 +39,19 @@ func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 		return nil, errors.New("unexpected empty `langs` config")
 	}
 
-	dicts := make(map[string]*Dictionary)
+	lsDict := make(map[string]*Dictionary)
 	for _, langName := range conf.Langs {
 		dictPath := filepath.Join(conf.Dir, langName+".json")
 		d, err := ParseDictionary(dictPath)
 		if err != nil {
 			return nil, err
 		}
-		dicts[langName] = d
+		lsDict[langName] = d
 		appLog.Get().Info("Loaded localization file", langName)
 	}
 
 	fallbackLang := conf.Langs[0]
-	fallbackDict := dicts[fallbackLang]
+	fallbackDict := lsDict[fallbackLang]
 
 	var matcher language.Matcher
 	var tags []language.Tag
@@ -63,7 +63,7 @@ func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 		matcher = language.NewMatcher(tags)
 	}
 
-	return &Manager{dicts: dicts, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags}, nil
+	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
@@ -78,7 +78,7 @@ func (mgr *Manager) LangTags() []language.Tag {
 
 // Dictionary returns the Dictionary associated with the specified language.
 func (mgr *Manager) Dictionary(lang string) *Dictionary {
-	dict := mgr.dicts[lang]
+	dict := mgr.lsDict[lang]
 	if dict == nil {
 		return mgr.fallbackDict
 	}
@@ -103,7 +103,7 @@ func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string
 	lang := mgr.getLanguageFromRequest(w, r)
 
 	// Check if lang really exists.
-	if mgr.dicts[lang] == nil {
+	if mgr.lsDict[lang] == nil {
 		lang = mgr.fallbackLang
 	}
 

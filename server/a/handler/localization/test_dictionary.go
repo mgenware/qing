@@ -18,4 +18,5 @@ func init() {
 	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"
 	TestDict.ResNotFound = "ls.resNotFound"
 	TestDict.SiteName = "ls.siteName"
+	TestDict.SiteUrl = "ls.siteURL"
 }

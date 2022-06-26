@@ -23,6 +23,7 @@ type Dictionary struct {
 	RegEmailVeriExpired string `json:"regEmailVeriExpired"`
 	ResNotFound         string `json:"resNotFound"`
 	SiteName            string `json:"siteName"`
+	SiteUrl             string `json:"siteURL"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.
