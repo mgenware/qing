@@ -1,4 +1,6 @@
 /*
+ * Some code is from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav_full.
+ *
  * Copyright (C) 2019 The Qing Project. All rights reserved.
  *
  * Use of this source code is governed by a license that can
@@ -23,6 +25,8 @@ import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
+
+const slideNavID = 'appSlideNav';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -160,6 +164,50 @@ export default class NavBarApp extends BaseElement {
             visibility: collapse;
           }
         }
+
+        .sidenav {
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: #111;
+          overflow-x: hidden;
+          transition: 0.5s;
+          padding-top: 60px;
+          text-align: center;
+        }
+
+        .sidenav a {
+          padding: 8px 8px 8px 32px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+          transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+          color: #f1f1f1;
+        }
+
+        .sidenav .closebtn {
+          position: absolute;
+          top: 0;
+          right: 25px;
+          font-size: 36px;
+          margin-left: 50px;
+        }
+
+        @media screen and (max-height: 450px) {
+          .sidenav {
+            padding-top: 15px;
+          }
+          .sidenav a {
+            font-size: 18px;
+          }
+        }
       `,
     ];
   }
@@ -236,14 +284,50 @@ export default class NavBarApp extends BaseElement {
           ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}
         </a>
 
-        <a href="#" class="toggler" @click=${this.togglerClick}>&#9776;</a>
+        <a href="#" class="toggler" @click=${this.openNav}>&#9776;</a>
       </navbar>
+      <div id=${slideNavID} class="sidenav">
+        <a href="#" class="closebtn" @click=${this.closeNav}>&times;</a>
+        ${user
+          ? html`
+              <div class="dropdown">
+                <button class="dropdown-btn">
+                  <img
+                    alt=${user.name}
+                    src=${user.iconURL}
+                    width="20"
+                    height="20"
+                    class="avatar-s vertical-align-middle" />
+                  <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
+                </button>
+                <div class="dropdown-content">
+                  <a href=${user.url}>${ls.profile}</a>
+                  <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
+                  <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
+                  <hr />
+                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+                    >${ls.newPost}</a
+                  >
+                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+                    >${ls.newThread}</a
+                  >
+                  <hr />
+                  <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+                  ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
+                  <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
+                </div>
+              </div>
+            `
+          : html`
+              <a href=${authRoute.signIn}>
+                <span class="m-l-sm">${ls.signIn}</span>
+              </a>
+              <a href=${authRoute.signUp}>
+                <span class="m-l-sm">${ls.signUp}</span>
+              </a>
+            `}
+      </div>
     `;
-  }
-
-  private togglerClick() {
-    const navbar = this.getShadowElement('main-navbar');
-    navbar?.classList.toggle('expanded');
   }
 
   private toggleTheme() {
@@ -263,6 +347,22 @@ export default class NavBarApp extends BaseElement {
 
   private handleNewPostClick(entityType: number) {
     runNewEntityCommand(entityType, null);
+  }
+
+  private openNav(e: Event) {
+    e.preventDefault();
+    const slideNav = this.getShadowElement(slideNavID);
+    if (slideNav) {
+      slideNav.style.width = '100vw';
+    }
+  }
+
+  private closeNav(e: Event) {
+    e.preventDefault();
+    const slideNav = this.getShadowElement(slideNavID);
+    if (slideNav) {
+      slideNav.style.width = '0';
+    }
   }
 }
 
