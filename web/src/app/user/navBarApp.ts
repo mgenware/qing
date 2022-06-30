@@ -184,6 +184,14 @@ export default class NavBarApp extends BaseElement {
   @lp.number currentTheme = defs.UserTheme.light;
   @lp.state profileMenuExpanded = false;
 
+  get userDropdownBtnEl() {
+    return this.getShadowElement(userDropdownBtnID);
+  }
+
+  get userDropdownEl() {
+    return this.getShadowElement(userDropdownID);
+  }
+
   override firstUpdated() {
     this.user = appPageState.user;
     this.currentTheme = appSettings.theme;
@@ -286,25 +294,58 @@ export default class NavBarApp extends BaseElement {
 
   private async handleProfileMenuClick(e: Event) {
     e.preventDefault();
+    // Stop propagation so that this click event is not captured by `showUserDropdown`.
+    e.stopPropagation();
 
-    const sourceEl = this.getShadowElement(userDropdownBtnID);
-    const dropdownEl = this.getShadowElement(userDropdownID);
+    if (this.profileMenuExpanded) {
+      this.hideUserDropdown();
+    } else {
+      await this.showUserDropdown();
+    }
+  }
+
+  private async showUserDropdown() {
+    const sourceEl = this.userDropdownBtnEl;
+    const dropdownEl = this.userDropdownEl;
     if (!sourceEl || !dropdownEl) {
       return;
     }
 
-    if (this.profileMenuExpanded) {
-      // Close the dropdown.
-    } else {
-      // Show the dropdown.
-      const { x, y } = await computePosition(sourceEl, dropdownEl, { placement: 'bottom-start' });
-      dropdownEl.style.left = `${x}px`;
-      dropdownEl.style.top = `${y}px`;
-      dropdownEl.style.display = 'block';
-    }
+    const { x, y } = await computePosition(sourceEl, dropdownEl, { placement: 'bottom-start' });
+    dropdownEl.style.left = `${x}px`;
+    dropdownEl.style.top = `${y}px`;
+    dropdownEl.style.display = 'block';
 
-    this.profileMenuExpanded = !this.profileMenuExpanded;
+    // Listen for doc events to close the dropdown if necessary.
+    document.addEventListener('click', this.handleDocClickForDropdowns);
+    document.addEventListener('keydown', this.handleDocKeydownForDropdowns);
+
+    this.profileMenuExpanded = true;
   }
+
+  private hideUserDropdown() {
+    const el = this.userDropdownEl;
+    if (el) {
+      el.style.display = 'none';
+    }
+    document.removeEventListener('click', this.handleDocClickForDropdowns);
+    document.removeEventListener('keydown', this.handleDocKeydownForDropdowns);
+    this.profileMenuExpanded = false;
+  }
+
+  // Must be an arrow func for adding and removing handlers to work.
+  handleDocClickForDropdowns = () => {
+    // Any clicks will cause the dropdown to hide including the ones from the dropdown itself.
+    // For example, clicking "New post" triggers an overlay, the dropdown must hide as well.
+    this.hideUserDropdown();
+  };
+
+  // Must be an arrow func for adding and removing handlers to work.
+  handleDocKeydownForDropdowns = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      this.hideUserDropdown();
+    }
+  };
 
   private openNav(e: Event) {
     e.preventDefault();
