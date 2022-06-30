@@ -24,7 +24,7 @@ import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
-import { computePosition } from '@floating-ui/dom';
+import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
 
 const slideNavID = 'appSlideNav';
@@ -62,8 +62,8 @@ export default class NavBarApp extends BaseElement {
           border-bottom: var(--app-navbar-border-bottom);
         }
 
-        navbar a,
-        .dropdown a {
+        navbar > a,
+        .dropdown > a {
           color: var(--app-navbar-fore-color);
           text-align: center;
           padding: 0.875rem 1rem;
@@ -95,27 +95,16 @@ export default class NavBarApp extends BaseElement {
           text-align: left;
         }
 
-        .dropdown-content hr {
-          border-color: var(--app-navbar-divider-color);
-          margin-top: 0.3rem;
-          margin-bottom: 0.3rem;
-        }
-
-        .dropdown:hover .dropdown-content {
-          display: block;
-        }
-
         .fill-space {
           flex-grow: 1;
         }
 
         @media screen and (max-width: 600px) {
           navbar a:not(:first-child),
-          .dropdown .dropdown-btn {
+          .dropdown {
             display: none;
           }
           navbar a.toggler {
-            float: right;
             display: block;
           }
 
@@ -184,6 +173,8 @@ export default class NavBarApp extends BaseElement {
   @lp.number currentTheme = defs.UserTheme.light;
   @lp.state profileMenuExpanded = false;
 
+  private autoUpdateCleanUp?: () => void;
+
   get userDropdownBtnEl() {
     return this.getShadowElement(userDropdownBtnID);
   }
@@ -232,7 +223,7 @@ export default class NavBarApp extends BaseElement {
     `;
   }
 
-  private getNavbarItems(_: boolean) {
+  private getNavbarItems(_sideNav: boolean) {
     const { user } = this;
     return user
       ? html`
@@ -292,7 +283,7 @@ export default class NavBarApp extends BaseElement {
     runNewEntityCommand(entityType, null);
   }
 
-  private async handleProfileMenuClick(e: Event) {
+  private handleProfileMenuClick(e: Event) {
     e.preventDefault();
     // Stop propagation so that this click event is not captured by `showUserDropdown`.
     e.stopPropagation();
@@ -300,21 +291,33 @@ export default class NavBarApp extends BaseElement {
     if (this.profileMenuExpanded) {
       this.hideUserDropdown();
     } else {
-      await this.showUserDropdown();
+      this.showUserDropdown();
     }
   }
 
-  private async showUserDropdown() {
+  private showUserDropdown() {
     const sourceEl = this.userDropdownBtnEl;
     const dropdownEl = this.userDropdownEl;
     if (!sourceEl || !dropdownEl) {
       return;
     }
 
-    const { x, y } = await computePosition(sourceEl, dropdownEl, { placement: 'bottom-start' });
-    dropdownEl.style.left = `${x}px`;
-    dropdownEl.style.top = `${y}px`;
-    dropdownEl.style.display = 'block';
+    this.autoUpdateCleanUp = autoUpdate(sourceEl, dropdownEl, () => {
+      // https://floating-ui.com/docs/autoupdate
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      computePosition(sourceEl, dropdownEl, {
+        placement: 'bottom-start',
+      }).then(({ x, y }) => {
+        const isSourceElHidden = window.getComputedStyle(sourceEl).display === 'none';
+        if (isSourceElHidden) {
+          dropdownEl.style.display = 'none';
+        } else {
+          dropdownEl.style.left = `${x}px`;
+          dropdownEl.style.top = `${y}px`;
+          dropdownEl.style.display = 'block';
+        }
+      });
+    });
 
     // Listen for doc events to close the dropdown if necessary.
     document.addEventListener('click', this.handleDocClickForDropdowns);
@@ -330,6 +333,8 @@ export default class NavBarApp extends BaseElement {
     }
     document.removeEventListener('click', this.handleDocClickForDropdowns);
     document.removeEventListener('keydown', this.handleDocKeydownForDropdowns);
+    this.autoUpdateCleanUp?.();
+    this.autoUpdateCleanUp = undefined;
     this.profileMenuExpanded = false;
   }
 
