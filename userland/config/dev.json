@@ -19,7 +19,7 @@
     "pwd": "qing_dev_pwd",
     "host": "db",
     "port": 3306,
-    "database": "qing_dev_db",
+    "database": "qing_dev",
     "params": "?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
   },
   "res_server": {

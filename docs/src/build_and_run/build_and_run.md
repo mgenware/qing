@@ -33,7 +33,7 @@ Once server is up and running, go to `localhost:8000` to test Qing in browser.
 
 ## Troubleshooting building issues
 
-- Error 1146: Table 'qing_dev_db.table_name' doesn't exist when visiting `localhost:8000`.
+- Error 1146: Table 'qing_dev.table_name' doesn't exist when visiting `localhost:8000`.
   - Some tables are missing in database. Make sure you've run database migrations.
 - Command not found: qing
   - Run `npm i qing-dev -g` in terminal.

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import devConf from '../userland/config/dev.json';
+import devConf from '../userland/config/dev.json' assert { type: 'json' };
 
 // App dir in containers.
 const conAppDir = '/qing';
@@ -59,7 +59,7 @@ const migrate = {
     '-path',
     `${conAppDir}/migrations`,
     '-database',
-    'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev_db?multiStatements=true',
+    'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev?multiStatements=true',
   ],
   depends_on: [sDB],
 };
