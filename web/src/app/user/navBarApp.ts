@@ -24,12 +24,12 @@ import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
+import { computePosition } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
 
 const slideNavID = 'appSlideNav';
-const userDropdownID = 'userDropdown';
 const userDropdownBtnID = 'userDropdownBtn';
-const userDropdownContentID = 'userDropdownContent';
+const userDropdownID = 'userDropdown';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -40,6 +40,7 @@ export default class NavBarApp extends BaseElement {
         :host {
           display: block;
         }
+
         a:hover {
           opacity: 0.8;
           background-color: #ffffff19;
@@ -52,6 +53,7 @@ export default class NavBarApp extends BaseElement {
           pointer-events: none;
           opacity: 0.6;
         }
+
         navbar {
           overflow: hidden;
           display: flex;
@@ -59,36 +61,25 @@ export default class NavBarApp extends BaseElement {
           background-color: var(--app-navbar-back-color);
           border-bottom: var(--app-navbar-border-bottom);
         }
-        navbar a {
-          float: left;
-          display: block;
+
+        navbar a,
+        .dropdown a {
           color: var(--app-navbar-fore-color);
           text-align: center;
           padding: 0.875rem 1rem;
           text-decoration: none;
           font-size: 1.125rem;
         }
+
         navbar .toggler {
           display: none;
         }
+
         .dropdown {
-          float: left;
-          overflow: hidden;
-        }
-        .dropdown .dropdown-btn {
-          font-size: 1rem;
-          cursor: pointer;
-          border: none;
-          outline: none;
-          color: inherit;
-          padding: 0.875rem 1rem;
-          background-color: inherit;
-          font-family: inherit;
-          margin: 0;
-        }
-        .dropdown-content {
-          display: none;
           position: absolute;
+          top: 0;
+          left: 0;
+          display: none;
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
           border: 1px solid var(--app-navbar-divider-color);
@@ -96,24 +87,28 @@ export default class NavBarApp extends BaseElement {
           box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           z-index: 1;
         }
-        .dropdown-content a {
-          float: none;
+
+        .dropdown a {
           padding: 0.75rem 1rem;
           text-decoration: none;
           display: block;
           text-align: left;
         }
+
         .dropdown-content hr {
           border-color: var(--app-navbar-divider-color);
           margin-top: 0.3rem;
           margin-bottom: 0.3rem;
         }
-        .dropdown-content.visible {
+
+        .dropdown:hover .dropdown-content {
           display: block;
         }
+
         .fill-space {
           flex-grow: 1;
         }
+
         @media screen and (max-width: 600px) {
           navbar a:not(:first-child),
           .dropdown .dropdown-btn {
@@ -123,33 +118,11 @@ export default class NavBarApp extends BaseElement {
             float: right;
             display: block;
           }
+
           navbar {
             display: block;
           }
-          navbar.expanded {
-            position: relative;
-          }
-          navbar.expanded .toggler {
-            position: absolute;
-            right: 0;
-            top: 0;
-          }
-          navbar.expanded a {
-            float: none;
-            display: block;
-            text-align: left;
-          }
-          navbar.expanded .dropdown {
-            float: none;
-          }
-          navbar.expanded .dropdown-content {
-            position: relative;
-          }
-          navbar.expanded .dropdown .dropdown-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-          }
+
           .fill-space {
             visibility: collapse;
           }
@@ -211,6 +184,14 @@ export default class NavBarApp extends BaseElement {
   @lp.number currentTheme = defs.UserTheme.light;
   @lp.state profileMenuExpanded = false;
 
+  get userDropdownBtnEl() {
+    return this.getShadowElement(userDropdownBtnID);
+  }
+
+  get userDropdownEl() {
+    return this.getShadowElement(userDropdownID);
+  }
+
   override firstUpdated() {
     this.user = appPageState.user;
     this.currentTheme = appSettings.theme;
@@ -221,6 +202,7 @@ export default class NavBarApp extends BaseElement {
   }
 
   override render() {
+    const { user } = this;
     return html`
       <navbar id="main-navbar">
         <a href="/">
@@ -242,6 +224,7 @@ export default class NavBarApp extends BaseElement {
 
         <a href="#" class="toggler" @click=${this.openNav}>&#9776;</a>
       </navbar>
+      ${user ? this.renderUserDropdown(user) : ''}
       <div id=${slideNavID} class="sidenav">
         <a href="#" class="closebtn" @click=${this.closeNav}>&times;</a>
         ${this.getNavbarItems(true)}
@@ -253,44 +236,41 @@ export default class NavBarApp extends BaseElement {
     const { user } = this;
     return user
       ? html`
-          <div id=${userDropdownID} class="dropdown">
-            <button
-              id=${userDropdownBtnID}
-              class="dropdown-btn"
-              href="#"
-              @click=${this.handleProfileMenuClick}>
-              <img
-                alt=${user.name}
-                src=${user.iconURL}
-                width="20"
-                height="20"
-                class="avatar-s vertical-align-middle" />
-              <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
-            </button>
-            <div
-              id=${userDropdownContentID}
-              class=${classMap({ 'dropdown-content': true, visible: this.profileMenuExpanded })}>
-              <a href=${user.url}>${ls.profile}</a>
-              <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-              <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
-              <hr />
-              <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
-                >${ls.newPost}</a
-              >
-              <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
-                >${ls.newThread}</a
-              >
-              <hr />
-              <a href=${mRoute.settingsProfile}>${ls.settings}</a>
-              ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-              <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
-            </div>
-          </div>
+          <a id=${userDropdownBtnID} href="#" @click=${this.handleProfileMenuClick}>
+            <img
+              alt=${user.name}
+              src=${user.iconURL}
+              width="20"
+              height="20"
+              class="avatar-s vertical-align-middle" />
+            <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
+          </a>
         `
       : html`
           <a href=${authRoute.signIn}>${ls.signIn}</a>
           <a href=${authRoute.signUp}>${ls.signUp}</a>
         `;
+  }
+
+  private renderUserDropdown(user: User) {
+    return html` <div
+      id=${userDropdownID}
+      class=${classMap({ dropdown: true, visible: this.profileMenuExpanded })}>
+      <a href=${user.url}>${ls.profile}</a>
+      <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
+      <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
+      <hr />
+      <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+        >${ls.newPost}</a
+      >
+      <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+        >${ls.newThread}</a
+      >
+      <hr />
+      <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+      ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
+      <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
+    </div>`;
   }
 
   private toggleTheme() {
@@ -312,7 +292,7 @@ export default class NavBarApp extends BaseElement {
     runNewEntityCommand(entityType, null);
   }
 
-  private handleProfileMenuClick(e: Event) {
+  private async handleProfileMenuClick(e: Event) {
     e.preventDefault();
     // Stop propagation so that this click event is not captured by `showUserDropdown`.
     e.stopPropagation();
@@ -320,11 +300,22 @@ export default class NavBarApp extends BaseElement {
     if (this.profileMenuExpanded) {
       this.hideUserDropdown();
     } else {
-      this.showUserDropdown();
+      await this.showUserDropdown();
     }
   }
 
-  private showUserDropdown() {
+  private async showUserDropdown() {
+    const sourceEl = this.userDropdownBtnEl;
+    const dropdownEl = this.userDropdownEl;
+    if (!sourceEl || !dropdownEl) {
+      return;
+    }
+
+    const { x, y } = await computePosition(sourceEl, dropdownEl, { placement: 'bottom-start' });
+    dropdownEl.style.left = `${x}px`;
+    dropdownEl.style.top = `${y}px`;
+    dropdownEl.style.display = 'block';
+
     // Listen for doc events to close the dropdown if necessary.
     document.addEventListener('click', this.handleDocClickForDropdowns);
     document.addEventListener('keydown', this.handleDocKeydownForDropdowns);
@@ -333,6 +324,10 @@ export default class NavBarApp extends BaseElement {
   }
 
   private hideUserDropdown() {
+    const el = this.userDropdownEl;
+    if (el) {
+      el.style.display = 'none';
+    }
     document.removeEventListener('click', this.handleDocClickForDropdowns);
     document.removeEventListener('keydown', this.handleDocKeydownForDropdowns);
     this.profileMenuExpanded = false;
