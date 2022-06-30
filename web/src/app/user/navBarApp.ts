@@ -242,7 +242,7 @@ export default class NavBarApp extends BaseElement {
               width="20"
               height="20"
               class="avatar-s vertical-align-middle" />
-            <span class="m-l-sm vertical-align-middle">${user.name}&#x25BE;</span>
+            <span class="m-l-sm vertical-align-middle">${user.name}&nbsp;&nbsp;&#x25BE;</span>
           </a>
         `
       : html`
