@@ -99,6 +99,7 @@ export default class NavBarApp extends BaseElement {
           flex-grow: 1;
         }
 
+        /** Keep in sync with the same query in JS */
         @media screen and (max-width: 600px) {
           navbar a:not(:first-child),
           .dropdown {
@@ -106,14 +107,6 @@ export default class NavBarApp extends BaseElement {
           }
           navbar a.toggler {
             display: block;
-          }
-
-          navbar {
-            display: block;
-          }
-
-          .fill-space {
-            visibility: collapse;
           }
         }
 
@@ -190,6 +183,13 @@ export default class NavBarApp extends BaseElement {
     appState.observe(appStateName.user, (arg) => {
       this.user = arg as User;
     });
+
+    // Media query changes callback.
+    /** Keep in sync with the same query in CSS */
+    const mediaQuery = window.matchMedia('(max-width: 600px)');
+    mediaQuery.addEventListener('change', (e) => this.handleMediaQueryChange(e.matches));
+    // Call initial handler.
+    this.handleMediaQueryChange(mediaQuery.matches);
   }
 
   override render() {
@@ -213,14 +213,22 @@ export default class NavBarApp extends BaseElement {
           ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}
         </a>
 
-        <a href="#" class="toggler" @click=${this.openNav}>&#9776;</a>
+        <a href="#" class="toggler" @click=${this.openSideNav}>&#9776;</a>
       </navbar>
       ${user ? this.renderUserDropdown(user) : ''}
       <div id=${slideNavID} class="sidenav">
-        <a href="#" class="closebtn" @click=${this.closeNav}>&times;</a>
+        <a href="#" class="closebtn" @click=${this.closeSideNav}>&times;</a>
         ${this.getNavbarItems(true)}
       </div>
     `;
+  }
+
+  private handleMediaQueryChange(smallScreen: boolean) {
+    if (smallScreen) {
+      this.hideUserDropdown();
+    } else {
+      this.closeSideNav(null);
+    }
   }
 
   private getNavbarItems(_sideNav: boolean) {
@@ -234,7 +242,7 @@ export default class NavBarApp extends BaseElement {
               width="20"
               height="20"
               class="avatar-s vertical-align-middle" />
-            <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
+            <span class="m-l-sm vertical-align-middle">${user.name}&#x25BE;</span>
           </a>
         `
       : html`
@@ -352,16 +360,16 @@ export default class NavBarApp extends BaseElement {
     }
   };
 
-  private openNav(e: Event) {
-    e.preventDefault();
+  private openSideNav(e: Event | null) {
+    e?.preventDefault();
     const slideNav = this.getShadowElement(slideNavID);
     if (slideNav) {
       slideNav.style.width = '100vw';
     }
   }
 
-  private closeNav(e: Event) {
-    e.preventDefault();
+  private closeSideNav(e: Event | null) {
+    e?.preventDefault();
     const slideNav = this.getShadowElement(slideNavID);
     if (slideNav) {
       slideNav.style.width = '0';
