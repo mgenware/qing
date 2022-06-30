@@ -7,7 +7,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when } from 'll';
+import { BaseElement, customElement, html, css, when, classMap } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -24,9 +24,12 @@ import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import appSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
+import { computePosition } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
 
 const slideNavID = 'appSlideNav';
+const userDropdownBtnID = 'userDropdownBtn';
+const userDropdownID = 'userDropdown';
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -59,9 +62,8 @@ export default class NavBarApp extends BaseElement {
           border-bottom: var(--app-navbar-border-bottom);
         }
 
-        navbar a {
-          float: left;
-          display: block;
+        navbar a,
+        .dropdown a {
           color: var(--app-navbar-fore-color);
           text-align: center;
           padding: 0.875rem 1rem;
@@ -74,24 +76,10 @@ export default class NavBarApp extends BaseElement {
         }
 
         .dropdown {
-          float: left;
-          overflow: hidden;
-        }
-
-        .dropdown .dropdown-btn {
-          font-size: 1rem;
-          border: none;
-          outline: none;
-          color: inherit;
-          padding: 0.875rem 1rem;
-          background-color: inherit;
-          font-family: inherit;
-          margin: 0;
-        }
-
-        .dropdown-content {
-          display: none;
           position: absolute;
+          top: 0;
+          left: 0;
+          display: none;
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
           border: 1px solid var(--app-navbar-divider-color);
@@ -100,8 +88,7 @@ export default class NavBarApp extends BaseElement {
           z-index: 1;
         }
 
-        .dropdown-content a {
-          float: none;
+        .dropdown a {
           padding: 0.75rem 1rem;
           text-decoration: none;
           display: block;
@@ -136,30 +123,6 @@ export default class NavBarApp extends BaseElement {
             display: block;
           }
 
-          navbar.expanded {
-            position: relative;
-          }
-          navbar.expanded .toggler {
-            position: absolute;
-            right: 0;
-            top: 0;
-          }
-          navbar.expanded a {
-            float: none;
-            display: block;
-            text-align: left;
-          }
-          navbar.expanded .dropdown {
-            float: none;
-          }
-          navbar.expanded .dropdown-content {
-            position: relative;
-          }
-          navbar.expanded .dropdown .dropdown-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-          }
           .fill-space {
             visibility: collapse;
           }
@@ -179,13 +142,18 @@ export default class NavBarApp extends BaseElement {
           text-align: center;
         }
 
-        .sidenav a {
-          padding: 8px 8px 8px 32px;
+        .sidenav a,
+        .sidenav .sub-title {
+          padding: 0.5rem 0.5rem 0.5rem 2rem;
           text-decoration: none;
-          font-size: 25px;
+          font-size: 1.5rem;
           color: #818181;
           display: block;
           transition: 0.3s;
+        }
+
+        .sidenav a.sub-item {
+          font-size: 1.1rem;
         }
 
         .sidenav a:hover {
@@ -214,6 +182,7 @@ export default class NavBarApp extends BaseElement {
 
   @lp.object user: User | null = null;
   @lp.number currentTheme = defs.UserTheme.light;
+  @lp.state profileMenuExpanded = false;
 
   override firstUpdated() {
     this.user = appPageState.user;
@@ -226,7 +195,6 @@ export default class NavBarApp extends BaseElement {
 
   override render() {
     const { user } = this;
-
     return html`
       <navbar id="main-navbar">
         <a href="/">
@@ -240,45 +208,7 @@ export default class NavBarApp extends BaseElement {
         </a>
 
         <div class="fill-space"></div>
-
-        ${user
-          ? html`
-              <div class="dropdown">
-                <button class="dropdown-btn">
-                  <img
-                    alt=${user.name}
-                    src=${user.iconURL}
-                    width="20"
-                    height="20"
-                    class="avatar-s vertical-align-middle" />
-                  <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
-                </button>
-                <div class="dropdown-content">
-                  <a href=${user.url}>${ls.profile}</a>
-                  <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-                  <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
-                  <hr />
-                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
-                    >${ls.newPost}</a
-                  >
-                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
-                    >${ls.newThread}</a
-                  >
-                  <hr />
-                  <a href=${mRoute.settingsProfile}>${ls.settings}</a>
-                  ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-                  <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
-                </div>
-              </div>
-            `
-          : html`
-              <a href=${authRoute.signIn}>
-                <span class="m-l-sm">${ls.signIn}</span>
-              </a>
-              <a href=${authRoute.signUp}>
-                <span class="m-l-sm">${ls.signUp}</span>
-              </a>
-            `}
+        ${this.getNavbarItems(false)}
 
         <a href="#" @click=${this.toggleTheme}>
           ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}
@@ -286,48 +216,53 @@ export default class NavBarApp extends BaseElement {
 
         <a href="#" class="toggler" @click=${this.openNav}>&#9776;</a>
       </navbar>
+      ${user ? this.renderUserDropdown(user) : ''}
       <div id=${slideNavID} class="sidenav">
         <a href="#" class="closebtn" @click=${this.closeNav}>&times;</a>
-        ${user
-          ? html`
-              <div class="dropdown">
-                <button class="dropdown-btn">
-                  <img
-                    alt=${user.name}
-                    src=${user.iconURL}
-                    width="20"
-                    height="20"
-                    class="avatar-s vertical-align-middle" />
-                  <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
-                </button>
-                <div class="dropdown-content">
-                  <a href=${user.url}>${ls.profile}</a>
-                  <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-                  <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
-                  <hr />
-                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
-                    >${ls.newPost}</a
-                  >
-                  <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
-                    >${ls.newThread}</a
-                  >
-                  <hr />
-                  <a href=${mRoute.settingsProfile}>${ls.settings}</a>
-                  ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-                  <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
-                </div>
-              </div>
-            `
-          : html`
-              <a href=${authRoute.signIn}>
-                <span class="m-l-sm">${ls.signIn}</span>
-              </a>
-              <a href=${authRoute.signUp}>
-                <span class="m-l-sm">${ls.signUp}</span>
-              </a>
-            `}
+        ${this.getNavbarItems(true)}
       </div>
     `;
+  }
+
+  private getNavbarItems(_: boolean) {
+    const { user } = this;
+    return user
+      ? html`
+          <a id=${userDropdownBtnID} href="#" @click=${this.handleProfileMenuClick}>
+            <img
+              alt=${user.name}
+              src=${user.iconURL}
+              width="20"
+              height="20"
+              class="avatar-s vertical-align-middle" />
+            <span class="m-l-sm vertical-align-middle">${user.name} &#x25BE;</span>
+          </a>
+        `
+      : html`
+          <a href=${authRoute.signIn}>${ls.signIn}</a>
+          <a href=${authRoute.signUp}>${ls.signUp}</a>
+        `;
+  }
+
+  private renderUserDropdown(user: User) {
+    return html` <div
+      id=${userDropdownID}
+      class=${classMap({ dropdown: true, visible: this.profileMenuExpanded })}>
+      <a href=${user.url}>${ls.profile}</a>
+      <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
+      <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
+      <hr />
+      <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+        >${ls.newPost}</a
+      >
+      <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+        >${ls.newThread}</a
+      >
+      <hr />
+      <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+      ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
+      <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
+    </div>`;
   }
 
   private toggleTheme() {
@@ -347,6 +282,28 @@ export default class NavBarApp extends BaseElement {
 
   private handleNewPostClick(entityType: number) {
     runNewEntityCommand(entityType, null);
+  }
+
+  private async handleProfileMenuClick(e: Event) {
+    e.preventDefault();
+
+    const sourceEl = this.getShadowElement(userDropdownBtnID);
+    const dropdownEl = this.getShadowElement(userDropdownID);
+    if (!sourceEl || !dropdownEl) {
+      return;
+    }
+
+    if (this.profileMenuExpanded) {
+      // Close the dropdown.
+    } else {
+      // Show the dropdown.
+      const { x, y } = await computePosition(sourceEl, dropdownEl, { placement: 'bottom-start' });
+      dropdownEl.style.left = `${x}px`;
+      dropdownEl.style.top = `${y}px`;
+      dropdownEl.style.display = 'block';
+    }
+
+    this.profileMenuExpanded = !this.profileMenuExpanded;
   }
 
   private openNav(e: Event) {
