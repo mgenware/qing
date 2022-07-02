@@ -20,4 +20,5 @@ export class Cookies {
 export enum UserTheme {
   light = 0,
   dark,
+  device,
 }

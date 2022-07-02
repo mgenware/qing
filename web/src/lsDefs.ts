@@ -58,6 +58,7 @@ export default interface LSDefs {
   captcha: string;
   themeDark: string;
   themeLight: string;
+  themeDevice: string;
   profileUpdated: string;
   edit: string;
   delete: string;

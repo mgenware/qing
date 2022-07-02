@@ -7,7 +7,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, classMap } from 'll';
+import { BaseElement, customElement, html, css, when, TemplateResult } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -22,14 +22,27 @@ import appState from 'app/appState';
 import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
-import appSettings from 'app/appSettings';
+import AppSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
+import * as brLib from 'lib/brLib';
 import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
+import { imgMain } from '@qing/routes/d/static';
 
 const slideNavID = 'appSlideNav';
-const userDropdownBtnID = 'userDropdownBtn';
-const userDropdownID = 'userDropdown';
+const userMenuBtnID = 'userMenuBtn';
+const userMenuID = 'userMenu';
+const themeMenuBtnID = 'themeMenuBtn';
+const themeMenuID = 'themeMenu';
+const imgSize = 25;
+
+// Contains element IDs use to identify a menu menu.
+interface MenuElements {
+  // ID of menu button.
+  btnEl: string;
+  // ID of menu menu.
+  menuEl: string;
+}
 
 @customElement('nav-bar-app')
 export default class NavBarApp extends BaseElement {
@@ -63,7 +76,7 @@ export default class NavBarApp extends BaseElement {
         }
 
         navbar > a,
-        .dropdown > a {
+        .menu > a {
           color: var(--app-navbar-fore-color);
           text-align: center;
           padding: 0.875rem 1rem;
@@ -75,7 +88,7 @@ export default class NavBarApp extends BaseElement {
           display: none;
         }
 
-        .dropdown {
+        .menu {
           position: absolute;
           top: 0;
           left: 0;
@@ -88,7 +101,7 @@ export default class NavBarApp extends BaseElement {
           z-index: 1;
         }
 
-        .dropdown a {
+        .menu a {
           padding: 0.75rem 1rem;
           text-decoration: none;
           display: block;
@@ -102,7 +115,7 @@ export default class NavBarApp extends BaseElement {
         /** Keep in sync with the same query in JS */
         @media screen and (max-width: 600px) {
           navbar a:not(:first-child),
-          .dropdown {
+          .menu {
             display: none;
           }
           navbar a.toggler {
@@ -162,23 +175,17 @@ export default class NavBarApp extends BaseElement {
     ];
   }
 
-  @lp.object user: User | null = null;
-  @lp.number currentTheme = defs.UserTheme.light;
-  @lp.state profileMenuExpanded = false;
+  @lp.state user = appPageState.user;
+  @lp.state curTheme = AppSettings.instance.theme;
+  @lp.state curThemeIcon = '';
+  @lp.state curThemeText = '';
 
-  private autoUpdateCleanUp?: () => void;
-
-  get userDropdownBtnEl() {
-    return this.getShadowElement(userDropdownBtnID);
-  }
-
-  get userDropdownEl() {
-    return this.getShadowElement(userDropdownID);
-  }
+  // Menu related vars.
+  #curMenu?: MenuElements;
+  #disposeCurMenu?: () => void;
 
   override firstUpdated() {
-    this.user = appPageState.user;
-    this.currentTheme = appSettings.theme;
+    this.updateThemeProps();
 
     appState.observe(appStateName.user, (arg) => {
       this.user = arg as User;
@@ -186,10 +193,13 @@ export default class NavBarApp extends BaseElement {
 
     // Media query changes callback.
     /** Keep in sync with the same query in CSS */
-    const mediaQuery = window.matchMedia('(max-width: 600px)');
-    mediaQuery.addEventListener('change', (e) => this.handleMediaQueryChange(e.matches));
-    // Call initial handler.
-    this.handleMediaQueryChange(mediaQuery.matches);
+    brLib.mediaQueryHandler('(max-width: 600px)', (match) => {
+      if (match) {
+        this.hideUserMenu();
+      } else {
+        this.closeSideNav(null);
+      }
+    });
   }
 
   override render() {
@@ -200,22 +210,29 @@ export default class NavBarApp extends BaseElement {
           <img
             class="vertical-align-middle"
             src=${staticMainImage('qing.svg')}
-            height="25"
-            width="25"
+            height=${imgSize}
+            width=${imgSize}
+            title=${ls._siteName}
             alt=${ls._siteName} />
           <span class="m-l-sm vertical-align-middle">${ls._siteName}</span>
         </a>
 
         <div class="fill-space"></div>
-        ${this.getNavbarItems(false)}
+        ${this.getNavbarItems(false)} ${this.renderThemeMenu()}
 
-        <a href="#" @click=${this.toggleTheme}>
-          ${this.currentTheme === defs.UserTheme.light ? ls.themeDark : ls.themeLight}
+        <a id=${themeMenuBtnID} href="#" @click=${this.handleThemeMenuClick}>
+          <img
+            title=${this.curThemeText}
+            alt=${this.curThemeText}
+            src=${staticMainImage(this.curThemeIcon)}
+            width=${imgSize}
+            height=${imgSize}
+            class="avatar-s vertical-align-middle" />
         </a>
 
         <a href="#" class="toggler" @click=${this.openSideNav}>&#9776;</a>
       </navbar>
-      ${user ? this.renderUserDropdown(user) : ''}
+      ${user ? this.renderUserMenu(user) : ''}
       <div id=${slideNavID} class="sidenav">
         <a href="#" class="closebtn" @click=${this.closeSideNav}>&times;</a>
         ${this.getNavbarItems(true)}
@@ -223,24 +240,16 @@ export default class NavBarApp extends BaseElement {
     `;
   }
 
-  private handleMediaQueryChange(smallScreen: boolean) {
-    if (smallScreen) {
-      this.hideUserDropdown();
-    } else {
-      this.closeSideNav(null);
-    }
-  }
-
   private getNavbarItems(_sideNav: boolean) {
     const { user } = this;
     return user
       ? html`
-          <a id=${userDropdownBtnID} href="#" @click=${this.handleProfileMenuClick}>
+          <a id=${userMenuBtnID} href="#" @click=${this.handleProfileMenuClick}>
             <img
               alt=${user.name}
               src=${user.iconURL}
-              width="20"
-              height="20"
+              width=${imgSize}
+              height=${imgSize}
               class="avatar-s vertical-align-middle" />
             <span class="m-l-sm vertical-align-middle">${user.name}&nbsp;&nbsp;&#x25BE;</span>
           </a>
@@ -251,32 +260,85 @@ export default class NavBarApp extends BaseElement {
         `;
   }
 
-  private renderUserDropdown(user: User) {
-    return html` <div
-      id=${userDropdownID}
-      class=${classMap({ dropdown: true, visible: this.profileMenuExpanded })}>
-      <a href=${user.url}>${ls.profile}</a>
-      <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-      <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
-      <hr />
-      <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
-        >${ls.newPost}</a
-      >
-      <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
-        >${ls.newThread}</a
-      >
-      <hr />
-      <a href=${mRoute.settingsProfile}>${ls.settings}</a>
-      ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-      <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
-    </div>`;
+  private renderMenu(id: string, content: TemplateResult) {
+    return html` <div id=${id} class="menu">${content}</div> `;
+  }
+
+  private renderUserMenu(user: User) {
+    return this.renderMenu(
+      userMenuID,
+      html`<a href=${user.url}>${ls.profile}</a>
+        <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
+        <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
+        <hr />
+        <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+          >${ls.newPost}</a
+        >
+        <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+          >${ls.newThread}</a
+        >
+        <hr />
+        <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+        ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
+        <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>`,
+    );
+  }
+
+  private renderThemeOption(option: defs.UserTheme, text: string) {
+    return html` <a href="#">
+      <input type="radio" ?checked=${this.currentTheme === option} />
+      <span>${text}</span>
+    </a>`;
+  }
+
+  private renderThemeMenu() {
+    return this.renderMenu(
+      themeMenuID,
+      html`
+        ${this.renderThemeOption(defs.UserTheme.light, ls.themeLight)},
+        ${this.renderThemeOption(defs.UserTheme.dark, ls.themeDark)},
+        ${this.renderThemeOption(defs.UserTheme.device, ls.themeDevice)},
+      `,
+    );
+  }
+
+  private updateThemeProps() {
+    let icon: string;
+    let iconText: string;
+    switch (this.curTheme) {
+      case defs.UserTheme.light:
+        icon = 'light-mode';
+        iconText = ls.themeLight;
+        break;
+
+      case defs.UserTheme.dark:
+        icon = 'dark-mode';
+        iconText = ls.themeDark;
+        break;
+
+      case defs.UserTheme.device:
+        icon = 'device';
+        iconText = ls.themeDevice;
+        break;
+
+      default:
+        icon = '';
+        iconText = '';
+        break;
+    }
+
+    if (icon) {
+      return staticMainImage(`${icon}.svg`);
+    }
+    this.curThemeIcon = icon;
+    this.curThemeText = iconText;
   }
 
   private toggleTheme() {
     const newTheme =
       this.currentTheme === defs.UserTheme.light ? defs.UserTheme.dark : defs.UserTheme.light;
     this.currentTheme = newTheme;
-    appSettings.theme = newTheme;
+    AppSettings.instance.theme = newTheme;
   }
 
   private async handleSignOutClick() {
@@ -293,70 +355,70 @@ export default class NavBarApp extends BaseElement {
 
   private handleProfileMenuClick(e: Event) {
     e.preventDefault();
-    // Stop propagation so that this click event is not captured by `showUserDropdown`.
+    // Stop propagation so that this click event is not captured by `showUserMenu`.
     e.stopPropagation();
 
     if (this.profileMenuExpanded) {
-      this.hideUserDropdown();
+      this.hideUserMenu();
     } else {
-      this.showUserDropdown();
+      this.showUserMenu();
     }
   }
 
-  private showUserDropdown() {
-    const sourceEl = this.userDropdownBtnEl;
-    const dropdownEl = this.userDropdownEl;
-    if (!sourceEl || !dropdownEl) {
+  private showUserMenu() {
+    const sourceEl = this.userMenuBtnEl;
+    const menuEl = this.userMenuEl;
+    if (!sourceEl || !menuEl) {
       return;
     }
 
-    this.autoUpdateCleanUp = autoUpdate(sourceEl, dropdownEl, () => {
+    this.autoUpdateCleanUp = autoUpdate(sourceEl, menuEl, () => {
       // https://floating-ui.com/docs/autoupdate
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      computePosition(sourceEl, dropdownEl, {
+      computePosition(sourceEl, menuEl, {
         placement: 'bottom-start',
       }).then(({ x, y }) => {
         const isSourceElHidden = window.getComputedStyle(sourceEl).display === 'none';
         if (isSourceElHidden) {
-          dropdownEl.style.display = 'none';
+          menuEl.style.display = 'none';
         } else {
-          dropdownEl.style.left = `${x}px`;
-          dropdownEl.style.top = `${y}px`;
-          dropdownEl.style.display = 'block';
+          menuEl.style.left = `${x}px`;
+          menuEl.style.top = `${y}px`;
+          menuEl.style.display = 'block';
         }
       });
     });
 
-    // Listen for doc events to close the dropdown if necessary.
-    document.addEventListener('click', this.handleDocClickForDropdowns);
-    document.addEventListener('keydown', this.handleDocKeydownForDropdowns);
+    // Listen for doc events to close the menu if necessary.
+    document.addEventListener('click', this.handleDocClickForMenus);
+    document.addEventListener('keydown', this.handleDocKeydownForMenus);
 
     this.profileMenuExpanded = true;
   }
 
-  private hideUserDropdown() {
-    const el = this.userDropdownEl;
+  private hideUserMenu() {
+    const el = this.userMenuEl;
     if (el) {
       el.style.display = 'none';
     }
-    document.removeEventListener('click', this.handleDocClickForDropdowns);
-    document.removeEventListener('keydown', this.handleDocKeydownForDropdowns);
+    document.removeEventListener('click', this.handleDocClickForMenus);
+    document.removeEventListener('keydown', this.handleDocKeydownForMenus);
     this.autoUpdateCleanUp?.();
     this.autoUpdateCleanUp = undefined;
     this.profileMenuExpanded = false;
   }
 
   // Must be an arrow func for adding and removing handlers to work.
-  handleDocClickForDropdowns = () => {
-    // Any clicks will cause the dropdown to hide including the ones from the dropdown itself.
-    // For example, clicking "New post" triggers an overlay, the dropdown must hide as well.
-    this.hideUserDropdown();
+  handleDocClickForMenus = () => {
+    // Any clicks will cause the menu to hide including the ones from the menu itself.
+    // For example, clicking "New post" triggers an overlay, the menu must hide as well.
+    this.hideUserMenu();
   };
 
   // Must be an arrow func for adding and removing handlers to work.
-  handleDocKeydownForDropdowns = (e: KeyboardEvent) => {
+  handleDocKeydownForMenus = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      this.hideUserDropdown();
+      this.hideUserMenu();
     }
   };
 

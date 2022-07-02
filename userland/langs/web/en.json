@@ -49,6 +49,7 @@
   "captcha": "code",
   "themeDark": "Dark theme",
   "themeLight": "Light theme",
+  "themeDevice": "Device theme",
   "profileUpdated": "Profile updated",
   "edit": "Edit",
   "delete": "Delete",

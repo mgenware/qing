@@ -9,7 +9,6 @@ import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
 import { html } from 'll';
 import { injectStyles, ready, renderTemplateResult } from 'lib/htmlLib';
-import appSettings from 'app/appSettings';
 import { localizedErrDict } from 'defs';
 import Loader from 'lib/loader';
 import * as cmd from '../appCommands';
@@ -62,9 +61,6 @@ function handleLocalizedStringSlots() {
 ready(() => {
   // Set global error messages to loader type.
   Loader.defaultLocalizedMessageDict = localizedErrDict;
-
-  // Apply necessary settings.
-  appSettings.applySettings();
 
   // Make core styles cross all shadow roots.
   injectStyles(coreStyles);
