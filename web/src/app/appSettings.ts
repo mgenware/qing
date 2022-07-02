@@ -8,10 +8,27 @@
 import cookies from 'js-cookie';
 import * as defs from 'defs';
 import { appdef } from '@qing/def';
+import * as brLib from 'lib/brLib';
 
 const CSS_DARK_THEME = 'theme-dark';
 
-export class AppSettings {
+export default class AppSettings {
+  #systemDarkTheme = false;
+
+  private constructor() {
+    /** Private ctor */
+  }
+
+  static #instance?: AppSettings;
+
+  static get instance() {
+    if (!AppSettings.#instance) {
+      AppSettings.#instance = new AppSettings();
+      AppSettings.#instance.init();
+    }
+    return AppSettings.#instance;
+  }
+
   get theme(): defs.UserTheme {
     return this.getCookieNumber(defs.Cookies.themeKey) || defs.UserTheme.light;
   }
@@ -21,7 +38,7 @@ export class AppSettings {
       return;
     }
     this.setCookieNumber(defs.Cookies.themeKey, value);
-    this.applyTheme(value);
+    this.updateTheme();
   }
 
   get lang(): string {
@@ -32,9 +49,13 @@ export class AppSettings {
     this.setCookieString(appdef.keyLang, value);
   }
 
-  // Called on app startup.
-  applySettings() {
-    this.applyTheme(this.theme);
+  // Called only once by `getInstance`.
+  private init() {
+    brLib.mediaQueryHandler('(prefers-color-scheme: dark)', (dark) => {
+      this.#systemDarkTheme = dark;
+      // Will be called as well on first call to `mediaQueryHandler`.
+      this.updateTheme();
+    });
   }
 
   private getCookieString(key: string): string {
@@ -53,14 +74,18 @@ export class AppSettings {
     this.setCookieString(key, `${value}`);
   }
 
-  private applyTheme(value: defs.UserTheme) {
-    if (value === defs.UserTheme.light) {
-      document.body.classList.remove(CSS_DARK_THEME);
+  private updateTheme() {
+    const { theme } = this;
+    let dark: boolean;
+    if (theme !== defs.UserTheme.device) {
+      dark = theme === defs.UserTheme.dark;
     } else {
+      dark = this.#systemDarkTheme;
+    }
+    if (dark) {
       document.body.classList.add(CSS_DARK_THEME);
+    } else {
+      document.body.classList.remove(CSS_DARK_THEME);
     }
   }
 }
-
-const appSettings = new AppSettings();
-export default appSettings;
