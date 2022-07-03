@@ -27,7 +27,6 @@ import { appdef } from '@qing/def';
 import * as brLib from 'lib/brLib';
 import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
-import { imgMain } from '@qing/routes/d/static';
 
 const slideNavID = 'appSlideNav';
 const userMenuBtnID = 'userMenuBtn';
@@ -39,9 +38,23 @@ const imgSize = 25;
 // Contains element IDs use to identify a menu menu.
 interface MenuElements {
   // ID of menu button.
-  btnEl: string;
+  btnID: string;
   // ID of menu menu.
-  menuEl: string;
+  menuID: string;
+}
+
+enum MenuType {
+  user,
+  theme,
+}
+
+const userMenuElements: MenuElements = { btnID: userMenuBtnID, menuID: userMenuID };
+const themeMenuElements: MenuElements = { btnID: themeMenuBtnID, menuID: themeMenuID };
+
+interface CurMenuData {
+  type: MenuType;
+  elements: MenuElements;
+  dispose: () => void;
 }
 
 @customElement('nav-bar-app')
@@ -82,6 +95,9 @@ export default class NavBarApp extends BaseElement {
           padding: 0.875rem 1rem;
           text-decoration: none;
           font-size: 1.125rem;
+          overflow-wrap: normal;
+          word-break: normal;
+          white-space: nowrap;
         }
 
         navbar .toggler {
@@ -180,12 +196,10 @@ export default class NavBarApp extends BaseElement {
   @lp.state curThemeIcon = '';
   @lp.state curThemeText = '';
 
-  // Menu related vars.
-  #curMenu?: MenuElements;
-  #disposeCurMenu?: () => void;
+  #curMenu?: CurMenuData;
 
   override firstUpdated() {
-    this.updateThemeProps();
+    this.updateThemeIconAndText();
 
     appState.observe(appStateName.user, (arg) => {
       this.user = arg as User;
@@ -195,7 +209,7 @@ export default class NavBarApp extends BaseElement {
     /** Keep in sync with the same query in CSS */
     brLib.mediaQueryHandler('(max-width: 600px)', (match) => {
       if (match) {
-        this.hideUserMenu();
+        this.closeCurMenu();
       } else {
         this.closeSideNav(null);
       }
@@ -220,7 +234,10 @@ export default class NavBarApp extends BaseElement {
         <div class="fill-space"></div>
         ${this.getNavbarItems(false)} ${this.renderThemeMenu()}
 
-        <a id=${themeMenuBtnID} href="#" @click=${this.handleThemeMenuClick}>
+        <a
+          id=${themeMenuBtnID}
+          href="#"
+          @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
           <img
             title=${this.curThemeText}
             alt=${this.curThemeText}
@@ -244,7 +261,10 @@ export default class NavBarApp extends BaseElement {
     const { user } = this;
     return user
       ? html`
-          <a id=${userMenuBtnID} href="#" @click=${this.handleProfileMenuClick}>
+          <a
+            id=${userMenuBtnID}
+            href="#"
+            @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.user)}>
             <img
               alt=${user.name}
               src=${user.iconURL}
@@ -284,25 +304,38 @@ export default class NavBarApp extends BaseElement {
     );
   }
 
-  private renderThemeOption(option: defs.UserTheme, text: string) {
-    return html` <a href="#">
-      <input type="radio" ?checked=${this.currentTheme === option} />
-      <span>${text}</span>
-    </a>`;
+  private renderThemeOption(theme: defs.UserTheme, text: string) {
+    return html` <a href="#" @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
+      <input type="radio" ?checked=${this.curTheme === theme} />&nbsp;${text}</a
+    >`;
+  }
+
+  private handleThemeOptionClick(e: Event, theme: defs.UserTheme) {
+    e.preventDefault();
+    if (this.curTheme === theme) {
+      return;
+    }
+    this.applyTheme(theme);
   }
 
   private renderThemeMenu() {
     return this.renderMenu(
       themeMenuID,
       html`
-        ${this.renderThemeOption(defs.UserTheme.light, ls.themeLight)},
-        ${this.renderThemeOption(defs.UserTheme.dark, ls.themeDark)},
-        ${this.renderThemeOption(defs.UserTheme.device, ls.themeDevice)},
+        ${this.renderThemeOption(defs.UserTheme.light, ls.themeLight)}
+        ${this.renderThemeOption(defs.UserTheme.dark, ls.themeDark)}
+        ${this.renderThemeOption(defs.UserTheme.device, ls.themeDevice)}
       `,
     );
   }
 
-  private updateThemeProps() {
+  private applyTheme(newTheme: defs.UserTheme) {
+    AppSettings.instance.theme = newTheme;
+    this.curTheme = newTheme;
+    this.updateThemeIconAndText();
+  }
+
+  private updateThemeIconAndText() {
     let icon: string;
     let iconText: string;
     switch (this.curTheme) {
@@ -327,18 +360,8 @@ export default class NavBarApp extends BaseElement {
         break;
     }
 
-    if (icon) {
-      return staticMainImage(`${icon}.svg`);
-    }
-    this.curThemeIcon = icon;
+    this.curThemeIcon = `${icon}.svg`;
     this.curThemeText = iconText;
-  }
-
-  private toggleTheme() {
-    const newTheme =
-      this.currentTheme === defs.UserTheme.light ? defs.UserTheme.dark : defs.UserTheme.light;
-    this.currentTheme = newTheme;
-    AppSettings.instance.theme = newTheme;
   }
 
   private async handleSignOutClick() {
@@ -353,32 +376,38 @@ export default class NavBarApp extends BaseElement {
     runNewEntityCommand(entityType, null);
   }
 
-  private handleProfileMenuClick(e: Event) {
+  private handleMenuBtnClick(e: Event, type: MenuType) {
     e.preventDefault();
-    // Stop propagation so that this click event is not captured by `showUserMenu`.
+    // Stop propagation so that this click event is not captured by `showMenu`.
     e.stopPropagation();
 
-    if (this.profileMenuExpanded) {
-      this.hideUserMenu();
+    // Close current menu if needed.
+    if (this.#curMenu && type !== this.#curMenu.type) {
+      this.closeCurMenu();
+    }
+
+    if (this.#curMenu) {
+      this.closeCurMenu();
     } else {
-      this.showUserMenu();
+      this.showMenu(type);
     }
   }
 
-  private showUserMenu() {
-    const sourceEl = this.userMenuBtnEl;
-    const menuEl = this.userMenuEl;
-    if (!sourceEl || !menuEl) {
+  private showMenu(type: MenuType) {
+    const elements = type === MenuType.user ? userMenuElements : themeMenuElements;
+    const btnEl = this.getShadowElement(elements.btnID);
+    const menuEl = this.getShadowElement(elements.menuID);
+    if (!btnEl || !menuEl) {
       return;
     }
 
-    this.autoUpdateCleanUp = autoUpdate(sourceEl, menuEl, () => {
+    const dispose = autoUpdate(btnEl, menuEl, () => {
       // https://floating-ui.com/docs/autoupdate
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      computePosition(sourceEl, menuEl, {
-        placement: 'bottom-start',
+      computePosition(btnEl, menuEl, {
+        placement: 'bottom-end',
       }).then(({ x, y }) => {
-        const isSourceElHidden = window.getComputedStyle(sourceEl).display === 'none';
+        const isSourceElHidden = window.getComputedStyle(btnEl).display === 'none';
         if (isSourceElHidden) {
           menuEl.style.display = 'none';
         } else {
@@ -393,32 +422,40 @@ export default class NavBarApp extends BaseElement {
     document.addEventListener('click', this.handleDocClickForMenus);
     document.addEventListener('keydown', this.handleDocKeydownForMenus);
 
-    this.profileMenuExpanded = true;
+    this.#curMenu = {
+      type,
+      elements,
+      dispose,
+    };
   }
 
-  private hideUserMenu() {
-    const el = this.userMenuEl;
+  private closeCurMenu() {
+    const curMenu = this.#curMenu;
+    if (!curMenu) {
+      return;
+    }
+    const { menuID } = curMenu.elements;
+    const el = this.getShadowElement(menuID);
     if (el) {
       el.style.display = 'none';
     }
     document.removeEventListener('click', this.handleDocClickForMenus);
     document.removeEventListener('keydown', this.handleDocKeydownForMenus);
-    this.autoUpdateCleanUp?.();
-    this.autoUpdateCleanUp = undefined;
-    this.profileMenuExpanded = false;
+    curMenu.dispose();
+    this.#curMenu = undefined;
   }
 
   // Must be an arrow func for adding and removing handlers to work.
   handleDocClickForMenus = () => {
     // Any clicks will cause the menu to hide including the ones from the menu itself.
     // For example, clicking "New post" triggers an overlay, the menu must hide as well.
-    this.hideUserMenu();
+    this.closeCurMenu();
   };
 
   // Must be an arrow func for adding and removing handlers to work.
   handleDocKeydownForMenus = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      this.hideUserMenu();
+      this.closeCurMenu();
     }
   };
 
