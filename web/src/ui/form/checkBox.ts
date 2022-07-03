@@ -29,17 +29,17 @@ export class CheckBox extends BaseElement {
           border-radius: 10%;
           border-style: solid;
           border-width: 0.1rem;
-          border-color: var(--app-default-secondary-fore-color);
+          border-color: var(--unchecked-color, --app-default-secondary-fore-color);
         }
         label > input[type='checkbox']:checked + * {
           font-weight: bold;
         }
         label > input[type='checkbox']:checked + *::before {
           content: '✓';
-          color: var(--app-primary-fore-color);
+          color: var(--checked-color, --app-primary-fore-color);
           text-align: center;
-          background: var(--app-primary-back-color);
-          border-color: var(--app-primary-back-color);
+          background: var(--checked-color, --app-primary-back-color);
+          border-color: var(--checked-color, --app-primary-back-color);
         }
 
         /** Radio-box */
@@ -57,19 +57,19 @@ export class CheckBox extends BaseElement {
           border-radius: 50%;
           border-style: solid;
           border-width: 0.1rem;
-          border-color: var(--app-default-secondary-fore-color);
+          border-color: var(--unchecked-color, --app-default-secondary-fore-color);
         }
         label > input[type='radio']:checked + * {
           font-weight: bold;
         }
         label > input[type='radio']:checked + *::before {
           background: radial-gradient(
-            var(--app-default-primary-fore-color) 0%,
-            var(--app-default-primary-fore-color) 40%,
+            var(--checked-color, --app-default-primary-fore-color) 0%,
+            var(--checked-color, --app-default-primary-fore-color) 40%,
             transparent 50%,
             transparent
           );
-          border-color: var(--app-default-primary-fore-color);
+          border-color: var(--checked-color, --app-default-primary-fore-color);
         }
       `,
     ];

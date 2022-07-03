@@ -27,6 +27,7 @@ import { appdef } from '@qing/def';
 import * as brLib from 'lib/brLib';
 import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
+import 'ui/form/checkBox';
 
 const slideNavID = 'appSlideNav';
 const userMenuBtnID = 'userMenuBtn';
@@ -65,19 +66,6 @@ export default class NavBarApp extends BaseElement {
       css`
         :host {
           display: block;
-        }
-
-        a:hover {
-          opacity: 0.8;
-          background-color: #ffffff19;
-        }
-        a:active {
-          filter: brightness(80%);
-          background-color: #00000019;
-        }
-        a:disabled {
-          pointer-events: none;
-          opacity: 0.6;
         }
 
         navbar {
@@ -122,6 +110,11 @@ export default class NavBarApp extends BaseElement {
           text-decoration: none;
           display: block;
           text-align: left;
+        }
+
+        .menu check-box {
+          --unchecked-color: var(--app-navbar-fore-color);
+          --checked-color: var(--app-navbar-fore-color);
         }
 
         .fill-space {
@@ -306,7 +299,7 @@ export default class NavBarApp extends BaseElement {
 
   private renderThemeOption(theme: defs.UserTheme, text: string) {
     return html` <a href="#" @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
-      <input type="radio" ?checked=${this.curTheme === theme} />&nbsp;${text}</a
+      <check-box radio ?checked=${this.curTheme === theme}></check-box>&nbsp;${text}</a
     >`;
   }
 
