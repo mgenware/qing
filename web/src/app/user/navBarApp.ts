@@ -114,7 +114,8 @@ export default class NavBarApp extends BaseElement {
 
         .menu check-box {
           --unchecked-color: var(--app-navbar-fore-color);
-          --checked-color: var(--app-navbar-fore-color);
+          --checked-mark-color: var(--app-navbar-fore-color);
+          --checked-back-color: var(----app-navbar-back-color);
         }
 
         .fill-space {
