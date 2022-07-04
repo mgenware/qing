@@ -11,7 +11,7 @@ import 'ls';
 import 'app/startup/startup';
 
 // Navbar is displayed in every page.
-import 'app/user/navBarApp';
+import 'app/user/navbarApp';
 
 // Commonly used components.
 import 'qing-button';

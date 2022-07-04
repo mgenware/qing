@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './navBarApp';
+import './navbarApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<nav-bar-app></nav-bar-app>`);
+  const el = await fixture<HTMLElement>(html`<navbar-app></navbar-app>`);
 
   tDOM.isBlockElement(el);
 });

@@ -58,8 +58,8 @@ interface CurMenuData {
   dispose: () => void;
 }
 
-@customElement('nav-bar-app')
-export default class NavBarApp extends BaseElement {
+@customElement('navbar-app')
+export default class NavbarApp extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -472,6 +472,6 @@ export default class NavBarApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'nav-bar-app': NavBarApp;
+    'navbar-app': NavbarApp;
   }
 }
