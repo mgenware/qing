@@ -9,7 +9,8 @@ import * as br from 'br';
 import { User } from 'br';
 import { timeFieldShouldAppear } from './timeField';
 
-const navbarUserButtonSel = '#main-navbar .dropdown .dropdown-btn';
+const navbarUserButtonSel = '#main-navbar #userMenuBtn';
+export const navbarUserMenuSel = '#main-navbar #userMenu';
 
 export interface UserViewShouldAppearArg {
   user: User;
@@ -24,7 +25,7 @@ async function userIconShouldAppear(el: br.Element, u: User) {
 
 async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
-  const img = el.$(`img[src="${u.iconURL}"][width="20"][height="20"]`);
+  const img = el.$(`img[src="${u.iconURL}"][width="25"][height="25"]`);
   await img.shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }

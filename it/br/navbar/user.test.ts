@@ -6,8 +6,12 @@
  */
 
 import { test, usr, $ } from 'br';
-
-const navBarID = '#main-navbar';
+import {
+  navbarUserViewShouldNotAppear,
+  navbarUserViewShouldAppear,
+  navbarUserMenuSel,
+} from 'br/com/content/userView';
+import { navBarID } from './common';
 
 test('Navbar - visitor', async ({ page }) => {
   const p = $(page);
@@ -18,15 +22,12 @@ test('Navbar - visitor', async ({ page }) => {
 test('Navbar - user', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  const userEl = p.$(`${navBarID} .dropdown-btn`);
-  await userEl.$(`img[src="${usr.user.iconURL}"][width="20"][height="20"]`).shouldBeVisible();
-  await userEl.shouldContainTextContent('USER ▾');
+  await navbarUserViewShouldAppear(p, usr.user);
 });
 
 test('Navbar - logout', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  const userEl = p.$(`${navBarID} .dropdown-btn`);
-  await userEl.$hasText('a[href="#"]', 'Sign out').click();
-  await p.$(`${navBarID} > .dropdown`).shouldNotExist();
+  await p.$(navbarUserMenuSel).$aButton('Sign out').click();
+  await navbarUserViewShouldNotAppear(p);
 });
