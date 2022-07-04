@@ -6,26 +6,15 @@
  */
 
 import * as br from 'br';
-import { User } from 'br';
 import { timeFieldShouldAppear } from './timeField';
 
-const navbarUserButtonSel = '#main-navbar #user-menu-btn';
-export const navbarUserMenuSel = '#main-navbar #user-menu';
-
 export interface UserViewShouldAppearArg {
-  user: User;
+  user: br.User;
   hasEdited?: boolean;
 }
 
-async function userIconShouldAppear(el: br.Element, u: User) {
+async function userIconShouldAppear(el: br.Element, u: br.User) {
   const img = el.$(`a[href="/u/${u.id}"] img[src="${u.iconURL}"][width="50"][height="50"]`);
-  await img.shouldBeVisible();
-  await img.shouldHaveAttr('alt', u.name);
-}
-
-async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
-  const u = arg.user;
-  const img = el.$(`img[src="${u.iconURL}"][width="25"][height="25"]`);
   await img.shouldBeVisible();
   await img.shouldHaveAttr('alt', u.name);
 }
@@ -37,14 +26,4 @@ export async function userViewShouldAppear(el: br.Element, arg: UserViewShouldAp
   await el.$hasText(`a[href="/u/${u.id}"]`, u.name).shouldBeVisible();
   // Time field.
   await timeFieldShouldAppear(el.$('time-field'), !!arg.hasEdited);
-}
-
-export async function navbarUserViewShouldNotAppear(page: br.Page) {
-  return page.$(navbarUserButtonSel).shouldNotExist();
-}
-
-export async function navbarUserViewShouldAppear(page: br.Page, u: User) {
-  const navbar = page.$(navbarUserButtonSel);
-  await navbarUserIconShouldAppear(navbar, { user: u });
-  await navbar.$hasText('span', u.name).shouldExist();
 }

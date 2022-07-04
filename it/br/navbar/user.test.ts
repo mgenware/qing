@@ -10,13 +10,13 @@ import {
   navbarUserViewShouldNotAppear,
   navbarUserViewShouldAppear,
   navbarUserMenuSel,
-} from 'br/com/content/userView';
-import { navBarID } from './common';
+  clickNavbarUserMenu,
+} from 'br/com/navbar/navbar';
 
 test('Navbar - visitor', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
-  await p.$(`${navBarID} > .dropdown`).shouldNotExist();
+  await navbarUserViewShouldNotAppear(p);
 });
 
 test('Navbar - user', async ({ page }) => {
@@ -28,6 +28,7 @@ test('Navbar - user', async ({ page }) => {
 test('Navbar - logout', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
+  await clickNavbarUserMenu(p);
   await p.$(navbarUserMenuSel).$aButton('Sign out').click();
   await navbarUserViewShouldNotAppear(p);
 });

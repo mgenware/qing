@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2022 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
 import { EditorPart, getComposerEl, updateEditorContent, waitForOverlayClosed } from './editor';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import * as cm from './common';

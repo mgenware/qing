@@ -6,7 +6,7 @@
  */
 
 import { test, $, usr } from 'br';
-import { navbarUserViewShouldNotAppear, navbarUserViewShouldAppear } from 'br/com/content/userView';
+import { navbarUserViewShouldNotAppear, navbarUserViewShouldAppear } from 'br/com/navbar/navbar';
 
 test('`br.page` has no users logged in', async ({ page }) => {
   const p = $(page);

@@ -6,7 +6,7 @@
  */
 
 import { test, $, Page, usr } from 'br';
-import { navbarUserViewShouldAppear } from 'br/com/content/userView';
+import { navbarUserViewShouldAppear } from 'br/com/navbar/navbar';
 import { authRoot } from '@qing/routes/d/dev/auth';
 
 async function clickSignInButton(p: Page, s: string, eid: boolean) {
