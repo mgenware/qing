@@ -29,11 +29,11 @@ import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
 import 'ui/form/checkBox';
 
-const slideNavID = 'appSlideNav';
-const userMenuBtnID = 'userMenuBtn';
-const userMenuID = 'userMenu';
-const themeMenuBtnID = 'themeMenuBtn';
-const themeMenuID = 'themeMenu';
+const slideNavID = 'app-slide-nav';
+const userMenuBtnID = 'user-menu-btn';
+const userMenuID = 'user-menu';
+const themeMenuBtnID = 'theme-menu-btn';
+const themeMenuID = 'theme-menu';
 const imgSize = 25;
 
 // Contains element IDs use to identify a menu menu.

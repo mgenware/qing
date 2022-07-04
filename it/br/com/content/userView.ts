@@ -9,8 +9,8 @@ import * as br from 'br';
 import { User } from 'br';
 import { timeFieldShouldAppear } from './timeField';
 
-const navbarUserButtonSel = '#main-navbar #userMenuBtn';
-export const navbarUserMenuSel = '#main-navbar #userMenu';
+const navbarUserButtonSel = '#main-navbar #user-menu-btn';
+export const navbarUserMenuSel = '#main-navbar #user-menu';
 
 export interface UserViewShouldAppearArg {
   user: User;
