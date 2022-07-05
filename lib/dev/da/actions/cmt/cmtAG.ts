@@ -8,7 +8,7 @@
 import * as mm from 'mingru-models';
 import { cmt as t } from '../../models/cmt/cmt.js';
 import * as cm from '../../models/common.js';
-import { getEntitySrcType } from '../defs.js';
+import { getEntitySrcType } from '../def.js';
 import { defaultUpdateConditions } from '../common.js';
 import { getSelectCmtsAction } from './cmtAGUtils.js';
 import { updateCounterAction } from '../com/updateCounterAction.js';

@@ -11,7 +11,7 @@ import * as cm from '../../models/common.js';
 import { defaultUpdateConditions } from '../common.js';
 import ContentBase from '../../models/com/contentBase.js';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
-import { getEntitySrcType } from '../defs.js';
+import { getEntitySrcType } from '../def.js';
 
 const insertedIDVar = 'insertedID';
 
