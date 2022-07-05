@@ -27,6 +27,7 @@ import { appdef } from '@qing/def';
 import * as brLib from 'lib/brLib';
 import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
+import * as thm from './theme';
 import 'ui/form/checkBox';
 
 const slideNavID = 'app-slide-nav';
@@ -66,6 +67,11 @@ export default class NavbarApp extends BaseElement {
       css`
         :host {
           display: block;
+        }
+
+        hr {
+          margin: 0.3rem;
+          border-top-color: gray;
         }
 
         navbar {
@@ -187,14 +193,10 @@ export default class NavbarApp extends BaseElement {
 
   @lp.state user = appPageState.user;
   @lp.state curTheme = AppSettings.instance.theme;
-  @lp.state curThemeIcon = '';
-  @lp.state curThemeText = '';
 
   #curMenu?: CurMenuData;
 
   override firstUpdated() {
-    this.updateThemeIconAndText();
-
     appState.observe(appStateName.user, (arg) => {
       this.user = arg as User;
     });
@@ -211,7 +213,10 @@ export default class NavbarApp extends BaseElement {
   }
 
   override render() {
-    const { user } = this;
+    const { user, curTheme } = this;
+
+    const themeText = thm.textMap.get(curTheme) || '';
+    const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
     return html`
       <navbar id="main-navbar">
         <a href="/">
@@ -233,9 +238,9 @@ export default class NavbarApp extends BaseElement {
           href="#"
           @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
           <img
-            title=${this.curThemeText}
-            alt=${this.curThemeText}
-            src=${staticMainImage(this.curThemeIcon)}
+            title=${themeText}
+            alt=${themeText}
+            src=${themeIcon}
             width=${imgSize}
             height=${imgSize}
             class="avatar-s vertical-align-middle" />
@@ -298,9 +303,10 @@ export default class NavbarApp extends BaseElement {
     );
   }
 
-  private renderThemeOption(theme: defs.UserTheme, text: string) {
+  private renderThemeOption(theme: defs.UserTheme) {
+    const themeText = thm.textMap.get(theme) || '';
     return html` <a href="#" @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
-      <check-box radio ?checked=${this.curTheme === theme}></check-box>&nbsp;${text}</a
+      <check-box radio ?checked=${this.curTheme === theme}></check-box>&nbsp;${themeText}</a
     >`;
   }
 
@@ -316,9 +322,9 @@ export default class NavbarApp extends BaseElement {
     return this.renderMenu(
       themeMenuID,
       html`
-        ${this.renderThemeOption(defs.UserTheme.light, ls.themeLight)}
-        ${this.renderThemeOption(defs.UserTheme.dark, ls.themeDark)}
-        ${this.renderThemeOption(defs.UserTheme.device, ls.themeDevice)}
+        ${this.renderThemeOption(defs.UserTheme.light)}
+        ${this.renderThemeOption(defs.UserTheme.dark)}
+        ${this.renderThemeOption(defs.UserTheme.device)}
       `,
     );
   }
@@ -326,36 +332,6 @@ export default class NavbarApp extends BaseElement {
   private applyTheme(newTheme: defs.UserTheme) {
     AppSettings.instance.theme = newTheme;
     this.curTheme = newTheme;
-    this.updateThemeIconAndText();
-  }
-
-  private updateThemeIconAndText() {
-    let icon: string;
-    let iconText: string;
-    switch (this.curTheme) {
-      case defs.UserTheme.light:
-        icon = 'light-mode';
-        iconText = ls.themeLight;
-        break;
-
-      case defs.UserTheme.dark:
-        icon = 'dark-mode';
-        iconText = ls.themeDark;
-        break;
-
-      case defs.UserTheme.device:
-        icon = 'device';
-        iconText = ls.themeDevice;
-        break;
-
-      default:
-        icon = '';
-        iconText = '';
-        break;
-    }
-
-    this.curThemeIcon = `${icon}.svg`;
-    this.curThemeText = iconText;
   }
 
   private async handleSignOutClick() {

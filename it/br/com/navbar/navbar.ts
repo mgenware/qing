@@ -9,8 +9,10 @@ import * as br from 'br';
 import { UserViewShouldAppearArg } from '../content/userView';
 
 const navbarUserButtonSel = '#main-navbar #user-menu-btn';
+const navbarThemeButtonSel = '#main-navbar #theme-menu-btn';
 // After migrating to floating-ui, navbar menus live in global space.
 export const navbarUserMenuSel = '#user-menu';
+export const navbarThemeMenuSel = '#theme-menu';
 
 async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
@@ -31,4 +33,8 @@ export async function navbarUserViewShouldAppear(page: br.Page, u: br.User) {
 
 export async function clickNavbarUserMenu(page: br.Page) {
   return page.$(navbarUserButtonSel).click();
+}
+
+export async function clickNavbarThemeMenu(page: br.Page) {
+  return page.$(navbarThemeButtonSel).click();
 }

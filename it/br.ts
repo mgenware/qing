@@ -157,8 +157,8 @@ export class Element extends LocatorCore {
     return pw.expect(this.c).not.toHaveClass(name);
   }
 
-  shouldNotHaveAttr(name: string, value: string) {
-    return pw.expect(this.c).not.toHaveAttribute(name, value);
+  async shouldNotHaveAttr(name: string) {
+    return pw.expect(await this.c.evaluate((el) => el.getAttribute(name))).toBeNull();
   }
 
   shouldHaveTextContent(val: string | RegExp) {
