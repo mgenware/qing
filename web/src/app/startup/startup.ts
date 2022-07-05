@@ -9,7 +9,7 @@ import ls, { formatLS, getLSByKey } from 'ls';
 import coreStyles from 'app/styles/bundle';
 import { html } from 'll';
 import { injectStyles, ready, renderTemplateResult } from 'lib/htmlLib';
-import { localizedErrDict } from 'defs';
+import { localizedErrDict } from 'def';
 import Loader from 'lib/loader';
 import * as cmd from '../appCommands';
 import { appdef } from '@qing/def';

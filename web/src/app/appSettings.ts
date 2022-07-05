@@ -6,7 +6,7 @@
  */
 
 import cookies from 'js-cookie';
-import * as defs from 'defs';
+import * as def from 'def';
 import { appdef } from '@qing/def';
 import * as brLib from 'lib/brLib';
 
@@ -29,15 +29,15 @@ export default class AppSettings {
     return AppSettings.#instance;
   }
 
-  get theme(): defs.UserTheme {
-    return this.getCookieNumber(defs.Cookies.themeKey) || defs.UserTheme.light;
+  get theme(): def.UserTheme {
+    return this.getCookieNumber(def.Cookies.themeKey) || def.UserTheme.light;
   }
 
-  set theme(value: defs.UserTheme) {
+  set theme(value: def.UserTheme) {
     if (this.theme === value) {
       return;
     }
-    this.setCookieNumber(defs.Cookies.themeKey, value);
+    this.setCookieNumber(def.Cookies.themeKey, value);
     this.updateTheme();
   }
 
@@ -77,8 +77,8 @@ export default class AppSettings {
   private updateTheme() {
     const { theme } = this;
     let dark: boolean;
-    if (theme !== defs.UserTheme.device) {
-      dark = theme === defs.UserTheme.dark;
+    if (theme !== def.UserTheme.device) {
+      dark = theme === def.UserTheme.dark;
     } else {
       dark = this.#systemDarkTheme;
     }

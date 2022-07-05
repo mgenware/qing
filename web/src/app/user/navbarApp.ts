@@ -14,7 +14,7 @@ import { staticMainImage } from 'urls';
 import * as mRoute from '@qing/routes/d/m';
 import * as mxRoute from '@qing/routes/d/mx';
 import * as authRoute from '@qing/routes/d/auth';
-import * as defs from 'defs';
+import * as def from 'def';
 import SignOutLoader from './loaders/signOutLoader';
 import User from './user';
 import appPageState from 'app/appPageState';
@@ -303,14 +303,14 @@ export default class NavbarApp extends BaseElement {
     );
   }
 
-  private renderThemeOption(theme: defs.UserTheme) {
+  private renderThemeOption(theme: def.UserTheme) {
     const themeText = thm.textMap.get(theme) || '';
     return html` <a href="#" @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
       <check-box radio ?checked=${this.curTheme === theme}></check-box>&nbsp;${themeText}</a
     >`;
   }
 
-  private handleThemeOptionClick(e: Event, theme: defs.UserTheme) {
+  private handleThemeOptionClick(e: Event, theme: def.UserTheme) {
     e.preventDefault();
     if (this.curTheme === theme) {
       return;
@@ -322,14 +322,13 @@ export default class NavbarApp extends BaseElement {
     return this.renderMenu(
       themeMenuID,
       html`
-        ${this.renderThemeOption(defs.UserTheme.light)}
-        ${this.renderThemeOption(defs.UserTheme.dark)}
-        ${this.renderThemeOption(defs.UserTheme.device)}
+        ${this.renderThemeOption(def.UserTheme.light)} ${this.renderThemeOption(def.UserTheme.dark)}
+        ${this.renderThemeOption(def.UserTheme.device)}
       `,
     );
   }
 
-  private applyTheme(newTheme: defs.UserTheme) {
+  private applyTheme(newTheme: def.UserTheme) {
     AppSettings.instance.theme = newTheme;
     this.curTheme = newTheme;
   }

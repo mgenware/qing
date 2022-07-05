@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import * as defs from 'defs';
+import * as def from 'def';
 import ls from 'ls';
 
-export const textMap = new Map<defs.UserTheme, string>([
-  [defs.UserTheme.light, ls.themeLight],
-  [defs.UserTheme.dark, ls.themeDark],
-  [defs.UserTheme.device, ls.themeDevice],
+export const textMap = new Map<def.UserTheme, string>([
+  [def.UserTheme.light, ls.themeLight],
+  [def.UserTheme.dark, ls.themeDark],
+  [def.UserTheme.device, ls.themeDevice],
 ]);
 
-export const iconMap = new Map<defs.UserTheme, string>([
-  [defs.UserTheme.light, 'light-mode.svg'],
-  [defs.UserTheme.dark, 'dark-mode.svg'],
-  [defs.UserTheme.device, 'device.svg'],
+export const iconMap = new Map<def.UserTheme, string>([
+  [def.UserTheme.light, 'light-mode.svg'],
+  [def.UserTheme.dark, 'dark-mode.svg'],
+  [def.UserTheme.device, 'device.svg'],
 ]);
