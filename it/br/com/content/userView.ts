@@ -15,15 +15,15 @@ export interface UserViewShouldAppearArg {
 
 async function userIconShouldAppear(el: br.Element, u: br.User) {
   const img = el.$(`a[href="/u/${u.id}"] img[src="${u.iconURL}"][width="50"][height="50"]`);
-  await img.shouldBeVisible();
-  await img.shouldHaveAttr('alt', u.name);
+  await img.e.toBeVisible();
+  await img.e.toHaveAttribute('alt', u.name);
 }
 
 export async function userViewShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
   await userIconShouldAppear(el, u);
   // Name link.
-  await el.$hasText(`a[href="/u/${u.id}"]`, u.name).shouldBeVisible();
+  await el.$hasText(`a[href="/u/${u.id}"]`, u.name).e.toBeVisible();
   // Time field.
   await timeFieldShouldAppear(el.$('time-field'), !!arg.hasEdited);
 }

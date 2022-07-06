@@ -16,13 +16,13 @@ export async function updateEditorContent(el: br.Element, part: EditorPart, cont
   switch (part) {
     case 'content': {
       const contentEl = el.$(cm.editorContentSel);
-      await contentEl.fill(content);
+      await contentEl.c.fill(content);
       break;
     }
 
     case 'title': {
       const inputEl = el.$(cm.editorTitleSel);
-      await inputEl.fill(content);
+      await inputEl.c.fill(content);
       break;
     }
     default:
@@ -43,7 +43,7 @@ export async function waitForOverlayVisible(page: br.Page) {
   const overlayEl = page.$(cm.openOverlaySel);
   await overlayEl.waitForAttached();
   const composerEl = getComposerEl(overlayEl);
-  await composerEl.shouldBeVisible();
+  await composerEl.e.toBeVisible();
   return { overlayEl, composerEl };
 }
 
@@ -65,24 +65,24 @@ export async function editorShouldAppear(page: br.Page, args: EditorShouldAppear
 
   // Dialog name.
   const h2 = overlayEl.$('h2');
-  await h2.shouldHaveTextContent(args.name);
+  await h2.e.toHaveText(args.name);
 
   // Title value.
   if (args.title) {
     const titleInputEl = composerEl.$(cm.editorTitleSel);
-    await titleInputEl.shouldBeVisible();
-    await titleInputEl.shouldHaveAttr('value', args.title);
+    await titleInputEl.e.toBeVisible();
+    await titleInputEl.e.toHaveAttribute('value', args.title);
   } else {
     await composerEl.$(cm.editorTitleSel).shouldNotExist();
   }
 
   const contentInputEl = composerEl.$(cm.editorContentSel);
-  await contentInputEl.shouldBeVisible();
-  await contentInputEl.shouldHaveHTMLContent(args.contentHTML || '<p><br></p>');
+  await contentInputEl.e.toBeVisible();
+  await contentInputEl.shouldHaveHTML(args.contentHTML || '<p><br></p>');
 
   // Check bottom buttons.
   const btnGroupEl = composerEl.$(cm.editorButtonsGroupSel);
-  await btnGroupEl.shouldBeVisible();
+  await btnGroupEl.e.toBeVisible();
   const btnsEl = await btnGroupEl.$$('qing-button').shouldHaveCount(args.buttons.length);
 
   await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));

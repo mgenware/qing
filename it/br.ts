@@ -97,26 +97,6 @@ export class Element extends LocatorCore {
     return this.c.evaluate((innerEl) => pageFunction(mustGetHTMLElement(innerEl)), null, options);
   }
 
-  textContent() {
-    return this.c.textContent();
-  }
-
-  fill(val: string) {
-    return this.c.fill(val);
-  }
-
-  click() {
-    return this.c.click();
-  }
-
-  innerHTML() {
-    return this.c.innerHTML();
-  }
-
-  innerText() {
-    return this.c.innerText();
-  }
-
   waitFor(state: WaitForState) {
     return this.c.waitFor({ state });
   }
@@ -133,56 +113,28 @@ export class Element extends LocatorCore {
     return this.waitFor('detached');
   }
 
+  click() {
+    return this.c.click();
+  }
+
+  get e() {
+    return pw.expect(this.c);
+  }
+
   shouldExist() {
-    return pw.expect(this.c).toHaveCount(1);
-  }
-
-  shouldBeVisible() {
-    return pw.expect(this.c).toBeVisible();
-  }
-
-  shouldNotBeVisible() {
-    return pw.expect(this.c).not.toBeVisible();
+    return this.e.toHaveCount(1);
   }
 
   shouldNotExist() {
-    return pw.expect(this.c).toHaveCount(0);
+    return this.e.toHaveCount(0);
   }
 
-  shouldHaveAttr(name: string, value: string) {
-    return pw.expect(this.c).toHaveAttribute(name, value);
-  }
-
-  shouldHaveClass(name: string) {
-    return pw.expect(this.c).toHaveClass(name);
-  }
-
-  shouldNotHaveClass(name: string) {
-    return pw.expect(this.c).not.toHaveClass(name);
+  async shouldHaveHTML(html: string) {
+    return pw.expect(await this.c.innerHTML()).toBe(html);
   }
 
   async shouldNotHaveAttr(name: string) {
     return pw.expect(await this.c.evaluate((el) => el.getAttribute(name))).toBeNull();
-  }
-
-  shouldHaveTextContent(val: string | RegExp) {
-    return pw.expect(this.c).toHaveText(val);
-  }
-
-  shouldContainTextContent(val: string | RegExp) {
-    return pw.expect(this.c).toContainText(val);
-  }
-
-  shouldHaveHTMLContent(val: string) {
-    return pw.expect(this.c).not.toHaveText(val);
-  }
-
-  shouldHaveFocus() {
-    return pw.expect(this.c).toBeFocused();
-  }
-
-  shouldHaveValue(val: string) {
-    return this.shouldHaveAttr('value', val);
   }
 
   $qingButton(text: string) {

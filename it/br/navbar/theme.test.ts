@@ -12,10 +12,10 @@ const themeOptionText = ['Light theme', 'Dark theme', 'Device theme'];
 const cssDarkTheme = 'theme-dark';
 
 async function checkCheckbox(el: Element, checked: boolean, text: string) {
-  await el.shouldContainTextContent(text);
+  await el.e.toHaveText(text);
   const checkbox = el.$('check-box');
   if (checked) {
-    await checkbox.shouldHaveAttr('checked', '');
+    await checkbox.e.toHaveAttribute('checked', '');
   } else {
     await checkbox.shouldNotHaveAttr('checked');
   }
@@ -31,9 +31,9 @@ async function checkThemeMenu(idx: number, menuEl: Element) {
 
 async function checkTheme(page: Page, dark: boolean) {
   if (dark) {
-    return page.body.shouldHaveClass(cssDarkTheme);
+    return page.body.e.toHaveClass(cssDarkTheme);
   }
-  return page.body.shouldNotHaveClass(cssDarkTheme);
+  return page.body.e.not.toHaveClass(cssDarkTheme);
 }
 
 test('Navbar - Default theme', async ({ page }) => {

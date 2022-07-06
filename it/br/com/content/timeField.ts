@@ -14,10 +14,10 @@ function checkTimeString(s: string, edited: boolean) {
 }
 
 export async function timeFieldShouldAppear(el: br.Element, edited: boolean) {
-  await el.shouldBeVisible();
+  await el.e.toBeVisible();
   if (edited) {
     await el.$hasText('small', 'Edited').waitForVisible();
   }
-  const tsString = await el.$('small').textContent();
+  const tsString = await el.$('small').c.textContent();
   checkTimeString(tsString || '', edited);
 }

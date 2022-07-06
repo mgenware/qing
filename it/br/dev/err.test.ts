@@ -16,8 +16,8 @@ function getHTML(content: string) {
 
 async function errorPageShouldAppear(p: Page, msg: string) {
   const rootView = p.$('div.text-center');
-  await rootView.$('> h1').shouldHaveTextContent('An error occurred');
-  await rootView.$('> p.text-danger').shouldHaveTextContent(msg);
+  await rootView.$('> h1').e.toHaveText('An error occurred');
+  await rootView.$('> p.text-danger').e.toHaveText(msg);
 }
 
 // ----- NOTE: this file only tests error pages. API errors are tested in API tests. -----

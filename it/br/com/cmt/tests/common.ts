@@ -14,7 +14,7 @@ export const cmtChildrenClass = '.br-children';
 export const repliesBtnClass = '.br-replies-btn';
 
 export async function commentsHeadingShouldAppear(e: { cmtApp: br.Element }) {
-  return e.cmtApp.$hasText('h2', 'Comments').shouldBeVisible();
+  return e.cmtApp.$hasText('h2', 'Comments').e.toBeVisible();
 }
 
 export function getNthCmt(e: { cmtApp: br.Element; index: number }) {
@@ -44,27 +44,27 @@ export async function cmtShouldAppear(e: CheckCmtArgs) {
   await userViewShouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
 
   // Comment content.
-  await row.$('div.col > div:nth-child(2)').shouldHaveTextContent(e.content);
+  await row.$('div.col > div:nth-child(2)').e.toHaveText(e.content);
 
   const editBtn = getEditBarEditButton(e.cmtEl, e.author.id);
   if (e.canEdit) {
-    await editBtn.shouldBeVisible();
+    await editBtn.e.toBeVisible();
   } else {
     await editBtn.shouldNotExist();
   }
 
   const highlightedCls = 'row highlighted';
   if (e.highlighted) {
-    await row.shouldHaveClass(highlightedCls);
+    await row.e.toHaveClass(highlightedCls);
   } else {
-    await row.shouldNotHaveClass(highlightedCls);
+    await row.e.not.toHaveClass(highlightedCls);
   }
 }
 
 export async function shouldHaveCmtCount(e: { cmtApp: br.Element; count: number }) {
   await e.cmtApp
     .$('.br-cmt-c')
-    .shouldHaveTextContent(e.count === 1 ? '1 comment' : `${e.count || 'No'} comments`);
+    .e.toHaveText(e.count === 1 ? '1 comment' : `${e.count || 'No'} comments`);
 }
 
 export async function shouldHaveShownRootCmtCount(el: br.Element, count: number) {
@@ -73,9 +73,7 @@ export async function shouldHaveShownRootCmtCount(el: br.Element, count: number)
 
 export async function shouldHaveReplyCount(e: { cmtEl: br.Element; count: number; shown: number }) {
   const text = e.count === 1 ? '1 reply' : `${e.count || 'No'} replies`;
-  await e.cmtEl
-    .$(`${repliesBtnClass} link-button`)
-    .shouldHaveTextContent(e.shown ? `${text} ↑` : text);
+  await e.cmtEl.$(`${repliesBtnClass} link-button`).e.toHaveText(e.shown ? `${text} ↑` : text);
   if (e.shown) {
     await e.cmtEl.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(e.shown);
   }

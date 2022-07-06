@@ -14,17 +14,17 @@ export interface ButtonTraits {
 }
 
 export async function buttonShouldHaveFocus(el: br.Element) {
-  await el.$('button').shouldHaveFocus();
+  await el.$('button').e.toBeFocused();
   return el;
 }
 
 export async function buttonShouldAppear(el: br.Element, traits: ButtonTraits) {
-  await el.shouldHaveTextContent(traits.text);
+  await el.e.toHaveText(traits.text);
   if (traits.focused) {
     await buttonShouldHaveFocus(el);
   }
   if (traits.style) {
-    await el.shouldHaveAttr('btnStyle', traits.style);
+    await el.e.toHaveAttribute('btnStyle', traits.style);
   }
   return el;
 }

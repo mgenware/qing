@@ -13,6 +13,6 @@ test('__/elements', async ({ page }) => {
   await p.goto(elementsRoot, null);
 
   // Do a brief check on elements page.
-  await p.body.$hasText('h1', 'Colors').shouldBeVisible();
-  await p.body.$hasText('h2', 'Default context').shouldBeVisible();
+  await p.body.$hasText('h1', 'Colors').e.toBeVisible();
+  await p.body.$hasText('h2', 'Default context').e.toBeVisible();
 });

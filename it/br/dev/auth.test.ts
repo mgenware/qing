@@ -14,7 +14,7 @@ async function clickSignInButton(p: Page, s: string, eid: boolean) {
   if (eid) {
     await el.$checkBox({ text: 'Encoded', radio: true }).click();
   }
-  await el.$('input-view[label="UID"] input').fill(s);
+  await el.$('input-view[label="UID"] input').c.fill(s);
   await el.$qingButton('Sign in').click();
 }
 

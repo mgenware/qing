@@ -17,8 +17,8 @@ export const navbarThemeMenuSel = '#theme-menu';
 async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
   const u = arg.user;
   const img = el.$(`img[src="${u.iconURL}"][width="25"][height="25"]`);
-  await img.shouldBeVisible();
-  await img.shouldHaveAttr('alt', u.name);
+  await img.e.toBeVisible();
+  await img.e.toHaveAttribute('alt', u.name);
 }
 
 export async function navbarUserViewShouldNotAppear(page: br.Page) {

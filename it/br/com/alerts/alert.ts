@@ -77,24 +77,24 @@ export async function alertShouldAppear(
 ): Promise<br.ElementCollection> {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
-  await el.shouldHaveAttr('open', '');
+  await el.e.toHaveAttribute('open', '');
 
   // Title.
   // eslint-disable-next-line no-param-reassign
   const title = arg.title ?? typeToTitle(arg.type);
-  await el.$hasText('h2', title).shouldBeVisible();
+  await el.$hasText('h2', title).e.toBeVisible();
 
   // Icon.
-  await el.$(`svg-icon[iconstyle='${typeToString(arg.type)}']`).shouldBeVisible();
+  await el.$(`svg-icon[iconstyle='${typeToString(arg.type)}']`).e.toBeVisible();
 
   // Content.
-  await el.$hasText('p', arg.content).shouldBeVisible();
+  await el.$hasText('p', arg.content).e.toBeVisible();
 
   // Buttons.
   const btns = el.$$('#__buttons qing-button');
   const btnNames = alertButtonsToArray(arg.buttons);
   await btns.shouldHaveCount(btnNames.length);
-  await Promise.all(btnNames.map((b, i) => btns.item(i).shouldHaveTextContent(b)));
+  await Promise.all(btnNames.map((b, i) => btns.item(i).e.toHaveText(b)));
 
   // TODO: Re-enable focus check.
   // await buttonShouldHaveFocus(btns.item(focused));

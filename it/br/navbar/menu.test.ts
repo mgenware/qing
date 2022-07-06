@@ -20,15 +20,15 @@ test('Navbar - Dismiss user menu', async ({ page }) => {
   await p.goto('/', usr.user);
   // Dismissed by Esc.
   await clickNavbarUserMenu(p);
-  await p.$(navbarUserMenuSel).shouldBeVisible();
+  await p.$(navbarUserMenuSel).e.toBeVisible();
   await p.c.keyboard.down('Escape');
-  await p.$(navbarUserMenuSel).shouldNotBeVisible();
+  await p.$(navbarUserMenuSel).e.not.toBeVisible();
 
   // Dismissed by clicks.
   await clickNavbarUserMenu(p);
-  await p.$(navbarUserMenuSel).shouldBeVisible();
+  await p.$(navbarUserMenuSel).e.toBeVisible();
   await p.$(emptyContentID).click();
-  await p.$(navbarUserMenuSel).shouldNotBeVisible();
+  await p.$(navbarUserMenuSel).e.not.toBeVisible();
 });
 
 test('Navbar - Dismiss theme menu', async ({ page }) => {
@@ -36,13 +36,13 @@ test('Navbar - Dismiss theme menu', async ({ page }) => {
   await p.goto('/', null);
   // Dismissed by Esc.
   await clickNavbarThemeMenu(p);
-  await p.$(navbarThemeMenuSel).shouldBeVisible();
+  await p.$(navbarThemeMenuSel).e.toBeVisible();
   await p.c.keyboard.down('Escape');
-  await p.$(navbarThemeMenuSel).shouldNotBeVisible();
+  await p.$(navbarThemeMenuSel).e.not.toBeVisible();
 
   // Dismissed by clicks.
   await clickNavbarThemeMenu(p);
-  await p.$(navbarThemeMenuSel).shouldBeVisible();
+  await p.$(navbarThemeMenuSel).e.toBeVisible();
   await p.$(emptyContentID).click();
-  await p.$(navbarThemeMenuSel).shouldNotBeVisible();
+  await p.$(navbarThemeMenuSel).e.not.toBeVisible();
 });

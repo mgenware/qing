@@ -9,16 +9,16 @@ import * as br from 'br';
 
 export async function likesShouldAppear(el: br.Element, value: number, liked: boolean) {
   const btnEl = el.$('like-view qing-button');
-  await btnEl.shouldBeVisible();
+  await btnEl.e.toBeVisible();
 
   // Element value.
   const numEl = btnEl.$('span.num');
   if (value) {
-    await numEl.shouldHaveTextContent(`${value}`);
+    await numEl.e.toHaveText(`${value}`);
   } else {
     await numEl.shouldNotExist();
   }
 
   // Liked status.
-  await btnEl.$('svg-icon').shouldHaveAttr('class', liked ? 'liked' : 'not-liked');
+  await btnEl.$('svg-icon').e.toHaveAttribute('class', liked ? 'liked' : 'not-liked');
 }

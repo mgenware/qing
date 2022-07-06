@@ -15,13 +15,13 @@ export const userViewQuery = 'main > container-view > div.m-post-user > post-use
 export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export async function postShouldHaveContent(page: br.Page, text: string) {
-  await page.$('.m-post-user + hr + div').shouldHaveTextContent(text);
+  await page.$('.m-post-user + hr + div').e.toHaveText(text);
 }
 
 export async function postShouldHaveTitle(page: br.Page, title: string, link: string) {
   const aEl = page.$('main > container-view > h2 > a');
   expect((await aEl.getAttribute('href'))?.endsWith(link)).toBeTruthy();
-  expect(await aEl.textContent()).toBe(title);
+  expect(await aEl.c.textContent()).toBe(title);
 }
 
 export async function postCoreTraitsShouldAppear(
