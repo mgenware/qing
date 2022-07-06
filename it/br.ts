@@ -141,6 +141,10 @@ export class Element extends LocatorCore {
     return pw.expect(this.c).toBeVisible();
   }
 
+  shouldNotBeVisible() {
+    return pw.expect(this.c).not.toBeVisible();
+  }
+
   shouldNotExist() {
     return pw.expect(this.c).toHaveCount(0);
   }
