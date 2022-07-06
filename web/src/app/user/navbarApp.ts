@@ -7,7 +7,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, TemplateResult } from 'll';
+import { BaseElement, customElement, html, css, TemplateResult, when } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -213,10 +213,8 @@ export default class NavbarApp extends BaseElement {
   }
 
   override render() {
-    const { user, curTheme } = this;
+    const { user } = this;
 
-    const themeText = thm.textMap.get(curTheme) || '';
-    const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
     return html`
       <navbar id="main-navbar">
         <a href="/">
@@ -231,24 +229,11 @@ export default class NavbarApp extends BaseElement {
         </a>
 
         <div class="fill-space"></div>
-        ${this.getNavbarItems(false)} ${this.renderThemeMenu()}
-
-        <a
-          id=${themeMenuBtnID}
-          href="#"
-          @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
-          <img
-            title=${themeText}
-            alt=${themeText}
-            src=${themeIcon}
-            width=${imgSize}
-            height=${imgSize}
-            class="avatar-s vertical-align-middle" />
-        </a>
+        ${this.getNavbarItems(false)}
 
         <a href="#" class="toggler" @click=${this.openSideNav}>&#9776;</a>
       </navbar>
-      ${user ? this.renderUserMenu(user) : ''}
+      <div>${this.renderThemeMenu(false)} ${user ? this.renderUserMenu(user, false) : ''}</div>
       <div id=${slideNavID} class="sidenav">
         <a href="#" class="closebtn" @click=${this.closeSideNav}>&times;</a>
         ${this.getNavbarItems(true)}
@@ -256,9 +241,12 @@ export default class NavbarApp extends BaseElement {
     `;
   }
 
-  private getNavbarItems(_sideNav: boolean) {
-    const { user } = this;
-    return user
+  private getNavbarItems(sideNav: boolean) {
+    const { user, curTheme } = this;
+    const themeText = thm.textMap.get(curTheme) || '';
+    const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
+
+    const userContent = user
       ? html`
           <a
             id=${userMenuBtnID}
@@ -272,20 +260,41 @@ export default class NavbarApp extends BaseElement {
               class="avatar-s vertical-align-middle" />
             <span class="m-l-sm vertical-align-middle">${user.name}&nbsp;&nbsp;&#x25BE;</span>
           </a>
+          ${when(sideNav, () => this.renderUserMenu(user, true))}
         `
       : html`
           <a href=${authRoute.signIn}>${ls.signIn}</a>
           <a href=${authRoute.signUp}>${ls.signUp}</a>
         `;
+
+    const themeContent = html`<a
+      id=${themeMenuBtnID}
+      href="#"
+      @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
+      <img
+        title=${themeText}
+        alt=${themeText}
+        src=${themeIcon}
+        width=${imgSize}
+        height=${imgSize}
+        class="avatar-s vertical-align-middle" />
+    </a>`;
+
+    return html`${userContent}${themeContent}`;
   }
 
-  private renderMenu(id: string, content: TemplateResult) {
+  private renderMenu(id: string, sideNav: boolean, content: TemplateResult) {
+    if (sideNav) {
+      // Simply return the content for side nav mode.
+      return content;
+    }
     return html` <div id=${id} class="menu">${content}</div> `;
   }
 
-  private renderUserMenu(user: User) {
+  private renderUserMenu(user: User, sideNav: boolean) {
     return this.renderMenu(
       userMenuID,
+      sideNav,
       html`<a href=${user.url}>${ls.profile}</a>
         <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
         <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
@@ -318,9 +327,10 @@ export default class NavbarApp extends BaseElement {
     this.applyTheme(theme);
   }
 
-  private renderThemeMenu() {
+  private renderThemeMenu(sideNav: boolean) {
     return this.renderMenu(
       themeMenuID,
+      sideNav,
       html`
         ${this.renderThemeOption(def.UserTheme.light)} ${this.renderThemeOption(def.UserTheme.dark)}
         ${this.renderThemeOption(def.UserTheme.device)}
