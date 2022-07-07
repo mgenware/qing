@@ -7,7 +7,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when } from 'll';
+import { BaseElement, customElement, html, css, when, classMap } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -25,39 +25,20 @@ import pageUtils from 'app/utils/pageUtils';
 import AppSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
 import * as brLib from 'lib/brLib';
-import { computePosition, autoUpdate } from '@floating-ui/dom';
 import { runNewEntityCommand } from 'app/appCommands';
 import * as thm from './theme';
 import 'ui/form/checkBox';
 
 const slideNavID = 'app-slide-nav';
-const userMenuBtnID = 'user-menu-btn';
-const userMenuID = 'user-menu';
-const themeMenuBtnID = 'theme-menu-btn';
-const themeMenuID = 'theme-menu';
-const menuOverlayCls = 'menu-overlay';
 const imgSize = 25;
 
-// Contains element IDs use to identify a menu menu.
-interface MenuElements {
-  // ID of menu button.
-  btnID: string;
-  // ID of menu menu.
-  menuID: string;
-}
+const dropdownBtnCls = 'dropdown-btn';
+const dropdownCls = 'dropdown';
 
 enum MenuType {
-  user,
+  // This type is nullable, first field must be greater than 0.
+  user = 1,
   theme,
-}
-
-const userMenuElements: MenuElements = { btnID: userMenuBtnID, menuID: userMenuID };
-const themeMenuElements: MenuElements = { btnID: themeMenuBtnID, menuID: themeMenuID };
-
-interface CurMenuData {
-  type: MenuType;
-  elements: MenuElements;
-  dispose: () => void;
 }
 
 @customElement('navbar-app')
@@ -76,7 +57,6 @@ export default class NavbarApp extends BaseElement {
         }
 
         navbar {
-          overflow: hidden;
           display: flex;
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
@@ -97,11 +77,16 @@ export default class NavbarApp extends BaseElement {
           display: none;
         }
 
-        .menu-overlay {
+        .dropdown-btn {
+          position: relative;
+          display: flex;
+        }
+
+        .dropdown {
           position: absolute;
-          top: 0;
-          left: 0;
           display: none;
+          top: 100%;
+          right: 0;
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
           border: 1px solid var(--app-navbar-divider-color);
@@ -110,7 +95,11 @@ export default class NavbarApp extends BaseElement {
           z-index: 1;
         }
 
-        .menu-overlay .list a {
+        d-block {
+          display: block !important;
+        }
+
+        .dropdown.list a {
           padding: 0.75rem 1rem;
           text-decoration: none;
           display: block;
@@ -197,8 +186,7 @@ export default class NavbarApp extends BaseElement {
 
   @lp.state user = appPageState.user;
   @lp.state curTheme = AppSettings.instance.theme;
-
-  #curMenu?: CurMenuData;
+  @lp.state curOpenMenu: MenuType | null = null;
 
   override firstUpdated() {
     appState.observe(appStateName.user, (arg) => {
@@ -217,8 +205,6 @@ export default class NavbarApp extends BaseElement {
   }
 
   override render() {
-    const { user } = this;
-
     return html`
       <navbar id="main-navbar">
         <a href="/">
@@ -237,7 +223,6 @@ export default class NavbarApp extends BaseElement {
 
         <a href="#" class="toggler" @click=${this.openSideNav}>&#9776;</a>
       </navbar>
-      <div>${user ? this.renderUserMenu(user, false) : ''} ${this.renderThemeMenu(false)}</div>
       <div id=${slideNavID} class="sidenav">
         <a href="#" class="closebtn" @click=${this.closeSideNav}>&times;</a>
         ${this.getNavbarItems(true)}
@@ -250,29 +235,33 @@ export default class NavbarApp extends BaseElement {
     const themeText = thm.textMap.get(curTheme) || '';
     const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
 
-    const userContent = user
-      ? html`
-          <a
-            id=${this.scopedID(userMenuBtnID, sideNav)}
-            href="#"
-            @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.user)}>
-            <img
-              alt=${user.name}
-              src=${user.iconURL}
-              width=${imgSize}
-              height=${imgSize}
-              class="avatar-s vertical-align-middle" />
-            <span class="m-l-sm vertical-align-middle">${user.name}&nbsp;&nbsp;&#x25BE;</span>
-          </a>
-          ${when(sideNav, () => this.renderUserMenu(user, true))}
-        `
-      : html`
-          <a href=${authRoute.signIn}>${ls.signIn}</a>
-          <a href=${authRoute.signUp}>${ls.signUp}</a>
-        `;
+    if (!user) {
+      return html`
+        <a href=${authRoute.signIn}>${ls.signIn}</a>
+        <a href=${authRoute.signUp}>${ls.signUp}</a>
+      `;
+    }
+
+    const userRootBtn = html`<a
+      href="#"
+      @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.user)}>
+      <img
+        alt=${user.name}
+        src=${user.iconURL}
+        width=${imgSize}
+        height=${imgSize}
+        class="avatar-s vertical-align-middle" />
+      <span class="m-l-sm vertical-align-middle">${user.name}&nbsp;&nbsp;&#x25BE;</span>
+    </a>`;
+
+    const userContent = html`
+      <div class=${dropdownBtnCls}>
+        ${userRootBtn} ${when(!sideNav, () => this.renderUserMenu(user, false))}
+      </div>
+      ${when(sideNav, () => this.renderUserMenu(user, true))}
+    `;
 
     const themeContent = html`<a
-        id=${this.scopedID(themeMenuBtnID, sideNav)}
         href="#"
         @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
         <img
@@ -290,7 +279,12 @@ export default class NavbarApp extends BaseElement {
 
   private renderUserMenu(user: User, sideNav: boolean) {
     return html`
-      <div id=${this.scopedID(userMenuID, sideNav)} class=${sideNav ? '' : menuOverlayCls}>
+      <div
+        class=${classMap({
+          [dropdownCls]: !sideNav,
+          'd-block': this.curOpenMenu === MenuType.user,
+          list: true,
+        })}>
         <div class="list">
           <a href=${user.url}>${ls.profile}</a>
           <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
@@ -326,9 +320,9 @@ export default class NavbarApp extends BaseElement {
     this.applyTheme(theme);
   }
 
-  private renderThemeMenu(sideNav: boolean) {
+  private renderThemeMenu(_sideNav: boolean) {
     return html`
-      <div id=${this.scopedID(themeMenuID, sideNav)} class=${sideNav ? '' : menuOverlayCls}>
+      <div>
         <div class="grid">
           ${this.renderThemeOption(def.UserTheme.light)}
           ${this.renderThemeOption(def.UserTheme.dark)}
@@ -360,77 +354,32 @@ export default class NavbarApp extends BaseElement {
     // Stop propagation so that this click event is not captured by `showMenu`.
     e.stopPropagation();
 
-    // Close current menu if needed.
-    if (this.#curMenu && type !== this.#curMenu.type) {
+    if (this.curOpenMenu === type) {
+      // Close the open menu.
       this.closeCurMenu();
-    }
-
-    if (this.#curMenu) {
-      this.closeCurMenu();
+    } else if (this.curOpenMenu) {
+      // Switch to another menu.
+      this.curOpenMenu = type;
     } else {
+      // Open the specified menu.
       this.showMenu(type);
     }
   }
 
   private showMenu(type: MenuType) {
-    const elements = type === MenuType.user ? userMenuElements : themeMenuElements;
-    const btnEl = this.getMenuEl(elements.btnID);
-    const menuEl = this.getMenuEl(elements.menuID);
-    if (!btnEl || !menuEl) {
-      return;
-    }
-
-    const dispose = autoUpdate(btnEl, menuEl, () => {
-      // https://floating-ui.com/docs/autoupdate
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      return computePosition(btnEl, menuEl, {
-        placement: 'bottom-end',
-      }).then(({ x, y }) => {
-        const isSourceElHidden = window.getComputedStyle(btnEl).display === 'none';
-        if (isSourceElHidden) {
-          menuEl.style.display = 'none';
-        } else {
-          menuEl.style.left = `${x}px`;
-          menuEl.style.top = `${y}px`;
-          menuEl.style.display = 'block';
-        }
-      });
-    });
-
     // Listen for doc events to close the menu if necessary.
     document.addEventListener('click', this.handleDocClickForMenus);
     document.addEventListener('keydown', this.handleDocKeydownForMenus);
-
-    this.#curMenu = {
-      type,
-      elements,
-      dispose,
-    };
-  }
-
-  // Returns an ID that is scoped to either main nav or side nav.
-  private scopedID(id: string, sideNav: boolean) {
-    return `${sideNav ? 'side-' : 'main-'}${id}`;
-  }
-
-  // Returns an element from the given main nav menu ID.
-  private getMenuEl(id: string) {
-    return this.getShadowElement(this.scopedID(id, false));
+    this.curOpenMenu = type;
   }
 
   private closeCurMenu() {
-    const curMenu = this.#curMenu;
-    if (!curMenu) {
+    if (!this.curOpenMenu) {
       return;
-    }
-    const el = this.getMenuEl(curMenu.elements.menuID);
-    if (el) {
-      el.style.display = 'none';
     }
     document.removeEventListener('click', this.handleDocClickForMenus);
     document.removeEventListener('keydown', this.handleDocKeydownForMenus);
-    curMenu.dispose();
-    this.#curMenu = undefined;
+    this.curOpenMenu = null;
   }
 
   // Must be an arrow func for adding and removing handlers to work.

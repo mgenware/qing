@@ -10,7 +10,6 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@floating-ui/dom": "^0.5.4",
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.5",
     "@qing/def": "workspace:*",
