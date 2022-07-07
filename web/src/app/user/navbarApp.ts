@@ -7,7 +7,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, TemplateResult, when } from 'll';
+import { BaseElement, customElement, html, css, when } from 'll';
 import * as lp from 'lit-props';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -35,6 +35,7 @@ const userMenuBtnID = 'user-menu-btn';
 const userMenuID = 'user-menu';
 const themeMenuBtnID = 'theme-menu-btn';
 const themeMenuID = 'theme-menu';
+const menuOverlayCls = 'menu-overlay';
 const imgSize = 25;
 
 // Contains element IDs use to identify a menu menu.
@@ -82,10 +83,8 @@ export default class NavbarApp extends BaseElement {
           border-bottom: var(--app-navbar-border-bottom);
         }
 
-        navbar > a,
-        .menu > a {
+        a {
           color: var(--app-navbar-fore-color);
-          text-align: center;
           padding: 0.875rem 1rem;
           text-decoration: none;
           font-size: 1.125rem;
@@ -98,7 +97,7 @@ export default class NavbarApp extends BaseElement {
           display: none;
         }
 
-        .menu {
+        .menu-overlay {
           position: absolute;
           top: 0;
           left: 0;
@@ -111,17 +110,22 @@ export default class NavbarApp extends BaseElement {
           z-index: 1;
         }
 
-        .menu a {
+        .menu-overlay .list a {
           padding: 0.75rem 1rem;
           text-decoration: none;
           display: block;
           text-align: left;
         }
 
-        .menu check-box {
+        .grid check-box {
           --unchecked-color: var(--app-navbar-fore-color);
           --checked-mark-color: var(--app-navbar-fore-color);
           --checked-back-color: var(----app-navbar-back-color);
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(3, auto);
         }
 
         .fill-space {
@@ -233,7 +237,7 @@ export default class NavbarApp extends BaseElement {
 
         <a href="#" class="toggler" @click=${this.openSideNav}>&#9776;</a>
       </navbar>
-      <div>${this.renderThemeMenu(false)} ${user ? this.renderUserMenu(user, false) : ''}</div>
+      <div>${user ? this.renderUserMenu(user, false) : ''} ${this.renderThemeMenu(false)}</div>
       <div id=${slideNavID} class="sidenav">
         <a href="#" class="closebtn" @click=${this.closeSideNav}>&times;</a>
         ${this.getNavbarItems(true)}
@@ -249,7 +253,7 @@ export default class NavbarApp extends BaseElement {
     const userContent = user
       ? html`
           <a
-            id=${userMenuBtnID}
+            id=${this.scopedID(userMenuBtnID, sideNav)}
             href="#"
             @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.user)}>
             <img
@@ -268,48 +272,43 @@ export default class NavbarApp extends BaseElement {
         `;
 
     const themeContent = html`<a
-      id=${themeMenuBtnID}
-      href="#"
-      @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
-      <img
-        title=${themeText}
-        alt=${themeText}
-        src=${themeIcon}
-        width=${imgSize}
-        height=${imgSize}
-        class="avatar-s vertical-align-middle" />
-    </a>`;
+        id=${this.scopedID(themeMenuBtnID, sideNav)}
+        href="#"
+        @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
+        <img
+          title=${themeText}
+          alt=${themeText}
+          src=${themeIcon}
+          width=${imgSize}
+          height=${imgSize}
+          class="avatar-s vertical-align-middle" />
+      </a>
+      ${when(sideNav, () => this.renderThemeMenu(true))} `;
 
     return html`${userContent}${themeContent}`;
   }
 
-  private renderMenu(id: string, sideNav: boolean, content: TemplateResult) {
-    if (sideNav) {
-      // Simply return the content for side nav mode.
-      return content;
-    }
-    return html` <div id=${id} class="menu">${content}</div> `;
-  }
-
   private renderUserMenu(user: User, sideNav: boolean) {
-    return this.renderMenu(
-      userMenuID,
-      sideNav,
-      html`<a href=${user.url}>${ls.profile}</a>
-        <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-        <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
-        <hr />
-        <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
-          >${ls.newPost}</a
-        >
-        <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
-          >${ls.newThread}</a
-        >
-        <hr />
-        <a href=${mRoute.settingsProfile}>${ls.settings}</a>
-        ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-        <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>`,
-    );
+    return html`
+      <div id=${this.scopedID(userMenuID, sideNav)} class=${sideNav ? '' : menuOverlayCls}>
+        <div class="list">
+          <a href=${user.url}>${ls.profile}</a>
+          <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
+          <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
+          <hr />
+          <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+            >${ls.newPost}</a
+          >
+          <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+            >${ls.newThread}</a
+          >
+          <hr />
+          <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+          ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
+          <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
+        </div>
+      </div>
+    `;
   }
 
   private renderThemeOption(theme: def.UserTheme) {
@@ -328,14 +327,15 @@ export default class NavbarApp extends BaseElement {
   }
 
   private renderThemeMenu(sideNav: boolean) {
-    return this.renderMenu(
-      themeMenuID,
-      sideNav,
-      html`
-        ${this.renderThemeOption(def.UserTheme.light)} ${this.renderThemeOption(def.UserTheme.dark)}
-        ${this.renderThemeOption(def.UserTheme.device)}
-      `,
-    );
+    return html`
+      <div id=${this.scopedID(themeMenuID, sideNav)} class=${sideNav ? '' : menuOverlayCls}>
+        <div class="grid">
+          ${this.renderThemeOption(def.UserTheme.light)}
+          ${this.renderThemeOption(def.UserTheme.dark)}
+          ${this.renderThemeOption(def.UserTheme.device)}
+        </div>
+      </div>
+    `;
   }
 
   private applyTheme(newTheme: def.UserTheme) {
@@ -374,8 +374,8 @@ export default class NavbarApp extends BaseElement {
 
   private showMenu(type: MenuType) {
     const elements = type === MenuType.user ? userMenuElements : themeMenuElements;
-    const btnEl = this.getShadowElement(elements.btnID);
-    const menuEl = this.getShadowElement(elements.menuID);
+    const btnEl = this.getMenuEl(elements.btnID);
+    const menuEl = this.getMenuEl(elements.menuID);
     if (!btnEl || !menuEl) {
       return;
     }
@@ -408,13 +408,22 @@ export default class NavbarApp extends BaseElement {
     };
   }
 
+  // Returns an ID that is scoped to either main nav or side nav.
+  private scopedID(id: string, sideNav: boolean) {
+    return `${sideNav ? 'side-' : 'main-'}${id}`;
+  }
+
+  // Returns an element from the given main nav menu ID.
+  private getMenuEl(id: string) {
+    return this.getShadowElement(this.scopedID(id, false));
+  }
+
   private closeCurMenu() {
     const curMenu = this.#curMenu;
     if (!curMenu) {
       return;
     }
-    const { menuID } = curMenu.elements;
-    const el = this.getShadowElement(menuID);
+    const el = this.getMenuEl(curMenu.elements.menuID);
     if (el) {
       el.style.display = 'none';
     }
