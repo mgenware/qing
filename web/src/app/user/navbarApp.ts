@@ -383,7 +383,7 @@ export default class NavbarApp extends BaseElement {
     const dispose = autoUpdate(btnEl, menuEl, () => {
       // https://floating-ui.com/docs/autoupdate
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      computePosition(btnEl, menuEl, {
+      return computePosition(btnEl, menuEl, {
         placement: 'bottom-end',
       }).then(({ x, y }) => {
         const isSourceElHidden = window.getComputedStyle(btnEl).display === 'none';
