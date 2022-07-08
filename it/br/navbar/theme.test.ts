@@ -6,7 +6,7 @@
  */
 
 import { test, $, Element, Page } from 'br';
-import { navbarThemeMenuSel, clickNavbarThemeMenu } from 'br/com/navbar/navbar';
+import * as nb from 'br/com/navbar/navbar';
 
 const themeOptionText = ['Light theme', 'Dark theme', 'Device theme'];
 const cssDarkTheme = 'theme-dark';
@@ -39,8 +39,8 @@ async function checkTheme(page: Page, dark: boolean) {
 test('Navbar - Default theme', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
-  await clickNavbarThemeMenu(p);
-  const menuEl = p.$(navbarThemeMenuSel);
+  await nb.themeMenuBtn(p).click();
+  const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
   await checkTheme(p, false);
 });
@@ -48,8 +48,8 @@ test('Navbar - Default theme', async ({ page }) => {
 test('Navbar - Change to dark theme', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
-  await clickNavbarThemeMenu(p);
-  const menuEl = p.$(navbarThemeMenuSel);
+  await nb.themeMenuBtn(p).click();
+  const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
   await menuEl.$aButton('Dark theme').click();
   await checkTheme(p, true);
@@ -62,8 +62,8 @@ test('Navbar - Change to dark theme', async ({ page }) => {
 test('Navbar - Change to device theme (light)', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
-  await clickNavbarThemeMenu(p);
-  const menuEl = p.$(navbarThemeMenuSel);
+  await nb.themeMenuBtn(p).click();
+  const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
   await menuEl.$aButton('Device theme').click();
   await checkTheme(p, false);
@@ -77,8 +77,8 @@ test('Navbar - Change to device theme (dark)', async ({ page }) => {
   const p = $(page);
   await p.c.emulateMedia({ colorScheme: 'dark' });
   await p.goto('/', null);
-  await clickNavbarThemeMenu(p);
-  const menuEl = p.$(navbarThemeMenuSel);
+  await nb.themeMenuBtn(p).click();
+  const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
   await menuEl.$aButton('Device theme').click();
   await checkTheme(p, true);
@@ -91,8 +91,8 @@ test('Navbar - Change to device theme (dark)', async ({ page }) => {
 test('Navbar - Device theme monitors system theme change', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
-  await clickNavbarThemeMenu(p);
-  const menuEl = p.$(navbarThemeMenuSel);
+  await nb.themeMenuBtn(p).click();
+  const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
   await menuEl.$aButton('Device theme').click();
 
@@ -107,8 +107,8 @@ test('Navbar - Device theme monitors system theme change', async ({ page }) => {
 test('Navbar - Clicking theme dismisses the menu', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
-  await clickNavbarThemeMenu(p);
-  const menuEl = p.$(navbarThemeMenuSel);
+  await nb.themeMenuBtn(p).click();
+  const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
   await menuEl.$aButton('Light theme').click();
   await menuEl.e.not.toBeVisible();

@@ -164,26 +164,7 @@ export default class NavbarApp extends BaseElement {
           }
 
           .slide-in {
-            animation: slide-in 0.5s forwards;
-          }
-
-          .slide-out {
-            animation: slide-out 0.5s forwards;
-          }
-
-          @keyframes slide-in {
-            100% {
-              transform: translateX(0%);
-            }
-          }
-
-          @keyframes slide-out {
-            0% {
-              transform: translateX(0%);
-            }
-            100% {
-              transform: translateX(-100%);
-            }
+            transform: translateX(0%);
           }
 
           .sidenav a {
@@ -242,7 +223,7 @@ export default class NavbarApp extends BaseElement {
   @lp.state user = appPageState.user;
   @lp.state curTheme = AppSettings.instance.theme;
   @lp.state curOpenMenu: MenuType | null = null;
-  @lp.state sideNavOpen: boolean | null = null;
+  @lp.state sideNavOpen = false;
 
   override firstUpdated() {
     appState.observe(appStateName.user, (arg) => {
@@ -267,17 +248,16 @@ export default class NavbarApp extends BaseElement {
         <div class="fill-space"></div>
         ${this.getNavbarItems(false)}
 
-        <a href="#" class="toggler" @click=${() => (this.sideNavOpen = true)}>&#9776;</a>
+        <a href="#" class="toggler" @click=${() => this.showSideNav()}>&#9776;</a>
       </navbar>
       <div
         id=${sideNavID}
         class=${classMap({
           sidenav: true,
-          'slide-in': !!this.sideNavOpen,
-          'slide-out': this.sideNavOpen === false,
+          'slide-in': this.sideNavOpen,
         })}>
         <div class="close-btn-row">
-          <a href="#" class="close-btn" @click=${() => (this.sideNavOpen = false)}>&times;</a>
+          <a href="#" class="close-btn" @click=${() => this.closeSideNav()}>&times;</a>
         </div>
         ${this.getNavbarItems(true)}
       </div>
@@ -286,17 +266,39 @@ export default class NavbarApp extends BaseElement {
 
   private getNavbarItems(sideNav: boolean) {
     const { user, curTheme } = this;
+
+    const btnCls = sideNav ? sideNavHeaderCls : dropdownBtnCls;
     const themeText = thm.textMap.get(curTheme) || '';
     const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
+
+    let themeBtn = sideNav
+      ? html`${ls.theme}`
+      : html`<img
+          title=${themeText}
+          alt=${themeText}
+          src=${themeIcon}
+          width=${imgSize}
+          height=${imgSize}
+          class="avatar-s vertical-align-middle" />`;
+    if (!sideNav) {
+      themeBtn = html`<a
+        href="#"
+        @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
+        ${themeBtn}
+      </a>`;
+    }
+    const themeContent = html` <div class=${btnCls}>
+        ${themeBtn} ${when(!sideNav, () => this.renderThemeMenu(false))}
+      </div>
+      ${when(sideNav, () => this.renderThemeMenu(true))}`;
 
     if (!user) {
       return html`
         <a href=${authRoute.signIn}>${ls.signIn}</a>
         <a href=${authRoute.signUp}>${ls.signUp}</a>
+        ${themeContent}
       `;
     }
-
-    const btnCls = sideNav ? sideNavHeaderCls : dropdownBtnCls;
 
     let userBtn = html`<img
         alt=${user.name}
@@ -319,27 +321,6 @@ export default class NavbarApp extends BaseElement {
       </div>
       ${when(sideNav, () => this.renderUserMenu(user, true))}
     `;
-
-    let themeBtn = sideNav
-      ? html`${ls.theme}`
-      : html`<img
-          title=${themeText}
-          alt=${themeText}
-          src=${themeIcon}
-          width=${imgSize}
-          height=${imgSize}
-          class="avatar-s vertical-align-middle" />`;
-    if (!sideNav) {
-      themeBtn = html`<a
-        href="#"
-        @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
-        ${themeBtn}
-      </a>`;
-    }
-    const themeContent = html` <div class=${btnCls}>
-        ${themeBtn} ${when(!sideNav, () => this.renderThemeMenu(false))}
-      </div>
-      ${when(sideNav, () => this.renderThemeMenu(true))}`;
 
     return html`${userResult}${themeContent}`;
   }
@@ -390,6 +371,11 @@ export default class NavbarApp extends BaseElement {
         width=${imgSize}
         height=${imgSize} />
     </a>`;
+  }
+
+  private showSideNav() {
+    this.handleEsc(() => this.closeSideNav());
+    this.sideNavOpen = true;
   }
 
   private closeSideNav() {
@@ -456,8 +442,8 @@ export default class NavbarApp extends BaseElement {
 
   private showMenu(type: MenuType) {
     // Listen for doc events to close the menu if necessary.
-    document.addEventListener('click', this.handleDocClickForMenus);
-    document.addEventListener('keydown', this.handleDocKeydownForMenus);
+    document.addEventListener('click', this.handleDocClickForMenus, { once: true });
+    this.handleEsc(() => this.closeCurMenu());
     this.curOpenMenu = type;
   }
 
@@ -466,8 +452,20 @@ export default class NavbarApp extends BaseElement {
       return;
     }
     document.removeEventListener('click', this.handleDocClickForMenus);
-    document.removeEventListener('keydown', this.handleDocKeydownForMenus);
     this.curOpenMenu = null;
+  }
+
+  // Make sure `handler` doesn't have any side effects and thus can be called multiple times.
+  private handleEsc(handler: () => void) {
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'Escape') {
+          handler();
+        }
+      },
+      { once: true },
+    );
   }
 
   // Must be an arrow func for adding and removing handlers to work.
@@ -475,13 +473,6 @@ export default class NavbarApp extends BaseElement {
     // Any clicks will cause the menu to hide including the ones from the menu itself.
     // For example, clicking "New post" triggers an overlay, the menu must hide as well.
     this.closeCurMenu();
-  };
-
-  // Must be an arrow func for adding and removing handlers to work.
-  handleDocKeydownForMenus = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      this.closeCurMenu();
-    }
   };
 }
 

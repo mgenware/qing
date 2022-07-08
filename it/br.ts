@@ -156,6 +156,13 @@ export class Element extends LocatorCore {
   $checkBox(a: { text: string; radio?: boolean }) {
     return this.$hasText('check-box' + (a.radio ? '[radio]' : ''), a.text);
   }
+
+  $img(e: { size: number; title: string; src?: string }) {
+    const sel = `img[[width="${e.size}"][height="${e.size}"][title=${JSON.stringify(
+      e.title,
+    )}][alt=${JSON.stringify(e.title)}]${e.src ? `[src=${JSON.stringify(e.src)}]` : ''}`;
+    return this.$(sel);
+  }
 }
 
 export class Page {

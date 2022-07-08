@@ -6,35 +6,33 @@
  */
 
 import * as br from 'br';
-import { UserViewShouldAppearArg } from '../content/userView';
 
-const navbarUserButtonSel = '#main-navbar #user-menu-btn';
-const navbarThemeButtonSel = '#main-navbar #theme-menu-btn';
-// After migrating to floating-ui, navbar menus live in global space.
-export const navbarUserMenuSel = '#user-menu';
-export const navbarThemeMenuSel = '#theme-menu';
+const navSel = '#main-navbar';
 
-async function navbarUserIconShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
-  const u = arg.user;
-  const img = el.$(`img[src="${u.iconURL}"][width="25"][height="25"]`);
-  await img.e.toBeVisible();
-  await img.e.toHaveAttribute('alt', u.name);
+export function navEl(p: br.Page) {
+  return p.$(navSel);
 }
 
-export async function navbarUserViewShouldNotAppear(page: br.Page) {
-  return page.$(navbarUserButtonSel).shouldNotExist();
+function menuBtn(p: br.Page, idx: number) {
+  return navEl(p).$$('.dropdown-btn').item(idx);
 }
 
-export async function navbarUserViewShouldAppear(page: br.Page, u: br.User) {
-  const navbar = page.$(navbarUserButtonSel);
-  await navbarUserIconShouldAppear(navbar, { user: u });
-  await navbar.$hasText('span', u.name).shouldExist();
+function menuEl(menuBtnEl: br.Element) {
+  return menuBtnEl.$('.dropdown');
 }
 
-export async function clickNavbarUserMenu(page: br.Page) {
-  return page.$(navbarUserButtonSel).click();
+export function userMenuBtn(p: br.Page) {
+  return menuBtn(p, 0);
 }
 
-export async function clickNavbarThemeMenu(page: br.Page) {
-  return page.$(navbarThemeButtonSel).click();
+export function themeMenuBtn(p: br.Page) {
+  return menuBtn(p, 1);
+}
+
+export function userMenuEl(p: br.Page) {
+  return menuEl(userMenuBtn(p));
+}
+
+export function themeMenuEl(p: br.Page) {
+  return menuEl(themeMenuBtn(p));
 }
