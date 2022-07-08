@@ -184,6 +184,10 @@ export class Page {
     expect(await this.currentUserID()).toBe(user ? user.id : null);
   }
 
+  setMobileViewport() {
+    return this.c.setViewportSize({ width: 390, height: 844 });
+  }
+
   // Reloads current page.
   // `user`: undefined -> no change to credentials. null -> visitor.
   async reload(user?: User | null) {

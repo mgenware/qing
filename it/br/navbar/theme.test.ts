@@ -103,3 +103,13 @@ test('Navbar - Device theme monitors system theme change', async ({ page }) => {
   await p.c.emulateMedia({ colorScheme: 'light' });
   await checkTheme(p, false);
 });
+
+test('Navbar - Clicking theme dismisses the menu', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/', null);
+  await clickNavbarThemeMenu(p);
+  const menuEl = p.$(navbarThemeMenuSel);
+  await checkThemeMenu(0, menuEl);
+  await menuEl.$aButton('Light theme').click();
+  await menuEl.e.not.toBeVisible();
+});

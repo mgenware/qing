@@ -392,10 +392,7 @@ export default class NavbarApp extends BaseElement {
     </a>`;
   }
 
-  private closeMenuOfSideNav() {
-    if (this.curOpenMenu) {
-      this.curOpenMenu = null;
-    }
+  private closeSideNav() {
     if (this.sideNavOpen) {
       this.sideNavOpen = false;
     }
@@ -403,7 +400,8 @@ export default class NavbarApp extends BaseElement {
 
   private handleThemeOptionClick(e: Event, theme: def.UserTheme) {
     e.preventDefault();
-    this.closeMenuOfSideNav();
+    this.closeCurMenu();
+    this.closeSideNav();
     if (this.curTheme === theme) {
       return;
     }
