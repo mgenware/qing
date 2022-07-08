@@ -24,7 +24,6 @@ import appTask from 'app/appTask';
 import pageUtils from 'app/utils/pageUtils';
 import AppSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
-import * as brLib from 'lib/brLib';
 import { runNewEntityCommand } from 'app/appCommands';
 import * as thm from './theme';
 import 'ui/form/checkBox';
@@ -134,6 +133,10 @@ export default class NavbarApp extends BaseElement {
           flex-grow: 1;
         }
 
+        .sidenav {
+          display: none;
+        }
+
         /** Keep in sync with the same query in JS */
         @media screen and (max-width: 600px) {
           navbar a:not(:first-child),
@@ -143,93 +146,94 @@ export default class NavbarApp extends BaseElement {
           navbar a.toggler {
             display: block;
           }
-        }
 
-        .sidenav {
-          height: 100%;
-          width: 100%;
-          position: fixed;
-          z-index: 1;
-          top: 0;
-          left: 0;
-          color: #818181;
-          background-color: #111;
-          transform: translateX(-100%);
-          transition: 0.5s;
-          padding-bottom: 2rem;
-          text-align: center;
-        }
-
-        .slide-in {
-          animation: slide-in 0.5s forwards;
-        }
-
-        .slide-out {
-          animation: slide-out 0.5s forwards;
-        }
-
-        @keyframes slide-in {
-          100% {
-            transform: translateX(0%);
-          }
-        }
-
-        @keyframes slide-out {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
+          .sidenav {
+            display: block;
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            color: #818181;
+            background-color: #111;
             transform: translateX(-100%);
+            transition: 0.5s;
+            padding-bottom: 2rem;
+            text-align: center;
           }
-        }
 
-        .sidenav a {
-          padding: 0.5rem;
-          text-decoration: none;
-          font-size: 1.4rem;
-          color: #818181;
-          display: block;
-          transition: 0.3s;
-        }
+          .slide-in {
+            animation: slide-in 0.5s forwards;
+          }
 
-        .sidenav check-box {
-          --unchecked-color: #818181;
-          --checked-mark-color: #818181;
-          --checked-back-color: #818181;
-        }
+          .slide-out {
+            animation: slide-out 0.5s forwards;
+          }
 
-        .sidenav a:hover {
-          color: #f1f1f1;
-        }
+          @keyframes slide-in {
+            100% {
+              transform: translateX(0%);
+            }
+          }
 
-        .sidenav .close-btn-row {
-          display: block;
-          text-align: right;
-        }
+          @keyframes slide-out {
+            0% {
+              transform: translateX(0%);
+            }
+            100% {
+              transform: translateX(-100%);
+            }
+          }
 
-        .sidenav .close-btn {
-          display: inline-block;
-          margin-right: 1rem;
-          margin-bottom: 0.2rem;
-          font-size: 2.2rem;
-          padding: 0.8rem 1rem;
-        }
+          .sidenav a {
+            padding: 0.5rem;
+            text-decoration: none;
+            font-size: 1.4rem;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+          }
 
-        .sidenav .header {
-          font-size: 1.8rem;
-          padding: 0.5rem;
-          margin: 0 1rem 0.4rem 1rem;
-          border-bottom: 1px solid gray;
-        }
+          .sidenav check-box {
+            --unchecked-color: #818181;
+            --checked-mark-color: #818181;
+            --checked-back-color: #818181;
+          }
 
-        .sidenav .header:not(:first-child) {
-          margin-top: 1.6rem;
-        }
+          .sidenav a:hover {
+            color: #f1f1f1;
+          }
 
-        .sidenav hr {
-          margin-left: 3rem;
-          margin-right: 3rem;
-          border-top-color: #3c3c3c;
+          .sidenav .close-btn-row {
+            display: block;
+            text-align: right;
+          }
+
+          .sidenav .close-btn {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 0.2rem;
+            font-size: 2.2rem;
+            padding: 0.8rem 1rem;
+          }
+
+          .sidenav .header {
+            font-size: 1.8rem;
+            padding: 0.5rem;
+            margin: 0 1rem 0.4rem 1rem;
+            border-bottom: 1px solid gray;
+          }
+
+          .sidenav .header:not(:first-child) {
+            margin-top: 1.6rem;
+          }
+
+          .sidenav hr {
+            margin-left: 3rem;
+            margin-right: 3rem;
+            border-top-color: #3c3c3c;
+          }
         }
       `,
     ];
@@ -243,16 +247,6 @@ export default class NavbarApp extends BaseElement {
   override firstUpdated() {
     appState.observe(appStateName.user, (arg) => {
       this.user = arg as User;
-    });
-
-    // Media query changes callback.
-    /** Keep in sync with the same query in CSS */
-    brLib.mediaQueryHandler('(max-width: 600px)', (match) => {
-      if (match) {
-        this.closeCurMenu();
-      } else {
-        this.sideNavOpen = false;
-      }
     });
   }
 
@@ -398,8 +392,18 @@ export default class NavbarApp extends BaseElement {
     </a>`;
   }
 
+  private closeMenuOfSideNav() {
+    if (this.curOpenMenu) {
+      this.curOpenMenu = null;
+    }
+    if (this.sideNavOpen) {
+      this.sideNavOpen = false;
+    }
+  }
+
   private handleThemeOptionClick(e: Event, theme: def.UserTheme) {
     e.preventDefault();
+    this.closeMenuOfSideNav();
     if (this.curTheme === theme) {
       return;
     }
