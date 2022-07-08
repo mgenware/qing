@@ -6,10 +6,14 @@
  */
 
 import { test, $, Element, Page } from 'br';
-import * as nb from 'br/com/navbar/navbar';
+import * as nb from 'br/com/navbar/menu';
 
 const themeOptionText = ['Light theme', 'Dark theme', 'Device theme'];
 const cssDarkTheme = 'theme-dark';
+
+function optionButton(menuEl: Element, text: string) {
+  return menuEl.$hasText('.text', text);
+}
 
 async function checkCheckbox(el: Element, checked: boolean, text: string) {
   await el.e.toHaveText(text);
@@ -51,7 +55,7 @@ test('Navbar - Change to dark theme', async ({ page }) => {
   await nb.themeMenuBtn(p).click();
   const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
-  await menuEl.$aButton('Dark theme').click();
+  await optionButton(menuEl, 'Dark theme').click();
   await checkTheme(p, true);
 
   // Check settings are saved.
@@ -59,13 +63,13 @@ test('Navbar - Change to dark theme', async ({ page }) => {
   await checkTheme(p, true);
 });
 
-test('Navbar - Change to device theme (light)', async ({ page }) => {
+test('Navbar - Change to device theme - Light', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
   await nb.themeMenuBtn(p).click();
   const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
-  await menuEl.$aButton('Device theme').click();
+  await optionButton(menuEl, 'Device theme').click();
   await checkTheme(p, false);
 
   // Check settings are saved.
@@ -73,14 +77,14 @@ test('Navbar - Change to device theme (light)', async ({ page }) => {
   await checkTheme(p, false);
 });
 
-test('Navbar - Change to device theme (dark)', async ({ page }) => {
+test('Navbar - Change to device theme - Dark', async ({ page }) => {
   const p = $(page);
   await p.c.emulateMedia({ colorScheme: 'dark' });
   await p.goto('/', null);
   await nb.themeMenuBtn(p).click();
   const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
-  await menuEl.$aButton('Device theme').click();
+  await optionButton(menuEl, 'Device theme').click();
   await checkTheme(p, true);
 
   // Check settings are saved.
@@ -94,7 +98,7 @@ test('Navbar - Device theme monitors system theme change', async ({ page }) => {
   await nb.themeMenuBtn(p).click();
   const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
-  await menuEl.$aButton('Device theme').click();
+  await optionButton(menuEl, 'Device theme').click();
 
   // Check settings are saved.
   await p.reload();
@@ -110,6 +114,6 @@ test('Navbar - Clicking theme dismisses the menu', async ({ page }) => {
   await nb.themeMenuBtn(p).click();
   const menuEl = nb.themeMenuEl(p);
   await checkThemeMenu(0, menuEl);
-  await menuEl.$aButton('Light theme').click();
+  await optionButton(menuEl, 'Light theme').click();
   await menuEl.e.not.toBeVisible();
 });

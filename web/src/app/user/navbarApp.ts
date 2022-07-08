@@ -34,6 +34,9 @@ const imgSize = 25;
 const dropdownBtnCls = 'dropdown-btn';
 const dropdownCls = 'dropdown';
 const sideNavHeaderCls = 'header';
+// Applied to root elements of menu or sidenav header.
+const userGroupCls = 'user-group';
+const themeGroupCls = 'theme-group';
 
 enum MenuType {
   // This type is nullable, first field must be greater than 0.
@@ -287,7 +290,7 @@ export default class NavbarApp extends BaseElement {
         ${themeBtn}
       </a>`;
     }
-    const themeContent = html` <div class=${btnCls}>
+    const themeContent = html` <div class=${`${btnCls} ${themeGroupCls}`}>
         ${themeBtn} ${when(!sideNav, () => this.renderThemeMenu(false))}
       </div>
       ${when(sideNav, () => this.renderThemeMenu(true))}`;
@@ -316,7 +319,7 @@ export default class NavbarApp extends BaseElement {
     }
 
     const userResult = html`
-      <div class=${btnCls}>
+      <div class=${`${btnCls} ${userGroupCls}`}>
         ${userBtn} ${when(!sideNav, () => this.renderUserMenu(user, false))}
       </div>
       ${when(sideNav, () => this.renderUserMenu(user, true))}

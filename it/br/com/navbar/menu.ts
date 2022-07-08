@@ -8,13 +8,11 @@
 import * as br from 'br';
 
 const navSel = '#main-navbar';
+const userGroupSel = '.user-group';
+const themeGroupSel = '.theme-group';
 
 export function navEl(p: br.Page) {
   return p.$(navSel);
-}
-
-function menuBtn(p: br.Page, idx: number) {
-  return navEl(p).$$('.dropdown-btn').item(idx);
 }
 
 function menuEl(menuBtnEl: br.Element) {
@@ -22,11 +20,11 @@ function menuEl(menuBtnEl: br.Element) {
 }
 
 export function userMenuBtn(p: br.Page) {
-  return menuBtn(p, 0);
+  return navEl(p).$(userGroupSel);
 }
 
 export function themeMenuBtn(p: br.Page) {
-  return menuBtn(p, 1);
+  return navEl(p).$(themeGroupSel);
 }
 
 export function userMenuEl(p: br.Page) {

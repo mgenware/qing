@@ -6,7 +6,7 @@
  */
 
 import { test, $, Page, usr } from 'br';
-import { navbarUserViewShouldAppear } from 'br/com/navbar/navbar';
+import * as nbc from 'br/com/navbar/checks';
 import { authRoot } from '@qing/routes/d/dev/auth';
 
 async function clickSignInButton(p: Page, s: string, eid: boolean) {
@@ -22,12 +22,12 @@ test('__/auth login by ID', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoot, null);
   await clickSignInButton(p, '103', false);
-  await navbarUserViewShouldAppear(p, usr.admin2);
+  await nbc.checkUserNavbar(p, { user: usr.admin2, sideNav: false });
 });
 
 test('__/auth login by EID', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoot, null);
   await clickSignInButton(p, usr.admin2.id, true);
-  await navbarUserViewShouldAppear(p, usr.admin2);
+  await nbc.checkUserNavbar(p, { user: usr.admin2, sideNav: false });
 });
