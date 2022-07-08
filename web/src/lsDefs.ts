@@ -56,6 +56,7 @@ export default interface LSDefs {
   captNotFoundErr: string;
   captNotMatch: string;
   captcha: string;
+  theme: string;
   themeDark: string;
   themeLight: string;
   themeDevice: string;

@@ -47,6 +47,7 @@
   "captNotFoundErr": "Code has expired, please re-entry the new code.",
   "captNotMatch": "Oops wrong code",
   "captcha": "code",
+  "theme": "Theme",
   "themeDark": "Dark theme",
   "themeLight": "Light theme",
   "themeDevice": "Device theme",

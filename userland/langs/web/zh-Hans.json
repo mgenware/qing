@@ -47,6 +47,7 @@
   "captNotFoundErr": "代码已失效，请重新输入新的代码。",
   "captNotMatch": "抱歉，您输入了错误的代码。",
   "captcha": "验证码",
+  "theme": "主题",
   "themeDark": "暗色主题",
   "themeLight": "亮色主题",
   "themeDevice": "设备主题",

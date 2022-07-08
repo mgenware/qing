@@ -29,11 +29,12 @@ import { runNewEntityCommand } from 'app/appCommands';
 import * as thm from './theme';
 import 'ui/form/checkBox';
 
-const slideNavID = 'app-slide-nav';
+const sideNavID = 'sidenav';
 const imgSize = 25;
 
 const dropdownBtnCls = 'dropdown-btn';
 const dropdownCls = 'dropdown';
+const sideNavHeaderCls = 'header';
 
 enum MenuType {
   // This type is nullable, first field must be greater than 0.
@@ -105,22 +106,23 @@ export default class NavbarApp extends BaseElement {
           text-align: left;
         }
 
-        .dropdown .grid {
-          display: grid;
+        /** Shared grid style between .dropdown and .sidenav */
+        .grid {
+          display: inline-grid;
           grid-template-columns: repeat(3, auto);
           place-items: center;
           margin: 0 1rem;
+        }
+
+        .grid .text {
+          place-self: self-start;
+          padding: 0.75rem 1rem;
         }
 
         .dropdown .grid check-box {
           --unchecked-color: var(--app-navbar-fore-color);
           --checked-mark-color: var(--app-navbar-fore-color);
           --checked-back-color: var(----app-navbar-back-color);
-        }
-
-        .dropdown .grid .text {
-          place-self: self-start;
-          padding: 0.75rem 1rem;
         }
 
         .dropdown .grid img {
@@ -145,51 +147,89 @@ export default class NavbarApp extends BaseElement {
 
         .sidenav {
           height: 100%;
-          width: 0;
+          width: 100%;
           position: fixed;
           z-index: 1;
           top: 0;
           left: 0;
+          color: #818181;
           background-color: #111;
-          overflow-x: hidden;
+          transform: translateX(-100%);
           transition: 0.5s;
-          padding-top: 60px;
+          padding-bottom: 2rem;
           text-align: center;
         }
 
-        .sidenav a,
-        .sidenav .sub-title {
-          padding: 0.5rem 0.5rem 0.5rem 2rem;
+        .slide-in {
+          animation: slide-in 0.5s forwards;
+        }
+
+        .slide-out {
+          animation: slide-out 0.5s forwards;
+        }
+
+        @keyframes slide-in {
+          100% {
+            transform: translateX(0%);
+          }
+        }
+
+        @keyframes slide-out {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+
+        .sidenav a {
+          padding: 0.5rem;
           text-decoration: none;
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           color: #818181;
           display: block;
           transition: 0.3s;
         }
 
-        .sidenav a.sub-item {
-          font-size: 1.1rem;
+        .sidenav check-box {
+          --unchecked-color: #818181;
+          --checked-mark-color: #818181;
+          --checked-back-color: #818181;
         }
 
         .sidenav a:hover {
           color: #f1f1f1;
         }
 
-        .sidenav .closebtn {
-          position: absolute;
-          top: 0;
-          right: 25px;
-          font-size: 36px;
-          margin-left: 50px;
+        .sidenav .close-btn-row {
+          display: block;
+          text-align: right;
         }
 
-        @media screen and (max-height: 450px) {
-          .sidenav {
-            padding-top: 15px;
-          }
-          .sidenav a {
-            font-size: 18px;
-          }
+        .sidenav .close-btn {
+          display: inline-block;
+          margin-right: 1rem;
+          margin-bottom: 0.2rem;
+          font-size: 2.2rem;
+          padding: 0.8rem 1rem;
+        }
+
+        .sidenav .header {
+          font-size: 1.8rem;
+          padding: 0.5rem;
+          margin: 0 1rem 0.4rem 1rem;
+          border-bottom: 1px solid gray;
+        }
+
+        .sidenav .header:not(:first-child) {
+          margin-top: 1.6rem;
+        }
+
+        .sidenav hr {
+          margin-left: 3rem;
+          margin-right: 3rem;
+          border-top-color: #3c3c3c;
         }
       `,
     ];
@@ -198,6 +238,7 @@ export default class NavbarApp extends BaseElement {
   @lp.state user = appPageState.user;
   @lp.state curTheme = AppSettings.instance.theme;
   @lp.state curOpenMenu: MenuType | null = null;
+  @lp.state sideNavOpen: boolean | null = null;
 
   override firstUpdated() {
     appState.observe(appStateName.user, (arg) => {
@@ -210,7 +251,7 @@ export default class NavbarApp extends BaseElement {
       if (match) {
         this.closeCurMenu();
       } else {
-        this.closeSideNav(null);
+        this.sideNavOpen = false;
       }
     });
   }
@@ -232,10 +273,18 @@ export default class NavbarApp extends BaseElement {
         <div class="fill-space"></div>
         ${this.getNavbarItems(false)}
 
-        <a href="#" class="toggler" @click=${this.openSideNav}>&#9776;</a>
+        <a href="#" class="toggler" @click=${() => (this.sideNavOpen = true)}>&#9776;</a>
       </navbar>
-      <div id=${slideNavID} class="sidenav">
-        <a href="#" class="closebtn" @click=${this.closeSideNav}>&times;</a>
+      <div
+        id=${sideNavID}
+        class=${classMap({
+          sidenav: true,
+          'slide-in': !!this.sideNavOpen,
+          'slide-out': this.sideNavOpen === false,
+        })}>
+        <div class="close-btn-row">
+          <a href="#" class="close-btn" @click=${() => (this.sideNavOpen = false)}>&times;</a>
+        </div>
         ${this.getNavbarItems(true)}
       </div>
     `;
@@ -253,42 +302,52 @@ export default class NavbarApp extends BaseElement {
       `;
     }
 
-    const userRootBtn = html`<a
-      href="#"
-      @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.user)}>
-      <img
+    const btnCls = sideNav ? sideNavHeaderCls : dropdownBtnCls;
+
+    let userBtn = html`<img
         alt=${user.name}
         src=${user.iconURL}
         width=${imgSize}
         height=${imgSize}
         class="avatar-s vertical-align-middle" />
-      <span class="m-l-sm vertical-align-middle">${user.name}&nbsp;&nbsp;&#x25BE;</span>
-    </a>`;
+      <span class="m-l-sm vertical-align-middle"
+        >${user.name}&nbsp;&nbsp;${sideNav ? '' : html`&#x25BE;`}</span
+      >`;
+    if (!sideNav) {
+      userBtn = html`<a href="#" @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.user)}>
+        ${userBtn}
+      </a>`;
+    }
 
-    const userContent = html`
-      <div class=${dropdownBtnCls}>
-        ${userRootBtn} ${when(!sideNav, () => this.renderUserMenu(user, false))}
+    const userResult = html`
+      <div class=${btnCls}>
+        ${userBtn} ${when(!sideNav, () => this.renderUserMenu(user, false))}
       </div>
       ${when(sideNav, () => this.renderUserMenu(user, true))}
     `;
 
-    const themeRootBtn = html`<a
-      href="#"
-      @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
-      <img
-        title=${themeText}
-        alt=${themeText}
-        src=${themeIcon}
-        width=${imgSize}
-        height=${imgSize}
-        class="avatar-s vertical-align-middle" />
-    </a>`;
-    const themeContent = html` <div class=${dropdownBtnCls}>
-        ${themeRootBtn} ${when(!sideNav, () => this.renderThemeMenu(false))}
+    let themeBtn = sideNav
+      ? html`${ls.theme}`
+      : html`<img
+          title=${themeText}
+          alt=${themeText}
+          src=${themeIcon}
+          width=${imgSize}
+          height=${imgSize}
+          class="avatar-s vertical-align-middle" />`;
+    if (!sideNav) {
+      themeBtn = html`<a
+        href="#"
+        @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
+        ${themeBtn}
+      </a>`;
+    }
+    const themeContent = html` <div class=${btnCls}>
+        ${themeBtn} ${when(!sideNav, () => this.renderThemeMenu(false))}
       </div>
       ${when(sideNav, () => this.renderThemeMenu(true))}`;
 
-    return html`${userContent}${themeContent}`;
+    return html`${userResult}${themeContent}`;
   }
 
   private getMenuCls(sideNav: boolean, menu: MenuType) {
@@ -329,7 +388,7 @@ export default class NavbarApp extends BaseElement {
       style="display:contents"
       @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
       <check-box radio ?checked=${this.curTheme === theme}></check-box>
-      <div class="text">&nbsp;${text}</div>
+      <div class="text">${text}</div>
       <img
         title=${text}
         alt=${text}
@@ -422,22 +481,6 @@ export default class NavbarApp extends BaseElement {
       this.closeCurMenu();
     }
   };
-
-  private openSideNav(e: Event | null) {
-    e?.preventDefault();
-    const slideNav = this.getShadowElement(slideNavID);
-    if (slideNav) {
-      slideNav.style.width = '100vw';
-    }
-  }
-
-  private closeSideNav(e: Event | null) {
-    e?.preventDefault();
-    const slideNav = this.getShadowElement(slideNavID);
-    if (slideNav) {
-      slideNav.style.width = '0';
-    }
-  }
 }
 
 declare global {
