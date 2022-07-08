@@ -99,22 +99,33 @@ export default class NavbarApp extends BaseElement {
           display: block !important;
         }
 
-        .dropdown.list a {
+        .dropdown .list a {
           padding: 0.75rem 1rem;
-          text-decoration: none;
           display: block;
           text-align: left;
         }
 
-        .grid check-box {
+        .dropdown .grid {
+          display: grid;
+          grid-template-columns: repeat(3, auto);
+          place-items: center;
+          margin: 0 1rem;
+        }
+
+        .dropdown .grid check-box {
           --unchecked-color: var(--app-navbar-fore-color);
           --checked-mark-color: var(--app-navbar-fore-color);
           --checked-back-color: var(----app-navbar-back-color);
         }
 
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(3, auto);
+        .dropdown .grid .text {
+          place-self: self-start;
+          padding: 0.75rem 1rem;
+        }
+
+        .dropdown .grid img {
+          /** Revert the default responsive img styles max-width: 100% */
+          max-width: revert;
         }
 
         .fill-space {
@@ -124,7 +135,7 @@ export default class NavbarApp extends BaseElement {
         /** Keep in sync with the same query in JS */
         @media screen and (max-width: 600px) {
           navbar a:not(:first-child),
-          .menu {
+          .dropdown-btn {
             display: none;
           }
           navbar a.toggler {
@@ -261,30 +272,35 @@ export default class NavbarApp extends BaseElement {
       ${when(sideNav, () => this.renderUserMenu(user, true))}
     `;
 
-    const themeContent = html`<a
-        href="#"
-        @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
-        <img
-          title=${themeText}
-          alt=${themeText}
-          src=${themeIcon}
-          width=${imgSize}
-          height=${imgSize}
-          class="avatar-s vertical-align-middle" />
-      </a>
-      ${when(sideNav, () => this.renderThemeMenu(true))} `;
+    const themeRootBtn = html`<a
+      href="#"
+      @click=${(e: Event) => this.handleMenuBtnClick(e, MenuType.theme)}>
+      <img
+        title=${themeText}
+        alt=${themeText}
+        src=${themeIcon}
+        width=${imgSize}
+        height=${imgSize}
+        class="avatar-s vertical-align-middle" />
+    </a>`;
+    const themeContent = html` <div class=${dropdownBtnCls}>
+        ${themeRootBtn} ${when(!sideNav, () => this.renderThemeMenu(false))}
+      </div>
+      ${when(sideNav, () => this.renderThemeMenu(true))}`;
 
     return html`${userContent}${themeContent}`;
   }
 
+  private getMenuCls(sideNav: boolean, menu: MenuType) {
+    return classMap({
+      [dropdownCls]: !sideNav,
+      'd-block': this.curOpenMenu === menu,
+    });
+  }
+
   private renderUserMenu(user: User, sideNav: boolean) {
     return html`
-      <div
-        class=${classMap({
-          [dropdownCls]: !sideNav,
-          'd-block': this.curOpenMenu === MenuType.user,
-          list: true,
-        })}>
+      <div class=${this.getMenuCls(sideNav, MenuType.user)}>
         <div class="list">
           <a href=${user.url}>${ls.profile}</a>
           <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
@@ -306,10 +322,21 @@ export default class NavbarApp extends BaseElement {
   }
 
   private renderThemeOption(theme: def.UserTheme) {
-    const themeText = thm.textMap.get(theme) || '';
-    return html` <a href="#" @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
-      <check-box radio ?checked=${this.curTheme === theme}></check-box>&nbsp;${themeText}</a
-    >`;
+    const text = thm.textMap.get(theme) || '';
+    const icon = thm.iconMap.get(theme) || '';
+    return html`<a
+      href="#"
+      style="display:contents"
+      @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
+      <check-box radio ?checked=${this.curTheme === theme}></check-box>
+      <div class="text">&nbsp;${text}</div>
+      <img
+        title=${text}
+        alt=${text}
+        src=${staticMainImage(icon)}
+        width=${imgSize}
+        height=${imgSize} />
+    </a>`;
   }
 
   private handleThemeOptionClick(e: Event, theme: def.UserTheme) {
@@ -320,9 +347,9 @@ export default class NavbarApp extends BaseElement {
     this.applyTheme(theme);
   }
 
-  private renderThemeMenu(_sideNav: boolean) {
+  private renderThemeMenu(sideNav: boolean) {
     return html`
-      <div>
+      <div class=${this.getMenuCls(sideNav, MenuType.theme)}>
         <div class="grid">
           ${this.renderThemeOption(def.UserTheme.light)}
           ${this.renderThemeOption(def.UserTheme.dark)}
