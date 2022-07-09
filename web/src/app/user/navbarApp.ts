@@ -251,7 +251,7 @@ export default class NavbarApp extends BaseElement {
         <div class="fill-space"></div>
         ${this.getNavbarItems(false)}
 
-        <a href="#" class="toggler" @click=${() => this.showSideNav()}>&#9776;</a>
+        <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}>&#9776;</a>
       </navbar>
       <div
         id=${sideNavID}
@@ -260,7 +260,7 @@ export default class NavbarApp extends BaseElement {
           'slide-in': this.sideNavOpen,
         })}>
         <div class="close-btn-row">
-          <a href="#" class="close-btn" @click=${() => this.closeSideNav()}>&times;</a>
+          <a href="#" class="close-btn" @click=${(e: Event) => this.closeSideNav(e)}>&times;</a>
         </div>
         ${this.getNavbarItems(true)}
       </div>
@@ -343,10 +343,12 @@ export default class NavbarApp extends BaseElement {
           <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
           <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
           <hr />
-          <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypePost)}
+          <a href="#" @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypePost)}
             >${ls.newPost}</a
           >
-          <a href="#" @click=${() => this.handleNewPostClick(appdef.contentBaseTypeThread)}
+          <a
+            href="#"
+            @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypeThread)}
             >${ls.newThread}</a
           >
           <hr />
@@ -376,12 +378,14 @@ export default class NavbarApp extends BaseElement {
     </a>`;
   }
 
-  private showSideNav() {
-    this.handleEsc(() => this.closeSideNav());
+  private showSideNav(e: Event | null) {
+    e?.preventDefault();
+    this.handleEsc(() => this.closeSideNav(null));
     this.sideNavOpen = true;
   }
 
-  private closeSideNav() {
+  private closeSideNav(e: Event | null) {
+    e?.preventDefault();
     if (this.sideNavOpen) {
       this.sideNavOpen = false;
     }
@@ -390,7 +394,7 @@ export default class NavbarApp extends BaseElement {
   private handleThemeOptionClick(e: Event, theme: def.UserTheme) {
     e.preventDefault();
     this.closeCurMenu();
-    this.closeSideNav();
+    this.closeSideNav(null);
     if (this.curTheme === theme) {
       return;
     }
@@ -414,7 +418,8 @@ export default class NavbarApp extends BaseElement {
     this.curTheme = newTheme;
   }
 
-  private async handleSignOutClick() {
+  private async handleSignOutClick(e: Event) {
+    e.preventDefault();
     const loader = new SignOutLoader();
     const res = await appTask.critical(loader);
     if (res.isSuccess) {
@@ -422,7 +427,8 @@ export default class NavbarApp extends BaseElement {
     }
   }
 
-  private handleNewPostClick(entityType: number) {
+  private handleNewPostClick(e: Event, entityType: number) {
+    e.preventDefault();
     runNewEntityCommand(entityType, null);
   }
 
