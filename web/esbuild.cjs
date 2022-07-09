@@ -31,5 +31,14 @@ esbuild
       'window.__qing_dev__': true,
       this: 'window',
     },
+    target: [
+      // Based on https://caniuse.com/mdn-css_selectors_part
+      'es2020',
+      'chrome73',
+      'edge79',
+      'firefox72',
+      'ios13.4',
+      'safari13.1',
+    ],
   })
   .catch(() => process.exit(1));
