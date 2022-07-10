@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { TemplateResult } from 'll';
-import { html, render, CSSResult, CSSResultGroup } from 'll';
+import { html, render, CSSResult, CSSResultGroup, TemplateResult } from 'll';
 
 export function ready(fn: () => void) {
   if (document.readyState !== 'loading') {
