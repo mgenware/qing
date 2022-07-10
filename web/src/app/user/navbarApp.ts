@@ -37,6 +37,7 @@ const sideNavHeaderCls = 'header';
 // Applied to root elements of menu or sidenav header.
 const userGroupCls = 'user-group';
 const themeGroupCls = 'theme-group';
+const avatarImgCls = 'avatar-s vertical-align-middle';
 
 enum MenuType {
   // This type is nullable, first field must be greater than 0.
@@ -282,7 +283,7 @@ export default class NavbarApp extends BaseElement {
           src=${themeIcon}
           width=${imgSize}
           height=${imgSize}
-          class="avatar-s vertical-align-middle" />`;
+          class=${avatarImgCls} />`;
     if (!sideNav) {
       themeBtn = html`<a
         href="#"
@@ -308,7 +309,7 @@ export default class NavbarApp extends BaseElement {
         src=${user.iconURL}
         width=${imgSize}
         height=${imgSize}
-        class="avatar-s vertical-align-middle" />
+        class=${avatarImgCls} />
       <span class="m-l-sm vertical-align-middle"
         >${user.name}&nbsp;&nbsp;${sideNav ? '' : html`&#x25BE;`}</span
       >`;

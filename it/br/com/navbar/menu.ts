@@ -7,12 +7,12 @@
 
 import * as br from 'br';
 
-const navSel = '#main-navbar';
+export const navbarSel = '#main-navbar';
 const userGroupSel = '.user-group';
 const themeGroupSel = '.theme-group';
 
 export function navEl(p: br.Page) {
-  return p.$(navSel);
+  return p.$(navbarSel);
 }
 
 function menuEl(menuBtnEl: br.Element) {
