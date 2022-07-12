@@ -154,9 +154,11 @@ export default class NavbarApp extends BaseElement {
 
           .sidenav {
             display: block;
-            height: 100%;
-            width: 100%;
+            height: 100vh;
+            width: 100vw;
             position: fixed;
+            overflow-y: scroll;
+            overflow-x: hidden;
             z-index: 1;
             top: 0;
             left: 0;
