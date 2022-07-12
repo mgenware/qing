@@ -62,6 +62,7 @@ export default class NavbarApp extends BaseElement {
 
         navbar {
           display: flex;
+          align-items: center;
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
           border-bottom: var(--app-navbar-border-bottom);
