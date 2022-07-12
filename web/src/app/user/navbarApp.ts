@@ -143,7 +143,7 @@ export default class NavbarApp extends BaseElement {
         }
 
         /** Keep in sync with the same query in JS */
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 768px) {
           navbar a:not(:first-child),
           .dropdown-btn {
             display: none;
