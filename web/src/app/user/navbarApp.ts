@@ -157,7 +157,7 @@ export default class NavbarApp extends BaseElement {
             height: 100vh;
             width: 100vw;
             position: fixed;
-            overflow-y: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
             z-index: 1;
             top: 0;
