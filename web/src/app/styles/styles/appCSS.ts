@@ -349,7 +349,7 @@ export default css`
     text-align: center;
     background-color: var(--app-footer-back-color);
     color: var(--app-footer-fore-color);
-    border-top: 1px solid var(--app-footer-fore-color);
+    border-top: 1px solid var(--app-footer-border-color);
   }
 
   #main-footer a {

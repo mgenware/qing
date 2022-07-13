@@ -42,6 +42,7 @@ export default css`
 
     --app-footer-back-color: #494949;
     --app-footer-fore-color: #9c9c9c;
+    --app-footer-border-color: #9c9c9c;
 
     --app-keyboard-focus-color: #8dc3eb;
     --app-navbar-back-color: #343a40;
@@ -88,6 +89,7 @@ export default css`
 
     --app-footer-back-color: #000000;
     --app-footer-fore-color: #3d3d3d;
+    --app-footer-border-color: #292929;
 
     --app-keyboard-focus-color: #51708a;
 
