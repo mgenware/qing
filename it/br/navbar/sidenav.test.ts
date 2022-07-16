@@ -19,10 +19,20 @@ async function checkUser(el: Element, user: User) {
   await imgEl.e.toBeVisible();
 }
 
+async function checkSidenavVisible(p: Page, visible: boolean) {
+  if (visible) {
+    await p.$(nbm.sidenavSel).e.toHaveClass('slide-in');
+  } else {
+    await p.$(nbm.sidenavSel).e.not.toHaveClass('slide-in');
+  }
+  // Check body scrolling status.
+  await p.body.e.toHaveCSS('overflow', visible ? 'hidden' : 'visible');
+}
+
 async function testSidenavAppearingCore(p: Page) {
   await p.$(togglerSel).click();
   const sidenav = p.$(nbm.sidenavSel);
-  await sidenav.e.toBeVisible();
+  await checkSidenavVisible(p, true);
   await sidenav.e.toHaveCSS('overflow-x', 'hidden');
   await sidenav.e.toHaveCSS('overflow-y', 'auto');
   return sidenav;
@@ -48,14 +58,6 @@ async function checkUserSidenav(p: Page, u: User) {
   // TODO: tests for new post and new thread.
 
   // Theme options are tested in theme.ts.
-}
-
-async function checkSidenavVisible(p: Page, visible: boolean) {
-  if (visible) {
-    await p.$(nbm.sidenavSel).e.toHaveClass('slide-in');
-  } else {
-    await p.$(nbm.sidenavSel).e.not.toHaveClass('slide-in');
-  }
 }
 
 function waitForAnimation() {

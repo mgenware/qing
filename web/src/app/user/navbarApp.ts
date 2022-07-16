@@ -26,6 +26,7 @@ import AppSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
 import * as thm from './theme';
+import * as brLib from 'lib/brLib';
 import 'ui/form/checkBox';
 
 const sideNavID = 'sidenav';
@@ -236,6 +237,16 @@ export default class NavbarApp extends BaseElement {
     appState.observe(appStateName.user, (arg) => {
       this.user = arg as User;
     });
+    brLib.mediaQueryHandler(
+      '(max-width: 768px)',
+      (mobile) => {
+        // Close sidenav when switching to desktop.
+        if (!mobile && this.sideNavOpen) {
+          this.closeSideNav(null);
+        }
+      },
+      true,
+    );
   }
 
   override render() {
@@ -385,14 +396,20 @@ export default class NavbarApp extends BaseElement {
   private showSideNav(e: Event | null) {
     e?.preventDefault();
     this.handleEsc(() => this.closeSideNav(null));
-    this.sideNavOpen = true;
+    this.setSideNavOpen(true);
   }
 
   private closeSideNav(e: Event | null) {
     e?.preventDefault();
     if (this.sideNavOpen) {
-      this.sideNavOpen = false;
+      this.setSideNavOpen(false);
     }
+  }
+
+  private setSideNavOpen(open: boolean) {
+    this.sideNavOpen = open;
+    // Update body scrolling status.
+    document.body.style.overflow = open ? 'hidden' : '';
   }
 
   private handleThemeOptionClick(e: Event, theme: def.UserTheme) {
