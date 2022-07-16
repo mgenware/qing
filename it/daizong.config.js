@@ -25,11 +25,7 @@ export default {
     },
   },
   api: 'mocha --parallel --require source-map-support/register "dist/api/**/*.test.js"',
-  br: {
-    run: brCmd,
-    t: {
-      run: brCmd + ' --debug',
-    },
-  },
+  br: brCmd,
+  brt: `${brCmd} --debug`,
   all: ['#api', '#br'],
 };
