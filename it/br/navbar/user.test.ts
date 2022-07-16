@@ -22,6 +22,17 @@ test('Navbar - User', async ({ page }) => {
   // Keep login status after reloading.
   await p.reload();
   await nbc.checkUserNavbar(p, usr.user);
+
+  // `checkUserNavbar` only checks top-level navbar items,
+  // we need to check user menu items here.
+  const userMenu = p.$(nbm.navbarSel).$('.user-group .dropdown');
+
+  await nbm.userMenuBtn(p).click();
+  await userMenu.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).e.toBeVisible();
+  await userMenu.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
+  await userMenu.$a({ href: '/m/your-threads', text: 'Your threads' }).e.toBeVisible();
+  await userMenu.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
+  // TODO: tests for new post and new thread.
 });
 
 test('Navbar - Logout', async ({ page }) => {

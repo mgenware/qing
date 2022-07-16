@@ -159,7 +159,7 @@ export class Element extends LocatorCore {
 
   $img(e: { size: number; alt: string; src: string; title?: string }) {
     const sel = `img[width="${e.size}"][height="${e.size}"][alt=${JSON.stringify(
-      e.title,
+      e.alt,
     )}][src=${JSON.stringify(e.src)}]${e.title ? `[title=${JSON.stringify(e.title)}]` : ''}`;
     return this.$(sel);
   }

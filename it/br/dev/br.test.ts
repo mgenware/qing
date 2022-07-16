@@ -17,14 +17,14 @@ test('`br.page` has no users logged in', async ({ page }) => {
 test('`br.page.signIn`', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await nb.checkUserNavbar(p, usr.user2);
+  await nb.checkUserNavbar(p, usr.user);
 });
 
 test('`br.page.reload()`', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
   await p.reload();
-  await nb.checkUserNavbar(p, usr.user2);
+  await nb.checkUserNavbar(p, usr.user);
 });
 
 test('`br.page.reload` called with a different user', async ({ page }) => {
