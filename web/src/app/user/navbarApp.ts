@@ -111,7 +111,7 @@ export default class NavbarApp extends BaseElement {
           text-align: left;
         }
 
-        /** Shared grid style between .dropdown and .sidenav */
+        /** Shared grid style between .dropdown and #sidenav */
         .grid {
           display: inline-grid;
           grid-template-columns: repeat(3, auto);
@@ -139,7 +139,7 @@ export default class NavbarApp extends BaseElement {
           flex-grow: 1;
         }
 
-        .sidenav {
+        #sidenav {
           display: none;
         }
 
@@ -153,7 +153,7 @@ export default class NavbarApp extends BaseElement {
             display: block;
           }
 
-          .sidenav {
+          #sidenav {
             display: block;
             height: 100vh;
             width: 100vw;
@@ -171,11 +171,11 @@ export default class NavbarApp extends BaseElement {
             text-align: center;
           }
 
-          .slide-in {
+          #sidenav.slide-in {
             transform: translateX(0%);
           }
 
-          .sidenav a {
+          #sidenav a {
             padding: 0.5rem;
             text-decoration: none;
             font-size: 1.4rem;
@@ -184,22 +184,22 @@ export default class NavbarApp extends BaseElement {
             transition: 0.3s;
           }
 
-          .sidenav check-box {
+          #sidenav check-box {
             --unchecked-color: #818181;
             --checked-mark-color: #818181;
             --checked-back-color: #818181;
           }
 
-          .sidenav a:hover {
+          #sidenav a:hover {
             color: #f1f1f1;
           }
 
-          .sidenav .close-btn-row {
+          #sidenav .close-btn-row {
             display: block;
             text-align: right;
           }
 
-          .sidenav .close-btn {
+          #sidenav .close-btn {
             display: inline-block;
             margin-right: 1rem;
             margin-bottom: 0.2rem;
@@ -207,18 +207,18 @@ export default class NavbarApp extends BaseElement {
             padding: 0.8rem 1rem;
           }
 
-          .sidenav .header {
+          #sidenav .header {
             font-size: 1.8rem;
             padding: 0.5rem;
             margin: 0 1rem 0.4rem 1rem;
             border-bottom: 1px solid gray;
           }
 
-          .sidenav .header:not(:first-child) {
+          #sidenav .header:not(:first-child) {
             margin-top: 1.6rem;
           }
 
-          .sidenav hr {
+          #sidenav hr {
             margin-left: 3rem;
             margin-right: 3rem;
             border-top-color: #3c3c3c;
@@ -268,12 +268,7 @@ export default class NavbarApp extends BaseElement {
 
         <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}>&#9776;</a>
       </navbar>
-      <div
-        id=${sideNavID}
-        class=${classMap({
-          sidenav: true,
-          'slide-in': this.sideNavOpen,
-        })}>
+      <div id=${sideNavID} class=${this.sideNavOpen ? 'slide-in' : ''}>
         <div class="close-btn-row">
           <a href="#" class="close-btn" @click=${(e: Event) => this.closeSideNav(e)}>&times;</a>
         </div>
