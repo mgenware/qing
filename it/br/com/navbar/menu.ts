@@ -8,23 +8,20 @@
 import * as br from 'br';
 
 export const navbarSel = '#main-navbar';
+export const sidenavSel = '#sidenav';
 const userGroupSel = '.user-group';
 const themeGroupSel = '.theme-group';
-
-export function navEl(p: br.Page) {
-  return p.$(navbarSel);
-}
 
 function menuEl(menuBtnEl: br.Element) {
   return menuBtnEl.$('.dropdown');
 }
 
 export function userMenuBtn(p: br.Page) {
-  return navEl(p).$(userGroupSel);
+  return p.$(navbarSel).$(userGroupSel);
 }
 
 export function themeMenuBtn(p: br.Page) {
-  return navEl(p).$(themeGroupSel);
+  return p.$(navbarSel).$(themeGroupSel);
 }
 
 export function userMenuEl(p: br.Page) {

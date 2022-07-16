@@ -153,8 +153,8 @@ export class Element extends LocatorCore {
     return this.$(`${sel}:has-text(${JSON.stringify(text)})`);
   }
 
-  $checkBox(a: { text: string; radio?: boolean }) {
-    return this.$hasText('check-box' + (a.radio ? '[radio]' : ''), a.text);
+  $checkBox(e: { text: string; radio?: boolean }) {
+    return this.$hasText('check-box' + (e.radio ? '[radio]' : ''), e.text);
   }
 
   $img(e: { size: number; title: string; src?: string }) {
@@ -162,6 +162,10 @@ export class Element extends LocatorCore {
       e.title,
     )}][alt=${JSON.stringify(e.title)}]${e.src ? `[src=${JSON.stringify(e.src)}]` : ''}`;
     return this.$(sel);
+  }
+
+  $a(e: { href: string; text: string }) {
+    return this.$hasText(`a[href=${JSON.stringify(e.href)}]`, e.text);
   }
 }
 
@@ -180,7 +184,10 @@ export class Page {
     return PWLocatableWrapper.$$(this.c, sel);
   }
 
-  async goto(url: string, user: User | null) {
+  async goto(url: string, user: User | null, mobile?: boolean) {
+    if (mobile) {
+      await this.setMobileViewport();
+    }
     if (user) {
       await this.signIn(user);
     }

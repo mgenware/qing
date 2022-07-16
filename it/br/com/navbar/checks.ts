@@ -12,11 +12,11 @@ const dropdownChar = '▾';
 
 interface NavbarUserArgs {
   user: br.User;
-  sideNav: boolean;
+  sidenav: boolean;
 }
 
 async function userMenuBtnShouldAppear(p: br.Page, e: NavbarUserArgs) {
-  const userText = e.sideNav ? e.user.name : `${e.user.name} ${dropdownChar}`;
+  const userText = e.sidenav ? e.user.name : `${e.user.name} ${dropdownChar}`;
   const btnEl = nb.userMenuBtn(p);
   const nameEl = btnEl.$hasText('span', userText);
   const imgEl = btnEl.$(`img[src="${e.user.iconURL}"][width="25"][height="25"]`);
@@ -49,7 +49,7 @@ async function checkThemeBtn(el: br.Element) {
 }
 
 export async function checkVisitorNavbar(p: br.Page) {
-  const navEl = nb.navEl(p);
+  const navEl = p.$(nb.navbarSel);
   const children = navEl.$$('> *');
   await checkLogoEl(children.item(0));
   // `item(1)` is spacer.
@@ -59,7 +59,7 @@ export async function checkVisitorNavbar(p: br.Page) {
 }
 
 export async function checkUserNavbar(p: br.Page, e: NavbarUserArgs) {
-  const navEl = nb.navEl(p);
+  const navEl = p.$(e.sidenav ? nb.sidenavSel : nb.navbarSel);
   const children = navEl.$$('> *');
   await checkLogoEl(children.item(0));
   // `item(1)` is spacer.

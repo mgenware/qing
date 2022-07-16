@@ -7,4 +7,4 @@
 
 export const auth = '/auth';
 export const signUp = `${auth}/signup`;
-export const signIn = `${auth}/signIn`;
+export const signIn = `${auth}/signin`;

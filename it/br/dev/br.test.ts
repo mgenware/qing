@@ -17,21 +17,21 @@ test('`br.page` has no users logged in', async ({ page }) => {
 test('`br.page.signIn`', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await nb.checkUserNavbar(p, { user: usr.user, sideNav: false });
+  await nb.checkUserNavbar(p, { user: usr.user, sidenav: false });
 });
 
 test('`br.page.reload()`', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
   await p.reload();
-  await nb.checkUserNavbar(p, { user: usr.user, sideNav: false });
+  await nb.checkUserNavbar(p, { user: usr.user, sidenav: false });
 });
 
 test('`br.page.reload` called with a different user', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
   await p.reload(usr.user2);
-  await nb.checkUserNavbar(p, { user: usr.user2, sideNav: false });
+  await nb.checkUserNavbar(p, { user: usr.user2, sidenav: false });
 });
 
 test('`br.page.reload` called to sign out', async ({ page }) => {
