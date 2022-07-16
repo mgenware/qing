@@ -19,6 +19,16 @@ test('Sidenav - Desktop to mobile', async ({ page }) => {
   await helper.checkTogglerVisible(p, true);
 });
 
+test('Sidenav - Mobile to desktop', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/', null, true);
+  await helper.checkTogglerVisible(p, true);
+  await helper.checkSidenavVisible(p, false);
+
+  await p.setDesktopViewport();
+  await helper.checkTogglerVisible(p, false);
+});
+
 test('Sidenav - Appear on mobile - Visitor', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null, true);
@@ -53,4 +63,15 @@ test('Sidenav - Dismissed', async ({ page }) => {
   await sidenav.$('.close-btn').click();
   await helper.waitForAnimation(p, false);
   await helper.checkSidenavVisible(p, false);
+});
+
+test('Sidenav - Dismiss sidenav when switching to desktop', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/', null, true);
+  await helper.clickToggler(p);
+  await helper.checkSidenavVisible(p, true);
+
+  await p.setDesktopViewport();
+  await helper.checkSidenavVisible(p, false);
+  await helper.checkTogglerVisible(p, false);
 });

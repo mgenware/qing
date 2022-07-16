@@ -202,6 +202,10 @@ export class Page {
     return this.c.setViewportSize({ width: 390, height: 844 });
   }
 
+  setDesktopViewport() {
+    return this.c.setViewportSize({ width: 1280, height: 720 });
+  }
+
   // Reloads current page.
   // `user`: undefined -> no change to credentials. null -> visitor.
   async reload(user?: User | null) {
