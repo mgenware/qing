@@ -18,10 +18,10 @@ test('Navbar - Visitor', async ({ page }) => {
 test('Navbar - User', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await nbc.checkUserNavbar(p, { user: usr.user, sidenav: false });
+  await nbc.checkUserNavbar(p, usr.user);
   // Keep login status after reloading.
   await p.reload();
-  await nbc.checkUserNavbar(p, { user: usr.user, sidenav: false });
+  await nbc.checkUserNavbar(p, usr.user);
 });
 
 test('Navbar - Logout', async ({ page }) => {

@@ -22,12 +22,12 @@ test('__/auth login by ID', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoot, null);
   await clickSignInButton(p, '103', false);
-  await nbc.checkUserNavbar(p, { user: usr.admin2, sidenav: false });
+  await nbc.checkUserNavbar(p, usr.admin2);
 });
 
 test('__/auth login by EID', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoot, null);
   await clickSignInButton(p, usr.admin2.id, true);
-  await nbc.checkUserNavbar(p, { user: usr.admin2, sidenav: false });
+  await nbc.checkUserNavbar(p, usr.admin2);
 });

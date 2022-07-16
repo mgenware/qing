@@ -157,10 +157,10 @@ export class Element extends LocatorCore {
     return this.$hasText('check-box' + (e.radio ? '[radio]' : ''), e.text);
   }
 
-  $img(e: { size: number; title: string; src?: string }) {
-    const sel = `img[width="${e.size}"][height="${e.size}"][title=${JSON.stringify(
+  $img(e: { size: number; alt: string; src: string; title?: string }) {
+    const sel = `img[width="${e.size}"][height="${e.size}"][alt=${JSON.stringify(
       e.title,
-    )}][alt=${JSON.stringify(e.title)}]${e.src ? `[src=${JSON.stringify(e.src)}]` : ''}`;
+    )}][src=${JSON.stringify(e.src)}]${e.title ? `[title=${JSON.stringify(e.title)}]` : ''}`;
     return this.$(sel);
   }
 

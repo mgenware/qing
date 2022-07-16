@@ -5,11 +5,18 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Page, usr } from 'br';
+import { test, $, Page, usr, User, Element } from 'br';
 import * as nbm from 'br/com/navbar/menu';
-import * as nbc from 'br/com/navbar/checks';
 
 const togglerSel = `${nbm.navbarSel} .toggler`;
+
+async function checkUser(el: Element, user: User) {
+  const nameEl = el.$hasText('span', user.name);
+  const imgEl = el.$img({ size: 25, src: user.iconURL, alt: user.name });
+
+  await nameEl.e.toBeVisible();
+  await imgEl.e.toBeVisible();
+}
 
 test('Sidenav - Not showing on desktop', async ({ page }) => {
   const p = $(page);
@@ -42,7 +49,7 @@ test('Sidenav - Appear on mobile - User', async ({ page }) => {
   await p.goto('/', usr.user, true);
   const sidenav = await testSidenavAppearingCore(p);
 
-  await nbc.checkUserNavbar(p, { sidenav: true, user: usr.user });
+  await checkUser(sidenav, usr.user);
 
   await sidenav.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).e.toBeVisible();
   await sidenav.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();

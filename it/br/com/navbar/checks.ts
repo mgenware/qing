@@ -10,16 +10,11 @@ import * as nb from './menu';
 
 const dropdownChar = '▾';
 
-interface NavbarUserArgs {
-  user: br.User;
-  sidenav: boolean;
-}
-
-async function userMenuBtnShouldAppear(p: br.Page, e: NavbarUserArgs) {
-  const userText = e.sidenav ? e.user.name : `${e.user.name} ${dropdownChar}`;
+async function userMenuBtnShouldAppear(p: br.Page, user: br.User) {
+  const userText = `${user.name} ${dropdownChar}`;
   const btnEl = nb.userMenuBtn(p);
   const nameEl = btnEl.$hasText('span', userText);
-  const imgEl = btnEl.$(`img[src="${e.user.iconURL}"][width="25"][height="25"]`);
+  const imgEl = btnEl.$img({ size: 25, src: user.iconURL, alt: user.name });
 
   await nameEl.e.toBeVisible();
   await imgEl.e.toBeVisible();
@@ -30,7 +25,7 @@ async function checkLogoEl(el: br.Element) {
   await el
     .$img({
       size: 25,
-      title: 'Qing',
+      alt: 'Qing',
       src: '/static/img/main/qing.svg',
     })
     .e.toBeVisible();
@@ -42,7 +37,7 @@ async function checkThemeBtn(el: br.Element) {
     .$('a[href="#"]')
     .$img({
       size: 25,
-      title: 'Light theme',
+      alt: 'Light theme',
       src: '/static/img/main/light-mode.svg',
     })
     .e.toBeVisible();
@@ -58,14 +53,15 @@ export async function checkVisitorNavbar(p: br.Page) {
   await checkThemeBtn(children.item(4));
 }
 
-export async function checkUserNavbar(p: br.Page, e: NavbarUserArgs) {
-  const navEl = p.$(e.sidenav ? nb.sidenavSel : nb.navbarSel);
+// This is a brief check on desktop used by other tests to check login status.
+export async function checkUserNavbar(p: br.Page, user: br.User) {
+  const navEl = p.$(nb.navbarSel);
   const children = navEl.$$('> *');
   await checkLogoEl(children.item(0));
   // `item(1)` is spacer.
   // A quick check on user button based on location.
   // Details are checked in `userMenuBtnShouldAppear`.
   await children.item(2).e.toHaveClass('dropdown-btn user-group');
-  await userMenuBtnShouldAppear(p, e);
+  await userMenuBtnShouldAppear(p, user);
   await checkThemeBtn(children.item(3));
 }
