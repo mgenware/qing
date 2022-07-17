@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, ref, createRef, Ref } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, when, ref, createRef, Ref, property } from 'll';
 import { ls, formatLS } from 'ls';
 import './cmtBlock';
 import { CmtBlock } from './cmtBlock';
@@ -32,8 +31,8 @@ export class RootCmtList extends BaseElement {
   }
 
   // The number of all comments and their replies.
-  @lp.number totalCmtCount = 0;
-  @lp.object host!: Entity;
+  @property({ type: Number }) totalCmtCount = 0;
+  @property({ type: Object }) host!: Entity;
 
   private _cmtBlockEl: Ref<CmtBlock> = createRef();
 

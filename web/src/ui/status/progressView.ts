@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 @customElement('progress-view')
@@ -22,7 +21,7 @@ export default class ProgressView extends BaseElement {
     ];
   }
 
-  @lp.number progress = 0;
+  @property({ type: Number }) progress = 0;
 
   override render() {
     const { progress } = this;

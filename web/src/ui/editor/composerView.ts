@@ -15,9 +15,9 @@ import {
   ref,
   PropertyValues,
   TemplateResult,
+  property,
   when,
 } from 'll';
-import * as lp from 'lit-props';
 import { ls, formatLS } from 'ls';
 import './editorView';
 import { ERR } from 'checks';
@@ -71,18 +71,18 @@ export class ComposerView extends BaseElement {
     ];
   }
 
-  @lp.number entityType = 0;
+  @property({ type: Number }) entityType = 0;
 
   // Title field value.
-  @lp.string inputTitle = '';
-  @lp.bool showTitleInput = false;
+  @property() inputTitle = '';
+  @property({ type: Boolean }) showTitleInput = false;
 
-  @lp.string entityID = '';
-  @lp.string submitButtonText = '';
+  @property() entityID = '';
+  @property() submitButtonText = '';
 
   // Source loading will start when `entityID` changes, it has to default to
   // `true`.
-  @lp.object loadingStatus = LoadingStatus.success;
+  @property({ type: Object }) loadingStatus = LoadingStatus.success;
 
   // Used to check if editor content has changed.
   private lastSavedTitle = '';

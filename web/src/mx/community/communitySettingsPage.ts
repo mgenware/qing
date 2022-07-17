@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, when } from 'll';
-import * as lp from 'lit-props';
+import { customElement, html, css, when, property } from 'll';
 import { CHECK } from 'checks';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
@@ -35,11 +34,11 @@ export class CommunitySettingsPage extends StatefulPage {
     ];
   }
 
-  @lp.bool savingStatus = LoadingStatus.success;
-  @lp.bool enableCommunityMode = false;
-  @lp.bool forumsEnabled = false;
-  @lp.bool forumGroupsEnabled = false;
-  @lp.bool needRestart = false;
+  @property({ type: Boolean }) savingStatus = LoadingStatus.success;
+  @property({ type: Boolean }) enableCommunityMode = false;
+  @property({ type: Boolean }) forumsEnabled = false;
+  @property({ type: Boolean }) forumGroupsEnabled = false;
+  @property({ type: Boolean }) needRestart = false;
 
   override renderContent() {
     return html`

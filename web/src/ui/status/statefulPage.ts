@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, css, TemplateResult } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, html, css, TemplateResult, property } from 'll';
 import LoadingStatus from 'lib/loadingStatus';
 import 'ui/status/statusView';
 
@@ -26,7 +25,7 @@ export abstract class StatefulPage extends BaseElement {
     ];
   }
 
-  @lp.object loadingStatus = LoadingStatus.notStarted;
+  @property({ type: Object }) loadingStatus = LoadingStatus.notStarted;
 
   override async firstUpdated() {
     await this.reloadStatefulPageDataAsync();

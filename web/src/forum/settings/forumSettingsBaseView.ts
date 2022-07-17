@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
@@ -31,8 +30,8 @@ export class ForumSettingsBaseView extends BaseElement {
     ];
   }
 
-  @lp.number selectedPage = ForumSettingsPages.general;
-  @lp.string fid = '';
+  @property({ type: Number }) selectedPage = ForumSettingsPages.general;
+  @property() fid = '';
 
   override firstUpdated() {
     CHECK(this.fid);

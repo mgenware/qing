@@ -7,8 +7,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, classMap } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, when, classMap, state } from 'll';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
 import * as mRoute from '@qing/routes/d/m';
@@ -228,10 +227,10 @@ export default class NavbarApp extends BaseElement {
     ];
   }
 
-  @lp.state user = appPageState.user;
-  @lp.state curTheme = AppSettings.instance.theme;
-  @lp.state curOpenMenu: MenuType | null = null;
-  @lp.state sideNavOpen = false;
+  @state() user = appPageState.user;
+  @state() curTheme = AppSettings.instance.theme;
+  @state() curOpenMenu: MenuType | null = null;
+  @state() sideNavOpen = false;
 
   override firstUpdated() {
     appState.observe(appStateName.user, (arg) => {

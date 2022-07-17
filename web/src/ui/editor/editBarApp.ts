@@ -5,15 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, property, state } from 'll';
 import ls from 'ls';
 import appPageState from 'app/appPageState';
 
 @customElement('edit-bar-app')
 export class EditBarApp extends BaseElement {
-  @lp.string uid = '';
-  @lp.state private visible = false;
+  @property() uid = '';
+  @state() private visible = false;
 
   override firstUpdated() {
     const cur = appPageState.userEID;

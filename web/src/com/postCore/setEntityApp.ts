@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
 import 'ui/editor/composerView';
 import { ComposerContent, ComposerView } from 'ui/editor/composerView';
@@ -32,16 +31,16 @@ export default class SetEntityApp extends BaseElement {
     ];
   }
 
-  @lp.string postID = '';
-  @lp.string postTitle = '';
-  @lp.number entityType = 0;
-  @lp.string headerText = '';
-  @lp.bool showTitleInput = true;
-  @lp.string submitButtonText = '';
-  @lp.string forumID = '';
+  @property() postID = '';
+  @property() postTitle = '';
+  @property({ type: Number }) entityType = 0;
+  @property() headerText = '';
+  @property({ type: Boolean }) showTitleInput = true;
+  @property() submitButtonText = '';
+  @property() forumID = '';
 
-  @lp.bool open = false;
-  @lp.bool autoClose = false;
+  @property({ type: Boolean }) open = false;
+  @property({ type: Boolean }) autoClose = false;
 
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);

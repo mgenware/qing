@@ -133,7 +133,6 @@ importers:
       js-cookie: ^3.0.1
       kangxi-editor: ^0.14.2
       lit-analyzer: 2.0.0-pre.2
-      lit-props: ^3.2.0
       mahur: ^0.0.2
       narwhal-js: ^0.0.1
       plum-element: ^0.0.7
@@ -153,7 +152,6 @@ importers:
       f-array.splice: 1.1.0
       js-cookie: 3.0.1
       kangxi-editor: 0.14.2
-      lit-props: 3.2.0
       mahur: 0.0.2
       narwhal-js: 0.0.1
       plum-element: 0.0.7
@@ -3732,13 +3730,6 @@ packages:
     resolution: {integrity: sha512-xOKsPmq/RAKJ6dUeOxhmOYFjcjf0Q7aSdfBJgdJkOfCUnkmmJPxNrlZpRBeVe1Gg50oYWMlgm6ccAE/SpJgSdw==}
     dependencies:
       '@types/trusted-types': 2.0.2
-
-  /lit-props/3.2.0:
-    resolution: {integrity: sha512-QsFpFf9P/4Ih6/gCaVrdEdi3VGylpueJXGGtpRL9fY5UHHPCa6IMhxiR/i5qAlIwfrbgIcaNmDjOWhDg7MxiYw==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      lit: ^2.0.0
-    dev: false
 
   /lit/2.2.6:
     resolution: {integrity: sha512-K2vkeGABfSJSfkhqHy86ujchJs3NR9nW1bEEiV+bXDkbiQ60Tv5GUausYN2mXigZn8lC1qXuc46ArQRKYmumZw==}

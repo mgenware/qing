@@ -6,12 +6,11 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { BaseElement, customElement, html } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, property } from 'll';
 
 @customElement('link-button')
 export class LinkButton extends BaseElement {
-  @lp.bool disabled = false;
+  @property({ type: Boolean }) disabled = false;
 
   override render() {
     return html`

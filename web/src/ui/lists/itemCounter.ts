@@ -5,14 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, property } from 'll';
 import { formatLS, ls } from 'ls';
 
 @customElement('item-counter')
 export class ItemCounter extends BaseElement {
-  @lp.number shown = 0;
-  @lp.number total = 0;
+  @property({ type: Number }) shown = 0;
+  @property({ type: Number }) total = 0;
 
   override render() {
     if (this.total <= 1) {

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { CHECK } from 'checks';
 import './likeView';
 import LikeHostType from './loaders/likeHostType';
@@ -32,16 +31,16 @@ export class LikeApp extends BaseElement {
   }
 
   // Reflected: used for quick locating the view during testing.
-  @lp.reflected.string hostID = '';
+  @property({ reflect: true }) hostID = '';
   // Reflected: used for quick locating the view during testing.
-  @lp.reflected.number hostType: LikeHostType = 0;
-  @lp.number initialLikes = 0;
-  @lp.bool initialHasLiked = false;
-  @lp.string iconSize = sizeMD;
+  @property({ type: Number, reflect: true }) hostType: LikeHostType = 0;
+  @property({ type: Number }) initialLikes = 0;
+  @property({ type: Boolean }) initialHasLiked = false;
+  @property() iconSize = sizeMD;
 
-  @lp.number private likes = 0;
-  @lp.bool private isWorking = false;
-  @lp.bool private hasLiked = false;
+  @property({ type: Number }) private likes = 0;
+  @property({ type: Boolean }) private isWorking = false;
+  @property({ type: Boolean }) private hasLiked = false;
 
   override firstUpdated() {
     CHECK(this.hostID);

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
 import 'ui/alerts/alertView';
 
@@ -23,8 +22,8 @@ export class ErrorView extends BaseElement {
     ];
   }
 
-  @lp.string headerText = '';
-  @lp.bool canRetry = false;
+  @property() headerText = '';
+  @property({ type: Boolean }) canRetry = false;
 
   override render() {
     return html`

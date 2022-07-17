@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('section-view')
@@ -47,7 +46,7 @@ export class SectionView extends BaseElement {
     ];
   }
 
-  @lp.string sectionStyle: AppViewStyleNullable = '';
+  @property() sectionStyle: AppViewStyleNullable = '';
 
   override render() {
     return html`

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { customElement, html, css, property } from 'll';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -53,12 +52,12 @@ export class EditProfileApp extends StatefulPage {
     ];
   }
 
-  @lp.string name = '';
-  @lp.string url = '';
-  @lp.string company = '';
-  @lp.string location = '';
-  @lp.bool updateInfoStatus = LoadingStatus.success;
-  @lp.string avatarURL = '';
+  @property() name = '';
+  @property() url = '';
+  @property() company = '';
+  @property() location = '';
+  @property({ type: Boolean }) updateInfoStatus = LoadingStatus.success;
+  @property() avatarURL = '';
 
   private get editorEl(): EditorView | null {
     return this.getShadowElement<EditorView>(editorID);

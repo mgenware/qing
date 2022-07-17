@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { ls } from 'ls';
 import 'ui/editor/editBarApp';
 import 'ui/status/statusOverlay';
@@ -36,9 +35,9 @@ export class CmtView extends BaseElement {
     ];
   }
 
-  @lp.object cmt: Cmt | null = null;
+  @property({ type: Object }) cmt: Cmt | null = null;
   // Only available to replies.
-  @lp.string parentID: string | null = null;
+  @property() parentID: string | null = null;
 
   override firstUpdated() {
     const { cmt } = this;

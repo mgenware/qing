@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, css, TemplateResult } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, html, css, TemplateResult, property } from 'll';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/alerts/noticeView';
@@ -36,17 +35,17 @@ export abstract class PCListApp extends BaseElement {
     ];
   }
 
-  @lp.object loadingStatus = LoadingStatus.working;
-  @lp.array items: readonly PCPost[] = [];
+  @property({ type: Object }) loadingStatus = LoadingStatus.working;
+  @property({ type: Array }) items: readonly PCPost[] = [];
 
   // Set those properties in child classes to have a default sorted column.
-  @lp.string currentSortedColumn = '';
-  @lp.bool currentSortedColumnDesc = false;
+  @property() currentSortedColumn = '';
+  @property({ type: Boolean }) currentSortedColumnDesc = false;
 
-  @lp.number private totalCount = 0;
-  @lp.number private shownCount = 0;
-  @lp.number private page = 1;
-  @lp.number private pageSize = defaultPageSize;
+  @property({ type: Number }) private totalCount = 0;
+  @property({ type: Number }) private shownCount = 0;
+  @property({ type: Number }) private page = 1;
+  @property({ type: Number }) private pageSize = defaultPageSize;
 
   override render() {
     const { loadingStatus } = this;

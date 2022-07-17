@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, property } from 'll';
 import ls from 'ls';
 
-var units = {
+const units = {
   year: 24 * 60 * 60 * 1000 * 365,
   month: (24 * 60 * 60 * 1000 * 365) / 12,
   day: 24 * 60 * 60 * 1000,
@@ -18,12 +17,12 @@ var units = {
   second: 1000,
 };
 
-var rtf = new Intl.RelativeTimeFormat(ls._lang, { numeric: 'auto' });
+const rtf = new Intl.RelativeTimeFormat(ls._lang, { numeric: 'auto' });
 
 @customElement('time-field')
 export class TimeField extends BaseElement {
-  @lp.string createdAt = '';
-  @lp.string modifiedAt = '';
+  @property() createdAt = '';
+  @property() modifiedAt = '';
 
   override render() {
     const { createdAt, modifiedAt } = this;
@@ -53,10 +52,10 @@ export class TimeField extends BaseElement {
 
   // https://stackoverflow.com/questions/6108819/javascript-timestamp-to-relative-time?answertab=modifieddesc#tab-top
   private formatRelativeDate(date: Date) {
-    var elapsed = date.getTime() - new Date().getTime();
+    const elapsed = date.getTime() - new Date().getTime();
 
     // "Math.abs" accounts for both "past" & "future" scenarios
-    for (var [k, v] of Object.entries(units)) {
+    for (const [k, v] of Object.entries(units)) {
       if (Math.abs(elapsed) > v || k === 'second') {
         return rtf.format(Math.round(elapsed / v), k as Intl.RelativeTimeFormatUnit);
       }

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, LitElement } from 'll';
-import * as lp from 'lit-props';
+import { customElement, html, css, LitElement, property } from 'll';
 
 // A spinner view(block) that fills available horizontal space.
 @customElement('spinner-view')
@@ -90,7 +89,7 @@ export class SpinnerView extends LitElement {
     `;
   }
 
-  @lp.bool fullScreen = false;
+  @property({ type: Boolean }) fullScreen = false;
 
   override render() {
     const content = html`

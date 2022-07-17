@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'qing-overlay';
 import ls from 'ls';
 import { staticMainImage } from 'urls';
@@ -41,7 +40,7 @@ export class AvatarUploader extends BaseElement {
     ];
   }
 
-  @lp.string private imageDataURL: string | null = null;
+  @property() private imageDataURL: string | null = null;
 
   cropInfo: ImageCropInfo | null = null;
 

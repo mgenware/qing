@@ -6,8 +6,7 @@
  */
 
 /* eslint-disable arrow-body-style */
-import { BaseElement, customElement, html, css, TemplateResult } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, TemplateResult, property } from 'll';
 import './checkBox';
 
 const parentContainerID = 'parent-container';
@@ -33,9 +32,9 @@ export class ChecklistView extends BaseElement {
     ];
   }
 
-  @lp.array dataSource: ReadonlyArray<string> = [];
-  @lp.bool multiSelect = false;
-  @lp.array selectedIndices: ReadonlyArray<number> = [];
+  @property({ type: Array }) dataSource: ReadonlyArray<string> = [];
+  @property({ type: Boolean }) multiSelect = false;
+  @property({ type: Array }) selectedIndices: ReadonlyArray<number> = [];
 
   // Gets updated whenever `selectedIndices` changes.
   private selectedIndexSet = new Set<number>();

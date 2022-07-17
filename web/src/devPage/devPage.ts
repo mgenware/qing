@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import * as authRoute from '@qing/routes/d/dev/auth';
 import * as elementsRoute from '@qing/routes/d/dev/elements';
 
@@ -28,7 +27,7 @@ export class DevPage extends BaseElement {
     ];
   }
 
-  @lp.string loginUserID = '1';
+  @property() loginUserID = '1';
 
   override render() {
     return html`

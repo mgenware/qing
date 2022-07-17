@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, when, property } from 'll';
 import 'ui/form/inputView';
 import 'ui/form/checklistView';
 import ls from 'ls';
@@ -77,12 +76,12 @@ export class UserSelectorApp extends BaseElement {
     ];
   }
 
-  @lp.bool byID = true;
-  @lp.string value = '';
-  @lp.array private users: readonly UserInfo[] = [];
-  @lp.object private status = LoadingStatus.notStarted;
-  @lp.bool private popoverVisible = false;
-  @lp.object private selectedUser: UserInfo | null = null;
+  @property({ type: Boolean }) byID = true;
+  @property() value = '';
+  @property({ type: Array }) private users: readonly UserInfo[] = [];
+  @property({ type: Object }) private status = LoadingStatus.notStarted;
+  @property({ type: Boolean }) private popoverVisible = false;
+  @property({ type: Object }) private selectedUser: UserInfo | null = null;
 
   private get inputView(): HTMLElement | null {
     return this.getShadowElement(inputViewID);

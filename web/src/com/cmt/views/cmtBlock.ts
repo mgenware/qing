@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, repeat } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, when, repeat, property, state } from 'll';
 import { cache } from 'lit/directives/cache.js';
 import Entity from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
@@ -52,26 +51,26 @@ export class CmtBlock extends BaseElement {
     ];
   }
 
-  @lp.object host!: Entity;
-  @lp.object cmt: Cmt | null = null;
+  @property({ type: Object }) host!: Entity;
+  @property({ type: Object }) cmt: Cmt | null = null;
 
   // Starts loading comment when the component is first visible.
-  @lp.bool loadOnVisible = false;
+  @property({ type: Boolean }) loadOnVisible = false;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
   // DO NOT modify `items` elsewhere.
-  @lp.state _items: readonly Cmt[] = [];
+  @state() _items: readonly Cmt[] = [];
 
   // Available when `loadMore` is called.
-  @lp.state _hasNext = false;
+  @state() _hasNext = false;
 
   // Number of replies under this comment.
   // Not available when `cmt` is null.
-  @lp.state _replyCount = 0;
-  @lp.state _collectorLoadingStatus = LoadingStatus.success;
+  @state() _replyCount = 0;
+  @state() _collectorLoadingStatus = LoadingStatus.success;
 
-  @lp.state _replyViewVisible = false;
+  @state() _replyViewVisible = false;
 
   private _collector!: CmtCollector;
   // Tracks if `loadMore` has been called once. Used in reply view click handler.

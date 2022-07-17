@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import SignInLoader from './loaders/signInLoader';
@@ -28,8 +27,8 @@ export class SignInApp extends BaseElement {
     ];
   }
 
-  @lp.string private email = '';
-  @lp.string private password = '';
+  @property() private email = '';
+  @property() private password = '';
 
   override render() {
     return html`

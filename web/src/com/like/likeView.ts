@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, when, property } from 'll';
 import { staticMainImage } from 'urls';
 import { cache } from 'lit/directives/cache.js';
 
@@ -46,10 +45,10 @@ export class LikeView extends BaseElement {
     ];
   }
 
-  @lp.number likes = 0;
-  @lp.bool isWorking = false;
-  @lp.bool hasLiked = false;
-  @lp.number iconSize = defaultIconSize;
+  @property({ type: Number }) likes = 0;
+  @property({ type: Boolean }) isWorking = false;
+  @property({ type: Boolean }) hasLiked = false;
+  @property({ type: Number }) iconSize = defaultIconSize;
 
   override render() {
     const { iconSize } = this;

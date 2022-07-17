@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { AppViewStyleNullable } from 'ui/types/appViewStyle';
 
 @customElement('tag-view')
@@ -29,7 +28,7 @@ export class TagView extends BaseElement {
     ];
   }
 
-  @lp.string tagStyle: AppViewStyleNullable = '';
+  @property() tagStyle: AppViewStyleNullable = '';
 
   override render() {
     return html`<span class="tag"><slot></slot></span>`;

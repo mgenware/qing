@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -42,11 +41,11 @@ export class ForumGeneralSettingsApp extends BaseElement {
     ];
   }
 
-  @lp.string fid = '';
-  @lp.string name = '';
-  @lp.object loadingStatus = LoadingStatus.notStarted;
-  @lp.bool updateInfoStatus = LoadingStatus.success;
-  @lp.string avatarURL = '';
+  @property() fid = '';
+  @property() name = '';
+  @property({ type: Object }) loadingStatus = LoadingStatus.notStarted;
+  @property({ type: Boolean }) updateInfoStatus = LoadingStatus.success;
+  @property() avatarURL = '';
 
   get descEditorView(): EditorView | null {
     return this.getShadowElement(editorElementID);

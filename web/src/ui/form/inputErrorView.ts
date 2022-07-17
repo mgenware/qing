@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 
 @customElement('input-error-view')
 export class InputErrorView extends BaseElement {
@@ -28,7 +27,7 @@ export class InputErrorView extends BaseElement {
     ];
   }
 
-  @lp.string message = '';
+  @property() message = '';
 
   override render() {
     const { message } = this;

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
 import { ERR } from 'checks';
 import appAlert from 'app/appAlert';
@@ -29,7 +28,7 @@ export class ProfileIDView extends BaseElement {
     ];
   }
 
-  @lp.string value = '';
+  @property() value = '';
 
   override render() {
     const { value } = this;

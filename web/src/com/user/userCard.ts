@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import UserInfo from './userInfo';
 
 @customElement('user-card')
@@ -22,7 +21,7 @@ export class UserCard extends BaseElement {
     ];
   }
 
-  @lp.object user: UserInfo | null = null;
+  @property({ type: Object }) user: UserInfo | null = null;
 
   override render() {
     const { user } = this;

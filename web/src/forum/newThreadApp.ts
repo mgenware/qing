@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
 import 'qing-overlay';
 import wind from './forumWind';
@@ -26,7 +25,7 @@ export class NewThreadApp extends BaseElement {
     ];
   }
 
-  @lp.bool threadTypeDialogOpen = false;
+  @property({ type: Boolean }) threadTypeDialogOpen = false;
 
   override render() {
     return html`

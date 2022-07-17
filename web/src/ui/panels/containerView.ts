@@ -5,9 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
-import { classMap } from 'lit/directives/class-map.js';
+import { BaseElement, customElement, html, css, property, classMap } from 'll';
 
 @customElement('container-view')
 export class ContainerView extends BaseElement {
@@ -27,7 +25,7 @@ export class ContainerView extends BaseElement {
   }
 
   // No bottom spacing.
-  @lp.bool nobs = false;
+  @property({ type: Boolean }) nobs = false;
 
   override render() {
     return html`

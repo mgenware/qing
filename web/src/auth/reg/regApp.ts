@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import CreateNewUserLoader from './loaders/createNewUserLoader';
@@ -29,15 +28,15 @@ export class RegApp extends BaseElement {
     ];
   }
 
-  @lp.string private name = '';
-  @lp.string private email = '';
-  @lp.string private password = '';
-  @lp.string private confirmPassword = '';
+  @property() private name = '';
+  @property() private email = '';
+  @property() private password = '';
+  @property() private confirmPassword = '';
 
-  @lp.bool private isCompletionModalOpen = false;
+  @property({ type: Boolean }) private isCompletionModalOpen = false;
 
   // Additional passwords mismatch error message displayed under "Confirm password" input.
-  @lp.string private passwordsMismatchErr = '';
+  @property() private passwordsMismatchErr = '';
 
   override render() {
     return html`

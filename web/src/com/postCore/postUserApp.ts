@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
 import 'ui/editor/editBarApp';
 import 'com/postCore/setEntityApp';
@@ -25,16 +24,16 @@ export class PostUserApp extends BaseElement {
     ];
   }
 
-  @lp.string createdAt = '';
-  @lp.string modifiedAt = '';
-  @lp.string uid = '';
-  @lp.string eid = '';
-  @lp.number entityType = 0;
+  @property() createdAt = '';
+  @property() modifiedAt = '';
+  @property() uid = '';
+  @property() eid = '';
+  @property({ type: Number }) entityType = 0;
 
   // Optional properties (can be overridden by named slots).
-  @lp.string userIconURL = '';
-  @lp.string userURL = '';
-  @lp.string userName = '';
+  @property() userIconURL = '';
+  @property() userURL = '';
+  @property() userName = '';
 
   override render() {
     const imgSlot =

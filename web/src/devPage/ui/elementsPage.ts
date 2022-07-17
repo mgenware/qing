@@ -6,8 +6,7 @@
  */
 
 /* eslint-disable no-alert */
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'qing-button';
 import 'qing-dock-box';
 import 'ui/alerts/alertView';
@@ -122,8 +121,8 @@ export class ElementsPage extends BaseElement {
 
   #setEntityApp: SetEntityApp | null = null;
 
-  @lp.array checklistIndices1: readonly number[] = [];
-  @lp.array checklistIndices2: readonly number[] = [];
+  @property({ type: Array }) checklistIndices1: readonly number[] = [];
+  @property({ type: Array }) checklistIndices2: readonly number[] = [];
 
   override render() {
     return html`

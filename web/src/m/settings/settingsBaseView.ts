@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, html, property } from 'll';
 import { repeat } from 'lit/directives/repeat.js';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
@@ -17,9 +16,9 @@ export interface SettingsBaseItem {
 }
 
 export class SettingsBaseView extends BaseElement {
-  @lp.number selectedItem = '';
-  @lp.string settingsTitle = '';
-  @lp.array items: readonly SettingsBaseItem[] = [];
+  @property({ type: Number }) selectedItem = '';
+  @property() settingsTitle = '';
+  @property({ type: Array }) items: readonly SettingsBaseItem[] = [];
 
   override render() {
     return html`

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, when, property, state } from 'll';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './views/rootCmtList';
 import Entity from 'lib/entity';
@@ -38,13 +37,13 @@ export class CmtApp extends BaseElement {
     ];
   }
 
-  @lp.number initialTotalCmtCount = 0;
-  @lp.object host!: Entity;
+  @property({ type: Number }) initialTotalCmtCount = 0;
+  @property({ type: Object }) host!: Entity;
 
-  @lp.state private _editorProps = this.closedEditorProps();
+  @state() private _editorProps = this.closedEditorProps();
 
   // The number of all comments and their replies.
-  @lp.state private _totalCmtCount = 0;
+  @state() private _totalCmtCount = 0;
 
   override firstUpdated() {
     CHECK(this.host);

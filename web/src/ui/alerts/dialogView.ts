@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, TemplateResult } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, TemplateResult, property } from 'll';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
 import delay from 'lib/delay';
@@ -48,13 +47,13 @@ export class DialogView extends BaseElement {
     ];
   }
 
-  @lp.bool open = false;
-  @lp.string dialogTitle = '';
-  @lp.string message = '';
-  @lp.number icon: DialogIcon = 0;
-  @lp.array buttons: readonly string[] = [];
-  @lp.number defaultButton = -1;
-  @lp.number cancelButton = -1;
+  @property({ type: Boolean }) open = false;
+  @property() dialogTitle = '';
+  @property() message = '';
+  @property({ type: Number }) icon: DialogIcon = 0;
+  @property({ type: Array }) buttons: readonly string[] = [];
+  @property({ type: Number }) defaultButton = -1;
+  @property({ type: Number }) cancelButton = -1;
 
   private closingButton = -1;
 

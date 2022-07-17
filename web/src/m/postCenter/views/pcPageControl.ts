@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
 import { ERR } from 'checks';
@@ -28,11 +27,11 @@ export class PCPageControl extends BaseElement {
     ];
   }
 
-  @lp.number shownItemCount = 0;
-  @lp.number totalItemCount = 0;
-  @lp.number page = 0;
-  @lp.number pageSize = 0;
-  @lp.string pageInputString = '';
+  @property({ type: Number }) shownItemCount = 0;
+  @property({ type: Number }) totalItemCount = 0;
+  @property({ type: Number }) page = 0;
+  @property({ type: Number }) pageSize = 0;
+  @property() pageInputString = '';
 
   private get totalPages(): number {
     const { pageSize, totalItemCount } = this;

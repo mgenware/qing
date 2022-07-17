@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'qing-dock-box';
 
 @customElement('notice-view')
@@ -27,7 +26,7 @@ export class NoticeView extends BaseElement {
     ];
   }
 
-  @lp.string height = '400px';
+  @property() height = '400px';
 
   override render() {
     return html`

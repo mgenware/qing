@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { ERR } from 'checks';
 import { AppViewStyleNullable } from '../types/appViewStyle';
@@ -22,13 +21,13 @@ function processSVG(svg: string, width: number, height: number): string {
 
 @customElement('svg-icon')
 export class SvgIcon extends BaseElement {
-  @lp.string oneTimeSrc = '';
-  @lp.reflected.string iconStyle: AppViewStyleNullable = '';
-  @lp.number width = 0;
-  @lp.number height = 0;
-  @lp.number size = 0;
+  @property() oneTimeSrc = '';
+  @property({ reflect: true }) iconStyle: AppViewStyleNullable = '';
+  @property({ type: Number }) width = 0;
+  @property({ type: Number }) height = 0;
+  @property({ type: Number }) size = 0;
 
-  @lp.string private svgHTML = '';
+  @property() private svgHTML = '';
 
   static override get styles() {
     // All CSS classes have an `svg-` prefix.

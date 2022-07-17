@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import '../alerts/errorView';
@@ -33,15 +32,15 @@ export class StatusView extends BaseElement {
   }
 
   // The underlying status of this view.
-  @lp.object status = LoadingStatus.notStarted;
+  @property({ type: Object }) status = LoadingStatus.notStarted;
   // The loading text when in loading state.
-  @lp.string loadingText = '';
+  @property() loadingText = '';
   // If a "retry" button is displayed when in error state.
-  @lp.bool canRetry = false;
+  @property({ type: Boolean }) canRetry = false;
   // The title of error state view.
-  @lp.string errorTitle = '';
+  @property() errorTitle = '';
 
-  @lp.string progressViewPadding: 'md' | '' = '';
+  @property() progressViewPadding: 'md' | '' = '';
 
   override render() {
     const { status } = this;

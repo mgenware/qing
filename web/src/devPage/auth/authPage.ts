@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import 'ui/form/inputView';
 import 'ui/form/checklistView';
 import 'qing-button';
@@ -30,9 +29,9 @@ export class AuthDevPage extends BaseElement {
     ];
   }
 
-  @lp.string uidStr = '';
-  @lp.bool newUserAdmin = false;
-  @lp.bool isEID = false;
+  @property() uidStr = '';
+  @property({ type: Boolean }) newUserAdmin = false;
+  @property({ type: Boolean }) isEID = false;
 
   override render() {
     return html`

@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { formatLS, ls } from 'ls';
 import 'ui/status/statusView';
 import LoadingStatus from 'lib/loadingStatus';
@@ -24,9 +23,9 @@ export class CmtLoadMoreView extends BaseElement {
     ];
   }
 
-  @lp.object status = LoadingStatus.notStarted;
-  @lp.bool hasNext = false;
-  @lp.bool replies = false;
+  @property({ type: Object }) status = LoadingStatus.notStarted;
+  @property({ type: Boolean }) hasNext = false;
+  @property({ type: Boolean }) replies = false;
 
   override render() {
     const { status } = this;

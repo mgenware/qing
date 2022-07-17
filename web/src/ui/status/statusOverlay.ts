@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { classMap } from 'lit/directives/class-map.js';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
@@ -38,11 +37,11 @@ export class StatusOverlay extends BaseElement {
     ];
   }
 
-  @lp.object status = LoadingStatus.notStarted;
-  @lp.string loadingText = '';
-  @lp.bool canRetry = false;
-  @lp.string errorTitle = '';
-  @lp.string height = '';
+  @property({ type: Object }) status = LoadingStatus.notStarted;
+  @property() loadingText = '';
+  @property({ type: Boolean }) canRetry = false;
+  @property() errorTitle = '';
+  @property() height = '';
 
   override render() {
     const { status } = this;

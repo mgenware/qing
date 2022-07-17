@@ -5,9 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import * as lp from 'lit-props';
 import debounceFn from 'lib/debounce';
 import './inputErrorView';
 
@@ -134,22 +133,22 @@ export class InputView extends BaseElement {
     ];
   }
 
-  @lp.string label = '';
-  @lp.bool required = false;
-  @lp.string type: InputTypeValues = 'text';
-  @lp.string value = '';
-  @lp.string placeholder = '';
-  @lp.bool debounceOnChange = false;
+  @property() label = '';
+  @property({ type: Boolean }) required = false;
+  @property() type: InputTypeValues = 'text';
+  @property() value = '';
+  @property() placeholder = '';
+  @property({ type: Boolean }) debounceOnChange = false;
 
-  @lp.string autocomplete?: AutoCompleteValues;
-  @lp.string inputmode?: InputTypeValues;
+  @property() autocomplete?: AutoCompleteValues;
+  @property() inputmode?: InputTypeValues;
 
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
 
   private debouncedOnChangeHandler?: () => void;
 
-  @lp.string private validationError = '';
+  @property() private validationError = '';
 
   private get inputEl(): HTMLInputElement {
     return this.unsafeGetShadowElement(inputID);

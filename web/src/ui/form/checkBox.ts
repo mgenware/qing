@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import * as lp from 'lit-props';
+import { BaseElement, customElement, html, css, property } from 'll';
 
 @customElement('check-box')
 export class CheckBox extends BaseElement {
@@ -75,9 +74,9 @@ export class CheckBox extends BaseElement {
     ];
   }
 
-  @lp.reflected.bool checked = false;
-  @lp.reflected.bool disabled = false;
-  @lp.reflected.bool radio = false;
+  @property({ type: Boolean, reflect: true }) checked = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) radio = false;
 
   override render() {
     return html`<label class=${this.disabled ? 'content-disabled' : ''}>

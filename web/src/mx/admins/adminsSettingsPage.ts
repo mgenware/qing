@@ -5,8 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, when } from 'll';
-import * as lp from 'lit-props';
+import { customElement, html, css, when, property } from 'll';
 import ls, { formatLS } from 'ls';
 import 'ui/content/headingView';
 import 'ui/content/subheadingView';
@@ -38,8 +37,8 @@ export class AdminsSettingsPage extends StatefulPage {
   }
 
   // TODO: Pagination.
-  @lp.array private admins: readonly UserInfo[] = [];
-  @lp.object private userCandidate: UserInfo | null = null;
+  @property({ type: Array }) private admins: readonly UserInfo[] = [];
+  @property({ type: Object }) private userCandidate: UserInfo | null = null;
 
   override async reloadStatefulPageDataAsync() {
     const loader = new GetAdminsLoader();
