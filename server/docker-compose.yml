@@ -23,10 +23,12 @@ services:
       - ms
       - db
       - img_proxy
+    restart: always
   ms:
     image: redis:6
     ports:
       - '6379:6379'
+    restart: always
   db:
     image: mariadb:10.6
     ports:
@@ -36,6 +38,7 @@ services:
       MYSQL_USER: qing_dev
       MYSQL_PASSWORD: qing_dev_pwd
       MYSQL_DATABASE: qing_dev
+    restart: always
   migrate:
     image: migrate/migrate
     profiles:
@@ -57,3 +60,4 @@ services:
     command: '-enable-url-source'
     volumes:
       - ../volumes/qing_data:/qing_data
+    restart: always

@@ -21,6 +21,10 @@ const sImgProxy = 'img_proxy';
 const volumesSrcDir = '../volumes';
 const volumeAppData = `${volumesSrcDir}/qing_data:${conAppDataDir}`;
 
+function applyCommonSettings(service) {
+  service.restart = 'always';
+}
+
 const server = {
   build: '.',
   volumes: [
@@ -32,11 +36,13 @@ const server = {
   ports: ['8000:8000'],
   depends_on: [sMS, sDB, sImgProxy],
 };
+applyCommonSettings(server);
 
 const ms = {
   image: 'redis:6',
   ports: ['6379:6379'],
 };
+applyCommonSettings(ms);
 
 const dbConf = devConf.db;
 const db = {
@@ -49,6 +55,7 @@ const db = {
     MYSQL_DATABASE: dbConf.database,
   },
 };
+applyCommonSettings(db);
 
 const migrate = {
   image: 'migrate/migrate',
@@ -70,6 +77,7 @@ const img_proxy = {
   command: '-enable-url-source',
   volumes: [volumeAppData],
 };
+applyCommonSettings(img_proxy);
 
 const services = {
   [sServer]: server,
