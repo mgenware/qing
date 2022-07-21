@@ -93,10 +93,22 @@ export class RegApp extends BaseElement {
           <p>${ls.regEmailSentContent}</p>
         </div>
         <p>
-          <qing-button>${ls.goToYourEmail}</qing-button>
+          <qing-button @click=${this.handleGotoEmail}>${ls.goToYourEmail}</qing-button>
+          <qing-button @click=${this.handleClosePage}>${ls.closeCurrentPage}</qing-button>
         </p>
       </qing-overlay>
     `;
+  }
+
+  private handleClosePage() {
+    window.close();
+  }
+
+  private handleGotoEmail() {
+    const domain = this.email.split('@').pop();
+    if (domain) {
+      pageUtils.openWindow(domain);
+    }
   }
 
   private validateForm(): boolean {
@@ -118,15 +130,6 @@ export class RegApp extends BaseElement {
     const status = await appTask.critical(loader, ls.publishing);
     if (status.isSuccess) {
       this.isCompletionModalOpen = true;
-    }
-  }
-
-  private handleCompletionModalOpenChanged(e: CustomEvent<boolean>) {
-    if (!e.detail) {
-      const domain = this.email.split('@').pop();
-      if (domain) {
-        pageUtils.openWindow(domain);
-      }
     }
   }
 }
