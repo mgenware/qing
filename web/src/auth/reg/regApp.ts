@@ -93,7 +93,7 @@ export class RegApp extends BaseElement {
           <p>${ls.regEmailSentContent}</p>
         </div>
         <p>
-          <qing-button>${ls.ok}</qing-button>
+          <qing-button>${ls.goToYourEmail}</qing-button>
         </p>
       </qing-overlay>
     `;
