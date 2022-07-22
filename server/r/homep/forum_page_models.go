@@ -13,9 +13,9 @@ import (
 	"qing/da"
 )
 
-var vFrmPage = appHandler.MainPage().MustParseView("/home/frmPage.html")
-var vForumGroupView = appHandler.MainPage().MustParseView("/home/forumGroupView.html")
-var vForumView = appHandler.MainPage().MustParseView("/home/forumView.html")
+var vFrmPage = appHandler.MainPage().MustParseView("home/frmPage.html")
+var vForumGroupView = appHandler.MainPage().MustParseView("home/forumGroupView.html")
+var vForumView = appHandler.MainPage().MustParseView("home/forumView.html")
 
 // FrmPageModel ...
 type FrmPageModel struct {

@@ -14,7 +14,7 @@ import (
 	"qing/lib/clib"
 )
 
-var vUserView = appHandler.MainPage().MustParseView("/com/postUserApp.html")
+var vUserView = appHandler.MainPage().MustParseView("com/postUserApp.html")
 
 // PostUserAppData provides data for frontend `PostUserApp`.
 type PostUserAppData struct {

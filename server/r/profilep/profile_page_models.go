@@ -15,8 +15,8 @@ import (
 	"qing/lib/clib"
 )
 
-var vProfilePage = appHandler.MainPage().MustParseView("/profile/profilePage.html")
-var vProfileFeedItem = appHandler.MainPage().MustParseView("/profile/feedItem.html")
+var vProfilePage = appHandler.MainPage().MustParseView("profile/profilePage.html")
+var vProfileFeedItem = appHandler.MainPage().MustParseView("profile/feedItem.html")
 
 type ProfilePageModel struct {
 	da.UserAGSelectProfileResult

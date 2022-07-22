@@ -15,8 +15,8 @@ import (
 	contentBaseSod "qing/sod/contentBase"
 )
 
-var vPostFeedView = appHandler.MainPage().MustParseView("/com/feed/postFeedView.html")
-var vThreadFeedView = appHandler.MainPage().MustParseView("/com/feed/threadFeedView.html")
+var vPostFeedView = appHandler.MainPage().MustParseView("com/feed/postFeedView.html")
+var vThreadFeedView = appHandler.MainPage().MustParseView("com/feed/threadFeedView.html")
 
 type PostFeedModel struct {
 	da.HomeAGSelectPostsResult

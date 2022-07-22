@@ -27,6 +27,11 @@ type CreateUserData struct {
 	Pwd   string
 }
 
+type EmailVerificationData struct {
+	MainText string
+	Link     string
+}
+
 // CreateUserDataToString serializes a CreateUserData to string.
 func CreateUserDataToString(d *CreateUserData) (string, error) {
 	bytes, err := json.Marshal(d)
@@ -68,6 +73,8 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic(fmt.Sprintf("RegEmailVerificator.Add failed: %v", err.Error()))
 	}
 	url := appURL.Get().RegEmailVerification(publicID)
+
+	pageData := handler.NewEmailPageData()
 
 	// TODO: send email.
 

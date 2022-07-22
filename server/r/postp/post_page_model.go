@@ -16,7 +16,7 @@ import (
 	"qing/r/rcom"
 )
 
-var vPostPage = appHandler.MainPage().MustParseView("/post/postPage.html")
+var vPostPage = appHandler.MainPage().MustParseView("post/postPage.html")
 
 type PostPageModel struct {
 	da.PostItem

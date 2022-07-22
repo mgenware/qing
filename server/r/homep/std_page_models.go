@@ -12,7 +12,7 @@ import (
 	"qing/r/rcom"
 )
 
-var vStdPage = appHandler.MainPage().MustParseView("/home/stdPage.html")
+var vStdPage = appHandler.MainPage().MustParseView("home/stdPage.html")
 
 // StdPageModel ...
 type StdPageModel struct {

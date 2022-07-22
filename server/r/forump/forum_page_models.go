@@ -14,7 +14,7 @@ import (
 	"qing/lib/clib"
 )
 
-var vForumPage = appHandler.MainPage().MustParseView("/forum/forumPage.html")
+var vForumPage = appHandler.MainPage().MustParseView("forum/forumPage.html")
 
 type ForumPageModel struct {
 	da.ForumAGSelectForumResult
