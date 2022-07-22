@@ -31,5 +31,5 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d := appHandler.MainPageData("", "")
 	d.Scripts = appHandler.MainPage().ScriptString(mScript)
 
-	return resp.MustComplete(d)
+	return resp.MustComplete(&d)
 }

@@ -27,6 +27,6 @@ type MainPageData struct {
 }
 
 // NewMainPageData creates a new MainPageData.
-func NewMainPageData(title, contentHTML string) *MainPageData {
-	return &MainPageData{Title: title, ContentHTML: contentHTML}
+func NewMainPageData(title, contentHTML string) MainPageData {
+	return MainPageData{Title: title, ContentHTML: contentHTML}
 }

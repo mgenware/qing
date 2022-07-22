@@ -60,5 +60,5 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(homeStdScript)
-	return resp.MustComplete(d)
+	return resp.MustComplete(&d)
 }

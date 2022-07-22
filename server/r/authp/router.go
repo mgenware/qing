@@ -30,5 +30,5 @@ func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d := appHandler.MainPageData("", "")
 	d.Scripts = appHandler.MainPage().ScriptString(authScript)
 
-	return resp.MustComplete(d)
+	return resp.MustComplete(&d)
 }

@@ -43,5 +43,5 @@ func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d.Scripts = appHandler.MainPage().ScriptString(forumSettingsScript)
 	d.WindData = NewForumSettingsPageWindData(fid)
 
-	return resp.MustComplete(d)
+	return resp.MustComplete(&d)
 }

@@ -41,5 +41,5 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"
 
-	return resp.MustComplete(d)
+	return resp.MustComplete(&d)
 }

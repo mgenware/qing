@@ -15,8 +15,8 @@ type PaginatedList struct {
 }
 
 // NewPaginatedList creates a new PaginatedList.
-func NewPaginatedList(items any, hasNext bool, totalCount uint) *PaginatedList {
-	return &PaginatedList{
+func NewPaginatedList(items any, hasNext bool, totalCount uint) PaginatedList {
+	return PaginatedList{
 		Items: items, HasNext: hasNext, TotalCount: totalCount,
 	}
 }

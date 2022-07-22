@@ -63,12 +63,12 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", appdef.LenMinUserPwd, appdef.LenMaxUserPwd)
 
 	// Put user pwd to memory store and wait for user email verification.
-	createUserData := &CreateUserData{
+	createUserData := CreateUserData{
 		Email: email,
 		Name:  name,
 		Pwd:   pwd,
 	}
-	createUserDataString, err := CreateUserDataToString(createUserData)
+	createUserDataString, err := CreateUserDataToString(&createUserData)
 	app.PanicIfErr(err)
 
 	publicID, err := appService.Get().RegEmailVerificator.Add(email, createUserDataString)
