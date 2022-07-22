@@ -85,9 +85,7 @@ export class RegApp extends BaseElement {
       <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignUpClick}
         >${ls.signUp}</qing-button
       >
-      <qing-overlay
-        ?open=${this.isCompletionModalOpen}
-        @openChanged=${this.handleCompletionModalOpenChanged}>
+      <qing-overlay ?open=${this.isCompletionModalOpen}>
         <div>
           <h2>${ls.regEmailSentTitle}</h2>
           <p>${ls.regEmailSentContent}</p>

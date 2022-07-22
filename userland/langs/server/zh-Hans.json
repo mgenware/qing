@@ -3,5 +3,7 @@
   "siteURL": "https://github.com/mgenware",
   "errOccurred": "发生错误",
   "resNotFound": "您访问的资源不存在。",
-  "regEmailVeriExpired": "链接已失效，请重新注册。"
+  "regEmailVeriExpired": "链接已失效，请重新注册。",
+  "verifyYourEmailTitle": "验证您的邮件",
+  "emailVerifyEmailContent": "请点击下面的链接来完成注册。"
 }

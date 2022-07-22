@@ -83,7 +83,7 @@ func (m *MainPageManager) LocalizationManager() localization.CoreManager {
 	return m.locMgr
 }
 
-// MustCompleteWithContent finished the response with the given HTML content.
+// MustCompleteWithContent finishes the response with the given HTML content.
 func (m *MainPageManager) MustCompleteWithContent(content []byte, w http.ResponseWriter) {
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 	w.Write(content)

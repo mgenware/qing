@@ -3,5 +3,7 @@
   "siteURL": "https://github.com/mgenware",
   "errOccurred": "An error occurred",
   "resNotFound": "The resource you requested does not exist.",
-  "regEmailVeriExpired": "Link has expired, please sign up again."
+  "regEmailVeriExpired": "Link has expired, please sign up again.",
+  "verifyYourEmailTitle": "Verify your email.",
+  "emailVerifyEmailContent": "Click the link below to complete the registration process."
 }

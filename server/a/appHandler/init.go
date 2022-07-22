@@ -14,15 +14,21 @@ import (
 )
 
 var mainPageManager handler.CorePageManager
+var emailPageManager *handler.EmailPageManager
 
 func init() {
 	conf := app.CoreConfig()
 	logger := appLog.Get()
 
 	mainPageManager = handler.MustCreateMainPageManager(conf, logger)
+	emailPageManager = handler.MustCreateEmailPageManager(conf)
 	appLog.Get().Info("App handler Loaded", conf.Templates.Dir)
 }
 
 func MainPage() handler.CorePageManager {
 	return mainPageManager
+}
+
+func EmailPage() *handler.EmailPageManager {
+	return emailPageManager
 }
