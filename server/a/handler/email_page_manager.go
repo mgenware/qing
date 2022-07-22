@@ -44,10 +44,11 @@ func MustCreateEmailPageManager(
 		locMgr:               locMgr,
 		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
+		dir:                  filepath.Join(conf.Templates.Dir, "email"),
 	}
 
 	// Load the main template.
-	t.mainView = t.MustParseView("email/main.html")
+	t.mainView = t.MustParseView("main.html")
 	return t
 }
 

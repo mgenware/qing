@@ -63,9 +63,9 @@ func MustCreateMainPageManager(
 		logger:               logger,
 		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
+		dir:                  conf.Templates.Dir,
+		log404Error:          conf.HTTP.Log404Error,
 	}
-	t.dir = conf.Templates.Dir
-	t.log404Error = conf.HTTP.Log404Error
 
 	// Load the main template.
 	t.mainView = t.MustParseView("main.html")
