@@ -16,6 +16,6 @@ type EmailPageData struct {
 	LSSiteURL  string
 }
 
-func NewEmailPageData(title, previewText, contentHTML string) *EmailPageData {
-	return &EmailPageData{Title: title, ContentHTML: contentHTML, PreviewText: previewText}
+func NewEmailPageData(title, previewText, contentHTML string) EmailPageData {
+	return EmailPageData{Title: title, ContentHTML: contentHTML, PreviewText: previewText}
 }

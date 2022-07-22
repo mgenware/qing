@@ -12,9 +12,9 @@ import (
 	"qing/a/config"
 	"qing/a/def"
 	"qing/a/profile"
-	"qing/a/servicex/emailver"
+	"qing/a/servicex/emailveri"
 	hashingalg "qing/a/servicex/hashingAlg"
-	"qing/a/servicex/mailnoti"
+	"qing/a/servicex/mailx"
 	"qing/lib/htmllib"
 )
 
@@ -22,8 +22,8 @@ import (
 type Service struct {
 	Sanitizer           *htmllib.Sanitizer
 	HashingAlg          *hashingalg.HashingAlg
-	RegEmailVerificator *emailver.EmailVerificator
-	MailNoti            *mailnoti.MailNoti
+	RegEmailVerificator *emailveri.EmailVerificator
+	MailService         *mailx.MailService
 }
 
 // MustNewService creates a new Service object.
@@ -33,12 +33,12 @@ func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger 
 
 	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
-	s.RegEmailVerificator = emailver.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailTimeout)
+	s.RegEmailVerificator = emailveri.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailTimeout)
 
-	var mailnotiDevDir string
+	var mailxDevDir string
 	if debugConf != nil {
-		mailnotiDevDir = debugConf.MailBox.Dir
+		mailxDevDir = debugConf.MailBox.Dir
 	}
-	s.MailNoti = mailnoti.NewMailNoti(mailnotiDevDir)
+	s.MailService = mailx.NewMailService(mailxDevDir)
 	return s
 }

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package emailver
+package emailveri
 
 import (
 	"encoding/base64"

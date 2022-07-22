@@ -5,10 +5,9 @@
  * be found in the LICENSE file.
  */
 
-package emailver
+package emailveri
 
 import (
-	"qing/a/servicex/emailver"
 	"qing/tools/testx"
 	"testing"
 	"time"
@@ -18,7 +17,7 @@ import (
 
 var (
 	tEmail  = "mgen@_.com"
-	tPrefix = "emailver-test"
+	tPrefix = "emailveri-test"
 	tData   = "asd"
 	tConn   = testx.Redis
 )
@@ -31,7 +30,7 @@ func getIDToDataKey(prefix, email, id string) string {
 	return prefix + ":id-to-data:" + email + ":" + id
 }
 
-func mustGetID(v *emailver.EmailVerificator, prefix, email string) string {
+func mustGetID(v *emailveri.EmailVerificator, prefix, email string) string {
 	key := getEmailToIDKey(prefix, email)
 	id, err := tConn.GetStringValueOrDefault(key)
 	test.PanicIfErr(err)
@@ -50,7 +49,7 @@ func mustGetStoreValue(t *testing.T, key, expected string) {
 }
 
 func TestAddAndVerify(t *testing.T) {
-	v := emailver.NewEmailVerificator(tConn, tPrefix, 3)
+	v := emailveri.NewEmailVerificator(tConn, tPrefix, 3)
 	v.Add(tEmail, tData)
 
 	id := mustGetID(v, tPrefix, tEmail)
@@ -65,7 +64,7 @@ func TestAddAndVerify(t *testing.T) {
 }
 
 func TestVerifyFailed(t *testing.T) {
-	v := emailver.NewEmailVerificator(tConn, tPrefix, 3)
+	v := emailveri.NewEmailVerificator(tConn, tPrefix, 3)
 	v.Add(tEmail, tData)
 
 	id := mustGetID(v, tPrefix, tEmail)
@@ -76,7 +75,7 @@ func TestVerifyFailed(t *testing.T) {
 }
 
 func TestAddAndTimeout(t *testing.T) {
-	v := emailver.NewEmailVerificator(tConn, tPrefix, 1)
+	v := emailveri.NewEmailVerificator(tConn, tPrefix, 1)
 	v.Add(tEmail, tData)
 
 	id := mustGetID(v, tPrefix, tEmail)

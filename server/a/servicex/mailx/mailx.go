@@ -5,33 +5,38 @@
  * be found in the LICENSE file.
  */
 
-package mailnoti
+package mailx
 
 import (
 	"io/ioutil"
 	"path/filepath"
+	"qing/a/appLog"
 	"qing/lib/iolib"
 	"strconv"
 	"time"
 )
 
-type MailNoti struct {
+type MailService struct {
 	devDir string
 }
 
-func NewMailNoti(devDir string) *MailNoti {
-	ret := &MailNoti{}
+func NewMailService(devDir string) *MailService {
+	ret := &MailService{}
 	ret.devDir = devDir
 	return ret
 }
 
-func (mn *MailNoti) Send(uid uint64, content string) (int64, error) {
+func (mn *MailService) Send(uid uint64, content string) (int64, error) {
 	if mn.devDir != "" {
 		now := time.Now()
 		nsec := now.UnixNano()
 
 		file := filepath.Join(mn.devDir, strconv.FormatUint(uid, 10), strconv.FormatInt(nsec, 10))
-		ioutil.WriteFile(file, []byte(content), iolib.DefaultFileWritePerm)
+		err := ioutil.WriteFile(file, []byte(content), iolib.DefaultFileWritePerm)
+		if err != nil {
+			return 0, err
+		}
+		appLog.Get().Info("mail-sent", uid)
 	}
-	panic("not implemented")
+	return 0, nil
 }

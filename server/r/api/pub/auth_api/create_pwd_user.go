@@ -15,6 +15,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
+	"qing/a/appcom"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -31,6 +32,8 @@ type EmailVerificationData struct {
 	MainText string
 	Link     string
 }
+
+var vEmailVeriView = appHandler.EmailPage().MustParseView("emailVerification.html")
 
 // CreateUserDataToString serializes a CreateUserData to string.
 func CreateUserDataToString(d *CreateUserData) (string, error) {
@@ -74,13 +77,22 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 	url := appURL.Get().RegEmailVerification(publicID)
 
-	pageData := handler.NewEmailPageData()
+	ctx := r.Context()
+	lang := appcom.ContextLanguage(ctx)
+	uid := appcom.ContextUserID(ctx)
+	ls := appHandler.EmailPage().Dictionary(lang)
 
-	// TODO: send email.
-
-	// Print URL to console for debugging purposes.
-	if app.CoreConfig().DevMode() {
-		fmt.Printf("[DEBUG] reg-v-url: %v\n", url)
+	d := EmailVerificationData{
+		MainText: ls.EmailVerifyEmailContent,
+		Link:     url,
 	}
+	contentHTML := vEmailVeriView.MustExecuteToString(d)
+
+	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.EmailVerifyEmailContent, contentHTML)
+	pageHTML := appHandler.EmailPage().MustComplete(lang, &pageData)
+
+	_, err = appService.Get().MailService.Send(uid, pageHTML)
+	app.PanicIfErr(err)
+
 	return resp.MustComplete(nil)
 }

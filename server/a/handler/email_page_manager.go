@@ -8,8 +8,6 @@
 package handler
 
 import (
-	"fmt"
-	"io"
 	"path/filepath"
 	"qing/a/config"
 
@@ -56,7 +54,7 @@ func (m *EmailPageManager) LocalizationManager() localization.CoreManager {
 	return m.locMgr
 }
 
-func (m *EmailPageManager) MustComplete(lang string, statusCode int, d *EmailPageData, w io.Writer) {
+func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) string {
 	if d == nil {
 		panic("Unexpected nil `MainPageData` in `EmailPageManager.MustComplete`")
 	}
@@ -73,12 +71,7 @@ func (m *EmailPageManager) MustComplete(lang string, statusCode int, d *EmailPag
 	d.LSSiteName = ls.SiteName
 	d.LSSiteURL = ls.SiteUrl
 
-	contentHTML := m.mainView.MustExecuteToString(d)
-
-	_, err := fmt.Fprint(w, contentHTML)
-	if err != nil {
-		panic(err)
-	}
+	return m.mainView.MustExecuteToString(d)
 }
 
 // Unlike the `PageTitle` func in `MainPageManager`, we put site name before content title.
