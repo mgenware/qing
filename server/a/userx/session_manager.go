@@ -77,20 +77,20 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 }
 
 // GetUserSession retrieves an user from internal store by the given sid.
-func (sm *SessionManager) GetUserSession(sid string) (appcom.SessionUser, error) {
+func (sm *SessionManager) GetUserSession(sid string) (*appcom.SessionUser, error) {
 	keySIDToUser := sidToUserKey(sid)
 	msConn := appMS.GetConn()
-	str, err := msConn.GetStringValue(keySIDToUser)
+	key, err := msConn.GetStringValue(keySIDToUser)
 	if err != nil {
-		return appcom.SessionUser{}, err
+		return nil, err
 	}
-	if str == "" {
-		return appcom.SessionUser{}, errors.New("Session value empty")
+	if key == "" {
+		return nil, errors.New("session key empty")
 	}
 
-	user, err := sm.deserializeUserJSON([]byte(str))
+	user, err := sm.deserializeUserJSON([]byte(key))
 	if err != nil {
-		return appcom.SessionUser{}, err
+		return nil, err
 	}
 	return user, nil
 }
@@ -151,9 +151,9 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 }
 
 // NewSessionUser creates a new SessionUser based on the required properties.
-func (sm *SessionManager) NewSessionUser(id uint64, name string, iconName string, admin bool, isForumMod bool) appcom.SessionUser {
-	u := appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, IsForumMod: isForumMod}
-	sm.computeUserFields(&u)
+func (sm *SessionManager) NewSessionUser(id uint64, name string, iconName string, admin bool, isForumMod bool) *appcom.SessionUser {
+	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, IsForumMod: isForumMod}
+	sm.computeUserFields(u)
 	return u
 }
 
@@ -164,12 +164,12 @@ func (sm *SessionManager) computeUserFields(u *appcom.SessionUser) {
 	u.EID = clib.EncodeID(uid)
 }
 
-func (sm *SessionManager) deserializeUserJSON(b []byte) (appcom.SessionUser, error) {
-	u := appcom.SessionUser{}
+func (sm *SessionManager) deserializeUserJSON(b []byte) (*appcom.SessionUser, error) {
+	u := &appcom.SessionUser{}
 	err := json.Unmarshal(b, u)
 	if err != nil {
-		return u, err
+		return nil, err
 	}
-	sm.computeUserFields(&u)
+	sm.computeUserFields(u)
 	return u, nil
 }
