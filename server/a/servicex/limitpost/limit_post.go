@@ -9,8 +9,8 @@ package limitpost
 
 import (
 	"fmt"
-	"qing/a/defs"
-	"qing/a/extern/redisx"
+	"qing/a/appMS"
+	"qing/a/def"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
@@ -20,11 +20,11 @@ import (
 type Service struct {
 	count   int
 	timeout int
-	conn    *redisx.Conn
+	conn    *appMS.AppMSConn
 }
 
 // NewService creates a new Service.
-func NewService(conn *redisx.Conn, count, timeout int) *Service {
+func NewService(conn *appMS.AppMSConn, count, timeout int) *Service {
 	return &Service{conn: conn, count: count, timeout: timeout}
 }
 
@@ -55,12 +55,12 @@ func (sv *Service) postCore(key string) error {
 
 	c.Send("MULTI")
 	c.Send("INCR", key)
-	c.Send("EXPIRE", key, defs.MSLimitPostingTimeout)
+	c.Send("EXPIRE", key, def.MSLimitPostingTimeout)
 	_, err := redis.Values(c.Do("EXEC"))
 	return err
 }
 
 func (sv *Service) getKey(uid uint64) string {
 	min := time.Now().Minute()
-	return fmt.Sprintf(defs.MSLimitPosting, uid, min)
+	return fmt.Sprintf(def.MSLimitPosting, uid, min)
 }
