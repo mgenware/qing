@@ -8,12 +8,15 @@
 package mailx
 
 import (
+	"errors"
 	"io/ioutil"
 	"path/filepath"
 	"qing/a/appLog"
 	"qing/lib/iolib"
 	"strconv"
 	"time"
+
+	"github.com/mgenware/goutil/iox"
 )
 
 type MailService struct {
@@ -26,17 +29,27 @@ func NewMailService(devDir string) *MailService {
 	return ret
 }
 
-func (mn *MailService) Send(uid uint64, content string) (int64, error) {
+func (mn *MailService) Send(to, content string) (int64, error) {
+	if to == "" {
+		return 0, errors.New("empty \"to\" field in mail-send")
+	}
+	// Ddv mode?
 	if mn.devDir != "" {
 		now := time.Now()
 		nsec := now.UnixNano()
 
-		file := filepath.Join(mn.devDir, strconv.FormatUint(uid, 10), strconv.FormatInt(nsec, 10))
-		err := ioutil.WriteFile(file, []byte(content), iolib.DefaultFileWritePerm)
+		dir := filepath.Join(mn.devDir, to)
+		err := iox.Mkdirp(dir)
 		if err != nil {
 			return 0, err
 		}
-		appLog.Get().Info("mail.sent", "uid", uid)
+
+		file := filepath.Join(dir, strconv.FormatInt(nsec, 10)) + ".html"
+		err = ioutil.WriteFile(file, []byte(content), iolib.DefaultFileWritePerm)
+		if err != nil {
+			return 0, err
+		}
+		appLog.Get().Info("mail.sent", "to", to)
 	}
 	return 0, nil
 }

@@ -79,7 +79,6 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	ctx := r.Context()
 	lang := appcom.ContextLanguage(ctx)
-	uid := appcom.ContextUserID(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
 
 	d := EmailVerificationData{
@@ -91,7 +90,7 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.EmailVerifyEmailContent, contentHTML)
 	pageHTML := appHandler.EmailPage().MustComplete(lang, &pageData)
 
-	_, err = appService.Get().MailService.Send(uid, pageHTML)
+	_, err = appService.Get().MailService.Send(email, pageHTML)
 	app.PanicIfErr(err)
 
 	return resp.MustComplete(nil)
