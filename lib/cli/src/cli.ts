@@ -23,8 +23,8 @@ function printUsage() {
     Usage
       $ qing <command> [command arguments]
     Command
-      w or f          Build and watch web files
-      s or b          Build and start server in containers
+      w               Build and watch web files
+      s               Build and start server in containers
       s-ut            Build and start server in containers (unit test mode)
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
@@ -76,14 +76,12 @@ function checkMigrationNumber(num: number) {
         break;
       }
 
-      case 'w':
-      case 'f': {
+      case 'w': {
         await sp.spawnDZCmd('dev', null, await iou.getProjectDir(webDir));
         break;
       }
 
-      case 's':
-      case 'b': {
+      case 's': {
         await sp.spawnDockerComposeCmd(
           ['up'],
           await iou.getProjectDir(serverDir),
