@@ -8,7 +8,7 @@
 package emailveri
 
 import (
-	"qing/tools/testx"
+	"qing/a/appMS"
 	"testing"
 	"time"
 
@@ -19,7 +19,6 @@ var (
 	tEmail  = "mgen@_.com"
 	tPrefix = "emailveri-test"
 	tData   = "asd"
-	tConn   = testx.Redis
 )
 
 func getEmailToIDKey(prefix, email string) string {
@@ -30,9 +29,9 @@ func getIDToDataKey(prefix, email, id string) string {
 	return prefix + ":id-to-data:" + email + ":" + id
 }
 
-func mustGetID(v *emailveri.EmailVerificator, prefix, email string) string {
+func mustGetID(v *EmailVerificator, prefix, email string) string {
 	key := getEmailToIDKey(prefix, email)
-	id, err := tConn.GetStringValueOrDefault(key)
+	id, err := appMS.GetConn().GetStringValue(key)
 	test.PanicIfErr(err)
 	if id == "" {
 		panic("Unexpected empty ID")
@@ -41,7 +40,7 @@ func mustGetID(v *emailveri.EmailVerificator, prefix, email string) string {
 }
 
 func mustGetStoreValue(t *testing.T, key, expected string) {
-	got, err := tConn.GetStringValueOrDefault(key)
+	got, err := appMS.GetConn().GetStringValue(key)
 	if err != nil {
 		panic(err)
 	}
@@ -49,7 +48,7 @@ func mustGetStoreValue(t *testing.T, key, expected string) {
 }
 
 func TestAddAndVerify(t *testing.T) {
-	v := emailveri.NewEmailVerificator(tConn, tPrefix, 3)
+	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3)
 	v.Add(tEmail, tData)
 
 	id := mustGetID(v, tPrefix, tEmail)
@@ -64,7 +63,7 @@ func TestAddAndVerify(t *testing.T) {
 }
 
 func TestVerifyFailed(t *testing.T) {
-	v := emailveri.NewEmailVerificator(tConn, tPrefix, 3)
+	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3)
 	v.Add(tEmail, tData)
 
 	id := mustGetID(v, tPrefix, tEmail)
@@ -75,7 +74,7 @@ func TestVerifyFailed(t *testing.T) {
 }
 
 func TestAddAndTimeout(t *testing.T) {
-	v := emailveri.NewEmailVerificator(tConn, tPrefix, 1)
+	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1)
 	v.Add(tEmail, tData)
 
 	id := mustGetID(v, tPrefix, tEmail)

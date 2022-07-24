@@ -9,6 +9,7 @@ package appLog
 
 import (
 	"qing/a/app"
+	"qing/a/config"
 	"qing/a/logx"
 )
 
@@ -16,7 +17,7 @@ var logger app.CoreLogger
 
 func init() {
 	conf := app.CoreConfig()
-	if conf.UnitTest() {
+	if config.IsUT() {
 		logger = NewTestLogger()
 	} else {
 		var err error

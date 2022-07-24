@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"qing/a/config/configs"
 	"qing/lib/iolib"
@@ -54,11 +55,11 @@ type Config struct {
 
 	// Extern config data.
 	Extern *configs.ExternConfig `json:"extern"`
-	// Possible values:
-	// `u`: unit tests, `api`: API tests, `br`: browser tests.
-	TestMode *string `json:"test_mode"`
-	// Integer representation of `TestMode` used for faster comparison.
-	testModeNum int
+}
+
+// Returns true if unit test mode is on.
+func IsUT() bool {
+	return os.Getenv("UT") == "1"
 }
 
 // DevMode checks if debug config field is on.
@@ -69,18 +70,6 @@ func (conf *Config) DevMode() bool {
 // ProductionMode = !DevMode().
 func (conf *Config) ProductionMode() bool {
 	return !conf.DevMode()
-}
-
-func (conf *Config) UnitTest() bool {
-	return conf.testModeNum == testUnit
-}
-
-func (conf *Config) APITest() bool {
-	return conf.testModeNum == testAPI
-}
-
-func (conf *Config) BRTest() bool {
-	return conf.testModeNum == testBR
 }
 
 func readConfigCore(absFile string) (*Config, error) {
@@ -175,21 +164,10 @@ func mustValidateConfig(conf *Config, schemaFilePath string) {
 }
 
 func (conf *Config) mustCoerceConfig(dir string) {
-	if conf.TestMode != nil {
+	if IsUT() {
 		// Test flag is forbidden in production.
 		if conf.ProductionMode() {
 			panic("You cannot have test mode set in production mode")
-		}
-		modeString := *conf.TestMode
-		switch modeString {
-		case "u":
-			conf.testModeNum = testUnit
-		case "api":
-			conf.testModeNum = testAPI
-		case "br":
-			conf.testModeNum = testBR
-		default:
-			panic(fmt.Errorf("Unknown test mode value \"%v\"", modeString))
 		}
 	}
 

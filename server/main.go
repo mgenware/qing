@@ -17,6 +17,7 @@ import (
 	"qing/a/appService"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
+	"qing/a/config"
 	"qing/r"
 )
 
@@ -25,10 +26,10 @@ func main() {
 	conf := app.CoreConfig()
 	logger := appLog.Get()
 
-	if conf.TestMode != nil {
-		logger.Warn("🟣 app.running.test", "mode", conf.TestMode)
+	if config.IsUT() {
+		logger.Warn("🟣 app.running.ut")
 	} else if conf.DevMode() {
-		logger.Warn("🟡 app.running.test")
+		logger.Warn("🟡 app.running.dev")
 	}
 
 	// Start the main router.

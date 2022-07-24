@@ -13,6 +13,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appURL"
+	"qing/a/config"
 	"qing/a/userx"
 )
 
@@ -32,7 +33,7 @@ func init() {
 		panic(err)
 	}
 	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, conf)
-	if conf.UnitTest() {
+	if config.IsUT() {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)
 		}
