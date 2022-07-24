@@ -33,8 +33,8 @@ export async function spawnDZCmd(cmd: string, args: string[] | null, daizongDir:
   await pipedSpawn('dz', [cmd, ...(args ?? [])], daizongDir);
 }
 
-export async function spawnDockerComposeCmd(args: string[], dir: string) {
-  return pipedSpawn('docker', ['compose', ...args], dir);
+export async function spawnDockerComposeCmd(args: string[], dir: string, configFileName: string) {
+  return pipedSpawn('docker', ['compose', '-f', configFileName, ...args], dir);
 }
 
 export async function spawnDockerComposeMigrate(args: string[], dir: string) {

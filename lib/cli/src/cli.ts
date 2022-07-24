@@ -25,6 +25,7 @@ function printUsage() {
     Command
       w or f          Build and watch web files
       s or b          Build and start server in containers
+      s-ut            Build and start server in containers (unit test mode)
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
       conf            Build config files
@@ -57,6 +58,8 @@ const webDir = 'web';
 const serverDir = 'server';
 const libDevDir = 'lib/dev';
 const itDir = 'it';
+const dockerComposeDev = 'dc-dev.yml';
+const dockerComposeUT = 'dc-ut.yml';
 
 function checkMigrationNumber(num: number) {
   if (num < 1) {
@@ -81,7 +84,16 @@ function checkMigrationNumber(num: number) {
 
       case 's':
       case 'b': {
-        await sp.spawnDockerComposeCmd(['up'], await iou.getProjectDir(serverDir));
+        await sp.spawnDockerComposeCmd(
+          ['up'],
+          await iou.getProjectDir(serverDir),
+          dockerComposeDev,
+        );
+        break;
+      }
+
+      case 's-ut': {
+        await sp.spawnDockerComposeCmd(['up'], await iou.getProjectDir(serverDir), dockerComposeUT);
         break;
       }
 
@@ -89,6 +101,7 @@ function checkMigrationNumber(num: number) {
         await sp.spawnDockerComposeCmd(
           ['up', '--force-recreate'],
           await iou.getProjectDir(serverDir),
+          dockerComposeDev,
         );
         break;
       }
