@@ -10,7 +10,7 @@ import ls from 'ls';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 import { CHECK } from 'checks';
-import * as fRoute from '@qing/routes/d/f';
+import * as fRoute from '@qing/routes/d/forum';
 
 export enum ForumSettingsPages {
   general,
@@ -44,8 +44,8 @@ export class ForumSettingsBaseView extends BaseElement {
         <div class="col-md-auto p-b-md">
           <h3>${ls.settings}</h3>
           <link-list-view>
-            ${this.menuLink(ForumSettingsPages.general, fRoute.settings(fid), ls.general)}
-            ${this.menuLink(ForumSettingsPages.mods, fRoute.settingsMods(fid), ls.moderators)}
+            ${this.menuLink(ForumSettingsPages.general, fRoute.getSettings(fid), ls.general)}
+            ${this.menuLink(ForumSettingsPages.mods, fRoute.getSettingsMods(fid), ls.moderators)}
           </link-list-view>
         </div>
         <div class="col-md">

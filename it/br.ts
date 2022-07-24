@@ -17,6 +17,11 @@ export { usr, call, User } from 'base/call';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
+const mobileViewport = { width: 390, height: 844 };
+const desktopViewport = { width: 1280, height: 720 };
+// Use to test a non-default language.
+export const alternativeLocale = 'zh-Hans';
+
 function mustGetHTMLElement(e: HTMLElement | SVGElement): HTMLElement {
   if (e instanceof HTMLElement) {
     return e;
@@ -199,11 +204,11 @@ export class Page {
   }
 
   setMobileViewport() {
-    return this.c.setViewportSize({ width: 390, height: 844 });
+    return this.c.setViewportSize(mobileViewport);
   }
 
   setDesktopViewport() {
-    return this.c.setViewportSize({ width: 1280, height: 720 });
+    return this.c.setViewportSize(desktopViewport);
   }
 
   // Reloads current page.
@@ -249,4 +254,18 @@ export class Page {
 
 export function $(page: pw.Page) {
   return new Page(page);
+}
+
+export function mobileBlock(fn: () => void) {
+  pw.test.describe('Mobile block', () => {
+    pw.test.use({ viewport: mobileViewport });
+    fn();
+  });
+}
+
+export function alternativeLocaleBlock(fn: () => void) {
+  pw.test.describe('Mobile block', () => {
+    pw.test.use({ locale: alternativeLocale });
+    fn();
+  });
 }

@@ -7,15 +7,15 @@
 
 import format from 'bowhead-js';
 
-const f = '/f/{0}';
+const forumFS = '/f/{0}';
 
-const rawSettings = `${f}/settings`;
+const rawSettings = `${forumFS}/settings`;
 const rawSettingsMods = `${rawSettings}/mods`;
 
-export function settings(id: string) {
+export function getSettings(id: string) {
   return format(rawSettings, id);
 }
 
-export function settingsMods(id: string) {
+export function getSettingsMods(id: string) {
   return format(rawSettingsMods, id);
 }

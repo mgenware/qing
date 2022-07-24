@@ -49,7 +49,7 @@ importers:
 
   it:
     specifiers:
-      '@playwright/test': ^1.23.4
+      '@playwright/test': ^1.24.0
       '@qing/def': workspace:*
       '@qing/routes': workspace:*
       '@types/mocha': ^9.1.1
@@ -57,7 +57,7 @@ importers:
       node-fetch: ^3.2.8
       source-map-support: ^0.5.21
     devDependencies:
-      '@playwright/test': 1.23.4
+      '@playwright/test': 1.24.0
       '@qing/def': link:../lib/def
       '@qing/routes': link:../lib/routes
       '@types/mocha': 9.1.1
@@ -393,13 +393,13 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@playwright/test/1.23.4:
-    resolution: {integrity: sha512-iIsoMJDS/lyuhw82FtcV/B3PXikgVD3hNe5hyvOpRM0uRr1OIpN3LgPeRbBjhzBWmyf6RgRg5fqK5sVcpA03yA==}
+  /@playwright/test/1.24.0:
+    resolution: {integrity: sha512-sZLH2N6aWN9TtG+vMjNSomSfX0dSVHwWE+GhHQPV+ZeGcuZ/6CgMCGFuGjobgq/hNF9ZkuVOjeyoceZ0owKnHQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
-      '@types/node': 18.0.5
-      playwright-core: 1.23.4
+      '@types/node': 18.0.6
+      playwright-core: 1.24.0
     dev: true
 
   /@pnpm/constants/6.1.0:
@@ -658,6 +658,10 @@ packages:
 
   /@types/node/18.0.5:
     resolution: {integrity: sha512-En7tneq+j0qAiVwysBD79y86MT3ModuoIJbe7JXp+sb5UAjInSShmK3nXXMioBzfF7rXC12hv12d4IyCVwN4dA==}
+    dev: true
+
+  /@types/node/18.0.6:
+    resolution: {integrity: sha512-/xUq6H2aQm261exT6iZTMifUySEt4GR5KX8eYyY+C4MSNPqSh9oNIP7tz2GLKTlFaiBbgZNxffoR3CVRG+cljw==}
     dev: true
 
   /@types/normalize-package-data/2.4.1:
@@ -4441,8 +4445,8 @@ packages:
     hasBin: true
     dev: true
 
-  /playwright-core/1.23.4:
-    resolution: {integrity: sha512-h5V2yw7d8xIwotjyNrkLF13nV9RiiZLHdXeHo+nVJIYGVlZ8U2qV0pMxNJKNTvfQVT0N8/A4CW6/4EW2cOcTiA==}
+  /playwright-core/1.24.0:
+    resolution: {integrity: sha512-BkDWdVsoEEC8m2glQlfNu1EN2qvjBsLIg5bD0wjrfwv9zVHktIsp80yYFObAcWreLNYhfRP4PlXE04lr5R4DFQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true

@@ -7,7 +7,7 @@
 
 import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import * as fRoute from '@qing/routes/d/f';
+import * as fRoute from '@qing/routes/d/forum';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView';
 import './settings/general/forumGeneralSettingsApp';
@@ -42,6 +42,6 @@ const generalPageHandler: MiniURLRouterHandler = () => {
     html` <forum-general-settings-app .fid=${fid}></forum-general-settings-app> `,
   );
 };
-settingsRouter.register(fRoute.settings(fid), generalPageHandler);
+settingsRouter.register(fRoute.getSettings(fid), generalPageHandler);
 
 settingsRouter.startOnce();
