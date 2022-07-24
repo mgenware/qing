@@ -18,6 +18,8 @@ import (
 var conf *config.Config
 var confPath string
 
+const userlandDirName = "userland"
+
 func CoreConfig() *config.Config {
 	return conf
 }
@@ -49,7 +51,7 @@ func init() {
 }
 
 func userlandDir() string {
-	return "../userland"
+	return "/qing/" + userlandDirName
 }
 
 func configFile(name string) string {

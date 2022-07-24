@@ -18,7 +18,7 @@ func Exec(name string, args ...string) (string, error) {
 	output, err := cmd.CombinedOutput()
 
 	if err != nil {
-		return "", fmt.Errorf("Error exec %v\n%v\nOutput: %v", name, err.Error(), string(output))
+		return "", fmt.Errorf("error running \"%v\n%v\"\nOutput: %v", name, err.Error(), string(output))
 	}
 	return string(output), nil
 }
