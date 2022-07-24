@@ -82,7 +82,7 @@ func Start() {
 	// API router.
 	r.Mount("/"+appdef.RouteApi, api.Router)
 	// Home page.
-	r.Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
+	langRouter().Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 	// Language settings router.
 	langRouter().Mount("/"+appdef.RouteLangs, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
