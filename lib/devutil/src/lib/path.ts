@@ -11,10 +11,11 @@ import { fileURLToPath } from 'url';
 import isObj from 'is-plain-obj';
 
 const defaultLangFile = 'en.json';
+const userlandDirName = 'userland';
 
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
 const rootDir = np.join(dirPath, '../../../..');
-export const langDir = np.join(rootDir, 'userland/langs');
+export const langDir = np.join(rootDir, `${userlandDirName}/langs`);
 export const webLangDir = np.join(langDir, 'web');
 export const defaultWebLangFile = np.join(webLangDir, defaultLangFile);
 export const serverLangDir = np.join(langDir, 'server');
@@ -30,6 +31,14 @@ export function webPath(path = ''): string {
 
 export function webSrcPath(path = ''): string {
   return np.join(webPath('src'), path);
+}
+
+export function userlandPath(path = ''): string {
+  return np.join(rootDir, userlandDirName, path);
+}
+
+export function configPath(path = ''): string {
+  return np.join(userlandPath('config'), path);
 }
 
 export function itPath(path = ''): string {
