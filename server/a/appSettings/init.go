@@ -26,7 +26,7 @@ func init() {
 		panic(fmt.Errorf("error getting app settings, %v", err))
 	}
 	appSettings = settings
-	appLog.Get().Info("App settings loaded", file)
+	appLog.Get().Info("app.settings.loaded", "file", file)
 }
 
 // Gets the app settings that are loaded when server starts.

@@ -23,7 +23,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	appLog.Get().Info("App MS connected", port)
+	appLog.Get().Info("app.ms.connected", "port", port)
 }
 
 func GetConn() app.CoreMemoryStoreConn {

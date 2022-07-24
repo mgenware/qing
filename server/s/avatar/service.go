@@ -111,7 +111,7 @@ func (svc *AvatarService) UpdateAvatar(oldAvatarName string, srcReader io.Reader
 			oldAvatarFile := svc.avatarFilePath(dir, size, oldAvatarName)
 			err := os.Remove(oldAvatarFile)
 			if err != nil {
-				appLog.Get().Error("Error removing old avatar files", "err", err.Error())
+				appLog.Get().Error("avatar-service.cannot-remove-file", "err", err.Error())
 			}
 		}
 	}

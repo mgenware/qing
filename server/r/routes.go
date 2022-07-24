@@ -96,23 +96,24 @@ func Start() {
 		// ======== End of DEBUG only setup ========
 	}
 
-	appLog.Get().Info("server-starting", "port", httpConf.Port)
+	appLog.Get().Info("server.starting", "port", httpConf.Port)
 	err := http.ListenAndServe(":"+strconv.Itoa(httpConf.Port), r)
 	if err != nil {
-		appLog.Get().Error("server-starting.failed", "err", err.Error())
+		appLog.Get().Error("server.failed", "err", err.Error())
 		panic(err)
 	}
 }
 
 // Starts serving static files.
 func startFileServer(r chi.Router, name, url, dir string) {
-	appLog.Get().Info(name,
+	appLog.Get().Info("fileserver.starting",
+		"name", name,
 		"url", url,
 		"dir", dir,
 	)
 	iolib.AddFileServerHandler(r, url, http.Dir(dir))
 	if !iox.IsDirectory(dir) {
-		appLog.Get().Warn(name+".not-found", "dir", dir)
+		appLog.Get().Warn("fileserver.not-found", "name", name, "dir", dir)
 	}
 }
 

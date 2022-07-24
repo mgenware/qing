@@ -24,7 +24,7 @@ type AppProfile struct {
 }
 
 func readAppProfileCore(file string) (*AppProfile, error) {
-	appLog.Get().Info("Loading app profile", file)
+	appLog.Get().Info("app.profile.loading", "file", file)
 	var profile AppProfile
 
 	bytes, err := os.ReadFile(file)
@@ -41,7 +41,7 @@ func readAppProfileCore(file string) (*AppProfile, error) {
 }
 
 func writeAppProfile(profile *AppProfile, path string) error {
-	appLog.Get().Info("Writing app profile", path)
+	appLog.Get().Info("app.profile.writing", "path", path)
 
 	bytes, err := json.Marshal(profile)
 	if err != nil {

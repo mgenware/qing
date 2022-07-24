@@ -47,7 +47,7 @@ func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
 			return nil, err
 		}
 		lsDict[langName] = d
-		appLog.Get().Info("Loaded localization file", langName)
+		appLog.Get().Info("app.localization.fileloaded", "lang", langName)
 	}
 
 	fallbackLang := conf.Langs[0]

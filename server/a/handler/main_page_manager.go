@@ -156,7 +156,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	if statusCode == http.StatusNotFound && app.CoreConfig().HTTP.Log404Error {
 		m.logger.NotFound(url)
 	} else if statusCode == http.StatusInternalServerError {
-		m.logger.Error("fatal-page", "err", d.Message, "url", url)
+		m.logger.Error("page.fatal", "err", d.Message, "url", url)
 	}
 	errorHTML := m.errorView.MustExecuteToString(d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)

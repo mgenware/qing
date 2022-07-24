@@ -36,7 +36,7 @@ func (mn *MailService) Send(uid uint64, content string) (int64, error) {
 		if err != nil {
 			return 0, err
 		}
-		appLog.Get().Info("mail-sent", uid)
+		appLog.Get().Info("mail.sent", "uid", uid)
 	}
 	return 0, nil
 }

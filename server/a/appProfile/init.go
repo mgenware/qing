@@ -27,7 +27,7 @@ func init() {
 	}
 	appProfile = pro
 	isNewProfile = !hasProfile
-	appLog.Get().Info("App profile loaded", dir)
+	appLog.Get().Info("app.profile.loaded", "dir", dir)
 }
 
 func Get() *profile.AppProfile {

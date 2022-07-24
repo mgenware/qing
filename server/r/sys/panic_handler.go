@@ -25,7 +25,7 @@ func PanicMiddleware(next http.Handler) http.Handler {
 				}
 
 				msg := fmt.Sprintf("%v", rvr)
-				appLog.Get().Error("fatal-page", "err", msg, "url", r.URL.String(), "method", r.Method)
+				appLog.Get().Error("panic-handler.fatal", "err", msg, "url", r.URL.String(), "method", r.Method)
 
 				if r.Method == "POST" {
 					resp := appHandler.JSONResponse(w, r)

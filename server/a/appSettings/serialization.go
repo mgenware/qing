@@ -44,7 +44,7 @@ func readAppSettingsObj(file string) (*appSod.AppRawSettings, error) {
 }
 
 func writeAppSettingsObj(settings *appSod.AppRawSettings, path string) error {
-	appLog.Get().Info("Writing app settings", path)
+	appLog.Get().Info("app.settings.writing", "path", path)
 	return iolib.WriteJSONFile(path, settings)
 }
 

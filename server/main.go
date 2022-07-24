@@ -26,9 +26,9 @@ func main() {
 	logger := appLog.Get()
 
 	if conf.TestMode != nil {
-		logger.Warn("🟣 Application running in test mode", conf.TestMode)
+		logger.Warn("🟣 app.running.test", "mode", conf.TestMode)
 	} else if conf.DevMode() {
-		logger.Warn("🟡 Application running in dev mode")
+		logger.Warn("🟡 app.running.test")
 	}
 
 	// Start the main router.

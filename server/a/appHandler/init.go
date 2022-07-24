@@ -22,7 +22,7 @@ func init() {
 
 	mainPageManager = handler.MustCreateMainPageManager(conf, logger)
 	emailPageManager = handler.MustCreateEmailPageManager(conf)
-	appLog.Get().Info("App handler Loaded", conf.Templates.Dir)
+	appLog.Get().Info("app.handler.loaded", "tplDir", conf.Templates.Dir)
 }
 
 func MainPage() handler.CorePageManager {

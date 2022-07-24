@@ -19,7 +19,7 @@ func init() {
 	conf := app.CoreConfig()
 
 	appDB = newAppDB(conf)
-	appLog.Get().Info("App DB Loaded")
+	appLog.Get().Info("app.db.loaded")
 }
 
 func Get() app.CoreDB {
