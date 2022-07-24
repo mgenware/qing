@@ -23,7 +23,6 @@ services:
       - ms
       - db
       - img_proxy
-    restart: always
   ms:
     image: redis:6
     ports:

@@ -36,7 +36,9 @@ const server = {
   ports: ['8000:8000'],
   depends_on: [sMS, sDB, sImgProxy],
 };
-applyCommonSettings(server);
+if (!devConf.debug) {
+  applyCommonSettings(server);
+}
 
 const ms = {
   image: 'redis:6',
