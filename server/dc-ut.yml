@@ -11,7 +11,9 @@
 version: '3.9'
 services:
   server:
-    build: .
+    build:
+      context: .
+      dockerfile: df-ut.dockerfile
     volumes:
       - .:/qing/server
       - ../web:/qing/web

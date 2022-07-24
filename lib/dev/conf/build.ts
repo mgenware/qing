@@ -51,9 +51,12 @@ function setRestartField(service: Record<string, unknown>, conf: QingConfSchema)
   }
 }
 
-function getDockerComposeObj(conf: QingConfSchema) {
+function generateDockerComposeObj(name: string, conf: QingConfSchema) {
   const server = {
-    build: '.',
+    build: {
+      context: '.',
+      dockerfile: `df-${name}.dockerfile`,
+    },
     volumes: [
       `.:${conAppDir}/server`,
       `../web:${conAppDir}/web`,
@@ -123,7 +126,7 @@ function getDockerComposeObj(conf: QingConfSchema) {
 async function buildConfFile(name: string, file: string) {
   const serverDir = qdu.serverPath();
   const confObj = await loadConfigFile(file);
-  const dockerComposeObj = getDockerComposeObj(confObj);
+  const dockerComposeObj = generateDockerComposeObj(name, confObj);
   const dest = np.join(serverDir, `dc-${name}.yml`);
   const destContent = `${header}${yaml.dump(dockerComposeObj)}`;
   await mfs.writeFileAsync(dest, destContent);
