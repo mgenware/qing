@@ -37,6 +37,10 @@ export async function spawnDockerComposeCmd(args: string[], dir: string, configF
   return pipedSpawn('docker', ['compose', '-f', configFileName, ...args], dir);
 }
 
-export async function spawnDockerComposeMigrate(args: string[], dir: string) {
-  return pipedSpawn('docker', ['compose', 'run', 'migrate', ...args], dir);
+export async function spawnDockerComposeMigrate(
+  args: string[],
+  dir: string,
+  configFileName: string,
+) {
+  return spawnDockerComposeCmd(['migrate', ...args], dir, configFileName);
 }

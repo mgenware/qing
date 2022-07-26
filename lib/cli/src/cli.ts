@@ -127,13 +127,18 @@ function checkMigrationNumber(num: number) {
         const arg1 = processArgs[1];
         iou.checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
-          await sp.spawnDockerComposeMigrate(['drop'], await iou.getProjectDir(serverDir));
+          await sp.spawnDockerComposeMigrate(
+            ['drop'],
+            await iou.getProjectDir(serverDir),
+            dockerComposeDev,
+          );
         } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
           const num = parseInt(arg1.substr(1), 10);
           checkMigrationNumber(num);
           await sp.spawnDockerComposeMigrate(
             [arg1[0] === '+' ? 'up' : 'down', num.toString()],
             await iou.getProjectDir(serverDir),
+            dockerComposeDev,
           );
         } else {
           const num = parseInt(arg1, 10);
@@ -141,6 +146,7 @@ function checkMigrationNumber(num: number) {
           await sp.spawnDockerComposeMigrate(
             ['goto', num.toString()],
             await iou.getProjectDir(serverDir),
+            dockerComposeDev,
           );
         }
         break;
