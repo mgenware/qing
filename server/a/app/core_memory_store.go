@@ -7,11 +7,13 @@
 
 package app
 
+import "time"
+
 type CoreMemoryStoreConn interface {
 	Ping() error
 	Exist(key string) (bool, error)
 	GetStringValue(key string) (string, error)
-	SetStringValue(key string, val string, expiresInSecs int) error
+	SetStringValue(key string, val string, expiry time.Duration) error
 	RemoveValue(key string) error
 	Clear() error
 	Destroy() error
