@@ -42,5 +42,5 @@ export async function spawnDockerComposeMigrate(
   dir: string,
   configFileName: string,
 ) {
-  return spawnDockerComposeCmd(['migrate', ...args], dir, configFileName);
+  return spawnDockerComposeCmd(['run', 'migrate', ...args], dir, configFileName);
 }

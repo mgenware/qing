@@ -8,27 +8,28 @@
 package appMS
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"qing/a/app"
+	"time"
 
-	"github.com/gomodule/redigo/redis"
+	"github.com/go-redis/redis/v8"
 )
+
+var ctx = context.TODO()
 
 type AppMS struct {
 	Port int
 }
 
 func (store *AppMS) GetConn() app.CoreMemoryStoreConn {
-	pool := &redis.Pool{
-		MaxIdle:   80,
-		MaxActive: 12000, // max number of connections
-		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", fmt.Sprintf("ms:%v", store.Port))
-		},
-	}
-
-	return newAppMSConn(pool)
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("ms:%v", store.Port),
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	return newAppMSConn(rdb)
 }
 
 func newAppMS(port int) *AppMS {
@@ -36,79 +37,61 @@ func newAppMS(port int) *AppMS {
 }
 
 type AppMSConn struct {
-	pool *redis.Pool
+	rdb *redis.Client
 }
 
-func newAppMSConn(pool *redis.Pool) *AppMSConn {
-	return &AppMSConn{pool: pool}
+func newAppMSConn(rdb *redis.Client) *AppMSConn {
+	return &AppMSConn{rdb: rdb}
 }
 
-func (conn *AppMSConn) Pool() *redis.Pool {
-	return conn.pool
+func (conn *AppMSConn) Conn() *redis.Client {
+	return conn.rdb
 }
 
 func (conn *AppMSConn) Destroy() error {
-	return conn.pool.Close()
+	return conn.rdb.Close()
 }
 
-func (conn *AppMSConn) SetStringValue(key string, val string, expiresInSecs int) error {
-	if expiresInSecs > 0 {
-		return conn.setValueWithTimeoutInternal(key, val, expiresInSecs)
-	}
-	return conn.setValueInternal(key, val)
+func (conn *AppMSConn) SetStringValue(key string, val string, expires time.Duration) error {
+	return conn.setValueWithTimeoutInternal(key, val, expires)
 }
 
 func (conn *AppMSConn) Exist(key string) (bool, error) {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	exists, err := redis.Bool(c.Do("EXISTS", key))
-	if err == conn.nilValueErr() {
+	val, err := conn.rdb.Exists(ctx, key).Result()
+	if err == redis.Nil {
 		return false, nil
 	}
 	if err != nil {
 		return false, err
 	}
-	return exists, nil
+	return val > 0, nil
 }
 
 func (conn *AppMSConn) GetStringValue(key string) (string, error) {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	value, err := redis.String(c.Do("GET", key))
-	if err == conn.nilValueErr() {
+	val, err := conn.rdb.Get(ctx, key).Result()
+	if err == redis.Nil {
 		return "", nil
 	}
-	return value, err
+	return val, err
 }
 
 func (conn *AppMSConn) RemoveValue(key string) error {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	_, err := c.Do("DEL", key)
+	_, err := conn.rdb.Del(ctx, key).Result()
 	return err
 }
 
 func (conn *AppMSConn) Clear() error {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	_, err := c.Do("FLUSHALL")
+	_, err := conn.rdb.FlushAll(ctx).Result()
 	return err
 }
 
 func (conn *AppMSConn) Ping() error {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	res, err := redis.String(c.Do("PING"))
+	val, err := conn.rdb.Ping(ctx).Result()
 	if err != nil {
 		return err
 	}
-	if res != "PONG" {
-		return errors.New("Redis responded with " + res)
+	if val != "PONG" {
+		return errors.New("Redis responded with " + val)
 	}
 	return nil
 }
@@ -116,21 +99,10 @@ func (conn *AppMSConn) Ping() error {
 /*** Internal functions ***/
 
 func (conn *AppMSConn) setValueInternal(key string, val any) error {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	_, err := c.Do("SET", key, val)
-	return err
+	return conn.setValueWithTimeoutInternal(key, val, 0)
 }
 
-func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expires int) error {
-	c := conn.pool.Get()
-	defer c.Close()
-
-	_, err := c.Do("SETEX", key, expires, val)
+func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expires time.Duration) error {
+	_, err := conn.rdb.Set(ctx, key, val, expires).Result()
 	return err
-}
-
-func (conn *AppMSConn) nilValueErr() error {
-	return redis.ErrNil
 }
