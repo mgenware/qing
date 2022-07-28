@@ -86,14 +86,14 @@ func Start() {
 	// Language settings router.
 	langRouter().Mount("/"+appdef.RouteLangs, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
-	debugConfig := conf.Debug
-	if debugConfig != nil {
-		// ======== DEBUG only setup ========
+	devConfig := conf.Dev
+	if devConfig != nil {
+		// ======== DEV mode only setup ========
 
 		// Dev page.
 		r.Mount("/"+appdef.RouteDev, devp.Router)
 
-		// ======== End of DEBUG only setup ========
+		// ======== End of DEV mode only setup ========
 	}
 
 	appLog.Get().Info("server.starting", "port", httpConf.Port)

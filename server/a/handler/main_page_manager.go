@@ -47,7 +47,7 @@ func MustCreateMainPageManager(
 	conf *config.Config,
 	logger app.CoreLogger,
 ) *MainPageManager {
-	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
+	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
 
 	// Create the localization manager used by localized template views.
 	locMgr, err := localization.NewManagerFromConfig(conf.Localization)

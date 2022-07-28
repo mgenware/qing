@@ -30,7 +30,7 @@ type EmailPageManager struct {
 func MustCreateEmailPageManager(
 	conf *config.Config,
 ) *EmailPageManager {
-	reloadViewsOnRefresh := conf.Debug != nil && conf.Debug.ReloadViewsOnRefresh
+	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
 
 	// Create the localization manager used by localized template views.
 	locMgr, err := localization.NewManagerFromConfig(conf.Localization)

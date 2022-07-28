@@ -29,15 +29,15 @@ type Service struct {
 // MustNewService creates a new Service object.
 func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger app.CoreLogger, msConn app.CoreMemoryStoreConn) *Service {
 	s := &Service{}
-	debugConf := conf.Debug
+	devConf := conf.Dev
 
 	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
 	s.RegEmailVerificator = emailveri.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
 
 	var mailxDevDir string
-	if debugConf != nil {
-		mailxDevDir = debugConf.MailBox.Dir
+	if devConf != nil {
+		mailxDevDir = devConf.MailBox.Dir
 	}
 	s.MailService = mailx.NewMailService(mailxDevDir)
 	return s

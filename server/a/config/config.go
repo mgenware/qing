@@ -34,10 +34,11 @@ const (
 
 // Config is the root configuration type for your application.
 type Config struct {
-	// Extends specifies another file which this file extends from.
+	// Specifies another file which this file extends from.
 	Extends string `json:"extends"`
-	// Debug determines if this app is currently running in dev mode. You can set or unset individual child config field. Note that `"debug": {}` will set debug mode to on and make all child fields defaults to `false/empty`, to disable debug mode, you either leave it unspecified or set it to `null`.
-	Debug *configs.DebugConfig `json:"debug"`
+	// Determines if this app is currently running in dev mode.
+	// Set it to null in production mode.
+	Dev *configs.DevConfig `json:"dev"`
 	// Log config data.
 	Log *configs.LoggingConfig `json:"logging"`
 	// HTTP config data.
@@ -53,7 +54,7 @@ type Config struct {
 	DB        *configs.DBConfig        `json:"db"`
 	ResServer *configs.ResServerConfig `json:"res_server"`
 
-	// Extern config data.
+	// External configs.
 	Extern *configs.ExternConfig `json:"extern"`
 }
 
@@ -62,12 +63,12 @@ func IsUT() bool {
 	return os.Getenv("UT") == "1"
 }
 
-// DevMode checks if debug config field is on.
+// Returns true if dev mode is on.
 func (conf *Config) DevMode() bool {
-	return conf.Debug != nil
+	return conf.Dev != nil
 }
 
-// ProductionMode = !DevMode().
+// Returns true if production mode is on.
 func (conf *Config) ProductionMode() bool {
 	return !conf.DevMode()
 }

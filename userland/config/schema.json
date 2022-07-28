@@ -3,7 +3,7 @@
   "title": "qing-conf-schema",
   "type": "object",
   "definitions": {
-    "debug_config": {
+    "dev_config": {
       "type": "object",
       "properties": {
         "reload_views_on_refresh": { "type": "boolean" },
@@ -136,7 +136,7 @@
   },
   "properties": {
     "extends": { "type": "string" },
-    "debug": { "$ref": "#/definitions/debug_config" },
+    "dev": { "$ref": "#/definitions/dev_config" },
     "logging": { "$ref": "#/definitions/logging_config" },
     "http": { "$ref": "#/definitions/http_config" },
     "templates": { "$ref": "#/definitions/templates_config" },
