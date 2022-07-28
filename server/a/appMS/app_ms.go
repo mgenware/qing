@@ -81,7 +81,7 @@ func (conn *AppMSConn) Exist(key string) (bool, error) {
 func (conn *AppMSConn) GetStringValue(key string) (string, error) {
 	val, err := conn.rdb.Get(ctx, key).Result()
 	if conn.logging {
-		conn.log(fmt.Sprintf("GetStringValue: V: %v ERR: %v", val, err))
+		conn.log(fmt.Sprintf("GetStringValue: K: %v V: %v ERR: %v", key, val, err))
 	}
 	if err == redis.Nil {
 		return "", nil
@@ -92,7 +92,7 @@ func (conn *AppMSConn) GetStringValue(key string) (string, error) {
 func (conn *AppMSConn) RemoveValue(key string) error {
 	_, err := conn.rdb.Del(ctx, key).Result()
 	if conn.logging {
-		conn.log(fmt.Sprintf("RemoveValue: ERR: %v", err))
+		conn.log(fmt.Sprintf("RemoveValue: K: %v ERR: %v", key, err))
 	}
 	return err
 }

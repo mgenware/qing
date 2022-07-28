@@ -26,7 +26,7 @@
     "url": "/res",
     "dir": "/qing_data/res_server"
   },
-  "debug": {
+  "dev": {
     "reload_views_on_refresh": true,
     "mailbox": {
       "dir": "/qing_data/mailbox"
