@@ -28,7 +28,7 @@ func init() {
 	if confPath == "" {
 		if config.IsUT() {
 			// Unit test mode.
-			confPath = configFile("ut.json")
+			confPath = configFile("dev.json")
 		} else {
 			// Parse command-line arguments
 			flag.StringVar(&confPath, "config", "", "path of application config file")

@@ -15,7 +15,6 @@ type CoreMemoryStoreConn interface {
 	GetStringValue(key string) (string, error)
 	SetStringValue(key string, val string, expiry time.Duration) error
 	RemoveValue(key string) error
-	Clear() error
 	Destroy() error
 }
 

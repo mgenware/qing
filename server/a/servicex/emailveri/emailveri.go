@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"qing/a/app"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -21,12 +22,12 @@ var compSep = "|"
 // EmailVerificator provides support for vefirying user email during registration.
 type EmailVerificator struct {
 	prefix  string
-	timeout int
+	timeout time.Duration
 	conn    app.CoreMemoryStoreConn
 }
 
 // NewEmailVerificator creates a new EmailVerificator.
-func NewEmailVerificator(conn app.CoreMemoryStoreConn, prefix string, timeout int) *EmailVerificator {
+func NewEmailVerificator(conn app.CoreMemoryStoreConn, prefix string, timeout time.Duration) *EmailVerificator {
 	return &EmailVerificator{conn: conn, prefix: prefix, timeout: timeout}
 }
 

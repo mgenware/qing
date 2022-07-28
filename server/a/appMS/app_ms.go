@@ -80,11 +80,6 @@ func (conn *AppMSConn) RemoveValue(key string) error {
 	return err
 }
 
-func (conn *AppMSConn) Clear() error {
-	_, err := conn.rdb.FlushAll(ctx).Result()
-	return err
-}
-
 func (conn *AppMSConn) Ping() error {
 	val, err := conn.rdb.Ping(ctx).Result()
 	if err != nil {
