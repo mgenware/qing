@@ -20,6 +20,8 @@ import (
 
 var ctx = context.TODO()
 
+var ExpiryTooShortErr = errors.New("Expiry too short")
+
 type AppMS struct {
 	logging bool
 
@@ -110,10 +112,13 @@ func (conn *AppMSConn) Ping() error {
 
 /*** Internal functions ***/
 
-func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expires time.Duration) error {
-	_, err := conn.rdb.Set(ctx, key, val, expires).Result()
+func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expiry time.Duration) error {
+	if expiry < 500*time.Millisecond {
+		return ExpiryTooShortErr
+	}
+	_, err := conn.rdb.Set(ctx, key, val, expiry).Result()
 	if conn.logging {
-		conn.log(fmt.Sprintf("SetStringInternal: K: %v V: %v EXPIRE: %v ERR: %v", key, val, expires, err))
+		conn.log(fmt.Sprintf("SetStringInternal: K: %v V: %v EXPIRE: %v ERR: %v", key, val, expiry, err))
 	}
 	return err
 }
