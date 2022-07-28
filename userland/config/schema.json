@@ -115,7 +115,8 @@
             "port": {
               "type": "number",
               "minimum": 1
-            }
+            },
+            "logging": { "type": "boolean" }
           },
           "required": ["port"]
         },

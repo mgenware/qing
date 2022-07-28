@@ -11,6 +11,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"qing/a/app"
 	"time"
 
@@ -20,6 +21,8 @@ import (
 var ctx = context.TODO()
 
 type AppMS struct {
+	logging bool
+
 	Port int
 }
 
@@ -29,19 +32,21 @@ func (store *AppMS) GetConn() app.CoreMemoryStoreConn {
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
-	return newAppMSConn(rdb)
+	return newAppMSConn(rdb, store.logging)
 }
 
-func newAppMS(port int) *AppMS {
-	return &AppMS{Port: port}
+func newAppMS(port int, logging bool) *AppMS {
+	return &AppMS{Port: port, logging: logging}
 }
 
 type AppMSConn struct {
+	logging bool
+
 	rdb *redis.Client
 }
 
-func newAppMSConn(rdb *redis.Client) *AppMSConn {
-	return &AppMSConn{rdb: rdb}
+func newAppMSConn(rdb *redis.Client, logging bool) *AppMSConn {
+	return &AppMSConn{rdb: rdb, logging: logging}
 }
 
 func (conn *AppMSConn) Conn() *redis.Client {
@@ -49,6 +54,9 @@ func (conn *AppMSConn) Conn() *redis.Client {
 }
 
 func (conn *AppMSConn) Destroy() error {
+	if conn.logging {
+		conn.log("Destroy")
+	}
 	return conn.rdb.Close()
 }
 
@@ -58,6 +66,9 @@ func (conn *AppMSConn) SetStringValue(key string, val string, expires time.Durat
 
 func (conn *AppMSConn) Exist(key string) (bool, error) {
 	val, err := conn.rdb.Exists(ctx, key).Result()
+	if conn.logging {
+		conn.log(fmt.Sprintf("Exist: V: %v ERR: %v", val, err))
+	}
 	if err == redis.Nil {
 		return false, nil
 	}
@@ -69,6 +80,9 @@ func (conn *AppMSConn) Exist(key string) (bool, error) {
 
 func (conn *AppMSConn) GetStringValue(key string) (string, error) {
 	val, err := conn.rdb.Get(ctx, key).Result()
+	if conn.logging {
+		conn.log(fmt.Sprintf("GetStringValue: V: %v ERR: %v", val, err))
+	}
 	if err == redis.Nil {
 		return "", nil
 	}
@@ -77,6 +91,9 @@ func (conn *AppMSConn) GetStringValue(key string) (string, error) {
 
 func (conn *AppMSConn) RemoveValue(key string) error {
 	_, err := conn.rdb.Del(ctx, key).Result()
+	if conn.logging {
+		conn.log(fmt.Sprintf("RemoveValue: ERR: %v", err))
+	}
 	return err
 }
 
@@ -93,11 +110,14 @@ func (conn *AppMSConn) Ping() error {
 
 /*** Internal functions ***/
 
-func (conn *AppMSConn) setValueInternal(key string, val any) error {
-	return conn.setValueWithTimeoutInternal(key, val, 0)
-}
-
 func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expires time.Duration) error {
 	_, err := conn.rdb.Set(ctx, key, val, expires).Result()
+	if conn.logging {
+		conn.log(fmt.Sprintf("SetStringInternal: K: %v V: %v EXPIRE: %v ERR: %v", key, val, expires, err))
+	}
 	return err
+}
+
+func (conn *AppMSConn) log(s string) {
+	log.Println("🐎 " + s)
 }

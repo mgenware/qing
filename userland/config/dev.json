@@ -41,5 +41,10 @@
   },
   "app_settings": {
     "file": "/qing_data/app_settings.json"
+  },
+  "extern": {
+    "redis": {
+      "logging": true
+    }
   }
 }

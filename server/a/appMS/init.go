@@ -15,10 +15,10 @@ import (
 var appMS app.CoreMemoryStore
 
 func init() {
-	conf := app.CoreConfig()
+	conf := app.CoreConfig().Extern.Redis
 
-	port := conf.Extern.Redis.Port
-	appMS = newAppMS(port)
+	port := conf.Port
+	appMS = newAppMS(port, conf.Logging)
 	err := appMS.GetConn().Ping()
 	if err != nil {
 		panic(err)
