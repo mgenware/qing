@@ -63,13 +63,13 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 
 	msConn := appMS.GetConn()
 	keySIDToUser := sidToUserKey(sid)
-	err = msConn.SetStringValue(keySIDToUser, bytes, def.MSExpirySecs)
+	err = msConn.SetStringValue(keySIDToUser, bytes, def.MSDefaultExpiry)
 	if err != nil {
 		return err
 	}
 
 	keyUIDToSID := userIDToSIDKey(user.ID)
-	err = msConn.SetStringValue(keyUIDToSID, sid, def.MSExpirySecs)
+	err = msConn.SetStringValue(keyUIDToSID, sid, def.MSDefaultExpiry)
 	if err != nil {
 		return err
 	}

@@ -7,6 +7,8 @@
 
 package def
 
+import "time"
+
 type ContextKey string
 
 const (
@@ -36,15 +38,15 @@ const (
 	// K: user id, V: sid
 	MSUserIDToSID = "auth-us:%v"
 
-	MSRegEmailTimeout = 60 * 60
+	MSRegEmailExpiry time.Duration = 60 * 60 * time.Second
 	// K: Secret ID sent to user email, V: user pwd.
 	MSRegEmailPrefix = "reg-email"
 
-	MSLimitPosting        = "lim-pos:%v:%v"
-	MSLimitPostingTimeout = 59
+	MSLimitPosting                     = "lim-pos:%v:%v"
+	MSLimitPostingExpiry time.Duration = 59 * time.Second
 )
 
 const (
-	MSExpirySecs      = 2592000
-	CookiesExpirySecs = 2592000
+	MSDefaultExpiry      time.Duration = 2592000 * time.Second
+	CookiesDefaultExpiry time.Duration = 2592000 * time.Second
 )

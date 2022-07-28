@@ -14,7 +14,7 @@ import (
 )
 
 func NewCookie(k, v string) *http.Cookie {
-	return &http.Cookie{Name: k, Value: v, Path: "/", Expires: time.Now().Add(time.Second * def.CookiesExpirySecs)}
+	return &http.Cookie{Name: k, Value: v, Path: "/", Expires: time.Now().Add(def.CookiesDefaultExpiry)}
 }
 
 func DeleteCookie(k string) *http.Cookie {

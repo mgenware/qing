@@ -33,7 +33,7 @@ func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger 
 
 	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
-	s.RegEmailVerificator = emailveri.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailTimeout)
+	s.RegEmailVerificator = emailveri.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
 
 	var mailxDevDir string
 	if debugConf != nil {
