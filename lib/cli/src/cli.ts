@@ -59,7 +59,6 @@ const serverDir = 'server';
 const libDevDir = 'lib/dev';
 const itDir = 'it';
 const dockerComposeDev = 'dc-dev.yml';
-const dockerComposeUT = 'dc-ut.yml';
 
 function checkMigrationNumber(num: number) {
   if (num < 1) {
@@ -91,7 +90,11 @@ function checkMigrationNumber(num: number) {
       }
 
       case 's-ut': {
-        await sp.spawnDockerComposeCmd(['up'], await iou.getProjectDir(serverDir), dockerComposeUT);
+        await sp.spawnDockerComposeCmd(
+          ['exec', '-e', 'UT=1', 'server', 'go', 'test', './...'],
+          await iou.getProjectDir(serverDir),
+          dockerComposeDev,
+        );
         break;
       }
 
