@@ -50,7 +50,7 @@ func mustGetStoreValue(t *testing.T, key, expected string) {
 }
 
 func TestAddAndVerify(t *testing.T) {
-	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3)
+	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
 	app.FatalOn(err, t)
 
@@ -69,7 +69,7 @@ func TestAddAndVerify(t *testing.T) {
 }
 
 func TestVerifyFailed(t *testing.T) {
-	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3)
+	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
 	app.FatalOn(err, t)
 
@@ -77,14 +77,16 @@ func TestVerifyFailed(t *testing.T) {
 	app.FatalOn(err, t)
 
 	_, err = v.Verify("__")
-	app.FatalOn(err, t)
+	if err == nil {
+		t.Fatal("Expected `Verify` to fail")
+	}
 
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
 	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
 }
 
 func TestAddAndTimeout(t *testing.T) {
-	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1)
+	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1*time.Second)
 	_, err := v.Add(tEmail, tData)
 	app.FatalOn(err, t)
 
