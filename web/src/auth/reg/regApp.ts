@@ -8,7 +8,7 @@
 import { BaseElement, customElement, html, css, property } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
-import CreateNewUserLoader from './loaders/createNewUserLoader';
+import SignUpLoader from './loaders/SignUpLoader';
 import 'qing-overlay';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
@@ -124,7 +124,7 @@ export class RegApp extends BaseElement {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new CreateNewUserLoader(this.name, this.email, this.password);
+    const loader = new SignUpLoader(this.name, this.email, this.password);
     const status = await appTask.critical(loader, ls.publishing);
     if (status.isSuccess) {
       this.isCompletionModalOpen = true;

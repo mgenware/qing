@@ -54,7 +54,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 	return &d, nil
 }
 
-func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
 

@@ -8,13 +8,13 @@
 import Loader from 'lib/loader';
 import * as authRoute from '@qing/routes/d/s/pub/auth';
 
-export default class CreateNewUserLoader extends Loader<undefined> {
+export default class SignUpLoader extends Loader<undefined> {
   constructor(public name: string, public email: string, public pwd: string) {
     super();
   }
 
   override requestURL(): string {
-    return authRoute.createNewUser;
+    return authRoute.signUp;
   }
 
   override requestParams(): Record<string, unknown> {

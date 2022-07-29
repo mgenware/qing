@@ -9,5 +9,5 @@ import root from './root.js';
 
 const auth = `${root}/auth`;
 
-export const createNewUser = `${auth}/create-pwd-user`;
+export const signUp = `${auth}/signup`;
 export const signIn = `${auth}/signin`;
