@@ -124,6 +124,7 @@ async function callCore(
 }
 
 // Initiates an API call with the given params.
+// It throws when server returns an error response unless `opt.ignoreAPIError` is set.
 export async function call(
   url: string,
   body: Record<string, unknown> | null,

@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { ita, usr, errorResults } from 'api';
+import { ita, usr } from 'api';
 import * as assert from 'node:assert';
-import { userInfo, newUser } from 'helper/user';
+import { userInfo, newUser, curUser } from 'helper/user';
 import { imgMain } from '@qing/routes/d/static';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 
@@ -35,9 +35,13 @@ it('Add and remove a user', async () => {
     // Make sure `__/auth/info` also works.
     const rInfo = await userInfo(id);
     assert.deepStrictEqual(rInfo, { d: ud });
+
+    // Check `__/auth/cur`.
+    const curUID = await curUser();
+    assert.deepStrictEqual(curUID, id);
   });
   // Check if the user has been removed.
   assert.ok(id);
   const nullInfo = await userInfo(id, { ignoreAPIError: true });
-  assert.deepStrictEqual(nullInfo, errorResults.resNotFound);
+  assert.deepStrictEqual(nullInfo, { code: 10000, msg: 'sql: no rows in result set' });
 });

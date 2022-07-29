@@ -43,3 +43,9 @@ export class InfoLoader extends LoaderBase<TUserInfo> {
     return authRoute.info;
   }
 }
+
+export class CurUserLoader extends Loader<string> {
+  override requestURL(): string {
+    return authRoute.cur;
+  }
+}

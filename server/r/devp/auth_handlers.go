@@ -15,6 +15,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
+	"qing/a/appcom"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -116,4 +117,10 @@ func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	return resp.MustComplete(getDBUserInfo(uid))
+}
+
+func currentUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+	uid := appcom.ContextUserID(r.Context())
+	return resp.MustComplete(clib.EncodeID(uid))
 }

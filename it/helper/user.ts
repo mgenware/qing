@@ -18,18 +18,23 @@ export interface TUserInfo {
   name: string;
 }
 
-function checkUser(res: APIResult): User {
+function getUserObj(res: APIResult): User {
   const u = res.d as TUserInfo;
   return u;
 }
 
 async function newUserCore(): Promise<User> {
   const r = await call(apiAuth.new_, null, null);
-  return checkUser(r);
+  return getUserObj(r);
 }
 
 async function deleteUser(user: User) {
   await call(apiAuth.del, { uid: user.id }, null);
+}
+
+// Gets the current user ID.
+export async function curUser() {
+  return ((await call(apiAuth.cur, null, null)).d as number) || 0;
 }
 
 // Returns null if the specified user doesn't exist.

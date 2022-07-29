@@ -63,8 +63,9 @@ export class AuthDevPage extends BaseElement {
           <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
         </p>
         <p>
-          <qing-button @click=${this.handleNewUser}>New user</qing-button
-          ><qing-button @click=${this.handleGetInfo}>Get info</qing-button>
+          <qing-button @click=${this.handleNewUser}>New user</qing-button>
+          <qing-button @click=${this.handleGetInfo}>Fetch info</qing-button>
+          <qing-button @click=${this.handleCurUser}>Current user</qing-button>
         </p>
       </div>
     `;
@@ -96,6 +97,15 @@ export class AuthDevPage extends BaseElement {
 
   private async handleGetInfo() {
     const loader = new loaders.InfoLoader(this.uidStr, this.isEID);
+    const status = await appTask.critical(loader);
+    if (status.isSuccess) {
+      // eslint-disable-next-line no-alert
+      alert(JSON.stringify(status.data));
+    }
+  }
+
+  private async handleCurUser() {
+    const loader = new loaders.CurUserLoader();
     const status = await appTask.critical(loader);
     if (status.isSuccess) {
       // eslint-disable-next-line no-alert

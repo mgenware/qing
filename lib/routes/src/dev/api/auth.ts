@@ -15,3 +15,4 @@ export const new_ = `${auth}/new`;
 export const in_ = `${auth}/in`;
 export const info = `${auth}/info`;
 export const del = `${auth}/del`;
+export const cur = `${auth}/cur`;
