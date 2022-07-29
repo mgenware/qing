@@ -43,7 +43,7 @@ var service *AvatarService
 func init() {
 	conf := app.CoreConfig()
 	svc, err := newService(filepath.Join(conf.ResServer.Dir, def.AvatarResKey))
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	service = svc
 }
 

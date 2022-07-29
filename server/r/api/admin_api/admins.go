@@ -21,7 +21,7 @@ func admins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	userModels := make([]rcom.UserInfo, len(admins))
 	for i, user := range admins {
 		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)

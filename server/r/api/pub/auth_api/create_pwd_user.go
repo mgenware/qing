@@ -69,7 +69,7 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 		Pwd:   pwd,
 	}
 	createUserDataString, err := CreateUserDataToString(&createUserData)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	publicID, err := appService.Get().RegEmailVerificator.Add(email, createUserDataString)
 	if err != nil {
@@ -91,7 +91,7 @@ func createPwdUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageHTML := appHandler.EmailPage().MustComplete(lang, &pageData)
 
 	_, err = appService.Get().MailService.Send(email, pageHTML)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	return resp.MustComplete(nil)
 }

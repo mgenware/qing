@@ -39,11 +39,11 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.DB()
 	// User profile
 	user, err := da.User.SelectProfile(db, uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	// User stats
 	stats, err := da.UserStats.SelectStats(db, uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	pageTitle := user.Name
 
@@ -56,7 +56,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	} else {
 		posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	}
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	var feedListHTMLBuilder strings.Builder
 	for _, post := range posts {
 		postData := NewProfilePostItem(&post)

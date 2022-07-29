@@ -40,6 +40,6 @@ func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	default:
 		panic(fmt.Sprintf("Unsupported entity type %v", entity.Type))
 	}
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(res)
 }

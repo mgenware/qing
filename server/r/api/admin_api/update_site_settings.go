@@ -32,7 +32,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	settingsDict := clib.MustGetDictFromDict(params, "settings")
 	diskST, err := appSettings.LoadFromDisk()
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	// k: settings key, v: settings JSON string.
 	for k, v := range settingsDict {
@@ -44,7 +44,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case appdef.KeyCommunitySettings:
 			var comST appSod.CommunityRawSettings
 			err := json.Unmarshal([]byte(vString), &comST)
-			app.PanicIfErr(err)
+			app.PanicOn(err)
 			diskST.Community = comST
 			appSettings.SetRestartSettings(appSettings.ForumsRestartSettings)
 		default:
@@ -53,6 +53,6 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	err = appSettings.WriteAppSettings(diskST)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

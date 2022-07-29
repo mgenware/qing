@@ -43,9 +43,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		parentID := clib.GetIDFromDict(params, "parentID")
 
 		cmtHostTable, err := apicom.GetCmtHostTable(host.Type)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 		cmtRelationTable, err := apicom.GetCmtRelationTable(host.Type)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 
 		captResult := 0
 		var cmtID uint64
@@ -54,12 +54,12 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		} else {
 			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, uid, host.ID, uint8(host.Type), sanitizedToken, captResult)
 		}
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 
 		// Update `last_replied_at` if necessary.
 		if host.Type == appdef.ContentBaseTypePost {
 			err = da.Post.RefreshLastRepliedAt(db, host.ID)
-			app.PanicIfErr(err)
+			app.PanicOn(err)
 		}
 
 		// Construct a DB cmt object without interacting with DB.
@@ -77,7 +77,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustComplete(respData)
 	} else {
 		err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 		cmt := &cmtSod.Cmt{EID: clib.EncodeID(id)}
 		cmt.ContentHTML = content
 

@@ -37,13 +37,13 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 		panic(appHandler.MainPage().Dictionary(lang).RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	uid, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, pwdHash)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	userURL := appURL.Get().UserProfile(uid)
 	http.Redirect(w, r, userURL, 302)

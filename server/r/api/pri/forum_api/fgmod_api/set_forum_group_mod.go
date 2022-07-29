@@ -41,16 +41,16 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// When a user becomes a forum group mod, all its sub-forums mod status
 		// of this group is cleared.
 		forumIDs, err := da.Forum.SelectForumIDsForGroup(db, groupID)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 
 		_, err = da.ForumMod.DeleteUserFromForumMods(db, targetUserID, forumIDs)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 
 		err = da.ForumGroupMod.InsertMod(db, groupID, targetUserID)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 	} else {
 		err = da.ForumGroupMod.DeleteMod(db, groupID, targetUserID)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 	}
 	return resp.MustComplete(nil)
 }

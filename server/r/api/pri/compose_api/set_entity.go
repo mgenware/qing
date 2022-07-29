@@ -55,7 +55,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case appdef.ContentBaseTypePost:
 			{
 				insertedID, err := da.Post.InsertItem(db, uid, contentHTML, title, sanitizedToken, captResult)
-				app.PanicIfErr(err)
+				app.PanicOn(err)
 
 				result = appURL.Get().Post(insertedID)
 				break
@@ -64,7 +64,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case appdef.ContentBaseTypeThread:
 			{
 				insertedID, err := da.FPost.InsertItem(db, uid, contentHTML, title, forumID, sanitizedToken, captResult)
-				app.PanicIfErr(err)
+				app.PanicOn(err)
 
 				result = appURL.Get().Thread(insertedID)
 				break
@@ -79,13 +79,13 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case appdef.ContentBaseTypePost:
 			{
 				err = da.Post.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
-				app.PanicIfErr(err)
+				app.PanicOn(err)
 				break
 			}
 		case appdef.ContentBaseTypeThread:
 			{
 				err = da.FPost.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
-				app.PanicIfErr(err)
+				app.PanicOn(err)
 				break
 			}
 		default:

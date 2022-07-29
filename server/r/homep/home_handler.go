@@ -41,7 +41,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tab := r.FormValue(appdef.KeyTab)
 
 	items, hasNext, err := da.Home.SelectPosts(db, page, defaultPageSize)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {

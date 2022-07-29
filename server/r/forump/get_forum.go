@@ -39,10 +39,10 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tab := r.FormValue(appdef.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, fid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	items, hasNext, err := da.Forum.SelectThreads(db, &fid, page, defaultPageSize)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {
@@ -59,7 +59,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	forumModel := NewForumPageModel(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := appHandler.MainPageData("", vForumPage.MustExecuteToString(forumModel))
 	d.Scripts = appHandler.MainPage().ScriptString(forumScript)

@@ -28,7 +28,7 @@ func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 
 	diskSettings, err := appSettings.LoadFromDisk()
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	var settings any
 	var needRestart bool
 	key := clib.MustGetStringFromDict(params, "key", appdef.LenMaxName)

@@ -74,7 +74,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 			items, hasNext, err = da.Cmt.SelectRepliesUserModeFilterMode(db, uid, &parentID, excludedCmts, page, kCmtPageSize, da.CmtAGSelectRepliesUserModeFilterModeOrderBy1(orderBy), true)
 		}
 		if err != nil {
-			app.PanicIfErr(err)
+			app.PanicOn(err)
 		}
 
 		respData := newGetCmtsRespData(items, hasNext)
@@ -84,7 +84,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
 	cmtRelTable, err := apicom.GetCmtRelationTable(host.Type)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	if uid == 0 {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsOrderBy1(orderBy), true)
@@ -93,7 +93,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsUserModeFilterMode(db, cmtRelTable, uid, host.ID, excludedCmts, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1(orderBy), true)
 	}
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	respData = newGetCmtsRespData(items, hasNext)
 
 	return resp.MustComplete(respData)

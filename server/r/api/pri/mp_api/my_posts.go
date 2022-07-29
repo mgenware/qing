@@ -73,10 +73,10 @@ func myPostsCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	} else {
 		rawPosts, hasNext, err = da.Post.SelectItemsForPostCenter(db, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
 	}
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	stats, err := da.UserStats.SelectStats(db, uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	posts := make([]pcPost, len(rawPosts))
 	for i, p := range rawPosts {

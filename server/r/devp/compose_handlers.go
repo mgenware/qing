@@ -43,13 +43,13 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	case int(appdef.ContentBaseTypePost):
 		{
 			err = da.Post.TestUpdateDates(db, id, defTime, defTime)
-			app.PanicIfErr(err)
+			app.PanicOn(err)
 			break
 		}
 	case int(appdef.ContentBaseTypeThread):
 		{
 			err = da.FPost.TestUpdateDates(db, id, defTime, defTime)
-			app.PanicIfErr(err)
+			app.PanicOn(err)
 			break
 		}
 	default:

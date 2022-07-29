@@ -36,7 +36,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)
 		}
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 		users = []da.FindUserResult{user}
 	} else {
 		name := clib.MustGetStringFromDict(params, "value", appdef.LenMaxName)
@@ -44,7 +44,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)
 		}
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 	}
 	userModels := make([]rcom.UserInfo, len(users))
 	for i, user := range users {

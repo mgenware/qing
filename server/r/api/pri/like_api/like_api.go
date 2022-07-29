@@ -34,16 +34,16 @@ func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	currentVal, err := dbSrc.HasLiked(db, id, uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	if currentVal == (value == 1) {
 		panic(fmt.Errorf("Like status mismatch: %v", currentVal))
 	}
 
 	if value == 1 {
-		app.PanicIfErr(dbSrc.Like(db, id, uid))
+		app.PanicOn(dbSrc.Like(db, id, uid))
 	} else {
-		app.PanicIfErr(dbSrc.CancelLike(db, id, uid))
+		app.PanicOn(dbSrc.CancelLike(db, id, uid))
 	}
 	return resp.MustComplete(nil)
 }

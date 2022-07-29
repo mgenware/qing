@@ -43,7 +43,7 @@ func getUIDFromRequest(r *http.Request) uint64 {
 	val := jsonx.GetStringOrDefault(params, "uid")
 	if val != "" {
 		uid, err := clib.DecodeID(val)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 		return uid
 	}
 
@@ -60,7 +60,7 @@ func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	uid := getUIDFromRequest(r)
 	err := signInCore(uid, w, r)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
@@ -68,9 +68,9 @@ func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	err = signInCore(uid, w, r)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	return resp.MustCompleteWithContent("Success", w)
 }
@@ -78,7 +78,7 @@ func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	return resp.MustCompleteWithContent("Success", w)
 }
@@ -88,7 +88,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	email := randlib.RandString(16)
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email+"@t.com", "T")
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(getDBUserInfo(uid))
 }
 
@@ -100,15 +100,15 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Try selecting the user before deleting it.
 	// It will panic if not exists.
 	_, err := da.User.SelectSessionData(db, uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	err = da.User.TestEraseUser(db, uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
 func getDBUserInfo(uid uint64) authSod.TUserInfo {
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return newUserInfoResult(&us)
 }
 

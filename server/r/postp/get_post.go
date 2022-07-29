@@ -37,7 +37,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	} else {
 		post, err = da.Post.SelectItemByID(db, id)
 	}
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 
 	resp := appHandler.HTMLResponse(w, r)
 	uid := resp.UserID()
@@ -45,7 +45,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	hasLiked := false
 	if uid != 0 {
 		liked, err := da.PostLike.HasLiked(db, id, uid)
-		app.PanicIfErr(err)
+		app.PanicOn(err)
 		hasLiked = liked
 	}
 

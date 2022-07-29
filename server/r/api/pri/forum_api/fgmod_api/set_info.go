@@ -30,6 +30,6 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	err := da.ForumGroup.UpdateInfo(db, id, name, desc)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

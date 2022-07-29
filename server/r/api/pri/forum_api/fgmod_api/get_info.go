@@ -25,6 +25,6 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	res, err := da.ForumGroup.SelectInfoForEditing(db, id)
-	app.PanicIfErr(err)
+	app.PanicOn(err)
 	return resp.MustComplete(res)
 }
