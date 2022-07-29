@@ -13,9 +13,6 @@ import (
 	"qing/r/postp"
 )
 
-const threadEntryScriptName = "thread/threadEntry"
-const defaultPageSize = 10
-
 func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return postp.GetPostCore(w, r, true)
 }

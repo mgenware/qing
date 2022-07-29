@@ -48,7 +48,7 @@ func (ev *EmailVerificator) Add(email, data string) (string, error) {
 		idToDataKey := ev.getIDToDataKey(email, pendingID)
 
 		// Ignore removal error (that entry may expire before we check it).
-		ev.conn.RemoveValue(idToDataKey)
+		ev.conn.RemoveValue(idToDataKey) //nolint:errcheck
 	}
 
 	// Set new entries.
@@ -86,8 +86,8 @@ func (ev *EmailVerificator) Verify(id string) (string, error) {
 
 	// Value found, remove two keys associated.
 	// Ignore deletion error.
-	ev.conn.RemoveValue(ev.getIDToDataKey(email, id))
-	ev.conn.RemoveValue(ev.getEmailToIDKey(email))
+	ev.conn.RemoveValue(ev.getIDToDataKey(email, id)) //nolint:errcheck
+	ev.conn.RemoveValue(ev.getEmailToIDKey(email))    //nolint:errcheck
 
 	// Return the fetched value.
 	return data, nil

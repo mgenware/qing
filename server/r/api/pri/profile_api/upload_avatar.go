@@ -73,7 +73,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 
 	form := r.MultipartForm
 	headers := form.File[appdef.FormUploadMain]
-	if headers == nil || len(headers) == 0 {
+	if len(headers) == 0 {
 		resp.MustFailWithCode(errNoHeaderFound)
 		return
 	}

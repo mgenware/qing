@@ -25,13 +25,6 @@ import (
 
 const schemaFileName = "schema.json"
 
-const (
-	testNone = iota
-	testUnit = iota
-	testAPI  = iota
-	testBR   = iota
-)
-
 // Config is the root configuration type for your application.
 type Config struct {
 	// Specifies another file which this file extends from.

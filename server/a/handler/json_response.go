@@ -82,5 +82,8 @@ func (j *JSONResponse) mustWriteData(d *APIResult) {
 		panic(err)
 	}
 	httpx.SetResponseContentType(j.writer, httpx.MIMETypeJSONUTF8)
-	j.writer.Write(bytes)
+	_, err = j.writer.Write(bytes)
+	if err != nil {
+		panic(err)
+	}
 }

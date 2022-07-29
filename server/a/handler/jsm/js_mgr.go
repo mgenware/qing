@@ -7,35 +7,6 @@
 
 package jsm
 
-import (
-	"errors"
-	"fmt"
-	"path/filepath"
-	"qing/a/config/configs"
-)
-
-func match(rootDir string, file string) (string, error) {
-	if file == "" {
-		return "", errors.New("Empty file")
-	}
-
-	glob := filepath.Join(rootDir, file)
-	matches, err := filepath.Glob(glob)
-	if err != nil {
-		return "", err
-	}
-	if len(matches) < 1 {
-		return "", fmt.Errorf("No match on query '%v'", glob)
-	} else if len(matches) > 1 {
-		return "", fmt.Errorf("Ambiguous matches on query '%v'", glob)
-	}
-	rel, err := filepath.Rel(rootDir, matches[0])
-	if err != nil {
-		return "", err
-	}
-	return "/static/" + rel, nil
-}
-
 func scriptTag(src string) string {
 	return "<script src=\"" + src + "\"></script>"
 }
@@ -50,8 +21,7 @@ func langScriptTag(name string) string {
 
 // JSManager manages JS assets.
 type JSManager struct {
-	dev  bool
-	conf *configs.TurboWebConfig
+	dev bool
 
 	// K: name, V: <script> string.
 	entries map[string]string
