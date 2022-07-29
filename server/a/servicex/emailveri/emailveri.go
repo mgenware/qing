@@ -40,8 +40,6 @@ func (ev *EmailVerificator) Add(email, data string) (string, error) {
 	// Check if there is a pending entry for this email.
 	emailToIDKey := ev.getEmailToIDKey(email)
 	pendingID, err := ev.conn.GetStringValue(emailToIDKey)
-
-	// Ignore key not found error.
 	if err != nil {
 		return "", err
 	}
@@ -113,7 +111,7 @@ func (ev *EmailVerificator) createID(email string) (string, error) {
 }
 
 func (ev *EmailVerificator) invalidInputErr(str string) error {
-	return fmt.Errorf("Invalid input \"%v\"", str)
+	return fmt.Errorf("invalid input \"%v\"", str)
 }
 
 func (ev *EmailVerificator) getEmailFromID(id string) (string, error) {

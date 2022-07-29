@@ -8,6 +8,7 @@
 package emailveri
 
 import (
+	"errors"
 	"qing/a/appMS"
 	"testing"
 	"time"
@@ -17,7 +18,7 @@ import (
 
 var (
 	tEmail  = "mgen@_.com"
-	tPrefix = "emailveri-test"
+	tPrefix = "__emailveri-test"
 	tData   = "asd"
 )
 
@@ -29,29 +30,37 @@ func getIDToDataKey(prefix, email, id string) string {
 	return prefix + ":id-to-data:" + email + ":" + id
 }
 
-func mustGetID(v *EmailVerificator, prefix, email string) string {
+func getID(v *EmailVerificator, prefix, email string) (string, error) {
 	key := getEmailToIDKey(prefix, email)
 	id, err := appMS.GetConn().GetStringValue(key)
-	test.PanicIfErr(err)
-	if id == "" {
-		panic("Unexpected empty ID")
+	if err != nil {
+		return "", err
 	}
-	return id
+	if id == "" {
+		return "", errors.New("Unexpected empty ID")
+	}
+	return id, nil
 }
 
 func mustGetStoreValue(t *testing.T, key, expected string) {
 	got, err := appMS.GetConn().GetStringValue(key)
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 	test.Assert(t, got, expected)
 }
 
 func TestAddAndVerify(t *testing.T) {
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3)
-	v.Add(tEmail, tData)
+	_, err := v.Add(tEmail, tData)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	id := mustGetID(v, tPrefix, tEmail)
+	id, err := getID(v, tPrefix, tEmail)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	// Add should add two value to store.
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
@@ -66,7 +75,10 @@ func TestVerifyFailed(t *testing.T) {
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3)
 	v.Add(tEmail, tData)
 
-	id := mustGetID(v, tPrefix, tEmail)
+	id, err := getID(v, tPrefix, tEmail)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	v.Verify("__")
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
@@ -77,7 +89,10 @@ func TestAddAndTimeout(t *testing.T) {
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1)
 	v.Add(tEmail, tData)
 
-	id := mustGetID(v, tPrefix, tEmail)
+	id, err := getID(v, tPrefix, tEmail)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
 	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
