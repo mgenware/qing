@@ -9,7 +9,6 @@ package emailveri
 
 import (
 	"errors"
-	"qing/a/app"
 	"qing/a/appMS"
 	"testing"
 	"time"
@@ -45,24 +44,24 @@ func getID(v *EmailVerificator, prefix, email string) (string, error) {
 
 func mustGetStoreValue(t *testing.T, key, expected string) {
 	got, err := appMS.GetConn().GetStringValue(key)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 	test.Assert(t, got, expected)
 }
 
 func TestAddAndVerify(t *testing.T) {
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	id, err := getID(v, tPrefix, tEmail)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	// Add should add two value to store.
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
 	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
 
 	_, err = v.Verify(id)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), "")
 	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), "")
@@ -71,10 +70,10 @@ func TestAddAndVerify(t *testing.T) {
 func TestVerifyFailed(t *testing.T) {
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	id, err := getID(v, tPrefix, tEmail)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	_, err = v.Verify("__")
 	if err == nil {
@@ -88,10 +87,10 @@ func TestVerifyFailed(t *testing.T) {
 func TestAddAndTimeout(t *testing.T) {
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1*time.Second)
 	_, err := v.Add(tEmail, tData)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	id, err := getID(v, tPrefix, tEmail)
-	app.FatalOn(err, t)
+	test.FatalOn(err, t)
 
 	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
 	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
