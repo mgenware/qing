@@ -10,7 +10,7 @@ import { newUser, curUser } from 'helper/user';
 import { call } from 'api';
 import * as authRoute from '@qing/routes/d/s/pri/auth';
 
-it('Add a post', async () => {
+it('Sign out', async () => {
   await newUser(async (u) => {
     assert.deepStrictEqual(await curUser(), u.id);
     await call(authRoute.signOut, null, null);

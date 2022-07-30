@@ -14,11 +14,17 @@ import (
 
 // Encodes the given integer ID to a string.
 func EncodeID(id uint64) string {
+	if id == 0 {
+		return ""
+	}
 	return strconv.FormatUint(id, 36)
 }
 
 // Decodes the given string ID to an integer.
 func DecodeID(str string) (uint64, error) {
+	if str == "" {
+		return uint64(0), nil
+	}
 	return strconv.ParseUint(str, 36, 64)
 }
 
