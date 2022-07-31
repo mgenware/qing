@@ -10,29 +10,33 @@ package clib
 import (
 	"testing"
 
-	"github.com/mgenware/goutil/test"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestEncodeID(t *testing.T) {
+	assert := assert.New(t)
+
 	// Empty string for 0.
-	test.Assert(t, EncodeID(0), "")
+	assert.Equal(EncodeID(0), "")
 	// 1-9.
-	test.Assert(t, EncodeID(1), "1")
+	assert.Equal(EncodeID(1), "1")
 	// >9
-	test.Assert(t, EncodeID(101), "2t")
+	assert.Equal(EncodeID(101), "2t")
 }
 
 func TestDecodeID(t *testing.T) {
+	assert := assert.New(t)
+
 	// Empty string for 0.
 	v, err := DecodeID("")
-	test.FatalOn(err, t)
-	test.Assert(t, v, uint64(0))
+	assert.Nil(err)
+	assert.Equal(v, uint64(0))
 	// 1-9.
 	v, err = DecodeID("1")
-	test.FatalOn(err, t)
-	test.Assert(t, v, uint64(1))
+	assert.Nil(err)
+	assert.Equal(v, uint64(1))
 	// >9
 	v, err = DecodeID("2t")
-	test.FatalOn(err, t)
-	test.Assert(t, v, uint64(101))
+	assert.Nil(err)
+	assert.Equal(v, uint64(101))
 }

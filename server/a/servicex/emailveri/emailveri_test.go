@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mgenware/goutil/test"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -42,60 +42,66 @@ func getID(v *EmailVerificator, prefix, email string) (string, error) {
 	return id, nil
 }
 
-func mustGetStoreValue(t *testing.T, key, expected string) {
+func mustGetStoreValue(assert *assert.Assertions, key, expected string) {
 	got, err := appMS.GetConn().GetStringValue(key)
-	test.FatalOn(err, t)
-	test.Assert(t, got, expected)
+	assert.Nil(err)
+	assert.Equal(got, expected)
 }
 
 func TestAddAndVerify(t *testing.T) {
+	assert := assert.New(t)
+
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
 	id, err := getID(v, tPrefix, tEmail)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
 	// Add should add two value to store.
-	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
-	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), id)
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
 
 	_, err = v.Verify(id)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
-	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), "")
-	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), "")
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), "")
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), "")
 }
 
 func TestVerifyFailed(t *testing.T) {
+	assert := assert.New(t)
+
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
 	id, err := getID(v, tPrefix, tEmail)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
 	_, err = v.Verify("__")
 	if err == nil {
 		t.Fatal("Expected `Verify` to fail")
 	}
 
-	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
-	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), id)
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
 }
 
 func TestAddAndTimeout(t *testing.T) {
+	assert := assert.New(t)
+
 	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1*time.Second)
 	_, err := v.Add(tEmail, tData)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
 	id, err := getID(v, tPrefix, tEmail)
-	test.FatalOn(err, t)
+	assert.Nil(err)
 
-	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), id)
-	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), tData)
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), id)
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
 
 	time.Sleep(1500 * time.Millisecond)
-	mustGetStoreValue(t, getEmailToIDKey(tPrefix, tEmail), "")
-	mustGetStoreValue(t, getIDToDataKey(tPrefix, tEmail, id), "")
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), "")
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), "")
 }
