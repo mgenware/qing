@@ -16,7 +16,7 @@ export class HFNumber extends BaseElement {
   constructor() {
     super();
 
-    this.formatter = new Intl.NumberFormat(ls._lang, { notation: 'compact' });
+    this.formatter = new Intl.NumberFormat(ls.qingLang, { notation: 'compact' });
   }
 
   override createRenderRoot() {

@@ -21,10 +21,10 @@ import (
 type Dictionary struct {
 	EmailVerifyEmailContent string `json:"emailVerifyEmailContent"`
 	ErrOccurred             string `json:"errOccurred"`
+	QingSiteName            string `json:"qingSiteName"`
+	QingSiteUrl             string `json:"qingSiteURL"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
-	SiteName                string `json:"siteName"`
-	SiteUrl                 string `json:"siteURL"`
 	VerifyYourEmailTitle    string `json:"verifyYourEmailTitle"`
 }
 

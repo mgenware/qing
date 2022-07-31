@@ -35,7 +35,7 @@ export class PageUtils {
   }
 
   setTitle(titles: string[]) {
-    document.title = `${titles.join(' - ')} - ${ls._siteName}`;
+    document.title = `${titles.join(' - ')} - ${ls.qingSiteName}`;
   }
 
   setMainContent(content: TemplateResult) {

@@ -8,8 +8,8 @@
 /* Automatically generated. Do not edit. */
 
 export default interface LSDefs {
-  _siteName: string;
-  _lang: string;
+  qingSiteName: string;
+  qingLang: string;
   profile: string;
   settings: string;
   signIn: string;

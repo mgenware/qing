@@ -69,15 +69,15 @@ func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) string {
 	d.Title = m.PageTitle(lang, d.Title)
 
 	ls := m.locMgr.Dictionary(lang)
-	d.LSSiteName = ls.SiteName
-	d.LSSiteURL = ls.SiteUrl
+	d.LSSiteName = ls.QingSiteName
+	d.LSSiteURL = ls.QingSiteUrl
 
 	return m.mainView.MustExecuteToString(d)
 }
 
 // Unlike the `PageTitle` func in `MainPageManager`, we put site name before content title.
 func (m *EmailPageManager) PageTitle(lang, s string) string {
-	siteName := m.locMgr.Dictionary(lang).SiteName
+	siteName := m.locMgr.Dictionary(lang).QingSiteName
 	if s != "" {
 		return siteName + " - " + s
 	}

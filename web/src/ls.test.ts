@@ -9,7 +9,7 @@ import { expect } from 'dev/t';
 import { ls, formatLS } from './ls';
 
 it('ls', () => {
-  expect(ls._lang).to.eq('en');
+  expect(ls.qingLang).to.eq('en');
 });
 
 it('formatLS', () => {

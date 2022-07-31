@@ -16,9 +16,9 @@ func init() {
 	TestDict = &Dictionary{}
 	TestDict.EmailVerifyEmailContent = "ls.emailVerifyEmailContent"
 	TestDict.ErrOccurred = "ls.errOccurred"
+	TestDict.QingSiteName = "ls.qingSiteName"
+	TestDict.QingSiteUrl = "ls.qingSiteURL"
 	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"
 	TestDict.ResNotFound = "ls.resNotFound"
-	TestDict.SiteName = "ls.siteName"
-	TestDict.SiteUrl = "ls.siteURL"
 	TestDict.VerifyYourEmailTitle = "ls.verifyYourEmailTitle"
 }

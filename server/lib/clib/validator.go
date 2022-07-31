@@ -160,7 +160,8 @@ func MustCastToStringArray(arr []any) []string {
 	return res
 }
 
-func MustGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
+// Unsafe means panics could happen when ID decoding failed.
+func UnsafeGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
 	strArray := MustCastToStringArray(jsonx.GetArray(dict, key))
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
@@ -171,11 +172,15 @@ func MustGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
 			}
 			ids[i] = id
 		}
-		if len(ids) == 0 {
-			panicMissingArg(key)
-		}
 		return ids
 	}
-	panicMissingArg(key)
 	return nil
+}
+
+func MustGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
+	ids := UnsafeGetIDArrayFromDict(dict, key)
+	if len(ids) == 0 {
+		panicMissingArg(key)
+	}
+	return ids
 }

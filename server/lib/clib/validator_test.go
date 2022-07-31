@@ -162,6 +162,13 @@ func TestMustCastToStringArray(t *testing.T) {
 	assert.PanicsWithError("the element `4` is not a string", func() { MustCastToStringArray([]any{"a", 4, "b"}) })
 }
 
+func TestUnsafeGetIDArrayFromDict(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Equal(UnsafeGetIDArrayFromDict(parseJSON("{\"d\":[\"a\",\"b\"]}"), "d"), []uint64{10, 11})
+	assert.PanicsWithError("the element `2` is not a string", func() { UnsafeGetIDArrayFromDict(parseJSON("{\"d\":[\"a\",2,\"b\"]}"), "d") })
+}
+
 func TestMustGetIDArrayFromDict(t *testing.T) {
 	assert := assert.New(t)
 

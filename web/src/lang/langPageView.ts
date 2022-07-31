@@ -36,7 +36,7 @@ export class LangPageView extends BaseElement {
   }
 
   override render() {
-    const curLang = ls._lang;
+    const curLang = ls.qingLang;
     return html`
       <container-view>
         <h2>${ls.langSettings}</h2>
@@ -56,7 +56,7 @@ export class LangPageView extends BaseElement {
   }
 
   private async handleLangChange(t: LangInfo) {
-    const curLang = ls._lang;
+    const curLang = ls.qingLang;
     if (t.ID === curLang) {
       return;
     }

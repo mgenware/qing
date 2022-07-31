@@ -17,7 +17,7 @@ const units = {
   second: 1000,
 };
 
-const rtf = new Intl.RelativeTimeFormat(ls._lang, { numeric: 'auto' });
+const rtf = new Intl.RelativeTimeFormat(ls.qingLang, { numeric: 'auto' });
 
 @customElement('time-field')
 export class TimeField extends BaseElement {

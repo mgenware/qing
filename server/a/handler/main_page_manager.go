@@ -116,8 +116,8 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	// Lang script comes before user scripts.
 	d.Scripts = m.jsMgr.LangScriptString(lang) + d.Scripts
 	ls := m.locMgr.Dictionary(lang)
-	d.LSSiteName = ls.SiteName
-	d.LSSiteURL = ls.SiteUrl
+	d.LSSiteName = ls.QingSiteName
+	d.LSSiteURL = ls.QingSiteUrl
 
 	// Community mode settings.
 	d.AppCommunityMode = int(appSettings.Get().CommunityMode())
@@ -170,7 +170,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *MainPageManager) PageTitle(lang, s string) string {
-	siteName := m.locMgr.Dictionary(lang).SiteName
+	siteName := m.locMgr.Dictionary(lang).QingSiteName
 	if s != "" {
 		return s + " - " + siteName
 	}
