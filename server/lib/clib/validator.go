@@ -25,7 +25,7 @@ type EntityInfo struct {
 
 func panicMissingArg(key string) {
 	// panic with a string for non-fatal errors
-	panic(fmt.Sprintf("The argument `%v` is required", key))
+	panic(fmt.Errorf("the argument `%v` is required", key))
 }
 
 // MustGetUnsafeStringFromDict converts the value for the specified key to string, or panics on error.
@@ -41,7 +41,7 @@ func MustGetUnsafeStringFromDict(dict map[string]any, key string) string {
 func MustGetStringFromDict(dict map[string]any, key string, max int) string {
 	val := MustGetUnsafeStringFromDict(dict, key)
 	if utf8.RuneCountInString(val) > max {
-		panic(fmt.Sprintf("The argument `%v` has exceeded the max length (%v) allowed", key, max))
+		panic(fmt.Errorf("the argument `%v` has exceeded the max length (%v) allowed", key, max))
 	}
 	return val
 }
@@ -56,10 +56,10 @@ func MustGetMinMaxStringFromDict(dict map[string]any, key string, min, max int) 
 	val := MustGetUnsafeStringFromDict(dict, key)
 	length := utf8.RuneCountInString(val)
 	if length > max {
-		panic(fmt.Sprintf("The argument `%v` has exceeded the max allowed length %v", key, max))
+		panic(fmt.Errorf("the argument `%v` has exceeded the max allowed length %v", key, max))
 	}
 	if length < min {
-		panic(fmt.Sprintf("The argument `%v` is less than the required length %v", key, min))
+		panic(fmt.Errorf("the argument `%v` is less than the required length %v", key, min))
 	}
 	return val
 }
@@ -111,19 +111,6 @@ func GetPageParamFromRequestQueryString(r *http.Request) int {
 	return coercePage(page)
 }
 
-// MustToPageOrDefault converts the given page string to a integer.
-func MustToPageOrDefault(s string) int {
-	val, err := strconvx.ParseInt(s)
-	if err != nil {
-		return 1
-	}
-	if val <= 0 {
-		// panic with a string for non-fatal errors
-		panic("The \"page\" argument must be a positive integer")
-	}
-	return val
-}
-
 // GetIDFromDict decodes the specified ID params in dictionary if exists.
 func GetIDFromDict(dict map[string]any, key string) uint64 {
 	val, ok := dict[key].(string)
@@ -132,7 +119,7 @@ func GetIDFromDict(dict map[string]any, key string) uint64 {
 	}
 	id, err := DecodeID(val)
 	if err != nil {
-		panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
+		panic(fmt.Errorf("the value `%v -> %v` is not a valid ID", key, val))
 	}
 	return id
 }

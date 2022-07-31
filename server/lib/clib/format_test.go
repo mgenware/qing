@@ -39,4 +39,7 @@ func TestDecodeID(t *testing.T) {
 	v, err = DecodeID("2t")
 	assert.Nil(err)
 	assert.Equal(v, uint64(101))
+
+	_, err = DecodeID("__")
+	assert.EqualError(err, "strconv.ParseUint: parsing \"__\": invalid syntax")
 }
