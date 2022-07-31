@@ -154,3 +154,17 @@ func TestMustGetEntityInfoFromDict(t *testing.T) {
 	assert.Equal(MustGetEntityInfoFromDict(dict, "d"), EntityInfo{ID: 101, Type: 2})
 	assert.PanicsWithError("the argument `id` is required", func() { MustGetEntityInfoFromDict(map[string]any{"str": "s"}, "__") })
 }
+
+func TestMustCastToStringArray(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Equal(MustCastToStringArray([]any{"a", "b"}), []string{"a", "b"})
+	assert.PanicsWithError("the element `4` is not a string", func() { MustCastToStringArray([]any{"a", 4, "b"}) })
+}
+
+func TestMustGetIDArrayFromDict(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Equal(MustGetIDArrayFromDict(parseJSON("{\"d\":[\"a\",\"b\"]}"), "d"), []uint64{10, 11})
+	assert.PanicsWithError("the element `2` is not a string", func() { MustGetIDArrayFromDict(parseJSON("{\"d\":[\"a\",2,\"b\"]}"), "d") })
+}

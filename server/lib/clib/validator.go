@@ -147,59 +147,27 @@ func MustGetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
 }
 
-func GetArrayFromDict(dict map[string]any, key string) []any {
-	val, ok := dict[key].([]any)
-	if !ok {
-		return nil
-	}
-	return []any(val)
-}
-
-func MustGetArrayFromDict(dict map[string]any, key string) []any {
-	val, ok := dict[key].([]any)
-	if !ok {
-		panicMissingArg(key)
-	}
-	return []any(val)
-}
-
-func MustConvertToStringArray(arr []any) []string {
+// Converts the given []any to a string array. Panics if there's any non-string elements.
+func MustCastToStringArray(arr []any) []string {
 	res := make([]string, len(arr))
 	for i, el := range arr {
 		s, ok := el.(string)
 		if !ok {
-			panic("The argument `%v` is not a string")
+			panic(fmt.Errorf("the element `%v` is not a string", el))
 		}
 		res[i] = s
 	}
 	return res
 }
 
-// Unsafe means it may panic even through it does not start with 'Must'.
-func UnsafeGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
-	strArray := MustConvertToStringArray(GetArrayFromDict(dict, key))
-	if strArray != nil {
-		ids := make([]uint64, len(strArray))
-		for i, idStr := range strArray {
-			id, err := DecodeID(idStr)
-			if err != nil {
-				panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
-			}
-			ids[i] = id
-		}
-		return ids
-	}
-	return nil
-}
-
 func MustGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
-	strArray := MustConvertToStringArray(GetArrayFromDict(dict, key))
+	strArray := MustCastToStringArray(jsonx.GetArray(dict, key))
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {
 			id, err := DecodeID(idStr)
 			if err != nil {
-				panic(fmt.Sprintf("The argument `%v` is not a valid ID", key))
+				panic(fmt.Errorf("the element `%v` is not a valid ID", idStr))
 			}
 			ids[i] = id
 		}
