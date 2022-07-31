@@ -102,7 +102,7 @@ func coercePage(page int) int {
 
 // GetPageParamFromDict returns the page number param from the given dict.
 func GetPageParamFromDict(dict map[string]any) int {
-	return coercePage(jsonx.GetIntOrDefault(dict, appdef.KeyPage))
+	return coercePage(jsonx.GetInt(dict, appdef.KeyPage))
 }
 
 // GetPageParamFromRequestQueryString returns the page number param from the given request.
@@ -136,7 +136,7 @@ func MustGetIDFromDict(dict map[string]any, key string) uint64 {
 func GetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := GetIDFromDict(dict, "id")
-	eType := jsonx.GetIntOrDefault(dict, "type")
+	eType := jsonx.GetInt(dict, "type")
 	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
 }
 

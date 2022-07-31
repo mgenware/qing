@@ -41,7 +41,7 @@ func newUserInfoResult(d *da.UserAGSelectSessionDataResult) authSod.TUserInfo {
 
 func getUIDFromRequest(r *http.Request) uint64 {
 	params := app.ContextDict(r)
-	val := jsonx.GetStringOrDefault(params, "uid")
+	val := jsonx.GetString(params, "uid")
 	if val != "" {
 		uid, err := clib.DecodeID(val)
 		app.PanicOn(err)

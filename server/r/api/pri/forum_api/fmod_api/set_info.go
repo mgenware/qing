@@ -26,7 +26,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	fid := appcom.ContextForumID(r.Context())
 	name := clib.MustGetStringFromDict(params, "name", appdef.LenMaxName)
-	desc := jsonx.GetStringOrDefault(params, "desc")
+	desc := jsonx.GetString(params, "desc")
 
 	db := appDB.DB()
 	err := da.Forum.UpdateInfo(db, fid, name, desc)
