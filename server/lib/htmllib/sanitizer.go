@@ -24,6 +24,6 @@ func NewSanitizer() *Sanitizer {
 
 // Sanitize sanitizes the given input HTML string.
 func (s *Sanitizer) Sanitize(html string) (string, int) {
-	// Return the sanitized content along with a dummy integer as an argument stub for later use
+	// Return the sanitized content along with a dummy integer as an argument stub for later use.
 	return s.policy.Sanitize(html), 0
 }
