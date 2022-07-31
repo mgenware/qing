@@ -24,10 +24,12 @@ function printUsage() {
       $ qing <command> [command arguments]
     Command
       w               Build and watch web files
+      w-lint          Run linting process on web source
       s               Build and start server in containers
       s-ut            Build and start server in containers (unit test mode)
       s-f             Build and start server in containers (force recreation)
       s-l             Build and start server locally
+      s-lint          Run linting process on server source
       conf            Build config files
       da              Build data access layer
       ls              Build localized strings
@@ -80,6 +82,11 @@ function checkMigrationNumber(num: number) {
         break;
       }
 
+      case 'w-lint': {
+        await sp.spawnDZCmd('lint', null, await iou.getProjectDir(webDir));
+        break;
+      }
+
       case 's': {
         await sp.spawnDockerComposeCmd(
           ['up'],
@@ -109,6 +116,11 @@ function checkMigrationNumber(num: number) {
 
       case 's-l': {
         await iou.pipedSpawn('go', ['run', 'main.go', 'dev'], await iou.getProjectDir(serverDir));
+        break;
+      }
+
+      case 's-lint': {
+        await iou.pipedSpawn('golangci-lint', ['run'], await iou.getProjectDir(serverDir));
         break;
       }
 
