@@ -8,15 +8,24 @@
 package iolib
 
 import (
+	"bytes"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestExec(t *testing.T) {
+func TestCopyReaderToFile(t *testing.T) {
 	assert := assert.New(t)
 
-	out, err := Exec("echo", "a", "b")
+	f, err := os.CreateTemp("", "CopyReaderToFile")
 	assert.Nil(err)
-	assert.Equal(out, "a b\n")
+
+	r := bytes.NewReader([]byte{1, 2, 3})
+	CopyReaderToFile(r, f.Name())
+
+	bytes, err := ioutil.ReadFile(f.Name())
+	assert.Nil(err)
+	assert.Equal(bytes, []byte{1, 2, 3})
 }

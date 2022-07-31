@@ -8,7 +8,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/imdario/mergo v0.3.13
 	github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470
-	github.com/mgenware/goutil v1.2.0
+	github.com/mgenware/goutil v1.3.0
 	github.com/mgenware/mingru-go-lib v0.2.1
 	github.com/microcosm-cc/bluemonday v1.0.19
 	github.com/stretchr/testify v1.8.0

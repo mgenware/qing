@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"qing/a/appLog"
-	"qing/lib/iolib"
 	"strconv"
 	"time"
 
@@ -45,7 +44,7 @@ func (mn *MailService) Send(to, content string) (int64, error) {
 		}
 
 		file := filepath.Join(dir, strconv.FormatInt(nsec, 10)) + ".html"
-		err = ioutil.WriteFile(file, []byte(content), iolib.DefaultFileWritePerm)
+		err = ioutil.WriteFile(file, []byte(content), iox.DefaultFilePerm)
 		if err != nil {
 			return 0, err
 		}
