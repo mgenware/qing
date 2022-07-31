@@ -8,15 +8,25 @@
 package clib
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+func parseJSON(s string) map[string]any {
+	var m map[string]any
+	err := json.Unmarshal([]byte(s), &m)
+	if err != nil {
+		panic(err)
+	}
+	return m
+}
+
 func TestMustGetUnsafeStringFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	dict := map[string]any{"int": 1, "str": "s"}
+	dict := parseJSON("{\"int\":1,\"str\":\"s\"}")
 
 	v := MustGetUnsafeStringFromDict(dict, "str")
 	assert.Equal(v, "s")
@@ -28,10 +38,10 @@ func TestMustGetUnsafeStringFromDict(t *testing.T) {
 func TestMustGetStringFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	dict := map[string]any{"int": 1, "str": "123456"}
+	dict := parseJSON("{\"int\":1,\"str\":\"123四五六\"}")
 
 	v := MustGetStringFromDict(dict, "str", 10)
-	assert.Equal(v, "123456")
+	assert.Equal(v, "123四五六")
 
 	assert.PanicsWithError("the argument `int` is required", func() { MustGetStringFromDict(dict, "int", 10) })
 	assert.PanicsWithError("the argument `__` is required", func() { MustGetStringFromDict(dict, "__", 10) })
@@ -41,10 +51,10 @@ func TestMustGetStringFromDict(t *testing.T) {
 func TestMustGetTextFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	dict := map[string]any{"int": 1, "str": "123456"}
+	dict := parseJSON("{\"int\":1,\"str\":\"123四五六\"}")
 
 	v := MustGetTextFromDict(dict, "str")
-	assert.Equal(v, "123456")
+	assert.Equal(v, "123四五六")
 
 	assert.PanicsWithError("the argument `int` is required", func() { MustGetTextFromDict(dict, "int") })
 	assert.PanicsWithError("the argument `__` is required", func() { MustGetTextFromDict(dict, "__") })
@@ -53,7 +63,7 @@ func TestMustGetTextFromDict(t *testing.T) {
 func TestMustGetMinMaxStringFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	dict := map[string]any{"int": 1, "str": "123四五六"}
+	dict := parseJSON("{\"int\":1,\"str\":\"123四五六\"}")
 
 	v := MustGetMinMaxStringFromDict(dict, "str", 3, 10)
 	assert.Equal(v, "123四五六")
@@ -80,8 +90,7 @@ func TestMustGetDictFromDict(t *testing.T) {
 func TestMustGetIntFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	// All number types are encoded as float64.
-	dict := map[string]any{"int": float64(1), "str": "s"}
+	dict := parseJSON("{\"int\":1,\"str\":\"123四五六\"}")
 
 	v := MustGetIntFromDict(dict, "int")
 	assert.Equal(v, 1)
@@ -93,7 +102,7 @@ func TestMustGetIntFromDict(t *testing.T) {
 func TestMustGetUint64FromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	dict := map[string]any{"uint": uint64(1), "str": "s"}
+	dict := parseJSON("{\"int\":1,\"str\":\"123四五六\"}")
 
 	v := MustGetUint64FromDict(dict, "int")
 	assert.Equal(v, uint64(1))
@@ -105,12 +114,10 @@ func TestMustGetUint64FromDict(t *testing.T) {
 func TestGetPageParamFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	dict := map[string]any{"page": 1, "str": "s"}
+	dict := parseJSON("{\"page\":1,\"str\":\"123四五六\"}")
 
 	v := GetPageParamFromDict(dict)
 	assert.Equal(v, 1)
-
-	assert.PanicsWithError("the argument `page` is required", func() { GetPageParamFromDict(map[string]any{"str": "s"}) })
 }
 
 func TestGetIDFromDict(t *testing.T) {
@@ -123,15 +130,27 @@ func TestGetIDFromDict(t *testing.T) {
 	assert.PanicsWithError("the value `i -> __` is not a valid ID", func() { GetIDFromDict(map[string]any{"i": "__"}, "i") })
 }
 
+func TestMustGetIDFromDict(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Equal(MustGetIDFromDict(map[string]any{"i": "1"}, "i"), uint64(1))
+	assert.Equal(MustGetIDFromDict(map[string]any{"i": "2t"}, "i"), uint64(101))
+
+	assert.PanicsWithError("the argument `i` is required", func() { MustGetIDFromDict(map[string]any{"i": ""}, "i") })
+	assert.PanicsWithError("the argument `__` is required", func() { MustGetIDFromDict(map[string]any{"i": ""}, "__") })
+}
+
 func TestGetEntityInfoFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(GetEntityInfoFromDict(map[string]any{"d": map[string]any{"id": "2t", "type": 2}}, "d"), EntityInfo{ID: 101, Type: 2})
+	dict := parseJSON("{\"d\":{\"id\":\"2t\",\"type\":2}}")
+	assert.Equal(GetEntityInfoFromDict(dict, "d"), EntityInfo{ID: 101, Type: 2})
 }
 
 func TestMustGetEntityInfoFromDict(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(MustGetEntityInfoFromDict(map[string]any{"d": map[string]any{"id": "2t", "type": 2}}, "d"), EntityInfo{ID: 101, Type: 2})
-	assert.PanicsWithError("the argument `d` is required", func() { MustGetEntityInfoFromDict(map[string]any{"str": "s"}, "__") })
+	dict := parseJSON("{\"d\":{\"id\":\"2t\",\"type\":2}}")
+	assert.Equal(MustGetEntityInfoFromDict(dict, "d"), EntityInfo{ID: 101, Type: 2})
+	assert.PanicsWithError("the argument `id` is required", func() { MustGetEntityInfoFromDict(map[string]any{"str": "s"}, "__") })
 }

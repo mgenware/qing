@@ -124,6 +124,15 @@ func GetIDFromDict(dict map[string]any, key string) uint64 {
 	return id
 }
 
+// MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.
+func MustGetIDFromDict(dict map[string]any, key string) uint64 {
+	id := GetIDFromDict(dict, key)
+	if id == 0 {
+		panicMissingArg(key)
+	}
+	return id
+}
+
 func GetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := GetIDFromDict(dict, "id")
@@ -136,15 +145,6 @@ func MustGetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	id := MustGetIDFromDict(dict, "id")
 	eType := MustGetIntFromDict(dict, "type")
 	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
-}
-
-// MustGetIDFromDict decodes the specified ID params in dictionary, and panics on error.
-func MustGetIDFromDict(dict map[string]any, key string) uint64 {
-	id := GetIDFromDict(dict, key)
-	if id == 0 {
-		panicMissingArg(key)
-	}
-	return id
 }
 
 func GetArrayFromDict(dict map[string]any, key string) []any {
