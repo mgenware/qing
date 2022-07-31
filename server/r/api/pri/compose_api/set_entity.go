@@ -71,7 +71,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			}
 
 		default:
-			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
+			panic(fmt.Errorf("unsupported entity type %v", entityType))
 		}
 	} else {
 		// Edit an existing entry.
@@ -89,7 +89,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 		default:
-			panic(fmt.Sprintf("Unsupported entity type %v", entityType))
+			panic(fmt.Errorf("unsupported entity type %v", entityType))
 		}
 	}
 

@@ -29,7 +29,7 @@ func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	dbSrc := dbSources[appdef.ContentBaseType(category)]
 
 	if dbSrc == nil {
-		panic(fmt.Sprintf("Unsupported type %v", category))
+		panic(fmt.Errorf("unsupported type %v", category))
 	}
 
 	db := appDB.DB()
@@ -37,7 +37,7 @@ func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicOn(err)
 
 	if currentVal == (value == 1) {
-		panic(fmt.Errorf("Like status mismatch: %v", currentVal))
+		panic(fmt.Errorf("like status mismatch: %v", currentVal))
 	}
 
 	if value == 1 {

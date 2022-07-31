@@ -94,7 +94,7 @@ func (m *MainPageManager) MustCompleteWithContent(content []byte, w http.Respons
 
 func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode int, d *MainPageData, w http.ResponseWriter) {
 	if d == nil {
-		panic("Unexpected nil `MainPageData` in `MainPageManager.MustComplete`")
+		panic(fmt.Errorf("unexpected nil `MainPageData` in `MainPageManager.MustComplete`"))
 	}
 
 	ctx := r.Context()

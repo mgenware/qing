@@ -8,6 +8,7 @@
 package handler
 
 import (
+	"fmt"
 	"path/filepath"
 	"qing/a/config"
 
@@ -56,7 +57,7 @@ func (m *EmailPageManager) LocalizationManager() localization.CoreManager {
 
 func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) string {
 	if d == nil {
-		panic("Unexpected nil `MainPageData` in `EmailPageManager.MustComplete`")
+		panic(fmt.Errorf("unexpected nil `MainPageData` in `EmailPageManager.MustComplete`"))
 	}
 
 	// Ensure lang always has a value.

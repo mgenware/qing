@@ -8,6 +8,7 @@
 package authp
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -24,7 +25,7 @@ import (
 func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	key := chi.URLParam(r, "key")
 	if key == "" {
-		panic("Empty input")
+		panic(fmt.Errorf("empty input"))
 	}
 
 	lang := app.ContextLanguage(r)

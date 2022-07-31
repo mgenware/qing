@@ -9,6 +9,7 @@ package authapi
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -37,7 +38,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 	if uid == 0 {
-		panic("signInPOST: UserID is 0")
+		panic(fmt.Errorf("signInPOST: UserID is 0"))
 	}
 
 	// Verify password.

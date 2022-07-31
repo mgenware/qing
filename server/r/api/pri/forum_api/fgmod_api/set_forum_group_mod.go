@@ -8,6 +8,7 @@
 package fgmodapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -27,14 +28,14 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var err error
 
 	if groupID == 0 {
-		panic("Unexpected empty group ID in setForumGroupMod")
+		panic(fmt.Errorf("unexpected empty group ID in setForumGroupMod"))
 	}
 
 	targetUserID := clib.MustGetIDFromDict(params, "target_user_id")
 	value := clib.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
-		panic("You cannot change moderator status of your own account")
+		panic(fmt.Errorf("you cannot change moderator status of your own account"))
 	}
 
 	if value == 1 {

@@ -8,7 +8,6 @@
 package config
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -153,7 +152,7 @@ func mustValidateConfig(conf *Config, schemaFilePath string) {
 		for _, desc := range result.Errors() {
 			fmt.Printf("- %s\n", desc)
 		}
-		panic(errors.New("Config file validation failed"))
+		panic(fmt.Errorf("config file validation failed"))
 	}
 }
 
@@ -161,7 +160,7 @@ func (conf *Config) mustCoerceConfig(dir string) {
 	if IsUT() {
 		// Test flag is forbidden in production.
 		if conf.ProductionMode() {
-			panic("You cannot have test mode set in production mode")
+			panic(fmt.Errorf("you cannot have test mode set in production mode"))
 		}
 	}
 

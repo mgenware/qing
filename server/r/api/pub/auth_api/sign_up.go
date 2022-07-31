@@ -73,7 +73,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	publicID, err := appService.Get().RegEmailVerificator.Add(email, createUserDataString)
 	if err != nil {
-		panic(fmt.Sprintf("RegEmailVerificator.Add failed: %v", err.Error()))
+		panic(fmt.Errorf("error: RegEmailVerificator.Add failed: %v", err.Error()))
 	}
 	url := appURL.Get().RegEmailVerification(publicID)
 

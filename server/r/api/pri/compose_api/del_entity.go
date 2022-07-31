@@ -46,7 +46,7 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			break
 		}
 	default:
-		panic(fmt.Sprintf("Unsupported entity type %v", entity.Type))
+		panic(fmt.Errorf("unsupported entity type %v", entity.Type))
 	}
 
 	return resp.MustComplete(result)

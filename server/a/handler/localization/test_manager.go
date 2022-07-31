@@ -8,6 +8,7 @@
 package localization
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/config/configs"
 
@@ -31,7 +32,7 @@ func (mgr *TestManager) FallbackLanguage() string {
 
 // LangTags returns language tags.
 func (mgr *TestManager) LangTags() []language.Tag {
-	panic("Not supported")
+	panic(fmt.Errorf("not supported"))
 }
 
 // Dictionary returns the Dictionary associated with the specified language.
@@ -40,5 +41,5 @@ func (mgr *TestManager) Dictionary(lang string) *Dictionary {
 }
 
 func (mgr *TestManager) EnableContextLanguageMW(next http.Handler) http.Handler {
-	panic("Not supported")
+	panic(fmt.Errorf("not supported"))
 }

@@ -8,6 +8,7 @@
 package langp
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/appHandler"
 	"qing/a/handler"
@@ -23,7 +24,7 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	langTags := appHandler.MainPage().LocalizationManager().LangTags()
 	if len(langTags) == 0 {
-		panic("No valid language defined")
+		panic(fmt.Errorf("no valid language defined"))
 	}
 
 	en := display.English.Tags()

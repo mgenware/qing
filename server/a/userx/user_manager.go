@@ -59,7 +59,7 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 
 func (appu *UserManager) TestLogin(uid uint64) {
 	if !config.IsUT() {
-		panic("This func is only available in unit test mode")
+		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 	user, err := appu.createUserSessionFromUID(uid)
 	if err != nil {
@@ -79,12 +79,12 @@ func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
 
 func (appu *UserManager) TestLogout(uid uint64) error {
 	if !config.IsUT() {
-		panic("This func is only available in unit test mode")
+		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 
 	sid := appu.testSIDMap[uid]
 	if sid == "" {
-		panic(fmt.Sprintf("UID %v not found", uid))
+		panic(fmt.Errorf("UID %v not found", uid))
 	}
 	return appu.sessionManager.LogoutCore(uid, sid)
 }

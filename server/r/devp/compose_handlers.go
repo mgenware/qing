@@ -53,7 +53,7 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 			break
 		}
 	default:
-		panic(fmt.Sprintf("Unsupported entity type %v", entityType))
+		panic(fmt.Errorf("unsupported entity type %v", entityType))
 	}
 
 	return resp.MustComplete(nil)

@@ -8,6 +8,7 @@
 package iolib
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -18,13 +19,13 @@ import (
 // given router.
 func AddFileServerHandler(r chi.Router, path string, root http.FileSystem) {
 	if strings.ContainsAny(path, "{}*") {
-		panic("FileServer does not permit URL parameters.")
+		panic(fmt.Errorf("file server does not permit URL parameters"))
 	}
 
 	fs := http.StripPrefix(path, http.FileServer(root))
 
 	if path != "/" && path[len(path)-1] != '/' {
-		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
+		r.Get(path, http.RedirectHandler(path+"/", http.StatusMovedPermanently).ServeHTTP)
 		path += "/"
 	}
 	path += "*"

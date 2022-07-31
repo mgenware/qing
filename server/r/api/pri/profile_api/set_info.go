@@ -8,6 +8,7 @@
 package profileapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -27,7 +28,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	nick := jsonx.GetString(params, "name")
 	if nick == "" {
-		panic("The argument `name` cannot be empty")
+		panic(fmt.Errorf("the argument `name` cannot be empty"))
 	}
 	website := jsonx.GetString(params, "website")
 	company := jsonx.GetString(params, "company")
