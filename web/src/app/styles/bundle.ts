@@ -6,7 +6,7 @@
  */
 
 import libCSS from 'qing-css-base';
-import varsCSS from './styles/varsCSS';
-import appCSS from './styles/appCSS';
+import varsCSS from './styles/vars.css';
+import appCSS from './styles/app.css';
 
 export default [libCSS, varsCSS, appCSS];
