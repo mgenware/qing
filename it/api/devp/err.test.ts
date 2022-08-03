@@ -7,7 +7,7 @@
 
 import { ita } from 'api';
 import * as errRoutes from '@qing/routes/d/dev/err';
-import * as assert from 'node:assert';
+import { expect } from 'expect';
 
 // ----- NOTE: this file only tests error APIs. Page errors are tested in BR tests. -----
 
@@ -17,7 +17,7 @@ ita(
   null,
   null,
   (r) => {
-    assert.deepStrictEqual(r, { code: 10000, msg: 'test error' });
+    expect(r).toEqual({ code: 10000, msg: 'test error' });
   },
   { ignoreAPIError: true },
 );
@@ -28,7 +28,7 @@ ita(
   null,
   null,
   (r) => {
-    assert.deepStrictEqual(r, { code: 10000, msg: '-32' });
+    expect(r).toEqual({ code: 10000, msg: '-32' });
   },
   { ignoreAPIError: true },
 );
@@ -39,7 +39,7 @@ ita(
   null,
   null,
   (r) => {
-    assert.deepStrictEqual(r, { code: 10000, msg: 'test error' });
+    expect(r).toEqual({ code: 10000, msg: 'test error' });
   },
   { ignoreAPIError: true },
 );

@@ -7,7 +7,7 @@
 
 import { errorResults, itaResult, usr, call } from 'api';
 import { imgMain } from '@qing/routes/d/static';
-import * as assert from 'node:assert';
+import { expect } from 'expect';
 import { User } from 'base/call';
 import { newUser } from 'helper/user';
 
@@ -18,7 +18,7 @@ const getAdminsURL = 'admin/admins';
 it('`set-admin` - Visitor', async () => {
   await newUser(async (tu) => {
     const r = await call(url, { target_user_id: tu.id, value: 1 }, null, { ignoreAPIError: true });
-    assert.deepStrictEqual(r, errorResults.notAuthorized);
+    expect(r).toEqual(errorResults.notAuthorized);
   });
 });
 
@@ -28,7 +28,7 @@ it('`set-admin` - User', async () => {
     const r = await call(url, { target_user_id: tu.id, value: 1 }, usr.user, {
       ignoreAPIError: true,
     });
-    assert.deepStrictEqual(r, errorResults.notAuthorized);
+    expect(r).toEqual(errorResults.notAuthorized);
   });
 });
 
@@ -37,13 +37,13 @@ it('`set-admin` - Admin', async () => {
   await newUser(async (tu) => {
     const { id } = tu;
     let r = await call(url, { target_user_id: id, value: 1 }, usr.admin);
-    assert.deepStrictEqual(r, {});
+    expect(r).toEqual({});
 
     // Check status.
     r = await call(getAdminsURL, null, usr.admin);
     let admins = r.d as User[];
     let adminData = admins.find((d) => d.id === id);
-    assert.deepStrictEqual(adminData, {
+    expect(adminData).toEqual({
       id,
       name: 'T',
       url: `/u/${id}`,
@@ -52,13 +52,13 @@ it('`set-admin` - Admin', async () => {
 
     // Remove an admin.
     r = await call(url, { target_user_id: id, value: 0 }, usr.admin);
-    assert.deepStrictEqual(r, {});
+    expect(r).toEqual({});
 
     // Check status.
     r = await call(getAdminsURL, null, usr.admin);
     admins = r.d as User[];
     adminData = admins.find((d) => d.id === id);
-    assert.strictEqual(adminData, undefined);
+    expect(adminData).toBe(undefined);
   });
 });
 

@@ -6,7 +6,7 @@
  */
 
 import { call, APIResult, CallOptions, User, errorResults } from 'base/call';
-import * as assert from 'node:assert';
+import { expect } from 'expect';
 
 // Re-exports.
 export * from 'base/call';
@@ -46,7 +46,7 @@ export function itaResult(
     body,
     user,
     (r) => {
-      assert.deepStrictEqual(r, apiResult);
+      expect(r).toEqual(apiResult);
     },
     callOpt,
   );

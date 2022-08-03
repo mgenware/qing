@@ -6,13 +6,13 @@
  */
 
 import { ita, usr } from 'api';
-import * as assert from 'node:assert';
+import { expect } from 'expect';
 import { userInfo, newUser, curUser } from 'helper/user';
 import { imgMain } from '@qing/routes/d/static';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
-  assert.deepStrictEqual(r, {
+  expect(r).toEqual({
     d: {
       admin: true,
       id: '2t',
@@ -30,18 +30,18 @@ it('Add and remove a user', async () => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
     const ud = { id, iconURL: `${imgMain}/user.svg`, url: `/u/${id}`, name: 'T' };
-    assert.deepStrictEqual(u, ud);
+    expect(u).toEqual(ud);
 
     // Make sure `__/auth/info` also works.
     const rInfo = await userInfo(id);
-    assert.deepStrictEqual(rInfo, { d: ud });
+    expect(rInfo).toEqual({ d: ud });
 
     // Check `__/auth/cur`.
     const curUID = await curUser();
-    assert.deepStrictEqual(curUID, id);
+    expect(curUID).toEqual(id);
   });
   // Check if the user has been removed.
-  assert.ok(id);
+  expect(id).toBeTruthy();
   const nullInfo = await userInfo(id, { ignoreAPIError: true });
-  assert.deepStrictEqual(nullInfo, { code: 10000, msg: 'sql: no rows in result set' });
+  expect(nullInfo).toEqual({ code: 10000, msg: 'sql: no rows in result set' });
 });

@@ -7,7 +7,7 @@
 
 import * as def from 'base/def';
 import { call, usr, itaNotAuthorized, errorResults } from 'api';
-import * as assert from 'node:assert';
+import { expect } from 'expect';
 import { scPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
 import { postCount, newUser } from 'helper/user';
@@ -25,14 +25,14 @@ it('Add a post', async () => {
     const pc = await postCount(u);
     await scPost(u, async ({ id }) => {
       // Post content.
-      assert.deepStrictEqual(await entitySrc(id, appdef.contentBaseTypePost, u), {
+      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
         contentHTML: def.sd.contentHTML,
         title: def.sd.title,
       });
 
       // User post_count.
       const pc2 = await postCount(u);
-      assert.strictEqual(pc + 1, pc2);
+      expect(pc + 1).toBe(pc2);
     });
   });
 });
@@ -46,13 +46,13 @@ it('Edit a post', async () => {
       // Post content.
       const pc = await postCount(u);
       await call(composeRoute.setEntity, { ...entityBody, id }, u);
-      assert.deepStrictEqual(await entitySrc(id, appdef.contentBaseTypePost, u), {
+      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
         contentHTML: def.sd.contentHTML,
         title: def.sd.title,
       });
 
       const pc2 = await postCount(u);
-      assert.strictEqual(pc, pc2);
+      expect(pc).toBe(pc2);
     });
   });
 });
@@ -66,10 +66,10 @@ it('Edit a post with another user', async () => {
       const r = await call(composeRoute.setEntity, { ...entityBody, id }, usr.admin, {
         ignoreAPIError: true,
       });
-      assert.deepStrictEqual(r, errorResults.rowNotUpdated);
+      expect(r).toEqual(errorResults.rowNotUpdated);
 
       const pc2 = await postCount(u);
-      assert.strictEqual(pc, pc2);
+      expect(pc).toBe(pc2);
     });
   });
 });
