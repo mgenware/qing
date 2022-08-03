@@ -50,14 +50,12 @@ export const errorResults = {
 
 export type CallCallback = (r: APIResult) => Promise<unknown>;
 
-export interface CallCoreOptions {
+export interface CallOptions {
   body?: unknown;
   cookies?: string;
   ignoreAPIError?: boolean;
+  respCb?: (resp: Response) => void;
 }
-
-// `cookies` field is used internally to track login status.
-export type CallOptions = Omit<CallCoreOptions, 'cookies'>;
 
 function checkAPISuccess(res: APIResult, url: string) {
   if (res.code) {
@@ -75,7 +73,7 @@ async function apiResultFromResponse(response: Response, url: string) {
 }
 
 // Sends a login request and returns session cookies.
-async function requestLogin(id: string): Promise<string> {
+export async function requestLogin(id: string): Promise<string> {
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const response = await callCore(url, {
@@ -103,7 +101,7 @@ async function requestLogin(id: string): Promise<string> {
 async function callCore(
   url: string,
   body: Record<string, unknown> | null,
-  opt?: CallCoreOptions,
+  opt?: CallOptions,
 ): Promise<Response> {
   // eslint-disable-next-line no-param-reassign
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
@@ -120,20 +118,24 @@ async function callCore(
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
+  opt?.respCb?.(response);
   return response;
 }
 
 // Initiates an API call with the given params.
 // It throws when server returns an error response unless `opt.ignoreAPIError` is set.
+// NOTE: If `user` is specified, `opt.cookies` is no longer used.
 export async function call(
   url: string,
   body: Record<string, unknown> | null,
   user: User | null,
   opt?: CallOptions,
 ): Promise<APIResult> {
-  let cookies = '';
+  let cookies: string | undefined;
   if (user !== null) {
     cookies = await requestLogin(user.id);
+  } else {
+    cookies = opt?.cookies;
   }
   const response = await callCore(url, body, { ...opt, cookies });
   const apiRes = await apiResultFromResponse(response, url);

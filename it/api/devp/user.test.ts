@@ -7,7 +7,7 @@
 
 import { ita, usr } from 'api';
 import { expect } from 'expect';
-import { userInfo, newUser, curUser } from 'helper/user';
+import { userInfo, newUser } from 'helper/user';
 import { imgMain } from '@qing/routes/d/static';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 
@@ -35,10 +35,6 @@ it('Add and remove a user', async () => {
     // Make sure `__/auth/info` also works.
     const rInfo = await userInfo(id);
     expect(rInfo).toEqual({ d: ud });
-
-    // Check `__/auth/cur`.
-    const curUID = await curUser();
-    expect(curUID).toEqual(id);
   });
   // Check if the user has been removed.
   expect(id).toBeTruthy();

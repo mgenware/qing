@@ -32,9 +32,10 @@ async function deleteUser(user: User) {
   await call(apiAuth.del, { uid: user.id }, null);
 }
 
-// Gets the current user ID.
-export async function curUser() {
-  return ((await call(apiAuth.cur, null, null)).d as number) || 0;
+// Gets the current user ID. There is no cookie persistence in API tests. We need to
+// manually append cookies.
+export async function curUser(cookies: string) {
+  return ((await call(apiAuth.cur, null, null, { cookies })).d as number) || 0;
 }
 
 // Returns null if the specified user doesn't exist.
