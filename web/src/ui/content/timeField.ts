@@ -27,13 +27,15 @@ export class TimeField extends BaseElement {
   override render() {
     const { createdAt, modifiedAt } = this;
 
-    let [dateString, date] = this.formatDate(createdAt);
+    const [dateString, date] = this.formatDate(createdAt);
+
+    let finalDateString = dateString;
     if (modifiedAt !== createdAt) {
       const [modDateString] = this.formatDate(modifiedAt);
-      dateString += ` [${ls.editedAt} ${modDateString}]`;
+      finalDateString += ` [${ls.editedAt} ${modDateString}]`;
     }
     return html`<small class="is-secondary" title=${date?.toLocaleString() ?? ''}
-      >${dateString}</small
+      >${finalDateString}</small
     >`;
   }
 
