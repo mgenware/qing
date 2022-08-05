@@ -23,6 +23,7 @@ module.exports = {
     'import/extensions': 'off',
     // Unbound methods are handled by lit.
     '@typescript-eslint/unbound-method': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
   ignorePatterns: ['src/sod'],
 };
