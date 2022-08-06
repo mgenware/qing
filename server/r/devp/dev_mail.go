@@ -11,10 +11,13 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appHandler"
+	"qing/a/appService"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/a/servicex/mailx"
 	"qing/lib/clib"
+
+	"github.com/mgenware/goutil/jsonx"
 )
 
 func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -22,8 +25,22 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+	idx := jsonx.GetInt(params, "idx")
 
-	devMail, err := mailx.GetDevMail(email, 0)
+	devMail, err := mailx.GetDevMail(email, idx)
 	app.PanicOn(err)
 	return resp.MustComplete(devMail)
+}
+
+func sendMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+
+	params := app.ContextDict(r)
+	to := clib.MustGetStringFromDict(params, "to", appdef.LenMaxGenericString)
+	title := clib.MustGetStringFromDict(params, "title", appdef.LenMaxGenericString)
+	content := clib.MustGetTextFromDict(params, "content")
+
+	_, err := appService.Get().MailService.Send(to, title, content)
+	app.PanicOn(err)
+	return resp.MustComplete(nil)
 }

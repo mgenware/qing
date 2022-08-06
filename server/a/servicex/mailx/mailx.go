@@ -41,7 +41,7 @@ func (mn *MailService) Send(to, title, content string) (int64, error) {
 			return 0, err
 		}
 
-		timeStr := time.Now().Format(time.RFC3339)
+		timeStr := time.Now().Format(time.RFC3339Nano)
 		curDir := filepath.Join(toDir, timeStr)
 		err = iox.Mkdirp(curDir)
 		if err != nil {

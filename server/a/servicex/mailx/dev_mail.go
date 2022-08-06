@@ -33,7 +33,8 @@ func GetDevMail(user string, idx int) (*DevMail, error) {
 	if err != nil {
 		return nil, err
 	}
-	mailDir := mails[idx].Name()
+	mailDirName := mails[idx].Name()
+	mailDir := filepath.Join(userDir, mailDirName)
 
 	titleFile := filepath.Join(mailDir, devTitleFile)
 	contentFile := filepath.Join(mailDir, devContentFile)
