@@ -55,7 +55,7 @@ func (m *EmailPageManager) LocalizationManager() localization.CoreManager {
 	return m.locMgr
 }
 
-func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) string {
+func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) (string, string) {
 	if d == nil {
 		panic(fmt.Errorf("unexpected nil `MainPageData` in `EmailPageManager.MustComplete`"))
 	}
@@ -72,7 +72,7 @@ func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) string {
 	d.LSSiteName = ls.QingSiteName
 	d.LSSiteURL = ls.QingSiteUrl
 
-	return m.mainView.MustExecuteToString(d)
+	return m.mainView.MustExecuteToString(d), d.Title
 }
 
 // Unlike the `PageTitle` func in `MainPageManager`, we put site name before content title.

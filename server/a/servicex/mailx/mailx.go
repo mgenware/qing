@@ -11,12 +11,13 @@ import (
 	"errors"
 	"io/ioutil"
 	"path/filepath"
-	"qing/a/appLog"
-	"strconv"
 	"time"
 
 	"github.com/mgenware/goutil/iox"
 )
+
+const devTitleFile = "title.txt"
+const devContentFile = "content.html"
 
 type MailService struct {
 	devDir string
@@ -28,27 +29,37 @@ func NewMailService(devDir string) *MailService {
 	return ret
 }
 
-func (mn *MailService) Send(to, content string) (int64, error) {
+func (mn *MailService) Send(to, title, content string) (int64, error) {
 	if to == "" {
 		return 0, errors.New("empty \"to\" field in mail-send")
 	}
-	// Ddv mode?
+	// Write to file system in dev mode.
 	if mn.devDir != "" {
-		now := time.Now()
-		nsec := now.UnixNano()
-
-		dir := filepath.Join(mn.devDir, to)
-		err := iox.Mkdirp(dir)
+		toDir := filepath.Join(mn.devDir, to)
+		err := iox.Mkdirp(toDir)
 		if err != nil {
 			return 0, err
 		}
 
-		file := filepath.Join(dir, strconv.FormatInt(nsec, 10)) + ".html"
-		err = ioutil.WriteFile(file, []byte(content), iox.DefaultFilePerm)
+		timeStr := time.Now().Format(time.RFC3339)
+		curDir := filepath.Join(toDir, timeStr)
+		err = iox.Mkdirp(curDir)
 		if err != nil {
 			return 0, err
 		}
-		appLog.Get().Info("mail.sent", "to", to)
+
+		titleFile := filepath.Join(curDir, devTitleFile)
+		contentFile := filepath.Join(curDir, devContentFile)
+
+		err = ioutil.WriteFile(titleFile, []byte(title), iox.DefaultFilePerm)
+		if err != nil {
+			return 0, err
+		}
+
+		err = ioutil.WriteFile(contentFile, []byte(content), iox.DefaultFilePerm)
+		if err != nil {
+			return 0, err
+		}
 	}
 	return 0, nil
 }

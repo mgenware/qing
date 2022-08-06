@@ -88,9 +88,9 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentHTML := vEmailVeriView.MustExecuteToString(d)
 
 	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.EmailVerifyEmailContent, contentHTML)
-	pageHTML := appHandler.EmailPage().MustComplete(lang, &pageData)
+	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
-	_, err = appService.Get().MailService.Send(email, pageHTML)
+	_, err = appService.Get().MailService.Send(email, pageTitle, pageHTML)
 	app.PanicOn(err)
 
 	return resp.MustComplete(nil)

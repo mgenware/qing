@@ -59,6 +59,11 @@ func apiRouter() *handler.JSONRouter {
 	composeRouter.Post("/set-debug-time", setDebugTime)
 	r.Mount("/compose", composeRouter)
 
+	// Mail router
+	mailRouter := handler.NewJSONRouter()
+	mailRouter.Post("/get", getDevMail)
+	r.Mount("/mail", mailRouter)
+
 	return r
 }
 

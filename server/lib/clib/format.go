@@ -28,7 +28,7 @@ func DecodeID(str string) (uint64, error) {
 	return strconv.ParseUint(str, 36, 64)
 }
 
-// Formats the given time to RFC3339 formart.
+// Formats the given time to RFC3339 format.
 func TimeString(t time.Time) string {
 	return t.Format(time.RFC3339)
 }
