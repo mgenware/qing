@@ -30,9 +30,8 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	lang := app.ContextLanguage(r)
 	dataString, err := appService.Get().RegEmailVerificator.Verify(key)
-	if err != nil {
-		panic(err.Error())
-	}
+	app.PanicOn(err)
+
 	if dataString == "" {
 		// Expired
 		panic(appHandler.MainPage().Dictionary(lang).RegEmailVeriExpired)
@@ -47,6 +46,6 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicOn(err)
 
 	userURL := appURL.Get().UserProfile(uid)
-	http.Redirect(w, r, userURL, 302)
+	http.Redirect(w, r, userURL, http.StatusFound)
 	return handler.HTML(0)
 }

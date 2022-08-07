@@ -11,6 +11,10 @@ import fetch, { Response } from 'node-fetch';
 
 const emptyCookieErr = 'Unexpected empty cookies from login API';
 
+function getSetCookies(resp: Response) {
+  return resp.headers.raw()['set-cookie'];
+}
+
 // The result of an API call.
 export interface APIResult {
   code?: number;
@@ -54,6 +58,7 @@ export interface APIOptions {
   body?: unknown;
   cookies?: string;
   respCb?: (resp: Response) => void;
+  setCookiesCb?: (cookies: string[] | undefined) => void;
 }
 
 function checkAPISuccess(res: APIResult, url: string) {
@@ -82,7 +87,7 @@ export async function requestLogin(id: string): Promise<string> {
   const res = await apiResultFromResponse(response, url);
   checkAPISuccess(res, url);
 
-  const cookies = response.headers.raw()['set-cookie'];
+  const cookies = getSetCookies(response);
   if (!cookies) {
     throw new Error(emptyCookieErr);
   }
@@ -118,6 +123,9 @@ async function startFetch(
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
   opt?.respCb?.(response);
+  if (opt?.setCookiesCb) {
+    opt.setCookiesCb(getSetCookies(response));
+  }
   return response;
 }
 
@@ -126,11 +134,11 @@ async function startFetch(
 export async function apiRaw(
   url: string,
   body: Record<string, unknown> | null,
-  user: User | null,
+  user?: User | null,
   opt?: APIOptions,
 ): Promise<APIResult> {
   let cookies: string | undefined;
-  if (user !== null) {
+  if (user) {
     cookies = await requestLogin(user.id);
   } else {
     cookies = opt?.cookies;
@@ -142,7 +150,7 @@ export async function apiRaw(
 export async function api<T = null>(
   url: string,
   body: Record<string, unknown> | null,
-  user: User | null,
+  user?: User | null,
   opt?: APIOptions,
 ): Promise<T> {
   const res = await apiRaw(url, body, user, opt);

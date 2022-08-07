@@ -7,6 +7,8 @@
 
 import { parse } from 'node-html-parser';
 
+const mainElSel = '#main';
+
 export interface MailResponse {
   title: string;
   content: string;
@@ -15,6 +17,11 @@ export interface MailResponse {
 // Extracts mail content HTML from page HTML.
 export function getMailContentHTML(page: string) {
   const root = parse(page);
-  const mainEl = root.querySelector('#main');
+  const mainEl = root.querySelector(mainElSel);
   return (mainEl?.innerHTML ?? '').trim();
+}
+
+export function getMailContentElement(page: string) {
+  const root = parse(page);
+  return root.querySelector(mainElSel);
 }

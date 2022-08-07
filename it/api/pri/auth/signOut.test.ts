@@ -20,11 +20,13 @@ it('Sign out', async () => {
     const cookies = await requestLogin(u.id);
     expect(await curUser(cookies)).toBe(u.id);
 
-    let signOutResp: Response | undefined;
-    await api(authRoute.signOut, null, null, { cookies, respCb: (resp) => (signOutResp = resp) });
+    let signOutCookies: string[] | undefined;
+    await api(authRoute.signOut, null, null, {
+      cookies,
+      setCookiesCb: (s) => (signOutCookies = s),
+    });
 
-    const signOutCookie = signOutResp?.headers.raw()['set-cookie']?.[0];
-    expect(signOutCookie).toBeTruthy();
+    expect(signOutCookies).toBeTruthy();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const cookieData = cookie.parse(signOutCookie!);
     expect(cookieData).toBeTruthy();

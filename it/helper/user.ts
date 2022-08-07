@@ -50,5 +50,5 @@ export async function newUser(cb: (u: User) => Promise<void>) {
 }
 
 export function postCount(user: User): Promise<number> {
-  return api<number>(apiUser.postCount, { uid: user.id }, null);
+  return api<number>(apiUser.postCount, { uid: user.id });
 }
