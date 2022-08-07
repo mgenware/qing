@@ -11,6 +11,7 @@ type EmailPageData struct {
 	Title       string
 	PreviewText string
 	ContentHTML string
+	AppLang     string
 
 	LSSiteName string
 	LSSiteURL  string
