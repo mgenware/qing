@@ -65,23 +65,13 @@ func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) (string, 
 		lang = m.locMgr.FallbackLanguage()
 	}
 
-	// Add site name to title.
-	d.Title = m.PageTitle(lang, d.Title)
+	d.AppLang = lang
 
 	ls := m.locMgr.Dictionary(lang)
 	d.LSSiteName = ls.QingSiteName
 	d.LSSiteURL = ls.QingSiteUrl
 
 	return m.mainView.MustExecuteToString(d), d.Title
-}
-
-// Unlike the `PageTitle` func in `MainPageManager`, we put site name before content title.
-func (m *EmailPageManager) PageTitle(lang, s string) string {
-	siteName := m.locMgr.Dictionary(lang).QingSiteName
-	if s != "" {
-		return siteName + " - " + s
-	}
-	return siteName
 }
 
 // MustParseView creates a new View with the given relative path.
