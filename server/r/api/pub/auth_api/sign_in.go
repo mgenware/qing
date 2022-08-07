@@ -59,10 +59,8 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	err = appUserManager.Get().Login(uid, w, r)
-	if err != nil {
-		panic(err.Error())
-	}
+	app.PanicOn(err)
 
-	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/", http.StatusFound)
 	return handler.JSON(0)
 }
