@@ -8,20 +8,20 @@
 import { expect } from 'expect';
 import cookie from 'cookie';
 import { newUser, curUser } from 'helper/user';
-import { call, requestLogin } from 'api';
+import { api, requestLogin } from 'api';
 import * as authRoute from '@qing/routes/d/s/pri/auth';
 import { Response } from 'node-fetch';
 
 it('Sign out', async () => {
   await newUser(async (u) => {
     // No user is logged in initially.
-    expect(await curUser('')).toBe(0);
+    expect(await curUser('')).toBe('');
     // Log in.
     const cookies = await requestLogin(u.id);
     expect(await curUser(cookies)).toBe(u.id);
 
     let signOutResp: Response | undefined;
-    await call(authRoute.signOut, null, null, { cookies, respCb: (resp) => (signOutResp = resp) });
+    await api(authRoute.signOut, null, null, { cookies, respCb: (resp) => (signOutResp = resp) });
 
     const signOutCookie = signOutResp?.headers.raw()['set-cookie']?.[0];
     expect(signOutCookie).toBeTruthy();

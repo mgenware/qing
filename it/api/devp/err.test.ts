@@ -5,41 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { ita } from 'api';
+import { itaResultRaw } from 'api';
 import * as errRoutes from '@qing/routes/d/dev/err';
-import { expect } from 'expect';
 
 // ----- NOTE: this file only tests error APIs. Page errors are tested in BR tests. -----
 
-ita(
-  '`panicErrAPI`',
-  errRoutes.panicErrAPI,
-  null,
-  null,
-  (r) => {
-    expect(r).toEqual({ code: 10000, msg: 'test error' });
-  },
-  { ignoreAPIError: true },
-);
+itaResultRaw('`panicErrAPI`', errRoutes.panicErrAPI, null, null, {
+  code: 10000,
+  msg: 'test error',
+});
 
-ita(
-  '`panicObjAPI`',
-  errRoutes.panicObjAPI,
-  null,
-  null,
-  (r) => {
-    expect(r).toEqual({ code: 10000, msg: '-32' });
-  },
-  { ignoreAPIError: true },
-);
+itaResultRaw('`panicObjAPI`', errRoutes.panicObjAPI, null, null, { code: 10000, msg: '-32' });
 
-ita(
-  '`failAPI`',
-  errRoutes.failAPI,
-  null,
-  null,
-  (r) => {
-    expect(r).toEqual({ code: 10000, msg: 'test error' });
-  },
-  { ignoreAPIError: true },
-);
+itaResultRaw('`failAPI`', errRoutes.failAPI, null, null, { code: 10000, msg: 'test error' });

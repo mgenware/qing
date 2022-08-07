@@ -7,13 +7,13 @@
  */
 
 import * as pw from '@playwright/test';
-import { User } from 'base/call';
+import { User } from 'base/api';
 import * as authRoute from '@qing/routes/d/dev/auth';
 import { serverURL } from 'base/def';
 import { expect } from '@playwright/test';
 
 export { expect, Expect, test } from '@playwright/test';
-export { usr, call, User } from 'base/call';
+export { usr, api, User } from 'base/api';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 

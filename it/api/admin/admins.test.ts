@@ -13,8 +13,7 @@ itaNotAuthorized('`admins` - Visitor', adminRoute.admins, null);
 
 itaNotAuthorized('`admins` - User', adminRoute.admins, usr.user);
 
-ita('`admins` - Admin', adminRoute.admins, null, usr.admin, (r) => {
-  const list = r.d as User[];
+ita<User[]>('`admins` - Admin', adminRoute.admins, null, usr.admin, (list) => {
   const item = list.find((d) => d.id === usr.admin.id);
   expect(item).toEqual(usr.admin);
 });

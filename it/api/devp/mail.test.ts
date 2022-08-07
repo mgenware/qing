@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { call } from 'api';
+import { api } from 'api';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
-import * as apiMail from '@qing/routes/d/dev/api/mail';
+import * as mailAPI from '@qing/routes/d/dev/api/mail';
 
 interface EmailRes {
   title: string;
@@ -21,8 +21,8 @@ it('Send mail and getDevMail', async () => {
   for (let i = 0; i < 3; i++) {
     // These mails must be sent sequentially.
     // eslint-disable-next-line no-await-in-loop
-    await call(
-      apiMail.send,
+    await api(
+      mailAPI.send,
       { to: email, title: `TITLE ${i + 1}`, content: `CONTENT ${i + 1}` },
       null,
     );
@@ -30,13 +30,12 @@ it('Send mail and getDevMail', async () => {
 
   for (let i = 0; i < 3; i++) {
     // eslint-disable-next-line no-await-in-loop
-    const apiRes = await call(apiMail.get, { email, idx: i }, null);
-    const d = apiRes.d as EmailRes;
+    const d = await api<EmailRes>(mailAPI.get, { email, idx: i }, null);
     expect(d).toEqual({
       title: `TITLE ${i + 1}`,
       content: `CONTENT ${i + 1}`,
     });
   }
 
-  await call(apiMail.eraseUser, { email }, null);
+  await api(mailAPI.eraseUser, { email }, null);
 });

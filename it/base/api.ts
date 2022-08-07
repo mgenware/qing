@@ -14,7 +14,7 @@ const emptyCookieErr = 'Unexpected empty cookies from login API';
 // The result of an API call.
 export interface APIResult {
   code?: number;
-  message?: string;
+  msg?: string;
   d?: unknown;
 }
 
@@ -48,12 +48,11 @@ export const errorResults = {
   resNotFound: { code: errorCodes.resNotFound, msg: 'Resource not found' },
 };
 
-export type CallCallback = (r: APIResult) => Promise<unknown>;
+export type APICallback = (r: APIResult) => Promise<unknown>;
 
-export interface CallOptions {
+export interface APIOptions {
   body?: unknown;
   cookies?: string;
-  ignoreAPIError?: boolean;
   respCb?: (resp: Response) => void;
 }
 
@@ -76,7 +75,7 @@ async function apiResultFromResponse(response: Response, url: string) {
 export async function requestLogin(id: string): Promise<string> {
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const response = await callCore(url, {
+  const response = await startFetch(url, {
     uid: id,
   });
 
@@ -98,10 +97,10 @@ export async function requestLogin(id: string): Promise<string> {
 }
 
 // Wrapper around a node-fetch POST request.
-async function callCore(
+async function startFetch(
   url: string,
   body: Record<string, unknown> | null,
-  opt?: CallOptions,
+  opt?: APIOptions,
 ): Promise<Response> {
   // eslint-disable-next-line no-param-reassign
   url = url.charAt(0) === '/' ? url : `/s/${url}`;
@@ -123,13 +122,12 @@ async function callCore(
 }
 
 // Initiates an API call with the given params.
-// It throws when server returns an error response unless `opt.ignoreAPIError` is set.
 // NOTE: If `user` is specified, `opt.cookies` is no longer used.
-export async function call(
+export async function apiRaw(
   url: string,
   body: Record<string, unknown> | null,
   user: User | null,
-  opt?: CallOptions,
+  opt?: APIOptions,
 ): Promise<APIResult> {
   let cookies: string | undefined;
   if (user !== null) {
@@ -137,10 +135,17 @@ export async function call(
   } else {
     cookies = opt?.cookies;
   }
-  const response = await callCore(url, body, { ...opt, cookies });
-  const apiRes = await apiResultFromResponse(response, url);
-  if (!opt?.ignoreAPIError) {
-    checkAPISuccess(apiRes, url);
-  }
-  return apiRes;
+  const response = await startFetch(url, body, { ...opt, cookies });
+  return apiResultFromResponse(response, url);
+}
+
+export async function api<T = null>(
+  url: string,
+  body: Record<string, unknown> | null,
+  user: User | null,
+  opt?: APIOptions,
+): Promise<T> {
+  const res = await apiRaw(url, body, user, opt);
+  checkAPISuccess(res, url);
+  return res.d as T;
 }

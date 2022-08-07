@@ -8,6 +8,7 @@
 package devp
 
 import (
+	"database/sql"
 	"net/http"
 
 	"qing/a/app"
@@ -33,10 +34,14 @@ type UserInfo struct {
 	Name     string `json:"name,omitempty"`
 }
 
-func newUserInfoResult(d *da.UserAGSelectSessionDataResult) authSod.TUserInfo {
-	return authSod.NewTUserInfo(
+func newUserInfoResult(d *da.UserAGSelectSessionDataResult) *authSod.TUserInfo {
+	if d == nil {
+		return nil
+	}
+	res := authSod.NewTUserInfo(
 		d.Admin, clib.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
 	)
+	return &res
 }
 
 func getUIDFromRequest(r *http.Request) uint64 {
@@ -107,8 +112,11 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func getDBUserInfo(uid uint64) authSod.TUserInfo {
+func getDBUserInfo(uid uint64) *authSod.TUserInfo {
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
+	if err == sql.ErrNoRows {
+		return newUserInfoResult(nil)
+	}
 	app.PanicOn(err)
 	return newUserInfoResult(&us)
 }

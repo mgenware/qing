@@ -5,42 +5,52 @@
  * be found in the LICENSE file.
  */
 
-import { call, APIResult, CallOptions, User, errorResults } from 'base/call';
+import { api, apiRaw, APIResult, APIOptions, User, errorResults } from 'base/api';
 import { expect } from 'expect';
 
 // Re-exports.
-export * from 'base/call';
+export * from 'base/api';
 
-// `it` for APIs (aka `ita`).
-export function ita(
+export function itaRaw(
   name: string,
   url: string,
   body: Record<string, unknown> | null,
   user: User | null,
   handler: (d: APIResult) => Promise<void> | void,
-  callOpt?: CallOptions,
+  callOpt?: APIOptions,
 ) {
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   it(name, async () => {
-    const d = await call(url, body, user, callOpt);
+    const d = await apiRaw(url, body, user, callOpt);
     return handler(d);
   });
 }
 
-// Calls `ita` and checks API results.
-export function itaResult(
+export function ita<T>(
+  name: string,
+  url: string,
+  body: Record<string, unknown> | null,
+  user: User | null,
+  handler: (d: T) => Promise<void> | void,
+  callOpt?: APIOptions,
+) {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  it(name, async () => {
+    const d = await api<T>(url, body, user, callOpt);
+    return handler(d);
+  });
+}
+
+// Calls `itaRaw` and checks API results.
+export function itaResultRaw(
   name: string,
   url: string,
   body: Record<string, unknown> | null,
   user: User | null,
   apiResult: APIResult,
-  callOpt?: CallOptions,
+  callOpt?: APIOptions,
 ) {
-  // eslint-disable-next-line no-param-reassign
-  callOpt ??= {};
-  // eslint-disable-next-line no-param-reassign
-  callOpt.ignoreAPIError = true;
-  return ita(
+  return itaRaw(
     name,
     url,
     body,
@@ -52,12 +62,33 @@ export function itaResult(
   );
 }
 
+// Calls `ita` and checks API results.
+export function itaResult<T>(
+  name: string,
+  url: string,
+  body: Record<string, unknown> | null,
+  user: User | null,
+  result: T,
+  callOpt?: APIOptions,
+) {
+  return ita<T>(
+    name,
+    url,
+    body,
+    user,
+    (r) => {
+      expect(r).toEqual(result);
+    },
+    callOpt,
+  );
+}
+
 // Calls `itaResult` and checks the result is `errorResults.notAuthorized`.
 export function itaNotAuthorized(
   name: string,
   url: string,
   user: User | null,
-  callOpt?: CallOptions,
+  callOpt?: APIOptions,
 ) {
-  return itaResult(name, url, null, user, errorResults.notAuthorized, callOpt);
+  return itaResultRaw(name, url, null, user, errorResults.notAuthorized, callOpt);
 }

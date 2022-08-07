@@ -11,7 +11,7 @@ import { appdef } from '@qing/def';
 import { ComposerContent } from 'ui/editor/composerView';
 import appPageState from 'app/appPageState';
 
-export class SetEntityLoader extends Loader<string> {
+export class SetEntityLoader extends Loader<string | null> {
   constructor(
     public id: string | null,
     public content: ComposerContent,

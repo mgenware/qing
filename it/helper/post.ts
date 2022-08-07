@@ -6,7 +6,7 @@
  */
 
 import * as def from 'base/def';
-import { APIResult, User } from 'api';
+import { User } from 'api';
 import * as entityUtil from './entity';
 import { appdef } from '@qing/def';
 
@@ -16,11 +16,11 @@ const entityBody = {
   content: { contentHTML: def.sd.contentHTML, title: def.sd.title },
 };
 
-export function verifyNewPostAPIResult(r: APIResult): string {
-  if (typeof r.d !== 'string') {
-    throw new Error(`Unexpected API result: ${JSON.stringify(r)}`);
+export function verifyNewPostAPIResult(r: string | null): string {
+  if (!r) {
+    throw new Error(`Unexpected null ID`);
   }
-  const id = postIDRegex.exec(r.d)?.[1];
+  const id = postIDRegex.exec(r)?.[1];
   if (typeof id === 'string') {
     return id;
   }

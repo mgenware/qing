@@ -6,7 +6,7 @@
  */
 
 import * as def from 'base/def';
-import { call, usr, itaNotAuthorized, errorResults } from 'api';
+import { apiRaw, api, usr, itaNotAuthorized, errorResults } from 'api';
 import { expect } from 'expect';
 import { scPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
@@ -45,7 +45,7 @@ it('Edit a post', async () => {
     await scPost(u, async ({ id }) => {
       // Post content.
       const pc = await postCount(u);
-      await call(composeRoute.setEntity, { ...entityBody, id }, u);
+      await api(composeRoute.setEntity, { ...entityBody, id }, u);
       expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
         contentHTML: def.sd.contentHTML,
         title: def.sd.title,
@@ -63,9 +63,7 @@ it('Edit a post with another user', async () => {
     await scPost(u, async ({ id }) => {
       // Post content.
       const pc = await postCount(u);
-      const r = await call(composeRoute.setEntity, { ...entityBody, id }, usr.admin, {
-        ignoreAPIError: true,
-      });
+      const r = await apiRaw(composeRoute.setEntity, { ...entityBody, id }, usr.admin);
       expect(r).toEqual(errorResults.rowNotUpdated);
 
       const pc2 = await postCount(u);
