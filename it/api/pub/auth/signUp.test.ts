@@ -38,13 +38,8 @@ ita(
     const mail = await api<ml.MailResponse>(mailAPI.get, { email: newEmail }, null);
     expect(mail.title).toBe('Verify your email');
 
-    // Email content contains randomly generated URLs, use `startsWith` instead of `equals`.
-    expect(
-      ml
-        .getMailContentHTML(mail.content)
-        .startsWith(
-          '<p>Click the link below to complete the registration process.</p>\n<p><a href="/auth/verify-reg-email/',
-        ),
-    ).toBeTruthy();
+    expect(ml.getMailContentHTML(mail.content)).toMatch(
+      /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/.*?" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/,
+    );
   },
 );

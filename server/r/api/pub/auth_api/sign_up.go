@@ -75,11 +75,11 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if err != nil {
 		panic(fmt.Errorf("error: RegEmailVerificator.Add failed: %v", err.Error()))
 	}
-	url := appURL.Get().RegEmailVerification(publicID)
 
 	ctx := r.Context()
 	lang := appcom.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
+	url := appURL.Get().RegEmailVerification(ls.QingSiteUrl, publicID)
 
 	d := EmailVerificationData{
 		MainText: ls.EmailVerifyEmailContent,
