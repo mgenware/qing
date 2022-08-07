@@ -63,6 +63,7 @@ func apiRouter() *handler.JSONRouter {
 	mailRouter := handler.NewJSONRouter()
 	mailRouter.Post("/get", getDevMail)
 	mailRouter.Post("/send", sendMail)
+	mailRouter.Post("/erase-user", eraseUser)
 	r.Mount("/mail", mailRouter)
 
 	return r

@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/app"
+	"qing/a/config/configs"
 
 	"github.com/mgenware/goutil/iox"
 )
@@ -21,13 +22,21 @@ type DevMail struct {
 	Content string `json:"content,omitempty"`
 }
 
-func GetDevMail(user string, idx int) (*DevMail, error) {
+func getDevConfig() (*configs.MailBoxConfig, error) {
 	conf := app.CoreConfig()
 	if conf.Dev == nil {
 		return nil, errors.New("`ViewInboxDev` can only run in dev mode")
 	}
+	return conf.Dev.MailBox, nil
+}
 
-	devDir := conf.Dev.MailBox.Dir
+func GetDevMail(user string, idx int) (*DevMail, error) {
+	conf, err := getDevConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	devDir := conf.Dir
 	userDir := filepath.Join(devDir, user)
 	mails, err := os.ReadDir(userDir)
 	if err != nil {
@@ -49,4 +58,15 @@ func GetDevMail(user string, idx int) (*DevMail, error) {
 		return nil, err
 	}
 	return &DevMail{Title: title, Content: content}, nil
+}
+
+func EraseUser(user string) error {
+	conf, err := getDevConfig()
+	if err != nil {
+		return err
+	}
+
+	devDir := conf.Dir
+	userDir := filepath.Join(devDir, user)
+	return os.RemoveAll(userDir)
 }

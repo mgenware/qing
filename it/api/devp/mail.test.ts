@@ -37,4 +37,6 @@ it('Send mail and getDevMail', async () => {
       content: `CONTENT ${i + 1}`,
     });
   }
+
+  await call(apiMail.eraseUser, { email }, null);
 });

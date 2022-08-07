@@ -44,3 +44,14 @@ func sendMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }
+
+func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+
+	params := app.ContextDict(r)
+	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+
+	err := mailx.EraseUser(email)
+	app.PanicOn(err)
+	return resp.MustComplete(nil)
+}

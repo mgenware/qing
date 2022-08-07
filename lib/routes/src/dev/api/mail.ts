@@ -11,3 +11,4 @@ const user = `${root}/mail`;
 
 export const get = `${user}/get`;
 export const send = `${user}/send`;
+export const eraseUser = `${user}/erase-user`;
