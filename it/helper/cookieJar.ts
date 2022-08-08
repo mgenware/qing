@@ -22,9 +22,19 @@ export default class CookieJar {
     Object.assign(this.#cookies, cookies);
   }
 
+  cookiesMap(): Record<string, string> {
+    const res: Record<string, string> = {};
+    Object.entries(this.#cookies).forEach(([k, v]) => (res[k] = v.value));
+    return res;
+  }
+
   cookies() {
     return Object.entries(this.#cookies)
       .map(([k, v]) => Cookie.serialize(k, v.value))
       .join(';');
+  }
+
+  get(key: string) {
+    return this.#cookies[key]?.value ?? '';
   }
 }

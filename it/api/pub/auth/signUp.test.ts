@@ -17,24 +17,24 @@ import { userInfo } from 'helper/user';
 
 const pwd = '123456';
 
-itaResultRaw('Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
+itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
   code: 10000,
   msg: 'the argument `name` is required',
 });
 
-itaResultRaw('Missing email', authAPI.signUp, { name: '_', pwd: '_' }, null, {
+itaResultRaw('Sign up - Missing email', authAPI.signUp, { name: '_', pwd: '_' }, null, {
   code: 10000,
   msg: 'the argument `email` is required',
 });
 
-itaResultRaw('Missing pwd', authAPI.signUp, { name: '_', email: '_' }, null, {
+itaResultRaw('Sign up - Missing pwd', authAPI.signUp, { name: '_', email: '_' }, null, {
   code: 10000,
   msg: 'the argument `pwd` is required',
 });
 
 const email1 = uuid.v4();
 ita(
-  'Verification email - Cannot login when not verified',
+  'Sign up - Verification email - Cannot login when not verified',
   authAPI.signUp,
   { name: '_', email: email1, pwd },
   null,
@@ -58,7 +58,7 @@ ita(
 
 const email2 = uuid.v4();
 ita(
-  'Verify email - Log in - Revisit verify link',
+  'Sign up - Verify email - Log in - Revisit verify link',
   authAPI.signUp,
   { name: 'New user', email: email2, pwd },
   null,

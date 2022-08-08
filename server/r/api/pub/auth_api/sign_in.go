@@ -60,5 +60,5 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	err = appUserManager.Get().Login(uid, w, r)
 	app.PanicOn(err)
-	return handler.JSON(0)
+	return resp.MustComplete(nil)
 }

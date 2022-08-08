@@ -10,8 +10,6 @@ import { serverURL } from './def';
 import fetch, { Response } from 'node-fetch';
 import CookieJar from 'helper/cookieJar';
 
-const emptyCookieErr = 'Unexpected empty cookies from login API';
-
 function getSetCookies(resp: Response) {
   return resp.headers.raw()['set-cookie'];
 }
@@ -61,7 +59,6 @@ export type APICallback = (r: APIResult) => Promise<unknown>;
 
 export interface APIOptions {
   body?: unknown;
-  respCb?: (resp: Response) => void;
   cookieJar?: CookieJar;
 }
 
@@ -81,21 +78,16 @@ async function apiResultFromResponse(response: Response, url: string) {
 }
 
 // Sends a quick(dev only) login request and returns session cookies.
-async function requestLogin(id: string) {
+async function requestLogin(id: string, cookieJar: CookieJar | undefined) {
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const response = await startFetch(url, {
     uid: id,
+    cookieJar,
   });
 
   const res = await apiResultFromResponse(response, url);
   checkAPISuccess(res, url);
-
-  const cookies = getSetCookies(response);
-  if (!cookies) {
-    throw new Error(emptyCookieErr);
-  }
-  return cookies;
 }
 
 // Wrapper around a node-fetch POST request.
@@ -119,7 +111,6 @@ async function startFetch(
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
-  opt?.respCb?.(response);
   if (opt?.cookieJar) {
     opt.cookieJar.setCookies(getSetCookies(response));
   }
@@ -134,12 +125,10 @@ export async function apiRaw(
   user?: User | null,
   opt?: APIOptions,
 ): Promise<APIResult> {
-  const cookieJar = opt?.cookieJar ?? new CookieJar();
   if (user) {
-    const loginCookies = await requestLogin(user.id);
-    cookieJar.setCookies(loginCookies);
+    await requestLogin(user.id, opt?.cookieJar);
   }
-  const response = await startFetch(url, body, { ...opt, cookieJar });
+  const response = await startFetch(url, body, opt);
   return apiResultFromResponse(response, url);
 }
 
