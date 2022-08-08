@@ -14,3 +14,12 @@ VALUES
 
 INSERT INTO `user_stats` (`id`)
 VALUES (101), (102), (103), (104);
+
+INSERT INTO `user_auth` (`id`, `auth_type`)
+VALUES
+	(102, 1);
+
+INSERT INTO `user_pwd` (`id`, `pwd_hash`)
+VALUES
+	(102, '$argon2id$v=19$m=65536,t=3,p=2$3o4Bu3Id6rxfnzjILzocWg$38dBvyzb0PvShDnSPlCOMGd18N0XDRCBWhFEuNbnxBs');
+

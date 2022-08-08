@@ -6,30 +6,26 @@
  */
 
 import { expect } from 'expect';
-import cookie from 'cookie';
 import { newUser, curUser } from 'helper/user';
-import { api, requestLogin } from 'api';
-import * as authRoute from '@qing/routes/d/s/pri/auth';
-import { Response } from 'node-fetch';
+import { api, authUsr } from 'api';
+import * as priAuth from '@qing/routes/d/s/pri/auth';
+import * as pubAuth from '@qing/routes/d/s/pub/auth';
+import CookieJar from 'helper/cookieJar';
 
 it('Sign out', async () => {
   await newUser(async (u) => {
+    const jar = new CookieJar();
     // No user is logged in initially.
-    expect(await curUser('')).toBe('');
+    expect(await curUser(jar)).toBe('');
     // Log in.
-    const cookies = await requestLogin(u.id);
-    expect(await curUser(cookies)).toBe(u.id);
+    await api(pubAuth.signIn, { email: authUsr.user.email, pwd: authUsr.user.pwd });
+    expect(await curUser(jar)).toBe(u.id);
 
-    let signOutCookies: string[] | undefined;
-    await api(authRoute.signOut, null, null, {
-      cookies,
-      setCookiesCb: (s) => (signOutCookies = s),
+    const cookieJar = new CookieJar();
+    await api(priAuth.signOut, null, null, {
+      cookieJar,
     });
 
-    expect(signOutCookies).toBeTruthy();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const cookieData = cookie.parse(signOutCookie!);
-    expect(cookieData).toBeTruthy();
-    expect(cookieData._ut).toBe('');
+    expect(jar.cookies()).toBe('');
   });
 });

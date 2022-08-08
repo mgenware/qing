@@ -8,6 +8,7 @@
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 import { serverURL } from './def';
 import fetch, { Response } from 'node-fetch';
+import CookieJar from 'helper/cookieJar';
 
 const emptyCookieErr = 'Unexpected empty cookies from login API';
 
@@ -38,6 +39,10 @@ export const usr: { user: User; admin: User; admin2: User; user2: User } = {
   user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/avatars/2w/50_user2.png' },
 };
 
+export const authUsr = {
+  user: { email: 'm@user.com', pwd: '123456' },
+};
+
 // Pre-defined error codes.
 export const errorCodes = {
   generic: 10000,
@@ -56,9 +61,8 @@ export type APICallback = (r: APIResult) => Promise<unknown>;
 
 export interface APIOptions {
   body?: unknown;
-  cookies?: string;
   respCb?: (resp: Response) => void;
-  setCookiesCb?: (cookies: string[] | undefined) => void;
+  cookieJar?: CookieJar;
 }
 
 function checkAPISuccess(res: APIResult, url: string) {
@@ -76,8 +80,8 @@ async function apiResultFromResponse(response: Response, url: string) {
   return apiRes;
 }
 
-// Sends a login request and returns session cookies.
-export async function requestLogin(id: string): Promise<string> {
+// Sends a quick(dev only) login request and returns session cookies.
+async function requestLogin(id: string) {
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const response = await startFetch(url, {
@@ -91,14 +95,7 @@ export async function requestLogin(id: string): Promise<string> {
   if (!cookies) {
     throw new Error(emptyCookieErr);
   }
-  // There mustn't be more than 1 cookies.
-  if (cookies.length > 1) {
-    throw new Error(`Unexpected cookies: ${JSON.stringify(cookies)} from login API`);
-  }
-  if (!cookies[0]) {
-    throw new Error(emptyCookieErr);
-  }
-  return cookies[0];
+  return cookies;
 }
 
 // Wrapper around a node-fetch POST request.
@@ -116,15 +113,15 @@ async function startFetch(
     body: body ? JSON.stringify(body) : null,
     headers: {
       'content-type': 'application/json',
-      cookie: opt?.cookies ?? '',
+      cookie: opt?.cookieJar?.cookies() ?? '',
     },
   });
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status} from URL ${url}`);
   }
   opt?.respCb?.(response);
-  if (opt?.setCookiesCb) {
-    opt.setCookiesCb(getSetCookies(response));
+  if (opt?.cookieJar) {
+    opt.cookieJar.setCookies(getSetCookies(response));
   }
   return response;
 }
@@ -137,13 +134,12 @@ export async function apiRaw(
   user?: User | null,
   opt?: APIOptions,
 ): Promise<APIResult> {
-  let cookies: string | undefined;
+  const cookieJar = opt?.cookieJar ?? new CookieJar();
   if (user) {
-    cookies = await requestLogin(user.id);
-  } else {
-    cookies = opt?.cookies;
+    const loginCookies = await requestLogin(user.id);
+    cookieJar.setCookies(loginCookies);
   }
-  const response = await startFetch(url, body, { ...opt, cookies });
+  const response = await startFetch(url, body, { ...opt, cookieJar });
   return apiResultFromResponse(response, url);
 }
 

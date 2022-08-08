@@ -8,6 +8,7 @@
 import { api, User, APIOptions } from 'base/api';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 import * as apiUser from '@qing/routes/d/dev/api/user';
+import CookieJar from './cookieJar';
 
 // Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
 export interface TUserInfo {
@@ -28,8 +29,8 @@ async function deleteUser(user: User) {
 
 // Gets the current user ID. There is no cookie persistence in API tests. We need to
 // manually append cookies.
-export function curUser(cookies: string) {
-  return api<string>(apiAuth.cur, null, null, { cookies });
+export function curUser(cookieJar: CookieJar) {
+  return api<string>(apiAuth.cur, null, null, { cookieJar });
 }
 
 // Returns null if the specified user doesn't exist.
