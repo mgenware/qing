@@ -38,7 +38,7 @@ export const usr: { user: User; admin: User; admin2: User; user2: User } = {
 };
 
 export const authUsr = {
-  user: { email: 'm@user.com', pwd: '123456' },
+  user: { email: 'user@mgenware.com', pwd: '123456' },
 };
 
 // Pre-defined error codes.
