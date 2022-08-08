@@ -97,8 +97,9 @@ function checkMigrationNumber(num: number) {
       }
 
       case 's-ut': {
+        const arg1 = processArgs[1];
         await sp.spawnDockerComposeCmd(
-          ['exec', '-e', 'UT=1', 'server', 'go', 'test', './...'],
+          ['exec', '-e', 'UT=1', 'server', 'go', 'test', arg1 || './...'],
           await iou.getProjectDir(serverDir),
           dockerComposeDev,
         );
