@@ -53,7 +53,7 @@ func NewMemoryBasedSessionManager(logger app.CoreLogger, appURL *urlx.URL) (*Ses
 // SetUserSession sets an user to the internal store.
 func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) error {
 	if user == nil {
-		return errors.New("user cannot be nil")
+		return errors.New("SetUserSession: `user` cannot be nil")
 	}
 
 	bytes, err := user.Serialize()
@@ -80,15 +80,15 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 func (sm *SessionManager) GetUserSession(sid string) (*appcom.SessionUser, error) {
 	keySIDToUser := sidToUserKey(sid)
 	msConn := appMS.GetConn()
-	key, err := msConn.GetStringValue(keySIDToUser)
+	userJSON, err := msConn.GetStringValue(keySIDToUser)
 	if err != nil {
 		return nil, err
 	}
-	if key == "" {
-		return nil, errors.New("session key empty")
+	if userJSON == "" {
+		return nil, errors.New("empty user session JSON")
 	}
 
-	user, err := sm.deserializeUserJSON([]byte(key))
+	user, err := sm.deserializeUserJSON([]byte(userJSON))
 	if err != nil {
 		return nil, err
 	}
@@ -116,22 +116,23 @@ func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {
 
 func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// get cookie session id
-		sidcookie, _ := r.Cookie(def.SessionCookieKey)
-		if sidcookie == nil || sidcookie.String() == "" {
-			// NO SID in cookies.
+		// Get cookie session ID.
+		sidCookie, _ := r.Cookie(def.SessionCookieKey)
+		if sidCookie == nil || sidCookie.String() == "" {
+			// NO SID found.
 			next.ServeHTTP(w, r)
 			return
 		}
 
-		sid := sidcookie.Value
+		sid := sidCookie.Value
 		// Read session info from SID.
 		user, err := sm.GetUserSession(sid)
 		if err != nil {
-			// ignore session parsing error
+			// Ignore session parsing error.
 			if sm.logger != nil {
 				sm.logger.Error("session-parsing-error",
 					"error", err.Error(),
+					"sid", sid,
 				)
 			}
 
@@ -141,8 +142,7 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 
 		ctx := r.Context()
 		if user != nil {
-			// logged in
-			// set info to ctx
+			// Logged in. Update ctx.
 			ctx = context.WithValue(ctx, def.SIDContextKey, sid)
 			ctx = context.WithValue(ctx, def.UserContextKey, user)
 		}

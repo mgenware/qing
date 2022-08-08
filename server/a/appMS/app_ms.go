@@ -20,7 +20,7 @@ import (
 
 var ctx = context.TODO()
 
-var ExpiryTooShortErr = errors.New("Expiry too short")
+var ExpiryTooShortErr = errors.New("expiry too short")
 
 type AppMS struct {
 	logging bool
@@ -62,14 +62,21 @@ func (conn *AppMSConn) Destroy() error {
 	return conn.rdb.Close()
 }
 
-func (conn *AppMSConn) SetStringValue(key string, val string, expires time.Duration) error {
-	return conn.setValueWithTimeoutInternal(key, val, expires)
+func (conn *AppMSConn) SetStringValue(key string, val string, expiry time.Duration) error {
+	if expiry < 500*time.Millisecond {
+		return ExpiryTooShortErr
+	}
+	_, err := conn.rdb.Set(ctx, key, val, expiry).Result()
+	if conn.logging {
+		conn.log(fmt.Sprintf("SetStringInternal: K: `%v` V: `%v` EXPIRE: %v ERR: %v", key, val, expiry, err))
+	}
+	return err
 }
 
 func (conn *AppMSConn) Exist(key string) (bool, error) {
 	val, err := conn.rdb.Exists(ctx, key).Result()
 	if conn.logging {
-		conn.log(fmt.Sprintf("Exist: V: %v ERR: %v", val, err))
+		conn.log(fmt.Sprintf("Exist: V: `%v` ERR: %v", val, err))
 	}
 	if err == redis.Nil {
 		return false, nil
@@ -83,7 +90,7 @@ func (conn *AppMSConn) Exist(key string) (bool, error) {
 func (conn *AppMSConn) GetStringValue(key string) (string, error) {
 	val, err := conn.rdb.Get(ctx, key).Result()
 	if conn.logging {
-		conn.log(fmt.Sprintf("GetStringValue: K: %v V: %v ERR: %v", key, val, err))
+		conn.log(fmt.Sprintf("GetStringValue: K: `%v` V: `%v` ERR: %v", key, val, err))
 	}
 	if err == redis.Nil {
 		return "", nil
@@ -94,7 +101,7 @@ func (conn *AppMSConn) GetStringValue(key string) (string, error) {
 func (conn *AppMSConn) RemoveValue(key string) error {
 	_, err := conn.rdb.Del(ctx, key).Result()
 	if conn.logging {
-		conn.log(fmt.Sprintf("RemoveValue: K: %v ERR: %v", key, err))
+		conn.log(fmt.Sprintf("RemoveValue: K: `%v` ERR: %v", key, err))
 	}
 	return err
 }
@@ -108,19 +115,6 @@ func (conn *AppMSConn) Ping() error {
 		return errors.New("Redis responded with " + val)
 	}
 	return nil
-}
-
-/*** Internal functions ***/
-
-func (conn *AppMSConn) setValueWithTimeoutInternal(key string, val any, expiry time.Duration) error {
-	if expiry < 500*time.Millisecond {
-		return ExpiryTooShortErr
-	}
-	_, err := conn.rdb.Set(ctx, key, val, expiry).Result()
-	if conn.logging {
-		conn.log(fmt.Sprintf("SetStringInternal: K: %v V: %v EXPIRE: %v ERR: %v", key, val, expiry, err))
-	}
-	return err
 }
 
 func (conn *AppMSConn) log(s string) {
