@@ -81,14 +81,20 @@ async function apiResultFromResponse(response: Response, url: string) {
 async function requestLogin(id: string, cookieJar: CookieJar | undefined) {
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const response = await startFetch(url, {
-    uid: id,
-    cookieJar,
-  });
+  const response = await startFetch(
+    url,
+    {
+      uid: id,
+    },
+    { cookieJar },
+  );
 
   const res = await apiResultFromResponse(response, url);
   checkAPISuccess(res, url);
 }
+
+// Exported only for tests. Do not use.
+export const dontUseRequestLogin = requestLogin;
 
 // Wrapper around a node-fetch POST request.
 async function startFetch(

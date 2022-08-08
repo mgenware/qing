@@ -5,11 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { ita, usr } from 'api';
+import { ita, usr, dontUseRequestLogin } from 'api';
 import { expect } from 'expect';
-import { userInfo, newUser } from 'helper/user';
+import { userInfo, newUser, curUser } from 'helper/user';
 import { imgMain } from '@qing/routes/d/static';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
+import CookieJar from 'helper/cookieJar';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
   expect(r).toEqual({
@@ -21,7 +22,6 @@ ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 it('Add and remove a user', async () => {
   let id = '';
   await newUser(async (u) => {
@@ -38,4 +38,20 @@ it('Add and remove a user', async () => {
   expect(id).toBeTruthy();
   const nullInfo = await userInfo(id);
   expect(nullInfo).toBeNull();
+});
+
+it('`curUser`', async () => {
+  await newUser(async (u) => {
+    const cookieJar = new CookieJar();
+    // expect(await curUser(cookieJar)).toBe('');
+
+    // Log in.
+    await dontUseRequestLogin(u.id, cookieJar);
+
+    // Sample session cookie: "_ut": "102:707280b9-c152-447b-a632-3e6f58e387f0"
+    const utVal = cookieJar.get('_ut');
+    console.log(' ----- ', cookieJar.cookies());
+    expect(utVal.includes(':')).toBeTruthy();
+    expect(await curUser(cookieJar)).toBe(u.id);
+  });
 });

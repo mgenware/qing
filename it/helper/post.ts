@@ -18,7 +18,7 @@ const entityBody = {
 
 export function verifyNewPostAPIResult(r: string | null): string {
   if (!r) {
-    throw new Error(`Unexpected null ID`);
+    throw new Error('Unexpected null ID');
   }
   const id = postIDRegex.exec(r)?.[1];
   if (typeof id === 'string') {
