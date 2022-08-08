@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"qing/a/app"
 	"qing/a/appMS"
 	"qing/a/appcom"
@@ -118,19 +119,31 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Get cookie session ID.
 		sidCookie, _ := r.Cookie(def.SessionCookieKey)
-		if sidCookie == nil || sidCookie.String() == "" {
+		if sidCookie == nil || sidCookie.Value == "" {
 			// NO SID found.
 			next.ServeHTTP(w, r)
 			return
 		}
 
-		sid := sidCookie.Value
+		sid, err := url.PathUnescape(sidCookie.Value)
+		if err != nil {
+			// Ignore session parsing error.
+			if sm.logger != nil {
+				sm.logger.Error("parser-session.invalid-value",
+					"error", err.Error(),
+					"sidCookie", sidCookie.Value,
+				)
+			}
+
+			// Destroy the invalid cookie.
+			http.SetCookie(w, newDeletedSessionCookie(sid))
+		}
 		// Read session info from SID.
 		user, err := sm.GetUserSession(sid)
 		if err != nil {
 			// Ignore session parsing error.
 			if sm.logger != nil {
-				sm.logger.Error("session-parsing-error",
+				sm.logger.Error("parser-session.no-user-data",
 					"error", err.Error(),
 					"sid", sid,
 				)
