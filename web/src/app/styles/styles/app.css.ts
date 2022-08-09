@@ -22,7 +22,6 @@ export default css`
     word-break: break-all;
     color: var(--app-default-primary-fore-color);
     text-decoration: none;
-    cursor: hand;
   }
   a:active {
     filter: brightness(80%);

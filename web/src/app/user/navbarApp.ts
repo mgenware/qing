@@ -60,12 +60,18 @@ export default class NavbarApp extends BaseElement {
           border-top-color: gray;
         }
 
-        navbar {
-          display: flex;
-          align-items: center;
+        .navbar-row {
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
           border-bottom: var(--app-navbar-border-bottom);
+        }
+
+        navbar {
+          display: flex;
+          align-items: center;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 1320px;
         }
 
         a {
@@ -250,23 +256,25 @@ export default class NavbarApp extends BaseElement {
 
   override render() {
     return html`
-      <navbar id="main-navbar">
-        <a href="/">
-          <img
-            class="vertical-align-middle"
-            src=${staticMainImage('qing.svg')}
-            height=${imgSize}
-            width=${imgSize}
-            title=${ls.qingSiteName}
-            alt=${ls.qingSiteName} />
-          <span class="m-l-sm vertical-align-middle">${ls.qingSiteName}</span>
-        </a>
+      <div class="navbar-row">
+        <navbar id="main-navbar">
+          <a href="/">
+            <img
+              class="vertical-align-middle"
+              src=${staticMainImage('qing.svg')}
+              height=${imgSize}
+              width=${imgSize}
+              title=${ls.qingSiteName}
+              alt=${ls.qingSiteName} />
+            <span class="m-l-sm vertical-align-middle">${ls.qingSiteName}</span>
+          </a>
 
-        <div class="fill-space"></div>
-        ${this.getNavbarItems(false)}
+          <div class="fill-space"></div>
+          ${this.getNavbarItems(false)}
 
-        <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}>&#9776;</a>
-      </navbar>
+          <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}>&#9776;</a>
+        </navbar>
+      </div>
       <div id=${sideNavID} class=${this.sideNavOpen ? 'slide-in' : ''}>
         <div class="close-btn-row">
           <a href="#" class="close-btn" @click=${(e: Event) => this.closeSideNav(e)}>&times;</a>
