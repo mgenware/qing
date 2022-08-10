@@ -131,10 +131,12 @@ export async function apiRaw(
   user?: User | null,
   opt?: APIOptions,
 ): Promise<APIResult> {
+  // There must be one cookie jar for login to work.
+  const cookieJar = opt?.cookieJar ?? new CookieJar();
   if (user) {
-    await requestLogin(user.id, opt?.cookieJar);
+    await requestLogin(user.id, cookieJar);
   }
-  const response = await startFetch(url, body, opt);
+  const response = await startFetch(url, body, { ...opt, cookieJar });
   return apiResultFromResponse(response, url);
 }
 
