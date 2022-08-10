@@ -7,6 +7,7 @@
 
 import { itaResultRaw, ita, api, apiRaw } from 'api';
 import * as authAPI from '@qing/routes/d/s/pub/auth';
+import * as authRoute from '@qing/routes/d/auth';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
 import * as mailAPI from '@qing/routes/d/dev/api/mail';
@@ -73,7 +74,7 @@ ita(
     // Verify email.
     const absURL = mainEl?.querySelector('a')?.textContent.trim() ?? '';
     expect(absURL).toBeTruthy();
-    const idx = absURL.indexOf('/auth/verify-reg-email/');
+    const idx = absURL.indexOf(authRoute.verifyRegEmail);
     const relURL = `${serverURL}${absURL.substring(idx)}`;
 
     // Visit verification URL.
@@ -103,3 +104,16 @@ ita(
 </container-view>`);
   },
 );
+
+it('Sign up - Wrong email verification link', async () => {
+  const verifyResp = await fetch(
+    `${serverURL}${authRoute.verifyRegEmail}/bGlsaUBsaWxpLmNvbXw1YjRlMDM5MC1jNWY2LTRhNTEtYTQ4Zi1lNGViZGJjNDM0YWI`,
+  );
+  expect(verifyResp.status).toBe(503);
+  expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<container-view>
+  <div class="text-center">
+    <h1 class="__qing_ls__">errOccurred</h1>
+    <p class="text-danger">Link has expired, please sign up again.</p>
+  </div>
+</container-view>`);
+});
