@@ -19,7 +19,7 @@
     <main>{{.ContentHTML}}</main>
     <footer id="main-footer">
       <container-view nobs>
-        <p><a href="/">{{html .LSSiteName}}</a></p>
+        <p><a href="/">{{html .LS.QingSiteName}}</a></p>
         <p class="p-b-md">
           <span id="br-copyright">
             <span class="__qing_ls__">copyright</span> ©
@@ -27,7 +27,7 @@
               document.write(new Date().getFullYear());
             </script>
           </span>
-          &nbsp;<span><a href="{{html .LSSiteURL}}">{{html .LSSiteURL}}</a></span>
+          &nbsp;<span><a href="{{html .LS.QingSiteUrl}}">{{html .LS.QingSiteUrl}}</a></span>
         </p>
       </container-view>
     </footer>

@@ -35,8 +35,8 @@ type MainPageManager struct {
 
 	reloadViewsOnRefresh bool
 
-	mainView  PageTemplateType
-	errorView PageTemplateType
+	mainView  CoreLocalizedTemplate
+	errorView CoreLocalizedTemplate
 	locMgr    localization.CoreManager
 	jsMgr     *jsm.JSManager
 	logger    app.CoreLogger
@@ -68,9 +68,9 @@ func MustCreateMainPageManager(
 	}
 
 	// Load the main template.
-	t.mainView = t.MustParseView("main.html")
+	t.mainView = t.MustParseLocalizedView("main.html")
 	// Load the error template.
-	t.errorView = t.MustParseView("error.html")
+	t.errorView = t.MustParseLocalizedView("error.html")
 
 	return t
 }
@@ -115,9 +115,6 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 
 	// Lang script comes before user scripts.
 	d.Scripts = m.jsMgr.LangScriptString(lang) + d.Scripts
-	ls := m.locMgr.Dictionary(lang)
-	d.LSSiteName = ls.QingSiteName
-	d.LSSiteURL = ls.QingSiteUrl
 
 	// Community mode settings.
 	d.AppCommunityMode = int(appSettings.Get().CommunityMode())
@@ -134,7 +131,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 
 	// Finalize HTTP response.
 	// Get content string first as `MustExecute` might panic.
-	contentHTML := m.mainView.MustExecuteToString(d)
+	contentHTML := m.mainView.MustExecuteToString(lang, d)
 
 	// Any panics above are recovered by panic handler, which finalizes the response with 500 code.
 	// If no panic happened, we are writing the designated status code and finalizing the response here.
@@ -161,7 +158,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	} else if statusCode == http.StatusInternalServerError {
 		m.logger.Error("page.fatal", "err", d.Message, "url", url)
 	}
-	errorHTML := m.errorView.MustExecuteToString(d)
+	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
 	mainPageData.Scripts = m.ScriptString(coreScriptEntry)
 	m.MustComplete(r, lang, statusCode, &mainPageData, w)
@@ -178,9 +175,16 @@ func (m *MainPageManager) PageTitle(lang, s string) string {
 }
 
 // MustParseView creates a new View with the given relative path.
-func (m *MainPageManager) MustParseView(relativePath string) PageTemplateType {
-	file := filepath.Join(m.dir, relativePath)
+func (m *MainPageManager) MustParseView(templatePath string) CoreTemplate {
+	file := filepath.Join(m.dir, templatePath)
 	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
+}
+
+// MustParseLocalizedView creates a new LocalizedView with the given relative path.
+func (m *MainPageManager) MustParseLocalizedView(templatePath string) CoreLocalizedTemplate {
+	file := filepath.Join(m.dir, templatePath)
+	view := templatex.MustParseView(file, m.reloadViewsOnRefresh)
+	return &LocalizedView{view: view, localizationManager: m.LocalizationManager()}
 }
 
 // Dictionary returns a localized dictionary with the specified language ID.

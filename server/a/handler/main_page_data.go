@@ -13,6 +13,8 @@ import (
 
 // MainPageData holds the data needed in main page template.
 type MainPageData struct {
+	LocalizedTemplateData
+
 	// Inherited properties are shared between server and web via SOD.
 	appSod.RawMainPageWind
 
@@ -21,9 +23,6 @@ type MainPageData struct {
 	Header      string
 	Scripts     string
 	WindData    any
-
-	LSSiteName string
-	LSSiteURL  string
 }
 
 // NewMainPageData creates a new MainPageData.

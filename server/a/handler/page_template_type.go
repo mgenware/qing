@@ -9,9 +9,16 @@ package handler
 
 import "io"
 
-type PageTemplateType interface {
+type CoreTemplate interface {
 	Execute(wr io.Writer, data any) error
 	ExecuteToString(data any) (string, error)
 	MustExecute(wr io.Writer, data any)
 	MustExecuteToString(data any) string
+}
+
+type CoreLocalizedTemplate interface {
+	Execute(lang string, wr io.Writer, data ILocalizedTemplateData) error
+	ExecuteToString(lang string, data ILocalizedTemplateData) (string, error)
+	MustExecute(lang string, wr io.Writer, data ILocalizedTemplateData)
+	MustExecuteToString(lang string, data ILocalizedTemplateData) string
 }

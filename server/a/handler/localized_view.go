@@ -11,14 +11,20 @@ import (
 	"io"
 
 	"qing/a/handler/localization"
-
-	"github.com/mgenware/goutil/templatex"
 )
 
 // LocalizedView wraps a templatex.View, providing localization support.
 type LocalizedView struct {
-	localizationManager *localization.Manager
-	view                *templatex.View
+	localizationManager localization.CoreManager
+	view                CoreTemplate
+}
+
+func (v *LocalizedView) Execute(lang string, wr io.Writer, data ILocalizedTemplateData) error {
+	return v.view.Execute(wr, v.coerceTemplateData(data, lang))
+}
+
+func (v *LocalizedView) ExecuteToString(lang string, data ILocalizedTemplateData) (string, error) {
+	return v.view.ExecuteToString(v.coerceTemplateData(data, lang))
 }
 
 func (v *LocalizedView) MustExecuteToString(lang string, data ILocalizedTemplateData) string {
