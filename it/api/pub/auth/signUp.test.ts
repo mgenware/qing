@@ -13,7 +13,8 @@ import * as mailAPI from '@qing/routes/d/dev/api/mail';
 import * as ml from 'helper/mail';
 import { serverURL } from 'base/def';
 import fetch from 'node-fetch';
-import { userInfo } from 'helper/user';
+import { curUser, userInfo } from 'helper/user';
+import CookieJar from 'helper/cookieJar';
 
 const pwd = '123456';
 
@@ -73,6 +74,7 @@ ita(
     const idx = absURL.indexOf('/auth/verify-reg-email/');
     const relURL = `${serverURL}${absURL.substring(idx)}`;
 
+    // Visit verification URL.
     const verifyResp = await fetch(relURL);
     expect(verifyResp.ok).toBeTruthy();
     // `resp.url` should be the redirected profile URL, example: `http://localhost:8000/u/`.
@@ -84,8 +86,9 @@ ita(
     const uInfo = await userInfo(uid);
     expect(uInfo?.name).toBe('New user');
 
-    const loginRes = await api(authAPI.signIn, { email: email2, pwd });
-    expect(loginRes).toEqual({ code: 1 });
+    const cookieJar = new CookieJar();
+    await api(authAPI.signIn, { email: email2, pwd }, null, { cookieJar });
+    expect(await curUser(cookieJar)).toBe(uid);
 
     // Visit verification link again results in error.
   },

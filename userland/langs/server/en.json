@@ -5,5 +5,7 @@
   "resNotFound": "The resource you requested does not exist.",
   "regEmailVeriExpired": "Link has expired, please sign up again.",
   "verifyYourEmailTitle": "Verify your email",
-  "emailVerifyEmailContent": "Click the link below to complete the registration process."
+  "clickBelowToCompleteReg": "Click the link below to complete the registration process.",
+  "yourAccHasBeenVerified": "Your account has been verified.",
+  "emailVerified": "Email verified"
 }

@@ -19,13 +19,15 @@ import (
 
 // Dictionary ...
 type Dictionary struct {
-	EmailVerifyEmailContent string `json:"emailVerifyEmailContent"`
+	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
+	EmailVerified           string `json:"emailVerified"`
 	ErrOccurred             string `json:"errOccurred"`
 	QingSiteName            string `json:"qingSiteName"`
 	QingSiteUrl             string `json:"qingSiteURL"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
 	VerifyYourEmailTitle    string `json:"verifyYourEmailTitle"`
+	YourAccHasBeenVerified  string `json:"yourAccHasBeenVerified"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.

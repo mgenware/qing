@@ -14,11 +14,13 @@ var TestDict *Dictionary
   
 func init() {
 	TestDict = &Dictionary{}
-	TestDict.EmailVerifyEmailContent = "ls.emailVerifyEmailContent"
+	TestDict.ClickBelowToCompleteReg = "ls.clickBelowToCompleteReg"
+	TestDict.EmailVerified = "ls.emailVerified"
 	TestDict.ErrOccurred = "ls.errOccurred"
 	TestDict.QingSiteName = "ls.qingSiteName"
 	TestDict.QingSiteUrl = "ls.qingSiteURL"
 	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"
 	TestDict.ResNotFound = "ls.resNotFound"
 	TestDict.VerifyYourEmailTitle = "ls.verifyYourEmailTitle"
+	TestDict.YourAccHasBeenVerified = "ls.yourAccHasBeenVerified"
 }

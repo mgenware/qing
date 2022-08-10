@@ -82,12 +82,12 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	url := appURL.Get().RegEmailVerification(ls.QingSiteUrl, publicID)
 
 	d := EmailVerificationData{
-		MainText: ls.EmailVerifyEmailContent,
+		MainText: ls.ClickBelowToCompleteReg,
 		Link:     url,
 	}
 	contentHTML := vEmailVeriView.MustExecuteToString(d)
 
-	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.EmailVerifyEmailContent, contentHTML)
+	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.ClickBelowToCompleteReg, contentHTML)
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
 	_, err = appService.Get().MailService.Send(email, pageTitle, pageHTML)

@@ -50,7 +50,6 @@ it('`curUser`', async () => {
 
     // Sample session cookie: "_ut": "102:707280b9-c152-447b-a632-3e6f58e387f0"
     const utVal = cookieJar.get('_ut');
-    console.log(' ----- ', cookieJar.cookies());
     expect(utVal.includes(':')).toBeTruthy();
     expect(await curUser(cookieJar)).toBe(u.id);
   });

@@ -14,7 +14,6 @@ import { newUser } from 'helper/user';
 const url = 'admin/set-admin';
 const getAdminsURL = 'admin/admins';
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 it('`set-admin` - Visitor', async () => {
   await newUser(async (tu) => {
     const r = await apiRaw(url, { target_user_id: tu.id, value: 1 }, null);
@@ -22,7 +21,6 @@ it('`set-admin` - Visitor', async () => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 it('`set-admin` - User', async () => {
   await newUser(async (tu) => {
     const r = await apiRaw(url, { target_user_id: tu.id, value: 1 }, usr.user);
@@ -30,7 +28,6 @@ it('`set-admin` - User', async () => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 it('`set-admin` - Admin', async () => {
   await newUser(async (tu) => {
     const { id } = tu;

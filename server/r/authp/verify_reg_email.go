@@ -22,6 +22,12 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
+var vAccVerifiedPage = appHandler.MainPage().MustParseView("auth/accountVerified.html")
+
+type AccVerifiedPageData struct {
+	handler.LocalizedTemplateData
+}
+
 func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	key := chi.URLParam(r, "key")
 	if key == "" {
@@ -29,12 +35,13 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	lang := app.ContextLanguage(r)
+	ls := appHandler.MainPage().Dictionary(lang)
 	dataString, err := appService.Get().RegEmailVerificator.Verify(key)
 	app.PanicOn(err)
 
 	if dataString == "" {
 		// Expired
-		panic(appHandler.MainPage().Dictionary(lang).RegEmailVeriExpired)
+		panic(ls.RegEmailVeriExpired)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicOn(err)
@@ -48,4 +55,12 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	userURL := appURL.Get().UserProfile(uid)
 	http.Redirect(w, r, userURL, http.StatusFound)
 	return handler.HTML(0)
+}
+
+func RenderAccountVerified(lang string, w http.ResponseWriter, r *http.Request) handler.HTML {
+	resp := appHandler.HTMLResponse(w, r)
+
+	ls := appHandler.MainPage().Dictionary(lang)
+	d := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(AccVerifiedPageData{}))
+	return resp.MustComplete(&d)
 }

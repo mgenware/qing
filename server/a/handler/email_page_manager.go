@@ -24,7 +24,7 @@ type EmailPageManager struct {
 
 	reloadViewsOnRefresh bool
 
-	mainView PageTemplateType
+	mainView CoreTemplate
 	locMgr   localization.CoreManager
 }
 
@@ -75,7 +75,7 @@ func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) (string, 
 }
 
 // MustParseView creates a new View with the given relative path.
-func (m *EmailPageManager) MustParseView(relativePath string) PageTemplateType {
+func (m *EmailPageManager) MustParseView(relativePath string) CoreTemplate {
 	file := filepath.Join(m.dir, relativePath)
 	return templatex.MustParseView(file, m.reloadViewsOnRefresh)
 }
