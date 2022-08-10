@@ -22,7 +22,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-var vAccVerifiedPage = appHandler.MainPage().MustParseView("auth/accountVerified.html")
+var vAccVerifiedPage = appHandler.MainPage().MustParseLocalizedView("auth/accountVerified.html")
 
 type AccVerifiedPageData struct {
 	handler.LocalizedTemplateData
@@ -61,6 +61,7 @@ func RenderAccountVerified(lang string, w http.ResponseWriter, r *http.Request) 
 	resp := appHandler.HTMLResponse(w, r)
 
 	ls := appHandler.MainPage().Dictionary(lang)
-	d := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(AccVerifiedPageData{}))
-	return resp.MustComplete(&d)
+	d := AccVerifiedPageData{}
+	pageData := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
+	return resp.MustComplete(&pageData)
 }

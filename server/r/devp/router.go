@@ -25,6 +25,7 @@ func init() {
 	authRouter := handler.NewHTMLRouter()
 	authRouter.Get("/in/{uid}", signInGETHandler)
 	authRouter.Get("/out", signOutGETHandler)
+	authRouter.Get("/accVerified", accVerifiedGETHandler)
 	authRouter.Get("/*", defaultHandler)
 
 	Router.Mount("/err", errRouter)

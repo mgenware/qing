@@ -21,6 +21,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/lib/randlib"
+	"qing/r/authp"
 	authSod "qing/sod/dev/auth"
 
 	"github.com/go-chi/chi/v5"
@@ -87,6 +88,10 @@ func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicOn(err)
 
 	return resp.MustCompleteWithContent("Success", w)
+}
+
+func accVerifiedGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+	return authp.RenderAccountVerified("en", w, r)
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {

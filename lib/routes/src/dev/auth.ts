@@ -13,3 +13,4 @@ export const authRoot = `${root}/auth`;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const in_ = `${authRoot}/in`;
 export const out = `${authRoot}/out`;
+export const accVerified = `${authRoot}/accVerified`;

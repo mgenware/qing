@@ -8,6 +8,7 @@
 import { BaseElement, customElement, html, css, property } from 'll';
 import 'ui/form/inputView';
 import 'ui/form/checklistView';
+import * as authRoute from '@qing/routes/d/dev/auth';
 import 'qing-button';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
@@ -38,12 +39,14 @@ export class AuthDevPage extends BaseElement {
       <div>
         <h1>Auth</h1>
         <hr />
-        ${this.renderUserSection()}
+        ${this.renderAuthSection()}
+        <h2>Account verified page</h2>
+        <p><a href=${authRoute.accVerified}>Link</a></p>
       </div>
     `;
   }
 
-  private renderUserSection() {
+  private renderAuthSection() {
     return html`
       <div class="br-user">
         <p>
