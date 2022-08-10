@@ -8,6 +8,7 @@
  */
 
 import errMsg from 'catch-err-msg';
+import * as np from 'node:path';
 import * as iou from './ioutil.js';
 import * as sp from './spawn.js';
 
@@ -44,6 +45,7 @@ function printUsage() {
         -<N>            - Apply N down migrations
         <N>             - Migrate to version N
         drop            - Drop everything in database
+      mail            Print dev mailbox directory
       version         Print version information
       
   `);
@@ -165,6 +167,12 @@ function checkMigrationNumber(num: number) {
             dockerComposeDev,
           );
         }
+        break;
+      }
+
+      case 'mail': {
+        const inboxDir = np.join(await iou.getProjectDir(''), 'volumes/qing_data/mailbox');
+        iou.print(inboxDir);
         break;
       }
 
