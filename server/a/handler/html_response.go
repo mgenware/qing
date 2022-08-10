@@ -48,13 +48,13 @@ func (h *HTMLResponse) MustComplete(d *MainPageData) HTML {
 	return HTML(0)
 }
 
-// MustFail finishes the response with the given error object.
-func (h *HTMLResponse) MustFail(err error, statusCode int) HTML {
-	h.MustFailWithError(err, statusCode)
+// MustFail finishes the response with the given error message and status code.
+func (h *HTMLResponse) MustFail(errMsg string, statusCode int) HTML {
+	h.MustFailWithError(errors.New(errMsg), statusCode)
 	return HTML(0)
 }
 
-// MustFailWithError finishes the response with the given error and `expected` arguments, and panics if unexpected error happens.
+// MustFailWithError finishes the response with the given error and status code.
 func (h *HTMLResponse) MustFailWithError(err error, statusCode int) HTML {
 	h.checkCompletion()
 	h.mainPageMgr.MustError(h.Request(), h.lang, err, statusCode, h.writer)

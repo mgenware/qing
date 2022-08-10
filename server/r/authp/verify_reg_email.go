@@ -14,9 +14,9 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
-	"qing/a/appURL"
 	"qing/a/handler"
 	"qing/da"
+	"qing/lib/clib"
 	authapi "qing/r/api/pub/auth_api"
 
 	"github.com/go-chi/chi/v5"
@@ -26,6 +26,8 @@ var vAccVerifiedPage = appHandler.MainPage().MustParseLocalizedView("auth/accoun
 
 type AccVerifiedPageData struct {
 	handler.LocalizedTemplateData
+
+	VerifiedUID string
 }
 
 func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
@@ -40,8 +42,9 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicOn(err)
 
 	if dataString == "" {
-		// Expired
-		panic(ls.RegEmailVeriExpired)
+		// Expired or not found.
+		resp := appHandler.HTMLResponse(w, r)
+		return resp.MustFail(ls.RegEmailVeriExpired, http.StatusServiceUnavailable)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicOn(err)
@@ -49,19 +52,17 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
 	app.PanicOn(err)
 
-	uid, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, pwdHash)
+	verifiedUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, pwdHash)
 	app.PanicOn(err)
 
-	userURL := appURL.Get().UserProfile(uid)
-	http.Redirect(w, r, userURL, http.StatusFound)
-	return handler.HTML(0)
+	return RenderAccountVerified(lang, clib.EncodeID(verifiedUID), w, r)
 }
 
-func RenderAccountVerified(lang string, w http.ResponseWriter, r *http.Request) handler.HTML {
+func RenderAccountVerified(lang, verifiedUID string, w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	ls := appHandler.MainPage().Dictionary(lang)
-	d := AccVerifiedPageData{}
+	d := AccVerifiedPageData{VerifiedUID: verifiedUID}
 	pageData := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
 	return resp.MustComplete(&pageData)
 }

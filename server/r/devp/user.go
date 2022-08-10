@@ -91,7 +91,7 @@ func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 }
 
 func accVerifiedGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	return authp.RenderAccountVerified("en", w, r)
+	return authp.RenderAccountVerified("en", "", w, r)
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {

@@ -10,13 +10,15 @@ import * as authAPI from '@qing/routes/d/s/pub/auth';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
 import * as mailAPI from '@qing/routes/d/dev/api/mail';
-import * as ml from 'helper/mail';
+import * as ml from 'helper/email';
 import { serverURL } from 'base/def';
 import fetch from 'node-fetch';
 import { curUser, userInfo } from 'helper/user';
 import CookieJar from 'helper/cookieJar';
+import * as pageUtil from 'helper/page';
 
 const pwd = '123456';
+const htmlIDRegex = /window\.appVerifiedUID = '(.+)';/g;
 
 itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
   code: 10000,
@@ -44,7 +46,7 @@ ita(
     const mail = await api<ml.MailResponse>(mailAPI.get, { email: email1 }, null);
     expect(mail.title).toBe('Verify your email');
 
-    const mainEl = ml.getMailContentElement(mail.content);
+    const mainEl = ml.getMainEmailContentElement(mail.content);
     const mainContentHTML = (mainEl?.innerHTML ?? '').trim();
 
     expect(mainContentHTML).toMatch(
@@ -66,7 +68,7 @@ ita(
   async (_) => {
     // Check verification email.
     const mail = await api<ml.MailResponse>(mailAPI.get, { email: email2 }, null);
-    const mainEl = ml.getMailContentElement(mail.content);
+    const mainEl = ml.getMainEmailContentElement(mail.content);
 
     // Verify email.
     const absURL = mainEl?.querySelector('a')?.textContent.trim() ?? '';
@@ -75,21 +77,29 @@ ita(
     const relURL = `${serverURL}${absURL.substring(idx)}`;
 
     // Visit verification URL.
-    const verifyResp = await fetch(relURL);
+    let verifyResp = await fetch(relURL);
     expect(verifyResp.ok).toBeTruthy();
-    // `resp.url` should be the redirected profile URL, example: `http://localhost:8000/u/`.
-    expect(verifyResp.url.startsWith('http://localhost:8000/u/')).toBeTruthy();
-    const uid = verifyResp.url.substring('http://localhost:8000/u/'.length);
-    expect(uid).toBeTruthy();
+    // Extract new verified ID from response HTML.
+    const respHTML = await verifyResp.text();
+    const extractedID = htmlIDRegex.exec(respHTML)?.[1]?.toString() ?? '';
+    expect(extractedID).toBeTruthy();
 
     // Verify new user name.
-    const uInfo = await userInfo(uid);
+    const uInfo = await userInfo(extractedID);
     expect(uInfo?.name).toBe('New user');
 
     const cookieJar = new CookieJar();
     await api(authAPI.signIn, { email: email2, pwd }, null, { cookieJar });
-    expect(await curUser(cookieJar)).toBe(uid);
+    expect(await curUser(cookieJar)).toBe(extractedID);
 
     // Visit verification link again results in error.
+    verifyResp = await fetch(relURL);
+    expect(verifyResp.status).toBe(503);
+    expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<container-view>
+  <div class="text-center">
+    <h1 class="__qing_ls__">errOccurred</h1>
+    <p class="text-danger">Link has expired, please sign up again.</p>
+  </div>
+</container-view>`);
   },
 );

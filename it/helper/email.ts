@@ -15,13 +15,13 @@ export interface MailResponse {
 }
 
 // Extracts mail content HTML from page HTML.
-export function getMailContentHTML(page: string) {
+export function getMainEmailContentHTML(page: string) {
   const root = parse(page);
   const mainEl = root.querySelector(mainElSel);
   return (mainEl?.innerHTML ?? '').trim();
 }
 
-export function getMailContentElement(page: string) {
+export function getMainEmailContentElement(page: string) {
   const root = parse(page);
   return root.querySelector(mainElSel);
 }
