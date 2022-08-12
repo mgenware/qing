@@ -32,7 +32,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
             await editorShouldAppear(page, {
               name: 'Edit comment',
               title: null,
-              contentHTML: def.sd.contentHTML,
+              contentHTML: def.sd.contentViewHTML,
               buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
             });
           },

@@ -16,7 +16,7 @@ import * as composeRoute from '@qing/routes/d/s/pri/compose';
 
 const entityBody = {
   entityType: appdef.contentBaseTypePost,
-  content: { contentHTML: def.sd.contentHTML, title: def.sd.title },
+  content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -26,7 +26,7 @@ it('Add a post', async () => {
     await scPost(u, async ({ id }) => {
       // Post content.
       expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
-        contentHTML: def.sd.contentHTML,
+        contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
 
@@ -47,7 +47,7 @@ it('Edit a post', async () => {
       const pc = await postCount(u);
       await api(composeRoute.setEntity, { ...entityBody, id }, u);
       expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
-        contentHTML: def.sd.contentHTML,
+        contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
 

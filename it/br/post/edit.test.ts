@@ -25,7 +25,7 @@ async function postEditorShouldAppear(page: br.Page) {
   await editorShouldAppear(page, {
     name: 'Edit post',
     title: def.sd.title,
-    contentHTML: def.sd.contentHTML,
+    contentHTML: def.sd.contentViewHTML,
     buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
   });
 }

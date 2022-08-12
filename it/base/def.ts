@@ -11,7 +11,14 @@ function makeText(content: string) {
   return `<p>${content}</p><script>alert('-39')</script>`;
 }
 
-function makeHTML(content: string) {
+// View HTML and DB HTML are slightly different due to different encoding
+// strategies in backend and frontend libraries.
+function makeViewHTML(content: string) {
+  // Content HTML has an extra <p> added by editor.
+  return `<p>&lt;p&gt;${content}&lt;/p&gt;&lt;script&gt;alert('-39')&lt;/script&gt;</p>`;
+}
+
+function makeDBHTML(content: string) {
   // Content HTML has an extra <p> added by editor.
   return `<p>&lt;p&gt;${content}&lt;/p&gt;&lt;script&gt;alert(&#39;-39&#39;)&lt;/script&gt;</p>`;
 }
@@ -21,7 +28,9 @@ export const sd = {
   timeString: '1/31/2019',
   title: makeText('title'),
   content: makeText('content'),
-  contentHTML: makeHTML('content'),
+  contentViewHTML: makeViewHTML('content'),
+  contentDBHTML: makeDBHTML('content'),
   updated: makeText('updated'),
-  updatedHTML: makeHTML('updated'),
+  updatedViewHTML: makeViewHTML('updated'),
+  updatedDBHTML: makeDBHTML('updated'),
 };

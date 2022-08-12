@@ -13,7 +13,7 @@ import { appdef } from '@qing/def';
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
 const entityBody = {
-  content: { contentHTML: def.sd.contentHTML, title: def.sd.title },
+  content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
 };
 
 export function verifyNewPostAPIResult(r: string | null): string {
