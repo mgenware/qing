@@ -81,7 +81,7 @@ export class BaseElement extends LitElement {
     let valid = true;
     // We must run through all inputs to make sure each `InputView` has `validationMessage` set.
     for (const input of inputs) {
-      if (input.checkValidity() === false) {
+      if (!input.checkValidity()) {
         valid = false;
       }
     }

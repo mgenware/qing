@@ -156,5 +156,7 @@
   "enableCommunityMode": "打开社区模式",
   "communitySettingsName": "社区",
   "cmtDeleted": "评论已被删除",
-  "invalidDate": "错误的日期"
+  "invalidDate": "错误的日期",
+  "pFieldMinLenError": "{0}至少要有{1}个字符。",
+  "pFieldMaxLenError": "{0}不能超过{1}个字符。"
 }

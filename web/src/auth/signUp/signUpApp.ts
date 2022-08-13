@@ -12,6 +12,7 @@ import SignUpLoader from './loaders/SignUpLoader';
 import 'qing-overlay';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
+import { appdef } from '@qing/def';
 import appTask from 'app/appTask';
 import * as pu from 'app/utils/pageUtils';
 
@@ -61,6 +62,8 @@ export class SignUpApp extends BaseElement {
           class="m-t-md"
           required
           type="password"
+          .minLength=${appdef.lenMinUserPwd}
+          .maxLength=${appdef.lenMaxUserPwd}
           .autocomplete=${'new-password'}
           label=${ls.password}
           value=${this.password}
@@ -70,17 +73,17 @@ export class SignUpApp extends BaseElement {
           class="m-t-md"
           required
           type="password"
+          .minLength=${appdef.lenMinUserPwd}
+          .maxLength=${appdef.lenMaxUserPwd}
           .autocomplete=${'new-password'}
           label=${ls.confirmPassword}
           value=${this.confirmPassword}
           @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}></input-view>
         ${this.passwordsMismatchErr
-          ? html`<input-error-view
-              class="m-t-md"
-              message=${this.passwordsMismatchErr}></input-error-view>`
+          ? html`<input-error-view message=${this.passwordsMismatchErr}></input-error-view>`
           : ''}
       </div>
-      <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignUpClick}
+      <qing-button btnStyle="success" class="m-t-sm" @click=${this.handleSignUpClick}
         >${ls.signUp}</qing-button
       >
     `;

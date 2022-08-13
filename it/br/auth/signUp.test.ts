@@ -42,15 +42,19 @@ test('Sign up - Default fields', async ({ page }) => {
     required: true,
     type: 'password',
     autoComplete: 'new-password',
+    minLength: 6,
+    maxLength: 30,
   });
   await ivh.shouldBeEmpty(pwdEl);
 
-  const pwd2El = appEl.$inputView('Confirm Password');
+  const pwd2El = appEl.$inputView('Confirm password');
   await ivh.shouldNotHaveError(pwdEl);
   await ivh.shouldHaveProps(pwdEl, {
     required: true,
     type: 'password',
     autoComplete: 'new-password',
+    minLength: 6,
+    maxLength: 30,
   });
   await ivh.shouldBeEmpty(pwd2El);
 });
@@ -71,8 +75,62 @@ test('Sign up - Validation errors - All', async ({ page }) => {
   const pwdEl = appEl.$inputView('Password');
   await ivh.shouldHaveRequiredError(pwdEl);
 
-  const pwd2El = appEl.$inputView('Confirm Password');
+  const pwd2El = appEl.$inputView('Confirm password');
   await ivh.shouldHaveRequiredError(pwd2El);
+});
+
+test('Sign up - Password length error', async ({ page }) => {
+  const p = $(page);
+  await p.goto(authRoutes.signUp, null);
+
+  const appEl = p.$(signUpAppSel);
+  const email = 't@mgenware.com';
+  const name = '__NAME__';
+
+  const nameEl = appEl.$inputView('Name');
+  await nameEl.fillInput(name);
+
+  const emailEl = appEl.$inputView('Email');
+  await emailEl.fillInput(email);
+
+  const pwdEl = appEl.$inputView('Password');
+  const pwd2El = appEl.$inputView('Confirm password');
+
+  async function fillPwd(pwd: string) {
+    await pwdEl.fillInput(pwd);
+    await pwd2El.fillInput(pwd);
+  }
+
+  await fillPwd('1');
+
+  await appEl.$qingButton('Sign up').click();
+  await ivh.shouldHaveError(pwdEl, 'Password should be at least 6 characters.');
+  await ivh.shouldHaveError(pwd2El, 'Confirm password should be at least 6 characters.');
+});
+
+test("Sign up - Password don't match", async ({ page }) => {
+  const p = $(page);
+  await p.goto(authRoutes.signUp, null);
+
+  const appEl = p.$(signUpAppSel);
+  const email = 't@mgenware.com';
+  const name = '__NAME__';
+
+  const nameEl = appEl.$inputView('Name');
+  await nameEl.fillInput(name);
+
+  const emailEl = appEl.$inputView('Email');
+  await emailEl.fillInput(email);
+
+  const pwdEl = appEl.$inputView('Password');
+  await pwdEl.fillInput('123456');
+  const pwd2El = appEl.$inputView('Confirm password');
+  await pwd2El.fillInput('1234567');
+
+  await appEl.$qingButton('Sign up').click();
+
+  const errorView = appEl.$('> div > input-error-view');
+  await errorView.e.toHaveAttribute('message', "Passwords don't match.");
 });
 
 test('Sign up - Success', async ({ page }) => {
@@ -93,7 +151,7 @@ test('Sign up - Success', async ({ page }) => {
   const pwdEl = appEl.$inputView('Password');
   await pwdEl.fillInput(pwd);
 
-  const pwd2El = appEl.$inputView('Confirm Password');
+  const pwd2El = appEl.$inputView('Confirm password');
   await pwd2El.fillInput(pwd);
 
   // sign-up-app has been removed once "Sign up" button is clicked.

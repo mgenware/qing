@@ -14,6 +14,8 @@ export interface InputViewProps {
   type?: string;
   autoComplete?: string;
   inputMode?: string;
+  minLength?: number;
+  maxLength?: number;
 }
 
 export async function shouldHaveProps(el: Element, props: InputViewProps) {
@@ -32,6 +34,12 @@ export async function shouldHaveProps(el: Element, props: InputViewProps) {
   }
   if (props.inputMode !== undefined) {
     await el.e.toHaveAttribute('inputmode', props.inputMode);
+  }
+  if (props.minLength !== undefined) {
+    await el.e.toHaveAttribute('minlength', props.minLength.toString());
+  }
+  if (props.maxLength !== undefined) {
+    await el.e.toHaveAttribute('maxlength', props.maxLength.toString());
   }
 }
 

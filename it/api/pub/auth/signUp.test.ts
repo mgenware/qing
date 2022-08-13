@@ -36,6 +36,17 @@ itaResultRaw('Sign up - Missing pwd', authAPI.signUp, { name: '_', email: '_' },
   msg: 'the argument `pwd` is required',
 });
 
+itaResultRaw(
+  'Sign up - Min pwd length',
+  authAPI.signUp,
+  { name: '_', email: '_', pwd: '1' },
+  null,
+  {
+    code: 10000,
+    msg: 'the argument `pwd` is less than the required length 6',
+  },
+);
+
 const email1 = uuid.v4();
 ita(
   'Sign up - Verification email - Cannot login when not verified',

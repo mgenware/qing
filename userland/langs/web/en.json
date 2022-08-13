@@ -85,7 +85,7 @@
   "createAnAcc": "Create an account",
   "email": "Email",
   "password": "Password",
-  "confirmPassword": "Confirm Password",
+  "confirmPassword": "Confirm password",
   "signUp": "Sign up",
   "regEmailSentDialogTitle": "Almost done...",
   "regEmailSentDialogContent": "A verification link has been sent to your email account. Please check your email and click the verification link to complete the registration process.",
@@ -156,5 +156,7 @@
   "enableCommunityMode": "Enable community mode",
   "communitySettingsName": "Community",
   "cmtDeleted": "Comment deleted",
-  "invalidDate": "Invalid date"
+  "invalidDate": "Invalid date",
+  "pFieldMinLenError": "{0} should be at least {1} characters.",
+  "pFieldMaxLenError": "{0} should be at most {1} characters."
 }

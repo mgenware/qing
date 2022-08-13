@@ -166,4 +166,6 @@ export default interface LSDefs {
   communitySettingsName: string;
   cmtDeleted: string;
   invalidDate: string;
+  pFieldMinLenError: string;
+  pFieldMaxLenError: string;
 }

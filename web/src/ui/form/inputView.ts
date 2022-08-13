@@ -8,6 +8,8 @@
 import { BaseElement, customElement, html, css, property } from 'll';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import debounceFn from 'lib/debounce';
+import { formatLS, ls } from 'ls';
+import { ERR } from 'checks';
 import './inputErrorView';
 
 const inputID = 'input-id';
@@ -143,6 +145,9 @@ export class InputView extends BaseElement {
   @property({ reflect: true }) autocomplete?: AutoCompleteValues;
   @property({ reflect: true }) inputmode?: InputTypeValues;
 
+  @property({ type: Number, reflect: true }) minLength = 0;
+  @property({ type: Number, reflect: true }) maxLength = 0;
+
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
 
@@ -174,10 +179,9 @@ export class InputView extends BaseElement {
         autocomplete=${ifDefined(this.autocomplete)}
         inputmode=${ifDefined(this.inputmode)}
         placeholder=${this.placeholder}
-        @input=${this.handleInput}
-        style=${`margin-bottom: ${validationError ? '0.5rem' : '0'}`} />
+        @input=${this.handleInput} />
       ${validationError
-        ? html`<input-error-view message=${validationError}></input-error-view>`
+        ? html`<input-error-view class="m-t-sm" message=${validationError}></input-error-view>`
         : ''}
     `;
   }
@@ -190,6 +194,20 @@ export class InputView extends BaseElement {
     this.inputValidated = true;
     const res = this.inputEl.checkValidity();
     this.validationError = this.inputEl.validationMessage;
+    if (!this.validationError) {
+      try {
+        if (this.minLength && this.value.length < this.minLength) {
+          throw new Error(formatLS(ls.pFieldMinLenError, this.label, this.minLength));
+        }
+        if (this.maxLength && this.value.length > this.maxLength) {
+          throw new Error(formatLS(ls.pFieldMaxLenError, this.label, this.maxLength));
+        }
+      } catch (err) {
+        ERR(err);
+        this.validationError = err.message;
+        return false;
+      }
+    }
     return res;
   }
 
