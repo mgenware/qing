@@ -13,7 +13,7 @@ import { serverURL } from 'base/def';
 import { expect } from '@playwright/test';
 
 export { expect, Expect, test } from '@playwright/test';
-export { usr, api, User } from 'base/api';
+export { usr, api, User, authUsr } from 'base/api';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
@@ -171,6 +171,14 @@ export class Element extends LocatorCore {
 
   $a(e: { href: string; text: string }) {
     return this.$hasText(`a[href=${JSON.stringify(e.href)}]`, e.text);
+  }
+
+  $inputView(label: string) {
+    return this.$(`input-view[label=${JSON.stringify(label)}]`);
+  }
+
+  fillInput(value: string) {
+    return this.$('input').c.fill(value);
   }
 }
 

@@ -13,7 +13,6 @@ import 'qing-overlay';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
 import appTask from 'app/appTask';
-import pageUtils from 'app/utils/pageUtils';
 
 @customElement('reg-app')
 export class RegApp extends BaseElement {
@@ -91,7 +90,6 @@ export class RegApp extends BaseElement {
           <p>${ls.regEmailSentContent}</p>
         </div>
         <p>
-          <qing-button @click=${this.handleGotoEmail}>${ls.goToYourEmail}</qing-button>
           <qing-button @click=${this.handleClosePage}>${ls.closeCurrentPage}</qing-button>
         </p>
       </qing-overlay>
@@ -100,13 +98,6 @@ export class RegApp extends BaseElement {
 
   private handleClosePage() {
     window.close();
-  }
-
-  private handleGotoEmail() {
-    const domain = this.email.split('@').pop();
-    if (domain) {
-      pageUtils.openWindow(domain);
-    }
   }
 
   private validateForm(): boolean {

@@ -133,15 +133,15 @@ export class InputView extends BaseElement {
     ];
   }
 
-  @property() label = '';
-  @property({ type: Boolean }) required = false;
-  @property() type: InputTypeValues = 'text';
-  @property() value = '';
-  @property() placeholder = '';
-  @property({ type: Boolean }) debounceOnChange = false;
+  @property({ reflect: true }) label = '';
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ reflect: true }) type: InputTypeValues = 'text';
+  @property({ reflect: true }) value = '';
+  @property({ reflect: true }) placeholder = '';
+  @property({ type: Boolean, reflect: true }) debounceOnChange = false;
 
-  @property() autocomplete?: AutoCompleteValues;
-  @property() inputmode?: InputTypeValues;
+  @property({ reflect: true }) autocomplete?: AutoCompleteValues;
+  @property({ reflect: true }) inputmode?: InputTypeValues;
 
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
