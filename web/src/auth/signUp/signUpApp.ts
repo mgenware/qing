@@ -14,8 +14,8 @@ import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
 import appTask from 'app/appTask';
 
-@customElement('reg-app')
-export class RegApp extends BaseElement {
+@customElement('sign-up-app')
+export class SignUpApp extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -125,6 +125,6 @@ export class RegApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'reg-app': RegApp;
+    'sign-up-app': SignUpApp;
   }
 }
