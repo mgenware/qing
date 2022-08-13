@@ -60,7 +60,7 @@ test('Sign up - Validation errors - All', async ({ page }) => {
   await p.goto(authRoutes.signUp, null);
 
   const appEl = p.$(signUpAppSel);
-  await appEl.$qingButton('Sign in').click();
+  await appEl.$qingButton('Sign up').click();
 
   const nameEl = appEl.$inputView('Name');
   await ivh.shouldHaveRequiredError(nameEl);
@@ -96,5 +96,14 @@ test('Sign up - Success', async ({ page }) => {
   const pwd2El = appEl.$inputView('Confirm Password');
   await pwd2El.fillInput(pwd);
 
-  await appEl.$qingButton('Sign up').click();
+  // sign-up-app has been removed once "Sign up" button is clicked.
+  const bodyEl = p.body;
+  await bodyEl.$qingButton('Sign up').click();
+  await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
+  await bodyEl
+    .$hasText(
+      'p',
+      'A verification link has been sent to your email account. Please check your email and click the verification link to complete the registration process.',
+    )
+    .e.toBeVisible();
 });

@@ -110,7 +110,6 @@ export class SignUpApp extends BaseElement {
           <div>
             <h1>${ls.regEmailSentDialogTitle}</h1>
             <p>${ls.regEmailSentDialogContent}</p>
-            <p><qing-button @click=${() => window.close()}>${ls.closeCurrentPage}</qing-button></p>
           </div>
         `,
       );

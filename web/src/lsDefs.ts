@@ -150,7 +150,6 @@ export default interface LSDefs {
   langSettings: string;
   doYouWantToChangeLangTo: string;
   close: string;
-  closeCurrentPage: string;
   signInToLikeThisEntity: string;
   link: string;
   goToMyReply: string;
