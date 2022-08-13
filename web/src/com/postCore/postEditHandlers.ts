@@ -16,7 +16,7 @@ import DeleteEntityLoader from './loaders/deleteEntityLoader';
 import 'com/postCore/setEntityApp';
 import SetEntityApp from 'com/postCore/setEntityApp';
 import appTask from 'app/appTask';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 import { renderTemplateResult } from 'lib/htmlLib';
 import Entity from 'lib/entity';
 
@@ -41,7 +41,7 @@ export function setupHandlers(
       const status = await appTask.critical(loader, ls.working);
       if (status.data) {
         // Redirect to profile page since this page has been deleted.
-        pageUtils.setURL(status.data);
+        pu.setURL(status.data);
       }
     }
   });

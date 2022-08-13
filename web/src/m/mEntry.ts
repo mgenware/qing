@@ -14,12 +14,12 @@ import './settings/profile/editProfileApp';
 import './postCenter/myPostsApp';
 import './postCenter/myThreadsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 
 const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
-  pageUtils.setTitleAndMainContent(
+  pu.setTitleAndMainContent(
     [selectedItem, ls.settings],
     html`<m-settings-view .selectedItem=${selectedItem}>${content}</m-settings-view>`,
   );
@@ -29,10 +29,10 @@ router.register(mRoute.settingsProfile, () => {
   loadSettingsContent(ls.profile, html` <edit-profile-app></edit-profile-app> `);
 });
 router.register(mRoute.yourPosts, () => {
-  pageUtils.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
+  pu.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
 router.register(mRoute.yourThreads, () => {
-  pageUtils.setTitleAndMainContent([ls.yourThreads], html`<my-threads-app></my-threads-app>`);
+  pu.setTitleAndMainContent([ls.yourThreads], html`<my-threads-app></my-threads-app>`);
 });
 
 router.startOnce();

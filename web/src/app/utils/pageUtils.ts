@@ -9,47 +9,39 @@ import { renderTemplateResult } from 'lib/htmlLib';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
 
-export class PageUtils {
-  get mainContentElement(): HTMLElement {
-    const element = window.document.querySelector('body > main');
-    if (!element) {
-      throw new Error('Fatal error: main content element is null');
-    }
-    return element as HTMLElement;
+export function mainContentElement(): HTMLElement {
+  const element = window.document.querySelector('body > main');
+  if (!element) {
+    throw new Error('Fatal error: main content element is null');
   }
-
-  jumpToURL(url: string) {
-    window.location.href = url;
-  }
-
-  setURL(url: string) {
-    window.location.replace(url);
-  }
-
-  reload() {
-    window.location.reload();
-  }
-
-  openWindow(url: string) {
-    window.open(url, '_blank');
-  }
-
-  setTitle(titles: string[]) {
-    document.title = `${titles.join(' - ')} - ${ls.qingSiteName}`;
-  }
-
-  setMainContent(content: TemplateResult) {
-    renderTemplateResult(
-      this.mainContentElement,
-      html`<container-view>${content}</container-view>`,
-    );
-  }
-
-  setTitleAndMainContent(titles: string[], content: TemplateResult) {
-    this.setTitle(titles);
-    this.setMainContent(content);
-  }
+  return element as HTMLElement;
 }
 
-const pageUtils = new PageUtils();
-export default pageUtils;
+export function jumpToURL(url: string) {
+  window.location.href = url;
+}
+
+export function setURL(url: string) {
+  window.location.replace(url);
+}
+
+export function reload() {
+  window.location.reload();
+}
+
+export function openWindow(url: string) {
+  window.open(url, '_blank');
+}
+
+export function setTitle(titles: string[]) {
+  document.title = `${titles.join(' - ')} - ${ls.qingSiteName}`;
+}
+
+export function setMainContent(content: TemplateResult) {
+  renderTemplateResult(mainContentElement(), html`<container-view>${content}</container-view>`);
+}
+
+export function setTitleAndMainContent(titles: string[], content: TemplateResult) {
+  setTitle(titles);
+  setMainContent(content);
+}

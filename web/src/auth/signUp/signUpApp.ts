@@ -13,6 +13,7 @@ import 'qing-overlay';
 import 'ui/form/inputView';
 import 'ui/form/inputErrorView';
 import appTask from 'app/appTask';
+import * as pu from 'app/utils/pageUtils';
 
 @customElement('sign-up-app')
 export class SignUpApp extends BaseElement {
@@ -31,8 +32,6 @@ export class SignUpApp extends BaseElement {
   @property() private email = '';
   @property() private password = '';
   @property() private confirmPassword = '';
-
-  @property({ type: Boolean }) private isCompletionModalOpen = false;
 
   // Additional passwords mismatch error message displayed under "Confirm password" input.
   @property() private passwordsMismatchErr = '';
@@ -84,20 +83,7 @@ export class SignUpApp extends BaseElement {
       <qing-button btnStyle="success" class="m-t-md" @click=${this.handleSignUpClick}
         >${ls.signUp}</qing-button
       >
-      <qing-overlay ?open=${this.isCompletionModalOpen}>
-        <div>
-          <h2>${ls.regEmailSentTitle}</h2>
-          <p>${ls.regEmailSentContent}</p>
-        </div>
-        <p>
-          <qing-button @click=${this.handleClosePage}>${ls.closeCurrentPage}</qing-button>
-        </p>
-      </qing-overlay>
     `;
-  }
-
-  private handleClosePage() {
-    window.close();
   }
 
   private validateForm(): boolean {
@@ -118,7 +104,16 @@ export class SignUpApp extends BaseElement {
     const loader = new SignUpLoader(this.name, this.email, this.password);
     const status = await appTask.critical(loader, ls.publishing);
     if (status.isSuccess) {
-      this.isCompletionModalOpen = true;
+      pu.setTitleAndMainContent(
+        [ls.regEmailSentDialogTitle],
+        html`
+          <div>
+            <h1>${ls.regEmailSentDialogTitle}</h1>
+            <p>${ls.regEmailSentDialogContent}</p>
+            <p><qing-button @click=${() => window.close()}>${ls.closeCurrentPage}</qing-button></p>
+          </div>
+        `,
+      );
     }
   }
 }

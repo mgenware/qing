@@ -12,16 +12,16 @@ import * as authRoute from '@qing/routes/d/auth';
 import './signUp/signUpApp';
 import './signIn/signInApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 
 const authRouter = new MiniURLRouter();
 
 authRouter.register(authRoute.signUp, () => {
-  pageUtils.setTitle([ls.createAnAcc]);
-  pageUtils.setMainContent(html`<sign-up-app></sign-up-app>`);
+  pu.setTitle([ls.createAnAcc]);
+  pu.setMainContent(html`<sign-up-app></sign-up-app>`);
 });
 authRouter.register(authRoute.signIn, () => {
-  pageUtils.setTitle([ls.signIn]);
-  pageUtils.setMainContent(html`<sign-in-app></sign-in-app>`);
+  pu.setTitle([ls.signIn]);
+  pu.setMainContent(html`<sign-in-app></sign-in-app>`);
 });
 authRouter.startOnce();

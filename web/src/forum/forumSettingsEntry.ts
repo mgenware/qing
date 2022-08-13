@@ -15,7 +15,7 @@ import ls from 'ls';
 import ForumSettingsWind from './forumSettingsWind';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 
 const settingsRouter = new MiniURLRouter();
 const forumSettingsWind = appPageState.windData<ForumSettingsWind>();
@@ -27,7 +27,7 @@ function loadSettingsContent(
   title: string,
   content: TemplateResult,
 ) {
-  pageUtils.setTitleAndMainContent(
+  pu.setTitleAndMainContent(
     [title],
     html`<forum-settings-base-view .fid=${fid} .selectedPage=${selectedPage}
       >${content}</forum-settings-base-view

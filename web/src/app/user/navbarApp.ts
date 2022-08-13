@@ -20,7 +20,7 @@ import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 import AppSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
@@ -446,7 +446,7 @@ export default class NavbarApp extends BaseElement {
     const loader = new SignOutLoader();
     const res = await appTask.critical(loader);
     if (res.isSuccess) {
-      pageUtils.reload();
+      pu.reload();
     }
   }
 

@@ -14,7 +14,7 @@ import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';
 import { SetEntityLoader } from './loaders/setEntityLoader';
 import appTask from 'app/appTask';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 
 const composerID = 'composer';
 
@@ -96,9 +96,9 @@ export default class SetEntityApp extends BaseElement {
     if (status.isSuccess) {
       this.composerEl?.markAsSaved();
       if (status.data) {
-        pageUtils.setURL(status.data);
+        pu.setURL(status.data);
       } else {
-        pageUtils.reload();
+        pu.reload();
       }
     }
   }

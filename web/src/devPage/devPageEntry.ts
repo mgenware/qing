@@ -14,12 +14,12 @@ import './devPage';
 import { appdef } from '@qing/def';
 import './auth/authPage';
 import './ui/elementsPage';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 
 const devRouter = new MiniURLRouter();
 
 function loadPageContent(title: string, content: TemplateResult) {
-  pageUtils.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
+  pu.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
 }
 
 devRouter.register(authRoute.authRoot, () => {

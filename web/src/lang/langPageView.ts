@@ -11,7 +11,7 @@ import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import appAlert from 'app/appAlert';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 import AppSettings from 'app/appSettings';
 
 @customElement('lang-page-view')
@@ -62,7 +62,7 @@ export class LangPageView extends BaseElement {
     }
     if (await appAlert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, t.LocalizedName))) {
       AppSettings.instance.lang = t.ID;
-      pageUtils.reload();
+      pu.reload();
     }
   }
 }

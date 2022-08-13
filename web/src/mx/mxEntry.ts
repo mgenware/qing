@@ -13,12 +13,12 @@ import './admins/adminsSettingsPage';
 import './community/communitySettingsPage';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import pageUtils from 'app/utils/pageUtils';
+import * as pu from 'app/utils/pageUtils';
 
 const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
-  pageUtils.setTitleAndMainContent(
+  pu.setTitleAndMainContent(
     [selectedItem, ls.siteSettings],
     html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
   );

@@ -96,9 +96,8 @@ export default interface LSDefs {
   password: string;
   confirmPassword: string;
   signUp: string;
-  regEmailSentTitle: string;
-  regEmailSentContent: string;
-  goToYourEmail: string;
+  regEmailSentDialogTitle: string;
+  regEmailSentDialogContent: string;
   pwdDontMatch: string;
   noContentAvailable: string;
   yourPosts: string;
