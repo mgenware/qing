@@ -6,8 +6,8 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import 'ui/form/inputView';
-import 'ui/form/checklistView';
+import 'ui/forms/inputView';
+import 'ui/forms/checklistView';
 import * as authRoute from '@qing/routes/d/dev/auth';
 import 'qing-button';
 import * as loaders from './loaders';

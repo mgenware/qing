@@ -13,7 +13,7 @@ import 'ui/pickers/avatarUploader';
 import 'ui/content/headingView';
 import 'ui/status/statefulPage';
 import { StatefulPage } from 'ui/status/statefulPage';
-import 'ui/form/inputView';
+import 'ui/forms/inputView';
 import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
 import LoadingStatus from 'lib/loadingStatus';
 import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';

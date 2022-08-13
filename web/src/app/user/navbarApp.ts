@@ -26,7 +26,7 @@ import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
 import * as thm from './theme';
 import * as brLib from 'lib/brLib';
-import 'ui/form/checkBox';
+import 'ui/forms/checkBox';
 
 const sideNavID = 'sidenav';
 const imgSize = 25;

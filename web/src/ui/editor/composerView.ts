@@ -21,7 +21,7 @@ import {
 import { ls, formatLS } from 'ls';
 import './editorView';
 import { ERR } from 'checks';
-import 'ui/form/inputView';
+import 'ui/forms/inputView';
 import 'ui/status/statusView';
 import EditorView from './editorView';
 import { CHECK } from 'checks';

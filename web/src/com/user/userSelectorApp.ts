@@ -6,8 +6,8 @@
  */
 
 import { BaseElement, customElement, html, css, when, property } from 'll';
-import 'ui/form/inputView';
-import 'ui/form/checklistView';
+import 'ui/forms/inputView';
+import 'ui/forms/checklistView';
 import ls from 'ls';
 import 'ui/alerts/noticeView';
 import UserInfo from './userInfo';

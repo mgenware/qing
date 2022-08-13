@@ -9,8 +9,8 @@ import { BaseElement, customElement, html, css, property } from 'll';
 import 'com/cmt/cmtApp';
 import ls from 'ls';
 import SignInLoader from './loaders/signInLoader';
-import 'ui/form/inputView';
-import 'ui/form/inputErrorView';
+import 'ui/forms/inputView';
+import 'ui/forms/inputErrorView';
 import appTask from 'app/appTask';
 import * as pu from 'app/utils/pageUtils';
 

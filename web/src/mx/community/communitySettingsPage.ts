@@ -9,7 +9,7 @@ import { customElement, html, css, when, property } from 'll';
 import { CHECK } from 'checks';
 import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
-import 'ui/form/checkBox';
+import 'ui/forms/checkBox';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/status/statefulPage';

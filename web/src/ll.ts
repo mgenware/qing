@@ -7,7 +7,7 @@
 
 import { CHECK } from 'checks';
 import { LitElement, CSSResultGroup } from 'lit';
-import { InputView } from 'ui/form/inputView';
+import { InputView } from 'ui/forms/inputView';
 import coreStyles from './app/styles/bundle';
 
 export * from 'lit';

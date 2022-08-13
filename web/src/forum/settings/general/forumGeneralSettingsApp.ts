@@ -12,7 +12,7 @@ import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
-import 'ui/form/inputView';
+import 'ui/forms/inputView';
 import 'ui/editor/editorView';
 import LoadingStatus from 'lib/loadingStatus';
 import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader';
