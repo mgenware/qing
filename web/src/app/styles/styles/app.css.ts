@@ -80,7 +80,7 @@ export default css`
     overflow: hidden;
   }
   .flex-auto {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     overflow: hidden;
   }
   .flex-column {
