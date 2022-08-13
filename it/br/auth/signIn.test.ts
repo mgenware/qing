@@ -9,6 +9,7 @@ import { test, $, authUsr, usr } from 'br';
 import { serverURL } from 'base/def';
 import * as nbc from 'br/com/navbar/checks';
 import * as ivh from 'br/com/forms/inputViewHelper';
+import * as kh from 'br/com/keyboardHelper';
 import * as authRoutes from '@qing/routes/d/auth';
 
 const signInAppSel = 'sign-in-app';
@@ -17,7 +18,8 @@ test('Sign in - Default fields', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoutes.signIn, null);
 
-  const appEl = p.$(signInAppSel);
+  // NOTE: this also checks enter-key-handler.
+  const appEl = p.$(`${signInAppSel} ${kh.enterKeyHandlerSel}`);
 
   const emailEl = appEl.$inputView('Email');
   await ivh.shouldNotHaveError(emailEl);
@@ -37,6 +39,9 @@ test('Sign in - Default fields', async ({ page }) => {
     autoComplete: 'current-password',
   });
   await ivh.shouldBeEmpty(pwdEl);
+
+  // Make sure "Sign in" button is an enter key responder.
+  await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Sign in'));
 });
 
 test('Sign in - Validation errors - All', async ({ page }) => {

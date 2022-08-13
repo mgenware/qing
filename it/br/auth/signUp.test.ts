@@ -8,6 +8,7 @@
 import { test, $ } from 'br';
 import * as ivh from 'br/com/forms/inputViewHelper';
 import * as authRoutes from '@qing/routes/d/auth';
+import * as kh from 'br/com/keyboardHelper';
 import * as uuid from 'uuid';
 
 const signUpAppSel = 'sign-up-app';
@@ -16,7 +17,8 @@ test('Sign up - Default fields', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoutes.signUp, null);
 
-  const appEl = p.$(signUpAppSel);
+  // NOTE: this also checks enter-key-handler.
+  const appEl = p.$(`${signUpAppSel} ${kh.enterKeyHandlerSel}`);
 
   const nameEl = appEl.$inputView('Name');
   await ivh.shouldNotHaveError(nameEl);
@@ -57,6 +59,9 @@ test('Sign up - Default fields', async ({ page }) => {
     maxLength: 30,
   });
   await ivh.shouldBeEmpty(pwd2El);
+
+  // Make sure "Sign up" button is an enter key responder.
+  await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Sign up'));
 });
 
 test('Sign up - Validation errors - All', async ({ page }) => {

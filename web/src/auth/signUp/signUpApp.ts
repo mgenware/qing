@@ -11,6 +11,7 @@ import ls from 'ls';
 import SignUpLoader from './loaders/SignUpLoader';
 import 'qing-overlay';
 import 'ui/forms/inputView';
+import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import { appdef } from '@qing/def';
 import appTask from 'app/appTask';
@@ -39,53 +40,58 @@ export class SignUpApp extends BaseElement {
 
   override render() {
     return html`
-      <h2>${ls.createAnAcc}</h2>
-      <div>
-        <input-view
-          class="m-t-md"
-          required
-          label=${ls.name}
-          value=${this.name}
-          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+      <enter-key-handler>
+        <h2>${ls.createAnAcc}</h2>
+        <div>
+          <input-view
+            class="m-t-md"
+            required
+            label=${ls.name}
+            value=${this.name}
+            @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
-        <input-view
-          class="m-t-md"
-          required
-          .autocomplete=${'email'}
-          .inputmode=${'email'}
-          type="email"
-          label=${ls.email}
-          value=${this.email}
-          @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
+          <input-view
+            class="m-t-md"
+            required
+            .autocomplete=${'email'}
+            .inputmode=${'email'}
+            type="email"
+            label=${ls.email}
+            value=${this.email}
+            @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
-        <input-view
-          class="m-t-md"
-          required
-          type="password"
-          .minLength=${appdef.lenMinUserPwd}
-          .maxLength=${appdef.lenMaxUserPwd}
-          .autocomplete=${'new-password'}
-          label=${ls.password}
-          value=${this.password}
-          @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
+          <input-view
+            class="m-t-md"
+            required
+            type="password"
+            .minLength=${appdef.lenMinUserPwd}
+            .maxLength=${appdef.lenMaxUserPwd}
+            .autocomplete=${'new-password'}
+            label=${ls.password}
+            value=${this.password}
+            @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
 
-        <input-view
-          class="m-t-md"
-          required
-          type="password"
-          .minLength=${appdef.lenMinUserPwd}
-          .maxLength=${appdef.lenMaxUserPwd}
-          .autocomplete=${'new-password'}
-          label=${ls.confirmPassword}
-          value=${this.confirmPassword}
-          @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}></input-view>
-        ${this.passwordsMismatchErr
-          ? html`<input-error-view message=${this.passwordsMismatchErr}></input-error-view>`
-          : ''}
-      </div>
-      <qing-button btnStyle="success" class="m-t-sm" @click=${this.handleSignUpClick}
-        >${ls.signUp}</qing-button
-      >
+          <input-view
+            class="m-t-md"
+            required
+            type="password"
+            .minLength=${appdef.lenMinUserPwd}
+            .maxLength=${appdef.lenMaxUserPwd}
+            .autocomplete=${'new-password'}
+            label=${ls.confirmPassword}
+            value=${this.confirmPassword}
+            @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}></input-view>
+          ${this.passwordsMismatchErr
+            ? html`<input-error-view message=${this.passwordsMismatchErr}></input-error-view>`
+            : ''}
+        </div>
+        <qing-button
+          btnStyle="success"
+          class="m-t-sm enter-key-responder"
+          @click=${this.handleSignUpClick}
+          >${ls.signUp}</qing-button
+        >
+      </enter-key-handler>
     `;
   }
 
