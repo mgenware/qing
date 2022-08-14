@@ -5,4 +5,4 @@
  * be found in the LICENSE file.
  */
 
-export const editorContentSel = 'editor-view .kx-content';
+export const editorContentSel = '.kx-content';

@@ -7,6 +7,7 @@
 
 import { test, usr, $ } from 'br';
 import * as nbm from 'br/com/navbar/menu';
+import * as ed from 'br/com/editing/editor';
 import * as ivh from 'br/com/forms/inputViewHelper';
 
 test('Settings - Profile', async ({ page }) => {
@@ -31,4 +32,7 @@ test('Settings - Profile', async ({ page }) => {
   await ivh.shouldHaveValue(rootEl.$inputView('URL'), 'USER_WEBSITE');
   await ivh.shouldHaveValue(rootEl.$inputView('Company'), 'USER_COMPANY');
   await ivh.shouldHaveValue(rootEl.$inputView('Location'), 'USER_LOC');
+
+  const bioEditor = rootEl.$('.bio-editor');
+  await bioEditor.$(ed.editorContentSel).e.toHaveText('USER_BIO');
 });
