@@ -10,7 +10,7 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import * as act from './actions';
-import { editorShouldAppear } from 'br/com/editing/editor';
+import { composerShouldAppear } from 'br/com/editing/composer';
 
 function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
@@ -25,7 +25,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
             cmtApp,
             content: def.sd.content,
             shownCb: async () => {
-              await editorShouldAppear(page, {
+              await composerShouldAppear(page, {
                 name: 'Write a comment',
                 title: null,
                 contentHTML: '',

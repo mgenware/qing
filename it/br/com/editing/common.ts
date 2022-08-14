@@ -7,6 +7,5 @@
 
 export const closedOverlaySel = 'qing-overlay.immersive';
 export const openOverlaySel = `${closedOverlaySel}[open=""]`;
-export const editorButtonsGroupSel = '.editor-buttons';
-export const editorContentSel = 'editor-view .kx-content';
-export const editorTitleSel = 'input[placeholder="Title"]';
+export const composerButtonsGroupSel = '.editor-buttons';
+export const composerTitleSel = 'input[placeholder="Title"]';

@@ -10,7 +10,7 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt, editCmt } from './actions';
-import { editorShouldAppear } from 'br/com/editing/editor';
+import { composerShouldAppear } from 'br/com/editing/composer';
 
 function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ page }) => {
@@ -29,7 +29,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           cmtApp,
           author: usr.user,
           shownCb: async () => {
-            await editorShouldAppear(page, {
+            await composerShouldAppear(page, {
               name: 'Edit comment',
               title: null,
               contentHTML: def.sd.contentViewHTML,

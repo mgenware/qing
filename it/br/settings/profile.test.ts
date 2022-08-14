@@ -14,9 +14,9 @@ test('Settings - Profile', async ({ page }) => {
   await p.goto('/', usr.user);
 
   await nbm.userMenuBtn(p).click();
-  await nbm.userMenuEl(p).$aButton('Settings').click();
+  await nbm.userMenuEl(p).$a({ text: 'Settings', href: '/m/settings/profile' }).click();
 
-  const rootEl = p.$('edit-profile-app');
+  const rootEl = p.$('m-settings-view');
   // Profile menu item highlighted.
   await rootEl.$('a[class="link-active"][href="/m/settings/profile"]').e.toBeVisible();
 

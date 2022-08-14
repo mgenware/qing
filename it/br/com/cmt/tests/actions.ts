@@ -7,7 +7,7 @@
 
 import * as br from 'br';
 import { User } from 'br';
-import { waitForOverlayVisible } from 'br/com/editing/editor';
+import { waitForOverlayVisible } from 'br/com/editing/composer';
 import { updateEditor } from 'br/com/editing/actions';
 import { getEditBarEditButton } from 'br/com/editing/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';

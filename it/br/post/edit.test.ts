@@ -11,7 +11,7 @@ import * as br from 'br';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
 import { getEditBarEditButton } from 'br/com/editing/editBar';
 import * as def from 'base/def';
-import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editing/editor';
+import * as cp from 'br/com/editing/composer';
 import { updateEditor } from 'br/com/editing/actions';
 
 async function clickEditButton(page: br.Page) {
@@ -22,7 +22,7 @@ async function clickEditButton(page: br.Page) {
 }
 
 async function postEditorShouldAppear(page: br.Page) {
-  await editorShouldAppear(page, {
+  await cp.composerShouldAppear(page, {
     name: 'Edit post',
     title: def.sd.title,
     contentHTML: def.sd.contentViewHTML,
@@ -30,7 +30,7 @@ async function postEditorShouldAppear(page: br.Page) {
   });
 }
 
-function testPostUpdates(part: EditorPart) {
+function testPostUpdates(part: cp.ComposerPart) {
   test(`Update post ${part === 'title' ? 'title' : 'content'}`, async ({ page }) => {
     const p = $(page);
     await scPost(usr.user, async ({ link }) => {
@@ -57,7 +57,7 @@ test('Dismiss post editor', async ({ page }) => {
     await clickEditButton(p);
 
     // Check editor dismissal.
-    await editorShouldBeDismissed(p, 'Cancel');
+    await cp.composerShouldBeDismissed(p, 'Cancel');
 
     // Verify page content.
     await postShouldHaveTitle(p, def.sd.title, link);

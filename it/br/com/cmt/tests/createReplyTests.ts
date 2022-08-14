@@ -10,7 +10,7 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import * as act from './actions';
-import { editorShouldAppear } from 'br/com/editing/editor';
+import { composerShouldAppear } from 'br/com/editing/composer';
 
 function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
@@ -30,7 +30,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
             cmtEl,
             content: def.sd.content,
             shownCb: async () => {
-              await editorShouldAppear(page, {
+              await composerShouldAppear(page, {
                 name: 'Reply to USER',
                 title: null,
                 contentHTML: '',
