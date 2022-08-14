@@ -9,10 +9,10 @@ import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as br from 'br';
 import { userViewQuery, postShouldHaveTitle, postShouldHaveContent } from './common';
-import { getEditBarEditButton } from 'br/com/editor/editBar';
+import { getEditBarEditButton } from 'br/com/editing/editBar';
 import * as def from 'base/def';
-import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editor/editor';
-import { updateEditor } from 'br/com/editor/actions';
+import { editorShouldBeDismissed, EditorPart, editorShouldAppear } from 'br/com/editing/editor';
+import { updateEditor } from 'br/com/editing/actions';
 
 async function clickEditButton(page: br.Page) {
   const u = usr.user;

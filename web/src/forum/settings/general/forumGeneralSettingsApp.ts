@@ -13,12 +13,12 @@ import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/forms/inputView';
-import 'ui/editor/editorView';
+import 'ui/editing/editorView';
 import LoadingStatus from 'lib/loadingStatus';
 import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader';
 import { GetForumEditingInfoLoader } from './loaders/getForumEditingInfo';
 import { CHECK } from 'checks';
-import EditorView from 'ui/editor/editorView';
+import EditorView from 'ui/editing/editorView';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 

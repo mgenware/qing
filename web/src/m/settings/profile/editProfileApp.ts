@@ -21,8 +21,8 @@ import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
 import appPageState from 'app/appPageState';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
-import 'ui/editor/editorView';
-import EditorView from 'ui/editor/editorView';
+import 'ui/editing/editorView';
+import EditorView from 'ui/editing/editorView';
 
 const editorID = 'editor';
 

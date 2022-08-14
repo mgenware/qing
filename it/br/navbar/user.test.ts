@@ -35,7 +35,7 @@ test('Navbar - User', async ({ page }) => {
   // TODO: tests for new post and new thread.
 });
 
-test('Navbar - Logout', async ({ page }) => {
+test('Navbar - Sign out', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
   const userBtn = nbm.userMenuBtn(p);

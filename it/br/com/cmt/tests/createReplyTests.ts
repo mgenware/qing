@@ -10,7 +10,7 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import * as act from './actions';
-import { editorShouldAppear } from 'br/com/editor/editor';
+import { editorShouldAppear } from 'br/com/editing/editor';
 
 function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(

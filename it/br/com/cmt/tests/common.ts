@@ -7,7 +7,7 @@
 
 import * as br from 'br';
 import { userViewShouldAppear } from 'br/com/content/userView';
-import { getEditBarEditButton } from 'br/com/editor/editBar';
+import { getEditBarEditButton } from 'br/com/editing/editBar';
 import { CmtFixture } from '../fixture';
 
 export const cmtChildrenClass = '.br-children';

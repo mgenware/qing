@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
-import { ComposerContent } from 'ui/editor/composerView';
+import { ComposerContent } from 'ui/editing/composerView';
 import { Cmt } from '../data/cmt';
 import Entity from 'lib/entity';
 

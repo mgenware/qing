@@ -8,8 +8,8 @@
 import 'core';
 import './postPayloadApp';
 import { setupHandlers } from 'com/postCore/postEditHandlers';
-import 'ui/editor/editBarApp';
-import { EditBarApp } from 'ui/editor/editBarApp';
+import 'ui/editing/editBarApp';
+import { EditBarApp } from 'ui/editing/editBarApp';
 import { appdef } from '@qing/def';
 import wind from './postWind';
 

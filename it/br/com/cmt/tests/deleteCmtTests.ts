@@ -7,7 +7,7 @@
 
 import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
-import { getEditBarDeleteButton } from 'br/com/editor/editBar';
+import { getEditBarDeleteButton } from 'br/com/editing/editBar';
 import { alertShouldAppear, AlertType, AlertButtons } from 'br/com/alerts/alert';
 import * as def from 'base/def';
 import * as cm from './common';

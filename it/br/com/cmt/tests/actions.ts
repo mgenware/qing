@@ -7,9 +7,9 @@
 
 import * as br from 'br';
 import { User } from 'br';
-import { waitForOverlayVisible } from 'br/com/editor/editor';
-import { updateEditor } from 'br/com/editor/actions';
-import { getEditBarEditButton } from 'br/com/editor/editBar';
+import { waitForOverlayVisible } from 'br/com/editing/editor';
+import { updateEditor } from 'br/com/editing/actions';
+import { getEditBarEditButton } from 'br/com/editing/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
 
 const loadMoreCmtsText = 'More comments';

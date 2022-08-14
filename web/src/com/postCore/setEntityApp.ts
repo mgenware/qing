@@ -7,8 +7,8 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import ls from 'ls';
-import 'ui/editor/composerView';
-import { ComposerContent, ComposerView } from 'ui/editor/composerView';
+import 'ui/editing/composerView';
+import { ComposerContent, ComposerView } from 'ui/editing/composerView';
 import { CHECK } from 'checks';
 import 'qing-overlay';
 import { GetEntitySourceLoader } from './loaders/getEntitySourceLoader';

@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
-import 'ui/editor/editBarApp';
+import 'ui/editing/editBarApp';
 import 'com/postCore/setEntityApp';
 import { CHECK } from 'checks';
 

@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import { ls } from 'ls';
-import 'ui/editor/editBarApp';
+import 'ui/editing/editBarApp';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';

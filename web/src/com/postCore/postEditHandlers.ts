@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import 'ui/editor/editBarApp';
+import 'ui/editing/editBarApp';
 import { html } from 'll';
 import { ls, formatLS } from 'ls';
 import appPageState from 'app/appPageState';
 import appAlert from 'app/appAlert';
-import { EditBarApp } from 'ui/editor/editBarApp';
+import { EditBarApp } from 'ui/editing/editBarApp';
 import { entityTypeToLS } from './strings';
 import DeleteEntityLoader from './loaders/deleteEntityLoader';
 import 'com/postCore/setEntityApp';

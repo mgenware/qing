@@ -8,7 +8,7 @@
 import Loader from 'lib/loader';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
 import { appdef } from '@qing/def';
-import { ComposerContent } from 'ui/editor/composerView';
+import { ComposerContent } from 'ui/editing/composerView';
 import appPageState from 'app/appPageState';
 
 export class SetEntityLoader extends Loader<string | null> {
