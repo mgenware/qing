@@ -79,7 +79,9 @@ export async function composerShouldAppear(page: br.Page, args: ComposerShouldAp
 
   const contentInputEl = composerEl.$(ed.editorContentSel);
   await contentInputEl.e.toBeVisible();
-  await contentInputEl.shouldHaveHTML(args.contentHTML || '<p><br></p>');
+  await contentInputEl.shouldHaveHTML(
+    args.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>',
+  );
 
   // Check bottom buttons.
   const btnGroupEl = composerEl.$(cm.composerButtonsGroupSel);
