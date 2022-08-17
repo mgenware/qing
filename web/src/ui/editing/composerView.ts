@@ -85,8 +85,8 @@ export class ComposerView extends BaseElement {
   @property({ type: Object }) loadingStatus = LoadingStatus.success;
 
   // Used to check if editor content has changed.
-  private lastSavedTitle = '';
-  private lastSavedContent = '';
+  private lastSavedTitle?: string;
+  private lastSavedContent?: string;
 
   private editorEl: Ref<EditorView> = createRef();
   private titleInputEl: Ref<HTMLInputElement> = createRef();
@@ -111,18 +111,8 @@ export class ComposerView extends BaseElement {
   resetEditor() {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
-    this.backupContentHTML = '';
     this.inputTitle = '';
     this.setContentHTML('', false);
-  }
-
-  private updateEditorContent(title: string, contentHTML: string, canUndo: boolean) {
-    const { editorEl } = this;
-    this.inputTitle = title;
-    if (editorEl.value) {
-      editorEl.value.setContentHTML(contentHTML, canUndo);
-      this.markAsSaved();
-    }
   }
 
   override connectedCallback() {
@@ -138,24 +128,22 @@ export class ComposerView extends BaseElement {
   override firstUpdated() {
     CHECK(this.entityType);
 
-    // Sync `contentHTML` (`contentHTML` might be set before editor el is connected to DOM).
-    const { editorEl } = this;
-    if (editorEl.value) {
-      editorEl.value.setContentHTML(this.backupContentHTML, false);
-    }
     this.markAsSaved();
   }
 
-  // Used to store content HTML when editor view is not available.
-  private backupContentHTML = '';
-  getContentHTML(): string {
-    return this.editorEl.value ? this.editorEl.value.getContentHTML() : this.backupContentHTML;
+  getContentHTML() {
+    return this.editorEl.value?.contentHTML;
   }
 
-  setContentHTML(val: string, canUndo: boolean) {
-    this.backupContentHTML = val;
-    if (this.editorEl.value) {
-      this.editorEl.value.setContentHTML(val, canUndo);
+  setContentHTML(contentHTML: string, canUndo: boolean) {
+    const { editorEl } = this;
+    if (editorEl.value) {
+      if (canUndo) {
+        editorEl.value.contentHTML = contentHTML;
+      } else {
+        editorEl.value.resetContentHTML(contentHTML);
+      }
+      this.markAsSaved();
     }
   }
 
@@ -287,7 +275,13 @@ export class ComposerView extends BaseElement {
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
-      this.updateEditorContent(postData.title ?? '', postData.contentHTML ?? '', false);
+      if (this.titleInputEl.value) {
+        this.titleInputEl.value.value = postData.title ?? '';
+      }
+      if (this.editorEl.value) {
+        this.editorEl.value.resetContentHTML(postData.contentHTML ?? '');
+      }
+      this.markAsSaved();
     }
   }
 }

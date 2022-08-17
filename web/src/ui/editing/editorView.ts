@@ -5,21 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { customElement, css } from 'll';
 import ls from 'ls';
-import { Editor, Lang } from 'kangxi-editor';
-import styles from 'kangxi-editor/dist/editor.css.js';
-
-const editorID = 'editor';
+import coreStyles from 'app/styles/bundle';
+import { KXEditor } from 'kangxi-editor';
 
 // A wrapper around the kangxi editor.
 @customElement('editor-view')
-export default class EditorView extends BaseElement {
+export default class EditorView extends KXEditor {
   static override get styles() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return [
+      ...coreStyles,
       super.styles,
-      styles,
       css`
         :host {
           display: flex;
@@ -47,46 +45,10 @@ export default class EditorView extends BaseElement {
     ];
   }
 
-  // Used to store content HTML when editor view is not available.
-  private backupContentHTML = '';
-  getContentHTML(): string {
-    return this.editor ? this.editor.contentHTML() : this.backupContentHTML;
-  }
+  constructor() {
+    super();
 
-  setContentHTML(val: string, canUndo: boolean) {
-    this.backupContentHTML = val;
-    if (this.editor) {
-      if (canUndo) {
-        this.editor.setContentHTML(val);
-      } else {
-        this.editor.resetContentHTML(val);
-      }
-    }
-  }
-
-  private editor?: Editor;
-  private get editorEl(): HTMLElement | null {
-    return this.getShadowElement(editorID);
-  }
-
-  override firstUpdated() {
-    if (!this.editorEl) {
-      return;
-    }
-    const editor = new Editor(this.editorEl, {
-      lang: ls as Lang,
-    });
-    editor.resetContentHTML(this.backupContentHTML);
-    this.editor = editor;
-  }
-
-  override focus() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    this.editor?.view.focus();
-  }
-
-  override render() {
-    return html`<div id=${editorID} class="kx-editor flex-full"></div>`;
+    this.localizedStrings = ls;
   }
 }
 

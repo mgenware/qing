@@ -100,7 +100,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
       const info = status.data;
       this.name = info.name ?? '';
       if (this.descEditorView) {
-        this.descEditorView.setContentHTML(info.descHTML ?? '', false);
+        this.descEditorView.contentHTML = info.descHTML ?? '';
       }
     }
   }
@@ -119,7 +119,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
       await appAlert.error(err.message);
       return;
     }
-    const descHTML = this.descEditorView.getContentHTML();
+    const descHTML = this.descEditorView.contentHTML;
     const loader = new SetForumEditingInfoLoader(this.fid, this.name, descHTML);
     await appTask.critical(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;

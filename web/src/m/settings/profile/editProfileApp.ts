@@ -115,7 +115,7 @@ export class EditProfileApp extends StatefulPage {
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
       this.avatarURL = profile.iconURL ?? '';
-      this.editorEl?.setContentHTML(profile.bioHTML ?? '', false);
+      this.editorEl?.resetContentHTML(profile.bioHTML ?? '');
     }
   }
 
@@ -135,7 +135,7 @@ export class EditProfileApp extends StatefulPage {
       this.url,
       this.company,
       this.location,
-      this.editorEl?.getContentHTML() ?? '',
+      this.editorEl?.contentHTML ?? '',
     );
     const status = await appTask.critical(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;
