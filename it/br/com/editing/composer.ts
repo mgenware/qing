@@ -16,8 +16,7 @@ export type ComposerPart = 'content' | 'title';
 export async function updateComposerContent(el: br.Element, part: ComposerPart, content: string) {
   switch (part) {
     case 'content': {
-      const contentEl = el.$(ed.editorContentSel);
-      await contentEl.c.fill(content);
+      await ed.fill(el, content);
       break;
     }
 
@@ -77,9 +76,8 @@ export async function composerShouldAppear(page: br.Page, args: ComposerShouldAp
     await composerEl.$(cm.composerTitleSel).shouldNotExist();
   }
 
-  const contentInputEl = composerEl.$(ed.editorContentSel);
-  await contentInputEl.e.toBeVisible();
-  await contentInputEl.shouldHaveHTML(
+  await ed.shouldHaveHTML(
+    composerEl,
     args.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>',
   );
 

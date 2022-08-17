@@ -5,4 +5,14 @@
  * be found in the LICENSE file.
  */
 
-export const editorContentSel = '.kx-content';
+import { Element } from 'br';
+
+const editorContentSel = '.kx-content';
+
+export function shouldHaveHTML(el: Element, html: string) {
+  return el.$(editorContentSel).shouldHaveHTML(html);
+}
+
+export function fill(el: Element, html: string) {
+  return el.$(editorContentSel).c.fill(html);
+}
