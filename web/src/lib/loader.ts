@@ -10,12 +10,18 @@ import { appdef } from '@qing/def';
 import { ERR } from 'checks';
 import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
+import delay from './delay';
 
 export interface APIResponse {
   code?: number;
   msg?: string;
   lsMsg?: string;
   d?: unknown;
+}
+
+enum MockResponse {
+  hang = 1,
+  error,
 }
 
 export default class Loader<T> {
@@ -59,6 +65,20 @@ export default class Loader<T> {
           }
           throw new ErrorWithCode(msg, resp.code);
         }
+
+        const mockRes = this.mockResponse();
+        if (mockRes) {
+          // eslint-disable-next-line default-case
+          switch (mockRes) {
+            case MockResponse.error:
+              throw new Error('Mock error');
+
+            case MockResponse.hang:
+              await delay(3600000);
+              break;
+          }
+        }
+
         // No server error present on this response.
         return this.handleSuccess(resp);
       }
@@ -116,5 +136,10 @@ export default class Loader<T> {
 
   private getLocalizedMessage(code: number): string | undefined {
     return this.localizedMessageDict?.get(code) ?? Loader.defaultLocalizedMessageDict?.get(code);
+  }
+
+  private mockResponse() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (window as any).__loader_res as MockResponse | undefined;
   }
 }

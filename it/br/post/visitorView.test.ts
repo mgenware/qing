@@ -12,7 +12,7 @@ import {
   AlertType,
   waitForAlertDetached,
   alertShouldAppear,
-} from 'br/com/alerts/alert';
+} from 'br/com/overlays/alert';
 import { postCoreTraitsShouldAppear } from './common';
 
 test('Post page in visitor view', async ({ page }) => {

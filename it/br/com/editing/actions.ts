@@ -12,7 +12,7 @@ import {
   waitForOverlayClosed,
 } from './composer';
 import { waitForGlobalSpinner } from '../spinners/spinner';
-import * as cm from './common';
+import * as ov from '../overlays/overlay';
 import * as def from 'base/def';
 import * as br from 'br';
 import { waitForDBTimeChange } from 'base/delay';
@@ -24,7 +24,7 @@ export interface UpdateEditorArgs {
 }
 
 export async function updateEditor(p: br.Page, a: UpdateEditorArgs) {
-  const overlayEl = p.$(cm.openOverlaySel);
+  const overlayEl = p.$(ov.openImmersiveOverlaySel);
   await overlayEl.waitForAttached();
   const composerEl = getComposerEl(overlayEl);
 

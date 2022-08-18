@@ -5,7 +5,5 @@
  * be found in the LICENSE file.
  */
 
-export const closedOverlaySel = 'qing-overlay.immersive';
-export const openOverlaySel = `${closedOverlaySel}[open=""]`;
 export const composerButtonsGroupSel = '.editor-buttons';
 export const composerTitleSel = 'input[placeholder="Title"]';

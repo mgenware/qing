@@ -6,9 +6,10 @@
  */
 
 import * as br from 'br';
-import { AlertButtons, AlertType, alertShouldAppear } from '../alerts/alert';
+import { AlertButtons, AlertType, alertShouldAppear } from '../overlays/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
 import * as cm from './common';
+import * as ov from '../overlays/overlay';
 import * as ed from './editor';
 
 export type ComposerPart = 'content' | 'title';
@@ -40,7 +41,7 @@ async function clickBtn(composerEl: br.Element, btnText: string) {
 }
 
 export async function waitForOverlayVisible(page: br.Page) {
-  const overlayEl = page.$(cm.openOverlaySel);
+  const overlayEl = page.$(ov.openImmersiveOverlaySel);
   await overlayEl.waitForAttached();
   const composerEl = getComposerEl(overlayEl);
   await composerEl.e.toBeVisible();
@@ -48,7 +49,7 @@ export async function waitForOverlayVisible(page: br.Page) {
 }
 
 export async function waitForOverlayClosed(page: br.Page) {
-  const overlayEl = page.$(cm.openOverlaySel);
+  const overlayEl = page.$(ov.openImmersiveOverlaySel);
   await overlayEl.shouldNotExist();
 }
 
