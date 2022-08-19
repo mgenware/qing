@@ -70,9 +70,9 @@ export class AvatarUploader extends BaseElement {
       <div>
         <qing-overlay
           id="modalElement"
-          .isOpen=${!!this.imageDataURL}
-          @escKeyDown=${this.handleCancelClick}
-          @openChanged=${this.handleOpenChanged}>
+          ?open=${!!this.imageDataURL}
+          closeOnEscDown
+          @overlay-close=${this.handleOverlayClose}>
           <div class="m-b-md crop-container">
             <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
           </div>
@@ -166,11 +166,9 @@ export class AvatarUploader extends BaseElement {
     this.uploadElement.value = '';
   }
 
-  private handleOpenChanged(e: CustomEvent<boolean>) {
-    if (!e.detail) {
-      // Reset file input when the dialog is closed.
-      this.resetFileInput();
-    }
+  private handleOverlayClose() {
+    // Reset file input when the dialog is closed.
+    this.resetFileInput();
   }
 }
 

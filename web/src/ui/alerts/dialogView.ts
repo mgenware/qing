@@ -62,8 +62,9 @@ export class DialogView extends BaseElement {
     return html`
       <qing-overlay
         ?open=${this.open}
-        @openChanged=${this.handleOpenChanged}
-        @escKeyDown=${this.handleEscDown}>
+        @overlay-open=${() => this.handleOpenChanged(true)}
+        @overlay-close=${() => this.handleOpenChanged(false)}
+        @overlay-esc-down=${this.handleEscDown}>
         <div class="text-center" style="margin: 1rem">
           <div class="m-t-lg">${iconEl}</div>
           <h2>${this.dialogTitle}</h2>
@@ -103,8 +104,7 @@ export class DialogView extends BaseElement {
     this.open = false;
   }
 
-  private async handleOpenChanged(e: CustomEvent<boolean>) {
-    const opened = e.detail;
+  private async handleOpenChanged(opened: boolean) {
     this.open = opened;
 
     await delay(transitionDelay);

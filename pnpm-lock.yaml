@@ -15,7 +15,7 @@ importers:
       eslint-config-mgenware: ^0.8.0
       eslint-plugin-import: ^2.26.0
       is-plain-obj: ^4.1.0
-      lit: ^2.3.0
+      lit: ^2.3.1
       m-fs: ^5.2.0
       mgenware-tsconfig-browser-x: ^16.0.0
       mgenware-tsconfig-node-x: ^16.2.0
@@ -26,7 +26,7 @@ importers:
       typescript: ^4.7.4
     dependencies:
       bowhead-js: 6.0.1
-      lit: 2.3.0
+      lit: 2.3.1
     devDependencies:
       '@tsconfig/node16': 1.0.3
       '@types/node': 18.7.6
@@ -156,7 +156,7 @@ importers:
       qing-css-base: ^1.0.0
       qing-dock-box: ^0.2.1
       qing-keyed-array: ^2.1.2
-      qing-overlay: ^0.15.0
+      qing-overlay: ^0.21.0
       qing-t: ^6.2.1
       tslib: ^2.4.0
     dependencies:
@@ -175,7 +175,7 @@ importers:
       qing-css-base: 1.0.0_@popperjs+core@2.11.6
       qing-dock-box: 0.2.1
       qing-keyed-array: 2.1.2
-      qing-overlay: 0.15.0_qing-button@8.2.6
+      qing-overlay: 0.21.0_qing-button@8.2.6
       tslib: 2.4.0
     devDependencies:
       '@types/js-cookie': 3.0.2
@@ -369,8 +369,8 @@ packages:
     resolution: {integrity: sha512-A2e18XzPMrIh35nhIdE4uoqRzoIpEU5vZYuQN4S3Ee1zkGdYC27DP12pewbw/RLgPHzaE4kx/YqxMzebOpm0dA==}
     dev: true
 
-  /@lit/reactive-element/1.4.0:
-    resolution: {integrity: sha512-blrtlLKvtVyjTJ3gUHWNSHOU6tD8be9mRafqtnO7GVMcB+5z4RjNcO0DpMGmccK6N8yur1vVVYnS0gPdQ/WgEQ==}
+  /@lit/reactive-element/1.4.1:
+    resolution: {integrity: sha512-qDv4851VFSaBWzpS02cXHclo40jsbAjRXnebNXpm0uVg32kCneZPo9RYVQtrTNICtZ+1wAYHu1ZtxWSWMbKrBw==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -4032,8 +4032,8 @@ packages:
   /lit-element/3.2.2:
     resolution: {integrity: sha512-6ZgxBR9KNroqKb6+htkyBwD90XGRiqKDHVrW/Eh0EZ+l+iC+u+v+w3/BA5NGi4nizAVHGYvQBHUDuSmLjPp7NQ==}
     dependencies:
-      '@lit/reactive-element': 1.4.0
-      lit-html: 2.3.0
+      '@lit/reactive-element': 1.4.1
+      lit-html: 2.3.1
     dev: false
 
   /lit-html/2.2.3:
@@ -4048,8 +4048,8 @@ packages:
       '@types/trusted-types': 2.0.2
     dev: true
 
-  /lit-html/2.3.0:
-    resolution: {integrity: sha512-bnJneRqizoeSTxUeyDJLBDr+DI+7bn6P3WWqsj/4AwPWJjYgjSO5W64BVl1CrEo/8DtgU6DAYADX6yeI5/eDsg==}
+  /lit-html/2.3.1:
+    resolution: {integrity: sha512-FyKH6LTW6aBdkfNhNSHyZTnLgJSTe5hMk7HFtc/+DcN1w74C215q8B+Cfxc2OuIEpBNcEKxgF64qL8as30FDHA==}
     dependencies:
       '@types/trusted-types': 2.0.2
     dev: false
@@ -4062,12 +4062,12 @@ packages:
       lit-html: 2.2.6
     dev: true
 
-  /lit/2.3.0:
-    resolution: {integrity: sha512-ynSGsUYKSGN2weFQ1F3SZq0Ihlj+vr/3KAET//Yf8Tz86L7lZizlw9Px+ab5iN8Si4RkVoLqd9YtKQmjdyKHNg==}
+  /lit/2.3.1:
+    resolution: {integrity: sha512-TejktDR4mqG3qB32Y8Lm5Lye3c8SUehqz7qRsxe1PqGYL6me2Ef+jeQAEqh20BnnGncv4Yxy2njEIT0kzK1WCw==}
     dependencies:
-      '@lit/reactive-element': 1.4.0
+      '@lit/reactive-element': 1.4.1
       lit-element: 3.2.2
-      lit-html: 2.3.0
+      lit-html: 2.3.1
     dev: false
 
   /locate-path/2.0.0:
@@ -5022,8 +5022,8 @@ packages:
       f-array.splice: 1.1.0
     dev: false
 
-  /qing-overlay/0.15.0_qing-button@8.2.6:
-    resolution: {integrity: sha512-5gkG1tvDs9pQQxeho3u2CpxvHDYMzqoVvO+710bqf0n8GCyqlIjsqhgn3fetZ8MetaU84ZS9atIjffBvOn3MRA==}
+  /qing-overlay/0.21.0_qing-button@8.2.6:
+    resolution: {integrity: sha512-dt40uszm4CR2yYNEmbNJJ8pJbPGN8nXBhwbrQQJdcH13y5bN6IduAW0ru1yKaK93IfcvwI2j+tjICYbvg/k5qw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       lit: ^2.0.0

@@ -34,7 +34,9 @@ export class NewThreadApp extends BaseElement {
           >${ls.newThread}</qing-button
         >
       </p>
-      <qing-overlay ?open=${this.threadTypeDialogOpen} @escKeyDown=${this.closeThreadTypeModal}>
+      <qing-overlay
+        ?open=${this.threadTypeDialogOpen}
+        @overlay-esc-down=${this.closeThreadTypeModal}>
         <p>
           <qing-button @click=${this.newThreadClick}>${ls.newThread}</qing-button>
         </p>

@@ -206,11 +206,7 @@ export class ElementsPage extends BaseElement {
         }}
         >immersive dialog</qing-button
       >
-      <qing-overlay
-        id=${immersiveDialogID}
-        class="immersive"
-        .buttons=${['ok']}
-        .cancelButtonIndex=${0}>
+      <qing-overlay id=${immersiveDialogID} class="immersive">
         <div class="flex-grow">
           <h2>Full dialog (will close in 3 seconds)</h2>
           <p>Hello world</p>

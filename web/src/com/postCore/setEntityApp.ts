@@ -65,7 +65,8 @@ export default class SetEntityApp extends BaseElement {
       <qing-overlay
         class="immersive"
         ?open=${this.open}
-        @openChanged=${(e: CustomEvent<boolean>) => (this.open = e.detail)}
+        @overlay-open=${() => (this.open = true)}
+        @overlay-close=${() => (this.open = false)}
         @escKeyDown=${this.handleEscDown}>
         <h2>${this.headerText}</h2>
         <composer-view

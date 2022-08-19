@@ -6,6 +6,6 @@
  */
 
 export const closedImmersiveOverlaySel = 'qing-overlay.immersive:not[open]';
-export const openImmersiveOverlaySel = `${closedImmersiveOverlaySel}[open=""]`;
+export const openImmersiveOverlaySel = 'qing-overlay.immersive[open=""]';
 export const closedOverlaySel = 'qing-overlay:not[open]';
-export const openOverlaySel = `${closedOverlaySel}[open=""]`;
+export const openOverlaySel = 'qing-overlay[open=""]';

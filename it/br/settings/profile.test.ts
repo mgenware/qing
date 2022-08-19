@@ -42,7 +42,7 @@ test('Settings - Profile', async ({ page }) => {
   await ivh.shouldHaveValue(rootEl.$inputView('Company'), 'USER_COMPANY');
   await ivh.shouldHaveValue(rootEl.$inputView('Location'), 'USER_LOC');
 
-  await ed.shouldHaveHTML(rootEl.$(bioEditorSel), '&lt;ADMIN_BIO&gt;');
+  await ed.shouldHaveHTML(rootEl.$(bioEditorSel), '<p>&lt;USER_BIO&gt;</p>');
 });
 
 test('Settings - Update profile info', async ({ page }) => {
