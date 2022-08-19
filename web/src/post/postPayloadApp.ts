@@ -8,7 +8,7 @@
 import { BaseElement, customElement, html, css } from 'll';
 import 'com/cmt/cmtApp';
 import postWind from './postWind';
-import 'com/like/likeApp';
+import 'com/like/likesApp';
 import { appdef } from '@qing/def';
 
 // Handles loading of post likes and comments.
@@ -31,12 +31,12 @@ export class PostPayloadApp extends BaseElement {
       ? appdef.contentBaseTypeThread
       : appdef.contentBaseTypePost;
     return html`
-      <like-app
+      <likes-app
         .iconSize=${'md'}
         .initialLikes=${postWind.initialLikes ?? 0}
         .initialHasLiked=${!!postWind.initialHasLiked}
         .hostID=${hostID}
-        .hostType=${contentType}></like-app>
+        .hostType=${contentType}></likes-app>
       <cmt-app
         .host=${{ id: hostID, type: contentType }}
         .initialTotalCmtCount=${postWind.cmtCount ?? 0}></cmt-app>

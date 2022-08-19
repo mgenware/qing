@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import { CHECK } from 'checks';
-import './likeView';
+import './likesView';
 import LikeHostType from './loaders/likeHostType';
 import SetLikeLoader from './loaders/setLikeLoader';
 import appTask from 'app/appTask';
@@ -17,8 +17,8 @@ import ls, { formatLS } from 'ls';
 
 const sizeMD = 'md';
 
-@customElement('like-app')
-export class LikeApp extends BaseElement {
+@customElement('likes-app')
+export class LikesApp extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -52,12 +52,12 @@ export class LikeApp extends BaseElement {
 
   override render() {
     return html`
-      <like-view
+      <likes-view
         .isWorking=${this.isWorking}
         .hasLiked=${this.hasLiked}
         .likes=${this.likes}
         .iconSize=${this.iconSize === sizeMD ? 30 : 22}
-        @click=${this.handleClick}></like-view>
+        @likes-view-click=${this.handleClick}></likes-view>
     `;
   }
 
@@ -85,6 +85,6 @@ export class LikeApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'like-app': LikeApp;
+    'likes-app': LikesApp;
   }
 }

@@ -11,8 +11,8 @@ import { cache } from 'lit/directives/cache.js';
 
 const defaultIconSize = 30;
 
-@customElement('like-view')
-export class LikeView extends BaseElement {
+@customElement('likes-view')
+export class LikesView extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -71,12 +71,12 @@ export class LikeView extends BaseElement {
   }
 
   private handleClick() {
-    this.dispatchEvent(new CustomEvent<undefined>('click'));
+    this.dispatchEvent(new CustomEvent<undefined>('likes-view-click'));
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'like-view': LikeView;
+    'likes-view': LikesView;
   }
 }

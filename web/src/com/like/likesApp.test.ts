@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './likeView';
+import './likesApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<like-view></like-view>`);
+  const el = await fixture<HTMLElement>(html`<likes-app></likes-app>`);
 
   tDOM.isInlineBlockElement(el);
 });

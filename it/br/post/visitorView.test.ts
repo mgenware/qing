@@ -18,10 +18,10 @@ import { postCoreTraitsShouldAppear } from './common';
 test('Post page in visitor view', async ({ page }) => {
   const p = $(page);
   await scPost(usr.user, async ({ link }) => {
-    const { likeAppEl } = await postCoreTraitsShouldAppear(p, link, usr.user, null);
+    const { likesAppEl } = await postCoreTraitsShouldAppear(p, link, usr.user, null);
 
     // Click the like button.
-    await likeAppEl.click();
+    await likesAppEl.click();
     const btns = await alertShouldAppear(p, {
       content: 'Sign in to like this post.',
       type: AlertType.warning,

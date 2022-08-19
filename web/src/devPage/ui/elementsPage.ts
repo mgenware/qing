@@ -18,7 +18,7 @@ import 'ui/status/statusOverlay';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
 import 'ui/lists/linkListView';
-import 'com/like/likeView';
+import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
 import LoadingStatus from 'lib/loadingStatus';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
@@ -289,9 +289,9 @@ export class ElementsPage extends BaseElement {
       </status-overlay>
       <h2>Misc</h2>
       <h3>Like Views</h3>
-      <p>Default<like-view class="m-l-sm"></like-view></p>
-      <p>Liked<like-view class="m-l-sm" .likes=${1} hasLiked></like-view></p>
-      <p>Working<like-view class="m-l-sm" .likes=${1} hasLiked isWorking></like-view></p>
+      <p>Default<likes-view class="m-l-sm"></likes-view></p>
+      <p>Liked<likes-view class="m-l-sm" .likes=${1} hasLiked></likes-view></p>
+      <p>Working<likes-view class="m-l-sm" .likes=${1} hasLiked isWorking></likes-view></p>
       <h3>Flexbox utils</h3>
       <div class="d-flex">
         <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>

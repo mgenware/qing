@@ -14,26 +14,26 @@ test('Like a post', async ({ page }) => {
   await scPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
 
-    const likeAppEl = p.$('post-payload-app like-app');
-    await likesShouldAppear(likeAppEl, 0, false);
+    const likesAppEl = p.$('post-payload-app like-app');
+    await likesShouldAppear(likesAppEl, 0, false);
 
-    await likeAppEl.click();
-    await likesShouldAppear(likeAppEl, 1, true);
+    await likesAppEl.click();
+    await likesShouldAppear(likesAppEl, 1, true);
 
     {
       await p.goto(link, usr.user2);
-      const likeAppEl2 = p.$('post-payload-app like-app');
-      await likesShouldAppear(likeAppEl, 1, false);
+      const likesAppEl2 = p.$('post-payload-app like-app');
+      await likesShouldAppear(likesAppEl, 1, false);
 
-      await likeAppEl2.click();
-      await likesShouldAppear(likeAppEl, 2, true);
+      await likesAppEl2.click();
+      await likesShouldAppear(likesAppEl, 2, true);
 
-      await likeAppEl2.click();
-      await likesShouldAppear(likeAppEl, 1, false);
+      await likesAppEl2.click();
+      await likesShouldAppear(likesAppEl, 1, false);
     }
 
     await p.goto(link, usr.user);
-    await likeAppEl.click();
-    await likesShouldAppear(likeAppEl, 0, false);
+    await likesAppEl.click();
+    await likesShouldAppear(likesAppEl, 0, false);
   });
 });

@@ -11,7 +11,7 @@ import 'ui/editing/editBarApp';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
 import 'ui/widgets/svgIcon';
-import 'com/like/likeApp';
+import 'com/like/likesApp';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
@@ -83,13 +83,13 @@ export class CmtView extends BaseElement {
           <div>${unsafeHTML(cmt.contentHTML)}</div>
           <div>
             <link-button @click=${this.handleReplyClick}>${ls.reply}</link-button>
-            <like-app
+            <likes-app
               class="m-l-md"
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.isLiked}
               .hostID=${cmt.id}
-              .hostType=${appdef.contentBaseTypeCmt}></like-app>
+              .hostType=${appdef.contentBaseTypeCmt}></likes-app>
           </div>
         </div>
       </div>
