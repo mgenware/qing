@@ -69,7 +69,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
         .status=${loadingStatus}
         .canRetry=${true}
         .progressViewPadding=${'md'}
-        @onRetry=${this.handleLoadingRetry}></status-view>
+        @status-view-retry=${this.handleLoadingRetry}></status-view>
     `;
   }
 
@@ -81,7 +81,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
           required
           label=${ls.name}
           value=${this.name}
-          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+          @input-change=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
         <label class="app-form-label m-t-md" for=${editorElementID}>${ls.description}</label>
         <editor-view class="m-t-md" id=${editorElementID}></editor-view>

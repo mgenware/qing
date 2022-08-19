@@ -56,7 +56,7 @@ export class StatusView extends BaseElement {
         <error-view
           .canRetry=${this.canRetry}
           .headerText=${this.errorTitle || ls.errOccurred}
-          @onRetry=${this.handleRetry}>
+          @error-view-retry=${this.handleRetry}>
           ${status.error.message}
         </error-view>
       `;
@@ -65,7 +65,7 @@ export class StatusView extends BaseElement {
   }
 
   private handleRetry() {
-    this.dispatchEvent(new CustomEvent('onRetry'));
+    this.dispatchEvent(new CustomEvent('status-view-retry'));
   }
 }
 

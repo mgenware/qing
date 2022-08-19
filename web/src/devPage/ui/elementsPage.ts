@@ -228,13 +228,13 @@ export class ElementsPage extends BaseElement {
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
       <checklist-view
-        @selectionChanged=${(e: CustomEvent<number[]>) => (this.checklistIndices1 = e.detail)}
+        @checklist-change=${(e: CustomEvent<number[]>) => (this.checklistIndices1 = e.detail)}
         class="m-t-md"
         multiSelect
         .selectedIndices=${this.checklistIndices1}
         .dataSource=${checklistViewData}></checklist-view>
       <checklist-view
-        @selectionChanged=${(e: CustomEvent<number[]>) => (this.checklistIndices2 = e.detail)}
+        @checklist-change=${(e: CustomEvent<number[]>) => (this.checklistIndices2 = e.detail)}
         class="m-t-md"
         .selectedIndices=${this.checklistIndices2}
         .dataSource=${checklistViewData}></checklist-view>

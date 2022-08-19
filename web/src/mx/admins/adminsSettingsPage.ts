@@ -55,7 +55,7 @@ export class AdminsSettingsPage extends StatefulPage {
         ${this.renderAdmins()}
         <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
         <user-selector-app
-          @selectionChanged=${(e: CustomEvent<UserInfo | null>) =>
+          @user-selector-change=${(e: CustomEvent<UserInfo | null>) =>
             (this.userCandidate = e.detail)}></user-selector-app>
         ${when(
           this.userCandidate,

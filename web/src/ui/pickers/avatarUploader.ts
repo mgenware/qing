@@ -136,7 +136,7 @@ export class AvatarUploader extends BaseElement {
   }
 
   private onUpdated(data: AvatarUploadResponse) {
-    this.dispatchEvent(new CustomEvent<AvatarUploadResponse>('onUpdated', { detail: data }));
+    this.dispatchEvent(new CustomEvent<AvatarUploadResponse>('avatar-upload', { detail: data }));
   }
 
   private async handleOKClick() {

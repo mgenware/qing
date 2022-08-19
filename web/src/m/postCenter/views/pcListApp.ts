@@ -54,7 +54,7 @@ export abstract class PCListApp extends BaseElement {
         .progressViewPadding=${'md'}
         .status=${loadingStatus}
         canRetry
-        @onRetry=${this.handleRetry}></status-view>`;
+        @status-view-retry=${this.handleRetry}></status-view>`;
     }
 
     const hasItems = !!this.items.length;
@@ -74,7 +74,7 @@ export abstract class PCListApp extends BaseElement {
           .pageSize=${this.pageSize}
           .totalItemCount=${this.totalCount}
           .shownItemCount=${this.shownCount}
-          @gotoPage=${this.handleGotoPage}></pc-page-control>
+          @pc-page-goto=${this.handleGotoPage}></pc-page-control>
       </section-view>
     `;
   }

@@ -102,7 +102,7 @@ export class PCPageControl extends BaseElement {
 
   private onGotoPage(page: number) {
     this.dispatchEvent(
-      new CustomEvent<number>('gotoPage', {
+      new CustomEvent<number>('pc-page-goto', {
         detail: page,
       }),
     );

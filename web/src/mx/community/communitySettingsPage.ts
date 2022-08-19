@@ -51,14 +51,14 @@ export class CommunitySettingsPage extends StatefulPage {
         <p>
           <check-box
             .checked=${this.enableCommunityMode}
-            @checked=${(e: CustomEvent<boolean>) => (this.enableCommunityMode = e.detail)}
+            @checkbox-change=${(e: CustomEvent<boolean>) => (this.enableCommunityMode = e.detail)}
             >${ls.enableCommunityMode}</check-box
           >
         </p>
         <p>
           <check-box
             .checked=${this.forumsEnabled}
-            @checked=${(e: CustomEvent<boolean>) => (this.forumsEnabled = e.detail)}
+            @checkbox-change=${(e: CustomEvent<boolean>) => (this.forumsEnabled = e.detail)}
             >${ls.enableForums}</check-box
           >
         </p>
@@ -66,7 +66,7 @@ export class CommunitySettingsPage extends StatefulPage {
           <check-box
             .checked=${this.forumGroupsEnabled}
             .disabled=${!this.forumsEnabled}
-            @checked=${(e: CustomEvent<boolean>) => (this.forumGroupsEnabled = e.detail)}
+            @checkbox-change=${(e: CustomEvent<boolean>) => (this.forumGroupsEnabled = e.detail)}
             >${ls.enableForumGroups}</check-box
           >
         </p>

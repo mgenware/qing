@@ -45,7 +45,7 @@ export class ErrorView extends BaseElement {
   }
 
   private handleRetryClick() {
-    this.dispatchEvent(new CustomEvent('onRetry'));
+    this.dispatchEvent(new CustomEvent('error-view-retry'));
   }
 }
 

@@ -161,7 +161,8 @@ export class ComposerView extends BaseElement {
                 required
                 .placeholder=${ls.title}
                 .value=${this.inputTitle}
-                @onChange=${(e: CustomEvent<string>) => (this.inputTitle = e.detail)}></input-view>
+                @input-change=${(e: CustomEvent<string>) =>
+                  (this.inputTitle = e.detail)}></input-view>
             </div>
           `,
         )} <editor-view ${ref(this.editorEl)}></editor-view>`;
@@ -169,7 +170,7 @@ export class ComposerView extends BaseElement {
       editorContent = html` <status-view
         .status=${loadingStatus}
         .canRetry=${true}
-        @onRetry=${this.loadEntitySource}></status-view>`;
+        @status-view-retry=${this.loadEntitySource}></status-view>`;
     }
 
     const bottomContent = html`
@@ -228,7 +229,7 @@ export class ComposerView extends BaseElement {
   private async handleSubmit() {
     try {
       const payload = this.getPayload();
-      this.dispatchEvent(new CustomEvent<ComposerContent>('onSubmit', { detail: payload }));
+      this.dispatchEvent(new CustomEvent<ComposerContent>('composer-submit', { detail: payload }));
     } catch (err) {
       ERR(err);
       await appAlert.error(err.message);
@@ -245,7 +246,9 @@ export class ComposerView extends BaseElement {
   private async handleCancel() {
     const fireEvent = (contentDiscarded: boolean) => {
       this.markAsSaved();
-      this.dispatchEvent(new CustomEvent<boolean>('onCancel', { detail: contentDiscarded }));
+      this.dispatchEvent(
+        new CustomEvent<boolean>('composer-discard', { detail: contentDiscarded }),
+      );
     };
     if (this.hasContentChanged()) {
       // Warn user of unsaved changes.

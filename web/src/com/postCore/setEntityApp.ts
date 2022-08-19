@@ -76,8 +76,8 @@ export default class SetEntityApp extends BaseElement {
           .entityID=${this.postID}
           .entityType=${this.entityType}
           .submitButtonText=${this.submitButtonText}
-          @onSubmit=${this.handleSubmit}
-          @onCancel=${this.handleCancel}></composer-view>
+          @composer-submit=${this.handleSubmit}
+          @composer-discard=${this.handleDiscard}></composer-view>
       </qing-overlay>
     `;
   }
@@ -104,11 +104,9 @@ export default class SetEntityApp extends BaseElement {
     }
   }
 
-  private handleCancel() {
+  private handleDiscard() {
     if (this.autoClose) {
       this.open = false;
-    } else {
-      this.dispatchEvent(new CustomEvent('onEditorClose'));
     }
   }
 

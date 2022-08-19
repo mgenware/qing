@@ -48,7 +48,7 @@ export class SignUpApp extends BaseElement {
             required
             label=${ls.name}
             value=${this.name}
-            @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+            @input-change=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
           <input-view
             class="m-t-md"
@@ -58,7 +58,7 @@ export class SignUpApp extends BaseElement {
             type="email"
             label=${ls.email}
             value=${this.email}
-            @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
+            @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
           <input-view
             class="m-t-md"
@@ -69,7 +69,7 @@ export class SignUpApp extends BaseElement {
             .autocomplete=${'new-password'}
             label=${ls.password}
             value=${this.password}
-            @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
+            @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
 
           <input-view
             class="m-t-md"
@@ -80,7 +80,8 @@ export class SignUpApp extends BaseElement {
             .autocomplete=${'new-password'}
             label=${ls.confirmPassword}
             value=${this.confirmPassword}
-            @onChange=${(e: CustomEvent<string>) => (this.confirmPassword = e.detail)}></input-view>
+            @input-change=${(e: CustomEvent<string>) =>
+              (this.confirmPassword = e.detail)}></input-view>
           ${this.passwordsMismatchErr
             ? html`<input-error-view message=${this.passwordsMismatchErr}></input-error-view>`
             : ''}

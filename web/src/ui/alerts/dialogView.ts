@@ -110,12 +110,12 @@ export class DialogView extends BaseElement {
     await delay(transitionDelay);
     // Delay events a little bit to wait for transition completion.
     if (opened) {
-      // Focus the default button. This must happens before `dialogShown` fires, as
-      // `dialogShown` might change the focus later.
+      // Focus the default button. This must happens before `dialog-show` fires, as
+      // `dialog-show` might change the focus later.
       this.getButtonElement('def')?.focus();
-      this.dispatchEvent(new CustomEvent('dialogShown'));
+      this.dispatchEvent(new CustomEvent('dialog-show'));
     } else {
-      this.dispatchEvent(new CustomEvent<number>('dialogClosed', { detail: this.closingButton }));
+      this.dispatchEvent(new CustomEvent<number>('dialog-close', { detail: this.closingButton }));
     }
   }
 

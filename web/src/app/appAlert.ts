@@ -114,7 +114,7 @@ export class AppAlert {
         .icon=${args.icon}
         .dialogTitle=${args.title}
         .message=${args.message}
-        @dialogClosed=${(e: CustomEvent<number>) => {
+        @dialog-close=${(e: CustomEvent<number>) => {
           resolve(e.detail);
           renderTemplateResult(dialogContainerID, null);
         }}></dialog-view>`;

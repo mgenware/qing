@@ -43,7 +43,7 @@ export class SignInApp extends BaseElement {
             .inputmode=${'email'}
             label=${ls.email}
             value=${this.email}
-            @onChange=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
+            @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
           <input-view
             class="m-t-md"
@@ -52,7 +52,7 @@ export class SignInApp extends BaseElement {
             .autocomplete=${'current-password'}
             label=${ls.password}
             value=${this.password}
-            @onChange=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
+            @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
         </div>
         <qing-button
           btnStyle="success"

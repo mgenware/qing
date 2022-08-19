@@ -83,8 +83,8 @@ export class CmtApp extends BaseElement {
           .entityID=${editorProps.editing?.id ?? ''}
           .entityType=${appdef.contentBaseTypeCmt}
           .submitButtonText=${editorProps.editing ? ls.save : ls.send}
-          @onSubmit=${this.handleSubmit}
-          @onCancel=${this.handleCancel}></composer-view>
+          @composer-submit=${this.handleSubmit}
+          @composer-discard=${this.handleCancel}></composer-view>
       </qing-overlay>
     `;
   }

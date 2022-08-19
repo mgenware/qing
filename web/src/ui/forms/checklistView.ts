@@ -66,7 +66,7 @@ export class ChecklistView extends BaseElement {
         part=${itemContainerID}
         .checked=${checked}
         ?radio=${radio}
-        @checked=${(e: CustomEvent<boolean>) => this.handleOnChange(e, index)}
+        @checkbox-change=${(e: CustomEvent<boolean>) => this.handleOnChange(e, index)}
         >${val}</check-box
       >
     `;
@@ -84,7 +84,7 @@ export class ChecklistView extends BaseElement {
     } else {
       indices = checked ? [index] : [];
     }
-    this.dispatchEvent(new CustomEvent<number[]>('selectionChanged', { detail: indices }));
+    this.dispatchEvent(new CustomEvent<number[]>('checklist-change', { detail: indices }));
   }
 }
 

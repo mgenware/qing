@@ -106,15 +106,15 @@ export class UserSelectorApp extends BaseElement {
           </div>`
         : html`<checklist-view
               class="m-t-md"
-              @selectionChanged=${this.handleByIDSelectionChange}></checklist-view>
+              @checklist-change=${this.handleByIDSelectionChange}></checklist-view>
             <input-view
               class="m-t-md"
               id=${inputViewID}
               .showInputView=${false}
               .value=${this.value}
               debounceOnChange
-              @onChange=${this.handleValueChange}
-              @onChangeDebounced=${this.handleValueChangeDebounced}></input-view>
+              @input-change=${this.handleValueChange}
+              @input-change-debounced=${this.handleValueChangeDebounced}></input-view>
             <status-overlay
               id=${popoverRootID}
               .status=${this.status}
@@ -178,7 +178,7 @@ export class UserSelectorApp extends BaseElement {
   }
 
   private onSelectionChanged(detail: UserInfo | null) {
-    this.dispatchEvent(new CustomEvent<UserInfo | null>('selectionChanged', { detail }));
+    this.dispatchEvent(new CustomEvent<UserInfo | null>('user-selector-change', { detail }));
   }
 
   private async handleValueChangeDebounced() {

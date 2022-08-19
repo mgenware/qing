@@ -215,7 +215,7 @@ export class InputView extends BaseElement {
     this.inputValidated = true;
     this.validationError = this.inputEl.validationMessage;
     this.dispatchEvent(
-      new CustomEvent<string>('onChange', {
+      new CustomEvent<string>('input-change', {
         detail: this.inputEl.value,
       }),
     );
@@ -226,7 +226,7 @@ export class InputView extends BaseElement {
 
   // Do not call this directly.
   private onChangeDebounced() {
-    this.dispatchEvent(new CustomEvent<undefined>('onChangeDebounced'));
+    this.dispatchEvent(new CustomEvent<undefined>('input-change-debounced'));
   }
 }
 

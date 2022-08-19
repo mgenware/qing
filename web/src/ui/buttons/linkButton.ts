@@ -24,6 +24,7 @@ export class LinkButton extends BaseElement {
     `;
   }
 
+  // Stop the default behavior of <a> and send it out again.
   private handleClick(e: Event) {
     e.stopPropagation();
     e.preventDefault();

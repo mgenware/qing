@@ -40,7 +40,7 @@ export abstract class StatefulPage extends BaseElement {
         .progressViewPadding=${'md'}
         .status=${loadingStatus}
         .canRetry=${true}
-        @onRetry=${this.handleLoadingRetry}></status-view>
+        @status-view-retry=${this.handleLoadingRetry}></status-view>
     `;
   }
 

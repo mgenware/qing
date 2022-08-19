@@ -70,7 +70,7 @@ export class EditProfileApp extends StatefulPage {
         <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
       </p>
       <div class="m-t-md">
-        <avatar-uploader @onUpdated=${this.handleAvatarUploaded}></avatar-uploader>
+        <avatar-uploader @avatar-upload=${this.handleAvatarUploaded}></avatar-uploader>
       </div>
       <status-overlay .status=${this.updateInfoStatus}>
         <heading-view>${ls.profile}</heading-view>
@@ -78,22 +78,22 @@ export class EditProfileApp extends StatefulPage {
           required
           label=${ls.name}
           value=${this.name}
-          @onChange=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+          @input-change=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
 
         <input-view
           label=${ls.url}
           value=${this.url}
-          @onChange=${(e: CustomEvent<string>) => (this.url = e.detail)}></input-view>
+          @input-change=${(e: CustomEvent<string>) => (this.url = e.detail)}></input-view>
 
         <input-view
           label=${ls.company}
           value=${this.company}
-          @onChange=${(e: CustomEvent<string>) => (this.company = e.detail)}></input-view>
+          @input-change=${(e: CustomEvent<string>) => (this.company = e.detail)}></input-view>
 
         <input-view
           label=${ls.location}
           value=${this.location}
-          @onChange=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
+          @input-change=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
         <label class="app-form-label" for=${editorID}>${ls.bio}</label>
         <editor-view id=${editorID} class="bio-editor"></editor-view>

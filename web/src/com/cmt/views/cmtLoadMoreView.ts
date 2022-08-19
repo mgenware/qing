@@ -51,7 +51,7 @@ export class CmtLoadMoreView extends BaseElement {
       <status-view
         .status=${status}
         .canRetry=${true}
-        @onRetry=${this.handleMoreButtonClick}></status-view>
+        @status-view-retry=${this.handleMoreButtonClick}></status-view>
     `;
   }
 

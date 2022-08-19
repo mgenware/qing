@@ -90,7 +90,7 @@ export class CheckBox extends BaseElement {
 
   private handleOnChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
-    this.dispatchEvent(new CustomEvent<boolean>('checked', { detail: checked }));
+    this.dispatchEvent(new CustomEvent<boolean>('checkbox-change', { detail: checked }));
   }
 }
 

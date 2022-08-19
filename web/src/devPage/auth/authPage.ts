@@ -52,7 +52,7 @@ export class AuthDevPage extends BaseElement {
         <p>
           <checklist-view
             class="m-t-md"
-            @selectionChanged=${this.handleUIDTypeChange}
+            @checklist-change=${this.handleUIDTypeChange}
             .selectedIndices=${[+this.isEID]}
             .dataSource=${['Raw', 'Encoded']}></checklist-view>
         </p>
@@ -60,7 +60,7 @@ export class AuthDevPage extends BaseElement {
           required
           label="UID"
           value=${this.uidStr}
-          @onChange=${(e: CustomEvent<string>) => (this.uidStr = e.detail)}>
+          @input-change=${(e: CustomEvent<string>) => (this.uidStr = e.detail)}>
         </input-view>
         <p>
           <qing-button @click=${this.handleSignIn}>Sign in</qing-button>
