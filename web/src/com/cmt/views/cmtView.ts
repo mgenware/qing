@@ -75,8 +75,8 @@ export class CmtView extends BaseElement {
                     class="m-l-sm"
                     uid=${cmt.userEID}
                     .hasLeftMargin=${true}
-                    @editClick=${this.handleEditClick}
-                    @deleteClick=${this.handleDeleteClick}></edit-bar-app>
+                    @edit-bar-edit-click=${this.handleEditClick}
+                    @edit-bar-delete-click=${this.handleDeleteClick}></edit-bar-app>
                 `
               : ''}
           </div>
@@ -98,18 +98,18 @@ export class CmtView extends BaseElement {
 
   private handleEditClick() {
     CHECK(this.cmt);
-    this.dispatchEvent(new CustomEvent<Cmt>('editClick', { detail: this.cmt }));
+    this.dispatchEvent(new CustomEvent<Cmt>('cmt-view-edit-click', { detail: this.cmt }));
   }
 
   private handleDeleteClick() {
     CHECK(this.cmt);
-    this.dispatchEvent(new CustomEvent<Cmt>('deleteClick', { detail: this.cmt }));
+    this.dispatchEvent(new CustomEvent<Cmt>('cmt-view-delete-click', { detail: this.cmt }));
   }
 
   private handleReplyClick(e: Event) {
     e.preventDefault();
     CHECK(this.cmt);
-    this.dispatchEvent(new CustomEvent<Cmt>('replyClick', { detail: this.cmt }));
+    this.dispatchEvent(new CustomEvent<Cmt>('cmt-view-reply-click', { detail: this.cmt }));
   }
 }
 

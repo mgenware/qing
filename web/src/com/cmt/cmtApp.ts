@@ -70,8 +70,8 @@ export class CmtApp extends BaseElement {
         .totalCmtCount=${this._totalCmtCount}
         .host=${this.host}
         .loadOnVisible=${!!this.initialTotalCmtCount}
-        @onCmtItemsChange=${this.handleAnyItemsChanged}
-        @onRequestCmtEditorOpen=${this.handleOpenCmtEditorRequested}></root-cmt-list>
+        @cmt-block-items-change=${this.handleAnyItemsChanged}
+        @cmt-block-request-editor-open=${this.handleOpenCmtEditorRequested}></root-cmt-list>
       <qing-overlay class="immersive" ?open=${!!editorProps.session}>
         <h2>${heading}</h2>
         ${when(
@@ -181,7 +181,7 @@ export class CmtApp extends BaseElement {
     };
   }
 
-  // Handles all `onCmtItemsChange` events from descendants.
+  // Handles all `cmt-block-items-change` events from descendants.
   // This is to track cmt count changes.
   private handleAnyItemsChanged(e: CustomEvent<ItemsChangedEvent<Cmt>>) {
     e.stopPropagation();

@@ -29,7 +29,7 @@ export function setupHandlers(
     return;
   }
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  editBarElement.addEventListener('deleteClick', async () => {
+  editBarElement.addEventListener('edit-bar-delete-click', async () => {
     if (
       await appAlert.confirm(
         ls.warning,
@@ -46,7 +46,7 @@ export function setupHandlers(
     }
   });
 
-  editBarElement.addEventListener('editClick', () => {
+  editBarElement.addEventListener('edit-bar-edit-click', () => {
     const editPostApp = renderTemplateResult<SetEntityApp>(
       '',
       html`<set-entity-app

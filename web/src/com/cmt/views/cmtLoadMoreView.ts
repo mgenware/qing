@@ -57,7 +57,7 @@ export class CmtLoadMoreView extends BaseElement {
 
   private handleMoreButtonClick(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent<undefined>('viewMoreClick'));
+    this.dispatchEvent(new CustomEvent<undefined>('load-more-click'));
   }
 }
 

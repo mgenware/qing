@@ -114,8 +114,8 @@ export class CmtBlock extends BaseElement {
           class="m-t-md"
           .host=${this.host}
           .cmt=${it}
-          @onRequestDeleteChild=${this.handleRequestDeleteChild}
-          @onRequestUpdateChild=${this.handleRequestUpdateChild}></cmt-block>`,
+          @cmt-block-request-delete-child=${this.handleRequestDeleteChild}
+          @cmt-block-request-update-child=${this.handleRequestUpdateChild}></cmt-block>`,
     );
     const itemsContainer = html`<div class=${cmt ? 'with-indent' : ''}>
       ${when(
@@ -136,7 +136,7 @@ export class CmtBlock extends BaseElement {
                 .replies=${!!cmt}
                 .status=${this._collectorLoadingStatus}
                 .hasNext=${this._hasNext}
-                @viewMoreClick=${this.loadMore}></cmt-load-more-view>`
+                @load-more-click=${this.loadMore}></cmt-load-more-view>`
           : '',
       )}
     </div>`;
@@ -147,9 +147,9 @@ export class CmtBlock extends BaseElement {
           cmt,
           () => html`<cmt-view
             .cmt=${cmt}
-            @replyClick=${this.handleReplyClick}
-            @editClick=${this.handleEditClick}
-            @deleteClick=${this.handleDeleteClick}></cmt-view>`,
+            @cmt-view-reply-click=${this.handleReplyClick}
+            @cmt-view-edit-click=${this.handleEditClick}
+            @cmt-view-delete-click=${this.handleDeleteClick}></cmt-view>`,
         )}
         ${itemsContainer}
       </div>
@@ -165,7 +165,10 @@ export class CmtBlock extends BaseElement {
       const { cmt } = res;
       if (cmt) {
         if (props.editing) {
-          this.dispatchEvent(new CustomEvent<Cmt>('onRequestUpdateChild', { detail: cmt }));
+          // Call for parent to update this child.
+          this.dispatchEvent(
+            new CustomEvent<Cmt>('cmt-block-request-update-child', { detail: cmt }),
+          );
         } else {
           CHECK(this._collector.observableItems.insert(0, cmt));
         }
@@ -176,7 +179,10 @@ export class CmtBlock extends BaseElement {
       session,
     };
     this.dispatchEvent(
-      new CustomEvent<ev.CmtEditorProps>('onRequestCmtEditorOpen', { detail, composed: true }),
+      new CustomEvent<ev.CmtEditorProps>('cmt-block-request-editor-open', {
+        detail,
+        composed: true,
+      }),
     );
   }
 
@@ -225,7 +231,9 @@ export class CmtBlock extends BaseElement {
             uiDeleted: true,
           };
         } else {
-          this.dispatchEvent(new CustomEvent<Cmt>('onRequestDeleteChild', { detail: this.cmt }));
+          this.dispatchEvent(
+            new CustomEvent<Cmt>('cmt-block-request-delete-child', { detail: this.cmt }),
+          );
         }
       }
     }
@@ -260,7 +268,10 @@ export class CmtBlock extends BaseElement {
     this._loadMoreCalled = true;
 
     this.dispatchEvent(
-      new CustomEvent<ItemsChangedEvent<Cmt>>('onCmtItemsChange', { detail: e, composed: true }),
+      new CustomEvent<ItemsChangedEvent<Cmt>>('cmt-block-items-change', {
+        detail: e,
+        composed: true,
+      }),
     );
   }
 

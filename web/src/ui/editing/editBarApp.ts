@@ -33,12 +33,12 @@ export class EditBarApp extends BaseElement {
 
   private handleEditClick(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent<undefined>('editClick'));
+    this.dispatchEvent(new CustomEvent<undefined>('edit-bar-edit-click'));
   }
 
   private handleDeleteClick(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent<undefined>('deleteClick'));
+    this.dispatchEvent(new CustomEvent<undefined>('edit-bar-delete-click'));
   }
 }
 
