@@ -156,7 +156,7 @@ importers:
       qing-css-base: ^1.0.0
       qing-dock-box: ^0.2.1
       qing-keyed-array: ^2.1.2
-      qing-overlay: ^0.21.0
+      qing-overlay: ^0.22.2
       qing-t: ^6.2.1
       tslib: ^2.4.0
     dependencies:
@@ -175,7 +175,7 @@ importers:
       qing-css-base: 1.0.0_@popperjs+core@2.11.6
       qing-dock-box: 0.2.1
       qing-keyed-array: 2.1.2
-      qing-overlay: 0.21.0_qing-button@8.2.6
+      qing-overlay: 0.22.2_qing-button@8.2.6
       tslib: 2.4.0
     devDependencies:
       '@types/js-cookie': 3.0.2
@@ -5022,8 +5022,8 @@ packages:
       f-array.splice: 1.1.0
     dev: false
 
-  /qing-overlay/0.21.0_qing-button@8.2.6:
-    resolution: {integrity: sha512-dt40uszm4CR2yYNEmbNJJ8pJbPGN8nXBhwbrQQJdcH13y5bN6IduAW0ru1yKaK93IfcvwI2j+tjICYbvg/k5qw==}
+  /qing-overlay/0.22.2_qing-button@8.2.6:
+    resolution: {integrity: sha512-dSa3A4UKWhejPZ443KipFu8M8gH0kCHV3pPvLrdc8MXdENSC++MJYVo/4W/9aSKMbiY+Ac8PU95+aQMuc16YBw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       lit: ^2.0.0

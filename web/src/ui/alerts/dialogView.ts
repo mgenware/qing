@@ -32,7 +32,7 @@ export class DialogView extends BaseElement {
         }
 
         /** Remove the default padding */
-        qing-overlay::part(overlay) {
+        qing-overlay::part(dialog) {
           padding: 0;
         }
 

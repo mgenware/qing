@@ -173,7 +173,7 @@ export default css`
   }
 
   /* qing-overlay ------------------------- */
-  qing-overlay::part(overlay) {
+  qing-overlay::part(dialog) {
     background-color: var(--app-default-back-color);
     color: var(--app-default-fore-color);
     border-radius: var(--app-surface-radius-md);

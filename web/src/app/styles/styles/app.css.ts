@@ -430,15 +430,13 @@ export default css`
   }
 
   /* qing-overlay ------------------------- */
-  qing-overlay::part(overlay) {
-    display: flex;
+  qing-overlay::part(dialog) {
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
     padding: 0 1.25rem 1.25rem 1.25rem;
   }
 
-  qing-overlay.immersive::part(overlay) {
-    display: flex;
+  qing-overlay.immersive::part(dialog) {
     max-width: 100vw;
     max-height: calc(100vh - 1rem);
     width: 100vw;
@@ -448,13 +446,12 @@ export default css`
 
   @media (min-width: 768px) {
     /** Auto width with min and max values on medium or large screens */
-    qing-overlay::part(overlay) {
+    qing-overlay::part(dialog) {
       width: auto;
       max-width: min(100vw, 1000px);
       min-width: 400px;
     }
-    qing-overlay.immersive::part(overlay) {
-      display: flex;
+    qing-overlay.immersive::part(dialog) {
       width: calc(100vw - 4rem);
       height: calc(100vh - 4rem);
       padding: 0 1.25rem 1.25rem 1.25rem;

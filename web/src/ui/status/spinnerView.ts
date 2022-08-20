@@ -6,6 +6,7 @@
  */
 
 import { customElement, html, css, LitElement, property } from 'll';
+import 'qing-overlay';
 
 // A spinner view(block) that fills available horizontal space.
 @customElement('spinner-view')
@@ -16,18 +17,8 @@ export class SpinnerView extends LitElement {
         display: block;
       }
 
-      /* spinner */
-      .spinner-screen-overlay {
-        display: flex;
-        position: fixed;
-        z-index: 2000;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.9);
-        justify-content: center;
-        align-items: center;
+      qing-overlay::part(dialog) {
+        background-color: transparent;
       }
 
       .spinner {
@@ -102,7 +93,7 @@ export class SpinnerView extends LitElement {
       </div>
     `;
     if (this.fullScreen) {
-      return html` <div class="spinner-screen-overlay">${content}</div> `;
+      return html`<qing-overlay open qingMode="1">${content}</qing-overlay>`;
     }
     return content;
   }
