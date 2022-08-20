@@ -14,7 +14,7 @@ test('Like a post', async ({ page }) => {
   await scPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
 
-    const likesAppEl = p.$('post-payload-app like-app');
+    const likesAppEl = p.$('post-payload-app likes-app');
     await likesShouldAppear(likesAppEl, 0, false);
 
     await likesAppEl.click();
@@ -22,7 +22,7 @@ test('Like a post', async ({ page }) => {
 
     {
       await p.goto(link, usr.user2);
-      const likesAppEl2 = p.$('post-payload-app like-app');
+      const likesAppEl2 = p.$('post-payload-app likes-app');
       await likesShouldAppear(likesAppEl, 1, false);
 
       await likesAppEl2.click();

@@ -40,7 +40,7 @@ export async function postCoreTraitsShouldAppear(
   await postShouldHaveContent(page, def.sd.content);
 
   // Like button.
-  const likesAppEl = page.$('post-payload-app like-app');
+  const likesAppEl = page.$('post-payload-app likes-app');
   await likesShouldAppear(likesAppEl, 0, false);
 
   return {
