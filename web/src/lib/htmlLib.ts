@@ -38,7 +38,9 @@ export function renderTemplateResult<T extends HTMLElement>(
     if (!element) {
       element = document.createElement('div');
       element.id = container;
-      document.body.append(element);
+      // Put new element in `body > main` instead of `body`, we have CSS
+      // grid styles applied that require exact 3 children in `body`.
+      document.querySelector('body > main')?.append(element);
     }
     containerElement = element;
   } else {
