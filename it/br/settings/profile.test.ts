@@ -78,9 +78,9 @@ test('Settings - Update profile info', async ({ page }) => {
     await p.goto(`/u/${u.id}`, null);
     rootEl = p.$('container-view');
     await rootEl.$hasText('h2', 'NEW_NAME').e.toBeVisible();
-    await rootEl.$hasText('h2', 'NEW_COMPANY').e.toBeVisible();
-    await rootEl.$hasText('h2', 'NEW_LOCATION').e.toBeVisible();
-    await rootEl.$hasText('h2', '<NEW_USER_BIO>').e.toBeVisible();
+    await rootEl.$hasText('p', 'NEW_COMPANY').e.toBeVisible();
+    await rootEl.$hasText('p', 'NEW_LOCATION').e.toBeVisible();
+    await rootEl.$hasText('p', '<NEW_USER_BIO>').e.toBeVisible();
     await rootEl.$a({ href: 'http://NEW_URL', text: 'NEW_URL' }).e.toBeVisible();
   });
 });
