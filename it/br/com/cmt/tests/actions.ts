@@ -35,6 +35,7 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
   }
   await updateEditor(p, {
     part: 'content',
+    spinnerText: 'Publishing...',
     content: a.content,
     dbTimeChange: a.dbTimeChange,
   });
@@ -57,6 +58,7 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
   await updateEditor(p, {
     part: 'content',
     content: a.content,
+    spinnerText: 'Publishing...',
     dbTimeChange: a.dbTimeChange,
   });
 }
@@ -76,7 +78,12 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
     await a.shownCb();
   }
 
-  await updateEditor(p, { part: 'content', content: a.content, dbTimeChange: true });
+  await updateEditor(p, {
+    part: 'content',
+    content: a.content,
+    dbTimeChange: true,
+    spinnerText: 'Saving...',
+  });
 }
 
 export interface CmtAppArgs {

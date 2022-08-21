@@ -39,7 +39,12 @@ function testPostUpdates(part: cp.ComposerPart) {
 
       // Check editor update.
       await postEditorShouldAppear(p);
-      await updateEditor(p, { part, content: def.sd.updated, dbTimeChange: true });
+      await updateEditor(p, {
+        part,
+        content: def.sd.updated,
+        dbTimeChange: true,
+        spinnerText: 'Saving...',
+      });
 
       // Verify post title.
       await postShouldHaveTitle(p, part === 'title' ? def.sd.updated : def.sd.title, link);

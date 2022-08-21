@@ -56,7 +56,7 @@ export class EditProfileApp extends StatefulPage {
   @property() url = '';
   @property() company = '';
   @property() location = '';
-  @property({ type: Boolean }) updateInfoStatus = LoadingStatus.success;
+  @property({ type: Object }) updateInfoStatus = LoadingStatus.success;
   @property() avatarURL = '';
 
   private get editorEl(): EditorView | null {

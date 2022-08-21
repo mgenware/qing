@@ -19,6 +19,7 @@ import { waitForDBTimeChange } from 'base/delay';
 
 export interface UpdateEditorArgs {
   part: ComposerPart;
+  spinnerText: string;
   content?: string;
   dbTimeChange?: boolean;
 }
@@ -37,7 +38,6 @@ export async function updateEditor(p: br.Page, a: UpdateEditorArgs) {
 
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');
-  await btnEl.click();
-  await waitForGlobalSpinner(p);
+  await waitForGlobalSpinner(p, a.spinnerText, btnEl.click());
   await waitForOverlayClosed(p);
 }

@@ -140,6 +140,10 @@ export class AvatarUploader extends BaseElement {
   }
 
   private async handleOKClick() {
+    // Close the crop component first. Otherwise, the user might click "OK" again
+    // to send an request without file header.
+    this.overlayElement.open = false;
+
     const fd = new FormData(this.formElement);
     if (this.cropInfo) {
       for (const [k, v] of Object.entries(this.cropInfo)) {
@@ -151,7 +155,6 @@ export class AvatarUploader extends BaseElement {
     this.resetFileInput();
 
     if (result.data) {
-      this.overlayElement.open = false;
       this.onUpdated(result.data);
     }
   }
