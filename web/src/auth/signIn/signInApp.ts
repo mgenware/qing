@@ -76,7 +76,7 @@ export class SignInApp extends BaseElement {
       return;
     }
     const loader = new SignInLoader(this.email, this.password);
-    const status = await appTask.critical(loader, ls.publishing);
+    const status = await appTask.critical(loader, ls.working);
     if (status.isSuccess) {
       pu.setURL('/');
     }

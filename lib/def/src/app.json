@@ -47,10 +47,8 @@
       "values": {
         "generic": 10000,
         "needAuth": 10001,
-        "captchaNotFound": 10002,
-        "captchaNotMatch": 10003,
-        "permissionDenied": 10004,
-        "resourceNotFound": 10005,
+        "permissionDenied": 10002,
+        "resourceNotFound": 10003,
         "invalidUserOrPwd": 1,
         "cannotSetAdminOfYourself": 1,
         "alreadyAdmin": 2

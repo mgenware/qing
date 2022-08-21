@@ -72,10 +72,8 @@ const (
 const (
 	ErrGeneric = 10000
 	ErrNeedAuth = 10001
-	ErrCaptchaNotFound = 10002
-	ErrCaptchaNotMatch = 10003
-	ErrPermissionDenied = 10004
-	ErrResourceNotFound = 10005
+	ErrPermissionDenied = 10002
+	ErrResourceNotFound = 10003
 	ErrInvalidUserOrPwd = 1
 	ErrCannotSetAdminOfYourself = 1
 	ErrAlreadyAdmin = 2
