@@ -7,8 +7,12 @@
 
 import * as br from 'br';
 
-export async function waitForGlobalSpinner(page: br.Page, text: string, trigger: Promise<unknown>) {
+export async function waitForGlobalSpinner(
+  page: br.Page,
+  text: string,
+  trigger: () => Promise<unknown>,
+) {
   const sel = `#__global_spinner_container spinner-view:has-text(${JSON.stringify(text)})`;
-  await Promise.all([trigger, page.c.waitForSelector(sel, { state: 'visible' })]);
-  await page.c.waitForSelector(sel, { state: 'hidden' });
+  await Promise.all([trigger(), page.c.waitForSelector(sel, { state: 'attached' })]);
+  await page.c.waitForSelector(sel, { state: 'detached' });
 }

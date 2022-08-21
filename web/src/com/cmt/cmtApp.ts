@@ -134,7 +134,7 @@ export class CmtApp extends BaseElement {
       );
     }
 
-    const apiRes = await appTask.critical(loader, ls.publishing);
+    const apiRes = await appTask.critical(loader, editorProps.editing ? ls.saving : ls.publishing);
     if (apiRes.error) {
       this.sendEditorResult({ err: apiRes.error });
     } else if (apiRes.data) {

@@ -38,6 +38,6 @@ export async function updateEditor(p: br.Page, a: UpdateEditorArgs) {
 
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');
-  await waitForGlobalSpinner(p, a.spinnerText, btnEl.click());
+  await waitForGlobalSpinner(p, a.spinnerText, () => btnEl.click());
   await waitForOverlayClosed(p);
 }

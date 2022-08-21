@@ -103,7 +103,7 @@ test('Settings - Update profile picture', async ({ page }) => {
     ]);
     await fileChooser.setFiles('./files/img1.jpg');
     const overlayEl = p.$(ov.openOverlaySel);
-    await waitForGlobalSpinner(p, 'Uploading...', overlayEl.$qingButton('OK').click());
+    await waitForGlobalSpinner(p, 'Uploading...', () => overlayEl.$qingButton('OK').click());
 
     const profileImg = rootEl.$('img[width="250"][height="250"][class="avatar-l profile-img"]');
     const newURL = await profileImg.getAttribute('src');
