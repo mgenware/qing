@@ -37,28 +37,23 @@ type MainPageManager struct {
 
 	mainView  CoreLocalizedTemplate
 	errorView CoreLocalizedTemplate
-	locMgr    localization.CoreManager
 	jsMgr     *jsm.JSManager
 	logger    app.CoreLogger
+	lsMgr     localization.CoreManager
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
 	conf *config.Config,
 	logger app.CoreLogger,
+	lsMgr localization.CoreManager,
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
-
-	// Create the localization manager used by localized template views.
-	locMgr, err := localization.NewManagerFromConfig(conf.Localization)
-	if err != nil {
-		panic(err)
-	}
 
 	jsMgr := jsm.NewJSManager(conf.DevMode())
 
 	t := &MainPageManager{
-		locMgr:               locMgr,
+		lsMgr:                lsMgr,
 		jsMgr:                jsMgr,
 		logger:               logger,
 		conf:                 conf,
@@ -80,7 +75,7 @@ func (m *MainPageManager) ScriptString(name string) string {
 }
 
 func (m *MainPageManager) LocalizationManager() localization.CoreManager {
-	return m.locMgr
+	return m.lsMgr
 }
 
 // MustCompleteWithContent finishes the response with the given HTML content.
@@ -100,7 +95,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	ctx := r.Context()
 	// Ensure lang always has a value.
 	if lang == "" {
-		lang = m.locMgr.FallbackLanguage()
+		lang = m.lsMgr.FallbackLanguage()
 	}
 
 	// Add site name to title.
@@ -167,7 +162,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 
 // PageTitle returns the given string followed by the localized site name.
 func (m *MainPageManager) PageTitle(lang, s string) string {
-	siteName := m.locMgr.Dictionary(lang).QingSiteName
+	siteName := m.lsMgr.Dictionary(lang).QingSiteName
 	if s != "" {
 		return s + " - " + siteName
 	}
@@ -189,5 +184,5 @@ func (m *MainPageManager) MustParseLocalizedView(templatePath string) CoreLocali
 
 // Dictionary returns a localized dictionary with the specified language ID.
 func (m *MainPageManager) Dictionary(lang string) *localization.Dictionary {
-	return m.locMgr.Dictionary(lang)
+	return m.lsMgr.Dictionary(lang)
 }

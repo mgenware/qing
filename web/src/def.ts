@@ -6,11 +6,10 @@
  */
 
 import { appdef } from '@qing/def';
+import ls from 'ls';
 
 export const localizedErrDict = new Map<number, string>();
-localizedErrDict.set(appdef.errNeedAuth, 'needAuthErr');
-localizedErrDict.set(appdef.errCaptchaNotFound, 'captNotFoundErr');
-localizedErrDict.set(appdef.errCaptchaNotMatch, 'captNotMatch');
+localizedErrDict.set(appdef.errNeedAuth, ls.needAuthErr);
 
 export class Cookies {
   // "Local" indicates that server is not aware of this cookie.

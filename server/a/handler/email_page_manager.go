@@ -25,22 +25,17 @@ type EmailPageManager struct {
 	reloadViewsOnRefresh bool
 
 	mainView CoreTemplate
-	locMgr   localization.CoreManager
+	lsMgr    localization.CoreManager
 }
 
 func MustCreateEmailPageManager(
 	conf *config.Config,
+	lsMgr localization.CoreManager,
 ) *EmailPageManager {
 	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
 
-	// Create the localization manager used by localized template views.
-	locMgr, err := localization.NewManagerFromConfig(conf.Localization)
-	if err != nil {
-		panic(err)
-	}
-
 	t := &EmailPageManager{
-		locMgr:               locMgr,
+		lsMgr:                lsMgr,
 		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
 		dir:                  filepath.Join(conf.Templates.Dir, "email"),
@@ -52,7 +47,7 @@ func MustCreateEmailPageManager(
 }
 
 func (m *EmailPageManager) LocalizationManager() localization.CoreManager {
-	return m.locMgr
+	return m.lsMgr
 }
 
 func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) (string, string) {
@@ -62,12 +57,12 @@ func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) (string, 
 
 	// Ensure lang always has a value.
 	if lang == "" {
-		lang = m.locMgr.FallbackLanguage()
+		lang = m.lsMgr.FallbackLanguage()
 	}
 
 	d.AppLang = lang
 
-	ls := m.locMgr.Dictionary(lang)
+	ls := m.lsMgr.Dictionary(lang)
 	d.LSSiteName = ls.QingSiteName
 	d.LSSiteURL = ls.QingSiteUrl
 
@@ -82,5 +77,5 @@ func (m *EmailPageManager) MustParseView(relativePath string) CoreTemplate {
 
 // Dictionary returns a localized dictionary with the specified language ID.
 func (m *EmailPageManager) Dictionary(lang string) *localization.Dictionary {
-	return m.locMgr.Dictionary(lang)
+	return m.lsMgr.Dictionary(lang)
 }

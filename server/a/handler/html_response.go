@@ -61,8 +61,8 @@ func (h *HTMLResponse) MustFailWithError(err error, statusCode int) HTML {
 	return HTML(0)
 }
 
-// LocalizedDictionary returns the dictionary associated with current language ID.
-func (h *HTMLResponse) LocalizedDictionary() *localization.Dictionary {
+// LS returns the dictionary associated with current language ID.
+func (h *HTMLResponse) LS() *localization.Dictionary {
 	return h.mainPageMgr.Dictionary(h.Lang())
 }
 
@@ -79,7 +79,7 @@ func (h *HTMLResponse) Redirect(url string, code int) HTML {
 
 func (h *HTMLResponse) checkCompletion() {
 	if h.isCompleted {
-		panic(errors.New("Result has completed"))
+		panic(errors.New("result has completed"))
 	}
 	h.isCompleted = true
 }

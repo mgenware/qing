@@ -49,7 +49,6 @@
         "needAuth": 10001,
         "permissionDenied": 10002,
         "resourceNotFound": 10003,
-        "invalidUserOrPwd": 1,
         "cannotSetAdminOfYourself": 1,
         "alreadyAdmin": 2
       }

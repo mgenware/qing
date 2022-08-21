@@ -22,6 +22,10 @@ import (
 	"qing/lib/clib"
 )
 
+const (
+	errInvalidUserOrPwd = 1
+)
+
 func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := app.ContextDict(r)
@@ -33,7 +37,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(appdef.ErrInvalidUserOrPwd)
+			return resp.MustFailWithMsg(appdef.ErrInvalidUserOrPwd)
 		}
 		return resp.MustFail(err)
 	}

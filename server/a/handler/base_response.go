@@ -11,6 +11,7 @@ import (
 	"context"
 	"net/http"
 	"qing/a/appcom"
+	"qing/a/handler/localization"
 )
 
 // BaseResponse provides basic properties shared by both HTMLResponse and JSONResponse.
@@ -58,4 +59,8 @@ func (b *BaseResponse) User() *appcom.SessionUser {
 // UserID returns the ID of the session user associated with the underlying context.
 func (b *BaseResponse) UserID() uint64 {
 	return b.uid
+}
+
+func (b *BaseResponse) LS() *localization.Dictionary {
+	return h.mainPageMgr.Dictionary(h.Lang())
 }

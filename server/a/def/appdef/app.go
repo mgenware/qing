@@ -74,7 +74,6 @@ const (
 	ErrNeedAuth = 10001
 	ErrPermissionDenied = 10002
 	ErrResourceNotFound = 10003
-	ErrInvalidUserOrPwd = 1
 	ErrCannotSetAdminOfYourself = 1
 	ErrAlreadyAdmin = 2
 )

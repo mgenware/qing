@@ -7,5 +7,6 @@
   "verifyYourEmailTitle": "验证您的邮件",
   "clickBelowToCompleteReg": "请点击下面的链接来完成注册。",
   "yourAccHasBeenVerified": "您的账户已经完成验证。",
-  "emailVerified": "账户验证成功"
+  "emailVerified": "账户验证成功",
+  "invalidNameOrPwd": "错误的用户名或密码"
 }

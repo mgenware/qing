@@ -15,9 +15,6 @@ type APIResult struct {
 	// Error message.
 	Msg string `json:"msg,omitempty"`
 
-	// Localized error message key.
-	LSMsg string `json:"lsMsg,omitempty"`
-
 	// Data represents the requested value in a successful result.
 	Data any `json:"d,omitempty"`
 

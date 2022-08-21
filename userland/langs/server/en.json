@@ -7,5 +7,6 @@
   "verifyYourEmailTitle": "Verify your email",
   "clickBelowToCompleteReg": "Click the link below to complete the registration process.",
   "yourAccHasBeenVerified": "Your account has been verified.",
-  "emailVerified": "Email verified"
+  "emailVerified": "Email verified",
+  "invalidNameOrPwd": "Invalid username or password"
 }

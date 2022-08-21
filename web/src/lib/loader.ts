@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ls, getLSByKey } from 'ls';
+import { ls } from 'ls';
 import { appdef } from '@qing/def';
 import { ERR } from 'checks';
 import ErrorWithCode from './errorWithCode';
@@ -15,7 +15,6 @@ import delay from './delay';
 export interface APIResponse {
   code?: number;
   msg?: string;
-  lsMsg?: string;
   d?: unknown;
 }
 
@@ -25,9 +24,6 @@ enum MockResponse {
 }
 
 export default class Loader<T> {
-  static defaultLocalizedMessageDict?: Map<number, string>;
-  localizedMessageDict?: Map<number, string>;
-
   loadingStatusChanged?: (status: LoadingStatus) => void;
   private isStarted = false;
 
@@ -50,20 +46,7 @@ export default class Loader<T> {
         // Handle server error if exists.
         const resp = (await response.json()) as APIResponse;
         if (resp.code) {
-          // Check if `lsMsg` is available.
-          let msg = (resp.lsMsg ? getLSByKey(resp.lsMsg) : resp.msg) ?? resp.msg;
-
-          // If we have a localized message associated with the return code,
-          // use that message(ignore response message).
-          const localizedMsgKey = this.getLocalizedMessage(resp.code);
-          if (localizedMsgKey) {
-            msg = getLSByKey(localizedMsgKey);
-          }
-          // Fallback to default message.
-          if (!msg) {
-            msg = `${ls.errorCode} ${resp.code}`;
-          }
-          throw new ErrorWithCode(msg, resp.code);
+          throw new ErrorWithCode(resp.msg ?? `${ls.errorCode} ${resp.code}`, resp.code);
         }
 
         const mockRes = this.mockResponse();
@@ -132,10 +115,6 @@ export default class Loader<T> {
     if (this.loadingStatusChanged) {
       this.loadingStatusChanged(status);
     }
-  }
-
-  private getLocalizedMessage(code: number): string | undefined {
-    return this.localizedMessageDict?.get(code) ?? Loader.defaultLocalizedMessageDict?.get(code);
   }
 
   private mockResponse() {

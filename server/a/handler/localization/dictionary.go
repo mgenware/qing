@@ -22,6 +22,7 @@ type Dictionary struct {
 	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
 	EmailVerified           string `json:"emailVerified"`
 	ErrOccurred             string `json:"errOccurred"`
+	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`
 	QingSiteName            string `json:"qingSiteName"`
 	QingSiteUrl             string `json:"qingSiteURL"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`

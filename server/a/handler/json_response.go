@@ -13,6 +13,7 @@ import (
 	"errors"
 	"net/http"
 	"qing/a/def/appdef"
+	"qing/a/handler/localization"
 
 	"github.com/mgenware/goutil/httpx"
 )
@@ -22,6 +23,7 @@ type JSONResponse struct {
 	BaseResponse
 
 	writer      http.ResponseWriter
+	lsMgr       localization.CoreManager
 	isCompleted bool
 }
 
@@ -29,14 +31,14 @@ type JSONResponse struct {
 type JSON = int
 
 // NewJSONResponse creates a new JSONResponse.
-func NewJSONResponse(r *http.Request, wr http.ResponseWriter) JSONResponse {
+func NewJSONResponse(r *http.Request, lsMgr localization.CoreManager, wr http.ResponseWriter) JSONResponse {
 	return JSONResponse{
 		BaseResponse: newBaseResponse(r),
 		writer:       wr,
 	}
 }
 
-// MustFailWithError finishes the response with the specified `code`, `error` args, and panics if unexpected error happens.
+// MustFailWithError finishes the response with the specified code and error, and panics if unexpected error happens.
 func (j *JSONResponse) MustFailWithCodeAndError(code int, err error) JSON {
 	d := APIResult{Code: code, Error: err}
 	if err != nil {
@@ -58,9 +60,9 @@ func (j *JSONResponse) MustFail(err error) JSON {
 	return JSON(0)
 }
 
-// MustFailWithCode finishes the response with the specified error code, and panics if unexpected error happens.
-func (j *JSONResponse) MustFailWithCode(code int) JSON {
-	j.MustFailWithCodeAndError(code, nil)
+// MustFailWithMsg finishes the response with the specified message, and panics if unexpected error happens.
+func (j *JSONResponse) MustFailWithMsg(msg string) JSON {
+	j.MustFailWithCodeAndError(int(appdef.ErrGeneric), errors.New(msg))
 	return JSON(0)
 }
 
@@ -69,6 +71,11 @@ func (j *JSONResponse) MustComplete(data any) JSON {
 	d := APIResult{Data: data}
 	j.mustWriteData(&d)
 	return JSON(0)
+}
+
+// LS returns the dictionary associated with current language ID.
+func (j *JSONResponse) LS() *localization.Dictionary {
+	return j.lsMgr.Dictionary(j.Lang())
 }
 
 func (j *JSONResponse) mustWriteData(d *APIResult) {
