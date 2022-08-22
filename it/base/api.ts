@@ -16,8 +16,8 @@ function getSetCookies(resp: Response) {
 
 // The result of an API call.
 export interface APIResult {
-  code?: number;
-  msg?: string;
+  c?: number;
+  m?: string;
   d?: unknown;
 }
 
@@ -45,9 +45,9 @@ export const errorGeneric = 1;
 
 // Pre-defined API error results.
 export const errorResults = {
-  notAuthorized: { code: errorGeneric },
-  rowNotUpdated: { code: errorGeneric, msg: 'Expected 1 rows affected, got 0.' },
-  resNotFound: { code: errorGeneric, msg: 'Resource not found' },
+  notAuthorized: { c: errorGeneric, m: 'You need to log in to access this.' },
+  rowNotUpdated: { c: errorGeneric, m: 'Expected 1 rows affected, got 0.' },
+  resNotFound: { c: errorGeneric, m: 'Resource not found' },
 };
 
 export type APICallback = (r: APIResult) => Promise<unknown>;
@@ -58,7 +58,7 @@ export interface APIOptions {
 }
 
 function checkAPISuccess(res: APIResult, url: string) {
-  if (res.code) {
+  if (res.c) {
     throw new Error(`API failed with error ${JSON.stringify(res)}. URL: ${url}`);
   }
 }

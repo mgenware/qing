@@ -13,8 +13,8 @@ import LoadingStatus from './loadingStatus';
 import delay from './delay';
 
 export interface APIResponse {
-  code?: number;
-  msg?: string;
+  c?: number;
+  m?: string;
   d?: unknown;
 }
 
@@ -45,8 +45,8 @@ export default class Loader<T> {
       } else {
         // Handle server error if exists.
         const resp = (await response.json()) as APIResponse;
-        if (resp.code) {
-          throw new ErrorWithCode(resp.msg ?? `${ls.errorCode} ${resp.code}`, resp.code);
+        if (resp.c) {
+          throw new ErrorWithCode(resp.m ?? `${ls.errorCode} ${resp.c}`, resp.c);
         }
 
         const mockRes = this.mockResponse();

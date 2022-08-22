@@ -59,5 +59,5 @@ itaResultRaw(
   url,
   { target_user_id: usr.admin.id, value: 0 },
   usr.admin,
-  { code: 1 },
+  { c: 1, m: 'You cannot remove yourself as an admin' },
 );

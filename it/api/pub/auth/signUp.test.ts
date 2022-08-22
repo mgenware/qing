@@ -21,23 +21,23 @@ import * as pageUtil from 'helper/page';
 const pwd = '123456';
 const htmlIDRegex = /window\.appVerifiedUID = '(.+)';/g;
 const invalidNameOrPwdResp = {
-  code: 1,
-  msg: 'Invalid username or password',
+  c: 1,
+  m: 'Invalid username or password',
 };
 
 itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
-  code: 1,
-  msg: 'the argument `name` is required',
+  c: 1,
+  m: 'the argument `name` is required',
 });
 
 itaResultRaw('Sign up - Missing email', authAPI.signUp, { name: '_', pwd: '_' }, null, {
-  code: 1,
-  msg: 'the argument `email` is required',
+  c: 1,
+  m: 'the argument `email` is required',
 });
 
 itaResultRaw('Sign up - Missing pwd', authAPI.signUp, { name: '_', email: '_' }, null, {
-  code: 1,
-  msg: 'the argument `pwd` is required',
+  c: 1,
+  m: 'the argument `pwd` is required',
 });
 
 itaResultRaw(
@@ -46,8 +46,8 @@ itaResultRaw(
   { name: '_', email: '_', pwd: '1' },
   null,
   {
-    code: 1,
-    msg: 'the argument `pwd` is less than the required length 6',
+    c: 1,
+    m: 'the argument `pwd` is less than the required length 6',
   },
 );
 

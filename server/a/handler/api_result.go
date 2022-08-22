@@ -10,10 +10,9 @@ package handler
 // APIResult contains the information about the return value of an API, which is either success or failure.
 type APIResult struct {
 	// Code indicates the status code of this result. 0 means success.
-	Code int `json:"code,omitempty"`
-
+	Code int `json:"c,omitempty"`
 	// Error message.
-	Msg string `json:"msg,omitempty"`
+	Msg string `json:"m,omitempty"`
 
 	// Data represents the requested value in a successful result.
 	Data any `json:"d,omitempty"`

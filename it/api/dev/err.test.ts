@@ -11,10 +11,10 @@ import * as errRoutes from '@qing/routes/d/dev/err';
 // ----- NOTE: this file only tests error APIs. Page errors are tested in BR tests. -----
 
 itaResultRaw('`panicErrAPI`', errRoutes.panicErrAPI, null, null, {
-  code: 1,
-  msg: 'test error',
+  c: 1,
+  m: 'test error',
 });
 
-itaResultRaw('`panicObjAPI`', errRoutes.panicObjAPI, null, null, { code: 1, msg: '-32' });
+itaResultRaw('`panicObjAPI`', errRoutes.panicObjAPI, null, null, { c: 1, m: '-32' });
 
-itaResultRaw('`failAPI`', errRoutes.failAPI, null, null, { code: 1, msg: 'test error' });
+itaResultRaw('`failAPI`', errRoutes.failAPI, null, null, { c: 1, m: 'test error' });
