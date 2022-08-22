@@ -25,7 +25,7 @@ var Router = handler.NewJSONRouter()
 
 func init() {
 	Router.Core.Use(appUserManager.Get().RequireLoginJSONMiddleware)
-	Router.Core.Use(middleware.ParseJSON)
+	Router.Core.Use(middleware.APIMiddleware)
 
 	Router.Mount("/compose", composeapi.Router)
 	Router.Mount("/profile", profileapi.Router)

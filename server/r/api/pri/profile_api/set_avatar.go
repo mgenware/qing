@@ -19,6 +19,7 @@ import (
 	"qing/lib/iolib"
 	"qing/s/avatar"
 
+	strf "github.com/mgenware/go-string-format"
 	"github.com/mgenware/goutil/strconvx"
 )
 
@@ -46,7 +47,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 
 	if r.ContentLength > maxUploadSize {
-		resp.MustFailWithCode(errFileTooLarge)
+		resp.MustFailWithMsg(strf.Format(resp.LS().PFileSizeExceedsMaxSize, "5 MB"))
 		return
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, maxUploadSize)
@@ -67,21 +68,21 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	if x >= 0 && y >= 0 && width > 0 && height > 0 {
 		cropInfo = &avatarCropInfo{X: x, Y: y, Width: width, Height: height}
 	} else {
-		resp.MustFailWithCode(errParams)
+		resp.MustFailWithMsg("invalid params")
 		return
 	}
 
 	form := r.MultipartForm
 	headers := form.File[appdef.FormUploadMain]
 	if len(headers) == 0 {
-		resp.MustFailWithCode(errNoHeaderFound)
+		resp.MustFailWithMsg("no header found")
 		return
 	}
 
 	fileHeader := headers[0]
 	isImg, ext := iolib.IsImageFile(fileHeader.Filename)
 	if !isImg {
-		resp.MustFailWithCode(errUnsupportedExt)
+		resp.MustFailWithMsg(resp.LS().UnsupportedExtension)
 		return
 	}
 

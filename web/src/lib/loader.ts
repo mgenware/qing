@@ -87,7 +87,9 @@ export default class Loader<T> {
   }
 
   requestParams(): Record<string, unknown> {
-    return {};
+    return {
+      [appdef.apiLangParam]: document.documentElement.lang,
+    };
   }
 
   handleSuccess(resp: APIResponse): T {

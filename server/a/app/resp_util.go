@@ -16,13 +16,13 @@ import (
 // Helper function to create an HTML response.
 func HTMLResponse(w http.ResponseWriter, r *http.Request) handler.HTMLResponse {
 	tm := appHandler.MainPage()
-	resp := handler.NewHTMLResponse(r, tm, w)
+	resp := handler.NewHTMLResponse(w, r, tm)
 	return resp
 }
 
 // Helper function to create a JSON response.
 func JSONResponse(w http.ResponseWriter, r *http.Request) handler.JSONResponse {
-	resp := handler.NewJSONResponse(r, w, appHandler.LSManager())
+	resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
 	return resp
 }
 

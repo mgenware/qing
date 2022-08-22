@@ -11,10 +11,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"qing/a/app"
 	"qing/a/appcom"
 	"qing/a/def"
-	"qing/a/def/appdef"
-	"qing/a/handler"
 	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
 )
@@ -26,10 +25,10 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 		params := appcom.ContextDict(ctx)
 		sUser := appcom.ContextUser(ctx)
 
-		resp := handler.NewJSONResponse(r, w)
+		resp := app.JSONResponse(w, r)
 		forumID := clib.GetIDFromDict(params, ForumIDParamName)
 		if forumID == 0 {
-			resp.MustFail(fmt.Errorf("The argument `%v` is empty", ForumIDParamName))
+			resp.MustFail(fmt.Errorf("the argument `%v` is empty", ForumIDParamName))
 			return
 		}
 
@@ -39,7 +38,7 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForum {
-			resp.MustFailWithCode(appdef.ErrPermissionDenied)
+			resp.MustFailWithMsg(resp.LS().PermissionDenied)
 			return
 		}
 

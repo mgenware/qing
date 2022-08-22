@@ -19,16 +19,21 @@ import (
 
 // Dictionary ...
 type Dictionary struct {
+	CannotRemoveSelfAdmin   string `json:"cannotRemoveSelfAdmin"`
 	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
 	EmailVerified           string `json:"emailVerified"`
 	ErrOccurred             string `json:"errOccurred"`
 	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`
 	NeedAuthErr             string `json:"needAuthErr"`
+	PFileSizeExceedsMaxSize string `json:"pFileSizeExceedsMaxSize"`
+	PermissionDenied        string `json:"permissionDenied"`
 	QingSiteName            string `json:"qingSiteName"`
 	QingSiteUrl             string `json:"qingSiteURL"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
+	UnsupportedExtension    string `json:"unsupportedExtension"`
 	VerifyYourEmailTitle    string `json:"verifyYourEmailTitle"`
+	YouAreAlreadyAdmin      string `json:"youAreAlreadyAdmin"`
 	YourAccHasBeenVerified  string `json:"yourAccHasBeenVerified"`
 }
 

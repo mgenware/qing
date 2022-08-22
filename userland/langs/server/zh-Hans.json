@@ -9,5 +9,10 @@
   "yourAccHasBeenVerified": "您的账户已经完成验证。",
   "emailVerified": "账户验证成功",
   "invalidNameOrPwd": "错误的用户名或密码",
-  "needAuthErr": "您需要登录才可以访问。"
+  "needAuthErr": "您需要登录才可以访问。",
+  "permissionDenied": "您没有权限执行此操作",
+  "cannotRemoveSelfAdmin": "管理员无法将自己设置为非管理员",
+  "youAreAlreadyAdmin": "您已经是管理员",
+  "pFileSizeExceedsMaxSize": "文件超过最大允许的大小 {0}",
+  "unsupportedExtension": "不支持的文件扩展名"
 }

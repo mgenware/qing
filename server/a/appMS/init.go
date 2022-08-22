@@ -8,7 +8,6 @@
 package appMS
 
 import (
-	"qing/a/app"
 	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/a/coretype"
@@ -28,6 +27,6 @@ func init() {
 	appLog.Get().Info("app.ms.connected", "port", port)
 }
 
-func GetConn() app.CoreMemoryStoreConn {
+func GetConn() coretype.CoreMemoryStoreConn {
 	return appMS.GetConn()
 }

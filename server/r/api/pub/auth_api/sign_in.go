@@ -36,7 +36,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithMsg(appdef.ErrInvalidUserOrPwd)
+			return resp.MustFailWithMsg(resp.LS().InvalidNameOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -48,7 +48,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hash, err := da.UserPwd.SelectHashByID(appDB.DB(), uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFailWithCode(appdef.ErrInvalidUserOrPwd)
+			return resp.MustFailWithMsg(resp.LS().InvalidNameOrPwd)
 		}
 		return resp.MustFail(err)
 	}
@@ -58,7 +58,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(err)
 	}
 	if !pwdValid {
-		return resp.MustFailWithCode(appdef.ErrInvalidUserOrPwd)
+		return resp.MustFailWithMsg(resp.LS().InvalidNameOrPwd)
 	}
 
 	err = appUserManager.Get().Login(uid, w, r)

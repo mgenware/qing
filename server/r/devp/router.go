@@ -39,7 +39,7 @@ func init() {
 
 func apiRouter() *handler.JSONRouter {
 	r := handler.NewJSONRouter()
-	r.Core.Use(middleware.ParseJSON)
+	r.Core.Use(middleware.APIMiddleware)
 
 	// Auth router.
 	authRouter := handler.NewJSONRouter()

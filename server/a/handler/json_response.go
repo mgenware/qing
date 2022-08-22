@@ -31,10 +31,11 @@ type JSONResponse struct {
 type JSON = int
 
 // NewJSONResponse creates a new JSONResponse.
-func NewJSONResponse(r *http.Request, wr http.ResponseWriter, lsMgr localization.CoreManager) JSONResponse {
+func NewJSONResponse(w http.ResponseWriter, r *http.Request, lsMgr localization.CoreManager) JSONResponse {
 	return JSONResponse{
 		BaseResponse: newBaseResponse(r),
-		writer:       wr,
+		writer:       w,
+		lsMgr:        lsMgr,
 	}
 }
 

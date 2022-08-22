@@ -8,7 +8,6 @@
 package servicex
 
 import (
-	"qing/a/app"
 	"qing/a/config"
 	"qing/a/coretype"
 	"qing/a/def"
@@ -28,7 +27,7 @@ type Service struct {
 }
 
 // MustNewService creates a new Service object.
-func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger coretype.CoreLogger, msConn app.CoreMemoryStoreConn) *Service {
+func MustNewService(conf *config.Config, appProfile *profile.AppProfile, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
 	s := &Service{}
 	devConf := conf.Dev
 

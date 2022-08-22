@@ -15,6 +15,7 @@ const ForumStatusArchived = 1
 const FormUploadMain = "main"
 const DeleteFlagAuthor = 1
 const DeleteFlagHost = 2
+const ApiLangParam = "__l"
 
 type ContentBaseType int
 
@@ -74,8 +75,6 @@ const (
 	ErrNeedAuth = 10001
 	ErrPermissionDenied = 10002
 	ErrResourceNotFound = 10003
-	ErrCannotSetAdminOfYourself = 1
-	ErrAlreadyAdmin = 2
 )
 
 const (

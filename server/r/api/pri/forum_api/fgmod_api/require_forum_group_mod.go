@@ -11,9 +11,9 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"qing/a/appHandler"
 	"qing/a/appcom"
 	"qing/a/def"
-	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
@@ -26,7 +26,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 		params := appcom.ContextDict(ctx)
 		sUser := appcom.ContextUser(ctx)
 
-		resp := handler.NewJSONResponse(r, w)
+		resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
 		groupID := clib.GetIDFromDict(params, "forumGroupID")
 		if groupID == 0 {
 			resp.MustFail(errors.New("forum_group_id is empty"))
@@ -39,7 +39,7 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		if perm < modutil.PermLevelForumGroup {
-			resp.MustFailWithCode(appdef.ErrPermissionDenied)
+			resp.MustFailWithMsg(resp.LS().PermissionDenied)
 			return
 		}
 		ctx = context.WithValue(ctx, def.ForumGroupIDContextKey, groupID)

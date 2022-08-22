@@ -4,6 +4,7 @@
   "formUploadMain": "main",
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
+  "apiLangParam": "__l",
   "__enums": {
     "contentBaseType": { "values": ["post", "cmt", "thread"] },
     "homePageFeedType": { "values": ["post", "thread"] },
@@ -48,9 +49,7 @@
         "generic": 10000,
         "needAuth": 10001,
         "permissionDenied": 10002,
-        "resourceNotFound": 10003,
-        "cannotSetAdminOfYourself": 1,
-        "alreadyAdmin": 2
+        "resourceNotFound": 10003
       }
     },
     "len": {

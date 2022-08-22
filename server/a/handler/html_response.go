@@ -26,11 +26,11 @@ type HTMLResponse struct {
 type HTML = int
 
 // NewHTMLResponse creates a new HTMLResponse.
-func NewHTMLResponse(r *http.Request, mainPageMgr CorePageManager, wr http.ResponseWriter) HTMLResponse {
+func NewHTMLResponse(w http.ResponseWriter, r *http.Request, mainPageMgr CorePageManager) HTMLResponse {
 	return HTMLResponse{
 		BaseResponse: newBaseResponse(r),
 		mainPageMgr:  mainPageMgr,
-		writer:       wr,
+		writer:       w,
 	}
 }
 

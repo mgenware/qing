@@ -9,5 +9,10 @@
   "yourAccHasBeenVerified": "Your account has been verified.",
   "emailVerified": "Email verified",
   "invalidNameOrPwd": "Invalid username or password",
-  "needAuthErr": "You need to log in to access this."
+  "needAuthErr": "You need to log in to access this.",
+  "permissionDenied": "You don't have permission to perform this action",
+  "cannotRemoveSelfAdmin": "You cannot remove yourself as an admin",
+  "youAreAlreadyAdmin": "You are already an admin",
+  "pFileSizeExceedsMaxSize": "The file size exceeds the maximum allowed size {0}",
+  "unsupportedExtension": "Unsupported file extension"
 }

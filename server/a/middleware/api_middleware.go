@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"qing/a/appHandler"
 	"qing/a/def"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -20,8 +21,10 @@ import (
 	"github.com/mgenware/goutil/httpx"
 )
 
-// ParseJSON is a middleware that parses the request body as JSON and stores the result to the context.
-func ParseJSON(next http.Handler) http.Handler {
+// Middleware used by all APIs. It does the following things:
+// 1. Parse request JSON and save it to context.
+// 2. Parse request lang and save it to context.
+func APIMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		contentType := r.Header.Get("Content-Type")
@@ -30,12 +33,20 @@ func ParseJSON(next http.Handler) http.Handler {
 			jsonMap := make(map[string]any)
 			err := decoder.Decode(&jsonMap)
 			if err != nil && err != io.EOF {
-				resp := handler.NewJSONResponse(r, w)
-				// JSON parsing errors are considered user errors, so we pass `true` as `expected` and don't log them.
+				resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
 				resp.MustFailWithCodeAndError(appdef.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()))
 				return
 			}
+
+			apiLang := jsonMap[appdef.ApiLangParam]
+			if apiLang == "" {
+				resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
+				resp.MustFailWithCodeAndError(appdef.ErrGeneric, fmt.Errorf("missing API lang, \"%v\"", err.Error()))
+				return
+			}
+
 			ctx = context.WithValue(ctx, def.DictContextKey, jsonMap)
+			ctx = context.WithValue(ctx, def.LanguageContextKey, apiLang)
 		}
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

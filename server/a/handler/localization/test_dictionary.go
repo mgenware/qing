@@ -14,15 +14,20 @@ var TestDict *Dictionary
   
 func init() {
 	TestDict = &Dictionary{}
+	TestDict.CannotRemoveSelfAdmin = "ls.cannotRemoveSelfAdmin"
 	TestDict.ClickBelowToCompleteReg = "ls.clickBelowToCompleteReg"
 	TestDict.EmailVerified = "ls.emailVerified"
 	TestDict.ErrOccurred = "ls.errOccurred"
 	TestDict.InvalidNameOrPwd = "ls.invalidNameOrPwd"
 	TestDict.NeedAuthErr = "ls.needAuthErr"
+	TestDict.PFileSizeExceedsMaxSize = "ls.pFileSizeExceedsMaxSize"
+	TestDict.PermissionDenied = "ls.permissionDenied"
 	TestDict.QingSiteName = "ls.qingSiteName"
 	TestDict.QingSiteUrl = "ls.qingSiteURL"
 	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"
 	TestDict.ResNotFound = "ls.resNotFound"
+	TestDict.UnsupportedExtension = "ls.unsupportedExtension"
 	TestDict.VerifyYourEmailTitle = "ls.verifyYourEmailTitle"
+	TestDict.YouAreAlreadyAdmin = "ls.youAreAlreadyAdmin"
 	TestDict.YourAccHasBeenVerified = "ls.yourAccHasBeenVerified"
 }
