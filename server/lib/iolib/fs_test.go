@@ -9,7 +9,6 @@ package iolib
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -23,9 +22,10 @@ func TestCopyReaderToFile(t *testing.T) {
 	assert.Nil(err)
 
 	r := bytes.NewReader([]byte{1, 2, 3})
-	CopyReaderToFile(r, f.Name())
+	err = CopyReaderToFile(r, f.Name())
+	assert.Nil(err)
 
-	bytes, err := ioutil.ReadFile(f.Name())
+	bytes, err := os.ReadFile(f.Name())
 	assert.Nil(err)
 	assert.Equal(bytes, []byte{1, 2, 3})
 }

@@ -25,11 +25,7 @@ import (
 )
 
 const (
-	errUnsupportedExt = 10
-	errNoHeaderFound  = 11
-	errFileTooLarge   = 12
-	errParams         = 13
-	maxUploadSize     = 5 * 1024 * 1024 // 5 MB max size.
+	maxUploadSize = 5 * 1024 * 1024 // 5 MB max size.
 )
 
 type avatarUpdateResult struct {

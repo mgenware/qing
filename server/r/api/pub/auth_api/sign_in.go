@@ -21,10 +21,6 @@ import (
 	"qing/lib/clib"
 )
 
-const (
-	errInvalidUserOrPwd = 1
-)
-
 func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)

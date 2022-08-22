@@ -8,7 +8,6 @@
 package iolib
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -22,7 +21,7 @@ func TestReadJSONFile(t *testing.T) {
 	f, err := os.CreateTemp("", "ReadJSONFile")
 	assert.Nil(err)
 
-	err = ioutil.WriteFile(f.Name(), []byte("{\"int\":1,\"str\":\"123四五六\"}"), iox.DefaultFilePerm)
+	err = os.WriteFile(f.Name(), []byte("{\"int\":1,\"str\":\"123四五六\"}"), iox.DefaultFilePerm)
 	assert.Nil(err)
 
 	var v map[string]any
@@ -40,7 +39,7 @@ func TestWriteJSONFile(t *testing.T) {
 	err = WriteJSONFile(f.Name(), map[string]any{"int": float64(1), "str": "123四五六"})
 	assert.Nil(err)
 
-	val, err := ioutil.ReadFile(f.Name())
+	val, err := os.ReadFile(f.Name())
 	assert.Nil(err)
 	assert.Equal(string(val), "{\"int\":1,\"str\":\"123四五六\"}")
 }

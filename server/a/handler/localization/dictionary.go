@@ -14,7 +14,7 @@ package localization
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"os"
 )
 
 // Dictionary ...
@@ -39,7 +39,7 @@ type Dictionary struct {
 
 // ParseDictionary loads a Dictionary from a JSON file.
 func ParseDictionary(file string) (*Dictionary, error) {
-	bytes, err := ioutil.ReadFile(file)
+	bytes, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}

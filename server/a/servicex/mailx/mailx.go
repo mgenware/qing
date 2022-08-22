@@ -9,7 +9,7 @@ package mailx
 
 import (
 	"errors"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -51,12 +51,12 @@ func (mn *MailService) Send(to, title, content string) (int64, error) {
 		titleFile := filepath.Join(curDir, devTitleFile)
 		contentFile := filepath.Join(curDir, devContentFile)
 
-		err = ioutil.WriteFile(titleFile, []byte(title), iox.DefaultFilePerm)
+		err = os.WriteFile(titleFile, []byte(title), iox.DefaultFilePerm)
 		if err != nil {
 			return 0, err
 		}
 
-		err = ioutil.WriteFile(contentFile, []byte(content), iox.DefaultFilePerm)
+		err = os.WriteFile(contentFile, []byte(content), iox.DefaultFilePerm)
 		if err != nil {
 			return 0, err
 		}
