@@ -36,7 +36,7 @@ func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 		settings = diskSettings.Community
 		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
 	default:
-		return resp.MustFail(fmt.Errorf("Unknown settings key \"%v\"", key))
+		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))
 	}
 
 	res := GetSiteSettingsResult{Settings: settings, NeedRestart: needRestart}

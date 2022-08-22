@@ -41,7 +41,7 @@ func failHandler(w http.ResponseWriter, r *http.Request) {
 
 func failAPIHandler(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
-	resp.MustFail(errors.New("test error"))
+	resp.MustFail("test error")
 }
 
 func panicErrAPI(w http.ResponseWriter, r *http.Request) {

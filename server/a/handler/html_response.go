@@ -49,7 +49,7 @@ func (h *HTMLResponse) MustComplete(d *MainPageData) HTML {
 }
 
 // MustFail finishes the response with the given error message and status code.
-func (h *HTMLResponse) MustFail(errMsg string, statusCode int) HTML {
+func (h *HTMLResponse) MustFailf(errMsg string, statusCode int) HTML {
 	h.MustFailWithError(errors.New(errMsg), statusCode)
 	return HTML(0)
 }

@@ -44,7 +44,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if dataString == "" {
 		// Expired or not found.
 		resp := app.HTMLResponse(w, r)
-		return resp.MustFail(ls.RegEmailVeriExpired, http.StatusServiceUnavailable)
+		return resp.MustFailf(ls.RegEmailVeriExpired, http.StatusServiceUnavailable)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicOn(err)

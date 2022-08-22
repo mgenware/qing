@@ -8,6 +8,7 @@
 package profileapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -47,13 +48,13 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	resp := app.JSONResponse(w, r)
 
 	if r.ContentLength > maxUploadSize {
-		resp.MustFailWithMsg(strf.Format(resp.LS().PFileSizeExceedsMaxSize, "5 MB"))
+		resp.MustFail(strf.Format(resp.LS().PFileSizeExceedsMaxSize, "5 MB"))
 		return
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, maxUploadSize)
 	err := r.ParseMultipartForm(1024 * 50) // 50kb
 	if err != nil {
-		resp.MustFail(err)
+		resp.MustFail(fmt.Sprintf("Error parsing multipart form: %v", err))
 		return
 	}
 	var cropInfo *avatarCropInfo
@@ -68,27 +69,27 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	if x >= 0 && y >= 0 && width > 0 && height > 0 {
 		cropInfo = &avatarCropInfo{X: x, Y: y, Width: width, Height: height}
 	} else {
-		resp.MustFailWithMsg("invalid params")
+		resp.MustFail("Invalid params")
 		return
 	}
 
 	form := r.MultipartForm
 	headers := form.File[appdef.FormUploadMain]
 	if len(headers) == 0 {
-		resp.MustFailWithMsg("no header found")
+		resp.MustFail("No header found")
 		return
 	}
 
 	fileHeader := headers[0]
 	isImg, ext := iolib.IsImageFile(fileHeader.Filename)
 	if !isImg {
-		resp.MustFailWithMsg(resp.LS().UnsupportedExtension)
+		resp.MustFail(resp.LS().UnsupportedExtension)
 		return
 	}
 
 	srcReader, err := fileHeader.Open()
 	if err != nil {
-		resp.MustFail(err)
+		resp.MustFail(fmt.Sprintf("Error opening file header: %v", err))
 		return
 	}
 	defer srcReader.Close()
@@ -98,14 +99,14 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 
 	avatarName, err := avatar.Get().UpdateAvatar(user.IconName, srcReader, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height, uid, ext)
 	if err != nil {
-		resp.MustFail(err)
+		resp.MustFail(fmt.Sprintf("Error updating avatar: %v", err))
 		return
 	}
 
 	// Update DB.
 	err = da.User.UpdateIconName(appDB.DB(), uid, avatarName)
 	if err != nil {
-		resp.MustFail(err)
+		resp.MustFail(fmt.Sprintf("Error updating icon: %v", err))
 		return
 	}
 
@@ -114,7 +115,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	sid := appcom.ContextSID(resp.Context())
 	err = appUserManager.Get().UpdateUserSession(sid, user)
 	if err != nil {
-		resp.MustFail(err)
+		resp.MustFail(fmt.Sprintf("Error updating user session: %v", err))
 		return
 	}
 

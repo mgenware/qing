@@ -25,7 +25,7 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 	value := clib.MustGetIntFromDict(params, "value")
 
 	if uid == targetUserID {
-		return resp.MustFailWithMsg(resp.LS().CannotRemoveSelfAdmin)
+		return resp.MustFail(resp.LS().CannotRemoveSelfAdmin)
 	}
 
 	db := appDB.DB()

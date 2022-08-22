@@ -8,6 +8,7 @@
 package profileapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -34,7 +35,7 @@ func info(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	dbInfo, err := da.User.SelectEditingData(appDB.DB(), uid)
 	if err != nil {
-		return resp.MustFail(err)
+		resp.MustFail(fmt.Sprintf("Error selecting editing data: %v", err))
 	}
 
 	data := newInfoData(&dbInfo)

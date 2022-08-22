@@ -55,14 +55,8 @@ func (j *JSONResponse) MustFailWithCodeAndError(code int, err error) JSON {
 	return JSON(0)
 }
 
-// MustFail finishes the response with the specified error object, and panics if unexpected error happens.
-func (j *JSONResponse) MustFail(err error) JSON {
-	j.MustFailWithCodeAndError(int(appdef.ErrGeneric), err)
-	return JSON(0)
-}
-
 // MustFailWithMsg finishes the response with the specified message, and panics if unexpected error happens.
-func (j *JSONResponse) MustFailWithMsg(msg string) JSON {
+func (j *JSONResponse) MustFail(msg string) JSON {
 	j.MustFailWithCodeAndError(int(appdef.ErrGeneric), errors.New(msg))
 	return JSON(0)
 }

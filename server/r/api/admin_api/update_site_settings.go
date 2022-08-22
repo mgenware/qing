@@ -37,7 +37,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	for k, v := range settingsDict {
 		vString, ok := v.(string)
 		if !ok {
-			return resp.MustFail(fmt.Errorf("settings value is not a valid string. Key: %v, got: %v", k, v))
+			return resp.MustFail(fmt.Sprintf("Settings value is not a valid string. Key: %v, got: %v", k, v))
 		}
 		switch k {
 		case appdef.KeyCommunitySettings:
@@ -47,7 +47,7 @@ func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 			diskST.Community = comST
 			appSettings.SetRestartSettings(appSettings.ForumsRestartSettings)
 		default:
-			return resp.MustFail(fmt.Errorf("unknown settings key \"%v\"", k))
+			return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", k))
 		}
 	}
 

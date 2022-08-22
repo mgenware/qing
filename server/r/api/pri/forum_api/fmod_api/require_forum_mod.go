@@ -28,17 +28,17 @@ func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 		resp := app.JSONResponse(w, r)
 		forumID := clib.GetIDFromDict(params, ForumIDParamName)
 		if forumID == 0 {
-			resp.MustFail(fmt.Errorf("the argument `%v` is empty", ForumIDParamName))
+			resp.MustFail(fmt.Sprintf("The argument `%v` is empty", ForumIDParamName))
 			return
 		}
 
 		perm, err := modutil.GetRequestForumPermLevel(sUser, forumID)
 		if err != nil {
-			resp.MustFail(err)
+			resp.MustFail(fmt.Sprintf("Error getting forum perm level: %v", err))
 			return
 		}
 		if perm < modutil.PermLevelForum {
-			resp.MustFailWithMsg(resp.LS().PermissionDenied)
+			resp.MustFail(resp.LS().PermissionDenied)
 			return
 		}
 

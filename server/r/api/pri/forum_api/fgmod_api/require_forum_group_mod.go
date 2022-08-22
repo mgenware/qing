@@ -9,7 +9,7 @@ package fgmodapi
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"net/http"
 	"qing/a/appHandler"
 	"qing/a/appcom"
@@ -29,17 +29,17 @@ func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 		resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
 		groupID := clib.GetIDFromDict(params, "forumGroupID")
 		if groupID == 0 {
-			resp.MustFail(errors.New("forum_group_id is empty"))
+			resp.MustFail("`forum_group_id` is empty")
 			return
 		}
 
 		perm, err := modutil.GetRequestForumGroupPermLevel(sUser, groupID)
 		if err != nil {
-			resp.MustFail(err)
+			resp.MustFail(fmt.Sprintf("Error getting forum group perm level: %v", err))
 			return
 		}
 		if perm < modutil.PermLevelForumGroup {
-			resp.MustFailWithMsg(resp.LS().PermissionDenied)
+			resp.MustFail(resp.LS().PermissionDenied)
 			return
 		}
 		ctx = context.WithValue(ctx, def.ForumGroupIDContextKey, groupID)
