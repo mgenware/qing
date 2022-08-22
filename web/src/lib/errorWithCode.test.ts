@@ -17,5 +17,5 @@ it('ErrorWithCode: customized code', () => {
 it('ErrorWithCode: default code', () => {
   const err = new ErrorWithCode('hi');
   expect(err.message).to.eq('hi');
-  expect(err.code).to.eq(10000);
+  expect(err.code).to.eq(1);
 });

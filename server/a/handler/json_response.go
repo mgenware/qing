@@ -8,7 +8,6 @@
 package handler
 
 import (
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -43,13 +42,7 @@ func NewJSONResponse(w http.ResponseWriter, r *http.Request, lsMgr localization.
 func (j *JSONResponse) MustFailWithCodeAndError(code int, err error) JSON {
 	d := APIResult{Code: code, Error: err}
 	if err != nil {
-		// Hide SQL row not found errors.
-		if err == sql.ErrNoRows && code == int(appdef.ErrGeneric) {
-			d.Msg = "Resource not found"
-			d.Code = appdef.ErrResourceNotFound
-		} else {
-			d.Msg = err.Error()
-		}
+		d.Msg = err.Error()
 	}
 	j.mustWriteData(&d)
 	return JSON(0)

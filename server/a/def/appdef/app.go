@@ -16,6 +16,7 @@ const FormUploadMain = "main"
 const DeleteFlagAuthor = 1
 const DeleteFlagHost = 2
 const ApiLangParam = "__l"
+const ErrGeneric = 1
 
 type ContentBaseType int
 
@@ -68,13 +69,6 @@ const (
 	KeyComments = "comments"
 	KeyMessages = "messages"
 	KeyLang = "lang"
-)
-
-const (
-	ErrGeneric = 10000
-	ErrNeedAuth = 10001
-	ErrPermissionDenied = 10002
-	ErrResourceNotFound = 10003
 )
 
 const (

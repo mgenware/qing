@@ -20,19 +20,23 @@ import * as pageUtil from 'helper/page';
 
 const pwd = '123456';
 const htmlIDRegex = /window\.appVerifiedUID = '(.+)';/g;
+const invalidNameOrPwdResp = {
+  code: 1,
+  msg: 'Invalid username or password',
+};
 
 itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
-  code: 10000,
+  code: 1,
   msg: 'the argument `name` is required',
 });
 
 itaResultRaw('Sign up - Missing email', authAPI.signUp, { name: '_', pwd: '_' }, null, {
-  code: 10000,
+  code: 1,
   msg: 'the argument `email` is required',
 });
 
 itaResultRaw('Sign up - Missing pwd', authAPI.signUp, { name: '_', email: '_' }, null, {
-  code: 10000,
+  code: 1,
   msg: 'the argument `pwd` is required',
 });
 
@@ -42,7 +46,7 @@ itaResultRaw(
   { name: '_', email: '_', pwd: '1' },
   null,
   {
-    code: 10000,
+    code: 1,
     msg: 'the argument `pwd` is less than the required length 6',
   },
 );
@@ -67,7 +71,7 @@ ita(
 
     // Try to login.
     const loginRes = await apiRaw(authAPI.signIn, { email: email1, pwd });
-    expect(loginRes).toEqual({ code: 1 });
+    expect(loginRes).toEqual(invalidNameOrPwdResp);
   },
 );
 

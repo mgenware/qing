@@ -41,18 +41,13 @@ export const authUsr = {
   user: { email: 'user@mgenware.com', pwd: '123456' },
 };
 
-// Pre-defined error codes.
-export const errorCodes = {
-  generic: 10000,
-  notAuthorized: 10001,
-  resNotFound: 10005,
-};
+export const errorGeneric = 1;
 
 // Pre-defined API error results.
 export const errorResults = {
-  notAuthorized: { code: errorCodes.notAuthorized },
-  rowNotUpdated: { code: errorCodes.generic, msg: 'Expected 1 rows affected, got 0.' },
-  resNotFound: { code: errorCodes.resNotFound, msg: 'Resource not found' },
+  notAuthorized: { code: errorGeneric },
+  rowNotUpdated: { code: errorGeneric, msg: 'Expected 1 rows affected, got 0.' },
+  resNotFound: { code: errorGeneric, msg: 'Resource not found' },
 };
 
 export type APICallback = (r: APIResult) => Promise<unknown>;

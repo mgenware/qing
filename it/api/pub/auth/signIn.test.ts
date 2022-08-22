@@ -13,12 +13,12 @@ import * as pubAuth from '@qing/routes/d/s/pub/auth';
 import CookieJar from 'helper/cookieJar';
 
 itaResultRaw('Sign in - Missing email', pubAuth.signIn, { pwd: '_' }, null, {
-  code: 10000,
+  code: 1,
   msg: 'the argument `email` is required',
 });
 
 itaResultRaw('Sign in - Missing pwd', pubAuth.signIn, { email: '_' }, null, {
-  code: 10000,
+  code: 1,
   msg: 'the argument `pwd` is required',
 });
 

@@ -37,9 +37,8 @@ it('Add a post', async () => {
   });
 });
 
-itaNotAuthorized('Add: visitor', composeRoute.setEntity, null);
+itaNotAuthorized('Add a post - Visitor', composeRoute.setEntity, null);
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 it('Edit a post', async () => {
   await newUser(async (u) => {
     await scPost(u, async ({ id }) => {
@@ -57,7 +56,6 @@ it('Edit a post', async () => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 it('Edit a post with another user', async () => {
   await newUser(async (u) => {
     await scPost(u, async ({ id }) => {

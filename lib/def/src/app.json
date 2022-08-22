@@ -5,6 +5,7 @@
   "deleteFlagAuthor": 1,
   "deleteFlagHost": 2,
   "apiLangParam": "__l",
+  "errGeneric": 1,
   "__enums": {
     "contentBaseType": { "values": ["post", "cmt", "thread"] },
     "homePageFeedType": { "values": ["post", "thread"] },
@@ -41,15 +42,6 @@
         "comments": "comments",
         "messages": "messages",
         "lang": "lang"
-      }
-    },
-    "err": {
-      "weakBaseType": true,
-      "values": {
-        "generic": 10000,
-        "needAuth": 10001,
-        "permissionDenied": 10002,
-        "resourceNotFound": 10003
       }
     },
     "len": {
