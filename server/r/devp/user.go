@@ -13,7 +13,6 @@ import (
 
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
 	"qing/a/appcom"
@@ -63,7 +62,7 @@ func signInCore(uid uint64, w http.ResponseWriter, r *http.Request) error {
 }
 
 func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 
 	uid := getUIDFromRequest(r)
 	err := signInCore(uid, w, r)
@@ -72,7 +71,7 @@ func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 }
 
 func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
 	app.PanicOn(err)
@@ -83,7 +82,7 @@ func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 }
 
 func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
 	app.PanicOn(err)
 
@@ -95,7 +94,7 @@ func accVerifiedGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML 
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	email := randlib.RandString(16)
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email+"@t.com", "T")
@@ -104,7 +103,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 
 	db := appDB.DB()
@@ -127,13 +126,13 @@ func getDBUserInfo(uid uint64) *authSod.TUserInfo {
 }
 
 func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	return resp.MustComplete(getDBUserInfo(uid))
 }
 
 func currentUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	uid := appcom.ContextUserID(r.Context())
 	return resp.MustComplete(clib.EncodeID(uid))
 }

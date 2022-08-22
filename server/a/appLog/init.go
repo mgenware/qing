@@ -8,15 +8,16 @@
 package appLog
 
 import (
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/config"
+	"qing/a/coretype"
 	"qing/a/logx"
 )
 
-var logger app.CoreLogger
+var logger coretype.CoreLogger
 
 func init() {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	if config.IsUT() {
 		logger = NewTestLogger()
 	} else {
@@ -28,6 +29,6 @@ func init() {
 	}
 }
 
-func Get() app.CoreLogger {
+func Get() coretype.CoreLogger {
 	return logger
 }

@@ -12,10 +12,11 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
+	"qing/a/coretype"
 
 	"qing/a/handler/jsm"
 	"qing/a/handler/localization"
@@ -38,14 +39,14 @@ type MainPageManager struct {
 	mainView  CoreLocalizedTemplate
 	errorView CoreLocalizedTemplate
 	jsMgr     *jsm.JSManager
-	logger    app.CoreLogger
+	logger    coretype.CoreLogger
 	lsMgr     localization.CoreManager
 }
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
 	conf *config.Config,
-	logger app.CoreLogger,
+	logger coretype.CoreLogger,
 	lsMgr localization.CoreManager,
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
@@ -148,7 +149,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 func (m *MainPageManager) MustError(r *http.Request, lang string, err error, statusCode int, w http.ResponseWriter) HTML {
 	d := &ErrorPageData{Message: err.Error()}
 	url := r.URL.String()
-	if statusCode == http.StatusNotFound && app.CoreConfig().HTTP.Log404Error {
+	if statusCode == http.StatusNotFound && appConf.Get().HTTP.Log404Error {
 		m.logger.NotFound(url)
 	} else if statusCode == http.StatusInternalServerError {
 		m.logger.Error("page.fatal", "err", d.Message, "url", url)

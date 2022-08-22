@@ -13,7 +13,9 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
+	"qing/a/coretype"
 	"qing/a/def"
 	"qing/lib/clib"
 	"qing/lib/iolib"
@@ -35,13 +37,13 @@ var resizedSizes = []int{AvatarSize250, AvatarSize150, AvatarSize50}
 
 type AvatarService struct {
 	OutDir string
-	Logger app.CoreLogger
+	Logger coretype.CoreLogger
 }
 
 var service *AvatarService
 
 func init() {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	svc, err := newService(filepath.Join(conf.ResServer.Dir, def.AvatarResKey))
 	app.PanicOn(err)
 	service = svc

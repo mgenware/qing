@@ -10,7 +10,7 @@ package devp
 import (
 	"errors"
 	"net/http"
-	"qing/a/appHandler"
+	"qing/a/app"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -35,12 +35,12 @@ func panicObjHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func failHandler(w http.ResponseWriter, r *http.Request) {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	resp.MustFailWithError(errors.New("test error"), http.StatusInternalServerError)
 }
 
 func failAPIHandler(w http.ResponseWriter, r *http.Request) {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	resp.MustFail(errors.New("test error"))
 }
 

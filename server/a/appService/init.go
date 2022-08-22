@@ -8,7 +8,7 @@
 package appService
 
 import (
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/a/appMS"
 	"qing/a/appProfile"
@@ -18,7 +18,7 @@ import (
 var service *servicex.Service
 
 func init() {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	profile := appProfile.Get()
 	msConn := appMS.GetConn()
 	logger := appLog.Get()

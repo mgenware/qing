@@ -8,5 +8,6 @@
   "clickBelowToCompleteReg": "Click the link below to complete the registration process.",
   "yourAccHasBeenVerified": "Your account has been verified.",
   "emailVerified": "Email verified",
-  "invalidNameOrPwd": "Invalid username or password"
+  "invalidNameOrPwd": "Invalid username or password",
+  "needAuthErr": "You need to log in to access this."
 }

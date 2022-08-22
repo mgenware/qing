@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appHandler"
 	"qing/a/appSettings"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -21,7 +20,7 @@ import (
 )
 
 func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	// A note on update app settings. Go doesn't guarantee atomic read/write on primitive data types.

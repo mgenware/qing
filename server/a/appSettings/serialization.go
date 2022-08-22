@@ -8,7 +8,7 @@
 package appSettings
 
 import (
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/lib/iolib"
 	appSod "qing/sod/app"
@@ -24,7 +24,7 @@ func NeedRestart() bool {
 // Called by `update_settings` API. Calling this func always results in
 // `needRestart` to be set to true.
 func WriteAppSettings(settings *appSod.AppRawSettings) error {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 
 	file := conf.AppSettings.File
 	err := writeAppSettingsObj(settings, file)

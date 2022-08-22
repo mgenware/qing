@@ -8,7 +8,7 @@
 package appHandler
 
 import (
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/a/config"
 	"qing/a/handler"
@@ -21,21 +21,21 @@ var lsMgr localization.CoreManager
 
 func MainPage() handler.CorePageManager {
 	if mainPageManager == nil {
-		mainPageManager = handler.MustCreateMainPageManager(app.CoreConfig(), appLog.Get(), LSManager())
+		mainPageManager = handler.MustCreateMainPageManager(appConf.Get(), appLog.Get(), LSManager())
 	}
 	return mainPageManager
 }
 
 func EmailPage() *handler.EmailPageManager {
 	if emailPageManager == nil {
-		emailPageManager = handler.MustCreateEmailPageManager(app.CoreConfig(), LSManager())
+		emailPageManager = handler.MustCreateEmailPageManager(appConf.Get(), LSManager())
 	}
 	return emailPageManager
 }
 
 func LSManager() localization.CoreManager {
 	if lsMgr == nil {
-		lsMgr = mustCreateLSMgr(app.CoreConfig())
+		lsMgr = mustCreateLSMgr(appConf.Get())
 	}
 	return lsMgr
 }

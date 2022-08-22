@@ -9,8 +9,8 @@ package profileapi
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
 	"qing/a/appcom"
@@ -43,7 +43,7 @@ type avatarCropInfo struct {
 }
 
 func uploadAvatar(w http.ResponseWriter, r *http.Request) {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 
 	if r.ContentLength > maxUploadSize {
 		resp.MustFailWithCode(errFileTooLarge)

@@ -9,20 +9,21 @@ package appDB
 
 import (
 	"database/sql"
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
+	"qing/a/coretype"
 )
 
-var appDB app.CoreDB
+var appDB coretype.CoreDB
 
 func init() {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 
 	appDB = newAppDB(conf)
 	appLog.Get().Info("app.db.loaded")
 }
 
-func Get() app.CoreDB {
+func Get() coretype.CoreDB {
 	return appDB
 }
 

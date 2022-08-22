@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-package app
+package coretype
 
-import "database/sql"
-
-type CoreDB interface {
-	// DB returns a `*sql.DB`.
-	DB() *sql.DB
+type CoreLogger interface {
+	Info(key string, args ...any)
+	Error(key string, args ...any)
+	Warn(key string, args ...any)
+	NotFound(url string)
 }

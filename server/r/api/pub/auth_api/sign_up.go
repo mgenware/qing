@@ -55,7 +55,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 }
 
 func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	name := clib.MustGetStringFromDict(params, "name", appdef.LenMaxName)

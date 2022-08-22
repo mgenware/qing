@@ -13,7 +13,7 @@ import (
 )
 
 func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	db := appDB.DB()
 	forumGroups, err := da.ForumHome.SelectForumGroups(db)
 	app.PanicOn(err)
@@ -68,7 +68,7 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		mainHTML = vFrmPage.MustExecuteToString(frmPageModel)
 	}
 
-	d := appHandler.MainPageData("", mainHTML)
+	d := app.MainPageData("", mainHTML)
 	d.Scripts = appHandler.MainPage().ScriptString(homeFrmScript)
 	return resp.MustComplete(&d)
 }

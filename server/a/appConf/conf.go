@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package app
+package appConf
 
 import (
 	"flag"
@@ -20,7 +20,7 @@ var confPath string
 
 const userlandDirName = "userland"
 
-func CoreConfig() *config.Config {
+func Get() *config.Config {
 	return conf
 }
 

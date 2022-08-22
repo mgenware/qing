@@ -9,6 +9,7 @@ package authp
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/handler"
 )
@@ -24,10 +25,10 @@ func init() {
 }
 
 func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 
 	// Page title will be set on frontend side
-	d := appHandler.MainPageData("", "")
+	d := app.MainPageData("", "")
 	d.Scripts = appHandler.MainPage().ScriptString(authScript)
 
 	return resp.MustComplete(&d)

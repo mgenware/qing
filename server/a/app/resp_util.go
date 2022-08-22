@@ -22,7 +22,7 @@ func HTMLResponse(w http.ResponseWriter, r *http.Request) handler.HTMLResponse {
 
 // Helper function to create a JSON response.
 func JSONResponse(w http.ResponseWriter, r *http.Request) handler.JSONResponse {
-	resp := handler.NewJSONResponse(r, w)
+	resp := handler.NewJSONResponse(r, w, appHandler.LSManager())
 	return resp
 }
 

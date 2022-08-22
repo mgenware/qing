@@ -18,6 +18,7 @@ func init() {
 	TestDict.EmailVerified = "ls.emailVerified"
 	TestDict.ErrOccurred = "ls.errOccurred"
 	TestDict.InvalidNameOrPwd = "ls.invalidNameOrPwd"
+	TestDict.NeedAuthErr = "ls.needAuthErr"
 	TestDict.QingSiteName = "ls.qingSiteName"
 	TestDict.QingSiteUrl = "ls.qingSiteURL"
 	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"

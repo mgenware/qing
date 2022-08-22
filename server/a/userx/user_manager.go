@@ -10,10 +10,11 @@ package userx
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
+	"qing/a/appHandler"
 	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
+	"qing/a/coretype"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/a/urlx"
@@ -24,7 +25,7 @@ import (
 type UserManager struct {
 	sessionManager  *SessionManager
 	mainPageManager handler.CorePageManager
-	db              app.CoreDB
+	db              coretype.CoreDB
 
 	appURL *urlx.URL
 	conf   *config.Config
@@ -35,7 +36,7 @@ type UserManager struct {
 
 // NewUserManager creates a new UserManager.
 func NewUserManager(
-	db app.CoreDB,
+	db coretype.CoreDB,
 	ssMgr *SessionManager,
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
@@ -155,7 +156,7 @@ func (appu *UserManager) UnsafeRequireAdminJSONMiddleware(next http.Handler) htt
 		if user != nil && user.Admin {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
-			resp := handler.NewJSONResponse(r, w)
+			resp := handler.NewJSONResponse(r, w, appHandler.LSManager())
 			resp.MustFailWithCode(appdef.ErrNeedAuth)
 		}
 	})

@@ -12,13 +12,12 @@ import (
 
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
 )
 
 func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	c, err := da.UserStats.TestSelectPostCount(appDB.DB(), uid)
 	app.PanicOn(err)
@@ -26,7 +25,7 @@ func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 }
 
 func userThreadCount(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	c, err := da.UserStats.TestSelectThreadCount(appDB.DB(), uid)
 	app.PanicOn(err)

@@ -9,7 +9,7 @@ package r
 
 import (
 	"net/http"
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appUserManager"
@@ -40,7 +40,7 @@ var r *chi.Mux
 // Start starts the web router.
 func Start() {
 	r = chi.NewRouter()
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	httpConf := conf.HTTP
 
 	// ----------------- Middlewares -----------------
@@ -119,7 +119,7 @@ func startFileServer(r chi.Router, name, url, dir string) {
 
 // Gets a router with context localization enabled.
 func langRouter() chi.Router {
-	if app.CoreConfig().Localization.MultipleLangs() {
+	if appConf.Get().Localization.MultipleLangs() {
 		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
 	}
 	return r

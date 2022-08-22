@@ -8,7 +8,7 @@
 package main
 
 import (
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appLog"
@@ -23,7 +23,7 @@ import (
 
 func main() {
 	// Load core modules.
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	logger := appLog.Get()
 
 	if config.IsUT() {

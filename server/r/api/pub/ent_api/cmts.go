@@ -10,8 +10,8 @@ package entapi
 import (
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -24,7 +24,7 @@ import (
 var kCmtPageSize int
 
 func init() {
-	cc := app.CoreConfig()
+	cc := appConf.Get()
 	if cc.ProductionMode() {
 		kCmtPageSize = 10
 	} else {
@@ -49,7 +49,7 @@ func newGetCmtsRespData(cmts []da.CmtResult, hasNext bool) GetCmtsRespData {
 }
 
 func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 

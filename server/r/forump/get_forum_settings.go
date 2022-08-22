@@ -9,6 +9,7 @@ package forump
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -32,14 +33,14 @@ func NewForumSettingsPageWindData(fid uint64) ForumSettingsPageWindData {
 }
 
 func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	fid, err := clib.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
 	}
 
 	// Page title and content will be set on frontend side.
-	d := appHandler.MainPageData("", "")
+	d := app.MainPageData("", "")
 	d.Scripts = appHandler.MainPage().ScriptString(forumSettingsScript)
 	d.WindData = NewForumSettingsPageWindData(fid)
 

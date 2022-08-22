@@ -10,7 +10,6 @@ package devp
 import (
 	"net/http"
 	"qing/a/app"
-	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -21,7 +20,7 @@ import (
 )
 
 func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
@@ -33,7 +32,7 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 }
 
 func sendMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
 	to := clib.MustGetStringFromDict(params, "to", appdef.LenMaxGenericString)
@@ -46,7 +45,7 @@ func sendMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 }
 
 func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)

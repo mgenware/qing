@@ -13,7 +13,6 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appUserManager"
 	"qing/a/def/appdef"
@@ -27,7 +26,7 @@ const (
 )
 
 func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxEmail)

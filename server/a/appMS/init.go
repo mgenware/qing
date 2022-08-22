@@ -9,13 +9,15 @@ package appMS
 
 import (
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
+	"qing/a/coretype"
 )
 
-var appMS app.CoreMemoryStore
+var appMS coretype.CoreMemoryStore
 
 func init() {
-	conf := app.CoreConfig().Extern.Redis
+	conf := appConf.Get().Extern.Redis
 
 	port := conf.Port
 	appMS = newAppMS(port, conf.Logging)

@@ -39,7 +39,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	}
 	app.PanicOn(err)
 
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	uid := resp.UserID()
 
 	hasLiked := false
@@ -55,7 +55,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		str := clib.EncodeID(*post.ForumID)
 		fid = &str
 	}
-	d := appHandler.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
+	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().ScriptString(postScript)
 	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid)
 	return resp.MustComplete(&d)

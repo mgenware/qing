@@ -11,7 +11,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/config/configs"
 
 	"github.com/mgenware/goutil/iox"
@@ -23,7 +23,7 @@ type DevMail struct {
 }
 
 func getDevConfig() (*configs.MailBoxConfig, error) {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	if conf.Dev == nil {
 		return nil, errors.New("`ViewInboxDev` can only run in dev mode")
 	}

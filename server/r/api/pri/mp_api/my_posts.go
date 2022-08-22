@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -55,7 +54,7 @@ func newPCPost(p *da.PostForPostCenter, uid uint64) pcPost {
 }
 
 func myPostsCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
 

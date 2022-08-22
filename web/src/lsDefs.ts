@@ -52,7 +52,6 @@ export default interface LSDefs {
   content: string;
   clickToRefreshCapt: string;
   enterCaptchaPlz: string;
-  needAuthErr: string;
   captNotFoundErr: string;
   captNotMatch: string;
   captcha: string;

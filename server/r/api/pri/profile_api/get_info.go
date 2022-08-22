@@ -9,8 +9,8 @@ package profileapi
 
 import (
 	"net/http"
+	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/a/handler"
 	"qing/da"
@@ -29,7 +29,7 @@ func newInfoData(u *da.UserAGSelectEditingDataResult) infoData {
 }
 
 func info(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	uid := resp.UserID()
 
 	dbInfo, err := da.User.SelectEditingData(appDB.DB(), uid)

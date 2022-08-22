@@ -10,6 +10,7 @@ package langp
 import (
 	"fmt"
 	"net/http"
+	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/handler"
 
@@ -20,7 +21,7 @@ const langScript = "langEntry"
 
 // LangHandler handles route of lang settings.
 func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 
 	langTags := appHandler.MainPage().LocalizationManager().LangTags()
 	if len(langTags) == 0 {
@@ -37,7 +38,7 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	windData := LangWindData{Langs: langInfoList}
 
 	// Page title and content will be set on frontend side.
-	d := appHandler.MainPageData("", "")
+	d := app.MainPageData("", "")
 	d.Scripts = appHandler.MainPage().ScriptString(langScript)
 	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"

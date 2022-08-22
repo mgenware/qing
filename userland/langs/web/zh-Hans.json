@@ -43,7 +43,6 @@
   "content": "内容",
   "clickToRefreshCapt": "点击刷新验证码。",
   "enterCaptchaPlz": "请输入验证码。",
-  "needAuthErr": "您需要登录才可以访问。",
   "captNotFoundErr": "代码已失效，请重新输入新的代码。",
   "captNotMatch": "抱歉，您输入了错误的代码。",
   "captcha": "验证码",

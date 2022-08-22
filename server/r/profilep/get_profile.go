@@ -34,7 +34,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 
 	db := appDB.DB()
 	// User profile
@@ -71,7 +71,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTML = rcom.MustRunNoContentViewTemplate()
 	}
 	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(pageData))
-	d := appHandler.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
+	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
 	d.Scripts = appHandler.MainPage().ScriptString(profileScript)
 	d.WindData = ProfilePageWindData{Website: user.Website}
 	return resp.MustComplete(&d)

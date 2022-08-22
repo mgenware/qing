@@ -11,14 +11,13 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/da"
 	"qing/r/rcom"
 )
 
 func admins(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 
 	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
 	app.PanicOn(err)

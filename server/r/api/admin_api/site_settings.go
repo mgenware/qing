@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appHandler"
 	"qing/a/appSettings"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -24,7 +23,7 @@ type GetSiteSettingsResult struct {
 }
 
 func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	diskSettings, err := appSettings.LoadFromDisk()

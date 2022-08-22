@@ -11,14 +11,13 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/appcom"
 	"qing/a/handler"
 	"qing/da"
 )
 
 func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	fid := appcom.ContextForumID(r.Context())
 
 	db := appDB.DB()

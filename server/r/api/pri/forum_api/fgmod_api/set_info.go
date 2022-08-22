@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appHandler"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
@@ -21,7 +20,7 @@ import (
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := appHandler.JSONResponse(w, r)
+	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	id := clib.MustGetIDFromDict(params, "id")

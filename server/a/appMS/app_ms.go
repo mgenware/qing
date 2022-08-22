@@ -12,7 +12,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"qing/a/app"
+	"qing/a/coretype"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -28,7 +28,7 @@ type AppMS struct {
 	Port int
 }
 
-func (store *AppMS) GetConn() app.CoreMemoryStoreConn {
+func (store *AppMS) GetConn() coretype.CoreMemoryStoreConn {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("ms:%v", store.Port),
 		Password: "", // no password set

@@ -9,7 +9,7 @@ package appSettings
 
 import (
 	"fmt"
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
 	appSod "qing/sod/app"
 )
@@ -18,7 +18,7 @@ var appSettings *AppSettings
 var needRestart bool
 
 func init() {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 
 	file := conf.AppSettings.File
 	_, settings, err := getAppSettings(file)
@@ -37,7 +37,7 @@ func Get() *AppSettings {
 // Loads app settings from disk (settings on disk may need a server reboot
 // to take effect).
 func LoadFromDisk() (*appSod.AppRawSettings, error) {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 
 	file := conf.AppSettings.File
 	settings, err := readAppSettingsObj(file)

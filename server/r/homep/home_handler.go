@@ -35,7 +35,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 }
 
 func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
@@ -58,7 +58,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(pageData)
 
 	pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-	d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageModel))
+	d := app.MainPageData("", vStdPage.MustExecuteToString(pageModel))
 	d.Scripts = appHandler.MainPage().ScriptString(homeStdScript)
 	return resp.MustComplete(&d)
 }

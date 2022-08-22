@@ -8,7 +8,7 @@
 package appUserManager
 
 import (
-	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appLog"
@@ -21,7 +21,7 @@ var userManager *userx.UserManager
 var testAccounts = []uint64{101, 102}
 
 func init() {
-	conf := app.CoreConfig()
+	conf := appConf.Get()
 	logger := appLog.Get()
 	urlx := appURL.Get()
 	db := appDB.Get()

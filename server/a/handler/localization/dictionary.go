@@ -23,6 +23,7 @@ type Dictionary struct {
 	EmailVerified           string `json:"emailVerified"`
 	ErrOccurred             string `json:"errOccurred"`
 	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`
+	NeedAuthErr             string `json:"needAuthErr"`
 	QingSiteName            string `json:"qingSiteName"`
 	QingSiteUrl             string `json:"qingSiteURL"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`

@@ -14,9 +14,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"qing/a/app"
 	"qing/a/appMS"
 	"qing/a/appcom"
+	"qing/a/coretype"
 	"qing/a/def"
 	"qing/a/urlx"
 	"qing/lib/clib"
@@ -42,12 +42,12 @@ func userIDToSIDKey(uid uint64) string {
 
 // SessionManager ...
 type SessionManager struct {
-	logger app.CoreLogger
+	logger coretype.CoreLogger
 	appURL *urlx.URL
 }
 
 // NewMemoryBasedSessionManager creates a memory-backed SessionManager.
-func NewMemoryBasedSessionManager(logger app.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
+func NewMemoryBasedSessionManager(logger coretype.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
 	return &SessionManager{logger: logger, appURL: appURL}, nil
 }
 

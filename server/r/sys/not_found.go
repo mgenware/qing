@@ -11,13 +11,14 @@ import (
 	"errors"
 	"net/http"
 
+	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/handler"
 )
 
 // NotFoundGET is a application wide handler for 404 errors.
 func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
+	resp := app.HTMLResponse(w, r)
 	msg := resp.LS().ResNotFound
 
 	// Note that pass `true` as the `expected` param so that template manager won't treat it as a 500 error.

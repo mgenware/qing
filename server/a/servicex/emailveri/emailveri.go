@@ -10,7 +10,7 @@ package emailveri
 import (
 	"encoding/base64"
 	"fmt"
-	"qing/a/app"
+	"qing/a/coretype"
 	"strings"
 	"time"
 
@@ -23,18 +23,20 @@ var compSep = "|"
 type EmailVerificator struct {
 	prefix  string
 	timeout time.Duration
-	conn    app.CoreMemoryStoreConn
+	conn    coretype.CoreMemoryStoreConn
 }
 
 // NewEmailVerificator creates a new EmailVerificator.
-func NewEmailVerificator(conn app.CoreMemoryStoreConn, prefix string, timeout time.Duration) *EmailVerificator {
+func NewEmailVerificator(conn coretype.CoreMemoryStoreConn, prefix string, timeout time.Duration) *EmailVerificator {
 	return &EmailVerificator{conn: conn, prefix: prefix, timeout: timeout}
 }
 
 // Add creates an in-memory entry with the specified email formatter as key and a associated value.
 // This adds 2 entries to the backing store:
-//  "<prefix>:email-to-id:<email>" = "<ID>"
-//  "<prefix>:id-to-data:<ID>" = "<data>"
+//
+//	"<prefix>:email-to-id:<email>" = "<ID>"
+//	"<prefix>:id-to-data:<ID>" = "<data>"
+//
 // ID: base64WithoutPadding(<email>:<UUID>)
 func (ev *EmailVerificator) Add(email, data string) (string, error) {
 	// Check if there is a pending entry for this email.
