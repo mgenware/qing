@@ -54,6 +54,7 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     }
     let typeCode = '';
     cm.scanTypeDef(
+      false,
       typeDef,
       (k, v) => {
         // eslint-disable-next-line default-case
@@ -87,6 +88,6 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
   }
   const importCode = imports.size ? [...imports.values()].map((s) => `${s}\n`).join('') + '\n' : '';
   return (
-    qdu.copyrightString + '/* eslint-disable */\n\n' + cm.noticeComment(input) + importCode + code
+    qdu.copyrightString + ' /* eslint-disable */\n\n' + cm.noticeComment(input) + importCode + code
   );
 }

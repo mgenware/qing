@@ -100,6 +100,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     const members: TypeMember[] = [];
     let ctor = false;
     cm.scanTypeDef(
+      true,
       typeDef,
       // eslint-disable-next-line @typescript-eslint/no-loop-func
       (k, v) => {
