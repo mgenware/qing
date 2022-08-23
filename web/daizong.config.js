@@ -14,6 +14,10 @@ const prodEnv = {
   NODE_ENV: 'production',
 };
 
+function buildTS(config) {
+  return `tsc-watch --onSuccess "node build.${config}.js"`;
+}
+
 export default {
   lint: {
     ts: 'eslint --max-warnings 0 --ext .ts src/',
@@ -25,7 +29,13 @@ export default {
   /** Standard mode */
   dev: {
     alias: 'd',
-    run: ['#clean', 'tsc-watch --onSuccess "node esbuild.js"'],
+    run: ['#clean', buildTS('dev')],
+    env: devEnv,
+  },
+
+  br: {
+    alias: 'd',
+    run: ['#clean', buildTS('br')],
     env: devEnv,
   },
 

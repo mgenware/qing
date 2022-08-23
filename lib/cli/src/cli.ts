@@ -24,7 +24,8 @@ function printUsage() {
     Usage
       $ qing <command> [command arguments]
     Command
-      w               Build and watch web files
+      w               Build, run and watch web files
+      w-t             Build, run and watch web files for BR testing
       w-lint          Run linting process on web source
       s               Build and start server in containers
       s-ut            Build and start server in containers (unit test mode)
@@ -81,6 +82,11 @@ function checkMigrationNumber(num: number) {
 
       case 'w': {
         await sp.spawnDZCmd('dev', null, await iou.getProjectDir(webDir));
+        break;
+      }
+
+      case 'w-t': {
+        await sp.spawnDZCmd('br', null, await iou.getProjectDir(webDir));
         break;
       }
 
