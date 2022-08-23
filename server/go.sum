@@ -41,8 +41,6 @@ github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470 h1:hMbjgXRju+Nzu
 github.com/mgenware/argon2id v0.0.0-20200321215946-fcd9cd7fe470/go.mod h1:xii9EU0ai5k6z8+mbDpcvQwEiVySDXGBqIv3exxm/p4=
 github.com/mgenware/go-string-format v1.0.1 h1:lbydtuCDsg9i9oEteEAKcry4uPvJypgnOhvhEoTH288=
 github.com/mgenware/go-string-format v1.0.1/go.mod h1:8hBsDl3Qt0yAUnzk+S401hC62//++GSpDEfBuSTeFgw=
-github.com/mgenware/goutil v1.2.0 h1:+Xgo3vUDa/8A98qkmKpqEhNGaae4K6ASphzVDQ0Po9E=
-github.com/mgenware/goutil v1.2.0/go.mod h1:LEhLHdMwWrEU+K/TV+MWDSr17mGXib6OlysG1pk/kdw=
 github.com/mgenware/goutil v1.3.0 h1:yILahpNdXXuk8HOFZW2u0sDzvQGWX87x5tebVBt2N/k=
 github.com/mgenware/goutil v1.3.0/go.mod h1:LEhLHdMwWrEU+K/TV+MWDSr17mGXib6OlysG1pk/kdw=
 github.com/mgenware/mingru-go-lib v0.2.1 h1:smYsxaqwtdmKSwwXh3d3OzcsVaMk0HMxsB8BLCbtpaY=
