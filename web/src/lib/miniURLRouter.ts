@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import appDevMode from 'app/appDevMode';
+import { devMode } from 'devMode';
 import Trie, { PayloadType } from 'basic-trie';
 
 export type MiniURLRouterHandler = (args: Readonly<Record<string, unknown>>) => void;
@@ -78,7 +78,7 @@ export class MiniURLRouter {
   }
 
   private log(s: string) {
-    if (appDevMode()) {
+    if (devMode()) {
       // eslint-disable-next-line no-console
       console.log(`🚃 ${s}`);
     }

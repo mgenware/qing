@@ -49,8 +49,7 @@ export async function waitForOverlayVisible(page: br.Page) {
 }
 
 export async function waitForOverlayClosed(page: br.Page) {
-  const overlayEl = page.$(ov.openImmersiveOverlaySel);
-  await overlayEl.shouldNotExist();
+  await page.$(ov.openImmersiveOverlaySel).waitForDetached();
 }
 
 export interface ComposerShouldAppearArgs {

@@ -23,22 +23,24 @@ const entryPoints = [
   'devPage/devPageEntry',
 ].map((s) => `dist/${s}.js`);
 
-await esbuild.build({
-  entryPoints,
-  bundle: true,
-  outdir: '../userland/static/g/app',
-  define: {
-    'window.__qing_dev__': true,
-    this: 'window',
-  },
-  target: [
-    // Based on https://caniuse.com/mdn-css_selectors_part
-    'es2020',
-    'chrome73',
-    'edge79',
-    'firefox72',
-    'ios13.4',
-    'safari13.1',
-  ],
-  plugins: [minifyHTMLLiteralsPlugin()],
-});
+export default function build(params) {
+  return esbuild.build({
+    entryPoints,
+    bundle: true,
+    outdir: '../userland/static/g/app',
+    define: {
+      this: 'window',
+      ...params.env,
+    },
+    target: [
+      // Based on https://caniuse.com/mdn-css_selectors_part
+      'es2020',
+      'chrome73',
+      'edge79',
+      'firefox72',
+      'ios13.4',
+      'safari13.1',
+    ],
+    plugins: [minifyHTMLLiteralsPlugin()],
+  });
+}

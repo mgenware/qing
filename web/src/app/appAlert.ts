@@ -8,12 +8,17 @@
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { html } from 'll';
+import { brTesting } from 'devMode';
 import 'ui/status/spinnerView';
 import 'ui/alerts/dialogView';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
+import delay from 'lib/delay';
 
 const dialogContainerID = '__global_dialog_container';
 const spinnerContainerID = '__global_spinner_container';
+
+// BR tests only. Used to make sure global spinner appears for at least 500 ms.
+let brGlobalSpinnerStartTime = 0;
 
 export class AppAlert {
   async error(message: string, title?: string): Promise<void> {
@@ -84,15 +89,26 @@ export class AppAlert {
   }
 
   // Shows the global loading spinner.
-  showLoadingOverlay(text: string) {
-    this.hideLoadingOverlay();
+  async showLoadingOverlay(text: string) {
+    await this.hideLoadingOverlay();
 
     const template = html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
     renderTemplateResult(spinnerContainerID, template);
+
+    if (brTesting()) {
+      brGlobalSpinnerStartTime = new Date().getTime();
+    }
   }
 
   // Hides the global loading spinner.
-  hideLoadingOverlay() {
+  async hideLoadingOverlay() {
+    if (brTesting()) {
+      const runFor = new Date().getTime() - brGlobalSpinnerStartTime;
+      if (runFor < 500) {
+        await delay(500 - runFor);
+      }
+      brGlobalSpinnerStartTime = 0;
+    }
     renderTemplateResult(spinnerContainerID, null);
   }
 

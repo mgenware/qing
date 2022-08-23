@@ -41,13 +41,13 @@ export class AppTask {
           cb(s);
         }
       };
-      appAlert.showLoadingOverlay(overlayText || ls.loading);
+      await appAlert.showLoadingOverlay(overlayText || ls.loading);
       const data = await loader.startAsync();
-      appAlert.hideLoadingOverlay();
+      await appAlert.hideLoadingOverlay();
       return Result.data(data);
     } catch (err) {
       ErrorWithCode.assert(err);
-      appAlert.hideLoadingOverlay();
+      await appAlert.hideLoadingOverlay();
       await appAlert.error(err.message);
       return Result.error<T>(err);
     }

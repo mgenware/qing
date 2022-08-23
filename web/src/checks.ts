@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import appDevMode from 'app/appDevMode';
+import { devMode } from 'devMode';
 
 export function PANIC(errMessage: string) {
-  if (appDevMode()) {
+  if (devMode()) {
     // eslint-disable-next-line no-alert
     alert(errMessage);
     throw new Error(errMessage);

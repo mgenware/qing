@@ -313,9 +313,9 @@ export class ElementsPage extends BaseElement {
   }
 
   private async startFullscreenSpinner() {
-    appAlert.showLoadingOverlay('Loading...');
+    await appAlert.showLoadingOverlay('Loading...');
     await delay(2000);
-    appAlert.hideLoadingOverlay();
+    await appAlert.hideLoadingOverlay();
   }
 
   private showPostEditor() {
