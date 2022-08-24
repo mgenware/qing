@@ -7,7 +7,7 @@
 
 import * as br from 'br';
 import { User } from 'br';
-import { waitForOverlayVisible } from 'br/com/editing/composer';
+import { waitForVisibleComposer } from 'br/com/editing/composer';
 import { updateEditor } from 'br/com/editing/actions';
 import { getEditBarEditButton } from 'br/com/editing/editBar';
 import { buttonShouldAppear } from 'br/com/buttons/button';
@@ -27,9 +27,7 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
     text: 'Write a comment',
     style: 'success',
   });
-  await writeCmtBtn.click();
-
-  await waitForOverlayVisible(p);
+  await waitForVisibleComposer(p, () => writeCmtBtn.click());
   if (a.shownCb) {
     await a.shownCb();
   }
@@ -49,9 +47,7 @@ export interface WriteReplyArgs {
 }
 
 export async function writeReply(p: br.Page, a: WriteReplyArgs) {
-  await a.cmtEl.$hasText('cmt-view link-button', 'Reply').click();
-
-  await waitForOverlayVisible(p);
+  await waitForVisibleComposer(p, () => a.cmtEl.$hasText('cmt-view link-button', 'Reply').click());
   if (a.shownCb) {
     await a.shownCb();
   }
@@ -71,9 +67,7 @@ export interface EditCmtArgs {
 }
 
 export async function editCmt(p: br.Page, a: EditCmtArgs) {
-  await getEditBarEditButton(a.cmtApp, a.author.id).click();
-
-  await waitForOverlayVisible(p);
+  await waitForVisibleComposer(p, () => getEditBarEditButton(a.cmtApp, a.author.id).click());
   if (a.shownCb) {
     await a.shownCb();
   }

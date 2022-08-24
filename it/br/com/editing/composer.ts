@@ -40,15 +40,17 @@ async function clickBtn(composerEl: br.Element, btnText: string) {
   await btnEl.click();
 }
 
-export async function waitForOverlayVisible(page: br.Page) {
+export async function waitForVisibleComposer(page: br.Page, action?: () => Promise<unknown>) {
   const overlayEl = page.$(ov.openImmersiveOverlaySel);
-  await overlayEl.waitForAttached();
+  if (action) {
+    await Promise.all([overlayEl.waitForAttached(), action()]);
+  }
   const composerEl = getComposerEl(overlayEl);
   await composerEl.e.toBeVisible();
   return { overlayEl, composerEl };
 }
 
-export async function waitForOverlayClosed(page: br.Page) {
+export async function waitForClosedComposer(page: br.Page) {
   await page.$(ov.openImmersiveOverlaySel).waitForDetached();
 }
 
@@ -61,7 +63,7 @@ export interface ComposerShouldAppearArgs {
 }
 
 export async function composerShouldAppear(page: br.Page, args: ComposerShouldAppearArgs) {
-  const { composerEl, overlayEl } = await waitForOverlayVisible(page);
+  const { composerEl, overlayEl } = await waitForVisibleComposer(page);
 
   // Dialog name.
   const h2 = overlayEl.$('h2');
@@ -90,9 +92,9 @@ export async function composerShouldAppear(page: br.Page, args: ComposerShouldAp
 }
 
 export async function composerShouldBeDismissed(page: br.Page, cancelBtn: string) {
-  const { composerEl } = await waitForOverlayVisible(page);
+  const { composerEl } = await waitForVisibleComposer(page);
   await clickBtn(composerEl, cancelBtn);
-  await waitForOverlayClosed(page);
+  await waitForClosedComposer(page);
 }
 
 export async function composerShouldDiscardChanges(
@@ -100,7 +102,7 @@ export async function composerShouldDiscardChanges(
   part: ComposerPart,
   cancelBtn: string,
 ) {
-  const { composerEl } = await waitForOverlayVisible(page);
+  const { composerEl } = await waitForVisibleComposer(page);
   await updateComposerContent(composerEl, part, '_CHANGES_DISCARDED_');
   await clickBtn(composerEl, cancelBtn);
 
@@ -115,5 +117,5 @@ export async function composerShouldDiscardChanges(
   // Click the No button.
   await alertBtns.item(1).click();
 
-  await waitForOverlayClosed(page);
+  await waitForClosedComposer(page);
 }

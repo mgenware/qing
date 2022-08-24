@@ -9,7 +9,7 @@ import {
   ComposerPart,
   getComposerEl,
   updateComposerContent,
-  waitForOverlayClosed,
+  waitForClosedComposer,
 } from './composer';
 import { waitForGlobalSpinner } from '../spinners/spinner';
 import * as ov from '../overlays/overlay';
@@ -39,5 +39,5 @@ export async function updateEditor(p: br.Page, a: UpdateEditorArgs) {
   // Update button is always the first button.
   const btnEl = composerEl.$('qing-button');
   await waitForGlobalSpinner(p, a.spinnerText, () => btnEl.click());
-  await waitForOverlayClosed(p);
+  await waitForClosedComposer(p);
 }

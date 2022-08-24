@@ -34,7 +34,6 @@ export default {
   },
 
   br: {
-    alias: 'd',
     run: ['#clean', buildTS('br')],
     env: devEnv,
   },
