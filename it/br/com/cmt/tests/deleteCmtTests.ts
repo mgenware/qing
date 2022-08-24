@@ -8,7 +8,7 @@
 import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import { getEditBarDeleteButton } from 'br/com/editing/editBar';
-import { alertShouldAppear, AlertType, AlertButtons } from 'br/com/overlays/alert';
+import * as alt from 'br/com/overlays/alert';
 import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt } from './actions';
@@ -26,13 +26,16 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         }
 
         // Delete the comment.
-        await getEditBarDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click();
-        const alertBtns = await alertShouldAppear(page, {
-          content: 'Do you want to delete this comment?',
-          type: AlertType.warning,
-          buttons: AlertButtons.YesNo,
-          focusedBtn: 1,
-        });
+        const alertBtns = await alt.waitForAlert(
+          page,
+          {
+            content: 'Do you want to delete this comment?',
+            type: alt.AlertType.warning,
+            buttons: alt.AlertButtons.YesNo,
+            focusedBtn: 1,
+          },
+          () => getEditBarDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click(),
+        );
         await alertBtns.item(0).click();
         await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
       }

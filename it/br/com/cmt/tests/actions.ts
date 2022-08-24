@@ -27,12 +27,12 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
     text: 'Write a comment',
     style: 'success',
   });
-  await waitForVisibleComposer(p, () => writeCmtBtn.click());
+  await writeCmtBtn.click();
+  await waitForVisibleComposer(p);
   if (a.shownCb) {
     await a.shownCb();
   }
   await updateEditor(p, {
-    part: 'content',
     spinnerText: 'Publishing...',
     content: a.content,
     dbTimeChange: a.dbTimeChange,
@@ -47,12 +47,12 @@ export interface WriteReplyArgs {
 }
 
 export async function writeReply(p: br.Page, a: WriteReplyArgs) {
-  await waitForVisibleComposer(p, () => a.cmtEl.$hasText('cmt-view link-button', 'Reply').click());
+  await a.cmtEl.$hasText('cmt-view link-button', 'Reply').click();
+  await waitForVisibleComposer(p);
   if (a.shownCb) {
     await a.shownCb();
   }
   await updateEditor(p, {
-    part: 'content',
     content: a.content,
     spinnerText: 'Publishing...',
     dbTimeChange: a.dbTimeChange,
@@ -67,13 +67,13 @@ export interface EditCmtArgs {
 }
 
 export async function editCmt(p: br.Page, a: EditCmtArgs) {
-  await waitForVisibleComposer(p, () => getEditBarEditButton(a.cmtApp, a.author.id).click());
+  await getEditBarEditButton(a.cmtApp, a.author.id).click();
+  await waitForVisibleComposer(p);
   if (a.shownCb) {
     await a.shownCb();
   }
 
   await updateEditor(p, {
-    part: 'content',
     content: a.content,
     dbTimeChange: true,
     spinnerText: 'Saving...',

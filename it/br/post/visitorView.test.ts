@@ -7,12 +7,7 @@
 
 import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
-import {
-  AlertButtons,
-  AlertType,
-  waitForAlertDetached,
-  alertShouldAppear,
-} from 'br/com/overlays/alert';
+import * as alt from 'br/com/overlays/alert';
 import { postCoreTraitsShouldAppear } from './common';
 
 test('Post page in visitor view', async ({ page }) => {
@@ -21,14 +16,16 @@ test('Post page in visitor view', async ({ page }) => {
     const { likesAppEl } = await postCoreTraitsShouldAppear(p, link, usr.user, null);
 
     // Click the like button.
-    await likesAppEl.click();
-    const btns = await alertShouldAppear(p, {
-      content: 'Sign in to like this post.',
-      type: AlertType.warning,
-      buttons: AlertButtons.OK,
-    });
+    const btns = await alt.waitForAlert(
+      p,
+      {
+        content: 'Sign in to like this post.',
+        type: alt.AlertType.warning,
+        buttons: alt.AlertButtons.OK,
+      },
+      () => likesAppEl.click(),
+    );
     const okBtn = btns.item(0);
-    await okBtn.click();
-    await waitForAlertDetached(p);
+    await alt.waitForDetachedAlert(p, () => okBtn.click());
   });
 });

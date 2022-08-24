@@ -30,29 +30,27 @@ async function postEditorShouldAppear(page: br.Page) {
   });
 }
 
-function testPostUpdates(part: cp.ComposerPart) {
-  test(`Update post ${part === 'title' ? 'title' : 'content'}`, async ({ page }) => {
-    const p = $(page);
-    await scPost(usr.user, async ({ link }) => {
-      await p.goto(link, usr.user);
-      await clickEditButton(p);
+test('Update post', async ({ page }) => {
+  const p = $(page);
+  await scPost(usr.user, async ({ link }) => {
+    await p.goto(link, usr.user);
+    await clickEditButton(p);
 
-      // Check editor update.
-      await postEditorShouldAppear(p);
-      await updateEditor(p, {
-        part,
-        content: def.sd.updated,
-        dbTimeChange: true,
-        spinnerText: 'Saving...',
-      });
-
-      // Verify post title.
-      await postShouldHaveTitle(p, part === 'title' ? def.sd.updated : def.sd.title, link);
-      // Verify post content.
-      await postShouldHaveContent(p, part === 'title' ? def.sd.content : def.sd.updated);
+    // Check editor update.
+    await postEditorShouldAppear(p);
+    await updateEditor(p, {
+      title: def.sd.updated,
+      content: def.sd.updated,
+      dbTimeChange: true,
+      spinnerText: 'Saving...',
     });
+
+    // Verify post title.
+    await postShouldHaveTitle(p, def.sd.updated, link);
+    // Verify post content.
+    await postShouldHaveContent(p, def.sd.updated);
   });
-}
+});
 
 test('Dismiss post editor', async ({ page }) => {
   const p = $(page);
@@ -69,6 +67,3 @@ test('Dismiss post editor', async ({ page }) => {
     await postShouldHaveContent(p, def.sd.content);
   });
 });
-
-testPostUpdates('title');
-testPostUpdates('content');

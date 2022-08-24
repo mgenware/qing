@@ -59,8 +59,8 @@ function getDialogEl(page: br.Page) {
   return page.$('#__global_dialog_container dialog-view');
 }
 
-export function waitForAlertDetached(page: br.Page) {
-  return getDialogEl(page).waitForDetached();
+export function waitForDetachedAlert(page: br.Page, action: () => Promise<unknown>) {
+  return Promise.all([getDialogEl(page).waitForDetached(), action()]);
 }
 
 export interface AlertShouldAppearArgs {
@@ -71,12 +71,14 @@ export interface AlertShouldAppearArgs {
   focusedBtn?: number;
 }
 
-export async function alertShouldAppear(
+export async function waitForAlert(
   page: br.Page,
   arg: AlertShouldAppearArgs,
+  action: () => Promise<unknown>,
 ): Promise<br.ElementCollection> {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
+  await Promise.all([el.waitForAttached(), action()]);
   await el.e.toHaveAttribute('open', '');
 
   // Title.

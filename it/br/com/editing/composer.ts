@@ -6,28 +6,24 @@
  */
 
 import * as br from 'br';
-import { AlertButtons, AlertType, alertShouldAppear } from '../overlays/alert';
+import * as alt from '../overlays/alert';
 import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
 import * as cm from './common';
 import * as ov from '../overlays/overlay';
 import * as ed from './editor';
 
-export type ComposerPart = 'content' | 'title';
+export interface UpdateComposerParams {
+  title?: string;
+  content?: string;
+}
 
-export async function updateComposerContent(el: br.Element, part: ComposerPart, content: string) {
-  switch (part) {
-    case 'content': {
-      await ed.fill(el, content);
-      break;
-    }
-
-    case 'title': {
-      const inputEl = el.$(cm.composerTitleSel);
-      await inputEl.c.fill(content);
-      break;
-    }
-    default:
-      throw new Error(`Unknown composer part ${part}`);
+export async function updateComposerContent(el: br.Element, e: UpdateComposerParams) {
+  if (e.title) {
+    const inputEl = el.$(cm.composerTitleSel);
+    await inputEl.c.fill(e.title);
+  }
+  if (e.content) {
+    await ed.fill(el, e.content);
   }
 }
 
@@ -40,11 +36,9 @@ async function clickBtn(composerEl: br.Element, btnText: string) {
   await btnEl.click();
 }
 
-export async function waitForVisibleComposer(page: br.Page, action?: () => Promise<unknown>) {
+export async function waitForVisibleComposer(page: br.Page) {
   const overlayEl = page.$(ov.openImmersiveOverlaySel);
-  if (action) {
-    await Promise.all([overlayEl.waitForAttached(), action()]);
-  }
+  await overlayEl.waitForAttached();
   const composerEl = getComposerEl(overlayEl);
   await composerEl.e.toBeVisible();
   return { overlayEl, composerEl };
@@ -97,22 +91,27 @@ export async function composerShouldBeDismissed(page: br.Page, cancelBtn: string
   await waitForClosedComposer(page);
 }
 
-export async function composerShouldDiscardChanges(
-  page: br.Page,
-  part: ComposerPart,
-  cancelBtn: string,
-) {
-  const { composerEl } = await waitForVisibleComposer(page);
-  await updateComposerContent(composerEl, part, '_CHANGES_DISCARDED_');
-  await clickBtn(composerEl, cancelBtn);
+export interface DiscardChangesParams {
+  cancelBtn: string;
+  title?: string;
+  content?: string;
+}
 
-  const alertBtns = await alertShouldAppear(page, {
-    title: 'Do you want to discard your changes?',
-    content: "You haven't saved your changes.",
-    type: AlertType.warning,
-    buttons: AlertButtons.YesNo,
-    focusedBtn: 1,
-  });
+export async function composerShouldDiscardChanges(page: br.Page, e: DiscardChangesParams) {
+  const { composerEl } = await waitForVisibleComposer(page);
+  await updateComposerContent(composerEl, { title: e.title, content: e.content });
+
+  const alertBtns = await alt.waitForAlert(
+    page,
+    {
+      title: 'Do you want to discard your changes?',
+      content: "You haven't saved your changes.",
+      type: alt.AlertType.warning,
+      buttons: alt.AlertButtons.YesNo,
+      focusedBtn: 1,
+    },
+    () => clickBtn(composerEl, e.cancelBtn),
+  );
 
   // Click the No button.
   await alertBtns.item(1).click();
