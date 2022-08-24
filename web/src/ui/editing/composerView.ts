@@ -72,9 +72,6 @@ export class ComposerView extends BaseElement {
   }
 
   @property({ type: Number }) entityType = 0;
-
-  // Title field value.
-  @property() inputTitle = '';
   @property({ type: Boolean }) showTitleInput = false;
 
   @property() entityID = '';
@@ -92,26 +89,23 @@ export class ComposerView extends BaseElement {
   private titleInputEl: Ref<HTMLInputElement> = createRef();
 
   hasContentChanged(): boolean {
-    if (!this.editorEl.value) {
-      return false;
-    }
     return (
-      this.lastSavedContent !== this.getContentHTML() ||
-      (this.showTitleInput && this.lastSavedTitle !== this.inputTitle)
+      this.lastSavedContent !== this.contentHTML ||
+      (this.showTitleInput && this.lastSavedTitle !== this.titleText)
     );
   }
 
   markAsSaved() {
-    this.lastSavedContent = this.getContentHTML();
+    this.lastSavedContent = this.contentHTML;
     if (this.showTitleInput) {
-      this.lastSavedTitle = this.inputTitle;
+      this.lastSavedTitle = this.titleText;
     }
   }
 
   resetEditor() {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
-    this.inputTitle = '';
+    this.setTitleText('');
     this.setContentHTML('', false);
   }
 
@@ -131,8 +125,12 @@ export class ComposerView extends BaseElement {
     this.markAsSaved();
   }
 
-  getContentHTML() {
+  get contentHTML() {
     return this.editorEl.value?.contentHTML;
+  }
+
+  get titleText() {
+    return this.titleInputEl.value?.value;
   }
 
   setContentHTML(contentHTML: string, canUndo: boolean) {
@@ -147,6 +145,12 @@ export class ComposerView extends BaseElement {
     }
   }
 
+  setTitleText(text: string) {
+    if (this.titleInputEl.value) {
+      this.titleInputEl.value.value = text;
+    }
+  }
+
   override render() {
     const { loadingStatus } = this;
 
@@ -156,13 +160,7 @@ export class ComposerView extends BaseElement {
           this.showTitleInput,
           () => html`
             <div class="p-b-sm flex-auto">
-              <input-view
-                ${ref(this.titleInputEl)}
-                required
-                .placeholder=${ls.title}
-                .value=${this.inputTitle}
-                @input-change=${(e: CustomEvent<string>) =>
-                  (this.inputTitle = e.detail)}></input-view>
+              <input-view ${ref(this.titleInputEl)} required .placeholder=${ls.title}></input-view>
             </div>
           `,
         )} <editor-view ${ref(this.editorEl)}></editor-view>`;
@@ -206,22 +204,21 @@ export class ComposerView extends BaseElement {
   }
 
   private getPayload(): ComposerContent {
-    if (this.showTitleInput && !this.inputTitle) {
+    if (this.showTitleInput && !this.titleText) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () =>
         this.titleInputEl.value?.focus(),
       );
     }
-    const content = this.getContentHTML();
-    if (!content) {
+    if (!this.contentHTML) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
         this.editorEl.value?.focus(),
       );
     }
     const payload: ComposerContent = {
-      contentHTML: content,
+      contentHTML: this.contentHTML,
     };
     if (this.showTitleInput) {
-      payload.title = this.inputTitle;
+      payload.title = this.titleText;
     }
     return payload;
   }
@@ -251,7 +248,7 @@ export class ComposerView extends BaseElement {
       );
     };
     if (this.hasContentChanged()) {
-      // Warn user of unsaved changes.
+      // Warn the user of unsaved changes.
       if (await appAlert.warnUnsavedChanges()) {
         fireEvent(true);
       }

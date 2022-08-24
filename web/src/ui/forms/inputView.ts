@@ -135,18 +135,18 @@ export class InputView extends BaseElement {
     ];
   }
 
-  @property({ reflect: true }) label = '';
-  @property({ type: Boolean, reflect: true }) required = false;
-  @property({ reflect: true }) type: InputTypeValues = 'text';
-  @property({ reflect: true }) value = '';
-  @property({ reflect: true }) placeholder = '';
-  @property({ type: Boolean, reflect: true }) debounceOnChange = false;
+  @property() label = '';
+  @property({ type: Boolean }) required = false;
+  @property() type: InputTypeValues = 'text';
+  @property() value = '';
+  @property() placeholder = '';
+  @property({ type: Boolean }) debounceOnChange = false;
 
-  @property({ reflect: true }) autocomplete?: AutoCompleteValues;
-  @property({ reflect: true }) inputmode?: InputTypeValues;
+  @property() autocomplete?: AutoCompleteValues;
+  @property() inputmode?: InputTypeValues;
 
-  @property({ type: Number, reflect: true }) minLength = 0;
-  @property({ type: Number, reflect: true }) maxLength = 0;
+  @property({ type: Number }) minLength = 0;
+  @property({ type: Number }) maxLength = 0;
 
   // True if content has changed or `checkValidity` is called.
   inputValidated = false;
@@ -213,10 +213,12 @@ export class InputView extends BaseElement {
 
   private handleInput(_: Event) {
     this.inputValidated = true;
+    const { value } = this.inputEl;
     this.validationError = this.inputEl.validationMessage;
+    this.value = value;
     this.dispatchEvent(
       new CustomEvent<string>('input-change', {
-        detail: this.inputEl.value,
+        detail: value,
       }),
     );
     if (this.debouncedOnChangeHandler) {
