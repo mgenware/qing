@@ -16,15 +16,12 @@ test('Post page in visitor view', async ({ page }) => {
     const { likesAppEl } = await postCoreTraitsShouldAppear(p, link, usr.user, null);
 
     // Click the like button.
-    const btns = await alt.waitForAlert(
-      p,
-      {
-        content: 'Sign in to like this post.',
-        type: alt.AlertType.warning,
-        buttons: alt.AlertButtons.OK,
-      },
-      () => likesAppEl.click(),
-    );
+    await likesAppEl.click();
+    const btns = await alt.waitForAlert(p, {
+      content: 'Sign in to like this post.',
+      type: alt.AlertType.warning,
+      buttons: alt.AlertButtons.OK,
+    });
     const okBtn = btns.item(0);
     await alt.waitForDetachedAlert(p, () => okBtn.click());
   });

@@ -24,7 +24,6 @@ test('Sign up - Default fields', async ({ page }) => {
   await ivh.shouldNotHaveError(nameEl);
   await ivh.shouldHaveProps(nameEl, {
     required: true,
-    type: 'text',
   });
   await ivh.shouldBeEmpty(nameEl);
 

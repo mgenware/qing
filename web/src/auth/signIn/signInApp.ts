@@ -39,8 +39,8 @@ export class SignInApp extends BaseElement {
           <input-view
             required
             type="email"
-            .autocomplete=${'email'}
-            .inputmode=${'email'}
+            autocomplete="email"
+            inputmode="email"
             label=${ls.email}
             value=${this.email}
             @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
@@ -49,7 +49,7 @@ export class SignInApp extends BaseElement {
             class="m-t-md"
             required
             type="password"
-            .autocomplete=${'current-password'}
+            autocomplete="current-password"
             label=${ls.password}
             value=${this.password}
             @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>

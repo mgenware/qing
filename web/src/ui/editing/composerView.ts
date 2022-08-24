@@ -160,7 +160,7 @@ export class ComposerView extends BaseElement {
           this.showTitleInput,
           () => html`
             <div class="p-b-sm flex-auto">
-              <input-view ${ref(this.titleInputEl)} required .placeholder=${ls.title}></input-view>
+              <input-view ${ref(this.titleInputEl)} required placeholder=${ls.title}></input-view>
             </div>
           `,
         )} <editor-view ${ref(this.editorEl)}></editor-view>`;

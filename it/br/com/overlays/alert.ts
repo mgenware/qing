@@ -74,11 +74,10 @@ export interface AlertShouldAppearArgs {
 export async function waitForAlert(
   page: br.Page,
   arg: AlertShouldAppearArgs,
-  action: () => Promise<unknown>,
 ): Promise<br.ElementCollection> {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
-  await Promise.all([el.waitForAttached(), action()]);
+  await el.waitForAttached();
   await el.e.toHaveAttribute('open', '');
 
   // Title.

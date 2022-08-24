@@ -53,8 +53,8 @@ export class SignUpApp extends BaseElement {
           <input-view
             class="m-t-md"
             required
-            .autocomplete=${'email'}
-            .inputmode=${'email'}
+            autocomplete="email"
+            inputmode="email"
             type="email"
             label=${ls.email}
             value=${this.email}
@@ -64,9 +64,9 @@ export class SignUpApp extends BaseElement {
             class="m-t-md"
             required
             type="password"
-            .minLength=${appdef.lenMinUserPwd}
-            .maxLength=${appdef.lenMaxUserPwd}
-            .autocomplete=${'new-password'}
+            minLength=${appdef.lenMinUserPwd}
+            maxLength=${appdef.lenMaxUserPwd}
+            autocomplete="new-password"
             label=${ls.password}
             value=${this.password}
             @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
@@ -75,9 +75,9 @@ export class SignUpApp extends BaseElement {
             class="m-t-md"
             required
             type="password"
-            .minLength=${appdef.lenMinUserPwd}
-            .maxLength=${appdef.lenMaxUserPwd}
-            .autocomplete=${'new-password'}
+            minLength=${appdef.lenMinUserPwd}
+            maxLength=${appdef.lenMaxUserPwd}
+            autocomplete=${'new-password'}
             label=${ls.confirmPassword}
             value=${this.confirmPassword}
             @input-change=${(e: CustomEvent<string>) =>

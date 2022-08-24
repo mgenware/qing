@@ -27,6 +27,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         // Edit the comment.
         await editCmt(page, {
           cmtApp,
+          content: def.sd.updated,
           author: usr.user,
           shownCb: async () => {
             await composerShouldAppear(page, {

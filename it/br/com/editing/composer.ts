@@ -67,7 +67,7 @@ export async function composerShouldAppear(page: br.Page, args: ComposerShouldAp
   if (args.title) {
     const titleInputEl = composerEl.$(cm.composerTitleSel);
     await titleInputEl.e.toBeVisible();
-    await titleInputEl.e.toHaveAttribute('value', args.title);
+    await titleInputEl.e.toHaveValue(args.title);
   } else {
     await composerEl.$(cm.composerTitleSel).shouldNotExist();
   }
@@ -101,17 +101,14 @@ export async function composerShouldDiscardChanges(page: br.Page, e: DiscardChan
   const { composerEl } = await waitForVisibleComposer(page);
   await updateComposerContent(composerEl, { title: e.title, content: e.content });
 
-  const alertBtns = await alt.waitForAlert(
-    page,
-    {
-      title: 'Do you want to discard your changes?',
-      content: "You haven't saved your changes.",
-      type: alt.AlertType.warning,
-      buttons: alt.AlertButtons.YesNo,
-      focusedBtn: 1,
-    },
-    () => clickBtn(composerEl, e.cancelBtn),
-  );
+  await clickBtn(composerEl, e.cancelBtn);
+  const alertBtns = await alt.waitForAlert(page, {
+    title: 'Do you want to discard your changes?',
+    content: "You haven't saved your changes.",
+    type: alt.AlertType.warning,
+    buttons: alt.AlertButtons.YesNo,
+    focusedBtn: 1,
+  });
 
   // Click the No button.
   await alertBtns.item(1).click();

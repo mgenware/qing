@@ -110,8 +110,7 @@ export class UserSelectorApp extends BaseElement {
             <input-view
               class="m-t-md"
               id=${inputViewID}
-              .showInputView=${false}
-              .value=${this.value}
+              value=${this.value}
               debounceOnChange
               @input-change=${this.handleValueChange}
               @input-change-debounced=${this.handleValueChangeDebounced}></input-view>

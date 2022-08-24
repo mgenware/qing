@@ -134,6 +134,13 @@ export class Element extends LocatorCore {
     return this.e.toHaveCount(0);
   }
 
+  shouldHaveAttrOrNot(attr: string, val: string | null | undefined) {
+    if (val === null || val === undefined) {
+      return this.shouldNotHaveAttr(attr);
+    }
+    return this.e.toHaveAttribute(attr, val);
+  }
+
   async shouldHaveHTML(html: string) {
     return pw.expect(await this.c.innerHTML()).toBe(html);
   }

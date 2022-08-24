@@ -26,16 +26,13 @@ function testDeleteCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         }
 
         // Delete the comment.
-        const alertBtns = await alt.waitForAlert(
-          page,
-          {
-            content: 'Do you want to delete this comment?',
-            type: alt.AlertType.warning,
-            buttons: alt.AlertButtons.YesNo,
-            focusedBtn: 1,
-          },
-          () => getEditBarDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click(),
-        );
+        await getEditBarDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click();
+        const alertBtns = await alt.waitForAlert(page, {
+          content: 'Do you want to delete this comment?',
+          type: alt.AlertType.warning,
+          buttons: alt.AlertButtons.YesNo,
+          focusedBtn: 1,
+        });
         await alertBtns.item(0).click();
         await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
       }

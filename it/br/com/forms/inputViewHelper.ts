@@ -26,21 +26,11 @@ export async function shouldHaveProps(el: Element, props: InputViewProps) {
       await el.e.not.toHaveAttribute('required', '');
     }
   }
-  if (props.type !== undefined) {
-    await el.e.toHaveAttribute('type', props.type);
-  }
-  if (props.autoComplete !== undefined) {
-    await el.e.toHaveAttribute('autocomplete', props.autoComplete);
-  }
-  if (props.inputMode !== undefined) {
-    await el.e.toHaveAttribute('inputmode', props.inputMode);
-  }
-  if (props.minLength !== undefined) {
-    await el.e.toHaveAttribute('minlength', props.minLength.toString());
-  }
-  if (props.maxLength !== undefined) {
-    await el.e.toHaveAttribute('maxlength', props.maxLength.toString());
-  }
+  await el.shouldHaveAttrOrNot('type', props.type);
+  await el.shouldHaveAttrOrNot('autocomplete', props.autoComplete);
+  await el.shouldHaveAttrOrNot('inputmode', props.inputMode);
+  await el.shouldHaveAttrOrNot('minlength', props.minLength?.toString());
+  await el.shouldHaveAttrOrNot('maxlength', props.maxLength?.toString());
 }
 
 export async function shouldHaveError(el: Element, err: string) {
@@ -58,7 +48,7 @@ export function shouldNotHaveError(el: Element) {
 }
 
 export async function shouldHaveValue(el: Element, val: string) {
-  await el.e.toHaveAttribute('value', val);
+  await el.$('input').e.toHaveValue(val);
 }
 
 export function shouldBeEmpty(el: Element) {
