@@ -55,7 +55,7 @@ export class PostUserApp extends BaseElement {
         <div class="col-auto">${imgSlot}</div>
         <div class="col">
           <div>${nameSlot}</div>
-          <div class="m-t-md">
+          <div class="m-t-sm">
             <time-field .createdAt=${this.createdAt} .modifiedAt=${this.modifiedAt}></time-field>
             <span class="m-l-md">
               <slot name="toolbar"></slot>
