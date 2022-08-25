@@ -34,7 +34,7 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
   }
   await cps.updateAndSave(p, {
     spinnerText: 'Publishing...',
-    saveBtnText: 'Publish',
+    saveBtnText: 'Send',
     content: a.content,
     dbTimeChange: a.dbTimeChange,
   });
@@ -55,7 +55,7 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
   }
   await cps.updateAndSave(p, {
     content: a.content,
-    saveBtnText: 'Publish',
+    saveBtnText: 'Send',
     spinnerText: 'Publishing...',
     dbTimeChange: a.dbTimeChange,
   });

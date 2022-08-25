@@ -5,7 +5,18 @@
  * be found in the LICENSE file.
  */
 
-export const closedImmersiveSel = 'qing-overlay.immersive:not[open]';
-export const openImmersiveSel = 'qing-overlay.immersive[open=""]';
-export const closedSel = 'qing-overlay:not[open]';
-export const openSel = 'qing-overlay[open=""]';
+export function closedImmersiveSel(sel: string) {
+  return `${sel} qing-overlay.immersive:not[open]`;
+}
+
+export function openImmersiveSel(sel: string) {
+  return `${sel} 'qing-overlay.immersive[open=""]`;
+}
+
+export function closedSel(sel: string) {
+  return `${sel} qing-overlay:not[open]`;
+}
+
+export function openSel(sel: string) {
+  return `${sel} qing-overlay[open=""]`;
+}

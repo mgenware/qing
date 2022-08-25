@@ -82,7 +82,7 @@ function testDiscardChanges(mode: 'title' | 'content') {
         mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
       );
 
-      await cps.shouldDiscardChanges(composerEl, { p, cancelBtn: 'Cancel' });
+      await cps.shouldDiscardChangesOrNot(composerEl, true, { p, cancelBtn: 'Cancel' });
 
       // Verify page content.
       await cm.shouldHaveTitle(p, def.sd.title, link);
