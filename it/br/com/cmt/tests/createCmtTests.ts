@@ -10,9 +10,9 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import * as act from './actions';
-import { composerShouldAppear } from 'br/com/editing/composer';
+import * as cps from 'br/com/editing/composer';
 
-function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
+function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}cmt, default ordering`,
     usr.user,
@@ -25,7 +25,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
             cmtApp,
             content: def.sd.content,
             shownCb: async () => {
-              await composerShouldAppear(page, {
+              await cps.shouldAppear(page, {
                 name: 'Write a comment',
                 title: null,
                 contentHTML: '',
@@ -39,7 +39,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
             cmtApp = await w.getCmtApp(page);
           }
 
-          await cm.cmtShouldAppear({
+          await cm.shouldAppear({
             cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
             author: usr.user,
             content: def.sd.content,
@@ -53,7 +53,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           await page.reload(null);
           const cmtApp = await w.getCmtApp(page);
 
-          await cm.cmtShouldAppear({
+          await cm.shouldAppear({
             cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
             author: usr.user,
             content: def.sd.content,
@@ -65,7 +65,7 @@ function testCreateCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   );
 }
 
-function testCreateCmtsPagination(w: CmtFixtureWrapper) {
+function testCreateWithPagination(w: CmtFixtureWrapper) {
   w.test('Create cmts, pagination', usr.user, async ({ page }) => {
     {
       const total = 5;
@@ -78,7 +78,7 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await cm.cmtShouldAppear({
+          await cm.shouldAppear({
             cmtEl: cm.getNthCmt({ cmtApp, index: i }),
             author: usr.user,
             content: `${total - i}`,
@@ -98,12 +98,12 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         // Only 2 are shown by default.
         await cm.shouldHaveShownRootCmtCount(cmtApp, 2);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: '5',
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 1 }),
           author: usr.user,
           content: '4',
@@ -113,12 +113,12 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         await act.clickMoreCmts({ cmtApp });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 4);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 2 }),
           author: usr.user,
           content: '3',
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 3 }),
           author: usr.user,
           content: '2',
@@ -128,7 +128,7 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
         await act.clickMoreCmts({ cmtApp });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 5);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 4 }),
           author: usr.user,
           content: '1',
@@ -143,7 +143,7 @@ function testCreateCmtsPagination(w: CmtFixtureWrapper) {
 
 // Forked from `testCreateCmtsPagination`.
 // Tests creating cmts while loading more pages. Duplicates should not happen.
-function testCreateCmtsDedup(w: CmtFixtureWrapper) {
+function testCreateWithDedup(w: CmtFixtureWrapper) {
   w.test('Create cmts, dedup', usr.user, async ({ page }) => {
     {
       const total = 5;
@@ -168,20 +168,20 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         // 3 cmts are shown.
         await cm.shouldHaveShownRootCmtCount(cmtApp, 3);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: 'new 1',
           highlighted: true,
           canEdit: true,
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 1 }),
           author: usr.user,
           content: '5',
           canEdit: true,
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 2 }),
           author: usr.user,
           content: '4',
@@ -200,7 +200,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 3 });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 7);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: 'new 3',
@@ -208,7 +208,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
           canEdit: true,
         });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 1 }),
           author: usr.user,
           content: 'new 2',
@@ -216,7 +216,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
           canEdit: true,
         });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 2 }),
           author: usr.user,
           content: 'new 1',
@@ -224,7 +224,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
           canEdit: true,
         });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 3 }),
           author: usr.user,
           content: '5',
@@ -232,7 +232,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         });
 
         // Item 4, 3 are skipped.
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 6 }),
           author: usr.user,
           content: '2',
@@ -245,7 +245,7 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 3 });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 8);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 7 }),
           author: usr.user,
           content: '1',
@@ -256,9 +256,9 @@ function testCreateCmtsDedup(w: CmtFixtureWrapper) {
   });
 }
 
-export default function testCreateCmt(w: CmtFixtureWrapper) {
-  testCreateCmtCore(w, true);
-  testCreateCmtCore(w, false);
-  testCreateCmtsPagination(w);
-  testCreateCmtsDedup(w);
+export default function testCreate(w: CmtFixtureWrapper) {
+  testCreateCore(w, true);
+  testCreateCore(w, false);
+  testCreateWithPagination(w);
+  testCreateWithDedup(w);
 }

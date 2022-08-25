@@ -13,7 +13,7 @@ function checkTimeString(s: string, edited: boolean) {
   br.expect(hasEdited).toBe(edited);
 }
 
-export async function timeFieldShouldAppear(el: br.Element, edited: boolean) {
+export async function shouldAppear(el: br.Element, edited: boolean) {
   await el.e.toBeVisible();
   if (edited) {
     await el.$hasText('small', 'Edited').waitForVisible();

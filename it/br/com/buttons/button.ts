@@ -13,15 +13,15 @@ export interface ButtonTraits {
   style?: string;
 }
 
-export async function buttonShouldHaveFocus(el: br.Element) {
+export async function shouldHaveFocus(el: br.Element) {
   await el.$('button').e.toBeFocused();
   return el;
 }
 
-export async function buttonShouldAppear(el: br.Element, traits: ButtonTraits) {
+export async function shouldAppear(el: br.Element, traits: ButtonTraits) {
   await el.e.toHaveText(traits.text);
   if (traits.focused) {
-    await buttonShouldHaveFocus(el);
+    await shouldHaveFocus(el);
   }
   if (traits.style) {
     await el.e.toHaveAttribute('btnStyle', traits.style);

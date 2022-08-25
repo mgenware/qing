@@ -6,8 +6,8 @@
  */
 
 import * as br from 'br';
-import { userViewShouldAppear } from 'br/com/content/userView';
-import { getEditBarEditButton } from 'br/com/editing/editBar';
+import * as uv from 'br/com/content/userView';
+import * as eb from 'br/com/editing/editBar';
 import { CmtFixture } from '../fixture';
 
 export const cmtChildrenClass = '.br-children';
@@ -38,15 +38,15 @@ export interface CheckCmtArgs {
   hasEdited?: boolean;
 }
 
-export async function cmtShouldAppear(e: CheckCmtArgs) {
+export async function shouldAppear(e: CheckCmtArgs) {
   // User view.
   const row = e.cmtEl.$('.row');
-  await userViewShouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
+  await uv.shouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
 
   // Comment content.
   await row.$('div.col > div:nth-child(2)').e.toHaveText(e.content);
 
-  const editBtn = getEditBarEditButton(e.cmtEl, e.author.id);
+  const editBtn = eb.getEditButton(e.cmtEl, e.author.id);
   if (e.canEdit) {
     await editBtn.e.toBeVisible();
   } else {

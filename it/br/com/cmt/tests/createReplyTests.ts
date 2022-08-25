@@ -10,9 +10,9 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import * as act from './actions';
-import { composerShouldAppear } from 'br/com/editing/composer';
+import * as cps from 'br/com/editing/composer';
 
-function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
+function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}reply, default ordering, expander state`,
     usr.user,
@@ -30,7 +30,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
             cmtEl,
             content: def.sd.content,
             shownCb: async () => {
-              await composerShouldAppear(page, {
+              await cps.shouldAppear(page, {
                 name: 'Reply to USER',
                 title: null,
                 contentHTML: '',
@@ -56,7 +56,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
             await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 1 });
           }
 
-          await cm.cmtShouldAppear({
+          await cm.shouldAppear({
             cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
             author: usr.user,
             content: def.sd.content,
@@ -79,7 +79,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
           // Click replies.
           await act.clickRepliesButton({ cmtEl, replyCount: 1 });
 
-          await cm.cmtShouldAppear({
+          await cm.shouldAppear({
             cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
             author: usr.user,
             content: def.sd.content,
@@ -93,7 +93,7 @@ function testCreateReplyCore(w: CmtFixtureWrapper, fresh: boolean) {
   );
 }
 
-function testCreateRepliesPagination(w: CmtFixtureWrapper) {
+function testCreateWithPagination(w: CmtFixtureWrapper) {
   w.test('Create replies, pagination', usr.user, async ({ page }) => {
     {
       const total = 5;
@@ -111,7 +111,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await cm.cmtShouldAppear({
+          await cm.shouldAppear({
             cmtEl: cm.getNthReply({ cmtEl, index: i }),
             author: usr.user,
             content: `${total - i}`,
@@ -140,12 +140,12 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         // Cmt should have 5 replies with 2 shown.
         await cm.shouldHaveReplyCount({ cmtEl, count: total, shown: 2 });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
           author: usr.user,
           content: '5',
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 1 }),
           author: usr.user,
           content: '4',
@@ -157,12 +157,12 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         // Cmt should have 5 replies with 4 shown.
         await cm.shouldHaveReplyCount({ cmtEl, count: total, shown: 4 });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 2 }),
           author: usr.user,
           content: '3',
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 3 }),
           author: usr.user,
           content: '2',
@@ -174,7 +174,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
         // All 5 replies are shown.
         await cm.shouldHaveReplyCount({ cmtEl, count: total, shown: 5 });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 4 }),
           author: usr.user,
           content: '1',
@@ -186,7 +186,7 @@ function testCreateRepliesPagination(w: CmtFixtureWrapper) {
 
 // Forked from `testCreateRepliesPagination`.
 // Tests creating replies while loading more pages. Duplicates should not happen.
-function testCreateRepliesDedup(w: CmtFixtureWrapper) {
+function testCreateWithDedup(w: CmtFixtureWrapper) {
   w.test('Create replies, dedup', usr.user, async ({ page }) => {
     {
       const total = 5;
@@ -222,20 +222,20 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         // 3 replies are shown.
         await cm.shouldHaveReplyCount({ cmtEl, count: total + 1, shown: 3 });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
           author: usr.user,
           content: 'new 1',
           highlighted: true,
           canEdit: true,
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 1 }),
           author: usr.user,
           content: '5',
           canEdit: true,
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 2 }),
           author: usr.user,
           content: '4',
@@ -254,7 +254,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 4 });
         await cm.shouldHaveReplyCount({ cmtEl, count: total + 3, shown: 7 });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
           author: usr.user,
           content: 'new 3',
@@ -262,7 +262,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
           canEdit: true,
         });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 1 }),
           author: usr.user,
           content: 'new 2',
@@ -270,7 +270,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
           canEdit: true,
         });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 2 }),
           author: usr.user,
           content: 'new 1',
@@ -278,7 +278,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
           canEdit: true,
         });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 3 }),
           author: usr.user,
           content: '5',
@@ -286,7 +286,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         });
 
         // Item 4, 3 are skipped.
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 6 }),
           author: usr.user,
           content: '2',
@@ -299,7 +299,7 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 4 });
         await cm.shouldHaveReplyCount({ cmtEl, count: total + 3, shown: 8 });
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 7 }),
           author: usr.user,
           content: '1',
@@ -310,9 +310,9 @@ function testCreateRepliesDedup(w: CmtFixtureWrapper) {
   });
 }
 
-export default function testCreateReply(w: CmtFixtureWrapper) {
-  testCreateReplyCore(w, true);
-  testCreateReplyCore(w, false);
-  testCreateRepliesPagination(w);
-  testCreateRepliesDedup(w);
+export default function testCreate(w: CmtFixtureWrapper) {
+  testCreateCore(w, true);
+  testCreateCore(w, false);
+  testCreateWithPagination(w);
+  testCreateWithDedup(w);
 }

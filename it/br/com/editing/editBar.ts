@@ -15,21 +15,21 @@ export interface EditBarButtons {
   deleteBtn: br.Element;
 }
 
-function getEditBarEl(rootEl: br.Element, uid: string) {
+function getEl(rootEl: br.Element, uid: string) {
   return rootEl.$(`edit-bar-app[uid="${uid}"]`);
 }
 
-export function getEditBarEditButton(el: br.Element, uid: string) {
-  return getEditBarEl(el, uid).$linkButton(editText);
+export function getEditButton(el: br.Element, uid: string) {
+  return getEl(el, uid).$linkButton(editText);
 }
 
-export function getEditBarDeleteButton(el: br.Element, uid: string) {
-  return getEditBarEl(el, uid).$linkButton(deleteText);
+export function getDeleteButton(el: br.Element, uid: string) {
+  return getEl(el, uid).$linkButton(deleteText);
 }
 
-export async function editBarShouldAppear(el: br.Element, uid: string) {
-  const edit = getEditBarEditButton(el, uid);
-  const del = getEditBarDeleteButton(el, uid);
+export async function shouldAppear(el: br.Element, uid: string) {
+  const edit = getEditButton(el, uid);
+  const del = getDeleteButton(el, uid);
   await edit.e.toBeVisible();
   await del.e.toBeVisible();
 }

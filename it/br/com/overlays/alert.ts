@@ -59,7 +59,7 @@ function getDialogEl(page: br.Page) {
   return page.$('#__global_dialog_container dialog-view');
 }
 
-export function waitForDetachedAlert(page: br.Page, action: () => Promise<unknown>) {
+export function waitForDetached(page: br.Page, action: () => Promise<unknown>) {
   return Promise.all([getDialogEl(page).waitForDetached(), action()]);
 }
 
@@ -71,7 +71,7 @@ export interface AlertShouldAppearArgs {
   focusedBtn?: number;
 }
 
-export async function waitForAlert(
+export async function waitFor(
   page: br.Page,
   arg: AlertShouldAppearArgs,
 ): Promise<br.ElementCollection> {

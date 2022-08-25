@@ -7,17 +7,19 @@
 
 import * as br from 'br';
 import * as alt from '../overlays/alert';
-import { buttonShouldAppear, ButtonTraits } from '../buttons/button';
+import * as btn from '../buttons/button';
 import * as cm from './common';
 import * as ov from '../overlays/overlay';
 import * as ed from './editor';
+import { waitForDBTimeChange } from 'base/delay';
+import * as spn from '../spinners/spinner';
 
-export interface UpdateComposerParams {
+export interface UpdateParams {
   title?: string;
   content?: string;
 }
 
-export async function updateComposerContent(el: br.Element, e: UpdateComposerParams) {
+export async function updateContent(el: br.Element, e: UpdateParams) {
   if (e.title) {
     const inputEl = el.$(cm.composerTitleSel);
     await inputEl.c.fill(e.title);
@@ -37,15 +39,21 @@ async function clickBtn(composerEl: br.Element, btnText: string) {
 }
 
 export async function waitForVisibleComposer(page: br.Page) {
-  const overlayEl = page.$(ov.openImmersiveOverlaySel);
+  const overlayEl = page.$(ov.openImmersiveSel);
   await overlayEl.waitForAttached();
   const composerEl = getComposerEl(overlayEl);
   await composerEl.e.toBeVisible();
   return { overlayEl, composerEl };
 }
 
-export async function waitForClosedComposer(page: br.Page) {
-  await page.$(ov.openImmersiveOverlaySel).waitForDetached();
+export async function waitForClosedComposer(
+  page: br.Page,
+  action: (() => Promise<unknown>) | null,
+) {
+  await Promise.all([
+    page.$(ov.openImmersiveSel).waitForDetached(),
+    action ? action() : Promise.resolve(),
+  ]);
 }
 
 export interface ComposerShouldAppearArgs {
@@ -53,10 +61,10 @@ export interface ComposerShouldAppearArgs {
   // `null` indicates the title bar is not visible.
   title: string | null;
   contentHTML: string;
-  buttons: ButtonTraits[];
+  buttons: btn.ButtonTraits[];
 }
 
-export async function composerShouldAppear(page: br.Page, args: ComposerShouldAppearArgs) {
+export async function shouldAppear(page: br.Page, args: ComposerShouldAppearArgs) {
   const { composerEl, overlayEl } = await waitForVisibleComposer(page);
 
   // Dialog name.
@@ -82,27 +90,24 @@ export async function composerShouldAppear(page: br.Page, args: ComposerShouldAp
   await btnGroupEl.e.toBeVisible();
   const btnsEl = await btnGroupEl.$$('qing-button').shouldHaveCount(args.buttons.length);
 
-  await Promise.all(args.buttons.map((tr, i) => buttonShouldAppear(btnsEl.item(i), tr)));
+  await Promise.all(args.buttons.map((tr, i) => btn.shouldAppear(btnsEl.item(i), tr)));
 }
 
-export async function composerShouldBeDismissed(page: br.Page, cancelBtn: string) {
+export async function shouldBeDismissed(page: br.Page, cancelBtn: string) {
   const { composerEl } = await waitForVisibleComposer(page);
-  await clickBtn(composerEl, cancelBtn);
-  await waitForClosedComposer(page);
+  await waitForClosedComposer(page, () => clickBtn(composerEl, cancelBtn));
 }
 
 export interface DiscardChangesParams {
+  p: br.Page;
   cancelBtn: string;
   title?: string;
   content?: string;
 }
 
-export async function composerShouldDiscardChanges(page: br.Page, e: DiscardChangesParams) {
-  const { composerEl } = await waitForVisibleComposer(page);
-  await updateComposerContent(composerEl, { title: e.title, content: e.content });
-
-  await clickBtn(composerEl, e.cancelBtn);
-  const alertBtns = await alt.waitForAlert(page, {
+export async function shouldDiscardChanges(el: br.Element, e: DiscardChangesParams) {
+  await clickBtn(el, e.cancelBtn);
+  const alertBtns = await alt.waitFor(e.p, {
     title: 'Do you want to discard your changes?',
     content: "You haven't saved your changes.",
     type: alt.AlertType.warning,
@@ -111,7 +116,33 @@ export async function composerShouldDiscardChanges(page: br.Page, e: DiscardChan
   });
 
   // Click the No button.
-  await alertBtns.item(1).click();
+  await waitForClosedComposer(e.p, () => alertBtns.item(1).click());
+}
 
-  await waitForClosedComposer(page);
+export interface UpdateAndSaveParams {
+  spinnerText: string;
+  saveBtnText: string;
+  dbTimeChange?: boolean;
+  title?: string;
+  content?: string;
+}
+
+export async function updateAndSave(p: br.Page, e: UpdateAndSaveParams) {
+  const overlayEl = p.$(ov.openImmersiveSel);
+  await overlayEl.waitForAttached();
+  const composerEl = getComposerEl(overlayEl);
+
+  if (e.dbTimeChange) {
+    await waitForDBTimeChange();
+  }
+
+  // Update editor content.
+  await updateContent(composerEl, { title: e.title, content: e.content });
+
+  // Update button is always the first button.
+  const btnEl = composerEl.$qingButton(e.saveBtnText);
+  await Promise.all([
+    spn.waitForGlobal(p, e.spinnerText, () => btnEl.click()),
+    waitForClosedComposer(p, null),
+  ]);
 }

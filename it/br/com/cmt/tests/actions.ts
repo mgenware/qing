@@ -8,9 +8,9 @@
 import * as br from 'br';
 import { User } from 'br';
 import { waitForVisibleComposer } from 'br/com/editing/composer';
-import { updateEditor } from 'br/com/editing/actions';
-import { getEditBarEditButton } from 'br/com/editing/editBar';
-import { buttonShouldAppear } from 'br/com/buttons/button';
+import * as cps from 'br/com/editing/composer';
+import * as eb from 'br/com/editing/editBar';
+import * as btn from 'br/com/buttons/button';
 
 const loadMoreCmtsText = 'More comments';
 const loadMoreRepliesText = 'More replies';
@@ -23,7 +23,7 @@ export interface WriteCmtArgs {
 }
 
 export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
-  const writeCmtBtn = await buttonShouldAppear(a.cmtApp.$('qing-button'), {
+  const writeCmtBtn = await btn.shouldAppear(a.cmtApp.$('qing-button'), {
     text: 'Write a comment',
     style: 'success',
   });
@@ -32,8 +32,9 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
   if (a.shownCb) {
     await a.shownCb();
   }
-  await updateEditor(p, {
+  await cps.updateAndSave(p, {
     spinnerText: 'Publishing...',
+    saveBtnText: 'Publish',
     content: a.content,
     dbTimeChange: a.dbTimeChange,
   });
@@ -52,8 +53,9 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
   if (a.shownCb) {
     await a.shownCb();
   }
-  await updateEditor(p, {
+  await cps.updateAndSave(p, {
     content: a.content,
+    saveBtnText: 'Publish',
     spinnerText: 'Publishing...',
     dbTimeChange: a.dbTimeChange,
   });
@@ -67,14 +69,15 @@ export interface EditCmtArgs {
 }
 
 export async function editCmt(p: br.Page, a: EditCmtArgs) {
-  await getEditBarEditButton(a.cmtApp, a.author.id).click();
+  await eb.getEditButton(a.cmtApp, a.author.id).click();
   await waitForVisibleComposer(p);
   if (a.shownCb) {
     await a.shownCb();
   }
 
-  await updateEditor(p, {
+  await cps.updateAndSave(p, {
     content: a.content,
+    saveBtnText: 'Save',
     dbTimeChange: true,
     spinnerText: 'Saving...',
   });

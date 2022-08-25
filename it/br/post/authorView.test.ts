@@ -7,11 +7,11 @@
 
 import { scPost } from 'helper/post';
 import { test, usr, $ } from 'br';
-import { postCoreTraitsShouldAppear } from './common';
+import * as cm from './common';
 
 test('Post page in author view', async ({ page }) => {
   const p = $(page);
   await scPost(usr.user, async ({ link }) => {
-    await postCoreTraitsShouldAppear(p, link, usr.user, usr.user);
+    await cm.shouldAppear(p, link, usr.user, usr.user);
   });
 });

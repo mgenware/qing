@@ -10,9 +10,9 @@ import { usr } from 'br';
 import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt, editCmt } from './actions';
-import { composerShouldAppear } from 'br/com/editing/composer';
+import * as cps from 'br/com/editing/composer';
 
-function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
+function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ page }) => {
     {
       {
@@ -30,7 +30,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
           content: def.sd.updated,
           author: usr.user,
           shownCb: async () => {
-            await composerShouldAppear(page, {
+            await cps.shouldAppear(page, {
               name: 'Edit comment',
               title: null,
               contentHTML: def.sd.contentViewHTML,
@@ -38,7 +38,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
             });
           },
         });
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: def.sd.updated,
@@ -53,7 +53,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
         await page.reload(null);
         const cmtApp = await w.getCmtApp(page);
 
-        await cm.cmtShouldAppear({
+        await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
           content: def.sd.updated,
@@ -65,7 +65,7 @@ function testEditCmtCore(w: CmtFixtureWrapper, fresh: boolean) {
   });
 }
 
-export default function testEditCmt(w: CmtFixtureWrapper) {
-  testEditCmtCore(w, true);
-  testEditCmtCore(w, false);
+export default function testEdit(w: CmtFixtureWrapper) {
+  testEditCore(w, true);
+  testEditCore(w, false);
 }

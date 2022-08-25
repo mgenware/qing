@@ -6,9 +6,9 @@
  */
 
 import * as br from 'br';
-import { timeFieldShouldAppear } from './timeField';
+import * as tf from './timeField';
 
-export interface UserViewShouldAppearArg {
+export interface ShouldAppearArgs {
   user: br.User;
   hasEdited?: boolean;
 }
@@ -19,11 +19,11 @@ async function userIconShouldAppear(el: br.Element, u: br.User) {
   await img.e.toHaveAttribute('alt', u.name);
 }
 
-export async function userViewShouldAppear(el: br.Element, arg: UserViewShouldAppearArg) {
+export async function shouldAppear(el: br.Element, arg: ShouldAppearArgs) {
   const u = arg.user;
   await userIconShouldAppear(el, u);
   // Name link.
   await el.$hasText(`a[href="/u/${u.id}"]`, u.name).e.toBeVisible();
   // Time field.
-  await timeFieldShouldAppear(el.$('time-field'), !!arg.hasEdited);
+  await tf.shouldAppear(el.$('time-field'), !!arg.hasEdited);
 }
