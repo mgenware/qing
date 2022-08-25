@@ -72,7 +72,7 @@ export class ComposerView extends BaseElement {
   }
 
   @property({ type: Number }) entityType = 0;
-  @property({ type: Boolean }) showTitleInput = false;
+  @property({ type: Boolean }) hasTitle = false;
 
   @property() entityID = '';
   @property() submitButtonText = '';
@@ -91,13 +91,13 @@ export class ComposerView extends BaseElement {
   hasContentChanged(): boolean {
     return (
       this.lastSavedContent !== this.contentHTML ||
-      (this.showTitleInput && this.lastSavedTitle !== this.titleText)
+      (this.hasTitle && this.lastSavedTitle !== this.titleText)
     );
   }
 
   markAsSaved() {
     this.lastSavedContent = this.contentHTML;
-    if (this.showTitleInput) {
+    if (this.hasTitle) {
       this.lastSavedTitle = this.titleText;
     }
   }
@@ -157,7 +157,7 @@ export class ComposerView extends BaseElement {
     let editorContent: TemplateResult;
     if (loadingStatus.isSuccess) {
       editorContent = html`${when(
-          this.showTitleInput,
+          this.hasTitle,
           () => html`
             <div class="p-b-sm flex-auto">
               <input-view ${ref(this.titleInputEl)} required placeholder=${ls.title}></input-view>
@@ -204,7 +204,7 @@ export class ComposerView extends BaseElement {
   }
 
   private getPayload(): ComposerContent {
-    if (this.showTitleInput && !this.titleText) {
+    if (this.hasTitle && !this.titleText) {
       throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () =>
         this.titleInputEl.value?.focus(),
       );
@@ -217,7 +217,7 @@ export class ComposerView extends BaseElement {
     const payload: ComposerContent = {
       contentHTML: this.contentHTML,
     };
-    if (this.showTitleInput) {
+    if (this.hasTitle) {
       payload.title = this.titleText;
     }
     return payload;

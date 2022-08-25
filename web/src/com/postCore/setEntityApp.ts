@@ -35,7 +35,7 @@ export default class SetEntityApp extends BaseElement {
   @property() postTitle = '';
   @property({ type: Number }) entityType = 0;
   @property() headerText = '';
-  @property({ type: Boolean }) showTitleInput = true;
+  @property({ type: Boolean }) hasTitle = true;
   @property() submitButtonText = '';
   @property() forumID = '';
 
@@ -71,7 +71,7 @@ export default class SetEntityApp extends BaseElement {
         <h2>${this.headerText}</h2>
         <composer-view
           .id=${composerID}
-          .showTitleInput=${this.showTitleInput}
+          .hasTitle=${this.hasTitle}
           .inputTitle=${this.postTitle}
           .entityID=${this.postID}
           .entityType=${this.entityType}
