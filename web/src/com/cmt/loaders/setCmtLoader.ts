@@ -17,7 +17,6 @@ export interface SetCmtData {
   contentData: ComposerContent;
   // Only used when editing a cmt or reply.
   id?: string;
-  isReply?: number;
   // Only used when creating a reply.
   parentID?: string;
 }
@@ -34,17 +33,11 @@ export class SetCmtLoader extends Loader<SetCmtResponse> {
     });
   }
 
-  static editCmt(
-    host: Entity,
-    id: string,
-    isReply: boolean,
-    contentData: ComposerContent,
-  ): SetCmtLoader {
+  static editCmt(host: Entity, id: string, contentData: ComposerContent): SetCmtLoader {
     return new SetCmtLoader({
       host,
       contentData,
       id,
-      isReply: +isReply,
     });
   }
 
