@@ -14,7 +14,6 @@ import './cmtView';
 import './cmtLoadMoreView';
 import 'ui/buttons/linkButton';
 import { Cmt } from '../data/cmt';
-import * as ev from '../data/events';
 import { CHECK } from 'checks';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
@@ -22,7 +21,12 @@ import CmtCollector from '../data/cmtCollector';
 import { listenForVisibilityChange } from 'lib/htmlLib';
 import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
-import appEventEmitter from 'app/appEventEmitter';
+import { appdef } from '@qing/def';
+import { ComposerView } from 'ui/editing/composerView';
+import { SetCmtLoader } from '../loaders/setCmtLoader';
+
+const editEditorID = 'edit-editor';
+const replyEditorID = 'reply-editor';
 
 @customElement('cmt-block')
 // If `cmt` is present, it displays the cmt and its replies.
@@ -72,9 +76,20 @@ export class CmtBlock extends BaseElement {
 
   @state() _replyViewVisible = false;
 
+  @state() private _replyEditorOpen = false;
+  @state() private _editEditorOpen = false;
+
   private _collector!: CmtCollector;
   // Tracks if `loadMore` has been called once. Used in reply view click handler.
   private _loadMoreCalled = false;
+
+  private get editEditorEl() {
+    return this.getShadowElement<ComposerView>(editEditorID);
+  }
+
+  private get replyEditorEl() {
+    return this.getShadowElement<ComposerView>(replyEditorID);
+  }
 
   override firstUpdated() {
     CHECK(this.host);
@@ -146,49 +161,104 @@ export class CmtBlock extends BaseElement {
         ${when(
           cmt,
           () => html`<cmt-view
-            .cmt=${cmt}
-            @cmt-view-reply-click=${this.handleReplyClick}
-            @cmt-view-edit-click=${this.handleEditClick}
-            @cmt-view-delete-click=${this.handleDeleteClick}></cmt-view>`,
+              .cmt=${cmt}
+              @cmt-view-reply-click=${this.handleReplyClick}
+              @cmt-view-edit-click=${this.handleEditClick}
+              @cmt-view-delete-click=${this.handleDeleteClick}></cmt-view>
+            ${when(
+              this._editEditorOpen,
+              () => html` <h3>${ls.editComment}</h3>
+                <composer-view
+                  id=${editEditorID}
+                  .entityType=${appdef.contentBaseTypeCmt}
+                  .submitButtonText=${ls.save}
+                  @composer-submit=${this.handleEditEditorSubmit}
+                  @composer-discard=${this.handleEditEditorDiscard}></composer-view>`,
+            )}
+            ${when(
+              this._replyEditorOpen,
+              () => html` <h3>${formatLS(ls.pReplyTo, this.cmt?.userName)}</h3>
+                <composer-view
+                  id=${replyEditorID}
+                  .entityType=${appdef.contentBaseTypeCmt}
+                  .submitButtonText=${ls.send}
+                  @composer-submit=${this.handleReplyEditorSubmit}
+                  @composer-discard=${this.handleReplyEditorDiscard}></composer-view>`,
+            )} `,
         )}
         ${itemsContainer}
       </div>
     `;
   }
 
-  // When adding a cmt to root-cmt-list, it's called by <root-cmt-list>.
-  // When adding a reply, it's called by `handleReplyClick`.
-  openCmtEditor(props: Omit<ev.CmtEditorProps, 'session'>) {
-    const session = ev.newSessionID();
-    appEventEmitter.once(ev.openEditorResultEvent(session), (rawRes) => {
-      const res = rawRes as ev.CmtEditorResult;
-      const { cmt } = res;
-      if (cmt) {
-        if (props.editing) {
-          // Call for parent to update this child.
-          this.dispatchEvent(
-            new CustomEvent<Cmt>('cmt-block-request-update-child', { detail: cmt }),
-          );
-        } else {
-          CHECK(this._collector.observableItems.insert(0, cmt));
-        }
-      }
-    });
-    const detail: ev.CmtEditorProps = {
-      ...props,
-      session,
-    };
-    this.dispatchEvent(
-      new CustomEvent<ev.CmtEditorProps>('cmt-block-request-editor-open', {
-        detail,
-        composed: true,
-      }),
-    );
-  }
-
   // Called in outer `root-cmt-list` to prepend a new cmt.
   addRootCmt(cmt: Cmt) {
     CHECK(this._collector.observableItems.insert(0, cmt));
+  }
+
+  private async handleEditEditorSubmit() {
+    if (!this.editEditorEl || !this.cmt) {
+      return;
+    }
+    const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, {
+      contentHTML: this.editEditorEl.contentHTML ?? '',
+    });
+    const apiRes = await appTask.critical(loader, ls.publishing);
+    if (apiRes.data) {
+      this.destroyEditEditor();
+      const newCmt = apiRes.data.cmt;
+      const mergedCmt: Cmt = {
+        ...this.cmt,
+      };
+
+      // We have to iterate through response cmt properties and only update non-empty
+      // properties.
+      for (const [k, v] of Object.entries(newCmt)) {
+        if (v) {
+          // eslint-disable-next-line max-len
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-explicit-any
+          (mergedCmt as any)[k] = v;
+        }
+      }
+
+      this.cmt = mergedCmt;
+      this.dispatchEvent(
+        new CustomEvent<Cmt>('cmt-block-request-update-child', { detail: this.cmt }),
+      );
+    }
+  }
+
+  private async handleReplyEditorSubmit() {
+    if (!this.replyEditorEl || !this.cmt) {
+      return;
+    }
+    const loader = SetCmtLoader.newReply(this.host, this.cmt.id, {
+      contentHTML: this.replyEditorEl.contentHTML ?? '',
+    });
+    const apiRes = await appTask.critical(loader, ls.publishing);
+    if (apiRes.data) {
+      this.destroyReplyEditor();
+      const newCmt = apiRes.data.cmt;
+      CHECK(this._collector.observableItems.insert(0, newCmt));
+    }
+  }
+
+  private handleEditEditorDiscard() {
+    this.destroyEditEditor();
+  }
+
+  private handleReplyEditorDiscard() {
+    this.destroyReplyEditor();
+  }
+
+  private destroyEditEditor() {
+    this.editEditorEl?.markAsSaved();
+    this._editEditorOpen = false;
+  }
+
+  private destroyReplyEditor() {
+    this.replyEditorEl?.markAsSaved();
+    this._replyEditorOpen = false;
   }
 
   private async loadMore() {
@@ -205,10 +275,7 @@ export class CmtBlock extends BaseElement {
   }
 
   private handleReplyClick() {
-    this.openCmtEditor({
-      editing: null,
-      to: this.cmt,
-    });
+    this._replyEditorOpen = true;
   }
 
   private async handleRepliesLabelClick() {
@@ -245,7 +312,7 @@ export class CmtBlock extends BaseElement {
   }
 
   private handleEditClick() {
-    this.openCmtEditor({ editing: this.cmt, to: null });
+    this._editEditorOpen = true;
   }
 
   private handleCollectorItemsChanged(e: ItemsChangedEvent<Cmt>) {

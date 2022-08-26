@@ -58,6 +58,7 @@ export class ComposerView extends BaseElement {
           flex-direction: column;
           /** Make sure it stretches to parent height */
           flex: 1 1 auto;
+          min-height: 300px;
         }
 
         .editor-buttons qing-button {
@@ -111,7 +112,7 @@ export class ComposerView extends BaseElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+    window.addEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   override disconnectedCallback() {
@@ -257,14 +258,15 @@ export class ComposerView extends BaseElement {
     }
   }
 
-  private handleBeforeUnload(e: BeforeUnloadEvent) {
+  // Use arrow func for no `bind` calls.
+  private handleBeforeUnload = (e: BeforeUnloadEvent) => {
     if (this.hasContentChanged()) {
       // Cancel the event as stated by the standard.
       e.preventDefault();
       // Chrome requires returnValue to be set.
       e.returnValue = '';
     }
-  }
+  };
 
   private async loadEntitySource() {
     const { entityID, entityType } = this;

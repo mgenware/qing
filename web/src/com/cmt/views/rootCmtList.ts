@@ -33,10 +33,6 @@ export class RootCmtList extends BaseElement {
         :host {
           display: block;
         }
-
-        composer-view {
-          min-height: 300px;
-        }
       `,
     ];
   }
@@ -101,6 +97,7 @@ export class RootCmtList extends BaseElement {
     });
     const apiRes = await appTask.critical(loader, ls.publishing);
     if (apiRes.data) {
+      this.destroyEditor();
       const newCmt = apiRes.data.cmt;
       this.cmtBlockEl.addRootCmt(newCmt);
     }
