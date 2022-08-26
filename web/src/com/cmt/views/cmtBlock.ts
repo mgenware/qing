@@ -186,6 +186,11 @@ export class CmtBlock extends BaseElement {
     );
   }
 
+  // Called in outer `root-cmt-list` to prepend a new cmt.
+  addRootCmt(cmt: Cmt) {
+    CHECK(this._collector.observableItems.insert(0, cmt));
+  }
+
   private async loadMore() {
     await this._collector.loadMoreAsync(this.freshChildren());
   }

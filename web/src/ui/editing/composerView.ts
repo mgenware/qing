@@ -172,7 +172,7 @@ export class ComposerView extends BaseElement {
     }
 
     const bottomContent = html`
-      <div class="m-t-md flex-auto text-center editor-buttons">
+      <div class="m-t-md flex-auto editor-buttons" style="align-self: flex-end;">
         ${when(
           loadingStatus.isSuccess,
           () => html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
