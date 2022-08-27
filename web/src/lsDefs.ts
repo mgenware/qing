@@ -84,7 +84,6 @@ export default interface LSDefs {
   editComment: string;
   nextPage: string;
   previousPage: string;
-  copyright: string;
   reply: string;
   pReplyTo: string;
   pNumOfComments: string;
@@ -168,4 +167,5 @@ export default interface LSDefs {
   pFieldMinLenError: string;
   pFieldMaxLenError: string;
   languages: string;
+  displayLang: string;
 }

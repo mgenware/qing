@@ -75,7 +75,6 @@
   "editComment": "Edit comment",
   "nextPage": "Next",
   "previousPage": "Previous",
-  "copyright": "Copyright",
   "reply": "Reply",
   "pReplyTo": "Reply to {0}",
   "pNumOfComments": "{0} {0|countable|comment|comments}",
@@ -158,5 +157,6 @@
   "invalidDate": "Invalid date",
   "pFieldMinLenError": "{0} should be at least {1} characters.",
   "pFieldMaxLenError": "{0} should be at most {1} characters.",
-  "languages": "Languages"
+  "languages": "Languages",
+  "displayLang": "Display language"
 }

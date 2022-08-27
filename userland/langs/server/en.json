@@ -14,5 +14,6 @@
   "cannotRemoveSelfAdmin": "You cannot remove yourself as an admin",
   "youAreAlreadyAdmin": "You are already an admin",
   "pFileSizeExceedsMaxSize": "The file size exceeds the maximum allowed size {0}",
-  "unsupportedExtension": "Unsupported file extension"
+  "unsupportedExtension": "Unsupported file extension",
+  "copyright": "Copyright"
 }

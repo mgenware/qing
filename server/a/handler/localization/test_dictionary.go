@@ -16,6 +16,7 @@ func init() {
 	TestDict = &Dictionary{}
 	TestDict.CannotRemoveSelfAdmin = "ls.cannotRemoveSelfAdmin"
 	TestDict.ClickBelowToCompleteReg = "ls.clickBelowToCompleteReg"
+	TestDict.Copyright = "ls.copyright"
 	TestDict.EmailVerified = "ls.emailVerified"
 	TestDict.ErrOccurred = "ls.errOccurred"
 	TestDict.InvalidNameOrPwd = "ls.invalidNameOrPwd"

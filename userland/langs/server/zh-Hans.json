@@ -14,5 +14,6 @@
   "cannotRemoveSelfAdmin": "管理员无法将自己设置为非管理员",
   "youAreAlreadyAdmin": "您已经是管理员",
   "pFileSizeExceedsMaxSize": "文件超过最大允许的大小 {0}",
-  "unsupportedExtension": "不支持的文件扩展名"
+  "unsupportedExtension": "不支持的文件扩展名",
+  "copyright": "版权"
 }

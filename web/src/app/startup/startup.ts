@@ -62,6 +62,11 @@ ready(() => {
   // Handle localization slots left by server templates.
   handleLocalizedStringSlots();
 
+  const cpYearEl = document.getElementById('main-cp-year');
+  if (cpYearEl) {
+    cpYearEl.textContent = new Date().getFullYear().toString();
+  }
+
   // App commands.
   cmd.setCommand(cmd.AppCommands.newEntity, (arg) => {
     const [entityType, forumID] = arg as [number, string];

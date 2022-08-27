@@ -75,7 +75,6 @@
   "editComment": "编辑评论",
   "nextPage": "下一页",
   "previousPage": "上一页",
-  "copyright": "版权",
   "reply": "回复",
   "pReplyTo": "回复 {0}",
   "pNumOfComments": "{0} 条评论",
@@ -158,5 +157,6 @@
   "invalidDate": "错误的日期",
   "pFieldMinLenError": "{0}至少要有{1}个字符。",
   "pFieldMaxLenError": "{0}不能超过{1}个字符。",
-  "languages": "语言"
+  "languages": "语言",
+  "displayLang": "显示语言"
 }

@@ -21,6 +21,7 @@ import (
 type Dictionary struct {
 	CannotRemoveSelfAdmin   string `json:"cannotRemoveSelfAdmin"`
 	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
+	Copyright               string `json:"copyright"`
 	EmailVerified           string `json:"emailVerified"`
 	ErrOccurred             string `json:"errOccurred"`
 	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`

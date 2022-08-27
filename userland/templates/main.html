@@ -22,10 +22,8 @@
         <p><a href="/">{{html .LS.QingSiteName}}</a></p>
         <p class="p-b-md">
           <span id="br-copyright">
-            <span class="__qing_ls__">copyright</span> ©
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
+            {{html .LS.Copyright}} ©
+            <span id="main-cp-year"></span>
           </span>
           &nbsp;<span><a href="{{html .LS.QingSiteUrl}}">{{html .LS.QingSiteUrl}}</a></span>
         </p>
