@@ -13,7 +13,6 @@ import * as cmd from '../appCommands';
 import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
 import SetEntityApp from 'com/postCore/setEntityApp';
-import { CHECK } from 'checks';
 
 const localizedStringSlotClass = '__qing_ls__';
 
@@ -81,7 +80,7 @@ ready(() => {
       }
     }
 
-    const app = renderTemplateResult<SetEntityApp>(
+    renderTemplateResult<SetEntityApp>(
       '',
       html`<set-entity-app
         autoClose
@@ -89,7 +88,5 @@ ready(() => {
         .headerText=${title}
         .forumID=${forumID}></set-entity-app>`,
     );
-    CHECK(app);
-    app.open = true;
   });
 });

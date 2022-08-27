@@ -47,7 +47,7 @@ export function setupHandlers(
   });
 
   editBarElement.addEventListener('edit-bar-edit-click', () => {
-    const editPostApp = renderTemplateResult<SetEntityApp>(
+    renderTemplateResult<SetEntityApp>(
       '',
       html`<set-entity-app
         autoClose
@@ -56,8 +56,5 @@ export function setupHandlers(
         entityType=${entity.type}
         headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entity.type))}></set-entity-app>`,
     );
-    if (editPostApp) {
-      editPostApp.open = true;
-    }
   });
 }

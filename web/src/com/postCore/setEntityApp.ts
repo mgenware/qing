@@ -39,9 +39,6 @@ export default class SetEntityApp extends BaseElement {
   @property() submitButtonText = '';
   @property() forumID = '';
 
-  @property({ type: Boolean }) open = false;
-  @property({ type: Boolean }) autoClose = false;
-
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
   }
@@ -62,19 +59,13 @@ export default class SetEntityApp extends BaseElement {
 
   override render() {
     return html`
-      <qing-overlay
-        class="immersive"
-        ?open=${this.open}
-        @overlay-open=${() => (this.open = true)}
-        @overlay-close=${() => (this.open = false)}
-        @escKeyDown=${this.handleEscDown}>
+      <qing-overlay class="immersive" open @escKeyDown=${this.handleEscDown}>
         <h2>${this.headerText}</h2>
         <composer-view
           .id=${composerID}
           .hasTitle=${this.hasTitle}
           .inputTitle=${this.postTitle}
-          .entityID=${this.postID}
-          .entityType=${this.entityType}
+          .entity=${{ id: this.postID, type: this.entityType }}
           .submitButtonText=${this.submitButtonText}
           @composer-submit=${this.handleSubmit}
           @composer-discard=${this.handleDiscard}></composer-view>
@@ -105,9 +96,7 @@ export default class SetEntityApp extends BaseElement {
   }
 
   private handleDiscard() {
-    if (this.autoClose) {
-      this.open = false;
-    }
+    this.remove();
   }
 
   private handleEscDown() {

@@ -167,23 +167,31 @@ export class CmtBlock extends BaseElement {
               @cmt-view-delete-click=${this.handleDeleteClick}></cmt-view>
             ${when(
               this._editEditorOpen,
-              () => html` <h3>${ls.editComment}</h3>
-                <composer-view
-                  id=${editEditorID}
-                  .entityType=${appdef.contentBaseTypeCmt}
-                  .submitButtonText=${ls.save}
-                  @composer-submit=${this.handleEditEditorSubmit}
-                  @composer-discard=${this.handleEditEditorDiscard}></composer-view>`,
+              () => html`
+                <qing-overlay class="immersive" open>
+                  <h3>${ls.editComment}</h3>
+                  <composer-view
+                    id=${editEditorID}
+                    .entityType=${appdef.contentBaseTypeCmt}
+                    .submitButtonText=${ls.save}
+                    @composer-submit=${this.handleEditEditorSubmit}
+                    @composer-discard=${this.handleEditEditorDiscard}></composer-view>
+                </qing-overlay>
+              `,
             )}
             ${when(
               this._replyEditorOpen,
-              () => html` <h3>${formatLS(ls.pReplyTo, this.cmt?.userName)}</h3>
-                <composer-view
-                  id=${replyEditorID}
-                  .entityType=${appdef.contentBaseTypeCmt}
-                  .submitButtonText=${ls.send}
-                  @composer-submit=${this.handleReplyEditorSubmit}
-                  @composer-discard=${this.handleReplyEditorDiscard}></composer-view>`,
+              () => html`
+                <div id="reply-editor-container">
+                  <h3>${formatLS(ls.pReplyTo, this.cmt?.userName)}</h3>
+                  <composer-view
+                    id=${replyEditorID}
+                    .entityType=${appdef.contentBaseTypeCmt}
+                    .submitButtonText=${ls.send}
+                    @composer-submit=${this.handleReplyEditorSubmit}
+                    @composer-discard=${this.handleReplyEditorDiscard}></composer-view>
+                </div>
+              `,
             )} `,
         )}
         ${itemsContainer}

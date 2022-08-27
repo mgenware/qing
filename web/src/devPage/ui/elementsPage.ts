@@ -22,7 +22,6 @@ import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
 import LoadingStatus from 'lib/loadingStatus';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
-import SetEntityApp from 'com/postCore/setEntityApp';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { appdef } from '@qing/def';
 import appAlert from 'app/appAlert';
@@ -118,8 +117,6 @@ export class ElementsPage extends BaseElement {
       `,
     ];
   }
-
-  #setEntityApp: SetEntityApp | null = null;
 
   @property({ type: Array }) checklistIndices1: readonly number[] = [];
   @property({ type: Array }) checklistIndices2: readonly number[] = [];
@@ -302,16 +299,6 @@ export class ElementsPage extends BaseElement {
     `;
   }
 
-  override firstUpdated() {
-    this.#setEntityApp = renderTemplateResult(
-      '',
-      html`<set-entity-app
-        autoClose
-        entityType=${appdef.contentBaseTypePost}
-        headerText="Create a new post"></set-entity-app>`,
-    );
-  }
-
   private async startFullscreenSpinner() {
     await appAlert.showLoadingOverlay('Loading...');
     await delay(2000);
@@ -319,9 +306,13 @@ export class ElementsPage extends BaseElement {
   }
 
   private showPostEditor() {
-    if (this.#setEntityApp) {
-      this.#setEntityApp.open = true;
-    }
+    renderTemplateResult(
+      '',
+      html`<set-entity-app
+        autoClose
+        entityType=${appdef.contentBaseTypePost}
+        headerText="Create a new post"></set-entity-app>`,
+    );
   }
 }
 

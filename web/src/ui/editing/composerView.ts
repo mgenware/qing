@@ -13,7 +13,6 @@ import {
   Ref,
   createRef,
   ref,
-  PropertyValues,
   TemplateResult,
   property,
   when,
@@ -24,11 +23,11 @@ import { ERR } from 'checks';
 import 'ui/forms/inputView';
 import 'ui/status/statusView';
 import EditorView from './editorView';
-import { CHECK } from 'checks';
 import appAlert from 'app/appAlert';
 import LoadingStatus from 'lib/loadingStatus';
 import appTask from 'app/appTask';
 import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader';
+import Entity from 'lib/entity';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -72,10 +71,9 @@ export class ComposerView extends BaseElement {
     ];
   }
 
-  @property({ type: Number }) entityType = 0;
   @property({ type: Boolean }) hasTitle = false;
 
-  @property() entityID = '';
+  @property({ type: Object }) entity: Entity | null = null;
   @property() submitButtonText = '';
 
   // Source loading will start when `entityID` changes, it has to default to
@@ -121,8 +119,6 @@ export class ComposerView extends BaseElement {
   }
 
   override firstUpdated() {
-    CHECK(this.entityType);
-
     this.markAsSaved();
   }
 
@@ -173,11 +169,11 @@ export class ComposerView extends BaseElement {
     }
 
     const bottomContent = html`
-      <div class="m-t-md flex-auto editor-buttons" style="align-self: flex-end;">
+      <div class="m-t-md flex-auto editor-buttons text-center">
         ${when(
           loadingStatus.isSuccess,
           () => html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
-            ${this.entityID ? ls.save : this.submitButtonText || ls.publish}
+            ${this.entity ? ls.save : this.submitButtonText || ls.publish}
           </qing-button>`,
         )}
         <qing-button @click=${this.handleCancel}
@@ -196,12 +192,6 @@ export class ComposerView extends BaseElement {
         ${bottomContent}
       </div>
     `;
-  }
-
-  override async updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('entityID') && this.entityID) {
-      await this.loadEntitySource();
-    }
   }
 
   private getPayload(): ComposerContent {
@@ -269,11 +259,11 @@ export class ComposerView extends BaseElement {
   };
 
   private async loadEntitySource() {
-    const { entityID, entityType } = this;
-    if (!entityID) {
+    const { entity } = this;
+    if (!entity) {
       return;
     }
-    const loader = new GetEntitySourceLoader({ type: entityType, id: entityID });
+    const loader = new GetEntitySourceLoader(entity);
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
