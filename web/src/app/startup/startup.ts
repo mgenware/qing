@@ -83,9 +83,8 @@ ready(() => {
     renderTemplateResult<SetEntityApp>(
       '',
       html`<set-entity-app
-        autoClose
         .entityType=${entityType}
-        .headerText=${title}
+        .desc=${title}
         .forumID=${forumID}></set-entity-app>`,
     );
   });

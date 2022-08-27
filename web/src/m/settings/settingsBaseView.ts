@@ -16,7 +16,7 @@ export interface SettingsBaseItem {
 }
 
 export class SettingsBaseView extends BaseElement {
-  @property({ type: Number }) selectedItem = '';
+  @property() selectedItem = '';
   @property() settingsTitle = '';
   @property({ type: Array }) items: readonly SettingsBaseItem[] = [];
 

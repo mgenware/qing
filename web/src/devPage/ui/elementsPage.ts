@@ -309,9 +309,8 @@ export class ElementsPage extends BaseElement {
     renderTemplateResult(
       '',
       html`<set-entity-app
-        autoClose
         entityType=${appdef.contentBaseTypePost}
-        headerText="Create a new post"></set-entity-app>`,
+        desc="Create a new post"></set-entity-app>`,
     );
   }
 }

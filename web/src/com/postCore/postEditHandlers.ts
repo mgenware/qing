@@ -50,11 +50,10 @@ export function setupHandlers(
     renderTemplateResult<SetEntityApp>(
       '',
       html`<set-entity-app
-        autoClose
-        .postID=${entity.id}
-        .forumID=${forumID || ''}
-        entityType=${entity.type}
-        headerText=${formatLS(ls.pEditEntity, entityTypeToLS(entity.type))}></set-entity-app>`,
+        .desc=${formatLS(ls.pEditEntity, entityTypeToLS(entity.type))}
+        .entityID=${entity.id}
+        .entityType=${entity.type}
+        .forumID=${forumID || ''}></set-entity-app>`,
     );
   });
 }

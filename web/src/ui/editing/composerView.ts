@@ -73,21 +73,22 @@ export class ComposerView extends BaseElement {
 
   @property({ type: Boolean }) hasTitle = false;
 
-  @property({ type: Object }) entity: Entity | null = null;
+  @property({ type: Object }) entity?: Entity;
   @property() submitButtonText = '';
+  @property() desc = '';
 
   // Source loading will start when `entityID` changes, it has to default to
   // `true`.
-  @property({ type: Object }) loadingStatus = LoadingStatus.success;
+  @property({ type: Object }) loadingStatus = LoadingStatus.notStarted;
 
   // Used to check if editor content has changed.
-  private lastSavedTitle?: string;
-  private lastSavedContent?: string;
+  private lastSavedTitle = '';
+  private lastSavedContent = '';
 
   private editorEl: Ref<EditorView> = createRef();
   private titleInputEl: Ref<HTMLInputElement> = createRef();
 
-  hasContentChanged(): boolean {
+  hasContentChanged() {
     return (
       this.lastSavedContent !== this.contentHTML ||
       (this.hasTitle && this.lastSavedTitle !== this.titleText)
@@ -95,9 +96,9 @@ export class ComposerView extends BaseElement {
   }
 
   markAsSaved() {
-    this.lastSavedContent = this.contentHTML;
+    this.lastSavedContent = this.contentHTML ?? '';
     if (this.hasTitle) {
-      this.lastSavedTitle = this.titleText;
+      this.lastSavedTitle = this.titleText ?? '';
     }
   }
 
@@ -118,7 +119,13 @@ export class ComposerView extends BaseElement {
     window.removeEventListener('beforeunload', this.handleBeforeUnload);
   }
 
-  override firstUpdated() {
+  override async firstUpdated() {
+    if (this.entity) {
+      await this.loadEntitySource();
+    } else {
+      // We are creating a new post, set the loading status to success.
+      this.loadingStatus = LoadingStatus.success;
+    }
     this.markAsSaved();
   }
 
@@ -153,7 +160,9 @@ export class ComposerView extends BaseElement {
 
     let editorContent: TemplateResult;
     if (loadingStatus.isSuccess) {
-      editorContent = html`${when(
+      editorContent = html`<h2>${this.desc}</h2>
+        <slot name="header"></slot>
+        ${when(
           this.hasTitle,
           () => html`
             <div class="p-b-sm flex-auto">

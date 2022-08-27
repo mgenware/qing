@@ -171,9 +171,9 @@ export class CmtBlock extends BaseElement {
               this._editEditorOpen,
               () => html`
                 <qing-overlay class="immersive" open>
-                  <h3>${ls.editComment}</h3>
                   <composer-view
                     id=${editEditorID}
+                    .desc=${ls.editComment}
                     .entityType=${appdef.contentBaseTypeCmt}
                     .submitButtonText=${ls.save}
                     @composer-submit=${this.handleEditEditorSubmit}
@@ -185,14 +185,17 @@ export class CmtBlock extends BaseElement {
               this._replyEditorOpen,
               () => html`
                 <qing-overlay class="immersive" open>
-                  <h3 style="margin-bottom:0">${formatLS(ls.pReplyTo, this.cmt?.userName)}</h3>
-                  <blockquote>${unsafeHTML(this._replyEditorQuoteHTML)}</blockquote>
                   <composer-view
                     id=${replyEditorID}
+                    .desc=${formatLS(ls.pReplyTo, this.cmt?.userName)}
                     .entityType=${appdef.contentBaseTypeCmt}
                     .submitButtonText=${ls.send}
                     @composer-submit=${this.handleReplyEditorSubmit}
-                    @composer-discard=${this.handleReplyEditorDiscard}></composer-view>
+                    @composer-discard=${this.handleReplyEditorDiscard}>
+                    <blockquote slot="header" style="margin-top:0">
+                      ${unsafeHTML(this._replyEditorQuoteHTML)}
+                    </blockquote>
+                  </composer-view>
                 </qing-overlay>
               `,
             )} `,
