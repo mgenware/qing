@@ -8,7 +8,6 @@
 import * as br from 'br';
 
 export interface ButtonTraits {
-  text: string;
   focused?: boolean;
   style?: string;
 }
@@ -18,12 +17,11 @@ export async function shouldHaveFocus(el: br.Element) {
   return el;
 }
 
-export async function shouldAppear(el: br.Element, traits: ButtonTraits) {
-  await el.e.toHaveText(traits.text);
-  if (traits.focused) {
+export async function shouldAppear(el: br.Element, traits?: ButtonTraits) {
+  if (traits?.focused) {
     await shouldHaveFocus(el);
   }
-  if (traits.style) {
+  if (traits?.style) {
     await el.e.toHaveAttribute('btnStyle', traits.style);
   }
   return el;

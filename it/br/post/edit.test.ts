@@ -13,15 +13,15 @@ import * as eb from 'br/com/editing/editBar';
 import * as def from 'base/def';
 import * as cps from 'br/com/editing/composer';
 
-async function clickEditButton(page: br.Page) {
+async function clickEditButton(p: br.Page) {
   const u = usr.user;
-  const userView = page.$(cm.userViewQuery);
+  const userView = p.$(cm.userViewQuery);
   const editBtn = eb.getEditButton(userView, u.id);
   await editBtn.click();
 }
 
-async function editorShouldAppear(page: br.Page) {
-  await cps.shouldAppear(page, {
+async function editorShouldAppear(p: br.Page) {
+  await cps.shouldAppear(p, {
     name: 'Edit post',
     title: def.sd.title,
     contentHTML: def.sd.contentViewHTML,
