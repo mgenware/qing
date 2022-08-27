@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, property } from 'll';
+import { customElement, html, css, state } from 'll';
 import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
@@ -52,12 +52,12 @@ export class ProfileSettings extends StatefulPage {
     ];
   }
 
-  @property() name = '';
-  @property() url = '';
-  @property() company = '';
-  @property() location = '';
-  @property({ type: Object }) updateInfoStatus = LoadingStatus.success;
-  @property() avatarURL = '';
+  @state() private name = '';
+  @state() private url = '';
+  @state() private company = '';
+  @state() private location = '';
+  @state() private updateInfoStatus = LoadingStatus.success;
+  @state() private avatarURL = '';
 
   private get editorEl(): EditorView | null {
     return this.getShadowElement<EditorView>(editorID);
