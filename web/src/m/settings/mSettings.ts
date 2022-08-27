@@ -12,8 +12,8 @@ import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
 
 const items: SettingsBaseItem[] = [{ name: ls.profile, link: mRoute.settingsProfile }];
 
-@customElement('m-settings-view')
-export class MSettingsView extends SettingsBaseView {
+@customElement('m-settings')
+export class MSettings extends SettingsBaseView {
   static override get styles() {
     return [
       super.styles,
@@ -35,6 +35,6 @@ export class MSettingsView extends SettingsBaseView {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'm-settings-view': MSettingsView;
+    'm-settings': MSettings;
   }
 }

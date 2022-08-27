@@ -26,8 +26,8 @@ import EditorView from 'ui/editing/editorView';
 
 const editorID = 'editor';
 
-@customElement('edit-profile-app')
-export class EditProfileApp extends StatefulPage {
+@customElement('profile-settings')
+export class ProfileSettings extends StatefulPage {
   static override get styles() {
     return [
       super.styles,
@@ -159,6 +159,6 @@ export class EditProfileApp extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'edit-profile-app': EditProfileApp;
+    'profile-settings': ProfileSettings;
   }
 }

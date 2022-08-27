@@ -12,6 +12,8 @@ import ErrorWithCode from './errorWithCode';
 import LoadingStatus from './loadingStatus';
 import delay from './delay';
 
+const devLoaderResName = '__loader_res';
+
 export interface APIResponse {
   c?: number;
   m?: string;
@@ -54,6 +56,9 @@ export default class Loader<T> {
           // eslint-disable-next-line default-case
           switch (mockRes) {
             case MockResponse.error:
+              // One-off error.
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (window as any)[devLoaderResName] = undefined;
               throw new Error('Mock error');
 
             case MockResponse.hang:
@@ -121,6 +126,6 @@ export default class Loader<T> {
 
   private mockResponse() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (window as any).__loader_res as MockResponse | undefined;
+    return (window as any)[devLoaderResName] as MockResponse | undefined;
   }
 }

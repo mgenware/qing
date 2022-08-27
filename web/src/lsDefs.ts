@@ -167,4 +167,5 @@ export default interface LSDefs {
   invalidDate: string;
   pFieldMinLenError: string;
   pFieldMaxLenError: string;
+  languages: string;
 }

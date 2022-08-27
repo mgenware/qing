@@ -157,5 +157,6 @@
   "cmtDeleted": "Comment deleted",
   "invalidDate": "Invalid date",
   "pFieldMinLenError": "{0} should be at least {1} characters.",
-  "pFieldMaxLenError": "{0} should be at most {1} characters."
+  "pFieldMaxLenError": "{0} should be at most {1} characters.",
+  "languages": "Languages"
 }

@@ -15,7 +15,7 @@ import * as ov from '../com/overlays/overlay';
 import * as spn from '../com/spinners/spinner';
 import { expect } from 'expect';
 
-const settingsViewSel = 'm-settings-view';
+const settingsViewSel = 'm-settings';
 const bioEditorSel = '.bio-editor';
 
 async function clickProfileSettings(p: Page) {
