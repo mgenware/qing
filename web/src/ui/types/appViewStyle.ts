@@ -5,5 +5,5 @@
  * be found in the LICENSE file.
  */
 
-export type AppViewStyle = 'info' | 'warning' | 'danger' | 'primary';
+export type AppViewStyle = 'success' | 'warning' | 'danger' | 'primary';
 export type AppViewStyleNullable = AppViewStyle | '';
