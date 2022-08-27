@@ -6,6 +6,7 @@
  */
 
 import { BaseElement, customElement, html, css, when, repeat, property, state } from 'll';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { cache } from 'lit/directives/cache.js';
 import Entity from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
@@ -77,6 +78,7 @@ export class CmtBlock extends BaseElement {
   @state() _replyViewVisible = false;
 
   @state() private _replyEditorOpen = false;
+  @state() private _replyEditorQuoteHTML = '';
   @state() private _editEditorOpen = false;
 
   private _collector!: CmtCollector;
@@ -162,7 +164,7 @@ export class CmtBlock extends BaseElement {
           cmt,
           () => html`<cmt-view
               .cmt=${cmt}
-              @cmt-view-reply-click=${this.handleReplyClick}
+              @cmt-view-reply-click=${() => this.handleReplyClick(cmt)}
               @cmt-view-edit-click=${this.handleEditClick}
               @cmt-view-delete-click=${this.handleDeleteClick}></cmt-view>
             ${when(
@@ -182,15 +184,16 @@ export class CmtBlock extends BaseElement {
             ${when(
               this._replyEditorOpen,
               () => html`
-                <div id="reply-editor-container">
-                  <h3>${formatLS(ls.pReplyTo, this.cmt?.userName)}</h3>
+                <qing-overlay class="immersive" open>
+                  <h3 style="margin-bottom:0">${formatLS(ls.pReplyTo, this.cmt?.userName)}</h3>
+                  <blockquote>${unsafeHTML(this._replyEditorQuoteHTML)}</blockquote>
                   <composer-view
                     id=${replyEditorID}
                     .entityType=${appdef.contentBaseTypeCmt}
                     .submitButtonText=${ls.send}
                     @composer-submit=${this.handleReplyEditorSubmit}
                     @composer-discard=${this.handleReplyEditorDiscard}></composer-view>
-                </div>
+                </qing-overlay>
               `,
             )} `,
         )}
@@ -266,6 +269,7 @@ export class CmtBlock extends BaseElement {
 
   private destroyReplyEditor() {
     this.replyEditorEl?.markAsSaved();
+    this._replyEditorQuoteHTML = '';
     this._replyEditorOpen = false;
   }
 
@@ -282,7 +286,8 @@ export class CmtBlock extends BaseElement {
     return excluded;
   }
 
-  private handleReplyClick() {
+  private handleReplyClick(cmt: Cmt | null) {
+    this._replyEditorQuoteHTML = cmt?.contentHTML ?? '';
     this._replyEditorOpen = true;
   }
 
