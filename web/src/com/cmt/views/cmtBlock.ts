@@ -216,7 +216,7 @@ export class CmtBlock extends BaseElement {
     const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, {
       contentHTML: this.editEditorEl.contentHTML ?? '',
     });
-    const apiRes = await appTask.critical(loader, ls.publishing);
+    const apiRes = await appTask.critical(loader, ls.saving);
     if (apiRes.data) {
       this.destroyEditEditor();
       const newCmt = apiRes.data.cmt;

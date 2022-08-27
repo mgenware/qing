@@ -100,7 +100,7 @@ function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) 
       } else {
         await cps.shouldAppear(
           overlayEl,
-          mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updated },
+          mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updatedViewHTML },
         );
       }
     });
