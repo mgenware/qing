@@ -88,11 +88,11 @@ export interface AlertShouldAppearArgs {
   title?: string;
   content: string;
   type: AlertType;
-  buttons: AlertButtons;
+  buttons?: AlertButtons;
   focusedBtn?: number;
 }
 
-export async function waitFor(page: br.Page, arg: AlertShouldAppearArgs) {
+export async function waitFor(page: br.Page, e: AlertShouldAppearArgs) {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
   await el.waitForAttached();
@@ -100,20 +100,22 @@ export async function waitFor(page: br.Page, arg: AlertShouldAppearArgs) {
 
   // Title.
   // eslint-disable-next-line no-param-reassign
-  const title = arg.title ?? typeToTitle(arg.type);
+  const title = e.title ?? typeToTitle(e.type);
   await el.$hasText('h2', title).e.toBeVisible();
 
   // Icon.
-  await el.$(`svg-icon[iconstyle='${typeToString(arg.type)}']`).e.toBeVisible();
+  await el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).e.toBeVisible();
 
   // Content.
-  await el.$hasText('p', arg.content).e.toBeVisible();
+  await el.$hasText('p', e.content).e.toBeVisible();
 
   // Buttons.
-  const btns = el.$$('#__buttons qing-button');
-  const btnNames = alertButtonsToArray(arg.buttons);
-  await btns.shouldHaveCount(btnNames.length);
-  await Promise.all(btnNames.map((b, i) => btns.item(i).e.toHaveText(b)));
+  if (e.buttons) {
+    const btns = el.$$('#__buttons qing-button');
+    const btnNames = alertButtonsToArray(e.buttons);
+    await btns.shouldHaveCount(btnNames.length);
+    await Promise.all(btnNames.map((b, i) => btns.item(i).e.toHaveText(b)));
+  }
 
   return new BRDialog(el);
 }

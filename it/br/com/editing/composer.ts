@@ -92,7 +92,6 @@ export async function shouldDiscardChangesOrNot(
     title: 'Do you want to discard your changes?',
     content: "You haven't saved your changes.",
     type: alt.AlertType.warning,
-    buttons: alt.AlertButtons.YesNo,
     focusedBtn: 1,
   });
 
