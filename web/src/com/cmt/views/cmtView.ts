@@ -66,13 +66,13 @@ export class CmtView extends BaseElement {
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
             <time-field
-              class="m-l-sm"
+              class="m-l-md"
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}></time-field>
             ${cmt.userEID === appPageState.userEID
               ? html`
                   <edit-bar-app
-                    class="m-l-sm"
+                    class="m-l-md"
                     uid=${cmt.userEID}
                     .hasLeftMargin=${true}
                     @edit-bar-edit-click=${this.handleEditClick}

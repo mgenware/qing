@@ -34,8 +34,8 @@ export class TimeField extends BaseElement {
       const [modDateString] = this.formatDate(modifiedAt);
       finalDateString += ` [${ls.editedAt} ${modDateString}]`;
     }
-    return html`<small class="is-secondary" title=${date?.toLocaleString() ?? ''}
-      >${finalDateString}</small
+    return html`<span class="is-secondary" title=${date?.toLocaleString() ?? ''}
+      >${finalDateString}</span
     >`;
   }
 
