@@ -17,6 +17,7 @@ import 'ui/status/statusView';
 import 'ui/status/statusOverlay';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
+import 'ui/forms/selectView';
 import 'ui/lists/linkListView';
 import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
@@ -235,6 +236,9 @@ export class ElementsPage extends BaseElement {
         class="m-t-md"
         .selectedIndices=${this.checklistIndices2}
         .dataSource=${checklistViewData}></checklist-view>
+      <p>
+        <select-view .dataSource=${checklistViewData}></select-view>
+      </p>
       <h2>Alerts</h2>
       <alert-view>Default</alert-view>
       <alert-view alertStyle="primary">Primary</alert-view>
