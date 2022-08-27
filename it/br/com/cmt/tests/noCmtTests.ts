@@ -10,10 +10,10 @@ import { usr } from 'br';
 import * as cm from './common';
 
 export default function testNoCmts(w: CmtFixtureWrapper) {
-  w.test('No comments', null, async ({ page }) => {
+  w.test('No comments', null, async ({ p }) => {
     {
       // Visitor view.
-      const cmtApp = await w.getCmtApp(page);
+      const cmtApp = await w.getCmtApp(p);
       await cm.commentsHeadingShouldAppear({ cmtApp });
       await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
 
@@ -23,8 +23,8 @@ export default function testNoCmts(w: CmtFixtureWrapper) {
     }
     {
       // User view.
-      await page.reload(usr.user);
-      const cmtApp = await w.getCmtApp(page);
+      await p.reload(usr.user);
+      const cmtApp = await w.getCmtApp(p);
       await cm.commentsHeadingShouldAppear({ cmtApp });
       await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
     }

@@ -17,7 +17,7 @@ class PostCmtFixture extends CmtFixture {
     // NOTE: The post is always created by `usr.user`.
     // But it can be viewed by another user, which is defined as `arg.user`.
     return scPost(usr.user, async ({ link }) => {
-      await arg.page.goto(link, arg.user);
+      await arg.p.goto(link, arg.user);
       return cb();
     });
   }

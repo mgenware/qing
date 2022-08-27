@@ -196,6 +196,14 @@ export class Page {
     return this.$('body');
   }
 
+  url() {
+    const url = this.c.url();
+    if (url.startsWith(serverURL)) {
+      return url.substring(serverURL.length);
+    }
+    return url;
+  }
+
   $(sel: string) {
     return PWLocatableWrapper.$(this.c, sel);
   }

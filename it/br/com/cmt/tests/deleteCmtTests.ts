@@ -14,20 +14,20 @@ import * as cm from './common';
 import { writeCmt } from './actions';
 
 function testDeleteCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test('Delete a cmt' + (fresh ? ' fresh' : ''), usr.user, async ({ page }) => {
+  w.test('Delete a cmt' + (fresh ? ' fresh' : ''), usr.user, async ({ p }) => {
     {
       {
-        let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: def.sd.content });
+        let cmtApp = await w.getCmtApp(p);
+        await writeCmt(p, { cmtApp, content: def.sd.content });
 
         if (!fresh) {
-          await page.reload();
-          cmtApp = await w.getCmtApp(page);
+          await p.reload();
+          cmtApp = await w.getCmtApp(p);
         }
 
         // Delete the comment.
         await eb.getDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click();
-        const dialog = await alt.waitFor(page, {
+        const dialog = await alt.waitFor(p, {
           content: 'Do you want to delete this comment?',
           type: alt.AlertType.warning,
           buttons: alt.AlertButtons.YesNo,
@@ -38,8 +38,8 @@ function testDeleteCore(w: CmtFixtureWrapper, fresh: boolean) {
       }
       {
         // Visitor.
-        await page.reload(null);
-        const cmtApp = await w.getCmtApp(page);
+        await p.reload(null);
+        const cmtApp = await w.getCmtApp(p);
         await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
       }
     }

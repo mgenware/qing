@@ -13,19 +13,19 @@ import { writeCmt, editCmt } from './actions';
 import * as cps from 'br/com/editing/composer';
 
 function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
-  w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ page }) => {
+  w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ p }) => {
     {
       {
-        let cmtApp = await w.getCmtApp(page);
-        await writeCmt(page, { cmtApp, content: def.sd.content });
+        let cmtApp = await w.getCmtApp(p);
+        await writeCmt(p, { cmtApp, content: def.sd.content });
 
         if (!fresh) {
-          await page.reload();
-          cmtApp = await w.getCmtApp(page);
+          await p.reload();
+          cmtApp = await w.getCmtApp(p);
         }
 
         // Edit the comment.
-        await editCmt(page, {
+        await editCmt(p, {
           cmtApp,
           content: def.sd.updated,
           author: usr.user,
@@ -49,8 +49,8 @@ function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
       }
       {
         // Visitor.
-        await page.reload(null);
-        const cmtApp = await w.getCmtApp(page);
+        await p.reload(null);
+        const cmtApp = await w.getCmtApp(p);
 
         await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),

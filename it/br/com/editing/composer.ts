@@ -61,7 +61,7 @@ export async function shouldAppear(overlayEl: br.Element, e: ComposerShouldAppea
 
   if (e.title !== undefined) {
     // Title value.
-    if (e.title) {
+    if (e.title !== null) {
       const titleInputEl = el.$(cm.composerTitleSel);
       await titleInputEl.e.toBeVisible();
       await titleInputEl.e.toHaveValue(e.title);
@@ -69,7 +69,7 @@ export async function shouldAppear(overlayEl: br.Element, e: ComposerShouldAppea
       await el.$(cm.composerTitleSel).shouldNotExist();
     }
   }
-  if (e.contentHTML) {
+  if (e.contentHTML !== undefined) {
     await ed.shouldHaveHTML(el, e.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>');
   }
 }

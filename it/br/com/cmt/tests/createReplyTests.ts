@@ -16,17 +16,17 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}reply, default ordering, expander state`,
     usr.user,
-    async ({ page }) => {
+    async ({ p }) => {
       {
         {
           // User 1.
-          let cmtApp = await w.getCmtApp(page);
-          await act.writeCmt(page, {
+          let cmtApp = await w.getCmtApp(p);
+          await act.writeCmt(p, {
             cmtApp,
             content: def.sd.content,
           });
           let cmtEl = cm.getTopCmt({ cmtApp });
-          await act.writeReply(page, {
+          await act.writeReply(p, {
             cmtEl,
             content: def.sd.content,
             shownCb: async (overlayEl) => {
@@ -41,8 +41,8 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
           await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
 
           if (!fresh) {
-            await page.reload();
-            cmtApp = await w.getCmtApp(page);
+            await p.reload();
+            cmtApp = await w.getCmtApp(p);
             cmtEl = cm.getTopCmt({ cmtApp });
 
             // Replies should be hidden after reloading.
@@ -68,8 +68,8 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
         }
         {
           // Visitor.
-          await page.reload(null);
-          const cmtApp = await w.getCmtApp(page);
+          await p.reload(null);
+          const cmtApp = await w.getCmtApp(p);
           const cmtEl = cm.getTopCmt({ cmtApp });
 
           // Replies should be hidden.
@@ -93,20 +93,20 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
 }
 
 function testCreateWithPagination(w: CmtFixtureWrapper) {
-  w.test('Create replies, pagination', usr.user, async ({ page }) => {
+  w.test('Create replies, pagination', usr.user, async ({ p }) => {
     {
       const total = 5;
       {
         // User 1.
-        const cmtApp = await w.getCmtApp(page);
-        await act.writeCmt(page, {
+        const cmtApp = await w.getCmtApp(p);
+        await act.writeCmt(p, {
           cmtApp,
           content: def.sd.content,
         });
         const cmtEl = cm.getTopCmt({ cmtApp });
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeReply(page, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeReply(p, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
@@ -124,8 +124,8 @@ function testCreateWithPagination(w: CmtFixtureWrapper) {
       }
       {
         // Visitor.
-        await page.reload(null);
-        const cmtApp = await w.getCmtApp(page);
+        await p.reload(null);
+        const cmtApp = await w.getCmtApp(p);
         const cmtEl = cm.getTopCmt({ cmtApp });
 
         // + 1 extra root cmt.
@@ -186,13 +186,13 @@ function testCreateWithPagination(w: CmtFixtureWrapper) {
 // Forked from `testCreateRepliesPagination`.
 // Tests creating replies while loading more pages. Duplicates should not happen.
 function testCreateWithDedup(w: CmtFixtureWrapper) {
-  w.test('Create replies, dedup', usr.user, async ({ page }) => {
+  w.test('Create replies, dedup', usr.user, async ({ p }) => {
     {
       const total = 5;
       {
         // Setup predefined replies.
-        const cmtApp = await w.getCmtApp(page);
-        await act.writeCmt(page, {
+        const cmtApp = await w.getCmtApp(p);
+        await act.writeCmt(p, {
           cmtApp,
           content: def.sd.content,
         });
@@ -200,22 +200,22 @@ function testCreateWithDedup(w: CmtFixtureWrapper) {
 
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeReply(page, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeReply(p, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
         }
         // + 1 extra top cmt.
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 1 });
         await cm.shouldHaveReplyCount({ cmtEl, count: total, shown: total });
       }
       {
-        await page.reload();
-        const cmtApp = await w.getCmtApp(page);
+        await p.reload();
+        const cmtApp = await w.getCmtApp(p);
         const cmtEl = cm.getTopCmt({ cmtApp });
 
         // By default, replies are collapsed with a link button (5 replies).
         await act.clickRepliesButton({ cmtEl, replyCount: total });
 
         // Create a reply with "more replies" never clicked.
-        await act.writeReply(page, { cmtEl, content: 'new 1' });
+        await act.writeReply(p, { cmtEl, content: 'new 1' });
 
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 2 });
         // 3 replies are shown.
@@ -247,8 +247,8 @@ function testCreateWithDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveReplyCount({ cmtEl, count: total + 1, shown: 5 });
 
         // Create 2 cmts with "more cmts" clicked but not fully loaded.
-        await act.writeReply(page, { cmtEl, content: 'new 2' });
-        await act.writeReply(page, { cmtEl, content: 'new 3' });
+        await act.writeReply(p, { cmtEl, content: 'new 2' });
+        await act.writeReply(p, { cmtEl, content: 'new 3' });
 
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 4 });
         await cm.shouldHaveReplyCount({ cmtEl, count: total + 3, shown: 7 });

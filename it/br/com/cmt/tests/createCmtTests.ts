@@ -16,12 +16,12 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}cmt, default ordering`,
     usr.user,
-    async ({ page }) => {
+    async ({ p }) => {
       {
         {
           // User 1.
-          let cmtApp = await w.getCmtApp(page);
-          await act.writeCmt(page, {
+          let cmtApp = await w.getCmtApp(p);
+          await act.writeCmt(p, {
             cmtApp,
             content: def.sd.content,
             shownCb: async (overlayEl) => {
@@ -34,8 +34,8 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
           });
 
           if (!fresh) {
-            await page.reload();
-            cmtApp = await w.getCmtApp(page);
+            await p.reload();
+            cmtApp = await w.getCmtApp(p);
           }
 
           await cm.shouldAppear({
@@ -49,8 +49,8 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
         }
         {
           // Visitor.
-          await page.reload(null);
-          const cmtApp = await w.getCmtApp(page);
+          await p.reload(null);
+          const cmtApp = await w.getCmtApp(p);
 
           await cm.shouldAppear({
             cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
@@ -65,15 +65,15 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
 }
 
 function testCreateWithPagination(w: CmtFixtureWrapper) {
-  w.test('Create cmts, pagination', usr.user, async ({ page }) => {
+  w.test('Create cmts, pagination', usr.user, async ({ p }) => {
     {
       const total = 5;
       {
         // User 1.
-        const cmtApp = await w.getCmtApp(page);
+        const cmtApp = await w.getCmtApp(p);
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeCmt(p, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
@@ -90,8 +90,8 @@ function testCreateWithPagination(w: CmtFixtureWrapper) {
       }
       {
         // Visitor.
-        await page.reload(null);
-        const cmtApp = await w.getCmtApp(page);
+        await p.reload(null);
+        const cmtApp = await w.getCmtApp(p);
 
         await cm.shouldHaveCmtCount({ cmtApp, count: total });
         // Only 2 are shown by default.
@@ -143,25 +143,25 @@ function testCreateWithPagination(w: CmtFixtureWrapper) {
 // Forked from `testCreateCmtsPagination`.
 // Tests creating cmts while loading more pages. Duplicates should not happen.
 function testCreateWithDedup(w: CmtFixtureWrapper) {
-  w.test('Create cmts, dedup', usr.user, async ({ page }) => {
+  w.test('Create cmts, dedup', usr.user, async ({ p }) => {
     {
       const total = 5;
       {
         // Setup predefined cmts.
-        const cmtApp = await w.getCmtApp(page);
+        const cmtApp = await w.getCmtApp(p);
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeCmt(page, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeCmt(p, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
         }
         await cm.shouldHaveCmtCount({ cmtApp, count: total });
         await cm.shouldHaveShownRootCmtCount(cmtApp, total);
       }
       {
-        await page.reload();
-        const cmtApp = await w.getCmtApp(page);
+        await p.reload();
+        const cmtApp = await w.getCmtApp(p);
 
         // Create a cmt with "more cmts" never clicked.
-        await act.writeCmt(page, { cmtApp, content: 'new 1' });
+        await act.writeCmt(p, { cmtApp, content: 'new 1' });
 
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 1 });
         // 3 cmts are shown.
@@ -193,8 +193,8 @@ function testCreateWithDedup(w: CmtFixtureWrapper) {
         await cm.shouldHaveShownRootCmtCount(cmtApp, 5);
 
         // Create 2 cmts with "more cmts" clicked but not fully loaded.
-        await act.writeCmt(page, { cmtApp, content: 'new 2' });
-        await act.writeCmt(page, { cmtApp, content: 'new 3' });
+        await act.writeCmt(p, { cmtApp, content: 'new 2' });
+        await act.writeCmt(p, { cmtApp, content: 'new 3' });
 
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 3 });
         await cm.shouldHaveShownRootCmtCount(cmtApp, 7);

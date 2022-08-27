@@ -10,6 +10,7 @@ import { User, expect } from 'br';
 import * as lk from 'br/com/likes/likes';
 import * as uv from 'br/com/content/userView';
 import * as def from 'base/def';
+import * as cps from 'br/com/editing/composer';
 
 export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
 export const cmtAppSelector = 'post-payload-app cmt-app';
@@ -20,7 +21,7 @@ export async function shouldHaveContent(page: br.Page, text: string) {
 
 export async function shouldHaveTitle(page: br.Page, title: string, link: string) {
   const aEl = page.$('main > container-view > h2 > a');
-  expect((await aEl.getAttribute('href'))?.endsWith(link)).toBeTruthy();
+  await aEl.e.toHaveAttribute('href', link);
   expect(await aEl.c.textContent()).toBe(title);
 }
 
@@ -41,4 +42,9 @@ export async function shouldAppear(page: br.Page, link: string, author: User, us
   return {
     likesAppEl,
   };
+}
+
+export async function waitForOverlay(p: br.Page) {
+  const { overlayEl } = await cps.waitForOverlay(p, 'set-entity-app');
+  return overlayEl;
 }

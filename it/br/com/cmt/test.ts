@@ -14,6 +14,7 @@ import testCreateCmt from './tests/createCmtTests';
 import testEditCmt from './tests/editCmtTests';
 import testDeleteCmt from './tests/deleteCmtTests';
 import testCreateReply from './tests/createReplyTests';
+import testDismissAndDiscardChanges from './tests/dismissAndDiscardChangesTests';
 
 export default function testCmt(groupName: string, fixture: CmtFixture) {
   const w = new CmtFixtureWrapper(groupName, fixture);
@@ -22,4 +23,5 @@ export default function testCmt(groupName: string, fixture: CmtFixture) {
   testCreateReply(w);
   testEditCmt(w);
   testDeleteCmt(w);
+  testDismissAndDiscardChanges(w);
 }

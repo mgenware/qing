@@ -13,6 +13,8 @@ import * as eb from 'br/com/editing/editBar';
 import * as def from 'base/def';
 import * as cps from 'br/com/editing/composer';
 
+const editorDesc = 'Edit post';
+
 async function clickEditButton(p: br.Page) {
   const u = usr.user;
   const userView = p.$(cm.userViewQuery);
@@ -20,29 +22,19 @@ async function clickEditButton(p: br.Page) {
   await editBtn.click();
 }
 
-async function waitForOverlay(p: br.Page) {
-  const { overlayEl } = await cps.waitForOverlay(p, 'set-entity-app');
-  return overlayEl;
-}
-
-async function editorShouldAppear(p: br.Page) {
-  const overlayEl = await waitForOverlay(p);
-  await cps.shouldAppear(overlayEl, {
-    name: 'Edit post',
-    title: def.sd.title,
-    contentHTML: def.sd.contentViewHTML,
-  });
-  return overlayEl;
-}
-
-test('Update post', async ({ page }) => {
+test('Edit post', async ({ page }) => {
   const p = $(page);
   await scPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
     await clickEditButton(p);
 
     // Check editor update.
-    const overlayEl = await editorShouldAppear(p);
+    const overlayEl = await cm.waitForOverlay(p);
+    await cps.shouldAppear(overlayEl, {
+      name: editorDesc,
+      title: def.sd.title,
+      contentHTML: def.sd.contentViewHTML,
+    });
     await cps.updateAndSave(overlayEl, {
       p,
       title: def.sd.updated,
@@ -59,13 +51,13 @@ test('Update post', async ({ page }) => {
   });
 });
 
-test('Dismiss post editor', async ({ page }) => {
+test('Edit post - Dismiss post editor', async ({ page }) => {
   const p = $(page);
   await scPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
 
     await clickEditButton(p);
-    const overlayEl = await waitForOverlay(p);
+    const overlayEl = await cm.waitForOverlay(p);
     await overlayEl.$qingButton('Cancel').click();
     await overlayEl.waitForDetached();
 
@@ -76,16 +68,16 @@ test('Dismiss post editor', async ({ page }) => {
 });
 
 function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) {
-  test(`${discardChanges ? 'Discard' : 'Keep'} post editor changes - Mode ${mode}`, async ({
-    page,
-  }) => {
+  test(`Edit post - ${
+    discardChanges ? 'Discard' : 'Keep'
+  } post editor changes - Mode ${mode}`, async ({ page }) => {
     const p = $(page);
     await scPost(usr.user, async ({ link }) => {
       await p.goto(link, usr.user);
 
       await clickEditButton(p);
 
-      const overlayEl = await waitForOverlay(p);
+      const overlayEl = await cm.waitForOverlay(p);
       await cps.updateContent(
         overlayEl,
         mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
