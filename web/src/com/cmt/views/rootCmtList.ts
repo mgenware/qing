@@ -14,7 +14,6 @@ import appPageState from 'app/appPageState';
 import { parseString } from 'narwhal-js';
 import Entity from 'lib/entity';
 import 'ui/editing/composerView';
-import { appdef } from '@qing/def';
 import { SetCmtLoader } from '../loaders/setCmtLoader';
 import { ComposerView } from 'ui/editing/composerView';
 import appTask from 'app/appTask';
@@ -76,16 +75,17 @@ export class RootCmtList extends BaseElement {
     const addCmtGroup = appPageState.user
       ? this.renderCommentButton()
       : this.renderLoginToComment();
-
-    const editorContent = this._rootEditorOpen
-      ? html`<composer-view
+    return html`${titleEl}${addCmtGroup}${contentEl}${when(
+      this._rootEditorOpen,
+      () => html`<qing-overlay class="immersive" open>
+        <composer-view
           id=${rootEditorID}
-          .entityType=${appdef.contentBaseTypeCmt}
+          .desc=${ls.writeAComment}
           .submitButtonText=${ls.send}
           @composer-submit=${this.handleRootEditorSubmit}
-          @composer-discard=${this.handleRootEditorDiscard}></composer-view>`
-      : html``;
-    return html`${titleEl}${addCmtGroup}${editorContent}${contentEl}`;
+          @composer-discard=${this.handleRootEditorDiscard}></composer-view>
+      </qing-overlay>`,
+    )}`;
   }
 
   private async handleRootEditorSubmit() {

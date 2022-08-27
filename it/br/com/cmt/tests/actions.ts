@@ -7,7 +7,6 @@
 
 import * as br from 'br';
 import { User } from 'br';
-import { waitForVisibleComposer } from 'br/com/editing/composer';
 import * as cps from 'br/com/editing/composer';
 import * as eb from 'br/com/editing/editBar';
 import * as btn from 'br/com/buttons/button';
@@ -19,20 +18,20 @@ export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
   dbTimeChange?: boolean;
-  shownCb?: () => Promise<void>;
+  shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
 export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
-  const writeCmtBtn = await btn.shouldAppear(a.cmtApp.$('qing-button'), {
-    text: 'Write a comment',
+  const writeCmtBtn = await btn.shouldAppear(a.cmtApp.$qingButton('Write a comment'), {
     style: 'success',
   });
   await writeCmtBtn.click();
-  await waitForVisibleComposer(p);
+  const { overlayEl } = await cps.waitForOverlay(p, 'root-cmt-list');
   if (a.shownCb) {
-    await a.shownCb();
+    await a.shownCb(overlayEl);
   }
-  await cps.updateAndSave(p, {
+  await cps.updateAndSave(overlayEl, {
+    p,
     spinnerText: 'Publishing...',
     saveBtnText: 'Send',
     content: a.content,
@@ -44,16 +43,17 @@ export interface WriteReplyArgs {
   cmtEl: br.Element;
   content: string;
   dbTimeChange?: boolean;
-  shownCb?: () => Promise<void>;
+  shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
 export async function writeReply(p: br.Page, a: WriteReplyArgs) {
   await a.cmtEl.$hasText('cmt-view link-button', 'Reply').click();
-  await waitForVisibleComposer(p);
+  const { overlayEl } = await cps.waitForOverlay(p, 'cmt-block');
   if (a.shownCb) {
-    await a.shownCb();
+    await a.shownCb(overlayEl);
   }
-  await cps.updateAndSave(p, {
+  await cps.updateAndSave(overlayEl, {
+    p,
     content: a.content,
     saveBtnText: 'Send',
     spinnerText: 'Publishing...',
@@ -65,17 +65,18 @@ export interface EditCmtArgs {
   cmtApp: br.Element;
   author: User;
   content?: string;
-  shownCb?: () => Promise<void>;
+  shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
 export async function editCmt(p: br.Page, a: EditCmtArgs) {
   await eb.getEditButton(a.cmtApp, a.author.id).click();
-  await waitForVisibleComposer(p);
+  const { overlayEl } = await cps.waitForOverlay(p, 'cmt-block');
   if (a.shownCb) {
-    await a.shownCb();
+    await a.shownCb(overlayEl);
   }
 
-  await cps.updateAndSave(p, {
+  await cps.updateAndSave(overlayEl, {
+    p,
     content: a.content,
     saveBtnText: 'Save',
     dbTimeChange: true,

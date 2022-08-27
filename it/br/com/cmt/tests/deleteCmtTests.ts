@@ -27,13 +27,13 @@ function testDeleteCore(w: CmtFixtureWrapper, fresh: boolean) {
 
         // Delete the comment.
         await eb.getDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click();
-        const alertBtns = await alt.waitFor(page, {
+        const dialog = await alt.waitFor(page, {
           content: 'Do you want to delete this comment?',
           type: alt.AlertType.warning,
           buttons: alt.AlertButtons.YesNo,
           focusedBtn: 1,
         });
-        await alertBtns.item(0).click();
+        await dialog.clickYes();
         await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
       }
       {

@@ -10,7 +10,7 @@ export function closedImmersiveSel(sel: string) {
 }
 
 export function openImmersiveSel(sel: string) {
-  return `${sel} 'qing-overlay.immersive[open=""]`;
+  return `${sel} qing-overlay.immersive[open=""]`;
 }
 
 export function closedSel(sel: string) {

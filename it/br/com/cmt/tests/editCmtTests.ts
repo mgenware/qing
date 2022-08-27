@@ -29,12 +29,11 @@ function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
           cmtApp,
           content: def.sd.updated,
           author: usr.user,
-          shownCb: async () => {
-            await cps.shouldAppear(page, {
+          shownCb: async (overlayEl) => {
+            await cps.shouldAppear(overlayEl, {
               name: 'Edit comment',
               title: null,
               contentHTML: def.sd.contentViewHTML,
-              buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
             });
           },
         });

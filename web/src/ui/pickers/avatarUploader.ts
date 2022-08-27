@@ -99,7 +99,7 @@ export class AvatarUploader extends BaseElement {
               <br />
             </label>
           </div>
-          <p><small>${ls.uploadProfileImgDesc}</small></p>
+          <p>${ls.uploadProfileImgDesc}</p>
         </form>
       </div>
     `;

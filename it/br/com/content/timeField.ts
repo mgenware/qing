@@ -16,8 +16,8 @@ function checkTimeString(s: string, edited: boolean) {
 export async function shouldAppear(el: br.Element, edited: boolean) {
   await el.e.toBeVisible();
   if (edited) {
-    await el.$hasText('small', 'Edited').waitForVisible();
+    await el.$hasText('span', 'Edited').waitForVisible();
   }
-  const tsString = await el.$('small').c.textContent();
+  const tsString = await el.$('span').c.textContent();
   checkTimeString(tsString || '', edited);
 }

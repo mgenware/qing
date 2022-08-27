@@ -59,8 +59,29 @@ function getDialogEl(page: br.Page) {
   return page.$('#__global_dialog_container dialog-view');
 }
 
-export function waitForDetached(page: br.Page, action: () => Promise<unknown>) {
-  return Promise.all([getDialogEl(page).waitForDetached(), action()]);
+export class BRDialog {
+  constructor(public c: br.Element) {}
+
+  async clickBtn(text: string) {
+    await this.c.$qingButton(text).click();
+    await this.c.waitForDetached();
+  }
+
+  clickYes() {
+    return this.clickBtn('Yes');
+  }
+
+  clickNo() {
+    return this.clickBtn('No');
+  }
+
+  clickCancel() {
+    return this.clickBtn('Cancel');
+  }
+
+  clickOK() {
+    return this.clickBtn('OK');
+  }
 }
 
 export interface AlertShouldAppearArgs {
@@ -71,10 +92,7 @@ export interface AlertShouldAppearArgs {
   focusedBtn?: number;
 }
 
-export async function waitFor(
-  page: br.Page,
-  arg: AlertShouldAppearArgs,
-): Promise<br.ElementCollection> {
+export async function waitFor(page: br.Page, arg: AlertShouldAppearArgs) {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
   await el.waitForAttached();
@@ -97,7 +115,5 @@ export async function waitFor(
   await btns.shouldHaveCount(btnNames.length);
   await Promise.all(btnNames.map((b, i) => btns.item(i).e.toHaveText(b)));
 
-  // TODO: Re-enable focus check.
-  // await buttonShouldHaveFocus(btns.item(focused));
-  return btns;
+  return new BRDialog(el);
 }

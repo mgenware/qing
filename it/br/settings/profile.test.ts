@@ -102,7 +102,7 @@ test('Settings - Update profile picture', async ({ page }) => {
       rootEl.$('label[class="cursor-pointer"]').click(),
     ]);
     await fileChooser.setFiles('./files/img1.jpg');
-    const overlayEl = p.$(ov.openSel);
+    const overlayEl = p.$(ov.openSel('avatar-uploader'));
     await spn.waitForGlobal(p, 'Uploading...', () => overlayEl.$qingButton('OK').click());
 
     const profileImg = rootEl.$('img[width="250"][height="250"][class="avatar-l profile-img"]');

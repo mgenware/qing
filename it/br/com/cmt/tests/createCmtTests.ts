@@ -24,12 +24,11 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
           await act.writeCmt(page, {
             cmtApp,
             content: def.sd.content,
-            shownCb: async () => {
-              await cps.shouldAppear(page, {
+            shownCb: async (overlayEl) => {
+              await cps.shouldAppear(overlayEl, {
                 name: 'Write a comment',
                 title: null,
                 contentHTML: '',
-                buttons: [{ text: 'Send', style: 'success' }, { text: 'Cancel' }],
               });
             },
           });

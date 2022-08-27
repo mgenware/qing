@@ -17,12 +17,11 @@ test('Post page in visitor view', async ({ page }) => {
 
     // Click the like button.
     await likesAppEl.click();
-    const btns = await alt.waitFor(p, {
+    const dialog = await alt.waitFor(p, {
       content: 'Sign in to like this post.',
       type: alt.AlertType.warning,
       buttons: alt.AlertButtons.OK,
     });
-    const okBtn = btns.item(0);
-    await alt.waitForDetached(p, () => okBtn.click());
+    await dialog.clickOK();
   });
 });

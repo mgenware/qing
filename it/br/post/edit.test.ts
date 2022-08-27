@@ -20,13 +20,19 @@ async function clickEditButton(p: br.Page) {
   await editBtn.click();
 }
 
+async function waitForOverlay(p: br.Page) {
+  const { overlayEl } = await cps.waitForOverlay(p, 'set-entity-app');
+  return overlayEl;
+}
+
 async function editorShouldAppear(p: br.Page) {
-  await cps.shouldAppear(p, {
+  const overlayEl = await waitForOverlay(p);
+  await cps.shouldAppear(overlayEl, {
     name: 'Edit post',
     title: def.sd.title,
     contentHTML: def.sd.contentViewHTML,
-    buttons: [{ text: 'Save', style: 'success' }, { text: 'Cancel' }],
   });
+  return overlayEl;
 }
 
 test('Update post', async ({ page }) => {
@@ -36,8 +42,9 @@ test('Update post', async ({ page }) => {
     await clickEditButton(p);
 
     // Check editor update.
-    await editorShouldAppear(p);
-    await cps.updateAndSave(p, {
+    const overlayEl = await editorShouldAppear(p);
+    await cps.updateAndSave(overlayEl, {
+      p,
       title: def.sd.updated,
       content: def.sd.updated,
       dbTimeChange: true,
@@ -58,9 +65,9 @@ test('Dismiss post editor', async ({ page }) => {
     await p.goto(link, usr.user);
 
     await clickEditButton(p);
-
-    // Check editor dismissal.
-    await cps.shouldBeDismissed(p, 'Cancel');
+    const overlayEl = await waitForOverlay(p);
+    await overlayEl.$qingButton('Cancel').click();
+    await overlayEl.waitForDetached();
 
     // Verify page content.
     await cm.shouldHaveTitle(p, def.sd.title, link);
@@ -68,28 +75,39 @@ test('Dismiss post editor', async ({ page }) => {
   });
 });
 
-function testDiscardChanges(mode: 'title' | 'content') {
-  test(`Discard post editor changes - Mode ${mode}`, async ({ page }) => {
+function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) {
+  test(`${discardChanges ? 'Discard' : 'Keep'} post editor changes - Mode ${mode}`, async ({
+    page,
+  }) => {
     const p = $(page);
     await scPost(usr.user, async ({ link }) => {
       await p.goto(link, usr.user);
 
       await clickEditButton(p);
 
-      const { composerEl } = await cps.waitForVisibleComposer(p);
+      const overlayEl = await waitForOverlay(p);
       await cps.updateContent(
-        composerEl,
+        overlayEl,
         mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
       );
 
-      await cps.shouldDiscardChangesOrNot(composerEl, true, { p, cancelBtn: 'Cancel' });
+      await cps.shouldDiscardChangesOrNot(overlayEl, discardChanges, { p, cancelBtn: 'Cancel' });
 
-      // Verify page content.
-      await cm.shouldHaveTitle(p, def.sd.title, link);
-      await cm.shouldHaveContent(p, def.sd.content);
+      if (discardChanges) {
+        // Verify page content.
+        await cm.shouldHaveTitle(p, def.sd.title, link);
+        await cm.shouldHaveContent(p, def.sd.content);
+      } else {
+        await cps.shouldAppear(
+          overlayEl,
+          mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updated },
+        );
+      }
     });
   });
 }
 
-testDiscardChanges('title');
-testDiscardChanges('content');
+testDiscardChanges('title', true);
+testDiscardChanges('content', true);
+testDiscardChanges('title', false);
+testDiscardChanges('content', false);
