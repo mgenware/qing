@@ -24,6 +24,6 @@ type CorePageManager interface {
 	Dictionary(lang string) *localization.Dictionary
 	PageTitle(lang, s string) string
 
-	ScriptString(name string) string
+	AssetManager() *AssetManager
 	LocalizationManager() localization.CoreManager
 }

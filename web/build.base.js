@@ -8,7 +8,7 @@
 import esbuild from 'esbuild';
 import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals';
 
-const entryPoints = [
+const jsFiles = [
   'core',
   'm/mEntry',
   'mx/mxEntry',
@@ -23,9 +23,11 @@ const entryPoints = [
   'devPage/devPageEntry',
 ].map((s) => `dist/${s}.js`);
 
+const cssFiles = ['profile/profileEntry'].map((s) => `${s}.css`);
+
 export default function build(params) {
   return esbuild.build({
-    entryPoints,
+    entryPoints: [...jsFiles, ...cssFiles],
     bundle: true,
     outdir: '../userland/static/g/app',
     define: {

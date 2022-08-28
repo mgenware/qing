@@ -18,7 +18,6 @@ import (
 	"qing/a/config"
 	"qing/a/coretype"
 
-	"qing/a/handler/jsm"
 	"qing/a/handler/localization"
 
 	"github.com/mgenware/goutil/httpx"
@@ -38,7 +37,7 @@ type MainPageManager struct {
 
 	mainView  CoreLocalizedTemplate
 	errorView CoreLocalizedTemplate
-	jsMgr     *jsm.JSManager
+	asMgr     *AssetManager
 	logger    coretype.CoreLogger
 	lsMgr     localization.CoreManager
 }
@@ -51,11 +50,11 @@ func MustCreateMainPageManager(
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
 
-	jsMgr := jsm.NewJSManager(conf.DevMode())
+	asMgr := NewAssetManager(conf.DevMode())
 
 	t := &MainPageManager{
 		lsMgr:                lsMgr,
-		jsMgr:                jsMgr,
+		asMgr:                asMgr,
 		logger:               logger,
 		conf:                 conf,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
@@ -71,8 +70,8 @@ func MustCreateMainPageManager(
 	return t
 }
 
-func (m *MainPageManager) ScriptString(name string) string {
-	return m.jsMgr.ScriptString(name)
+func (m *MainPageManager) AssetManager() *AssetManager {
+	return m.asMgr
 }
 
 func (m *MainPageManager) LocalizationManager() localization.CoreManager {
@@ -110,7 +109,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	}
 
 	// Lang script comes before user scripts.
-	d.Scripts = m.jsMgr.LangScriptString(lang) + d.Scripts
+	d.Scripts = m.asMgr.LangScript(lang) + d.Scripts
 
 	// Community mode settings.
 	d.AppCommunityMode = int(appSettings.Get().CommunityMode())
@@ -156,7 +155,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
-	mainPageData.Scripts = m.ScriptString(coreScriptEntry)
+	mainPageData.Scripts = m.AssetManager().Script(coreScriptEntry)
 	m.MustComplete(r, lang, statusCode, &mainPageData, w)
 	return HTML(0)
 }

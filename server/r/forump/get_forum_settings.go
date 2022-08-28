@@ -41,7 +41,7 @@ func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().ScriptString(forumSettingsScript)
+	d.Scripts = appHandler.MainPage().AssetManager().Script(forumSettingsScript)
 	d.WindData = NewForumSettingsPageWindData(fid)
 
 	return resp.MustComplete(&d)

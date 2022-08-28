@@ -56,7 +56,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		fid = &str
 	}
 	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
-	d.Scripts = appHandler.MainPage().ScriptString(postScript)
+	d.Scripts = appHandler.MainPage().AssetManager().Script(postScript)
 	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid)
 	return resp.MustComplete(&d)
 }

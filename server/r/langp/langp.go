@@ -39,7 +39,7 @@ func LangHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().ScriptString(langScript)
+	d.Scripts = appHandler.MainPage().AssetManager().Script(langScript)
 	d.WindData = windData
 	d.ContentHTML = "<lang-page-view></lang-page-view>"
 
