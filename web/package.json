@@ -36,6 +36,7 @@
     "esbuild-plugin-minify-html-literals": "^1.0.1",
     "html-validate": "7.3.0",
     "lit-analyzer": "2.0.0-pre.2",
+    "node-watch": "^0.7.3",
     "qing-t": "^6.2.1"
   }
 }

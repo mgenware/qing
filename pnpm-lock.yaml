@@ -151,6 +151,7 @@ importers:
       lit-analyzer: 2.0.0-pre.2
       mahur: ^0.0.2
       narwhal-js: ^0.0.1
+      node-watch: ^0.7.3
       plum-element: ^0.0.7
       qing-button: ^8.2.6
       qing-css-base: ^1.0.0
@@ -185,6 +186,7 @@ importers:
       esbuild-plugin-minify-html-literals: 1.0.1
       html-validate: 7.3.0
       lit-analyzer: 2.0.0-pre.2
+      node-watch: 0.7.3
       qing-t: 6.2.1
 
 packages:
@@ -4543,6 +4545,11 @@ packages:
       css-select: 4.3.0
       he: 1.2.0
     dev: false
+
+  /node-watch/0.7.3:
+    resolution: {integrity: sha512-3l4E8uMPY1HdMMryPRUAl+oIHtXtyiTlIiESNSVSNxcPfzAFzeTbXFQkZfAwBbo0B1qMSG8nUABx+Gd+YrbKrQ==}
+    engines: {node: '>=6'}
+    dev: true
 
   /normalize-package-data/2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
