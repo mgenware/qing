@@ -19,7 +19,7 @@ import * as pu from 'app/utils/pageUtils';
 const devRouter = new MiniURLRouter();
 
 function loadPageContent(title: string, content: TemplateResult) {
-  pu.setTitleAndMainContent([title], html`<container-view>${content}</container-view>`);
+  pu.setTitleAndMainContent([title], content);
 }
 
 devRouter.register(authRoute.authRoot, () => {

@@ -1,4 +1,11 @@
-#info-row {
+.info-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, auto, 1fr);
+  grid-template-columns: 1fr;
+  grid-gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .info-row {
+    grid-template-columns: auto 1fr;
+  }
 }

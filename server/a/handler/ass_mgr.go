@@ -14,7 +14,7 @@ func scriptTag(src string) string {
 }
 
 func styleTag(src string) string {
-	return "<link rel=\"stylesheet\" src=\"" + src + "\"/>"
+	return "<link rel=\"stylesheet\" href=\"" + src + "\"/>"
 }
 
 func appScriptTag(name string) string {

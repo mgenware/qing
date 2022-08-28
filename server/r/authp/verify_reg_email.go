@@ -22,7 +22,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-var vAccVerifiedPage = appHandler.MainPage().MustParseLocalizedView("auth/accountVerified.html")
+var vAccVerifiedPage = appHandler.MainPage().MustParseLocalizedView("auth/accountVerifiedPage.html")
 
 type AccVerifiedPageData struct {
 	handler.LocalizedTemplateData

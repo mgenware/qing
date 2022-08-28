@@ -111,12 +111,12 @@ ita(
     // Visit verification link again results in error.
     verifyResp = await fetch(relURL);
     expect(verifyResp.status).toBe(503);
-    expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<container-view>
+    expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<div class="container">
   <div class="text-center">
     <h1 class="__qing_ls__">errOccurred</h1>
     <p class="text-danger">Link has expired, please sign up again.</p>
   </div>
-</container-view>`);
+</div>`);
   },
 );
 
@@ -125,10 +125,10 @@ it('Sign up - Wrong email verification link', async () => {
     `${serverURL}${authRoute.verifyRegEmail}/bGlsaUBsaWxpLmNvbXw1YjRlMDM5MC1jNWY2LTRhNTEtYTQ4Zi1lNGViZGJjNDM0YWI`,
   );
   expect(verifyResp.status).toBe(503);
-  expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<container-view>
+  expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<div class="container">
   <div class="text-center">
     <h1 class="__qing_ls__">errOccurred</h1>
     <p class="text-danger">Link has expired, please sign up again.</p>
   </div>
-</container-view>`);
+</div>`);
 });

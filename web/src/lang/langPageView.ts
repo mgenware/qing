@@ -38,7 +38,7 @@ export class LangPageView extends BaseElement {
   override render() {
     const curLang = ls.qingLang;
     return html`
-      <container-view>
+      <div class="container">
         <h2>${ls.langSettings}</h2>
         <hr />
         <link-list-view>
@@ -51,7 +51,7 @@ export class LangPageView extends BaseElement {
               >`,
           )}
         </link-list-view>
-      </container-view>
+      </div>
     `;
   }
 
