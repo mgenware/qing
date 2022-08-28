@@ -23,6 +23,19 @@ export class PCPageControl extends BaseElement {
         :host {
           display: block;
         }
+
+        .root {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-gap: 0.8rem;
+        }
+
+        @media (min-width: 768px) {
+          .root {
+            grid-template-columns: 1fr auto;
+            grid-gap: 1rem;
+          }
+        }
       `,
     ];
   }
@@ -45,26 +58,29 @@ export class PCPageControl extends BaseElement {
   override render() {
     const { page, totalPages } = this;
     return html`
-      <div class="row">
-        <div class="col-auto">
-          ${formatLS(ls.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}
-        </div>
-        <div class="col"></div>
-        <div class="col-auto">
-          ${formatLS(ls.pageControlPageFormat, page, totalPages)} |
+      <div class="root">
+        <div>${formatLS(ls.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}</div>
+        <div>
+          ${formatLS(ls.pageControlPageFormat, page, totalPages)}
+          <span class="m-l-sm">|</span>
           <input
             id=${pageInputID}
-            class="app-inline-text-input"
+            class="app-inline-text-input m-l-sm"
             type="text"
             size="3"
             value=${this.pageInputString}
             @change=${this.handlePageInput} />
-          <link-button @click=${this.handleGotoClick}>${ls.goToPage}</link-button> |
-          <link-button @click=${() => this.handlePageButtonClick(-1)} .disabled=${page === 1}
+          <link-button @click=${this.handleGotoClick} class="m-l-sm">${ls.goToPage}</link-button>
+          <span class="m-l-sm">|</span>
+          <link-button
+            @click=${() => this.handlePageButtonClick(-1)}
+            class="m-l-sm"
+            .disabled=${page === 1}
             >${ls.previousPage}</link-button
           >
           <link-button
             @click=${() => this.handlePageButtonClick(1)}
+            class="m-l-sm"
             .disabled=${page === totalPages}
             >${ls.nextPage}</link-button
           >

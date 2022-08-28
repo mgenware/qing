@@ -26,6 +26,19 @@ export class ForumSettingsBaseView extends BaseElement {
         :host {
           display: block;
         }
+
+        .root {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-gap: 0.8rem;
+        }
+
+        @media (min-width: 768px) {
+          .root {
+            grid-template-columns: auto 1fr;
+            grid-gap: 2rem;
+          }
+        }
       `,
     ];
   }
@@ -40,15 +53,15 @@ export class ForumSettingsBaseView extends BaseElement {
   override render() {
     const { fid } = this;
     return html`
-      <div class="row">
-        <div class="col-md-auto p-b-md">
+      <div class="root">
+        <div>
           <h3>${ls.settings}</h3>
           <link-list-view>
             ${this.menuLink(ForumSettingsPages.general, fRoute.getSettings(fid), ls.general)}
             ${this.menuLink(ForumSettingsPages.mods, fRoute.getSettingsMods(fid), ls.moderators)}
           </link-list-view>
         </div>
-        <div class="col-md">
+        <div>
           <slot></slot>
         </div>
       </div>

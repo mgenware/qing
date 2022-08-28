@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, property } from 'll';
+import { BaseElement, html, property, css } from 'll';
 import { repeat } from 'lit/directives/repeat.js';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
@@ -16,14 +16,34 @@ export interface SettingsBaseItem {
 }
 
 export class SettingsBaseView extends BaseElement {
+  static override get styles() {
+    return [
+      super.styles,
+      css`
+        .root {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-gap: 0.8rem;
+        }
+
+        @media (min-width: 768px) {
+          .root {
+            grid-template-columns: auto 1fr;
+            grid-gap: 2rem;
+          }
+        }
+      `,
+    ];
+  }
+
   @property() selectedItem = '';
   @property() settingsTitle = '';
   @property({ type: Array }) items: readonly SettingsBaseItem[] = [];
 
   override render() {
     return html`
-      <div class="row">
-        <div class="col-md-auto p-b-md">
+      <div class="root">
+        <div>
           <h3>${this.settingsTitle}</h3>
           <link-list-view>
             ${repeat(
@@ -33,7 +53,7 @@ export class SettingsBaseView extends BaseElement {
             )}
           </link-list-view>
         </div>
-        <div class="col-md">
+        <div>
           <slot></slot>
         </div>
       </div>

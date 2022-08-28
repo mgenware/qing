@@ -20,24 +20,20 @@ export class HeadingView extends BaseElement {
         h2 {
           border-left: var(--app-heading-indicator-width-md) solid
             var(--app-default-primary-fore-color);
-          padding-left: 0.4rem;
-        }
-
-        @media (min-width: 768px) {
-          h2 {
-            padding-left: 0.8rem;
-          }
+          padding-left: 0.8rem;
         }
 
         .root {
           display: grid;
+          align-items: center;
           grid-template-columns: 1fr;
-          grid-gap: 1.5rem;
+          grid-gap: 0;
         }
 
         @media (min-width: 768px) {
           .root {
             grid-template-columns: 1fr auto;
+            grid-gap: 1rem;
           }
         }
       `,
