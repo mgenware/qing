@@ -1,0 +1,568 @@
+/*
+ * Copyright (C) 2022 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
+/*
+  KEEP THIS FILE AS SMALL AS POSSIBLE!
+
+  Please don't add the following styles.
+  - Styles only intended to be used in document level, not shadow DOM level. For example, the container class, page footer styles, etc.
+ */
+
+/* Responsive link ------------------------- */
+a {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  color: var(--app-default-primary-fore-color);
+  text-decoration: none;
+}
+a:active {
+  filter: brightness(80%);
+}
+a:visited {
+  filter: brightness(80%);
+}
+
+/* Link button, used in profile page ------------------------- */
+a.link-btn,
+a.link-btn:visited {
+  color: var(--app-default-primary-fore-color);
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+a.link-btn:hover,
+a.link-btn:active {
+  opacity: 0.8;
+}
+
+/* Responsive image ------------------------- */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Alignment helpers ------------------------- */
+.text-center {
+  text-align: center;
+}
+.vertical-align-middle {
+  vertical-align: middle;
+}
+
+/* Misc helpers ------------------------- */
+.content-disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Flexbox helpers ------------------------- */
+.flex-full {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.flex-auto {
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+.flex-column {
+  flex-direction: column;
+}
+.d-flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+.flex-v-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Spacing helpers ------------------------- */
+.m-xxs {
+  margin: 0.125rem;
+}
+.p-xxs {
+  padding: 0.125rem;
+}
+.m-t-xxs {
+  margin-top: 0.125rem;
+}
+.p-t-xxs {
+  padding-top: 0.125rem;
+}
+.m-r-xxs {
+  margin-right: 0.125rem;
+}
+.p-r-xxs {
+  padding-right: 0.125rem;
+}
+.m-b-xxs {
+  margin-bottom: 0.125rem;
+}
+.p-b-xxs {
+  padding-bottom: 0.125rem;
+}
+.m-l-xxs {
+  margin-left: 0.125rem;
+}
+.p-l-xxs {
+  padding-left: 0.125rem;
+}
+.m-xs {
+  margin: 0.25rem;
+}
+.p-xs {
+  padding: 0.25rem;
+}
+.m-t-xs {
+  margin-top: 0.25rem;
+}
+.p-t-xs {
+  padding-top: 0.25rem;
+}
+.m-r-xs {
+  margin-right: 0.25rem;
+}
+.p-r-xs {
+  padding-right: 0.25rem;
+}
+.m-b-xs {
+  margin-bottom: 0.25rem;
+}
+.p-b-xs {
+  padding-bottom: 0.25rem;
+}
+.m-l-xs {
+  margin-left: 0.25rem;
+}
+.p-l-xs {
+  padding-left: 0.25rem;
+}
+.m-sm {
+  margin: 0.5rem;
+}
+.p-sm {
+  padding: 0.5rem;
+}
+.m-t-sm {
+  margin-top: 0.5rem;
+}
+.p-t-sm {
+  padding-top: 0.5rem;
+}
+.m-r-sm {
+  margin-right: 0.5rem;
+}
+.p-r-sm {
+  padding-right: 0.5rem;
+}
+.m-b-sm {
+  margin-bottom: 0.5rem;
+}
+.p-b-sm {
+  padding-bottom: 0.5rem;
+}
+.m-l-sm {
+  margin-left: 0.5rem;
+}
+.p-l-sm {
+  padding-left: 0.5rem;
+}
+.m-md {
+  margin: 1rem;
+}
+.p-md {
+  padding: 1rem;
+}
+.m-t-md {
+  margin-top: 1rem;
+}
+.p-t-md {
+  padding-top: 1rem;
+}
+.m-r-md {
+  margin-right: 1rem;
+}
+.p-r-md {
+  padding-right: 1rem;
+}
+.m-b-md {
+  margin-bottom: 1rem;
+}
+.p-b-md {
+  padding-bottom: 1rem;
+}
+.m-l-md {
+  margin-left: 1rem;
+}
+.p-l-md {
+  padding-left: 1rem;
+}
+.m-lg {
+  margin: 2rem;
+}
+.p-lg {
+  padding: 2rem;
+}
+.m-t-lg {
+  margin-top: 2rem;
+}
+.p-t-lg {
+  padding-top: 2rem;
+}
+.m-r-lg {
+  margin-right: 2rem;
+}
+.p-r-lg {
+  padding-right: 2rem;
+}
+.m-b-lg {
+  margin-bottom: 2rem;
+}
+.p-b-lg {
+  padding-bottom: 2rem;
+}
+.m-l-lg {
+  margin-left: 2rem;
+}
+.p-l-lg {
+  padding-left: 2rem;
+}
+.m-xl {
+  margin: 4rem;
+}
+.p-xl {
+  padding: 4rem;
+}
+.m-t-xl {
+  margin-top: 4rem;
+}
+.p-t-xl {
+  padding-top: 4rem;
+}
+.m-r-xl {
+  margin-right: 4rem;
+}
+.p-r-xl {
+  padding-right: 4rem;
+}
+.m-b-xl {
+  margin-bottom: 4rem;
+}
+.p-b-xl {
+  padding-bottom: 4rem;
+}
+.m-l-xl {
+  margin-left: 4rem;
+}
+.p-l-xl {
+  padding-left: 4rem;
+}
+.m-xxl {
+  margin: 8rem;
+}
+.p-xxl {
+  padding: 8rem;
+}
+.m-t-xxl {
+  margin-top: 8rem;
+}
+.p-t-xxl {
+  padding-top: 8rem;
+}
+.m-r-xxl {
+  margin-right: 8rem;
+}
+.p-r-xxl {
+  padding-right: 8rem;
+}
+.m-b-xxl {
+  margin-bottom: 8rem;
+}
+.p-b-xxl {
+  padding-bottom: 8rem;
+}
+.m-l-xxl {
+  margin-left: 8rem;
+}
+.p-l-xxl {
+  padding-left: 8rem;
+}
+
+/* Avatar helpers ------------------------- */
+.avatar-s {
+  border-radius: 2px;
+}
+.avatar-m {
+  border-radius: 4px;
+}
+.avatar-l {
+  border-radius: 6px;
+}
+
+/* Form helpers ------------------------- */
+label.app-form-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input.app-inline-text-input {
+  background-color: transparent;
+  color: var(--app-default-fore-color);
+  border: 1px solid var(--app-default-separator-color);
+}
+
+input.app-inline-text-input:invalid {
+  border-color: var(--app-default-danger-color);
+}
+
+/* Table ------------------------- */
+.app-table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.app-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.app-table th,
+.app-table td {
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.app-table tbody tr:hover {
+  background-color: var(--app-highlight-color);
+}
+
+.app-table thead {
+  border-bottom: 1px solid var(--app-default-separator-color);
+}
+
+.app-table th {
+  white-space: nowrap;
+}
+
+/* qing-button ------------------------- */
+qing-button.icon::part(button) {
+  /** The content lies inside qing-button. This is the only way to set the default text color. */
+  color: var(--app-default-secondary-fore-color);
+  background-color: transparent;
+  border: 0;
+}
+qing-button.icon svg-icon {
+  --svg-icon-fill: var(--app-default-secondary-fore-color);
+}
+
+/* qing-overlay ------------------------- */
+qing-overlay::part(dialog) {
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+
+qing-overlay.immersive::part(dialog) {
+  max-width: 100vw;
+  max-height: calc(100vh - 1rem);
+  width: 100vw;
+  height: calc(100vh - 1rem);
+  padding: 0 1rem 1rem 1rem;
+}
+
+@media (min-width: 768px) {
+  /** Auto width with min and max values on medium or large screens */
+  qing-overlay::part(dialog) {
+    width: auto;
+    max-width: min(100vw, 1000px);
+    min-width: 400px;
+  }
+  qing-overlay.immersive::part(dialog) {
+    width: calc(100vw - 4rem);
+    height: calc(100vh - 4rem);
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    max-width: 1320px;
+  }
+}
+
+/* Button group ------------------------- */
+.qing-btn-group {
+  display: inline-flex;
+  flex-direction: row;
+}
+.qing-btn-group qing-button {
+  min-width: 50px;
+}
+.qing-btn-group qing-button::part(button) {
+  border: none;
+}
+.qing-btn-group qing-button:not(:last-child)::part(button) {
+  border-right: none;
+}
+.qing-btn-group qing-button:first-child::part(button) {
+  border-radius: 0.3rem 0 0 0.3rem;
+}
+.qing-btn-group qing-button:last-child::part(button) {
+  border-radius: 0 0.3rem 0.3rem 0;
+}
+
+/* qing-button ------------------------- */
+qing-button.small::part(button) {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.45rem;
+  margin-bottom: 0.45rem;
+}
+qing-button.large::part(button) {
+  font-size: 1.25rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+qing-button.no-bg::part(button) {
+  background-color: transparent;
+}
+qing-button::part(button) {
+  background-color: var(--app-info-back-color);
+  color: var(--app-info-fore-color);
+  --button-outline-color: var(--app-keyboard-focus-color);
+}
+qing-button[btnStyle='success']::part(button) {
+  background-color: var(--app-success-back-color);
+  color: var(--app-success-fore-color);
+}
+qing-button[btnStyle='danger']::part(button) {
+  background-color: var(--app-danger-back-color);
+  color: var(--app-danger-fore-color);
+}
+qing-button[btnStyle='primary']::part(button) {
+  background-color: var(--app-primary-back-color);
+  color: var(--app-primary-fore-color);
+}
+qing-button[btnStyle='warning']::part(button) {
+  background-color: var(--app-warning-back-color);
+  color: var(--app-warning-fore-color);
+}
+
+/* qing-overlay ------------------------- */
+qing-overlay::part(dialog) {
+  background-color: var(--app-default-back-color);
+  color: var(--app-default-fore-color);
+  border-radius: var(--app-surface-radius-md);
+  border: 1px solid var(--app-default-separator-color);
+}
+
+/* alert-view ------------------------- */
+alert-view[alertStyle='success'] {
+  --alert-border-color: var(--app-default-success-fore-color);
+}
+alert-view[alertStyle='danger'] {
+  --alert-border-color: var(--app-default-danger-fore-color);
+}
+alert-view[alertStyle='primary'] {
+  --alert-border-color: var(--app-default-primary-fore-color);
+}
+alert-view[alertStyle='warning'] {
+  --alert-border-color: var(--app-default-warning-fore-color);
+}
+
+/* tag-view ------------------------- */
+tag-view {
+  --background-color: var(--app-info-back-color);
+  --color: var(--app-info-fore-color);
+}
+tag-view[tagStyle='success'] {
+  --background-color: var(--app-success-back-color);
+  --color: var(--app-success-fore-color);
+}
+tag-view[tagStyle='danger'] {
+  --background-color: var(--app-danger-back-color);
+  --color: var(--app-danger-fore-color);
+}
+tag-view[tagStyle='primary'] {
+  --background-color: var(--app-primary-back-color);
+  --color: var(--app-primary-fore-color);
+}
+tag-view[tagStyle='warning'] {
+  --background-color: var(--app-warning-back-color);
+  --color: var(--app-warning-fore-color);
+}
+
+/* section-view ------------------------- */
+section-view {
+  --content-color: var(--app-default-fore-color);
+  --border-radius: var(--app-surface-radius-md);
+}
+section-view[sectionStyle='success'] {
+  --header-color: var(--app-success-fore-color);
+  --tint-color: var(--app-success-back-color);
+}
+section-view[sectionStyle='danger'] {
+  --header-color: var(--app-danger-fore-color);
+  --tint-color: var(--app-danger-back-color);
+}
+section-view[sectionStyle='primary'] {
+  --header-color: var(--app-primary-fore-color);
+  --tint-color: var(--app-primary-back-color);
+}
+section-view[sectionStyle='warning'] {
+  --header-color: var(--app-warning-fore-color);
+  --tint-color: var(--app-warning-back-color);
+}
+section-view[sectionStyle='info'] {
+  --header-color: var(--app-info-fore-color);
+  --tint-color: var(--app-info-back-color);
+}
+
+/* svg-icon ------------------------- */
+svg-icon {
+  --svg-icon-fill: var(--app-default-secondary-fore-color);
+}
+svg-icon[iconStyle='success'] {
+  --svg-icon-fill: var(--app-default-success-fore-color);
+}
+svg-icon[iconStyle='danger'] {
+  --svg-icon-fill: var(--app-default-danger-fore-color);
+}
+svg-icon[iconStyle='primary'] {
+  --svg-icon-fill: var(--app-default-primary-fore-color);
+}
+svg-icon[iconStyle='warning'] {
+  --svg-icon-fill: var(--app-default-warning-fore-color);
+}
+
+/* Misc ------------------------- */
+.is-secondary {
+  color: var(--app-default-secondary-fore-color) !important;
+}
+
+blockquote {
+  background: var(--app-default-secondary-back-color);
+  border-left: 0.8rem solid var(--app-info-back-color);
+  margin: 1.5rem 0.8rem;
+  padding: 0.5rem 0.8rem;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid var(--app-default-separator-color);
+  margin: 0.8rem 0;
+  padding: 0;
+}

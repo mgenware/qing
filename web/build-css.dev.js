@@ -11,11 +11,18 @@ import * as np from 'node:path';
 
 const rootDir = 'src';
 const destDir = '../userland/static/g/app';
-const cssFiles = ['profile/profileEntry'].map((s) => `./${rootDir}/${s}.css`);
+const cssFiles = ['document', 'profile/profileEntry'].map((s) => `./${rootDir}/${s}.css`);
 
-watch(cssFiles, async (_, path) => {
+async function build(path) {
   const rpath = np.relative(`./${rootDir}`, path);
   const dest = np.join(destDir, rpath);
   await fs.promises.copyFile(path, dest);
   console.log('Updated CSS:', dest);
+}
+
+await Promise.all(cssFiles.map((f) => build(f)));
+
+console.log('Start watching...');
+watch(cssFiles, async (_, path) => {
+  await build(path);
 });

@@ -6,9 +6,8 @@
  */
 
 import ls, { formatLS, getLSByKey } from 'ls';
-import coreStyles from 'app/styles/bundle';
 import { html } from 'll';
-import { injectStyles, ready, renderTemplateResult } from 'lib/htmlLib';
+import { ready, renderTemplateResult } from 'lib/htmlLib';
 import * as cmd from '../appCommands';
 import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
@@ -56,9 +55,6 @@ function handleLocalizedStringSlots() {
 }
 
 ready(() => {
-  // Make core styles cross all shadow roots.
-  injectStyles(coreStyles);
-
   // Handle localization slots left by server templates.
   handleLocalizedStringSlots();
 

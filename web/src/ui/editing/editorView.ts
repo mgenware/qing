@@ -7,7 +7,6 @@
 
 import { customElement, css } from 'll';
 import ls from 'ls';
-import coreStyles from 'app/styles/bundle';
 import { KXEditor } from 'kangxi-editor';
 
 // A wrapper around the kangxi editor.
@@ -16,7 +15,6 @@ export default class EditorView extends KXEditor {
   static override get styles() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return [
-      ...coreStyles,
       super.styles,
       css`
         :host {
