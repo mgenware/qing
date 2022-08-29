@@ -169,7 +169,7 @@ importers:
       node-watch: ^0.7.3
       plum-element: ^0.0.7
       qing-button: ^8.2.6
-      qing-css-base: ^1.1.0
+      qing-css-base: ^1.1.1
       qing-dock-box: ^0.2.1
       qing-keyed-array: ^2.2.0
       qing-overlay: ^0.22.2
