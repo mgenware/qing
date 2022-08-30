@@ -6,17 +6,29 @@
  */
 
 import watch from 'node-watch';
-import * as fs from 'node:fs';
+import { promises as fs } from 'node:fs';
 import * as np from 'node:path';
 
 const rootDir = 'src';
 const destDir = '../userland/static/g/app';
-const cssFiles = ['document', 'profile/profileEntry'].map((s) => `./${rootDir}/${s}.css`);
+const cssFiles = ['document', 'profile/profileEntry', 'home/homeStdEntry'].map(
+  (s) => `./${rootDir}/${s}.css`,
+);
+const documentCSSRelPath = 'document.css';
+
+const qingBaseCSS = await fs.readFile('./node_modules/qing-css-base/dist/main.min.css', 'utf8');
 
 async function build(path) {
   const rpath = np.relative(`./${rootDir}`, path);
   const dest = np.join(destDir, rpath);
-  await fs.promises.copyFile(path, dest);
+  if (rpath === documentCSSRelPath) {
+    // If it's document.css, prepend `qing-css-base` css.
+    const documentCSS = await fs.readFile(path, 'utf8');
+    await fs.writeFile(dest, `${qingBaseCSS}${documentCSS}`);
+    console.log('Merged base CSS into document.css');
+  } else {
+    await fs.copyFile(path, dest);
+  }
   console.log('Updated CSS:', dest);
 }
 

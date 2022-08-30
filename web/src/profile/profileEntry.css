@@ -1,10 +1,33 @@
+/*
+ * Copyright (C) 2022 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
 .info-row {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1.5rem;
 }
 
+.is-boxed {
+  border-top: 1px solid var(--app-default-separator-color);
+  border-bottom: 1px solid var(--app-default-separator-color);
+}
+
+.tag-default {
+  border-radius: 5px;
+  padding: 0.2rem 0.7rem;
+}
+
 @media (min-width: 768px) {
+  .is-boxed {
+    border: 1px solid var(--app-default-separator-color);
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.6rem;
+  }
+
   .info-row {
     grid-template-columns: auto 1fr;
   }

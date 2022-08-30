@@ -7,8 +7,7 @@
 
 import 'core';
 // Used in profile post list.
-import { injectStyles, ready } from 'lib/htmlLib';
-import { css } from 'll';
+import { ready } from 'lib/htmlLib';
 import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 import delay from 'lib/delay';
@@ -20,27 +19,6 @@ import 'ui/alerts/noContentView';
 import profileWind from './profileWind';
 
 const defaultHighlightedTab = appdef.keyPosts;
-
-const styles = css`
-  .is-boxed {
-    border-top: 1px solid var(--app-default-separator-color);
-    border-bottom: 1px solid var(--app-default-separator-color);
-  }
-
-  @media (min-width: 768px) {
-    .is-boxed {
-      border: 1px solid var(--app-default-separator-color);
-      border-radius: 0.5rem;
-      padding: 0.8rem 1.6rem;
-    }
-  }
-
-  .tag-default {
-    border-radius: 5px;
-    padding: 0.2rem 0.7rem;
-  }
-`;
-injectStyles(styles);
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 ready(async () => {

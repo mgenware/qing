@@ -6,23 +6,15 @@
  */
 
 import 'core';
-import { injectStyles, ready } from 'lib/htmlLib';
+import { ready } from 'lib/htmlLib';
 import 'ui/lists/tabView';
 import 'ui/alerts/noticeView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
-import { css } from 'll';
 import { appdef } from '@qing/def';
 // Required by empty content view.
 import 'ui/alerts/noContentView';
 
 const defaultHighlightedTab = 'home';
-
-const styles = css`
-  .item-title {
-    font-size: 1.3rem;
-  }
-`;
-injectStyles([styles]);
 
 ready(() => {
   // Highlight the selected tab.

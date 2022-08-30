@@ -8,7 +8,7 @@
 import { CHECK } from 'checks';
 import { LitElement, CSSResultGroup } from 'lit';
 import { InputView } from 'ui/forms/inputView';
-import coreStyles from './app/styles/bundle';
+import coreStyles from 'qing-css-base';
 
 export * from 'lit';
 export * from 'lit/decorators.js';
@@ -20,7 +20,7 @@ export * from 'lit/directives/style-map.js';
 
 export class BaseElement extends LitElement {
   static override get styles(): CSSResultGroup {
-    return coreStyles;
+    return [coreStyles];
   }
 
   private mustGetShadowRoot(): ShadowRoot {

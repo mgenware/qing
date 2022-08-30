@@ -1,0 +1,17 @@
+/*
+ * Copyright (C) 2022 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
+.feed-item-title {
+  font-size: 1.3rem;
+}
+
+.feed-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 1rem;
+  padding-bottom: 1rem;
+}

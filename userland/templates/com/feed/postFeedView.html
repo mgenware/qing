@@ -1,16 +1,14 @@
-<div class="m-t-md row">
-  <div class="col-auto">
-    <a href="{{html .UserURL}}">
-      <img
-        src="{{html .UserIconURL}}"
-        alt="{{html .UserName}}"
-        class="avatar-m"
-        width="50"
-        height="50" />
-    </a>
-  </div>
-  <div class="col">
-    <div class="item-title p-b-sm"><a href="{{html .URL}}">{{html .Title}}</a></div>
+<div class="feed-item">
+  <a href="{{html .UserURL}}">
+    <img
+      src="{{html .UserIconURL}}"
+      alt="{{html .UserName}}"
+      class="avatar-m"
+      width="50"
+      height="50" />
+  </a>
+  <div>
+    <div class="feed-item-title"><a href="{{html .URL}}">{{html .Title}}</a></div>
     <div>
       <a href="{{html .UserURL}}">{{html .UserName}}</a>
       <span class="m-l-md">
