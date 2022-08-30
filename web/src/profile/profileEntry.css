@@ -11,17 +11,32 @@
   grid-gap: 1.5rem;
 }
 
-.is-boxed {
-  border-top: 1px solid var(--app-default-separator-color);
-  border-bottom: 1px solid var(--app-default-separator-color);
-}
-
 .tag-default {
   border-radius: 5px;
   padding: 0.2rem 0.7rem;
 }
 
+#m-profile-posts {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Hide the bottom hr for last feed item */
+.profile-feed:last-child hr {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  #m-profile-posts {
+    width: 83%;
+  }
+}
+
 @media (min-width: 768px) {
+  #m-profile-posts {
+    width: 92%;
+  }
+
   .is-boxed {
     border: 1px solid var(--app-default-separator-color);
     border-radius: 0.5rem;

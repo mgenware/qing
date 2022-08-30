@@ -40,22 +40,17 @@
     </div>
   </div>
 
-  <div class="row m-t-md" id="m-profile-posts">
-    <div class="col-md-1"></div>
-    <div class="col-md-10 is-boxed">
-      <div id="m-scroll-list"></div>
-      <tab-view>
-        <a id="m-profile-tab-posts" href="{{html .ProfilePostsURL}}"
-          ><span class="__qing_ls__">posts</span> {{if .PostCount}}({{.PostCount}}){{end}}</a
-        >
-        <a id="m-profile-tab-threads" href="{{html .ProfileThreadsURL}}"
-          ><span class="__qing_ls__">threads</span> {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
-        >
-      </tab-view>
-      <div class="m-t-sm">{{.FeedListHTML}}</div>
-      {{.PageBarHTML}}
-    </div>
-    <div class="col-md-1"></div>
+  <div id="m-profile-posts" class="is-boxed">
+    <div id="m-scroll-list"></div>
+    <tab-view>
+      <a id="m-profile-tab-posts" href="{{html .ProfilePostsURL}}"
+        ><span class="__qing_ls__">posts</span> {{if .PostCount}}({{.PostCount}}){{end}}</a
+      >
+      <a id="m-profile-tab-threads" href="{{html .ProfileThreadsURL}}"
+        ><span class="__qing_ls__">threads</span> {{if .ThreadCount}}({{.ThreadCount}}){{end}}</a
+      >
+    </tab-view>
+    <div class="m-t-sm">{{.FeedListHTML}}</div>
+    {{.PageBarHTML}}
   </div>
-  <!-- <div class="row m-t-md"> -->
 </div>
