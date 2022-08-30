@@ -29,12 +29,15 @@ export default {
   /** Standard mode */
   dev: {
     alias: 'd',
-    run: ['#clean', buildTS('dev')],
+    before: '#clean',
+    run: [buildTS('dev'), 'node build-css.dev.js'],
+    parallel: true,
     env: devEnv,
   },
 
   br: {
-    run: ['#clean', buildTS('br')],
+    before: '#clean',
+    run: [buildTS('br')],
     env: devEnv,
   },
 
