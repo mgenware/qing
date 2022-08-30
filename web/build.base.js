@@ -21,16 +21,17 @@ const entryPoints = [
   'forum/forumSettingsEntry',
   'lang/langEntry',
   'devPage/devPageEntry',
-].map((s) => `dist/${s}.js`);
+].map((s) => `src/${s}.ts`);
 
-export default function build(params) {
+export default function build(e) {
+  e = e || {};
   return esbuild.build({
     entryPoints,
     bundle: true,
     outdir: '../userland/static/g/app',
     define: {
       this: 'window',
-      ...params.env,
+      ...e.env,
     },
     target: [
       // Based on https://caniuse.com/mdn-css_selectors_part
@@ -42,5 +43,6 @@ export default function build(params) {
       'safari13.1',
     ],
     plugins: [minifyHTMLLiteralsPlugin()],
+    ...e.args,
   });
 }

@@ -14,8 +14,10 @@ const prodEnv = {
   NODE_ENV: 'production',
 };
 
-function buildTS(config) {
-  return `tsc-watch --onSuccess "node build.${config}.js"`;
+const tscw = 'tsc -w';
+
+function esb(config) {
+  return `node "build.${config}.js"`;
 }
 
 export default {
@@ -29,16 +31,11 @@ export default {
   /** Standard mode */
   dev: {
     alias: 'd',
-    before: '#clean',
-    run: [buildTS('dev'), 'node build-css.dev.js'],
+    before: '#dev-prep',
+    run: [tscw, esb('dev'), 'node build-css.dev.js'],
     parallel: true,
     env: devEnv,
-  },
-
-  br: {
-    before: '#clean',
-    run: [buildTS('br')],
-    env: devEnv,
+    prep: ['#clean', 'tsc'],
   },
 
   /** Turbo mode */

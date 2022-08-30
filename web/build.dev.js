@@ -11,4 +11,7 @@ build({
   env: {
     'window.__qing_dev__': true,
   },
+  args: {
+    watch: true,
+  },
 });
