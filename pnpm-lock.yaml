@@ -130,19 +130,6 @@ importers:
   lib/routes:
     specifiers: {}
 
-  lib/stylelib:
-    specifiers:
-      clean-css-cli: ^5.6.0
-      concat: ^1.0.3
-      modern-normalize: ^1.1.0
-      string-to-template-literal: ^2.0.0
-    dependencies:
-      modern-normalize: 1.1.0
-    devDependencies:
-      clean-css-cli: 5.6.1
-      concat: 1.0.3
-      string-to-template-literal: 2.0.0
-
   web:
     specifiers:
       '@github/image-crop-element': ^5.0.0
@@ -165,7 +152,7 @@ importers:
       node-watch: ^0.7.3
       plum-element: ^0.0.7
       qing-button: ^8.2.6
-      qing-css-base: ^1.1.1
+      qing-css-base: ^1.1.3
       qing-dock-box: ^0.2.1
       qing-keyed-array: ^2.2.0
       qing-overlay: ^0.22.2
@@ -184,7 +171,7 @@ importers:
       narwhal-js: 0.0.1
       plum-element: 0.0.7
       qing-button: 8.2.6
-      qing-css-base: link:../lib/stylelib
+      qing-css-base: 1.1.3
       qing-dock-box: 0.2.1
       qing-keyed-array: 2.2.0
       qing-overlay: 0.22.2_qing-button@8.2.6
@@ -1779,27 +1766,9 @@ packages:
     resolution: {integrity: sha512-xmDt/QIAdeZ9+nfdPsaBCpMvHNLFiLdjj59qjqn+6iPe6YmHGQ35sBnQ8uslRBXFmXkiZQOJRjvQeoGppoTjjg==}
     dev: true
 
-  /clean-css-cli/5.6.1:
-    resolution: {integrity: sha512-/StJu1YODZY6cOwkBx5FMhSoc9YmvEJXtwNN+udGg1GIKrr4PkdsCdUqC26GfdPdt5IuZnu+5y9/3mrdIJa40Q==}
-    engines: {node: '>= 10.12.0'}
-    hasBin: true
-    dependencies:
-      chokidar: 3.5.3
-      clean-css: 5.3.1
-      commander: 7.2.0
-      glob: 7.2.3
-    dev: true
-
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
-    dependencies:
-      source-map: 0.6.1
-    dev: true
-
-  /clean-css/5.3.1:
-    resolution: {integrity: sha512-lCr8OHhiWCTw4v8POJovCoh4T7I9U11yVsPjMWWnnMmp9ZowCxyad1Pathle/9HjaDp+fdQKjO9fQydE6RHTZg==}
-    engines: {node: '>= 10.0'}
     dependencies:
       source-map: 0.6.1
     dev: true
@@ -1898,21 +1867,8 @@ packages:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
     dev: true
 
-  /commander/7.2.0:
-    resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
-    engines: {node: '>= 10'}
-    dev: true
-
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
-
-  /concat/1.0.3:
-    resolution: {integrity: sha512-f/ZaH1aLe64qHgTILdldbvyfGiGF4uzeo9IuXUloIOLQzFmIPloy9QbZadNsuVv0j5qbKQvQb/H/UYf2UsKTpw==}
-    engines: {node: '>=6'}
-    hasBin: true
-    dependencies:
-      commander: 2.20.3
-    dev: true
 
   /confusing-browser-globals/1.0.11:
     resolution: {integrity: sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==}
@@ -5007,6 +4963,12 @@ packages:
       lit: ^2.0.0
     dev: false
 
+  /qing-css-base/1.1.3:
+    resolution: {integrity: sha512-tm2/edma8hFnHHCHvk5Hh03KjGK7CzJUAxVGmxpc3003gheDCJJ4mhbHf5Nk0dkjEGnzxOF3uKeiPJqP3/PBwg==}
+    dependencies:
+      modern-normalize: 1.1.0
+    dev: false
+
   /qing-dock-box/0.2.1:
     resolution: {integrity: sha512-cy1+jQ+m+pH8RRpvq3ss7fTC23BsUlfNwaHCgFSzEkQNYJDvv7cX+DePeyVScQIXRdoKkBb9IW1q1Zfl82lvZw==}
     engines: {node: '>=14.0.0'}
@@ -5437,11 +5399,6 @@ packages:
   /statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=}
     engines: {node: '>= 0.6'}
-    dev: true
-
-  /string-to-template-literal/2.0.0:
-    resolution: {integrity: sha512-AbTUWHXMyoRlTFP9qe013dfGTFq1XbcBLUoLC7PcumbJewtUwNXCvnko5cH2gZkUFC7kD2Fwxiv4YIndkU0xHA==}
-    engines: {node: '>=12.0.0'}
     dev: true
 
   /string-width/2.1.1:
