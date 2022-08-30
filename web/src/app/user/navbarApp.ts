@@ -106,8 +106,8 @@ export default class NavbarApp extends BaseElement {
           z-index: 1;
         }
 
-        d-block {
-          display: block !important;
+        .dropdown.d-block {
+          display: block;
         }
 
         .dropdown .list a {
