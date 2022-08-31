@@ -24,6 +24,8 @@ async function build(path) {
   if (rpath === documentCSSRelPath) {
     // If it's document.css, prepend `qing-css-base` css.
     const documentCSS = await fs.readFile(path, 'utf8');
+
+    await fs.mkdir(np.dirname(dest), { recursive: true });
     await fs.writeFile(dest, `${qingBaseCSS}${documentCSS}`);
     console.log('Merged base CSS into document.css');
   } else {

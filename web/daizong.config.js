@@ -16,8 +16,12 @@ const prodEnv = {
 
 const tscw = 'tsc -w';
 
-function esb(config) {
-  return `node "build.${config}.js"`;
+function buildTS(config) {
+  return `node "b-ts.${config}.js"`;
+}
+
+function buildCSS(config) {
+  return `node "b-css.${config}.js"`;
 }
 
 export default {
@@ -32,7 +36,7 @@ export default {
   dev: {
     alias: 'd',
     before: '#dev-prep',
-    run: [tscw, esb('dev'), 'node build-css.dev.js'],
+    run: [tscw, buildTS('dev'), buildCSS('dev')],
     parallel: true,
     env: devEnv,
     prep: ['#clean', 'tsc'],
