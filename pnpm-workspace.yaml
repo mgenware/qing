@@ -1,5 +1,7 @@
 packages:
-  - 'lib/**'
-  - '!lib/stylelib'
+  - 'lib/cli'
+  - 'lib/def'
+  - 'lib/devutil'
+  - 'lib/routes'
   - 'it'
   - 'web'

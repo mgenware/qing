@@ -34,6 +34,7 @@
 
 @media (min-width: 768px) {
   #m-profile-posts {
+    margin-top: 1.2rem;
     width: 92%;
   }
 
