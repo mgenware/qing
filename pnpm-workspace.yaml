@@ -1,6 +1,7 @@
 packages:
   - 'lib/cli'
   - 'lib/def'
+  - 'lib/dev'
   - 'lib/devutil'
   - 'lib/routes'
   - 'it'

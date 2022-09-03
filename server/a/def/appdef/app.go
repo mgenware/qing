@@ -50,7 +50,6 @@ const (
 	RouteForum = "f"
 	RouteForumGroup = "g"
 	RouteThread = "t"
-	RouteLangs = "lang"
 	RouteDev = "__"
 	RouteAuth = "auth"
 	RoutePost = "p"
@@ -84,5 +83,6 @@ const (
 	LenMinUserPwd = 6
 	LenMaxUserPwd = 30
 	LenMaxCaptcha = 10
+	LenMaxLang = 10
 	LenMaxGenericString = 100
 )
