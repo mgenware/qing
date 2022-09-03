@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { spawn, exec } from 'child_process';
+import { exec } from 'child_process';
+import { execa } from 'execa';
 import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { promisify } from 'util';
 import { fileURLToPath } from 'url';
@@ -50,24 +51,12 @@ export function checkArg(s: string | undefined, name: string): asserts s {
 
 export async function pipedSpawn(
   command: string,
-  args: readonly string[] | null,
+  args: readonly string[] | undefined,
   workingDir: string,
-): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const process = spawn(command, args ?? [], {
-      stdio: 'inherit',
-      cwd: workingDir,
-    });
-    process.on('close', (code) => {
-      if (code) {
-        reject(new Error(`Command failed with code ${code} (${command})`));
-      } else {
-        resolve();
-      }
-    });
-    process.on('error', (err) => {
-      reject(err);
-    });
+) {
+  return execa(command, args, {
+    stdio: 'inherit',
+    cwd: workingDir,
   });
 }
 

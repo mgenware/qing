@@ -24,6 +24,7 @@
     "dist/**/*.map"
   ],
   "dependencies": {
-    "catch-err-msg": "^1.0.0"
+    "catch-err-msg": "^1.0.0",
+    "execa": "^6.1.0"
   }
 }
