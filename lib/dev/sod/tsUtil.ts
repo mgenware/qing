@@ -12,22 +12,32 @@ const tsExtendsAttr = '__ts_extends';
 
 cm.addAllowedAttrs([tsExtendsAttr]);
 
-function sourceTypeFieldToTSType(type: string, optional: boolean): [string, boolean] {
+function handleTypeName(name: string, traits: cm.PropertyTraits) {
+  if (traits.isArray) {
+    return `${name}[]`;
+  }
+  return name;
+}
+
+function sourceTypeFieldToTSType(type: string, traits: cm.PropertyTraits): [string, boolean] {
   // Some types are always optional because SOD Go types have omitifempty tags on.
-  // So even if a field set in Go, it can be omitted in JSON.
+  // So even if a field set in Go, it can be optional when transferred back to TS.
   switch (type) {
     case 'bool':
-      return ['boolean', true];
+      return [handleTypeName('boolean', traits), true];
     case 'int':
     case 'uint':
     case 'uint64':
     case 'double':
-      return ['number', true];
+      return [handleTypeName('number', traits), true];
     case 'string':
-      return ['string', optional];
+      return [handleTypeName('string', traits), traits.optional];
     default:
       // Strip pointer indicator (*). No pointers in JS.
-      return [type.startsWith('*') ? type.substring(1) : type, optional];
+      return [
+        handleTypeName(type.startsWith('*') ? type.substring(1) : type, traits),
+        traits.optional,
+      ];
   }
 }
 
@@ -65,8 +75,8 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
           }
         }
       },
-      (k, v, optional) => {
-        const [type, optionalResolved] = sourceTypeFieldToTSType(v, optional);
+      (k, v, traits) => {
+        const [type, optionalResolved] = sourceTypeFieldToTSType(v, traits);
         typeCode += `  ${k}${optionalResolved ? '?' : ''}: ${type};\n`;
       },
     );

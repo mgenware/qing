@@ -92,11 +92,16 @@ export function parseRenameMap(obj: unknown): Record<string, string> {
   return obj as Record<string, string>;
 }
 
+export interface PropertyTraits {
+  optional: boolean;
+  isArray: boolean;
+}
+
 export function scanTypeDef(
   go: boolean, // true for Go, false for TypeScript.
   src: Record<string, unknown>,
   attrCb: (k: string, v: unknown) => void,
-  propCb: (k: string, v: string, optional: boolean) => void,
+  propCb: (k: string, v: string, traits: PropertyTraits) => void,
 ) {
   // Handle attrs first.
   for (const [k, v] of Object.entries(src)) {
@@ -120,6 +125,9 @@ export function scanTypeDef(
       const optional = _k.endsWith('?');
       let k = optional ? _k.substring(0, _k.length - 1) : _k;
 
+      const isArray = k.endsWith('[]');
+      k = isArray ? k.substring(0, k.length - 2) : k;
+
       if (k.endsWith('__')) {
         const match = scopedProp.exec(k);
         if (!match?.length) {
@@ -140,7 +148,7 @@ export function scanTypeDef(
         }
       }
       if (!skipThisProp) {
-        propCb(k, v, optional);
+        propCb(k, v, { optional, isArray });
       }
     }
   }
