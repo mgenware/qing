@@ -26,7 +26,7 @@ var User = &UserAGType{}
 // ------------ Actions ------------
 
 func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `admin`) VALUES (?, ?, '', NOW(3), '', '', '', NULL, 0)", email, name)
+	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `lang`, `admin`) VALUES (?, ?, '', NOW(3), '', '', '', NULL, '', 0)", email, name)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -106,6 +106,15 @@ func (mrTable *UserAGType) SelectIDFromEmail(mrQueryable mingru.Queryable, email
 func (mrTable *UserAGType) SelectIsAdmin(mrQueryable mingru.Queryable, id uint64) (bool, error) {
 	var result bool
 	err := mrQueryable.QueryRow("SELECT `admin` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func (mrTable *UserAGType) SelectLang(mrQueryable mingru.Queryable, id uint64) (string, error) {
+	var result string
+	err := mrQueryable.QueryRow("SELECT `lang` FROM `user` WHERE `id` = ?", id).Scan(&result)
 	if err != nil {
 		return result, err
 	}

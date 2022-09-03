@@ -30,6 +30,7 @@ export class UserAG extends mm.ActionGroup {
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToParam());
   selectIsAdmin = mm.selectField(t.admin).by(t.id);
   selectName = mm.selectField(t.name).by(t.id);
+  selectLang = mm.selectField(t.lang).by(t.id);
 
   findUserByID = mm
     .selectRow(...coreCols)
