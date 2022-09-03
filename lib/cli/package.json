@@ -1,6 +1,6 @@
 {
   "name": "qing-dev",
-  "version": "1.11.5",
+  "version": "1.11.6",
   "description": "CLI for Qing development",
   "type": "module",
   "exports": "./dist/cli.js",
