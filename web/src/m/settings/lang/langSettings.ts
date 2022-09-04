@@ -43,15 +43,21 @@ export class LangSettings extends StatefulPage {
     if (!this.langResult?.langs) {
       return html``;
     }
+    const { autoOptionLS } = this.langResult;
     return html`
       <heading-view>${ls.language}</heading-view>
       <link-list-view>
+        <link-button
+          @click=${() => this.changeLangTo(autoOptionLS, '')}
+          class=${!this.selectedLang ? linkListActiveFilledClass : ''}
+          >${autoOptionLS}</link-button
+        >
         ${this.langResult.langs.map(
           (t) =>
             html`<link-button
-              @click=${() => this.changeLangTo(t.localizedName, t.id)}
+              @click=${() => this.changeLangTo(t.name, t.id)}
               class=${this.selectedLang === t.id ? linkListActiveFilledClass : ''}
-              >${t.name} (${t.localizedName})</link-button
+              >${t.name}</link-button
             >`,
         )}
       </link-list-view>

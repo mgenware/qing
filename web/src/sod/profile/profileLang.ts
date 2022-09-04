@@ -16,7 +16,6 @@
 export interface ProfileLang {
   id: string;
   name: string;
-  localizedName: string;
 }
 
 export interface GetProfileLangResult {

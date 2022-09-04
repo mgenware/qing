@@ -32,7 +32,7 @@ func lang(w http.ResponseWriter, r *http.Request) handler.JSON {
 	en := display.English.Tags()
 	var langInfoList []profileSod.ProfileLang
 	for _, t := range langTags {
-		info := profileSod.NewProfileLang(t.String(), en.Name(t), display.Self.Name(t))
+		info := profileSod.NewProfileLang(t.String(), en.Name(t)+" ("+display.Self.Name(t)+")")
 		langInfoList = append(langInfoList, info)
 	}
 
