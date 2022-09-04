@@ -19,26 +19,29 @@ function handleTypeName(name: string, traits: cm.PropertyTraits) {
   return name;
 }
 
-function sourceTypeFieldToTSType(type: string, traits: cm.PropertyTraits): [string, boolean] {
-  // Some types are always optional because SOD Go types have omitifempty tags on.
-  // So even if a field set in Go, it can be optional when transferred back to TS.
+function sourceTypeToTSType(type: string) {
   switch (type) {
     case 'bool':
-      return [handleTypeName('boolean', traits), true];
+      return 'boolean';
     case 'int':
     case 'uint':
     case 'uint64':
     case 'double':
-      return [handleTypeName('number', traits), true];
+      return 'number';
     case 'string':
-      return [handleTypeName('string', traits), traits.optional];
+      return 'string';
     default:
       // Strip pointer indicator (*). No pointers in JS.
-      return [
-        handleTypeName(type.startsWith('*') ? type.substring(1) : type, traits),
-        traits.optional,
-      ];
+      return type.startsWith('*') ? type.substring(1) : type;
   }
+}
+
+// Returns [<resolved type>, <optional>].
+function convertType(type: string, traits: cm.PropertyTraits): [string, boolean] {
+  // Some types are always optional because SOD Go types have omitifempty tags on.
+  // So even if a field set in Go, it can be optional when transferred back to TS.
+  const tsType = sourceTypeToTSType(type);
+  return [handleTypeName(tsType, traits), !traits.notEmpty];
 }
 
 function handleImportPath(s: string, name: string) {
@@ -76,8 +79,8 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
         }
       },
       (k, v, traits) => {
-        const [type, optionalResolved] = sourceTypeFieldToTSType(v, traits);
-        typeCode += `  ${k}${optionalResolved ? '?' : ''}: ${type};\n`;
+        const [type, optional] = convertType(v, traits);
+        typeCode += `  ${k}${optional ? '?' : ''}: ${type};\n`;
       },
     );
     typeCode += '}\n';

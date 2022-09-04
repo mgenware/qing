@@ -10,7 +10,6 @@ import * as np from 'path';
 import * as cm from './common.js';
 import * as qdu from '@qing/devutil';
 
-export const goOutDirAttr = '__go_out_dir';
 const goCtorAttr = '__go_ctor';
 const goExtendsAttr = '__go_extends';
 const goRenameAttr = '__go_rename';
