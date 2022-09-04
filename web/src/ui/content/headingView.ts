@@ -18,7 +18,7 @@ export class HeadingView extends BaseElement {
         }
 
         h2 {
-          border-left: var(--app-heading-indicator-width-md) solid
+          border-left: var(--app-heading-indicator-width) solid
             var(--app-default-primary-fore-color);
           padding-left: 0.8rem;
         }

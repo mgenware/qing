@@ -16,7 +16,7 @@ import DeleteEntityLoader from './loaders/deleteEntityLoader';
 import 'com/postCore/setEntityApp';
 import SetEntityApp from 'com/postCore/setEntityApp';
 import appTask from 'app/appTask';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 import { renderTemplateResult } from 'lib/htmlLib';
 import Entity from 'lib/entity';
 

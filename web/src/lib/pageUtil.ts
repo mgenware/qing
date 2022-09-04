@@ -38,7 +38,7 @@ export function setTitle(titles: string[]) {
 }
 
 export function setMainContent(content: TemplateResult) {
-  renderTemplateResult(mainContentElement(), html`<div class="container p-b-md">${content}</div>`);
+  renderTemplateResult(mainContentElement(), html`<div class="container section">${content}</div>`);
 }
 
 export function setTitleAndMainContent(titles: string[], content: TemplateResult) {

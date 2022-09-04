@@ -13,7 +13,7 @@ import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import appTask from 'app/appTask';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 @customElement('sign-in-app')
 export class SignInApp extends BaseElement {

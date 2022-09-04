@@ -69,18 +69,18 @@ export class CmtView extends BaseElement {
               class="m-l-md"
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}></time-field>
-            ${cmt.userEID === appPageState.userEID
+            ${cmt.userID === appPageState.userEID
               ? html`
                   <edit-bar-app
                     class="m-l-md"
-                    uid=${cmt.userEID}
+                    uid=${cmt.userID}
                     .hasLeftMargin=${true}
                     @edit-bar-edit-click=${this.handleEditClick}
                     @edit-bar-delete-click=${this.handleDeleteClick}></edit-bar-app>
                 `
               : ''}
           </div>
-          <div>${unsafeHTML(cmt.contentHTML)}</div>
+          <div>${unsafeHTML(cmt.contentHTML || '')}</div>
           <div>
             <link-button @click=${this.handleReplyClick}>${ls.reply}</link-button>
             <likes-app

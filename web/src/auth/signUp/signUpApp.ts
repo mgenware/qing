@@ -15,7 +15,7 @@ import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import { appdef } from '@qing/def';
 import appTask from 'app/appTask';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 @customElement('sign-up-app')
 export class SignUpApp extends BaseElement {

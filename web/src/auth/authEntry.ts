@@ -12,7 +12,7 @@ import * as authRoute from '@qing/routes/d/auth';
 import './signUp/signUpApp';
 import './signIn/signInApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 const authRouter = new MiniURLRouter();
 

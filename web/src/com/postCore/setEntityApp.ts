@@ -12,7 +12,7 @@ import { ComposerContent, ComposerView } from 'ui/editing/composerView';
 import 'qing-overlay';
 import { SetEntityLoader } from './loaders/setEntityLoader';
 import appTask from 'app/appTask';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 const composerID = 'composer';
 

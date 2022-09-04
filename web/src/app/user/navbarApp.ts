@@ -20,7 +20,7 @@ import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import appStateName from 'app/appStateName';
 import appTask from 'app/appTask';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 import AppSettings from 'app/appSettings';
 import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
@@ -369,7 +369,7 @@ export default class NavbarApp extends BaseElement {
             >${ls.newThread}</a
           >
           <hr />
-          <a href=${mRoute.settingsProfile}>${ls.settings}</a>
+          <a href=${mRoute.profileSettings}>${ls.settings}</a>
           ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
           <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
         </div>
