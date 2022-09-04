@@ -15,5 +15,6 @@
   "youAreAlreadyAdmin": "You are already an admin",
   "pFileSizeExceedsMaxSize": "The file size exceeds the maximum allowed size {0}",
   "unsupportedExtension": "Unsupported file extension",
-  "copyright": "Copyright"
+  "copyright": "Copyright",
+  "autoLangOption": "Auto (based on browser settings)"
 }

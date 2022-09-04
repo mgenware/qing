@@ -15,7 +15,7 @@ import ls from 'ls';
 import ForumSettingsWind from './forumSettingsWind';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 const settingsRouter = new MiniURLRouter();
 const forumSettingsWind = appPageState.windData<ForumSettingsWind>();

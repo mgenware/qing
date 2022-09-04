@@ -14,7 +14,7 @@ import './devPage';
 import { appdef } from '@qing/def';
 import './auth/authPage';
 import './ui/elementsPage';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 const devRouter = new MiniURLRouter();
 

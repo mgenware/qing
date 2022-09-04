@@ -136,7 +136,7 @@
   "undo": "Undo",
   "redo": "Redo",
   "horizontalRule": "Horizontal Rule",
-  "langSettings": "Language settings",
+  "language": "Language",
   "doYouWantToChangeLangTo": "Do you want to change website language to {0}?",
   "close": "Close",
   "signInToLikeThisEntity": "Sign in to like this {0|lowercase}.",

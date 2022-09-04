@@ -61,10 +61,10 @@ export class SettingsBaseView extends BaseElement {
   }
 
   private menuLink(item: SettingsBaseItem) {
-    return html`<a
+    return html`<link-button
       class=${this.selectedItem === item.name ? linkListActiveClass : ''}
       href=${item.link}
-      >${item.name}</a
+      >${item.name}</link-button
     >`;
   }
 }

@@ -69,8 +69,10 @@ export class ForumSettingsBaseView extends BaseElement {
   }
 
   private menuLink(page: ForumSettingsPages, link: string, value: string) {
-    return html`<a class=${this.selectedPage === page ? linkListActiveClass : ''} href=${link}
-      >${value}</a
+    return html`<link-button
+      class=${this.selectedPage === page ? linkListActiveClass : ''}
+      href=${link}
+      >${value}</link-button
     >`;
   }
 }

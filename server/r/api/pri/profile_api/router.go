@@ -15,5 +15,7 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Post("/info", info)
 	Router.Post("/set-info", setInfo)
+	Router.Post("/lang", lang)
+	Router.Post("/set-lang", setLang)
 	Router.Core.Post("/set-avatar", uploadAvatar)
 }

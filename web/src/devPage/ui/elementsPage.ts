@@ -252,15 +252,15 @@ export class ElementsPage extends BaseElement {
       <h2>Link list view</h2>
       <h3>Default style</h3>
       <link-list-view>
-        <a href="#">Linux</a>
-        <a href="#" class=${linkListActiveClass}>macOS</a>
-        <a href="#">Windows</a>
+        <link-button>Linux</link-button>
+        <link-button class=${linkListActiveClass}>macOS</link-button>
+        <link-button>Windows</link-button>
       </link-list-view>
       <h3>Filled style</h3>
       <link-list-view>
-        <a href="#">Linux</a>
-        <a href="#" class=${linkListActiveFilledClass}>macOS</a>
-        <a href="#">Windows</a>
+        <link-button>Linux</link-button>
+        <link-button class=${linkListActiveFilledClass}>macOS</link-button>
+        <link-button>Windows</link-button>
       </link-list-view>
       <h2>Post editor</h2>
       <qing-button @click=${this.showPostEditor}>Show post editor</qing-button>

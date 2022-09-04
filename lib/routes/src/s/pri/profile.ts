@@ -12,3 +12,5 @@ const profile = `${root}/profile`;
 export const info = `${profile}/info`;
 export const setInfo = `${profile}/set-info`;
 export const setAvatar = `${profile}/set-avatar`;
+export const lang = `${profile}/lang`;
+export const setLang = `${profile}/set-lang`;

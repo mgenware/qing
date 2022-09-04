@@ -10,4 +10,5 @@ const m = '/m';
 export const yourPosts = `${m}/your-posts`;
 export const yourThreads = `${m}/your-threads`;
 const settings = `${m}/settings`;
-export const settingsProfile = `${settings}/profile`;
+export const profileSettings = `${settings}/profile`;
+export const langSettings = `${settings}/lang`;

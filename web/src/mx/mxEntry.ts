@@ -13,7 +13,7 @@ import './admins/adminsSettingsPage';
 import './community/communitySettingsPage';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 const router = new MiniURLRouter();
 

@@ -9,13 +9,14 @@ package appcom
 
 import "encoding/json"
 
-// SessionUser contains user infomation stored in a session store.
+// SessionUser contains user information stored in a session store.
 type SessionUser struct {
-	ID         uint64 `json:"id,omitempty"`
-	Name       string `json:"name,omitempty"`
-	IconName   string `json:"icon,omitempty"`
-	Admin      bool   `json:"admin,omitempty"`
-	IsForumMod bool   `json:"is_mod,omitempty"`
+	ID         uint64 `json:"i,omitempty"`
+	Name       string `json:"n,omitempty"`
+	IconName   string `json:"ico,omitempty"`
+	Admin      bool   `json:"adm,omitempty"`
+	IsForumMod bool   `json:"fmd,omitempty"`
+	Lang       bool   `json:"lan,omitempty"`
 
 	// Generated props when deserialized
 	URL     string `json:"-"`

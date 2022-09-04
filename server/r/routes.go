@@ -23,7 +23,6 @@ import (
 	"qing/r/devp"
 	"qing/r/forump"
 	"qing/r/homep"
-	"qing/r/langp"
 	"qing/r/mp"
 	"qing/r/mxp"
 	"qing/r/postp"
@@ -83,8 +82,6 @@ func Start() {
 	r.Mount("/"+appdef.RouteApi, api.Router)
 	// Home page.
 	langRouter().Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
-	// Language settings router.
-	langRouter().Mount("/"+appdef.RouteLangs, handler.HTMLHandlerToHTTPHandler(langp.LangHandler))
 
 	devConfig := conf.Dev
 	if devConfig != nil {

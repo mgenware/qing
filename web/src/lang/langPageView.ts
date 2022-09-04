@@ -11,7 +11,7 @@ import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import appAlert from 'app/appAlert';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 import AppSettings from 'app/appSettings';
 
 @customElement('lang-page-view')
@@ -39,7 +39,7 @@ export class LangPageView extends BaseElement {
     const curLang = ls.qingLang;
     return html`
       <div class="container">
-        <h2>${ls.langSettings}</h2>
+        <h2>${ls.language}</h2>
         <hr />
         <link-list-view>
           ${this.tags.map(

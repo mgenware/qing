@@ -15,5 +15,6 @@
   "youAreAlreadyAdmin": "您已经是管理员",
   "pFileSizeExceedsMaxSize": "文件超过最大允许的大小 {0}",
   "unsupportedExtension": "不支持的文件扩展名",
-  "copyright": "版权"
+  "copyright": "版权",
+  "autoLangOption": "自动（基于浏览器配置）"
 }

@@ -10,7 +10,10 @@ import ls from 'ls';
 import * as mRoute from '@qing/routes/d/m';
 import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
 
-const items: SettingsBaseItem[] = [{ name: ls.profile, link: mRoute.settingsProfile }];
+const items: SettingsBaseItem[] = [
+  { name: ls.profile, link: mRoute.profileSettings },
+  { name: ls.language, link: mRoute.langSettings },
+];
 
 @customElement('m-settings')
 export class MSettings extends SettingsBaseView {

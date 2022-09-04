@@ -14,6 +14,7 @@ var TestDict *Dictionary
   
 func init() {
 	TestDict = &Dictionary{}
+	TestDict.AutoLangOption = "ls.autoLangOption"
 	TestDict.CannotRemoveSelfAdmin = "ls.cannotRemoveSelfAdmin"
 	TestDict.ClickBelowToCompleteReg = "ls.clickBelowToCompleteReg"
 	TestDict.Copyright = "ls.copyright"

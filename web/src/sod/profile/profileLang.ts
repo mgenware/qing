@@ -14,12 +14,13 @@
  ******************************************************************************************/
 
 export interface ProfileLang {
-  id?: string;
-  name?: string;
-  localizedName?: string;
+  id: string;
+  name: string;
+  localizedName: string;
 }
 
 export interface GetProfileLangResult {
   userLang?: string;
+  autoOptionLS: string;
   langs?: ProfileLang[];
 }

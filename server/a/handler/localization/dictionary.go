@@ -19,6 +19,7 @@ import (
 
 // Dictionary ...
 type Dictionary struct {
+	AutoLangOption          string `json:"autoLangOption"`
 	CannotRemoveSelfAdmin   string `json:"cannotRemoveSelfAdmin"`
 	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
 	Copyright               string `json:"copyright"`

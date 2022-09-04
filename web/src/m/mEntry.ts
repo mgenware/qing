@@ -11,10 +11,11 @@ import ls from 'ls';
 import * as mRoute from '@qing/routes/d/m';
 import './settings/mSettings';
 import './settings/profile/profileSettings';
+import './settings/lang/langSettings';
 import './postCenter/myPostsApp';
 import './postCenter/myThreadsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
-import * as pu from 'app/utils/pageUtils';
+import * as pu from 'lib/pageUtil';
 
 const router = new MiniURLRouter();
 
@@ -25,8 +26,11 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   );
 }
 
-router.register(mRoute.settingsProfile, () => {
-  loadSettingsContent(ls.profile, html` <profile-settings></profile-settings> `);
+router.register(mRoute.profileSettings, () => {
+  loadSettingsContent(ls.profile, html`<profile-settings></profile-settings>`);
+});
+router.register(mRoute.langSettings, () => {
+  loadSettingsContent(ls.language, html`<lang-settings></lang-settings>`);
 });
 router.register(mRoute.yourPosts, () => {
   pu.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
