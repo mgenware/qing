@@ -16,7 +16,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/sys"
-	postSod "qing/sod/post"
+	"qing/sod/postSod"
 
 	"github.com/go-chi/chi/v5"
 )

@@ -16,7 +16,7 @@ import (
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
-	appSod "qing/sod/app"
+	"qing/sod/appSod"
 )
 
 func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {

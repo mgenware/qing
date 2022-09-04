@@ -5,6 +5,14 @@ Cmt:
     id: EID
     userID: UserEID
 
+  __go_extends:
+    - name: CmtResult
+      packageName: da
+      path: :da
+  __ts_extends:
+    - name: CmtResult
+      path: :da
+
   id: string!
   userID: string!
   userURL: string!

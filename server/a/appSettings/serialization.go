@@ -11,7 +11,7 @@ import (
 	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/lib/iolib"
-	appSod "qing/sod/app"
+	"qing/sod/appSod"
 
 	"github.com/mgenware/goutil/iox"
 )

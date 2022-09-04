@@ -125,9 +125,9 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       // eslint-disable-next-line @typescript-eslint/no-loop-func
       (k, v, traits) => {
         members.push({
-          name: `${traits.isArray ? '[]' : ''}${renameMap[k] || cm.capitalizeFirstLetter(k)}`,
+          name: `${renameMap[k] || cm.capitalizeFirstLetter(k)}`,
           paramName: k,
-          type: v,
+          type: `${traits.isArray ? '[]' : ''}${traits.optional ? '*' : ''}${v}`,
           tag: `\`json:"${k},omitempty"\``,
         });
       },

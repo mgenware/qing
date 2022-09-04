@@ -28,6 +28,6 @@ func NewProfileLang(id string, name string, localizedName string) ProfileLang {
 }
 
 type GetProfileLangResult struct {
-	UserLang string      `json:"userLang,omitempty"`
-	[]Langs  ProfileLang `json:"langs,omitempty"`
+	UserLang string        `json:"userLang,omitempty"`
+	Langs    []ProfileLang `json:"langs,omitempty"`
 }

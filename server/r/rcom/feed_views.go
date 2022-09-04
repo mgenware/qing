@@ -12,7 +12,7 @@ import (
 	"qing/a/appURL"
 	"qing/da"
 	"qing/lib/clib"
-	contentBaseSod "qing/sod/contentBase"
+	"qing/sod/feedSod"
 )
 
 var vPostFeedView = appHandler.MainPage().MustParseView("com/feed/postFeedView.html")
@@ -20,7 +20,7 @@ var vThreadFeedView = appHandler.MainPage().MustParseView("com/feed/threadFeedVi
 
 type PostFeedModel struct {
 	da.HomeAGSelectPostsResult
-	contentBaseSod.ContentBaseModelBase
+	feedSod.FeedBase
 }
 
 func MustRenderPostFeedView(d *PostFeedModel) string {
@@ -42,7 +42,7 @@ func NewPostFeedModel(src *da.HomeAGSelectPostsResult) PostFeedModel {
 
 type ThreadFeedModel struct {
 	da.ThreadFeedResult
-	contentBaseSod.ContentBaseModelBase
+	feedSod.FeedBase
 }
 
 func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {

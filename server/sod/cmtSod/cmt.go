@@ -13,18 +13,23 @@
 
 package cmtSod
 
+import "qing/da"
+
 type Cmt struct {
-	EID         string `json:"id,omitempty"`
-	UserEID     string `json:"userID,omitempty"`
-	UserURL     string `json:"userURL,omitempty"`
-	UserIconURL string `json:"userIconURL,omitempty"`
-	CreatedAt   string `json:"createdAt,omitempty"`
-	ModifiedAt  string `json:"modifiedAt,omitempty"`
-	ParentID    string `json:"parentID,omitempty"`
+	da.CmtResult
+
+	EID         string  `json:"id,omitempty"`
+	UserEID     string  `json:"userID,omitempty"`
+	UserURL     string  `json:"userURL,omitempty"`
+	UserIconURL string  `json:"userIconURL,omitempty"`
+	CreatedAt   string  `json:"createdAt,omitempty"`
+	ModifiedAt  string  `json:"modifiedAt,omitempty"`
+	ParentID    *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(id string, userID string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentID string) Cmt {
+func NewCmt(cmtResult *da.CmtResult, id string, userID string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentID *string) Cmt {
 	return Cmt{
+		CmtResult: *cmtResult,
 		EID: id,
 		UserEID: userID,
 		UserURL: userURL,

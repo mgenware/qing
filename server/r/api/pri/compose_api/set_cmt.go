@@ -17,7 +17,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
-	cmtSod "qing/sod/cmt"
+	"qing/sod/cmtSod"
 	"time"
 )
 

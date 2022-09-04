@@ -8,7 +8,7 @@
 package handler
 
 import (
-	appSod "qing/sod/app"
+	"qing/sod/appSod"
 )
 
 // MainPageData holds the data needed in main page template.

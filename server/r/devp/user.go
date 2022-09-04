@@ -21,7 +21,7 @@ import (
 	"qing/lib/clib"
 	"qing/lib/randlib"
 	"qing/r/authp"
-	authSod "qing/sod/dev/auth"
+	"qing/sod/dev/authSod"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/jsonx"

@@ -10,7 +10,7 @@ package appSettings
 import (
 	"errors"
 	"qing/a/def/appdef"
-	appSod "qing/sod/app"
+	"qing/sod/appSod"
 )
 
 type AppSettings struct {
