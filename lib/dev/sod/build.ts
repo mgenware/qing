@@ -29,6 +29,17 @@ function cutYamlExt(s: string) {
 
 const arg0 = process.argv.slice(2)[0];
 
+// Injects a `Sod` suffix to the given name. As per Go conversions,
+// package name should be the same as directory name.
+// Example `post/postWind` -> `postSod/postWind`
+function injectSodName(name: string) {
+  const idx = name.lastIndexOf('/');
+  if (idx < 0) {
+    throw new Error(`No "/" found in SOD name "${name}"`);
+  }
+  return `${name.substring(0, idx)}Sod${name.substring(idx)}`;
+}
+
 async function build(name: string) {
   const fullInput = qdu.sodPath(name + yamlExt);
   const rawSource = yaml.load(await mfs.readTextFileAsync(fullInput));
@@ -42,7 +53,7 @@ async function build(name: string) {
 
   // NOTE: Unlike .ts file, .go files are put in an extra folder named the same
   // as the extracted package name.
-  const serverFile = np.join(qdu.serverSodPath(), name + '.go');
+  const serverFile = np.join(qdu.serverSodPath(), injectSodName(name) + '.go');
 
   await Promise.all([
     mfs.writeFileAsync(serverFile, go.goCode(name, pkgName, srcDict)),

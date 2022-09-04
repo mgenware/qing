@@ -1,15 +1,11 @@
 ---
-Cmt:
+FeedBase:
   __go_ctor: true
-  __go_rename:
-    id: EID
-    userID: UserEID
 
-  id: string!
-  userID: string!
+  url: string!
   userURL: string!
   userIconURL: string!
   createdAt: string!
   modifiedAt: string!
-
-  parentID: string?
+  __go_rename:
+    url: URL
