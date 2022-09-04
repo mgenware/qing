@@ -268,6 +268,11 @@ func (mrTable *UserAGType) UpdateIconName(mrQueryable mingru.Queryable, id uint6
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
+func (mrTable *UserAGType) UpdateLang(mrQueryable mingru.Queryable, id uint64, lang string) error {
+	result, err := mrQueryable.Exec("UPDATE `user` SET `lang` = ? WHERE `id` = ?", lang, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 func (mrTable *UserAGType) UpdateProfile(mrQueryable mingru.Queryable, id uint64, name string, website string, company string, location string, bioHTML *string) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ?, `bio` = ? WHERE `id` = ?", name, website, company, location, bioHTML, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
