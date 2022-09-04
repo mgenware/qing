@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import build from './build.base.js';
+import build from './b-ts.base.js';
 
 build({
   env: {

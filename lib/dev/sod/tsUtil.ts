@@ -46,7 +46,7 @@ function convertType(type: string, traits: cm.PropertyTraits): [string, boolean]
 
 function handleImportPath(s: string, name: string) {
   if (s === cm.daPathPrefix) {
-    return '../da/types.js';
+    return '../../da/types.js';
   }
   if (s.startsWith(cm.sodPathPrefix)) {
     return `../${s.substring(cm.sodPathPrefix.length)}/${cm.lowerFirstLetter(name)}.js`;

@@ -21,7 +21,7 @@ const mingruHeader =
 (async () => {
   // Build Go code to '/server/da/` directory
   const daPath = qdu.serverPath('da');
-  const tsOutDir = qdu.webPath('src/sod/da');
+  const tsOutDir = qdu.webPath('src/da');
   const builder = new mr.Builder(daPath, {
     cleanOutDir: true,
     jsonTags: {

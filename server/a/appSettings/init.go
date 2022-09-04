@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"qing/a/appConf"
 	"qing/a/appLog"
-	appSod "qing/sod/app"
+	"qing/sod/appSod"
 )
 
 var appSettings *AppSettings
