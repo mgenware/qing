@@ -34,7 +34,7 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if err == sql.ErrNoRows {
 			return resp.MustFail(resp.LS().InvalidNameOrPwd)
 		}
-		resp.MustFail(fmt.Sprintf("Error selecting ID from email: %v", err))
+		return resp.MustFail(fmt.Sprintf("Error selecting ID from email: %v", err))
 	}
 	if uid == 0 {
 		panic(fmt.Errorf("signInPOST: UserID is 0"))
@@ -46,13 +46,12 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if err == sql.ErrNoRows {
 			return resp.MustFail(resp.LS().InvalidNameOrPwd)
 		}
-		resp.MustFail(fmt.Sprintf("Error selecting hash by ID: %v", err))
+		return resp.MustFail(fmt.Sprintf("Error selecting hash by ID: %v", err))
 	}
 
 	pwdValid, err := appService.Get().HashingAlg.ComparePasswordAndHash(pwd, hash)
-	if err != nil {
-		resp.MustFail(fmt.Sprintf("Error computing pwd hash: %v", err))
-	}
+	app.PanicOn(err)
+
 	if !pwdValid {
 		return resp.MustFail(resp.LS().InvalidNameOrPwd)
 	}

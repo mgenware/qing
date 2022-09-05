@@ -5,8 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $, Page } from 'br';
+import { test, usr, $ } from 'br';
 import * as nbm from 'br/com/navbar/menu';
+import * as mRoute from '@qing/routes/d/m';
 import * as ed from 'br/com/editing/editor';
 import * as ivh from 'br/com/forms/inputViewHelper';
 import { newUser } from 'helper/user';
@@ -14,23 +15,21 @@ import * as nbc from 'br/com/navbar/checks';
 import * as ov from '../com/overlays/overlay';
 import * as spn from '../com/spinners/spinner';
 import { expect } from 'expect';
+import * as cm from './common';
 
-const settingsViewSel = 'm-settings';
 const bioEditorSel = '.bio-editor';
 
-async function clickProfileSettings(p: Page) {
-  await nbm.userMenuBtn(p).click();
-  await nbm.userMenuEl(p).$a({ text: 'Settings', href: '/m/settings/profile' }).click();
-}
-
-test('Settings - Profile', async ({ page }) => {
+test('Settings - Profile - Click-through from navbar', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await clickProfileSettings(p);
+  await nbm.userMenuBtn(p).click();
+  await nbm.userMenuEl(p).$a({ text: 'Settings', href: '/m/settings/profile' }).click();
 
-  const rootEl = p.$(settingsViewSel);
+  const rootEl = p.$(cm.settingsViewSel);
   // Profile menu item highlighted.
-  await rootEl.$('a[class="link-active"][href="/m/settings/profile"]').e.toBeVisible();
+  await rootEl
+    .$hasText('link-button[class="link-active"][href="/m/settings/profile"]', 'Profile')
+    .e.toBeVisible();
 
   // Profile picture.
   await rootEl
@@ -50,10 +49,9 @@ test('Settings - Profile', async ({ page }) => {
 test('Settings - Update profile info', async ({ page }) => {
   await newUser(async (u) => {
     const p = $(page);
-    await p.goto('/', u);
-    await clickProfileSettings(p);
+    await p.goto(mRoute.profileSettings, u);
 
-    let rootEl = p.$(settingsViewSel);
+    let rootEl = p.$(cm.settingsViewSel);
     await rootEl.$inputView('Name').fillInput('NEW_NAME');
     await rootEl.$inputView('URL').fillInput('NEW_URL');
     await rootEl.$inputView('Company').fillInput('NEW_COMPANY');
@@ -76,7 +74,7 @@ test('Settings - Update profile info', async ({ page }) => {
 
     // Check user profile page.
     await p.goto(`/u/${u.id}`, null);
-    rootEl = p.$('container-view');
+    rootEl = p.$('main');
     await rootEl.$hasText('h2', 'NEW_NAME').e.toBeVisible();
     await rootEl.$hasText('p', 'NEW_COMPANY').e.toBeVisible();
     await rootEl.$hasText('p', 'NEW_LOCATION').e.toBeVisible();
@@ -88,10 +86,9 @@ test('Settings - Update profile info', async ({ page }) => {
 test('Settings - Update profile picture', async ({ page }) => {
   await newUser(async (u) => {
     const p = $(page);
-    await p.goto('/', u);
-    await clickProfileSettings(p);
+    await p.goto(mRoute.profileSettings, u);
 
-    const rootEl = p.$(settingsViewSel);
+    const rootEl = p.$(cm.settingsViewSel);
 
     // Note that Promise.all prevents a race condition
     // between clicking and waiting for the file chooser.

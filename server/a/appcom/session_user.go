@@ -7,7 +7,9 @@
 
 package appcom
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // SessionUser contains user information stored in a session store.
 type SessionUser struct {
@@ -16,7 +18,7 @@ type SessionUser struct {
 	IconName   string `json:"ico,omitempty"`
 	Admin      bool   `json:"adm,omitempty"`
 	IsForumMod bool   `json:"fmd,omitempty"`
-	Lang       bool   `json:"lan,omitempty"`
+	Lang       string `json:"lan,omitempty"`
 
 	// Generated props when deserialized
 	URL     string `json:"-"`

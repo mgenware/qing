@@ -40,16 +40,13 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Update DB
 	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location, bioPtr)
-	if err != nil {
-		resp.MustFail(fmt.Sprintf("Error updating profile: %v", err))
-	}
+	app.PanicOn(err)
+
 	// Update session
 	sUser.Name = nick
 	sid := app.ContextSID(r)
 	err = appUserManager.Get().UpdateUserSession(sid, sUser)
-	if err != nil {
-		resp.MustFail(fmt.Sprintf("Error updating user session: %v", err))
-	}
+	app.PanicOn(err)
 
 	return resp.MustComplete(nick)
 }

@@ -37,26 +37,27 @@ export class LangSettings extends StatefulPage {
   }
 
   @state() private langResult?: GetProfileLangResult;
-  @state() private selectedLang = '';
 
   override renderContent() {
     if (!this.langResult?.langs) {
       return html``;
     }
     const { autoOptionLS } = this.langResult;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const userLangLower = this.langResult.userLang?.toLocaleLowerCase() || '';
     return html`
       <heading-view>${ls.language}</heading-view>
       <link-list-view>
         <link-button
           @click=${() => this.changeLangTo(autoOptionLS, '')}
-          class=${!this.selectedLang ? linkListActiveFilledClass : ''}
+          class=${userLangLower ? '' : linkListActiveFilledClass}
           >${autoOptionLS}</link-button
         >
         ${this.langResult.langs.map(
           (t) =>
             html`<link-button
               @click=${() => this.changeLangTo(t.name, t.id)}
-              class=${this.selectedLang === t.id ? linkListActiveFilledClass : ''}
+              class=${userLangLower === t.id.toLocaleLowerCase() ? linkListActiveFilledClass : ''}
               >${t.name}</link-button
             >`,
         )}
@@ -73,8 +74,8 @@ export class LangSettings extends StatefulPage {
   }
 
   private async changeLangTo(localizedName: string, lang: string) {
-    const curLang = ls.qingLang;
-    if (lang === curLang) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (lang.toLowerCase() === (this.langResult?.userLang?.toLocaleLowerCase() ?? '')) {
       return;
     }
     if (await appAlert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, localizedName))) {

@@ -43,7 +43,7 @@ function postLink(id: string) {
  * @param  {User} user
  * @param  {(arg:{id:string;link:string})=>Promise<unknown>} cb
  */
-export async function scPost(
+export async function newPost(
   user: User,
   cb: (arg: { id: string; link: string }) => Promise<unknown>,
 ) {

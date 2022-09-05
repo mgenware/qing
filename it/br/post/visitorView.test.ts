@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { scPost } from 'helper/post';
+import { newPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as alt from 'br/com/overlays/alert';
 import * as cm from './common';
 
 test('Post page in visitor view', async ({ page }) => {
   const p = $(page);
-  await scPost(usr.user, async ({ link }) => {
+  await newPost(usr.user, async ({ link }) => {
     const { likesAppEl } = await cm.shouldAppear(p, link, usr.user, null);
 
     // Click the like button.

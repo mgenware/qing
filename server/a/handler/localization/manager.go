@@ -17,6 +17,7 @@ import (
 
 	"qing/a/appCookies"
 	"qing/a/appLog"
+	"qing/a/appcom"
 	"qing/a/config/configs"
 	"qing/a/def"
 	"qing/a/def/appdef"
@@ -121,7 +122,15 @@ func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string
 func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		lang := mgr.MatchLanguage(w, r)
+
+		// Respect user's language preference.
+		user := appcom.ContextUser(ctx)
+		var lang string
+		if user != nil && user.Lang != "" {
+			lang = user.Lang
+		} else {
+			lang = mgr.MatchLanguage(w, r)
+		}
 		ctx = context.WithValue(ctx, def.LanguageContextKey, lang)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

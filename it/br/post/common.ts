@@ -12,7 +12,7 @@ import * as uv from 'br/com/content/userView';
 import * as def from 'base/def';
 import * as cps from 'br/com/editing/composer';
 
-export const userViewQuery = 'main > container-view > div.m-post-user > post-user-app';
+export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';
 export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export async function shouldHaveContent(page: br.Page, text: string) {
@@ -20,7 +20,7 @@ export async function shouldHaveContent(page: br.Page, text: string) {
 }
 
 export async function shouldHaveTitle(page: br.Page, title: string, link: string) {
-  const aEl = page.$('main > container-view > h2 > a');
+  const aEl = page.$('main > div.container > h2 > a');
   await aEl.e.toHaveAttribute('href', link);
   expect(await aEl.c.textContent()).toBe(title);
 }

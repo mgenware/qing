@@ -42,7 +42,7 @@ export class SettingsBaseView extends BaseElement {
 
   override render() {
     return html`
-      <div class="root">
+      <div class="root br-lpane">
         <div>
           <h3>${this.settingsTitle}</h3>
           <link-list-view>
@@ -53,7 +53,7 @@ export class SettingsBaseView extends BaseElement {
             )}
           </link-list-view>
         </div>
-        <div>
+        <div class="br-rpane">
           <slot></slot>
         </div>
       </div>

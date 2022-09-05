@@ -8,7 +8,7 @@
 import * as def from 'base/def';
 import { apiRaw, api, usr, itaNotAuthorized, errorResults } from 'api';
 import { expect } from 'expect';
-import { scPost } from 'helper/post';
+import { newPost } from 'helper/post';
 import { entitySrc } from 'helper/entity';
 import { postCount, newUser } from 'helper/user';
 import { appdef } from '@qing/def';
@@ -23,7 +23,7 @@ const entityBody = {
 it('Add a post', async () => {
   await newUser(async (u) => {
     const pc = await postCount(u);
-    await scPost(u, async ({ id }) => {
+    await newPost(u, async ({ id }) => {
       // Post content.
       expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
         contentHTML: def.sd.contentDBHTML,
@@ -41,7 +41,7 @@ itaNotAuthorized('Add a post - Visitor', composeRoute.setEntity, null);
 
 it('Edit a post', async () => {
   await newUser(async (u) => {
-    await scPost(u, async ({ id }) => {
+    await newPost(u, async ({ id }) => {
       // Post content.
       const pc = await postCount(u);
       await api(composeRoute.setEntity, { ...entityBody, id }, u);
@@ -58,7 +58,7 @@ it('Edit a post', async () => {
 
 it('Edit a post with another user', async () => {
   await newUser(async (u) => {
-    await scPost(u, async ({ id }) => {
+    await newPost(u, async ({ id }) => {
       // Post content.
       const pc = await postCount(u);
       const r = await apiRaw(composeRoute.setEntity, { ...entityBody, id }, usr.admin);

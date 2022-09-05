@@ -9,6 +9,7 @@ import { api, User, APIOptions } from 'base/api';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 import * as apiUser from '@qing/routes/d/dev/api/user';
 import CookieJar from './cookieJar';
+import { alternativeLocale } from 'br';
 
 // Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
 export interface TUserInfo {
@@ -19,8 +20,16 @@ export interface TUserInfo {
   name: string;
 }
 
-async function newUserCore(): Promise<User> {
-  return api<TUserInfo>(apiAuth.new_, null, null);
+export interface NewUserOptions {
+  alternativeLocale?: boolean;
+}
+
+async function newUserCore(opt: NewUserOptions | undefined): Promise<User> {
+  return api<TUserInfo>(
+    apiAuth.new_,
+    { lang: opt?.alternativeLocale ? alternativeLocale : undefined },
+    null,
+  );
 }
 
 async function deleteUser(user: User) {
@@ -38,10 +47,10 @@ export async function userInfo(uid: string, opt?: APIOptions): Promise<User | nu
   return api(apiAuth.info, { uid }, null, opt);
 }
 
-export async function newUser(cb: (u: User) => Promise<void>) {
+export async function newUser(cb: (u: User) => Promise<void>, opt?: NewUserOptions) {
   let u: User | undefined;
   try {
-    u = await newUserCore();
+    u = await newUserCore(opt);
     await cb(u);
   } finally {
     if (u) {

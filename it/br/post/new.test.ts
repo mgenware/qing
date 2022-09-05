@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { scPost } from 'helper/post';
+import { newPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as br from 'br';
 import * as cm from './common';
@@ -65,7 +65,7 @@ function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) 
     discardChanges ? 'Discard' : 'Keep'
   } post editor changes - Mode ${mode}`, async ({ page }) => {
     const p = $(page);
-    await scPost(usr.user, async ({ link }) => {
+    await newPost(usr.user, async ({ link }) => {
       await p.goto(link, usr.user);
 
       await clickNewPostButton(p);

@@ -86,6 +86,11 @@ export class ElementCollection extends LocatorCore {
     }
     return items;
   }
+
+  async forEach(cb: (el: Element, idx: number) => Promise<void>) {
+    const items = await this.items();
+    return Promise.all(items.map(cb));
+  }
 }
 
 export class Element extends LocatorCore {
@@ -287,7 +292,7 @@ export function mobileBlock(fn: () => void) {
 }
 
 export function alternativeLocaleBlock(fn: () => void) {
-  pw.test.describe('Mobile block', () => {
+  pw.test.describe('Alternative locale block', () => {
     pw.test.use({ locale: alternativeLocale });
     fn();
   });

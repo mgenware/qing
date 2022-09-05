@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { scPost } from 'helper/post';
+import { newPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as br from 'br';
 import * as cm from './common';
@@ -24,7 +24,7 @@ async function clickEditButton(p: br.Page) {
 
 test('Edit post', async ({ page }) => {
   const p = $(page);
-  await scPost(usr.user, async ({ link }) => {
+  await newPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
     await clickEditButton(p);
 
@@ -53,7 +53,7 @@ test('Edit post', async ({ page }) => {
 
 test('Edit post - Dismiss post editor', async ({ page }) => {
   const p = $(page);
-  await scPost(usr.user, async ({ link }) => {
+  await newPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
 
     await clickEditButton(p);
@@ -72,7 +72,7 @@ function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) 
     discardChanges ? 'Discard' : 'Keep'
   } post editor changes - Mode ${mode}`, async ({ page }) => {
     const p = $(page);
-    await scPost(usr.user, async ({ link }) => {
+    await newPost(usr.user, async ({ link }) => {
       await p.goto(link, usr.user);
 
       await clickEditButton(p);

@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { scPost } from 'helper/post';
+import { newPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as lk from 'br/com/likes/likes';
 
 test('Like a post', async ({ page }) => {
   const p = $(page);
-  await scPost(usr.user, async ({ link }) => {
+  await newPost(usr.user, async ({ link }) => {
     await p.goto(link, usr.user);
 
     const likesAppEl = p.$('post-payload-app likes-app');

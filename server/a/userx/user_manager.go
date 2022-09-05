@@ -109,14 +109,14 @@ func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUs
 		if u.IsForumMod != nil {
 			isForumMod = true
 		}
-		user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, isForumMod)
+		user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, isForumMod, u.Lang)
 		return user, nil
 	}
 	u, err := da.User.SelectSessionData(db.DB(), uid)
 	if err != nil {
 		return nil, err
 	}
-	user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, false)
+	user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, false, u.Lang)
 	return user, nil
 }
 

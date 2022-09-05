@@ -12,9 +12,9 @@ import { Page, alternativeLocale } from 'br';
 // language switched successfully.
 const localizedElSel = '.theme-group .text';
 
-export async function checkAlternativeLocale(p: Page) {
-  await p.$('html').e.toHaveAttribute('lang', alternativeLocale);
-  await p.$(localizedElSel).e.toContainText('亮色主题');
+export async function checkPageLocale(p: Page, idx: number) {
+  await p.$('html').e.toHaveAttribute('lang', idx === 0 ? 'en' : alternativeLocale);
+  await p.$(localizedElSel).e.toContainText(idx === 0 ? 'Light theme' : '亮色主题');
 }
 
 export async function check404(p: Page, resp: Response | null) {

@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { scPost } from 'helper/post';
+import { newPost } from 'helper/post';
 import { test, usr, $ } from 'br';
 import * as cm from './common';
 
 test('Post page in user view', async ({ page }) => {
-  await scPost(usr.user, async ({ link }) => {
+  await newPost(usr.user, async ({ link }) => {
     await cm.shouldAppear($(page), link, usr.user, usr.user2);
   });
 });

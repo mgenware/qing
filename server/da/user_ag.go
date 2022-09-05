@@ -153,12 +153,13 @@ type UserAGSelectSessionDataResult struct {
 	Admin    bool   `json:"admin,omitempty"`
 	IconName string `json:"iconName,omitempty"`
 	ID       uint64 `json:"id,omitempty"`
+	Lang     string `json:"lang,omitempty"`
 	Name     string `json:"name,omitempty"`
 }
 
 func (mrTable *UserAGType) SelectSessionData(mrQueryable mingru.Queryable, id uint64) (UserAGSelectSessionDataResult, error) {
 	var result UserAGSelectSessionDataResult
-	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `admin`, `lang` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin, &result.Lang)
 	if err != nil {
 		return result, err
 	}
@@ -170,12 +171,13 @@ type UserAGSelectSessionDataForumModeResult struct {
 	IconName   string  `json:"iconName,omitempty"`
 	ID         uint64  `json:"id,omitempty"`
 	IsForumMod *uint64 `json:"isForumMod,omitempty"`
+	Lang       string  `json:"lang,omitempty"`
 	Name       string  `json:"name,omitempty"`
 }
 
 func (mrTable *UserAGType) SelectSessionDataForumMode(mrQueryable mingru.Queryable, id uint64) (UserAGSelectSessionDataForumModeResult, error) {
 	var result UserAGSelectSessionDataForumModeResult
-	err := mrQueryable.QueryRow("SELECT `user`.`id`, `user`.`name`, `user`.`icon_name`, `user`.`admin`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin, &result.IsForumMod)
+	err := mrQueryable.QueryRow("SELECT `user`.`id`, `user`.`name`, `user`.`icon_name`, `user`.`admin`, `user`.`lang`, `join_1`.`id` AS `is_forum_mod` FROM `user` AS `user` LEFT JOIN `forum_is_user_mod` AS `join_1` ON `join_1`.`id` = `user`.`id` WHERE `user`.`id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Admin, &result.Lang, &result.IsForumMod)
 	if err != nil {
 		return result, err
 	}
