@@ -51,18 +51,16 @@ export class CmtView extends BaseElement {
       return html`<div class="p-md">${ls.cmtDeleted}</div>`;
     }
     return html`
-      <div class=${`row ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
-        <div class="col-auto">
-          <a href=${cmt.userURL}>
-            <img
-              src=${cmt.userIconURL}
-              alt=${cmt.userName ?? ''}
-              class="avatar-m"
-              width="50"
-              height="50" />
-          </a>
-        </div>
-        <div class="col" style="padding-left: 0">
+      <div class=${`avatar-grid ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
+        <a href=${cmt.userURL}>
+          <img
+            src=${cmt.userIconURL}
+            alt=${cmt.userName ?? ''}
+            class="avatar-m"
+            width="50"
+            height="50" />
+        </a>
+        <div>
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>
             <time-field

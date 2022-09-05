@@ -5,13 +5,6 @@
  * be found in the LICENSE file.
  */
 
-.feed-item-title {
+.feed-item-r1 {
   font-size: 1.3rem;
-}
-
-.feed-item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-gap: 1rem;
-  padding-bottom: 1.2rem;
 }

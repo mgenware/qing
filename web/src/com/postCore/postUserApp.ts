@@ -51,9 +51,9 @@ export class PostUserApp extends BaseElement {
       ? html`<a href="{{html .UserURL}}" slot="name">${this.userName}</a>`
       : html`<slot name="name"></slot>`;
     return html`
-      <div class="m-t-md row m-user-view">
-        <div class="col-auto">${imgSlot}</div>
-        <div class="col">
+      <div class="avatar-grid">
+        ${imgSlot}
+        <div>
           <div>${nameSlot}</div>
           <div class="m-t-sm">
             <time-field .createdAt=${this.createdAt} .modifiedAt=${this.modifiedAt}></time-field>
