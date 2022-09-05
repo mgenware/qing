@@ -90,13 +90,11 @@ test('Settings - Lang - Revert to auto option', async ({ page }) => {
 
       const dialog = await alt.waitFor(p, {
         content: '确定要将网站语言设置为自动（基于浏览器配置）？',
-        type: alt.AlertType.warning,
-        buttons: alt.AlertButtons.YesNo,
         focusedBtn: 1,
       });
-      await dialog.clickYes();
+      // Click the YES button in Chinese.
+      await dialog.clickBtn('是');
 
-      await p.c.waitForNavigation({ url: mRoute.langSettings });
       await checkSelectedOption(langSettingsEl, 0);
       await checkPageLocale(p, 0);
     },

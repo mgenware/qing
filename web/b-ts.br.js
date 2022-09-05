@@ -5,10 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import build from './build.base.js';
+import build from './b-ts.base.js';
 
 build({
   env: {
     'window.__qing_br__': true,
+  },
+  args: {
+    watch: true,
   },
 });

@@ -24,6 +24,16 @@ function buildCSS(config) {
   return `node "b-css.${config}.js"`;
 }
 
+function devTask(config, alias) {
+  return {
+    alias: alias,
+    before: ['#clean', 'tsc'],
+    run: [tscw, buildTS(config), buildCSS('dev')],
+    parallel: true,
+    env: devEnv,
+  };
+}
+
 export default {
   lint: {
     ts: 'eslint --max-warnings 0 --ext .ts src/',
@@ -33,14 +43,8 @@ export default {
   },
 
   /** Standard mode */
-  dev: {
-    alias: 'd',
-    before: '#dev-prep',
-    run: [tscw, buildTS('dev'), buildCSS('dev')],
-    parallel: true,
-    env: devEnv,
-    prep: ['#clean', 'tsc'],
-  },
+  dev: devTask('dev'),
+  br: devTask('br'),
 
   /** Turbo mode */
   turbo: {

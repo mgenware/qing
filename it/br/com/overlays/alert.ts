@@ -85,9 +85,9 @@ export class BRDialog {
 }
 
 export interface AlertShouldAppearArgs {
-  title?: string;
   content: string;
-  type: AlertType;
+  title?: string;
+  type?: AlertType;
   buttons?: AlertButtons;
   focusedBtn?: number;
 }
@@ -99,12 +99,15 @@ export async function waitFor(page: br.Page, e: AlertShouldAppearArgs) {
   await el.e.toHaveAttribute('open', '');
 
   // Title.
-  // eslint-disable-next-line no-param-reassign
-  const title = e.title ?? typeToTitle(e.type);
-  await el.$hasText('h2', title).e.toBeVisible();
+  const title = e.type ? e.title ?? typeToTitle(e.type) : e.title;
+  if (title) {
+    await el.$hasText('h2', title).e.toBeVisible();
+  }
 
   // Icon.
-  await el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).e.toBeVisible();
+  if (e.type) {
+    await el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).e.toBeVisible();
+  }
 
   // Content.
   await el.$hasText('p', e.content).e.toBeVisible();
