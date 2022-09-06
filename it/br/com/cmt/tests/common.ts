@@ -40,11 +40,11 @@ export interface CheckCmtArgs {
 
 export async function shouldAppear(e: CheckCmtArgs) {
   // User view.
-  const row = e.cmtEl.$('.row');
+  const row = e.cmtEl.$('.avatar-grid');
   await uv.shouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
 
   // Comment content.
-  await row.$('div.col > div:nth-child(2)').e.toHaveText(e.content);
+  await row.$('.br-content').e.toHaveText(e.content);
 
   const editBtn = eb.getEditButton(e.cmtEl, e.author.id);
   if (e.canEdit) {
@@ -53,7 +53,7 @@ export async function shouldAppear(e: CheckCmtArgs) {
     await editBtn.shouldNotExist();
   }
 
-  const highlightedCls = 'row highlighted';
+  const highlightedCls = 'avatar-grid highlighted';
   if (e.highlighted) {
     await row.e.toHaveClass(highlightedCls);
   } else {

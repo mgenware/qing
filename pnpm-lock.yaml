@@ -158,7 +158,7 @@ importers:
       node-watch: ^0.7.3
       plum-element: ^0.0.7
       qing-button: ^8.2.6
-      qing-css-base: ^1.1.4
+      qing-css-base: ^1.1.5
       qing-dock-box: ^0.2.1
       qing-keyed-array: ^2.2.0
       qing-overlay: ^0.22.2
@@ -177,7 +177,7 @@ importers:
       narwhal-js: 0.0.1
       plum-element: 0.0.7
       qing-button: 8.2.6
-      qing-css-base: 1.1.4
+      qing-css-base: 1.1.5
       qing-dock-box: 0.2.1
       qing-keyed-array: 2.2.0
       qing-overlay: 0.22.2_qing-button@8.2.6
@@ -4968,8 +4968,8 @@ packages:
       lit: ^2.0.0
     dev: false
 
-  /qing-css-base/1.1.4:
-    resolution: {integrity: sha512-uITF0df26qhLtpPfctr1F/msGdNwQ5L+MLe3riLzBq63U/t4B+25Ihem4ZPGHlALgS+J36xwJOIwSKb5cAJcvg==}
+  /qing-css-base/1.1.5:
+    resolution: {integrity: sha512-iNrieDd6y896fW+GXFAQ9GYortHbcfjx2mp6xuC8zNBJU4lvWPCXxtXJkvp+T03cKTXyKCHvXh7CjNvycN9wAg==}
     dependencies:
       modern-normalize: 1.1.0
     dev: false

@@ -8,7 +8,7 @@
 import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { html } from 'll';
-import { brTesting } from 'devMode';
+import { brMode } from 'devMode';
 import 'ui/status/spinnerView';
 import 'ui/alerts/dialogView';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
@@ -95,14 +95,14 @@ export class AppAlert {
     const template = html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
     renderTemplateResult(spinnerContainerID, template);
 
-    if (brTesting()) {
+    if (brMode()) {
       brGlobalSpinnerStartTime = new Date().getTime();
     }
   }
 
   // Hides the global loading spinner.
   async hideLoadingOverlay() {
-    if (brTesting()) {
+    if (brMode()) {
       const runFor = new Date().getTime() - brGlobalSpinnerStartTime;
       if (runFor < 500) {
         await delay(500 - runFor);

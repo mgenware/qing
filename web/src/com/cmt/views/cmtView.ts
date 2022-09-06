@@ -17,6 +17,7 @@ import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
 import { appdef } from '@qing/def';
 import appPageState from 'app/appPageState';
+import { brMode } from 'devMode';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
@@ -78,7 +79,7 @@ export class CmtView extends BaseElement {
                 `
               : ''}
           </div>
-          <div>${unsafeHTML(cmt.contentHTML || '')}</div>
+          <div class=${brMode() ? 'br-content' : ''}>${unsafeHTML(cmt.contentHTML || '')}</div>
           <div>
             <link-button @click=${this.handleReplyClick}>${ls.reply}</link-button>
             <likes-app
