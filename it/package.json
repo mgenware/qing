@@ -24,6 +24,6 @@
     "cookie": "^0.5.0",
     "node-html-parser": "5.4.2",
     "set-cookie-parser": "^2.5.1",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   }
 }
