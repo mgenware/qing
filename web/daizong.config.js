@@ -16,19 +16,19 @@ const prodEnv = {
 
 const tscw = 'tsc -w';
 
-function buildTS(config) {
-  return `node "b-ts.${config}.js"`;
+function buildTS(config, watch) {
+  return `node "b-ts.js" ${config}${watch ? ' -w' : ''}`;
 }
 
 function buildCSS(config) {
   return `node "b-css.${config}.js"`;
 }
 
-function devTask(config, alias) {
+function devTask(e) {
   return {
-    alias: alias,
+    alias: e.alias,
     before: ['#clean', 'tsc'],
-    run: [tscw, buildTS(config), buildCSS('dev')],
+    run: [tscw, buildTS(e.config, e.watch), buildCSS('dev')],
     parallel: true,
     env: devEnv,
   };
@@ -43,8 +43,8 @@ export default {
   },
 
   /** Standard mode */
-  dev: devTask('dev'),
-  br: devTask('br'),
+  dev: devTask({ config: 'dev', watch: true }),
+  br: devTask({ config: 'br', watch: true }),
 
   /** Turbo mode */
   turbo: {
