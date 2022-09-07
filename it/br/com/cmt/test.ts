@@ -12,7 +12,9 @@ import { CmtFixtureWrapper } from './tests/common';
 import testNoCmts from './tests/noCmtTests';
 import testCreateCmt from './tests/createCmtTests';
 import testEditCmt from './tests/editCmtTests';
+import testEditReply from './tests/editReplyTests';
 import testDeleteCmt from './tests/deleteCmtTests';
+import testDeleteReply from './tests/deleteReplyTests';
 import testCreateReply from './tests/createReplyTests';
 import testDismissAndDiscardChanges from './tests/dismissAndDiscardChangesTests';
 
@@ -22,6 +24,8 @@ export default function testCmt(groupName: string, fixture: CmtFixture) {
   testCreateCmt(w);
   testCreateReply(w);
   testEditCmt(w);
+  testEditReply(w);
   testDeleteCmt(w);
+  testDeleteReply(w);
   testDismissAndDiscardChanges(w);
 }

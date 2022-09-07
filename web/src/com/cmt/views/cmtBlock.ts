@@ -25,6 +25,7 @@ import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
 import { ComposerView } from 'ui/editing/composerView';
 import { SetCmtLoader } from '../loaders/setCmtLoader';
+import { brMode } from 'devMode';
 
 const editEditorID = 'edit-editor';
 const replyEditorID = 'reply-editor';
@@ -147,7 +148,7 @@ export class CmtBlock extends BaseElement {
       )}
       ${cache(
         !cmt || this._replyViewVisible
-          ? html`<div class="br-children">${itemsView}</div>
+          ? html`<div class=${brMode() ? 'br-children' : ''}>${itemsView}</div>
               <cmt-load-more-view
                 class="btn-in-cmts"
                 .replies=${!!cmt}
@@ -347,12 +348,18 @@ export class CmtBlock extends BaseElement {
     this._hasNext = e.hasNext;
     this._items = e.items;
 
-    // When adding a reply when reply view is hidden, this forces reply view to open.
-    // Setting `_loadMoreCalled` to true also prevents more items showing when the user
-    // clicks the "<number of replies>" button to hide the reply view. Basically, we
-    // treat the newly added cmt as a newly loaded cmt.
-    this._replyViewVisible = true;
-    this._loadMoreCalled = true;
+    // Reset `replyViewVisible` if all children are removed.
+    if (!this._items.length) {
+      this._replyViewVisible = false;
+    }
+    if (e.detail.added) {
+      // When adding a reply when reply view is hidden, it forces reply view to open.
+      // Setting `_loadMoreCalled` to true also prevents more items showing when the user
+      // clicks the "<number of replies>" button to hide the reply view. Basically, we
+      // treat a newly added cmt as a newly loaded cmt.
+      this._replyViewVisible = true;
+      this._loadMoreCalled = true;
+    }
 
     this.dispatchEvent(
       new CustomEvent<ItemsChangedEvent<Cmt>>('cmt-block-items-change', {

@@ -62,14 +62,14 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
 }
 
 export interface EditCmtArgs {
-  cmtApp: br.Element;
+  cmtEl: br.Element;
   author: User;
   content?: string;
   shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
 export async function editCmt(p: br.Page, a: EditCmtArgs) {
-  await eb.getEditButton(a.cmtApp, a.author.id).click();
+  await eb.getEditButton(a.cmtEl, a.author.id).click();
   const { overlayEl } = await cps.waitForOverlay(p, 'cmt-block');
   if (a.shownCb) {
     await a.shownCb(overlayEl);
