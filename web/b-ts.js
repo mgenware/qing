@@ -31,6 +31,10 @@ const envMap = {
   br: {
     'window.__qing_br__': true,
   },
+  prod: {
+    'window.__qing_dev__': false,
+    'window.__qing_br__': false,
+  },
 };
 
 const entryPoints = [
