@@ -87,8 +87,8 @@ export class CmtView extends BaseElement {
               .iconSize=${'sm'}
               .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.isLiked}
-              .hostID=${cmt.id}
-              .hostType=${appdef.contentBaseTypeCmt}></likes-app>
+              hostID=${cmt.id}
+              hostType=${appdef.contentBaseTypeCmt}></likes-app>
           </div>
         </div>
       </div>

@@ -125,7 +125,7 @@ export class InputView extends BaseElement {
           box-shadow: 0 0 2px var(--app-keyboard-focus-color);
         }
 
-        /** the 'validated' class makes sure invalid style doesn't appear on page load. */
+        /** 'validated' class makes sure invalid style doesn't appear on page load. */
         input.validated:invalid {
           outline: 0;
           border-color: var(--app-default-danger-fore-color);

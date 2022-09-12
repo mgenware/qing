@@ -30,10 +30,8 @@ export class LikesApp extends BaseElement {
     ];
   }
 
-  // Reflected: used for quick locating the view during testing.
-  @property({ reflect: true }) hostID = '';
-  // Reflected: used for quick locating the view during testing.
-  @property({ type: Number, reflect: true }) hostType: LikeHostType = 0;
+  @property() hostID = '';
+  @property({ type: Number }) hostType: LikeHostType = 0;
   @property({ type: Number }) initialLikes = 0;
   @property({ type: Boolean }) initialHasLiked = false;
   @property() iconSize = sizeMD;

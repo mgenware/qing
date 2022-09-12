@@ -74,9 +74,9 @@ export class CheckBox extends BaseElement {
     ];
   }
 
-  @property({ type: Boolean, reflect: true }) checked = false;
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: Boolean, reflect: true }) radio = false;
+  @property({ type: Boolean }) checked = false;
+  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean }) radio = false;
 
   override render() {
     return html`<label class=${this.disabled ? 'content-disabled' : ''}>
