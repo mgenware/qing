@@ -2,7 +2,7 @@
   "forumStatusOpen": 0,
   "forumStatusArchived": 1,
   "formUploadMain": "main",
-  "deleteFlagAuthor": 1,
+  "deleteFlagSelf": 1,
   "deleteFlagHost": 2,
   "apiLangParam": "__l",
   "errGeneric": 1,

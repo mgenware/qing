@@ -22,9 +22,7 @@ export interface WriteCmtArgs {
 }
 
 export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
-  const writeCmtBtn = await btn.shouldAppear(a.cmtApp.$qingButton('Write a comment'), {
-    style: 'success',
-  });
+  const writeCmtBtn = await btn.shouldAppear(a.cmtApp.$qingButton('Write a comment'));
   await writeCmtBtn.click();
   const { overlayEl } = await cps.waitForOverlay(p, 'root-cmt-list');
   if (a.shownCb) {

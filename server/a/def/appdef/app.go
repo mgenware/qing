@@ -15,7 +15,7 @@ package appdef
 const ForumStatusOpen = 0
 const ForumStatusArchived = 1
 const FormUploadMain = "main"
-const DeleteFlagAuthor = 1
+const DeleteFlagSelf = 1
 const DeleteFlagHost = 2
 const ApiLangParam = "__l"
 const ErrGeneric = 1
