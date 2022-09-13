@@ -100,7 +100,7 @@ export function deleteReplyAction(ht: CmtHostTable, rt: CmtRelationTable): mm.Tr
         )
         .from(cmt)
         .by(cmt.id)
-        .declareReturnValue(mm.ReturnValues.result, cmtIDAndHostID),
+        .declareReturnValue(mm.ReturnValueSrc.result, cmtIDAndHostID),
       // Delete the reply.
       cmtAG.deleteCore,
       // cmt.replyCount--.
