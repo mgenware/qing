@@ -89,7 +89,7 @@ export class AvatarUploader extends BaseElement {
                 id="uploadElement"
                 name=${appdef.formUploadMain}
                 accept=".jpg,.jpeg,.png,.webp,.jfif"
-                style="display: none" />
+                hidden />
               <span class="file-cta">
                 <span class="file-icon">
                   <img src=${staticMainImage('upload.svg')} width="16" height="16" />
