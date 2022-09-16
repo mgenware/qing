@@ -42,6 +42,7 @@ export function getSelectCmtsAction(opt: {
     jCmt.modified_at.privateAttr(),
     jCmt.cmt_count,
     jCmt.likes,
+    jCmt.del_flag,
     jCmt.user_id.privateAttr(),
     jCmt.user_id.join(user).name,
     jCmt.user_id.join(user).icon_name.privateAttr(),

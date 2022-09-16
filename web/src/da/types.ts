@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /*
  * Copyright (C) The Qing Project. All rights reserved.
  *
@@ -13,6 +15,7 @@
 export interface CmtResult {
   cmtCount?: number;
   contentHTML?: string;
+  delFlag?: number;
   isLiked?: number;
   likes?: number;
   userName?: string;

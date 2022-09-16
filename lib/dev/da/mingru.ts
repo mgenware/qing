@@ -30,6 +30,7 @@ const mingruHeader =
     },
     sqlFileHeader: mingruHeader,
     goFileHeader: mingruHeader,
+    typesTSHeader: `/* eslint-disable */\n\n${mingruHeader}`,
     tsOutDir,
     createTableSQL: true,
   });

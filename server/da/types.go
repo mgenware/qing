@@ -24,6 +24,7 @@ import (
 type CmtResult struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
+	DelFlag       uint8     `json:"delFlag,omitempty"`
 	ID            uint64    `json:"-"`
 	IsLiked       *uint64   `json:"isLiked,omitempty"`
 	Likes         uint      `json:"likes,omitempty"`
