@@ -31,7 +31,7 @@ export class CmtAG extends mm.ActionGroup {
   memLockedGetCmtDataForDeletion = mm
     .selectRow(t.parent_id, t.cmt_count)
     .by(t.id)
-    .lock(mm.SelectActionLockMode.inShareMode);
+    .lock(mm.SelectActionLockMode.forUpdate);
 
   selectReplies: mm.SelectAction;
   selectRepliesUserMode: mm.SelectAction;
@@ -77,7 +77,7 @@ export class CmtAG extends mm.ActionGroup {
   eraseCmt = mm
     .updateOne()
     .setParams(t.del_flag)
-    .set(t.content, '')
+    .set(t.content, '""')
     .whereSQL(defaultUpdateConditions(t));
 
   constructor() {

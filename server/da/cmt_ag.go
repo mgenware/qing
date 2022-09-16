@@ -41,7 +41,7 @@ func (mrTable *CmtAGType) EditReply(mrQueryable mingru.Queryable, id uint64, use
 }
 
 func (mrTable *CmtAGType) EraseCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, delFlag uint8) error {
-	result, err := mrQueryable.Exec("UPDATE `cmt` SET `del_flag` = ?, `content` =  WHERE (`id` = ? AND `user_id` = ?)", delFlag, id, userID)
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `del_flag` = ?, `content` = \"\" WHERE (`id` = ? AND `user_id` = ?)", delFlag, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -62,7 +62,7 @@ type CmtAGMemLockedGetCmtDataForDeletionResult struct {
 
 func (mrTable *CmtAGType) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Queryable, id uint64) (CmtAGMemLockedGetCmtDataForDeletionResult, error) {
 	var result CmtAGMemLockedGetCmtDataForDeletionResult
-	err := mrQueryable.QueryRow("SELECT `parent_id`, `cmt_count` FROM `cmt` WHERE `id` = ? LOCK IN SHARE MODE", id).Scan(&result.ParentID, &result.CmtCount)
+	err := mrQueryable.QueryRow("SELECT `parent_id`, `cmt_count` FROM `cmt` WHERE `id` = ? FOR UPDATE", id).Scan(&result.ParentID, &result.CmtCount)
 	if err != nil {
 		return result, err
 	}
