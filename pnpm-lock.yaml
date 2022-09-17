@@ -109,7 +109,7 @@ importers:
       is-plain-obj: ^4.1.0
       js-yaml: ^4.1.0
       mingru: ^0.60.9
-      mingru-models: ^0.65.2
+      mingru-models: ^0.65.3
       mingru-tsconfig: ^4.0.0
     dependencies:
       '@qing/def': link:../def
@@ -121,7 +121,7 @@ importers:
       is-plain-obj: 4.1.0
       js-yaml: 4.1.0
       mingru: 0.60.9
-      mingru-models: 0.65.2
+      mingru-models: 0.65.3
       mingru-tsconfig: 4.0.0
     devDependencies:
       '@types/js-yaml': 4.0.5
@@ -4256,8 +4256,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  /mingru-models/0.65.2:
-    resolution: {integrity: sha512-A6Eiuh7Ag78Z1g9PS9vouTMmUeeX+X5UlU5Wmwjf1lXAyJ5wuFIQynFHjhYJwmIAxq6GuXG3wrX6CB2BLzkxmA==}
+  /mingru-models/0.65.3:
+    resolution: {integrity: sha512-t5dsaH3KbQL3CXwzlxj6Rro/U2s6uyoZBn3SLnH1cv5ZUuU29g/fIPX80uMUgPRz4F9PZ59T4knV6sLgaaLfOQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       decamelize: 6.0.0
