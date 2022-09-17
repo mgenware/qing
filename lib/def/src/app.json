@@ -10,6 +10,7 @@
     "contentBaseType": { "values": ["post", "cmt", "thread"] },
     "homePageFeedType": { "values": ["post", "thread"] },
     "communityMode": { "values": ["disabled", "community", "forums"] },
+    "delFlags": { "values": ["self", "host"] },
     "route": {
       "weakBaseType": true,
       "values": {

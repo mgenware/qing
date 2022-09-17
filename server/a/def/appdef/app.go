@@ -43,6 +43,13 @@ const (
 	CommunityModeForums
 )
 
+type DelFlags int
+
+const (
+	DelFlagsSelf DelFlags = iota + 1
+	DelFlagsHost
+)
+
 const (
 	RouteM = "m"
 	RouteMx = "mx"
