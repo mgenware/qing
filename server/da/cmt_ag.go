@@ -41,7 +41,7 @@ func (mrTable *CmtAGType) EditReply(mrQueryable mingru.Queryable, id uint64, use
 }
 
 func (mrTable *CmtAGType) EraseCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, delFlag uint8) error {
-	result, err := mrQueryable.Exec("UPDATE `cmt` SET `del_flag` = ?, `content` = \"\" WHERE (`id` = ? AND `user_id` = ?)", delFlag, id, userID)
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `del_flag` = ?, `user_id` = NULL, `content` = \"\" WHERE (`id` = ? AND `user_id` = ?)", delFlag, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

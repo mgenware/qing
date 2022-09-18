@@ -8,6 +8,7 @@
 package entapi
 
 import (
+	"log"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appConf"
@@ -93,6 +94,9 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsUserModeFilterMode(db, cmtRelTable, uid, host.ID, excludedCmts, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1(orderBy), true)
 	}
+
+	log.Print(" ----- ", items)
+
 	app.PanicOn(err)
 	respData = newGetCmtsRespData(items, hasNext)
 

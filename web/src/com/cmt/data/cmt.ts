@@ -9,8 +9,6 @@ import { Cmt as CmtCore } from 'sod/cmt/cmt';
 
 interface UICmtCore {
   uiHighlighted?: boolean;
-  // Used to delete a cmt with replies.
-  uiDeleted?: boolean;
 }
 
 export interface Cmt extends CmtCore, UICmtCore {}

@@ -84,6 +84,7 @@ export class CmtAG extends mm.ActionGroup {
   eraseCmt = mm
     .updateOne()
     .setParams(t.del_flag)
+    .set(t.user_id, mm.constants.NULL)
     .set(t.content, '""')
     .whereSQL(defaultCmtUpdateConditions());
 

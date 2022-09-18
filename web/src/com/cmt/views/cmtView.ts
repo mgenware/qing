@@ -30,7 +30,8 @@ export class CmtView extends BaseElement {
         }
 
         .highlighted {
-          border-left: 4px solid var(--app-default-success-fore-color);
+          padding-right: 0.8rem;
+          border-right: 4px solid var(--app-default-success-fore-color);
         }
       `,
     ];
@@ -48,7 +49,7 @@ export class CmtView extends BaseElement {
   override render() {
     const { cmt } = this;
     CHECK(cmt);
-    if (cmt.uiDeleted) {
+    if (!cmt.userID) {
       return html`<div class="p-md">${ls.cmtDeleted}</div>`;
     }
     return html`

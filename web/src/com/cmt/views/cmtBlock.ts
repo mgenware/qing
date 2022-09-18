@@ -316,7 +316,8 @@ export class CmtBlock extends BaseElement {
           this.cmt = {
             ...this.cmt,
             contentHTML: '',
-            uiDeleted: true,
+            // Reset `userID` to undefined to indicate it's now deleted.
+            userID: undefined,
           };
         } else {
           this.dispatchEvent(
