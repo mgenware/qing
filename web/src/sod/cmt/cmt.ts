@@ -17,7 +17,7 @@ import { CmtResult } from '../../da/types.js';
 
 export interface Cmt extends CmtResult {
   id: string;
-  userID: string;
+  userID?: string;
   userURL: string;
   userIconURL: string;
   createdAt: string;

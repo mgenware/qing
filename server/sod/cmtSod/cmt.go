@@ -19,7 +19,7 @@ type Cmt struct {
 	da.CmtResult
 
 	EID         string  `json:"id,omitempty"`
-	UserEID     string  `json:"userID,omitempty"`
+	UserEID     *string `json:"userID,omitempty"`
 	UserURL     string  `json:"userURL,omitempty"`
 	UserIconURL string  `json:"userIconURL,omitempty"`
 	CreatedAt   string  `json:"createdAt,omitempty"`
@@ -27,7 +27,7 @@ type Cmt struct {
 	ParentID    *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtResult *da.CmtResult, id string, userID string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentID *string) Cmt {
+func NewCmt(cmtResult *da.CmtResult, id string, userID *string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentID *string) Cmt {
 	return Cmt{
 		CmtResult: *cmtResult,
 		EID: id,

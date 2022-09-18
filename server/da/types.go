@@ -31,7 +31,7 @@ type CmtResult struct {
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
 	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
+	UserID        *uint64   `json:"-"`
 	UserName      string    `json:"userName,omitempty"`
 }
 

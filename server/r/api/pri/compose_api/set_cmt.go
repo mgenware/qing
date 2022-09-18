@@ -49,9 +49,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		captResult := 0
 		var cmtID uint64
 		if parentID != 0 {
-			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, uid, host.ID, uint8(host.Type), parentID, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, host.ID, uint8(host.Type), parentID, uid, sanitizedToken, captResult)
 		} else {
-			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, uid, host.ID, uint8(host.Type), sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, host.ID, uint8(host.Type), uid, sanitizedToken, captResult)
 		}
 		app.PanicOn(err)
 
@@ -67,7 +67,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		d.RawCreatedAt = now
 		d.RawModifiedAt = now
 		d.ContentHTML = content
-		d.UserID = uid
+		d.UserID = &uid
 		d.UserName = user.Name
 		d.UserIconName = user.IconName
 

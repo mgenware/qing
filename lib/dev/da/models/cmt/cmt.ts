@@ -6,9 +6,12 @@
  */
 
 import * as mm from 'mingru-models';
-import ContentBase from '../com/contentBase.js';
+import { ContentBaseWithoutUser } from '../com/contentBase.js';
+import user from '../user/user.js';
 
-export class Cmt extends ContentBase {
+export class Cmt extends ContentBaseWithoutUser {
+  user_id = mm.fk(user.id).nullable;
+
   parent_id = mm.fk(this.id).nullable;
   del_flag = mm.uTinyInt().default(0);
 

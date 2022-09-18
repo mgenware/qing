@@ -108,8 +108,8 @@ importers:
       go-const-gen: ^2.1.0
       is-plain-obj: ^4.1.0
       js-yaml: ^4.1.0
-      mingru: ^0.60.9
-      mingru-models: ^0.65.3
+      mingru: ^0.60.10
+      mingru-models: ^0.65.4
       mingru-tsconfig: ^4.0.0
     dependencies:
       '@qing/def': link:../def
@@ -120,8 +120,8 @@ importers:
       go-const-gen: 2.1.0
       is-plain-obj: 4.1.0
       js-yaml: 4.1.0
-      mingru: 0.60.9
-      mingru-models: 0.65.3
+      mingru: 0.60.10
+      mingru-models: 0.65.4
       mingru-tsconfig: 4.0.0
     devDependencies:
       '@types/js-yaml': 4.0.5
@@ -2598,7 +2598,7 @@ packages:
       eslint-plugin-import: ^2.25.2
     dependencies:
       confusing-browser-globals: 1.0.11
-      object.assign: 4.1.2
+      object.assign: 4.1.4
       object.entries: 1.1.5
       semver: 6.3.0
     dev: false
@@ -4256,8 +4256,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  /mingru-models/0.65.3:
-    resolution: {integrity: sha512-t5dsaH3KbQL3CXwzlxj6Rro/U2s6uyoZBn3SLnH1cv5ZUuU29g/fIPX80uMUgPRz4F9PZ59T4knV6sLgaaLfOQ==}
+  /mingru-models/0.65.4:
+    resolution: {integrity: sha512-x5Ax8GBU1Rzmyfxyql92sn6I4mOy2CjUnnxrTByFJN4pRu6lCW3yHaaZeTF35inGNjlJgPR+ndRwj9Q8k0vzHQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       decamelize: 6.0.0
@@ -4269,8 +4269,8 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru/0.60.9:
-    resolution: {integrity: sha512-aCj3Z/8M7yi6ovdsx1ZEjCfUtWHxJZnm0AcYPzXX58U2e0Yfba/oj/NdwvMICJXgIS5HUpJXKntvvylyl4EGcA==}
+  /mingru/0.60.10:
+    resolution: {integrity: sha512-UFK49MMUTutwVTSiT+z4APHlFUALrcWbUDZRbnRusQmzGuEDPxoxljtmHN38E3aMi7vMIrSjJ4SI8+VHJzjD2A==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 7.0.0
@@ -4567,6 +4567,7 @@ packages:
       define-properties: 1.1.4
       has-symbols: 1.0.3
       object-keys: 1.1.1
+    dev: true
 
   /object.assign/4.1.4:
     resolution: {integrity: sha512-1mxKf0e58bvyjSCtKYY4sRe9itRk3PJpquJOjeIkz885CczcI4IvJJDLPS72oowuSh+pBxUFROpX+TU++hxhZQ==}

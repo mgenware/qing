@@ -16,10 +16,16 @@ import (
 
 func NewCmt(d *da.CmtResult) cmtSod.Cmt {
 	eid := clib.EncodeID(d.ID)
-	userEID := clib.EncodeID(d.UserID)
+	var userEID *string
+	var userURL string
+	var userIconURL string
+	if d.UserID != nil {
+		id := clib.EncodeID(*d.UserID)
+		userEID = &id
+		userURL = appURL.Get().UserProfile(*d.UserID)
+		userIconURL = appURL.Get().UserIconURL50(*d.UserID, d.UserIconName)
+	}
 
-	userURL := appURL.Get().UserProfile(d.UserID)
-	userIconURL := appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
 	createdAt := clib.TimeString(d.RawCreatedAt)
 	modifiedAt := clib.TimeString(d.RawModifiedAt)
 

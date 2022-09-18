@@ -14,7 +14,7 @@ Cmt:
       path: :da
 
   id: string!
-  userID: string!
+  userID: string?
   userURL: string!
   userIconURL: string!
   createdAt: string!
