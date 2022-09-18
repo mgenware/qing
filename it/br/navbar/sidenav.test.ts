@@ -13,6 +13,7 @@ test('Sidenav - Desktop to mobile', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
   await helper.checkTogglerVisible(p, false);
+  await p.delay();
   await helper.checkSidenavVisible(p, false);
 
   await p.setMobileViewport();

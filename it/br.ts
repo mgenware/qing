@@ -11,6 +11,7 @@ import { User } from 'base/api';
 import * as authRoute from '@qing/routes/d/dev/auth';
 import { serverURL } from 'base/def';
 import { expect } from '@playwright/test';
+import delay from 'base/delay';
 
 export { expect, Expect, test } from '@playwright/test';
 export { usr, api, User, authUsr } from 'base/api';
@@ -119,6 +120,10 @@ export class Element extends LocatorCore {
     return this.waitFor('attached');
   }
 
+  waitForHidden() {
+    return this.waitFor('hidden');
+  }
+
   waitForDetached() {
     return this.waitFor('detached');
   }
@@ -215,6 +220,10 @@ export class Page {
 
   $$(sel: string) {
     return PWLocatableWrapper.$$(this.c, sel);
+  }
+
+  delay() {
+    return delay(500);
   }
 
   async goto(url: string, user: User | null, mobile?: boolean) {

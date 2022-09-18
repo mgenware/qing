@@ -25,7 +25,7 @@ function testWithOverlayEl(w: cm.CmtFixtureWrapper, e: TestWithOverlayParams) {
 
     const { overlayEl } = await cps.waitForOverlay(p, e.overlayPrefixSel);
     await overlayEl.$qingButton('Cancel').click();
-    await overlayEl.waitForDetached();
+    await overlayEl.waitForHidden();
     if (cmtEl) {
       await cm.shouldAppear({
         cmtEl,
