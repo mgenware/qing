@@ -53,14 +53,16 @@ export class CmtView extends BaseElement {
     }
     return html`
       <div class=${`avatar-grid ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
-        <a href=${cmt.userURL}>
-          <img
-            src=${cmt.userIconURL}
-            alt=${cmt.userName ?? ''}
-            class="avatar-m"
-            width="50"
-            height="50" />
-        </a>
+        <div>
+          <a href=${cmt.userURL}>
+            <img
+              src=${cmt.userIconURL}
+              alt=${cmt.userName ?? ''}
+              class="avatar-m"
+              width="50"
+              height="50" />
+          </a>
+        </div>
         <div>
           <div>
             <a href=${cmt.userURL}>${cmt.userName}</a>

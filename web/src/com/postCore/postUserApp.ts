@@ -52,7 +52,7 @@ export class PostUserApp extends BaseElement {
       : html`<slot name="name"></slot>`;
     return html`
       <div class="avatar-grid">
-        ${imgSlot}
+        <div>${imgSlot}</div>
         <div>
           <div>${nameSlot}</div>
           <div class="m-t-sm">
