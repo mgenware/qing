@@ -68,8 +68,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		d.RawModifiedAt = now
 		d.ContentHTML = content
 		d.UserID = &uid
-		d.UserName = user.Name
-		d.UserIconName = user.IconName
+		d.UserName = &user.Name
+		d.UserIconName = &user.IconName
 
 		cmt := apicom.NewCmt(d)
 		respData := SetCmtResponse{Cmt: &cmt}

@@ -30,9 +30,9 @@ type CmtResult struct {
 	Likes         uint      `json:"likes,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
-	UserIconName  string    `json:"-"`
+	UserIconName  *string   `json:"-"`
 	UserID        *uint64   `json:"-"`
-	UserName      string    `json:"userName,omitempty"`
+	UserName      *string   `json:"userName,omitempty"`
 }
 
 type EntityGetSrcResult struct {

@@ -35,6 +35,7 @@ export function getSelectCmtsAction(opt: {
   filterMode: boolean;
 }): mm.SelectAction {
   const jCmt = opt.rt ? opt.rt.cmt_id.associativeJoin(cmt) : cmt;
+  const jUser = jCmt.user_id.leftJoin(user);
   const cols: mm.SelectedColumnTypes[] = [
     opt.rt ? opt.rt.cmt_id.as('id').privateAttr() : jCmt.id.privateAttr(),
     jCmt.content,
@@ -44,8 +45,8 @@ export function getSelectCmtsAction(opt: {
     jCmt.likes,
     jCmt.del_flag,
     jCmt.user_id.privateAttr(),
-    jCmt.user_id.join(user).name,
-    jCmt.user_id.join(user).icon_name.privateAttr(),
+    jUser.name,
+    jUser.icon_name.privateAttr(),
   ];
   if (opt.userMode) {
     cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : jCmt.id, cmtLike));
