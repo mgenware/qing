@@ -57,10 +57,11 @@ if (!isDev()) {
   plugins.push(minifyHTMLLiteralsPlugin());
 }
 
-esbuild.build({
+await esbuild.build({
   entryPoints,
   bundle: true,
   outdir: '../userland/static/g/app',
+  minify: !isDev(),
   define: {
     this: 'window',
     ...envMap[config],
