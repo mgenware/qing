@@ -10,7 +10,7 @@ import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals';
 
 const args = process.argv.slice(2);
 const config = args[0];
-const watch = args[1] === '-w';
+const watchFlag = args[1] === '-w';
 
 if (!config) {
   throw new Error('Missing config name');
@@ -76,5 +76,5 @@ await esbuild.build({
     'safari13.1',
   ],
   plugins,
-  watch,
+  watch: watchFlag,
 });

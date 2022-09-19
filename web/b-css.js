@@ -9,6 +9,22 @@ import watch from 'node-watch';
 import { promises as fs } from 'node:fs';
 import * as np from 'node:path';
 
+const args = process.argv.slice(2);
+const config = args[0];
+const watchFlag = args[1] === '-w';
+
+if (!config) {
+  throw new Error('Missing config name');
+}
+
+function isDev() {
+  return config === 'dev';
+}
+
+function isProd() {
+  return config === 'prod';
+}
+
 const rootDir = 'src';
 const destDir = '../userland/static/g/app';
 const cssFiles = ['document', 'profile/profileEntry', 'home/homeStdEntry'].map(
@@ -36,7 +52,11 @@ async function build(path) {
 
 await Promise.all(cssFiles.map((f) => build(f)));
 
-console.log('Start watching...');
-watch(cssFiles, async (_, path) => {
-  await build(path);
-});
+console.log(`Start ${watchFlag ? 'watching' : 'building'} CSS files...`);
+if (watchFlag) {
+  watch(cssFiles, async (_, path) => {
+    await build(path);
+  });
+} else {
+  await Promise.all(cssFiles.map((file) => build(file)));
+}

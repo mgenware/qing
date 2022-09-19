@@ -21,7 +21,7 @@ function buildTS(config, watch) {
 }
 
 function buildCSS(config) {
-  return `node "b-css.${config}.js"`;
+  return `node "b-css.js" ${config}${watch ? ' -w' : ''}`;
 }
 
 function devTask(e) {
