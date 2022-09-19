@@ -30,12 +30,18 @@ export function getTopCmt(e: { cmtApp: br.Element }) {
 }
 
 export interface CheckCmtArgs {
+  // <cmt-block>
   cmtEl: br.Element;
   author: br.User;
   content: string;
   canEdit?: boolean;
   highlighted?: boolean;
   hasEdited?: boolean;
+}
+
+export interface CheckCmtDeletedArgs {
+  // <cmt-block>
+  cmtEl: br.Element;
 }
 
 export async function shouldAppear(e: CheckCmtArgs) {
@@ -46,19 +52,27 @@ export async function shouldAppear(e: CheckCmtArgs) {
   // Comment content.
   await row.$('.br-content').e.toHaveText(e.content);
 
-  const editBtn = eb.getEditButton(e.cmtEl, e.author.id);
-  if (e.canEdit) {
-    await editBtn.e.toBeVisible();
-  } else {
-    await editBtn.shouldNotExist();
+  if (e.canEdit !== undefined) {
+    const editBtn = eb.getEditButton(e.cmtEl, e.author.id);
+    if (e.canEdit) {
+      await editBtn.e.toBeVisible();
+    } else {
+      await editBtn.shouldNotExist();
+    }
   }
 
-  const highlightedCls = 'avatar-grid highlighted';
-  if (e.highlighted) {
-    await row.e.toHaveClass(highlightedCls);
-  } else {
-    await row.e.not.toHaveClass(highlightedCls);
+  if (e.highlighted !== undefined) {
+    const highlightedCls = 'avatar-grid highlighted';
+    if (e.highlighted) {
+      await row.e.toHaveClass(highlightedCls);
+    } else {
+      await row.e.not.toHaveClass(highlightedCls);
+    }
   }
+}
+
+export async function shouldAppearDeleted(e: CheckCmtDeletedArgs) {
+  return e.cmtEl.$('cmt-view div.p-md').e.toContainText('Comment deleted');
 }
 
 export async function shouldHaveCmtCount(e: { cmtApp: br.Element; count: number }) {
