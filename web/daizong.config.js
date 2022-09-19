@@ -14,13 +14,11 @@ const prodEnv = {
   NODE_ENV: 'production',
 };
 
-const tscw = 'tsc -w';
-
 function buildTS(config, watch) {
   return `node "b-ts.js" ${config}${watch ? ' -w' : ''}`;
 }
 
-function buildCSS(config) {
+function buildCSS(config, watch) {
   return `node "b-css.js" ${config}${watch ? ' -w' : ''}`;
 }
 
@@ -28,7 +26,7 @@ function devTask(e) {
   return {
     alias: e.alias,
     before: ['#clean', 'tsc'],
-    run: [tscw, buildTS(e.config, e.watch), buildCSS('dev')],
+    run: ['tsc -w', buildTS(e.config, e.watch), buildCSS('dev')],
     parallel: true,
     env: devEnv,
   };
