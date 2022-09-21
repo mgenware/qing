@@ -60,7 +60,7 @@ if (!isDev()) {
 await esbuild.build({
   entryPoints,
   bundle: true,
-  outdir: '../userland/static/g/app',
+  outdir: '../userland/static/g/js',
   minify: !isDev(),
   define: {
     this: 'window',

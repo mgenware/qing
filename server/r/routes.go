@@ -48,18 +48,6 @@ func Start() {
 	// User session middleware.
 	r.Use(appUserManager.Get().ParseUserSessionMiddleware)
 
-	// Mount static file server.
-	httpStaticConf := httpConf.Static
-	if httpStaticConf != nil {
-		startFileServer(r, "static-server", httpStaticConf.URL, httpStaticConf.Dir)
-	}
-
-	// Mount resource server.
-	rsConfig := conf.ResServer
-	if rsConfig != nil {
-		startFileServer(r, "res-server", rsConfig.URL, rsConfig.Dir)
-	}
-
 	// ----------------- HTTP Routes -----------------
 	// Not found handler.
 	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
@@ -86,6 +74,18 @@ func Start() {
 	devConfig := conf.Dev
 	if devConfig != nil {
 		// ======== DEV mode only setup ========
+
+		// Mount static file server.
+		httpStaticConf := httpConf.Static
+		if httpStaticConf != nil {
+			startFileServer(r, "static-server", httpStaticConf.URL, httpStaticConf.Dir)
+		}
+
+		// Mount resource server.
+		rsConfig := conf.ResServer
+		if rsConfig != nil {
+			startFileServer(r, "res-server", rsConfig.URL, rsConfig.Dir)
+		}
 
 		// Dev page.
 		r.Mount("/"+appdef.RouteDev, devp.Router)

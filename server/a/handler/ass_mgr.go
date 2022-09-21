@@ -18,11 +18,11 @@ func styleTag(src string) string {
 }
 
 func appScriptTag(name string) string {
-	return scriptTag(staticDir + "app/" + name + ".js")
+	return scriptTag(staticDir + "js/" + name + ".js")
 }
 
 func appStyleTag(name string) string {
-	return styleTag(staticDir + "app/" + name + ".css")
+	return styleTag(staticDir + "css/" + name + ".css")
 }
 
 func langScriptTag(name string) string {
