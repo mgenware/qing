@@ -108,8 +108,8 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 		d.AppWindDataString = string(jsonBytes)
 	}
 
-	// `document.css` come before other header styles.
-	d.Header = m.asMgr.Style("document") + d.Header
+	// `base.css` and `document.css` come before other header styles.
+	d.Header = m.asMgr.Style("base") + m.asMgr.Style("document") + d.Header
 
 	// Lang script comes before user scripts.
 	d.Scripts = m.asMgr.LangScript(lang) + d.Scripts

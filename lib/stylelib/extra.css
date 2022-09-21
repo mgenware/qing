@@ -5,13 +5,6 @@
  * be found in the LICENSE file.
  */
 
-/*
-  KEEP THIS FILE AS SMALL AS POSSIBLE!
-
-  Please don't add the following styles.
-  - Styles only intended to be used in document level, not shadow DOM level. For example, the container class, page footer styles, etc.
- */
-
 /* Responsive link ------------------------- */
 a {
   overflow-wrap: break-word;
