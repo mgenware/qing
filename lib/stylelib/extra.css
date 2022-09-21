@@ -617,3 +617,8 @@ textarea {
     max-width: 1320px;
   }
 }
+
+.section {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
