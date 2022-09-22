@@ -62,6 +62,8 @@ await esbuild.build({
   bundle: true,
   outdir: '../userland/static/g/js',
   minify: !isDev(),
+  splitting: true,
+  format: 'esm',
   define: {
     this: 'window',
     ...envMap[config],

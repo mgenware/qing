@@ -10,7 +10,7 @@ package handler
 const staticDir = "/static/g/"
 
 func scriptTag(src string) string {
-	return "<script src=\"" + src + "\"></script>"
+	return "<script type=\"module\" src=\"" + src + "\"></script>"
 }
 
 func styleTag(src string) string {
