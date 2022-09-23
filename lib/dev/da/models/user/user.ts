@@ -20,6 +20,7 @@ export class User extends mm.Table {
   location = mm.varChar(appdef.lenMaxUserInfoField).default('');
   bio = mm.text().nullable.default(null).setModelName('BioHTML');
   lang = mm.varChar(appdef.lenMaxLang).default('');
+  reg_lang = mm.varChar(appdef.lenMaxLang);
 
   admin = mm.bool().default(0);
 }

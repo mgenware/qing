@@ -37,11 +37,11 @@ func (mrTable *UserPwdAGType) addPwdBasedUserChild4(mrQueryable mingru.Queryable
 	return mrTable.AddUserPwdInternal(mrQueryable, id, pwdHash)
 }
 
-func (mrTable *UserPwdAGType) AddPwdBasedUser(db *sql.DB, email string, name string, pwdHash string) (uint64, error) {
+func (mrTable *UserPwdAGType) AddPwdBasedUser(db *sql.DB, email string, name string, regLang string, pwdHash string) (uint64, error) {
 	var insertedUserIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedUserID, err := User.AddUserEntryInternal(tx, email, name)
+		insertedUserID, err := User.AddUserEntryInternal(tx, email, name, regLang)
 		if err != nil {
 			return err
 		}

@@ -25,8 +25,8 @@ var User = &UserAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `lang`, `admin`) VALUES (?, ?, '', NOW(3), '', '', '', NULL, '', 0)", email, name)
+func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string, regLang string) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `lang`, `reg_lang`, `admin`) VALUES (?, ?, '', NOW(3), '', '', '', NULL, '', ?, 0)", email, name, regLang)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -188,11 +188,11 @@ func (mrTable *UserAGType) testAddUserChild2(mrQueryable mingru.Queryable, id ui
 	return mrTable.AddUserStatsEntryInternal(mrQueryable, id)
 }
 
-func (mrTable *UserAGType) TestAddUser(db *sql.DB, email string, name string) (uint64, error) {
+func (mrTable *UserAGType) TestAddUser(db *sql.DB, email string, name string, regLang string) (uint64, error) {
 	var insertedUserIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedUserID, err := mrTable.AddUserEntryInternal(tx, email, name)
+		insertedUserID, err := mrTable.AddUserEntryInternal(tx, email, name, regLang)
 		if err != nil {
 			return err
 		}
