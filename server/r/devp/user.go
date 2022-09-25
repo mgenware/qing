@@ -96,11 +96,15 @@ func accVerifiedGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	lang := jsonx.GetString(params, "lang")
+	regLang := jsonx.GetString(params, "regLang")
+	if regLang == "" {
+		regLang = "en"
+	}
 
 	resp := app.JSONResponse(w, r)
 	email := randlib.RandString(16)
 	db := appDB.DB()
-	uid, err := da.User.TestAddUser(db, email+"@t.com", "T")
+	uid, err := da.User.TestAddUser(db, email+"@t.com", "T", regLang)
 	app.PanicOn(err)
 
 	if lang != "" {
