@@ -112,9 +112,23 @@ func (mrTable *UserAGType) SelectIsAdmin(mrQueryable mingru.Queryable, id uint64
 	return result, nil
 }
 
-func (mrTable *UserAGType) SelectLang(mrQueryable mingru.Queryable, id uint64) (string, error) {
+func (mrTable *UserAGType) SelectLangSetting(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := mrQueryable.QueryRow("SELECT `lang` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+type UserAGSelectLangSettingsResult struct {
+	Lang    string `json:"lang,omitempty"`
+	RegLang string `json:"regLang,omitempty"`
+}
+
+func (mrTable *UserAGType) SelectLangSettings(mrQueryable mingru.Queryable, id uint64) (UserAGSelectLangSettingsResult, error) {
+	var result UserAGSelectLangSettingsResult
+	err := mrQueryable.QueryRow("SELECT `lang`, `reg_lang` FROM `user` WHERE `id` = ?", id).Scan(&result.Lang, &result.RegLang)
 	if err != nil {
 		return result, err
 	}
