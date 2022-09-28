@@ -16,5 +16,7 @@
   "pFileSizeExceedsMaxSize": "The file size exceeds the maximum allowed size {0}",
   "unsupportedExtension": "Unsupported file extension",
   "copyright": "Copyright",
-  "autoLangOption": "Auto (based on browser settings)"
+  "autoLangOption": "Auto (based on browser settings)",
+  "clickToViewItOn": "Click here to view it on {0}.",
+  "someoneHasRepliedToYourSth": "{0} has replied to your {1} \"{2}\""
 }

@@ -16,5 +16,7 @@
   "pFileSizeExceedsMaxSize": "文件超过最大允许的大小 {0}",
   "unsupportedExtension": "不支持的文件扩展名",
   "copyright": "版权",
-  "autoLangOption": "自动（基于浏览器配置）"
+  "autoLangOption": "自动（基于浏览器配置）",
+  "clickToViewItOn": "点击这里在{0}中显示。",
+  "someoneHasRepliedToYourSth": "{0}回复了你的{1}\"{2}\""
 }

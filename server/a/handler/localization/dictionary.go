@@ -19,24 +19,26 @@ import (
 
 // Dictionary ...
 type Dictionary struct {
-	AutoLangOption          string `json:"autoLangOption"`
-	CannotRemoveSelfAdmin   string `json:"cannotRemoveSelfAdmin"`
-	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
-	Copyright               string `json:"copyright"`
-	EmailVerified           string `json:"emailVerified"`
-	ErrOccurred             string `json:"errOccurred"`
-	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`
-	NeedAuthErr             string `json:"needAuthErr"`
-	PFileSizeExceedsMaxSize string `json:"pFileSizeExceedsMaxSize"`
-	PermissionDenied        string `json:"permissionDenied"`
-	QingSiteName            string `json:"qingSiteName"`
-	QingSiteUrl             string `json:"qingSiteURL"`
-	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
-	ResNotFound             string `json:"resNotFound"`
-	UnsupportedExtension    string `json:"unsupportedExtension"`
-	VerifyYourEmailTitle    string `json:"verifyYourEmailTitle"`
-	YouAreAlreadyAdmin      string `json:"youAreAlreadyAdmin"`
-	YourAccHasBeenVerified  string `json:"yourAccHasBeenVerified"`
+	AutoLangOption             string `json:"autoLangOption"`
+	CannotRemoveSelfAdmin      string `json:"cannotRemoveSelfAdmin"`
+	ClickBelowToCompleteReg    string `json:"clickBelowToCompleteReg"`
+	ClickToViewItOn            string `json:"clickToViewItOn"`
+	Copyright                  string `json:"copyright"`
+	EmailVerified              string `json:"emailVerified"`
+	ErrOccurred                string `json:"errOccurred"`
+	InvalidNameOrPwd           string `json:"invalidNameOrPwd"`
+	NeedAuthErr                string `json:"needAuthErr"`
+	PFileSizeExceedsMaxSize    string `json:"pFileSizeExceedsMaxSize"`
+	PermissionDenied           string `json:"permissionDenied"`
+	QingSiteName               string `json:"qingSiteName"`
+	QingSiteUrl                string `json:"qingSiteURL"`
+	RegEmailVeriExpired        string `json:"regEmailVeriExpired"`
+	ResNotFound                string `json:"resNotFound"`
+	SomeoneHasRepliedToYourSth string `json:"someoneHasRepliedToYourSth"`
+	UnsupportedExtension       string `json:"unsupportedExtension"`
+	VerifyYourEmailTitle       string `json:"verifyYourEmailTitle"`
+	YouAreAlreadyAdmin         string `json:"youAreAlreadyAdmin"`
+	YourAccHasBeenVerified     string `json:"yourAccHasBeenVerified"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.
