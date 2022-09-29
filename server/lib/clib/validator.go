@@ -17,12 +17,6 @@ import (
 	"github.com/mgenware/goutil/strconvx"
 )
 
-// Used in APIs to represent an entity.
-type EntityInfo struct {
-	ID   uint64
-	Type appdef.ContentBaseType
-}
-
 func panicMissingArg(key string) {
 	// panic with a string for non-fatal errors
 	panic(fmt.Errorf("the argument `%v` is required", key))

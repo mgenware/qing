@@ -121,14 +121,15 @@ func (mrTable *UserAGType) SelectLang(mrQueryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
-type UserAGSelectLangAndRegLangResult struct {
+type UserAGSelectLangsAndEmailResult struct {
+	Email   string `json:"email,omitempty"`
 	Lang    string `json:"lang,omitempty"`
 	RegLang string `json:"regLang,omitempty"`
 }
 
-func (mrTable *UserAGType) SelectLangAndRegLang(mrQueryable mingru.Queryable, id uint64) (UserAGSelectLangAndRegLangResult, error) {
-	var result UserAGSelectLangAndRegLangResult
-	err := mrQueryable.QueryRow("SELECT `lang`, `reg_lang` FROM `user` WHERE `id` = ?", id).Scan(&result.Lang, &result.RegLang)
+func (mrTable *UserAGType) SelectLangsAndEmail(mrQueryable mingru.Queryable, id uint64) (UserAGSelectLangsAndEmailResult, error) {
+	var result UserAGSelectLangsAndEmailResult
+	err := mrQueryable.QueryRow("SELECT `lang`, `reg_lang`, `email` FROM `user` WHERE `id` = ?", id).Scan(&result.Lang, &result.RegLang, &result.Email)
 	if err != nil {
 		return result, err
 	}

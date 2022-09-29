@@ -18,5 +18,6 @@
   "copyright": "Copyright",
   "autoLangOption": "Auto (based on browser settings)",
   "clickToViewItOn": "Click here to view it on {0}.",
-  "someoneHasRepliedToYourSth": "{0} has replied to your {1} \"{2}\""
+  "sbRepliedToUrPost": "{0} has replied to your post \"{1}\".",
+  "sbRepliedToUrCmtIn": "{0} has replied to your comment in \"{1}\"."
 }

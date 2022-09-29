@@ -18,5 +18,6 @@
   "copyright": "版权",
   "autoLangOption": "自动（基于浏览器配置）",
   "clickToViewItOn": "点击这里在{0}中显示。",
-  "someoneHasRepliedToYourSth": "{0}回复了你的{1}\"{2}\""
+  "sbRepliedToUrPost": "{0}回复了你的帖子\"{1}\"。",
+  "sbRepliedToUrCmtIn": "{0}回复了你在\"{1}\"里的评论。"
 }

@@ -36,7 +36,7 @@ func lang(w http.ResponseWriter, r *http.Request) handler.JSON {
 		langInfoList = append(langInfoList, info)
 	}
 
-	userLang, err := da.User.SelectLangSetting(appDB.Get().DB(), uid)
+	userLang, err := da.User.SelectLang(appDB.Get().DB(), uid)
 	app.PanicOn(err)
 
 	res := profileSod.NewGetProfileLangResult(userLang, resp.LS().AutoLangOption, langInfoList)
