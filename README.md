@@ -42,6 +42,7 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 | Blogging               | ✅  |
 | Dashboard              | ✅  |
 | Comments and replies   | ✅  |
+| Notifications          | 🚧  |
 | Threads                | 🚧  |
 | Forum discussions      | 🚧  |
 | Forum groups           | ❌  |
