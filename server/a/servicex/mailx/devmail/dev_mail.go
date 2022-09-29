@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package mailx
+package devmail
 
 import (
 	"errors"
@@ -13,13 +13,20 @@ import (
 	"path/filepath"
 	"qing/a/appConf"
 	"qing/a/config/configs"
+	"time"
 
 	"github.com/mgenware/goutil/iox"
 )
 
 type DevMail struct {
-	Title   string `json:"title,omitempty"`
-	Content string `json:"content,omitempty"`
+	Title   string    `json:"title,omitempty"`
+	Date    time.Time `json:"-"`
+	Content string    `json:"content,omitempty"`
+	TS      int64     `json:"ts,omitempty"`
+}
+
+func NewDevMail(title, content string, date time.Time) *DevMail {
+	return &DevMail{Title: title, Content: content, Date: date, TS: date.Unix()}
 }
 
 func getDevConfig() (*configs.MailBoxConfig, error) {
@@ -30,7 +37,50 @@ func getDevConfig() (*configs.MailBoxConfig, error) {
 	return conf.Dev.MailBox, nil
 }
 
-func GetDevMail(user string, idx int) (*DevMail, error) {
+func ListUsers() ([]string, error) {
+	conf, err := getDevConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	devDir := conf.Dir
+	dirObjs, err := os.ReadDir(devDir)
+	if err != nil {
+		return nil, err
+	}
+
+	var dirs []string
+	for _, d := range dirObjs {
+		dirs = append(dirs, d.Name())
+	}
+	return dirs, nil
+}
+
+// This returns a list of `DevMail` without `Content` set.
+func ListMails(user string) ([]*DevMail, error) {
+	conf, err := getDevConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	devDir := conf.Dir
+	userDir := filepath.Join(devDir, user)
+	dirObjs, err := os.ReadDir(userDir)
+	if err != nil {
+		return nil, err
+	}
+
+	var mails []*DevMail
+	for _, d := range dirObjs {
+		tsString := d.Name()
+		date := time.Parse()
+		dirs = append(dirs, d.Name())
+	}
+	return dirs, nil
+}
+
+// `last` = 0: latest mail.
+func GetMail(user string, last int) (*DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
 		return nil, err
