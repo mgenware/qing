@@ -205,6 +205,15 @@ func (mrTable *FPostAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint6
 	return result, nil
 }
 
+func (mrTable *FPostAGType) SelectTitle(mrQueryable mingru.Queryable, id uint64) (string, error) {
+	var result string
+	err := mrQueryable.QueryRow("SELECT `title` FROM `f_post` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (mrTable *FPostAGType) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
 	result, err := mrQueryable.Exec("UPDATE `f_post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

@@ -12,6 +12,8 @@ import ContentBaseAG from '../com/contentBaseAG.js';
 export default abstract class ContentWithTitleBaseAG<
   T extends ContentWithTitleBase,
 > extends ContentBaseAG<T> {
+  selectTitle = mm.selectField(this.baseTable().title).by(this.baseTable().id);
+
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
     const t = this.baseTable();
     return [...super.colsOfSelectItemsForPostCenter(), t.title];
