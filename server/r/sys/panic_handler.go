@@ -8,8 +8,10 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"runtime/debug"
 
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/a/def/appdef"
 )
@@ -18,6 +20,10 @@ func PanicMiddleware(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if rvr := recover(); rvr != nil {
+				if appConf.Get().DevMode() {
+					fmt.Println("Stacktrace from panic: \n" + string(debug.Stack()))
+				}
+
 				if rvr == http.ErrAbortHandler {
 					// we don't recover http.ErrAbortHandler so the response
 					// to the client is aborted, this should not be logged
