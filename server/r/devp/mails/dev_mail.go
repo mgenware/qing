@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package devp
+package mails
 
 import (
 	"net/http"
@@ -13,20 +13,32 @@ import (
 	"qing/a/appService"
 	"qing/a/def/appdef"
 	"qing/a/handler"
-	"qing/a/servicex/mailx"
+	"qing/a/servicex/mailx/devmail"
 	"qing/lib/clib"
 
 	"github.com/mgenware/goutil/jsonx"
 )
+
+func getDevLastMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := app.JSONResponse(w, r)
+
+	params := app.ContextDict(r)
+	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+	last := jsonx.GetInt(params, "last")
+
+	devMail, err := devmail.GetLastMail(email, last)
+	app.PanicOn(err)
+	return resp.MustComplete(devMail)
+}
 
 func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
-	idx := jsonx.GetInt(params, "idx")
+	dirName := jsonx.GetString(params, "dirName")
 
-	devMail, err := mailx.GetDevMail(email, idx)
+	devMail, err := devmail.GetMail(email, dirName)
 	app.PanicOn(err)
 	return resp.MustComplete(devMail)
 }
@@ -50,7 +62,26 @@ func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
 
-	err := mailx.EraseUser(email)
+	err := devmail.EraseUser(email)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
+}
+
+func users(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := app.JSONResponse(w, r)
+
+	users, err := devmail.ListUsers()
+	app.PanicOn(err)
+	return resp.MustComplete(users)
+}
+
+func inbox(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := app.JSONResponse(w, r)
+
+	params := app.ContextDict(r)
+	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+
+	mails, err := devmail.ListMails(email)
+	app.PanicOn(err)
+	return resp.MustComplete(mails)
 }

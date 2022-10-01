@@ -13,6 +13,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/a/middleware"
+	"qing/r/devp/mails"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -37,9 +38,16 @@ func init() {
 	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
 }
 
+func apiNotFoundHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte("404 Not Found"))
+}
+
 func apiRouter() *handler.JSONRouter {
 	r := handler.NewJSONRouter()
 	r.Core.Use(middleware.APIMiddleware)
+
+	r.Core.NotFound(apiNotFoundHandler)
 
 	// Auth router.
 	authRouter := handler.NewJSONRouter()
@@ -62,12 +70,7 @@ func apiRouter() *handler.JSONRouter {
 	r.Mount("/compose", composeRouter)
 
 	// Mail router
-	mailRouter := handler.NewJSONRouter()
-	mailRouter.Post("/get", getDevMail)
-	mailRouter.Post("/send", sendMail)
-	mailRouter.Post("/erase-user", eraseUser)
-	r.Mount("/mail", mailRouter)
-
+	r.Mount("/mails", mails.Router)
 	return r
 }
 

@@ -9,15 +9,8 @@ package mailx
 
 import (
 	"errors"
-	"os"
-	"path/filepath"
-	"time"
-
-	"github.com/mgenware/goutil/iox"
+	"qing/a/servicex/mailx/devmail"
 )
-
-const devTitleFile = "title.txt"
-const devContentFile = "content.html"
 
 type MailService struct {
 	devDir string
@@ -35,28 +28,7 @@ func (mn *MailService) Send(to, title, content string) (int64, error) {
 	}
 	// Write to file system in dev mode.
 	if mn.devDir != "" {
-		toDir := filepath.Join(mn.devDir, to)
-		err := iox.Mkdirp(toDir)
-		if err != nil {
-			return 0, err
-		}
-
-		timeStr := time.Now().Format(time.RFC3339Nano)
-		curDir := filepath.Join(toDir, timeStr)
-		err = iox.Mkdirp(curDir)
-		if err != nil {
-			return 0, err
-		}
-
-		titleFile := filepath.Join(curDir, devTitleFile)
-		contentFile := filepath.Join(curDir, devContentFile)
-
-		err = os.WriteFile(titleFile, []byte(title), iox.DefaultFilePerm)
-		if err != nil {
-			return 0, err
-		}
-
-		err = os.WriteFile(contentFile, []byte(content), iox.DefaultFilePerm)
+		err := devmail.SendMail(mn.devDir, to, title, content)
 		if err != nil {
 			return 0, err
 		}
