@@ -24,13 +24,13 @@
     "qing-button": "^8.2.6",
     "qing-css-base": "^1.1.8",
     "qing-dock-box": "^0.2.1",
-    "qing-keyed-array": "^2.2.0",
+    "qing-keyed-array": "^2.2.2",
     "qing-overlay": "^0.22.2",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
-    "@types/mocha": "^9.1.1",
+    "@types/mocha": "^10.0.0",
     "@web/test-runner": "^0.14.0",
     "@web/test-runner-playwright": "^0.8.10",
     "esbuild-plugin-minify-html-literals": "^1.0.1",
