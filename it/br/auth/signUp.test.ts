@@ -5,11 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { test, $ } from 'br';
+import { test, $, api } from 'br';
 import * as ivh from 'br/com/forms/inputViewHelper';
 import * as authRoutes from '@qing/routes/d/auth';
 import * as kh from 'br/com/keyboardHelper';
 import * as uuid from 'uuid';
+import * as mailAPI from '@qing/routes/d/dev/api/mails';
 
 const signUpAppSel = 'sign-up-app';
 
@@ -138,34 +139,38 @@ test("Sign up - Password don't match", async ({ page }) => {
 });
 
 test('Sign up - Success', async ({ page }) => {
-  const p = $(page);
-  await p.goto(authRoutes.signUp, null);
+  const email = `t_${uuid.v4()}@mgenware.com`;
+  try {
+    const p = $(page);
+    await p.goto(authRoutes.signUp, null);
 
-  const appEl = p.$(signUpAppSel);
-  const email = `${uuid.v4()}@mgenware.com`;
-  const pwd = '123456';
-  const name = '__NAME__';
+    const appEl = p.$(signUpAppSel);
+    const pwd = '123456';
+    const name = '__NAME__';
 
-  const nameEl = appEl.$inputView('Name');
-  await nameEl.fillInput(name);
+    const nameEl = appEl.$inputView('Name');
+    await nameEl.fillInput(name);
 
-  const emailEl = appEl.$inputView('Email');
-  await emailEl.fillInput(email);
+    const emailEl = appEl.$inputView('Email');
+    await emailEl.fillInput(email);
 
-  const pwdEl = appEl.$inputView('Password');
-  await pwdEl.fillInput(pwd);
+    const pwdEl = appEl.$inputView('Password');
+    await pwdEl.fillInput(pwd);
 
-  const pwd2El = appEl.$inputView('Confirm password');
-  await pwd2El.fillInput(pwd);
+    const pwd2El = appEl.$inputView('Confirm password');
+    await pwd2El.fillInput(pwd);
 
-  // sign-up-app has been removed once "Sign up" button is clicked.
-  const bodyEl = p.body;
-  await bodyEl.$qingButton('Sign up').click();
-  await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
-  await bodyEl
-    .$hasText(
-      'p',
-      'A verification link has been sent to your email account. Please check your email and click the verification link to complete the registration process.',
-    )
-    .e.toBeVisible();
+    // sign-up-app has been removed once "Sign up" button is clicked.
+    const bodyEl = p.body;
+    await bodyEl.$qingButton('Sign up').click();
+    await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
+    await bodyEl
+      .$hasText(
+        'p',
+        'A verification link has been sent to your email account. Please check your email and click the verification link to complete the registration process.',
+      )
+      .e.toBeVisible();
+  } finally {
+    await api(mailAPI.eraseUser, { email });
+  }
 });
