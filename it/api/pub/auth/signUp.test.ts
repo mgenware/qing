@@ -10,7 +10,7 @@ import * as authAPI from '@qing/routes/d/s/pub/auth';
 import * as authRoute from '@qing/routes/d/auth';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
-import * as mailAPI from '@qing/routes/d/dev/api/mail';
+import * as mailAPI from '@qing/routes/d/dev/api/mails';
 import * as ml from 'helper/email';
 import { serverURL } from 'base/def';
 import fetch from 'node-fetch';

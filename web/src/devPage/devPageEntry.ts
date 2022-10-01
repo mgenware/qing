@@ -22,6 +22,13 @@ import * as pu from 'lib/pageUtil';
 
 const devRouter = new MiniURLRouter();
 
+function mustGetString(v: unknown) {
+  if (typeof v === 'string') {
+    return v;
+  }
+  throw new Error(`String value required. Got "${v}"`);
+}
+
 function loadPageContent(title: string, content: TemplateResult) {
   pu.setTitleAndMainContent([title], content);
 }
@@ -40,10 +47,11 @@ devRouter.register(`${mailsRoute.inbox}/:email`, (args) => {
   loadPageContent('Mails - Inbox', html` <mb-inbox-page .email=${args.email}></mb-inbox-page>`);
 });
 devRouter.register(`${mailsRoute.mail}/:email/:dirName`, (args) => {
-  console.log(' --- ', args);
   loadPageContent(
     'Mails - Mail',
-    html` <mb-mail-page .email=${args.email} .dirName=${args.dirName}></mb-mail-page>`,
+    html` <mb-mail-page
+      .email=${decodeURIComponent(mustGetString(args.email))}
+      .dirName=${decodeURIComponent(mustGetString(args.dirName))}></mb-mail-page>`,
   );
 });
 

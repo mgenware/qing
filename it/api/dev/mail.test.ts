@@ -8,7 +8,7 @@
 import { api } from 'api';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
-import * as mailAPI from '@qing/routes/d/dev/api/mail';
+import * as mailAPI from '@qing/routes/d/dev/api/mails';
 
 interface EmailRes {
   title: string;
