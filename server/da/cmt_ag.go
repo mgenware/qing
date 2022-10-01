@@ -92,6 +92,24 @@ func (mrTable *CmtAGType) SelectHostInfo(mrQueryable mingru.Queryable, id uint64
 	return result, nil
 }
 
+func (mrTable *CmtAGType) SelectParentCmt(mrQueryable mingru.Queryable, id uint64) (CmtResult, error) {
+	var result CmtResult
+	err := mrQueryable.QueryRow("SELECT `join_1`.`id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`del_flag`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name` FROM `cmt` AS `cmt` LEFT JOIN `cmt` AS `join_1` ON `join_1`.`id` = `cmt`.`parent_id` LEFT JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` WHERE `cmt`.`id` = ?", id).Scan(&result.ParentID, &result.ParentContentHTML, &result.ParentRawCreatedAt, &result.ParentRawModifiedAt, &result.ParentCmtCount, &result.ParentLikes, &result.ParentDelFlag, &result.ParentUserID, &result.ParentUserName, &result.ParentUserIconName)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func (mrTable *CmtAGType) SelectParentCmtUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, id uint64) (CmtResult, error) {
+	var result CmtResult
+	err := mrQueryable.QueryRow("SELECT `join_1`.`id`, `join_1`.`content`, `join_1`.`created_at`, `join_1`.`modified_at`, `join_1`.`cmt_count`, `join_1`.`likes`, `join_1`.`del_flag`, `join_1`.`user_id`, `join_2`.`name`, `join_2`.`icon_name`, `join_3`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `cmt` AS `join_1` ON `join_1`.`id` = `cmt`.`parent_id` LEFT JOIN `user` AS `join_2` ON `join_2`.`id` = `join_1`.`user_id` LEFT JOIN `cmt_like` AS `join_3` ON `join_3`.`host_id` = `join_1`.`id` AND `join_3`.`user_id` = ? WHERE `cmt`.`id` = ?", viewerUserID, id).Scan(&result.ParentID, &result.ParentContentHTML, &result.ParentRawCreatedAt, &result.ParentRawModifiedAt, &result.ParentCmtCount, &result.ParentLikes, &result.ParentDelFlag, &result.ParentUserID, &result.ParentUserName, &result.ParentUserIconName, &result.IsLiked)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 type CmtAGSelectRepliesOrderBy1 int
 
 const (

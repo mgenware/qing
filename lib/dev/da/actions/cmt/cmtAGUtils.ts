@@ -7,8 +7,8 @@
 
 import * as mm from 'mingru-models';
 import { TableWithIDAndUserID } from '../../models/common.js';
-import user from '../../models/user/user.js';
-import cmt from '../../models/cmt/cmt.js';
+import user, { User } from '../../models/user/user.js';
+import cmt, { Cmt } from '../../models/cmt/cmt.js';
 import { cmtLike } from '../../models/like/likeableTables.js';
 import { getLikedColFromEntityID } from '../com/likeUtil.js';
 
@@ -24,11 +24,42 @@ export interface CmtRelationTable extends mm.Table {
   host_id: mm.Column;
 }
 
+export function getCmtCols(cmtTable: Cmt, userTable: User): mm.SelectedColumnTypes[] {
+  return [
+    cmtTable.content,
+    cmtTable.created_at.privateAttr(),
+    cmtTable.modified_at.privateAttr(),
+    cmtTable.cmt_count,
+    cmtTable.likes,
+    cmtTable.del_flag,
+    cmtTable.user_id.privateAttr(),
+    userTable.name,
+    userTable.icon_name.privateAttr(),
+  ];
+}
+
+export function getSelectParentAction(opt: {
+  // Fetches likes if true.
+  userMode: boolean;
+}) {
+  const jCmt = cmt.parent_id.leftJoin(cmt);
+  const jUser = jCmt.user_id.leftJoin(user);
+  const cols: mm.SelectedColumnTypes[] = [jCmt.id.privateAttr(), ...getCmtCols(jCmt, jUser)];
+  if (opt.userMode) {
+    cols.push(getLikedColFromEntityID(jCmt.id, cmtLike));
+  }
+  return mm
+    .select(...cols)
+    .from(cmt)
+    .by(cmt.id)
+    .resultTypeNameAttr(cmtResultType);
+}
+
 export function getSelectCmtsAction(opt: {
   // If present, select root cmts.
   // Otherwise, select replies.
   rt: CmtRelationTable | null;
-  // Whether likes of a specific user are fetched. User mode only.
+  // Fetches likes if true.
   userMode: boolean;
   // Whether some cmts are excluded. Used when loading more cmts with dynamically added cmts
   // on web side. User mode only.
@@ -38,15 +69,7 @@ export function getSelectCmtsAction(opt: {
   const jUser = jCmt.user_id.leftJoin(user);
   const cols: mm.SelectedColumnTypes[] = [
     opt.rt ? opt.rt.cmt_id.as('id').privateAttr() : jCmt.id.privateAttr(),
-    jCmt.content,
-    jCmt.created_at.privateAttr(),
-    jCmt.modified_at.privateAttr(),
-    jCmt.cmt_count,
-    jCmt.likes,
-    jCmt.del_flag,
-    jCmt.user_id.privateAttr(),
-    jUser.name,
-    jUser.icon_name.privateAttr(),
+    ...getCmtCols(jCmt, jUser),
   ];
   if (opt.userMode) {
     cols.push(getLikedColFromEntityID(opt.rt ? opt.rt.cmt_id : jCmt.id, cmtLike));
