@@ -50,8 +50,8 @@ devRouter.register(`${mailsRoute.mail}/:email/:dirName`, (args) => {
   loadPageContent(
     'Mails - Mail',
     html` <mb-mail-page
-      .email=${decodeURIComponent(mustGetString(args.email))}
-      .dirName=${decodeURIComponent(mustGetString(args.dirName))}></mb-mail-page>`,
+      .email=${mustGetString(args.email)}
+      .dirName=${mustGetString(args.dirName)}></mb-mail-page>`,
   );
 });
 

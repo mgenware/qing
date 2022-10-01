@@ -21,7 +21,7 @@ class URLComponentTrie extends Trie<string, MiniURLRouterHandler> {
     _wildcardValue: MiniURLRouterHandler | null,
   ): PayloadType | undefined {
     return {
-      [wildcardName.substr(1)]: key,
+      [wildcardName.substring(1)]: key,
     };
   }
 }
@@ -66,7 +66,10 @@ export class MiniURLRouter {
         return [];
       }
     }
-    const parts = path.substr(1).split('/');
+    const parts = path
+      .substring(1)
+      .split('/')
+      .map((s) => decodeURIComponent(s));
     if (parts.length < 1) {
       if (throws) {
         throw new Error('/ is not supported');
@@ -90,7 +93,7 @@ export class MiniURLRouter {
       return url;
     }
     if (url.endsWith('/')) {
-      return url.substr(0, url.length - 1);
+      return url.substring(0, url.length);
     }
     return url;
   }
