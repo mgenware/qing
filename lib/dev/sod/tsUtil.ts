@@ -8,9 +8,14 @@
 import * as cm from './common.js';
 import * as qdu from '@qing/devutil';
 
-const tsExtendsAttr = '__ts_extends';
+function tsAttr(s: string) {
+  return `__ts_${s}`;
+}
 
-cm.addAllowedAttrs([tsExtendsAttr]);
+const tsExtendsAttr = tsAttr('extends');
+const tsImportsAttr = tsAttr('imports');
+
+cm.addAllowedAttrs([tsExtendsAttr, tsImportsAttr]);
 
 function handleTypeName(name: string, traits: cm.PropertyTraits) {
   if (traits.isArray) {
@@ -74,6 +79,13 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
         switch (k) {
           case tsExtendsAttr: {
             baseTypes = cm.parseExtendsValue(v);
+            break;
+          }
+
+          case tsImportsAttr: {
+            for (const ipt of cm.parseImports(v)) {
+              imports.add(`import ${ipt};`);
+            }
             break;
           }
         }

@@ -13,6 +13,8 @@
  * See `lib/dev/sod/objects/post/postWind.yaml` for details.
  ******************************************************************************************/
 
+import { Cmt } from '../cmt/cmt.js';
+
 export interface PostWind {
   id: string;
   cmtCount?: number;
@@ -20,4 +22,5 @@ export interface PostWind {
   initialHasLiked?: boolean;
   isThread?: boolean;
   forumID?: string;
+  focusedCmt?: Cmt;
 }

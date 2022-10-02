@@ -13,16 +13,19 @@
 
 package postSod
 
+import "qing/sod/cmtSod"
+
 type PostWind struct {
-	ID              string  `json:"id,omitempty"`
-	CmtCount        uint    `json:"cmtCount,omitempty"`
-	InitialLikes    uint    `json:"initialLikes,omitempty"`
-	InitialHasLiked bool    `json:"initialHasLiked,omitempty"`
-	IsThread        bool    `json:"isThread,omitempty"`
-	ForumID         *string `json:"forumID,omitempty"`
+	ID              string      `json:"id,omitempty"`
+	CmtCount        uint        `json:"cmtCount,omitempty"`
+	InitialLikes    uint        `json:"initialLikes,omitempty"`
+	InitialHasLiked bool        `json:"initialHasLiked,omitempty"`
+	IsThread        bool        `json:"isThread,omitempty"`
+	ForumID         *string     `json:"forumID,omitempty"`
+	FocusedCmt      *cmtSod.Cmt `json:"focusedCmt,omitempty"`
 }
 
-func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, isThread bool, forumID *string) PostWind {
+func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, isThread bool, forumID *string, focusedCmt *cmtSod.Cmt) PostWind {
 	return PostWind{
 		ID: id,
 		CmtCount: cmtCount,
@@ -30,5 +33,6 @@ func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bo
 		InitialHasLiked: initialHasLiked,
 		IsThread: isThread,
 		ForumID: forumID,
+		FocusedCmt: focusedCmt,
 	}
 }

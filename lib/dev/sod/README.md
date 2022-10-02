@@ -1,6 +1,6 @@
 # SOD (Shared Object Definition)
 
-Use YAML to define types that are shared between TypeScript and Go.
+Use YAML to define shared types between TypeScript and Go.
 
 ## Predefined import paths
 
@@ -9,9 +9,7 @@ Use YAML to define types that are shared between TypeScript and Go.
 
 ## Required or optional
 
-Field names are required by default, use `?` to indicate an optional type. A pointer type is always optional.
-
-NOTE: fields marked with `?` won't result in pointers in Go, the `?` is to force optional attribute in TS, e.g. `string`. Use pointers in YAML if you need to mark it as a pointer.
+By default, field names are required properties in Go, and optional properties in TS due to the auto `omitifempty`. To mark a field optional in Go, use `<type>?`. To mark a field required in TS, use `<type>!`.
 
 ### Go
 

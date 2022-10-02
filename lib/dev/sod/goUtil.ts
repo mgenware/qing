@@ -10,11 +10,16 @@ import * as np from 'path';
 import * as cm from './common.js';
 import * as qdu from '@qing/devutil';
 
-const goCtorAttr = '__go_ctor';
-const goExtendsAttr = '__go_extends';
-const goRenameAttr = '__go_rename';
+function goAttr(s: string) {
+  return `__go_${s}`;
+}
 
-cm.addAllowedAttrs([goCtorAttr, goExtendsAttr, goRenameAttr]);
+const goCtorAttr = goAttr('ctor');
+const goExtendsAttr = goAttr('extends');
+const goImportsAttr = goAttr('imports');
+const goRenameAttr = goAttr('rename');
+
+cm.addAllowedAttrs([goCtorAttr, goExtendsAttr, goRenameAttr, goImportsAttr]);
 
 function joinImports(
   imports: string[],
@@ -118,6 +123,13 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
 
           case goRenameAttr: {
             renameMap = cm.parseRenameMap(v);
+            break;
+          }
+
+          case goImportsAttr: {
+            for (const ipt of cm.parseImports(v)) {
+              imports.add(ipt);
+            }
             break;
           }
         }

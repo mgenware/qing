@@ -1,9 +1,17 @@
 ---
 PostWind:
   __go_ctor: true
+  __ts_imports:
+    - "{ Cmt } from '../cmt/cmt.js'"
+  __go_imports:
+    - 'qing/sod/cmtSod'
+
   id: string!
   cmtCount: uint
   initialLikes: uint
   initialHasLiked: bool
   isThread: bool
   forumID: string?
+  focusedCmt:
+    go: cmtSod.Cmt?
+    ts: Cmt?

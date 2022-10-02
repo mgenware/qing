@@ -92,6 +92,18 @@ export function parseRenameMap(obj: unknown): Record<string, string> {
   return obj as Record<string, string>;
 }
 
+export function parseImports(obj: unknown): string[] {
+  if (!Array.isArray(obj)) {
+    throw new Error(`Expected an array, got ${JSON.stringify(obj)}`);
+  }
+  for (const el of obj) {
+    if (typeof el !== 'string') {
+      throw new Error(`\`imports\` member must be a string, got "${el}"`);
+    }
+  }
+  return obj as string[];
+}
+
 export interface PropertyTraits {
   // `prop?`
   // Go: use pointer type
@@ -126,12 +138,21 @@ export function scanTypeDef(
     if (_name.startsWith(attrPrefix)) {
       continue;
     } else {
-      if (typeof _type !== 'string') {
-        throw new Error(`Property value must be a string. Got ${JSON.stringify(_type)}`);
+      let rawType: string;
+      if (typeof _type === 'string') {
+        rawType = _type;
+      } else if (_type && typeof _type === 'object') {
+        rawType = (_type as any)[go ? 'go' : 'ts'];
+      } else {
+        throw new Error(`Invalid type. "${_name}: ${_type}"`);
       }
+      if (!rawType) {
+        throw new Error(`Empty type. "${_name}: ${_type}"`);
+      }
+
       let skipThisProp = false;
-      const optional = _type.endsWith('?');
-      let type = optional ? _type.substring(0, _type.length - 1) : _type;
+      const optional = rawType.endsWith('?');
+      let type = optional ? rawType.substring(0, rawType.length - 1) : rawType;
 
       const notEmpty = type.endsWith('!');
       type = notEmpty ? type.substring(0, type.length - 1) : type;
