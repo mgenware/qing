@@ -9,6 +9,7 @@ import { BaseElement, customElement, html, css, property, state } from 'll';
 import './views/rootCmtList';
 import Entity from 'lib/entity';
 import { CHECK } from 'checks';
+import ls from 'ls';
 import 'qing-overlay';
 import 'ui/editing/composerView';
 import { Cmt } from './data/cmt';
@@ -29,6 +30,9 @@ export class CmtApp extends BaseElement {
 
   @property({ type: Number }) initialTotalCmtCount = 0;
   @property({ type: Object }) host!: Entity;
+  @property({ type: Boolean }) focusedCmt404 = false;
+  @property({ type: Object }) initialFocusedCmt?: Cmt;
+  @property({ type: Object }) initialFocusedCmtParent?: Cmt;
 
   // The number of all comments and their replies.
   @state() private _totalCmtCount = 0;
@@ -39,6 +43,9 @@ export class CmtApp extends BaseElement {
   }
 
   override render() {
+    if (this.focusedCmt404) {
+      return html`<p>${ls.cmtNotFound}</p>`;
+    }
     return html`
       <root-cmt-list
         .totalCmtCount=${this._totalCmtCount}

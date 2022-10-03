@@ -17,6 +17,9 @@ import 'ui/editing/composerView';
 import { SetCmtLoader } from '../loaders/setCmtLoader';
 import { ComposerView } from 'ui/editing/composerView';
 import appTask from 'app/appTask';
+import Cmt from '../data/cmt';
+import LoadingStatus from 'lib/loadingStatus';
+import GetCmtLoader from '../loaders/getCmtLoader';
 
 const brCmtCountCls = 'br-cmt-c';
 const rootEditorID = 'root-editor';
@@ -40,10 +43,15 @@ export class RootCmtList extends BaseElement {
   @property({ type: Number }) totalCmtCount = 0;
   @property({ type: Object }) host!: Entity;
 
-  // When true, focused cmt should be stored in wind data.
-  @property({ type: Boolean }) focusedMode = false;
+  // In initial focus mode, we can have 1 or 2 cmts.
+  // Those props are set in <cmt-app> and processed in `firstRender`.
+  @property({ type: Object }) initialFocusedCmt?: Cmt;
+  @property({ type: Object }) initialFocusedCmtParent?: Cmt;
 
-  @state() private _rootEditorOpen = false;
+  @state() _rootEditorOpen = false;
+  @state() _topLoadedCmt?: Cmt;
+  // Default should be success
+  @state() _ancestorLoadingStatus = LoadingStatus.success;
 
   private get rootEditorEl() {
     return this.getShadowElement<ComposerView>(rootEditorID);
@@ -55,6 +63,7 @@ export class RootCmtList extends BaseElement {
 
   override firstUpdated() {
     CHECK(this.host);
+    this._topLoadedCmt = this.initialFocusedCmtParent ?? this.initialFocusedCmt;
   }
 
   override render() {
@@ -72,10 +81,18 @@ export class RootCmtList extends BaseElement {
           </div>`,
         )}
         ${when(
-          this.hasUnloadedAncestors,
+          // There're unloaded ancestors (focus mode only).
+          this._ancestorLoadingStatus.isSuccess && this._topLoadedCmt?.parentID,
           () => html` <div>
             <link-button @click=${this.loadParentCmt}>${ls.viewParentCmt}</link-button>
           </div>`,
+        )}
+        ${when(
+          !this._ancestorLoadingStatus.isSuccess,
+          () => html`<status-view
+            .status=${this._ancestorLoadingStatus}
+            .canRetry=${true}
+            @status-view-retry=${this.loadParentCmt}></status-view>`,
         )}
         <cmt-block id=${cmtBlockID} .loadOnVisible=${true} .host=${this.host}></cmt-block>
       </div>
@@ -150,7 +167,14 @@ export class RootCmtList extends BaseElement {
     this._rootEditorOpen = false;
   }
 
-  private async loadParentCmt() {}
+  private async loadParentCmt() {
+    const parentID = this._topLoadedCmt?.parentID;
+    if (!parentID) {
+      return;
+    }
+    const loader = new GetCmtLoader(parentID);
+    await appTask.local(loader, (st) => (this._ancestorLoadingStatus = st));
+  }
 }
 
 declare global {

@@ -10,3 +10,4 @@ import root from './root.js';
 const ent = `${root}/ent`;
 
 export const cmts = `${ent}/cmts`;
+export const cmt = `${ent}/cmt`;

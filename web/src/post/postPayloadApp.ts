@@ -39,7 +39,10 @@ export class PostPayloadApp extends BaseElement {
         .hostType=${contentType}></likes-app>
       <cmt-app
         .host=${{ id: hostID, type: contentType }}
-        .initialTotalCmtCount=${postWind.cmtCount ?? 0}></cmt-app>
+        .initialTotalCmtCount=${postWind.cmtCount ?? 0}
+        .focusedCmt404=${!!postWind.focusedCmt404}
+        .initialFocusedCmt=${postWind.focusedCmt}
+        .initialFocusedCmtParent=${postWind.focusedCmtParent}></cmt-app>
     `;
   }
 }

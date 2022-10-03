@@ -169,4 +169,5 @@ export default interface LSDefs {
   languages: string;
   displayLang: string;
   viewParentCmt: string;
+  cmtNotFound: string;
 }

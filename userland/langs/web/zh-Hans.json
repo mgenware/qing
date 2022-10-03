@@ -159,5 +159,6 @@
   "pFieldMaxLenError": "{0}不能超过{1}个字符。",
   "languages": "语言",
   "displayLang": "显示语言",
-  "viewParentCmt": "显示上层评论"
+  "viewParentCmt": "显示上层评论",
+  "cmtNotFound": "评论未找到"
 }
