@@ -10,7 +10,7 @@ import { cmt as t } from '../../models/cmt/cmt.js';
 import * as cm from '../../models/common.js';
 import { getEntitySrcType } from '../def.js';
 import { defaultUpdateConditions } from '../common.js';
-import { getSelectCmtsAction, getSelectParentAction } from './cmtAGUtils.js';
+import { getSelectCmtsAction, getSelectCmtAction } from './cmtAGUtils.js';
 import { updateCounterAction } from '../com/updateCounterAction.js';
 
 function defaultCmtUpdateConditions() {
@@ -31,8 +31,10 @@ export class CmtAG extends mm.ActionGroup {
     .resultTypeNameAttr(getEntitySrcType);
 
   selectHostInfo = mm.selectRow(t.host_id, t.host_type).by(t.id);
-  selectParentCmt: mm.SelectAction;
-  selectParentCmtUserMode: mm.SelectAction;
+
+  // Used in focused cmt mode, where a single cmt along with its parent are shown.
+  selectCmt: mm.SelectAction;
+  selectCmtUserMode: mm.SelectAction;
 
   memLockedGetCmtDataForDeletion = mm
     .selectRow(t.parent_id, t.cmt_count)
@@ -104,8 +106,8 @@ export class CmtAG extends mm.ActionGroup {
       filterMode: true,
     });
 
-    this.selectParentCmt = getSelectParentAction({ userMode: false });
-    this.selectParentCmtUserMode = getSelectParentAction({ userMode: true });
+    this.selectCmt = getSelectCmtAction({ userMode: false });
+    this.selectCmtUserMode = getSelectCmtAction({ userMode: true });
   }
 }
 

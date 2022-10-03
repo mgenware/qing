@@ -38,15 +38,19 @@ export function getCmtCols(cmtTable: Cmt, userTable: User): mm.SelectedColumnTyp
   ];
 }
 
-export function getSelectParentAction(opt: {
+export function getSelectCmtAction(opt: {
   // Fetches likes if true.
   userMode: boolean;
 }) {
-  const jCmt = cmt.parent_id.leftJoin(cmt);
-  const jUser = jCmt.user_id.leftJoin(user);
-  const cols: mm.SelectedColumnTypes[] = [jCmt.id.privateAttr(), ...getCmtCols(jCmt, jUser)];
+  const jUser = cmt.user_id.leftJoin(user);
+  const cols: mm.SelectedColumnTypes[] = [
+    cmt.id.privateAttr(),
+    ...getCmtCols(cmt, jUser),
+    cmt.host_id,
+    cmt.host_type,
+  ];
   if (opt.userMode) {
-    cols.push(getLikedColFromEntityID(jCmt.id, cmtLike));
+    cols.push(getLikedColFromEntityID(cmt.id, cmtLike));
   }
   return mm
     .select(...cols)

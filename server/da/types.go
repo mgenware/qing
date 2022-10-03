@@ -22,27 +22,19 @@ import (
 // ------------ Result types ------------
 
 type CmtResult struct {
-	CmtCount            uint       `json:"cmtCount,omitempty"`
-	ContentHTML         string     `json:"contentHTML,omitempty"`
-	DelFlag             uint8      `json:"delFlag,omitempty"`
-	ID                  uint64     `json:"-"`
-	IsLiked             *uint64    `json:"isLiked,omitempty"`
-	Likes               uint       `json:"likes,omitempty"`
-	ParentCmtCount      *uint      `json:"parentCmtCount,omitempty"`
-	ParentContentHTML   *string    `json:"parentContentHTML,omitempty"`
-	ParentDelFlag       *uint8     `json:"parentDelFlag,omitempty"`
-	ParentID            *uint64    `json:"-"`
-	ParentLikes         *uint      `json:"parentLikes,omitempty"`
-	ParentRawCreatedAt  *time.Time `json:"-"`
-	ParentRawModifiedAt *time.Time `json:"-"`
-	ParentUserIconName  *string    `json:"-"`
-	ParentUserID        *uint64    `json:"-"`
-	ParentUserName      *string    `json:"parentUserName,omitempty"`
-	RawCreatedAt        time.Time  `json:"-"`
-	RawModifiedAt       time.Time  `json:"-"`
-	UserIconName        *string    `json:"-"`
-	UserID              *uint64    `json:"-"`
-	UserName            *string    `json:"userName,omitempty"`
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ContentHTML   string    `json:"contentHTML,omitempty"`
+	DelFlag       uint8     `json:"delFlag,omitempty"`
+	HostID        uint64    `json:"hostID,omitempty"`
+	HostType      uint8     `json:"hostType,omitempty"`
+	ID            uint64    `json:"-"`
+	IsLiked       *uint64   `json:"isLiked,omitempty"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	UserIconName  *string   `json:"-"`
+	UserID        *uint64   `json:"-"`
+	UserName      *string   `json:"userName,omitempty"`
 }
 
 type EntityGetSrcResult struct {

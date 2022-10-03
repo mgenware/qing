@@ -16,6 +16,8 @@ export interface CmtResult {
   cmtCount?: number;
   contentHTML?: string;
   delFlag?: number;
+  hostID?: number;
+  hostType?: number;
   isLiked?: number;
   likes?: number;
   userName?: string;

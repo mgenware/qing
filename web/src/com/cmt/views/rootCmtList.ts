@@ -40,6 +40,9 @@ export class RootCmtList extends BaseElement {
   @property({ type: Number }) totalCmtCount = 0;
   @property({ type: Object }) host!: Entity;
 
+  // When true, focused cmt should be stored in wind data.
+  @property({ type: Boolean }) focusedMode = false;
+
   @state() private _rootEditorOpen = false;
 
   private get rootEditorEl() {
@@ -66,6 +69,12 @@ export class RootCmtList extends BaseElement {
             <small class=${`is-secondary ${brCmtCountCls}`}
               >${formatLS(ls.pNumOfComments, this.totalCmtCount)}</small
             >
+          </div>`,
+        )}
+        ${when(
+          this.hasUnloadedAncestors,
+          () => html` <div>
+            <link-button @click=${this.loadParentCmt}>${ls.viewParentCmt}</link-button>
           </div>`,
         )}
         <cmt-block id=${cmtBlockID} .loadOnVisible=${true} .host=${this.host}></cmt-block>
@@ -140,6 +149,8 @@ export class RootCmtList extends BaseElement {
     this.rootEditorEl?.markAsSaved();
     this._rootEditorOpen = false;
   }
+
+  private async loadParentCmt() {}
 }
 
 declare global {

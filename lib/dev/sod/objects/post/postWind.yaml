@@ -12,6 +12,10 @@ PostWind:
   initialHasLiked: bool
   isThread: bool
   forumID: string?
+  focusedCmt404: bool
   focusedCmt:
+    go: cmtSod.Cmt?
+    ts: Cmt?
+  focusedCmtParent:
     go: cmtSod.Cmt?
     ts: Cmt?

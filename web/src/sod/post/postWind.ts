@@ -22,5 +22,7 @@ export interface PostWind {
   initialHasLiked?: boolean;
   isThread?: boolean;
   forumID?: string;
+  focusedCmt404?: boolean;
   focusedCmt?: Cmt;
+  focusedCmtParent?: Cmt;
 }

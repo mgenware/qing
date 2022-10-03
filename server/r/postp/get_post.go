@@ -12,10 +12,13 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
+	"qing/r/api/apicom"
 	"qing/r/sys"
+	"qing/sod/cmtSod"
 	"qing/sod/postSod"
 
 	"github.com/go-chi/chi/v5"
@@ -30,6 +33,10 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		return sys.NotFoundGET(w, r)
 	}
 	db := appDB.DB()
+
+	focusedCmtIDStr := r.FormValue("cmt")
+	focusedCmtID, err := clib.DecodeID(focusedCmtIDStr)
+	app.PanicOn(err)
 
 	var post da.PostItem
 	if isThread {
@@ -57,7 +64,40 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	}
 	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().AssetManager().Script(postScript)
-	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid)
+
+	var focusedCmt *cmtSod.Cmt
+	var focusedCmtParent *cmtSod.Cmt
+	var focusedCmt404 bool
+	if focusedCmtID > 0 {
+		focusedCmtDB, err := da.Cmt.SelectCmt(db, focusedCmtID)
+		app.PanicOn(err)
+		focusedCmtVal := apicom.NewCmt(&focusedCmtDB)
+		focusedCmt = &focusedCmtVal
+
+		postType := appdef.ContentBaseTypePost
+		if isThread {
+			postType = appdef.ContentBaseTypeThread
+		}
+
+		// Check focused cmt belongs to current post.
+		if focusedCmt.HostID != id || focusedCmt.HostType != uint8(postType) {
+			focusedCmt404 = true
+			focusedCmt = nil
+		} else {
+			// Fetch parent cmt if needed.
+			if focusedCmt.ParentID != nil {
+				parentID, err := clib.DecodeID(*focusedCmt.ParentID)
+				app.PanicOn(err)
+
+				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, parentID)
+				app.PanicOn(err)
+				focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
+				focusedCmtParent = &focusedCmtParentVal
+			}
+		}
+	}
+
+	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, focusedCmt404, focusedCmt, focusedCmtParent)
 	return resp.MustComplete(&d)
 }
 
