@@ -58,9 +58,13 @@ export class CmtBlock extends BaseElement {
   }
 
   @property({ type: Object }) host!: Entity;
-  @property({ type: Object }) cmt: Cmt | null = null;
+  @property({ type: Object }) cmt?: Cmt;
+  // Used in focused mode.
+  @property({ type: Object }) initialAssignedChild?: Cmt;
 
   // Starts loading comment when the component is first visible.
+  // Only applies to this cmt.
+  // Doesn't have effect when `cmt` is present.
   @property({ type: Boolean }) loadOnVisible = false;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
@@ -116,7 +120,7 @@ export class CmtBlock extends BaseElement {
       );
     }
 
-    if (this.loadOnVisible) {
+    if (this.loadOnVisible && !this.cmt) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       listenForVisibilityChange([this], () => this.loadMore());
     }
@@ -210,6 +214,12 @@ export class CmtBlock extends BaseElement {
     CHECK(this._collector.observableItems.insert(0, cmt));
   }
 
+  override willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has('initialAssignedChild') && this.initialAssignedChild) {
+      this._collector.observableItems.insert(0, this.initialAssignedChild);
+    }
+  }
+
   private async handleEditEditorSubmit() {
     if (!this.editEditorEl || !this.cmt) {
       return;
@@ -289,7 +299,7 @@ export class CmtBlock extends BaseElement {
     return excluded;
   }
 
-  private handleReplyClick(cmt: Cmt | null) {
+  private handleReplyClick(cmt: Cmt | undefined) {
     this._replyEditorQuoteHTML = cmt?.contentHTML ?? '';
     this._replyEditorOpen = true;
   }

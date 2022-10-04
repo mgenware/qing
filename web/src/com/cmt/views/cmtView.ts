@@ -37,9 +37,9 @@ export class CmtView extends BaseElement {
     ];
   }
 
-  @property({ type: Object }) cmt: Cmt | null = null;
+  @property({ type: Object }) cmt?: Cmt;
   // Only available to replies.
-  @property() parentID: string | null = null;
+  @property() parentID?: string;
 
   override firstUpdated() {
     const { cmt } = this;

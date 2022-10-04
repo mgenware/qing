@@ -18,24 +18,24 @@ import "qing/da"
 type Cmt struct {
 	da.CmtResult
 
-	EID         string  `json:"id,omitempty"`
+	Eid         string  `json:"id,omitempty"`
 	UserEID     *string `json:"userID,omitempty"`
 	UserURL     string  `json:"userURL,omitempty"`
 	UserIconURL string  `json:"userIconURL,omitempty"`
 	CreatedAt   string  `json:"createdAt,omitempty"`
 	ModifiedAt  string  `json:"modifiedAt,omitempty"`
-	ParentID    *string `json:"parentID,omitempty"`
+	ParentEID   *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtResult *da.CmtResult, id string, userID *string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentID *string) Cmt {
+func NewCmt(cmtResult *da.CmtResult, eid string, userEID *string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentEID *string) Cmt {
 	return Cmt{
 		CmtResult: *cmtResult,
-		EID: id,
-		UserEID: userID,
+		Eid: eid,
+		UserEID: userEID,
 		UserURL: userURL,
 		UserIconURL: userIconURL,
 		CreatedAt: createdAt,
 		ModifiedAt: modifiedAt,
-		ParentID: parentID,
+		ParentEID: parentEID,
 	}
 }

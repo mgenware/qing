@@ -2,8 +2,9 @@
 Cmt:
   __go_ctor: true
   __go_rename:
-    id: EID
-    userID: UserEID
+    id: eid
+    userID: userEID
+    parentID: parentEID
 
   __go_extends:
     - name: CmtResult
@@ -19,5 +20,4 @@ Cmt:
   userIconURL: string!
   createdAt: string!
   modifiedAt: string!
-
   parentID: string?

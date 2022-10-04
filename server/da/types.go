@@ -30,6 +30,7 @@ type CmtResult struct {
 	ID            uint64    `json:"-"`
 	IsLiked       *uint64   `json:"isLiked,omitempty"`
 	Likes         uint      `json:"likes,omitempty"`
+	ParentID      *uint64   `json:"-"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
 	UserIconName  *string   `json:"-"`

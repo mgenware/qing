@@ -14,7 +14,7 @@
 package feedSod
 
 type FeedBase struct {
-	URL         string `json:"url,omitempty"`
+	Url         string `json:"url,omitempty"`
 	UserURL     string `json:"userURL,omitempty"`
 	UserIconURL string `json:"userIconURL,omitempty"`
 	CreatedAt   string `json:"createdAt,omitempty"`
@@ -23,7 +23,7 @@ type FeedBase struct {
 
 func NewFeedBase(url string, userURL string, userIconURL string, createdAt string, modifiedAt string) FeedBase {
 	return FeedBase{
-		URL: url,
+		Url: url,
 		UserURL: userURL,
 		UserIconURL: userIconURL,
 		CreatedAt: createdAt,

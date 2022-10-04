@@ -7,8 +7,9 @@
 
 import Loader from 'lib/loader';
 import * as entRoute from '@qing/routes/d/s/pub/ent';
+import { Cmt } from '../data/cmt';
 
-export default class GetCmtLoader extends Loader<string> {
+export default class GetCmtLoader extends Loader<Cmt | null> {
   constructor(public id: string) {
     super();
   }

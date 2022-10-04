@@ -50,7 +50,8 @@ export class CmtApp extends BaseElement {
       <root-cmt-list
         .totalCmtCount=${this._totalCmtCount}
         .host=${this.host}
-        .loadOnVisible=${!!this.initialTotalCmtCount}
+        .initialFocusedCmt=${this.initialFocusedCmt}
+        .initialFocusedCmtParent=${this.initialFocusedCmtParent}
         @cmt-block-items-change=${this.handleAnyItemsChanged}></root-cmt-list>
     `;
   }

@@ -34,7 +34,7 @@ export default {
     ts: 'eslint --max-warnings 0 --ext .ts src/',
     lit: 'lit-analyzer "src/**/*.ts"',
     html: 'html-validate "../userland/templates/**/*.html"',
-    run: ['#lint-ts', '#lint-html', '#lint-lit'],
+    run: ['#lint-ts', '#lint-lit', '#lint-html'],
   },
 
   /** Standard mode */

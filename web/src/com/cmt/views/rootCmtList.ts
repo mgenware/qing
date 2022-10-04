@@ -17,7 +17,7 @@ import 'ui/editing/composerView';
 import { SetCmtLoader } from '../loaders/setCmtLoader';
 import { ComposerView } from 'ui/editing/composerView';
 import appTask from 'app/appTask';
-import Cmt from '../data/cmt';
+import { Cmt } from '../data/cmt';
 import LoadingStatus from 'lib/loadingStatus';
 import GetCmtLoader from '../loaders/getCmtLoader';
 
@@ -35,6 +35,12 @@ export class RootCmtList extends BaseElement {
         :host {
           display: block;
         }
+
+        /** Used on buttons between cmts */
+        .btn-in-cmts {
+          margin-top: 1rem;
+          margin-bottom: 1.4rem;
+        }
       `,
     ];
   }
@@ -49,9 +55,13 @@ export class RootCmtList extends BaseElement {
   @property({ type: Object }) initialFocusedCmtParent?: Cmt;
 
   @state() _rootEditorOpen = false;
+
+  // Focus mode state vars.
+  // These are initialized in `firstRender`.
   @state() _topLoadedCmt?: Cmt;
-  // Default should be success
   @state() _ancestorLoadingStatus = LoadingStatus.success;
+  @state() _initialCmtBlockCmt?: Cmt;
+  @state() _initialCmtBlockAssignedCmt?: Cmt;
 
   private get rootEditorEl() {
     return this.getShadowElement<ComposerView>(rootEditorID);
@@ -64,6 +74,16 @@ export class RootCmtList extends BaseElement {
   override firstUpdated() {
     CHECK(this.host);
     this._topLoadedCmt = this.initialFocusedCmtParent ?? this.initialFocusedCmt;
+    if (this.initialFocusedCmt) {
+      if (this.initialFocusedCmtParent) {
+        // 2 cmts focus mode.
+        this._initialCmtBlockCmt = this.initialFocusedCmtParent;
+        this._initialCmtBlockAssignedCmt = this.initialFocusedCmt;
+      } else {
+        // 1 cmt focus mode.
+        this._initialCmtBlockCmt = this.initialFocusedCmt;
+      }
+    }
   }
 
   override render() {
@@ -83,7 +103,7 @@ export class RootCmtList extends BaseElement {
         ${when(
           // There're unloaded ancestors (focus mode only).
           this._ancestorLoadingStatus.isSuccess && this._topLoadedCmt?.parentID,
-          () => html` <div>
+          () => html` <div class="btn-in-cmts">
             <link-button @click=${this.loadParentCmt}>${ls.viewParentCmt}</link-button>
           </div>`,
         )}
@@ -94,7 +114,12 @@ export class RootCmtList extends BaseElement {
             .canRetry=${true}
             @status-view-retry=${this.loadParentCmt}></status-view>`,
         )}
-        <cmt-block id=${cmtBlockID} .loadOnVisible=${true} .host=${this.host}></cmt-block>
+        <cmt-block
+          id=${cmtBlockID}
+          .loadOnVisible=${!this.initialFocusedCmt}
+          .host=${this.host}
+          .cmt=${this._initialCmtBlockCmt}
+          .initialAssignedChild=${this._initialCmtBlockAssignedCmt}></cmt-block>
       </div>
     `;
 
@@ -173,7 +198,9 @@ export class RootCmtList extends BaseElement {
       return;
     }
     const loader = new GetCmtLoader(parentID);
-    await appTask.local(loader, (st) => (this._ancestorLoadingStatus = st));
+    const res = await appTask.local(loader, (st) => (this._ancestorLoadingStatus = st));
+    if (res.data) {
+    }
   }
 }
 

@@ -19,17 +19,22 @@ func NewCmt(d *da.CmtResult) cmtSod.Cmt {
 	var userEID *string
 	var userURL string
 	var userIconURL string
+	var parentEID *string
 	if d.UserID != nil && d.UserIconName != nil {
 		id := clib.EncodeID(*d.UserID)
 		userEID = &id
 		userURL = appURL.Get().UserProfile(*d.UserID)
 		userIconURL = appURL.Get().UserIconURL50(*d.UserID, *d.UserIconName)
 	}
+	if d.ParentID != nil {
+		pid := clib.EncodeID(*d.ParentID)
+		parentEID = &pid
+	}
 
 	createdAt := clib.TimeString(d.RawCreatedAt)
 	modifiedAt := clib.TimeString(d.RawModifiedAt)
 
 	return cmtSod.NewCmt(
-		d, eid, userEID, userURL, userIconURL, createdAt, modifiedAt, nil,
+		d, eid, userEID, userURL, userIconURL, createdAt, modifiedAt, parentEID,
 	)
 }

@@ -36,7 +36,7 @@ func NewPostFeedModel(src *da.HomeAGSelectPostsResult) PostFeedModel {
 	d.UserURL = appURL.Get().UserProfile(d.UserID)
 	d.UserIconURL = appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
 
-	d.URL = appURL.Get().Post(d.ID)
+	d.Url = appURL.Get().Post(d.ID)
 	return d
 }
 
@@ -54,7 +54,7 @@ func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {
 	d.UserURL = appURL.Get().UserProfile(d.UserID)
 	d.UserIconURL = appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
 
-	d.URL = appURL.Get().Thread(d.ID)
+	d.Url = appURL.Get().Thread(d.ID)
 	return d
 }
 

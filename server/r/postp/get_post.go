@@ -86,10 +86,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		} else {
 			// Fetch parent cmt if needed.
 			if focusedCmt.ParentID != nil {
-				parentID, err := clib.DecodeID(*focusedCmt.ParentID)
-				app.PanicOn(err)
-
-				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, parentID)
+				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmt.ParentID)
 				app.PanicOn(err)
 				focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
 				focusedCmtParent = &focusedCmtParentVal

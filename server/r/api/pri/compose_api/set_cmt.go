@@ -77,7 +77,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
 		app.PanicOn(err)
-		cmt := &cmtSod.Cmt{EID: clib.EncodeID(id)}
+		cmt := &cmtSod.Cmt{Eid: clib.EncodeID(id)}
 		cmt.ContentHTML = content
 
 		now := time.Now()
