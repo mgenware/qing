@@ -71,7 +71,7 @@ func (mrTable *CmtAGType) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Quer
 
 func (mrTable *CmtAGType) SelectCmt(mrQueryable mingru.Queryable, id uint64) (CmtResult, error) {
 	var result CmtResult
-	err := mrQueryable.QueryRow("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `cmt`.`host_id`, `cmt`.`host_type` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`id` = ?", id).Scan(&result.ID, &result.ContentHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.CmtCount, &result.Likes, &result.DelFlag, &result.UserID, &result.UserName, &result.UserIconName, &result.HostID, &result.HostType)
+	err := mrQueryable.QueryRow("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name`, `cmt`.`host_id`, `cmt`.`host_type` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`id` = ?", id).Scan(&result.ID, &result.ContentHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.CmtCount, &result.Likes, &result.DelFlag, &result.UserID, &result.ParentID, &result.UserName, &result.UserIconName, &result.HostID, &result.HostType)
 	if err != nil {
 		return result, err
 	}
@@ -89,7 +89,7 @@ func (mrTable *CmtAGType) SelectCmtSource(mrQueryable mingru.Queryable, id uint6
 
 func (mrTable *CmtAGType) SelectCmtUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, id uint64) (CmtResult, error) {
 	var result CmtResult
-	err := mrQueryable.QueryRow("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `cmt`.`host_id`, `cmt`.`host_type`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`id` = ?", viewerUserID, id).Scan(&result.ID, &result.ContentHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.CmtCount, &result.Likes, &result.DelFlag, &result.UserID, &result.UserName, &result.UserIconName, &result.HostID, &result.HostType, &result.IsLiked)
+	err := mrQueryable.QueryRow("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name`, `cmt`.`host_id`, `cmt`.`host_type`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`id` = ?", viewerUserID, id).Scan(&result.ID, &result.ContentHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.CmtCount, &result.Likes, &result.DelFlag, &result.UserID, &result.ParentID, &result.UserName, &result.UserIconName, &result.HostID, &result.HostType, &result.IsLiked)
 	if err != nil {
 		return result, err
 	}
@@ -147,7 +147,7 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -158,7 +158,7 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtResult
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.UserName, &item.UserIconName)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
 			}
@@ -209,7 +209,7 @@ func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, vi
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`parent_id` = ? ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", viewerUserID, parentID, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -220,7 +220,7 @@ func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, vi
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtResult
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.UserName, &item.UserIconName, &item.IsLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err
 			}
@@ -282,7 +282,7 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 	}
 	queryParams = append(queryParams, limit)
 	queryParams = append(queryParams, offset)
-	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE (`cmt`.`parent_id` = ? AND `cmt`.`id` NOT IN ("+mingru.InputPlaceholders(len(excluded))+")) ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", queryParams...)
+	rows, err := mrQueryable.Query("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE (`cmt`.`parent_id` = ? AND `cmt`.`id` NOT IN ("+mingru.InputPlaceholders(len(excluded))+")) ORDER BY "+orderBy1SQL+", `cmt`.`id` LIMIT ? OFFSET ?", queryParams...)
 	if err != nil {
 		return nil, false, err
 	}
@@ -293,7 +293,7 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 		itemCounter++
 		if itemCounter <= max {
 			var item CmtResult
-			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.UserName, &item.UserIconName, &item.IsLiked)
+			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err
 			}

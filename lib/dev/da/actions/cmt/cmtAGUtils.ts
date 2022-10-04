@@ -33,6 +33,7 @@ export function getCmtCols(cmtTable: Cmt, userTable: User): mm.SelectedColumnTyp
     cmtTable.likes,
     cmtTable.del_flag,
     cmtTable.user_id.privateAttr(),
+    cmtTable.parent_id.privateAttr(),
     userTable.name,
     userTable.icon_name.privateAttr(),
   ];
