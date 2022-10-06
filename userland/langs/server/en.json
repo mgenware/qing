@@ -1,6 +1,6 @@
 {
   "qingSiteName": "Qing",
-  "qingSiteURL": "https://__qing__",
+  "qingSiteLink": "https://__qing__",
   "errOccurred": "An error occurred",
   "resNotFound": "The resource you requested does not exist.",
   "regEmailVeriExpired": "Link has expired, please sign up again.",

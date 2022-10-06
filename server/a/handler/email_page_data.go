@@ -14,7 +14,7 @@ type EmailPageData struct {
 	AppLang     string
 
 	LSSiteName string
-	LSSiteURL  string
+	LSSiteLink string
 }
 
 func NewEmailPageData(title, previewText, contentHTML string) EmailPageData {

@@ -14,16 +14,16 @@
 package feedSod
 
 type FeedBase struct {
-	Url         string `json:"url,omitempty"`
+	Link        string `json:"link,omitempty"`
 	UserURL     string `json:"userURL,omitempty"`
 	UserIconURL string `json:"userIconURL,omitempty"`
 	CreatedAt   string `json:"createdAt,omitempty"`
 	ModifiedAt  string `json:"modifiedAt,omitempty"`
 }
 
-func NewFeedBase(url string, userURL string, userIconURL string, createdAt string, modifiedAt string) FeedBase {
+func NewFeedBase(link string, userURL string, userIconURL string, createdAt string, modifiedAt string) FeedBase {
 	return FeedBase{
-		Url: url,
+		Link: link,
 		UserURL: userURL,
 		UserIconURL: userIconURL,
 		CreatedAt: createdAt,

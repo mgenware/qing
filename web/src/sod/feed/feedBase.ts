@@ -14,7 +14,7 @@
  ******************************************************************************************/
 
 export interface FeedBase {
-  url: string;
+  link: string;
   userURL: string;
   userIconURL: string;
   createdAt: string;

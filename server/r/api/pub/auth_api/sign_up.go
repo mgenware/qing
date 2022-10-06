@@ -79,7 +79,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	ctx := r.Context()
 	lang := appcom.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
-	url := appURL.Get().RegEmailVerification(ls.QingSiteUrl, publicID)
+	url := appURL.Get().RegEmailVerification(ls.QingSiteLink, publicID)
 
 	d := EmailVerificationData{
 		MainText: ls.ClickBelowToCompleteReg,

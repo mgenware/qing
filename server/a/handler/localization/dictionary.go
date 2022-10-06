@@ -30,8 +30,8 @@ type Dictionary struct {
 	NeedAuthErr             string `json:"needAuthErr"`
 	PFileSizeExceedsMaxSize string `json:"pFileSizeExceedsMaxSize"`
 	PermissionDenied        string `json:"permissionDenied"`
+	QingSiteLink            string `json:"qingSiteLink"`
 	QingSiteName            string `json:"qingSiteName"`
-	QingSiteUrl             string `json:"qingSiteURL"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
 	SbRepliedToUrCmtIn      string `json:"sbRepliedToUrCmtIn"`

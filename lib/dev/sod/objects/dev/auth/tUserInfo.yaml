@@ -4,5 +4,5 @@ TUserInfo:
   admin: bool
   id: string!
   iconURL: string!
-  url: string!
+  link: string!
   name: string!

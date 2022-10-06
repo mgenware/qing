@@ -17,6 +17,6 @@ export interface TUserInfo {
   admin?: boolean;
   id: string;
   iconURL: string;
-  url: string;
+  link: string;
   name: string;
 }

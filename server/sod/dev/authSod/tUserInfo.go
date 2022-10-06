@@ -17,16 +17,16 @@ type TUserInfo struct {
 	Admin   bool   `json:"admin,omitempty"`
 	ID      string `json:"id,omitempty"`
 	IconURL string `json:"iconURL,omitempty"`
-	Url     string `json:"url,omitempty"`
+	Link    string `json:"link,omitempty"`
 	Name    string `json:"name,omitempty"`
 }
 
-func NewTUserInfo(admin bool, id string, iconURL string, url string, name string) TUserInfo {
+func NewTUserInfo(admin bool, id string, iconURL string, link string, name string) TUserInfo {
 	return TUserInfo{
 		Admin: admin,
 		ID: id,
 		IconURL: iconURL,
-		Url: url,
+		Link: link,
 		Name: name,
 	}
 }

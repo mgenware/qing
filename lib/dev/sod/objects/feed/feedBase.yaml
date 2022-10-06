@@ -2,7 +2,7 @@
 FeedBase:
   __go_ctor: true
 
-  url: string!
+  link: string!
   userURL: string!
   userIconURL: string!
   createdAt: string!
