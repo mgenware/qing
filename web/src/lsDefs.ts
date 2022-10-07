@@ -168,6 +168,6 @@ export default interface LSDefs {
   pFieldMaxLenError: string;
   languages: string;
   displayLang: string;
-  viewParentCmt: string;
+  viewAllCmts: string;
   cmtNotFound: string;
 }

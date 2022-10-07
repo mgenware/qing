@@ -124,6 +124,10 @@ export class CmtBlock extends BaseElement {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       listenForVisibilityChange([this], () => this.loadMore());
     }
+
+    if (this.initialAssignedChild) {
+      this._collector.observableItems.insert(0, this.initialAssignedChild);
+    }
   }
 
   override render() {
@@ -212,12 +216,6 @@ export class CmtBlock extends BaseElement {
   // Called in outer `root-cmt-list` to prepend a new cmt.
   addRootCmt(cmt: Cmt) {
     CHECK(this._collector.observableItems.insert(0, cmt));
-  }
-
-  override willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has('initialAssignedChild') && this.initialAssignedChild) {
-      this._collector.observableItems.insert(0, this.initialAssignedChild);
-    }
   }
 
   private async handleEditEditorSubmit() {

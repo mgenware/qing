@@ -10,6 +10,7 @@ import 'com/cmt/cmtApp';
 import postWind from './postWind';
 import 'com/like/likesApp';
 import { appdef } from '@qing/def';
+import * as pu from 'lib/pageUtil';
 
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')
@@ -42,8 +43,16 @@ export class PostPayloadApp extends BaseElement {
         .initialTotalCmtCount=${postWind.cmtCount ?? 0}
         .focusedCmt404=${!!postWind.focusedCmt404}
         .initialFocusedCmt=${postWind.focusedCmt}
-        .initialFocusedCmtParent=${postWind.focusedCmtParent}></cmt-app>
+        .initialFocusedCmtParent=${postWind.focusedCmtParent}
+        @cmt-app-view-all-cmts=${this.handleViewAllCmts}></cmt-app>
     `;
+  }
+
+  private handleViewAllCmts() {
+    // Remove the focus mode param in URL.
+    const url = new URL(window.location.href);
+    url.searchParams.delete('cmt');
+    pu.jumpToURL(url.toString());
   }
 }
 

@@ -72,7 +72,6 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		focusedCmtDB, err := da.Cmt.SelectCmt(db, focusedCmtID)
 		app.PanicOn(err)
 		focusedCmtVal := apicom.NewCmt(&focusedCmtDB)
-		focusedCmt = &focusedCmtVal
 
 		postType := appdef.ContentBaseTypePost
 		if isThread {
@@ -80,13 +79,13 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		}
 
 		// Check focused cmt belongs to current post.
-		if focusedCmt.HostID != id || focusedCmt.HostType != uint8(postType) {
+		if focusedCmtVal.HostID != id || focusedCmtVal.HostType != uint8(postType) {
 			focusedCmt404 = true
-			focusedCmt = nil
 		} else {
+			focusedCmt = &focusedCmtVal
 			// Fetch parent cmt if needed.
-			if focusedCmt.ParentID != nil {
-				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmt.ParentID)
+			if focusedCmtVal.ParentID != nil {
+				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmtVal.ParentID)
 				app.PanicOn(err)
 				focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
 				focusedCmtParent = &focusedCmtParentVal

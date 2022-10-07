@@ -52,7 +52,9 @@ export class CmtApp extends BaseElement {
         .host=${this.host}
         .initialFocusedCmt=${this.initialFocusedCmt}
         .initialFocusedCmtParent=${this.initialFocusedCmtParent}
-        @cmt-block-items-change=${this.handleAnyItemsChanged}></root-cmt-list>
+        @cmt-block-items-change=${this.handleAnyItemsChanged}
+        @rcl-view-all-cmts=${() =>
+          this.dispatchEvent(new CustomEvent('cmt-app-view-all-cmts'))}></root-cmt-list>
     `;
   }
 

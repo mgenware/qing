@@ -159,6 +159,6 @@
   "pFieldMaxLenError": "{0} should be at most {1} characters.",
   "languages": "Languages",
   "displayLang": "Display language",
-  "viewParentCmt": "View parent comment",
+  "viewAllCmts": "View all comments",
   "cmtNotFound": "Comment not found"
 }
