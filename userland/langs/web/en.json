@@ -160,5 +160,5 @@
   "languages": "Languages",
   "displayLang": "Display language",
   "viewAllCmts": "View all comments",
-  "cmtNotFound": "Comment not found"
+  "cmtNotFound": "The comment your are looking for is not found and might have been deleted."
 }
