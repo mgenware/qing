@@ -9,7 +9,6 @@ import { BaseElement, customElement, html, css, property, state } from 'll';
 import './views/rootCmtList';
 import Entity from 'lib/entity';
 import { CHECK } from 'checks';
-import ls from 'ls';
 import 'qing-overlay';
 import 'ui/editing/composerView';
 import { Cmt } from './data/cmt';
@@ -43,13 +42,11 @@ export class CmtApp extends BaseElement {
   }
 
   override render() {
-    if (this.focusedCmt404) {
-      return html`<p>${ls.cmtNotFound}</p>`;
-    }
     return html`
       <root-cmt-list
         .totalCmtCount=${this._totalCmtCount}
         .host=${this.host}
+        .focusedCmt404=${this.focusedCmt404}
         .initialFocusedCmt=${this.initialFocusedCmt}
         .initialFocusedCmtParent=${this.initialFocusedCmtParent}
         @cmt-block-items-change=${this.handleAnyItemsChanged}

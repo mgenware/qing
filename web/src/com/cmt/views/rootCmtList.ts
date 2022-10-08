@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, property, state } from 'll';
+import { BaseElement, customElement, html, css, when, property, state, classMap } from 'll';
 import { ls, formatLS } from 'ls';
 import './cmtBlock';
 import { CmtBlock } from './cmtBlock';
@@ -39,6 +39,12 @@ export class RootCmtList extends BaseElement {
           margin-top: 1rem;
           margin-bottom: 1.4rem;
         }
+
+        .focus-mode {
+          padding: 1rem;
+          border-radius: 10px;
+          border: 1px solid var(--app-default-separator-color);
+        }
       `,
     ];
   }
@@ -49,6 +55,7 @@ export class RootCmtList extends BaseElement {
 
   // In initial focus mode, we can have 1 or 2 cmts.
   // Those props are set in <cmt-app> and processed in `firstRender`.
+  @property({ type: Boolean }) focusedCmt404 = false;
   @property({ type: Object }) initialFocusedCmt?: Cmt;
   @property({ type: Object }) initialFocusedCmtParent?: Cmt;
 
@@ -62,6 +69,10 @@ export class RootCmtList extends BaseElement {
     return this.getShadowElement<CmtBlock>(cmtBlockID);
   }
 
+  private get focusMode() {
+    return !!this.initialFocusedCmt || this.focusedCmt404;
+  }
+
   override firstUpdated() {
     CHECK(this.host);
   }
@@ -71,7 +82,11 @@ export class RootCmtList extends BaseElement {
     const titleEl = html`<h2>${ls.comments}</h2>
       ${when(!totalCmtCount, () => html`<p class=${brCmtCountCls}>${ls.noComments}</p>`)}`;
     const contentEl = html`
-      <div class="m-t-md">
+      <div
+        class=${classMap({
+          'm-t-md': true,
+          'focus-mode': this.focusMode,
+        })}>
         ${when(
           this.totalCmtCount,
           () => html`<div>
@@ -81,18 +96,12 @@ export class RootCmtList extends BaseElement {
           </div>`,
         )}
         ${when(
-          // Focus mode.
-          this.initialFocusedCmt,
+          this.focusMode,
           () => html` <div class="btn-in-cmts">
             <link-button @click=${this.viewAllCmts}>${ls.viewAllCmts}</link-button>
           </div>`,
         )}
-        <cmt-block
-          id=${cmtBlockID}
-          .loadOnVisible=${!this.initialFocusedCmt}
-          .host=${this.host}
-          .cmt=${this.initialFocusedCmtParent ?? this.initialFocusedCmt}
-          .initialAssignedChild=${this.initialFocusedCmt}></cmt-block>
+        ${this.focusedCmt404 ? this.renderCmtNotFound() : this.renderMainContent()}
       </div>
     `;
 
@@ -110,6 +119,19 @@ export class RootCmtList extends BaseElement {
           @composer-discard=${this.handleRootEditorDiscard}></composer-view>
       </qing-overlay>`,
     )}`;
+  }
+
+  private renderCmtNotFound() {
+    return html`<p>${ls.cmtNotFound}</p>`;
+  }
+
+  private renderMainContent() {
+    return html`<cmt-block
+      id=${cmtBlockID}
+      .loadOnVisible=${!this.initialFocusedCmt}
+      .host=${this.host}
+      .cmt=${this.initialFocusedCmtParent ?? this.initialFocusedCmt}
+      .initialAssignedChild=${this.initialFocusedCmt}></cmt-block>`;
   }
 
   private async handleRootEditorSubmit() {
