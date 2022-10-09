@@ -126,7 +126,7 @@ export class CmtBlock extends BaseElement {
     }
 
     if (this.initialAssignedChild) {
-      this._collector.observableItems.insert(0, this.initialAssignedChild);
+      this._collector.preload([this.initialAssignedChild]);
     }
   }
 
@@ -341,7 +341,7 @@ export class CmtBlock extends BaseElement {
   }
 
   private handleCollectorItemsChanged(e: ItemsChangedEvent<Cmt>) {
-    if (!e.triggeredByLoading) {
+    if (!e.changedByLoading) {
       // *** Changed by user actions (adding, removing, editing) ***
 
       // Set `cmt.isNew` to true in-place if a newly added cmt is found.

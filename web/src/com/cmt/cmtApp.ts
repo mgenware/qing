@@ -60,7 +60,7 @@ export class CmtApp extends BaseElement {
   private handleAnyItemsChanged(e: CustomEvent<ItemsChangedEvent<Cmt>>) {
     e.stopPropagation();
     const change = e.detail;
-    if (!change.triggeredByLoading) {
+    if (!change.changedByLoading) {
       this._totalCmtCount += change.detail.countDelta;
     }
   }
