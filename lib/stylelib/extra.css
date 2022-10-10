@@ -374,6 +374,7 @@ qing-button.icon svg-icon {
 qing-overlay::part(dialog) {
   max-width: calc(100vw - 1rem);
   max-height: calc(100vh - 1rem);
+  min-width: min(500px, 100vw - 1rem);
   padding: 0 1.25rem 1.25rem 1.25rem;
 }
 
@@ -388,9 +389,8 @@ qing-overlay.immersive::part(dialog) {
 @media (min-width: 768px) {
   /** Auto width with min and max values on medium or large screens */
   qing-overlay::part(dialog) {
-    width: auto;
-    max-width: min(100vw, 1000px);
-    min-width: 400px;
+    max-width: min(calc(100vw - 1rem), 1000px);
+    min-width: 500px;
   }
   qing-overlay.immersive::part(dialog) {
     width: calc(100vw - 4rem);
