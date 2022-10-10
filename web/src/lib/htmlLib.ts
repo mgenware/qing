@@ -47,7 +47,7 @@ export function renderTemplateResult<T extends HTMLElement>(
     containerElement = container;
   }
 
-  containerElement.innerHTML = '';
+  containerElement.replaceChildren();
   // See the note above for why we create this extra div.
   const div = document.createElement('div');
   containerElement.appendChild(div);
