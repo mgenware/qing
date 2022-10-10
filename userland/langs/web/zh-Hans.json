@@ -160,5 +160,6 @@
   "languages": "语言",
   "displayLang": "显示语言",
   "viewAllCmts": "显示所有评论",
-  "cmtNotFound": "评论未找到，可能已经被删除。"
+  "cmtNotFound": "评论未找到，可能已经被删除。",
+  "share": "分享"
 }

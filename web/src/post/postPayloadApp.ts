@@ -5,12 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css, state } from 'll';
 import 'com/cmt/cmtApp';
 import postWind from './postWind';
+import ls from 'ls';
 import 'com/like/likesApp';
 import { appdef } from '@qing/def';
 import * as pu from 'lib/pageUtil';
+import 'com/share/sharePopup';
+import * as urls from 'urls';
 
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')
@@ -26,18 +29,29 @@ export class PostPayloadApp extends BaseElement {
     ];
   }
 
+  @state() _sharePopupOpen = false;
+
   override render() {
     const hostID = postWind.id;
     const contentType = postWind.isThread
       ? appdef.contentBaseTypeThread
       : appdef.contentBaseTypePost;
     return html`
-      <likes-app
-        .iconSize=${'md'}
-        .initialLikes=${postWind.initialLikes ?? 0}
-        .initialHasLiked=${!!postWind.initialHasLiked}
-        .hostID=${hostID}
-        .hostType=${contentType}></likes-app>
+      <div>
+        <likes-app
+          .iconSize=${'md'}
+          .initialLikes=${postWind.initialLikes ?? 0}
+          .initialHasLiked=${!!postWind.initialHasLiked}
+          .hostID=${hostID}
+          .hostType=${contentType}></likes-app>
+        <link-button class="m-l-md" @click=${() => (this._sharePopupOpen = true)}
+          >${ls.share}</link-button
+        >
+        <share-popup
+          .open=${this._sharePopupOpen}
+          .link=${urls.post(postWind.id)}
+          @share-popup-close=${() => (this._sharePopupOpen = false)}></share-popup>
+      </div>
       <cmt-app
         .host=${{ id: hostID, type: contentType }}
         .initialTotalCmtCount=${postWind.cmtCount ?? 0}

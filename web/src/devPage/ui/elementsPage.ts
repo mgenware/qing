@@ -204,6 +204,9 @@ export class ElementsPage extends BaseElement {
         }}
         >immersive dialog</qing-button
       >
+      <qing-button @click=${async () => appAlert.error('Long content '.repeat(20))}
+        >Long content</qing-button
+      >
       <qing-overlay id=${immersiveDialogID} class="immersive">
         <div class="flex-grow">
           <h2>Full dialog (will close in 3 seconds)</h2>
