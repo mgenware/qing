@@ -527,23 +527,6 @@ section-view[sectionStyle='info'] {
   --tint-color: var(--app-info-back-color);
 }
 
-/* svg-icon ------------------------- */
-svg-icon {
-  --svg-icon-fill: var(--app-default-secondary-fore-color);
-}
-svg-icon[iconStyle='success'] {
-  --svg-icon-fill: var(--app-default-success-fore-color);
-}
-svg-icon[iconStyle='danger'] {
-  --svg-icon-fill: var(--app-default-danger-fore-color);
-}
-svg-icon[iconStyle='primary'] {
-  --svg-icon-fill: var(--app-default-primary-fore-color);
-}
-svg-icon[iconStyle='warning'] {
-  --svg-icon-fill: var(--app-default-warning-fore-color);
-}
-
 /* Misc ------------------------- */
 .is-secondary {
   color: var(--app-default-secondary-fore-color) !important;
