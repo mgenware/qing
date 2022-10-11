@@ -16,4 +16,5 @@ export interface FixtureStartArg {
 export abstract class CmtFixture {
   abstract start(arg: FixtureStartArg, cb: () => void): Promise<void>;
   abstract getCmtApp(p: br.Page): Promise<br.Element>;
+  abstract getHostURL(p: br.Page): string;
 }

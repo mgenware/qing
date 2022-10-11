@@ -25,6 +25,10 @@ class PostCmtFixture extends CmtFixture {
   override async getCmtApp(page: br.Page): Promise<br.Element> {
     return Promise.resolve(page.$(cmtAppSelector));
   }
+
+  override getHostURL(p: br.Page) {
+    return p.url();
+  }
 }
 
 testCmt('Post', new PostCmtFixture());

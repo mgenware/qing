@@ -120,4 +120,8 @@ export class CmtFixtureWrapper {
   getCmtApp(page: br.Page) {
     return this.fixture.getCmtApp(page);
   }
+
+  getHostURL(page: br.Page) {
+    return this.fixture.getHostURL(page);
+  }
 }
