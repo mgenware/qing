@@ -22,6 +22,10 @@ const shareContainerID = '__g_share_container';
 // BR tests only. Used to make sure global spinner appears for at least 500 ms.
 let brGlobalSpinnerStartTime = 0;
 
+export interface SharePopupOptions {
+  noAutoDomain?: boolean;
+}
+
 export class AppAlert {
   async error(message: string, title?: string): Promise<void> {
     await this.showDialogViewAsync({
@@ -114,8 +118,11 @@ export class AppAlert {
     renderTemplateResult(spinnerContainerID, null);
   }
 
-  showSharePopup(link: string) {
-    const template = html`<share-popup open .link=${link}></share-popup>`;
+  showSharePopup(link: string, opt?: SharePopupOptions) {
+    const template = html`<share-popup
+      open
+      .link=${link}
+      ?noAutoDomain=${opt?.noAutoDomain}></share-popup>`;
     const el = renderTemplateResult(shareContainerID, template);
     // Fix "OK" button not focusing.
     setTimeout(() => el?.focus(), 0);

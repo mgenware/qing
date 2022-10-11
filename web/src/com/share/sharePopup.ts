@@ -59,12 +59,13 @@ export class SharePopup extends BaseElement {
 
   @property() link = '';
   @property({ type: Boolean }) open = false;
+  @property({ type: Boolean }) noAutoDomain = false;
 
   @state() _showCopied = false;
   @state() _absLink = '';
 
   get absLink() {
-    return `${window.location.origin}${this.link}`;
+    return this.noAutoDomain ? this.link : `${window.location.origin}${this.link}`;
   }
 
   override focus() {

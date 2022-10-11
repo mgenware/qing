@@ -71,6 +71,7 @@ export class CmtView extends BaseElement {
               class="m-l-md"
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}></time-field>
+            <link-button class="m-l-md" @click=${this.handleShareClick}>${ls.share}</link-button>
             ${cmt.userID === appPageState.userEID
               ? html`
                   <edit-bar-app
@@ -106,6 +107,11 @@ export class CmtView extends BaseElement {
   private handleDeleteClick() {
     CHECK(this.cmt);
     this.dispatchEvent(new CustomEvent<Cmt>('cmt-view-delete-click', { detail: this.cmt }));
+  }
+
+  private handleShareClick() {
+    CHECK(this.cmt);
+    this.dispatchEvent(new CustomEvent<Cmt>('cmt-view-share-click', { detail: this.cmt }));
   }
 
   private handleReplyClick(e: Event) {

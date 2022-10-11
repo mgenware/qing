@@ -14,7 +14,6 @@ export async function popupShouldAppear(p: Page, link: string) {
   const sel = ov.openSel(popupSel);
   const el = p.$(sel);
   const textEl = el.$('.link-root input');
-  await textEl.e.toHaveAttribute('readonly', '');
   await textEl.e.toHaveValue(link);
   await Promise.all([
     el.$qingButton('OK').click(),

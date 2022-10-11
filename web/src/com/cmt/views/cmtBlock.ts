@@ -175,7 +175,8 @@ export class CmtBlock extends BaseElement {
               .cmt=${cmt}
               @cmt-view-reply-click=${() => this.handleReplyClick(cmt)}
               @cmt-view-edit-click=${this.handleEditClick}
-              @cmt-view-delete-click=${this.handleDeleteClick}></cmt-view>
+              @cmt-view-delete-click=${this.handleDeleteClick}
+              @cmt-view-share-click=${this.handleShareClick}></cmt-view>
             ${when(
               this._editEditorOpen,
               () => html`
@@ -338,6 +339,13 @@ export class CmtBlock extends BaseElement {
 
   private handleEditClick() {
     this._editEditorOpen = true;
+  }
+
+  private handleShareClick() {
+    CHECK(this.cmt);
+    const url = new URL(window.location.href);
+    url.searchParams.set('cmt', this.cmt.id);
+    appAlert.showSharePopup(url.toString(), { noAutoDomain: true });
   }
 
   private handleCollectorItemsChanged(e: ItemsChangedEvent<Cmt>) {

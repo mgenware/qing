@@ -29,6 +29,15 @@ export function getTopCmt(e: { cmtApp: br.Element }) {
   return getNthCmt({ cmtApp: e.cmtApp, index: 0 });
 }
 
+export async function getCmtIDAsync(e: { cmtEl: br.Element }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const id = await e.cmtEl.c.evaluate((el) => (el as any).cmt.id as string);
+  if (!id) {
+    throw new Error('Empty cmt_id');
+  }
+  return id;
+}
+
 export interface CheckCmtArgs {
   // <cmt-block>
   cmtEl: br.Element;
