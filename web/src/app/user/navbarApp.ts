@@ -293,13 +293,11 @@ export default class NavbarApp extends BaseElement {
 
     let themeBtn = sideNav
       ? html`${ls.theme}`
-      : html`<img
+      : html`<svg-icon
+          class=${avatarImgCls}
           title=${themeText}
-          alt=${themeText}
           src=${themeIcon}
-          width=${imgSize}
-          height=${imgSize}
-          class=${avatarImgCls} />`;
+          .size=${imgSize}></svg-icon>`;
     if (!sideNav) {
       themeBtn = html`<a
         href="#"
@@ -386,12 +384,7 @@ export default class NavbarApp extends BaseElement {
       @click=${(e: Event) => this.handleThemeOptionClick(e, theme)}>
       <check-box radio ?checked=${this.curTheme === theme}></check-box>
       <div class="text">${text}</div>
-      <img
-        title=${text}
-        alt=${text}
-        src=${staticMainImage(icon)}
-        width=${imgSize}
-        height=${imgSize} />
+      <svg-icon src=${staticMainImage(icon)} .size=${imgSize}></svg-icon>
     </a>`;
   }
 

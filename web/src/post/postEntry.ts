@@ -6,6 +6,8 @@
  */
 
 import 'core';
+// Used by post page template.
+import 'com/postCore/postUserApp';
 import './postPayloadApp';
 import { setupHandlers } from 'com/postCore/postEditHandlers';
 import 'ui/editing/editBarApp';

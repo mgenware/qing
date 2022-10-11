@@ -86,7 +86,12 @@ export class SvgIcon extends BaseElement {
   override render() {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _svgHTML } = this;
-    return html`<div class="root" style=${styleMap({ width: `${this.width || this.size}px` })}>
+    return html`<div
+      class="root"
+      style=${styleMap({
+        width: `${this.width || this.size}px`,
+        height: `${this.height || this.size}px`,
+      })}>
       ${_svgHTML ? unsafeHTML(_svgHTML) : ''}
     </div>`;
   }
