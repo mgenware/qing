@@ -65,24 +65,6 @@ export class SvgIcon extends BaseElement {
     ];
   }
 
-  override async firstUpdated() {
-    if (!this.src) {
-      return;
-    }
-    try {
-      const resp = await fetch(this.src, { method: 'GET' });
-      this._svgHTML = processSVG(
-        await resp.text(),
-        this.width || this.size,
-        this.height || this.size,
-      );
-    } catch (err) {
-      ERR(err);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      console.error(`Error downloading file "${this.src}", ${err.message}.`);
-    }
-  }
-
   override render() {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _svgHTML } = this;
@@ -94,6 +76,23 @@ export class SvgIcon extends BaseElement {
       })}>
       ${_svgHTML ? unsafeHTML(_svgHTML) : ''}
     </div>`;
+  }
+
+  override async willUpdate(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has('src') && this.src) {
+      try {
+        const resp = await fetch(this.src, { method: 'GET' });
+        this._svgHTML = processSVG(
+          await resp.text(),
+          this.width || this.size,
+          this.height || this.size,
+        );
+      } catch (err) {
+        ERR(err);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        console.error(`Error downloading file "${this.src}", ${err.message}.`);
+      }
+    }
   }
 }
 
