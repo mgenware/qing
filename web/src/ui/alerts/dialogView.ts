@@ -146,7 +146,7 @@ export class DialogView extends BaseElement {
     }
     return html`<svg-icon
       iconStyle=${iconStyle}
-      .oneTimeSrc=${staticMainImage(`${iconName}.svg`)}
+      .src=${staticMainImage(`${iconName}.svg`)}
       .size=${iconSize}></svg-icon>`;
   }
 }

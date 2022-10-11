@@ -58,11 +58,11 @@ export class LikesView extends BaseElement {
           this.hasLiked
             ? html`<svg-icon
                 class="liked"
-                .oneTimeSrc=${staticMainImage('heart-filled.svg')}
+                .src=${staticMainImage('heart-filled.svg')}
                 .size=${iconSize}></svg-icon>`
             : html`<svg-icon
                 class="not-liked"
-                .oneTimeSrc=${staticMainImage('heart.svg')}
+                .src=${staticMainImage('heart.svg')}
                 .size=${iconSize}></svg-icon>`,
         )}
         ${when(this.likes, () => html`<span class="num">${this.likes}</span>`)}
