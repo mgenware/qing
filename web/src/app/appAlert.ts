@@ -11,11 +11,13 @@ import { html } from 'll';
 import { brMode } from 'devMode';
 import 'ui/status/spinnerView';
 import 'ui/alerts/dialogView';
+import 'com/share/sharePopup';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
 import delay from 'lib/delay';
 
-const dialogContainerID = '__global_dialog_container';
-const spinnerContainerID = '__global_spinner_container';
+const dialogContainerID = '__g_dialog_container';
+const spinnerContainerID = '__g_spinner_container';
+const shareContainerID = '__g_share_container';
 
 // BR tests only. Used to make sure global spinner appears for at least 500 ms.
 let brGlobalSpinnerStartTime = 0;
@@ -110,6 +112,13 @@ export class AppAlert {
       brGlobalSpinnerStartTime = 0;
     }
     renderTemplateResult(spinnerContainerID, null);
+  }
+
+  showSharePopup(link: string) {
+    const template = html`<share-popup open .link=${link}></share-popup>`;
+    const el = renderTemplateResult(shareContainerID, template);
+    // Fix "OK" button not focusing.
+    setTimeout(() => el?.focus(), 0);
   }
 
   private showDialogViewAsync(args: {

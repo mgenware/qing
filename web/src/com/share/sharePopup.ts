@@ -10,6 +10,9 @@ import { ERR } from 'checks';
 import { BaseElement, customElement, html, css, property, state } from 'll';
 import ls from 'ls';
 
+const overlayID = 'overlay';
+const okBtnID = 'ok-btn';
+
 @customElement('share-popup')
 export class SharePopup extends BaseElement {
   static override get styles() {
@@ -21,23 +24,33 @@ export class SharePopup extends BaseElement {
         }
 
         input {
-          color: var(--app-default-fore-color);
-          background-color: var(--app-default-back-color);
+          font-size: 1rem;
+          max-width: 100%;
           width: 100%;
-          display: block;
+          line-height: 1.5;
+          background-color: #00000012;
+          color: var(--app-default-fore-color);
           border: 1px solid var(--app-default-separator-color);
+          padding: 0.35rem 0.6rem;
+          border-radius: var(--app-surface-radius-sm);
+        }
+
+        input:focus {
+          outline: 0;
+          border-color: var(--app-keyboard-focus-color);
+          box-shadow: 0 0 2px var(--app-keyboard-focus-color);
         }
 
         .link-root {
           display: grid;
           grid-template-columns: 1fr;
-          grid-gap: 0.8rem;
+          grid-gap: 1rem;
         }
 
         @media (min-width: 768px) {
           .link-root {
             grid-template-columns: 1fr auto;
-            grid-gap: 1rem;
+            grid-gap: 0.8rem;
           }
         }
       `,
@@ -54,9 +67,13 @@ export class SharePopup extends BaseElement {
     return `${window.location.origin}${this.link}`;
   }
 
+  override focus() {
+    this.getShadowElement(okBtnID)?.focus();
+  }
+
   override render() {
     return html`
-      <qing-overlay .open=${this.open} @overlay-esc-down=${this.onClose}>
+      <qing-overlay id=${overlayID} .open=${this.open} closeOnEsc>
         <h3>${ls.link}</h3>
         <div class="link-root">
           <input type="text" value=${this.absLink} readonly />
@@ -65,7 +82,7 @@ export class SharePopup extends BaseElement {
           >
         </div>
         <div style="text-align:center">
-          <qing-button autofocus class="m-t-md" @click=${this.onClose}> ${ls.ok} </qing-button>
+          <qing-button id=${okBtnID} class="m-t-md" @click=${this.okClick}> ${ls.ok} </qing-button>
         </div>
       </qing-overlay>
     `;
@@ -82,8 +99,8 @@ export class SharePopup extends BaseElement {
     }
   }
 
-  private onClose() {
-    this.dispatchEvent(new CustomEvent('share-popup-close'));
+  private okClick() {
+    this.remove();
   }
 }
 

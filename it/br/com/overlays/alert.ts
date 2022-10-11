@@ -56,7 +56,7 @@ function typeToString(type: AlertType): string {
 }
 
 function getDialogEl(page: br.Page) {
-  return page.$('#__global_dialog_container dialog-view');
+  return page.$('#__g_dialog_container dialog-view');
 }
 
 export class BRDialog {

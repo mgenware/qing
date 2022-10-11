@@ -14,6 +14,7 @@ import { appdef } from '@qing/def';
 import * as pu from 'lib/pageUtil';
 import 'com/share/sharePopup';
 import * as urls from 'urls';
+import appAlert from 'app/appAlert';
 
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')
@@ -44,13 +45,7 @@ export class PostPayloadApp extends BaseElement {
           .initialHasLiked=${!!postWind.initialHasLiked}
           .hostID=${hostID}
           .hostType=${contentType}></likes-app>
-        <link-button class="m-l-md" @click=${() => (this._sharePopupOpen = true)}
-          >${ls.share}</link-button
-        >
-        <share-popup
-          .open=${this._sharePopupOpen}
-          .link=${urls.post(postWind.id)}
-          @share-popup-close=${() => (this._sharePopupOpen = false)}></share-popup>
+        <link-button class="m-l-md" @click=${this.handleShareClick}>${ls.share}</link-button>
       </div>
       <cmt-app
         .host=${{ id: hostID, type: contentType }}
@@ -67,6 +62,10 @@ export class PostPayloadApp extends BaseElement {
     const url = new URL(window.location.href);
     url.searchParams.delete('cmt');
     pu.jumpToURL(url.toString());
+  }
+
+  private handleShareClick() {
+    appAlert.showSharePopup(urls.post(postWind.id));
   }
 }
 
