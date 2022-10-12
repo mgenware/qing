@@ -34,7 +34,7 @@
     "@web/test-runner": "^0.14.0",
     "@web/test-runner-playwright": "^0.8.10",
     "esbuild-plugin-minify-html-literals": "^1.0.1",
-    "html-validate": "7.5.0",
+    "html-validate": "7.6.0",
     "lit-analyzer": "2.0.0-pre.2",
     "qing-t": "^6.2.1"
   }
