@@ -24,7 +24,7 @@
     "qing-button": "^8.2.6",
     "qing-css-base": "^1.1.11",
     "qing-dock-box": "^0.2.1",
-    "qing-keyed-array": "^2.2.2",
+    "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
     "tslib": "^2.4.0"
   },

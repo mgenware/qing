@@ -89,13 +89,11 @@ export abstract class ItemCollector<T> {
     // Set `tag` to true to indicate this change is triggered by
     // loading more items.
     // The `tag` gets reset after `changed` fires.
-    this._observableItems.tag = ChangedByLoading.loadMore;
-    this._observableItems.push(...newItems);
+    this._observableItems.push(newItems, { tag: ChangedByLoading.loadMore });
   }
 
   preload(items: T[]) {
-    this._observableItems.tag = ChangedByLoading.preload;
-    this._observableItems.push(...items);
+    this._observableItems.push(items, { tag: ChangedByLoading.preload });
   }
 
   // `excluded`: an array of item IDs to be excluded from result.

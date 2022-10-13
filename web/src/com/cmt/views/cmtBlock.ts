@@ -216,7 +216,7 @@ export class CmtBlock extends BaseElement {
 
   // Called in outer `root-cmt-list` to prepend a new cmt.
   addRootCmt(cmt: Cmt) {
-    CHECK(this._collector.observableItems.insert(0, cmt));
+    CHECK(this._collector.observableItems.insert(0, [cmt]));
   }
 
   private async handleEditEditorSubmit() {
@@ -262,7 +262,7 @@ export class CmtBlock extends BaseElement {
     if (apiRes.data) {
       this.destroyReplyEditor();
       const newCmt = apiRes.data.cmt;
-      CHECK(this._collector.observableItems.insert(0, newCmt));
+      CHECK(this._collector.observableItems.insert(0, [newCmt]));
     }
   }
 
