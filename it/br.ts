@@ -190,6 +190,10 @@ export class Element extends LocatorCore {
     return this.$hasText(`a[href=${JSON.stringify(e.href)}]`, e.text);
   }
 
+  $svgIcon(e: { title: string; src: string }) {
+    return this.$(`svg-icon[title=${JSON.stringify(e.title)}][src=${JSON.stringify(e.src)}]`);
+  }
+
   $inputView(label: string) {
     return this.$(`input-view[label=${JSON.stringify(label)}]`);
   }

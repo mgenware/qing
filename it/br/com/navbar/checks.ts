@@ -35,9 +35,8 @@ async function checkThemeBtn(el: br.Element) {
   await el.e.toHaveClass('dropdown-btn theme-group');
   await el
     .$('a[href="#"]')
-    .$img({
-      size: 25,
-      alt: 'Light theme',
+    .$svgIcon({
+      title: 'Light theme',
       src: '/static/img/main/light-mode.svg',
     })
     .e.toBeVisible();
