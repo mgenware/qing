@@ -18,7 +18,7 @@ import (
 	"strconv"
 )
 
-const userSvg = "/img/main/user.svg"
+const userSvg = "/img/main/user-static.svg"
 
 // URL helps generate common URLs.
 type URL struct {
