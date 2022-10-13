@@ -11,7 +11,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"qing/a/coretype"
 	"time"
 
@@ -118,5 +117,6 @@ func (conn *AppMSConn) Ping() error {
 }
 
 func (conn *AppMSConn) log(s string) {
-	log.Println("🐎 " + s)
+	// Temporarily muted.
+	// log.Println("🐎 " + s)
 }
