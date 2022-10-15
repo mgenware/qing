@@ -13,10 +13,9 @@ function tsAttr(s: string) {
   return `__ts_${s}`;
 }
 
-const tsExtendsAttr = tsAttr('extends');
 const tsImportsAttr = tsAttr('imports');
 
-cm.addAllowedAttrs([tsExtendsAttr, tsImportsAttr]);
+cm.addAllowedAttrs([tsImportsAttr]);
 
 function handleTypeName(name: string, traits: cm.PropertyTraits) {
   if (traits.isArray) {
@@ -81,24 +80,18 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
   const daImports = new Set<string>();
   const sodImports = new Map<string, Set<string>>();
   for (const [typeName, typeDef] of Object.entries(dict)) {
-    let baseTypes: cm.ExtendsField[] = [];
     if (isFirst) {
       isFirst = false;
     } else {
       code += '\n';
     }
     let typeCode = '';
-    cm.scanTypeDef(
+    const attrData = cm.scanTypeDef(
       false,
       typeDef,
       (k, v) => {
         // eslint-disable-next-line default-case
         switch (k) {
-          case tsExtendsAttr: {
-            baseTypes = cm.parseExtendsValue(v);
-            break;
-          }
-
           case tsImportsAttr: {
             for (const ipt of cm.parseImports(v)) {
               imports.add(`import ${ipt};`);
@@ -117,9 +110,9 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     // Interface declaration is handled at last since base class can
     // only be determined when all attrs are processed.
     let extendsCode = '';
-    if (baseTypes.length) {
+    if (attrData.extends?.length) {
       let first = true;
-      for (const bt of baseTypes) {
+      for (const bt of attrData.extends) {
         if (typeof bt === 'string') {
           const typeRes = handleType(
             bt,
@@ -145,18 +138,8 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
     }
 
     typeCode = `export interface ${typeName}${
-      baseTypes.length ? ` extends ${extendsCode}` : ''
+      attrData.extends?.length ? ` extends ${extendsCode}` : ''
     } {\n${typeCode}`;
-
-    baseTypes.forEach((t) => {
-      if (typeof t === 'string') {
-        handleType(t, { optional: false, isArray: false, notEmpty: true }, daImports, sodImports);
-      } else {
-        if (t.path) {
-          imports.add(`import { ${t.name} } from '${t.path}';`);
-        }
-      }
-    });
 
     code += typeCode;
   }

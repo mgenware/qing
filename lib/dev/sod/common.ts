@@ -8,8 +8,9 @@
 import isPlainObj from 'is-plain-obj';
 
 export const attrPrefix = '__';
+const extendsAttr = '__extends';
 
-const allowedAttrs = new Set<string>();
+const allowedAttrs = new Set<string>([extendsAttr]);
 const scopedProp = /_([a-z]+)__/;
 
 function checkAttr(attr: string) {
@@ -81,7 +82,10 @@ function parseExtendsFieldObj(obj: unknown): ExtendsField {
   return { name, path, packageName };
 }
 
-export function parseExtendsValue(obj: unknown): ExtendsField[] {
+function parseExtends(obj: unknown): ExtendsField[] {
+  if (typeof obj === 'string') {
+    return [parseExtendsFieldObj(obj)];
+  }
   if (!Array.isArray(obj)) {
     throw new Error(`Expected an array, got ${JSON.stringify(obj)}`);
   }
@@ -120,17 +124,34 @@ export interface PropertyTraits {
   notEmpty: boolean;
 }
 
+export interface CommonAttrData {
+  extends?: ExtendsField[];
+}
+
 export function scanTypeDef(
   go: boolean, // true for Go, false for TypeScript.
   src: Record<string, unknown>,
-  attrCb: (k: string, v: unknown) => void,
+  customAttrCb: (k: string, v: unknown) => void,
   propCb: (k: string, v: string, traits: PropertyTraits) => void,
 ) {
+  const attrData: CommonAttrData = {};
   // Handle attrs first.
   for (const [k, v] of Object.entries(src)) {
     if (k.startsWith(attrPrefix)) {
       checkAttr(k);
-      attrCb(k, v);
+
+      switch (k) {
+        case extendsAttr: {
+          attrData.extends = parseExtends(v);
+          break;
+        }
+
+        default: {
+          // Pass unknown attrs to custom callback.
+          customAttrCb(k, v);
+          break;
+        }
+      }
     } else {
       continue;
     }
@@ -188,6 +209,7 @@ export function scanTypeDef(
       }
     }
   }
+  return attrData;
 }
 
 export enum SpecialType {
@@ -228,7 +250,8 @@ export function parseSodSpecialTypeString(s: string): { file: string; type: stri
     throw new Error(`Invalid SOD type "${s}"`);
   }
   return {
-    file: s.substring(0, idx),
+    // The file path is separated by '.', replace them with '/'.
+    file: s.substring(0, idx).replaceAll('.', '/'),
     type: s.substring(idx + 1),
   };
 }

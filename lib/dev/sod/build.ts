@@ -29,35 +29,27 @@ function cutYamlExt(s: string) {
 
 const arg0 = process.argv.slice(2)[0];
 
-// Injects a `Sod` suffix to the given name. As per Go conversions,
-// package name should be the same as directory name.
-// Example `post/postWind` -> `postSod/postWind`
-function injectSodName(name: string) {
-  const idx = name.lastIndexOf('/');
-  if (idx < 0) {
-    throw new Error(`No "/" found in SOD name "${name}"`);
-  }
-  return `${name.substring(0, idx)}Sod${name.substring(idx)}`;
-}
-
-async function build(name: string) {
-  const fullInput = qdu.sodPath(name + yamlExt);
+// `input`: `a/b` indicating `sod/a/b.yaml`.
+async function build(input: string) {
+  const fullInput = qdu.sodPath(input + yamlExt);
   const rawSource = yaml.load(await mfs.readTextFileAsync(fullInput));
   if (typeof rawSource !== 'object' || Array.isArray(rawSource)) {
     throw new Error(`Source YAML must be an object. Got ${JSON.stringify(rawSource)}`);
   }
   const srcDict = rawSource as cm.SourceDict;
-  const relDir = np.dirname(name);
-  const pkgName = np.basename(relDir) + 'Sod';
-  const webFile = np.join(qdu.webSodPath(), name) + '.ts';
+  const fileName = np.basename(input);
+  const pkgName = fileName + 'Sod';
+  // Example: `sod/a/b.ts`.
+  const webFile = np.join(qdu.webSodPath(), input) + '.ts';
 
   // NOTE: Unlike .ts file, .go files are put in an extra folder named the same
   // as the extracted package name.
-  const serverFile = np.join(qdu.serverSodPath(), injectSodName(name) + '.go');
+  // Example: `sod/a/bSod/b.go`.
+  const serverFile = np.join(qdu.serverSodPath(), input + 'Sod', fileName + '.go');
 
   await Promise.all([
-    mfs.writeFileAsync(serverFile, go.goCode(name, pkgName, srcDict)),
-    mfs.writeFileAsync(webFile, ts.tsCode(name, srcDict)),
+    mfs.writeFileAsync(serverFile, go.goCode(input, pkgName, srcDict)),
+    mfs.writeFileAsync(webFile, ts.tsCode(input, srcDict)),
   ]);
   print('Files written:');
   print(serverFile);

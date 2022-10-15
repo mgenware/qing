@@ -15,11 +15,10 @@ function goAttr(s: string) {
 }
 
 const goCtorAttr = goAttr('ctor');
-const goExtendsAttr = goAttr('extends');
 const goImportsAttr = goAttr('imports');
 const goRenameAttr = goAttr('rename');
 
-cm.addAllowedAttrs([goCtorAttr, goExtendsAttr, goRenameAttr, goImportsAttr]);
+cm.addAllowedAttrs([goCtorAttr, goRenameAttr, goImportsAttr]);
 
 function joinImports(
   imports: string[],
@@ -133,7 +132,6 @@ function handleType(
 export function goCode(input: string, pkgName: string, dict: cm.SourceDict): string {
   let s = '';
   let isFirst = true;
-  let baseTypes: cm.ExtendsField[] = [];
   let renameMap: Record<string, string> = {};
   const imports = new Set<string>();
   const importAliases = new Map<string, string>();
@@ -155,21 +153,15 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     }
     const members: TypeMember[] = [];
     let ctor = false;
-    cm.scanTypeDef(
+    const attrData = cm.scanTypeDef(
       true,
       typeDef,
-      // eslint-disable-next-line @typescript-eslint/no-loop-func
       (k, v) => {
         // Attribute values may not be a string.
         // eslint-disable-next-line default-case
         switch (k) {
           case goCtorAttr: {
             ctor = v === true;
-            break;
-          }
-
-          case goExtendsAttr: {
-            baseTypes = cm.parseExtendsValue(v);
             break;
           }
 
@@ -190,6 +182,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       (k, v, traits) => {
         const name = renameMap[k] || k;
         const typeRes = handleType(v, traits, sodImports);
+
         handleTypeRes(typeRes);
         members.push({
           name: `${cm.capitalizeFirstLetter(name)}`,
@@ -209,8 +202,8 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     }
     let goGenBaseTypes: BaseType[] = [];
 
-    if (baseTypes.length) {
-      baseTypes.forEach((t) => {
+    if (attrData.extends?.length) {
+      attrData.extends.forEach((t) => {
         if (typeof t === 'string') {
           const typeRes = handleType(
             t,
@@ -219,6 +212,7 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
           );
           handleTypeRes(typeRes);
 
+          console.log('---- ', typeRes);
           goGenBaseTypes.push({
             name: typeRes.typeName,
             paramName: cm.lowerFirstLetter(typeRes.typeName),
