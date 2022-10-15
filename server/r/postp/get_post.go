@@ -65,9 +65,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().AssetManager().Script(postScript)
 
-	var focusedCmt *cmtSod.Cmt
-	var focusedCmtParent *cmtSod.Cmt
-	var focusedCmt404 bool
+	var focusModeData *cmtSod.CmtFocusModeData
 	if focusedCmtID > 0 {
 		focusedCmtDB, err := da.Cmt.SelectCmt(db, focusedCmtID)
 		app.PanicOn(err)
@@ -78,22 +76,23 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 			postType = appdef.ContentBaseTypeThread
 		}
 
+		focusModeData = &cmtSod.CmtFocusModeData{}
 		// Check focused cmt belongs to current post.
 		if focusedCmtVal.HostID != id || focusedCmtVal.HostType != uint8(postType) {
-			focusedCmt404 = true
+			focusModeData.Is404 = true
 		} else {
-			focusedCmt = &focusedCmtVal
+			focusModeData.Cmt = &focusedCmtVal
 			// Fetch parent cmt if needed.
 			if focusedCmtVal.ParentID != nil {
 				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmtVal.ParentID)
 				app.PanicOn(err)
 				focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
-				focusedCmtParent = &focusedCmtParentVal
+				focusModeData.ParentCmt = &focusedCmtParentVal
 			}
 		}
 	}
 
-	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, focusedCmt404, focusedCmt, focusedCmtParent)
+	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, focusModeData)
 	return resp.MustComplete(&d)
 }
 

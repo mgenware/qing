@@ -18,6 +18,7 @@ import { SetCmtLoader } from '../loaders/setCmtLoader';
 import { ComposerView } from 'ui/editing/composerView';
 import appTask from 'app/appTask';
 import { Cmt } from '../data/cmt';
+import { CmtFocusModeData } from 'sod/cmt';
 
 const brCmtCountCls = 'br-cmt-c';
 const rootEditorID = 'root-editor';
@@ -55,9 +56,7 @@ export class RootCmtList extends BaseElement {
 
   // In initial focus mode, we can have 1 or 2 cmts.
   // Those props are set in <cmt-app> and processed in `firstRender`.
-  @property({ type: Boolean }) focusedCmt404 = false;
-  @property({ type: Object }) initialFocusedCmt?: Cmt;
-  @property({ type: Object }) initialFocusedCmtParent?: Cmt;
+  @property({ type: Object }) focusModeData?: CmtFocusModeData;
 
   @state() _rootEditorOpen = false;
 
@@ -67,10 +66,6 @@ export class RootCmtList extends BaseElement {
 
   private get cmtBlockEl() {
     return this.getShadowElement<CmtBlock>(cmtBlockID);
-  }
-
-  private get focusMode() {
-    return !!this.initialFocusedCmt || this.focusedCmt404;
   }
 
   override firstUpdated() {
@@ -85,7 +80,7 @@ export class RootCmtList extends BaseElement {
       <div
         class=${classMap({
           'm-t-md': true,
-          'focus-mode': this.focusMode,
+          'focus-mode': !!this.focusModeData,
         })}>
         ${when(
           this.totalCmtCount,
@@ -96,12 +91,12 @@ export class RootCmtList extends BaseElement {
           </div>`,
         )}
         ${when(
-          this.focusMode,
+          this.focusModeData,
           () => html` <div class="btn-in-cmts">
             <link-button @click=${this.viewAllCmts}>${ls.viewAllCmts}</link-button>
           </div>`,
         )}
-        ${this.focusedCmt404 ? this.renderCmtNotFound() : this.renderMainContent()}
+        ${this.focusModeData?.is404 ? this.renderCmtNotFound() : this.renderMainContent()}
       </div>
     `;
 
@@ -126,12 +121,23 @@ export class RootCmtList extends BaseElement {
   }
 
   private renderMainContent() {
+    let assignedCmt: Cmt | undefined;
+    let assignedChildCmt: Cmt | undefined;
+    const { focusModeData } = this;
+    if (focusModeData) {
+      if (focusModeData.parentCmt) {
+        assignedCmt = focusModeData.parentCmt;
+        assignedChildCmt = focusModeData.cmt;
+      } else {
+        assignedCmt = focusModeData.cmt;
+      }
+    }
     return html`<cmt-block
       id=${cmtBlockID}
-      .loadOnVisible=${!this.initialFocusedCmt}
+      .loadOnVisible=${!this.focusModeData}
       .host=${this.host}
-      .cmt=${this.initialFocusedCmtParent ?? this.initialFocusedCmt}
-      .initialAssignedChild=${this.initialFocusedCmt}></cmt-block>`;
+      .cmt=${assignedCmt}
+      .initialAssignedChild=${assignedChildCmt}></cmt-block>`;
   }
 
   private async handleRootEditorSubmit() {

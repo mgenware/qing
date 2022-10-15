@@ -13,6 +13,7 @@ import 'qing-overlay';
 import 'ui/editing/composerView';
 import { Cmt } from './data/cmt';
 import { ItemsChangedEvent } from 'lib/itemCollector';
+import { CmtFocusModeData } from 'sod/cmt';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {
@@ -29,9 +30,7 @@ export class CmtApp extends BaseElement {
 
   @property({ type: Number }) initialTotalCmtCount = 0;
   @property({ type: Object }) host!: Entity;
-  @property({ type: Boolean }) focusedCmt404 = false;
-  @property({ type: Object }) initialFocusedCmt?: Cmt;
-  @property({ type: Object }) initialFocusedCmtParent?: Cmt;
+  @property({ type: Object }) focusModeData?: CmtFocusModeData;
 
   // The number of all comments and their replies.
   @state() private _totalCmtCount = 0;
@@ -46,9 +45,7 @@ export class CmtApp extends BaseElement {
       <root-cmt-list
         .totalCmtCount=${this._totalCmtCount}
         .host=${this.host}
-        .focusedCmt404=${this.focusedCmt404}
-        .initialFocusedCmt=${this.initialFocusedCmt}
-        .initialFocusedCmtParent=${this.initialFocusedCmtParent}
+        .focusModeData=${this.focusModeData}
         @cmt-block-items-change=${this.handleAnyItemsChanged}
         @rcl-view-all-cmts=${() =>
           this.dispatchEvent(new CustomEvent('cmt-app-view-all-cmts'))}></root-cmt-list>

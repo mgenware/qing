@@ -50,9 +50,7 @@ export class PostPayloadApp extends BaseElement {
       <cmt-app
         .host=${{ id: hostID, type: contentType }}
         .initialTotalCmtCount=${postWind.cmtCount ?? 0}
-        .focusedCmt404=${!!postWind.focusedCmt404}
-        .initialFocusedCmt=${postWind.focusedCmt}
-        .initialFocusedCmtParent=${postWind.focusedCmtParent}
+        .focusModeData=${!!postWind.focusMode}
         @cmt-app-view-all-cmts=${this.handleViewAllCmts}></cmt-app>
     `;
   }

@@ -26,7 +26,7 @@ export interface Cmt extends CmtResult {
 }
 
 export interface CmtFocusModeData {
-  focusedCmt404?: boolean;
-  focusedCmt?: Cmt;
-  focusedCmtParent?: Cmt;
+  is404?: boolean;
+  cmt?: Cmt;
+  parentCmt?: Cmt;
 }

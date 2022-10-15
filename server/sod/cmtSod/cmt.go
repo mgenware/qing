@@ -41,7 +41,7 @@ func NewCmt(cmtResult *da.CmtResult, eid string, userEID *string, userURL string
 }
 
 type CmtFocusModeData struct {
-	FocusedCmt404    bool `json:"focusedCmt404,omitempty"`
-	FocusedCmt       *Cmt `json:"focusedCmt,omitempty"`
-	FocusedCmtParent *Cmt `json:"focusedCmtParent,omitempty"`
+	Is404     bool `json:"is404,omitempty"`
+	Cmt       *Cmt `json:"cmt,omitempty"`
+	ParentCmt *Cmt `json:"parentCmt,omitempty"`
 }

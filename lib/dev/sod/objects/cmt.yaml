@@ -17,6 +17,6 @@ Cmt:
   parentID: string?
 
 CmtFocusModeData:
-  focusedCmt404: bool
-  focusedCmt: Cmt?
-  focusedCmtParent: Cmt?
+  is404: bool
+  cmt: Cmt?
+  parentCmt: Cmt?
