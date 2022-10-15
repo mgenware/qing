@@ -6,6 +6,6 @@
  */
 
 import appPageState from 'app/appPageState';
-import { PostWind } from 'sod/post/postWind';
+import { PostWind } from 'sod/post';
 
 export default appPageState.windData<PostWind>();

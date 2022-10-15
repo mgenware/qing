@@ -19,7 +19,7 @@ import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import 'ui/editing/editorView';
 import { GetProfileLangLoader } from './loaders/getProfileLangLoader';
-import { GetProfileLangResult } from 'sod/profile/profileLang';
+import { GetProfileLangResult } from 'sod/profile';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import SetProfileLangLoader from './loaders/setProfileLangLoader';
 

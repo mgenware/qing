@@ -1,0 +1,11 @@
+---
+PostWind:
+  __go_ctor: true
+
+  id: string!
+  cmtCount: uint
+  initialLikes: uint
+  initialHasLiked: bool
+  isThread: bool
+  forumID: string?
+  focusMode: :sod.cmt.CmtFocusModeData?

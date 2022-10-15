@@ -6,13 +6,7 @@ Cmt:
     userID: userEID
     parentID: parentEID
 
-  __go_extends:
-    - name: CmtResult
-      packageName: da
-      path: :da
-  __ts_extends:
-    - name: CmtResult
-      path: :da
+  __extends: :da.CmtResult
 
   id: string!
   userID: string?
@@ -21,3 +15,8 @@ Cmt:
   createdAt: string!
   modifiedAt: string!
   parentID: string?
+
+CmtFocusModeData:
+  focusedCmt404: bool
+  focusedCmt: Cmt?
+  focusedCmtParent: Cmt?

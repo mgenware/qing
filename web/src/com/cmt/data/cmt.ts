@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { Cmt as CmtCore } from 'sod/cmt/cmt';
+import { Cmt as CmtCore } from 'sod/cmt';
 
 interface UICmtCore {
   uiHighlighted?: boolean;

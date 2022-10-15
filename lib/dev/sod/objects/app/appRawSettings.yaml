@@ -1,8 +1,0 @@
----
-AppRawSettings:
-  community: CommunityRawSettings
-
-CommunityRawSettings:
-  communityEnabled: bool
-  forumsEnabled: bool
-  forumGroupsEnabled: bool

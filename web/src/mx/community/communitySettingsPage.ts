@@ -19,7 +19,7 @@ import GetSiteSettingsLoader from './loaders/getSiteSettingsLoader';
 import UpdateSiteSettingsLoader from './loaders/updateSiteSettingsLoader';
 import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
-import { CommunityRawSettings } from 'sod/app/appRawSettings';
+import { CommunityRawSettings } from 'sod/app';
 
 @customElement('community-settings-page')
 export class CommunitySettingsPage extends StatefulPage {

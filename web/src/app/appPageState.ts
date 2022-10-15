@@ -8,7 +8,7 @@
 import appState from './appState';
 import appStateName from './appStateName';
 import User from './user/user';
-import { RawMainPageWind } from 'sod/app/rawMainPageWind';
+import { RawMainPageWind } from 'sod/app';
 
 export interface MainPageWind extends RawMainPageWind {
   // See `window.appWindData` in `main.html` for details.

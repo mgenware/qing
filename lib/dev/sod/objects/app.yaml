@@ -1,4 +1,12 @@
 ---
+AppRawSettings:
+  community: CommunityRawSettings
+
+CommunityRawSettings:
+  communityEnabled: bool
+  forumsEnabled: bool
+  forumGroupsEnabled: bool
+
 RawMainPageWind:
   # Information about current user.
   appUserID: string
