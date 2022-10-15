@@ -145,15 +145,18 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
   }
 
   if (daImports.size) {
-    imports.add(`import { ${[...daImports].join(', ')} } from '../../da/types.js';`);
+    imports.add(`import { ${[...daImports].join(', ')} } from '../da/types.js';`);
   }
+
   if (sodImports.size) {
-    for (const [file, types] of Object.entries(sodImports)) {
+    for (const [file, types] of sodImports.entries()) {
       // `input` is like `path/path/file`.
-      // `np.relative(name)` would returns `../../../`.
-      imports.add(
-        `import { ${[...types].join(', ')} } from '${np.relative(input, '')}${file}.js';`,
-      );
+      const rootPath = np.relative(input, input.split('/')[0]!);
+      let importPath = np.join(rootPath, `${file}.js`);
+      if (!importPath.startsWith('.')) {
+        importPath = `./${importPath}`;
+      }
+      imports.add(`import { ${[...types].join(', ')} } from '${importPath}';`);
     }
   }
 

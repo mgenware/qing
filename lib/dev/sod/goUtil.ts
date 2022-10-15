@@ -105,13 +105,11 @@ function handleType(
       const res = cm.parseSodSpecialTypeString(extractedType);
 
       // Add import path.
-      const yamlDirPath = np.dirname(res.file);
+      const yamlDirPath = res.file;
       sodImports.add(`qing/sod/${yamlDirPath}Sod`);
 
-      // Get package name, which is the folder name of yaml file.
-      const folderName = np.basename(yamlDirPath);
       type = res.type;
-      packageName = `${folderName}Sod`;
+      packageName = `${np.basename(yamlDirPath)}Sod`;
     } else {
       throw new Error('Unsupported type');
     }
@@ -182,7 +180,6 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       (k, v, traits) => {
         const name = renameMap[k] || k;
         const typeRes = handleType(v, traits, sodImports);
-
         handleTypeRes(typeRes);
         members.push({
           name: `${cm.capitalizeFirstLetter(name)}`,
@@ -211,8 +208,6 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
             sodImports,
           );
           handleTypeRes(typeRes);
-
-          console.log('---- ', typeRes);
           goGenBaseTypes.push({
             name: typeRes.typeName,
             paramName: cm.lowerFirstLetter(typeRes.typeName),
