@@ -8,8 +8,6 @@
 import isPlainObj from 'is-plain-obj';
 
 export const attrPrefix = '__';
-export const daPathPrefix = ':da';
-export const sodPathPrefix = ':sod:';
 
 const allowedAttrs = new Set<string>();
 const scopedProp = /_([a-z]+)__/;
@@ -60,13 +58,18 @@ export function popDictAttribute(dict: Record<string, string>, key: string): str
   return null;
 }
 
-export interface ExtendsField {
+export interface ExtendsObjValue {
   name: string;
   path?: string;
   packageName?: string;
 }
 
+export type ExtendsField = string | ExtendsObjValue;
+
 function parseExtendsFieldObj(obj: unknown): ExtendsField {
+  if (typeof obj === 'string') {
+    return obj;
+  }
   if (!isPlainObj(obj)) {
     throw new Error(`Expected an object, got ${JSON.stringify(obj)}`);
   }
@@ -185,4 +188,47 @@ export function scanTypeDef(
       }
     }
   }
+}
+
+export enum SpecialType {
+  da = 'da',
+  sod = 'sod',
+}
+
+// `type` example: `:sod.a.b.c`.
+export function parseSpecialType(type: string): [SpecialType, string] {
+  // Get type prefix.
+  const idx = type.indexOf('.');
+  if (idx < 0) {
+    throw new Error(`Invalid type "${type}"`);
+  }
+  const prefix = type.substring(1, idx);
+  const rest = type.substring(idx + 1);
+  let resolved: SpecialType;
+  switch (prefix) {
+    case SpecialType.da:
+      resolved = SpecialType.da;
+      break;
+
+    case SpecialType.sod:
+      resolved = SpecialType.sod;
+      break;
+
+    default:
+      throw new Error(`Unsupported prefix "${prefix}"`);
+  }
+  return [resolved, rest];
+}
+
+// `s`: type string extracted from `parseSpecialType`. e.g. `cmt.cmt.Cmt`.
+export function parseSodSpecialTypeString(s: string): { file: string; type: string } {
+  // Get type prefix.
+  const idx = s.lastIndexOf('.');
+  if (idx < 0) {
+    throw new Error(`Invalid SOD type "${s}"`);
+  }
+  return {
+    file: s.substring(0, idx),
+    type: s.substring(idx + 1),
+  };
 }

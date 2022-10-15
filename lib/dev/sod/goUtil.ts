@@ -78,14 +78,56 @@ function makeImports(imports: string[], aliases?: Map<string, string>): string {
   ${code})\n\n`;
 }
 
-function handleImportPath(s: string) {
-  if (s === cm.daPathPrefix) {
-    return 'qing/da';
+// Compared to TS types, GO types require more details for constructor generation.
+interface HandleTypeRes {
+  // `[]*cmtSod.Cmt`.
+  fullType: string;
+  // `cmtSod`.
+  packageName: string;
+  // `Cmt`.
+  typeName: string;
+  isDAImport: boolean;
+}
+
+function handleType(
+  type: string,
+  traits: cm.PropertyTraits,
+  sodImports: Set<string>,
+): HandleTypeRes {
+  let packageName = '';
+  let isDAImport = false;
+  if (type.startsWith(':')) {
+    const [sType, extractedType] = cm.parseSpecialType(type);
+    if (sType === cm.SpecialType.da) {
+      isDAImport = true;
+      type = extractedType;
+      packageName = 'da';
+    } else if (sType === cm.SpecialType.sod) {
+      const res = cm.parseSodSpecialTypeString(extractedType);
+
+      // Add import path.
+      const yamlDirPath = np.dirname(res.file);
+      sodImports.add(`qing/sod/${yamlDirPath}Sod`);
+
+      // Get package name, which is the folder name of yaml file.
+      const folderName = np.basename(yamlDirPath);
+      type = res.type;
+      packageName = `${folderName}Sod`;
+    } else {
+      throw new Error('Unsupported type');
+    }
   }
-  if (s.startsWith(cm.sodPathPrefix)) {
-    return `qing/sod/${s.substring(cm.sodPathPrefix.length)}`;
+
+  let fullType = type;
+  if (packageName) {
+    fullType = `${packageName}.${fullType}`;
   }
-  return s;
+  return {
+    fullType: `${traits.isArray ? '[]' : ''}${traits.optional ? '*' : ''}${fullType}`,
+    isDAImport,
+    packageName,
+    typeName: type,
+  };
 }
 
 export function goCode(input: string, pkgName: string, dict: cm.SourceDict): string {
@@ -95,6 +137,16 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
   let renameMap: Record<string, string> = {};
   const imports = new Set<string>();
   const importAliases = new Map<string, string>();
+  const sodImports = new Set<string>();
+  let hasDAImports = false;
+
+  // Used whenever `handleType` is called.
+  function handleTypeRes(res: HandleTypeRes) {
+    if (res.isDAImport) {
+      hasDAImports = true;
+    }
+  }
+
   for (const [typeName, typeDef] of Object.entries(dict)) {
     if (isFirst) {
       isFirst = false;
@@ -137,14 +189,17 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       // eslint-disable-next-line @typescript-eslint/no-loop-func
       (k, v, traits) => {
         const name = renameMap[k] || k;
+        const typeRes = handleType(v, traits, sodImports);
+        handleTypeRes(typeRes);
         members.push({
           name: `${cm.capitalizeFirstLetter(name)}`,
           paramName: name,
-          type: `${traits.isArray ? '[]' : ''}${traits.optional ? '*' : ''}${v}`,
+          type: typeRes.fullType,
           tag: `\`json:"${k},omitempty"\``,
         });
       },
     );
+
     const genOpt: Options = {};
     // False positive. `ctor` is changed in closure.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -153,22 +208,46 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       genOpt.returnValueInCtor = true;
     }
     let goGenBaseTypes: BaseType[] = [];
+
     if (baseTypes.length) {
       baseTypes.forEach((t) => {
-        goGenBaseTypes.push({
-          name: t.name,
-          paramName: cm.lowerFirstLetter(t.name),
-          packageName: t.packageName,
-        });
+        if (typeof t === 'string') {
+          const typeRes = handleType(
+            t,
+            { optional: false, isArray: false, notEmpty: true },
+            sodImports,
+          );
+          handleTypeRes(typeRes);
 
-        if (t.path) {
-          const importPath = handleImportPath(t.path);
-          imports.add(importPath);
-          if (t.packageName && np.basename(importPath) !== t.packageName) {
-            importAliases.set(importPath, t.packageName);
+          goGenBaseTypes.push({
+            name: typeRes.typeName,
+            paramName: cm.lowerFirstLetter(typeRes.typeName),
+            packageName: typeRes.packageName,
+          });
+        } else {
+          goGenBaseTypes.push({
+            name: t.name,
+            paramName: cm.lowerFirstLetter(t.name),
+            packageName: t.packageName,
+          });
+
+          if (t.path) {
+            const importPath = t.path;
+            imports.add(importPath);
+            if (t.packageName && np.basename(importPath) !== t.packageName) {
+              importAliases.set(importPath, t.packageName);
+            }
           }
         }
       });
+    }
+    if (hasDAImports) {
+      imports.add('qing/da');
+    }
+    if (sodImports.size) {
+      for (const s of [...sodImports]) {
+        imports.add(s);
+      }
     }
     s += genGoType('struct', typeName, members, genOpt, goGenBaseTypes);
   }

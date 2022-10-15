@@ -6,6 +6,7 @@
  */
 
 import * as cm from './common.js';
+import * as np from 'node:path';
 import * as qdu from '@qing/devutil';
 
 function tsAttr(s: string) {
@@ -36,33 +37,49 @@ function sourceTypeToTSType(type: string) {
     case 'string':
       return 'string';
     default:
-      // Strip pointer indicator (*). No pointers in JS.
-      return type.startsWith('*') ? type.substring(1) : type;
+      return type;
   }
 }
 
-// Returns [<resolved type>, <optional>].
-function convertType(type: string, traits: cm.PropertyTraits): [string, boolean] {
-  // Some types are always optional because SOD Go types have omitifempty tags on.
-  // So even if a field set in Go, it can be optional when transferred back to TS.
-  const tsType = sourceTypeToTSType(type);
-  return [handleTypeName(tsType, traits), !traits.notEmpty];
+interface HandleTypeRes {
+  // `Cmt`.
+  typeName: string;
+  optional: boolean;
 }
 
-function handleImportPath(s: string, name: string) {
-  if (s === cm.daPathPrefix) {
-    return '../../da/types.js';
+function handleType(
+  type: string,
+  traits: cm.PropertyTraits,
+  daImports: Set<string>,
+  sodImports: Map<string, Set<string>>,
+): HandleTypeRes {
+  if (type.startsWith(':')) {
+    const [sType, extractedType] = cm.parseSpecialType(type);
+    if (sType === cm.SpecialType.da) {
+      daImports.add(extractedType);
+      type = extractedType;
+    } else if (sType === cm.SpecialType.sod) {
+      const res = cm.parseSodSpecialTypeString(extractedType);
+      sodImports.set(res.file, (sodImports.get(res.file) ?? new Set<string>()).add(res.type));
+      type = res.type;
+    } else {
+      throw new Error('Unsupported type');
+    }
+  } else {
+    type = sourceTypeToTSType(type);
   }
-  if (s.startsWith(cm.sodPathPrefix)) {
-    return `../${s.substring(cm.sodPathPrefix.length)}/${cm.lowerFirstLetter(name)}.js`;
-  }
-  return s;
+  return {
+    typeName: handleTypeName(type, traits),
+    optional: !traits.notEmpty,
+  };
 }
 
 export function tsCode(input: string, dict: cm.SourceDict): string {
   let code = '';
   let isFirst = true;
   const imports = new Set<string>();
+  const daImports = new Set<string>();
+  const sodImports = new Map<string, Set<string>>();
   for (const [typeName, typeDef] of Object.entries(dict)) {
     let baseTypes: cm.ExtendsField[] = [];
     if (isFirst) {
@@ -91,26 +108,72 @@ export function tsCode(input: string, dict: cm.SourceDict): string {
         }
       },
       (k, v, traits) => {
-        const [type, optional] = convertType(v, traits);
-        typeCode += `  ${k}${optional ? '?' : ''}: ${type};\n`;
+        const typeRes = handleType(v, traits, daImports, sodImports);
+        typeCode += `  ${k}${typeRes.optional ? '?' : ''}: ${typeRes.typeName};\n`;
       },
     );
     typeCode += '}\n';
 
     // Interface declaration is handled at last since base class can
     // only be determined when all attrs are processed.
+    let extendsCode = '';
+    if (baseTypes.length) {
+      let first = true;
+      for (const bt of baseTypes) {
+        if (typeof bt === 'string') {
+          const typeRes = handleType(
+            bt,
+            { optional: false, isArray: false, notEmpty: true },
+            daImports,
+            sodImports,
+          );
+          // Imports are handled in `handleType` for special types.
+          extendsCode += typeRes.typeName;
+        } else {
+          if (bt.path) {
+            imports.add(`import { ${bt.name} } from '${bt.path}';`);
+            extendsCode += `${first ? '' : ','} ${bt.name}`;
+          }
+          extendsCode += bt.name;
+        }
+        if (first) {
+          first = false;
+        } else {
+          extendsCode += ', ';
+        }
+      }
+    }
+
     typeCode = `export interface ${typeName}${
-      baseTypes.length ? ` extends ${baseTypes.map((t) => t.name).join(', ')}` : ''
+      baseTypes.length ? ` extends ${extendsCode}` : ''
     } {\n${typeCode}`;
 
     baseTypes.forEach((t) => {
-      if (t.path) {
-        imports.add(`import { ${t.name} } from '${handleImportPath(t.path, t.name)}';`);
+      if (typeof t === 'string') {
+        handleType(t, { optional: false, isArray: false, notEmpty: true }, daImports, sodImports);
+      } else {
+        if (t.path) {
+          imports.add(`import { ${t.name} } from '${t.path}';`);
+        }
       }
     });
 
     code += typeCode;
   }
+
+  if (daImports.size) {
+    imports.add(`import { ${[...daImports].join(', ')} } from '../../da/types.js';`);
+  }
+  if (sodImports.size) {
+    for (const [file, types] of Object.entries(sodImports)) {
+      // `input` is like `path/path/file`.
+      // `np.relative(name)` would returns `../../../`.
+      imports.add(
+        `import { ${[...types].join(', ')} } from '${np.relative(input, '')}${file}.js';`,
+      );
+    }
+  }
+
   const importCode = imports.size ? [...imports.values()].map((s) => `${s}\n`).join('') + '\n' : '';
   return (
     qdu.copyrightString + ' /* eslint-disable */\n\n' + cm.noticeComment(input) + importCode + code
