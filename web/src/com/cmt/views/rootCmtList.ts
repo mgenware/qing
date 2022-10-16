@@ -19,6 +19,7 @@ import { ComposerView } from 'ui/editing/composerView';
 import appTask from 'app/appTask';
 import { Cmt } from '../data/cmt';
 import { CmtFocusModeData } from 'sod/cmt';
+import { listenForVisibilityChange } from 'lib/htmlLib';
 
 const brCmtCountCls = 'br-cmt-c';
 const rootEditorID = 'root-editor';
@@ -59,6 +60,8 @@ export class RootCmtList extends BaseElement {
   @property({ type: Object }) focusModeData?: CmtFocusModeData;
 
   @state() _rootEditorOpen = false;
+
+  _unregisterVisibility?: () => void;
 
   private get rootEditorEl() {
     return this.getShadowElement<ComposerView>(rootEditorID);
@@ -138,6 +141,23 @@ export class RootCmtList extends BaseElement {
       .host=${this.host}
       .cmt=${assignedCmt}
       .initialAssignedChild=${assignedChildCmt}></cmt-block>`;
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+
+    if (!this.focusModeData) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      this._unregisterVisibility = listenForVisibilityChange(this, () =>
+        this.cmtBlockEl?.loadMore(),
+      );
+    }
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+
+    this._unregisterVisibility?.();
   }
 
   private async handleRootEditorSubmit() {

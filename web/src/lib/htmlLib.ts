@@ -57,15 +57,14 @@ export function renderTemplateResult<T extends HTMLElement>(
 }
 
 export function listenForVisibilityChange(
-  elements: HTMLElement[],
-  callback: (element: HTMLElement) => void,
+  element: HTMLElement,
+  callback: (element: HTMLElement) => unknown,
 ) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       callback(entry.target as HTMLElement);
     });
   });
-  for (const element of elements) {
-    observer.observe(element);
-  }
+  observer.observe(element);
+  return () => observer.unobserve(element);
 }

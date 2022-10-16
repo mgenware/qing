@@ -19,7 +19,6 @@ import { CHECK } from 'checks';
 import { ItemsChangedEvent } from 'lib/itemCollector';
 import appAlert from 'app/appAlert';
 import CmtCollector from '../data/cmtCollector';
-import { listenForVisibilityChange } from 'lib/htmlLib';
 import DeleteCmtLoader from '../loaders/deleteCmtLoader';
 import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
@@ -61,11 +60,6 @@ export class CmtBlock extends BaseElement {
   @property({ type: Object }) cmt?: Cmt;
   // Used in focused mode.
   @property({ type: Object }) initialAssignedChild?: Cmt;
-
-  // Starts loading comment when the component is first visible.
-  // Only applies to this cmt.
-  // Doesn't have effect when `cmt` is present.
-  @property({ type: Boolean }) loadOnVisible = false;
 
   // Can only be changed within `CmtCollector.itemsChanged` event.
   // `CmtCollector` provides paging and duplication removal.
@@ -118,11 +112,6 @@ export class CmtBlock extends BaseElement {
         (st) => (this._collectorLoadingStatus = st),
         (e) => this.handleCollectorItemsChanged(e),
       );
-    }
-
-    if (this.loadOnVisible && !this.cmt) {
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      listenForVisibilityChange([this], () => this.loadMore());
     }
 
     if (this.initialAssignedChild) {
@@ -285,7 +274,7 @@ export class CmtBlock extends BaseElement {
     this._replyEditorOpen = false;
   }
 
-  private async loadMore() {
+  async loadMore() {
     await this._collector.loadMoreAsync(this.freshChildren());
   }
 
