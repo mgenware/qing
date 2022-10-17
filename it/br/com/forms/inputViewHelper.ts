@@ -35,12 +35,12 @@ export async function shouldHaveProps(el: Element, props: InputViewProps) {
 
 export async function shouldHaveError(el: Element, err: string) {
   const iev = el.$(inputErrorViewSel);
-  await iev.e.toHaveAttribute('message', err);
+  await iev.e.toContainText(err, { ignoreCase: true });
   await iev.e.toBeVisible();
 }
 
 export async function shouldHaveRequiredError(el: Element) {
-  return shouldHaveError(el, 'Please fill out this field.');
+  return shouldHaveError(el, 'fill out this field');
 }
 
 export function shouldNotHaveError(el: Element) {
