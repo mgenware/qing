@@ -30,7 +30,7 @@ export class SignUpApp extends BaseElement {
     ];
   }
 
-  @property() private name = '';
+  @property() private userName = '';
   @property() private email = '';
   @property() private password = '';
   @property() private confirmPassword = '';
@@ -47,8 +47,8 @@ export class SignUpApp extends BaseElement {
             class="m-t-md"
             required
             label=${ls.name}
-            value=${this.name}
-            @input-change=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+            value=${this.userName}
+            @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
 
           <input-view
             class="m-t-md"
@@ -111,7 +111,7 @@ export class SignUpApp extends BaseElement {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new SignUpLoader(this.name, this.email, this.password);
+    const loader = new SignUpLoader(this.userName, this.email, this.password);
     const status = await appTask.critical(loader, ls.publishing);
     if (status.isSuccess) {
       pu.setTitleAndMainContent(

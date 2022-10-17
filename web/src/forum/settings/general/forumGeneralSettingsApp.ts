@@ -42,7 +42,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
   }
 
   @property() fid = '';
-  @property() name = '';
+  @property() forumName = '';
   @property({ type: Object }) loadingStatus = LoadingStatus.notStarted;
   @property({ type: Boolean }) updateInfoStatus = LoadingStatus.success;
   @property() avatarURL = '';
@@ -80,8 +80,8 @@ export class ForumGeneralSettingsApp extends BaseElement {
         <input-view
           required
           label=${ls.name}
-          value=${this.name}
-          @input-change=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+          value=${this.forumName}
+          @input-change=${(e: CustomEvent<string>) => (this.forumName = e.detail)}></input-view>
 
         <label class="app-form-label m-t-md" for=${editorElementID}>${ls.description}</label>
         <editor-view class="m-t-md" id=${editorElementID}></editor-view>
@@ -98,7 +98,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
     const status = await appTask.critical(loader, undefined, (s) => (this.loadingStatus = s));
     if (status.data) {
       const info = status.data;
-      this.name = info.name ?? '';
+      this.forumName = info.name ?? '';
       if (this.descEditorView) {
         this.descEditorView.contentHTML = info.descHTML ?? '';
       }

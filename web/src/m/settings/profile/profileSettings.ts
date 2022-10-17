@@ -52,7 +52,7 @@ export class ProfileSettings extends StatefulPage {
     ];
   }
 
-  @state() private name = '';
+  @state() private userName = '';
   @state() private url = '';
   @state() private company = '';
   @state() private location = '';
@@ -77,8 +77,8 @@ export class ProfileSettings extends StatefulPage {
         <input-view
           required
           label=${ls.name}
-          value=${this.name}
-          @input-change=${(e: CustomEvent<string>) => (this.name = e.detail)}></input-view>
+          value=${this.userName}
+          @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
 
         <input-view
           label=${ls.url}
@@ -110,7 +110,7 @@ export class ProfileSettings extends StatefulPage {
     const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (status.data) {
       const profile = status.data;
-      this.name = profile.name ?? '';
+      this.userName = profile.name ?? '';
       this.url = profile.website ?? '';
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
