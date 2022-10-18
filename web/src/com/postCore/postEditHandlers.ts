@@ -36,7 +36,7 @@ export function setupHandlers(
         formatLS(ls.pDoYouWantToDeleteThis, entityTypeToLS(entity.type)),
       )
     ) {
-      await appAlert.showLoadingOverlay(ls.working);
+      appAlert.showLoadingOverlay(ls.working);
       const loader = new DeleteEntityLoader(entity);
       const status = await appTask.critical(loader, ls.working);
       if (status.data) {

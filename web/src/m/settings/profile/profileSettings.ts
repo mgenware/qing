@@ -122,7 +122,7 @@ export class ProfileSettings extends StatefulPage {
   private async handleSaveProfileClick() {
     // Validate user inputs.
     try {
-      if (!this.name) {
+      if (!this.userName) {
         throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
       }
     } catch (err) {
@@ -131,7 +131,7 @@ export class ProfileSettings extends StatefulPage {
       return;
     }
     const loader = new SetProfileInfoLoader(
-      this.name,
+      this.userName,
       this.url,
       this.company,
       this.location,
@@ -141,8 +141,8 @@ export class ProfileSettings extends StatefulPage {
       this.updateInfoStatus = s;
     });
     if (status.isSuccess) {
-      if (this.name !== appPageState.user?.name) {
-        appPageState.updateUser({ name: this.name });
+      if (this.userName !== appPageState.user?.name) {
+        appPageState.updateUser({ name: this.userName });
       }
       await appAlert.successToast(ls.profileUpdated);
     }

@@ -13,14 +13,11 @@ import 'ui/status/spinnerView';
 import 'ui/alerts/dialogView';
 import 'com/share/sharePopup';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
-import delay from 'lib/delay';
 
 const dialogContainerID = '__g_dialog_container';
 const spinnerContainerID = '__g_spinner_container';
 const shareContainerID = '__g_share_container';
-
-// BR tests only. Used to make sure global spinner appears for at least 500 ms.
-let brGlobalSpinnerStartTime = 0;
+const brBodySpinnerAttr = 'brSpinner';
 
 export interface SharePopupOptions {
   noAutoDomain?: boolean;
@@ -95,27 +92,23 @@ export class AppAlert {
   }
 
   // Shows the global loading spinner.
-  async showLoadingOverlay(text: string) {
-    await this.hideLoadingOverlay();
+  showLoadingOverlay(text: string) {
+    this.hideLoadingOverlay();
 
     const template = html`<spinner-view .fullScreen=${true}>${text}</spinner-view>`;
     renderTemplateResult(spinnerContainerID, template);
 
     if (brMode()) {
-      brGlobalSpinnerStartTime = new Date().getTime();
+      document.body.dataset[brBodySpinnerAttr] = text;
     }
   }
 
   // Hides the global loading spinner.
-  async hideLoadingOverlay() {
-    if (brMode()) {
-      const runFor = new Date().getTime() - brGlobalSpinnerStartTime;
-      if (runFor < 500) {
-        await delay(500 - runFor);
-      }
-      brGlobalSpinnerStartTime = 0;
-    }
+  hideLoadingOverlay() {
     renderTemplateResult(spinnerContainerID, null);
+    if (brMode()) {
+      delete document.body.dataset[brBodySpinnerAttr];
+    }
   }
 
   showSharePopup(link: string, opt?: SharePopupOptions) {

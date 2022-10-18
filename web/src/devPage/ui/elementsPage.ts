@@ -307,9 +307,9 @@ export class ElementsPage extends BaseElement {
   }
 
   private async startFullscreenSpinner() {
-    await appAlert.showLoadingOverlay('Loading...');
+    appAlert.showLoadingOverlay('Loading...');
     await delay(2000);
-    await appAlert.hideLoadingOverlay();
+    appAlert.hideLoadingOverlay();
   }
 
   private showPostEditor() {
