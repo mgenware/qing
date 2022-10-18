@@ -35,14 +35,17 @@ test('Edit post', async ({ page }) => {
       title: def.sd.title,
       contentHTML: def.sd.contentViewHTML,
     });
-    await cps.updateAndSave(overlayEl, {
-      p,
-      title: def.sd.updated,
-      content: def.sd.updated,
-      dbTimeChange: true,
-      spinnerText: 'Saving...',
-      saveBtnText: 'Save',
-    });
+    await Promise.all([
+      cps.updateAndSave(overlayEl, {
+        p,
+        title: def.sd.updated,
+        content: def.sd.updated,
+        dbTimeChange: true,
+        saveBtnText: 'Save',
+        quickExit: true,
+      }),
+      p.c.waitForNavigation({ url: /\/p\// }),
+    ]);
 
     // Verify post title.
     await cm.shouldHaveTitle(p, def.sd.updated, link);

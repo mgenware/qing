@@ -38,8 +38,8 @@ test('New post', async ({ page }) => {
       title: def.sd.content,
       content: def.sd.content,
       dbTimeChange: true,
-      spinnerText: 'Publishing...',
       saveBtnText: 'Publish',
+      quickExit: true,
     }),
     p.c.waitForNavigation({ url: /\/p\// }),
   ]);

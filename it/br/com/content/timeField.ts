@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import delay from 'base/delay';
 import * as br from 'br';
 
 function checkTimeString(s: string, edited: boolean) {
@@ -16,6 +17,7 @@ function checkTimeString(s: string, edited: boolean) {
 export async function shouldAppear(el: br.Element, edited: boolean) {
   await el.e.toBeVisible();
   if (edited) {
+    await delay();
     await el.$hasText('span', 'Edited').waitForVisible();
   }
   const tsString = await el.$('span').c.textContent();

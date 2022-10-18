@@ -105,11 +105,13 @@ export async function shouldDiscardChangesOrNot(
 
 export interface UpdateAndSaveArgs {
   p: br.Page;
-  spinnerText: string;
+  spinnerText?: string;
   saveBtnText: string;
   dbTimeChange?: boolean;
   title?: string;
   content?: string;
+  // Use this when a navigation happens upon completion.
+  quickExit?: boolean;
 }
 
 export async function updateAndSave(overlayEl: br.Element, e: UpdateAndSaveArgs) {
@@ -121,6 +123,12 @@ export async function updateAndSave(overlayEl: br.Element, e: UpdateAndSaveArgs)
 
   // Update button is always the first button.
   const btnEl = overlayEl.$qingButton(e.saveBtnText);
-  await spn.waitForGlobal(e.p, e.spinnerText, () => btnEl.click());
-  await overlayEl.waitForDetached();
+  if (e.quickExit) {
+    await btnEl.click();
+  } else {
+    if (e.spinnerText) {
+      await spn.waitForGlobal(e.p, e.spinnerText, () => btnEl.click());
+    }
+    await overlayEl.waitForDetached();
+  }
 }
