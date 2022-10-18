@@ -7,7 +7,8 @@
 
 import * as br from 'br';
 
-const brBodySpinnerAttr = 'data-brspinner';
+const brGSpinnerTextAttr = 'data-br-spinner-text';
+const brGSpinnerCounterAttr = 'data-br-spinner-counter';
 
 async function resolveSequence(...list: Array<Promise<unknown>>) {
   for (const p of list) {
@@ -32,12 +33,10 @@ export async function waitForGlobalFull(
 }
 
 export async function waitForGlobal(page: br.Page, text: string, trigger: () => Promise<unknown>) {
-  const sel = `body[${brBodySpinnerAttr}=${JSON.stringify(text)}]`;
-  await Promise.all([
-    trigger(),
-    resolveSequence(
-      page.c.waitForSelector(sel, { state: 'attached' }),
-      page.c.waitForSelector(sel, { state: 'detached' }),
-    ),
-  ]);
+  const counter =
+    (parseInt((await page.body.getAttribute(brGSpinnerCounterAttr)) ?? '0', 10) || 0) + 1;
+  const sel = `body[${brGSpinnerCounterAttr}="${counter}"][${brGSpinnerTextAttr}=${JSON.stringify(
+    text,
+  )}]`;
+  await Promise.all([trigger(), page.c.waitForSelector(sel, { state: 'attached' })]);
 }

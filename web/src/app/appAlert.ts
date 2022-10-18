@@ -17,7 +17,8 @@ import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
 const dialogContainerID = '__g_dialog_container';
 const spinnerContainerID = '__g_spinner_container';
 const shareContainerID = '__g_share_container';
-const brBodySpinnerAttr = 'brSpinner';
+const brGSpinnerTextAttr = 'data-br-spinner-text';
+const brGSpinnerCounterAttr = 'data-br-spinner-counter';
 
 export interface SharePopupOptions {
   noAutoDomain?: boolean;
@@ -99,7 +100,15 @@ export class AppAlert {
     renderTemplateResult(spinnerContainerID, template);
 
     if (brMode()) {
-      document.body.dataset[brBodySpinnerAttr] = text;
+      // In BR mode, we will do the following things to mimic a global spinner.
+      // Get spinner-counter-attr and add it by 1, say `val`.
+      // Set spinner-counter-attr to `-val` to indicate it's running.
+      // Set spinner-counter-text to current text of the spinner.
+      // Set spinner-counter-attr to `val` after completion.
+      // spinner-counter-text remains for tests to check the value after completion.
+      const val = (parseInt(document.body.getAttribute(brGSpinnerCounterAttr) ?? '0', 10) || 0) + 1;
+      document.body.setAttribute(brGSpinnerCounterAttr, `-${val}`);
+      document.body.setAttribute(brGSpinnerTextAttr, text);
     }
   }
 
@@ -107,7 +116,8 @@ export class AppAlert {
   hideLoadingOverlay() {
     renderTemplateResult(spinnerContainerID, null);
     if (brMode()) {
-      delete document.body.dataset[brBodySpinnerAttr];
+      const val = parseInt(document.body.getAttribute(brGSpinnerCounterAttr) ?? '0', 10) || 0;
+      document.body.setAttribute(brGSpinnerCounterAttr, `${Math.abs(val)}`);
     }
   }
 
