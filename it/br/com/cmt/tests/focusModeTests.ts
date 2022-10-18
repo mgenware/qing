@@ -9,8 +9,10 @@ import { CmtFixtureWrapper } from './common';
 import { Page, usr, Element } from 'br';
 import * as cm from './common';
 import * as act from './actions';
+import * as sh from 'br/com/overlays/share';
+import { serverURL } from 'base/def';
 
-async function setupEnv(w: CmtFixtureWrapper, p: Page) {
+async function setupEnv(w: CmtFixtureWrapper, p: Page, linkName: string) {
   // This creates the following structure:
   // - cmt2
   // - cmt1
@@ -18,6 +20,7 @@ async function setupEnv(w: CmtFixtureWrapper, p: Page) {
   //  - reply1
   //    - sub-reply1
   const cmtApp = await w.getCmtApp(p);
+  let link = '';
   for (let i = 0; i < 2; i++) {
     // eslint-disable-next-line no-await-in-loop
     await act.writeCmt(p, {
@@ -33,11 +36,16 @@ async function setupEnv(w: CmtFixtureWrapper, p: Page) {
       content: `reply${i + 1}`,
     });
   }
+  if (linkName === 'reply') {
+    await cm.getNthReply({ cmtEl, index: 1 }).$linkButton('Share').click();
+    link = await sh.getLink(p);
+  }
+
   await act.writeReply(p, {
     cmtEl: cm.getNthReply({ cmtEl, index: 1 }),
     content: 'sub-reply1',
   });
-  return w.getHostURL(p);
+  return link;
 }
 
 async function checkFocusMode(cmtApp: Element) {
@@ -48,15 +56,26 @@ async function checkFocusMode(cmtApp: Element) {
   await cmtApp.$('.focus-mode').shouldExist();
 }
 
+function clickViewAllComments(cmtApp: Element) {
+  return cmtApp.$linkButton('View all comments').click();
+}
+
+function removeCmtParams(link: string) {
+  const url = new URL(link);
+  url.searchParams.delete('cmt');
+  return url.toString();
+}
+
 function testReply(w: CmtFixtureWrapper) {
   w.test('Focus reply', usr.user, async ({ p }) => {
-    await setupEnv(w, p);
-    await p.reload(null);
+    const link = await setupEnv(w, p, 'reply');
+    await p.gotoRaw(link, null);
 
     const cmtApp = await w.getCmtApp(p);
     await checkFocusMode(cmtApp);
 
-    let cmtEl = cm.getTopCmt({ cmtApp });
+    // There is no root `.br-children` in focus mode, get the first cmt-block instead.
+    let cmtEl = cmtApp.$('cmt-block');
     await cm.shouldHaveCmtCount({ cmtApp, count: 5 });
 
     // Check cmt.
@@ -76,7 +95,28 @@ function testReply(w: CmtFixtureWrapper) {
     });
     await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 0 });
 
-    // CLICKs
+    // Click 1 reply.
+    await cmtEl.$linkButton('1 reply').click();
+    await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 1 });
+    await cm.shouldAppear({
+      cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
+      author: usr.user,
+      content: 'sub-reply1',
+    });
+
+    // Click more replies.
+    cmtEl = cmtApp.$('cmt-block');
+    await act.clickMoreReplies({ cmtEl });
+    await cm.shouldHaveReplyCount({ cmtEl, count: 2, shown: 2 });
+
+    // Re-check cmt count after loading replies.
+    await cm.shouldHaveCmtCount({ cmtApp, count: 5 });
+
+    // Click view all comments.
+    await Promise.all([
+      clickViewAllComments(cmtApp),
+      p.c.waitForNavigation({ url: removeCmtParams(`${serverURL}${w.getHostURL(p)}`) }),
+    ]);
   });
 }
 

@@ -104,7 +104,7 @@ export class RootCmtList extends BaseElement {
     `;
 
     const addCmtGroup = appPageState.user
-      ? this.renderCommentButton()
+      ? this.renderAddCommentButton()
       : this.renderLoginToComment();
     return html`${titleEl}${addCmtGroup}${contentEl}${when(
       this._rootEditorOpen,
@@ -194,7 +194,10 @@ export class RootCmtList extends BaseElement {
     `;
   }
 
-  private renderCommentButton() {
+  private renderAddCommentButton() {
+    if (this.focusModeData) {
+      return html``;
+    }
     return html`
       <p>
         <qing-button btnStyle="success" @click=${this.handleAddCommentClick}

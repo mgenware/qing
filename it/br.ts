@@ -230,14 +230,23 @@ export class Page {
     return delay(500);
   }
 
-  async goto(url: string, user: User | null, mobile?: boolean) {
+  waitForNavigation(url: string) {
+    const finalUrl = url === '/' ? serverURL : `${serverURL}${url}`;
+    return this.c.waitForNavigation({ url: finalUrl });
+  }
+
+  goto(url: string, user: User | null, mobile?: boolean) {
+    return this.gotoRaw(`${serverURL}${url}`, user, mobile);
+  }
+
+  async gotoRaw(url: string, user: User | null, mobile?: boolean) {
     if (mobile) {
       await this.setMobileViewport();
     }
     if (user) {
       await this.signIn(user);
     }
-    return this.c.goto(`${serverURL}${url}`);
+    return this.c.goto(url);
   }
 
   async shouldBeUser(user: User | null) {

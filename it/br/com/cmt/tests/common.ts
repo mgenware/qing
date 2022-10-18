@@ -10,19 +10,20 @@ import * as uv from 'br/com/content/userView';
 import * as eb from 'br/com/editing/editBar';
 import { CmtFixture } from '../fixture';
 
-export const cmtChildrenClass = '.br-children';
-export const repliesBtnClass = '.br-replies-btn';
+// Usage: `cmtEl.$(cmtChildrenSel)`.
+export const cmtChildrenSel = '> div > .br-children';
+export const repliesBtnSel = '.br-replies-btn';
 
 export async function commentsHeadingShouldAppear(e: { cmtApp: br.Element }) {
   return e.cmtApp.$hasText('h2', 'Comments').e.toBeVisible();
 }
 
 export function getNthCmt(e: { cmtApp: br.Element; index: number }) {
-  return e.cmtApp.$(`cmt-block ${cmtChildrenClass} > cmt-block:nth-child(${e.index + 1})`);
+  return e.cmtApp.$(`cmt-block ${cmtChildrenSel}.br-root > cmt-block:nth-child(${e.index + 1})`);
 }
 
 export function getNthReply(e: { cmtEl: br.Element; index: number }) {
-  return e.cmtEl.$(`${cmtChildrenClass} > cmt-block:nth-child(${e.index + 1})`);
+  return e.cmtEl.$(`${cmtChildrenSel} > cmt-block:nth-child(${e.index + 1})`);
 }
 
 export function getTopCmt(e: { cmtApp: br.Element }) {
@@ -91,19 +92,19 @@ export async function shouldHaveCmtCount(e: { cmtApp: br.Element; count: number 
 }
 
 export async function shouldHaveShownRootCmtCount(el: br.Element, count: number) {
-  await el.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(count);
+  await el.$$(`${cmtChildrenSel} > cmt-block`).shouldHaveCount(count);
 }
 
 export async function shouldHaveReplyCount(e: { cmtEl: br.Element; count: number; shown: number }) {
   const text = e.count === 1 ? '1 reply' : `${e.count || 'No'} replies`;
-  await e.cmtEl.$(`${repliesBtnClass} link-button`).e.toHaveText(e.shown ? `${text} ↑` : text);
+  await e.cmtEl.$(`${repliesBtnSel} link-button`).e.toHaveText(e.shown ? `${text} ↑` : text);
   if (e.shown) {
-    await e.cmtEl.$$(`${cmtChildrenClass} > cmt-block`).shouldHaveCount(e.shown);
+    await e.cmtEl.$$(`${cmtChildrenSel} > cmt-block`).shouldHaveCount(e.shown);
   }
 }
 
 export function shouldNotHaveReplies(el: br.Element) {
-  return el.$(cmtChildrenClass).shouldNotExist();
+  return el.$(cmtChildrenSel).shouldNotExist();
 }
 
 export class CmtFixtureWrapper {

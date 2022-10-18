@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, repeat, property, state } from 'll';
+import { BaseElement, customElement, html, css, when, repeat, property, state, classMap } from 'll';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { cache } from 'lit/directives/cache.js';
 import Entity from 'lib/entity';
@@ -145,7 +145,13 @@ export class CmtBlock extends BaseElement {
       )}
       ${cache(
         !cmt || this._replyViewVisible
-          ? html`<div class=${brMode() ? 'br-children' : ''}>${itemsView}</div>
+          ? html`<div
+                class=${classMap({
+                  'br-children': brMode(),
+                  'br-root': brMode() && !cmt,
+                })}>
+                ${itemsView}
+              </div>
               <cmt-load-more-view
                 class="btn-in-cmts"
                 .replies=${!!cmt}
@@ -157,49 +163,47 @@ export class CmtBlock extends BaseElement {
     </div>`;
 
     return html`
-      <div>
-        ${when(
-          cmt,
-          () => html`<cmt-view
-              .cmt=${cmt}
-              @cmt-view-reply-click=${() => this.handleReplyClick(cmt)}
-              @cmt-view-edit-click=${this.handleEditClick}
-              @cmt-view-delete-click=${this.handleDeleteClick}
-              @cmt-view-share-click=${this.handleShareClick}></cmt-view>
-            ${when(
-              this._editEditorOpen,
-              () => html`
-                <qing-overlay class="immersive" open>
-                  <composer-view
-                    id=${editEditorID}
-                    .desc=${ls.editComment}
-                    .entity=${{ id: this.cmt?.id ?? '', type: appdef.contentBaseTypeCmt }}
-                    .submitButtonText=${ls.save}
-                    @composer-submit=${this.handleEditEditorSubmit}
-                    @composer-discard=${this.handleEditEditorDiscard}></composer-view>
-                </qing-overlay>
-              `,
-            )}
-            ${when(
-              this._replyEditorOpen,
-              () => html`
-                <qing-overlay class="immersive" open>
-                  <composer-view
-                    id=${replyEditorID}
-                    .desc=${formatLS(ls.pReplyTo, this.cmt?.userName)}
-                    .submitButtonText=${ls.send}
-                    @composer-submit=${this.handleReplyEditorSubmit}
-                    @composer-discard=${this.handleReplyEditorDiscard}>
-                    <blockquote slot="header" style="margin-top:0">
-                      ${unsafeHTML(this._replyEditorQuoteHTML)}
-                    </blockquote>
-                  </composer-view>
-                </qing-overlay>
-              `,
-            )} `,
-        )}
-        ${itemsContainer}
-      </div>
+      ${when(
+        cmt,
+        () => html`<cmt-view
+            .cmt=${cmt}
+            @cmt-view-reply-click=${() => this.handleReplyClick(cmt)}
+            @cmt-view-edit-click=${this.handleEditClick}
+            @cmt-view-delete-click=${this.handleDeleteClick}
+            @cmt-view-share-click=${this.handleShareClick}></cmt-view>
+          ${when(
+            this._editEditorOpen,
+            () => html`
+              <qing-overlay class="immersive" open>
+                <composer-view
+                  id=${editEditorID}
+                  .desc=${ls.editComment}
+                  .entity=${{ id: this.cmt?.id ?? '', type: appdef.contentBaseTypeCmt }}
+                  .submitButtonText=${ls.save}
+                  @composer-submit=${this.handleEditEditorSubmit}
+                  @composer-discard=${this.handleEditEditorDiscard}></composer-view>
+              </qing-overlay>
+            `,
+          )}
+          ${when(
+            this._replyEditorOpen,
+            () => html`
+              <qing-overlay class="immersive" open>
+                <composer-view
+                  id=${replyEditorID}
+                  .desc=${formatLS(ls.pReplyTo, this.cmt?.userName)}
+                  .submitButtonText=${ls.send}
+                  @composer-submit=${this.handleReplyEditorSubmit}
+                  @composer-discard=${this.handleReplyEditorDiscard}>
+                  <blockquote slot="header" style="margin-top:0">
+                    ${unsafeHTML(this._replyEditorQuoteHTML)}
+                  </blockquote>
+                </composer-view>
+              </qing-overlay>
+            `,
+          )} `,
+      )}
+      ${itemsContainer}
     `;
   }
 
