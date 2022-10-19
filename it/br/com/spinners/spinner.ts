@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import delay from 'base/delay';
 import * as br from 'br';
 
 const brGSpinnerTextAttr = 'data-br-spinner-text';
@@ -39,4 +40,6 @@ export async function waitForGlobal(page: br.Page, text: string, trigger: () => 
     text,
   )}]`;
   await Promise.all([trigger(), page.c.waitForSelector(sel, { state: 'attached' })]);
+  // Wait for UI update.
+  await delay();
 }

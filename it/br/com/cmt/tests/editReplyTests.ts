@@ -12,6 +12,7 @@ import * as cm from './common';
 import { writeCmt, editCmt } from './actions';
 import * as act from './actions';
 import * as cps from 'br/com/editing/composer';
+import delay from 'base/delay';
 
 function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a reply - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ p }) => {
@@ -42,6 +43,7 @@ function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
             });
           },
         });
+        await delay();
         await cm.shouldAppear({
           cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
           author: usr.user,

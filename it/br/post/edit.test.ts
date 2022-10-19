@@ -12,6 +12,7 @@ import * as cm from './common';
 import * as eb from 'br/com/editing/editBar';
 import * as def from 'base/def';
 import * as cps from 'br/com/editing/composer';
+import delay from 'base/delay';
 
 const editorDesc = 'Edit post';
 
@@ -47,6 +48,8 @@ test('Edit post', async ({ page }) => {
       p.c.waitForNavigation({ url: /\/p\// }),
     ]);
 
+    // Fix post not updating in webkit.
+    await delay();
     // Verify post title.
     await cm.shouldHaveTitle(p, def.sd.updated, link);
     // Verify post content.

@@ -11,6 +11,7 @@ import * as def from 'base/def';
 import * as cm from './common';
 import { writeCmt, editCmt } from './actions';
 import * as cps from 'br/com/editing/composer';
+import delay from 'base/delay';
 
 function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ p }) => {
@@ -39,6 +40,7 @@ function testEditCore(w: CmtFixtureWrapper, fresh: boolean) {
             });
           },
         });
+        await delay();
         await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,

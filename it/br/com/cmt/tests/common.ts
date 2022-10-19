@@ -92,7 +92,7 @@ export async function shouldHaveCmtCount(e: { cmtApp: br.Element; count: number 
 }
 
 export async function shouldHaveShownRootCmtCount(el: br.Element, count: number) {
-  await el.$$(`${cmtChildrenSel} > cmt-block`).shouldHaveCount(count);
+  await el.$$(`cmt-block ${cmtChildrenSel}.br-root > cmt-block`).shouldHaveCount(count);
 }
 
 export async function shouldHaveReplyCount(e: { cmtEl: br.Element; count: number; shown: number }) {
