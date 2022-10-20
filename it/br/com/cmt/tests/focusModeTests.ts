@@ -12,7 +12,7 @@ import * as act from './actions';
 import * as sh from 'br/com/overlays/share';
 import { serverURL } from 'base/def';
 
-async function setupEnv(w: CmtFixtureWrapper, p: Page, linkName: string) {
+async function addNestedCmts(w: CmtFixtureWrapper, p: Page, linkName: string) {
   // This creates the following structure:
   // - cmt2
   // - cmt1
@@ -71,9 +71,28 @@ function removeCmtParams(link: string) {
   return url.toString();
 }
 
+function addCmtParams(link: string, id: string) {
+  const url = new URL(link);
+  url.searchParams.set('cmt', id);
+  return url.toString();
+}
+
+async function checkViewAllComments(w: CmtFixtureWrapper, p: Page, cmtApp: Element) {
+  await Promise.all([
+    clickViewAllComments(cmtApp),
+    p.c.waitForNavigation({ url: removeCmtParams(`${serverURL}${w.getHostURL(p)}`) }),
+  ]);
+}
+
+function check404Content(cmtApp: Element) {
+  return cmtApp
+    .$('.focus-mode p')
+    .e.toHaveText('The comment your are looking for is not found and might have been deleted.');
+}
+
 function testReply(w: CmtFixtureWrapper) {
   w.test('Focus reply', usr.user, async ({ p }) => {
-    const link = await setupEnv(w, p, 'reply');
+    const link = await addNestedCmts(w, p, 'reply');
     await p.gotoRaw(link, null);
 
     const cmtApp = await w.getCmtApp(p);
@@ -118,16 +137,13 @@ function testReply(w: CmtFixtureWrapper) {
     await cm.shouldHaveCmtCount({ cmtApp, count: 5 });
 
     // Click view all comments.
-    await Promise.all([
-      clickViewAllComments(cmtApp),
-      p.c.waitForNavigation({ url: removeCmtParams(`${serverURL}${w.getHostURL(p)}`) }),
-    ]);
+    await checkViewAllComments(w, p, cmtApp);
   });
 }
 
 function testCmt(w: CmtFixtureWrapper) {
   w.test('Focus cmt', usr.user, async ({ p }) => {
-    const link = await setupEnv(w, p, 'cmt');
+    const link = await addNestedCmts(w, p, 'cmt');
     await p.gotoRaw(link, null);
 
     const cmtApp = await w.getCmtApp(p);
@@ -148,10 +164,29 @@ function testCmt(w: CmtFixtureWrapper) {
     // Click more replies.
     await act.clickRepliesButton({ cmtEl, replyCount: 2 });
     await cm.shouldHaveReplyCount({ cmtEl, count: 2, shown: 2 });
+
+    // Click view all comments.
+    await checkViewAllComments(w, p, cmtApp);
+  });
+}
+
+function test404Cmt(w: CmtFixtureWrapper) {
+  w.test('Focus 404 cmt', usr.user, async ({ p }) => {
+    const postLink = addCmtParams(`${serverURL}${w.getHostURL(p)}`, '999999');
+    await p.gotoRaw(postLink, null);
+
+    const cmtApp = await w.getCmtApp(p);
+    await checkFocusMode(cmtApp);
+
+    await check404Content(cmtApp);
+
+    // Click view all comments.
+    await checkViewAllComments(w, p, cmtApp);
   });
 }
 
 export default function testFocusMode(w: CmtFixtureWrapper) {
   testReply(w);
   testCmt(w);
+  test404Cmt(w);
 }

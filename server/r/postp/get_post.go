@@ -16,9 +16,8 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
-	"qing/r/api/apicom"
+	"qing/r/rcom"
 	"qing/r/sys"
-	"qing/sod/cmtSod"
 	"qing/sod/postSod"
 
 	"github.com/go-chi/chi/v5"
@@ -38,10 +37,13 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	focusedCmtID, err := clib.DecodeID(focusedCmtIDStr)
 	app.PanicOn(err)
 
+	var postType appdef.ContentBaseType
 	var post da.PostItem
 	if isThread {
+		postType = appdef.ContentBaseTypeThread
 		post, err = da.FPost.SelectItemByID(db, id)
 	} else {
+		postType = appdef.ContentBaseTypePost
 		post, err = da.Post.SelectItemByID(db, id)
 	}
 	app.PanicOn(err)
@@ -65,34 +67,8 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
 	d.Scripts = appHandler.MainPage().AssetManager().Script(postScript)
 
-	var focusModeData *cmtSod.CmtFocusModeData
-	if focusedCmtID > 0 {
-		focusedCmtDB, err := da.Cmt.SelectCmt(db, focusedCmtID)
-		app.PanicOn(err)
-		focusedCmtVal := apicom.NewCmt(&focusedCmtDB)
-
-		postType := appdef.ContentBaseTypePost
-		if isThread {
-			postType = appdef.ContentBaseTypeThread
-		}
-
-		focusModeData = &cmtSod.CmtFocusModeData{}
-		// Check focused cmt belongs to current post.
-		if focusedCmtVal.HostID != id || focusedCmtVal.HostType != uint8(postType) {
-			focusModeData.Is404 = true
-		} else {
-			focusModeData.Cmt = &focusedCmtVal
-			// Fetch parent cmt if needed.
-			if focusedCmtVal.ParentID != nil {
-				focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmtVal.ParentID)
-				app.PanicOn(err)
-				focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
-				focusModeData.ParentCmt = &focusedCmtParentVal
-			}
-		}
-	}
-
-	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, focusModeData)
+	cmtFocusModeData := rcom.GetCmtFocusModeData(focusedCmtID, id, postType)
+	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, cmtFocusModeData)
 	return resp.MustComplete(&d)
 }
 
