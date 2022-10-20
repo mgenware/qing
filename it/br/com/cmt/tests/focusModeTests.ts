@@ -29,6 +29,11 @@ async function setupEnv(w: CmtFixtureWrapper, p: Page, linkName: string) {
     });
   }
   const cmtEl = cm.getNthCmt({ cmtApp, index: 1 });
+  if (linkName === 'cmt') {
+    await cmtEl.$linkButton('Share').click();
+    link = await sh.getLink(p);
+  }
+
   for (let i = 0; i < 2; i++) {
     // eslint-disable-next-line no-await-in-loop
     await act.writeReply(p, {
@@ -120,6 +125,33 @@ function testReply(w: CmtFixtureWrapper) {
   });
 }
 
+function testCmt(w: CmtFixtureWrapper) {
+  w.test('Focus cmt', usr.user, async ({ p }) => {
+    const link = await setupEnv(w, p, 'cmt');
+    await p.gotoRaw(link, null);
+
+    const cmtApp = await w.getCmtApp(p);
+    await checkFocusMode(cmtApp);
+
+    // There is no root `.br-children` in focus mode, get the first cmt-block instead.
+    const cmtEl = cmtApp.$('cmt-block');
+    await cm.shouldHaveCmtCount({ cmtApp, count: 5 });
+
+    // Check cmt.
+    await cm.shouldAppear({
+      cmtEl,
+      author: usr.user,
+      content: 'cmt1',
+    });
+    await cm.shouldHaveReplyCount({ cmtEl, count: 2, shown: 0 });
+
+    // Click more replies.
+    await act.clickRepliesButton({ cmtEl, replyCount: 2 });
+    await cm.shouldHaveReplyCount({ cmtEl, count: 2, shown: 2 });
+  });
+}
+
 export default function testFocusMode(w: CmtFixtureWrapper) {
   testReply(w);
+  testCmt(w);
 }
