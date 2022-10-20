@@ -235,11 +235,11 @@ export class Page {
     return this.c.waitForNavigation({ url: finalUrl });
   }
 
-  goto(url: string, user: User | null, mobile?: boolean) {
+  goto(url: string, user?: User | null, mobile?: boolean) {
     return this.gotoRaw(`${serverURL}${url}`, user, mobile);
   }
 
-  async gotoRaw(url: string, user: User | null, mobile?: boolean) {
+  async gotoRaw(url: string, user?: User | null, mobile?: boolean) {
     if (mobile) {
       await this.setMobileViewport();
     }
