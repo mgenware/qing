@@ -26,7 +26,7 @@ export class ForumHomeAG extends mm.ActionGroup {
   }
 
   private getForumCols(t: Forum): mm.SelectedColumnTypes[] {
-    return [t.id.privateAttr(), t.name, t.order_index, t.thread_count, t.group_id];
+    return [t.id.privateAttr(), t.name, t.order_index, t.fpost_count, t.group_id];
   }
 }
 

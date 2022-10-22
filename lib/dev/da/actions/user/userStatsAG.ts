@@ -14,15 +14,13 @@ function selectFieldAction(col: mm.Column): mm.SelectAction {
 }
 
 export class UserStatsAG extends mm.ActionGroup {
-  selectStats = mm.selectRow(t.post_count, t.thread_count).by(t.id);
+  selectStats = mm.selectRow(t.post_count, t.fpost_count).by(t.id);
 
   updatePostCount = uca.updateCounterAction(t, t.post_count);
   updateFPostCount = uca.updateCounterAction(t, t.fpost_count);
-  updateThreadCount = uca.updateCounterAction(t, t.thread_count);
 
   testSelectPostCount = selectFieldAction(t.post_count);
   testSelectFPostCount = selectFieldAction(t.fpost_count);
-  testSelectThreadCount = selectFieldAction(t.thread_count);
 }
 
 export default mm.actionGroup(t, UserStatsAG);

@@ -29,4 +29,4 @@ const likeableTables = new Map<LikeableTable, LikeTable>(
 export default likeableTables;
 export const postLike = notNull(likeableTables.get(post));
 export const cmtLike = notNull(likeableTables.get(cmt));
-export const threadLike = notNull(likeableTables.get(fpost));
+export const fpostLike = notNull(likeableTables.get(fpost));

@@ -12,7 +12,7 @@ import { threadFeedCols, threadFeedType } from '../fpost/cm.js';
 
 export class ForumAG extends mm.ActionGroup {
   selectForum = mm
-    .selectRow(t.id, t.name, t.desc, t.created_at.privateAttr(), t.thread_count)
+    .selectRow(t.id, t.name, t.desc, t.created_at.privateAttr(), t.fpost_count)
     .by(t.id);
   selectGroupID = mm.selectField(t.group_id).by(t.id);
   selectForumIDsForGroup = mm.selectFieldRows(t.id).where`${t.group_id.isEqualToParam(undefined, {

@@ -31,22 +31,22 @@ func (mrTable *ForumAGType) DeleteItem(mrQueryable mingru.Queryable, id uint64) 
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, threadCount uint, status uint8, name string, descHTML string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `forum` (`order_index`, `created_at`, `group_id`, `thread_count`, `status`, `name`, `desc`) VALUES (?, ?, ?, ?, ?, ?, ?)", orderIndex, rawCreatedAt, groupID, threadCount, status, name, descHTML)
+func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, fpostCount uint, status uint8, name string, descHTML string) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `forum` (`order_index`, `created_at`, `group_id`, `fpost_count`, `status`, `name`, `desc`) VALUES (?, ?, ?, ?, ?, ?, ?)", orderIndex, rawCreatedAt, groupID, fpostCount, status, name, descHTML)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 type ForumAGSelectForumResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
+	FpostCount   uint      `json:"fpostCount,omitempty"`
 	ID           uint64    `json:"id,omitempty"`
 	Name         string    `json:"name,omitempty"`
 	RawCreatedAt time.Time `json:"-"`
-	ThreadCount  uint      `json:"threadCount,omitempty"`
 }
 
 func (mrTable *ForumAGType) SelectForum(mrQueryable mingru.Queryable, id uint64) (ForumAGSelectForumResult, error) {
 	var result ForumAGSelectForumResult
-	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `thread_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.ThreadCount)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `fpost_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.FpostCount)
 	if err != nil {
 		return result, err
 	}

@@ -52,15 +52,15 @@ func (mrTable *ForumHomeAGType) SelectForumGroups(mrQueryable mingru.Queryable) 
 }
 
 type ForumHomeAGSelectForumsResult struct {
-	GroupID     *uint64 `json:"groupID,omitempty"`
-	ID          uint64  `json:"-"`
-	Name        string  `json:"name,omitempty"`
-	OrderIndex  uint    `json:"orderIndex,omitempty"`
-	ThreadCount uint    `json:"threadCount,omitempty"`
+	FpostCount uint    `json:"fpostCount,omitempty"`
+	GroupID    *uint64 `json:"groupID,omitempty"`
+	ID         uint64  `json:"-"`
+	Name       string  `json:"name,omitempty"`
+	OrderIndex uint    `json:"orderIndex,omitempty"`
 }
 
 func (mrTable *ForumHomeAGType) SelectForums(mrQueryable mingru.Queryable) ([]ForumHomeAGSelectForumsResult, error) {
-	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `thread_count`, `group_id` FROM `forum`")
+	rows, err := mrQueryable.Query("SELECT `id`, `name`, `order_index`, `fpost_count`, `group_id` FROM `forum`")
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (mrTable *ForumHomeAGType) SelectForums(mrQueryable mingru.Queryable) ([]Fo
 	defer rows.Close()
 	for rows.Next() {
 		var item ForumHomeAGSelectForumsResult
-		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.ThreadCount, &item.GroupID)
+		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.FpostCount, &item.GroupID)
 		if err != nil {
 			return nil, err
 		}

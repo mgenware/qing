@@ -11,7 +11,7 @@ import forumGroup from './forumGroup.js';
 
 export class Forum extends ForumBase {
   group_id = mm.fk(forumGroup.id).nullable;
-  thread_count = mm.uInt().default(0);
+  fpost_count = mm.uInt().default(0);
   status = mm.uTinyInt().default(0);
 }
 
