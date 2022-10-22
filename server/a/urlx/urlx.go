@@ -109,7 +109,7 @@ func (u *URL) PostAdv(pid uint64, cmtID uint64) string {
 }
 
 func (u *URL) FPost(pid uint64) string {
-	return "/" + appdef.RouteThread + "/" + clib.EncodeID(pid)
+	return "/" + appdef.RouteForumPost + "/" + clib.EncodeID(pid)
 }
 
 func (u *URL) FPostAdv(pid uint64, cmtID uint64) string {

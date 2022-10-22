@@ -19,7 +19,7 @@ func GetCmtHostTable(hostType appdef.ContentBaseType) (mingru.Table, error) {
 	switch hostType {
 	case appdef.ContentBaseTypePost:
 		return da.TablePost, nil
-	case appdef.contentBaseTypeFPost:
+	case appdef.ContentBaseTypeFPost:
 		return da.TableFPost, nil
 	default:
 		return "", fmt.Errorf("unknown cmt host table %v", hostType)
@@ -30,7 +30,7 @@ func GetCmtRelationTable(hostType appdef.ContentBaseType) (mingru.Table, error) 
 	switch hostType {
 	case appdef.ContentBaseTypePost:
 		return da.TablePostCmt, nil
-	case appdef.contentBaseTypeFPost:
+	case appdef.ContentBaseTypeFPost:
 		return da.TableFPostCmt, nil
 	default:
 		return "", fmt.Errorf("unknown cmt relation table %v", hostType)

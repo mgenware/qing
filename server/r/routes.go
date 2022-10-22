@@ -23,13 +23,13 @@ import (
 	"qing/r/authp"
 	"qing/r/devp"
 	"qing/r/forump"
+	"qing/r/fpostp"
 	"qing/r/homep"
 	"qing/r/mp"
 	"qing/r/mxp"
 	"qing/r/postp"
 	"qing/r/profilep"
 	"qing/r/sys"
-	"qing/r/threadp"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/iox"
@@ -57,8 +57,8 @@ func Start() {
 	langRouter().Get("/"+appdef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
 	langRouter().Get("/"+appdef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
-	// Thread router.
-	langRouter().Get("/"+appdef.RouteThread+"/{id}", handler.HTMLHandlerToHTTPHandler(threadp.GetThread))
+	// FPost router.
+	langRouter().Get("/"+appdef.RouteForumPost+"/{id}", handler.HTMLHandlerToHTTPHandler(fpostp.GetFPost))
 	// M (Management) router.
 	langRouter().Mount("/"+appdef.RouteM, mp.Router)
 	// MX (Admin management) router.

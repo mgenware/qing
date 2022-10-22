@@ -51,7 +51,7 @@ func sendMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	title := clib.MustGetStringFromDict(params, "title", appdef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
 
-	_, err := appService.Get().MailService.Send(to, title, content)
+	_, err := appService.Get().Mail.Send(to, title, content)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

@@ -40,7 +40,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	var postType appdef.ContentBaseType
 	var post da.PostItem
 	if isThread {
-		postType = appdef.contentBaseTypeFPost
+		postType = appdef.ContentBaseTypeFPost
 		post, err = da.FPost.SelectItemByID(db, id)
 	} else {
 		postType = appdef.ContentBaseTypePost

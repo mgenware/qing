@@ -52,7 +52,7 @@ func (mrTable *ForumHomeAGType) SelectForumGroups(mrQueryable mingru.Queryable) 
 }
 
 type ForumHomeAGSelectForumsResult struct {
-	FpostCount uint    `json:"fpostCount,omitempty"`
+	FPostCount uint    `json:"fPostCount,omitempty"`
 	GroupID    *uint64 `json:"groupID,omitempty"`
 	ID         uint64  `json:"-"`
 	Name       string  `json:"name,omitempty"`
@@ -68,7 +68,7 @@ func (mrTable *ForumHomeAGType) SelectForums(mrQueryable mingru.Queryable) ([]Fo
 	defer rows.Close()
 	for rows.Next() {
 		var item ForumHomeAGSelectForumsResult
-		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.FpostCount, &item.GroupID)
+		err = rows.Scan(&item.ID, &item.Name, &item.OrderIndex, &item.FPostCount, &item.GroupID)
 		if err != nil {
 			return nil, err
 		}

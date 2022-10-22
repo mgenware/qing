@@ -33,7 +33,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	contentDict := clib.MustGetDictFromDict(params, "content")
 	var title string
-	if entityType == appdef.ContentBaseTypePost || entityType == appdef.contentBaseTypeFPost {
+	if entityType == appdef.ContentBaseTypePost || entityType == appdef.ContentBaseTypeFPost {
 		title = clib.MustGetStringFromDict(contentDict, "title", appdef.LenMaxTitle)
 	}
 
@@ -60,7 +60,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				break
 			}
 
-		case appdef.contentBaseTypeFPost:
+		case appdef.ContentBaseTypeFPost:
 			{
 				insertedID, err := da.FPost.InsertItem(db, uid, contentHTML, title, forumID, sanitizedToken, captResult)
 				app.PanicOn(err)
@@ -81,7 +81,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 				app.PanicOn(err)
 				break
 			}
-		case appdef.contentBaseTypeFPost:
+		case appdef.ContentBaseTypeFPost:
 			{
 				err = da.FPost.EditItem(db, id, uid, contentHTML, title, sanitizedToken)
 				app.PanicOn(err)

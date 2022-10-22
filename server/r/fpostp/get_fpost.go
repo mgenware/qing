@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package threadp
+package fpostp
 
 import (
 	"net/http"
@@ -13,6 +13,6 @@ import (
 	"qing/r/postp"
 )
 
-func GetThread(w http.ResponseWriter, r *http.Request) handler.HTML {
+func GetFPost(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return postp.GetPostCore(w, r, true)
 }

@@ -54,12 +54,12 @@ func NewProfilePageModelFromUser(profile *da.UserAGSelectProfileResult, stats *d
 	d.IconURL = appURL.Get().UserIconURL250(uid, profile.IconName)
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.PostCount = stats.PostCount
-	d.ThreadCount = stats.ThreadCount
+	d.ThreadCount = stats.FpostCount
 	d.FeedListHTML = feedHTML
 	d.PageBarHTML = pageBarHTML
 
 	d.ProfilePostsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyPosts, 1)
-	d.ProfileThreadsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyThreads, 1)
+	d.ProfileThreadsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyForumPosts, 1)
 	return d
 }
 

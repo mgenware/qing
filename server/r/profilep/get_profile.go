@@ -51,7 +51,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var hasNext bool
 
 	var posts []da.PostItemForProfile
-	if tab == appdef.KeyThreads {
+	if tab == appdef.KeyForumPosts {
 		posts, hasNext, err = da.FPost.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	} else {
 		posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)

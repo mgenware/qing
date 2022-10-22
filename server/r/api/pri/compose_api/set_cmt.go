@@ -83,7 +83,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			link, err := apicom.GetCmtPostHostLink(&host, cmtID)
 			app.PanicOn(err)
 			noti := notix.NewNotiItem(uid, notiToID, host, action, link)
-
+			err = appService.Get().Noti.SendNoti(&noti, user.Name)
+			app.PanicOn(err)
 		}
 
 		// Construct a DB cmt object without interacting with DB.

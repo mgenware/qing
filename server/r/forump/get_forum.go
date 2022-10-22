@@ -41,7 +41,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	forum, err := da.Forum.SelectForum(db, fid)
 	app.PanicOn(err)
 
-	items, hasNext, err := da.Forum.SelectThreads(db, &fid, page, defaultPageSize)
+	items, hasNext, err := da.Forum.SelectFPosts(db, &fid, page, defaultPageSize)
 	app.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder

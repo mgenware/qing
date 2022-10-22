@@ -45,7 +45,7 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 			app.PanicOn(err)
 			break
 		}
-	case int(appdef.contentBaseTypeFPost):
+	case int(appdef.ContentBaseTypeFPost):
 		{
 			err = da.FPost.TestUpdateDates(db, id, defTime, defTime)
 			app.PanicOn(err)

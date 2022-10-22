@@ -120,11 +120,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := getUIDFromRequest(r)
 
 	db := appDB.DB()
-	// Try selecting the user before deleting it.
-	// It will panic if not exists.
-	_, err := da.User.SelectSessionData(db, uid)
-	app.PanicOn(err)
-	err = da.User.TestEraseUser(db, uid)
+	err := da.User.TestEraseUser(db, uid)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

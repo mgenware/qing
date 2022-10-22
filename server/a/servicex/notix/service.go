@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/appService"
+	"qing/a/servicex/mailx"
 	"qing/da"
 	"qing/lib/clib"
 
@@ -19,10 +19,11 @@ import (
 )
 
 type Service struct {
+	MailService *mailx.MailService
 }
 
-func NewNotiService() *Service {
-	return &Service{}
+func NewNotiService(mailService *mailx.MailService) *Service {
+	return &Service{MailService: mailService}
 }
 
 // `fromName` is only used for sending emails.
@@ -60,7 +61,7 @@ func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 	if err != nil {
 		return err
 	}
-	_, err = appService.Get().MailService.Send(email, mailData.Desc, mailHTML)
+	_, err = s.MailService.Send(email, mailData.Desc, mailHTML)
 	if err != nil {
 		return err
 	}

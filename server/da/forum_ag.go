@@ -31,14 +31,14 @@ func (mrTable *ForumAGType) DeleteItem(mrQueryable mingru.Queryable, id uint64) 
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, fpostCount uint, status uint8, name string, descHTML string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `forum` (`order_index`, `created_at`, `group_id`, `fpost_count`, `status`, `name`, `desc`) VALUES (?, ?, ?, ?, ?, ?, ?)", orderIndex, rawCreatedAt, groupID, fpostCount, status, name, descHTML)
+func (mrTable *ForumAGType) InsertItem(mrQueryable mingru.Queryable, orderIndex uint, rawCreatedAt time.Time, groupID *uint64, fPostCount uint, status uint8, name string, descHTML string) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `forum` (`order_index`, `created_at`, `group_id`, `fpost_count`, `status`, `name`, `desc`) VALUES (?, ?, ?, ?, ?, ?, ?)", orderIndex, rawCreatedAt, groupID, fPostCount, status, name, descHTML)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 type ForumAGSelectForumResult struct {
 	DescHTML     string    `json:"descHTML,omitempty"`
-	FpostCount   uint      `json:"fpostCount,omitempty"`
+	FPostCount   uint      `json:"fPostCount,omitempty"`
 	ID           uint64    `json:"id,omitempty"`
 	Name         string    `json:"name,omitempty"`
 	RawCreatedAt time.Time `json:"-"`
@@ -46,7 +46,7 @@ type ForumAGSelectForumResult struct {
 
 func (mrTable *ForumAGType) SelectForum(mrQueryable mingru.Queryable, id uint64) (ForumAGSelectForumResult, error) {
 	var result ForumAGSelectForumResult
-	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `fpost_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.FpostCount)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `desc`, `created_at`, `fpost_count` FROM `forum` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.DescHTML, &result.RawCreatedAt, &result.FPostCount)
 	if err != nil {
 		return result, err
 	}
@@ -75,30 +75,7 @@ func (mrTable *ForumAGType) SelectForumIDsForGroup(mrQueryable mingru.Queryable,
 	return result, nil
 }
 
-func (mrTable *ForumAGType) SelectGroupID(mrQueryable mingru.Queryable, id uint64) (*uint64, error) {
-	var result *uint64
-	err := mrQueryable.QueryRow("SELECT `group_id` FROM `forum` WHERE `id` = ?", id).Scan(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-type ForumAGSelectInfoForEditingResult struct {
-	DescHTML string `json:"descHTML,omitempty"`
-	Name     string `json:"name,omitempty"`
-}
-
-func (mrTable *ForumAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumAGSelectInfoForEditingResult, error) {
-	var result ForumAGSelectInfoForEditingResult
-	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-}
-
-func (mrTable *ForumAGType) SelectThreads(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
+func (mrTable *ForumAGType) SelectFPosts(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -133,6 +110,29 @@ func (mrTable *ForumAGType) SelectThreads(mrQueryable mingru.Queryable, forumID 
 		return nil, false, err
 	}
 	return result, itemCounter > len(result), nil
+}
+
+func (mrTable *ForumAGType) SelectGroupID(mrQueryable mingru.Queryable, id uint64) (*uint64, error) {
+	var result *uint64
+	err := mrQueryable.QueryRow("SELECT `group_id` FROM `forum` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+type ForumAGSelectInfoForEditingResult struct {
+	DescHTML string `json:"descHTML,omitempty"`
+	Name     string `json:"name,omitempty"`
+}
+
+func (mrTable *ForumAGType) SelectInfoForEditing(mrQueryable mingru.Queryable, id uint64) (ForumAGSelectInfoForEditingResult, error) {
+	var result ForumAGSelectInfoForEditingResult
+	err := mrQueryable.QueryRow("SELECT `name`, `desc` FROM `forum` WHERE `id` = ?", id).Scan(&result.Name, &result.DescHTML)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }
 
 func (mrTable *ForumAGType) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {

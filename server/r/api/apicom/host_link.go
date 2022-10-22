@@ -19,7 +19,7 @@ func GetCmtPostHostLink(host *clib.EntityInfo, cmtID uint64) (string, error) {
 	case appdef.ContentBaseTypePost:
 		return appURL.Get().PostAdv(host.ID, cmtID), nil
 
-	case appdef.contentBaseTypeFPost:
+	case appdef.ContentBaseTypeFPost:
 		return appURL.Get().FPostAdv(host.ID, cmtID), nil
 
 	default:

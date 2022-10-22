@@ -38,7 +38,7 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			result = appURL.Get().UserProfile(uid)
 			break
 		}
-	case appdef.contentBaseTypeFPost:
+	case appdef.ContentBaseTypeFPost:
 		{
 			err = da.FPost.DeleteItem(db, id, uid)
 			app.PanicOn(err)
