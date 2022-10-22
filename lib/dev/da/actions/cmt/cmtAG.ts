@@ -31,6 +31,7 @@ export class CmtAG extends mm.ActionGroup {
     .resultTypeNameAttr(getEntitySrcType);
 
   selectHostInfo = mm.selectRow(t.host_id, t.host_type).by(t.id);
+  selectUserID = mm.selectField(t.user_id).by(t.id);
 
   // Used in focused cmt mode, where a single cmt along with its parent are shown.
   selectCmt: mm.SelectAction;

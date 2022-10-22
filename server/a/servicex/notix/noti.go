@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package noti
+package notix
 
 import (
 	"qing/lib/clib"
@@ -13,9 +13,11 @@ import (
 )
 
 const (
-	NotiActionToPost = 1
-	NotiActionToCmt  = 2
+	NotiActionToPost NotiAction = iota
+	NotiActionToCmt
 )
+
+type NotiAction int
 
 type NotiItem struct {
 	From uint64
@@ -23,7 +25,13 @@ type NotiItem struct {
 	// NOTE: `PostEntity` must be a post. Cmts are not allowed, use `NotiActionToCmt` to mark it's
 	// replying to a cmt.
 	PostEntity clib.EntityInfo
-	Action     uint8
+	Action     NotiAction
 	NavLink    string
 	Created    time.Time
+}
+
+func NewNotiItem(from, to uint64, post clib.EntityInfo, action NotiAction, navLink string) NotiItem {
+	return NotiItem{
+		From: from, To: to, PostEntity: post, Action: action, NavLink: navLink, Created: time.Now(),
+	}
 }

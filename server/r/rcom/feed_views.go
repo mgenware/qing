@@ -54,7 +54,7 @@ func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {
 	d.UserURL = appURL.Get().UserProfile(d.UserID)
 	d.UserIconURL = appURL.Get().UserIconURL50(d.UserID, d.UserIconName)
 
-	d.Link = appURL.Get().Thread(d.ID)
+	d.Link = appURL.Get().FPost(d.ID)
 	return d
 }
 

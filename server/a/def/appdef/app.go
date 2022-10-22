@@ -77,6 +77,7 @@ const (
 	KeyComments = "comments"
 	KeyMessages = "messages"
 	KeyLang = "lang"
+	KeyCmt = "cmt"
 )
 
 const (

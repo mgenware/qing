@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package noti
+package notix
 
 import (
 	"qing/a/appHandler"

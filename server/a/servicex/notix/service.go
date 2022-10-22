@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package noti
+package notix
 
 import (
 	"fmt"
@@ -21,12 +21,12 @@ import (
 type Service struct {
 }
 
-func NewService() *Service {
+func NewNotiService() *Service {
 	return &Service{}
 }
 
 // `fromName` is only used for sending emails.
-func (s *Service) SendNoti(noti NotiItem, fromName string) error {
+func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 	db := appDB.Get().DB()
 	// Determine user's language.
 	lang, email, err := s.getUserLangAndEmail(noti.To)

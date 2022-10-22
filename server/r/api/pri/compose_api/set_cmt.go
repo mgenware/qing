@@ -8,12 +8,14 @@
 package composeapi
 
 import (
+	"fmt"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appService"
 	"qing/a/def/appdef"
 	"qing/a/handler"
+	"qing/a/servicex/notix"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
@@ -48,17 +50,40 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		captResult := 0
 		var cmtID uint64
+		var notiToID uint64
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, host.ID, uint8(host.Type), parentID, uid, sanitizedToken, captResult)
+			app.PanicOn(err)
+			parentUID, err := da.Cmt.SelectUserID(db, parentID)
+			app.PanicOn(err)
+			if parentUID == nil {
+				panic(fmt.Errorf("cannot reply to a deleted cmt, id: %v", parentID))
+			}
+			notiToID = *parentUID
 		} else {
 			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, host.ID, uint8(host.Type), uid, sanitizedToken, captResult)
+			app.PanicOn(err)
+			hostUser, err := da.ContentBaseStatic.SelectUserID(db, cmtHostTable, host.ID)
+			app.PanicOn(err)
+			notiToID = hostUser
 		}
-		app.PanicOn(err)
 
 		// Update `last_replied_at` if necessary.
 		if host.Type == appdef.ContentBaseTypePost {
 			err = da.Post.RefreshLastRepliedAt(db, host.ID)
 			app.PanicOn(err)
+		}
+
+		// Noti.
+		if uid != notiToID {
+			action := notix.NotiActionToPost
+			if parentID != 0 {
+				action = notix.NotiActionToCmt
+			}
+			link, err := apicom.GetCmtPostHostLink(&host, cmtID)
+			app.PanicOn(err)
+			noti := notix.NewNotiItem(uid, notiToID, host, action, link)
+
 		}
 
 		// Construct a DB cmt object without interacting with DB.

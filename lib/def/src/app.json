@@ -41,7 +41,8 @@
         "likes": "likes",
         "comments": "comments",
         "messages": "messages",
-        "lang": "lang"
+        "lang": "lang",
+        "cmt": "cmt"
       }
     },
     "len": {

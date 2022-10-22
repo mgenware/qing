@@ -316,6 +316,15 @@ func (mrTable *CmtAGType) SelectReplySource(mrQueryable mingru.Queryable, id uin
 	return result, nil
 }
 
+func (mrTable *CmtAGType) SelectUserID(mrQueryable mingru.Queryable, id uint64) (*uint64, error) {
+	var result *uint64
+	err := mrQueryable.QueryRow("SELECT `user_id` FROM `cmt` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (mrTable *CmtAGType) UpdateReplyCount(mrQueryable mingru.Queryable, id uint64, offset int) error {
 	result, err := mrQueryable.Exec("UPDATE `cmt` SET `cmt_count` = `cmt_count` + ? WHERE `id` = ?", offset, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

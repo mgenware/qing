@@ -10,6 +10,8 @@ import contentBaseTableParam from '../../models/com/contentBaseTableParam.js';
 import { updateCounterAction } from './updateCounterAction.js';
 
 class ContentBaseStaticAG extends mm.ActionGroup {
+  selectUserID = mm.selectField(contentBaseTableParam.user_id).by(contentBaseTableParam.id);
+
   updateCmtCount = updateCounterAction(contentBaseTableParam, contentBaseTableParam.cmt_count);
 }
 

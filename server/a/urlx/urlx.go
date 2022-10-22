@@ -8,7 +8,6 @@
 package urlx
 
 import (
-	"fmt"
 	"net/url"
 	"qing/a/config"
 	"qing/a/def"
@@ -96,16 +95,34 @@ func (u *URL) Post(pid uint64) string {
 	return "/" + appdef.RoutePost + "/" + clib.EncodeID(pid)
 }
 
-func (u *URL) ThreadWithPage(pid uint64, page int) string {
-	s := "/" + appdef.RouteThread + "/" + clib.EncodeID(pid)
-	if page > 1 {
-		s += fmt.Sprintf("&%v=%v", appdef.KeyPage, page)
+func (u *URL) PostAdv(pid uint64, cmtID uint64) string {
+	s := u.Post(pid)
+	qs := url.Values{}
+	if cmtID > 0 {
+		qs.Set(appdef.KeyCmt, clib.EncodeID(cmtID))
+	}
+
+	if len(qs) > 0 {
+		return s + "?" + qs.Encode()
 	}
 	return s
 }
 
-func (u *URL) Thread(tid uint64) string {
-	return u.ThreadWithPage(tid, 1)
+func (u *URL) FPost(pid uint64) string {
+	return "/" + appdef.RouteThread + "/" + clib.EncodeID(pid)
+}
+
+func (u *URL) FPostAdv(pid uint64, cmtID uint64) string {
+	s := u.FPost(pid)
+	qs := url.Values{}
+	if cmtID > 0 {
+		qs.Set(appdef.KeyCmt, clib.EncodeID(cmtID))
+	}
+
+	if len(qs) > 0 {
+		return s + "?" + qs.Encode()
+	}
+	return s
 }
 
 func (u *URL) SignIn() string {
