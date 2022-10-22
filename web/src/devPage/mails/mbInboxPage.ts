@@ -10,6 +10,7 @@ import 'ui/alerts/noContentView';
 import * as mailsRoute from '@qing/routes/d/dev/mails';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
+import './mbDate';
 
 @customElement('mb-inbox-page')
 export class MBInboxPage extends BaseElement {
@@ -46,7 +47,7 @@ export class MBInboxPage extends BaseElement {
                 m.dirName,
               )}`}>
               <h3>${m.title}</h3>
-              <p>${new Date((m.ts || 0) * 1000)}</p>
+              <mb-date .ts=${m.ts}></mb-date>
               <hr />
             </a>`,
           )}

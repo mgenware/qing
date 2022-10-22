@@ -23,12 +23,13 @@ const devTitleFile = "title.txt"
 const devContentFile = "content.html"
 
 type DevMail struct {
-	Title   string    `json:"title,omitempty"`
-	Date    time.Time `json:"-"`
-	Content string    `json:"content,omitempty"`
+	Title   string `json:"title,omitempty"`
+	Content string `json:"content,omitempty"`
+	// The directory name of this mail. Usually a unix timestamp.
 	// Example: 2022-08-06T172921.594824688Z
 	DirName string `json:"dirName,omitempty"`
-	TS      int64  `json:"ts,omitempty"`
+	// Computed from `DirName`, used for sorting.
+	TS int64 `json:"ts,omitempty"`
 }
 
 func getDevConfig() (*configs.MailBoxConfig, error) {
@@ -57,7 +58,7 @@ func mustParseDirTS(s string) time.Time {
 
 func NewDevMail(title, content, dirName string) *DevMail {
 	date := mustParseDirTS(dirName)
-	return &DevMail{Title: title, Content: content, Date: date, TS: date.Unix(), DirName: dirName}
+	return &DevMail{Title: title, Content: content, TS: date.Unix(), DirName: dirName}
 }
 
 func ListUsers() ([]string, error) {
@@ -149,7 +150,7 @@ func GetLastMail(user string, last int) (*DevMail, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &DevMail{Title: title, Content: content}, nil
+	return NewDevMail(title, content, mailDirName), nil
 }
 
 func GetMail(user, dirName string) (*DevMail, error) {
@@ -174,7 +175,7 @@ func GetMail(user, dirName string) (*DevMail, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &DevMail{Title: title, Content: content}, nil
+	return NewDevMail(title, content, dirName), nil
 }
 
 func EraseUser(user string) error {
