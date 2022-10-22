@@ -104,9 +104,11 @@ export function clickMoreReplies(a: CmtElArgs) {
 
 export interface ClickRepliesArgs extends CmtElArgs {
   replyCount: number;
+  collapse?: boolean;
 }
 
 export function clickRepliesButton(a: ClickRepliesArgs) {
-  const text = a.replyCount === 1 ? '1 reply' : `${a.replyCount || 'No'} replies`;
+  const text =
+    a.replyCount === 1 ? '1 reply' : `${a.replyCount || 'No'} replies` + (a.collapse ? ' ↑' : '');
   return a.cmtEl.$linkButton(text).click();
 }

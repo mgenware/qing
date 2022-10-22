@@ -111,7 +111,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
     }
     // Validate user inputs.
     try {
-      if (!this.name) {
+      if (!this.forumName) {
         throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
       }
     } catch (err) {
@@ -120,7 +120,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
       return;
     }
     const descHTML = this.descEditorView.contentHTML;
-    const loader = new SetForumEditingInfoLoader(this.fid, this.name, descHTML);
+    const loader = new SetForumEditingInfoLoader(this.fid, this.forumName, descHTML);
     await appTask.critical(loader, ls.saving, (s) => {
       this.updateInfoStatus = s;
     });

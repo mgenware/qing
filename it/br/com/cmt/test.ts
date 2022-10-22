@@ -20,6 +20,7 @@ import testDismissAndDiscardChanges from './tests/dismissAndDiscardChangesTests'
 import testErase from './tests/eraseCmtTests';
 import testShare from './tests/shareCmtTests';
 import testFocusMode from './tests/focusModeTests';
+import testCollapseReplies from './tests/collapseReplies';
 
 export default function testCmt(groupName: string, fixture: CmtFixture) {
   const w = new CmtFixtureWrapper(groupName, fixture);
@@ -34,4 +35,5 @@ export default function testCmt(groupName: string, fixture: CmtFixture) {
   testDismissAndDiscardChanges(w);
   testShare(w);
   testFocusMode(w);
+  testCollapseReplies(w);
 }
