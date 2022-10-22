@@ -6,8 +6,8 @@ export function entityTypeToLS(entityType: number): string {
   switch (entityType) {
     case appdef.contentBaseTypePost:
       return ls.post;
-    case appdef.contentBaseTypeThread:
-      return ls.thread;
+    case appdef.contentBaseTypeFPost:
+      return ls.fPost;
     case appdef.contentBaseTypeCmt:
       return ls.comment;
     default: {

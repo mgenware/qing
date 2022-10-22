@@ -72,8 +72,8 @@ ready(() => {
         title = ls.newPost;
         break;
       }
-      case appdef.contentBaseTypeThread: {
-        title = ls.newThread;
+      case appdef.contentBaseTypeFPost: {
+        title = ls.newFPost;
         break;
       }
       default: {

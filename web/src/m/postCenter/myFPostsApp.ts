@@ -15,8 +15,8 @@ import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
 import PCPost from './pcPost';
 import { runNewEntityCommand } from 'app/appCommands';
 
-@customElement('my-threads-app')
-export default class MyThreadsApp extends PCListApp {
+@customElement('my-fposts-app')
+export default class MyFPostsApp extends PCListApp {
   static override get styles() {
     return [
       super.styles,
@@ -36,7 +36,7 @@ export default class MyThreadsApp extends PCListApp {
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      appdef.contentBaseTypeThread,
+      appdef.contentBaseTypeFPost,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -47,10 +47,10 @@ export default class MyThreadsApp extends PCListApp {
   sectionHeader(): TemplateResult {
     return html`
       <heading-view>
-        <div>${ls.yourThreads}</div>
+        <div>${ls.yourFPosts}</div>
         <div slot="decorator">
-          <qing-button btnStyle="success" @click=${this.handleNewThreadClick}
-            >${ls.newThread}</qing-button
+          <qing-button btnStyle="success" @click=${this.handleNewFPostClick}
+            >${ls.newFPost}</qing-button
           >
         </div>
       </heading-view>
@@ -86,13 +86,13 @@ export default class MyThreadsApp extends PCListApp {
     return true;
   }
 
-  private handleNewThreadClick() {
-    runNewEntityCommand(appdef.contentBaseTypeThread, null);
+  private handleNewFPostClick() {
+    runNewEntityCommand(appdef.contentBaseTypeFPost, null);
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-threads-app': MyThreadsApp;
+    'my-fposts-app': MyFPostsApp;
   }
 }

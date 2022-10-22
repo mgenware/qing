@@ -25,14 +25,14 @@ type ContentBaseType int
 const (
 	ContentBaseTypePost ContentBaseType = iota + 1
 	ContentBaseTypeCmt
-	ContentBaseTypeThread
+	ContentBaseTypeFPost
 )
 
 type HomePageFeedType int
 
 const (
 	HomePageFeedTypePost HomePageFeedType = iota + 1
-	HomePageFeedTypeThread
+	HomePageFeedTypeFPost
 )
 
 type CommunityMode int
@@ -56,7 +56,7 @@ const (
 	RouteApi = "s"
 	RouteForum = "f"
 	RouteForumGroup = "g"
-	RouteThread = "t"
+	RouteForumPost = "t"
 	RouteDev = "__"
 	RouteAuth = "auth"
 	RoutePost = "p"
@@ -70,7 +70,7 @@ const (
 	KeyPageSize = "pageSize"
 	KeyTab = "tab"
 	KeyValue = "value"
-	KeyThreads = "threads"
+	KeyForumPosts = "forumPosts"
 	KeyCommunitySettings = "communitySettings"
 	KeyCreated = "createdAt"
 	KeyLikes = "likes"

@@ -13,7 +13,7 @@ import (
 )
 
 var dbSources = map[appdef.ContentBaseType]da.LikeInterface{
-	appdef.ContentBaseTypePost:   da.PostLike,
-	appdef.ContentBaseTypeCmt:    da.CmtLike,
-	appdef.ContentBaseTypeThread: da.FPostLike,
+	appdef.ContentBaseTypePost:  da.PostLike,
+	appdef.ContentBaseTypeCmt:   da.CmtLike,
+	appdef.contentBaseTypeFPost: da.FPostLike,
 }

@@ -8,7 +8,7 @@
 const m = '/m';
 
 export const yourPosts = `${m}/your-posts`;
-export const yourThreads = `${m}/your-threads`;
+export const yourFPosts = `${m}/your-fposts`;
 const settings = `${m}/settings`;
 export const profileSettings = `${settings}/profile`;
 export const langSettings = `${settings}/lang`;

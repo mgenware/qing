@@ -21,7 +21,7 @@ func FetchEntityTitle(db mingru.Queryable, entity *EntityInfo) (string, error) {
 	case appdef.ContentBaseTypePost:
 		return da.Post.SelectTitle(db, id)
 
-	case appdef.ContentBaseTypeThread:
+	case appdef.contentBaseTypeFPost:
 		return da.FPost.SelectTitle(db, id)
 
 	default:

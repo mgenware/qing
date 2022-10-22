@@ -24,13 +24,13 @@ export class ForumAG extends mm.ActionGroup {
   updateInfo = mm.updateOne().setParams(t.name, t.desc).by(t.id);
   insertItem = mm.insertOne().setParams(t.name, t.desc).setParams();
 
-  // Select threads.
-  selectThreads: mm.SelectAction;
+  // Select posts.
+  selectFPosts: mm.SelectAction;
 
   constructor() {
     super();
 
-    this.selectThreads = mm
+    this.selectFPosts = mm
       .selectRows(...threadFeedCols())
       .from(fpost)
       .by(fpost.forum_id)

@@ -27,7 +27,7 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
       case appdef.contentBaseTypePost:
         return mpRoute.posts;
 
-      case appdef.contentBaseTypeThread:
+      case appdef.contentBaseTypeFPost:
         return mpRoute.threads;
 
       default:

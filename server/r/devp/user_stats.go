@@ -27,7 +27,7 @@ func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 func userThreadCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
-	c, err := da.UserStats.TestSelectThreadCount(appDB.DB(), uid)
+	c, err := da.UserStats.TestSelectFPostCount(appDB.DB(), uid)
 	app.PanicOn(err)
 	return resp.MustComplete(c)
 }

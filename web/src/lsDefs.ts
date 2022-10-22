@@ -107,7 +107,7 @@ export default interface LSDefs {
   goToPage: string;
   invalidPageNumber: string;
   pageNumberOutOfBounds: string;
-  yourThreads: string;
+  yourFPosts: string;
   numOfReplies: string;
   send: string;
   home: string;
@@ -123,8 +123,8 @@ export default interface LSDefs {
   removeAdminConfirmation: string;
   actions: string;
   thisIsYou: string;
-  numOfThreads: string;
-  allThreads: string;
+  numOfFPosts: string;
+  allFPosts: string;
   general: string;
   moderators: string;
   description: string;
@@ -151,9 +151,9 @@ export default interface LSDefs {
   signInToLikeThisEntity: string;
   link: string;
   goToMyReply: string;
-  thread: string;
-  threads: string;
-  newThread: string;
+  fPost: string;
+  fPosts: string;
+  newFPost: string;
   postAReply: string;
   signInToLikeThisReply: string;
   forums: string;

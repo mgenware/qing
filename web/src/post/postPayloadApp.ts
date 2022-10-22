@@ -35,7 +35,7 @@ export class PostPayloadApp extends BaseElement {
   override render() {
     const hostID = postWind.id;
     const contentType = postWind.isThread
-      ? appdef.contentBaseTypeThread
+      ? appdef.contentBaseTypeFPost
       : appdef.contentBaseTypePost;
     return html`
       <div>

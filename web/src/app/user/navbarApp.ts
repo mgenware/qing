@@ -356,15 +356,15 @@ export default class NavbarApp extends BaseElement {
         <div class="list">
           <a href=${user.url}>${ls.profile}</a>
           <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-          <a href=${mRoute.yourThreads}>${ls.yourThreads}</a>
+          <a href=${mRoute.yourFPosts}>${ls.yourFPosts}</a>
           <hr />
           <a href="#" @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypePost)}
             >${ls.newPost}</a
           >
           <a
             href="#"
-            @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypeThread)}
-            >${ls.newThread}</a
+            @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypeFPost)}
+            >${ls.newFPost}</a
           >
           <hr />
           <a href=${mRoute.profileSettings}>${ls.settings}</a>

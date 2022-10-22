@@ -13,7 +13,7 @@ import './settings/mSettings';
 import './settings/profile/profileSettings';
 import './settings/lang/langSettings';
 import './postCenter/myPostsApp';
-import './postCenter/myThreadsApp';
+import './postCenter/myFPostsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import * as pu from 'lib/pageUtil';
 
@@ -35,8 +35,8 @@ router.register(mRoute.langSettings, () => {
 router.register(mRoute.yourPosts, () => {
   pu.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
-router.register(mRoute.yourThreads, () => {
-  pu.setTitleAndMainContent([ls.yourThreads], html`<my-threads-app></my-threads-app>`);
+router.register(mRoute.yourFPosts, () => {
+  pu.setTitleAndMainContent([ls.yourFPosts], html`<my-threads-app></my-threads-app>`);
 });
 
 router.startOnce();

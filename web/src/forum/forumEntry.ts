@@ -13,9 +13,9 @@ import 'ui/lists/tabView';
 import { tabViewActiveClass } from 'ui/lists/tabView';
 // Required by empty content view.
 import 'ui/alerts/noContentView';
-import './newThreadApp';
+import './newFPostApp';
 
-const defaultHighlightedTab = 'threads';
+const defaultHighlightedTab = appdef.keyForumPosts;
 
 ready(() => {
   // Highlight the selected tab.

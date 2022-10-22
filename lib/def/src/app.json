@@ -7,8 +7,8 @@
   "apiLangParam": "__l",
   "errGeneric": 1,
   "__enums": {
-    "contentBaseType": { "values": ["post", "cmt", "thread"] },
-    "homePageFeedType": { "values": ["post", "thread"] },
+    "contentBaseType": { "values": ["post", "cmt", "fPost"] },
+    "homePageFeedType": { "values": ["post", "fPost"] },
     "communityMode": { "values": ["disabled", "community", "forums"] },
     "delFlags": { "values": ["self", "host"] },
     "route": {
@@ -19,7 +19,7 @@
         "api": "s",
         "forum": "f",
         "forumGroup": "g",
-        "thread": "t",
+        "forumPost": "t",
         "dev": "__",
         "auth": "auth",
         "post": "p",
@@ -35,7 +35,7 @@
         "pageSize": "pageSize",
         "tab": "tab",
         "value": "value",
-        "threads": "threads",
+        "forumPosts": "forumPosts",
         "communitySettings": "communitySettings",
         "created": "createdAt",
         "likes": "likes",
