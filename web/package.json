@@ -31,8 +31,8 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/mocha": "^10.0.0",
-    "@web/test-runner": "^0.14.0",
-    "@web/test-runner-playwright": "^0.8.10",
+    "@web/test-runner": "^0.15.0",
+    "@web/test-runner-playwright": "^0.9.0",
     "esbuild-plugin-minify-html-literals": "^1.0.1",
     "html-validate": "7.6.0",
     "lit-analyzer": "2.0.0-pre.2",
