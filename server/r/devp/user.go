@@ -120,8 +120,10 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := getUIDFromRequest(r)
 
 	db := appDB.DB()
-	err := da.User.TestEraseUser(db, uid)
-	app.PanicOn(err)
+	da.UserPwd.TestDelete(db, uid)
+	da.UserAuth.TestDelete(db, uid)
+	da.UserStats.TestDelete(db, uid)
+	da.User.TestDelete(db, uid)
 	return resp.MustComplete(nil)
 }
 

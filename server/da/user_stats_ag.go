@@ -35,6 +35,11 @@ func (mrTable *UserStatsAGType) SelectStats(mrQueryable mingru.Queryable, id uin
 	return result, nil
 }
 
+func (mrTable *UserStatsAGType) TestDelete(mrQueryable mingru.Queryable, id uint64) (int, error) {
+	result, err := mrQueryable.Exec("DELETE FROM `user_stats` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
 func (mrTable *UserStatsAGType) TestSelectFPostCount(mrQueryable mingru.Queryable, id uint64) (uint, error) {
 	var result uint
 	err := mrQueryable.QueryRow("SELECT `fpost_count` FROM `user_stats` WHERE `id` = ?", id).Scan(&result)

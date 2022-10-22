@@ -70,10 +70,7 @@ export class UserAG extends mm.ActionGroup {
     .transact(...this.getAddUserEntryTXMembers())
     .setReturnValues(addUserInsertedIDVar);
 
-  testEraseUser = mm.transact(
-    mm.deleteSome().by(t.id),
-    mm.deleteSome().from(userStats).by(userStats.id),
-  );
+  testDelete = mm.deleteSome().by(t.id);
 }
 
 export default mm.actionGroup(t, UserAG);

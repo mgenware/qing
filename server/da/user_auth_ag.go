@@ -25,3 +25,8 @@ func (mrTable *UserAuthAGType) AddUserAuth(mrQueryable mingru.Queryable, id uint
 	_, err := mrQueryable.Exec("INSERT INTO `user_auth` (`id`, `auth_type`) VALUES (?, ?)", id, authType)
 	return err
 }
+
+func (mrTable *UserAuthAGType) TestDelete(mrQueryable mingru.Queryable, id uint64) (int, error) {
+	result, err := mrQueryable.Exec("DELETE FROM `user_auth` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}

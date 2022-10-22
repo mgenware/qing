@@ -10,6 +10,7 @@ import t from '../../models/user/userAuth.js';
 
 export class UserAuthAG extends mm.ActionGroup {
   addUserAuth = mm.insertOne().setParams();
+  testDelete = mm.deleteSome().by(t.id);
 }
 
 export default mm.actionGroup(t, UserAuthAG);

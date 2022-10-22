@@ -21,6 +21,7 @@ export class UserStatsAG extends mm.ActionGroup {
 
   testSelectPostCount = selectFieldAction(t.post_count);
   testSelectFPostCount = selectFieldAction(t.fpost_count);
+  testDelete = mm.deleteSome().by(t.id);
 }
 
 export default mm.actionGroup(t, UserStatsAG);

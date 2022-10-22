@@ -76,3 +76,8 @@ func (mrTable *UserPwdAGType) SelectHashByID(mrQueryable mingru.Queryable, id ui
 	}
 	return result, nil
 }
+
+func (mrTable *UserPwdAGType) TestDelete(mrQueryable mingru.Queryable, id uint64) (int, error) {
+	result, err := mrQueryable.Exec("DELETE FROM `user_pwd` WHERE `id` = ?", id)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}

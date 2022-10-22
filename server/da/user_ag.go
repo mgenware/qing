@@ -221,30 +221,9 @@ func (mrTable *UserAGType) TestAddUser(db *sql.DB, email string, name string, re
 	return insertedUserIDExported, txErr
 }
 
-func (mrTable *UserAGType) testEraseUserChild1(mrQueryable mingru.Queryable, id uint64) (int, error) {
+func (mrTable *UserAGType) TestDelete(mrQueryable mingru.Queryable, id uint64) (int, error) {
 	result, err := mrQueryable.Exec("DELETE FROM `user` WHERE `id` = ?", id)
 	return mingru.GetRowsAffectedIntWithError(result, err)
-}
-
-func (mrTable *UserAGType) testEraseUserChild2(mrQueryable mingru.Queryable, id uint64) (int, error) {
-	result, err := mrQueryable.Exec("DELETE FROM `user_stats` WHERE `id` = ?", id)
-	return mingru.GetRowsAffectedIntWithError(result, err)
-}
-
-func (mrTable *UserAGType) TestEraseUser(db *sql.DB, id uint64) error {
-	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
-		var err error
-		_, err = mrTable.testEraseUserChild1(tx, id)
-		if err != nil {
-			return err
-		}
-		_, err = mrTable.testEraseUserChild2(tx, id)
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-	return txErr
 }
 
 type UserAGUnsafeSelectAdminsResult struct {

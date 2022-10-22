@@ -28,6 +28,7 @@ export class UserPwdAG extends mm.ActionGroup {
       }),
     )
     .setReturnValues(addUserInsertedIDVar);
+  testDelete = mm.deleteSome().by(t.id);
 }
 
 export default mm.actionGroup(t, UserPwdAG);
