@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"qing/a/appConf"
 	"qing/a/config/configs"
+	"qing/sod/dev/devSod"
 	"sort"
 	"time"
 
@@ -21,16 +22,6 @@ import (
 
 const devTitleFile = "title.txt"
 const devContentFile = "content.html"
-
-type DevMail struct {
-	Title   string `json:"title,omitempty"`
-	Content string `json:"content,omitempty"`
-	// The directory name of this mail. Usually a unix timestamp.
-	// Example: 2022-08-06T172921.594824688Z
-	ID string `json:"id,omitempty"`
-	// Parsed from `ID`, used for sorting.
-	TS int64 `json:"ts,omitempty"`
-}
 
 func getDevConfig() (*configs.MailBoxConfig, error) {
 	conf := appConf.Get()
@@ -56,9 +47,10 @@ func mustParseDirTS(s string) time.Time {
 	return date
 }
 
-func NewDevMail(title, content, id string) *DevMail {
+func NewDevMail(id, title, content string) devSod.DevMail {
 	date := mustParseDirTS(id)
-	return &DevMail{Title: title, Content: content, TS: date.Unix(), ID: id}
+	d := devSod.NewDevMail(id, title, content, int(date.UnixMilli()))
+	return d
 }
 
 func ListUsers() ([]string, error) {
@@ -81,7 +73,7 @@ func ListUsers() ([]string, error) {
 }
 
 // This returns a list of `DevMail` without `Content` set.
-func ListMails(user string) ([]*DevMail, error) {
+func ListMails(user string) ([]devSod.DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
 		return nil, err
@@ -94,7 +86,7 @@ func ListMails(user string) ([]*DevMail, error) {
 		return nil, err
 	}
 
-	var mails []*DevMail
+	var mails []devSod.DevMail
 	for _, d := range dirObjs {
 		id := d.Name()
 		titleFile := filepath.Join(userDir, id, devTitleFile)
@@ -102,12 +94,12 @@ func ListMails(user string) ([]*DevMail, error) {
 		if err != nil {
 			return nil, err
 		}
-		mail := NewDevMail(string(titleBytes), "", id)
+		mail := NewDevMail(id, string(titleBytes), "")
 		mails = append(mails, mail)
 	}
 
 	sort.Slice(mails, func(i, j int) bool {
-		return mails[i].TS < mails[j].TS
+		return mails[i].TsMilli < mails[j].TsMilli
 	})
 	return mails, nil
 }
@@ -115,17 +107,17 @@ func ListMails(user string) ([]*DevMail, error) {
 // `index` = 0: latest mail.
 // Instead of calling `ListMails`, this has its own implementation for better performance.
 // It doesn't read mail titles like `ListMails`.
-func GetLatestMail(user string, index int) (*DevMail, error) {
+func GetLatestMail(user string, index int) (devSod.DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
 
 	devDir := conf.Dir
 	userDir := filepath.Join(devDir, user)
 	mailDirs, err := os.ReadDir(userDir)
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
 
 	// Sort by timestamp.
@@ -143,20 +135,20 @@ func GetLatestMail(user string, index int) (*DevMail, error) {
 
 	title, err := iox.ReadFileText(titleFile)
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
 
 	content, err := iox.ReadFileText(contentFile)
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
-	return NewDevMail(title, content, mailID), nil
+	return NewDevMail(mailID, title, content), nil
 }
 
-func GetMail(user, id string) (*DevMail, error) {
+func GetMail(user, id string) (devSod.DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
 
 	devDir := conf.Dir
@@ -168,14 +160,14 @@ func GetMail(user, id string) (*DevMail, error) {
 
 	title, err := iox.ReadFileText(titleFile)
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
 
 	content, err := iox.ReadFileText(contentFile)
 	if err != nil {
-		return nil, err
+		return devSod.DevMail{}, err
 	}
-	return NewDevMail(title, content, id), nil
+	return NewDevMail(id, title, content), nil
 }
 
 func EraseUser(user string) error {

@@ -52,7 +52,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
 	app.PanicOn(err)
 
-	verifiedUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, pwdHash, lang)
+	verifiedUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
 	app.PanicOn(err)
 
 	return RenderAccountVerified(lang, clib.EncodeID(verifiedUID), w, r)

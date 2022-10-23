@@ -11,6 +11,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
 import './mbDate';
+import { DevMail } from 'sod/dev/dev';
 
 @customElement('mb-mail-page')
 export class MBMailPage extends BaseElement {
@@ -27,7 +28,7 @@ export class MBMailPage extends BaseElement {
 
   @property() email = '';
   @property() dirName = '';
-  @state() mail?: loaders.DevMail;
+  @state() mail?: DevMail;
   @state() date?: Date;
 
   override render() {
@@ -37,7 +38,7 @@ export class MBMailPage extends BaseElement {
     }
     return html`
       <h1>${mail.title}</h1>
-      <mb-date .ts=${mail.ts}></mb-date>
+      <mb-date .ts=${mail.tsMilli}></mb-date>
       <div>${unsafeHTML(mail.content)}</div>
     `;
   }

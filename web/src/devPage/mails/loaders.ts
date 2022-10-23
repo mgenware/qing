@@ -7,13 +7,7 @@
 
 import Loader from 'lib/loader';
 import * as mailsAPI from '@qing/routes/d/dev/api/mails';
-
-export interface DevMail {
-  title?: string;
-  ts?: number;
-  content?: string;
-  dirName: string;
-}
+import { DevMail } from 'sod/dev/dev';
 
 export class UsersLoader extends Loader<string[]> {
   override requestURL(): string {
@@ -38,14 +32,14 @@ export class InboxLoader extends Loader<DevMail[]> {
 }
 
 export class MailLoader extends Loader<DevMail> {
-  constructor(public email: string, public dirName: string) {
+  constructor(public email: string, public mailID: string) {
     super();
   }
 
   override requestParams() {
     return {
       email: this.email,
-      dirName: this.dirName,
+      id: this.mailID,
     };
   }
 

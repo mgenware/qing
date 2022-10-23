@@ -11,6 +11,7 @@ import * as mailsRoute from '@qing/routes/d/dev/mails';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
 import './mbDate';
+import { DevMail } from 'sod/dev/dev';
 
 @customElement('mb-inbox-page')
 export class MBInboxPage extends BaseElement {
@@ -31,7 +32,7 @@ export class MBInboxPage extends BaseElement {
   }
 
   @property() email = '';
-  @state() mails: loaders.DevMail[] = [];
+  @state() mails: DevMail[] = [];
 
   override render() {
     const { mails, email } = this;
@@ -43,11 +44,9 @@ export class MBInboxPage extends BaseElement {
         <div class="root m-b-md">
           ${mails.map(
             (m) => html`<a
-              href=${`${mailsRoute.mail}/${encodeURIComponent(email)}/${encodeURIComponent(
-                m.dirName,
-              )}`}>
+              href=${`${mailsRoute.mail}/${encodeURIComponent(email)}/${encodeURIComponent(m.id)}`}>
               <h3>${m.title}</h3>
-              <mb-date .ts=${m.ts}></mb-date>
+              <mb-date .ts=${m.tsMilli}></mb-date>
               <hr />
             </a>`,
           )}
