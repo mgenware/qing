@@ -19,14 +19,14 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-func getDevLastMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getDevLatestMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
-	last := jsonx.GetInt(params, "last")
+	index := jsonx.GetInt(params, "index")
 
-	devMail, err := devmail.GetLastMail(email, last)
+	devMail, err := devmail.GetLatestMail(email, index)
 	app.PanicOn(err)
 	return resp.MustComplete(devMail)
 }
@@ -36,9 +36,9 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
-	dirName := jsonx.GetString(params, "dirName")
+	id := clib.MustGetStringFromDict(params, "id", appdef.LenMaxGenericString)
 
-	devMail, err := devmail.GetMail(email, dirName)
+	devMail, err := devmail.GetMail(email, id)
 	app.PanicOn(err)
 	return resp.MustComplete(devMail)
 }

@@ -10,8 +10,7 @@ import * as authAPI from '@qing/routes/d/s/pub/auth';
 import * as authRoute from '@qing/routes/d/auth';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
-import * as mailAPI from '@qing/routes/d/dev/api/mails';
-import * as ml from 'helper/email';
+import * as mh from 'helper/mail';
 import { serverURL } from 'base/def';
 import fetch from 'node-fetch';
 import { curUser, userInfo } from 'helper/user';
@@ -22,7 +21,7 @@ const pwd = '123456';
 const htmlIDRegex = /window\.appVerifiedUID = '(.+)';/g;
 const invalidNameOrPwdResp = {
   c: 1,
-  m: 'Invalid username or password',
+  m: 'Invalid username or password.',
 };
 
 itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
@@ -59,10 +58,10 @@ ita(
   null,
   async (_) => {
     // Check verification email.
-    const mail = await api<ml.MailResponse>(mailAPI.get, { email: email1 }, null);
+    const mail = await mh.getLatest({ email: email1 });
     expect(mail.title).toBe('Verify your email');
 
-    const mainEl = ml.getMainEmailContentElement(mail.content);
+    const mainEl = mh.getMainEmailContentElement(mail.content);
     const mainContentHTML = (mainEl?.innerHTML ?? '').trim();
 
     expect(mainContentHTML).toMatch(
@@ -83,8 +82,8 @@ ita(
   null,
   async (_) => {
     // Check verification email.
-    const mail = await api<ml.MailResponse>(mailAPI.get, { email: email2 }, null);
-    const mainEl = ml.getMainEmailContentElement(mail.content);
+    const mail = await mh.getLatest({ email: email2 });
+    const mainEl = mh.getMainEmailContentElement(mail.content);
 
     // Verify email.
     const absURL = mainEl?.querySelector('a')?.textContent.trim() ?? '';
@@ -113,7 +112,7 @@ ita(
     expect(verifyResp.status).toBe(503);
     expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<div class="container">
   <div class="text-center">
-    <h1 class="__qing_ls__">errOccurred</h1>
+  <h1>An error occurred</h1>
     <p class="text-danger">Link has expired, please sign up again.</p>
   </div>
 </div>`);
@@ -127,7 +126,7 @@ it('Sign up - Wrong email verification link', async () => {
   expect(verifyResp.status).toBe(503);
   expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(`<div class="container">
   <div class="text-center">
-    <h1 class="__qing_ls__">errOccurred</h1>
+  <h1>An error occurred</h1>
     <p class="text-danger">Link has expired, please sign up again.</p>
   </div>
 </div>`);

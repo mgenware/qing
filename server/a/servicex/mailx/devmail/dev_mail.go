@@ -27,8 +27,8 @@ type DevMail struct {
 	Content string `json:"content,omitempty"`
 	// The directory name of this mail. Usually a unix timestamp.
 	// Example: 2022-08-06T172921.594824688Z
-	DirName string `json:"dirName,omitempty"`
-	// Computed from `DirName`, used for sorting.
+	ID string `json:"id,omitempty"`
+	// Parsed from `ID`, used for sorting.
 	TS int64 `json:"ts,omitempty"`
 }
 
@@ -56,9 +56,9 @@ func mustParseDirTS(s string) time.Time {
 	return date
 }
 
-func NewDevMail(title, content, dirName string) *DevMail {
-	date := mustParseDirTS(dirName)
-	return &DevMail{Title: title, Content: content, TS: date.Unix(), DirName: dirName}
+func NewDevMail(title, content, id string) *DevMail {
+	date := mustParseDirTS(id)
+	return &DevMail{Title: title, Content: content, TS: date.Unix(), ID: id}
 }
 
 func ListUsers() ([]string, error) {
@@ -96,13 +96,13 @@ func ListMails(user string) ([]*DevMail, error) {
 
 	var mails []*DevMail
 	for _, d := range dirObjs {
-		dirName := d.Name()
-		titleFile := filepath.Join(userDir, dirName, devTitleFile)
+		id := d.Name()
+		titleFile := filepath.Join(userDir, id, devTitleFile)
 		titleBytes, err := os.ReadFile(titleFile)
 		if err != nil {
 			return nil, err
 		}
-		mail := NewDevMail(string(titleBytes), "", dirName)
+		mail := NewDevMail(string(titleBytes), "", id)
 		mails = append(mails, mail)
 	}
 
@@ -112,10 +112,10 @@ func ListMails(user string) ([]*DevMail, error) {
 	return mails, nil
 }
 
-// `last` = 0: latest mail.
+// `index` = 0: latest mail.
 // Instead of calling `ListMails`, this has its own implementation for better performance.
 // It doesn't read mail titles like `ListMails`.
-func GetLastMail(user string, last int) (*DevMail, error) {
+func GetLatestMail(user string, index int) (*DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
 		return nil, err
@@ -135,8 +135,8 @@ func GetLastMail(user string, last int) (*DevMail, error) {
 		return v1.UnixMilli() < v2.UnixMilli()
 	})
 
-	mailDirName := mailDirs[last].Name()
-	mailDir := filepath.Join(userDir, mailDirName)
+	mailID := mailDirs[index].Name()
+	mailDir := filepath.Join(userDir, mailID)
 
 	titleFile := filepath.Join(mailDir, devTitleFile)
 	contentFile := filepath.Join(mailDir, devContentFile)
@@ -150,10 +150,10 @@ func GetLastMail(user string, last int) (*DevMail, error) {
 	if err != nil {
 		return nil, err
 	}
-	return NewDevMail(title, content, mailDirName), nil
+	return NewDevMail(title, content, mailID), nil
 }
 
-func GetMail(user, dirName string) (*DevMail, error) {
+func GetMail(user, id string) (*DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
 		return nil, err
@@ -161,7 +161,7 @@ func GetMail(user, dirName string) (*DevMail, error) {
 
 	devDir := conf.Dir
 	userDir := filepath.Join(devDir, user)
-	mailDir := filepath.Join(userDir, dirName)
+	mailDir := filepath.Join(userDir, id)
 
 	titleFile := filepath.Join(mailDir, devTitleFile)
 	contentFile := filepath.Join(mailDir, devContentFile)
@@ -175,7 +175,7 @@ func GetMail(user, dirName string) (*DevMail, error) {
 	if err != nil {
 		return nil, err
 	}
-	return NewDevMail(title, content, dirName), nil
+	return NewDevMail(title, content, id), nil
 }
 
 func EraseUser(user string) error {

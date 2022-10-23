@@ -5,15 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { api } from 'api';
 import { expect } from 'expect';
 import * as uuid from 'uuid';
-import * as mailAPI from '@qing/routes/d/dev/api/mails';
-
-interface EmailRes {
-  title: string;
-  content: string;
-}
+import * as mh from 'helper/mail';
 
 it('Send mail and getDevMail', async () => {
   const email = `zzzUT-${uuid.v4()}`;
@@ -21,21 +15,17 @@ it('Send mail and getDevMail', async () => {
   for (let i = 0; i < 3; i++) {
     // These mails must be sent sequentially.
     // eslint-disable-next-line no-await-in-loop
-    await api(
-      mailAPI.send,
-      { to: email, title: `TITLE ${i + 1}`, content: `CONTENT ${i + 1}` },
-      null,
-    );
+    await mh.send({ to: email, title: `TITLE ${i + 1}`, content: `CONTENT ${i + 1}` });
   }
 
   for (let i = 0; i < 3; i++) {
     // eslint-disable-next-line no-await-in-loop
-    const d = await api<EmailRes>(mailAPI.get, { email, idx: i }, null);
+    const d = mh.getLatest({ email, index: i });
     expect(d).toEqual({
       title: `TITLE ${i + 1}`,
       content: `CONTENT ${i + 1}`,
     });
   }
 
-  await api(mailAPI.eraseUser, { email });
+  await mh.erase({ email });
 });

@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, api } from 'br';
+import { test, $ } from 'br';
 import * as ivh from 'br/com/forms/inputViewHelper';
 import * as authRoutes from '@qing/routes/d/auth';
 import * as kh from 'br/com/keyboardHelper';
 import * as uuid from 'uuid';
-import * as mailAPI from '@qing/routes/d/dev/api/mails';
+import * as mh from 'helper/mail';
 
 const signUpAppSel = 'sign-up-app';
 
@@ -170,7 +170,9 @@ test('Sign up - Success', async ({ page }) => {
         'A verification link has been sent to your email account. Please check your email and click the verification link to complete the registration process.',
       )
       .e.toBeVisible();
+
+    // Email verification tests are done in API tests.
   } finally {
-    await api(mailAPI.eraseUser, { email });
+    await mh.erase({ email });
   }
 });

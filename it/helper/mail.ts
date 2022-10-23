@@ -5,13 +5,33 @@
  * be found in the LICENSE file.
  */
 
+import { api } from 'api';
+import * as mailAPI from '@qing/routes/d/dev/api/mails';
 import { parse } from 'node-html-parser';
 
 const mainElSel = '#main';
 
-export interface MailResponse {
+export interface DevMail {
+  id: string;
   title: string;
   content: string;
+  ts: number;
+}
+
+export function get(e: { email: string; id: string }) {
+  return api<DevMail>(mailAPI.get, e, null);
+}
+
+export function getLatest(e: { email: string; index?: number }) {
+  return api<DevMail>(mailAPI.getLatest, e, null);
+}
+
+export function erase(e: { email: string }) {
+  return api<DevMail>(mailAPI.eraseUser, e, null);
+}
+
+export function send(e: { to: string; title: string; content: string }) {
+  return api<DevMail>(mailAPI.send, e, null);
 }
 
 // Extracts mail content HTML from page HTML.

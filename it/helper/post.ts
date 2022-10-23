@@ -38,11 +38,6 @@ function postLink(id: string) {
   return `/p/${id}`;
 }
 
-/**
- * Creates a self-destructing post.
- * @param  {User} user
- * @param  {(arg:{id:string;link:string})=>Promise<unknown>} cb
- */
 export async function newPost(
   user: User,
   cb: (arg: { id: string; link: string }) => Promise<unknown>,

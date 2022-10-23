@@ -10,7 +10,7 @@ import root from './root.js';
 const mailRoot = `${root}/mails`;
 
 export const get = `${mailRoot}/get`;
-export const getLast = `${mailRoot}/get-last`;
+export const getLatest = `${mailRoot}/get-latest`;
 export const send = `${mailRoot}/send`;
 export const eraseUser = `${mailRoot}/erase-user`;
 export const users = `${mailRoot}/users`;

@@ -29,7 +29,7 @@ itaResultRaw(
   null,
   {
     c: 1,
-    m: 'Invalid username or password',
+    m: 'Invalid username or password.',
   },
 );
 

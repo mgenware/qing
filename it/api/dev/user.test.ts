@@ -27,7 +27,7 @@ it('Add and remove a user', async () => {
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
-    const ud = { id, iconURL: `${imgMain}/user-static.svg`, url: `/u/${id}`, name: 'T' };
+    const ud = { id, iconURL: `${imgMain}/user-static.svg`, link: `/u/${id}`, name: 'T' };
     expect(u).toEqual(ud);
 
     // Make sure `__/auth/info` also works.
