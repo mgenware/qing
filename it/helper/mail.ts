@@ -45,3 +45,13 @@ export function getMainEmailContentElement(page: string) {
   const root = parse(page);
   return root.querySelector(mainElSel);
 }
+
+// NOTE: `err` is not escaped.
+export function unsafeErrorHTML(err: string) {
+  return `<div class="container section">
+  <div class="text-center">
+    <h1>An error occurred</h1>
+    <p class="text-danger">${err}</p>
+  </div>
+</div>`;
+}

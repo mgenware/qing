@@ -21,12 +21,13 @@ export interface APIResult {
   d?: unknown;
 }
 
-// Represents user information in API calls.
+// Copied from `sod/auth`.
 export interface User {
   id: string;
   name: string;
-  link: string;
   iconURL: string;
+  link: string;
+  admin?: boolean;
 }
 
 // Pre-defined user constants.

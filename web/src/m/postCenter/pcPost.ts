@@ -6,6 +6,6 @@ export default interface PCPost {
   likes: number;
   createdAt: string;
   modifiedAt: string;
-  // Available in threads.
+  // Available in FPosts.
   msgCount: number;
 }

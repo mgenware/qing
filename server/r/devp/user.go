@@ -18,12 +18,12 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
-	"qing/lib/randlib"
 	"qing/r/authp"
 	"qing/r/rcom"
 	"qing/sod/authSod"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 	"github.com/mgenware/goutil/jsonx"
 )
 
@@ -94,9 +94,12 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	resp := app.JSONResponse(w, r)
-	email := randlib.RandString(16)
+	idObj, err := uuid.NewRandom()
+	app.PanicOn(err)
+
+	email := idObj.String() + "@t.com"
 	db := appDB.DB()
-	uid, err := da.User.TestAddUser(db, email+"@t.com", "T", regLang)
+	uid, err := da.User.TestAddUser(db, email, "T", regLang)
 	app.PanicOn(err)
 
 	if lang != "" {

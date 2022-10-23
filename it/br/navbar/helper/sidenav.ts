@@ -68,7 +68,7 @@ export async function checkUserSidenav(p: Page, u: User) {
 
   await sidenav.$a({ href: `/u/${u.id}`, text: 'Profile' }).e.toBeVisible();
   await sidenav.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
-  await sidenav.$a({ href: '/m/your-threads', text: 'Your threads' }).e.toBeVisible();
+  await sidenav.$a({ href: '/m/your-fposts', text: 'Your forum posts' }).e.toBeVisible();
   await sidenav.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
   // TODO: tests for new post and new thread.
 

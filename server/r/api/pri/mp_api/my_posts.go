@@ -20,7 +20,7 @@ import (
 )
 
 var myPostsColumnNameToEnumMap map[string]da.PostAGSelectItemsForPostCenterOrderBy1
-var myThreadsColumnNameToEnumMap map[string]da.FPostAGSelectItemsForPostCenterOrderBy1
+var myFPostsColumnNameToEnumMap map[string]da.FPostAGSelectItemsForPostCenterOrderBy1
 
 func init() {
 	myPostsColumnNameToEnumMap = map[string]da.PostAGSelectItemsForPostCenterOrderBy1{
@@ -28,7 +28,7 @@ func init() {
 		appdef.KeyCreated:  da.PostAGSelectItemsForPostCenterOrderBy1CreatedAt,
 		appdef.KeyLikes:    da.PostAGSelectItemsForPostCenterOrderBy1Likes,
 	}
-	myThreadsColumnNameToEnumMap = map[string]da.FPostAGSelectItemsForPostCenterOrderBy1{
+	myFPostsColumnNameToEnumMap = map[string]da.FPostAGSelectItemsForPostCenterOrderBy1{
 		appdef.KeyComments: da.FPostAGSelectItemsForPostCenterOrderBy1CmtCount,
 		appdef.KeyCreated:  da.FPostAGSelectItemsForPostCenterOrderBy1CreatedAt,
 		appdef.KeyLikes:    da.FPostAGSelectItemsForPostCenterOrderBy1Likes,
@@ -53,7 +53,7 @@ func newPCPost(p *da.PostForPostCenter, uid uint64) pcPost {
 	return d
 }
 
-func myPostsCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.JSON {
+func myPostsCore(w http.ResponseWriter, r *http.Request, fpost bool) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	uid := resp.UserID()
@@ -67,8 +67,8 @@ func myPostsCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	var rawPosts []da.PostForPostCenter
 	var hasNext bool
 	var err error
-	if isThread {
-		rawPosts, hasNext, err = da.FPost.SelectItemsForPostCenter(db, uid, page, pageSize, myThreadsColumnNameToEnumMap[sortBy], desc)
+	if fpost {
+		rawPosts, hasNext, err = da.FPost.SelectItemsForPostCenter(db, uid, page, pageSize, myFPostsColumnNameToEnumMap[sortBy], desc)
 	} else {
 		rawPosts, hasNext, err = da.Post.SelectItemsForPostCenter(db, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
 	}
@@ -89,6 +89,6 @@ func myPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return myPostsCore(w, r, false)
 }
 
-func myThreads(w http.ResponseWriter, r *http.Request) handler.JSON {
+func myFPosts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return myPostsCore(w, r, true)
 }

@@ -26,11 +26,11 @@ type ProfilePageModel struct {
 	IconURL      string
 	FeedListHTML string
 	PostCount    uint
-	ThreadCount  uint
+	FPostCount   uint
 
-	ProfilePostsURL   string
-	ProfileThreadsURL string
-	PageBarHTML       string
+	ProfilePostsURL  string
+	ProfileFPostsURL string
+	PageBarHTML      string
 }
 
 type ProfilePageWindData struct {
@@ -54,12 +54,12 @@ func NewProfilePageModelFromUser(profile *da.UserAGSelectProfileResult, stats *d
 	d.IconURL = appURL.Get().UserIconURL250(uid, profile.IconName)
 	d.UserURL = appURL.Get().UserProfile(uid)
 	d.PostCount = stats.PostCount
-	d.ThreadCount = stats.FpostCount
+	d.FPostCount = stats.FpostCount
 	d.FeedListHTML = feedHTML
 	d.PageBarHTML = pageBarHTML
 
 	d.ProfilePostsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyPosts, 1)
-	d.ProfileThreadsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyForumPosts, 1)
+	d.ProfileFPostsURL = appURL.Get().UserProfileAdv(uid, appdef.KeyForumPosts, 1)
 	return d
 }
 

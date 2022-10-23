@@ -28,7 +28,7 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
         return mpRoute.posts;
 
       case appdef.contentBaseTypeFPost:
-        return mpRoute.threads;
+        return mpRoute.fposts;
 
       default:
         throw new Error(`Unsupported entity type ${this.entityType}`);

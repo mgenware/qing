@@ -10,4 +10,4 @@ import root from './root.js';
 const user = `${root}/user`;
 
 export const postCount = `${user}/post-count`;
-export const threadCount = `${user}/thread-count`;
+export const fpostCount = `${user}/fpost-count`;

@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './myThreadsApp';
+import './myFPostsApp';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<my-threads-app></my-threads-app>`);
+  const el = await fixture<HTMLElement>(html`<my-fposts-app></my-fposts-app>`);
 
   tDOM.isBlockElement(el);
 });

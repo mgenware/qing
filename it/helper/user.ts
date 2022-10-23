@@ -11,21 +11,12 @@ import * as apiUser from '@qing/routes/d/dev/api/user';
 import CookieJar from './cookieJar';
 import { alternativeLocale } from 'br';
 
-// Copied from `sod/TUserInfo`.
-export interface TUserInfo {
-  admin?: boolean;
-  id: string;
-  iconURL: string;
-  link: string;
-  name: string;
-}
-
 export interface NewUserOptions {
   alternativeLocale?: boolean;
 }
 
 async function newUserCore(opt: NewUserOptions | undefined): Promise<User> {
-  return api<TUserInfo>(
+  return api<User>(
     apiAuth.new_,
     { lang: opt?.alternativeLocale ? alternativeLocale : undefined },
     null,

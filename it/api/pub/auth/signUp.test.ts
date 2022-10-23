@@ -74,17 +74,7 @@ ita(
   },
 );
 
-// NOTE: `err` is not escaped.
-function unsafeErrorHTML(err: string) {
-  return `<div class="container section">
-  <div class="text-center">
-    <h1>An error occurred</h1>
-    <p class="text-danger">${err}</p>
-  </div>
-</div>`;
-}
-
-const linkExpiredHTML = unsafeErrorHTML('Link has expired, please sign up again.');
+const linkExpiredHTML = mh.unsafeErrorHTML('Link has expired, please sign up again.');
 
 const email2 = uuid.v4();
 ita(

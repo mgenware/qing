@@ -36,7 +36,7 @@ router.register(mRoute.yourPosts, () => {
   pu.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
 router.register(mRoute.yourFPosts, () => {
-  pu.setTitleAndMainContent([ls.yourFPosts], html`<my-threads-app></my-threads-app>`);
+  pu.setTitleAndMainContent([ls.yourFPosts], html`<my-fposts-app></my-fposts-app>`);
 });
 
 router.startOnce();

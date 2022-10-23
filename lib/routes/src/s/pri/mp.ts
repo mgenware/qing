@@ -10,4 +10,4 @@ import root from './root.js';
 const mp = `${root}/mp`;
 
 export const posts = `${mp}/posts`;
-export const threads = `${mp}/threads`;
+export const fposts = `${mp}/fposts`;

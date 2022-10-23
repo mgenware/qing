@@ -14,13 +14,11 @@ import { tabViewActiveClass } from 'ui/lists/tabView';
 // Required by empty content view.
 import 'ui/alerts/noContentView';
 
-const defaultHighlightedTab = 'threads';
-
 ready(() => {
   // Highlight the selected tab.
   const qs = new URLSearchParams(window.location.search);
   const tab = qs.get(appdef.keyTab);
   document
-    .getElementById(`m-forum-tab-${tab ?? defaultHighlightedTab}`)
+    .getElementById(`m-forum-tab-${tab ?? appdef.keyForumPosts}`)
     ?.classList.add(tabViewActiveClass);
 });

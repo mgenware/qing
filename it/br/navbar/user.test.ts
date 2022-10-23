@@ -30,7 +30,7 @@ test('Navbar - User', async ({ page }) => {
   await nbm.userMenuBtn(p).click();
   await userMenu.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).e.toBeVisible();
   await userMenu.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
-  await userMenu.$a({ href: '/m/your-threads', text: 'Your threads' }).e.toBeVisible();
+  await userMenu.$a({ href: '/m/your-fposts', text: 'Your forum posts' }).e.toBeVisible();
   await userMenu.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
   // TODO: tests for new post and new thread.
 });
