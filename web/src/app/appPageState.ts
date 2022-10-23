@@ -20,26 +20,26 @@ function getMainPageWindData(): MainPageWind {
   return window as any as MainPageWind;
 }
 
-appState.register(appStateName.user, () => {
+appState.register<User | null>(appStateName.user, () => {
   const wind = getMainPageWindData();
   if (wind.appUserID) {
     return {
-      eid: wind.appUserID,
-      name: wind.appUserName,
-      url: wind.appUserURL,
-      iconURL: wind.appUserIconURL,
+      id: wind.appUserID,
+      name: wind.appUserName ?? '',
+      link: wind.appUserURL ?? '',
+      iconURL: wind.appUserIconURL ?? '',
       admin: wind.appUserAdmin,
     };
   }
   return null;
 });
 
-appState.register(appStateName.communityMode, () => {
+appState.register<number>(appStateName.communityMode, () => {
   const wind = getMainPageWindData();
-  return wind.appCommunityMode;
+  return wind.appCommunityMode ?? 0;
 });
 
-appState.register(appStateName.windData, () => {
+appState.register<unknown>(appStateName.windData, () => {
   const wind = getMainPageWindData();
   return wind.appWindData ?? {};
 });

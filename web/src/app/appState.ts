@@ -17,7 +17,7 @@ export class AppState {
   private entries: Record<string, AppStateEntry> = {};
   private listeners = new EventEmitter();
 
-  register(name: string, ctorFn: () => unknown) {
+  register<T = void>(name: string, ctorFn: () => T) {
     CHECK(!this.entries[name]);
     this.entries[name] = {
       constructorFn: ctorFn,
