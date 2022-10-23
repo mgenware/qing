@@ -142,3 +142,11 @@ func currentUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := appcom.ContextUserID(r.Context())
 	return resp.MustComplete(clib.EncodeID(uid))
 }
+
+func userEmail(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := app.JSONResponse(w, r)
+	uid := getUIDFromRequest(r)
+	email, err := da.User.SelectEmail(appDB.Get().DB(), uid)
+	app.PanicOn(err)
+	return resp.MustComplete(email)
+}

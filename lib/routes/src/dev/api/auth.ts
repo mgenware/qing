@@ -16,3 +16,4 @@ export const in_ = `${auth}/in`;
 export const info = `${auth}/info`;
 export const del = `${auth}/del`;
 export const cur = `${auth}/cur`;
+export const getEmail = `${auth}/get-email`;

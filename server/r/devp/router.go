@@ -56,6 +56,7 @@ func apiRouter() *handler.JSONRouter {
 	authRouter.Post("/del", deleteUser)
 	authRouter.Post("/info", fetchUserInfo)
 	authRouter.Post("/cur", currentUser)
+	authRouter.Post("/get-email", userEmail)
 	r.Mount("/auth", authRouter)
 
 	// User router.

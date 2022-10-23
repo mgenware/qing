@@ -85,6 +85,15 @@ func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id ui
 	return result, nil
 }
 
+func (mrTable *UserAGType) SelectEmail(mrQueryable mingru.Queryable, id uint64) (string, error) {
+	var result string
+	err := mrQueryable.QueryRow("SELECT `email` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (mrTable *UserAGType) SelectIconName(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := mrQueryable.QueryRow("SELECT `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result)

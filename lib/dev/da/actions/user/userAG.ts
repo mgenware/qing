@@ -34,6 +34,7 @@ export class UserAG extends mm.ActionGroup {
   selectLang = mm.selectField(t.lang).by(t.id);
   // Selects user lang setting and reg lang.
   selectLangsAndEmail = mm.select(t.lang, t.reg_lang, t.email).by(t.id);
+  selectEmail = mm.selectField(t.email).by(t.id);
 
   findUserByID = mm
     .selectRow(...coreCols)

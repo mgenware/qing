@@ -53,3 +53,7 @@ export async function newUser(cb: (u: User) => Promise<void>, opt?: NewUserOptio
 export function postCount(user: User): Promise<number> {
   return api<number>(apiUser.postCount, { uid: user.id });
 }
+
+export function getEmail(user: User) {
+  return api<string>(apiAuth.getEmail, { uid: user.id });
+}
