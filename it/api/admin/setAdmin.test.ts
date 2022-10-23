@@ -40,7 +40,7 @@ it('`set-admin` - Admin', async () => {
     expect(adminData).toEqual({
       id,
       name: 'T',
-      url: `/u/${id}`,
+      link: `/u/${id}`,
       iconURL: `${imgMain}/user-static.svg`,
     });
 

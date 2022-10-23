@@ -7,8 +7,8 @@
 
 import appState from './appState';
 import appStateName from './appStateName';
-import User from './user/user';
 import { RawMainPageWind } from 'sod/app';
+import { User } from 'sod/auth';
 
 export interface MainPageWind extends RawMainPageWind {
   // See `window.appWindData` in `main.html` for details.
@@ -53,12 +53,8 @@ export class AppPageState {
     return appState.get(appStateName.windData);
   }
 
-  get userEID(): string {
-    const { user } = this;
-    if (user) {
-      return user.eid;
-    }
-    return '';
+  get userID(): string | undefined {
+    return this.user?.id;
   }
 
   updateUser(part: Partial<User>) {

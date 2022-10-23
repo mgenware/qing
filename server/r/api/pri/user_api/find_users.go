@@ -17,6 +17,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
+	"qing/sod/authSod"
 
 	"github.com/mgenware/goutil/jsonx"
 )
@@ -45,9 +46,9 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 		app.PanicOn(err)
 	}
-	userModels := make([]rcom.UserInfo, len(users))
+	userModels := make([]authSod.User, len(users))
 	for i, user := range users {
-		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)
+		userModels[i] = rcom.CreateAuthUser(user.ID, user.Name, user.IconName)
 	}
 	return resp.MustComplete(userModels)
 }

@@ -12,7 +12,7 @@ import * as cm from './common';
 alternativeLocaleBlock(() => {
   test('Profile route - BR lang', async ({ page }) => {
     const p = $(page);
-    await p.goto(usr.user.url, null);
+    await p.goto(usr.user.link, null);
     await cm.checkPageLocale(p, 1);
   });
 });
@@ -21,7 +21,7 @@ test('Profile route - User lang', async ({ page }) => {
   await newUser(
     async (u) => {
       const p = $(page);
-      await p.goto(usr.user.url, u);
+      await p.goto(usr.user.link, u);
       await cm.checkPageLocale(p, 1);
     },
     { alternativeLocale: true },

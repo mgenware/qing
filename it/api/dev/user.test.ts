@@ -17,7 +17,7 @@ ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
     admin: true,
     id: '2t',
     iconURL: '/res/avatars/2t/50_admin.png',
-    url: '/u/2t',
+    link: '/u/2t',
     name: 'ADMIN',
   });
 });

@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import { TUserInfo } from 'sod/dev/auth';
+import { User } from 'sod/auth';
 import * as authRoute from '@qing/routes/d/dev/api/auth';
 
 class LoaderBase<T> extends Loader<T> {
@@ -38,7 +38,7 @@ export class NewUserLoader extends Loader<void> {
   }
 }
 
-export class InfoLoader extends LoaderBase<TUserInfo> {
+export class InfoLoader extends LoaderBase<User> {
   override requestURL(): string {
     return authRoute.info;
   }

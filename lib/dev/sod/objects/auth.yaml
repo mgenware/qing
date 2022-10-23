@@ -1,8 +1,8 @@
 ---
-TUserInfo:
+User:
   __go_ctor: true
-  admin: bool
   id: string!
+  name: string!
   iconURL: string!
   link: string!
-  name: string!
+  admin: bool

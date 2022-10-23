@@ -20,8 +20,9 @@ it('Send mail and getDevMail', async () => {
 
   for (let i = 0; i < 3; i++) {
     // eslint-disable-next-line no-await-in-loop
-    const d = mh.getLatest({ email, index: i });
-    expect(d).toEqual({
+    const d = await mh.getLatest({ email, index: i });
+    // Extract title and content data. ID and TS are ignored as they are time-based.
+    expect({ title: d.title, content: d.content }).toEqual({
       title: `TITLE ${i + 1}`,
       content: `CONTENT ${i + 1}`,
     });

@@ -25,16 +25,16 @@ export interface APIResult {
 export interface User {
   id: string;
   name: string;
-  url: string;
+  link: string;
   iconURL: string;
 }
 
 // Pre-defined user constants.
 export const usr: { user: User; admin: User; admin2: User; user2: User } = {
-  admin: { id: '2t', name: 'ADMIN', url: '/u/2t', iconURL: '/res/avatars/2t/50_admin.png' },
-  user: { id: '2u', name: 'USER', url: '/u/2u', iconURL: '/res/avatars/2u/50_user.png' },
-  admin2: { id: '2v', name: 'ADMIN2', url: '/u/2v', iconURL: '/res/avatars/2v/50_admin2.png' },
-  user2: { id: '2w', name: 'USER2', url: '/u/2w', iconURL: '/res/avatars/2w/50_user2.png' },
+  admin: { id: '2t', name: 'ADMIN', link: '/u/2t', iconURL: '/res/avatars/2t/50_admin.png' },
+  user: { id: '2u', name: 'USER', link: '/u/2u', iconURL: '/res/avatars/2u/50_user.png' },
+  admin2: { id: '2v', name: 'ADMIN2', link: '/u/2v', iconURL: '/res/avatars/2v/50_admin2.png' },
+  user2: { id: '2w', name: 'USER2', link: '/u/2w', iconURL: '/res/avatars/2w/50_user2.png' },
 };
 
 export const authUsr = {

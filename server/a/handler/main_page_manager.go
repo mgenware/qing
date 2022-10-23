@@ -123,7 +123,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 		d.AppUserID = user.EID
 		d.AppUserName = user.Name
 		d.AppUserIconURL = user.IconURL
-		d.AppUserURL = user.URL
+		d.AppUserURL = user.Link
 		d.AppUserAdmin = user.Admin
 	}
 

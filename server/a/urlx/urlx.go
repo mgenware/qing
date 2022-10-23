@@ -37,25 +37,25 @@ func (u *URL) ResURL(url string) string {
 	return u.conf.ResServer.URL + url
 }
 
-func (u *URL) UserIconURL50(uid uint64, avatarName string) string {
-	if avatarName == "" {
+func (u *URL) UserIconURL50(uid uint64, iconName string) string {
+	if iconName == "" {
 		return u.AssetURL(userSvg)
 	}
-	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, avatar.AvatarSize50, avatarName))
+	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, avatar.AvatarSize50, iconName))
 }
 
-func (u *URL) UserIconURL250(uid uint64, avatarName string) string {
-	if avatarName == "" {
+func (u *URL) UserIconURL250(uid uint64, iconName string) string {
+	if iconName == "" {
 		return u.AssetURL(userSvg)
 	}
-	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, avatar.AvatarSize250, avatarName))
+	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, avatar.AvatarSize250, iconName))
 }
 
-func (u *URL) UserIconURL(uid uint64, avatarName string, size int) string {
-	if avatarName == "" {
+func (u *URL) UserIconURL(uid uint64, iconName string, size int) string {
+	if iconName == "" {
 		return u.AssetURL(userSvg)
 	}
-	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, size, avatarName))
+	return u.ResURL(avatar.GetAvatarURL(def.AvatarResKey, uid, size, iconName))
 }
 
 func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {

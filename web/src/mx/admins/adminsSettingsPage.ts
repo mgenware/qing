@@ -86,11 +86,11 @@ export class AdminsSettingsPage extends StatefulPage {
   }
 
   private renderUserRow(user: UserInfo) {
-    const thisIsYou = appPageState.userEID === user.eid;
+    const thisIsYou = appPageState.userID === user.eid;
     return html`
       <tr>
         <td>
-          <a href=${user.url} target="_blank">
+          <a href=${user.link} target="_blank">
             <user-card .user=${user}></user-card>
           </a>
         </td>

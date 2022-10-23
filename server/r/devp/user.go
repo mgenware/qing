@@ -13,7 +13,6 @@ import (
 
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appURL"
 	"qing/a/appUserManager"
 	"qing/a/appcom"
 	"qing/a/handler"
@@ -21,26 +20,19 @@ import (
 	"qing/lib/clib"
 	"qing/lib/randlib"
 	"qing/r/authp"
-	"qing/sod/dev/authSod"
+	"qing/r/rcom"
+	"qing/sod/authSod"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/jsonx"
 )
 
-type UserInfo struct {
-	Admin    bool   `json:"admin,omitempty"`
-	IconName string `json:"iconName,omitempty"`
-	ID       string `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
-}
-
-func newUserInfoResult(d *da.UserAGSelectSessionDataResult) *authSod.TUserInfo {
+func newUserInfoResult(d *da.UserAGSelectSessionDataResult) *authSod.User {
 	if d == nil {
 		return nil
 	}
-	res := authSod.NewTUserInfo(
-		d.Admin, clib.EncodeID(d.ID), appURL.Get().UserIconURL50(d.ID, d.IconName), appURL.Get().UserProfile(d.ID), d.Name,
-	)
+	res := rcom.CreateAuthUser(d.ID, d.Name, d.IconName)
+	res.Admin = d.Admin
 	return &res
 }
 
@@ -127,7 +119,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func getDBUserInfo(uid uint64) *authSod.TUserInfo {
+func getDBUserInfo(uid uint64) *authSod.User {
 	us, err := da.User.SelectSessionData(appDB.DB(), uid)
 	if err == sql.ErrNoRows {
 		return newUserInfoResult(nil)

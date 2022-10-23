@@ -14,6 +14,7 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/r/rcom"
+	"qing/sod/authSod"
 )
 
 func admins(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -21,9 +22,9 @@ func admins(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
 	app.PanicOn(err)
-	userModels := make([]rcom.UserInfo, len(admins))
+	userModels := make([]authSod.User, len(admins))
 	for i, user := range admins {
-		userModels[i] = rcom.NewUserInfo(user.ID, user.Name, user.IconName)
+		userModels[i] = rcom.CreateAuthUser(user.ID, user.Name, user.IconName)
 	}
 	return resp.MustComplete(userModels)
 }

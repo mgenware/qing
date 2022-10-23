@@ -72,7 +72,7 @@ export class CmtView extends BaseElement {
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}></time-field>
             <link-button class="m-l-md" @click=${this.handleShareClick}>${ls.share}</link-button>
-            ${cmt.userID === appPageState.userEID
+            ${cmt.userID === appPageState.userID
               ? html`
                   <edit-bar-app
                     class="m-l-md"

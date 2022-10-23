@@ -15,7 +15,7 @@ import * as mxRoute from '@qing/routes/d/mx';
 import * as authRoute from '@qing/routes/d/auth';
 import * as def from 'def';
 import SignOutLoader from './loaders/signOutLoader';
-import User from './user';
+import { User } from 'sod/auth';
 import appPageState from 'app/appPageState';
 import appState from 'app/appState';
 import appStateName from 'app/appStateName';
@@ -354,7 +354,7 @@ export default class NavbarApp extends BaseElement {
     return html`
       <div class=${this.getMenuCls(sideNav, MenuType.user)}>
         <div class="list">
-          <a href=${user.url}>${ls.profile}</a>
+          <a href=${user.link}>${ls.profile}</a>
           <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
           <a href=${mRoute.yourFPosts}>${ls.yourFPosts}</a>
           <hr />

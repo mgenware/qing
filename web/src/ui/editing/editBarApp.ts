@@ -15,8 +15,8 @@ export class EditBarApp extends BaseElement {
   @state() private visible = false;
 
   override firstUpdated() {
-    const cur = appPageState.userEID;
-    this.visible = !!cur && cur === this.uid;
+    const uid = appPageState.userID;
+    this.visible = !!uid && uid === this.uid;
   }
 
   override render() {

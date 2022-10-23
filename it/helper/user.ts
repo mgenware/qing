@@ -11,12 +11,12 @@ import * as apiUser from '@qing/routes/d/dev/api/user';
 import CookieJar from './cookieJar';
 import { alternativeLocale } from 'br';
 
-// Copied from `lib/dev/sod/objects/dev/auth/tUserInfo.yaml`.
+// Copied from `sod/TUserInfo`.
 export interface TUserInfo {
   admin?: boolean;
   id: string;
   iconURL: string;
-  url: string;
+  link: string;
   name: string;
 }
 

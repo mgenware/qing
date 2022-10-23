@@ -172,7 +172,7 @@ func (sm *SessionManager) NewSessionUser(id uint64, name string, iconName string
 
 func (sm *SessionManager) computeUserFields(u *appcom.SessionUser) {
 	uid := u.ID
-	u.URL = sm.appURL.UserProfile(uid)
+	u.Link = sm.appURL.UserProfile(uid)
 	u.IconURL = sm.appURL.UserIconURL50(uid, u.IconName)
 	u.EID = clib.EncodeID(uid)
 }

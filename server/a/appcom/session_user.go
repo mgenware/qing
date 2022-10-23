@@ -21,7 +21,7 @@ type SessionUser struct {
 	Lang       string `json:"lan,omitempty"`
 
 	// Generated props when deserialized
-	URL     string `json:"-"`
+	Link    string `json:"-"`
 	IconURL string `json:"-"`
 	EID     string `json:"-"`
 }
