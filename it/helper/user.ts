@@ -9,7 +9,9 @@ import { api, User, APIOptions } from 'base/api';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 import * as apiUser from '@qing/routes/d/dev/api/user';
 import CookieJar from './cookieJar';
+import * as uuid from 'uuid';
 import { alternativeLocale } from 'br';
+import * as mh from './mail';
 
 export interface NewUserOptions {
   alternativeLocale?: boolean;
@@ -24,7 +26,7 @@ async function newUserCore(opt: NewUserOptions | undefined): Promise<User> {
 }
 
 async function deleteUser(user: User) {
-  await api(apiAuth.del, { uid: user.id }, null);
+  await Promise.all([api(apiAuth.del, { uid: user.id }, null), mh.eraseByID({ id: user.id })]);
 }
 
 // Gets the current user ID. There is no cookie persistence in API tests. We need to
@@ -56,4 +58,8 @@ export function postCount(user: User): Promise<number> {
 
 export function getEmail(user: User) {
   return api<string>(apiAuth.getEmail, { uid: user.id });
+}
+
+export function newEmail() {
+  return `zzzUT-${uuid.v4()}@mgenware.com`;
 }

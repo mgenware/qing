@@ -9,8 +9,8 @@ import { test, $ } from 'br';
 import * as ivh from 'br/com/forms/inputViewHelper';
 import * as authRoutes from '@qing/routes/d/auth';
 import * as kh from 'br/com/keyboardHelper';
-import * as uuid from 'uuid';
 import * as mh from 'helper/mail';
+import { newEmail } from 'helper/user';
 
 const signUpAppSel = 'sign-up-app';
 
@@ -139,7 +139,7 @@ test("Sign up - Password don't match", async ({ page }) => {
 });
 
 test('Sign up - Success', async ({ page }) => {
-  const email = `t_${uuid.v4()}@mgenware.com`;
+  const email = newEmail();
   try {
     const p = $(page);
     await p.goto(authRoutes.signUp, null);

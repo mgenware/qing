@@ -6,11 +6,11 @@
  */
 
 import { expect } from 'expect';
-import * as uuid from 'uuid';
 import * as mh from 'helper/mail';
+import { newEmail } from 'helper/user';
 
 it('Send mail and getDevMail', async () => {
-  const email = `zzzUT-${uuid.v4()}`;
+  const email = newEmail();
 
   for (let i = 0; i < 3; i++) {
     // These mails must be sent sequentially.

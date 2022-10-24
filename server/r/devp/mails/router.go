@@ -18,6 +18,7 @@ func init() {
 	Router.Post("/get-latest", getDevLatestMail)
 	Router.Post("/send", sendMail)
 	Router.Post("/erase-user", eraseUser)
+	Router.Post("/erase-user-by-id", eraseUserByID)
 	Router.Post("/users", users)
 	Router.Post("/inbox", inbox)
 }

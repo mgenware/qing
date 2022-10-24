@@ -9,11 +9,10 @@ import { itaResultRaw, ita, api, apiRaw } from 'api';
 import * as authAPI from '@qing/routes/d/s/pub/auth';
 import * as authRoute from '@qing/routes/d/auth';
 import { expect } from 'expect';
-import * as uuid from 'uuid';
 import * as mh from 'helper/mail';
 import { serverURL } from 'base/def';
 import fetch from 'node-fetch';
-import { curUser, userInfo } from 'helper/user';
+import { curUser, newEmail, userInfo } from 'helper/user';
 import CookieJar from 'helper/cookieJar';
 import * as pageUtil from 'helper/page';
 
@@ -50,7 +49,7 @@ itaResultRaw(
   },
 );
 
-const email1 = uuid.v4();
+const email1 = newEmail();
 ita(
   'Sign up - Verification email - Cannot login when not verified',
   authAPI.signUp,
@@ -76,7 +75,7 @@ ita(
 
 const linkExpiredHTML = mh.unsafeErrorHTML('Link has expired, please sign up again.');
 
-const email2 = uuid.v4();
+const email2 = newEmail();
 ita(
   'Sign up - Verify email - Log in - Revisit verify link',
   authAPI.signUp,

@@ -10,10 +10,12 @@ package mails
 import (
 	"net/http"
 	"qing/a/app"
+	"qing/a/appDB"
 	"qing/a/appService"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/a/servicex/mailx/devmail"
+	"qing/da"
 	"qing/lib/clib"
 
 	"github.com/mgenware/goutil/jsonx"
@@ -63,6 +65,20 @@ func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
 
 	err := devmail.EraseUser(email)
+	app.PanicOn(err)
+	return resp.MustComplete(nil)
+}
+
+func eraseUserByID(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := app.JSONResponse(w, r)
+
+	params := app.ContextDict(r)
+	id := clib.MustGetIDFromDict(params, "id")
+
+	db := appDB.Get().DB()
+	email, err := da.User.SelectEmail(db, id)
+	app.PanicOn(err)
+	err = devmail.EraseUser(email)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }
