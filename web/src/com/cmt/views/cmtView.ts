@@ -17,7 +17,6 @@ import { Cmt } from '../data/cmt';
 import { CHECK } from 'checks';
 import { appdef } from '@qing/def';
 import appPageState from 'app/appPageState';
-import { brMode } from 'devMode';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {
@@ -29,9 +28,16 @@ export class CmtView extends BaseElement {
           display: block;
         }
 
+        .root {
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+          padding-right: 0.5rem;
+        }
+
         .highlighted {
-          padding-right: 0.8rem;
-          border-right: 4px solid var(--app-default-success-fore-color);
+          background-color: var(--app-highlight-color);
+          box-shadow: 0 0 0 100vmax var(--app-highlight-color);
+          clip-path: inset(0 -100vmax);
         }
       `,
     ];
@@ -48,12 +54,19 @@ export class CmtView extends BaseElement {
 
   override render() {
     const { cmt } = this;
+    return html`<div class=${`root ${cmt?.uiHighlighted ? 'highlighted' : ''}`}>
+      ${this.renderContent()}
+    </div>`;
+  }
+
+  private renderContent() {
+    const { cmt } = this;
     CHECK(cmt);
     if (!cmt.userID) {
       return html`<div class="p-md">${ls.cmtDeleted}</div>`;
     }
     return html`
-      <div class=${`avatar-grid ${cmt.uiHighlighted ? 'highlighted' : ''}`}>
+      <div class="avatar-grid">
         <div>
           <a href=${cmt.userURL}>
             <img
@@ -83,7 +96,7 @@ export class CmtView extends BaseElement {
                 `
               : ''}
           </div>
-          <div class=${brMode() ? 'br-content' : ''}>${unsafeHTML(cmt.contentHTML || '')}</div>
+          <div class="md-content">${unsafeHTML(cmt.contentHTML || '')}</div>
           <div>
             <link-button @click=${this.handleReplyClick}>${ls.reply}</link-button>
             <likes-app

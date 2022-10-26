@@ -49,8 +49,8 @@ export class CmtBlock extends BaseElement {
 
         /** Used on buttons between cmts */
         .btn-in-cmts {
-          margin-top: 1rem;
-          margin-bottom: 1.4rem;
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
         }
       `,
     ];
@@ -126,7 +126,6 @@ export class CmtBlock extends BaseElement {
       (it) => it.id,
       (it) =>
         html`<cmt-block
-          class="m-t-md"
           .host=${this.host}
           .cmt=${it}
           @cmt-block-request-delete-child=${this.handleRequestDeleteChild}

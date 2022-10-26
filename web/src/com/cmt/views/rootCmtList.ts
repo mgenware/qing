@@ -136,6 +136,7 @@ export class RootCmtList extends BaseElement {
       }
     }
     return html`<cmt-block
+      class="m-t-sm"
       id=${cmtBlockID}
       .loadOnVisible=${!this.focusModeData}
       .host=${this.host}

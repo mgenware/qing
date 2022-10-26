@@ -60,7 +60,7 @@ export async function shouldAppear(e: CheckCmtArgs) {
   await uv.shouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
 
   // Comment content.
-  await row.$('.br-content').e.toHaveText(e.content);
+  await row.$('.md-content').e.toHaveText(e.content);
 
   if (e.canEdit !== undefined) {
     const editBtn = eb.getEditButton(e.cmtEl, e.author.id);
@@ -72,11 +72,11 @@ export async function shouldAppear(e: CheckCmtArgs) {
   }
 
   if (e.highlighted !== undefined) {
-    const highlightedCls = 'avatar-grid highlighted';
+    const highlightedCls = 'root highlighted';
     if (e.highlighted) {
-      await row.e.toHaveClass(highlightedCls);
+      await e.cmtEl.e.toHaveClass(highlightedCls);
     } else {
-      await row.e.not.toHaveClass(highlightedCls);
+      await e.cmtEl.e.not.toHaveClass(highlightedCls);
     }
   }
 }
