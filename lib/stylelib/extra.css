@@ -598,3 +598,8 @@ textarea {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+.md-content {
+  word-wrap: break-word;
+  word-break: break-word;
+}
