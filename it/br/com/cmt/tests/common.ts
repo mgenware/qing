@@ -72,11 +72,11 @@ export async function shouldAppear(e: CheckCmtArgs) {
   }
 
   if (e.highlighted !== undefined) {
-    const highlightedCls = 'root highlighted';
+    const highlightedSel = '.root.highlighted';
     if (e.highlighted) {
-      await e.cmtEl.e.toHaveClass(highlightedCls);
+      await e.cmtEl.$(highlightedSel).shouldExist();
     } else {
-      await e.cmtEl.e.not.toHaveClass(highlightedCls);
+      await e.cmtEl.$(highlightedSel).shouldNotExist();
     }
   }
 }

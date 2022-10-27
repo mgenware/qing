@@ -12,6 +12,11 @@ import { appdef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
+export interface PostBodyContent {
+  title: string;
+  contentHTML: string;
+}
+
 const entityBody = {
   content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
 };
@@ -27,8 +32,16 @@ export function verifyNewPostAPIResult(r: string | null): string {
   throw new Error(`ID is not a valid string, got ${id}`);
 }
 
-async function newTmpPostCore(user: User) {
-  const r = await entityUtil.setEntity(appdef.contentBaseTypePost, entityBody, user);
+export interface NewPostOptions {
+  body?: PostBodyContent;
+}
+
+async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
+  const r = await entityUtil.setEntity(
+    appdef.contentBaseTypePost,
+    opt?.body ? { content: opt.body } : entityBody,
+    user,
+  );
   const id = verifyNewPostAPIResult(r);
   await entityUtil.updateEntityTime(id, appdef.contentBaseTypePost);
   return id;
@@ -41,10 +54,11 @@ function postLink(id: string) {
 export async function newPost(
   user: User,
   cb: (arg: { id: string; link: string }) => Promise<unknown>,
+  opt?: NewPostOptions,
 ) {
   let id = null;
   try {
-    id = await newTmpPostCore(user);
+    id = await newTmpPostCore(user, opt);
     await cb({ id, link: postLink(id) });
   } finally {
     if (id) {

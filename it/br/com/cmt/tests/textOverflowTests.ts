@@ -1,0 +1,32 @@
+/*
+ * Copyright (C) 2022 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
+import { CmtFixtureWrapper } from './common';
+import * as br from 'br';
+import * as def from 'base/def';
+import * as cm from './common';
+import * as act from './actions';
+
+export default function testTextOverflow(w: CmtFixtureWrapper) {
+  w.test('Text overflow on cmt and reply', br.usr.user, async ({ p }) => {
+    {
+      await p.toMobile();
+      const cmtApp = await w.getCmtApp(p);
+      await act.writeCmt(p, { cmtApp, content: def.sd.longText });
+      await p.shouldNotHaveHScrollBar();
+
+      await act.writeReply(p, { content: def.sd.longText, cmtEl: cm.getTopCmt({ cmtApp }) });
+      await p.shouldNotHaveHScrollBar();
+    }
+    {
+      await p.reload();
+      const cmtApp = await w.getCmtApp(p);
+      await act.clickRepliesButton({ cmtEl: cm.getTopCmt({ cmtApp }), replyCount: 1 });
+      await p.shouldNotHaveHScrollBar();
+    }
+  });
+}

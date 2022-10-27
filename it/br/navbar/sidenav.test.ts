@@ -16,35 +16,35 @@ test('Sidenav - Desktop to mobile', async ({ page }) => {
   await p.delay();
   await helper.checkSidenavVisible(p, false);
 
-  await p.setMobileViewport();
+  await p.toMobile();
   await helper.checkTogglerVisible(p, true);
 });
 
 test('Sidenav - Mobile to desktop', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', null, true);
+  await p.goto('/', null, { mobile: true });
   await helper.checkTogglerVisible(p, true);
   await helper.checkSidenavVisible(p, false);
 
-  await p.setDesktopViewport();
+  await p.toDesktop();
   await helper.checkTogglerVisible(p, false);
 });
 
 test('Sidenav - Appear on mobile - Visitor', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', null, true);
+  await p.goto('/', null, { mobile: true });
   await helper.checkVisitorSidenav(p);
 });
 
 test('Sidenav - Appear on mobile - User', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', usr.user, true);
+  await p.goto('/', usr.user, { mobile: true });
   await helper.checkUserSidenav(p, usr.user);
 });
 
 test('Sidenav - Sign out', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', usr.user, true);
+  await p.goto('/', usr.user, { mobile: true });
   await helper.clickToggler(p);
   const sidenav = p.$(nbm.sidenavSel);
 
@@ -57,7 +57,7 @@ test('Sidenav - Sign out', async ({ page }) => {
 
 test('Sidenav - Dismissed', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', usr.user, true);
+  await p.goto('/', usr.user, { mobile: true });
   await helper.clickToggler(p);
   const sidenav = p.$(nbm.sidenavSel);
 
@@ -68,11 +68,11 @@ test('Sidenav - Dismissed', async ({ page }) => {
 
 test('Sidenav - Dismiss sidenav when switching to desktop', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', null, true);
+  await p.goto('/', null, { mobile: true });
   await helper.clickToggler(p);
   await helper.checkSidenavVisible(p, true);
 
-  await p.setDesktopViewport();
+  await p.toDesktop();
   await helper.checkSidenavVisible(p, false);
   await helper.checkTogglerVisible(p, false);
 });

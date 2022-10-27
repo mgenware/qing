@@ -22,6 +22,7 @@ import testShare from './tests/shareCmtTests';
 import testFocusMode from './tests/focusModeTests';
 import testCollapseReplies from './tests/collapseReplies';
 import testReplyNoti from './tests/notiTests';
+import testTextOverflow from './tests/textOverflowTests';
 
 export default function testCmt(groupName: string, fixture: CmtFixture) {
   const w = new CmtFixtureWrapper(groupName, fixture);
@@ -38,4 +39,5 @@ export default function testCmt(groupName: string, fixture: CmtFixture) {
   testFocusMode(w);
   testCollapseReplies(w);
   testReplyNoti(w);
+  testTextOverflow(w);
 }
