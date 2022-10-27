@@ -203,6 +203,10 @@ export class Element extends LocatorCore {
   }
 }
 
+export interface PageGotoOptions {
+  mobile?: boolean;
+}
+
 export class Page {
   constructor(public c: pw.Page) {}
 
@@ -235,13 +239,13 @@ export class Page {
     return this.c.waitForNavigation({ url: finalUrl });
   }
 
-  goto(url: string, user?: User | null, mobile?: boolean) {
-    return this.gotoRaw(`${serverURL}${url}`, user, mobile);
+  goto(url: string, user?: User | null, opt?: PageGotoOptions) {
+    return this.gotoRaw(`${serverURL}${url}`, user, opt);
   }
 
-  async gotoRaw(url: string, user?: User | null, mobile?: boolean) {
-    if (mobile) {
-      await this.setMobileViewport();
+  async gotoRaw(url: string, user?: User | null, opt?: PageGotoOptions) {
+    if (opt?.mobile) {
+      await this.toMobile();
     }
     if (user) {
       await this.signIn(user);
@@ -253,11 +257,16 @@ export class Page {
     expect(await this.currentUserID()).toBe(user ? user.id : null);
   }
 
-  setMobileViewport() {
+  async shouldNotHaveHScrollBar() {
+    const hScrollable = await this.body.c.evaluate((e) => e.clientWidth < e.scrollWidth);
+    expect(hScrollable).toBeFalsy();
+  }
+
+  toMobile() {
     return this.c.setViewportSize(mobileViewport);
   }
 
-  setDesktopViewport() {
+  toDesktop() {
     return this.c.setViewportSize(desktopViewport);
   }
 
