@@ -5,15 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import * as eb from 'br/com/editing/editBar';
 import * as alt from 'br/com/overlays/alert';
 import * as def from 'base/def';
-import * as cm from './common';
-import { writeCmt } from './actions';
+import * as cm from '../common';
+import { writeCmt } from '../actions';
 
-function testDeleteCore(w: CmtFixtureWrapper, fresh: boolean) {
+function testDeleteCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test('Delete a cmt' + (fresh ? ' fresh' : ''), usr.user, async ({ p }) => {
     {
       {
@@ -46,7 +45,7 @@ function testDeleteCore(w: CmtFixtureWrapper, fresh: boolean) {
   });
 }
 
-export default function testDelete(w: CmtFixtureWrapper) {
+export default function testDelete(w: cm.CmtFixtureWrapper) {
   testDeleteCore(w, true);
   testDeleteCore(w, false);
 }

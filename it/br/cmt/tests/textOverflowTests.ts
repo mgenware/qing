@@ -5,13 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import * as br from 'br';
 import * as def from 'base/def';
-import * as cm from './common';
-import * as act from './actions';
+import * as cm from '../common';
+import * as act from '../actions';
 
-export default function testTextOverflow(w: CmtFixtureWrapper) {
+export default function testTextOverflow(w: cm.CmtFixtureWrapper) {
   w.test('Text overflow on cmt and reply', br.usr.user, async ({ p }) => {
     {
       await p.toMobile();

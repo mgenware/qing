@@ -5,13 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { usr, Page } from 'br';
 import * as def from 'base/def';
-import * as cm from './common';
-import * as act from './actions';
+import * as cm from '../common';
+import * as act from '../actions';
 
-async function setupEnv(w: CmtFixtureWrapper, p: Page) {
+async function setupEnv(w: cm.CmtFixtureWrapper, p: Page) {
   const cmtApp = await w.getCmtApp(p);
   await act.writeCmt(p, {
     cmtApp,
@@ -25,7 +24,7 @@ async function setupEnv(w: CmtFixtureWrapper, p: Page) {
   await p.reload();
 }
 
-function testCollapseAndExpandReplies(w: CmtFixtureWrapper) {
+function testCollapseAndExpandReplies(w: cm.CmtFixtureWrapper) {
   w.test('Collapse and expand replies', usr.user, async ({ p }) => {
     {
       await setupEnv(w, p);
@@ -47,7 +46,7 @@ function testCollapseAndExpandReplies(w: CmtFixtureWrapper) {
   });
 }
 
-function testAddAndExpandReplies(w: CmtFixtureWrapper) {
+function testAddAndExpandReplies(w: cm.CmtFixtureWrapper) {
   w.test('Collapse and expand replies - Add a fresh reply first', usr.user, async ({ p }) => {
     {
       await setupEnv(w, p);
@@ -77,7 +76,7 @@ function testAddAndExpandReplies(w: CmtFixtureWrapper) {
   });
 }
 
-export default function testCollapseReplies(w: CmtFixtureWrapper) {
+export default function testCollapseReplies(w: cm.CmtFixtureWrapper) {
   testCollapseAndExpandReplies(w);
   testAddAndExpandReplies(w);
 }

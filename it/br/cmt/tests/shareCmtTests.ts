@@ -5,14 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import * as def from 'base/def';
-import * as cm from './common';
-import * as act from './actions';
+import * as cm from '../common';
+import * as act from '../actions';
 import * as sh from 'br/com/overlays/share';
 
-export default function testShare(w: CmtFixtureWrapper) {
+export default function testShare(w: cm.CmtFixtureWrapper) {
   w.test('Share a cmt or reply', usr.user, async ({ p }) => {
     {
       // Create 1 cmt and 1 reply.

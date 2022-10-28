@@ -8,13 +8,15 @@
 import * as br from 'br';
 import { User } from 'br';
 
-export interface FixtureStartArg {
-  p: br.Page;
-  user: User | null;
+export interface FixtureStartOptions {
+  // Defaults to `usr.user`.
+  author?: User;
+  // Defaults to undefined (visitor).
+  viewer?: User;
 }
 
 export abstract class CmtFixture {
-  abstract start(arg: FixtureStartArg, cb: () => void): Promise<void>;
+  abstract start(p: br.Page, opt: FixtureStartOptions, cb: () => void): Promise<void>;
   abstract getCmtApp(p: br.Page): Promise<br.Element>;
   abstract getHostURL(p: br.Page): string;
 }

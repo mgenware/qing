@@ -5,14 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import * as def from 'base/def';
-import * as cm from './common';
-import * as act from './actions';
+import * as cm from '../common';
+import * as act from '../actions';
 import * as cps from 'br/com/editing/composer';
 
-function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
+function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}cmt, default ordering`,
     usr.user,
@@ -64,7 +63,7 @@ function testCreateCore(w: CmtFixtureWrapper, fresh: boolean) {
   );
 }
 
-function testCreateWithPagination(w: CmtFixtureWrapper) {
+function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
   w.test('Create cmts, pagination', usr.user, async ({ p }) => {
     {
       const total = 5;
@@ -142,7 +141,7 @@ function testCreateWithPagination(w: CmtFixtureWrapper) {
 
 // Forked from `testCreateCmtsPagination`.
 // Tests creating cmts while loading more pages. Duplicates should not happen.
-function testCreateWithDedup(w: CmtFixtureWrapper) {
+function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
   w.test('Create cmts, dedup', usr.user, async ({ p }) => {
     {
       const total = 5;
@@ -255,7 +254,7 @@ function testCreateWithDedup(w: CmtFixtureWrapper) {
   });
 }
 
-export default function testCreate(w: CmtFixtureWrapper) {
+export default function testCreate(w: cm.CmtFixtureWrapper) {
   testCreateCore(w, true);
   testCreateCore(w, false);
   testCreateWithPagination(w);

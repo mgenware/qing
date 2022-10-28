@@ -5,14 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { Page, usr, Element } from 'br';
-import * as cm from './common';
-import * as act from './actions';
+import * as cm from '../common';
+import * as act from '../actions';
 import * as sh from 'br/com/overlays/share';
 import { serverURL } from 'base/def';
 
-async function addNestedCmts(w: CmtFixtureWrapper, p: Page, linkName: string) {
+async function addNestedCmts(w: cm.CmtFixtureWrapper, p: Page, linkName: string) {
   // This creates the following structure:
   // - cmt2
   // - cmt1
@@ -77,7 +76,7 @@ function addCmtParams(link: string, id: string) {
   return url.toString();
 }
 
-async function checkViewAllComments(w: CmtFixtureWrapper, p: Page, cmtApp: Element) {
+async function checkViewAllComments(w: cm.CmtFixtureWrapper, p: Page, cmtApp: Element) {
   await Promise.all([
     clickViewAllComments(cmtApp),
     p.c.waitForNavigation({ url: removeCmtParams(`${serverURL}${w.getHostURL(p)}`) }),
@@ -90,7 +89,7 @@ function check404Content(cmtApp: Element) {
     .e.toHaveText('The comment your are looking for is not found and might have been deleted.');
 }
 
-function testReply(w: CmtFixtureWrapper) {
+function testReply(w: cm.CmtFixtureWrapper) {
   w.test('Focus reply', usr.user, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'reply');
     await p.gotoRaw(link, null);
@@ -141,7 +140,7 @@ function testReply(w: CmtFixtureWrapper) {
   });
 }
 
-function testCmt(w: CmtFixtureWrapper) {
+function testCmt(w: cm.CmtFixtureWrapper) {
   w.test('Focus cmt', usr.user, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'cmt');
     await p.gotoRaw(link, null);
@@ -170,7 +169,7 @@ function testCmt(w: CmtFixtureWrapper) {
   });
 }
 
-function test404Cmt(w: CmtFixtureWrapper) {
+function test404Cmt(w: cm.CmtFixtureWrapper) {
   w.test('Focus 404 cmt', usr.user, async ({ p }) => {
     const postLink = addCmtParams(`${serverURL}${w.getHostURL(p)}`, '999999');
     await p.gotoRaw(postLink, null);
@@ -185,7 +184,7 @@ function test404Cmt(w: CmtFixtureWrapper) {
   });
 }
 
-export default function testFocusMode(w: CmtFixtureWrapper) {
+export default function testFocusMode(w: cm.CmtFixtureWrapper) {
   testReply(w);
   testCmt(w);
   test404Cmt(w);

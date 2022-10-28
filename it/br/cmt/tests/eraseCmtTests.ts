@@ -5,23 +5,21 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
 import * as eb from 'br/com/editing/editBar';
 import * as alt from 'br/com/overlays/alert';
 import * as def from 'base/def';
-import * as cm from './common';
-import * as act from './actions';
-import { writeCmt } from './actions';
+import * as cm from '../common';
+import * as act from '../actions';
 
-function testEraseCore(w: CmtFixtureWrapper, fresh: boolean) {
+function testEraseCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test('Erase cmts - ' + (fresh ? 'Fresh' : 'Stale'), usr.user, async ({ p }) => {
     {
       {
         // Create 3 nested cmts.
         let cmtApp = await w.getCmtApp(p);
         // Cmt 1.
-        await writeCmt(p, { cmtApp, content: def.sd.content });
+        await act.writeCmt(p, { cmtApp, content: def.sd.content });
         let cmtEl = cm.getTopCmt({ cmtApp });
         // Reply 1.
         await act.writeReply(p, { cmtEl, content: def.sd.content });
@@ -89,7 +87,7 @@ function testEraseCore(w: CmtFixtureWrapper, fresh: boolean) {
   });
 }
 
-export default function testErase(w: CmtFixtureWrapper) {
+export default function testErase(w: cm.CmtFixtureWrapper) {
   testEraseCore(w, true);
   testEraseCore(w, false);
 }

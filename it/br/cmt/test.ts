@@ -6,7 +6,7 @@
  */
 
 import { CmtFixture } from './fixture';
-import { CmtFixtureWrapper } from './tests/common';
+import { CmtFixtureWrapper } from './common';
 
 // Individual tests.
 import testNoCmts from './tests/noCmtTests';

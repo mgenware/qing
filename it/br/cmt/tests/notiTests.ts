@@ -5,15 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import * as br from 'br';
 import * as def from 'base/def';
-import * as cm from './common';
+import * as cm from '../common';
 import { getEmail, newUser } from 'helper/user';
-import * as act from './actions';
+import * as act from '../actions';
 import * as mh from 'helper/mail';
 
-export default function testReplyNoti(w: CmtFixtureWrapper) {
+export default function testReplyNoti(w: cm.CmtFixtureWrapper) {
   // Noti for root cmts are tested in individual post types.
   w.test('Send a noti when replying to another cmt', null, async ({ p }) => {
     await newUser(async (u) => {

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import * as cm from './common';
+import * as cm from '../common';
 import * as br from 'br';
 import * as def from 'base/def';
-import * as act from './actions';
+import * as act from '../actions';
 import * as cps from 'br/com/editing/composer';
 
 interface TestWithOverlayParams {

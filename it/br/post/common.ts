@@ -13,7 +13,6 @@ import * as def from 'base/def';
 import * as cps from 'br/com/editing/composer';
 
 export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';
-export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export async function shouldHaveContent(page: br.Page, text: string) {
   await page.$('.m-post-user + hr + div').e.toHaveText(text);

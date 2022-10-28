@@ -40,7 +40,7 @@ export async function userInfo(uid: string, opt?: APIOptions): Promise<User | nu
   return api(apiAuth.info, { uid }, null, opt);
 }
 
-export async function newUser(cb: (u: User) => Promise<void>, opt?: NewUserOptions) {
+export async function newUser(cb: (u: User) => Promise<void> | void, opt?: NewUserOptions) {
   let u: User | undefined;
   try {
     u = await newUserCore(opt);

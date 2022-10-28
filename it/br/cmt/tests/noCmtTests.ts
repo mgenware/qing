@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixtureWrapper } from './common';
 import { usr } from 'br';
-import * as cm from './common';
+import * as cm from '../common';
 
-export default function testNoCmts(w: CmtFixtureWrapper) {
+export default function testNoCmts(w: cm.CmtFixtureWrapper) {
   w.test('No comments', null, async ({ p }) => {
     {
       // Visitor view.

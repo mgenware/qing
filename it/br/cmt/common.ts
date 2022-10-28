@@ -8,7 +8,7 @@
 import * as br from 'br';
 import * as uv from 'br/com/content/userView';
 import * as eb from 'br/com/editing/editBar';
-import { CmtFixture } from '../fixture';
+import { CmtFixture } from './fixture';
 
 // Usage: `cmtEl.$(cmtChildrenSel)`.
 export const cmtChildrenSel = '> div > .br-children';
