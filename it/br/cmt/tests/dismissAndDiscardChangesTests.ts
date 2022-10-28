@@ -20,7 +20,7 @@ interface TestWithOverlayParams {
 }
 
 function testWithOverlayEl(w: cm.CmtFixtureWrapper, e: TestWithOverlayParams) {
-  w.test(`Dismiss editor - ${e.name}`, br.usr.user, async ({ p }) => {
+  w.test(`Dismiss editor - ${e.name}`, { viewer: br.usr.user }, async ({ p }) => {
     const cmtEl = await e.action(p, await w.getCmtApp(p));
 
     const { overlayEl } = await cps.waitForOverlay(p, e.overlayPrefixSel);
@@ -50,7 +50,7 @@ function testDiscardChanges(
 ) {
   w.test(
     `${discardChanges ? 'Discard' : 'Keep'} post editor changes - ${e.name}`,
-    br.usr.user,
+    { viewer: br.usr.user },
     async ({ p }) => {
       const cmtEl = await e.action(p, await w.getCmtApp(p));
 

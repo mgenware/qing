@@ -90,7 +90,7 @@ function check404Content(cmtApp: Element) {
 }
 
 function testReply(w: cm.CmtFixtureWrapper) {
-  w.test('Focus reply', usr.user, async ({ p }) => {
+  w.test('Focus reply', { viewer: usr.user }, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'reply');
     await p.gotoRaw(link, null);
 
@@ -141,7 +141,7 @@ function testReply(w: cm.CmtFixtureWrapper) {
 }
 
 function testCmt(w: cm.CmtFixtureWrapper) {
-  w.test('Focus cmt', usr.user, async ({ p }) => {
+  w.test('Focus cmt', { viewer: usr.user }, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'cmt');
     await p.gotoRaw(link, null);
 
@@ -170,7 +170,7 @@ function testCmt(w: cm.CmtFixtureWrapper) {
 }
 
 function test404Cmt(w: cm.CmtFixtureWrapper) {
-  w.test('Focus 404 cmt', usr.user, async ({ p }) => {
+  w.test('Focus 404 cmt', { viewer: usr.user }, async ({ p }) => {
     const postLink = addCmtParams(`${serverURL}${w.getHostURL(p)}`, '999999');
     await p.gotoRaw(postLink, null);
 

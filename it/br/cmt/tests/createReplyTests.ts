@@ -14,7 +14,7 @@ import * as cps from 'br/com/editing/composer';
 function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}reply, default ordering, expander state`,
-    usr.user,
+    { viewer: usr.user },
     async ({ p }) => {
       {
         {
@@ -92,7 +92,7 @@ function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
 }
 
 function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
-  w.test('Create replies, pagination', usr.user, async ({ p }) => {
+  w.test('Create replies, pagination', { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {
@@ -185,7 +185,7 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
 // Forked from `testCreateRepliesPagination`.
 // Tests creating replies while loading more pages. Duplicates should not happen.
 function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
-  w.test('Create replies, dedup', usr.user, async ({ p }) => {
+  w.test('Create replies, dedup', { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {

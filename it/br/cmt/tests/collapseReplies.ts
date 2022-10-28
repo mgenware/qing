@@ -25,7 +25,7 @@ async function setupEnv(w: cm.CmtFixtureWrapper, p: Page) {
 }
 
 function testCollapseAndExpandReplies(w: cm.CmtFixtureWrapper) {
-  w.test('Collapse and expand replies', usr.user, async ({ p }) => {
+  w.test('Collapse and expand replies', { viewer: usr.user }, async ({ p }) => {
     {
       await setupEnv(w, p);
       const cmtApp = await w.getCmtApp(p);
@@ -47,33 +47,37 @@ function testCollapseAndExpandReplies(w: cm.CmtFixtureWrapper) {
 }
 
 function testAddAndExpandReplies(w: cm.CmtFixtureWrapper) {
-  w.test('Collapse and expand replies - Add a fresh reply first', usr.user, async ({ p }) => {
-    {
-      await setupEnv(w, p);
-      const cmtApp = await w.getCmtApp(p);
-      const cmtEl = cm.getTopCmt({ cmtApp });
+  w.test(
+    'Collapse and expand replies - Add a fresh reply first',
+    { viewer: usr.user },
+    async ({ p }) => {
+      {
+        await setupEnv(w, p);
+        const cmtApp = await w.getCmtApp(p);
+        const cmtEl = cm.getTopCmt({ cmtApp });
 
-      // Add a reply before loading replies.
-      // Now reply view automatically gets expanded.
-      await act.writeReply(p, { cmtEl, content: 'new' });
-      await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 1 });
-      // Collapse replies.
-      await act.clickRepliesButton({ cmtEl, replyCount: 4, collapse: true });
-      await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 0 });
-      // Expand replies.
-      await act.clickRepliesButton({ cmtEl, replyCount: 4 });
-      await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 1 });
-      // Click more replies.
-      await act.clickMoreReplies({ cmtEl });
-      await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 3 });
-      // Click more replies.
-      await act.clickMoreReplies({ cmtEl });
-      await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 4 });
-      // Collapse all.
-      await act.clickRepliesButton({ cmtEl, replyCount: 4, collapse: true });
-      await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 0 });
-    }
-  });
+        // Add a reply before loading replies.
+        // Now reply view automatically gets expanded.
+        await act.writeReply(p, { cmtEl, content: 'new' });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 1 });
+        // Collapse replies.
+        await act.clickRepliesButton({ cmtEl, replyCount: 4, collapse: true });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 0 });
+        // Expand replies.
+        await act.clickRepliesButton({ cmtEl, replyCount: 4 });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 1 });
+        // Click more replies.
+        await act.clickMoreReplies({ cmtEl });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 3 });
+        // Click more replies.
+        await act.clickMoreReplies({ cmtEl });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 4 });
+        // Collapse all.
+        await act.clickRepliesButton({ cmtEl, replyCount: 4, collapse: true });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 4, shown: 0 });
+      }
+    },
+  );
 }
 
 export default function testCollapseReplies(w: cm.CmtFixtureWrapper) {

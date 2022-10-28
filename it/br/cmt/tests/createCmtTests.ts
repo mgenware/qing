@@ -14,7 +14,7 @@ import * as cps from 'br/com/editing/composer';
 function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test(
     `Create and view a ${fresh ? 'fresh ' : ''}cmt, default ordering`,
-    usr.user,
+    { viewer: usr.user },
     async ({ p }) => {
       {
         {
@@ -64,7 +64,7 @@ function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
 }
 
 function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
-  w.test('Create cmts, pagination', usr.user, async ({ p }) => {
+  w.test('Create cmts, pagination', { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {
@@ -142,7 +142,7 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
 // Forked from `testCreateCmtsPagination`.
 // Tests creating cmts while loading more pages. Duplicates should not happen.
 function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
-  w.test('Create cmts, dedup', usr.user, async ({ p }) => {
+  w.test('Create cmts, dedup', { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {

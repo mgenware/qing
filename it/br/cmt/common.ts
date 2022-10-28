@@ -8,7 +8,7 @@
 import * as br from 'br';
 import * as uv from 'br/com/content/userView';
 import * as eb from 'br/com/editing/editBar';
-import { CmtFixture } from './fixture';
+import { CmtFixture, CmtFixtureStartCbArg, CmtFixtureStartOptions } from './fixture';
 
 // Usage: `cmtEl.$(cmtChildrenSel)`.
 export const cmtChildrenSel = '> div > .br-children';
@@ -110,11 +110,15 @@ export function shouldNotHaveReplies(el: br.Element) {
 export class CmtFixtureWrapper {
   constructor(public groupName: string, public fixture: CmtFixture) {}
 
-  test(name: string, initialViewer: br.User | null, cb: (arg: { p: br.Page }) => Promise<void>) {
+  test(
+    name: string,
+    opt: CmtFixtureStartOptions,
+    cb: (arg: CmtFixtureStartCbArg) => Promise<void>,
+  ) {
     return br.test(`${this.groupName} - ${name}`, async ({ page }) => {
       const p = br.$(page);
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      await this.fixture.start({ p, user: initialViewer }, () => cb({ p }));
+      await this.fixture.start(p, opt, cb);
     });
   }
 

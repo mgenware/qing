@@ -14,7 +14,7 @@ import * as mh from 'helper/mail';
 
 export default function testReplyNoti(w: cm.CmtFixtureWrapper) {
   // Noti for root cmts are tested in individual post types.
-  w.test('Send a noti when replying to another cmt', null, async ({ p }) => {
+  w.test('Send a noti when replying to another cmt', {}, async ({ p }) => {
     await newUser(async (u) => {
       {
         {

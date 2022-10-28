@@ -15,7 +15,7 @@ import * as act from '../cmt/actions';
 
 const w = new CmtFixtureWrapper('Post', postCmtFixture);
 
-w.test('Post noti', null, async ({ p }) => {
+w.test('Post noti', { author: 'new' }, async ({ p }) => {
   // Create a post with a tmp user.
   await newUser(async (u) => {
     // Add a cmt with user1.

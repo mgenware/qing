@@ -9,7 +9,7 @@ import { usr } from 'br';
 import * as cm from '../common';
 
 export default function testNoCmts(w: cm.CmtFixtureWrapper) {
-  w.test('No comments', null, async ({ p }) => {
+  w.test('No comments', {}, async ({ p }) => {
     {
       // Visitor view.
       const cmtApp = await w.getCmtApp(p);

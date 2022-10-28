@@ -8,15 +8,26 @@
 import * as br from 'br';
 import { User } from 'br';
 
-export interface FixtureStartOptions {
+export interface CmtFixtureStartOptions {
   // Defaults to `usr.user`.
-  author?: User;
+  author?: User | 'new';
   // Defaults to undefined (visitor).
-  viewer?: User;
+  viewer?: User | 'new';
+}
+
+export interface CmtFixtureStartCbArg {
+  p: br.Page;
+  viewer: br.User | null;
+  author: br.User;
 }
 
 export abstract class CmtFixture {
-  abstract start(p: br.Page, opt: FixtureStartOptions, cb: () => void): Promise<void>;
+  abstract start(
+    p: br.Page,
+    opt: CmtFixtureStartOptions,
+    cb: (arg: CmtFixtureStartCbArg) => void,
+  ): Promise<void>;
+
   abstract getCmtApp(p: br.Page): Promise<br.Element>;
   abstract getHostURL(p: br.Page): string;
 }

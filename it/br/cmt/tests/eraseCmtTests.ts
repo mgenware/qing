@@ -13,7 +13,7 @@ import * as cm from '../common';
 import * as act from '../actions';
 
 function testEraseCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test('Erase cmts - ' + (fresh ? 'Fresh' : 'Stale'), usr.user, async ({ p }) => {
+  w.test('Erase cmts - ' + (fresh ? 'Fresh' : 'Stale'), { viewer: usr.user }, async ({ p }) => {
     {
       {
         // Create 3 nested cmts.

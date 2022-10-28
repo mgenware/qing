@@ -13,7 +13,7 @@ import * as cm from '../common';
 import { writeCmt } from '../actions';
 
 function testDeleteCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test('Delete a cmt' + (fresh ? ' fresh' : ''), usr.user, async ({ p }) => {
+  w.test('Delete a cmt' + (fresh ? ' fresh' : ''), { viewer: usr.user }, async ({ p }) => {
     {
       {
         let cmtApp = await w.getCmtApp(p);

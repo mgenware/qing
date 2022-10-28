@@ -12,7 +12,7 @@ import * as act from '../actions';
 import * as sh from 'br/com/overlays/share';
 
 export default function testShare(w: cm.CmtFixtureWrapper) {
-  w.test('Share a cmt or reply', usr.user, async ({ p }) => {
+  w.test('Share a cmt or reply', { viewer: usr.user }, async ({ p }) => {
     {
       // Create 1 cmt and 1 reply.
       let cmtApp = await w.getCmtApp(p);

@@ -13,7 +13,7 @@ import * as cps from 'br/com/editing/composer';
 import delay from 'base/delay';
 
 function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, usr.user, async ({ p }) => {
+  w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, { viewer: usr.user }, async ({ p }) => {
     {
       {
         let cmtApp = await w.getCmtApp(p);

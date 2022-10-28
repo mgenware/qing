@@ -11,7 +11,7 @@ import * as cm from '../common';
 import * as act from '../actions';
 
 export default function testTextOverflow(w: cm.CmtFixtureWrapper) {
-  w.test('Text overflow on cmt and reply', br.usr.user, async ({ p }) => {
+  w.test('Text overflow on cmt and reply', { viewer: br.usr.user }, async ({ p }) => {
     {
       await p.toMobile();
       const cmtApp = await w.getCmtApp(p);
