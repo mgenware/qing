@@ -72,8 +72,8 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(pageData))
 	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
-	d.Header = appHandler.MainPage().AssetManager().Style(profileEntry)
-	d.Scripts = appHandler.MainPage().AssetManager().Script(profileEntry)
+	d.Header = appHandler.MainPage().AssetManager().MustGetStyle(profileEntry)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(profileEntry)
 	d.WindData = ProfilePageWindData{Website: user.Website}
 	return resp.MustComplete(&d)
 }

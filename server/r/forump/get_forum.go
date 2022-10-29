@@ -62,7 +62,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicOn(err)
 	forumModel := NewForumPageModel(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := app.MainPageData("", vForumPage.MustExecuteToString(forumModel))
-	d.Scripts = appHandler.MainPage().AssetManager().Script(forumScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(forumScript)
 	d.WindData = ForumPageWindData{Editable: forumModel.ForumEditable, FID: forumModel.ForumEID}
 	return resp.MustComplete(&d)
 }

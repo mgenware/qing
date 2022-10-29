@@ -50,7 +50,7 @@ func MustCreateMainPageManager(
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
 
-	asMgr := NewAssetManager(conf.DevMode())
+	asMgr := NewAssetManager(conf.HTTP.Static.URL, conf.HTTP.Static.Dir)
 
 	t := &MainPageManager{
 		lsMgr:                lsMgr,
@@ -109,10 +109,10 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	}
 
 	// `base.css` and `document.css` come before other header styles.
-	d.Header = m.asMgr.Style("base") + m.asMgr.Style("document") + d.Header
+	d.Header = m.asMgr.MustGetStyle("base") + m.asMgr.MustGetStyle("document") + d.Header
 
 	// Lang script comes before user scripts.
-	d.Scripts = m.asMgr.LangScript(lang) + d.Scripts
+	d.Scripts = m.asMgr.MustGetLangScript(lang) + d.Scripts
 
 	// Community mode settings.
 	d.AppCommunityMode = int(appSettings.Get().CommunityMode())
@@ -158,7 +158,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
-	mainPageData.Scripts = m.AssetManager().Script(coreScriptEntry)
+	mainPageData.Scripts = m.AssetManager().MustGetScript(coreScriptEntry)
 	m.MustComplete(r, lang, statusCode, &mainPageData, w)
 	return HTML(0)
 }

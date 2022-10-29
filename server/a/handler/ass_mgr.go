@@ -7,7 +7,14 @@
 
 package handler
 
-const staticDir = "/static/g/"
+import (
+	"fmt"
+	"path/filepath"
+)
+
+// `g` folder is a sub-folder in `/static` as the root folder
+// for all generated resources.
+const gFolder = "g"
 
 func scriptTag(src string) string {
 	return "<script type=\"module\" src=\"" + src + "\"></script>"
@@ -17,52 +24,60 @@ func styleTag(src string) string {
 	return "<link rel=\"stylesheet\" href=\"" + src + "\"/>"
 }
 
-func appScriptTag(name string) string {
-	return scriptTag(staticDir + "js/" + name + ".js")
-}
-
-func appStyleTag(name string) string {
-	return styleTag(staticDir + "css/" + name + ".css")
-}
-
-func langScriptTag(name string) string {
-	return scriptTag(staticDir + "lang/" + name + ".js")
-}
-
 type AssetManager struct {
-	dev bool
+	rootURL string
+	rootDir string
 
 	// K: name, V: <link> string.
-	jsCache  map[string]string
-	cssCache map[string]string
+	jsCache   map[string]string
+	cssCache  map[string]string
+	langCache map[string]string
 }
 
-func NewAssetManager(dev bool) *AssetManager {
+func NewAssetManager(rootURL, rootDir string) *AssetManager {
 	r := &AssetManager{}
-	r.dev = dev
+	r.rootURL = filepath.Join(rootURL, gFolder)
+	r.rootDir = filepath.Join(rootDir, gFolder)
 	r.jsCache = make(map[string]string)
 	r.cssCache = make(map[string]string)
+	r.langCache = make(map[string]string)
 	return r
 }
 
-func (asm *AssetManager) Script(name string) string {
-	v := asm.jsCache[name]
+func (asm *AssetManager) MustGetScript(name string) string {
+	return asm.mustGetResource("js", name, "js", asm.jsCache)
+}
+
+func (asm *AssetManager) MustGetStyle(name string) string {
+	return asm.mustGetResource("css", name, "css", asm.cssCache)
+}
+
+func (asm *AssetManager) MustGetLangScript(name string) string {
+	return asm.mustGetResource("lang", name, "js", asm.langCache)
+}
+
+// `category`: js, css, lang
+func (asm *AssetManager) mustGetResource(category, name, ext string, cache map[string]string) string {
+	v := cache[name]
 	if v == "" {
-		v = appScriptTag(name)
-		asm.jsCache[name] = v
+		nameWithHash, err := asm.fileNameWithHash(category+"/"+name, ext)
+		if err != nil {
+			panic(err)
+		}
+		v = scriptTag(asm.rootURL + "/" + category + "/" + nameWithHash)
+		cache[name] = v
 	}
 	return v
 }
 
-func (asm *AssetManager) Style(name string) string {
-	v := asm.cssCache[name]
-	if v == "" {
-		v = appStyleTag(name)
-		asm.cssCache[name] = v
+func (asm *AssetManager) fileNameWithHash(name, ext string) (string, error) {
+	pattern := filepath.Join(asm.rootDir, name+"-*"+ext)
+	res, err := filepath.Glob(pattern)
+	if err != nil {
+		return "", err
 	}
-	return v
-}
-
-func (asm *AssetManager) LangScript(name string) string {
-	return langScriptTag(name)
+	if len(res) == 0 {
+		return "", fmt.Errorf("no match for glob %v", pattern)
+	}
+	return res[0], nil
 }
