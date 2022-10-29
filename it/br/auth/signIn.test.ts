@@ -11,8 +11,23 @@ import * as nbc from 'br/com/navbar/checks';
 import * as ivh from 'br/com/forms/inputViewHelper';
 import * as kh from 'br/com/keyboardHelper';
 import * as authRoutes from '@qing/routes/d/auth';
+import * as nbm from 'br/com/navbar/menu';
 
 const signInAppSel = 'sign-in-app';
+
+test('Sign in - Click-through', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/');
+  const navbarEl = p.$(nbm.navbarSel);
+  await navbarEl.$a({ href: authRoutes.signIn, text: 'Sign in' }).shouldExist();
+});
+
+test('Sign in - Click-through - Mobile', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/', null, { mobile: true });
+  const navbarEl = p.$(nbm.navbarSel);
+  await navbarEl.$a({ href: authRoutes.signIn, text: 'Sign in' }).shouldExist();
+});
 
 test('Sign in - Default fields', async ({ page }) => {
   const p = $(page);

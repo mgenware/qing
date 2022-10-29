@@ -32,7 +32,7 @@ test('Navbar - User', async ({ page }) => {
   await userMenu.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
   await userMenu.$a({ href: '/m/your-fposts', text: 'Your forum posts' }).e.toBeVisible();
   await userMenu.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
-  // TODO: tests for new post and new thread.
+  // Non-link items like "New post" are tested in their own test files.
 });
 
 test('Navbar - Sign out', async ({ page }) => {

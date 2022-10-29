@@ -11,8 +11,23 @@ import * as authRoutes from '@qing/routes/d/auth';
 import * as kh from 'br/com/keyboardHelper';
 import * as mh from 'helper/mail';
 import { newEmail } from 'helper/user';
+import * as nbm from 'br/com/navbar/menu';
 
 const signUpAppSel = 'sign-up-app';
+
+test('Sign up - Click-through', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/');
+  const navbarEl = p.$(nbm.navbarSel);
+  await navbarEl.$a({ href: authRoutes.signUp, text: 'Sign up' }).shouldExist();
+});
+
+test('Sign up - Click-through - Mobile', async ({ page }) => {
+  const p = $(page);
+  await p.goto('/', null, { mobile: true });
+  const navbarEl = p.$(nbm.navbarSel);
+  await navbarEl.$a({ href: authRoutes.signUp, text: 'Sign up' }).shouldExist();
+});
 
 test('Sign up - Default fields', async ({ page }) => {
   const p = $(page);

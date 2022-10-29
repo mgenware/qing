@@ -70,7 +70,7 @@ export async function checkUserSidenav(p: Page, u: User) {
   await sidenav.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
   await sidenav.$a({ href: '/m/your-fposts', text: 'Your forum posts' }).e.toBeVisible();
   await sidenav.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
-  // TODO: tests for new post and new thread.
 
-  // Theme options are tested in theme.ts.
+  // Non-link items like "New post" are tested in their own test files.
+  // Theme options are tested in `theme.ts`.
 }
