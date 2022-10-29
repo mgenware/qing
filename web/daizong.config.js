@@ -67,7 +67,7 @@ export default {
     privateTasks: {
       prepare: {
         run: {
-          del: ['dist', '../userland/static/d/js', 'tsconfig.tsbuildinfo'],
+          del: ['dist', '../userland/static/g/js', 'tsconfig.tsbuildinfo'],
         },
       },
       prepare_turbo: {
