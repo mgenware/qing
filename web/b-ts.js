@@ -62,6 +62,7 @@ await esbuild.build({
   bundle: true,
   outdir: '../userland/static/g/js',
   minify: !isDev(),
+  entryNames: '[dir]/[name]-[hash]',
   splitting: true,
   format: 'esm',
   define: {

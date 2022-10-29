@@ -9,7 +9,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.40.1
       '@typescript-eslint/parser': ^5.40.1
       bowhead-js: ^6.0.1
-      daizong: ^0.25.5
+      daizong: ^0.25.6
       esbuild: ^0.15.12
       eslint: ^8.26.0
       eslint-config-mgenware: ^0.8.0
@@ -31,7 +31,7 @@ importers:
       '@types/node': 18.11.3
       '@typescript-eslint/eslint-plugin': 5.40.1_c4zyna56jjjrggqkyejnaxjxfu
       '@typescript-eslint/parser': 5.40.1_wyqvi574yv7oiwfeinomdzmc3m
-      daizong: 0.25.5
+      daizong: 0.25.6
       esbuild: 0.15.12
       eslint: 8.26.0
       eslint-config-mgenware: 0.8.0_4a66f5wid7yyfum3u635pldopa
@@ -149,7 +149,7 @@ importers:
       basic-trie: ^0.2.0
       esbuild-plugin-minify-html-literals: ^1.0.1
       f-array.splice: ^1.1.0
-      html-validate: 7.6.0
+      html-validate: 7.7.1
       js-cookie: ^3.0.1
       kangxi-editor: ^0.15.0
       lit-analyzer: 2.0.0-pre.2
@@ -187,7 +187,7 @@ importers:
       '@web/test-runner': 0.15.0
       '@web/test-runner-playwright': 0.9.0
       esbuild-plugin-minify-html-literals: 1.0.1
-      html-validate: 7.6.0
+      html-validate: 7.7.1
       lit-analyzer: 2.0.0-pre.2
       qing-t: 6.2.1
 
@@ -1724,6 +1724,12 @@ packages:
   /chalk/5.0.1:
     resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: false
+
+  /chalk/5.1.2:
+    resolution: {integrity: sha512-E5CkT4jWURs1Vy5qGJye+XwCkNj7Od3Af7CP6SujMetSMkLs8Do2RWJK5yx1wamHV/op8Rz+9rltjaTQWDnEFQ==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: true
 
   /chokidar/3.5.1:
     resolution: {integrity: sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==}
@@ -1963,12 +1969,12 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /daizong/0.25.5:
-    resolution: {integrity: sha512-DjX5uffIoP6RQ+7jCjULZSskC6i+m6GQQWZQNudvPGla0UHIuQRy8L/jWrl4mQhL/QWR/1A63kLQMMPNM0DNEw==}
+  /daizong/0.25.6:
+    resolution: {integrity: sha512-WWai/MCdQz0PJifPho6JZsT9FS4UV6+QHLIfyiQtP3PJU0bDlcrVmELZwAUr5LLdxUDXL78Z4LFTEe8gtHrRxA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
-      chalk: 5.0.1
+      chalk: 5.1.2
       del: 7.0.0
       execa: 6.1.0
       p-map: 5.5.0
@@ -3283,7 +3289,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       dir-glob: 3.0.1
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       ignore: 5.2.0
       merge2: 1.4.1
       slash: 4.0.0
@@ -3388,8 +3394,8 @@ packages:
       uglify-js: 3.16.3
     dev: true
 
-  /html-validate/7.6.0:
-    resolution: {integrity: sha512-6Ib433N0/ou2/0oLjfUmFjaAVFW8KKU/fOBBhrZXNuPcYCUsZExAD3xOqKl1bp5ANHb4PItXEK9vcKL/L7Da0Q==}
+  /html-validate/7.7.1:
+    resolution: {integrity: sha512-pCPbFHygd8YCKcQcyQnEwIWKVtA37f0snQP65EsS9ap4JrnG0HdIevJl90p8ZAhGjLsex5P0nI+n6v4pSov97Q==}
     engines: {node: '>= 14.0'}
     hasBin: true
     peerDependencies:

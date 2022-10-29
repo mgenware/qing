@@ -8,7 +8,7 @@
     "@types/node": "^18.11.3",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
-    "daizong": "^0.25.5",
+    "daizong": "^0.25.6",
     "esbuild": "^0.15.12",
     "eslint": "^8.26.0",
     "eslint-config-mgenware": "^0.8.0",
