@@ -11,6 +11,7 @@ import * as np from 'path';
 import * as qdu from '@qing/devutil';
 import { stringHash } from '../cm/checksum.js';
 import { deleteAsync } from 'del';
+import isProd from '../cm/isProd.js';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${qdu.copyrightString}${codeWarning}`;
@@ -77,7 +78,7 @@ async function buildDistJS(name: string, file: string): Promise<void> {
   const content = await mfs.readTextFileAsync(file);
   // Parse and stringify the file content to make sure it's valid JSON.
   const outContent = `window.ls = ${JSON.stringify(JSON.parse(content))}`;
-  const hash = stringHash(outContent).substring(0, 8);
+  const hash = isProd ? stringHash(outContent).substring(0, 8) : '0000';
   const outFile = np.join(webOutDir, `${name}-${hash}.js`);
   print(`Building dist JS "${outFile}"`);
   await mfs.writeFileAsync(outFile, outContent);

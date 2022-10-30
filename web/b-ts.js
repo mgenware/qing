@@ -16,13 +16,8 @@ if (!config) {
   throw new Error('Missing config name');
 }
 
-function isDev() {
-  return config === 'dev';
-}
-
-function isProd() {
-  return config === 'prod';
-}
+const isDev = config === 'dev';
+const isProd = config === 'prod';
 
 const envMap = {
   dev: {
@@ -53,16 +48,18 @@ const entryPoints = [
 ].map((s) => `src/${s}.ts`);
 
 const plugins = [];
-if (!isDev()) {
+if (!isDev) {
   plugins.push(minifyHTMLLiteralsPlugin());
 }
+
+console.log(`[b-ts.js] TS building in ${config} mode...`);
 
 await esbuild.build({
   entryPoints,
   bundle: true,
   outdir: '../userland/static/g/js',
-  minify: !isDev(),
-  entryNames: '[dir]/[name]-[hash]',
+  minify: !isDev,
+  entryNames: isProd ? '[dir]/[name]-[hash]' : '[dir]/[name]-0000',
   splitting: true,
   format: 'esm',
   define: {

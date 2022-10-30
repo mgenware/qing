@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-const staticRoot = '/static';
+const isProd = !!process.env.QING_PROD;
 
-export const imgMain = `${staticRoot}/img/main`;
-export const defaultUserImg = `${imgMain}/user-static.svg`;
+export default isProd;
