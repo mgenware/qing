@@ -8,7 +8,6 @@
 import * as br from 'br';
 
 export const navbarSel = '#main-navbar';
-export const sidenavSel = '#sidenav';
 const userGroupSel = '.user-group';
 const themeGroupSel = '.theme-group';
 

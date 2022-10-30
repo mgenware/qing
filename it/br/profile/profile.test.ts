@@ -7,6 +7,7 @@
 
 import { test, $, usr, Page } from 'br';
 import * as nbm from 'br/com/navbar/menu';
+import * as snav from 'br/com/navbar/sidenav';
 import { newUser } from 'helper/user';
 import { defaultUserImg } from '@qing/routes/d/static';
 
@@ -27,9 +28,10 @@ test('Profile - Click-through', async ({ page }) => {
 
 test('Profile - Click-through - Mobile', async ({ page }) => {
   const p = $(page);
-  await p.goto('/', null, { mobile: true });
-  const navbarEl = p.$(nbm.navbarSel);
-  await navbarEl.$a({ href: usr.user.link, text: 'Profile' }).shouldExist();
+  await p.goto('/', usr.user, { mobile: true });
+  await snav.clickToggler(p);
+  const sidenav = snav.getSidenavEl(p);
+  await sidenav.$a({ href: usr.user.link, text: 'Profile' }).shouldExist();
 });
 
 test('Profile - Info', async ({ page }) => {
@@ -39,7 +41,9 @@ test('Profile - Info', async ({ page }) => {
 
   const infoEl = p.$(infoElSel);
   // Profile image.
-  await infoEl.$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 }).e.toBeVisible();
+  await infoEl
+    .$img({ src: '/res/avatars/2u/250_user.png', title: u.name, alt: u.name, size: 250 })
+    .e.toBeVisible();
   // Profile info.
   await infoEl.$hasText('h2', u.name).e.toBeVisible();
   await infoEl.$hasText('p', 'USER_LOC').e.toBeVisible();
@@ -59,7 +63,9 @@ test('Profile - New user', async ({ page }) => {
 
     const infoEl = p.$(infoElSel);
     // Profile image.
-    await infoEl.$img({ src: u.iconURL, title: u.name, alt: u.name, size: 250 }).e.toBeVisible();
+    await infoEl
+      .$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 })
+      .e.toBeVisible();
     // Profile info.
     await infoEl.$hasText('h2', u.name).e.toBeVisible();
 
