@@ -8,7 +8,7 @@
 import { ita, usr, dontUseRequestLogin } from 'api';
 import { expect } from 'expect';
 import { userInfo, newUser, curUser } from 'helper/user';
-import { imgMain } from '@qing/routes/d/static';
+import { defaultUserImg } from '@qing/routes/d/static';
 import * as apiAuth from '@qing/routes/d/dev/api/auth';
 import CookieJar from 'helper/cookieJar';
 
@@ -27,7 +27,7 @@ it('Add and remove a user', async () => {
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
-    const ud = { id, iconURL: `${imgMain}/user-static.svg`, link: `/u/${id}`, name: 'T' };
+    const ud = { id, iconURL: defaultUserImg, link: `/u/${id}`, name: 'T' };
     expect(u).toEqual(ud);
 
     // Make sure `__/auth/info` also works.

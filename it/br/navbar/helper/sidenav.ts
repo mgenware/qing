@@ -50,14 +50,13 @@ export async function testSidenavAppearingCore(p: Page) {
   await checkSidenavVisible(p, true);
   await sidenav.e.toHaveCSS('overflow-x', 'hidden');
   await sidenav.e.toHaveCSS('overflow-y', 'auto');
+  await p.shouldNotHaveHScrollBar();
   return sidenav;
 }
 
 export async function checkVisitorSidenav(p: Page) {
-  const sidenav = await testSidenavAppearingCore(p);
-  await sidenav.$a({ href: '/auth/signin', text: 'Sign in' }).e.toBeVisible();
-  await sidenav.$a({ href: '/auth/signup', text: 'Sign up' }).e.toBeVisible();
-
+  await testSidenavAppearingCore(p);
+  // Sign up and sign in buttons are tested in `br/auth`.
   // Theme options are tested in theme.ts.
 }
 

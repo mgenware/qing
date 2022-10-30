@@ -6,7 +6,7 @@
  */
 
 import { errorResults, itaResultRaw, usr, apiRaw, api } from 'api';
-import { imgMain } from '@qing/routes/d/static';
+import { defaultUserImg } from '@qing/routes/d/static';
 import { expect } from 'expect';
 import { User } from 'base/api';
 import { newUser } from 'helper/user';
@@ -41,7 +41,7 @@ it('`set-admin` - Admin', async () => {
       id,
       name: 'T',
       link: `/u/${id}`,
-      iconURL: `${imgMain}/user-static.svg`,
+      iconURL: defaultUserImg,
     });
 
     // Remove an admin.

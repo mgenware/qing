@@ -1,7 +1,13 @@
 <div class="container section">
   <div class="info-row">
     <div class="text-center">
-      <img src="{{html .IconURL}}" alt="{{html .Name}}" width="250" height="250" class="avatar-l" />
+      <img
+        src="{{html .IconURL}}"
+        title="{{html .Name}}"
+        alt="{{html .Name}}"
+        width="250"
+        height="250"
+        class="avatar-l" />
     </div>
     <div class="col-md">
       <h2>{{html .Name}}</h2>
@@ -23,7 +29,7 @@
           <tag-view class="__qing_ls__">url</tag-view>
         </p>
         <p class="m-t-sm">
-          <a id="m-profile-url" href="#">{{html .Website}}</a>
+          <a id="m-profile-url" href="#" target="_blank">{{html .Website}}</a>
         </p>
         {{end}}
         <p class="m-t-md">
