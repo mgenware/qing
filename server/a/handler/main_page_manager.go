@@ -50,7 +50,7 @@ func MustCreateMainPageManager(
 ) *MainPageManager {
 	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
 
-	asMgr := NewAssetManager(conf.HTTP.Static.URL, conf.HTTP.Static.Dir)
+	asMgr := NewAssetManager(conf.DevMode(), conf.HTTP.Static.URL, conf.HTTP.Static.Dir)
 
 	t := &MainPageManager{
 		lsMgr:                lsMgr,

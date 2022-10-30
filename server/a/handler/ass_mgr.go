@@ -25,6 +25,7 @@ func styleTag(src string) string {
 }
 
 type AssetManager struct {
+	devMode bool
 	rootURL string
 	rootDir string
 
@@ -34,8 +35,9 @@ type AssetManager struct {
 	langCache map[string]string
 }
 
-func NewAssetManager(rootURL, rootDir string) *AssetManager {
+func NewAssetManager(devMode bool, rootURL, rootDir string) *AssetManager {
 	r := &AssetManager{}
+	r.devMode = devMode
 	r.rootURL = filepath.Join(rootURL, gFolder)
 	r.rootDir = filepath.Join(rootDir, gFolder)
 	r.jsCache = make(map[string]string)
@@ -45,26 +47,33 @@ func NewAssetManager(rootURL, rootDir string) *AssetManager {
 }
 
 func (asm *AssetManager) MustGetScript(name string) string {
-	return asm.mustGetResource("js", name, "js", asm.jsCache)
+	return asm.mustGetResource(true, "js", name, "js", asm.jsCache)
 }
 
 func (asm *AssetManager) MustGetStyle(name string) string {
-	return asm.mustGetResource("css", name, "css", asm.cssCache)
+	if asm.devMode {
+		return styleTag(asm.rootURL + "/css/" + name + ".css")
+	}
+	return asm.mustGetResource(false, "css", name, "css", asm.cssCache)
 }
 
 func (asm *AssetManager) MustGetLangScript(name string) string {
-	return asm.mustGetResource("lang", name, "js", asm.langCache)
+	return asm.mustGetResource(true, "lang", name, "js", asm.langCache)
 }
 
 // `category`: js, css, lang
-func (asm *AssetManager) mustGetResource(category, name, ext string, cache map[string]string) string {
+func (asm *AssetManager) mustGetResource(isJS bool, category, name, ext string, cache map[string]string) string {
 	v := cache[name]
 	if v == "" {
 		nameWithHash, err := asm.fileNameWithHash(category+"/"+name, ext)
 		if err != nil {
 			panic(err)
 		}
-		v = scriptTag(asm.rootURL + "/" + category + "/" + nameWithHash)
+		if isJS {
+			v = scriptTag(asm.rootURL + "/" + category + "/" + nameWithHash)
+		} else {
+			v = styleTag(asm.rootURL + "/" + category + "/" + nameWithHash)
+		}
 		cache[name] = v
 	}
 	return v
@@ -79,5 +88,5 @@ func (asm *AssetManager) fileNameWithHash(name, ext string) (string, error) {
 	if len(res) == 0 {
 		return "", fmt.Errorf("no match for glob %v", pattern)
 	}
-	return res[0], nil
+	return filepath.Base(res[0]), nil
 }

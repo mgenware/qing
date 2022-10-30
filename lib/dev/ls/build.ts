@@ -9,9 +9,12 @@ import { goConstGenCore, PropData } from 'go-const-gen';
 import * as mfs from 'm-fs';
 import * as np from 'path';
 import * as qdu from '@qing/devutil';
+import { stringHash } from '../cm/checksum.js';
+import { deleteAsync } from 'del';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${qdu.copyrightString}${codeWarning}`;
+const webOutDir = qdu.webPath('../userland/static/g/lang');
 
 function print(s: string) {
   // eslint-disable-next-line no-console
@@ -74,8 +77,8 @@ async function buildDistJS(name: string, file: string): Promise<void> {
   const content = await mfs.readTextFileAsync(file);
   // Parse and stringify the file content to make sure it's valid JSON.
   const outContent = `window.ls = ${JSON.stringify(JSON.parse(content))}`;
-  const outDir = qdu.webPath('../userland/static/g/lang');
-  const outFile = np.join(outDir, `${name}.js`);
+  const hash = stringHash(outContent).substring(0, 8);
+  const outFile = np.join(webOutDir, `${name}-${hash}.js`);
   print(`Building dist JS "${outFile}"`);
   await mfs.writeFileAsync(outFile, outContent);
 }
@@ -87,6 +90,8 @@ async function buildLangJSFiles() {
 }
 
 async function buildWeb() {
+  // Clean web dist dir.
+  await deleteAsync(webOutDir, { force: true });
   const lsJSON = await mfs.readTextFileAsync(qdu.defaultWebLangFile);
   const lsObj = JSON.parse(lsJSON) as Record<string, string>;
   return Promise.all([buildWebLSDef(lsObj), buildLangJSFiles()]);
