@@ -18,8 +18,6 @@ import (
 // Router ...
 var Router = handler.NewHTMLRouter()
 
-const mxScript = "mx/mxEntry"
-
 func init() {
 	Router.Core.Use(appUserManager.Get().RequireLoginHTMLMiddleware)
 	Router.Get("/*", defaultHandler)
@@ -30,7 +28,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(mxScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("mx", "mxEntry")
 
 	return resp.MustComplete(&d)
 }

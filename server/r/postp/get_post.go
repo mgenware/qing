@@ -23,8 +23,6 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-const postScript = "post/postEntry"
-
 // Called by both post and thread handlers.
 func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.HTML {
 	id, err := clib.DecodeID(chi.URLParam(r, "id"))
@@ -65,7 +63,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		fid = &str
 	}
 	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(postScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("post", "postEntry")
 
 	cmtFocusModeData := rcom.GetCmtFocusModeData(focusedCmtID, id, postType)
 	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, cmtFocusModeData)

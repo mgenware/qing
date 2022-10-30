@@ -20,8 +20,6 @@ import (
 
 var Router = chi.NewRouter()
 
-const devPageScript = "devPage/devPageEntry"
-
 func init() {
 	// Some auth related routes are GET only. They are used in BR tests.
 	authRouter := handler.NewHTMLRouter()
@@ -80,7 +78,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(devPageScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("devPage", "devPageEntry")
 
 	return resp.MustComplete(&d)
 }

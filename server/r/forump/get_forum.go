@@ -24,7 +24,6 @@ import (
 )
 
 const defaultPageSize = 10
-const forumScript = "forum/forumEntry"
 
 func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
@@ -62,7 +61,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicOn(err)
 	forumModel := NewForumPageModel(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := app.MainPageData("", vForumPage.MustExecuteToString(forumModel))
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(forumScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("forum", "forumEntry")
 	d.WindData = ForumPageWindData{Editable: forumModel.ForumEditable, FID: forumModel.ForumEID}
 	return resp.MustComplete(&d)
 }

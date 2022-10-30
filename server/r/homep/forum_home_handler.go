@@ -69,6 +69,6 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 
 	d := app.MainPageData("", mainHTML)
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(homeFrmScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("home", "homeFrmEntry")
 	return resp.MustComplete(&d)
 }

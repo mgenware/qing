@@ -17,8 +17,6 @@ import (
 // Router ...
 var Router = handler.NewHTMLRouter()
 
-const authScript = "auth/authEntry"
-
 func init() {
 	Router.Get("/verify-reg-email/{key}", verifyRegEmail)
 	Router.Get("/*", genericGET)
@@ -29,7 +27,7 @@ func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title will be set on frontend side
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(authScript)
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("auth", "authEntry")
 
 	return resp.MustComplete(&d)
 }

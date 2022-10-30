@@ -46,33 +46,38 @@ func NewAssetManager(devMode bool, rootURL, rootDir string) *AssetManager {
 	return r
 }
 
-func (asm *AssetManager) MustGetScript(name string) string {
-	return asm.mustGetResource(true, "js", name, "js", asm.jsCache)
+func (asm *AssetManager) MustGetScript(folder, name string) string {
+	return asm.mustGetResource(true, "js", folder, name, "js", asm.jsCache)
 }
 
 func (asm *AssetManager) MustGetStyle(name string) string {
 	if asm.devMode {
 		return styleTag(asm.rootURL + "/css/" + name + ".css")
 	}
-	return asm.mustGetResource(false, "css", name, "css", asm.cssCache)
+	return asm.mustGetResource(false, "css", "", name, "css", asm.cssCache)
 }
 
 func (asm *AssetManager) MustGetLangScript(name string) string {
-	return asm.mustGetResource(true, "lang", name, "js", asm.langCache)
+	return asm.mustGetResource(true, "lang", "", name, "js", asm.langCache)
 }
 
 // `category`: js, css, lang
-func (asm *AssetManager) mustGetResource(isJS bool, category, name, ext string, cache map[string]string) string {
+func (asm *AssetManager) mustGetResource(isJS bool, category, folder, name, ext string, cache map[string]string) string {
 	v := cache[name]
 	if v == "" {
-		nameWithHash, err := asm.fileNameWithHash(category+"/"+name, ext)
+		resolvedFileName, err := asm.fileNameWithHash(category+"/"+folder+"/"+name, ext)
 		if err != nil {
 			panic(err)
 		}
+		resolvedURL := asm.rootURL + "/" + category + "/"
+		if folder != "" {
+			resolvedURL += folder + "/"
+		}
+		resolvedURL += resolvedFileName
 		if isJS {
-			v = scriptTag(asm.rootURL + "/" + category + "/" + nameWithHash)
+			v = scriptTag(resolvedURL)
 		} else {
-			v = styleTag(asm.rootURL + "/" + category + "/" + nameWithHash)
+			v = styleTag(resolvedURL)
 		}
 		cache[name] = v
 	}

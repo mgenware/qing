@@ -24,7 +24,6 @@ import (
 )
 
 const userPostsLimit = 10
-const profileEntry = "profile/profileEntry"
 
 // GetProfile handles user profile routes.
 func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
@@ -72,8 +71,8 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(pageData))
 	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
-	d.Header = appHandler.MainPage().AssetManager().MustGetStyle(profileEntry)
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript(profileEntry)
+	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("profile")
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("profile", "profileEntry")
 	d.WindData = ProfilePageWindData{Website: user.Website}
 	return resp.MustComplete(&d)
 }

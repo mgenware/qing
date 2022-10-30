@@ -158,7 +158,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
-	mainPageData.Scripts = m.AssetManager().MustGetScript(coreScriptEntry)
+	mainPageData.Scripts = m.AssetManager().MustGetScript("", coreScriptEntry)
 	m.MustComplete(r, lang, statusCode, &mainPageData, w)
 	return HTML(0)
 }
