@@ -20,6 +20,14 @@ const DeleteFlagHost = 2
 const ApiLangParam = "__l"
 const ErrGeneric = 1
 
+type AppMode int
+
+const (
+	AppModeBlog AppMode = iota + 1
+	AppModeCommunity
+	AppModeForums
+)
+
 type ContentBaseType int
 
 const (
@@ -33,14 +41,6 @@ type HomePageFeedType int
 const (
 	HomePageFeedTypePost HomePageFeedType = iota + 1
 	HomePageFeedTypeFPost
-)
-
-type CommunityMode int
-
-const (
-	CommunityModeDisabled CommunityMode = iota + 1
-	CommunityModeCommunity
-	CommunityModeForums
 )
 
 type DelFlags int

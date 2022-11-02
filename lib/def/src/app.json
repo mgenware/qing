@@ -7,9 +7,9 @@
   "apiLangParam": "__l",
   "errGeneric": 1,
   "__enums": {
+    "appMode": { "values": ["blog", "community", "forums"] },
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
-    "communityMode": { "values": ["disabled", "community", "forums"] },
     "delFlags": { "values": ["self", "host"] },
     "route": {
       "weakBaseType": true,
