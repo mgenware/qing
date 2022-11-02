@@ -14,13 +14,7 @@
  ******************************************************************************************/
 
 export interface AppRawSettings {
-  community?: CommunityRawSettings;
-}
-
-export interface CommunityRawSettings {
-  communityEnabled?: boolean;
-  forumsEnabled?: boolean;
-  forumGroupsEnabled?: boolean;
+  mode?: number;
 }
 
 export interface RawMainPageWind {
@@ -29,6 +23,6 @@ export interface RawMainPageWind {
   appUserURL?: string;
   appUserIconURL?: string;
   appUserAdmin?: boolean;
-  appCommunityMode?: number;
+  appMode?: number;
   appWindDataString?: string;
 }

@@ -1,11 +1,6 @@
 ---
 AppRawSettings:
-  community: CommunityRawSettings
-
-CommunityRawSettings:
-  communityEnabled: bool
-  forumsEnabled: bool
-  forumGroupsEnabled: bool
+  mode: int
 
 RawMainPageWind:
   # Information about current user.
@@ -17,6 +12,6 @@ RawMainPageWind:
   # Current language ID, cannot be empty.
   # Server only. Web uses `<html lang="">`.
   appLang_go__: string
-  appCommunityMode: int
+  appMode: int
   # Extra wind data passed by pages.
   appWindDataString: string

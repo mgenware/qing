@@ -14,13 +14,7 @@
 package appSod
 
 type AppRawSettings struct {
-	Community CommunityRawSettings `json:"community,omitempty"`
-}
-
-type CommunityRawSettings struct {
-	CommunityEnabled   bool `json:"communityEnabled,omitempty"`
-	ForumsEnabled      bool `json:"forumsEnabled,omitempty"`
-	ForumGroupsEnabled bool `json:"forumGroupsEnabled,omitempty"`
+	Mode int `json:"mode,omitempty"`
 }
 
 type RawMainPageWind struct {
@@ -30,6 +24,6 @@ type RawMainPageWind struct {
 	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
 	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
 	AppLang           string `json:"appLang,omitempty"`
-	AppCommunityMode  int    `json:"appCommunityMode,omitempty"`
+	AppMode           int    `json:"appMode,omitempty"`
 	AppWindDataString string `json:"appWindDataString,omitempty"`
 }
