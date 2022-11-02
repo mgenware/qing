@@ -10,10 +10,7 @@ import ls from 'ls';
 import * as mxRoute from '@qing/routes/d/mx';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
-const items: SettingsBaseItem[] = [
-  { name: ls.adminAccounts, link: mxRoute.admins },
-  { name: ls.communitySettingsName, link: mxRoute.community },
-];
+const items: SettingsBaseItem[] = [{ name: ls.adminAccounts, link: mxRoute.admins }];
 
 @customElement('mx-settings-view')
 export class MXSettingsView extends SettingsBaseView {

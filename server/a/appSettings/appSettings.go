@@ -17,28 +17,21 @@ type AppSettings struct {
 	raw *appSod.AppRawSettings
 }
 
-func (st *AppSettings) CommunityEnabled() bool {
-	return st.raw.Community.CommunityEnabled
-}
-
-func (st *AppSettings) Forums() bool {
-	return st.CommunityEnabled() && st.raw.Community.ForumsEnabled
-}
-
-func (st *AppSettings) ForumGroups() bool {
-	return st.CommunityEnabled() && st.raw.Community.ForumGroupsEnabled
-}
-
 // Used in main page template.
-func (st *AppSettings) CommunityMode() appdef.CommunityMode {
-	if st.CommunityEnabled() {
-		if st.Forums() {
-			return appdef.CommunityModeForums
-		}
-		return appdef.CommunityModeCommunity
-	} else {
-		return appdef.CommunityModeDisabled
-	}
+func (st *AppSettings) Mode() appdef.AppMode {
+	return appdef.AppMode(st.raw.Mode)
+}
+
+func (st *AppSettings) BlogMode() bool {
+	return st.Mode() == appdef.AppModeBlog
+}
+
+func (st *AppSettings) CommunityMode() bool {
+	return st.Mode() == appdef.AppModeCommunity
+}
+
+func (st *AppSettings) ForumMode() bool {
+	return st.Mode() == appdef.AppModeForums
 }
 
 func NewAppSettings(obj *appSod.AppRawSettings) *AppSettings {

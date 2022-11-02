@@ -8,4 +8,3 @@
 const mx = '/mx';
 
 export const admins = `${mx}/admins`;
-export const community = `${mx}/community`;

@@ -34,9 +34,9 @@ appState.register<User | null>(appStateName.user, () => {
   return null;
 });
 
-appState.register<number>(appStateName.communityMode, () => {
+appState.register<number>(appStateName.appMode, () => {
   const wind = getMainPageWindData();
-  return wind.appCommunityMode ?? 0;
+  return wind.appMode ?? 0;
 });
 
 appState.register<unknown>(appStateName.windData, () => {
@@ -65,8 +65,8 @@ export class AppPageState {
     appState.set(appStateName.user, newUser);
   }
 
-  get communityMode(): number {
-    return appState.get(appStateName.communityMode);
+  get appMode(): number {
+    return appState.get(appStateName.appMode);
   }
 }
 

@@ -28,11 +28,4 @@ router.register(mxRoute.admins, () => {
   loadSettingsContent(ls.adminAccounts, html`<admins-settings-page></admins-settings-page>`);
 });
 
-router.register(mxRoute.community, () => {
-  loadSettingsContent(
-    ls.communitySettingsName,
-    html`<community-settings-page></community-settings-page>`,
-  );
-});
-
 router.startOnce();

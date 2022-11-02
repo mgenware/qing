@@ -26,7 +26,7 @@ const defaultPageSize = 10
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Non-forums mode.
-	if !appSettings.Get().Forums() {
+	if !appSettings.Get().ForumMode() {
 		return renderStdPage(w, r)
 	}
 	return renderForumPage(w, r)

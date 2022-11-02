@@ -19,8 +19,8 @@ export class SetEntityLoader extends Loader<string | null> {
     public forumID: string | null,
   ) {
     super();
-    if (appPageState.communityMode >= appdef.communityModeCommunity && !forumID) {
-      throw new Error('`forumID` is required in community mode');
+    if (appPageState.appMode === appdef.appModeForums && !forumID) {
+      throw new Error('`forumID` is required in forum mode');
     }
   }
 

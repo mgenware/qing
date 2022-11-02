@@ -157,11 +157,7 @@ export default interface LSDefs {
   postAReply: string;
   signInToLikeThisReply: string;
   forums: string;
-  enableForums: string;
-  enableForumGroups: string;
   restartServerToTakeEffect: string;
-  enableCommunityMode: string;
-  communitySettingsName: string;
   cmtDeleted: string;
   invalidDate: string;
   pFieldMinLenError: string;
