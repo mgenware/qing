@@ -24,30 +24,30 @@ function printUsage() {
     Usage
       $ qing <command> [command arguments]
     Command
-      w               Build, run and watch web files
-      w-t             Build, run and watch web files for BR testing
-      w-lint          Run linting process on web source
-      s               Build and start server in containers
-      s-ut            Build and start server in containers (unit test mode)
-      s-f             Build and start server in containers (force recreation)
-      s-l             Build and start server locally
-      s-lint          Run linting process on server source
-      conf            Build config files
-      da              Build data access layer
-      ls              Build localized strings
-      sod <arg>       Build SOD (Shared Object Definition)           
-      it <arg>        Run integration tests
-        dev (default)   - Start development (default)
-        all             - Run all integration tests
-        api             - Run API tests
-        br              - Run browser (E2E) tests
-      migrate <arg>   Run database migrations
-        +<N>            - Apply N up migrations
-        -<N>            - Apply N down migrations
-        <N>             - Migrate to version N
-        drop            - Drop everything in database
-      mail            Print dev mailbox directory
-      version         Print version information
+      w                  Build, run and watch web files
+      w-t                Build, run and watch web files for BR testing
+      w-lint             Run linting process on web source
+      s <config>         Build and start server in containers
+      s-ut               Build and start server in containers (unit test mode)
+      s-f                Build and start server in containers (force recreation)
+      s-l                Build and start server locally
+      s-lint             Run linting process on server source
+      conf               Build config files
+      da                 Build data access layer
+      ls                 Build localized strings
+      sod <file>         Build SOD (Shared Object Definition)           
+      it <config>           Run integration tests
+        dev (default)      - Start development (default)
+        all                - Run all integration tests
+        api                - Run API tests
+        br                 - Run browser (E2E) tests
+      migrate <cmd>      Run database migrations
+        +<N>               - Apply N up migrations
+        -<N>               - Apply N down migrations
+        <N>                - Migrate to version N
+        drop               - Drop everything in database
+      mail               Print dev mailbox directory
+      version            Print version information
       
   `);
 }
@@ -63,12 +63,26 @@ const webDir = 'web';
 const serverDir = 'server';
 const libDevDir = 'lib/dev';
 const itDir = 'it';
-const dockerComposeDev = 'dc-dev.yml';
+const helpText = 'Run `qing` for help.';
+
+function checkArg(s: string | undefined, name: string): asserts s {
+  if (!s) {
+    throw new Error(`"${name}" is undefined. ${helpText}`);
+  }
+}
 
 function checkMigrationNumber(num: number) {
   if (num < 1) {
     throw new Error(`Migration number must be greater than or equal to 1, got ${num}.`);
   }
+}
+
+function mustGetDockerComposeFile(argIdx: number) {
+  const arg = processArgs[argIdx];
+  if (!arg) {
+    throw new Error(`Missing config name. ${helpText}`);
+  }
+  return `dc-${arg}.yml`;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -99,7 +113,7 @@ function checkMigrationNumber(num: number) {
         await sp.spawnDockerComposeCmd(
           ['up'],
           await iou.getProjectDir(serverDir),
-          dockerComposeDev,
+          mustGetDockerComposeFile(1),
         );
         break;
       }
@@ -109,7 +123,7 @@ function checkMigrationNumber(num: number) {
         await sp.spawnDockerComposeCmd(
           ['exec', '-e', 'UT=1', 'server', 'go', 'test', arg1 || './...'],
           await iou.getProjectDir(serverDir),
-          dockerComposeDev,
+          mustGetDockerComposeFile(1),
         );
         break;
       }
@@ -118,7 +132,7 @@ function checkMigrationNumber(num: number) {
         await sp.spawnDockerComposeCmd(
           ['up', '--force-recreate'],
           await iou.getProjectDir(serverDir),
-          dockerComposeDev,
+          mustGetDockerComposeFile(1),
         );
         break;
       }
@@ -149,12 +163,12 @@ function checkMigrationNumber(num: number) {
 
       case 'migrate': {
         const arg1 = processArgs[1];
-        iou.checkArg(arg1, 'arg1');
+        checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
           await sp.spawnDockerComposeMigrate(
             ['drop'],
             await iou.getProjectDir(serverDir),
-            dockerComposeDev,
+            mustGetDockerComposeFile(2),
           );
         } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
           const num = parseInt(arg1.substr(1), 10);
@@ -162,7 +176,7 @@ function checkMigrationNumber(num: number) {
           await sp.spawnDockerComposeMigrate(
             [arg1[0] === '+' ? 'up' : 'down', num.toString()],
             await iou.getProjectDir(serverDir),
-            dockerComposeDev,
+            mustGetDockerComposeFile(2),
           );
         } else {
           const num = parseInt(arg1, 10);
@@ -170,7 +184,7 @@ function checkMigrationNumber(num: number) {
           await sp.spawnDockerComposeMigrate(
             ['goto', num.toString()],
             await iou.getProjectDir(serverDir),
-            dockerComposeDev,
+            mustGetDockerComposeFile(2),
           );
         }
         break;

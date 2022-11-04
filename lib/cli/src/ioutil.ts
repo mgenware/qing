@@ -43,12 +43,6 @@ export async function getVersion(): Promise<string> {
   return pkgVersion;
 }
 
-export function checkArg(s: string | undefined, name: string): asserts s {
-  if (!s) {
-    throw new Error(`"${name}" is undefined`);
-  }
-}
-
 export async function pipedSpawn(
   command: string,
   args: readonly string[] | undefined,
