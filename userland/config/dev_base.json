@@ -4,12 +4,12 @@
     "port": 8000,
     "static": {
       "url": "/static",
-      "dir": "./static"
+      "dir": "/qing/static"
     },
     "log_404_error": true
   },
   "templates": {
-    "dir": "./templates"
+    "dir": "/qing/templates"
   },
   "logging": {
     "dir": "/qing_data/log/dev"

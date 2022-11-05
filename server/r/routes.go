@@ -15,6 +15,7 @@ import (
 	"qing/a/appLog"
 	"qing/a/appUserManager"
 	"qing/a/def/appdef"
+	"qing/a/def/infdef"
 	"qing/a/handler"
 	"qing/lib/iolib"
 	"strconv"
@@ -80,8 +81,7 @@ func Start() {
 		httpStaticConf := httpConf.Static
 		if httpStaticConf != nil {
 			// Serve CSS files directly from source (The working dir of server is in /server).
-			absSrcCSSDir := "/qing/web/src/css"
-			startFileServer(r, "static-server-css", filepath.Join(httpStaticConf.URL, "g/css"), absSrcCSSDir)
+			startFileServer(r, "static-server-css", filepath.Join(httpStaticConf.URL, "g/css"), infdef.QingDevCSSDir)
 
 			startFileServer(r, "static-server", httpStaticConf.URL, httpStaticConf.Dir)
 		}

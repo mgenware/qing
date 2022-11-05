@@ -1,6 +1,6 @@
 {
   "localization": {
-    "dir": "./langs/server",
+    "dir": "/qing/langs",
     "langs": ["en", "zh-Hans"]
   },
   "extern": {

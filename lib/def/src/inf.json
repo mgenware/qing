@@ -1,0 +1,10 @@
+{
+  "qingDir": "/qing",
+  "qingDataDir": "/qing_data",
+  "qingDevCSSDir": "/qing/dev/css",
+  "qingDevConfigDir": "/qing/dev/config",
+  "qingTemplateDir": "/qing/templates",
+  "qingStaticDir": "/qing/static",
+  "qingLangsDir": "/qing/langs",
+  "qingMigrationsDir": "/qing/migrations"
+}

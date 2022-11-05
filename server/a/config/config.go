@@ -116,7 +116,7 @@ func readConfigCore(absFile string) (*Config, error) {
 }
 
 // MustReadConfig constructs a config object from the given file.
-func MustReadConfig(file string, workingDir string) *Config {
+func MustReadConfig(file string) *Config {
 	absFile := file
 	if !filepath.IsAbs(file) {
 		s, err := filepath.Abs(file)
@@ -132,7 +132,7 @@ func MustReadConfig(file string, workingDir string) *Config {
 
 	schemaPath := filepath.Join(filepath.Dir(absFile), schemaFileName)
 	mustValidateConfig(conf, schemaPath)
-	conf.mustCoerceConfig(workingDir)
+	conf.mustCoerceConfig(filepath.Dir(file))
 	return conf
 }
 

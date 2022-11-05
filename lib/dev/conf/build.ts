@@ -9,6 +9,7 @@ import np from 'path';
 import * as yaml from 'js-yaml';
 import * as qdu from '@qing/devutil';
 import * as mfs from 'm-fs';
+import { infdef } from '@qing/def';
 import { QingConfSchema } from './schema.js';
 import { mergeDeep } from './deepMarge.js';
 
@@ -17,19 +18,13 @@ const header = `${qdu.copyrightStringYAML}# This file was automatically generate
 
 `;
 
-// App dir in containers.
-const conAppDir = '/qing';
-// App data dir in containers.
-const conAppDataDir = '/qing_data';
-const conAppDevDir = `${conAppDir}/dev`;
-
 const sServer = 'server';
 const sDB = 'db';
 const sMS = 'ms';
 const sMigrate = 'migrate';
 const sImgProxy = 'img_proxy';
 
-const qingDataVolumeString = `../volumes/qing_data:${conAppDataDir}`;
+const qingDataVolumeString = `../volumes/qing_data:${infdef.qingDataDir}`;
 
 const sourceConfFiles = ['blog'];
 
@@ -59,13 +54,15 @@ function generateDockerComposeObj(name: string, conf: QingConfSchema) {
     },
     volumes: [
       // [Dev only] CSS source files.
-      `../web/src/css:${conAppDevDir}/css`,
+      `../web/src/css:${infdef.qingDevCSSDir}`,
       // [Dev only] Preset config files.
-      `../userland/config:${conAppDevDir}/config`,
+      `../userland/config:${infdef.qingDevConfigDir}`,
       // Templates.
-      `../userland/templates:${conAppDir}/templates`,
+      `../userland/templates:${infdef.qingTemplateDir}`,
       // Compiled static files.
-      `../userland/static:${conAppDir}/static`,
+      `../userland/static:${infdef.qingStaticDir}`,
+      // Localized strings.
+      `../userland/langs/server:${infdef.qingLangsDir}`,
       qingDataVolumeString,
     ],
     ports: ['8000:8000'],
@@ -95,11 +92,11 @@ function generateDockerComposeObj(name: string, conf: QingConfSchema) {
   const migrate = {
     image: 'migrate/migrate',
     profiles: ['oth'],
-    volumes: [`../migrations:${conAppDir}/migrations`],
+    volumes: [`../migrations:${infdef.qingMigrationsDir}`],
     entrypoint: [
       'migrate',
       '-path',
-      `${conAppDir}/migrations`,
+      `${infdef.qingMigrationsDir}`,
       '-database',
       'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev?multiStatements=true',
     ],

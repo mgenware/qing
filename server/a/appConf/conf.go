@@ -13,12 +13,11 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/config"
+	"qing/a/def/infdef"
 )
 
 var conf *config.Config
 var confPath string
-
-const userlandDirName = "userland"
 
 func Get() *config.Config {
 	return conf
@@ -27,7 +26,7 @@ func Get() *config.Config {
 func init() {
 	if config.IsUT() {
 		// Unit test mode.
-		confPath = configFile("dev.json")
+		confPath = devConfigFile("dev.json")
 	} else {
 		// Parse command-line arguments
 		flag.StringVar(&confPath, "config", "", "path of application config file")
@@ -36,7 +35,7 @@ func init() {
 		// If `--config` is not specified, check cases like `go run main.go dev`.
 		userArgs := os.Args[1:]
 		if len(userArgs) >= 1 {
-			confPath = configFile(userArgs[0] + ".json")
+			confPath = devConfigFile(userArgs[0] + ".json")
 		} else {
 			fmt.Print("Fatal error: no config file specified.")
 			flag.PrintDefaults()
@@ -45,13 +44,9 @@ func init() {
 	}
 
 	// Read config file
-	conf = config.MustReadConfig(confPath, userlandDir())
+	conf = config.MustReadConfig(confPath)
 }
 
-func userlandDir() string {
-	return "/qing/" + userlandDirName
-}
-
-func configFile(name string) string {
-	return filepath.Join(userlandDir(), "config", name)
+func devConfigFile(name string) string {
+	return filepath.Join(infdef.QingDevConfigDir, name)
 }

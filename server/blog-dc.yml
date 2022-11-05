@@ -16,8 +16,10 @@ services:
       dockerfile: blog.dockerfile
     volumes:
       - ../web/src/css:/qing/dev/css
+      - ../userland/config:/qing/dev/config
       - ../userland/templates:/qing/templates
       - ../userland/static:/qing/static
+      - ../userland/langs/server:/qing/langs
       - ../volumes/qing_data:/qing_data
     ports:
       - '8000:8000'
