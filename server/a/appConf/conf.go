@@ -25,24 +25,22 @@ func Get() *config.Config {
 }
 
 func init() {
-	if confPath == "" {
-		if config.IsUT() {
-			// Unit test mode.
-			confPath = configFile("dev.json")
-		} else {
-			// Parse command-line arguments
-			flag.StringVar(&confPath, "config", "", "path of application config file")
-			flag.Parse()
+	if config.IsUT() {
+		// Unit test mode.
+		confPath = configFile("dev.json")
+	} else {
+		// Parse command-line arguments
+		flag.StringVar(&confPath, "config", "", "path of application config file")
+		flag.Parse()
 
-			// If `--config` is not specified, check cases like `go run main.go dev`.
-			userArgs := os.Args[1:]
-			if len(userArgs) >= 1 {
-				confPath = configFile(userArgs[0] + ".json")
-			} else {
-				fmt.Print("Fatal error: no config file specified.")
-				flag.PrintDefaults()
-				os.Exit(1)
-			}
+		// If `--config` is not specified, check cases like `go run main.go dev`.
+		userArgs := os.Args[1:]
+		if len(userArgs) >= 1 {
+			confPath = configFile(userArgs[0] + ".json")
+		} else {
+			fmt.Print("Fatal error: no config file specified.")
+			flag.PrintDefaults()
+			os.Exit(1)
 		}
 	}
 

@@ -21,6 +21,7 @@ const header = `${qdu.copyrightStringYAML}# This file was automatically generate
 const conAppDir = '/qing';
 // App data dir in containers.
 const conAppDataDir = '/qing_data';
+const conAppDevDir = `${conAppDir}/dev`;
 
 const sServer = 'server';
 const sDB = 'db';
@@ -28,8 +29,7 @@ const sMS = 'ms';
 const sMigrate = 'migrate';
 const sImgProxy = 'img_proxy';
 
-const volumesSrcDir = '../volumes';
-const volumeAppData = `${volumesSrcDir}/qing_data:${conAppDataDir}`;
+const qingDataVolumeString = `../volumes/qing_data:${conAppDataDir}`;
 
 const sourceConfFiles = ['blog'];
 
@@ -55,13 +55,18 @@ function generateDockerComposeObj(name: string, conf: QingConfSchema) {
   const server = {
     build: {
       context: '.',
-      dockerfile: `df-${name}.dockerfile`,
+      dockerfile: `${name}.dockerfile`,
     },
     volumes: [
-      `.:${conAppDir}/server`,
-      `../web:${conAppDir}/web`,
-      `../userland:${conAppDir}/userland`,
-      volumeAppData,
+      // [Dev only] CSS source files.
+      `../web/src/css:${conAppDevDir}/css`,
+      // [Dev only] Preset config files.
+      `../userland/config:${conAppDevDir}/config`,
+      // Templates.
+      `../userland/templates:${conAppDir}/templates`,
+      // Compiled static files.
+      `../userland/static:${conAppDir}/static`,
+      qingDataVolumeString,
     ],
     ports: ['8000:8000'],
     depends_on: [sMS, sDB, sImgProxy],
@@ -105,7 +110,7 @@ function generateDockerComposeObj(name: string, conf: QingConfSchema) {
     image: 'h2non/imaginary',
     ports: ['9000:9000'],
     command: '-enable-url-source',
-    volumes: [volumeAppData],
+    volumes: [qingDataVolumeString],
   };
   setRestartField(img_proxy, conf);
 
@@ -127,7 +132,7 @@ async function buildConfFile(name: string, file: string) {
   const serverDir = qdu.serverPath();
   const confObj = await loadConfigFile(file);
   const dockerComposeObj = generateDockerComposeObj(name, confObj);
-  const dest = np.join(serverDir, `dc-${name}.yml`);
+  const dest = np.join(serverDir, `${name}-dc.yml`);
   const destContent = `${header}${yaml.dump(dockerComposeObj)}`;
   await mfs.writeFileAsync(dest, destContent);
 }
