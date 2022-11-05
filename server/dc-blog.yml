@@ -13,7 +13,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: df-ut.dockerfile
+      dockerfile: df-blog.dockerfile
     volumes:
       - .:/qing/server
       - ../web:/qing/web

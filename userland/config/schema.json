@@ -152,9 +152,11 @@
     "app_settings": { "$ref": "#/definitions/app_settings_config" },
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
-    "extern": { "$ref": "#/definitions/extern_config" }
+    "extern": { "$ref": "#/definitions/extern_config" },
+    "site": { "$ref": "#/definitions/site_config" }
   },
   "required": [
+    "site",
     "logging",
     "http",
     "templates",

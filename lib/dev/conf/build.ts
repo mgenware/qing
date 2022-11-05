@@ -31,7 +31,7 @@ const sImgProxy = 'img_proxy';
 const volumesSrcDir = '../volumes';
 const volumeAppData = `${volumesSrcDir}/qing_data:${conAppDataDir}`;
 
-const sourceConfFiles = ['dev', 'ut'];
+const sourceConfFiles = ['blog'];
 
 // Loads the given config file.
 async function loadConfigFile(file: string): Promise<QingConfSchema> {
@@ -46,7 +46,7 @@ async function loadConfigFile(file: string): Promise<QingConfSchema> {
 }
 
 function setRestartField(service: Record<string, unknown>, conf: QingConfSchema) {
-  if (!conf.debug) {
+  if (!conf.dev) {
     service.restart = 'always';
   }
 }

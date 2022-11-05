@@ -1,6 +1,8 @@
+// Generated on https://transform.tools/json-schema-to-typescript
+
 export interface QingConfSchema {
   extends?: string;
-  debug?: DebugConfig;
+  dev?: DevConfig;
   logging: LoggingConfig;
   http: HttpConfig;
   templates: TemplatesConfig;
@@ -10,9 +12,10 @@ export interface QingConfSchema {
   db: DbConfig;
   res_server: ResServerConfig;
   extern: ExternConfig;
+  site: SiteConfig;
   [k: string]: unknown;
 }
-export interface DebugConfig {
+export interface DevConfig {
   reload_views_on_refresh?: boolean;
   panic_on_unexpected_html_errors?: boolean;
   panic_on_unexpected_json_errors?: boolean;
@@ -75,11 +78,16 @@ export interface ResServerConfig {
 export interface ExternConfig {
   redis: {
     port: number;
+    logging?: boolean;
     [k: string]: unknown;
   };
   img_proxy: {
     port: number;
     [k: string]: unknown;
   };
+  [k: string]: unknown;
+}
+export interface SiteConfig {
+  type: number;
   [k: string]: unknown;
 }

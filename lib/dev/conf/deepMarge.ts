@@ -8,7 +8,7 @@ export function mergeDeep(target: unknown, ...sources: unknown[]) {
   const source = sources.shift();
 
   if (isPlainObject(target) && isPlainObject(source)) {
-    for (const key in source) {
+    for (const key of Object.keys(source)) {
       if (isPlainObject(source[key])) {
         if (!target[key]) {
           Object.assign(target, { [key]: {} });
