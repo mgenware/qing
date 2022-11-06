@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "qing-conf-schema",
+  "title": "qing-config-schema",
   "type": "object",
   "definitions": {
     "dev_config": {

@@ -81,7 +81,7 @@ func Start() {
 		httpStaticConf := httpConf.Static
 		if httpStaticConf != nil {
 			// Serve CSS files directly from source (The working dir of server is in /server).
-			startFileServer(r, "static-server-css", filepath.Join(httpStaticConf.URL, "g/css"), infdef.QingDevCSSDir)
+			startFileServer(r, "static-server-css", filepath.Join(httpStaticConf.URL, "g/css"), infdef.DevCSSDir)
 
 			startFileServer(r, "static-server", httpStaticConf.URL, httpStaticConf.Dir)
 		}

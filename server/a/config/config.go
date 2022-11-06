@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/config/configs"
+	"qing/a/def/infdef"
 	"qing/lib/iolib"
 	"runtime"
 	"strings"
@@ -21,8 +22,6 @@ import (
 	"github.com/mgenware/goutil/iox"
 	"github.com/xeipuuv/gojsonschema"
 )
-
-const schemaFileName = "schema.json"
 
 // Config is the root configuration type for your application.
 type Config struct {
@@ -130,17 +129,16 @@ func MustReadConfig(file string) *Config {
 		panic(err)
 	}
 
-	schemaPath := filepath.Join(filepath.Dir(absFile), schemaFileName)
-	mustValidateConfig(conf, schemaPath)
+	mustValidateConfig(conf)
 	conf.mustCoerceConfig(filepath.Dir(file))
 	return conf
 }
 
-func mustValidateConfig(conf *Config, schemaFilePath string) {
+func mustValidateConfig(conf *Config) {
 	// Validate with JSON schema.
-	log.Printf("Validating config against schema \"%v\"", schemaFilePath)
+	log.Printf("Validating config against schema \"%v\"", infdef.ConfigSchemaFile)
 
-	schemaFilePath = toFileURI(schemaFilePath)
+	schemaFilePath := toFileURI(infdef.ConfigSchemaFile)
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
 	documentLoader := gojsonschema.NewGoLoader(conf)
 

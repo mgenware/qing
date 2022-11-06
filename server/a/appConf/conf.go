@@ -8,8 +8,6 @@
 package appConf
 
 import (
-	"flag"
-	"fmt"
 	"os"
 	"path/filepath"
 	"qing/a/config"
@@ -23,30 +21,23 @@ func Get() *config.Config {
 	return conf
 }
 
+func devConfigFile(name string) string {
+	return filepath.Join(infdef.DevConfigDir, name+".json")
+}
+
 func init() {
 	if config.IsUT() {
 		// Unit test mode.
-		confPath = devConfigFile("dev.json")
+		confPath = devConfigFile("ut")
 	} else {
-		// Parse command-line arguments
-		flag.StringVar(&confPath, "config", "", "path of application config file")
-		flag.Parse()
-
-		// If `--config` is not specified, check cases like `go run main.go dev`.
-		userArgs := os.Args[1:]
-		if len(userArgs) >= 1 {
-			confPath = devConfigFile(userArgs[0] + ".json")
+		devConfigName := os.Getenv(infdef.DevConfEnv)
+		if devConfigName != "" {
+			confPath = devConfigFile(devConfigName)
 		} else {
-			fmt.Print("Fatal error: no config file specified.")
-			flag.PrintDefaults()
-			os.Exit(1)
+			confPath = infdef.ConfigFile
 		}
 	}
 
 	// Read config file
 	conf = config.MustReadConfig(confPath)
-}
-
-func devConfigFile(name string) string {
-	return filepath.Join(infdef.QingDevConfigDir, name)
 }

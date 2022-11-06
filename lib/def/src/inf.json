@@ -1,10 +1,15 @@
 {
   "qingDir": "/qing",
   "qingDataDir": "/qing_data",
-  "qingDevCSSDir": "/qing/dev/css",
-  "qingDevConfigDir": "/qing/dev/config",
-  "qingTemplateDir": "/qing/templates",
-  "qingStaticDir": "/qing/static",
-  "qingLangsDir": "/qing/langs",
-  "qingMigrationsDir": "/qing/migrations"
+  "devCSSDir": "/qing/dev/css",
+  "devConfigDir": "/qing/dev/config",
+  "miscDir": "/qing/misc",
+  "configSchemaFile": "/qing/misc/config_schema.json",
+  "templateDir": "/qing/templates",
+  "staticDir": "/qing/static",
+  "langsDir": "/qing/langs",
+  "migrationsDir": "/qing/migrations",
+  "configFile": "/qing/config.json",
+  "profileFile": "/qing/profile.json",
+  "devConfEnv": "QING_DCONF"
 }

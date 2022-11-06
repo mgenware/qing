@@ -26,7 +26,7 @@ const sImgProxy = 'img_proxy';
 
 const qingDataVolumeString = `../volumes/qing_data:${infdef.qingDataDir}`;
 
-const sourceConfFiles = ['blog'];
+const sourceConfFiles = ['dev'];
 
 // Loads the given config file.
 async function loadConfigFile(file: string): Promise<QingConfSchema> {
@@ -46,23 +46,28 @@ function setRestartField(service: Record<string, unknown>, conf: QingConfSchema)
   }
 }
 
-function generateDockerComposeObj(name: string, conf: QingConfSchema) {
+function generateDockerComposeObj(_name: string, conf: QingConfSchema) {
   const server = {
+    // Pass `QING_DCONF` from docker compose command into this context.
+    // Syntax: https://docs.docker.com/compose/environment-variables/
+    environment: [infdef.devConfEnv],
     build: {
       context: '.',
-      dockerfile: `${name}.dockerfile`,
+      dockerfile: 'dev.dockerfile',
     },
     volumes: [
       // [Dev only] CSS source files.
-      `../web/src/css:${infdef.qingDevCSSDir}`,
-      // [Dev only] Preset config files.
-      `../userland/config:${infdef.qingDevConfigDir}`,
+      `../web/src/css:${infdef.devCSSDir}`,
+      // [Dev only] Preset dev config files.
+      `../userland/dev_config:${infdef.devConfigDir}`,
       // Templates.
-      `../userland/templates:${infdef.qingTemplateDir}`,
+      `../userland/templates:${infdef.templateDir}`,
       // Compiled static files.
-      `../userland/static:${infdef.qingStaticDir}`,
+      `../userland/static:${infdef.staticDir}`,
       // Localized strings.
-      `../userland/langs/server:${infdef.qingLangsDir}`,
+      `../userland/langs/server:${infdef.langsDir}`,
+      // Misc folder.
+      `../userland/misc:${infdef.miscDir}`,
       qingDataVolumeString,
     ],
     ports: ['8000:8000'],
@@ -92,11 +97,11 @@ function generateDockerComposeObj(name: string, conf: QingConfSchema) {
   const migrate = {
     image: 'migrate/migrate',
     profiles: ['oth'],
-    volumes: [`../migrations:${infdef.qingMigrationsDir}`],
+    volumes: [`../migrations:${infdef.migrationsDir}`],
     entrypoint: [
       'migrate',
       '-path',
-      `${infdef.qingMigrationsDir}`,
+      `${infdef.migrationsDir}`,
       '-database',
       'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev?multiStatements=true',
     ],
@@ -129,7 +134,7 @@ async function buildConfFile(name: string, file: string) {
   const serverDir = qdu.serverPath();
   const confObj = await loadConfigFile(file);
   const dockerComposeObj = generateDockerComposeObj(name, confObj);
-  const dest = np.join(serverDir, `${name}-dc.yml`);
+  const dest = np.join(serverDir, `${name}.docker-compose.yml`);
   const destContent = `${header}${yaml.dump(dockerComposeObj)}`;
   await mfs.writeFileAsync(dest, destContent);
 }
