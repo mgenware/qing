@@ -19,6 +19,7 @@ services:
     volumes:
       - ../web/src/css:/qing/dev/css
       - ../userland/dev_config:/qing/dev/config
+      - ../server:/qing/dev/server
       - ../userland/templates:/qing/templates
       - ../userland/static:/qing/static
       - ../userland/langs/server:/qing/langs

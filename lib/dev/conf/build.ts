@@ -60,6 +60,8 @@ function generateDockerComposeObj(_name: string, conf: QingConfSchema) {
       `../web/src/css:${infdef.devCSSDir}`,
       // [Dev only] Preset dev config files.
       `../userland/dev_config:${infdef.devConfigDir}`,
+      // [Dev only] Server source files.
+      `../server:${infdef.devServerDir}`,
       // Templates.
       `../userland/templates:${infdef.templateDir}`,
       // Compiled static files.

@@ -1,5 +1,5 @@
 {
-  "extends": "dev_base.json",
+  "extends": "dev.json",
   "site": {
     "type": 1
   }
