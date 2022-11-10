@@ -23,6 +23,6 @@ export interface RawMainPageWind {
   appUserURL?: string;
   appUserIconURL?: string;
   appUserAdmin?: boolean;
-  appMode?: number;
+  appSiteType?: number;
   appWindDataString?: string;
 }
