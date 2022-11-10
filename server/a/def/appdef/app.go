@@ -20,12 +20,12 @@ const DeleteFlagHost = 2
 const ApiLangParam = "__l"
 const ErrGeneric = 1
 
-type AppMode int
+type SiteType int
 
 const (
-	AppModeBlog AppMode = iota + 1
-	AppModeCommunity
-	AppModeForums
+	SiteTypeBlog SiteType = iota + 1
+	SiteTypeCommunity
+	SiteTypeForums
 )
 
 type ContentBaseType int

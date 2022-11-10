@@ -18,20 +18,20 @@ type AppSettings struct {
 }
 
 // Used in main page template.
-func (st *AppSettings) Mode() appdef.AppMode {
-	return appdef.AppMode(st.raw.Mode)
+func (st *AppSettings) SiteType() appdef.SiteType {
+	return appdef.SiteType(st.raw.Mode)
 }
 
-func (st *AppSettings) BlogMode() bool {
-	return st.Mode() == appdef.AppModeBlog
+func (st *AppSettings) BlogSite() bool {
+	return st.SiteType() == appdef.SiteTypeBlog
 }
 
-func (st *AppSettings) CommunityMode() bool {
-	return st.Mode() == appdef.AppModeCommunity
+func (st *AppSettings) CommunitySite() bool {
+	return st.SiteType() == appdef.SiteTypeCommunity
 }
 
-func (st *AppSettings) ForumMode() bool {
-	return st.Mode() == appdef.AppModeForums
+func (st *AppSettings) ForumSite() bool {
+	return st.SiteType() == appdef.SiteTypeForums
 }
 
 func NewAppSettings(obj *appSod.AppRawSettings) *AppSettings {

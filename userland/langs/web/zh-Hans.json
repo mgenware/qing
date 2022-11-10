@@ -157,5 +157,10 @@
   "displayLang": "显示语言",
   "viewAllCmts": "显示所有评论",
   "cmtNotFound": "评论未找到，可能已经被删除。",
-  "share": "分享"
+  "share": "分享",
+  "sysSettings": "系统",
+  "siteType": "网站类型",
+  "siteTypeBlog": "博客",
+  "siteTypeCommunity": "社区",
+  "siteTypeForums": "论坛"
 }

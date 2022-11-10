@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
+	"qing/a/appSettings"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -25,17 +26,15 @@ func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	// TODO: Reactive this when we have more settings.
-	// diskSettings, err := appSettings.LoadFromDisk()
-	// app.PanicOn(err)
+	diskSettings, err := appSettings.LoadFromDisk()
+	app.PanicOn(err)
 	var settings any
 	var needRestart bool
 	key := clib.MustGetStringFromDict(params, "key", appdef.LenMaxName)
 	switch key {
-	// TODO: Reactive this when we have more settings.
-	// case appdef.KeyCommunitySettings:
-	// 	settings = diskSettings.Community
-	// 	needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
+	case appdef.KeyCommunitySettings:
+		settings = diskSettings.Community
+		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
 	default:
 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))
 	}

@@ -7,7 +7,7 @@
 
 export class AppStateName {
   user = 'user';
-  appMode = 'appMode';
+  siteType = 'siteType';
   windData = 'windData';
   private cmtHub = 'cmtHub';
 

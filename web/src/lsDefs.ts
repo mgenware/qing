@@ -167,4 +167,9 @@ export default interface LSDefs {
   viewAllCmts: string;
   cmtNotFound: string;
   share: string;
+  sysSettings: string;
+  siteType: string;
+  siteTypeBlog: string;
+  siteTypeCommunity: string;
+  siteTypeForums: string;
 }

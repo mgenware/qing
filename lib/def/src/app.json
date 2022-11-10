@@ -7,7 +7,7 @@
   "apiLangParam": "__l",
   "errGeneric": 1,
   "__enums": {
-    "appMode": { "values": ["blog", "community", "forums"] },
+    "siteType": { "values": ["blog", "community", "forums"] },
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
     "delFlags": { "values": ["self", "host"] },

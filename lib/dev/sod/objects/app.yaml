@@ -12,6 +12,6 @@ RawMainPageWind:
   # Current language ID, cannot be empty.
   # Server only. Web uses `<html lang="">`.
   appLang_go__: string
-  appMode: int
+  appSiteType: int
   # Extra wind data passed by pages.
   appWindDataString: string

@@ -29,7 +29,7 @@
       window.appUserName = '{{js .AppUserName}}';
       window.appUserIconURL = '{{js .AppUserIconURL}}';
       window.appUserAdmin = '{{.AppUserAdmin}}' === 'true';
-      window.appMode = '{{js .AppMode}}';
+      window.appSiteType = '{{js .AppSiteType}}';
       window.appWindData = JSON.parse('{{js .AppWindDataString}}' || null);
     </script>
     {{.Scripts}}
