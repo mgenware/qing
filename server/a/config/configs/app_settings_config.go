@@ -8,5 +8,5 @@
 package configs
 
 type AppSettingsConfig struct {
-	File string `json:"file"`
+	File string `json:"file,omitempty"`
 }

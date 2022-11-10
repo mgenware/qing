@@ -9,8 +9,8 @@ package configs
 
 // LocalizationConfig ...
 type LocalizationConfig struct {
-	Dir   string   `json:"dir"`
-	Langs []string `json:"langs"`
+	Dir   string   `json:"dir,omitempty"`
+	Langs []string `json:"langs,omitempty"`
 }
 
 // Returns true if there's more than 1 language in `LocalizationConfig`.

@@ -9,5 +9,5 @@ package configs
 
 // LoggingConfig ...
 type LoggingConfig struct {
-	Dir string `json:"dir"`
+	Dir string `json:"dir,omitempty"`
 }

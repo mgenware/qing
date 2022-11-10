@@ -26,29 +26,29 @@ import (
 // Config is the root configuration type for your application.
 type Config struct {
 	// Specifies another file which this file extends from.
-	Extends string `json:"extends"`
+	Extends string `json:"extends,omitempty"`
 	// Defines core properties of this website.
-	Site *configs.SiteConfig `json:"site"`
+	Site *configs.SiteConfig `json:"site,omitempty"`
 	// Determines if this app is currently running in dev mode.
 	// Set it to null in production mode.
-	Dev *configs.DevConfig `json:"dev"`
+	Dev *configs.DevConfig `json:"dev,omitempty"`
 	// Log config data.
-	Log *configs.LoggingConfig `json:"logging"`
+	Log *configs.LoggingConfig `json:"logging,omitempty"`
 	// HTTP config data.
-	HTTP *configs.HTTPConfig `json:"http"`
+	HTTP *configs.HTTPConfig `json:"http,omitempty"`
 	// Templates config data.
-	Templates *configs.TemplatesConfig `json:"templates"`
+	Templates *configs.TemplatesConfig `json:"templates,omitempty"`
 	// Localization config data.
-	Localization *configs.LocalizationConfig `json:"localization"`
+	Localization *configs.LocalizationConfig `json:"localization,omitempty"`
 
-	AppProfile  *configs.AppProfileConfig  `json:"app_profile"`
-	AppSettings *configs.AppSettingsConfig `json:"app_settings"`
+	AppProfile  *configs.AppProfileConfig  `json:"app_profile,omitempty"`
+	AppSettings *configs.AppSettingsConfig `json:"app_settings,omitempty"`
 
-	DB        *configs.DBConfig        `json:"db"`
-	ResServer *configs.ResServerConfig `json:"res_server"`
+	DB        *configs.DBConfig        `json:"db,omitempty"`
+	ResServer *configs.ResServerConfig `json:"res_server,omitempty"`
 
 	// External configs.
-	Extern *configs.ExternConfig `json:"extern"`
+	Extern *configs.ExternConfig `json:"extern,omitempty"`
 }
 
 // Returns true if unit test mode is on.
@@ -131,6 +131,10 @@ func MustReadConfig(file string) *Config {
 
 	mustValidateConfig(conf)
 	conf.mustCoerceConfig(filepath.Dir(file))
+
+	// Once the config is loaded, set `extends` to empty.
+	conf.Extends = ""
+
 	return conf
 }
 

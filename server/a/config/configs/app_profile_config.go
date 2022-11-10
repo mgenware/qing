@@ -9,5 +9,5 @@ package configs
 
 // AppProfileConfig ...
 type AppProfileConfig struct {
-	Dir string `json:"dir"`
+	Dir string `json:"dir,omitempty"`
 }

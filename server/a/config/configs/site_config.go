@@ -8,5 +8,5 @@
 package configs
 
 type SiteConfig struct {
-	Type int `json:"type"`
+	Type int `json:"type,omitempty"`
 }

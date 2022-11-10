@@ -8,16 +8,16 @@
 package configs
 
 type ExternConfig struct {
-	Redis      *ExternRedisConfig `json:"redis"`
-	ImageProxy *ImgProxyConfig    `json:"img_proxy"`
+	Redis      *ExternRedisConfig `json:"redis,omitempty"`
+	ImageProxy *ImgProxyConfig    `json:"img_proxy,omitempty"`
 }
 
 type ExternRedisConfig struct {
 	// Port is the port redis will be connect to.
-	Port    int  `json:"port"`
-	Logging bool `json:"logging"`
+	Port    int  `json:"port,omitempty"`
+	Logging bool `json:"logging,omitempty"`
 }
 
 type ImgProxyConfig struct {
-	Port int `json:"port"`
+	Port int `json:"port,omitempty"`
 }

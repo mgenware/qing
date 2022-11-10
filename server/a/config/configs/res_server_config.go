@@ -10,7 +10,7 @@ package configs
 // ResServerConfig ...
 type ResServerConfig struct {
 	// URL is the URL pattern used for registering request handler.
-	URL string `json:"url"`
+	URL string `json:"url,omitempty"`
 	// Dir is the path of app resource directory.
-	Dir string `json:"dir"`
+	Dir string `json:"dir,omitempty"`
 }
