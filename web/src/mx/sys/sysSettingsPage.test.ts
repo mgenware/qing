@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './communitySettingsPage';
+import './sysSettingsPage';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<community-settings-page></community-settings-page>`);
+  const el = await fixture<HTMLElement>(html`<sys-settings-page></sys-settings-page>`);
 
   tDOM.isBlockElement(el);
 });
