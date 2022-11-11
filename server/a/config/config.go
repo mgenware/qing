@@ -8,6 +8,7 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -136,6 +137,24 @@ func MustReadConfig(file string) *Config {
 	conf.Extends = ""
 
 	return conf
+}
+
+func SerializeConfig(conf *Config) ([]byte, error) {
+	return json.Marshal(conf)
+}
+
+func DeepCopyConfig(conf *Config) (*Config, error) {
+	bytes, err := SerializeConfig(conf)
+	if err != nil {
+		return nil, err
+	}
+
+	var newConf Config
+	err = json.Unmarshal(bytes, &newConf)
+	if err != nil {
+		return nil, err
+	}
+	return &newConf, nil
 }
 
 func mustValidateConfig(conf *Config) {
