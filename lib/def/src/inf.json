@@ -10,7 +10,7 @@
   "staticDir": "/qing/static",
   "langsDir": "/qing/langs",
   "migrationsDir": "/qing/migrations",
-  "configFile": "/qing/config.json",
-  "profileFile": "/qing/profile.json",
+  "configFile": "/qing_data/app/config.json",
+  "profileFile": "/qing_data/app/profile.json",
   "devConfEnv": "QING_DCONF"
 }
