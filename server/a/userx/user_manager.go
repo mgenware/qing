@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/appHandler"
-	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
 	"qing/a/coretype"
@@ -100,7 +99,7 @@ func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Hand
 // Fetches user info from DB and creates an `appcom.SessionUser`.
 func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
 	db := appu.db
-	if appSettings.Get().ForumMode() {
+	if appu.conf.Site.ForumSite() {
 		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
 		if err != nil {
 			return nil, err

@@ -16,9 +16,18 @@ import (
 
 var conf *config.Config
 var confPath string
+var needRestart bool
 
 func Get() *config.Config {
 	return conf
+}
+
+func GetNeedRestart() bool {
+	return needRestart
+}
+
+func UpdateNeedRestart() {
+	needRestart = true
 }
 
 func devConfigFile(name string) string {

@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appSettings"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"

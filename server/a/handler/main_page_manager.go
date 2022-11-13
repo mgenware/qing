@@ -13,7 +13,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"qing/a/appConf"
-	"qing/a/appSettings"
 	"qing/a/appcom"
 	"qing/a/config"
 	"qing/a/coretype"
@@ -115,7 +114,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Scripts = m.asMgr.MustGetLangScript(lang) + d.Scripts
 
 	// Community mode settings.
-	d.AppSiteType = int(appSettings.Get().SiteType())
+	d.AppSiteType = int(m.conf.Site.SiteType())
 
 	// User info.
 	user := appcom.ContextUser(ctx)

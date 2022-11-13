@@ -1,0 +1,7 @@
+---
+SiteSettings:
+  __go_ctor: true
+
+  name: string
+  link: string
+  type: int

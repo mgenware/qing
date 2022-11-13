@@ -13,10 +13,6 @@
 
 package appSod
 
-type AppRawSettings struct {
-	Mode int `json:"mode,omitempty"`
-}
-
 type RawMainPageWind struct {
 	AppUserID         string `json:"appUserID,omitempty"`
 	AppUserName       string `json:"appUserName,omitempty"`

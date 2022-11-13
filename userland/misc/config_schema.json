@@ -86,13 +86,6 @@
       },
       "required": ["dir"]
     },
-    "app_settings_config": {
-      "type": "object",
-      "properties": {
-        "file": { "type": "string" }
-      },
-      "required": ["file"]
-    },
     "db_config": {
       "type": "object",
       "properties": {
@@ -149,7 +142,6 @@
     "templates": { "$ref": "#/definitions/templates_config" },
     "localization": { "$ref": "#/definitions/localization_config" },
     "app_profile": { "$ref": "#/definitions/app_profile_config" },
-    "app_settings": { "$ref": "#/definitions/app_settings_config" },
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
     "extern": { "$ref": "#/definitions/extern_config" },

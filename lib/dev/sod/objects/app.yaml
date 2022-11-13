@@ -1,7 +1,4 @@
 ---
-AppRawSettings:
-  mode: int
-
 RawMainPageWind:
   # Information about current user.
   appUserID: string
