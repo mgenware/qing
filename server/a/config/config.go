@@ -88,24 +88,13 @@ func readConfigCore(absFile string) (*Config, error) {
 			return nil, err
 		}
 	}
-
-	// Load platform specific config file
-	osName := runtime.GOOS
-	if osName == "darwin" {
-		osName = "macos"
-	}
 	return &conf, nil
 }
 
 // MustReadConfig constructs a config object from the given file.
-func MustReadConfig(file string) *Config {
-	absFile := file
-	if !filepath.IsAbs(file) {
-		s, err := filepath.Abs(file)
-		if err != nil {
-			panic(err)
-		}
-		absFile = s
+func MustReadConfig(absFile string) *Config {
+	if !filepath.IsAbs(absFile) {
+		panic(fmt.Errorf("expected an absolute filepath, got %v", absFile))
 	}
 	conf, err := readConfigCore(absFile)
 	if err != nil {
@@ -113,7 +102,6 @@ func MustReadConfig(file string) *Config {
 	}
 
 	mustValidateConfig(conf)
-	conf.mustCoerceConfig(filepath.Dir(file))
 
 	// Once the config is loaded, set `extends` to empty.
 	conf.Extends = ""
@@ -159,56 +147,13 @@ func mustValidateConfig(conf *Config) {
 		}
 		panic(fmt.Errorf("config file validation failed"))
 	}
-}
 
-func (conf *Config) mustCoerceConfig(dir string) {
 	if IsUT() {
 		// Test flag is forbidden in production.
 		if conf.ProductionMode() {
 			panic(fmt.Errorf("you cannot have test mode set in production mode"))
 		}
 	}
-
-	// AppProfile
-	appProfileConfig := conf.AppProfile
-	mustCoercePathPtr(dir, &appProfileConfig.Dir)
-
-	// HTTP
-	httpConfig := conf.HTTP
-	httpStaticConfig := httpConfig.Static
-	if httpStaticConfig != nil {
-		mustCoercePathPtr(dir, &httpStaticConfig.Dir)
-	}
-
-	// Templates
-	templatesConfig := conf.Templates
-	mustCoercePathPtr(dir, &templatesConfig.Dir)
-
-	// Localization
-	localizationConfig := conf.Localization
-	mustCoercePathPtr(dir, &localizationConfig.Dir)
-
-	// Res
-	resConfig := conf.ResServer
-	mustCoercePathPtr(dir, &resConfig.Dir)
-}
-
-func mustCoercePath(dir, p string) string {
-	if p == "" {
-		return p
-	}
-	if filepath.IsAbs(p) {
-		return p
-	}
-	return filepath.Join(dir, p)
-}
-
-func mustCoercePathPtr(dir string, p *string) {
-	if p == nil {
-		return
-	}
-	absPath := mustCoercePath(dir, *p)
-	*p = absPath
 }
 
 func toFileURI(path string) string {
