@@ -10,9 +10,9 @@ package homep
 import (
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/appSettings"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
@@ -25,11 +25,10 @@ const defaultPageSize = 10
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	// Non-forums mode.
-	if !appSettings.Get().ForumMode() {
-		return renderStdPage(w, r)
+	if appConf.Get().Site.ForumSite() {
+		return renderForumPage(w, r)
 	}
-	return renderForumPage(w, r)
+	return renderStdPage(w, r)
 }
 
 func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {

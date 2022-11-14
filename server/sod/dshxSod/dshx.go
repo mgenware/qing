@@ -13,16 +13,25 @@
 
 package dshxSod
 
-type SiteSettings struct {
-	Name string `json:"name,omitempty"`
-	Link string `json:"link,omitempty"`
-	Type int    `json:"type,omitempty"`
+type SiteSettingsBase struct {
+	NeedRestart bool `json:"needRestart,omitempty"`
 }
 
-func NewSiteSettings(name string, link string, type int) SiteSettings {
-	return SiteSettings{
-		Name: name,
-		Link: link,
-		Type: type,
+func NewSiteSettingsBase(needRestart bool) SiteSettingsBase {
+	return SiteSettingsBase{
+		NeedRestart: needRestart,
+	}
+}
+
+type SiteCoreSettings struct {
+	SiteSettingsBase
+
+	SiteType int `json:"siteType,omitempty"`
+}
+
+func NewSiteCoreSettings(siteSettingsBase *SiteSettingsBase, siteType int) SiteCoreSettings {
+	return SiteCoreSettings{
+		SiteSettingsBase: *siteSettingsBase,
+		SiteType: siteType,
 	}
 }

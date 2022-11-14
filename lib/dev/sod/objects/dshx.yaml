@@ -1,7 +1,10 @@
 ---
-SiteSettings:
+SiteSettingsBase:
+  __go_ctor: true
+  needRestart: bool
+
+SiteCoreSettings:
+  __extends: SiteSettingsBase
   __go_ctor: true
 
-  name: string
-  link: string
-  type: int
+  siteType: int

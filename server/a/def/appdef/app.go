@@ -50,6 +50,12 @@ const (
 	DelFlagsHost
 )
 
+type SiteSettings int
+
+const (
+	SiteSettingsCore SiteSettings = iota + 1
+)
+
 const (
 	RouteM = "m"
 	RouteMx = "mx"
@@ -71,7 +77,6 @@ const (
 	KeyTab = "tab"
 	KeyValue = "value"
 	KeyForumPosts = "forumPosts"
-	KeyCommunitySettings = "communitySettings"
 	KeyCreated = "createdAt"
 	KeyLikes = "likes"
 	KeyComments = "comments"

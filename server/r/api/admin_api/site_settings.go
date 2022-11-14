@@ -11,33 +11,28 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
+	"qing/sod/dshxSod"
 )
-
-type GetSiteSettingsResult struct {
-	Settings    any  `json:"settings"`
-	NeedRestart bool `json:"need_restart,omitempty"`
-}
 
 func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
+	key := clib.MustGetIntFromDict(params, "key")
 
-	diskSettings, err := appSettings.LoadFromDisk()
-	app.PanicOn(err)
-	var settings any
-	var needRestart bool
-	key := clib.MustGetStringFromDict(params, "key", appdef.LenMaxName)
-	switch key {
-	case appdef.KeyCommunitySettings:
-		settings = diskSettings.Community
-		needRestart = appSettings.GetRestartSettings(appSettings.ForumsRestartSettings)
+	needRestart := appConf.GetNeedRestart()
+	stBase := dshxSod.NewSiteSettingsBase(needRestart)
+	c := appConf.Get()
+	sc := c.Site
+
+	switch appdef.SiteSettings(key) {
+	case appdef.SiteSettingsCore:
+		coreData := dshxSod.NewSiteCoreSettings(&stBase, sc.SiteType)
+		return resp.MustComplete(coreData)
 	default:
 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))
 	}
-
-	res := GetSiteSettingsResult{Settings: settings, NeedRestart: needRestart}
-	return resp.MustComplete(res)
 }

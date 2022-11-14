@@ -11,6 +11,7 @@
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
     "delFlags": { "values": ["self", "host"] },
+    "siteSettings": { "values": ["core"] },
     "route": {
       "weakBaseType": true,
       "values": {
@@ -36,7 +37,6 @@
         "tab": "tab",
         "value": "value",
         "forumPosts": "forumPosts",
-        "communitySettings": "communitySettings",
         "created": "createdAt",
         "likes": "likes",
         "comments": "comments",

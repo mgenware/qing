@@ -77,15 +77,11 @@ func readConfigCore(absFile string) (*Config, error) {
 	}
 
 	if conf.Extends != "" {
-		extendsFile := conf.Extends
-		if !filepath.IsAbs(extendsFile) {
-			abs, err := filepath.Abs(absFile)
-			if err != nil {
-				return nil, err
-			}
-			baseDir := filepath.Dir(abs)
-			extendsFile = filepath.Join(baseDir, extendsFile)
+		extends := conf.Extends
+		if filepath.IsAbs(extends) {
+			return nil, fmt.Errorf("`extends` cannot be an absolute path, got %v", extends)
 		}
+		extendsFile := filepath.Join(filepath.Dir(absFile), extends)
 		basedOn, err := readConfigCore(extendsFile)
 		if err != nil {
 			return nil, err

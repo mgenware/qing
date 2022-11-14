@@ -10,21 +10,21 @@ package configs
 import "qing/a/def/appdef"
 
 type SiteConfig struct {
-	Type int `json:"type,omitempty"`
+	SiteType int `json:"site_type,omitempty"`
 }
 
-func (sc *SiteConfig) SiteType() appdef.SiteType {
-	return appdef.SiteType(sc.Type)
+func (sc *SiteConfig) TypedSiteType() appdef.SiteType {
+	return appdef.SiteType(sc.SiteType)
 }
 
 func (sc *SiteConfig) BlogSite() bool {
-	return sc.SiteType() == appdef.SiteTypeBlog
+	return sc.TypedSiteType() == appdef.SiteTypeBlog
 }
 
 func (sc *SiteConfig) CommunitySite() bool {
-	return sc.SiteType() == appdef.SiteTypeCommunity
+	return sc.TypedSiteType() == appdef.SiteTypeCommunity
 }
 
 func (sc *SiteConfig) ForumSite() bool {
-	return sc.SiteType() == appdef.SiteTypeForums
+	return sc.TypedSiteType() == appdef.SiteTypeForums
 }

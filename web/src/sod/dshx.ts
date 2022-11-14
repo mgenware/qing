@@ -13,8 +13,10 @@
  * See `lib/dev/sod/objects/dshx.yaml` for details.
  ******************************************************************************************/
 
-export interface SiteSettings {
-  name?: string;
-  link?: string;
-  type?: number;
+export interface SiteSettingsBase {
+  needRestart?: boolean;
+}
+
+export interface SiteCoreSettings extends SiteSettingsBase {
+  siteType?: number;
 }
