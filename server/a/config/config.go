@@ -17,10 +17,8 @@ import (
 	"qing/a/def/infdef"
 	"qing/lib/iolib"
 	"runtime"
-	"strings"
 
 	"github.com/imdario/mergo"
-	"github.com/mgenware/goutil/iox"
 	"github.com/xeipuuv/gojsonschema"
 )
 
@@ -95,18 +93,6 @@ func readConfigCore(absFile string) (*Config, error) {
 	osName := runtime.GOOS
 	if osName == "darwin" {
 		osName = "macos"
-	}
-	// /a/b.json -> /a/b_linux.json
-	ext := filepath.Ext(absFile)
-	osConfFile := strings.TrimSuffix(absFile, ext) + "_" + osName + ext
-	if iox.IsFile(osConfFile) {
-		osConfig, err := readConfigCore(osConfFile)
-		if err != nil {
-			return nil, err
-		}
-		if err := mergo.Merge(&conf, osConfig); err != nil {
-			return nil, err
-		}
 	}
 	return &conf, nil
 }
