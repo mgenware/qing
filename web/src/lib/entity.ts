@@ -5,7 +5,9 @@
  * be found in the LICENSE file.
  */
 
+import { appdef } from '@qing/def';
+
 export default interface Entity {
-  type: number;
+  type: appdef.ContentBaseType;
   id: string;
 }

@@ -2,13 +2,13 @@ import ls from 'ls';
 import { CHECK } from 'checks';
 import { appdef } from '@qing/def';
 
-export function entityTypeToLS(entityType: number): string {
+export function entityTypeToLS(entityType: appdef.ContentBaseType): string {
   switch (entityType) {
-    case appdef.contentBaseTypePost:
+    case appdef.ContentBaseType.post:
       return ls.post;
-    case appdef.contentBaseTypeFPost:
+    case appdef.ContentBaseType.fPost:
       return ls.fPost;
-    case appdef.contentBaseTypeCmt:
+    case appdef.ContentBaseType.cmt:
       return ls.comment;
     default: {
       CHECK(false);

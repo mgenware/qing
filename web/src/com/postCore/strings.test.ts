@@ -4,7 +4,7 @@ import { entityTypeToLS } from './strings';
 import { appdef } from '@qing/def';
 
 it('entityTypeToLS', () => {
-  expect(entityTypeToLS(appdef.contentBaseTypePost)).to.eq(ls.post);
-  expect(entityTypeToLS(appdef.contentBaseTypeCmt)).to.eq(ls.comment);
-  expect(entityTypeToLS(appdef.contentBaseTypeFPost)).to.eq(ls.fPost);
+  expect(entityTypeToLS(appdef.ContentBaseType.post)).to.eq(ls.post);
+  expect(entityTypeToLS(appdef.ContentBaseType.cmt)).to.eq(ls.comment);
+  expect(entityTypeToLS(appdef.ContentBaseType.fPost)).to.eq(ls.fPost);
 });

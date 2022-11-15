@@ -17,6 +17,6 @@
   ],
   "devDependencies": {
     "@qing/devutil": "workspace:*",
-    "qing-shared-const": "^0.1.2"
+    "qing-shared-const": "^0.2.0"
   }
 }

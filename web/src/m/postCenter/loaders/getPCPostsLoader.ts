@@ -24,10 +24,10 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
 
   override requestURL(): string {
     switch (this.entityType) {
-      case appdef.contentBaseTypePost:
+      case appdef.ContentBaseType.post:
         return mpRoute.posts;
 
-      case appdef.contentBaseTypeFPost:
+      case appdef.ContentBaseType.fPost:
         return mpRoute.fposts;
 
       default:

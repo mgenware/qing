@@ -5,6 +5,8 @@
  * be found in the LICENSE file.
  */
 
+import { appdef } from '@qing/def';
+
 export enum AppCommands {
   newEntity,
 }
@@ -21,7 +23,7 @@ function runCommand(cmd: AppCommands, arg: unknown) {
   runner(arg);
 }
 
-export function runNewEntityCommand(entityType: number, forumID: string | null) {
+export function runNewEntityCommand(entityType: appdef.ContentBaseType, forumID: string | null) {
   runCommand(AppCommands.newEntity, [entityType, forumID ?? '']);
 }
 

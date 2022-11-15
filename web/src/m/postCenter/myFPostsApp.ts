@@ -87,7 +87,7 @@ export default class MyFPostsApp extends PCListApp {
   }
 
   private handleNewFPostClick() {
-    runNewEntityCommand(appdef.contentBaseTypeFPost, null);
+    runNewEntityCommand(appdef.ContentBaseType.fPost, null);
   }
 }
 

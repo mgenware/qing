@@ -34,7 +34,7 @@ appState.register<User | null>(appStateName.user, () => {
   return null;
 });
 
-appState.register<number>(appStateName.appSiteType, () => {
+appState.register<number>(appStateName.siteType, () => {
   const wind = getMainPageWindData();
   return wind.appSiteType ?? 0;
 });

@@ -35,8 +35,8 @@ export class PostPayloadApp extends BaseElement {
   override render() {
     const hostID = postWind.id;
     const contentType = postWind.isThread
-      ? appdef.contentBaseTypeFPost
-      : appdef.contentBaseTypePost;
+      ? appdef.ContentBaseType.fPost
+      : appdef.ContentBaseType.post;
     return html`
       <div>
         <likes-app

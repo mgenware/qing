@@ -19,6 +19,41 @@ const DeleteFlagSelf = 1
 const DeleteFlagHost = 2
 const ApiLangParam = "__l"
 const ErrGeneric = 1
+const LenMaxTitle = 200
+const LenMaxEmail = 200
+const LenMaxName = 100
+const LenMaxFileName = 255
+const LenMaxUserInfoField = 100
+const LenMaxURL = 200
+const LenMaxPwdHash = 255
+const LenMinUserPwd = 6
+const LenMaxUserPwd = 30
+const LenMaxCaptcha = 10
+const LenMaxLang = 10
+const LenMaxGenericString = 100
+const KeyPosts = "posts"
+const KeyReplies = "replies"
+const KeyPage = "page"
+const KeyPageSize = "pageSize"
+const KeyTab = "tab"
+const KeyValue = "value"
+const KeyForumPosts = "forumPosts"
+const KeyCreated = "createdAt"
+const KeyLikes = "likes"
+const KeyComments = "comments"
+const KeyMessages = "messages"
+const KeyLang = "lang"
+const KeyCmt = "cmt"
+const RouteM = "m"
+const RouteMx = "mx"
+const RouteApi = "s"
+const RouteForum = "f"
+const RouteForumGroup = "g"
+const RouteForumPost = "t"
+const RouteDev = "__"
+const RouteAuth = "auth"
+const RoutePost = "p"
+const RouteUser = "u"
 
 type SiteType int
 
@@ -54,48 +89,4 @@ type SiteSettings int
 
 const (
 	SiteSettingsCore SiteSettings = iota + 1
-)
-
-const (
-	RouteM = "m"
-	RouteMx = "mx"
-	RouteApi = "s"
-	RouteForum = "f"
-	RouteForumGroup = "g"
-	RouteForumPost = "t"
-	RouteDev = "__"
-	RouteAuth = "auth"
-	RoutePost = "p"
-	RouteUser = "u"
-)
-
-const (
-	KeyPosts = "posts"
-	KeyReplies = "replies"
-	KeyPage = "page"
-	KeyPageSize = "pageSize"
-	KeyTab = "tab"
-	KeyValue = "value"
-	KeyForumPosts = "forumPosts"
-	KeyCreated = "createdAt"
-	KeyLikes = "likes"
-	KeyComments = "comments"
-	KeyMessages = "messages"
-	KeyLang = "lang"
-	KeyCmt = "cmt"
-)
-
-const (
-	LenMaxTitle = 200
-	LenMaxEmail = 200
-	LenMaxName = 100
-	LenMaxFileName = 255
-	LenMaxUserInfoField = 100
-	LenMaxURL = 200
-	LenMaxPwdHash = 255
-	LenMinUserPwd = 6
-	LenMaxUserPwd = 30
-	LenMaxCaptcha = 10
-	LenMaxLang = 10
-	LenMaxGenericString = 100
 )

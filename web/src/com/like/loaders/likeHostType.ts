@@ -8,8 +8,8 @@
 import { appdef } from '@qing/def';
 
 enum LikeHostType {
-  post = appdef.contentBaseTypePost,
-  cmt = appdef.contentBaseTypeCmt,
+  post = appdef.ContentBaseType.post,
+  cmt = appdef.ContentBaseType.cmt,
 }
 
 export default LikeHostType;
