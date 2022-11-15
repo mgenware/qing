@@ -77,12 +77,12 @@ function checkMigrationNumber(num: number) {
   }
 }
 
-function mustGetDockerComposeFile(argIdx: number) {
+function mustGetDevConf(argIdx: number) {
   const arg = processArgs[argIdx];
   if (!arg) {
     throw new Error(`Missing config name. ${helpText}`);
   }
-  return `dc-${arg}.yml`;
+  return arg;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -113,7 +113,7 @@ function mustGetDockerComposeFile(argIdx: number) {
         await sp.spawnDockerComposeCmd(
           ['up'],
           await iou.getProjectDir(serverDir),
-          mustGetDockerComposeFile(1),
+          mustGetDevConf(1),
         );
         break;
       }
@@ -123,7 +123,7 @@ function mustGetDockerComposeFile(argIdx: number) {
         await sp.spawnDockerComposeCmd(
           ['exec', '-e', 'UT=1', 'server', 'go', 'test', arg1 || './...'],
           await iou.getProjectDir(serverDir),
-          mustGetDockerComposeFile(1),
+          mustGetDevConf(1),
         );
         break;
       }
@@ -132,18 +132,24 @@ function mustGetDockerComposeFile(argIdx: number) {
         await sp.spawnDockerComposeCmd(
           ['up', '--force-recreate'],
           await iou.getProjectDir(serverDir),
-          mustGetDockerComposeFile(1),
+          mustGetDevConf(1),
         );
         break;
       }
 
       case 's-l': {
-        await iou.pipedSpawn('go', ['run', 'main.go', 'dev'], await iou.getProjectDir(serverDir));
+        await iou.pipedSpawn('go', {
+          args: ['run', 'main.go', 'dev'],
+          workingDir: await iou.getProjectDir(serverDir),
+        });
         break;
       }
 
       case 's-lint': {
-        await iou.pipedSpawn('golangci-lint', ['run'], await iou.getProjectDir(serverDir));
+        await iou.pipedSpawn('golangci-lint', {
+          args: ['run'],
+          workingDir: await iou.getProjectDir(serverDir),
+        });
         break;
       }
 
@@ -168,7 +174,7 @@ function mustGetDockerComposeFile(argIdx: number) {
           await sp.spawnDockerComposeMigrate(
             ['drop'],
             await iou.getProjectDir(serverDir),
-            mustGetDockerComposeFile(2),
+            mustGetDevConf(2),
           );
         } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
           const num = parseInt(arg1.substr(1), 10);
@@ -176,7 +182,7 @@ function mustGetDockerComposeFile(argIdx: number) {
           await sp.spawnDockerComposeMigrate(
             [arg1[0] === '+' ? 'up' : 'down', num.toString()],
             await iou.getProjectDir(serverDir),
-            mustGetDockerComposeFile(2),
+            mustGetDevConf(2),
           );
         } else {
           const num = parseInt(arg1, 10);
@@ -184,7 +190,7 @@ function mustGetDockerComposeFile(argIdx: number) {
           await sp.spawnDockerComposeMigrate(
             ['goto', num.toString()],
             await iou.getProjectDir(serverDir),
-            mustGetDockerComposeFile(2),
+            mustGetDevConf(2),
           );
         }
         break;
