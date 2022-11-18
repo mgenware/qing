@@ -38,12 +38,12 @@ export interface NewPostOptions {
 
 async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
   const r = await entityUtil.setEntity(
-    appdef.contentBaseTypePost,
+    appdef.ContentBaseType.post,
     opt?.body ? { content: opt.body } : entityBody,
     user,
   );
   const id = verifyNewPostAPIResult(r);
-  await entityUtil.updateEntityTime(id, appdef.contentBaseTypePost);
+  await entityUtil.updateEntityTime(id, appdef.ContentBaseType.post);
   return id;
 }
 
@@ -62,7 +62,7 @@ export async function newPost(
     await cb({ id, link: postLink(id) });
   } finally {
     if (id) {
-      await entityUtil.delEntity(id, appdef.contentBaseTypePost, user);
+      await entityUtil.delEntity(id, appdef.ContentBaseType.post, user);
     }
   }
 }

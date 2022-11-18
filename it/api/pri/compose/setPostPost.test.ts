@@ -15,7 +15,7 @@ import { appdef } from '@qing/def';
 import * as composeRoute from '@qing/routes/d/s/pri/compose';
 
 const entityBody = {
-  entityType: appdef.contentBaseTypePost,
+  entityType: appdef.ContentBaseType.post,
   content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
 };
 
@@ -25,7 +25,7 @@ it('Add a post', async () => {
     const pc = await postCount(u);
     await newPost(u, async ({ id }) => {
       // Post content.
-      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
+      expect(await entitySrc(id, appdef.ContentBaseType.post, u)).toEqual({
         contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
@@ -45,7 +45,7 @@ it('Edit a post', async () => {
       // Post content.
       const pc = await postCount(u);
       await api(composeRoute.setEntity, { ...entityBody, id }, u);
-      expect(await entitySrc(id, appdef.contentBaseTypePost, u)).toEqual({
+      expect(await entitySrc(id, appdef.ContentBaseType.post, u)).toEqual({
         contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
