@@ -43,14 +43,17 @@ export async function getVersion(): Promise<string> {
   return pkgVersion;
 }
 
-export async function pipedSpawn(
-  command: string,
-  args: readonly string[] | undefined,
-  workingDir: string,
-) {
-  return execa(command, args, {
+export interface SpawnOptions {
+  args?: readonly string[];
+  workingDir?: string;
+  env?: Record<string, string>;
+}
+
+export async function pipedSpawn(command: string, opt?: SpawnOptions) {
+  return execa(command, opt?.args, {
     stdio: 'inherit',
-    cwd: workingDir,
+    cwd: opt?.workingDir,
+    env: opt?.env,
   });
 }
 

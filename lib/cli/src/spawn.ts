@@ -26,15 +26,19 @@ export async function spawnDZCmd(cmd: string, args: string[] | null, daizongDir:
   const installTime = await readNPMInstallTime(rootDir);
   if (diskTime > installTime) {
     print('# Running pnpm install...');
-    await pipedSpawn('pnpm', ['i'], rootDir);
+    await pipedSpawn('pnpm', { args: ['i'], workingDir: rootDir });
     await writeNPMInstallTime(rootDir, new Date().getTime());
   }
 
-  await pipedSpawn('dz', [cmd, ...(args ?? [])], daizongDir);
+  await pipedSpawn('dz', { args: [cmd, ...(args ?? [])], workingDir: daizongDir });
 }
 
-export async function spawnDockerComposeCmd(args: string[], dir: string, configFileName: string) {
-  return pipedSpawn('docker', ['compose', '-f', configFileName, ...args], dir);
+export async function spawnDockerComposeCmd(args: string[], dir: string, configName: string) {
+  return pipedSpawn('docker', {
+    args: ['compose', '-f', 'dev.docker-compose.yml', ...args],
+    workingDir: dir,
+    env: { QING_DCONF: configName },
+  });
 }
 
 export async function spawnDockerComposeMigrate(
