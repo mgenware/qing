@@ -34,9 +34,9 @@
     "site_config": {
       "type": "object",
       "properties": {
-        "type": { "type": "number" }
+        "site_type": { "type": "number" }
       },
-      "required": ["type"]
+      "required": ["site_type"]
     },
     "http_config": {
       "type": "object",

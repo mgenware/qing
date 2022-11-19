@@ -125,7 +125,7 @@ export default interface LSDefs {
   thisIsYou: string;
   numOfFPosts: string;
   allFPosts: string;
-  general: string;
+  generalSettings: string;
   moderators: string;
   description: string;
   confirmAddUserAsAdmin: string;
@@ -170,6 +170,9 @@ export default interface LSDefs {
   sysSettings: string;
   siteType: string;
   siteTypeBlog: string;
+  siteTypeBlogDesc: string;
   siteTypeCommunity: string;
+  siteTypeCommunityDesc: string;
   siteTypeForums: string;
+  siteTypeForumsDesc: string;
 }

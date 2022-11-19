@@ -1,6 +1,6 @@
 {
   "extends": "dev.json",
   "site": {
-    "type": 1
+    "site_type": 1
   }
 }

@@ -116,7 +116,7 @@
   "thisIsYou": "This is you",
   "numOfFPosts": "{0} forum {0|countable|post|posts}",
   "allFPosts": "All forum posts",
-  "general": "General",
+  "generalSettings": "General",
   "moderators": "Moderators",
   "description": "Description",
   "confirmAddUserAsAdmin": "Do you want to set \"{0}\" as an admin?",
@@ -161,6 +161,9 @@
   "sysSettings": "System",
   "siteType": "Website type",
   "siteTypeBlog": "Blog",
+  "siteTypeBlogDesc": "Moderators can create posts. Visitors can post comments.",
   "siteTypeCommunity": "Community",
-  "siteTypeForums": "Forums"
+  "siteTypeCommunityDesc": "Everyone can create posts and comment.",
+  "siteTypeForums": "Forums",
+  "siteTypeForumsDesc": "Like community mode, but posts are grouped in forums that are created by moderators."
 }

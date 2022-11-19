@@ -116,7 +116,7 @@
   "thisIsYou": "这是你",
   "numOfFPosts": "{0} 论坛帖",
   "allFPosts": "所有论坛帖",
-  "general": "通用",
+  "generalSettings": "通用",
   "moderators": "论坛管理员",
   "description": "概述",
   "confirmAddUserAsAdmin": "是否将用户\"{0}\"加入到管理员？",
@@ -161,6 +161,9 @@
   "sysSettings": "系统",
   "siteType": "网站类型",
   "siteTypeBlog": "博客",
+  "siteTypeBlogDesc": "管理员可以创建文章。访客可以评论。",
   "siteTypeCommunity": "社区",
-  "siteTypeForums": "论坛"
+  "siteTypeCommunityDesc": "每个人都可以创建帖子和评论。",
+  "siteTypeForums": "论坛",
+  "siteTypeForumsDesc": "类似社区模式，但是帖子会被放在论坛内，管理员可以管理论坛。"
 }

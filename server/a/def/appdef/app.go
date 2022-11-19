@@ -88,5 +88,5 @@ const (
 type SiteSettings int
 
 const (
-	SiteSettingsCore SiteSettings = iota + 1
+	SiteSettingsGen SiteSettings = iota + 1
 )
