@@ -109,12 +109,12 @@ func MustReadConfig(absFile string) *Config {
 	return conf
 }
 
-func SerializeConfig(conf *Config) ([]byte, error) {
+func serializeConfig(conf *Config) ([]byte, error) {
 	return json.Marshal(conf)
 }
 
 func DeepCopyConfig(conf *Config) (*Config, error) {
-	bytes, err := SerializeConfig(conf)
+	bytes, err := serializeConfig(conf)
 	if err != nil {
 		return nil, err
 	}
