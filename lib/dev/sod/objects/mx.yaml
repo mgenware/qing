@@ -3,7 +3,7 @@ SiteSettingsBase:
   __go_ctor: true
   needRestart: bool
 
-SiteCoreSettings:
+SiteGenSettings:
   __extends: SiteSettingsBase
   __go_ctor: true
 
