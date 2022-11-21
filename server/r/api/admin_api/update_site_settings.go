@@ -8,45 +8,45 @@
 package adminapi
 
 import (
+	"encoding/json"
+	"fmt"
+	"math"
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConf"
+	"qing/a/def/appdef"
 	"qing/a/handler"
+	"qing/lib/clib"
+	"qing/sod/mxSod"
 )
 
-func updateSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
+// Changes to settings (app config) require a server restart.
+func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
-	// TODO: Reactive this when we have more settings.
-	// params := app.ContextDict(r)
+	params := app.ContextDict(r)
 
-	// // A note on update app settings. Go doesn't guarantee atomic read/write on primitive data types.
-	// // We don't want to add any performance penalty to achieve that since some settings like forums mode
-	// // are accessed quite frequently. So we require a server restart on a app settings change.
-	// // This API will first deep clone the current app settings, and save the modified cloned settings
-	// // into the disk.
+	key := clib.MustGetIntFromDict(params, "key")
+	// Get settings JSON string.
+	stJSON := clib.MustGetStringFromDict(params, "stJSON", math.MaxInt)
 
-	// settingsDict := clib.MustGetDictFromDict(params, "settings")
-	// diskST, err := appSettings.LoadFromDisk()
-	// app.PanicOn(err)
+	mutex := appConf.DiskMutex()
+	mutex.Lock()
+	defer mutex.Unlock()
 
-	// // k: settings key, v: settings JSON string.
-	// for k, v := range settingsDict {
-	// 	vString, ok := v.(string)
-	// 	if !ok {
-	// 		return resp.MustFail(fmt.Sprintf("Settings value is not a valid string. Key: %v, got: %v", k, v))
-	// 	}
-	// 	switch k {
-	// 	case appdef.KeyCommunitySettings:
-	// 		var comST appSod.CommunityRawSettings
-	// 		err := json.Unmarshal([]byte(vString), &comST)
-	// 		app.PanicOn(err)
-	// 		diskST.Community = comST
-	// 		appSettings.SetRestartSettings(appSettings.ForumsRestartSettings)
-	// 	default:
-	// 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", k))
-	// 	}
-	// }
+	conf := appConf.DiskConfigUnsafe()
 
-	// err = appSettings.WriteAppSettings(diskST)
-	// app.PanicOn(err)
+	switch appdef.SiteSettings(key) {
+	case appdef.SiteSettingsGen:
+		genST := mxSod.SiteGenSettings{}
+		err := json.Unmarshal([]byte(stJSON), &genST)
+		app.PanicOn(err)
+
+		conf.Site.SiteType = genST.SiteType
+	default:
+		return resp.MustFail(fmt.Sprintf("unknown settings key \"%v\"", key))
+	}
+
+	err := appConf.UpdateDiskConfigUnsafe(conf)
+	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

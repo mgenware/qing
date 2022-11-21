@@ -15,22 +15,26 @@ import (
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
-	"qing/sod/dshxSod"
+	"qing/sod/mxSod"
 )
 
-func siteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
+func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	key := clib.MustGetIntFromDict(params, "key")
 
+	mutex := appConf.DiskMutex()
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	needRestart := appConf.GetNeedRestart()
-	stBase := dshxSod.NewSiteSettingsBase(needRestart)
-	c := appConf.Get()
+	stBase := mxSod.NewSiteSettingsBase(needRestart)
+	c := appConf.DiskConfigUnsafe()
 	sc := c.Site
 
 	switch appdef.SiteSettings(key) {
-	case appdef.SiteSettingsCore:
-		coreData := dshxSod.NewSiteCoreSettings(&stBase, sc.SiteType)
+	case appdef.SiteSettingsGen:
+		coreData := mxSod.NewSiteGenSettings(&stBase, sc.SiteType)
 		return resp.MustComplete(coreData)
 	default:
 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))

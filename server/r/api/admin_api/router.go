@@ -23,6 +23,6 @@ func init() {
 
 	Router.Post("/set-admin", setAdmin)
 	Router.Post("/admins", admins)
-	Router.Post("/site-settings", siteSettings)
-	Router.Post("/update-site-settings", updateSiteSettings)
+	Router.Post("/site-settings", siteSettingsLocked)
+	Router.Post("/update-site-settings", updateSiteSettingsLocked)
 }

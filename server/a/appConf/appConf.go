@@ -8,33 +8,27 @@
 package appConf
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"qing/a/config"
 	"qing/a/def/infdef"
+	"sync"
+
+	"github.com/mgenware/goutil/iox"
 )
 
-var conf *config.Config
+var runningConfig *config.Config
+var diskConfig *config.Config
 var confPath string
+
+// When writing or reading disk config. Use this mutex to ensure operations are thread-safe.
+var diskMutex *sync.Mutex
 var needRestart bool
 
-func Get() *config.Config {
-	return conf
-}
-
-func GetNeedRestart() bool {
-	return needRestart
-}
-
-func UpdateNeedRestart() {
-	needRestart = true
-}
-
-func devConfigFile(name string) string {
-	return filepath.Join(infdef.DevConfigDir, name+".json")
-}
-
 func init() {
+	diskMutex = &sync.Mutex{}
+
 	if config.IsUT() {
 		// Unit test mode.
 		confPath = devConfigFile("ut")
@@ -48,5 +42,47 @@ func init() {
 	}
 
 	// Read config file
-	conf = config.MustReadConfig(confPath)
+	runningConfig = config.MustReadConfig(confPath)
+	copied, err := deepCopyConfig(runningConfig)
+	if err != nil {
+		panic(fmt.Errorf("error cloning config: %v", err))
+	}
+	diskConfig = copied
+}
+
+func Get() *config.Config {
+	return runningConfig
+}
+
+func GetNeedRestart() bool {
+	return needRestart
+}
+
+func DiskMutex() *sync.Mutex {
+	return diskMutex
+}
+
+// Unsafe: you have to wrap it inside `DiskMutex`.
+func DiskConfigUnsafe() *config.Config {
+	return diskConfig
+}
+
+// Unsafe: you have to wrap it inside `DiskMutex`.
+func UpdateDiskConfigUnsafe(c *config.Config) error {
+	configBytes, err := serializeConfig(c)
+	if err != nil {
+		return err
+	}
+	err = os.WriteFile(infdef.ConfigFile, configBytes, iox.DefaultFilePerm)
+	if err != nil {
+		return err
+	}
+
+	needRestart = true
+	diskConfig = c
+	return nil
+}
+
+func devConfigFile(name string) string {
+	return filepath.Join(infdef.DevConfigDir, name+".json")
 }

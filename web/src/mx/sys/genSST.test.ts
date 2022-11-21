@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './sysSettingsPage';
+import './genSST';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<sys-settings-page></sys-settings-page>`);
+  const el = await fixture<HTMLElement>(html`<gen-sst></gen-sst>`);
 
   tDOM.isBlockElement(el);
 });
