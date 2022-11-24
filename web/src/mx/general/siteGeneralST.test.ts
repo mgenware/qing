@@ -1,15 +1,15 @@
 /*
- * Copyright (C) 2019 The Qing Project. All rights reserved.
+ * Copyright (C) 2021 The Qing Project. All rights reserved.
  *
  * Use of this source code is governed by a license that can
  * be found in the LICENSE file.
  */
 
 import { html, fixture, tDOM } from 'dev/t';
-import './mxSettingsView';
+import './siteGeneralST';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<mx-settings-view></mx-settings-view>`);
+  const el = await fixture<HTMLElement>(html`<site-general-st></site-general-st>`);
 
   tDOM.isBlockElement(el);
 });

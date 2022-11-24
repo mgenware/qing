@@ -23,8 +23,8 @@ import { SetGenSiteSTLoader } from './loaders/setSiteSTLoader';
 import { siteTypeOptions } from '../cm/siteTypeSelector';
 import { GetGenSiteSTLoader } from './loaders/getSiteSTLoader';
 
-@customElement('gen-sst')
-export class GenSST extends StatefulPage {
+@customElement('site-general-st')
+export class SiteGeneralST extends StatefulPage {
   static override get styles() {
     return [
       super.styles,
@@ -84,6 +84,6 @@ export class GenSST extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gen-sst': GenSST;
+    'site-general-st': SiteGeneralST;
   }
 }

@@ -10,10 +10,13 @@ import ls from 'ls';
 import * as mxRoute from '@qing/routes/d/mx';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
-const items: SettingsBaseItem[] = [{ name: ls.adminAccounts, link: mxRoute.admins }];
+const items: SettingsBaseItem[] = [
+  { name: ls.generalSettings, link: mxRoute.general },
+  { name: ls.adminAccounts, link: mxRoute.admins },
+];
 
-@customElement('mx-settings-view')
-export class MXSettingsView extends SettingsBaseView {
+@customElement('site-st-view')
+export class SiteSTView extends SettingsBaseView {
   static override get styles() {
     return [
       super.styles,
@@ -35,6 +38,6 @@ export class MXSettingsView extends SettingsBaseView {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'mx-settings-view': MXSettingsView;
+    'site-st-view': SiteSTView;
   }
 }

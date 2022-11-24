@@ -9,8 +9,9 @@ import 'core';
 import { html, TemplateResult } from 'll';
 import ls from 'ls';
 import * as mxRoute from '@qing/routes/d/mx';
-import './admins/adminsSettingsPage';
-import './mxSettingsView';
+import './admins/siteAdminST';
+import './general/siteGeneralST';
+import './siteSTView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import * as pu from 'lib/pageUtil';
 
@@ -19,12 +20,16 @@ const router = new MiniURLRouter();
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pu.setTitleAndMainContent(
     [selectedItem, ls.siteSettings],
-    html`<mx-settings-view .selectedItem=${selectedItem}>${content}</mx-settings-view>`,
+    html`<site-st-view .selectedItem=${selectedItem}>${content}</site-st-view>`,
   );
 }
 
 router.register(mxRoute.admins, () => {
-  loadSettingsContent(ls.adminAccounts, html`<admins-settings-page></admins-settings-page>`);
+  loadSettingsContent(ls.adminAccounts, html`<site-admin-st></site-admin-st>`);
+});
+
+router.register(mxRoute.general, () => {
+  loadSettingsContent(ls.generalSettings, html`<site-general-st></site-general-st>`);
 });
 
 router.startOnce();
