@@ -72,7 +72,7 @@ ready(() => {
         title = ls.newPost;
         break;
       }
-      case appdef.ContentBaseType.fpost: {
+      case appdef.ContentBaseType.fPost: {
         title = ls.newFPost;
         break;
       }

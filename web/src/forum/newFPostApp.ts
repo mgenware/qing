@@ -59,7 +59,7 @@ export class NewFPostApp extends BaseElement {
 
   private newFPostClick() {
     this.closeFPostTypeModal();
-    runNewEntityCommand(appdef.contentBaseTypeFPost, wind.FID);
+    runNewEntityCommand(appdef.ContentBaseType.fPost, wind.FID);
   }
 }
 

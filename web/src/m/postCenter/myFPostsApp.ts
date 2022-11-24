@@ -36,7 +36,7 @@ export default class MyFPostsApp extends PCListApp {
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      appdef.contentBaseTypeFPost,
+      appdef.ContentBaseType.fPost,
       page,
       pageSize,
       this.currentSortedColumn,

@@ -316,7 +316,7 @@ export class ElementsPage extends BaseElement {
     renderTemplateResult(
       '',
       html`<set-entity-app
-        entityType=${appdef.contentBaseTypePost}
+        entityType=${appdef.ContentBaseType.post}
         desc="Create a new post"></set-entity-app>`,
     );
   }

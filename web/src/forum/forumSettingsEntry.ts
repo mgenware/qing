@@ -38,7 +38,7 @@ function loadSettingsContent(
 const generalPageHandler: MiniURLRouterHandler = () => {
   loadSettingsContent(
     ForumSettingsPages.general,
-    ls.general,
+    ls.generalSettings,
     html` <forum-general-settings-app .fid=${fid}></forum-general-settings-app> `,
   );
 };

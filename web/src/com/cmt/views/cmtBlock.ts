@@ -177,7 +177,7 @@ export class CmtBlock extends BaseElement {
                 <composer-view
                   id=${editEditorID}
                   .desc=${ls.editComment}
-                  .entity=${{ id: this.cmt?.id ?? '', type: appdef.contentBaseTypeCmt }}
+                  .entity=${{ id: this.cmt?.id ?? '', type: appdef.ContentBaseType.cmt }}
                   .submitButtonText=${ls.save}
                   @composer-submit=${this.handleEditEditorSubmit}
                   @composer-discard=${this.handleEditEditorDiscard}></composer-view>

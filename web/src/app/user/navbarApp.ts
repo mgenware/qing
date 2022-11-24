@@ -358,12 +358,14 @@ export default class NavbarApp extends BaseElement {
           <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
           <a href=${mRoute.yourFPosts}>${ls.yourFPosts}</a>
           <hr />
-          <a href="#" @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypePost)}
+          <a
+            href="#"
+            @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.post)}
             >${ls.newPost}</a
           >
           <a
             href="#"
-            @click=${(e: Event) => this.handleNewPostClick(e, appdef.contentBaseTypeFPost)}
+            @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.fPost)}
             >${ls.newFPost}</a
           >
           <hr />

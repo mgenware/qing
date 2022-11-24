@@ -10,7 +10,6 @@ import { html, TemplateResult } from 'll';
 import ls from 'ls';
 import * as mxRoute from '@qing/routes/d/mx';
 import './admins/adminsSettingsPage';
-import './community/communitySettingsPage';
 import './mxSettingsView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import * as pu from 'lib/pageUtil';

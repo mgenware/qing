@@ -57,7 +57,11 @@ export class ForumSettingsBaseView extends BaseElement {
         <div>
           <h3>${ls.settings}</h3>
           <link-list-view>
-            ${this.menuLink(ForumSettingsPages.general, fRoute.getSettings(fid), ls.general)}
+            ${this.menuLink(
+              ForumSettingsPages.general,
+              fRoute.getSettings(fid),
+              ls.generalSettings,
+            )}
             ${this.menuLink(ForumSettingsPages.mods, fRoute.getSettingsMods(fid), ls.moderators)}
           </link-list-view>
         </div>

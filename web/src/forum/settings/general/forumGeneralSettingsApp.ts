@@ -76,7 +76,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
   renderContent() {
     return html`
       <status-overlay .status=${this.updateInfoStatus}>
-        <heading-view>${ls.general}</heading-view>
+        <heading-view>${ls.generalSettings}</heading-view>
         <input-view
           required
           label=${ls.name}

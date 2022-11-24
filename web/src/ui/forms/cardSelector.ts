@@ -9,7 +9,7 @@ import { BaseElement, customElement, html, css, property, when } from 'll';
 
 export interface CardSelectorItem {
   title: string;
-  value?: unknown;
+  value?: number;
   icon?: string;
   desc?: string;
 }
@@ -36,6 +36,7 @@ export class CardSelector extends BaseElement {
   }
 
   @property({ type: Number }) selectedIndex = -1;
+  @property({ type: Number }) selectedValue: number | undefined;
   @property({ type: Array }) items = [];
 
   override render() {
@@ -45,7 +46,9 @@ export class CardSelector extends BaseElement {
   private renderItem(opt: CardSelectorItem, idx: number) {
     return html`
       <a
-        class=${`opt ${idx === this.selectedIndex ? 'active' : ''}`}
+        class=${`opt ${
+          idx === this.selectedIndex || opt.value === this.selectedValue ? 'active' : ''
+        }`}
         @click=${() => this.handleOptClick(opt, idx)}>
         ${when(opt.icon, () => html`<img src=${opt.icon} width="32" height="32" />`)}
         <h2>${opt.title}</h2>

@@ -37,7 +37,7 @@ export default class MyPostsApp extends PCListApp {
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      appdef.contentBaseTypePost,
+      appdef.ContentBaseType.post,
       page,
       pageSize,
       this.currentSortedColumn,
