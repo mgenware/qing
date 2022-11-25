@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { Element } from 'br';
+import { Element } from 'br.js';
 
 export const enterKeyHandlerSel = 'enter-key-handler';
 

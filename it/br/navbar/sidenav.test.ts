@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, usr, Page } from 'br';
-import * as snav from 'br/com/navbar/sidenav';
+import { test, $, usr, Page } from 'br.js';
+import * as snav from 'br/com/navbar/sidenav.js';
 
 async function checkSidenavCore(p: Page) {
   await snav.clickToggler(p);

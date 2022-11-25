@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { usr } from 'br';
-import * as eb from 'br/com/editing/editBar';
-import * as alt from 'br/com/overlays/alert';
-import * as def from 'base/def';
-import * as cm from '../common';
-import * as act from '../actions';
+import { usr } from 'br.js';
+import * as eb from 'br/com/editing/editBar.js';
+import * as alt from 'br/com/overlays/alert.js';
+import * as def from 'base/def.js';
+import * as cm from '../common.js';
+import * as act from '../actions.js';
 
 function testEraseCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test('Erase cmts - ' + (fresh ? 'Fresh' : 'Stale'), { viewer: usr.user }, async ({ p }) => {

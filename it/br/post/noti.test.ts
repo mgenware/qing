@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import { CmtFixtureWrapper } from 'br/cmt/common';
-import { getEmail } from 'helper/user';
-import * as mh from 'helper/mail';
-import postCmtFixture from './postCmtFixture';
-import * as def from 'base/def';
-import * as act from '../cmt/actions';
-import * as cm from '../cmt/common';
+import * as br from 'br.js';
+import { CmtFixtureWrapper } from 'br/cmt/common.js';
+import { getEmail } from 'helper/user.js';
+import * as mh from 'helper/mail.js';
+import postCmtFixture from './postCmtFixture.js';
+import * as def from 'base/def.js';
+import * as act from '../cmt/actions.js';
+import * as cm from '../cmt/common.js';
 
 const w = new CmtFixtureWrapper('Post', postCmtFixture);
 

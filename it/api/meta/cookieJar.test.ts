@@ -6,7 +6,7 @@
  */
 
 import { expect } from 'expect';
-import CookieJar from 'helper/cookieJar';
+import CookieJar from 'helper/cookieJar.js';
 
 it('CookieJar', () => {
   const jar = new CookieJar();

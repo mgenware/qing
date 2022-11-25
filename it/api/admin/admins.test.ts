@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { ita, itaNotAuthorized, usr, User } from 'api';
+import { ita, itaNotAuthorized, usr, User } from 'api.js';
 import { expect } from 'expect';
-import * as adminRoute from '@qing/routes/d/s/admin';
+import * as adminRoute from '@qing/routes/d/s/admin.js';
 
 itaNotAuthorized('`admins` - Visitor', adminRoute.admins, null);
 

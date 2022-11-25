@@ -6,11 +6,11 @@
  */
 
 import { expect } from 'expect';
-import { curUser } from 'helper/user';
-import { api, usr, authUsr, itaResultRaw } from 'api';
-import * as priAuth from '@qing/routes/d/s/pri/auth';
-import * as pubAuth from '@qing/routes/d/s/pub/auth';
-import CookieJar from 'helper/cookieJar';
+import { curUser } from 'helper/user.js';
+import { api, usr, authUsr, itaResultRaw } from 'api.js';
+import * as priAuth from '@qing/routes/d/s/pri/auth.js';
+import * as pubAuth from '@qing/routes/d/s/pub/auth.js';
+import CookieJar from 'helper/cookieJar.js';
 
 itaResultRaw('Sign in - Missing email', pubAuth.signIn, { pwd: '_' }, null, {
   c: 1,

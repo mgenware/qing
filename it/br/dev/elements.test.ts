@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $ } from 'br';
-import { elementsRoot } from '@qing/routes/d/dev/elements';
+import { test, $ } from 'br.js';
+import { elementsRoot } from '@qing/routes/d/dev/elements.js';
 
 test('__/elements', async ({ page }) => {
   const p = $(page);

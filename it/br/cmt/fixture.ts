@@ -5,14 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import { User } from 'br';
+import * as br from 'br.js';
 
 export interface CmtFixtureStartOptions {
   // Defaults to `usr.user`.
-  author?: User | 'new';
+  author?: br.User | 'new';
   // Defaults to undefined (visitor).
-  viewer?: User | 'new';
+  viewer?: br.User | 'new';
 }
 
 export interface CmtFixtureStartCbArg {

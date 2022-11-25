@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
-import { test, usr, $ } from 'br';
-import * as br from 'br';
-import * as cm from './common';
-import * as def from 'base/def';
-import * as cps from 'br/com/editing/composer';
-import * as nbm from 'br/com/navbar/menu';
+import { newPost } from 'helper/post.js';
+import { test, usr, $ } from 'br.js';
+import * as br from 'br.js';
+import * as cm from './common.js';
+import * as def from 'base/def.js';
+import * as cps from 'br/com/editing/composer.js';
+import * as nbm from 'br/com/navbar/menu.js';
 
 const editorDesc = 'New post';
 

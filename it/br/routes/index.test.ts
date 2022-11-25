@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, alternativeLocaleBlock } from 'br';
-import { newUser } from 'helper/user';
-import * as cm from './common';
+import { test, $, alternativeLocaleBlock } from 'br.js';
+import { newUser } from 'helper/user.js';
+import * as cm from './common.js';
 
 alternativeLocaleBlock(() => {
   test('Index route - BR lang', async ({ page }) => {

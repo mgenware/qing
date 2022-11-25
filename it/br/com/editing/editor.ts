@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { Element } from 'br';
+import { Element } from 'br.js';
 
 const editorContentSel = '.kx-content';
 

@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import { User } from 'br';
-import * as cps from 'br/com/editing/composer';
-import * as eb from 'br/com/editing/editBar';
-import * as btn from 'br/com/buttons/button';
+import * as br from 'br.js';
+import * as cps from 'br/com/editing/composer.js';
+import * as eb from 'br/com/editing/editBar.js';
+import * as btn from 'br/com/buttons/button.js';
 
 const loadMoreCmtsText = 'More comments';
 const loadMoreRepliesText = 'More replies';
@@ -61,7 +60,7 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
 
 export interface EditCmtArgs {
   cmtEl: br.Element;
-  author: User;
+  author: br.User;
   content?: string;
   shownCb?: (overlayEl: br.Element) => Promise<void>;
 }

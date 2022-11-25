@@ -6,7 +6,7 @@
  */
 
 import { Response, expect } from '@playwright/test';
-import { Page, alternativeLocale } from 'br';
+import { Page, alternativeLocale } from 'br.js';
 
 // We use this element selector (the "Light theme" button in theme menu) to test if
 // language switched successfully.

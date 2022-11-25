@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { ita, usr, dontUseRequestLogin } from 'api';
+import { ita, usr, dontUseRequestLogin } from 'api.js';
 import { expect } from 'expect';
-import { userInfo, newUser, curUser } from 'helper/user';
-import { defaultUserImg } from '@qing/routes/d/static';
-import * as apiAuth from '@qing/routes/d/dev/api/auth';
-import CookieJar from 'helper/cookieJar';
+import { userInfo, newUser, curUser } from 'helper/user.js';
+import { defaultUserImg } from '@qing/routes/d/static.js';
+import * as apiAuth from '@qing/routes/d/dev/api/auth.js';
+import CookieJar from 'helper/cookieJar.js';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
   expect(r).toEqual({

@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import * as tf from './timeField';
+import * as br from 'br.js';
+import * as tf from './timeField.js';
 
 export interface ShouldAppearArgs {
   user: br.User;

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import * as apiAuth from '@qing/routes/d/dev/api/auth';
-import { serverURL } from './def';
 import fetch, { Response } from 'node-fetch';
-import CookieJar from 'helper/cookieJar';
+import * as apiAuth from '@qing/routes/d/dev/api/auth.js';
+import { serverURL } from './def.js';
+import CookieJar from 'helper/cookieJar.js';
 
 function getSetCookies(resp: Response) {
   return resp.headers.raw()['set-cookie'];

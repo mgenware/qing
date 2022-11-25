@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-const brCmd = 'npx playwright test --project=webkit -c dist';
+const brCmd = 'npx playwright test --project=webkit';
 
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',

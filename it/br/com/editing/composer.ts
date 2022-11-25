@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import * as alt from '../overlays/alert';
-import * as cm from './common';
-import * as ov from '../overlays/overlay';
-import * as ed from './editor';
-import { waitForDBTimeChange } from 'base/delay';
-import * as spn from '../spinners/spinner';
+import * as br from 'br.js';
+import * as alt from '../overlays/alert.js';
+import * as cm from './common.js';
+import * as ov from '../overlays/overlay.js';
+import * as ed from './editor.js';
+import { waitForDBTimeChange } from 'base/delay.js';
+import * as spn from '../spinners/spinner.js';
 
 export interface UpdateParams {
   title?: string;

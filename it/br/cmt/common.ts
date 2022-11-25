@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import * as uv from 'br/com/content/userView';
-import * as eb from 'br/com/editing/editBar';
-import { CmtFixture, CmtFixtureStartCbArg, CmtFixtureStartOptions } from './fixture';
+import * as br from 'br.js';
+import * as uv from 'br/com/content/userView.js';
+import * as eb from 'br/com/editing/editBar.js';
+import { CmtFixture, CmtFixtureStartCbArg, CmtFixtureStartOptions } from './fixture.js';
 
 // Usage: `cmtEl.$(cmtChildrenSel)`.
 export const cmtChildrenSel = '> div > .br-children';

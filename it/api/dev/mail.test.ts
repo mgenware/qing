@@ -6,8 +6,8 @@
  */
 
 import { expect } from 'expect';
-import * as mh from 'helper/mail';
-import { newEmail } from 'helper/user';
+import * as mh from 'helper/mail.js';
+import { newEmail } from 'helper/user.js';
 
 it('Send mail and getDevMail', async () => {
   const email = newEmail();

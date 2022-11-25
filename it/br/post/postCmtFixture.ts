@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
-import * as br from 'br';
-import { CmtFixture, CmtFixtureStartOptions, CmtFixtureStartCbArg } from 'br/cmt/fixture';
-import { newUser } from 'helper/user';
+import { newPost } from 'helper/post.js';
+import * as br from 'br.js';
+import { CmtFixture, CmtFixtureStartOptions, CmtFixtureStartCbArg } from 'br/cmt/fixture.js';
+import { newUser } from 'helper/user.js';
 
 export const cmtAppSelector = 'post-payload-app cmt-app';
 

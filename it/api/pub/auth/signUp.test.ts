@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { itaResultRaw, ita, api, apiRaw } from 'api';
-import * as authAPI from '@qing/routes/d/s/pub/auth';
-import * as authRoute from '@qing/routes/d/auth';
+import { itaResultRaw, ita, api, apiRaw } from 'api.js';
+import * as authAPI from '@qing/routes/d/s/pub/auth.js';
+import * as authRoute from '@qing/routes/d/auth.js';
 import { expect } from 'expect';
-import * as mh from 'helper/mail';
+import * as mh from 'helper/mail.js';
 import { serverURL } from 'base/def';
 import fetch from 'node-fetch';
-import { curUser, newEmail, userInfo } from 'helper/user';
-import CookieJar from 'helper/cookieJar';
-import * as pageUtil from 'helper/page';
+import { curUser, newEmail, userInfo } from 'helper/user.js';
+import CookieJar from 'helper/cookieJar.js';
+import * as pageUtil from 'helper/page.js';
 
 const pwd = '123456';
 const htmlIDRegex = /window\.appVerifiedUID = '(.+)';/g;

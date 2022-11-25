@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import { User, expect } from 'br';
-import * as lk from 'br/com/likes/likes';
-import * as uv from 'br/com/content/userView';
-import * as def from 'base/def';
-import * as cps from 'br/com/editing/composer';
+import * as br from 'br.js';
+import { User, expect } from 'br.js';
+import * as lk from 'br/com/likes/likes.js';
+import * as uv from 'br/com/content/userView.js';
+import * as def from 'base/def.js';
+import * as cps from 'br/com/editing/composer.js';
 
 export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';
 

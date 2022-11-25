@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { errorResults, itaResultRaw, usr, apiRaw, api } from 'api';
-import { defaultUserImg } from '@qing/routes/d/static';
+import { errorResults, itaResultRaw, usr, apiRaw, api } from 'api.js';
+import { defaultUserImg } from '@qing/routes/d/static.js';
 import { expect } from 'expect';
-import { User } from 'base/api';
-import { newUser } from 'helper/user';
+import { User } from 'base/api.js';
+import { newUser } from 'helper/user.js';
 
 const url = 'admin/set-admin';
 const getAdminsURL = 'admin/admins';

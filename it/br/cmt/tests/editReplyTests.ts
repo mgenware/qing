@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { usr } from 'br';
-import * as def from 'base/def';
-import * as cm from '../common';
-import * as act from '../actions';
-import * as cps from 'br/com/editing/composer';
-import delay from 'base/delay';
+import { usr } from 'br.js';
+import * as def from 'base/def.js';
+import * as cm from '../common.js';
+import * as act from '../actions.js';
+import * as cps from 'br/com/editing/composer.js';
+import delay from 'base/delay.js';
 
 function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a reply - ${fresh ? 'Fresh' : 'Not fresh'}`, { viewer: usr.user }, async ({ p }) => {

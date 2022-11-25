@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import * as def from 'base/def';
-import { apiRaw, api, usr, itaNotAuthorized, errorResults } from 'api';
+import * as def from 'base/def.js';
+import { apiRaw, api, usr, itaNotAuthorized, errorResults } from 'api.js';
 import { expect } from 'expect';
-import { newPost } from 'helper/post';
-import { entitySrc } from 'helper/entity';
-import { postCount, newUser } from 'helper/user';
+import { newPost } from 'helper/post.js';
+import { entitySrc } from 'helper/entity.js';
+import { postCount, newUser } from 'helper/user.js';
 import { appdef } from '@qing/def';
-import * as composeRoute from '@qing/routes/d/s/pri/compose';
+import * as composeRoute from '@qing/routes/d/s/pri/compose.js';
 
 const entityBody = {
   entityType: appdef.ContentBaseType.post,

@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { usr } from 'br';
-import * as cm from '../common';
+import { usr } from 'br.js';
+import * as cm from '../common.js';
 
 export default function testNoCmts(w: cm.CmtFixtureWrapper) {
   w.test('No comments', {}, async ({ p }) => {

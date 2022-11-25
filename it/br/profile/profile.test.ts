@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, usr, Page } from 'br';
-import * as nbm from 'br/com/navbar/menu';
-import * as snav from 'br/com/navbar/sidenav';
-import { newUser } from 'helper/user';
-import { defaultUserImg } from '@qing/routes/d/static';
+import { test, $, usr, Page } from 'br.js';
+import * as nbm from 'br/com/navbar/menu.js';
+import * as snav from 'br/com/navbar/sidenav.js';
+import { newUser } from 'helper/user.js';
+import { defaultUserImg } from '@qing/routes/d/static.js';
 
 const infoElSel = '.info-row';
 const postTabSel = '#m-profile-tab-posts';

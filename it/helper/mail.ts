@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { api } from 'api';
-import * as mailAPI from '@qing/routes/d/dev/api/mails';
+import { api } from 'api.js';
+import * as mailAPI from '@qing/routes/d/dev/api/mails.js';
 import { parse } from 'node-html-parser';
 
 const mainElSel = '#main';

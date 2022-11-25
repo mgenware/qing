@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { usr } from 'br';
-import * as def from 'base/def';
-import * as cm from '../common';
-import * as act from '../actions';
-import * as sh from 'br/com/overlays/share';
+import { usr } from 'br.js';
+import * as def from 'base/def.js';
+import * as cm from '../common.js';
+import * as act from '../actions.js';
+import * as sh from 'br/com/overlays/share.js';
 
 export default function testShare(w: cm.CmtFixtureWrapper) {
   w.test('Share a cmt or reply', { viewer: usr.user }, async ({ p }) => {

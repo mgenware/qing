@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $ } from 'br';
-import * as nbm from 'br/com/navbar/menu';
-import * as nbc from 'br/com/navbar/checks';
+import { test, usr, $ } from 'br.js';
+import * as nbm from 'br/com/navbar/menu.js';
+import * as nbc from 'br/com/navbar/checks.js';
 
 test('Navbar - Visitor', async ({ page }) => {
   const p = $(page);

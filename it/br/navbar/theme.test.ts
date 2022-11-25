@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Element, Page } from 'br';
-import * as nb from 'br/com/navbar/menu';
+import { test, $, Element, Page } from 'br.js';
+import * as nb from 'br/com/navbar/menu.js';
 
 const themeOptionText = ['Light theme', 'Dark theme', 'Device theme'];
 const cssDarkTheme = 'theme-dark';

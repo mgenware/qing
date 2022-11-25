@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
+import * as br from 'br.js';
 
 const editText = 'Edit';
 const deleteText = 'Delete';

@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import * as def from 'base/def';
-import { User } from 'api';
-import * as entityUtil from './entity';
+import * as def from 'base/def.js';
+import { User } from 'api.js';
+import * as entityUtil from './entity.js';
 import { appdef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;

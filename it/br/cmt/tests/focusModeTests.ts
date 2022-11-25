@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { Page, usr, Element } from 'br';
-import * as cm from '../common';
-import * as act from '../actions';
-import * as sh from 'br/com/overlays/share';
-import { serverURL } from 'base/def';
+import { Page, usr, Element } from 'br.js';
+import * as cm from '../common.js';
+import * as act from '../actions.js';
+import * as sh from 'br/com/overlays/share.js';
+import { serverURL } from 'base/def.js';
 
 async function addNestedCmts(w: cm.CmtFixtureWrapper, p: Page, linkName: string) {
   // This creates the following structure:

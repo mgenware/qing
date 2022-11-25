@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $, Element } from 'br';
-import * as mRoute from '@qing/routes/d/m';
-import { newUser } from 'helper/user';
-import * as alt from 'br/com/overlays/alert';
-import * as cm from './common';
-import { checkPageLocale } from 'br/routes/common';
+import { test, usr, $, Element } from 'br.js';
+import * as mRoute from '@qing/routes/d/m.js';
+import { newUser } from 'helper/user.js';
+import * as alt from 'br/com/overlays/alert.js';
+import * as cm from './common.js';
+import { checkPageLocale } from 'br/routes/common.js';
 
 const langSettingsSel = 'lang-settings';
 const defOptions = [

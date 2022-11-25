@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { itaResultRaw } from 'api';
-import * as errRoutes from '@qing/routes/d/dev/err';
+import { itaResultRaw } from 'api.js';
+import * as errRoutes from '@qing/routes/d/dev/err.js';
 
 // ----- NOTE: this file only tests error APIs. Page errors are tested in BR tests. -----
 

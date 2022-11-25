@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import * as cm from '../common';
-import * as br from 'br';
-import * as def from 'base/def';
-import * as act from '../actions';
-import * as cps from 'br/com/editing/composer';
+import * as cm from '../common.js';
+import * as br from 'br.js';
+import * as def from 'base/def.js';
+import * as act from '../actions.js';
+import * as cps from 'br/com/editing/composer.js';
 
 interface TestWithOverlayParams {
   name: string;

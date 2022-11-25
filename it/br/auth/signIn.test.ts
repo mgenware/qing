@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, authUsr, usr } from 'br';
-import { serverURL } from 'base/def';
-import * as nbc from 'br/com/navbar/checks';
-import * as ivh from 'br/com/forms/inputViewHelper';
-import * as kh from 'br/com/keyboardHelper';
-import * as authRoutes from '@qing/routes/d/auth';
-import * as nbm from 'br/com/navbar/menu';
+import { test, $, authUsr, usr } from 'br.js';
+import { serverURL } from 'base/def.js';
+import * as nbc from 'br/com/navbar/checks.js';
+import * as ivh from 'br/com/forms/inputViewHelper.js';
+import * as kh from 'br/com/keyboardHelper.js';
+import * as authRoutes from '@qing/routes/d/auth.js';
+import * as nbm from 'br/com/navbar/menu.js';
 
 const signInAppSel = 'sign-in-app';
 

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
+import * as br from 'br.js';
 
 export enum AlertType {
   error,

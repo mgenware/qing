@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { Page, User, Element } from 'br';
-import * as nbm from './menu';
+import { Page, User, Element } from 'br.js';
+import * as nbm from './menu.js';
 
 export const sidenavSel = '#sidenav';
 export const togglerSel = `${nbm.navbarSel} .toggler`;

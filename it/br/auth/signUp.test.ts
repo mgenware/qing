@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { test, $ } from 'br';
-import * as ivh from 'br/com/forms/inputViewHelper';
-import * as authRoutes from '@qing/routes/d/auth';
-import * as kh from 'br/com/keyboardHelper';
-import * as mh from 'helper/mail';
-import { newEmail } from 'helper/user';
-import * as nbm from 'br/com/navbar/menu';
+import { test, $ } from 'br.js';
+import * as ivh from 'br/com/forms/inputViewHelper.js';
+import * as authRoutes from '@qing/routes/d/auth.js';
+import * as kh from 'br/com/keyboardHelper.js';
+import * as mh from 'helper/mail.js';
+import { newEmail } from 'helper/user.js';
+import * as nbm from 'br/com/navbar/menu.js';
 
 const signUpAppSel = 'sign-up-app';
 

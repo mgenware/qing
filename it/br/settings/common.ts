@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { Page } from 'br';
+import { Page } from 'br.js';
 
 export const settingsViewSel = 'm-settings';
 export const lPaneSel = '.br-lpane';

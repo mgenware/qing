@@ -6,21 +6,6 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "sourceMap": true,
-    "declaration": false,
-    "plugins": [
-      {
-        "transform": "ts-transform-esm-import",
-        "after": true,
-        "afterDeclarations": true,
-        "type": "config",
-
-        "rootDir": ".",
-        "outDir": "./dist",
-        "resolvers": [
-          { "dir": ".", "sourceDir": true },
-          { "dir": "./node_modules", "filter": "^@qing/routes/", "mode": "addExt" }
-        ]
-      }
-    ]
+    "declaration": false
   }
 }

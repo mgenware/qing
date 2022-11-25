@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { test, expect, $ } from 'br';
+import { test, expect, $ } from 'br.js';
 
 test('Home page', async ({ page }) => {
   const p = $(page);

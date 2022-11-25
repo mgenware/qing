@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import * as def from 'base/def';
-import * as cm from '../common';
-import { getEmail, newUser } from 'helper/user';
-import * as act from '../actions';
-import * as mh from 'helper/mail';
+import * as br from 'br.js';
+import * as def from 'base/def.js';
+import * as cm from '../common.js';
+import { getEmail, newUser } from 'helper/user.js';
+import * as act from '../actions.js';
+import * as mh from 'helper/mail.js';
 
 export default function testReplyNoti(w: cm.CmtFixtureWrapper) {
   // Noti for root cmts are tested in individual post types.

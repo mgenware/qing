@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { usr, Page } from 'br';
-import * as def from 'base/def';
-import * as cm from '../common';
-import * as act from '../actions';
+import { usr, Page } from 'br.js';
+import * as def from 'base/def.js';
+import * as cm from '../common.js';
+import * as act from '../actions.js';
 
 async function setupEnv(w: cm.CmtFixtureWrapper, p: Page) {
   const cmtApp = await w.getCmtApp(p);

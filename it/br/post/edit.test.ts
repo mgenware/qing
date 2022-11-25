@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
-import { test, usr, $ } from 'br';
-import * as br from 'br';
-import * as cm from './common';
-import * as eb from 'br/com/editing/editBar';
-import * as def from 'base/def';
-import * as cps from 'br/com/editing/composer';
-import delay from 'base/delay';
+import { newPost } from 'helper/post.js';
+import { test, usr, $ } from 'br.js';
+import * as br from 'br.js';
+import * as cm from './common.js';
+import * as eb from 'br/com/editing/editBar.js';
+import * as def from 'base/def.js';
+import * as cps from 'br/com/editing/composer.js';
+import delay from 'base/delay.js';
 
 const editorDesc = 'Edit post';
 

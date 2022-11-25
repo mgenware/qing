@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $ } from 'br';
-import * as nbm from 'br/com/navbar/menu';
-import * as mRoute from '@qing/routes/d/m';
-import * as ed from 'br/com/editing/editor';
-import * as ivh from 'br/com/forms/inputViewHelper';
-import { newUser } from 'helper/user';
-import * as nbc from 'br/com/navbar/checks';
-import * as ov from '../com/overlays/overlay';
-import * as spn from '../com/spinners/spinner';
+import { test, usr, $ } from 'br.js';
+import * as nbm from 'br/com/navbar/menu.js';
+import * as mRoute from '@qing/routes/d/m.js';
+import * as ed from 'br/com/editing/editor.js';
+import * as ivh from 'br/com/forms/inputViewHelper.js';
+import { newUser } from 'helper/user.js';
+import * as nbc from 'br/com/navbar/checks.js';
+import * as ov from '../com/overlays/overlay.js';
+import * as spn from '../com/spinners/spinner.js';
 import { expect } from 'expect';
-import * as cm from './common';
+import * as cm from './common.js';
 
 const bioEditorSel = '.bio-editor';
 

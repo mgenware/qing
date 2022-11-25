@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { Page } from 'br';
-import * as ov from './overlay';
+import { Page } from 'br.js';
+import * as ov from './overlay.js';
 
 const popupSel = '#__g_share_container share-popup';
 const inputSel = '.link-root input';

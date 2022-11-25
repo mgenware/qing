@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import testCmt from 'br/cmt/test';
-import postCmtFixture from 'br/post/postCmtFixture';
+import testCmt from 'br/cmt/test.js';
+import postCmtFixture from 'br/post/postCmtFixture.js';
 
 testCmt('Post', postCmtFixture);

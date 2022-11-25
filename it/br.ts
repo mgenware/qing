@@ -7,14 +7,13 @@
  */
 
 import * as pw from '@playwright/test';
-import { User } from 'base/api';
-import * as authRoute from '@qing/routes/d/dev/auth';
-import { serverURL } from 'base/def';
-import { expect } from '@playwright/test';
-import delay from 'base/delay';
+import * as api from './base/api.js';
+import * as authRoute from '@qing/routes/d/dev/auth.js';
+import { serverURL } from './base/def.js';
+import delay from './base/delay.js';
 
-export { expect, Expect, test } from '@playwright/test';
-export { usr, api, User, authUsr } from 'base/api';
+export { expect, test } from '@playwright/test';
+export { usr, api, type User, authUsr } from './base/api.js';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
@@ -239,11 +238,11 @@ export class Page {
     return this.c.waitForNavigation({ url: finalUrl });
   }
 
-  goto(url: string, user?: User | null, opt?: PageGotoOptions) {
+  goto(url: string, user?: api.User | null, opt?: PageGotoOptions) {
     return this.gotoRaw(`${serverURL}${url}`, user, opt);
   }
 
-  async gotoRaw(url: string, user?: User | null, opt?: PageGotoOptions) {
+  async gotoRaw(url: string, user?: api.User | null, opt?: PageGotoOptions) {
     if (opt?.mobile) {
       await this.toMobile();
     }
@@ -253,13 +252,13 @@ export class Page {
     return this.c.goto(url);
   }
 
-  async shouldBeUser(user: User | null) {
-    expect(await this.currentUserID()).toBe(user ? user.id : null);
+  async shouldBeUser(user: api.User | null) {
+    pw.expect(await this.currentUserID()).toBe(user ? user.id : null);
   }
 
   async shouldNotHaveHScrollBar() {
     const hScrollable = await this.body.c.evaluate((e) => e.clientWidth < e.scrollWidth);
-    expect(hScrollable).toBeFalsy();
+    pw.expect(hScrollable).toBeFalsy();
   }
 
   toMobile() {
@@ -272,7 +271,7 @@ export class Page {
 
   // Reloads current page.
   // `user`: undefined -> no change to credentials. null -> visitor.
-  async reload(user?: User | null) {
+  async reload(user?: api.User | null) {
     const page = this.c;
     if (user === undefined) {
       await page.reload();
@@ -294,7 +293,7 @@ export class Page {
     await this.c.goto(url);
   }
 
-  private async signIn(user: User) {
+  private async signIn(user: api.User) {
     await this.c.goto(`${serverURL}${authRoute.in_}/${user.id}`);
     this.checkGETAPIResult(await this.c.content());
   }

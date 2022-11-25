@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import delay from 'base/delay';
-import * as br from 'br';
+import delay from 'base/delay.js';
+import * as br from 'br.js';
 
 const brGSpinnerTextAttr = 'data-br-spinner-text';
 const brGSpinnerCounterAttr = 'data-br-spinner-counter';

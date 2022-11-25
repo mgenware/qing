@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
-import { test, usr, $ } from 'br';
-import * as lk from 'br/com/likes/likes';
+import { newPost } from 'helper/post.js';
+import { test, usr, $ } from 'br.js';
+import * as lk from 'br/com/likes/likes.js';
 
 test('Like a post', async ({ page }) => {
   const p = $(page);

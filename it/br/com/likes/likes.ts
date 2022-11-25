@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
+import * as br from 'br.js';
 
 export async function shouldAppear(el: br.Element, value: number, liked: boolean) {
   const btnEl = el.$('likes-view qing-button');

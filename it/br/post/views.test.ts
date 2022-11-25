@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post';
-import { test, usr, $ } from 'br';
-import * as cm from './common';
-import * as alt from 'br/com/overlays/alert';
-import * as def from 'base/def';
+import { newPost } from 'helper/post.js';
+import { test, usr, $ } from 'br.js';
+import * as cm from './common.js';
+import * as alt from 'br/com/overlays/alert.js';
+import * as def from 'base/def.js';
 
 test('Post page in author view', async ({ page }) => {
   const p = $(page);

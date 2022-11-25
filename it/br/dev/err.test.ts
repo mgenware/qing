@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Page, usr } from 'br';
-import errRoutes from '@qing/routes/d/dev/err';
+import { test, $, Page, usr } from 'br.js';
+import errRoutes from '@qing/routes/d/dev/err.js';
 import { expect } from '@playwright/test';
 
 function getHTML(content: string) {

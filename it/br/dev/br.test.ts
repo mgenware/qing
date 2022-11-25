@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, usr } from 'br';
-import * as nb from 'br/com/navbar/checks';
+import { test, $, usr } from 'br.js';
+import * as nb from 'br/com/navbar/checks.js';
 
 test('`br.page` has no users logged in', async ({ page }) => {
   const p = $(page);

@@ -5,24 +5,24 @@
  * be found in the LICENSE file.
  */
 
-import { CmtFixture } from './fixture';
-import { CmtFixtureWrapper } from './common';
+import { CmtFixture } from './fixture.js';
+import { CmtFixtureWrapper } from './common.js';
 
 // Individual tests.
-import testNoCmts from './tests/noCmtTests';
-import testCreateCmt from './tests/createCmtTests';
-import testEditCmt from './tests/editCmtTests';
-import testEditReply from './tests/editReplyTests';
-import testDeleteCmt from './tests/deleteCmtTests';
-import testDeleteReply from './tests/deleteReplyTests';
-import testCreateReply from './tests/createReplyTests';
-import testDismissAndDiscardChanges from './tests/dismissAndDiscardChangesTests';
-import testErase from './tests/eraseCmtTests';
-import testShare from './tests/shareCmtTests';
-import testFocusMode from './tests/focusModeTests';
-import testCollapseReplies from './tests/collapseReplies';
-import testReplyNoti from './tests/notiTests';
-import testTextOverflow from './tests/textOverflowTests';
+import testNoCmts from './tests/noCmtTests.js';
+import testCreateCmt from './tests/createCmtTests.js';
+import testEditCmt from './tests/editCmtTests.js';
+import testEditReply from './tests/editReplyTests.js';
+import testDeleteCmt from './tests/deleteCmtTests.js';
+import testDeleteReply from './tests/deleteReplyTests.js';
+import testCreateReply from './tests/createReplyTests.js';
+import testDismissAndDiscardChanges from './tests/dismissAndDiscardChangesTests.js';
+import testErase from './tests/eraseCmtTests.js';
+import testShare from './tests/shareCmtTests.js';
+import testFocusMode from './tests/focusModeTests.js';
+import testCollapseReplies from './tests/collapseReplies.js';
+import testReplyNoti from './tests/notiTests.js';
+import testTextOverflow from './tests/textOverflowTests.js';
 
 export default function testCmt(groupName: string, fixture: CmtFixture) {
   const w = new CmtFixtureWrapper(groupName, fixture);

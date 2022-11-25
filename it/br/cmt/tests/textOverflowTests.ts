@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import * as def from 'base/def';
-import * as cm from '../common';
-import * as act from '../actions';
+import * as br from 'br.js';
+import * as def from 'base/def.js';
+import * as cm from '../common.js';
+import * as act from '../actions.js';
 
 export default function testTextOverflow(w: cm.CmtFixtureWrapper) {
   w.test('Text overflow on cmt and reply', { viewer: br.usr.user }, async ({ p }) => {

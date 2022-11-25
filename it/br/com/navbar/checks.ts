@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as br from 'br';
-import * as nb from './menu';
+import * as br from 'br.js';
+import * as nb from './menu.js';
 
 const dropdownChar = '▾';
 
