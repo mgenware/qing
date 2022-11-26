@@ -60,7 +60,7 @@ export class CardSelector extends BaseElement {
           idx === this.selectedIndex || opt.value === this.selectedValue ? 'active' : ''
         }`}
         href="#"
-        @click=${(e) => this.handleOptClick(e, opt, idx)}>
+        @click=${(e: Event) => this.handleOptClick(e, opt, idx)}>
         <div>
           ${when(opt.icon, () => html`<img src=${opt.icon} width="32" height="32" />`)}
           <h3>${opt.title}</h3>

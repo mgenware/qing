@@ -7,7 +7,6 @@
 
 import { customElement, html, css, when, state } from 'll';
 import ls from 'ls';
-import LoadingStatus from 'lib/loadingStatus';
 import 'ui/forms/checkBox';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
@@ -37,26 +36,22 @@ export class SiteGeneralST extends StatefulPage {
     ];
   }
 
-  @state() savingStatus = LoadingStatus.success;
-
   @state() _needRestart = false;
   @state() _selectedSiteType: appdef.SiteType | undefined;
 
   override renderContent() {
     return html`
-      <status-overlay .status=${this.savingStatus}>
-        <heading-view>${ls.generalSettings}</heading-view>
-        ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
-        <subheading-view>${ls.siteType}</subheading-view>
-        <card-selector
-          .items=${siteTypeOptions}
-          .selectedValue=${this._selectedSiteType}
-          @card-select=${this.handleSiteTypeChanged}></card-selector>
-        <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
-        <div>
-          <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
-        </div>
-      </status-overlay>
+      <heading-view>${ls.generalSettings}</heading-view>
+      ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
+      <subheading-view>${ls.siteType}</subheading-view>
+      <card-selector
+        .items=${siteTypeOptions}
+        .selectedValue=${this._selectedSiteType}
+        @card-select=${this.handleSiteTypeChanged}></card-selector>
+      <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
+      <div>
+        <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
+      </div>
     `;
   }
 
@@ -78,7 +73,7 @@ export class SiteGeneralST extends StatefulPage {
     const loader = new SetGenSiteSTLoader({
       siteType: this._selectedSiteType,
     });
-    const status = await appTask.critical(loader, ls.saving, (s) => (this.savingStatus = s));
+    const status = await appTask.critical(loader, ls.saving);
     if (status.isSuccess) {
       this._needRestart = true;
     }
