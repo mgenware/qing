@@ -9,22 +9,18 @@ const brCmd = 'npx playwright test --project=webkit';
 
 export default {
   lint: 'eslint --max-warnings 0 --ext .ts .',
-  dev: {
-    alias: 'd',
-    run: 'tsc --incremental -p . -w',
-  },
-  build: {
-    run: 'tsc -p .',
-    before: {
-      del: 'dist',
-    },
+  compile: {
+    run: 'tsc --incremental -project ./tsconfig.api.json',
   },
   clean: {
     run: {
       del: 'dist',
     },
   },
-  api: 'mocha --parallel --require source-map-support/register "dist/api/**/*.test.js"',
+  api: [
+    '#compile',
+    'mocha --parallel --require source-map-support/register "dist/api/**/*.test.js"',
+  ],
   br: brCmd,
   brt: `${brCmd} --debug`,
   brg: `${brCmd} -g`,

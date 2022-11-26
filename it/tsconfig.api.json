@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "transform": "ts-transform-esm-import",
+        "after": true,
+        "afterDeclarations": true,
+        "type": "config",
+
+        "rootDir": ".",
+        "outDir": "./dist",
+        "resolvers": [{ "dir": ".", "sourceDir": true }]
+      }
+    ]
+  }
+}
