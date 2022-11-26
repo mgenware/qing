@@ -11,6 +11,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import 'ui/forms/checkBox';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
+import 'ui/content/subheadingView';
 import 'ui/forms/cardSelector';
 import 'ui/status/statefulPage';
 import '../cm/needRestartView';
@@ -46,13 +47,15 @@ export class SiteGeneralST extends StatefulPage {
       <status-overlay .status=${this.savingStatus}>
         <heading-view>${ls.generalSettings}</heading-view>
         ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
-        <h2>${ls.siteType}</h2>
+        <subheading-view>${ls.siteType}</subheading-view>
         <card-selector
           .items=${siteTypeOptions}
           .selectedValue=${this._selectedSiteType}
           @card-select=${this.handleSiteTypeChanged}></card-selector>
         <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
-        <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
+        <p>
+          <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
+        </p>
       </status-overlay>
     `;
   }
