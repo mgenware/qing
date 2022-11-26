@@ -30,6 +30,16 @@ export class CardSelector extends BaseElement {
         }
 
         .opt {
+          border: 2px solid var(--app-default-separator-color);
+          display: block;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          border-radius: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .active {
+          border: 2px solid var(--app-default-primary-fore-color);
         }
       `,
     ];
@@ -49,15 +59,19 @@ export class CardSelector extends BaseElement {
         class=${`opt ${
           idx === this.selectedIndex || opt.value === this.selectedValue ? 'active' : ''
         }`}
-        @click=${() => this.handleOptClick(opt, idx)}>
-        ${when(opt.icon, () => html`<img src=${opt.icon} width="32" height="32" />`)}
-        <h2>${opt.title}</h2>
-        ${when(opt.desc, () => html`<p>${opt.desc}</p>`)}
+        href="#"
+        @click=${(e) => this.handleOptClick(e, opt, idx)}>
+        <div>
+          ${when(opt.icon, () => html`<img src=${opt.icon} width="32" height="32" />`)}
+          <h3>${opt.title}</h3>
+          ${when(opt.desc, () => html`<p>${opt.desc}</p>`)}
+        </div>
       </a>
     `;
   }
 
-  private handleOptClick(opt: CardSelectorItem, idx: number) {
+  private handleOptClick(e: Event, opt: CardSelectorItem, idx: number) {
+    e.preventDefault();
     if (this.selectedIndex === idx) {
       return;
     }

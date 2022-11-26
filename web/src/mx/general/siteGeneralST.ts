@@ -53,9 +53,9 @@ export class SiteGeneralST extends StatefulPage {
           .selectedValue=${this._selectedSiteType}
           @card-select=${this.handleSiteTypeChanged}></card-selector>
         <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
-        <p>
+        <div>
           <qing-button btnStyle="success" @click=${this.handleSaveClick}> ${ls.save} </qing-button>
-        </p>
+        </div>
       </status-overlay>
     `;
   }
