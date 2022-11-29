@@ -13,9 +13,8 @@ import (
 	"path/filepath"
 	"qing/a/config"
 	"qing/a/def/infdef"
+	"qing/lib/iolib"
 	"sync"
-
-	"github.com/mgenware/goutil/iox"
 )
 
 var runningConfig *config.Config
@@ -73,7 +72,7 @@ func UpdateDiskConfigUnsafe(c *config.Config) error {
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(infdef.ConfigFile, configBytes, iox.DefaultFilePerm)
+	err = iolib.WriteFile(infdef.ConfigFile, configBytes)
 	if err != nil {
 		return err
 	}

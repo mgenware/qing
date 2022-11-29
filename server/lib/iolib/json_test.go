@@ -11,7 +11,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mgenware/goutil/iox"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -21,7 +20,7 @@ func TestReadJSONFile(t *testing.T) {
 	f, err := os.CreateTemp("", "ReadJSONFile")
 	assert.Nil(err)
 
-	err = os.WriteFile(f.Name(), []byte("{\"int\":1,\"str\":\"123四五六\"}"), iox.DefaultFilePerm)
+	err = iolib.WriteFile(f.Name(), []byte("{\"int\":1,\"str\":\"123四五六\"}"))
 	assert.Nil(err)
 
 	var v map[string]any

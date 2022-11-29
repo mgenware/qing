@@ -10,6 +10,9 @@ package iolib
 import (
 	"io"
 	"os"
+	"path/filepath"
+
+	"github.com/mgenware/goutil/iox"
 )
 
 // CopyReaderToFile writes the contents of the given reader to the specified file.
@@ -24,4 +27,13 @@ func CopyReaderToFile(reader io.Reader, file string) error {
 		return err
 	}
 	return nil
+}
+
+func WriteFile(file string, data []byte) error {
+	dir := filepath.Dir(file)
+	err := os.MkdirAll(dir, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(file, data, iox.DefaultFilePerm)
 }

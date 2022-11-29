@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"qing/a/appConf"
 	"qing/a/config/configs"
+	"qing/lib/iolib"
 	"qing/sod/dev/devSod"
 	"sort"
 	"time"
@@ -198,12 +199,12 @@ func SendMail(devDir, to, title, content string) error {
 	titleFile := filepath.Join(curDir, devTitleFile)
 	contentFile := filepath.Join(curDir, devContentFile)
 
-	err = os.WriteFile(titleFile, []byte(title), iox.DefaultFilePerm)
+	err = iolib.WriteFile(titleFile, []byte(title))
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(contentFile, []byte(content), iox.DefaultFilePerm)
+	err = iolib.WriteFile(contentFile, []byte(content))
 	if err != nil {
 		return err
 	}

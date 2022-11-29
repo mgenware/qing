@@ -10,8 +10,6 @@ package iolib
 import (
 	"encoding/json"
 	"os"
-
-	"github.com/mgenware/goutil/iox"
 )
 
 func ReadJSONFile(file string, v any) error {
@@ -28,5 +26,5 @@ func WriteJSONFile(file string, v any) error {
 		return err
 	}
 
-	return os.WriteFile(file, bytes, iox.DefaultFilePerm)
+	return WriteFile(file, bytes)
 }
