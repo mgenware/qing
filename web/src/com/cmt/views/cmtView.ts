@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import { ls } from 'ls';
 import 'ui/editing/editBarApp';
 import 'ui/status/statusOverlay';
 import 'ui/buttons/linkButton';
@@ -63,7 +62,7 @@ export class CmtView extends BaseElement {
     const { cmt } = this;
     CHECK(cmt);
     if (!cmt.userID) {
-      return html`<div class="p-md">${ls.cmtDeleted}</div>`;
+      return html`<div class="p-md">${globalThis.coreLS.cmtDeleted}</div>`;
     }
     return html`
       <div class="avatar-grid">
@@ -84,7 +83,9 @@ export class CmtView extends BaseElement {
               class="m-l-md"
               .createdAt=${cmt.createdAt}
               .modifiedAt=${cmt.modifiedAt}></time-field>
-            <link-button class="m-l-md" @click=${this.handleShareClick}>${ls.share}</link-button>
+            <link-button class="m-l-md" @click=${this.handleShareClick}
+              >${globalThis.coreLS.share}</link-button
+            >
             ${cmt.userID === appPageState.userID
               ? html`
                   <edit-bar-app
@@ -98,7 +99,7 @@ export class CmtView extends BaseElement {
           </div>
           <div class="md-content">${unsafeHTML(cmt.contentHTML || '')}</div>
           <div>
-            <link-button @click=${this.handleReplyClick}>${ls.reply}</link-button>
+            <link-button @click=${this.handleReplyClick}>${globalThis.coreLS.reply}</link-button>
             <likes-app
               class="m-l-md"
               .iconSize=${'sm'}

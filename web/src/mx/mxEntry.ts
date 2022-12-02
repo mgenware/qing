@@ -7,7 +7,6 @@
 
 import 'core';
 import { html, TemplateResult } from 'll';
-import ls from 'ls';
 import * as mxRoute from '@qing/routes/d/mx';
 import './admins/siteAdminST';
 import './general/siteGeneralST';
@@ -19,17 +18,17 @@ const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pu.setTitleAndMainContent(
-    [selectedItem, ls.siteSettings],
+    [selectedItem, globalThis.coreLS.siteSettings],
     html`<site-st-view .selectedItem=${selectedItem}>${content}</site-st-view>`,
   );
 }
 
 router.register(mxRoute.admins, () => {
-  loadSettingsContent(ls.adminAccounts, html`<site-admin-st></site-admin-st>`);
+  loadSettingsContent(globalThis.coreLS.adminAccounts, html`<site-admin-st></site-admin-st>`);
 });
 
 router.register(mxRoute.general, () => {
-  loadSettingsContent(ls.generalSettings, html`<site-general-st></site-general-st>`);
+  loadSettingsContent(globalThis.coreLS.generalSettings, html`<site-general-st></site-general-st>`);
 });
 
 router.startOnce();

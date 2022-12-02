@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import '../alerts/errorView';
 import './spinnerView';
@@ -47,7 +46,9 @@ export class StatusView extends BaseElement {
     if (status.isWorking) {
       return html`
         <qing-dock-box class=${this.progressViewPadding === 'md' ? 'withPaddingMD' : ''}
-          ><spinner-view>${this.loadingText || ls.loading}</spinner-view></qing-dock-box
+          ><spinner-view
+            >${this.loadingText || globalThis.coreLS.loading}</spinner-view
+          ></qing-dock-box
         >
       `;
     }
@@ -55,7 +56,7 @@ export class StatusView extends BaseElement {
       return html`
         <error-view
           .canRetry=${this.canRetry}
-          .headerText=${this.errorTitle || ls.errOccurred}
+          .headerText=${this.errorTitle || globalThis.coreLS.errOccurred}
           @error-view-retry=${this.handleRetry}>
           ${status.error.message}
         </error-view>

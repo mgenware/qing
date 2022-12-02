@@ -7,7 +7,6 @@
 
 import { renderTemplateResult } from 'lib/htmlLib';
 import { html, TemplateResult } from 'll';
-import ls from 'ls';
 
 export function mainContentElement(): HTMLElement {
   const element = window.document.querySelector('body > main');
@@ -34,7 +33,7 @@ export function openWindow(url: string) {
 }
 
 export function setTitle(titles: string[]) {
-  document.title = `${titles.join(' - ')} - ${ls.qingSiteName}`;
+  document.title = `${titles.join(' - ')} - ${globalThis.coreLS.qingSiteName}`;
 }
 
 export function setMainContent(content: TemplateResult) {

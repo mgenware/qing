@@ -11,7 +11,6 @@ import * as fRoute from '@qing/routes/d/forum';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView';
 import './settings/general/forumGeneralSettingsApp';
-import ls from 'ls';
 import ForumSettingsWind from './forumSettingsWind';
 import { CHECK } from 'checks';
 import appPageState from 'app/appPageState';
@@ -38,7 +37,7 @@ function loadSettingsContent(
 const generalPageHandler: MiniURLRouterHandler = () => {
   loadSettingsContent(
     ForumSettingsPages.general,
-    ls.generalSettings,
+    globalThis.coreLS.generalSettings,
     html` <forum-general-settings-app .fid=${fid}></forum-general-settings-app> `,
   );
 };

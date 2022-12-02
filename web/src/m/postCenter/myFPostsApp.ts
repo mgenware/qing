@@ -6,7 +6,6 @@
  */
 
 import { customElement, html, css, TemplateResult } from 'll';
-import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
 import { appdef } from '@qing/def';
@@ -47,10 +46,10 @@ export default class MyFPostsApp extends PCListApp {
   sectionHeader(): TemplateResult {
     return html`
       <heading-view>
-        <div>${ls.yourFPosts}</div>
+        <div>${globalThis.coreLS.yourFPosts}</div>
         <div slot="decorator">
           <qing-button btnStyle="success" @click=${this.handleNewFPostClick}
-            >${ls.newFPost}</qing-button
+            >${globalThis.coreLS.newFPost}</qing-button
           >
         </div>
       </heading-view>
@@ -60,9 +59,9 @@ export default class MyFPostsApp extends PCListApp {
   renderTable(): TemplateResult | null {
     return html`
       <thead>
-        <th>${ls.title}</th>
-        ${this.renderSortableColumn(appdef.keyCreated, ls.dateCreated)}
-        ${this.renderSortableColumn(appdef.keyMessages, ls.replies)}
+        <th>${globalThis.coreLS.title}</th>
+        ${this.renderSortableColumn(appdef.keyCreated, globalThis.coreLS.dateCreated)}
+        ${this.renderSortableColumn(appdef.keyMessages, globalThis.coreLS.replies)}
       </thead>
       <tbody>
         ${this.items.map(

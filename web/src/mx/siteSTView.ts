@@ -6,13 +6,12 @@
  */
 
 import { customElement, css } from 'll';
-import ls from 'ls';
 import * as mxRoute from '@qing/routes/d/mx';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
 const items: SettingsBaseItem[] = [
-  { name: ls.generalSettings, link: mxRoute.general },
-  { name: ls.adminAccounts, link: mxRoute.admins },
+  { name: globalThis.coreLS.generalSettings, link: mxRoute.general },
+  { name: globalThis.coreLS.adminAccounts, link: mxRoute.admins },
 ];
 
 @customElement('site-st-view')
@@ -32,7 +31,7 @@ export class SiteSTView extends SettingsBaseView {
     super();
 
     this.items = items;
-    this.settingsTitle = ls.siteSettings;
+    this.settingsTitle = globalThis.coreLS.siteSettings;
   }
 }
 

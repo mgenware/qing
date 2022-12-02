@@ -17,7 +17,6 @@ import {
   property,
   when,
 } from 'll';
-import { ls, formatLS } from 'ls';
 import './editorView';
 import { ERR } from 'checks';
 import 'ui/forms/inputView';
@@ -28,6 +27,7 @@ import LoadingStatus from 'lib/loadingStatus';
 import appTask from 'app/appTask';
 import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader';
 import Entity from 'lib/entity';
+import strf from 'bowhead-js';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -166,7 +166,10 @@ export class ComposerView extends BaseElement {
           this.hasTitle,
           () => html`
             <div class="p-b-sm flex-auto">
-              <input-view ${ref(this.titleInputEl)} required placeholder=${ls.title}></input-view>
+              <input-view
+                ${ref(this.titleInputEl)}
+                required
+                placeholder=${globalThis.coreLS.title}></input-view>
             </div>
           `,
         )} <editor-view ${ref(this.editorEl)}></editor-view>`;
@@ -182,11 +185,15 @@ export class ComposerView extends BaseElement {
         ${when(
           loadingStatus.isSuccess,
           () => html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
-            ${this.entity ? ls.save : this.submitButtonText || ls.publish}
+            ${this.entity
+              ? globalThis.coreLS.save
+              : this.submitButtonText || globalThis.coreLS.publish}
           </qing-button>`,
         )}
         <qing-button @click=${this.handleCancel}
-          >${loadingStatus.hasError ? ls.close : ls.cancel}</qing-button
+          >${loadingStatus.hasError
+            ? globalThis.coreLS.close
+            : globalThis.coreLS.cancel}</qing-button
         >
       </div>
     `;
@@ -205,13 +212,14 @@ export class ComposerView extends BaseElement {
 
   private getPayload(): ComposerContent {
     if (this.hasTitle && !this.titleText) {
-      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.title), () =>
+      throw new ValidationError(strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.title), () =>
         this.titleInputEl.value?.focus(),
       );
     }
     if (!this.contentHTML) {
-      throw new ValidationError(formatLS(ls.pPlzEnterThe, ls.content), () =>
-        this.editorEl.value?.focus(),
+      throw new ValidationError(
+        strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.content),
+        () => this.editorEl.value?.focus(),
       );
     }
     const payload: ComposerContent = {

@@ -8,9 +8,9 @@
 import { BaseElement, customElement, html, css, property } from 'll';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import debounceFn from 'lib/debounce';
-import { formatLS, ls } from 'ls';
 import { ERR } from 'checks';
 import './inputErrorView';
+import strf from 'bowhead-js';
 
 const inputID = 'input-id';
 
@@ -197,10 +197,10 @@ export class InputView extends BaseElement {
     if (!this.validationError) {
       try {
         if (this.minLength && this.value.length < this.minLength) {
-          throw new Error(formatLS(ls.pFieldMinLenError, this.label, this.minLength));
+          throw new Error(strf(globalThis.coreLS.pFieldMinLenError, this.label, this.minLength));
         }
         if (this.maxLength && this.value.length > this.maxLength) {
-          throw new Error(formatLS(ls.pFieldMaxLenError, this.label, this.maxLength));
+          throw new Error(strf(globalThis.coreLS.pFieldMaxLenError, this.label, this.maxLength));
         }
       } catch (err) {
         ERR(err);

@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, property } from 'll';
-import ls from 'ls';
 
 @customElement('hf-number')
 export class HFNumber extends BaseElement {
@@ -16,7 +15,7 @@ export class HFNumber extends BaseElement {
   constructor() {
     super();
 
-    this.formatter = new Intl.NumberFormat(ls.qingLang, { notation: 'compact' });
+    this.formatter = new Intl.NumberFormat(globalThis.coreLS.qingLang, { notation: 'compact' });
   }
 
   override createRenderRoot() {

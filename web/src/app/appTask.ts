@@ -8,7 +8,6 @@
 import Loader from 'lib/loader';
 import LoadingStatus from 'lib/loadingStatus';
 import Result from 'lib/result';
-import ls from 'ls';
 import ErrorWithCode from 'lib/errorWithCode';
 import appAlert from './appAlert';
 
@@ -41,7 +40,7 @@ export class AppTask {
           cb(s);
         }
       };
-      appAlert.showLoadingOverlay(overlayText || ls.loading);
+      appAlert.showLoadingOverlay(overlayText || globalThis.coreLS.loading);
       const data = await loader.startAsync();
       appAlert.hideLoadingOverlay();
       return Result.data(data);

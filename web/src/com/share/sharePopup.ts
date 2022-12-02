@@ -8,7 +8,6 @@
 import appAlert from 'app/appAlert';
 import { ERR } from 'checks';
 import { BaseElement, customElement, html, css, property, state } from 'll';
-import ls from 'ls';
 
 const overlayID = 'overlay';
 const okBtnID = 'ok-btn';
@@ -75,15 +74,17 @@ export class SharePopup extends BaseElement {
   override render() {
     return html`
       <qing-overlay id=${overlayID} .open=${this.open} closeOnEsc>
-        <h3>${ls.link}</h3>
+        <h3>${globalThis.coreLS.link}</h3>
         <div class="link-root">
           <input type="text" value=${this.absLink} readonly />
           <qing-button ?disabled=${this._showCopied} @click=${this.handleCopyClick}
-            >${this._showCopied ? ls.copied : ls.copy}</qing-button
+            >${this._showCopied ? globalThis.coreLS.copied : globalThis.coreLS.copy}</qing-button
           >
         </div>
         <div style="text-align:center">
-          <qing-button id=${okBtnID} class="m-t-md" @click=${this.okClick}> ${ls.ok} </qing-button>
+          <qing-button id=${okBtnID} class="m-t-md" @click=${this.okClick}>
+            ${globalThis.coreLS.ok}
+          </qing-button>
         </div>
       </qing-overlay>
     `;

@@ -6,7 +6,6 @@
  */
 
 import { customElement, html, css, state } from 'll';
-import { ls, formatLS } from 'ls';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/content/headingView';
@@ -22,6 +21,7 @@ import { GetProfileLangLoader } from './loaders/getProfileLangLoader';
 import { GetProfileLangResult } from 'sod/profile';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import SetProfileLangLoader from './loaders/setProfileLangLoader';
+import strf from 'bowhead-js';
 
 @customElement('lang-settings')
 export class LangSettings extends StatefulPage {
@@ -46,7 +46,7 @@ export class LangSettings extends StatefulPage {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const userLangLower = this.langResult.userLang?.toLocaleLowerCase() || '';
     return html`
-      <heading-view>${ls.language}</heading-view>
+      <heading-view>${globalThis.coreLS.language}</heading-view>
       <link-list-view>
         <link-button
           @click=${() => this.changeLangTo(autoOptionLS, '')}
@@ -78,9 +78,14 @@ export class LangSettings extends StatefulPage {
     if (lang.toLowerCase() === (this.langResult?.userLang?.toLocaleLowerCase() ?? '')) {
       return;
     }
-    if (await appAlert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, localizedName))) {
+    if (
+      await appAlert.confirm(
+        globalThis.coreLS.warning,
+        strf(globalThis.coreLS.doYouWantToChangeLangTo, localizedName),
+      )
+    ) {
       const loader = new SetProfileLangLoader(lang);
-      const status = await appTask.critical(loader, ls.working);
+      const status = await appTask.critical(loader, globalThis.coreLS.working);
       if (status.isSuccess) {
         pu.reload();
       }

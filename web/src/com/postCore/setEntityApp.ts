@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import 'ui/editing/composerView';
 import { ComposerContent, ComposerView } from 'ui/editing/composerView';
 import 'qing-overlay';
@@ -62,7 +61,10 @@ export default class SetEntityApp extends BaseElement {
       this.entityType,
       this.forumID,
     );
-    const status = await appTask.critical(loader, this.entityID ? ls.saving : ls.publishing);
+    const status = await appTask.critical(
+      loader,
+      this.entityID ? globalThis.coreLS.saving : globalThis.coreLS.publishing,
+    );
     if (status.isSuccess) {
       this.composerEl?.markAsSaved();
       if (status.data) {

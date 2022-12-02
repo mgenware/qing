@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import ls from 'ls';
 import { renderTemplateResult } from 'lib/htmlLib';
 import { html } from 'll';
 import { brMode } from 'devMode';
@@ -28,8 +27,8 @@ export class AppAlert {
   async error(message: string, title?: string): Promise<void> {
     await this.showDialogViewAsync({
       message,
-      title: title || ls.error,
-      buttons: [ls.ok],
+      title: title || globalThis.coreLS.error,
+      buttons: [globalThis.coreLS.ok],
       icon: DialogIcon.error,
       defaultButtonIndex: 0,
       cancelButtonIndex: 0,
@@ -39,8 +38,8 @@ export class AppAlert {
   async warn(message: string, title?: string): Promise<void> {
     await this.showDialogViewAsync({
       message,
-      title: title || ls.warning,
-      buttons: [ls.ok],
+      title: title || globalThis.coreLS.warning,
+      buttons: [globalThis.coreLS.ok],
       icon: DialogIcon.warning,
       defaultButtonIndex: 0,
       cancelButtonIndex: 0,
@@ -50,7 +49,7 @@ export class AppAlert {
   async successToast(title: string): Promise<void> {
     await this.showDialogViewAsync({
       message: '',
-      title: title || ls.error,
+      title: title || globalThis.coreLS.error,
       buttons: [],
       icon: DialogIcon.success,
       timeout: 2000,
@@ -58,11 +57,11 @@ export class AppAlert {
   }
 
   async confirm(title: string, message: string, hasCancelButton = false): Promise<boolean | null> {
-    const buttons = [ls.yes, ls.no];
+    const buttons = [globalThis.coreLS.yes, globalThis.coreLS.no];
     // Default button is "No".
     let defaultBtnIdx = 1;
     if (hasCancelButton) {
-      buttons.push(ls.cancel);
+      buttons.push(globalThis.coreLS.cancel);
       // Default button is "Cancel" if it's present.
       defaultBtnIdx = 2;
     }
@@ -88,7 +87,10 @@ export class AppAlert {
 
   async warnUnsavedChanges(): Promise<boolean> {
     return (
-      (await this.confirm(ls.doYouWantDoDiscardYourChanges, ls.youHaveNotSavedYourChanges)) ?? false
+      (await this.confirm(
+        globalThis.coreLS.doYouWantDoDiscardYourChanges,
+        globalThis.coreLS.youHaveNotSavedYourChanges,
+      )) ?? false
     );
   }
 

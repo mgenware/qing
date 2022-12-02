@@ -6,12 +6,11 @@
  */
 
 import * as def from 'def';
-import ls from 'ls';
 
 export const textMap = new Map<def.UserTheme, string>([
-  [def.UserTheme.light, ls.themeLight],
-  [def.UserTheme.dark, ls.themeDark],
-  [def.UserTheme.device, ls.themeDevice],
+  [def.UserTheme.light, globalThis.coreLS.themeLight],
+  [def.UserTheme.dark, globalThis.coreLS.themeDark],
+  [def.UserTheme.device, globalThis.coreLS.themeDevice],
 ]);
 
 export const iconMap = new Map<def.UserTheme, string>([

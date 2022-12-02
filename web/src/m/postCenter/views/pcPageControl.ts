@@ -9,8 +9,8 @@ import { BaseElement, customElement, html, css, property } from 'll';
 import 'ui/lists/itemCounter';
 import 'ui/buttons/linkButton';
 import { ERR } from 'checks';
-import ls, { formatLS } from 'ls';
 import appAlert from 'app/appAlert';
+import strf from 'bowhead-js';
 
 const pageInputID = 'page-input';
 
@@ -59,9 +59,11 @@ export class PCPageControl extends BaseElement {
     const { page, totalPages } = this;
     return html`
       <div class="root">
-        <div>${formatLS(ls.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}</div>
         <div>
-          ${formatLS(ls.pageControlPageFormat, page, totalPages)}
+          ${strf(globalThis.coreLS.pageControlItemFormat, this.shownItemCount, this.totalItemCount)}
+        </div>
+        <div>
+          ${strf(globalThis.coreLS.pageControlPageFormat, page, totalPages)}
           <span class="m-l-sm">|</span>
           <input
             id=${pageInputID}
@@ -70,19 +72,21 @@ export class PCPageControl extends BaseElement {
             size="3"
             value=${this.pageInputString}
             @change=${this.handlePageInput} />
-          <link-button @click=${this.handleGotoClick} class="m-l-sm">${ls.goToPage}</link-button>
+          <link-button @click=${this.handleGotoClick} class="m-l-sm"
+            >${globalThis.coreLS.goToPage}</link-button
+          >
           <span class="m-l-sm">|</span>
           <link-button
             @click=${() => this.handlePageButtonClick(-1)}
             class="m-l-sm"
             .disabled=${page === 1}
-            >${ls.previousPage}</link-button
+            >${globalThis.coreLS.previousPage}</link-button
           >
           <link-button
             @click=${() => this.handlePageButtonClick(1)}
             class="m-l-sm"
             .disabled=${page === totalPages}
-            >${ls.nextPage}</link-button
+            >${globalThis.coreLS.nextPage}</link-button
           >
         </div>
       </div>
@@ -99,10 +103,10 @@ export class PCPageControl extends BaseElement {
     try {
       const page = parseInt(this.pageInputString, 10);
       if (!page) {
-        throw new Error(ls.invalidPageNumber);
+        throw new Error(globalThis.coreLS.invalidPageNumber);
       }
       if (page <= 0 || page > this.totalPages) {
-        throw new Error(ls.pageNumberOutOfBounds);
+        throw new Error(globalThis.coreLS.pageNumberOutOfBounds);
       }
       this.onGotoPage(page);
     } catch (err) {

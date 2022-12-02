@@ -8,7 +8,6 @@
 import { BaseElement, customElement, html, css, state } from 'll';
 import 'com/cmt/cmtApp';
 import postWind from './postWind';
-import ls from 'ls';
 import 'com/like/likesApp';
 import { appdef } from '@qing/def';
 import * as pu from 'lib/pageUtil';
@@ -45,7 +44,9 @@ export class PostPayloadApp extends BaseElement {
           .initialHasLiked=${!!postWind.initialHasLiked}
           .hostID=${hostID}
           .hostType=${contentType}></likes-app>
-        <link-button class="m-l-md" @click=${this.handleShareClick}>${ls.share}</link-button>
+        <link-button class="m-l-md" @click=${this.handleShareClick}
+          >${globalThis.coreLS.share}</link-button
+        >
       </div>
       <cmt-app
         .host=${{ id: hostID, type: contentType }}

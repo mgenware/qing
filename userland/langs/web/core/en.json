@@ -163,5 +163,7 @@
   "siteTypeCommunity": "Community",
   "siteTypeCommunityDesc": "Everyone can create posts and comment.",
   "siteTypeForums": "Forums",
+  "nextPage": "Next",
+  "previousPage": "Previous",
   "siteTypeForumsDesc": "Like community mode, but posts are grouped in forums that are created by moderators."
 }

@@ -6,13 +6,13 @@
  */
 
 import { BaseElement, customElement, html, css } from 'll';
-import ls, { formatLS } from 'ls';
 import 'ui/lists/linkListView';
 import langWind, { LangInfo } from './langWind';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import appAlert from 'app/appAlert';
 import * as pu from 'lib/pageUtil';
 import AppSettings from 'app/appSettings';
+import strf from 'bowhead-js';
 
 @customElement('lang-page-view')
 export class LangPageView extends BaseElement {
@@ -36,10 +36,10 @@ export class LangPageView extends BaseElement {
   }
 
   override render() {
-    const curLang = ls.qingLang;
+    const curLang = globalThis.coreLS.qingLang;
     return html`
       <div class="container">
-        <h2>${ls.language}</h2>
+        <h2>${globalThis.coreLS.language}</h2>
         <hr />
         <link-list-view>
           ${this.tags.map(
@@ -56,11 +56,16 @@ export class LangPageView extends BaseElement {
   }
 
   private async handleLangChange(t: LangInfo) {
-    const curLang = ls.qingLang;
+    const curLang = globalThis.coreLS.qingLang;
     if (t.ID === curLang) {
       return;
     }
-    if (await appAlert.confirm(ls.warning, formatLS(ls.doYouWantToChangeLangTo, t.LocalizedName))) {
+    if (
+      await appAlert.confirm(
+        globalThis.coreLS.warning,
+        strf(globalThis.coreLS.doYouWantToChangeLangTo, t.LocalizedName),
+      )
+    ) {
       AppSettings.instance.lang = t.ID;
       pu.reload();
     }

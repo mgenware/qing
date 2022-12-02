@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import ls, { formatLS, getLSByKey } from 'ls';
 import { html } from 'll';
 import { ready, renderTemplateResult } from 'lib/htmlLib';
 import * as cmd from '../appCommands';
@@ -13,51 +12,21 @@ import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
 import SetEntityApp from 'com/postCore/setEntityApp';
 
-const localizedStringSlotClass = '__qing_ls__';
-
 // ---------------------------------
 // Handle uncaught exceptions
 // ---------------------------------
 window.onerror = (error, url, lineNumber) => {
   // eslint-disable-next-line no-alert
-  alert(`${ls.internalErr}: ${error}: ${url}: ${lineNumber}`);
+  alert(`${globalThis.coreLS.internalErr}: ${error}: ${url}: ${lineNumber}`);
   return false;
 };
 
 window.addEventListener('unhandledrejection', (event) => {
   // eslint-disable-next-line no-alert
-  alert(`${ls.internalErr}: ${event.reason}`);
+  alert(`${globalThis.coreLS.internalErr}: ${event.reason}`);
 });
 
-function handleLocalizedStringSlots() {
-  const elements = document.getElementsByClassName(localizedStringSlotClass);
-  for (const element of elements) {
-    const key = element.textContent;
-    if (key) {
-      const { dataset } = element as HTMLElement;
-      const params: string[] = [];
-      if (dataset.lsArg1) {
-        params.push(dataset.lsArg1);
-      }
-      if (dataset.lsArg2) {
-        params.push(dataset.lsArg2);
-      }
-      if (dataset.lsArg3) {
-        params.push(dataset.lsArg3);
-      }
-      const str = params.length ? formatLS(key, ...params) : getLSByKey(key);
-      if (!str) {
-        console.error(`Unresolved localized string key "${key}"`);
-      }
-      element.textContent = str;
-    }
-  }
-}
-
 ready(() => {
-  // Handle localization slots left by server templates.
-  handleLocalizedStringSlots();
-
   const cpYearEl = document.getElementById('main-cp-year');
   if (cpYearEl) {
     cpYearEl.textContent = new Date().getFullYear().toString();
@@ -69,11 +38,11 @@ ready(() => {
     let title: string;
     switch (entityType) {
       case appdef.ContentBaseType.post: {
-        title = ls.newPost;
+        title = globalThis.coreLS.newPost;
         break;
       }
       case appdef.ContentBaseType.fPost: {
-        title = ls.newFPost;
+        title = globalThis.coreLS.newFPost;
         break;
       }
       default: {

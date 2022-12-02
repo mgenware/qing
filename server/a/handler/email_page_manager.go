@@ -63,8 +63,8 @@ func (m *EmailPageManager) MustComplete(lang string, d *EmailPageData) (string, 
 	d.AppLang = lang
 
 	ls := m.lsMgr.Dictionary(lang)
-	d.LSSiteName = ls.QingSiteName
-	d.LSSiteLink = ls.QingSiteLink
+	d.LSSiteName = globalThis.coreLS.QingSiteName
+	d.LSSiteLink = globalThis.coreLS.QingSiteLink
 
 	return m.mainView.MustExecuteToString(d), d.Title
 }

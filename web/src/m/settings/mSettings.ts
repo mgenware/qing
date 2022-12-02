@@ -6,13 +6,12 @@
  */
 
 import { customElement, css } from 'll';
-import ls from 'ls';
 import * as mRoute from '@qing/routes/d/m';
 import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
 
 const items: SettingsBaseItem[] = [
-  { name: ls.profile, link: mRoute.profileSettings },
-  { name: ls.language, link: mRoute.langSettings },
+  { name: globalThis.coreLS.profile, link: mRoute.profileSettings },
+  { name: globalThis.coreLS.language, link: mRoute.langSettings },
 ];
 
 @customElement('m-settings')
@@ -32,7 +31,7 @@ export class MSettings extends SettingsBaseView {
     super();
 
     this.items = items;
-    this.settingsTitle = ls.settings;
+    this.settingsTitle = globalThis.coreLS.settings;
   }
 }
 

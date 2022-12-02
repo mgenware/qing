@@ -6,9 +6,9 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import { formatLS, ls } from 'ls';
 import 'ui/status/statusView';
 import LoadingStatus from 'lib/loadingStatus';
+import strf from 'bowhead-js';
 
 @customElement('cmt-load-more-view')
 export class CmtLoadMoreView extends BaseElement {
@@ -31,9 +31,9 @@ export class CmtLoadMoreView extends BaseElement {
     const { status } = this;
     let loadMoreText: string;
     if (this.replies) {
-      loadMoreText = formatLS(ls.pViewMore, ls.replies);
+      loadMoreText = strf(globalThis.coreLS.pViewMore, globalThis.coreLS.replies);
     } else {
-      loadMoreText = formatLS(ls.pViewMore, ls.comments);
+      loadMoreText = strf(globalThis.coreLS.pViewMore, globalThis.coreLS.comments);
     }
     if (status.isSuccess) {
       if (this.hasNext) {

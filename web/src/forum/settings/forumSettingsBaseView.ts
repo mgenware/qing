@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 import { CHECK } from 'checks';
@@ -55,14 +54,18 @@ export class ForumSettingsBaseView extends BaseElement {
     return html`
       <div class="root">
         <div>
-          <h3>${ls.settings}</h3>
+          <h3>${globalThis.coreLS.settings}</h3>
           <link-list-view>
             ${this.menuLink(
               ForumSettingsPages.general,
               fRoute.getSettings(fid),
-              ls.generalSettings,
+              globalThis.coreLS.generalSettings,
             )}
-            ${this.menuLink(ForumSettingsPages.mods, fRoute.getSettingsMods(fid), ls.moderators)}
+            ${this.menuLink(
+              ForumSettingsPages.mods,
+              fRoute.getSettingsMods(fid),
+              globalThis.coreLS.moderators,
+            )}
           </link-list-view>
         </div>
         <div>

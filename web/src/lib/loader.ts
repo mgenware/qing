@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import { ls } from 'ls';
 import { appdef } from '@qing/def';
 import { ERR } from 'checks';
 import ErrorWithCode from './errorWithCode';
@@ -42,13 +41,14 @@ export default class Loader<T> {
 
       if (!response.ok) {
         // Handle HTTP error.
-        const message = response.status === 404 ? ls.resNotFound : response.statusText;
+        const message =
+          response.status === 404 ? globalThis.coreLS.resNotFound : response.statusText;
         throw new ErrorWithCode(message);
       } else {
         // Handle server error if exists.
         const resp = (await response.json()) as APIResponse;
         if (resp.c) {
-          throw new ErrorWithCode(resp.m ?? `${ls.errorCode} ${resp.c}`, resp.c);
+          throw new ErrorWithCode(resp.m ?? `${globalThis.coreLS.errorCode} ${resp.c}`, resp.c);
         }
 
         const mockRes = this.mockResponse();
@@ -76,10 +76,15 @@ export default class Loader<T> {
       if (err instanceof ErrorWithCode) {
         errWithCode = err;
       } else {
-        errWithCode = new ErrorWithCode(err.message || ls.internalErr, appdef.errGeneric);
+        errWithCode = new ErrorWithCode(
+          err.message || globalThis.coreLS.internalErr,
+          appdef.errGeneric,
+        );
       }
 
-      errWithCode.message = `${errWithCode.message} [${ls.httpRequest}: "${this.requestURL()}"]`;
+      errWithCode.message = `${errWithCode.message} [${
+        globalThis.coreLS.httpRequest
+      }: "${this.requestURL()}"]`;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       errWithCode.stack = err.stack;
       this.onLoadingStatusChanged(LoadingStatus.error(errWithCode));

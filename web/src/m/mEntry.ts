@@ -7,7 +7,6 @@
 
 import 'core';
 import { html, TemplateResult } from 'll';
-import ls from 'ls';
 import * as mRoute from '@qing/routes/d/m';
 import './settings/mSettings';
 import './settings/profile/profileSettings';
@@ -21,22 +20,22 @@ const router = new MiniURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pu.setTitleAndMainContent(
-    [selectedItem, ls.settings],
+    [selectedItem, globalThis.coreLS.settings],
     html`<m-settings .selectedItem=${selectedItem}>${content}</m-settings>`,
   );
 }
 
 router.register(mRoute.profileSettings, () => {
-  loadSettingsContent(ls.profile, html`<profile-settings></profile-settings>`);
+  loadSettingsContent(globalThis.coreLS.profile, html`<profile-settings></profile-settings>`);
 });
 router.register(mRoute.langSettings, () => {
-  loadSettingsContent(ls.language, html`<lang-settings></lang-settings>`);
+  loadSettingsContent(globalThis.coreLS.language, html`<lang-settings></lang-settings>`);
 });
 router.register(mRoute.yourPosts, () => {
-  pu.setTitleAndMainContent([ls.yourPosts], html`<my-posts-app></my-posts-app>`);
+  pu.setTitleAndMainContent([globalThis.coreLS.yourPosts], html`<my-posts-app></my-posts-app>`);
 });
 router.register(mRoute.yourFPosts, () => {
-  pu.setTitleAndMainContent([ls.yourFPosts], html`<my-fposts-app></my-fposts-app>`);
+  pu.setTitleAndMainContent([globalThis.coreLS.yourFPosts], html`<my-fposts-app></my-fposts-app>`);
 });
 
 router.startOnce();

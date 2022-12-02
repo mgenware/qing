@@ -13,7 +13,7 @@ import SetLikeLoader from './loaders/setLikeLoader';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import appPageState from 'app/appPageState';
-import ls, { formatLS } from 'ls';
+import strf from 'bowhead-js';
 
 const sizeMD = 'md';
 
@@ -65,7 +65,7 @@ export class LikesApp extends BaseElement {
     }
 
     if (!appPageState.user) {
-      await appAlert.warn(formatLS(ls.signInToLikeThisEntity, ls.post));
+      await appAlert.warn(strf(globalThis.coreLS.signInToLikeThisEntity, globalThis.coreLS.post));
       return;
     }
 

@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import 'ui/alerts/alertView';
 
 @customElement('need-restart-view')
@@ -26,7 +25,9 @@ export class NeedRestartView extends BaseElement {
   @property({ type: Boolean }) canRetry = false;
 
   override render() {
-    return html` <alert-view alertStyle="warning">${ls.restartServerToTakeEffect}</alert-view> `;
+    return html`
+      <alert-view alertStyle="warning">${globalThis.coreLS.restartServerToTakeEffect}</alert-view>
+    `;
   }
 }
 

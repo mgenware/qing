@@ -6,7 +6,6 @@
  */
 
 import { customElement, html, css, when, property } from 'll';
-import ls, { formatLS } from 'ls';
 import 'ui/content/headingView';
 import 'ui/content/subheadingView';
 import 'ui/widgets/tagView';
@@ -22,6 +21,7 @@ import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import 'ui/status/statefulPage';
 import { StatefulPage } from 'ui/status/statefulPage';
+import strf from 'bowhead-js';
 
 @customElement('site-admin-st')
 export class SiteAdminST extends StatefulPage {
@@ -51,16 +51,16 @@ export class SiteAdminST extends StatefulPage {
   override renderContent() {
     return html`
       <div>
-        <heading-view>${ls.adminAccounts}</heading-view>
+        <heading-view>${globalThis.coreLS.adminAccounts}</heading-view>
         ${this.renderAdmins()}
-        <subheading-view class="m-t-lg">${ls.addAnAdmin}</subheading-view>
+        <subheading-view class="m-t-lg">${globalThis.coreLS.addAnAdmin}</subheading-view>
         <user-selector-app
           @user-selector-change=${(e: CustomEvent<UserInfo | null>) =>
             (this.userCandidate = e.detail)}></user-selector-app>
         ${when(
           this.userCandidate,
           () => html` <qing-button btnStyle="success" class="m-t-md" @click=${this.handleAddAdmin}>
-            ${ls.add}
+            ${globalThis.coreLS.add}
           </qing-button>`,
         )}
       </div>
@@ -70,13 +70,13 @@ export class SiteAdminST extends StatefulPage {
   private renderAdmins() {
     const { admins } = this;
     if (!admins.length) {
-      return html`<notice-view>${ls.noContentAvailable}</notice-view>`;
+      return html`<notice-view>${globalThis.coreLS.noContentAvailable}</notice-view>`;
     }
     return html`<div class="app-table-container m-t-md">
       <table class="app-table">
         <thead>
-          <th>${ls.name}</th>
-          <th>${ls.actions}</th>
+          <th>${globalThis.coreLS.name}</th>
+          <th>${globalThis.coreLS.actions}</th>
         </thead>
         <tbody>
           ${admins.map((item) => this.renderUserRow(item))}
@@ -96,9 +96,9 @@ export class SiteAdminST extends StatefulPage {
         </td>
         <td>
           ${thisIsYou
-            ? html`<tag-view tagStyle="warning">${ls.thisIsYou}</tag-view>`
+            ? html`<tag-view tagStyle="warning">${globalThis.coreLS.thisIsYou}</tag-view>`
             : html`<link-button @click=${() => this.handleRemoveAdmin(user)}
-                >${ls.removeAdmin}</link-button
+                >${globalThis.coreLS.removeAdmin}</link-button
               >`}
         </td>
       </tr>
@@ -106,7 +106,10 @@ export class SiteAdminST extends StatefulPage {
   }
 
   private async handleRemoveAdmin(user: UserInfo) {
-    const ok = await appAlert.confirm(ls.warning, formatLS(ls.removeAdminConfirmation, user.name));
+    const ok = await appAlert.confirm(
+      globalThis.coreLS.warning,
+      strf(globalThis.coreLS.removeAdminConfirmation, user.name),
+    );
     if (!ok) {
       return;
     }
@@ -123,8 +126,8 @@ export class SiteAdminST extends StatefulPage {
       return;
     }
     const ok = await appAlert.confirm(
-      ls.warning,
-      formatLS(ls.confirmAddUserAsAdmin, userCandidate.name),
+      globalThis.coreLS.warning,
+      strf(globalThis.coreLS.confirmAddUserAsAdmin, userCandidate.name),
     );
     if (!ok) {
       return;

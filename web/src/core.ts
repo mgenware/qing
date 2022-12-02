@@ -5,8 +5,6 @@
  * be found in the LICENSE file.
  */
 
-// Setup localized strings first!
-import 'ls';
 // App initialization.
 import 'app/startup/startup';
 

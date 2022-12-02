@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, property, state } from 'll';
-import ls from 'ls';
 import appPageState from 'app/appPageState';
 
 @customElement('edit-bar-app')
@@ -25,8 +24,10 @@ export class EditBarApp extends BaseElement {
     }
     return html`
       <span>
-        <link-button @click=${this.handleEditClick}>${ls.edit}</link-button>
-        <link-button class="m-l-md" @click=${this.handleDeleteClick}>${ls.delete}</link-button>
+        <link-button @click=${this.handleEditClick}>${globalThis.coreLS.edit}</link-button>
+        <link-button class="m-l-md" @click=${this.handleDeleteClick}
+          >${globalThis.coreLS.delete}</link-button
+        >
       </span>
     `;
   }

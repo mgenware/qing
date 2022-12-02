@@ -7,7 +7,9 @@
 
 /* Automatically generated. Do not edit. */
 
-export default interface coreLSDefs {
+/* eslint-disable */
+
+export interface coreLSType {
   qingSiteName: string;
   qingLang: string;
   profile: string;
@@ -82,8 +84,6 @@ export default interface coreLSDefs {
   replies: string;
   warning: string;
   editComment: string;
-  nextPage: string;
-  previousPage: string;
   reply: string;
   pReplyTo: string;
   pNumOfComments: string;
@@ -174,5 +174,11 @@ export default interface coreLSDefs {
   siteTypeCommunity: string;
   siteTypeCommunityDesc: string;
   siteTypeForums: string;
+  nextPage: string;
+  previousPage: string;
   siteTypeForumsDesc: string;
+}
+
+declare global {
+    var coreLS: coreLSType;
 }

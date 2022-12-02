@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, property } from 'll';
-import ls from 'ls';
 
 const units = {
   year: 24 * 60 * 60 * 1000 * 365,
@@ -17,7 +16,7 @@ const units = {
   second: 1000,
 };
 
-const rtf = new Intl.RelativeTimeFormat(ls.qingLang, { numeric: 'auto' });
+const rtf = new Intl.RelativeTimeFormat(globalThis.coreLS.qingLang, { numeric: 'auto' });
 
 @customElement('time-field')
 export class TimeField extends BaseElement {
@@ -32,7 +31,7 @@ export class TimeField extends BaseElement {
     let finalDateString = dateString;
     if (modifiedAt !== createdAt) {
       const [modDateString] = this.formatDate(modifiedAt);
-      finalDateString += ` [${ls.editedAt} ${modDateString}]`;
+      finalDateString += ` [${globalThis.coreLS.editedAt} ${modDateString}]`;
     }
     return html`<span class="is-secondary" title=${date?.toLocaleString() ?? ''}
       >${finalDateString}</span
@@ -44,7 +43,7 @@ export class TimeField extends BaseElement {
       const date = this.stringToDate(s);
       return [this.formatRelativeDate(date), date];
     } catch (err) {
-      return [ls.invalidDate, null];
+      return [globalThis.coreLS.invalidDate, null];
     }
   }
 

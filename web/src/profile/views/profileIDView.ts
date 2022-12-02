@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import { ERR } from 'checks';
 import appAlert from 'app/appAlert';
 
@@ -34,7 +33,9 @@ export class ProfileIDView extends BaseElement {
     const { value } = this;
     return html`
       <span>${value}</span>
-      <qing-button class="small m-l-sm" @click=${this.handleCopyClick}>${ls.copy}</qing-button>
+      <qing-button class="small m-l-sm" @click=${this.handleCopyClick}
+        >${globalThis.coreLS.copy}</qing-button
+      >
     `;
   }
 
@@ -44,7 +45,7 @@ export class ProfileIDView extends BaseElement {
     }
     try {
       await navigator.clipboard.writeText(this.value);
-      await appAlert.successToast(ls.copied);
+      await appAlert.successToast(globalThis.coreLS.copied);
     } catch (err) {
       ERR(err);
       await appAlert.error(err.message);

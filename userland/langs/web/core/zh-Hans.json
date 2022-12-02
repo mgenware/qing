@@ -163,5 +163,7 @@
   "siteTypeCommunity": "社区",
   "siteTypeCommunityDesc": "每个人都可以创建帖子和评论。",
   "siteTypeForums": "论坛",
+  "nextPage": "下一页",
+  "previousPage": "上一页",
   "siteTypeForumsDesc": "类似社区模式，但是帖子会被放在论坛内，管理员可以管理论坛。"
 }

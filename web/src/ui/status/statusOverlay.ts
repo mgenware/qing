@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import { classMap } from 'lit/directives/class-map.js';
-import ls from 'ls';
 import LoadingStatus from 'lib/loadingStatus';
 import 'ui/status/spinnerView';
 import 'qing-dock-box';
@@ -58,13 +57,15 @@ export class StatusOverlay extends BaseElement {
           ? html`
               <qing-dock-box class="overlay" style=${`height: ${this.height || '100%'}`}>
                 ${status.isWorking
-                  ? html` <spinner-view>${this.loadingText || ls.loading}</spinner-view> `
+                  ? html`
+                      <spinner-view>${this.loadingText || globalThis.coreLS.loading}</spinner-view>
+                    `
                   : html``}
                 ${status.error
                   ? html`
                       <error-view
                         .canRetry=${this.canRetry}
-                        .headerText=${this.errorTitle || ls.errOccurred}
+                        .headerText=${this.errorTitle || globalThis.coreLS.errOccurred}
                         @error-view-retry=${this.handleRetry}>
                         ${status.error.message}
                       </error-view>

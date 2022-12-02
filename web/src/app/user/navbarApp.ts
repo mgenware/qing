@@ -8,7 +8,6 @@
  */
 
 import { BaseElement, customElement, html, css, when, classMap, state } from 'll';
-import ls from 'ls';
 import { staticMainImage } from 'urls';
 import * as mRoute from '@qing/routes/d/m';
 import * as mxRoute from '@qing/routes/d/mx';
@@ -264,9 +263,9 @@ export default class NavbarApp extends BaseElement {
               src=${staticMainImage('qing.svg')}
               height=${imgSize}
               width=${imgSize}
-              title=${ls.qingSiteName}
-              alt=${ls.qingSiteName} />
-            <span class="m-l-sm vertical-align-middle">${ls.qingSiteName}</span>
+              title=${globalThis.coreLS.qingSiteName}
+              alt=${globalThis.coreLS.qingSiteName} />
+            <span class="m-l-sm vertical-align-middle">${globalThis.coreLS.qingSiteName}</span>
           </a>
 
           <div class="fill-space"></div>
@@ -292,7 +291,7 @@ export default class NavbarApp extends BaseElement {
     const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
 
     let themeBtn = sideNav
-      ? html`${ls.theme}`
+      ? html`${globalThis.coreLS.theme}`
       : html`<svg-icon
           class=${avatarImgCls}
           title=${themeText}
@@ -312,8 +311,8 @@ export default class NavbarApp extends BaseElement {
 
     if (!user) {
       return html`
-        <a href=${authRoute.signIn}>${ls.signIn}</a>
-        <a href=${authRoute.signUp}>${ls.signUp}</a>
+        <a href=${authRoute.signIn}>${globalThis.coreLS.signIn}</a>
+        <a href=${authRoute.signUp}>${globalThis.coreLS.signUp}</a>
         ${themeContent}
       `;
     }
@@ -354,24 +353,27 @@ export default class NavbarApp extends BaseElement {
     return html`
       <div class=${this.getMenuCls(sideNav, MenuType.user)}>
         <div class="list">
-          <a href=${user.link}>${ls.profile}</a>
-          <a href=${mRoute.yourPosts}>${ls.yourPosts}</a>
-          <a href=${mRoute.yourFPosts}>${ls.yourFPosts}</a>
+          <a href=${user.link}>${globalThis.coreLS.profile}</a>
+          <a href=${mRoute.yourPosts}>${globalThis.coreLS.yourPosts}</a>
+          <a href=${mRoute.yourFPosts}>${globalThis.coreLS.yourFPosts}</a>
           <hr />
           <a
             href="#"
             @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.post)}
-            >${ls.newPost}</a
+            >${globalThis.coreLS.newPost}</a
           >
           <a
             href="#"
             @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.fPost)}
-            >${ls.newFPost}</a
+            >${globalThis.coreLS.newFPost}</a
           >
           <hr />
-          <a href=${mRoute.profileSettings}>${ls.settings}</a>
-          ${when(user.admin, () => html`<a href=${mxRoute.admins}>${ls.siteSettings}</a>`)}
-          <a href="#" @click=${this.handleSignOutClick}>${ls.signOut}</a>
+          <a href=${mRoute.profileSettings}>${globalThis.coreLS.settings}</a>
+          ${when(
+            user.admin,
+            () => html`<a href=${mxRoute.admins}>${globalThis.coreLS.siteSettings}</a>`,
+          )}
+          <a href="#" @click=${this.handleSignOutClick}>${globalThis.coreLS.signOut}</a>
         </div>
       </div>
     `;

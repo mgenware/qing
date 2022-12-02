@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import 'qing-overlay';
-import ls from 'ls';
 import { staticMainImage } from 'urls';
 import 'ui/status/progressView';
 import '@github/image-crop-element';
@@ -77,8 +76,10 @@ export class AvatarUploader extends BaseElement {
             <image-crop id="cropElement" src=${this.imageDataURL as string}></image-crop>
           </div>
           <div class="text-center">
-            <qing-button @click=${this.handleOKClick}>${ls.ok}</qing-button>
-            <qing-button @click=${this.handleCancelClick} class="m-l-md">${ls.cancel}</qing-button>
+            <qing-button @click=${this.handleOKClick}>${globalThis.coreLS.ok}</qing-button>
+            <qing-button @click=${this.handleCancelClick} class="m-l-md"
+              >${globalThis.coreLS.cancel}</qing-button
+            >
           </div>
         </qing-overlay>
         <form id="formElement">
@@ -94,12 +95,12 @@ export class AvatarUploader extends BaseElement {
                 <span class="file-icon">
                   <img src=${staticMainImage('upload.svg')} width="16" height="16" />
                 </span>
-                <span>${ls.chooseAFileBtn}</span>
+                <span>${globalThis.coreLS.chooseAFileBtn}</span>
               </span>
               <br />
             </label>
           </div>
-          <p>${ls.uploadProfileImgDesc}</p>
+          <p>${globalThis.coreLS.uploadProfileImgDesc}</p>
         </form>
       </div>
     `;
@@ -151,7 +152,7 @@ export class AvatarUploader extends BaseElement {
       }
     }
     const loader = new AvatarUploadLoader(fd);
-    const result = await appTask.critical(loader, ls.uploading);
+    const result = await appTask.critical(loader, globalThis.coreLS.uploading);
     this.resetFileInput();
 
     if (result.data) {

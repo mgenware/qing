@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import 'qing-overlay';
 import wind from './forumWind';
 import { appdef } from '@qing/def';
@@ -31,17 +30,17 @@ export class NewFPostApp extends BaseElement {
     return html`
       <p>
         <qing-button btnStyle="success" @click=${this.handleNewFPostClick}
-          >${ls.newFPost}</qing-button
+          >${globalThis.coreLS.newFPost}</qing-button
         >
       </p>
       <qing-overlay ?open=${this.fpostTypeDialogOpen} @overlay-esc-down=${this.closeFPostTypeModal}>
         <p>
-          <qing-button @click=${this.newFPostClick}>${ls.newFPost}</qing-button>
+          <qing-button @click=${this.newFPostClick}>${globalThis.coreLS.newFPost}</qing-button>
         </p>
         <div class="text-center">
           <div style="margin-top: 1.2rem">
             <qing-button class="dialog-btn" @click=${this.closeFPostTypeModal}
-              >${ls.close}</qing-button
+              >${globalThis.coreLS.close}</qing-button
             >
           </div>
         </div>

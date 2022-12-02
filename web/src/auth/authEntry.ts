@@ -7,7 +7,6 @@
 
 import 'core';
 import { html } from 'll';
-import ls from 'ls';
 import * as authRoute from '@qing/routes/d/auth';
 import './signUp/signUpApp';
 import './signIn/signInApp';
@@ -17,11 +16,11 @@ import * as pu from 'lib/pageUtil';
 const authRouter = new MiniURLRouter();
 
 authRouter.register(authRoute.signUp, () => {
-  pu.setTitle([ls.createAnAcc]);
+  pu.setTitle([globalThis.coreLS.createAnAcc]);
   pu.setMainContent(html`<sign-up-app></sign-up-app>`);
 });
 authRouter.register(authRoute.signIn, () => {
-  pu.setTitle([ls.signIn]);
+  pu.setTitle([globalThis.coreLS.signIn]);
   pu.setMainContent(html`<sign-in-app></sign-in-app>`);
 });
 authRouter.startOnce();

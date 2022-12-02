@@ -13,7 +13,6 @@ import LoadingStatus from 'lib/loadingStatus';
 import PaginatedList from 'lib/api/paginatedList';
 import './pcPageControl';
 import Loader from 'lib/loader';
-import ls from 'ls';
 import appTask from 'app/appTask';
 import PCPost from '../pcPost';
 
@@ -67,7 +66,7 @@ export abstract class PCListApp extends BaseElement {
                 ${this.renderTable()}
               </table>
             </div>`
-          : html`<notice-view>${ls.noContentAvailable}</notice-view>`}
+          : html`<notice-view>${globalThis.coreLS.noContentAvailable}</notice-view>`}
         <hr />
         <pc-page-control
           .page=${this.page}

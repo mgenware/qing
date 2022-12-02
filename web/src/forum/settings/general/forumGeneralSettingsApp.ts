@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
@@ -21,6 +20,7 @@ import { CHECK } from 'checks';
 import EditorView from 'ui/editing/editorView';
 import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
+import strf from 'bowhead-js';
 
 const editorElementID = 'editor';
 
@@ -76,18 +76,20 @@ export class ForumGeneralSettingsApp extends BaseElement {
   renderContent() {
     return html`
       <status-overlay .status=${this.updateInfoStatus}>
-        <heading-view>${ls.generalSettings}</heading-view>
+        <heading-view>${globalThis.coreLS.generalSettings}</heading-view>
         <input-view
           required
-          label=${ls.name}
+          label=${globalThis.coreLS.name}
           value=${this.forumName}
           @input-change=${(e: CustomEvent<string>) => (this.forumName = e.detail)}></input-view>
 
-        <label class="app-form-label m-t-md" for=${editorElementID}>${ls.description}</label>
+        <label class="app-form-label m-t-md" for=${editorElementID}
+          >${globalThis.coreLS.description}</label
+        >
         <editor-view class="m-t-md" id=${editorElementID}></editor-view>
 
         <qing-button class="m-t-md" btnStyle="success" @click=${this.handleSaveInfoClick}>
-          ${ls.save}
+          ${globalThis.coreLS.save}
         </qing-button>
       </status-overlay>
     `;
@@ -112,7 +114,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
     // Validate user inputs.
     try {
       if (!this.forumName) {
-        throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
+        throw new Error(strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.name));
       }
     } catch (err) {
       ERR(err);
@@ -121,7 +123,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
     }
     const descHTML = this.descEditorView.contentHTML;
     const loader = new SetForumEditingInfoLoader(this.fid, this.forumName, descHTML);
-    await appTask.critical(loader, ls.saving, (s) => {
+    await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;
     });
   }

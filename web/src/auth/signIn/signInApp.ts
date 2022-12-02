@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import 'com/cmt/cmtApp';
-import ls from 'ls';
 import SignInLoader from './loaders/signInLoader';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
@@ -34,14 +33,14 @@ export class SignInApp extends BaseElement {
   override render() {
     return html`
       <enter-key-handler>
-        <h2>${ls.signIn}</h2>
+        <h2>${globalThis.coreLS.signIn}</h2>
         <div>
           <input-view
             required
             type="email"
             autocomplete="email"
             inputmode="email"
-            label=${ls.email}
+            label=${globalThis.coreLS.email}
             value=${this.email}
             @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
@@ -50,7 +49,7 @@ export class SignInApp extends BaseElement {
             required
             type="password"
             autocomplete="current-password"
-            label=${ls.password}
+            label=${globalThis.coreLS.password}
             value=${this.password}
             @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
         </div>
@@ -58,7 +57,7 @@ export class SignInApp extends BaseElement {
           btnStyle="success"
           class="m-t-md enter-key-responder"
           @click=${this.handleSignInClick}
-          >${ls.signIn}</qing-button
+          >${globalThis.coreLS.signIn}</qing-button
         >
       </enter-key-handler>
     `;
@@ -76,7 +75,7 @@ export class SignInApp extends BaseElement {
       return;
     }
     const loader = new SignInLoader(this.email, this.password);
-    const status = await appTask.critical(loader, ls.working);
+    const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
       pu.setURL('/');
     }

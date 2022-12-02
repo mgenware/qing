@@ -6,7 +6,6 @@
  */
 
 import { customElement, css } from 'll';
-import ls from 'ls';
 import { KXEditor } from 'kangxi-editor';
 
 // A wrapper around the kangxi editor.
@@ -46,7 +45,7 @@ export default class EditorView extends KXEditor {
   constructor() {
     super();
 
-    this.localizedStrings = ls;
+    this.localizedStrings = globalThis.coreLS;
   }
 }
 

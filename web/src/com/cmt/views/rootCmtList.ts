@@ -6,10 +6,10 @@
  */
 
 import { BaseElement, customElement, html, css, when, property, state, classMap } from 'll';
-import { ls, formatLS } from 'ls';
 import './cmtBlock';
 import { CmtBlock } from './cmtBlock';
 import { CHECK } from 'checks';
+import strf from 'bowhead-js';
 import appPageState from 'app/appPageState';
 import { parseString } from 'narwhal-js';
 import Entity from 'lib/entity';
@@ -77,8 +77,11 @@ export class RootCmtList extends BaseElement {
 
   override render() {
     const { totalCmtCount } = this;
-    const titleEl = html`<h2>${ls.comments}</h2>
-      ${when(!totalCmtCount, () => html`<p class=${brCmtCountCls}>${ls.noComments}</p>`)}`;
+    const titleEl = html`<h2>${globalThis.coreLS.comments}</h2>
+      ${when(
+        !totalCmtCount,
+        () => html`<p class=${brCmtCountCls}>${globalThis.coreLS.noComments}</p>`,
+      )}`;
     const contentEl = html`
       <div
         class=${classMap({
@@ -89,14 +92,14 @@ export class RootCmtList extends BaseElement {
           this.totalCmtCount,
           () => html`<div>
             <small class=${`is-secondary ${brCmtCountCls}`}
-              >${formatLS(ls.pNumOfComments, this.totalCmtCount)}</small
+              >${strf(globalThis.coreLS.pNumOfComments, this.totalCmtCount)}</small
             >
           </div>`,
         )}
         ${when(
           this.focusModeData,
           () => html` <div class="btn-in-cmts">
-            <link-button @click=${this.viewAllCmts}>${ls.viewAllCmts}</link-button>
+            <link-button @click=${this.viewAllCmts}>${globalThis.coreLS.viewAllCmts}</link-button>
           </div>`,
         )}
         ${this.focusModeData?.is404 ? this.renderCmtNotFound() : this.renderMainContent()}
@@ -111,8 +114,8 @@ export class RootCmtList extends BaseElement {
       () => html`<qing-overlay class="immersive" open>
         <composer-view
           id=${rootEditorID}
-          .desc=${ls.writeAComment}
-          .submitButtonText=${ls.send}
+          .desc=${globalThis.coreLS.writeAComment}
+          .submitButtonText=${globalThis.coreLS.send}
           @composer-submit=${this.handleRootEditorSubmit}
           @composer-discard=${this.handleRootEditorDiscard}></composer-view>
       </qing-overlay>`,
@@ -120,7 +123,7 @@ export class RootCmtList extends BaseElement {
   }
 
   private renderCmtNotFound() {
-    return html`<p>${ls.cmtNotFound}</p>`;
+    return html`<p>${globalThis.coreLS.cmtNotFound}</p>`;
   }
 
   private renderMainContent() {
@@ -168,7 +171,7 @@ export class RootCmtList extends BaseElement {
     const loader = SetCmtLoader.newCmt(this.host, {
       contentHTML: this.rootEditorEl.contentHTML ?? '',
     });
-    const apiRes = await appTask.critical(loader, ls.publishing);
+    const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyEditor();
       const newCmt = apiRes.data.cmt;
@@ -183,7 +186,7 @@ export class RootCmtList extends BaseElement {
   private renderLoginToComment() {
     return html`
       <div>
-        ${parseString(ls.plsLoginToComment).map((sg) => {
+        ${parseString(globalThis.coreLS.plsLoginToComment).map((sg) => {
           if (!sg.type) {
             return html`<span>${sg.value}</span>`;
           }
@@ -202,7 +205,7 @@ export class RootCmtList extends BaseElement {
     return html`
       <p>
         <qing-button btnStyle="success" @click=${this.handleAddCommentClick}
-          >${ls.writeAComment}</qing-button
+          >${globalThis.coreLS.writeAComment}</qing-button
         >
       </p>
     `;

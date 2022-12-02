@@ -8,7 +8,6 @@
 import { BaseElement, customElement, html, css, when, property } from 'll';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
-import ls from 'ls';
 import 'ui/alerts/noticeView';
 import UserInfo from './userInfo';
 import 'ui/status/statusOverlay';
@@ -94,12 +93,12 @@ export class UserSelectorApp extends BaseElement {
   override render() {
     const { users, selectedUser } = this;
     return html`
-      <div>${ls.findUsersByColon}</div>
+      <div>${globalThis.coreLS.findUsersByColon}</div>
       ${selectedUser
         ? html`<div class="selected-user-row m-t-md">
             <qing-button
               class="vertical-align-middle"
-              title=${ls.cancel}
+              title=${globalThis.coreLS.cancel}
               @click=${this.handleRemoveSelection}
               >✖</qing-button
             ><user-card class="m-l-md" .user=${selectedUser}></user-card>
@@ -123,7 +122,8 @@ export class UserSelectorApp extends BaseElement {
                   ? users.map((item) => this.renderUserRow(item))
                   : when(
                       this.status.isWorking,
-                      () => html`<div class="no-result-row">${ls.noResultsFound}</div>`,
+                      () =>
+                        html`<div class="no-result-row">${globalThis.coreLS.noResultsFound}</div>`,
                     )}
               </div>
             </status-overlay>`}

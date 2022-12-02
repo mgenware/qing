@@ -6,7 +6,6 @@
  */
 
 import { customElement, html, css, state } from 'll';
-import { ls, formatLS } from 'ls';
 import { ERR } from 'checks';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
@@ -23,6 +22,7 @@ import appTask from 'app/appTask';
 import appAlert from 'app/appAlert';
 import 'ui/editing/editorView';
 import EditorView from 'ui/editing/editorView';
+import strf from 'bowhead-js';
 
 const editorID = 'editor';
 
@@ -65,7 +65,7 @@ export class ProfileSettings extends StatefulPage {
 
   override renderContent() {
     return html`
-      <heading-view>${ls.profilePicture}</heading-view>
+      <heading-view>${globalThis.coreLS.profilePicture}</heading-view>
       <p>
         <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
       </p>
@@ -73,33 +73,33 @@ export class ProfileSettings extends StatefulPage {
         <avatar-uploader @avatar-upload=${this.handleAvatarUploaded}></avatar-uploader>
       </div>
       <status-overlay .status=${this.updateInfoStatus}>
-        <heading-view>${ls.profile}</heading-view>
+        <heading-view>${globalThis.coreLS.profile}</heading-view>
         <input-view
           required
-          label=${ls.name}
+          label=${globalThis.coreLS.name}
           value=${this.userName}
           @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
 
         <input-view
-          label=${ls.url}
+          label=${globalThis.coreLS.url}
           value=${this.url}
           @input-change=${(e: CustomEvent<string>) => (this.url = e.detail)}></input-view>
 
         <input-view
-          label=${ls.company}
+          label=${globalThis.coreLS.company}
           value=${this.company}
           @input-change=${(e: CustomEvent<string>) => (this.company = e.detail)}></input-view>
 
         <input-view
-          label=${ls.location}
+          label=${globalThis.coreLS.location}
           value=${this.location}
           @input-change=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
-        <label class="app-form-label" for=${editorID}>${ls.bio}</label>
+        <label class="app-form-label" for=${editorID}>${globalThis.coreLS.bio}</label>
         <editor-view id=${editorID} class="bio-editor"></editor-view>
 
         <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
-          ${ls.save}
+          ${globalThis.coreLS.save}
         </qing-button>
       </status-overlay>
     `;
@@ -123,7 +123,7 @@ export class ProfileSettings extends StatefulPage {
     // Validate user inputs.
     try {
       if (!this.userName) {
-        throw new Error(formatLS(ls.pPlzEnterThe, ls.name));
+        throw new Error(strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.name));
       }
     } catch (err) {
       ERR(err);
@@ -137,14 +137,14 @@ export class ProfileSettings extends StatefulPage {
       this.location,
       this.editorEl?.contentHTML ?? '',
     );
-    const status = await appTask.critical(loader, ls.saving, (s) => {
+    const status = await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;
     });
     if (status.isSuccess) {
       if (this.userName !== appPageState.user?.name) {
         appPageState.updateUser({ name: this.userName });
       }
-      await appAlert.successToast(ls.profileUpdated);
+      await appAlert.successToast(globalThis.coreLS.profileUpdated);
     }
   }
 

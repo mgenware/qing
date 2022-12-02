@@ -6,7 +6,6 @@
  */
 
 import { customElement, html, css, TemplateResult } from 'll';
-import ls from 'ls';
 import PaginatedList from 'lib/api/paginatedList';
 import 'ui/content/headingView';
 import Loader from 'lib/loader';
@@ -48,10 +47,10 @@ export default class MyPostsApp extends PCListApp {
   sectionHeader(): TemplateResult {
     return html`
       <heading-view>
-        <div>${ls.yourPosts}</div>
+        <div>${globalThis.coreLS.yourPosts}</div>
         <div slot="decorator">
           <qing-button btnStyle="success" @click=${this.handleNewPostClick}
-            >${ls.newPost}</qing-button
+            >${globalThis.coreLS.newPost}</qing-button
           >
         </div>
       </heading-view>
@@ -61,10 +60,10 @@ export default class MyPostsApp extends PCListApp {
   renderTable(): TemplateResult | null {
     return html`
       <thead>
-        <th>${ls.title}</th>
-        ${this.renderSortableColumn(appdef.keyCreated, ls.dateCreated)}
-        ${this.renderSortableColumn(appdef.keyComments, ls.comments)}
-        ${this.renderSortableColumn(appdef.keyLikes, ls.likes)}
+        <th>${globalThis.coreLS.title}</th>
+        ${this.renderSortableColumn(appdef.keyCreated, globalThis.coreLS.dateCreated)}
+        ${this.renderSortableColumn(appdef.keyComments, globalThis.coreLS.comments)}
+        ${this.renderSortableColumn(appdef.keyLikes, globalThis.coreLS.likes)}
       </thead>
       <tbody>
         ${this.items.map(

@@ -10,7 +10,6 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { cache } from 'lit/directives/cache.js';
 import Entity from 'lib/entity';
 import LoadingStatus from 'lib/loadingStatus';
-import { formatLS, ls } from 'ls';
 import './cmtView';
 import './cmtLoadMoreView';
 import 'ui/buttons/linkButton';
@@ -25,6 +24,7 @@ import { appdef } from '@qing/def';
 import { ComposerView } from 'ui/editing/composerView';
 import { SetCmtLoader } from '../loaders/setCmtLoader';
 import { brMode } from 'devMode';
+import strf from 'bowhead-js';
 
 const editEditorID = 'edit-editor';
 const replyEditorID = 'reply-editor';
@@ -137,7 +137,7 @@ export class CmtBlock extends BaseElement {
         () =>
           html`<div class="btn-in-cmts br-replies-btn">
             <link-button @click=${this.handleRepliesLabelClick}
-              >${formatLS(ls.pNumOfReplies, this._replyCount) +
+              >${strf(globalThis.coreLS.pNumOfReplies, this._replyCount) +
               (this._replyViewVisible ? ' ↑' : '')}</link-button
             >
           </div>`,
@@ -176,9 +176,9 @@ export class CmtBlock extends BaseElement {
               <qing-overlay class="immersive" open>
                 <composer-view
                   id=${editEditorID}
-                  .desc=${ls.editComment}
+                  .desc=${globalThis.coreLS.editComment}
                   .entity=${{ id: this.cmt?.id ?? '', type: appdef.ContentBaseType.cmt }}
-                  .submitButtonText=${ls.save}
+                  .submitButtonText=${globalThis.coreLS.save}
                   @composer-submit=${this.handleEditEditorSubmit}
                   @composer-discard=${this.handleEditEditorDiscard}></composer-view>
               </qing-overlay>
@@ -190,8 +190,8 @@ export class CmtBlock extends BaseElement {
               <qing-overlay class="immersive" open>
                 <composer-view
                   id=${replyEditorID}
-                  .desc=${formatLS(ls.pReplyTo, this.cmt?.userName)}
-                  .submitButtonText=${ls.send}
+                  .desc=${strf(globalThis.coreLS.pReplyTo, this.cmt?.userName)}
+                  .submitButtonText=${globalThis.coreLS.send}
                   @composer-submit=${this.handleReplyEditorSubmit}
                   @composer-discard=${this.handleReplyEditorDiscard}>
                   <blockquote slot="header" style="margin-top:0">
@@ -218,7 +218,7 @@ export class CmtBlock extends BaseElement {
     const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, {
       contentHTML: this.editEditorEl.contentHTML ?? '',
     });
-    const apiRes = await appTask.critical(loader, ls.saving);
+    const apiRes = await appTask.critical(loader, globalThis.coreLS.saving);
     if (apiRes.data) {
       this.destroyEditEditor();
       const newCmt = apiRes.data.cmt;
@@ -250,7 +250,7 @@ export class CmtBlock extends BaseElement {
     const loader = SetCmtLoader.newReply(this.host, this.cmt.id, {
       contentHTML: this.replyEditorEl.contentHTML ?? '',
     });
-    const apiRes = await appTask.critical(loader, ls.publishing);
+    const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyReplyEditor();
       const newCmt = apiRes.data.cmt;
@@ -306,10 +306,15 @@ export class CmtBlock extends BaseElement {
   }
 
   private async handleDeleteClick() {
-    if (await appAlert.confirm(ls.warning, formatLS(ls.pDoYouWantToDeleteThis, ls.comment))) {
+    if (
+      await appAlert.confirm(
+        globalThis.coreLS.warning,
+        strf(globalThis.coreLS.pDoYouWantToDeleteThis, globalThis.coreLS.comment),
+      )
+    ) {
       CHECK(this.cmt);
       const loader = new DeleteCmtLoader(this.cmt.id, this.host);
-      const status = await appTask.critical(loader, ls.working);
+      const status = await appTask.critical(loader, globalThis.coreLS.working);
       if (status.isSuccess) {
         // If there are replies, erase the cmt content.
         // Otherwise, request deleting this cmt instead.

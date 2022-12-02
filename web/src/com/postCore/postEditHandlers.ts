@@ -7,7 +7,6 @@
 
 import 'ui/editing/editBarApp';
 import { html } from 'll';
-import { ls, formatLS } from 'ls';
 import appPageState from 'app/appPageState';
 import appAlert from 'app/appAlert';
 import { EditBarApp } from 'ui/editing/editBarApp';
@@ -19,6 +18,7 @@ import appTask from 'app/appTask';
 import * as pu from 'lib/pageUtil';
 import { renderTemplateResult } from 'lib/htmlLib';
 import Entity from 'lib/entity';
+import strf from 'bowhead-js';
 
 export function setupHandlers(
   editBarElement: EditBarApp,
@@ -32,13 +32,13 @@ export function setupHandlers(
   editBarElement.addEventListener('edit-bar-delete-click', async () => {
     if (
       await appAlert.confirm(
-        ls.warning,
-        formatLS(ls.pDoYouWantToDeleteThis, entityTypeToLS(entity.type)),
+        globalThis.coreLS.warning,
+        strf(globalThis.coreLS.pDoYouWantToDeleteThis, entityTypeToLS(entity.type)),
       )
     ) {
-      appAlert.showLoadingOverlay(ls.working);
+      appAlert.showLoadingOverlay(globalThis.coreLS.working);
       const loader = new DeleteEntityLoader(entity);
-      const status = await appTask.critical(loader, ls.working);
+      const status = await appTask.critical(loader, globalThis.coreLS.working);
       if (status.data) {
         // Redirect to profile page since this page has been deleted.
         pu.setURL(status.data);
@@ -50,7 +50,7 @@ export function setupHandlers(
     renderTemplateResult<SetEntityApp>(
       '',
       html`<set-entity-app
-        .desc=${formatLS(ls.pEditEntity, entityTypeToLS(entity.type))}
+        .desc=${strf(globalThis.coreLS.pEditEntity, entityTypeToLS(entity.type))}
         .entityID=${entity.id}
         .entityType=${entity.type}
         .forumID=${forumID || ''}></set-entity-app>`,

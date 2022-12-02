@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, property } from 'll';
 import 'com/cmt/cmtApp';
-import ls from 'ls';
 import SignUpLoader from './loaders/SignUpLoader';
 import 'qing-overlay';
 import 'ui/forms/inputView';
@@ -41,12 +40,12 @@ export class SignUpApp extends BaseElement {
   override render() {
     return html`
       <enter-key-handler>
-        <h2>${ls.createAnAcc}</h2>
+        <h2>${globalThis.coreLS.createAnAcc}</h2>
         <div>
           <input-view
             class="m-t-md"
             required
-            label=${ls.name}
+            label=${globalThis.coreLS.name}
             value=${this.userName}
             @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
 
@@ -56,7 +55,7 @@ export class SignUpApp extends BaseElement {
             autocomplete="email"
             inputmode="email"
             type="email"
-            label=${ls.email}
+            label=${globalThis.coreLS.email}
             value=${this.email}
             @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
@@ -67,7 +66,7 @@ export class SignUpApp extends BaseElement {
             minLength=${appdef.lenMinUserPwd}
             maxLength=${appdef.lenMaxUserPwd}
             autocomplete="new-password"
-            label=${ls.password}
+            label=${globalThis.coreLS.password}
             value=${this.password}
             @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
 
@@ -78,7 +77,7 @@ export class SignUpApp extends BaseElement {
             minLength=${appdef.lenMinUserPwd}
             maxLength=${appdef.lenMaxUserPwd}
             autocomplete=${'new-password'}
-            label=${ls.confirmPassword}
+            label=${globalThis.coreLS.confirmPassword}
             value=${this.confirmPassword}
             @input-change=${(e: CustomEvent<string>) =>
               (this.confirmPassword = e.detail)}></input-view>
@@ -90,7 +89,7 @@ export class SignUpApp extends BaseElement {
           btnStyle="success"
           class="m-t-sm enter-key-responder"
           @click=${this.handleSignUpClick}
-          >${ls.signUp}</qing-button
+          >${globalThis.coreLS.signUp}</qing-button
         >
       </enter-key-handler>
     `;
@@ -103,7 +102,7 @@ export class SignUpApp extends BaseElement {
 
     // Check if passwords match.
     const pwdMatch = this.password === this.confirmPassword;
-    this.passwordsMismatchErr = pwdMatch ? '' : ls.pwdDontMatch;
+    this.passwordsMismatchErr = pwdMatch ? '' : globalThis.coreLS.pwdDontMatch;
     return pwdMatch;
   }
 
@@ -112,14 +111,14 @@ export class SignUpApp extends BaseElement {
       return;
     }
     const loader = new SignUpLoader(this.userName, this.email, this.password);
-    const status = await appTask.critical(loader, ls.publishing);
+    const status = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (status.isSuccess) {
       pu.setTitleAndMainContent(
-        [ls.regEmailSentDialogTitle],
+        [globalThis.coreLS.regEmailSentDialogTitle],
         html`
           <div>
-            <h1>${ls.regEmailSentDialogTitle}</h1>
-            <p>${ls.regEmailSentDialogContent}</p>
+            <h1>${globalThis.coreLS.regEmailSentDialogTitle}</h1>
+            <p>${globalThis.coreLS.regEmailSentDialogContent}</p>
           </div>
         `,
       );

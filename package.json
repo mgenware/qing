@@ -9,7 +9,7 @@
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
     "daizong": "^0.25.6",
-    "esbuild": "^0.15.15",
+    "esbuild": "^0.15.16",
     "eslint": "^8.28.0",
     "eslint-config-mgenware": "^0.9.0",
     "eslint-plugin-import": "^2.26.0",
@@ -26,7 +26,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "bowhead-js": "^6.0.1",
+    "bowhead-js": "^6.0.2",
     "lit": "^2.4.1"
   }
 }

@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import ls from 'ls';
 import 'ui/alerts/alertView';
 
 @customElement('error-view')
@@ -28,14 +27,14 @@ export class ErrorView extends BaseElement {
   override render() {
     return html`
       <alert-view alertStyle="danger">
-        <h3>${this.headerText || ls.errOccurred}</h3>
+        <h3>${this.headerText || globalThis.coreLS.errOccurred}</h3>
         <p><slot></slot></p>
 
         ${this.canRetry
           ? html`
               <div class="m-t-md">
                 <qing-button btnStyle="primary" @click=${this.handleRetryClick}>
-                  ${ls.retry}
+                  ${globalThis.coreLS.retry}
                 </qing-button>
               </div>
             `

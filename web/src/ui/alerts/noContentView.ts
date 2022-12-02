@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css } from 'll';
-import ls from 'ls';
 import './noticeView';
 
 @customElement('no-content-view')
@@ -23,7 +22,7 @@ export class NoContentView extends BaseElement {
   }
 
   override render() {
-    return html` <notice-view>${ls.noContentAvailable}</notice-view> `;
+    return html` <notice-view>${globalThis.coreLS.noContentAvailable}</notice-view> `;
   }
 }
 
