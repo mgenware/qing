@@ -79,15 +79,15 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	ctx := r.Context()
 	lang := appcom.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
-	url := appURL.Get().RegEmailVerification(globalThis.coreLS.QingSiteLink, publicID)
+	url := appURL.Get().RegEmailVerification(ls.QingSiteLink, publicID)
 
 	d := EmailVerificationData{
-		MainText: globalThis.coreLS.ClickBelowToCompleteReg,
+		MainText: ls.ClickBelowToCompleteReg,
 		Link:     url,
 	}
 	contentHTML := vEmailVeriView.MustExecuteToString(d)
 
-	pageData := handler.NewEmailPageData(globalThis.coreLS.VerifyYourEmailTitle, globalThis.coreLS.ClickBelowToCompleteReg, contentHTML)
+	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.ClickBelowToCompleteReg, contentHTML)
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
 	_, err = appService.Get().Mail.Send(email, pageTitle, pageHTML)

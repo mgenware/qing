@@ -44,7 +44,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if dataString == "" {
 		// Expired or not found.
 		resp := app.HTMLResponse(w, r)
-		return resp.MustFailf(globalThis.coreLS.RegEmailVeriExpired, http.StatusServiceUnavailable)
+		return resp.MustFailf(ls.RegEmailVeriExpired, http.StatusServiceUnavailable)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	app.PanicOn(err)
@@ -63,6 +63,6 @@ func RenderAccountVerified(lang, verifiedUID string, w http.ResponseWriter, r *h
 
 	ls := appHandler.MainPage().Dictionary(lang)
 	d := AccVerifiedPageData{VerifiedUID: verifiedUID}
-	pageData := app.MainPageData(globalThis.coreLS.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
+	pageData := app.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
 	return resp.MustComplete(&pageData)
 }

@@ -111,7 +111,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Header = m.asMgr.MustGetStyle("base") + m.asMgr.MustGetStyle("document") + d.Header
 
 	// Lang script comes before user scripts.
-	d.Scripts = m.asMgr.MustGetLangScript(lang) + d.Scripts
+	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
 	// Community mode settings.
 	d.AppSiteType = int(m.conf.Site.TypedSiteType())

@@ -38,7 +38,7 @@ func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 	// Generate noti email.
 	ls := appHandler.MainPage().Dictionary(lang)
 	mailData := DefaultTemplateData{}
-	mailData.LinkText = strf.Format(globalThis.coreLS.ClickToViewItOn, globalThis.coreLS.QingSiteName)
+	mailData.LinkText = strf.Format(ls.ClickToViewItOn, ls.QingSiteName)
 	mailData.Link = noti.NavLink
 
 	postTitle, err := clib.FetchEntityTitle(db, &noti.PostEntity)
@@ -48,10 +48,10 @@ func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 
 	switch noti.Action {
 	case NotiActionToPost:
-		mailData.Desc = strf.Format(globalThis.coreLS.SbRepliedToUrPost, fromName, postTitle)
+		mailData.Desc = strf.Format(ls.SbRepliedToUrPost, fromName, postTitle)
 
 	case NotiActionToCmt:
-		mailData.Desc = strf.Format(globalThis.coreLS.SbRepliedToUrCmtIn, fromName, postTitle)
+		mailData.Desc = strf.Format(ls.SbRepliedToUrCmtIn, fromName, postTitle)
 
 	default:
 		return fmt.Errorf("unsupported action for noti %v", noti)

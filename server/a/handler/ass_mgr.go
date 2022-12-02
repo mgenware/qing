@@ -57,8 +57,8 @@ func (asm *AssetManager) MustGetStyle(name string) string {
 	return asm.mustGetResource(false, "css", "", name, "css", asm.cssCache)
 }
 
-func (asm *AssetManager) MustGetLangScript(name string) string {
-	return asm.mustGetResource(true, "lang", "", name, "js", asm.langCache)
+func (asm *AssetManager) MustGetLangScript(name, subdir string) string {
+	return asm.mustGetResource(true, "lang", subdir, name, "js", asm.langCache)
 }
 
 // `category`: js, css, lang
