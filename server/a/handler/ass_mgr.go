@@ -62,18 +62,18 @@ func (asm *AssetManager) MustGetLangScript(name string) string {
 }
 
 // `category`: js, css, lang
-func (asm *AssetManager) mustGetResource(isJS bool, category, folder, name, ext string, cache map[string]string) string {
+func (asm *AssetManager) mustGetResource(isJS bool, category, subdir, name, ext string, cache map[string]string) string {
 	v := cache[name]
 	if v == "" {
-		resolvedFileName, err := asm.fileNameWithHash(category+"/"+folder+"/"+name, ext)
+		dirPath := category + "/"
+		if subdir != "" {
+			dirPath += subdir + "/"
+		}
+		resolvedFileName, err := asm.fileNameWithHash(dirPath+name, ext)
 		if err != nil {
 			panic(err)
 		}
-		resolvedURL := asm.rootURL + "/" + category + "/"
-		if folder != "" {
-			resolvedURL += folder + "/"
-		}
-		resolvedURL += resolvedFileName
+		resolvedURL := asm.rootURL + "/" + dirPath + resolvedFileName
 		if isJS {
 			v = scriptTag(resolvedURL)
 		} else {
