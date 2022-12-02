@@ -7,7 +7,7 @@
 
 /* Automatically generated. Do not edit. */
 
-export default interface LSDefs {
+export default interface coreLSDefs {
   qingSiteName: string;
   qingLang: string;
   profile: string;

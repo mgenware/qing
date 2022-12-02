@@ -10,14 +10,13 @@ import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 import isObj from 'is-plain-obj';
 
-const defaultLangFile = 'en.json';
+export const defaultLangFile = 'en.json';
 const userlandDirName = 'userland';
 
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
 const rootDir = np.join(dirPath, '../../../..');
 export const langDir = np.join(rootDir, `${userlandDirName}/langs`);
 export const webLangDir = np.join(langDir, 'web');
-export const defaultWebLangFile = np.join(webLangDir, defaultLangFile);
 export const serverLangDir = np.join(langDir, 'server');
 export const defaultServerLangFile = np.join(serverLangDir, defaultLangFile);
 
@@ -55,6 +54,10 @@ export function serverSodPath(): string {
 
 export function webSodPath(): string {
   return webSrcPath('sod');
+}
+
+export function webSrcTypesPath(): string {
+  return webSrcPath('@types');
 }
 
 export async function langNamesAsync(): Promise<string[]> {
