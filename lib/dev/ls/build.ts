@@ -32,11 +32,16 @@ function error(s: string) {
 
 // Builds TypeScript definitions for web.
 async function buildWebLSDef(lsObj: Record<string, string>, subdir: string): Promise<void> {
-  let code = `${commonHeader}export default interface ${subdir}LSDefs {\n`;
+  const typeName = `${subdir}LSType`;
+  let code = `${commonHeader}/* eslint-disable */\n\nexport interface ${typeName} {\n`;
   for (const key of Object.keys(lsObj)) {
     code += `  ${key}: string;\n`;
   }
-  code += '}\n';
+  code += '}\n\n';
+
+  code += `declare global {
+    var ${subdir}LS: ${typeName};
+}\n`;
 
   const outFile = np.join(qdu.webSrcTypesPath(), 'lang', `${subdir}.d.ts`);
   print(`Building web LS def "${outFile}"`);

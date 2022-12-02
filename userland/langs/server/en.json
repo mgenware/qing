@@ -19,5 +19,8 @@
   "autoLangOption": "Auto (based on browser settings)",
   "clickToViewItOn": "Click here to view it on {0}.",
   "sbRepliedToUrPost": "{0} has replied to your post \"{1}\".",
-  "sbRepliedToUrCmtIn": "{0} has replied to your comment in \"{1}\"."
+  "sbRepliedToUrCmtIn": "{0} has replied to your comment in \"{1}\".",
+  "nextPage": "Next",
+  "previousPage": "Previous",
+  "signIn": "Sign in"
 }

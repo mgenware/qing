@@ -73,8 +73,6 @@
   "replies": "Replies",
   "warning": "Warning",
   "editComment": "Edit comment",
-  "nextPage": "Next",
-  "previousPage": "Previous",
   "reply": "Reply",
   "pReplyTo": "Reply to {0}",
   "pNumOfComments": "{0} {0|countable|comment|comments}",
