@@ -10,7 +10,8 @@ package configs
 import "qing/a/def/appdef"
 
 type SiteConfig struct {
-	SiteType int `json:"site_type,omitempty"`
+	SiteType int      `json:"site_type,omitempty"`
+	Langs    []string `json:"langs,omitempty"`
 }
 
 func (sc *SiteConfig) TypedSiteType() appdef.SiteType {

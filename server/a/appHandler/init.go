@@ -41,7 +41,7 @@ func LSManager() localization.CoreManager {
 }
 
 func mustCreateLSMgr(conf *config.Config) localization.CoreManager {
-	lsMgr, err := localization.NewManagerFromConfig(conf.Localization)
+	lsMgr, err := localization.NewManagerFromConfig(conf.Site)
 	if err != nil {
 		panic(err)
 	}

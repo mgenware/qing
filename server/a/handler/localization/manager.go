@@ -21,10 +21,11 @@ import (
 	"qing/a/config/configs"
 	"qing/a/def"
 	"qing/a/def/appdef"
+	"qing/a/def/infdef"
 )
 
 type Manager struct {
-	conf         *configs.LocalizationConfig
+	conf         *configs.SiteConfig
 	fallbackDict *Dictionary
 	fallbackLang string
 	lsDict       map[string]*Dictionary
@@ -35,20 +36,20 @@ type Manager struct {
 }
 
 // NewManagerFromConfig creates a Manager from a config.
-func NewManagerFromConfig(conf *configs.LocalizationConfig) (*Manager, error) {
+func NewManagerFromConfig(conf *configs.SiteConfig) (*Manager, error) {
 	if len(conf.Langs) == 0 {
-		return nil, errors.New("unexpected empty `langs` config")
+		return nil, errors.New("unexpected empty `langs` field")
 	}
 
 	lsDict := make(map[string]*Dictionary)
 	for _, langName := range conf.Langs {
-		dictPath := filepath.Join(conf.Dir, langName+".json")
+		dictPath := filepath.Join(infdef.LangsDir, langName+".json")
+		appLog.Get().Info("app.ls.loading", "file", dictPath)
 		d, err := ParseDictionary(dictPath)
 		if err != nil {
 			return nil, err
 		}
 		lsDict[langName] = d
-		appLog.Get().Info("app.localization.fileloaded", "lang", langName)
 	}
 
 	fallbackLang := conf.Langs[0]

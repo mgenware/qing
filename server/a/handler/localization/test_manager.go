@@ -19,7 +19,7 @@ type TestManager struct {
 	langs []string
 }
 
-func NewTestManagerFromConfig(conf *configs.LocalizationConfig) (*TestManager, error) {
+func NewTestManagerFromConfig(conf *configs.SiteConfig) (*TestManager, error) {
 	return &TestManager{
 		langs: conf.Langs,
 	}, nil

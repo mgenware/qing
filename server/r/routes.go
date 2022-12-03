@@ -121,7 +121,7 @@ func startFileServer(r chi.Router, name, url, dir string) {
 
 // Gets a router with context localization enabled.
 func langRouter() chi.Router {
-	if appConf.Get().Localization.MultipleLangs() {
+	if len(appConf.Get().Site.Langs) > 1 {
 		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
 	}
 	return r

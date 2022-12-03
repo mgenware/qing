@@ -1,6 +1,5 @@
 {
-  "localization": {
-    "dir": "/qing/langs",
+  "site": {
     "langs": ["en", "zh-Hans"]
   },
   "extern": {

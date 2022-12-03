@@ -34,9 +34,17 @@
     "site_config": {
       "type": "object",
       "properties": {
-        "site_type": { "type": "number" }
+        "site_type": { "type": "number" },
+        "langs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
       },
-      "required": ["site_type"]
+      "required": ["site_type", "langs"]
     },
     "http_config": {
       "type": "object",
@@ -63,21 +71,6 @@
         "dir": { "type": "string" }
       },
       "required": ["dir"]
-    },
-    "localization_config": {
-      "type": "object",
-      "properties": {
-        "dir": { "type": "string" },
-        "langs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "uniqueItems": true
-        }
-      },
-      "required": ["dir", "langs"]
     },
     "app_profile_config": {
       "type": "object",
@@ -140,7 +133,6 @@
     "logging": { "$ref": "#/definitions/logging_config" },
     "http": { "$ref": "#/definitions/http_config" },
     "templates": { "$ref": "#/definitions/templates_config" },
-    "localization": { "$ref": "#/definitions/localization_config" },
     "app_profile": { "$ref": "#/definitions/app_profile_config" },
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
@@ -152,7 +144,6 @@
     "logging",
     "http",
     "templates",
-    "localization",
     "app_profile",
     "app_settings",
     "db",

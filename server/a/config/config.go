@@ -36,8 +36,6 @@ type Config struct {
 	HTTP *configs.HTTPConfig `json:"http,omitempty"`
 	// Templates config data.
 	Templates *configs.TemplatesConfig `json:"templates,omitempty"`
-	// Localization config data.
-	Localization *configs.LocalizationConfig `json:"localization,omitempty"`
 
 	AppProfile  *configs.AppProfileConfig  `json:"app_profile,omitempty"`
 	AppSettings *configs.AppSettingsConfig `json:"app_settings,omitempty"`
