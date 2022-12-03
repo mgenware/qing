@@ -28,13 +28,13 @@ func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 	defer mutex.Unlock()
 
 	needRestart := appConf.GetNeedRestart()
-	stBase := mxSod.NewSiteSettingsBase(needRestart)
+	stBase := mxSod.NewSiteSTBase(needRestart)
 	c := appConf.DiskConfigUnsafe()
 	sc := c.Site
 
 	switch appdef.SiteSettings(key) {
-	case appdef.SiteSettingsGen:
-		coreData := mxSod.NewSiteGenSettings(&stBase, sc.SiteType)
+	case appdef.SiteSettingsGeneral:
+		coreData := mxSod.NewSiteGeneralST(&stBase, sc.SiteType)
 		return resp.MustComplete(coreData)
 	default:
 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))

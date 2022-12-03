@@ -8,7 +8,7 @@
 import Loader from 'lib/loader';
 import * as adminRoute from '@qing/routes/d/s/admin';
 import { appdef } from '@qing/def';
-import { SiteGenSettings } from 'sod/mx';
+import { SiteGeneralST } from 'sod/mx';
 
 export type SiteSTInputType<T> = Required<Omit<T, 'needRestart'>>;
 
@@ -29,8 +29,8 @@ export class SetSiteSTLoader<T> extends Loader<SiteSTInputType<T>> {
   }
 }
 
-export class SetGenSiteSTLoader extends SetSiteSTLoader<SiteGenSettings> {
-  constructor(settings: SiteGenSettings) {
-    super(appdef.SiteSettings.gen, settings);
+export class SetGenSiteSTLoader extends SetSiteSTLoader<SiteGeneralST> {
+  constructor(settings: SiteGeneralST) {
+    super(appdef.SiteSettings.general, settings);
   }
 }

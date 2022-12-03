@@ -13,25 +13,25 @@
 
 package mxSod
 
-type SiteSettingsBase struct {
+type SiteSTBase struct {
 	NeedRestart bool `json:"needRestart,omitempty"`
 }
 
-func NewSiteSettingsBase(needRestart bool) SiteSettingsBase {
-	return SiteSettingsBase{
+func NewSiteSTBase(needRestart bool) SiteSTBase {
+	return SiteSTBase{
 		NeedRestart: needRestart,
 	}
 }
 
-type SiteGenSettings struct {
-	SiteSettingsBase
+type SiteGeneralST struct {
+	SiteSTBase
 
 	SiteType int `json:"siteType,omitempty"`
 }
 
-func NewSiteGenSettings(siteSettingsBase *SiteSettingsBase, siteType int) SiteGenSettings {
-	return SiteGenSettings{
-		SiteSettingsBase: *siteSettingsBase,
+func NewSiteGeneralST(siteSTBase *SiteSTBase, siteType int) SiteGeneralST {
+	return SiteGeneralST{
+		SiteSTBase: *siteSTBase,
 		SiteType: siteType,
 	}
 }

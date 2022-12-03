@@ -7,10 +7,10 @@
 
 import Loader from 'lib/loader';
 import * as adminRoute from '@qing/routes/d/s/admin';
-import { SiteGenSettings, SiteSettingsBase } from 'sod/mx';
+import { SiteGeneralST, SiteSTBase } from 'sod/mx';
 import { appdef } from '@qing/def';
 
-class GetSiteSTLoader<T extends SiteSettingsBase> extends Loader<T> {
+class GetSiteSTLoader<T extends SiteSTBase> extends Loader<T> {
   constructor(public key: appdef.SiteSettings) {
     super();
   }
@@ -26,8 +26,8 @@ class GetSiteSTLoader<T extends SiteSettingsBase> extends Loader<T> {
   }
 }
 
-export class GetGenSiteSTLoader extends GetSiteSTLoader<SiteGenSettings> {
+export class GetGenSiteSTLoader extends GetSiteSTLoader<SiteGeneralST> {
   constructor() {
-    super(appdef.SiteSettings.gen);
+    super(appdef.SiteSettings.general);
   }
 }

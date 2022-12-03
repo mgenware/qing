@@ -13,10 +13,10 @@
  * See `lib/dev/sod/objects/mx.yaml` for details.
  ******************************************************************************************/
 
-export interface SiteSettingsBase {
+export interface SiteSTBase {
   needRestart?: boolean;
 }
 
-export interface SiteGenSettings extends SiteSettingsBase {
+export interface SiteGeneralST extends SiteSTBase {
   siteType?: number;
 }

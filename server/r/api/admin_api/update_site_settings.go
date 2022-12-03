@@ -36,8 +36,8 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 	conf := appConf.DiskConfigUnsafe()
 
 	switch appdef.SiteSettings(key) {
-	case appdef.SiteSettingsGen:
-		genST := mxSod.SiteGenSettings{}
+	case appdef.SiteSettingsGeneral:
+		genST := mxSod.SiteGeneralST{}
 		err := json.Unmarshal([]byte(stJSON), &genST)
 		app.PanicOn(err)
 
