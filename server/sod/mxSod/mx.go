@@ -26,14 +26,36 @@ func NewSiteSTBase(needRestart bool) SiteSTBase {
 type GetSiteGeneralST struct {
 	SiteSTBase
 
+	SiteURL  string   `json:"siteURL,omitempty"`
 	SiteType int      `json:"siteType,omitempty"`
 	Langs    []string `json:"langs,omitempty"`
 }
 
-func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteType int, langs []string) GetSiteGeneralST {
+func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, siteType int, langs []string) GetSiteGeneralST {
 	return GetSiteGeneralST{
 		SiteSTBase: *siteSTBase,
+		SiteURL: siteURL,
 		SiteType: siteType,
+		Langs: langs,
+	}
+}
+
+type SetSiteInfoST struct {
+	SiteURL string `json:"siteURL,omitempty"`
+}
+
+func NewSetSiteInfoST(siteURL string) SetSiteInfoST {
+	return SetSiteInfoST{
+		SiteURL: siteURL,
+	}
+}
+
+type SetSiteLangsST struct {
+	Langs []string `json:"langs,omitempty"`
+}
+
+func NewSetSiteLangsST(langs []string) SetSiteLangsST {
+	return SetSiteLangsST{
 		Langs: langs,
 	}
 }

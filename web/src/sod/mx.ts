@@ -18,6 +18,15 @@ export interface SiteSTBase {
 }
 
 export interface GetSiteGeneralST extends SiteSTBase {
+  siteURL?: string;
   siteType?: number;
+  langs?: string[];
+}
+
+export interface SetSiteInfoST {
+  siteURL?: string;
+}
+
+export interface SetSiteLangsST {
   langs?: string[];
 }

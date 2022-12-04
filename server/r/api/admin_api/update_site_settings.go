@@ -17,7 +17,6 @@ import (
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
-	"qing/sod/mxSod"
 )
 
 // Changes to settings (app config) require a server restart.
@@ -36,19 +35,19 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 	c := appConf.DiskConfigUnsafe()
 
 	switch appdef.SetSiteSettings(key) {
-	case appdef.SetSiteSettingsInfo:
-		genST := mxSod.SiteGeneralST{}
-		err := json.Unmarshal(stJSON, &genST)
+	case appdef.SetSiteSettingsSiteType:
+		var siteType int
+		err := json.Unmarshal(stJSON, &siteType)
 		app.PanicOn(err)
-		if len(genST.Langs) == 0 {
-			panic("error updating langs settings: empty array is not allowed")
-		}
-		c.Site.SiteType = genST.SiteType
+		c.Site.SiteType = siteType
 
-	case appdef.SiteSettingsLangs:
+	case appdef.SetSiteSettingsLangs:
 		var langs []string
 		err := json.Unmarshal(stJSON, &langs)
 		app.PanicOn(err)
+		if len(langs) == 0 {
+			panic("error updating langs settings: empty array is not allowed")
+		}
 		c.Site.Langs = langs
 
 	default:

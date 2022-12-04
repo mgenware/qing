@@ -1,5 +1,6 @@
 {
   "site": {
+    "site_url": "https://github.com/mgenware/qing",
     "langs": ["en", "zh-Hans"]
   },
   "extern": {
