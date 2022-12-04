@@ -23,3 +23,16 @@ type RawMainPageWind struct {
 	AppSiteType       int    `json:"appSiteType,omitempty"`
 	AppWindDataString string `json:"appWindDataString,omitempty"`
 }
+
+func NewRawMainPageWind(appUserID string, appUserName string, appUserURL string, appUserIconURL string, appUserAdmin bool, appLang string, appSiteType int, appWindDataString string) RawMainPageWind {
+	return RawMainPageWind{
+		AppUserID: appUserID,
+		AppUserName: appUserName,
+		AppUserURL: appUserURL,
+		AppUserIconURL: appUserIconURL,
+		AppUserAdmin: appUserAdmin,
+		AppLang: appLang,
+		AppSiteType: appSiteType,
+		AppWindDataString: appWindDataString,
+	}
+}

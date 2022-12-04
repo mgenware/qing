@@ -27,26 +27,35 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
-	stJSON := clib.MustGetStringFromDict(params, "stJSON", math.MaxInt)
+	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
 
 	mutex := appConf.DiskMutex()
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	conf := appConf.DiskConfigUnsafe()
+	c := appConf.DiskConfigUnsafe()
 
-	switch appdef.SiteSettings(key) {
-	case appdef.SiteSettingsGeneral:
+	switch appdef.SetSiteSettings(key) {
+	case appdef.SetSiteSettingsInfo:
 		genST := mxSod.SiteGeneralST{}
-		err := json.Unmarshal([]byte(stJSON), &genST)
+		err := json.Unmarshal(stJSON, &genST)
 		app.PanicOn(err)
+		if len(genST.Langs) == 0 {
+			panic("error updating langs settings: empty array is not allowed")
+		}
+		c.Site.SiteType = genST.SiteType
 
-		conf.Site.SiteType = genST.SiteType
+	case appdef.SiteSettingsLangs:
+		var langs []string
+		err := json.Unmarshal(stJSON, &langs)
+		app.PanicOn(err)
+		c.Site.Langs = langs
+
 	default:
 		return resp.MustFail(fmt.Sprintf("unknown settings key \"%v\"", key))
 	}
 
-	err := appConf.UpdateDiskConfigUnsafe(conf)
+	err := appConf.UpdateDiskConfigUnsafe(c)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

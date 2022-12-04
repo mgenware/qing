@@ -1,10 +1,9 @@
 ---
 SiteSTBase:
-  __go_ctor: true
   needRestart: bool
 
-SiteGeneralST:
+GetSiteGeneralST:
   __extends: SiteSTBase
-  __go_ctor: true
 
   siteType: int
+  langs: string[]

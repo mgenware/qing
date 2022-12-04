@@ -1,11 +1,9 @@
 ---
 ProfileLang:
-  __go_ctor: true
   id: string!
   name: string!
 
 GetProfileLangResult:
-  __go_ctor: true
   userLang: string
   autoOptionLS: string!
   langs: ProfileLang[]

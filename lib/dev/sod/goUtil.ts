@@ -14,11 +14,10 @@ function goAttr(s: string) {
   return `__go_${s}`;
 }
 
-const goCtorAttr = goAttr('ctor');
 const goImportsAttr = goAttr('imports');
 const goRenameAttr = goAttr('rename');
 
-cm.addAllowedAttrs([goCtorAttr, goRenameAttr, goImportsAttr]);
+cm.addAllowedAttrs([goRenameAttr, goImportsAttr]);
 
 function joinImports(
   imports: string[],
@@ -150,7 +149,6 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
       s += '\n';
     }
     const members: TypeMember[] = [];
-    let ctor = false;
     const attrData = cm.scanTypeDef(
       true,
       typeDef,
@@ -158,11 +156,6 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
         // Attribute values may not be a string.
         // eslint-disable-next-line default-case
         switch (k) {
-          case goCtorAttr: {
-            ctor = v === true;
-            break;
-          }
-
           case goRenameAttr: {
             renameMap = cm.parseRenameMap(v);
             break;
@@ -191,12 +184,8 @@ export function goCode(input: string, pkgName: string, dict: cm.SourceDict): str
     );
 
     const genOpt: Options = {};
-    // False positive. `ctor` is changed in closure.
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (ctor) {
-      genOpt.ctorFunc = true;
-      genOpt.returnValueInCtor = true;
-    }
+    genOpt.ctorFunc = true;
+    genOpt.returnValueInCtor = true;
     let goGenBaseTypes: BaseType[] = [];
 
     if (attrData.extends?.length) {

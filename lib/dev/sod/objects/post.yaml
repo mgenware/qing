@@ -1,7 +1,5 @@
 ---
 PostWind:
-  __go_ctor: true
-
   id: string!
   cmtCount: uint
   initialLikes: uint

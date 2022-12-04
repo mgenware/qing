@@ -18,9 +18,9 @@ import { CardSelectedDetail } from 'ui/forms/cardSelector';
 import { StatefulPage } from 'ui/status/statefulPage';
 import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
-import { SetGenSiteSTLoader } from './loaders/setSiteSTLoader';
+import { SetGenSiteSTLoader } from '../loaders/setSiteSTLoader';
 import { siteTypeOptions } from '../cm/siteTypeSelector';
-import { GetGenSiteSTLoader } from './loaders/getSiteSTLoader';
+import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader';
 
 @customElement('site-general-st')
 export class SiteGeneralST extends StatefulPage {

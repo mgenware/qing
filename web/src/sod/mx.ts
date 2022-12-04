@@ -17,6 +17,7 @@ export interface SiteSTBase {
   needRestart?: boolean;
 }
 
-export interface SiteGeneralST extends SiteSTBase {
+export interface GetSiteGeneralST extends SiteSTBase {
   siteType?: number;
+  langs?: string[];
 }

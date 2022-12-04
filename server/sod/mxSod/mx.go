@@ -23,15 +23,17 @@ func NewSiteSTBase(needRestart bool) SiteSTBase {
 	}
 }
 
-type SiteGeneralST struct {
+type GetSiteGeneralST struct {
 	SiteSTBase
 
-	SiteType int `json:"siteType,omitempty"`
+	SiteType int      `json:"siteType,omitempty"`
+	Langs    []string `json:"langs,omitempty"`
 }
 
-func NewSiteGeneralST(siteSTBase *SiteSTBase, siteType int) SiteGeneralST {
-	return SiteGeneralST{
+func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteType int, langs []string) GetSiteGeneralST {
+	return GetSiteGeneralST{
 		SiteSTBase: *siteSTBase,
 		SiteType: siteType,
+		Langs: langs,
 	}
 }

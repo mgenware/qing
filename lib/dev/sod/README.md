@@ -17,7 +17,6 @@ Use `__<lang>_imports`:
 
 ```yaml
 PostWind:
-  __go_ctor: true
   __ts_imports:
     - "{ Cmt } from '../cmt/cmt.js'"
   __go_imports:

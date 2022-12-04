@@ -32,10 +32,11 @@ func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 	c := appConf.DiskConfigUnsafe()
 	sc := c.Site
 
-	switch appdef.SiteSettings(key) {
-	case appdef.SiteSettingsGeneral:
-		coreData := mxSod.NewSiteGeneralST(&stBase, sc.SiteType)
+	switch appdef.GetSiteSettings(key) {
+	case appdef.GetSiteSettingsGeneral:
+		coreData := mxSod.NewSiteGeneralST(&stBase, sc.SiteType, sc.Langs)
 		return resp.MustComplete(coreData)
+
 	default:
 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))
 	}

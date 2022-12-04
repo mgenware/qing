@@ -1,6 +1,5 @@
 ---
 Cmt:
-  __go_ctor: true
   __go_rename:
     id: eid
     userID: userEID

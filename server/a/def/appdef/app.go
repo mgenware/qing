@@ -85,9 +85,16 @@ const (
 	DelFlagsHost
 )
 
-type SiteSettings int
+type GetSiteSettings int
 
 const (
-	SiteSettingsGeneral SiteSettings = iota + 1
-	SiteSettingsLangs
+	GetSiteSettingsGeneral GetSiteSettings = iota + 1
+)
+
+type SetSiteSettings int
+
+const (
+	SetSiteSettingsInfo SetSiteSettings = iota + 1
+	SetSiteSettingsLangs
+	SetSiteSettingsSiteType
 )

@@ -1,6 +1,5 @@
 ---
 DevMail:
-  __go_ctor: true
   # The directory name of this mail. Usually a unix timestamp.
   # Example: 2022-08-06T172921.594824688Z
   id: string!

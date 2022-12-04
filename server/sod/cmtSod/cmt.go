@@ -45,3 +45,11 @@ type CmtFocusModeData struct {
 	Cmt       *Cmt `json:"cmt,omitempty"`
 	ParentCmt *Cmt `json:"parentCmt,omitempty"`
 }
+
+func NewCmtFocusModeData(is404 bool, cmt *Cmt, parentCmt *Cmt) CmtFocusModeData {
+	return CmtFocusModeData{
+		Is404: is404,
+		Cmt: cmt,
+		ParentCmt: parentCmt,
+	}
+}
