@@ -177,6 +177,7 @@ export interface coreLSType {
   nextPage: string;
   previousPage: string;
   siteTypeForumsDesc: string;
+  menu: string;
 }
 
 declare global {

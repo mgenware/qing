@@ -165,5 +165,6 @@
   "siteTypeForums": "Forums",
   "nextPage": "Next",
   "previousPage": "Previous",
-  "siteTypeForumsDesc": "Like community mode, but posts are grouped in forums that are created by moderators."
+  "siteTypeForumsDesc": "Like community mode, but posts are grouped in forums that are created by moderators.",
+  "menu": "Menu"
 }
