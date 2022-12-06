@@ -256,7 +256,7 @@ export default class NavbarApp extends BaseElement {
   override render() {
     return html`
       <div class="navbar-row">
-        <navbar id="main-navbar">
+        <nav id="main-navbar">
           <a href="/">
             <img
               class="vertical-align-middle"
@@ -272,7 +272,7 @@ export default class NavbarApp extends BaseElement {
           ${this.getNavbarItems(false)}
 
           <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}>&#9776;</a>
-        </navbar>
+        </nav>
       </div>
       <div id=${sideNavID} class=${this.sideNavOpen ? 'slide-in' : ''}>
         <div class="close-btn-row">
