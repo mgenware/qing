@@ -7,12 +7,8 @@
 
 import Loader from 'lib/loader';
 import * as adminRoute from '@qing/routes/d/s/admin';
-import { appdef } from '@qing/def';
-import { SiteGeneralST } from 'sod/mx';
 
-export type SiteSTInputType<T> = Required<Omit<T, 'needRestart'>>;
-
-export class SetSiteSTLoader<T> extends Loader<SiteSTInputType<T>> {
+export class SetSiteSTLoader<T> extends Loader<T> {
   constructor(public key: number, public settings: T) {
     super();
   }
@@ -26,11 +22,5 @@ export class SetSiteSTLoader<T> extends Loader<SiteSTInputType<T>> {
       key: this.key,
       stJSON: JSON.stringify(this.settings),
     };
-  }
-}
-
-export class SetGenSiteSTLoader extends SetSiteSTLoader<SiteGeneralST> {
-  constructor(settings: SiteGeneralST) {
-    super(appdef.SiteSettings.general, settings);
   }
 }

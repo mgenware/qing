@@ -39,6 +39,9 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 		var siteType int
 		err := json.Unmarshal(stJSON, &siteType)
 		app.PanicOn(err)
+		if siteType <= 0 {
+			panic("invalid site type value")
+		}
 		c.Site.SiteType = siteType
 
 	case appdef.SetSiteSettingsLangs:
