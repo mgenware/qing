@@ -65,7 +65,7 @@ export default class NavbarApp extends BaseElement {
           border-bottom: var(--app-navbar-border-bottom);
         }
 
-        navbar {
+        #main-navbar {
           display: flex;
           align-items: center;
           margin-left: auto;
@@ -83,7 +83,7 @@ export default class NavbarApp extends BaseElement {
           white-space: nowrap;
         }
 
-        navbar .toggler {
+        #main-navbar .toggler {
           display: none;
         }
 
@@ -149,11 +149,11 @@ export default class NavbarApp extends BaseElement {
 
         /** Keep in sync with the same query in JS */
         @media screen and (max-width: 768px) {
-          navbar a:not(:first-child),
+          #main-navbar a:not(:first-child),
           .dropdown-btn {
             display: none;
           }
-          navbar a.toggler {
+          #main-navbar a.toggler {
             display: block;
           }
 
@@ -256,7 +256,7 @@ export default class NavbarApp extends BaseElement {
   override render() {
     return html`
       <div class="navbar-row">
-        <navbar id="main-navbar">
+        <nav id="main-navbar">
           <a href="/">
             <img
               class="vertical-align-middle"
@@ -271,8 +271,10 @@ export default class NavbarApp extends BaseElement {
           <div class="fill-space"></div>
           ${this.getNavbarItems(false)}
 
-          <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}>&#9776;</a>
-        </navbar>
+          <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}
+            >&#9776; ${globalThis.coreLS.menu}</a
+          >
+        </nav>
       </div>
       <div id=${sideNavID} class=${this.sideNavOpen ? 'slide-in' : ''}>
         <div class="close-btn-row">
