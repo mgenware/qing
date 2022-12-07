@@ -7,7 +7,9 @@ GetSiteGeneralST:
 
   siteURL: string
   siteType: int
+  siteName: string
   langs: string[]
 
-SetSiteInfoST:
+SetSiteInfoSTData:
   siteURL: string
+  siteName: string

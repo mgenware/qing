@@ -20,13 +20,11 @@ export interface SiteSTBase {
 export interface GetSiteGeneralST extends SiteSTBase {
   siteURL?: string;
   siteType?: number;
+  siteName?: string;
   langs?: string[];
 }
 
-export interface SetSiteInfoST {
+export interface SetSiteInfoSTData {
   siteURL?: string;
-}
-
-export interface SetSiteLangsST {
-  langs?: string[];
+  siteName?: string;
 }

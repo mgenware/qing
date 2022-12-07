@@ -36,6 +36,7 @@
       "properties": {
         "site_type": { "type": "number" },
         "site_url": { "type": "string" },
+        "site_name": { "type": "string" },
         "langs": {
           "type": "array",
           "items": {
@@ -45,7 +46,7 @@
           "uniqueItems": true
         }
       },
-      "required": ["site_type", "site_url", "langs"]
+      "required": ["site_type", "site_url", "site_name", "langs"]
     },
     "http_config": {
       "type": "object",

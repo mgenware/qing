@@ -28,34 +28,28 @@ type GetSiteGeneralST struct {
 
 	SiteURL  string   `json:"siteURL,omitempty"`
 	SiteType int      `json:"siteType,omitempty"`
+	SiteName string   `json:"siteName,omitempty"`
 	Langs    []string `json:"langs,omitempty"`
 }
 
-func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, siteType int, langs []string) GetSiteGeneralST {
+func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, siteType int, siteName string, langs []string) GetSiteGeneralST {
 	return GetSiteGeneralST{
 		SiteSTBase: *siteSTBase,
 		SiteURL: siteURL,
 		SiteType: siteType,
+		SiteName: siteName,
 		Langs: langs,
 	}
 }
 
-type SetSiteInfoST struct {
-	SiteURL string `json:"siteURL,omitempty"`
+type SetSiteInfoSTData struct {
+	SiteURL  string `json:"siteURL,omitempty"`
+	SiteName string `json:"siteName,omitempty"`
 }
 
-func NewSetSiteInfoST(siteURL string) SetSiteInfoST {
-	return SetSiteInfoST{
+func NewSetSiteInfoSTData(siteURL string, siteName string) SetSiteInfoSTData {
+	return SetSiteInfoSTData{
 		SiteURL: siteURL,
-	}
-}
-
-type SetSiteLangsST struct {
-	Langs []string `json:"langs,omitempty"`
-}
-
-func NewSetSiteLangsST(langs []string) SetSiteLangsST {
-	return SetSiteLangsST{
-		Langs: langs,
+		SiteName: siteName,
 	}
 }

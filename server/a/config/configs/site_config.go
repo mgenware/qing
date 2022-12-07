@@ -11,6 +11,7 @@ import "qing/a/def/appdef"
 
 type SiteConfig struct {
 	SiteURL  string   `json:"site_url,omitempty"`
+	SiteName string   `json:"site_name,omitempty"`
 	SiteType int      `json:"site_type,omitempty"`
 	Langs    []string `json:"langs,omitempty"`
 }

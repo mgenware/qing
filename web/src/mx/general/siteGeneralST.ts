@@ -18,7 +18,6 @@ import { CardSelectedDetail } from 'ui/forms/cardSelector';
 import { StatefulPage } from 'ui/status/statefulPage';
 import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
-import { SetGenSiteSTLoader } from '../loaders/setSiteSTLoader';
 import { siteTypeOptions } from '../cm/siteTypeSelector';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader';
 
@@ -49,7 +48,7 @@ export class SiteGeneralST extends StatefulPage {
         @card-select=${this.handleSiteTypeChanged}></card-selector>
       <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
       <div>
-        <qing-button btnStyle="success" @click=${this.handleSaveClick}>
+        <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
           ${globalThis.coreLS.save}
         </qing-button>
       </div>
@@ -70,8 +69,8 @@ export class SiteGeneralST extends StatefulPage {
     this._selectedSiteType = e.detail.item.value;
   }
 
-  private async handleSaveClick() {
-    const loader = new SetGenSiteSTLoader({
+  private async handleSaveSiteTypeClick() {
+    const loader = new SetSiteSTLoader({
       siteType: this._selectedSiteType,
     });
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
