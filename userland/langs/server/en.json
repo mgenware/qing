@@ -22,8 +22,5 @@
   "sbRepliedToUrCmtIn": "{0} has replied to your comment in \"{1}\".",
   "nextPage": "Next",
   "previousPage": "Previous",
-  "signIn": "Sign in",
-  "saveLangSettings": "Save language settings",
-  "saveSiteInfo": "Save site information",
-  "saveSiteType": "Save site type"
+  "signIn": "Sign in"
 }

@@ -22,8 +22,5 @@
   "sbRepliedToUrCmtIn": "{0}回复了你在\"{1}\"里的评论。",
   "nextPage": "下一页",
   "previousPage": "上一页",
-  "signIn": "登录",
-  "saveLangSettings": "保存语言选项",
-  "saveSiteInfo": "保存网站信息",
-  "saveSiteType": "保存网站类型"
+  "signIn": "登录"
 }

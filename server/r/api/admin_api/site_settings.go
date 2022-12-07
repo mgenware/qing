@@ -34,7 +34,7 @@ func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	switch appdef.GetSiteSettings(key) {
 	case appdef.GetSiteSettingsGeneral:
-		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.SiteURL, sc.SiteType, sc.Langs)
+		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.SiteURL, sc.SiteType, sc.SiteName, sc.Langs)
 		return resp.MustComplete(coreData)
 
 	default:

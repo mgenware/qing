@@ -20,6 +20,8 @@ import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
 import { siteTypeOptions } from '../cm/siteTypeSelector';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader';
+import { SetSiteTypeSTLoader } from 'mx/loaders/setSiteSTLoader';
+import { CHECK } from 'checks';
 
 @customElement('site-general-st')
 export class SiteGeneralST extends StatefulPage {
@@ -49,7 +51,7 @@ export class SiteGeneralST extends StatefulPage {
       <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
       <div>
         <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
-          ${globalThis.coreLS.save}
+          ${globalThis.mxLS.saveSiteType}
         </qing-button>
       </div>
     `;
@@ -70,9 +72,8 @@ export class SiteGeneralST extends StatefulPage {
   }
 
   private async handleSaveSiteTypeClick() {
-    const loader = new SetSiteSTLoader({
-      siteType: this._selectedSiteType,
-    });
+    CHECK(this._selectedSiteType);
+    const loader = new SetSiteTypeSTLoader(this._selectedSiteType);
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
     if (status.isSuccess) {
       this._needRestart = true;

@@ -28,6 +28,6 @@ class GetSiteSTLoader<T extends SiteSTBase> extends Loader<T> {
 
 export class GetGenSiteSTLoader extends GetSiteSTLoader<GetSiteGeneralST> {
   constructor() {
-    super(appdef.getSiteSettings.general);
+    super(appdef.GetSiteSettings.general);
   }
 }
