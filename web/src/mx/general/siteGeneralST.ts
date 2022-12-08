@@ -43,7 +43,8 @@ export class SiteGeneralST extends StatefulPage {
     return html`
       <heading-view>${globalThis.coreLS.generalSettings}</heading-view>
       ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
-      <subheading-view>${globalThis.coreLS.siteType}</subheading-view>
+      <subheading-view>${globalThis.mxLS.siteInfo}</subheading-view>
+      <subheading-view>${globalThis.mxLS.siteType}</subheading-view>
       <card-selector
         .items=${siteTypeOptions}
         .selectedValue=${this._selectedSiteType}

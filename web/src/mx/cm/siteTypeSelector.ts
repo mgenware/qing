@@ -12,17 +12,17 @@ import { CardSelectorItem } from 'ui/forms/cardSelector';
 export const siteTypeOptions: CardSelectorItem[] = [
   {
     value: appdef.SiteType.blog,
-    title: globalThis.coreLS.siteTypeBlog,
-    desc: globalThis.coreLS.siteTypeBlogDesc,
+    title: globalThis.mxLS.siteTypeBlog,
+    desc: globalThis.mxLS.siteTypeBlogDesc,
   },
   {
     value: appdef.SiteType.community,
-    title: globalThis.coreLS.siteTypeCommunity,
-    desc: globalThis.coreLS.siteTypeCommunityDesc,
+    title: globalThis.mxLS.siteTypeCommunity,
+    desc: globalThis.mxLS.siteTypeCommunityDesc,
   },
   {
     value: appdef.SiteType.forums,
-    title: globalThis.coreLS.siteTypeForums,
-    desc: globalThis.coreLS.siteTypeForumsDesc,
+    title: globalThis.mxLS.siteTypeForums,
+    desc: globalThis.mxLS.siteTypeForumsDesc,
   },
 ];

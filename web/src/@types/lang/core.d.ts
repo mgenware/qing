@@ -167,16 +167,8 @@ export interface coreLSType {
   viewAllCmts: string;
   cmtNotFound: string;
   share: string;
-  sysSettings: string;
-  siteType: string;
-  siteTypeBlog: string;
-  siteTypeBlogDesc: string;
-  siteTypeCommunity: string;
-  siteTypeCommunityDesc: string;
-  siteTypeForums: string;
   nextPage: string;
   previousPage: string;
-  siteTypeForumsDesc: string;
   menu: string;
 }
 

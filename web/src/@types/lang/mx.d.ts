@@ -10,9 +10,18 @@
 /* eslint-disable */
 
 export interface mxLSType {
+  siteType: string;
+  siteTypeBlog: string;
+  siteTypeBlogDesc: string;
+  siteTypeCommunity: string;
+  siteTypeCommunityDesc: string;
+  siteTypeForums: string;
+  siteTypeForumsDesc: string;
   saveLangSettings: string;
   saveSiteInfo: string;
   saveSiteType: string;
+  supportedLangs: string;
+  siteInfo: string;
 }
 
 declare global {
