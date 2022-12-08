@@ -23,8 +23,8 @@ import { linkListActiveFilledClass } from 'ui/lists/linkListView';
 import SetProfileLangLoader from './loaders/setProfileLangLoader';
 import strf from 'bowhead-js';
 
-@customElement('lang-settings')
-export class LangSettings extends StatefulPage {
+@customElement('lang-st')
+export class LangST extends StatefulPage {
   static override get styles() {
     return [
       super.styles,
@@ -95,6 +95,6 @@ export class LangSettings extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'lang-settings': LangSettings;
+    'lang-st': LangST;
   }
 }

@@ -9,8 +9,8 @@ import 'core';
 import { html, TemplateResult } from 'll';
 import * as mRoute from '@qing/routes/d/m';
 import './settings/mSettings';
-import './settings/profile/profileSettings';
-import './settings/lang/langSettings';
+import './settings/profile/profileST';
+import './settings/lang/langST';
 import './postCenter/myPostsApp';
 import './postCenter/myFPostsApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';
@@ -26,10 +26,10 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
 }
 
 router.register(mRoute.profileSettings, () => {
-  loadSettingsContent(globalThis.coreLS.profile, html`<profile-settings></profile-settings>`);
+  loadSettingsContent(globalThis.coreLS.profile, html`<profile-st></profile-st>`);
 });
 router.register(mRoute.langSettings, () => {
-  loadSettingsContent(globalThis.coreLS.language, html`<lang-settings></lang-settings>`);
+  loadSettingsContent(globalThis.coreLS.language, html`<lang-st></lang-st>`);
 });
 router.register(mRoute.yourPosts, () => {
   pu.setTitleAndMainContent([globalThis.coreLS.yourPosts], html`<my-posts-app></my-posts-app>`);

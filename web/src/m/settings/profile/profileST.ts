@@ -26,8 +26,8 @@ import strf from 'bowhead-js';
 
 const editorID = 'editor';
 
-@customElement('profile-settings')
-export class ProfileSettings extends StatefulPage {
+@customElement('profile-st')
+export class ProfileST extends StatefulPage {
   static override get styles() {
     return [
       super.styles,
@@ -159,6 +159,6 @@ export class ProfileSettings extends StatefulPage {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'profile-settings': ProfileSettings;
+    'profile-st': ProfileST;
   }
 }
