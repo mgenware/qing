@@ -38,12 +38,18 @@ export class SiteGeneralST extends StatefulPage {
 
   @state() _needRestart = false;
   @state() _selectedSiteType: appdef.SiteType | undefined;
+  @state() _siteName = '';
 
   override renderContent() {
     return html`
       <heading-view>${globalThis.coreLS.generalSettings}</heading-view>
       ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
       <subheading-view>${globalThis.mxLS.siteInfo}</subheading-view>
+      <input-view
+        required
+        label=${globalThis.coreLS.name}
+        value=${this.userName}
+        @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
       <subheading-view>${globalThis.mxLS.siteType}</subheading-view>
       <card-selector
         .items=${siteTypeOptions}
