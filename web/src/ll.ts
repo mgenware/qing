@@ -71,17 +71,13 @@ export class BaseElement extends LitElement {
     return res;
   }
 
-  protected getAllInputViews(): NodeListOf<InputView> {
-    return this.mustGetShadowRoot().querySelectorAll('input-view');
-  }
-
-  protected checkFormValidity(): boolean {
-    const inputs = this.getAllInputViews();
+  protected checkFormValidity(inputSel: string | null): boolean {
+    const inputEls = this.mustGetShadowRoot().querySelectorAll<InputView>(inputSel || 'input-view');
 
     let valid = true;
     // We must run through all inputs to make sure each `InputView` has `validationMessage` set.
-    for (const input of inputs) {
-      if (!input.checkValidity()) {
+    for (const el of inputEls) {
+      if (!el.checkValidity()) {
         valid = false;
       }
     }

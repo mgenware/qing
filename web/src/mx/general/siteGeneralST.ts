@@ -20,8 +20,11 @@ import appTask from 'app/appTask';
 import { appdef } from '@qing/def';
 import { siteTypeOptions } from '../cm/siteTypeSelector';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader';
-import { SetSiteTypeSTLoader } from 'mx/loaders/setSiteSTLoader';
+import { SetSiteInfoSTLoader, SetSiteTypeSTLoader } from 'mx/loaders/setSiteSTLoader';
 import { CHECK } from 'checks';
+
+const infoBlockCls = 'info-block';
+const siteTypeBlockCls = 'site-type-block';
 
 @customElement('site-general-st')
 export class SiteGeneralST extends StatefulPage {
@@ -32,34 +35,55 @@ export class SiteGeneralST extends StatefulPage {
         :host {
           display: block;
         }
+
+        input-view {
+          margin-bottom: 1rem;
+        }
       `,
     ];
   }
 
-  @state() _needRestart = false;
-  @state() _selectedSiteType: appdef.SiteType | undefined;
-  @state() _siteName = '';
+  @state() needRestart = false;
+  @state() selectedSiteType: appdef.SiteType | undefined;
+  @state() siteName = '';
+  @state() siteURL = '';
 
   override renderContent() {
     return html`
       <heading-view>${globalThis.coreLS.generalSettings}</heading-view>
-      ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
-      <subheading-view>${globalThis.mxLS.siteInfo}</subheading-view>
-      <input-view
-        required
-        label=${globalThis.coreLS.name}
-        value=${this.userName}
-        @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
-      <subheading-view>${globalThis.mxLS.siteType}</subheading-view>
-      <card-selector
-        .items=${siteTypeOptions}
-        .selectedValue=${this._selectedSiteType}
-        @card-select=${this.handleSiteTypeChanged}></card-selector>
-      <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
-      <div>
-        <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
-          ${globalThis.mxLS.saveSiteType}
+      ${when(this.needRestart, () => html`<need-restart-view></need-restart-view>`)}
+      <div class=${infoBlockCls}>
+        <subheading-view>${globalThis.mxLS.siteInfo}</subheading-view>
+
+        <input-view
+          required
+          label=${globalThis.mxLS.siteName}
+          value=${this.siteName}
+          @input-change=${(e: CustomEvent<string>) => (this.siteName = e.detail)}></input-view>
+
+        <input-view
+          required
+          label=${globalThis.mxLS.siteURL}
+          value=${this.siteURL}
+          @input-change=${(e: CustomEvent<string>) => (this.siteURL = e.detail)}></input-view>
+
+        <qing-button btnStyle="success" @click=${this.handleSaveSiteInfoClick}>
+          ${globalThis.mxLS.saveSiteInfo}
         </qing-button>
+      </div>
+
+      <div class=${`${siteTypeBlockCls} m-t-lg`}>
+        <subheading-view>${globalThis.mxLS.siteType}</subheading-view>
+        <card-selector
+          .items=${siteTypeOptions}
+          .selectedValue=${this.selectedSiteType}
+          @card-select=${this.handleSiteTypeChanged}></card-selector>
+        <site-type-selector .siteType=${this.selectedSiteType}></site-type-selector>
+        <div>
+          <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
+            ${globalThis.mxLS.saveSiteType}
+          </qing-button>
+        </div>
       </div>
     `;
   }
@@ -69,22 +93,43 @@ export class SiteGeneralST extends StatefulPage {
     const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
     const d = status.data;
     if (d) {
-      this._needRestart = !!d.needRestart;
-      this._selectedSiteType = d.siteType as appdef.SiteType;
+      this.needRestart = !!d.needRestart;
+      this.siteName = d.siteName || '';
+      this.siteURL = d.siteURL || '';
+      this.selectedSiteType = d.siteType as appdef.SiteType;
     }
   }
 
   private handleSiteTypeChanged(e: CustomEvent<CardSelectedDetail>) {
-    this._selectedSiteType = e.detail.item.value;
+    this.selectedSiteType = e.detail.item.value;
   }
 
   private async handleSaveSiteTypeClick() {
-    CHECK(this._selectedSiteType);
-    const loader = new SetSiteTypeSTLoader(this._selectedSiteType);
+    CHECK(this.selectedSiteType);
+    const loader = new SetSiteTypeSTLoader(this.selectedSiteType);
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
     if (status.isSuccess) {
-      this._needRestart = true;
+      this.needRestart = true;
     }
+  }
+
+  private async handleSaveSiteInfoClick() {
+    if (!this.validateInfoForm()) {
+      return;
+    }
+    CHECK(this.selectedSiteType);
+    const loader = new SetSiteInfoSTLoader({ siteName: this.siteName, siteURL: this.siteURL });
+    const status = await appTask.critical(loader, globalThis.coreLS.saving);
+    if (status.isSuccess) {
+      this.needRestart = true;
+    }
+  }
+
+  private validateInfoForm() {
+    if (!this.checkFormValidity(`.${infoBlockCls} input-view`)) {
+      return false;
+    }
+    return true;
   }
 }
 

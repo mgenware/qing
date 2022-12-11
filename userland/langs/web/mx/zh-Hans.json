@@ -10,5 +10,7 @@
   "saveSiteInfo": "保存网站信息",
   "saveSiteType": "保存网站类型",
   "supportedLangs": "支持的语言",
-  "siteInfo": "网站信息"
+  "siteInfo": "网站信息",
+  "siteName": "网站名称",
+  "siteURL": "网站地址"
 }

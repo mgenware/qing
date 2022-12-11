@@ -64,7 +64,7 @@ export class SignInApp extends BaseElement {
   }
 
   private validateForm(): boolean {
-    if (!this.checkFormValidity()) {
+    if (!this.checkFormValidity(null)) {
       return false;
     }
     return true;

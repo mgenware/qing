@@ -22,6 +22,8 @@ export interface mxLSType {
   saveSiteType: string;
   supportedLangs: string;
   siteInfo: string;
+  siteName: string;
+  siteURL: string;
 }
 
 declare global {

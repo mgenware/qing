@@ -10,5 +10,7 @@
   "saveSiteInfo": "Save site information",
   "saveSiteType": "Save site type",
   "supportedLangs": "Supported languages",
-  "siteInfo": "Site information"
+  "siteInfo": "Site information",
+  "siteName": "Site name",
+  "siteURL": "Site URL"
 }
