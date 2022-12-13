@@ -47,11 +47,11 @@ importers:
 
   it:
     specifiers:
-      '@playwright/test': ^1.28.0
+      '@playwright/test': ^1.28.1
       '@qing/def': workspace:*
       '@qing/routes': workspace:*
       '@types/cookie': ^0.5.1
-      '@types/mocha': ^10.0.0
+      '@types/mocha': ^10.0.1
       '@types/set-cookie-parser': ^2.4.2
       '@types/uuid': ^9.0.0
       cookie: ^0.5.0
@@ -68,11 +68,11 @@ importers:
       set-cookie-parser: 2.5.1
       uuid: 9.0.0
     devDependencies:
-      '@playwright/test': 1.28.0
+      '@playwright/test': 1.28.1
       '@qing/def': link:../lib/def
       '@qing/routes': link:../lib/routes
       '@types/cookie': 0.5.1
-      '@types/mocha': 10.0.0
+      '@types/mocha': 10.0.1
       '@types/set-cookie-parser': 2.4.2
       '@types/uuid': 9.0.0
       expect: 29.3.1
@@ -143,7 +143,7 @@ importers:
       '@qing/def': workspace:*
       '@qing/routes': workspace:*
       '@types/js-cookie': ^3.0.2
-      '@types/mocha': ^10.0.0
+      '@types/mocha': ^10.0.1
       '@web/test-runner': ^0.15.0
       '@web/test-runner-playwright': ^0.9.0
       basic-trie: ^0.2.0
@@ -183,7 +183,7 @@ importers:
       tslib: 2.4.1
     devDependencies:
       '@types/js-cookie': 3.0.2
-      '@types/mocha': 10.0.0
+      '@types/mocha': 10.0.1
       '@web/test-runner': 0.15.0
       '@web/test-runner-playwright': 0.9.0
       esbuild-plugin-minify-html-literals: 1.0.1
@@ -645,13 +645,13 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@playwright/test/1.28.0:
-    resolution: {integrity: sha512-vrHs5DFTPwYox5SGKq/7TDn/S4q6RA1zArd7uhO6EyP9hj3XgZBBM12ktMbnDQNxh/fL1IUKsTNLxihmsU38lQ==}
+  /@playwright/test/1.28.1:
+    resolution: {integrity: sha512-xN6spdqrNlwSn9KabIhqfZR7IWjPpFK1835tFNgjrlysaSezuX8PYUwaz38V/yI8TJLG9PkAMEXoHRXYXlpTPQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.11.14
-      playwright-core: 1.28.0
+      playwright-core: 1.28.1
     dev: true
 
   /@pnpm/constants/6.1.0:
@@ -926,8 +926,8 @@ packages:
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
 
-  /@types/mocha/10.0.0:
-    resolution: {integrity: sha512-rADY+HtTOA52l9VZWtgQfn4p+UDVM2eDVkMZT1I6syp0YKxW2F9v+0pbRZLsvskhQv/vMb6ZfCay81GHbz5SHg==}
+  /@types/mocha/10.0.1:
+    resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==}
     dev: true
 
   /@types/mocha/8.2.3:
@@ -4811,8 +4811,8 @@ packages:
     hasBin: true
     dev: true
 
-  /playwright-core/1.28.0:
-    resolution: {integrity: sha512-nJLknd28kPBiCNTbqpu6Wmkrh63OEqJSFw9xOfL9qxfNwody7h6/L3O2dZoWQ6Oxcm0VOHjWmGiCUGkc0X3VZA==}
+  /playwright-core/1.28.1:
+    resolution: {integrity: sha512-3PixLnGPno0E8rSBJjtwqTwJe3Yw72QwBBBxNoukIj3lEeBNXwbNiKrNuB1oyQgTBw5QHUhNO3SteEtHaMK6ag==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true

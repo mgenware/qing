@@ -20,15 +20,16 @@ const isDev = config === 'dev';
 const isProd = config === 'prod';
 
 const envMap = {
+  // Replacement values can only be strings.
   dev: {
-    'window.__qing_dev__': true,
+    'window.__qing_dev__': 'true',
   },
   br: {
-    'window.__qing_br__': true,
+    'window.__qing_br__': 'true',
   },
   prod: {
-    'window.__qing_dev__': false,
-    'window.__qing_br__': false,
+    'window.__qing_dev__': 'false',
+    'window.__qing_br__': 'false',
   },
 };
 
