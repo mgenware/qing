@@ -14,9 +14,9 @@
     "@types/cookie": "^0.5.1",
     "@types/mocha": "^10.0.0",
     "@types/set-cookie-parser": "^2.4.2",
-    "@types/uuid": "^8.3.4",
+    "@types/uuid": "^9.0.0",
     "expect": "^29.3.1",
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "node-fetch": "^3.3.0",
     "source-map-support": "^0.5.21"
   },
