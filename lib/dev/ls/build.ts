@@ -135,6 +135,12 @@ if (arg0 === 's') {
     error('Missing subdir param for w mode.');
   }
   await buildWeb(arg1!);
+} else if (arg0 === 'w-all') {
+  // Build all web folders. This runs alongside pnpm.
+  // Web folders have dist files that must be updated locally when new strings are added.
+  // Server folder doesn't need this as server generated files are go code and not git ignored.
+  const subDirs = await mfs.subDirs(webOutBaseDir);
+  await Promise.all(subDirs.map((dir) => buildWeb(dir)));
 } else {
   error(`Unknown mode "${arg0}"`);
 }

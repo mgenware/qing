@@ -6,6 +6,9 @@
     "@types/js-yaml": "^4.0.5",
     "del-cli": "^5.0.0"
   },
+  "scripts": {
+    "prepare": "dz ls w-all"
+  },
   "dependencies": {
     "@qing/def": "workspace:*",
     "@qing/devutil": "workspace:*",

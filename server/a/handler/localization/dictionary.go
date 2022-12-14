@@ -28,14 +28,17 @@ type Dictionary struct {
 	ErrOccurred             string `json:"errOccurred"`
 	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`
 	NeedAuthErr             string `json:"needAuthErr"`
+	NextPage                string `json:"nextPage"`
 	PFileSizeExceedsMaxSize string `json:"pFileSizeExceedsMaxSize"`
 	PermissionDenied        string `json:"permissionDenied"`
+	PreviousPage            string `json:"previousPage"`
 	QingSiteLink            string `json:"qingSiteLink"`
 	QingSiteName            string `json:"qingSiteName"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
 	SbRepliedToUrCmtIn      string `json:"sbRepliedToUrCmtIn"`
 	SbRepliedToUrPost       string `json:"sbRepliedToUrPost"`
+	SignIn                  string `json:"signIn"`
 	UnsupportedExtension    string `json:"unsupportedExtension"`
 	VerifyYourEmailTitle    string `json:"verifyYourEmailTitle"`
 	YouAreAlreadyAdmin      string `json:"youAreAlreadyAdmin"`
