@@ -1,9 +1,5 @@
 ---
-ProfileLang:
-  id: string!
-  name: string!
-
 GetProfileLangResult:
   userLang: string
   autoOptionLS: string!
-  langs: ProfileLang[]
+  langs: :sod.api.NameAndID[]

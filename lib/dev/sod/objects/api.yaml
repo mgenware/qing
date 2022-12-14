@@ -1,0 +1,3 @@
+NameAndID:
+  id: string!
+  name: string!

@@ -89,6 +89,7 @@ type GetSiteSettings int
 
 const (
 	GetSiteSettingsGeneral GetSiteSettings = iota + 1
+	GetSiteSettingsLangs
 )
 
 type SetSiteSettings int

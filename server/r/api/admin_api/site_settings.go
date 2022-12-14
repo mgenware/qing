@@ -15,6 +15,7 @@ import (
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
+	"qing/r/api/apicom"
 	"qing/sod/mxSod"
 )
 
@@ -34,8 +35,16 @@ func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	switch appdef.GetSiteSettings(key) {
 	case appdef.GetSiteSettingsGeneral:
-		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.SiteURL, sc.SiteType, sc.SiteName, sc.Langs)
+		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.SiteURL, sc.SiteType, sc.SiteName)
 		return resp.MustComplete(coreData)
+
+	case appdef.GetSiteSettingsLangs:
+		supportedLangs, err := apicom.GetSiteSupportedLangs()
+		app.PanicOn(err)
+
+		currentLangs := c.Site.Langs
+		langSTData := mxSod.NewGetSiteLangsST(&stBase, supportedLangs, currentLangs)
+		return resp.MustComplete(langSTData)
 
 	default:
 		return resp.MustFail(fmt.Sprintf("Unknown settings key \"%v\"", key))

@@ -46,7 +46,7 @@
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
     "delFlags": { "values": ["self", "host"] },
-    "getSiteSettings": { "values": ["general"] },
+    "getSiteSettings": { "values": ["general", "langs"] },
     "setSiteSettings": { "values": ["info", "langs", "siteType"] }
   }
 }

@@ -8,7 +8,13 @@ GetSiteGeneralST:
   siteURL: string
   siteType: int
   siteName: string
-  langs: string[]
+
+GetSiteLangsST:
+  __extends: SiteSTBase
+  # All supported langs.
+  supported: :sod.api.NameAndID[]
+  # Currently selected langs of this site.
+  current: string[]
 
 SetSiteInfoSTData:
   siteURL: string

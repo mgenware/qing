@@ -13,6 +13,8 @@
 
 package mxSod
 
+import "qing/sod/apiSod"
+
 type SiteSTBase struct {
 	NeedRestart bool `json:"needRestart,omitempty"`
 }
@@ -26,19 +28,32 @@ func NewSiteSTBase(needRestart bool) SiteSTBase {
 type GetSiteGeneralST struct {
 	SiteSTBase
 
-	SiteURL  string   `json:"siteURL,omitempty"`
-	SiteType int      `json:"siteType,omitempty"`
-	SiteName string   `json:"siteName,omitempty"`
-	Langs    []string `json:"langs,omitempty"`
+	SiteURL  string `json:"siteURL,omitempty"`
+	SiteType int    `json:"siteType,omitempty"`
+	SiteName string `json:"siteName,omitempty"`
 }
 
-func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, siteType int, siteName string, langs []string) GetSiteGeneralST {
+func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, siteType int, siteName string) GetSiteGeneralST {
 	return GetSiteGeneralST{
 		SiteSTBase: *siteSTBase,
 		SiteURL: siteURL,
 		SiteType: siteType,
 		SiteName: siteName,
-		Langs: langs,
+	}
+}
+
+type GetSiteLangsST struct {
+	SiteSTBase
+
+	Supported []apiSod.NameAndID `json:"supported,omitempty"`
+	Current   []string           `json:"current,omitempty"`
+}
+
+func NewGetSiteLangsST(siteSTBase *SiteSTBase, supported []apiSod.NameAndID, current []string) GetSiteLangsST {
+	return GetSiteLangsST{
+		SiteSTBase: *siteSTBase,
+		Supported: supported,
+		Current: current,
 	}
 }
 

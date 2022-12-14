@@ -13,6 +13,8 @@
  * See `lib/dev/sod/objects/mx.yaml` for details.
  ******************************************************************************************/
 
+import { NameAndID } from './api.js';
+
 export interface SiteSTBase {
   needRestart?: boolean;
 }
@@ -21,7 +23,11 @@ export interface GetSiteGeneralST extends SiteSTBase {
   siteURL?: string;
   siteType?: number;
   siteName?: string;
-  langs?: string[];
+}
+
+export interface GetSiteLangsST extends SiteSTBase {
+  supported?: NameAndID[];
+  current?: string[];
 }
 
 export interface SetSiteInfoSTData {

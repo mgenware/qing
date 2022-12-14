@@ -13,25 +13,15 @@
 
 package profileSod
 
-type ProfileLang struct {
-	ID   string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-}
-
-func NewProfileLang(id string, name string) ProfileLang {
-	return ProfileLang{
-		ID: id,
-		Name: name,
-	}
-}
+import "qing/sod/apiSod"
 
 type GetProfileLangResult struct {
-	UserLang     string        `json:"userLang,omitempty"`
-	AutoOptionLS string        `json:"autoOptionLS,omitempty"`
-	Langs        []ProfileLang `json:"langs,omitempty"`
+	UserLang     string             `json:"userLang,omitempty"`
+	AutoOptionLS string             `json:"autoOptionLS,omitempty"`
+	Langs        []apiSod.NameAndID `json:"langs,omitempty"`
 }
 
-func NewGetProfileLangResult(userLang string, autoOptionLS string, langs []ProfileLang) GetProfileLangResult {
+func NewGetProfileLangResult(userLang string, autoOptionLS string, langs []apiSod.NameAndID) GetProfileLangResult {
 	return GetProfileLangResult{
 		UserLang: userLang,
 		AutoOptionLS: autoOptionLS,

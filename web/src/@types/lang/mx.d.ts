@@ -24,6 +24,7 @@ export interface mxLSType {
   siteInfo: string;
   siteName: string;
   siteURL: string;
+  languages: string;
 }
 
 declare global {
