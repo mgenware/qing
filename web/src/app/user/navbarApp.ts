@@ -373,7 +373,7 @@ export default class NavbarApp extends BaseElement {
           <a href=${mRoute.profileSettings}>${globalThis.coreLS.settings}</a>
           ${when(
             user.admin,
-            () => html`<a href=${mxRoute.admins}>${globalThis.coreLS.siteSettings}</a>`,
+            () => html`<a href=${mxRoute.general}>${globalThis.coreLS.siteSettings}</a>`,
           )}
           <a href="#" @click=${this.handleSignOutClick}>${globalThis.coreLS.signOut}</a>
         </div>

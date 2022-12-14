@@ -200,6 +200,10 @@ export class Element extends LocatorCore {
   fillInput(value: string) {
     return this.$('input').c.fill(value);
   }
+
+  clearInput() {
+    return this.fillInput('');
+  }
 }
 
 export interface PageGotoOptions {
