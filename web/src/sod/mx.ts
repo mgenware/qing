@@ -26,8 +26,8 @@ export interface GetSiteGeneralST extends SiteSTBase {
 }
 
 export interface GetSiteLangsST extends SiteSTBase {
-  supported?: NameAndID[];
-  current?: string[];
+  supported: NameAndID[];
+  current: string[];
 }
 
 export interface SetSiteInfoSTData {

@@ -111,16 +111,11 @@ export interface coreLSType {
   numOfReplies: string;
   send: string;
   home: string;
-  adminAccounts: string;
-  featureOnlyAvailableToAdmins: string;
   userID: string;
   copy: string;
   copied: string;
   findUsersByColon: string;
-  addAnAdmin: string;
   noResultsFound: string;
-  removeAdmin: string;
-  removeAdminConfirmation: string;
   actions: string;
   thisIsYou: string;
   numOfFPosts: string;
@@ -162,7 +157,6 @@ export interface coreLSType {
   invalidDate: string;
   pFieldMinLenError: string;
   pFieldMaxLenError: string;
-  languages: string;
   displayLang: string;
   viewAllCmts: string;
   cmtNotFound: string;

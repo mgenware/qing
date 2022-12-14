@@ -25,6 +25,11 @@ export interface mxLSType {
   siteName: string;
   siteURL: string;
   languages: string;
+  adminAccounts: string;
+  featureOnlyAvailableToAdmins: string;
+  addAnAdmin: string;
+  removeAdmin: string;
+  removeAdminConfirmation: string;
 }
 
 declare global {

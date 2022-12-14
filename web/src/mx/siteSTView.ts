@@ -11,7 +11,8 @@ import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseVi
 
 const items: SettingsBaseItem[] = [
   { name: globalThis.coreLS.generalSettings, link: mxRoute.general },
-  { name: globalThis.coreLS.adminAccounts, link: mxRoute.admins },
+  { name: globalThis.mxLS.languages, link: mxRoute.languages },
+  { name: globalThis.mxLS.adminAccounts, link: mxRoute.admins },
 ];
 
 @customElement('site-st-view')

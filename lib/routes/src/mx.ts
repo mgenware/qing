@@ -9,3 +9,4 @@ const mx = '/mx';
 
 export const general = `${mx}/general`;
 export const admins = `${mx}/admins`;
+export const languages = `${mx}/languages`;

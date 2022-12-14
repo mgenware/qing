@@ -51,9 +51,9 @@ export class SiteAdminST extends StatefulPage {
   override renderContent() {
     return html`
       <div>
-        <heading-view>${globalThis.coreLS.adminAccounts}</heading-view>
+        <heading-view>${globalThis.mxLS.adminAccounts}</heading-view>
         ${this.renderAdmins()}
-        <subheading-view class="m-t-lg">${globalThis.coreLS.addAnAdmin}</subheading-view>
+        <subheading-view class="m-t-lg">${globalThis.mxLS.addAnAdmin}</subheading-view>
         <user-selector-app
           @user-selector-change=${(e: CustomEvent<UserInfo | null>) =>
             (this.userCandidate = e.detail)}></user-selector-app>
@@ -98,7 +98,7 @@ export class SiteAdminST extends StatefulPage {
           ${thisIsYou
             ? html`<tag-view tagStyle="warning">${globalThis.coreLS.thisIsYou}</tag-view>`
             : html`<link-button @click=${() => this.handleRemoveAdmin(user)}
-                >${globalThis.coreLS.removeAdmin}</link-button
+                >${globalThis.mxLS.removeAdmin}</link-button
               >`}
         </td>
       </tr>
@@ -108,7 +108,7 @@ export class SiteAdminST extends StatefulPage {
   private async handleRemoveAdmin(user: UserInfo) {
     const ok = await appAlert.confirm(
       globalThis.coreLS.warning,
-      strf(globalThis.coreLS.removeAdminConfirmation, user.name),
+      strf(globalThis.mxLS.removeAdminConfirmation, user.name),
     );
     if (!ok) {
       return;

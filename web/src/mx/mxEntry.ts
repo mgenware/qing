@@ -10,6 +10,7 @@ import { html, TemplateResult } from 'll';
 import * as mxRoute from '@qing/routes/d/mx';
 import './admins/siteAdminST';
 import './general/siteGeneralST';
+import './langs/siteLangST';
 import './siteSTView';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import * as pu from 'lib/pageUtil';
@@ -24,11 +25,15 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
 }
 
 router.register(mxRoute.admins, () => {
-  loadSettingsContent(globalThis.coreLS.adminAccounts, html`<site-admin-st></site-admin-st>`);
+  loadSettingsContent(globalThis.mxLS.adminAccounts, html`<site-admin-st></site-admin-st>`);
 });
 
 router.register(mxRoute.general, () => {
   loadSettingsContent(globalThis.coreLS.generalSettings, html`<site-general-st></site-general-st>`);
+});
+
+router.register(mxRoute.languages, () => {
+  loadSettingsContent(globalThis.mxLS.languages, html`<site-lang-st></site-lang-st>`);
 });
 
 router.startOnce();

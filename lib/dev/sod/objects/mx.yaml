@@ -12,9 +12,9 @@ GetSiteGeneralST:
 GetSiteLangsST:
   __extends: SiteSTBase
   # All supported langs.
-  supported: :sod.api.NameAndID[]
+  supported: :sod.api.NameAndID[]!
   # Currently selected langs of this site.
-  current: string[]
+  current: string[]!
 
 SetSiteInfoSTData:
   siteURL: string

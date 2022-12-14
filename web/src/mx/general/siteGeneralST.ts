@@ -43,29 +43,29 @@ export class SiteGeneralST extends StatefulPage {
     ];
   }
 
-  @state() needRestart = false;
-  @state() selectedSiteType: appdef.SiteType | undefined;
-  @state() siteName = '';
-  @state() siteURL = '';
+  @state() _needRestart = false;
+  @state() _selectedSiteType: appdef.SiteType | undefined;
+  @state() _siteName = '';
+  @state() _siteURL = '';
 
   override renderContent() {
     return html`
       <heading-view>${globalThis.coreLS.generalSettings}</heading-view>
-      ${when(this.needRestart, () => html`<need-restart-view></need-restart-view>`)}
+      ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
       <div class=${infoBlockCls}>
         <subheading-view>${globalThis.mxLS.siteInfo}</subheading-view>
 
         <input-view
           required
           label=${globalThis.mxLS.siteName}
-          value=${this.siteName}
-          @input-change=${(e: CustomEvent<string>) => (this.siteName = e.detail)}></input-view>
+          value=${this._siteName}
+          @input-change=${(e: CustomEvent<string>) => (this._siteName = e.detail)}></input-view>
 
         <input-view
           required
           label=${globalThis.mxLS.siteURL}
-          value=${this.siteURL}
-          @input-change=${(e: CustomEvent<string>) => (this.siteURL = e.detail)}></input-view>
+          value=${this._siteURL}
+          @input-change=${(e: CustomEvent<string>) => (this._siteURL = e.detail)}></input-view>
 
         <qing-button btnStyle="success" @click=${this.handleSaveSiteInfoClick}>
           ${globalThis.mxLS.saveSiteInfo}
@@ -76,9 +76,9 @@ export class SiteGeneralST extends StatefulPage {
         <subheading-view>${globalThis.mxLS.siteType}</subheading-view>
         <card-selector
           .items=${siteTypeOptions}
-          .selectedValue=${this.selectedSiteType}
+          .selectedValue=${this._selectedSiteType}
           @card-select=${this.handleSiteTypeChanged}></card-selector>
-        <site-type-selector .siteType=${this.selectedSiteType}></site-type-selector>
+        <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
         <div>
           <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
             ${globalThis.mxLS.saveSiteType}
@@ -93,23 +93,23 @@ export class SiteGeneralST extends StatefulPage {
     const status = await appTask.local(loader, (s) => (this.loadingStatus = s));
     const d = status.data;
     if (d) {
-      this.needRestart = !!d.needRestart;
-      this.siteName = d.siteName || '';
-      this.siteURL = d.siteURL || '';
-      this.selectedSiteType = d.siteType as appdef.SiteType;
+      this._needRestart = !!d.needRestart;
+      this._siteName = d.siteName || '';
+      this._siteURL = d.siteURL || '';
+      this._selectedSiteType = d.siteType as appdef.SiteType;
     }
   }
 
   private handleSiteTypeChanged(e: CustomEvent<CardSelectedDetail>) {
-    this.selectedSiteType = e.detail.item.value;
+    this._selectedSiteType = e.detail.item.value;
   }
 
   private async handleSaveSiteTypeClick() {
-    CHECK(this.selectedSiteType);
-    const loader = new SetSiteTypeSTLoader(this.selectedSiteType);
+    CHECK(this._selectedSiteType);
+    const loader = new SetSiteTypeSTLoader(this._selectedSiteType);
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
     if (status.isSuccess) {
-      this.needRestart = true;
+      this._needRestart = true;
     }
   }
 
@@ -117,11 +117,11 @@ export class SiteGeneralST extends StatefulPage {
     if (!this.validateInfoForm()) {
       return;
     }
-    CHECK(this.selectedSiteType);
-    const loader = new SetSiteInfoSTLoader({ siteName: this.siteName, siteURL: this.siteURL });
+    CHECK(this._selectedSiteType);
+    const loader = new SetSiteInfoSTLoader({ siteName: this._siteName, siteURL: this._siteURL });
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
     if (status.isSuccess) {
-      this.needRestart = true;
+      this._needRestart = true;
     }
   }
 
