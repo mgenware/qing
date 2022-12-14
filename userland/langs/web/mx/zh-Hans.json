@@ -12,5 +12,6 @@
   "supportedLangs": "支持的语言",
   "siteInfo": "网站信息",
   "siteName": "网站名称",
-  "siteURL": "网站地址"
+  "siteURL": "网站地址",
+  "languages": "语言"
 }
