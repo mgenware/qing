@@ -12,7 +12,7 @@ import * as alt from 'br/com/overlays/alert.js';
 import * as cm from './common.js';
 import { checkPageLocale } from 'br/routes/common.js';
 
-const langSettingsSel = 'lang-settings';
+const langSettingsSel = 'lang-st';
 const defOptions = [
   'Auto (based on browser settings)',
   'English (English)',
