@@ -365,6 +365,7 @@ qing-button.icon::part(button) {
   color: var(--app-default-secondary-fore-color);
   background-color: transparent;
   border: 0;
+  --button-outline-color: transparent;
 }
 qing-button.icon svg-icon {
   --svg-icon-fill: var(--app-default-secondary-fore-color);

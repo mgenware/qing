@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable no-alert */
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, state } from 'll';
 import 'qing-button';
 import 'qing-dock-box';
 import 'ui/alerts/alertView';
@@ -18,6 +18,7 @@ import 'ui/status/statusOverlay';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
 import 'ui/forms/selectView';
+import 'ui/forms/checkmarkView';
 import 'ui/lists/linkListView';
 import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
@@ -28,6 +29,7 @@ import { appdef } from '@qing/def';
 import appAlert from 'app/appAlert';
 import ErrorWithCode from 'lib/errorWithCode';
 import delay from 'lib/delay';
+import * as cu from 'lib/collectionUtil';
 
 const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
@@ -119,8 +121,9 @@ export class ElementsPage extends BaseElement {
     ];
   }
 
-  @property({ type: Array }) checklistIndices1: readonly number[] = [];
-  @property({ type: Array }) checklistIndices2: readonly number[] = [];
+  @state() _checklistIndices1: readonly number[] = [];
+  @state() _checklistIndices2: readonly number[] = [];
+  @state() _selectedCheckmarks = new Set<string>();
 
   override render() {
     return html`
@@ -229,16 +232,33 @@ export class ElementsPage extends BaseElement {
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
       <checklist-view
-        @checklist-change=${(e: CustomEvent<number[]>) => (this.checklistIndices1 = e.detail)}
+        @checklist-change=${(e: CustomEvent<number[]>) => (this._checklistIndices1 = e.detail)}
         class="m-t-md"
         multiSelect
-        .selectedIndices=${this.checklistIndices1}
+        .selectedIndices=${this._checklistIndices1}
         .dataSource=${checklistViewData}></checklist-view>
       <checklist-view
-        @checklist-change=${(e: CustomEvent<number[]>) => (this.checklistIndices2 = e.detail)}
+        @checklist-change=${(e: CustomEvent<number[]>) => (this._checklistIndices2 = e.detail)}
         class="m-t-md"
-        .selectedIndices=${this.checklistIndices2}
+        .selectedIndices=${this._checklistIndices2}
         .dataSource=${checklistViewData}></checklist-view>
+      <div class="m-t-md">
+        <checkmark-list>
+          ${checklistViewData.map(
+            (d) =>
+              html`<checkmark-view
+                .checked=${this._selectedCheckmarks.has(d)}
+                @click=${() =>
+                  (this._selectedCheckmarks = cu.toggleSetMember(
+                    this._selectedCheckmarks,
+                    d,
+                    true,
+                  ))}
+                >${d}</checkmark-view
+              >`,
+          )}
+        </checkmark-list>
+      </div>
       <p>
         <select-view .dataSource=${checklistViewData}></select-view>
       </p>

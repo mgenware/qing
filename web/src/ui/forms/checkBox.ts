@@ -8,6 +8,7 @@
 import { BaseElement, customElement, html, css, property } from 'll';
 
 @customElement('check-box')
+// Deprecated, use checkmark-view.
 export class CheckBox extends BaseElement {
   static override get styles() {
     return [

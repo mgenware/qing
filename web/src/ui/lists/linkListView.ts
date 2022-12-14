@@ -42,7 +42,7 @@ export class LinkListView extends BaseElement {
 
   override render() {
     return html`
-      <div class="menu">
+      <div>
         <slot></slot>
       </div>
     `;
