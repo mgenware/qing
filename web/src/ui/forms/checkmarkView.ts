@@ -68,7 +68,7 @@ export class CheckmarkView extends BaseElement {
     ];
   }
 
-  @property({ type: Boolean }) checked = false;
+  @property({ type: Boolean, reflect: true }) checked = false;
 
   override render() {
     return html`

@@ -10,7 +10,7 @@ import 'ui/forms/checkBox';
 import 'ui/status/statusView';
 import 'ui/content/headingView';
 import 'ui/content/subheadingView';
-import 'ui/forms/cardSelector';
+import 'ui/forms/checkmarkView';
 import 'ui/status/statefulPage';
 import '../cm/needRestartView';
 import '../cm/siteTypeSelector';
@@ -19,6 +19,7 @@ import appTask from 'app/appTask';
 import { GetLangSiteSTLoader } from '../loaders/getSiteSTLoader';
 import { SetSiteLangsSTLoader } from 'mx/loaders/setSiteSTLoader';
 import { NameAndID } from 'sod/api';
+import * as cu from 'lib/collectionUtil';
 
 @customElement('site-lang-st')
 export class SiteLangST extends StatefulPage {
@@ -35,7 +36,7 @@ export class SiteLangST extends StatefulPage {
 
   @state() _needRestart = false;
   @state() _supportedLangs: NameAndID[] = [];
-  @state() _langs: string[] = [];
+  @state() _selectedLangs = new Set<string>();
 
   override renderContent() {
     return html`
@@ -43,7 +44,16 @@ export class SiteLangST extends StatefulPage {
       ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
       <div>
         <subheading-view>${globalThis.mxLS.supportedLangs}</subheading-view>
-        ${this._supportedLangs.map((lang) => html`<div>${lang.name}</div>`)}
+        <checkmark-list>
+          ${this._supportedLangs.map(
+            (lang) => html`<checkmark-view
+              .checked=${this._selectedLangs.has(lang.id)}
+              @click=${() =>
+                (this._selectedLangs = cu.toggleSetMember(this._selectedLangs, lang.id, true))}
+              >${lang.name}</checkmark-view
+            >`,
+          )}
+        </checkmark-list>
         <div class="m-t-md">
           <qing-button btnStyle="success" @click=${this.handleSaveClick}>
             ${globalThis.coreLS.save}
@@ -60,11 +70,12 @@ export class SiteLangST extends StatefulPage {
     if (d) {
       this._needRestart = !!d.needRestart;
       this._supportedLangs = d.supported;
+      this._selectedLangs = new Set(d.current);
     }
   }
 
   private async handleSaveClick() {
-    const loader = new SetSiteLangsSTLoader(this._langs);
+    const loader = new SetSiteLangsSTLoader([...this._selectedLangs]);
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
     if (status.isSuccess) {
       this._needRestart = true;
