@@ -45,3 +45,14 @@ test('Site settings - Site info - Required fields', async ({ page }) => {
   await urlEl.clearInput();
   await ivh.shouldHaveRequiredError(urlEl);
 });
+
+test('Site settings - Site info - Update site name', async ({ page }) => {
+  const p = $(page);
+  await p.goto(mxRoute.general, usr.admin);
+
+  const contentEl = p.$(infoSectionSel);
+
+  const siteEl = contentEl.$inputView('Site name');
+  await siteEl.fillInput('__MOD__');
+  await contentEl.$qingButton('Save site information').click();
+});

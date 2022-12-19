@@ -70,6 +70,9 @@ func apiRouter() *handler.JSONRouter {
 
 	// Mail router
 	r.Mount("/mails", mails.Router)
+
+	// Conf router.
+	r.Mount("/conf", confRouter)
 	return r
 }
 
