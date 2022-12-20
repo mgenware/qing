@@ -56,6 +56,7 @@ importers:
       '@types/uuid': ^9.0.0
       cookie: ^0.5.0
       expect: ^29.3.1
+      just-diff: ^5.2.0
       mocha: ^10.2.0
       node-fetch: ^3.3.0
       node-html-parser: 6.1.4
@@ -76,6 +77,7 @@ importers:
       '@types/set-cookie-parser': 2.4.2
       '@types/uuid': 9.0.0
       expect: 29.3.1
+      just-diff: 5.2.0
       mocha: 10.2.0
       node-fetch: 3.3.0
       source-map-support: 0.5.21
@@ -3885,6 +3887,10 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.6
+    dev: true
+
+  /just-diff/5.2.0:
+    resolution: {integrity: sha512-6ufhP9SHjb7jibNFrNxyFZ6od3g+An6Ai9mhGRvcYe8UJlH0prseN64M+6ZBBUoKYHZsitDP42gAJ8+eVWr3lw==}
     dev: true
 
   /kangxi-editor/0.15.0:
