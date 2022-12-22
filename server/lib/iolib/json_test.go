@@ -20,7 +20,7 @@ func TestReadJSONFile(t *testing.T) {
 	f, err := os.CreateTemp("", "ReadJSONFile")
 	assert.Nil(err)
 
-	err = iolib.WriteFile(f.Name(), []byte("{\"int\":1,\"str\":\"123四五六\"}"))
+	err = WriteFile(f.Name(), []byte("{\"int\":1,\"str\":\"123四五六\"}"))
 	assert.Nil(err)
 
 	var v map[string]any
