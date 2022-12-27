@@ -121,7 +121,7 @@ function mustGetDevConf(argIdx: number) {
       case 's-ut': {
         const arg1 = processArgs[1];
         await sp.spawnDockerComposeCmd(
-          ['exec', '-e', 'UT=1', 'server', 'go', 'test', arg1 || './...'],
+          ['exec', '-e', 'QING_UT=1', 'server', 'go', 'test', arg1 || './...'],
           await iou.getProjectDir(serverDir),
           mustGetDevConf(1),
         );
