@@ -23,7 +23,7 @@ We usually follow the standard Go naming conventions with some additions.
 ## Run server unit tests
 
 ```sh
-QING_UI=1 go test ./...
+QING_UT=1 go test ./...
 ```
 
 ## Development scripts
