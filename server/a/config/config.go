@@ -62,6 +62,10 @@ func (conf *Config) ProductionMode() bool {
 	return !conf.DevMode()
 }
 
+func IsFirstRun() bool {
+	return os.Getenv("QING_FR") == "1"
+}
+
 func readConfigCore(absFile string) (*Config, error) {
 	log.Printf("Loading config at \"%v\"", absFile)
 	var conf Config
