@@ -78,7 +78,7 @@ function generateDockerComposeObj(_name: string, conf: QingConfSchema) {
   setRestartField(server, conf);
 
   const ms = {
-    image: 'redis:6',
+    image: 'redis:7',
     ports: ['6379:6379'],
   };
   setRestartField(ms, conf);
