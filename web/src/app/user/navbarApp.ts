@@ -56,7 +56,6 @@ export default class NavbarApp extends BaseElement {
 
         hr {
           margin: 0.3rem;
-          border-top-color: gray;
         }
 
         .navbar-row {
