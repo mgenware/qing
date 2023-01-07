@@ -25,8 +25,6 @@ import (
 type Config struct {
 	// Specifies another file which this file extends from.
 	Extends string `json:"extends,omitempty"`
-	// Defines core properties of this website.
-	Site *configs.SiteConfig `json:"site,omitempty"`
 	// Determines if this app is currently running in dev mode.
 	// Set it to null in production mode.
 	Dev *configs.DevConfig `json:"dev,omitempty"`

@@ -18,14 +18,14 @@ import (
 	"qing/a/appCookies"
 	"qing/a/appLog"
 	"qing/a/appcom"
-	"qing/a/config/configs"
 	"qing/a/def"
 	"qing/a/def/appdef"
 	"qing/a/def/infdef"
+	"qing/a/sitest"
 )
 
 type Manager struct {
-	conf         *configs.SiteConfig
+	siteSettings *sitest.SiteSettings
 	fallbackDict *Dictionary
 	fallbackLang string
 	lsDict       map[string]*Dictionary
@@ -36,13 +36,13 @@ type Manager struct {
 }
 
 // NewManagerFromConfig creates a Manager from a config.
-func NewManagerFromConfig(conf *configs.SiteConfig) (*Manager, error) {
-	if len(conf.Langs) == 0 {
+func NewManagerFromConfig(siteSettings *sitest.SiteSettings) (*Manager, error) {
+	if len(siteSettings.Langs) == 0 {
 		return nil, errors.New("unexpected empty `langs` field")
 	}
 
 	lsDict := make(map[string]*Dictionary)
-	for _, langName := range conf.Langs {
+	for _, langName := range siteSettings.Langs {
 		dictPath := filepath.Join(infdef.LangsDir, langName+".json")
 		appLog.Get().Info("app.ls.loading", "file", dictPath)
 		d, err := ParseDictionary(dictPath)
@@ -52,13 +52,13 @@ func NewManagerFromConfig(conf *configs.SiteConfig) (*Manager, error) {
 		lsDict[langName] = d
 	}
 
-	fallbackLang := conf.Langs[0]
+	fallbackLang := siteSettings.Langs[0]
 	fallbackDict := lsDict[fallbackLang]
 
 	var matcher language.Matcher
 	var tags []language.Tag
-	if len(conf.Langs) > 0 {
-		for _, langName := range conf.Langs {
+	if len(siteSettings.Langs) > 0 {
+		for _, langName := range siteSettings.Langs {
 			t := language.MustParse(langName)
 			tags = append(tags, t)
 		}
@@ -69,7 +69,7 @@ func NewManagerFromConfig(conf *configs.SiteConfig) (*Manager, error) {
 		return nil, errors.New("unexpected nil `fallbackDict`")
 	}
 
-	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, conf: conf}, nil
+	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, siteSettings: siteSettings}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.

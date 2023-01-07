@@ -15,6 +15,7 @@ import (
 	"qing/a/config"
 	"qing/a/coretype"
 	"qing/a/handler"
+	"qing/a/sitest"
 	"qing/a/urlx"
 	"qing/da"
 )
@@ -25,8 +26,9 @@ type UserManager struct {
 	mainPageManager handler.CorePageManager
 	db              coretype.CoreDB
 
-	appURL *urlx.URL
-	conf   *config.Config
+	appURL       *urlx.URL
+	conf         *config.Config
+	siteSettings *sitest.SiteSettings
 
 	// [Test mode only] K: UID, V: SID.
 	testSIDMap map[uint64]string
@@ -39,8 +41,9 @@ func NewUserManager(
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
 	conf *config.Config,
+	siteSettings *sitest.SiteSettings,
 ) *UserManager {
-	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf}
+	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf, siteSettings: siteSettings}
 	if config.IsUT() {
 		ret.testSIDMap = make(map[uint64]string)
 	}
@@ -99,7 +102,7 @@ func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Hand
 // Fetches user info from DB and creates an `appcom.SessionUser`.
 func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
 	db := appu.db
-	if appu.conf.Site.ForumSite() {
+	if appu.siteSettings.ForumSite() {
 		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
 		if err != nil {
 			return nil, err

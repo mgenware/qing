@@ -11,6 +11,7 @@
   "langsDir": "/qing/langs",
   "migrationsDir": "/qing/migrations",
   "configFile": "/qing_data/app/config.json",
+  "siteSettingsFile": "/qing_data/app/site_settings.json",
   "profileFile": "/qing_data/app/profile.json",
   "devConfEnv": "QING_DCONF"
 }
