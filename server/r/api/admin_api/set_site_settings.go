@@ -13,7 +13,7 @@ import (
 	"math"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
+	"qing/a/appSiteST"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -29,11 +29,11 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 	// Get settings JSON string.
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
 
-	mutex := appConf.DiskMutex()
+	mutex := appSiteST.DiskMutex()
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	c := appConf.DiskConfigUnsafe()
+	c := appSiteST.DiskConfigUnsafe()
 
 	switch appdef.SetSiteSettings(key) {
 	case appdef.SetSiteSettingsSiteType:
@@ -43,7 +43,7 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 		if siteType <= 0 {
 			panic("invalid site type value")
 		}
-		c.Site.SiteType = siteType
+		c.SiteType = siteType
 
 	case appdef.SetSiteSettingsLangs:
 		var langs []string
@@ -52,20 +52,20 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 		if len(langs) == 0 {
 			panic("error updating langs settings: empty array is not allowed")
 		}
-		c.Site.Langs = langs
+		c.Langs = langs
 
 	case appdef.SetSiteSettingsInfo:
 		var infoData mxSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
 		app.PanicOn(err)
-		c.Site.SiteName = infoData.SiteName
-		c.Site.SiteURL = infoData.SiteURL
+		c.SiteName = infoData.SiteName
+		c.SiteURL = infoData.SiteURL
 
 	default:
 		return resp.MustFail(fmt.Sprintf("unknown settings key \"%v\"", key))
 	}
 
-	err := appConf.UpdateDiskConfigUnsafe(c)
+	err := appSiteST.UpdateDiskConfigUnsafe(c)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

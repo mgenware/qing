@@ -11,9 +11,9 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appService"
+	"qing/a/appSiteST"
 	"qing/a/appURL"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -45,7 +45,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Add a new entry.
 		captResult := 0
 		var forumID *uint64
-		if appConf.Get().Site.ForumSite() && entityType != appdef.ContentBaseTypePost {
+		if appSiteST.Get().ForumSite() && entityType != appdef.ContentBaseTypePost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

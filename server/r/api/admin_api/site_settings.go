@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
+	"qing/a/appSiteST"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -24,14 +24,13 @@ func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
 	key := clib.MustGetIntFromDict(params, "key")
 
-	mutex := appConf.DiskMutex()
+	mutex := appSiteST.DiskMutex()
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	needRestart := appConf.GetNeedRestart()
+	needRestart := appSiteST.GetNeedRestart()
 	stBase := mxSod.NewSiteSTBase(needRestart)
-	c := appConf.DiskConfigUnsafe()
-	sc := c.Site
+	sc := appSiteST.DiskConfigUnsafe()
 
 	switch appdef.GetSiteSettings(key) {
 	case appdef.GetSiteSettingsGeneral:
@@ -42,7 +41,7 @@ func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 		supportedLangs, err := apicom.GetSiteSupportedLangs()
 		app.PanicOn(err)
 
-		currentLangs := c.Site.Langs
+		currentLangs := sc.Langs
 		langSTData := mxSod.NewGetSiteLangsST(&stBase, supportedLangs, currentLangs)
 		return resp.MustComplete(langSTData)
 
