@@ -1,18 +1,15 @@
 // Generated on https://transform.tools/json-schema-to-typescript
 
-export interface QingConfSchema {
+export interface QingConfigSchema {
   extends?: string;
   dev?: DevConfig;
   logging: LoggingConfig;
   http: HttpConfig;
   templates: TemplatesConfig;
-  localization: LocalizationConfig;
   app_profile: AppProfileConfig;
-  app_settings: AppSettingsConfig;
   db: DbConfig;
   res_server: ResServerConfig;
   extern: ExternConfig;
-  site: SiteConfig;
   [k: string]: unknown;
 }
 export interface DevConfig {
@@ -48,17 +45,8 @@ export interface TemplatesConfig {
   dir: string;
   [k: string]: unknown;
 }
-export interface LocalizationConfig {
-  dir: string;
-  langs: [string, ...string[]];
-  [k: string]: unknown;
-}
 export interface AppProfileConfig {
   dir: string;
-  [k: string]: unknown;
-}
-export interface AppSettingsConfig {
-  file: string;
   [k: string]: unknown;
 }
 export interface DbConfig {
@@ -85,9 +73,5 @@ export interface ExternConfig {
     port: number;
     [k: string]: unknown;
   };
-  [k: string]: unknown;
-}
-export interface SiteConfig {
-  type: number;
   [k: string]: unknown;
 }

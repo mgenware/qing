@@ -31,23 +31,6 @@
       },
       "required": ["dir"]
     },
-    "site_config": {
-      "type": "object",
-      "properties": {
-        "site_type": { "type": "number" },
-        "site_url": { "type": "string" },
-        "site_name": { "type": "string" },
-        "langs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "uniqueItems": true
-        }
-      },
-      "required": ["site_type", "site_url", "site_name", "langs"]
-    },
     "http_config": {
       "type": "object",
       "properties": {
@@ -138,11 +121,9 @@
     "app_profile": { "$ref": "#/definitions/app_profile_config" },
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
-    "extern": { "$ref": "#/definitions/extern_config" },
-    "site": { "$ref": "#/definitions/site_config" }
+    "extern": { "$ref": "#/definitions/extern_config" }
   },
   "required": [
-    "site",
     "logging",
     "http",
     "templates",
