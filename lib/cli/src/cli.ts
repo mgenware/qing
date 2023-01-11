@@ -8,7 +8,6 @@
  */
 
 import errMsg from 'catch-err-msg';
-import * as np from 'node:path';
 import * as iou from './ioutil.js';
 import * as sp from './spawn.js';
 
@@ -193,12 +192,6 @@ function mustGetDevConf(argIdx: number) {
             mustGetDevConf(2),
           );
         }
-        break;
-      }
-
-      case 'mail': {
-        const inboxDir = np.join(await iou.getProjectDir(''), 'volumes/qing_data/mailbox');
-        iou.print(inboxDir);
         break;
       }
 
