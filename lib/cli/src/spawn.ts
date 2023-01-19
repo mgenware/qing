@@ -37,7 +37,7 @@ export async function spawnDockerComposeCmd(args: string[], dir: string, configN
   return pipedSpawn('docker', {
     args: ['compose', '-f', 'dev.docker-compose.yml', ...args],
     workingDir: dir,
-    env: { QING_DEV_CONF: configName },
+    env: { QING_DEV_CONF: configName, QING_DEV_SITE_ST: '1' },
   });
 }
 
