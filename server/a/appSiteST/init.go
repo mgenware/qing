@@ -25,6 +25,7 @@ var needRestart bool
 func init() {
 	diskMutex = &sync.Mutex{}
 
+	fmt.Printf("Reading site settings at %v\n", infdef.SiteSettingsFile)
 	st, err := sitest.ReadSiteSettings(infdef.SiteSettingsFile)
 	if err != nil {
 		panic(err)
