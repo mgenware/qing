@@ -12,7 +12,8 @@ version: '3.9'
 services:
   server:
     environment:
-      - QING_DCONF
+      - QING_DEV_CONF
+      - QING_DEV_SITE_ST
     build:
       context: .
       dockerfile: dev.dockerfile
