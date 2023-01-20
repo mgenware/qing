@@ -1,9 +1,4 @@
 {
-  "site": {
-    "site_url": "https://github.com/mgenware/qing",
-    "site_name": "__QING__",
-    "langs": ["en", "zh-Hans"]
-  },
   "extern": {
     "redis": {
       "port": 6379

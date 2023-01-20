@@ -9,6 +9,8 @@ package appSiteST
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"qing/a/def/infdef"
 	"qing/a/sitest"
 	"qing/lib/iolib"
@@ -25,8 +27,15 @@ var needRestart bool
 func init() {
 	diskMutex = &sync.Mutex{}
 
-	fmt.Printf("Reading site settings at %v\n", infdef.SiteSettingsFile)
-	st, err := sitest.ReadSiteSettings(infdef.SiteSettingsFile)
+	var settingsFile string
+	if os.Getenv(infdef.DevSiteSettingsEnv) == "1" {
+		settingsFile = filepath.Join(infdef.DevConfigDir, "site_settings.json")
+	} else {
+		settingsFile = infdef.SiteSettingsFile
+	}
+
+	fmt.Printf("Reading site settings at %v\n", settingsFile)
+	st, err := sitest.ReadSiteSettings(settingsFile)
 	if err != nil {
 		panic(err)
 	}

@@ -47,7 +47,7 @@ type Config struct {
 
 // Returns true if unit test mode is on.
 func IsUT() bool {
-	return os.Getenv("QING_UT") == "1"
+	return os.Getenv(infdef.UtEnv) == "1"
 }
 
 // Returns true if dev mode is on.
