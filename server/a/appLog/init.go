@@ -9,7 +9,7 @@ package appLog
 
 import (
 	"qing/a/appConf"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/a/coretype"
 	"qing/a/logx"
 )
@@ -17,12 +17,12 @@ import (
 var logger coretype.CoreLogger
 
 func init() {
-	conf := appConf.Get()
-	if config.IsUT() {
+	config := appConf.Get()
+	if conf.IsUT() {
 		logger = NewTestLogger()
 	} else {
 		var err error
-		logger, err = logx.NewLogger(conf.Log.Dir, conf.DevMode())
+		logger, err = logx.NewLogger(config.Log.Dir, config.DevMode())
 		if err != nil {
 			panic(err)
 		}

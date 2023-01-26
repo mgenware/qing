@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package configs
+package confs
 
 type TemplatesConfig struct {
 	Dir string `json:"dir,omitempty"`

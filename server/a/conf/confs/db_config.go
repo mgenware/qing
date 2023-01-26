@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package configs
+package confs
 
 // DBConfig ...
 type DBConfig struct {

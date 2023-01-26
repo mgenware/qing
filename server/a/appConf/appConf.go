@@ -10,32 +10,32 @@ package appConf
 import (
 	"os"
 	"path/filepath"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/a/def/infdef"
 )
 
-var conf *config.Config
-var confPath string
+var config *conf.Config
+var configPath string
 
 func init() {
-	if config.IsUT() {
+	if conf.IsUT() {
 		// Unit test mode.
-		confPath = devConfigFile("ut")
+		configPath = devConfigFile("ut")
 	} else {
 		devConfigName := os.Getenv(infdef.DevConfEnv)
 		if devConfigName != "" {
-			confPath = devConfigFile(devConfigName)
+			configPath = devConfigFile(devConfigName)
 		} else {
-			confPath = infdef.ConfigFile
+			configPath = infdef.ConfigFile
 		}
 	}
 
 	// Read config file
-	conf = config.MustReadConfig(confPath)
+	config = conf.MustReadConfig(configPath)
 }
 
-func Get() *config.Config {
-	return conf
+func Get() *conf.Config {
+	return config
 }
 
 func devConfigFile(name string) string {

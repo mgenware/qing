@@ -14,7 +14,7 @@ import (
 	"path/filepath"
 	"qing/a/appConf"
 	"qing/a/appcom"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/a/coretype"
 	"qing/a/sitest"
 
@@ -30,7 +30,7 @@ const coreScriptEntry = "core"
 // MainPageManager is used to generate site main HTML page.
 type MainPageManager struct {
 	dir          string
-	conf         *config.Config
+	config       *conf.Config
 	siteSettings *sitest.SiteSettings
 	log404Error  bool
 
@@ -45,24 +45,24 @@ type MainPageManager struct {
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
-	conf *config.Config,
+	config *conf.Config,
 	siteSettings *sitest.SiteSettings,
 	logger coretype.CoreLogger,
 	lsMgr localization.CoreManager,
 ) *MainPageManager {
-	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
+	reloadViewsOnRefresh := config.Dev != nil && config.Dev.ReloadViewsOnRefresh
 
-	asMgr := NewAssetManager(conf.DevMode(), conf.HTTP.Static.URL, conf.HTTP.Static.Dir)
+	asMgr := NewAssetManager(config.DevMode(), config.HTTP.Static.URL, config.HTTP.Static.Dir)
 
 	t := &MainPageManager{
 		lsMgr:                lsMgr,
 		asMgr:                asMgr,
 		logger:               logger,
-		conf:                 conf,
+		config:               config,
 		siteSettings:         siteSettings,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
-		dir:                  conf.Templates.Dir,
-		log404Error:          conf.HTTP.Log404Error,
+		dir:                  config.Templates.Dir,
+		log404Error:          config.HTTP.Log404Error,
 	}
 
 	// Load the main template.

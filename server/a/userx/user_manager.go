@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"qing/a/appHandler"
 	"qing/a/appcom"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/a/coretype"
 	"qing/a/handler"
 	"qing/a/sitest"
@@ -27,7 +27,7 @@ type UserManager struct {
 	db              coretype.CoreDB
 
 	appURL       *urlx.URL
-	conf         *config.Config
+	config       *conf.Config
 	siteSettings *sitest.SiteSettings
 
 	// [Test mode only] K: UID, V: SID.
@@ -40,11 +40,11 @@ func NewUserManager(
 	ssMgr *SessionManager,
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
-	conf *config.Config,
+	config *conf.Config,
 	siteSettings *sitest.SiteSettings,
 ) *UserManager {
-	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, conf: conf, siteSettings: siteSettings}
-	if config.IsUT() {
+	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, config: config, siteSettings: siteSettings}
+	if conf.IsUT() {
 		ret.testSIDMap = make(map[uint64]string)
 	}
 	return ret
@@ -60,7 +60,7 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 }
 
 func (appu *UserManager) TestLogin(uid uint64) {
-	if !config.IsUT() {
+	if !conf.IsUT() {
 		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 	user, err := appu.createUserSessionFromUID(uid)
@@ -80,7 +80,7 @@ func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (appu *UserManager) TestLogout(uid uint64) error {
-	if !config.IsUT() {
+	if !conf.IsUT() {
 		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 

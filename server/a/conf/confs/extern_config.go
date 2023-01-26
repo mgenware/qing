@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package configs
+package confs
 
 type ExternConfig struct {
 	Redis      *ExternRedisConfig `json:"redis,omitempty"`

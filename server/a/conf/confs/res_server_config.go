@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package configs
+package confs
 
 // ResServerConfig ...
 type ResServerConfig struct {

@@ -18,18 +18,18 @@ import (
 	"qing/a/appSiteST"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/r"
 )
 
 func main() {
 	// Load core modules.
-	conf := appConf.Get()
+	config := appConf.Get()
 	logger := appLog.Get()
 
-	if config.IsUT() {
+	if conf.IsUT() {
 		logger.Warn("🟣 app.running.ut")
-	} else if conf.DevMode() {
+	} else if config.DevMode() {
 		logger.Warn("🟡 app.running.dev")
 	}
 
@@ -37,7 +37,7 @@ func main() {
 	r.Start()
 
 	// Preload core modules in production mode.
-	if conf.ProductionMode() {
+	if config.ProductionMode() {
 		appSiteST.Get()
 		appProfile.Get()
 		appDB.Get()

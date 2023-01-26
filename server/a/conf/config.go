@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-package config
+package conf
 
 import (
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
-	"qing/a/config/configs"
+	"qing/a/conf/confs"
 	"qing/a/def/infdef"
 	"qing/lib/iolib"
 	"runtime"
@@ -27,22 +27,22 @@ type Config struct {
 	Extends string `json:"extends,omitempty"`
 	// Determines if this app is currently running in dev mode.
 	// Set it to null in production mode.
-	Dev *configs.DevConfig `json:"dev,omitempty"`
+	Dev *confs.DevConfig `json:"dev,omitempty"`
 	// Log config data.
-	Log *configs.LoggingConfig `json:"logging,omitempty"`
+	Log *confs.LoggingConfig `json:"logging,omitempty"`
 	// HTTP config data.
-	HTTP *configs.HTTPConfig `json:"http,omitempty"`
+	HTTP *confs.HTTPConfig `json:"http,omitempty"`
 	// Templates config data.
-	Templates *configs.TemplatesConfig `json:"templates,omitempty"`
+	Templates *confs.TemplatesConfig `json:"templates,omitempty"`
 
-	AppProfile  *configs.AppProfileConfig  `json:"app_profile,omitempty"`
-	AppSettings *configs.AppSettingsConfig `json:"app_settings,omitempty"`
+	AppProfile  *confs.AppProfileConfig  `json:"app_profile,omitempty"`
+	AppSettings *confs.AppSettingsConfig `json:"app_settings,omitempty"`
 
-	DB        *configs.DBConfig        `json:"db,omitempty"`
-	ResServer *configs.ResServerConfig `json:"res_server,omitempty"`
+	DB        *confs.DBConfig        `json:"db,omitempty"`
+	ResServer *confs.ResServerConfig `json:"res_server,omitempty"`
 
 	// External configs.
-	Extern *configs.ExternConfig `json:"extern,omitempty"`
+	Extern *confs.ExternConfig `json:"extern,omitempty"`
 }
 
 // Returns true if unit test mode is on.
@@ -51,13 +51,13 @@ func IsUT() bool {
 }
 
 // Returns true if dev mode is on.
-func (conf *Config) DevMode() bool {
-	return conf.Dev != nil
+func (c *Config) DevMode() bool {
+	return c.Dev != nil
 }
 
 // Returns true if production mode is on.
-func (conf *Config) ProductionMode() bool {
-	return !conf.DevMode()
+func (c *Config) ProductionMode() bool {
+	return !c.DevMode()
 }
 
 func IsFirstRun() bool {
@@ -108,13 +108,13 @@ func MustReadConfig(absFile string) *Config {
 	return conf
 }
 
-func mustValidateConfig(conf *Config) {
+func mustValidateConfig(c *Config) {
 	// Validate with JSON schema.
 	log.Printf("Validating config against schema \"%v\"", infdef.ConfigSchemaFile)
 
 	schemaFilePath := toFileURI(infdef.ConfigSchemaFile)
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
-	documentLoader := gojsonschema.NewGoLoader(conf)
+	documentLoader := gojsonschema.NewGoLoader(c)
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
@@ -131,7 +131,7 @@ func mustValidateConfig(conf *Config) {
 
 	if IsUT() {
 		// Test flag is forbidden in production.
-		if conf.ProductionMode() {
+		if c.ProductionMode() {
 			panic(fmt.Errorf("you cannot have test mode set in production mode"))
 		}
 	}

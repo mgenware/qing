@@ -14,7 +14,7 @@ import (
 	"qing/a/appLog"
 	"qing/a/appSiteST"
 	"qing/a/appURL"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/a/userx"
 )
 
@@ -22,7 +22,7 @@ var userManager *userx.UserManager
 var testAccounts = []uint64{101, 102}
 
 func init() {
-	conf := appConf.Get()
+	config := appConf.Get()
 	logger := appLog.Get()
 	urlx := appURL.Get()
 	db := appDB.Get()
@@ -34,8 +34,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, conf, siteST)
-	if config.IsUT() {
+	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, config, siteST)
+	if conf.IsUT() {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)
 		}

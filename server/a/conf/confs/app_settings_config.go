@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package configs
+package confs
 
 type AppSettingsConfig struct {
 	File string `json:"file,omitempty"`

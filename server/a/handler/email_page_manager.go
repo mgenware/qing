@@ -10,8 +10,8 @@ package handler
 import (
 	"fmt"
 	"path/filepath"
-	"qing/a/config"
 
+	"qing/a/conf"
 	"qing/a/handler/localization"
 
 	"github.com/mgenware/goutil/templatex"
@@ -19,8 +19,8 @@ import (
 
 // EmailPageManager is used to generate an email HTML page.
 type EmailPageManager struct {
-	dir  string
-	conf *config.Config
+	dir    string
+	config *conf.Config
 
 	reloadViewsOnRefresh bool
 
@@ -29,16 +29,16 @@ type EmailPageManager struct {
 }
 
 func MustCreateEmailPageManager(
-	conf *config.Config,
+	config *conf.Config,
 	lsMgr localization.CoreManager,
 ) *EmailPageManager {
-	reloadViewsOnRefresh := conf.Dev != nil && conf.Dev.ReloadViewsOnRefresh
+	reloadViewsOnRefresh := config.Dev != nil && config.Dev.ReloadViewsOnRefresh
 
 	t := &EmailPageManager{
 		lsMgr:                lsMgr,
-		conf:                 conf,
+		config:               config,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
-		dir:                  filepath.Join(conf.Templates.Dir, "email"),
+		dir:                  filepath.Join(config.Templates.Dir, "email"),
 	}
 
 	// Load the main template.

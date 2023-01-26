@@ -9,7 +9,7 @@ package urlx
 
 import (
 	"net/url"
-	"qing/a/config"
+	"qing/a/conf"
 	"qing/a/def"
 	"qing/a/def/appdef"
 	"qing/lib/clib"
@@ -21,20 +21,20 @@ const userSvg = "/img/main/user-static.svg"
 
 // URL helps generate common URLs.
 type URL struct {
-	conf *config.Config
+	config *conf.Config
 }
 
 // NewURL creates a new URL.
-func NewURL(conf *config.Config) *URL {
-	return &URL{conf: conf}
+func NewURL(config *conf.Config) *URL {
+	return &URL{config: config}
 }
 
 func (u *URL) AssetURL(url string) string {
-	return u.conf.HTTP.Static.URL + url
+	return u.config.HTTP.Static.URL + url
 }
 
 func (u *URL) ResURL(url string) string {
-	return u.conf.ResServer.URL + url
+	return u.config.ResServer.URL + url
 }
 
 func (u *URL) UserIconURL50(uid uint64, iconName string) string {

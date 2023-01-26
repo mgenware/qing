@@ -12,7 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/appConf"
-	"qing/a/config/configs"
+	"qing/a/conf/confs"
 	"qing/lib/iolib"
 	"qing/sod/dev/devSod"
 	"sort"
@@ -24,7 +24,7 @@ import (
 const devTitleFile = "title.txt"
 const devContentFile = "content.html"
 
-func getDevConfig() (*configs.MailBoxConfig, error) {
+func getDevConfig() (*confs.MailBoxConfig, error) {
 	conf := appConf.Get()
 	if conf.Dev == nil {
 		return nil, errors.New("`ViewInboxDev` can only run in dev mode")
