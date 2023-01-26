@@ -55,7 +55,7 @@ if (!isDev) {
 
 console.log(`[b-ts.js] TS building in ${config} mode...`);
 
-await esbuild.build({
+const context = await esbuild.context({
   entryPoints,
   bundle: true,
   outdir: '../userland/static/g/js',
@@ -77,5 +77,11 @@ await esbuild.build({
     'safari13.1',
   ],
   plugins,
-  watch: watchFlag,
 });
+
+if (watchFlag) {
+  await context.watch();
+} else {
+  await context.rebuild();
+}
+context.dispose();
