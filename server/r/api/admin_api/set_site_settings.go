@@ -17,19 +17,25 @@ import (
 	"qing/a/conf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
+	"qing/a/sitest"
 	"qing/lib/clib"
 	"qing/sod/mxSod"
 )
 
-// Changes to settings (app config) require a server restart.
-func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
+type brSetSiteSettingsResult struct {
+	Loaded *sitest.SiteSettings `json:"loaded,omitempty"`
+	Disk   *sitest.SiteSettings `json:"disk,omitempty"`
+}
+
+// NOTE: Changes to settings (app config) require a server restart.
+func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
-	isUT := conf.IsUT()
+	IsBR := conf.IsBR()
 
 	mutex := appSiteST.DiskMutex()
 	mutex.Lock()
@@ -37,7 +43,7 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 
 	diskConf := appSiteST.DiskConfigUnsafe()
 	// We don't update disk config in UT.
-	if isUT {
+	if IsBR {
 		copied, err := appSiteST.DeepCopyConfig(diskConf)
 		app.PanicOn(err)
 		diskConf = copied
@@ -73,14 +79,17 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 		return resp.MustFail(fmt.Sprintf("unknown settings key \"%v\"", key))
 	}
 
-	var result any
-	if !isUT {
+	var result *brSetSiteSettingsResult
+	if IsBR {
+		// In BR mode, return the updated config.
+		result = &brSetSiteSettingsResult{
+			Loaded: appSiteST.Get(),
+			Disk:   diskConf,
+		}
+	} else {
 		err := appSiteST.UpdateDiskConfigUnsafe(diskConf)
 		app.PanicOn(err)
 		result = nil
-	} else {
-		// In UT, return the updated config.
-		result = diskConf
 	}
 	return resp.MustComplete(result)
 }

@@ -18,7 +18,7 @@ abstract class SetSiteSTLoader<T> extends Loader<T> {
   abstract stKey(): number;
 
   override requestURL(): string {
-    return adminRoute.updateSiteSettings;
+    return adminRoute.setSiteSettings;
   }
 
   override requestParams(): Record<string, unknown> {

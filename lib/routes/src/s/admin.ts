@@ -12,4 +12,4 @@ const admin = `${root}/admin`;
 export const setAdmin = `${admin}/set-admin`;
 export const admins = `${admin}/admins`;
 export const siteSettings = `${admin}/site-settings`;
-export const updateSiteSettings = `${admin}/update-site-settings`;
+export const setSiteSettings = `${admin}/set-site-settings`;

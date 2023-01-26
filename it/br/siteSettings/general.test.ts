@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $, expect } from 'br.js';
+import { test, usr, $ } from 'br.js';
 import * as mxRoute from '@qing/routes/d/mx.js';
 import * as nbm from 'br/com/navbar/menu.js';
 import * as ivh from 'br/com/forms/inputViewHelper.js';
-import * as confHelper from 'helper/conf';
 import * as cm from './common.js';
 
 const infoSectionSel = `${cm.settingsViewSel} .info-block`;
@@ -29,7 +28,7 @@ test('Site settings - Site info - Click-through from navbar', async ({ page }) =
 
   const contentEl = p.$(infoSectionSel);
   await ivh.shouldHaveValue(contentEl.$inputView('Site name'), '__QING__');
-  await ivh.shouldHaveValue(contentEl.$inputView('Site URL'), 'https://github.com/mgenware/qing');
+  await ivh.shouldHaveValue(contentEl.$inputView('Site URL'), 'https://__QING__');
 });
 
 test('Site settings - Site info - Required fields', async ({ page }) => {
@@ -57,9 +56,10 @@ test('Site settings - Site info - Update site name', async ({ page }) => {
   await siteEl.fillInput('__MOD__');
   await contentEl.$qingButton('Save site information').click();
 
-  // Check disk conf changes.
-  const changes = await confHelper.getUnloadedConfigChanges();
-  expect(changes).toStrictEqual([{ op: 'replace', path: ['site', 'site_name'], value: '__MOD__' }]);
+  // Verify UI changes.
+  await ivh.shouldHaveValue(siteEl, '__MOD__');
+
+  // Config changes are checked at API tests.
 });
 
 test('Site settings - Site info - Update site URL', async ({ page }) => {
@@ -72,7 +72,8 @@ test('Site settings - Site info - Update site URL', async ({ page }) => {
   await siteUrlEl.fillInput('__MOD__');
   await contentEl.$qingButton('Save site information').click();
 
-  // Check disk conf changes.
-  const changes = await confHelper.getUnloadedConfigChanges();
-  expect(changes).toStrictEqual([{ op: 'replace', path: ['site', 'site_url'], value: '__MOD__' }]);
+  // Verify UI changes.
+  await ivh.shouldHaveValue(siteUrlEl, '__MOD__');
+
+  // Config changes are checked at API tests.
 });
