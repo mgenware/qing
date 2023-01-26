@@ -27,6 +27,7 @@ function printUsage() {
       w-t                Build, run and watch web files for BR testing
       w-lint             Run linting process on web source
       s <config>         Build and start server in containers
+      s-br               Build and start server in containers (browser test mode)
       s-ut               Build and start server in containers (unit test mode)
       s-f                Build and start server in containers (force recreation)
       s-l                Build and start server locally
@@ -94,45 +95,63 @@ function mustGetDevConf(argIdx: number) {
       }
 
       case 'w': {
-        await sp.spawnDZCmd('dev', null, await iou.getProjectDir(webDir));
+        await sp.spawnDZCmd({
+          cmd: 'dev',
+          args: null,
+          daizongDir: await iou.getProjectDir(webDir),
+        });
         break;
       }
 
       case 'w-t': {
-        await sp.spawnDZCmd('br', null, await iou.getProjectDir(webDir));
+        await sp.spawnDZCmd({ cmd: 'br', args: null, daizongDir: await iou.getProjectDir(webDir) });
         break;
       }
 
       case 'w-lint': {
-        await sp.spawnDZCmd('lint', null, await iou.getProjectDir(webDir));
+        await sp.spawnDZCmd({
+          cmd: 'lint',
+          args: null,
+          daizongDir: await iou.getProjectDir(webDir),
+        });
         break;
       }
 
       case 's': {
-        await sp.spawnDockerComposeCmd(
-          ['up'],
-          await iou.getProjectDir(serverDir),
-          mustGetDevConf(1),
-        );
+        await sp.spawnDockerComposeCmd({
+          args: ['up'],
+          dir: await iou.getProjectDir(serverDir),
+          configName: mustGetDevConf(1),
+        });
+        break;
+      }
+
+      case 's-br': {
+        await sp.spawnDockerComposeCmd({
+          args: ['up'],
+          dir: await iou.getProjectDir(serverDir),
+          configName: mustGetDevConf(1),
+          env: { QING_BR: '1' },
+        });
         break;
       }
 
       case 's-ut': {
         const arg1 = processArgs[1];
-        await sp.spawnDockerComposeCmd(
-          ['exec', '-e', 'QING_UT=1', 'server', 'go', 'test', arg1 || './...'],
-          await iou.getProjectDir(serverDir),
-          mustGetDevConf(1),
-        );
+        await sp.spawnDockerComposeCmd({
+          args: ['exec', '-e', 'QING_UT=1', 'server', 'go', 'test', arg1 || './...'],
+          dir: await iou.getProjectDir(serverDir),
+          configName: mustGetDevConf(1),
+        });
         break;
       }
 
       case 's-f': {
-        await sp.spawnDockerComposeCmd(
-          ['up', '--force-recreate'],
-          await iou.getProjectDir(serverDir),
-          mustGetDevConf(1),
-        );
+        await sp.spawnDockerComposeCmd({
+          args: ['up', '--force-recreate'],
+          dir: await iou.getProjectDir(serverDir),
+          configName: mustGetDevConf(1),
+        });
         break;
       }
 
@@ -156,13 +175,21 @@ function mustGetDevConf(argIdx: number) {
       case 'da':
       case 'ls':
       case 'sod': {
-        await sp.spawnDZCmd(inputCmd, processArgs.slice(1), await iou.getProjectDir(libDevDir));
+        await sp.spawnDZCmd({
+          cmd: inputCmd,
+          args: processArgs.slice(1),
+          daizongDir: await iou.getProjectDir(libDevDir),
+        });
         break;
       }
 
       case 'it': {
         const itArgs = processArgs.slice(1);
-        await sp.spawnDZCmd(itArgs[0] || 'dev', itArgs.slice(1), await iou.getProjectDir(itDir));
+        await sp.spawnDZCmd({
+          cmd: itArgs[0] || 'dev',
+          args: itArgs.slice(1),
+          daizongDir: await iou.getProjectDir(itDir),
+        });
         break;
       }
 
@@ -170,27 +197,27 @@ function mustGetDevConf(argIdx: number) {
         const arg1 = processArgs[1];
         checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
-          await sp.spawnDockerComposeMigrate(
-            ['drop'],
-            await iou.getProjectDir(serverDir),
-            mustGetDevConf(2),
-          );
+          await sp.spawnDockerComposeMigrate({
+            args: ['drop'],
+            dir: await iou.getProjectDir(serverDir),
+            configName: mustGetDevConf(2),
+          });
         } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
           const num = parseInt(arg1.substr(1), 10);
           checkMigrationNumber(num);
-          await sp.spawnDockerComposeMigrate(
-            [arg1[0] === '+' ? 'up' : 'down', num.toString()],
-            await iou.getProjectDir(serverDir),
-            mustGetDevConf(2),
-          );
+          await sp.spawnDockerComposeMigrate({
+            args: [arg1[0] === '+' ? 'up' : 'down', num.toString()],
+            dir: await iou.getProjectDir(serverDir),
+            configName: mustGetDevConf(2),
+          });
         } else {
           const num = parseInt(arg1, 10);
           checkMigrationNumber(num);
-          await sp.spawnDockerComposeMigrate(
-            ['goto', num.toString()],
-            await iou.getProjectDir(serverDir),
-            mustGetDevConf(2),
-          );
+          await sp.spawnDockerComposeMigrate({
+            args: ['goto', num.toString()],
+            dir: await iou.getProjectDir(serverDir),
+            configName: mustGetDevConf(2),
+          });
         }
         break;
       }
