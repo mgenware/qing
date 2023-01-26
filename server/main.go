@@ -29,6 +29,8 @@ func main() {
 
 	if conf.IsUT() {
 		logger.Warn("🟣 app.running.ut")
+	} else if conf.IsBR() {
+		logger.Warn("🔵 app.running.br")
 	} else if config.DevMode() {
 		logger.Warn("🟡 app.running.dev")
 	}

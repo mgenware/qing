@@ -50,6 +50,11 @@ func IsUT() bool {
 	return os.Getenv(infdef.UtEnv) == "1"
 }
 
+// Returns true if BR mode is on.
+func IsBR() bool {
+	return os.Getenv(infdef.BrEnv) == "1"
+}
+
 // Returns true if dev mode is on.
 func (c *Config) DevMode() bool {
 	return c.Dev != nil

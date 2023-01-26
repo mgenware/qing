@@ -14,6 +14,8 @@ services:
     environment:
       - QING_DEV_CONF
       - QING_DEV_SITE_ST
+      - QING_BR
+      - QING_UT
     build:
       context: .
       dockerfile: dev.dockerfile

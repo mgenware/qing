@@ -16,7 +16,7 @@ func serializeConfig(st *sitest.SiteSettings) ([]byte, error) {
 	return json.Marshal(st)
 }
 
-func deepCopyConfig(st *sitest.SiteSettings) (*sitest.SiteSettings, error) {
+func DeepCopyConfig(st *sitest.SiteSettings) (*sitest.SiteSettings, error) {
 	bytes, err := serializeConfig(st)
 	if err != nil {
 		return nil, err

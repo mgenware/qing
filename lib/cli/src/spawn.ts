@@ -15,7 +15,7 @@ import {
   getRootDir,
 } from './ioutil.js';
 
-export async function spawnDZCmd(cmd: string, args: string[] | null, daizongDir: string) {
+export async function spawnDZCmd(e: { cmd: string; args: string[] | null; daizongDir: string }) {
   const rootDir = await getRootDir();
   if (!rootDir) {
     throw new Error('Error finding the project root directory');
@@ -30,21 +30,30 @@ export async function spawnDZCmd(cmd: string, args: string[] | null, daizongDir:
     await writeNPMInstallTime(rootDir, new Date().getTime());
   }
 
-  await pipedSpawn('dz', { args: [cmd, ...(args ?? [])], workingDir: daizongDir });
+  await pipedSpawn('dz', { args: [e.cmd, ...(e.args ?? [])], workingDir: e.daizongDir });
 }
 
-export async function spawnDockerComposeCmd(args: string[], dir: string, configName: string) {
+export async function spawnDockerComposeCmd(e: {
+  args: string[];
+  dir: string;
+  configName: string;
+  env?: Record<string, string>;
+}) {
   return pipedSpawn('docker', {
-    args: ['compose', '-f', 'dev.docker-compose.yml', ...args],
-    workingDir: dir,
-    env: { QING_DEV_CONF: configName, QING_DEV_SITE_ST: '1' },
+    args: ['compose', '-f', 'dev.docker-compose.yml', ...e.args],
+    workingDir: e.dir,
+    env: { QING_DEV_CONF: e.configName, QING_DEV_SITE_ST: '1', ...e.env },
   });
 }
 
-export async function spawnDockerComposeMigrate(
-  args: string[],
-  dir: string,
-  configFileName: string,
-) {
-  return spawnDockerComposeCmd(['run', 'migrate', ...args], dir, configFileName);
+export async function spawnDockerComposeMigrate(e: {
+  args: string[];
+  dir: string;
+  configName: string;
+}) {
+  return spawnDockerComposeCmd({
+    args: ['run', 'migrate', ...e.args],
+    dir: e.dir,
+    configName: e.configName,
+  });
 }

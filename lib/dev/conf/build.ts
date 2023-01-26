@@ -50,7 +50,7 @@ function generateDockerComposeObj(_name: string, conf: QingConfigSchema) {
   const server = {
     // Pass `QING_DEV_CONF` from docker compose command into this context.
     // Syntax: https://docs.docker.com/compose/environment-variables/
-    environment: [infdef.devConfEnv, infdef.devSiteSettingsEnv],
+    environment: [infdef.devConfEnv, infdef.devSiteSettingsEnv, infdef.brEnv, infdef.utEnv],
     build: {
       context: '.',
       dockerfile: 'dev.dockerfile',

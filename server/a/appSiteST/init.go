@@ -41,7 +41,7 @@ func init() {
 	}
 	memoryST = st
 
-	copied, err := deepCopyConfig(st)
+	copied, err := DeepCopyConfig(st)
 	if err != nil {
 		panic(fmt.Errorf("error cloning config: %v", err))
 	}

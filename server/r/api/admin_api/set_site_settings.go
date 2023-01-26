@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appSiteST"
+	"qing/a/conf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -28,12 +29,19 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
+	isUT := conf.IsUT()
 
 	mutex := appSiteST.DiskMutex()
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	c := appSiteST.DiskConfigUnsafe()
+	diskConf := appSiteST.DiskConfigUnsafe()
+	// We don't update disk config in UT.
+	if isUT {
+		copied, err := appSiteST.DeepCopyConfig(diskConf)
+		app.PanicOn(err)
+		diskConf = copied
+	}
 
 	switch appdef.SetSiteSettings(key) {
 	case appdef.SetSiteSettingsSiteType:
@@ -43,7 +51,7 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 		if siteType <= 0 {
 			panic("invalid site type value")
 		}
-		c.SiteType = siteType
+		diskConf.SiteType = siteType
 
 	case appdef.SetSiteSettingsLangs:
 		var langs []string
@@ -52,20 +60,27 @@ func updateSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JS
 		if len(langs) == 0 {
 			panic("error updating langs settings: empty array is not allowed")
 		}
-		c.Langs = langs
+		diskConf.Langs = langs
 
 	case appdef.SetSiteSettingsInfo:
 		var infoData mxSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
 		app.PanicOn(err)
-		c.SiteName = infoData.SiteName
-		c.SiteURL = infoData.SiteURL
+		diskConf.SiteName = infoData.SiteName
+		diskConf.SiteURL = infoData.SiteURL
 
 	default:
 		return resp.MustFail(fmt.Sprintf("unknown settings key \"%v\"", key))
 	}
 
-	err := appSiteST.UpdateDiskConfigUnsafe(c)
-	app.PanicOn(err)
-	return resp.MustComplete(nil)
+	var result any
+	if !isUT {
+		err := appSiteST.UpdateDiskConfigUnsafe(diskConf)
+		app.PanicOn(err)
+		result = nil
+	} else {
+		// In UT, return the updated config.
+		result = diskConf
+	}
+	return resp.MustComplete(result)
 }
