@@ -9,7 +9,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.49.0
       '@typescript-eslint/parser': ^5.49.0
       bowhead-js: ^6.0.2
-      daizong: ^0.25.6
+      daizong: ^0.25.7
       esbuild: ^0.17.4
       eslint: ^8.32.0
       eslint-config-mgenware: ^0.9.0
@@ -21,7 +21,7 @@ importers:
       mgenware-tsconfig-node-x: ^16.2.0
       source-map-support: ^0.5.21
       ts-patch: ^2.1.0
-      ts-transform-esm-import: ^0.9.0
+      ts-transform-esm-import: ^0.11.0
       typescript: ^4.9.4
     dependencies:
       bowhead-js: 6.0.2
@@ -31,7 +31,7 @@ importers:
       '@types/node': 18.11.18
       '@typescript-eslint/eslint-plugin': 5.49.0_iu322prlnwsygkcra5kbpy22si
       '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
-      daizong: 0.25.6
+      daizong: 0.25.7
       esbuild: 0.17.4
       eslint: 8.32.0
       eslint-config-mgenware: 0.9.0_zvmt5xh6vil4vpagx2utjxrocy
@@ -42,7 +42,7 @@ importers:
       mgenware-tsconfig-node-x: 16.2.0
       source-map-support: 0.5.21
       ts-patch: 2.1.0_typescript@4.9.4
-      ts-transform-esm-import: 0.9.0_typescript@4.9.4
+      ts-transform-esm-import: 0.11.1_typescript@4.9.4
       typescript: 4.9.4
 
   it:
@@ -1936,8 +1936,8 @@ packages:
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: false
 
-  /chalk/5.1.2:
-    resolution: {integrity: sha512-E5CkT4jWURs1Vy5qGJye+XwCkNj7Od3Af7CP6SujMetSMkLs8Do2RWJK5yx1wamHV/op8Rz+9rltjaTQWDnEFQ==}
+  /chalk/5.2.0:
+    resolution: {integrity: sha512-ree3Gqw/nazQAPuJJEy+avdl7QfZMcUvmHIKgEZkGL+xOBzRvup5Hxo6LHuMceSxOabuJLJm5Yp/92R9eMmMvA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: true
 
@@ -2180,12 +2180,12 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /daizong/0.25.6:
-    resolution: {integrity: sha512-WWai/MCdQz0PJifPho6JZsT9FS4UV6+QHLIfyiQtP3PJU0bDlcrVmELZwAUr5LLdxUDXL78Z4LFTEe8gtHrRxA==}
+  /daizong/0.25.7:
+    resolution: {integrity: sha512-Rxee+jKnWnr1atNKhzocxdo15PpPfGKLZ4TjMkji/wjNgmbfSKwIAPE6AF2ABePGqoz+37nG+uk1HpDV5oCmAQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
-      chalk: 5.1.2
+      chalk: 5.2.0
       del: 7.0.0
       execa: 6.1.0
       p-map: 5.5.0
@@ -3375,7 +3375,7 @@ packages:
     dependencies:
       dir-glob: 3.0.1
       fast-glob: 3.2.12
-      ignore: 5.2.1
+      ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
 
@@ -3587,7 +3587,6 @@ packages:
   /ignore/5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
-    dev: true
 
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -5746,10 +5745,10 @@ packages:
     resolution: {integrity: sha512-A+hLX83gS+yH6DtzNAhzZbPfU+D9D8lHlTSd7GeoMRBjOt3GRylDqLTYbdmjA4biWvq2xSfpqfIDj2l0OA/BVg==}
     dev: true
 
-  /ts-transform-esm-import/0.9.0_typescript@4.9.4:
-    resolution: {integrity: sha512-gexh5PoWwXQTcLkzexqsdPkML1q72b6Syjbzrs7SLfxkCla2SRgQYHIuoZDV4Vc9/Hn9ol9lkSeeXYW8FEi8Pg==}
+  /ts-transform-esm-import/0.11.1_typescript@4.9.4:
+    resolution: {integrity: sha512-8r+cEKiwejPcLfZt4Ti75oR6RAnzzzkZCkLEuKPshda0nm3YJIBSuX3REp+vQPdmAixl0M4+sVMOEBr8trRbaA==}
     peerDependencies:
-      typescript: ^4.5.0
+      typescript: ^4.9.0
     dependencies:
       typescript: 4.9.4
     dev: true
