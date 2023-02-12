@@ -139,8 +139,13 @@ if (arg0 === 's') {
   // Build all web folders. This runs alongside pnpm.
   // Web folders have dist files that must be updated locally when new strings are added.
   // Server folder doesn't need this as server generated files are go code and not git ignored.
-  const subDirs = await mfs.subDirs(webOutBaseDir);
+  const subDirs = await mfs.subDirs(qdu.webLangDir);
+  console.log(`Building LS directories: ${subDirs}`);
   await Promise.all(subDirs.map((dir) => buildWeb(dir)));
 } else {
-  error(`Unknown mode "${arg0}"`);
+  if (!arg0) {
+    error('Missing the mode argument. Usage: qing ls <mode>');
+  } else {
+    error(`Unknown mode "${arg0}"`);
+  }
 }
