@@ -26,15 +26,15 @@
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2",
+    "@types/js-cookie": "^3.0.3",
     "@types/mocha": "^10.0.1",
     "@web/test-runner": "^0.15.0",
     "@web/test-runner-playwright": "^0.9.0",
     "esbuild-plugin-minify-html-literals": "^1.0.2",
-    "html-validate": "7.13.1",
+    "html-validate": "7.13.2",
     "lit-analyzer": "2.0.0-pre.2",
     "qing-t": "^6.2.1"
   }
