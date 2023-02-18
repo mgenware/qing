@@ -45,7 +45,7 @@ test('Edit post', async ({ page }) => {
         saveBtnText: 'Save',
         quickExit: true,
       }),
-      p.c.waitForNavigation({ url: /\/p\// }),
+      p.waitForURL(/\/p\//),
     ]);
 
     // Fix post not updating in webkit.

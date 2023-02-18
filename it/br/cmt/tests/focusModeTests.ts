@@ -79,7 +79,7 @@ function addCmtParams(link: string, id: string) {
 async function checkViewAllComments(w: cm.CmtFixtureWrapper, p: Page, cmtApp: Element) {
   await Promise.all([
     clickViewAllComments(cmtApp),
-    p.c.waitForNavigation({ url: removeCmtParams(`${serverURL}${w.getHostURL(p)}`) }),
+    p.waitForURL(removeCmtParams(`${serverURL}${w.getHostURL(p)}`)),
   ]);
 }
 

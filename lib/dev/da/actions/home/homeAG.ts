@@ -13,6 +13,7 @@ class HomeGhost extends mm.GhostTable {}
 
 export class HomeAG extends mm.ActionGroup {
   selectPosts: mm.SelectAction;
+  selectPostsBR: mm.SelectAction;
 
   constructor() {
     super();
@@ -20,6 +21,10 @@ export class HomeAG extends mm.ActionGroup {
     this.selectPosts = mm
       .selectRows(...this.cols())
       .from(post)
+      .pageMode()
+      .orderByAsc(post.created_at);
+
+    this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${post.title} LIKE '%BR_'`
       .pageMode()
       .orderByAsc(post.created_at);
   }

@@ -237,9 +237,9 @@ export class Page {
     return delay(500);
   }
 
-  waitForNavigation(url: string) {
+  waitForURL(url: string | RegExp) {
     const finalUrl = url === '/' ? serverURL : `${serverURL}${url}`;
-    return this.c.waitForNavigation({ url: finalUrl });
+    return this.c.waitForURL(finalUrl);
   }
 
   goto(url: string, user?: api.User | null, opt?: PageGotoOptions) {

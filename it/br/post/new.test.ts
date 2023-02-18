@@ -41,7 +41,7 @@ test('New post', async ({ page }) => {
       saveBtnText: 'Publish',
       quickExit: true,
     }),
-    p.c.waitForNavigation({ url: /\/p\// }),
+    p.c.waitForURL(/\/p\//),
   ]);
 
   // Verify post title.

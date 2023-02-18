@@ -85,9 +85,6 @@ test('Sign in - Success', async ({ page }) => {
   const pwdEl = appEl.$inputView('Password');
   await pwdEl.fillInput(authUsr.user.pwd);
 
-  await Promise.all([
-    p.c.waitForNavigation({ url: serverURL }),
-    appEl.$qingButton('Sign in').click(),
-  ]);
+  await Promise.all([p.waitForURL(serverURL), appEl.$qingButton('Sign in').click()]);
   await nbc.checkUserNavbar($(page), usr.user);
 });
