@@ -10,6 +10,7 @@ package homep
 import (
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appSiteST"
@@ -21,7 +22,16 @@ import (
 	"strings"
 )
 
-const defaultPageSize = 10
+var kHomePageSize int
+
+func init() {
+	cc := appConf.Get()
+	if cc.ProductionMode() {
+		kHomePageSize = 10
+	} else {
+		kHomePageSize = 2
+	}
+}
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
@@ -37,7 +47,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
 
-	items, hasNext, err := da.Home.SelectPosts(db, page, defaultPageSize)
+	items, hasNext, err := da.Home.SelectPosts(db, page, kHomePageSize)
 	app.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder
@@ -52,7 +62,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	pageURLFormatter := &HomePageURLFormatter{Tab: tab}
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
-	pageBarHTML := rcom.GetPageBarHTML(pageData)
+	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), pageData)
 
 	pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := app.MainPageData("", vStdPage.MustExecuteToString(pageModel))

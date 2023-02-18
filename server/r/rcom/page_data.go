@@ -7,6 +7,8 @@
 
 package rcom
 
+import "qing/a/handler"
+
 // PageURLFormatter is used when PageData need to get a URL with a page number.
 type PageURLFormatter interface {
 	GetURL(page int) string
@@ -14,6 +16,8 @@ type PageURLFormatter interface {
 
 // PageData contains information about pagination.
 type PageData struct {
+	handler.LocalizedTemplateData
+
 	urlFormatter PageURLFormatter
 
 	HasPrevPage bool

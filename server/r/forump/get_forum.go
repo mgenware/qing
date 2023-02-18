@@ -55,7 +55,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	pageURLFormatter := NewForumPageURLFormatter(forum.ID, tab)
 	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
-	pageBarHTML := rcom.GetPageBarHTML(pageData)
+	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), pageData)
 
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
 	app.PanicOn(err)
