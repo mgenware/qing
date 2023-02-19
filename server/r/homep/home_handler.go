@@ -14,6 +14,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appSiteST"
+	"qing/a/conf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/da"
@@ -47,7 +48,14 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
 
-	items, hasNext, err := da.Home.SelectPosts(db, page, kHomePageSize)
+	var items []da.HomePostItem
+	var hasNext bool
+	var err error
+	if conf.IsBREnv() {
+		items, hasNext, err = da.Home.SelectPostsBR(db, page, kHomePageSize)
+	} else {
+		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)
+	}
 	app.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder

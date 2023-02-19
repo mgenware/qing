@@ -12,26 +12,19 @@ import * as cm from './cm.js';
 test('Home page - One page - Multiple users', async ({ page }) => {
   const p = $(page);
 
-  let link1 = '';
-  let link2 = '';
   await newPost(
     usr.user,
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async ({ link }) => {
-      link1 = link;
+    async ({ link: link1 }) => {
+      await newPost(
+        usr.user,
+        async ({ link: link2 }) => {
+          await p.goto('/', null);
+          const c = await p.c.content();
+          expect(c.length).toBeTruthy();
+        },
+        { body: { title: `${cm.homePostBRPrefix}post2`, contentHTML: '_' } },
+      );
     },
     { body: { title: `${cm.homePostBRPrefix}post1`, contentHTML: '_' } },
   );
-  await newPost(
-    usr.user2,
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async ({ link }) => {
-      link2 = link;
-    },
-    { body: { title: `${cm.homePostBRPrefix}post1`, contentHTML: '_' } },
-  );
-
-  await p.goto('/', null);
-  const c = await p.c.content();
-  expect(c.length).toBeTruthy();
 });

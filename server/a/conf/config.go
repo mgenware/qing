@@ -46,12 +46,12 @@ type Config struct {
 }
 
 // Returns true if unit test mode is on.
-func IsUT() bool {
+func IsUTEnv() bool {
 	return os.Getenv(infdef.UtEnv) == "1"
 }
 
 // Returns true if BR mode is on.
-func IsBR() bool {
+func IsBREnv() bool {
 	return os.Getenv(infdef.BrEnv) == "1"
 }
 
@@ -134,7 +134,7 @@ func mustValidateConfig(c *Config) {
 		panic(fmt.Errorf("config file validation failed"))
 	}
 
-	if IsUT() {
+	if IsUTEnv() {
 		// Test flag is forbidden in production.
 		if c.ProductionMode() {
 			panic(fmt.Errorf("you cannot have test mode set in production mode"))

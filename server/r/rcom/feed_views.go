@@ -19,7 +19,7 @@ var vPostFeedView = appHandler.MainPage().MustParseView("com/feed/postFeedView.h
 var vThreadFeedView = appHandler.MainPage().MustParseView("com/feed/threadFeedView.html")
 
 type PostFeedModel struct {
-	da.HomeAGSelectPostsResult
+	da.HomePostItem
 	feedSod.FeedBase
 }
 
@@ -27,8 +27,8 @@ func MustRenderPostFeedView(d *PostFeedModel) string {
 	return vPostFeedView.MustExecuteToString(d)
 }
 
-func NewPostFeedModel(src *da.HomeAGSelectPostsResult) PostFeedModel {
-	d := PostFeedModel{HomeAGSelectPostsResult: *src}
+func NewPostFeedModel(src *da.HomePostItem) PostFeedModel {
+	d := PostFeedModel{HomePostItem: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)

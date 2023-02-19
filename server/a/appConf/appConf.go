@@ -18,7 +18,7 @@ var config *conf.Config
 var configPath string
 
 func init() {
-	if conf.IsUT() {
+	if conf.IsUTEnv() {
 		// Unit test mode.
 		configPath = devConfigFile("ut")
 	} else {

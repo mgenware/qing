@@ -35,7 +35,7 @@ func init() {
 		panic(err)
 	}
 	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, config, siteST)
-	if conf.IsUT() {
+	if conf.IsUTEnv() {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)
 		}

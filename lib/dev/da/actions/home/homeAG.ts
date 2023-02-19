@@ -9,6 +9,8 @@ import * as mm from 'mingru-models';
 import post from '../../models/post/post.js';
 import user from '../../models/user/user.js';
 
+const homePostItemType = 'HomePostItem';
+
 class HomeGhost extends mm.GhostTable {}
 
 export class HomeAG extends mm.ActionGroup {
@@ -22,11 +24,13 @@ export class HomeAG extends mm.ActionGroup {
       .selectRows(...this.cols())
       .from(post)
       .pageMode()
-      .orderByAsc(post.created_at);
+      .orderByAsc(post.created_at)
+      .resultTypeNameAttr(homePostItemType);
 
     this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${post.title} LIKE '%BR_'`
       .pageMode()
-      .orderByAsc(post.created_at);
+      .orderByAsc(post.created_at)
+      .resultTypeNameAttr(homePostItemType);
   }
 
   private cols() {

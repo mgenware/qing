@@ -18,7 +18,7 @@ var logger coretype.CoreLogger
 
 func init() {
 	config := appConf.Get()
-	if conf.IsUT() {
+	if conf.IsUTEnv() {
 		logger = NewTestLogger()
 	} else {
 		var err error

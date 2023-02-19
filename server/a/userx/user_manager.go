@@ -44,7 +44,7 @@ func NewUserManager(
 	siteSettings *sitest.SiteSettings,
 ) *UserManager {
 	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, config: config, siteSettings: siteSettings}
-	if conf.IsUT() {
+	if conf.IsUTEnv() {
 		ret.testSIDMap = make(map[uint64]string)
 	}
 	return ret
@@ -60,7 +60,7 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 }
 
 func (appu *UserManager) TestLogin(uid uint64) {
-	if !conf.IsUT() {
+	if !conf.IsUTEnv() {
 		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 	user, err := appu.createUserSessionFromUID(uid)
@@ -80,7 +80,7 @@ func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (appu *UserManager) TestLogout(uid uint64) error {
-	if !conf.IsUT() {
+	if !conf.IsUTEnv() {
 		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 

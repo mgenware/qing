@@ -49,6 +49,18 @@ type FindUserResult struct {
 	Name     string `json:"name,omitempty"`
 }
 
+type HomePostItem struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+	UserIconName  string    `json:"-"`
+	UserID        uint64    `json:"-"`
+	UserName      string    `json:"-"`
+}
+
 type PostForPostCenter struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ForumID       *uint64   `json:"forumID,omitempty"`

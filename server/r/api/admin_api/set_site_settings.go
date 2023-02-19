@@ -35,7 +35,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
-	IsBR := conf.IsBR()
+	IsBR := conf.IsBREnv()
 
 	mutex := appSiteST.DiskMutex()
 	mutex.Lock()

@@ -14,7 +14,6 @@ package da
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/mgenware/mingru-go-lib"
 )
@@ -26,19 +25,7 @@ var Home = &HomeAGType{}
 
 // ------------ Actions ------------
 
-type HomeAGSelectPostsResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	Title         string    `json:"title,omitempty"`
-	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
-	UserName      string    `json:"-"`
-}
-
-func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeAGSelectPostsResult, bool, error) {
+func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomePostItem, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -54,13 +41,13 @@ func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, p
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]HomeAGSelectPostsResult, 0, limit)
+	result := make([]HomePostItem, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item HomeAGSelectPostsResult
+			var item HomePostItem
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
@@ -75,19 +62,7 @@ func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, p
 	return result, itemCounter > len(result), nil
 }
 
-type HomeAGSelectPostsBRResult struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	Title         string    `json:"title,omitempty"`
-	UserIconName  string    `json:"-"`
-	UserID        uint64    `json:"-"`
-	UserName      string    `json:"-"`
-}
-
-func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomeAGSelectPostsBRResult, bool, error) {
+func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomePostItem, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -103,13 +78,13 @@ func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int,
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]HomeAGSelectPostsBRResult, 0, limit)
+	result := make([]HomePostItem, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item HomeAGSelectPostsBRResult
+			var item HomePostItem
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
