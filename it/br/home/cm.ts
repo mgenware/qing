@@ -5,4 +5,22 @@
  * be found in the LICENSE file.
  */
 
-export const homePostBRPrefix = 'BR_';
+import * as br from 'br.js';
+
+export const homePostBRPrefix = '__BR_';
+
+export interface CheckHomeItemArgs {
+  user: br.User;
+  title: string;
+  link: string;
+}
+
+export async function checkHomeItem(el: br.Element, e: CheckHomeItemArgs) {
+  const avatarDiv = el.$('> :first-child');
+  const contentDiv = el.$('> :last-child');
+  await avatarDiv.$('a').e.toHaveAttribute('href', e.user.link);
+  await avatarDiv.$('img').e.toHaveAttribute('src', e.user.iconURL);
+  await contentDiv.$('.feed-item-r1').$a({ href: e.link, text: e.title }).shouldExist();
+  const bottomBarEl = contentDiv.$('> :last-child');
+  await bottomBarEl.$a({ href: e.user.link, text: e.user.name }).shouldExist();
+}

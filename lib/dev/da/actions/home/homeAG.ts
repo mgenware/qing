@@ -27,7 +27,7 @@ export class HomeAG extends mm.ActionGroup {
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(homePostItemType);
 
-    this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${post.title} LIKE '%BR_'`
+    this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${post.title} LIKE '__BR_%'`
       .pageMode()
       .orderByAsc(post.created_at)
       .resultTypeNameAttr(homePostItemType);

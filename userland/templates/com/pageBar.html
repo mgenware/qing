@@ -1,7 +1,7 @@
 <!-- An SEO-friendly page bar. -->
 <!-- Refer to `server:r/rcm/pageData.go` for template fields. -->
 {{if or .HasPrevPage .HasNextPage}}
-<p class="text-center">
+<p class="text-center m-page-bar">
   {{if .TotalPage}}
   <a class="link-btn" href="{{html .FirstPageURL}}">&lt;&lt;</a> {{end}}
   <a class="link-btn {{if not .HasPrevPage}}content-disabled{{end}}" href="{{html .PrevPageURL}}"

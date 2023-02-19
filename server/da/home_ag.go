@@ -74,7 +74,7 @@ func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`title` LIKE '%BR_' ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
+	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`title` LIKE '__BR_%' ORDER BY `post`.`created_at` LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
