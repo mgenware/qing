@@ -36,8 +36,8 @@ export class MiniURLRouter {
   }
 
   handle(urlString: string): boolean {
-    const url = new URL(this.trimTrailingSlash(urlString));
-    const path = url.pathname;
+    const url = new URL(urlString);
+    const path = this.trimTrailingSlash(url.pathname);
     this.log(`Handling path "${path}"`);
     if (!path) {
       return false;
@@ -93,7 +93,7 @@ export class MiniURLRouter {
       return url;
     }
     if (url.endsWith('/')) {
-      return url.substring(0, url.length);
+      return url.substring(0, url.length - 1);
     }
     return url;
   }
