@@ -24,7 +24,7 @@ function printUsage() {
       $ qing <command> [command arguments]
     Command
       w                  Build, run and watch web files
-      w-t                Build, run and watch web files for BR testing
+      w-br               Build, run and watch web files for BR testing
       w-lint             Run linting process on web source
       s <config>         Build and start server in containers
       s-br               Build and start server in containers (browser test mode)
@@ -103,7 +103,7 @@ function mustGetDevConf(argIdx: number) {
         break;
       }
 
-      case 'w-t': {
+      case 'w-br': {
         await sp.spawnDZCmd({ cmd: 'br', args: null, daizongDir: await iou.getProjectDir(webDir) });
         break;
       }
