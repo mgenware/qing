@@ -46,7 +46,8 @@
   --app-keyboard-focus-color: #8dc3eb;
   --app-navbar-back-color: #343a40;
   --app-navbar-fore-color: #cfcfcf;
-  --app-navbar-divider-color: #4b4b4b;
+  --app-navbar-separator-color: #575454;
+  --app-navbar-dropdown-border-color: #4b4b4b;
   --app-navbar-border-bottom: 0;
 
   --app-highlight-color: rgba(0, 0, 0, 0.11);
@@ -94,8 +95,9 @@
 
   --app-navbar-back-color: #000000;
   --app-navbar-fore-color: #707070;
-  --app-navbar-divider-color: #353535;
-  --app-navbar-border-bottom: 1px solid var(--app-navbar-divider-color);
+  --app-navbar-separator-color: #3b3939;
+  --app-navbar-dropdown-border-color: #353535;
+  --app-navbar-border-bottom: 1px solid var(--app-navbar-dropdown-border-color);
 
   --app-highlight-color: rgba(255, 255, 255, 0.11);
   --app-heart-color: #b81c4b;

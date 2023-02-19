@@ -56,6 +56,7 @@ export default class NavbarApp extends BaseElement {
 
         hr {
           margin: 0.3rem;
+          border-top: 1px solid var(--app-navbar-separator-color);
         }
 
         .navbar-row {
@@ -98,7 +99,7 @@ export default class NavbarApp extends BaseElement {
           right: 0;
           color: var(--app-navbar-fore-color);
           background-color: var(--app-navbar-back-color);
-          border: 1px solid var(--app-navbar-divider-color);
+          border: 1px solid var(--app-navbar-dropdown-border-color);
           min-width: 160px;
           box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           z-index: 1;
@@ -461,6 +462,7 @@ export default class NavbarApp extends BaseElement {
     if (this.curOpenMenu === type) {
       // Close the open menu.
       this.closeCurMenu();
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     } else if (this.curOpenMenu) {
       // Switch to another menu.
       this.curOpenMenu = type;
@@ -478,6 +480,7 @@ export default class NavbarApp extends BaseElement {
   }
 
   private closeCurMenu() {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!this.curOpenMenu) {
       return;
     }
