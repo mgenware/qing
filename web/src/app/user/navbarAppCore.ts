@@ -15,6 +15,7 @@ import * as thm from './theme';
 import * as brLib from 'lib/brLib';
 import 'ui/forms/checkBox';
 
+const ls = globalThis.coreLS;
 const sideNavID = 'sidenav';
 export const imgSize = 25;
 
@@ -24,7 +25,7 @@ const sideNavHeaderCls = 'header';
 
 const themeDropdownID = 'sys-theme';
 
-export class NavbarAppCore extends BaseElement {
+export abstract class NavbarAppCore extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -235,19 +236,19 @@ export class NavbarAppCore extends BaseElement {
           <a href="/">
             <img
               class="vertical-align-middle"
-              src=${staticMainImage('qing.svg')}
+              src=${this.getSiteIconSrc()}
               height=${imgSize}
               width=${imgSize}
-              title=${globalThis.coreLS.qingSiteName}
-              alt=${globalThis.coreLS.qingSiteName} />
-            <span class="m-l-sm vertical-align-middle">${globalThis.coreLS.qingSiteName}</span>
+              title=${this.getSiteName()}
+              alt=${this.getSiteName()} />
+            <span class="m-l-sm vertical-align-middle">${this.getSiteName()}</span>
           </a>
 
           <div class="fill-space"></div>
           ${this.renderMenus(false)}
 
           <a href="#" class="toggler" @click=${(e: Event) => this.showSideNav(e)}
-            >&#9776; ${globalThis.coreLS.menu}</a
+            >&#9776; ${ls.menu}</a
           >
         </nav>
       </div>
@@ -259,6 +260,9 @@ export class NavbarAppCore extends BaseElement {
       </div>
     `;
   }
+
+  protected abstract getSiteName(): string;
+  protected abstract getSiteIconSrc(): string;
 
   protected renderCustomMenus(_sideNav: boolean): TemplateResult | null {
     return null;
@@ -310,7 +314,7 @@ export class NavbarAppCore extends BaseElement {
     const themeIcon = staticMainImage(thm.iconMap.get(curTheme) || '');
 
     return sideNav
-      ? html`${globalThis.coreLS.theme}`
+      ? html`${ls.theme}`
       : html`<svg-icon title=${themeText} src=${themeIcon} .size=${imgSize}></svg-icon>`;
   }
 

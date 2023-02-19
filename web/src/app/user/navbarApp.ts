@@ -19,9 +19,9 @@ import appTask from 'app/appTask';
 import * as pu from 'lib/pageUtil';
 import { appdef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands';
-import 'ui/forms/checkBox';
 import * as core from './navbarAppCore';
 import { CHECK } from 'checks';
+import { staticMainImage } from 'urls';
 
 const avatarImgCls = 'avatar-s vertical-align-middle';
 const userDropdownID = 'user';
@@ -47,6 +47,14 @@ export default class NavbarApp extends core.NavbarAppCore {
       `;
     }
     return this.renderUserMenuItem(sideNav);
+  }
+
+  protected override getSiteName(): string {
+    return globalThis.coreLS.qingSiteName;
+  }
+
+  protected override getSiteIconSrc(): string {
+    return staticMainImage('qing.svg');
   }
 
   private renderUserMenuItem(sideNav: boolean) {
