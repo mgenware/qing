@@ -139,3 +139,12 @@ body {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+/* Pre-styles to avoid FOUC */
+navbar-app:not(:defined) {
+  display: block;
+  height: 53px;
+  color: var(--app-navbar-fore-color);
+  background-color: var(--app-navbar-back-color);
+  transition: opacity 0.3s ease-in-out;
+}
