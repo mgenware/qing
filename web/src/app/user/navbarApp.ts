@@ -88,17 +88,15 @@ export default class NavbarApp extends core.NavbarAppCore {
         <div class="list">
           <a href=${user.link}>${globalThis.coreLS.profile}</a>
           <a href=${mRoute.yourPosts}>${globalThis.coreLS.yourPosts}</a>
-          <a href=${mRoute.yourFPosts}>${globalThis.coreLS.yourFPosts}</a>
+          ${when(
+            appPageState.siteType === appdef.SiteType.forums,
+            () => html`<a href=${mRoute.yourFPosts}>${globalThis.coreLS.yourFPosts}</a>`,
+          )}
           <hr />
           <a
             href="#"
             @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.post)}
             >${globalThis.coreLS.newPost}</a
-          >
-          <a
-            href="#"
-            @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.fPost)}
-            >${globalThis.coreLS.newFPost}</a
           >
           <hr />
           <a href=${mRoute.profileSettings}>${globalThis.coreLS.settings}</a>
