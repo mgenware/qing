@@ -2,7 +2,7 @@
   "extends": "mgenware-tsconfig-browser-x",
   "include": ["./src/**/*"],
   "compilerOptions": {
-    "outDir": "./dist",
+    "noEmit": true,
     "importHelpers": false,
     "rootDir": "./src",
     "baseUrl": "./src",
