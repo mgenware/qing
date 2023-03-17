@@ -53,7 +53,7 @@ if (!isDev) {
   plugins.push(minifyHTMLLiteralsPlugin());
 }
 
-console.log(`[b-ts.js] TS building in ${config} mode...`);
+console.log(`[esb.js] TS building in ${config} mode...`);
 
 const opt = {
   entryPoints,

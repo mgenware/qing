@@ -17,7 +17,7 @@ const prodEnv = {
 };
 
 function buildTS(config, watch) {
-  return `node "b-ts.js" ${config}${watch ? ' -w' : ''}`;
+  return `node "esb.js" ${config}${watch ? ' -w' : ''}`;
 }
 
 function devTask(e) {
