@@ -8,22 +8,22 @@
     "prepare": "ts-patch install -s"
   },
   "devDependencies": {
-    "@playwright/test": "^1.30.0",
+    "@playwright/test": "^1.31.2",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "@types/cookie": "^0.5.1",
     "@types/mocha": "^10.0.1",
     "@types/set-cookie-parser": "^2.4.2",
-    "@types/uuid": "^9.0.0",
-    "expect": "^29.4.3",
-    "just-diff": "^5.2.0",
+    "@types/uuid": "^9.0.1",
+    "expect": "^29.5.0",
+    "just-diff": "^6.0.0",
     "mocha": "^10.2.0",
-    "node-fetch": "^3.3.0",
+    "node-fetch": "^3.3.1",
     "source-map-support": "^0.5.21"
   },
   "dependencies": {
     "cookie": "^0.5.0",
-    "node-html-parser": "6.1.4",
+    "node-html-parser": "6.1.5",
     "set-cookie-parser": "^2.5.1",
     "uuid": "^9.0.0"
   }
