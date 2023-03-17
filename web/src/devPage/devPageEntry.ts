@@ -8,9 +8,9 @@
 import 'core';
 import { MiniURLRouter } from 'lib/miniURLRouter';
 import { html, TemplateResult } from 'll';
-import * as authRoute from '@qing/routes/d/dev/auth';
-import * as elementsRoute from '@qing/routes/d/dev/elements';
-import * as mailsRoute from '@qing/routes/d/dev/mails';
+import * as authRoute from '@qing/routes/dev/auth';
+import * as elementsRoute from '@qing/routes/dev/elements';
+import * as mailsRoute from '@qing/routes/dev/mails';
 import './devPage';
 import { appdef } from '@qing/def';
 import './auth/authPage';

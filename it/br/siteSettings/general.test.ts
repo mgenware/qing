@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $ } from 'br.js';
-import * as mxRoute from '@qing/routes/d/mx.js';
+import * as mxRoute from '@qing/routes/mx.js';
 import * as nbm from 'br/com/navbar/menu.js';
 import * as ivh from 'br/com/forms/inputViewHelper.js';
 import * as cm from './common.js';

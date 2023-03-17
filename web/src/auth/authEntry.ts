@@ -7,7 +7,7 @@
 
 import 'core';
 import { html } from 'll';
-import * as authRoute from '@qing/routes/d/auth';
+import * as authRoute from '@qing/routes/auth';
 import './signUp/signUpApp';
 import './signIn/signInApp';
 import { MiniURLRouter } from 'lib/miniURLRouter';

@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as authRoute from '@qing/routes/d/s/pri/auth';
+import * as authRoute from '@qing/routes/s/pri/auth';
 
 export default class SignOutLoader extends Loader<undefined> {
   override requestURL(): string {

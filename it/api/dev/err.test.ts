@@ -6,7 +6,7 @@
  */
 
 import { itaResultRaw } from 'api.js';
-import * as errRoutes from '@qing/routes/d/dev/err.js';
+import * as errRoutes from '@qing/routes/dev/err.js';
 
 // ----- NOTE: this file only tests error APIs. Page errors are tested in BR tests. -----
 

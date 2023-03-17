@@ -6,9 +6,9 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll';
-import * as authRoute from '@qing/routes/d/dev/auth';
-import * as elementsRoute from '@qing/routes/d/dev/elements';
-import * as mailsRoute from '@qing/routes/d/dev/mails';
+import * as authRoute from '@qing/routes/dev/auth';
+import * as elementsRoute from '@qing/routes/dev/elements';
+import * as mailsRoute from '@qing/routes/dev/mails';
 
 @customElement('dev-page')
 export class DevPage extends BaseElement {

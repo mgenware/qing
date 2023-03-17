@@ -6,8 +6,8 @@
  */
 
 import { api, User, APIOptions } from 'base/api.js';
-import * as apiAuth from '@qing/routes/d/dev/api/auth.js';
-import * as apiUser from '@qing/routes/d/dev/api/user.js';
+import * as apiAuth from '@qing/routes/dev/api/auth.js';
+import * as apiUser from '@qing/routes/dev/api/user.js';
 import CookieJar from './cookieJar.js';
 import * as uuid from 'uuid';
 import { alternativeLocale } from 'br.js';

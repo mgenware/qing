@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as adminRoute from '@qing/routes/d/s/admin';
+import * as adminRoute from '@qing/routes/s/admin';
 import { GetSiteGeneralST, SiteSTBase, GetSiteLangsST } from 'sod/mx';
 import { appdef } from '@qing/def';
 

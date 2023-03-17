@@ -7,7 +7,7 @@
 
 import 'core';
 import { html, TemplateResult } from 'll';
-import * as mRoute from '@qing/routes/d/m';
+import * as mRoute from '@qing/routes/m';
 import './settings/mSettings';
 import './settings/profile/profileST';
 import './settings/lang/langST';

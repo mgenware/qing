@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as mailsAPI from '@qing/routes/d/dev/api/mails';
+import * as mailsAPI from '@qing/routes/dev/api/mails';
 import { DevMail } from 'sod/dev/dev';
 
 export class UsersLoader extends Loader<string[]> {

@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, state } from 'll';
 import 'ui/alerts/noContentView';
-import * as mailsRoute from '@qing/routes/d/dev/mails';
+import * as mailsRoute from '@qing/routes/dev/mails';
 import * as loaders from './loaders';
 import appTask from 'app/appTask';
 

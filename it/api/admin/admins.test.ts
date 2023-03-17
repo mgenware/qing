@@ -7,7 +7,7 @@
 
 import { ita, itaNotAuthorized, usr, User } from 'api.js';
 import { expect } from 'expect';
-import * as adminRoute from '@qing/routes/d/s/admin.js';
+import * as adminRoute from '@qing/routes/s/admin.js';
 
 itaNotAuthorized('`admins` - Visitor', adminRoute.admins, null);
 

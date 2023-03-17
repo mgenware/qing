@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader';
-import * as profileRoute from '@qing/routes/d/s/pri/profile';
+import * as profileRoute from '@qing/routes/s/pri/profile';
 import { GetProfileLangResult } from 'sod/profile';
 
 export class GetProfileLangLoader extends Loader<GetProfileLangResult> {

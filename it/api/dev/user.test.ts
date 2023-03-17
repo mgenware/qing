@@ -8,8 +8,8 @@
 import { ita, usr, dontUseRequestLogin } from 'api.js';
 import { expect } from 'expect';
 import { userInfo, newUser, curUser } from 'helper/user.js';
-import { defaultUserImg } from '@qing/routes/d/static.js';
-import * as apiAuth from '@qing/routes/d/dev/api/auth.js';
+import { defaultUserImg } from '@qing/routes/static.js';
+import * as apiAuth from '@qing/routes/dev/api/auth.js';
 import CookieJar from 'helper/cookieJar.js';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {

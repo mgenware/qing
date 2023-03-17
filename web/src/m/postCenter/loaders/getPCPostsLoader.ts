@@ -7,7 +7,7 @@
 
 import PaginatedList from 'lib/api/paginatedList';
 import Loader from 'lib/loader';
-import * as mpRoute from '@qing/routes/d/s/pri/mp';
+import * as mpRoute from '@qing/routes/s/pri/mp';
 import { appdef } from '@qing/def';
 import PCPost from '../pcPost';
 

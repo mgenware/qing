@@ -8,7 +8,7 @@
 
 import * as pw from '@playwright/test';
 import * as api from './base/api.js';
-import * as authRoute from '@qing/routes/d/dev/auth.js';
+import * as authRoute from '@qing/routes/dev/auth.js';
 import { serverURL } from './base/def.js';
 import delay from './base/delay.js';
 

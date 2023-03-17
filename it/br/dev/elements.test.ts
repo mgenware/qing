@@ -6,7 +6,7 @@
  */
 
 import { test, $ } from 'br.js';
-import { elementsRoot } from '@qing/routes/d/dev/elements.js';
+import { elementsRoot } from '@qing/routes/dev/elements.js';
 
 test('__/elements', async ({ page }) => {
   const p = $(page);

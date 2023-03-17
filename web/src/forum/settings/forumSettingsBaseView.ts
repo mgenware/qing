@@ -9,7 +9,7 @@ import { BaseElement, customElement, html, css, property } from 'll';
 import 'ui/lists/linkListView';
 import { linkListActiveClass } from 'ui/lists/linkListView';
 import { CHECK } from 'checks';
-import * as fRoute from '@qing/routes/d/forum';
+import * as fRoute from '@qing/routes/forum';
 
 export enum ForumSettingsPages {
   general,

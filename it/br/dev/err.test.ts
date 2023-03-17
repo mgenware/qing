@@ -6,7 +6,7 @@
  */
 
 import { test, $, Page, usr } from 'br.js';
-import errRoutes from '@qing/routes/d/dev/err.js';
+import * as errRoutes from '@qing/routes/dev/err.js';
 import { expect } from '@playwright/test';
 
 function getHTML(content: string) {

@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import { User } from 'sod/auth';
-import * as authRoute from '@qing/routes/d/dev/api/auth';
+import * as authRoute from '@qing/routes/dev/api/auth';
 
 class LoaderBase<T> extends Loader<T> {
   constructor(public uidInput: string, public isEID: boolean) {

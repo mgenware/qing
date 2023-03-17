@@ -7,7 +7,7 @@
 
 import 'core';
 import { html, TemplateResult } from 'll';
-import * as mxRoute from '@qing/routes/d/mx';
+import * as mxRoute from '@qing/routes/mx';
 import './admins/siteAdminST';
 import './general/siteGeneralST';
 import './langs/siteLangST';

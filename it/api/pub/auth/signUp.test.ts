@@ -6,8 +6,8 @@
  */
 
 import { itaResultRaw, ita, api, apiRaw } from 'api.js';
-import * as authAPI from '@qing/routes/d/s/pub/auth.js';
-import * as authRoute from '@qing/routes/d/auth.js';
+import * as authAPI from '@qing/routes/s/pub/auth.js';
+import * as authRoute from '@qing/routes/auth.js';
 import { expect } from 'expect';
 import * as mh from 'helper/mail.js';
 import { serverURL } from 'base/def';

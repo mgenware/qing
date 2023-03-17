@@ -17,8 +17,9 @@ importers:
       is-plain-obj: ^4.1.0
       lit: ^2.6.1
       m-fs: ^5.2.0
-      mgenware-tsconfig-browser-x: ^16.0.0
-      mgenware-tsconfig-node-x: ^16.2.0
+      mgenware-tsconfig-browser-x: ^16.1.0
+      mgenware-tsconfig-core: ^14.0.1
+      mgenware-tsconfig-node-x: ^16.3.0
       source-map-support: ^0.5.21
       ts-patch: ^2.1.0
       ts-transform-esm-import: ^0.11.0
@@ -38,8 +39,9 @@ importers:
       eslint-plugin-import: 2.27.5_a7er6olmtneep4uytpot6gt7wu
       is-plain-obj: 4.1.0
       m-fs: 5.2.0
-      mgenware-tsconfig-browser-x: 16.0.0
-      mgenware-tsconfig-node-x: 16.2.0
+      mgenware-tsconfig-browser-x: 16.1.0
+      mgenware-tsconfig-core: 14.0.1
+      mgenware-tsconfig-node-x: 16.3.0
       source-map-support: 0.5.21
       ts-patch: 2.1.0_typescript@4.9.5
       ts-transform-esm-import: 0.11.1_typescript@4.9.5
@@ -4450,16 +4452,20 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /mgenware-tsconfig-browser-x/16.0.0:
-    resolution: {integrity: sha512-jxnaE2ZplAy1QO8d07KEVDlbEctwAzte/mnW6YxBiJ0bOuSWjD39QMJeTAtZuhJY9u3QIlcqQXNvKKkRZsHIQw==}
+  /mgenware-tsconfig-browser-x/16.1.0:
+    resolution: {integrity: sha512-ZdGkNf6hdjemCcp8/DlUEQWLLVHqxaf69TOpXfJmf28ENaf0YlGfEKgoXbxHj6BQjtDL9CaDxMKweQxVqwQq5Q==}
     dependencies:
-      mgenware-tsconfig-node-x: 16.2.0
+      mgenware-tsconfig-node-x: 16.3.0
     dev: true
 
-  /mgenware-tsconfig-node-x/16.2.0:
-    resolution: {integrity: sha512-UawXabtPE2m4QmATzIZ2J+x0Q9KO9O9rqY0lpAHqY/4Uy6/Qbn3WildAumYVziwW2ryITkoCenGNUKUkSKkO0w==}
+  /mgenware-tsconfig-core/14.0.1:
+    resolution: {integrity: sha512-iQiKHV67okqDEjDVcdah6/gVr3XuwKzuXrA3wMVADRmmwIwdD9+pRNG6hcjL3l23ohl6R+fGgqkY7d4EHt2haQ==}
+    dev: true
+
+  /mgenware-tsconfig-node-x/16.3.0:
+    resolution: {integrity: sha512-o54YLPMx9d7g+HPORTw1ddb8q1GJ7owYQuJ1mJCp5QcXD5A+nr3Nvm/SzGEdzo+qUrZ13agxTLYC1+zVCFvSCA==}
     dependencies:
-      '@tsconfig/node16': 1.0.3
+      mgenware-tsconfig-core: 14.0.1
     dev: true
 
   /micromatch/4.0.5:

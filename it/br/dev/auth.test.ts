@@ -7,7 +7,7 @@
 
 import { test, $, Page, usr } from 'br.js';
 import * as nbc from 'br/com/navbar/checks.js';
-import { authRoot } from '@qing/routes/d/dev/auth.js';
+import { authRoot } from '@qing/routes/dev/auth.js';
 
 async function clickSignInButton(p: Page, s: string, eid: boolean) {
   const el = p.$('.br-user');

@@ -6,7 +6,7 @@
  */
 
 import { errorResults, itaResultRaw, usr, apiRaw, api } from 'api.js';
-import { defaultUserImg } from '@qing/routes/d/static.js';
+import { defaultUserImg } from '@qing/routes/static.js';
 import { expect } from 'expect';
 import { User } from 'base/api.js';
 import { newUser } from 'helper/user.js';

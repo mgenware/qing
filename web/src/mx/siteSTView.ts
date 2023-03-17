@@ -6,7 +6,7 @@
  */
 
 import { customElement, css } from 'll';
-import * as mxRoute from '@qing/routes/d/mx';
+import * as mxRoute from '@qing/routes/mx';
 import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
 
 const items: SettingsBaseItem[] = [

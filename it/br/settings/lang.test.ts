@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $, Element } from 'br.js';
-import * as mRoute from '@qing/routes/d/m.js';
+import * as mRoute from '@qing/routes/m.js';
 import { newUser } from 'helper/user.js';
 import * as alt from 'br/com/overlays/alert.js';
 import * as cm from './common.js';

@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader';
 import Entity from 'lib/entity';
-import * as composeRoute from '@qing/routes/d/s/pri/compose';
+import * as composeRoute from '@qing/routes/s/pri/compose';
 import { EntityGetSrcResult } from 'da/types';
 
 export class GetEntitySourceLoader extends Loader<EntityGetSrcResult> {

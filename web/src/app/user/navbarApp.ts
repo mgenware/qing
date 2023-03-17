@@ -7,9 +7,9 @@
  */
 
 import { customElement, html, when, state, TemplateResult } from 'll';
-import * as mRoute from '@qing/routes/d/m';
-import * as mxRoute from '@qing/routes/d/mx';
-import * as authRoute from '@qing/routes/d/auth';
+import * as mRoute from '@qing/routes/m';
+import * as mxRoute from '@qing/routes/mx';
+import * as authRoute from '@qing/routes/auth';
 import SignOutLoader from './loaders/signOutLoader';
 import { User } from 'sod/auth';
 import appPageState from 'app/appPageState';

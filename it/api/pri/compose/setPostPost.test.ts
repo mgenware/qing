@@ -12,7 +12,7 @@ import { newPost } from 'helper/post.js';
 import { entitySrc } from 'helper/entity.js';
 import { postCount, newUser } from 'helper/user.js';
 import { appdef } from '@qing/def';
-import * as composeRoute from '@qing/routes/d/s/pri/compose.js';
+import * as composeRoute from '@qing/routes/s/pri/compose.js';
 
 const entityBody = {
   entityType: appdef.ContentBaseType.post,
