@@ -7,7 +7,7 @@
 
 import { appdef } from '@qing/def';
 import 'ui/forms/cardSelector';
-import { CardSelectorItem } from 'ui/forms/cardSelector';
+import { CardSelectorItem } from 'ui/forms/cardSelector.js';
 
 export const siteTypeOptions: CardSelectorItem[] = [
   {

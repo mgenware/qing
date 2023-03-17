@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, css, TemplateResult, property } from 'll';
-import LoadingStatus from 'lib/loadingStatus';
+import { BaseElement, html, css, TemplateResult, property } from 'll.js';
+import LoadingStatus from 'lib/loadingStatus.js';
 import 'ui/status/statusView';
 
 // Base class for displaying a loading status with a status-view. If the status

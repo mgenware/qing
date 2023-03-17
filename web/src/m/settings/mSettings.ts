@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css } from 'll';
-import * as mRoute from '@qing/routes/m';
-import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView';
+import { customElement, css } from 'll.js';
+import * as mRoute from '@qing/routes/m.js';
+import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView.js';
 
 const items: SettingsBaseItem[] = [
   { name: globalThis.coreLS.profile, link: mRoute.profileSettings },

@@ -5,21 +5,21 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, property, state, classMap } from 'll';
+import { BaseElement, customElement, html, css, when, property, state, classMap } from 'll.js';
 import './cmtBlock';
-import { CmtBlock } from './cmtBlock';
-import { CHECK } from 'checks';
+import { CmtBlock } from './cmtBlock.js';
+import { CHECK } from 'checks.js';
 import strf from 'bowhead-js';
-import appPageState from 'app/appPageState';
+import appPageState from 'app/appPageState.js';
 import { parseString } from 'narwhal-js';
-import Entity from 'lib/entity';
-import 'ui/editing/composerView';
-import { SetCmtLoader } from '../loaders/setCmtLoader';
-import { ComposerView } from 'ui/editing/composerView';
-import appTask from 'app/appTask';
-import { Cmt } from '../data/cmt';
-import { CmtFocusModeData } from 'sod/cmt';
-import { listenForVisibilityChange } from 'lib/htmlLib';
+import Entity from 'lib/entity.js';
+import 'ui/editing/composerView.js';
+import { SetCmtLoader } from '../loaders/setCmtLoader.js';
+import { ComposerView } from 'ui/editing/composerView.js';
+import appTask from 'app/appTask.js';
+import { Cmt } from '../data/cmt.js';
+import { CmtFocusModeData } from 'sod/cmt.js';
+import { listenForVisibilityChange } from 'lib/htmlLib.js';
 
 const brCmtCountCls = 'br-cmt-c';
 const rootEditorID = 'root-editor';

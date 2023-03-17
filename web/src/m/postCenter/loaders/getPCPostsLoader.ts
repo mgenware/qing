@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import PaginatedList from 'lib/api/paginatedList';
-import Loader from 'lib/loader';
-import * as mpRoute from '@qing/routes/s/pri/mp';
+import PaginatedList from 'lib/api/paginatedList.js';
+import Loader from 'lib/loader.js';
+import * as mpRoute from '@qing/routes/s/pri/mp.js';
 import { appdef } from '@qing/def';
-import PCPost from '../pcPost';
+import PCPost from '../pcPost.js';
 
 export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
   constructor(

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'qing-dock-box';
 
 @customElement('notice-view')

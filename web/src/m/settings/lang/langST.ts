@@ -5,22 +5,22 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, state } from 'll';
+import { customElement, html, css, state } from 'll.js';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
-import 'ui/content/headingView';
-import 'ui/status/statefulPage';
-import 'ui/lists/linkListView';
-import * as pu from 'lib/pageUtil';
-import { StatefulPage } from 'ui/status/statefulPage';
+import 'ui/content/headingView.js';
+import 'ui/status/statefulPage.js';
+import 'ui/lists/linkListView.js';
+import * as pu from 'lib/pageUtil.js';
+import { StatefulPage } from 'ui/status/statefulPage.js';
 import 'ui/forms/inputView';
-import appTask from 'app/appTask';
-import appAlert from 'app/appAlert';
-import 'ui/editing/editorView';
-import { GetProfileLangLoader } from './loaders/getProfileLangLoader';
-import { GetProfileLangResult } from 'sod/profile';
-import { linkListActiveFilledClass } from 'ui/lists/linkListView';
-import SetProfileLangLoader from './loaders/setProfileLangLoader';
+import appTask from 'app/appTask.js';
+import appAlert from 'app/appAlert.js';
+import 'ui/editing/editorView.js';
+import { GetProfileLangLoader } from './loaders/getProfileLangLoader.js';
+import { GetProfileLangResult } from 'sod/profile.js';
+import { linkListActiveFilledClass } from 'ui/lists/linkListView.js';
+import SetProfileLangLoader from './loaders/setProfileLangLoader.js';
 import strf from 'bowhead-js';
 
 @customElement('lang-st')

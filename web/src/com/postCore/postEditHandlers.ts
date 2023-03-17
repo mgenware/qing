@@ -6,18 +6,18 @@
  */
 
 import 'ui/editing/editBarApp';
-import { html } from 'll';
-import appPageState from 'app/appPageState';
-import appAlert from 'app/appAlert';
-import { EditBarApp } from 'ui/editing/editBarApp';
-import { entityTypeToLS } from './strings';
-import DeleteEntityLoader from './loaders/deleteEntityLoader';
+import { html } from 'll.js';
+import appPageState from 'app/appPageState.js';
+import appAlert from 'app/appAlert.js';
+import { EditBarApp } from 'ui/editing/editBarApp.js';
+import { entityTypeToLS } from './strings.js';
+import DeleteEntityLoader from './loaders/deleteEntityLoader.js';
 import 'com/postCore/setEntityApp';
-import SetEntityApp from 'com/postCore/setEntityApp';
-import appTask from 'app/appTask';
-import * as pu from 'lib/pageUtil';
-import { renderTemplateResult } from 'lib/htmlLib';
-import Entity from 'lib/entity';
+import SetEntityApp from 'com/postCore/setEntityApp.js';
+import appTask from 'app/appTask.js';
+import * as pu from 'lib/pageUtil.js';
+import { renderTemplateResult } from 'lib/htmlLib.js';
+import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
 
 export function setupHandlers(

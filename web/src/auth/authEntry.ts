@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import { html } from 'll';
-import * as authRoute from '@qing/routes/auth';
+import 'core.js';
+import { html } from 'll.js';
+import * as authRoute from '@qing/routes/auth.js';
 import './signUp/signUpApp';
 import './signIn/signInApp';
-import { MiniURLRouter } from 'lib/miniURLRouter';
-import * as pu from 'lib/pageUtil';
+import { MiniURLRouter } from 'lib/miniURLRouter.js';
+import * as pu from 'lib/pageUtil.js';
 
 const authRouter = new MiniURLRouter();
 

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import appPageState from 'app/appPageState';
-import { PostWind } from 'sod/post';
+import appPageState from 'app/appPageState.js';
+import { PostWind } from 'sod/post.js';
 
 export default appPageState.windData<PostWind>();

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as likeRoute from '@qing/routes/s/pri/like';
-import { CHECK } from 'checks';
-import LikeHostType from './likeHostType';
+import Loader from 'lib/loader.js';
+import * as likeRoute from '@qing/routes/s/pri/like.js';
+import { CHECK } from 'checks.js';
+import LikeHostType from './likeHostType.js';
 
 export default class SetLikeLoader extends Loader<string> {
   constructor(public id: string, public type: LikeHostType, public liked: boolean) {

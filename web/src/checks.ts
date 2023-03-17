@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { devMode } from 'devMode';
+import { devMode } from 'devMode.js';
 
 export function PANIC(errMessage: string) {
   if (devMode()) {

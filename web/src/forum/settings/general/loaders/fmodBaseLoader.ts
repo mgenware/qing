@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
+import Loader from 'lib/loader.js';
 
 // Base loader type for all forum mod APIs.
 export default class FModBaseLoader<T> extends Loader<T> {

@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, property } from 'll';
-import { staticMainImage } from 'urls';
+import { BaseElement, customElement, html, css, when, property } from 'll.js';
+import { staticMainImage } from 'urls.js';
 import { cache } from 'lit/directives/cache.js';
 
 const defaultIconSize = 30;

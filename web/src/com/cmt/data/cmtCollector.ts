@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import Entity from 'lib/entity';
-import { ItemCollector, ItemsChangedEvent, ItemsLoadedResp } from 'lib/itemCollector';
-import Loader from 'lib/loader';
-import LoadingStatus from 'lib/loadingStatus';
-import GetCmtsLoader from '../loaders/getCmtsLoader';
-import { Cmt } from './cmt';
+import Entity from 'lib/entity.js';
+import { ItemCollector, ItemsChangedEvent, ItemsLoadedResp } from 'lib/itemCollector.js';
+import Loader from 'lib/loader.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import GetCmtsLoader from '../loaders/getCmtsLoader.js';
+import { Cmt } from './cmt.js';
 
 export default class CmtCollector extends ItemCollector<Cmt> {
   private constructor(

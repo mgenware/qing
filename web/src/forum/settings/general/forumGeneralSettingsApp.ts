@@ -5,21 +5,21 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import { ERR } from 'checks';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import { ERR } from 'checks.js';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
-import 'ui/content/headingView';
+import 'ui/content/headingView.js';
 import 'ui/forms/inputView';
-import 'ui/editing/editorView';
-import LoadingStatus from 'lib/loadingStatus';
-import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader';
-import { GetForumEditingInfoLoader } from './loaders/getForumEditingInfo';
-import { CHECK } from 'checks';
-import EditorView from 'ui/editing/editorView';
-import appTask from 'app/appTask';
-import appAlert from 'app/appAlert';
+import 'ui/editing/editorView.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader.js';
+import { GetForumEditingInfoLoader } from './loaders/getForumEditingInfo.js';
+import { CHECK } from 'checks.js';
+import EditorView from 'ui/editing/editorView.js';
+import appTask from 'app/appTask.js';
+import appAlert from 'app/appAlert.js';
 import strf from 'bowhead-js';
 
 const editorElementID = 'editor';

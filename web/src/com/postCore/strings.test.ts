@@ -1,5 +1,5 @@
-import { expect } from 'dev/t';
-import { entityTypeToLS } from './strings';
+import { expect } from 'dev/t.js';
+import { entityTypeToLS } from './strings.js';
 import { appdef } from '@qing/def';
 
 it('entityTypeToLS', () => {

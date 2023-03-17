@@ -6,9 +6,9 @@
  */
 
 import cookies from 'js-cookie';
-import * as def from 'def';
+import * as def from 'def.js';
 import { appdef } from '@qing/def';
-import * as brLib from 'lib/brLib';
+import * as brLib from 'lib/brLib.js';
 
 const CSS_DARK_THEME = 'theme-dark';
 

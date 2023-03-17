@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import 'ui/alerts/alertView';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import 'ui/alerts/alertView.js';
 
 @customElement('error-view')
 export class ErrorView extends BaseElement {

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import * as authRoute from '@qing/routes/dev/auth';
-import * as elementsRoute from '@qing/routes/dev/elements';
-import * as mailsRoute from '@qing/routes/dev/mails';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import * as authRoute from '@qing/routes/dev/auth.js';
+import * as elementsRoute from '@qing/routes/dev/elements.js';
+import * as mailsRoute from '@qing/routes/dev/mails.js';
 
 @customElement('dev-page')
 export class DevPage extends BaseElement {

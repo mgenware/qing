@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, render, TemplateResult } from 'll';
+import { html, render, TemplateResult } from 'll.js';
 
 export function ready(fn: () => void) {
   if (document.readyState !== 'loading') {

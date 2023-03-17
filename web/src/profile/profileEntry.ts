@@ -5,18 +5,18 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
+import 'core.js';
 // Used in profile post list.
-import { ready } from 'lib/htmlLib';
-import 'ui/lists/tabView';
-import { tabViewActiveClass } from 'ui/lists/tabView';
-import delay from 'lib/delay';
-import 'ui/widgets/tagView';
+import { ready } from 'lib/htmlLib.js';
+import 'ui/lists/tabView.js';
+import { tabViewActiveClass } from 'ui/lists/tabView.js';
+import delay from 'lib/delay.js';
+import 'ui/widgets/tagView.js';
 import { appdef } from '@qing/def';
 import './views/profileIDView';
 // Required by empty content view.
-import 'ui/alerts/noContentView';
-import profileWind from './profileWind';
+import 'ui/alerts/noContentView.js';
+import profileWind from './profileWind.js';
 
 const defaultHighlightedTab = appdef.keyPosts;
 

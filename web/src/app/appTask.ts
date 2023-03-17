@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import LoadingStatus from 'lib/loadingStatus';
-import Result from 'lib/result';
-import ErrorWithCode from 'lib/errorWithCode';
-import appAlert from './appAlert';
+import Loader from 'lib/loader.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import Result from 'lib/result.js';
+import ErrorWithCode from 'lib/errorWithCode.js';
+import appAlert from './appAlert.js';
 
 // Helper class for executing tasks (loaders).
 export class AppTask {

@@ -1,4 +1,4 @@
-import { CHECK } from 'checks';
+import { CHECK } from 'checks.js';
 import { appdef } from '@qing/def';
 
 export function entityTypeToLS(entityType: appdef.ContentBaseType): string {

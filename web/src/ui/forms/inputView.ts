@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import debounceFn from 'lib/debounce';
-import { ERR } from 'checks';
+import debounceFn from 'lib/debounce.js';
+import { ERR } from 'checks.js';
 import './inputErrorView';
 import strf from 'bowhead-js';
 

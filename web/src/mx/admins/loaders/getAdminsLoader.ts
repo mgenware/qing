@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import UserInfo from 'com/user/userInfo';
-import * as adminRoute from '@qing/routes/s/admin';
+import Loader from 'lib/loader.js';
+import UserInfo from 'com/user/userInfo.js';
+import * as adminRoute from '@qing/routes/s/admin.js';
 
 export default class GetAdminsLoader extends Loader<UserInfo[]> {
   override requestURL(): string {

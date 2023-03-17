@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'dev/t';
-import { CHECK } from './checks';
+import { expect } from 'dev/t.js';
+import { CHECK } from './checks.js';
 
 it('CHECK ignored in prod mode', () => {
   expect(() => CHECK(0)).to.not.throw();

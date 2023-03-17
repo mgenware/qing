@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'dev/t';
-import ErrorWithCode from './errorWithCode';
+import { expect } from 'dev/t.js';
+import ErrorWithCode from './errorWithCode.js';
 
 it('ErrorWithCode: customized code', () => {
   const err = new ErrorWithCode('hi', 123);

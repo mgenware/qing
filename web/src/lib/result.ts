@@ -1,4 +1,4 @@
-import ErrorWithCode from './errorWithCode';
+import ErrorWithCode from './errorWithCode.js';
 
 export default class Result<TData> {
   private constructor(public error: ErrorWithCode | null, public data: TData | null) {}

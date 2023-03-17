@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, TemplateResult, property } from 'll';
+import { BaseElement, customElement, html, css, TemplateResult, property } from 'll.js';
 import 'qing-overlay';
 import 'ui/widgets/svgIcon';
-import delay from 'lib/delay';
-import { staticMainImage } from 'urls';
+import delay from 'lib/delay.js';
+import { staticMainImage } from 'urls.js';
 
 const iconSize = 58;
 const buttonContainerID = '__buttons';

@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, css, TemplateResult, property } from 'll';
+import { BaseElement, html, css, TemplateResult, property } from 'll.js';
 import 'ui/status/statusView';
-import 'ui/content/headingView';
-import 'ui/alerts/noticeView';
-import LoadingStatus from 'lib/loadingStatus';
-import PaginatedList from 'lib/api/paginatedList';
+import 'ui/content/headingView.js';
+import 'ui/alerts/noticeView.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import PaginatedList from 'lib/api/paginatedList.js';
 import './pcPageControl';
-import Loader from 'lib/loader';
-import appTask from 'app/appTask';
-import PCPost from '../pcPost';
+import Loader from 'lib/loader.js';
+import appTask from 'app/appTask.js';
+import PCPost from '../pcPost.js';
 
 const defaultPageSize = 10;
 

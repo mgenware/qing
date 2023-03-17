@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
+import 'core.js';
 // Used by post page template.
-import 'com/postCore/postUserApp';
-import './postPayloadApp';
-import { setupHandlers } from 'com/postCore/postEditHandlers';
+import 'com/postCore/postUserApp.js';
+import './postPayloadApp.js';
+import { setupHandlers } from 'com/postCore/postEditHandlers.js';
 import 'ui/editing/editBarApp';
-import { EditBarApp } from 'ui/editing/editBarApp';
+import { EditBarApp } from 'ui/editing/editBarApp.js';
 import { appdef } from '@qing/def';
-import wind from './postWind';
+import wind from './postWind.js';
 
 const editBar = document.querySelector<EditBarApp>('.m-post-user edit-bar-app');
 if (editBar) {

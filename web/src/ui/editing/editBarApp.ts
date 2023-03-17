@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, property, state } from 'll';
-import appPageState from 'app/appPageState';
+import { BaseElement, customElement, html, property, state } from 'll.js';
+import appPageState from 'app/appPageState.js';
 
 @customElement('edit-bar-app')
 export class EditBarApp extends BaseElement {

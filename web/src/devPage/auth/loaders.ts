@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import { User } from 'sod/auth';
-import * as authRoute from '@qing/routes/dev/api/auth';
+import Loader from 'lib/loader.js';
+import { User } from 'sod/auth.js';
+import * as authRoute from '@qing/routes/dev/api/auth.js';
 
 class LoaderBase<T> extends Loader<T> {
   constructor(public uidInput: string, public isEID: boolean) {

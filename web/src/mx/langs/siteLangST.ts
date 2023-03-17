@@ -5,21 +5,21 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, when, state } from 'll';
+import { customElement, html, css, when, state } from 'll.js';
 import 'ui/forms/checkBox';
 import 'ui/status/statusView';
-import 'ui/content/headingView';
-import 'ui/content/subheadingView';
-import 'ui/forms/checkmarkView';
-import 'ui/status/statefulPage';
+import 'ui/content/headingView.js';
+import 'ui/content/subheadingView.js';
+import 'ui/forms/checkmarkView.js';
+import 'ui/status/statefulPage.js';
 import '../cm/needRestartView';
 import '../cm/siteTypeSelector';
-import { StatefulPage } from 'ui/status/statefulPage';
-import appTask from 'app/appTask';
-import { GetLangSiteSTLoader } from '../loaders/getSiteSTLoader';
-import { SetSiteLangsSTLoader } from 'mx/loaders/setSiteSTLoader';
-import { NameAndID } from 'sod/api';
-import * as cu from 'lib/collectionUtil';
+import { StatefulPage } from 'ui/status/statefulPage.js';
+import appTask from 'app/appTask.js';
+import { GetLangSiteSTLoader } from '../loaders/getSiteSTLoader.js';
+import { SetSiteLangsSTLoader } from 'mx/loaders/setSiteSTLoader.js';
+import { NameAndID } from 'sod/api.js';
+import * as cu from 'lib/collectionUtil.js';
 
 @customElement('site-lang-st')
 export class SiteLangST extends StatefulPage {

@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as profileRoute from '@qing/routes/s/pri/profile';
+import Loader from 'lib/loader.js';
+import * as profileRoute from '@qing/routes/s/pri/profile.js';
 
 export default class SetProfileInfoLoader extends Loader<undefined> {
   constructor(

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, TemplateResult, property } from 'll';
+import { BaseElement, customElement, html, css, TemplateResult, property } from 'll.js';
 
 export interface SelectViewChangeArgs {
   index: number;

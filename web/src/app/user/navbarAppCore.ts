@@ -7,12 +7,12 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, css, when, classMap, state, TemplateResult } from 'll';
-import { staticMainImage } from 'urls';
-import * as def from 'def';
-import AppSettings from 'app/appSettings';
-import * as thm from './theme';
-import * as brLib from 'lib/brLib';
+import { BaseElement, html, css, when, classMap, state, TemplateResult } from 'll.js';
+import { staticMainImage } from 'urls.js';
+import * as def from 'def.js';
+import AppSettings from 'app/appSettings.js';
+import * as thm from './theme.js';
+import * as brLib from 'lib/brLib.js';
 import 'ui/forms/checkBox';
 
 const ls = globalThis.coreLS;

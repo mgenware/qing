@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { CHECK } from 'checks';
+import { CHECK } from 'checks.js';
 import { LitElement, CSSResultGroup } from 'lit';
-import { InputView } from 'ui/forms/inputView';
+import { InputView } from 'ui/forms/inputView.js';
 import coreStyles from 'qing-css-base';
 
 export * from 'lit';

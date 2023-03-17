@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css } from 'll.js';
 import './noticeView';
 
 @customElement('no-content-view')

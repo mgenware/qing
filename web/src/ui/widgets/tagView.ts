@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import { AppViewStyleNullable } from 'ui/types/appViewStyle';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import { AppViewStyleNullable } from 'ui/types/appViewStyle.js';
 
 @customElement('tag-view')
 export class TagView extends BaseElement {

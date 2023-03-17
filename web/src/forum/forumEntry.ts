@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import { ready } from 'lib/htmlLib';
+import 'core.js';
+import { ready } from 'lib/htmlLib.js';
 import { appdef } from '@qing/def';
-import 'ui/content/headingView';
-import 'ui/lists/tabView';
-import { tabViewActiveClass } from 'ui/lists/tabView';
+import 'ui/content/headingView.js';
+import 'ui/lists/tabView.js';
+import { tabViewActiveClass } from 'ui/lists/tabView.js';
 // Required by empty content view.
-import 'ui/alerts/noContentView';
-import './newFPostApp';
+import 'ui/alerts/noContentView.js';
+import './newFPostApp.js';
 
 const defaultHighlightedTab = appdef.keyForumPosts;
 

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css } from 'll.js';
 
 @customElement('subheading-view')
 export class SubheadingView extends BaseElement {

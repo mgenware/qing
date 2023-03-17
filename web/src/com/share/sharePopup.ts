@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import appAlert from 'app/appAlert';
-import { ERR } from 'checks';
-import { BaseElement, customElement, html, css, property, state } from 'll';
+import appAlert from 'app/appAlert.js';
+import { ERR } from 'checks.js';
+import { BaseElement, customElement, html, css, property, state } from 'll.js';
 
 const overlayID = 'overlay';
 const okBtnID = 'ok-btn';

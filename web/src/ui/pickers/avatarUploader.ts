@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'qing-overlay';
-import { staticMainImage } from 'urls';
-import 'ui/status/progressView';
+import { staticMainImage } from 'urls.js';
+import 'ui/status/progressView.js';
 import '@github/image-crop-element';
-import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader';
+import AvatarUploadLoader, { AvatarUploadResponse } from './loaders/avatarUploadLoader.js';
 import { QingOverlay } from 'qing-overlay';
-import appTask from 'app/appTask';
+import appTask from 'app/appTask.js';
 import { appdef } from '@qing/def';
 
 interface ImageCropInfo {

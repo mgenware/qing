@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'dev/t';
-import ErrorWithCode from './errorWithCode';
-import LoadingStatus from './loadingStatus';
+import { expect } from 'dev/t.js';
+import ErrorWithCode from './errorWithCode.js';
+import LoadingStatus from './loadingStatus.js';
 
 it('error', () => {
   const err = new ErrorWithCode('a');

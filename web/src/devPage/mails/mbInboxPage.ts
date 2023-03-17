@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property, state, TemplateResult } from 'll';
-import 'ui/alerts/noContentView';
-import * as mailsRoute from '@qing/routes/dev/mails';
-import * as loaders from './loaders';
-import appTask from 'app/appTask';
+import { BaseElement, customElement, html, css, property, state, TemplateResult } from 'll.js';
+import 'ui/alerts/noContentView.js';
+import * as mailsRoute from '@qing/routes/dev/mails.js';
+import * as loaders from './loaders.js';
+import appTask from 'app/appTask.js';
 import './mbDate';
-import { DevMail } from 'sod/dev/dev';
+import { DevMail } from 'sod/dev/dev.js';
 
 @customElement('mb-inbox-page')
 export class MBInboxPage extends BaseElement {

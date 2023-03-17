@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'dev/t';
+import { html, fixture, tDOM } from 'dev/t.js';
 import './noticeView';
 
 it('Display', async () => {

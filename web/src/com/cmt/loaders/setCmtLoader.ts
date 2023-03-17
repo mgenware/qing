@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as composeRoute from '@qing/routes/s/pri/compose';
-import { ComposerContent } from 'ui/editing/composerView';
-import { Cmt } from '../data/cmt';
-import Entity from 'lib/entity';
+import Loader from 'lib/loader.js';
+import * as composeRoute from '@qing/routes/s/pri/compose.js';
+import { ComposerContent } from 'ui/editing/composerView.js';
+import { Cmt } from '../data/cmt.js';
+import Entity from 'lib/entity.js';
 
 // DON'T change the names below. They're used by server as well.
 export interface SetCmtData {

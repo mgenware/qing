@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { renderTemplateResult } from 'lib/htmlLib';
-import { html } from 'll';
-import { brMode } from 'devMode';
-import 'ui/status/spinnerView';
-import 'ui/alerts/dialogView';
-import 'com/share/sharePopup';
-import { DialogIcon, DialogView } from 'ui/alerts/dialogView';
+import { renderTemplateResult } from 'lib/htmlLib.js';
+import { html } from 'll.js';
+import { brMode } from 'devMode.js';
+import 'ui/status/spinnerView.js';
+import 'ui/alerts/dialogView.js';
+import 'com/share/sharePopup.js';
+import { DialogIcon, DialogView } from 'ui/alerts/dialogView.js';
 
 const dialogContainerID = '__g_dialog_container';
 const spinnerContainerID = '__g_spinner_container';

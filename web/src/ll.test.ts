@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement } from 'll';
-import { expect, html, fixture, tDOM } from 'dev/t';
+import { BaseElement } from 'll.js';
+import { expect, html, fixture, tDOM } from 'dev/t.js';
 
 class TElement extends BaseElement {
   override render() {

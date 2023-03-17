@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as authRoute from '@qing/routes/s/pri/auth';
+import Loader from 'lib/loader.js';
+import * as authRoute from '@qing/routes/s/pri/auth.js';
 
 export default class SignOutLoader extends Loader<undefined> {
   override requestURL(): string {

@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, state } from 'll';
+import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'com/cmt/cmtApp';
-import postWind from './postWind';
-import 'com/like/likesApp';
+import postWind from './postWind.js';
+import 'com/like/likesApp.js';
 import { appdef } from '@qing/def';
-import * as pu from 'lib/pageUtil';
-import 'com/share/sharePopup';
-import * as urls from 'urls';
-import appAlert from 'app/appAlert';
+import * as pu from 'lib/pageUtil.js';
+import 'com/share/sharePopup.js';
+import * as urls from 'urls.js';
+import appAlert from 'app/appAlert.js';
 
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')

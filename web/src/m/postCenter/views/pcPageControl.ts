@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'ui/lists/itemCounter';
-import 'ui/buttons/linkButton';
-import { ERR } from 'checks';
-import appAlert from 'app/appAlert';
+import 'ui/buttons/linkButton.js';
+import { ERR } from 'checks.js';
+import appAlert from 'app/appAlert.js';
 import strf from 'bowhead-js';
 
 const pageInputID = 'page-input';

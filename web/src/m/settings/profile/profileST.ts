@@ -5,23 +5,23 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, state } from 'll';
-import { ERR } from 'checks';
+import { customElement, html, css, state } from 'll.js';
+import { ERR } from 'checks.js';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
-import 'ui/content/headingView';
-import 'ui/status/statefulPage';
-import { StatefulPage } from 'ui/status/statefulPage';
+import 'ui/content/headingView.js';
+import 'ui/status/statefulPage.js';
+import { StatefulPage } from 'ui/status/statefulPage.js';
 import 'ui/forms/inputView';
-import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader';
-import LoadingStatus from 'lib/loadingStatus';
-import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader';
-import SetProfileInfoLoader from './loaders/setProfileInfoLoader';
-import appPageState from 'app/appPageState';
-import appTask from 'app/appTask';
-import appAlert from 'app/appAlert';
-import 'ui/editing/editorView';
-import EditorView from 'ui/editing/editorView';
+import { AvatarUploadResponse } from 'ui/pickers/loaders/avatarUploadLoader.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import { GetProfileInfoLoader } from './loaders/getProfileInfoLoader.js';
+import SetProfileInfoLoader from './loaders/setProfileInfoLoader.js';
+import appPageState from 'app/appPageState.js';
+import appTask from 'app/appTask.js';
+import appAlert from 'app/appAlert.js';
+import 'ui/editing/editorView.js';
+import EditorView from 'ui/editing/editorView.js';
 import strf from 'bowhead-js';
 
 const editorID = 'editor';

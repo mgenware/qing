@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import LoadingStatus from 'lib/loadingStatus';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import LoadingStatus from 'lib/loadingStatus.js';
 import '../alerts/errorView';
 import './spinnerView';
 import 'qing-dock-box';

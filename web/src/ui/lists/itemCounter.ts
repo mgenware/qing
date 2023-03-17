@@ -6,7 +6,7 @@
  */
 
 import strf from 'bowhead-js';
-import { BaseElement, customElement, html, property } from 'll';
+import { BaseElement, customElement, html, property } from 'll.js';
 
 @customElement('item-counter')
 export class ItemCounter extends BaseElement {

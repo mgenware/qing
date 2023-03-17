@@ -5,25 +5,35 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, repeat, property, state, classMap } from 'll';
+import {
+  BaseElement,
+  customElement,
+  html,
+  css,
+  when,
+  repeat,
+  property,
+  state,
+  classMap,
+} from 'll.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { cache } from 'lit/directives/cache.js';
-import Entity from 'lib/entity';
-import LoadingStatus from 'lib/loadingStatus';
+import Entity from 'lib/entity.js';
+import LoadingStatus from 'lib/loadingStatus.js';
 import './cmtView';
 import './cmtLoadMoreView';
-import 'ui/buttons/linkButton';
-import { Cmt } from '../data/cmt';
-import { CHECK } from 'checks';
-import { ItemsChangedEvent } from 'lib/itemCollector';
-import appAlert from 'app/appAlert';
-import CmtCollector from '../data/cmtCollector';
-import DeleteCmtLoader from '../loaders/deleteCmtLoader';
-import appTask from 'app/appTask';
+import 'ui/buttons/linkButton.js';
+import { Cmt } from '../data/cmt.js';
+import { CHECK } from 'checks.js';
+import { ItemsChangedEvent } from 'lib/itemCollector.js';
+import appAlert from 'app/appAlert.js';
+import CmtCollector from '../data/cmtCollector.js';
+import DeleteCmtLoader from '../loaders/deleteCmtLoader.js';
+import appTask from 'app/appTask.js';
 import { appdef } from '@qing/def';
-import { ComposerView } from 'ui/editing/composerView';
-import { SetCmtLoader } from '../loaders/setCmtLoader';
-import { brMode } from 'devMode';
+import { ComposerView } from 'ui/editing/composerView.js';
+import { SetCmtLoader } from '../loaders/setCmtLoader.js';
+import { brMode } from 'devMode.js';
 import strf from 'bowhead-js';
 
 const editEditorID = 'edit-editor';

@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, state } from 'll';
-import 'ui/alerts/noContentView';
-import * as mailsRoute from '@qing/routes/dev/mails';
-import * as loaders from './loaders';
-import appTask from 'app/appTask';
+import { BaseElement, customElement, html, css, state } from 'll.js';
+import 'ui/alerts/noContentView.js';
+import * as mailsRoute from '@qing/routes/dev/mails.js';
+import * as loaders from './loaders.js';
+import appTask from 'app/appTask.js';
 
 @customElement('mb-users-page')
 export class MBUsersPage extends BaseElement {

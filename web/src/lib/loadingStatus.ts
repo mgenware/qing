@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import ErrorWithCode from './errorWithCode';
+import ErrorWithCode from './errorWithCode.js';
 
 // Represents different states of a loading action.
 export default class LoadingStatus {

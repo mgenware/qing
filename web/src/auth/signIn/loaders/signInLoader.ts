@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as authRoute from '@qing/routes/s/pub/auth';
+import Loader from 'lib/loader.js';
+import * as authRoute from '@qing/routes/s/pub/auth.js';
 
 export default class SignInLoader extends Loader<undefined> {
   constructor(public email: string, public pwd: string) {

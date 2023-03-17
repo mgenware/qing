@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { CHECK } from 'checks';
+import { CHECK } from 'checks.js';
 import { EventEmitter, CancelEventFunc } from 'mahur';
 
 interface AppStateEntry {

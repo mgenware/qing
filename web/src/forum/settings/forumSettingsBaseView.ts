@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import 'ui/lists/linkListView';
-import { linkListActiveClass } from 'ui/lists/linkListView';
-import { CHECK } from 'checks';
-import * as fRoute from '@qing/routes/forum';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import 'ui/lists/linkListView.js';
+import { linkListActiveClass } from 'ui/lists/linkListView.js';
+import { CHECK } from 'checks.js';
+import * as fRoute from '@qing/routes/forum.js';
 
 export enum ForumSettingsPages {
   general,

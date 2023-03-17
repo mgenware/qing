@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import { html, TemplateResult } from 'll';
-import * as mRoute from '@qing/routes/m';
+import 'core.js';
+import { html, TemplateResult } from 'll.js';
+import * as mRoute from '@qing/routes/m.js';
 import './settings/mSettings';
 import './settings/profile/profileST';
 import './settings/lang/langST';
 import './postCenter/myPostsApp';
 import './postCenter/myFPostsApp';
-import { MiniURLRouter } from 'lib/miniURLRouter';
-import * as pu from 'lib/pageUtil';
+import { MiniURLRouter } from 'lib/miniURLRouter.js';
+import * as pu from 'lib/pageUtil.js';
 
 const router = new MiniURLRouter();
 

@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter';
-import { html, TemplateResult } from 'll';
-import * as fRoute from '@qing/routes/forum';
+import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter.js';
+import { html, TemplateResult } from 'll.js';
+import * as fRoute from '@qing/routes/forum.js';
 import './settings/forumSettingsBaseView';
-import { ForumSettingsPages } from './settings/forumSettingsBaseView';
-import './settings/general/forumGeneralSettingsApp';
-import ForumSettingsWind from './forumSettingsWind';
-import { CHECK } from 'checks';
-import appPageState from 'app/appPageState';
-import * as pu from 'lib/pageUtil';
+import { ForumSettingsPages } from './settings/forumSettingsBaseView.js';
+import './settings/general/forumGeneralSettingsApp.js';
+import ForumSettingsWind from './forumSettingsWind.js';
+import { CHECK } from 'checks.js';
+import appPageState from 'app/appPageState.js';
+import * as pu from 'lib/pageUtil.js';
 
 const settingsRouter = new MiniURLRouter();
 const forumSettingsWind = appPageState.windData<ForumSettingsWind>();

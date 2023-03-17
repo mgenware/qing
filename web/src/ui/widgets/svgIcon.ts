@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property, state, styleMap } from 'll';
+import { BaseElement, customElement, html, css, property, state, styleMap } from 'll.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { ERR } from 'checks';
-import { AppViewStyleNullable } from '../types/appViewStyle';
+import { ERR } from 'checks.js';
+import { AppViewStyleNullable } from '../types/appViewStyle.js';
 
 function processSVG(svg: string, _width: number, _height: number): string {
   const parser = new DOMParser();

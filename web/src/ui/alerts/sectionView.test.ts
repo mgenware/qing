@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'dev/t';
-import './sectionView';
+import { html, fixture, tDOM } from 'dev/t.js';
+import './sectionView.js';
 
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<section-view></section-view>`);

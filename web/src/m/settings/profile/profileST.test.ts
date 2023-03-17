@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'dev/t';
-import './profileST';
+import { html, fixture, tDOM } from 'dev/t.js';
+import './profileST.js';
 
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<profile-st></profile-st>`);

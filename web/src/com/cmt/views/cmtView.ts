@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'ui/editing/editBarApp';
 import 'ui/status/statusOverlay';
-import 'ui/buttons/linkButton';
+import 'ui/buttons/linkButton.js';
 import 'ui/widgets/svgIcon';
-import 'com/like/likesApp';
+import 'com/like/likesApp.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { Cmt } from '../data/cmt';
-import { CHECK } from 'checks';
+import { Cmt } from '../data/cmt.js';
+import { CHECK } from 'checks.js';
 import { appdef } from '@qing/def';
-import appPageState from 'app/appPageState';
+import appPageState from 'app/appPageState.js';
 
 @customElement('cmt-view')
 export class CmtView extends BaseElement {

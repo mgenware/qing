@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, LitElement, property } from 'll';
+import { customElement, html, css, LitElement, property } from 'll.js';
 import 'qing-overlay';
 
 // A spinner view(block) that fills available horizontal space.

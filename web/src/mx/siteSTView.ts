@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css } from 'll';
-import * as mxRoute from '@qing/routes/mx';
-import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView';
+import { customElement, css } from 'll.js';
+import * as mxRoute from '@qing/routes/mx.js';
+import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView.js';
 
 const items: SettingsBaseItem[] = [
   { name: globalThis.coreLS.generalSettings, link: mxRoute.general },

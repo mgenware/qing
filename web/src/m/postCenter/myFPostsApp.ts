@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, TemplateResult } from 'll';
-import PaginatedList from 'lib/api/paginatedList';
-import Loader from 'lib/loader';
+import { customElement, html, css, TemplateResult } from 'll.js';
+import PaginatedList from 'lib/api/paginatedList.js';
+import Loader from 'lib/loader.js';
 import { appdef } from '@qing/def';
-import { PCListApp } from './views/pcListApp';
-import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
-import PCPost from './pcPost';
-import { runNewEntityCommand } from 'app/appCommands';
+import { PCListApp } from './views/pcListApp.js';
+import { GetPCPostsLoader } from './loaders/getPCPostsLoader.js';
+import PCPost from './pcPost.js';
+import { runNewEntityCommand } from 'app/appCommands.js';
 
 @customElement('my-fposts-app')
 export default class MyFPostsApp extends PCListApp {

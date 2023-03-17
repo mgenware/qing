@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import 'ui/lists/tabView';
-import 'ui/alerts/noticeView';
-import { ready } from 'lib/htmlLib';
+import 'core.js';
+import 'ui/lists/tabView.js';
+import 'ui/alerts/noticeView.js';
+import { ready } from 'lib/htmlLib.js';
 import { appdef } from '@qing/def';
-import { tabViewActiveClass } from 'ui/lists/tabView';
+import { tabViewActiveClass } from 'ui/lists/tabView.js';
 // Required by empty content view.
-import 'ui/alerts/noContentView';
+import 'ui/alerts/noContentView.js';
 
 ready(() => {
   // Highlight the selected tab.

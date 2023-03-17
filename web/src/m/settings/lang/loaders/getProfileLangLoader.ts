@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as profileRoute from '@qing/routes/s/pri/profile';
-import { GetProfileLangResult } from 'sod/profile';
+import Loader from 'lib/loader.js';
+import * as profileRoute from '@qing/routes/s/pri/profile.js';
+import { GetProfileLangResult } from 'sod/profile.js';
 
 export class GetProfileLangLoader extends Loader<GetProfileLangResult> {
   override requestURL(): string {

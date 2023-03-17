@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { html } from 'll';
-import { ready, renderTemplateResult } from 'lib/htmlLib';
-import * as cmd from '../appCommands';
+import { html } from 'll.js';
+import { ready, renderTemplateResult } from 'lib/htmlLib.js';
+import * as cmd from '../appCommands.js';
 import { appdef } from '@qing/def';
 import 'com/postCore/setEntityApp';
-import SetEntityApp from 'com/postCore/setEntityApp';
+import SetEntityApp from 'com/postCore/setEntityApp.js';
 
 // ---------------------------------
 // Handle uncaught exceptions

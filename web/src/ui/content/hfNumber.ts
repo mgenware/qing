@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, property } from 'll';
+import { BaseElement, customElement, html, property } from 'll.js';
 
 @customElement('hf-number')
 export class HFNumber extends BaseElement {

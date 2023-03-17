@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import { MiniURLRouter } from 'lib/miniURLRouter';
-import { html, TemplateResult } from 'll';
-import * as authRoute from '@qing/routes/dev/auth';
-import * as elementsRoute from '@qing/routes/dev/elements';
-import * as mailsRoute from '@qing/routes/dev/mails';
+import 'core.js';
+import { MiniURLRouter } from 'lib/miniURLRouter.js';
+import { html, TemplateResult } from 'll.js';
+import * as authRoute from '@qing/routes/dev/auth.js';
+import * as elementsRoute from '@qing/routes/dev/elements.js';
+import * as mailsRoute from '@qing/routes/dev/mails.js';
 import './devPage';
 import { appdef } from '@qing/def';
 import './auth/authPage';
@@ -18,7 +18,7 @@ import './ui/elementsPage';
 import './mails/mbUsersPage';
 import './mails/mbInboxPage';
 import './mails/mbMailPage';
-import * as pu from 'lib/pageUtil';
+import * as pu from 'lib/pageUtil.js';
 
 const devRouter = new MiniURLRouter();
 

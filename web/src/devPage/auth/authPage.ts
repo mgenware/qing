@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
-import * as authRoute from '@qing/routes/dev/auth';
+import * as authRoute from '@qing/routes/dev/auth.js';
 import 'qing-button';
-import * as loaders from './loaders';
-import appTask from 'app/appTask';
+import * as loaders from './loaders.js';
+import appTask from 'app/appTask.js';
 
 @customElement('auth-page')
 export class AuthDevPage extends BaseElement {

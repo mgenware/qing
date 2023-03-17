@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as composeRoute from '@qing/routes/s/pri/compose';
-import Entity from 'lib/entity';
+import Loader from 'lib/loader.js';
+import * as composeRoute from '@qing/routes/s/pri/compose.js';
+import Entity from 'lib/entity.js';
 
 export default class DeleteEntityLoader extends Loader<string> {
   constructor(public entity: Entity) {

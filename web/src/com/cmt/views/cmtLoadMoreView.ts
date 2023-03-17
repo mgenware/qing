@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'ui/status/statusView';
-import LoadingStatus from 'lib/loadingStatus';
+import LoadingStatus from 'lib/loadingStatus.js';
 import strf from 'bowhead-js';
 
 @customElement('cmt-load-more-view')

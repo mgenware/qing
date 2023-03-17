@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 // NOTE: `edit-bar-app` is required as it's being used by post page template.
 import 'ui/editing/editBarApp';
 import 'com/postCore/setEntityApp';
-import { CHECK } from 'checks';
+import { CHECK } from 'checks.js';
 
 @customElement('post-user-app')
 export class PostUserApp extends BaseElement {

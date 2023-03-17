@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as entRoute from '@qing/routes/s/pub/ent';
-import { Cmt } from '../data/cmt';
+import Loader from 'lib/loader.js';
+import * as entRoute from '@qing/routes/s/pub/ent.js';
+import { Cmt } from '../data/cmt.js';
 
 export default class GetCmtLoader extends Loader<Cmt | null> {
   constructor(public id: string) {

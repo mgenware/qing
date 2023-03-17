@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as entRoute from '@qing/routes/s/pub/ent';
-import Entity from 'lib/entity';
-import { Cmt } from '../data/cmt';
-import { CHECK } from 'checks';
-import { ItemsLoadedResp } from 'lib/itemCollector';
+import Loader from 'lib/loader.js';
+import * as entRoute from '@qing/routes/s/pub/ent.js';
+import Entity from 'lib/entity.js';
+import { Cmt } from '../data/cmt.js';
+import { CHECK } from 'checks.js';
+import { ItemsLoadedResp } from 'lib/itemCollector.js';
 
 export interface GetCmtsInputs {
   host: Entity;

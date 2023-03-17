@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, html, property, css } from 'll';
+import { BaseElement, html, property, css } from 'll.js';
 import { repeat } from 'lit/directives/repeat.js';
-import 'ui/lists/linkListView';
-import { linkListActiveClass } from 'ui/lists/linkListView';
+import 'ui/lists/linkListView.js';
+import { linkListActiveClass } from 'ui/lists/linkListView.js';
 
 export interface SettingsBaseItem {
   name: string;

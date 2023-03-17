@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'qing-overlay';
-import wind from './forumWind';
+import wind from './forumWind.js';
 import { appdef } from '@qing/def';
-import { runNewEntityCommand } from 'app/appCommands';
+import { runNewEntityCommand } from 'app/appCommands.js';
 
 @customElement('new-fpost-app')
 export class NewFPostApp extends BaseElement {

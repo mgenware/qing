@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import { html, TemplateResult } from 'll';
-import * as mxRoute from '@qing/routes/mx';
+import 'core.js';
+import { html, TemplateResult } from 'll.js';
+import * as mxRoute from '@qing/routes/mx.js';
 import './admins/siteAdminST';
 import './general/siteGeneralST';
 import './langs/siteLangST';
 import './siteSTView';
-import { MiniURLRouter } from 'lib/miniURLRouter';
-import * as pu from 'lib/pageUtil';
+import { MiniURLRouter } from 'lib/miniURLRouter.js';
+import * as pu from 'lib/pageUtil.js';
 
 const router = new MiniURLRouter();
 

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import appPageState from 'app/appPageState';
+import appPageState from 'app/appPageState.js';
 
 export interface LangInfo {
   Name: string;

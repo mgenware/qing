@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { renderTemplateResult } from 'lib/htmlLib';
-import { html, TemplateResult } from 'll';
+import { renderTemplateResult } from 'lib/htmlLib.js';
+import { html, TemplateResult } from 'll.js';
 
 export function mainContentElement(): HTMLElement {
   const element = window.document.querySelector('body > main');

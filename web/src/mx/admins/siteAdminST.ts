@@ -5,22 +5,22 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, when, property } from 'll';
-import 'ui/content/headingView';
-import 'ui/content/subheadingView';
-import 'ui/widgets/tagView';
-import 'ui/buttons/linkButton';
-import 'ui/alerts/noticeView';
-import 'com/user/userSelectorApp';
-import GetAdminsLoader from './loaders/getAdminsLoader';
-import UserInfo from 'com/user/userInfo';
-import SetAdminLoader from './loaders/setAdminLoader';
+import { customElement, html, css, when, property } from 'll.js';
+import 'ui/content/headingView.js';
+import 'ui/content/subheadingView.js';
+import 'ui/widgets/tagView.js';
+import 'ui/buttons/linkButton.js';
+import 'ui/alerts/noticeView.js';
+import 'com/user/userSelectorApp.js';
+import GetAdminsLoader from './loaders/getAdminsLoader.js';
+import UserInfo from 'com/user/userInfo.js';
+import SetAdminLoader from './loaders/setAdminLoader.js';
 import 'com/user/userCard';
-import appPageState from 'app/appPageState';
-import appTask from 'app/appTask';
-import appAlert from 'app/appAlert';
-import 'ui/status/statefulPage';
-import { StatefulPage } from 'ui/status/statefulPage';
+import appPageState from 'app/appPageState.js';
+import appTask from 'app/appTask.js';
+import appAlert from 'app/appAlert.js';
+import 'ui/status/statefulPage.js';
+import { StatefulPage } from 'ui/status/statefulPage.js';
 import strf from 'bowhead-js';
 
 @customElement('site-admin-st')

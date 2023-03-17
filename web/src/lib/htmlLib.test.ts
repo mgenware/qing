@@ -6,9 +6,9 @@
  */
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { expect, html, fixture, elementUpdated, aTimeout } from 'dev/t';
-import { html as litHTML } from 'll';
-import { renderTemplateResult } from './htmlLib';
+import { expect, html, fixture, elementUpdated, aTimeout } from 'dev/t.js';
+import { html as litHTML } from 'll.js';
+import { renderTemplateResult } from './htmlLib.js';
 
 it('renderTemplateResult', async () => {
   const el: HTMLElement = await fixture(html`<section><q>1</q></section>`);

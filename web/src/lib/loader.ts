@@ -6,10 +6,10 @@
  */
 
 import { appdef } from '@qing/def';
-import { ERR } from 'checks';
-import ErrorWithCode from './errorWithCode';
-import LoadingStatus from './loadingStatus';
-import delay from './delay';
+import { ERR } from 'checks.js';
+import ErrorWithCode from './errorWithCode.js';
+import LoadingStatus from './loadingStatus.js';
+import delay from './delay.js';
 
 const devLoaderResName = '__loader_res';
 

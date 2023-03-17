@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, property } from 'll';
+import { BaseElement, customElement, html, property } from 'll.js';
 
 const units = {
   year: 24 * 60 * 60 * 1000 * 365,

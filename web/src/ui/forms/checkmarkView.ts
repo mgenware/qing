@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property, styleMap } from 'll';
+import { BaseElement, customElement, html, css, property, styleMap } from 'll.js';
 
 @customElement('checkmark-view')
 // Mobile friendly version of check-box.

@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as composeRoute from '@qing/routes/s/pri/compose';
+import Loader from 'lib/loader.js';
+import * as composeRoute from '@qing/routes/s/pri/compose.js';
 import { appdef } from '@qing/def';
-import { ComposerContent } from 'ui/editing/composerView';
-import appPageState from 'app/appPageState';
+import { ComposerContent } from 'ui/editing/composerView.js';
+import appPageState from 'app/appPageState.js';
 
 export class SetEntityLoader extends Loader<string | null> {
   constructor(

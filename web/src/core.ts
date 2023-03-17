@@ -13,6 +13,6 @@ import 'app/user/navbarApp';
 
 // Commonly used components.
 import 'qing-button';
-import 'ui/buttons/linkButton';
+import 'ui/buttons/linkButton.js';
 import 'ui/content/timeField';
 import 'ui/widgets/svgIcon';

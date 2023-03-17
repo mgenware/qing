@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property, when } from 'll';
+import { BaseElement, customElement, html, css, property, when } from 'll.js';
 
 export interface CardSelectorItem {
   title: string;

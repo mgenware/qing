@@ -6,22 +6,22 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, when, state, TemplateResult } from 'll';
-import * as mRoute from '@qing/routes/m';
-import * as mxRoute from '@qing/routes/mx';
-import * as authRoute from '@qing/routes/auth';
-import SignOutLoader from './loaders/signOutLoader';
-import { User } from 'sod/auth';
-import appPageState from 'app/appPageState';
-import appState from 'app/appState';
-import appStateName from 'app/appStateName';
-import appTask from 'app/appTask';
-import * as pu from 'lib/pageUtil';
+import { customElement, html, when, state, TemplateResult } from 'll.js';
+import * as mRoute from '@qing/routes/m.js';
+import * as mxRoute from '@qing/routes/mx.js';
+import * as authRoute from '@qing/routes/auth.js';
+import SignOutLoader from './loaders/signOutLoader.js';
+import { User } from 'sod/auth.js';
+import appPageState from 'app/appPageState.js';
+import appState from 'app/appState.js';
+import appStateName from 'app/appStateName.js';
+import appTask from 'app/appTask.js';
+import * as pu from 'lib/pageUtil.js';
 import { appdef } from '@qing/def';
-import { runNewEntityCommand } from 'app/appCommands';
-import * as core from './navbarAppCore';
-import { CHECK } from 'checks';
-import { staticMainImage } from 'urls';
+import { runNewEntityCommand } from 'app/appCommands.js';
+import * as core from './navbarAppCore.js';
+import { CHECK } from 'checks.js';
+import { staticMainImage } from 'urls.js';
 
 const avatarImgCls = 'avatar-s vertical-align-middle';
 const userDropdownID = 'user';

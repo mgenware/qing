@@ -5,23 +5,23 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, when, state } from 'll';
-import 'ui/forms/checkBox';
-import 'ui/status/statusView';
-import 'ui/content/headingView';
-import 'ui/content/subheadingView';
-import 'ui/forms/cardSelector';
-import 'ui/status/statefulPage';
-import '../cm/needRestartView';
-import '../cm/siteTypeSelector';
-import { CardSelectedDetail } from 'ui/forms/cardSelector';
-import { StatefulPage } from 'ui/status/statefulPage';
-import appTask from 'app/appTask';
+import { customElement, html, css, when, state } from 'll.js';
+import 'ui/forms/checkBox.js';
+import 'ui/status/statusView.js';
+import 'ui/content/headingView.js';
+import 'ui/content/subheadingView.js';
+import 'ui/forms/cardSelector.js';
+import 'ui/status/statefulPage.js';
+import '../cm/needRestartView.js';
+import '../cm/siteTypeSelector.js';
+import { CardSelectedDetail } from 'ui/forms/cardSelector.js';
+import { StatefulPage } from 'ui/status/statefulPage.js';
+import appTask from 'app/appTask.js';
 import { appdef } from '@qing/def';
-import { siteTypeOptions } from '../cm/siteTypeSelector';
-import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader';
-import { SetSiteInfoSTLoader, SetSiteTypeSTLoader } from 'mx/loaders/setSiteSTLoader';
-import { CHECK } from 'checks';
+import { siteTypeOptions } from '../cm/siteTypeSelector.js';
+import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader.js';
+import { SetSiteInfoSTLoader, SetSiteTypeSTLoader } from 'mx/loaders/setSiteSTLoader.js';
+import { CHECK } from 'checks.js';
 
 const infoBlockCls = 'info-block';
 const siteTypeBlockCls = 'site-type-block';

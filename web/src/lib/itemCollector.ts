@@ -6,8 +6,8 @@
  */
 
 import { KeyedObservableArray, ChangeInfo } from 'qing-keyed-array';
-import Loader from './loader';
-import LoadingStatus from './loadingStatus';
+import Loader from './loader.js';
+import LoadingStatus from './loadingStatus.js';
 
 export enum ChangedByLoading {
   loadMore = 1,

@@ -6,8 +6,8 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import FileUploadLoader from 'lib/fileUploadLoader';
-import * as profileRoute from '@qing/routes/s/pri/profile';
+import FileUploadLoader from 'lib/fileUploadLoader.js';
+import * as profileRoute from '@qing/routes/s/pri/profile.js';
 
 export interface AvatarUploadResponse {
   iconL?: string;

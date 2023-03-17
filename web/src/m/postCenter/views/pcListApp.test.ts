@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'dev/t';
-import './pcListApp';
+import { html, fixture, tDOM } from 'dev/t.js';
+import './pcListApp.js';
 
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<pc-list-app></pc-list-app>`);

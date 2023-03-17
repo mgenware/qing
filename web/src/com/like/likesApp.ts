@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import { CHECK } from 'checks';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import { CHECK } from 'checks.js';
 import './likesView';
-import LikeHostType from './loaders/likeHostType';
-import SetLikeLoader from './loaders/setLikeLoader';
-import appTask from 'app/appTask';
-import appAlert from 'app/appAlert';
-import appPageState from 'app/appPageState';
+import LikeHostType from './loaders/likeHostType.js';
+import SetLikeLoader from './loaders/setLikeLoader.js';
+import appTask from 'app/appTask.js';
+import appAlert from 'app/appAlert.js';
+import appPageState from 'app/appPageState.js';
 import strf from 'bowhead-js';
 
 const sizeMD = 'md';

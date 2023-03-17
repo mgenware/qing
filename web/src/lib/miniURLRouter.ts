@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { devMode } from 'devMode';
+import { devMode } from 'devMode.js';
 import Trie, { PayloadType } from 'basic-trie';
 
 export type MiniURLRouterHandler = (args: Readonly<Record<string, unknown>>) => void;

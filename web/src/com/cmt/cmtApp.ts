@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property, state } from 'll';
+import { BaseElement, customElement, html, css, property, state } from 'll.js';
 import './views/rootCmtList';
-import Entity from 'lib/entity';
-import { CHECK } from 'checks';
+import Entity from 'lib/entity.js';
+import { CHECK } from 'checks.js';
 import 'qing-overlay';
-import 'ui/editing/composerView';
-import { Cmt } from './data/cmt';
-import { ItemsChangedEvent } from 'lib/itemCollector';
-import { CmtFocusModeData } from 'sod/cmt';
+import 'ui/editing/composerView.js';
+import { Cmt } from './data/cmt.js';
+import { ItemsChangedEvent } from 'lib/itemCollector.js';
+import { CmtFocusModeData } from 'sod/cmt.js';
 
 @customElement('cmt-app')
 export class CmtApp extends BaseElement {

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
+import { BaseElement, customElement, html, css } from 'll.js';
 
 @customElement('enter-key-handler')
 export class EnterKeyHandler extends BaseElement {

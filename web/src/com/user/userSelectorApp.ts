@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, when, property } from 'll';
+import { BaseElement, customElement, html, css, when, property } from 'll.js';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
-import 'ui/alerts/noticeView';
-import UserInfo from './userInfo';
+import 'ui/alerts/noticeView.js';
+import UserInfo from './userInfo.js';
 import 'ui/status/statusOverlay';
-import LoadingStatus from 'lib/loadingStatus';
-import FindUsersLoader from './loaders/findUsersLoader';
+import LoadingStatus from 'lib/loadingStatus.js';
+import FindUsersLoader from './loaders/findUsersLoader.js';
 import { createPopper } from '@popperjs/core';
 import './userCard';
-import appTask from 'app/appTask';
+import appTask from 'app/appTask.js';
 
 const inputViewID = 'input-view';
 const popoverRootID = 'popover-root';

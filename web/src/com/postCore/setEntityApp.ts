@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import 'ui/editing/composerView';
-import { ComposerContent, ComposerView } from 'ui/editing/composerView';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import 'ui/editing/composerView.js';
+import { ComposerContent, ComposerView } from 'ui/editing/composerView.js';
 import 'qing-overlay';
-import { SetEntityLoader } from './loaders/setEntityLoader';
-import appTask from 'app/appTask';
-import * as pu from 'lib/pageUtil';
+import { SetEntityLoader } from './loaders/setEntityLoader.js';
+import appTask from 'app/appTask.js';
+import * as pu from 'lib/pageUtil.js';
 
 const composerID = 'composer';
 

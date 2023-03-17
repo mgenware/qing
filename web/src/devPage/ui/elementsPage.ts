@@ -6,30 +6,30 @@
  */
 
 /* eslint-disable no-alert */
-import { BaseElement, customElement, html, css, state } from 'll';
+import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'qing-button';
 import 'qing-dock-box';
-import 'ui/alerts/alertView';
-import 'ui/alerts/sectionView';
-import 'ui/content/headingView';
-import 'ui/status/spinnerView';
-import 'ui/status/statusView';
-import 'ui/status/statusOverlay';
-import 'ui/forms/inputView';
-import 'ui/forms/checklistView';
-import 'ui/forms/selectView';
-import 'ui/forms/checkmarkView';
-import 'ui/lists/linkListView';
+import 'ui/alerts/alertView.js';
+import 'ui/alerts/sectionView.js';
+import 'ui/content/headingView.js';
+import 'ui/status/spinnerView.js';
+import 'ui/status/statusView.js';
+import 'ui/status/statusOverlay.js';
+import 'ui/forms/inputView.js';
+import 'ui/forms/checklistView.js';
+import 'ui/forms/selectView.js';
+import 'ui/forms/checkmarkView.js';
+import 'ui/lists/linkListView.js';
 import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
-import LoadingStatus from 'lib/loadingStatus';
-import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView';
-import { renderTemplateResult } from 'lib/htmlLib';
+import LoadingStatus from 'lib/loadingStatus.js';
+import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView.js';
+import { renderTemplateResult } from 'lib/htmlLib.js';
 import { appdef } from '@qing/def';
-import appAlert from 'app/appAlert';
-import ErrorWithCode from 'lib/errorWithCode';
-import delay from 'lib/delay';
-import * as cu from 'lib/collectionUtil';
+import appAlert from 'app/appAlert.js';
+import ErrorWithCode from 'lib/errorWithCode.js';
+import delay from 'lib/delay.js';
+import * as cu from 'lib/collectionUtil.js';
 
 const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));

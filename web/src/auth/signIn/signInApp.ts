@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'com/cmt/cmtApp';
-import SignInLoader from './loaders/signInLoader';
+import SignInLoader from './loaders/signInLoader.js';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
-import appTask from 'app/appTask';
-import * as pu from 'lib/pageUtil';
+import appTask from 'app/appTask.js';
+import * as pu from 'lib/pageUtil.js';
 
 @customElement('sign-in-app')
 export class SignInApp extends BaseElement {

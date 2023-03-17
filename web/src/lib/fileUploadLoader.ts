@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import Loader from './loader';
+import Loader from './loader.js';
 
 export default class FileUploadLoader<T> extends Loader<T> {
   constructor(public formData: FormData) {

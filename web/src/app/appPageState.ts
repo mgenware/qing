@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import appState from './appState';
-import appStateName from './appStateName';
-import { RawMainPageWind } from 'sod/app';
-import { User } from 'sod/auth';
+import appState from './appState.js';
+import appStateName from './appStateName.js';
+import { RawMainPageWind } from 'sod/app.js';
+import { User } from 'sod/auth.js';
 
 export interface MainPageWind extends RawMainPageWind {
   // See `window.appWindData` in `main.html` for details.

@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'dev/t';
-import debounce from './debounce';
-import delay from './delay';
+import { expect } from 'dev/t.js';
+import debounce from './debounce.js';
+import delay from './delay.js';
 
 it('Debounce', async () => {
   let count = 0;

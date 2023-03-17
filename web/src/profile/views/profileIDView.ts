@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import { ERR } from 'checks';
-import appAlert from 'app/appAlert';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import { ERR } from 'checks.js';
+import appAlert from 'app/appAlert.js';
 
 @customElement('profile-id-view')
 export class ProfileIDView extends BaseElement {

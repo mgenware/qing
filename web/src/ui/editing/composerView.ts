@@ -16,17 +16,17 @@ import {
   TemplateResult,
   property,
   when,
-} from 'll';
+} from 'll.js';
 import './editorView';
-import { ERR } from 'checks';
+import { ERR } from 'checks.js';
 import 'ui/forms/inputView';
 import 'ui/status/statusView';
-import EditorView from './editorView';
-import appAlert from 'app/appAlert';
-import LoadingStatus from 'lib/loadingStatus';
-import appTask from 'app/appTask';
-import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader';
-import Entity from 'lib/entity';
+import EditorView from './editorView.js';
+import appAlert from 'app/appAlert.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import appTask from 'app/appTask.js';
+import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader.js';
+import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
 
 class ValidationError extends Error {

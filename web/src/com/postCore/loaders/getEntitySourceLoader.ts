@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import Entity from 'lib/entity';
-import * as composeRoute from '@qing/routes/s/pri/compose';
-import { EntityGetSrcResult } from 'da/types';
+import Loader from 'lib/loader.js';
+import Entity from 'lib/entity.js';
+import * as composeRoute from '@qing/routes/s/pri/compose.js';
+import { EntityGetSrcResult } from 'da/types.js';
 
 export class GetEntitySourceLoader extends Loader<EntityGetSrcResult> {
   constructor(public entity: Entity) {

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css } from 'll';
+import { customElement, css } from 'll.js';
 import { KXEditor } from 'kangxi-editor';
 
 // A wrapper around the kangxi editor.

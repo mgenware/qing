@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable arrow-body-style */
-import { BaseElement, customElement, html, css, TemplateResult, property } from 'll';
+import { BaseElement, customElement, html, css, TemplateResult, property } from 'll.js';
 import './checkBox';
 
 const parentContainerID = 'parent-container';

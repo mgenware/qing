@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
-import UserInfo from './userInfo';
+import { BaseElement, customElement, html, css, property } from 'll.js';
+import UserInfo from './userInfo.js';
 
 @customElement('user-card')
 export class UserCard extends BaseElement {

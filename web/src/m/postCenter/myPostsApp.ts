@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, html, css, TemplateResult } from 'll';
-import PaginatedList from 'lib/api/paginatedList';
-import 'ui/content/headingView';
-import Loader from 'lib/loader';
+import { customElement, html, css, TemplateResult } from 'll.js';
+import PaginatedList from 'lib/api/paginatedList.js';
+import 'ui/content/headingView.js';
+import Loader from 'lib/loader.js';
 import { appdef } from '@qing/def';
-import { PCListApp } from './views/pcListApp';
-import { GetPCPostsLoader } from './loaders/getPCPostsLoader';
-import { runNewEntityCommand } from 'app/appCommands';
-import PCPost from './pcPost';
+import { PCListApp } from './views/pcListApp.js';
+import { GetPCPostsLoader } from './loaders/getPCPostsLoader.js';
+import { runNewEntityCommand } from 'app/appCommands.js';
+import PCPost from './pcPost.js';
 
 @customElement('my-posts-app')
 export default class MyPostsApp extends PCListApp {

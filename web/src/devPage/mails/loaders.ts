@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import * as mailsAPI from '@qing/routes/dev/api/mails';
-import { DevMail } from 'sod/dev/dev';
+import Loader from 'lib/loader.js';
+import * as mailsAPI from '@qing/routes/dev/api/mails.js';
+import { DevMail } from 'sod/dev/dev.js';
 
 export class UsersLoader extends Loader<string[]> {
   override requestURL(): string {

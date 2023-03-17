@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import Result from 'lib/result';
+import Result from 'lib/result.js';
 
 export default class APIEventDetail<T> {
   constructor(public done: (res: Result<T>) => void) {}

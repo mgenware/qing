@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property, state } from 'll';
-import 'ui/alerts/noContentView';
+import { BaseElement, customElement, html, css, property, state } from 'll.js';
+import 'ui/alerts/noContentView.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import * as loaders from './loaders';
-import appTask from 'app/appTask';
+import * as loaders from './loaders.js';
+import appTask from 'app/appTask.js';
 import './mbDate';
-import { DevMail } from 'sod/dev/dev';
+import { DevMail } from 'sod/dev/dev.js';
 
 @customElement('mb-mail-page')
 export class MBMailPage extends BaseElement {

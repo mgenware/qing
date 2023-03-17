@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import { classMap } from 'lit/directives/class-map.js';
-import LoadingStatus from 'lib/loadingStatus';
-import 'ui/status/spinnerView';
+import LoadingStatus from 'lib/loadingStatus.js';
+import 'ui/status/spinnerView.js';
 import 'qing-dock-box';
 import '../alerts/errorView';
 

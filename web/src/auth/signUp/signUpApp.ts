@@ -5,16 +5,16 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'com/cmt/cmtApp';
-import SignUpLoader from './loaders/SignUpLoader';
+import SignUpLoader from './loaders/SignUpLoader.js';
 import 'qing-overlay';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import { appdef } from '@qing/def';
-import appTask from 'app/appTask';
-import * as pu from 'lib/pageUtil';
+import appTask from 'app/appTask.js';
+import * as pu from 'lib/pageUtil.js';
 
 @customElement('sign-up-app')
 export class SignUpApp extends BaseElement {

@@ -6,8 +6,8 @@
  */
 
 /* eslint-disable class-methods-use-this */
-import { BaseElement, customElement, html, property, css } from 'll';
-import * as pu from 'lib/pageUtil';
+import { BaseElement, customElement, html, property, css } from 'll.js';
+import * as pu from 'lib/pageUtil.js';
 
 @customElement('link-button')
 /**

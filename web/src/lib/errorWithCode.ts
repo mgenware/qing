@@ -6,7 +6,7 @@
  */
 
 import { appdef } from '@qing/def';
-import { PANIC } from 'checks';
+import { PANIC } from 'checks.js';
 
 export default class ErrorWithCode extends Error {
   code: number;

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import Loader from 'lib/loader';
-import UserInfo from 'com/user/userInfo';
-import * as adminRoute from '@qing/routes/s/admin';
-import { CHECK } from 'checks';
+import Loader from 'lib/loader.js';
+import UserInfo from 'com/user/userInfo.js';
+import * as adminRoute from '@qing/routes/s/admin.js';
+import { CHECK } from 'checks.js';
 
 export default class SetAdminLoader extends Loader<UserInfo[]> {
   constructor(public targetUser: string, public value: boolean) {

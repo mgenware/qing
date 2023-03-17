@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll';
-import 'ui/lists/linkListView';
-import langWind, { LangInfo } from './langWind';
-import { linkListActiveFilledClass } from 'ui/lists/linkListView';
-import appAlert from 'app/appAlert';
-import * as pu from 'lib/pageUtil';
-import AppSettings from 'app/appSettings';
+import { BaseElement, customElement, html, css } from 'll.js';
+import 'ui/lists/linkListView.js';
+import langWind, { LangInfo } from './langWind.js';
+import { linkListActiveFilledClass } from 'ui/lists/linkListView.js';
+import appAlert from 'app/appAlert.js';
+import * as pu from 'lib/pageUtil.js';
+import AppSettings from 'app/appSettings.js';
 import strf from 'bowhead-js';
 
 @customElement('lang-page-view')

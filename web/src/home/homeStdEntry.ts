@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import 'core';
-import { ready } from 'lib/htmlLib';
-import 'ui/lists/tabView';
-import 'ui/alerts/noticeView';
-import { tabViewActiveClass } from 'ui/lists/tabView';
+import 'core.js';
+import { ready } from 'lib/htmlLib.js';
+import 'ui/lists/tabView.js';
+import 'ui/alerts/noticeView.js';
+import { tabViewActiveClass } from 'ui/lists/tabView.js';
 import { appdef } from '@qing/def';
 // Required by empty content view.
-import 'ui/alerts/noContentView';
+import 'ui/alerts/noContentView.js';
 
 const defaultHighlightedTab = 'home';
 

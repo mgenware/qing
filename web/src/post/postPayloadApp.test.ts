@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { html, fixture, tDOM } from 'dev/t';
-import './postPayloadApp';
+import { html, fixture, tDOM } from 'dev/t.js';
+import './postPayloadApp.js';
 
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<post-payload-app></post-payload-app>`);

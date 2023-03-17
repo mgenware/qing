@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import * as def from 'def';
+import * as def from 'def.js';
 
 export const textMap = new Map<def.UserTheme, string>([
   [def.UserTheme.light, globalThis.coreLS.themeLight],
