@@ -4,6 +4,7 @@
   "compilerOptions": {
     "noEmit": true,
     "importHelpers": false,
+    "useDefineForClassFields": false,
     "rootDir": "./src",
     "baseUrl": "./src",
     "typeRoots": ["./src/@types/**/*", "node_modules/@types"],

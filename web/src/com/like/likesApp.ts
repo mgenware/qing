@@ -31,7 +31,7 @@ export class LikesApp extends BaseElement {
   }
 
   @property() hostID = '';
-  @property({ type: Number }) hostType: LikeHostType = 0;
+  @property({ type: Number }) hostType: LikeHostType | undefined;
   @property({ type: Number }) initialLikes = 0;
   @property({ type: Boolean }) initialHasLiked = false;
   @property() iconSize = sizeMD;
@@ -69,7 +69,7 @@ export class LikesApp extends BaseElement {
       return;
     }
 
-    const loader = new SetLikeLoader(this.hostID, this.hostType, !this.hasLiked);
+    const loader = new SetLikeLoader(this.hostID, this.hostType!, !this.hasLiked);
     const res = await appTask.local(loader, (s) => (this.isWorking = s.isWorking));
 
     if (res.error) {

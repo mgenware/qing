@@ -10,6 +10,7 @@ import 'qing-overlay';
 import 'ui/widgets/svgIcon';
 import delay from 'lib/delay.js';
 import { staticMainImage } from 'urls.js';
+import { CHECK } from 'checks.js';
 
 const iconSize = 58;
 const buttonContainerID = '__buttons';
@@ -50,15 +51,19 @@ export class DialogView extends BaseElement {
   @property({ type: Boolean }) open = false;
   @property() dialogTitle = '';
   @property() message = '';
-  @property({ type: Number }) icon: DialogIcon = 0;
+  @property({ type: Number }) icon: DialogIcon | undefined;
   @property({ type: Array }) buttons: readonly string[] = [];
   @property({ type: Number }) defaultButton = -1;
   @property({ type: Number }) cancelButton = -1;
 
   private closingButton = -1;
 
+  protected override firstUpdated() {
+    CHECK(this.icon);
+  }
+
   override render() {
-    const iconEl = this.getIconElement(this.icon);
+    const iconEl = this.getIconElement(this.icon!);
     return html`
       <qing-overlay
         ?open=${this.open}
