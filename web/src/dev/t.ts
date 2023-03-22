@@ -10,4 +10,5 @@
 // Import the default language.
 import './en';
 
-export * from 'qing-t';
+export * from '@open-wc/testing';
+export * as tDOM from './assert-dom.js';
