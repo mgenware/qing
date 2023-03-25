@@ -59,7 +59,7 @@ function generateDockerComposeObj(_name: string, conf: QingConfigSchema) {
       // [Dev only] CSS source files.
       `../web/src/css:${infdef.devCSSDir}`,
       // [Dev only] Preset dev config files.
-      `../userland/dev_config:${infdef.devConfigDir}`,
+      `../userland/configs/dev:${infdef.devConfigDir}`,
       // [Dev only] Server source files.
       `../server:${infdef.devServerDir}`,
       // Templates.
@@ -142,5 +142,5 @@ async function buildConfFile(name: string, file: string) {
 }
 
 await Promise.all(
-  sourceConfFiles.map((name) => buildConfFile(name, qdu.configPath(`${name}.json`))),
+  sourceConfFiles.map((name) => buildConfFile(name, qdu.configPath(name, 'main.json'))),
 );

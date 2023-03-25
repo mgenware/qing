@@ -36,8 +36,8 @@ export function userlandPath(path = ''): string {
   return np.join(rootDir, userlandDirName, path);
 }
 
-export function configPath(path = ''): string {
-  return np.join(userlandPath('dev_config'), path);
+export function configPath(env: string, path = ''): string {
+  return np.join(userlandPath('configs'), env, path);
 }
 
 export function itPath(path = ''): string {
