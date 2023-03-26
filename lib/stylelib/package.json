@@ -1,6 +1,6 @@
 {
   "name": "qing-css-base",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "type": "module",
   "exports": "./dist/main.js",
   "author": "Mgenware (https://github.com/mgenware)",
@@ -17,7 +17,7 @@
     "prepublishOnly": "dz build"
   },
   "dependencies": {
-    "modern-normalize": "^1.1.0"
+    "mg-modern-normalize": "^1.1.0"
   },
   "devDependencies": {
     "clean-css-cli": "^5.6.0",
