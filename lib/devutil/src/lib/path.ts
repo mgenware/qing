@@ -12,6 +12,7 @@ import isObj from 'is-plain-obj';
 
 export const defaultLangFile = 'en.json';
 const userlandDirName = 'userland';
+export const mainConfigFile = 'main.json';
 
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
 const rootDir = np.join(dirPath, '../../../..');
@@ -36,8 +37,8 @@ export function userlandPath(path = ''): string {
   return np.join(rootDir, userlandDirName, path);
 }
 
-export function configPath(env: string, path = ''): string {
-  return np.join(userlandPath('configs'), env, path);
+export function configPath(env: string): string {
+  return np.join(userlandPath('configs'), env, mainConfigFile);
 }
 
 export function itPath(path = ''): string {

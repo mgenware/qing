@@ -1,11 +1,53 @@
 {
+  "http": {
+    "port": 8000,
+    "static": {
+      "url": "/static",
+      "dir": "/qing/static"
+    },
+    "log_404_error": true
+  },
+  "templates": {
+    "dir": "/qing/templates"
+  },
+  "logging": {
+    "dir": "/qing_data/log/dev"
+  },
+  "db": {
+    "user": "qing_dev",
+    "pwd": "qing_dev_pwd",
+    "host": "db",
+    "port": 3306,
+    "database": "qing_dev",
+    "params": "?parseTime=true&collation=utf8mb4_unicode_ci&clientFoundRows=true"
+  },
+  "res_server": {
+    "url": "/res",
+    "dir": "/qing_data/res_server"
+  },
+  "dev": {
+    "reload_views_on_refresh": true,
+    "mailbox": {
+      "dir": "/qing_data/mailbox"
+    },
+    "turbo_web": {
+      "dir": "/qing/web",
+      "url": "/static-turbo"
+    }
+  },
+  "app_profile": {
+    "dir": "/qing_data/app_profile.json"
+  },
+  "app_settings": {
+    "file": "/qing_data/app_settings.json"
+  },
   "extern": {
     "redis": {
-      "port": 6379
+      "port": 6379,
+      "logging": true
     },
     "img_proxy": {
       "port": 9000
     }
-  },
-  "setup": {}
+  }
 }
