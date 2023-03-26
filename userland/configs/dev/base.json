@@ -49,5 +49,10 @@
     "img_proxy": {
       "port": 9000
     }
+  },
+  "site": {
+    "url": "https://__QING__",
+    "name": "__QING__",
+    "langs": ["en", "zh-Hans"]
   }
 }
