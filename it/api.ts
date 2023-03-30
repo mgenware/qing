@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { api, apiRaw, APIResult, APIOptions, User, errorResults } from 'base/api';
+import { api, apiRaw, APIResult, APIOptions, User, errorResults } from 'base/api.js';
 import { expect } from 'expect';
 
 // Re-exports.
-export * from 'base/api';
+export * from 'base/api.js';
 
 export function itaRaw(
   name: string,
