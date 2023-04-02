@@ -5,12 +5,12 @@
   "private": true,
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
-    "@types/node": "^18.15.3",
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "@typescript-eslint/parser": "^5.55.0",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
     "daizong": "^0.25.7",
-    "esbuild": "^0.17.12",
-    "eslint": "^8.36.0",
+    "esbuild": "^0.17.15",
+    "eslint": "^8.37.0",
     "eslint-config-mgenware": "^0.9.0",
     "eslint-plugin-import": "^2.27.5",
     "is-plain-obj": "^4.1.0",
@@ -21,13 +21,13 @@
     "source-map-support": "^0.5.21",
     "ts-patch": "^2.1.0",
     "ts-transform-esm-import": "^0.11.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.3"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
     "bowhead-js": "^6.0.2",
-    "lit": "^2.6.1"
+    "lit": "^2.7.0"
   }
 }

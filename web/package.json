@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@github/image-crop-element": "^5.0.0",
-    "@popperjs/core": "^2.11.6",
+    "@popperjs/core": "^2.11.7",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "basic-trie": "^0.2.0",
@@ -22,20 +22,20 @@
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
     "qing-button": "^8.2.6",
-    "qing-css-base": "^1.1.13",
+    "qing-css-base": "^1.1.14",
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
+    "@open-wc/testing": "^3.1.7",
     "@types/js-cookie": "^3.0.3",
     "@types/mocha": "^10.0.1",
-    "@web/test-runner": "^0.15.1",
+    "@web/test-runner": "^0.15.2",
     "@web/test-runner-playwright": "^0.9.0",
     "esbuild-plugin-minify-html-literals": "^1.0.2",
-    "html-validate": "7.13.3",
-    "@open-wc/testing": "^3.1.7",
+    "html-validate": "7.14.0",
     "lit-analyzer": "2.0.0-pre.2"
   }
 }
