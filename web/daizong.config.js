@@ -8,7 +8,7 @@
 const turboBuildCmd = 'tsc -p ./tsconfig-turbo.json';
 const utCmd = 'wtr "./dist-turbo/**/*.test.js" --node-resolve --playwright --browsers chromium';
 const tsc = 'tsc';
-const tscW = `${tsc} -w`;
+const tscW = `${tsc} -w --preserveWatchOutput`;
 const devEnv = {
   NODE_ENV: 'development',
 };
@@ -44,7 +44,7 @@ export default {
 
   /** Turbo mode */
   turbo: {
-    run: ['#clean', turboBuildCmd + ' -w'],
+    run: ['#clean', turboBuildCmd + ' -w --preserveWatchOutput'],
     env: devEnv,
   },
   'turbo-build': {
