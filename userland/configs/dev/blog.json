@@ -1,5 +1,5 @@
 {
-  "extends": "dev.json",
+  "extends": "local.json",
   "site": {
     "site_type": 1
   }
