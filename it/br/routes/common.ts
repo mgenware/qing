@@ -7,14 +7,12 @@
 
 import { Response, expect } from '@playwright/test';
 import { Page, alternativeLocale } from 'br.js';
-
-// We use this element selector (the "Light theme" button in theme menu) to test if
-// language switched successfully.
-const localizedElSel = '.theme-group .text';
+import * as nbm from 'br/com/navbar/menu.js';
 
 export async function checkPageLocale(p: Page, idx: number) {
   await p.$('html').e.toHaveAttribute('lang', idx === 0 ? 'en' : alternativeLocale);
-  await p.$(localizedElSel).e.toContainText(idx === 0 ? 'Light theme' : '亮色主题');
+  const themeDropdownBtn = nbm.themeDropdownBtn(p);
+  await themeDropdownBtn.e.toContainText(idx === 0 ? 'Light theme' : '亮色主题');
 }
 
 export async function check404(p: Page, resp: Response | null) {

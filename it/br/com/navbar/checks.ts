@@ -12,7 +12,7 @@ const dropdownChar = '▾';
 
 async function userMenuBtnShouldAppear(p: br.Page, user: br.User) {
   const userText = `${user.name} ${dropdownChar}`;
-  const btnEl = nb.userMenuBtn(p);
+  const btnEl = nb.userDropdownBtn(p);
   const nameEl = btnEl.$hasText('span', userText);
   const imgEl = btnEl.$img({ size: 25, src: user.iconURL, alt: user.name });
 
@@ -32,7 +32,7 @@ async function checkLogoEl(el: br.Element) {
 }
 
 async function checkThemeBtn(el: br.Element) {
-  await el.e.toHaveClass('dropdown-btn theme-group');
+  await el.e.toHaveClass('dropdown-btn dropdown-btn-sys-theme');
   await el
     .$('a[href="#"]')
     .$svgIcon({
@@ -60,7 +60,7 @@ export async function checkUserNavbar(p: br.Page, user: br.User) {
   // `item(1)` is spacer.
   // A quick check on user button based on location.
   // Details are checked in `userMenuBtnShouldAppear`.
-  await children.item(2).e.toHaveClass('dropdown-btn user-group');
+  await children.item(2).e.toHaveClass('dropdown-btn dropdown-btn-user');
   await userMenuBtnShouldAppear(p, user);
   await checkThemeBtn(children.item(3));
 }

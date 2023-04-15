@@ -16,7 +16,7 @@ import * as nbm from 'br/com/navbar/menu.js';
 const editorDesc = 'New post';
 
 async function clickNewPostButton(p: br.Page) {
-  const userBtn = nbm.userMenuBtn(p);
+  const userBtn = nbm.userDropdownBtn(p);
   await userBtn.click();
   await userBtn.$aButton('New post').click();
 }

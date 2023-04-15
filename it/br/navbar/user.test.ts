@@ -25,12 +25,11 @@ test('Navbar - User', async ({ page }) => {
 
   // `checkUserNavbar` only checks top-level navbar items,
   // we need to check user menu items here.
-  const userMenu = p.$(nbm.navbarSel).$('.user-group .dropdown');
+  const userMenu = nbm.userDropdownBtn(p);
 
-  await nbm.userMenuBtn(p).click();
+  await nbm.userDropdownBtn(p).click();
   await userMenu.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).e.toBeVisible();
   await userMenu.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
-  await userMenu.$a({ href: '/m/your-fposts', text: 'Your forum posts' }).e.toBeVisible();
   await userMenu.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
   // Non-link items like "New post" are tested in their own test files.
 });
@@ -38,7 +37,7 @@ test('Navbar - User', async ({ page }) => {
 test('Navbar - Sign out', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  const userBtn = nbm.userMenuBtn(p);
+  const userBtn = nbm.userDropdownBtn(p);
   await userBtn.click();
   await userBtn.$aButton('Sign out').click();
   await nbc.checkVisitorNavbar(p);

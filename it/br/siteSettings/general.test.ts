@@ -16,7 +16,7 @@ const infoSectionSel = `${cm.settingsViewSel} .info-block`;
 test('Site settings - Site info - Click-through from navbar', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.admin);
-  await nbm.userMenuBtn(p).click();
+  await nbm.userDropdownBtn(p).click();
   await nbm.userMenuEl(p).$a({ text: 'Site settings', href: '/mx/general' }).click();
 
   const rootEl = p.$(cm.settingsViewSel);

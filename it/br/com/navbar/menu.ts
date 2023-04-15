@@ -8,25 +8,25 @@
 import * as br from 'br.js';
 
 export const navbarSel = '#main-navbar';
-const userGroupSel = '.user-group';
-const themeGroupSel = '.theme-group';
+const userGroupSel = '.dropdown-btn.dropdown-btn-user';
+const themeGroupSel = '.dropdown-btn.dropdown-btn-sys-theme';
 
-function menuEl(menuBtnEl: br.Element) {
+function dropdownMenu(menuBtnEl: br.Element) {
   return menuBtnEl.$('.dropdown');
 }
 
-export function userMenuBtn(p: br.Page) {
+export function userDropdownBtn(p: br.Page) {
   return p.$(navbarSel).$(userGroupSel);
 }
 
-export function themeMenuBtn(p: br.Page) {
+export function themeDropdownBtn(p: br.Page) {
   return p.$(navbarSel).$(themeGroupSel);
 }
 
-export function userMenuEl(p: br.Page) {
-  return menuEl(userMenuBtn(p));
+export function userDropdownMenu(p: br.Page) {
+  return dropdownMenu(userDropdownBtn(p));
 }
 
-export function themeMenuEl(p: br.Page) {
-  return menuEl(themeMenuBtn(p));
+export function themeDropdownMenu(p: br.Page) {
+  return dropdownMenu(themeDropdownBtn(p));
 }

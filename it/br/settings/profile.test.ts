@@ -22,7 +22,7 @@ const bioEditorSel = '.bio-editor';
 test('Settings - Profile - Click-through from navbar', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await nbm.userMenuBtn(p).click();
+  await nbm.userDropdownBtn(p).click();
   await nbm.userMenuEl(p).$a({ text: 'Settings', href: '/m/settings/profile' }).click();
 
   const rootEl = p.$(cm.settingsViewSel);
