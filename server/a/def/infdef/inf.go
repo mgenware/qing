@@ -15,7 +15,7 @@ package infdef
 const QingDir = "/qing"
 const QingDataDir = "/qing_data"
 const DevCSSDir = "/qing/dev/css"
-const DevConfigDir = "/qing/dev/config"
+const DevConfigDir = "/qing/dev/configs"
 const DevServerDir = "/qing/dev/server"
 const MiscDir = "/qing/misc"
 const ConfigSchemaFile = "/qing/misc/config_schema.json"
