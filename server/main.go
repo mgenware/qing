@@ -15,7 +15,6 @@ import (
 	"qing/a/appMS"
 	"qing/a/appProfile"
 	"qing/a/appService"
-	"qing/a/appSiteST"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
 	"qing/a/conf"
@@ -40,7 +39,6 @@ func main() {
 
 	// Preload core modules in production mode.
 	if config.ProductionMode() {
-		appSiteST.Get()
 		appProfile.Get()
 		appDB.Get()
 		appMS.GetConn()

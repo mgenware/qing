@@ -18,14 +18,14 @@ import (
 	"qing/a/appCookies"
 	"qing/a/appLog"
 	"qing/a/appcom"
+	"qing/a/conf"
 	"qing/a/def"
 	"qing/a/def/appdef"
 	"qing/a/def/infdef"
-	"qing/a/sitest"
 )
 
 type Manager struct {
-	siteSettings *sitest.SiteSettings
+	appConfig    *conf.Config
 	fallbackDict *Dictionary
 	fallbackLang string
 	lsDict       map[string]*Dictionary
@@ -36,13 +36,14 @@ type Manager struct {
 }
 
 // NewManagerFromConfig creates a Manager from a config.
-func NewManagerFromConfig(siteSettings *sitest.SiteSettings) (*Manager, error) {
-	if len(siteSettings.Langs) == 0 {
+func NewManagerFromConfig(appConfig *conf.Config) (*Manager, error) {
+	confLangs := appConfig.Site.Langs
+	if len(confLangs) == 0 {
 		return nil, errors.New("unexpected empty `langs` field")
 	}
 
 	lsDict := make(map[string]*Dictionary)
-	for _, langName := range siteSettings.Langs {
+	for _, langName := range confLangs {
 		dictPath := filepath.Join(infdef.LangsDir, langName+".json")
 		appLog.Get().Info("app.ls.loading", "file", dictPath)
 		d, err := ParseDictionary(dictPath)
@@ -52,13 +53,13 @@ func NewManagerFromConfig(siteSettings *sitest.SiteSettings) (*Manager, error) {
 		lsDict[langName] = d
 	}
 
-	fallbackLang := siteSettings.Langs[0]
+	fallbackLang := confLangs[0]
 	fallbackDict := lsDict[fallbackLang]
 
 	var matcher language.Matcher
 	var tags []language.Tag
-	if len(siteSettings.Langs) > 0 {
-		for _, langName := range siteSettings.Langs {
+	if len(confLangs) > 0 {
+		for _, langName := range confLangs {
 			t := language.MustParse(langName)
 			tags = append(tags, t)
 		}
@@ -69,7 +70,7 @@ func NewManagerFromConfig(siteSettings *sitest.SiteSettings) (*Manager, error) {
 		return nil, errors.New("unexpected nil `fallbackDict`")
 	}
 
-	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, siteSettings: siteSettings}, nil
+	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, appConfig: appConfig}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.

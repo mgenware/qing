@@ -34,6 +34,7 @@ type Config struct {
 	HTTP *confs.HTTPConfig `json:"http,omitempty"`
 	// Templates config data.
 	Templates *confs.TemplatesConfig `json:"templates,omitempty"`
+	Site      *confs.SiteConfig      `json:"site,omitempty"`
 
 	AppProfile  *confs.AppProfileConfig  `json:"app_profile,omitempty"`
 	AppSettings *confs.AppSettingsConfig `json:"app_settings,omitempty"`

@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appSiteST"
+	"qing/a/appConf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -19,18 +19,14 @@ import (
 	"qing/sod/mxSod"
 )
 
-func siteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getSiteSEttings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	key := clib.MustGetIntFromDict(params, "key")
 
-	mutex := appSiteST.DiskMutex()
-	mutex.Lock()
-	defer mutex.Unlock()
-
-	needRestart := appSiteST.GetNeedRestart()
+	needRestart := appConf.DiskConfigUpdated()
 	stBase := mxSod.NewSiteSTBase(needRestart)
-	sc := appSiteST.DiskConfigUnsafe()
+	sc := appConf.Get().Site
 
 	switch appdef.GetSiteSettings(key) {
 	case appdef.GetSiteSettingsGeneral:

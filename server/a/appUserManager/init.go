@@ -12,7 +12,6 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appLog"
-	"qing/a/appSiteST"
 	"qing/a/appURL"
 	"qing/a/conf"
 	"qing/a/userx"
@@ -27,14 +26,13 @@ func init() {
 	urlx := appURL.Get()
 	db := appDB.Get()
 	mp := appHandler.MainPage()
-	siteST := appSiteST.Get()
 
 	sessionMgr, err := userx.NewMemoryBasedSessionManager(
 		logger, urlx)
 	if err != nil {
 		panic(err)
 	}
-	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, config, siteST)
+	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, config)
 	if conf.IsUTEnv() {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)

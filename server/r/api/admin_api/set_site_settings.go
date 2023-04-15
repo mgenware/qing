@@ -13,18 +13,17 @@ import (
 	"math"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appSiteST"
+	"qing/a/appConf"
 	"qing/a/conf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
-	"qing/a/sitest"
 	"qing/lib/clib"
 	"qing/sod/mxSod"
 )
 
 type brSetSiteSettingsResult struct {
-	Loaded *sitest.SiteSettings `json:"loaded,omitempty"`
-	Disk   *sitest.SiteSettings `json:"disk,omitempty"`
+	Loaded *conf.Config `json:"loaded,omitempty"`
+	Disk   *conf.Config `json:"disk,omitempty"`
 }
 
 // NOTE: Changes to settings (app config) require a server restart.
@@ -37,18 +36,6 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
 	IsBR := conf.IsBREnv()
 
-	mutex := appSiteST.DiskMutex()
-	mutex.Lock()
-	defer mutex.Unlock()
-
-	diskConf := appSiteST.DiskConfigUnsafe()
-	// We don't update disk config in UT.
-	if IsBR {
-		copied, err := appSiteST.DeepCopyConfig(diskConf)
-		app.PanicOn(err)
-		diskConf = copied
-	}
-
 	switch appdef.SetSiteSettings(key) {
 	case appdef.SetSiteSettingsSiteType:
 		var siteType int
@@ -57,7 +44,9 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		if siteType <= 0 {
 			panic("invalid site type value")
 		}
-		diskConf.SiteType = siteType
+		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
+			diskCfg.Site.SiteType = siteType
+		})
 
 	case appdef.SetSiteSettingsLangs:
 		var langs []string
@@ -66,14 +55,18 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		if len(langs) == 0 {
 			panic("error updating langs settings: empty array is not allowed")
 		}
-		diskConf.Langs = langs
+		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
+			diskCfg.Site.Langs = langs
+		})
 
 	case appdef.SetSiteSettingsInfo:
 		var infoData mxSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
 		app.PanicOn(err)
-		diskConf.SiteName = infoData.SiteName
-		diskConf.SiteURL = infoData.SiteURL
+		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
+			diskCfg.Site.SiteName = infoData.SiteName
+			diskCfg.Site.SiteURL = infoData.SiteURL
+		})
 
 	default:
 		return resp.MustFail(fmt.Sprintf("unknown settings key \"%v\"", key))
@@ -83,13 +76,10 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	if IsBR {
 		// In BR mode, return the updated config.
 		result = &brSetSiteSettingsResult{
-			Loaded: appSiteST.Get(),
-			Disk:   diskConf,
+			Loaded: appConf.Get(),
+			Disk:   appConf.BRDiskConfig(),
 		}
-	} else {
-		err := appSiteST.UpdateDiskConfigUnsafe(diskConf)
-		app.PanicOn(err)
-		result = nil
+		return resp.MustComplete(result)
 	}
 	return resp.MustComplete(result)
 }

@@ -16,7 +16,6 @@ import (
 	"qing/a/appcom"
 	"qing/a/conf"
 	"qing/a/coretype"
-	"qing/a/sitest"
 
 	"qing/a/handler/localization"
 
@@ -29,10 +28,9 @@ const coreScriptEntry = "core"
 
 // MainPageManager is used to generate site main HTML page.
 type MainPageManager struct {
-	dir          string
-	config       *conf.Config
-	siteSettings *sitest.SiteSettings
-	log404Error  bool
+	dir         string
+	config      *conf.Config
+	log404Error bool
 
 	reloadViewsOnRefresh bool
 
@@ -46,7 +44,6 @@ type MainPageManager struct {
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
 	config *conf.Config,
-	siteSettings *sitest.SiteSettings,
 	logger coretype.CoreLogger,
 	lsMgr localization.CoreManager,
 ) *MainPageManager {
@@ -59,7 +56,6 @@ func MustCreateMainPageManager(
 		asMgr:                asMgr,
 		logger:               logger,
 		config:               config,
-		siteSettings:         siteSettings,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
 		dir:                  config.Templates.Dir,
 		log404Error:          config.HTTP.Log404Error,
@@ -118,7 +114,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
 	// Community mode settings.
-	d.AppSiteType = int(m.siteSettings.TypedSiteType())
+	d.AppSiteType = m.config.Site.SiteType
 
 	// User info.
 	user := appcom.ContextUser(ctx)

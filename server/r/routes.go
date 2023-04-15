@@ -13,7 +13,6 @@ import (
 	"qing/a/appConf"
 	"qing/a/appHandler"
 	"qing/a/appLog"
-	"qing/a/appSiteST"
 	"qing/a/appUserManager"
 	"qing/a/def/appdef"
 	"qing/a/def/infdef"
@@ -122,7 +121,7 @@ func startFileServer(r chi.Router, name, url, dir string) {
 
 // Gets a router with context localization enabled.
 func langRouter() chi.Router {
-	if len(appSiteST.Get().Langs) > 1 {
+	if len(appConf.Get().Site.Langs) > 1 {
 		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
 	}
 	return r

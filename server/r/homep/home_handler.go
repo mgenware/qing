@@ -13,7 +13,6 @@ import (
 	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/appSiteST"
 	"qing/a/conf"
 	"qing/a/def/appdef"
 	"qing/a/handler"
@@ -36,7 +35,7 @@ func init() {
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	if appSiteST.Get().ForumSite() {
+	if appConf.Get().Site.ForumSite() {
 		return renderForumPage(w, r)
 	}
 	return renderStdPage(w, r)
