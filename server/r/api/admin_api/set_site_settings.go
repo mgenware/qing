@@ -45,7 +45,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 			panic("invalid site type value")
 		}
 		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
-			diskCfg.Site.SiteType = siteType
+			diskCfg.Site.Type = siteType
 		})
 
 	case appdef.SetSiteSettingsLangs:
@@ -64,8 +64,8 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		err := json.Unmarshal(stJSON, &infoData)
 		app.PanicOn(err)
 		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
-			diskCfg.Site.SiteName = infoData.SiteName
-			diskCfg.Site.SiteURL = infoData.SiteURL
+			diskCfg.Site.Name = infoData.SiteName
+			diskCfg.Site.URL = infoData.SiteURL
 		})
 
 	default:

@@ -30,7 +30,7 @@ func getSiteSEttings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	switch appdef.GetSiteSettings(key) {
 	case appdef.GetSiteSettingsGeneral:
-		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.SiteURL, sc.SiteType, sc.SiteName)
+		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.URL, sc.Type, sc.Name)
 		return resp.MustComplete(coreData)
 
 	case appdef.GetSiteSettingsLangs:

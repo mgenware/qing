@@ -114,7 +114,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
 	// Community mode settings.
-	d.AppSiteType = m.config.Site.SiteType
+	d.AppSiteType = m.config.Site.Type
 
 	// User info.
 	user := appcom.ContextUser(ctx)

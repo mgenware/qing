@@ -12,14 +12,14 @@ import (
 )
 
 type SiteConfig struct {
-	SiteURL  string   `json:"site_url,omitempty"`
-	SiteName string   `json:"site_name,omitempty"`
-	SiteType int      `json:"site_type,omitempty"`
-	Langs    []string `json:"langs,omitempty"`
+	URL   string   `json:"url,omitempty"`
+	Name  string   `json:"name,omitempty"`
+	Type  int      `json:"type,omitempty"`
+	Langs []string `json:"langs,omitempty"`
 }
 
 func (sc *SiteConfig) TypedSiteType() appdef.SiteType {
-	return appdef.SiteType(sc.SiteType)
+	return appdef.SiteType(sc.Type)
 }
 
 func (sc *SiteConfig) BlogSite() bool {
