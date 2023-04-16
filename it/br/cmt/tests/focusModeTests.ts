@@ -77,10 +77,7 @@ function addCmtParams(link: string, id: string) {
 }
 
 async function checkViewAllComments(w: cm.CmtFixtureWrapper, p: Page, cmtApp: Element) {
-  await Promise.all([
-    clickViewAllComments(cmtApp),
-    p.waitForURL(removeCmtParams(`${serverURL}${w.getHostURL(p)}`)),
-  ]);
+  await Promise.all([clickViewAllComments(cmtApp), p.waitForURL(removeCmtParams(w.getHostURL(p)))]);
 }
 
 function check404Content(cmtApp: Element) {

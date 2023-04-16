@@ -8,6 +8,7 @@
 package mails
 
 import (
+	"database/sql"
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
@@ -77,6 +78,9 @@ func eraseUserByID(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.Get().DB()
 	email, err := da.User.SelectEmail(db, id)
+	if err == sql.ErrNoRows {
+		return resp.MustComplete(nil)
+	}
 	app.PanicOn(err)
 	err = devmail.EraseUser(email)
 	app.PanicOn(err)

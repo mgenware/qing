@@ -238,8 +238,11 @@ export class Page {
   }
 
   waitForURL(url: string | RegExp) {
-    const finalUrl = url === '/' ? serverURL : `${serverURL}${url}`;
-    return this.c.waitForURL(finalUrl);
+    if (typeof url === 'string') {
+      const finalUrl = url === '/' ? serverURL : `${serverURL}${url}`;
+      return this.c.waitForURL(finalUrl);
+    }
+    return this.c.waitForURL(url);
   }
 
   goto(url: string, user?: api.User | null, opt?: PageGotoOptions) {
