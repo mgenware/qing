@@ -22,7 +22,7 @@ func init() {
 		logger = NewTestLogger()
 	} else {
 		var err error
-		logger, err = logx.NewLogger(config.Log.Dir, config.DevMode())
+		logger, err = logx.NewLogger(config.Log.Dir, config.DevMode() && !conf.IsBREnv())
 		if err != nil {
 			panic(err)
 		}
