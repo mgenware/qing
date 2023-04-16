@@ -15,7 +15,7 @@ test('Navbar - Dismiss user menu', async ({ page }) => {
   await p.goto('/', usr.user);
   // Dismissed by Esc.
   await nb.userDropdownBtn(p).click();
-  const menuEl = nb.userMenuEl(p);
+  const menuEl = nb.userDropdownMenu(p);
   await menuEl.e.toBeVisible();
   await p.c.keyboard.down('Escape');
   await menuEl.e.not.toBeVisible();

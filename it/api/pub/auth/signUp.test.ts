@@ -10,7 +10,7 @@ import * as authAPI from '@qing/routes/s/pub/auth.js';
 import * as authRoute from '@qing/routes/auth.js';
 import { expect } from 'expect';
 import * as mh from 'helper/mail.js';
-import { serverURL } from 'base/def';
+import { serverURL } from 'base/def.js';
 import fetch from 'node-fetch';
 import { curUser, newEmail, userInfo } from 'helper/user.js';
 import CookieJar from 'helper/cookieJar.js';

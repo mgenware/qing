@@ -23,7 +23,7 @@ test('Settings - Profile - Click-through from navbar', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
   await nbm.userDropdownBtn(p).click();
-  await nbm.userMenuEl(p).$a({ text: 'Settings', href: '/m/settings/profile' }).click();
+  await nbm.userDropdownMenu(p).$a({ text: 'Settings', href: '/m/settings/profile' }).click();
 
   const rootEl = p.$(cm.settingsViewSel);
   // Profile menu item highlighted.
