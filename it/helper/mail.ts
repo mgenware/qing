@@ -34,7 +34,7 @@ export function eraseByID(e: { id: string }) {
   return api<DevMail>(mailAPI.eraseUserByID, e, null);
 }
 
-export function send(e: { to: string; title: string; content: string }) {
+export function send(e: { to: string; title: string; content: string; forceProd?: boolean }) {
   return api<DevMail>(mailAPI.send, e, null);
 }
 

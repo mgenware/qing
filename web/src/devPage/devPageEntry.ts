@@ -9,12 +9,13 @@ import 'core.js';
 import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import { html, TemplateResult } from 'll.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
-import * as elementsRoute from '@qing/routes/dev/elements.js';
+import * as devRoot from '@qing/routes/dev/root.js';
 import * as mailsRoute from '@qing/routes/dev/mails.js';
 import './devPage';
 import { appdef } from '@qing/def';
 import './auth/authPage';
 import './ui/elementsPage';
+import './postMail/postMailPage.js';
 import './mails/mbUsersPage';
 import './mails/mbInboxPage';
 import './mails/mbMailPage';
@@ -36,8 +37,11 @@ function loadPageContent(title: string, content: TemplateResult) {
 devRouter.register(authRoute.authRoot, () => {
   loadPageContent('Auth dev page', html`<auth-page></auth-page>`);
 });
-devRouter.register(elementsRoute.elementsRoot, () => {
+devRouter.register(devRoot.elements, () => {
   loadPageContent('Elements dev page', html`<elements-page></elements-page>`);
+});
+devRouter.register(devRoot.postMail, () => {
+  loadPageContent('PostMail', html`<post-mail-page></post-mail-page>`);
 });
 
 devRouter.register(mailsRoute.users, () => {

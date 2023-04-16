@@ -85,7 +85,10 @@
         "pwd": { "type": "string" },
         "database": { "type": "string" },
         "host": { "type": "string" },
-        "port": { "type": "number" },
+        "port": {
+          "type": "number",
+          "minimum": 0
+        },
         "params": { "type": "string" }
       },
       "required": ["user", "pwd", "database", "host", "port", "params"]
@@ -98,22 +101,34 @@
       },
       "required": ["url", "dir"]
     },
+    "mail_account_config": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "user_name": { "type": "string" },
+        "pwd": { "type": "string" },
+        "display_name": { "type": "string" }
+      },
+      "required": ["email", "pwd", "user_name"]
+    },
     "mail_config": {
       "type": "object",
       "properties": {
-        "auth": {
+        "smtp": {
           "type": "object",
           "properties": {
-            "identity": { "type": "string" },
-            "user_name": { "type": "string" },
-            "pwd": { "type": "string" },
             "host": { "type": "string" },
-            "port": { "type": "number" }
+            "ssl": { "type": "boolean" },
+            "port": {
+              "type": "number",
+              "minimum": 0
+            }
           },
-          "required": ["user_name", "pwd", "host", "port"]
-        }
+          "required": ["host", "port"]
+        },
+        "no_reply_account": { "$ref": "#/definitions/mail_account_config" }
       },
-      "required": ["auth"]
+      "required": ["smtp", "no_reply_account"]
     },
     "extern_config": {
       "type": "object",

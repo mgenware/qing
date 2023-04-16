@@ -90,7 +90,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.ClickBelowToCompleteReg, contentHTML)
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
-	_, err = appService.Get().Mail.Send(email, pageTitle, pageHTML)
+	err = appService.Get().Mail.Send(email, pageTitle, pageHTML, false)
 	app.PanicOn(err)
 
 	return resp.MustComplete(nil)

@@ -8,13 +8,19 @@
 package confs
 
 type MailConfig struct {
-	Auth MailAuthConfig `json:"auth,omitempty"`
+	SMTP           *MailSMTPConfig    `json:"smtp,omitempty"`
+	NoReplyAccount *MailAccountConfig `json:"no_reply_account,omitempty"`
 }
 
-type MailAuthConfig struct {
-	Identity string `json:"identity,omitempty"`
-	UserName string `json:"user_name,omitempty"`
-	Pwd      string `json:"pwd,omitempty"`
-	Host     string `json:"host,omitempty"`
-	Port     int    `json:"port,omitempty"`
+type MailSMTPConfig struct {
+	Host string `json:"host,omitempty"`
+	Port int    `json:"port,omitempty"`
+	SSL  bool   `json:"ssl,omitempty"`
+}
+
+type MailAccountConfig struct {
+	Email       string `json:"email,omitempty"`
+	UserName    string `json:"user_name,omitempty"`
+	Pwd         string `json:"pwd,omitempty"`
+	DisplayName string `json:"display_name,omitempty"`
 }

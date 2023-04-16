@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, property } from 'll.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
-import * as elementsRoute from '@qing/routes/dev/elements.js';
+import * as devRoot from '@qing/routes/dev/root.js';
 import * as mailsRoute from '@qing/routes/dev/mails.js';
 
 @customElement('dev-page')
@@ -36,8 +36,9 @@ export class DevPage extends BaseElement {
       <hr />
       <div class="root-list">
         <a href=${authRoute.authRoot}>Auth</a>
-        <a href=${elementsRoute.elementsRoot}>Elements</a>
+        <a href=${devRoot.elements}>Elements</a>
         <a href=${mailsRoute.users}>User mails</a>
+        <a href=${devRoot.postMail}>PostMail</a>
       </div>
     `;
   }

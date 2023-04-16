@@ -5,4 +5,9 @@
  * be found in the LICENSE file.
  */
 
-export default '/__';
+const root = '/__';
+
+export default root;
+
+export const elements = `${root}/elements`;
+export const postMail = `${root}/post-mail`;

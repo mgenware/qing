@@ -34,7 +34,11 @@ func MustGetUnsafeStringFromDict(dict map[string]any, key string) string {
 // MustGetStringFromDict calls MustGetUnsafeStringFromDict with an extra max length check.
 func MustGetStringFromDict(dict map[string]any, key string, max int) string {
 	val := MustGetUnsafeStringFromDict(dict, key)
-	if utf8.RuneCountInString(val) > max {
+	c := utf8.RuneCountInString(val)
+	if val == "" {
+		panic(fmt.Errorf("the argument `%v` is required", key))
+	}
+	if c > max {
 		panic(fmt.Errorf("the argument `%v` has exceeded the max length (%v) allowed", key, max))
 	}
 	return val

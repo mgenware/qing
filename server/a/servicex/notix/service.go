@@ -61,7 +61,7 @@ func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 	if err != nil {
 		return err
 	}
-	_, err = s.MailService.Send(email, mailData.Desc, mailHTML)
+	err = s.MailService.Send(email, mailData.Desc, mailHTML, false)
 	if err != nil {
 		return err
 	}
