@@ -37,7 +37,7 @@ export class DevPage extends BaseElement {
       <div class="root-list">
         <a href=${authRoute.authRoot}>Auth</a>
         <a href=${elementsRoute.elementsRoot}>Elements</a>
-        <a href=${mailsRoute.users}>Mails</a>
+        <a href=${mailsRoute.users}>User mails</a>
       </div>
     `;
   }

@@ -98,6 +98,23 @@
       },
       "required": ["url", "dir"]
     },
+    "mail_config": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "type": "object",
+          "properties": {
+            "identity": { "type": "string" },
+            "user_name": { "type": "string" },
+            "pwd": { "type": "string" },
+            "host": { "type": "string" },
+            "port": { "type": "number" }
+          },
+          "required": ["user_name", "pwd", "host", "port"]
+        }
+      },
+      "required": ["auth"]
+    },
     "extern_config": {
       "type": "object",
       "properties": {
@@ -136,6 +153,7 @@
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
     "site": { "$ref": "#/definitions/site_config" },
+    "mail": { "$ref": "#/definitions/mail_config" },
     "extern": { "$ref": "#/definitions/extern_config" }
   },
   "required": [
@@ -147,6 +165,7 @@
     "db",
     "res_server",
     "site",
+    "mail",
     "extern"
   ]
 }

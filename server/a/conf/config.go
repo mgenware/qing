@@ -41,9 +41,8 @@ type Config struct {
 
 	DB        *confs.DBConfig        `json:"db,omitempty"`
 	ResServer *confs.ResServerConfig `json:"res_server,omitempty"`
-
-	// External configs.
-	Extern *confs.ExternConfig `json:"extern,omitempty"`
+	Mail      *confs.MailConfig      `json:"mail,omitempty"`
+	Extern    *confs.ExternConfig    `json:"extern,omitempty"`
 }
 
 // Returns true if unit test mode is on.
