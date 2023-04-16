@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $ } from 'br.js';
+import { test, usr, $, expect } from 'br.js';
 import * as nbm from 'br/com/navbar/menu.js';
 import * as mRoute from '@qing/routes/m.js';
 import * as ed from 'br/com/editing/editor.js';
@@ -14,7 +14,6 @@ import { newUser } from 'helper/user.js';
 import * as nbc from 'br/com/navbar/checks.js';
 import * as ov from '../com/overlays/overlay.js';
 import * as spn from '../com/spinners/spinner.js';
-import { expect } from 'expect';
 import * as cm from './common.js';
 
 const bioEditorSel = '.bio-editor';

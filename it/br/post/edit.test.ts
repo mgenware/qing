@@ -76,7 +76,7 @@ test('Edit post - Dismiss post editor', async ({ page }) => {
 function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) {
   test(`Edit post - ${
     discardChanges ? 'Discard' : 'Keep'
-  } post editor changes - Mode ${mode}`, async ({ page }) => {
+  } post editor changes - Set ${mode}`, async ({ page }) => {
     const p = $(page);
     await newPost(usr.user, async ({ link }) => {
       await p.goto(link, usr.user);

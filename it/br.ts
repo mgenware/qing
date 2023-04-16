@@ -98,15 +98,6 @@ export class Element extends LocatorCore {
     return this.c.getAttribute(name);
   }
 
-  evaluate<R>(
-    pageFunction: (el: HTMLElement) => R,
-    options?: {
-      timeout?: number;
-    },
-  ): Promise<R> {
-    return this.c.evaluate((innerEl) => pageFunction(mustGetHTMLElement(innerEl)), null, options);
-  }
-
   waitFor(state: WaitForState) {
     return this.c.waitFor({ state });
   }
@@ -151,7 +142,8 @@ export class Element extends LocatorCore {
   }
 
   async shouldHaveHTML(html: string) {
-    return pw.expect(await this.c.innerHTML()).toBe(html);
+    const actual = await this.c.evaluate((el) => el.innerHTML);
+    return pw.expect(actual).toBe(html);
   }
 
   async shouldNotHaveAttr(name: string) {
