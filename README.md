@@ -48,7 +48,9 @@ Content management system (CMS) on Go/MySQL, start your forum / blog site in sec
 | Forum groups           | ❌  |
 | Forum admins           | ❌  |
 | Forum management       | ❌  |
+| Moderator management   | ❌  |
 | 3rd-party OAuth login  | ❌  |
+| Password recovery      | ❌  |
 
 ## Documentation
 
