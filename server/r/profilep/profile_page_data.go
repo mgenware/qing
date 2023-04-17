@@ -18,7 +18,7 @@ import (
 var vProfilePage = appHandler.MainPage().MustParseView("profile/profilePage.html")
 var vProfileFeedItem = appHandler.MainPage().MustParseView("profile/feedItem.html")
 
-type ProfilePageModel struct {
+type ProfilePageData struct {
 	da.UserAGSelectProfileResult
 
 	EID          string
@@ -37,7 +37,7 @@ type ProfilePageWindData struct {
 	Website string
 }
 
-type ProfilePostItemModel struct {
+type ProfilePostItemData struct {
 	da.PostItemForProfile
 
 	Link       string
@@ -45,9 +45,9 @@ type ProfilePostItemModel struct {
 	ModifiedAt string
 }
 
-// NewProfilePageModelFromUser creates a new ProfileModel from profile DB result.
-func NewProfilePageModelFromUser(profile *da.UserAGSelectProfileResult, stats *da.UserStatsAGSelectStatsResult, feedHTML string, pageBarHTML string) ProfilePageModel {
-	d := ProfilePageModel{UserAGSelectProfileResult: *profile}
+// NewProfilePageDataFromUser creates a new ProfileData from profile DB result.
+func NewProfilePageDataFromUser(profile *da.UserAGSelectProfileResult, stats *da.UserStatsAGSelectStatsResult, feedHTML string, pageBarHTML string) ProfilePageData {
+	d := ProfilePageData{UserAGSelectProfileResult: *profile}
 	uid := profile.ID
 
 	d.EID = clib.EncodeID(uid)
@@ -63,8 +63,8 @@ func NewProfilePageModelFromUser(profile *da.UserAGSelectProfileResult, stats *d
 	return d
 }
 
-func NewProfilePostItem(item *da.PostItemForProfile) ProfilePostItemModel {
-	d := ProfilePostItemModel{PostItemForProfile: *item}
+func NewProfilePostItemData(item *da.PostItemForProfile) ProfilePostItemData {
+	d := ProfilePostItemData{PostItemForProfile: *item}
 	d.Link = appURL.Get().Post(item.ID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)

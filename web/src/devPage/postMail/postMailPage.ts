@@ -26,7 +26,7 @@ export class PostMailPage extends BaseElement {
   }
 
   @property() to = '';
-  @property() mailTitle = '';
+  @property() subject = '';
   @property() contentHTML = '';
 
   override render() {
@@ -35,18 +35,21 @@ export class PostMailPage extends BaseElement {
         <h1>PostMail</h1>
         <hr />
         <input-view
+          class="m-t-md"
           required
           label="To"
           value=${this.to}
           @input-change=${(e: CustomEvent<string>) => (this.to = e.detail)}>
         </input-view>
         <input-view
+          class="m-t-md"
           required
-          label="Title"
-          value=${this.mailTitle}
-          @input-change=${(e: CustomEvent<string>) => (this.mailTitle = e.detail)}>
+          label="Subject"
+          value=${this.subject}
+          @input-change=${(e: CustomEvent<string>) => (this.subject = e.detail)}>
         </input-view>
         <input-view
+          class="m-t-md"
           required
           label="Content"
           value=${this.contentHTML}
@@ -60,7 +63,7 @@ export class PostMailPage extends BaseElement {
   private async handleSendClick() {
     const loader = new loaders.SendMailLoader({
       to: this.to,
-      title: this.mailTitle,
+      title: this.subject,
       content: this.contentHTML,
       forceProd: 1,
     });

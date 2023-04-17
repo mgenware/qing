@@ -12,6 +12,6 @@ import "qing/a/appHandler"
 var vPageBar = appHandler.MainPage().MustParseLocalizedView("com/pageBar.html")
 
 // GetPageBarHTML returns page bar HTML with the given params.
-func GetPageBarHTML(lang string, pageData *PageData) string {
+func GetPageBarHTML(lang string, pageData *PaginationData) string {
 	return vPageBar.MustExecuteToString(lang, pageData)
 }

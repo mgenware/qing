@@ -14,18 +14,16 @@ import (
 
 var vStdPage = appHandler.MainPage().MustParseView("home/stdPage.html")
 
-// StdPageModel ...
-type StdPageModel struct {
-	FeedListHTML string
-	PageBarHTML  string
-	PageData     *rcom.PageData
+type StdPageData struct {
+	FeedListHTML   string
+	PageBarHTML    string
+	PaginationData *rcom.PaginationData
 }
 
-// NewStdPageModel creates a new StdPageModel.
-func NewStdPageModel(pageData *rcom.PageData, feedHTML, pageBarHTML string) *StdPageModel {
-	d := &StdPageModel{}
+func NewStdPageData(pageData *rcom.PaginationData, feedHTML, pageBarHTML string) *StdPageData {
+	d := &StdPageData{}
 	d.FeedListHTML = feedHTML
-	d.PageData = pageData
+	d.PaginationData = pageData
 	d.PageBarHTML = pageBarHTML
 	return d
 }

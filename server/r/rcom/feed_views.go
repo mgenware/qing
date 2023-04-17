@@ -18,17 +18,17 @@ import (
 var vPostFeedView = appHandler.MainPage().MustParseView("com/feed/postFeedView.html")
 var vThreadFeedView = appHandler.MainPage().MustParseView("com/feed/threadFeedView.html")
 
-type PostFeedModel struct {
+type PostFeedData struct {
 	da.HomePostItem
 	feedSod.FeedBase
 }
 
-func MustRenderPostFeedView(d *PostFeedModel) string {
+func MustRenderPostFeedView(d *PostFeedData) string {
 	return vPostFeedView.MustExecuteToString(d)
 }
 
-func NewPostFeedModel(src *da.HomePostItem) PostFeedModel {
-	d := PostFeedModel{HomePostItem: *src}
+func NewPostFeedData(src *da.HomePostItem) PostFeedData {
+	d := PostFeedData{HomePostItem: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -40,13 +40,13 @@ func NewPostFeedModel(src *da.HomePostItem) PostFeedModel {
 	return d
 }
 
-type ThreadFeedModel struct {
+type ThreadFeedData struct {
 	da.ThreadFeedResult
 	feedSod.FeedBase
 }
 
-func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {
-	d := ThreadFeedModel{ThreadFeedResult: *src}
+func NewThreadFeedData(src *da.ThreadFeedResult) ThreadFeedData {
+	d := ThreadFeedData{ThreadFeedResult: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -58,6 +58,6 @@ func NewThreadFeedModel(src *da.ThreadFeedResult) ThreadFeedModel {
 	return d
 }
 
-func MustRenderThreadFeedView(d *ThreadFeedModel) string {
+func MustRenderThreadFeedView(d *ThreadFeedData) string {
 	return vThreadFeedView.MustExecuteToString(d)
 }

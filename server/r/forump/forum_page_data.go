@@ -16,7 +16,7 @@ import (
 
 var vForumPage = appHandler.MainPage().MustParseView("forum/forumPage.html")
 
-type ForumPageModel struct {
+type ForumPageData struct {
 	da.ForumAGSelectForumResult
 
 	ForumEID string
@@ -35,9 +35,8 @@ type ForumPageWindData struct {
 	Editable bool
 }
 
-// NewForumPageModel creates a ForumPageModel.
-func NewForumPageModel(f *da.ForumAGSelectForumResult, feedListHTML, pageBarHTML string, editable bool) ForumPageModel {
-	d := ForumPageModel{ForumAGSelectForumResult: *f}
+func NewForumPageData(f *da.ForumAGSelectForumResult, feedListHTML, pageBarHTML string, editable bool) ForumPageData {
+	d := ForumPageData{ForumAGSelectForumResult: *f}
 
 	fid := f.ID
 	d.ForumEID = clib.EncodeID(fid)

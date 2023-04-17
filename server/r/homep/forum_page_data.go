@@ -17,39 +17,38 @@ var vFrmPage = appHandler.MainPage().MustParseView("home/frmPage.html")
 var vForumGroupView = appHandler.MainPage().MustParseView("home/forumGroupView.html")
 var vForumView = appHandler.MainPage().MustParseView("home/forumView.html")
 
-// FrmPageModel ...
-type FrmPageModel struct {
+type FrmPageData struct {
 	ContentHTML string
 }
 
-type ForumGroupModel struct {
+type ForumGroupData struct {
 	da.ForumHomeAGSelectForumGroupsResult
 
 	URL        string
 	ForumsHTML string
 }
 
-func NewForumGroupModel(d *da.ForumHomeAGSelectForumGroupsResult, forumsHTML string) ForumGroupModel {
-	r := ForumGroupModel{ForumHomeAGSelectForumGroupsResult: *d}
+func NewForumGroupData(d *da.ForumHomeAGSelectForumGroupsResult, forumsHTML string) ForumGroupData {
+	r := ForumGroupData{ForumHomeAGSelectForumGroupsResult: *d}
 	r.URL = appURL.Get().ForumGroup(d.ID)
 	r.ForumsHTML = forumsHTML
 	return r
 }
 
-type ForumModel struct {
+type ForumData struct {
 	da.ForumHomeAGSelectForumsResult
 
 	URL string
 }
 
-func NewForumModel(d *da.ForumHomeAGSelectForumsResult) *ForumModel {
-	r := &ForumModel{ForumHomeAGSelectForumsResult: *d}
+func NewForumData(d *da.ForumHomeAGSelectForumsResult) *ForumData {
+	r := &ForumData{ForumHomeAGSelectForumsResult: *d}
 	r.URL = appURL.Get().ForumAdv(d.ID, 1)
 	return r
 }
 
-func NewForumPageModel(contentHTML string) *FrmPageModel {
-	r := &FrmPageModel{}
+func NewForumPageData(contentHTML string) *FrmPageData {
+	r := &FrmPageData{}
 	r.ContentHTML = contentHTML
 	return r
 }

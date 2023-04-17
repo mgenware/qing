@@ -56,17 +56,17 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		hasLiked = liked
 	}
 
-	postModel := NewPostPageModel(&post)
+	postData := NewPostPageData(&post)
 	var fid *string
 	if post.ForumID != nil {
 		str := clib.EncodeID(*post.ForumID)
 		fid = &str
 	}
-	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postModel))
+	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postData))
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("post", "postEntry")
 
 	cmtFocusModeData := rcom.GetCmtFocusModeData(focusedCmtID, id, postType)
-	d.WindData = postSod.NewPostWind(postModel.EID, postModel.CmtCount, postModel.Likes, hasLiked, isThread, fid, cmtFocusModeData)
+	d.WindData = postSod.NewPostWind(postData.EID, postData.CmtCount, postData.Likes, hasLiked, isThread, fid, cmtFocusModeData)
 	return resp.MustComplete(&d)
 }
 

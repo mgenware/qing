@@ -62,17 +62,17 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range items {
-			itemModel := rcom.NewPostFeedModel(&item)
-			feedListHTMLBuilder.WriteString(rcom.MustRenderPostFeedView(&itemModel))
+			itemData := rcom.NewPostFeedData(&item)
+			feedListHTMLBuilder.WriteString(rcom.MustRenderPostFeedView(&itemData))
 		}
 	}
 
 	pageURLFormatter := &HomePageURLFormatter{Tab: tab}
-	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
-	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), pageData)
+	paginationData := rcom.NewPaginationData(page, hasNext, pageURLFormatter, 0)
+	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), paginationData)
 
-	pageModel := NewStdPageModel(pageData, feedListHTMLBuilder.String(), pageBarHTML)
-	d := app.MainPageData("", vStdPage.MustExecuteToString(pageModel))
+	pageData := NewStdPageData(paginationData, feedListHTMLBuilder.String(), pageBarHTML)
+	d := app.MainPageData("", vStdPage.MustExecuteToString(pageData))
 	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("homeStd")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("home", "homeStdEntry")
 	return resp.MustComplete(&d)

@@ -58,19 +58,19 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	app.PanicOn(err)
 	var feedListHTMLBuilder strings.Builder
 	for _, post := range posts {
-		postData := NewProfilePostItem(&post)
+		postData := NewProfilePostItemData(&post)
 		feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
 	}
 	feedListHTML = feedListHTMLBuilder.String()
 
 	pageURLFormatter := NewProfilePageURLFormatter(uid, tab)
-	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
+	paginationData := rcom.NewPaginationData(page, hasNext, pageURLFormatter, 0)
 
 	if feedListHTML == "" {
 		feedListHTML = rcom.MustRunNoContentViewTemplate()
 	}
-	profileModel := NewProfilePageModelFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(resp.Lang(), pageData))
-	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileModel))
+	profileData := NewProfilePageDataFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(resp.Lang(), paginationData))
+	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileData))
 	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("profile")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("profile", "profileEntry")
 	d.WindData = ProfilePageWindData{Website: user.Website}

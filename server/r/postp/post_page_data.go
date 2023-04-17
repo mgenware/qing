@@ -18,7 +18,7 @@ import (
 
 var vPostPage = appHandler.MainPage().MustParseView("post/postPage.html")
 
-type PostPageModel struct {
+type PostPageData struct {
 	da.PostItem
 
 	// Used by `postPage.html`.
@@ -31,8 +31,8 @@ type PostPageModel struct {
 	ModifiedAt string
 }
 
-func NewPostPageModel(p *da.PostItem) PostPageModel {
-	d := PostPageModel{PostItem: *p}
+func NewPostPageData(p *da.PostItem) PostPageData {
+	d := PostPageData{PostItem: *p}
 	eid := clib.EncodeID(p.ID)
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid

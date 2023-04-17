@@ -55,17 +55,17 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 			} else {
 				var forumsHTMLBuilder strings.Builder
 				for _, forum := range forums {
-					forumModel := NewForumModel(&forum)
-					forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumModel))
+					forumData := NewForumData(&forum)
+					forumsHTMLBuilder.WriteString(vForumView.MustExecuteToString(forumData))
 				}
 
-				groupModel := NewForumGroupModel(&group, forumsHTMLBuilder.String())
-				frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupModel))
+				groupData := NewForumGroupData(&group, forumsHTMLBuilder.String())
+				frmHTMLBuilder.WriteString(vForumGroupView.MustExecuteToString(groupData))
 			}
 		}
 
-		frmPageModel := NewForumPageModel(frmHTMLBuilder.String())
-		mainHTML = vFrmPage.MustExecuteToString(frmPageModel)
+		frmPageData := NewForumPageData(frmHTMLBuilder.String())
+		mainHTML = vFrmPage.MustExecuteToString(frmPageData)
 	}
 
 	d := app.MainPageData("", mainHTML)

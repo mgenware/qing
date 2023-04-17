@@ -14,8 +14,8 @@ type PageURLFormatter interface {
 	GetURL(page int) string
 }
 
-// PageData contains information about pagination.
-type PageData struct {
+// PaginationData contains information about pagination.
+type PaginationData struct {
 	handler.LocalizedTemplateData
 
 	urlFormatter PageURLFormatter
@@ -32,9 +32,8 @@ type PageData struct {
 	LastPageURL  string
 }
 
-// NewPageData creates a PageData.
-func NewPageData(page int, hasNextPage bool, formatter PageURLFormatter, totalPage int) *PageData {
-	d := &PageData{urlFormatter: formatter, Page: page}
+func NewPaginationData(page int, hasNextPage bool, formatter PageURLFormatter, totalPage int) *PaginationData {
+	d := &PaginationData{urlFormatter: formatter, Page: page}
 	hasTotalPage := totalPage > 0
 	d.TotalPage = totalPage
 	if page > 1 {

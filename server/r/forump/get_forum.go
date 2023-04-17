@@ -48,20 +48,20 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range items {
-			itemModel := rcom.NewThreadFeedModel(&item)
-			feedListHTMLBuilder.WriteString(rcom.MustRenderThreadFeedView(&itemModel))
+			itemData := rcom.NewThreadFeedData(&item)
+			feedListHTMLBuilder.WriteString(rcom.MustRenderThreadFeedView(&itemData))
 		}
 	}
 
 	pageURLFormatter := NewForumPageURLFormatter(forum.ID, tab)
-	pageData := rcom.NewPageData(page, hasNext, pageURLFormatter, 0)
-	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), pageData)
+	paginationData := rcom.NewPaginationData(page, hasNext, pageURLFormatter, 0)
+	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), paginationData)
 
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
 	app.PanicOn(err)
-	forumModel := NewForumPageModel(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
-	d := app.MainPageData("", vForumPage.MustExecuteToString(forumModel))
+	forumData := NewForumPageData(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
+	d := app.MainPageData("", vForumPage.MustExecuteToString(forumData))
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("forum", "forumEntry")
-	d.WindData = ForumPageWindData{Editable: forumModel.ForumEditable, FID: forumModel.ForumEID}
+	d.WindData = ForumPageWindData{Editable: forumData.ForumEditable, FID: forumData.ForumEID}
 	return resp.MustComplete(&d)
 }
