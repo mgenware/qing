@@ -33,7 +33,7 @@ const envMap = {
   },
 };
 
-const entryPoints = [
+const jsEntries = [
   'core',
   'm/mEntry',
   'mx/mxEntry',
@@ -48,6 +48,8 @@ const entryPoints = [
   'devPage/devPageEntry',
 ].map((s) => `src/${s}.ts`);
 
+const cssEntries = ['mainEntry', 'profileEntry', 'homeStdEntry'].map((s) => `src/css/${s}.css`);
+
 const plugins = [];
 if (!isDev) {
   plugins.push(minifyHTMLLiteralsPlugin());
@@ -56,13 +58,13 @@ if (!isDev) {
 console.log(`[esb.js] TS building in ${config} mode...`);
 
 const opt = {
-  entryPoints,
+  entryPoints: [...jsEntries, ...cssEntries],
   bundle: true,
   outdir: '../userland/static/g/js',
   minify: !isDev,
-  entryNames: isProd ? '[dir]/[name]-[hash]' : '[dir]/[name]-0000',
   splitting: true,
   format: 'esm',
+  entryNames: isProd ? '[dir]/[name]-[hash]' : '[dir]/[name]-0000',
   define: {
     this: 'window',
     ...envMap[config],

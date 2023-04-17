@@ -24,7 +24,7 @@ function devTask(e) {
   return {
     alias: e.alias,
     before: ['#clean', 'tsc'],
-    run: [tscW, buildTS(e.config, e.watch), 'node ./scripts/cp-base-css.js'],
+    run: [tscW, buildTS(e.config, e.watch)],
     parallel: true,
     env: devEnv,
   };
