@@ -29,7 +29,7 @@ func NewMailService(config *conf.Config) *MailService {
 	return res
 }
 
-func (mn *MailService) SendMail(to, title, contentHTML string, noDevMail bool) error {
+func (mn *MailService) SendMail(to, title, contentHTML string, noDevMail bool, siteName string) error {
 	if to == "" {
 		return errors.New("empty \"to\" field in `MailService.Send`")
 	}
@@ -47,7 +47,7 @@ func (mn *MailService) SendMail(to, title, contentHTML string, noDevMail bool) e
 	acc := cfg.NoReplyAccount
 
 	msg := mail.NewMsg()
-	if err := msg.From(acc.Email); err != nil {
+	if err := msg.FromFormat(siteName, acc.Email); err != nil {
 		return err
 	}
 	if err := msg.To(to); err != nil {

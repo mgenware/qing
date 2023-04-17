@@ -68,7 +68,7 @@ func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 	if devCfg != nil {
 		noDevMail = devCfg.NoDevMail
 	}
-	err = s.MailService.SendMail(email, mailData.Desc, mailHTML, noDevMail)
+	err = s.MailService.SendMail(email, mailData.Desc, mailHTML, noDevMail, ls.QingSiteName)
 	if err != nil {
 		return err
 	}

@@ -54,7 +54,7 @@ func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	title := clib.MustGetStringFromDict(params, "title", appdef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
 
-	err := appService.Get().Mail.SendMail(to, title, content, true)
+	err := appService.Get().Mail.SendMail(to, title, content, true, "QING_TEST")
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

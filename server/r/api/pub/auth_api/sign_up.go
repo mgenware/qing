@@ -96,7 +96,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if devCfg != nil {
 		noDevMail = devCfg.NoDevMail
 	}
-	err = appService.Get().Mail.SendMail(email, pageTitle, pageHTML, noDevMail)
+	err = appService.Get().Mail.SendMail(email, pageTitle, pageHTML, noDevMail, ls.QingSiteName)
 	app.PanicOn(err)
 
 	return resp.MustComplete(nil)
