@@ -39,7 +39,7 @@ export default {
   },
 
   /** Standard mode */
-  dev: devTask({ config: 'dev', watch: true }),
+  d: devTask({ config: 'dev', watch: true }),
   br: devTask({ config: 'br', watch: true }),
 
   /** Turbo mode */
@@ -60,22 +60,8 @@ export default {
   },
 
   clean: {
-    run: ['#prepare', '#prepare_turbo'],
-    parallel: true,
-  },
-
-  _: {
-    privateTasks: {
-      prepare: {
-        run: {
-          del: ['dist', '../userland/static/g/js', 'tsconfig.tsbuildinfo'],
-        },
-      },
-      prepare_turbo: {
-        run: {
-          del: ['dist-turbo', 'tsconfig-turbo.tsbuildinfo'],
-        },
-      },
+    run: {
+      del: ['../userland/static/g', 'tsconfig.tsbuildinfo'],
     },
   },
 };

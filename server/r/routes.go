@@ -9,13 +9,11 @@ package r
 
 import (
 	"net/http"
-	"path/filepath"
 	"qing/a/appConf"
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appUserManager"
 	"qing/a/def/appdef"
-	"qing/a/def/infdef"
 	"qing/a/handler"
 	"qing/lib/iolib"
 	"strconv"
@@ -80,9 +78,6 @@ func Start() {
 		// Mount static file server.
 		httpStaticConf := httpConf.Static
 		if httpStaticConf != nil {
-			// Serve CSS files directly from source (The working dir of server is in /server).
-			startFileServer(r, "static-server-css", filepath.Join(httpStaticConf.URL, "g/css"), infdef.DevCSSDir)
-
 			startFileServer(r, "static-server", httpStaticConf.URL, httpStaticConf.Dir)
 		}
 

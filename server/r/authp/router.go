@@ -27,7 +27,7 @@ func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title will be set on frontend side
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("auth", "authEntry")
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("authEntry")
 
 	return resp.MustComplete(&d)
 }

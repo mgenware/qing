@@ -107,8 +107,8 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 		d.AppWindDataString = string(jsonBytes)
 	}
 
-	// `base.css` and `document.css` come before other header styles.
-	d.Header = m.asMgr.MustGetStyle("base") + m.asMgr.MustGetStyle("document") + d.Header
+	// `main.css` come before other header styles.
+	d.Header = m.asMgr.MustGetStyle("mainEntry") + d.Header
 
 	// Lang script comes before user scripts.
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
@@ -157,7 +157,7 @@ func (m *MainPageManager) MustError(r *http.Request, lang string, err error, sta
 	}
 	errorHTML := m.errorView.MustExecuteToString(lang, d)
 	mainPageData := NewMainPageData(m.Dictionary(lang).ErrOccurred, errorHTML)
-	mainPageData.Scripts = m.AssetManager().MustGetScript("", coreScriptEntry)
+	mainPageData.Scripts = m.AssetManager().MustGetScript(coreScriptEntry)
 	m.MustComplete(r, lang, statusCode, &mainPageData, w)
 	return HTML(0)
 }

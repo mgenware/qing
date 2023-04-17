@@ -1,1 +1,5 @@
+# Files from esbuild.
 /g
+
+# Files from LS build.
+/lang

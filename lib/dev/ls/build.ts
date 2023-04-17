@@ -11,11 +11,10 @@ import * as np from 'path';
 import * as qdu from '@qing/devutil';
 import { stringHash } from '../cm/checksum.js';
 import { deleteAsync } from 'del';
-import isProd from '../cm/isProd.js';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${qdu.copyrightString}${codeWarning}`;
-const webOutBaseDir = qdu.webPath('../userland/static/g/lang');
+const webOutBaseDir = qdu.webPath('../userland/static/lang');
 const args = process.argv.slice(2);
 const arg0 = args[0];
 const arg1 = args[1];
@@ -100,7 +99,7 @@ async function buildJS(
   const content = await mfs.readTextFileAsync(srcFile);
   // Parse and stringify the file content to make sure it's valid JSON.
   const outContent = `window.${subdir}LS = ${JSON.stringify(JSON.parse(content))}`;
-  const hash = isProd ? stringHash(outContent).substring(0, 8) : '0000';
+  const hash = stringHash(outContent).substring(0, 8);
   const outFile = np.join(outDir, `${langName}-${hash}.js`);
   print(`Building dist JS "${outFile}"`);
   await mfs.writeFileAsync(outFile, outContent);
@@ -128,6 +127,15 @@ async function buildServer() {
   await buildServerDictFiles(lsObj);
 }
 
+async function buildAllWebFiles() {
+  // Build all web folders. This runs alongside pnpm.
+  // Web folders have dist files that must be updated locally when new strings are added.
+  // Server folder doesn't need this as server generated files are go code and not git ignored.
+  const subDirs = await mfs.subDirs(qdu.webLangDir);
+  console.log(`Building LS directories: ${subDirs}`);
+  await Promise.all(subDirs.map((dir) => buildWeb(dir)));
+}
+
 if (arg0 === 's') {
   await buildServer();
 } else if (arg0 === 'w') {
@@ -136,16 +144,7 @@ if (arg0 === 's') {
   }
   await buildWeb(arg1!);
 } else if (arg0 === 'w-all') {
-  // Build all web folders. This runs alongside pnpm.
-  // Web folders have dist files that must be updated locally when new strings are added.
-  // Server folder doesn't need this as server generated files are go code and not git ignored.
-  const subDirs = await mfs.subDirs(qdu.webLangDir);
-  console.log(`Building LS directories: ${subDirs}`);
-  await Promise.all(subDirs.map((dir) => buildWeb(dir)));
+  await buildAllWebFiles();
 } else {
-  if (!arg0) {
-    error('Missing the mode argument. Usage: qing ls <mode>');
-  } else {
-    error(`Unknown mode "${arg0}"`);
-  }
+  await Promise.all([buildServer(), buildAllWebFiles()]);
 }

@@ -60,11 +60,11 @@ console.log(`[esb.js] TS building in ${config} mode...`);
 const opt = {
   entryPoints: [...jsEntries, ...cssEntries],
   bundle: true,
-  outdir: '../userland/static/g/js',
+  outdir: '../userland/static/g',
   minify: !isDev,
   splitting: true,
   format: 'esm',
-  entryNames: isProd ? '[dir]/[name]-[hash]' : '[dir]/[name]-0000',
+  entryNames: '[ext]/[name]-[hash]',
   define: {
     this: 'window',
     ...envMap[config],

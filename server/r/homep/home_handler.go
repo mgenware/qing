@@ -74,6 +74,6 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageData := NewStdPageData(paginationData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := app.MainPageData("", vStdPage.MustExecuteToString(pageData))
 	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("homeStd")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("home", "homeStdEntry")
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("homeStdEntry")
 	return resp.MustComplete(&d)
 }

@@ -78,7 +78,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := app.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("devPage", "devPageEntry")
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("devPageEntry")
 
 	return resp.MustComplete(&d)
 }

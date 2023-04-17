@@ -12,10 +12,6 @@ import (
 	"path/filepath"
 )
 
-// `g` folder is a sub-folder in `/static` as the root folder
-// for all generated resources.
-const gFolder = "g"
-
 func scriptTag(src string) string {
 	return "<script type=\"module\" src=\"" + src + "\"></script>"
 }
@@ -29,66 +25,53 @@ type AssetManager struct {
 	rootURL string
 	rootDir string
 
-	// K: name, V: <link> string.
-	jsCache   map[string]string
-	cssCache  map[string]string
-	langCache map[string]string
+	pathCache map[string]string
 }
 
 func NewAssetManager(devMode bool, rootURL, rootDir string) *AssetManager {
 	r := &AssetManager{}
 	r.devMode = devMode
-	r.rootURL = filepath.Join(rootURL, gFolder)
-	r.rootDir = filepath.Join(rootDir, gFolder)
-	r.jsCache = make(map[string]string)
-	r.cssCache = make(map[string]string)
-	r.langCache = make(map[string]string)
+	r.rootURL = rootURL
+	r.rootDir = rootDir
+	r.pathCache = make(map[string]string)
 	return r
 }
 
-func (asm *AssetManager) MustGetScript(folder, name string) string {
-	return asm.mustGetResource(true, "js", folder, name, "js", asm.jsCache)
+func (asm *AssetManager) MustGetScript(name string) string {
+	return asm.mustGetResource(true, "g/js", name, "js")
 }
 
 func (asm *AssetManager) MustGetStyle(name string) string {
-	if asm.devMode {
-		return styleTag(asm.rootURL + "/css/" + name + ".css")
-	}
-	return asm.mustGetResource(false, "css", "", name, "css", asm.cssCache)
+	return asm.mustGetResource(false, "g/css", name, "css")
 }
 
 func (asm *AssetManager) MustGetLangScript(name, subdir string) string {
-	return asm.mustGetResource(true, "lang", subdir, name, "js", asm.langCache)
+	return asm.mustGetResource(true, "lang/"+subdir, name, "js")
 }
 
 // `category`: js, css, lang
-func (asm *AssetManager) mustGetResource(isJS bool, category, subdir, name, ext string, cache map[string]string) string {
-	dirPath := category + "/"
-	if subdir != "" {
-		dirPath += subdir + "/"
-	}
-
-	cacheKey := dirPath + name + ext
-	v := cache[cacheKey]
+func (asm *AssetManager) mustGetResource(isJS bool, parentDir, name, ext string) string {
+	cacheKey := parentDir + "|" + name + "|" + ext
+	v := asm.pathCache[cacheKey]
 	if v == "" {
-		resolvedFileName, err := asm.fileNameWithHash(dirPath+name, ext)
+		relPath, err := asm.lookupFilePath(parentDir, name, ext)
 		if err != nil {
 			panic(err)
 		}
-		resolvedURL := asm.rootURL + "/" + dirPath + resolvedFileName
+		resolvedURL := asm.rootURL + "/" + relPath
 		if isJS {
 			v = scriptTag(resolvedURL)
 		} else {
 			v = styleTag(resolvedURL)
 		}
 
-		cache[cacheKey] = v
+		asm.pathCache[cacheKey] = v
 	}
 	return v
 }
 
-func (asm *AssetManager) fileNameWithHash(name, ext string) (string, error) {
-	pattern := filepath.Join(asm.rootDir, name+"-*"+ext)
+func (asm *AssetManager) lookupFilePath(parentPath, name, ext string) (string, error) {
+	pattern := filepath.Join(asm.rootDir, parentPath, name+"-*"+ext)
 	res, err := filepath.Glob(pattern)
 	if err != nil {
 		return "", err
@@ -96,5 +79,9 @@ func (asm *AssetManager) fileNameWithHash(name, ext string) (string, error) {
 	if len(res) == 0 {
 		return "", fmt.Errorf("no match for glob %v", pattern)
 	}
-	return filepath.Base(res[0]), nil
+	relPath, err := filepath.Rel(asm.rootDir, res[0])
+	if err != nil {
+		return "", err
+	}
+	return relPath, nil
 }
