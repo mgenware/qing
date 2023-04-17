@@ -79,12 +79,14 @@ const opt = {
     'safari13.1',
   ],
   plugins,
+  external: ['*.png', '*.jpg', '*.jpeg', '*.avif'],
 };
 
 console.log(`esbuild ${watchFlag ? '[watch]' : '[build]'}`);
 if (watchFlag) {
   const ctx = await esbuild.context(opt);
   await ctx.watch();
+  await ctx.rebuild();
 } else {
   await esbuild.build(opt);
 }
