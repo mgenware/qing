@@ -15,7 +15,7 @@ import './devPage';
 import { appdef } from '@qing/def';
 import './auth/authPage';
 import './ui/elementsPage';
-import './postMail/postMailPage.js';
+import './sendRealMail/sendRealMailPage.js';
 import './mails/mbUsersPage';
 import './mails/mbInboxPage';
 import './mails/mbMailPage';
@@ -40,8 +40,8 @@ devRouter.register(authRoute.authRoot, () => {
 devRouter.register(devRoot.elements, () => {
   loadPageContent('Elements dev page', html`<elements-page></elements-page>`);
 });
-devRouter.register(devRoot.postMail, () => {
-  loadPageContent('PostMail', html`<post-mail-page></post-mail-page>`);
+devRouter.register(devRoot.sendRealMail, () => {
+  loadPageContent('Send real mails', html`<send-real-mail-page></send-real-mail-page>`);
 });
 
 devRouter.register(mailsRoute.users, () => {

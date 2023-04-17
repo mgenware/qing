@@ -29,12 +29,12 @@ func NewMailService(config *conf.Config) *MailService {
 	return res
 }
 
-func (mn *MailService) Send(to, title, contentHTML string, forceProd bool) error {
+func (mn *MailService) SendMail(to, title, contentHTML string, noDevMail bool) error {
 	if to == "" {
 		return errors.New("empty \"to\" field in `MailService.Send`")
 	}
 	// Write to file system in dev mode.
-	if mn.devDir != "" && !forceProd {
+	if mn.devDir != "" && !noDevMail {
 		err := devmail.SendMail(mn.devDir, to, title, contentHTML)
 		if err != nil {
 			return err

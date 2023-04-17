@@ -15,13 +15,13 @@ export interface SendMailLoaderArgs {
   forceProd?: number;
 }
 
-export class SendMailLoader extends Loader<void> {
+export class SendRealMailLoader extends Loader<void> {
   constructor(public args: SendMailLoaderArgs) {
     super();
   }
 
   override requestURL(): string {
-    return mailsAPI.send;
+    return mailsAPI.sendReal;
   }
 
   override requestParams() {

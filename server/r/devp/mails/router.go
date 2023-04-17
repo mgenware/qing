@@ -16,7 +16,7 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Post("/get", getDevMail)
 	Router.Post("/get-latest", getDevLatestMail)
-	Router.Post("/send", sendMail)
+	Router.Post("/send-real", sendRealMail)
 	Router.Post("/erase-user", eraseUser)
 	Router.Post("/erase-user-by-id", eraseUserByID)
 	Router.Post("/users", users)

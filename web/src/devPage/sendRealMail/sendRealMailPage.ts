@@ -12,8 +12,8 @@ import 'qing-button';
 import * as loaders from './loaders.js';
 import appTask from 'app/appTask.js';
 
-@customElement('post-mail-page')
-export class PostMailPage extends BaseElement {
+@customElement('send-real-mail-page')
+export class SendRealMailPage extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -32,7 +32,7 @@ export class PostMailPage extends BaseElement {
   override render() {
     return html`
       <div>
-        <h1>PostMail</h1>
+        <h1>Send real mails</h1>
         <hr />
         <input-view
           class="m-t-md"
@@ -61,7 +61,7 @@ export class PostMailPage extends BaseElement {
   }
 
   private async handleSendClick() {
-    const loader = new loaders.SendMailLoader({
+    const loader = new loaders.SendRealMailLoader({
       to: this.to,
       title: this.subject,
       content: this.contentHTML,
@@ -73,6 +73,6 @@ export class PostMailPage extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'post-mail-page': PostMailPage;
+    'send-real-mail-page': SendRealMailPage;
   }
 }

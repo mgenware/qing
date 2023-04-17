@@ -9,6 +9,7 @@
         "reload_views_on_refresh": { "type": "boolean" },
         "panic_on_unexpected_html_errors": { "type": "boolean" },
         "panic_on_unexpected_json_errors": { "type": "boolean" },
+        "no_dev_mail": { "type": "boolean" },
         "turbo_web": {
           "type": "object",
           "properties": {

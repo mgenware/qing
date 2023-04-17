@@ -46,16 +46,15 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(devMail)
 }
 
-func sendMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
 	to := clib.MustGetStringFromDict(params, "to", appdef.LenMaxGenericString)
 	title := clib.MustGetStringFromDict(params, "title", appdef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
-	forceProd := jsonx.GetInt(params, "forceProd")
 
-	err := appService.Get().Mail.Send(to, title, content, forceProd != 0)
+	err := appService.Get().Mail.SendMail(to, title, content, true)
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

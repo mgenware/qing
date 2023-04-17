@@ -9,6 +9,7 @@ package notix
 
 import (
 	"fmt"
+	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/servicex/mailx"
@@ -61,7 +62,13 @@ func (s *Service) SendNoti(noti *NotiItem, fromName string) error {
 	if err != nil {
 		return err
 	}
-	err = s.MailService.Send(email, mailData.Desc, mailHTML, false)
+
+	devCfg := appConf.Get().Dev
+	noDevMail := false
+	if devCfg != nil {
+		noDevMail = devCfg.NoDevMail
+	}
+	err = s.MailService.SendMail(email, mailData.Desc, mailHTML, noDevMail)
 	if err != nil {
 		return err
 	}

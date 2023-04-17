@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConf"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
@@ -90,7 +91,12 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.ClickBelowToCompleteReg, contentHTML)
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
-	err = appService.Get().Mail.Send(email, pageTitle, pageHTML, false)
+	devCfg := appConf.Get().Dev
+	noDevMail := false
+	if devCfg != nil {
+		noDevMail = devCfg.NoDevMail
+	}
+	err = appService.Get().Mail.SendMail(email, pageTitle, pageHTML, noDevMail)
 	app.PanicOn(err)
 
 	return resp.MustComplete(nil)

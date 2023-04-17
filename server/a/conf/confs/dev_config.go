@@ -22,4 +22,5 @@ type DevConfig struct {
 	PanicOnUnexpectedJSONErrors bool            `json:"panic_on_unexpected_json_errors,omitempty"`
 	TurboWeb                    *TurboWebConfig `json:"turbo_web,omitempty"`
 	MailBox                     *MailBoxConfig  `json:"mailbox,omitempty"`
+	NoDevMail                   bool            `json:"no_dev_mail,omitempty"`
 }

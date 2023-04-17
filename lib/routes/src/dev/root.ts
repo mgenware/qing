@@ -10,4 +10,4 @@ const root = '/__';
 export default root;
 
 export const elements = `${root}/elements`;
-export const postMail = `${root}/post-mail`;
+export const sendRealMail = `${root}/send-real-mail`;
