@@ -20,6 +20,15 @@ import profileWind from './profileWind.js';
 
 const defaultHighlightedTab = appdef.keyPosts;
 
+// Localzied strings.
+document.querySelectorAll<HTMLElement>('.__qing_ls__').forEach((el) => {
+  if (el.textContent) {
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, no-param-reassign, @typescript-eslint/no-explicit-any
+    el.textContent = (globalThis.coreLS as any)[el.textContent];
+  }
+});
+
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 ready(async () => {
   const qs = new URLSearchParams(window.location.search);
