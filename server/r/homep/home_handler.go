@@ -25,11 +25,10 @@ import (
 var kHomePageSize int
 
 func init() {
-	cc := appConf.Get()
-	if cc.ProductionMode() {
-		kHomePageSize = 10
-	} else {
+	if conf.IsBREnv() {
 		kHomePageSize = 2
+	} else {
+		kHomePageSize = 10
 	}
 }
 
@@ -73,7 +72,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	pageData := NewStdPageData(paginationData, feedListHTMLBuilder.String(), pageBarHTML)
 	d := app.MainPageData("", vStdPage.MustExecuteToString(pageData))
-	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("homeStd")
+	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("homeStdEntry")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("homeStdEntry")
 	return resp.MustComplete(&d)
 }
