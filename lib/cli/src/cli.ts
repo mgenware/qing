@@ -96,7 +96,7 @@ function mustGetDevConf(argIdx: number) {
 
       case 'w': {
         await sp.spawnDZCmd({
-          cmd: 'dev',
+          cmd: 'd',
           args: null,
           daizongDir: await iou.getProjectDir(webDir),
         });
