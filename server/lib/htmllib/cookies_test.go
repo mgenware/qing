@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package appCookies
+package htmllib
 
 import (
 	"testing"
