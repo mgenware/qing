@@ -32,6 +32,14 @@
       },
       "required": ["dir"]
     },
+    "z_test_config": {
+      "type": "object",
+      "properties": {
+        "a": { "type": "number" },
+        "b": { "type": "number" },
+        "c": { "type": "number" }
+      }
+    },
     "site_config": {
       "type": "object",
       "properties": {
@@ -170,7 +178,8 @@
     "res_server": { "$ref": "#/definitions/res_server_config" },
     "site": { "$ref": "#/definitions/site_config" },
     "mail": { "$ref": "#/definitions/mail_config" },
-    "extern": { "$ref": "#/definitions/extern_config" }
+    "extern": { "$ref": "#/definitions/extern_config" },
+    "z_test": { "$ref": "#/definitions/z_test_config" }
   },
   "required": [
     "logging",

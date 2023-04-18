@@ -43,6 +43,7 @@ type Config struct {
 	ResServer *confs.ResServerConfig `json:"res_server,omitempty"`
 	Mail      *confs.MailConfig      `json:"mail,omitempty"`
 	Extern    *confs.ExternConfig    `json:"extern,omitempty"`
+	ZTest     *confs.ZTestConfig     `json:"z_test,omitempty"`
 }
 
 // Returns true if unit test mode is on.
@@ -71,28 +72,31 @@ func IsFirstRun() bool {
 
 func readConfigCore(absFile string) (*Config, error) {
 	log.Printf("Loading config at \"%v\"", absFile)
-	var conf Config
+	var current Config
 
-	err := iolib.ReadJSONFile(absFile, &conf)
+	err := iolib.ReadJSONFile(absFile, &current)
 	if err != nil {
 		return nil, err
 	}
 
-	if conf.Extends != "" {
-		extends := conf.Extends
+	if current.Extends != "" {
+		extends := current.Extends
 		if filepath.IsAbs(extends) {
 			return nil, fmt.Errorf("`extends` cannot be an absolute path, got %v", extends)
 		}
 		extendsFile := filepath.Join(filepath.Dir(absFile), extends)
-		basedOn, err := readConfigCore(extendsFile)
+		parent, err := readConfigCore(extendsFile)
 		if err != nil {
 			return nil, err
 		}
-		if err := mergo.Merge(&conf, basedOn); err != nil {
+		if err := mergo.Merge(&current, parent); err != nil {
 			return nil, err
 		}
 	}
-	return &conf, nil
+	// Ret `extends` to empty.
+	current.Extends = ""
+
+	return &current, nil
 }
 
 // MustReadConfig constructs a config object from the given file.
@@ -106,9 +110,6 @@ func MustReadConfig(absFile string) *Config {
 	}
 
 	mustValidateConfig(conf)
-
-	// Once the config is loaded, set `extends` to empty.
-	conf.Extends = ""
 
 	return conf
 }

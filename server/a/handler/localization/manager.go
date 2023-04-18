@@ -15,13 +15,13 @@ import (
 
 	"golang.org/x/text/language"
 
-	"qing/a/appCookies"
 	"qing/a/appLog"
 	"qing/a/appcom"
 	"qing/a/conf"
 	"qing/a/def"
 	"qing/a/def/appdef"
 	"qing/a/def/infdef"
+	"qing/lib/htmllib"
 )
 
 type Manager struct {
@@ -139,6 +139,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := appCookies.NewCookie(appdef.KeyLang, lang)
+	c := htmllib.NewCookie(appdef.KeyLang, lang)
 	http.SetCookie(w, c)
 }

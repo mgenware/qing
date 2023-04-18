@@ -1,0 +1,4 @@
+{
+  "extends": "b.json",
+  "z_test": {}
+}

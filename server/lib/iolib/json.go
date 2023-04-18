@@ -28,3 +28,16 @@ func WriteJSONFile(file string, v any) error {
 
 	return WriteFile(file, bytes)
 }
+
+func StructToJSONMap(obj any) (map[string]any, error) {
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+	var m map[string]any
+	err = json.Unmarshal(data, &m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
+}
