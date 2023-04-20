@@ -14,25 +14,19 @@ export interface CmtFixtureStartOptions {
   viewer?: br.User | 'new';
 }
 
-export class CmtFixtureEnv {
-  constructor(
-    public fixture: CmtFixture,
-    public p: br.Page,
-    public author: br.User,
-    public viewer: br.User | null,
-  ) {}
-
-  getCmtApp(): Promise<br.Element> {
-    return this.fixture.getCmtApp(this.p);
-  }
+export interface CmtFixtureStartCbArg {
+  p: br.Page;
+  viewer: br.User | null;
+  author: br.User;
 }
 
 export abstract class CmtFixture {
   abstract start(
     p: br.Page,
     opt: CmtFixtureStartOptions,
-    cb: (arg: CmtFixtureEnv) => void,
+    cb: (arg: CmtFixtureStartCbArg) => void,
   ): Promise<void>;
 
   abstract getCmtApp(p: br.Page): Promise<br.Element>;
+  abstract getHostURL(p: br.Page): string;
 }

@@ -7,11 +7,8 @@
 
 import { newPost } from 'helper/post.js';
 import * as br from 'br.js';
-import { CmtFixture, CmtFixtureStartOptions, CmtFixtureEnv } from 'br/cmt/fixture.js';
+import { CmtFixture, CmtFixtureStartOptions, CmtFixtureStartCbArg } from 'br/cmt/fixture.js';
 import { newUser } from 'helper/user.js';
-
-export * as cm from '../cmt/common.js';
-export * as act from '../cmt/actions.js';
 
 export const cmtAppSelector = 'post-payload-app cmt-app';
 
@@ -19,7 +16,7 @@ export class PostCmtFixture extends CmtFixture {
   override start(
     p: br.Page,
     opt: CmtFixtureStartOptions,
-    cb: (arg: CmtFixtureEnv) => void,
+    cb: (arg: CmtFixtureStartCbArg) => void,
   ): Promise<void> {
     if (opt.author === 'new') {
       return newUser((u) => this.startInternal(p, opt, u, cb));
@@ -31,7 +28,7 @@ export class PostCmtFixture extends CmtFixture {
     p: br.Page,
     opt: CmtFixtureStartOptions,
     userNew: br.User | null,
-    cb: (arg: CmtFixtureEnv) => void,
+    cb: (arg: CmtFixtureStartCbArg) => void,
   ) {
     const author = userNew ?? (opt.author as br.User | undefined) ?? br.usr.user;
     // NOTE: The post is always created by `usr.user`.
@@ -47,14 +44,17 @@ export class PostCmtFixture extends CmtFixture {
         viewerUser = opt.viewer ?? null;
       }
       await p.goto(link, viewerUser);
-      const e = new CmtFixtureEnv(this, p, author, viewerUser);
-      return cb(e);
+      return cb({ p, author, viewer: viewerUser });
     });
   }
 
   override async getCmtApp(page: br.Page): Promise<br.Element> {
     return Promise.resolve(page.$(cmtAppSelector));
   }
+
+  override getHostURL(p: br.Page) {
+    return p.url();
+  }
 }
 
-export const fixture = new PostCmtFixture();
+export default new PostCmtFixture();
