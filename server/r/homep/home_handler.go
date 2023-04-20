@@ -34,7 +34,7 @@ func init() {
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	if appConf.Get().Site.ForumSite() {
+	if appConf.Get().Site.ForumsSite() {
 		return renderForumPage(w, r)
 	}
 	return renderStdPage(w, r)

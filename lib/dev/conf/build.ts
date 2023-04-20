@@ -26,8 +26,6 @@ const sImgProxy = 'img_proxy';
 
 const qingDataVolumeString = `../volumes/qing_data:${infdef.qingDataDir}`;
 
-const configEnvList = ['dev'];
-
 // Loads the given config file.
 async function loadConfigFile(file: string): Promise<QingConfigSchema> {
   const absPath = np.resolve(file);
@@ -132,7 +130,7 @@ function generateDockerComposeObj(_name: string, conf: QingConfigSchema) {
   };
 }
 
-async function buildConfFile(name: string, file: string) {
+async function buildDockerComposeFile(name: string, file: string) {
   const serverDir = qdu.serverPath();
   const confObj = await loadConfigFile(file);
   const dockerComposeObj = generateDockerComposeObj(name, confObj);
@@ -141,4 +139,4 @@ async function buildConfFile(name: string, file: string) {
   await mfs.writeFileAsync(dest, destContent);
 }
 
-await Promise.all(configEnvList.map((env) => buildConfFile(env, qdu.configPath(env))));
+await buildDockerComposeFile('dev', qdu.devConfigPath('default'));

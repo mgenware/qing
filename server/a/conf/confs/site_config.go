@@ -22,14 +22,14 @@ func (sc *SiteConfig) TypedSiteType() appdef.SiteType {
 	return appdef.SiteType(sc.Type)
 }
 
-func (sc *SiteConfig) BlogSite() bool {
-	return sc.TypedSiteType() == appdef.SiteTypeBlog
+func (sc *SiteConfig) DefaultSite() bool {
+	return sc.TypedSiteType() == appdef.SiteTypeDefault
 }
 
 func (sc *SiteConfig) CommunitySite() bool {
 	return sc.TypedSiteType() == appdef.SiteTypeCommunity
 }
 
-func (sc *SiteConfig) ForumSite() bool {
+func (sc *SiteConfig) ForumsSite() bool {
 	return sc.TypedSiteType() == appdef.SiteTypeForums
 }

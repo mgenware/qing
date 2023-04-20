@@ -11,7 +11,7 @@ import { CardSelectorItem } from 'ui/forms/cardSelector.js';
 
 export const siteTypeOptions: CardSelectorItem[] = [
   {
-    value: appdef.SiteType.blog,
+    value: appdef.SiteType.default,
     title: globalThis.mxLS.siteTypeBlog,
     desc: globalThis.mxLS.siteTypeBlogDesc,
   },

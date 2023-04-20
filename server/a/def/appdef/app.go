@@ -58,7 +58,7 @@ const RouteUser = "u"
 type SiteType int
 
 const (
-	SiteTypeBlog SiteType = iota + 1
+	SiteTypeDefault SiteType = iota + 1
 	SiteTypeCommunity
 	SiteTypeForums
 )
