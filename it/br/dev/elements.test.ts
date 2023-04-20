@@ -6,11 +6,11 @@
  */
 
 import { test, $ } from 'br.js';
-import { elementsRoot } from '@qing/routes/dev/elements.js';
+import { elements } from '@qing/routes/dev/root.js';
 
 test('__/elements', async ({ page }) => {
   const p = $(page);
-  await p.goto(elementsRoot, null);
+  await p.goto(elements, null);
 
   // Do a brief check on elements page.
   await p.body.$hasText('h1', 'Colors').e.toBeVisible();

@@ -6,9 +6,16 @@
  */
 
 import * as br from 'br.js';
+import {
+  PlaywrightTestArgs,
+  PlaywrightTestOptions,
+  PlaywrightWorkerArgs,
+  PlaywrightWorkerOptions,
+  TestInfo,
+} from '@playwright/test';
 import * as uv from 'br/com/content/userView.js';
 import * as eb from 'br/com/editing/editBar.js';
-import { CmtFixture, CmtFixtureStartCbArg, CmtFixtureStartOptions } from './fixture.js';
+import { CmtFixture, CmtFixtureEnv, CmtFixtureStartOptions } from './fixture.js';
 
 // Usage: `cmtEl.$(cmtChildrenSel)`.
 export const cmtChildrenSel = '> div > .br-children';
@@ -107,14 +114,31 @@ export function shouldNotHaveReplies(el: br.Element) {
   return el.$(cmtChildrenSel).shouldNotExist();
 }
 
+export class CmtFixutreEnv {
+  constructor(public p: br.Page, public cmtApp: br.Element) {}
+}
+
+// Helper function for a fixture callback.
+export function fc(
+  fixture: CmtFixture,
+  opt: CmtFixtureStartOptions,
+  cb: (arg: CmtFixtureEnv) => Promise<void>,
+): (
+  args: PlaywrightTestArgs & PlaywrightTestOptions & PlaywrightWorkerArgs & PlaywrightWorkerOptions,
+  testInfo: TestInfo,
+) => void {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  return async ({ page }) => {
+    const p = br.$(page);
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    await fixture.start(p, opt, cb);
+  };
+}
+
 export class CmtFixtureWrapper {
   constructor(public groupName: string, public fixture: CmtFixture) {}
 
-  test(
-    name: string,
-    opt: CmtFixtureStartOptions,
-    cb: (arg: CmtFixtureStartCbArg) => Promise<void>,
-  ) {
+  test(name: string, opt: CmtFixtureStartOptions, cb: (arg: CmtFixtureEnv) => Promise<void>) {
     return br.test(`${this.groupName} - ${name}`, async ({ page }) => {
       const p = br.$(page);
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -124,9 +148,5 @@ export class CmtFixtureWrapper {
 
   getCmtApp(page: br.Page) {
     return this.fixture.getCmtApp(page);
-  }
-
-  getHostURL(page: br.Page) {
-    return this.fixture.getHostURL(page);
   }
 }
