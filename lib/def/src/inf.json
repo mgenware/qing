@@ -13,7 +13,6 @@
   "configFile": "/qing_data/app/config.json",
   "profileFile": "/qing_data/app/profile.json",
   "devConfEnv": "QING_DEV_CONF",
-  "devSiteSettingsEnv": "QING_DEV_SITE_ST",
   "utEnv": "QING_UT",
   "brEnv": "QING_BR"
 }
