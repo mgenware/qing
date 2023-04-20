@@ -14,6 +14,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func mustCloneToMap(c *Config) map[string]any {
+	copied, err := CloneConfig(c)
+	if err != nil {
+		panic(err)
+	}
+	dict, err := iolib.StructToJSONMap(copied)
+	if err != nil {
+		panic(err)
+	}
+	return dict
+}
+
 func TestReadConfigCoreLevel1(t *testing.T) {
 	assert := assert.New(t)
 
@@ -32,6 +44,12 @@ func TestReadConfigCoreLevel1(t *testing.T) {
 			"b": float64(2),
 		},
 	}, m)
+	assert.Equal(map[string]any{
+		"z_test": map[string]any{
+			"a": float64(1),
+			"b": float64(2),
+		},
+	}, mustCloneToMap(cfg))
 }
 
 func TestReadConfigCoreLevel2(t *testing.T) {
@@ -53,6 +71,13 @@ func TestReadConfigCoreLevel2(t *testing.T) {
 			"c": float64(3),
 		},
 	}, m)
+	assert.Equal(map[string]any{
+		"z_test": map[string]any{
+			"a": float64(1),
+			"b": float64(-1),
+			"c": float64(3),
+		},
+	}, mustCloneToMap(cfg))
 }
 
 func TestReadConfigCoreLevel3(t *testing.T) {
@@ -74,4 +99,11 @@ func TestReadConfigCoreLevel3(t *testing.T) {
 			"c": float64(3),
 		},
 	}, m)
+	assert.Equal(map[string]any{
+		"z_test": map[string]any{
+			"a": float64(1),
+			"b": float64(-1),
+			"c": float64(3),
+		},
+	}, mustCloneToMap(cfg))
 }

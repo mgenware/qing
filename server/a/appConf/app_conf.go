@@ -9,6 +9,7 @@ package appConf
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 	"path/filepath"
 	"qing/a/conf"
@@ -41,8 +42,12 @@ func init() {
 	// Read config file
 	config = conf.MustReadConfig(configPath)
 
-	// Read another copy to `diskConfig`.
-	diskConfig = conf.MustReadConfig(configPath)
+	cloned, err := conf.CloneConfig(config)
+	if err != nil {
+		panic(err)
+	}
+	diskConfig = cloned
+	log.Print("AppConfig.init done")
 }
 
 func Get() *conf.Config {

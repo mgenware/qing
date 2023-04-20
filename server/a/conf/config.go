@@ -8,6 +8,7 @@
 package conf
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -112,6 +113,19 @@ func MustReadConfig(absFile string) *Config {
 	mustValidateConfig(conf)
 
 	return conf
+}
+
+func CloneConfig(c *Config) (*Config, error) {
+	bytes, err := json.Marshal(c)
+	if err != nil {
+		return nil, err
+	}
+	var res Config
+	err = json.Unmarshal(bytes, &res)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
 
 func mustValidateConfig(c *Config) {

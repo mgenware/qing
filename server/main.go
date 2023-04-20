@@ -8,6 +8,7 @@
 package main
 
 import (
+	"log"
 	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appHandler"
@@ -29,7 +30,8 @@ func main() {
 	if conf.IsUTEnv() {
 		logger.Warn("🟣 app.running.ut")
 	} else if conf.IsBREnv() {
-		logger.Warn("🔵 app.running.br")
+		// `logger` is muted in BR mode.
+		log.Print("🔵 app.running.br")
 	} else if config.DevMode() {
 		logger.Warn("🟡 app.running.dev")
 	}

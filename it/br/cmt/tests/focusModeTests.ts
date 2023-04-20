@@ -64,8 +64,8 @@ function clickViewAllComments(cmtApp: Element) {
   return cmtApp.$linkButton('View all comments').click();
 }
 
-function removeCmtParams(link: string) {
-  const url = new URL(link);
+function removeCmtParamsAndReturnFullURL(link: string) {
+  const url = new URL(`${serverURL}${link}`);
   url.searchParams.delete('cmt');
   return url.toString();
 }
@@ -77,7 +77,12 @@ function addCmtParams(link: string, id: string) {
 }
 
 async function checkViewAllComments(w: cm.CmtFixtureWrapper, p: Page, cmtApp: Element) {
-  await Promise.all([clickViewAllComments(cmtApp), p.waitForURL(removeCmtParams(w.getHostURL(p)))]);
+  await Promise.all([
+    clickViewAllComments(cmtApp),
+    // use `p.c.waitForURL` instead of `p.waitForURL` as `removeCmtParamsAndReturnFullURL`
+    // returns a full URL.
+    p.c.waitForURL(removeCmtParamsAndReturnFullURL(w.getHostURL(p))),
+  ]);
 }
 
 function check404Content(cmtApp: Element) {
