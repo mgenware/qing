@@ -1,6 +1,6 @@
 {
   "extends": "local.json",
-  "site": {
-    "site_type": 1
+  "permissions": {
+    "post": 1
   }
 }

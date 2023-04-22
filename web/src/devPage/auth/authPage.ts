@@ -5,13 +5,24 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll.js';
+import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'ui/forms/inputView';
 import 'ui/forms/checklistView';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import 'qing-button';
 import * as loaders from './loaders.js';
 import appTask from 'app/appTask.js';
+import { ChecklistChangeArgs, ChecklistItem } from 'ui/forms/checklistView.js';
+
+enum UserIDType {
+  raw,
+  encoded,
+}
+
+const userIDTypeChecklist: ChecklistItem[] = [
+  { key: UserIDType.raw, text: 'Raw' },
+  { key: UserIDType.encoded, text: 'Encoded' },
+];
 
 @customElement('auth-page')
 export class AuthDevPage extends BaseElement {
@@ -30,9 +41,13 @@ export class AuthDevPage extends BaseElement {
     ];
   }
 
-  @property() uidStr = '';
-  @property({ type: Boolean }) newUserAdmin = false;
-  @property({ type: Boolean }) isEID = false;
+  get isEID() {
+    return this.uidTypeSelection === UserIDType.encoded;
+  }
+
+  @state() uidStr = '';
+  @state() newUserAdmin = false;
+  @state() uidTypeSelection = UserIDType.raw;
 
   override render() {
     return html`
@@ -53,8 +68,8 @@ export class AuthDevPage extends BaseElement {
           <checklist-view
             class="m-t-md"
             @checklist-change=${this.handleUIDTypeChange}
-            .selectedIndices=${[+this.isEID]}
-            .dataSource=${['Raw', 'Encoded']}></checklist-view>
+            .selectedItems=${[this.uidTypeSelection]}
+            .items=${userIDTypeChecklist}></checklist-view>
         </p>
         <input-view
           required
@@ -74,8 +89,8 @@ export class AuthDevPage extends BaseElement {
     `;
   }
 
-  private handleUIDTypeChange(e: CustomEvent<number[]>) {
-    this.isEID = !!e.detail[0];
+  private handleUIDTypeChange(e: CustomEvent<ChecklistChangeArgs>) {
+    this.uidTypeSelection = e.detail.getSelectedItem();
   }
 
   private async handleSignIn() {

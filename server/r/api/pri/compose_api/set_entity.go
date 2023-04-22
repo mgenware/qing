@@ -45,7 +45,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Add a new entry.
 		captResult := 0
 		var forumID *uint64
-		if appConf.Get().Site.ForumsSite() && entityType != appdef.ContentBaseTypePost {
+		if appConf.Get().FourmsEnabled() && entityType != appdef.ContentBaseTypePost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

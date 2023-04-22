@@ -26,11 +26,15 @@ func getSiteSEttings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	needRestart := appConf.DiskConfigUpdated()
 	stBase := mxSod.NewSiteSTBase(needRestart)
-	sc := appConf.Get().Site
+
+	// Read disk config instead of memory config.
+	cfg := appConf.GetDiskConfig()
+	sc := cfg.Site
+	pc := cfg.Permissions
 
 	switch appdef.GetSiteSettings(key) {
 	case appdef.GetSiteSettingsGeneral:
-		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.URL, sc.Type, sc.Name)
+		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.URL, pc.RawPost, sc.Name)
 		return resp.MustComplete(coreData)
 
 	case appdef.GetSiteSettingsLangs:

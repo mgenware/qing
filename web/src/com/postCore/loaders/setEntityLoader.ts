@@ -7,7 +7,6 @@
 
 import Loader from 'lib/loader.js';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
-import { appdef } from '@qing/def';
 import { ComposerContent } from 'ui/editing/composerView.js';
 import appPageState from 'app/appPageState.js';
 
@@ -19,7 +18,7 @@ export class SetEntityLoader extends Loader<string | null> {
     public forumID: string | null,
   ) {
     super();
-    if (appPageState.siteType === appdef.SiteType.forums && !forumID) {
+    if (appPageState.forums && !forumID) {
       throw new Error('`forumID` is required in forum mode');
     }
   }

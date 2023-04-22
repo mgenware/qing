@@ -54,6 +54,10 @@ func Get() *conf.Config {
 	return config
 }
 
+func GetDiskConfig() *conf.Config {
+	return diskConfig
+}
+
 type UpdateDiskConfigFnType func(cfg *conf.Config)
 
 func UpdateDiskConfig(fn UpdateDiskConfigFnType) error {

@@ -89,7 +89,7 @@ export default class NavbarApp extends core.NavbarAppCore {
           <a href=${user.link}>${globalThis.coreLS.profile}</a>
           <a href=${mRoute.yourPosts}>${globalThis.coreLS.yourPosts}</a>
           ${when(
-            appPageState.siteType === appdef.SiteType.forums,
+            appPageState.forums,
             () => html`<a href=${mRoute.yourFPosts}>${globalThis.coreLS.yourFPosts}</a>`,
           )}
           <hr />

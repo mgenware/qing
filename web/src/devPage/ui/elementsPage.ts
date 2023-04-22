@@ -30,12 +30,25 @@ import appAlert from 'app/appAlert.js';
 import ErrorWithCode from 'lib/errorWithCode.js';
 import delay from 'lib/delay.js';
 import * as cu from 'lib/collectionUtil.js';
+import { ChecklistChangeArgs, ChecklistItem } from 'ui/forms/checklistView.js';
 
 const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
 
 const immersiveDialogID = 'qing-overlay-immersive';
-const checklistViewData = ['Zhang', 'Chen', 'Liu', 'Zheng'];
+
+enum ChecklistKey {
+  zhang,
+  chen,
+  liu,
+  zheng,
+}
+const checklistItems: ChecklistItem[] = [
+  { key: ChecklistKey.zhang, text: 'Zhang' },
+  { key: ChecklistKey.chen, text: 'Chen' },
+  { key: ChecklistKey.liu, text: 'Liu' },
+  { key: ChecklistKey.zheng, text: 'Zheng' },
+];
 
 @customElement('elements-page')
 export class ElementsPage extends BaseElement {
@@ -121,8 +134,8 @@ export class ElementsPage extends BaseElement {
     ];
   }
 
-  @state() _checklistIndices1: readonly number[] = [];
-  @state() _checklistIndices2: readonly number[] = [];
+  @state() _checklistSelectedItems1: readonly ChecklistKey[] = [];
+  @state() _checklistSelectedItems2?: ChecklistKey;
   @state() _selectedCheckmarks = new Set<string>();
 
   override render() {
@@ -232,35 +245,37 @@ export class ElementsPage extends BaseElement {
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
       <checklist-view
-        @checklist-change=${(e: CustomEvent<number[]>) => (this._checklistIndices1 = e.detail)}
+        @checklist-change=${(e: CustomEvent<ChecklistChangeArgs>) =>
+          (this._checklistSelectedItems1 = e.detail.getSelectedItems())}
         class="m-t-md"
         multiSelect
-        .selectedIndices=${this._checklistIndices1}
-        .dataSource=${checklistViewData}></checklist-view>
+        .selectedItems=${this._checklistSelectedItems1}
+        .items=${checklistItems}></checklist-view>
       <checklist-view
-        @checklist-change=${(e: CustomEvent<number[]>) => (this._checklistIndices2 = e.detail)}
+        @checklist-change=${(e: CustomEvent<ChecklistChangeArgs>) =>
+          (this._checklistSelectedItems2 = e.detail.getSelectedItem())}
         class="m-t-md"
-        .selectedIndices=${this._checklistIndices2}
-        .dataSource=${checklistViewData}></checklist-view>
+        .selectedItems=${[this._checklistSelectedItems2]}
+        .items=${checklistItems}></checklist-view>
       <div class="m-t-md">
         <checkmark-list>
-          ${checklistViewData.map(
-            (d) =>
+          ${checklistItems.map(
+            (e) =>
               html`<checkmark-view
-                .checked=${this._selectedCheckmarks.has(d)}
+                .checked=${this._selectedCheckmarks.has(e.text)}
                 @click=${() =>
                   (this._selectedCheckmarks = cu.toggleSetMember(
                     this._selectedCheckmarks,
-                    d,
+                    e.text,
                     true,
                   ))}
-                >${d}</checkmark-view
+                >${e.text}</checkmark-view
               >`,
           )}
         </checkmark-list>
       </div>
       <p>
-        <select-view .dataSource=${checklistViewData}></select-view>
+        <select-view .dataSource=${checklistItems}></select-view>
       </p>
       <h2>Alerts</h2>
       <alert-view>Default</alert-view>
