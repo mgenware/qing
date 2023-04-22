@@ -42,11 +42,11 @@
   "routePost": "p",
   "routeUser": "u",
   "__enums": {
-    "siteType": { "values": ["default", "community", "forums"] },
+    "postPermission": { "values": ["onleMe", "everyone"] },
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
     "delFlags": { "values": ["self", "host"] },
     "getSiteSettings": { "values": ["general", "langs"] },
-    "setSiteSettings": { "values": ["info", "langs", "siteType"] }
+    "setSiteSettings": { "values": ["info", "langs", "postPermission"] }
   }
 }

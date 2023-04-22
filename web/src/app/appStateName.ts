@@ -7,8 +7,6 @@
 
 export class AppStateName {
   user = 'user';
-  siteType = 'siteType';
-  windData = 'windData';
   private cmtHub = 'cmtHub';
 
   getCmtHub(type: number, id: string): string {

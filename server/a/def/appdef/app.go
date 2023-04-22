@@ -55,12 +55,11 @@ const RouteAuth = "auth"
 const RoutePost = "p"
 const RouteUser = "u"
 
-type SiteType int
+type PostPermission int
 
 const (
-	SiteTypeDefault SiteType = iota + 1
-	SiteTypeCommunity
-	SiteTypeForums
+	PostPermissionOnleMe PostPermission = iota + 1
+	PostPermissionEveryone
 )
 
 type ContentBaseType int
@@ -97,5 +96,5 @@ type SetSiteSettings int
 const (
 	SetSiteSettingsInfo SetSiteSettings = iota + 1
 	SetSiteSettingsLangs
-	SetSiteSettingsSiteType
+	SetSiteSettingsPostPermission
 )

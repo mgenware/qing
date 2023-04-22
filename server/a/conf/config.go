@@ -40,11 +40,13 @@ type Config struct {
 	AppProfile  *confs.AppProfileConfig  `json:"app_profile,omitempty"`
 	AppSettings *confs.AppSettingsConfig `json:"app_settings,omitempty"`
 
-	DB        *confs.DBConfig        `json:"db,omitempty"`
-	ResServer *confs.ResServerConfig `json:"res_server,omitempty"`
-	Mail      *confs.MailConfig      `json:"mail,omitempty"`
-	Extern    *confs.ExternConfig    `json:"extern,omitempty"`
-	ZTest     *confs.ZTestConfig     `json:"z_test,omitempty"`
+	DB          *confs.DBConfig          `json:"db,omitempty"`
+	ResServer   *confs.ResServerConfig   `json:"res_server,omitempty"`
+	Permissions *confs.PermissionsConfig `json:"permissions,omitempty"`
+	Mail        *confs.MailConfig        `json:"mail,omitempty"`
+	Extern      *confs.ExternConfig      `json:"extern,omitempty"`
+	Forums      *confs.ForumsConfig      `json:"forums,omitempty"`
+	ZTest       *confs.ZTestConfig       `json:"z_test,omitempty"`
 }
 
 // Returns true if unit test mode is on.
@@ -65,6 +67,11 @@ func (c *Config) DevMode() bool {
 // Returns true if production mode is on.
 func (c *Config) ProductionMode() bool {
 	return !c.DevMode()
+}
+
+// Checks if forums mode is enabled.
+func (c *Config) FourmsEnabled() bool {
+	return c.Forums != nil && c.Forums.Enabled
 }
 
 func IsFirstRun() bool {

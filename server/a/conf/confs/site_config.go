@@ -7,29 +7,8 @@
 
 package confs
 
-import (
-	"qing/a/def/appdef"
-)
-
 type SiteConfig struct {
 	URL   string   `json:"url,omitempty"`
 	Name  string   `json:"name,omitempty"`
-	Type  int      `json:"type,omitempty"`
 	Langs []string `json:"langs,omitempty"`
-}
-
-func (sc *SiteConfig) TypedSiteType() appdef.SiteType {
-	return appdef.SiteType(sc.Type)
-}
-
-func (sc *SiteConfig) DefaultSite() bool {
-	return sc.TypedSiteType() == appdef.SiteTypeDefault
-}
-
-func (sc *SiteConfig) CommunitySite() bool {
-	return sc.TypedSiteType() == appdef.SiteTypeCommunity
-}
-
-func (sc *SiteConfig) ForumsSite() bool {
-	return sc.TypedSiteType() == appdef.SiteTypeForums
 }

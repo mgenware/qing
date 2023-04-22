@@ -20,11 +20,12 @@ type RawMainPageWind struct {
 	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
 	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
 	AppLang           string `json:"appLang,omitempty"`
-	AppSiteType       int    `json:"appSiteType,omitempty"`
+	AppPostPerm       int    `json:"appPostPerm,omitempty"`
+	AppForums         bool   `json:"appForums,omitempty"`
 	AppWindDataString string `json:"appWindDataString,omitempty"`
 }
 
-func NewRawMainPageWind(appUserID string, appUserName string, appUserURL string, appUserIconURL string, appUserAdmin bool, appLang string, appSiteType int, appWindDataString string) RawMainPageWind {
+func NewRawMainPageWind(appUserID string, appUserName string, appUserURL string, appUserIconURL string, appUserAdmin bool, appLang string, appPostPerm int, appForums bool, appWindDataString string) RawMainPageWind {
 	return RawMainPageWind{
 		AppUserID: appUserID,
 		AppUserName: appUserName,
@@ -32,7 +33,8 @@ func NewRawMainPageWind(appUserID string, appUserName string, appUserURL string,
 		AppUserIconURL: appUserIconURL,
 		AppUserAdmin: appUserAdmin,
 		AppLang: appLang,
-		AppSiteType: appSiteType,
+		AppPostPerm: appPostPerm,
+		AppForums: appForums,
 		AppWindDataString: appWindDataString,
 	}
 }

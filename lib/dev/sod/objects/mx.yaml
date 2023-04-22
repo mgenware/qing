@@ -6,7 +6,7 @@ GetSiteGeneralST:
   __extends: SiteSTBase
 
   siteURL: string
-  siteType: int
+  postPerm: int
   siteName: string
 
 GetSiteLangsST:

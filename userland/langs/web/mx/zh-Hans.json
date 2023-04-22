@@ -1,14 +1,10 @@
 {
-  "siteType": "网站类型",
-  "siteTypeBlog": "博客",
-  "siteTypeBlogDesc": "管理员可以创建文章。访客可以评论。",
-  "siteTypeCommunity": "社区",
-  "siteTypeCommunityDesc": "每个人都可以创建帖子和评论。",
-  "siteTypeForums": "论坛",
-  "siteTypeForumsDesc": "类似社区模式，但是帖子会被放在论坛内，管理员可以管理论坛。",
-  "saveLangSettings": "保存语言选项",
-  "saveSiteInfo": "保存网站信息",
-  "saveSiteType": "保存网站类型",
+  "whoCanWritePosts": "谁可以发帖",
+  "roleOnlyMe": "只有我",
+  "roleEveryone": "任何人",
+  "forums": "论坛",
+  "enableForums": "打开论坛",
+  "save": "保存",
   "supportedLangs": "支持的语言",
   "siteInfo": "网站信息",
   "siteName": "网站名称",
@@ -17,6 +13,6 @@
   "adminAccounts": "管理员账号",
   "featureOnlyAvailableToAdmins": "此特性只有管理员账号可见。",
   "addAnAdmin": "添加一个管理员",
-  "removeAdmin": "移除管理员权限",
+  "remove": "移除",
   "removeAdminConfirmation": "确定将\"{0}\"从管理员中移除吗？"
 }

@@ -98,7 +98,7 @@ export class SiteAdminST extends StatefulPage {
           ${thisIsYou
             ? html`<tag-view tagStyle="warning">${globalThis.coreLS.thisIsYou}</tag-view>`
             : html`<link-button @click=${() => this.handleRemoveAdmin(user)}
-                >${globalThis.mxLS.removeAdmin}</link-button
+                >${globalThis.mxLS.remove}</link-button
               >`}
         </td>
       </tr>

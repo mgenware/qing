@@ -37,15 +37,15 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	IsBR := conf.IsBREnv()
 
 	switch appdef.SetSiteSettings(key) {
-	case appdef.SetSiteSettingsSiteType:
-		var siteType int
-		err := json.Unmarshal(stJSON, &siteType)
+	case appdef.SetSiteSettingsPostPermission:
+		var postPerm int
+		err := json.Unmarshal(stJSON, &postPerm)
 		app.PanicOn(err)
-		if siteType <= 0 {
-			panic("invalid site type value")
+		if postPerm <= 0 {
+			panic("invalid post permission value")
 		}
 		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
-			diskCfg.Site.Type = siteType
+			diskCfg.Permissions.RawPost = postPerm
 		})
 
 	case appdef.SetSiteSettingsLangs:

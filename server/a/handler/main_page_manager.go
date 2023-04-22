@@ -113,8 +113,10 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	// Lang script comes before user scripts.
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
-	// Community mode settings.
-	d.AppSiteType = m.config.Site.Type
+	cfg := m.config
+	// Sync settings.
+	d.AppPostPerm = cfg.Permissions.RawPost
+	d.AppForums = cfg.FourmsEnabled()
 
 	// User info.
 	user := appcom.ContextUser(ctx)

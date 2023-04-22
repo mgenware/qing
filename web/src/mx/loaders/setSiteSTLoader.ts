@@ -41,8 +41,8 @@ export class SetSiteLangsSTLoader extends SetSiteSTLoader<string[]> {
   }
 }
 
-export class SetSiteTypeSTLoader extends SetSiteSTLoader<number> {
+export class SetPostPermSTLoader extends SetSiteSTLoader<number> {
   override stKey(): number {
-    return appdef.SetSiteSettings.siteType;
+    return appdef.SetSiteSettings.postPermission;
   }
 }

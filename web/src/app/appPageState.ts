@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { appdef } from '@qing/def';
 import appState from './appState.js';
 import appStateName from './appStateName.js';
 import { RawMainPageWind } from 'sod/app.js';
@@ -20,6 +21,10 @@ function getMainPageWindData(): MainPageWind {
   return window as any as MainPageWind;
 }
 
+/**
+ * Please only register things that might change at runtime.
+ */
+
 appState.register<User | null>(appStateName.user, () => {
   const wind = getMainPageWindData();
   if (wind.appUserID) {
@@ -34,23 +39,14 @@ appState.register<User | null>(appStateName.user, () => {
   return null;
 });
 
-appState.register<number>(appStateName.siteType, () => {
-  const wind = getMainPageWindData();
-  return wind.appSiteType ?? 0;
-});
-
-appState.register<unknown>(appStateName.windData, () => {
-  const wind = getMainPageWindData();
-  return wind.appWindData ?? {};
-});
-
 export class AppPageState {
   get user(): User | null {
     return appState.get(appStateName.user);
   }
 
   windData<T>(): T {
-    return appState.get(appStateName.windData);
+    const wind = getMainPageWindData();
+    return wind.appWindData as T;
   }
 
   get userID(): string | undefined {
@@ -65,8 +61,14 @@ export class AppPageState {
     appState.set(appStateName.user, newUser);
   }
 
-  get siteType(): number {
-    return appState.get(appStateName.siteType);
+  get postPerm(): appdef.PostPermission {
+    const wind = getMainPageWindData();
+    return wind.appPostPerm as appdef.PostPermission;
+  }
+
+  get forums(): boolean {
+    const wind = getMainPageWindData();
+    return wind.appForums ?? false;
   }
 }
 

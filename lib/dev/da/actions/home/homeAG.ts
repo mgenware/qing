@@ -24,12 +24,12 @@ export class HomeAG extends mm.ActionGroup {
       .selectRows(...this.cols())
       .from(post)
       .pageMode()
-      .orderByAsc(post.created_at)
+      .orderByDesc(post.created_at)
       .resultTypeNameAttr(homePostItemType);
 
     this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${post.title} LIKE '__BR_%'`
       .pageMode()
-      .orderByAsc(post.created_at)
+      .orderByDesc(post.created_at)
       .resultTypeNameAttr(homePostItemType);
   }
 

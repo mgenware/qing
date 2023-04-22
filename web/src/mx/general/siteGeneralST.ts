@@ -13,12 +13,10 @@ import 'ui/content/subheadingView.js';
 import 'ui/forms/cardSelector.js';
 import 'ui/status/statefulPage.js';
 import '../cm/needRestartView.js';
-import '../cm/siteTypeSelector.js';
 import { CardSelectedDetail } from 'ui/forms/cardSelector.js';
 import { StatefulPage } from 'ui/status/statefulPage.js';
 import appTask from 'app/appTask.js';
 import { appdef } from '@qing/def';
-import { siteTypeOptions } from '../cm/siteTypeSelector.js';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader.js';
 import { SetSiteInfoSTLoader, SetSiteTypeSTLoader } from 'mx/loaders/setSiteSTLoader.js';
 import { CHECK } from 'checks.js';
@@ -44,7 +42,7 @@ export class SiteGeneralST extends StatefulPage {
   }
 
   @state() _needRestart = false;
-  @state() _selectedSiteType: appdef.SiteType | undefined;
+  @state() _postPerm = appdef.PostPermission.onleMe;
   @state() _siteName = '';
   @state() _siteURL = '';
 
@@ -68,20 +66,15 @@ export class SiteGeneralST extends StatefulPage {
           @input-change=${(e: CustomEvent<string>) => (this._siteURL = e.detail)}></input-view>
 
         <qing-button btnStyle="success" @click=${this.handleSaveSiteInfoClick}>
-          ${globalThis.mxLS.saveSiteInfo}
+          ${globalThis.mxLS}
         </qing-button>
       </div>
 
       <div class=${`${siteTypeBlockCls} m-t-lg`}>
-        <subheading-view>${globalThis.mxLS.siteType}</subheading-view>
-        <card-selector
-          .items=${siteTypeOptions}
-          .selectedValue=${this._selectedSiteType}
-          @card-select=${this.handleSiteTypeChanged}></card-selector>
-        <site-type-selector .siteType=${this._selectedSiteType}></site-type-selector>
+        <subheading-view>${globalThis.mxLS.whoCanWritePosts}</subheading-view>
         <div>
           <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
-            ${globalThis.mxLS.saveSiteType}
+            ${globalThis.mxLS.save}
           </qing-button>
         </div>
       </div>
@@ -117,7 +110,7 @@ export class SiteGeneralST extends StatefulPage {
     if (!this.validateInfoForm()) {
       return;
     }
-    CHECK(this._selectedSiteType);
+    CHECK(this._postPerm);
     const loader = new SetSiteInfoSTLoader({ siteName: this._siteName, siteURL: this._siteURL });
     const status = await appTask.critical(loader, globalThis.coreLS.saving);
     if (status.isSuccess) {

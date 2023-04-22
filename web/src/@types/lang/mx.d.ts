@@ -10,16 +10,12 @@
 /* eslint-disable */
 
 export interface mxLSType {
-  siteType: string;
-  siteTypeBlog: string;
-  siteTypeBlogDesc: string;
-  siteTypeCommunity: string;
-  siteTypeCommunityDesc: string;
-  siteTypeForums: string;
-  siteTypeForumsDesc: string;
-  saveLangSettings: string;
-  saveSiteInfo: string;
-  saveSiteType: string;
+  whoCanWritePosts: string;
+  roleOnlyMe: string;
+  roleEveryone: string;
+  forums: string;
+  enableForums: string;
+  save: string;
   supportedLangs: string;
   siteInfo: string;
   siteName: string;
@@ -28,7 +24,7 @@ export interface mxLSType {
   adminAccounts: string;
   featureOnlyAvailableToAdmins: string;
   addAnAdmin: string;
-  removeAdmin: string;
+  remove: string;
   removeAdminConfirmation: string;
 }
 

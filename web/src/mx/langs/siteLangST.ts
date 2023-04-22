@@ -13,7 +13,6 @@ import 'ui/content/subheadingView.js';
 import 'ui/forms/checkmarkView.js';
 import 'ui/status/statefulPage.js';
 import '../cm/needRestartView';
-import '../cm/siteTypeSelector';
 import { StatefulPage } from 'ui/status/statefulPage.js';
 import appTask from 'app/appTask.js';
 import { GetLangSiteSTLoader } from '../loaders/getSiteSTLoader.js';
