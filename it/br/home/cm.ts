@@ -20,7 +20,7 @@ export async function checkHomeItem(el: br.Element, e: CheckHomeItemArgs) {
   const contentDiv = el.$('> :last-child');
   await avatarDiv.$('a').e.toHaveAttribute('href', e.user.link);
   await avatarDiv.$('img').e.toHaveAttribute('src', e.user.iconURL);
-  await contentDiv.$('.feed-item-r1').$a({ href: e.link, text: e.title }).shouldExist();
+  await contentDiv.$('.feed-item-title').$a({ href: e.link, text: e.title }).shouldExist();
   const bottomBarEl = contentDiv.$('> :last-child');
   await bottomBarEl.$a({ href: e.user.link, text: e.user.name }).shouldExist();
 }

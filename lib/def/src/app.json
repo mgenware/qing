@@ -42,7 +42,7 @@
   "routePost": "p",
   "routeUser": "u",
   "__enums": {
-    "postPermission": { "values": ["onleMe", "everyone"] },
+    "postPermission": { "values": ["onlyMe", "everyone"] },
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
     "delFlags": { "values": ["self", "host"] },

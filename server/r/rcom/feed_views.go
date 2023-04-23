@@ -15,16 +15,11 @@ import (
 	"qing/sod/feedSod"
 )
 
-var vPostFeedView = appHandler.MainPage().MustParseView("com/feed/postFeedView.html")
 var vThreadFeedView = appHandler.MainPage().MustParseView("com/feed/threadFeedView.html")
 
 type PostFeedData struct {
 	da.HomePostItem
 	feedSod.FeedBase
-}
-
-func MustRenderPostFeedView(d *PostFeedData) string {
-	return vPostFeedView.MustExecuteToString(d)
 }
 
 func NewPostFeedData(src *da.HomePostItem) PostFeedData {

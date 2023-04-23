@@ -28,10 +28,10 @@
       window.appUserURL = '{{js .AppUserURL}}';
       window.appUserName = '{{js .AppUserName}}';
       window.appUserIconURL = '{{js .AppUserIconURL}}';
-      window.appUserAdmin = '{{.AppUserAdmin}}' === 'true';
       window.appPostPerm = '{{js .AppPostPerm}}';
-      window.appForums = '{{js .AppForums}}';
       window.appWindData = JSON.parse('{{js .AppWindDataString}}' || null);
+      window.appUserAdmin = '{{.AppUserAdmin}}' === 'true';
+      window.appForums = '{{js .AppForums}}' === 'true';
     </script>
     {{.Scripts}}
   </body>

@@ -25,7 +25,7 @@ const infoBlockCls = 'info-block';
 const siteTypeBlockCls = 'site-type-block';
 
 const postPermChecklist: ChecklistItem[] = [
-  { key: appdef.PostPermission.onleMe, text: globalThis.mxLS.roleOnlyMe },
+  { key: appdef.PostPermission.onlyMe, text: globalThis.mxLS.roleOnlyMe },
   { key: appdef.PostPermission.everyone, text: globalThis.mxLS.roleEveryone },
 ];
 
@@ -47,7 +47,7 @@ export class SiteGeneralST extends StatefulPage {
   }
 
   @state() _needRestart = false;
-  @state() _postPerm = appdef.PostPermission.onleMe;
+  @state() _postPerm = appdef.PostPermission.onlyMe;
   @state() _siteName = '';
   @state() _siteURL = '';
 

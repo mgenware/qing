@@ -12,6 +12,7 @@ import (
 	"qing/r/rcom"
 )
 
+var vUserFeedView = appHandler.MainPage().MustParseView("home/feed/userFeedView.html")
 var vStdPage = appHandler.MainPage().MustParseView("home/stdPage.html")
 
 type StdPageData struct {
@@ -26,4 +27,8 @@ func NewStdPageData(pageData *rcom.PaginationData, feedHTML, pageBarHTML string)
 	d.PaginationData = pageData
 	d.PageBarHTML = pageBarHTML
 	return d
+}
+
+func MustRenderUserFeedView(d *rcom.PostFeedData) string {
+	return vUserFeedView.MustExecuteToString(d)
 }

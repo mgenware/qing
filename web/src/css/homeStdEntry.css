@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
-.feed-item-r1 {
+.feed-item-title {
   font-size: 1.3rem;
+  text-wrap: balance;
 }

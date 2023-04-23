@@ -62,7 +62,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	} else {
 		for _, item := range items {
 			itemData := rcom.NewPostFeedData(&item)
-			feedListHTMLBuilder.WriteString(rcom.MustRenderPostFeedView(&itemData))
+			feedListHTMLBuilder.WriteString(MustRenderUserFeedView(&itemData))
 		}
 	}
 

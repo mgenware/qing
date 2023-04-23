@@ -58,7 +58,7 @@ const RouteUser = "u"
 type PostPermission int
 
 const (
-	PostPermissionOnleMe PostPermission = iota + 1
+	PostPermissionOnlyMe PostPermission = iota + 1
 	PostPermissionEveryone
 )
 
