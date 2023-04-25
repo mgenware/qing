@@ -1,15 +1,15 @@
 ---
-RawMainPageWind:
+MainPageData:
   # Information about current user.
-  appUserID: string
-  appUserName: string
-  appUserURL: string
-  appUserIconURL: string
-  appUserAdmin: bool
+  userID: string
+  userName: string
+  userURL: string
+  userIconURL: string
+  userAdmin: bool
   # Current language ID, cannot be empty.
   # Server only. Web uses `<html lang="">`.
-  appLang_go__: string
-  appPostPerm: int
-  appForums: bool
-  # Extra wind data passed by pages.
-  appWindDataString: string
+  lang_go__: string
+  postPerm: int
+  forums: bool
+  # Extra wind data passed to current page.
+  windDataString: string

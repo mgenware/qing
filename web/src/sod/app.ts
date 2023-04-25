@@ -13,13 +13,13 @@
  * See `lib/dev/sod/objects/app.yaml` for details.
  ******************************************************************************************/
 
-export interface RawMainPageWind {
-  appUserID?: string;
-  appUserName?: string;
-  appUserURL?: string;
-  appUserIconURL?: string;
-  appUserAdmin?: boolean;
-  appPostPerm?: number;
-  appForums?: boolean;
-  appWindDataString?: string;
+export interface MainPageData {
+  userID?: string;
+  userName?: string;
+  userURL?: string;
+  userIconURL?: string;
+  userAdmin?: boolean;
+  postPerm?: number;
+  forums?: boolean;
+  windDataString?: string;
 }

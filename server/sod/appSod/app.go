@@ -13,28 +13,28 @@
 
 package appSod
 
-type RawMainPageWind struct {
-	AppUserID         string `json:"appUserID,omitempty"`
-	AppUserName       string `json:"appUserName,omitempty"`
-	AppUserURL        string `json:"appUserURL,omitempty"`
-	AppUserIconURL    string `json:"appUserIconURL,omitempty"`
-	AppUserAdmin      bool   `json:"appUserAdmin,omitempty"`
-	AppLang           string `json:"appLang,omitempty"`
-	AppPostPerm       int    `json:"appPostPerm,omitempty"`
-	AppForums         bool   `json:"appForums,omitempty"`
-	AppWindDataString string `json:"appWindDataString,omitempty"`
+type MainPageData struct {
+	UserID         string `json:"userID,omitempty"`
+	UserName       string `json:"userName,omitempty"`
+	UserURL        string `json:"userURL,omitempty"`
+	UserIconURL    string `json:"userIconURL,omitempty"`
+	UserAdmin      bool   `json:"userAdmin,omitempty"`
+	Lang           string `json:"lang,omitempty"`
+	PostPerm       int    `json:"postPerm,omitempty"`
+	Forums         bool   `json:"forums,omitempty"`
+	WindDataString string `json:"windDataString,omitempty"`
 }
 
-func NewRawMainPageWind(appUserID string, appUserName string, appUserURL string, appUserIconURL string, appUserAdmin bool, appLang string, appPostPerm int, appForums bool, appWindDataString string) RawMainPageWind {
-	return RawMainPageWind{
-		AppUserID: appUserID,
-		AppUserName: appUserName,
-		AppUserURL: appUserURL,
-		AppUserIconURL: appUserIconURL,
-		AppUserAdmin: appUserAdmin,
-		AppLang: appLang,
-		AppPostPerm: appPostPerm,
-		AppForums: appForums,
-		AppWindDataString: appWindDataString,
+func NewMainPageData(userID string, userName string, userURL string, userIconURL string, userAdmin bool, lang string, postPerm int, forums bool, windDataString string) MainPageData {
+	return MainPageData{
+		UserID: userID,
+		UserName: userName,
+		UserURL: userURL,
+		UserIconURL: userIconURL,
+		UserAdmin: userAdmin,
+		Lang: lang,
+		PostPerm: postPerm,
+		Forums: forums,
+		WindDataString: windDataString,
 	}
 }
