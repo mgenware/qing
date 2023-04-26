@@ -1,12 +1,5 @@
 ---
-MainPageUserState:
-  id: string
-  name: string
-  link: string
-  iconUrl: string
-  admin: bool
-
 MainPageStateData:
-  user: MainPageUserState?
+  user: :sod.auth.User?
   postPerm: int
   forums: bool

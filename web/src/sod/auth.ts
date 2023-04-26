@@ -16,7 +16,7 @@
 export interface User {
   id: string;
   name: string;
-  iconURL: string;
   link: string;
+  iconURL: string;
   admin?: boolean;
 }

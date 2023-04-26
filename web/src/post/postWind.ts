@@ -8,4 +8,4 @@
 import appPageState from 'app/appPageState.js';
 import { PostWind } from 'sod/post.js';
 
-export default appPageState.windData<PostWind>();
+export default appPageState.extraData<PostWind>();

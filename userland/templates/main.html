@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{html .AppLang}}">
+<html lang="{{html .Lang}}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,8 +24,7 @@
     </footer>
 
     <script>
-      window.appPageState={{.ZState}};
-      {{if .ZExtra}}window.appPageExtra={{.ZExtra}};{{end}};
+      window.appPageState={{.ZStateJSON}};{{if .ZExtraJSON}}window.appPageExtra={{.ZExtraJSON}};{{end}}
     </script>
     {{.Scripts}}
   </body>

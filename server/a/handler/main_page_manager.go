@@ -16,7 +16,7 @@ import (
 	"qing/a/appcom"
 	"qing/a/conf"
 	"qing/a/coretype"
-	"qing/sod/appSod"
+	"qing/sod/authSod"
 
 	"qing/a/handler/localization"
 
@@ -118,7 +118,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	// User info.
 	user := appcom.ContextUser(ctx)
 	if user != nil {
-		userData := appSod.NewMainPageUserState(user.EID, user.Name, user.Link, user.IconURL, user.Admin)
+		userData := authSod.NewUser(user.EID, user.Name, user.Link, user.IconURL, user.Admin)
 		d.State.User = &userData
 	}
 

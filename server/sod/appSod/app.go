@@ -13,31 +13,15 @@
 
 package appSod
 
-type MainPageUserState struct {
-	ID      string `json:"id,omitempty"`
-	Name    string `json:"name,omitempty"`
-	Url     string `json:"url,omitempty"`
-	IconUrl string `json:"iconUrl,omitempty"`
-	Admin   bool   `json:"admin,omitempty"`
-}
-
-func NewMainPageUserState(id string, name string, url string, iconUrl string, admin bool) MainPageUserState {
-	return MainPageUserState{
-		ID: id,
-		Name: name,
-		Url: url,
-		IconUrl: iconUrl,
-		Admin: admin,
-	}
-}
+import "qing/sod/authSod"
 
 type MainPageStateData struct {
-	User     *MainPageUserState `json:"user,omitempty"`
-	PostPerm int                `json:"postPerm,omitempty"`
-	Forums   bool               `json:"forums,omitempty"`
+	User     *authSod.User `json:"user,omitempty"`
+	PostPerm int           `json:"postPerm,omitempty"`
+	Forums   bool          `json:"forums,omitempty"`
 }
 
-func NewMainPageStateData(user *MainPageUserState, postPerm int, forums bool) MainPageStateData {
+func NewMainPageStateData(user *authSod.User, postPerm int, forums bool) MainPageStateData {
 	return MainPageStateData{
 		User: user,
 		PostPerm: postPerm,

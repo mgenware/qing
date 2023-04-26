@@ -16,17 +16,17 @@ package authSod
 type User struct {
 	ID      string `json:"id,omitempty"`
 	Name    string `json:"name,omitempty"`
-	IconURL string `json:"iconURL,omitempty"`
 	Link    string `json:"link,omitempty"`
+	IconURL string `json:"iconURL,omitempty"`
 	Admin   bool   `json:"admin,omitempty"`
 }
 
-func NewUser(id string, name string, iconURL string, link string, admin bool) User {
+func NewUser(id string, name string, link string, iconURL string, admin bool) User {
 	return User{
 		ID: id,
 		Name: name,
-		IconURL: iconURL,
 		Link: link,
+		IconURL: iconURL,
 		Admin: admin,
 	}
 }
