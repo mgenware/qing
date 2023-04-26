@@ -13,13 +13,16 @@
  * See `lib/dev/sod/objects/app.yaml` for details.
  ******************************************************************************************/
 
-export interface MainPageData {
-  userID?: string;
-  userName?: string;
-  userURL?: string;
-  userIconURL?: string;
-  userAdmin?: boolean;
+export interface MainPageUserState {
+  id?: string;
+  name?: string;
+  url?: string;
+  iconUrl?: string;
+  admin?: boolean;
+}
+
+export interface MainPageStateData {
+  user?: MainPageUserState;
   postPerm?: number;
   forums?: boolean;
-  windDataString?: string;
 }

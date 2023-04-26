@@ -24,15 +24,8 @@
     </footer>
 
     <script>
-      window.pageData={{.AppPageData}};
-      window.appUserID = '{{js .AppUserID}}';
-      window.appUserURL = '{{js .AppUserURL}}';
-      window.appUserName = '{{js .AppUserName}}';
-      window.appUserIconURL = '{{js .AppUserIconURL}}';
-      window.appPostPerm = '{{js .AppPostPerm}}';
-      window.appWindData = JSON.parse('{{js .AppWindDataString}}' || null);
-      window.appUserAdmin = '{{.AppUserAdmin}}' === 'true';
-      window.appForums = '{{js .AppForums}}' === 'true';
+      window.appPageState={{.ZState}};
+      {{if .ZExtra}}window.appPageExtra={{.ZExtra}};{{end}};
     </script>
     {{.Scripts}}
   </body>

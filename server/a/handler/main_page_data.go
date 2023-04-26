@@ -15,14 +15,21 @@ import (
 type MainPageData struct {
 	LocalizedTemplateData
 
-	// Inherited properties are shared between server and web via SOD.
-	appSod.RawMainPageWind
-
+	Lang        string
 	Title       string
 	ContentHTML string
 	Header      string
 	Scripts     string
-	WindData    any
+
+	// PageState gets serialized and passed to main page script section.
+	State appSod.MainPageStateData
+
+	// Used by routes to pass extra data to frontend.
+	Extra any
+
+	// Members starts with a 'Z' prefix are used internally in `MainPageManager`.
+	ZStateJSON string
+	ZExtraJSON string
 }
 
 // NewMainPageData creates a new MainPageData.

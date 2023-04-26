@@ -13,28 +13,34 @@
 
 package appSod
 
-type MainPageData struct {
-	UserID         string `json:"userID,omitempty"`
-	UserName       string `json:"userName,omitempty"`
-	UserURL        string `json:"userURL,omitempty"`
-	UserIconURL    string `json:"userIconURL,omitempty"`
-	UserAdmin      bool   `json:"userAdmin,omitempty"`
-	Lang           string `json:"lang,omitempty"`
-	PostPerm       int    `json:"postPerm,omitempty"`
-	Forums         bool   `json:"forums,omitempty"`
-	WindDataString string `json:"windDataString,omitempty"`
+type MainPageUserState struct {
+	ID      string `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Url     string `json:"url,omitempty"`
+	IconUrl string `json:"iconUrl,omitempty"`
+	Admin   bool   `json:"admin,omitempty"`
 }
 
-func NewMainPageData(userID string, userName string, userURL string, userIconURL string, userAdmin bool, lang string, postPerm int, forums bool, windDataString string) MainPageData {
-	return MainPageData{
-		UserID: userID,
-		UserName: userName,
-		UserURL: userURL,
-		UserIconURL: userIconURL,
-		UserAdmin: userAdmin,
-		Lang: lang,
+func NewMainPageUserState(id string, name string, url string, iconUrl string, admin bool) MainPageUserState {
+	return MainPageUserState{
+		ID: id,
+		Name: name,
+		Url: url,
+		IconUrl: iconUrl,
+		Admin: admin,
+	}
+}
+
+type MainPageStateData struct {
+	User     *MainPageUserState `json:"user,omitempty"`
+	PostPerm int                `json:"postPerm,omitempty"`
+	Forums   bool               `json:"forums,omitempty"`
+}
+
+func NewMainPageStateData(user *MainPageUserState, postPerm int, forums bool) MainPageStateData {
+	return MainPageStateData{
+		User: user,
 		PostPerm: postPerm,
 		Forums: forums,
-		WindDataString: windDataString,
 	}
 }

@@ -16,6 +16,7 @@ import (
 	"qing/a/appcom"
 	"qing/a/conf"
 	"qing/a/coretype"
+	"qing/sod/appSod"
 
 	"qing/a/handler/localization"
 
@@ -101,11 +102,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Title = m.PageTitle(lang, d.Title)
 
 	// Setup additional assets.
-	d.AppLang = lang
-	if d.WindData != nil {
-		jsonBytes, _ := json.Marshal(d.WindData)
-		d.AppWindDataString = string(jsonBytes)
-	}
+	d.Lang = lang
 
 	// `main.css` come before other header styles.
 	d.Header = m.asMgr.MustGetStyle("mainEntry") + d.Header
@@ -113,20 +110,31 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	// Lang script comes before user scripts.
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
-	cfg := m.config
 	// Sync settings.
-	d.AppPostPerm = cfg.Permissions.RawPost
-	d.AppForums = cfg.FourmsEnabled()
+	cfg := m.config
+	d.State.PostPerm = cfg.Permissions.RawPost
+	d.State.Forums = cfg.FourmsEnabled()
 
 	// User info.
 	user := appcom.ContextUser(ctx)
 	if user != nil {
-		d.AppUserID = user.EID
-		d.AppUserName = user.Name
-		d.AppUserIconURL = user.IconURL
-		d.AppUserURL = user.Link
-		d.AppUserAdmin = user.Admin
+		userData := appSod.NewMainPageUserState(user.EID, user.Name, user.Link, user.IconURL, user.Admin)
+		d.State.User = &userData
 	}
+
+	// Compute internal fields.
+	if d.Extra != nil {
+		jsonBytes, err := json.Marshal(d.Extra)
+		if err != nil {
+			panic(err)
+		}
+		d.ZExtraJSON = string(jsonBytes)
+	}
+	jsonBytes, err := json.Marshal(d.State)
+	if err != nil {
+		panic(err)
+	}
+	d.ZStateJSON = string(jsonBytes)
 
 	// Finalize HTTP response.
 	// Get content string first as `MustExecute` might panic.
@@ -141,7 +149,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	// Write HTTP content type.
 	httpx.SetResponseContentType(w, httpx.MIMETypeHTMLUTF8)
 	// Write HTTP content.
-	_, err := fmt.Fprint(w, contentHTML)
+	_, err = fmt.Fprint(w, contentHTML)
 	// The error here is defensive code. It should not happen in most cases.
 	if err != nil {
 		panic(err)
