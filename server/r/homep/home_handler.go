@@ -56,13 +56,23 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	app.PanicOn(err)
 
+	cfg := appConf.Get()
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())
 	} else {
 		for _, item := range items {
 			itemData := rcom.NewPostFeedData(&item)
-			feedListHTMLBuilder.WriteString(MustRenderUserFeedView(&itemData))
+			var feedItemHTML string
+
+			switch cfg.Permissions.Post() {
+			case appdef.PostPermissionOnlyMe:
+				feedItemHTML = MustRenderOnlymeFeedView(&itemData)
+
+			case appdef.PostPermissionEveryone:
+				feedItemHTML = MustRenderUserFeedView(&itemData)
+			}
+			feedListHTMLBuilder.WriteString(feedItemHTML)
 		}
 	}
 
