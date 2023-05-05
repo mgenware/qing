@@ -5,12 +5,12 @@
   "private": true,
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
-    "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
+    "@types/node": "^18.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
     "daizong": "^0.26.0",
-    "esbuild": "^0.17.17",
-    "eslint": "^8.38.0",
+    "esbuild": "^0.17.18",
+    "eslint": "^8.39.0",
     "eslint-config-mgenware": "^0.9.0",
     "eslint-plugin-import": "^2.27.5",
     "is-plain-obj": "^4.1.0",
@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "bowhead-js": "^6.0.2",
-    "lit": "^2.7.2"
+    "lit": "^2.7.4"
   }
 }

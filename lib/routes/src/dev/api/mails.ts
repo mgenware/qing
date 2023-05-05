@@ -11,7 +11,7 @@ const mailRoot = `${root}/mails`;
 
 export const get = `${mailRoot}/get`;
 export const getLatest = `${mailRoot}/get-latest`;
-export const sendReal = `${mailRoot}/send-real`;
+export const sendRealMail = `${mailRoot}/send-real`;
 export const eraseUser = `${mailRoot}/erase-user`;
 export const eraseUserByID = `${mailRoot}/erase-user-by-id`;
 export const users = `${mailRoot}/users`;

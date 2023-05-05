@@ -22,13 +22,6 @@ const desktopViewport = { width: 1280, height: 720 };
 // Use to test a non-default language.
 export const alternativeLocale = 'zh-Hans';
 
-function mustGetHTMLElement(e: HTMLElement | SVGElement): HTMLElement {
-  if (e instanceof HTMLElement) {
-    return e;
-  }
-  throw new Error(`Element is not an HTML element. Got ${e}`);
-}
-
 export interface PWLocatable {
   locator(selector: string): pw.Locator;
 }

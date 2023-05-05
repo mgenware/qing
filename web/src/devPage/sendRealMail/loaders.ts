@@ -21,7 +21,7 @@ export class SendRealMailLoader extends Loader<void> {
   }
 
   override requestURL(): string {
-    return mailsAPI.sendReal;
+    return mailsAPI.sendRealMail;
   }
 
   override requestParams() {

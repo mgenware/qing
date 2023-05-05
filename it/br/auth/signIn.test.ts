@@ -6,7 +6,6 @@
  */
 
 import { test, $, authUsr, usr } from 'br.js';
-import { serverURL } from 'base/def.js';
 import * as nbc from 'br/com/navbar/checks.js';
 import * as ivh from 'br/com/forms/inputViewHelper.js';
 import * as kh from 'br/com/keyboardHelper.js';
