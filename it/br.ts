@@ -298,7 +298,7 @@ export class Page {
 
   private currentUserID() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.c.evaluate(() => (window as any).appUserID as string | null);
+    return this.c.evaluate(() => (window as any).appPageState.user?.id as string | null);
   }
 }
 
