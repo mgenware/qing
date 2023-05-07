@@ -20,6 +20,7 @@ CREATE TABLE `post` (
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`title` VARCHAR(200) NOT NULL,
 	`last_replied_at` DATETIME(3) NULL DEFAULT NULL,
+	`summary` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT FOREIGN KEY(`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 )

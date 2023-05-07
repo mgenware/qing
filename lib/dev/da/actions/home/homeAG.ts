@@ -46,6 +46,7 @@ export class HomeAG extends mm.ActionGroup {
       joinedUserTable.icon_name,
       t.created_at,
       t.modified_at,
+      t.summary,
     ].map((c) => c.privateAttr());
     return [...priCols, t.title, t.likes, t.cmt_count];
   }

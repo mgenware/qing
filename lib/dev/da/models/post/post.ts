@@ -10,6 +10,7 @@ import ContentWithTitleBase from '../com/contentWithTitleBase.js';
 
 export class Post extends ContentWithTitleBase {
   last_replied_at = mm.datetime({ defaultToNow: 'server' }).nullable.default(null);
+  summary = mm.text();
 }
 
 export default mm.table(Post);

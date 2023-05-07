@@ -7,7 +7,7 @@
 
 import * as mm from 'mingru-models';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
-import t, { Post } from '../../models/post/post.js';
+import post, { Post } from '../../models/post/post.js';
 import postCmt from '../../models/post/postCmt.js';
 import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
@@ -35,21 +35,33 @@ export abstract class PostAGBase<T extends Post> extends ContentWithTitleBaseAG<
   }
 
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItemsForPostCenter(), this.baseTable().cmt_count];
+    const t = this.baseTable();
+    return [...super.colsOfSelectItemsForPostCenter(), t.cmt_count];
   }
 
   override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItemsForUserProfile(), this.baseTable().cmt_count];
+    const t = this.baseTable();
+    return [...super.colsOfSelectItemsForUserProfile(), t.cmt_count];
   }
 
   override orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
-    return [...super.orderByParamsOfSelectItemsForPostCenter(), this.baseTable().cmt_count];
+    const t = this.baseTable();
+    return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
+  }
+
+  protected override extraInsertItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraInsertItemCols(), t.summary];
+  }
+  protected override extraUpdateItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraUpdateItemCols(), t.summary];
   }
 }
 
 export class PostAG extends PostAGBase<Post> {
   override baseTable() {
-    return t;
+    return post;
   }
 
   override baseCmtTable(): ContentBaseCmt {
@@ -57,4 +69,4 @@ export class PostAG extends PostAGBase<Post> {
   }
 }
 
-export default mm.actionGroup(t, PostAG);
+export default mm.actionGroup(post, PostAG);
