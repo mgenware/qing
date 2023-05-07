@@ -9,17 +9,10 @@ import * as mm from 'mingru-models';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
 import t, { FPost } from '../../models/fpost/fpost.js';
 import fpostCmt from '../../models/fpost/fpostCmt.js';
-import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
+import { PostAGBase } from '../post/postAG.js';
 
-export class FPostAG extends ContentWithTitleBaseAG<FPost> {
-  refreshLastRepliedAt = mm.updateOne().set(t.last_replied_at, mm.datetimeNow()).by(t.id);
-
-  // `contentName` should be the same as `PostAG` so that they can share a single set of result types.
-  override contentName(): string {
-    return 'Post';
-  }
-
+export class FPostAG extends PostAGBase<FPost> {
   override baseTable() {
     return t;
   }
@@ -29,27 +22,23 @@ export class FPostAG extends ContentWithTitleBaseAG<FPost> {
   }
 
   protected override getIncrementContainerCounterActions(): mm.Action[] {
-    return [this.getUpdateUserStatAction(1)];
+    return [this.getFpostUpdateUserStatAction(1)];
   }
 
   protected override getDecrementContainerCounterActions(): mm.Action[] {
-    return [this.getUpdateUserStatAction(-1)];
+    return [this.getFpostUpdateUserStatAction(-1)];
   }
 
-  private getUpdateUserStatAction(offset: number) {
+  private getFpostUpdateUserStatAction(offset: number) {
     return userStatsAG.updateFPostCount.wrap({ offset, id: mm.captureVar(this.userIDParam) });
   }
 
   override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItemsForPostCenter(), t.cmt_count, t.forum_id];
+    return [...super.colsOfSelectItemsForPostCenter(), t.forum_id];
   }
 
   override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItemsForUserProfile(), t.cmt_count, t.forum_id];
-  }
-
-  override orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
-    return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
+    return [...super.colsOfSelectItemsForUserProfile(), t.forum_id];
   }
 
   protected override extraSelectItemCols(): mm.Column[] {
