@@ -45,18 +45,26 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
+	cfg := appConf.Get()
 
 	var items []da.HomePostItem
 	var hasNext bool
 	var err error
 	if conf.IsBREnv() {
-		items, hasNext, err = da.Home.SelectPostsBR(db, page, kHomePageSize)
+		var brPrefix string
+		postPerm := cfg.Permissions.Post()
+		if postPerm == appdef.PostPermissionOnlyMe {
+			brPrefix = appdef.BrHomePrefixOnlyMe
+		} else {
+			// appdef.PostPermissionEveryone.
+			brPrefix = appdef.BrHomePrefixEveryone
+		}
+		items, hasNext, err = da.Home.SelectPostsBR(db, brPrefix, page, kHomePageSize)
 	} else {
 		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)
 	}
 	app.PanicOn(err)
 
-	cfg := appConf.Get()
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {
 		feedListHTMLBuilder.WriteString(rcom.MustRunNoContentViewTemplate())

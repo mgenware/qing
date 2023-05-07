@@ -18,8 +18,8 @@
     "go-const-gen": "^2.1.0",
     "is-plain-obj": "^4.1.0",
     "js-yaml": "^4.1.0",
-    "mingru": "^0.60.10",
-    "mingru-models": "^0.65.4",
+    "mingru": "^0.61.0",
+    "mingru-models": "^0.66.0",
     "mingru-tsconfig": "^4.0.0"
   }
 }
