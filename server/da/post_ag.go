@@ -52,13 +52,13 @@ func (mrTable *PostAGType) DeleteItem(db *sql.DB, id uint64, userID uint64) erro
 	return txErr
 }
 
-func (mrTable *PostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, title string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `post` SET `modified_at` = NOW(3), `content` = ?, `title` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, title, id, userID)
+func (mrTable *PostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, title string, summary string, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `post` SET `modified_at` = NOW(3), `content` = ?, `title` = ?, `summary` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, title, summary, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *PostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `title`, `modified_at`) VALUES (NOW(3), 0, 0, NULL, ?, ?, ?, `created_at`)", userID, contentHTML, title)
+func (mrTable *PostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string, summary string) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `title`, `summary`, `modified_at`) VALUES (NOW(3), 0, 0, NULL, ?, ?, ?, ?, `created_at`)", userID, contentHTML, title, summary)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -66,11 +66,11 @@ func (mrTable *PostAGType) insertItemChild2(mrQueryable mingru.Queryable, id uin
 	return UserStats.UpdatePostCount(mrQueryable, id, 1)
 }
 
-func (mrTable *PostAGType) InsertItem(db *sql.DB, userID uint64, contentHTML string, title string, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *PostAGType) InsertItem(db *sql.DB, userID uint64, contentHTML string, title string, summary string, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := mrTable.insertItemChild1(tx, userID, contentHTML, title)
+		insertedID, err := mrTable.insertItemChild1(tx, userID, contentHTML, title, summary)
 		if err != nil {
 			return err
 		}

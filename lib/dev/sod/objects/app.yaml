@@ -1,15 +1,5 @@
 ---
-MainPageData:
-  # Information about current user.
-  userID: string
-  userName: string
-  userURL: string
-  userIconURL: string
-  userAdmin: bool
-  # Current language ID, cannot be empty.
-  # Server only. Web uses `<html lang="">`.
-  lang_go__: string
+MainPageStateData:
+  user: :sod.auth.User?
   postPerm: int
   forums: bool
-  # Extra wind data passed to current page.
-  windDataString: string

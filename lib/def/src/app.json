@@ -41,6 +41,8 @@
   "routeAuth": "auth",
   "routePost": "p",
   "routeUser": "u",
+  "brHomePrefixOnlyMe": "__br_home_onlyme",
+  "brHomePrefixEveryone": "__br_home_everyone",
   "__enums": {
     "postPermission": { "values": ["onlyMe", "everyone"] },
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },

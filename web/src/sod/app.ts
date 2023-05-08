@@ -13,13 +13,10 @@
  * See `lib/dev/sod/objects/app.yaml` for details.
  ******************************************************************************************/
 
-export interface MainPageData {
-  userID?: string;
-  userName?: string;
-  userURL?: string;
-  userIconURL?: string;
-  userAdmin?: boolean;
+import { User } from './auth.js';
+
+export interface MainPageStateData {
+  user?: User;
   postPerm?: number;
   forums?: boolean;
-  windDataString?: string;
 }

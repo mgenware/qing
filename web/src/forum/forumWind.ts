@@ -12,4 +12,4 @@ export interface ForumWind {
   Editable: boolean;
 }
 
-export default appPageState.windData<ForumWind>();
+export default appPageState.extraData<ForumWind>();

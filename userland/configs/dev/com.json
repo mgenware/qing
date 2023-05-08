@@ -1,0 +1,6 @@
+{
+  "extends": "local.json",
+  "permissions": {
+    "post": 2
+  }
+}

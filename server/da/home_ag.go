@@ -37,7 +37,7 @@ func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, p
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` DESC LIMIT ? OFFSET ?", limit, offset)
+	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`summary`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` ORDER BY `post`.`created_at` DESC LIMIT ? OFFSET ?", limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -48,7 +48,7 @@ func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, p
 		itemCounter++
 		if itemCounter <= max {
 			var item HomePostItem
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Summary, &item.Title, &item.Likes, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}
@@ -62,7 +62,7 @@ func (mrTable *HomeAGType) SelectPosts(mrQueryable mingru.Queryable, page int, p
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int, pageSize int) ([]HomePostItem, bool, error) {
+func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, brPrefix string, page int, pageSize int) ([]HomePostItem, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -74,7 +74,7 @@ func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int,
 	limit := pageSize + 1
 	offset := (page - 1) * pageSize
 	max := pageSize
-	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`title` LIKE '__BR_%' ORDER BY `post`.`created_at` DESC LIMIT ? OFFSET ?", limit, offset)
+	rows, err := mrQueryable.Query("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`summary`, `post`.`title`, `post`.`likes`, `post`.`cmt_count` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`title` LIKE ? ORDER BY `post`.`created_at` DESC LIMIT ? OFFSET ?", brPrefix, limit, offset)
 	if err != nil {
 		return nil, false, err
 	}
@@ -85,7 +85,7 @@ func (mrTable *HomeAGType) SelectPostsBR(mrQueryable mingru.Queryable, page int,
 		itemCounter++
 		if itemCounter <= max {
 			var item HomePostItem
-			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount)
+			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Summary, &item.Title, &item.Likes, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
 			}

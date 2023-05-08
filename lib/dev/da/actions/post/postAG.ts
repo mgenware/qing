@@ -7,49 +7,66 @@
 
 import * as mm from 'mingru-models';
 import ContentBaseCmt from '../../models/com/contentBaseCmt.js';
-import t, { Post } from '../../models/post/post.js';
+import post, { Post } from '../../models/post/post.js';
 import postCmt from '../../models/post/postCmt.js';
 import ContentWithTitleBaseAG from '../com/contentWithTitleBaseAG.js';
 import userStatsAG from '../user/userStatsAG.js';
 
-export class PostAG extends ContentWithTitleBaseAG<Post> {
-  refreshLastRepliedAt = mm.updateOne().set(t.last_replied_at, mm.datetimeNow()).by(t.id);
+export abstract class PostAGBase<T extends Post> extends ContentWithTitleBaseAG<T> {
+  refreshLastRepliedAt = mm
+    .updateOne()
+    .set(this.baseTable().last_replied_at, mm.datetimeNow())
+    .by(this.baseTable().id);
 
   override contentName(): string {
     return 'Post';
   }
 
+  protected override getIncrementContainerCounterActions(): mm.Action[] {
+    return [this.getPostUpdateUserStatAction(1)];
+  }
+
+  protected override getDecrementContainerCounterActions(): mm.Action[] {
+    return [this.getPostUpdateUserStatAction(-1)];
+  }
+
+  private getPostUpdateUserStatAction(offset: number) {
+    return userStatsAG.updatePostCount.wrap({ offset, id: mm.captureVar(this.userIDParam) });
+  }
+
+  override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+    const t = this.baseTable();
+    return [...super.colsOfSelectItemsForPostCenter(), t.cmt_count];
+  }
+
+  override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
+    const t = this.baseTable();
+    return [...super.colsOfSelectItemsForUserProfile(), t.cmt_count];
+  }
+
+  override orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
+    const t = this.baseTable();
+    return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
+  }
+
+  protected override extraInsertItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraInsertItemCols(), t.summary];
+  }
+  protected override extraUpdateItemCols(): mm.Column[] {
+    const t = this.baseTable();
+    return [...super.extraUpdateItemCols(), t.summary];
+  }
+}
+
+export class PostAG extends PostAGBase<Post> {
   override baseTable() {
-    return t;
+    return post;
   }
 
   override baseCmtTable(): ContentBaseCmt {
     return postCmt;
   }
-
-  protected override getIncrementContainerCounterActions(): mm.Action[] {
-    return [this.getUpdateUserStatAction(1)];
-  }
-
-  protected override getDecrementContainerCounterActions(): mm.Action[] {
-    return [this.getUpdateUserStatAction(-1)];
-  }
-
-  private getUpdateUserStatAction(offset: number) {
-    return userStatsAG.updatePostCount.wrap({ offset, id: mm.captureVar(this.userIDParam) });
-  }
-
-  override colsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItemsForPostCenter(), t.cmt_count];
-  }
-
-  override colsOfSelectItemsForUserProfile(): mm.SelectedColumnTypes[] {
-    return [...super.colsOfSelectItemsForUserProfile(), t.cmt_count];
-  }
-
-  override orderByParamsOfSelectItemsForPostCenter(): mm.SelectedColumnTypes[] {
-    return [...super.orderByParamsOfSelectItemsForPostCenter(), t.cmt_count];
-  }
 }
 
-export default mm.actionGroup(t, PostAG);
+export default mm.actionGroup(post, PostAG);

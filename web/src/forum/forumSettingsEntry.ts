@@ -17,7 +17,7 @@ import appPageState from 'app/appPageState.js';
 import * as pu from 'lib/pageUtil.js';
 
 const settingsRouter = new MiniURLRouter();
-const forumSettingsWind = appPageState.windData<ForumSettingsWind>();
+const forumSettingsWind = appPageState.extraData<ForumSettingsWind>();
 const fid = forumSettingsWind.EID;
 CHECK(fid);
 

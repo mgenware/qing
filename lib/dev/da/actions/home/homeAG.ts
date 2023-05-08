@@ -6,6 +6,7 @@
  */
 
 import * as mm from 'mingru-models';
+import { appdef } from '@qing/def';
 import post from '../../models/post/post.js';
 import user from '../../models/user/user.js';
 
@@ -27,7 +28,9 @@ export class HomeAG extends mm.ActionGroup {
       .orderByDesc(post.created_at)
       .resultTypeNameAttr(homePostItemType);
 
-    this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${post.title} LIKE '__BR_%'`
+    this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${
+      post.title
+    } LIKE ${mm.param(mm.varChar(appdef.lenMaxTitle), 'brPrefix')}`
       .pageMode()
       .orderByDesc(post.created_at)
       .resultTypeNameAttr(homePostItemType);
@@ -43,6 +46,7 @@ export class HomeAG extends mm.ActionGroup {
       joinedUserTable.icon_name,
       t.created_at,
       t.modified_at,
+      t.summary,
     ].map((c) => c.privateAttr());
     return [...priCols, t.title, t.likes, t.cmt_count];
   }

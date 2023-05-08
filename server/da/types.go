@@ -55,6 +55,7 @@ type HomePostItem struct {
 	Likes         uint      `json:"likes,omitempty"`
 	RawCreatedAt  time.Time `json:"-"`
 	RawModifiedAt time.Time `json:"-"`
+	Summary       string    `json:"-"`
 	Title         string    `json:"title,omitempty"`
 	UserIconName  string    `json:"-"`
 	UserID        uint64    `json:"-"`

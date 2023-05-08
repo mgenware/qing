@@ -34,8 +34,8 @@ export function eraseByID(e: { id: string }) {
   return api<DevMail>(mailAPI.eraseUserByID, e, null);
 }
 
-export function sendReal(e: { to: string; title: string; content: string }) {
-  return api<DevMail>(mailAPI.send, e, null);
+export function sendRealMail(e: { to: string; title: string; content: string }) {
+  return api<DevMail>(mailAPI.sendRealMail, e, null);
 }
 
 // Extracts mail content HTML from page HTML.

@@ -14,5 +14,5 @@ import (
 )
 
 func CreateAuthUser(id uint64, name string, iconName string) authSod.User {
-	return authSod.NewUser(clib.EncodeID(id), name, appURL.Get().UserIconURL50(id, iconName), appURL.Get().UserProfile(id), false)
+	return authSod.NewUser(clib.EncodeID(id), name, appURL.Get().UserProfile(id), appURL.Get().UserIconURL50(id, iconName), false)
 }

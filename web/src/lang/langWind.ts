@@ -17,4 +17,4 @@ export interface LangWindData {
   Langs: LangInfo[];
 }
 
-export default appPageState.windData<LangWindData>();
+export default appPageState.extraData<LangWindData>();

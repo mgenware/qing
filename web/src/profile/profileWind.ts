@@ -11,4 +11,4 @@ export interface ProfileWind {
   Website?: string;
 }
 
-export default appPageState.windData<ProfileWind>();
+export default appPageState.extraData<ProfileWind>();

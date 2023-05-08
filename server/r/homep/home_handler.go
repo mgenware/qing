@@ -45,12 +45,21 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appdef.KeyTab)
+	cfg := appConf.Get()
 
 	var items []da.HomePostItem
 	var hasNext bool
 	var err error
 	if conf.IsBREnv() {
-		items, hasNext, err = da.Home.SelectPostsBR(db, page, kHomePageSize)
+		var brPrefix string
+		postPerm := cfg.Permissions.Post()
+		if postPerm == appdef.PostPermissionOnlyMe {
+			brPrefix = appdef.BrHomePrefixOnlyMe
+		} else {
+			// appdef.PostPermissionEveryone.
+			brPrefix = appdef.BrHomePrefixEveryone
+		}
+		items, hasNext, err = da.Home.SelectPostsBR(db, brPrefix, page, kHomePageSize)
 	} else {
 		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)
 	}
@@ -62,7 +71,16 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	} else {
 		for _, item := range items {
 			itemData := rcom.NewPostFeedData(&item)
-			feedListHTMLBuilder.WriteString(MustRenderUserFeedView(&itemData))
+			var feedItemHTML string
+
+			switch cfg.Permissions.Post() {
+			case appdef.PostPermissionOnlyMe:
+				feedItemHTML = MustRenderOnlymeFeedView(&itemData)
+
+			case appdef.PostPermissionEveryone:
+				feedItemHTML = MustRenderUserFeedView(&itemData)
+			}
+			feedListHTMLBuilder.WriteString(feedItemHTML)
 		}
 	}
 

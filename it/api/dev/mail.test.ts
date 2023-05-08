@@ -15,7 +15,7 @@ it('Send mail and getDevMail', async () => {
   for (let i = 0; i < 3; i++) {
     // These mails must be sent sequentially.
     // eslint-disable-next-line no-await-in-loop
-    await mh.send({ to: email, title: `TITLE ${i + 1}`, content: `CONTENT ${i + 1}` });
+    await mh.sendRealMail({ to: email, title: `TITLE ${i + 1}`, content: `CONTENT ${i + 1}` });
   }
 
   for (let i = 0; i < 3; i++) {

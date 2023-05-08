@@ -8,45 +8,35 @@
 import { appdef } from '@qing/def';
 import appState from './appState.js';
 import appStateName from './appStateName.js';
-import { RawMainPageWind } from 'sod/app.js';
+import { MainPageStateData } from 'sod/app.js';
 import { User } from 'sod/auth.js';
 
-export interface MainPageWind extends RawMainPageWind {
-  // See `window.appWindData` in `main.html` for details.
-  appWindData: unknown;
+export interface MainPageScriptVars {
+  appPageState: MainPageStateData;
+  appPageExtra: unknown;
 }
 
-function getMainPageWindData(): MainPageWind {
+function getMainPageScriptVars(): MainPageScriptVars {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return window as any as MainPageWind;
+  return window as any as MainPageScriptVars;
+}
+
+function getMainPageState(): MainPageStateData {
+  return getMainPageScriptVars().appPageState;
 }
 
 /**
  * Please only register things that might change at runtime.
  */
-
-appState.register<User | null>(appStateName.user, () => {
-  const wind = getMainPageWindData();
-  if (wind.appUserID) {
-    return {
-      id: wind.appUserID,
-      name: wind.appUserName ?? '',
-      link: wind.appUserURL ?? '',
-      iconURL: wind.appUserIconURL ?? '',
-      admin: wind.appUserAdmin,
-    };
-  }
-  return null;
-});
+appState.register<User | null>(appStateName.user, () => getMainPageState().user ?? null);
 
 export class AppPageState {
   get user(): User | null {
     return appState.get(appStateName.user);
   }
 
-  windData<T>(): T {
-    const wind = getMainPageWindData();
-    return wind.appWindData as T;
+  extraData<T>(): T {
+    return getMainPageScriptVars().appPageExtra as T;
   }
 
   get userID(): string | undefined {
@@ -62,13 +52,11 @@ export class AppPageState {
   }
 
   get postPerm(): appdef.PostPermission {
-    const wind = getMainPageWindData();
-    return wind.appPostPerm as appdef.PostPermission;
+    return getMainPageState().postPerm as appdef.PostPermission;
   }
 
   get forums(): boolean {
-    const wind = getMainPageWindData();
-    return wind.appForums ?? false;
+    return !!getMainPageState().forums;
   }
 }
 
