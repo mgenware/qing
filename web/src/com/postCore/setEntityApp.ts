@@ -33,7 +33,7 @@ export default class SetEntityApp extends BaseElement {
   @property() desc = '';
   @property({ type: Boolean }) hasTitle = true;
   @property() submitButtonText = '';
-  @property() forumID = '';
+  @property() forumID?: string;
 
   private get composerEl(): ComposerView | null {
     return this.getShadowElement(composerID);
@@ -55,12 +55,12 @@ export default class SetEntityApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
-    const loader = new SetEntityLoader(
-      this.entityID ?? null,
-      e.detail,
-      this.entityType,
-      this.forumID,
-    );
+    const loader = new SetEntityLoader({
+      content: e.detail,
+      entityType: this.entityType,
+      forumID: this.forumID,
+      id: this.entityID,
+    });
     const status = await appTask.critical(
       loader,
       this.entityID ? globalThis.coreLS.saving : globalThis.coreLS.publishing,

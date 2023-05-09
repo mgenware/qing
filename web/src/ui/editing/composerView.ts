@@ -37,6 +37,7 @@ class ValidationError extends Error {
 
 export interface ComposerContent {
   contentHTML: string;
+  summary?: string;
   title?: string;
 }
 

@@ -10,15 +10,19 @@ import * as composeRoute from '@qing/routes/s/pri/compose.js';
 import { ComposerContent } from 'ui/editing/composerView.js';
 import appPageState from 'app/appPageState.js';
 
+export interface SetEntityLoaderArgs {
+  /// These field names are locked with server API param names.
+  id?: string;
+  content: ComposerContent;
+  entityType: number;
+  forumID?: string;
+  summary?: string;
+}
+
 export class SetEntityLoader extends Loader<string | null> {
-  constructor(
-    public id: string | null,
-    public content: ComposerContent,
-    public entityType: number,
-    public forumID: string | null,
-  ) {
+  constructor(public args: SetEntityLoaderArgs) {
     super();
-    if (appPageState.forums && !forumID) {
+    if (appPageState.forums && !args.forumID) {
       throw new Error('`forumID` is required in forums mode');
     }
   }
@@ -28,17 +32,6 @@ export class SetEntityLoader extends Loader<string | null> {
   }
 
   override requestParams(): Record<string, unknown> {
-    const { entityType } = this;
-    const params: Record<string, unknown> = {
-      content: this.content,
-      entityType,
-    };
-    if (this.id) {
-      params.id = this.id;
-    }
-    if (this.forumID) {
-      params.forumID = this.forumID;
-    }
-    return params;
+    return this.args as unknown as Record<string, unknown>;
   }
 }
