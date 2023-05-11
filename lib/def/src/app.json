@@ -18,6 +18,7 @@
   "lenMaxCaptcha": 10,
   "lenMaxLang": 10,
   "lenMaxGenericString": 100,
+  "lenMaxPostSummary": 300,
   "keyPosts": "posts",
   "keyReplies": "replies",
   "keyPage": "page",

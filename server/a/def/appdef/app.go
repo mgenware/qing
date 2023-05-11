@@ -31,6 +31,7 @@ const LenMaxUserPwd = 30
 const LenMaxCaptcha = 10
 const LenMaxLang = 10
 const LenMaxGenericString = 100
+const LenMaxPostSummary = 300
 const KeyPosts = "posts"
 const KeyReplies = "replies"
 const KeyPage = "page"
