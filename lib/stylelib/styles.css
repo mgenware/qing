@@ -603,4 +603,5 @@ textarea {
 .md-content {
   overflow-wrap: break-word;
   word-break: break-all;
+  line-height: 1.6;
 }
