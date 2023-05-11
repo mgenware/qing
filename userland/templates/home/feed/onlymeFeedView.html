@@ -1,9 +1,11 @@
 <div class="m-b-md">
-  <div class="feed-item-title"><a href="{{html .Link}}">{{html .Title}}</a></div>
-  {{if .Summary}}
-  <div class="m-t-sm md-content">{{html .Summary}}</div>
-  {{end}}
-  <div class="m-t-md">
+  <a href="{{html .Link}}">
+    <div class="feed-item-title">{{html .Title}}</div>
+    {{if .Summary}}
+    <div class="m-t-sm md-content feed-item-summary">{{html .Summary}}</div>
+    {{end}}
+  </a>
+  <div class="m-t-sm">
     <time-field createdAt="{{html .CreatedAt}}" modifiedAt="{{html .ModifiedAt}}"></time-field>
   </div>
 </div>

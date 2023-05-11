@@ -9,3 +9,12 @@
   font-size: 1.3rem;
   text-wrap: balance;
 }
+
+.feed-item-summary {
+  /** Summary is wrapped in <a>. Reset color to standard text color. */
+  color: var(--app-default-fore-color);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
