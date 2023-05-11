@@ -169,7 +169,7 @@ export class RootCmtList extends BaseElement {
       return;
     }
     const loader = SetCmtLoader.newCmt(this.host, {
-      contentHTML: this.rootEditorEl.contentHTML ?? '',
+      contentHTML: this.rootEditorEl.getContentHTML(),
     });
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {

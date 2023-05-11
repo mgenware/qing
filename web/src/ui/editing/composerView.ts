@@ -91,13 +91,13 @@ export class ComposerView extends BaseElement {
 
   hasContentChanged() {
     return (
-      this.lastSavedContent !== this.contentHTML ||
+      this.lastSavedContent !== this.getContentHTML() ||
       (this.hasTitle && this.lastSavedTitle !== this.titleText)
     );
   }
 
   markAsSaved() {
-    this.lastSavedContent = this.contentHTML ?? '';
+    this.lastSavedContent = this.getContentHTML();
     if (this.hasTitle) {
       this.lastSavedTitle = this.titleText ?? '';
     }
@@ -130,11 +130,11 @@ export class ComposerView extends BaseElement {
     this.markAsSaved();
   }
 
-  get contentHTML() {
-    return this.editorEl.value?.contentHTML;
+  getContentHTML(): string {
+    return this.editorEl.value?.contentHTML() ?? '';
   }
 
-  get titleText() {
+  get titleText(): string | undefined {
     return this.titleInputEl.value?.value;
   }
 
@@ -142,7 +142,7 @@ export class ComposerView extends BaseElement {
     const { editorEl } = this;
     if (editorEl.value) {
       if (canUndo) {
-        editorEl.value.contentHTML = contentHTML;
+        editorEl.value.setContentHTML(contentHTML);
       } else {
         editorEl.value.resetContentHTML(contentHTML);
       }
@@ -217,17 +217,19 @@ export class ComposerView extends BaseElement {
         this.titleInputEl.value?.focus(),
       );
     }
-    if (!this.contentHTML) {
+    const contentHTML = this.getContentHTML();
+    if (!contentHTML) {
       throw new ValidationError(
         strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.content),
         () => this.editorEl.value?.focus(),
       );
     }
     const payload: ComposerContent = {
-      contentHTML: this.contentHTML,
+      contentHTML,
     };
     if (this.hasTitle) {
       payload.title = this.titleText;
+      payload.summary = this.editorEl.value?.contentText();
     }
     return payload;
   }

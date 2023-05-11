@@ -226,7 +226,7 @@ export class CmtBlock extends BaseElement {
       return;
     }
     const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, {
-      contentHTML: this.editEditorEl.contentHTML ?? '',
+      contentHTML: this.editEditorEl.getContentHTML(),
     });
     const apiRes = await appTask.critical(loader, globalThis.coreLS.saving);
     if (apiRes.data) {
@@ -258,7 +258,7 @@ export class CmtBlock extends BaseElement {
       return;
     }
     const loader = SetCmtLoader.newReply(this.host, this.cmt.id, {
-      contentHTML: this.replyEditorEl.contentHTML ?? '',
+      contentHTML: this.replyEditorEl.getContentHTML(),
     });
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {

@@ -135,7 +135,7 @@ export class ProfileST extends StatefulPage {
       this.url,
       this.company,
       this.location,
-      this.editorEl?.contentHTML ?? '',
+      this.editorEl?.contentHTML() ?? '',
     );
     const status = await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;
