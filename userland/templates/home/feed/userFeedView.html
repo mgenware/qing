@@ -11,7 +11,10 @@
   </div>
   <div>
     <div class="feed-item-title"><a href="{{html .Link}}">{{html .Title}}</a></div>
-    <div class="m-t-sm">
+    {{if .Summary}}
+    <div class="m-t-sm md-content">{{html .Summary}}</div>
+    {{end}}
+    <div class="m-t-md">
       <a href="{{html .UserURL}}">{{html .UserName}}</a>
       <span class="m-l-md">
         <time-field createdAt="{{html .CreatedAt}}" modifiedAt="{{html .ModifiedAt}}"></time-field>
