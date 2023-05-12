@@ -33,6 +33,7 @@ export default class EditorView extends KXEditor {
           flex-direction: column;
           /** Make sure it stretches to parent height */
           flex: 1 1 auto;
+          min-height: 0;
         }
 
         .kx-content {

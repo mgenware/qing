@@ -215,8 +215,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       kangxi-editor:
-        specifier: ^0.17.0
-        version: 0.17.0(lit@2.7.4)
+        specifier: ^0.18.0
+        version: 0.18.0(lit@2.7.4)
       mahur:
         specifier: ^0.0.2
         version: 0.0.2
@@ -4373,8 +4373,8 @@ packages:
     resolution: {integrity: sha512-S59eriX5u3/QhMNq3v/gm8Kd0w8OS6Tz2FS1NG4blv+z0MuQcBRJyFWjdovM0Rad4/P4aUPFtnkNjMjyMlMSYA==}
     dev: true
 
-  /kangxi-editor@0.17.0(lit@2.7.4):
-    resolution: {integrity: sha512-OfX82eK82FVCsA/l9Qav52y4bUW/8+FdOd5PAIkczzIEsGdK9GUMrGgernaXacWvacacz56+K6oQ6HNBr7M5FQ==}
+  /kangxi-editor@0.18.0(lit@2.7.4):
+    resolution: {integrity: sha512-BE8H8EGkLTdhJAHxIdfU86Cap5I4f3TmwL5WXy7Ljh3qjVCkb4/mRECqnj+Kya33dQtq1pSwbF1E481f0chXXQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       lit: ^2.0.0

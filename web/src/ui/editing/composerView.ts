@@ -69,6 +69,11 @@ export class ComposerView extends BaseElement {
         .editor-buttons qing-button:not(:first-child) {
           margin-left: var(--app-dialog-btn-spacing);
         }
+
+        editor-view {
+          flex: 1 1 auto;
+          min-height: 0;
+        }
       `,
     ];
   }
