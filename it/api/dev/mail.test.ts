@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import * as mh from 'helper/mail.js';
 import { newEmail } from 'helper/user.js';
 
@@ -22,10 +22,13 @@ it('Send mail and getDevMail', async () => {
     // eslint-disable-next-line no-await-in-loop
     const d = await mh.getLatest({ email, index: i });
     // Extract title and content data. ID and TS are ignored as they are time-based.
-    expect({ title: d.title, content: d.content }).toEqual({
-      title: `TITLE ${i + 1}`,
-      content: `CONTENT ${i + 1}`,
-    });
+    assert.deepStrictEqual(
+      { title: d.title, content: d.content },
+      {
+        title: `TITLE ${i + 1}`,
+        content: `CONTENT ${i + 1}`,
+      },
+    );
   }
 
   await mh.erase({ email });

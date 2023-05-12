@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import { curUser } from 'helper/user.js';
 import { api, usr, authUsr, itaResultRaw } from 'api.js';
 import * as priAuth from '@qing/routes/s/pri/auth.js';
@@ -36,7 +36,7 @@ itaResultRaw(
 it('Sign in - Sign out', async () => {
   const cookieJar = new CookieJar();
   // No user is logged in initially.
-  expect(await curUser(cookieJar)).toBe('');
+  assert.strictEqual(await curUser(cookieJar), '');
   // Log in.
   await api(pubAuth.signIn, { email: authUsr.user.email, pwd: authUsr.user.pwd }, null, {
     cookieJar,
@@ -44,13 +44,13 @@ it('Sign in - Sign out', async () => {
 
   // Sample session cookie: "_ut": "102:707280b9-c152-447b-a632-3e6f58e387f0"
   const utVal = cookieJar.get('_ut');
-  expect(utVal.startsWith('102:')).toBeTruthy();
-  expect(await curUser(cookieJar)).toBe(usr.user.id);
+  assert.ok(utVal.startsWith('102:'));
+  assert.strictEqual(await curUser(cookieJar), usr.user.id);
 
   await api(priAuth.signOut, null, null, {
     cookieJar,
   });
 
   // Expected cookies to be deleted.
-  expect(cookieJar.cookies()).toBe('_ut=');
+  assert.strictEqual(cookieJar.cookies(), '_ut=');
 });

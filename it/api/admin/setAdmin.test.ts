@@ -7,7 +7,7 @@
 
 import { errorResults, itaResultRaw, usr, apiRaw, api } from 'api.js';
 import { defaultUserImg } from '@qing/routes/static.js';
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import { User } from 'base/api.js';
 import { newUser } from 'helper/user.js';
 
@@ -17,14 +17,14 @@ const getAdminsURL = 'admin/admins';
 it('`set-admin` - Visitor', async () => {
   await newUser(async (tu) => {
     const r = await apiRaw(url, { target_user_id: tu.id, value: 1 }, null);
-    expect(r).toEqual(errorResults.notAuthorized);
+    assert.deepStrictEqual(r, errorResults.notAuthorized);
   });
 });
 
 it('`set-admin` - User', async () => {
   await newUser(async (tu) => {
     const r = await apiRaw(url, { target_user_id: tu.id, value: 1 }, usr.user);
-    expect(r).toEqual(errorResults.notAuthorized);
+    assert.deepStrictEqual(r, errorResults.notAuthorized);
   });
 });
 
@@ -37,7 +37,7 @@ it('`set-admin` - Admin', async () => {
     // Check status.
     let admins = await api<User[]>(getAdminsURL, null, usr.admin);
     let adminData = admins.find((d) => d.id === id);
-    expect(adminData).toEqual({
+    assert.deepStrictEqual(adminData, {
       id,
       name: 'T',
       link: `/u/${id}`,
@@ -50,7 +50,7 @@ it('`set-admin` - Admin', async () => {
     // Check status.
     admins = await api<User[]>(getAdminsURL, null, usr.admin);
     adminData = admins.find((d) => d.id === id);
-    expect(adminData).toBe(undefined);
+    assert.strictEqual(adminData, undefined);
   });
 });
 

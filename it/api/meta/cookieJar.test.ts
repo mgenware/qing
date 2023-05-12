@@ -5,17 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import CookieJar from 'helper/cookieJar.js';
 
 it('CookieJar', () => {
   const jar = new CookieJar();
   jar.setCookies(['id=a3:fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT', 'id2=a13; Max-Age=2592000']);
-  expect(jar.cookies()).toBe('id=a3%3AfWa;id2=a13');
+  assert.strictEqual(jar.cookies(), 'id=a3%3AfWa;id2=a13');
 
   jar.setCookies(['id2=; Max-Age=2592000']);
-  expect(jar.cookies()).toBe('id=a3%3AfWa;id2=');
+  assert.strictEqual(jar.cookies(), 'id=a3%3AfWa;id2=');
 
   jar.setCookies(['id3=3; Max-Age=2592000']);
-  expect(jar.cookies()).toBe('id=a3%3AfWa;id2=;id3=3');
+  assert.strictEqual(jar.cookies(), 'id=a3%3AfWa;id2=;id3=3');
 });

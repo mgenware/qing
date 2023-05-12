@@ -6,7 +6,7 @@
  */
 
 import { ita, itaNotAuthorized, usr, User } from 'api.js';
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import * as adminRoute from '@qing/routes/s/admin.js';
 
 itaNotAuthorized('`admins` - Visitor', adminRoute.admins, null);
@@ -15,5 +15,5 @@ itaNotAuthorized('`admins` - User', adminRoute.admins, usr.user);
 
 ita<User[]>('`admins` - Admin', adminRoute.admins, null, usr.admin, (list) => {
   const item = list.find((d) => d.id === usr.admin.id);
-  expect(item).toEqual(usr.admin);
+  assert.deepStrictEqual(item, usr.admin);
 });

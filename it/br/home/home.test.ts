@@ -39,10 +39,10 @@ test('Home page - One page - Multiple users', async ({ page }) => {
             link: link2,
           });
         },
-        { body: { title: `${cm.homePostBRPrefix}post2`, contentHTML: '_' } },
+        { body: { title: `${cm.homePostBRPrefix}post2`, contentHTML: '_', summary: '_' } },
       );
     },
-    { body: { title: `${cm.homePostBRPrefix}post1`, contentHTML: '_' } },
+    { body: { title: `${cm.homePostBRPrefix}post1`, contentHTML: '_', summary: '_' } },
   );
 });
 
@@ -94,12 +94,12 @@ test('Home page - 2 pages', async ({ page }) => {
               // Check page bar in next page.
               await pb.check(p.body, { leftLink: '/' });
             },
-            { body: { title: `${cm.homePostBRPrefix}post3`, contentHTML: '_' } },
+            { body: { title: `${cm.homePostBRPrefix}post3`, contentHTML: '_', summary: '_' } },
           );
         },
-        { body: { title: `${cm.homePostBRPrefix}post2`, contentHTML: '_' } },
+        { body: { title: `${cm.homePostBRPrefix}post2`, contentHTML: '_', summary: '_' } },
       );
     },
-    { body: { title: `${cm.homePostBRPrefix}post1`, contentHTML: '_' } },
+    { body: { title: `${cm.homePostBRPrefix}post1`, contentHTML: '_', summary: '_' } },
   );
 });

@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
+import * as assert from 'node:assert';
 import { api, apiRaw, APIResult, APIOptions, User, errorResults } from 'base/api.js';
-import { expect } from 'expect';
 
 // Re-exports.
 export * from 'base/api.js';
@@ -56,7 +56,7 @@ export function itaResultRaw(
     body,
     user,
     (r) => {
-      expect(r).toEqual(apiResult);
+      assert.deepStrictEqual(r, apiResult);
     },
     callOpt,
   );
@@ -77,7 +77,7 @@ export function itaResult<T>(
     body,
     user,
     (r) => {
-      expect(r).toEqual(result);
+      assert.deepStrictEqual(r, result);
     },
     callOpt,
   );

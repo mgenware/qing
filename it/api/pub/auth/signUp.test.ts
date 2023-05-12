@@ -8,7 +8,7 @@
 import { itaResultRaw, ita, api, apiRaw } from 'api.js';
 import * as authAPI from '@qing/routes/s/pub/auth.js';
 import * as authRoute from '@qing/routes/auth.js';
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import * as mh from 'helper/mail.js';
 import { serverURL } from 'base/def.js';
 import fetch from 'node-fetch';
@@ -58,18 +58,19 @@ ita(
   async (_) => {
     // Check verification email.
     const mail = await mh.getLatest({ email: email1 });
-    expect(mail.title).toBe('Verify your email');
+    assert.strictEqual(mail.title, 'Verify your email');
 
     const mainEl = mh.getMainEmailContentElement(mail.content);
     const mainContentHTML = (mainEl?.innerHTML ?? '').trim();
 
-    expect(mainContentHTML).toMatch(
+    assert.match(
+      mainContentHTML,
       /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/.*?" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/,
     );
 
     // Try to login.
     const loginRes = await apiRaw(authAPI.signIn, { email: email1, pwd });
-    expect(loginRes).toEqual(invalidNameOrPwdResp);
+    assert.deepStrictEqual(loginRes, invalidNameOrPwdResp);
   },
 );
 
@@ -88,30 +89,30 @@ ita(
 
     // Verify email.
     const absURL = mainEl?.querySelector('a')?.textContent.trim() ?? '';
-    expect(absURL).toBeTruthy();
+    assert.ok(absURL);
     const idx = absURL.indexOf(authRoute.verifyRegEmail);
     const relURL = `${serverURL}${absURL.substring(idx)}`;
 
     // Visit verification URL.
     let verifyResp = await fetch(relURL);
-    expect(verifyResp.ok).toBeTruthy();
+    assert.ok(verifyResp.ok);
     // Extract new verified ID from response HTML.
     const respHTML = await verifyResp.text();
     const extractedID = htmlIDRegex.exec(respHTML)?.[1]?.toString() ?? '';
-    expect(extractedID).toBeTruthy();
+    assert.ok(extractedID);
 
     // Verify new user name.
     const uInfo = await userInfo(extractedID);
-    expect(uInfo?.name).toBe('New user');
+    assert.strictEqual(uInfo?.name, 'New user');
 
     const cookieJar = new CookieJar();
     await api(authAPI.signIn, { email: email2, pwd }, null, { cookieJar });
-    expect(await curUser(cookieJar)).toBe(extractedID);
+    assert.strictEqual(await curUser(cookieJar), extractedID);
 
     // Visit verification link again results in error.
     verifyResp = await fetch(relURL);
-    expect(verifyResp.status).toBe(503);
-    expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(linkExpiredHTML);
+    assert.strictEqual(verifyResp.status, 503);
+    assert.strictEqual(pageUtil.getMainContentHTML(await verifyResp.text()), linkExpiredHTML);
   },
 );
 
@@ -119,6 +120,6 @@ it('Sign up - Wrong email verification link', async () => {
   const verifyResp = await fetch(
     `${serverURL}${authRoute.verifyRegEmail}/bGlsaUBsaWxpLmNvbXw1YjRlMDM5MC1jNWY2LTRhNTEtYTQ4Zi1lNGViZGJjNDM0YWI`,
   );
-  expect(verifyResp.status).toBe(503);
-  expect(pageUtil.getMainContentHTML(await verifyResp.text())).toBe(linkExpiredHTML);
+  assert.strictEqual(verifyResp.status, 503);
+  assert.strictEqual(pageUtil.getMainContentHTML(await verifyResp.text()), linkExpiredHTML);
 });

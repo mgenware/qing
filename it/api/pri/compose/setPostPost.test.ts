@@ -7,7 +7,7 @@
 
 import * as def from 'base/def.js';
 import { apiRaw, api, usr, itaNotAuthorized, errorResults } from 'api.js';
-import { expect } from 'expect';
+import * as assert from 'node:assert';
 import { newPost } from 'helper/post.js';
 import { entitySrc } from 'helper/entity.js';
 import { postCount, newUser } from 'helper/user.js';
@@ -25,14 +25,14 @@ it('Add a post', async () => {
     const pc = await postCount(u);
     await newPost(u, async ({ id }) => {
       // Post content.
-      expect(await entitySrc(id, appdef.ContentBaseType.post, u)).toEqual({
+      assert.deepStrictEqual(await entitySrc(id, appdef.ContentBaseType.post, u), {
         contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
 
       // User post_count.
       const pc2 = await postCount(u);
-      expect(pc + 1).toBe(pc2);
+      assert.strictEqual(pc + 1, pc2);
     });
   });
 });
@@ -45,13 +45,13 @@ it('Edit a post', async () => {
       // Post content.
       const pc = await postCount(u);
       await api(composeRoute.setEntity, { ...entityBody, id }, u);
-      expect(await entitySrc(id, appdef.ContentBaseType.post, u)).toEqual({
+      assert.deepStrictEqual(await entitySrc(id, appdef.ContentBaseType.post, u), {
         contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
 
       const pc2 = await postCount(u);
-      expect(pc).toBe(pc2);
+      assert.strictEqual(pc, pc2);
     });
   });
 });
@@ -62,10 +62,10 @@ it('Edit a post with another user', async () => {
       // Post content.
       const pc = await postCount(u);
       const r = await apiRaw(composeRoute.setEntity, { ...entityBody, id }, usr.admin);
-      expect(r).toEqual(errorResults.rowNotUpdated);
+      assert.deepStrictEqual(r, errorResults.rowNotUpdated);
 
       const pc2 = await postCount(u);
-      expect(pc).toBe(pc2);
+      assert.strictEqual(pc, pc2);
     });
   });
 });
