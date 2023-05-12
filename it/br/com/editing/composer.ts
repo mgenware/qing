@@ -11,7 +11,6 @@ import * as cm from './common.js';
 import * as ov from '../overlays/overlay.js';
 import * as ed from './editor.js';
 import { waitForDBTimeChange } from 'base/delay.js';
-import * as spn from '../spinners/spinner.js';
 
 export interface UpdateParams {
   title?: string;
@@ -103,15 +102,21 @@ export async function shouldDiscardChangesOrNot(
   }
 }
 
-export interface UpdateAndSaveArgs {
+export interface SaveArgs {
   p: br.Page;
-  spinnerText?: string;
   saveBtnText: string;
+}
+
+export interface UpdateAndSaveArgs extends SaveArgs {
   dbTimeChange?: boolean;
   title?: string;
   content?: string;
-  // Use this when a navigation happens upon completion.
-  quickExit?: boolean;
+}
+
+export async function clickSaveButton(overlayEl: br.Element, e: SaveArgs) {
+  // Update button is always the first button.
+  const btnEl = overlayEl.$qingButton(e.saveBtnText);
+  await btnEl.click();
 }
 
 export async function updateAndSave(overlayEl: br.Element, e: UpdateAndSaveArgs) {
@@ -120,15 +125,5 @@ export async function updateAndSave(overlayEl: br.Element, e: UpdateAndSaveArgs)
   }
   // Update editor content.
   await updateContent(overlayEl, { title: e.title, content: e.content });
-
-  // Update button is always the first button.
-  const btnEl = overlayEl.$qingButton(e.saveBtnText);
-  if (e.quickExit) {
-    await btnEl.click();
-  } else {
-    if (e.spinnerText) {
-      await spn.waitForGlobal(e.p, e.spinnerText, () => btnEl.click());
-    }
-    await overlayEl.waitForDetached();
-  }
+  await clickSaveButton(overlayEl, e);
 }

@@ -39,7 +39,6 @@ test('New post', async ({ page }) => {
       content: def.sd.content,
       dbTimeChange: true,
       saveBtnText: 'Publish',
-      quickExit: true,
     }),
     p.c.waitForURL(/\/p\//),
   ]);
@@ -47,7 +46,7 @@ test('New post', async ({ page }) => {
   // Verify post title.
   await cm.shouldHaveTitle(p, def.sd.content, p.url());
   // Verify post content.
-  await cm.shouldHaveContent(p, def.sd.content);
+  await cm.shouldHaveHTML(p, def.sd.contentViewHTML);
 });
 
 test('New post - Dismiss post editor', async ({ page }) => {

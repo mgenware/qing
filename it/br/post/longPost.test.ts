@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2023 The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that can
+ * be found in the LICENSE file.
+ */
+
+import { test, usr, $, expect } from 'br.js';
+import { newPost } from 'helper/post.js';
+import * as cps from 'br/com/editing/composer.js';
+import * as cm from './common.js';
+
+const longText = `A${'\n'.repeat(30)}B`;
+
+test('Editor vertical scroll and whitespaces', async ({ page }) => {
+  const p = $(page);
+  await newPost(usr.user, async ({ link }) => {
+    await p.goto(link, usr.user);
+
+    await cm.clickEditButton(p, usr.user);
+    const overlayEl = await cm.waitForOverlay(p);
+
+    await cps.updateContent(overlayEl, {
+      content: longText,
+    });
+
+    // Check editor content has vertical scrollbar.
+    const contentEl = overlayEl.$('.kx-content');
+    const hasVericalScrollbar = await contentEl.c.evaluate(
+      (el) => el.scrollHeight > el.clientHeight,
+    );
+    expect(hasVericalScrollbar).toBe(true);
+
+    await Promise.all([
+      cps.clickSaveButton(overlayEl, { p, saveBtnText: 'Save' }),
+      p.waitForURL(/\/p\//),
+    ]);
+
+    // Verify post content.
+    await cm.shouldHaveHTML(p, '<p>A</p><p>B</p>');
+  });
+});

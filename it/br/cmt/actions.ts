@@ -29,7 +29,6 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
   }
   await cps.updateAndSave(overlayEl, {
     p,
-    spinnerText: 'Publishing...',
     saveBtnText: 'Send',
     content: a.content,
     dbTimeChange: a.dbTimeChange,
@@ -53,7 +52,6 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
     p,
     content: a.content,
     saveBtnText: 'Send',
-    spinnerText: 'Publishing...',
     dbTimeChange: a.dbTimeChange,
   });
 }
@@ -77,7 +75,6 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
     content: a.content,
     saveBtnText: 'Save',
     dbTimeChange: true,
-    spinnerText: 'Saving...',
   });
 }
 

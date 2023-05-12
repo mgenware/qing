@@ -15,10 +15,13 @@ const postIDRegex = /\/p\/([a-z0-9]+)$/;
 export interface PostBodyContent {
   title: string;
   contentHTML: string;
+  summary: string;
 }
 
-const entityBody = {
-  content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
+const defaultPostContent: PostBodyContent = {
+  contentHTML: def.sd.contentDBHTML,
+  title: def.sd.title,
+  summary: 'TEST_POST_SUMMARY',
 };
 
 export function verifyNewPostAPIResult(r: string | null): string {
@@ -37,11 +40,8 @@ export interface NewPostOptions {
 }
 
 async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
-  const r = await entityUtil.setEntity(
-    appdef.ContentBaseType.post,
-    opt?.body ? { content: opt.body } : entityBody,
-    user,
-  );
+  const body = { content: opt?.body ?? defaultPostContent };
+  const r = await entityUtil.setEntity(appdef.ContentBaseType.post, body, user);
   const id = verifyNewPostAPIResult(r);
   await entityUtil.updateEntityTime(id, appdef.ContentBaseType.post);
   return id;
