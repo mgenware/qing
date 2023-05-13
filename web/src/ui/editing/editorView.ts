@@ -12,7 +12,6 @@ import { KXEditor } from 'kangxi-editor';
 @customElement('editor-view')
 export default class EditorView extends KXEditor {
   static override get styles() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return [
       super.styles,
       css`

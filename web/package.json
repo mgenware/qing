@@ -10,11 +10,18 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
+    "@codemirror/lang-markdown": "^6.1.1",
+    "@codemirror/language-data": "^6.3.1",
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.7",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "basic-trie": "^0.2.0",
+    "cm6-theme-basic-dark": "^0.2.0",
+    "cm6-theme-basic-light": "^0.2.0",
+    "codemirror": "^6.0.1",
     "f-array.splice": "^1.1.0",
     "js-cookie": "^3.0.5",
     "kangxi-editor": "^0.18.0",
@@ -22,7 +29,7 @@
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
     "qing-button": "^8.2.6",
-    "qing-css-base": "^1.2.0",
+    "qing-css-base": "^1.2.1",
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
@@ -35,7 +42,7 @@
     "@web/test-runner": "^0.16.1",
     "@web/test-runner-playwright": "^0.10.0",
     "esbuild-plugin-minify-html-literals": "^1.0.4",
-    "html-validate": "7.16.0",
+    "html-validate": "7.17.0",
     "lit-analyzer": "2.0.0-pre.2"
   }
 }

@@ -5,11 +5,22 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, property, state } from 'll.js';
+import { BaseElement, customElement, html, property, state, css } from 'll.js';
 import appPageState from 'app/appPageState.js';
 
 @customElement('edit-bar-app')
 export class EditBarApp extends BaseElement {
+  static override get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: inline-block;
+        }
+      `,
+    ];
+  }
+
   @property() uid = '';
   @state() private visible = false;
 

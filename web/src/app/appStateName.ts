@@ -7,6 +7,8 @@
 
 export class AppStateName {
   user = 'user';
+  themeOption = 'themeOption';
+  isDarkTheme = 'isDarkTheme';
   private cmtHub = 'cmtHub';
 
   getCmtHub(type: number, id: string): string {

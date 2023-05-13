@@ -11,5 +11,5 @@ import './editBarApp';
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<edit-bar-app></edit-bar-app>`);
 
-  tDOM.isInlineElement(el);
+  tDOM.isInlineBlockElement(el);
 });

@@ -9,6 +9,8 @@ import cookies from 'js-cookie';
 import * as def from 'def.js';
 import { appdef } from '@qing/def';
 import * as brLib from 'lib/brLib.js';
+import appState from 'app/appState.js';
+import appStateName from 'app/appStateName.js';
 
 const CSS_DARK_THEME = 'theme-dark';
 
@@ -29,6 +31,10 @@ export default class AppSettings {
     return AppSettings.#instance;
   }
 
+  static isDarkTheme() {
+    return document.body.classList.contains(CSS_DARK_THEME);
+  }
+
   get theme(): def.UserTheme {
     return this.getCookieNumber(def.Cookies.themeKey) || def.UserTheme.light;
   }
@@ -39,6 +45,7 @@ export default class AppSettings {
     }
     this.setCookieNumber(def.Cookies.themeKey, value);
     this.updateTheme();
+    appState.set(appStateName.themeOption, value);
   }
 
   get lang(): string {
@@ -87,5 +94,6 @@ export default class AppSettings {
     } else {
       document.body.classList.remove(CSS_DARK_THEME);
     }
+    appState.set(appStateName.isDarkTheme, dark);
   }
 }

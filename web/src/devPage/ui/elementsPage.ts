@@ -20,6 +20,7 @@ import 'ui/forms/checklistView.js';
 import 'ui/forms/selectView.js';
 import 'ui/forms/checkmarkView.js';
 import 'ui/lists/linkListView.js';
+import 'ui/editing/mdEditor.js';
 import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
 import LoadingStatus from 'lib/loadingStatus.js';
@@ -129,6 +130,10 @@ export class ElementsPage extends BaseElement {
 
         .with-border {
           border: 1px solid var(--app-default-separator-color);
+        }
+
+        md-editor {
+          height: 300px;
         }
       `,
     ];
@@ -338,6 +343,8 @@ export class ElementsPage extends BaseElement {
         <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} D</div>
         <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>
       </div>
+      <h1>MD Editor</h1>
+      <md-editor></md-editor>
     `;
   }
 
