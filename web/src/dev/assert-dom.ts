@@ -1,17 +1,21 @@
 import { expect } from '@open-wc/testing';
 
 export function isInlineElement(element: HTMLElement) {
-  return expect(globalThis.getComputedStyle(element).display).to.eq('inline');
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  expect(globalThis.getComputedStyle(element).display).to.eq('inline');
 }
 
 export function isBlockElement(element: HTMLElement) {
-  return expect(window.getComputedStyle(element).display).to.eq('block');
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  expect(window.getComputedStyle(element).display).to.eq('block');
 }
 
 export function isInlineBlockElement(element: HTMLElement) {
-  return expect(window.getComputedStyle(element).display).to.eq('inline-block');
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  expect(window.getComputedStyle(element).display).to.eq('inline-block');
 }
 
 export function isFlexElement(element: HTMLElement) {
-  return expect(window.getComputedStyle(element).display).to.eq('flex');
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  expect(window.getComputedStyle(element).display).to.eq('flex');
 }
