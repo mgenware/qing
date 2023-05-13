@@ -57,8 +57,8 @@ func (mrTable *FPostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, us
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *FPostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, title string, summary string, forumID *uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `f_post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `title`, `summary`, `forum_id`, `modified_at`) VALUES (NOW(3), 0, 0, NULL, ?, ?, ?, ?, ?, `created_at`)", userID, contentHTML, title, summary, forumID)
+func (mrTable *FPostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, contentSrc *string, title string, summary string, forumID *uint64) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `f_post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `content_src`, `title`, `summary`, `forum_id`, `modified_at`) VALUES (NOW(3), 0, 0, NULL, ?, ?, ?, ?, ?, ?, `created_at`)", userID, contentHTML, contentSrc, title, summary, forumID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -66,11 +66,11 @@ func (mrTable *FPostAGType) insertItemChild2(mrQueryable mingru.Queryable, id ui
 	return UserStats.UpdateFPostCount(mrQueryable, id, 1)
 }
 
-func (mrTable *FPostAGType) InsertItem(db *sql.DB, userID uint64, contentHTML string, title string, summary string, forumID *uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *FPostAGType) InsertItem(db *sql.DB, userID uint64, contentHTML string, contentSrc *string, title string, summary string, forumID *uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var insertedIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		insertedID, err := mrTable.insertItemChild1(tx, userID, contentHTML, title, summary, forumID)
+		insertedID, err := mrTable.insertItemChild1(tx, userID, contentHTML, contentSrc, title, summary, forumID)
 		if err != nil {
 			return err
 		}

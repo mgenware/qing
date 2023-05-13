@@ -11,6 +11,7 @@ import user from '../user/user.js';
 export class ContentBaseWithoutUser extends mm.Table {
   id = mm.pk();
   content = mm.text().setModelName('ContentHTML');
+  content_src = mm.text().setModelName('ContentSrc').nullable;
 
   created_at = mm.datetime({ defaultToNow: 'server' }).setModelName('RawCreatedAt');
   modified_at = mm.datetime({ defaultToNow: 'server' }).setModelName('RawModifiedAt');

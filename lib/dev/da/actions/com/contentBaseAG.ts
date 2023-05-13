@@ -149,7 +149,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
 
   protected colsOfInsertItem() {
     const t = this.baseTable();
-    return [t.user_id, t.content, ...this.extraInsertItemCols()];
+    return [t.user_id, t.content, t.content_src, ...this.extraInsertItemCols()];
   }
 
   // Gets a list of update actions of container table to update the counters in response

@@ -39,11 +39,11 @@ func (mrTable *ContentBaseCmtStaticAGType) insertCmtChild3(mrQueryable mingru.Qu
 	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, id, 1)
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) InsertCmt(db *sql.DB, contentBaseCmtTableParam mingru.Table, contentBaseTableParam mingru.Table, contentHTML string, hostID uint64, hostType uint8, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtStaticAGType) InsertCmt(db *sql.DB, contentBaseCmtTableParam mingru.Table, contentBaseTableParam mingru.Table, contentHTML string, contentSrc *string, hostID uint64, hostType uint8, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var cmtIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		cmtID, err := Cmt.InsertCmtTXM(tx, contentHTML, hostID, hostType, userID)
+		cmtID, err := Cmt.InsertCmtTXM(tx, contentHTML, contentSrc, hostID, hostType, userID)
 		if err != nil {
 			return err
 		}
@@ -69,11 +69,11 @@ func (mrTable *ContentBaseCmtStaticAGType) insertReplyChild3(mrQueryable mingru.
 	return ContentBaseStatic.UpdateCmtCount(mrQueryable, contentBaseTableParam, hostID, 1)
 }
 
-func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTableParam mingru.Table, contentHTML string, hostID uint64, hostType uint8, parentID uint64, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
+func (mrTable *ContentBaseCmtStaticAGType) InsertReply(db *sql.DB, contentBaseTableParam mingru.Table, contentHTML string, contentSrc *string, hostID uint64, hostType uint8, parentID uint64, userID uint64, sanitizedStub int, captStub int) (uint64, error) {
 	var replyIDExported uint64
 	txErr := mingru.Transact(db, func(tx *sql.Tx) error {
 		var err error
-		replyID, err := Cmt.InsertReplyTXM(tx, contentHTML, hostID, hostType, parentID, userID)
+		replyID, err := Cmt.InsertReplyTXM(tx, contentHTML, contentSrc, hostID, hostType, parentID, userID)
 		if err != nil {
 			return err
 		}

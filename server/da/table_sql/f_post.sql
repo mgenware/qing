@@ -13,6 +13,7 @@
 CREATE TABLE `f_post` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`content` TEXT NOT NULL,
+	`content_src` TEXT NULL DEFAULT NULL,
 	`created_at` DATETIME(3) NOT NULL,
 	`modified_at` DATETIME(3) NOT NULL,
 	`cmt_count` INT UNSIGNED NOT NULL DEFAULT 0,
