@@ -605,3 +605,8 @@ textarea {
   word-break: break-all;
   line-height: 1.6;
 }
+
+.md-content p:empty::before {
+  content: '';
+  display: inline-block;
+}

@@ -37,6 +37,9 @@ test('Editor vertical scroll and whitespaces', async ({ page }) => {
     ]);
 
     // Verify post content.
-    await cm.shouldHaveHTML(p, '<p>A</p><p>B</p>');
+    await cm.shouldHaveHTML(
+      p,
+      '<p>A</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p>B</p>',
+    );
   });
 });
