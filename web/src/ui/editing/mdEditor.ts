@@ -9,12 +9,11 @@ import { BaseElement, customElement, html, property, css } from 'll.js';
 import { basicSetup, EditorView } from 'codemirror';
 import { markdown } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
-import { basicLight } from 'cm6-theme-basic-light';
-import { basicDark } from 'cm6-theme-basic-dark';
 import AppSettings from 'app/appSettings.js';
 import appState from 'app/appState.js';
 import appStateName from 'app/appStateName.js';
 import { StateEffect } from '@codemirror/state';
+import { oneDark } from '@codemirror/theme-one-dark';
 
 @customElement('md-editor')
 export class MdEditor extends BaseElement {
@@ -36,6 +35,14 @@ export class MdEditor extends BaseElement {
           flex: 1 1 auto;
           min-height: 0;
         }
+
+        .cm-editor {
+          height: 100%;
+        }
+
+        .cm-content {
+          font-size: 1rem;
+        }
       `,
     ];
   }
@@ -43,8 +50,8 @@ export class MdEditor extends BaseElement {
   @property() initialContent = '';
 
   #editorView?: EditorView;
-  #extensionsLight = [basicSetup, markdown({ codeLanguages: languages }), basicLight];
-  #extensionsDark = [basicSetup, markdown({ codeLanguages: languages }), basicDark];
+  #extensionsLight = [basicSetup, markdown({ codeLanguages: languages })];
+  #extensionsDark = [basicSetup, markdown({ codeLanguages: languages }), oneDark];
 
   get editorEl(): HTMLElement {
     return this.unsafeGetShadowElement('editor');
