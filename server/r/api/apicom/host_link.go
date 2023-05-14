@@ -10,16 +10,16 @@ package apicom
 import (
 	"fmt"
 	"qing/a/appURL"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/lib/clib"
 )
 
 func GetCmtPostHostLink(host *clib.EntityInfo, cmtID uint64) (string, error) {
 	switch host.Type {
-	case appdef.ContentBaseTypePost:
+	case frozenDef.ContentBaseTypePost:
 		return appURL.Get().PostAdv(host.ID, cmtID), nil
 
-	case appdef.ContentBaseTypeFPost:
+	case frozenDef.ContentBaseTypeFPost:
 		return appURL.Get().FPostAdv(host.ID, cmtID), nil
 
 	default:

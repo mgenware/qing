@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appURL"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -24,14 +24,14 @@ var myFPostsColumnNameToEnumMap map[string]da.FPostAGSelectItemsForPostCenterOrd
 
 func init() {
 	myPostsColumnNameToEnumMap = map[string]da.PostAGSelectItemsForPostCenterOrderBy1{
-		appdef.KeyComments: da.PostAGSelectItemsForPostCenterOrderBy1CmtCount,
-		appdef.KeyCreated:  da.PostAGSelectItemsForPostCenterOrderBy1CreatedAt,
-		appdef.KeyLikes:    da.PostAGSelectItemsForPostCenterOrderBy1Likes,
+		appDef.KeyComments: da.PostAGSelectItemsForPostCenterOrderBy1CmtCount,
+		appDef.KeyCreated:  da.PostAGSelectItemsForPostCenterOrderBy1CreatedAt,
+		appDef.KeyLikes:    da.PostAGSelectItemsForPostCenterOrderBy1Likes,
 	}
 	myFPostsColumnNameToEnumMap = map[string]da.FPostAGSelectItemsForPostCenterOrderBy1{
-		appdef.KeyComments: da.FPostAGSelectItemsForPostCenterOrderBy1CmtCount,
-		appdef.KeyCreated:  da.FPostAGSelectItemsForPostCenterOrderBy1CreatedAt,
-		appdef.KeyLikes:    da.FPostAGSelectItemsForPostCenterOrderBy1Likes,
+		appDef.KeyComments: da.FPostAGSelectItemsForPostCenterOrderBy1CmtCount,
+		appDef.KeyCreated:  da.FPostAGSelectItemsForPostCenterOrderBy1CreatedAt,
+		appDef.KeyLikes:    da.FPostAGSelectItemsForPostCenterOrderBy1Likes,
 	}
 }
 
@@ -59,8 +59,8 @@ func myPostsCore(w http.ResponseWriter, r *http.Request, fpost bool) handler.JSO
 	uid := resp.UserID()
 
 	page := clib.GetPageParamFromDict(params)
-	pageSize := clib.MustGetIntFromDict(params, appdef.KeyPageSize)
-	sortBy := clib.MustGetStringFromDict(params, "sort", appdef.LenMaxGenericString)
+	pageSize := clib.MustGetIntFromDict(params, appDef.KeyPageSize)
+	sortBy := clib.MustGetStringFromDict(params, "sort", appDef.LenMaxGenericString)
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
 	db := appDB.DB()

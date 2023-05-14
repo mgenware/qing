@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -39,7 +39,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		app.PanicOn(err)
 		users = []da.FindUserResult{user}
 	} else {
-		name := clib.MustGetStringFromDict(params, "value", appdef.LenMaxName)
+		name := clib.MustGetStringFromDict(params, "value", appDef.LenMaxName)
 		users, err = da.User.FindUsersByName(db, "%"+name+"%")
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)

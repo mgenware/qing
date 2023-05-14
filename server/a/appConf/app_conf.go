@@ -13,7 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/conf"
-	"qing/a/def/infdef"
+	"qing/a/def/infraDef"
 	"qing/lib/iolib"
 	"sync"
 )
@@ -31,11 +31,11 @@ func init() {
 		// Unit test mode.
 		configPath = devConfigFile("ut")
 	} else {
-		devConfigName := os.Getenv(infdef.DevConfEnv)
+		devConfigName := os.Getenv(infraDef.DevConfEnv)
 		if devConfigName != "" {
 			configPath = devConfigFile(devConfigName)
 		} else {
-			configPath = infdef.ConfigFile
+			configPath = infraDef.ConfigFile
 		}
 	}
 
@@ -69,7 +69,7 @@ func UpdateDiskConfig(fn UpdateDiskConfigFnType) error {
 	if err != nil {
 		return err
 	}
-	err = iolib.WriteFile(infdef.ConfigFile, configBytes)
+	err = iolib.WriteFile(infraDef.ConfigFile, configBytes)
 	if err != nil {
 		return err
 	}
@@ -88,5 +88,5 @@ func BRDiskConfig() *conf.Config {
 }
 
 func devConfigFile(name string) string {
-	return filepath.Join(infdef.DevConfigDir, name+".json")
+	return filepath.Join(infraDef.DevConfigDir, name+".json")
 }

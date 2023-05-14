@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -35,13 +35,13 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	focusedCmtID, err := clib.DecodeID(focusedCmtIDStr)
 	app.PanicOn(err)
 
-	var postType appdef.ContentBaseType
+	var postType frozenDef.ContentBaseType
 	var post da.PostItem
 	if isThread {
-		postType = appdef.ContentBaseTypeFPost
+		postType = frozenDef.ContentBaseTypeFPost
 		post, err = da.FPost.SelectItemByID(db, id)
 	} else {
-		postType = appdef.ContentBaseTypePost
+		postType = frozenDef.ContentBaseTypePost
 		post, err = da.Post.SelectItemByID(db, id)
 	}
 	app.PanicOn(err)

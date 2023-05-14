@@ -8,7 +8,7 @@
 import { html } from 'll.js';
 import { ready, renderTemplateResult } from 'lib/htmlLib.js';
 import * as cmd from '../appCommands.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import 'com/postCore/setEntityApp';
 import SetEntityApp from 'com/postCore/setEntityApp.js';
 
@@ -37,11 +37,11 @@ ready(() => {
     const [entityType, forumID] = arg as [number, string];
     let title: string;
     switch (entityType) {
-      case appdef.ContentBaseType.post: {
+      case frozenDef.ContentBaseType.post: {
         title = globalThis.coreLS.newPost;
         break;
       }
-      case appdef.ContentBaseType.fPost: {
+      case frozenDef.ContentBaseType.fPost: {
         title = globalThis.coreLS.newFPost;
         break;
       }

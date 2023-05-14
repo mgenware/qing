@@ -14,7 +14,7 @@ import 'com/like/likesApp.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { Cmt } from '../data/cmt.js';
 import { CHECK } from 'checks.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import appPageState from 'app/appPageState.js';
 
 @customElement('cmt-view')
@@ -106,7 +106,7 @@ export class CmtView extends BaseElement {
               .initialLikes=${cmt.likes || 0}
               .initialHasLiked=${!!cmt.isLiked}
               .hostID=${cmt.id}
-              .hostType=${appdef.ContentBaseType.cmt}></likes-app>
+              .hostType=${frozenDef.ContentBaseType.cmt}></likes-app>
           </div>
         </div>
       </div>

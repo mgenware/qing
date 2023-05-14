@@ -7,10 +7,10 @@
 
 package clib
 
-import "qing/a/def/appdef"
+import "qing/a/def/frozenDef"
 
 // Used in APIs to represent an entity.
 type EntityInfo struct {
 	ID   uint64
-	Type appdef.ContentBaseType
+	Type frozenDef.ContentBaseType
 }

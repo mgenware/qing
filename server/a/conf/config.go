@@ -14,7 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/conf/confs"
-	"qing/a/def/infdef"
+	"qing/a/def/infraDef"
 	"qing/lib/iolib"
 	"runtime"
 
@@ -51,12 +51,12 @@ type Config struct {
 
 // Returns true if unit test mode is on.
 func IsUTEnv() bool {
-	return os.Getenv(infdef.UtEnv) == "1"
+	return os.Getenv(infraDef.UtEnv) == "1"
 }
 
 // Returns true if BR mode is on.
 func IsBREnv() bool {
-	return os.Getenv(infdef.BrEnv) == "1"
+	return os.Getenv(infraDef.BrEnv) == "1"
 }
 
 // Returns true if dev mode is on.
@@ -137,9 +137,9 @@ func CloneConfig(c *Config) (*Config, error) {
 
 func mustValidateConfig(c *Config) {
 	// Validate with JSON schema.
-	log.Printf("Validating config against schema \"%v\"", infdef.ConfigSchemaFile)
+	log.Printf("Validating config against schema \"%v\"", infraDef.ConfigSchemaFile)
 
-	schemaFilePath := toFileURI(infdef.ConfigSchemaFile)
+	schemaFilePath := toFileURI(infraDef.ConfigSchemaFile)
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaFilePath)
 	documentLoader := gojsonschema.NewGoLoader(c)
 

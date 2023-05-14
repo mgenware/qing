@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import appState from './appState.js';
 import appStateName from './appStateName.js';
 import { MainPageStateData } from 'sod/app.js';
@@ -51,8 +51,8 @@ export class AppPageState {
     appState.set(appStateName.user, newUser);
   }
 
-  get postPerm(): appdef.PostPermission {
-    return getMainPageState().postPerm as appdef.PostPermission;
+  get postPerm(): frozenDef.PostPermissionConfig {
+    return getMainPageState().postPerm as frozenDef.PostPermissionConfig;
   }
 
   get forums(): boolean {

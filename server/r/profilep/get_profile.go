@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -32,7 +32,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(appdef.KeyTab)
+	tab := r.FormValue(appDef.KeyTab)
 	resp := app.HTMLResponse(w, r)
 
 	db := appDB.DB()
@@ -50,7 +50,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var hasNext bool
 
 	var posts []da.PostItemForProfile
-	if tab == appdef.KeyForumPosts {
+	if tab == appDef.KeyForumPosts {
 		posts, hasNext, err = da.FPost.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	} else {
 		posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)

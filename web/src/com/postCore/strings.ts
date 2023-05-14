@@ -1,13 +1,13 @@
 import { CHECK } from 'checks.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 
-export function entityTypeToLS(entityType: appdef.ContentBaseType): string {
+export function entityTypeToLS(entityType: frozenDef.ContentBaseType): string {
   switch (entityType) {
-    case appdef.ContentBaseType.post:
+    case frozenDef.ContentBaseType.post:
       return globalThis.coreLS.post;
-    case appdef.ContentBaseType.fPost:
+    case frozenDef.ContentBaseType.fPost:
       return globalThis.coreLS.fPost;
-    case appdef.ContentBaseType.cmt:
+    case frozenDef.ContentBaseType.cmt:
       return globalThis.coreLS.comment;
     default: {
       CHECK(false);

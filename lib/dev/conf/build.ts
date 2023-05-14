@@ -9,7 +9,7 @@ import np from 'path';
 import * as yaml from 'js-yaml';
 import * as qdu from '@qing/devutil';
 import * as mfs from 'm-fs';
-import { infdef } from '@qing/def';
+import { infraDef } from '@qing/def';
 import { QingConfigSchema } from './schema.js';
 import { mergeDeep } from './deepMarge.js';
 
@@ -24,7 +24,7 @@ const sMS = 'ms';
 const sMigrate = 'migrate';
 const sImgProxy = 'img_proxy';
 
-const qingDataVolumeString = `../volumes/qing_data:${infdef.qingDataDir}`;
+const qingDataVolumeString = `../volumes/qing_data:${infraDef.qingDataDir}`;
 
 // Loads the given config file.
 async function loadConfigFile(file: string): Promise<QingConfigSchema> {
@@ -48,26 +48,26 @@ function generateDockerComposeObj(_name: string, conf: QingConfigSchema) {
   const server = {
     // Pass `QING_DEV_CONF` from docker compose command into this context.
     // Syntax: https://docs.docker.com/compose/environment-variables/
-    environment: [infdef.devConfEnv, infdef.brEnv, infdef.utEnv],
+    environment: [infraDef.devConfEnv, infraDef.brEnv, infraDef.utEnv],
     build: {
       context: '.',
       dockerfile: 'dev.dockerfile',
     },
     volumes: [
       // [Dev only] CSS source files.
-      `../web/src/css:${infdef.devCSSDir}`,
+      `../web/src/css:${infraDef.devCSSDir}`,
       // [Dev only] Preset dev config files.
-      `../userland/configs/dev:${infdef.devConfigDir}`,
+      `../userland/configs/dev:${infraDef.devConfigDir}`,
       // [Dev only] Server source files.
-      `../server:${infdef.devServerDir}`,
+      `../server:${infraDef.devServerDir}`,
       // Templates.
-      `../userland/templates:${infdef.templateDir}`,
+      `../userland/templates:${infraDef.templateDir}`,
       // Compiled static files.
-      `../userland/static:${infdef.staticDir}`,
+      `../userland/static:${infraDef.staticDir}`,
       // Localized strings.
-      `../userland/langs/server:${infdef.langsDir}`,
+      `../userland/langs/server:${infraDef.langsDir}`,
       // Misc folder.
-      `../userland/misc:${infdef.miscDir}`,
+      `../userland/misc:${infraDef.miscDir}`,
       qingDataVolumeString,
     ],
     ports: ['8000:8000'],
@@ -97,11 +97,11 @@ function generateDockerComposeObj(_name: string, conf: QingConfigSchema) {
   const migrate = {
     image: 'migrate/migrate',
     profiles: ['oth'],
-    volumes: [`../migrations:${infdef.migrationsDir}`],
+    volumes: [`../migrations:${infraDef.migrationsDir}`],
     entrypoint: [
       'migrate',
       '-path',
-      `${infdef.migrationsDir}`,
+      `${infraDef.migrationsDir}`,
       '-database',
       'mysql://qing_dev:qing_dev_pwd@tcp(db:3306)/qing_dev?multiStatements=true',
     ],

@@ -8,7 +8,7 @@
 import { customElement, html, css, TemplateResult } from 'll.js';
 import PaginatedList from 'lib/api/paginatedList.js';
 import Loader from 'lib/loader.js';
-import { appdef } from '@qing/def';
+import { appDef, frozenDef } from '@qing/def';
 import { PCListApp } from './views/pcListApp.js';
 import { GetPCPostsLoader } from './loaders/getPCPostsLoader.js';
 import PCPost from './pcPost.js';
@@ -29,13 +29,13 @@ export default class MyFPostsApp extends PCListApp {
 
   constructor() {
     super();
-    this.currentSortedColumn = appdef.keyCreated;
+    this.currentSortedColumn = appDef.keyCreated;
     this.currentSortedColumnDesc = true;
   }
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      appdef.ContentBaseType.fPost,
+      frozenDef.ContentBaseType.fPost,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -60,8 +60,8 @@ export default class MyFPostsApp extends PCListApp {
     return html`
       <thead>
         <th>${globalThis.coreLS.title}</th>
-        ${this.renderSortableColumn(appdef.keyCreated, globalThis.coreLS.dateCreated)}
-        ${this.renderSortableColumn(appdef.keyMessages, globalThis.coreLS.replies)}
+        ${this.renderSortableColumn(appDef.keyCreated, globalThis.coreLS.dateCreated)}
+        ${this.renderSortableColumn(appDef.keyMessages, globalThis.coreLS.replies)}
       </thead>
       <tbody>
         ${this.items.map(
@@ -86,7 +86,7 @@ export default class MyFPostsApp extends PCListApp {
   }
 
   private handleNewFPostClick() {
-    runNewEntityCommand(appdef.ContentBaseType.fPost, null);
+    runNewEntityCommand(frozenDef.ContentBaseType.fPost, null);
   }
 }
 

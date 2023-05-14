@@ -6,21 +6,21 @@
  */
 
 import * as mm from 'mingru-models';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 export class User extends mm.Table {
   id = mm.pk();
-  email = mm.varChar(appdef.lenMaxEmail).uniqueConstraint;
-  name = mm.varChar(appdef.lenMaxName);
-  icon_name = mm.varChar(appdef.lenMaxFileName).default('');
+  email = mm.varChar(appDef.lenMaxEmail).uniqueConstraint;
+  name = mm.varChar(appDef.lenMaxName);
+  icon_name = mm.varChar(appDef.lenMaxFileName).default('');
   raw_created_at = mm.datetime({ defaultToNow: 'server' }).setDBName('created_at');
 
-  company = mm.varChar(appdef.lenMaxUserInfoField).default('');
-  website = mm.varChar(appdef.lenMaxURL).default('');
-  location = mm.varChar(appdef.lenMaxUserInfoField).default('');
+  company = mm.varChar(appDef.lenMaxUserInfoField).default('');
+  website = mm.varChar(appDef.lenMaxURL).default('');
+  location = mm.varChar(appDef.lenMaxUserInfoField).default('');
   bio = mm.text().nullable.default(null).setModelName('BioHTML');
-  lang = mm.varChar(appdef.lenMaxLang).default('');
-  reg_lang = mm.varChar(appdef.lenMaxLang);
+  lang = mm.varChar(appDef.lenMaxLang).default('');
+  reg_lang = mm.varChar(appDef.lenMaxLang);
 
   admin = mm.bool().default(0);
 }

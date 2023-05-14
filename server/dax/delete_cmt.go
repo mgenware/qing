@@ -2,7 +2,7 @@ package dax
 
 import (
 	"database/sql"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/da"
 
 	"github.com/mgenware/mingru-go-lib"
@@ -19,7 +19,7 @@ func DeleteCmt(db *sql.DB, id uint64, userID uint64, hostTable mingru.Table, hos
 		cmtDeleted := false
 		if preData.CmtCount != 0 {
 			// This cmt contains replies, erase it.
-			err = da.Cmt.EraseCmt(db, id, userID, uint8(appdef.DeleteFlagSelf))
+			err = da.Cmt.EraseCmt(db, id, userID, uint8(appDef.DeleteFlagSelf))
 		} else {
 			// Delete the cmt.
 			err = da.Cmt.DeleteCore(db, id, userID)

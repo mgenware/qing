@@ -17,11 +17,11 @@ import "qing/sod/authSod"
 
 type MainPageStateData struct {
 	User     *authSod.User `json:"user,omitempty"`
-	PostPerm int           `json:"postPerm,omitempty"`
+	PostPerm string        `json:"postPerm,omitempty"`
 	Forums   bool          `json:"forums,omitempty"`
 }
 
-func NewMainPageStateData(user *authSod.User, postPerm int, forums bool) MainPageStateData {
+func NewMainPageStateData(user *authSod.User, postPerm string, forums bool) MainPageStateData {
 	return MainPageStateData{
 		User: user,
 		PostPerm: postPerm,

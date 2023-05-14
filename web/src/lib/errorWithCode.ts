@@ -5,13 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import { PANIC } from 'checks.js';
 
 export default class ErrorWithCode extends Error {
   code: number;
 
-  constructor(message: string, code: number = appdef.errGeneric) {
+  constructor(message: string, code: number = appDef.errGeneric) {
     super(message);
     this.code = code;
     this.message = message;

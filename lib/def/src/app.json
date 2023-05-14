@@ -45,11 +45,6 @@
   "brHomePrefixOnlyMe": "__br_home_onlyme",
   "brHomePrefixEveryone": "__br_home_everyone",
   "__enums": {
-    "postPermission": { "values": ["onlyMe", "everyone"] },
-    "contentBaseType": { "values": ["post", "cmt", "fPost"] },
-    "contentInputType": { "values": ["standard", "markdown"] },
-    "homePageFeedType": { "values": ["post", "fPost"] },
-    "delFlags": { "values": ["self", "host"] },
     "getSiteSettings": { "values": ["general", "langs"] },
     "setSiteSettings": { "values": ["info", "langs", "postPermission"] }
   }

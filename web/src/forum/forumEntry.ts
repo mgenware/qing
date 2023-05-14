@@ -7,7 +7,7 @@
 
 import 'core.js';
 import { ready } from 'lib/htmlLib.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import 'ui/content/headingView.js';
 import 'ui/lists/tabView.js';
 import { tabViewActiveClass } from 'ui/lists/tabView.js';
@@ -15,12 +15,12 @@ import { tabViewActiveClass } from 'ui/lists/tabView.js';
 import 'ui/alerts/noContentView.js';
 import './newFPostApp.js';
 
-const defaultHighlightedTab = appdef.keyForumPosts;
+const defaultHighlightedTab = appDef.keyForumPosts;
 
 ready(() => {
   // Highlight the selected tab.
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get(appdef.keyTab);
+  const tab = qs.get(appDef.keyTab);
   document
     .getElementById(`m-forum-tab-${tab ?? defaultHighlightedTab}`)
     ?.classList.add(tabViewActiveClass);

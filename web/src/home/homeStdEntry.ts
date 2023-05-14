@@ -10,7 +10,7 @@ import { ready } from 'lib/htmlLib.js';
 import 'ui/lists/tabView.js';
 import 'ui/alerts/noticeView.js';
 import { tabViewActiveClass } from 'ui/lists/tabView.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 // Required by empty content view.
 import 'ui/alerts/noContentView.js';
 
@@ -19,7 +19,7 @@ const defaultHighlightedTab = 'home';
 ready(() => {
   // Highlight the selected tab.
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get(appdef.keyTab);
+  const tab = qs.get(appDef.keyTab);
   document
     .getElementById(`m-home-tab-${tab ?? defaultHighlightedTab}`)
     ?.classList.add(tabViewActiveClass);

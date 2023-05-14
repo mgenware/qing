@@ -13,7 +13,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appURL"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -31,14 +31,14 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var result any
 
 	switch entity.Type {
-	case appdef.ContentBaseTypePost:
+	case frozenDef.ContentBaseTypePost:
 		{
 			err := da.Post.DeleteItem(appDB.DB(), id, uid)
 			app.PanicOn(err)
 			result = appURL.Get().UserProfile(uid)
 			break
 		}
-	case appdef.ContentBaseTypeFPost:
+	case frozenDef.ContentBaseTypeFPost:
 		{
 			err = da.FPost.DeleteItem(db, id, uid)
 			app.PanicOn(err)

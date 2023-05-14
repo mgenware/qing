@@ -19,8 +19,8 @@ import (
 	"qing/a/appcom"
 	"qing/a/conf"
 	"qing/a/def"
-	"qing/a/def/appdef"
-	"qing/a/def/infdef"
+	"qing/a/def/appDef"
+	"qing/a/def/infraDef"
 	"qing/lib/htmllib"
 )
 
@@ -44,7 +44,7 @@ func NewManagerFromConfig(appConfig *conf.Config) (*Manager, error) {
 
 	lsDict := make(map[string]*Dictionary)
 	for _, langName := range confLangs {
-		dictPath := filepath.Join(infdef.LangsDir, langName+".json")
+		dictPath := filepath.Join(infraDef.LangsDir, langName+".json")
 		appLog.Get().Info("app.ls.loading", "file", dictPath)
 		d, err := ParseDictionary(dictPath)
 		if err != nil {
@@ -95,7 +95,7 @@ func (mgr *Manager) Dictionary(lang string) *Dictionary {
 
 func (mgr *Manager) getLanguageFromRequest(w http.ResponseWriter, r *http.Request) string {
 	// Check if user has explicitly set a language.
-	cookieLang, _ := r.Cookie(appdef.KeyLang)
+	cookieLang, _ := r.Cookie(appDef.KeyLang)
 	if cookieLang != nil {
 		return cookieLang.Value
 	}
@@ -139,6 +139,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := htmllib.NewCookie(appdef.KeyLang, lang)
+	c := htmllib.NewCookie(appDef.KeyLang, lang)
 	http.SetCookie(w, c)
 }

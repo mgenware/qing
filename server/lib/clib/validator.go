@@ -10,7 +10,8 @@ package clib
 import (
 	"fmt"
 	"net/http"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
+	"qing/a/def/frozenDef"
 	"unicode/utf8"
 
 	"github.com/mgenware/goutil/jsonx"
@@ -100,12 +101,12 @@ func coercePage(page int) int {
 
 // GetPageParamFromDict returns the page number params from the given dict.
 func GetPageParamFromDict(dict map[string]any) int {
-	return coercePage(jsonx.GetIntOrDefault(dict, appdef.KeyPage))
+	return coercePage(jsonx.GetIntOrDefault(dict, appDef.KeyPage))
 }
 
 // GetPageParamFromRequestQueryString returns the page number param from the given request.
 func GetPageParamFromRequestQueryString(r *http.Request) int {
-	page, _ := strconvx.ParseInt(r.FormValue(appdef.KeyPage))
+	page, _ := strconvx.ParseInt(r.FormValue(appDef.KeyPage))
 	return coercePage(page)
 }
 
@@ -135,14 +136,14 @@ func GetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := GetIDFromDict(dict, "id")
 	eType := jsonx.GetIntOrDefault(dict, "type")
-	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
+	return EntityInfo{ID: id, Type: frozenDef.ContentBaseType(eType)}
 }
 
 func MustGetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := MustGetIDFromDict(dict, "id")
 	eType := MustGetIntFromDict(dict, "type")
-	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
+	return EntityInfo{ID: id, Type: frozenDef.ContentBaseType(eType)}
 }
 
 // Converts the given []any to a string array. Panics if there's any non-string elements.

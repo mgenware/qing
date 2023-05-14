@@ -6,12 +6,12 @@
  */
 
 import * as mm from 'mingru-models';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import ContentWithTitleBase from '../com/contentWithTitleBase.js';
 
 export class Post extends ContentWithTitleBase {
   last_replied_at = mm.datetime({ defaultToNow: 'server' }).nullable.default(null);
-  summary = mm.varChar(appdef.lenMaxPostSummary);
+  summary = mm.varChar(appDef.lenMaxPostSummary);
 }
 
 export default mm.table(Post);

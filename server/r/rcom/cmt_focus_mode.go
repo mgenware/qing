@@ -11,13 +11,13 @@ import (
 	"database/sql"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/da"
 	"qing/r/api/apicom"
 	"qing/sod/cmtSod"
 )
 
-func GetCmtFocusModeData(cmtID, hostID uint64, hostType appdef.ContentBaseType) *cmtSod.CmtFocusModeData {
+func GetCmtFocusModeData(cmtID, hostID uint64, hostType frozenDef.ContentBaseType) *cmtSod.CmtFocusModeData {
 	if cmtID <= 0 {
 		return nil
 	}

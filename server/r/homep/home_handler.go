@@ -14,7 +14,8 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/conf"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -44,7 +45,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := app.HTMLResponse(w, r)
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(appdef.KeyTab)
+	tab := r.FormValue(appDef.KeyTab)
 	cfg := appConf.Get()
 
 	var items []da.HomePostItem
@@ -53,11 +54,11 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if conf.IsBREnv() {
 		var brPrefix string
 		postPerm := cfg.Permissions.Post()
-		if postPerm == appdef.PostPermissionOnlyMe {
-			brPrefix = appdef.BrHomePrefixOnlyMe
+		if postPerm == frozenDef.PostPermissionConfigOnlyMe {
+			brPrefix = appDef.BrHomePrefixOnlyMe
 		} else {
-			// appdef.PostPermissionEveryone.
-			brPrefix = appdef.BrHomePrefixEveryone
+			// frozenDef.PostPermissionConfigEveryone.
+			brPrefix = appDef.BrHomePrefixEveryone
 		}
 		items, hasNext, err = da.Home.SelectPostsBR(db, brPrefix, page, kHomePageSize)
 	} else {
@@ -74,10 +75,10 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 			var feedItemHTML string
 
 			switch cfg.Permissions.Post() {
-			case appdef.PostPermissionOnlyMe:
+			case frozenDef.PostPermissionConfigOnlyMe:
 				feedItemHTML = MustRenderOnlymeFeedView(&itemData)
 
-			case appdef.PostPermissionEveryone:
+			case frozenDef.PostPermissionConfigEveryone:
 				feedItemHTML = MustRenderUserFeedView(&itemData)
 			}
 			feedListHTMLBuilder.WriteString(feedItemHTML)

@@ -11,7 +11,7 @@ import (
 
 	"qing/a/app"
 	"qing/a/appLog"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 )
 
 func PanicMiddleware(next http.Handler) http.Handler {
@@ -29,7 +29,7 @@ func PanicMiddleware(next http.Handler) http.Handler {
 
 				if r.Method == "POST" {
 					resp := app.JSONResponse(w, r)
-					resp.MustFailWithCodeAndError(appdef.ErrGeneric, errors.New(msg))
+					resp.MustFailWithCodeAndError(appDef.ErrGeneric, errors.New(msg))
 				} else {
 					w.WriteHeader(http.StatusInternalServerError)
 					fmt.Fprint(w, msg)

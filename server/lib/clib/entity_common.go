@@ -9,7 +9,7 @@ package clib
 
 import (
 	"fmt"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/da"
 
 	"github.com/mgenware/mingru-go-lib"
@@ -18,10 +18,10 @@ import (
 func FetchEntityTitle(db mingru.Queryable, entity *EntityInfo) (string, error) {
 	id := entity.ID
 	switch entity.Type {
-	case appdef.ContentBaseTypePost:
+	case frozenDef.ContentBaseTypePost:
 		return da.Post.SelectTitle(db, id)
 
-	case appdef.ContentBaseTypeFPost:
+	case frozenDef.ContentBaseTypeFPost:
 		return da.FPost.SelectTitle(db, id)
 
 	default:

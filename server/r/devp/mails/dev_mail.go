@@ -13,7 +13,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appService"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/a/servicex/mailx/devmail"
 	"qing/da"
@@ -26,7 +26,7 @@ func getDevLatestMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
-	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 	index := jsonx.GetIntOrDefault(params, "index")
 
 	devMail, err := devmail.GetLatestMail(email, index)
@@ -38,8 +38,8 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
-	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
-	id := clib.MustGetStringFromDict(params, "id", appdef.LenMaxGenericString)
+	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
+	id := clib.MustGetStringFromDict(params, "id", appDef.LenMaxGenericString)
 
 	devMail, err := devmail.GetMail(email, id)
 	app.PanicOn(err)
@@ -50,8 +50,8 @@ func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
-	to := clib.MustGetStringFromDict(params, "to", appdef.LenMaxGenericString)
-	title := clib.MustGetStringFromDict(params, "title", appdef.LenMaxGenericString)
+	to := clib.MustGetStringFromDict(params, "to", appDef.LenMaxGenericString)
+	title := clib.MustGetStringFromDict(params, "title", appDef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
 
 	err := appService.Get().Mail.SendMail(to, title, content, true, "QING_TEST")
@@ -63,7 +63,7 @@ func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
-	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 
 	err := devmail.EraseUser(email)
 	app.PanicOn(err)
@@ -99,7 +99,7 @@ func inbox(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 
 	params := app.ContextDict(r)
-	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
+	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 
 	mails, err := devmail.ListMails(email)
 	app.PanicOn(err)

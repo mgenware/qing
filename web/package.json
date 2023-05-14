@@ -14,7 +14,7 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.0.0",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.0.0",
+    "@codemirror/view": "^6.11.2",
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.7",
     "@qing/def": "workspace:*",

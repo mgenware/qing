@@ -10,7 +10,7 @@ package postp
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/da"
 	"qing/lib/clib"
 	"qing/r/rcom"
@@ -39,7 +39,7 @@ func NewPostPageData(p *da.PostItem) PostPageData {
 	d.UserEID = clib.EncodeID(d.UserID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)
-	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, appdef.ContentBaseTypePost, d.CreatedAt, d.ModifiedAt)
+	pu := rcom.NewPostUserAppInput(d.UserID, d.UserName, d.UserIconName, eid, frozenDef.ContentBaseTypePost, d.CreatedAt, d.ModifiedAt)
 	d.UserHTML = rcom.GetPostUserAppHTML(&pu)
 	return d
 }

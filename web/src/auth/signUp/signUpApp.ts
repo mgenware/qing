@@ -12,7 +12,7 @@ import 'qing-overlay';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
 
@@ -63,8 +63,8 @@ export class SignUpApp extends BaseElement {
             class="m-t-md"
             required
             type="password"
-            minLength=${appdef.lenMinUserPwd}
-            maxLength=${appdef.lenMaxUserPwd}
+            minLength=${appDef.lenMinUserPwd}
+            maxLength=${appDef.lenMaxUserPwd}
             autocomplete="new-password"
             label=${globalThis.coreLS.password}
             value=${this.password}
@@ -74,8 +74,8 @@ export class SignUpApp extends BaseElement {
             class="m-t-md"
             required
             type="password"
-            minLength=${appdef.lenMinUserPwd}
-            maxLength=${appdef.lenMaxUserPwd}
+            minLength=${appDef.lenMinUserPwd}
+            maxLength=${appDef.lenMaxUserPwd}
             autocomplete=${'new-password'}
             label=${globalThis.coreLS.confirmPassword}
             value=${this.confirmPassword}

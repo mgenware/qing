@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -39,13 +39,13 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 
 	switch entityType {
-	case int(appdef.ContentBaseTypePost):
+	case int(frozenDef.ContentBaseTypePost):
 		{
 			err = da.Post.TestUpdateDates(db, id, defTime, defTime)
 			app.PanicOn(err)
 			break
 		}
-	case int(appdef.ContentBaseTypeFPost):
+	case int(frozenDef.ContentBaseTypeFPost):
 		{
 			err = da.FPost.TestUpdateDates(db, id, defTime, defTime)
 			app.PanicOn(err)

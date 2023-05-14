@@ -20,8 +20,8 @@ enum UserIDType {
 }
 
 const userIDTypeChecklist: ChecklistItem[] = [
-  { key: UserIDType.raw, text: 'Raw' },
-  { key: UserIDType.encoded, text: 'Encoded' },
+  { key: UserIDType.raw.toString(), text: 'Raw' },
+  { key: UserIDType.encoded.toString(), text: 'Encoded' },
 ];
 
 @customElement('auth-page')

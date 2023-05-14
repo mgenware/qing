@@ -9,28 +9,28 @@ package apicom
 
 import (
 	"fmt"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/da"
 
 	"github.com/mgenware/mingru-go-lib"
 )
 
-func GetCmtHostTable(hostType appdef.ContentBaseType) (mingru.Table, error) {
+func GetCmtHostTable(hostType frozenDef.ContentBaseType) (mingru.Table, error) {
 	switch hostType {
-	case appdef.ContentBaseTypePost:
+	case frozenDef.ContentBaseTypePost:
 		return da.TablePost, nil
-	case appdef.ContentBaseTypeFPost:
+	case frozenDef.ContentBaseTypeFPost:
 		return da.TableFPost, nil
 	default:
 		return "", fmt.Errorf("unknown cmt host table %v", hostType)
 	}
 }
 
-func GetCmtRelationTable(hostType appdef.ContentBaseType) (mingru.Table, error) {
+func GetCmtRelationTable(hostType frozenDef.ContentBaseType) (mingru.Table, error) {
 	switch hostType {
-	case appdef.ContentBaseTypePost:
+	case frozenDef.ContentBaseTypePost:
 		return da.TablePostCmt, nil
-	case appdef.ContentBaseTypeFPost:
+	case frozenDef.ContentBaseTypeFPost:
 		return da.TableFPostCmt, nil
 	default:
 		return "", fmt.Errorf("unknown cmt relation table %v", hostType)

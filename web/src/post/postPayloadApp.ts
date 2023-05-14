@@ -9,7 +9,7 @@ import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'com/cmt/cmtApp';
 import postWind from './postWind.js';
 import 'com/like/likesApp.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import * as pu from 'lib/pageUtil.js';
 import 'com/share/sharePopup.js';
 import * as urls from 'urls.js';
@@ -34,8 +34,8 @@ export class PostPayloadApp extends BaseElement {
   override render() {
     const hostID = postWind.id;
     const contentType = postWind.isThread
-      ? appdef.ContentBaseType.fPost
-      : appdef.ContentBaseType.post;
+      ? frozenDef.ContentBaseType.fPost
+      : frozenDef.ContentBaseType.post;
     return html`
       <div>
         <likes-app

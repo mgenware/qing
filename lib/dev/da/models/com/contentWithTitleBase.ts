@@ -7,8 +7,8 @@
 
 import * as mm from 'mingru-models';
 import ContentBase from './contentBase.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 export default class ContentWithTitleBase extends ContentBase {
-  title = mm.varChar(appdef.lenMaxTitle);
+  title = mm.varChar(appDef.lenMaxTitle);
 }

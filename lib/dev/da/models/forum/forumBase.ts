@@ -6,11 +6,11 @@
  */
 
 import * as mm from 'mingru-models';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 export default class ForumBase extends mm.Table {
   id = mm.pk();
-  name = mm.varChar(appdef.lenMaxName);
+  name = mm.varChar(appDef.lenMaxName);
   desc = mm.text().setModelName('DescHTML');
   order_index = mm.uInt().default(0);
 

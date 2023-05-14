@@ -17,7 +17,7 @@ import appState from 'app/appState.js';
 import appStateName from 'app/appStateName.js';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands.js';
 import * as core from './navbarAppCore.js';
 import { CHECK } from 'checks.js';
@@ -95,7 +95,7 @@ export default class NavbarApp extends core.NavbarAppCore {
           <hr />
           <a
             href="#"
-            @click=${(e: Event) => this.handleNewPostClick(e, appdef.ContentBaseType.post)}
+            @click=${(e: Event) => this.handleNewPostClick(e, frozenDef.ContentBaseType.post)}
             >${globalThis.coreLS.newPost}</a
           >
           <hr />

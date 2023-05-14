@@ -13,7 +13,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appUserManager"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/lib/iolib"
 	"strconv"
@@ -53,21 +53,21 @@ func Start() {
 	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router.
-	langRouter().Get("/"+appdef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
+	langRouter().Get("/"+appDef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
 	// Post router.
-	langRouter().Get("/"+appdef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	langRouter().Get("/"+appDef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// FPost router.
-	langRouter().Get("/"+appdef.RouteForumPost+"/{id}", handler.HTMLHandlerToHTTPHandler(fpostp.GetFPost))
+	langRouter().Get("/"+appDef.RouteForumPost+"/{id}", handler.HTMLHandlerToHTTPHandler(fpostp.GetFPost))
 	// M (Management) router.
-	langRouter().Mount("/"+appdef.RouteM, mp.Router)
+	langRouter().Mount("/"+appDef.RouteM, mp.Router)
 	// MX (Admin management) router.
-	langRouter().Mount("/"+appdef.RouteMx, mxp.Router)
+	langRouter().Mount("/"+appDef.RouteMx, mxp.Router)
 	// Forum router.
-	langRouter().Mount("/"+appdef.RouteForum, forump.Router)
+	langRouter().Mount("/"+appDef.RouteForum, forump.Router)
 	// Auth router.
-	langRouter().Mount("/"+appdef.RouteAuth, authp.Router)
+	langRouter().Mount("/"+appDef.RouteAuth, authp.Router)
 	// API router.
-	r.Mount("/"+appdef.RouteApi, api.Router)
+	r.Mount("/"+appDef.RouteApi, api.Router)
 	// Home page.
 	langRouter().Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 
@@ -88,7 +88,7 @@ func Start() {
 		}
 
 		// Dev page.
-		r.Mount("/"+appdef.RouteDev, devp.Router)
+		r.Mount("/"+appDef.RouteDev, devp.Router)
 
 		// ======== End of DEV mode only setup ========
 	}

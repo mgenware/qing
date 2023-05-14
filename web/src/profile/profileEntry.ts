@@ -12,13 +12,13 @@ import 'ui/lists/tabView.js';
 import { tabViewActiveClass } from 'ui/lists/tabView.js';
 import delay from 'lib/delay.js';
 import 'ui/widgets/tagView.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import './views/profileIDView';
 // Required by empty content view.
 import 'ui/alerts/noContentView.js';
 import profileWind from './profileWind.js';
 
-const defaultHighlightedTab = appdef.keyPosts;
+const defaultHighlightedTab = appDef.keyPosts;
 
 // Localzied strings.
 document.querySelectorAll<HTMLElement>('.__qing_ls__').forEach((el) => {
@@ -32,8 +32,8 @@ document.querySelectorAll<HTMLElement>('.__qing_ls__').forEach((el) => {
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 ready(async () => {
   const qs = new URLSearchParams(window.location.search);
-  const tab = qs.get(appdef.keyTab);
-  const page = qs.get(appdef.keyPage);
+  const tab = qs.get(appDef.keyTab);
+  const page = qs.get(appDef.keyPage);
 
   // Scroll to feed list tab if `tab` or `page` are present.
   if (tab || page) {

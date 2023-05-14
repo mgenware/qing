@@ -8,7 +8,7 @@
 import PaginatedList from 'lib/api/paginatedList.js';
 import Loader from 'lib/loader.js';
 import * as mpRoute from '@qing/routes/s/pri/mp.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import PCPost from '../pcPost.js';
 
 export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
@@ -24,10 +24,10 @@ export class GetPCPostsLoader extends Loader<PaginatedList<PCPost>> {
 
   override requestURL(): string {
     switch (this.entityType) {
-      case appdef.ContentBaseType.post:
+      case frozenDef.ContentBaseType.post:
         return mpRoute.posts;
 
-      case appdef.ContentBaseType.fPost:
+      case frozenDef.ContentBaseType.fPost:
         return mpRoute.fposts;
 
       default:

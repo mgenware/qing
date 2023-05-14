@@ -7,14 +7,12 @@
 
 package confs
 
-import (
-	"qing/a/def/appdef"
-)
+import "qing/a/def/frozenDef"
 
 type PermissionsConfig struct {
-	RawPost int `json:"post,omitempty"`
+	RawPost string `json:"post,omitempty"`
 }
 
-func (sc *PermissionsConfig) Post() appdef.PostPermission {
-	return appdef.PostPermission(sc.RawPost)
+func (sc *PermissionsConfig) Post() frozenDef.PostPermissionConfig {
+	return frozenDef.PostPermissionConfig(sc.RawPost)
 }

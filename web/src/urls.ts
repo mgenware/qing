@@ -6,12 +6,12 @@
  */
 
 import * as staticRoute from '@qing/routes/static.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 export function staticMainImage(file: string): string {
   return `${staticRoute.imgMain}/${file}`;
 }
 
 export function post(id: string) {
-  return `/${appdef.routePost}/${id}`;
+  return `/${appDef.routePost}/${id}`;
 }

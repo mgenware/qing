@@ -15,7 +15,8 @@ import (
 	"qing/a/app"
 	"qing/a/appConf"
 	"qing/a/conf"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/lib/clib"
 	"qing/sod/mxSod"
@@ -36,19 +37,19 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
 	IsBR := conf.IsBREnv()
 
-	switch appdef.SetSiteSettings(key) {
-	case appdef.SetSiteSettingsPostPermission:
-		var postPerm int
+	switch appDef.SetSiteSettings(key) {
+	case appDef.SetSiteSettingsPostPermission:
+		var postPerm frozenDef.PostPermissionConfig
 		err := json.Unmarshal(stJSON, &postPerm)
 		app.PanicOn(err)
-		if postPerm <= 0 {
+		if postPerm == "" {
 			panic("invalid post permission value")
 		}
 		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
-			diskCfg.Permissions.RawPost = postPerm
+			diskCfg.Permissions.RawPost = string(postPerm)
 		})
 
-	case appdef.SetSiteSettingsLangs:
+	case appDef.SetSiteSettingsLangs:
 		var langs []string
 		err := json.Unmarshal(stJSON, &langs)
 		app.PanicOn(err)
@@ -59,7 +60,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 			diskCfg.Site.Langs = langs
 		})
 
-	case appdef.SetSiteSettingsInfo:
+	case appDef.SetSiteSettingsInfo:
 		var infoData mxSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
 		app.PanicOn(err)

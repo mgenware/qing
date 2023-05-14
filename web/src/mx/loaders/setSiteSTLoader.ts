@@ -8,7 +8,7 @@
 import Loader from 'lib/loader.js';
 import * as adminRoute from '@qing/routes/s/admin.js';
 import { SetSiteInfoSTData } from 'sod/mx.js';
-import { appdef } from '@qing/def';
+import { appDef, frozenDef } from '@qing/def';
 
 abstract class SetSiteSTLoader<T> extends Loader<T> {
   constructor(public settings: T) {
@@ -31,18 +31,18 @@ abstract class SetSiteSTLoader<T> extends Loader<T> {
 
 export class SetSiteInfoSTLoader extends SetSiteSTLoader<SetSiteInfoSTData> {
   override stKey(): number {
-    return appdef.SetSiteSettings.info;
+    return appDef.SetSiteSettings.info;
   }
 }
 
 export class SetSiteLangsSTLoader extends SetSiteSTLoader<string[]> {
   override stKey(): number {
-    return appdef.SetSiteSettings.langs;
+    return appDef.SetSiteSettings.langs;
   }
 }
 
-export class SetPostPermSTLoader extends SetSiteSTLoader<number> {
+export class SetPostPermSTLoader extends SetSiteSTLoader<frozenDef.PostPermissionConfig> {
   override stKey(): number {
-    return appdef.SetSiteSettings.postPermission;
+    return appDef.SetSiteSettings.postPermission;
   }
 }

@@ -15,7 +15,7 @@ import (
 	"net/http"
 	"qing/a/appHandler"
 	"qing/a/def"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 
 	"github.com/mgenware/goutil/httpx"
@@ -34,14 +34,14 @@ func APIMiddleware(next http.Handler) http.Handler {
 			err := decoder.Decode(&jsonMap)
 			if err != nil && err != io.EOF {
 				resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
-				resp.MustFailWithCodeAndError(appdef.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()))
+				resp.MustFailWithCodeAndError(appDef.ErrGeneric, fmt.Errorf("error parsing body JSON, \"%v\"", err.Error()))
 				return
 			}
 
-			apiLang := jsonMap[appdef.ApiLangParam]
+			apiLang := jsonMap[appDef.ApiLangParam]
 			if apiLang == "" {
 				resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
-				resp.MustFailWithCodeAndError(appdef.ErrGeneric, fmt.Errorf("missing API lang, \"%v\"", err.Error()))
+				resp.MustFailWithCodeAndError(appDef.ErrGeneric, fmt.Errorf("missing API lang, \"%v\"", err.Error()))
 				return
 			}
 

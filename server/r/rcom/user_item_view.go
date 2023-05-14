@@ -10,7 +10,7 @@ package rcom
 import (
 	"qing/a/appHandler"
 	"qing/a/appURL"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/lib/clib"
 )
 
@@ -19,7 +19,7 @@ var vUserView = appHandler.MainPage().MustParseView("com/postUserApp.html")
 // PostUserAppData provides data for frontend `PostUserApp`.
 type PostUserAppData struct {
 	ItemEID        string
-	EntityType     appdef.ContentBaseType
+	EntityType     frozenDef.ContentBaseType
 	UserEID        string
 	UserName       string
 	UserURL        string
@@ -36,7 +36,7 @@ type PostUserAppInput struct {
 	Name         string
 	IconName     string
 	ItemEID      string
-	ItemType     appdef.ContentBaseType
+	ItemType     frozenDef.ContentBaseType
 	ItemCreated  string
 	ItemModified string
 	ExtraLink    string
@@ -44,7 +44,7 @@ type PostUserAppInput struct {
 }
 
 // NewPostUserAppInput creates a PostUserAppInput.
-func NewPostUserAppInput(uid uint64, name, iconName, itemEID string, itemType appdef.ContentBaseType, itemCreated string, itemModified string) PostUserAppInput {
+func NewPostUserAppInput(uid uint64, name, iconName, itemEID string, itemType frozenDef.ContentBaseType, itemCreated string, itemModified string) PostUserAppInput {
 	return PostUserAppInput{
 		UID:          uid,
 		Name:         name,

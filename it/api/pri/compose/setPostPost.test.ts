@@ -11,11 +11,11 @@ import * as assert from 'node:assert';
 import { newPost } from 'helper/post.js';
 import { entitySrc } from 'helper/entity.js';
 import { postCount, newUser } from 'helper/user.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
 
 const entityBody = {
-  entityType: appdef.ContentBaseType.post,
+  entityType: frozenDef.ContentBaseType.post,
   content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
 };
 
@@ -25,7 +25,7 @@ it('Add a post', async () => {
     const pc = await postCount(u);
     await newPost(u, async ({ id }) => {
       // Post content.
-      assert.deepStrictEqual(await entitySrc(id, appdef.ContentBaseType.post, u), {
+      assert.deepStrictEqual(await entitySrc(id, frozenDef.ContentBaseType.post, u), {
         contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });
@@ -45,7 +45,7 @@ it('Edit a post', async () => {
       // Post content.
       const pc = await postCount(u);
       await api(composeRoute.setEntity, { ...entityBody, id }, u);
-      assert.deepStrictEqual(await entitySrc(id, appdef.ContentBaseType.post, u), {
+      assert.deepStrictEqual(await entitySrc(id, frozenDef.ContentBaseType.post, u), {
         contentHTML: def.sd.contentDBHTML,
         title: def.sd.title,
       });

@@ -7,7 +7,7 @@
 
 import cookies from 'js-cookie';
 import * as def from 'def.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import * as brLib from 'lib/brLib.js';
 import appState from 'app/appState.js';
 import appStateName from 'app/appStateName.js';
@@ -49,11 +49,11 @@ export default class AppSettings {
   }
 
   get lang(): string {
-    return this.getCookieString(appdef.keyLang);
+    return this.getCookieString(appDef.keyLang);
   }
 
   set lang(value: string) {
-    this.setCookieString(appdef.keyLang, value);
+    this.setCookieString(appDef.keyLang, value);
   }
 
   // Called only once by `getInstance`.

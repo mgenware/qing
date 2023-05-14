@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 
 export default interface Entity {
-  type: appdef.ContentBaseType;
+  type: frozenDef.ContentBaseType;
   id: string;
 }

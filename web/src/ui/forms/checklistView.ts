@@ -12,8 +12,10 @@ import './checkBox';
 const parentContainerID = 'parent-container';
 const itemContainerID = 'item-container';
 
+export type ChecklistItemKey = string;
+
 export interface ChecklistItem {
-  key: number;
+  key: ChecklistItemKey;
   text: string;
 }
 
@@ -55,10 +57,10 @@ export class ChecklistView extends BaseElement {
 
   @property({ type: Array }) items: ReadonlyArray<ChecklistItem> = [];
   @property({ type: Boolean }) multiSelect = false;
-  @property({ type: Array }) selectedItems: ReadonlyArray<number> = [];
+  @property({ type: Array }) selectedItems: ReadonlyArray<ChecklistItemKey> = [];
 
   // Gets updated whenever `selectedItems` changes.
-  private selectedIndexSet = new Set<number>();
+  private selectedIndexSet = new Set<ChecklistItemKey>();
 
   override render() {
     return html`
@@ -90,7 +92,7 @@ export class ChecklistView extends BaseElement {
 
   private handleOnChange(e: CustomEvent<boolean>, item: ChecklistItem) {
     const checked = e.detail;
-    let selectedItems: number[];
+    let selectedItems: ChecklistItemKey[];
     if (this.multiSelect) {
       if (checked) {
         selectedItems = [...this.selectedItems, item.key];

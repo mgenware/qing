@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -35,7 +35,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return sys.NotFoundGET(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
-	tab := r.FormValue(appdef.KeyTab)
+	tab := r.FormValue(appDef.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, fid)
 	app.PanicOn(err)

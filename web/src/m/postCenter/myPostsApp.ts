@@ -9,7 +9,7 @@ import { customElement, html, css, TemplateResult } from 'll.js';
 import PaginatedList from 'lib/api/paginatedList.js';
 import 'ui/content/headingView.js';
 import Loader from 'lib/loader.js';
-import { appdef } from '@qing/def';
+import { appDef, frozenDef } from '@qing/def';
 import { PCListApp } from './views/pcListApp.js';
 import { GetPCPostsLoader } from './loaders/getPCPostsLoader.js';
 import { runNewEntityCommand } from 'app/appCommands.js';
@@ -30,13 +30,13 @@ export default class MyPostsApp extends PCListApp {
 
   constructor() {
     super();
-    this.currentSortedColumn = appdef.keyCreated;
+    this.currentSortedColumn = appDef.keyCreated;
     this.currentSortedColumnDesc = true;
   }
 
   getLoader(page: number, pageSize: number): Loader<PaginatedList<PCPost> | null> {
     return new GetPCPostsLoader(
-      appdef.ContentBaseType.post,
+      frozenDef.ContentBaseType.post,
       page,
       pageSize,
       this.currentSortedColumn,
@@ -61,9 +61,9 @@ export default class MyPostsApp extends PCListApp {
     return html`
       <thead>
         <th>${globalThis.coreLS.title}</th>
-        ${this.renderSortableColumn(appdef.keyCreated, globalThis.coreLS.dateCreated)}
-        ${this.renderSortableColumn(appdef.keyComments, globalThis.coreLS.comments)}
-        ${this.renderSortableColumn(appdef.keyLikes, globalThis.coreLS.likes)}
+        ${this.renderSortableColumn(appDef.keyCreated, globalThis.coreLS.dateCreated)}
+        ${this.renderSortableColumn(appDef.keyComments, globalThis.coreLS.comments)}
+        ${this.renderSortableColumn(appDef.keyLikes, globalThis.coreLS.likes)}
       </thead>
       <tbody>
         ${this.items.map(
@@ -89,7 +89,7 @@ export default class MyPostsApp extends PCListApp {
   }
 
   private handleNewPostClick() {
-    runNewEntityCommand(appdef.ContentBaseType.post, null);
+    runNewEntityCommand(frozenDef.ContentBaseType.post, null);
   }
 }
 

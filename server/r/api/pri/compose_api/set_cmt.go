@@ -13,7 +13,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appService"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/a/servicex/notix"
 	"qing/da"
@@ -72,7 +72,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 
 		// Update `last_replied_at` if necessary.
-		if host.Type == appdef.ContentBaseTypePost {
+		if host.Type == frozenDef.ContentBaseTypePost {
 			err = da.Post.RefreshLastRepliedAt(db, host.ID)
 			app.PanicOn(err)
 		}

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import { ERR } from 'checks.js';
 import ErrorWithCode from './errorWithCode.js';
 import LoadingStatus from './loadingStatus.js';
@@ -78,7 +78,7 @@ export default class Loader<T> {
       } else {
         errWithCode = new ErrorWithCode(
           err.message || globalThis.coreLS.internalErr,
-          appdef.errGeneric,
+          appDef.errGeneric,
         );
       }
 
@@ -98,7 +98,7 @@ export default class Loader<T> {
 
   requestParams(): Record<string, unknown> {
     return {
-      [appdef.apiLangParam]: document.documentElement.lang,
+      [appDef.apiLangParam]: document.documentElement.lang,
     };
   }
 

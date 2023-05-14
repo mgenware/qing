@@ -21,7 +21,7 @@ export interface SiteSTBase {
 
 export interface GetSiteGeneralST extends SiteSTBase {
   siteURL?: string;
-  postPerm?: number;
+  postPerm?: string;
   siteName?: string;
 }
 

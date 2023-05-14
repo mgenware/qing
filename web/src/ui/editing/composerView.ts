@@ -28,7 +28,7 @@ import appTask from 'app/appTask.js';
 import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader.js';
 import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -236,7 +236,7 @@ export class ComposerView extends BaseElement {
     if (this.hasTitle) {
       payload.title = this.titleText;
 
-      const summaryMaxLen = appdef.lenMaxPostSummary - 10; // make some room for '...';
+      const summaryMaxLen = appDef.lenMaxPostSummary - 10; // make some room for '...';
       let summary = this.editorEl.value?.contentText().trim() ?? '';
       summary =
         summary.length > summaryMaxLen ? `${summary.substring(0, summaryMaxLen)}...` : summary;

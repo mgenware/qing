@@ -17,6 +17,6 @@ import { User } from './auth.js';
 
 export interface MainPageStateData {
   user?: User;
-  postPerm?: number;
+  postPerm?: string;
   forums?: boolean;
 }

@@ -8,7 +8,7 @@
 import * as def from 'base/def.js';
 import { User } from 'api.js';
 import * as entityUtil from './entity.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
@@ -41,9 +41,9 @@ export interface NewPostOptions {
 
 async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
   const body = { content: opt?.body ?? defaultPostContent };
-  const r = await entityUtil.setEntity(appdef.ContentBaseType.post, body, user);
+  const r = await entityUtil.setEntity(frozenDef.ContentBaseType.post, body, user);
   const id = verifyNewPostAPIResult(r);
-  await entityUtil.updateEntityTime(id, appdef.ContentBaseType.post);
+  await entityUtil.updateEntityTime(id, frozenDef.ContentBaseType.post);
   return id;
 }
 
@@ -62,7 +62,7 @@ export async function newPost(
     await cb({ id, link: postLink(id) });
   } finally {
     if (id) {
-      await entityUtil.delEntity(id, appdef.ContentBaseType.post, user);
+      await entityUtil.delEntity(id, frozenDef.ContentBaseType.post, user);
     }
   }
 }

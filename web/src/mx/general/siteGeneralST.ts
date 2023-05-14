@@ -15,7 +15,7 @@ import 'ui/status/statefulPage.js';
 import '../cm/needRestartView.js';
 import { StatefulPage } from 'ui/status/statefulPage.js';
 import appTask from 'app/appTask.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader.js';
 import { SetSiteInfoSTLoader, SetPostPermSTLoader } from 'mx/loaders/setSiteSTLoader.js';
 import { CHECK } from 'checks.js';
@@ -25,8 +25,8 @@ const infoBlockCls = 'info-block';
 const siteTypeBlockCls = 'site-type-block';
 
 const postPermChecklist: ChecklistItem[] = [
-  { key: appdef.PostPermission.onlyMe, text: globalThis.mxLS.roleOnlyMe },
-  { key: appdef.PostPermission.everyone, text: globalThis.mxLS.roleEveryone },
+  { key: frozenDef.PostPermissionConfig.onlyMe, text: globalThis.mxLS.roleOnlyMe },
+  { key: frozenDef.PostPermissionConfig.everyone, text: globalThis.mxLS.roleEveryone },
 ];
 
 @customElement('site-general-st')
@@ -47,7 +47,7 @@ export class SiteGeneralST extends StatefulPage {
   }
 
   @state() _needRestart = false;
-  @state() _postPerm = appdef.PostPermission.onlyMe;
+  @state() _postPerm = frozenDef.PostPermissionConfig.onlyMe;
   @state() _siteName = '';
   @state() _siteURL = '';
 
@@ -99,7 +99,7 @@ export class SiteGeneralST extends StatefulPage {
       this._needRestart = !!d.needRestart;
       this._siteName = d.siteName || '';
       this._siteURL = d.siteURL || '';
-      this._postPerm = d.postPerm as appdef.PostPermission;
+      this._postPerm = d.postPerm as frozenDef.PostPermissionConfig;
     }
   }
 

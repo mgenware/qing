@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/dax"
@@ -29,7 +29,7 @@ func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	hostInfo, err := da.Cmt.SelectHostInfo(db, id)
 	app.PanicOn(err)
 
-	entityType := appdef.ContentBaseType(hostInfo.HostType)
+	entityType := frozenDef.ContentBaseType(hostInfo.HostType)
 	hostTable, err := apicom.GetCmtHostTable(entityType)
 	app.PanicOn(err)
 

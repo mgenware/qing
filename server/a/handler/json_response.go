@@ -11,7 +11,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler/localization"
 
 	"github.com/mgenware/goutil/httpx"
@@ -50,7 +50,7 @@ func (j *JSONResponse) MustFailWithCodeAndError(code int, err error) JSON {
 
 // MustFailWithMsg finishes the response with the specified message, and panics if unexpected error happens.
 func (j *JSONResponse) MustFail(msg string) JSON {
-	j.MustFailWithCodeAndError(int(appdef.ErrGeneric), errors.New(msg))
+	j.MustFailWithCodeAndError(int(appDef.ErrGeneric), errors.New(msg))
 	return JSON(0)
 }
 

@@ -8,12 +8,12 @@
 package likeapi
 
 import (
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/da"
 )
 
-var dbSources = map[appdef.ContentBaseType]da.LikeInterface{
-	appdef.ContentBaseTypePost:  da.PostLike,
-	appdef.ContentBaseTypeCmt:   da.CmtLike,
-	appdef.ContentBaseTypeFPost: da.FPostLike,
+var dbSources = map[frozenDef.ContentBaseType]da.LikeInterface{
+	frozenDef.ContentBaseTypePost:  da.PostLike,
+	frozenDef.ContentBaseTypeCmt:   da.CmtLike,
+	frozenDef.ContentBaseTypeFPost: da.FPostLike,
 }

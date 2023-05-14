@@ -8,10 +8,10 @@
 import Loader from 'lib/loader.js';
 import * as adminRoute from '@qing/routes/s/admin.js';
 import { GetSiteGeneralST, SiteSTBase, GetSiteLangsST } from 'sod/mx.js';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 
 class GetSiteSTLoader<T extends SiteSTBase> extends Loader<T> {
-  constructor(public key: appdef.GetSiteSettings) {
+  constructor(public key: appDef.GetSiteSettings) {
     super();
   }
 
@@ -28,12 +28,12 @@ class GetSiteSTLoader<T extends SiteSTBase> extends Loader<T> {
 
 export class GetGenSiteSTLoader extends GetSiteSTLoader<GetSiteGeneralST> {
   constructor() {
-    super(appdef.GetSiteSettings.general);
+    super(appDef.GetSiteSettings.general);
   }
 }
 
 export class GetLangSiteSTLoader extends GetSiteSTLoader<GetSiteLangsST> {
   constructor() {
-    super(appdef.GetSiteSettings.langs);
+    super(appDef.GetSiteSettings.langs);
   }
 }

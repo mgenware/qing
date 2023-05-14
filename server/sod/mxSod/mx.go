@@ -29,11 +29,11 @@ type GetSiteGeneralST struct {
 	SiteSTBase
 
 	SiteURL  string `json:"siteURL,omitempty"`
-	PostPerm int    `json:"postPerm,omitempty"`
+	PostPerm string `json:"postPerm,omitempty"`
 	SiteName string `json:"siteName,omitempty"`
 }
 
-func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, postPerm int, siteName string) GetSiteGeneralST {
+func NewGetSiteGeneralST(siteSTBase *SiteSTBase, siteURL string, postPerm string, siteName string) GetSiteGeneralST {
 	return GetSiteGeneralST{
 		SiteSTBase: *siteSTBase,
 		SiteURL: siteURL,

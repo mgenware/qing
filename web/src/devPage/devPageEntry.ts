@@ -12,7 +12,7 @@ import * as authRoute from '@qing/routes/dev/auth.js';
 import * as devRoot from '@qing/routes/dev/root.js';
 import * as mailsRoute from '@qing/routes/dev/mails.js';
 import './devPage';
-import { appdef } from '@qing/def';
+import { appDef } from '@qing/def';
 import './auth/authPage';
 import './ui/elementsPage';
 import './sendRealMail/sendRealMailPage.js';
@@ -60,7 +60,7 @@ devRouter.register(`${mailsRoute.mail}/:email/:dirName`, (args) => {
 });
 
 // Root dev entry.
-devRouter.register(`/${appdef.routeDev}`, () => {
+devRouter.register(`/${appDef.routeDev}`, () => {
   loadPageContent('Dev page', html` <dev-page></dev-page>`);
 });
 

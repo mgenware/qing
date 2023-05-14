@@ -12,10 +12,10 @@ import './postPayloadApp.js';
 import { setupHandlers } from 'com/postCore/postEditHandlers.js';
 import 'ui/editing/editBarApp';
 import { EditBarApp } from 'ui/editing/editBarApp.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import wind from './postWind.js';
 
 const editBar = document.querySelector<EditBarApp>('.m-post-user edit-bar-app');
 if (editBar) {
-  setupHandlers(editBar, { id: wind.id, type: appdef.ContentBaseType.post }, undefined);
+  setupHandlers(editBar, { id: wind.id, type: frozenDef.ContentBaseType.post }, undefined);
 }

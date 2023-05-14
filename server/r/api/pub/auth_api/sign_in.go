@@ -15,7 +15,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appService"
 	"qing/a/appUserManager"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -25,8 +25,8 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxEmail)
-	pwd := clib.MustGetStringFromDict(params, "pwd", appdef.LenMaxUserPwd)
+	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxEmail)
+	pwd := clib.MustGetStringFromDict(params, "pwd", appDef.LenMaxUserPwd)
 
 	// Verify user ID.
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)

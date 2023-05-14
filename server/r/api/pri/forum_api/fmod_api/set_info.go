@@ -12,7 +12,7 @@ import (
 	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appcom"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -24,7 +24,7 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	fid := appcom.ContextForumID(r.Context())
-	name := clib.MustGetStringFromDict(params, "name", appdef.LenMaxName)
+	name := clib.MustGetStringFromDict(params, "name", appDef.LenMaxName)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 
 	db := appDB.DB()

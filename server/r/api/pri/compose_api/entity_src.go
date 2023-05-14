@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/def/appdef"
+	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -30,11 +30,11 @@ func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	var err error
 
 	switch entity.Type {
-	case appdef.ContentBaseTypePost:
+	case frozenDef.ContentBaseTypePost:
 		res, err = da.Post.SelectItemSrc(db, id, uid)
-	case appdef.ContentBaseTypeCmt:
+	case frozenDef.ContentBaseTypeCmt:
 		res, err = da.Cmt.SelectCmtSource(db, id, uid)
-	case appdef.ContentBaseTypeFPost:
+	case frozenDef.ContentBaseTypeFPost:
 		res, err = da.FPost.SelectItemSrc(db, id, uid)
 	default:
 		panic(fmt.Errorf("unsupported entity type %v", entity.Type))

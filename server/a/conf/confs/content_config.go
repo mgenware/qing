@@ -7,14 +7,12 @@
 
 package confs
 
-import (
-	"qing/a/def/appdef"
-)
+import "qing/a/def/frozenDef"
 
 type ContentConfig struct {
-	RawInputType int `json:"input_type,omitempty"`
+	RawInputType string `json:"input_type,omitempty"`
 }
 
-func (sc *ContentConfig) InputType() appdef.ContentInputType {
-	return appdef.ContentInputType(sc.RawInputType)
+func (sc *ContentConfig) InputType() frozenDef.ContentInputTypeConfig {
+	return frozenDef.ContentInputTypeConfig(sc.RawInputType)
 }

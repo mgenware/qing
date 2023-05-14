@@ -1,0 +1,8 @@
+{
+  "__enums": {
+    "contentBaseType": { "values": ["post", "cmt", "fPost"] },
+    "dbDelFlags": { "values": ["self", "host"] },
+    "contentInputTypeConfig": { "values": ["standard", "markdown"], "stringType": true },
+    "postPermissionConfig": { "values": ["onlyMe", "everyone"], "stringType": true }
+  }
+}

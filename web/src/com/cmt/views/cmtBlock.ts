@@ -30,7 +30,7 @@ import appAlert from 'app/appAlert.js';
 import CmtCollector from '../data/cmtCollector.js';
 import DeleteCmtLoader from '../loaders/deleteCmtLoader.js';
 import appTask from 'app/appTask.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import { ComposerView } from 'ui/editing/composerView.js';
 import { SetCmtLoader } from '../loaders/setCmtLoader.js';
 import { brMode } from 'devMode.js';
@@ -187,7 +187,7 @@ export class CmtBlock extends BaseElement {
                 <composer-view
                   id=${editEditorID}
                   .desc=${globalThis.coreLS.editComment}
-                  .entity=${{ id: this.cmt?.id ?? '', type: appdef.ContentBaseType.cmt }}
+                  .entity=${{ id: this.cmt?.id ?? '', type: frozenDef.ContentBaseType.cmt }}
                   .submitButtonText=${globalThis.coreLS.save}
                   @composer-submit=${this.handleEditEditorSubmit}
                   @composer-discard=${this.handleEditEditorDiscard}></composer-view>

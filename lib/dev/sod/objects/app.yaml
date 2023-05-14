@@ -1,5 +1,5 @@
 ---
 MainPageStateData:
   user: :sod.auth.User?
-  postPerm: int
+  postPerm: string
   forums: bool

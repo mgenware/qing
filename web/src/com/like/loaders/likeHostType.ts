@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 
 enum LikeHostType {
-  post = appdef.ContentBaseType.post,
-  cmt = appdef.ContentBaseType.cmt,
+  post = frozenDef.ContentBaseType.post,
+  cmt = frozenDef.ContentBaseType.cmt,
 }
 
 export default LikeHostType;

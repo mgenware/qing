@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"qing/a/app"
 	"qing/a/appConf"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
@@ -32,12 +32,12 @@ func getSiteSEttings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sc := cfg.Site
 	pc := cfg.Permissions
 
-	switch appdef.GetSiteSettings(key) {
-	case appdef.GetSiteSettingsGeneral:
+	switch appDef.GetSiteSettings(key) {
+	case appDef.GetSiteSettingsGeneral:
 		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.URL, pc.RawPost, sc.Name)
 		return resp.MustComplete(coreData)
 
-	case appdef.GetSiteSettingsLangs:
+	case appDef.GetSiteSettingsLangs:
 		supportedLangs, err := apicom.GetSiteSupportedLangs()
 		app.PanicOn(err)
 

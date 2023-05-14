@@ -11,7 +11,7 @@ import (
 	"net/url"
 	"qing/a/conf"
 	"qing/a/def"
-	"qing/a/def/appdef"
+	"qing/a/def/appDef"
 	"qing/lib/clib"
 	"qing/s/avatar"
 	"strconv"
@@ -59,13 +59,13 @@ func (u *URL) UserIconURL(uid uint64, iconName string, size int) string {
 }
 
 func (u *URL) UserProfileAdv(uid uint64, tab string, page int) string {
-	s := "/" + appdef.RouteUser + "/" + clib.EncodeID(uid)
+	s := "/" + appDef.RouteUser + "/" + clib.EncodeID(uid)
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set(appdef.KeyPage, strconv.Itoa(page))
+		qs.Set(appDef.KeyPage, strconv.Itoa(page))
 	}
 	if tab != "" {
-		qs.Set(appdef.KeyTab, tab)
+		qs.Set(appDef.KeyTab, tab)
 	}
 
 	if len(qs) > 0 {
@@ -78,7 +78,7 @@ func (u *URL) HomeAdv(page int) string {
 	s := "/"
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set(appdef.KeyPage, strconv.Itoa(page))
+		qs.Set(appDef.KeyPage, strconv.Itoa(page))
 	}
 
 	if len(qs) > 0 {
@@ -92,14 +92,14 @@ func (u *URL) UserProfile(uid uint64) string {
 }
 
 func (u *URL) Post(pid uint64) string {
-	return "/" + appdef.RoutePost + "/" + clib.EncodeID(pid)
+	return "/" + appDef.RoutePost + "/" + clib.EncodeID(pid)
 }
 
 func (u *URL) PostAdv(pid uint64, cmtID uint64) string {
 	s := u.Post(pid)
 	qs := url.Values{}
 	if cmtID > 0 {
-		qs.Set(appdef.KeyCmt, clib.EncodeID(cmtID))
+		qs.Set(appDef.KeyCmt, clib.EncodeID(cmtID))
 	}
 
 	if len(qs) > 0 {
@@ -109,14 +109,14 @@ func (u *URL) PostAdv(pid uint64, cmtID uint64) string {
 }
 
 func (u *URL) FPost(pid uint64) string {
-	return "/" + appdef.RouteForumPost + "/" + clib.EncodeID(pid)
+	return "/" + appDef.RouteForumPost + "/" + clib.EncodeID(pid)
 }
 
 func (u *URL) FPostAdv(pid uint64, cmtID uint64) string {
 	s := u.FPost(pid)
 	qs := url.Values{}
 	if cmtID > 0 {
-		qs.Set(appdef.KeyCmt, clib.EncodeID(cmtID))
+		qs.Set(appDef.KeyCmt, clib.EncodeID(cmtID))
 	}
 
 	if len(qs) > 0 {
@@ -126,18 +126,18 @@ func (u *URL) FPostAdv(pid uint64, cmtID uint64) string {
 }
 
 func (u *URL) SignIn() string {
-	return "/" + appdef.RouteAuth + "/sign/in"
+	return "/" + appDef.RouteAuth + "/sign/in"
 }
 
 func (u *URL) RegEmailVerification(siteURL, publicID string) string {
-	return siteURL + "/" + appdef.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
+	return siteURL + "/" + appDef.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
 }
 
 func (u *URL) ForumAdv(fid uint64, page int) string {
-	s := "/" + appdef.RouteForum + "/" + clib.EncodeID(fid)
+	s := "/" + appDef.RouteForum + "/" + clib.EncodeID(fid)
 	qs := url.Values{}
 	if page > 1 {
-		qs.Set(appdef.KeyPage, strconv.Itoa(page))
+		qs.Set(appDef.KeyPage, strconv.Itoa(page))
 	}
 
 	if len(qs) > 0 {
@@ -147,9 +147,9 @@ func (u *URL) ForumAdv(fid uint64, page int) string {
 }
 
 func (u *URL) ForumSettings(fid uint64) string {
-	return "/" + appdef.RouteForum + "/" + clib.EncodeID(fid) + "/settings"
+	return "/" + appDef.RouteForum + "/" + clib.EncodeID(fid) + "/settings"
 }
 
 func (u *URL) ForumGroup(id uint64) string {
-	return "/" + appdef.RouteForumGroup + "/" + clib.EncodeID(id)
+	return "/" + appDef.RouteForumGroup + "/" + clib.EncodeID(id)
 }

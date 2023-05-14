@@ -58,14 +58,14 @@
     "permissions_config": {
       "type": "object",
       "properties": {
-        "post": { "type": "number" }
+        "post": { "type": "string", "enum": ["onlyMe", "everyone"] }
       },
       "required": ["post"]
     },
     "content_config": {
       "type": "object",
       "properties": {
-        "input_type": { "type": "number" }
+        "input_type": { "type": "string", "enum": ["standard", "markdown"] }
       }
     },
     "forums_config": {

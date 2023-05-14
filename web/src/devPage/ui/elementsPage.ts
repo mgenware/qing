@@ -26,7 +26,7 @@ import 'com/postCore/setEntityApp';
 import LoadingStatus from 'lib/loadingStatus.js';
 import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkListView.js';
 import { renderTemplateResult } from 'lib/htmlLib.js';
-import { appdef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import appAlert from 'app/appAlert.js';
 import ErrorWithCode from 'lib/errorWithCode.js';
 import delay from 'lib/delay.js';
@@ -45,10 +45,10 @@ enum ChecklistKey {
   zheng,
 }
 const checklistItems: ChecklistItem[] = [
-  { key: ChecklistKey.zhang, text: 'Zhang' },
-  { key: ChecklistKey.chen, text: 'Chen' },
-  { key: ChecklistKey.liu, text: 'Liu' },
-  { key: ChecklistKey.zheng, text: 'Zheng' },
+  { key: ChecklistKey.zhang.toString(), text: 'Zhang' },
+  { key: ChecklistKey.chen.toString(), text: 'Chen' },
+  { key: ChecklistKey.liu.toString(), text: 'Liu' },
+  { key: ChecklistKey.zheng.toString(), text: 'Zheng' },
 ];
 
 @customElement('elements-page')
@@ -358,7 +358,7 @@ export class ElementsPage extends BaseElement {
     renderTemplateResult(
       '',
       html`<set-entity-app
-        entityType=${appdef.ContentBaseType.post}
+        entityType=${frozenDef.ContentBaseType.post}
         desc="Create a new post"></set-entity-app>`,
     );
   }
