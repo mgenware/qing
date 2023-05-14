@@ -25,7 +25,7 @@ func setLang(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	// Empty `lang` indicates auto option (let browser decides display lang).
-	lang := jsonx.GetString(params, "lang")
+	lang := jsonx.GetStringOrDefault(params, "lang")
 
 	// Update DB.
 	err := da.User.UpdateLang(appDB.DB(), uid, lang)

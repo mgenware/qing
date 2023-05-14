@@ -27,7 +27,7 @@ func getDevLatestMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	params := app.ContextDict(r)
 	email := clib.MustGetStringFromDict(params, "email", appdef.LenMaxGenericString)
-	index := jsonx.GetInt(params, "index")
+	index := jsonx.GetIntOrDefault(params, "index")
 
 	devMail, err := devmail.GetLatestMail(email, index)
 	app.PanicOn(err)

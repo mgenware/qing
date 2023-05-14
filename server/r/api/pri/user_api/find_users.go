@@ -26,7 +26,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 
-	byID := jsonx.GetInt(params, "byID")
+	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
 	var users []da.FindUserResult
 	db := appDB.DB()

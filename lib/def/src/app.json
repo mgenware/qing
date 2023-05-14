@@ -47,6 +47,7 @@
   "__enums": {
     "postPermission": { "values": ["onlyMe", "everyone"] },
     "contentBaseType": { "values": ["post", "cmt", "fPost"] },
+    "contentInputType": { "values": ["standard", "markdown"] },
     "homePageFeedType": { "values": ["post", "fPost"] },
     "delFlags": { "values": ["self", "host"] },
     "getSiteSettings": { "values": ["general", "langs"] },

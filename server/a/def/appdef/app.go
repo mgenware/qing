@@ -73,6 +73,13 @@ const (
 	ContentBaseTypeFPost
 )
 
+type ContentInputType int
+
+const (
+	ContentInputTypeStandard ContentInputType = iota + 1
+	ContentInputTypeMarkdown
+)
+
 type HomePageFeedType int
 
 const (

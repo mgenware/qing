@@ -17,6 +17,7 @@ export interface SetEntityLoaderArgs {
   entityType: number;
   forumID?: string;
   summary?: string;
+  contentSrc?: string;
 }
 
 export class SetEntityLoader extends Loader<string | null> {

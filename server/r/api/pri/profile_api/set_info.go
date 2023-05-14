@@ -25,14 +25,14 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	sUser := resp.User()
 	uid := resp.UserID()
 
-	nick := jsonx.GetString(params, "name")
+	nick := jsonx.GetStringOrDefault(params, "name")
 	if nick == "" {
 		panic(fmt.Errorf("the argument `name` cannot be empty"))
 	}
-	website := jsonx.GetString(params, "website")
-	company := jsonx.GetString(params, "company")
-	location := jsonx.GetString(params, "location")
-	bio := jsonx.GetString(params, "bio")
+	website := jsonx.GetStringOrDefault(params, "website")
+	company := jsonx.GetStringOrDefault(params, "company")
+	location := jsonx.GetStringOrDefault(params, "location")
+	bio := jsonx.GetStringOrDefault(params, "bio")
 	var bioPtr *string
 	if bio != "" {
 		bioPtr = &bio

@@ -19,6 +19,8 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
+
+	"github.com/mgenware/goutil/jsonx"
 )
 
 func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -38,6 +40,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 	summary := clib.MustGetTextFromDict(contentDict, "summary")
 	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "contentHTML"))
+	contentSrc := jsonx.GetStringOrNil(contentDict, "contentSrc")
 
 	var result any
 	db := appDB.DB()
@@ -53,7 +56,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		switch entityType {
 		case appdef.ContentBaseTypePost:
 			{
-				insertedID, err := da.Post.InsertItem(db, uid, contentHTML, title, summary, sanitizedToken, captResult)
+				insertedID, err := da.Post.InsertItem(db, uid, contentHTML, contentSrc, title, summary, sanitizedToken, captResult)
 				app.PanicOn(err)
 
 				result = appURL.Get().Post(insertedID)
@@ -62,7 +65,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		case appdef.ContentBaseTypeFPost:
 			{
-				insertedID, err := da.FPost.InsertItem(db, uid, contentHTML, title, summary, forumID, sanitizedToken, captResult)
+				insertedID, err := da.FPost.InsertItem(db, uid, contentHTML, contentSrc, title, summary, forumID, sanitizedToken, captResult)
 				app.PanicOn(err)
 
 				result = appURL.Get().FPost(insertedID)

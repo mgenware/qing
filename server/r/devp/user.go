@@ -38,7 +38,7 @@ func newUserInfoResult(d *da.UserAGSelectSessionDataResult) *authSod.User {
 
 func getUIDFromRequest(r *http.Request) uint64 {
 	params := app.ContextDict(r)
-	val := jsonx.GetString(params, "uid")
+	val := jsonx.GetStringOrDefault(params, "uid")
 	if val != "" {
 		uid, err := clib.DecodeID(val)
 		app.PanicOn(err)
@@ -87,8 +87,8 @@ func accVerifiedGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML 
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := app.ContextDict(r)
-	lang := jsonx.GetString(params, "lang")
-	regLang := jsonx.GetString(params, "regLang")
+	lang := jsonx.GetStringOrDefault(params, "lang")
+	regLang := jsonx.GetStringOrDefault(params, "regLang")
 	if regLang == "" {
 		regLang = "en"
 	}

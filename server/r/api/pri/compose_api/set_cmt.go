@@ -21,6 +21,8 @@ import (
 	"qing/r/api/apicom"
 	"qing/sod/cmtSod"
 	"time"
+
+	"github.com/mgenware/goutil/jsonx"
 )
 
 type SetCmtResponse struct {
@@ -36,6 +38,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := clib.GetIDFromDict(params, "id")
 	contentData := clib.MustGetDictFromDict(params, "contentData")
 	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentData, "contentHTML"))
+	contentSrc := jsonx.GetStringOrNil(contentData, "contentSrc")
 
 	db := appDB.DB()
 	if id == 0 {
@@ -52,7 +55,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		var cmtID uint64
 		var notiToID uint64
 		if parentID != 0 {
-			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, host.ID, uint8(host.Type), parentID, uid, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, contentSrc, host.ID, uint8(host.Type), parentID, uid, sanitizedToken, captResult)
 			app.PanicOn(err)
 			parentUID, err := da.Cmt.SelectUserID(db, parentID)
 			app.PanicOn(err)
@@ -61,7 +64,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			}
 			notiToID = *parentUID
 		} else {
-			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, host.ID, uint8(host.Type), uid, sanitizedToken, captResult)
+			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, contentSrc, host.ID, uint8(host.Type), uid, sanitizedToken, captResult)
 			app.PanicOn(err)
 			hostUser, err := da.ContentBaseStatic.SelectUserID(db, cmtHostTable, host.ID)
 			app.PanicOn(err)

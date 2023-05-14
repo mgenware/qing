@@ -98,9 +98,9 @@ func coercePage(page int) int {
 	return page
 }
 
-// GetPageParamFromDict returns the page number param from the given dict.
+// GetPageParamFromDict returns the page number params from the given dict.
 func GetPageParamFromDict(dict map[string]any) int {
-	return coercePage(jsonx.GetInt(dict, appdef.KeyPage))
+	return coercePage(jsonx.GetIntOrDefault(dict, appdef.KeyPage))
 }
 
 // GetPageParamFromRequestQueryString returns the page number param from the given request.
@@ -134,7 +134,7 @@ func MustGetIDFromDict(dict map[string]any, key string) uint64 {
 func GetEntityInfoFromDict(dict map[string]any, key string) EntityInfo {
 	dict = jsonx.GetDictOrEmpty(dict, key)
 	id := GetIDFromDict(dict, "id")
-	eType := jsonx.GetInt(dict, "type")
+	eType := jsonx.GetIntOrDefault(dict, "type")
 	return EntityInfo{ID: id, Type: appdef.ContentBaseType(eType)}
 }
 
@@ -160,7 +160,7 @@ func MustCastToStringArray(arr []any) []string {
 
 // Unsafe means panics could happen when ID decoding failed.
 func UnsafeGetIDArrayFromDict(dict map[string]any, key string) []uint64 {
-	strArray := MustCastToStringArray(jsonx.GetArray(dict, key))
+	strArray := MustCastToStringArray(jsonx.GetArrayOrNil(dict, key))
 	if strArray != nil {
 		ids := make([]uint64, len(strArray))
 		for i, idStr := range strArray {
