@@ -2,7 +2,7 @@
   "qingDir": "/qing",
   "qingDataDir": "/qing_data",
   "devCSSDir": "/qing/dev/css",
-  "devConfigDir": "/qing/dev/configs",
+  "devConfigDir": "/qing/dev/config",
   "devServerDir": "/qing/dev/server",
   "miscDir": "/qing/misc",
   "configSchemaFile": "/qing/misc/config_schema.json",

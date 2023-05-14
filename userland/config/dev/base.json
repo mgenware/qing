@@ -50,6 +50,9 @@
       "port": 9000
     }
   },
+  "content": {
+    "input_type": "standard"
+  },
   "site": {
     "url": "https://__QING__",
     "name": "__QING__",

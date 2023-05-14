@@ -37,7 +37,7 @@ export function userlandPath(path = ''): string {
 }
 
 export function devConfigPath(env: string): string {
-  return np.join(userlandPath('configs'), 'dev', `${env}.json`);
+  return np.join(userlandPath('config'), 'dev', `${env}.json`);
 }
 
 export function itPath(path = ''): string {

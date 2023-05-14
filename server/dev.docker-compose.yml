@@ -20,7 +20,7 @@ services:
       dockerfile: dev.dockerfile
     volumes:
       - ../web/src/css:/qing/dev/css
-      - ../userland/configs/dev:/qing/dev/configs
+      - ../userland/config/dev:/qing/dev/config
       - ../server:/qing/dev/server
       - ../userland/templates:/qing/templates
       - ../userland/static:/qing/static

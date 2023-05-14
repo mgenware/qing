@@ -43,6 +43,7 @@ type Config struct {
 	DB          *confs.DBConfig          `json:"db,omitempty"`
 	ResServer   *confs.ResServerConfig   `json:"res_server,omitempty"`
 	Permissions *confs.PermissionsConfig `json:"permissions,omitempty"`
+	Content     *confs.ContentConfig     `json:"content,omitempty"`
 	Mail        *confs.MailConfig        `json:"mail,omitempty"`
 	Extern      *confs.ExternConfig      `json:"extern,omitempty"`
 	Forums      *confs.ForumsConfig      `json:"forums,omitempty"`
@@ -149,10 +150,21 @@ func mustValidateConfig(c *Config) {
 	}
 
 	if !result.Valid() {
-		fmt.Printf("Config file validation error:\n")
+		fmt.Print("Config file validation error:\n")
+		fmt.Print("======= Start of validation errors =======\n")
 		for _, desc := range result.Errors() {
 			fmt.Printf("- %s\n", desc)
 		}
+		fmt.Print("======= End of validation errors =======\n")
+
+		fmt.Print("======= Start of config content =======\n")
+
+		configJSON, err := json.MarshalIndent(c, "", "  ")
+		if err != nil {
+			configJSON = []byte(fmt.Sprintf("Failed to marshal config to JSON: %v", err))
+		}
+		fmt.Printf("%v\n", string(configJSON))
+		fmt.Print("======= End of config content =======\n")
 		panic(fmt.Errorf("config file validation failed"))
 	}
 
