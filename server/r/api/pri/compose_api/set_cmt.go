@@ -37,8 +37,8 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	id := clib.GetIDFromDict(params, "id")
 	contentData := clib.MustGetDictFromDict(params, "contentData")
-	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentData, "contentHTML"))
-	contentSrc := jsonx.GetStringOrNil(contentData, "contentSrc")
+	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentData, "html"))
+	contentSrc := jsonx.GetStringOrNil(contentData, "src")
 
 	db := appDB.DB()
 	if id == 0 {

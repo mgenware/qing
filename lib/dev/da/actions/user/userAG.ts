@@ -48,7 +48,7 @@ export class UserAG extends mm.ActionGroup {
 
   updateProfile = mm
     .updateOne()
-    .setParams(t.name, t.website, t.company, t.location, t.bio)
+    .setParams(t.name, t.website, t.company, t.location, t.bio, t.bio_src)
     .by(t.id);
   updateIconName = mm.updateOne().setParams(t.icon_name).by(t.id);
   updateLang = mm.updateOne().setParams(t.lang).by(t.id);

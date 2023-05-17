@@ -225,9 +225,7 @@ export class CmtBlock extends BaseElement {
     if (!this.editEditorEl || !this.cmt) {
       return;
     }
-    const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, {
-      contentHTML: this.editEditorEl.getContentHTML(),
-    });
+    const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, this.editEditorEl.getPayload());
     const apiRes = await appTask.critical(loader, globalThis.coreLS.saving);
     if (apiRes.data) {
       this.destroyEditEditor();
@@ -257,9 +255,7 @@ export class CmtBlock extends BaseElement {
     if (!this.replyEditorEl || !this.cmt) {
       return;
     }
-    const loader = SetCmtLoader.newReply(this.host, this.cmt.id, {
-      contentHTML: this.replyEditorEl.getContentHTML(),
-    });
+    const loader = SetCmtLoader.newReply(this.host, this.cmt.id, this.replyEditorEl.getPayload());
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyReplyEditor();

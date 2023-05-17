@@ -80,7 +80,7 @@ func (mrTable *CmtAGType) SelectCmt(mrQueryable mingru.Queryable, id uint64) (Cm
 
 func (mrTable *CmtAGType) SelectCmtSource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
+	err := mrQueryable.QueryRow("SELECT `content`, `content_src` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc)
 	if err != nil {
 		return result, err
 	}
@@ -309,7 +309,7 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 
 func (mrTable *CmtAGType) SelectReplySource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := mrQueryable.QueryRow("SELECT `content` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML)
+	err := mrQueryable.QueryRow("SELECT `content`, `content_src` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc)
 	if err != nil {
 		return result, err
 	}

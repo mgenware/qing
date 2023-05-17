@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t.js';
-import './editorView';
+import './coreEditor.js';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<edit-view></edit-view>`);
+  const el = await fixture<HTMLElement>(html`<core-editor></core-editor>`);
 
   tDOM.isFlexElement(el);
 });

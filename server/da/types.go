@@ -39,8 +39,9 @@ type CmtResult struct {
 }
 
 type EntityGetSrcResult struct {
-	ContentHTML string `json:"contentHTML,omitempty"`
-	Title       string `json:"title,omitempty"`
+	ContentHTML string  `json:"contentHTML,omitempty"`
+	ContentSrc  *string `json:"contentSrc,omitempty"`
+	Title       string  `json:"title,omitempty"`
 }
 
 type FindUserResult struct {

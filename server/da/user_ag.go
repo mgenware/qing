@@ -279,7 +279,7 @@ func (mrTable *UserAGType) UpdateLang(mrQueryable mingru.Queryable, id uint64, l
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *UserAGType) UpdateProfile(mrQueryable mingru.Queryable, id uint64, name string, website string, company string, location string, bioHTML *string) error {
-	result, err := mrQueryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ?, `bio` = ? WHERE `id` = ?", name, website, company, location, bioHTML, id)
+func (mrTable *UserAGType) UpdateProfile(mrQueryable mingru.Queryable, id uint64, name string, website string, company string, location string, bioHTML *string, bioSrc *string) error {
+	result, err := mrQueryable.Exec("UPDATE `user` SET `name` = ?, `website` = ?, `company` = ?, `location` = ?, `bio` = ?, `bio_src` = ? WHERE `id` = ?", name, website, company, location, bioHTML, bioSrc, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -32,14 +32,11 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 	website := jsonx.GetStringOrDefault(params, "website")
 	company := jsonx.GetStringOrDefault(params, "company")
 	location := jsonx.GetStringOrDefault(params, "location")
-	bio := jsonx.GetStringOrDefault(params, "bio")
-	var bioPtr *string
-	if bio != "" {
-		bioPtr = &bio
-	}
+	bio := jsonx.GetStringOrNil(params, "bio")
+	bioSrc := jsonx.GetStringOrNil(params, "bioSrc")
 
 	// Update DB
-	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location, bioPtr)
+	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location, bio, bioSrc)
 	app.PanicOn(err)
 
 	// Update session

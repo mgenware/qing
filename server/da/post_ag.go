@@ -198,7 +198,7 @@ func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryabl
 
 func (mrTable *PostAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
 	var result EntityGetSrcResult
-	err := mrQueryable.QueryRow("SELECT `content`, `title` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.Title)
+	err := mrQueryable.QueryRow("SELECT `content`, `content_src`, `title` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc, &result.Title)
 	if err != nil {
 		return result, err
 	}

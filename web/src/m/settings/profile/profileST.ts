@@ -20,8 +20,8 @@ import SetProfileInfoLoader from './loaders/setProfileInfoLoader.js';
 import appPageState from 'app/appPageState.js';
 import appTask from 'app/appTask.js';
 import appAlert from 'app/appAlert.js';
-import 'ui/editing/editorView.js';
-import EditorView from 'ui/editing/editorView.js';
+import 'ui/editing/coreEditor.js';
+import CoreEditor from 'ui/editing/coreEditor.js';
 import strf from 'bowhead-js';
 
 const editorID = 'editor';
@@ -59,8 +59,8 @@ export class ProfileST extends StatefulPage {
   @state() private updateInfoStatus = LoadingStatus.success;
   @state() private avatarURL = '';
 
-  private get editorEl(): EditorView | null {
-    return this.getShadowElement<EditorView>(editorID);
+  private get editorEl(): CoreEditor | null {
+    return this.getShadowElement<CoreEditor>(editorID);
   }
 
   override renderContent() {
@@ -115,7 +115,7 @@ export class ProfileST extends StatefulPage {
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
       this.avatarURL = profile.iconURL ?? '';
-      this.editorEl?.resetContentHTML(profile.bioHTML ?? '');
+      this.editorEl?.resetRenderedContent(profile.bioHTML ?? '');
     }
   }
 
@@ -130,12 +130,15 @@ export class ProfileST extends StatefulPage {
       await appAlert.error(err.message);
       return;
     }
+
+    const bioContent = this.editorEl?.getContent({ summary: false });
     const loader = new SetProfileInfoLoader(
       this.userName,
       this.url,
       this.company,
       this.location,
-      this.editorEl?.contentHTML() ?? '',
+      bioContent?.html ?? '',
+      bioContent?.src,
     );
     const status = await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;

@@ -25,5 +25,6 @@ export interface CmtResult {
 
 export interface EntityGetSrcResult {
   contentHTML?: string;
+  contentSrc?: string;
   title?: string;
 }

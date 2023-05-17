@@ -25,6 +25,7 @@
     "js-cookie": "^3.0.5",
     "kangxi-editor": "^0.18.0",
     "mahur": "^0.0.2",
+    "markdown-it": "^13.0.1",
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
     "qing-button": "^8.2.6",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@open-wc/testing": "^3.1.8",
     "@types/js-cookie": "^3.0.3",
+    "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
     "@web/test-runner": "^0.16.1",
     "@web/test-runner-playwright": "^0.10.0",

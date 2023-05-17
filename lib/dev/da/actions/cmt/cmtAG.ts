@@ -21,12 +21,12 @@ function defaultCmtUpdateConditions() {
 // Those in `CmtTA` are ones don't rely on `host.cmt_count`.
 export class CmtAG extends mm.ActionGroup {
   selectCmtSource = mm
-    .selectRow(t.content)
+    .selectRow(t.content, t.content_src)
     .whereSQL(defaultCmtUpdateConditions())
     .resultTypeNameAttr(getEntitySrcType)
     .attr(mm.ActionAttribute.enableTSResultType, true);
   selectReplySource = mm
-    .selectRow(t.content)
+    .selectRow(t.content, t.content_src)
     .whereSQL(defaultCmtUpdateConditions())
     .resultTypeNameAttr(getEntitySrcType);
 

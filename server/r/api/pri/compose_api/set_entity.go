@@ -40,8 +40,8 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		title = clib.MustGetStringFromDict(contentDict, "title", appDef.LenMaxTitle)
 	}
 	summary := clib.MustGetTextFromDict(contentDict, "summary")
-	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "contentHTML"))
-	contentSrc := jsonx.GetStringOrNil(contentDict, "contentSrc")
+	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "html"))
+	contentSrc := jsonx.GetStringOrNil(contentDict, "src")
 
 	var result any
 	db := appDB.DB()

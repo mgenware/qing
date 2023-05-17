@@ -17,18 +17,17 @@ import {
   property,
   when,
 } from 'll.js';
-import './editorView';
+import './coreEditor.js';
 import { ERR } from 'checks.js';
-import 'ui/forms/inputView';
-import 'ui/status/statusView';
-import EditorView from './editorView.js';
+import 'ui/forms/inputView.js';
+import 'ui/status/statusView.js';
+import CoreEditor, { CoreEditorContent } from './coreEditor.js';
 import appAlert from 'app/appAlert.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import appTask from 'app/appTask.js';
 import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader.js';
 import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
-import { appDef } from '@qing/def';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -37,8 +36,7 @@ class ValidationError extends Error {
 }
 
 export interface ComposerContent {
-  contentHTML: string;
-  summary?: string;
+  content: CoreEditorContent;
   title?: string;
 }
 
@@ -90,20 +88,21 @@ export class ComposerView extends BaseElement {
 
   // Used to check if editor content has changed.
   private lastSavedTitle = '';
+  // Could be content HTML or src based on editor input type.
   private lastSavedContent = '';
 
-  private editorEl: Ref<EditorView> = createRef();
+  private editorEl: Ref<CoreEditor> = createRef();
   private titleInputEl: Ref<HTMLInputElement> = createRef();
 
   hasContentChanged() {
     return (
-      this.lastSavedContent !== this.getContentHTML() ||
+      this.lastSavedContent !== this.editorEl.value?.getRenderedContent() ||
       (this.hasTitle && this.lastSavedTitle !== this.titleText)
     );
   }
 
   markAsSaved() {
-    this.lastSavedContent = this.getContentHTML();
+    this.lastSavedContent = this.editorEl.value?.getRenderedContent() ?? '';
     if (this.hasTitle) {
       this.lastSavedTitle = this.titleText ?? '';
     }
@@ -113,7 +112,7 @@ export class ComposerView extends BaseElement {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
     this.setTitleText('');
-    this.setContentHTML('', false);
+    this.editorEl.value?.resetRenderedContent('');
   }
 
   override connectedCallback() {
@@ -136,25 +135,21 @@ export class ComposerView extends BaseElement {
     this.markAsSaved();
   }
 
-  getContentHTML(): string {
-    return this.editorEl.value?.contentHTML() ?? '';
-  }
-
   get titleText(): string | undefined {
     return this.titleInputEl.value?.value;
   }
 
-  setContentHTML(contentHTML: string, canUndo: boolean) {
-    const { editorEl } = this;
-    if (editorEl.value) {
-      if (canUndo) {
-        editorEl.value.setContentHTML(contentHTML);
-      } else {
-        editorEl.value.resetContentHTML(contentHTML);
-      }
-      this.markAsSaved();
-    }
-  }
+  // setContentHTML(contentHTML: string, canUndo: boolean) {
+  //   const { editorEl } = this;
+  //   if (editorEl.value) {
+  //     if (canUndo) {
+  //       editorEl.value.setContentHTML(contentHTML);
+  //     } else {
+  //       editorEl.value.resetContentHTML(contentHTML);
+  //     }
+  //     this.markAsSaved();
+  //   }
+  // }
 
   setTitleText(text: string) {
     if (this.titleInputEl.value) {
@@ -217,32 +212,24 @@ export class ComposerView extends BaseElement {
     `;
   }
 
-  private getPayload(): ComposerContent {
+  getPayload(): ComposerContent {
     if (this.hasTitle && !this.titleText) {
       throw new ValidationError(strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.title), () =>
         this.titleInputEl.value?.focus(),
       );
     }
-    const contentHTML = this.getContentHTML();
-    if (!contentHTML) {
+    const content = this.editorEl.value?.getContent({ summary: this.hasTitle });
+    if (!content?.src && !content?.html) {
       throw new ValidationError(
         strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.content),
         () => this.editorEl.value?.focus(),
       );
     }
     const payload: ComposerContent = {
-      contentHTML,
+      content,
     };
     if (this.hasTitle) {
       payload.title = this.titleText;
-
-      const summaryMaxLen = appDef.lenMaxPostSummary - 10; // make some room for '...';
-      let summary = this.editorEl.value?.contentText().trim() ?? '';
-      summary =
-        summary.length > summaryMaxLen ? `${summary.substring(0, summaryMaxLen)}...` : summary;
-      if (summary) {
-        payload.summary = summary;
-      }
     }
     return payload;
   }
@@ -304,7 +291,7 @@ export class ComposerView extends BaseElement {
         this.titleInputEl.value.value = postData.title ?? '';
       }
       if (this.editorEl.value) {
-        this.editorEl.value.resetContentHTML(postData.contentHTML ?? '');
+        this.editorEl.value.resetRenderedContent(postData.contentSrc ?? postData.contentHTML ?? '');
       }
       this.markAsSaved();
     }

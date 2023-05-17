@@ -6,7 +6,7 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t.js';
-import './kxEditorView';
+import './kxEditorView.js';
 
 it('Display', async () => {
   const el = await fixture<HTMLElement>(html`<kx-edit-view></kx-edit-view>`);

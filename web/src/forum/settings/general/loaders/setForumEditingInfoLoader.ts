@@ -9,7 +9,12 @@ import * as fmodRoute from '@qing/routes/s/pri/forum/fmod.js';
 import FModBaseLoader from './fmodBaseLoader.js';
 
 export default class SetForumEditingInfoLoader extends FModBaseLoader<undefined> {
-  constructor(forumID: string, public name: string, public descHTML: string) {
+  constructor(
+    forumID: string,
+    public name: string,
+    public descHTML: string,
+    public descSrc: string | undefined,
+  ) {
     super(forumID);
   }
 
@@ -22,6 +27,7 @@ export default class SetForumEditingInfoLoader extends FModBaseLoader<undefined>
       ...super.requestParams(),
       name: this.name,
       desc: this.descHTML,
+      descSrc: this.descSrc,
     };
   }
 }

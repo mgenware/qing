@@ -16,7 +16,7 @@ import { StatefulPage } from 'ui/status/statefulPage.js';
 import 'ui/forms/inputView';
 import appTask from 'app/appTask.js';
 import appAlert from 'app/appAlert.js';
-import 'ui/editing/editorView.js';
+import 'ui/editing/coreEditor.js';
 import { GetProfileLangLoader } from './loaders/getProfileLangLoader.js';
 import { GetProfileLangResult } from 'sod/profile.js';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView.js';

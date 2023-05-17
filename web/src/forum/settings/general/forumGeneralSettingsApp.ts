@@ -12,12 +12,12 @@ import 'ui/pickers/avatarUploader';
 import 'ui/status/statusView';
 import 'ui/content/headingView.js';
 import 'ui/forms/inputView';
-import 'ui/editing/editorView.js';
+import 'ui/editing/coreEditor.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader.js';
 import { GetForumEditingInfoLoader } from './loaders/getForumEditingInfo.js';
 import { CHECK } from 'checks.js';
-import EditorView from 'ui/editing/editorView.js';
+import CoreEditor from 'ui/editing/coreEditor.js';
 import appTask from 'app/appTask.js';
 import appAlert from 'app/appAlert.js';
 import strf from 'bowhead-js';
@@ -47,7 +47,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
   @property({ type: Boolean }) updateInfoStatus = LoadingStatus.success;
   @property() avatarURL = '';
 
-  get descEditorView(): EditorView | null {
+  get descEditorView(): CoreEditor | null {
     return this.getShadowElement(editorElementID);
   }
 
@@ -102,7 +102,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
       const info = status.data;
       this.forumName = info.name ?? '';
       if (this.descEditorView) {
-        this.descEditorView.setContentHTML(info.descHTML ?? '');
+        this.descEditorView.resetRenderedContent(info.descHTML ?? '');
       }
     }
   }
@@ -121,8 +121,13 @@ export class ForumGeneralSettingsApp extends BaseElement {
       await appAlert.error(err.message);
       return;
     }
-    const descHTML = this.descEditorView.contentHTML();
-    const loader = new SetForumEditingInfoLoader(this.fid, this.forumName, descHTML);
+    const descContent = this.descEditorView.getContent({ summary: false });
+    const loader = new SetForumEditingInfoLoader(
+      this.fid,
+      this.forumName,
+      descContent.html,
+      descContent.src,
+    );
     await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;
     });

@@ -168,9 +168,7 @@ export class RootCmtList extends BaseElement {
     if (!this.rootEditorEl || !this.cmtBlockEl) {
       return;
     }
-    const loader = SetCmtLoader.newCmt(this.host, {
-      contentHTML: this.rootEditorEl.getContentHTML(),
-    });
+    const loader = SetCmtLoader.newCmt(this.host, this.rootEditorEl.getPayload());
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyEditor();

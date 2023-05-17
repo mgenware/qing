@@ -73,7 +73,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .resultTypeNameAttr(`${contentName}ItemForProfile`)
       : mm.emptyAction;
     this.selectItemSrc = mm
-      .selectRow(t.content, ...this.extraSelectSrcItemCols())
+      .selectRow(t.content, t.content_src, ...this.extraSelectSrcItemCols())
       .whereSQL(this.updateConditions)
       .resultTypeNameAttr(getEntitySrcType)
       .attr(mm.ActionAttribute.enableTSResultType, true);
