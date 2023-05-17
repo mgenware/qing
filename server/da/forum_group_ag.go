@@ -30,8 +30,8 @@ func (mrTable *ForumGroupAGType) DeleteGroup(mrQueryable mingru.Queryable, id ui
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *ForumGroupAGType) InsertGroup(mrQueryable mingru.Queryable, name string, descHTML string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `forum_group` (`order_index`, `created_at`, `forum_count`, `name`, `desc`) VALUES (0, NOW(3), 0, ?, ?)", name, descHTML)
+func (mrTable *ForumGroupAGType) InsertGroup(mrQueryable mingru.Queryable, name string, descHTML string, descSrc *string) (uint64, error) {
+	result, err := mrQueryable.Exec("INSERT INTO `forum_group` (`order_index`, `created_at`, `forum_count`, `name`, `desc`, `desc_src`) VALUES (0, NOW(3), 0, ?, ?, ?)", name, descHTML, descSrc)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -66,7 +66,7 @@ func (mrTable *ForumGroupAGType) SelectInfoForEditing(mrQueryable mingru.Queryab
 	return result, nil
 }
 
-func (mrTable *ForumGroupAGType) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string) error {
-	result, err := mrQueryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ? WHERE `id` = ?", name, descHTML, id)
+func (mrTable *ForumGroupAGType) UpdateInfo(mrQueryable mingru.Queryable, id uint64, name string, descHTML string, descSrc *string) error {
+	result, err := mrQueryable.Exec("UPDATE `forum_group` SET `name` = ?, `desc` = ?, `desc_src` = ? WHERE `id` = ?", name, descHTML, descSrc, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -21,8 +21,8 @@ export class ForumAG extends mm.ActionGroup {
   selectInfoForEditing = mm.selectRow(t.name, t.desc).by(t.id);
 
   deleteItem = mm.deleteOne().by(t.id);
-  updateInfo = mm.updateOne().setParams(t.name, t.desc).by(t.id);
-  insertItem = mm.insertOne().setParams(t.name, t.desc).setParams();
+  updateInfo = mm.updateOne().setParams(t.name, t.desc, t.desc_src).by(t.id);
+  insertItem = mm.insertOne().setParams(t.name, t.desc, t.desc_src).setParams();
 
   // Select posts.
   selectFPosts: mm.SelectAction;

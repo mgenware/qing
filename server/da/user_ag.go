@@ -26,7 +26,7 @@ var User = &UserAGType{}
 // ------------ Actions ------------
 
 func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string, regLang string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `lang`, `reg_lang`, `admin`) VALUES (?, ?, '', NOW(3), '', '', '', NULL, '', ?, 0)", email, name, regLang)
+	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `bio_src`, `lang`, `reg_lang`, `admin`) VALUES (?, ?, '', NOW(3), '', '', '', NULL, NULL, '', ?, 0)", email, name, regLang)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -68,6 +68,7 @@ func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name st
 
 type UserAGSelectEditingDataResult struct {
 	BioHTML  *string `json:"bioHTML,omitempty"`
+	BioSrc   *string `json:"bioSrc,omitempty"`
 	Company  string  `json:"company,omitempty"`
 	IconName string  `json:"-"`
 	ID       uint64  `json:"-"`
@@ -78,7 +79,7 @@ type UserAGSelectEditingDataResult struct {
 
 func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserAGSelectEditingDataResult, error) {
 	var result UserAGSelectEditingDataResult
-	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML, &result.BioSrc)
 	if err != nil {
 		return result, err
 	}
