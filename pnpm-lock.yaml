@@ -24,8 +24,8 @@ importers:
         specifier: ^5.59.5
         version: 5.59.5(eslint@8.40.0)(typescript@5.0.4)
       daizong:
-        specifier: ^0.26.0
-        version: 0.26.0
+        specifier: ^0.26.1
+        version: 0.26.1
       esbuild:
         specifier: ^0.17.19
         version: 0.17.19
@@ -2732,15 +2732,15 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /daizong@0.26.0:
-    resolution: {integrity: sha512-9wppVUdlndUGB6lNZCKO6j90xqDJwvfUeRJg649XhzLfnC+iPNg+kN01c2W+/z0k2m5TQZjJxEx3lWXVzXKxgw==}
+  /daizong@0.26.1:
+    resolution: {integrity: sha512-r4d4PJ1DyJmlJPt8/a/3kRNhSicmKEVauqoLsV0pw1j1sJ8ta3o+U+98rI4DlYRrePqLjOsAtljLtC6ryUWtSQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
       chalk: 5.2.0
       del: 7.0.0
       execa: 7.1.1
-      p-map: 5.5.0
+      p-map: 6.0.0
     dev: true
 
   /data-uri-to-buffer@4.0.1:
@@ -2895,7 +2895,7 @@ packages:
     engines: {node: '>=14.16'}
     dependencies:
       globby: 13.1.4
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       is-glob: 4.0.3
       is-path-cwd: 3.0.0
       is-path-inside: 4.0.0
@@ -3876,12 +3876,8 @@ packages:
     dependencies:
       get-intrinsic: 1.2.0
 
-  /graceful-fs@4.2.10:
-    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
-
   /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
-    dev: false
 
   /grapheme-splitter@1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
@@ -5248,6 +5244,11 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       aggregate-error: 4.0.1
+
+  /p-map@6.0.0:
+    resolution: {integrity: sha512-T8BatKGY+k5rU+Q/GTYgrEf2r4xRMevAN5mtXc2aPc4rS1j3s+vWTaO2Wag94neXuCAUAs8cxBL9EeB5EA6diw==}
+    engines: {node: '>=16'}
+    dev: true
 
   /p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}

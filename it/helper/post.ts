@@ -8,7 +8,7 @@
 import * as def from 'base/def.js';
 import { User } from 'api.js';
 import * as entityUtil from './entity.js';
-import { appDef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 

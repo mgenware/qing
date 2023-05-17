@@ -11,7 +11,7 @@ import * as assert from 'node:assert';
 import { newPost } from 'helper/post.js';
 import { entitySrc } from 'helper/entity.js';
 import { postCount, newUser } from 'helper/user.js';
-import { appDef } from '@qing/def';
+import { frozenDef } from '@qing/def';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
 
 const entityBody = {
