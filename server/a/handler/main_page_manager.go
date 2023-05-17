@@ -114,6 +114,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	cfg := m.config
 	d.State.PostPerm = cfg.Permissions.RawPost
 	d.State.Forums = cfg.FourmsEnabled()
+	d.State.InputType = cfg.Content.RawInputType
 
 	// User info.
 	user := appcom.ContextUser(ctx)

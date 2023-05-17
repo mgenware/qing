@@ -19,4 +19,5 @@ export interface MainPageStateData {
   user?: User;
   postPerm?: string;
   forums?: boolean;
+  inputType?: string;
 }

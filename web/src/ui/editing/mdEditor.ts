@@ -29,6 +29,7 @@ export class MdEditor extends BaseElement {
         }
 
         #editor {
+          border: 1px solid var(--app-default-separator-color);
           display: flex;
           flex-direction: column;
           /** Make sure it stretches to parent height */

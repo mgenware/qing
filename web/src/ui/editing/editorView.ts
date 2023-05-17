@@ -5,12 +5,17 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css } from 'll.js';
-import { KXEditor } from 'kangxi-editor';
+import { customElement, css, state, html, BaseElement } from 'll.js';
+import '../status/spinnerView.js';
+import appPageState from 'app/appPageState.js';
+import { frozenDef } from '@qing/def';
 
-// A wrapper around the kangxi editor.
+// Imported types (eliminated after compilation).
+import type { KXEditor } from 'kangxi-editor';
+import type { MdEditor } from './mdEditor.js';
+
 @customElement('editor-view')
-export default class EditorView extends KXEditor {
+export default class EditorView extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -21,31 +26,41 @@ export default class EditorView extends KXEditor {
           /** Make sure it stretches to parent height */
           flex: 1 1 auto;
         }
-
-        .kx-editor {
-          border: 1px solid var(--app-default-separator-color);
-          --kx-back-color: var(--app-default-back-color);
-          --kx-fore-color: var(--app-default-fore-color);
-          --kx-toolbar-separator-color: var(--app-default-separator-color);
-
-          display: flex;
-          flex-direction: column;
-          /** Make sure it stretches to parent height */
-          flex: 1 1 auto;
-          min-height: 0;
-        }
-
-        .kx-content {
-          flex: 1 1 auto;
-        }
       `,
     ];
   }
 
-  constructor() {
-    super();
+  // Defaults to undefined which indicates the editor is loading.
+  @state() editorMode?: frozenDef.ContentInputTypeConfig;
 
-    this.localizedStrings = globalThis.coreLS;
+  override async firstUpdated() {
+    switch (appPageState.inputType) {
+      case frozenDef.ContentInputTypeConfig.standard: {
+        await import('./kxEditorView.js');
+        this.editorMode = frozenDef.ContentInputTypeConfig.standard;
+        break;
+      }
+
+      case frozenDef.ContentInputTypeConfig.markdown: {
+        await import('./mdEditor.js');
+        this.editorMode = frozenDef.ContentInputTypeConfig.markdown;
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+  }
+
+  override render() {
+    if (!this.editorMode) {
+      return html`<spinner-view></spinner-view>`;
+    }
+    if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
+      return html` <md-editor></md-editor>`;
+    }
+    return html` <kx-editor-view></kx-editor-view>`;
   }
 }
 

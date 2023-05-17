@@ -3,3 +3,4 @@ MainPageStateData:
   user: :sod.auth.User?
   postPerm: string
   forums: bool
+  inputType: string

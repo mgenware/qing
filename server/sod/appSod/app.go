@@ -16,15 +16,17 @@ package appSod
 import "qing/sod/authSod"
 
 type MainPageStateData struct {
-	User     *authSod.User `json:"user,omitempty"`
-	PostPerm string        `json:"postPerm,omitempty"`
-	Forums   bool          `json:"forums,omitempty"`
+	User      *authSod.User `json:"user,omitempty"`
+	PostPerm  string        `json:"postPerm,omitempty"`
+	Forums    bool          `json:"forums,omitempty"`
+	InputType string        `json:"inputType,omitempty"`
 }
 
-func NewMainPageStateData(user *authSod.User, postPerm string, forums bool) MainPageStateData {
+func NewMainPageStateData(user *authSod.User, postPerm string, forums bool, inputType string) MainPageStateData {
 	return MainPageStateData{
 		User: user,
 		PostPerm: postPerm,
 		Forums: forums,
+		InputType: inputType,
 	}
 }

@@ -58,6 +58,10 @@ export class AppPageState {
   get forums(): boolean {
     return !!getMainPageState().forums;
   }
+
+  get inputType(): frozenDef.ContentInputTypeConfig {
+    return getMainPageState().inputType as frozenDef.ContentInputTypeConfig;
+  }
 }
 
 const appPageState = new AppPageState();
