@@ -14,7 +14,7 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.0.0",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.11.2",
+    "@codemirror/view": "^6.12.0",
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.7",
     "@qing/def": "workspace:*",
@@ -33,7 +33,7 @@
     "qing-dock-box": "^0.2.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
-    "tslib": "^2.5.0"
+    "tslib": "^2.5.2"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.8",
