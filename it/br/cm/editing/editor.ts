@@ -5,14 +5,24 @@
  * be found in the LICENSE file.
  */
 
-import { Element } from 'br.js';
+import { Element, expect } from 'br.js';
 
-const editorContentSel = '.kx-content';
+const editorSel = 'core-editor';
 
-export function shouldHaveHTML(el: Element, html: string) {
-  return el.$(editorContentSel).shouldHaveHTML(html);
+interface CoreEditorElement extends HTMLElement {
+  getRenderedContent(): string;
+  resetRenderedContent(content: string): void;
+}
+
+export async function shouldHaveContent(el: Element, content: string) {
+  const actContent = await el
+    .$(editorSel)
+    .c.evaluate((editor: CoreEditorElement) => editor.getRenderedContent());
+  expect(actContent).toBe(content);
 }
 
 export function fill(el: Element, html: string) {
-  return el.$(editorContentSel).c.fill(html);
+  return el
+    .$(editorSel)
+    .c.evaluate((editor: CoreEditorElement) => editor.resetRenderedContent(html));
 }

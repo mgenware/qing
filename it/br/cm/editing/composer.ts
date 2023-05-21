@@ -69,7 +69,10 @@ export async function shouldAppear(overlayEl: br.Element, e: ComposerShouldAppea
     }
   }
   if (e.contentHTML !== undefined) {
-    await ed.shouldHaveHTML(el, e.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>');
+    await ed.shouldHaveContent(
+      el,
+      e.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>',
+    );
   }
 }
 

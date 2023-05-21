@@ -20,10 +20,10 @@ export function PANIC(errMessage: string) {
   }
 }
 
-export function CHECK(v: unknown): asserts v {
+export function CHECK(v: unknown, msg?: string): asserts v {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!v) {
-    PANIC('Assertion failed');
+    PANIC(msg ?? 'Assertion failed');
   }
 }
 

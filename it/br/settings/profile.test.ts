@@ -42,7 +42,7 @@ test('Settings - Profile - Click-through from navbar', async ({ page }) => {
   await ivh.shouldHaveValue(rootEl.$inputView('Company'), 'USER_COMPANY');
   await ivh.shouldHaveValue(rootEl.$inputView('Location'), 'USER_LOC');
 
-  await ed.shouldHaveHTML(rootEl.$(bioEditorSel), '<p>&lt;USER_BIO&gt;</p>');
+  await ed.shouldHaveContent(rootEl.$(bioEditorSel), '<p>&lt;USER_BIO&gt;</p>');
 });
 
 test('Settings - Update profile info', async ({ page }) => {
@@ -69,7 +69,7 @@ test('Settings - Update profile info', async ({ page }) => {
     await ivh.shouldHaveValue(rootEl.$inputView('Company'), 'NEW_COMPANY');
     await ivh.shouldHaveValue(rootEl.$inputView('Location'), 'NEW_LOCATION');
 
-    await ed.shouldHaveHTML(rootEl.$(bioEditorSel), '<p>&lt;NEW_USER_BIO&gt;</p>');
+    await ed.shouldHaveContent(rootEl.$(bioEditorSel), '<p>&lt;NEW_USER_BIO&gt;</p>');
 
     // Check user profile page.
     await p.goto(`/u/${u.id}`, null);

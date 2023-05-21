@@ -48,6 +48,6 @@ test('Post page text overflow', async ({ page }) => {
       await p.goto(link, null, { mobile: true });
       await p.shouldNotHaveHScrollBar();
     },
-    { body: { title: def.sd.longText, contentHTML: def.sd.longText, summary: 'TEST_SUMMARY' } },
+    { body: { title: def.sd.longText, html: def.sd.longText, summary: 'TEST_SUMMARY' } },
   );
 });
