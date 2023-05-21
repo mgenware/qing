@@ -9,7 +9,7 @@ import * as cm from '../common.js';
 import * as br from 'br.js';
 import * as def from 'base/def.js';
 import * as act from '../actions.js';
-import * as cps from 'br/com/editing/composer.js';
+import * as cps from 'br/cm/editing/composer.js';
 
 interface TestWithOverlayParams {
   name: string;

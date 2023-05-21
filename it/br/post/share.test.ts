@@ -7,7 +7,7 @@
 
 import { newPost } from 'helper/post.js';
 import { test, usr, $ } from 'br.js';
-import * as sh from 'br/com/overlays/share.js';
+import * as sh from 'br/cm/overlays/share.js';
 import { serverURL } from 'base/def.js';
 
 test('Share a post', async ({ page }) => {

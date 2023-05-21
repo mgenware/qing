@@ -8,7 +8,7 @@
 import { test, $, usr } from 'br.js';
 import { newPost } from 'helper/post.js';
 import * as cm from './cm.js';
-import * as pb from 'br/com/content/pageBar.js';
+import * as pb from 'br/cm/content/pageBar.js';
 
 const homeItemSel = 'main .section > div > .avatar-grid';
 const page2URL = '/?page=2';

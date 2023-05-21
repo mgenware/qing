@@ -6,12 +6,12 @@
  */
 
 import { test, $ } from 'br.js';
-import * as ivh from 'br/com/forms/inputViewHelper.js';
+import * as ivh from 'br/cm/forms/inputViewHelper.js';
 import * as authRoutes from '@qing/routes/auth.js';
-import * as kh from 'br/com/keyboardHelper.js';
+import * as kh from 'br/cm/keyboardHelper.js';
 import * as mh from 'helper/mail.js';
 import { newEmail } from 'helper/user.js';
-import * as nbm from 'br/com/navbar/menu.js';
+import * as nbm from 'br/cm/navbar/menu.js';
 
 const signUpAppSel = 'sign-up-app';
 

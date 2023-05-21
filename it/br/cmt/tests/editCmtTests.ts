@@ -9,7 +9,7 @@ import { usr } from 'br.js';
 import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import { writeCmt, editCmt } from '../actions.js';
-import * as cps from 'br/com/editing/composer.js';
+import * as cps from 'br/cm/editing/composer.js';
 import delay from 'base/delay.js';
 
 function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {

@@ -6,11 +6,11 @@
  */
 
 import { test, $, authUsr, usr } from 'br.js';
-import * as nbc from 'br/com/navbar/checks.js';
-import * as ivh from 'br/com/forms/inputViewHelper.js';
-import * as kh from 'br/com/keyboardHelper.js';
+import * as nbc from 'br/cm/navbar/checks.js';
+import * as ivh from 'br/cm/forms/inputViewHelper.js';
+import * as kh from 'br/cm/keyboardHelper.js';
 import * as authRoutes from '@qing/routes/auth.js';
-import * as nbm from 'br/com/navbar/menu.js';
+import * as nbm from 'br/cm/navbar/menu.js';
 
 const signInAppSel = 'sign-in-app';
 

@@ -6,7 +6,7 @@
  */
 
 import { test, $, usr } from 'br.js';
-import * as nb from 'br/com/navbar/checks.js';
+import * as nb from 'br/cm/navbar/checks.js';
 
 test('`br.page` has no users logged in', async ({ page }) => {
   const p = $(page);

@@ -7,7 +7,7 @@
 
 import { Response, expect } from '@playwright/test';
 import { Page, alternativeLocale } from 'br.js';
-import * as nbm from 'br/com/navbar/menu.js';
+import * as nbm from 'br/cm/navbar/menu.js';
 
 export async function checkPageLocale(p: Page, idx: number) {
   await p.$('html').e.toHaveAttribute('lang', idx === 0 ? 'en' : alternativeLocale);

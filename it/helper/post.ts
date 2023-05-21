@@ -12,14 +12,18 @@ import { frozenDef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
-export interface PostBodyContent {
-  title: string;
-  contentHTML: string;
-  summary: string;
+export interface CoreEditorContent {
+  html: string;
+  summary?: string;
+  src?: string;
 }
 
-const defaultPostContent: PostBodyContent = {
-  contentHTML: def.sd.contentDBHTML,
+export interface ComposerContent extends CoreEditorContent {
+  title?: string;
+}
+
+const defaultComposerContent: ComposerContent = {
+  html: def.sd.contentDBHTML,
   title: def.sd.title,
   summary: 'TEST_POST_SUMMARY',
 };
@@ -36,11 +40,11 @@ export function verifyNewPostAPIResult(r: string | null): string {
 }
 
 export interface NewPostOptions {
-  body?: PostBodyContent;
+  body?: ComposerContent;
 }
 
 async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
-  const body = { content: opt?.body ?? defaultPostContent };
+  const body = { content: opt?.body ?? defaultComposerContent };
   const r = await entityUtil.setEntity(frozenDef.ContentBaseType.post, body, user);
   const id = verifyNewPostAPIResult(r);
   await entityUtil.updateEntityTime(id, frozenDef.ContentBaseType.post);

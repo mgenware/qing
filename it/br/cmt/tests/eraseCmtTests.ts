@@ -6,8 +6,8 @@
  */
 
 import { usr } from 'br.js';
-import * as eb from 'br/com/editing/editBar.js';
-import * as alt from 'br/com/overlays/alert.js';
+import * as eb from 'br/cm/editing/editBar.js';
+import * as alt from 'br/cm/overlays/alert.js';
 import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';

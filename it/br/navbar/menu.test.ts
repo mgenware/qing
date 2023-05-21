@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $ } from 'br.js';
-import * as nb from 'br/com/navbar/menu.js';
+import * as nb from 'br/cm/navbar/menu.js';
 
 const emptyContentID = '#br-copyright';
 

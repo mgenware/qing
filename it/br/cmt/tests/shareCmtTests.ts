@@ -9,7 +9,7 @@ import { usr } from 'br.js';
 import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
-import * as sh from 'br/com/overlays/share.js';
+import * as sh from 'br/cm/overlays/share.js';
 
 export default function testShare(w: cm.CmtFixtureWrapper) {
   w.test('Share a cmt or reply', { viewer: usr.user }, async ({ p }) => {

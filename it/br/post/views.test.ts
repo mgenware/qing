@@ -8,7 +8,7 @@
 import { newPost } from 'helper/post.js';
 import { test, usr, $ } from 'br.js';
 import * as cm from './common.js';
-import * as alt from 'br/com/overlays/alert.js';
+import * as alt from 'br/cm/overlays/alert.js';
 import * as def from 'base/def.js';
 
 test('Post page in author view', async ({ page }) => {

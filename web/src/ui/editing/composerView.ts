@@ -35,8 +35,7 @@ class ValidationError extends Error {
   }
 }
 
-export interface ComposerContent {
-  content: CoreEditorContent;
+export interface ComposerContent extends CoreEditorContent {
   title?: string;
 }
 
@@ -139,18 +138,6 @@ export class ComposerView extends BaseElement {
     return this.titleInputEl.value?.value;
   }
 
-  // setContentHTML(contentHTML: string, canUndo: boolean) {
-  //   const { editorEl } = this;
-  //   if (editorEl.value) {
-  //     if (canUndo) {
-  //       editorEl.value.setContentHTML(contentHTML);
-  //     } else {
-  //       editorEl.value.resetContentHTML(contentHTML);
-  //     }
-  //     this.markAsSaved();
-  //   }
-  // }
-
   setTitleText(text: string) {
     if (this.titleInputEl.value) {
       this.titleInputEl.value.value = text;
@@ -174,7 +161,7 @@ export class ComposerView extends BaseElement {
                 placeholder=${globalThis.coreLS.title}></input-view>
             </div>
           `,
-        )} <editor-view ${ref(this.editorEl)}></editor-view>`;
+        )} <core-editor ${ref(this.editorEl)}></core-editor>`;
     } else {
       editorContent = html` <status-view
         .status=${loadingStatus}
@@ -226,7 +213,7 @@ export class ComposerView extends BaseElement {
       );
     }
     const payload: ComposerContent = {
-      content,
+      ...content,
     };
     if (this.hasTitle) {
       payload.title = this.titleText;

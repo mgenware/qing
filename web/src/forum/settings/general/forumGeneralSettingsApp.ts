@@ -86,7 +86,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
         <label class="app-form-label m-t-md" for=${editorElementID}
           >${globalThis.coreLS.description}</label
         >
-        <editor-view class="m-t-md" id=${editorElementID}></editor-view>
+        <core-editor class="m-t-md" id=${editorElementID}></core-editor>
 
         <qing-button class="m-t-md" btnStyle="success" @click=${this.handleSaveInfoClick}>
           ${globalThis.coreLS.save}

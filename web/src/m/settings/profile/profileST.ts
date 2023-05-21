@@ -96,7 +96,7 @@ export class ProfileST extends StatefulPage {
           @input-change=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
         <label class="app-form-label" for=${editorID}>${globalThis.coreLS.bio}</label>
-        <editor-view id=${editorID} class="bio-editor"></editor-view>
+        <core-editor id=${editorID} class="bio-editor"></core-editor>
 
         <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
           ${globalThis.coreLS.save}

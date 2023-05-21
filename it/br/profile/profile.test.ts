@@ -6,8 +6,8 @@
  */
 
 import { test, $, usr, Page } from 'br.js';
-import * as nbm from 'br/com/navbar/menu.js';
-import * as snav from 'br/com/navbar/sidenav.js';
+import * as nbm from 'br/cm/navbar/menu.js';
+import * as snav from 'br/cm/navbar/sidenav.js';
 import { newUser } from 'helper/user.js';
 import { defaultUserImg } from '@qing/routes/static.js';
 
