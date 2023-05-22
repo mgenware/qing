@@ -225,7 +225,13 @@ export class CmtBlock extends BaseElement {
     if (!this.editEditorEl || !this.cmt) {
       return;
     }
-    const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, this.editEditorEl.getPayload());
+    const editorImpl = this.editEditorEl.unsafeEditorImplEl;
+    CHECK(editorImpl);
+    const loader = SetCmtLoader.editCmt(
+      this.host,
+      this.cmt.id,
+      this.editEditorEl.getPayload(editorImpl),
+    );
     const apiRes = await appTask.critical(loader, globalThis.coreLS.saving);
     if (apiRes.data) {
       this.destroyEditEditor();
@@ -255,7 +261,13 @@ export class CmtBlock extends BaseElement {
     if (!this.replyEditorEl || !this.cmt) {
       return;
     }
-    const loader = SetCmtLoader.newReply(this.host, this.cmt.id, this.replyEditorEl.getPayload());
+    const editorImpl = this.replyEditorEl.unsafeEditorImplEl;
+    CHECK(editorImpl);
+    const loader = SetCmtLoader.newReply(
+      this.host,
+      this.cmt.id,
+      this.replyEditorEl.getPayload(editorImpl),
+    );
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyReplyEditor();
@@ -273,12 +285,18 @@ export class CmtBlock extends BaseElement {
   }
 
   private destroyEditEditor() {
-    this.editEditorEl?.markAsSaved();
+    const editorImpl = this.editEditorEl?.unsafeEditorImplEl;
+    if (editorImpl) {
+      this.editEditorEl?.markAsSaved(editorImpl);
+    }
     this._editEditorOpen = false;
   }
 
   private destroyReplyEditor() {
-    this.replyEditorEl?.markAsSaved();
+    const editorImpl = this.replyEditorEl?.unsafeEditorImplEl;
+    if (editorImpl) {
+      this.replyEditorEl?.markAsSaved(editorImpl);
+    }
     this._replyEditorQuoteHTML = '';
     this._replyEditorOpen = false;
   }

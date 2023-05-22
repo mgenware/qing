@@ -12,6 +12,7 @@ import 'qing-overlay';
 import { SetEntityLoader } from './loaders/setEntityLoader.js';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
+import { CHECK } from 'checks.js';
 
 const composerID = 'composer';
 
@@ -55,6 +56,10 @@ export default class SetEntityApp extends BaseElement {
   }
 
   private async handleSubmit(e: CustomEvent<ComposerContent>) {
+    CHECK(this.composerEl);
+    const editorImpl = this.composerEl.unsafeEditorImplEl;
+    CHECK(editorImpl);
+
     const loader = new SetEntityLoader({
       content: e.detail,
       entityType: this.entityType,
@@ -66,7 +71,7 @@ export default class SetEntityApp extends BaseElement {
       this.entityID ? globalThis.coreLS.saving : globalThis.coreLS.publishing,
     );
     if (status.isSuccess) {
-      this.composerEl?.markAsSaved();
+      this.composerEl.markAsSaved(editorImpl);
       if (status.data) {
         pu.setURL(status.data);
       } else {

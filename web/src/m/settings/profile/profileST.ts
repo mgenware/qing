@@ -6,7 +6,7 @@
  */
 
 import { customElement, html, css, state } from 'll.js';
-import { ERR } from 'checks.js';
+import { CHECK, ERR } from 'checks.js';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
 import 'ui/content/headingView.js';
@@ -24,7 +24,7 @@ import 'ui/editing/coreEditor.js';
 import CoreEditor from 'ui/editing/coreEditor.js';
 import strf from 'bowhead-js';
 
-const editorID = 'editor';
+const bioEditorID = 'bio-editor';
 
 @customElement('profile-st')
 export class ProfileST extends StatefulPage {
@@ -59,8 +59,8 @@ export class ProfileST extends StatefulPage {
   @state() private updateInfoStatus = LoadingStatus.success;
   @state() private avatarURL = '';
 
-  private get editorEl(): CoreEditor | null {
-    return this.getShadowElement<CoreEditor>(editorID);
+  private get bioEditorEl(): CoreEditor | null {
+    return this.getShadowElement<CoreEditor>(bioEditorID);
   }
 
   override renderContent() {
@@ -95,8 +95,8 @@ export class ProfileST extends StatefulPage {
           value=${this.location}
           @input-change=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
-        <label class="app-form-label" for=${editorID}>${globalThis.coreLS.bio}</label>
-        <core-editor id=${editorID} class="bio-editor"></core-editor>
+        <label class="app-form-label" for=${bioEditorID}>${globalThis.coreLS.bio}</label>
+        <core-editor id=${bioEditorID} class="bio-editor"></core-editor>
 
         <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
           ${globalThis.coreLS.save}
@@ -115,11 +115,16 @@ export class ProfileST extends StatefulPage {
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
       this.avatarURL = profile.iconURL ?? '';
-      this.editorEl?.resetRenderedContent(profile.bioHTML ?? '');
+
+      const bioEditorImpl = this.bioEditorEl?.unsafeImplEl;
+      if (bioEditorImpl) {
+        this.bioEditorEl?.resetRenderedContent(bioEditorImpl, profile.bioHTML ?? '');
+      }
     }
   }
 
   private async handleSaveProfileClick() {
+    CHECK(this.bioEditorEl);
     // Validate user inputs.
     try {
       if (!this.userName) {
@@ -131,14 +136,16 @@ export class ProfileST extends StatefulPage {
       return;
     }
 
-    const bioContent = this.editorEl?.getContent({ summary: false });
+    const bioContent = this.bioEditorEl.getContent(await this.bioEditorEl.wait(), {
+      summary: false,
+    });
     const loader = new SetProfileInfoLoader(
       this.userName,
       this.url,
       this.company,
       this.location,
-      bioContent?.html ?? '',
-      bioContent?.src,
+      bioContent.html,
+      bioContent.src,
     );
     const status = await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;

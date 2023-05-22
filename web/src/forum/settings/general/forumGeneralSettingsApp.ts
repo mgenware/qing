@@ -101,16 +101,19 @@ export class ForumGeneralSettingsApp extends BaseElement {
     if (status.data) {
       const info = status.data;
       this.forumName = info.name ?? '';
-      if (this.descEditorView) {
-        this.descEditorView.resetRenderedContent(info.descHTML ?? '');
+
+      const descEditorImpl = this.descEditorView?.unsafeImplEl;
+      if (this.descEditorView && descEditorImpl) {
+        this.descEditorView.resetRenderedContent(descEditorImpl, info.descHTML ?? '');
       }
     }
   }
 
   private async handleSaveInfoClick() {
-    if (!this.descEditorView) {
-      return;
-    }
+    CHECK(this.descEditorView);
+    const descEditorImpl = this.descEditorView.unsafeImplEl;
+    CHECK(descEditorImpl);
+
     // Validate user inputs.
     try {
       if (!this.forumName) {
@@ -121,7 +124,7 @@ export class ForumGeneralSettingsApp extends BaseElement {
       await appAlert.error(err.message);
       return;
     }
-    const descContent = this.descEditorView.getContent({ summary: false });
+    const descContent = this.descEditorView.getContent(descEditorImpl, { summary: false });
     const loader = new SetForumEditingInfoLoader(
       this.fid,
       this.forumName,

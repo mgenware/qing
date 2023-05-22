@@ -5,14 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { customElement, css, state, html, BaseElement } from 'll.js';
+import { customElement, css, state, html, BaseElement, TemplateResult, property } from 'll.js';
 import '../status/spinnerView.js';
-import appPageState from 'app/appPageState.js';
 import { frozenDef, appDef } from '@qing/def';
 
 // Imported types (eliminated after compilation).
 import type { KXEditor } from 'kangxi-editor';
 import type { MdEditor } from './mdEditor.js';
+import { Completer } from 'lib/completer.js';
+import { CHECK } from 'checks.js';
 
 export interface CoreEditorContent {
   html: string;
@@ -23,6 +24,8 @@ export interface CoreEditorContent {
 export interface CoreEditorGetSummaryOptions {
   summary: boolean;
 }
+
+export type CoreEditorImpl = KXEditor | MdEditor;
 
 @customElement('core-editor')
 export default class CoreEditor extends BaseElement {
@@ -40,77 +43,107 @@ export default class CoreEditor extends BaseElement {
     ];
   }
 
-  // Defaults to undefined which indicates the editor is loading.
-  @state() private editorMode?: frozenDef.ContentInputTypeConfig;
+  // Prefer using wait() instead of directly accessing this property.
+  #unsafeImplEl?: CoreEditorImpl;
+  #editorCompleter = new Completer<CoreEditorImpl>();
 
-  get kxEditorEl(): KXEditor | null {
-    return this.queryShadowElement<KXEditor>('kx-editor-view');
+  get unsafeImplEl(): CoreEditorImpl | undefined {
+    return this.#unsafeImplEl;
   }
 
-  get mdEditorEl(): MdEditor | null {
-    return this.queryShadowElement<MdEditor>('md-editor');
-  }
+  @property() editorMode = frozenDef.ContentInputTypeConfig.standard;
+  @state() private editorTemplate?: TemplateResult;
 
   override async firstUpdated() {
-    switch (appPageState.inputType) {
+    await this.startLoadingEditor();
+  }
+
+  private async startLoadingEditor() {
+    switch (this.editorMode) {
       case frozenDef.ContentInputTypeConfig.standard: {
         await import('./kxEditorView.js');
-        this.editorMode = frozenDef.ContentInputTypeConfig.standard;
+        this.editorTemplate = html`<kx-editor-view></kx-editor-view>`;
         break;
       }
 
       case frozenDef.ContentInputTypeConfig.markdown: {
         await import('./mdEditor.js');
-        this.editorMode = frozenDef.ContentInputTypeConfig.markdown;
+        this.editorTemplate = html`<md-editor></md-editor>`;
         break;
       }
 
       default: {
-        break;
+        throw new Error(`Unknown input type: ${this.editorMode}`);
       }
     }
+
+    await this.updateComplete;
+    // Only after the editor is rendered, we can get the editor element and complete the completer.
+    setTimeout(() => {
+      let editorEl: CoreEditorImpl | null = null;
+      switch (this.editorMode) {
+        case frozenDef.ContentInputTypeConfig.standard: {
+          editorEl = this.queryShadowElement<KXEditor>('kx-editor-view');
+          break;
+        }
+
+        case frozenDef.ContentInputTypeConfig.markdown: {
+          editorEl = this.queryShadowElement<MdEditor>('md-editor');
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      CHECK(editorEl, 'Editor element is null after loading');
+      this.#editorCompleter.complete(editorEl);
+    }, 0);
   }
 
   override render() {
-    if (!this.editorMode) {
-      return html`<spinner-view></spinner-view>`;
+    if (this.editorTemplate) {
+      return this.editorTemplate;
     }
-    if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
-      return html` <md-editor></md-editor>`;
-    }
-    return html` <kx-editor-view></kx-editor-view>`;
+    return html`<spinner-view></spinner-view>`;
   }
 
-  private contentSrc(): string | undefined {
-    if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
-      return this.mdEditorEl?.getContent() ?? '';
+  wait(): Promise<CoreEditorImpl> {
+    return this.#editorCompleter.promise;
+  }
+
+  private contentSrc(editorEl: CoreEditorImpl): string | undefined {
+    if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
+      // Standard editor doesn't have a content source.
+      return undefined;
     }
-    // Standard editor doesn't have a content source.
-    return undefined;
+    const md = editorEl as MdEditor;
+    return md.getContent() ?? '';
   }
 
-  private contentHTML(): string {
-    if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
-      return this.mdEditorEl?.getHTML() ?? '';
+  private contentHTML(editorEl: CoreEditorImpl): string {
+    if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
+      const kx = editorEl as KXEditor;
+      return kx.contentHTML() ?? '';
     }
-    return this.kxEditorEl?.contentHTML() ?? '';
+    const md = editorEl as MdEditor;
+    return md.getHTML() ?? '';
   }
 
-  getEditorMode(): frozenDef.ContentInputTypeConfig | undefined {
-    return this.editorMode;
-  }
-
-  getContent(opt: CoreEditorGetSummaryOptions): CoreEditorContent {
-    const contentHTML = this.contentHTML();
-    const src = this.contentSrc();
+  getContent(editorEl: CoreEditorImpl, opt: CoreEditorGetSummaryOptions): CoreEditorContent {
+    const contentHTML = this.contentHTML(editorEl);
+    const src = this.contentSrc(editorEl);
     let summary: string | undefined;
     if (opt.summary) {
-      if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
+      if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
+        // KXEditor has summary data in it.
+        const kx = editorEl as KXEditor;
+        summary = kx.contentText() ?? '';
+      } else {
+        // For md editor, we need to parse the HTML to get the summary.
         summary =
           new DOMParser().parseFromString(contentHTML, 'text/html').documentElement.textContent ??
           '';
-      } else {
-        summary = this.kxEditorEl?.contentText() ?? '';
       }
       const summaryMaxLen = appDef.lenMaxPostSummary - 10; // make some room for '...';
       summary = summary.trim();
@@ -126,18 +159,22 @@ export default class CoreEditor extends BaseElement {
   }
 
   // Returns the rendered content. For md editor, it's markdown. For standard editor, it's HTML.
-  getRenderedContent(): string {
-    if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
-      return this.mdEditorEl?.getContent() ?? '';
+  getRenderedContent(editorEl: CoreEditorImpl): string {
+    if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
+      const kx = editorEl as KXEditor;
+      return kx.contentHTML() ?? '';
     }
-    return this.kxEditorEl?.contentHTML() ?? '';
+    const md = editorEl as MdEditor;
+    return md.getContent() ?? '';
   }
 
-  resetRenderedContent(content: string) {
-    if (this.editorMode === frozenDef.ContentInputTypeConfig.markdown) {
-      this.mdEditorEl?.setContent(content);
+  resetRenderedContent(editorEl: CoreEditorImpl, content: string) {
+    if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
+      const kx = editorEl as KXEditor;
+      kx.setContentHTML(content);
     } else {
-      this.kxEditorEl?.setContentHTML(content);
+      const md = editorEl as MdEditor;
+      md.setContent(content);
     }
   }
 }

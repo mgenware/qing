@@ -5,29 +5,22 @@
  * be found in the LICENSE file.
  */
 
-import {
-  BaseElement,
-  customElement,
-  html,
-  css,
-  Ref,
-  createRef,
-  ref,
-  TemplateResult,
-  property,
-  when,
-} from 'll.js';
+import { BaseElement, customElement, html, css, property, when } from 'll.js';
 import './coreEditor.js';
-import { ERR } from 'checks.js';
+import { CHECK, ERR } from 'checks.js';
 import 'ui/forms/inputView.js';
+import 'ui/status/statusOverlay.js';
 import 'ui/status/statusView.js';
-import CoreEditor, { CoreEditorContent } from './coreEditor.js';
+import CoreEditor, { CoreEditorContent, CoreEditorImpl } from './coreEditor.js';
 import appAlert from 'app/appAlert.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import appTask from 'app/appTask.js';
 import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoader.js';
 import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
+import { InputView } from 'ui/forms/inputView.js';
+
+const titleInputID = 'title-input';
 
 class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
@@ -40,7 +33,7 @@ export interface ComposerContent extends CoreEditorContent {
 }
 
 /**
- * Built upon editor-view, providing the following features:
+ * Built upon core-editor, providing the following features:
  *   Title, and content fields.
  *   Warns the user about unsaved changes.
  *   Submit and cancel buttons.
@@ -67,7 +60,7 @@ export class ComposerView extends BaseElement {
           margin-left: var(--app-dialog-btn-spacing);
         }
 
-        editor-view {
+        core-editor {
           flex: 1 1 auto;
           min-height: 0;
         }
@@ -90,28 +83,40 @@ export class ComposerView extends BaseElement {
   // Could be content HTML or src based on editor input type.
   private lastSavedContent = '';
 
-  private editorEl: Ref<CoreEditor> = createRef();
-  private titleInputEl: Ref<HTMLInputElement> = createRef();
+  private get editorEl(): CoreEditor {
+    const el = this.queryShadowElement<CoreEditor>('core-editor');
+    CHECK(el, 'Editor element not found');
+    return el;
+  }
 
-  hasContentChanged() {
+  private get titleInputEl(): InputView | null {
+    return this.getShadowElement<InputView>(titleInputID);
+  }
+
+  get unsafeEditorImplEl(): CoreEditorImpl | undefined {
+    return this.editorEl.unsafeImplEl;
+  }
+
+  hasContentChanged(impl: CoreEditorImpl): boolean {
+    const renderedContent = this.editorEl.getRenderedContent(impl);
     return (
-      this.lastSavedContent !== this.editorEl.value?.getRenderedContent() ||
+      this.lastSavedContent !== renderedContent ||
       (this.hasTitle && this.lastSavedTitle !== this.titleText)
     );
   }
 
-  markAsSaved() {
-    this.lastSavedContent = this.editorEl.value?.getRenderedContent() ?? '';
+  markAsSaved(impl: CoreEditorImpl) {
+    this.lastSavedContent = this.editorEl.getRenderedContent(impl);
     if (this.hasTitle) {
       this.lastSavedTitle = this.titleText ?? '';
     }
   }
 
-  resetEditor() {
+  resetComposer(impl: CoreEditorImpl) {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
     this.setTitleText('');
-    this.editorEl.value?.resetRenderedContent('');
+    this.editorEl.resetRenderedContent(impl, '');
   }
 
   override connectedCallback() {
@@ -125,49 +130,49 @@ export class ComposerView extends BaseElement {
   }
 
   override async firstUpdated() {
+    // Wait for the editor to be ready.
+    const impl = await this.editorEl.wait();
     if (this.entity) {
       await this.loadEntitySource();
     } else {
       // We are creating a new post, set the loading status to success.
       this.loadingStatus = LoadingStatus.success;
     }
-    this.markAsSaved();
+    this.markAsSaved(impl);
   }
 
   get titleText(): string | undefined {
-    return this.titleInputEl.value?.value;
+    return this.titleInputEl?.value;
   }
 
   setTitleText(text: string) {
-    if (this.titleInputEl.value) {
-      this.titleInputEl.value.value = text;
+    if (this.titleInputEl) {
+      this.titleInputEl.value = text;
     }
   }
 
   override render() {
     const { loadingStatus } = this;
 
-    let editorContent: TemplateResult;
-    if (loadingStatus.isSuccess) {
-      editorContent = html`<h2>${this.desc}</h2>
-        <slot name="header"></slot>
-        ${when(
-          this.hasTitle,
-          () => html`
-            <div class="p-b-sm flex-auto">
-              <input-view
-                ${ref(this.titleInputEl)}
-                required
-                placeholder=${globalThis.coreLS.title}></input-view>
-            </div>
-          `,
-        )} <core-editor ${ref(this.editorEl)}></core-editor>`;
-    } else {
-      editorContent = html` <status-view
-        .status=${loadingStatus}
-        .canRetry=${true}
-        @status-view-retry=${this.loadEntitySource}></status-view>`;
-    }
+    const editorContent = html`<status-overlay
+      .status=${loadingStatus}
+      .canRetry=${true}
+      @status-overlay-retry=${this.loadEntitySource}>
+      <h2>${this.desc}</h2>
+      <slot name="header"></slot>
+      ${when(
+        this.hasTitle,
+        () => html`
+          <div class="p-b-sm flex-auto">
+            <input-view
+              id=${titleInputID}
+              required
+              placeholder=${globalThis.coreLS.title}></input-view>
+          </div>
+        `,
+      )}
+      <core-editor></core-editor>
+    </status-overlay>`;
 
     const bottomContent = html`
       <div class="m-t-md flex-auto editor-buttons text-center">
@@ -199,17 +204,17 @@ export class ComposerView extends BaseElement {
     `;
   }
 
-  getPayload(): ComposerContent {
+  getPayload(impl: CoreEditorImpl): ComposerContent {
     if (this.hasTitle && !this.titleText) {
       throw new ValidationError(strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.title), () =>
-        this.titleInputEl.value?.focus(),
+        this.titleInputEl?.focus(),
       );
     }
-    const content = this.editorEl.value?.getContent({ summary: this.hasTitle });
-    if (!content?.src && !content?.html) {
+    const content = this.editorEl.getContent(impl, { summary: this.hasTitle });
+    if (!content.src && !content.html) {
       throw new ValidationError(
         strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.content),
-        () => this.editorEl.value?.focus(),
+        () => this.editorEl.focus(),
       );
     }
     const payload: ComposerContent = {
@@ -221,9 +226,9 @@ export class ComposerView extends BaseElement {
     return payload;
   }
 
-  private async handleSubmit() {
+  private async handleSubmit(impl: CoreEditorImpl) {
     try {
-      const payload = this.getPayload();
+      const payload = this.getPayload(impl);
       this.dispatchEvent(new CustomEvent<ComposerContent>('composer-submit', { detail: payload }));
     } catch (err) {
       ERR(err);
@@ -239,25 +244,40 @@ export class ComposerView extends BaseElement {
   }
 
   private async handleCancel() {
-    const fireEvent = (contentDiscarded: boolean) => {
-      this.markAsSaved();
+    const fireEvent = (impl: CoreEditorImpl | undefined, contentDiscarded: boolean | undefined) => {
+      // No-op if the editor is not loaded yet.
+      if (impl) {
+        this.markAsSaved(impl);
+      }
       this.dispatchEvent(
-        new CustomEvent<boolean>('composer-discard', { detail: contentDiscarded }),
+        new CustomEvent<boolean | undefined>('composer-discard', { detail: contentDiscarded }),
       );
     };
-    if (this.hasContentChanged()) {
+
+    const unsafeImpl = this.editorEl.unsafeImplEl;
+    if (!unsafeImpl) {
+      fireEvent(undefined, undefined);
+      return;
+    }
+    const impl = unsafeImpl;
+    if (this.hasContentChanged(impl)) {
       // Warn the user of unsaved changes.
       if (await appAlert.warnUnsavedChanges()) {
-        fireEvent(true);
+        fireEvent(impl, true);
       }
     } else {
-      fireEvent(false);
+      fireEvent(impl, false);
     }
   }
 
   // Use arrow func for no `bind` calls.
   private handleBeforeUnload = (e: BeforeUnloadEvent) => {
-    if (this.hasContentChanged()) {
+    const unsafeImpl = this.editorEl.unsafeImplEl;
+    if (!unsafeImpl) {
+      // No-op if the editor is not loaded yet.
+      return;
+    }
+    if (this.hasContentChanged(unsafeImpl)) {
       // Cancel the event as stated by the standard.
       e.preventDefault();
       // Chrome requires returnValue to be set.
@@ -270,17 +290,16 @@ export class ComposerView extends BaseElement {
     if (!entity) {
       return;
     }
+    const impl = await this.editorEl.wait();
     const loader = new GetEntitySourceLoader(entity);
     const res = await appTask.local(loader, (s) => (this.loadingStatus = s));
     if (res.data) {
       const postData = res.data;
-      if (this.titleInputEl.value) {
-        this.titleInputEl.value.value = postData.title ?? '';
+      if (this.titleInputEl) {
+        this.titleInputEl.value = postData.title ?? '';
       }
-      if (this.editorEl.value) {
-        this.editorEl.value.resetRenderedContent(postData.contentSrc ?? postData.contentHTML ?? '');
-      }
-      this.markAsSaved();
+      this.editorEl.resetRenderedContent(impl, postData.contentSrc ?? postData.contentHTML ?? '');
+      this.markAsSaved(impl);
     }
   }
 }

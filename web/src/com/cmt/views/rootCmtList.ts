@@ -168,7 +168,9 @@ export class RootCmtList extends BaseElement {
     if (!this.rootEditorEl || !this.cmtBlockEl) {
       return;
     }
-    const loader = SetCmtLoader.newCmt(this.host, this.rootEditorEl.getPayload());
+    const editorImpl = this.rootEditorEl.unsafeEditorImplEl;
+    CHECK(editorImpl);
+    const loader = SetCmtLoader.newCmt(this.host, this.rootEditorEl.getPayload(editorImpl));
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyEditor();
@@ -214,7 +216,10 @@ export class RootCmtList extends BaseElement {
   }
 
   private destroyEditor() {
-    this.rootEditorEl?.markAsSaved();
+    const editorImpl = this.rootEditorEl?.unsafeEditorImplEl;
+    if (editorImpl) {
+      this.rootEditorEl?.markAsSaved(editorImpl);
+    }
     this._rootEditorOpen = false;
   }
 
