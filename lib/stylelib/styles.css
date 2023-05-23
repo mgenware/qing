@@ -58,30 +58,34 @@ img {
 }
 
 /* Flexbox helpers ------------------------- */
-.flex-full {
+/* https://github.com/mgenware/flx-css */
+.flx-col {
+  display: flex;
+  flex-direction: column;
+}
+.flx-row {
+  display: flex;
+  flex-direction: row;
+}
+.flx-auto {
+  flex: 0 1 auto;
+  word-break: break-all;
+}
+.flx-fill {
   flex: 1 1 auto;
-  overflow: hidden;
+  word-break: break-all;
 }
-.flex-auto {
-  flex: 0 0 auto;
-  overflow: hidden;
+.flx-col > .flx-scroll {
+  overflow-y: auto;
 }
-.flex-column {
-  flex-direction: column;
+.flx-row > .flx-scroll {
+  overflow-x: auto;
 }
-.d-flex {
-  display: flex;
-}
-.flex-column {
-  flex-direction: column;
-}
-.flex-grow {
-  flex-grow: 1;
-}
-.flex-v-align {
-  display: flex;
-  align-items: center;
+.flx-center {
+  display: grid;
   justify-content: center;
+  align-content: center;
+  word-break: break-all;
 }
 
 /* Spacing helpers ------------------------- */
