@@ -6,7 +6,6 @@
  */
 
 import { customElement, css, state, html, BaseElement, TemplateResult, property } from 'll.js';
-import '../status/spinnerView.js';
 import { frozenDef, appDef } from '@qing/def';
 
 // Imported types (eliminated after compilation).
@@ -28,16 +27,17 @@ export interface CoreEditorGetSummaryOptions {
 export type CoreEditorImpl = KXEditor | MdEditor;
 
 @customElement('core-editor')
+/**
+ * Don't use this element directly. It doesn't come with any loading UI.
+ * Use <composer-view> or <editor-view> instead.
+ */
 export default class CoreEditor extends BaseElement {
   static override get styles() {
     return [
       super.styles,
       css`
         :host {
-          display: flex;
-          flex-direction: column;
-          /** Make sure it stretches to parent height */
-          flex: 1 1 auto;
+          height: 100%;
         }
       `,
     ];
@@ -59,16 +59,17 @@ export default class CoreEditor extends BaseElement {
   }
 
   private async startLoadingEditor() {
+    this.dispatchEvent(new CustomEvent('core-editor-loading'));
     switch (this.editorMode) {
       case frozenDef.ContentInputTypeConfig.standard: {
         await import('./kxEditorView.js');
-        this.editorTemplate = html`<kx-editor-view></kx-editor-view>`;
+        this.editorTemplate = html`<kx-editor-view class="height-100"></kx-editor-view>`;
         break;
       }
 
       case frozenDef.ContentInputTypeConfig.markdown: {
         await import('./mdEditor.js');
-        this.editorTemplate = html`<md-editor></md-editor>`;
+        this.editorTemplate = html`<md-editor class="height-100"></md-editor>`;
         break;
       }
 
@@ -98,14 +99,12 @@ export default class CoreEditor extends BaseElement {
 
       CHECK(editorEl, 'Editor element is null after loading');
       this.#editorCompleter.complete(editorEl);
+      this.dispatchEvent(new CustomEvent('core-editor-loaded'));
     }, 0);
   }
 
   override render() {
-    if (this.editorTemplate) {
-      return this.editorTemplate;
-    }
-    return html`<spinner-view></spinner-view>`;
+    return html`<div class="height-100">${this.editorTemplate ? this.editorTemplate : ''}</div>`;
   }
 
   wait(): Promise<CoreEditorImpl> {

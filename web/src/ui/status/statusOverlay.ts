@@ -24,6 +24,14 @@ export class StatusOverlay extends BaseElement {
           display: block;
         }
 
+        :host([full-height]) {
+          height: 100%;
+        }
+
+        :host([full-height]) .root-div {
+          height: 100%;
+        }
+
         .root-div {
           display: grid;
         }
@@ -31,6 +39,11 @@ export class StatusOverlay extends BaseElement {
         .content,
         .overlay {
           grid-area: 1 / 1;
+        }
+
+        :host([flex-content]) .content {
+          display: flex;
+          flex-direction: column;
         }
       `,
     ];
@@ -40,7 +53,6 @@ export class StatusOverlay extends BaseElement {
   @property() loadingText = '';
   @property({ type: Boolean }) canRetry = false;
   @property() errorTitle = '';
-  @property() height = '';
 
   override render() {
     const { status } = this;
@@ -55,7 +67,7 @@ export class StatusOverlay extends BaseElement {
         </div>
         ${!status.isSuccess
           ? html`
-              <qing-dock-box class="overlay" style=${`height: ${this.height || '100%'}`}>
+              <qing-dock-box class="overlay height-100">
                 ${status.isWorking
                   ? html`
                       <spinner-view>${this.loadingText || globalThis.coreLS.loading}</spinner-view>

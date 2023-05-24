@@ -45,10 +45,7 @@ export class ComposerView extends BaseElement {
       super.styles,
       css`
         :host {
-          display: flex;
-          flex-direction: column;
-          /** Make sure it stretches to parent height */
-          flex: 1 1 auto;
+          height: 100%;
           min-height: 300px;
         }
 
@@ -61,7 +58,7 @@ export class ComposerView extends BaseElement {
         }
 
         core-editor {
-          flex: 1 1 auto;
+          height: 100%;
           min-height: 0;
         }
       `,
@@ -154,11 +151,7 @@ export class ComposerView extends BaseElement {
   override render() {
     const { loadingStatus } = this;
 
-    const editorContent = html`<status-overlay
-      .status=${loadingStatus}
-      .canRetry=${true}
-      @status-overlay-retry=${this.loadEntitySource}>
-      <h2>${this.desc}</h2>
+    const editorContent = html` <h2>${this.desc}</h2>
       <slot name="header"></slot>
       ${when(
         this.hasTitle,
@@ -171,8 +164,7 @@ export class ComposerView extends BaseElement {
           </div>
         `,
       )}
-      <core-editor></core-editor>
-    </status-overlay>`;
+      <core-editor></core-editor>`;
 
     const bottomContent = html`
       <div class="m-t-md flex-auto editor-buttons text-center">
@@ -192,16 +184,26 @@ export class ComposerView extends BaseElement {
       </div>
     `;
 
-    return html`
-      <div class="d-flex flex-column flex-full">
+    const body = html`
+      <div class="height-100 flx-col">
         <div
-          class="d-flex flex-column flex-full"
+          class="flx-fill flx-col"
           style=${loadingStatus.isSuccess ? '' : 'justify-content: center'}>
           ${editorContent}
         </div>
         ${bottomContent}
       </div>
     `;
+
+    return html`<status-overlay
+      class="height-100"
+      full-height
+      flex-content
+      .status=${loadingStatus}
+      .canRetry=${true}
+      @status-overlay-retry=${this.loadEntitySource}
+      >${body}</status-overlay
+    >`;
   }
 
   getPayload(impl: CoreEditorImpl): ComposerContent {

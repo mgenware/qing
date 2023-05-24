@@ -73,6 +73,10 @@ export class ElementsPage extends BaseElement {
           margin-right: 1rem;
         }
 
+        .flex-grow {
+          flex-grow: 1;
+        }
+
         .text .secondary {
           color: var(--app-default-secondary-fore-color);
         }
@@ -336,13 +340,6 @@ export class ElementsPage extends BaseElement {
       <p>Default<likes-view class="m-l-sm"></likes-view></p>
       <p>Liked<likes-view class="m-l-sm" .likes=${1} hasLiked></likes-view></p>
       <p>Working<likes-view class="m-l-sm" .likes=${1} hasLiked isWorking></likes-view></p>
-      <h3>Flexbox utils</h3>
-      <div class="d-flex">
-        <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} A</div>
-        <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>
-        <div class="flex-auto" style="background-color:yellow">A ${'b'.repeat(20)} D</div>
-        <div class="flex-full" style="background-color:green">A ${'b'.repeat(20)} D</div>
-      </div>
       <h1>MD Editor</h1>
       <md-editor></md-editor>
     `;
