@@ -615,6 +615,12 @@ textarea {
   display: inline-block;
 }
 
+.content-parent {
+  display: grid;
+  place-items: stretch;
+  word-break: break-all;
+}
+
 .height-100 {
   height: 100%;
 }

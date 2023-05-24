@@ -8,7 +8,6 @@
 /* eslint-disable no-alert */
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'qing-button';
-import 'qing-dock-box';
 import 'ui/alerts/alertView.js';
 import 'ui/alerts/sectionView.js';
 import 'ui/content/headingView.js';
@@ -20,7 +19,8 @@ import 'ui/forms/checklistView.js';
 import 'ui/forms/selectView.js';
 import 'ui/forms/checkmarkView.js';
 import 'ui/lists/linkListView.js';
-import 'ui/editing/mdEditor.js';
+import 'ui//editing/composerView.js';
+import 'ui/editing/coreEditor.js';
 import 'com/like/likesView';
 import 'com/postCore/setEntityApp';
 import LoadingStatus from 'lib/loadingStatus.js';
@@ -136,8 +136,13 @@ export class ElementsPage extends BaseElement {
           border: 1px solid var(--app-default-separator-color);
         }
 
-        md-editor {
+        .editor-size {
           height: 300px;
+        }
+
+        .overlay-fixed-content {
+          height: 300px;
+          border: 1px solid gray;
         }
       `,
     ];
@@ -316,10 +321,6 @@ export class ElementsPage extends BaseElement {
         <qing-button @click=${this.startFullscreenSpinner}>Fullscreen spinner</qing-button>
       </p>
       <spinner-view>Loading...</spinner-view>
-      <h3>Spinner in a fixed view</h3>
-      <qing-dock-box class="with-border" style="height:150px">
-        <spinner-view>Loading...</spinner-view>
-      </qing-dock-box>
       <h2>Status view</h2>
       <status-view .status=${workingStatus}></status-view>
       <status-view .status=${errorStatus}></status-view>
@@ -327,6 +328,7 @@ export class ElementsPage extends BaseElement {
       <status-view .status=${workingStatus} .progressViewPadding=${'md'}></status-view>
       <status-view .status=${errorStatus} .progressViewPadding=${'md'}></status-view>
       <h2>Status overlay</h2>
+      <h3>Auto-height</h3>
       <status-overlay .status=${workingStatus}>
         <h1>heading 1</h1>
         <p>text text text text text text text text text text</p>
@@ -335,13 +337,33 @@ export class ElementsPage extends BaseElement {
         <h1>heading 1</h1>
         <p>text text text text text text text text text text</p>
       </status-overlay>
+      <h3>Full-height</h3>
+      <status-overlay .status=${workingStatus}>
+        <div class="overlay-fixed-content">
+          <h1>heading 1</h1>
+          <p>text text text text text text text text text text</p>
+        </div>
+      </status-overlay>
+      <status-overlay .status=${errorStatus}>
+        <div class="overlay-fixed-content">
+          <h1>heading 1</h1>
+          <p>text text text text text text text text text text</p>
+        </div>
+      </status-overlay>
       <h2>Misc</h2>
       <h3>Like Views</h3>
       <p>Default<likes-view class="m-l-sm"></likes-view></p>
       <p>Liked<likes-view class="m-l-sm" .likes=${1} hasLiked></likes-view></p>
       <p>Working<likes-view class="m-l-sm" .likes=${1} hasLiked isWorking></likes-view></p>
-      <h1>MD Editor</h1>
-      <md-editor></md-editor>
+      <h2>Editors</h2>
+      <h3>SD Editor</h3>
+      <core-editor class="editor-size" editormode="standard"></core-editor>
+      <h3>MD Editor</h3>
+      <core-editor class="editor-size" editormode="markdown"></core-editor>
+      <h3>Composer</h3>
+      <composer-view .desc=${'Test'} class="editor-size"></composer-view>
+      <h3>Composer (loading)</h3>
+      <composer-view class="editor-size" .editorMode=${'t'}></composer-view>
     `;
   }
 

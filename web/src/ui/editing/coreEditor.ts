@@ -13,6 +13,7 @@ import type { KXEditor } from 'kangxi-editor';
 import type { MdEditor } from './mdEditor.js';
 import { Completer } from 'lib/completer.js';
 import { CHECK } from 'checks.js';
+import delay from 'lib/delay.js';
 
 export interface CoreEditorContent {
   html: string;
@@ -37,7 +38,7 @@ export default class CoreEditor extends BaseElement {
       super.styles,
       css`
         :host {
-          height: 100%;
+          display: block;
         }
       `,
     ];
@@ -60,6 +61,15 @@ export default class CoreEditor extends BaseElement {
 
   private async startLoadingEditor() {
     this.dispatchEvent(new CustomEvent('core-editor-loading'));
+
+    const modeStr = this.editorMode.toString();
+    if (modeStr === 't') {
+      await delay(5000);
+      await import('./kxEditorView.js');
+      this.editorTemplate = html`<kx-editor-view class="height-100"></kx-editor-view>`;
+      return;
+    }
+
     switch (this.editorMode) {
       case frozenDef.ContentInputTypeConfig.standard: {
         await import('./kxEditorView.js');
@@ -104,7 +114,7 @@ export default class CoreEditor extends BaseElement {
   }
 
   override render() {
-    return html`<div class="height-100">${this.editorTemplate ? this.editorTemplate : ''}</div>`;
+    return this.editorTemplate ? this.editorTemplate : '';
   }
 
   wait(): Promise<CoreEditorImpl> {

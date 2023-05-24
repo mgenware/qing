@@ -9,7 +9,6 @@ import { BaseElement, customElement, html, css, property } from 'll.js';
 import { classMap } from 'lit/directives/class-map.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import 'ui/status/spinnerView.js';
-import 'qing-dock-box';
 import '../alerts/errorView';
 
 // Displays a status-view on top of the content view.
@@ -24,16 +23,15 @@ export class StatusOverlay extends BaseElement {
           display: block;
         }
 
-        :host([full-height]) {
-          height: 100%;
-        }
-
-        :host([full-height]) .root-div {
-          height: 100%;
-        }
-
-        .root-div {
+        .root {
           display: grid;
+          grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+          place-items: stretch;
+          word-break: break-all;
+        }
+
+        :host([constrained]) .root {
+          height: 100%;
         }
 
         .content,
@@ -41,9 +39,9 @@ export class StatusOverlay extends BaseElement {
           grid-area: 1 / 1;
         }
 
-        :host([flex-content]) .content {
-          display: flex;
-          flex-direction: column;
+        .overlay {
+          display: grid;
+          place-items: center;
         }
       `,
     ];
@@ -57,7 +55,7 @@ export class StatusOverlay extends BaseElement {
   override render() {
     const { status } = this;
     return html`
-      <div class="root-div">
+      <div class="root">
         <div
           class=${classMap({
             'content-disabled': !status.isSuccess,
@@ -67,7 +65,7 @@ export class StatusOverlay extends BaseElement {
         </div>
         ${!status.isSuccess
           ? html`
-              <qing-dock-box class="overlay height-100">
+              <div class="overlay">
                 ${status.isWorking
                   ? html`
                       <spinner-view>${this.loadingText || globalThis.coreLS.loading}</spinner-view>
@@ -83,7 +81,7 @@ export class StatusOverlay extends BaseElement {
                       </error-view>
                     `
                   : html``}
-              </qing-dock-box>
+              </div>
             `
           : html``}
       </div>

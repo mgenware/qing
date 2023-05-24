@@ -45,6 +45,7 @@ export default class SetEntityApp extends BaseElement {
       <qing-overlay class="immersive" open @overlay-esc-down=${this.handleEscDown}>
         <composer-view
           .id=${composerID}
+          class="flx-fill"
           .desc=${this.desc}
           .hasTitle=${this.hasTitle}
           .entity=${this.entityID ? { id: this.entityID, type: this.entityType } : undefined}

@@ -6,6 +6,7 @@
  */
 
 import { BaseElement, customElement, html, css, property, when } from 'll.js';
+import { frozenDef } from '@qing/def';
 import './coreEditor.js';
 import { CHECK, ERR } from 'checks.js';
 import 'ui/forms/inputView.js';
@@ -45,7 +46,7 @@ export class ComposerView extends BaseElement {
       super.styles,
       css`
         :host {
-          height: 100%;
+          display: block;
           min-height: 300px;
         }
 
@@ -67,6 +68,7 @@ export class ComposerView extends BaseElement {
 
   @property({ type: Boolean }) hasTitle = false;
 
+  @property() editorMode = frozenDef.ContentInputTypeConfig.standard;
   @property({ type: Object }) entity?: Entity;
   @property() submitButtonText = '';
   @property() desc = '';
@@ -151,12 +153,15 @@ export class ComposerView extends BaseElement {
   override render() {
     const { loadingStatus } = this;
 
-    const editorContent = html` <h2>${this.desc}</h2>
-      <slot name="header"></slot>
+    const editorContent = html`${when(
+        this.desc,
+        () => html`<h2 class="flx-auto">${this.desc}</h2>`,
+      )}
+      <slot name="header" class="flx-auto"></slot>
       ${when(
         this.hasTitle,
         () => html`
-          <div class="p-b-sm flex-auto">
+          <div class="p-b-sm flx-auto">
             <input-view
               id=${titleInputID}
               required
@@ -164,10 +169,13 @@ export class ComposerView extends BaseElement {
           </div>
         `,
       )}
-      <core-editor></core-editor>`;
+      <core-editor
+        .editorMode=${this.editorMode}
+        class="flx-fill"
+        style="flex-basis:0"></core-editor>`;
 
     const bottomContent = html`
-      <div class="m-t-md flex-auto editor-buttons text-center">
+      <div class="m-t-md flx-auto editor-buttons text-center">
         ${when(
           loadingStatus.isSuccess,
           () => html`<qing-button btnStyle="success" @click=${this.handleSubmit}>
@@ -186,19 +194,14 @@ export class ComposerView extends BaseElement {
 
     const body = html`
       <div class="height-100 flx-col">
-        <div
-          class="flx-fill flx-col"
-          style=${loadingStatus.isSuccess ? '' : 'justify-content: center'}>
-          ${editorContent}
-        </div>
+        <div class="flx-fill flx-col">${editorContent}</div>
         ${bottomContent}
       </div>
     `;
 
     return html`<status-overlay
       class="height-100"
-      full-height
-      flex-content
+      constrained
       .status=${loadingStatus}
       .canRetry=${true}
       @status-overlay-retry=${this.loadEntitySource}

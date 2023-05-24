@@ -245,11 +245,8 @@ importers:
         specifier: ^8.2.6
         version: 8.2.6(lit@2.7.4)
       qing-css-base:
-        specifier: ^1.3.0
-        version: 1.3.0
-      qing-dock-box:
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^1.4.1
+        version: 1.4.1
       qing-keyed-array:
         specifier: ^3.0.1
         version: 3.0.1
@@ -5552,15 +5549,10 @@ packages:
       lit: 2.7.4
     dev: false
 
-  /qing-css-base@1.3.0:
-    resolution: {integrity: sha512-6VvFOn1kysnXFwOr+KGi7rRULaaMkCEdLAXqtE+MXogLoZoc5XTCwGs8NIoEP3uVqti3KrFVNOygaD+/DehKcw==}
+  /qing-css-base@1.4.1:
+    resolution: {integrity: sha512-+UbXzXZe/tnULxRxYslDyki6Z80TSr8hqmaccbbLFnIuF8e3yb6H2EilctFC4bJ/MRISxUDtvVVm1AAa2mb9fQ==}
     dependencies:
       mg-modern-normalize: 1.1.0
-    dev: false
-
-  /qing-dock-box@0.2.1:
-    resolution: {integrity: sha512-cy1+jQ+m+pH8RRpvq3ss7fTC23BsUlfNwaHCgFSzEkQNYJDvv7cX+DePeyVScQIXRdoKkBb9IW1q1Zfl82lvZw==}
-    engines: {node: '>=14.0.0'}
     dev: false
 
   /qing-keyed-array@3.0.1:

@@ -6,7 +6,6 @@
  */
 
 import { BaseElement, customElement, html, css, property } from 'll.js';
-import 'qing-dock-box';
 
 @customElement('notice-view')
 export class NoticeView extends BaseElement {
@@ -18,9 +17,11 @@ export class NoticeView extends BaseElement {
           display: block;
         }
 
-        .root-container {
+        .root {
           font-size: 1.6rem;
           color: var(--app-default-secondary-fore-color);
+          display: grid;
+          place-items: center;
         }
       `,
     ];
@@ -29,11 +30,7 @@ export class NoticeView extends BaseElement {
   @property() height = '400px';
 
   override render() {
-    return html`
-      <qing-dock-box class="root-container" style=${`height:${this.height}`}
-        ><slot></slot
-      ></qing-dock-box>
-    `;
+    return html` <div class="root" style=${`height:${this.height}`}><slot></slot></div> `;
   }
 }
 
