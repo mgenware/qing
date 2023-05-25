@@ -20,6 +20,7 @@ import { GetEntitySourceLoader } from 'com/postCore/loaders/getEntitySourceLoade
 import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
 import { InputView } from 'ui/forms/inputView.js';
+import appPageState from 'app/appPageState.js';
 
 const titleInputID = 'title-input';
 
@@ -68,7 +69,7 @@ export class ComposerView extends BaseElement {
 
   @property({ type: Boolean }) hasTitle = false;
 
-  @property() editorMode = frozenDef.ContentInputTypeConfig.standard;
+  @property() editorMode: frozenDef.ContentInputTypeConfig;
   @property({ type: Object }) entity?: Entity;
   @property() submitButtonText = '';
   @property() desc = '';
@@ -82,6 +83,12 @@ export class ComposerView extends BaseElement {
   private lastSavedTitle = '';
   // Could be content HTML or src based on editor input type.
   private lastSavedContent = '';
+
+  constructor() {
+    super();
+
+    this.editorMode = appPageState.inputType;
+  }
 
   private get editorEl(): CoreEditor {
     const el = this.queryShadowElement<CoreEditor>('core-editor');
