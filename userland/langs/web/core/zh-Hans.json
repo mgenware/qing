@@ -152,5 +152,6 @@
   "share": "分享",
   "nextPage": "下一页",
   "previousPage": "上一页",
-  "menu": "菜单"
+  "menu": "菜单",
+  "loadingEditor": "加载编辑器中..."
 }

@@ -363,7 +363,7 @@ export class ElementsPage extends BaseElement {
       <h3>Composer</h3>
       <composer-view .desc=${'Test'} class="editor-size"></composer-view>
       <h3>Composer (loading)</h3>
-      <composer-view class="editor-size" .editorMode=${'t'}></composer-view>
+      <composer-view class="editor-size" .brLoadingDelay=${true}></composer-view>
     `;
   }
 

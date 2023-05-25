@@ -227,8 +227,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       kangxi-editor:
-        specifier: ^0.18.2
-        version: 0.18.2(lit@2.7.4)
+        specifier: ^0.18.3
+        version: 0.18.3(lit@2.7.4)
       mahur:
         specifier: ^0.0.2
         version: 0.0.2
@@ -4422,8 +4422,8 @@ packages:
     dependencies:
       minimist: 1.2.7
 
-  /kangxi-editor@0.18.2(lit@2.7.4):
-    resolution: {integrity: sha512-c/kXWQhD4SKLu1LtD2wTbWAcVMKb1zgmt7N0EgdbhaDIuDIYKxB3kKFVKkJ5cJ/jBVCnri0P5Xd18x0UIHs+kA==}
+  /kangxi-editor@0.18.3(lit@2.7.4):
+    resolution: {integrity: sha512-8uKTrya5faI68o2JxIJe1pRvxLNxcG55uhIa5mgQS/OiOGvS5URd2sQYyoffjBSXm5/Vg6i85KrxBLgCSV+OAQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       lit: ^2.0.0

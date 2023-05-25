@@ -7,12 +7,14 @@
 
 import { customElement, css } from 'll.js';
 import { KXEditor } from 'kangxi-editor';
+import coreStyles from 'qing-css-base';
 
 // A wrapper around the kangxi editor.
 @customElement('kx-editor-view')
 export default class KXEditorView extends KXEditor {
   static override get styles() {
     return [
+      coreStyles,
       super.styles,
       css`
         :host {

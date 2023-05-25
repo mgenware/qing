@@ -40,6 +40,11 @@ export default class CoreEditor extends BaseElement {
         :host {
           display: block;
         }
+
+        .loading-container {
+          display: grid;
+          place-items: center;
+        }
       `,
     ];
   }
@@ -53,6 +58,8 @@ export default class CoreEditor extends BaseElement {
   }
 
   @property() editorMode = frozenDef.ContentInputTypeConfig.standard;
+  @property() brLoadingDelay = false;
+
   @state() private editorTemplate?: TemplateResult;
 
   override async firstUpdated() {
@@ -60,16 +67,9 @@ export default class CoreEditor extends BaseElement {
   }
 
   private async startLoadingEditor() {
-    this.dispatchEvent(new CustomEvent('core-editor-loading'));
-
-    const modeStr = this.editorMode.toString();
-    if (modeStr === 't') {
-      await delay(5000);
-      await import('./kxEditorView.js');
-      this.editorTemplate = html`<kx-editor-view class="height-100"></kx-editor-view>`;
-      return;
+    if (this.brLoadingDelay) {
+      await delay(3000);
     }
-
     switch (this.editorMode) {
       case frozenDef.ContentInputTypeConfig.standard: {
         await import('./kxEditorView.js');
@@ -107,14 +107,21 @@ export default class CoreEditor extends BaseElement {
           break;
       }
 
-      CHECK(editorEl, 'Editor element is null after loading');
+      CHECK(editorEl);
+      this.#unsafeImplEl = editorEl;
+
+      CHECK(this.#unsafeImplEl);
       this.#editorCompleter.complete(editorEl);
-      this.dispatchEvent(new CustomEvent('core-editor-loaded'));
     }, 0);
   }
 
   override render() {
-    return this.editorTemplate ? this.editorTemplate : '';
+    if (this.editorTemplate) {
+      return this.editorTemplate;
+    }
+    return html`
+      <div class="loading-container height-100">${globalThis.coreLS.loadingEditor}</div>
+    `;
   }
 
   wait(): Promise<CoreEditorImpl> {
@@ -127,16 +134,16 @@ export default class CoreEditor extends BaseElement {
       return undefined;
     }
     const md = editorEl as MdEditor;
-    return md.getContent() ?? '';
+    return md.getContent();
   }
 
   private contentHTML(editorEl: CoreEditorImpl): string {
     if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
       const kx = editorEl as KXEditor;
-      return kx.contentHTML() ?? '';
+      return kx.contentHTML();
     }
     const md = editorEl as MdEditor;
-    return md.getHTML() ?? '';
+    return md.getHTML();
   }
 
   getContent(editorEl: CoreEditorImpl, opt: CoreEditorGetSummaryOptions): CoreEditorContent {
@@ -147,7 +154,7 @@ export default class CoreEditor extends BaseElement {
       if (this.editorMode === frozenDef.ContentInputTypeConfig.standard) {
         // KXEditor has summary data in it.
         const kx = editorEl as KXEditor;
-        summary = kx.contentText() ?? '';
+        summary = kx.contentText();
       } else {
         // For md editor, we need to parse the HTML to get the summary.
         summary =

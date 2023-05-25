@@ -72,6 +72,7 @@ export class ComposerView extends BaseElement {
   @property({ type: Object }) entity?: Entity;
   @property() submitButtonText = '';
   @property() desc = '';
+  @property() brLoadingDelay = false;
 
   // Source loading will start when `entityID` changes, it has to default to
   // `true`.
@@ -170,6 +171,7 @@ export class ComposerView extends BaseElement {
         `,
       )}
       <core-editor
+        .brLoadingDelay=${this.brLoadingDelay}
         .editorMode=${this.editorMode}
         class="flx-fill"
         style="flex-basis:0"></core-editor>`;
@@ -231,8 +233,10 @@ export class ComposerView extends BaseElement {
     return payload;
   }
 
-  private async handleSubmit(impl: CoreEditorImpl) {
+  private async handleSubmit() {
     try {
+      const impl = this.editorEl.unsafeImplEl;
+      CHECK(impl);
       const payload = this.getPayload(impl);
       this.dispatchEvent(new CustomEvent<ComposerContent>('composer-submit', { detail: payload }));
     } catch (err) {

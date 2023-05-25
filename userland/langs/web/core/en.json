@@ -152,5 +152,6 @@
   "share": "Share",
   "nextPage": "Next",
   "previousPage": "Previous",
-  "menu": "Menu"
+  "menu": "Menu",
+  "loadingEditor": "Loading editor..."
 }

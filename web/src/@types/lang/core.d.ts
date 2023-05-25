@@ -164,6 +164,7 @@ export interface coreLSType {
   nextPage: string;
   previousPage: string;
   menu: string;
+  loadingEditor: string;
 }
 
 declare global {
