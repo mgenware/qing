@@ -10,7 +10,7 @@ package hashingalg
 import (
 	"qing/a/profile"
 
-	"github.com/mgenware/argon2id"
+	"github.com/alexedwards/argon2id"
 )
 
 type HashingAlg struct {
