@@ -52,8 +52,8 @@ func (mrTable *FPostAGType) DeleteItem(db *sql.DB, id uint64, userID uint64) err
 	return txErr
 }
 
-func (mrTable *FPostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, title string, summary string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `f_post` SET `modified_at` = NOW(3), `content` = ?, `title` = ?, `summary` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, title, summary, id, userID)
+func (mrTable *FPostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, contentSrc *string, title string, summary string, sanitizedStub int) error {
+	result, err := mrQueryable.Exec("UPDATE `f_post` SET `modified_at` = NOW(3), `content` = ?, `content_src` = ?, `title` = ?, `summary` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, contentSrc, title, summary, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

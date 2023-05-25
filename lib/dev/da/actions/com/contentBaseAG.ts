@@ -109,7 +109,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
     this.editItem = mm
       .updateOne()
       .setDefaults(t.modified_at)
-      .setParams(t.content, ...this.extraUpdateItemCols())
+      .setParams(t.content, t.content_src, ...this.extraUpdateItemCols())
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
