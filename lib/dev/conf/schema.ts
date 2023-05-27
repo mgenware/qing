@@ -1,21 +1,23 @@
 // Generated on https://transform.tools/json-schema-to-typescript
 
-export interface QingConfigSchema {
+export interface CoreConfigSchema {
   extends?: string;
   dev?: DevConfig;
   logging: LoggingConfig;
   http: HttpConfig;
   templates: TemplatesConfig;
-  app_profile: AppProfileConfig;
   db: DbConfig;
   res_server: ResServerConfig;
   extern: ExternConfig;
+  forums?: ForumsConfig;
+  z_test?: ZTestConfig;
   [k: string]: unknown;
 }
 export interface DevConfig {
   reload_views_on_refresh?: boolean;
   panic_on_unexpected_html_errors?: boolean;
   panic_on_unexpected_json_errors?: boolean;
+  no_dev_mail?: boolean;
   turbo_web?: {
     dir?: string;
     url?: string;
@@ -45,10 +47,6 @@ export interface TemplatesConfig {
   dir: string;
   [k: string]: unknown;
 }
-export interface AppProfileConfig {
-  dir: string;
-  [k: string]: unknown;
-}
 export interface DbConfig {
   user: string;
   pwd: string;
@@ -73,5 +71,15 @@ export interface ExternConfig {
     port: number;
     [k: string]: unknown;
   };
+  [k: string]: unknown;
+}
+export interface ForumsConfig {
+  enabled?: boolean;
+  [k: string]: unknown;
+}
+export interface ZTestConfig {
+  a?: number;
+  b?: number;
+  c?: number;
   [k: string]: unknown;
 }

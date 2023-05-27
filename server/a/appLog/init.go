@@ -8,8 +8,8 @@
 package appLog
 
 import (
-	"qing/a/appConf"
-	"qing/a/conf"
+	"qing/a/appEnv"
+	"qing/a/coreConfig"
 	"qing/a/coretype"
 	"qing/a/logx"
 )
@@ -17,12 +17,12 @@ import (
 var logger coretype.CoreLogger
 
 func init() {
-	config := appConf.Get()
-	if conf.IsUTEnv() {
+	config := coreConfig.Get()
+	if appEnv.IsUT() {
 		logger = NewTestLogger()
 	} else {
 		var err error
-		logger, err = logx.NewLogger(config.Log.Dir, config.DevMode() && !conf.IsBREnv())
+		logger, err = logx.NewLogger(config.Log.Dir, config.DevMode() && !appEnv.IsBR())
 		if err != nil {
 			panic(err)
 		}

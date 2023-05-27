@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConfig"
 	"qing/a/appDB"
 	"qing/a/appService"
 	"qing/a/def/frozenDef"
@@ -79,6 +80,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		// Noti.
 		if uid != notiToID {
+			ac := appConfig.Get(r)
 			action := notix.NotiActionToPost
 			if parentID != 0 {
 				action = notix.NotiActionToCmt
@@ -86,7 +88,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			link, err := apicom.GetCmtPostHostLink(&host, cmtID)
 			app.PanicOn(err)
 			noti := notix.NewNotiItem(uid, notiToID, host, action, link)
-			err = appService.Get().Noti.SendNoti(&noti, user.Name)
+			err = appService.Get().Noti.SendNoti(ac, &noti, user.Name)
 			app.PanicOn(err)
 		}
 

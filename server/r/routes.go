@@ -9,10 +9,10 @@ package r
 
 import (
 	"net/http"
-	"qing/a/appConf"
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appUserManager"
+	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/lib/iolib"
@@ -39,8 +39,8 @@ var r *chi.Mux
 // Start starts the web router.
 func Start() {
 	r = chi.NewRouter()
-	conf := appConf.Get()
-	httpConf := conf.HTTP
+	cfg := coreConfig.Get()
+	httpConf := cfg.HTTP
 
 	// ----------------- Middlewares -----------------
 	// THE PanicMiddleware MUST BE AT THE VERY BEGINNING, OTHERWISE IT WILL NOT WORK!
@@ -71,7 +71,7 @@ func Start() {
 	// Home page.
 	langRouter().Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
 
-	devConfig := conf.Dev
+	devConfig := cfg.Dev
 	if devConfig != nil {
 		// ======== DEV mode only setup ========
 
@@ -82,7 +82,7 @@ func Start() {
 		}
 
 		// Mount resource server.
-		rsConfig := conf.ResServer
+		rsConfig := cfg.ResServer
 		if rsConfig != nil {
 			startFileServer(r, "res-server", rsConfig.URL, rsConfig.Dir)
 		}
@@ -116,7 +116,7 @@ func startFileServer(r chi.Router, name, url, dir string) {
 
 // Gets a router with context localization enabled.
 func langRouter() chi.Router {
-	if len(appConf.Get().Site.Langs) > 1 {
+	if len(coreConfig.Get().Site.Langs) > 1 {
 		return r.With(appHandler.MainPage().LocalizationManager().EnableContextLanguageMW)
 	}
 	return r

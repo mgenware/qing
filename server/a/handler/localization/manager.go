@@ -17,7 +17,7 @@ import (
 
 	"qing/a/appLog"
 	"qing/a/appcom"
-	"qing/a/conf"
+	"qing/a/cfgx"
 	"qing/a/def"
 	"qing/a/def/appDef"
 	"qing/a/def/infraDef"
@@ -25,19 +25,19 @@ import (
 )
 
 type Manager struct {
-	appConfig    *conf.Config
+	cfg          *cfgx.CoreConfig
 	fallbackDict *Dictionary
 	fallbackLang string
 	lsDict       map[string]*Dictionary
 	langTags     []language.Tag
 
-	// Could be nil if `conf.Langs` contain only one lang.
+	// Could be nil if `appCfg.Langs` contain only one lang.
 	langMatcher language.Matcher
 }
 
 // NewManagerFromConfig creates a Manager from a config.
-func NewManagerFromConfig(appConfig *conf.Config) (*Manager, error) {
-	confLangs := appConfig.Site.Langs
+func NewManagerFromConfig(cc *cfgx.CoreConfig) (*Manager, error) {
+	confLangs := cc.Site.Langs
 	if len(confLangs) == 0 {
 		return nil, errors.New("unexpected empty `langs` field")
 	}
@@ -70,7 +70,7 @@ func NewManagerFromConfig(appConfig *conf.Config) (*Manager, error) {
 		return nil, errors.New("unexpected nil `fallbackDict`")
 	}
 
-	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, appConfig: appConfig}, nil
+	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, cfg: cc}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.

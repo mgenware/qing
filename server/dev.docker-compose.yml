@@ -12,15 +12,15 @@ version: '3.9'
 services:
   server:
     environment:
-      - QING_DEV_CONF
+      - QING_CORE_CFG
+      - QING_APP_CFG
       - QING_BR
       - QING_UT
     build:
       context: .
       dockerfile: dev.dockerfile
     volumes:
-      - ../web/src/css:/qing/dev/css
-      - ../userland/config/dev:/qing/dev/config
+      - ../userland/config/dev:/qing/config/dev
       - ../server:/qing/dev/server
       - ../userland/templates:/qing/templates
       - ../userland/static:/qing/static

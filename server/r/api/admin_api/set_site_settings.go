@@ -13,8 +13,10 @@ import (
 	"math"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
-	"qing/a/conf"
+	"qing/a/appConfig"
+	"qing/a/appEnv"
+	"qing/a/cfgx"
+	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
@@ -23,8 +25,8 @@ import (
 )
 
 type brSetSiteSettingsResult struct {
-	Loaded *conf.Config `json:"loaded,omitempty"`
-	Disk   *conf.Config `json:"disk,omitempty"`
+	Loaded *cfgx.AppConfig `json:"loaded,omitempty"`
+	Disk   *cfgx.AppConfig `json:"disk,omitempty"`
 }
 
 // NOTE: Changes to settings (app config) require a server restart.
@@ -35,7 +37,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
-	IsBR := conf.IsBREnv()
+	IsBR := appEnv.IsBR()
 
 	switch appDef.SetSiteSettings(key) {
 	case appDef.SetSiteSettingsPostPermission:
@@ -45,7 +47,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		if postPerm == "" {
 			panic("invalid post permission value")
 		}
-		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
+		appConfig.UpdateDiskConfig(func(diskCfg *cfgx.AppConfig) {
 			diskCfg.Permissions.RawPost = string(postPerm)
 		})
 
@@ -56,7 +58,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		if len(langs) == 0 {
 			panic("error updating langs settings: empty array is not allowed")
 		}
-		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
+		coreConfig.UpdateDiskConfig(func(diskCfg *cfgx.CoreConfig) {
 			diskCfg.Site.Langs = langs
 		})
 
@@ -64,7 +66,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		var infoData mxSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
 		app.PanicOn(err)
-		appConf.UpdateDiskConfig(func(diskCfg *conf.Config) {
+		coreConfig.UpdateDiskConfig(func(diskCfg *cfgx.CoreConfig) {
 			diskCfg.Site.Name = infoData.SiteName
 			diskCfg.Site.URL = infoData.SiteURL
 		})
@@ -77,8 +79,8 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	if IsBR {
 		// In BR mode, return the updated config.
 		result = &brSetSiteSettingsResult{
-			Loaded: appConf.Get(),
-			Disk:   appConf.BRDiskConfig(),
+			Loaded: appConfig.Get(r),
+			Disk:   appConfig.BRDiskConfig(),
 		}
 		return resp.MustComplete(result)
 	}

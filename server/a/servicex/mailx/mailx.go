@@ -9,27 +9,27 @@ package mailx
 
 import (
 	"errors"
-	"qing/a/conf"
+	"qing/a/cfgx"
 	"qing/a/servicex/mailx/devmail"
 
 	"github.com/wneessen/go-mail"
 )
 
 type MailService struct {
-	config *conf.Config
+	cfg    *cfgx.CoreConfig
 	devDir string
 }
 
-func NewMailService(config *conf.Config) *MailService {
+func NewMailService(cc *cfgx.CoreConfig) *MailService {
 	res := &MailService{}
-	res.config = config
-	if config.Dev != nil && config.Dev.MailBox.Dir != "" {
-		res.devDir = config.Dev.MailBox.Dir
+	res.cfg = cc
+	if cc.Dev != nil && cc.Dev.MailBox.Dir != "" {
+		res.devDir = cc.Dev.MailBox.Dir
 	}
 	return res
 }
 
-func (mn *MailService) SendMail(to, title, contentHTML string, noDevMail bool, siteName string) error {
+func (mn *MailService) SendMail(ac *cfgx.AppConfig, to, title, contentHTML string, noDevMail bool, siteName string) error {
 	if to == "" {
 		return errors.New("empty \"to\" field in `MailService.Send`")
 	}
@@ -42,9 +42,9 @@ func (mn *MailService) SendMail(to, title, contentHTML string, noDevMail bool, s
 		return nil
 	}
 
-	cfg := mn.config.Mail
-	smtp := cfg.SMTP
-	acc := cfg.NoReplyAccount
+	mc := ac.Mail
+	smtp := mc.SMTP
+	acc := mc.NoReplyAccount
 
 	msg := mail.NewMsg()
 	if err := msg.FromFormat(siteName, acc.Email); err != nil {

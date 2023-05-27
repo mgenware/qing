@@ -12,9 +12,8 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"qing/a/appConf"
 	"qing/a/appcom"
-	"qing/a/conf"
+	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/sod/authSod"
 
@@ -30,7 +29,8 @@ const coreScriptEntry = "core"
 // MainPageManager is used to generate site main HTML page.
 type MainPageManager struct {
 	dir         string
-	config      *conf.Config
+	cfg         *cfgx.CoreConfig
+	appCfg      *cfgx.AppConfig
 	log404Error bool
 
 	reloadViewsOnRefresh bool
@@ -44,22 +44,22 @@ type MainPageManager struct {
 
 // MustCreateMainPageManager creates an instance of MainPageManager with the specified arguments. Note that this function panics when main template fails to load.
 func MustCreateMainPageManager(
-	config *conf.Config,
+	cc *cfgx.CoreConfig,
 	logger coretype.CoreLogger,
 	lsMgr localization.CoreManager,
 ) *MainPageManager {
-	reloadViewsOnRefresh := config.Dev != nil && config.Dev.ReloadViewsOnRefresh
+	reloadViewsOnRefresh := cc.Dev != nil && cc.Dev.ReloadViewsOnRefresh
 
-	asMgr := NewAssetManager(config.DevMode(), config.HTTP.Static.URL, config.HTTP.Static.Dir)
+	asMgr := NewAssetManager(cc.DevMode(), cc.HTTP.Static.URL, cc.HTTP.Static.Dir)
 
 	t := &MainPageManager{
 		lsMgr:                lsMgr,
 		asMgr:                asMgr,
 		logger:               logger,
-		config:               config,
+		cfg:                  cc,
 		reloadViewsOnRefresh: reloadViewsOnRefresh,
-		dir:                  config.Templates.Dir,
-		log404Error:          config.HTTP.Log404Error,
+		dir:                  cc.Templates.Dir,
+		log404Error:          cc.HTTP.Log404Error,
 	}
 
 	// Load the main template.
@@ -111,10 +111,11 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
 	// Sync settings.
-	cfg := m.config
-	d.State.PostPerm = cfg.Permissions.RawPost
-	d.State.Forums = cfg.FourmsEnabled()
-	d.State.InputType = cfg.Content.RawInputType
+	cc := m.cfg
+	ac := m.appCfg
+	d.State.PostPerm = ac.Permissions.RawPost
+	d.State.Forums = cc.FourmsEnabled()
+	d.State.InputType = ac.Content.RawInputType
 
 	// User info.
 	user := appcom.ContextUser(ctx)
@@ -161,7 +162,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 func (m *MainPageManager) MustError(r *http.Request, lang string, err error, statusCode int, w http.ResponseWriter) HTML {
 	d := &ErrorPageData{Message: err.Error()}
 	url := r.URL.String()
-	if statusCode == http.StatusNotFound && appConf.Get().HTTP.Log404Error {
+	if statusCode == http.StatusNotFound && m.cfg.HTTP.Log404Error {
 		m.logger.NotFound(url)
 	} else if statusCode == http.StatusInternalServerError {
 		m.logger.Error("page.fatal", "err", d.Message, "url", url)

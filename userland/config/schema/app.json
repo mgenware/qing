@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "app-config-schema",
+  "type": "object",
+  "definitions": {
+    "permissions_config": {
+      "type": "object",
+      "properties": {
+        "post": { "type": "string", "enum": ["onlyMe", "everyone"] }
+      },
+      "required": ["post"]
+    },
+    "content_config": {
+      "type": "object",
+      "properties": {
+        "input_type": { "type": "string", "enum": ["standard", "markdown"] }
+      },
+      "required": ["input_type"]
+    },
+    "hashing_config": {
+      "type": "object",
+      "properties": {
+        "memory": { "type": "number" },
+        "iterations": { "type": "number" },
+        "parallelism": { "type": "number" },
+        "salt_length": { "type": "number" },
+        "key_length": { "type": "number" }
+      },
+      "required": ["memory", "iterations", "parallelism", "salt_length", "key_length"]
+    },
+    "mail_account_config": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "user_name": { "type": "string" },
+        "pwd": { "type": "string" },
+        "display_name": { "type": "string" }
+      },
+      "required": ["email", "pwd", "user_name"]
+    },
+    "mail_config": {
+      "type": "object",
+      "properties": {
+        "smtp": {
+          "type": "object",
+          "properties": {
+            "host": { "type": "string" },
+            "ssl": { "type": "boolean" },
+            "port": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": ["host", "port"]
+        },
+        "no_reply_account": { "$ref": "#/definitions/mail_account_config" }
+      },
+      "required": ["smtp", "no_reply_account"]
+    },
+    "z_test_config": {
+      "type": "object",
+      "properties": {
+        "a": { "type": "number" },
+        "b": { "type": "number" },
+        "c": { "type": "number" }
+      }
+    }
+  },
+  "properties": {
+    "extends": { "type": "string" },
+    "mail": { "$ref": "#/definitions/mail_config" },
+    "permissions": { "$ref": "#/definitions/permissions_config" },
+    "content": { "$ref": "#/definitions/content_config" }
+  },
+  "required": ["mail", "permissions", "content"]
+}

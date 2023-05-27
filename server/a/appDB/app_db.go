@@ -9,7 +9,7 @@ package appDB
 
 import (
 	"database/sql"
-	"qing/a/conf"
+	"qing/a/cfgx"
 	"strconv"
 
 	// Load MySQL driver
@@ -24,7 +24,7 @@ func (impl *AppDB) DB() *sql.DB {
 	return impl.db
 }
 
-func newAppDB(config *conf.Config) *AppDB {
+func newAppDB(config *cfgx.CoreConfig) *AppDB {
 	c := config.DB
 	connStr := c.User + ":" + c.Pwd + "@tcp(" + c.Host + ":" + strconv.Itoa(c.Port) + ")/" + c.Database + c.Params
 	conn, err := sql.Open("mysql", connStr)

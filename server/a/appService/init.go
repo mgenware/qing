@@ -8,22 +8,20 @@
 package appService
 
 import (
-	"qing/a/appConf"
 	"qing/a/appLog"
 	"qing/a/appMS"
-	"qing/a/appProfile"
+	"qing/a/coreConfig"
 	"qing/a/servicex"
 )
 
 var service *servicex.Service
 
 func init() {
-	conf := appConf.Get()
-	profile := appProfile.Get()
+	cc := coreConfig.Get()
 	msConn := appMS.GetConn()
 	logger := appLog.Get()
 
-	service = servicex.MustNewService(conf, profile, logger, msConn)
+	service = servicex.MustNewService(cc, logger, msConn)
 }
 
 func Get() *servicex.Service {

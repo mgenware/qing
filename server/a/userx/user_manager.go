@@ -10,9 +10,10 @@ package userx
 import (
 	"fmt"
 	"net/http"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appcom"
-	"qing/a/conf"
+	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/handler"
 	"qing/a/urlx"
@@ -26,7 +27,7 @@ type UserManager struct {
 	db              coretype.CoreDB
 
 	appURL *urlx.URL
-	config *conf.Config
+	cfg    *cfgx.CoreConfig
 
 	// [Test mode only] K: UID, V: SID.
 	testSIDMap map[uint64]string
@@ -38,10 +39,10 @@ func NewUserManager(
 	ssMgr *SessionManager,
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
-	config *conf.Config,
+	cfg *cfgx.CoreConfig,
 ) *UserManager {
-	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, config: config}
-	if conf.IsUTEnv() {
+	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, cfg: cfg}
+	if appEnv.IsUT() {
 		ret.testSIDMap = make(map[uint64]string)
 	}
 	return ret
@@ -57,7 +58,7 @@ func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Reques
 }
 
 func (appu *UserManager) TestLogin(uid uint64) {
-	if !conf.IsUTEnv() {
+	if !appEnv.IsUT() {
 		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 	user, err := appu.createUserSessionFromUID(uid)
@@ -77,7 +78,7 @@ func (appu *UserManager) Logout(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (appu *UserManager) TestLogout(uid uint64) error {
-	if !conf.IsUTEnv() {
+	if !appEnv.IsUT() {
 		panic(fmt.Errorf("this func is only available in unit test mode"))
 	}
 
@@ -99,7 +100,7 @@ func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Hand
 // Fetches user info from DB and creates an `appcom.SessionUser`.
 func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
 	db := appu.db
-	if appu.config.FourmsEnabled() {
+	if appu.cfg.FourmsEnabled() {
 		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
 		if err != nil {
 			return nil, err

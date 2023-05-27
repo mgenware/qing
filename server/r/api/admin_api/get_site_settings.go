@@ -11,7 +11,8 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
+	"qing/a/appConfig"
+	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -19,18 +20,18 @@ import (
 	"qing/sod/mxSod"
 )
 
-func getSiteSEttings(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
 	key := clib.MustGetIntFromDict(params, "key")
 
-	needRestart := appConf.DiskConfigUpdated()
+	needRestart := appConfig.DiskConfigUpdated()
 	stBase := mxSod.NewSiteSTBase(needRestart)
 
-	// Read disk config instead of memory config.
-	cfg := appConf.GetDiskConfig()
-	sc := cfg.Site
-	pc := cfg.Permissions
+	ac := appConfig.Get(r)
+	cc := coreConfig.Get()
+	sc := cc.Site
+	pc := ac.Permissions
 
 	switch appDef.GetSiteSettings(key) {
 	case appDef.GetSiteSettingsGeneral:

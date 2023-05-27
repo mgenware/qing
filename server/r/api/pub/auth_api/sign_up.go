@@ -12,11 +12,12 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
+	"qing/a/appConfig"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
 	"qing/a/appcom"
+	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -58,6 +59,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
 	params := app.ContextDict(r)
+	ac := appConfig.Get(r)
 
 	name := clib.MustGetStringFromDict(params, "name", appDef.LenMaxName)
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxEmail)
@@ -91,12 +93,12 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.ClickBelowToCompleteReg, contentHTML)
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
-	devCfg := appConf.Get().Dev
+	devCfg := coreConfig.Get().Dev
 	noDevMail := false
 	if devCfg != nil {
 		noDevMail = devCfg.NoDevMail
 	}
-	err = appService.Get().Mail.SendMail(email, pageTitle, pageHTML, noDevMail, ls.QingSiteName)
+	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, noDevMail, ls.QingSiteName)
 	app.PanicOn(err)
 
 	return resp.MustComplete(nil)

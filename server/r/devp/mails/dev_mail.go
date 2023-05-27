@@ -11,6 +11,7 @@ import (
 	"database/sql"
 	"net/http"
 	"qing/a/app"
+	"qing/a/appConfig"
 	"qing/a/appDB"
 	"qing/a/appService"
 	"qing/a/def/appDef"
@@ -48,13 +49,14 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := app.JSONResponse(w, r)
+	ac := appConfig.Get(r)
 
 	params := app.ContextDict(r)
 	to := clib.MustGetStringFromDict(params, "to", appDef.LenMaxGenericString)
 	title := clib.MustGetStringFromDict(params, "title", appDef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
 
-	err := appService.Get().Mail.SendMail(to, title, content, true, "QING_TEST")
+	err := appService.Get().Mail.SendMail(ac, to, title, content, true, "QING_TEST")
 	app.PanicOn(err)
 	return resp.MustComplete(nil)
 }

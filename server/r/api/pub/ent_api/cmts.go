@@ -10,8 +10,8 @@ package entapi
 import (
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
 	"qing/a/appDB"
+	"qing/a/coreConfig"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -24,7 +24,7 @@ import (
 var kCmtPageSize int
 
 func init() {
-	cc := appConf.Get()
+	cc := coreConfig.Get()
 	if cc.ProductionMode() {
 		kCmtPageSize = 10
 	} else {

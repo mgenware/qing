@@ -32,6 +32,7 @@
   "keyMessages": "messages",
   "keyLang": "lang",
   "keyCmt": "cmt",
+  "appConfigBrParam": "__appConfig",
   "routeM": "m",
   "routeMx": "mx",
   "routeApi": "s",

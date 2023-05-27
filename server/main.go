@@ -9,27 +9,26 @@ package main
 
 import (
 	"log"
-	"qing/a/appConf"
 	"qing/a/appDB"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appMS"
-	"qing/a/appProfile"
 	"qing/a/appService"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
-	"qing/a/conf"
+	"qing/a/coreConfig"
 	"qing/r"
 )
 
 func main() {
 	// Load core modules.
-	config := appConf.Get()
+	config := coreConfig.Get()
 	logger := appLog.Get()
 
-	if conf.IsUTEnv() {
+	if appEnv.IsUT() {
 		logger.Warn("🟣 app.running.ut")
-	} else if conf.IsBREnv() {
+	} else if appEnv.IsBR() {
 		// `logger` is muted in BR mode.
 		log.Print("🔵 app.running.br")
 	} else if config.DevMode() {
@@ -41,7 +40,6 @@ func main() {
 
 	// Preload core modules in production mode.
 	if config.ProductionMode() {
-		appProfile.Get()
 		appDB.Get()
 		appMS.GetConn()
 		appHandler.MainPage()

@@ -1,0 +1,10 @@
+{
+  "content": {
+    "input_type": "standard"
+  },
+  "site": {
+    "url": "https://__QING__",
+    "name": "__QING__",
+    "langs": ["en", "zh-Hans"]
+  }
+}

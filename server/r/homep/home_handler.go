@@ -10,10 +10,11 @@ package homep
 import (
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
+	"qing/a/appConfig"
 	"qing/a/appDB"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
-	"qing/a/conf"
+	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
@@ -26,7 +27,7 @@ import (
 var kHomePageSize int
 
 func init() {
-	if conf.IsBREnv() {
+	if appEnv.IsBR() {
 		kHomePageSize = 2
 	} else {
 		kHomePageSize = 10
@@ -35,7 +36,7 @@ func init() {
 
 // HomeHandler handles home page requests.
 func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	if appConf.Get().FourmsEnabled() {
+	if coreConfig.Get().FourmsEnabled() {
 		return renderForumPage(w, r)
 	}
 	return renderStdPage(w, r)
@@ -46,14 +47,14 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appDef.KeyTab)
-	cfg := appConf.Get()
+	appCfg := appConfig.Get(r)
 
 	var items []da.HomePostItem
 	var hasNext bool
 	var err error
-	if conf.IsBREnv() {
+	if appEnv.IsBR() {
 		var brPrefix string
-		postPerm := cfg.Permissions.Post()
+		postPerm := appCfg.Permissions.Post()
 		if postPerm == frozenDef.PostPermissionConfigOnlyMe {
 			brPrefix = appDef.BrHomePrefixOnlyMe
 		} else {
@@ -74,7 +75,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 			itemData := rcom.NewPostFeedData(&item)
 			var feedItemHTML string
 
-			switch cfg.Permissions.Post() {
+			switch appCfg.Permissions.Post() {
 			case frozenDef.PostPermissionConfigOnlyMe:
 				feedItemHTML = MustRenderOnlymeFeedView(&itemData)
 

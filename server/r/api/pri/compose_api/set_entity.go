@@ -11,10 +11,10 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/app"
-	"qing/a/appConf"
 	"qing/a/appDB"
 	"qing/a/appService"
 	"qing/a/appURL"
+	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
@@ -43,13 +43,14 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "html"))
 	contentSrc := jsonx.GetStringOrNil(contentDict, "src")
 
+	cfg := coreConfig.Get()
 	var result any
 	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.
 		captResult := 0
 		var forumID *uint64
-		if appConf.Get().FourmsEnabled() && entityType != frozenDef.ContentBaseTypePost {
+		if cfg.FourmsEnabled() && entityType != frozenDef.ContentBaseTypePost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

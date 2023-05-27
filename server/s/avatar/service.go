@@ -13,8 +13,8 @@ import (
 	"os"
 	"path/filepath"
 	"qing/a/app"
-	"qing/a/appConf"
 	"qing/a/appLog"
+	"qing/a/coreConfig"
 	"qing/a/coretype"
 	"qing/a/def"
 	"qing/lib/clib"
@@ -43,8 +43,8 @@ type AvatarService struct {
 var service *AvatarService
 
 func init() {
-	conf := appConf.Get()
-	svc, err := newService(filepath.Join(conf.ResServer.Dir, def.AvatarResKey))
+	cc := coreConfig.Get()
+	svc, err := newService(filepath.Join(cc.ResServer.Dir, def.AvatarResKey))
 	app.PanicOn(err)
 	service = svc
 }

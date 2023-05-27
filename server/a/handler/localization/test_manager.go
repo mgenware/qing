@@ -10,7 +10,7 @@ package localization
 import (
 	"fmt"
 	"net/http"
-	"qing/a/conf"
+	"qing/a/cfgx"
 
 	"golang.org/x/text/language"
 )
@@ -19,9 +19,9 @@ type TestManager struct {
 	langs []string
 }
 
-func NewTestManagerFromConfig(appConfig *conf.Config) (*TestManager, error) {
+func NewTestManagerFromConfig(cc *cfgx.CoreConfig) (*TestManager, error) {
 	return &TestManager{
-		langs: appConfig.Site.Langs,
+		langs: cc.Site.Langs,
 	}, nil
 }
 

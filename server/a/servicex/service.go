@@ -8,10 +8,9 @@
 package servicex
 
 import (
-	"qing/a/conf"
+	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/def"
-	"qing/a/profile"
 	"qing/a/servicex/emailveri"
 	hashingalg "qing/a/servicex/hashingAlg"
 	"qing/a/servicex/mailx"
@@ -28,15 +27,14 @@ type Service struct {
 	Noti                *notix.Service
 }
 
-// MustNewService creates a new Service object.
-func MustNewService(config *conf.Config, appProfile *profile.AppProfile, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
+func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
 	s := &Service{}
 
 	s.Sanitizer = htmllib.NewSanitizer()
-	s.HashingAlg = hashingalg.NewHashingAlg(appProfile)
+	s.HashingAlg = hashingalg.NewHashingAlg(cc)
 	s.RegEmailVerificator = emailveri.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
 
-	s.Mail = mailx.NewMailService(config)
+	s.Mail = mailx.NewMailService(cc)
 	s.Noti = notix.NewNotiService(s.Mail)
 	return s
 }

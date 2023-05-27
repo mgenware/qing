@@ -36,24 +36,27 @@ export async function spawnDZCmd(e: { cmd: string; args: string[] | null; daizon
 export async function spawnDockerComposeCmd(e: {
   args: string[];
   dir: string;
-  configName: string;
+  coreConfigName: string;
+  appConfigName: string;
   env?: Record<string, string>;
 }) {
   return pipedSpawn('docker', {
     args: ['compose', '-f', 'dev.docker-compose.yml', ...e.args],
     workingDir: e.dir,
-    env: { QING_DEV_CONF: e.configName, ...e.env },
+    env: { QING_CORE_CFG: e.coreConfigName, QING_APP_CFG: e.appConfigName, ...e.env },
   });
 }
 
 export async function spawnDockerComposeMigrate(e: {
   args: string[];
   dir: string;
-  configName: string;
+  coreConfigName: string;
+  appConfigName: string;
 }) {
   return spawnDockerComposeCmd({
     args: ['run', 'migrate', ...e.args],
     dir: e.dir,
-    configName: e.configName,
+    coreConfigName: e.coreConfigName,
+    appConfigName: e.appConfigName,
   });
 }

@@ -8,8 +8,8 @@
 package appHandler
 
 import (
-	"qing/a/appConf"
 	"qing/a/appLog"
+	"qing/a/coreConfig"
 	"qing/a/handler"
 	"qing/a/handler/localization"
 )
@@ -20,14 +20,14 @@ var lsMgr localization.CoreManager
 
 func MainPage() handler.CorePageManager {
 	if mainPageManager == nil {
-		mainPageManager = handler.MustCreateMainPageManager(appConf.Get(), appLog.Get(), LSManager())
+		mainPageManager = handler.MustCreateMainPageManager(coreConfig.Get(), appLog.Get(), LSManager())
 	}
 	return mainPageManager
 }
 
 func EmailPage() *handler.EmailPageManager {
 	if emailPageManager == nil {
-		emailPageManager = handler.MustCreateEmailPageManager(appConf.Get(), LSManager())
+		emailPageManager = handler.MustCreateEmailPageManager(coreConfig.Get(), LSManager())
 	}
 	return emailPageManager
 }
@@ -40,7 +40,7 @@ func LSManager() localization.CoreManager {
 }
 
 func mustCreateLSMgr() localization.CoreManager {
-	lsMgr, err := localization.NewManagerFromConfig(appConf.Get())
+	lsMgr, err := localization.NewManagerFromConfig(coreConfig.Get())
 	if err != nil {
 		panic(err)
 	}

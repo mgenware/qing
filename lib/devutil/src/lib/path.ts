@@ -36,8 +36,16 @@ export function userlandPath(path = ''): string {
   return np.join(rootDir, userlandDirName, path);
 }
 
-export function devConfigPath(env: string): string {
-  return np.join(userlandPath('config'), 'dev', `${env}.json`);
+function devConfigPath(folder: string, name: string): string {
+  return np.join(userlandPath('config'), 'dev', folder, `${name}.json`);
+}
+
+export function coreConfigPath(name: string): string {
+  return devConfigPath('core', name);
+}
+
+export function appConfigPath(name: string): string {
+  return devConfigPath('app', name);
 }
 
 export function itPath(path = ''): string {
