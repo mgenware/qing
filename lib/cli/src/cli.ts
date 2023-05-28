@@ -10,13 +10,14 @@
 import errMsg from 'catch-err-msg';
 import * as iou from './ioutil.js';
 import * as sp from './spawn.js';
+import processArgs from './processArgs.js';
 
 if (process.platform === 'win32') {
   console.error('Qing CLI does not support Windows, please use WSL2 on Windows.');
   process.exit(1);
 }
 
-const processArgs = process.argv.slice(2);
+const cli = processArgs(process.argv.slice(2));
 
 function printUsage() {
   iou.print(`
@@ -26,11 +27,11 @@ function printUsage() {
       w                  Build, run and watch web files
       w-br               Build, run and watch web files for BR testing
       w-lint             Run linting process on web source
-      s <config>         Build and start server in containers
-      s-br               Build and start server in containers (browser test mode)
-      s-ut               Build and start server in containers (unit test mode)
-      s-f                Build and start server in containers (force recreation)
-      s-l                Build and start server locally
+      s <options>        Build and start server in containers
+      s-br <options>     Build and start server in containers (browser test mode)
+      s-ut <options>     Build and start server in containers (unit test mode)
+      s-f <options>      Build and start server in containers (force recreation)
+      s-l <options>      Build and start server locally
       s-lint             Run linting process on server source
       conf               Build config files
       da                 Build data access layer
@@ -52,7 +53,7 @@ function printUsage() {
   `);
 }
 
-const inputCmd = processArgs[0];
+const inputCmd = cli.list[0];
 
 if (!inputCmd) {
   printUsage();
@@ -77,12 +78,11 @@ function checkMigrationNumber(num: number) {
   }
 }
 
-function mustGetDevConf(argIdx: number) {
-  const arg = processArgs[argIdx];
-  if (!arg) {
-    throw new Error(`Missing config name. ${helpText}`);
-  }
-  return arg;
+function getSArgs() {
+  return {
+    coreConfigName: cli.stringMap['core-config'] ?? 'base',
+    appConfigName: cli.stringMap['app-config'] ?? 'std',
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -121,7 +121,7 @@ function mustGetDevConf(argIdx: number) {
         await sp.spawnDockerComposeCmd({
           args: ['up'],
           dir: await iou.getProjectDir(serverDir),
-          configName: mustGetDevConf(1),
+          ...getSArgs(),
         });
         break;
       }
@@ -130,18 +130,18 @@ function mustGetDevConf(argIdx: number) {
         await sp.spawnDockerComposeCmd({
           args: ['up'],
           dir: await iou.getProjectDir(serverDir),
-          configName: mustGetDevConf(1),
+          ...getSArgs(),
           env: { QING_BR: '1' },
         });
         break;
       }
 
       case 's-ut': {
-        const arg1 = processArgs[1];
+        const arg1 = cli.list[1];
         await sp.spawnDockerComposeCmd({
-          args: ['exec', '-e', 'QING_UT=1', 'server', 'go', 'test', arg1 || './...'],
+          args: ['exec', '-e', 'QING_UT=1', 'server', 'go', 'test', arg1 ?? './...'],
           dir: await iou.getProjectDir(serverDir),
-          configName: mustGetDevConf(1),
+          ...getSArgs(),
         });
         break;
       }
@@ -150,7 +150,7 @@ function mustGetDevConf(argIdx: number) {
         await sp.spawnDockerComposeCmd({
           args: ['up', '--force-recreate'],
           dir: await iou.getProjectDir(serverDir),
-          configName: mustGetDevConf(1),
+          ...getSArgs(),
         });
         break;
       }
@@ -177,14 +177,14 @@ function mustGetDevConf(argIdx: number) {
       case 'sod': {
         await sp.spawnDZCmd({
           cmd: inputCmd,
-          args: processArgs.slice(1),
+          args: cli.list.slice(1),
           daizongDir: await iou.getProjectDir(libDevDir),
         });
         break;
       }
 
       case 'it': {
-        const itArgs = processArgs.slice(1);
+        const itArgs = cli.list.slice(1);
         await sp.spawnDZCmd({
           cmd: itArgs[0] || 'dev',
           args: itArgs.slice(1),
@@ -194,13 +194,13 @@ function mustGetDevConf(argIdx: number) {
       }
 
       case 'migrate': {
-        const arg1 = processArgs[1];
+        const arg1 = cli.list[1];
         checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
           await sp.spawnDockerComposeMigrate({
             args: ['drop'],
             dir: await iou.getProjectDir(serverDir),
-            configName: mustGetDevConf(2),
+            ...getSArgs(),
           });
         } else if (arg1.startsWith('+') || arg1.startsWith('-')) {
           const num = parseInt(arg1.substr(1), 10);
@@ -208,7 +208,7 @@ function mustGetDevConf(argIdx: number) {
           await sp.spawnDockerComposeMigrate({
             args: [arg1[0] === '+' ? 'up' : 'down', num.toString()],
             dir: await iou.getProjectDir(serverDir),
-            configName: mustGetDevConf(2),
+            ...getSArgs(),
           });
         } else {
           const num = parseInt(arg1, 10);
@@ -216,7 +216,7 @@ function mustGetDevConf(argIdx: number) {
           await sp.spawnDockerComposeMigrate({
             args: ['goto', num.toString()],
             dir: await iou.getProjectDir(serverDir),
-            configName: mustGetDevConf(2),
+            ...getSArgs(),
           });
         }
         break;
