@@ -35,10 +35,13 @@ export interface ComposerContent extends CoreEditorContent {
 }
 
 /**
- * Built upon core-editor, providing the following features:
+ * Built upon <core-editor>, providing the following features:
  *   Title, and content fields.
  *   Warns the user about unsaved changes.
  *   Submit and cancel buttons.
+ *
+ * <composer-view> should be put in a flex parent. It will take
+ * up all available space.
  */
 @customElement('composer-view')
 export class ComposerView extends BaseElement {
@@ -47,7 +50,10 @@ export class ComposerView extends BaseElement {
       super.styles,
       css`
         :host {
-          display: block;
+          display: flex;
+          flex-direction: column;
+          flex: 1 1 auto;
+          word-break: break-all;
           min-height: 300px;
         }
 
