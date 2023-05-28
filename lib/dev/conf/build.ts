@@ -69,8 +69,8 @@ function generateDockerComposeObj(_name: string, conf: CoreConfigSchema) {
       `../userland/static:${infraDef.staticDir}`,
       // Localized strings.
       `../userland/langs/server:${infraDef.langsDir}`,
-      // Misc folder.
-      `../userland/misc:${infraDef.miscDir}`,
+      // Schema folder.
+      `../userland/config/schema:${infraDef.configSchemaDir}`,
       qingDataVolumeString,
     ],
     ports: ['8000:8000'],

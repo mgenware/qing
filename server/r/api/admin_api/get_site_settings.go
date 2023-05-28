@@ -10,8 +10,9 @@ package adminapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appConfig"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/handler"
@@ -21,8 +22,8 @@ import (
 )
 
 func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	key := clib.MustGetIntFromDict(params, "key")
 
 	needRestart := appConfig.DiskConfigUpdated()
@@ -40,7 +41,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	case appDef.GetSiteSettingsLangs:
 		supportedLangs, err := apicom.GetSiteSupportedLangs()
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 
 		currentLangs := sc.Langs
 		langSTData := mxSod.NewGetSiteLangsST(&stBase, supportedLangs, currentLangs)

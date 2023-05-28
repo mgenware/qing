@@ -10,19 +10,19 @@ package fgmodapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appcom"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 )
 
 func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
-	uid := app.ContextUserID(r)
-	groupID := appcom.ContextForumGroupID(r.Context())
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
+	uid := resp.UserID()
+	groupID := appcm.ContextForumGroupID(r.Context())
 	db := appDB.DB()
 	var err error
 
@@ -41,16 +41,16 @@ func setForumGroupMod(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// When a user becomes a forum group mod, all its sub-forums mod status
 		// of this group is cleared.
 		forumIDs, err := da.Forum.SelectForumIDsForGroup(db, groupID)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 
 		_, err = da.ForumMod.DeleteUserFromForumMods(db, targetUserID, forumIDs)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 
 		err = da.ForumGroupMod.InsertMod(db, groupID, targetUserID)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 	} else {
 		err = da.ForumGroupMod.DeleteMod(db, groupID, targetUserID)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 	}
 	return resp.MustComplete(nil)
 }

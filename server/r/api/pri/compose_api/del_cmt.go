@@ -9,8 +9,9 @@ package composeapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
@@ -20,20 +21,20 @@ import (
 )
 
 func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	id := clib.MustGetIDFromDict(params, "id")
 	db := appDB.DB()
 	hostInfo, err := da.Cmt.SelectHostInfo(db, id)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	entityType := frozenDef.ContentBaseType(hostInfo.HostType)
 	hostTable, err := apicom.GetCmtHostTable(entityType)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	err = dax.DeleteCmt(db, id, uid, hostTable, hostInfo.HostID)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

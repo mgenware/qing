@@ -9,8 +9,9 @@ package entapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -18,8 +19,8 @@ import (
 )
 
 func getCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	id := clib.MustGetIDFromDict(params, "id")
@@ -32,7 +33,7 @@ func getCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		cmtDB, err = da.Cmt.SelectCmt(db, id)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	cmt := apicom.NewCmt(&cmtDB)
 	return resp.MustComplete(cmt)

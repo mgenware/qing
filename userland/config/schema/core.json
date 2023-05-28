@@ -40,6 +40,17 @@
       },
       "required": ["url", "name", "langs"]
     },
+    "hashing_config": {
+      "type": "object",
+      "properties": {
+        "memory": { "type": "number" },
+        "iterations": { "type": "number" },
+        "parallelism": { "type": "number" },
+        "salt_length": { "type": "number" },
+        "key_length": { "type": "number" }
+      },
+      "required": ["memory", "iterations", "parallelism", "salt_length", "key_length"]
+    },
     "logging_config": {
       "type": "object",
       "properties": {

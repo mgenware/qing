@@ -9,9 +9,9 @@ package postp
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
@@ -33,7 +33,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 
 	focusedCmtIDStr := r.FormValue("cmt")
 	focusedCmtID, err := clib.DecodeID(focusedCmtIDStr)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	var postType frozenDef.ContentBaseType
 	var post da.PostItem
@@ -44,15 +44,15 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		postType = frozenDef.ContentBaseTypePost
 		post, err = da.Post.SelectItemByID(db, id)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	uid := resp.UserID()
 
 	hasLiked := false
 	if uid != 0 {
 		liked, err := da.PostLike.HasLiked(db, id, uid)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		hasLiked = liked
 	}
 
@@ -62,7 +62,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		str := clib.EncodeID(*post.ForumID)
 		fid = &str
 	}
-	d := app.MainPageData(post.Title, vPostPage.MustExecuteToString(postData))
+	d := appHandler.MainPageData(post.Title, vPostPage.MustExecuteToString(postData))
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("postEntry")
 
 	cmtFocusModeData := rcom.GetCmtFocusModeData(focusedCmtID, id, postType)

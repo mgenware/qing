@@ -9,8 +9,9 @@ package entapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/handler"
 	"qing/da"
@@ -49,8 +50,8 @@ func newGetCmtsRespData(cmts []da.CmtResult, hasNext bool) GetCmtsRespData {
 }
 
 func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	parentID := clib.GetIDFromDict(params, "parentID")
@@ -74,7 +75,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 			items, hasNext, err = da.Cmt.SelectRepliesUserModeFilterMode(db, uid, &parentID, excludedCmts, page, kCmtPageSize, da.CmtAGSelectRepliesUserModeFilterModeOrderBy1(orderBy), true)
 		}
 		if err != nil {
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 		}
 
 		respData := newGetCmtsRespData(items, hasNext)
@@ -84,7 +85,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
 	cmtRelTable, err := apicom.GetCmtRelationTable(host.Type)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	if uid == 0 {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsOrderBy1(orderBy), true)
@@ -94,7 +95,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsUserModeFilterMode(db, cmtRelTable, uid, host.ID, excludedCmts, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1(orderBy), true)
 	}
 
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	respData = newGetCmtsRespData(items, hasNext)
 
 	return resp.MustComplete(respData)

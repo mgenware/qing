@@ -10,13 +10,13 @@ package authapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
+	"qing/a/appHandler"
 	"qing/a/appUserManager"
 	"qing/a/handler"
 )
 
 func signOut(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
 	if err != nil {
 		return resp.MustFail(fmt.Sprintf("Error signing out: %v", err))

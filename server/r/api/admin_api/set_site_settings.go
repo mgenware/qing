@@ -12,9 +12,10 @@ import (
 	"fmt"
 	"math"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appConfig"
 	"qing/a/appEnv"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/cfgx"
 	"qing/a/coreConfig"
 	"qing/a/def/appDef"
@@ -31,8 +32,8 @@ type brSetSiteSettingsResult struct {
 
 // NOTE: Changes to settings (app config) require a server restart.
 func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
@@ -43,7 +44,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	case appDef.SetSiteSettingsPostPermission:
 		var postPerm frozenDef.PostPermissionConfig
 		err := json.Unmarshal(stJSON, &postPerm)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		if postPerm == "" {
 			panic("invalid post permission value")
 		}
@@ -54,7 +55,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	case appDef.SetSiteSettingsLangs:
 		var langs []string
 		err := json.Unmarshal(stJSON, &langs)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		if len(langs) == 0 {
 			panic("error updating langs settings: empty array is not allowed")
 		}
@@ -65,7 +66,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	case appDef.SetSiteSettingsInfo:
 		var infoData mxSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		coreConfig.UpdateDiskConfig(func(diskCfg *cfgx.CoreConfig) {
 			diskCfg.Site.Name = infoData.SiteName
 			diskCfg.Site.URL = infoData.SiteURL

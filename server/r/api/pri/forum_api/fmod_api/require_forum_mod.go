@@ -11,8 +11,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"qing/a/app"
-	"qing/a/appcom"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def"
 	"qing/lib/clib"
 	modutil "qing/r/api/pri/forum_api/mod_util"
@@ -22,10 +22,10 @@ import (
 func RequireForumModeJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		params := appcom.ContextDict(ctx)
-		sUser := appcom.ContextUser(ctx)
+		params := appcm.ContextDict(ctx)
+		sUser := appcm.ContextUser(ctx)
 
-		resp := app.JSONResponse(w, r)
+		resp := appHandler.JSONResponse(w, r)
 		forumID := clib.GetIDFromDict(params, ForumIDParamName)
 		if forumID == 0 {
 			resp.MustFail(fmt.Sprintf("The argument `%v` is empty", ForumIDParamName))

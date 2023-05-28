@@ -13,8 +13,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"qing/a/app"
 	"qing/a/appEnv"
+	"qing/a/appcm"
 	"qing/a/cfgx"
 	"qing/a/def/appDef"
 	"qing/a/def/infraDef"
@@ -52,7 +52,7 @@ func init() {
 
 func Get(r *http.Request) *cfgx.AppConfig {
 	if appEnv.IsBR() {
-		params := app.ContextDict(r)
+		params := appcm.ContextDict(r.Context())
 		appCfgUpdateDict := jsonx.GetDictOrNil(params, appDef.AppConfigBrParam)
 		if appCfgUpdateDict == nil {
 			return baseConfig

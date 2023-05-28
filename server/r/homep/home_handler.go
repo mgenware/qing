@@ -9,11 +9,11 @@ package homep
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appConfig"
 	"qing/a/appDB"
 	"qing/a/appEnv"
 	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
@@ -43,7 +43,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 }
 
 func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appDef.KeyTab)
@@ -65,7 +65,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	} else {
 		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {
@@ -91,7 +91,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), paginationData)
 
 	pageData := NewStdPageData(paginationData, feedListHTMLBuilder.String(), pageBarHTML)
-	d := app.MainPageData("", vStdPage.MustExecuteToString(pageData))
+	d := appHandler.MainPageData("", vStdPage.MustExecuteToString(pageData))
 	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("homeStdEntry")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("homeStdEntry")
 	return resp.MustComplete(&d)

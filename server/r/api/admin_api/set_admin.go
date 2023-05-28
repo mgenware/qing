@@ -9,17 +9,18 @@ package adminapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 )
 
 func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
-	uid := app.ContextUserID(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
+	uid := resp.UserID()
 
 	targetUserID := clib.MustGetIDFromDict(params, "target_user_id")
 	value := clib.MustGetIntFromDict(params, "value")
@@ -30,6 +31,6 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	err := da.User.UnsafeUpdateAdmin(db, targetUserID, value == 1)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

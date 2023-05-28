@@ -12,8 +12,8 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"qing/a/app"
 	"qing/a/appLog"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/coretype"
 	"qing/a/def"
@@ -45,7 +45,7 @@ var service *AvatarService
 func init() {
 	cc := coreConfig.Get()
 	svc, err := newService(filepath.Join(cc.ResServer.Dir, def.AvatarResKey))
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	service = svc
 }
 

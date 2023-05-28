@@ -9,19 +9,19 @@ package fmodapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appcom"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 )
 
 func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	fid := appcom.ContextForumID(r.Context())
+	resp := appHandler.JSONResponse(w, r)
+	fid := appcm.ContextForumID(r.Context())
 
 	db := appDB.DB()
 	res, err := da.Forum.SelectInfoForEditing(db, fid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(res)
 }

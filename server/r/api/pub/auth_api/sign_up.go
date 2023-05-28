@@ -11,12 +11,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appConfig"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/handler"
@@ -57,8 +56,8 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 }
 
 func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	ac := appConfig.Get(r)
 
 	name := clib.MustGetStringFromDict(params, "name", appDef.LenMaxName)
@@ -72,7 +71,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 		Pwd:   pwd,
 	}
 	createUserDataString, err := CreateUserDataToString(&createUserData)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	publicID, err := appService.Get().RegEmailVerificator.Add(email, createUserDataString)
 	if err != nil {
@@ -80,7 +79,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	ctx := r.Context()
-	lang := appcom.ContextLanguage(ctx)
+	lang := appcm.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
 	url := appURL.Get().RegEmailVerification(ls.QingSiteLink, publicID)
 
@@ -99,7 +98,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 		noDevMail = devCfg.NoDevMail
 	}
 	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, noDevMail, ls.QingSiteName)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	return resp.MustComplete(nil)
 }

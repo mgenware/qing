@@ -11,10 +11,11 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appUserManager"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -22,8 +23,8 @@ import (
 )
 
 func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxEmail)
 	pwd := clib.MustGetStringFromDict(params, "pwd", appDef.LenMaxUserPwd)
@@ -50,13 +51,13 @@ func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	pwdValid, err := appService.Get().HashingAlg.ComparePasswordAndHash(pwd, hash)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	if !pwdValid {
 		return resp.MustFail(resp.LS().InvalidNameOrPwd)
 	}
 
 	err = appUserManager.Get().Login(uid, w, r)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

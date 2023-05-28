@@ -28,7 +28,7 @@ func readConfigCore(absFile string, createFn ReadConfigCreateDataFn) (ConfigBase
 
 	err := iolib.ReadJSONFile(absFile, obj)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error reading config file %v: %v", absFile, err)
 	}
 
 	extends := obj.GetExtends()
@@ -39,15 +39,14 @@ func readConfigCore(absFile string, createFn ReadConfigCreateDataFn) (ConfigBase
 		extendsFile := filepath.Join(filepath.Dir(absFile), extends)
 		parent, err := readConfigCore(extendsFile, createFn)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("error reading parent file %v: %v", extendsFile, err)
 		}
-		if err := mergo.Merge(&obj, parent); err != nil {
-			return nil, err
+		if err := mergo.Merge(obj, parent); err != nil {
+			return nil, fmt.Errorf("error merging parent file %v: %v", extendsFile, err)
 		}
 	}
 	// Ret `extends` to empty.
 	obj.SetExtends("")
-
 	return obj, nil
 }
 
@@ -58,7 +57,7 @@ func MustReadConfig(absFile string, schemaName string, createFn ReadConfigCreate
 	}
 	conf, err := readConfigCore(absFile, createFn)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("error loading config %v: %v", absFile, err))
 	}
 	mustValidateConfig(conf, schemaName)
 	return conf
@@ -75,7 +74,7 @@ func mustValidateConfig(c ConfigBase, schemaName string) {
 
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("error validating schema %v: %v", schemaName, err))
 	}
 
 	if !result.Valid() {

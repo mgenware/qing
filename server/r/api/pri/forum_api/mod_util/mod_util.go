@@ -9,7 +9,7 @@ package modutil
 
 import (
 	"qing/a/appDB"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/da"
 )
 
@@ -44,7 +44,7 @@ func getForumGroupPermLevelCore(groupID, uid uint64) (int, error) {
 // GetRequestForumGroupPermLevel returns the forum group permission level
 // associated with the specified user.
 // It returns 0 if the user doesn't have any permission attached.
-func GetRequestForumGroupPermLevel(sUser *appcom.SessionUser, groupID uint64) (int, error) {
+func GetRequestForumGroupPermLevel(sUser *appcm.SessionUser, groupID uint64) (int, error) {
 	if sUser == nil {
 		return 0, nil
 	}
@@ -58,7 +58,7 @@ func GetRequestForumGroupPermLevel(sUser *appcom.SessionUser, groupID uint64) (i
 // GetRequestForumPermLevel returns the forum permission level
 // associated with the specified user.
 // It returns 0 if the user doesn't have any permission attached.
-func GetRequestForumPermLevel(sUser *appcom.SessionUser, forumID uint64) (int, error) {
+func GetRequestForumPermLevel(sUser *appcm.SessionUser, forumID uint64) (int, error) {
 	if sUser == nil {
 		return 0, nil
 	}

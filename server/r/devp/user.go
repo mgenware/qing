@@ -11,10 +11,10 @@ import (
 	"database/sql"
 	"net/http"
 
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appUserManager"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -37,11 +37,11 @@ func newUserInfoResult(d *da.UserAGSelectSessionDataResult) *authSod.User {
 }
 
 func getUIDFromRequest(r *http.Request) uint64 {
-	params := app.ContextDict(r)
+	params := appcm.ContextDict(r.Context())
 	val := jsonx.GetStringOrDefault(params, "uid")
 	if val != "" {
 		uid, err := clib.DecodeID(val)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		return uid
 	}
 
@@ -54,29 +54,29 @@ func signInCore(uid uint64, w http.ResponseWriter, r *http.Request) error {
 }
 
 func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
 	uid := getUIDFromRequest(r)
 	err := signInCore(uid, w, r)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
 func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	err = signInCore(uid, w, r)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	return resp.MustCompleteWithContent("Success", w)
 }
 
 func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	return resp.MustCompleteWithContent("Success", w)
 }
@@ -86,32 +86,32 @@ func accVerifiedGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML 
 }
 
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
-	params := app.ContextDict(r)
+	params := appcm.ContextDict(r.Context())
 	lang := jsonx.GetStringOrDefault(params, "lang")
 	regLang := jsonx.GetStringOrDefault(params, "regLang")
 	if regLang == "" {
 		regLang = "en"
 	}
 
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	idObj, err := uuid.NewRandom()
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	email := idObj.String() + "@t.com"
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email, "T", regLang)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	if lang != "" {
 		err = da.User.UpdateLang(db, uid, lang)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 	}
 
 	return resp.MustComplete(getDBUserInfo(uid))
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 
 	db := appDB.DB()
@@ -127,26 +127,26 @@ func getDBUserInfo(uid uint64) *authSod.User {
 	if err == sql.ErrNoRows {
 		return newUserInfoResult(nil)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return newUserInfoResult(&us)
 }
 
 func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	return resp.MustComplete(getDBUserInfo(uid))
 }
 
 func currentUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	uid := appcom.ContextUserID(r.Context())
+	resp := appHandler.JSONResponse(w, r)
+	uid := appcm.ContextUserID(r.Context())
 	return resp.MustComplete(clib.EncodeID(uid))
 }
 
 func userEmail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	email, err := da.User.SelectEmail(appDB.Get().DB(), uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(email)
 }

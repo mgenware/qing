@@ -9,9 +9,10 @@ package mpapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -54,8 +55,8 @@ func newPCPost(p *da.PostForPostCenter, uid uint64) pcPost {
 }
 
 func myPostsCore(w http.ResponseWriter, r *http.Request, fpost bool) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	page := clib.GetPageParamFromDict(params)
@@ -72,10 +73,10 @@ func myPostsCore(w http.ResponseWriter, r *http.Request, fpost bool) handler.JSO
 	} else {
 		rawPosts, hasNext, err = da.Post.SelectItemsForPostCenter(db, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	stats, err := da.UserStats.SelectStats(db, uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	posts := make([]pcPost, len(rawPosts))
 	for i, p := range rawPosts {

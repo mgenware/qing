@@ -10,11 +10,11 @@ package profileapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appURL"
 	"qing/a/appUserManager"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/da"
 	"qing/lib/iolib"
@@ -41,7 +41,7 @@ type avatarCropInfo struct {
 }
 
 func uploadAvatar(w http.ResponseWriter, r *http.Request) {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
 	if r.ContentLength > maxUploadSize {
 		resp.MustFail(strf.Format(resp.LS().PFileSizeExceedsMaxSize, "5 MB"))
@@ -90,7 +90,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 	defer srcReader.Close()
 
-	user := appcom.ContextUser(resp.Context())
+	user := appcm.ContextUser(resp.Context())
 	uid := user.ID
 
 	avatarName, err := avatar.Get().UpdateAvatar(user.IconName, srcReader, cropInfo.X, cropInfo.Y, cropInfo.Width, cropInfo.Height, uid, ext)
@@ -108,7 +108,7 @@ func uploadAvatar(w http.ResponseWriter, r *http.Request) {
 
 	// Update session.
 	user.IconName = avatarName
-	sid := appcom.ContextSID(resp.Context())
+	sid := appcm.ContextSID(resp.Context())
 	err = appUserManager.Get().UpdateUserSession(sid, user)
 	if err != nil {
 		resp.MustFail(fmt.Sprintf("Error updating user session: %v", err))

@@ -10,10 +10,10 @@ package authp
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appService"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
@@ -36,33 +36,33 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 		panic(fmt.Errorf("empty input"))
 	}
 
-	lang := app.ContextLanguage(r)
+	lang := appcm.ContextLanguage(r.Context())
 	ls := appHandler.MainPage().Dictionary(lang)
 	dataString, err := appService.Get().RegEmailVerificator.Verify(key)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	if dataString == "" {
 		// Expired or not found.
-		resp := app.HTMLResponse(w, r)
+		resp := appHandler.HTMLResponse(w, r)
 		return resp.MustFailf(ls.RegEmailVeriExpired, http.StatusServiceUnavailable)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	verifiedUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	return RenderAccountVerified(lang, clib.EncodeID(verifiedUID), w, r)
 }
 
 func RenderAccountVerified(lang, verifiedUID string, w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
 	ls := appHandler.MainPage().Dictionary(lang)
 	d := AccVerifiedPageData{VerifiedUID: verifiedUID}
-	pageData := app.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
+	pageData := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
 	return resp.MustComplete(&pageData)
 }

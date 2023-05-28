@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler/localization"
 
@@ -23,6 +24,7 @@ type JSONResponse struct {
 
 	writer      http.ResponseWriter
 	lsMgr       localization.CoreManager
+	params      map[string]any
 	isCompleted bool
 }
 
@@ -31,8 +33,10 @@ type JSON = int
 
 // NewJSONResponse creates a new JSONResponse.
 func NewJSONResponse(w http.ResponseWriter, r *http.Request, lsMgr localization.CoreManager) JSONResponse {
+	ctx := r.Context()
 	return JSONResponse{
 		BaseResponse: newBaseResponse(r),
+		params:       appcm.ContextDict(ctx),
 		writer:       w,
 		lsMgr:        lsMgr,
 	}
@@ -64,6 +68,10 @@ func (j *JSONResponse) MustComplete(data any) JSON {
 // LS returns the dictionary associated with current language ID.
 func (j *JSONResponse) LS() *localization.Dictionary {
 	return j.lsMgr.Dictionary(j.Lang())
+}
+
+func (j *JSONResponse) Params() map[string]any {
+	return j.params
 }
 
 func (j *JSONResponse) mustWriteData(d *APIResult) {

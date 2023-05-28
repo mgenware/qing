@@ -9,9 +9,9 @@ package fmodapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
-	"qing/a/appcom"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -21,15 +21,15 @@ import (
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
-	fid := appcom.ContextForumID(r.Context())
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
+	fid := appcm.ContextForumID(r.Context())
 	name := clib.MustGetStringFromDict(params, "name", appDef.LenMaxName)
 	desc := jsonx.GetStringOrDefault(params, "desc")
 	descSrc := jsonx.GetStringOrNil(params, "descSrc")
 
 	db := appDB.DB()
 	err := da.Forum.UpdateInfo(db, fid, name, desc, descSrc)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

@@ -9,7 +9,6 @@ package mxp
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/appUserManager"
 	"qing/a/handler"
@@ -24,10 +23,10 @@ func init() {
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
 	// Page title and content will be set on frontend side.
-	d := app.MainPageData("", "")
+	d := appHandler.MainPageData("", "")
 	assm := appHandler.MainPage().AssetManager()
 	d.Scripts = assm.MustGetLangScript(resp.Lang(), "mx") + assm.MustGetScript("mxEntry")
 

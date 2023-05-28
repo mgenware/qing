@@ -9,21 +9,22 @@ package fgmodapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
 )
 
 func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 
 	id := clib.MustGetIDFromDict(params, "id")
 
 	db := appDB.DB()
 	res, err := da.ForumGroup.SelectInfoForEditing(db, id)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(res)
 }

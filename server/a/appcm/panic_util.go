@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package app
+package appcm
 
 import (
 	"fmt"

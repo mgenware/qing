@@ -9,9 +9,9 @@ package forump
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -26,7 +26,7 @@ import (
 const defaultPageSize = 10
 
 func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
 	var err error
 
@@ -38,10 +38,10 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tab := r.FormValue(appDef.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, fid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	items, hasNext, err := da.Forum.SelectFPosts(db, &fid, page, defaultPageSize)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {
@@ -58,9 +58,9 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), paginationData)
 
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	forumData := NewForumPageData(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
-	d := app.MainPageData("", vForumPage.MustExecuteToString(forumData))
+	d := appHandler.MainPageData("", vForumPage.MustExecuteToString(forumData))
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("forumEntry")
 	d.Extra = ForumPageWindData{Editable: forumData.ForumEditable, FID: forumData.ForumEID}
 	return resp.MustComplete(&d)

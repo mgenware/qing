@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/appHandler"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/def"
 	"qing/a/handler"
 	"qing/lib/clib"
@@ -23,8 +23,8 @@ import (
 func RequireGroupModeJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		params := appcom.ContextDict(ctx)
-		sUser := appcom.ContextUser(ctx)
+		params := appcm.ContextDict(ctx)
+		sUser := appcm.ContextUser(ctx)
 
 		resp := handler.NewJSONResponse(w, r, appHandler.LSManager())
 		groupID := clib.GetIDFromDict(params, "forumGroupID")

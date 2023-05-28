@@ -10,8 +10,9 @@ package userapi
 import (
 	"database/sql"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -23,8 +24,8 @@ import (
 )
 
 func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 
 	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
@@ -36,7 +37,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)
 		}
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		users = []da.FindUserResult{user}
 	} else {
 		name := clib.MustGetStringFromDict(params, "value", appDef.LenMaxName)
@@ -44,7 +45,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 		if err == sql.ErrNoRows {
 			return resp.MustComplete(nil)
 		}
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 	}
 	userModels := make([]authSod.User, len(users))
 	for i, user := range users {

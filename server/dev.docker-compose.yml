@@ -25,7 +25,7 @@ services:
       - ../userland/templates:/qing/templates
       - ../userland/static:/qing/static
       - ../userland/langs/server:/qing/langs
-      - ../userland/misc:/qing/misc
+      - ../userland/config/schema:/qing/config/schema
       - ../volumes/qing_data:/qing_data
     ports:
       - '8000:8000'

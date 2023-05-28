@@ -10,10 +10,11 @@ package composeapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
@@ -25,8 +26,8 @@ import (
 )
 
 func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 	var err error
 
@@ -59,7 +60,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case frozenDef.ContentBaseTypePost:
 			{
 				insertedID, err := da.Post.InsertItem(db, uid, contentHTML, contentSrc, title, summary, sanitizedToken, captResult)
-				app.PanicOn(err)
+				appcm.PanicOn(err)
 
 				result = appURL.Get().Post(insertedID)
 				break
@@ -68,7 +69,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case frozenDef.ContentBaseTypeFPost:
 			{
 				insertedID, err := da.FPost.InsertItem(db, uid, contentHTML, contentSrc, title, summary, forumID, sanitizedToken, captResult)
-				app.PanicOn(err)
+				appcm.PanicOn(err)
 
 				result = appURL.Get().FPost(insertedID)
 				break
@@ -83,13 +84,13 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case frozenDef.ContentBaseTypePost:
 			{
 				err = da.Post.EditItem(db, id, uid, contentHTML, contentSrc, title, summary, sanitizedToken)
-				app.PanicOn(err)
+				appcm.PanicOn(err)
 				break
 			}
 		case frozenDef.ContentBaseTypeFPost:
 			{
 				err = da.FPost.EditItem(db, id, uid, contentHTML, contentSrc, title, summary, sanitizedToken)
-				app.PanicOn(err)
+				appcm.PanicOn(err)
 				break
 			}
 		default:

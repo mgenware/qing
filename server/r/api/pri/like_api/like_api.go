@@ -10,16 +10,17 @@ package likeapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/lib/clib"
 )
 
 func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	category := clib.MustGetIntFromDict(params, "type")
@@ -33,16 +34,16 @@ func likeAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	currentVal, err := dbSrc.HasLiked(db, id, uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	if currentVal == (value == 1) {
 		panic(fmt.Errorf("like status mismatch: %v", currentVal))
 	}
 
 	if value == 1 {
-		app.PanicOn(dbSrc.Like(db, id, uid))
+		appcm.PanicOn(dbSrc.Like(db, id, uid))
 	} else {
-		app.PanicOn(dbSrc.CancelLike(db, id, uid))
+		appcm.PanicOn(dbSrc.CancelLike(db, id, uid))
 	}
 	return resp.MustComplete(nil)
 }

@@ -9,9 +9,9 @@ package profilep
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -33,16 +33,16 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appDef.KeyTab)
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
 	db := appDB.DB()
 	// User profile
 	user, err := da.User.SelectProfile(db, uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	// User stats
 	stats, err := da.UserStats.SelectStats(db, uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	pageTitle := user.Name
 
@@ -55,7 +55,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	} else {
 		posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	var feedListHTMLBuilder strings.Builder
 	for _, post := range posts {
 		postData := NewProfilePostItemData(&post)
@@ -70,7 +70,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 		feedListHTML = rcom.MustRunNoContentViewTemplate()
 	}
 	profileData := NewProfilePageDataFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(resp.Lang(), paginationData))
-	d := app.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileData))
+	d := appHandler.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileData))
 	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("profileEntry")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("profileEntry")
 	d.Extra = ProfilePageWindData{Website: user.Website}

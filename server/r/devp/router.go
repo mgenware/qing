@@ -9,7 +9,6 @@ package devp
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/a/middleware"
@@ -74,10 +73,10 @@ func apiRouter() *handler.JSONRouter {
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 
 	// Page title and content will be set on frontend side.
-	d := app.MainPageData("", "")
+	d := appHandler.MainPageData("", "")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("devPageEntry")
 
 	return resp.MustComplete(&d)

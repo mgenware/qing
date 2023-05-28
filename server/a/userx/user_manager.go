@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"qing/a/appEnv"
 	"qing/a/appHandler"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/handler"
@@ -89,7 +89,7 @@ func (appu *UserManager) TestLogout(uid uint64) error {
 	return appu.sessionManager.LogoutCore(uid, sid)
 }
 
-func (appu *UserManager) UpdateUserSession(sid string, user *appcom.SessionUser) error {
+func (appu *UserManager) UpdateUserSession(sid string, user *appcm.SessionUser) error {
 	return appu.sessionManager.SetUserSession(sid, user)
 }
 
@@ -97,8 +97,8 @@ func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Hand
 	return appu.sessionManager.ParseUserSessionMiddleware(next)
 }
 
-// Fetches user info from DB and creates an `appcom.SessionUser`.
-func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUser, error) {
+// Fetches user info from DB and creates an `appcm.SessionUser`.
+func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcm.SessionUser, error) {
 	db := appu.db
 	if appu.cfg.FourmsEnabled() {
 		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
@@ -124,7 +124,7 @@ func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcom.SessionUs
 func (appu *UserManager) RequireLoginHTMLMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		user := appcom.ContextUser(ctx)
+		user := appcm.ContextUser(ctx)
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
@@ -137,7 +137,7 @@ func (appu *UserManager) RequireLoginHTMLMiddleware(next http.Handler) http.Hand
 func (appu *UserManager) RequireLoginJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		user := appcom.ContextUser(ctx)
+		user := appcm.ContextUser(ctx)
 		if user != nil {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {
@@ -151,7 +151,7 @@ func (appu *UserManager) RequireLoginJSONMiddleware(next http.Handler) http.Hand
 func (appu *UserManager) UnsafeRequireAdminJSONMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		user := appcom.ContextUser(ctx)
+		user := appcm.ContextUser(ctx)
 		if user != nil && user.Admin {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		} else {

@@ -10,24 +10,25 @@ package devp
 import (
 	"net/http"
 
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 )
 
 func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	c, err := da.UserStats.TestSelectPostCount(appDB.DB(), uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(c)
 }
 
 func userFPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	c, err := da.UserStats.TestSelectFPostCount(appDB.DB(), uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(c)
 }

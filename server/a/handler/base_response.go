@@ -10,7 +10,7 @@ package handler
 import (
 	"context"
 	"net/http"
-	"qing/a/appcom"
+	"qing/a/appcm"
 )
 
 // BaseResponse provides basic properties shared by both HTMLResponse and JSONResponse.
@@ -18,7 +18,7 @@ type BaseResponse struct {
 	req  *http.Request
 	ctx  context.Context
 	lang string
-	user *appcom.SessionUser
+	user *appcm.SessionUser
 	uid  uint64
 }
 
@@ -27,9 +27,9 @@ func newBaseResponse(r *http.Request) BaseResponse {
 	c := BaseResponse{
 		req:  r,
 		ctx:  ctx,
-		lang: appcom.ContextLanguage(ctx),
-		user: appcom.ContextUser(ctx),
-		uid:  appcom.ContextUserID(ctx),
+		lang: appcm.ContextLanguage(ctx),
+		user: appcm.ContextUser(ctx),
+		uid:  appcm.ContextUserID(ctx),
 	}
 
 	return c
@@ -51,7 +51,7 @@ func (b *BaseResponse) Lang() string {
 }
 
 // User returns the session user associated with the underlying context.
-func (b *BaseResponse) User() *appcom.SessionUser {
+func (b *BaseResponse) User() *appcm.SessionUser {
 	return b.user
 }
 

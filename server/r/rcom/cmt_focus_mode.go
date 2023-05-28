@@ -9,8 +9,8 @@ package rcom
 
 import (
 	"database/sql"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/da"
 	"qing/r/api/apicom"
@@ -28,7 +28,7 @@ func GetCmtFocusModeData(cmtID, hostID uint64, hostType frozenDef.ContentBaseTyp
 		d.Is404 = true
 		return d
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	focusedCmtVal := apicom.NewCmt(&focusedCmtDB)
 
 	// Check focused cmt belongs to current post.
@@ -41,7 +41,7 @@ func GetCmtFocusModeData(cmtID, hostID uint64, hostType frozenDef.ContentBaseTyp
 	// Fetch parent cmt if needed.
 	if focusedCmtVal.ParentID != nil {
 		focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmtVal.ParentID)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
 		d.ParentCmt = &focusedCmtParentVal
 	}

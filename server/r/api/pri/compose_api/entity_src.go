@@ -10,8 +10,9 @@ package composeapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
@@ -19,8 +20,8 @@ import (
 )
 
 func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	entity := clib.MustGetEntityInfoFromDict(params, "entity")
@@ -39,6 +40,6 @@ func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	default:
 		panic(fmt.Errorf("unsupported entity type %v", entity.Type))
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(res)
 }

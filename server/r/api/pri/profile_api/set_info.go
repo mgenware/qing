@@ -10,9 +10,10 @@ package profileapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appUserManager"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 
@@ -20,8 +21,8 @@ import (
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	sUser := resp.User()
 	uid := resp.UserID()
 
@@ -37,13 +38,13 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Update DB
 	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location, bio, bioSrc)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	// Update session
 	sUser.Name = nick
-	sid := app.ContextSID(r)
+	sid := appcm.ContextSID(r.Context())
 	err = appUserManager.Get().UpdateUserSession(sid, sUser)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	return resp.MustComplete(nick)
 }

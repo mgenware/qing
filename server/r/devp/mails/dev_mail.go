@@ -10,10 +10,11 @@ package mails
 import (
 	"database/sql"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appConfig"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appService"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/a/servicex/mailx/devmail"
@@ -24,58 +25,58 @@ import (
 )
 
 func getDevLatestMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
-	params := app.ContextDict(r)
+	params := resp.Params()
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 	index := jsonx.GetIntOrDefault(params, "index")
 
 	devMail, err := devmail.GetLatestMail(email, index)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(devMail)
 }
 
 func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
-	params := app.ContextDict(r)
+	params := resp.Params()
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 	id := clib.MustGetStringFromDict(params, "id", appDef.LenMaxGenericString)
 
 	devMail, err := devmail.GetMail(email, id)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(devMail)
 }
 
 func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	ac := appConfig.Get(r)
 
-	params := app.ContextDict(r)
+	params := resp.Params()
 	to := clib.MustGetStringFromDict(params, "to", appDef.LenMaxGenericString)
 	title := clib.MustGetStringFromDict(params, "title", appDef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
 
 	err := appService.Get().Mail.SendMail(ac, to, title, content, true, "QING_TEST")
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
 func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
-	params := app.ContextDict(r)
+	params := resp.Params()
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 
 	err := devmail.EraseUser(email)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
 func eraseUserByID(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
-	params := app.ContextDict(r)
+	params := resp.Params()
 	id := clib.MustGetIDFromDict(params, "id")
 
 	db := appDB.Get().DB()
@@ -83,27 +84,27 @@ func eraseUserByID(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if err == sql.ErrNoRows {
 		return resp.MustComplete(nil)
 	}
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	err = devmail.EraseUser(email)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
 func users(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
 	users, err := devmail.ListUsers()
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(users)
 }
 
 func inbox(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 
-	params := app.ContextDict(r)
+	params := resp.Params()
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 
 	mails, err := devmail.ListMails(email)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(mails)
 }

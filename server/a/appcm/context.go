@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package appcom
+package appcm
 
 import (
 	"context"

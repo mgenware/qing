@@ -16,7 +16,7 @@ import (
 	"golang.org/x/text/language"
 
 	"qing/a/appLog"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/cfgx"
 	"qing/a/def"
 	"qing/a/def/appDef"
@@ -126,7 +126,7 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 		ctx := r.Context()
 
 		// Respect user's language preference.
-		user := appcom.ContextUser(ctx)
+		user := appcm.ContextUser(ctx)
 		var lang string
 		if user != nil && user.Lang != "" {
 			lang = user.Lang

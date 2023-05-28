@@ -10,10 +10,11 @@ package composeapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appConfig"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appService"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/a/servicex/notix"
@@ -31,8 +32,8 @@ type SetCmtResponse struct {
 }
 
 func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	user := resp.User()
 	uid := user.ID
 
@@ -48,34 +49,34 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		parentID := clib.GetIDFromDict(params, "parentID")
 
 		cmtHostTable, err := apicom.GetCmtHostTable(host.Type)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		cmtRelationTable, err := apicom.GetCmtRelationTable(host.Type)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 
 		captResult := 0
 		var cmtID uint64
 		var notiToID uint64
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, contentSrc, host.ID, uint8(host.Type), parentID, uid, sanitizedToken, captResult)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			parentUID, err := da.Cmt.SelectUserID(db, parentID)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			if parentUID == nil {
 				panic(fmt.Errorf("cannot reply to a deleted cmt, id: %v", parentID))
 			}
 			notiToID = *parentUID
 		} else {
 			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, contentSrc, host.ID, uint8(host.Type), uid, sanitizedToken, captResult)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			hostUser, err := da.ContentBaseStatic.SelectUserID(db, cmtHostTable, host.ID)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			notiToID = hostUser
 		}
 
 		// Update `last_replied_at` if necessary.
 		if host.Type == frozenDef.ContentBaseTypePost {
 			err = da.Post.RefreshLastRepliedAt(db, host.ID)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 		}
 
 		// Noti.
@@ -86,10 +87,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 				action = notix.NotiActionToCmt
 			}
 			link, err := apicom.GetCmtPostHostLink(&host, cmtID)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			noti := notix.NewNotiItem(uid, notiToID, host, action, link)
 			err = appService.Get().Noti.SendNoti(ac, &noti, user.Name)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 		}
 
 		// Construct a DB cmt object without interacting with DB.
@@ -107,7 +108,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustComplete(respData)
 	} else {
 		err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 		cmt := &cmtSod.Cmt{Eid: clib.EncodeID(id)}
 		cmt.ContentHTML = content
 

@@ -10,8 +10,9 @@ package devp
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
@@ -30,8 +31,8 @@ func init() {
 }
 
 func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	var err error
 
 	id := clib.MustGetIDFromDict(params, "id")
@@ -42,13 +43,13 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	case int(frozenDef.ContentBaseTypePost):
 		{
 			err = da.Post.TestUpdateDates(db, id, defTime, defTime)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			break
 		}
 	case int(frozenDef.ContentBaseTypeFPost):
 		{
 			err = da.FPost.TestUpdateDates(db, id, defTime, defTime)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			break
 		}
 	default:

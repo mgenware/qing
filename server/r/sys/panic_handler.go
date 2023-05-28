@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"qing/a/app"
+	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/def/appDef"
 )
@@ -28,7 +28,7 @@ func PanicMiddleware(next http.Handler) http.Handler {
 				appLog.Get().Error("panic-handler.fatal", "err", msg, "url", r.URL.String(), "method", r.Method)
 
 				if r.Method == "POST" {
-					resp := app.JSONResponse(w, r)
+					resp := appHandler.JSONResponse(w, r)
 					resp.MustFailWithCodeAndError(appDef.ErrGeneric, errors.New(msg))
 				} else {
 					w.WriteHeader(http.StatusInternalServerError)

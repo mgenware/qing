@@ -12,7 +12,8 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"qing/a/appcom"
+	"qing/a/appConfig"
+	"qing/a/appcm"
 	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/sod/authSod"
@@ -30,7 +31,6 @@ const coreScriptEntry = "core"
 type MainPageManager struct {
 	dir         string
 	cfg         *cfgx.CoreConfig
-	appCfg      *cfgx.AppConfig
 	log404Error bool
 
 	reloadViewsOnRefresh bool
@@ -92,6 +92,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 		panic(fmt.Errorf("unexpected nil `MainPageData` in `MainPageManager.MustComplete`"))
 	}
 
+	ac := appConfig.Get(r)
 	ctx := r.Context()
 	// Ensure lang always has a value.
 	if lang == "" {
@@ -112,13 +113,12 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 
 	// Sync settings.
 	cc := m.cfg
-	ac := m.appCfg
 	d.State.PostPerm = ac.Permissions.RawPost
 	d.State.Forums = cc.FourmsEnabled()
 	d.State.InputType = ac.Content.RawInputType
 
 	// User info.
-	user := appcom.ContextUser(ctx)
+	user := appcm.ContextUser(ctx)
 	if user != nil {
 		userData := authSod.NewUser(user.EID, user.Name, user.Link, user.IconURL, user.Admin)
 		d.State.User = &userData

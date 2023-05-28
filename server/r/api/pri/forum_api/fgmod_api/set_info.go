@@ -9,8 +9,9 @@ package fgmodapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/da"
@@ -20,8 +21,8 @@ import (
 )
 
 func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 
 	id := clib.MustGetIDFromDict(params, "id")
 	name := clib.MustGetStringFromDict(params, "name", appDef.LenMaxName)
@@ -30,6 +31,6 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	err := da.ForumGroup.UpdateInfo(db, id, name, desc, descSrc)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

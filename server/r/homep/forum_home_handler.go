@@ -2,9 +2,9 @@ package homep
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/r/rcom"
@@ -13,17 +13,17 @@ import (
 )
 
 func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := app.HTMLResponse(w, r)
+	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
 	forumGroups, err := da.ForumHome.SelectForumGroups(db)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	var mainHTML string
 	if len(forumGroups) == 0 {
 		mainHTML = rcom.MustRunNoContentViewTemplate()
 	} else {
 		forums, err := da.ForumHome.SelectForums(db)
-		app.PanicOn(err)
+		appcm.PanicOn(err)
 
 		// Group forums by `group_id`.
 		groupMap := make(map[uint64][]da.ForumHomeAGSelectForumsResult)
@@ -68,7 +68,7 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		mainHTML = vFrmPage.MustExecuteToString(frmPageData)
 	}
 
-	d := app.MainPageData("", mainHTML)
+	d := appHandler.MainPageData("", mainHTML)
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("homeFrmEntry")
 	return resp.MustComplete(&d)
 }

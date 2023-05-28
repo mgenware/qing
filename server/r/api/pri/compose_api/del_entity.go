@@ -10,9 +10,10 @@ package composeapi
 import (
 	"fmt"
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appURL"
+	"qing/a/appcm"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
@@ -20,8 +21,8 @@ import (
 )
 
 func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	uid := resp.UserID()
 
 	entity := clib.MustGetEntityInfoFromDict(params, "entity")
@@ -34,14 +35,14 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	case frozenDef.ContentBaseTypePost:
 		{
 			err := da.Post.DeleteItem(appDB.DB(), id, uid)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			result = appURL.Get().UserProfile(uid)
 			break
 		}
 	case frozenDef.ContentBaseTypeFPost:
 		{
 			err = da.FPost.DeleteItem(db, id, uid)
-			app.PanicOn(err)
+			appcm.PanicOn(err)
 			break
 		}
 	default:

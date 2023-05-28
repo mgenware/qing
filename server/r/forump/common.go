@@ -9,13 +9,13 @@ package forump
 
 import (
 	"context"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	modutil "qing/r/api/pri/forum_api/mod_util"
 )
 
 func getForumEditableFromContext(ctx context.Context, forumID uint64) (bool, error) {
 	var forumEditable bool
-	sUser := appcom.ContextUser(ctx)
+	sUser := appcm.ContextUser(ctx)
 	if sUser != nil && sUser.IsForumMod {
 		// `GetRequestForumPermLevel` is time-consuming, we only do that when session
 		// user has `IsForumMod` set.

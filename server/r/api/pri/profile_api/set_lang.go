@@ -9,9 +9,10 @@ package profileapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
 	"qing/a/appUserManager"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 
@@ -19,8 +20,8 @@ import (
 )
 
 func setLang(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
-	params := app.ContextDict(r)
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
 	sUser := resp.User()
 	uid := resp.UserID()
 
@@ -29,13 +30,13 @@ func setLang(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Update DB.
 	err := da.User.UpdateLang(appDB.DB(), uid, lang)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	// Update session.
-	sid := app.ContextSID(r)
+	sid := appcm.ContextSID(r.Context())
 	sUser.Lang = lang
 	err = appUserManager.Get().UpdateUserSession(sid, sUser)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	return resp.MustComplete(nil)
 }

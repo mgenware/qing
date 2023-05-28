@@ -15,7 +15,7 @@ import (
 	"net/http"
 	"net/url"
 	"qing/a/appMS"
-	"qing/a/appcom"
+	"qing/a/appcm"
 	"qing/a/coretype"
 	"qing/a/def"
 	"qing/a/urlx"
@@ -52,7 +52,7 @@ func NewMemoryBasedSessionManager(logger coretype.CoreLogger, appURL *urlx.URL) 
 }
 
 // SetUserSession sets an user to the internal store.
-func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) error {
+func (sm *SessionManager) SetUserSession(sid string, user *appcm.SessionUser) error {
 	if user == nil {
 		return errors.New("SetUserSession: `user` cannot be nil")
 	}
@@ -78,7 +78,7 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcom.SessionUser) e
 }
 
 // GetUserSession retrieves an user from internal store by the given sid.
-func (sm *SessionManager) GetUserSession(sid string) (*appcom.SessionUser, error) {
+func (sm *SessionManager) GetUserSession(sid string) (*appcm.SessionUser, error) {
 	keySIDToUser := sidToUserKey(sid)
 	msConn := appMS.GetConn()
 	userJSON, err := msConn.GetStringValue(keySIDToUser)
@@ -164,21 +164,21 @@ func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Han
 }
 
 // NewSessionUser creates a new SessionUser based on the required properties.
-func (sm *SessionManager) NewSessionUser(id uint64, name string, iconName string, admin bool, isForumMod bool, lang string) *appcom.SessionUser {
-	u := &appcom.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, IsForumMod: isForumMod, Lang: lang}
+func (sm *SessionManager) NewSessionUser(id uint64, name string, iconName string, admin bool, isForumMod bool, lang string) *appcm.SessionUser {
+	u := &appcm.SessionUser{ID: id, Name: name, IconName: iconName, Admin: admin, IsForumMod: isForumMod, Lang: lang}
 	sm.computeUserFields(u)
 	return u
 }
 
-func (sm *SessionManager) computeUserFields(u *appcom.SessionUser) {
+func (sm *SessionManager) computeUserFields(u *appcm.SessionUser) {
 	uid := u.ID
 	u.Link = sm.appURL.UserProfile(uid)
 	u.IconURL = sm.appURL.UserIconURL50(uid, u.IconName)
 	u.EID = clib.EncodeID(uid)
 }
 
-func (sm *SessionManager) deserializeUserJSON(b []byte) (*appcom.SessionUser, error) {
-	u := &appcom.SessionUser{}
+func (sm *SessionManager) deserializeUserJSON(b []byte) (*appcm.SessionUser, error) {
+	u := &appcm.SessionUser{}
 	err := json.Unmarshal(b, u)
 	if err != nil {
 		return nil, err

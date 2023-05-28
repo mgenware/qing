@@ -9,8 +9,9 @@ package profileapi
 
 import (
 	"net/http"
-	"qing/a/app"
 	"qing/a/appDB"
+	"qing/a/appHandler"
+	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
 	"qing/r/api/apicom"
@@ -18,14 +19,14 @@ import (
 )
 
 func lang(w http.ResponseWriter, r *http.Request) handler.JSON {
-	resp := app.JSONResponse(w, r)
+	resp := appHandler.JSONResponse(w, r)
 	uid := resp.UserID()
 
 	supportedLangs, err := apicom.GetSiteSupportedLangs()
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	userLang, err := da.User.SelectLang(appDB.Get().DB(), uid)
-	app.PanicOn(err)
+	appcm.PanicOn(err)
 
 	res := profileSod.NewGetProfileLangResult(userLang, resp.LS().AutoLangOption, supportedLangs)
 	return resp.MustComplete(res)
