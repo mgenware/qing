@@ -9,32 +9,41 @@ package ratelmt
 
 import (
 	"context"
+	"fmt"
+	"qing/a/appMS"
+	"qing/a/coretype"
+	"qing/a/def"
 	"strconv"
-	"time"
 
-	"github.com/sethvargo/go-limiter"
-	"github.com/sethvargo/go-limiter/memorystore"
+	"github.com/go-redis/redis_rate/v10"
 )
 
 type RateLmt struct {
-	core limiter.Store
+	postCoreMain *redis_rate.Limiter
+	postCoreCold *redis_rate.Limiter
 }
 
-func NewRateLmt() (*RateLmt, error) {
-	core, err := memorystore.New(&memorystore.Config{
-		// Number of tokens allowed per interval.
-		Tokens: 1,
-		// Interval until tokens reset.
-		Interval: time.Minute,
-	})
-	if err != nil {
-		return nil, err
+func NewRateLmt(conn coretype.CoreMemoryStoreConn) (*RateLmt, error) {
+	appMSConn, ok := conn.(*appMS.AppMSConn)
+	if !ok {
+		return nil, fmt.Errorf("invalid conn type")
 	}
-	return &RateLmt{core: core}, nil
+
+	rdb := appMSConn.RDB()
+	pcMain := redis_rate.NewLimiter(rdb)
+	pcCold := redis_rate.NewLimiter(rdb)
+	return &RateLmt{postCoreMain: pcMain, postCoreCold: pcCold}, nil
 }
 
-func (lmt *RateLmt) TakeFromUID(uid uint64) (bool, error) {
+func (lmt *RateLmt) RequestPostCore(uid uint64) (bool, error) {
 	uidStr := strconv.FormatUint(uid, 10)
-	_, _, _, ok, err := lmt.core.Take(context.Background(), uidStr)
-	return ok, err
+
+	msKey := fmt.Sprintf(def.MSRateLimitPostCorePerSec, uidStr)
+
+	ctx := context.Background()
+	res, err := lmt.postCoreMain.Allow(ctx, msKey, redis_rate.PerSecond(1))
+	if err != nil {
+		return false, err
+	}
+	return res.Allowed > 0, nil
 }

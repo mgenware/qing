@@ -41,7 +41,7 @@ func NewEmailVerificator(conn coretype.CoreMemoryStoreConn, prefix string, timeo
 func (ev *EmailVerificator) Add(email, data string) (string, error) {
 	// Check if there is a pending entry for this email.
 	emailToIDKey := ev.getEmailToIDKey(email)
-	pendingID, err := ev.conn.GetStringValue(emailToIDKey)
+	_, pendingID, err := ev.conn.GetStringValue(emailToIDKey)
 	if err != nil {
 		return "", err
 	}
@@ -78,7 +78,7 @@ func (ev *EmailVerificator) Verify(id string) (string, error) {
 	}
 
 	// Getting data from memory store.
-	data, err := ev.conn.GetStringValue(ev.getIDToDataKey(email, id))
+	_, data, err := ev.conn.GetStringValue(ev.getIDToDataKey(email, id))
 	if err != nil {
 		return "", err
 	}

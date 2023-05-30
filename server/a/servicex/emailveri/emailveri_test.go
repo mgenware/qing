@@ -32,7 +32,7 @@ func getIDToDataKey(prefix, email, id string) string {
 
 func getID(v *EmailVerificator, prefix, email string) (string, error) {
 	key := getEmailToIDKey(prefix, email)
-	id, err := appMS.GetConn().GetStringValue(key)
+	_, id, err := appMS.GetConn().GetStringValue(key)
 	if err != nil {
 		return "", err
 	}
@@ -43,7 +43,7 @@ func getID(v *EmailVerificator, prefix, email string) (string, error) {
 }
 
 func mustGetStoreValue(assert *assert.Assertions, key, expected string) {
-	got, err := appMS.GetConn().GetStringValue(key)
+	_, got, err := appMS.GetConn().GetStringValue(key)
 	assert.Nil(err)
 	assert.Equal(got, expected)
 }

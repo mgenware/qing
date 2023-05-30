@@ -44,11 +44,12 @@ func userIDToSIDKey(uid uint64) string {
 type SessionManager struct {
 	logger coretype.CoreLogger
 	appURL *urlx.URL
+
+	conn coretype.CoreMemoryStoreConn
 }
 
-// NewMemoryBasedSessionManager creates a memory-backed SessionManager.
-func NewMemoryBasedSessionManager(logger coretype.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
-	return &SessionManager{logger: logger, appURL: appURL}, nil
+func NewSessionManager(conn coretype.CoreMemoryStoreConn, logger coretype.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
+	return &SessionManager{conn: conn, logger: logger, appURL: appURL}, nil
 }
 
 func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcm.SessionUser) error {
@@ -130,7 +131,7 @@ func (sm *SessionManager) SetUserSession(sid string, user *appcm.SessionUser) er
 func (sm *SessionManager) GetUserSession(sid string) (*appcm.SessionUser, error) {
 	keySIDToUser := sidToUserKey(sid)
 	msConn := appMS.GetConn()
-	userJSON, err := msConn.GetStringValue(keySIDToUser)
+	_, userJSON, err := msConn.GetStringValue(keySIDToUser)
 	if err != nil {
 		return nil, err
 	}
@@ -143,12 +144,6 @@ func (sm *SessionManager) GetUserSession(sid string) (*appcm.SessionUser, error)
 		return nil, err
 	}
 	return user, nil
-}
-
-func (sm *SessionManager) GetSIDFromUID(uid uint64) (string, error) {
-	keyUIDToSID := userIDToSIDKey(uid)
-	msConn := appMS.GetConn()
-	return msConn.GetStringValue(keyUIDToSID)
 }
 
 func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {

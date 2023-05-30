@@ -12,7 +12,7 @@ import "time"
 type CoreMemoryStoreConn interface {
 	Ping() error
 	Exist(key string) (bool, error)
-	GetStringValue(key string) (string, error)
+	GetStringValue(key string) (bool, string, error)
 	SetStringValue(key string, val string, expiry time.Duration) error
 	RemoveValue(key string) error
 	Destroy() error

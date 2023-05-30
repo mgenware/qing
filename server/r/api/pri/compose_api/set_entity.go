@@ -50,7 +50,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if !hasID {
 		// Add a new entry.
 		// ----- Do rate limiting first -----
-		ok, err := appService.Get().RateLmt.TakeFromUID(uid)
+		ok, err := appService.Get().RateLmt.RequestPostCore(uid)
 		appcm.PanicOn(err)
 		if !ok {
 			return resp.MustFail(resp.LS().RateLimitExceededErr)

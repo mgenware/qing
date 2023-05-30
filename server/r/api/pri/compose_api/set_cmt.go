@@ -45,7 +45,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	if id == 0 {
 		// ----- Do rate limiting first -----
-		ok, err := appService.Get().RateLmt.TakeFromUID(uid)
+		ok, err := appService.Get().RateLmt.RequestPostCore(uid)
 		appcm.PanicOn(err)
 		if !ok {
 			return resp.MustFail(resp.LS().RateLimitExceededErr)

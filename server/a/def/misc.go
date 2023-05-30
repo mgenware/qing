@@ -42,8 +42,9 @@ const (
 	// K: Secret ID sent to user email, V: user pwd.
 	MSRegEmailPrefix = "reg-email"
 
-	MSLimitPosting                     = "lim-pos:%v:%v"
-	MSLimitPostingExpiry time.Duration = 59 * time.Second
+	// Limit posting rate per second.
+	MSRateLimitPostCorePerSec                     = "rl-pc:%v"
+	MSRateLimitPostCorePerSecExpiry time.Duration = 1 * time.Second
 )
 
 const (

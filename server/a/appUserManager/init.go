@@ -12,6 +12,7 @@ import (
 	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appLog"
+	"qing/a/appMS"
 	"qing/a/appURL"
 	"qing/a/appcm"
 	"qing/a/coreConfig"
@@ -27,9 +28,12 @@ func init() {
 	urlx := appURL.Get()
 	db := appDB.Get()
 	mp := appHandler.MainPage()
+	msConn := appMS.GetConn()
 
-	sessionMgr, err := userx.NewMemoryBasedSessionManager(
-		logger, urlx)
+	sessionMgr, err := userx.NewSessionManager(
+		msConn,
+		logger,
+		urlx)
 	appcm.PanicOn(err)
 	userManager, err = userx.NewUserManager(db, sessionMgr, mp, urlx, cc)
 	appcm.PanicOn(err)

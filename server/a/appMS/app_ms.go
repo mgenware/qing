@@ -14,12 +14,12 @@ import (
 	"qing/a/coretype"
 	"time"
 
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 )
 
 var ctx = context.TODO()
 
-var ExpiryTooShortErr = errors.New("expiry too short")
+var ErrExpiryTooShort = errors.New("expiry too short")
 
 type AppMS struct {
 	logging bool
@@ -46,6 +46,10 @@ type AppMSConn struct {
 	rdb *redis.Client
 }
 
+func (conn *AppMSConn) RDB() *redis.Client {
+	return conn.rdb
+}
+
 func newAppMSConn(rdb *redis.Client, logging bool) *AppMSConn {
 	return &AppMSConn{rdb: rdb, logging: logging}
 }
@@ -63,7 +67,7 @@ func (conn *AppMSConn) Destroy() error {
 
 func (conn *AppMSConn) SetStringValue(key string, val string, expiry time.Duration) error {
 	if expiry < 500*time.Millisecond {
-		return ExpiryTooShortErr
+		return ErrExpiryTooShort
 	}
 	_, err := conn.rdb.Set(ctx, key, val, expiry).Result()
 	if conn.logging {
@@ -86,15 +90,15 @@ func (conn *AppMSConn) Exist(key string) (bool, error) {
 	return val > 0, nil
 }
 
-func (conn *AppMSConn) GetStringValue(key string) (string, error) {
+func (conn *AppMSConn) GetStringValue(key string) (bool, string, error) {
 	val, err := conn.rdb.Get(ctx, key).Result()
 	if conn.logging {
 		conn.log(fmt.Sprintf("GetStringValue: K: `%v` V: `%v` ERR: %v", key, val, err))
 	}
 	if err == redis.Nil {
-		return "", nil
+		return false, "", nil
 	}
-	return val, err
+	return true, val, err
 }
 
 func (conn *AppMSConn) RemoveValue(key string) error {
