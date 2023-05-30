@@ -13,6 +13,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/appLog"
 	"qing/a/appURL"
+	"qing/a/appcm"
 	"qing/a/coreConfig"
 	"qing/a/userx"
 )
@@ -29,10 +30,9 @@ func init() {
 
 	sessionMgr, err := userx.NewMemoryBasedSessionManager(
 		logger, urlx)
-	if err != nil {
-		panic(err)
-	}
-	userManager = userx.NewUserManager(db, sessionMgr, mp, urlx, cc)
+	appcm.PanicOn(err)
+	userManager, err = userx.NewUserManager(db, sessionMgr, mp, urlx, cc)
+	appcm.PanicOn(err)
 	if appEnv.IsUT() {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)

@@ -49,6 +49,14 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	db := appDB.DB()
 	if !hasID {
 		// Add a new entry.
+		// ----- Do rate limiting first -----
+		ok, err := appService.Get().RateLmt.TakeFromUID(uid)
+		appcm.PanicOn(err)
+		if !ok {
+			return resp.MustFail(resp.LS().RateLimitExceededErr)
+		}
+		// ----- End of rate limiting -----
+
 		captResult := 0
 		var forumID *uint64
 		if cfg.FourmsEnabled() && entityType != frozenDef.ContentBaseTypePost {

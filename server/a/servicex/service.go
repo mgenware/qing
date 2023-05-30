@@ -8,9 +8,11 @@
 package servicex
 
 import (
+	"qing/a/appcm"
 	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/def"
+	"qing/a/ratelmt"
 	"qing/a/servicex/emailveri"
 	hashingalg "qing/a/servicex/hashingAlg"
 	"qing/a/servicex/mailx"
@@ -25,6 +27,7 @@ type Service struct {
 	RegEmailVerificator *emailveri.EmailVerificator
 	Mail                *mailx.MailService
 	Noti                *notix.Service
+	RateLmt             *ratelmt.RateLmt
 }
 
 func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
@@ -36,5 +39,9 @@ func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn core
 
 	s.Mail = mailx.NewMailService(cc)
 	s.Noti = notix.NewNotiService(s.Mail)
+
+	lmt, err := ratelmt.NewRateLmt()
+	appcm.PanicOn(err)
+	s.RateLmt = lmt
 	return s
 }

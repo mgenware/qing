@@ -40,12 +40,12 @@ func NewUserManager(
 	tm handler.CorePageManager,
 	appURL *urlx.URL,
 	cfg *cfgx.CoreConfig,
-) *UserManager {
-	ret := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, cfg: cfg}
+) (*UserManager, error) {
+	res := &UserManager{db: db, sessionManager: ssMgr, mainPageManager: tm, appURL: appURL, cfg: cfg}
 	if appEnv.IsUT() {
-		ret.testSIDMap = make(map[uint64]string)
+		res.testSIDMap = make(map[uint64]string)
 	}
-	return ret
+	return res, nil
 }
 
 func (appu *UserManager) Login(uid uint64, w http.ResponseWriter, r *http.Request) error {

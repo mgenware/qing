@@ -29,6 +29,7 @@ func init() {
 	TestDict.PreviousPage = "ls.previousPage"
 	TestDict.QingSiteLink = "ls.qingSiteLink"
 	TestDict.QingSiteName = "ls.qingSiteName"
+	TestDict.RateLimitExceededErr = "ls.rateLimitExceededErr"
 	TestDict.RegEmailVeriExpired = "ls.regEmailVeriExpired"
 	TestDict.ResNotFound = "ls.resNotFound"
 	TestDict.SbRepliedToUrCmtIn = "ls.sbRepliedToUrCmtIn"

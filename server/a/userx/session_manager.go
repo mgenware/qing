@@ -40,7 +40,7 @@ func userIDToSIDKey(uid uint64) string {
 	return fmt.Sprintf(def.MSUserIDToSID, fmt.Sprint(uid))
 }
 
-// SessionManager ...
+// Used internally in `UserManager` to manage sessions.
 type SessionManager struct {
 	logger coretype.CoreLogger
 	appURL *urlx.URL
@@ -49,6 +49,55 @@ type SessionManager struct {
 // NewMemoryBasedSessionManager creates a memory-backed SessionManager.
 func NewMemoryBasedSessionManager(logger coretype.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
 	return &SessionManager{logger: logger, appURL: appURL}, nil
+}
+
+func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcm.SessionUser) error {
+	sid, err := sm.LoginCore(user)
+	if err != nil {
+		return err
+	}
+	cookie := newSessionCookie(sid)
+	http.SetCookie(w, cookie)
+	return nil
+}
+
+func (sm *SessionManager) LoginCore(user *appcm.SessionUser) (string, error) {
+	sid, err := newSessionID(user.ID)
+	if err != nil {
+		return "", err
+	}
+	err = sm.SetUserSession(sid, user)
+	if err != nil {
+		return "", err
+	}
+	return sid, nil
+}
+
+func (sm *SessionManager) Logout(w http.ResponseWriter, r *http.Request) error {
+	ctx := r.Context()
+	sid := appcm.ContextSID(ctx)
+	uid := appcm.ContextUserID(ctx)
+	if sid == "" {
+		sm.logger.Warn("session.logout.emptySid")
+		// just return if not signed in
+		return nil
+	}
+
+	// server: remove session
+	err := sm.LogoutCore(uid, sid)
+	if err != nil {
+		sm.logger.Warn("session.logout.removeSession", "err", err.Error())
+		return nil
+	}
+
+	// client: set empty on sid cookie
+	cookie := newDeletedSessionCookie(sid)
+	http.SetCookie(w, cookie)
+	return nil
+}
+
+func (sm *SessionManager) LogoutCore(uid uint64, sid string) error {
+	return sm.RemoveUserSession(uid, sid)
 }
 
 // SetUserSession sets an user to the internal store.

@@ -10,6 +10,7 @@
   "emailVerified": "账户验证成功。",
   "invalidNameOrPwd": "错误的用户名或密码。",
   "needAuthErr": "您需要登录才可以访问。",
+  "rateLimitExceededErr": "访问频繁过高，请求已被拒绝",
   "permissionDenied": "您没有权限执行此操作",
   "cannotRemoveSelfAdmin": "管理员无法将自己设置为非管理员",
   "youAreAlreadyAdmin": "您已经是管理员",

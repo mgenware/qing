@@ -34,6 +34,7 @@ type Dictionary struct {
 	PreviousPage            string `json:"previousPage"`
 	QingSiteLink            string `json:"qingSiteLink"`
 	QingSiteName            string `json:"qingSiteName"`
+	RateLimitExceededErr    string `json:"rateLimitExceededErr"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
 	SbRepliedToUrCmtIn      string `json:"sbRepliedToUrCmtIn"`

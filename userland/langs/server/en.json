@@ -10,6 +10,7 @@
   "emailVerified": "Email verified",
   "invalidNameOrPwd": "Invalid username or password.",
   "needAuthErr": "You need to log in to access this.",
+  "rateLimitExceededErr": "Rate limit exceeded, request rejected",
   "permissionDenied": "You don't have permission to perform this action",
   "cannotRemoveSelfAdmin": "You cannot remove yourself as an admin",
   "youAreAlreadyAdmin": "You are already an admin",
