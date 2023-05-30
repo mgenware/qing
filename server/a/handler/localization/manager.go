@@ -139,6 +139,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := htmllib.NewCookie(appDef.KeyLang, lang)
+	c := htmllib.NewCookie(appDef.KeyLang, lang, false)
 	http.SetCookie(w, c)
 }

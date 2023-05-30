@@ -14,9 +14,9 @@ import (
 )
 
 func newSessionCookie(sid string) *http.Cookie {
-	return htmllib.NewCookie(def.SessionCookieKey, sid)
+	return htmllib.NewCookie(def.SessionCookieKey, sid, true)
 }
 
 func newDeletedSessionCookie(sid string) *http.Cookie {
-	return htmllib.DeleteCookie(def.SessionCookieKey)
+	return htmllib.DeleteCookie(def.SessionCookieKey, true)
 }

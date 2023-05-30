@@ -14,12 +14,12 @@ import (
 	"time"
 )
 
-func NewCookie(k, v string) *http.Cookie {
-	return &http.Cookie{Name: url.QueryEscape(k), Value: url.QueryEscape(v), Path: "/", Expires: time.Now().Add(def.CookiesDefaultExpiry)}
+func NewCookie(k, v string, httpOnly bool) *http.Cookie {
+	return &http.Cookie{Name: url.QueryEscape(k), Value: url.QueryEscape(v), Path: "/", Expires: time.Now().Add(def.CookiesDefaultExpiry), HttpOnly: httpOnly}
 }
 
-func DeleteCookie(k string) *http.Cookie {
-	c := NewCookie(k, "")
+func DeleteCookie(k string, httpOnly bool) *http.Cookie {
+	c := NewCookie(k, "", httpOnly)
 	c.Expires = time.Now().AddDate(-1, -1, -1)
 	return c
 }
