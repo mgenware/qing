@@ -82,9 +82,12 @@ export default class Loader<T> {
         );
       }
 
-      errWithCode.message = `${errWithCode.message} [${
+      const dbgMsg = `${errWithCode.message} [${
         globalThis.coreLS.httpRequest
       }: "${this.requestURL()}"]`;
+
+      // eslint-disable-next-line no-console
+      console.log(dbgMsg);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       errWithCode.stack = err.stack;
       this.onLoadingStatusChanged(LoadingStatus.error(errWithCode));
