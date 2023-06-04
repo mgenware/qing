@@ -10,6 +10,7 @@ package ratelmt
 import (
 	"context"
 	"fmt"
+	"qing/a/appEnv"
 	"qing/a/appMS"
 	"qing/a/coretype"
 	"qing/a/def"
@@ -36,6 +37,11 @@ func NewRateLmt(conn coretype.CoreMemoryStoreConn) (*RateLmt, error) {
 }
 
 func (lmt *RateLmt) RequestPostCore(uid uint64) (bool, error) {
+	// Disable rate limit for BR.
+	if appEnv.IsBR() {
+		return true, nil
+	}
+
 	uidStr := strconv.FormatUint(uid, 10)
 
 	msKey := fmt.Sprintf(def.MSRateLimitPostCorePerSec, uidStr)
