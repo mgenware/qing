@@ -51,27 +51,27 @@ export interface ComposerShouldAppearArgs {
   contentHTML?: string;
 }
 
-export async function shouldAppear(overlayEl: br.Element, e: ComposerShouldAppearArgs) {
+export async function shouldAppear(overlayEl: br.Element, a: ComposerShouldAppearArgs) {
   const el = getElFromOverlay(overlayEl);
-  if (e.name) {
+  if (a.name) {
     const h2 = el.$('h2');
-    await h2.e.toHaveText(e.name);
+    await h2.e.toHaveText(a.name);
   }
 
-  if (e.title !== undefined) {
+  if (a.title !== undefined) {
     // Title value.
-    if (e.title !== null) {
+    if (a.title !== null) {
       const titleInputEl = el.$(cm.composerTitleSel);
       await titleInputEl.e.toBeVisible();
-      await titleInputEl.e.toHaveValue(e.title);
+      await titleInputEl.e.toHaveValue(a.title);
     } else {
       await el.$(cm.composerTitleSel).shouldNotExist();
     }
   }
-  if (e.contentHTML !== undefined) {
+  if (a.contentHTML !== undefined) {
     await ed.shouldHaveContent(
       el,
-      e.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>',
+      a.contentHTML || '<p><br class="ProseMirror-trailingBreak"></p>',
     );
   }
 }

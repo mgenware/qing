@@ -9,20 +9,23 @@ import { Element, expect } from 'br.js';
 
 const editorSel = 'core-editor';
 
+type CoreEditorImpl = unknown;
+
 interface CoreEditorElement extends HTMLElement {
-  getRenderedContent(): string;
-  resetRenderedContent(content: string): void;
+  wait(): Promise<CoreEditorImpl>;
+  getRenderedContent(editorEl: CoreEditorImpl): string;
+  resetRenderedContent(editorEl: CoreEditorImpl, content: string): void;
 }
 
 export async function shouldHaveContent(el: Element, content: string) {
   const actContent = await el
     .$(editorSel)
-    .c.evaluate((editor: CoreEditorElement) => editor.getRenderedContent());
+    .c.evaluate(async (editor: CoreEditorElement) =>
+      editor.getRenderedContent(await editor.wait()),
+    );
   expect(actContent).toBe(content);
 }
 
-export function fill(el: Element, html: string) {
-  return el
-    .$(editorSel)
-    .c.evaluate((editor: CoreEditorElement) => editor.resetRenderedContent(html));
+export async function fill(el: Element, text: string) {
+  await el.$(`${editorSel} div[contenteditable=true]`).c.fill(text);
 }
