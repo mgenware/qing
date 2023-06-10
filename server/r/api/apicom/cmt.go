@@ -14,7 +14,7 @@ import (
 	"qing/sod/cmtSod"
 )
 
-func NewCmt(d *da.CmtResult) cmtSod.Cmt {
+func NewCmt(d *da.DBCmt) cmtSod.Cmt {
 	eid := clib.EncodeID(d.ID)
 	var userEID *string
 	var userURL string

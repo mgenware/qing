@@ -49,7 +49,7 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var feedListHTML string
 	var hasNext bool
 
-	var posts []da.PostItemForProfile
+	var posts []da.DBPostForProfile
 	if tab == appDef.KeyForumPosts {
 		posts, hasNext, err = da.FPost.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	} else {

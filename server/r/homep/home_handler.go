@@ -49,7 +49,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tab := r.FormValue(appDef.KeyTab)
 	appCfg := appConfig.Get(r)
 
-	var items []da.HomePostItem
+	var items []da.DBHomePost
 	var hasNext bool
 	var err error
 	if appEnv.IsBR() {

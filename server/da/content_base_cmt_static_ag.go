@@ -98,7 +98,7 @@ const (
 	ContentBaseCmtStaticAGSelectRootCmtsOrderBy1CreatedAt
 )
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error) {
 	var orderBy1SQL string
 	var orderBy1SQLFC string
 	switch orderBy1 {
@@ -132,13 +132,13 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmts(mrQueryable mingru.Que
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtResult, 0, limit)
+	result := make([]DBCmt, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtResult
+			var item DBCmt
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -160,7 +160,7 @@ const (
 	ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1CreatedAt
 )
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error) {
 	var orderBy1SQL string
 	var orderBy1SQLFC string
 	switch orderBy1 {
@@ -194,13 +194,13 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserMode(mrQueryable mi
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtResult, 0, limit)
+	result := make([]DBCmt, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtResult
+			var item DBCmt
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err
@@ -222,7 +222,7 @@ const (
 	ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1CreatedAt
 )
 
-func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, excluded []uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, excluded []uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error) {
 	if len(excluded) == 0 {
 		return nil, false, fmt.Errorf("the array argument `excluded` cannot be empty")
 	}
@@ -267,13 +267,13 @@ func (mrTable *ContentBaseCmtStaticAGType) SelectRootCmtsUserModeFilterMode(mrQu
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtResult, 0, limit)
+	result := make([]DBCmt, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtResult
+			var item DBCmt
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err

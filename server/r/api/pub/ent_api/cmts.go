@@ -38,7 +38,7 @@ type GetCmtsRespData struct {
 	HasNext bool         `json:"hasNext"`
 }
 
-func newGetCmtsRespData(cmts []da.CmtResult, hasNext bool) GetCmtsRespData {
+func newGetCmtsRespData(cmts []da.DBCmt, hasNext bool) GetCmtsRespData {
 	cmtsConverted := make([]cmtSod.Cmt, len(cmts))
 	for i := 0; i < len(cmts); i++ {
 		cmtsConverted[i] = apicom.NewCmt(&cmts[i])
@@ -61,7 +61,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	var respData GetCmtsRespData
-	var items []da.CmtResult
+	var items []da.DBCmt
 	var hasNext bool
 	var err error
 

@@ -38,7 +38,7 @@ type ProfilePageWindData struct {
 }
 
 type ProfilePostItemData struct {
-	da.PostItemForProfile
+	da.DBPostForProfile
 
 	Link       string
 	CreatedAt  string
@@ -63,8 +63,8 @@ func NewProfilePageDataFromUser(profile *da.UserAGSelectProfileResult, stats *da
 	return d
 }
 
-func NewProfilePostItemData(item *da.PostItemForProfile) ProfilePostItemData {
-	d := ProfilePostItemData{PostItemForProfile: *item}
+func NewProfilePostItemData(item *da.DBPostForProfile) ProfilePostItemData {
+	d := ProfilePostItemData{DBPostForProfile: *item}
 	d.Link = appURL.Get().Post(item.ID)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
 	d.ModifiedAt = clib.TimeString(d.RawModifiedAt)

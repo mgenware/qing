@@ -89,8 +89,8 @@ func (mrTable *FPostAGType) RefreshLastRepliedAt(mrQueryable mingru.Queryable, i
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *FPostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostItem, error) {
-	var result PostItem
+func (mrTable *FPostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (DBPost, error) {
+	var result DBPost
 	err := mrQueryable.QueryRow("SELECT `f_post`.`id`, `f_post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `f_post`.`created_at`, `f_post`.`modified_at`, `f_post`.`content`, `f_post`.`likes`, `f_post`.`cmt_count`, `f_post`.`title`, `f_post`.`forum_id` FROM `f_post` AS `f_post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `f_post`.`user_id` WHERE `f_post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title, &result.ForumID)
 	if err != nil {
 		return result, err
@@ -106,7 +106,7 @@ const (
 	FPostAGSelectItemsForPostCenterOrderBy1CmtCount
 )
 
-func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 FPostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]PostForPostCenter, bool, error) {
+func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 FPostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]DBPostForPostCenter, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case FPostAGSelectItemsForPostCenterOrderBy1CreatedAt:
@@ -138,13 +138,13 @@ func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryabl
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostForPostCenter, 0, limit)
+	result := make([]DBPostForPostCenter, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostForPostCenter
+			var item DBPostForPostCenter
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.Title, &item.CmtCount, &item.ForumID)
 			if err != nil {
 				return nil, false, err
@@ -159,7 +159,7 @@ func (mrTable *FPostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryabl
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostItemForProfile, bool, error) {
+func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]DBPostForProfile, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -175,13 +175,13 @@ func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryab
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostItemForProfile, 0, limit)
+	result := make([]DBPostForProfile, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostItemForProfile
+			var item DBPostForProfile
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount, &item.ForumID)
 			if err != nil {
 				return nil, false, err
@@ -196,8 +196,8 @@ func (mrTable *FPostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryab
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *FPostAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
+func (mrTable *FPostAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (DBEntitySrc, error) {
+	var result DBEntitySrc
 	err := mrQueryable.QueryRow("SELECT `content`, `content_src`, `title` FROM `f_post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc, &result.Title)
 	if err != nil {
 		return result, err

@@ -35,8 +35,8 @@ func (mrTable *UserAGType) AddUserStatsEntryInternal(mrQueryable mingru.Queryabl
 	return err
 }
 
-func (mrTable *UserAGType) FindUserByID(mrQueryable mingru.Queryable, id uint64) (FindUserResult, error) {
-	var result FindUserResult
+func (mrTable *UserAGType) FindUserByID(mrQueryable mingru.Queryable, id uint64) (DBFindUser, error) {
+	var result DBFindUser
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName)
 	if err != nil {
 		return result, err
@@ -44,15 +44,15 @@ func (mrTable *UserAGType) FindUserByID(mrQueryable mingru.Queryable, id uint64)
 	return result, nil
 }
 
-func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name string) ([]FindUserResult, error) {
+func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name string) ([]DBFindUser, error) {
 	rows, err := mrQueryable.Query("SELECT `id`, `name`, `icon_name` FROM `user` WHERE `name` LIKE ?", name)
 	if err != nil {
 		return nil, err
 	}
-	var result []FindUserResult
+	var result []DBFindUser
 	defer rows.Close()
 	for rows.Next() {
-		var item FindUserResult
+		var item DBFindUser
 		err = rows.Scan(&item.ID, &item.Name, &item.IconName)
 		if err != nil {
 			return nil, err
@@ -66,8 +66,8 @@ func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name st
 	return result, nil
 }
 
-func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserEditingResult, error) {
-	var result UserEditingResult
+func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (DBUserForEditing, error) {
+	var result DBUserForEditing
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML, &result.BioSrc)
 	if err != nil {
 		return result, err

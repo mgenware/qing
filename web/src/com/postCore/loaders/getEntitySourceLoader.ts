@@ -8,9 +8,9 @@
 import Loader from 'lib/loader.js';
 import Entity from 'lib/entity.js';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
-import { EntityGetSrcResult } from 'da/types.js';
+import { DBEntitySrc } from 'da/types.js';
 
-export class GetEntitySourceLoader extends Loader<EntityGetSrcResult> {
+export class GetEntitySourceLoader extends Loader<DBEntitySrc> {
   constructor(public entity: Entity) {
     super();
   }

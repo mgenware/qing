@@ -75,7 +75,7 @@ func (mrTable *ForumAGType) SelectForumIDsForGroup(mrQueryable mingru.Queryable,
 	return result, nil
 }
 
-func (mrTable *ForumAGType) SelectFPosts(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]ThreadFeedResult, bool, error) {
+func (mrTable *ForumAGType) SelectFPosts(mrQueryable mingru.Queryable, forumID *uint64, page int, pageSize int) ([]DBThreadFeed, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -91,13 +91,13 @@ func (mrTable *ForumAGType) SelectFPosts(mrQueryable mingru.Queryable, forumID *
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]ThreadFeedResult, 0, limit)
+	result := make([]DBThreadFeed, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item ThreadFeedResult
+			var item DBThreadFeed
 			err = rows.Scan(&item.ID, &item.UserID, &item.UserName, &item.UserIconName, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.Likes, &item.CmtCount, &item.LastRepliedAt)
 			if err != nil {
 				return nil, false, err

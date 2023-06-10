@@ -69,8 +69,8 @@ func (mrTable *CmtAGType) MemLockedGetCmtDataForDeletion(mrQueryable mingru.Quer
 	return result, nil
 }
 
-func (mrTable *CmtAGType) SelectCmt(mrQueryable mingru.Queryable, id uint64) (CmtResult, error) {
-	var result CmtResult
+func (mrTable *CmtAGType) SelectCmt(mrQueryable mingru.Queryable, id uint64) (DBCmt, error) {
+	var result DBCmt
 	err := mrQueryable.QueryRow("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name`, `cmt`.`host_id`, `cmt`.`host_type` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` WHERE `cmt`.`id` = ?", id).Scan(&result.ID, &result.ContentHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.CmtCount, &result.Likes, &result.DelFlag, &result.UserID, &result.ParentID, &result.UserName, &result.UserIconName, &result.HostID, &result.HostType)
 	if err != nil {
 		return result, err
@@ -78,8 +78,8 @@ func (mrTable *CmtAGType) SelectCmt(mrQueryable mingru.Queryable, id uint64) (Cm
 	return result, nil
 }
 
-func (mrTable *CmtAGType) SelectCmtSource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
+func (mrTable *CmtAGType) SelectCmtSource(mrQueryable mingru.Queryable, id uint64, userID uint64) (DBEntitySrc, error) {
+	var result DBEntitySrc
 	err := mrQueryable.QueryRow("SELECT `content`, `content_src` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc)
 	if err != nil {
 		return result, err
@@ -87,8 +87,8 @@ func (mrTable *CmtAGType) SelectCmtSource(mrQueryable mingru.Queryable, id uint6
 	return result, nil
 }
 
-func (mrTable *CmtAGType) SelectCmtUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, id uint64) (CmtResult, error) {
-	var result CmtResult
+func (mrTable *CmtAGType) SelectCmtUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, id uint64) (DBCmt, error) {
+	var result DBCmt
 	err := mrQueryable.QueryRow("SELECT `cmt`.`id`, `cmt`.`content`, `cmt`.`created_at`, `cmt`.`modified_at`, `cmt`.`cmt_count`, `cmt`.`likes`, `cmt`.`del_flag`, `cmt`.`user_id`, `cmt`.`parent_id`, `join_1`.`name`, `join_1`.`icon_name`, `cmt`.`host_id`, `cmt`.`host_type`, `join_2`.`user_id` AS `is_liked` FROM `cmt` AS `cmt` LEFT JOIN `user` AS `join_1` ON `join_1`.`id` = `cmt`.`user_id` LEFT JOIN `cmt_like` AS `join_2` ON `join_2`.`host_id` = `cmt`.`id` AND `join_2`.`user_id` = ? WHERE `cmt`.`id` = ?", viewerUserID, id).Scan(&result.ID, &result.ContentHTML, &result.RawCreatedAt, &result.RawModifiedAt, &result.CmtCount, &result.Likes, &result.DelFlag, &result.UserID, &result.ParentID, &result.UserName, &result.UserIconName, &result.HostID, &result.HostType, &result.IsLiked)
 	if err != nil {
 		return result, err
@@ -117,7 +117,7 @@ const (
 	CmtAGSelectRepliesOrderBy1CreatedAt
 )
 
-func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error) {
 	var orderBy1SQL string
 	var orderBy1SQLFC string
 	switch orderBy1 {
@@ -151,13 +151,13 @@ func (mrTable *CmtAGType) SelectReplies(mrQueryable mingru.Queryable, parentID *
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtResult, 0, limit)
+	result := make([]DBCmt, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtResult
+			var item DBCmt
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName)
 			if err != nil {
 				return nil, false, err
@@ -179,7 +179,7 @@ const (
 	CmtAGSelectRepliesUserModeOrderBy1CreatedAt
 )
 
-func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error) {
 	var orderBy1SQL string
 	var orderBy1SQLFC string
 	switch orderBy1 {
@@ -213,13 +213,13 @@ func (mrTable *CmtAGType) SelectRepliesUserMode(mrQueryable mingru.Queryable, vi
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtResult, 0, limit)
+	result := make([]DBCmt, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtResult
+			var item DBCmt
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err
@@ -241,7 +241,7 @@ const (
 	CmtAGSelectRepliesUserModeFilterModeOrderBy1CreatedAt
 )
 
-func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, excluded []uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error) {
+func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, excluded []uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error) {
 	if len(excluded) == 0 {
 		return nil, false, fmt.Errorf("the array argument `excluded` cannot be empty")
 	}
@@ -286,13 +286,13 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]CmtResult, 0, limit)
+	result := make([]DBCmt, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item CmtResult
+			var item DBCmt
 			err = rows.Scan(&item.ID, &item.ContentHTML, &item.RawCreatedAt, &item.RawModifiedAt, &item.CmtCount, &item.Likes, &item.DelFlag, &item.UserID, &item.ParentID, &item.UserName, &item.UserIconName, &item.IsLiked)
 			if err != nil {
 				return nil, false, err
@@ -307,8 +307,8 @@ func (mrTable *CmtAGType) SelectRepliesUserModeFilterMode(mrQueryable mingru.Que
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *CmtAGType) SelectReplySource(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
+func (mrTable *CmtAGType) SelectReplySource(mrQueryable mingru.Queryable, id uint64, userID uint64) (DBEntitySrc, error) {
+	var result DBEntitySrc
 	err := mrQueryable.QueryRow("SELECT `content`, `content_src` FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc)
 	if err != nil {
 		return result, err

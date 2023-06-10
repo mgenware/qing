@@ -10,7 +10,7 @@ import { appDef } from '@qing/def';
 import post from '../../models/post/post.js';
 import user from '../../models/user/user.js';
 
-const homePostItemType = 'HomePostItem';
+const homePostItemType = 'DBHomePost';
 
 class HomeGhost extends mm.GhostTable {}
 

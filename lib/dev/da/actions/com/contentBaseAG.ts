@@ -61,7 +61,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
     this.selectItemByID = mm
       .selectRow(...this.colsOfSelectItem())
       .by(t.id)
-      .resultTypeNameAttr(`${contentName}Item`);
+      .resultTypeNameAttr(`DB${contentName}`);
 
     const profileCols = this.colsOfSelectItemsForUserProfile();
     this.selectItemsForUserProfile = profileCols.length
@@ -70,7 +70,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .pageMode()
           .by(t.user_id)
           .orderByDesc(t.created_at)
-          .resultTypeNameAttr(`${contentName}ItemForProfile`)
+          .resultTypeNameAttr(`DB${contentName}ForProfile`)
       : mm.emptyAction;
     this.selectItemSrc = mm
       .selectRow(t.content, t.content_src, ...this.extraSelectSrcItemCols())
@@ -85,7 +85,7 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
           .pageMode()
           .by(t.user_id)
           .orderByParams(this.orderByParamsOfSelectItemsForPostCenter())
-          .resultTypeNameAttr(`${contentName}ForPostCenter`)
+          .resultTypeNameAttr(`DB${contentName}ForPostCenter`)
       : mm.emptyAction;
 
     this.deleteItem =

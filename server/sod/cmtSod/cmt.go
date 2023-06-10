@@ -16,7 +16,7 @@ package cmtSod
 import "qing/da"
 
 type Cmt struct {
-	da.CmtResult
+	da.DBCmt
 
 	Eid         string  `json:"id,omitempty"`
 	UserEID     *string `json:"userID,omitempty"`
@@ -27,9 +27,9 @@ type Cmt struct {
 	ParentEID   *string `json:"parentID,omitempty"`
 }
 
-func NewCmt(cmtResult *da.CmtResult, eid string, userEID *string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentEID *string) Cmt {
+func NewCmt(dBCmt *da.DBCmt, eid string, userEID *string, userURL string, userIconURL string, createdAt string, modifiedAt string, parentEID *string) Cmt {
 	return Cmt{
-		CmtResult: *cmtResult,
+		DBCmt: *dBCmt,
 		Eid: eid,
 		UserEID: userEID,
 		UserURL: userURL,

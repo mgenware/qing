@@ -27,7 +27,7 @@ func entitySrc(w http.ResponseWriter, r *http.Request) handler.JSON {
 	entity := clib.MustGetEntityInfoFromDict(params, "entity")
 	id := entity.ID
 	db := appDB.DB()
-	var res da.EntityGetSrcResult
+	var res da.DBEntitySrc
 	var err error
 
 	switch entity.Type {

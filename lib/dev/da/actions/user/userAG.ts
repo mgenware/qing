@@ -11,7 +11,7 @@ import t from '../../models/user/user.js';
 import userStats from '../../models/user/userStats.js';
 
 export const addUserInsertedIDVar = 'insertedUserID';
-const findUserResult = 'FindUserResult';
+const findUserResult = 'DBFindUser';
 const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr()];
 const sessionCols = [...coreCols, t.admin, t.lang];
 
@@ -28,7 +28,7 @@ export class UserAG extends mm.ActionGroup {
   selectEditingData = mm
     .selectRow(...coreCols, t.location, t.company, t.website, t.bio, t.bio_src)
     .by(t.id)
-    .resultTypeNameAttr('UserEditingResult')
+    .resultTypeNameAttr('DBUserForEditing')
     .attr(mm.ActionAttribute.enableTSResultType, true);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToParam());

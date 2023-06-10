@@ -17,7 +17,7 @@ export interface CmtHostTable extends TableWithIDAndUserID {
 }
 
 export const cmtHostTableInterface = 'CmtHostTableInterface';
-export const cmtResultType = 'CmtResult';
+export const cmtResultType = 'DBCmt';
 
 export interface CmtRelationTable extends mm.Table {
   cmt_id: mm.Column;

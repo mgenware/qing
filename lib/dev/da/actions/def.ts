@@ -5,4 +5,4 @@
  * be found in the LICENSE file.
  */
 
-export const getEntitySrcType = 'EntityGetSrcResult';
+export const getEntitySrcType = 'DBEntitySrc';

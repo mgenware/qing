@@ -8,7 +8,7 @@ By default, field names are required properties in Go, and optional properties i
 
 ### Predefined types
 
-- `:da` DA types, e.g. `:da.CmtResult`
+- `:da` DA types, e.g. `:da.DBCmt`
 - `:sod` references other SOD types. Format `:sod.<filepath>.<TypeName>`, e.g. `:sod.cmt.cmt.Cmt` -> import `Cmt` type from `sod/cmt/cmt.yaml`
 
 ### Specify types from other files

@@ -26,7 +26,7 @@ func getCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := clib.MustGetIDFromDict(params, "id")
 
 	db := appDB.DB()
-	var cmtDB da.CmtResult
+	var cmtDB da.DBCmt
 	var err error
 	if uid > 0 {
 		cmtDB, err = da.Cmt.SelectCmtUserMode(db, uid, id)

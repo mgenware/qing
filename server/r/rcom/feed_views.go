@@ -18,12 +18,12 @@ import (
 var vThreadFeedView = appHandler.MainPage().MustParseView("com/feed/threadFeedView.html")
 
 type PostFeedData struct {
-	da.HomePostItem
+	da.DBHomePost
 	feedSod.FeedBase
 }
 
-func NewPostFeedData(src *da.HomePostItem) PostFeedData {
-	d := PostFeedData{HomePostItem: *src}
+func NewPostFeedData(src *da.DBHomePost) PostFeedData {
+	d := PostFeedData{DBHomePost: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -36,12 +36,12 @@ func NewPostFeedData(src *da.HomePostItem) PostFeedData {
 }
 
 type ThreadFeedData struct {
-	da.ThreadFeedResult
+	da.DBThreadFeed
 	feedSod.FeedBase
 }
 
-func NewThreadFeedData(src *da.ThreadFeedResult) ThreadFeedData {
-	d := ThreadFeedData{ThreadFeedResult: *src}
+func NewThreadFeedData(src *da.DBThreadFeed) ThreadFeedData {
+	d := ThreadFeedData{DBThreadFeed: *src}
 
 	// ContentBaseExtraProps
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)

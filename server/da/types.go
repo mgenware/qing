@@ -21,7 +21,7 @@ import (
 
 // ------------ Result types ------------
 
-type CmtResult struct {
+type DBCmt struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
 	DelFlag       uint8     `json:"delFlag,omitempty"`
@@ -38,19 +38,19 @@ type CmtResult struct {
 	UserName      *string   `json:"userName,omitempty"`
 }
 
-type EntityGetSrcResult struct {
+type DBEntitySrc struct {
 	ContentHTML string  `json:"contentHTML,omitempty"`
 	ContentSrc  *string `json:"contentSrc,omitempty"`
 	Title       string  `json:"title,omitempty"`
 }
 
-type FindUserResult struct {
+type DBFindUser struct {
 	IconName string `json:"-"`
 	ID       uint64 `json:"-"`
 	Name     string `json:"name,omitempty"`
 }
 
-type HomePostItem struct {
+type DBHomePost struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ID            uint64    `json:"-"`
 	Likes         uint      `json:"likes,omitempty"`
@@ -63,17 +63,7 @@ type HomePostItem struct {
 	UserName      string    `json:"-"`
 }
 
-type PostForPostCenter struct {
-	CmtCount      uint      `json:"cmtCount,omitempty"`
-	ForumID       *uint64   `json:"forumID,omitempty"`
-	ID            uint64    `json:"-"`
-	Likes         uint      `json:"likes,omitempty"`
-	RawCreatedAt  time.Time `json:"-"`
-	RawModifiedAt time.Time `json:"-"`
-	Title         string    `json:"title,omitempty"`
-}
-
-type PostItem struct {
+type DBPost struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ContentHTML   string    `json:"contentHTML,omitempty"`
 	ForumID       *uint64   `json:"forumID,omitempty"`
@@ -87,7 +77,17 @@ type PostItem struct {
 	UserName      string    `json:"-"`
 }
 
-type PostItemForProfile struct {
+type DBPostForPostCenter struct {
+	CmtCount      uint      `json:"cmtCount,omitempty"`
+	ForumID       *uint64   `json:"forumID,omitempty"`
+	ID            uint64    `json:"-"`
+	Likes         uint      `json:"likes,omitempty"`
+	RawCreatedAt  time.Time `json:"-"`
+	RawModifiedAt time.Time `json:"-"`
+	Title         string    `json:"title,omitempty"`
+}
+
+type DBPostForProfile struct {
 	CmtCount      uint      `json:"cmtCount,omitempty"`
 	ForumID       *uint64   `json:"forumID,omitempty"`
 	ID            uint64    `json:"-"`
@@ -96,7 +96,7 @@ type PostItemForProfile struct {
 	Title         string    `json:"title,omitempty"`
 }
 
-type ThreadFeedResult struct {
+type DBThreadFeed struct {
 	CmtCount      uint       `json:"cmtCount,omitempty"`
 	ID            uint64     `json:"-"`
 	LastRepliedAt *time.Time `json:"lastRepliedAt,omitempty"`
@@ -109,7 +109,7 @@ type ThreadFeedResult struct {
 	UserName      string     `json:"-"`
 }
 
-type UserEditingResult struct {
+type DBUserForEditing struct {
 	BioHTML  *string `json:"bioHTML,omitempty"`
 	BioSrc   *string `json:"bioSrc,omitempty"`
 	Company  string  `json:"company,omitempty"`
@@ -123,12 +123,12 @@ type UserEditingResult struct {
 // ------------ Interfaces ------------
 
 type CmtHostTableInterface interface {
-	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRepliesUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, excluded []uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRootCmtsUserMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
-	SelectRootCmtsUserModeFilterMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, excluded []uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]CmtResult, bool, error)
+	SelectReplies(mrQueryable mingru.Queryable, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error)
+	SelectRepliesUserMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error)
+	SelectRepliesUserModeFilterMode(mrQueryable mingru.Queryable, viewerUserID uint64, parentID *uint64, excluded []uint64, page int, pageSize int, orderBy1 CmtAGSelectRepliesUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error)
+	SelectRootCmts(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error)
+	SelectRootCmtsUserMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error)
+	SelectRootCmtsUserModeFilterMode(mrQueryable mingru.Queryable, contentBaseCmtTableParam mingru.Table, viewerUserID uint64, hostID uint64, excluded []uint64, page int, pageSize int, orderBy1 ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1, orderBy1Desc bool) ([]DBCmt, bool, error)
 }
 
 type LikeInterface interface {

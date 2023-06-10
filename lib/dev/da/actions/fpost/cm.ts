@@ -8,7 +8,7 @@
 import fpost from '../../models/fpost/fpost.js';
 import user from '../../models/user/user.js';
 
-export const threadFeedType = 'ThreadFeedResult';
+export const threadFeedType = 'DBThreadFeed';
 
 // Used by both home page and forums page.
 export function threadFeedCols() {

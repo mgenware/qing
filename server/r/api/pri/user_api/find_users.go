@@ -29,7 +29,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	byID := jsonx.GetIntOrDefault(params, "byID")
 	var err error
-	var users []da.FindUserResult
+	var users []da.DBFindUser
 	db := appDB.DB()
 	if byID != 0 {
 		id := clib.MustGetIDFromDict(params, "value")
@@ -38,7 +38,7 @@ func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
 			return resp.MustComplete(nil)
 		}
 		appcm.PanicOn(err)
-		users = []da.FindUserResult{user}
+		users = []da.DBFindUser{user}
 	} else {
 		name := clib.MustGetStringFromDict(params, "value", appDef.LenMaxName)
 		users, err = da.User.FindUsersByName(db, "%"+name+"%")

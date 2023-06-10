@@ -5,7 +5,7 @@ Cmt:
     userID: userEID
     parentID: parentEID
 
-  __extends: :da.CmtResult
+  __extends: :da.DBCmt
 
   id: string!
   userID: string?

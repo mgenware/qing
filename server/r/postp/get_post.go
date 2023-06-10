@@ -36,7 +36,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	appcm.PanicOn(err)
 
 	var postType frozenDef.ContentBaseType
-	var post da.PostItem
+	var post da.DBPost
 	if isThread {
 		postType = frozenDef.ContentBaseTypeFPost
 		post, err = da.FPost.SelectItemByID(db, id)

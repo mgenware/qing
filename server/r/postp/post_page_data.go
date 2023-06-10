@@ -19,7 +19,7 @@ import (
 var vPostPage = appHandler.MainPage().MustParseView("post/postPage.html")
 
 type PostPageData struct {
-	da.PostItem
+	da.DBPost
 
 	// Used by `postPage.html`.
 	PostURL    string
@@ -31,8 +31,8 @@ type PostPageData struct {
 	ModifiedAt string
 }
 
-func NewPostPageData(p *da.PostItem) PostPageData {
-	d := PostPageData{PostItem: *p}
+func NewPostPageData(p *da.DBPost) PostPageData {
+	d := PostPageData{DBPost: *p}
 	eid := clib.EncodeID(p.ID)
 	d.PostURL = appURL.Get().Post(p.ID)
 	d.EID = eid

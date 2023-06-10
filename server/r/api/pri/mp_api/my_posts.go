@@ -37,7 +37,7 @@ func init() {
 }
 
 type pcPost struct {
-	da.PostForPostCenter
+	da.DBPostForPostCenter
 
 	EID        string `json:"id"`
 	URL        string `json:"url"`
@@ -45,8 +45,8 @@ type pcPost struct {
 	ModifiedAt string `json:"modifiedAt"`
 }
 
-func newPCPost(p *da.PostForPostCenter, uid uint64) pcPost {
-	d := pcPost{PostForPostCenter: *p}
+func newPCPost(p *da.DBPostForPostCenter, uid uint64) pcPost {
+	d := pcPost{DBPostForPostCenter: *p}
 	d.URL = appURL.Get().Post(p.ID)
 	d.EID = clib.EncodeID(uid)
 	d.CreatedAt = clib.TimeString(d.RawCreatedAt)
@@ -65,7 +65,7 @@ func myPostsCore(w http.ResponseWriter, r *http.Request, fpost bool) handler.JSO
 	desc := clib.MustGetIntFromDict(params, "desc") != 0
 
 	db := appDB.DB()
-	var rawPosts []da.PostForPostCenter
+	var rawPosts []da.DBPostForPostCenter
 	var hasNext bool
 	var err error
 	if fpost {

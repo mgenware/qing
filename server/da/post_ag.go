@@ -89,8 +89,8 @@ func (mrTable *PostAGType) RefreshLastRepliedAt(mrQueryable mingru.Queryable, id
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
-func (mrTable *PostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (PostItem, error) {
-	var result PostItem
+func (mrTable *PostAGType) SelectItemByID(mrQueryable mingru.Queryable, id uint64) (DBPost, error) {
+	var result DBPost
 	err := mrQueryable.QueryRow("SELECT `post`.`id`, `post`.`user_id`, `join_1`.`name`, `join_1`.`icon_name`, `post`.`created_at`, `post`.`modified_at`, `post`.`content`, `post`.`likes`, `post`.`cmt_count`, `post`.`title` FROM `post` AS `post` INNER JOIN `user` AS `join_1` ON `join_1`.`id` = `post`.`user_id` WHERE `post`.`id` = ?", id).Scan(&result.ID, &result.UserID, &result.UserName, &result.UserIconName, &result.RawCreatedAt, &result.RawModifiedAt, &result.ContentHTML, &result.Likes, &result.CmtCount, &result.Title)
 	if err != nil {
 		return result, err
@@ -106,7 +106,7 @@ const (
 	PostAGSelectItemsForPostCenterOrderBy1CmtCount
 )
 
-func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 PostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]PostForPostCenter, bool, error) {
+func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int, orderBy1 PostAGSelectItemsForPostCenterOrderBy1, orderBy1Desc bool) ([]DBPostForPostCenter, bool, error) {
 	var orderBy1SQL string
 	switch orderBy1 {
 	case PostAGSelectItemsForPostCenterOrderBy1CreatedAt:
@@ -138,13 +138,13 @@ func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostForPostCenter, 0, limit)
+	result := make([]DBPostForPostCenter, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostForPostCenter
+			var item DBPostForPostCenter
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Likes, &item.Title, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
@@ -159,7 +159,7 @@ func (mrTable *PostAGType) SelectItemsForPostCenter(mrQueryable mingru.Queryable
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]PostItemForProfile, bool, error) {
+func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryable, userID uint64, page int, pageSize int) ([]DBPostForProfile, bool, error) {
 	if page <= 0 {
 		err := fmt.Errorf("invalid page %v", page)
 		return nil, false, err
@@ -175,13 +175,13 @@ func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryabl
 	if err != nil {
 		return nil, false, err
 	}
-	result := make([]PostItemForProfile, 0, limit)
+	result := make([]DBPostForProfile, 0, limit)
 	itemCounter := 0
 	defer rows.Close()
 	for rows.Next() {
 		itemCounter++
 		if itemCounter <= max {
-			var item PostItemForProfile
+			var item DBPostForProfile
 			err = rows.Scan(&item.ID, &item.RawCreatedAt, &item.RawModifiedAt, &item.Title, &item.CmtCount)
 			if err != nil {
 				return nil, false, err
@@ -196,8 +196,8 @@ func (mrTable *PostAGType) SelectItemsForUserProfile(mrQueryable mingru.Queryabl
 	return result, itemCounter > len(result), nil
 }
 
-func (mrTable *PostAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (EntityGetSrcResult, error) {
-	var result EntityGetSrcResult
+func (mrTable *PostAGType) SelectItemSrc(mrQueryable mingru.Queryable, id uint64, userID uint64) (DBEntitySrc, error) {
+	var result DBEntitySrc
 	err := mrQueryable.QueryRow("SELECT `content`, `content_src`, `title` FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID).Scan(&result.ContentHTML, &result.ContentSrc, &result.Title)
 	if err != nil {
 		return result, err
