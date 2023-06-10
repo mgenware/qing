@@ -36,3 +36,19 @@ func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bo
 		FocusMode: focusMode,
 	}
 }
+
+type PostCorePayload struct {
+	Html    string `json:"html,omitempty"`
+	Title   string `json:"title,omitempty"`
+	Src     string `json:"src,omitempty"`
+	Summary string `json:"summary,omitempty"`
+}
+
+func NewPostCorePayload(html string, title string, src string, summary string) PostCorePayload {
+	return PostCorePayload{
+		Html: html,
+		Title: title,
+		Src: src,
+		Summary: summary,
+	}
+}

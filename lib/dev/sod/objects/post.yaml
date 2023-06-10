@@ -7,3 +7,9 @@ PostWind:
   isThread: bool
   forumID: string?
   focusMode: :sod.cmt.CmtFocusModeData?
+
+PostCorePayload:
+  html: string!
+  title: string
+  src: string
+  summary: string

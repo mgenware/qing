@@ -24,3 +24,10 @@ export interface PostWind {
   forumID?: string;
   focusMode?: CmtFocusModeData;
 }
+
+export interface PostCorePayload {
+  html: string;
+  title?: string;
+  src?: string;
+  summary?: string;
+}
