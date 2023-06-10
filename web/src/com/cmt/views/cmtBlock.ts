@@ -35,6 +35,7 @@ import { ComposerView } from 'ui/editing/composerView.js';
 import { SetCmtLoader } from '../loaders/setCmtLoader.js';
 import { brMode } from 'devMode.js';
 import strf from 'bowhead-js';
+import { PostCorePayload } from 'sod/post.js';
 
 const editEditorID = 'edit-editor';
 const replyEditorID = 'reply-editor';
@@ -221,17 +222,13 @@ export class CmtBlock extends BaseElement {
     CHECK(this._collector.observableItems.insert(0, [cmt]));
   }
 
-  private async handleEditEditorSubmit() {
+  private async handleEditEditorSubmit(e: CustomEvent<PostCorePayload>) {
     if (!this.editEditorEl || !this.cmt) {
       return;
     }
     const editorImpl = this.editEditorEl.unsafeEditorImplEl;
     CHECK(editorImpl);
-    const loader = SetCmtLoader.editCmt(
-      this.host,
-      this.cmt.id,
-      this.editEditorEl.getPayload(editorImpl),
-    );
+    const loader = SetCmtLoader.editCmt(this.host, this.cmt.id, e.detail);
     const apiRes = await appTask.critical(loader, globalThis.coreLS.saving);
     if (apiRes.data) {
       this.destroyEditEditor();
@@ -257,17 +254,13 @@ export class CmtBlock extends BaseElement {
     }
   }
 
-  private async handleReplyEditorSubmit() {
+  private async handleReplyEditorSubmit(e: CustomEvent<PostCorePayload>) {
     if (!this.replyEditorEl || !this.cmt) {
       return;
     }
     const editorImpl = this.replyEditorEl.unsafeEditorImplEl;
     CHECK(editorImpl);
-    const loader = SetCmtLoader.newReply(
-      this.host,
-      this.cmt.id,
-      this.replyEditorEl.getPayload(editorImpl),
-    );
+    const loader = SetCmtLoader.newReply(this.host, this.cmt.id, e.detail);
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyReplyEditor();

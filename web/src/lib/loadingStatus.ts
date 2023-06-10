@@ -38,6 +38,16 @@ export default class LoadingStatus {
     return s;
   }
 
+  static unknownError(err: unknown): LoadingStatus {
+    if (err instanceof ErrorWithCode) {
+      return this.error(err);
+    }
+    if (err instanceof Error) {
+      return this.error(new ErrorWithCode(err.message));
+    }
+    return this.error(new ErrorWithCode(`${err}`));
+  }
+
   static get working(): LoadingStatus {
     const s = new LoadingStatus();
     s.#isStarted = true;

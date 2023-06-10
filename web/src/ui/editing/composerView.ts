@@ -6,13 +6,13 @@
  */
 
 import { BaseElement, customElement, html, css, property, when } from 'll.js';
-import { frozenDef } from '@qing/def';
+import { appDef, frozenDef } from '@qing/def';
 import './coreEditor.js';
 import { CHECK, ERR } from 'checks.js';
 import 'ui/forms/inputView.js';
 import 'ui/status/statusOverlay.js';
 import 'ui/status/statusView.js';
-import CoreEditor, { CoreEditorContent, CoreEditorImpl } from './coreEditor.js';
+import CoreEditor, { CoreEditorContentType, CoreEditorImpl } from './coreEditor.js';
 import appAlert from 'app/appAlert.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import appTask from 'app/appTask.js';
@@ -21,6 +21,8 @@ import Entity from 'lib/entity.js';
 import strf from 'bowhead-js';
 import { InputView } from 'ui/forms/inputView.js';
 import appPageState from 'app/appPageState.js';
+import { PostCorePayload } from 'sod/post.js';
+import { htmlToSummary, mdToHTML } from './coreEditorUtil.js';
 
 const titleInputID = 'title-input';
 
@@ -28,10 +30,6 @@ class ValidationError extends Error {
   constructor(msg: string, public callback: () => void) {
     super(msg);
   }
-}
-
-export interface ComposerContent extends CoreEditorContent {
-  title?: string;
 }
 
 /**
@@ -111,15 +109,15 @@ export class ComposerView extends BaseElement {
   }
 
   hasContentChanged(impl: CoreEditorImpl): boolean {
-    const renderedContent = this.editorEl.getRenderedContent(impl);
+    const content = this.editorEl.getContent(impl);
     return (
-      this.lastSavedContent !== renderedContent ||
+      this.lastSavedContent !== content.data ||
       (this.hasTitle && this.lastSavedTitle !== this.titleText)
     );
   }
 
   markAsSaved(impl: CoreEditorImpl) {
-    this.lastSavedContent = this.editorEl.getRenderedContent(impl);
+    this.lastSavedContent = this.editorEl.getContent(impl).data ?? '';
     if (this.hasTitle) {
       this.lastSavedTitle = this.titleText ?? '';
     }
@@ -224,26 +222,49 @@ export class ComposerView extends BaseElement {
     >`;
   }
 
-  getPayload(impl: CoreEditorImpl): ComposerContent {
+  getPayload(impl: CoreEditorImpl): PostCorePayload {
     if (this.hasTitle && !this.titleText) {
       throw new ValidationError(strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.title), () =>
         this.titleInputEl?.focus(),
       );
     }
-    const content = this.editorEl.getContent(impl, { summary: this.hasTitle });
-    if (!content.src && !content.html) {
+    const editorContent = this.editorEl.getContent(impl);
+    if (!editorContent.data) {
       throw new ValidationError(
         strf(globalThis.coreLS.pPlzEnterThe, globalThis.coreLS.content),
         () => this.editorEl.focus(),
       );
     }
-    const payload: ComposerContent = {
-      ...content,
-    };
-    if (this.hasTitle) {
-      payload.title = this.titleText;
+
+    let contentHTML = '';
+    let src: string | undefined;
+    let summary: string | undefined;
+    let title: string | undefined;
+    switch (editorContent.type) {
+      case CoreEditorContentType.html:
+        contentHTML = editorContent.data;
+        break;
+
+      case CoreEditorContentType.md:
+        src = editorContent.data;
+        contentHTML = mdToHTML(src);
+        break;
+
+      default:
+        throw new Error(`Unknown editor content type: ${editorContent.type}`);
     }
-    return payload;
+
+    if (this.hasTitle) {
+      CHECK(this.titleText);
+      title = this.titleText;
+      summary = htmlToSummary(contentHTML, appDef.lenMaxPostSummary);
+    }
+    return {
+      html: contentHTML,
+      src,
+      title,
+      summary,
+    };
   }
 
   private async handleSubmit() {
@@ -251,7 +272,7 @@ export class ComposerView extends BaseElement {
       const impl = this.editorEl.unsafeImplEl;
       CHECK(impl);
       const payload = this.getPayload(impl);
-      this.dispatchEvent(new CustomEvent<ComposerContent>('composer-submit', { detail: payload }));
+      this.dispatchEvent(new CustomEvent<PostCorePayload>('composer-submit', { detail: payload }));
     } catch (err) {
       ERR(err);
       await appAlert.error(err.message);

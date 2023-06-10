@@ -7,14 +7,14 @@
 
 import Loader from 'lib/loader.js';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
-import { ComposerContent } from 'ui/editing/composerView.js';
 import { Cmt } from '../data/cmt.js';
 import Entity from 'lib/entity.js';
+import { PostCorePayload } from 'sod/post.js';
 
 // DON'T change the names below. They're used by server as well.
 export interface SetCmtData {
   host: Entity;
-  contentData: ComposerContent;
+  content: PostCorePayload;
   // Only used when editing a cmt or reply.
   id?: string;
   // Only used when creating a reply.
@@ -26,26 +26,26 @@ export interface SetCmtResponse {
 }
 
 export class SetCmtLoader extends Loader<SetCmtResponse> {
-  static newCmt(host: Entity, contentData: ComposerContent): SetCmtLoader {
+  static newCmt(host: Entity, content: PostCorePayload): SetCmtLoader {
     return new SetCmtLoader({
       host,
-      contentData,
+      content,
     });
   }
 
-  static editCmt(host: Entity, id: string, contentData: ComposerContent): SetCmtLoader {
+  static editCmt(host: Entity, id: string, content: PostCorePayload): SetCmtLoader {
     return new SetCmtLoader({
       host,
-      contentData,
+      content,
       id,
     });
   }
 
-  static newReply(host: Entity, parentID: string, contentData: ComposerContent): SetCmtLoader {
+  static newReply(host: Entity, parentID: string, content: PostCorePayload): SetCmtLoader {
     return new SetCmtLoader({
       host,
       parentID,
-      contentData,
+      content,
     });
   }
 

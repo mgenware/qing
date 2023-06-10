@@ -14,9 +14,6 @@ import appState from 'app/appState.js';
 import appStateName from 'app/appStateName.js';
 import { StateEffect } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
-import MarkdownIt from 'markdown-it';
-
-const md = new MarkdownIt('commonmark');
 
 @customElement('md-editor')
 export class MdEditor extends BaseElement {
@@ -92,10 +89,6 @@ export class MdEditor extends BaseElement {
         insert: content,
       },
     });
-  }
-
-  getHTML(): string {
-    return md.render(this.getContent());
   }
 
   #getExtensions() {

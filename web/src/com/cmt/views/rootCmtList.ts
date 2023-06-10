@@ -20,6 +20,7 @@ import appTask from 'app/appTask.js';
 import { Cmt } from '../data/cmt.js';
 import { CmtFocusModeData } from 'sod/cmt.js';
 import { listenForVisibilityChange } from 'lib/htmlLib.js';
+import { PostCorePayload } from 'sod/post.js';
 
 const brCmtCountCls = 'br-cmt-c';
 const rootEditorID = 'root-editor';
@@ -164,13 +165,13 @@ export class RootCmtList extends BaseElement {
     this._unregisterVisibility?.();
   }
 
-  private async handleRootEditorSubmit() {
+  private async handleRootEditorSubmit(e: CustomEvent<PostCorePayload>) {
     if (!this.rootEditorEl || !this.cmtBlockEl) {
       return;
     }
     const editorImpl = this.rootEditorEl.unsafeEditorImplEl;
     CHECK(editorImpl);
-    const loader = SetCmtLoader.newCmt(this.host, this.rootEditorEl.getPayload(editorImpl));
+    const loader = SetCmtLoader.newCmt(this.host, e.detail);
     const apiRes = await appTask.critical(loader, globalThis.coreLS.publishing);
     if (apiRes.data) {
       this.destroyEditor();

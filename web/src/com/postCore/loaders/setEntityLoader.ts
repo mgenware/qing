@@ -7,13 +7,13 @@
 
 import Loader from 'lib/loader.js';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
-import { ComposerContent } from 'ui/editing/composerView.js';
 import appPageState from 'app/appPageState.js';
+import { PostCorePayload } from 'sod/post.js';
 
 export interface SetEntityLoaderArgs {
   /// These field names are locked with server API param names.
   id?: string;
-  content: ComposerContent;
+  content: PostCorePayload;
   entityType: number;
   forumID?: string;
   summary?: string;

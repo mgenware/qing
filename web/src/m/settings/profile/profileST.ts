@@ -21,7 +21,7 @@ import appPageState from 'app/appPageState.js';
 import appTask from 'app/appTask.js';
 import appAlert from 'app/appAlert.js';
 import 'ui/editing/coreEditor.js';
-import CoreEditor from 'ui/editing/coreEditor.js';
+import CoreEditor, { CoreEditorImpl } from 'ui/editing/coreEditor.js';
 import strf from 'bowhead-js';
 
 const bioEditorID = 'bio-editor';
@@ -58,6 +58,9 @@ export class ProfileST extends StatefulPage {
   @state() private location = '';
   @state() private updateInfoStatus = LoadingStatus.success;
   @state() private avatarURL = '';
+
+  @state() private bioEditorImpl?: CoreEditorImpl;
+  @state() private initialBioContent?: string;
 
   private get bioEditorEl(): CoreEditor | null {
     return this.getShadowElement<CoreEditor>(bioEditorID);
@@ -96,9 +99,15 @@ export class ProfileST extends StatefulPage {
           @input-change=${(e: CustomEvent<string>) => (this.location = e.detail)}></input-view>
 
         <label class="app-form-label" for=${bioEditorID}>${globalThis.coreLS.bio}</label>
-        <core-editor id=${bioEditorID} class="bio-editor"></core-editor>
+        <core-editor
+          id=${bioEditorID}
+          class="bio-editor"
+          @core-editor-ready=${this.handleBioEditorReady}></core-editor>
 
-        <qing-button btnStyle="success" @click=${this.handleSaveProfileClick}>
+        <qing-button
+          btnStyle="success"
+          @click=${this.handleSaveProfileClick}
+          ?disabled=${!this.bioEditorImpl}>
           ${globalThis.coreLS.save}
         </qing-button>
       </status-overlay>
@@ -115,16 +124,19 @@ export class ProfileST extends StatefulPage {
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
       this.avatarURL = profile.iconURL ?? '';
-
-      const bioEditorImpl = this.bioEditorEl?.unsafeImplEl;
-      if (bioEditorImpl) {
-        this.bioEditorEl?.resetRenderedContent(bioEditorImpl, profile.bioHTML ?? '');
-      }
+      this.initialBioContent = profile.bioHTML;
     }
+  }
+
+  private handleBioEditorReady(e: CustomEvent<CoreEditorImpl>) {
+    this.bioEditorImpl = e.detail;
   }
 
   private async handleSaveProfileClick() {
     CHECK(this.bioEditorEl);
+    // Save button should be disabled when the editor is not ready.
+    CHECK(this.bioEditorImpl);
+
     // Validate user inputs.
     try {
       if (!this.userName) {
