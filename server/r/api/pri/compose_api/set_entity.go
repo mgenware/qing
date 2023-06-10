@@ -16,13 +16,10 @@ import (
 	"qing/a/appURL"
 	"qing/a/appcm"
 	"qing/a/coreConfig"
-	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
-
-	"github.com/mgenware/goutil/jsonx"
 )
 
 func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -36,13 +33,15 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	entityType := frozenDef.ContentBaseType(clib.MustGetIntFromDict(params, "entityType"))
 
 	contentDict := clib.MustGetDictFromDict(params, "content")
+	contentLoader := NewPostCoreContentLoader(contentDict)
+
 	var title string
 	if entityType == frozenDef.ContentBaseTypePost || entityType == frozenDef.ContentBaseTypeFPost {
-		title = clib.MustGetStringFromDict(contentDict, "title", appDef.LenMaxTitle)
+		title = contentLoader.MustGetTitle()
 	}
-	summary := clib.MustGetTextFromDict(contentDict, "summary")
-	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentDict, "html"))
-	contentSrc := jsonx.GetStringOrNil(contentDict, "src")
+	summary := contentLoader.MustGetSummary()
+	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(contentLoader.MustGetHTML())
+	contentSrc := contentLoader.GetOptionalSrc()
 
 	cfg := coreConfig.Get()
 	var result any

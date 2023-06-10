@@ -23,8 +23,6 @@ import (
 	"qing/r/api/apicom"
 	"qing/sod/cmtSod"
 	"time"
-
-	"github.com/mgenware/goutil/jsonx"
 )
 
 type SetCmtResponse struct {
@@ -38,9 +36,12 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := user.ID
 
 	id := clib.GetIDFromDict(params, "id")
-	contentData := clib.MustGetDictFromDict(params, "contentData")
-	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(clib.MustGetTextFromDict(contentData, "html"))
-	contentSrc := jsonx.GetStringOrNil(contentData, "src")
+
+	contentDict := clib.MustGetDictFromDict(params, "content")
+	contentLoader := NewPostCoreContentLoader(contentDict)
+
+	content, sanitizedToken := appService.Get().Sanitizer.Sanitize(contentLoader.MustGetHTML())
+	contentSrc := contentLoader.GetOptionalSrc()
 
 	db := appDB.DB()
 	if id == 0 {
