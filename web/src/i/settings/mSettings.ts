@@ -6,17 +6,16 @@
  */
 
 import { customElement, css } from 'll.js';
-import * as mxRoute from '@qing/routes/mx.js';
-import { SettingsBaseItem, SettingsBaseView } from '../m/settings/settingsBaseView.js';
+import * as mRoute from '@qing/routes/i.js';
+import { SettingsBaseItem, SettingsBaseView } from './settingsBaseView.js';
 
 const items: SettingsBaseItem[] = [
-  { name: globalThis.coreLS.generalSettings, link: mxRoute.general },
-  { name: globalThis.mxLS.languages, link: mxRoute.languages },
-  { name: globalThis.mxLS.adminAccounts, link: mxRoute.admins },
+  { name: globalThis.coreLS.profile, link: mRoute.profileSettings },
+  { name: globalThis.coreLS.language, link: mRoute.langSettings },
 ];
 
-@customElement('site-st-view')
-export class SiteSTView extends SettingsBaseView {
+@customElement('m-settings')
+export class MSettings extends SettingsBaseView {
   static override get styles() {
     return [
       super.styles,
@@ -32,12 +31,12 @@ export class SiteSTView extends SettingsBaseView {
     super();
 
     this.items = items;
-    this.settingsTitle = globalThis.coreLS.siteSettings;
+    this.settingsTitle = globalThis.coreLS.settings;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'site-st-view': SiteSTView;
+    'm-settings': MSettings;
   }
 }

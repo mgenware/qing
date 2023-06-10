@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package mxp
+package ip
 
 import (
 	"net/http"
@@ -27,8 +27,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
-	assm := appHandler.MainPage().AssetManager()
-	d.Scripts = assm.MustGetLangScript(resp.Lang(), "mx") + assm.MustGetScript("mxEntry")
+	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("iEntry")
 
 	return resp.MustComplete(&d)
 }

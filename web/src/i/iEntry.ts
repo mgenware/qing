@@ -7,7 +7,7 @@
 
 import 'core.js';
 import { html, TemplateResult } from 'll.js';
-import * as mRoute from '@qing/routes/m.js';
+import * as mRoute from '@qing/routes/i.js';
 import './settings/mSettings';
 import './settings/profile/profileST';
 import './settings/lang/langST';

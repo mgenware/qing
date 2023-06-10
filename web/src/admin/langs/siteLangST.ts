@@ -16,7 +16,7 @@ import '../cm/needRestartView';
 import { StatefulPage } from 'ui/status/statefulPage.js';
 import appTask from 'app/appTask.js';
 import { GetLangSiteSTLoader } from '../loaders/getSiteSTLoader.js';
-import { SetSiteLangsSTLoader } from 'mx/loaders/setSiteSTLoader.js';
+import { SetSiteLangsSTLoader } from 'admin/loaders/setSiteSTLoader.js';
 import { NameAndID } from 'sod/api.js';
 import * as cu from 'lib/collectionUtil.js';
 

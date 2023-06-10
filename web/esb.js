@@ -35,8 +35,8 @@ const envMap = {
 
 const jsEntries = [
   'core',
-  'm/mEntry',
-  'mx/mxEntry',
+  'i/iEntry',
+  'admin/adminEntry',
   'post/postEntry',
   'profile/profileEntry',
   'auth/authEntry',

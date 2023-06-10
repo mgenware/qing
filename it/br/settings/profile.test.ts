@@ -7,7 +7,7 @@
 
 import { test, usr, $, expect } from 'br.js';
 import * as nbm from 'br/cm/navbar/menu.js';
-import * as mRoute from '@qing/routes/m.js';
+import * as mRoute from '@qing/routes/i.js';
 import * as ed from 'br/cm/editing/editor.js';
 import * as ivh from 'br/cm/forms/inputViewHelper.js';
 import { newUser } from 'helper/user.js';

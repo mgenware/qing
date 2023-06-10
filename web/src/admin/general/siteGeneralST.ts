@@ -17,7 +17,7 @@ import { StatefulPage } from 'ui/status/statefulPage.js';
 import appTask from 'app/appTask.js';
 import { frozenDef } from '@qing/def';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader.js';
-import { SetSiteInfoSTLoader, SetPostPermSTLoader } from 'mx/loaders/setSiteSTLoader.js';
+import { SetSiteInfoSTLoader, SetPostPermSTLoader } from 'admin/loaders/setSiteSTLoader.js';
 import { CHECK } from 'checks.js';
 import { ChecklistChangeArgs, ChecklistItem } from 'ui/forms/checklistView.js';
 

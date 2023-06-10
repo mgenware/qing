@@ -7,8 +7,8 @@
  */
 
 import { customElement, html, when, state, TemplateResult } from 'll.js';
-import * as mRoute from '@qing/routes/m.js';
-import * as mxRoute from '@qing/routes/mx.js';
+import * as mRoute from '@qing/routes/i.js';
+import * as mxRoute from '@qing/routes/admin.js';
 import * as authRoute from '@qing/routes/auth.js';
 import SignOutLoader from './loaders/signOutLoader.js';
 import { User } from 'sod/auth.js';

@@ -18,14 +18,14 @@ import (
 	"qing/lib/iolib"
 	"strconv"
 
+	"qing/r/adminp"
 	"qing/r/api"
 	"qing/r/authp"
 	"qing/r/devp"
 	"qing/r/forump"
 	"qing/r/fpostp"
 	"qing/r/homep"
-	"qing/r/mp"
-	"qing/r/mxp"
+	"qing/r/ip"
 	"qing/r/postp"
 	"qing/r/profilep"
 	"qing/r/sys"
@@ -58,10 +58,10 @@ func Start() {
 	langRouter().Get("/"+appDef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
 	// FPost router.
 	langRouter().Get("/"+appDef.RouteForumPost+"/{id}", handler.HTMLHandlerToHTTPHandler(fpostp.GetFPost))
-	// M (Management) router.
-	langRouter().Mount("/"+appDef.RouteM, mp.Router)
-	// MX (Admin management) router.
-	langRouter().Mount("/"+appDef.RouteMx, mxp.Router)
+	// I (dashboard) router.
+	langRouter().Mount("/"+appDef.RouteI, ip.Router)
+	// Admin router.
+	langRouter().Mount("/"+appDef.RouteAdmin, adminp.Router)
 	// Forum router.
 	langRouter().Mount("/"+appDef.RouteForum, forump.Router)
 	// Auth router.

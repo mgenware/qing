@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $, Element } from 'br.js';
-import * as mxRoute from '@qing/routes/mx.js';
+import * as mxRoute from '@qing/routes/admin.js';
 import * as cm from './common.js';
 
 async function checkCheckmarkView(el: Element, checked: boolean, text: string) {

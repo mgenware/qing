@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader.js';
 import * as adminRoute from '@qing/routes/s/admin.js';
-import { GetSiteGeneralST, SiteSTBase, GetSiteLangsST } from 'sod/mx.js';
+import { GetSiteGeneralST, SiteSTBase, GetSiteLangsST } from 'sod/admin.js';
 import { appDef } from '@qing/def';
 
 class GetSiteSTLoader<T extends SiteSTBase> extends Loader<T> {

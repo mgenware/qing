@@ -7,7 +7,7 @@
 
 import Loader from 'lib/loader.js';
 import * as adminRoute from '@qing/routes/s/admin.js';
-import { SetSiteInfoSTData } from 'sod/mx.js';
+import { SetSiteInfoSTData } from 'sod/admin.js';
 import { appDef, frozenDef } from '@qing/def';
 
 abstract class SetSiteSTLoader<T> extends Loader<T> {

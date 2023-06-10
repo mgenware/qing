@@ -18,7 +18,7 @@ import (
 	"qing/a/handler"
 	"qing/lib/clib"
 	"qing/r/api/apicom"
-	"qing/sod/mxSod"
+	"qing/sod/adminSod"
 )
 
 func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -27,7 +27,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	key := clib.MustGetIntFromDict(params, "key")
 
 	needRestart := appConfig.DiskConfigUpdated()
-	stBase := mxSod.NewSiteSTBase(needRestart)
+	stBase := adminSod.NewSiteSTBase(needRestart)
 
 	ac := appConfig.Get(r)
 	cc := coreConfig.Get()
@@ -36,7 +36,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	switch appDef.GetSiteSettings(key) {
 	case appDef.GetSiteSettingsGeneral:
-		coreData := mxSod.NewGetSiteGeneralST(&stBase, sc.URL, pc.RawPost, sc.Name)
+		coreData := adminSod.NewGetSiteGeneralST(&stBase, sc.URL, pc.RawPost, sc.Name)
 		return resp.MustComplete(coreData)
 
 	case appDef.GetSiteSettingsLangs:
@@ -44,7 +44,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 		appcm.PanicOn(err)
 
 		currentLangs := sc.Langs
-		langSTData := mxSod.NewGetSiteLangsST(&stBase, supportedLangs, currentLangs)
+		langSTData := adminSod.NewGetSiteLangsST(&stBase, supportedLangs, currentLangs)
 		return resp.MustComplete(langSTData)
 
 	default:

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-const m = '/m';
+const i = '/i';
 
-export const yourPosts = `${m}/your-posts`;
-export const yourFPosts = `${m}/your-fposts`;
-const settings = `${m}/settings`;
+export const yourPosts = `${i}/your-posts`;
+export const yourFPosts = `${i}/your-fposts`;
+const settings = `${i}/settings`;
 export const profileSettings = `${settings}/profile`;
 export const langSettings = `${settings}/lang`;

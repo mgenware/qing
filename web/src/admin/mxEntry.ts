@@ -7,7 +7,7 @@
 
 import 'core.js';
 import { html, TemplateResult } from 'll.js';
-import * as mxRoute from '@qing/routes/mx.js';
+import * as mxRoute from '@qing/routes/admin.js';
 import './admins/siteAdminST';
 import './general/siteGeneralST';
 import './langs/siteLangST';

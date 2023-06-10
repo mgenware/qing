@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-const mx = '/mx';
+const admin = '/admin';
 
-export const general = `${mx}/general`;
-export const admins = `${mx}/admins`;
-export const languages = `${mx}/languages`;
+export const general = `${admin}/general`;
+export const admins = `${admin}/admins`;
+export const languages = `${admin}/languages`;

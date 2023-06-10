@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package mp
+package adminp
 
 import (
 	"net/http"
@@ -27,7 +27,8 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("mEntry")
+	assm := appHandler.MainPage().AssetManager()
+	d.Scripts = assm.MustGetLangScript(resp.Lang(), "mx") + assm.MustGetScript("adminEntry")
 
 	return resp.MustComplete(&d)
 }

@@ -22,7 +22,7 @@ import (
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/lib/clib"
-	"qing/sod/mxSod"
+	"qing/sod/adminSod"
 )
 
 type brSetSiteSettingsResult struct {
@@ -64,7 +64,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 		})
 
 	case appDef.SetSiteSettingsInfo:
-		var infoData mxSod.SetSiteInfoSTData
+		var infoData adminSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
 		appcm.PanicOn(err)
 		coreConfig.UpdateDiskConfig(func(diskCfg *cfgx.CoreConfig) {
