@@ -28,3 +28,12 @@ export interface EntityGetSrcResult {
   contentSrc?: string;
   title?: string;
 }
+
+export interface UserEditingResult {
+  bioHTML?: string;
+  bioSrc?: string;
+  company?: string;
+  location?: string;
+  name?: string;
+  website?: string;
+}

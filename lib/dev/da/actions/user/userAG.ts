@@ -27,7 +27,9 @@ export class UserAG extends mm.ActionGroup {
     .attr(mm.ActionAttribute.ignorePrivateColumns, true);
   selectEditingData = mm
     .selectRow(...coreCols, t.location, t.company, t.website, t.bio, t.bio_src)
-    .by(t.id);
+    .by(t.id)
+    .resultTypeNameAttr('UserEditingResult')
+    .attr(mm.ActionAttribute.enableTSResultType, true);
   selectIconName = mm.selectField(t.icon_name).by(t.id);
   selectIDFromEmail = mm.selectField(t.id).whereSQL(t.email.isEqualToParam());
   selectIsAdmin = mm.selectField(t.admin).by(t.id);

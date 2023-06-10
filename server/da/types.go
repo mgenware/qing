@@ -109,6 +109,17 @@ type ThreadFeedResult struct {
 	UserName      string     `json:"-"`
 }
 
+type UserEditingResult struct {
+	BioHTML  *string `json:"bioHTML,omitempty"`
+	BioSrc   *string `json:"bioSrc,omitempty"`
+	Company  string  `json:"company,omitempty"`
+	IconName string  `json:"-"`
+	ID       uint64  `json:"-"`
+	Location string  `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+	Website  string  `json:"website,omitempty"`
+}
+
 // ------------ Interfaces ------------
 
 type CmtHostTableInterface interface {

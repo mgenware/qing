@@ -66,19 +66,8 @@ func (mrTable *UserAGType) FindUsersByName(mrQueryable mingru.Queryable, name st
 	return result, nil
 }
 
-type UserAGSelectEditingDataResult struct {
-	BioHTML  *string `json:"bioHTML,omitempty"`
-	BioSrc   *string `json:"bioSrc,omitempty"`
-	Company  string  `json:"company,omitempty"`
-	IconName string  `json:"-"`
-	ID       uint64  `json:"-"`
-	Location string  `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-	Website  string  `json:"website,omitempty"`
-}
-
-func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserAGSelectEditingDataResult, error) {
-	var result UserAGSelectEditingDataResult
+func (mrTable *UserAGType) SelectEditingData(mrQueryable mingru.Queryable, id uint64) (UserEditingResult, error) {
+	var result UserEditingResult
 	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `bio_src` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML, &result.BioSrc)
 	if err != nil {
 		return result, err
