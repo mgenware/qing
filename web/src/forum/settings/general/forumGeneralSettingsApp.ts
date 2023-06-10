@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll.js';
+import { BaseElement, customElement, html, css, state } from 'll.js';
 import { ERR } from 'checks.js';
 import 'ui/status/statusOverlay';
 import 'ui/pickers/avatarUploader';
@@ -17,10 +17,12 @@ import LoadingStatus from 'lib/loadingStatus.js';
 import SetForumEditingInfoLoader from './loaders/setForumEditingInfoLoader.js';
 import { GetForumEditingInfoLoader } from './loaders/getForumEditingInfo.js';
 import { CHECK } from 'checks.js';
-import CoreEditor from 'ui/editing/coreEditor.js';
+import CoreEditor, { CoreEditorImpl } from 'ui/editing/coreEditor.js';
 import appTask from 'app/appTask.js';
 import appAlert from 'app/appAlert.js';
 import strf from 'bowhead-js';
+import appPageState from 'app/appPageState.js';
+import { renderCoreEditorContent } from 'ui/editing/coreEditorUtil.js';
 
 const editorElementID = 'editor';
 
@@ -41,11 +43,14 @@ export class ForumGeneralSettingsApp extends BaseElement {
     ];
   }
 
-  @property() fid = '';
-  @property() forumName = '';
-  @property({ type: Object }) loadingStatus = LoadingStatus.notStarted;
-  @property({ type: Boolean }) updateInfoStatus = LoadingStatus.success;
-  @property() avatarURL = '';
+  @state() fid = '';
+  @state() forumName = '';
+  @state() loadingStatus = LoadingStatus.notStarted;
+  @state() updateInfoStatus = LoadingStatus.success;
+  @state() avatarURL = '';
+
+  @state() private descEditorImpl?: CoreEditorImpl;
+  @state() private initialDescContent?: string;
 
   get descEditorView(): CoreEditor | null {
     return this.getShadowElement(editorElementID);
@@ -86,9 +91,18 @@ export class ForumGeneralSettingsApp extends BaseElement {
         <label class="app-form-label m-t-md" for=${editorElementID}
           >${globalThis.coreLS.description}</label
         >
-        <core-editor class="m-t-md" id=${editorElementID}></core-editor>
+        <core-editor
+          class="m-t-md"
+          id=${editorElementID}
+          .initialContent=${this.initialDescContent}
+          .editorMode=${appPageState.inputType}
+          @core-editor-ready=${this.handleDescEditorReady}></core-editor>
 
-        <qing-button class="m-t-md" btnStyle="success" @click=${this.handleSaveInfoClick}>
+        <qing-button
+          class="m-t-md"
+          btnStyle="success"
+          @click=${this.handleSaveInfoClick}
+          ?disabled=${!this.descEditorImpl}>
           ${globalThis.coreLS.save}
         </qing-button>
       </status-overlay>
@@ -101,18 +115,18 @@ export class ForumGeneralSettingsApp extends BaseElement {
     if (status.data) {
       const info = status.data;
       this.forumName = info.name ?? '';
-
-      const descEditorImpl = this.descEditorView?.unsafeImplEl;
-      if (this.descEditorView && descEditorImpl) {
-        this.descEditorView.resetRenderedContent(descEditorImpl, info.descHTML ?? '');
-      }
+      this.initialDescContent = info.descHTML ?? '';
     }
+  }
+
+  private handleDescEditorReady(e: CustomEvent<CoreEditorImpl>) {
+    this.descEditorImpl = e.detail;
   }
 
   private async handleSaveInfoClick() {
     CHECK(this.descEditorView);
-    const descEditorImpl = this.descEditorView.unsafeImplEl;
-    CHECK(descEditorImpl);
+    // Save button should be disabled when the editor is not ready.
+    CHECK(this.descEditorImpl);
 
     // Validate user inputs.
     try {
@@ -124,12 +138,13 @@ export class ForumGeneralSettingsApp extends BaseElement {
       await appAlert.error(err.message);
       return;
     }
-    const descContent = this.descEditorView.getContent(descEditorImpl, { summary: false });
+    const descContent = this.descEditorView.getContent(this.descEditorImpl);
+    const descRenderedContent = renderCoreEditorContent(descContent);
     const loader = new SetForumEditingInfoLoader(
       this.fid,
       this.forumName,
-      descContent.html,
-      descContent.src,
+      descRenderedContent.html,
+      descRenderedContent.src,
     );
     await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;

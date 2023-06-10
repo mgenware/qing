@@ -7,9 +7,9 @@
 
 import Loader from 'lib/loader.js';
 import * as profileRoute from '@qing/routes/s/pri/profile.js';
-import { UserEditingResult } from 'da/types.js';
+import { GetProfileInfo } from 'sod/i.js';
 
-export class GetProfileInfoLoader extends Loader<UserEditingResult> {
+export class GetProfileInfoLoader extends Loader<GetProfileInfo> {
   override requestURL(): string {
     return profileRoute.info;
   }

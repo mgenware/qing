@@ -29,8 +29,8 @@ test('Navbar - User', async ({ page }) => {
 
   await nbm.userDropdownBtn(p).click();
   await userMenu.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).e.toBeVisible();
-  await userMenu.$a({ href: '/m/your-posts', text: 'Your posts' }).e.toBeVisible();
-  await userMenu.$a({ href: '/m/settings/profile', text: 'Settings' }).e.toBeVisible();
+  await userMenu.$a({ href: '/i/your-posts', text: 'Your posts' }).e.toBeVisible();
+  await userMenu.$a({ href: '/i/settings/profile', text: 'Settings' }).e.toBeVisible();
   // Non-link items like "New post" are tested in their own test files.
 });
 

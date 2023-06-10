@@ -15,18 +15,12 @@ import (
 	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
+	"qing/sod/iSod"
 )
 
-type infoData struct {
-	da.DBUserForEditing
-
-	IconURL string `json:"iconURL"`
-}
-
-func newInfoData(u *da.DBUserForEditing) infoData {
-	d := infoData{DBUserForEditing: *u}
-	d.IconURL = appURL.Get().UserIconURL250(u.ID, u.IconName)
-	return d
+func createProfileInfo(u *da.DBUserForEditing) iSod.GetProfileInfo {
+	iconURL := appURL.Get().UserIconURL250(u.ID, u.IconName)
+	return iSod.NewGetProfileInfo(u, iconURL)
 }
 
 func info(w http.ResponseWriter, r *http.Request) handler.JSON {
@@ -36,6 +30,6 @@ func info(w http.ResponseWriter, r *http.Request) handler.JSON {
 	dbInfo, err := da.User.SelectEditingData(appDB.DB(), uid)
 	appcm.PanicOn(err)
 
-	data := newInfoData(&dbInfo)
+	data := createProfileInfo(&dbInfo)
 	return resp.MustComplete(data)
 }

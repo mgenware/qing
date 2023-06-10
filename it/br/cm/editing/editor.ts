@@ -7,25 +7,32 @@
 
 import { Element, expect } from 'br.js';
 
-const editorSel = 'core-editor';
-
 type CoreEditorImpl = unknown;
+
+export enum CoreEditorContentType {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  html,
+  md,
+}
+
+export interface CoreEditorContent {
+  data: string | undefined;
+  type: CoreEditorContentType;
+}
 
 interface CoreEditorElement extends HTMLElement {
   wait(): Promise<CoreEditorImpl>;
-  getRenderedContent(editorEl: CoreEditorImpl): string;
-  resetRenderedContent(editorEl: CoreEditorImpl, content: string): void;
+  getContent(editorEl: CoreEditorImpl): CoreEditorContent;
+  resetContent(editorEl: CoreEditorImpl, content: string): void;
 }
 
 export async function shouldHaveContent(el: Element, content: string) {
-  const actContent = await el
-    .$(editorSel)
-    .c.evaluate(async (editor: CoreEditorElement) =>
-      editor.getRenderedContent(await editor.wait()),
-    );
+  const actContent = await el.c.evaluate(
+    async (editor: CoreEditorElement) => editor.getContent(await editor.wait()).data,
+  );
   expect(actContent).toBe(content);
 }
 
 export async function fill(el: Element, text: string) {
-  await el.$(`${editorSel} div[contenteditable=true]`).c.fill(text);
+  await el.$('div[contenteditable=true]').c.fill(text);
 }

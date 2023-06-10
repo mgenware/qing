@@ -43,7 +43,7 @@ test('Settings - Lang - Click-through from settings', async ({ page }) => {
 
   // Lang menu item gets highlighted.
   await rootEl
-    .$hasText('link-button[class="link-active"][href="/m/settings/lang"]', 'Language')
+    .$hasText('link-button[class="link-active"][href="/i/settings/lang"]', 'Language')
     .e.toBeVisible();
 
   // Langs.

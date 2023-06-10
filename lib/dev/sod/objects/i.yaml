@@ -1,0 +1,5 @@
+---
+GetProfileInfo:
+  __extends: :da.DBUserForEditing
+
+  iconURL: string!

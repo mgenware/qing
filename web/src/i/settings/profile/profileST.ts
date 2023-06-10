@@ -23,6 +23,7 @@ import appAlert from 'app/appAlert.js';
 import 'ui/editing/coreEditor.js';
 import CoreEditor, { CoreEditorImpl } from 'ui/editing/coreEditor.js';
 import strf from 'bowhead-js';
+import { renderCoreEditorContent } from 'ui/editing/coreEditorUtil.js';
 
 const bioEditorID = 'bio-editor';
 
@@ -57,7 +58,7 @@ export class ProfileST extends StatefulPage {
   @state() private company = '';
   @state() private location = '';
   @state() private updateInfoStatus = LoadingStatus.success;
-  @state() private avatarURL = '';
+  @state() private iconURL = '';
 
   @state() private bioEditorImpl?: CoreEditorImpl;
   @state() private initialBioContent?: string;
@@ -70,7 +71,7 @@ export class ProfileST extends StatefulPage {
     return html`
       <heading-view>${globalThis.coreLS.profilePicture}</heading-view>
       <p>
-        <img src=${this.avatarURL} width="250" height="250" class="avatar-l profile-img" />
+        <img src=${this.iconURL} width="250" height="250" class="avatar-l profile-img" />
       </p>
       <div class="m-t-md">
         <avatar-uploader @avatar-upload=${this.handleAvatarUploaded}></avatar-uploader>
@@ -102,6 +103,8 @@ export class ProfileST extends StatefulPage {
         <core-editor
           id=${bioEditorID}
           class="bio-editor"
+          .initialContent=${this.initialBioContent}
+          .editorMode=${appPageState.inputType}
           @core-editor-ready=${this.handleBioEditorReady}></core-editor>
 
         <qing-button
@@ -123,7 +126,7 @@ export class ProfileST extends StatefulPage {
       this.url = profile.website ?? '';
       this.company = profile.company ?? '';
       this.location = profile.location ?? '';
-      this.avatarURL = profile.iconURL ?? '';
+      this.iconURL = profile.iconURL;
       this.initialBioContent = profile.bioHTML;
     }
   }
@@ -148,16 +151,15 @@ export class ProfileST extends StatefulPage {
       return;
     }
 
-    const bioContent = this.bioEditorEl.getContent(await this.bioEditorEl.wait(), {
-      summary: false,
-    });
+    const bioContent = this.bioEditorEl.getContent(this.bioEditorImpl);
+    const bioRenderedContent = renderCoreEditorContent(bioContent);
     const loader = new SetProfileInfoLoader(
       this.userName,
       this.url,
       this.company,
       this.location,
-      bioContent.html,
-      bioContent.src,
+      bioRenderedContent.html,
+      bioRenderedContent.src,
     );
     const status = await appTask.critical(loader, globalThis.coreLS.saving, (s) => {
       this.updateInfoStatus = s;
@@ -172,7 +174,7 @@ export class ProfileST extends StatefulPage {
 
   private handleAvatarUploaded(e: CustomEvent<AvatarUploadResponse>) {
     const resp = e.detail;
-    this.avatarURL = resp.iconL || '';
+    this.iconURL = resp.iconL || '';
 
     // Update user data.
     appPageState.updateUser({ iconURL: resp.iconL || '' });

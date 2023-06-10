@@ -6,6 +6,7 @@
  */
 
 import MarkdownIt from 'markdown-it';
+import { CoreEditorContent, CoreEditorContentType } from './coreEditor.js';
 
 const commonmark = new MarkdownIt('commonmark');
 
@@ -18,4 +19,27 @@ export function htmlToSummary(html: string, length: number): string {
 
 export function mdToHTML(md: string): string {
   return commonmark.render(md);
+}
+
+export interface RenderCoreEditorContentResult {
+  html: string;
+  src?: string;
+}
+
+export function renderCoreEditorContent(content: CoreEditorContent): RenderCoreEditorContentResult {
+  switch (content.type) {
+    case CoreEditorContentType.html:
+      return {
+        html: content.data ?? '',
+      };
+
+    case CoreEditorContentType.md:
+      return {
+        src: content.data,
+        html: mdToHTML(content.data ?? ''),
+      };
+
+    default:
+      throw new Error('Invalid content type');
+  }
 }

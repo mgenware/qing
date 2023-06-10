@@ -52,7 +52,6 @@ export class ComposerView extends BaseElement {
           flex-direction: column;
           flex: 1 1 auto;
           word-break: break-all;
-          min-height: 300px;
         }
 
         .editor-buttons qing-button {
@@ -127,7 +126,7 @@ export class ComposerView extends BaseElement {
     this.lastSavedContent = '';
     this.lastSavedTitle = '';
     this.setTitleText('');
-    this.editorEl.resetRenderedContent(impl, '');
+    this.editorEl.resetContent(impl, '');
   }
 
   override connectedCallback() {
@@ -341,7 +340,7 @@ export class ComposerView extends BaseElement {
       if (this.titleInputEl) {
         this.titleInputEl.value = postData.title ?? '';
       }
-      this.editorEl.resetRenderedContent(impl, postData.contentSrc ?? postData.contentHTML ?? '');
+      this.editorEl.resetContent(impl, postData.contentSrc ?? postData.contentHTML ?? '');
       this.markAsSaved(impl);
     }
   }

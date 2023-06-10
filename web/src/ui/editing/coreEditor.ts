@@ -46,6 +46,11 @@ export default class CoreEditor extends BaseElement {
           display: grid;
           place-items: center;
         }
+
+        kx-editor-view,
+        md-editor {
+          min-height: 300px;
+        }
       `,
     ];
   }
