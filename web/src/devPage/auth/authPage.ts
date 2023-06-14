@@ -20,8 +20,8 @@ enum UserIDType {
 }
 
 const userIDTypeChecklist: CheckListItem[] = [
-  { key: UserIDType.raw.toString(), text: 'Raw' },
-  { key: UserIDType.encoded.toString(), text: 'Encoded' },
+  { key: UserIDType.raw, text: 'Raw' },
+  { key: UserIDType.encoded, text: 'Encoded' },
 ];
 
 @customElement('auth-page')
@@ -72,6 +72,7 @@ export class AuthDevPage extends BaseElement {
         <input-view
           required
           label="UID"
+          class="m-t-md"
           value=${this.uidStr}
           @input-change=${(e: CustomEvent<string>) => (this.uidStr = e.detail)}>
         </input-view>

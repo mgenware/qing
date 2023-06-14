@@ -138,11 +138,6 @@ export class CheckList extends BaseElement {
         :host {
           display: block;
         }
-
-        .root {
-          border: 1px solid var(--app-default-separator-color);
-          border-radius: var(--app-surface-radius-sm);
-        }
       `,
     ];
   }
