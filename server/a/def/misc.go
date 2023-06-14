@@ -43,8 +43,8 @@ const (
 	MSRegEmailPrefix = "reg-email"
 
 	// Limit posting rate per second.
-	MSRateLimitPostCorePerSec                     = "rl-pc:%v"
-	MSRateLimitPostCorePerSecExpiry time.Duration = 1 * time.Second
+	MSRateLimitPostCorePerSecKey = "rl-pc:%v"
+	MSRateLimitSignUpPerMinKey   = "rl-su:%v"
 )
 
 const (

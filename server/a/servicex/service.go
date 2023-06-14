@@ -40,7 +40,7 @@ func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn core
 	s.Mail = mailx.NewMailService(cc)
 	s.Noti = notix.NewNotiService(s.Mail)
 
-	lmt, err := ratelmt.NewRateLmt(msConn)
+	lmt, err := ratelmt.NewRateLmt(cc, msConn)
 	appcm.PanicOn(err)
 	s.RateLmt = lmt
 	return s

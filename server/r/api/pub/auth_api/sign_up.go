@@ -57,9 +57,17 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 
 func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
+
+	// ----- Do rate limiting first -----
+	ok, err := appService.Get().RateLmt.RequestSignUp(r)
+	appcm.PanicOn(err)
+	if !ok {
+		return resp.MustFail(resp.LS().RateLimitExceededErr)
+	}
+	// ----- End of rate limiting -----
+
 	params := resp.Params()
 	ac := appConfig.Get(r)
-
 	name := clib.MustGetStringFromDict(params, "name", appDef.LenMaxName)
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxEmail)
 	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", appDef.LenMinUserPwd, appDef.LenMaxUserPwd)

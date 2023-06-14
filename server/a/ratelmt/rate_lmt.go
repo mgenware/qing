@@ -10,8 +10,10 @@ package ratelmt
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"qing/a/appEnv"
 	"qing/a/appMS"
+	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/def"
 	"strconv"
@@ -22,9 +24,11 @@ import (
 type RateLmt struct {
 	postCoreMain *redis_rate.Limiter
 	postCoreCold *redis_rate.Limiter
+
+	realIPHeader string
 }
 
-func NewRateLmt(conn coretype.CoreMemoryStoreConn) (*RateLmt, error) {
+func NewRateLmt(cfg *cfgx.CoreConfig, conn coretype.CoreMemoryStoreConn) (*RateLmt, error) {
 	appMSConn, ok := conn.(*appMS.AppMSConn)
 	if !ok {
 		return nil, fmt.Errorf("invalid conn type")
@@ -33,21 +37,58 @@ func NewRateLmt(conn coretype.CoreMemoryStoreConn) (*RateLmt, error) {
 	rdb := appMSConn.RDB()
 	pcMain := redis_rate.NewLimiter(rdb)
 	pcCold := redis_rate.NewLimiter(rdb)
-	return &RateLmt{postCoreMain: pcMain, postCoreCold: pcCold}, nil
+
+	c := cfg.Security.RateLimit
+
+	var realIPHeader string
+	if c != nil {
+		if c.RealIPHeader != "" {
+			realIPHeader = http.CanonicalHeaderKey(c.RealIPHeader)
+		}
+	}
+
+	return &RateLmt{
+		postCoreMain: pcMain,
+		postCoreCold: pcCold,
+		realIPHeader: realIPHeader,
+	}, nil
 }
 
 func (lmt *RateLmt) RequestPostCore(uid uint64) (bool, error) {
-	// Disable rate limit for BR.
 	if appEnv.IsBR() {
 		return true, nil
 	}
 
 	uidStr := strconv.FormatUint(uid, 10)
 
-	msKey := fmt.Sprintf(def.MSRateLimitPostCorePerSec, uidStr)
+	msKey := fmt.Sprintf(def.MSRateLimitPostCorePerSecKey, uidStr)
 
 	ctx := context.Background()
 	res, err := lmt.postCoreMain.Allow(ctx, msKey, redis_rate.PerSecond(1))
+	if err != nil {
+		return false, err
+	}
+	return res.Allowed > 0, nil
+}
+
+func (lmt *RateLmt) RequestSignUp(r *http.Request) (bool, error) {
+	if appEnv.IsBR() {
+		return true, nil
+	}
+
+	if lmt.realIPHeader == "" {
+		return true, nil
+	}
+
+	ip := r.Header.Get(lmt.realIPHeader)
+	if ip == "" {
+		return true, nil
+	}
+
+	msKey := fmt.Sprintf(def.MSRateLimitSignUpPerMinKey, ip)
+
+	ctx := context.Background()
+	res, err := lmt.postCoreMain.Allow(ctx, msKey, redis_rate.PerMinute(10))
 	if err != nil {
 		return false, err
 	}
