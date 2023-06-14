@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t.js';
-import './checklistView';
+import './checkmarkView';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<checklist-view></checklist-view>`);
+  const el = await fixture<HTMLElement>(html`<check-item></check-item>`);
 
   tDOM.isBlockElement(el);
 });

@@ -159,10 +159,6 @@ export class Element extends LocatorCore {
     return this.$(`${sel}:has-text(${JSON.stringify(text)})`);
   }
 
-  $checkBox(e: { text: string; radio?: boolean }) {
-    return this.$hasText('check-box' + (e.radio ? '[radio]' : ''), e.text);
-  }
-
   $img(e: { size: number; alt: string; src: string; title?: string }) {
     const sel = `img[width="${e.size}"][height="${e.size}"][alt=${JSON.stringify(
       e.alt,

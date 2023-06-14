@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'ui/forms/inputView';
-import 'ui/forms/checklistView';
 import 'qing-button';
 import * as loaders from './loaders.js';
 import appTask from 'app/appTask.js';

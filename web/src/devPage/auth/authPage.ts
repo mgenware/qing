@@ -7,19 +7,19 @@
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'ui/forms/inputView';
-import 'ui/forms/checklistView';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import 'qing-button';
 import * as loaders from './loaders.js';
 import appTask from 'app/appTask.js';
-import { ChecklistChangeArgs, ChecklistItem } from 'ui/forms/checklistView.js';
+import 'ui/forms/checkList.js';
+import { CheckListChangeArgs, CheckListItem } from 'ui/forms/checkList.js';
 
 enum UserIDType {
   raw,
   encoded,
 }
 
-const userIDTypeChecklist: ChecklistItem[] = [
+const userIDTypeChecklist: CheckListItem[] = [
   { key: UserIDType.raw.toString(), text: 'Raw' },
   { key: UserIDType.encoded.toString(), text: 'Encoded' },
 ];
@@ -64,13 +64,11 @@ export class AuthDevPage extends BaseElement {
   private renderAuthSection() {
     return html`
       <div class="br-user">
-        <p>
-          <checklist-view
-            class="m-t-md"
-            @checklist-change=${this.handleUIDTypeChange}
-            .selectedItems=${[this.uidTypeSelection]}
-            .items=${userIDTypeChecklist}></checklist-view>
-        </p>
+        <check-list
+          class="m-t-md"
+          @checklist-change=${this.handleUIDTypeChange}
+          .selectedItems=${[this.uidTypeSelection]}
+          .items=${userIDTypeChecklist}></check-list>
         <input-view
           required
           label="UID"
@@ -89,8 +87,8 @@ export class AuthDevPage extends BaseElement {
     `;
   }
 
-  private handleUIDTypeChange(e: CustomEvent<ChecklistChangeArgs>) {
-    this.uidTypeSelection = e.detail.getSelectedItem();
+  private handleUIDTypeChange(e: CustomEvent<CheckListChangeArgs>) {
+    this.uidTypeSelection = e.detail.selectedItem();
   }
 
   private async handleSignIn() {

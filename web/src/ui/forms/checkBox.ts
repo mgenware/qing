@@ -8,7 +8,8 @@
 import { BaseElement, customElement, html, css, property } from 'll.js';
 
 @customElement('check-box')
-// Deprecated, use checkmark-view.
+// Deprecated, use check-item.
+// This is now only used in navbar-app.
 export class CheckBox extends BaseElement {
   static override get styles() {
     return [

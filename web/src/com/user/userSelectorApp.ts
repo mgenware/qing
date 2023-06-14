@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, when, property } from 'll.js';
 import 'ui/forms/inputView';
-import 'ui/forms/checklistView';
 import 'ui/alerts/noticeView.js';
 import UserInfo from './userInfo.js';
 import 'ui/status/statusOverlay';
@@ -103,9 +102,9 @@ export class UserSelectorApp extends BaseElement {
               >✖</qing-button
             ><user-card class="m-l-md" .user=${selectedUser}></user-card>
           </div>`
-        : html`<checklist-view
+        : html`<check-list
               class="m-t-md"
-              @checklist-change=${this.handleByIDSelectionChange}></checklist-view>
+              @checklist-change=${this.handleByIDSelectionChange}></check-list>
             <input-view
               class="m-t-md"
               id=${inputViewID}

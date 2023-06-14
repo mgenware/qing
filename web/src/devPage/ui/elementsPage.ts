@@ -15,9 +15,7 @@ import 'ui/status/spinnerView.js';
 import 'ui/status/statusView.js';
 import 'ui/status/statusOverlay.js';
 import 'ui/forms/inputView.js';
-import 'ui/forms/checklistView.js';
 import 'ui/forms/selectView.js';
-import 'ui/forms/checkmarkView.js';
 import 'ui/lists/linkListView.js';
 import 'ui//editing/composerView.js';
 import 'ui/editing/coreEditor.js';
@@ -30,8 +28,7 @@ import { frozenDef } from '@qing/def';
 import appAlert from 'app/appAlert.js';
 import ErrorWithCode from 'lib/errorWithCode.js';
 import delay from 'lib/delay.js';
-import * as cu from 'lib/collectionUtil.js';
-import { ChecklistChangeArgs, ChecklistItem } from 'ui/forms/checklistView.js';
+import { CheckListChangeArgs, CheckListItem } from 'ui/forms/checkList.js';
 
 const workingStatus = LoadingStatus.working;
 const errorStatus = LoadingStatus.error(new ErrorWithCode('Example error', 1));
@@ -44,11 +41,11 @@ enum ChecklistKey {
   liu,
   zheng,
 }
-const checklistItems: ChecklistItem[] = [
-  { key: ChecklistKey.zhang.toString(), text: 'Zhang' },
-  { key: ChecklistKey.chen.toString(), text: 'Chen' },
-  { key: ChecklistKey.liu.toString(), text: 'Liu' },
-  { key: ChecklistKey.zheng.toString(), text: 'Zheng' },
+const checklistItems: CheckListItem[] = [
+  { key: ChecklistKey.zhang, text: 'Zhang' },
+  { key: ChecklistKey.chen, text: 'Chen' },
+  { key: ChecklistKey.liu, text: 'Liu' },
+  { key: ChecklistKey.zheng, text: 'Zheng' },
 ];
 
 @customElement('elements-page')
@@ -148,9 +145,9 @@ export class ElementsPage extends BaseElement {
     ];
   }
 
-  @state() _checklistSelectedItems1: readonly ChecklistKey[] = [];
+  @state() _checklistSelectedItems1: readonly ChecklistKey[] = [ChecklistKey.liu];
   @state() _checklistSelectedItems2?: ChecklistKey;
-  @state() _selectedCheckmarks = new Set<string>();
+  @state() _selectedCheckmarks = new Set<ChecklistKey>();
 
   override render() {
     return html`
@@ -258,36 +255,21 @@ export class ElementsPage extends BaseElement {
         </span>
       </div>
       <p><input-view required type="email" label="Email"></input-view></p>
-      <checklist-view
-        @checklist-change=${(e: CustomEvent<ChecklistChangeArgs>) =>
-          (this._checklistSelectedItems1 = e.detail.getSelectedItems())}
+      <h2>Checkbox list</h2>
+      <check-list
+        @checklist-change=${(e: CustomEvent<CheckListChangeArgs>) =>
+          (this._checklistSelectedItems1 = e.detail.selectedItems())}
         class="m-t-md"
         multiSelect
         .selectedItems=${this._checklistSelectedItems1}
-        .items=${checklistItems}></checklist-view>
-      <checklist-view
-        @checklist-change=${(e: CustomEvent<ChecklistChangeArgs>) =>
-          (this._checklistSelectedItems2 = e.detail.getSelectedItem())}
+        .items=${checklistItems}></check-list>
+      <h2>Radiobox list</h2>
+      <check-list
+        @checklist-change=${(e: CustomEvent<CheckListChangeArgs>) =>
+          (this._checklistSelectedItems2 = e.detail.selectedItem())}
         class="m-t-md"
         .selectedItems=${[this._checklistSelectedItems2]}
-        .items=${checklistItems}></checklist-view>
-      <div class="m-t-md">
-        <checkmark-list>
-          ${checklistItems.map(
-            (e) =>
-              html`<checkmark-view
-                .checked=${this._selectedCheckmarks.has(e.text)}
-                @click=${() =>
-                  (this._selectedCheckmarks = cu.toggleSetMember(
-                    this._selectedCheckmarks,
-                    e.text,
-                    true,
-                  ))}
-                >${e.text}</checkmark-view
-              >`,
-          )}
-        </checkmark-list>
-      </div>
+        .items=${checklistItems}></check-list>
       <p>
         <select-view .dataSource=${checklistItems}></select-view>
       </p>

@@ -6,7 +6,6 @@
  */
 
 import { customElement, html, css, when, state } from 'll.js';
-import 'ui/forms/checkBox.js';
 import 'ui/status/statusView.js';
 import 'ui/content/headingView.js';
 import 'ui/content/subheadingView.js';
@@ -19,12 +18,12 @@ import { frozenDef } from '@qing/def';
 import { GetGenSiteSTLoader } from '../loaders/getSiteSTLoader.js';
 import { SetSiteInfoSTLoader, SetPostPermSTLoader } from 'admin/loaders/setSiteSTLoader.js';
 import { CHECK } from 'checks.js';
-import { ChecklistChangeArgs, ChecklistItem } from 'ui/forms/checklistView.js';
+import { CheckListChangeArgs, CheckListItem } from 'ui/forms/checkList.js';
 
 const infoBlockCls = 'info-block';
 const siteTypeBlockCls = 'site-type-block';
 
-const postPermChecklist: ChecklistItem[] = [
+const postPermChecklist: CheckListItem[] = [
   { key: frozenDef.PostPermissionConfig.onlyMe, text: globalThis.mxLS.roleOnlyMe },
   { key: frozenDef.PostPermissionConfig.everyone, text: globalThis.mxLS.roleEveryone },
 ];
@@ -77,11 +76,11 @@ export class SiteGeneralST extends StatefulPage {
 
       <div class=${`${siteTypeBlockCls} m-t-lg`}>
         <subheading-view>${globalThis.mxLS.whoCanWritePosts}</subheading-view>
-        <checklist-view
+        <check-list
           .items=${postPermChecklist}
           .selectedItems=${[this._postPerm]}
-          @checklist-change=${(e: CustomEvent<ChecklistChangeArgs>) =>
-            (this._postPerm = e.detail.getSelectedItem())}></checklist-view>
+          @checklist-change=${(e: CustomEvent<CheckListChangeArgs>) =>
+            (this._postPerm = e.detail.selectedItem())}></check-list>
         <div class="m-t-md">
           <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
             ${globalThis.mxLS.save}

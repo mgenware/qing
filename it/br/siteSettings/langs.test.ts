@@ -25,7 +25,7 @@ test('Site settings - Languages', async ({ page }) => {
     .$hasText('link-button[class="link-active"][href="/mx/languages"]', 'Languages')
     .e.toBeVisible();
 
-  const checkmarks = rootEl.$$('checkmark-view');
+  const checkmarks = rootEl.$$('check-item');
 
   await checkCheckmarkView(checkmarks.item(0), true, 'English (English)');
   await checkCheckmarkView(checkmarks.item(1), true, 'Simplified Chinese (简体中文)');

@@ -6,11 +6,10 @@
  */
 
 import { customElement, html, css, when, state } from 'll.js';
-import 'ui/forms/checkBox';
 import 'ui/status/statusView';
 import 'ui/content/headingView.js';
 import 'ui/content/subheadingView.js';
-import 'ui/forms/checkmarkView.js';
+import 'ui/forms/checkList.js';
 import 'ui/status/statefulPage.js';
 import '../cm/needRestartView';
 import { StatefulPage } from 'ui/status/statefulPage.js';
@@ -43,16 +42,16 @@ export class SiteLangST extends StatefulPage {
       ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
       <div>
         <subheading-view>${globalThis.mxLS.supportedLangs}</subheading-view>
-        <checkmark-list>
+        <check-list>
           ${this._supportedLangs.map(
-            (lang) => html`<checkmark-view
+            (lang) => html`<check-item
               .checked=${this._selectedLangs.has(lang.id)}
               @click=${() =>
                 (this._selectedLangs = cu.toggleSetMember(this._selectedLangs, lang.id, true))}
-              >${lang.name}</checkmark-view
+              >${lang.name}</check-item
             >`,
           )}
-        </checkmark-list>
+        </check-list>
         <div class="m-t-md">
           <qing-button btnStyle="success" @click=${this.handleSaveClick}>
             ${globalThis.coreLS.save}
