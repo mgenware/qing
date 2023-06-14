@@ -26,6 +26,10 @@ interface CoreEditorElement extends HTMLElement {
   resetContent(editorEl: CoreEditorImpl, content: string): void;
 }
 
+export function editorEl(el: Element) {
+  return el.$('core-editor');
+}
+
 export async function shouldHaveContent(el: Element, content: string) {
   const actContent = await el.c.evaluate(
     async (editor: CoreEditorElement) => editor.getContent(await editor.wait()).data,

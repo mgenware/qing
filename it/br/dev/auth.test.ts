@@ -12,7 +12,7 @@ import { authRoot } from '@qing/routes/dev/auth.js';
 async function clickSignInButton(p: Page, s: string, eid: boolean) {
   const el = p.$('.br-user');
   if (eid) {
-    await el.$checkBox({ text: 'Encoded', radio: true }).click();
+    await el.$checkItem('Encoded').click();
   }
   await el.$('input-view[label="UID"] input').c.fill(s);
   await el.$qingButton('Sign in').click();

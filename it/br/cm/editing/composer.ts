@@ -69,7 +69,7 @@ export async function shouldAppear(overlayEl: br.Element, a: ComposerShouldAppea
     }
   }
   if (a.contentHTML !== undefined) {
-    await ed.shouldHaveContent(el, a.contentHTML);
+    await ed.shouldHaveContent(ed.editorEl(el), a.contentHTML);
   }
 }
 

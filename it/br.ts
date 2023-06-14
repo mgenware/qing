@@ -178,6 +178,10 @@ export class Element extends LocatorCore {
     return this.$(`input-view[label=${JSON.stringify(label)}]`);
   }
 
+  $checkItem(text: string) {
+    return this.$hasText('check-item', text);
+  }
+
   fillInput(value: string) {
     return this.$('input').c.fill(value);
   }
