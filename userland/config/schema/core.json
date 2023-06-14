@@ -40,7 +40,7 @@
       },
       "required": ["url", "name", "langs"]
     },
-    "hashing_config": {
+    "security_hashing_config": {
       "type": "object",
       "properties": {
         "memory": { "type": "number" },
@@ -50,6 +50,12 @@
         "key_length": { "type": "number" }
       },
       "required": ["memory", "iterations", "parallelism", "salt_length", "key_length"]
+    },
+    "security_rate_limit_config": {
+      "type": "object",
+      "properties": {
+        "real_ip_header": { "type": "number" }
+      }
     },
     "logging_config": {
       "type": "object",
@@ -61,7 +67,8 @@
     "security_config": {
       "type": "object",
       "properties": {
-        "hashing": { "$ref": "#/definitions/hashing_config" }
+        "hashing": { "$ref": "#/definitions/security_hashing_config" },
+        "rate_limit": { "$ref": "#/definitions/security_rate_limit_config" }
       },
       "required": ["hashing"]
     },

@@ -15,6 +15,11 @@ type HashingConfig struct {
 	KeyLength   uint32 `json:"key_length"`
 }
 
+type RateLimitConfig struct {
+	RealIPHeader string `json:"real_ip_header,omitempty"`
+}
+
 type SecurityConfig struct {
-	Hashing HashingConfig `json:"hashing,omitempty"`
+	Hashing   *HashingConfig   `json:"hashing,omitempty"`
+	RateLimit *RateLimitConfig `json:"rate_limit,omitempty"`
 }
