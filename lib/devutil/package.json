@@ -16,6 +16,6 @@
     "dist/**/*.map"
   ],
   "dependencies": {
-    "@pnpm/find-workspace-dir": "^6.0.1"
+    "@pnpm/find-workspace-dir": "^6.0.2"
   }
 }

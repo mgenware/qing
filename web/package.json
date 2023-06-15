@@ -14,7 +14,7 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.12.0",
+    "@codemirror/view": "^6.13.2",
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.8",
     "@qing/def": "workspace:*",
@@ -32,17 +32,17 @@
     "qing-css-base": "^1.4.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
-    "tslib": "^2.5.2"
+    "tslib": "^2.5.3"
   },
   "devDependencies": {
-    "@open-wc/testing": "^3.1.8",
+    "@open-wc/testing": "^3.2.0",
     "@types/js-cookie": "^3.0.3",
     "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
     "@web/test-runner": "^0.16.1",
-    "@web/test-runner-playwright": "^0.10.0",
-    "esbuild-plugin-minify-html-literals": "^1.0.4",
-    "html-validate": "7.18.0",
+    "@web/test-runner-playwright": "^0.10.1",
+    "esbuild-plugin-minify-html-literals": "^1.0.5",
+    "html-validate": "8.0.5",
     "lit-analyzer": "2.0.0-pre.2"
   }
 }
