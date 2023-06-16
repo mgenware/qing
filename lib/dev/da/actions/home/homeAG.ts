@@ -30,7 +30,7 @@ export class HomeAG extends mm.ActionGroup {
 
     this.selectPostsBR = mm.selectRows(...this.cols()).from(post).where`${
       post.title
-    } LIKE ${mm.param(mm.varChar(appDef.lenMaxTitle), 'brPrefix')}`
+    } LIKE ${mm.param(mm.varChar(appDef.lenMaxTitle), 'brTitlePattern')}`
       .pageMode()
       .orderByDesc(post.created_at)
       .resultTypeNameAttr(homePostItemType);

@@ -60,14 +60,14 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func deletePostsByPrefix(w http.ResponseWriter, r *http.Request) handler.JSON {
+func deletePostsByPattern(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	var err error
 
-	prefix := clib.MustGetStringFromDict(params, "prefix", appDef.LenMaxName)
+	pattern := clib.MustGetStringFromDict(params, "pattern", appDef.LenMaxName)
 	db := appDB.DB()
-	_, err = da.Post.BrDeleteByPrefix(db, prefix)
+	_, err = da.Post.BrDeleteByPattern(db, pattern)
 	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

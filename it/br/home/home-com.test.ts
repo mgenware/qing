@@ -6,47 +6,52 @@
  */
 
 import { test, $, usr } from 'br.js';
-import { newPost } from 'helper/post.js';
+import { batchNewPosts, newPost, postLinkFromID, deletePostsByPrefix } from 'helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'br/cm/content/pageBar.js';
+import { appDef } from '@qing/def';
 
-const homeItemSel = 'main .section > div > .avatar-grid';
+const homeItemSel = '.fi-item';
 const page2URL = '/?page=2';
 
-test('Home page (com) - One page - Multiple users', async ({ page }) => {
+test('Home page - com - One page', async ({ page }) => {
   const p = $(page);
+  const postPrefix = '__br_home_com_one_page';
 
-  await newPost(
-    usr.user,
-    async ({ link: link1 }) => {
-      await newPost(
-        usr.user2,
-        async ({ link: link2 }) => {
-          await p.goto('/', null);
-          await pb.shouldNotExist(p.body);
+  try {
+    const ids = await batchNewPosts({
+      user: usr.user,
+      count: 2,
+      title: '_TITLE_',
+      content: '_HTML_',
+      summary: '_SUMMARY_',
+      prefix: postPrefix,
+    });
 
-          const items = p.$$(homeItemSel);
-          await items.shouldHaveCount(2);
+    await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${postPrefix}%` } });
+    await pb.shouldNotExist(p.body);
 
-          await cm.checkHomeItem(items.item(0), {
-            user: usr.user,
-            title: `${cm.homePostBRPrefix}post1`,
-            link: link1,
-          });
-          await cm.checkHomeItem(items.item(1), {
-            user: usr.user2,
-            title: `${cm.homePostBRPrefix}post2`,
-            link: link2,
-          });
-        },
-        { body: { title: `${cm.homePostBRPrefix}post2`, html: '_', summary: '_' } },
-      );
-    },
-    { body: { title: `${cm.homePostBRPrefix}post1`, html: '_', summary: '_' } },
-  );
+    const items = p.$$(homeItemSel);
+    await items.shouldHaveCount(2);
+
+    await cm.checkHomeItem(items.item(0), {
+      user: usr.user,
+      title: `${cm.homePostBRPrefix}post1`,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      link: postLinkFromID(ids[0]!),
+    });
+    await cm.checkHomeItem(items.item(1), {
+      user: usr.user2,
+      title: `${cm.homePostBRPrefix}post2`,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      link: postLinkFromID(ids[0]!),
+    });
+  } finally {
+    await deletePostsByPrefix(postPrefix);
+  }
 });
 
-test('Home page (com) - 2 pages', async ({ page }) => {
+test('Home page - com - 2 pages', async ({ page }) => {
   const p = $(page);
 
   await newPost(

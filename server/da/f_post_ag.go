@@ -27,8 +27,8 @@ var FPost = &FPostAGType{}
 
 // ------------ Actions ------------
 
-func (mrTable *FPostAGType) BrDeleteByPrefix(mrQueryable mingru.Queryable, title string) (int, error) {
-	result, err := mrQueryable.Exec("DELETE FROM `f_post` WHERE `title` LIKE ?", title)
+func (mrTable *FPostAGType) BrDeleteByPattern(mrQueryable mingru.Queryable, pattern string) (int, error) {
+	result, err := mrQueryable.Exec("DELETE FROM `f_post` WHERE `title` LIKE ?", pattern)
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
 

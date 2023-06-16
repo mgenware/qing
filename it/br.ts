@@ -193,6 +193,7 @@ export class Element extends LocatorCore {
 
 export interface PageGotoOptions {
   mobile?: boolean;
+  params?: Record<string, string>;
 }
 
 export class Page {
@@ -240,6 +241,10 @@ export class Page {
     }
     if (user) {
       await this.signIn(user);
+    }
+    if (opt?.params) {
+      // eslint-disable-next-line no-param-reassign
+      url += '?' + new URLSearchParams(opt.params).toString();
     }
     return this.c.goto(url);
   }

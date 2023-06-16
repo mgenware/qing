@@ -5,12 +5,17 @@
  * be found in the LICENSE file.
  */
 
-.feed-item-title {
+.fi-item {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.fi-title {
   font-size: 1.5rem;
   text-wrap: balance;
 }
 
-.feed-item-summary {
+.fi-summary {
   /** Summary is wrapped in <a>. Reset color to standard text color. */
   color: var(--app-default-fore-color);
   display: -webkit-box;

@@ -35,6 +35,6 @@ export async function updateEntityTime(id: string, type: number) {
   return api(apiCompose.setDebugTime, { id, type }, null);
 }
 
-export async function deletePostsByPrefix(prefix: string) {
-  return api(apiCompose.deletePostsByPrefix, { prefix }, null);
+export async function deletePostsByPattern(pattern: string) {
+  return api(apiCompose.deletePostsByPattern, { pattern }, null);
 }

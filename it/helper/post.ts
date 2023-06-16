@@ -9,6 +9,7 @@ import * as def from 'base/def.js';
 import { User } from 'api.js';
 import * as entityUtil from './entity.js';
 import { frozenDef } from '@qing/def';
+import { waitForDBTimeChange } from 'base/delay.js';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
@@ -55,7 +56,7 @@ async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
 }
 
 // Returns the link to the post.
-function postLink(id: string) {
+export function postLinkFromID(id: string) {
   return `/p/${id}`;
 }
 
@@ -68,7 +69,7 @@ export async function newPost(
   let id = null;
   try {
     id = await newTmpPostCore(user, opt);
-    await cb({ id, link: postLink(id) });
+    await cb({ id, link: postLinkFromID(id) });
   } finally {
     if (id) {
       await entityUtil.delEntity(id, frozenDef.ContentBaseType.post, user);
@@ -88,16 +89,23 @@ export interface BatchNewPostsOpt {
 // Returns the IDs of the new posts.
 export async function batchNewPosts(a: BatchNewPostsOpt): Promise<string[]> {
   const { prefix, user, title, content, count, summary } = a;
-  const posts: Promise<string>[] = [];
+  const ids: string[] = [];
   for (let i = 0; i < count; i++) {
-    const p = newTmpPostCore(user, {
+    // eslint-disable-next-line no-await-in-loop
+    const id = await newTmpPostCore(user, {
       body: {
         title: `${prefix}${title}_${i}`,
         html: content,
         summary,
       },
     });
-    posts.push(p);
+    // eslint-disable-next-line no-await-in-loop
+    await waitForDBTimeChange();
+    ids.push(id);
   }
-  return Promise.all(posts);
+  return ids;
+}
+
+export function deletePostsByPrefix(prefix: string) {
+  return entityUtil.deletePostsByPattern(`${prefix}%`);
 }

@@ -18,9 +18,11 @@ export abstract class PostAGBase<T extends Post> extends ContentWithTitleBaseAG<
     .set(this.baseTable().last_replied_at, mm.datetimeNow())
     .by(this.baseTable().id);
 
-  brDeleteByPrefix = mm
+  brDeleteByPattern = mm
     .deleteSome()
-    .whereSQL(mm.sql`${this.baseTable().title} LIKE ${mm.param(this.baseTable().title)}`);
+    .whereSQL(
+      mm.sql`${this.baseTable().title} LIKE ${mm.param(this.baseTable().title, 'pattern')}`,
+    );
 
   override contentName(): string {
     return 'Post';
