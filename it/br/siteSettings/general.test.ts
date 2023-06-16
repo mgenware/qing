@@ -54,7 +54,7 @@ test('Site settings - Site info - Update site name', async ({ page }) => {
 
   const siteEl = contentEl.$inputView('Site name');
   await siteEl.fillInput('__MOD__');
-  await contentEl.$qingButton('Save site information').click();
+  await contentEl.$qingButton('Save').click();
 
   // Verify UI changes.
   await ivh.shouldHaveValue(siteEl, '__MOD__');
@@ -70,7 +70,7 @@ test('Site settings - Site info - Update site URL', async ({ page }) => {
 
   const siteUrlEl = contentEl.$inputView('Site URL');
   await siteUrlEl.fillInput('__MOD__');
-  await contentEl.$qingButton('Save site information').click();
+  await contentEl.$qingButton('Save').click();
 
   // Verify UI changes.
   await ivh.shouldHaveValue(siteUrlEl, '__MOD__');

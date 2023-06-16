@@ -32,6 +32,9 @@ export function entitySrc(id: string, type: number, user: User) {
 }
 
 export async function updateEntityTime(id: string, type: number) {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return api(apiCompose.setDebugTime, { id, type }, null);
+}
+
+export async function deletePostsByPrefix(prefix: string) {
+  return api(apiCompose.deletePostsByPrefix, { prefix }, null);
 }

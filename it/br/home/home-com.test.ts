@@ -13,7 +13,7 @@ import * as pb from 'br/cm/content/pageBar.js';
 const homeItemSel = 'main .section > div > .avatar-grid';
 const page2URL = '/?page=2';
 
-test('Home page - One page - Multiple users', async ({ page }) => {
+test('Home page (com) - One page - Multiple users', async ({ page }) => {
   const p = $(page);
 
   await newPost(
@@ -46,7 +46,7 @@ test('Home page - One page - Multiple users', async ({ page }) => {
   );
 });
 
-test('Home page - 2 pages', async ({ page }) => {
+test('Home page (com) - 2 pages', async ({ page }) => {
   const p = $(page);
 
   await newPost(

@@ -28,6 +28,7 @@ const defaultComposerContent: ComposerContent = {
   summary: 'TEST_POST_SUMMARY',
 };
 
+// Verifies the result of the new post API.
 export function verifyNewPostAPIResult(r: string | null): string {
   if (!r) {
     throw new Error('Unexpected null ID');
@@ -43,6 +44,8 @@ export interface NewPostOptions {
   body?: ComposerContent;
 }
 
+// Creates a new post and returns the ID.
+// Called by newPost() and newTmpPost().
 async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
   const body = { content: opt?.body ?? defaultComposerContent };
   const r = await entityUtil.setEntity(frozenDef.ContentBaseType.post, body, user);
@@ -51,10 +54,12 @@ async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
   return id;
 }
 
+// Returns the link to the post.
 function postLink(id: string) {
   return `/p/${id}`;
 }
 
+// Creates a new post and deletes it after the callback is done.
 export async function newPost(
   user: User,
   cb: (arg: { id: string; link: string }) => Promise<unknown>,
@@ -69,4 +74,30 @@ export async function newPost(
       await entityUtil.delEntity(id, frozenDef.ContentBaseType.post, user);
     }
   }
+}
+
+export interface BatchNewPostsOpt {
+  prefix: string;
+  user: User;
+  title: string;
+  content: string;
+  count: number;
+  summary?: string;
+}
+
+// Returns the IDs of the new posts.
+export async function batchNewPosts(a: BatchNewPostsOpt): Promise<string[]> {
+  const { prefix, user, title, content, count, summary } = a;
+  const posts: Promise<string>[] = [];
+  for (let i = 0; i < count; i++) {
+    const p = newTmpPostCore(user, {
+      body: {
+        title: `${prefix}${title}_${i}`,
+        html: content,
+        summary,
+      },
+    });
+    posts.push(p);
+  }
+  return Promise.all(posts);
 }

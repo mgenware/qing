@@ -53,14 +53,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var hasNext bool
 	var err error
 	if appEnv.IsBR() {
-		var brPrefix string
-		postPerm := appCfg.Permissions.Post()
-		if postPerm == frozenDef.PostPermissionConfigOnlyMe {
-			brPrefix = appDef.BrHomePrefixOnlyMe
-		} else {
-			// frozenDef.PostPermissionConfigEveryone.
-			brPrefix = appDef.BrHomePrefixEveryone
-		}
+		brPrefix := r.FormValue(appDef.BrHomePrefixParam)
 		items, hasNext, err = da.Home.SelectPostsBR(db, brPrefix, page, kHomePageSize)
 	} else {
 		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)

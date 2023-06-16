@@ -27,6 +27,11 @@ var Post = &PostAGType{}
 
 // ------------ Actions ------------
 
+func (mrTable *PostAGType) BrDeleteByPrefix(mrQueryable mingru.Queryable, title string) (int, error) {
+	result, err := mrQueryable.Exec("DELETE FROM `post` WHERE `title` LIKE ?", title)
+	return mingru.GetRowsAffectedIntWithError(result, err)
+}
+
 func (mrTable *PostAGType) deleteItemChild1(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `post` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)

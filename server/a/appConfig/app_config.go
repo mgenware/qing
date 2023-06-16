@@ -52,8 +52,19 @@ func init() {
 
 func Get(r *http.Request) *cfgx.AppConfig {
 	if appEnv.IsBR() {
-		params := appcm.ContextDict(r.Context())
-		appCfgUpdateDict := jsonx.GetDictOrNil(params, appDef.AppConfigBrParam)
+		var appCfgUpdateDict map[string]any
+		if r.Method == http.MethodPost {
+			params := appcm.ContextDict(r.Context())
+			appCfgUpdateDict = jsonx.GetDictOrNil(params, appDef.AppConfigBrParam)
+		} else {
+			appCfgJson := r.FormValue(appDef.AppConfigBrParam)
+			if appCfgJson != "" {
+				err := json.Unmarshal([]byte(appCfgJson), &appCfgUpdateDict)
+				if err != nil {
+					panic(err)
+				}
+			}
+		}
 		if appCfgUpdateDict == nil {
 			return baseConfig
 		}

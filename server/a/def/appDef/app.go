@@ -56,8 +56,7 @@ const RouteDev = "__"
 const RouteAuth = "auth"
 const RoutePost = "p"
 const RouteUser = "u"
-const BrHomePrefixOnlyMe = "__br_home_onlyme"
-const BrHomePrefixEveryone = "__br_home_everyone"
+const BrHomePrefixParam = "brHomePrefixParam"
 
 type GetSiteSettings int
 

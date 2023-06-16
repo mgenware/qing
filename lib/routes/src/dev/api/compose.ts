@@ -10,3 +10,4 @@ import root from './root.js';
 const compose = `${root}/compose`;
 
 export const setDebugTime = `${compose}/set-debug-time`;
+export const deletePostsByPrefix = `${compose}/delete-posts-by-prefix`;

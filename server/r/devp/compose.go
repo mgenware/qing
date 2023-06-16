@@ -13,6 +13,7 @@ import (
 	"qing/a/appDB"
 	"qing/a/appHandler"
 	"qing/a/appcm"
+	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/da"
@@ -56,5 +57,17 @@ func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic(fmt.Errorf("unsupported entity type %v", entityType))
 	}
 
+	return resp.MustComplete(nil)
+}
+
+func deletePostsByPrefix(w http.ResponseWriter, r *http.Request) handler.JSON {
+	resp := appHandler.JSONResponse(w, r)
+	params := resp.Params()
+	var err error
+
+	prefix := clib.MustGetStringFromDict(params, "prefix", appDef.LenMaxName)
+	db := appDB.DB()
+	_, err = da.Post.BrDeleteByPrefix(db, prefix)
+	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }

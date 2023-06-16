@@ -43,8 +43,7 @@
   "routeAuth": "auth",
   "routePost": "p",
   "routeUser": "u",
-  "brHomePrefixOnlyMe": "__br_home_onlyme",
-  "brHomePrefixEveryone": "__br_home_everyone",
+  "brHomePrefixParam": "brHomePrefixParam",
   "__enums": {
     "getSiteSettings": { "values": ["general", "langs"] },
     "setSiteSettings": { "values": ["info", "langs", "postPermission"] }
