@@ -60,10 +60,15 @@ export function postLinkFromID(id: string) {
   return `/p/${id}`;
 }
 
+export interface NewPostResult {
+  id: string;
+  link: string;
+}
+
 // Creates a new post and deletes it after the callback is done.
 export async function newPost(
   user: User,
-  cb: (arg: { id: string; link: string }) => Promise<unknown>,
+  cb: (arg: NewPostResult) => Promise<unknown>,
   opt?: NewPostOptions,
 ) {
   let id = null;
@@ -87,9 +92,9 @@ export interface BatchNewPostsOpt {
 }
 
 // Returns the IDs of the new posts.
-export async function batchNewPosts(a: BatchNewPostsOpt): Promise<string[]> {
+export async function batchNewPosts(a: BatchNewPostsOpt): Promise<NewPostResult[]> {
   const { prefix, user, title, content, count, summary } = a;
-  const ids: string[] = [];
+  const results: NewPostResult[] = [];
   for (let i = 0; i < count; i++) {
     // eslint-disable-next-line no-await-in-loop
     const id = await newTmpPostCore(user, {
@@ -101,9 +106,9 @@ export async function batchNewPosts(a: BatchNewPostsOpt): Promise<string[]> {
     });
     // eslint-disable-next-line no-await-in-loop
     await waitForDBTimeChange();
-    ids.push(id);
+    results.push({ id, link: postLinkFromID(id) });
   }
-  return ids;
+  return results;
 }
 
 export function deletePostsByPrefix(prefix: string) {

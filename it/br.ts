@@ -166,8 +166,11 @@ export class Element extends LocatorCore {
     return this.$(sel);
   }
 
-  $a(e: { href: string; text: string }) {
-    return this.$hasText(`a[href=${JSON.stringify(e.href)}]`, e.text);
+  $a(e: { href: string; text?: string }) {
+    if (e.text) {
+      return this.$hasText(`a[href=${JSON.stringify(e.href)}]`, e.text);
+    }
+    return this.$(`a[href=${JSON.stringify(e.href)}]`);
   }
 
   $svgIcon(e: { title: string; src: string }) {
