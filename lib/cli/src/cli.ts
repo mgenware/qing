@@ -8,16 +8,14 @@
  */
 
 import errMsg from 'catch-err-msg';
+import { parseArgs } from 'node:util';
 import * as iou from './ioutil.js';
 import * as sp from './spawn.js';
-import processArgs from './processArgs.js';
 
 if (process.platform === 'win32') {
   console.error('Qing CLI does not support Windows, please use WSL2 on Windows.');
   process.exit(1);
 }
-
-const cli = processArgs(process.argv.slice(2));
 
 function printUsage() {
   iou.print(`
@@ -53,13 +51,6 @@ function printUsage() {
   `);
 }
 
-const inputCmd = cli.list[0];
-
-if (!inputCmd) {
-  printUsage();
-  process.exit(0);
-}
-
 const webDir = 'web';
 const serverDir = 'server';
 const libDevDir = 'lib/dev';
@@ -78,16 +69,40 @@ function checkMigrationNumber(num: number) {
   }
 }
 
-function getSArgs() {
-  return {
-    coreConfigName: cli.stringMap['core-config'] ?? 'base',
-    appConfigName: cli.stringMap['app-config'] ?? 'std',
-  };
-}
-
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async () => {
   try {
+    const cli = parseArgs({
+      options: {
+        'app-config': {
+          type: 'string',
+        },
+        'core-config': {
+          type: 'string',
+        },
+      },
+      allowPositionals: true,
+    });
+
+    const inputCmd = cli.positionals[0];
+
+    if (!inputCmd) {
+      printUsage();
+      process.exit(0);
+    }
+
+    // Returns default params for `s` command.
+    function getSArgs() {
+      const appConfig = cli.values['app-config'];
+      if (!appConfig) {
+        throw new Error('Missing app config name.');
+      }
+      return {
+        coreConfigName: cli.values['core-config'] ?? 'base',
+        appConfigName: appConfig,
+      };
+    }
+
     switch (inputCmd) {
       case 'version': {
         iou.print(await iou.getVersion());
@@ -137,7 +152,7 @@ function getSArgs() {
       }
 
       case 's-ut': {
-        const arg1 = cli.list[1];
+        const arg1 = cli.positionals[1];
         await sp.spawnDockerComposeCmd({
           args: ['exec', '-e', 'QING_UT=1', 'server', 'go', 'test', arg1 ?? './...'],
           dir: await iou.getProjectDir(serverDir),
@@ -177,14 +192,14 @@ function getSArgs() {
       case 'sod': {
         await sp.spawnDZCmd({
           cmd: inputCmd,
-          args: cli.list.slice(1),
+          args: cli.positionals.slice(1),
           daizongDir: await iou.getProjectDir(libDevDir),
         });
         break;
       }
 
       case 'it': {
-        const itArgs = cli.list.slice(1);
+        const itArgs = cli.positionals.slice(1);
         await sp.spawnDZCmd({
           cmd: itArgs[0] || 'dev',
           args: itArgs.slice(1),
@@ -194,7 +209,7 @@ function getSArgs() {
       }
 
       case 'migrate': {
-        const arg1 = cli.list[1];
+        const arg1 = cli.positionals[1];
         checkArg(arg1, 'arg1');
         if (arg1 === 'drop') {
           await sp.spawnDockerComposeMigrate({
