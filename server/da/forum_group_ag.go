@@ -31,7 +31,7 @@ func (mrTable *ForumGroupAGType) DeleteGroup(mrQueryable mingru.Queryable, id ui
 }
 
 func (mrTable *ForumGroupAGType) InsertGroup(mrQueryable mingru.Queryable, name string, descHTML string, descSrc *string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `forum_group` (`order_index`, `created_at`, `forum_count`, `name`, `desc`, `desc_src`) VALUES (0, NOW(3), 0, ?, ?, ?)", name, descHTML, descSrc)
+	result, err := mrQueryable.Exec("INSERT INTO `forum_group` (`order_index`, `created_at`, `forum_count`, `name`, `desc`, `desc_src`) VALUES (0, NOW(), 0, ?, ?, ?)", name, descHTML, descSrc)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

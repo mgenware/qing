@@ -161,8 +161,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       mingru:
-        specifier: ^0.61.0
-        version: 0.61.0(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-plugin-import@2.27.5)(eslint@8.42.0)
+        specifier: ^0.62.0
+        version: 0.62.0(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-plugin-import@2.27.5)(eslint@8.42.0)
       mingru-models:
         specifier: ^0.66.0
         version: 0.66.0
@@ -4839,8 +4839,8 @@ packages:
     resolution: {integrity: sha512-9WKlSBKd+q+T20Wip3Esa71MbC7M5gwuzw++k/dBUkkCfP3sLWT9jHb9jaCYYV74qDgDLkUxmSyGIcbpBXMNRw==}
     dev: false
 
-  /mingru@0.61.0(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-plugin-import@2.27.5)(eslint@8.42.0):
-    resolution: {integrity: sha512-kwOGAmz0IzAnlpOOwvEg6zhoahzbg7J2M97IVo37hNUoSaytc8+LsJxRSt3uowjo4SJ3p4uXrOmtsO0TpX8A2w==}
+  /mingru@0.62.0(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-plugin-import@2.27.5)(eslint@8.42.0):
+    resolution: {integrity: sha512-Yg0KLFb0EImF+Wwr1czWVlwg4092zrH1+dd1VBLAU3oshEk6IynWDU6NqWP288cxgBFjtxRlQe7iWvatOTezpg==}
     engines: {node: '>=16.7.0'}
     dependencies:
       camelcase: 7.0.1

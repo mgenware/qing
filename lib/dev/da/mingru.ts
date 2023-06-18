@@ -6,7 +6,6 @@
  */
 
 import * as mr from 'mingru';
-import './setEnv.js';
 import * as qdu from '@qing/devutil';
 import source from './actions/source.js';
 

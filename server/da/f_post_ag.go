@@ -58,12 +58,12 @@ func (mrTable *FPostAGType) DeleteItem(db *sql.DB, id uint64, userID uint64) err
 }
 
 func (mrTable *FPostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, contentSrc *string, title string, summary string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `f_post` SET `modified_at` = NOW(3), `content` = ?, `content_src` = ?, `title` = ?, `summary` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, contentSrc, title, summary, id, userID)
+	result, err := mrQueryable.Exec("UPDATE `f_post` SET `modified_at` = NOW(), `content` = ?, `content_src` = ?, `title` = ?, `summary` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, contentSrc, title, summary, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 func (mrTable *FPostAGType) insertItemChild1(mrQueryable mingru.Queryable, userID uint64, contentHTML string, contentSrc *string, title string, summary string, forumID *uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `f_post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `content_src`, `title`, `summary`, `forum_id`, `modified_at`) VALUES (NOW(3), 0, 0, NULL, ?, ?, ?, ?, ?, ?, `created_at`)", userID, contentHTML, contentSrc, title, summary, forumID)
+	result, err := mrQueryable.Exec("INSERT INTO `f_post` (`created_at`, `cmt_count`, `likes`, `last_replied_at`, `user_id`, `content`, `content_src`, `title`, `summary`, `forum_id`, `modified_at`) VALUES (NOW(), 0, 0, NULL, ?, ?, ?, ?, ?, ?, `created_at`)", userID, contentHTML, contentSrc, title, summary, forumID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

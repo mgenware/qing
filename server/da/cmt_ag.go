@@ -31,12 +31,12 @@ func (mrTable *CmtAGType) DeleteCore(mrQueryable mingru.Queryable, id uint64, us
 }
 
 func (mrTable *CmtAGType) EditCmt(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `cmt` SET `modified_at` = NOW(3), `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `modified_at` = NOW(), `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
 func (mrTable *CmtAGType) EditReply(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, sanitizedStub int) error {
-	result, err := mrQueryable.Exec("UPDATE `cmt` SET `modified_at` = NOW(3), `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `modified_at` = NOW(), `content` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
@@ -46,12 +46,12 @@ func (mrTable *CmtAGType) EraseCmt(mrQueryable mingru.Queryable, id uint64, user
 }
 
 func (mrTable *CmtAGType) InsertCmtTXM(mrQueryable mingru.Queryable, contentHTML string, contentSrc *string, hostID uint64, hostType uint8, userID uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`content`, `content_src`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`, `parent_id`, `user_id`, `modified_at`) VALUES (?, ?, NOW(3), 0, 0, 0, ?, ?, NULL, ?, `created_at`)", contentHTML, contentSrc, hostID, hostType, userID)
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`content`, `content_src`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`, `parent_id`, `user_id`, `modified_at`) VALUES (?, ?, NOW(), 0, 0, 0, ?, ?, NULL, ?, `created_at`)", contentHTML, contentSrc, hostID, hostType, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
 func (mrTable *CmtAGType) InsertReplyTXM(mrQueryable mingru.Queryable, contentHTML string, contentSrc *string, hostID uint64, hostType uint8, parentID uint64, userID uint64) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`content`, `content_src`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`, `parent_id`, `user_id`, `modified_at`) VALUES (?, ?, NOW(3), 0, 0, 0, ?, ?, ?, ?, `created_at`)", contentHTML, contentSrc, hostID, hostType, parentID, userID)
+	result, err := mrQueryable.Exec("INSERT INTO `cmt` (`content`, `content_src`, `created_at`, `cmt_count`, `likes`, `del_flag`, `host_id`, `host_type`, `parent_id`, `user_id`, `modified_at`) VALUES (?, ?, NOW(), 0, 0, 0, ?, ?, ?, ?, `created_at`)", contentHTML, contentSrc, hostID, hostType, parentID, userID)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
