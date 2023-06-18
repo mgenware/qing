@@ -47,6 +47,8 @@ export interface CheckCmtArgs {
   canEdit?: boolean;
   highlighted?: boolean;
   hasEdited?: boolean;
+  // If true, wait for the lit update to finish.
+  waitForLitUpdate?: boolean;
 }
 
 export interface CheckCmtDeletedArgs {
@@ -54,29 +56,33 @@ export interface CheckCmtDeletedArgs {
   cmtEl: br.Element;
 }
 
-export async function shouldAppear(e: CheckCmtArgs) {
+export async function shouldAppear(a: CheckCmtArgs) {
+  if (a.waitForLitUpdate) {
+    await a.cmtEl.waitForLitUpdate();
+  }
+
   // User view.
-  const row = e.cmtEl.$('.avatar-grid');
-  await uv.shouldAppear(row, { user: e.author, hasEdited: e.hasEdited });
+  const row = a.cmtEl.$('.avatar-grid');
+  await uv.shouldAppear(row, { user: a.author, hasEdited: a.hasEdited });
 
   // Comment content.
-  await row.$('.md-content').e.toHaveText(e.content);
+  await row.$('.md-content').e.toHaveText(a.content);
 
-  if (e.canEdit !== undefined) {
-    const editBtn = eb.getEditButton(e.cmtEl, e.author.id);
-    if (e.canEdit) {
+  if (a.canEdit !== undefined) {
+    const editBtn = eb.getEditButton(a.cmtEl, a.author.id);
+    if (a.canEdit) {
       await editBtn.e.toBeVisible();
     } else {
       await editBtn.shouldNotExist();
     }
   }
 
-  if (e.highlighted !== undefined) {
+  if (a.highlighted !== undefined) {
     const highlightedSel = '.root.highlighted';
-    if (e.highlighted) {
-      await e.cmtEl.$(highlightedSel).shouldExist();
+    if (a.highlighted) {
+      await a.cmtEl.$(highlightedSel).shouldExist();
     } else {
-      await e.cmtEl.$(highlightedSel).shouldNotExist();
+      await a.cmtEl.$(highlightedSel).shouldNotExist();
     }
   }
 }

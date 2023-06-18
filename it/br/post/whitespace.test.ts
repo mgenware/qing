@@ -31,10 +31,8 @@ test('Editor vertical scroll and whitespaces', async ({ page }) => {
     );
     expect(hasVericalScrollbar).toBe(true);
 
-    await Promise.all([
-      cps.clickSaveButton(overlayEl, { p, saveBtnText: 'Save' }),
-      p.waitForURL(/\/p\//),
-    ]);
+    await cps.clickSaveButton(overlayEl, { p, saveBtnText: 'Save' });
+    await p.reload();
 
     // Verify post content.
     await cm.shouldHaveHTML(

@@ -38,5 +38,6 @@ export async function shouldHaveContent(el: Element, content: string) {
 }
 
 export async function fill(el: Element, text: string) {
-  await el.$('div[contenteditable=true]').c.fill(text);
+  const editableEl = el.$('[contenteditable]');
+  await editableEl.c.fill(text);
 }

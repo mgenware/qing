@@ -17,13 +17,13 @@ test('Site settings - Site info - Click-through from navbar', async ({ page }) =
   const p = $(page);
   await p.goto('/', usr.admin);
   await nbm.userDropdownBtn(p).click();
-  await nbm.userDropdownMenu(p).$a({ text: 'Site settings', href: '/mx/general' }).click();
+  await nbm.userDropdownMenu(p).$a({ text: 'Site settings', href: '/admin/general' }).click();
 
   const rootEl = p.$(cm.settingsViewSel);
 
   // General menu item gets highlighted.
   await rootEl
-    .$hasText('link-button[class="link-active"][href="/mx/general"]', 'General')
+    .$hasText('link-button[class="link-active"][href="/admin/general"]', 'General')
     .e.toBeVisible();
 
   const contentEl = p.$(infoSectionSel);

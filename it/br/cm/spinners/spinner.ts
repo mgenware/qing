@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import delay from 'base/delay.js';
+import { iShouldNotCallThisDelay } from 'base/delay.js';
 import * as br from 'br.js';
 
 const brGSpinnerTextAttr = 'data-br-spinner-text';
@@ -41,5 +41,5 @@ export async function waitForGlobal(page: br.Page, text: string, trigger: () => 
   )}]`;
   await Promise.all([trigger(), page.c.waitForSelector(sel, { state: 'attached' })]);
   // Wait for UI update.
-  await delay();
+  await iShouldNotCallThisDelay();
 }

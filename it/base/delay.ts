@@ -5,13 +5,14 @@
  * be found in the LICENSE file.
  */
 
-export default function delay(ms = 500) {
+export function iShouldNotCallThisDelay(ms = 500) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
 
-// DB uses MySQL `DATETIME(3)`, wait 100ms so that time field gets updated.
+// Dev environment should be using MySQL `DATETIME(6)`,
+// let's wait 100ms so that time fields get updated.
 export function waitForDBTimeChange() {
-  return delay(500);
+  return iShouldNotCallThisDelay(100);
 }

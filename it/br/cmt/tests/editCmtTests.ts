@@ -10,7 +10,6 @@ import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import { writeCmt, editCmt } from '../actions.js';
 import * as cps from 'br/cm/editing/composer.js';
-import delay from 'base/delay.js';
 
 function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
   w.test(`Edit a cmt - ${fresh ? 'Fresh' : 'Not fresh'}`, { viewer: usr.user }, async ({ p }) => {
@@ -39,7 +38,6 @@ function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
             });
           },
         });
-        await delay();
         await cm.shouldAppear({
           cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
           author: usr.user,
@@ -47,6 +45,7 @@ function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
           highlighted: fresh,
           canEdit: true,
           hasEdited: true,
+          waitForLitUpdate: true,
         });
         await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
       }

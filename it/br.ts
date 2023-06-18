@@ -10,7 +10,6 @@ import * as pw from '@playwright/test';
 import * as api from './base/api.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import { serverURL } from './base/def.js';
-import delay from './base/delay.js';
 
 export { expect, test } from '@playwright/test';
 export { usr, api, type User, authUsr } from './base/api.js';
@@ -93,6 +92,21 @@ export class Element extends LocatorCore {
 
   waitFor(state: WaitForState) {
     return this.c.waitFor({ state });
+  }
+
+  async waitForLitUpdate() {
+    await this.c.evaluate(async (el) => {
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+      const elAny = el as any;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { updateComplete } = elAny;
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      if (!updateComplete) {
+        throw new Error('updateComplete is not defined');
+      }
+      await updateComplete;
+    });
   }
 
   waitForVisible() {
@@ -220,10 +234,6 @@ export class Page {
 
   $$(sel: string) {
     return PWLocatableWrapper.$$(this.c, sel);
-  }
-
-  delay() {
-    return delay(500);
   }
 
   waitForURL(url: string | RegExp) {

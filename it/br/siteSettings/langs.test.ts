@@ -22,7 +22,7 @@ test('Site settings - Languages', async ({ page }) => {
 
   // Languages menu item gets highlighted.
   await rootEl
-    .$hasText('link-button[class="link-active"][href="/mx/languages"]', 'Languages')
+    .$hasText('link-button[class="link-active"][href="/admin/languages"]', 'Languages')
     .e.toBeVisible();
 
   const checkmarks = rootEl.$$('check-item');

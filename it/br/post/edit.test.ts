@@ -10,7 +10,7 @@ import { test, usr, $ } from 'br.js';
 import * as cm from './common.js';
 import * as def from 'base/def.js';
 import * as cps from 'br/cm/editing/composer.js';
-import delay from 'base/delay.js';
+import { iShouldNotCallThisDelay } from 'base/delay.js';
 
 const editorDesc = 'Edit post';
 
@@ -39,7 +39,7 @@ test('Edit post', async ({ page }) => {
     ]);
 
     // Fix post not updating in webkit.
-    await delay();
+    await iShouldNotCallThisDelay();
     // Verify post title.
     await cm.shouldHaveTitle(p, def.sd.updated, link);
     // Verify post content.
