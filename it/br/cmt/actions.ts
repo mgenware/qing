@@ -16,7 +16,7 @@ const loadMoreRepliesText = 'More replies';
 export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
-  dbTimeChange?: boolean;
+  date?: string;
   shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 

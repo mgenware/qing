@@ -57,6 +57,16 @@ func (mrTable *FPostAGType) DeleteItem(db *sql.DB, id uint64, userID uint64) err
 	return txErr
 }
 
+func (mrTable *FPostAGType) DevUpdateCreated(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+	result, err := mrQueryable.Exec("UPDATE `f_post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *FPostAGType) DevUpdateModified(mrQueryable mingru.Queryable, id uint64, rawModifiedAt time.Time) error {
+	result, err := mrQueryable.Exec("UPDATE `f_post` SET `modified_at` = ? WHERE `id` = ?", rawModifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 func (mrTable *FPostAGType) EditItem(mrQueryable mingru.Queryable, id uint64, userID uint64, contentHTML string, contentSrc *string, title string, summary string, sanitizedStub int) error {
 	result, err := mrQueryable.Exec("UPDATE `f_post` SET `modified_at` = NOW(), `content` = ?, `content_src` = ?, `title` = ?, `summary` = ? WHERE (`id` = ? AND `user_id` = ?)", contentHTML, contentSrc, title, summary, id, userID)
 	return mingru.CheckOneRowAffectedWithError(result, err)
@@ -217,9 +227,4 @@ func (mrTable *FPostAGType) SelectTitle(mrQueryable mingru.Queryable, id uint64)
 		return result, err
 	}
 	return result, nil
-}
-
-func (mrTable *FPostAGType) TestUpdateDates(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
-	result, err := mrQueryable.Exec("UPDATE `f_post` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
-	return mingru.CheckOneRowAffectedWithError(result, err)
 }

@@ -31,8 +31,8 @@ export function entitySrc(id: string, type: number, user: User) {
   return api<EntitySrcResult>(composeRoute.entitySource, { entity: { id, type } }, user);
 }
 
-export async function updateEntityTime(id: string, type: number) {
-  return api(apiCompose.setDebugTime, { id, type }, null);
+export async function setBRTime(id: string, type: number, ts: string) {
+  return api(apiCompose.setBRTime, { id, type, ts: new Date(ts).toISOString() }, null);
 }
 
 export async function deletePostsByPattern(pattern: string) {

@@ -44,6 +44,7 @@
   "routePost": "p",
   "routeUser": "u",
   "brHomePrefixParam": "brHomePrefixParam",
+  "brTime": "brTime",
   "__enums": {
     "getSiteSettings": { "values": ["general", "langs"] },
     "setSiteSettings": { "values": ["info", "langs", "postPermission"] }

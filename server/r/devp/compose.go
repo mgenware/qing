@@ -21,35 +21,35 @@ import (
 	"time"
 )
 
-var defTime time.Time
-
-func init() {
-	t, err := time.Parse(time.RFC3339, "2019-01-31T10:11:12Z")
-	if err != nil {
-		panic(err)
-	}
-	defTime = t
-}
-
-func setDebugTime(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setBRTime(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	var err error
 
 	id := clib.MustGetIDFromDict(params, "id")
 	entityType := clib.MustGetIntFromDict(params, "type")
+	tsString := clib.MustGetStringFromDict(params, "ts", appDef.LenMaxName)
+	ts, err := time.Parse(time.RFC3339, tsString)
+	appcm.PanicOn(err)
+
 	db := appDB.DB()
 
 	switch entityType {
 	case int(frozenDef.ContentBaseTypePost):
 		{
-			err = da.Post.TestUpdateDates(db, id, defTime, defTime)
+			err = da.Post.DevUpdateCreated(db, id, ts, ts)
 			appcm.PanicOn(err)
 			break
 		}
 	case int(frozenDef.ContentBaseTypeFPost):
 		{
-			err = da.FPost.TestUpdateDates(db, id, defTime, defTime)
+			err = da.FPost.DevUpdateCreated(db, id, ts, ts)
+			appcm.PanicOn(err)
+			break
+		}
+	case int(frozenDef.ContentBaseTypeCmt):
+		{
+			err = da.Cmt.DevUpdateCreated(db, id, ts, ts)
 			appcm.PanicOn(err)
 			break
 		}

@@ -57,6 +57,7 @@ const RouteAuth = "auth"
 const RoutePost = "p"
 const RouteUser = "u"
 const BrHomePrefixParam = "brHomePrefixParam"
+const BrTime = "brTime"
 
 type GetSiteSettings int
 

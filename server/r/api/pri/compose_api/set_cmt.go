@@ -12,9 +12,11 @@ import (
 	"net/http"
 	"qing/a/appConfig"
 	"qing/a/appDB"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appcm"
+	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
 	"qing/a/servicex/notix"
@@ -23,6 +25,8 @@ import (
 	"qing/r/api/apicom"
 	"qing/sod/cmtSod"
 	"time"
+
+	"github.com/mgenware/goutil/jsonx"
 )
 
 type SetCmtResponse struct {
@@ -114,18 +118,35 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		cmt := apicom.NewCmt(d)
 		respData := SetCmtResponse{Cmt: &cmt}
+
+		if appEnv.IsBR() {
+			tsStr := jsonx.GetStringOrDefault(params, appDef.BrTime)
+			ts, err := clib.ParseTime(tsStr)
+			appcm.PanicOn(err)
+			err = da.Cmt.DevUpdateCreated(db, cmtID, ts, ts)
+			appcm.PanicOn(err)
+		}
+
 		return resp.MustComplete(respData)
-	} else {
-		err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
+	} // End of creating a new cmt.
+
+	err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
+	appcm.PanicOn(err)
+	cmt := &cmtSod.Cmt{Eid: clib.EncodeID(id)}
+	cmt.ContentHTML = content
+
+	now := time.Now()
+	cmt.ModifiedAt = clib.TimeString(now)
+
+	// NOTE: when editing a comment or reply, this always returns response the `cmt` field set.
+	respData := &SetCmtResponse{Cmt: cmt}
+
+	if appEnv.IsBR() {
+		tsStr := jsonx.GetStringOrDefault(params, appDef.BrTime)
+		ts, err := clib.ParseTime(tsStr)
 		appcm.PanicOn(err)
-		cmt := &cmtSod.Cmt{Eid: clib.EncodeID(id)}
-		cmt.ContentHTML = content
-
-		now := time.Now()
-		cmt.ModifiedAt = clib.TimeString(now)
-
-		// NOTE: when editing a comment or reply, this always returns response the `cmt` field set.
-		respData := &SetCmtResponse{Cmt: cmt}
-		return resp.MustComplete(respData)
+		err = da.Cmt.DevUpdateModified(db, id, ts)
+		appcm.PanicOn(err)
 	}
+	return resp.MustComplete(respData)
 }

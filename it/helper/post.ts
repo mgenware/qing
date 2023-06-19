@@ -9,7 +9,6 @@ import * as def from 'base/def.js';
 import { User } from 'api.js';
 import * as entityUtil from './entity.js';
 import { frozenDef } from '@qing/def';
-import { waitForDBTimeChange } from 'base/delay.js';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
@@ -43,6 +42,7 @@ export function verifyNewPostAPIResult(r: string | null): string {
 
 export interface NewPostOptions {
   body?: ComposerContent;
+  date?: string;
 }
 
 // Creates a new post and returns the ID.
@@ -51,7 +51,9 @@ async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
   const body = { content: opt?.body ?? defaultComposerContent };
   const r = await entityUtil.setEntity(frozenDef.ContentBaseType.post, body, user);
   const id = verifyNewPostAPIResult(r);
-  await entityUtil.updateEntityTime(id, frozenDef.ContentBaseType.post);
+  if (opt?.date) {
+    await entityUtil.setBRTime(id, frozenDef.ContentBaseType.post, opt.date);
+  }
   return id;
 }
 
@@ -103,11 +105,12 @@ export async function batchNewPosts(a: BatchNewPostsOpt): Promise<NewPostResult[
         html: content,
         summary,
       },
+      date: `2003-01-${i + 1}`,
     });
-    // eslint-disable-next-line no-await-in-loop
-    await waitForDBTimeChange();
     results.push({ id, link: postLinkFromID(id) });
   }
+  // Reverse the order so that the latest post is at the top.
+  results.reverse();
   return results;
 }
 

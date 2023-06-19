@@ -64,7 +64,7 @@ func apiRouter() *handler.JSONRouter {
 
 	// Compose router.
 	composeRouter := handler.NewJSONRouter()
-	composeRouter.Post("/set-debug-time", setDebugTime)
+	composeRouter.Post("/set-br-time", setBRTime)
 	composeRouter.Post("/delete-posts-by-pattern", deletePostsByPattern)
 	r.Mount("/compose", composeRouter)
 

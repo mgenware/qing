@@ -10,7 +10,6 @@ import * as alt from '../overlays/alert.js';
 import * as cm from './common.js';
 import * as ov from '../overlays/overlay.js';
 import * as ed from './editor.js';
-import { waitForDBTimeChange } from 'base/delay.js';
 
 export interface UpdateParams {
   title?: string;
@@ -120,9 +119,6 @@ export async function clickSaveButton(overlayEl: br.Element, e: SaveArgs) {
 }
 
 export async function updateAndSave(overlayEl: br.Element, e: UpdateAndSaveArgs) {
-  if (e.dbTimeChange) {
-    await waitForDBTimeChange();
-  }
   // Update editor content.
   await updateContent(overlayEl, { title: e.title, content: e.content });
   await clickSaveButton(overlayEl, e);

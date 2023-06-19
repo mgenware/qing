@@ -28,7 +28,8 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
   insertItem: mm.Action;
   editItem: mm.UpdateAction;
 
-  testUpdateDates: mm.UpdateAction;
+  devUpdateCreated: mm.UpdateAction;
+  devUpdateModified: mm.UpdateAction;
 
   // Joined user table.
   protected joinedUserTable: User;
@@ -113,7 +114,8 @@ export default abstract class ContentBaseAG<T extends ContentBase> extends mm.Ac
       .argStubs(cm.sanitizedStub)
       .whereSQL(this.updateConditions);
 
-    this.testUpdateDates = mm.updateOne().setParams(t.created_at, t.modified_at).by(t.id);
+    this.devUpdateCreated = mm.updateOne().setParams(t.created_at, t.modified_at).by(t.id);
+    this.devUpdateModified = mm.updateOne().setParams(t.modified_at).by(t.id);
   }
 
   // Gets the underlying `ContentBase` table.

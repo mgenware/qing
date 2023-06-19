@@ -10,9 +10,3 @@ export function iShouldNotCallThisDelay(ms = 500) {
     setTimeout(resolve, ms);
   });
 }
-
-// Dev environment should be using MySQL `DATETIME(6)`,
-// let's wait 100ms so that time fields get updated.
-export function waitForDBTimeChange() {
-  return iShouldNotCallThisDelay(100);
-}

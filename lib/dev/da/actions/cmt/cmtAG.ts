@@ -62,6 +62,9 @@ export class CmtAG extends mm.ActionGroup {
 
   updateReplyCount = updateCounterAction(t, t.cmt_count);
 
+  devUpdateCreated: mm.UpdateAction;
+  devUpdateModified: mm.UpdateAction;
+
   // Used as a TX member, and thus has `.from` called.
   insertCmtTXM = mm
     .insertOne()
@@ -109,6 +112,9 @@ export class CmtAG extends mm.ActionGroup {
 
     this.selectCmt = getSelectCmtAction({ userMode: false });
     this.selectCmtUserMode = getSelectCmtAction({ userMode: true });
+
+    this.devUpdateCreated = mm.updateOne().setParams(t.created_at, t.modified_at).by(t.id);
+    this.devUpdateModified = mm.updateOne().setParams(t.modified_at).by(t.id);
   }
 }
 

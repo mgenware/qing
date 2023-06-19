@@ -14,6 +14,7 @@ package da
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/mgenware/mingru-go-lib"
 )
@@ -27,6 +28,16 @@ var Cmt = &CmtAGType{}
 
 func (mrTable *CmtAGType) DeleteCore(mrQueryable mingru.Queryable, id uint64, userID uint64) error {
 	result, err := mrQueryable.Exec("DELETE FROM `cmt` WHERE (`id` = ? AND `user_id` = ?)", id, userID)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *CmtAGType) DevUpdateCreated(mrQueryable mingru.Queryable, id uint64, rawCreatedAt time.Time, rawModifiedAt time.Time) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `created_at` = ?, `modified_at` = ? WHERE `id` = ?", rawCreatedAt, rawModifiedAt, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *CmtAGType) DevUpdateModified(mrQueryable mingru.Queryable, id uint64, rawModifiedAt time.Time) error {
+	result, err := mrQueryable.Exec("UPDATE `cmt` SET `modified_at` = ? WHERE `id` = ?", rawModifiedAt, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 

@@ -12,16 +12,26 @@ import (
 	"qing/a/def/infraDef"
 )
 
+var isUT bool
+var isBR bool
+var isFirstRun bool
+
+func init() {
+	isUT = os.Getenv(infraDef.UtEnv) == "1"
+	isBR = os.Getenv(infraDef.BrEnv) == "1"
+	isFirstRun = os.Getenv("QING_FR") == "1"
+}
+
 // Returns true if unit test mode is on.
 func IsUT() bool {
-	return os.Getenv(infraDef.UtEnv) == "1"
+	return isUT
 }
 
 // Returns true if BR mode is on.
 func IsBR() bool {
-	return os.Getenv(infraDef.BrEnv) == "1"
+	return isBR
 }
 
 func IsFirstRun() bool {
-	return os.Getenv("QING_FR") == "1"
+	return isFirstRun
 }

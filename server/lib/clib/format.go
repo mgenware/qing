@@ -32,3 +32,7 @@ func DecodeID(str string) (uint64, error) {
 func TimeString(t time.Time) string {
 	return t.Format(time.RFC3339)
 }
+
+func ParseTime(s string) (time.Time, error) {
+	return time.Parse(time.RFC3339, s)
+}

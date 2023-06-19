@@ -36,13 +36,13 @@ test('Home page - com - One page', async ({ page }) => {
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
-      title: `${prefix}TITLE_0`,
+      title: `${prefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkHomeItem(items.item(1), {
       user: usr.user,
-      title: `${prefix}TITLE_1`,
+      title: `${prefix}TITLE_0`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
     });
@@ -72,7 +72,7 @@ test('Home page - com - 2 pages', async ({ page }) => {
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
-      title: `${prefix}TITLE_0`,
+      title: `${prefix}TITLE_2`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
@@ -93,13 +93,13 @@ test('Home page - com - 2 pages', async ({ page }) => {
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
-      title: `${prefix}TITLE_2`,
+      title: `${prefix}TITLE_0`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[2]!.link,
     });
 
-    // No more next page in page 2.
-    await pb.shouldNotExist(p.body);
+    // Check page bar.
+    await pb.check(p.body, { leftLink: '/' });
   } finally {
     await deletePostsByPrefix(prefix);
   }
