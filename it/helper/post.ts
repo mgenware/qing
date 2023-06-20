@@ -12,17 +12,16 @@ import { frozenDef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 
-export interface CoreEditorContent {
+// Keep this in sync with sod/post.yaml.
+export interface PostCorePayload {
   html: string;
-  summary?: string;
-  src?: string;
-}
-
-export interface ComposerContent extends CoreEditorContent {
   title?: string;
+  src?: string;
+  summary?: string;
+  brTime?: string;
 }
 
-const defaultComposerContent: ComposerContent = {
+const defaultComposerContent: PostCorePayload = {
   html: def.sd.contentDBHTML,
   title: def.sd.title,
   summary: 'TEST_POST_SUMMARY',
@@ -41,7 +40,7 @@ export function verifyNewPostAPIResult(r: string | null): string {
 }
 
 export interface NewPostOptions {
-  body?: ComposerContent;
+  body?: PostCorePayload;
 }
 
 // Creates a new post and returns the ID.
@@ -87,6 +86,7 @@ export interface BatchNewPostsOpt {
   content: string;
   count: number;
   summary?: string;
+  date?: Date;
 }
 
 // Returns the IDs of the new posts.
@@ -100,8 +100,8 @@ export async function batchNewPosts(a: BatchNewPostsOpt): Promise<NewPostResult[
         title: `${prefix}${title}_${i}`,
         html: content,
         summary,
+        brTime: a.date?.toISOString(),
       },
-      date: `2003-01-${i + 1}`,
     });
     results.push({ id, link: postLinkFromID(id) });
   }

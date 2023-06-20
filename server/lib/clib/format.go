@@ -36,3 +36,11 @@ func TimeString(t time.Time) string {
 func ParseTime(s string) (time.Time, error) {
 	return time.Parse(time.RFC3339, s)
 }
+
+func ParseTimestampMilli(s string) (time.Time, error) {
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return time.UnixMilli(i), nil
+}
