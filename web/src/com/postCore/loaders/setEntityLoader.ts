@@ -9,6 +9,7 @@ import Loader from 'lib/loader.js';
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
 import appPageState from 'app/appPageState.js';
 import { PostCorePayload } from 'sod/post.js';
+import { appDef } from '@qing/def';
 
 export interface SetEntityLoaderArgs {
   /// These field names are locked with server API param names.
@@ -18,6 +19,7 @@ export interface SetEntityLoaderArgs {
   forumID?: string;
   summary?: string;
   contentSrc?: string;
+  [appDef.brTime]?: string;
 }
 
 export class SetEntityLoader extends Loader<string | null> {

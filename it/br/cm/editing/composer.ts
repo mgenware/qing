@@ -10,24 +10,33 @@ import * as alt from '../overlays/alert.js';
 import * as cm from './common.js';
 import * as ov from '../overlays/overlay.js';
 import * as ed from './editor.js';
+import { appDef } from '@qing/def';
 
 export interface UpdateParams {
   title?: string;
   content?: string;
-}
-
-export async function updateContent(el: br.Element, e: UpdateParams) {
-  if (e.title) {
-    const inputEl = el.$(cm.composerTitleSel);
-    await inputEl.c.fill(e.title);
-  }
-  if (e.content) {
-    await ed.fill(el, e.content);
-  }
+  date?: Date;
 }
 
 export function getElFromOverlay(overlayEl: br.Element) {
   return overlayEl.$('composer-view');
+}
+
+export async function updateContent(el: br.Element, a: UpdateParams) {
+  const composerEl = getElFromOverlay(el);
+  if (a.date) {
+    await composerEl.c.evaluate(
+      (e, date) => e.setAttribute(appDef.brTime, date.toISOString()),
+      a.date,
+    );
+  }
+  if (a.title) {
+    const inputEl = el.$(cm.composerTitleSel);
+    await inputEl.c.fill(a.title);
+  }
+  if (a.content) {
+    await ed.fill(el, a.content);
+  }
 }
 
 async function clickBtn(composerEl: br.Element, btnText: string) {

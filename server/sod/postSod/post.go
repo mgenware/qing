@@ -42,13 +42,15 @@ type PostCorePayload struct {
 	Title   string `json:"title,omitempty"`
 	Src     string `json:"src,omitempty"`
 	Summary string `json:"summary,omitempty"`
+	BrTime  string `json:"brTime,omitempty"`
 }
 
-func NewPostCorePayload(html string, title string, src string, summary string) PostCorePayload {
+func NewPostCorePayload(html string, title string, src string, summary string, brTime string) PostCorePayload {
 	return PostCorePayload{
 		Html: html,
 		Title: title,
 		Src: src,
 		Summary: summary,
+		BrTime: brTime,
 	}
 }

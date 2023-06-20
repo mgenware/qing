@@ -92,7 +92,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 
 		if appEnv.IsBR() {
-			tsStr := jsonx.GetStringOrDefault(params, appDef.BrTime)
+			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 			ts, err := clib.ParseTime(tsStr)
 			appcm.PanicOn(err)
 			switch entityType {
@@ -134,7 +134,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		}
 
 		if appEnv.IsBR() {
-			tsStr := jsonx.GetStringOrDefault(params, appDef.BrTime)
+			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 			ts, err := clib.ParseTime(tsStr)
 			appcm.PanicOn(err)
 			switch entityType {

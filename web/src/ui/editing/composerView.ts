@@ -23,6 +23,7 @@ import { InputView } from 'ui/forms/inputView.js';
 import appPageState from 'app/appPageState.js';
 import { PostCorePayload } from 'sod/post.js';
 import { htmlToSummary, mdToHTML } from './coreEditorUtil.js';
+import { brMode } from 'devMode.js';
 
 const titleInputID = 'title-input';
 
@@ -258,11 +259,17 @@ export class ComposerView extends BaseElement {
       title = this.titleText;
       summary = htmlToSummary(contentHTML, appDef.lenMaxPostSummary);
     }
+
+    let brTime: string | undefined;
+    if (brMode()) {
+      brTime = this.getAttribute(appDef.brTime) ?? undefined;
+    }
     return {
       html: contentHTML,
       src,
       title,
       summary,
+      brTime,
     };
   }
 
@@ -272,6 +279,7 @@ export class ComposerView extends BaseElement {
       CHECK(impl);
       const payload = this.getPayload(impl);
       this.dispatchEvent(new CustomEvent<PostCorePayload>('composer-submit', { detail: payload }));
+      this.onSessionClosed();
     } catch (err) {
       ERR(err);
       await appAlert.error(err.message);
@@ -285,6 +293,13 @@ export class ComposerView extends BaseElement {
     await this.handleCancel();
   }
 
+  private onSessionClosed() {
+    if (brMode()) {
+      this.removeAttribute(appDef.brTime);
+    }
+    this.dispatchEvent(new CustomEvent('composer-session-closed'));
+  }
+
   private async handleCancel() {
     const fireEvent = (impl: CoreEditorImpl | undefined, contentDiscarded: boolean | undefined) => {
       // No-op if the editor is not loaded yet.
@@ -294,6 +309,7 @@ export class ComposerView extends BaseElement {
       this.dispatchEvent(
         new CustomEvent<boolean | undefined>('composer-discard', { detail: contentDiscarded }),
       );
+      this.onSessionClosed();
     };
 
     const unsafeImpl = this.editorEl.unsafeImplEl;

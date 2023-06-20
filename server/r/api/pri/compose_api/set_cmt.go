@@ -120,7 +120,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		respData := SetCmtResponse{Cmt: &cmt}
 
 		if appEnv.IsBR() {
-			tsStr := jsonx.GetStringOrDefault(params, appDef.BrTime)
+			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 			ts, err := clib.ParseTime(tsStr)
 			appcm.PanicOn(err)
 			err = da.Cmt.DevUpdateCreated(db, cmtID, ts, ts)
@@ -142,7 +142,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	respData := &SetCmtResponse{Cmt: cmt}
 
 	if appEnv.IsBR() {
-		tsStr := jsonx.GetStringOrDefault(params, appDef.BrTime)
+		tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 		ts, err := clib.ParseTime(tsStr)
 		appcm.PanicOn(err)
 		err = da.Cmt.DevUpdateModified(db, id, ts)

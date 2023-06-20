@@ -30,4 +30,5 @@ export interface PostCorePayload {
   title?: string;
   src?: string;
   summary?: string;
+  brTime?: string;
 }

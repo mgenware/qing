@@ -42,7 +42,6 @@ export function verifyNewPostAPIResult(r: string | null): string {
 
 export interface NewPostOptions {
   body?: ComposerContent;
-  date?: string;
 }
 
 // Creates a new post and returns the ID.
@@ -51,9 +50,6 @@ async function newTmpPostCore(user: User, opt: NewPostOptions | undefined) {
   const body = { content: opt?.body ?? defaultComposerContent };
   const r = await entityUtil.setEntity(frozenDef.ContentBaseType.post, body, user);
   const id = verifyNewPostAPIResult(r);
-  if (opt?.date) {
-    await entityUtil.setBRTime(id, frozenDef.ContentBaseType.post, opt.date);
-  }
   return id;
 }
 
