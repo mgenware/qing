@@ -16,7 +16,7 @@ const loadMoreRepliesText = 'More replies';
 export interface WriteCmtArgs {
   cmtApp: br.Element;
   content: string;
-  date?: string;
+  date?: Date;
   shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
@@ -31,14 +31,14 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
     p,
     saveBtnText: 'Send',
     content: a.content,
-    dbTimeChange: a.dbTimeChange,
+    date: a.date,
   });
 }
 
 export interface WriteReplyArgs {
   cmtEl: br.Element;
   content: string;
-  dbTimeChange?: boolean;
+  date?: Date;
   shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
@@ -52,7 +52,7 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
     p,
     content: a.content,
     saveBtnText: 'Send',
-    dbTimeChange: a.dbTimeChange,
+    date: a.date,
   });
 }
 
@@ -60,6 +60,7 @@ export interface EditCmtArgs {
   cmtEl: br.Element;
   author: br.User;
   content?: string;
+  date?: Date;
   shownCb?: (overlayEl: br.Element) => Promise<void>;
 }
 
@@ -74,7 +75,7 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
     p,
     content: a.content,
     saveBtnText: 'Save',
-    dbTimeChange: true,
+    date: a.date,
   });
 }
 

@@ -12,7 +12,7 @@ import * as ov from '../overlays/overlay.js';
 import * as ed from './editor.js';
 import { appDef } from '@qing/def';
 
-export interface UpdateParams {
+export interface UpdateContentArgs {
   title?: string;
   content?: string;
   date?: Date;
@@ -22,12 +22,13 @@ export function getElFromOverlay(overlayEl: br.Element) {
   return overlayEl.$('composer-view');
 }
 
-export async function updateContent(el: br.Element, a: UpdateParams) {
+export async function updateContent(el: br.Element, a: UpdateContentArgs) {
   const composerEl = getElFromOverlay(el);
   if (a.date) {
     await composerEl.c.evaluate(
-      (e, date) => e.setAttribute(appDef.brTime, date.toISOString()),
-      a.date,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (e, [argBrTimeAttr, argDateStr]) => e.setAttribute(argBrTimeAttr!, argDateStr!),
+      [appDef.brTime, a.date.toISOString()],
     );
   }
   if (a.title) {
@@ -115,20 +116,15 @@ export interface SaveArgs {
   saveBtnText: string;
 }
 
-export interface UpdateAndSaveArgs extends SaveArgs {
-  dbTimeChange?: boolean;
-  title?: string;
-  content?: string;
-}
+export interface UpdateAndSaveArgs extends SaveArgs, UpdateContentArgs {}
 
-export async function clickSaveButton(overlayEl: br.Element, e: SaveArgs) {
+export async function clickSaveButton(overlayEl: br.Element, a: SaveArgs) {
   // Update button is always the first button.
-  const btnEl = overlayEl.$qingButton(e.saveBtnText);
+  const btnEl = overlayEl.$qingButton(a.saveBtnText);
   await btnEl.click();
 }
 
-export async function updateAndSave(overlayEl: br.Element, e: UpdateAndSaveArgs) {
-  // Update editor content.
-  await updateContent(overlayEl, { title: e.title, content: e.content });
-  await clickSaveButton(overlayEl, e);
+export async function updateAndSave(overlayEl: br.Element, a: UpdateAndSaveArgs) {
+  await updateContent(overlayEl, a);
+  await clickSaveButton(overlayEl, a);
 }

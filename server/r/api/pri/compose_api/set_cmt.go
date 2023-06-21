@@ -108,6 +108,17 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		// Construct a DB cmt object without interacting with DB.
 		now := time.Now()
+		if appEnv.IsBR() {
+			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
+			if tsStr != "" {
+				ts, err := clib.ParseTime(tsStr)
+				appcm.PanicOn(err)
+				now = ts
+				err = da.Cmt.DevUpdateCreated(db, cmtID, ts, ts)
+				appcm.PanicOn(err)
+			}
+		}
+
 		d := &da.DBCmt{ID: cmtID}
 		d.RawCreatedAt = now
 		d.RawModifiedAt = now
@@ -118,14 +129,6 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		cmt := apicom.NewCmt(d)
 		respData := SetCmtResponse{Cmt: &cmt}
-
-		if appEnv.IsBR() {
-			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
-			ts, err := clib.ParseTime(tsStr)
-			appcm.PanicOn(err)
-			err = da.Cmt.DevUpdateCreated(db, cmtID, ts, ts)
-			appcm.PanicOn(err)
-		}
 
 		return resp.MustComplete(respData)
 	} // End of creating a new cmt.
@@ -143,10 +146,12 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	if appEnv.IsBR() {
 		tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
-		ts, err := clib.ParseTime(tsStr)
-		appcm.PanicOn(err)
-		err = da.Cmt.DevUpdateModified(db, id, ts)
-		appcm.PanicOn(err)
+		if tsStr != "" {
+			ts, err := clib.ParseTime(tsStr)
+			appcm.PanicOn(err)
+			err = da.Cmt.DevUpdateModified(db, id, ts)
+			appcm.PanicOn(err)
+		}
 	}
 	return resp.MustComplete(respData)
 }

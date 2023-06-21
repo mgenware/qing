@@ -93,25 +93,27 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		if appEnv.IsBR() {
 			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
-			ts, err := clib.ParseTime(tsStr)
-			appcm.PanicOn(err)
-			switch entityType {
-			case frozenDef.ContentBaseTypePost:
-				{
-					err = da.Post.DevUpdateCreated(db, insertedID, ts, ts)
-					appcm.PanicOn(err)
-					break
-				}
+			if tsStr != "" {
+				ts, err := clib.ParseTime(tsStr)
+				appcm.PanicOn(err)
+				switch entityType {
+				case frozenDef.ContentBaseTypePost:
+					{
+						err = da.Post.DevUpdateCreated(db, insertedID, ts, ts)
+						appcm.PanicOn(err)
+						break
+					}
 
-			case frozenDef.ContentBaseTypeFPost:
-				{
-					err = da.FPost.DevUpdateCreated(db, insertedID, ts, ts)
-					appcm.PanicOn(err)
-					break
-				}
+				case frozenDef.ContentBaseTypeFPost:
+					{
+						err = da.FPost.DevUpdateCreated(db, insertedID, ts, ts)
+						appcm.PanicOn(err)
+						break
+					}
 
-			default:
-				panic(fmt.Errorf("unsupported entity type %v", entityType))
+				default:
+					panic(fmt.Errorf("unsupported entity type %v", entityType))
+				}
 			}
 		}
 	} else {
@@ -135,25 +137,27 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		if appEnv.IsBR() {
 			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
-			ts, err := clib.ParseTime(tsStr)
-			appcm.PanicOn(err)
-			switch entityType {
-			case frozenDef.ContentBaseTypePost:
-				{
-					err = da.Post.DevUpdateModified(db, id, ts)
-					appcm.PanicOn(err)
-					break
-				}
+			if tsStr != "" {
+				ts, err := clib.ParseTime(tsStr)
+				appcm.PanicOn(err)
+				switch entityType {
+				case frozenDef.ContentBaseTypePost:
+					{
+						err = da.Post.DevUpdateModified(db, id, ts)
+						appcm.PanicOn(err)
+						break
+					}
 
-			case frozenDef.ContentBaseTypeFPost:
-				{
-					err = da.FPost.DevUpdateModified(db, id, ts)
-					appcm.PanicOn(err)
-					break
-				}
+				case frozenDef.ContentBaseTypeFPost:
+					{
+						err = da.FPost.DevUpdateModified(db, id, ts)
+						appcm.PanicOn(err)
+						break
+					}
 
-			default:
-				panic(fmt.Errorf("unsupported entity type %v", entityType))
+				default:
+					panic(fmt.Errorf("unsupported entity type %v", entityType))
+				}
 			}
 		}
 	}

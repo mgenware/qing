@@ -35,3 +35,5 @@ export const sd = {
   updatedDBHTML: makeDBHTML('updated'),
   longText: '1'.repeat(200),
 };
+
+export const oldDate = new Date('2003-06-12');
