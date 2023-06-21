@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { iShouldNotCallThisDelay } from 'base/delay.js';
 import { test, $, usr, Page } from 'br.js';
 import * as snav from 'br/cm/navbar/sidenav.js';
 
@@ -29,7 +30,7 @@ test('Sidenav - Desktop to mobile', async ({ page }) => {
   const p = $(page);
   await p.goto('/', null);
   await checkTogglerVisible(p, false);
-  await p.delay();
+  await iShouldNotCallThisDelay();
   await snav.checkSidenavVisible(p, false);
 
   await p.toMobile();

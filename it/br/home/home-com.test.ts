@@ -26,6 +26,7 @@ test('Home page - com - One page', async ({ page }) => {
       content: 'CONTENT',
       summary: 'SUMMARY',
       prefix,
+      startingDate: new Date('2006-02-01'),
     });
 
     await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
@@ -53,7 +54,7 @@ test('Home page - com - One page', async ({ page }) => {
 
 test('Home page - com - 2 pages', async ({ page }) => {
   const p = $(page);
-  const prefix = '_br_home_com_one_page_';
+  const prefix = '_br_home_com_2_pages_';
 
   try {
     const posts = await batchNewPosts({
@@ -63,6 +64,7 @@ test('Home page - com - 2 pages', async ({ page }) => {
       content: 'CONTENT',
       summary: 'SUMMARY',
       prefix,
+      startingDate: new Date('2006-02-01'),
     });
 
     await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });

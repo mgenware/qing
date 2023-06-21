@@ -86,7 +86,13 @@ export interface BatchNewPostsOpt {
   content: string;
   count: number;
   summary?: string;
-  date?: Date;
+  startingDate?: Date;
+}
+
+function addDays(date: Date, days: number) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }
 
 // Returns the IDs of the new posts.
@@ -100,7 +106,7 @@ export async function batchNewPosts(a: BatchNewPostsOpt): Promise<NewPostResult[
         title: `${prefix}${title}_${i}`,
         html: content,
         summary,
-        brTime: a.date?.toISOString(),
+        brTime: a.startingDate ? addDays(a.startingDate, i).toISOString() : undefined,
       },
     });
     results.push({ id, link: postLinkFromID(id) });

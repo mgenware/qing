@@ -32,7 +32,7 @@ test('Edit post', async ({ page }) => {
         p,
         title: def.sd.updated,
         content: def.sd.updated,
-        dbTimeChange: true,
+        date: def.oldDate,
         saveBtnText: 'Save',
       }),
       p.waitForURL(/\/p\//),
@@ -86,6 +86,7 @@ function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) 
         await cm.shouldHaveTitle(p, def.sd.title, link);
         await cm.shouldHaveHTML(p, def.sd.contentViewHTML);
       } else {
+        await iShouldNotCallThisDelay();
         await cps.shouldAppear(
           overlayEl,
           mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updatedViewHTML },

@@ -9,6 +9,7 @@ import { test, usr, $, expect } from 'br.js';
 import { newPost } from 'helper/post.js';
 import * as cps from 'br/cm/editing/composer.js';
 import * as cm from './common.js';
+import { iShouldNotCallThisDelay } from 'base/delay.js';
 
 const longText = `A${'\n'.repeat(30)}B`;
 
@@ -32,6 +33,7 @@ test('Editor vertical scroll and whitespaces', async ({ page }) => {
     expect(hasVericalScrollbar).toBe(true);
 
     await cps.clickSaveButton(overlayEl, { p, saveBtnText: 'Save' });
+    await iShouldNotCallThisDelay();
     await p.reload();
 
     // Verify post content.

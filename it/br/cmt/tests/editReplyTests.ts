@@ -18,7 +18,7 @@ function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
         let cmtApp = await w.getCmtApp(p);
         await act.writeCmt(p, { cmtApp, content: def.sd.content });
         let cmtEl = cm.getTopCmt({ cmtApp });
-        await act.writeReply(p, { cmtEl, content: def.sd.content });
+        await act.writeReply(p, { cmtEl, content: def.sd.content, date: def.oldDate });
 
         if (!fresh) {
           await p.reload();

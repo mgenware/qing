@@ -70,9 +70,14 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
       {
         // User 1.
         const cmtApp = await w.getCmtApp(p);
+        const datePrefix = '2006-12-';
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeCmt(p, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeCmt(p, {
+            cmtApp,
+            content: `${i + 1}`,
+            date: new Date(`${datePrefix}${i + 1}`),
+          });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
@@ -148,9 +153,14 @@ function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
       {
         // Setup predefined cmts.
         const cmtApp = await w.getCmtApp(p);
+        const datePrefix = '2006-12-';
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeCmt(p, { cmtApp, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeCmt(p, {
+            cmtApp,
+            content: `${i + 1}`,
+            date: new Date(`${datePrefix}${i + 1}`),
+          });
         }
         await cm.shouldHaveCmtCount({ cmtApp, count: total });
         await cm.shouldHaveShownRootCmtCount(cmtApp, total);

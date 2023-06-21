@@ -37,7 +37,7 @@ test('New post', async ({ page }) => {
       p,
       title: def.sd.content,
       content: def.sd.content,
-      dbTimeChange: true,
+      date: def.oldDate,
       saveBtnText: 'Publish',
     }),
     p.c.waitForURL(/\/p\//),

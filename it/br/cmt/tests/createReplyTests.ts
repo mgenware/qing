@@ -102,10 +102,15 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
           cmtApp,
           content: def.sd.content,
         });
+        const datePrefix = '2006-12-';
         const cmtEl = cm.getTopCmt({ cmtApp });
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeReply(p, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeReply(p, {
+            cmtEl,
+            content: `${i + 1}`,
+            date: new Date(`${datePrefix}${i + 1}`),
+          });
         }
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
@@ -197,9 +202,14 @@ function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
         });
         const cmtEl = cm.getTopCmt({ cmtApp });
 
+        const datePrefix = '2006-12-';
         for (let i = 0; i < total; i++) {
           // eslint-disable-next-line no-await-in-loop
-          await act.writeReply(p, { cmtEl, content: `${i + 1}`, dbTimeChange: true });
+          await act.writeReply(p, {
+            cmtEl,
+            content: `${i + 1}`,
+            date: new Date(`${datePrefix}${i + 1}`),
+          });
         }
         // + 1 extra top cmt.
         await cm.shouldHaveCmtCount({ cmtApp, count: total + 1 });
