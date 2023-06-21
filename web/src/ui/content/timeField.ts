@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { brMode } from 'devMode.js';
 import { BaseElement, customElement, html, property } from 'll.js';
 
 const units = {
@@ -41,6 +42,10 @@ export class TimeField extends BaseElement {
   private formatDate(s: string): [string, Date | null] {
     try {
       const date = this.stringToDate(s);
+      if (brMode()) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return [date.toISOString().split('T')[0]!, date];
+      }
       return [this.formatRelativeDate(date), date];
     } catch (err) {
       return [globalThis.coreLS.invalidDate, null];
