@@ -8,7 +8,7 @@
 import 'core.js';
 import { html, TemplateResult } from 'll.js';
 import * as mRoute from '@qing/routes/i.js';
-import './settings/mSettings';
+import './settings/iSettings';
 import './settings/profile/profileST';
 import './settings/lang/langST';
 import './postCenter/myPostsApp';
@@ -21,7 +21,7 @@ const router = new MiniURLRouter();
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pu.setTitleAndMainContent(
     [selectedItem, globalThis.coreLS.settings],
-    html`<m-settings .selectedItem=${selectedItem}>${content}</m-settings>`,
+    html`<i-settings .selectedItem=${selectedItem}>${content}</i-settings>`,
   );
 }
 

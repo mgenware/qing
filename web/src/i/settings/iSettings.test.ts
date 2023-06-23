@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t.js';
-import './mSettings';
+import './iSettings';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<m-settings></m-settings>`);
+  const el = await fixture<HTMLElement>(html`<i-settings></i-settings>`);
 
   tDOM.isBlockElement(el);
 });

@@ -106,3 +106,19 @@ test('Home page - com - 2 pages', async ({ page }) => {
     await deletePostsByPrefix(prefix);
   }
 });
+
+test('Home page - com - No content', async ({ page }) => {
+  const p = $(page);
+  const prefix = '__no_content__';
+
+  await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
+
+  // No page bar.
+  await pb.shouldNotExist(p.body);
+
+  // No feed items.
+  const items = p.$$(homeItemSel);
+  await items.shouldHaveCount(0);
+
+  await p.$('no-content-view').shouldExist();
+});

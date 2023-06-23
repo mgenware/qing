@@ -7,7 +7,7 @@
 
 import { Page } from 'br.js';
 
-export const settingsViewSel = 'm-settings';
+export const settingsViewSel = 'i-settings';
 export const lPaneSel = '.br-lpane';
 export const rPaneSel = '.br-rpane';
 

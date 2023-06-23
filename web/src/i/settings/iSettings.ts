@@ -14,8 +14,8 @@ const items: SettingsBaseItem[] = [
   { name: globalThis.coreLS.language, link: mRoute.langSettings },
 ];
 
-@customElement('m-settings')
-export class MSettings extends SettingsBaseView {
+@customElement('i-settings')
+export class ISettings extends SettingsBaseView {
   static override get styles() {
     return [
       super.styles,
@@ -37,6 +37,6 @@ export class MSettings extends SettingsBaseView {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'm-settings': MSettings;
+    'i-settings': ISettings;
   }
 }
