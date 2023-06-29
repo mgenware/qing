@@ -19,7 +19,7 @@ import (
 
 var compSep = "|"
 
-// EmailVerificator provides support for vefirying user email during registration.
+// EmailVerificator provides support for vefirying user emails.
 type EmailVerificator struct {
 	prefix  string
 	timeout time.Duration
@@ -70,7 +70,8 @@ func (ev *EmailVerificator) Add(email, data string) (string, error) {
 	return id, nil
 }
 
-// Verify returns if the given ID exists in memory store, and remove existing value. An empty string indicates the value you are querying does not exist in memory store.
+// Verify returns if the given ID exists in memory store, and remove existing value.
+// An empty string indicates the value you are querying does not exist in memory store.
 func (ev *EmailVerificator) Verify(id string) (string, error) {
 	email, err := ev.getEmailFromID(id)
 	if err != nil {

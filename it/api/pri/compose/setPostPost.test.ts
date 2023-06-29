@@ -16,7 +16,7 @@ import * as composeRoute from '@qing/routes/s/pri/compose.js';
 
 const entityBody = {
   entityType: frozenDef.ContentBaseType.post,
-  content: { contentHTML: def.sd.contentDBHTML, title: def.sd.title },
+  content: { html: def.sd.contentDBHTML, title: def.sd.title, summary: def.sd.summary },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

@@ -28,6 +28,7 @@ export const sd = {
   timeString: '1/31/2019',
   title: makeText('title'),
   content: makeText('content'),
+  summary: makeText('summary'),
   contentViewHTML: makeViewHTML('content'),
   contentDBHTML: makeDBHTML('content'),
   updated: makeText('updated'),
