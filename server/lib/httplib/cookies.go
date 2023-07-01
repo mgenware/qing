@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func NewCookie(k, v string, httpOnly bool) *http.Cookie {
+func NewCookie(k, v string, httpOnly, secure bool) *http.Cookie {
 	return &http.Cookie{
 		Name:     url.QueryEscape(k),
 		Value:    url.QueryEscape(v),
@@ -25,7 +25,13 @@ func NewCookie(k, v string, httpOnly bool) *http.Cookie {
 }
 
 func DeleteCookie(k string, httpOnly bool) *http.Cookie {
-	c := NewCookie(k, "", httpOnly)
-	c.Expires = time.Now().AddDate(-1, -1, -1)
+	c := &http.Cookie{
+		Name:    url.QueryEscape(k),
+		Value:   "",
+		Path:    "/",
+		Expires: time.Unix(0, 0),
+
+		HttpOnly: true,
+	}
 	return c
 }
