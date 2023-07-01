@@ -15,7 +15,13 @@ import (
 )
 
 func NewCookie(k, v string, httpOnly bool) *http.Cookie {
-	return &http.Cookie{Name: url.QueryEscape(k), Value: url.QueryEscape(v), Path: "/", Expires: time.Now().Add(def.CookiesDefaultExpiry), HttpOnly: httpOnly}
+	return &http.Cookie{
+		Name:     url.QueryEscape(k),
+		Value:    url.QueryEscape(v),
+		Path:     "/",
+		Expires:  time.Now().Add(def.CookiesDefaultExpiry),
+		HttpOnly: httpOnly,
+		SameSite: http.SameSiteStrictMode}
 }
 
 func DeleteCookie(k string, httpOnly bool) *http.Cookie {
