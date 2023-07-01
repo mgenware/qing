@@ -16,6 +16,7 @@ import (
 	"net/url"
 	"qing/a/appMS"
 	"qing/a/appcm"
+	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/def"
 	"qing/a/urlx"
@@ -44,12 +45,13 @@ func userIDToSIDKey(uid uint64) string {
 type SessionManager struct {
 	logger coretype.CoreLogger
 	appURL *urlx.URL
+	cc     *cfgx.CoreConfig
 
 	conn coretype.CoreMemoryStoreConn
 }
 
-func NewSessionManager(conn coretype.CoreMemoryStoreConn, logger coretype.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
-	return &SessionManager{conn: conn, logger: logger, appURL: appURL}, nil
+func NewSessionManager(cc *cfgx.CoreConfig, conn coretype.CoreMemoryStoreConn, logger coretype.CoreLogger, appURL *urlx.URL) (*SessionManager, error) {
+	return &SessionManager{conn: conn, logger: logger, appURL: appURL, cc: cc}, nil
 }
 
 func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *appcm.SessionUser) error {
@@ -57,7 +59,7 @@ func (sm *SessionManager) Login(w http.ResponseWriter, r *http.Request, user *ap
 	if err != nil {
 		return err
 	}
-	cookie := newSessionCookie(sid)
+	cookie := newSessionCookie(sid, sm.cc)
 	http.SetCookie(w, cookie)
 	return nil
 }

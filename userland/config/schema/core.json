@@ -80,6 +80,7 @@
           "minimum": 0
         },
         "log_404_error": { "type": "boolean" },
+        "unsafe_mode": { "type": "boolean" },
         "static": {
           "type": "object",
           "properties": {

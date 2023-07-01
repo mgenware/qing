@@ -10,21 +10,29 @@ package httplib
 import (
 	"net/http"
 	"net/url"
+	"qing/a/cfgx"
 	"qing/a/def"
 	"time"
 )
 
-func NewCookie(k, v string, httpOnly, secure bool) *http.Cookie {
+func NewCookie(k, v string, cc *cfgx.CoreConfig) *http.Cookie {
+	var secure bool
+	if cc.Dev != nil {
+		secure = false
+	} else {
+		secure = !cc.HTTP.UnsafeMode
+	}
 	return &http.Cookie{
 		Name:     url.QueryEscape(k),
 		Value:    url.QueryEscape(v),
 		Path:     "/",
 		Expires:  time.Now().Add(def.CookiesDefaultExpiry),
-		HttpOnly: httpOnly,
+		HttpOnly: true,
+		Secure:   secure,
 		SameSite: http.SameSiteStrictMode}
 }
 
-func DeleteCookie(k string, httpOnly bool) *http.Cookie {
+func DeleteCookie(k string) *http.Cookie {
 	c := &http.Cookie{
 		Name:    url.QueryEscape(k),
 		Value:   "",

@@ -31,6 +31,7 @@ func init() {
 	msConn := appMS.GetConn()
 
 	sessionMgr, err := userx.NewSessionManager(
+		cc,
 		msConn,
 		logger,
 		urlx)

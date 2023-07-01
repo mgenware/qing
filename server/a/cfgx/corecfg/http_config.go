@@ -14,6 +14,8 @@ type HTTPConfig struct {
 	Static *HTTPStaticConfig `json:"static,omitempty"`
 	// If 404 errors are logged.
 	Log404Error bool `json:"log_404_error,omitempty"`
+	// HTTP only mode.
+	UnsafeMode bool `json:"unsafe_mode,omitempty"`
 }
 
 type HTTPStaticConfig struct {

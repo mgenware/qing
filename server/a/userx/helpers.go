@@ -9,14 +9,15 @@ package userx
 
 import (
 	"net/http"
+	"qing/a/cfgx"
 	"qing/a/def"
 	"qing/lib/httplib"
 )
 
-func newSessionCookie(sid string) *http.Cookie {
-	return httplib.NewCookie(def.SessionCookieKey, sid, true)
+func newSessionCookie(sid string, cc *cfgx.CoreConfig) *http.Cookie {
+	return httplib.NewCookie(def.SessionCookieKey, sid, cc)
 }
 
 func newDeletedSessionCookie(sid string) *http.Cookie {
-	return httplib.DeleteCookie(def.SessionCookieKey, true)
+	return httplib.DeleteCookie(def.SessionCookieKey)
 }

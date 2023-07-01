@@ -25,7 +25,7 @@ import (
 )
 
 type Manager struct {
-	cfg          *cfgx.CoreConfig
+	cc           *cfgx.CoreConfig
 	fallbackDict *Dictionary
 	fallbackLang string
 	lsDict       map[string]*Dictionary
@@ -70,7 +70,7 @@ func NewManagerFromConfig(cc *cfgx.CoreConfig) (*Manager, error) {
 		return nil, errors.New("unexpected nil `fallbackDict`")
 	}
 
-	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, cfg: cc}, nil
+	return &Manager{lsDict: lsDict, fallbackDict: fallbackDict, fallbackLang: fallbackLang, langMatcher: matcher, langTags: tags, cc: cc}, nil
 }
 
 // FallbackLanguage returns the default language of this manager.
@@ -116,7 +116,7 @@ func (mgr *Manager) MatchLanguage(w http.ResponseWriter, r *http.Request) string
 	}
 
 	// Write resolved lang to cookies.
-	mgr.writeLangCookie(w, lang)
+	mgr.writeLangCookie(w, lang, mgr.cc)
 	return lang
 }
 
@@ -138,7 +138,7 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 	})
 }
 
-func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := httplib.NewCookie(appDef.KeyLang, lang, false)
+func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string, cc *cfgx.CoreConfig) {
+	c := httplib.NewCookie(appDef.KeyLang, lang, cc)
 	http.SetCookie(w, c)
 }

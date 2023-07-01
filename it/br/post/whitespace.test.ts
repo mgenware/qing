@@ -24,13 +24,14 @@ test('Editor vertical scroll and whitespaces', async ({ page }) => {
     await cps.updateContent(overlayEl, {
       content: longText,
     });
+    await p.$('md-content').waitForLitUpdate();
 
     // Check editor content has vertical scrollbar.
     const contentEl = overlayEl.$('.kx-content');
-    const hasVericalScrollbar = await contentEl.c.evaluate(
+    const hasVerticalScrollbar = await contentEl.c.evaluate(
       (el) => el.scrollHeight > el.clientHeight,
     );
-    expect(hasVericalScrollbar).toBe(true);
+    expect(hasVerticalScrollbar).toBe(true);
 
     await cps.clickSaveButton(overlayEl, { p, saveBtnText: 'Save' });
     await iShouldNotCallThisDelay();
