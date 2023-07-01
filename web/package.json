@@ -10,11 +10,11 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@codemirror/lang-markdown": "^6.2.0",
+    "@codemirror/lang-markdown": "^6.1.1",
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.14.0",
+    "@codemirror/view": "^6.13.2",
     "@github/image-crop-element": "^5.0.0",
     "@popperjs/core": "^2.11.8",
     "@qing/def": "workspace:*",
@@ -32,7 +32,7 @@
     "qing-css-base": "^1.4.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
-    "tslib": "^2.6.0"
+    "tslib": "^2.5.3"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.2.0",

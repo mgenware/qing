@@ -14,7 +14,7 @@
     "@qing/devutil": "workspace:*",
     "del": "^7.0.0",
     "gen-go-type": "^1.4.1",
-    "globby": "^13.2.0",
+    "globby": "^13.1.4",
     "go-const-gen": "^2.1.0",
     "is-plain-obj": "^4.1.0",
     "js-yaml": "^4.1.0",
