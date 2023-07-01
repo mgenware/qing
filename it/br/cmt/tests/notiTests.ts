@@ -19,14 +19,14 @@ export default function testReplyNoti(w: cm.CmtFixtureWrapper) {
       {
         {
           // Sign in with the tmp user.
-          await p.reload(u);
+          await p.reloadWithUser(u);
           // tmp user: creates a cmt.
           const cmtApp = await w.getCmtApp(p);
           await act.writeCmt(p, { cmtApp, content: def.sd.content });
         }
         {
           // user1: replies to it.
-          await p.reload(br.usr.user);
+          await p.reloadWithUser(br.usr.user);
           const cmtApp = await w.getCmtApp(p);
           const postLink = w.getHostURL(p);
 

@@ -30,14 +30,14 @@ test('`br.page.reload()`', async ({ page }) => {
 test('`br.page.reload` called with a different user', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await p.reload(usr.user2);
+  await p.reloadWithUser(usr.user2);
   await nb.checkUserNavbar(p, usr.user2);
 });
 
 test('`br.page.reload` called to sign out', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
-  await p.reload(null);
+  await p.reloadWithUser(null);
   await nb.checkVisitorNavbar(p);
 });
 

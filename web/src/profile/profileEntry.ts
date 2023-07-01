@@ -19,13 +19,16 @@ import 'ui/alerts/noContentView.js';
 import profileWind from './profileWind.js';
 
 const defaultHighlightedTab = appDef.keyPosts;
+const qingLSCls = '__qing_ls__';
 
-// Localzied strings.
-document.querySelectorAll<HTMLElement>('.__qing_ls__').forEach((el) => {
+// Update localized strings.
+document.querySelectorAll<HTMLElement>(`.${qingLSCls}`).forEach((el) => {
   if (el.textContent) {
     // eslint-disable-next-line max-len
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, no-param-reassign, @typescript-eslint/no-explicit-any
     el.textContent = (globalThis.coreLS as any)[el.textContent];
+
+    el.classList.remove(qingLSCls);
   }
 });
 

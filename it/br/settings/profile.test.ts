@@ -18,6 +18,8 @@ import * as cm from './common.js';
 
 const bioEditorSel = '.bio-editor';
 
+const longText = `A${'\n'.repeat(30)}B`;
+
 test('Settings - Profile - Click-through from navbar', async ({ page }) => {
   const p = $(page);
   await p.goto('/', usr.user);
@@ -55,7 +57,7 @@ test('Settings - Update profile info', async ({ page }) => {
     await rootEl.$inputView('URL').fillInput('NEW_URL');
     await rootEl.$inputView('Company').fillInput('NEW_COMPANY');
     await rootEl.$inputView('Location').fillInput('NEW_LOCATION');
-    await ed.fill(rootEl.$(bioEditorSel), '<NEW_USER_BIO>');
+    await ed.fill(rootEl.$(bioEditorSel), longText);
 
     await rootEl.$qingButton('Save').click();
 
@@ -69,7 +71,10 @@ test('Settings - Update profile info', async ({ page }) => {
     await ivh.shouldHaveValue(rootEl.$inputView('Company'), 'NEW_COMPANY');
     await ivh.shouldHaveValue(rootEl.$inputView('Location'), 'NEW_LOCATION');
 
-    await ed.shouldHaveContent(rootEl.$(bioEditorSel), '<p>&lt;NEW_USER_BIO&gt;</p>');
+    await ed.shouldHaveContent(
+      rootEl.$(bioEditorSel),
+      '<p>A</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p>B</p>',
+    );
 
     // Check user profile page.
     await p.goto(`/u/${u.id}`, null);
@@ -77,7 +82,9 @@ test('Settings - Update profile info', async ({ page }) => {
     await rootEl.$hasText('h2', 'NEW_NAME').e.toBeVisible();
     await rootEl.$hasText('p', 'NEW_COMPANY').e.toBeVisible();
     await rootEl.$hasText('p', 'NEW_LOCATION').e.toBeVisible();
-    await rootEl.$hasText('p', '<NEW_USER_BIO>').e.toBeVisible();
+    expect(await rootEl.$('.md-content').c.innerHTML()).toBe(
+      '<p>A</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p>B</p>',
+    );
     await rootEl.$a({ href: 'http://NEW_URL', text: 'NEW_URL' }).e.toBeVisible();
   });
 });

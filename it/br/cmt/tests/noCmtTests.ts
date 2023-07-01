@@ -22,7 +22,7 @@ export default function testNoCmts(w: cm.CmtFixtureWrapper) {
     }
     {
       // User view.
-      await p.reload(usr.user);
+      await p.reloadWithUser(usr.user);
       const cmtApp = await w.getCmtApp(p);
       await cm.commentsHeadingShouldAppear({ cmtApp });
       await cm.shouldHaveCmtCount({ cmtApp, count: 0 });

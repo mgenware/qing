@@ -279,14 +279,8 @@ export class Page {
     return this.c.setViewportSize(desktopViewport);
   }
 
-  // Reloads current page.
-  // `user`: undefined -> no change to credentials. null -> visitor.
-  async reload(user?: api.User | null) {
+  async reloadWithUser(user: api.User | null) {
     const page = this.c;
-    if (user === undefined) {
-      await page.reload();
-      return;
-    }
     const url = page.url();
     if (user) {
       await this.signIn(user);
@@ -294,6 +288,10 @@ export class Page {
       await this.signOut();
     }
     await page.goto(url);
+  }
+
+  reload() {
+    return this.c.reload();
   }
 
   async signOut() {
