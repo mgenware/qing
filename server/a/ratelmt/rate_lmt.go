@@ -16,6 +16,7 @@ import (
 	"qing/a/cfgx"
 	"qing/a/coretype"
 	"qing/a/def"
+	"qing/lib/httplib"
 	"strconv"
 
 	"github.com/go-redis/redis_rate/v10"
@@ -38,15 +39,12 @@ func NewRateLmt(cfg *cfgx.CoreConfig, conn coretype.CoreMemoryStoreConn) (*RateL
 	pcMain := redis_rate.NewLimiter(rdb)
 	pcCold := redis_rate.NewLimiter(rdb)
 
+	// Note that c could be nil.
 	c := cfg.Security.RateLimit
-
-	var realIPHeader string
+	realIPHeader := ""
 	if c != nil {
-		if c.RealIPHeader != "" {
-			realIPHeader = http.CanonicalHeaderKey(c.RealIPHeader)
-		}
+		realIPHeader = c.RealIPHeader
 	}
-
 	return &RateLmt{
 		postCoreMain: pcMain,
 		postCoreCold: pcCold,
@@ -80,7 +78,10 @@ func (lmt *RateLmt) RequestSignUp(r *http.Request) (bool, error) {
 		return true, nil
 	}
 
-	ip := r.Header.Get(lmt.realIPHeader)
+	ip, err := httplib.GetRealIP(r, lmt.realIPHeader)
+	if err != nil {
+		return false, err
+	}
 	if ip == "" {
 		return true, nil
 	}

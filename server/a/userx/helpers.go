@@ -10,13 +10,13 @@ package userx
 import (
 	"net/http"
 	"qing/a/def"
-	"qing/lib/htmllib"
+	"qing/lib/httplib"
 )
 
 func newSessionCookie(sid string) *http.Cookie {
-	return htmllib.NewCookie(def.SessionCookieKey, sid, true)
+	return httplib.NewCookie(def.SessionCookieKey, sid, true)
 }
 
 func newDeletedSessionCookie(sid string) *http.Cookie {
-	return htmllib.DeleteCookie(def.SessionCookieKey, true)
+	return httplib.DeleteCookie(def.SessionCookieKey, true)
 }

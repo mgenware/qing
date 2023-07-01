@@ -67,8 +67,13 @@ func apiRouter() *handler.JSONRouter {
 	composeRouter.Post("/delete-posts-by-pattern", deletePostsByPattern)
 	r.Mount("/compose", composeRouter)
 
-	// Mail router
+	// Mail router.
 	r.Mount("/mails", mails.Router)
+
+	// Misc router.
+	miscRouter := handler.NewJSONRouter()
+	miscRouter.Post("/real-ip", checkRealIP)
+	r.Mount("/misc", miscRouter)
 	return r
 }
 

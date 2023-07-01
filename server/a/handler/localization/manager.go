@@ -21,7 +21,7 @@ import (
 	"qing/a/def"
 	"qing/a/def/appDef"
 	"qing/a/def/infraDef"
-	"qing/lib/htmllib"
+	"qing/lib/httplib"
 )
 
 type Manager struct {
@@ -139,6 +139,6 @@ func (mgr *Manager) EnableContextLanguageMW(next http.Handler) http.Handler {
 }
 
 func (mgr *Manager) writeLangCookie(w http.ResponseWriter, lang string) {
-	c := htmllib.NewCookie(appDef.KeyLang, lang, false)
+	c := httplib.NewCookie(appDef.KeyLang, lang, false)
 	http.SetCookie(w, c)
 }

@@ -5,10 +5,20 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll.js';
+import { BaseElement, customElement, html, css, state } from 'll.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import * as devRoot from '@qing/routes/dev/root.js';
 import * as mailsRoute from '@qing/routes/dev/mails.js';
+import * as miscAPI from '@qing/routes/dev/api/misc.js';
+import LoadingStatus from 'lib/loadingStatus.js';
+import 'ui/status/statusView.js';
+import Loader from 'lib/loader.js';
+
+class GetRealIPLoader extends Loader<string> {
+  override requestURL(): string {
+    return miscAPI.realIP;
+  }
+}
 
 @customElement('dev-page')
 export class DevPage extends BaseElement {
@@ -28,7 +38,12 @@ export class DevPage extends BaseElement {
     ];
   }
 
-  @property() loginUserID = '1';
+  @state() _realIPLoadingStatus = LoadingStatus.notStarted;
+  @state() _realIP = '';
+
+  override async firstUpdated() {
+    await this.loadReadIP();
+  }
 
   override render() {
     return html`
@@ -40,7 +55,32 @@ export class DevPage extends BaseElement {
         <a href=${mailsRoute.users}>User mails</a>
         <a href=${devRoot.sendRealMail}>Send real mails</a>
       </div>
+      ${this.renderRealIP()}
     `;
+  }
+
+  private async renderRealIP() {
+    return html`
+      <h2>Real-IP:</h2>
+      <p>
+        <code
+          >${this._realIPLoadingStatus.isSuccess
+            ? html`${this._realIP}`
+            : html`<status-view .status=${this._realIPLoadingStatus}></status-view>`}</code
+        >
+      </p>
+    `;
+  }
+
+  private async loadReadIP() {
+    const loader = new GetRealIPLoader();
+    loader.loadingStatusChanged = (status) => {
+      this._realIPLoadingStatus = status;
+    };
+    const ip = await loader.startAsync();
+    if (ip) {
+      this._realIP = ip;
+    }
   }
 }
 

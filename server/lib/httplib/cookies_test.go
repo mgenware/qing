@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package htmllib
+package httplib
 
 import (
 	"testing"
