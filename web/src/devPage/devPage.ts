@@ -13,6 +13,7 @@ import * as miscAPI from '@qing/routes/dev/api/misc.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import 'ui/status/statusView.js';
 import Loader from 'lib/loader.js';
+import appTask from 'app/appTask.js';
 
 class GetRealIPLoader extends Loader<string> {
   override requestURL(): string {
@@ -59,7 +60,7 @@ export class DevPage extends BaseElement {
     `;
   }
 
-  private async renderRealIP() {
+  private renderRealIP() {
     return html`
       <h2>Real-IP:</h2>
       <p>
@@ -74,12 +75,9 @@ export class DevPage extends BaseElement {
 
   private async loadReadIP() {
     const loader = new GetRealIPLoader();
-    loader.loadingStatusChanged = (status) => {
-      this._realIPLoadingStatus = status;
-    };
-    const ip = await loader.startAsync();
-    if (ip) {
-      this._realIP = ip;
+    const res = await appTask.local(loader, (st) => (this._realIPLoadingStatus = st));
+    if (res.data) {
+      this._realIP = res.data;
     }
   }
 }
