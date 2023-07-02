@@ -19,26 +19,26 @@ import (
 
 var compSep = "|"
 
-// EmailVerificator provides support for vefirying user emails.
-type EmailVerificator struct {
+// EmailVerifier provides support for verifying user emails.
+type EmailVerifier struct {
 	prefix  string
 	timeout time.Duration
 	conn    coretype.CoreMemoryStoreConn
 }
 
-// NewEmailVerificator creates a new EmailVerificator.
-func NewEmailVerificator(conn coretype.CoreMemoryStoreConn, prefix string, timeout time.Duration) *EmailVerificator {
-	return &EmailVerificator{conn: conn, prefix: prefix, timeout: timeout}
+// NewEmailVerifier creates a new EmailVerifier.
+func NewEmailVerifier(conn coretype.CoreMemoryStoreConn, prefix string, timeout time.Duration) *EmailVerifier {
+	return &EmailVerifier{conn: conn, prefix: prefix, timeout: timeout}
 }
 
 // Add creates an in-memory entry with the specified email formatter as key and a associated value.
 // This adds 2 entries to the backing store:
 //
-//	"<prefix>:email-to-id:<email>" = "<ID>"
-//	"<prefix>:id-to-data:<ID>" = "<data>"
+//	"<prefix>:email->id:<email>" = "<ID>"
+//	"<prefix>:id->data:<ID>" = "<data>"
 //
 // ID: base64WithoutPadding(<email>:<UUID>)
-func (ev *EmailVerificator) Add(email, data string) (string, error) {
+func (ev *EmailVerifier) Add(email, data string) (string, error) {
 	// Check if there is a pending entry for this email.
 	emailToIDKey := ev.getEmailToIDKey(email)
 	_, pendingID, err := ev.conn.GetStringValue(emailToIDKey)
@@ -72,7 +72,7 @@ func (ev *EmailVerificator) Add(email, data string) (string, error) {
 
 // Verify returns if the given ID exists in memory store, and remove existing value.
 // An empty string indicates the value you are querying does not exist in memory store.
-func (ev *EmailVerificator) Verify(id string) (string, error) {
+func (ev *EmailVerifier) Verify(id string) (string, error) {
 	email, err := ev.getEmailFromID(id)
 	if err != nil {
 		return "", err
@@ -96,15 +96,15 @@ func (ev *EmailVerificator) Verify(id string) (string, error) {
 	return data, nil
 }
 
-func (ev *EmailVerificator) getEmailToIDKey(email string) string {
-	return ev.prefix + ":email-to-id:" + email
+func (ev *EmailVerifier) getEmailToIDKey(email string) string {
+	return ev.prefix + ":email->id:" + email
 }
 
-func (ev *EmailVerificator) getIDToDataKey(email, id string) string {
-	return ev.prefix + ":id-to-data:" + email + ":" + id
+func (ev *EmailVerifier) getIDToDataKey(email, id string) string {
+	return ev.prefix + ":id->data:" + email + ":" + id
 }
 
-func (ev *EmailVerificator) createID(email string) (string, error) {
+func (ev *EmailVerifier) createID(email string) (string, error) {
 	idObj, err := uuid.NewRandom()
 	if err != nil {
 		return "", err
@@ -113,11 +113,11 @@ func (ev *EmailVerificator) createID(email string) (string, error) {
 	return base64.RawStdEncoding.EncodeToString([]byte(email + compSep + uuid)), nil
 }
 
-func (ev *EmailVerificator) invalidInputErr(str string) error {
+func (ev *EmailVerifier) invalidInputErr(str string) error {
 	return fmt.Errorf("invalid input \"%v\"", str)
 }
 
-func (ev *EmailVerificator) getEmailFromID(id string) (string, error) {
+func (ev *EmailVerifier) getEmailFromID(id string) (string, error) {
 	decodedBytes, err := base64.RawStdEncoding.DecodeString(id)
 	if err != nil {
 		return "", ev.invalidInputErr(id)

@@ -52,7 +52,8 @@ test('Profile - Info', async ({ page }) => {
     .$('a[id="m-profile-url"][href="http://USER_WEBSITE"][target="_blank"]')
     .e.toBeVisible();
   await infoEl.$('profile-id-view[value="2u"]').shouldExist();
-  await infoEl.$hasText('p', '<USER_BIO>').e.toBeVisible();
+  const bioEl = infoEl.$('.md-content');
+  await bioEl.shouldHaveHTML('&lt;USER_BIO&gt;');
   await checkTabSelected(p, postTabSel);
 });
 

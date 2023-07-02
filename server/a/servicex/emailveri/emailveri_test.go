@@ -30,7 +30,7 @@ func getIDToDataKey(prefix, email, id string) string {
 	return prefix + ":id-to-data:" + email + ":" + id
 }
 
-func getID(v *EmailVerificator, prefix, email string) (string, error) {
+func getID(v *EmailVerifier, prefix, email string) (string, error) {
 	key := getEmailToIDKey(prefix, email)
 	_, id, err := appMS.GetConn().GetStringValue(key)
 	if err != nil {
@@ -51,7 +51,7 @@ func mustGetStoreValue(assert *assert.Assertions, key, expected string) {
 func TestAddAndVerify(t *testing.T) {
 	assert := assert.New(t)
 
-	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
+	v := NewEmailVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
 	assert.Nil(err)
 
@@ -72,7 +72,7 @@ func TestAddAndVerify(t *testing.T) {
 func TestVerifyFailed(t *testing.T) {
 	assert := assert.New(t)
 
-	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 3*time.Second)
+	v := NewEmailVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
 	assert.Nil(err)
 
@@ -91,7 +91,7 @@ func TestVerifyFailed(t *testing.T) {
 func TestAddAndTimeout(t *testing.T) {
 	assert := assert.New(t)
 
-	v := NewEmailVerificator(appMS.GetConn(), tPrefix, 1*time.Second)
+	v := NewEmailVerifier(appMS.GetConn(), tPrefix, 1*time.Second)
 	_, err := v.Add(tEmail, tData)
 	assert.Nil(err)
 

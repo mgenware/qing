@@ -66,7 +66,7 @@ function testEraseCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
       }
       {
         // Visitor.
-        await p.reload(null);
+        await p.reloadWithUser(null);
         const cmtApp = await w.getCmtApp(p);
         await cm.shouldHaveCmtCount({ cmtApp, count: 3 });
 

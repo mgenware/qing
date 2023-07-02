@@ -81,9 +81,9 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	createUserDataString, err := CreateUserDataToString(&createUserData)
 	appcm.PanicOn(err)
 
-	publicID, err := appService.Get().RegEmailVerificator.Add(email, createUserDataString)
+	publicID, err := appService.Get().RegEmailVerifier.Add(email, createUserDataString)
 	if err != nil {
-		panic(fmt.Errorf("error: RegEmailVerificator.Add failed: %v", err.Error()))
+		panic(fmt.Errorf("error: RegEmailVerifier.Add failed: %v", err.Error()))
 	}
 
 	ctx := r.Context()

@@ -38,7 +38,7 @@ func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	lang := appcm.ContextLanguage(r.Context())
 	ls := appHandler.MainPage().Dictionary(lang)
-	dataString, err := appService.Get().RegEmailVerificator.Verify(key)
+	dataString, err := appService.Get().RegEmailVerifier.Verify(key)
 	appcm.PanicOn(err)
 
 	if dataString == "" {

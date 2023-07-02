@@ -22,12 +22,12 @@ import (
 
 // Service contains components for curtain independent tasks.
 type Service struct {
-	Sanitizer           *htmllib.Sanitizer
-	HashingAlg          *hashingalg.HashingAlg
-	RegEmailVerificator *emailveri.EmailVerificator
-	Mail                *mailx.MailService
-	Noti                *notix.Service
-	RateLmt             *ratelmt.RateLmt
+	Sanitizer        *htmllib.Sanitizer
+	HashingAlg       *hashingalg.HashingAlg
+	RegEmailVerifier *emailveri.EmailVerifier
+	Mail             *mailx.MailService
+	Noti             *notix.Service
+	RateLmt          *ratelmt.RateLmt
 }
 
 func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
@@ -35,7 +35,7 @@ func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn core
 
 	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(cc)
-	s.RegEmailVerificator = emailveri.NewEmailVerificator(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
+	s.RegEmailVerifier = emailveri.NewEmailVerifier(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
 
 	s.Mail = mailx.NewMailService(cc)
 	s.Noti = notix.NewNotiService(s.Mail)

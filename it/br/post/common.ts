@@ -15,7 +15,7 @@ import * as cps from 'br/cm/editing/composer.js';
 export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';
 
 export async function shouldHaveHTML(page: br.Page, html: string) {
-  br.expect(await page.$('.m-post-user + hr + div').c.innerHTML()).toBe(html);
+  await page.$('.m-post-user + hr + div').shouldHaveHTML(html);
 }
 
 export async function shouldHaveTitle(page: br.Page, title: string, link: string) {
