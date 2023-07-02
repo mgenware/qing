@@ -8,7 +8,7 @@
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import * as devRoot from '@qing/routes/dev/root.js';
-import * as mailsRoute from '@qing/routes/dev/mails.js';
+import * as mailRoute from '@qing/routes/dev/mail.js';
 import * as miscAPI from '@qing/routes/dev/api/misc.js';
 import LoadingStatus from 'lib/loadingStatus.js';
 import 'ui/status/statusView.js';
@@ -53,7 +53,7 @@ export class DevPage extends BaseElement {
       <div class="root-list">
         <a href=${authRoute.authRoot}>Auth</a>
         <a href=${devRoot.elements}>Elements</a>
-        <a href=${mailsRoute.users}>User mails</a>
+        <a href=${mailRoute.users}>Mail</a>
         <a href=${devRoot.sendRealMail}>Send real mails</a>
       </div>
       ${this.renderRealIP()}

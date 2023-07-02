@@ -28,6 +28,7 @@ type Service struct {
 	Mail             *mailx.MailService
 	Noti             *notix.Service
 	RateLmt          *ratelmt.RateLmt
+	LostPwdVerifier  *emailveri.EmailVerifier
 }
 
 func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
@@ -36,6 +37,7 @@ func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn core
 	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(cc)
 	s.RegEmailVerifier = emailveri.NewEmailVerifier(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
+	s.LostPwdVerifier = emailveri.NewEmailVerifier(msConn, def.MSLostPwdPrefix, def.MSRegEmailExpiry)
 
 	s.Mail = mailx.NewMailService(cc)
 	s.Noti = notix.NewNotiService(s.Mail)

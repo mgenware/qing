@@ -6,12 +6,12 @@
  */
 
 import Loader from 'lib/loader.js';
-import * as mailsAPI from '@qing/routes/dev/api/mails.js';
+import * as mailAPI from '@qing/routes/dev/api/mail.js';
 import { DevMail } from 'sod/dev/dev.js';
 
 export class UsersLoader extends Loader<string[]> {
   override requestURL(): string {
-    return mailsAPI.users;
+    return mailAPI.users;
   }
 }
 
@@ -27,7 +27,7 @@ export class InboxLoader extends Loader<DevMail[]> {
   }
 
   override requestURL(): string {
-    return mailsAPI.inbox;
+    return mailAPI.inbox;
   }
 }
 
@@ -44,6 +44,6 @@ export class MailLoader extends Loader<DevMail> {
   }
 
   override requestURL(): string {
-    return mailsAPI.get;
+    return mailAPI.get;
   }
 }

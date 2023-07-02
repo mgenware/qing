@@ -12,7 +12,7 @@ import (
 	"qing/a/appHandler"
 	"qing/a/handler"
 	"qing/a/middleware"
-	"qing/r/devp/mails"
+	"qing/r/devp/mail"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -68,7 +68,7 @@ func apiRouter() *handler.JSONRouter {
 	r.Mount("/compose", composeRouter)
 
 	// Mail router.
-	r.Mount("/mails", mails.Router)
+	r.Mount("/mail", mail.Router)
 
 	// Misc router.
 	miscRouter := handler.NewJSONRouter()

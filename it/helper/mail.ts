@@ -6,7 +6,7 @@
  */
 
 import { api } from 'api.js';
-import * as mailAPI from '@qing/routes/dev/api/mails.js';
+import * as mailAPI from '@qing/routes/dev/api/mail.js';
 import { parse } from 'node-html-parser';
 
 const mainElSel = '#main';
@@ -34,8 +34,18 @@ export function eraseByID(e: { id: string }) {
   return api<DevMail>(mailAPI.eraseUserByID, e, null);
 }
 
-export function sendRealMail(e: { to: string; title: string; content: string }) {
+export type SendMailData = {
+  to: string;
+  title: string;
+  content: string;
+};
+
+export function sendRealMail(e: SendMailData) {
   return api<DevMail>(mailAPI.sendRealMail, e, null);
+}
+
+export function sendDevMail(e: SendMailData) {
+  return api<DevMail>(mailAPI.sendDevMail, e, null);
 }
 
 // Extracts mail content HTML from page HTML.

@@ -29,12 +29,12 @@ func NewMailService(cc *cfgx.CoreConfig) *MailService {
 	return res
 }
 
-func (mn *MailService) SendMail(ac *cfgx.AppConfig, to, title, contentHTML string, noDevMail bool, siteName string) error {
+func (mn *MailService) SendMail(ac *cfgx.AppConfig, to, title, contentHTML string, realMail bool, siteName string) error {
 	if to == "" {
 		return errors.New("empty \"to\" field in `MailService.Send`")
 	}
 	// Write to file system in dev mode.
-	if mn.devDir != "" && !noDevMail {
+	if mn.devDir != "" && !realMail {
 		err := devmail.SendMail(mn.devDir, to, title, contentHTML)
 		if err != nil {
 			return err

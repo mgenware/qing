@@ -55,7 +55,7 @@ function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
       }
       {
         // Visitor.
-        await p.reload(null);
+        await p.reloadWithUser(null);
         const cmtApp = await w.getCmtApp(p);
 
         const cmtEl = cm.getTopCmt({ cmtApp });

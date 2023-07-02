@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package mails
+package mail
 
 import (
 	"qing/a/handler"
@@ -17,6 +17,7 @@ func init() {
 	Router.Post("/get", getDevMail)
 	Router.Post("/get-latest", getDevLatestMail)
 	Router.Post("/send-real", sendRealMail)
+	Router.Post("/send-dev", sendDevMail)
 	Router.Post("/erase-user", eraseUser)
 	Router.Post("/erase-user-by-id", eraseUserByID)
 	Router.Post("/users", users)

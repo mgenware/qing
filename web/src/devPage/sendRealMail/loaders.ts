@@ -6,7 +6,7 @@
  */
 
 import Loader from 'lib/loader.js';
-import * as mailsAPI from '@qing/routes/dev/api/mails.js';
+import * as mailAPI from '@qing/routes/dev/api/mail.js';
 
 export interface SendMailLoaderArgs {
   to: string;
@@ -21,7 +21,7 @@ export class SendRealMailLoader extends Loader<void> {
   }
 
   override requestURL(): string {
-    return mailsAPI.sendRealMail;
+    return mailAPI.sendRealMail;
   }
 
   override requestParams() {

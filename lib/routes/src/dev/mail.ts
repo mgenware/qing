@@ -7,8 +7,8 @@
 
 import root from './root.js';
 
-export const mailsRoot = `${root}/mails`;
+export const mailRoot = `${root}/mail`;
 
-export const users = `${mailsRoot}/users`;
-export const inbox = `${mailsRoot}/inbox`;
-export const mail = `${mailsRoot}/mail`;
+export const users = `${mailRoot}/users`;
+export const inbox = `${mailRoot}/inbox`;
+export const mail = `${mailRoot}/mail`;

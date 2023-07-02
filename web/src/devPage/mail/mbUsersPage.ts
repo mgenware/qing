@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'ui/alerts/noContentView.js';
-import * as mailsRoute from '@qing/routes/dev/mails.js';
+import * as mailRoute from '@qing/routes/dev/mail.js';
 import * as loaders from './loaders.js';
 import appTask from 'app/appTask.js';
 
@@ -33,7 +33,7 @@ export class MBUsersPage extends BaseElement {
     }
     return html`
       <div class="root m-b-md">
-        ${users.map((u) => html`<a href=${`${mailsRoute.inbox}/${u}`}><p>${u}</p> </a>`)}
+        ${users.map((u) => html`<a href=${`${mailRoute.inbox}/${u}`}><p>${u}</p> </a>`)}
       </div>
     `;
   }

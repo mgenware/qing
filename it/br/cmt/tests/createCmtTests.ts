@@ -48,7 +48,7 @@ function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
         }
         {
           // Visitor.
-          await p.reload(null);
+          await p.reloadWithUser(null);
           const cmtApp = await w.getCmtApp(p);
 
           await cm.shouldAppear({
@@ -94,7 +94,7 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
       }
       {
         // Visitor.
-        await p.reload(null);
+        await p.reloadWithUser(null);
         const cmtApp = await w.getCmtApp(p);
 
         await cm.shouldHaveCmtCount({ cmtApp, count: total });

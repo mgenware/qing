@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, property, state, TemplateResult } from 'll.js';
 import 'ui/alerts/noContentView.js';
-import * as mailsRoute from '@qing/routes/dev/mails.js';
+import * as mailRoute from '@qing/routes/dev/mail.js';
 import * as loaders from './loaders.js';
 import appTask from 'app/appTask.js';
 import './mbDate';
@@ -44,7 +44,7 @@ export class MBInboxPage extends BaseElement {
         <div class="root m-b-md">
           ${mails.map(
             (m) => html`<a
-              href=${`${mailsRoute.mail}/${encodeURIComponent(email)}/${encodeURIComponent(m.id)}`}>
+              href=${`${mailRoute.mail}/${encodeURIComponent(email)}/${encodeURIComponent(m.id)}`}>
               <h3>${m.title}</h3>
               <mb-date .ts=${m.tsMilli}></mb-date>
               <hr />

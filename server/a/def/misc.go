@@ -39,8 +39,11 @@ const (
 	MSUserIDToSID = "auth-us:%v"
 
 	MSRegEmailExpiry time.Duration = 60 * 60 * time.Second
-	// K: Secret ID sent to user email, V: user pwd.
-	MSRegEmailPrefix = "reg-email"
+
+	// MS prefix for email verification.
+	MSRegEmailPrefix = "reg"
+	// MS prefix for password recovery.
+	MSLostPwdPrefix = "rec-pwd"
 
 	// Limit posting rate per second.
 	MSRateLimitPostCorePerSecKey = "rl-pc:%v"

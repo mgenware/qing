@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package mails
+package mail
 
 import (
 	"database/sql"
@@ -48,7 +48,7 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(devMail)
 }
 
-func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+func sendMailCore(w http.ResponseWriter, r *http.Request, realMail bool) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	ac := appConfig.Get(r)
 
@@ -57,9 +57,17 @@ func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	title := clib.MustGetStringFromDict(params, "title", appDef.LenMaxGenericString)
 	content := clib.MustGetTextFromDict(params, "content")
 
-	err := appService.Get().Mail.SendMail(ac, to, title, content, true, "QING_TEST")
+	err := appService.Get().Mail.SendMail(ac, to, title, content, realMail, "QING_TEST")
 	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
+}
+
+func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+	return sendMailCore(w, r, true)
+}
+
+func sendDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+	return sendMailCore(w, r, false)
 }
 
 func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
