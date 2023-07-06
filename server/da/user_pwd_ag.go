@@ -81,3 +81,8 @@ func (mrTable *UserPwdAGType) TestDelete(mrQueryable mingru.Queryable, id uint64
 	result, err := mrQueryable.Exec("DELETE FROM `user_pwd` WHERE `id` = ?", id)
 	return mingru.GetRowsAffectedIntWithError(result, err)
 }
+
+func (mrTable *UserPwdAGType) UpdateHashByID(mrQueryable mingru.Queryable, id uint64, pwdHash string) error {
+	result, err := mrQueryable.Exec("UPDATE `user_pwd` SET `pwd_hash` = ? WHERE `id` = ?", pwdHash, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
