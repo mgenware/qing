@@ -129,8 +129,12 @@ func (u *URL) SignIn() string {
 	return "/" + appDef.RouteAuth + "/sign/in"
 }
 
-func (u *URL) RegEmailVerification(siteURL, publicID string) string {
+func (u *URL) VerifyRegEmail(siteURL, publicID string) string {
 	return siteURL + "/" + appDef.RouteAuth + "/verify-reg-email/" + url.PathEscape(publicID)
+}
+
+func (u *URL) VerifyResetPwd(siteURL, publicID string) string {
+	return siteURL + "/" + appDef.RouteAuth + "/reset-pwd/" + url.PathEscape(publicID)
 }
 
 func (u *URL) ForumAdv(fid uint64, page int) string {

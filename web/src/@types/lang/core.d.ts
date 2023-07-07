@@ -90,6 +90,7 @@ export interface coreLSType {
   pNumOfReplies: string;
   pCollapseNumOfReplies: string;
   createAnAcc: string;
+  forgotPwd: string;
   email: string;
   password: string;
   confirmPassword: string;

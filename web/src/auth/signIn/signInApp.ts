@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css, property } from 'll.js';
+import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'com/cmt/cmtApp';
 import SignInLoader from './loaders/signInLoader.js';
 import 'ui/forms/inputView';
@@ -27,8 +27,8 @@ export class SignInApp extends BaseElement {
     ];
   }
 
-  @property() private email = '';
-  @property() private password = '';
+  @state() private email = '';
+  @state() private password = '';
 
   override render() {
     return html`
@@ -55,7 +55,7 @@ export class SignInApp extends BaseElement {
         </div>
         <qing-button
           btnStyle="success"
-          class="m-t-md enter-key-responder"
+          class="m-t-lg enter-key-responder"
           @click=${this.handleSignInClick}
           >${globalThis.coreLS.signIn}</qing-button
         >

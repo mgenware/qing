@@ -20,6 +20,7 @@ import (
 	"qing/a/def/appDef"
 	"qing/a/handler"
 	"qing/lib/clib"
+	"qing/r/cview"
 )
 
 // CreateUserData contains the information stored in memory store during user email verification.
@@ -28,13 +29,6 @@ type CreateUserData struct {
 	Name  string
 	Pwd   string
 }
-
-type EmailVerificationData struct {
-	MainText string
-	Link     string
-}
-
-var vEmailVeriView = appHandler.EmailPage().MustParseView("emailVerification.html")
 
 // CreateUserDataToString serializes a CreateUserData to string.
 func CreateUserDataToString(d *CreateUserData) (string, error) {
@@ -59,7 +53,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	// ----- Do rate limiting first -----
-	ok, err := appService.Get().RateLmt.RequestSignUp(r)
+	ok, err := appService.Get().RateLmt.RequestIPBasedActivity(r)
 	appcm.PanicOn(err)
 	if !ok {
 		return resp.MustFail(resp.LS().RateLimitExceededErr)
@@ -89,13 +83,13 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	ctx := r.Context()
 	lang := appcm.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
-	url := appURL.Get().RegEmailVerification(ls.QingSiteLink, publicID)
+	url := appURL.Get().VerifyRegEmail(ls.QingSiteLink, publicID)
 
-	d := EmailVerificationData{
+	linkPageData := cview.EmailCommonLinkData{
 		MainText: ls.ClickBelowToCompleteReg,
 		Link:     url,
 	}
-	contentHTML := vEmailVeriView.MustExecuteToString(d)
+	contentHTML := cview.RenderEmailCommonLink(&linkPageData)
 
 	pageData := handler.NewEmailPageData(ls.VerifyYourEmailTitle, ls.ClickBelowToCompleteReg, contentHTML)
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)

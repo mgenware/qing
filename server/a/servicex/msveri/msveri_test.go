@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package emailveri
+package msveri
 
 import (
 	"errors"
@@ -51,7 +51,7 @@ func mustGetStoreValue(assert *assert.Assertions, key, expected string) {
 func TestAddAndVerify(t *testing.T) {
 	assert := assert.New(t)
 
-	v := NewEmailVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
+	v := NewMSVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
 	assert.Nil(err)
 
@@ -72,7 +72,7 @@ func TestAddAndVerify(t *testing.T) {
 func TestVerifyFailed(t *testing.T) {
 	assert := assert.New(t)
 
-	v := NewEmailVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
+	v := NewMSVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
 	_, err := v.Add(tEmail, tData)
 	assert.Nil(err)
 
@@ -91,7 +91,7 @@ func TestVerifyFailed(t *testing.T) {
 func TestAddAndTimeout(t *testing.T) {
 	assert := assert.New(t)
 
-	v := NewEmailVerifier(appMS.GetConn(), tPrefix, 1*time.Second)
+	v := NewMSVerifier(appMS.GetConn(), tPrefix, 1*time.Second)
 	_, err := v.Add(tEmail, tData)
 	assert.Nil(err)
 

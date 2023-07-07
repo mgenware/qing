@@ -9,3 +9,4 @@ export const auth = '/auth';
 export const signUp = `${auth}/signup`;
 export const signIn = `${auth}/signin`;
 export const verifyRegEmail = `${auth}/verify-reg-email`;
+export const resetPwd = `${auth}/reset-pwd`;

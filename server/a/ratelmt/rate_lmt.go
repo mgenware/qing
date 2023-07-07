@@ -69,7 +69,10 @@ func (lmt *RateLmt) RequestPostCore(uid uint64) (bool, error) {
 	return res.Allowed > 0, nil
 }
 
-func (lmt *RateLmt) RequestSignUp(r *http.Request) (bool, error) {
+// Used by the following APIs.
+// - Sign up
+// - Reset pwd
+func (lmt *RateLmt) RequestIPBasedActivity(r *http.Request) (bool, error) {
 	if appEnv.IsBR() {
 		return true, nil
 	}

@@ -17,7 +17,8 @@ import (
 var Router = handler.NewHTMLRouter()
 
 func init() {
-	Router.Get("/verify-reg-email/{key}", verifyRegEmail)
+	Router.Get("/verify-reg-email/{key}", verifyRegEmailPage)
+	Router.Get("/reset-pwd/{key}", resetPwdPage)
 	Router.Get("/*", genericGET)
 }
 

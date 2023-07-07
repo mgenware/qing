@@ -30,7 +30,7 @@ type AccVerifiedPageData struct {
 	VerifiedUID string
 }
 
-func verifyRegEmail(w http.ResponseWriter, r *http.Request) handler.HTML {
+func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	key := chi.URLParam(r, "key")
 	if key == "" {
 		panic(fmt.Errorf("empty input"))

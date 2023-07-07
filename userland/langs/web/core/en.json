@@ -79,6 +79,7 @@
   "pNumOfReplies": "{0} {0|countable|reply|replies}",
   "pCollapseNumOfReplies": "Collapse {0} {0|countable|reply|replies}",
   "createAnAcc": "Create an account",
+  "forgotPwd": "Forgot password?",
   "email": "Email",
   "password": "Password",
   "confirmPassword": "Confirm password",

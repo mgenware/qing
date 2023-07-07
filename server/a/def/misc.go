@@ -38,12 +38,19 @@ const (
 	// K: user id, V: sid
 	MSUserIDToSID = "auth-us:%v"
 
+	// 60 minutes exiry for registration.
 	MSRegEmailExpiry time.Duration = 60 * 60 * time.Second
 
 	// MS prefix for email verification.
 	MSRegEmailPrefix = "reg"
 	// MS prefix for password recovery.
-	MSLostPwdPrefix = "rec-pwd"
+	MSResetPwdRequestPrefix = "reset-pwd-1"
+	// 20 minutes exiry for step 1.
+	MSResetPwdRequestExpiry time.Duration = 20 * 60 * time.Second
+
+	MSResetPwdProcessPrefix = "reset-pwd-2"
+	// 10 minutes exiry for step 2.
+	MSResetPwdProcessExpiry time.Duration = 20 * 60 * time.Second
 
 	// Limit posting rate per second.
 	MSRateLimitPostCorePerSecKey = "rl-pc:%v"

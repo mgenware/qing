@@ -22,6 +22,7 @@ type Dictionary struct {
 	AutoLangOption          string `json:"autoLangOption"`
 	CannotRemoveSelfAdmin   string `json:"cannotRemoveSelfAdmin"`
 	ClickBelowToCompleteReg string `json:"clickBelowToCompleteReg"`
+	ClickBelowToResetPwd    string `json:"clickBelowToResetPwd"`
 	ClickToViewItOn         string `json:"clickToViewItOn"`
 	Copyright               string `json:"copyright"`
 	EmailVerified           string `json:"emailVerified"`
@@ -37,6 +38,7 @@ type Dictionary struct {
 	RateLimitExceededErr    string `json:"rateLimitExceededErr"`
 	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
+	ResetPwdEmailTitle      string `json:"resetPwdEmailTitle"`
 	SbRepliedToUrCmtIn      string `json:"sbRepliedToUrCmtIn"`
 	SbRepliedToUrPost       string `json:"sbRepliedToUrPost"`
 	SignIn                  string `json:"signIn"`

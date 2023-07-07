@@ -13,22 +13,23 @@ import (
 	"qing/a/coretype"
 	"qing/a/def"
 	"qing/a/ratelmt"
-	"qing/a/servicex/emailveri"
 	hashingalg "qing/a/servicex/hashingAlg"
 	"qing/a/servicex/mailx"
+	"qing/a/servicex/msveri"
 	"qing/a/servicex/notix"
 	"qing/lib/htmllib"
 )
 
 // Service contains components for curtain independent tasks.
 type Service struct {
-	Sanitizer        *htmllib.Sanitizer
-	HashingAlg       *hashingalg.HashingAlg
-	RegEmailVerifier *emailveri.EmailVerifier
-	Mail             *mailx.MailService
-	Noti             *notix.Service
-	RateLmt          *ratelmt.RateLmt
-	LostPwdVerifier  *emailveri.EmailVerifier
+	Sanitizer               *htmllib.Sanitizer
+	HashingAlg              *hashingalg.HashingAlg
+	RegEmailVerifier        *msveri.MSVerifier
+	Mail                    *mailx.MailService
+	Noti                    *notix.Service
+	RateLmt                 *ratelmt.RateLmt
+	ResetPwdRequestVerifier *msveri.MSVerifier
+	ResetPwdProcessVerifier *msveri.MSVerifier
 }
 
 func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn coretype.CoreMemoryStoreConn) *Service {
@@ -36,8 +37,9 @@ func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn core
 
 	s.Sanitizer = htmllib.NewSanitizer()
 	s.HashingAlg = hashingalg.NewHashingAlg(cc)
-	s.RegEmailVerifier = emailveri.NewEmailVerifier(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
-	s.LostPwdVerifier = emailveri.NewEmailVerifier(msConn, def.MSLostPwdPrefix, def.MSRegEmailExpiry)
+	s.RegEmailVerifier = msveri.NewMSVerifier(msConn, def.MSRegEmailPrefix, def.MSRegEmailExpiry)
+	s.ResetPwdRequestVerifier = msveri.NewMSVerifier(msConn, def.MSResetPwdRequestPrefix, def.MSResetPwdRequestExpiry)
+	s.ResetPwdProcessVerifier = msveri.NewMSVerifier(msConn, def.MSResetPwdProcessPrefix, def.MSResetPwdProcessExpiry)
 
 	s.Mail = mailx.NewMailService(cc)
 	s.Noti = notix.NewNotiService(s.Mail)
