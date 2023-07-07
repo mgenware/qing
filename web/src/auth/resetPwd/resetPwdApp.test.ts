@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t.js';
-import './signUpApp';
+import './resetPwdApp.js';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<sign-up-app></sign-up-app>`);
+  const el = await fixture<HTMLElement>(html`<reset-pwd-app></reset-pwd-app>`);
 
   tDOM.isBlockElement(el);
 });

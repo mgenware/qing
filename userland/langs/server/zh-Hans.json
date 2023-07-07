@@ -3,7 +3,7 @@
   "qingSiteLink": "https://__qing__",
   "errOccurred": "发生错误",
   "resNotFound": "您访问的资源不存在。",
-  "regEmailVeriExpired": "链接已失效，请重新注册。",
+  "linkExpired": "链接已失效。",
   "verifyYourEmailTitle": "验证您的邮件",
   "resetPwdEmailTitle": "重置密码",
   "clickBelowToCompleteReg": "请点击下面的链接来完成注册。",

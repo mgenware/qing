@@ -65,11 +65,11 @@ func (s *Service) SendNoti(ac *cfgx.AppConfig, noti *NotiItem, fromName string) 
 	}
 
 	devCfg := coreConfig.Get().Dev
-	noDevMail := false
+	realMail := false
 	if devCfg != nil {
-		noDevMail = devCfg.NoDevMail
+		realMail = devCfg.RealMail
 	}
-	err = s.MailService.SendMail(ac, email, mailData.Desc, mailHTML, noDevMail, ls.QingSiteName)
+	err = s.MailService.SendMail(ac, email, mailData.Desc, mailHTML, realMail, ls.QingSiteName)
 	if err != nil {
 		return err
 	}

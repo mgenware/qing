@@ -28,6 +28,7 @@ type Dictionary struct {
 	EmailVerified           string `json:"emailVerified"`
 	ErrOccurred             string `json:"errOccurred"`
 	InvalidNameOrPwd        string `json:"invalidNameOrPwd"`
+	LinkExpired             string `json:"linkExpired"`
 	NeedAuthErr             string `json:"needAuthErr"`
 	NextPage                string `json:"nextPage"`
 	PFileSizeExceedsMaxSize string `json:"pFileSizeExceedsMaxSize"`
@@ -36,7 +37,6 @@ type Dictionary struct {
 	QingSiteLink            string `json:"qingSiteLink"`
 	QingSiteName            string `json:"qingSiteName"`
 	RateLimitExceededErr    string `json:"rateLimitExceededErr"`
-	RegEmailVeriExpired     string `json:"regEmailVeriExpired"`
 	ResNotFound             string `json:"resNotFound"`
 	ResetPwdEmailTitle      string `json:"resetPwdEmailTitle"`
 	SbRepliedToUrCmtIn      string `json:"sbRepliedToUrCmtIn"`

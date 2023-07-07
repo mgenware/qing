@@ -8,8 +8,9 @@
 import 'core.js';
 import { html } from 'll.js';
 import * as authRoute from '@qing/routes/auth.js';
-import './signUp/signUpApp';
-import './signIn/signInApp';
+import './signUp/signUpApp.js';
+import './signIn/signInApp.js';
+import './resetPwd/resetPwdApp.js';
 import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import * as pu from 'lib/pageUtil.js';
 
@@ -22,5 +23,13 @@ authRouter.register(authRoute.signUp, () => {
 authRouter.register(authRoute.signIn, () => {
   pu.setTitle([globalThis.coreLS.signIn]);
   pu.setMainContent(html`<sign-in-app></sign-in-app>`);
+});
+authRouter.register(authRoute.resetPwd, () => {
+  pu.setTitle([globalThis.coreLS.resetPwd]);
+  pu.setMainContent(html`<reset-pwd-app></reset-pwd-app>`);
+});
+authRouter.register(authRoute.resetPwd, () => {
+  pu.setTitle([globalThis.coreLS.resetPwd]);
+  pu.setMainContent(html`<reset-pwd-app></reset-pwd-app>`);
 });
 authRouter.startOnce();

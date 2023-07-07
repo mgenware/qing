@@ -22,7 +22,7 @@ import (
 	"qing/lib/clib"
 )
 
-func signIn(w http.ResponseWriter, r *http.Request) handler.JSON {
+func signInAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 

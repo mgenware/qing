@@ -91,12 +91,11 @@ export interface coreLSType {
   pCollapseNumOfReplies: string;
   createAnAcc: string;
   forgotPwd: string;
+  resetPwd: string;
   email: string;
   password: string;
   confirmPassword: string;
   signUp: string;
-  regEmailSentDialogTitle: string;
-  regEmailSentDialogContent: string;
   pwdDontMatch: string;
   noContentAvailable: string;
   yourPosts: string;

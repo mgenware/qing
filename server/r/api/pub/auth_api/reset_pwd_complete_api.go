@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package authp
+package authapi
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/strconvx"
 )
 

@@ -8,26 +8,16 @@
 package authp
 
 import (
-	"net/http"
-	"qing/a/appHandler"
 	"qing/a/handler"
 )
 
 // Router ...
 var Router = handler.NewHTMLRouter()
 
+const authLSKey = "auth"
+
 func init() {
 	Router.Get("/verify-reg-email/{key}", verifyRegEmailPage)
 	Router.Get("/reset-pwd/{key}", resetPwdPage)
-	Router.Get("/*", genericGET)
-}
-
-func genericGET(w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
-
-	// Page title will be set on frontend side
-	d := appHandler.MainPageData("", "")
-	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("authEntry")
-
-	return resp.MustComplete(&d)
+	Router.Get("/*", defaultPage)
 }

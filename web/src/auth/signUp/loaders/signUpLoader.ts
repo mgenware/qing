@@ -8,7 +8,7 @@
 import Loader from 'lib/loader.js';
 import * as authRoute from '@qing/routes/s/pub/auth.js';
 
-export default class SignUpLoader extends Loader<undefined> {
+export default class SignUpLoader extends Loader<void> {
   constructor(public name: string, public email: string, public pwd: string) {
     super();
   }

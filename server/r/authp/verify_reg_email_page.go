@@ -44,7 +44,7 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if dataString == "" {
 		// Expired or not found.
 		resp := appHandler.HTMLResponse(w, r)
-		return resp.MustFailf(ls.RegEmailVeriExpired, http.StatusServiceUnavailable)
+		return resp.MustFailf(ls.LinkExpired, http.StatusServiceUnavailable)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	appcm.PanicOn(err)
@@ -58,11 +58,14 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return RenderAccountVerified(lang, clib.EncodeID(verifiedUID), w, r)
 }
 
+// Also used by devp.
 func RenderAccountVerified(lang, verifiedUID string, w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	ls := appHandler.MainPage().Dictionary(lang)
 	d := AccVerifiedPageData{VerifiedUID: verifiedUID}
 	pageData := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
+	assm := appHandler.MainPage().AssetManager()
+	pageData.Scripts = assm.MustGetLangScript(resp.Lang(), authLSKey)
 	return resp.MustComplete(&pageData)
 }

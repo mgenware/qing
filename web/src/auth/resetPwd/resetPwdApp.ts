@@ -7,7 +7,6 @@
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'com/cmt/cmtApp';
-import SignUpLoader from './loaders/SignUpLoader.js';
 import 'qing-overlay';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
@@ -15,9 +14,11 @@ import 'ui/forms/inputErrorView';
 import { appDef } from '@qing/def';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
+import ResetPwdCompleteLoader from './loaders/resetPwdCompleteLoader.js';
+import { CHECK } from 'checks.js';
 
-@customElement('sign-up-app')
-export class SignUpApp extends BaseElement {
+@customElement('reset-pwd-app')
+export class ResetPwdApp extends BaseElement {
   static override get styles() {
     return [
       super.styles,
@@ -29,8 +30,6 @@ export class SignUpApp extends BaseElement {
     ];
   }
 
-  @state() private userName = '';
-  @state() private email = '';
   @state() private password = '';
   @state() private confirmPassword = '';
 
@@ -40,25 +39,8 @@ export class SignUpApp extends BaseElement {
   override render() {
     return html`
       <enter-key-handler>
-        <h2>${globalThis.coreLS.createAnAcc}</h2>
+        <h2>${globalThis.coreLS.resetPwd}</h2>
         <div>
-          <input-view
-            class="m-t-md"
-            required
-            label=${globalThis.coreLS.name}
-            value=${this.userName}
-            @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
-
-          <input-view
-            class="m-t-md"
-            required
-            autocomplete="email"
-            inputmode="email"
-            type="email"
-            label=${globalThis.coreLS.email}
-            value=${this.email}
-            @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
-
           <input-view
             class="m-t-md"
             required
@@ -76,7 +58,7 @@ export class SignUpApp extends BaseElement {
             type="password"
             minLength=${appDef.lenMinUserPwd}
             maxLength=${appDef.lenMaxUserPwd}
-            autocomplete=${'new-password'}
+            autocomplete="new-password"
             label=${globalThis.coreLS.confirmPassword}
             value=${this.confirmPassword}
             @input-change=${(e: CustomEvent<string>) =>
@@ -88,8 +70,8 @@ export class SignUpApp extends BaseElement {
         <qing-button
           btnStyle="success"
           class="m-t-lg enter-key-responder"
-          @click=${this.handleSignUpClick}
-          >${globalThis.coreLS.signUp}</qing-button
+          @click=${this.handleResetClick}
+          >${globalThis.coreLS.save}</qing-button
         >
       </enter-key-handler>
     `;
@@ -106,19 +88,19 @@ export class SignUpApp extends BaseElement {
     return pwdMatch;
   }
 
-  private async handleSignUpClick() {
+  private async handleResetClick() {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new SignUpLoader(this.userName, this.email, this.password);
-    const status = await appTask.critical(loader, globalThis.coreLS.publishing);
+    const loader = new ResetPwdCompleteLoader(this.password);
+    const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
       pu.setTitleAndMainContent(
-        [globalThis.coreLS.regEmailSentDialogTitle],
+        [globalThis.authLS.verifyEmailSentDialogTitle],
         html`
           <div>
-            <h1>${globalThis.coreLS.regEmailSentDialogTitle}</h1>
-            <p>${globalThis.coreLS.regEmailSentDialogContent}</p>
+            <h1>${globalThis.authLS.verifyEmailSentDialogTitle}</h1>
+            <p>${globalThis.authLS.verifyEmailSentDialogTitle}</p>
           </div>
         `,
       );
@@ -128,6 +110,6 @@ export class SignUpApp extends BaseElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'sign-up-app': SignUpApp;
+    'reset-pwd-app': ResetPwdApp;
   }
 }

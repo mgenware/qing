@@ -9,7 +9,7 @@ import { html } from 'll.js';
 import { ready, renderTemplateResult } from 'lib/htmlLib.js';
 import * as cmd from '../appCommands.js';
 import { frozenDef } from '@qing/def';
-import 'com/postCore/setEntityApp';
+import 'com/postCore/setEntityApp.js';
 import SetEntityApp from 'com/postCore/setEntityApp.js';
 
 // ---------------------------------

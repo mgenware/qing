@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'com/cmt/cmtApp';
-import SignUpLoader from './loaders/SignUpLoader.js';
+import SignUpLoader from './loaders/signUpLoader.js';
 import 'qing-overlay';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
@@ -15,6 +15,7 @@ import 'ui/forms/inputErrorView';
 import { appDef } from '@qing/def';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
+import { CHECK } from 'checks.js';
 
 @customElement('sign-up-app')
 export class SignUpApp extends BaseElement {
@@ -111,14 +112,14 @@ export class SignUpApp extends BaseElement {
       return;
     }
     const loader = new SignUpLoader(this.userName, this.email, this.password);
-    const status = await appTask.critical(loader, globalThis.coreLS.publishing);
+    const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
       pu.setTitleAndMainContent(
-        [globalThis.coreLS.regEmailSentDialogTitle],
+        [globalThis.authLS.verifyEmailSentDialogTitle],
         html`
           <div>
-            <h1>${globalThis.coreLS.regEmailSentDialogTitle}</h1>
-            <p>${globalThis.coreLS.regEmailSentDialogContent}</p>
+            <h1>${globalThis.authLS.verifyEmailSentDialogTitle}</h1>
+            <p>${globalThis.authLS.verifyEmailSentDialogTitle}</p>
           </div>
         `,
       );

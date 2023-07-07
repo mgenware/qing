@@ -49,7 +49,7 @@ func StringToCreateUserData(str string) (*CreateUserData, error) {
 	return &d, nil
 }
 
-func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
+func signUpAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	// ----- Do rate limiting first -----
@@ -75,7 +75,7 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	createUserDataString, err := CreateUserDataToString(&createUserData)
 	appcm.PanicOn(err)
 
-	publicID, err := appService.Get().RegEmailVerifier.Add(email, createUserDataString)
+	publicID, err := appService.Get().RegEmailVerifier.Set(email, createUserDataString)
 	if err != nil {
 		panic(fmt.Errorf("error: RegEmailVerifier.Add failed: %v", err.Error()))
 	}
@@ -95,11 +95,11 @@ func signUp(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
 	devCfg := coreConfig.Get().Dev
-	noDevMail := false
+	realMail := false
 	if devCfg != nil {
-		noDevMail = devCfg.NoDevMail
+		realMail = devCfg.RealMail
 	}
-	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, noDevMail, ls.QingSiteName)
+	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, realMail, ls.QingSiteName)
 	appcm.PanicOn(err)
 
 	return resp.MustComplete(nil)

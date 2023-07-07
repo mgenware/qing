@@ -13,8 +13,8 @@ import "qing/a/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/signup", signUp)
-	Router.Post("/signin", signIn)
+	Router.Post("/signup", signUpAPI)
+	Router.Post("/signin", signInAPI)
 	Router.Post("/reset-pwd-request", resetPwdRequestAPI)
 	Router.Post("/reset-pwd-complete", resetPwdCompleteAPI)
 }

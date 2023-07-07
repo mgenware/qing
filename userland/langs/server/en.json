@@ -3,7 +3,7 @@
   "qingSiteLink": "https://__qing__",
   "errOccurred": "An error occurred",
   "resNotFound": "The resource you requested does not exist.",
-  "regEmailVeriExpired": "Link has expired, please sign up again.",
+  "linkExpired": "Link has expired.",
   "verifyYourEmailTitle": "Verify your email",
   "resetPwdEmailTitle": "Reset your password",
   "clickBelowToCompleteReg": "Click the link below to complete the registration process.",

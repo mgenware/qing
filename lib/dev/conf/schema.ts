@@ -17,7 +17,7 @@ export interface DevConfig {
   reload_views_on_refresh?: boolean;
   panic_on_unexpected_html_errors?: boolean;
   panic_on_unexpected_json_errors?: boolean;
-  no_dev_mail?: boolean;
+  real_mail?: boolean;
   turbo_web?: {
     dir?: string;
     url?: string;

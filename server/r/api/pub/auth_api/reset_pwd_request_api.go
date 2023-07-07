@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package authp
+package authapi
 
 import (
 	"database/sql"
@@ -54,7 +54,7 @@ func resetPwdRequestAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 		panic(fmt.Errorf("resetPwd: UserID is 0"))
 	}
 
-	publicID, err := appService.Get().ResetPwdRequestVerifier.Add(email, fmt.Sprint(uid))
+	publicID, err := appService.Get().ResetPwdRequestVerifier.Set(email, fmt.Sprint(uid))
 	if err != nil {
 		panic(fmt.Errorf("error: ResetPwdStep1Verifier.Add failed: %v", err.Error()))
 	}
@@ -73,11 +73,11 @@ func resetPwdRequestAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pageHTML, pageTitle := appHandler.EmailPage().MustComplete(lang, &pageData)
 
 	devCfg := coreConfig.Get().Dev
-	noDevMail := false
+	realMail := false
 	if devCfg != nil {
-		noDevMail = devCfg.NoDevMail
+		realMail = devCfg.RealMail
 	}
-	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, noDevMail, ls.QingSiteName)
+	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, realMail, ls.QingSiteName)
 	appcm.PanicOn(err)
 
 	return resp.MustComplete(nil)
