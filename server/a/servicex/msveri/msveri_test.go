@@ -30,7 +30,7 @@ func getIDToDataKey(prefix, email, id string) string {
 	return prefix + ":id-to-data:" + email + ":" + id
 }
 
-func getID(v *EmailVerifier, prefix, email string) (string, error) {
+func getID(v *MSVerifier, prefix, email string) (string, error) {
 	key := getEmailToIDKey(prefix, email)
 	_, id, err := appMS.GetConn().GetStringValue(key)
 	if err != nil {
@@ -48,32 +48,56 @@ func mustGetStoreValue(assert *assert.Assertions, key, expected string) {
 	assert.Equal(got, expected)
 }
 
-func TestAddAndVerify(t *testing.T) {
+func TestSetAndVerify(t *testing.T) {
 	assert := assert.New(t)
 
 	v := NewMSVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
-	_, err := v.Add(tEmail, tData)
+	_, err := v.Set(tEmail, tData)
 	assert.Nil(err)
 
 	id, err := getID(v, tPrefix, tEmail)
 	assert.Nil(err)
 
-	// Add should add two value to store.
+	// Set should add two value to store.
 	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), id)
 	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
 
-	_, err = v.Verify(id)
+	actualData, err := v.Verify(id)
 	assert.Nil(err)
+	assert.Equal(actualData, tData)
 
 	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), "")
 	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), "")
+}
+
+func TestSetAndPeak(t *testing.T) {
+	assert := assert.New(t)
+
+	v := NewMSVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
+	_, err := v.Set(tEmail, tData)
+	assert.Nil(err)
+
+	id, err := getID(v, tPrefix, tEmail)
+	assert.Nil(err)
+
+	// Set should add two value to store.
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), id)
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
+
+	actualData, err := v.Peak(id)
+	assert.Nil(err)
+	assert.Equal(actualData, tData)
+
+	// Peak should not remove the value.
+	mustGetStoreValue(assert, getEmailToIDKey(tPrefix, tEmail), id)
+	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
 }
 
 func TestVerifyFailed(t *testing.T) {
 	assert := assert.New(t)
 
 	v := NewMSVerifier(appMS.GetConn(), tPrefix, 3*time.Second)
-	_, err := v.Add(tEmail, tData)
+	_, err := v.Set(tEmail, tData)
 	assert.Nil(err)
 
 	id, err := getID(v, tPrefix, tEmail)
@@ -88,11 +112,11 @@ func TestVerifyFailed(t *testing.T) {
 	mustGetStoreValue(assert, getIDToDataKey(tPrefix, tEmail, id), tData)
 }
 
-func TestAddAndTimeout(t *testing.T) {
+func TestSetAndTimeout(t *testing.T) {
 	assert := assert.New(t)
 
 	v := NewMSVerifier(appMS.GetConn(), tPrefix, 1*time.Second)
-	_, err := v.Add(tEmail, tData)
+	_, err := v.Set(tEmail, tData)
 	assert.Nil(err)
 
 	id, err := getID(v, tPrefix, tEmail)
