@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/appDB"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appcm"
@@ -21,8 +22,6 @@ import (
 
 	"github.com/go-chi/chi/v5"
 )
-
-var vAccVerifiedPage = appHandler.MainPage().MustParseLocalizedView("auth/accountVerifiedPage.html")
 
 type AccVerifiedPageData struct {
 	handler.LocalizedTemplateData
@@ -52,20 +51,14 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
 	appcm.PanicOn(err)
 
-	verifiedUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
+	newUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
 	appcm.PanicOn(err)
 
-	return RenderAccountVerified(lang, clib.EncodeID(verifiedUID), w, r)
-}
+	brScripts := ""
+	if appEnv.IsBR() {
+		newUIDString := clib.EncodeID(newUID)
+		brScripts = fmt.Sprintf("__brVerifiedUID_%v__", newUIDString)
+	}
 
-// Also used by devp.
-func RenderAccountVerified(lang, verifiedUID string, w http.ResponseWriter, r *http.Request) handler.HTML {
-	resp := appHandler.HTMLResponse(w, r)
-
-	ls := appHandler.MainPage().Dictionary(lang)
-	d := AccVerifiedPageData{VerifiedUID: verifiedUID}
-	pageData := appHandler.MainPageData(ls.EmailVerified, vAccVerifiedPage.MustExecuteToString(lang, &d))
-	assm := appHandler.MainPage().AssetManager()
-	pageData.Scripts = assm.MustGetLangScript(resp.Lang(), authLSKey)
-	return resp.MustComplete(&pageData)
+	return defaultPageCore(w, r, brScripts)
 }

@@ -11,6 +11,8 @@ import * as authRoute from '@qing/routes/auth.js';
 import './signUp/signUpApp.js';
 import './signIn/signInApp.js';
 import './resetPwd/resetPwdApp.js';
+import './resetPwd/forgotPwdApp.js';
+import './signUp/accVerifiedApp.js';
 import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import * as pu from 'lib/pageUtil.js';
 
@@ -25,11 +27,15 @@ authRouter.register(authRoute.signIn, () => {
   pu.setMainContent(html`<sign-in-app></sign-in-app>`);
 });
 authRouter.register(authRoute.resetPwd, () => {
-  pu.setTitle([globalThis.coreLS.resetPwd]);
+  pu.setTitle([globalThis.authLS.resetPwd]);
   pu.setMainContent(html`<reset-pwd-app></reset-pwd-app>`);
 });
-authRouter.register(authRoute.resetPwd, () => {
-  pu.setTitle([globalThis.coreLS.resetPwd]);
-  pu.setMainContent(html`<reset-pwd-app></reset-pwd-app>`);
+authRouter.register(authRoute.forgotPwd, () => {
+  pu.setTitle([globalThis.authLS.forgotPwd]);
+  pu.setMainContent(html`<forgot-pwd-app></forgot-pwd-app>`);
+});
+authRouter.register(authRoute.verifyRegEmail, () => {
+  pu.setTitle([globalThis.authLS.yourAccHasBeenVerified]);
+  pu.setMainContent(html`<acc-verified-app></acc-verified-app>`);
 });
 authRouter.startOnce();

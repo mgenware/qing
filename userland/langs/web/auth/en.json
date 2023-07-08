@@ -1,5 +1,9 @@
 {
   "verifyEmailSentDialogTitle": "Almost done...",
+  "yourAccHasBeenVerified": "Your account has been verified.",
+  "yourPwdHasBeenReset": "Your password has been reset.",
+  "forgotPwd": "Forgot password?",
+  "resetPwd": "Reset password",
   "verifyEmailSentDialogContent": "A verification link has been sent to your email account. Please check your email and click the verification link to complete the process.",
   "enterYourEmailToReset": "Enter your email to reset your password"
 }

@@ -6,16 +6,14 @@
  */
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
-import 'com/cmt/cmtApp';
-import 'qing-overlay';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import { appDef } from '@qing/def';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
+import * as pubAuth from '@qing/routes/s/pub/auth.js';
 import ResetPwdCompleteLoader from './loaders/resetPwdCompleteLoader.js';
-import { CHECK } from 'checks.js';
 
 @customElement('reset-pwd-app')
 export class ResetPwdApp extends BaseElement {
@@ -39,7 +37,7 @@ export class ResetPwdApp extends BaseElement {
   override render() {
     return html`
       <enter-key-handler>
-        <h2>${globalThis.coreLS.resetPwd}</h2>
+        <h2>${globalThis.authLS.resetPwd}</h2>
         <div>
           <input-view
             class="m-t-md"
@@ -95,12 +93,13 @@ export class ResetPwdApp extends BaseElement {
     const loader = new ResetPwdCompleteLoader(this.password);
     const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
-      pu.setTitleAndMainContent(
-        [globalThis.authLS.verifyEmailSentDialogTitle],
+      pu.setMainContent(
         html`
           <div>
-            <h1>${globalThis.authLS.verifyEmailSentDialogTitle}</h1>
-            <p>${globalThis.authLS.verifyEmailSentDialogTitle}</p>
+            <h1>${globalThis.authLS.yourPwdHasBeenReset}</h1>
+            <p>
+              <qing-button href=${pubAuth.signIn}>${globalThis.coreLS.signIn}</qing-button>
+            </p>
           </div>
         `,
       );

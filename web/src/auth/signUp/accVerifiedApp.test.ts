@@ -6,10 +6,10 @@
  */
 
 import { html, fixture, tDOM } from 'dev/t.js';
-import './forgotPwdApp.js';
+import './accVerifiedApp.js';
 
 it('Display', async () => {
-  const el = await fixture<HTMLElement>(html`<forgot-pwd-app></forgot-pwd-app>`);
+  const el = await fixture<HTMLElement>(html`<acc-verified-app></acc-verified-app>`);
 
   tDOM.isBlockElement(el);
 });

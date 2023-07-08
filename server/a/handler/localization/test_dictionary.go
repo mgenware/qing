@@ -40,5 +40,4 @@ func init() {
 	TestDict.UnsupportedExtension = "ls.unsupportedExtension"
 	TestDict.VerifyYourEmailTitle = "ls.verifyYourEmailTitle"
 	TestDict.YouAreAlreadyAdmin = "ls.youAreAlreadyAdmin"
-	TestDict.YourAccHasBeenVerified = "ls.yourAccHasBeenVerified"
 }

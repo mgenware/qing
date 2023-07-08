@@ -46,12 +46,11 @@ func resetPwdRequestAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid, err := da.User.SelectIDFromEmail(appDB.DB(), email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return resp.MustFail(resp.LS().InvalidNameOrPwd)
+			// Return success even if the email is not found.
+			// This is to prevent attackers from guessing emails.
+			return resp.MustComplete(nil)
 		}
 		return resp.MustFail(fmt.Sprintf("Error selecting ID from email: %v", err))
-	}
-	if uid == 0 {
-		panic(fmt.Errorf("resetPwd: UserID is 0"))
 	}
 
 	publicID, err := appService.Get().ResetPwdRequestVerifier.Set(email, fmt.Sprint(uid))

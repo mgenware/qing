@@ -11,7 +11,12 @@
 
 export interface authLSType {
   verifyEmailSentDialogTitle: string;
+  yourAccHasBeenVerified: string;
+  yourPwdHasBeenReset: string;
+  forgotPwd: string;
+  resetPwd: string;
   verifyEmailSentDialogContent: string;
+  enterYourEmailToReset: string;
 }
 
 declare global {

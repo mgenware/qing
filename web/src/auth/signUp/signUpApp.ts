@@ -6,16 +6,13 @@
  */
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
-import 'com/cmt/cmtApp';
 import SignUpLoader from './loaders/signUpLoader.js';
-import 'qing-overlay';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import { appDef } from '@qing/def';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
-import { CHECK } from 'checks.js';
 
 @customElement('sign-up-app')
 export class SignUpApp extends BaseElement {
@@ -114,8 +111,7 @@ export class SignUpApp extends BaseElement {
     const loader = new SignUpLoader(this.userName, this.email, this.password);
     const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
-      pu.setTitleAndMainContent(
-        [globalThis.authLS.verifyEmailSentDialogTitle],
+      pu.setMainContent(
         html`
           <div>
             <h1>${globalThis.authLS.verifyEmailSentDialogTitle}</h1>

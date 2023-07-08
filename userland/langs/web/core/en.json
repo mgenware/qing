@@ -79,8 +79,6 @@
   "pNumOfReplies": "{0} {0|countable|reply|replies}",
   "pCollapseNumOfReplies": "Collapse {0} {0|countable|reply|replies}",
   "createAnAcc": "Create an account",
-  "forgotPwd": "Forgot password?",
-  "resetPwd": "Reset password",
   "email": "Email",
   "password": "Password",
   "confirmPassword": "Confirm password",
@@ -153,5 +151,6 @@
   "nextPage": "Next",
   "previousPage": "Previous",
   "menu": "Menu",
+  "nextBtn": "Next",
   "loadingEditor": "Loading editor..."
 }

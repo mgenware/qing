@@ -1,5 +1,9 @@
 {
   "verifyEmailSentDialogTitle": "就差一步...",
+  "yourAccHasBeenVerified": "您的账户已经完成验证。",
+  "yourPwdHasBeenReset": "您的密码已重置",
+  "forgotPwd": "忘记密码？",
+  "resetPwd": "重置密码",
   "verifyEmailSentDialogContent": "验证链接已发送至您邮箱，请查收并点击验证链接来完成操作。",
   "enterYourEmailToReset": "输入您的邮箱来重置密码"
 }

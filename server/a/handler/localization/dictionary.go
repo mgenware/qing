@@ -45,7 +45,6 @@ type Dictionary struct {
 	UnsupportedExtension    string `json:"unsupportedExtension"`
 	VerifyYourEmailTitle    string `json:"verifyYourEmailTitle"`
 	YouAreAlreadyAdmin      string `json:"youAreAlreadyAdmin"`
-	YourAccHasBeenVerified  string `json:"yourAccHasBeenVerified"`
 }
 
 // ParseDictionary loads a Dictionary from a JSON file.

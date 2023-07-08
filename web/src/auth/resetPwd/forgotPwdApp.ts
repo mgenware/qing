@@ -6,12 +6,12 @@
  */
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
-import 'com/cmt/cmtApp';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
+import ResetPwdRequestLoader from './loaders/resetPwdRequestLoader.js';
 
 @customElement('forgot-pwd-app')
 export class ForgotPwdApp extends BaseElement {
@@ -31,7 +31,7 @@ export class ForgotPwdApp extends BaseElement {
   override render() {
     return html`
       <enter-key-handler>
-        <h2>${globalThis.coreLS.signIn}</h2>
+        <h2>${globalThis.authLS.enterYourEmailToReset}</h2>
         <div>
           <input-view
             required
@@ -41,21 +41,12 @@ export class ForgotPwdApp extends BaseElement {
             label=${globalThis.coreLS.email}
             value=${this.email}
             @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
-
-          <input-view
-            class="m-t-md"
-            required
-            type="password"
-            autocomplete="current-password"
-            label=${globalThis.coreLS.password}
-            value=${this.password}
-            @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
         </div>
         <qing-button
           btnStyle="success"
           class="m-t-lg enter-key-responder"
-          @click=${this.handleSignInClick}
-          >${globalThis.coreLS.signIn}</qing-button
+          @click=${this.handleResetClick}
+          >${globalThis.coreLS.nextBtn}</qing-button
         >
       </enter-key-handler>
     `;
@@ -68,14 +59,21 @@ export class ForgotPwdApp extends BaseElement {
     return true;
   }
 
-  private async handleSignInClick() {
+  private async handleResetClick() {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new SignInLoader(this.email, this.password);
+    const loader = new ResetPwdRequestLoader(this.email);
     const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
-      pu.setURL('/');
+      pu.setMainContent(
+        html`
+          <div>
+            <h1>${globalThis.authLS.verifyEmailSentDialogTitle}</h1>
+            <p>${globalThis.authLS.verifyEmailSentDialogTitle}</p>
+          </div>
+        `,
+      );
     }
   }
 }

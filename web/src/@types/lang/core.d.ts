@@ -90,8 +90,6 @@ export interface coreLSType {
   pNumOfReplies: string;
   pCollapseNumOfReplies: string;
   createAnAcc: string;
-  forgotPwd: string;
-  resetPwd: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -164,6 +162,7 @@ export interface coreLSType {
   nextPage: string;
   previousPage: string;
   menu: string;
+  nextBtn: string;
   loadingEditor: string;
 }
 

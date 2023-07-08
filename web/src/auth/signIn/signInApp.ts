@@ -6,11 +6,11 @@
  */
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
-import 'com/cmt/cmtApp';
 import SignInLoader from './loaders/signInLoader.js';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
+import * as authPages from '@qing/routes/auth.js';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
 
@@ -53,12 +53,17 @@ export class SignInApp extends BaseElement {
             value=${this.password}
             @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
         </div>
-        <qing-button
-          btnStyle="success"
-          class="m-t-lg enter-key-responder"
-          @click=${this.handleSignInClick}
-          >${globalThis.coreLS.signIn}</qing-button
-        >
+        <div class="m-t-lg">
+          <qing-button
+            btnStyle="success"
+            class="enter-key-responder"
+            @click=${this.handleSignInClick}
+            >${globalThis.coreLS.signIn}</qing-button
+          >
+          <qing-button class="m-l-md" href=${authPages.forgotPwd}
+            >${globalThis.authLS.forgotPwd}</qing-button
+          >
+        </div>
       </enter-key-handler>
     `;
   }

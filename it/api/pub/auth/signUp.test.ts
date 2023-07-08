@@ -17,7 +17,7 @@ import CookieJar from 'helper/cookieJar.js';
 import * as pageUtil from 'helper/page.js';
 
 const pwd = '123456';
-const htmlIDRegex = /window\.appVerifiedUID = '(.+)';/g;
+const htmlIDRegex = /__brVerifiedUID_(.+)__/g;
 const invalidNameOrPwdResp = {
   c: 1,
   m: 'Invalid username or password.',
@@ -74,7 +74,7 @@ ita(
   },
 );
 
-const linkExpiredHTML = mh.unsafeErrorHTML('Link has expired, please sign up again.');
+const linkExpiredHTML = mh.unsafeErrorHTML('Link has expired.');
 
 const email2 = newEmail();
 ita(
