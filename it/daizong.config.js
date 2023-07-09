@@ -17,10 +17,10 @@ export default {
       del: 'dist',
     },
   },
-  api: [
-    '#compile',
-    'mocha --parallel --require source-map-support/register "dist/api/**/*.test.js"',
-  ],
+  api: {
+    before: '#compile',
+    run: 'mocha --parallel --require source-map-support/register "dist/api/**/*.test.js"',
+  },
   br: brCmd,
   brt: `${brCmd} --debug`,
   brg: `${brCmd} -g`,

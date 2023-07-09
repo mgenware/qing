@@ -44,13 +44,13 @@ const (
 	// MS prefix for email verification.
 	MSRegEmailPrefix = "reg"
 	// MS prefix for password recovery.
-	MSResetPwdRequestPrefix = "reset-pwd-1"
+	MSForgotPwdPrefix = "forgot-pwd"
 	// 20 minutes exiry for step 1.
-	MSResetPwdRequestExpiry time.Duration = 20 * 60 * time.Second
+	MSForgotPwdExpiry time.Duration = 20 * 60 * time.Second
 
-	MSResetPwdProcessPrefix = "reset-pwd-2"
+	MSResetPwdPrefix = "reset-pwd"
 	// 10 minutes exiry for step 2.
-	MSResetPwdProcessExpiry time.Duration = 20 * 60 * time.Second
+	MSResetPwdExpiry time.Duration = 20 * 60 * time.Second
 
 	// Limit posting rate per second.
 	MSRateLimitPostCorePerSecKey = "rl-pc:%v"

@@ -182,11 +182,11 @@ test('Sign up - Success', async ({ page }) => {
     await bodyEl
       .$hasText(
         'p',
-        'A verification link has been sent to your email account. Please check your email and click the verification link to complete the registration process.',
+        'A verification link has been sent to your email account. Please check your email and click the verification link to complete the process.',
       )
       .e.toBeVisible();
 
-    // Email verification tests are done in API tests.
+    // Email verification is tested in API tests.
   } finally {
     await mh.erase({ email });
   }

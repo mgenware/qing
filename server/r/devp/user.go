@@ -80,6 +80,12 @@ func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return resp.MustCompleteWithContent("Success", w)
 }
 
+type DevNewUser struct {
+	authSod.User
+
+	Email string `json:"email,omitempty"`
+}
+
 func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := appcm.ContextDict(r.Context())
 	lang := jsonx.GetStringOrDefault(params, "lang")
@@ -92,7 +98,7 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 	idObj, err := uuid.NewRandom()
 	appcm.PanicOn(err)
 
-	email := idObj.String() + "@t.com"
+	email := "zzzSV-" + idObj.String() + "@mgenware.com"
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email, "T", regLang)
 	appcm.PanicOn(err)
@@ -102,7 +108,11 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 		appcm.PanicOn(err)
 	}
 
-	return resp.MustComplete(getDBUserInfo(uid))
+	data := DevNewUser{}
+	sodUser := getDBUserInfo(uid)
+	data.User = *sodUser
+	data.Email = email
+	return resp.MustComplete(data)
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {

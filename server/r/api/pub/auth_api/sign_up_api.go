@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/appConfig"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
@@ -83,11 +84,11 @@ func signUpAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	ctx := r.Context()
 	lang := appcm.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
-	url := appURL.Get().VerifyRegEmail(ls.QingSiteLink, publicID)
+	verifyLink := appURL.Get().VerifyRegEmail(ls.QingSiteLink, publicID)
 
 	linkPageData := cview.EmailCommonLinkData{
 		MainText: ls.ClickBelowToCompleteReg,
-		Link:     url,
+		Link:     verifyLink,
 	}
 	contentHTML := cview.RenderEmailCommonLink(&linkPageData)
 
@@ -102,5 +103,9 @@ func signUpAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, realMail, ls.QingSiteName)
 	appcm.PanicOn(err)
 
-	return resp.MustComplete(nil)
+	var result any
+	if appEnv.IsBR() {
+		result = verifyLink
+	}
+	return resp.MustComplete(result)
 }

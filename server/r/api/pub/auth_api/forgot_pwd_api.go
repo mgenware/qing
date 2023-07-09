@@ -27,7 +27,7 @@ import (
 
 // The first step of password recovery, where the user send an email to the server.
 // The server will send an email to the user with a link to the second step.
-func resetPwdRequestAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
+func forogtPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	// ----- Do rate limiting first -----

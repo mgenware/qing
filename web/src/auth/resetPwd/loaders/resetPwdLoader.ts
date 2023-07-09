@@ -8,18 +8,18 @@
 import Loader from 'lib/loader.js';
 import * as authRoute from '@qing/routes/s/pub/auth.js';
 
-export default class ResetPwdRequestLoader extends Loader<void> {
-  constructor(public email: string) {
+export default class ResetPwdLoader extends Loader<void> {
+  constructor(public pwd: string) {
     super();
   }
 
   override requestURL(): string {
-    return authRoute.resetPwdRequest;
+    return authRoute.resetPwd;
   }
 
   override requestParams(): Record<string, unknown> {
     return {
-      email: this.email,
+      pwd: this.pwd,
     };
   }
 }

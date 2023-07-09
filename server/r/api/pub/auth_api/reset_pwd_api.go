@@ -24,7 +24,7 @@ import (
 )
 
 // The last step of password recovery, where the user completes the process.
-func resetPwdCompleteAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
+func resetPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	key := chi.URLParam(r, "key")
 	if key == "" {
 		panic(fmt.Errorf("empty input"))
@@ -34,7 +34,7 @@ func resetPwdCompleteAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := resp.Params()
 	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", appDef.LenMinUserPwd, appDef.LenMaxUserPwd)
 
-	uidStr, err := appService.Get().ResetPwdRequestVerifier.Verify(key)
+	uidStr, err := appService.Get().ResetPwdVerifier.Verify(key)
 	appcm.PanicOn(err)
 
 	targetUID, err := strconvx.ParseUint64(uidStr)

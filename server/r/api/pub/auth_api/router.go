@@ -15,6 +15,6 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Post("/signup", signUpAPI)
 	Router.Post("/signin", signInAPI)
-	Router.Post("/reset-pwd-request", resetPwdRequestAPI)
-	Router.Post("/reset-pwd-complete", resetPwdCompleteAPI)
+	Router.Post("/forgot-pwd", forogtPwdAPI)
+	Router.Post("/reset-pwd", resetPwdAPI)
 }

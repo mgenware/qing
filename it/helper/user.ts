@@ -17,8 +17,12 @@ export interface NewUserOptions {
   alternativeLocale?: boolean;
 }
 
-async function newUserCore(opt: NewUserOptions | undefined): Promise<User> {
-  return api<User>(
+export interface DevNewUser extends User {
+  email: string;
+}
+
+async function newUserCore(opt: NewUserOptions | undefined): Promise<DevNewUser> {
+  return api<DevNewUser>(
     apiAuth.new_,
     { lang: opt?.alternativeLocale ? alternativeLocale : undefined },
     null,
@@ -40,8 +44,8 @@ export async function userInfo(uid: string, opt?: APIOptions): Promise<User | nu
   return api(apiAuth.info, { uid }, null, opt);
 }
 
-export async function newUser(cb: (u: User) => Promise<void> | void, opt?: NewUserOptions) {
-  let u: User | undefined;
+export async function newUser(cb: (u: DevNewUser) => Promise<void> | void, opt?: NewUserOptions) {
+  let u: DevNewUser | undefined;
   try {
     u = await newUserCore(opt);
     await cb(u);

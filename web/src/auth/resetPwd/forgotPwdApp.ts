@@ -11,7 +11,7 @@ import 'ui/forms/enterKeyHandler';
 import 'ui/forms/inputErrorView';
 import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
-import ResetPwdRequestLoader from './loaders/resetPwdRequestLoader.js';
+import ForgotPwdLoader from './loaders/forgotPwdLoader.js';
 
 @customElement('forgot-pwd-app')
 export class ForgotPwdApp extends BaseElement {
@@ -63,7 +63,7 @@ export class ForgotPwdApp extends BaseElement {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new ResetPwdRequestLoader(this.email);
+    const loader = new ForgotPwdLoader(this.email);
     const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
       pu.setMainContent(
