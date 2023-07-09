@@ -53,7 +53,7 @@ func forogtPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(fmt.Sprintf("Error selecting ID from email: %v", err))
 	}
 
-	publicID, err := appService.Get().ResetPwdRequestVerifier.Set(email, fmt.Sprint(uid))
+	publicID, err := appService.Get().ForgotPwdVerifier.Set(email, fmt.Sprint(uid))
 	if err != nil {
 		panic(fmt.Errorf("error: ResetPwdStep1Verifier.Add failed: %v", err.Error()))
 	}
@@ -61,7 +61,7 @@ func forogtPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	ctx := r.Context()
 	lang := appcm.ContextLanguage(ctx)
 	ls := appHandler.EmailPage().Dictionary(lang)
-	url := appURL.Get().VerifyRegEmail(ls.QingSiteLink, publicID)
+	url := appURL.Get().ResetPwd(ls.QingSiteLink, publicID)
 	linkPageData := cview.EmailCommonLinkData{
 		MainText: resp.LS().ClickBelowToResetPwd,
 		Link:     url,

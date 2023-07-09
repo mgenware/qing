@@ -24,7 +24,7 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-func getDevLatestMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getDevLatestMailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	params := resp.Params()
@@ -36,7 +36,7 @@ func getDevLatestMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(devMail)
 }
 
-func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getDevMailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	params := resp.Params()
@@ -48,7 +48,7 @@ func getDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(devMail)
 }
 
-func sendMailCore(w http.ResponseWriter, r *http.Request, realMail bool) handler.JSON {
+func sendMailAPICore(w http.ResponseWriter, r *http.Request, realMail bool) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	ac := appConfig.Get(r)
 
@@ -62,15 +62,15 @@ func sendMailCore(w http.ResponseWriter, r *http.Request, realMail bool) handler
 	return resp.MustComplete(nil)
 }
 
-func sendRealMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	return sendMailCore(w, r, true)
+func sendRealMailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
+	return sendMailAPICore(w, r, true)
 }
 
-func sendDevMail(w http.ResponseWriter, r *http.Request) handler.JSON {
-	return sendMailCore(w, r, false)
+func sendDevMailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
+	return sendMailAPICore(w, r, false)
 }
 
-func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+func eraseUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	params := resp.Params()
@@ -81,7 +81,7 @@ func eraseUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func eraseUserByID(w http.ResponseWriter, r *http.Request) handler.JSON {
+func eraseUserByIDAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	params := resp.Params()
@@ -98,7 +98,7 @@ func eraseUserByID(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func users(w http.ResponseWriter, r *http.Request) handler.JSON {
+func usersAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	users, err := devmail.ListUsers()
@@ -106,7 +106,7 @@ func users(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(users)
 }
 
-func inbox(w http.ResponseWriter, r *http.Request) handler.JSON {
+func inboxAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	params := resp.Params()

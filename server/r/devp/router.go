@@ -22,16 +22,16 @@ var Router = chi.NewRouter()
 func init() {
 	// Some auth related routes are GET only. They are used in BR tests.
 	authRouter := handler.NewHTMLRouter()
-	authRouter.Get("/in/{uid}", signInGETHandler)
-	authRouter.Get("/out", signOutGETHandler)
-	authRouter.Get("/*", defaultHandler)
+	authRouter.Get("/in/{uid}", signInPage)
+	authRouter.Get("/out", signOutPage)
+	authRouter.Get("/*", defaultPage)
 
 	Router.Mount("/err", errRouter)
 	Router.Mount("/auth", authRouter)
 
 	Router.Mount("/api", apiRouter())
 	// GET routes are all handled on frontend.
-	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultHandler))
+	Router.Get("/*", handler.HTMLHandlerToHTTPHandler(defaultPage))
 }
 
 func apiNotFoundHandler(w http.ResponseWriter, r *http.Request) {
@@ -47,12 +47,12 @@ func apiRouter() *handler.JSONRouter {
 
 	// Auth router.
 	authRouter := handler.NewJSONRouter()
-	authRouter.Post("/in", signInHandler)
-	authRouter.Post("/new", newUserHandler)
-	authRouter.Post("/del", deleteUser)
-	authRouter.Post("/info", fetchUserInfo)
-	authRouter.Post("/cur", currentUser)
-	authRouter.Post("/get-email", userEmail)
+	authRouter.Post("/in", signInAPI)
+	authRouter.Post("/new", newUserAPI)
+	authRouter.Post("/del", deleteUserAPI)
+	authRouter.Post("/info", fetchUserInfoAPI)
+	authRouter.Post("/cur", currentUserAPI)
+	authRouter.Post("/get-email", userEmailAPI)
 	r.Mount("/auth", authRouter)
 
 	// User router.
@@ -76,7 +76,7 @@ func apiRouter() *handler.JSONRouter {
 	return r
 }
 
-func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+func defaultPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	// Page title and content will be set on frontend side.

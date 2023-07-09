@@ -19,6 +19,7 @@ ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
     iconURL: '/res/avatars/2t/50_admin.png',
     link: '/u/2t',
     name: 'ADMIN',
+    email: 'admin@mgenware.com',
   });
 });
 
@@ -27,7 +28,7 @@ it('Add and remove a user', async () => {
   await newUser(async (u) => {
     // eslint-disable-next-line prefer-destructuring
     id = u.id;
-    const ud = { id, iconURL: defaultUserImg, link: `/u/${id}`, name: 'T' };
+    const ud = { id, iconURL: defaultUserImg, link: `/u/${id}`, name: 'T', email: u.email };
     assert.deepStrictEqual(u, ud);
 
     // Make sure `__/auth/info` also works.

@@ -5,18 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { parse } from 'node-html-parser';
+const contentRegex = /<main>(.*?)<\/main>/;
 
-const mainElSel = 'main';
-
-// Extracts main content element from page HTML.
-export function getMainContentHTML(page: string) {
-  const root = parse(page);
-  const mainEl = root.querySelector(mainElSel);
-  return (mainEl?.innerHTML ?? '').trim();
-}
-
-export function getMainContentElement(page: string) {
-  const root = parse(page);
-  return root.querySelector(mainElSel);
+// Gets the main content HTML from page HTML.
+export function getContentHTML(html: string) {
+  const m = html.match(contentRegex);
+  if (!m) {
+    return '';
+  }
+  return m[1] ?? '';
 }

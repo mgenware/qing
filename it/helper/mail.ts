@@ -7,9 +7,8 @@
 
 import { api } from 'api.js';
 import * as mailAPI from '@qing/routes/dev/api/mail.js';
-import { parse } from 'node-html-parser';
 
-const mainElSel = '#main';
+const contentRegex = /<td id="main">(.*?)<\/td>/;
 
 export interface DevMail {
   id: string;
@@ -48,18 +47,6 @@ export function sendDevMail(e: SendMailData) {
   return api<DevMail>(mailAPI.sendDevMail, e, null);
 }
 
-// Extracts mail content HTML from page HTML.
-export function getMainEmailContentHTML(page: string) {
-  const root = parse(page);
-  const mainEl = root.querySelector(mainElSel);
-  return (mainEl?.innerHTML ?? '').trim();
-}
-
-export function getMainEmailContentElement(page: string) {
-  const root = parse(page);
-  return root.querySelector(mainElSel);
-}
-
 // NOTE: `err` is not escaped.
 export function unsafeErrorHTML(err: string) {
   return `<div class="container section">
@@ -68,4 +55,28 @@ export function unsafeErrorHTML(err: string) {
     <p class="text-danger">${err}</p>
   </div>
 </div>`;
+}
+
+// Gets the main content HTML from email HTML.
+export function getContentHTML(html: string) {
+  const m = html.match(contentRegex);
+  if (!m) {
+    return '';
+  }
+  return m[1] ?? '';
+}
+
+// Extracts email content link from HTML.
+export function extractContentLink(html: string, emailLinkRegex: RegExp) {
+  const match = html.match(emailLinkRegex);
+  if (!match) {
+    throw new Error('Cannot find email link');
+  }
+  const link = match[1];
+  if (!link) {
+    throw new Error('Unexpected empty link');
+  }
+  // Return relative URL.
+  const urlObj = new URL(link);
+  return urlObj.pathname + urlObj.search;
 }

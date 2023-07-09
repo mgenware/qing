@@ -14,12 +14,12 @@ import (
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/get", getDevMail)
-	Router.Post("/get-latest", getDevLatestMail)
-	Router.Post("/send-real", sendRealMail)
-	Router.Post("/send-dev", sendDevMail)
-	Router.Post("/erase-user", eraseUser)
-	Router.Post("/erase-user-by-id", eraseUserByID)
-	Router.Post("/users", users)
-	Router.Post("/inbox", inbox)
+	Router.Post("/get", getDevMailAPI)
+	Router.Post("/get-latest", getDevLatestMailAPI)
+	Router.Post("/send-real", sendRealMailAPI)
+	Router.Post("/send-dev", sendDevMailAPI)
+	Router.Post("/erase-user", eraseUserAPI)
+	Router.Post("/erase-user-by-id", eraseUserByIDAPI)
+	Router.Post("/users", usersAPI)
+	Router.Post("/inbox", inboxAPI)
 }

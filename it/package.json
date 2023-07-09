@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "cookie": "^0.5.0",
-    "node-html-parser": "6.1.5",
     "set-cookie-parser": "^2.6.0",
     "uuid": "^9.0.0"
   }

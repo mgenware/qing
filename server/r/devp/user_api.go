@@ -27,9 +27,6 @@ import (
 )
 
 func newUserInfoResult(d *da.UserAGSelectSessionDataResult) *authSod.User {
-	if d == nil {
-		return nil
-	}
 	res := rcom.CreateAuthUser(d.ID, d.Name, d.IconName)
 	res.Admin = d.Admin
 	return &res
@@ -48,31 +45,31 @@ func getUIDFromRequest(r *http.Request) uint64 {
 	return uid
 }
 
-func signInCore(uid uint64, w http.ResponseWriter, r *http.Request) error {
+func signInAPICore(uid uint64, w http.ResponseWriter, r *http.Request) error {
 	return appUserManager.Get().Login(uid, w, r)
 }
 
-func signInHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
+func signInAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	uid := getUIDFromRequest(r)
-	err := signInCore(uid, w, r)
+	err := signInAPICore(uid, w, r)
 	appcm.PanicOn(err)
 	return resp.MustComplete(nil)
 }
 
-func signInGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+func signInPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
 	appcm.PanicOn(err)
-	err = signInCore(uid, w, r)
+	err = signInAPICore(uid, w, r)
 	appcm.PanicOn(err)
 
 	return resp.MustCompleteWithContent("Success", w)
 }
 
-func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+func signOutPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
 	appcm.PanicOn(err)
@@ -80,13 +77,13 @@ func signOutGETHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return resp.MustCompleteWithContent("Success", w)
 }
 
-type DevNewUser struct {
+type DevUserInfo struct {
 	authSod.User
 
 	Email string `json:"email,omitempty"`
 }
 
-func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
+func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := appcm.ContextDict(r.Context())
 	lang := jsonx.GetStringOrDefault(params, "lang")
 	regLang := jsonx.GetStringOrDefault(params, "regLang")
@@ -108,14 +105,10 @@ func newUserHandler(w http.ResponseWriter, r *http.Request) handler.JSON {
 		appcm.PanicOn(err)
 	}
 
-	data := DevNewUser{}
-	sodUser := getDBUserInfo(uid)
-	data.User = *sodUser
-	data.Email = email
-	return resp.MustComplete(data)
+	return resp.MustComplete(fetchUserInfo(uid))
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+func deleteUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 
@@ -127,28 +120,36 @@ func deleteUser(w http.ResponseWriter, r *http.Request) handler.JSON {
 	return resp.MustComplete(nil)
 }
 
-func getDBUserInfo(uid uint64) *authSod.User {
-	us, err := da.User.SelectSessionData(appDB.DB(), uid)
+func fetchUserInfo(uid uint64) *DevUserInfo {
+	sessionData, err := da.User.SelectSessionData(appDB.DB(), uid)
 	if err == sql.ErrNoRows {
-		return newUserInfoResult(nil)
+		return nil
 	}
 	appcm.PanicOn(err)
-	return newUserInfoResult(&us)
+
+	email, err := da.User.SelectEmail(appDB.DB(), uid)
+	appcm.PanicOn(err)
+
+	sodUser := newUserInfoResult(&sessionData)
+	return &DevUserInfo{
+		User:  *sodUser,
+		Email: email,
+	}
 }
 
-func fetchUserInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
+func fetchUserInfoAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
-	return resp.MustComplete(getDBUserInfo(uid))
+	return resp.MustComplete(fetchUserInfo(uid))
 }
 
-func currentUser(w http.ResponseWriter, r *http.Request) handler.JSON {
+func currentUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := appcm.ContextUserID(r.Context())
 	return resp.MustComplete(clib.EncodeID(uid))
 }
 
-func userEmail(w http.ResponseWriter, r *http.Request) handler.JSON {
+func userEmailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	email, err := da.User.SelectEmail(appDB.Get().DB(), uid)

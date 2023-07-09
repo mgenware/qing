@@ -22,6 +22,8 @@ const invalidNameOrPwdResp = {
   c: 1,
   m: 'Invalid username or password.',
 };
+const emailLinkRegex =
+  /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/;
 
 itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
   c: 1,
@@ -60,13 +62,8 @@ ita(
     const mail = await mh.getLatest({ email: email1 });
     assert.strictEqual(mail.title, 'Verify your email');
 
-    const mainEl = mh.getMainEmailContentElement(mail.content);
-    const mainContentHTML = (mainEl?.innerHTML ?? '').trim();
-
-    assert.match(
-      mainContentHTML,
-      /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/.*?" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/,
-    );
+    const mainContentHTML = mh.getContentHTML(mail.content);
+    assert.match(mainContentHTML, emailLinkRegex);
 
     // Try to login.
     const loginRes = await apiRaw(authAPI.signIn, { email: email1, pwd });
@@ -85,13 +82,8 @@ ita(
   async (_) => {
     // Check verification email.
     const mail = await mh.getLatest({ email: email2 });
-    const mainEl = mh.getMainEmailContentElement(mail.content);
-
-    // Verify email.
-    const absURL = mainEl?.querySelector('a')?.textContent.trim() ?? '';
-    assert.ok(absURL);
-    const idx = absURL.indexOf(authRoute.verifyRegEmail);
-    const relURL = `${serverURL}${absURL.substring(idx)}`;
+    const mainContentHTML = mh.getContentHTML(mail.content);
+    const relURL = mh.extractContentLink(mainContentHTML, emailLinkRegex);
 
     // Visit verification URL.
     let verifyResp = await fetch(relURL);
@@ -112,7 +104,7 @@ ita(
     // Visit verification link again results in error.
     verifyResp = await fetch(relURL);
     assert.strictEqual(verifyResp.status, 503);
-    assert.strictEqual(pageUtil.getMainContentHTML(await verifyResp.text()), linkExpiredHTML);
+    assert.strictEqual(pageUtil.getContentHTML(await verifyResp.text()), linkExpiredHTML);
   },
 );
 
@@ -121,5 +113,5 @@ it('Sign up - Wrong email verification link', async () => {
     `${serverURL}${authRoute.verifyRegEmail}/bGlsaUBsaWxpLmNvbXw1YjRlMDM5MC1jNWY2LTRhNTEtYTQ4Zi1lNGViZGJjNDM0YWI`,
   );
   assert.strictEqual(verifyResp.status, 503);
-  assert.strictEqual(pageUtil.getMainContentHTML(await verifyResp.text()), linkExpiredHTML);
+  assert.strictEqual(pageUtil.getContentHTML(await verifyResp.text()), linkExpiredHTML);
 });
