@@ -125,8 +125,8 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	}
 
 	// Compute internal fields.
-	if d.Extra != nil {
-		jsonBytes, err := json.Marshal(d.Extra)
+	if d.ExtraState != nil {
+		jsonBytes, err := json.Marshal(d.ExtraState)
 		if err != nil {
 			panic(err)
 		}

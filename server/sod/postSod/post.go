@@ -15,7 +15,7 @@ package postSod
 
 import "qing/sod/cmtSod"
 
-type PostWind struct {
+type PostPageState struct {
 	ID              string                   `json:"id,omitempty"`
 	CmtCount        uint                     `json:"cmtCount,omitempty"`
 	InitialLikes    uint                     `json:"initialLikes,omitempty"`
@@ -25,8 +25,8 @@ type PostWind struct {
 	FocusMode       *cmtSod.CmtFocusModeData `json:"focusMode,omitempty"`
 }
 
-func NewPostWind(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, isThread bool, forumID *string, focusMode *cmtSod.CmtFocusModeData) PostWind {
-	return PostWind{
+func NewPostPageState(id string, cmtCount uint, initialLikes uint, initialHasLiked bool, isThread bool, forumID *string, focusMode *cmtSod.CmtFocusModeData) PostPageState {
+	return PostPageState{
 		ID: id,
 		CmtCount: cmtCount,
 		InitialLikes: initialLikes,

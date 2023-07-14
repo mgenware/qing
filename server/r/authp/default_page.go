@@ -17,13 +17,14 @@ func defaultPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	return defaultPageCore(w, r, "")
 }
 
-func defaultPageCore(w http.ResponseWriter, r *http.Request, extraScripts string) handler.HTML {
+func defaultPageCore(w http.ResponseWriter, r *http.Request, extraState string) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	// Page title will be set on frontend side
 	d := appHandler.MainPageData("", "")
 	assm := appHandler.MainPage().AssetManager()
-	d.Scripts = assm.MustGetLangScript(resp.Lang(), authLSKey) + appHandler.MainPage().AssetManager().MustGetScript("authEntry") + extraScripts
+	d.Scripts = assm.MustGetLangScript(resp.Lang(), authLSKey) + appHandler.MainPage().AssetManager().MustGetScript("authEntry")
+	d.ExtraState = extraState
 
 	return resp.MustComplete(&d)
 }

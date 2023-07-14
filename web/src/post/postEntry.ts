@@ -13,9 +13,9 @@ import { setupHandlers } from 'com/postCore/postEditHandlers.js';
 import 'ui/editing/editBarApp';
 import { EditBarApp } from 'ui/editing/editBarApp.js';
 import { frozenDef } from '@qing/def';
-import wind from './postWind.js';
+import postPageState from './postPageState.js';
 
 const editBar = document.querySelector<EditBarApp>('.m-post-user edit-bar-app');
 if (editBar) {
-  setupHandlers(editBar, { id: wind.id, type: frozenDef.ContentBaseType.post }, undefined);
+  setupHandlers(editBar, { id: postPageState.id, type: frozenDef.ContentBaseType.post }, undefined);
 }

@@ -16,7 +16,7 @@ import { appDef } from '@qing/def';
 import './views/profileIDView';
 // Required by empty content view.
 import 'ui/alerts/noContentView.js';
-import profileWind from './profileWind.js';
+import profilePageState from './profilePageState.js';
 
 const defaultHighlightedTab = appDef.keyPosts;
 const qingLSCls = '__qing_ls__';
@@ -50,7 +50,7 @@ ready(async () => {
     ?.classList.add(tabViewActiveClass);
 
   // Set user URL.
-  const { Website: website } = profileWind;
+  const { Website: website } = profilePageState;
   if (website) {
     document
       .getElementById('m-profile-url')

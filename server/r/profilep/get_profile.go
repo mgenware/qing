@@ -73,6 +73,6 @@ func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
 	d := appHandler.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileData))
 	d.Header = appHandler.MainPage().AssetManager().MustGetStyle("profileEntry")
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("profileEntry")
-	d.Extra = ProfilePageWindData{Website: user.Website}
+	d.ExtraState = ProfilePageWindData{Website: user.Website}
 	return resp.MustComplete(&d)
 }

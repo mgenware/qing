@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, property } from 'll.js';
 import 'qing-overlay';
-import wind from './forumWind.js';
+import pageState from './forumPageState.js';
 import { frozenDef } from '@qing/def';
 import { runNewEntityCommand } from 'app/appCommands.js';
 
@@ -58,7 +58,7 @@ export class NewFPostApp extends BaseElement {
 
   private newFPostClick() {
     this.closeFPostTypeModal();
-    runNewEntityCommand(frozenDef.ContentBaseType.fPost, wind.FID);
+    runNewEntityCommand(frozenDef.ContentBaseType.fPost, pageState.FID);
   }
 }
 

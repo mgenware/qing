@@ -6,6 +6,9 @@
  */
 
 import appPageState from 'app/appPageState.js';
-import { PostWind } from 'sod/post.js';
 
-export default appPageState.extraData<PostWind>();
+export interface ProfilePageState {
+  Website?: string;
+}
+
+export default appPageState.extraData<ProfilePageState>();

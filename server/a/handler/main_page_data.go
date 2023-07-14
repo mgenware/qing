@@ -21,11 +21,11 @@ type MainPageData struct {
 	Header      string
 	Scripts     string
 
-	// PageState gets serialized and passed to main page script section.
+	// State gets serialized and passed to main page script section.
 	State appSod.MainPageStateData
 
-	// Used by routes to pass extra data to frontend.
-	Extra any
+	// ExtraState gets serialized and passed to main page script section.
+	ExtraState any
 
 	// Members starts with a 'Z' prefix are used internally in `MainPageManager`.
 	ZStateJSON string

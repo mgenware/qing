@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
 import 'com/cmt/cmtApp';
-import postWind from './postWind.js';
+import postPageState from './postPageState.js';
 import 'com/like/likesApp.js';
 import { frozenDef } from '@qing/def';
 import * as pu from 'lib/pageUtil.js';
@@ -32,16 +32,16 @@ export class PostPayloadApp extends BaseElement {
   @state() _sharePopupOpen = false;
 
   override render() {
-    const hostID = postWind.id;
-    const contentType = postWind.isThread
+    const hostID = postPageState.id;
+    const contentType = postPageState.isThread
       ? frozenDef.ContentBaseType.fPost
       : frozenDef.ContentBaseType.post;
     return html`
       <div>
         <likes-app
           .iconSize=${'md'}
-          .initialLikes=${postWind.initialLikes ?? 0}
-          .initialHasLiked=${!!postWind.initialHasLiked}
+          .initialLikes=${postPageState.initialLikes ?? 0}
+          .initialHasLiked=${!!postPageState.initialHasLiked}
           .hostID=${hostID}
           .hostType=${contentType}></likes-app>
         <link-button class="m-l-md" @click=${this.handleShareClick}
@@ -50,8 +50,8 @@ export class PostPayloadApp extends BaseElement {
       </div>
       <cmt-app
         .host=${{ id: hostID, type: contentType }}
-        .initialTotalCmtCount=${postWind.cmtCount ?? 0}
-        .focusModeData=${postWind.focusMode}
+        .initialTotalCmtCount=${postPageState.cmtCount ?? 0}
+        .focusModeData=${postPageState.focusMode}
         @cmt-app-view-all-cmts=${this.handleViewAllCmts}></cmt-app>
     `;
   }
@@ -64,7 +64,7 @@ export class PostPayloadApp extends BaseElement {
   }
 
   private handleShareClick() {
-    appAlert.showSharePopup(urls.post(postWind.id));
+    appAlert.showSharePopup(urls.post(postPageState.id));
   }
 }
 

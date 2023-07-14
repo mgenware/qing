@@ -7,8 +7,9 @@
 
 import appPageState from 'app/appPageState.js';
 
-export interface ProfileWind {
-  Website?: string;
+export interface ForumPageState {
+  FID: string;
+  Editable: boolean;
 }
 
-export default appPageState.extraData<ProfileWind>();
+export default appPageState.extraData<ForumPageState>();

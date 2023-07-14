@@ -7,7 +7,7 @@
 
 import { BaseElement, customElement, html, css } from 'll.js';
 import 'ui/lists/linkListView.js';
-import langWind, { LangInfo } from './langWind.js';
+import langPageState, { LangInfo } from './langPageState.js';
 import { linkListActiveFilledClass } from 'ui/lists/linkListView.js';
 import appAlert from 'app/appAlert.js';
 import * as pu from 'lib/pageUtil.js';
@@ -32,7 +32,7 @@ export class LangPageView extends BaseElement {
   constructor() {
     super();
 
-    this.tags = langWind.Langs;
+    this.tags = langPageState.Langs;
   }
 
   override render() {

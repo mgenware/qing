@@ -6,15 +6,6 @@
  */
 
 import appPageState from 'app/appPageState.js';
+import { PostPageState } from 'sod/post.js';
 
-export interface LangInfo {
-  Name: string;
-  ID: string;
-  LocalizedName: string;
-}
-
-export interface LangWindData {
-  Langs: LangInfo[];
-}
-
-export default appPageState.extraData<LangWindData>();
+export default appPageState.extraData<PostPageState>();

@@ -62,6 +62,6 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	forumData := NewForumPageData(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := appHandler.MainPageData("", vForumPage.MustExecuteToString(forumData))
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("forumEntry")
-	d.Extra = ForumPageWindData{Editable: forumData.ForumEditable, FID: forumData.ForumEID}
+	d.ExtraState = ForumPageWindData{Editable: forumData.ForumEditable, FID: forumData.ForumEID}
 	return resp.MustComplete(&d)
 }

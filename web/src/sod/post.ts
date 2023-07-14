@@ -15,7 +15,7 @@
 
 import { CmtFocusModeData } from './cmt.js';
 
-export interface PostWind {
+export interface PostPageState {
   id: string;
   cmtCount?: number;
   initialLikes?: number;

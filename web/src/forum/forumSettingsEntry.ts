@@ -11,14 +11,14 @@ import * as fRoute from '@qing/routes/forum.js';
 import './settings/forumSettingsBaseView';
 import { ForumSettingsPages } from './settings/forumSettingsBaseView.js';
 import './settings/general/forumGeneralSettingsApp.js';
-import ForumSettingsWind from './forumSettingsWind.js';
+import ForumSettingsPageState from './forumSettingsPageState.js';
 import { CHECK } from 'checks.js';
 import appPageState from 'app/appPageState.js';
 import * as pu from 'lib/pageUtil.js';
 
 const settingsRouter = new MiniURLRouter();
-const forumSettingsWind = appPageState.extraData<ForumSettingsWind>();
-const fid = forumSettingsWind.EID;
+const forumSettingsPageState = appPageState.extraData<ForumSettingsPageState>();
+const fid = forumSettingsPageState.EID;
 CHECK(fid);
 
 function loadSettingsContent(

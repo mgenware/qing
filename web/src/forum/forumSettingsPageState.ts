@@ -5,11 +5,6 @@
  * be found in the LICENSE file.
  */
 
-import appPageState from 'app/appPageState.js';
-
-export interface ForumWind {
-  FID: string;
-  Editable: boolean;
+export default interface ForumSettingsPageState {
+  EID: string;
 }
-
-export default appPageState.extraData<ForumWind>();
