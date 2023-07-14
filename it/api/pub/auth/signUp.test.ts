@@ -14,7 +14,6 @@ import { serverURL } from 'base/def.js';
 import fetch from 'node-fetch';
 import { curUser, newEmail, userInfo } from 'helper/user.js';
 import CookieJar from 'helper/cookieJar.js';
-import * as pageUtil from 'helper/page.js';
 
 const pwd = '123456';
 const htmlIDRegex = /__brVerifiedUID_(.+)__/g;
@@ -22,8 +21,6 @@ const invalidNameOrPwdResp = {
   c: 1,
   m: 'Invalid username or password.',
 };
-const emailLinkRegex =
-  /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/;
 
 itaResultRaw('Sign up - Missing name', authAPI.signUp, { email: '_', pwd: '_' }, null, {
   c: 1,
@@ -51,6 +48,23 @@ itaResultRaw(
   },
 );
 
+const email = newEmail();
+ita(
+  'Sign up - Verification email - Email content',
+  authAPI.signUp,
+  { name: '_', email, pwd },
+  null,
+  async (_) => {
+    // Check verification email.
+    const mail = await mh.getLatest({ email });
+    assert.strictEqual(mail.title, 'Verify your email');
+    assert.match(
+      mail.content,
+      /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/,
+    );
+  },
+);
+
 const email1 = newEmail();
 ita(
   'Sign up - Verification email - Cannot login when not verified',
@@ -58,36 +72,27 @@ ita(
   { name: '_', email: email1, pwd },
   null,
   async (_) => {
-    // Check verification email.
-    const mail = await mh.getLatest({ email: email1 });
-    assert.strictEqual(mail.title, 'Verify your email');
-
-    const mainContentHTML = mh.getContentHTML(mail.content);
-    assert.match(mainContentHTML, emailLinkRegex);
-
-    // Try to login.
+    // Try to login without verifying.
     const loginRes = await apiRaw(authAPI.signIn, { email: email1, pwd });
     assert.deepStrictEqual(loginRes, invalidNameOrPwdResp);
   },
 );
 
-const linkExpiredHTML = mh.unsafeErrorHTML('Link has expired.');
-
 const email2 = newEmail();
 ita(
-  'Sign up - Verify email - Log in - Revisit verify link',
+  'Sign up - Verify email - Log in - Success',
   authAPI.signUp,
   { name: 'New user', email: email2, pwd },
   null,
   async (_) => {
     // Check verification email.
     const mail = await mh.getLatest({ email: email2 });
-    const mainContentHTML = mh.getContentHTML(mail.content);
-    const relURL = mh.extractContentLink(mainContentHTML, emailLinkRegex);
+    const relURL = mh.getContentLink(mail.content);
 
     // Visit verification URL.
     let verifyResp = await fetch(relURL);
     assert.ok(verifyResp.ok);
+
     // Extract new verified ID from response HTML.
     const respHTML = await verifyResp.text();
     const extractedID = htmlIDRegex.exec(respHTML)?.[1]?.toString() ?? '';
@@ -104,7 +109,7 @@ ita(
     // Visit verification link again results in error.
     verifyResp = await fetch(relURL);
     assert.strictEqual(verifyResp.status, 503);
-    assert.strictEqual(pageUtil.getContentHTML(await verifyResp.text()), linkExpiredHTML);
+    assert.strictEqual(mh.getErrorContent(respHTML), 'Link has expired.');
   },
 );
 
@@ -112,6 +117,8 @@ it('Sign up - Wrong email verification link', async () => {
   const verifyResp = await fetch(
     `${serverURL}${authRoute.verifyRegEmail}/bGlsaUBsaWxpLmNvbXw1YjRlMDM5MC1jNWY2LTRhNTEtYTQ4Zi1lNGViZGJjNDM0YWI`,
   );
+  const respHTML = await verifyResp.text();
+
   assert.strictEqual(verifyResp.status, 503);
-  assert.strictEqual(pageUtil.getContentHTML(await verifyResp.text()), linkExpiredHTML);
+  assert.strictEqual(mh.getErrorContent(respHTML), 'Link has expired.');
 });

@@ -7,8 +7,10 @@
 
 import { api } from 'api.js';
 import * as mailAPI from '@qing/routes/dev/api/mail.js';
+import { HTMLElement, parse } from 'node-html-parser';
+import { serverURL } from 'base/def.js';
 
-const contentRegex = /<td id="main">(.*?)<\/td>/;
+const mainElSel = '#main';
 
 export interface DevMail {
   id: string;
@@ -47,36 +49,47 @@ export function sendDevMail(e: SendMailData) {
   return api<DevMail>(mailAPI.sendDevMail, e, null);
 }
 
-// NOTE: `err` is not escaped.
-export function unsafeErrorHTML(err: string) {
-  return `<div class="container section">
-  <div class="text-center">
-    <h1>An error occurred</h1>
-    <p class="text-danger">${err}</p>
-  </div>
-</div>`;
+export function getErrorContent(page: string) {
+  const root = parse(page);
+  const errEl = root.querySelector('.text-danger');
+  if (errEl?.textContent) {
+    return errEl.textContent.trim();
+  }
+  throw new Error('No error element found');
 }
 
-// Gets the main content HTML from email HTML.
-export function getContentHTML(html: string) {
-  const m = html.match(contentRegex);
-  if (!m) {
-    return '';
+export function getContentElement(page: string) {
+  const root = parse(page);
+  const element = root.querySelector(mainElSel);
+  if (!element) {
+    throw new Error('No content element found');
   }
-  return m[1] ?? '';
+  return element;
 }
 
-// Extracts email content link from HTML.
-export function extractContentLink(html: string, emailLinkRegex: RegExp) {
-  const match = html.match(emailLinkRegex);
-  if (!match) {
-    throw new Error('Cannot find email link');
-  }
-  const link = match[1];
+export function getContentHTML(page: string) {
+  return getContentElement(page).innerHTML;
+}
+
+export function getContentText(page: string) {
+  return getContentElement(page).textContent;
+}
+
+export function getContentLinkFromElement(element: HTMLElement) {
+  const link = element.querySelector('a')?.getAttribute('href');
   if (!link) {
-    throw new Error('Unexpected empty link');
+    throw new Error('No link found');
   }
-  // Return relative URL.
-  const urlObj = new URL(link);
-  return urlObj.pathname + urlObj.search;
+  return link;
+}
+
+export function getContentRawLink(page: string) {
+  const element = getContentElement(page);
+  return getContentLinkFromElement(element);
+}
+
+export function getContentLink(page: string) {
+  const link = getContentRawLink(page);
+  const url = new URL(link);
+  return serverURL + url.pathname + url.search;
 }
