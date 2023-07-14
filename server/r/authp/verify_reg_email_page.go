@@ -11,13 +11,11 @@ import (
 	"fmt"
 	"net/http"
 	"qing/a/appDB"
-	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/clib"
 	authapi "qing/r/api/pub/auth_api"
 
 	"github.com/go-chi/chi/v5"
@@ -51,14 +49,8 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
 	appcm.PanicOn(err)
 
-	newUID, err := da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
+	_, err = da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
 	appcm.PanicOn(err)
 
-	brScripts := ""
-	if appEnv.IsBR() {
-		newUIDString := clib.EncodeID(newUID)
-		brScripts = fmt.Sprintf("__brVerifiedUID_%v__", newUIDString)
-	}
-
-	return defaultPageCore(w, r, brScripts)
+	return defaultPage(w, r)
 }

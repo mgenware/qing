@@ -16,7 +16,6 @@ import { curUser, newEmail, userInfo } from 'helper/user.js';
 import CookieJar from 'helper/cookieJar.js';
 
 const pwd = '123456';
-const htmlIDRegex = /__brVerifiedUID_(.+)__/g;
 const invalidNameOrPwdResp = {
   c: 1,
   m: 'Invalid username or password.',
@@ -70,8 +69,6 @@ ita(
   async (_) => {
     // Check verification email.
     const mail = await mh.getLatest({ email: email2 });
-    const relURL = mh.getContentLink(mail.content);
-
     assert.strictEqual(mail.title, 'Verify your email');
     assert.match(
       mail.content,
@@ -79,26 +76,24 @@ ita(
     );
 
     // Visit verification URL.
+    const relURL = mh.getContentLink(mail.content);
     let verifyResp = await fetch(relURL);
     assert.ok(verifyResp.ok);
 
-    // Extract new verified ID from response HTML.
-    const respHTML = await verifyResp.text();
-    const extractedID = htmlIDRegex.exec(respHTML)?.[1]?.toString() ?? '';
-    assert.ok(extractedID);
-
-    // Verify new user name.
-    const uInfo = await userInfo(extractedID);
-    assert.strictEqual(uInfo?.name, 'New user');
-
+    // Sign in and verify user ID.
     const cookieJar = new CookieJar();
-    await api(authAPI.signIn, { email: email2, pwd }, null, { cookieJar });
-    assert.strictEqual(await curUser(cookieJar), extractedID);
+    await api(authAPI.signIn, { email: email2, pwd }, null, {
+      cookieJar,
+    });
+
+    const curUID = await curUser(cookieJar);
+    const uInfo = await userInfo(curUID);
+    assert.strictEqual(uInfo?.name, 'New user');
 
     // Visit verification link again results in error.
     verifyResp = await fetch(relURL);
     assert.strictEqual(verifyResp.status, 503);
-    assert.strictEqual(mh.getErrorContent(respHTML), 'Link has expired.');
+    assert.strictEqual(mh.getErrorContent(await verifyResp.text()), 'Link has expired.');
   },
 );
 

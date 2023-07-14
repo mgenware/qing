@@ -44,7 +44,6 @@ it('Add and remove a user', async () => {
 it('`curUser`', async () => {
   await newUser(async (u) => {
     const cookieJar = new CookieJar();
-    // expect(await curUser(cookieJar)).toBe('');
 
     // Log in.
     await dontUseRequestLogin(u.id, cookieJar);

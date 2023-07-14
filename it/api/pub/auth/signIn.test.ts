@@ -37,6 +37,7 @@ it('Sign in - Sign out', async () => {
   const cookieJar = new CookieJar();
   // No user is logged in initially.
   assert.strictEqual(await curUser(cookieJar), '');
+
   // Log in.
   await api(pubAuth.signIn, { email: authUsr.user.email, pwd: authUsr.user.pwd }, null, {
     cookieJar,
