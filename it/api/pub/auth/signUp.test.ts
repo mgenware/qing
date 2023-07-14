@@ -48,23 +48,6 @@ itaResultRaw(
   },
 );
 
-const email = newEmail();
-ita(
-  'Sign up - Verification email - Email content',
-  authAPI.signUp,
-  { name: '_', email, pwd },
-  null,
-  async (_) => {
-    // Check verification email.
-    const mail = await mh.getLatest({ email });
-    assert.strictEqual(mail.title, 'Verify your email');
-    assert.match(
-      mail.content,
-      /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/,
-    );
-  },
-);
-
 const email1 = newEmail();
 ita(
   'Sign up - Verification email - Cannot login when not verified',
@@ -88,6 +71,12 @@ ita(
     // Check verification email.
     const mail = await mh.getLatest({ email: email2 });
     const relURL = mh.getContentLink(mail.content);
+
+    assert.strictEqual(mail.title, 'Verify your email');
+    assert.match(
+      mail.content,
+      /<p>Click the link below to complete the registration process\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/verify-reg-email\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/verify-reg-email\/.*?<\/a><\/p>/,
+    );
 
     // Visit verification URL.
     let verifyResp = await fetch(relURL);
