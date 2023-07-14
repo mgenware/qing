@@ -9,7 +9,7 @@ import Loader from 'lib/loader.js';
 import * as authRoute from '@qing/routes/s/pub/auth.js';
 
 export default class ResetPwdLoader extends Loader<void> {
-  constructor(public pwd: string) {
+  constructor(public key: string, public pwd: string) {
     super();
   }
 

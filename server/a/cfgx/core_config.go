@@ -51,7 +51,7 @@ func (c *CoreConfig) ProductionMode() bool {
 }
 
 // Checks if forums mode is enabled.
-func (c *CoreConfig) FourmsEnabled() bool {
+func (c *CoreConfig) ForumsEnabled() bool {
 	return c.Forums != nil && c.Forums.Enabled
 }
 

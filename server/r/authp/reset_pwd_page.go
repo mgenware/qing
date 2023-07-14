@@ -41,5 +41,5 @@ func resetPwdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return resp.MustFailf(ls.LinkExpired, http.StatusServiceUnavailable)
 	}
 
-	return defaultPage(w, r)
+	return defaultPageCore(w, r)
 }

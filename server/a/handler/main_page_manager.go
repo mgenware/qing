@@ -114,7 +114,7 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	// Sync settings.
 	cc := m.cfg
 	d.State.PostPerm = ac.Permissions.RawPost
-	d.State.Forums = cc.FourmsEnabled()
+	d.State.Forums = cc.ForumsEnabled()
 	d.State.InputType = ac.Content.RawInputType
 
 	// User info.

@@ -62,7 +62,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		captResult := 0
 		var forumID *uint64
-		if cfg.FourmsEnabled() && entityType != frozenDef.ContentBaseTypePost {
+		if cfg.ForumsEnabled() && entityType != frozenDef.ContentBaseTypePost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}
