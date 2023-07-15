@@ -28,13 +28,13 @@ func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := clib.MustGetIDFromDict(params, "id")
 	db := appDB.DB()
 	hostInfo, err := da.Cmt.SelectHostInfo(db, id)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select host info")
 
 	entityType := frozenDef.ContentBaseType(hostInfo.HostType)
 	hostTable, err := apicom.GetCmtHostTable(entityType)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to get host table")
 
 	err = dax.DeleteCmt(db, id, uid, hostTable, hostInfo.HostID)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to delete comment")
 	return resp.MustComplete(nil)
 }

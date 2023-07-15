@@ -30,13 +30,13 @@ func setLang(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Update DB.
 	err := da.User.UpdateLang(appDB.DB(), uid, lang)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update user lang")
 
 	// Update session.
 	sid := appcm.ContextSID(r.Context())
 	sUser.Lang = lang
 	err = appUserManager.Get().UpdateUserSession(sid, sUser)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update user session")
 
 	return resp.MustComplete(nil)
 }

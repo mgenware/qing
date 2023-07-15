@@ -51,13 +51,13 @@ func signInAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	pwdValid, err := appService.Get().HashingAlg.ComparePasswordAndHash(pwd, hash)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "Error comparing password and hash")
 
 	if !pwdValid {
 		return resp.MustFail(resp.LS().InvalidNameOrPwd)
 	}
 
 	err = appUserManager.Get().Login(uid, w, r)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "Error logging in")
 	return resp.MustComplete(nil)
 }

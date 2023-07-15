@@ -38,13 +38,13 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// Update DB
 	err := da.User.UpdateProfile(appDB.DB(), uid, nick, website, company, location, bio, bioSrc)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update user profile")
 
 	// Update session
 	sUser.Name = nick
 	sid := appcm.ContextSID(r.Context())
 	err = appUserManager.Get().UpdateUserSession(sid, sUser)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update user session")
 
 	return resp.MustComplete(nick)
 }

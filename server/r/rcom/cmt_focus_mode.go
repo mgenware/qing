@@ -28,7 +28,7 @@ func GetCmtFocusModeData(cmtID, hostID uint64, hostType frozenDef.ContentBaseTyp
 		d.Is404 = true
 		return d
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select comment")
 	focusedCmtVal := apicom.NewCmt(&focusedCmtDB)
 
 	// Check focused cmt belongs to current post.
@@ -41,7 +41,7 @@ func GetCmtFocusModeData(cmtID, hostID uint64, hostType frozenDef.ContentBaseTyp
 	// Fetch parent cmt if needed.
 	if focusedCmtVal.ParentID != nil {
 		focusedCmtParentDB, err := da.Cmt.SelectCmt(db, *focusedCmtVal.ParentID)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to select parent comment")
 		focusedCmtParentVal := apicom.NewCmt(&focusedCmtParentDB)
 		d.ParentCmt = &focusedCmtParentVal
 	}

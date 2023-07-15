@@ -35,9 +35,9 @@ func init() {
 		msConn,
 		logger,
 		urlx)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to create session manager")
 	userManager, err = userx.NewUserManager(db, sessionMgr, mp, urlx, cc)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to create user manager")
 	if appEnv.IsUT() {
 		for _, uid := range testAccounts {
 			userManager.TestLogin(uid)

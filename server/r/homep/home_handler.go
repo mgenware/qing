@@ -58,7 +58,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	} else {
 		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select home posts")
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {

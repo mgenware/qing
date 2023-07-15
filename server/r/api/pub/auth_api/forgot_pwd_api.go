@@ -32,7 +32,7 @@ func forogtPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// ----- Do rate limiting first -----
 	ok, err := appService.Get().RateLmt.RequestIPBasedActivity(r)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "Error requesting IP based activity")
 	if !ok {
 		return resp.MustFail(resp.LS().RateLimitExceededErr)
 	}
@@ -77,7 +77,7 @@ func forogtPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 		realMail = devCfg.RealMail
 	}
 	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, realMail, ls.QingSiteName)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "Error sending email")
 
 	return resp.MustComplete(nil)
 }

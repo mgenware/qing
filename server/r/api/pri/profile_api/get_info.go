@@ -28,7 +28,7 @@ func info(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	dbInfo, err := da.User.SelectEditingData(appDB.DB(), uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select user info")
 
 	data := createProfileInfo(&dbInfo)
 	return resp.MustComplete(data)

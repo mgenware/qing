@@ -26,6 +26,6 @@ func deletePostsByPattern(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pattern := clib.MustGetStringFromDict(params, "pattern", appDef.LenMaxName)
 	db := appDB.DB()
 	_, err = da.Post.BrDeleteByPattern(db, pattern)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to delete posts by pattern")
 	return resp.MustComplete(nil)
 }

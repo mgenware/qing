@@ -29,7 +29,7 @@ func resetPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	key := clib.MustGetStringFromDict(params, "key", -1)
 
 	uidStr, err := appService.Get().ResetPwdVerifier.Verify(key)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to verify reset password key")
 
 	lang := appcm.ContextLanguage(r.Context())
 	ls := appHandler.MainPage().Dictionary(lang)
@@ -38,18 +38,18 @@ func resetPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 
 	targetUID, err := strconvx.ParseUint64(uidStr)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to parse UID")
 
 	if targetUID == 0 {
 		return resp.MustFail("unexpected 0 UID")
 	}
 
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(pwd)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to create hash")
 
 	// Update password.
 	err = da.UserPwd.UpdateHashByID(appDB.DB(), targetUID, pwdHash)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update password")
 
 	// TODO: force logout all sessions!
 	return resp.MustComplete(nil)

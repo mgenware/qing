@@ -75,7 +75,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 			items, hasNext, err = da.Cmt.SelectRepliesUserModeFilterMode(db, uid, &parentID, excludedCmts, page, kCmtPageSize, da.CmtAGSelectRepliesUserModeFilterModeOrderBy1(orderBy), true)
 		}
 		if err != nil {
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to select replies")
 		}
 
 		respData := newGetCmtsRespData(items, hasNext)
@@ -85,7 +85,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 	// Selecting comments.
 	host := clib.MustGetEntityInfoFromDict(params, "host")
 	cmtRelTable, err := apicom.GetCmtRelationTable(host.Type)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "Invalid host type")
 
 	if uid == 0 {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmts(db, cmtRelTable, host.ID, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsOrderBy1(orderBy), true)
@@ -95,7 +95,7 @@ func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
 		items, hasNext, err = da.ContentBaseCmtStatic.SelectRootCmtsUserModeFilterMode(db, cmtRelTable, uid, host.ID, excludedCmts, page, kCmtPageSize, da.ContentBaseCmtStaticAGSelectRootCmtsUserModeFilterModeOrderBy1(orderBy), true)
 	}
 
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select root comments")
 	respData = newGetCmtsRespData(items, hasNext)
 
 	return resp.MustComplete(respData)

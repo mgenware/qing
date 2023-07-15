@@ -33,7 +33,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 
 	focusedCmtIDStr := r.FormValue("cmt")
 	focusedCmtID, err := clib.DecodeID(focusedCmtIDStr)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to decode focused comment ID")
 
 	var postType frozenDef.ContentBaseType
 	var post da.DBPost
@@ -44,7 +44,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 		postType = frozenDef.ContentBaseTypePost
 		post, err = da.Post.SelectItemByID(db, id)
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select post")
 
 	resp := appHandler.HTMLResponse(w, r)
 	uid := resp.UserID()
@@ -52,7 +52,7 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	hasLiked := false
 	if uid != 0 {
 		liked, err := da.PostLike.HasLiked(db, id, uid)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to check if user has liked post")
 		hasLiked = liked
 	}
 

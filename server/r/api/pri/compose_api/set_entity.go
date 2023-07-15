@@ -54,7 +54,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		// Add a new entry.
 		// ----- Do rate limiting first -----
 		ok, err := appService.Get().RateLmt.RequestPostCore(uid)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to check rate limit")
 		if !ok {
 			return resp.MustFail(resp.LS().RateLimitExceededErr)
 		}
@@ -72,7 +72,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case frozenDef.ContentBaseTypePost:
 			{
 				insertedID, err = da.Post.InsertItem(db, uid, contentHTML, contentSrc, title, summary, sanitizedToken, captResult)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to insert post")
 
 				result = appURL.Get().Post(insertedID)
 				break
@@ -81,7 +81,7 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case frozenDef.ContentBaseTypeFPost:
 			{
 				insertedID, err = da.FPost.InsertItem(db, uid, contentHTML, contentSrc, title, summary, forumID, sanitizedToken, captResult)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to insert forum post")
 
 				result = appURL.Get().FPost(insertedID)
 				break
@@ -95,19 +95,19 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 			if tsStr != "" {
 				ts, err := clib.ParseTime(tsStr)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to parse time")
 				switch entityType {
 				case frozenDef.ContentBaseTypePost:
 					{
 						err = da.Post.DevUpdateCreated(db, insertedID, ts, ts)
-						appcm.PanicOn(err)
+						appcm.PanicOn(err, "failed to update created time")
 						break
 					}
 
 				case frozenDef.ContentBaseTypeFPost:
 					{
 						err = da.FPost.DevUpdateCreated(db, insertedID, ts, ts)
-						appcm.PanicOn(err)
+						appcm.PanicOn(err, "failed to update created time")
 						break
 					}
 
@@ -122,13 +122,13 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 		case frozenDef.ContentBaseTypePost:
 			{
 				err = da.Post.EditItem(db, id, uid, contentHTML, contentSrc, title, summary, sanitizedToken)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to edit item")
 				break
 			}
 		case frozenDef.ContentBaseTypeFPost:
 			{
 				err = da.FPost.EditItem(db, id, uid, contentHTML, contentSrc, title, summary, sanitizedToken)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to edit item")
 				break
 			}
 		default:
@@ -139,19 +139,19 @@ func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 			if tsStr != "" {
 				ts, err := clib.ParseTime(tsStr)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to parse time")
 				switch entityType {
 				case frozenDef.ContentBaseTypePost:
 					{
 						err = da.Post.DevUpdateModified(db, id, ts)
-						appcm.PanicOn(err)
+						appcm.PanicOn(err, "failed to update modified time")
 						break
 					}
 
 				case frozenDef.ContentBaseTypeFPost:
 					{
 						err = da.FPost.DevUpdateModified(db, id, ts)
-						appcm.PanicOn(err)
+						appcm.PanicOn(err, "failed to update modified time")
 						break
 					}
 

@@ -43,7 +43,7 @@ func MustNewService(cc *cfgx.CoreConfig, logger coretype.CoreLogger, msConn core
 	s.Noti = notix.NewNotiService(s.Mail)
 
 	lmt, err := ratelmt.NewRateLmt(cc, msConn)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "error creating rate limiter")
 	s.RateLmt = lmt
 	return s
 }

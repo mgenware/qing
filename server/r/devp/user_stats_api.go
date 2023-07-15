@@ -21,7 +21,7 @@ func userPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	c, err := da.UserStats.TestSelectPostCount(appDB.DB(), uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select post count")
 	return resp.MustComplete(c)
 }
 
@@ -29,6 +29,6 @@ func userFPostCount(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	c, err := da.UserStats.TestSelectFPostCount(appDB.DB(), uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select forum post count")
 	return resp.MustComplete(c)
 }

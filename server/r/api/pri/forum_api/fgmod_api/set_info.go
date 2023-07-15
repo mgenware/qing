@@ -31,6 +31,6 @@ func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	err := da.ForumGroup.UpdateInfo(db, id, name, desc, descSrc)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update forum group info")
 	return resp.MustComplete(nil)
 }

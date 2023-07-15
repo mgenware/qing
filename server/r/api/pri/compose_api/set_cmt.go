@@ -51,7 +51,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if id == 0 {
 		// ----- Do rate limiting first -----
 		ok, err := appService.Get().RateLmt.RequestPostCore(uid)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to check rate limit")
 		if !ok {
 			return resp.MustFail(resp.LS().RateLimitExceededErr)
 		}
@@ -62,34 +62,34 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		parentID := clib.GetIDFromDict(params, "parentID")
 
 		cmtHostTable, err := apicom.GetCmtHostTable(host.Type)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to get cmt host table")
 		cmtRelationTable, err := apicom.GetCmtRelationTable(host.Type)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to get cmt relation table")
 
 		captResult := 0
 		var cmtID uint64
 		var notiToID uint64
 		if parentID != 0 {
 			cmtID, err = da.ContentBaseCmtStatic.InsertReply(db, cmtHostTable, content, contentSrc, host.ID, uint8(host.Type), parentID, uid, sanitizedToken, captResult)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to insert reply")
 			parentUID, err := da.Cmt.SelectUserID(db, parentID)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to select parent user id")
 			if parentUID == nil {
 				panic(fmt.Errorf("cannot reply to a deleted cmt, id: %v", parentID))
 			}
 			notiToID = *parentUID
 		} else {
 			cmtID, err = da.ContentBaseCmtStatic.InsertCmt(db, cmtRelationTable, cmtHostTable, content, contentSrc, host.ID, uint8(host.Type), uid, sanitizedToken, captResult)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to insert cmt")
 			hostUser, err := da.ContentBaseStatic.SelectUserID(db, cmtHostTable, host.ID)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to select host user id")
 			notiToID = hostUser
 		}
 
 		// Update `last_replied_at` if necessary.
 		if host.Type == frozenDef.ContentBaseTypePost {
 			err = da.Post.RefreshLastRepliedAt(db, host.ID)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to refresh last replied at")
 		}
 
 		// Noti.
@@ -100,10 +100,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 				action = notix.NotiActionToCmt
 			}
 			link, err := apicom.GetCmtPostHostLink(&host, cmtID)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to get cmt post host link")
 			noti := notix.NewNotiItem(uid, notiToID, host, action, link)
 			err = appService.Get().Noti.SendNoti(ac, &noti, user.Name)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to send noti")
 		}
 
 		// Construct a DB cmt object without interacting with DB.
@@ -112,10 +112,10 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 			tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 			if tsStr != "" {
 				ts, err := clib.ParseTime(tsStr)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to parse time")
 				now = ts
 				err = da.Cmt.DevUpdateCreated(db, cmtID, ts, ts)
-				appcm.PanicOn(err)
+				appcm.PanicOn(err, "failed to update created time")
 			}
 		}
 
@@ -134,7 +134,7 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} // End of creating a new cmt.
 
 	err := da.Cmt.EditCmt(db, id, uid, content, sanitizedToken)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to edit cmt")
 	cmt := &cmtSod.Cmt{Eid: clib.EncodeID(id)}
 	cmt.ContentHTML = content
 
@@ -148,9 +148,9 @@ func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 		tsStr := jsonx.GetStringOrDefault(contentDict, appDef.BrTime)
 		if tsStr != "" {
 			ts, err := clib.ParseTime(tsStr)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to parse time")
 			err = da.Cmt.DevUpdateModified(db, id, ts)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to update modified time")
 		}
 	}
 	return resp.MustComplete(respData)

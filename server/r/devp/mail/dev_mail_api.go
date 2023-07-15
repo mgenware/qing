@@ -32,7 +32,7 @@ func getDevLatestMailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	index := jsonx.GetIntOrDefault(params, "index")
 
 	devMail, err := devmail.GetLatestMail(email, index)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to get dev mail")
 	return resp.MustComplete(devMail)
 }
 
@@ -44,7 +44,7 @@ func getDevMailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	id := clib.MustGetStringFromDict(params, "id", appDef.LenMaxGenericString)
 
 	devMail, err := devmail.GetMail(email, id)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to get dev mail")
 	return resp.MustComplete(devMail)
 }
 
@@ -58,7 +58,7 @@ func sendMailAPICore(w http.ResponseWriter, r *http.Request, realMail bool) hand
 	content := clib.MustGetTextFromDict(params, "content")
 
 	err := appService.Get().Mail.SendMail(ac, to, title, content, realMail, "QING_TEST")
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to send mail")
 	return resp.MustComplete(nil)
 }
 
@@ -77,7 +77,7 @@ func eraseUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 
 	err := devmail.EraseUser(email)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to erase user")
 	return resp.MustComplete(nil)
 }
 
@@ -92,9 +92,9 @@ func eraseUserByIDAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if err == sql.ErrNoRows {
 		return resp.MustComplete(nil)
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select email")
 	err = devmail.EraseUser(email)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to erase user")
 	return resp.MustComplete(nil)
 }
 
@@ -102,7 +102,7 @@ func usersAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	users, err := devmail.ListUsers()
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to list users")
 	return resp.MustComplete(users)
 }
 
@@ -113,6 +113,6 @@ func inboxAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	email := clib.MustGetStringFromDict(params, "email", appDef.LenMaxGenericString)
 
 	mails, err := devmail.ListMails(email)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to list mails")
 	return resp.MustComplete(mails)
 }

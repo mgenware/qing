@@ -44,7 +44,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	case appDef.SetSiteSettingsPostPermission:
 		var postPerm frozenDef.PostPermissionConfig
 		err := json.Unmarshal(stJSON, &postPerm)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to unmarshal post permission")
 		if postPerm == "" {
 			panic("invalid post permission value")
 		}
@@ -55,7 +55,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	case appDef.SetSiteSettingsLangs:
 		var langs []string
 		err := json.Unmarshal(stJSON, &langs)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to unmarshal langs")
 		if len(langs) == 0 {
 			panic("error updating langs settings: empty array is not allowed")
 		}
@@ -66,7 +66,7 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	case appDef.SetSiteSettingsInfo:
 		var infoData adminSod.SetSiteInfoSTData
 		err := json.Unmarshal(stJSON, &infoData)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to unmarshal site info")
 		coreConfig.UpdateDiskConfig(func(diskCfg *cfgx.CoreConfig) {
 			diskCfg.Site.Name = infoData.SiteName
 			diskCfg.Site.URL = infoData.SiteURL

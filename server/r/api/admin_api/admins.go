@@ -22,7 +22,7 @@ func admins(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 
 	admins, err := da.User.UnsafeSelectAdmins(appDB.DB())
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select admins")
 	userModels := make([]authSod.User, len(admins))
 	for i, user := range admins {
 		userModels[i] = rcom.CreateAuthUser(user.ID, user.Name, user.IconName)

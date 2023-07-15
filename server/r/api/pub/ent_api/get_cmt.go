@@ -33,7 +33,7 @@ func getCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
 	} else {
 		cmtDB, err = da.Cmt.SelectCmt(db, id)
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select comment")
 
 	cmt := apicom.NewCmt(&cmtDB)
 	return resp.MustComplete(cmt)

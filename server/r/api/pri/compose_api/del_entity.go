@@ -35,14 +35,14 @@ func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
 	case frozenDef.ContentBaseTypePost:
 		{
 			err := da.Post.DeleteItem(appDB.DB(), id, uid)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to delete post")
 			result = appURL.Get().UserProfile(uid)
 			break
 		}
 	case frozenDef.ContentBaseTypeFPost:
 		{
 			err = da.FPost.DeleteItem(db, id, uid)
-			appcm.PanicOn(err)
+			appcm.PanicOn(err, "failed to delete forum post")
 			break
 		}
 	default:

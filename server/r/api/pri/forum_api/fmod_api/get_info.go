@@ -22,6 +22,6 @@ func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	res, err := da.Forum.SelectInfoForEditing(db, fid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select forum info")
 	return resp.MustComplete(res)
 }

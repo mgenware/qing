@@ -45,7 +45,7 @@ var service *AvatarService
 func init() {
 	cc := coreConfig.Get()
 	svc, err := newService(filepath.Join(cc.ResServer.Dir, def.AvatarResKey))
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to create avatar service")
 	service = svc
 }
 

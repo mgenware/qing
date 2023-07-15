@@ -55,7 +55,7 @@ func signUpAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	// ----- Do rate limiting first -----
 	ok, err := appService.Get().RateLmt.RequestIPBasedActivity(r)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to check rate limit")
 	if !ok {
 		return resp.MustFail(resp.LS().RateLimitExceededErr)
 	}
@@ -74,7 +74,7 @@ func signUpAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 		Pwd:   pwd,
 	}
 	createUserDataString, err := CreateUserDataToString(&createUserData)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to serialize CreateUserData")
 
 	publicID, err := appService.Get().RegEmailVerifier.Set(email, createUserDataString)
 	if err != nil {
@@ -101,7 +101,7 @@ func signUpAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 		realMail = devCfg.RealMail
 	}
 	err = appService.Get().Mail.SendMail(ac, email, pageTitle, pageHTML, realMail, ls.QingSiteName)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to send email")
 
 	var result any
 	if appEnv.IsBR() {

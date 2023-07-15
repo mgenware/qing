@@ -31,6 +31,6 @@ func setAdmin(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	db := appDB.DB()
 	err := da.User.UnsafeUpdateAdmin(db, targetUserID, value == 1)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to update admin")
 	return resp.MustComplete(nil)
 }

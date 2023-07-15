@@ -37,7 +37,7 @@ func getUIDFromRequest(r *http.Request) uint64 {
 	val := jsonx.GetStringOrDefault(params, "uid")
 	if val != "" {
 		uid, err := clib.DecodeID(val)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to decode uid")
 		return uid
 	}
 
@@ -54,7 +54,7 @@ func signInAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	uid := getUIDFromRequest(r)
 	err := signInAPICore(uid, w, r)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to sign in")
 	return resp.MustComplete(nil)
 }
 
@@ -62,9 +62,9 @@ func signInPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to decode uid")
 	err = signInAPICore(uid, w, r)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to sign in")
 
 	return resp.MustCompleteWithContent("Success", w)
 }
@@ -72,7 +72,7 @@ func signInPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 func signOutPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to sign out")
 
 	return resp.MustCompleteWithContent("Success", w)
 }
@@ -93,16 +93,16 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	resp := appHandler.JSONResponse(w, r)
 	idObj, err := uuid.NewRandom()
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to generate uuid")
 
 	email := "zzzSV-" + idObj.String() + "@mgenware.com"
 	db := appDB.DB()
 	uid, err := da.User.TestAddUser(db, email, "T", regLang)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to add user")
 
 	if lang != "" {
 		err = da.User.UpdateLang(db, uid, lang)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to update lang")
 	}
 
 	return resp.MustComplete(fetchUserInfo(uid))
@@ -125,10 +125,10 @@ func fetchUserInfo(uid uint64) *DevUserInfo {
 	if err == sql.ErrNoRows {
 		return nil
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select session data")
 
 	email, err := da.User.SelectEmail(appDB.DB(), uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select email")
 
 	sodUser := newUserInfoResult(&sessionData)
 	return &DevUserInfo{
@@ -153,6 +153,6 @@ func userEmailAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := getUIDFromRequest(r)
 	email, err := da.User.SelectEmail(appDB.Get().DB(), uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select email")
 	return resp.MustComplete(email)
 }

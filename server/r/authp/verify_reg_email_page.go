@@ -36,7 +36,7 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	lang := appcm.ContextLanguage(r.Context())
 	ls := appHandler.MainPage().Dictionary(lang)
 	dataString, err := appService.Get().RegEmailVerifier.Verify(key)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to verify registration email key")
 
 	if dataString == "" {
 		// Expired or not found.
@@ -44,13 +44,13 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		return resp.MustFail(ls.LinkExpired, http.StatusServiceUnavailable)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to parse create user data")
 
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(createUserData.Pwd)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to create hash")
 
 	_, err = da.UserPwd.AddPwdBasedUser(appDB.DB(), createUserData.Email, createUserData.Name, lang, pwdHash)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to add user")
 
 	return defaultPage(w, r)
 }

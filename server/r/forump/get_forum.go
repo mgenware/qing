@@ -38,10 +38,10 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	tab := r.FormValue(appDef.KeyTab)
 
 	forum, err := da.Forum.SelectForum(db, fid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select forum")
 
 	items, hasNext, err := da.Forum.SelectFPosts(db, &fid, page, defaultPageSize)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select forum posts")
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {
@@ -58,7 +58,7 @@ func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
 	pageBarHTML := rcom.GetPageBarHTML(resp.Lang(), paginationData)
 
 	forumEditable, err := getForumEditableFromContext(r.Context(), fid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to get forum editable")
 	forumData := NewForumPageData(&forum, feedListHTMLBuilder.String(), pageBarHTML, forumEditable)
 	d := appHandler.MainPageData("", vForumPage.MustExecuteToString(forumData))
 	d.Scripts = appHandler.MainPage().AssetManager().MustGetScript("forumEntry")

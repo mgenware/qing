@@ -12,16 +12,9 @@ import (
 )
 
 // PanicOn panics if the given err is not nil.
-func PanicOn(err error) {
+func PanicOn(err error, info string) {
 	if err != nil {
-		panic(err)
-	}
-}
-
-// PanicOnEx panics if the given err is not nil.
-func PanicOnEx(err error, info string) {
-	if err != nil {
-		err = fmt.Errorf("%v: %v", info, err)
+		err = fmt.Errorf("%v: %w", info, err)
 		panic(err)
 	}
 }

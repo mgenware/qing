@@ -23,10 +23,10 @@ func lang(w http.ResponseWriter, r *http.Request) handler.JSON {
 	uid := resp.UserID()
 
 	supportedLangs, err := apicom.GetSiteSupportedLangs()
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to get supported langs")
 
 	userLang, err := da.User.SelectLang(appDB.Get().DB(), uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to get user lang")
 
 	res := profileSod.NewGetProfileLangResult(userLang, resp.LS().AutoLangOption, supportedLangs)
 	return resp.MustComplete(res)

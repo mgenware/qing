@@ -73,10 +73,10 @@ func myPostsCore(w http.ResponseWriter, r *http.Request, fpost bool) handler.JSO
 	} else {
 		rawPosts, hasNext, err = da.Post.SelectItemsForPostCenter(db, uid, page, pageSize, myPostsColumnNameToEnumMap[sortBy], desc)
 	}
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select posts")
 
 	stats, err := da.UserStats.SelectStats(db, uid)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select user stats")
 
 	posts := make([]pcPost, len(rawPosts))
 	for i, p := range rawPosts {

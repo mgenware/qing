@@ -41,7 +41,7 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	case appDef.GetSiteSettingsLangs:
 		supportedLangs, err := apicom.GetSiteSupportedLangs()
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to get supported langs")
 
 		currentLangs := sc.Langs
 		langSTData := adminSod.NewGetSiteLangsST(&stBase, supportedLangs, currentLangs)

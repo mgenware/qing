@@ -16,14 +16,14 @@ func renderForumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
 	forumGroups, err := da.ForumHome.SelectForumGroups(db)
-	appcm.PanicOn(err)
+	appcm.PanicOn(err, "failed to select forum groups")
 
 	var mainHTML string
 	if len(forumGroups) == 0 {
 		mainHTML = rcom.MustRunNoContentViewTemplate()
 	} else {
 		forums, err := da.ForumHome.SelectForums(db)
-		appcm.PanicOn(err)
+		appcm.PanicOn(err, "failed to select forums")
 
 		// Group forums by `group_id`.
 		groupMap := make(map[uint64][]da.ForumHomeAGSelectForumsResult)
