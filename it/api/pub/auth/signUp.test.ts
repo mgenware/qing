@@ -12,7 +12,7 @@ import * as assert from 'node:assert';
 import * as mh from 'helper/mail.js';
 import { serverURL } from 'base/def.js';
 import fetch from 'node-fetch';
-import { curUser, newEmail, userInfo } from 'helper/user.js';
+import { DevNewUser, curUser, newEmail, userInfo } from 'helper/user.js';
 import CookieJar from 'helper/cookieJar.js';
 
 const pwd = '123456';
@@ -47,28 +47,26 @@ itaResultRaw(
   },
 );
 
-const email1 = newEmail();
 ita(
   'Sign up - Verification email - Cannot login when not verified',
   authAPI.signUp,
-  { name: '_', email: email1, pwd },
+  { name: '_', email: newEmail(), pwd },
   null,
-  async (_) => {
+  async (u: DevNewUser) => {
     // Try to login without verifying.
-    const loginRes = await apiRaw(authAPI.signIn, { email: email1, pwd });
+    const loginRes = await apiRaw(authAPI.signIn, { email: u.email, pwd });
     assert.deepStrictEqual(loginRes, invalidNameOrPwdResp);
   },
 );
 
-const email2 = newEmail();
 ita(
   'Sign up - Verify email - Log in - Success',
   authAPI.signUp,
-  { name: 'New user', email: email2, pwd },
+  { name: 'New user', email: newEmail(), pwd },
   null,
-  async (_) => {
+  async (u: DevNewUser) => {
     // Check verification email.
-    const mail = await mh.getLatest({ email: email2 });
+    const mail = await mh.getLatest({ email: u.email });
     assert.strictEqual(mail.title, 'Verify your email');
     assert.match(
       mail.content,
@@ -82,7 +80,7 @@ ita(
 
     // Sign in and verify user ID.
     const cookieJar = new CookieJar();
-    await api(authAPI.signIn, { email: email2, pwd }, null, {
+    await api(authAPI.signIn, { email: u.email, pwd }, null, {
       cookieJar,
     });
 
@@ -90,7 +88,7 @@ ita(
     const uInfo = await userInfo(curUID);
     assert.strictEqual(uInfo?.name, 'New user');
 
-    // Visit verification link again results in error.
+    // Revisiting the verification link results in error.
     verifyResp = await fetch(relURL);
     assert.strictEqual(verifyResp.status, 503);
     assert.strictEqual(mh.getErrorContent(await verifyResp.text()), 'Link has expired.');

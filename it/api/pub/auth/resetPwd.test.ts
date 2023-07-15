@@ -5,38 +5,80 @@
  * be found in the LICENSE file.
  */
 
-import { api } from 'api.js';
+import { api, apiRaw } from 'api.js';
 import * as assert from 'node:assert';
 import { newUser } from 'helper/user.js';
 import * as authAPI from '@qing/routes/s/pub/auth.js';
 import * as mh from 'helper/mail.js';
 
-const newPwd = '_new_pwd_456)(_';
 const keyValueRegex = /window.appPageExtra="(.+?)"/;
+const initialPwd = '111111)(_';
+const newPwd = '_new_pwd_456)(_';
 
 it('ResetPwd - Success', async () => {
-  await newUser(async (u) => {
-    const { email } = u;
-    await api(authAPI.forgotPwd, { email }, null);
+  await newUser(
+    async (u) => {
+      const { email } = u;
+      await api(authAPI.forgotPwd, { email }, null);
 
-    // Check verification email.
-    const mail = await mh.getLatest({ email });
-    assert.strictEqual(mail.title, 'Reset your password');
-    assert.match(
-      mail.content,
-      /<p>Click the link below to reset your password\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/reset-pwd\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/reset-pwd\/.*?<\/a><\/p>/,
-    );
+      // Check verification email.
+      const mail = await mh.getLatest({ email });
+      assert.strictEqual(mail.title, 'Reset your password');
+      assert.match(
+        mail.content,
+        /<p>Click the link below to reset your password\.<\/p>\n<p><a href="https:\/\/__qing__\/auth\/reset-pwd\/(.*?)" target="_blank">https:\/\/__qing__\/auth\/reset-pwd\/.*?<\/a><\/p>/,
+      );
 
-    // Visit the URL.
-    const relURL = mh.getContentLink(mail.content);
-    const verifyResp = await fetch(relURL);
-    assert.ok(verifyResp.ok);
+      // Visit the URL.
+      const relURL = mh.getContentLink(mail.content);
+      const verifyResp = await fetch(relURL);
+      assert.ok(verifyResp.ok);
 
-    const respHTML = await verifyResp.text();
-    const key = respHTML.match(keyValueRegex)?.[1];
-    assert.ok(key);
+      const respHTML = await verifyResp.text();
+      const key = respHTML.match(keyValueRegex)?.[1];
+      assert.ok(key);
 
-    // Reset password.
-    await api(authAPI.resetPwd, { pwd: newPwd, key }, null);
-  });
+      // Reset password.
+      await api(authAPI.resetPwd, { pwd: newPwd, key });
+
+      // Sign in with old password.
+      const invalidPwdRes = await apiRaw(authAPI.signIn, { email, pwd: initialPwd });
+      assert.deepStrictEqual(invalidPwdRes, {
+        c: 1,
+        m: 'Invalid username or password.',
+      });
+
+      // Sign in with new password.
+      await api(authAPI.signIn, { email, pwd: newPwd });
+    },
+    { pwd: initialPwd },
+  );
+});
+
+it('ResetPwd - Revisit used link', async () => {
+  await newUser(
+    async (u) => {
+      const { email } = u;
+      await api(authAPI.forgotPwd, { email }, null);
+
+      // Visit the URL.
+      const mail = await mh.getLatest({ email });
+      const relURL = mh.getContentLink(mail.content);
+      const verifyResp = await fetch(relURL);
+      assert.ok(verifyResp.ok);
+
+      const respHTML = await verifyResp.text();
+      const key = respHTML.match(keyValueRegex)?.[1];
+      assert.ok(key);
+
+      // Reset password.
+      await api(authAPI.resetPwd, { pwd: newPwd, key });
+
+      // Revisiting the verification link results in error.
+      const failedResp = await fetch(relURL);
+      assert.strictEqual(failedResp.status, 503);
+      assert.strictEqual(mh.getErrorContent(await failedResp.text()), 'Link has expired.');
+    },
+    { pwd: initialPwd },
+  );
 });

@@ -13,6 +13,7 @@ import (
 
 	"qing/a/appDB"
 	"qing/a/appHandler"
+	"qing/a/appService"
 	"qing/a/appUserManager"
 	"qing/a/appcm"
 	"qing/a/handler"
@@ -87,6 +88,7 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	params := appcm.ContextDict(r.Context())
 	lang := jsonx.GetStringOrDefault(params, "lang")
 	regLang := jsonx.GetStringOrDefault(params, "regLang")
+	pwd := jsonx.GetStringOrDefault(params, "pwd")
 	if regLang == "" {
 		regLang = "en"
 	}
@@ -97,8 +99,20 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 	email := "zzzSV-" + idObj.String() + "@mgenware.com"
 	db := appDB.DB()
-	uid, err := da.User.TestAddUser(db, email, "T", regLang)
-	appcm.PanicOn(err, "failed to add user")
+
+	var uid uint64
+	var pwdHash string
+	userName := "T"
+	if pwd != "" {
+		pwdHash, err = appService.Get().HashingAlg.CreateHash(pwd)
+		appcm.PanicOn(err, "failed to hash password")
+
+		uid, err = da.UserPwd.AddPwdBasedUser(appDB.DB(), email, userName, lang, pwdHash)
+		appcm.PanicOn(err, "failed to add user")
+	} else {
+		uid, err = da.User.TestAddUser(db, email, userName, regLang)
+		appcm.PanicOn(err, "failed to add user")
+	}
 
 	if lang != "" {
 		err = da.User.UpdateLang(db, uid, lang)
