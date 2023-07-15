@@ -32,7 +32,7 @@ func resetPwdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	// Don't remove the entry from memory store, because the user may refresh the page.
 	// The entry will be removed when the user successfully resets the password.
-	uidStr, err := appService.Get().ForgotPwdVerifier.Peak(key)
+	uidStr, err := appService.Get().ResetPwdVerifier.Peak(key)
 	appcm.PanicOn(err)
 
 	if uidStr == "" {

@@ -175,7 +175,7 @@ test('Sign up - Success', async ({ page }) => {
     const pwd2El = appEl.$inputView('Confirm password');
     await pwd2El.fillInput(pwd);
 
-    // sign-up-app has been removed once "Sign up" button is clicked.
+    // <sign-up-app> gets removed when "Sign up" button is clicked.
     const bodyEl = p.body;
     await bodyEl.$qingButton('Sign up').click();
     await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();

@@ -12,6 +12,7 @@ import * as authAPI from '@qing/routes/s/pub/auth.js';
 import * as mh from 'helper/mail.js';
 
 const newPwd = '_new_pwd_456)(_';
+const keyValueRegex = /window.appPageExtra="(.+?)"/;
 
 it('ResetPwd - Success', async () => {
   await newUser(async (u) => {
@@ -28,10 +29,14 @@ it('ResetPwd - Success', async () => {
 
     // Visit the URL.
     const relURL = mh.getContentLink(mail.content);
-    let verifyResp = await fetch(relURL);
+    const verifyResp = await fetch(relURL);
     assert.ok(verifyResp.ok);
 
+    const respHTML = await verifyResp.text();
+    const key = respHTML.match(keyValueRegex)?.[1];
+    assert.ok(key);
+
     // Reset password.
-    await api(authAPI.resetPwd, { pwd: newPwd });
+    await api(authAPI.resetPwd, { pwd: newPwd, key }, null);
   });
 });

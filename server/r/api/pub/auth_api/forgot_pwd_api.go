@@ -53,7 +53,7 @@ func forogtPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 		return resp.MustFail(fmt.Sprintf("Error selecting ID from email: %v", err))
 	}
 
-	publicID, err := appService.Get().ForgotPwdVerifier.Set(email, fmt.Sprint(uid))
+	publicID, err := appService.Get().ResetPwdVerifier.Set(email, fmt.Sprint(uid))
 	if err != nil {
 		panic(fmt.Errorf("error: ResetPwdStep1Verifier.Add failed: %v", err.Error()))
 	}

@@ -8,7 +8,6 @@
 package authapi
 
 import (
-	"fmt"
 	"net/http"
 	"qing/a/appDB"
 	"qing/a/appHandler"
@@ -19,23 +18,24 @@ import (
 	"qing/da"
 	"qing/lib/clib"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/mgenware/goutil/strconvx"
 )
 
 // The last step of password recovery, where the user completes the process.
 func resetPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
-	key := chi.URLParam(r, "key")
-	if key == "" {
-		panic(fmt.Errorf("empty input"))
-	}
-
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	pwd := clib.MustGetMinMaxStringFromDict(params, "pwd", appDef.LenMinUserPwd, appDef.LenMaxUserPwd)
+	key := clib.MustGetStringFromDict(params, "key", -1)
 
 	uidStr, err := appService.Get().ResetPwdVerifier.Verify(key)
 	appcm.PanicOn(err)
+
+	lang := appcm.ContextLanguage(r.Context())
+	ls := appHandler.MainPage().Dictionary(lang)
+	if uidStr == "" {
+		return resp.MustFail(ls.ResetPwdSessionExpiredErr)
+	}
 
 	targetUID, err := strconvx.ParseUint64(uidStr)
 	appcm.PanicOn(err)

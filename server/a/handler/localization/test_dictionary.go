@@ -34,6 +34,7 @@ func init() {
 	TestDict.RateLimitExceededErr = "ls.rateLimitExceededErr"
 	TestDict.ResNotFound = "ls.resNotFound"
 	TestDict.ResetPwdEmailTitle = "ls.resetPwdEmailTitle"
+	TestDict.ResetPwdSessionExpiredErr = "ls.resetPwdSessionExpiredErr"
 	TestDict.SbRepliedToUrCmtIn = "ls.sbRepliedToUrCmtIn"
 	TestDict.SbRepliedToUrPost = "ls.sbRepliedToUrPost"
 	TestDict.SignIn = "ls.signIn"

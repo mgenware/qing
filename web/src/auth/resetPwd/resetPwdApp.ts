@@ -14,6 +14,7 @@ import appTask from 'app/appTask.js';
 import * as pu from 'lib/pageUtil.js';
 import * as pubAuth from '@qing/routes/s/pub/auth.js';
 import ResetPwdLoader from './loaders/resetPwdLoader.js';
+import resetPwdPageState from './resetPwdPageState.js';
 
 @customElement('reset-pwd-app')
 export class ResetPwdApp extends BaseElement {
@@ -90,7 +91,9 @@ export class ResetPwdApp extends BaseElement {
     if (!this.validateForm()) {
       return;
     }
-    const loader = new ResetPwdLoader(this.password);
+
+    const key = resetPwdPageState;
+    const loader = new ResetPwdLoader(key, this.password);
     const status = await appTask.critical(loader, globalThis.coreLS.working);
     if (status.isSuccess) {
       pu.setMainContent(

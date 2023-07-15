@@ -24,5 +24,6 @@
   "sbRepliedToUrCmtIn": "{0} has replied to your comment in \"{1}\".",
   "nextPage": "Next",
   "previousPage": "Previous",
+  "resetPwdSessionExpiredErr": "Your session has expired. Please try resetting your password again.",
   "signIn": "Sign in"
 }

@@ -70,7 +70,7 @@ export class ForgotPwdApp extends BaseElement {
         html`
           <div>
             <h1>${globalThis.authLS.verifyEmailSentDialogTitle}</h1>
-            <p>${globalThis.authLS.verifyEmailSentDialogTitle}</p>
+            <p>${globalThis.authLS.verifyEmailSentDialogContent}</p>
           </div>
         `,
       );
