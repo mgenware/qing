@@ -47,7 +47,6 @@ export const errorGeneric = 1;
 // Pre-defined API error results.
 export const errorResults = {
   notAuthorized: { c: errorGeneric, m: 'You need to log in to access this.' },
-  rowNotUpdated: { c: errorGeneric, m: 'Expected 1 rows affected, got 0.' },
   resNotFound: { c: errorGeneric, m: 'Resource not found' },
 };
 

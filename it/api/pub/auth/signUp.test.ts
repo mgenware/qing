@@ -66,6 +66,9 @@ ita(
   null,
   async (u: DevNewUser) => {
     // Check verification email.
+    if (!u.email) {
+      throw new Error('Email not set');
+    }
     const mail = await mh.getLatest({ email: u.email });
     assert.strictEqual(mail.title, 'Verify your email');
     assert.match(

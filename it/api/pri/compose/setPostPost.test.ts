@@ -6,7 +6,7 @@
  */
 
 import * as def from 'base/def.js';
-import { apiRaw, api, usr, itaNotAuthorized, errorResults } from 'api.js';
+import { apiRaw, api, usr, itaNotAuthorized, errorGeneric } from 'api.js';
 import * as assert from 'node:assert';
 import { newPost } from 'helper/post.js';
 import { entitySrc } from 'helper/entity.js';
@@ -62,7 +62,10 @@ it('Edit a post with another user', async () => {
       // Post content.
       const pc = await postCount(u);
       const r = await apiRaw(composeRoute.setEntity, { ...entityBody, id }, usr.admin);
-      assert.deepStrictEqual(r, errorResults.rowNotUpdated);
+      assert.deepStrictEqual(r, {
+        c: errorGeneric,
+        m: 'failed to edit item: Expected 1 rows affected, got 0.',
+      });
 
       const pc2 = await postCount(u);
       assert.strictEqual(pc, pc2);
