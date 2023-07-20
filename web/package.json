@@ -32,14 +32,14 @@
     "qing-css-base": "^1.4.1",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.22.2",
-    "tslib": "^2.5.3"
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.2.0",
     "@types/js-cookie": "^3.0.3",
     "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
-    "@web/test-runner": "^0.16.1",
+    "@web/test-runner": "^0.17.0",
     "@web/test-runner-playwright": "^0.10.1",
     "esbuild-plugin-minify-html-literals": "^1.0.5",
     "html-validate": "8.0.5",

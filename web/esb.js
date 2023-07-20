@@ -65,6 +65,7 @@ const opt = {
   splitting: true,
   format: 'esm',
   entryNames: '[ext]/[name]-[hash]',
+  tsconfig: './tsconfig.json',
   define: {
     this: 'window',
     ...envMap[config],
