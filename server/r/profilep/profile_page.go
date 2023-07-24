@@ -25,8 +25,7 @@ import (
 
 const userPostsLimit = 10
 
-// GetProfile handles user profile routes.
-func GetProfile(w http.ResponseWriter, r *http.Request) handler.HTML {
+func ProfilePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)

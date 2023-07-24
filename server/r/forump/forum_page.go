@@ -25,7 +25,7 @@ import (
 
 const defaultPageSize = 10
 
-func getForum(w http.ResponseWriter, r *http.Request) handler.HTML {
+func forumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	db := appDB.DB()
 	var err error

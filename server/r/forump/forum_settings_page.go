@@ -29,7 +29,7 @@ func NewForumSettingsPageWindData(fid uint64) ForumSettingsPageWindData {
 	return d
 }
 
-func getForumSettings(w http.ResponseWriter, r *http.Request) handler.HTML {
+func forumSettingsPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	fid, err := clib.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {

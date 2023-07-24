@@ -53,11 +53,11 @@ func Start() {
 	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
 
 	// User router.
-	langRouter().Get("/"+appDef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.GetProfile))
+	langRouter().Get("/"+appDef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.ProfilePage))
 	// Post router.
-	langRouter().Get("/"+appDef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.GetPost))
+	langRouter().Get("/"+appDef.RoutePost+"/{id}", handler.HTMLHandlerToHTTPHandler(postp.PostPage))
 	// FPost router.
-	langRouter().Get("/"+appDef.RouteForumPost+"/{id}", handler.HTMLHandlerToHTTPHandler(fpostp.GetFPost))
+	langRouter().Get("/"+appDef.RouteForumPost+"/{id}", handler.HTMLHandlerToHTTPHandler(fpostp.FPostPage))
 	// I (dashboard) router.
 	langRouter().Mount("/"+appDef.RouteI, ip.Router)
 	// Admin router.
@@ -69,7 +69,7 @@ func Start() {
 	// API router.
 	r.Mount("/"+appDef.RouteApi, api.Router)
 	// Home page.
-	langRouter().Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomeHandler))
+	langRouter().Get("/", handler.HTMLHandlerToHTTPHandler(homep.HomePage))
 
 	devConfig := cfg.Dev
 	if devConfig != nil {

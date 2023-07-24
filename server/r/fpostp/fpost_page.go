@@ -13,6 +13,6 @@ import (
 	"qing/r/postp"
 )
 
-func GetFPost(w http.ResponseWriter, r *http.Request) handler.HTML {
-	return postp.GetPostCore(w, r, true)
+func FPostPage(w http.ResponseWriter, r *http.Request) handler.HTML {
+	return postp.PostPageCore(w, r, true)
 }

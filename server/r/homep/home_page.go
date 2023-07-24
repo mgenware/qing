@@ -34,8 +34,7 @@ func init() {
 	}
 }
 
-// HomeHandler handles home page requests.
-func HomeHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
+func HomePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if coreConfig.Get().ForumsEnabled() {
 		return renderForumPage(w, r)
 	}

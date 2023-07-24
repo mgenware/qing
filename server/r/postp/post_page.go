@@ -24,7 +24,7 @@ import (
 )
 
 // Called by both post and thread handlers.
-func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.HTML {
+func PostPageCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.HTML {
 	id, err := clib.DecodeID(chi.URLParam(r, "id"))
 	if err != nil {
 		return sys.NotFoundGET(w, r)
@@ -70,6 +70,6 @@ func GetPostCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.
 	return resp.MustComplete(&d)
 }
 
-func GetPost(w http.ResponseWriter, r *http.Request) handler.HTML {
-	return GetPostCore(w, r, false)
+func PostPage(w http.ResponseWriter, r *http.Request) handler.HTML {
+	return PostPageCore(w, r, false)
 }
