@@ -28,7 +28,7 @@ const userPostsLimit = 10
 func ProfilePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))
 	if err != nil {
-		return sys.NotFoundGET(w, r)
+		return sys.NotFoundPage(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appDef.KeyTab)

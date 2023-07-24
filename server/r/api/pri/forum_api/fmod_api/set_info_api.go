@@ -20,7 +20,7 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-func setInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setInfoAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	fid := appcm.ContextForumID(r.Context())

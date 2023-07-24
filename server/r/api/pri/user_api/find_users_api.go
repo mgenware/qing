@@ -23,7 +23,7 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-func findUsers(w http.ResponseWriter, r *http.Request) handler.JSON {
+func findUsersAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 

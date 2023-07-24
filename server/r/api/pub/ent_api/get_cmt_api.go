@@ -18,7 +18,7 @@ import (
 	"qing/r/api/apicom"
 )
 
-func getCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getCmtAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	uid := resp.UserID()

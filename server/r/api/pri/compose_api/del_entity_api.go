@@ -20,7 +20,7 @@ import (
 	"qing/lib/clib"
 )
 
-func delEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
+func delEntityAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	uid := resp.UserID()

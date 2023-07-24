@@ -23,7 +23,7 @@ func createProfileInfo(u *da.DBUserForEditing) iSod.GetProfileInfo {
 	return iSod.NewGetProfileInfo(u, iconURL)
 }
 
-func info(w http.ResponseWriter, r *http.Request) handler.JSON {
+func infoAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := resp.UserID()
 

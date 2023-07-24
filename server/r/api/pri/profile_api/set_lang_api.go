@@ -19,7 +19,7 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-func setLang(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setLangAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	sUser := resp.User()

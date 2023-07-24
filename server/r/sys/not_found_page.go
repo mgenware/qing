@@ -15,8 +15,7 @@ import (
 	"qing/a/handler"
 )
 
-// NotFoundGET is a application wide handler for 404 errors.
-func NotFoundGET(w http.ResponseWriter, r *http.Request) handler.HTML {
+func NotFoundPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	msg := resp.LS().ResNotFound
 

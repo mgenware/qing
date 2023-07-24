@@ -13,9 +13,9 @@ import "qing/a/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/info", info)
-	Router.Post("/set-info", setInfo)
-	Router.Post("/lang", lang)
-	Router.Post("/set-lang", setLang)
-	Router.Core.Post("/set-avatar", uploadAvatar)
+	Router.Post("/info", infoAPI)
+	Router.Post("/set-info", setInfoAPI)
+	Router.Post("/lang", langAPI)
+	Router.Post("/set-lang", setLangAPI)
+	Router.Core.Post("/set-avatar", uploadAvatarAPI)
 }

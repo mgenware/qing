@@ -33,7 +33,7 @@ func forumSettingsPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	resp := appHandler.HTMLResponse(w, r)
 	fid, err := clib.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
-		return sys.NotFoundGET(w, r)
+		return sys.NotFoundPage(w, r)
 	}
 
 	// Page title and content will be set on frontend side.

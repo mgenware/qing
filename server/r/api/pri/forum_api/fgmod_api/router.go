@@ -15,6 +15,6 @@ var Router = handler.NewJSONRouter()
 func init() {
 	Router.Core.Use(RequireGroupModeJSONMiddleware)
 
-	Router.Post("/set-info", setInfo)
-	Router.Post("/info", getInfo)
+	Router.Post("/set-info", setInfoAPI)
+	Router.Post("/info", getInfoAPI)
 }

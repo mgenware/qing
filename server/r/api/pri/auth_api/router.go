@@ -13,5 +13,5 @@ import "qing/a/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/signout", signOut)
+	Router.Post("/signout", signOutAPI)
 }

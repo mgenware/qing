@@ -18,7 +18,7 @@ import (
 	"qing/sod/profileSod"
 )
 
-func lang(w http.ResponseWriter, r *http.Request) handler.JSON {
+func langAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	uid := resp.UserID()
 

@@ -26,7 +26,7 @@ import (
 	"github.com/mgenware/goutil/jsonx"
 )
 
-func setEntity(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setEntityAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	uid := resp.UserID()

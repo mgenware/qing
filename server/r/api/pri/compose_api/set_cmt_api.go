@@ -33,7 +33,7 @@ type SetCmtResponse struct {
 	Cmt *cmtSod.Cmt `json:"cmt"`
 }
 
-func setCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
+func setCmtAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	user := resp.User()

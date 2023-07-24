@@ -50,7 +50,7 @@ func Start() {
 
 	// ----------------- HTTP Routes -----------------
 	// Not found handler.
-	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundGET))
+	langRouter().NotFound(handler.HTMLHandlerToHTTPHandler(sys.NotFoundPage))
 
 	// User router.
 	langRouter().Get("/"+appDef.RouteUser+"/{uid}", handler.HTMLHandlerToHTTPHandler(profilep.ProfilePage))

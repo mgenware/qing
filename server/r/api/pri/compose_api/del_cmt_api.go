@@ -20,7 +20,7 @@ import (
 	"qing/r/api/apicom"
 )
 
-func delCmt(w http.ResponseWriter, r *http.Request) handler.JSON {
+func delCmtAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	uid := resp.UserID()

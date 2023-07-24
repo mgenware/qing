@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-package fgmodapi
+package fmodapi
 
 import (
 	"net/http"
@@ -14,17 +14,14 @@ import (
 	"qing/a/appcm"
 	"qing/a/handler"
 	"qing/da"
-	"qing/lib/clib"
 )
 
-func getInfo(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getInfoAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
-	params := resp.Params()
-
-	id := clib.MustGetIDFromDict(params, "id")
+	fid := appcm.ContextForumID(r.Context())
 
 	db := appDB.DB()
-	res, err := da.ForumGroup.SelectInfoForEditing(db, id)
-	appcm.PanicOn(err, "failed to select forum group info")
+	res, err := da.Forum.SelectInfoForEditing(db, fid)
+	appcm.PanicOn(err, "failed to select forum info")
 	return resp.MustComplete(res)
 }

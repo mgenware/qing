@@ -49,7 +49,7 @@ func newGetCmtsRespData(cmts []da.DBCmt, hasNext bool) GetCmtsRespData {
 	return res
 }
 
-func cmts(w http.ResponseWriter, r *http.Request) handler.JSON {
+func getCmtsAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	params := resp.Params()
 	uid := resp.UserID()

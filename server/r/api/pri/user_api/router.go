@@ -13,5 +13,5 @@ import "qing/a/handler"
 var Router = handler.NewJSONRouter()
 
 func init() {
-	Router.Post("/find-users", findUsers)
+	Router.Post("/find-users", findUsersAPI)
 }

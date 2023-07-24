@@ -32,7 +32,7 @@ func forumPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 	fid, err := clib.DecodeID(chi.URLParam(r, "fid"))
 	if err != nil {
-		return sys.NotFoundGET(w, r)
+		return sys.NotFoundPage(w, r)
 	}
 	page := clib.GetPageParamFromRequestQueryString(r)
 	tab := r.FormValue(appDef.KeyTab)

@@ -40,7 +40,7 @@ type avatarCropInfo struct {
 	Height int `json:"height"`
 }
 
-func uploadAvatar(w http.ResponseWriter, r *http.Request) {
+func uploadAvatarAPI(w http.ResponseWriter, r *http.Request) {
 	resp := appHandler.JSONResponse(w, r)
 
 	if r.ContentLength > maxUploadSize {

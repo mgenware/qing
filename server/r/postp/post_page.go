@@ -27,7 +27,7 @@ import (
 func PostPageCore(w http.ResponseWriter, r *http.Request, isThread bool) handler.HTML {
 	id, err := clib.DecodeID(chi.URLParam(r, "id"))
 	if err != nil {
-		return sys.NotFoundGET(w, r)
+		return sys.NotFoundPage(w, r)
 	}
 	db := appDB.DB()
 

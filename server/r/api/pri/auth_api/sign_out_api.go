@@ -15,7 +15,7 @@ import (
 	"qing/a/handler"
 )
 
-func signOut(w http.ResponseWriter, r *http.Request) handler.JSON {
+func signOutAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	resp := appHandler.JSONResponse(w, r)
 	err := appUserManager.Get().Logout(w, r)
 	if err != nil {
