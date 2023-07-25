@@ -13,10 +13,10 @@ import './settings/profile/profileST';
 import './settings/lang/langST';
 import './postCenter/myPostsApp';
 import './postCenter/myFPostsApp';
-import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import * as pu from 'lib/pageUtil.js';
+import QingURLRouter from 'lib/qingURLRouter.js';
 
-const router = new MiniURLRouter();
+const router = new QingURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pu.setTitleAndMainContent(

@@ -13,10 +13,10 @@ import './signIn/signInApp.js';
 import './resetPwd/resetPwdApp.js';
 import './resetPwd/forgotPwdApp.js';
 import './signUp/accVerifiedApp.js';
-import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import * as pu from 'lib/pageUtil.js';
+import QingURLRouter from 'lib/qingURLRouter.js';
 
-const authRouter = new MiniURLRouter();
+const authRouter = new QingURLRouter();
 
 authRouter.register(authRoute.signUp, () => {
   pu.setTitle([globalThis.coreLS.createAnAcc]);

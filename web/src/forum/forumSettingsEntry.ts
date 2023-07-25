@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { MiniURLRouter, MiniURLRouterHandler } from 'lib/miniURLRouter.js';
+import { MiniURLRouterHandler } from 'lib/miniURLRouter.js';
 import { html, TemplateResult } from 'll.js';
 import * as fRoute from '@qing/routes/forum.js';
 import './settings/forumSettingsBaseView';
@@ -15,8 +15,9 @@ import ForumSettingsPageState from './forumSettingsPageState.js';
 import { CHECK } from 'checks.js';
 import appPageState from 'app/appPageState.js';
 import * as pu from 'lib/pageUtil.js';
+import QingURLRouter from 'lib/qingURLRouter.js';
 
-const settingsRouter = new MiniURLRouter();
+const settingsRouter = new QingURLRouter();
 const forumSettingsPageState = appPageState.extraData<ForumSettingsPageState>();
 const fid = forumSettingsPageState.EID;
 CHECK(fid);

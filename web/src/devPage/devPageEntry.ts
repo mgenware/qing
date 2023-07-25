@@ -6,7 +6,6 @@
  */
 
 import 'core.js';
-import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import { html, TemplateResult } from 'll.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import * as devRoot from '@qing/routes/dev/root.js';
@@ -20,8 +19,9 @@ import './mail/mbUsersPage';
 import './mail/mbInboxPage';
 import './mail/mbMailPage';
 import * as pu from 'lib/pageUtil.js';
+import QingURLRouter from 'lib/qingURLRouter.js';
 
-const devRouter = new MiniURLRouter();
+const devRouter = new QingURLRouter();
 
 function mustGetString(v: unknown) {
   if (typeof v === 'string') {
@@ -64,12 +64,4 @@ devRouter.register(`/${appDef.routeDev}`, () => {
   loadPageContent('Dev page', html` <dev-page></dev-page>`);
 });
 
-if (!devRouter.startOnce()) {
-  loadPageContent(
-    '404',
-    html`<div>
-      <h1>404</h1>
-      <p>Not a valid dev page.</p>
-    </div>`,
-  );
-}
+devRouter.startOnce();

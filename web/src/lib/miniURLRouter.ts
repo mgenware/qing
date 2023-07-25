@@ -29,13 +29,21 @@ class URLComponentTrie extends Trie<string, MiniURLRouterHandler> {
 export class MiniURLRouter {
   #trie = new URLComponentTrie();
 
+  constructor(public notFoundHandler: MiniURLRouterHandler) {}
+
   register(path: string, handler: MiniURLRouterHandler) {
     this.log(`Registered route "${path}"`);
     const parts = this.checkPath(path, true);
     this.#trie.set(parts, handler);
   }
 
-  handle(urlString: string): boolean {
+  handle(urlString: string) {
+    if (!this.handleCore(urlString)) {
+      this.notFoundHandler({});
+    }
+  }
+
+  private handleCore(urlString: string): boolean {
     const url = new URL(urlString);
     const path = this.trimTrailingSlash(url.pathname);
     this.log(`Handling path "${path}"`);
@@ -54,7 +62,7 @@ export class MiniURLRouter {
     return false;
   }
 
-  startOnce(): boolean {
+  startOnce() {
     return this.handle(window.location.href);
   }
 

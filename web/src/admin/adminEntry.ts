@@ -12,10 +12,10 @@ import './admins/siteAdminST';
 import './general/siteGeneralST';
 import './langs/siteLangST';
 import './siteSTView';
-import { MiniURLRouter } from 'lib/miniURLRouter.js';
 import * as pu from 'lib/pageUtil.js';
+import QingURLRouter from 'lib/qingURLRouter.js';
 
-const router = new MiniURLRouter();
+const router = new QingURLRouter();
 
 function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   pu.setTitleAndMainContent(
