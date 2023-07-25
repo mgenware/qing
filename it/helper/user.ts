@@ -66,5 +66,5 @@ export function getEmail(user: User) {
 }
 
 export function newEmail() {
-  return `zzzUT-${uuid.v4()}@mgenware.com`;
+  return `zzzTest-${uuid.v4()}@mgenware.com`;
 }

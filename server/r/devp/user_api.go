@@ -97,7 +97,7 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	idObj, err := uuid.NewRandom()
 	appcm.PanicOn(err, "failed to generate uuid")
 
-	email := "zzzSV-" + idObj.String() + "@mgenware.com"
+	email := "zzzTest-" + idObj.String() + "@mgenware.com"
 	db := appDB.DB()
 
 	var uid uint64
