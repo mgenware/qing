@@ -23,10 +23,14 @@ export class AccVerifiedApp extends BaseElement {
 
   override render() {
     return html`
-      <h1>${globalThis.authLS.yourAccHasBeenVerified}</h1>
-      <p>
-        <qing-button href=${authPages.signIn}>${globalThis.coreLS.signIn}</qing-button>
-      </p>
+      <div class="text-center">
+        <h1>${globalThis.authLS.yourAccHasBeenVerified}</h1>
+        <p>
+          <qing-button btnStyle="success" href=${authPages.signIn}
+            >${globalThis.coreLS.signIn}</qing-button
+          >
+        </p>
+      </div>
     `;
   }
 }

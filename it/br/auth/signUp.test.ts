@@ -176,7 +176,7 @@ test('Sign up - Success', async ({ page }) => {
     await pwd2El.fillInput(pwd);
 
     // <sign-up-app> gets removed when "Sign up" button is clicked.
-    const bodyEl = p.body;
+    let bodyEl = p.body;
     await bodyEl.$qingButton('Sign up').click();
     await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
     await bodyEl
@@ -186,7 +186,15 @@ test('Sign up - Success', async ({ page }) => {
       )
       .e.toBeVisible();
 
-    // Email verification is tested in API tests.
+    const verifyMail = await mh.getLatest({ email });
+    const link = mh.getContentLink(verifyMail.content);
+    await p.gotoRaw(link);
+
+    bodyEl = p.$('acc-verified-app');
+    await bodyEl.$hasText('', 'Your account has been verified.').e.toBeVisible();
+    await bodyEl.$qingButton('Sign in').click();
+
+    await p.waitForURL(/\/auth\/signin/);
   } finally {
     await mh.erase({ email });
   }
