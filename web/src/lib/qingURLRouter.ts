@@ -13,10 +13,7 @@ import { html } from 'll.js';
 export default class QingURLRouter extends MiniURLRouter {
   constructor() {
     super(() => {
-      pu.setTitleAndMainContent(
-        [globalThis.coreLS.qingSiteName],
-        html`<h2 class="text-center m-t-lg">${globalThis.coreLS.resNotFound}</h2>`,
-      );
+      pu.setMainContent(html`<h2 class="text-center m-t-lg">${globalThis.coreLS.resNotFound}</h2>`);
     });
   }
 }

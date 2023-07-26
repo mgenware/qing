@@ -41,7 +41,7 @@ func verifyRegEmailPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if dataString == "" {
 		// Expired or not found.
 		resp := appHandler.HTMLResponse(w, r)
-		return resp.MustFail(ls.LinkExpired, http.StatusServiceUnavailable)
+		return resp.MustFail(ls.LinkExpired, http.StatusOK)
 	}
 	createUserData, err := authapi.StringToCreateUserData(dataString)
 	appcm.PanicOn(err, "failed to parse create user data")

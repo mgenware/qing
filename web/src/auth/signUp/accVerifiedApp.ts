@@ -6,7 +6,7 @@
  */
 
 import { BaseElement, customElement, html, css } from 'll.js';
-import * as pubAuth from '@qing/routes/s/pub/auth.js';
+import * as authPages from '@qing/routes/auth.js';
 
 @customElement('acc-verified-app')
 export class AccVerifiedApp extends BaseElement {
@@ -23,9 +23,9 @@ export class AccVerifiedApp extends BaseElement {
 
   override render() {
     return html`
-      <h1>${globalThis.authLS.yourPwdHasBeenReset}</h1>
+      <h1>${globalThis.authLS.yourAccHasBeenVerified}</h1>
       <p>
-        <qing-button href=${pubAuth.signIn}>${globalThis.coreLS.signIn}</qing-button>
+        <qing-button href=${authPages.signIn}>${globalThis.coreLS.signIn}</qing-button>
       </p>
     `;
   }

@@ -34,7 +34,11 @@ authRouter.register(authRoute.forgotPwd, () => {
   pu.setTitle([globalThis.authLS.forgotPwd]);
   pu.setMainContent(html`<forgot-pwd-app></forgot-pwd-app>`);
 });
-authRouter.register(authRoute.verifyRegEmail, () => {
+
+// This route is first handled by server.
+// If error occurs, the server would respond with a static error page.
+// If no error occurs, the server would respond with this page.
+authRouter.register(`${authRoute.verifyRegEmail}/:key`, () => {
   pu.setTitle([globalThis.authLS.yourAccHasBeenVerified]);
   pu.setMainContent(html`<acc-verified-app></acc-verified-app>`);
 });

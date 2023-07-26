@@ -39,6 +39,7 @@ export class MiniURLRouter {
 
   handle(urlString: string) {
     if (!this.handleCore(urlString)) {
+      this.log('Not found');
       this.notFoundHandler({});
     }
   }
