@@ -29,7 +29,7 @@ test('Sign up - Click-through - Mobile', async ({ page }) => {
   await navbarEl.$a({ href: authRoutes.signUp, text: 'Sign up' }).shouldExist();
 });
 
-test('Sign up - Default fields', async ({ page }) => {
+test('Sign up - UI Defaults', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoutes.signUp, null);
 
@@ -75,7 +75,7 @@ test('Sign up - Default fields', async ({ page }) => {
   });
   await ivh.shouldBeEmpty(pwd2El);
 
-  // Make sure "Sign up" button is an enter key responder.
+  // Check "Sign up" button is enter key responder.
   await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Sign up'));
 });
 
@@ -187,6 +187,7 @@ test('Sign up - Success', async ({ page }) => {
       .e.toBeVisible();
 
     const verifyMail = await mh.getLatest({ email });
+    // Email content is verified in API tests.
     const link = mh.getContentLink(verifyMail.content);
     await p.gotoRaw(link);
 

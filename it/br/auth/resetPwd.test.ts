@@ -9,8 +9,10 @@ import { test, $ } from 'br.js';
 import * as authRoutes from '@qing/routes/auth.js';
 import * as ivh from 'br/cm/forms/inputViewHelper.js';
 import { newUser } from 'helper/user.js';
+import * as cm from './cm.js';
+import * as kh from 'br/cm/keyboardHelper.js';
 
-test('Reset pwd - UI', async ({ page }) => {
+test('Forgot pwd - UI defaults', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoutes.signIn);
 
@@ -29,20 +31,18 @@ test('Reset pwd - UI', async ({ page }) => {
     inputMode: 'email',
   });
   await ivh.shouldBeEmpty(emailEl);
+
+  // Check "Next" button is enter key responder.
+  await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Next'));
 });
 
-test('Reset pwd - Success', async ({ page }) => {
+test('Forgot pwd - Success', async ({ page }) => {
   await newUser(async (u) => {
     const p = $(page);
-    await p.goto(authRoutes.forgotPwd);
+    await cm.doForgotPwdActions(p, u.email);
 
-    const appEl = p.$('forgot-pwd-app');
-    const emailEl = appEl.$inputView('Email');
-    await emailEl.fillInput(u.email);
-
-    // <reset-pwd-app> gets removed when "Sign up" button is clicked.
+    // <reset-pwd-app> gets removed when "Next" button is clicked.
     const bodyEl = p.body;
-    await bodyEl.$qingButton('Next').click();
     await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
     await bodyEl
       .$hasText(
@@ -50,5 +50,40 @@ test('Reset pwd - Success', async ({ page }) => {
         'A verification link has been sent to your email account. Please check your email and click the verification link to complete the process.',
       )
       .e.toBeVisible();
+  });
+});
+
+test('Reset pwd - UI defaults', async ({ page }) => {
+  await newUser(async (u) => {
+    const p = $(page);
+    await cm.doForgotPwdActions(p, u.email);
+    await cm.gotoResetPwdPage(p, u.email);
+
+    const appEl = p.$('reset-pwd-app');
+
+    const pwdEl = appEl.$inputView('Password');
+    await ivh.shouldNotHaveError(pwdEl);
+    await ivh.shouldHaveProps(pwdEl, {
+      required: true,
+      type: 'password',
+      autoComplete: 'new-password',
+      minLength: 6,
+      maxLength: 30,
+    });
+    await ivh.shouldBeEmpty(pwdEl);
+
+    const pwd2El = appEl.$inputView('Confirm password');
+    await ivh.shouldNotHaveError(pwdEl);
+    await ivh.shouldHaveProps(pwdEl, {
+      required: true,
+      type: 'password',
+      autoComplete: 'new-password',
+      minLength: 6,
+      maxLength: 30,
+    });
+    await ivh.shouldBeEmpty(pwd2El);
+
+    // Make sure "Reset" button is an enter key responder.
+    await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Reset'));
   });
 });
