@@ -91,7 +91,7 @@ ita(
 
     // Revisiting the verification link results in error.
     verifyResp = await fetch(relURL);
-    assert.strictEqual(verifyResp.status, 503);
+    assert.ok(verifyResp.ok);
     assert.strictEqual(mh.getErrorContent(await verifyResp.text()), 'Link has expired.');
   },
 );
@@ -102,6 +102,6 @@ it('Sign up - Wrong email verification link', async () => {
   );
   const respHTML = await verifyResp.text();
 
-  assert.strictEqual(verifyResp.status, 503);
+  assert.ok(verifyResp.ok);
   assert.strictEqual(mh.getErrorContent(respHTML), 'Link has expired.');
 });

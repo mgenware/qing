@@ -68,6 +68,15 @@ func (mrTable *UserPwdAGType) AddUserPwdInternal(mrQueryable mingru.Queryable, i
 	return err
 }
 
+func (mrTable *UserPwdAGType) HasUser(mrQueryable mingru.Queryable, id uint64) (bool, error) {
+	var result bool
+	err := mrQueryable.QueryRow("SELECT EXISTS(SELECT * FROM `user_pwd` WHERE `id` = ?)", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func (mrTable *UserPwdAGType) SelectHashByID(mrQueryable mingru.Queryable, id uint64) (string, error) {
 	var result string
 	err := mrQueryable.QueryRow("SELECT `pwd_hash` FROM `user_pwd` WHERE `id` = ?", id).Scan(&result)

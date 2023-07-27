@@ -9,6 +9,7 @@ package devmail
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"qing/a/cfgx/corecfg"
@@ -132,6 +133,10 @@ func GetLatestMail(user string, index int) (devSod.DevMail, error) {
 		v2 := mustParseDirTS(mailDirs[j].Name())
 		return v1.UnixMilli() < v2.UnixMilli()
 	})
+
+	if index >= len(mailDirs) || index < 0 {
+		return devSod.DevMail{}, fmt.Errorf("invalid index: %v, valid range(0 - %v)", index, len(mailDirs)-1)
+	}
 
 	mailID := mailDirs[index].Name()
 	mailDir := filepath.Join(userDir, mailID)

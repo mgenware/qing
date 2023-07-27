@@ -47,8 +47,16 @@ func resetPwdAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	pwdHash, err := appService.Get().HashingAlg.CreateHash(pwd)
 	appcm.PanicOn(err, "failed to create hash")
 
+	db := appDB.DB()
+	hasPwd, err := da.UserPwd.HasUser(db, targetUID)
+	appcm.PanicOn(err, "failed to check if user has password")
+
+	if !hasPwd {
+		return resp.MustFail("user has no password")
+	}
+
 	// Update password.
-	err = da.UserPwd.UpdateHashByID(appDB.DB(), targetUID, pwdHash)
+	err = da.UserPwd.UpdateHashByID(db, targetUID, pwdHash)
 	appcm.PanicOn(err, "failed to update password")
 
 	// TODO: force logout all sessions!
