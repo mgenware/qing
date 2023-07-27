@@ -12,6 +12,8 @@ import { newUser } from 'helper/user.js';
 import * as cm from './cm.js';
 import * as kh from 'br/cm/keyboardHelper.js';
 
+const defaultPwd = '111111';
+
 test('Forgot pwd - UI defaults', async ({ page }) => {
   const p = $(page);
   await p.goto(authRoutes.signIn);
@@ -54,36 +56,39 @@ test('Forgot pwd - Success', async ({ page }) => {
 });
 
 test('Reset pwd - UI defaults', async ({ page }) => {
-  await newUser(async (u) => {
-    const p = $(page);
-    await cm.doForgotPwdActions(p, u.email);
-    await cm.gotoResetPwdPage(p, u.email);
+  await newUser(
+    async (u) => {
+      const p = $(page);
+      await cm.doForgotPwdActions(p, u.email);
+      await cm.gotoResetPwdPage(p, u.email);
 
-    const appEl = p.$('reset-pwd-app');
+      const appEl = p.$('reset-pwd-app');
 
-    const pwdEl = appEl.$inputView('Password');
-    await ivh.shouldNotHaveError(pwdEl);
-    await ivh.shouldHaveProps(pwdEl, {
-      required: true,
-      type: 'password',
-      autoComplete: 'new-password',
-      minLength: 6,
-      maxLength: 30,
-    });
-    await ivh.shouldBeEmpty(pwdEl);
+      const pwdEl = appEl.$inputView('Password');
+      await ivh.shouldNotHaveError(pwdEl);
+      await ivh.shouldHaveProps(pwdEl, {
+        required: true,
+        type: 'password',
+        autoComplete: 'new-password',
+        minLength: 6,
+        maxLength: 30,
+      });
+      await ivh.shouldBeEmpty(pwdEl);
 
-    const pwd2El = appEl.$inputView('Confirm password');
-    await ivh.shouldNotHaveError(pwdEl);
-    await ivh.shouldHaveProps(pwdEl, {
-      required: true,
-      type: 'password',
-      autoComplete: 'new-password',
-      minLength: 6,
-      maxLength: 30,
-    });
-    await ivh.shouldBeEmpty(pwd2El);
+      const pwd2El = appEl.$inputView('Confirm password');
+      await ivh.shouldNotHaveError(pwdEl);
+      await ivh.shouldHaveProps(pwdEl, {
+        required: true,
+        type: 'password',
+        autoComplete: 'new-password',
+        minLength: 6,
+        maxLength: 30,
+      });
+      await ivh.shouldBeEmpty(pwd2El);
 
-    // Make sure "Reset" button is an enter key responder.
-    await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Reset'));
-  });
+      // Make sure "Reset" button is an enter key responder.
+      await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Reset'));
+    },
+    { pwd: defaultPwd },
+  );
 });
