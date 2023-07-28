@@ -25,6 +25,6 @@
   ],
   "dependencies": {
     "catch-err-msg": "^1.0.0",
-    "execa": "^7.1.1"
+    "execa": "^7.2.0"
   }
 }
