@@ -38,7 +38,7 @@ func resetPwdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	if uidStr == "" {
 		// Expired or not found.
 		resp := appHandler.HTMLResponse(w, r)
-		return resp.MustFail(ls.LinkExpired, http.StatusServiceUnavailable)
+		return resp.MustFail(ls.LinkExpired, http.StatusOK)
 	}
 
 	return defaultPageCore(w, r, key)

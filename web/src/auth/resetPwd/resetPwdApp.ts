@@ -70,7 +70,7 @@ export class ResetPwdApp extends BaseElement {
           btnStyle="success"
           class="m-t-lg enter-key-responder"
           @click=${this.handleResetClick}
-          >${globalThis.coreLS.save}</qing-button
+          >${globalThis.coreLS.reset}</qing-button
         >
       </enter-key-handler>
     `;

@@ -26,10 +26,6 @@ authRouter.register(authRoute.signIn, () => {
   pu.setTitle([globalThis.coreLS.signIn]);
   pu.setMainContent(html`<sign-in-app></sign-in-app>`);
 });
-authRouter.register(authRoute.resetPwd, () => {
-  pu.setTitle([globalThis.authLS.resetPwd]);
-  pu.setMainContent(html`<reset-pwd-app></reset-pwd-app>`);
-});
 authRouter.register(authRoute.forgotPwd, () => {
   pu.setTitle([globalThis.authLS.forgotPwd]);
   pu.setMainContent(html`<forgot-pwd-app></forgot-pwd-app>`);
@@ -42,4 +38,11 @@ authRouter.register(`${authRoute.verifyRegEmail}/:key`, () => {
   pu.setTitle([globalThis.authLS.yourAccHasBeenVerified]);
   pu.setMainContent(html`<acc-verified-app></acc-verified-app>`);
 });
+
+// Works similarly to the above route.
+authRouter.register(`${authRoute.resetPwd}/:key`, () => {
+  pu.setTitle([globalThis.authLS.resetPwd]);
+  pu.setMainContent(html`<reset-pwd-app></reset-pwd-app>`);
+});
+
 authRouter.startOnce();
