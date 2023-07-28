@@ -128,7 +128,7 @@ test('Sign up - Password length error', async ({ page }) => {
   await ivh.shouldHaveError(pwd2El, 'Confirm password should be at least 6 characters.');
 });
 
-test("Sign up - Password don't match", async ({ page }) => {
+test("Sign up - Passwords don't match", async ({ page }) => {
   const p = $(page);
   await p.goto(authRoutes.signUp, null);
 

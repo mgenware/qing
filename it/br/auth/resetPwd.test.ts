@@ -6,54 +6,13 @@
  */
 
 import { test, $ } from 'br.js';
-import * as authRoutes from '@qing/routes/auth.js';
 import * as ivh from 'br/cm/forms/inputViewHelper.js';
 import { newUser } from 'helper/user.js';
 import * as cm from './cm.js';
 import * as kh from 'br/cm/keyboardHelper.js';
 
 const defaultPwd = '111111';
-
-test('Forgot pwd - UI defaults', async ({ page }) => {
-  const p = $(page);
-  await p.goto(authRoutes.signIn);
-
-  const forgotPwdBtn = p.$('sign-in-app').$qingButton('Forgot password?');
-  await forgotPwdBtn.e.toBeVisible();
-  await forgotPwdBtn.click();
-  await p.waitForURL(authRoutes.forgotPwd);
-
-  const appEl = p.$('forgot-pwd-app');
-  const emailEl = appEl.$inputView('Email');
-  await ivh.shouldNotHaveError(emailEl);
-  await ivh.shouldHaveProps(emailEl, {
-    required: true,
-    type: 'email',
-    autoComplete: 'email',
-    inputMode: 'email',
-  });
-  await ivh.shouldBeEmpty(emailEl);
-
-  // Check "Next" button is enter key responder.
-  await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Next'));
-});
-
-test('Forgot pwd - Success', async ({ page }) => {
-  await newUser(async (u) => {
-    const p = $(page);
-    await cm.doForgotPwdActions(p, u.email);
-
-    // <reset-pwd-app> gets removed when "Next" button is clicked.
-    const bodyEl = p.body;
-    await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
-    await bodyEl
-      .$hasText(
-        'p',
-        'A verification link has been sent to your email account. Please check your email and click the verification link to complete the process.',
-      )
-      .e.toBeVisible();
-  });
-});
+const resetPwdAppSel = 'reset-pwd-app';
 
 test('Reset pwd - UI defaults', async ({ page }) => {
   await newUser(
@@ -61,8 +20,7 @@ test('Reset pwd - UI defaults', async ({ page }) => {
       const p = $(page);
       await cm.doForgotPwdActions(p, u.email);
       await cm.gotoResetPwdPage(p, u.email);
-
-      const appEl = p.$('reset-pwd-app');
+      const appEl = p.$(resetPwdAppSel);
 
       const pwdEl = appEl.$inputView('Password');
       await ivh.shouldNotHaveError(pwdEl);
@@ -88,6 +46,74 @@ test('Reset pwd - UI defaults', async ({ page }) => {
 
       // Make sure "Reset" button is an enter key responder.
       await kh.shouldBeEnterKeyResponder(appEl.$qingButton('Reset'));
+    },
+    { pwd: defaultPwd },
+  );
+});
+
+test('Reset pwd - Validation errors - All', async ({ page }) => {
+  await newUser(
+    async (u) => {
+      const p = $(page);
+      await cm.doForgotPwdActions(p, u.email);
+      await cm.gotoResetPwdPage(p, u.email);
+      const appEl = p.$(resetPwdAppSel);
+
+      await appEl.$qingButton('Reset').click();
+
+      const pwdEl = appEl.$inputView('Password');
+      await ivh.shouldHaveRequiredError(pwdEl);
+
+      const pwd2El = appEl.$inputView('Confirm password');
+      await ivh.shouldHaveRequiredError(pwd2El);
+    },
+    { pwd: defaultPwd },
+  );
+});
+
+test('Reset pwd - Password length error', async ({ page }) => {
+  await newUser(
+    async (u) => {
+      const p = $(page);
+      await cm.doForgotPwdActions(p, u.email);
+      await cm.gotoResetPwdPage(p, u.email);
+      const appEl = p.$(resetPwdAppSel);
+
+      const pwdEl = appEl.$inputView('Password');
+      const pwd2El = appEl.$inputView('Confirm password');
+
+      async function fillPwd(pwd: string) {
+        await pwdEl.fillInput(pwd);
+        await pwd2El.fillInput(pwd);
+      }
+
+      await fillPwd('1');
+
+      await appEl.$qingButton('Reset').click();
+      await ivh.shouldHaveError(pwdEl, 'Password should be at least 6 characters.');
+      await ivh.shouldHaveError(pwd2El, 'Confirm password should be at least 6 characters.');
+    },
+    { pwd: defaultPwd },
+  );
+});
+
+test("Reset pwd - Passwords don't match", async ({ page }) => {
+  await newUser(
+    async (u) => {
+      const p = $(page);
+      await cm.doForgotPwdActions(p, u.email);
+      await cm.gotoResetPwdPage(p, u.email);
+      const appEl = p.$(resetPwdAppSel);
+
+      const pwdEl = appEl.$inputView('Password');
+      await pwdEl.fillInput('123456');
+      const pwd2El = appEl.$inputView('Confirm password');
+      await pwd2El.fillInput('1234567');
+
+      await appEl.$qingButton('Reset').click();
+
+      const errorView = appEl.$('> enter-key-handler > div > input-error-view');
+      await errorView.e.toHaveAttribute('message', "Passwords don't match.");
     },
     { pwd: defaultPwd },
   );
