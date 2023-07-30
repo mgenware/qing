@@ -1,9 +1,0 @@
-{
-  "extends": "local.json",
-  "permissions": {
-    "post": "onlyMe"
-  },
-  "content": {
-    "input_type": "markdown"
-  }
-}
