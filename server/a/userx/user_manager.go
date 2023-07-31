@@ -100,23 +100,11 @@ func (appu *UserManager) ParseUserSessionMiddleware(next http.Handler) http.Hand
 // Fetches user info from DB and creates an `appcm.SessionUser`.
 func (appu *UserManager) createUserSessionFromUID(uid uint64) (*appcm.SessionUser, error) {
 	db := appu.db
-	if appu.cfg.ForumsEnabled() {
-		u, err := da.User.SelectSessionDataForumMode(db.DB(), uid)
-		if err != nil {
-			return nil, err
-		}
-		isForumMod := false
-		if u.IsForumMod != nil {
-			isForumMod = true
-		}
-		user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, isForumMod, u.Lang)
-		return user, nil
-	}
 	u, err := da.User.SelectSessionData(db.DB(), uid)
 	if err != nil {
 		return nil, err
 	}
-	user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, false, u.Lang)
+	user := appu.sessionManager.NewSessionUser(uid, u.Name, u.IconName, u.Admin, u.Lang)
 	return user, nil
 }
 

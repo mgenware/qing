@@ -13,12 +13,11 @@ import (
 
 // SessionUser contains user information stored in a session store.
 type SessionUser struct {
-	ID         uint64 `json:"i,omitempty"`
-	Name       string `json:"n,omitempty"`
-	IconName   string `json:"ico,omitempty"`
-	Admin      bool   `json:"adm,omitempty"`
-	IsForumMod bool   `json:"fmd,omitempty"`
-	Lang       string `json:"lan,omitempty"`
+	ID       uint64 `json:"i,omitempty"`
+	Name     string `json:"n,omitempty"`
+	IconName string `json:"ico,omitempty"`
+	Admin    bool   `json:"adm,omitempty"`
+	Lang     string `json:"lan,omitempty"`
 
 	// Generated props when deserialized
 	Link    string `json:"-"`
