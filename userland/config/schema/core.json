@@ -149,12 +149,6 @@
       },
       "required": ["redis", "img_proxy"]
     },
-    "forums_config": {
-      "type": "object",
-      "properties": {
-        "enabled": { "type": "boolean" }
-      }
-    },
     "z_test_config": {
       "type": "object",
       "properties": {
@@ -173,7 +167,6 @@
     "db": { "$ref": "#/definitions/db_config" },
     "res_server": { "$ref": "#/definitions/res_server_config" },
     "extern": { "$ref": "#/definitions/extern_config" },
-    "forums": { "$ref": "#/definitions/forums_config" },
     "site": { "$ref": "#/definitions/site_config" },
     "security": { "$ref": "#/definitions/security_config" },
     "z_test": { "$ref": "#/definitions/z_test_config" }

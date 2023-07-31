@@ -14,7 +14,6 @@ import (
 	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appcm"
-	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
@@ -35,7 +34,8 @@ func init() {
 }
 
 func HomePage(w http.ResponseWriter, r *http.Request) handler.HTML {
-	if coreConfig.Get().ForumsEnabled() {
+	ac := appConfig.Get(r)
+	if ac.ForumMode() {
 		return renderForumPage(w, r)
 	}
 	return renderStdPage(w, r)

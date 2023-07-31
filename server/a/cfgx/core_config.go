@@ -25,7 +25,6 @@ type CoreConfig struct {
 	ResServer *corecfg.ResServerConfig `json:"res_server,omitempty"`
 	Extern    *corecfg.ExternConfig    `json:"extern,omitempty"`
 	Site      *corecfg.SiteConfig      `json:"site,omitempty"`
-	Forums    *corecfg.ForumsConfig    `json:"forums,omitempty"`
 	Security  *corecfg.SecurityConfig  `json:"security,omitempty"`
 
 	// Only used in unit tests.
@@ -48,11 +47,6 @@ func (c *CoreConfig) DevMode() bool {
 // Returns true if production mode is on.
 func (c *CoreConfig) ProductionMode() bool {
 	return !c.DevMode()
-}
-
-// Checks if forums mode is enabled.
-func (c *CoreConfig) ForumsEnabled() bool {
-	return c.Forums != nil && c.Forums.Enabled
 }
 
 func (c *CoreConfig) CloneConfig() (*CoreConfig, error) {

@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-package corecfg
+package appcfg
 
-type ForumsConfig struct {
+type ForumConfig struct {
 	Enabled bool `json:"enabled,omitempty"`
 }

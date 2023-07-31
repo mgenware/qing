@@ -10,13 +10,13 @@ package composeapi
 import (
 	"fmt"
 	"net/http"
+	"qing/a/appConfig"
 	"qing/a/appDB"
 	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appService"
 	"qing/a/appURL"
 	"qing/a/appcm"
-	"qing/a/coreConfig"
 	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/a/handler"
@@ -47,7 +47,7 @@ func setEntityAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	contentHTML, sanitizedToken := appService.Get().Sanitizer.Sanitize(contentLoader.MustGetHTML())
 	contentSrc := contentLoader.GetOptionalSrc()
 
-	cfg := coreConfig.Get()
+	ac := appConfig.Get(r)
 	var result any
 	db := appDB.DB()
 	if !hasID {
@@ -62,7 +62,7 @@ func setEntityAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 
 		captResult := 0
 		var forumID *uint64
-		if cfg.ForumsEnabled() && entityType != frozenDef.ContentBaseTypePost {
+		if ac.ForumMode() && entityType != frozenDef.ContentBaseTypePost {
 			forumIDValue := clib.MustGetIDFromDict(params, "forumID")
 			forumID = &forumIDValue
 		}

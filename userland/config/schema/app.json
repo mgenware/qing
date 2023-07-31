@@ -17,6 +17,12 @@
       },
       "required": ["input_type"]
     },
+    "forum_config": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" }
+      }
+    },
     "mail_account_config": {
       "type": "object",
       "properties": {
@@ -59,6 +65,7 @@
     "extends": { "type": "string" },
     "mail": { "$ref": "#/definitions/mail_config" },
     "permissions": { "$ref": "#/definitions/permissions_config" },
+    "forum": { "$ref": "#/definitions/forum_config" },
     "content": { "$ref": "#/definitions/content_config" }
   },
   "required": ["mail", "permissions", "content"]

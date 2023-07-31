@@ -112,9 +112,8 @@ func (m *MainPageManager) MustComplete(r *http.Request, lang string, statusCode 
 	d.Scripts = m.asMgr.MustGetLangScript(lang, "core") + d.Scripts
 
 	// Sync settings.
-	cc := m.cfg
 	d.State.PostPerm = ac.Permissions.RawPost
-	d.State.Forums = cc.ForumsEnabled()
+	d.State.Forums = ac.ForumMode()
 	d.State.InputType = ac.Content.RawInputType
 
 	// User info.

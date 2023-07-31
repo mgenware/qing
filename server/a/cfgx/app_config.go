@@ -19,6 +19,7 @@ type AppConfig struct {
 	Permissions *appcfg.PermissionsConfig `json:"permissions,omitempty"`
 	Content     *appcfg.ContentConfig     `json:"content,omitempty"`
 	Mail        *appcfg.MailConfig        `json:"mail,omitempty"`
+	Forum       *appcfg.ForumConfig       `json:"forum,omitempty"`
 }
 
 func (c *AppConfig) GetExtends() string {
@@ -40,4 +41,8 @@ func (c *AppConfig) CloneConfig() (*AppConfig, error) {
 		return nil, err
 	}
 	return &res, nil
+}
+
+func (c *AppConfig) ForumMode() bool {
+	return c.Forum != nil && c.Forum.Enabled
 }

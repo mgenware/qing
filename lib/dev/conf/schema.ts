@@ -9,7 +9,6 @@ export interface CoreConfigSchema {
   db: DbConfig;
   res_server: ResServerConfig;
   extern: ExternConfig;
-  forums?: ForumsConfig;
   z_test?: ZTestConfig;
   [k: string]: unknown;
 }
@@ -71,10 +70,6 @@ export interface ExternConfig {
     port: number;
     [k: string]: unknown;
   };
-  [k: string]: unknown;
-}
-export interface ForumsConfig {
-  enabled?: boolean;
   [k: string]: unknown;
 }
 export interface ZTestConfig {
