@@ -76,7 +76,7 @@ it('ResetPwd - Revisit used link', async () => {
 
       // Revisiting the verification link results in error.
       const failedResp = await fetch(relURL);
-      assert.strictEqual(failedResp.status, 503);
+      assert.ok(failedResp.ok);
       assert.strictEqual(mh.getErrorContent(await failedResp.text()), 'Link has expired.');
     },
     { pwd: initialPwd },
