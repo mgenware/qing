@@ -93,7 +93,7 @@ function checkMigrationNumber(num: number) {
 
     // Returns default params for `s` command.
     function getSArgs() {
-      const appConfig = cli.values['app-config'];
+      const appConfig = cli.values['app-config'] ?? 'local';
       if (!appConfig) {
         throw new Error('Missing app config name.');
       }
