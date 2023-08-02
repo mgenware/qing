@@ -86,11 +86,8 @@ test('Profile pagination - 2 pages', async ({ page }) => {
 
     // Check page bar.
     await pb.check(p.body, { rightLink: `${url}?page=2` });
-
     // Go to next page.
-    await p.goto('/', null, {
-      params: { [appDef.brHomePrefixParam]: `${postPrefix}%`, page: '2' },
-    });
+    await pb.clickNextBtn(p.body);
 
     await cm.checkProfileFeed(items.item(0), {
       user: usr.user,
@@ -100,7 +97,7 @@ test('Profile pagination - 2 pages', async ({ page }) => {
     });
 
     // Check page bar.
-    await pb.check(p.body, { leftLink: '/' });
+    await pb.check(p.body, { leftLink: url });
   });
 });
 
