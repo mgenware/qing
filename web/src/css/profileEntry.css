@@ -21,11 +21,6 @@
   margin-right: auto;
 }
 
-/* Hide the bottom hr for last feed item */
-.profile-feed:last-child hr {
-  display: none;
-}
-
 @media (min-width: 1024px) {
   #m-profile-posts {
     width: 83%;
