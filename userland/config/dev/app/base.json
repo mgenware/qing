@@ -1,5 +1,8 @@
 {
   "content": {
     "input_type": "standard"
+  },
+  "permissions": {
+    "post": "everyone"
   }
 }

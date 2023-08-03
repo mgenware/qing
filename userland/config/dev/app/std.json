@@ -1,6 +1,0 @@
-{
-  "extends": "local.json",
-  "permissions": {
-    "post": "onlyMe"
-  }
-}

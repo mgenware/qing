@@ -10,6 +10,7 @@ package profilep
 import (
 	"net/http"
 	"qing/a/appDB"
+	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appcm"
 	"qing/a/def/appDef"
@@ -23,7 +24,15 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-const userPostsLimit = 10
+var userPostsLimit int
+
+func init() {
+	if appEnv.IsBR() {
+		userPostsLimit = 2
+	} else {
+		userPostsLimit = 10
+	}
+}
 
 func ProfilePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	uid, err := clib.DecodeID(chi.URLParam(r, "uid"))

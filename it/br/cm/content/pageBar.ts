@@ -7,10 +7,11 @@
 
 import * as br from 'br.js';
 
-const pageBarCls = 'm-page-bar';
+const pageBarSel = '.m-page-bar';
+const linkBtnSel = '.link-btn';
 
 export async function shouldNotExist(container: br.Element) {
-  await container.$(`.${pageBarCls}`).shouldNotExist();
+  await container.$(pageBarSel).shouldNotExist();
 }
 
 export interface CheckArgs {
@@ -29,11 +30,18 @@ async function checkLinkValue(el: br.Element, value: string | undefined) {
 }
 
 export async function check(container: br.Element, e: CheckArgs) {
-  const el = container.$(`.${pageBarCls}`);
+  const el = container.$(pageBarSel);
   await el.shouldExist();
-  const buttons = el.$$('.link-btn');
+  const buttons = el.$$(linkBtnSel);
   const leftBtn = buttons.item(0);
   const rightBtn = buttons.item(1);
   await checkLinkValue(leftBtn, e.leftLink);
   await checkLinkValue(rightBtn, e.rightLink);
+}
+
+export async function clickNextBtn(container: br.Element) {
+  const el = container.$(pageBarSel);
+  const buttons = el.$$(linkBtnSel);
+  const rightBtn = buttons.item(1);
+  await rightBtn.click();
 }

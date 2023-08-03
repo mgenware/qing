@@ -87,11 +87,8 @@ test('Home page - com - 2 pages', async ({ page }) => {
 
     // Check page bar.
     await pb.check(p.body, { rightLink: page2URL });
-
     // Go to next page.
-    await p.goto('/', null, {
-      params: { [appDef.brHomePrefixParam]: `${prefix}%`, page: '2' },
-    });
+    await pb.clickNextBtn(p.body);
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
