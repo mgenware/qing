@@ -5,11 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, usr } from 'br.js';
+import { test, $ } from 'br.js';
 import { batchNewPosts } from 'helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'br/cm/content/pageBar.js';
-import { appDef } from '@qing/def';
 import { newUser } from 'helper/user.js';
 
 const feedItemSel = '.profile-feed';
@@ -37,13 +36,11 @@ test('Profile pagination - 1 page', async ({ page }) => {
     await items.shouldHaveCount(2);
 
     await cm.checkProfileFeed(items.item(0), {
-      user: usr.user,
       title: `${postPrefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkProfileFeed(items.item(1), {
-      user: usr.user,
       title: `${postPrefix}TITLE_0`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
@@ -72,13 +69,11 @@ test('Profile pagination - 2 pages', async ({ page }) => {
     await items.shouldHaveCount(2);
 
     await cm.checkProfileFeed(items.item(0), {
-      user: usr.user,
       title: `${postPrefix}TITLE_2`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkProfileFeed(items.item(1), {
-      user: usr.user,
       title: `${postPrefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
@@ -90,7 +85,6 @@ test('Profile pagination - 2 pages', async ({ page }) => {
     await pb.clickNextBtn(p.body);
 
     await cm.checkProfileFeed(items.item(0), {
-      user: usr.user,
       title: `${postPrefix}TITLE_0`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[2]!.link,
