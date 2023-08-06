@@ -255,11 +255,16 @@ export class Page {
     if (user) {
       await this.signIn(user);
     }
+
+    let finalUrl = url;
     if (opt?.params) {
-      // eslint-disable-next-line no-param-reassign
-      url += '?' + new URLSearchParams(opt.params).toString();
+      const urlObj = new URL(url);
+      for (const [key, value] of Object.entries(opt.params)) {
+        urlObj.searchParams.set(key, value);
+      }
+      finalUrl = urlObj.toString();
     }
-    return this.c.goto(url);
+    return this.c.goto(finalUrl);
   }
 
   async shouldBeUser(user: api.User | null) {
