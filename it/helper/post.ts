@@ -103,7 +103,7 @@ export async function batchNewPosts(a: BatchNewPostsOpt): Promise<NewPostResult[
     // eslint-disable-next-line no-await-in-loop
     const id = await newTmpPostCore(user, {
       body: {
-        title: `${prefix}${title}_${i}`,
+        title: `${prefix}${title}_${i + 1}`,
         html: content,
         summary,
         brTime: a.startingDate ? addDays(a.startingDate, i).toISOString() : undefined,

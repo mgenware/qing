@@ -37,13 +37,13 @@ test('Home page - com - One page', async ({ page }) => {
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
-      title: `${prefix}TITLE_1`,
+      title: `${prefix}TITLE_2`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkHomeItem(items.item(1), {
       user: usr.user,
-      title: `${prefix}TITLE_0`,
+      title: `${prefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
     });
@@ -74,25 +74,26 @@ test('Home page - com - 2 pages', async ({ page }) => {
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
-      title: `${prefix}TITLE_2`,
+      title: `${prefix}TITLE_3`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkHomeItem(items.item(1), {
       user: usr.user,
-      title: `${prefix}TITLE_1`,
+      title: `${prefix}TITLE_2`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
     });
 
     // Check page bar.
     await pb.check(p.body, { rightLink: page2URL });
-    // Go to next page.
-    await pb.clickNextBtn(p.body);
+    // Don't click the next button, it doesn't has `brHomePrefixParam` in it.
+    // Instead, compose a new URL and use goto to navigate to it.
+    await p.goto(page2URL, null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
 
     await cm.checkHomeItem(items.item(0), {
       user: usr.user,
-      title: `${prefix}TITLE_0`,
+      title: `${prefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[2]!.link,
     });
