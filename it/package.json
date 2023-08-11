@@ -8,7 +8,7 @@
     "prepare": "ts-patch install -s"
   },
   "devDependencies": {
-    "@playwright/test": "^1.36.2",
+    "@playwright/test": "^1.37.0",
     "@qing/def": "workspace:*",
     "@qing/routes": "workspace:*",
     "@types/cookie": "^0.5.1",
