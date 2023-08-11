@@ -36,12 +36,12 @@ test('Profile pagination - 1 page', async ({ page }) => {
     await items.shouldHaveCount(2);
 
     await cm.checkProfileFeed(items.item(0), {
-      title: `${postPrefix}TITLE_1`,
+      title: `${postPrefix}TITLE_2`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkProfileFeed(items.item(1), {
-      title: `${postPrefix}TITLE_0`,
+      title: `${postPrefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
     });
@@ -69,12 +69,12 @@ test('Profile pagination - 2 pages', async ({ page }) => {
     await items.shouldHaveCount(2);
 
     await cm.checkProfileFeed(items.item(0), {
-      title: `${postPrefix}TITLE_2`,
+      title: `${postPrefix}TITLE_3`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[0]!.link,
     });
     await cm.checkProfileFeed(items.item(1), {
-      title: `${postPrefix}TITLE_1`,
+      title: `${postPrefix}TITLE_2`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[1]!.link,
     });
@@ -85,7 +85,7 @@ test('Profile pagination - 2 pages', async ({ page }) => {
     await pb.clickNextBtn(p.body);
 
     await cm.checkProfileFeed(items.item(0), {
-      title: `${postPrefix}TITLE_0`,
+      title: `${postPrefix}TITLE_1`,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       link: posts[2]!.link,
     });

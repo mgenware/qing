@@ -14,7 +14,7 @@ import { appDef } from '@qing/def';
 const homeItemSel = '.fi-item';
 const page2URL = '/?page=2';
 
-test('Home page - com - One page', async ({ page }) => {
+test('Home page - Community - One page', async ({ page }) => {
   const p = $(page);
   const prefix = '_br_home_com_one_page_';
 
@@ -52,7 +52,7 @@ test('Home page - com - One page', async ({ page }) => {
   }
 });
 
-test('Home page - com - 2 pages', async ({ page }) => {
+test('Home page - Community - 2 pages', async ({ page }) => {
   const p = $(page);
   const prefix = '_br_home_com_2_pages_';
 
@@ -105,7 +105,7 @@ test('Home page - com - 2 pages', async ({ page }) => {
   }
 });
 
-test('Home page - com - No content', async ({ page }) => {
+test('Home page - Community - No content', async ({ page }) => {
   const p = $(page);
   const prefix = '__no_content__';
 
