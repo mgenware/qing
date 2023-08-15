@@ -22,7 +22,6 @@ import (
 	"sync"
 
 	"github.com/imdario/mergo"
-	"github.com/mgenware/goutil/jsonx"
 )
 
 var baseConfig *cfgx.AppConfig
@@ -53,28 +52,22 @@ func init() {
 func Get(r *http.Request) *cfgx.AppConfig {
 	if appEnv.IsBR() {
 		var appCfgUpdateDict map[string]any
-		if r.Method == http.MethodPost {
-			params := appcm.ContextDict(r.Context())
-			appCfgUpdateDict = jsonx.GetDictOrNil(params, appDef.AppConfigBrParam)
-		} else {
-			appCfgJson := r.FormValue(appDef.AppConfigBrParam)
-			if appCfgJson != "" {
-				err := json.Unmarshal([]byte(appCfgJson), &appCfgUpdateDict)
-				if err != nil {
-					panic(err)
-				}
-			}
+		acCookie, err := r.Cookie(appDef.AppConfigBrCookie)
+		appcm.PanicOn(err, "Failed to get app config BR cookie")
+
+		if acCookie != nil {
+			err = json.Unmarshal([]byte(acCookie.Value), &appCfgUpdateDict)
+			appcm.PanicOn(err, "Failed to parse app config BR cookie")
 		}
+
 		if appCfgUpdateDict == nil {
 			return baseConfig
 		}
 		clone, err := baseConfig.CloneConfig()
-		if err != nil {
-			panic(err)
-		}
-		if err := mergo.Map(&clone, appCfgUpdateDict); err != nil {
-			panic(err)
-		}
+		appcm.PanicOn(err, "Failed to clone app config")
+
+		err = mergo.Map(&clone, appCfgUpdateDict)
+		appcm.PanicOn(err, "Failed to merge app config")
 		return clone
 	}
 	return baseConfig

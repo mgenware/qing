@@ -32,7 +32,7 @@
   "keyMessages": "messages",
   "keyLang": "lang",
   "keyCmt": "cmt",
-  "appConfigBrParam": "__appConfig",
+  "appConfigBrCookie": "__app_config_br",
   "routeI": "i",
   "routeAdmin": "admin",
   "routeApi": "s",
