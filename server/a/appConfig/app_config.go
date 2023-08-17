@@ -53,7 +53,9 @@ func Get(r *http.Request) *cfgx.AppConfig {
 	if appEnv.IsBR() {
 		var appCfgUpdateDict map[string]any
 		acCookie, err := r.Cookie(appDef.AppConfigBrCookie)
-		appcm.PanicOn(err, "Failed to get app config BR cookie")
+		if err != nil && err != http.ErrNoCookie {
+			appcm.PanicOn(err, "Failed to get app config BR cookie")
+		}
 
 		if acCookie != nil {
 			err = json.Unmarshal([]byte(acCookie.Value), &appCfgUpdateDict)
