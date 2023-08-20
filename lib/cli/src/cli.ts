@@ -98,7 +98,7 @@ function checkMigrationNumber(num: number) {
         throw new Error('Missing app config name.');
       }
       return {
-        coreConfigName: cli.values['core-config'] ?? 'base',
+        coreConfigName: cli.values['core-config'] ?? 'default_core',
         appConfigName: appConfig,
       };
     }
