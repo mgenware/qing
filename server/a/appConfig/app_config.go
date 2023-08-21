@@ -18,6 +18,7 @@ import (
 	"qing/a/cfgx"
 	"qing/a/def/appDef"
 	"qing/a/def/infraDef"
+	"qing/lib/httplib"
 	"qing/lib/iolib"
 	"sync"
 
@@ -52,13 +53,13 @@ func init() {
 func Get(r *http.Request) *cfgx.AppConfig {
 	if appEnv.IsBR() {
 		var appCfgUpdateDict map[string]any
-		acCookie, err := r.Cookie(appDef.AppConfigBrCookie)
+		acCookie, err := httplib.ReadCookie(r, appDef.AppConfigBrCookie)
 		if err != nil && err != http.ErrNoCookie {
 			appcm.PanicOn(err, "Failed to get app config BR cookie")
 		}
 
-		if acCookie != nil {
-			err = json.Unmarshal([]byte(acCookie.Value), &appCfgUpdateDict)
+		if acCookie != "" {
+			err = json.Unmarshal([]byte(acCookie), &appCfgUpdateDict)
 			appcm.PanicOn(err, "Failed to parse app config BR cookie")
 		}
 

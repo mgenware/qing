@@ -95,9 +95,9 @@ func (mgr *Manager) Dictionary(lang string) *Dictionary {
 
 func (mgr *Manager) getLanguageFromRequest(w http.ResponseWriter, r *http.Request) string {
 	// Check if user has explicitly set a language.
-	cookieLang, _ := r.Cookie(appDef.KeyLang)
-	if cookieLang != nil {
-		return cookieLang.Value
+	cookieLang, _ := httplib.ReadCookie(r, appDef.KeyLang)
+	if cookieLang != "" {
+		return cookieLang
 	}
 
 	// If none of the above values exist, use the language matcher.

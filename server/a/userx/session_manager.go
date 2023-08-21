@@ -21,6 +21,7 @@ import (
 	"qing/a/def"
 	"qing/a/urlx"
 	"qing/lib/clib"
+	"qing/lib/httplib"
 
 	"github.com/google/uuid"
 )
@@ -164,20 +165,20 @@ func (sm *SessionManager) RemoveUserSession(uid uint64, sid string) error {
 func (sm *SessionManager) ParseUserSessionMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Get cookie session ID.
-		sidCookie, _ := r.Cookie(def.SessionCookieKey)
-		if sidCookie == nil || sidCookie.Value == "" {
+		sidCookie, _ := httplib.ReadCookie(r, def.SessionCookieKey)
+		if sidCookie == "" {
 			// NO SID found.
 			next.ServeHTTP(w, r)
 			return
 		}
 
-		sid, err := url.PathUnescape(sidCookie.Value)
+		sid, err := url.PathUnescape(sidCookie)
 		if err != nil {
 			// Ignore session parsing error.
 			if sm.logger != nil {
 				sm.logger.Error("parser-session.invalid-value",
 					"error", err.Error(),
-					"sidCookie", sidCookie.Value,
+					"sidCookie", sidCookie,
 				)
 			}
 

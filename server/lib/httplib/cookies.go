@@ -23,7 +23,7 @@ func NewCookie(k, v string, cc *cfgx.CoreConfig) *http.Cookie {
 		secure = !cc.HTTP.UnsafeMode
 	}
 	return &http.Cookie{
-		Name:     url.QueryEscape(k),
+		Name:     k,
 		Value:    url.QueryEscape(v),
 		Path:     "/",
 		Expires:  time.Now().Add(def.CookiesDefaultExpiry),
@@ -34,7 +34,7 @@ func NewCookie(k, v string, cc *cfgx.CoreConfig) *http.Cookie {
 
 func DeleteCookie(k string) *http.Cookie {
 	c := &http.Cookie{
-		Name:    url.QueryEscape(k),
+		Name:    k,
 		Value:   "",
 		Path:    "/",
 		Expires: time.Unix(0, 0),
@@ -42,4 +42,19 @@ func DeleteCookie(k string) *http.Cookie {
 		HttpOnly: true,
 	}
 	return c
+}
+
+func ReadCookie(r *http.Request, k string) (string, error) {
+	c, err := r.Cookie(k)
+	if err != nil {
+		if err == http.ErrNoCookie {
+			return "", nil
+		}
+		return "", err
+	}
+	decoded, err := url.QueryUnescape(c.Value)
+	if err != nil {
+		return "", err
+	}
+	return decoded, nil
 }
