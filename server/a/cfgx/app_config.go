@@ -43,6 +43,19 @@ func (c *AppConfig) CloneConfig() (*AppConfig, error) {
 	return &res, nil
 }
 
+func (c *AppConfig) CloneConfigMap() (map[string]any, error) {
+	bytes, err := json.Marshal(c)
+	if err != nil {
+		return nil, err
+	}
+	var res map[string]any
+	err = json.Unmarshal(bytes, &res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
 func (c *AppConfig) ForumMode() bool {
 	return c.Forum != nil && c.Forum.Enabled
 }

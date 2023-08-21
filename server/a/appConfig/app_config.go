@@ -66,12 +66,12 @@ func Get(r *http.Request) *cfgx.AppConfig {
 		if appCfgUpdateDict == nil {
 			return baseConfig
 		}
-		clone, err := baseConfig.CloneConfig()
+		clonedMap, err := baseConfig.CloneConfigMap()
 		appcm.PanicOn(err, "Failed to clone app config")
 
-		err = mergo.Map(&clone, appCfgUpdateDict)
+		err = mergo.Map(clonedMap, appCfgUpdateDict)
 		appcm.PanicOn(err, "Failed to merge app config")
-		return clone
+		return clonedMap
 	}
 	return baseConfig
 }

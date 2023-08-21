@@ -10,6 +10,8 @@ import { batchNewPosts, deletePostsByPrefix } from 'helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'br/cm/content/pageBar.js';
 import { appDef } from '@qing/def';
+import { setContextAppConfig } from 'br/cm/config/appConfigHelper.js';
+import { AppConfigSchema } from 'br/cm/config/appConfigSchema.js';
 
 const homeItemSel = '.fi-item';
 const page2URL = '/?page=2';
@@ -22,11 +24,15 @@ enum HomePageMode {
 function testHomePage(mode: HomePageMode) {
   const modeText = HomePageMode[mode];
 
-  test(`Home page - ${modeText} - One page`, async ({ page }) => {
+  test(`Home page - ${modeText} - One page`, async ({ page, context }) => {
     const p = $(page);
     const prefix = `_br_home_${modeText}_1_page_`;
 
     try {
+      if (mode === HomePageMode.personal) {
+        await setContextAppConfig(context, { permissions: { post: 'onlyMe' } } as AppConfigSchema);
+      }
+
       const posts = await batchNewPosts({
         user: usr.user,
         count: 2,
