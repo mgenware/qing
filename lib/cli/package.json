@@ -25,6 +25,11 @@
   ],
   "dependencies": {
     "catch-err-msg": "^1.0.0",
-    "execa": "^8.0.1"
+    "chalk": "^5.3.0",
+    "execa": "^8.0.1",
+    "which": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/which": "^3.0.0"
   }
 }

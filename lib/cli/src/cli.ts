@@ -9,6 +9,8 @@
 
 import errMsg from 'catch-err-msg';
 import { parseArgs } from 'node:util';
+import which from 'which';
+import chalk from 'chalk';
 import * as iou from './ioutil.js';
 import * as sp from './spawn.js';
 
@@ -46,6 +48,7 @@ function printUsage() {
         <N>                - Migrate to version N
         drop               - Drop everything in database
       mail               Print dev mailbox directory
+      doctor             Check if all required commands are available
       version            Print version information
       
   `);
@@ -66,6 +69,15 @@ function checkArg(s: string | undefined, name: string): asserts s {
 function checkMigrationNumber(num: number) {
   if (num < 1) {
     throw new Error(`Migration number must be greater than or equal to 1, got ${num}.`);
+  }
+}
+
+async function checkCommandAvailable(cmd: string) {
+  const resolved = await which(cmd);
+  if (resolved) {
+    console.log(chalk.green(`${cmd} is available.`));
+  } else {
+    console.log(chalk.red(`${cmd} is not available.`));
   }
 }
 
@@ -205,6 +217,14 @@ function checkMigrationNumber(num: number) {
           args: itArgs.slice(1),
           daizongDir: await iou.getProjectDir(itDir),
         });
+        break;
+      }
+
+      case 'doctor': {
+        const neededCmds = ['docker', 'dz', 'pnpm', 'go', 'golangci-lint'];
+        for (const cmd of neededCmds) {
+          await checkCommandAvailable(cmd);
+        }
         break;
       }
 
