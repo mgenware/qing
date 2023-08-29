@@ -24,8 +24,8 @@ const infoBlockCls = 'info-block';
 const siteTypeBlockCls = 'site-type-block';
 
 const postPermChecklist: CheckListItem[] = [
-  { key: frozenDef.PostPermissionConfig.onlyMe, text: globalThis.mxLS.roleOnlyMe },
-  { key: frozenDef.PostPermissionConfig.everyone, text: globalThis.mxLS.roleEveryone },
+  { key: frozenDef.PostPermissionConfig.onlyMe, text: globalThis.adminLS.roleOnlyMe },
+  { key: frozenDef.PostPermissionConfig.everyone, text: globalThis.adminLS.roleEveryone },
 ];
 
 @customElement('site-general-st')
@@ -55,27 +55,27 @@ export class SiteGeneralST extends StatefulPage {
       <heading-view>${globalThis.coreLS.generalSettings}</heading-view>
       ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
       <div class=${infoBlockCls}>
-        <subheading-view>${globalThis.mxLS.siteInfo}</subheading-view>
+        <subheading-view>${globalThis.adminLS.siteInfo}</subheading-view>
 
         <input-view
           required
-          label=${globalThis.mxLS.siteName}
+          label=${globalThis.adminLS.siteName}
           value=${this._siteName}
           @input-change=${(e: CustomEvent<string>) => (this._siteName = e.detail)}></input-view>
 
         <input-view
           required
-          label=${globalThis.mxLS.siteURL}
+          label=${globalThis.adminLS.siteURL}
           value=${this._siteURL}
           @input-change=${(e: CustomEvent<string>) => (this._siteURL = e.detail)}></input-view>
 
         <qing-button btnStyle="success" @click=${this.handleSaveSiteInfoClick}>
-          ${globalThis.mxLS.save}
+          ${globalThis.adminLS.save}
         </qing-button>
       </div>
 
       <div class=${`${siteTypeBlockCls} m-t-lg`}>
-        <subheading-view>${globalThis.mxLS.whoCanWritePosts}</subheading-view>
+        <subheading-view>${globalThis.adminLS.whoCanWritePosts}</subheading-view>
         <check-list
           .items=${postPermChecklist}
           .selectedItems=${[this._postPerm]}
@@ -83,7 +83,7 @@ export class SiteGeneralST extends StatefulPage {
             (this._postPerm = e.detail.selectedItem())}></check-list>
         <div class="m-t-md">
           <qing-button btnStyle="success" @click=${this.handleSaveSiteTypeClick}>
-            ${globalThis.mxLS.save}
+            ${globalThis.adminLS.save}
           </qing-button>
         </div>
       </div>

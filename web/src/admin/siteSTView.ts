@@ -6,13 +6,13 @@
  */
 
 import { customElement, css } from 'll.js';
-import * as mxRoute from '@qing/routes/admin.js';
+import * as adminRoute from '@qing/routes/admin.js';
 import { SettingsBaseItem, SettingsBaseView } from '../i/settings/settingsBaseView.js';
 
 const items: SettingsBaseItem[] = [
-  { name: globalThis.coreLS.generalSettings, link: mxRoute.general },
-  { name: globalThis.mxLS.languages, link: mxRoute.languages },
-  { name: globalThis.mxLS.adminAccounts, link: mxRoute.admins },
+  { name: globalThis.coreLS.generalSettings, link: adminRoute.general },
+  { name: globalThis.adminLS.languages, link: adminRoute.languages },
+  { name: globalThis.adminLS.adminAccounts, link: adminRoute.admins },
 ];
 
 @customElement('site-st-view')

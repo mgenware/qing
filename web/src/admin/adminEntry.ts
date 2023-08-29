@@ -7,7 +7,7 @@
 
 import 'core.js';
 import { html, TemplateResult } from 'll.js';
-import * as mxRoute from '@qing/routes/admin.js';
+import * as adminRoute from '@qing/routes/admin.js';
 import './admins/siteAdminST';
 import './general/siteGeneralST';
 import './langs/siteLangST';
@@ -24,16 +24,16 @@ function loadSettingsContent(selectedItem: string, content: TemplateResult) {
   );
 }
 
-router.register(mxRoute.admins, () => {
-  loadSettingsContent(globalThis.mxLS.adminAccounts, html`<site-admin-st></site-admin-st>`);
+router.register(adminRoute.admins, () => {
+  loadSettingsContent(globalThis.adminLS.adminAccounts, html`<site-admin-st></site-admin-st>`);
 });
 
-router.register(mxRoute.general, () => {
+router.register(adminRoute.general, () => {
   loadSettingsContent(globalThis.coreLS.generalSettings, html`<site-general-st></site-general-st>`);
 });
 
-router.register(mxRoute.languages, () => {
-  loadSettingsContent(globalThis.mxLS.languages, html`<site-lang-st></site-lang-st>`);
+router.register(adminRoute.languages, () => {
+  loadSettingsContent(globalThis.adminLS.languages, html`<site-lang-st></site-lang-st>`);
 });
 
 router.startOnce();

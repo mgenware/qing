@@ -9,7 +9,7 @@
 
 /* eslint-disable */
 
-export interface mxLSType {
+export interface adminLSType {
   whoCanWritePosts: string;
   roleOnlyMe: string;
   roleEveryone: string;
@@ -29,5 +29,5 @@ export interface mxLSType {
 }
 
 declare global {
-    var mxLS: mxLSType;
+    var adminLS: adminLSType;
 }

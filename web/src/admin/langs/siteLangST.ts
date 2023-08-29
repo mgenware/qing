@@ -38,10 +38,10 @@ export class SiteLangST extends StatefulPage {
 
   override renderContent() {
     return html`
-      <heading-view>${globalThis.mxLS.languages}</heading-view>
+      <heading-view>${globalThis.adminLS.languages}</heading-view>
       ${when(this._needRestart, () => html`<need-restart-view></need-restart-view>`)}
       <div>
-        <subheading-view>${globalThis.mxLS.supportedLangs}</subheading-view>
+        <subheading-view>${globalThis.adminLS.supportedLangs}</subheading-view>
         <check-list>
           ${this._supportedLangs.map(
             (lang) => html`<check-item

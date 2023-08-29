@@ -17,7 +17,7 @@ import (
 // Router ...
 var Router = handler.NewHTMLRouter()
 
-const mxLSKey = "mx"
+const adminLSKey = "admin"
 
 func init() {
 	Router.Core.Use(appUserManager.Get().RequireLoginHTMLMiddleware)
@@ -30,7 +30,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) handler.HTML {
 	// Page title and content will be set on frontend side.
 	d := appHandler.MainPageData("", "")
 	assm := appHandler.MainPage().AssetManager()
-	d.Scripts = assm.MustGetLangScript(resp.Lang(), mxLSKey) + assm.MustGetScript("adminEntry")
+	d.Scripts = assm.MustGetLangScript(resp.Lang(), adminLSKey) + assm.MustGetScript("adminEntry")
 
 	return resp.MustComplete(&d)
 }
