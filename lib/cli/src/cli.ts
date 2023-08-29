@@ -75,7 +75,7 @@ function checkMigrationNumber(num: number) {
 async function checkCommandAvailable(cmd: string) {
   const resolved = await which(cmd);
   if (resolved) {
-    console.log(chalk.green(`${cmd} is available.`));
+    console.log(`${cmd} is available.`);
   } else {
     console.log(chalk.red(`${cmd} is not available.`));
   }
@@ -225,6 +225,7 @@ async function checkCommandAvailable(cmd: string) {
         for (const cmd of neededCmds) {
           await checkCommandAvailable(cmd);
         }
+        console.log(chalk.green('All required commands are available.'));
         break;
       }
 
