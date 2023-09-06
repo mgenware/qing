@@ -8,7 +8,7 @@
 
 import { customElement, html, when, state, TemplateResult } from 'll.js';
 import * as mRoute from '@qing/routes/i.js';
-import * as mxRoute from '@qing/routes/admin.js';
+import * as adminRoute from '@qing/routes/admin.js';
 import * as authRoute from '@qing/routes/auth.js';
 import SignOutLoader from './loaders/signOutLoader.js';
 import { User } from 'sod/auth.js';
@@ -102,7 +102,7 @@ export default class NavbarApp extends core.NavbarAppCore {
           <a href=${mRoute.profileSettings}>${globalThis.coreLS.settings}</a>
           ${when(
             user.admin,
-            () => html`<a href=${mxRoute.general}>${globalThis.coreLS.siteSettings}</a>`,
+            () => html`<a href=${adminRoute.general}>${globalThis.coreLS.siteSettings}</a>`,
           )}
           <a href="#" @click=${this.handleSignOutClick}>${globalThis.coreLS.signOut}</a>
         </div>

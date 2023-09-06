@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $, Element } from 'br.js';
-import * as mxRoute from '@qing/routes/admin.js';
+import * as adminRoute from '@qing/routes/admin.js';
 import * as cm from './common.js';
 
 async function checkCheckmarkView(el: Element, checked: boolean, text: string) {
@@ -16,7 +16,7 @@ async function checkCheckmarkView(el: Element, checked: boolean, text: string) {
 
 test('Site settings - Languages', async ({ page }) => {
   const p = $(page);
-  await p.goto(mxRoute.languages, usr.admin);
+  await p.goto(adminRoute.languages, usr.admin);
 
   const rootEl = p.$(cm.settingsViewSel);
 

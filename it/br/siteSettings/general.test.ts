@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $ } from 'br.js';
-import * as mxRoute from '@qing/routes/admin.js';
+import * as adminRoute from '@qing/routes/admin.js';
 import * as nbm from 'br/cm/navbar/menu.js';
 import * as ivh from 'br/cm/forms/inputViewHelper.js';
 import * as cm from './common.js';
@@ -33,7 +33,7 @@ test('Site settings - Site info - Click-through from navbar', async ({ page }) =
 
 test('Site settings - Site info - Required fields', async ({ page }) => {
   const p = $(page);
-  await p.goto(mxRoute.general, usr.admin);
+  await p.goto(adminRoute.general, usr.admin);
 
   const contentEl = p.$(infoSectionSel);
 
@@ -48,7 +48,7 @@ test('Site settings - Site info - Required fields', async ({ page }) => {
 
 test('Site settings - Site info - Update site name', async ({ page }) => {
   const p = $(page);
-  await p.goto(mxRoute.general, usr.admin);
+  await p.goto(adminRoute.general, usr.admin);
 
   const contentEl = p.$(infoSectionSel);
 
@@ -64,7 +64,7 @@ test('Site settings - Site info - Update site name', async ({ page }) => {
 
 test('Site settings - Site info - Update site URL', async ({ page }) => {
   const p = $(page);
-  await p.goto(mxRoute.general, usr.admin);
+  await p.goto(adminRoute.general, usr.admin);
 
   const contentEl = p.$(infoSectionSel);
 
