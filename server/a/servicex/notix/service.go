@@ -9,9 +9,9 @@ package notix
 
 import (
 	"fmt"
+	"qing/a/appConfig"
 	"qing/a/appDB"
 	"qing/a/appHandler"
-	"qing/a/cfgx"
 	"qing/a/coreConfig"
 	"qing/a/servicex/mailx"
 	"qing/da"
@@ -29,7 +29,7 @@ func NewNotiService(mailService *mailx.MailService) *Service {
 }
 
 // `fromName` is only used for sending emails.
-func (s *Service) SendNoti(ac *cfgx.AppConfig, noti *NotiItem, fromName string) error {
+func (s *Service) SendNoti(ac appConfig.AppConfigAccessorBase, noti *NotiItem, fromName string) error {
 	db := appDB.Get().DB()
 	// Determine user's language.
 	lang, email, err := s.getUserLangAndEmail(noti.To)

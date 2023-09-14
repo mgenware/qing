@@ -32,7 +32,6 @@
   "keyMessages": "messages",
   "keyLang": "lang",
   "keyCmt": "cmt",
-  "appConfigBrCookie": "__app_config_br",
   "routeI": "i",
   "routeAdmin": "admin",
   "routeApi": "s",

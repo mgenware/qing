@@ -32,11 +32,10 @@ func getSiteSettings(w http.ResponseWriter, r *http.Request) handler.JSON {
 	ac := appConfig.Get(r)
 	cc := coreConfig.Get()
 	sc := cc.Site
-	pc := ac.Permissions
 
 	switch appDef.GetSiteSettings(key) {
 	case appDef.GetSiteSettingsGeneral:
-		coreData := adminSod.NewGetSiteGeneralST(&stBase, sc.URL, pc.RawPost, sc.Name)
+		coreData := adminSod.NewGetSiteGeneralST(&stBase, sc.URL, string(ac.PostPermission()), sc.Name)
 		return resp.MustComplete(coreData)
 
 	case appDef.GetSiteSettingsLangs:

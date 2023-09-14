@@ -13,7 +13,6 @@ import (
 	"math"
 	"net/http"
 	"qing/a/appConfig"
-	"qing/a/appEnv"
 	"qing/a/appHandler"
 	"qing/a/appcm"
 	"qing/a/cfgx"
@@ -38,7 +37,6 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	key := clib.MustGetIntFromDict(params, "key")
 	// Get settings JSON string.
 	stJSON := []byte(clib.MustGetStringFromDict(params, "stJSON", math.MaxInt))
-	IsBR := appEnv.IsBR()
 
 	switch appDef.SetSiteSettings(key) {
 	case appDef.SetSiteSettingsPostPermission:
@@ -77,13 +75,5 @@ func setSiteSettingsLocked(w http.ResponseWriter, r *http.Request) handler.JSON 
 	}
 
 	var result *brSetSiteSettingsResult
-	if IsBR {
-		// In BR mode, return the updated config.
-		result = &brSetSiteSettingsResult{
-			Loaded: appConfig.Get(r),
-			Disk:   appConfig.BRDiskConfig(),
-		}
-		return resp.MustComplete(result)
-	}
 	return resp.MustComplete(result)
 }

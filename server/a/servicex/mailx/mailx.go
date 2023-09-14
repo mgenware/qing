@@ -9,6 +9,7 @@ package mailx
 
 import (
 	"errors"
+	"qing/a/appConfig"
 	"qing/a/cfgx"
 	"qing/a/servicex/mailx/devmail"
 
@@ -29,7 +30,7 @@ func NewMailService(cc *cfgx.CoreConfig) *MailService {
 	return res
 }
 
-func (mn *MailService) SendMail(ac *cfgx.AppConfig, to, title, contentHTML string, realMail bool, siteName string) error {
+func (mn *MailService) SendMail(ac appConfig.AppConfigAccessorBase, to, title, contentHTML string, realMail bool, siteName string) error {
 	if to == "" {
 		return errors.New("empty \"to\" field in `MailService.Send`")
 	}
@@ -42,12 +43,8 @@ func (mn *MailService) SendMail(ac *cfgx.AppConfig, to, title, contentHTML strin
 		return nil
 	}
 
-	mc := ac.Mail
-	smtp := mc.SMTP
-	acc := mc.NoReplyAccount
-
 	msg := mail.NewMsg()
-	if err := msg.FromFormat(siteName, acc.Email); err != nil {
+	if err := msg.FromFormat(siteName, ac.NotiMailAccount()); err != nil {
 		return err
 	}
 	if err := msg.To(to); err != nil {
@@ -57,11 +54,11 @@ func (mn *MailService) SendMail(ac *cfgx.AppConfig, to, title, contentHTML strin
 	msg.SetBodyString(mail.TypeTextHTML, contentHTML)
 
 	var sslOpt mail.Option
-	if smtp.SSL {
+	if ac.NotiMailSmtpUseTLS() {
 		sslOpt = mail.WithSSL()
 	}
-	client, err := mail.NewClient(smtp.Host, mail.WithPort(smtp.Port), mail.WithSMTPAuth(mail.SMTPAuthPlain),
-		mail.WithUsername(acc.UserName), mail.WithPassword(acc.Pwd), sslOpt)
+	client, err := mail.NewClient(ac.NotiMailSmtpHost(), mail.WithPort(ac.NotiMailSmtpPort()), mail.WithSMTPAuth(mail.SMTPAuthPlain),
+		mail.WithUsername(ac.NotiMailUserName()), mail.WithPassword(ac.NotiMailPassword()), sslOpt)
 	if err != nil {
 		return err
 	}

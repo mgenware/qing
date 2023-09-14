@@ -35,7 +35,7 @@ func init() {
 
 func HomePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	ac := appConfig.Get(r)
-	if ac.ForumMode() {
+	if ac.ForumEnabled() {
 		return renderForumPage(w, r)
 	}
 	return renderStdPage(w, r)
@@ -67,7 +67,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 			itemData := rcom.NewPostFeedData(&item)
 			var feedItemHTML string
 
-			switch appCfg.Permissions.Post() {
+			switch appCfg.PostPermission() {
 			case frozenDef.PostPermissionConfigOnlyMe:
 				feedItemHTML = MustRenderOnlymeFeedView(&itemData)
 

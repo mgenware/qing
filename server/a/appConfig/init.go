@@ -9,20 +9,16 @@ package appConfig
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"qing/a/appEnv"
-	"qing/a/appcm"
 	"qing/a/cfgx"
-	"qing/a/def/appDef"
 	"qing/a/def/infraDef"
-	"qing/lib/httplib"
 	"qing/lib/iolib"
 	"sync"
-
-	"github.com/imdario/mergo"
 )
 
 var baseConfig *cfgx.AppConfig
@@ -31,6 +27,7 @@ var configPath string
 var diskConfig *cfgx.AppConfig
 var updateDiskConfigMutex *sync.Mutex
 var diskConfigUpdated = false
+var accessor *AppConfigAccessor
 
 type UpdateDiskConfigFnType func(cfg *cfgx.AppConfig)
 
@@ -47,33 +44,19 @@ func init() {
 		return &cfgx.AppConfig{}
 	})
 	baseConfig = configBase.(*cfgx.AppConfig)
+	if baseConfig == nil {
+		panic(fmt.Errorf("config file %v is empty", configPath))
+	}
+	accessor = NewAppConfigAccessor(baseConfig)
 	log.Print("AppConfig.init done")
 }
 
-func Get(r *http.Request) *cfgx.AppConfig {
+func Get(r *http.Request) AppConfigAccessorBase {
 	if appEnv.IsBR() {
-		var appCfgUpdateDict map[string]any
-		acCookie, err := httplib.ReadCookie(r, appDef.AppConfigBrCookie)
-		if err != nil && err != http.ErrNoCookie {
-			appcm.PanicOn(err, "Failed to get app config BR cookie")
-		}
-
-		if acCookie != "" {
-			err = json.Unmarshal([]byte(acCookie), &appCfgUpdateDict)
-			appcm.PanicOn(err, "Failed to parse app config BR cookie")
-		}
-
-		if appCfgUpdateDict == nil {
-			return baseConfig
-		}
-		clonedMap, err := baseConfig.CloneConfigMap()
-		appcm.PanicOn(err, "Failed to clone app config")
-
-		err = mergo.Map(clonedMap, appCfgUpdateDict)
-		appcm.PanicOn(err, "Failed to merge app config")
-		return clonedMap
+		brAccessor := NewBrAppConfigAccessor(r, accessor)
+		return brAccessor
 	}
-	return baseConfig
+	return accessor
 }
 
 func UpdateDiskConfig(fn UpdateDiskConfigFnType) error {
