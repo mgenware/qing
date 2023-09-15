@@ -4,7 +4,7 @@
   "type": "module",
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
-    "del-cli": "^5.0.1"
+    "del-cli": "^5.1.0"
   },
   "scripts": {
     "prepare": "dz ls w-all"
@@ -12,7 +12,7 @@
   "dependencies": {
     "@qing/def": "workspace:*",
     "@qing/devutil": "workspace:*",
-    "del": "^7.0.0",
+    "del": "^7.1.0",
     "gen-go-type": "^1.4.1",
     "globby": "^13.2.2",
     "go-const-gen": "^2.1.0",
