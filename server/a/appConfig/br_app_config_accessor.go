@@ -10,6 +10,7 @@ package appConfig
 import (
 	"net/http"
 	"qing/a/appcm"
+	"qing/a/def/appDef"
 	"qing/a/def/frozenDef"
 	"qing/lib/httplib"
 	"strconv"
@@ -25,7 +26,7 @@ func NewBrAppConfigAccessor(r *http.Request, appAccessor *AppConfigAccessor) *Br
 }
 
 func (a *BrAppConfigAccessor) _getString(key string) string {
-	cookieKey := "__brAppConfig_" + key
+	cookieKey := appDef.BrAppConfigCookiePrefix + key
 	v, err := httplib.ReadCookie(a.r, cookieKey)
 	appcm.PanicOn(err, "Failed to read cookie in BrAppConfigAccessor")
 	return v

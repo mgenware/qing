@@ -5,14 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { AppConfigSchema } from './appConfigSchema.js';
 import { BrowserContext } from '@playwright/test';
 import { appDef } from '@qing/def';
 import { serverURL } from 'base/def.js';
 
-export async function setContextAppConfig(context: BrowserContext, config: AppConfigSchema) {
-  const appConfigString = JSON.stringify(config);
-  await context.addCookies([
-    { name: appDef.appConfigBrCookie, value: encodeURIComponent(appConfigString), url: serverURL },
-  ]);
+export async function updateAppConfig(context: BrowserContext, key: string, value: string) {
+  // eslint-disable-next-line no-param-reassign
+  key = appDef.brAppConfigCookiePrefix + key;
+  await context.addCookies([{ name: key, value: encodeURIComponent(value), url: serverURL }]);
 }

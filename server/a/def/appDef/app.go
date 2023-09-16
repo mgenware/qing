@@ -45,7 +45,6 @@ const KeyComments = "comments"
 const KeyMessages = "messages"
 const KeyLang = "lang"
 const KeyCmt = "cmt"
-const AppConfigBrCookie = "__app_config_br"
 const RouteI = "i"
 const RouteAdmin = "admin"
 const RouteApi = "s"
@@ -58,6 +57,7 @@ const RoutePost = "p"
 const RouteUser = "u"
 const BrHomePrefixParam = "brHomePrefixParam"
 const BrTime = "brTime"
+const BrAppConfigCookiePrefix = "__brAppConfig_"
 
 type GetSiteSettings int
 

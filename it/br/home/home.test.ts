@@ -10,27 +10,21 @@ import { batchNewPosts, deletePostsByPrefix } from 'helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'br/cm/content/pageBar.js';
 import { appDef } from '@qing/def';
-import { setContextAppConfig } from 'br/cm/config/appConfigHelper.js';
-import { AppConfigSchema } from 'br/cm/config/appConfigSchema.js';
+import { updateAppConfig } from 'br/cm/config/appConfigHelper.js';
 
 const homeItemSel = '.fi-item';
 const page2URL = '/?page=2';
 
-enum HomePageMode {
-  personal,
-  everyone,
-}
-
-function testHomePage(mode: HomePageMode) {
-  const modeText = HomePageMode[mode];
+function testHomePage(mode: cm.HomePageMode) {
+  const modeText = cm.HomePageMode[mode];
 
   test(`Home page - ${modeText} - One page`, async ({ page, context }) => {
     const p = $(page);
     const prefix = `_br_home_${modeText}_1_page_`;
 
     try {
-      if (mode === HomePageMode.personal) {
-        await setContextAppConfig(context, { permissions: { post: 'onlyMe' } } as AppConfigSchema);
+      if (mode === cm.HomePageMode.personal) {
+        await updateAppConfig(context, 'postPermission', 'onlyMe');
       }
 
       const posts = await batchNewPosts({
@@ -50,12 +44,14 @@ function testHomePage(mode: HomePageMode) {
       await items.shouldHaveCount(2);
 
       await cm.checkHomeItem(items.item(0), {
+        mode,
         user: usr.user,
         title: `${prefix}TITLE_2`,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         link: posts[0]!.link,
       });
       await cm.checkHomeItem(items.item(1), {
+        mode,
         user: usr.user,
         title: `${prefix}TITLE_1`,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -87,12 +83,14 @@ function testHomePage(mode: HomePageMode) {
       await items.shouldHaveCount(2);
 
       await cm.checkHomeItem(items.item(0), {
+        mode,
         user: usr.user,
         title: `${prefix}TITLE_3`,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         link: posts[0]!.link,
       });
       await cm.checkHomeItem(items.item(1), {
+        mode,
         user: usr.user,
         title: `${prefix}TITLE_2`,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -106,6 +104,7 @@ function testHomePage(mode: HomePageMode) {
       await p.goto(page2URL, null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
 
       await cm.checkHomeItem(items.item(0), {
+        mode,
         user: usr.user,
         title: `${prefix}TITLE_1`,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -136,5 +135,5 @@ function testHomePage(mode: HomePageMode) {
   });
 }
 
-testHomePage(HomePageMode.everyone);
-testHomePage(HomePageMode.personal);
+testHomePage(cm.HomePageMode.everyone);
+testHomePage(cm.HomePageMode.personal);
