@@ -25,12 +25,15 @@ export async function checkHomeItem(el: br.Element, e: CheckHomeItemArgs) {
   if (e.mode === HomePageMode.everyone && !e.user) {
     throw new Error('`user` cannot be null for `HomePageMode.everyone`');
   }
-  const avatarDiv = el.$('> :first-child');
-  const contentDiv = el.$('> :last-child');
-  await contentDiv.$a({ href: e.link }).shouldExist();
+
+  // In default mode, content div is wrapped as the last child of current element.
+  // In personal mode, content div is the current element.
+  const contentDiv = e.mode === HomePageMode.personal ? el : el.$('> :last-child');
   await contentDiv.$hasText('.fi-title', e.title).shouldExist();
+  await contentDiv.$a({ href: e.link }).shouldExist();
   const bottomBarEl = contentDiv.$('> :last-child');
-  if (e.user) {
+  if (e.mode === HomePageMode.everyone && e.user) {
+    const avatarDiv = el.$('> :first-child');
     await avatarDiv.$('a').e.toHaveAttribute('href', e.user.link);
     await avatarDiv.$('img').e.toHaveAttribute('src', e.user.iconURL);
     await bottomBarEl.$a({ href: e.user.link, text: e.user.name }).shouldExist();
