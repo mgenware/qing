@@ -61,6 +61,7 @@ export abstract class ItemCollector<T> {
     this._observableItems.changed = (sender, e) => {
       const changedByLoading = e.tag as ChangedByLoading | undefined;
       // Total count is not affected when `changedBy` is `loadMore` or `preload`.
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!changedByLoading) {
         this.totalCount += e.countDelta;
       }
