@@ -11,6 +11,7 @@ import * as cm from './cm.js';
 import * as pb from 'br/cm/content/pageBar.js';
 import { appDef } from '@qing/def';
 import { updateAppConfig } from 'br/cm/config/appConfigHelper.js';
+import PWCookies from 'br/cm/config/pwCookies.js';
 
 const homeItemSel = '.fi-item';
 const page2URL = '/?page=2';
@@ -26,6 +27,7 @@ function testHomePage(mode: cm.HomePageMode) {
       if (mode === cm.HomePageMode.personal) {
         await updateAppConfig(context, 'postPermission', 'onlyMe');
       }
+      await PWCookies.setCookieAsync(context, appDef.brHomePostCookiePrefix, prefix);
 
       const posts = await batchNewPosts({
         user: usr.user,
@@ -37,7 +39,7 @@ function testHomePage(mode: cm.HomePageMode) {
         startingDate: new Date('2006-02-01'),
       });
 
-      await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
+      await p.goto('/', null);
       await pb.shouldNotExist(p.body);
 
       const items = p.$$(homeItemSel);
@@ -62,11 +64,12 @@ function testHomePage(mode: cm.HomePageMode) {
     }
   });
 
-  test(`Home page - ${modeText} - 2 pages`, async ({ page }) => {
+  test(`Home page - ${modeText} - 2 pages`, async ({ page, context }) => {
     const p = $(page);
     const prefix = `_br_home_${modeText}_2_pages_`;
 
     try {
+      await PWCookies.setCookieAsync(context, appDef.brHomePostCookiePrefix, prefix);
       const posts = await batchNewPosts({
         user: usr.user,
         count: 3,
@@ -77,7 +80,7 @@ function testHomePage(mode: cm.HomePageMode) {
         startingDate: new Date('2006-02-01'),
       });
 
-      await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
+      await p.goto('/', null);
 
       const items = p.$$(homeItemSel);
       await items.shouldHaveCount(2);
@@ -101,7 +104,7 @@ function testHomePage(mode: cm.HomePageMode) {
       await pb.check(p.body, { rightLink: page2URL });
       // Don't click the next button, it doesn't has `brHomePrefixParam` in it.
       // Instead, compose a new URL and use goto to navigate to it.
-      await p.goto(page2URL, null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
+      await p.goto(page2URL, null);
 
       await cm.checkHomeItem(items.item(0), {
         mode,
@@ -118,11 +121,12 @@ function testHomePage(mode: cm.HomePageMode) {
     }
   });
 
-  test(`Home page - ${modeText} - No content`, async ({ page }) => {
+  test(`Home page - ${modeText} - No content`, async ({ page, context }) => {
     const p = $(page);
     const prefix = '__no_content__';
 
-    await p.goto('/', null, { params: { [appDef.brHomePrefixParam]: `${prefix}%` } });
+    await PWCookies.setCookieAsync(context, appDef.brHomePostCookiePrefix, prefix);
+    await p.goto('/', null);
 
     // No page bar.
     await pb.shouldNotExist(p.body);

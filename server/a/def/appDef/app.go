@@ -55,7 +55,7 @@ const RouteDev = "__"
 const RouteAuth = "auth"
 const RoutePost = "p"
 const RouteUser = "u"
-const BrHomePrefixParam = "brHomePrefixParam"
+const BrHomePostCookiePrefix = "__brHomePostPrefix_"
 const BrTime = "brTime"
 const BrAppConfigCookiePrefix = "__brAppConfig_"
 

@@ -19,6 +19,7 @@ import (
 	"qing/a/handler"
 	"qing/da"
 	"qing/lib/clib"
+	"qing/lib/httplib"
 	"qing/r/rcom"
 	"strings"
 )
@@ -52,12 +53,20 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	var hasNext bool
 	var err error
 	if appEnv.IsBR() {
-		brPrefix := r.FormValue(appDef.BrHomePrefixParam)
+		brPrefix, err := httplib.ReadCookie(r, appDef.BrHomePostCookiePrefix)
+		appcm.PanicOn(err, "failed to read cookie(BrHomePostCookiePrefix)")
+		if brPrefix == "" {
+			// If the cookie is not set, no filtering is done (which is LIKE % in SQL).
+			brPrefix = "%"
+		} else if !strings.HasSuffix(brPrefix, "%") {
+			brPrefix += "%"
+		}
 		items, hasNext, err = da.Home.SelectPostsBR(db, brPrefix, page, kHomePageSize)
+		appcm.PanicOn(err, "failed to select home posts")
 	} else {
 		items, hasNext, err = da.Home.SelectPosts(db, page, kHomePageSize)
+		appcm.PanicOn(err, "failed to select home posts")
 	}
-	appcm.PanicOn(err, "failed to select home posts")
 
 	var feedListHTMLBuilder strings.Builder
 	if len(items) == 0 {

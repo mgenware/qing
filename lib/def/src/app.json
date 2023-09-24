@@ -42,7 +42,7 @@
   "routeAuth": "auth",
   "routePost": "p",
   "routeUser": "u",
-  "brHomePrefixParam": "brHomePrefixParam",
+  "brHomePostCookiePrefix": "__brHomePostPrefix_",
   "brTime": "brTime",
   "brAppConfigCookiePrefix": "__brAppConfig_",
   "__enums": {
