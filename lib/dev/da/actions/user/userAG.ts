@@ -17,7 +17,7 @@ const sessionCols = [...coreCols, t.admin, t.lang];
 
 export class UserAG extends mm.ActionGroup {
   selectProfile = mm
-    .selectRow(...coreCols, t.location, t.company, t.website, t.bio, t.pri_profile)
+    .selectRow(...coreCols, t.location, t.company, t.website, t.bio, t.pri_account)
     .by(t.id);
   selectSessionData = mm
     .selectRow(...sessionCols)
@@ -56,6 +56,7 @@ export class UserAG extends mm.ActionGroup {
     .by(t.id);
   updateIconName = mm.updateOne().setParams(t.icon_name).by(t.id);
   updateLang = mm.updateOne().setParams(t.lang).by(t.id);
+  updatePriAccount = mm.updateOne().setParams(t.pri_account).by(t.id);
 
   // Unsafe methods. Need extra admin check.
   unsafeSelectAdmins = mm.selectRows(...coreCols).where`${t.admin} = 1`.orderByAsc(t.id);

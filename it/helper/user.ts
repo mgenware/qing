@@ -16,6 +16,7 @@ import * as mh from './mail.js';
 export interface NewUserOptions {
   alternativeLocale?: boolean;
   pwd?: string;
+  privateAccount?: boolean;
 }
 
 export interface DevNewUser extends User {
@@ -25,7 +26,11 @@ export interface DevNewUser extends User {
 async function newUserCore(opt: NewUserOptions | undefined): Promise<DevNewUser> {
   return api<DevNewUser>(
     apiAuth.new_,
-    { lang: opt?.alternativeLocale ? alternativeLocale : undefined, pwd: opt?.pwd },
+    {
+      lang: opt?.alternativeLocale ? alternativeLocale : undefined,
+      pwd: opt?.pwd,
+      priAccount: opt?.privateAccount,
+    },
     null,
   );
 }

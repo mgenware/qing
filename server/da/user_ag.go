@@ -26,7 +26,7 @@ var User = &UserAGType{}
 // ------------ Actions ------------
 
 func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string, regLang string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `bio_src`, `lang`, `reg_lang`, `admin`, `pri_profile`, `no_noti`) VALUES (?, ?, '', NOW(), '', '', '', NULL, NULL, '', ?, 0, 0, 0)", email, name, regLang)
+	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `bio_src`, `lang`, `reg_lang`, `admin`, `pri_account`, `no_noti`) VALUES (?, ?, '', NOW(), '', '', '', NULL, NULL, '', ?, 0, 0, 0)", email, name, regLang)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 
@@ -151,13 +151,13 @@ type UserAGSelectProfileResult struct {
 	ID         uint64  `json:"-"`
 	Location   string  `json:"location,omitempty"`
 	Name       string  `json:"name,omitempty"`
-	PriProfile bool    `json:"priProfile,omitempty"`
+	PriAccount bool    `json:"priAccount,omitempty"`
 	Website    string  `json:"website,omitempty"`
 }
 
 func (mrTable *UserAGType) SelectProfile(mrQueryable mingru.Queryable, id uint64) (UserAGSelectProfileResult, error) {
 	var result UserAGSelectProfileResult
-	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `pri_profile` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML, &result.PriProfile)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `pri_account` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML, &result.PriAccount)
 	if err != nil {
 		return result, err
 	}
@@ -266,6 +266,11 @@ func (mrTable *UserAGType) UpdateIconName(mrQueryable mingru.Queryable, id uint6
 
 func (mrTable *UserAGType) UpdateLang(mrQueryable mingru.Queryable, id uint64, lang string) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `lang` = ? WHERE `id` = ?", lang, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
+func (mrTable *UserAGType) UpdatePriAccount(mrQueryable mingru.Queryable, id uint64, priAccount bool) error {
+	result, err := mrQueryable.Exec("UPDATE `user` SET `pri_account` = ? WHERE `id` = ?", priAccount, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
