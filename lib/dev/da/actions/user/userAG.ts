@@ -16,7 +16,9 @@ const coreCols = [t.id.privateAttr(), t.name, t.icon_name.privateAttr()];
 const sessionCols = [...coreCols, t.admin, t.lang];
 
 export class UserAG extends mm.ActionGroup {
-  selectProfile = mm.selectRow(...coreCols, t.location, t.company, t.website, t.bio).by(t.id);
+  selectProfile = mm
+    .selectRow(...coreCols, t.location, t.company, t.website, t.bio, t.pri_profile)
+    .by(t.id);
   selectSessionData = mm
     .selectRow(...sessionCols)
     .by(t.id)

@@ -64,18 +64,25 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 		posts, hasNext, err = da.Post.SelectItemsForUserProfile(db, uid, page, userPostsLimit)
 	}
 	appcm.PanicOn(err, "failed to select user posts")
-	var feedListHTMLBuilder strings.Builder
-	for _, post := range posts {
-		postData := NewProfilePostItemData(&post)
-		feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
+
+	if !user.PriProfile {
+		var feedListHTMLBuilder strings.Builder
+		for _, post := range posts {
+			postData := NewProfilePostItemData(&post)
+			feedListHTMLBuilder.WriteString(vProfileFeedItem.MustExecuteToString(postData))
+		}
+		feedListHTML = feedListHTMLBuilder.String()
 	}
-	feedListHTML = feedListHTMLBuilder.String()
 
 	pageURLFormatter := NewProfilePageURLFormatter(uid, tab)
 	paginationData := rcom.NewPaginationData(page, hasNext, pageURLFormatter, 0)
 
 	if feedListHTML == "" {
-		feedListHTML = rcom.MustRunNoContentViewTemplate()
+		if user.PriProfile {
+			feedListHTML = rcom.MustRunNoContentViewTemplateCore(resp.LS().ThisAccountIsPrivate)
+		} else {
+			feedListHTML = rcom.MustRunNoContentViewTemplate()
+		}
 	}
 	profileData := NewProfilePageDataFromUser(&user, &stats, feedListHTML, rcom.GetPageBarHTML(resp.Lang(), paginationData))
 	d := appHandler.MainPageData(pageTitle, vProfilePage.MustExecuteToString(profileData))

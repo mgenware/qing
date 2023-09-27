@@ -145,18 +145,19 @@ func (mrTable *UserAGType) SelectName(mrQueryable mingru.Queryable, id uint64) (
 }
 
 type UserAGSelectProfileResult struct {
-	BioHTML  *string `json:"bioHTML,omitempty"`
-	Company  string  `json:"company,omitempty"`
-	IconName string  `json:"-"`
-	ID       uint64  `json:"-"`
-	Location string  `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-	Website  string  `json:"website,omitempty"`
+	BioHTML    *string `json:"bioHTML,omitempty"`
+	Company    string  `json:"company,omitempty"`
+	IconName   string  `json:"-"`
+	ID         uint64  `json:"-"`
+	Location   string  `json:"location,omitempty"`
+	Name       string  `json:"name,omitempty"`
+	PriProfile bool    `json:"priProfile,omitempty"`
+	Website    string  `json:"website,omitempty"`
 }
 
 func (mrTable *UserAGType) SelectProfile(mrQueryable mingru.Queryable, id uint64) (UserAGSelectProfileResult, error) {
 	var result UserAGSelectProfileResult
-	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML)
+	err := mrQueryable.QueryRow("SELECT `id`, `name`, `icon_name`, `location`, `company`, `website`, `bio`, `pri_profile` FROM `user` WHERE `id` = ?", id).Scan(&result.ID, &result.Name, &result.IconName, &result.Location, &result.Company, &result.Website, &result.BioHTML, &result.PriProfile)
 	if err != nil {
 		return result, err
 	}

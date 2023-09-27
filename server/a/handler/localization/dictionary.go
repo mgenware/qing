@@ -43,6 +43,7 @@ type Dictionary struct {
 	SbRepliedToUrCmtIn        string `json:"sbRepliedToUrCmtIn"`
 	SbRepliedToUrPost         string `json:"sbRepliedToUrPost"`
 	SignIn                    string `json:"signIn"`
+	ThisAccountIsPrivate      string `json:"thisAccountIsPrivate"`
 	UnsupportedExtension      string `json:"unsupportedExtension"`
 	VerifyYourEmailTitle      string `json:"verifyYourEmailTitle"`
 	YouAreAlreadyAdmin        string `json:"youAreAlreadyAdmin"`

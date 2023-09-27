@@ -38,6 +38,7 @@ func init() {
 	TestDict.SbRepliedToUrCmtIn = "ls.sbRepliedToUrCmtIn"
 	TestDict.SbRepliedToUrPost = "ls.sbRepliedToUrPost"
 	TestDict.SignIn = "ls.signIn"
+	TestDict.ThisAccountIsPrivate = "ls.thisAccountIsPrivate"
 	TestDict.UnsupportedExtension = "ls.unsupportedExtension"
 	TestDict.VerifyYourEmailTitle = "ls.verifyYourEmailTitle"
 	TestDict.YouAreAlreadyAdmin = "ls.youAreAlreadyAdmin"

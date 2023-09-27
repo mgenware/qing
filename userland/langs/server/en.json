@@ -25,5 +25,6 @@
   "nextPage": "Next",
   "previousPage": "Previous",
   "resetPwdSessionExpiredErr": "Your session has expired. Please try resetting your password again.",
-  "signIn": "Sign in"
+  "signIn": "Sign in",
+  "thisAccountIsPrivate": "This profile is private"
 }

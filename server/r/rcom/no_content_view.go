@@ -7,7 +7,16 @@
 
 package rcom
 
-// MustRunNoContentViewTemplate returns the template string for no-content-view.
+import "html"
+
+func MustRunNoContentViewTemplateCore(content string) string {
+	cHTML := ""
+	if content != "" {
+		cHTML = html.EscapeString(content)
+	}
+	return "<no-content-view>" + cHTML + "</no-content-view>"
+}
+
 func MustRunNoContentViewTemplate() string {
-	return "<no-content-view></no-content-view>"
+	return MustRunNoContentViewTemplateCore("")
 }
