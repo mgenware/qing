@@ -144,6 +144,15 @@ func (mrTable *UserAGType) SelectName(mrQueryable mingru.Queryable, id uint64) (
 	return result, nil
 }
 
+func (mrTable *UserAGType) SelectNoNoti(mrQueryable mingru.Queryable, id uint64) (bool, error) {
+	var result bool
+	err := mrQueryable.QueryRow("SELECT `no_noti` FROM `user` WHERE `id` = ?", id).Scan(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 type UserAGSelectProfileResult struct {
 	BioHTML    *string `json:"bioHTML,omitempty"`
 	Company    string  `json:"company,omitempty"`

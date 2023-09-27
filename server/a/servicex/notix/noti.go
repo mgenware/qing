@@ -22,6 +22,9 @@ type NotiAction int
 type NotiItem struct {
 	From uint64
 	To   uint64
+	// If true, no email will be sent.
+	// This corresponds to the `no_noti` field in user table.
+	NoNoti bool
 	// NOTE: `PostEntity` must be a post. Cmts are not allowed, use `NotiActionToCmt` to mark it's
 	// replying to a cmt.
 	PostEntity clib.EntityInfo
@@ -30,8 +33,8 @@ type NotiItem struct {
 	Created    time.Time
 }
 
-func NewNotiItem(from, to uint64, post clib.EntityInfo, action NotiAction, navLink string) NotiItem {
+func NewNotiItem(from, to uint64, post clib.EntityInfo, action NotiAction, navLink string, noNoti bool) NotiItem {
 	return NotiItem{
-		From: from, To: to, PostEntity: post, Action: action, NavLink: navLink, Created: time.Now(),
+		From: from, To: to, PostEntity: post, Action: action, NavLink: navLink, Created: time.Now(), NoNoti: noNoti,
 	}
 }

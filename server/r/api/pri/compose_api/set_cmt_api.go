@@ -86,6 +86,10 @@ func setCmtAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 			notiToID = hostUser
 		}
 
+		// Check if notification is disabled for the target user (`notiToID`).
+		toNoNoti, err := da.User.SelectNoNoti(db, notiToID)
+		appcm.PanicOn(err, "failed to select `no_noti`")
+
 		// Update `last_replied_at` if necessary.
 		if host.Type == frozenDef.ContentBaseTypePost {
 			err = da.Post.RefreshLastRepliedAt(db, host.ID)
@@ -101,7 +105,7 @@ func setCmtAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 			}
 			link, err := apicom.GetCmtPostHostLink(&host, cmtID)
 			appcm.PanicOn(err, "failed to get cmt post host link")
-			noti := notix.NewNotiItem(uid, notiToID, host, action, link)
+			noti := notix.NewNotiItem(uid, notiToID, host, action, link, toNoNoti)
 			err = appService.Get().Noti.SendNoti(ac, &noti, user.Name)
 			appcm.PanicOn(err, "failed to send noti")
 		}

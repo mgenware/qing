@@ -30,6 +30,10 @@ func NewNotiService(mailService *mailx.MailService) *Service {
 
 // `fromName` is only used for sending emails.
 func (s *Service) SendNoti(ac appConfig.AppConfigAccessorBase, noti *NotiItem, fromName string) error {
+	if noti.NoNoti {
+		return nil
+	}
+
 	db := appDB.Get().DB()
 	// Determine user's language.
 	lang, email, err := s.getUserLangAndEmail(noti.To)

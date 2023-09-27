@@ -118,17 +118,26 @@ func ListMails(user string) ([]devSod.DevMail, error) {
 // `index` = 0: latest mail.
 // Instead of calling `ListMails`, this has its own implementation for better performance.
 // It doesn't read mail titles like `ListMails`.
-func GetLatestMail(user string, index int) (devSod.DevMail, error) {
+func GetLatestMail(user string, index int) (*devSod.DevMail, error) {
 	conf, err := getDevConfig()
 	if err != nil {
-		return devSod.DevMail{}, err
+		return nil, err
 	}
 
 	devDir := conf.Dir
 	userDir := filepath.Join(devDir, user)
+
+	userDirExists, err := iox.DirectoryExists(userDir)
+	if err != nil {
+		return nil, err
+	}
+	if !userDirExists {
+		return nil, nil
+	}
+
 	mailDirs, err := os.ReadDir(userDir)
 	if err != nil {
-		return devSod.DevMail{}, err
+		return nil, err
 	}
 
 	// Sort by timestamp.
@@ -139,7 +148,7 @@ func GetLatestMail(user string, index int) (devSod.DevMail, error) {
 	})
 
 	if index >= len(mailDirs) || index < 0 {
-		return devSod.DevMail{}, fmt.Errorf("invalid index: %v, valid range(0 - %v)", index, len(mailDirs)-1)
+		return nil, fmt.Errorf("invalid index: %v, valid range(0 - %v)", index, len(mailDirs)-1)
 	}
 
 	mailID := mailDirs[index].Name()
@@ -150,14 +159,15 @@ func GetLatestMail(user string, index int) (devSod.DevMail, error) {
 
 	title, err := iox.ReadFileText(titleFile)
 	if err != nil {
-		return devSod.DevMail{}, err
+		return nil, err
 	}
 
 	content, err := iox.ReadFileText(contentFile)
 	if err != nil {
-		return devSod.DevMail{}, err
+		return nil, err
 	}
-	return NewDevMail(mailID, title, content), nil
+	res := NewDevMail(mailID, title, content)
+	return &res, nil
 }
 
 func GetMail(user, id string) (devSod.DevMail, error) {
