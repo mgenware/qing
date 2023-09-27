@@ -26,7 +26,7 @@ var User = &UserAGType{}
 // ------------ Actions ------------
 
 func (mrTable *UserAGType) AddUserEntryInternal(mrQueryable mingru.Queryable, email string, name string, regLang string) (uint64, error) {
-	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `bio_src`, `lang`, `reg_lang`, `admin`) VALUES (?, ?, '', NOW(), '', '', '', NULL, NULL, '', ?, 0)", email, name, regLang)
+	result, err := mrQueryable.Exec("INSERT INTO `user` (`email`, `name`, `icon_name`, `created_at`, `company`, `website`, `location`, `bio`, `bio_src`, `lang`, `reg_lang`, `admin`, `pri_profile`, `no_noti`) VALUES (?, ?, '', NOW(), '', '', '', NULL, NULL, '', ?, 0, 0, 0)", email, name, regLang)
 	return mingru.GetLastInsertIDUint64WithError(result, err)
 }
 

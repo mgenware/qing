@@ -24,6 +24,8 @@ export class User extends mm.Table {
   reg_lang = mm.varChar(appDef.lenMaxLang);
 
   admin = mm.bool().default(0);
+  pri_profile = mm.bool().default(0);
+  no_noti = mm.bool().default(0);
 }
 
 export default mm.table(User);
