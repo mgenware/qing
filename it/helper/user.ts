@@ -17,6 +17,7 @@ export interface NewUserOptions {
   alternativeLocale?: boolean;
   pwd?: string;
   privateAccount?: boolean;
+  noNoti?: boolean;
 }
 
 export interface DevNewUser extends User {
@@ -30,6 +31,7 @@ async function newUserCore(opt: NewUserOptions | undefined): Promise<DevNewUser>
       lang: opt?.alternativeLocale ? alternativeLocale : undefined,
       pwd: opt?.pwd,
       priAccount: opt?.privateAccount,
+      noNoti: opt?.noNoti,
     },
     null,
   );

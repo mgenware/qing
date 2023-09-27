@@ -57,6 +57,7 @@ export class UserAG extends mm.ActionGroup {
   updateIconName = mm.updateOne().setParams(t.icon_name).by(t.id);
   updateLang = mm.updateOne().setParams(t.lang).by(t.id);
   updatePriAccount = mm.updateOne().setParams(t.pri_account).by(t.id);
+  updateNoNoti = mm.updateOne().setParams(t.no_noti).by(t.id);
 
   // Unsafe methods. Need extra admin check.
   unsafeSelectAdmins = mm.selectRows(...coreCols).where`${t.admin} = 1`.orderByAsc(t.id);

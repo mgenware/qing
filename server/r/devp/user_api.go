@@ -90,6 +90,7 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	regLang := jsonx.GetStringOrDefault(params, "regLang")
 	pwd := jsonx.GetStringOrDefault(params, "pwd")
 	priAccount := jsonx.GetBoolOrDefault(params, "priAccount")
+	noNoti := jsonx.GetBoolOrDefault(params, "noNoti")
 	if regLang == "" {
 		regLang = "en"
 	}
@@ -121,7 +122,11 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	}
 	if priAccount {
 		err = da.User.UpdatePriAccount(db, uid, true)
-		appcm.PanicOn(err, "failed to update pri account")
+		appcm.PanicOn(err, "failed to update `pri_account`")
+	}
+	if noNoti {
+		err = da.User.UpdateNoNoti(db, uid, true)
+		appcm.PanicOn(err, "failed to update `no_noti`")
 	}
 
 	return resp.MustComplete(fetchUserInfo(uid))

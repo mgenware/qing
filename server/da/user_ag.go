@@ -269,6 +269,11 @@ func (mrTable *UserAGType) UpdateLang(mrQueryable mingru.Queryable, id uint64, l
 	return mingru.CheckOneRowAffectedWithError(result, err)
 }
 
+func (mrTable *UserAGType) UpdateNoNoti(mrQueryable mingru.Queryable, id uint64, noNoti bool) error {
+	result, err := mrQueryable.Exec("UPDATE `user` SET `no_noti` = ? WHERE `id` = ?", noNoti, id)
+	return mingru.CheckOneRowAffectedWithError(result, err)
+}
+
 func (mrTable *UserAGType) UpdatePriAccount(mrQueryable mingru.Queryable, id uint64, priAccount bool) error {
 	result, err := mrQueryable.Exec("UPDATE `user` SET `pri_account` = ? WHERE `id` = ?", priAccount, id)
 	return mingru.CheckOneRowAffectedWithError(result, err)

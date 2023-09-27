@@ -8,10 +8,12 @@
 import * as br from 'br.js';
 
 export interface CmtFixtureStartOptions {
-  // Defaults to `usr.user`.
-  author?: br.User | 'new';
+  author:
+    | br.User
+    | 'new' // Creates a new user.
+    | 'new-bot'; // Creates a new user with `no-noti` flag.
   // Defaults to undefined (visitor).
-  viewer?: br.User | 'new';
+  viewer?: br.User | 'author'; // Use the same user as `author`.
 }
 
 export interface CmtFixtureStartCbArg {

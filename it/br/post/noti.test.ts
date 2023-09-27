@@ -32,3 +32,12 @@ w.test('Post noti', { author: 'new', viewer: br.usr.user }, async ({ p, author }
   <a href="${postLink}?cmt=${cmtID}">Click here to view it on Qing.</a>
 </p>`);
 });
+
+w.test('Post noti - bot', { author: 'new-bot', viewer: br.usr.user }, async ({ p, author }) => {
+  const cmtApp = await w.getCmtApp(p);
+  await act.writeCmt(p, { cmtApp, content: def.sd.content });
+
+  const email = await getEmail(author);
+  const mail = await mh.getLatest({ email });
+  br.expect(mail).toBeNull();
+});

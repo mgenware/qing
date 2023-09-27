@@ -18,31 +18,21 @@ export class PostCmtFixture extends CmtFixture {
     opt: CmtFixtureStartOptions,
     cb: (arg: CmtFixtureStartCbArg) => void,
   ): Promise<void> {
-    if (opt.author === 'new') {
-      return newUser((u) => this.startInternal(p, opt, u, cb));
+    if (typeof opt.author === 'string') {
+      const noNoti = opt.author === 'new-bot';
+      return newUser((u) => this.startInternal(p, opt, u, cb), { noNoti });
     }
-    return this.startInternal(p, opt, null, cb);
+    return this.startInternal(p, opt, br.usr.user, cb);
   }
 
   private startInternal(
     p: br.Page,
     opt: CmtFixtureStartOptions,
-    userNew: br.User | null,
+    author: br.User,
     cb: (arg: CmtFixtureStartCbArg) => void,
   ) {
-    const author = userNew ?? (opt.author as br.User | undefined) ?? br.usr.user;
-    // NOTE: The post is always created by `usr.user`.
-    // But it can be viewed by another user, which is defined as `arg.user`.
+    const viewerUser = opt.viewer === 'author' ? author : opt.viewer ?? null;
     return newPost(author, async ({ link }) => {
-      let viewerUser: br.User | null;
-      if (opt.viewer === 'new') {
-        viewerUser = userNew;
-        if (!viewerUser) {
-          throw new Error('No user created');
-        }
-      } else {
-        viewerUser = opt.viewer ?? null;
-      }
       await p.goto(link, viewerUser);
       return cb({ p, author, viewer: viewerUser });
     });
