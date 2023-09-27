@@ -89,6 +89,7 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	lang := jsonx.GetStringOrDefault(params, "lang")
 	regLang := jsonx.GetStringOrDefault(params, "regLang")
 	pwd := jsonx.GetStringOrDefault(params, "pwd")
+	priAccount := jsonx.GetBoolOrDefault(params, "priAccount")
 	if regLang == "" {
 		regLang = "en"
 	}
@@ -117,6 +118,10 @@ func newUserAPI(w http.ResponseWriter, r *http.Request) handler.JSON {
 	if lang != "" {
 		err = da.User.UpdateLang(db, uid, lang)
 		appcm.PanicOn(err, "failed to update lang")
+	}
+	if priAccount {
+		err = da.User.UpdatePriAccount(db, uid, true)
+		appcm.PanicOn(err, "failed to update pri account")
 	}
 
 	return resp.MustComplete(fetchUserInfo(uid))

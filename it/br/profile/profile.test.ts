@@ -63,6 +63,7 @@ test('Profile - New user', async ({ page }) => {
     await p.goto(u.link);
 
     const infoEl = p.$(infoElSel);
+
     // Profile image.
     await infoEl
       .$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 })
@@ -71,6 +72,28 @@ test('Profile - New user', async ({ page }) => {
     await infoEl.$hasText('h2', u.name).e.toBeVisible();
 
     await checkTabSelected(p, postTabSel);
-    await p.$(feedSel).$('no-content-view').e.toBeVisible();
+    await p.$(feedSel).$hasText('notice-view', 'No content available').e.toBeVisible();
   });
+});
+
+test('Profile - Private account', async ({ page }) => {
+  await newUser(
+    async (u) => {
+      const p = $(page);
+      await p.goto(u.link);
+
+      const infoEl = p.$(infoElSel);
+
+      // Profile image.
+      await infoEl
+        .$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 })
+        .e.toBeVisible();
+      // Profile info.
+      await infoEl.$hasText('h2', u.name).e.toBeVisible();
+
+      await checkTabSelected(p, postTabSel);
+      await p.$(feedSel).$hasText('notice-view', 'This profile is private').e.toBeVisible();
+    },
+    { privateAccount: true },
+  );
 });

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { BaseElement, customElement, html, css } from 'll.js';
+import { BaseElement, customElement, html, css, property } from 'll.js';
 import './noticeView';
 
 @customElement('no-content-view')
@@ -21,8 +21,12 @@ export class NoContentView extends BaseElement {
     ];
   }
 
+  @property() message = '';
+
   override render() {
-    return html` <notice-view>${globalThis.coreLS.noContentAvailable}</notice-view> `;
+    return html`
+      <notice-view>${this.message || globalThis.coreLS.noContentAvailable}</notice-view>
+    `;
   }
 }
 

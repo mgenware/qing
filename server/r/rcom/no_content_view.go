@@ -7,14 +7,21 @@
 
 package rcom
 
-import "html"
+import (
+	"encoding/json"
+	"qing/a/appcm"
+)
 
 func MustRunNoContentViewTemplateCore(content string) string {
-	cHTML := ""
+	attr := ""
 	if content != "" {
-		cHTML = html.EscapeString(content)
+		bytes, err := json.Marshal(content)
+		if err != nil {
+			appcm.PanicOn(err, "Failed to marshal content")
+		}
+		attr = " message=" + string(bytes)
 	}
-	return "<no-content-view>" + cHTML + "</no-content-view>"
+	return "<no-content-view" + attr + "></no-content-view>"
 }
 
 func MustRunNoContentViewTemplate() string {

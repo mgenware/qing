@@ -65,7 +65,7 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	}
 	appcm.PanicOn(err, "failed to select user posts")
 
-	if !user.PriProfile {
+	if !user.PriAccount {
 		var feedListHTMLBuilder strings.Builder
 		for _, post := range posts {
 			postData := NewProfilePostItemData(&post)
@@ -78,7 +78,7 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) handler.HTML {
 	paginationData := rcom.NewPaginationData(page, hasNext, pageURLFormatter, 0)
 
 	if feedListHTML == "" {
-		if user.PriProfile {
+		if user.PriAccount {
 			feedListHTML = rcom.MustRunNoContentViewTemplateCore(resp.LS().ThisAccountIsPrivate)
 		} else {
 			feedListHTML = rcom.MustRunNoContentViewTemplate()
