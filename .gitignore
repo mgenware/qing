@@ -18,3 +18,5 @@ dist
 !/volumes/README.md
 
 .DS_Store
+
+/build

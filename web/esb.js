@@ -57,10 +57,11 @@ if (!isDev) {
 
 console.log(`[esb.js] TS building in ${config} mode...`);
 
+const userlandOutDir = 'userland/static/g';
 const opt = {
   entryPoints: [...jsEntries, ...cssEntries],
   bundle: true,
-  outdir: '../userland/static/g',
+  outdir: isProd ? `../build/qing_bundle/${userlandOutDir}` : `../${userlandOutDir}`,
   minify: !isDev,
   splitting: true,
   format: 'esm',

@@ -21,10 +21,14 @@ function buildTS(config, watch) {
 }
 
 function devTask(e) {
+  const run = [];
+  if (e.watch) {
+    run.push(tscW);
+  }
+  run.push(buildTS(e.config, e.watch));
   return {
-    alias: e.alias,
     before: ['#clean', 'tsc'],
-    run: [tscW, buildTS(e.config, e.watch)],
+    run,
     parallel: true,
     env: devEnv,
   };
@@ -40,6 +44,7 @@ export default {
 
   /** Standard mode */
   d: devTask({ config: 'dev', watch: true }),
+  b: devTask({ config: 'prod', watch: true }),
   br: devTask({ config: 'br', watch: true }),
 
   /** Turbo mode */
