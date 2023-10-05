@@ -9,6 +9,11 @@ import (
 
 var tunnel *j9.Tunnel
 
+const (
+	bundleRelDir         = "./build/qing_bundle"
+	bundleUserlandRelDir = bundleRelDir + "/userland"
+)
+
 func init() {
 	tunnel = j9.NewTunnel(j9.NewLocalNode(), j9.NewConsoleLogger())
 }
@@ -17,8 +22,12 @@ func main() {
 	rootDir := cmdlib.GetGitRootDir(tunnel)
 	tunnel.CD(rootDir)
 
+	fmt.Println("> Cleaning up...")
+	tunnel.RunSync("rm -rf " + bundleRelDir)
+	tunnel.RunSync("mkdir -p " + bundleUserlandRelDir)
+
 	fmt.Print("> Copying userland files...")
-	tunnel.RunSync("cp -r ./userland/* ./build/qing_bundle/userland")
+	tunnel.RunSync("cp -r ./userland/* " + bundleUserlandRelDir)
 
 	fmt.Println("> Building server...")
 	tunnel.CD(rootDir + "/server")
