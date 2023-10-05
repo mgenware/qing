@@ -44,7 +44,7 @@ export default {
 
   /** Standard mode */
   d: devTask({ config: 'dev', watch: true }),
-  b: devTask({ config: 'prod', watch: true }),
+  b: devTask({ config: 'prod', watch: false }),
   br: devTask({ config: 'br', watch: true }),
 
   /** Turbo mode */
