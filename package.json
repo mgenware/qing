@@ -19,6 +19,7 @@
     "mgenware-tsconfig-core": "^14.0.1",
     "mgenware-tsconfig-node-x": "^16.3.0",
     "source-map-support": "^0.5.21",
+    "del-cli": "^5.1.0",
     "ts-patch": "^3.0.2",
     "ts-transform-esm-import": "^0.11.0",
     "typescript": "^5.2.2"
