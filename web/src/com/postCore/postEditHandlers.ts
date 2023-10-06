@@ -9,6 +9,7 @@ import 'ui/editing/editBarApp';
 import { html } from 'll.js';
 import appPageState from 'app/appPageState.js';
 import appAlert from 'app/appAlert.js';
+import appSpinner from 'app/appSpinner.js';
 import { EditBarApp } from 'ui/editing/editBarApp.js';
 import { entityTypeToLS } from './strings.js';
 import DeleteEntityLoader from './loaders/deleteEntityLoader.js';
@@ -36,7 +37,7 @@ export function setupHandlers(
         strf(globalThis.coreLS.pDoYouWantToDeleteThis, entityTypeToLS(entity.type)),
       )
     ) {
-      appAlert.showLoadingOverlay(globalThis.coreLS.working);
+      appSpinner.showLoadingOverlay(globalThis.coreLS.working);
       const loader = new DeleteEntityLoader(entity);
       const status = await appTask.critical(loader, globalThis.coreLS.working);
       if (status.data) {

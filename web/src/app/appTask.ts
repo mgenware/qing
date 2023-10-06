@@ -10,6 +10,7 @@ import LoadingStatus from 'lib/loadingStatus.js';
 import Result from 'lib/result.js';
 import ErrorWithCode from 'lib/errorWithCode.js';
 import appAlert from './appAlert.js';
+import appSpinner from './appSpinner.js';
 
 // Helper class for executing tasks (loaders).
 export class AppTask {
@@ -40,13 +41,13 @@ export class AppTask {
           cb(s);
         }
       };
-      appAlert.showLoadingOverlay(overlayText || globalThis.coreLS.loading);
+      appSpinner.showLoadingOverlay(overlayText || globalThis.coreLS.loading);
       const data = await loader.startAsync();
-      appAlert.hideLoadingOverlay();
+      appSpinner.hideLoadingOverlay();
       return Result.data(data);
     } catch (err) {
       ErrorWithCode.assert(err);
-      appAlert.hideLoadingOverlay();
+      appSpinner.hideLoadingOverlay();
       await appAlert.error(err.message);
       return Result.error<T>(err);
     }

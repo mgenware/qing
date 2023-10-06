@@ -26,6 +26,7 @@ import { linkListActiveClass, linkListActiveFilledClass } from 'ui/lists/linkLis
 import { renderTemplateResult } from 'lib/htmlLib.js';
 import { frozenDef } from '@qing/def';
 import appAlert from 'app/appAlert.js';
+import appSpinner from 'app/appSpinner.js';
 import ErrorWithCode from 'lib/errorWithCode.js';
 import delay from 'lib/delay.js';
 import { CheckListChangeArgs, CheckListItem } from 'ui/forms/checkList.js';
@@ -350,9 +351,9 @@ export class ElementsPage extends BaseElement {
   }
 
   private async startFullscreenSpinner() {
-    appAlert.showLoadingOverlay('Loading...');
+    appSpinner.showLoadingOverlay('Loading...');
     await delay(2000);
-    appAlert.hideLoadingOverlay();
+    appSpinner.hideLoadingOverlay();
   }
 
   private showPostEditor() {
