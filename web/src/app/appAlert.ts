@@ -7,18 +7,12 @@
 
 import { renderTemplateResult } from 'lib/htmlLib.js';
 import { html } from 'll.js';
-import 'ui/status/spinnerView.js';
 import 'ui/alerts/dialogView.js';
-import 'com/share/sharePopup.js';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView.js';
 
 const dialogContainerID = '__g_dialog_container';
-const shareContainerID = '__g_share_container';
 
-export interface SharePopupOptions {
-  noAutoDomain?: boolean;
-}
-
+// App-wide alert utils.
 export class AppAlert {
   async error(message: string, title?: string): Promise<void> {
     await this.showDialogViewAsync({
@@ -79,25 +73,6 @@ export class AppAlert {
     }
     // Cancel
     return null;
-  }
-
-  async warnUnsavedChanges(): Promise<boolean> {
-    return (
-      (await this.confirm(
-        globalThis.coreLS.doYouWantDoDiscardYourChanges,
-        globalThis.coreLS.youHaveNotSavedYourChanges,
-      )) ?? false
-    );
-  }
-
-  showSharePopup(link: string, opt?: SharePopupOptions) {
-    const template = html`<share-popup
-      open
-      .link=${link}
-      ?noAutoDomain=${opt?.noAutoDomain}></share-popup>`;
-    const el = renderTemplateResult(shareContainerID, template);
-    // Fix "OK" button not focusing.
-    setTimeout(() => el?.focus(), 0);
   }
 
   private showDialogViewAsync(args: {

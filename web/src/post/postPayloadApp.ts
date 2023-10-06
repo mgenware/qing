@@ -13,7 +13,7 @@ import { frozenDef } from '@qing/def';
 import * as pu from 'lib/pageUtil.js';
 import 'com/share/sharePopup.js';
 import * as urls from 'urls.js';
-import appAlert from 'app/appAlert.js';
+import appShare from 'app/appShare.js';
 
 // Handles loading of post likes and comments.
 @customElement('post-payload-app')
@@ -64,7 +64,7 @@ export class PostPayloadApp extends BaseElement {
   }
 
   private handleShareClick() {
-    appAlert.showSharePopup(urls.post(postPageState.id));
+    appShare.showSharePopup(urls.post(postPageState.id));
   }
 }
 

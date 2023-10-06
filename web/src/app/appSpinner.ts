@@ -8,6 +8,7 @@
 import { html } from 'll.js';
 import { renderTemplateResult } from 'lib/htmlLib.js';
 import { brMode } from 'devMode.js';
+import 'ui/status/spinnerView.js';
 
 const spinnerContainerID = '__g_spinner_container';
 const brGSpinnerTextAttr = 'data-br-spinner-text';

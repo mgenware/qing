@@ -24,6 +24,7 @@ import appPageState from 'app/appPageState.js';
 import { PostCorePayload } from 'sod/post.js';
 import { htmlToSummary, mdToHTML } from './coreEditorUtil.js';
 import { brMode } from 'devMode.js';
+import appAlertEx from 'app/appAlertEx.js';
 
 const titleInputID = 'title-input';
 
@@ -320,7 +321,7 @@ export class ComposerView extends BaseElement {
     const impl = unsafeImpl;
     if (this.hasContentChanged(impl)) {
       // Warn the user of unsaved changes.
-      if (await appAlert.warnUnsavedChanges()) {
+      if (await appAlertEx.warnUnsavedChanges()) {
         fireEvent(impl, true);
       }
     } else {

@@ -27,6 +27,7 @@ import { Cmt } from '../data/cmt.js';
 import { CHECK } from 'checks.js';
 import { ItemsChangedEvent } from 'lib/itemCollector.js';
 import appAlert from 'app/appAlert.js';
+import appShare from 'app/appShare.js';
 import CmtCollector from '../data/cmtCollector.js';
 import DeleteCmtLoader from '../loaders/deleteCmtLoader.js';
 import appTask from 'app/appTask.js';
@@ -359,7 +360,7 @@ export class CmtBlock extends BaseElement {
     CHECK(this.cmt);
     const url = new URL(window.location.href);
     url.searchParams.set('cmt', this.cmt.id);
-    appAlert.showSharePopup(url.toString(), { noAutoDomain: true });
+    appShare.showSharePopup(url.toString(), { noAutoDomain: true });
   }
 
   private handleCollectorItemsChanged(e: ItemsChangedEvent<Cmt>) {
