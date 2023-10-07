@@ -72,8 +72,10 @@ export class DialogView extends BaseElement {
         @overlay-esc-down=${this.handleEscDown}>
         <div class="text-center" style="margin: 1rem">
           <div class="m-t-lg">${iconEl}</div>
-          <h2>${this.dialogTitle}</h2>
-          <p>${this.message}</p>
+          <div class="md-content">
+            <h2>${this.dialogTitle}</h2>
+            <p>${this.message}</p>
+          </div>
           <!-- Don't use <p> here. Margins are handcrafted. -->
           <div id=${buttonContainerID} style="padding:0; margin-top: 1.2rem" class="text-center">
             ${this.renderButtons()}
