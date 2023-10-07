@@ -27,7 +27,7 @@ export class StatusOverlay extends BaseElement {
           display: grid;
           grid-template: minmax(0, 1fr) / minmax(0, 1fr);
           place-items: stretch;
-          word-break: break-all;
+          overflow-wrap: break-word;
         }
 
         :host([constrained]) .root {

@@ -8,7 +8,6 @@
 /* Responsive link ------------------------- */
 a {
   overflow-wrap: break-word;
-  word-break: break-all;
   color: var(--app-default-primary-fore-color);
   text-decoration: none;
 }
@@ -69,11 +68,11 @@ img {
 }
 .flx-auto {
   flex: 0 1 auto;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 .flx-fill {
   flex: 1 1 auto;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 .flx-col > .flx-scroll {
   overflow-y: auto;
@@ -85,7 +84,7 @@ img {
   display: grid;
   justify-content: center;
   align-content: center;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 /* Spacing helpers ------------------------- */
@@ -606,7 +605,6 @@ textarea {
 
 .md-content {
   overflow-wrap: break-word;
-  word-break: break-all;
   line-height: 1.6;
 }
 
@@ -618,7 +616,7 @@ textarea {
 .content-parent {
   display: grid;
   place-items: stretch;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .height-100 {

@@ -53,7 +53,7 @@ export class ComposerView extends BaseElement {
           display: flex;
           flex-direction: column;
           flex: 1 1 auto;
-          word-break: break-all;
+          overflow-wrap: break-word;
         }
 
         .editor-buttons qing-button {
