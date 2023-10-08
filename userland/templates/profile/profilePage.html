@@ -48,6 +48,7 @@
 
   <div id="m-profile-posts" class="is-boxed">
     <div id="m-scroll-list"></div>
+    {{if not .PriAccount}}
     <tab-view>
       <a id="m-profile-tab-posts" href="{{html .ProfilePostsURL}}"
         ><span class="__qing_ls__">posts</span> {{if .PostCount}}({{.PostCount}}){{end}}</a
@@ -56,6 +57,7 @@
         ><span class="__qing_ls__">fposts</span> {{if .FPostCount}}({{.FPostCount}}){{end}}</a
       >
     </tab-view>
+    {{end}}
     <div class="m-t-sm">{{.FeedListHTML}}</div>
     {{.PageBarHTML}}
   </div>
