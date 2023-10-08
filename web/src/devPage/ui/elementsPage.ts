@@ -217,10 +217,10 @@ export class ElementsPage extends BaseElement {
       <h1>Views</h1>
       <hr />
       <h2>Dialogs</h2>
+      <qing-button @click=${async () => appAlert.info('Hello world')}>Info</qing-button>
       <qing-button @click=${async () => appAlert.error('This is an error')}>Error</qing-button>
       <qing-button
-        @click=${async () =>
-          alert((await appAlert.confirm('Warning', 'Yes or no?')) ? 'Yes' : 'No')}
+        @click=${async () => alert((await appAlert.confirm('Yes or no?')) ? 'Yes' : 'No')}
         >Confirm</qing-button
       >
       <qing-button @click=${async () => appAlert.successToast('Success!')}

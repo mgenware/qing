@@ -14,10 +14,19 @@ const dialogContainerID = '__g_dialog_container';
 
 // App-wide alert utils.
 export class AppAlert {
-  async error(message: string, title?: string): Promise<void> {
+  async info(message: string): Promise<void> {
     await this.showDialogViewAsync({
       message,
-      title: title || globalThis.coreLS.error,
+      buttons: [globalThis.coreLS.ok],
+      icon: DialogIcon.info,
+      defaultButtonIndex: 0,
+      cancelButtonIndex: 0,
+    });
+  }
+
+  async error(message: string): Promise<void> {
+    await this.showDialogViewAsync({
+      message,
       buttons: [globalThis.coreLS.ok],
       icon: DialogIcon.error,
       defaultButtonIndex: 0,
@@ -25,10 +34,9 @@ export class AppAlert {
     });
   }
 
-  async warn(message: string, title?: string): Promise<void> {
+  async warn(message: string): Promise<void> {
     await this.showDialogViewAsync({
       message,
-      title: title || globalThis.coreLS.warning,
       buttons: [globalThis.coreLS.ok],
       icon: DialogIcon.warning,
       defaultButtonIndex: 0,
@@ -36,17 +44,16 @@ export class AppAlert {
     });
   }
 
-  async successToast(title: string): Promise<void> {
+  async successToast(message: string): Promise<void> {
     await this.showDialogViewAsync({
-      message: '',
-      title: title || globalThis.coreLS.error,
+      message,
       buttons: [],
       icon: DialogIcon.success,
       timeout: 2000,
     });
   }
 
-  async confirm(title: string, message: string, hasCancelButton = false): Promise<boolean | null> {
+  async confirm(message: string, hasCancelButton = false): Promise<boolean | null> {
     const buttons = [globalThis.coreLS.yes, globalThis.coreLS.no];
     // Default button is "No".
     let defaultBtnIdx = 1;
@@ -57,7 +64,6 @@ export class AppAlert {
     }
     const button = await this.showDialogViewAsync({
       message,
-      title,
       buttons,
       icon: DialogIcon.warning,
       defaultButtonIndex: defaultBtnIdx,
@@ -77,7 +83,6 @@ export class AppAlert {
 
   private showDialogViewAsync(args: {
     message: string;
-    title: string;
     buttons: string[];
     icon: DialogIcon;
     defaultButtonIndex?: number;
@@ -91,7 +96,6 @@ export class AppAlert {
         .defaultButton=${args.defaultButtonIndex ?? -1}
         .cancelButton=${args.cancelButtonIndex ?? -1}
         .icon=${args.icon}
-        .dialogTitle=${args.title}
         .message=${args.message}
         @dialog-close=${(e: CustomEvent<number>) => {
           resolve(e.detail);

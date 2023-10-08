@@ -326,7 +326,6 @@ export class CmtBlock extends BaseElement {
   private async handleDeleteClick() {
     if (
       await appAlert.confirm(
-        globalThis.coreLS.warning,
         strf(globalThis.coreLS.pDoYouWantToDeleteThis, globalThis.coreLS.comment),
       )
     ) {

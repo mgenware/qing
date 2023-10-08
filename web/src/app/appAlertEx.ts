@@ -10,12 +10,7 @@ import appAlert from './appAlert.js';
 // An extension of `AppAlert`, providing more utility functions.
 export class AppAlertEx {
   async warnUnsavedChanges(): Promise<boolean> {
-    return (
-      (await appAlert.confirm(
-        globalThis.coreLS.doYouWantDoDiscardYourChanges,
-        globalThis.coreLS.youHaveNotSavedYourChanges,
-      )) ?? false
-    );
+    return (await appAlert.confirm(globalThis.coreLS.doYouWantDoDiscardYourChanges)) ?? false;
   }
 }
 

@@ -33,7 +33,6 @@ export function setupHandlers(
   editBarElement.addEventListener('edit-bar-delete-click', async () => {
     if (
       await appAlert.confirm(
-        globalThis.coreLS.warning,
         strf(globalThis.coreLS.pDoYouWantToDeleteThis, entityTypeToLS(entity.type)),
       )
     ) {

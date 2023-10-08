@@ -11,13 +11,15 @@ import 'ui/widgets/svgIcon';
 import delay from 'lib/delay.js';
 import { staticMainImage } from 'urls.js';
 import { CHECK } from 'checks.js';
+import { AppViewStyleNullable } from 'ui/types/appViewStyle.js';
 
 const iconSize = 58;
 const buttonContainerID = '__buttons';
 const transitionDelay = 50;
 
 export enum DialogIcon {
-  error = 1,
+  info = 1,
+  error,
   success,
   warning,
 }
@@ -44,14 +46,17 @@ export class DialogView extends BaseElement {
         .dialog-btn:not(:first-child) {
           margin-left: var(--app-dialog-btn-spacing);
         }
+
+        .dialog-content {
+          font-size: 1.2rem;
+        }
       `,
     ];
   }
 
   @property({ type: Boolean }) open = false;
-  @property() dialogTitle = '';
   @property() message = '';
-  @property({ type: Number }) icon: DialogIcon | undefined;
+  @property({ type: Number }) icon = DialogIcon.info;
   @property({ type: Array }) buttons: readonly string[] = [];
   @property({ type: Number }) defaultButton = -1;
   @property({ type: Number }) cancelButton = -1;
@@ -63,7 +68,7 @@ export class DialogView extends BaseElement {
   }
 
   override render() {
-    const iconEl = this.getIconElement(this.icon!);
+    const iconEl = this.getIconElement(this.icon);
     return html`
       <qing-overlay
         ?open=${this.open}
@@ -72,8 +77,7 @@ export class DialogView extends BaseElement {
         @overlay-esc-down=${this.handleEscDown}>
         <div class="text-center" style="margin: 1rem">
           <div class="m-t-lg">${iconEl}</div>
-          <div class="md-content">
-            <h2>${this.dialogTitle}</h2>
+          <div class="md-content dialog-content">
             <p>${this.message}</p>
           </div>
           <!-- Don't use <p> here. Margins are handcrafted. -->
@@ -133,7 +137,7 @@ export class DialogView extends BaseElement {
   private getIconElement(icon: DialogIcon): TemplateResult {
     let iconName = '';
     // See `svg-icon.iconStyle`.
-    let iconStyle = '';
+    let iconStyle: AppViewStyleNullable = '';
     switch (icon) {
       case DialogIcon.error:
         iconName = 'error';
@@ -144,6 +148,10 @@ export class DialogView extends BaseElement {
         break;
       case DialogIcon.warning:
         iconName = iconStyle = 'warning';
+        break;
+      case DialogIcon.info:
+        iconName = 'error';
+        // Leave `iconStyle` as default ('').
         break;
       default:
         break;

@@ -78,12 +78,7 @@ export class LangST extends StatefulPage {
     if (lang.toLowerCase() === (this.langResult?.userLang?.toLocaleLowerCase() ?? '')) {
       return;
     }
-    if (
-      await appAlert.confirm(
-        globalThis.coreLS.warning,
-        strf(globalThis.coreLS.doYouWantToChangeLangTo, localizedName),
-      )
-    ) {
+    if (await appAlert.confirm(strf(globalThis.coreLS.doYouWantToChangeLangTo, localizedName))) {
       const loader = new SetProfileLangLoader(lang);
       const status = await appTask.critical(loader, globalThis.coreLS.working);
       if (status.isSuccess) {

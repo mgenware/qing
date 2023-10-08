@@ -106,10 +106,7 @@ export class SiteAdminST extends StatefulPage {
   }
 
   private async handleRemoveAdmin(user: UserInfo) {
-    const ok = await appAlert.confirm(
-      globalThis.coreLS.warning,
-      strf(globalThis.adminLS.removeAdminConfirmation, user.name),
-    );
+    const ok = await appAlert.confirm(strf(globalThis.adminLS.removeAdminConfirmation, user.name));
     if (!ok) {
       return;
     }
@@ -126,7 +123,6 @@ export class SiteAdminST extends StatefulPage {
       return;
     }
     const ok = await appAlert.confirm(
-      globalThis.coreLS.warning,
       strf(globalThis.coreLS.confirmAddUserAsAdmin, userCandidate.name),
     );
     if (!ok) {

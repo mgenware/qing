@@ -60,12 +60,7 @@ export class LangPageView extends BaseElement {
     if (t.ID === curLang) {
       return;
     }
-    if (
-      await appAlert.confirm(
-        globalThis.coreLS.warning,
-        strf(globalThis.coreLS.doYouWantToChangeLangTo, t.LocalizedName),
-      )
-    ) {
+    if (await appAlert.confirm(strf(globalThis.coreLS.doYouWantToChangeLangTo, t.LocalizedName))) {
       AppSettings.instance.lang = t.ID;
       pu.reload();
     }

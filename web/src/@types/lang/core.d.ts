@@ -45,7 +45,6 @@ export interface coreLSType {
   publish: string;
   title: string;
   doYouWantDoDiscardYourChanges: string;
-  youHaveNotSavedYourChanges: string;
   saving: string;
   publishing: string;
   newPost: string;
