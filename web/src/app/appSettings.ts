@@ -45,7 +45,6 @@ export default class AppSettings {
     }
     this.setCookieNumber(def.Cookies.themeKey, value);
     this.updateTheme();
-    appState.set(appStateName.themeOption, value);
   }
 
   get lang(): string {

@@ -7,7 +7,6 @@
 
 export class AppStateName {
   user = 'user';
-  themeOption = 'themeOption';
   isDarkTheme = 'isDarkTheme';
   private cmtHub = 'cmtHub';
 
