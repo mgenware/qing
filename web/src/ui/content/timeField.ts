@@ -63,7 +63,11 @@ export class TimeField extends BaseElement {
     // "Math.abs" accounts for both "past" & "future" scenarios
     for (const [k, v] of Object.entries(units)) {
       if (Math.abs(elapsed) > v || k === 'second') {
-        return rtf.format(Math.round(elapsed / v), k as Intl.RelativeTimeFormatUnit);
+        const value = Math.round(elapsed / v);
+        if (Number.isNaN(value)) {
+          return '';
+        }
+        return rtf.format(value, k as Intl.RelativeTimeFormatUnit);
       }
     }
     return '';
