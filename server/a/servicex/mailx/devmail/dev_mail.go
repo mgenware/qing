@@ -64,6 +64,13 @@ func ListUsers() ([]string, error) {
 	}
 
 	devDir := conf.Dir
+
+	// Create the directory if it doesn't exist.
+	err = iox.Mkdirp(devDir)
+	if err != nil {
+		return nil, err
+	}
+
 	dirObjs, err := os.ReadDir(devDir)
 	if err != nil {
 		return nil, err
