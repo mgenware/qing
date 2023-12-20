@@ -23,7 +23,7 @@
     "codemirror": "^6.0.1",
     "f-array.splice": "^1.1.0",
     "js-cookie": "^3.0.5",
-    "kangxi-editor": "^0.18.3",
+    "kangxi-editor": "^0.19.0",
     "mahur": "^0.0.2",
     "markdown-it": "^14.0.0",
     "narwhal-js": "^0.0.1",
