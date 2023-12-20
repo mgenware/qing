@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@types/js-yaml": "^4.0.6"
+    "@types/js-yaml": "^4.0.9"
   },
   "scripts": {
     "prepare": "dz ls w-all"
@@ -13,7 +13,7 @@
     "@qing/devutil": "workspace:*",
     "del": "^7.1.0",
     "gen-go-type": "^1.4.1",
-    "globby": "^13.2.2",
+    "globby": "^14.0.0",
     "go-const-gen": "^2.1.0",
     "is-plain-obj": "^4.1.0",
     "js-yaml": "^4.1.0",

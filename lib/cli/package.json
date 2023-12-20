@@ -30,6 +30,6 @@
     "which": "^4.0.0"
   },
   "devDependencies": {
-    "@types/which": "^3.0.0"
+    "@types/which": "^3.0.3"
   }
 }
