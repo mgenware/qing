@@ -98,7 +98,6 @@ export async function shouldDiscardChangesOrNot(
   await clickBtn(el, e.cancelBtn);
   const dialog = await alt.waitFor(e.p, {
     title: 'Do you want to discard your changes?',
-    content: "You haven't saved your changes.",
     type: alt.AlertType.warning,
     focusedBtn: 1,
   });

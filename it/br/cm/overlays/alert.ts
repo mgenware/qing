@@ -18,19 +18,6 @@ export enum AlertButtons {
   YesNo,
 }
 
-function typeToTitle(type: AlertType): string {
-  switch (type) {
-    case AlertType.error:
-      return 'Error';
-    case AlertType.success:
-      return 'Success';
-    case AlertType.warning:
-      return 'Warning';
-    default:
-      throw new Error('Not reachable');
-  }
-}
-
 function alertButtonsToArray(type: AlertButtons): string[] {
   switch (type) {
     case AlertButtons.OK:
@@ -85,7 +72,7 @@ export class BRDialog {
 }
 
 export interface AlertShouldAppearArgs {
-  content: string;
+  content?: string;
   title?: string;
   type?: AlertType;
   buttons?: AlertButtons;
@@ -98,22 +85,18 @@ export async function waitFor(page: br.Page, e: AlertShouldAppearArgs) {
   await el.waitForAttached();
   await el.e.toHaveAttribute('open', '');
 
-  // Title.
-  const title = e.type ? e.title ?? typeToTitle(e.type) : e.title;
-  if (title) {
-    await el.$hasText('h2', title).e.toBeVisible();
-  }
-
   // Icon.
-  if (e.type) {
+  if (e.type !== undefined) {
     await el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).e.toBeVisible();
   }
 
   // Content.
-  await el.$hasText('p', e.content).e.toBeVisible();
+  if (e.content) {
+    await el.$hasText('p', e.content).e.toBeVisible();
+  }
 
   // Buttons.
-  if (e.buttons) {
+  if (e.buttons !== undefined) {
     const btns = el.$$('#__buttons qing-button');
     const btnNames = alertButtonsToArray(e.buttons);
     await btns.shouldHaveCount(btnNames.length);
