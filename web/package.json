@@ -28,10 +28,10 @@
     "markdown-it": "^14.0.0",
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
-    "qing-button": "^8.2.6",
+    "qing-button": "^9.0.1",
     "qing-css-base": "^1.5.0",
     "qing-keyed-array": "^3.0.1",
-    "qing-overlay": "^0.22.2",
+    "qing-overlay": "^0.23.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

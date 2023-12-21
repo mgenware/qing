@@ -8,7 +8,8 @@
 import * as br from 'br.js';
 
 export interface CmtFixtureStartOptions {
-  author:
+  // Defaults to `br.usr.user`.
+  author?:
     | br.User
     | 'new' // Creates a new user.
     | 'new-bot'; // Creates a new user with `no-noti` flag.

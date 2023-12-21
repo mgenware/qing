@@ -22,7 +22,7 @@ export class PostCmtFixture extends CmtFixture {
       const noNoti = opt.author === 'new-bot';
       return newUser((u) => this.startInternal(p, opt, u, cb), { noNoti });
     }
-    return this.startInternal(p, opt, br.usr.user, cb);
+    return this.startInternal(p, opt, opt.author ?? br.usr.user, cb);
   }
 
   private startInternal(
