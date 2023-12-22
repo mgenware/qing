@@ -29,7 +29,7 @@
     "narwhal-js": "^0.0.1",
     "plum-element": "^0.0.7",
     "qing-button": "^9.0.1",
-    "qing-css-base": "^1.5.0",
+    "qing-css-base": "^1.6.0",
     "qing-keyed-array": "^3.0.1",
     "qing-overlay": "^0.23.0",
     "tslib": "^2.6.2"
