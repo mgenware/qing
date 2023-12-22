@@ -363,23 +363,26 @@ input.app-inline-text-input:invalid {
 }
 
 /* qing-button ------------------------- */
+qing-button::part(button) {
+  background-color: var(--app-info-back-color);
+  color: var(--app-info-fore-color);
+  --button-outline-color: var(--app-keyboard-focus-color);
+  border-radius: var(--app-surface-radius-md);
+}
 qing-button.small::part(button) {
   font-size: 0.75rem;
   padding: 0.3rem 0.45rem;
   margin-bottom: 0.45rem;
+  border-radius: var(--app-surface-radius-sm);
 }
 qing-button.large::part(button) {
   font-size: 1.25rem;
   padding: 1rem 1.25rem;
   margin-bottom: 1.25rem;
+  border-radius: var(--app-surface-radius-lg);
 }
 qing-button.no-bg::part(button) {
   background-color: transparent;
-}
-qing-button::part(button) {
-  background-color: var(--app-info-back-color);
-  color: var(--app-info-fore-color);
-  --button-outline-color: var(--app-keyboard-focus-color);
 }
 qing-button[btnStyle='success']::part(button) {
   background-color: var(--app-success-back-color);
@@ -413,7 +416,7 @@ qing-button.icon svg-icon {
 qing-overlay::part(dialog) {
   background-color: var(--app-default-back-color);
   color: var(--app-default-fore-color);
-  border-radius: var(--app-surface-radius-md);
+  border-radius: var(--app-surface-radius-lg);
   border: 1px solid var(--app-default-separator-color);
   max-width: calc(100vw - 1rem);
   max-height: calc(100vh - 1rem);
@@ -503,7 +506,7 @@ tag-view[tagStyle='warning'] {
 /* section-view ------------------------- */
 section-view {
   --content-color: var(--app-default-fore-color);
-  --border-radius: var(--app-surface-radius-md);
+  --border-radius: var(--app-surface-radius-lg);
 }
 section-view[sectionStyle='success'] {
   --header-color: var(--app-success-fore-color);
