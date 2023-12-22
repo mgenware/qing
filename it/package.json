@@ -4,9 +4,6 @@
   "version": "0.0.0",
   "main": "main.js",
   "private": true,
-  "scripts": {
-    "prepare": "ts-patch install -s"
-  },
   "devDependencies": {
     "@playwright/test": "^1.40.1",
     "@qing/def": "workspace:*",

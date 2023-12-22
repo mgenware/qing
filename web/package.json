@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "prepare": "ts-patch install -s"
-  },
   "engines": {
     "node": ">=16.0.0"
   },
