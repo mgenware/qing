@@ -6,6 +6,7 @@
  */
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
+import 'qing-overlay';
 import SignInLoader from './loaders/signInLoader.js';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
@@ -23,6 +24,10 @@ export class SignInApp extends BaseElement {
         :host {
           display: block;
         }
+
+        qing-button {
+          width: 100%;
+        }
       `,
     ];
   }
@@ -32,39 +37,41 @@ export class SignInApp extends BaseElement {
 
   override render() {
     return html`
-      <enter-key-handler>
-        <h2>${globalThis.coreLS.signIn}</h2>
-        <div>
-          <input-view
-            required
-            type="email"
-            autocomplete="email"
-            inputmode="email"
-            label=${globalThis.coreLS.email}
-            value=${this.email}
-            @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
+      <qing-overlay open>
+        <enter-key-handler>
+          <h2>${globalThis.coreLS.signIn}</h2>
+          <div>
+            <input-view
+              required
+              type="email"
+              autocomplete="email"
+              inputmode="email"
+              label=${globalThis.coreLS.email}
+              value=${this.email}
+              @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
-          <input-view
-            class="m-t-md"
-            required
-            type="password"
-            autocomplete="current-password"
-            label=${globalThis.coreLS.password}
-            value=${this.password}
-            @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
-        </div>
-        <div class="m-t-lg">
-          <qing-button
-            btnStyle="success"
-            class="enter-key-responder"
-            @click=${this.handleSignInClick}
-            >${globalThis.coreLS.signIn}</qing-button
-          >
-          <qing-button class="m-l-md" href=${authPages.forgotPwd}
-            >${globalThis.authLS.forgotPwd}</qing-button
-          >
-        </div>
-      </enter-key-handler>
+            <input-view
+              class="m-t-md"
+              required
+              type="password"
+              autocomplete="current-password"
+              label=${globalThis.coreLS.password}
+              value=${this.password}
+              @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
+          </div>
+          <div class="m-t-lg">
+            <qing-button
+              btnStyle="success"
+              class="enter-key-responder"
+              @click=${this.handleSignInClick}
+              >${globalThis.coreLS.signIn}</qing-button
+            >
+            <qing-button class="m-t-md" href=${authPages.forgotPwd}
+              >${globalThis.authLS.forgotPwd}</qing-button
+            >
+          </div>
+        </enter-key-handler>
+      </qing-overlay>
     `;
   }
 

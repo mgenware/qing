@@ -6,6 +6,7 @@
  */
 
 import { BaseElement, customElement, html, css, state } from 'll.js';
+import 'qing-overlay';
 import SignUpLoader from './loaders/signUpLoader.js';
 import 'ui/forms/inputView';
 import 'ui/forms/enterKeyHandler';
@@ -23,6 +24,10 @@ export class SignUpApp extends BaseElement {
         :host {
           display: block;
         }
+
+        qing-button {
+          width: 100%;
+        }
       `,
     ];
   }
@@ -37,59 +42,61 @@ export class SignUpApp extends BaseElement {
 
   override render() {
     return html`
-      <enter-key-handler>
-        <h2>${globalThis.coreLS.createAnAcc}</h2>
-        <div>
-          <input-view
-            class="m-t-md"
-            required
-            label=${globalThis.coreLS.name}
-            value=${this.userName}
-            @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
+      <qing-overlay open>
+        <enter-key-handler>
+          <h2>${globalThis.coreLS.createAnAcc}</h2>
+          <div>
+            <input-view
+              class="m-t-md"
+              required
+              label=${globalThis.coreLS.name}
+              value=${this.userName}
+              @input-change=${(e: CustomEvent<string>) => (this.userName = e.detail)}></input-view>
 
-          <input-view
-            class="m-t-md"
-            required
-            autocomplete="email"
-            inputmode="email"
-            type="email"
-            label=${globalThis.coreLS.email}
-            value=${this.email}
-            @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
+            <input-view
+              class="m-t-md"
+              required
+              autocomplete="email"
+              inputmode="email"
+              type="email"
+              label=${globalThis.coreLS.email}
+              value=${this.email}
+              @input-change=${(e: CustomEvent<string>) => (this.email = e.detail)}></input-view>
 
-          <input-view
-            class="m-t-md"
-            required
-            type="password"
-            minLength=${appDef.lenMinUserPwd}
-            maxLength=${appDef.lenMaxUserPwd}
-            autocomplete="new-password"
-            label=${globalThis.coreLS.password}
-            value=${this.password}
-            @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
+            <input-view
+              class="m-t-md"
+              required
+              type="password"
+              minLength=${appDef.lenMinUserPwd}
+              maxLength=${appDef.lenMaxUserPwd}
+              autocomplete="new-password"
+              label=${globalThis.coreLS.password}
+              value=${this.password}
+              @input-change=${(e: CustomEvent<string>) => (this.password = e.detail)}></input-view>
 
-          <input-view
-            class="m-t-md"
-            required
-            type="password"
-            minLength=${appDef.lenMinUserPwd}
-            maxLength=${appDef.lenMaxUserPwd}
-            autocomplete=${'new-password'}
-            label=${globalThis.coreLS.confirmPassword}
-            value=${this.confirmPassword}
-            @input-change=${(e: CustomEvent<string>) =>
-              (this.confirmPassword = e.detail)}></input-view>
-          ${this.passwordsMismatchErr
-            ? html`<input-error-view message=${this.passwordsMismatchErr}></input-error-view>`
-            : ''}
-        </div>
-        <qing-button
-          btnStyle="success"
-          class="m-t-lg enter-key-responder"
-          @click=${this.handleSignUpClick}
-          >${globalThis.coreLS.signUp}</qing-button
-        >
-      </enter-key-handler>
+            <input-view
+              class="m-t-md"
+              required
+              type="password"
+              minLength=${appDef.lenMinUserPwd}
+              maxLength=${appDef.lenMaxUserPwd}
+              autocomplete=${'new-password'}
+              label=${globalThis.coreLS.confirmPassword}
+              value=${this.confirmPassword}
+              @input-change=${(e: CustomEvent<string>) =>
+                (this.confirmPassword = e.detail)}></input-view>
+            ${this.passwordsMismatchErr
+              ? html`<input-error-view message=${this.passwordsMismatchErr}></input-error-view>`
+              : ''}
+          </div>
+          <qing-button
+            btnStyle="success"
+            class="m-t-lg enter-key-responder sign-up-btn"
+            @click=${this.handleSignUpClick}
+            >${globalThis.coreLS.signUp}</qing-button
+          >
+        </enter-key-handler>
+      </qing-overlay>
     `;
   }
 
