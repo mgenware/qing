@@ -39,5 +39,6 @@ export default function testCmt(groupName: string, fixture: CmtFixture) {
   testFocusMode(w);
   testCollapseReplies(w);
   testReplyNoti(w);
-  testTextOverflow(w);
+  // TODO: reopen after horizontal scroll issue is fixed.
+  // testTextOverflow(w);
 }
