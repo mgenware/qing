@@ -12,6 +12,7 @@ import * as cm from './common.js';
 import * as def from 'base/def.js';
 import * as cps from 'br/cm/editing/composer.js';
 import * as nbm from 'br/cm/navbar/menu.js';
+import { Page } from '@playwright/test';
 
 const editorDesc = 'New post';
 
@@ -59,35 +60,42 @@ test('New post - Dismiss post editor', async ({ page }) => {
   await overlayEl.waitForDetached();
 });
 
-function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) {
-  test(`New post - ${
-    discardChanges ? 'Discard' : 'Keep'
-  } post editor changes - Mode ${mode}`, async ({ page }) => {
-    const p = $(page);
-    await newPost(usr.user, async ({ link }) => {
-      await p.goto(link, usr.user);
+async function testDiscardChanges(page: Page, mode: 'title' | 'content', discardChanges: boolean) {
+  const p = $(page);
+  await newPost(usr.user, async ({ link }) => {
+    await p.goto(link, usr.user);
 
-      await clickNewPostButton(p);
+    await clickNewPostButton(p);
 
-      const overlayEl = await cm.waitForOverlay(p);
-      await cps.updateContent(
+    const overlayEl = await cm.waitForOverlay(p);
+    await cps.updateContent(
+      overlayEl,
+      mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
+    );
+
+    await cps.shouldDiscardChangesOrNot(overlayEl, discardChanges, { p, cancelBtn: 'Cancel' });
+
+    if (!discardChanges) {
+      await cps.shouldAppear(
         overlayEl,
-        mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
+        mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updatedViewHTML },
       );
-
-      await cps.shouldDiscardChangesOrNot(overlayEl, discardChanges, { p, cancelBtn: 'Cancel' });
-
-      if (!discardChanges) {
-        await cps.shouldAppear(
-          overlayEl,
-          mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updatedViewHTML },
-        );
-      }
-    });
+    }
   });
 }
 
-testDiscardChanges('title', true);
-testDiscardChanges('content', true);
-testDiscardChanges('title', false);
-testDiscardChanges('content', false);
+test('New post - Keep editor changes - Title', async ({ page }) => {
+  await testDiscardChanges(page, 'title', false);
+});
+
+test('New post - Discard editor changes - Title', async ({ page }) => {
+  await testDiscardChanges(page, 'title', true);
+});
+
+test('New post - Keep editor changes - Content', async ({ page }) => {
+  await testDiscardChanges(page, 'content', false);
+});
+
+test('New post - Discard editor changes - Content', async ({ page }) => {
+  await testDiscardChanges(page, 'content', true);
+});

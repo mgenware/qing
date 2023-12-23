@@ -10,61 +10,59 @@ import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as cps from 'br/cm/editing/composer.js';
+import { CmtFixture } from '../fixture.js';
+import { Page } from '@playwright/test';
 
-function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test(
-    `Create and view a ${fresh ? 'fresh ' : ''}cmt, default ordering`,
-    { viewer: usr.user },
-    async ({ p }) => {
+export function testCreateCmts(fixture: CmtFixture, page: Page, fresh: boolean) {
+  return fixture.start(page, { viewer: usr.user }, async ({ p }) => {
+    {
       {
-        {
-          // User 1.
-          let cmtApp = await w.getCmtApp(p);
-          await act.writeCmt(p, {
-            cmtApp,
-            content: def.sd.content,
-            shownCb: async (overlayEl) => {
-              await cps.shouldAppear(overlayEl, {
-                name: 'Write a comment',
-                title: null,
-                contentHTML: '',
-              });
-            },
-          });
+        // User 1.
+        let cmtApp = await fixture.getCmtApp(p);
+        await act.writeCmt(p, {
+          cmtApp,
+          content: def.sd.content,
+          shownCb: async (overlayEl) => {
+            await cps.shouldAppear(overlayEl, {
+              name: 'Write a comment',
+              title: null,
+              contentHTML: '',
+            });
+          },
+        });
 
-          if (!fresh) {
-            await p.reload();
-            cmtApp = await w.getCmtApp(p);
-          }
-
-          await cm.shouldAppear({
-            cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
-            author: usr.user,
-            content: def.sd.content,
-            highlighted: fresh,
-            canEdit: true,
-          });
-          await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
+        if (!fresh) {
+          await p.reload();
+          cmtApp = await fixture.getCmtApp(p);
         }
-        {
-          // Visitor.
-          await p.reloadWithUser(null);
-          const cmtApp = await w.getCmtApp(p);
 
-          await cm.shouldAppear({
-            cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
-            author: usr.user,
-            content: def.sd.content,
-          });
-          await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
-        }
+        await cm.shouldAppear({
+          cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
+          author: usr.user,
+          content: def.sd.content,
+          highlighted: fresh,
+          canEdit: true,
+        });
+        await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
       }
-    },
-  );
+      {
+        // Visitor.
+        await p.reloadWithUser(null);
+        const cmtApp = await fixture.getCmtApp(p);
+
+        await cm.shouldAppear({
+          cmtEl: cm.getNthCmt({ cmtApp, index: 0 }),
+          author: usr.user,
+          content: def.sd.content,
+        });
+        await cm.shouldHaveCmtCount({ cmtApp, count: 1 });
+      }
+    }
+  });
 }
 
-function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
-  w.test('Create cmts, pagination', { viewer: usr.user }, async ({ p }) => {
+export function testCreateCmtsWithPagination(w: CmtFixture, page: Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {
@@ -146,8 +144,8 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
 
 // Forked from `testCreateCmtsPagination`.
 // Tests creating cmts while loading more pages. Duplicates should not happen.
-function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
-  w.test('Create cmts, dedup', { viewer: usr.user }, async ({ p }) => {
+export function testCreateCmtsWithDedup(w: CmtFixture, page: Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {
@@ -262,11 +260,4 @@ function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
       }
     }
   });
-}
-
-export default function testCreate(w: cm.CmtFixtureWrapper) {
-  testCreateCore(w, true);
-  testCreateCore(w, false);
-  testCreateWithPagination(w);
-  testCreateWithDedup(w);
 }

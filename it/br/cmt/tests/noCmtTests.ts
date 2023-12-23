@@ -7,12 +7,15 @@
 
 import { usr } from 'br.js';
 import * as cm from '../common.js';
+import { CmtFixture } from '../fixture.js';
+import { Page } from '@playwright/test';
 
-export default function testNoCmts(w: cm.CmtFixtureWrapper) {
-  w.test('No comments', {}, async ({ p }) => {
+export function testNoCmts(fixture: CmtFixture, page: Page) {
+  return fixture.start(page, {}, async (arg) => {
+    const { p } = arg;
     {
       // Visitor view.
-      const cmtApp = await w.getCmtApp(p);
+      const cmtApp = await fixture.getCmtApp(p);
       await cm.commentsHeadingShouldAppear({ cmtApp });
       await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
 
@@ -23,7 +26,7 @@ export default function testNoCmts(w: cm.CmtFixtureWrapper) {
     {
       // User view.
       await p.reloadWithUser(usr.user);
-      const cmtApp = await w.getCmtApp(p);
+      const cmtApp = await fixture.getCmtApp(p);
       await cm.commentsHeadingShouldAppear({ cmtApp });
       await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
     }

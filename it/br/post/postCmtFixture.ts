@@ -7,16 +7,16 @@
 
 import { newPost } from 'helper/post.js';
 import * as br from 'br.js';
-import { CmtFixture, CmtFixtureStartOptions, CmtFixtureStartCbArg } from 'br/cmt/fixture.js';
+import { CmtFixture, CmtFixtureStartArg, CmtFixtureStartOptions } from 'br/cmt/fixture.js';
 import { newUser } from 'helper/user.js';
 
 export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export class PostCmtFixture extends CmtFixture {
-  override start(
+  override prepare(
     p: br.Page,
     opt: CmtFixtureStartOptions,
-    cb: (arg: CmtFixtureStartCbArg) => void,
+    cb: (arg: CmtFixtureStartArg) => void,
   ): Promise<void> {
     if (typeof opt.author === 'string') {
       const noNoti = opt.author === 'new-bot';
@@ -29,12 +29,12 @@ export class PostCmtFixture extends CmtFixture {
     p: br.Page,
     opt: CmtFixtureStartOptions,
     author: br.User,
-    cb: (arg: CmtFixtureStartCbArg) => void,
+    cb: (arg: CmtFixtureStartArg) => void,
   ) {
     const viewerUser = opt.viewer === 'author' ? author : opt.viewer ?? null;
     return newPost(author, async ({ link }) => {
       await p.goto(link, viewerUser);
-      return cb({ p, author, viewer: viewerUser });
+      return cb({ p, author, viewer: viewerUser, fixture: this });
     });
   }
 

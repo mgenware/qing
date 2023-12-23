@@ -11,9 +11,11 @@ import * as alt from 'br/cm/overlays/alert.js';
 import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import { writeCmt } from '../actions.js';
+import { CmtFixture } from '../fixture.js';
+import { Page } from '@playwright/test';
 
-function testDeleteCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test('Delete a cmt' + (fresh ? ' fresh' : ''), { viewer: usr.user }, async ({ p }) => {
+export function testDeleteCmt(w: CmtFixture, page: Page, fresh: boolean) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       {
         let cmtApp = await w.getCmtApp(p);
@@ -43,9 +45,4 @@ function testDeleteCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
       }
     }
   });
-}
-
-export default function testDelete(w: cm.CmtFixtureWrapper) {
-  testDeleteCore(w, true);
-  testDeleteCore(w, false);
 }

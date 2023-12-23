@@ -10,89 +10,87 @@ import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as cps from 'br/cm/editing/composer.js';
+import { CmtFixture } from '../fixture.js';
+import { Page } from '@playwright/test';
 
-function testCreateCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test(
-    `Create and view a ${fresh ? 'fresh ' : ''}reply, default ordering, expander state`,
-    { viewer: usr.user },
-    async ({ p }) => {
+export function testCreateReplies(w: CmtFixture, page: Page, fresh: boolean) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
+    {
       {
-        {
-          // User 1.
-          let cmtApp = await w.getCmtApp(p);
-          await act.writeCmt(p, {
-            cmtApp,
-            content: def.sd.content,
-          });
-          let cmtEl = cm.getTopCmt({ cmtApp });
-          await act.writeReply(p, {
-            cmtEl,
-            content: def.sd.content,
-            shownCb: async (overlayEl) => {
-              await cps.shouldAppear(overlayEl, {
-                name: 'Reply to USER',
-                title: null,
-                contentHTML: '',
-              });
-            },
-          });
-          // 2: 1 reply + 1 parent cmt.
-          await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
+        // User 1.
+        let cmtApp = await w.getCmtApp(p);
+        await act.writeCmt(p, {
+          cmtApp,
+          content: def.sd.content,
+        });
+        let cmtEl = cm.getTopCmt({ cmtApp });
+        await act.writeReply(p, {
+          cmtEl,
+          content: def.sd.content,
+          shownCb: async (overlayEl) => {
+            await cps.shouldAppear(overlayEl, {
+              name: 'Reply to USER',
+              title: null,
+              contentHTML: '',
+            });
+          },
+        });
+        // 2: 1 reply + 1 parent cmt.
+        await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
 
-          if (!fresh) {
-            await p.reload();
-            cmtApp = await w.getCmtApp(p);
-            cmtEl = cm.getTopCmt({ cmtApp });
+        if (!fresh) {
+          await p.reload();
+          cmtApp = await w.getCmtApp(p);
+          cmtEl = cm.getTopCmt({ cmtApp });
 
-            // Replies should be hidden after reloading.
-            await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 0 });
-            await cm.shouldNotHaveReplies(cm.getTopCmt({ cmtApp }));
-            // Click replies.
-            await act.clickRepliesButton({ cmtEl: cm.getTopCmt({ cmtApp }), replyCount: 1 });
-          } else {
-            // Replies are shown for refresh reply.
-            await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 1 });
-          }
-
-          await cm.shouldAppear({
-            cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
-            author: usr.user,
-            content: def.sd.content,
-            highlighted: fresh,
-            canEdit: true,
-          });
-          // 2: 1 reply + 1 parent cmt.
-          await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
-          await cm.shouldHaveReplyCount({ cmtEl: cm.getTopCmt({ cmtApp }), count: 1, shown: 1 });
-        }
-        {
-          // Visitor.
-          await p.reloadWithUser(null);
-          const cmtApp = await w.getCmtApp(p);
-          const cmtEl = cm.getTopCmt({ cmtApp });
-
-          // Replies should be hidden.
+          // Replies should be hidden after reloading.
           await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 0 });
-          await cm.shouldNotHaveReplies(cmtEl);
+          await cm.shouldNotHaveReplies(cm.getTopCmt({ cmtApp }));
           // Click replies.
-          await act.clickRepliesButton({ cmtEl, replyCount: 1 });
-
-          await cm.shouldAppear({
-            cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
-            author: usr.user,
-            content: def.sd.content,
-          });
-          // 2: 1 reply + 1 parent cmt.
-          await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
+          await act.clickRepliesButton({ cmtEl: cm.getTopCmt({ cmtApp }), replyCount: 1 });
+        } else {
+          // Replies are shown for refresh reply.
           await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 1 });
         }
+
+        await cm.shouldAppear({
+          cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
+          author: usr.user,
+          content: def.sd.content,
+          highlighted: fresh,
+          canEdit: true,
+        });
+        // 2: 1 reply + 1 parent cmt.
+        await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
+        await cm.shouldHaveReplyCount({ cmtEl: cm.getTopCmt({ cmtApp }), count: 1, shown: 1 });
       }
-    },
-  );
+      {
+        // Visitor.
+        await p.reloadWithUser(null);
+        const cmtApp = await w.getCmtApp(p);
+        const cmtEl = cm.getTopCmt({ cmtApp });
+
+        // Replies should be hidden.
+        await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 0 });
+        await cm.shouldNotHaveReplies(cmtEl);
+        // Click replies.
+        await act.clickRepliesButton({ cmtEl, replyCount: 1 });
+
+        await cm.shouldAppear({
+          cmtEl: cm.getNthReply({ cmtEl, index: 0 }),
+          author: usr.user,
+          content: def.sd.content,
+        });
+        // 2: 1 reply + 1 parent cmt.
+        await cm.shouldHaveCmtCount({ cmtApp, count: 2 });
+        await cm.shouldHaveReplyCount({ cmtEl, count: 1, shown: 1 });
+      }
+    }
+  });
 }
 
-function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
-  w.test('Create replies, pagination', { viewer: usr.user }, async ({ p }) => {
+export function testCreateRepliesWithPagination(w: CmtFixture, page: Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {
@@ -189,8 +187,8 @@ function testCreateWithPagination(w: cm.CmtFixtureWrapper) {
 
 // Forked from `testCreateRepliesPagination`.
 // Tests creating replies while loading more pages. Duplicates should not happen.
-function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
-  w.test('Create replies, dedup', { viewer: usr.user }, async ({ p }) => {
+export function testCreateRepliesWithDedup(w: CmtFixture, page: Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       const total = 5;
       {
@@ -316,11 +314,4 @@ function testCreateWithDedup(w: cm.CmtFixtureWrapper) {
       }
     }
   });
-}
-
-export default function testCreate(w: cm.CmtFixtureWrapper) {
-  testCreateCore(w, true);
-  testCreateCore(w, false);
-  testCreateWithPagination(w);
-  testCreateWithDedup(w);
 }

@@ -10,9 +10,11 @@ import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as sh from 'br/cm/overlays/share.js';
+import { CmtFixture } from '../fixture.js';
+import { Page } from '@playwright/test';
 
-export default function testShare(w: cm.CmtFixtureWrapper) {
-  w.test('Share a cmt or reply', { viewer: usr.user }, async ({ p }) => {
+export function testShareCmt(w: CmtFixture, page: Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       // Create 1 cmt and 1 reply.
       let cmtApp = await w.getCmtApp(p);

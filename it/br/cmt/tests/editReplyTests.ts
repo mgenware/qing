@@ -10,9 +10,11 @@ import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as cps from 'br/cm/editing/composer.js';
+import { CmtFixture } from '../fixture.js';
+import { Page } from '@playwright/test';
 
-function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test(`Edit a reply - ${fresh ? 'Fresh' : 'Not fresh'}`, { viewer: usr.user }, async ({ p }) => {
+export function testEditReply(w: CmtFixture, page: Page, fresh: boolean) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       {
         let cmtApp = await w.getCmtApp(p);
@@ -71,9 +73,4 @@ function testEditCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
       }
     }
   });
-}
-
-export default function testEdit(w: cm.CmtFixtureWrapper) {
-  testEditCore(w, true);
-  testEditCore(w, false);
 }

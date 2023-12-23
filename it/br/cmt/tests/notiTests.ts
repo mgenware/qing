@@ -11,10 +11,12 @@ import * as cm from '../common.js';
 import { getEmail, newUser } from 'helper/user.js';
 import * as act from '../actions.js';
 import * as mh from 'helper/mail.js';
+import { Page } from '@playwright/test';
+import { CmtFixture } from '../fixture.js';
 
-export default function testReplyNoti(w: cm.CmtFixtureWrapper) {
+export function testReplyNoti(w: CmtFixture, page: Page) {
   // Noti for root cmts are tested in individual post types.
-  w.test('Send a noti when replying to another cmt', {}, async ({ p }) => {
+  return w.start(page, {}, async ({ p }) => {
     await newUser(async (u) => {
       {
         {

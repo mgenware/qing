@@ -8,7 +8,6 @@
 import * as br from 'br.js';
 import * as uv from 'br/cm/content/userView.js';
 import * as eb from 'br/cm/editing/editBar.js';
-import { CmtFixture, CmtFixtureStartCbArg, CmtFixtureStartOptions } from './fixture.js';
 
 // Usage: `cmtEl.$(cmtChildrenSel)`.
 export const cmtChildrenSel = '> div > .br-children';
@@ -111,28 +110,4 @@ export async function shouldHaveReplyCount(e: { cmtEl: br.Element; count: number
 
 export function shouldNotHaveReplies(el: br.Element) {
   return el.$(cmtChildrenSel).shouldNotExist();
-}
-
-export class CmtFixtureWrapper {
-  constructor(public groupName: string, public fixture: CmtFixture) {}
-
-  test(
-    name: string,
-    opt: CmtFixtureStartOptions,
-    cb: (arg: CmtFixtureStartCbArg) => Promise<void>,
-  ) {
-    return br.test(`${this.groupName} - ${name}`, async ({ page }) => {
-      const p = br.$(page);
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      await this.fixture.start(p, opt, cb);
-    });
-  }
-
-  getCmtApp(page: br.Page) {
-    return this.fixture.getCmtApp(page);
-  }
-
-  getHostURL(page: br.Page) {
-    return this.fixture.getHostURL(page);
-  }
 }

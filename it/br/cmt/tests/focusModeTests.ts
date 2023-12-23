@@ -5,13 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { Page, usr, Element } from 'br.js';
+import { usr, Element, Page } from 'br.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as sh from 'br/cm/overlays/share.js';
 import { serverURL } from 'base/def.js';
+import { CmtFixture } from '../fixture.js';
+import * as pw from '@playwright/test';
 
-async function addNestedCmts(w: cm.CmtFixtureWrapper, p: Page, linkName: string) {
+async function addNestedCmts(w: CmtFixture, p: Page, linkName: string) {
   // This creates the following structure:
   // - cmt2
   // - cmt1
@@ -76,7 +78,7 @@ function addCmtParams(link: string, id: string) {
   return url.toString();
 }
 
-async function checkViewAllComments(w: cm.CmtFixtureWrapper, p: Page, cmtApp: Element) {
+async function checkViewAllComments(w: CmtFixture, p: Page, cmtApp: Element) {
   await Promise.all([
     clickViewAllComments(cmtApp),
     // use `p.c.waitForURL` instead of `p.waitForURL` as `removeCmtParamsAndReturnFullURL`
@@ -91,8 +93,8 @@ function check404Content(cmtApp: Element) {
     .e.toHaveText('The comment your are looking for is not found and might have been deleted.');
 }
 
-function testReply(w: cm.CmtFixtureWrapper) {
-  w.test('Focus reply', { viewer: usr.user }, async ({ p }) => {
+export function testFocusModeReplies(w: CmtFixture, page: pw.Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'reply');
     await p.gotoRaw(link, null);
 
@@ -142,8 +144,8 @@ function testReply(w: cm.CmtFixtureWrapper) {
   });
 }
 
-function testCmt(w: cm.CmtFixtureWrapper) {
-  w.test('Focus cmt', { viewer: usr.user }, async ({ p }) => {
+export function testFocusModeCmts(w: CmtFixture, page: pw.Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'cmt');
     await p.gotoRaw(link, null);
 
@@ -171,8 +173,8 @@ function testCmt(w: cm.CmtFixtureWrapper) {
   });
 }
 
-function test404Cmt(w: cm.CmtFixtureWrapper) {
-  w.test('Focus 404 cmt', { viewer: usr.user }, async ({ p }) => {
+export function testFocusMode404Cmts(w: CmtFixture, page: pw.Page) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     const postLink = addCmtParams(`${serverURL}${w.getHostURL(p)}`, '999999');
     await p.gotoRaw(postLink, null);
 
@@ -184,10 +186,4 @@ function test404Cmt(w: cm.CmtFixtureWrapper) {
     // Click view all comments.
     await checkViewAllComments(w, p, cmtApp);
   });
-}
-
-export default function testFocusMode(w: cm.CmtFixtureWrapper) {
-  testReply(w);
-  testCmt(w);
-  test404Cmt(w);
 }

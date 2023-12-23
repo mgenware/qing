@@ -11,9 +11,11 @@ import * as alt from 'br/cm/overlays/alert.js';
 import * as def from 'base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
+import { Page } from '@playwright/test';
+import { CmtFixture } from '../fixture.js';
 
-function testEraseCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
-  w.test('Erase cmts - ' + (fresh ? 'Fresh' : 'Stale'), { viewer: usr.user }, async ({ p }) => {
+export function testEraseCmts(w: CmtFixture, page: Page, fresh: boolean) {
+  return w.start(page, { viewer: usr.user }, async ({ p }) => {
     {
       {
         // Create 3 nested cmts.
@@ -85,9 +87,4 @@ function testEraseCore(w: cm.CmtFixtureWrapper, fresh: boolean) {
       }
     }
   });
-}
-
-export default function testErase(w: cm.CmtFixtureWrapper) {
-  testEraseCore(w, true);
-  testEraseCore(w, false);
 }
