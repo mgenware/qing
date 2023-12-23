@@ -149,7 +149,8 @@ test("Sign up - Passwords don't match", async ({ page }) => {
 
   await appEl.$qingButton('Sign up').click();
 
-  const errorView = appEl.$('> enter-key-handler > div > input-error-view');
+  const errorView = appEl.$('input-error-view');
+  await errorView.waitForLitUpdate();
   await errorView.e.toHaveAttribute('message', "Passwords don't match.");
 });
 
