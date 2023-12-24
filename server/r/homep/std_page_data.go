@@ -12,7 +12,7 @@ import (
 	"qing/r/rcom"
 )
 
-var vOnlymeFeedView = appHandler.MainPage().MustParseView("home/feed/onlymeFeedView.html")
+var vOnlyMeFeedView = appHandler.MainPage().MustParseView("home/feed/onlymeFeedView.html")
 var vUserFeedView = appHandler.MainPage().MustParseView("home/feed/userFeedView.html")
 var vStdPage = appHandler.MainPage().MustParseView("home/stdPage.html")
 
@@ -30,8 +30,8 @@ func NewStdPageData(pageData *rcom.PaginationData, feedHTML, pageBarHTML string)
 	return d
 }
 
-func MustRenderOnlymeFeedView(d *rcom.PostFeedData) string {
-	return vOnlymeFeedView.MustExecuteToString(d)
+func MustRenderOnlyMeFeedView(d *rcom.PostFeedData) string {
+	return vOnlyMeFeedView.MustExecuteToString(d)
 }
 
 func MustRenderUserFeedView(d *rcom.PostFeedData) string {

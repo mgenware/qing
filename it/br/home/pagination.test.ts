@@ -125,6 +125,9 @@ async function testNoContent(mode: cm.HomePageMode, page: Page, context: Browser
   const p = $(page);
   const prefix = '__no_content__';
 
+  if (mode === cm.HomePageMode.personal) {
+    await updateAppConfig(context, 'postPermission', 'onlyMe');
+  }
   await PWCookies.setCookieAsync(context, appDef.brHomePostCookiePrefix, prefix);
   await p.goto('/', null);
 

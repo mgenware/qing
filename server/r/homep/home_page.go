@@ -78,7 +78,7 @@ func renderStdPage(w http.ResponseWriter, r *http.Request) handler.HTML {
 
 			switch appCfg.PostPermission() {
 			case frozenDef.PostPermissionConfigOnlyMe:
-				feedItemHTML = MustRenderOnlymeFeedView(&itemData)
+				feedItemHTML = MustRenderOnlyMeFeedView(&itemData)
 
 			case frozenDef.PostPermissionConfigEveryone:
 				feedItemHTML = MustRenderUserFeedView(&itemData)
