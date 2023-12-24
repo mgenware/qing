@@ -56,7 +56,7 @@ function printUsage() {
 
 const webDir = 'web';
 const serverDir = 'server';
-const libDevDir = 'lib/dev';
+const libScriptDir = 'lib/script';
 const itDir = 'it';
 const helpText = 'Run `qing` for help.';
 
@@ -205,7 +205,7 @@ async function checkCommandAvailable(cmd: string) {
         await sp.spawnDZCmd({
           cmd: inputCmd,
           args: cli.positionals.slice(1),
-          daizongDir: await iou.getProjectDir(libDevDir),
+          daizongDir: await iou.getProjectDir(libScriptDir),
         });
         break;
       }
