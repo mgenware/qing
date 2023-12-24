@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@qing/def": "workspace:*",
-    "@qing/devutil": "workspace:*",
+    "@qing/dev": "workspace:*",
     "del": "^7.1.0",
     "gen-go-type": "^1.4.1",
     "globby": "^14.0.0",

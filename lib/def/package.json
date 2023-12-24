@@ -16,7 +16,7 @@
     "dist/**/*.map"
   ],
   "devDependencies": {
-    "@qing/devutil": "workspace:*",
+    "@qing/dev": "workspace:*",
     "qing-shared-const": "^0.3.0"
   }
 }

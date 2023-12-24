@@ -8,7 +8,7 @@
 import { genGoType, TypeMember, Options, BaseType } from 'gen-go-type';
 import * as np from 'path';
 import * as cm from './common.js';
-import * as qdu from '@qing/devutil';
+import * as qdu from '@qing/dev';
 
 function goAttr(s: string) {
   return `__go_${s}`;

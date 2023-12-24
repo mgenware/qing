@@ -20,8 +20,6 @@
     "mgenware-tsconfig-core": "^14.0.1",
     "mgenware-tsconfig-node-x": "^16.3.0",
     "source-map-support": "^0.5.21",
-    "ts-patch": "^3.1.1",
-    "ts-transform-esm-import": "^0.11.0",
     "typescript": "^5.3.3"
   },
   "engines": {

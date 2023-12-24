@@ -10,7 +10,7 @@ import np from 'path';
 import yaml from 'js-yaml';
 import { globby } from 'globby';
 import { deleteAsync } from 'del';
-import * as qdu from '@qing/devutil';
+import * as qdu from '@qing/dev';
 import * as cm from './common.js';
 import * as go from './goUtil.js';
 import * as ts from './tsUtil.js';

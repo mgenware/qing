@@ -8,7 +8,7 @@
 import { goConstGenCore, PropData } from 'go-const-gen';
 import * as mfs from 'm-fs';
 import * as np from 'path';
-import * as qdu from '@qing/devutil';
+import * as qdu from '@qing/dev';
 import { stringHash } from '../cm/checksum.js';
 import { deleteAsync } from 'del';
 

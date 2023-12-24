@@ -7,7 +7,7 @@
 
 import np from 'path';
 import * as yaml from 'js-yaml';
-import * as qdu from '@qing/devutil';
+import * as qdu from '@qing/dev';
 import * as mfs from 'm-fs';
 import { infraDef } from '@qing/def';
 import { CoreConfigSchema } from './coreConfigSchema.js';

@@ -7,7 +7,7 @@
 
 import * as cm from './common.js';
 import * as np from 'node:path';
-import * as qdu from '@qing/devutil';
+import * as qdu from '@qing/dev';
 
 function tsAttr(s: string) {
   return `__ts_${s}`;
