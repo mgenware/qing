@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { errorResults, itaResultRaw, usr, apiRaw, api } from 'api.js';
 import { defaultUserImg } from '@qing/routes/static.js';
 import * as assert from 'node:assert';
-import { User } from 'base/api.js';
-import { newUser } from 'helper/user.js';
+import { errorResults, itaResultRaw, usr, apiRaw, api } from '../../api.js';
+import { User } from '../../base/api.js';
+import { newUser } from '../../helper/user.js';
 
 const url = 'admin/set-admin';
 const getAdminsURL = 'admin/admins';

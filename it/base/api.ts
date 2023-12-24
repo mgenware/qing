@@ -8,7 +8,7 @@
 import fetch, { Response } from 'node-fetch';
 import * as apiAuth from '@qing/routes/dev/api/auth.js';
 import { serverURL } from './def.js';
-import CookieJar from 'helper/cookieJar.js';
+import CookieJar from '../helper/cookieJar.js';
 
 function getSetCookies(resp: Response) {
   return resp.headers.raw()['set-cookie'];

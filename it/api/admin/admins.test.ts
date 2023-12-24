@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { ita, itaNotAuthorized, usr, User } from 'api.js';
+import { ita, itaNotAuthorized, usr, User } from '../../api.js';
 import * as assert from 'node:assert';
 import * as adminRoute from '@qing/routes/s/admin.js';
 

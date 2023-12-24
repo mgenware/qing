@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { api, User, APIOptions } from 'base/api.js';
+import { api, User, APIOptions } from '../base/api.js';
 import * as apiAuth from '@qing/routes/dev/api/auth.js';
 import * as apiUser from '@qing/routes/dev/api/user.js';
 import CookieJar from './cookieJar.js';
 import * as uuid from 'uuid';
-import { alternativeLocale } from 'br.js';
+import { alternativeLocale } from '../base/def.js';
 import * as mh from './mail.js';
 
 export interface NewUserOptions {

@@ -38,3 +38,6 @@ export const sd = {
 };
 
 export const oldDate = new Date('2003-06-12');
+
+// Used to test a non-default language.
+export const alternativeLocale = 'zh-Hans';

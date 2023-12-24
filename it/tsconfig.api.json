@@ -1,17 +1,11 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "mgenware-tsconfig-node-x",
   "compilerOptions": {
-    "plugins": [
-      {
-        "transform": "ts-transform-esm-import",
-        "after": true,
-        "afterDeclarations": true,
-        "type": "config",
-
-        "rootDir": ".",
-        "outDir": "./dist",
-        "resolvers": [{ "dir": ".", "sourceDir": true }]
-      }
-    ]
+    "lib": ["es2020", "DOM", "DOM.Iterable"],
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": false
   }
 }

@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { api } from 'api.js';
+import { api } from '../api.js';
 import * as mailAPI from '@qing/routes/dev/api/mail.js';
 import { HTMLElement, parse } from 'node-html-parser';
-import { serverURL } from 'base/def.js';
+import { serverURL } from '../base/def.js';
 
 const mainElSel = '#main';
 

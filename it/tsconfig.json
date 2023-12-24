@@ -3,9 +3,6 @@
   "compilerOptions": {
     "lib": ["es2020", "DOM", "DOM.Iterable"],
     "rootDir": ".",
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "sourceMap": true,
-    "declaration": false
+    "baseUrl": "."
   }
 }

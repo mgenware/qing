@@ -6,11 +6,11 @@
  */
 
 import * as assert from 'node:assert';
-import { curUser } from 'helper/user.js';
-import { api, usr, authUsr, itaResultRaw } from 'api.js';
+import { curUser } from '../../../helper/user.js';
+import { api, usr, authUsr, itaResultRaw } from '../../../api.js';
 import * as priAuth from '@qing/routes/s/pri/auth.js';
 import * as pubAuth from '@qing/routes/s/pub/auth.js';
-import CookieJar from 'helper/cookieJar.js';
+import CookieJar from '../../../helper/cookieJar.js';
 
 itaResultRaw('Sign in - Missing email', pubAuth.signIn, { pwd: '_' }, null, {
   c: 1,

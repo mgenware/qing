@@ -5,8 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import * as def from 'base/def.js';
-import { User } from 'api.js';
+import * as def from '../base/def.js';
+import { User } from '../api.js';
 import * as entityUtil from './entity.js';
 import { frozenDef } from '@qing/def';
 

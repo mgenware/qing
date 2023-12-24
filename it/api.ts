@@ -6,10 +6,10 @@
  */
 
 import * as assert from 'node:assert';
-import { api, apiRaw, APIResult, APIOptions, User, errorResults } from 'base/api.js';
+import { api, apiRaw, APIResult, APIOptions, User, errorResults } from './base/api.js';
 
 // Re-exports.
-export * from 'base/api.js';
+export * from './base/api.js';
 
 export function itaRaw(
   name: string,

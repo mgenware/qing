@@ -7,7 +7,7 @@
 
 import * as composeRoute from '@qing/routes/s/pri/compose.js';
 import * as apiCompose from '@qing/routes/dev/api/compose.js';
-import { api, APIOptions, User } from 'api.js';
+import { api, APIOptions, User } from '../api.js';
 
 export function delEntity(id: string, type: number, user: User) {
   return api(composeRoute.delEntity, { entity: { id, type } }, user);

@@ -9,7 +9,7 @@
 import * as pw from '@playwright/test';
 import * as api from './base/api.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
-import { serverURL } from './base/def.js';
+import { alternativeLocale, serverURL } from './base/def.js';
 
 export { expect, test } from '@playwright/test';
 export { usr, api, type User, authUsr } from './base/api.js';
@@ -18,8 +18,6 @@ export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
 const mobileViewport = { width: 390, height: 844 };
 const desktopViewport = { width: 1280, height: 720 };
-// Use to test a non-default language.
-export const alternativeLocale = 'zh-Hans';
 
 export interface PWLocatable {
   locator(selector: string): pw.Locator;
