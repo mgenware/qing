@@ -6,8 +6,8 @@
  */
 
 import * as assert from 'node:assert';
-import * as mh from '../../helper/mail.js';
-import { newEmail } from '../../helper/user.js';
+import * as mh from '@qing/dev/it/helper/mail.js';
+import { newEmail } from '@qing/dev/it/helper/user.js';
 
 it('Send mail and getDevMail', async () => {
   const email = newEmail();

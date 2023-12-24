@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { itaResultRaw, ita, api, apiRaw } from '../../../api.js';
+import { itaResultRaw, ita, api, apiRaw } from '@qing/dev/it/api.js';
 import * as authAPI from '@qing/routes/s/pub/auth.js';
 import * as authRoute from '@qing/routes/auth.js';
 import * as assert from 'node:assert';
-import * as mh from '../../../helper/mail.js';
-import { serverURL } from '../../../base/def.js';
+import * as mh from '@qing/dev/it/helper/mail.js';
+import { serverURL } from '@qing/dev/it/base/def.js';
 import fetch from 'node-fetch';
-import { curUser, newEmail, userInfo } from '../../../helper/user.js';
-import CookieJar from '../../../helper/cookieJar.js';
+import { curUser, newEmail, userInfo } from '@qing/dev/it/helper/user.js';
+import CookieJar from '@qing/dev/it/helper/cookieJar.js';
 
 const pwd = '123456';
 const invalidNameOrPwdResp = {

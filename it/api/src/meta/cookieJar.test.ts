@@ -6,7 +6,7 @@
  */
 
 import * as assert from 'node:assert';
-import CookieJar from '../../helper/cookieJar.js';
+import CookieJar from '@qing/dev/it/helper/cookieJar.js';
 
 it('CookieJar', () => {
   const jar = new CookieJar();

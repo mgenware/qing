@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { api, apiRaw } from '../../../api.js';
+import { api, apiRaw } from '@qing/dev/it/api.js';
 import * as assert from 'node:assert';
-import { newUser } from '../../../helper/user.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
 import * as authAPI from '@qing/routes/s/pub/auth.js';
-import * as mh from '../../../helper/mail.js';
+import * as mh from '@qing/dev/it/helper/mail.js';
 
 const keyValueRegex = /window.appPageExtra="(.+?)"/;
 const initialPwd = '111111)(_';

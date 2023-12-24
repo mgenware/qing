@@ -15,8 +15,10 @@
   ],
   "dependencies": {
     "@qing/def": "workspace:*",
-    "@qing/routes": "workspace:*",
-    "@qing/dev": "workspace:*"
+    "@qing/dev": "workspace:*",
+    "@qing/routes": "workspace:*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "node-fetch": "^3.3.2"
+  }
 }

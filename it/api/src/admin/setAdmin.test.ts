@@ -7,9 +7,9 @@
 
 import { defaultUserImg } from '@qing/routes/static.js';
 import * as assert from 'node:assert';
-import { errorResults, itaResultRaw, usr, apiRaw, api } from '../../api.js';
-import { User } from '../../base/api.js';
-import { newUser } from '../../helper/user.js';
+import { errorResults, itaResultRaw, usr, apiRaw, api } from '@qing/dev/it/api.js';
+import { User } from '@qing/dev/it/base/api.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
 
 const url = 'admin/set-admin';
 const getAdminsURL = 'admin/admins';

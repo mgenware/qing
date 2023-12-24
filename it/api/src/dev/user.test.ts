@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { ita, usr, dontUseRequestLogin } from '../../api.js';
 import * as assert from 'node:assert';
-import { userInfo, newUser, curUser } from '../../helper/user.js';
+import { ita, usr, dontUseRequestLogin } from '@qing/dev/it/api.js';
+import { userInfo, newUser, curUser } from '@qing/dev/it/helper/user.js';
 import { defaultUserImg } from '@qing/routes/static.js';
 import * as apiAuth from '@qing/routes/dev/api/auth.js';
-import CookieJar from '../../helper/cookieJar.js';
+import CookieJar from '@qing/dev/it/helper/cookieJar.js';
 
 ita('User info', apiAuth.info, { uid: usr.admin.id }, null, (r) => {
   assert.deepStrictEqual(r, {
