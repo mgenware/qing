@@ -3,8 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": "./dist/main.js",
-  "types": "./dist/main.d.ts",
   "scripts": {
     "prepare": "dz build"
   },
@@ -15,7 +13,24 @@
     "dist/**/*.css",
     "dist/**/*.map"
   ],
+  "exports": {
+    "./*": "./dist/*"
+  },
   "dependencies": {
-    "@pnpm/find-workspace-dir": "^6.0.2"
+    "@pnpm/find-workspace-dir": "^6.0.2",
+    "@qing/def": "workspace:*",
+    "@qing/routes": "workspace:*",
+    "cookie": "^0.6.0",
+    "is-plain-obj": "^4.1.0",
+    "node-fetch": "^3.3.2",
+    "node-html-parser": "^6.1.11",
+    "set-cookie-parser": "^2.6.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/mocha": "^10.0.6",
+    "@types/set-cookie-parser": "^2.4.7",
+    "@types/uuid": "^9.0.7"
   }
 }

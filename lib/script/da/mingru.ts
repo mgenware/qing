@@ -6,7 +6,7 @@
  */
 
 import * as mr from 'mingru';
-import * as qdu from '@qing/dev';
+import * as qdu from '@qing/dev/util.js';
 import source from './actions/source.js';
 
 const mingruHeader =

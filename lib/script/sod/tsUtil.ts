@@ -5,9 +5,9 @@
  * be found in the LICENSE file.
  */
 
-import * as cm from './common.js';
 import * as np from 'node:path';
-import * as qdu from '@qing/dev';
+import * as qdu from '@qing/dev/util.js';
+import * as cm from './common.js';
 
 function tsAttr(s: string) {
   return `__ts_${s}`;

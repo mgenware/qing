@@ -6,20 +6,12 @@
   "private": true,
   "devDependencies": {
     "@playwright/test": "^1.40.1",
-    "@qing/def": "workspace:*",
-    "@qing/routes": "workspace:*",
-    "@types/cookie": "^0.6.0",
     "@types/mocha": "^10.0.6",
-    "@types/set-cookie-parser": "^2.4.7",
-    "@types/uuid": "^9.0.7",
     "mocha": "^10.2.0",
-    "node-fetch": "^3.3.2",
     "source-map-support": "^0.5.21"
   },
   "dependencies": {
-    "cookie": "^0.6.0",
-    "node-html-parser": "^6.1.11",
-    "set-cookie-parser": "^2.6.0",
-    "uuid": "^9.0.1"
+    "@qing/def": "workspace:*",
+    "@qing/routes": "workspace:*"
   }
 }

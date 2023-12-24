@@ -5,11 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { api, User, APIOptions } from '../base/api.js';
+import * as uuid from 'uuid';
 import * as apiAuth from '@qing/routes/dev/api/auth.js';
 import * as apiUser from '@qing/routes/dev/api/user.js';
+import { api, User, APIOptions } from '../base/api.js';
 import CookieJar from './cookieJar.js';
-import * as uuid from 'uuid';
 import { alternativeLocale } from '../base/def.js';
 import * as mh from './mail.js';
 
@@ -26,6 +26,7 @@ export interface DevNewUser extends User {
 
 async function newUserCore(opt: NewUserOptions | undefined): Promise<DevNewUser> {
   return api<DevNewUser>(
+    // eslint-disable-next-line no-underscore-dangle
     apiAuth.new_,
     {
       lang: opt?.alternativeLocale ? alternativeLocale : undefined,

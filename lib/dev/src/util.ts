@@ -10,11 +10,25 @@ import * as mfs from 'm-fs';
 import { fileURLToPath } from 'url';
 import isObj from 'is-plain-obj';
 
+export const copyrightString = `/*
+ * Copyright (C) The Qing Project. All rights reserved.
+ *
+ * Use of this source code is governed by a license that
+ * can be found in the LICENSE file.
+ */\n\n`;
+
+export const copyrightStringYAML = `#
+# Copyright (C) The Qing Project. All rights reserved.
+#
+# Use of this source code is governed by a license that
+# can be found in the LICENSE file.
+#\n\n`;
+
 export const defaultLangFile = 'en.json';
 const userlandDirName = 'userland';
 
 const dirPath = np.dirname(fileURLToPath(import.meta.url));
-const rootDir = np.join(dirPath, '../../../..');
+const rootDir = np.join(dirPath, '../../..');
 export const langDir = np.join(rootDir, `${userlandDirName}/langs`);
 export const webLangDir = np.join(langDir, 'web');
 export const serverLangDir = np.join(langDir, 'server');

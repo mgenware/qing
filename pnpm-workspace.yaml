@@ -2,7 +2,7 @@ packages:
   - 'lib/cli'
   - 'lib/def'
   - 'lib/dev'
-  - 'lib/devutil'
+  - 'lib/script'
   - 'lib/routes'
   - 'it'
   - 'web'

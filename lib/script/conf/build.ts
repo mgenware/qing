@@ -7,7 +7,7 @@
 
 import np from 'path';
 import * as yaml from 'js-yaml';
-import * as qdu from '@qing/dev';
+import * as qdu from '@qing/dev/util.js';
 import * as mfs from 'm-fs';
 import { infraDef } from '@qing/def';
 import { CoreConfigSchema } from './coreConfigSchema.js';
@@ -40,6 +40,7 @@ async function loadConfigFile(file: string): Promise<CoreConfigSchema> {
 
 function setRestartField(service: Record<string, unknown>, conf: CoreConfigSchema) {
   if (!conf.dev) {
+    // eslint-disable-next-line no-param-reassign
     service.restart = 'always';
   }
 }
@@ -111,6 +112,7 @@ function generateDockerComposeObj(_name: string, conf: CoreConfigSchema) {
     depends_on: [sDB],
   };
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const img_proxy = {
     image: 'h2non/imaginary',
     ports: ['9000:9000'],

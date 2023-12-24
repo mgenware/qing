@@ -1,10 +1,8 @@
 {
-  "name": "@qing/def",
+  "name": "@qing/it-api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": "./main.js",
-  "types": "./main.d.ts",
   "scripts": {
     "prepare": "dz build"
   },
@@ -15,7 +13,10 @@
     "dist/**/*.css",
     "dist/**/*.map"
   ],
-  "devDependencies": {
-    "qing-shared-const": "^0.3.0"
-  }
+  "dependencies": {
+    "@qing/def": "workspace:*",
+    "@qing/routes": "workspace:*",
+    "@qing/dev": "workspace:*"
+  },
+  "devDependencies": {}
 }

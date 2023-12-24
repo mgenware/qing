@@ -8,9 +8,9 @@
 import { goConstGenCore, PropData } from 'go-const-gen';
 import * as mfs from 'm-fs';
 import * as np from 'path';
-import * as qdu from '@qing/dev';
-import { stringHash } from '../cm/checksum.js';
+import * as qdu from '@qing/dev/util.js';
 import { deleteAsync } from 'del';
+import { stringHash } from '../cm/checksum.js';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${qdu.copyrightString}${codeWarning}`;
@@ -132,6 +132,7 @@ async function buildAllWebFiles() {
   // Web folders have dist files that must be updated locally when new strings are added.
   // Server folder doesn't need this as server generated files are go code and not git ignored.
   const subDirs = await mfs.subDirs(qdu.webLangDir);
+  // eslint-disable-next-line no-console
   console.log(`Building LS directories: ${subDirs}`);
   await Promise.all(subDirs.map((dir) => buildWeb(dir)));
 }
@@ -141,8 +142,9 @@ if (arg0 === 's') {
 } else if (arg0 === 'w') {
   if (!arg1) {
     error('Missing subdir param for w mode.');
+    throw new Error('Unreachable');
   }
-  await buildWeb(arg1!);
+  await buildWeb(arg1);
 } else if (arg0 === 'w-all') {
   await buildAllWebFiles();
 } else {

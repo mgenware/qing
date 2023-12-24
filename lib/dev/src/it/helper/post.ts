@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
+import { frozenDef } from '@qing/def';
 import * as def from '../base/def.js';
 import { User } from '../api.js';
 import * as entityUtil from './entity.js';
-import { frozenDef } from '@qing/def';
 
 const postIDRegex = /\/p\/([a-z0-9]+)$/;
 

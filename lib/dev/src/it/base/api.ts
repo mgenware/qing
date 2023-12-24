@@ -74,6 +74,7 @@ async function apiResultFromResponse(response: Response, url: string) {
 
 // Sends a quick(dev only) login request and returns session cookies.
 async function requestLogin(id: string, cookieJar: CookieJar | undefined) {
+  // eslint-disable-next-line no-underscore-dangle
   const url = apiAuth.in_;
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const response = await startFetch(
