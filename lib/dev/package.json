@@ -23,7 +23,7 @@
     "cookie": "^0.6.0",
     "is-plain-obj": "^4.1.0",
     "node-fetch": "^3.3.2",
-    "node-html-parser": "^6.1.11",
+    "node-html-parser": "^6.1.12",
     "set-cookie-parser": "^2.6.0",
     "uuid": "^9.0.1"
   },

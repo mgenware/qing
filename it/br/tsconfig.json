@@ -1,8 +1,7 @@
 {
-  "extends": "mgenware-tsconfig-node-x",
+  "extends": "mgenware-tsconfig-browser",
+  "include": ["./src/**/*"],
   "compilerOptions": {
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "rootDir": "src",
-    "baseUrl": "src"
+    "baseUrl": "./src"
   }
 }

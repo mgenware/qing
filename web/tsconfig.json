@@ -1,11 +1,10 @@
 {
-  "extends": "mgenware-tsconfig-browser-x",
+  "extends": "mgenware-tsconfig-browser",
   "include": ["./src/**/*"],
   "compilerOptions": {
     "noEmit": true,
     "importHelpers": false,
     "useDefineForClassFields": false,
-    "rootDir": "./src",
     "baseUrl": "./src",
     "typeRoots": ["./src/@types/**/*", "node_modules/@types"],
     "declaration": false,

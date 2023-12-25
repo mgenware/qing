@@ -15,9 +15,6 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
     devDependencies:
-      '@tsconfig/node16':
-        specifier: ^16.1.1
-        version: 16.1.1
       '@types/node':
         specifier: ^20.10.5
         version: 20.10.5
@@ -51,18 +48,12 @@ importers:
       m-fs:
         specifier: ^5.2.0
         version: 5.2.0
-      mgenware-tsconfig-browser-x:
-        specifier: ^16.1.0
-        version: 16.1.0
+      mgenware-tsconfig-browser:
+        specifier: ^18.0.0
+        version: 18.0.0
       mgenware-tsconfig-core:
-        specifier: ^14.0.1
-        version: 14.0.1
-      mgenware-tsconfig-node-x:
-        specifier: ^16.3.0
-        version: 16.3.0
-      source-map-support:
-        specifier: ^0.5.21
-        version: 0.5.21
+        specifier: ^18.0.0
+        version: 18.0.0
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -154,8 +145,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2
       node-html-parser:
-        specifier: ^6.1.11
-        version: 6.1.11
+        specifier: ^6.1.12
+        version: 6.1.12
       set-cookie-parser:
         specifier: ^2.6.0
         version: 2.6.0
@@ -1455,10 +1446,6 @@ packages:
 
   /@tootallnate/quickjs-emscripten@0.23.0:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
-    dev: true
-
-  /@tsconfig/node16@16.1.1:
-    resolution: {integrity: sha512-+pio93ejHN4nINX4pXqfnR/fPLRtJBaT4ORaa5RH0Oc1zoYmo2B2koG+M328CQhHKn1Wj6FcOxCDFXAot9NhvA==}
     dev: true
 
   /@types/accepts@1.3.7:
@@ -5073,20 +5060,14 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /mgenware-tsconfig-browser-x@16.1.0:
-    resolution: {integrity: sha512-ZdGkNf6hdjemCcp8/DlUEQWLLVHqxaf69TOpXfJmf28ENaf0YlGfEKgoXbxHj6BQjtDL9CaDxMKweQxVqwQq5Q==}
+  /mgenware-tsconfig-browser@18.0.0:
+    resolution: {integrity: sha512-IPe7LoEhMxrzmKabGEzuaOQKFyAD6pAsE+Ay497CqiXqA62RgNXLoP+991jPYPLo2wBwUE2LPtMsLXrjl78JYw==}
     dependencies:
-      mgenware-tsconfig-node-x: 16.3.0
+      mgenware-tsconfig-core: 18.0.0
     dev: true
 
-  /mgenware-tsconfig-core@14.0.1:
-    resolution: {integrity: sha512-iQiKHV67okqDEjDVcdah6/gVr3XuwKzuXrA3wMVADRmmwIwdD9+pRNG6hcjL3l23ohl6R+fGgqkY7d4EHt2haQ==}
-    dev: true
-
-  /mgenware-tsconfig-node-x@16.3.0:
-    resolution: {integrity: sha512-o54YLPMx9d7g+HPORTw1ddb8q1GJ7owYQuJ1mJCp5QcXD5A+nr3Nvm/SzGEdzo+qUrZ13agxTLYC1+zVCFvSCA==}
-    dependencies:
-      mgenware-tsconfig-core: 14.0.1
+  /mgenware-tsconfig-core@18.0.0:
+    resolution: {integrity: sha512-XvwAHDzeXy1Nyk5PaRhDaHbClNvM4d1ruU/0099XgRxNt5u28oTkRT93Dzmj7/dVUqulQBGvT0ZeUWleRtSm/Q==}
     dev: true
 
   /micromatch@4.0.5:
@@ -5371,8 +5352,8 @@ packages:
       fetch-blob: 3.2.0
       formdata-polyfill: 4.0.10
 
-  /node-html-parser@6.1.11:
-    resolution: {integrity: sha512-FAgwwZ6h0DSDWxfD0Iq1tsDcBCxdJB1nXpLPPxX8YyVWzbfCjKWEzaynF4gZZ/8hziUmp7ZSaKylcn0iKhufUQ==}
+  /node-html-parser@6.1.12:
+    resolution: {integrity: sha512-/bT/Ncmv+fbMGX96XG9g05vFt43m/+SYKIs9oAemQVYyVcZmDAI2Xq/SbNcpOA35eF0Zk2av3Ksf+Xk8Vt8abA==}
     dependencies:
       css-select: 5.1.0
       he: 1.2.0
