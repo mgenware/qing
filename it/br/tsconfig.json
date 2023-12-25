@@ -2,7 +2,7 @@
   "extends": "mgenware-tsconfig-node-x",
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "rootDir": ".",
-    "baseUrl": "."
+    "rootDir": "src",
+    "baseUrl": "src"
   }
 }

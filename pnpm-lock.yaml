@@ -67,28 +67,6 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
-  it:
-    dependencies:
-      '@qing/def':
-        specifier: workspace:*
-        version: link:../lib/def
-      '@qing/routes':
-        specifier: workspace:*
-        version: link:../lib/routes
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.40.1
-        version: 1.40.1
-      '@types/mocha':
-        specifier: ^10.0.6
-        version: 10.0.6
-      mocha:
-        specifier: ^10.2.0
-        version: 10.2.0
-      source-map-support:
-        specifier: ^0.5.21
-        version: 0.5.21
-
   it/api:
     dependencies:
       '@qing/def':
@@ -101,9 +79,31 @@ importers:
         specifier: workspace:*
         version: link:../../lib/routes
     devDependencies:
+      '@types/mocha':
+        specifier: ^10.0.6
+        version: 10.0.6
+      mocha:
+        specifier: ^10.2.0
+        version: 10.2.0
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
+      source-map-support:
+        specifier: ^0.5.21
+        version: 0.5.21
+
+  it/br:
+    dependencies:
+      '@qing/def':
+        specifier: workspace:*
+        version: link:../../lib/def
+      '@qing/routes':
+        specifier: workspace:*
+        version: link:../../lib/routes
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.40.1
+        version: 1.40.1
 
   lib/cli:
     dependencies:

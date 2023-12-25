@@ -17,6 +17,11 @@ export default {
     envGroups: ['production'],
   },
 
+  r: {
+    before: '#build',
+    run: 'mocha --parallel --require source-map-support/register "dist/**/*.test.js"',
+  },
+
   clean: {
     run: {
       del: ['dist'],

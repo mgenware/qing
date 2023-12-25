@@ -4,5 +4,6 @@ packages:
   - 'lib/dev'
   - 'lib/script'
   - 'lib/routes'
-  - 'it'
+  - 'it/api'
+  - 'it/br'
   - 'web'
