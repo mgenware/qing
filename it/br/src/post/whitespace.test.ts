@@ -6,7 +6,7 @@
  */
 
 import { test, usr, $, expect } from 'br.js';
-import { newPost } from 'helper/post.js';
+import { newPost } from '@qing/dev/it/helper/post.js';
 import * as cps from 'cm/editing/composer.js';
 import * as cm from './common.js';
 

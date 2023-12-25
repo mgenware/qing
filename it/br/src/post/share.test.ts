@@ -5,10 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post.js';
+import { newPost } from '@qing/dev/it/helper/post.js';
 import { test, usr, $ } from 'br.js';
 import * as sh from 'cm/overlays/share.js';
-import { serverURL } from 'base/def.js';
+import { serverURL } from '@qing/dev/it/base/def.js';
 
 test('Share a post', async ({ page }) => {
   const p = $(page);

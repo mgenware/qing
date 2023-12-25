@@ -12,7 +12,7 @@ import {
 } from 'cmt/tests/dismissEditorTests.js';
 import * as act from '../cmt/actions.js';
 import * as cm from '../cmt/common.js';
-import * as def from 'base/def.js';
+import * as def from '@qing/dev/it/base/def.js';
 import postCmtFixture from 'post/postCmtFixture.js';
 
 type Options = Omit<TestCmtEditorDismissalArgs, 'discardChanges'>;

@@ -11,8 +11,9 @@ import * as api from '@qing/dev/it/base/api.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
 import { alternativeLocale, serverURL } from '@qing/dev/it/base/def.js';
 
-export { expect, test } from '@playwright/test';
 export { usr, api, type User, authUsr } from '@qing/dev/it/base/api.js';
+
+export { expect, test } from '@playwright/test';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
@@ -132,27 +133,29 @@ export class Element extends LocatorCore {
   }
 
   shouldExist() {
-    return this.e.toHaveCount(1);
+    return pw.expect(this.c).toHaveCount(1);
   }
 
   shouldNotExist() {
-    return this.e.toHaveCount(0);
+    return pw.expect(this.c).toHaveCount(0);
   }
 
   shouldHaveAttrOrNot(attr: string, val: string | null | undefined) {
     if (val === null || val === undefined) {
       return this.shouldNotHaveAttr(attr);
     }
-    return this.e.toHaveAttribute(attr, val);
+    return pw.expect(this.c).toHaveAttribute(attr, val);
   }
 
   async shouldHaveHTML(html: string) {
-    const actual = await this.c.evaluate((el) => el.innerHTML);
+    const actual = await this.c.evaluate((el) => (el as HTMLElement).innerHTML);
     return pw.expect(actual).toBe(html);
   }
 
   async shouldNotHaveAttr(name: string) {
-    return pw.expect(await this.c.evaluate((el) => el.getAttribute(name))).toBeNull();
+    return pw
+      .expect(await this.c.evaluate((el) => (el as HTMLElement).getAttribute(name)))
+      .toBeNull();
   }
 
   $qingButton(text: string) {

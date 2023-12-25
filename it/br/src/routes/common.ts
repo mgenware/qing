@@ -6,7 +6,7 @@
  */
 
 import { Response, expect } from '@playwright/test';
-import { alternativeLocale } from 'base/def.js';
+import { alternativeLocale } from '@qing/dev/it/base/def.js';
 import { Page } from 'br.js';
 import * as nbm from 'cm/navbar/menu.js';
 

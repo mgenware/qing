@@ -6,7 +6,7 @@
  */
 
 import { test, $, alternativeLocaleBlock, usr } from 'br.js';
-import { newUser } from 'helper/user.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
 import * as cm from './common.js';
 
 alternativeLocaleBlock(() => {

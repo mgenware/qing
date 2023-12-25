@@ -6,10 +6,10 @@
  */
 
 import { test, $ } from 'br.js';
-import { batchNewPosts } from 'helper/post.js';
+import { batchNewPosts } from '@qing/dev/it/helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'cm/content/pageBar.js';
-import { newUser } from 'helper/user.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
 
 const feedItemSel = '.profile-feed';
 const postPrefix = 'profile-pagination-';

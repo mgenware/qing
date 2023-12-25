@@ -6,10 +6,10 @@
  */
 
 import { test, usr, expect } from 'br.js';
-import { getEmail } from 'helper/user.js';
-import * as mh from 'helper/mail.js';
+import { getEmail } from '@qing/dev/it/helper/user.js';
+import * as mh from '@qing/dev/it/helper/mail.js';
 import postCmtFixture from './postCmtFixture.js';
-import * as def from 'base/def.js';
+import * as def from '@qing/dev/it/base/def.js';
 import * as act from '../cmt/actions.js';
 import * as cm from '../cmt/common.js';
 

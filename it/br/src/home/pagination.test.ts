@@ -6,7 +6,7 @@
  */
 
 import { test, $, usr } from 'br.js';
-import { batchNewPosts, deletePostsByPrefix } from 'helper/post.js';
+import { batchNewPosts, deletePostsByPrefix } from '@qing/dev/it/helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'cm/content/pageBar.js';
 import { appDef } from '@qing/def';

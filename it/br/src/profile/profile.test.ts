@@ -8,7 +8,7 @@
 import { test, $, usr, Page } from 'br.js';
 import * as nbm from 'cm/navbar/menu.js';
 import * as snav from 'cm/navbar/sidenav.js';
-import { newUser } from 'helper/user.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
 import { defaultUserImg } from '@qing/routes/static.js';
 
 const infoElSel = '.info-row';

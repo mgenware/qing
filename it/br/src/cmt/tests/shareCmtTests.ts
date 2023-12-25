@@ -6,7 +6,7 @@
  */
 
 import { usr } from 'br.js';
-import * as def from 'base/def.js';
+import * as def from '@qing/dev/it/base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as sh from 'cm/overlays/share.js';

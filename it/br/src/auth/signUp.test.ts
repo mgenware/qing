@@ -10,7 +10,7 @@ import * as ivh from 'cm/forms/inputViewHelper.js';
 import * as authRoutes from '@qing/routes/auth.js';
 import * as kh from 'cm/keyboardHelper.js';
 import * as mh from '@qing/dev/it/helper/mail.js';
-import { newEmail } from 'helper/user.js';
+import { newEmail } from '@qing/dev/it/helper/user.js';
 import * as nbm from 'cm/navbar/menu.js';
 
 const signUpAppSel = 'sign-up-app';

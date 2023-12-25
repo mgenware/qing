@@ -9,7 +9,7 @@ import * as br from 'br.js';
 import * as lk from 'cm/likes/likes.js';
 import * as uv from 'cm/content/userView.js';
 import * as eb from 'cm/editing/editBar.js';
-import * as def from 'base/def.js';
+import * as def from '@qing/dev/it/base/def.js';
 import * as cps from 'cm/editing/composer.js';
 
 export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';

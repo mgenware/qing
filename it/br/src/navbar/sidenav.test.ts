@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { iShouldNotCallThisDelay } from 'base/delay.js';
+import { iShouldNotCallThisDelay } from '@qing/dev/it/base/delay.js';
 import { test, $, usr, Page } from 'br.js';
 import * as snav from 'cm/navbar/sidenav.js';
 

@@ -5,12 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { newPost } from 'helper/post.js';
+import { newPost } from '@qing/dev/it/helper/post.js';
 import { test, usr, $ } from 'br.js';
 import * as cm from './common.js';
-import * as def from 'base/def.js';
+import * as def from '@qing/dev/it/base/def.js';
 import * as cps from 'cm/editing/composer.js';
-import { iShouldNotCallThisDelay } from 'base/delay.js';
+import { iShouldNotCallThisDelay } from '@qing/dev/it/base/delay.js';
 
 const editorDesc = 'Edit post';
 
