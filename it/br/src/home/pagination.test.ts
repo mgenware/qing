@@ -8,10 +8,10 @@
 import { test, $, usr } from 'br.js';
 import { batchNewPosts, deletePostsByPrefix } from 'helper/post.js';
 import * as cm from './cm.js';
-import * as pb from 'br/cm/content/pageBar.js';
+import * as pb from 'cm/content/pageBar.js';
 import { appDef } from '@qing/def';
-import { updateAppConfig } from 'br/cm/config/appConfigHelper.js';
-import PWCookies from 'br/cm/config/pwCookies.js';
+import { updateAppConfig } from 'cm/config/appConfigHelper.js';
+import PWCookies from 'cm/config/pwCookies.js';
 import { BrowserContext, Page } from '@playwright/test';
 
 const homeItemSel = '.fi-item';

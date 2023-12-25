@@ -6,8 +6,8 @@
  */
 
 import { test } from 'br.js';
-import { testEraseCmts } from 'br/cmt/tests/eraseCmtTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import { testEraseCmts } from 'cmt/tests/eraseCmtTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Erase fresh cmts', async ({ page }) => testEraseCmts(postCmtFixture, page, true));
 test('Erase stale cmts', async ({ page }) => testEraseCmts(postCmtFixture, page, false));

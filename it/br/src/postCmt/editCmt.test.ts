@@ -6,8 +6,8 @@
  */
 
 import { test } from 'br.js';
-import { testEditCmt } from 'br/cmt/tests/editCmtTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import { testEditCmt } from 'cmt/tests/editCmtTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Edit a fresh cmt', async ({ page }) => testEditCmt(postCmtFixture, page, true));
 test('Edit a stale cmt', async ({ page }) => testEditCmt(postCmtFixture, page, false));

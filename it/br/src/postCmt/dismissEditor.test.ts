@@ -9,11 +9,11 @@ import { test } from 'br.js';
 import {
   TestCmtEditorDismissalArgs,
   testCmtEditorDismissal,
-} from 'br/cmt/tests/dismissEditorTests.js';
+} from 'cmt/tests/dismissEditorTests.js';
 import * as act from '../cmt/actions.js';
 import * as cm from '../cmt/common.js';
 import * as def from 'base/def.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 type Options = Omit<TestCmtEditorDismissalArgs, 'discardChanges'>;
 

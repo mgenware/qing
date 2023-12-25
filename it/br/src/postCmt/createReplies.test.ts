@@ -10,8 +10,8 @@ import {
   testCreateReplies,
   testCreateRepliesWithDedup,
   testCreateRepliesWithPagination,
-} from 'br/cmt/tests/createReplyTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+} from 'cmt/tests/createReplyTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Create and view a fresh reply, default ordering, expanded', async ({ page }) =>
   testCreateReplies(postCmtFixture, page, true));

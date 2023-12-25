@@ -6,11 +6,11 @@
  */
 
 import * as br from 'br.js';
-import * as lk from 'br/cm/likes/likes.js';
-import * as uv from 'br/cm/content/userView.js';
-import * as eb from 'br/cm/editing/editBar.js';
+import * as lk from 'cm/likes/likes.js';
+import * as uv from 'cm/content/userView.js';
+import * as eb from 'cm/editing/editBar.js';
 import * as def from 'base/def.js';
-import * as cps from 'br/cm/editing/composer.js';
+import * as cps from 'cm/editing/composer.js';
 
 export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';
 

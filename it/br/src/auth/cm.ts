@@ -7,7 +7,7 @@
 
 import { Page } from 'br.js';
 import * as authRoutes from '@qing/routes/auth.js';
-import * as mh from 'helper/mail.js';
+import * as mh from '@qing/dev/it/helper/mail.js';
 
 export async function doForgotPwdActions(p: Page, email: string) {
   await p.goto(authRoutes.forgotPwd);

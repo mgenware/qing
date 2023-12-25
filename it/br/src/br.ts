@@ -7,12 +7,12 @@
  */
 
 import * as pw from '@playwright/test';
-import * as api from './base/api.js';
+import * as api from '@qing/dev/it/base/api.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
-import { alternativeLocale, serverURL } from './base/def.js';
+import { alternativeLocale, serverURL } from '@qing/dev/it/base/def.js';
 
 export { expect, test } from '@playwright/test';
-export { usr, api, type User, authUsr } from './base/api.js';
+export { usr, api, type User, authUsr } from '@qing/dev/it/base/api.js';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
@@ -95,7 +95,7 @@ export class Element extends LocatorCore {
   async waitForLitUpdate() {
     await this.c.evaluate(async (el) => {
       // eslint-disable-next-line max-len
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion
       const elAny = el as any;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { updateComplete } = elAny;

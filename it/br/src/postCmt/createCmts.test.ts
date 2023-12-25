@@ -10,8 +10,8 @@ import {
   testCreateCmts,
   testCreateCmtsWithDedup,
   testCreateCmtsWithPagination,
-} from 'br/cmt/tests/createCmtTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+} from 'cmt/tests/createCmtTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Create and view a fresh cmt, default ordering', async ({ page }) =>
   testCreateCmts(postCmtFixture, page, true));

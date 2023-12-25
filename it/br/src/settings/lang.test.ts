@@ -7,10 +7,10 @@
 
 import { test, usr, $, Element } from 'br.js';
 import * as mRoute from '@qing/routes/i.js';
-import { newUser } from 'helper/user.js';
-import * as alt from 'br/cm/overlays/alert.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
+import * as alt from 'cm/overlays/alert.js';
 import * as cm from './common.js';
-import { checkPageLocale } from 'br/routes/common.js';
+import { checkPageLocale } from 'routes/common.js';
 
 const langSettingsSel = 'lang-st';
 const defOptions = [

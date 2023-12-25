@@ -6,10 +6,10 @@
  */
 
 import { test, $ } from 'br.js';
-import * as ivh from 'br/cm/forms/inputViewHelper.js';
-import { newUser } from 'helper/user.js';
+import * as ivh from 'cm/forms/inputViewHelper.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
 import * as cm from './cm.js';
-import * as kh from 'br/cm/keyboardHelper.js';
+import * as kh from 'cm/keyboardHelper.js';
 
 const defaultPwd = '111111';
 const resetPwdAppSel = 'reset-pwd-app';

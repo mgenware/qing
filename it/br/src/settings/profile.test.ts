@@ -6,14 +6,14 @@
  */
 
 import { test, usr, $, expect } from 'br.js';
-import * as nbm from 'br/cm/navbar/menu.js';
+import * as nbm from 'cm/navbar/menu.js';
 import * as mRoute from '@qing/routes/i.js';
-import * as ed from 'br/cm/editing/editor.js';
-import * as ivh from 'br/cm/forms/inputViewHelper.js';
-import { newUser } from 'helper/user.js';
-import * as nbc from 'br/cm/navbar/checks.js';
-import * as ov from 'br/cm/overlays/overlay.js';
-import * as spn from 'br/cm/spinners/spinner.js';
+import * as ed from 'cm/editing/editor.js';
+import * as ivh from 'cm/forms/inputViewHelper.js';
+import { newUser } from '@qing/dev/it/helper/user.js';
+import * as nbc from 'cm/navbar/checks.js';
+import * as ov from 'cm/overlays/overlay.js';
+import * as spn from 'cm/spinners/spinner.js';
 import * as cm from './common.js';
 
 const bioEditorSel = '.bio-editor';

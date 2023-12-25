@@ -6,7 +6,7 @@
  */
 
 import { test } from 'br.js';
-import { testNoCmts } from 'br/cmt/tests/noCmtTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import { testNoCmts } from 'cmt/tests/noCmtTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('No comments', async ({ page }) => testNoCmts(postCmtFixture, page));

@@ -9,8 +9,8 @@ import { test } from 'br.js';
 import {
   testAddAndExpandReplies,
   testCollapseAndExpandReplies,
-} from 'br/cmt/tests/collapseReplies.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+} from 'cmt/tests/collapseReplies.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Collapse and expand replies', async ({ page }) =>
   testCollapseAndExpandReplies(postCmtFixture, page));

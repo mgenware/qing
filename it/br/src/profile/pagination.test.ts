@@ -8,7 +8,7 @@
 import { test, $ } from 'br.js';
 import { batchNewPosts } from 'helper/post.js';
 import * as cm from './cm.js';
-import * as pb from 'br/cm/content/pageBar.js';
+import * as pb from 'cm/content/pageBar.js';
 import { newUser } from 'helper/user.js';
 
 const feedItemSel = '.profile-feed';

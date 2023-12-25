@@ -6,7 +6,7 @@
  */
 
 import { test, $, Page, usr } from 'br.js';
-import * as nbc from 'br/cm/navbar/checks.js';
+import * as nbc from 'cm/navbar/checks.js';
 import { authRoot } from '@qing/routes/dev/auth.js';
 
 async function clickSignInButton(p: Page, s: string, eid: boolean) {

@@ -7,7 +7,7 @@
 
 import { newPost } from 'helper/post.js';
 import { test, usr, $ } from 'br.js';
-import * as lk from 'br/cm/likes/likes.js';
+import * as lk from 'cm/likes/likes.js';
 
 test('Like a post', async ({ page }) => {
   const p = $(page);

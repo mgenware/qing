@@ -6,9 +6,9 @@
  */
 
 import * as br from 'br.js';
-import * as cps from 'br/cm/editing/composer.js';
-import * as eb from 'br/cm/editing/editBar.js';
-import * as btn from 'br/cm/buttons/button.js';
+import * as cps from 'cm/editing/composer.js';
+import * as eb from 'cm/editing/editBar.js';
+import * as btn from 'cm/buttons/button.js';
 
 const loadMoreCmtsText = 'More comments';
 const loadMoreRepliesText = 'More replies';

@@ -6,8 +6,8 @@
  */
 
 import { test } from 'br.js';
-import { testDeleteReply } from 'br/cmt/tests/deleteReplyTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import { testDeleteReply } from 'cmt/tests/deleteReplyTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Delete a fresh reply', async ({ page }) => testDeleteReply(postCmtFixture, page, true));
 test('Delete a stale reply', async ({ page }) => testDeleteReply(postCmtFixture, page, false));

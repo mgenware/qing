@@ -10,8 +10,8 @@ import {
   testFocusMode404Cmts,
   testFocusModeCmts,
   testFocusModeReplies,
-} from 'br/cmt/tests/focusModeTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+} from 'cmt/tests/focusModeTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Focus mode cmts', async ({ page }) => testFocusModeCmts(postCmtFixture, page));
 test('Focus mode 404 cmts', async ({ page }) => testFocusMode404Cmts(postCmtFixture, page));

@@ -7,7 +7,7 @@
 
 import { iShouldNotCallThisDelay } from 'base/delay.js';
 import { test, $, usr, Page } from 'br.js';
-import * as snav from 'br/cm/navbar/sidenav.js';
+import * as snav from 'cm/navbar/sidenav.js';
 
 async function checkSidenavCore(p: Page) {
   await snav.clickToggler(p);

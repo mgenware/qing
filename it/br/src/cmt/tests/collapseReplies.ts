@@ -6,7 +6,7 @@
  */
 
 import * as br from 'br.js';
-import * as def from 'base/def.js';
+import * as def from '@qing/dev/it/base/def.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import { Page } from '@playwright/test';

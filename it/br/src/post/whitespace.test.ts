@@ -7,7 +7,7 @@
 
 import { test, usr, $, expect } from 'br.js';
 import { newPost } from 'helper/post.js';
-import * as cps from 'br/cm/editing/composer.js';
+import * as cps from 'cm/editing/composer.js';
 import * as cm from './common.js';
 
 const longText = `A${'\n'.repeat(30)}B`;

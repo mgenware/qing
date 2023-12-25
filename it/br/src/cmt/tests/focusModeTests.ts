@@ -8,7 +8,7 @@
 import { usr, Element, Page } from 'br.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
-import * as sh from 'br/cm/overlays/share.js';
+import * as sh from 'cm/overlays/share.js';
 import { serverURL } from 'base/def.js';
 import { CmtFixture } from '../fixture.js';
 import * as pw from '@playwright/test';

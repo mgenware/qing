@@ -6,8 +6,8 @@
  */
 
 import { test, usr, $ } from 'br.js';
-import * as nbm from 'br/cm/navbar/menu.js';
-import * as nbc from 'br/cm/navbar/checks.js';
+import * as nbm from 'cm/navbar/menu.js';
+import * as nbc from 'cm/navbar/checks.js';
 
 test('Navbar - Visitor', async ({ page }) => {
   const p = $(page);

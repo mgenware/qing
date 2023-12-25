@@ -7,7 +7,7 @@
 
 import { newPost } from 'helper/post.js';
 import * as br from 'br.js';
-import { CmtFixture, CmtFixtureStartArg, CmtFixtureStartOptions } from 'br/cmt/fixture.js';
+import { CmtFixture, CmtFixtureStartArg, CmtFixtureStartOptions } from 'cmt/fixture.js';
 import { newUser } from 'helper/user.js';
 
 export const cmtAppSelector = 'post-payload-app cmt-app';

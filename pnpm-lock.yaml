@@ -97,6 +97,9 @@ importers:
       '@qing/def':
         specifier: workspace:*
         version: link:../../lib/def
+      '@qing/dev':
+        specifier: workspace:*
+        version: link:../../lib/dev
       '@qing/routes':
         specifier: workspace:*
         version: link:../../lib/routes

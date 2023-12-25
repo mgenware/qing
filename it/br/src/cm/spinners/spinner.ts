@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { iShouldNotCallThisDelay } from 'base/delay.js';
+import { iShouldNotCallThisDelay } from '@qing/dev/it/base/delay.js';
 import * as br from 'br.js';
 
 const brGSpinnerTextAttr = 'data-br-spinner-text';

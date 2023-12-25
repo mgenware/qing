@@ -9,7 +9,7 @@ import { newPost } from 'helper/post.js';
 import { test, usr, $ } from 'br.js';
 import * as cm from './common.js';
 import * as def from 'base/def.js';
-import * as cps from 'br/cm/editing/composer.js';
+import * as cps from 'cm/editing/composer.js';
 import { iShouldNotCallThisDelay } from 'base/delay.js';
 
 const editorDesc = 'Edit post';

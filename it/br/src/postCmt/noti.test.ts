@@ -6,8 +6,8 @@
  */
 
 import { test } from 'br.js';
-import { testReplyNoti } from 'br/cmt/tests/notiTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import { testReplyNoti } from 'cmt/tests/notiTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Replying to a cmt trigger a notification', async ({ page }) =>
   testReplyNoti(postCmtFixture, page));

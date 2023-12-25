@@ -6,8 +6,8 @@
  */
 
 import * as br from 'br.js';
-import * as uv from 'br/cm/content/userView.js';
-import * as eb from 'br/cm/editing/editBar.js';
+import * as uv from 'cm/content/userView.js';
+import * as eb from 'cm/editing/editBar.js';
 
 // Usage: `cmtEl.$(cmtChildrenSel)`.
 export const cmtChildrenSel = '> div > .br-children';

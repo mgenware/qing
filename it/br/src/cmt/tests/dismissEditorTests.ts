@@ -8,7 +8,7 @@
 import * as cm from '../common.js';
 import * as br from 'br.js';
 import * as def from 'base/def.js';
-import * as cps from 'br/cm/editing/composer.js';
+import * as cps from 'cm/editing/composer.js';
 import { Page } from '@playwright/test';
 import { CmtFixture } from '../fixture.js';
 

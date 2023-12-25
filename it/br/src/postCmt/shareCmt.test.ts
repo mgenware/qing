@@ -6,7 +6,7 @@
  */
 
 import { test } from 'br.js';
-import { testShareCmt } from 'br/cmt/tests/shareCmtTests.js';
-import postCmtFixture from 'br/post/postCmtFixture.js';
+import { testShareCmt } from 'cmt/tests/shareCmtTests.js';
+import postCmtFixture from 'post/postCmtFixture.js';
 
 test('Share a cmt or reply', async ({ page }) => testShareCmt(postCmtFixture, page));

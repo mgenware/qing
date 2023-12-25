@@ -7,8 +7,8 @@
 
 import { test, usr, $ } from 'br.js';
 import * as adminRoute from '@qing/routes/admin.js';
-import * as nbm from 'br/cm/navbar/menu.js';
-import * as ivh from 'br/cm/forms/inputViewHelper.js';
+import * as nbm from 'cm/navbar/menu.js';
+import * as ivh from 'cm/forms/inputViewHelper.js';
 import * as cm from './common.js';
 
 const infoSectionSel = `${cm.settingsViewSel} .info-block`;
