@@ -6,15 +6,16 @@
  */
 
 import * as br from 'br.js';
+import { expect } from '@playwright/test';
 
 function checkTimeString(s: string, edited: boolean) {
-  br.expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
+  expect(!s.startsWith('today') || !s.startsWith('yesterday')).toBeTruthy();
   const hasEdited = s.includes('Edited');
-  br.expect(hasEdited).toBe(edited);
+  expect(hasEdited).toBe(edited);
 }
 
-export async function shouldAppear(el: br.Element, edited: boolean) {
-  await el.e.toBeVisible();
+export async function shouldAppear(el: br.BRElement, edited: boolean) {
+  await expect(el.c).toBeVisible();
   if (edited) {
     await el.waitForLitUpdate();
     await el.$hasText('span', 'Edited').waitForVisible();

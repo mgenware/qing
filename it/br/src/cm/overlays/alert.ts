@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { expect } from '@playwright/test';
 import * as br from 'br.js';
 
 export enum AlertType {
@@ -42,12 +43,12 @@ function typeToString(type: AlertType): string {
   }
 }
 
-function getDialogEl(page: br.Page) {
+function getDialogEl(page: br.BRPage) {
   return page.$('#__g_dialog_container dialog-view');
 }
 
 export class BRDialog {
-  constructor(public c: br.Element) {}
+  constructor(public c: br.BRElement) {}
 
   async clickBtn(text: string) {
     await this.c.$qingButton(text).click();
@@ -79,20 +80,20 @@ export interface AlertShouldAppearArgs {
   focusedBtn?: number;
 }
 
-export async function waitFor(page: br.Page, e: AlertShouldAppearArgs) {
+export async function waitFor(page: br.BRPage, e: AlertShouldAppearArgs) {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(page);
   await el.waitForAttached();
-  await el.e.toHaveAttribute('open', '');
+  await expect(el.c).toHaveAttribute('open', '');
 
   // Icon.
   if (e.type !== undefined) {
-    await el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).e.toBeVisible();
+    await expect(el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).c).toBeVisible();
   }
 
   // Content.
   if (e.content) {
-    await el.$hasText('p', e.content).e.toBeVisible();
+    await expect(el.$hasText('p', e.content).c).toBeVisible();
   }
 
   // Buttons.
@@ -100,7 +101,7 @@ export async function waitFor(page: br.Page, e: AlertShouldAppearArgs) {
     const btns = el.$$('#__buttons qing-button');
     const btnNames = alertButtonsToArray(e.buttons);
     await btns.shouldHaveCount(btnNames.length);
-    await Promise.all(btnNames.map((b, i) => btns.item(i).e.toHaveText(b)));
+    await Promise.all(btnNames.map((b, i) => expect(btns.item(i).c).toHaveText(b)));
   }
 
   return new BRDialog(el);

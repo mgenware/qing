@@ -13,4 +13,5 @@ export default {
   rt: `${brCmd} --debug`,
   rg: `${brCmd} -g`,
   rtg: `${brCmd} --debug -g`,
+  ts: 'tsc --incremental -p tsconfig.json',
 };

@@ -5,9 +5,10 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $ } from 'br.js';
+import { usr, $ } from 'br.js';
 import * as nbm from 'cm/navbar/menu.js';
 import * as nbc from 'cm/navbar/checks.js';
+import { test, expect } from '@playwright/test';
 
 test('Navbar - Visitor', async ({ page }) => {
   const p = $(page);
@@ -28,9 +29,9 @@ test('Navbar - User', async ({ page }) => {
   const userMenu = nbm.userDropdownBtn(p);
 
   await nbm.userDropdownBtn(p).click();
-  await userMenu.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).e.toBeVisible();
-  await userMenu.$a({ href: '/i/your-posts', text: 'Your posts' }).e.toBeVisible();
-  await userMenu.$a({ href: '/i/settings/profile', text: 'Settings' }).e.toBeVisible();
+  await expect(userMenu.$a({ href: `/u/${usr.user.id}`, text: 'Profile' }).c).toBeVisible();
+  await expect(userMenu.$a({ href: '/i/your-posts', text: 'Your posts' }).c).toBeVisible();
+  await expect(userMenu.$a({ href: '/i/settings/profile', text: 'Settings' }).c).toBeVisible();
   // Non-link items like "New post" are tested in their own test files.
 });
 

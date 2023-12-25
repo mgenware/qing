@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { Element, expect } from 'br.js';
+import { BRElement } from 'br.js';
+import { expect } from '@playwright/test';
 
 type CoreEditorImpl = unknown;
 
@@ -26,18 +27,18 @@ interface CoreEditorElement extends HTMLElement {
   resetContent(editorEl: CoreEditorImpl, content: string): void;
 }
 
-export function editorEl(el: Element) {
+export function editorEl(el: BRElement) {
   return el.$('core-editor');
 }
 
-export async function shouldHaveContent(el: Element, content: string) {
+export async function shouldHaveContent(el: BRElement, content: string) {
   const actContent = await el.c.evaluate(
     async (editor: CoreEditorElement) => editor.getContent(await editor.wait()).data,
   );
   expect(actContent).toBe(content);
 }
 
-export async function fill(el: Element, text: string) {
+export async function fill(el: BRElement, text: string) {
   const editableEl = el.$('[contenteditable]');
   await editableEl.c.fill(text);
 }

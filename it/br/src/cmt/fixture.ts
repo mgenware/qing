@@ -19,7 +19,7 @@ export interface CmtFixtureStartOptions {
 }
 
 export interface CmtFixtureStartArg {
-  p: br.Page;
+  p: br.BRPage;
   viewer: br.User | null;
   author: br.User;
   fixture: CmtFixture;
@@ -27,13 +27,13 @@ export interface CmtFixtureStartArg {
 
 export abstract class CmtFixture {
   abstract prepare(
-    p: br.Page,
+    p: br.BRPage,
     opt: CmtFixtureStartOptions,
     cb: (arg: CmtFixtureStartArg) => void,
   ): Promise<void>;
 
-  abstract getCmtApp(p: br.Page): Promise<br.Element>;
-  abstract getHostURL(p: br.Page): string;
+  abstract getCmtApp(p: br.BRPage): Promise<br.BRElement>;
+  abstract getHostURL(p: br.BRPage): string;
 
   async start(
     page: Page,

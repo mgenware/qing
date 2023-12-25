@@ -5,11 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, alternativeLocaleBlock, usr } from 'br.js';
+import { $, usr } from 'br.js';
+import { test } from '@playwright/test';
 import { newUser } from '@qing/dev/it/helper/user.js';
 import * as cm from './common.js';
+import { alternativeLocale } from '@qing/dev/it/base/def.js';
 
-alternativeLocaleBlock(() => {
+test.describe('Alternative locale block', () => {
+  test.use({ locale: alternativeLocale });
   test('Profile route - BR lang', async ({ page }) => {
     const p = $(page);
     await p.goto(usr.user.link, null);

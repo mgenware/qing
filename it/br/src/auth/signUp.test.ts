@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $ } from 'br.js';
+import { $ } from 'br.js';
+import { expect, test } from '@playwright/test';
 import * as ivh from 'cm/forms/inputViewHelper.js';
 import * as authRoutes from '@qing/routes/auth.js';
 import * as kh from 'cm/keyboardHelper.js';
@@ -151,7 +152,7 @@ test("Sign up - Passwords don't match", async ({ page }) => {
 
   const errorView = appEl.$('input-error-view');
   await errorView.waitForLitUpdate();
-  await errorView.e.toHaveAttribute('message', "Passwords don't match.");
+  await expect(errorView.c).toHaveAttribute('message', "Passwords don't match.");
 });
 
 test('Sign up - Success', async ({ page }) => {
@@ -179,13 +180,13 @@ test('Sign up - Success', async ({ page }) => {
     // <sign-up-app> gets removed when "Sign up" button is clicked.
     let bodyEl = p.body;
     await bodyEl.$qingButton('Sign up').click();
-    await bodyEl.$hasText('h1', 'Almost done...').e.toBeVisible();
-    await bodyEl
-      .$hasText(
+    await expect(bodyEl.$hasText('h1', 'Almost done...').c).toBeVisible();
+    await expect(
+      bodyEl.$hasText(
         'p',
         'A verification link has been sent to your email account. Please check your email and click the verification link to complete the process.',
-      )
-      .e.toBeVisible();
+      ).c,
+    ).toBeVisible();
 
     const verifyMail = await mh.getLatest({ email });
     // Email content is verified in API tests.
@@ -193,7 +194,7 @@ test('Sign up - Success', async ({ page }) => {
     await p.gotoRaw(link);
 
     bodyEl = p.$('acc-verified-app');
-    await bodyEl.$hasText('', 'Your account has been verified.').e.toBeVisible();
+    await expect(bodyEl.$hasText('', 'Your account has been verified.').c).toBeVisible();
     await bodyEl.$qingButton('Sign in').click();
 
     await p.waitForURL(/\/auth\/signin/);

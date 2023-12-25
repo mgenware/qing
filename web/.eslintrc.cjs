@@ -13,6 +13,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
+  ignorePatterns: '/dist/',
   rules: {
     // Sometimes, we need both web component files and their typings imported to avoid
     // unwanted tree-shaking.

@@ -14,13 +14,13 @@ const loadMoreCmtsText = 'More comments';
 const loadMoreRepliesText = 'More replies';
 
 export interface WriteCmtArgs {
-  cmtApp: br.Element;
+  cmtApp: br.BRElement;
   content: string;
   date?: Date;
-  shownCb?: (overlayEl: br.Element) => Promise<void>;
+  shownCb?: (overlayEl: br.BRElement) => Promise<void>;
 }
 
-export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
+export async function writeCmt(p: br.BRPage, a: WriteCmtArgs) {
   const writeCmtBtn = await btn.shouldAppear(a.cmtApp.$qingButton('Write a comment'));
   await writeCmtBtn.click();
   const { overlayEl } = await cps.waitForOverlay(p, 'root-cmt-list');
@@ -36,13 +36,13 @@ export async function writeCmt(p: br.Page, a: WriteCmtArgs) {
 }
 
 export interface WriteReplyArgs {
-  cmtEl: br.Element;
+  cmtEl: br.BRElement;
   content: string;
   date?: Date;
-  shownCb?: (overlayEl: br.Element) => Promise<void>;
+  shownCb?: (overlayEl: br.BRElement) => Promise<void>;
 }
 
-export async function writeReply(p: br.Page, a: WriteReplyArgs) {
+export async function writeReply(p: br.BRPage, a: WriteReplyArgs) {
   await a.cmtEl.$hasText('cmt-view link-button', 'Reply').click();
   const { overlayEl } = await cps.waitForOverlay(p, 'cmt-block');
   if (a.shownCb) {
@@ -57,14 +57,14 @@ export async function writeReply(p: br.Page, a: WriteReplyArgs) {
 }
 
 export interface EditCmtArgs {
-  cmtEl: br.Element;
+  cmtEl: br.BRElement;
   author: br.User;
   content?: string;
   date?: Date;
-  shownCb?: (overlayEl: br.Element) => Promise<void>;
+  shownCb?: (overlayEl: br.BRElement) => Promise<void>;
 }
 
-export async function editCmt(p: br.Page, a: EditCmtArgs) {
+export async function editCmt(p: br.BRPage, a: EditCmtArgs) {
   await eb.getEditButton(a.cmtEl, a.author.id).click();
   const { overlayEl } = await cps.waitForOverlay(p, 'cmt-block');
   if (a.shownCb) {
@@ -80,11 +80,11 @@ export async function editCmt(p: br.Page, a: EditCmtArgs) {
 }
 
 export interface CmtAppArgs {
-  cmtApp: br.Element;
+  cmtApp: br.BRElement;
 }
 
 export interface CmtElArgs {
-  cmtEl: br.Element;
+  cmtEl: br.BRElement;
 }
 
 export function clickMoreCmts(a: CmtAppArgs) {

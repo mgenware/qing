@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $ } from 'br.js';
+import { $ } from 'br.js';
+import { test } from '@playwright/test';
 import { batchNewPosts } from '@qing/dev/it/helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'cm/content/pageBar.js';

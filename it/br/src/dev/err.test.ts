@@ -5,19 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Page, usr } from 'br.js';
+import { $, usr, BRPage } from 'br.js';
 import * as errRoutes from '@qing/routes/dev/err.js';
-import { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 function getHTML(content: string) {
   // No need to escape HTML, `content` is our test message.
   return `<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">${content}</pre></body></html>`;
 }
 
-async function errorPageShouldAppear(p: Page, msg: string) {
+async function errorPageShouldAppear(p: BRPage, msg: string) {
   const rootView = p.$('div.text-center');
-  await rootView.$('> h1').e.toHaveText('An error occurred');
-  await rootView.$('> p.text-danger').e.toHaveText(msg);
+  await expect(rootView.$('> h1').c).toHaveText('An error occurred');
+  await expect(rootView.$('> p.text-danger').c).toHaveText(msg);
 }
 
 // ----- NOTE: this file only tests error pages. API errors are tested in API tests. -----

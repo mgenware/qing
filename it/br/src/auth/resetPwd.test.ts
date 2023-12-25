@@ -5,11 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { test, $ } from 'br.js';
+import { $ } from 'br.js';
 import * as ivh from 'cm/forms/inputViewHelper.js';
 import { newUser } from '@qing/dev/it/helper/user.js';
 import * as cm from './cm.js';
 import * as kh from 'cm/keyboardHelper.js';
+import { expect, test } from '@playwright/test';
 
 const defaultPwd = '111111';
 const resetPwdAppSel = 'reset-pwd-app';
@@ -113,7 +114,7 @@ test("Reset pwd - Passwords don't match", async ({ page }) => {
       await appEl.$qingButton('Reset').click();
 
       const errorView = appEl.$('> enter-key-handler > div > input-error-view');
-      await errorView.e.toHaveAttribute('message', "Passwords don't match.");
+      await expect(errorView.c).toHaveAttribute('message', "Passwords don't match.");
     },
     { pwd: defaultPwd },
   );

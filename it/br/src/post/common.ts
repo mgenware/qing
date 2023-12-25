@@ -11,21 +11,22 @@ import * as uv from 'cm/content/userView.js';
 import * as eb from 'cm/editing/editBar.js';
 import * as def from '@qing/dev/it/base/def.js';
 import * as cps from 'cm/editing/composer.js';
+import { expect } from '@playwright/test';
 
 export const userViewQuery = 'main > div.container > div.m-post-user > post-user-app';
 
-export async function shouldHaveHTML(page: br.Page, html: string) {
+export async function shouldHaveHTML(page: br.BRPage, html: string) {
   await page.$('.m-post-user + hr + div').shouldHaveHTML(html);
 }
 
-export async function shouldHaveTitle(page: br.Page, title: string, link: string) {
+export async function shouldHaveTitle(page: br.BRPage, title: string, link: string) {
   const aEl = page.$('main > div.container > h2 > a');
-  await aEl.e.toHaveAttribute('href', link);
-  br.expect(await aEl.c.textContent()).toBe(title);
+  await expect(aEl.c).toHaveAttribute('href', link);
+  expect(await aEl.c.textContent()).toBe(title);
 }
 
 export async function shouldAppear(
-  page: br.Page,
+  page: br.BRPage,
   link: string,
   author: br.User,
   user: br.User | null,
@@ -48,12 +49,12 @@ export async function shouldAppear(
   };
 }
 
-export async function waitForOverlay(p: br.Page) {
+export async function waitForOverlay(p: br.BRPage) {
   const { overlayEl } = await cps.waitForOverlay(p, 'set-entity-app');
   return overlayEl;
 }
 
-export async function clickEditButton(p: br.Page, u: br.User) {
+export async function clickEditButton(p: br.BRPage, u: br.User) {
   const userView = p.$(userViewQuery);
   const editBtn = eb.getEditButton(userView, u.id);
   await editBtn.click();

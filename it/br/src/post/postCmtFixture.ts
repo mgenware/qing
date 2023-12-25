@@ -14,7 +14,7 @@ export const cmtAppSelector = 'post-payload-app cmt-app';
 
 export class PostCmtFixture extends CmtFixture {
   override prepare(
-    p: br.Page,
+    p: br.BRPage,
     opt: CmtFixtureStartOptions,
     cb: (arg: CmtFixtureStartArg) => void,
   ): Promise<void> {
@@ -26,7 +26,7 @@ export class PostCmtFixture extends CmtFixture {
   }
 
   private startInternal(
-    p: br.Page,
+    p: br.BRPage,
     opt: CmtFixtureStartOptions,
     author: br.User,
     cb: (arg: CmtFixtureStartArg) => void,
@@ -38,11 +38,11 @@ export class PostCmtFixture extends CmtFixture {
     });
   }
 
-  override async getCmtApp(page: br.Page): Promise<br.Element> {
+  override async getCmtApp(page: br.BRPage): Promise<br.BRElement> {
     return Promise.resolve(page.$(cmtAppSelector));
   }
 
-  override getHostURL(p: br.Page) {
+  override getHostURL(p: br.BRPage) {
     return p.url();
   }
 }

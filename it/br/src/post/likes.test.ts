@@ -6,7 +6,8 @@
  */
 
 import { newPost } from '@qing/dev/it/helper/post.js';
-import { test, usr, $ } from 'br.js';
+import { usr, $ } from 'br.js';
+import { test } from '@playwright/test';
 import * as lk from 'cm/likes/likes.js';
 
 test('Like a post', async ({ page }) => {

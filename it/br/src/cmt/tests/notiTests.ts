@@ -11,7 +11,7 @@ import * as cm from '../common.js';
 import { getEmail, newUser } from '@qing/dev/it/helper/user.js';
 import * as act from '../actions.js';
 import * as mh from '@qing/dev/it/helper/mail.js';
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { CmtFixture } from '../fixture.js';
 
 export function testReplyNoti(w: CmtFixture, page: Page) {
@@ -39,10 +39,10 @@ export function testReplyNoti(w: CmtFixture, page: Page) {
 
           const email = await getEmail(u);
           const mail = await mh.getLatest({ email });
-          br.expect(mail.title).toBe(
+          expect(mail.title).toBe(
             'USER has replied to your comment in "<p>title</p><script>alert(\'-39\')</script>".',
           );
-          br.expect(mail.content.trim()).toBe(`<p>
+          expect(mail.content.trim()).toBe(`<p>
   <span>USER has replied to your comment in &#34;&lt;p&gt;title&lt;/p&gt;&lt;script&gt;alert(&#39;-39&#39;)&lt;/script&gt;&#34;.</span>
   <a href="${postLink}?cmt=${cmtID}">Click here to view it on Qing.</a>
 </p>`);

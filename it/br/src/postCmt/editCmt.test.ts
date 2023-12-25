@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { test } from 'br.js';
+import { test } from '@playwright/test';
 import { testEditCmt } from 'cmt/tests/editCmtTests.js';
 import postCmtFixture from 'post/postCmtFixture.js';
 

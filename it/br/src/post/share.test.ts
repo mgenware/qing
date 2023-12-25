@@ -6,7 +6,8 @@
  */
 
 import { newPost } from '@qing/dev/it/helper/post.js';
-import { test, usr, $ } from 'br.js';
+import { usr, $ } from 'br.js';
+import { test } from '@playwright/test';
 import * as sh from 'cm/overlays/share.js';
 import { serverURL } from '@qing/dev/it/base/def.js';
 

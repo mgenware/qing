@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { expect } from '@playwright/test';
 import * as br from 'br.js';
 
 export interface CheckProfileFeedArgs {
@@ -12,6 +13,6 @@ export interface CheckProfileFeedArgs {
   link: string;
 }
 
-export async function checkProfileFeed(el: br.Element, e: CheckProfileFeedArgs) {
-  await el.$a({ href: e.link, text: e.title }).e.toBeVisible();
+export async function checkProfileFeed(el: br.BRElement, e: CheckProfileFeedArgs) {
+  await expect(el.$a({ href: e.link, text: e.title }).c).toBeVisible();
 }

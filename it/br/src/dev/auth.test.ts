@@ -5,11 +5,12 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Page, usr } from 'br.js';
+import { $, BRPage, usr } from 'br.js';
 import * as nbc from 'cm/navbar/checks.js';
 import { authRoot } from '@qing/routes/dev/auth.js';
+import { test } from '@playwright/test';
 
-async function clickSignInButton(p: Page, s: string, eid: boolean) {
+async function clickSignInButton(p: BRPage, s: string, eid: boolean) {
   const el = p.$('.br-user');
   if (eid) {
     await el.$checkItem('Encoded').click();

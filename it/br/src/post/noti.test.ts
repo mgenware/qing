@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, expect } from 'br.js';
+import { usr } from 'br.js';
+import { test, expect } from '@playwright/test';
 import { getEmail } from '@qing/dev/it/helper/user.js';
 import * as mh from '@qing/dev/it/helper/mail.js';
 import postCmtFixture from './postCmtFixture.js';

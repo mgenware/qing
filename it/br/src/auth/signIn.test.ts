@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, authUsr, usr } from 'br.js';
+import { $, authUsr, usr } from 'br.js';
+import { test } from '@playwright/test';
 import * as nbc from 'cm/navbar/checks.js';
 import * as ivh from 'cm/forms/inputViewHelper.js';
 import * as kh from 'cm/keyboardHelper.js';

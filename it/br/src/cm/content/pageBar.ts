@@ -5,12 +5,13 @@
  * be found in the LICENSE file.
  */
 
+import { expect } from '@playwright/test';
 import * as br from 'br.js';
 
 const pageBarSel = '.m-page-bar';
 const linkBtnSel = '.link-btn';
 
-export async function shouldNotExist(container: br.Element) {
+export async function shouldNotExist(container: br.BRElement) {
   await container.$(pageBarSel).shouldNotExist();
 }
 
@@ -20,16 +21,16 @@ export interface CheckArgs {
   rightLink?: string;
 }
 
-async function checkLinkValue(el: br.Element, value: string | undefined) {
+async function checkLinkValue(el: br.BRElement, value: string | undefined) {
   if (!value) {
-    await el.e.toHaveClass(/content-disabled/);
+    await expect(el.c).toHaveClass(/content-disabled/);
   } else {
-    await el.e.not.toHaveClass(/content-disabled/);
-    await el.e.toHaveAttribute('href', value);
+    await expect(el.c).not.toHaveClass(/content-disabled/);
+    await expect(el.c).toHaveAttribute('href', value);
   }
 }
 
-export async function check(container: br.Element, e: CheckArgs) {
+export async function check(container: br.BRElement, e: CheckArgs) {
   const el = container.$(pageBarSel);
   await el.shouldExist();
   const buttons = el.$$(linkBtnSel);
@@ -39,7 +40,7 @@ export async function check(container: br.Element, e: CheckArgs) {
   await checkLinkValue(rightBtn, e.rightLink);
 }
 
-export async function clickNextBtn(container: br.Element) {
+export async function clickNextBtn(container: br.BRElement) {
   const el = container.$(pageBarSel);
   const buttons = el.$$(linkBtnSel);
   const rightBtn = buttons.item(1);

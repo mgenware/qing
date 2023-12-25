@@ -5,10 +5,11 @@
  * be found in the LICENSE file.
  */
 
-import { Element } from 'br.js';
+import { expect } from '@playwright/test';
+import { BRElement } from 'br.js';
 
 export const enterKeyHandlerSel = 'enter-key-handler';
 
-export function shouldBeEnterKeyResponder(el: Element) {
-  return el.e.toHaveClass(/enter-key-responder/);
+export function shouldBeEnterKeyResponder(el: BRElement) {
+  return expect(el.c).toHaveClass(/enter-key-responder/);
 }

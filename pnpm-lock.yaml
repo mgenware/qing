@@ -49,8 +49,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0
       mgenware-tsconfig-browser:
-        specifier: ^18.0.0
-        version: 18.0.0
+        specifier: ^18.0.1
+        version: 18.0.1
       mgenware-tsconfig-core:
         specifier: ^18.0.0
         version: 18.0.0
@@ -85,6 +85,9 @@ importers:
 
   it/br:
     dependencies:
+      '@playwright/test':
+        specifier: ^1.40.1
+        version: 1.40.1
       '@qing/def':
         specifier: workspace:*
         version: link:../../lib/def
@@ -94,10 +97,6 @@ importers:
       '@qing/routes':
         specifier: workspace:*
         version: link:../../lib/routes
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.40.1
-        version: 1.40.1
 
   lib/cli:
     dependencies:
@@ -1243,7 +1242,7 @@ packages:
     hasBin: true
     dependencies:
       playwright: 1.40.1
-    dev: true
+    dev: false
 
   /@pnpm/constants@7.1.1:
     resolution: {integrity: sha512-31pZqMtjwV+Vaq7MaPrT1EoDFSYwye3dp6BiHIGRJmVThCQwySRKM7hCvqqI94epNkqFAAYoWrNynWoRYosGdw==}
@@ -3881,7 +3880,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /fsevents@2.3.3:
@@ -5060,8 +5058,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /mgenware-tsconfig-browser@18.0.0:
-    resolution: {integrity: sha512-IPe7LoEhMxrzmKabGEzuaOQKFyAD6pAsE+Ay497CqiXqA62RgNXLoP+991jPYPLo2wBwUE2LPtMsLXrjl78JYw==}
+  /mgenware-tsconfig-browser@18.0.1:
+    resolution: {integrity: sha512-KYi+GlI5cFo8/GGI8o2brCFipmuAxT0A8hg/GErP2O5HGe/wp+/l7HlxImAo6AAsn8Pwvv6lSY9S6O8Xo6BgdQ==}
     dependencies:
       mgenware-tsconfig-core: 18.0.0
     dev: true
@@ -5669,7 +5667,6 @@ packages:
     resolution: {integrity: sha512-+hkOycxPiV534c4HhpfX6yrlawqVUzITRKwHAmYfmsVreltEl6fAZJ3DPfLMOODw0H3s1Itd6MDCWmP1fl/QvQ==}
     engines: {node: '>=16'}
     hasBin: true
-    dev: true
 
   /playwright@1.40.1:
     resolution: {integrity: sha512-2eHI7IioIpQ0bS1Ovg/HszsN/XKNwEG1kbzSDDmADpclKc7CyqkHw7Mg2JCz/bbCxg25QUPcjksoMW7JcIFQmw==}
@@ -5679,7 +5676,6 @@ packages:
       playwright-core: 1.40.1
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /plum-element@0.0.7:
     resolution: {integrity: sha512-8tsbqxcoBRa5ZsgNqIdHAeQ++ZzSkdrHbNnwafkFxDWVOQfNWOIU7vJL6Iv8KyoIJjYFY11pPO3x5karSHjzrQ==}

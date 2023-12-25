@@ -5,27 +5,28 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, Element, Page } from 'br.js';
+import { BRElement, BRPage, $ } from 'br.js';
 import * as nb from 'cm/navbar/menu.js';
+import { test, expect } from '@playwright/test';
 
 const themeOptionText = ['Light theme', 'Dark theme', 'Device theme'];
 const cssDarkTheme = 'theme-dark';
 
-function optionButton(menuEl: Element, text: string) {
+function optionButton(menuEl: BRElement, text: string) {
   return menuEl.$hasText('.text', text);
 }
 
-async function checkCheckbox(el: Element, checked: boolean, text: string) {
-  await el.e.toHaveText(text);
+async function checkCheckbox(el: BRElement, checked: boolean, text: string) {
+  await expect(el.c).toHaveText(text);
   const checkbox = el.$('check-box');
   if (checked) {
-    await checkbox.e.toHaveAttribute('checked', '');
+    await expect(checkbox.c).toHaveAttribute('checked', '');
   } else {
     await checkbox.shouldNotHaveAttr('checked');
   }
 }
 
-async function checkThemeMenu(idx: number, menuEl: Element) {
+async function checkThemeMenu(idx: number, menuEl: BRElement) {
   const items = menuEl.$$('a');
   await items.shouldHaveCount(3);
   await Promise.all(
@@ -33,11 +34,11 @@ async function checkThemeMenu(idx: number, menuEl: Element) {
   );
 }
 
-async function checkTheme(page: Page, dark: boolean) {
+async function checkTheme(page: BRPage, dark: boolean) {
   if (dark) {
-    return page.body.e.toHaveClass(cssDarkTheme);
+    return expect(page.body.c).toHaveClass(cssDarkTheme);
   }
-  return page.body.e.not.toHaveClass(cssDarkTheme);
+  return expect(page.body.c).not.toHaveClass(cssDarkTheme);
 }
 
 test('Navbar - Default theme', async ({ page }) => {
@@ -115,5 +116,5 @@ test('Navbar - Clicking theme dismisses the menu', async ({ page }) => {
   const menuEl = nb.themeDropdownMenu(p);
   await checkThemeMenu(0, menuEl);
   await optionButton(menuEl, 'Light theme').click();
-  await menuEl.e.not.toBeVisible();
+  await expect(menuEl.c).not.toBeVisible();
 });

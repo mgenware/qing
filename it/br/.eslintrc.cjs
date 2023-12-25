@@ -13,13 +13,10 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
+  ignorePatterns: '/dist/',
   rules: {
     'import/order': 'off',
     'class-methods-use-this': 'off',
-    'no-underscore-dangle': 'off',
-    'import/extensions': 'off',
-    'import/no-extraneous-dependencies': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'prefer-template': 'off',
   },
 };

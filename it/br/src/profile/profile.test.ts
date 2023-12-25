@@ -5,18 +5,19 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, usr, Page } from 'br.js';
+import { $, BRPage, usr } from 'br.js';
 import * as nbm from 'cm/navbar/menu.js';
 import * as snav from 'cm/navbar/sidenav.js';
 import { newUser } from '@qing/dev/it/helper/user.js';
 import { defaultUserImg } from '@qing/routes/static.js';
+import { test, expect } from '@playwright/test';
 
 const infoElSel = '.info-row';
 const postTabSel = '#m-profile-tab-posts';
 const feedSel = '#m-profile-posts';
 
-function checkTabSelected(p: Page, tabSel: string) {
-  return p.$(tabSel).e.toHaveClass('tab-active');
+function checkTabSelected(p: BRPage, tabSel: string) {
+  return expect(p.$(tabSel).c).toHaveClass('tab-active');
 }
 
 test('Profile - Click-through', async ({ page }) => {
@@ -41,16 +42,16 @@ test('Profile - Info', async ({ page }) => {
 
   const infoEl = p.$(infoElSel);
   // Profile image.
-  await infoEl
-    .$img({ src: '/res/avatars/2u/250_user.png', title: u.name, alt: u.name, size: 250 })
-    .e.toBeVisible();
+  await expect(
+    infoEl.$img({ src: '/res/avatars/2u/250_user.png', title: u.name, alt: u.name, size: 250 }).c,
+  ).toBeVisible();
   // Profile info.
-  await infoEl.$hasText('h2', u.name).e.toBeVisible();
-  await infoEl.$hasText('p', 'USER_LOC').e.toBeVisible();
-  await infoEl.$hasText('p', 'USER_COMPANY').e.toBeVisible();
-  await infoEl
-    .$('a[id="m-profile-url"][href="http://USER_WEBSITE"][target="_blank"]')
-    .e.toBeVisible();
+  await expect(infoEl.$hasText('h2', u.name).c).toBeVisible();
+  await expect(infoEl.$hasText('p', 'USER_LOC').c).toBeVisible();
+  await expect(infoEl.$hasText('p', 'USER_COMPANY').c).toBeVisible();
+  await expect(
+    infoEl.$('a[id="m-profile-url"][href="http://USER_WEBSITE"][target="_blank"]').c,
+  ).toBeVisible();
   await infoEl.$('profile-id-view[value="2u"]').shouldExist();
   const bioEl = infoEl.$('.md-content');
   await bioEl.shouldHaveHTML('&lt;USER_BIO&gt;');
@@ -65,14 +66,14 @@ test('Profile - New user', async ({ page }) => {
     const infoEl = p.$(infoElSel);
 
     // Profile image.
-    await infoEl
-      .$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 })
-      .e.toBeVisible();
+    await expect(
+      infoEl.$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 }).c,
+    ).toBeVisible();
     // Profile info.
-    await infoEl.$hasText('h2', u.name).e.toBeVisible();
+    await expect(infoEl.$hasText('h2', u.name).c).toBeVisible();
 
     await checkTabSelected(p, postTabSel);
-    await p.$(feedSel).$hasText('notice-view', 'No content available').e.toBeVisible();
+    await expect(p.$(feedSel).$hasText('notice-view', 'No content available').c).toBeVisible();
   });
 });
 
@@ -85,14 +86,14 @@ test('Profile - Private account', async ({ page }) => {
       const infoEl = p.$(infoElSel);
 
       // Profile image.
-      await infoEl
-        .$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 })
-        .e.toBeVisible();
+      await expect(
+        infoEl.$img({ src: defaultUserImg, title: u.name, alt: u.name, size: 250 }).c,
+      ).toBeVisible();
       // Profile info.
-      await infoEl.$hasText('h2', u.name).e.toBeVisible();
+      await expect(infoEl.$hasText('h2', u.name).c).toBeVisible();
 
       await checkTabSelected(p, postTabSel);
-      await p.$(feedSel).$hasText('notice-view', 'This profile is private').e.toBeVisible();
+      await expect(p.$(feedSel).$hasText('notice-view', 'This profile is private').c).toBeVisible();
     },
     { privateAccount: true },
   );

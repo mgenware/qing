@@ -5,25 +5,26 @@
  * be found in the LICENSE file.
  */
 
+import { expect, test } from '@playwright/test';
 import { iShouldNotCallThisDelay } from '@qing/dev/it/base/delay.js';
-import { test, $, usr, Page } from 'br.js';
+import { $, usr, BRPage } from 'br.js';
 import * as snav from 'cm/navbar/sidenav.js';
 
-async function checkSidenavCore(p: Page) {
+async function checkSidenavCore(p: BRPage) {
   await snav.clickToggler(p);
   const sidenav = p.$(snav.sidenavSel);
   await snav.checkSidenavVisible(p, true);
-  await sidenav.e.toHaveCSS('overflow-x', 'hidden');
-  await sidenav.e.toHaveCSS('overflow-y', 'auto');
+  await expect(sidenav.c).toHaveCSS('overflow-x', 'hidden');
+  await expect(sidenav.c).toHaveCSS('overflow-y', 'auto');
   await p.shouldNotHaveHScrollBar();
   return sidenav;
 }
 
-function checkTogglerVisible(p: Page, visible: boolean) {
+function checkTogglerVisible(p: BRPage, visible: boolean) {
   if (visible) {
-    return p.$(snav.togglerSel).e.toBeVisible();
+    return expect(p.$(snav.togglerSel).c).toBeVisible();
   }
-  return p.$(snav.togglerSel).e.not.toBeVisible();
+  return expect(p.$(snav.togglerSel).c).not.toBeVisible();
 }
 
 test('Sidenav - Desktop to mobile', async ({ page }) => {

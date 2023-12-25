@@ -5,12 +5,13 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $, Element } from 'br.js';
+import { usr, $, BRElement } from 'br.js';
 import * as mRoute from '@qing/routes/i.js';
 import { newUser } from '@qing/dev/it/helper/user.js';
 import * as alt from 'cm/overlays/alert.js';
 import * as cm from './common.js';
 import { checkPageLocale } from 'routes/common.js';
+import { test, expect } from '@playwright/test';
 
 const langSettingsSel = 'lang-st';
 const defOptions = [
@@ -19,17 +20,17 @@ const defOptions = [
   'Simplified Chinese (简体中文)',
 ];
 
-async function checkLangList(rootEl: Element) {
+async function checkLangList(rootEl: BRElement) {
   const elsLocator = rootEl.$$('link-list-view link-button');
   await elsLocator.shouldHaveCount(defOptions.length);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  await elsLocator.forEach((el, idx) => el.e.toHaveText(defOptions[idx]!));
+  await elsLocator.forEach((el, idx) => expect(el.c).toHaveText(defOptions[idx]!));
 }
 
-async function checkSelectedOption(rootEl: Element, idx: number) {
+async function checkSelectedOption(rootEl: BRElement, idx: number) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const text = defOptions[idx]!;
-  await rootEl.$hasText('link-button', text).e.toBeVisible();
+  await expect(rootEl.$hasText('link-button', text).c).toBeVisible();
 }
 
 // Click-through from navbar is tested in `profile.test.ts`.
@@ -42,9 +43,9 @@ test('Settings - Lang - Click-through from settings', async ({ page }) => {
   await p.c.waitForSelector(langSettingsSel);
 
   // Lang menu item gets highlighted.
-  await rootEl
-    .$hasText('link-button[class="link-active"][href="/i/settings/lang"]', 'Language')
-    .e.toBeVisible();
+  await expect(
+    rootEl.$hasText('link-button[class="link-active"][href="/i/settings/lang"]', 'Language').c,
+  ).toBeVisible();
 
   // Langs.
   const langSettingsEl = rootEl.$(langSettingsSel);

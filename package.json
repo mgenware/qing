@@ -15,7 +15,7 @@
     "eslint-plugin-import": "^2.29.1",
     "is-plain-obj": "^4.1.0",
     "m-fs": "^5.2.0",
-    "mgenware-tsconfig-browser": "^18.0.0",
+    "mgenware-tsconfig-browser": "^18.0.1",
     "mgenware-tsconfig-core": "^18.0.0",
     "typescript": "^5.3.3"
   },

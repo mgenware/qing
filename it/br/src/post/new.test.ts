@@ -6,17 +6,17 @@
  */
 
 import { newPost } from '@qing/dev/it/helper/post.js';
-import { test, usr, $ } from 'br.js';
+import { usr, $ } from 'br.js';
+import { test, Page } from '@playwright/test';
 import * as br from 'br.js';
 import * as cm from './common.js';
 import * as def from '@qing/dev/it/base/def.js';
 import * as cps from 'cm/editing/composer.js';
 import * as nbm from 'cm/navbar/menu.js';
-import { Page } from '@playwright/test';
 
 const editorDesc = 'New post';
 
-async function clickNewPostButton(p: br.Page) {
+async function clickNewPostButton(p: br.BRPage) {
   const userBtn = nbm.userDropdownBtn(p);
   await userBtn.click();
   await userBtn.$aButton('New post').click();

@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { Element } from 'br.js';
+import { expect } from '@playwright/test';
+import { BRElement } from 'br.js';
 
 const inputErrorViewSel = 'input-error-view';
 
@@ -18,12 +19,12 @@ export interface InputViewProps {
   maxLength?: number;
 }
 
-export async function shouldHaveProps(el: Element, props: InputViewProps) {
+export async function shouldHaveProps(el: BRElement, props: InputViewProps) {
   if (props.required !== undefined) {
     if (props.required) {
-      await el.e.toHaveAttribute('required', '');
+      await expect(el.c).toHaveAttribute('required', '');
     } else {
-      await el.e.not.toHaveAttribute('required', '');
+      await expect(el.c).not.toHaveAttribute('required', '');
     }
   }
   await el.shouldHaveAttrOrNot('type', props.type);
@@ -33,24 +34,24 @@ export async function shouldHaveProps(el: Element, props: InputViewProps) {
   await el.shouldHaveAttrOrNot('maxlength', props.maxLength?.toString());
 }
 
-export async function shouldHaveError(el: Element, err: string) {
+export async function shouldHaveError(el: BRElement, err: string) {
   const iev = el.$(inputErrorViewSel);
-  await iev.e.toContainText(err, { ignoreCase: true });
-  await iev.e.toBeVisible();
+  await expect(iev.c).toContainText(err, { ignoreCase: true });
+  await expect(iev.c).toBeVisible();
 }
 
-export async function shouldHaveRequiredError(el: Element) {
+export async function shouldHaveRequiredError(el: BRElement) {
   return shouldHaveError(el, 'fill out this field');
 }
 
-export function shouldNotHaveError(el: Element) {
+export function shouldNotHaveError(el: BRElement) {
   return el.$(inputErrorViewSel).shouldNotExist();
 }
 
-export async function shouldHaveValue(el: Element, val: string) {
-  await el.$('input').e.toHaveValue(val);
+export async function shouldHaveValue(el: BRElement, val: string) {
+  await expect(el.$('input').c).toHaveValue(val);
 }
 
-export function shouldBeEmpty(el: Element) {
+export function shouldBeEmpty(el: BRElement) {
   return shouldHaveValue(el, '');
 }

@@ -5,7 +5,7 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $, expect } from 'br.js';
+import { usr, $ } from 'br.js';
 import * as nbm from 'cm/navbar/menu.js';
 import * as mRoute from '@qing/routes/i.js';
 import * as ed from 'cm/editing/editor.js';
@@ -15,6 +15,7 @@ import * as nbc from 'cm/navbar/checks.js';
 import * as ov from 'cm/overlays/overlay.js';
 import * as spn from 'cm/spinners/spinner.js';
 import * as cm from './common.js';
+import { test, expect } from '@playwright/test';
 
 const bioEditorSel = '.bio-editor';
 
@@ -28,16 +29,16 @@ test('Settings - Profile - Click-through from navbar', async ({ page }) => {
 
   const rootEl = p.$(cm.settingsViewSel);
   // Profile menu item highlighted.
-  await rootEl
-    .$hasText('link-button[class="link-active"][href="/i/settings/profile"]', 'Profile')
-    .e.toBeVisible();
+  await expect(
+    rootEl.$hasText('link-button[class="link-active"][href="/i/settings/profile"]', 'Profile').c,
+  ).toBeVisible();
 
   // Profile picture.
-  await rootEl
-    .$(
+  await expect(
+    rootEl.$(
       'img[width="250"][height="250"][class="avatar-l profile-img"][src="/res/avatars/2u/250_user.png"]',
-    )
-    .e.toBeVisible();
+    ).c,
+  ).toBeVisible();
 
   await ivh.shouldHaveValue(rootEl.$inputView('Name'), 'USER');
   await ivh.shouldHaveValue(rootEl.$inputView('URL'), 'USER_WEBSITE');
@@ -79,13 +80,13 @@ test('Settings - Update profile info', async ({ page }) => {
     // Check user profile page.
     await p.goto(`/u/${u.id}`, null);
     rootEl = p.$('main');
-    await rootEl.$hasText('h2', 'NEW_NAME').e.toBeVisible();
-    await rootEl.$hasText('p', 'NEW_COMPANY').e.toBeVisible();
-    await rootEl.$hasText('p', 'NEW_LOCATION').e.toBeVisible();
+    await expect(rootEl.$hasText('h2', 'NEW_NAME').c).toBeVisible();
+    await expect(rootEl.$hasText('p', 'NEW_COMPANY').c).toBeVisible();
+    await expect(rootEl.$hasText('p', 'NEW_LOCATION').c).toBeVisible();
     expect(await rootEl.$('.md-content').c.innerHTML()).toBe(
       '<p>A</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p>B</p>',
     );
-    await rootEl.$a({ href: 'http://NEW_URL', text: 'NEW_URL' }).e.toBeVisible();
+    await expect(rootEl.$a({ href: 'http://NEW_URL', text: 'NEW_URL' }).c).toBeVisible();
   });
 });
 

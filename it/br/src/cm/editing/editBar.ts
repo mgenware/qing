@@ -5,31 +5,32 @@
  * be found in the LICENSE file.
  */
 
+import { expect } from '@playwright/test';
 import * as br from 'br.js';
 
 const editText = 'Edit';
 const deleteText = 'Delete';
 
 export interface EditBarButtons {
-  editBtn: br.Element;
-  deleteBtn: br.Element;
+  editBtn: br.BRElement;
+  deleteBtn: br.BRElement;
 }
 
-function getEl(rootEl: br.Element, uid: string) {
+function getEl(rootEl: br.BRElement, uid: string) {
   return rootEl.$(`edit-bar-app[uid="${uid}"]`);
 }
 
-export function getEditButton(el: br.Element, uid: string) {
+export function getEditButton(el: br.BRElement, uid: string) {
   return getEl(el, uid).$linkButton(editText);
 }
 
-export function getDeleteButton(el: br.Element, uid: string) {
+export function getDeleteButton(el: br.BRElement, uid: string) {
   return getEl(el, uid).$linkButton(deleteText);
 }
 
-export async function shouldAppear(el: br.Element, uid: string) {
+export async function shouldAppear(el: br.BRElement, uid: string) {
   const edit = getEditButton(el, uid);
   const del = getDeleteButton(el, uid);
-  await edit.e.toBeVisible();
-  await del.e.toBeVisible();
+  await expect(edit.c).toBeVisible();
+  await expect(del.c).toBeVisible();
 }

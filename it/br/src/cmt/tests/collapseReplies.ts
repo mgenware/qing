@@ -12,7 +12,7 @@ import * as act from '../actions.js';
 import { Page } from '@playwright/test';
 import { CmtFixture } from '../fixture.js';
 
-async function setupEnv(w: CmtFixture, p: br.Page) {
+async function setupEnv(w: CmtFixture, p: br.BRPage) {
   const cmtApp = await w.getCmtApp(p);
   await act.writeCmt(p, {
     cmtApp,

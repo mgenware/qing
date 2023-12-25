@@ -5,15 +5,15 @@
  * be found in the LICENSE file.
  */
 
-import { usr, Element, Page } from 'br.js';
+import { usr, BRElement, BRPage } from 'br.js';
 import * as cm from '../common.js';
 import * as act from '../actions.js';
 import * as sh from 'cm/overlays/share.js';
 import { serverURL } from '@qing/dev/it/base/def.js';
 import { CmtFixture } from '../fixture.js';
-import * as pw from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
-async function addNestedCmts(w: CmtFixture, p: Page, linkName: string) {
+async function addNestedCmts(w: CmtFixture, p: BRPage, linkName: string) {
   // This creates the following structure:
   // - cmt2
   // - cmt1
@@ -54,7 +54,7 @@ async function addNestedCmts(w: CmtFixture, p: Page, linkName: string) {
   return link;
 }
 
-async function checkFocusMode(cmtApp: Element) {
+async function checkFocusMode(cmtApp: BRElement) {
   // You cannot write a cmt in focus mode.
   await cmtApp.$qingButton('Write a comment').shouldNotExist();
 
@@ -62,7 +62,7 @@ async function checkFocusMode(cmtApp: Element) {
   await cmtApp.$('.focus-mode').shouldExist();
 }
 
-function clickViewAllComments(cmtApp: Element) {
+function clickViewAllComments(cmtApp: BRElement) {
   return cmtApp.$linkButton('View all comments').click();
 }
 
@@ -78,7 +78,7 @@ function addCmtParams(link: string, id: string) {
   return url.toString();
 }
 
-async function checkViewAllComments(w: CmtFixture, p: Page, cmtApp: Element) {
+async function checkViewAllComments(w: CmtFixture, p: BRPage, cmtApp: BRElement) {
   await Promise.all([
     clickViewAllComments(cmtApp),
     // use `p.c.waitForURL` instead of `p.waitForURL` as `removeCmtParamsAndReturnFullURL`
@@ -87,13 +87,13 @@ async function checkViewAllComments(w: CmtFixture, p: Page, cmtApp: Element) {
   ]);
 }
 
-function check404Content(cmtApp: Element) {
-  return cmtApp
-    .$('.focus-mode p')
-    .e.toHaveText('The comment your are looking for is not found and might have been deleted.');
+function check404Content(cmtApp: BRElement) {
+  return expect(cmtApp.$('.focus-mode p').c).toHaveText(
+    'The comment your are looking for is not found and might have been deleted.',
+  );
 }
 
-export function testFocusModeReplies(w: CmtFixture, page: pw.Page) {
+export function testFocusModeReplies(w: CmtFixture, page: Page) {
   return w.start(page, { viewer: usr.user }, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'reply');
     await p.gotoRaw(link, null);
@@ -144,7 +144,7 @@ export function testFocusModeReplies(w: CmtFixture, page: pw.Page) {
   });
 }
 
-export function testFocusModeCmts(w: CmtFixture, page: pw.Page) {
+export function testFocusModeCmts(w: CmtFixture, page: Page) {
   return w.start(page, { viewer: usr.user }, async ({ p }) => {
     const link = await addNestedCmts(w, p, 'cmt');
     await p.gotoRaw(link, null);
@@ -173,7 +173,7 @@ export function testFocusModeCmts(w: CmtFixture, page: pw.Page) {
   });
 }
 
-export function testFocusMode404Cmts(w: CmtFixture, page: pw.Page) {
+export function testFocusMode404Cmts(w: CmtFixture, page: Page) {
   return w.start(page, { viewer: usr.user }, async ({ p }) => {
     const postLink = addCmtParams(`${serverURL}${w.getHostURL(p)}`, '999999');
     await p.gotoRaw(postLink, null);

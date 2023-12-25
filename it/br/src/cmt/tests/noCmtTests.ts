@@ -8,7 +8,7 @@
 import { usr } from 'br.js';
 import * as cm from '../common.js';
 import { CmtFixture } from '../fixture.js';
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 export function testNoCmts(fixture: CmtFixture, page: Page) {
   return fixture.start(page, {}, async (arg) => {
@@ -20,8 +20,8 @@ export function testNoCmts(fixture: CmtFixture, page: Page) {
       await cm.shouldHaveCmtCount({ cmtApp, count: 0 });
 
       // "Sign in" to comment.
-      await cmtApp.$qingButton('Sign in').e.toBeVisible();
-      await cmtApp.$hasText('span', 'to comment').e.toBeVisible();
+      await expect(cmtApp.$qingButton('Sign in').c).toBeVisible();
+      await expect(cmtApp.$hasText('span', 'to comment').c).toBeVisible();
     }
     {
       // User view.

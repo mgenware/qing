@@ -16,12 +16,12 @@ export interface TestCmtEditorDismissalArgs {
   name: string;
   // The cmt element to check after overlay is closed.
   // Returns `null` if it's writing a new cmt.
-  action: (p: br.Page, cmtApp: br.Element) => Promise<br.Element | null>;
+  action: (p: br.BRPage, cmtApp: br.BRElement) => Promise<br.BRElement | null>;
   overlayPrefixSel: string;
   discardChanges: boolean;
 }
 
-async function testDiscardChanges(w: CmtFixture, p: br.Page, e: TestCmtEditorDismissalArgs) {
+async function testDiscardChanges(w: CmtFixture, p: br.BRPage, e: TestCmtEditorDismissalArgs) {
   const cmtEl = await e.action(p, await w.getCmtApp(p));
 
   const { overlayEl } = await cps.waitForOverlay(p, e.overlayPrefixSel);

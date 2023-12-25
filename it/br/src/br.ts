@@ -6,14 +6,12 @@
  * be found in the LICENSE file.
  */
 
-import * as pw from '@playwright/test';
 import * as api from '@qing/dev/it/base/api.js';
 import * as authRoute from '@qing/routes/dev/auth.js';
-import { alternativeLocale, serverURL } from '@qing/dev/it/base/def.js';
+import { serverURL } from '@qing/dev/it/base/def.js';
+import { Locator, Page, expect } from '@playwright/test';
 
 export { usr, api, type User, authUsr } from '@qing/dev/it/base/api.js';
-
-export { expect, test } from '@playwright/test';
 
 export type WaitForState = 'attached' | 'detached' | 'visible' | 'hidden';
 
@@ -21,43 +19,43 @@ const mobileViewport = { width: 390, height: 844 };
 const desktopViewport = { width: 1280, height: 720 };
 
 export interface PWLocatable {
-  locator(selector: string): pw.Locator;
+  locator(selector: string): Locator;
 }
 
 // Some shared selector wrappers around `pw.Page` and `pw.Locator`.
-class PWLocatableWrapper {
+class BRLocatable {
   static $(lt: PWLocatable, sel: string) {
-    return new Element(lt.locator(sel).first());
+    return new BRElement(lt.locator(sel).first());
   }
 
   static $$(lt: PWLocatable, sel: string) {
-    return new ElementCollection(lt.locator(sel));
+    return new BRElementCollection(lt.locator(sel));
   }
 }
 
-export class LocatorCore {
-  constructor(public c: pw.Locator) {}
+export class BRLocatorCore {
+  constructor(public c: Locator) {}
 
   $(sel: string) {
-    return PWLocatableWrapper.$(this.c, sel);
+    return BRLocatable.$(this.c, sel);
   }
 
   $$(sel: string) {
-    return PWLocatableWrapper.$$(this.c, sel);
+    return BRLocatable.$$(this.c, sel);
   }
 }
 
 export interface Selectable {
-  $(sel: string): Element;
-  $$(sel: string): ElementCollection;
+  $(sel: string): BRElement;
+  $$(sel: string): BRElementCollection;
 }
 
-export class ElementCollection extends LocatorCore {
+export class BRElementCollection extends BRLocatorCore {
   item(idx: number) {
     if (idx < 0) {
       throw new Error(`Index should not be negative. Got ${idx}`);
     }
-    return new Element(this.c.nth(idx));
+    return new BRElement(this.c.nth(idx));
   }
 
   count() {
@@ -65,12 +63,12 @@ export class ElementCollection extends LocatorCore {
   }
 
   async shouldHaveCount(count: number) {
-    await pw.expect(this.c).toHaveCount(count);
+    await expect(this.c).toHaveCount(count);
     return this;
   }
 
   async items() {
-    const items: Element[] = [];
+    const items: BRElement[] = [];
     const count = await this.count();
     for (let i = 0; i < count; i++) {
       items.push(this.item(i));
@@ -78,13 +76,13 @@ export class ElementCollection extends LocatorCore {
     return items;
   }
 
-  async forEach(cb: (el: Element, idx: number) => Promise<void>) {
+  async forEach(cb: (el: BRElement, idx: number) => Promise<void>) {
     const items = await this.items();
     return Promise.all(items.map(cb));
   }
 }
 
-export class Element extends LocatorCore {
+export class BRElement extends BRLocatorCore {
   getAttribute(name: string) {
     return this.c.getAttribute(name);
   }
@@ -128,34 +126,28 @@ export class Element extends LocatorCore {
     return this.c.click();
   }
 
-  get e() {
-    return pw.expect(this.c);
-  }
-
   shouldExist() {
-    return pw.expect(this.c).toHaveCount(1);
+    return expect(this.c).toHaveCount(1);
   }
 
   shouldNotExist() {
-    return pw.expect(this.c).toHaveCount(0);
+    return expect(this.c).toHaveCount(0);
   }
 
   shouldHaveAttrOrNot(attr: string, val: string | null | undefined) {
     if (val === null || val === undefined) {
       return this.shouldNotHaveAttr(attr);
     }
-    return pw.expect(this.c).toHaveAttribute(attr, val);
+    return expect(this.c).toHaveAttribute(attr, val);
   }
 
   async shouldHaveHTML(html: string) {
     const actual = await this.c.evaluate((el) => (el as HTMLElement).innerHTML);
-    return pw.expect(actual).toBe(html);
+    return expect(actual).toBe(html);
   }
 
   async shouldNotHaveAttr(name: string) {
-    return pw
-      .expect(await this.c.evaluate((el) => (el as HTMLElement).getAttribute(name)))
-      .toBeNull();
+    return expect(await this.c.evaluate((el) => (el as HTMLElement).getAttribute(name))).toBeNull();
   }
 
   $qingButton(text: string) {
@@ -214,10 +206,10 @@ export interface PageGotoOptions {
   params?: Record<string, string>;
 }
 
-export class Page {
-  constructor(public c: pw.Page) {}
+export class BRPage {
+  constructor(public c: Page) {}
 
-  get body(): Element {
+  get body(): BRElement {
     return this.$('body');
   }
 
@@ -230,11 +222,11 @@ export class Page {
   }
 
   $(sel: string) {
-    return PWLocatableWrapper.$(this.c, sel);
+    return BRLocatable.$(this.c, sel);
   }
 
   $$(sel: string) {
-    return PWLocatableWrapper.$$(this.c, sel);
+    return BRLocatable.$$(this.c, sel);
   }
 
   waitForURL(url: string | RegExp) {
@@ -269,12 +261,12 @@ export class Page {
   }
 
   async shouldBeUser(user: api.User | null) {
-    pw.expect(await this.currentUserID()).toBe(user ? user.id : null);
+    expect(await this.currentUserID()).toBe(user ? user.id : null);
   }
 
   async shouldNotHaveHScrollBar() {
     const hScrollable = await this.body.c.evaluate((e) => e.clientWidth < e.scrollWidth);
-    pw.expect(hScrollable).toBeFalsy();
+    expect(hScrollable).toBeFalsy();
   }
 
   toMobile() {
@@ -308,6 +300,7 @@ export class Page {
   }
 
   private async signIn(user: api.User) {
+    // eslint-disable-next-line no-underscore-dangle
     await this.c.goto(`${serverURL}${authRoute.in_}/${user.id}`);
     this.checkGETAPIResult(await this.c.content());
   }
@@ -324,20 +317,6 @@ export class Page {
   }
 }
 
-export function $(page: pw.Page) {
-  return new Page(page);
-}
-
-export function mobileBlock(fn: () => void) {
-  pw.test.describe('Mobile block', () => {
-    pw.test.use({ viewport: mobileViewport });
-    fn();
-  });
-}
-
-export function alternativeLocaleBlock(fn: () => void) {
-  pw.test.describe('Alternative locale block', () => {
-    pw.test.use({ locale: alternativeLocale });
-    fn();
-  });
+export function $(page: Page) {
+  return new BRPage(page);
 }

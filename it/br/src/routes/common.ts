@@ -7,18 +7,18 @@
 
 import { Response, expect } from '@playwright/test';
 import { alternativeLocale } from '@qing/dev/it/base/def.js';
-import { Page } from 'br.js';
+import { BRPage } from 'br.js';
 import * as nbm from 'cm/navbar/menu.js';
 
-export async function checkPageLocale(p: Page, idx: number) {
-  await p.$('html').e.toHaveAttribute('lang', idx === 0 ? 'en' : alternativeLocale);
+export async function checkPageLocale(p: BRPage, idx: number) {
+  await expect(p.$('html').c).toHaveAttribute('lang', idx === 0 ? 'en' : alternativeLocale);
   const themeDropdownBtn = nbm.themeDropdownBtn(p);
-  await themeDropdownBtn.e.toContainText(idx === 0 ? 'Light theme' : '亮色主题');
+  await expect(themeDropdownBtn.c).toContainText(idx === 0 ? 'Light theme' : '亮色主题');
 }
 
-export async function check404(p: Page, resp: Response | null) {
+export async function check404(p: BRPage, resp: Response | null) {
   expect(resp).not.toBeNull();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   expect(resp!.status()).toBe(404);
-  await p.body.$hasText('p', 'The resource you requested does not exist.').e.toBeVisible();
+  await expect(p.body.$hasText('p', 'The resource you requested does not exist.').c).toBeVisible();
 }

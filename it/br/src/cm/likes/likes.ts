@@ -5,20 +5,21 @@
  * be found in the LICENSE file.
  */
 
+import { expect } from '@playwright/test';
 import * as br from 'br.js';
 
-export async function shouldAppear(el: br.Element, value: number, liked: boolean) {
+export async function shouldAppear(el: br.BRElement, value: number, liked: boolean) {
   const btnEl = el.$('likes-view qing-button');
-  await btnEl.e.toBeVisible();
+  await expect(btnEl.c).toBeVisible();
 
   // Element value.
   const numEl = btnEl.$('span.num');
   if (value) {
-    await numEl.e.toHaveText(`${value}`);
+    await expect(numEl.c).toHaveText(`${value}`);
   } else {
     await numEl.shouldNotExist();
   }
 
   // Liked status.
-  await btnEl.$('svg-icon').e.toHaveAttribute('class', liked ? 'liked' : 'not-liked');
+  await expect(btnEl.$('svg-icon').c).toHaveAttribute('class', liked ? 'liked' : 'not-liked');
 }

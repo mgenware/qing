@@ -11,6 +11,7 @@ import * as cm from './common.js';
 import * as ov from '../overlays/overlay.js';
 import * as ed from './editor.js';
 import { appDef } from '@qing/def';
+import { expect } from '@playwright/test';
 
 export interface UpdateContentArgs {
   title?: string;
@@ -18,11 +19,11 @@ export interface UpdateContentArgs {
   date?: Date;
 }
 
-export function getElFromOverlay(overlayEl: br.Element) {
+export function getElFromOverlay(overlayEl: br.BRElement) {
   return overlayEl.$('composer-view');
 }
 
-export async function updateContent(el: br.Element, a: UpdateContentArgs) {
+export async function updateContent(el: br.BRElement, a: UpdateContentArgs) {
   const composerEl = getElFromOverlay(el);
   if (a.date) {
     await composerEl.c.evaluate(
@@ -40,16 +41,16 @@ export async function updateContent(el: br.Element, a: UpdateContentArgs) {
   }
 }
 
-async function clickBtn(composerEl: br.Element, btnText: string) {
+async function clickBtn(composerEl: br.BRElement, btnText: string) {
   const btnEl = composerEl.$hasText(`${cm.composerButtonsGroupSel} qing-button`, btnText);
   await btnEl.click();
 }
 
-export async function waitForOverlay(page: br.Page, sel: string) {
+export async function waitForOverlay(page: br.BRPage, sel: string) {
   const overlayEl = page.$(ov.openImmersiveSel(sel));
   await overlayEl.waitForAttached();
   const composerEl = getElFromOverlay(overlayEl);
-  await composerEl.e.toBeVisible();
+  await expect(composerEl.c).toBeVisible();
   return { overlayEl, composerEl };
 }
 
@@ -60,19 +61,19 @@ export interface ComposerShouldAppearArgs {
   contentHTML?: string;
 }
 
-export async function shouldAppear(overlayEl: br.Element, a: ComposerShouldAppearArgs) {
+export async function shouldAppear(overlayEl: br.BRElement, a: ComposerShouldAppearArgs) {
   const el = getElFromOverlay(overlayEl);
   if (a.name) {
     const h2 = el.$('h2');
-    await h2.e.toHaveText(a.name);
+    await expect(h2.c).toHaveText(a.name);
   }
 
   if (a.title !== undefined) {
     // Title value.
     if (a.title !== null) {
       const titleInputEl = el.$(cm.composerTitleSel);
-      await titleInputEl.e.toBeVisible();
-      await titleInputEl.e.toHaveValue(a.title);
+      await expect(titleInputEl.c).toBeVisible();
+      await expect(titleInputEl.c).toHaveValue(a.title);
     } else {
       await el.$(cm.composerTitleSel).shouldNotExist();
     }
@@ -83,14 +84,14 @@ export async function shouldAppear(overlayEl: br.Element, a: ComposerShouldAppea
 }
 
 export interface DiscardChangesParams {
-  p: br.Page;
+  p: br.BRPage;
   cancelBtn: string;
   title?: string;
   content?: string;
 }
 
 export async function shouldDiscardChangesOrNot(
-  overlayEl: br.Element,
+  overlayEl: br.BRElement,
   discard: boolean,
   e: DiscardChangesParams,
 ) {
@@ -111,19 +112,19 @@ export async function shouldDiscardChangesOrNot(
 }
 
 export interface SaveArgs {
-  p: br.Page;
+  p: br.BRPage;
   saveBtnText: string;
 }
 
 export interface UpdateAndSaveArgs extends SaveArgs, UpdateContentArgs {}
 
-export async function clickSaveButton(overlayEl: br.Element, a: SaveArgs) {
+export async function clickSaveButton(overlayEl: br.BRElement, a: SaveArgs) {
   // Update button is always the first button.
   const btnEl = overlayEl.$qingButton(a.saveBtnText);
   await btnEl.click();
 }
 
-export async function updateAndSave(overlayEl: br.Element, a: UpdateAndSaveArgs) {
+export async function updateAndSave(overlayEl: br.BRElement, a: UpdateAndSaveArgs) {
   await updateContent(overlayEl, a);
   await clickSaveButton(overlayEl, a);
 }

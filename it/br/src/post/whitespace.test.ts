@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $, expect } from 'br.js';
+import { usr, $ } from 'br.js';
+import { test, expect } from '@playwright/test';
 import { newPost } from '@qing/dev/it/helper/post.js';
 import * as cps from 'cm/editing/composer.js';
 import * as cm from './common.js';

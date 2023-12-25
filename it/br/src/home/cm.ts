@@ -5,6 +5,7 @@
  * be found in the LICENSE file.
  */
 
+import { expect } from '@playwright/test';
 import * as br from 'br.js';
 
 export const homePostBRPrefix = '__BR_';
@@ -21,7 +22,7 @@ export interface CheckHomeItemArgs {
   link: string;
 }
 
-export async function checkHomeItem(el: br.Element, e: CheckHomeItemArgs) {
+export async function checkHomeItem(el: br.BRElement, e: CheckHomeItemArgs) {
   if (e.mode === HomePageMode.everyone && !e.user) {
     throw new Error('`user` cannot be null for `HomePageMode.everyone`');
   }
@@ -34,8 +35,8 @@ export async function checkHomeItem(el: br.Element, e: CheckHomeItemArgs) {
   const bottomBarEl = contentDiv.$('> :last-child');
   if (e.mode === HomePageMode.everyone && e.user) {
     const avatarDiv = el.$('> :first-child');
-    await avatarDiv.$('a').e.toHaveAttribute('href', e.user.link);
-    await avatarDiv.$('img').e.toHaveAttribute('src', e.user.iconURL);
+    await expect(avatarDiv.$('a').c).toHaveAttribute('href', e.user.link);
+    await expect(avatarDiv.$('img').c).toHaveAttribute('src', e.user.iconURL);
     await bottomBarEl.$a({ href: e.user.link, text: e.user.name }).shouldExist();
   }
 }

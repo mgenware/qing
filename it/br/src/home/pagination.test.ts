@@ -5,14 +5,14 @@
  * be found in the LICENSE file.
  */
 
-import { test, $, usr } from 'br.js';
+import { $, usr } from 'br.js';
 import { batchNewPosts, deletePostsByPrefix } from '@qing/dev/it/helper/post.js';
 import * as cm from './cm.js';
 import * as pb from 'cm/content/pageBar.js';
 import { appDef } from '@qing/def';
 import { updateAppConfig } from 'cm/config/appConfigHelper.js';
 import PWCookies from 'cm/config/pwCookies.js';
-import { BrowserContext, Page } from '@playwright/test';
+import { test, BrowserContext, Page } from '@playwright/test';
 
 const homeItemSel = '.fi-item';
 const page2URL = '/?page=2';

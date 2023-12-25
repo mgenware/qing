@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $ } from 'br.js';
+import { test, expect } from '@playwright/test';
+import { usr, $ } from 'br.js';
 import * as nb from 'cm/navbar/menu.js';
 
 const emptyContentID = '#br-copyright';
@@ -16,15 +17,15 @@ test('Navbar - Dismiss user menu', async ({ page }) => {
   // Dismissed by Esc.
   await nb.userDropdownBtn(p).click();
   const menuEl = nb.userDropdownMenu(p);
-  await menuEl.e.toBeVisible();
+  await expect(menuEl.c).toBeVisible();
   await p.c.keyboard.down('Escape');
-  await menuEl.e.not.toBeVisible();
+  await expect(menuEl.c).not.toBeVisible();
 
   // Dismissed by clicks.
   await nb.userDropdownBtn(p).click();
-  await menuEl.e.toBeVisible();
+  await expect(menuEl.c).toBeVisible();
   await p.$(emptyContentID).click();
-  await menuEl.e.not.toBeVisible();
+  await expect(menuEl.c).not.toBeVisible();
 });
 
 test('Navbar - Dismiss theme menu', async ({ page }) => {
@@ -33,13 +34,13 @@ test('Navbar - Dismiss theme menu', async ({ page }) => {
   // Dismissed by Esc.
   await nb.themeDropdownBtn(p).click();
   const menuEl = nb.themeDropdownMenu(p);
-  await menuEl.e.toBeVisible();
+  await expect(menuEl.c).toBeVisible();
   await p.c.keyboard.down('Escape');
-  await menuEl.e.not.toBeVisible();
+  await expect(menuEl.c).not.toBeVisible();
 
   // Dismissed by clicks.
   await nb.themeDropdownBtn(p).click();
-  await menuEl.e.toBeVisible();
+  await expect(menuEl.c).toBeVisible();
   await p.$(emptyContentID).click();
-  await menuEl.e.not.toBeVisible();
+  await expect(menuEl.c).not.toBeVisible();
 });

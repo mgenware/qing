@@ -5,7 +5,8 @@
  * be found in the LICENSE file.
  */
 
-import { test, usr, $ } from 'br.js';
+import { usr, $ } from 'br.js';
+import { test, expect } from '@playwright/test';
 import * as adminRoute from '@qing/routes/admin.js';
 import * as nbm from 'cm/navbar/menu.js';
 import * as ivh from 'cm/forms/inputViewHelper.js';
@@ -22,9 +23,9 @@ test('Site settings - Site info - Click-through from navbar', async ({ page }) =
   const rootEl = p.$(cm.settingsViewSel);
 
   // General menu item gets highlighted.
-  await rootEl
-    .$hasText('link-button[class="link-active"][href="/admin/general"]', 'General')
-    .e.toBeVisible();
+  await expect(
+    rootEl.$hasText('link-button[class="link-active"][href="/admin/general"]', 'General').c,
+  ).toBeVisible();
 
   const contentEl = p.$(infoSectionSel);
   await ivh.shouldHaveValue(contentEl.$inputView('Site name'), '__QING__');

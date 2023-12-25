@@ -19,7 +19,7 @@ async function resolveSequence(...list: Array<Promise<unknown>>) {
 }
 
 export async function waitForGlobalFull(
-  page: br.Page,
+  page: br.BRPage,
   text: string,
   trigger: () => Promise<unknown>,
 ) {
@@ -33,7 +33,11 @@ export async function waitForGlobalFull(
   ]);
 }
 
-export async function waitForGlobal(page: br.Page, text: string, trigger: () => Promise<unknown>) {
+export async function waitForGlobal(
+  page: br.BRPage,
+  text: string,
+  trigger: () => Promise<unknown>,
+) {
   const counter =
     (parseInt((await page.body.getAttribute(brGSpinnerCounterAttr)) ?? '0', 10) || 0) + 1;
   const sel = `body[${brGSpinnerCounterAttr}="${counter}"][${brGSpinnerTextAttr}=${JSON.stringify(

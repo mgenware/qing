@@ -4,10 +4,8 @@
   "version": "0.0.0",
   "main": "main.js",
   "private": true,
-  "devDependencies": {
-    "@playwright/test": "^1.40.1"
-  },
   "dependencies": {
+    "@playwright/test": "^1.40.1",
     "@qing/def": "workspace:*",
     "@qing/dev": "workspace:*",
     "@qing/routes": "workspace:*"
