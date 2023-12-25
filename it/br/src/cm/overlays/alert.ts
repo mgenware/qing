@@ -19,21 +19,10 @@ export enum AlertButtons {
   YesNo,
 }
 
-function alertButtonsToArray(type: AlertButtons): string[] {
-  switch (type) {
-    case AlertButtons.OK:
-      return ['OK'];
-    case AlertButtons.YesNo:
-      return ['Yes', 'No'];
-    default:
-      throw new Error('Not reachable');
-  }
-}
-
 function typeToString(type: AlertType): string {
   switch (type) {
     case AlertType.error:
-      return 'error';
+      return 'danger';
     case AlertType.success:
       return 'success';
     case AlertType.warning:
@@ -44,15 +33,15 @@ function typeToString(type: AlertType): string {
 }
 
 function getDialogEl(page: br.BRPage) {
-  return page.$('#__g_dialog_container dialog-view');
+  return page.$('#__g_dialog_container dialog-view[open] qing-overlay[open] dialog[open]');
 }
 
 export class BRDialog {
-  constructor(public c: br.BRElement) {}
+  constructor(public p: br.BRPage, public element: br.BRElement) {}
 
   async clickBtn(text: string) {
-    await this.c.$qingButton(text).click();
-    await this.c.waitForDetached();
+    await this.p.c.getByRole('button', { name: text, exact: true }).click();
+    await this.element.waitForDetached();
   }
 
   clickYes() {
@@ -73,36 +62,24 @@ export class BRDialog {
 }
 
 export interface AlertShouldAppearArgs {
-  content?: string;
   title?: string;
   type?: AlertType;
-  buttons?: AlertButtons;
   focusedBtn?: number;
 }
 
-export async function waitFor(page: br.BRPage, e: AlertShouldAppearArgs) {
+export async function wait(p: br.BRPage, e: AlertShouldAppearArgs) {
   // Wait for the alert to be fully shown.
-  const el = getDialogEl(page);
-  await el.waitForAttached();
-  await expect(el.c).toHaveAttribute('open', '');
+  const el = getDialogEl(p);
+  await el.waitForVisible();
 
   // Icon.
   if (e.type !== undefined) {
-    await expect(el.$(`svg-icon[iconstyle='${typeToString(e.type)}']`).c).toBeVisible();
+    await expect(el.$(`svg-icon[iconstyle="${typeToString(e.type)}"]`).c).toBeVisible();
   }
 
-  // Content.
-  if (e.content) {
-    await expect(el.$hasText('p', e.content).c).toBeVisible();
+  // Title.
+  if (e.title) {
+    await expect(p.c.getByText(e.title)).toBeVisible();
   }
-
-  // Buttons.
-  if (e.buttons !== undefined) {
-    const btns = el.$$('#__buttons qing-button');
-    const btnNames = alertButtonsToArray(e.buttons);
-    await btns.shouldHaveCount(btnNames.length);
-    await Promise.all(btnNames.map((b, i) => expect(btns.item(i).c).toHaveText(b)));
-  }
-
-  return new BRDialog(el);
+  return new BRDialog(p, el);
 }

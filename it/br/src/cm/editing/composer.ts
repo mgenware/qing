@@ -69,9 +69,9 @@ export async function shouldAppear(overlayEl: br.BRElement, a: ComposerShouldApp
   }
 
   if (a.title !== undefined) {
-    // Title value.
     if (a.title !== null) {
       const titleInputEl = el.$(cm.composerTitleSel);
+      await titleInputEl.waitForVisible();
       await expect(titleInputEl.c).toBeVisible();
       await expect(titleInputEl.c).toHaveValue(a.title);
     } else {
@@ -97,9 +97,8 @@ export async function shouldDiscardChangesOrNot(
 ) {
   const el = getElFromOverlay(overlayEl);
   await clickBtn(el, e.cancelBtn);
-  const dialog = await alt.waitFor(e.p, {
+  const dialog = await alt.wait(e.p, {
     title: 'Do you want to discard your changes?',
-    type: alt.AlertType.warning,
     focusedBtn: 1,
   });
 

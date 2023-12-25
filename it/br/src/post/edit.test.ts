@@ -7,7 +7,7 @@
 
 import { newPost } from '@qing/dev/it/helper/post.js';
 import { usr, $ } from 'br.js';
-import { test } from '@playwright/test';
+import { Page, test } from '@playwright/test';
 import * as cm from './common.js';
 import * as def from '@qing/dev/it/base/def.js';
 import * as cps from 'cm/editing/composer.js';
@@ -64,40 +64,46 @@ test('Edit post - Dismiss post editor', async ({ page }) => {
   });
 });
 
-function testDiscardChanges(mode: 'title' | 'content', discardChanges: boolean) {
-  test(`Edit post - ${
-    discardChanges ? 'Discard' : 'Keep'
-  } post editor changes - Set ${mode}`, async ({ page }) => {
-    const p = $(page);
-    await newPost(usr.user, async ({ link }) => {
-      await p.goto(link, usr.user);
+async function testDiscardChanges(page: Page, mode: 'title' | 'content', discardChanges: boolean) {
+  const p = $(page);
+  await newPost(usr.user, async ({ link }) => {
+    await p.goto(link, usr.user);
 
-      await cm.clickEditButton(p, usr.user);
+    await cm.clickEditButton(p, usr.user);
 
-      const overlayEl = await cm.waitForOverlay(p);
-      await cps.updateContent(
+    const overlayEl = await cm.waitForOverlay(p);
+    await cps.updateContent(
+      overlayEl,
+      mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
+    );
+
+    await cps.shouldDiscardChangesOrNot(overlayEl, discardChanges, { p, cancelBtn: 'Cancel' });
+
+    if (discardChanges) {
+      // Verify page content.
+      await cm.shouldHaveTitle(p, def.sd.title, link);
+      await cm.shouldHaveHTML(p, def.sd.contentViewHTML);
+    } else {
+      await cps.shouldAppear(
         overlayEl,
-        mode === 'title' ? { title: def.sd.updated } : { content: def.sd.updated },
+        mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updatedViewHTML },
       );
-
-      await cps.shouldDiscardChangesOrNot(overlayEl, discardChanges, { p, cancelBtn: 'Cancel' });
-
-      if (discardChanges) {
-        // Verify page content.
-        await cm.shouldHaveTitle(p, def.sd.title, link);
-        await cm.shouldHaveHTML(p, def.sd.contentViewHTML);
-      } else {
-        await iShouldNotCallThisDelay();
-        await cps.shouldAppear(
-          overlayEl,
-          mode === 'title' ? { title: def.sd.updated } : { contentHTML: def.sd.updatedViewHTML },
-        );
-      }
-    });
+    }
   });
 }
 
-testDiscardChanges('title', true);
-testDiscardChanges('content', true);
-testDiscardChanges('title', false);
-testDiscardChanges('content', false);
+test('Edit post - Keep editor changes - Title', async ({ page }) => {
+  await testDiscardChanges(page, 'title', false);
+});
+
+test('Edit post - Discard editor changes - Title', async ({ page }) => {
+  await testDiscardChanges(page, 'title', true);
+});
+
+test('Edit post - Keep editor changes - Content', async ({ page }) => {
+  await testDiscardChanges(page, 'content', false);
+});
+
+test('Edit post - Discard editor changes - Content', async ({ page }) => {
+  await testDiscardChanges(page, 'content', true);
+});

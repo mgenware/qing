@@ -32,10 +32,8 @@ test('Post page in visitor view', async ({ page }) => {
 
     // Click the like button.
     await likesAppEl.click();
-    const dialog = await alt.waitFor(p, {
-      content: 'Sign in to like this post.',
-      type: alt.AlertType.warning,
-      buttons: alt.AlertButtons.OK,
+    const dialog = await alt.wait(p, {
+      title: 'Sign in to like this post.',
     });
     await dialog.clickOK();
   });

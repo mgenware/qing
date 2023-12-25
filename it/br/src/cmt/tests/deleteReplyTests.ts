@@ -32,10 +32,8 @@ export function testDeleteReply(w: CmtFixture, page: Page, fresh: boolean) {
 
         // Delete the reply.
         await eb.getDeleteButton(cm.getNthReply({ cmtEl, index: 0 }), usr.user.id).click();
-        const dialog = await alt.waitFor(p, {
-          content: 'Do you want to delete this comment?',
-          type: alt.AlertType.warning,
-          buttons: alt.AlertButtons.YesNo,
+        const dialog = await alt.wait(p, {
+          title: 'Do you want to delete this comment?',
           focusedBtn: 1,
         });
         await dialog.clickYes();

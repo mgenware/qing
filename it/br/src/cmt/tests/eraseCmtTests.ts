@@ -43,8 +43,8 @@ export function testEraseCmts(w: CmtFixture, page: Page, fresh: boolean) {
         // Delete the first cmt.
         cmtEl = cm.getTopCmt({ cmtApp });
         await eb.getDeleteButton(cmtEl, usr.user.id).click();
-        let dialog = await alt.waitFor(p, {
-          content: 'Do you want to delete this comment?',
+        let dialog = await alt.wait(p, {
+          title: 'Do you want to delete this comment?',
         });
         await dialog.clickYes();
         await cm.shouldAppearDeleted({ cmtEl });
@@ -58,8 +58,8 @@ export function testEraseCmts(w: CmtFixture, page: Page, fresh: boolean) {
 
         // Delete the reply.
         await eb.getDeleteButton(cmtEl, usr.user.id).click();
-        dialog = await alt.waitFor(p, {
-          content: 'Do you want to delete this comment?',
+        dialog = await alt.wait(p, {
+          title: 'Do you want to delete this comment?',
         });
         await dialog.clickYes();
         await cm.shouldAppearDeleted({ cmtEl });

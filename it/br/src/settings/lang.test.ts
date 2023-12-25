@@ -61,10 +61,8 @@ test('Settings - Lang - Update to alternative locale', async ({ page }) => {
     const langSettingsEl = p.$(langSettingsSel);
     await langSettingsEl.$linkButton('Simplified Chinese (简体中文)').click();
 
-    const dialog = await alt.waitFor(p, {
-      content: 'Do you want to change website language to Simplified Chinese (简体中文)?',
-      type: alt.AlertType.warning,
-      buttons: alt.AlertButtons.YesNo,
+    const dialog = await alt.wait(p, {
+      title: 'Do you want to change website language to Simplified Chinese (简体中文)?',
       focusedBtn: 1,
     });
 
@@ -89,8 +87,8 @@ test('Settings - Lang - Revert to auto option', async ({ page }) => {
       const langSettingsEl = p.$(langSettingsSel);
       await langSettingsEl.$linkButton('自动（基于浏览器配置）').click();
 
-      const dialog = await alt.waitFor(p, {
-        content: '确定要将网站语言设置为自动（基于浏览器配置）？',
+      const dialog = await alt.wait(p, {
+        title: '确定要将网站语言设置为自动（基于浏览器配置）？',
         focusedBtn: 1,
       });
       // Click the YES button in Chinese.

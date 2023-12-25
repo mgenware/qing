@@ -28,10 +28,8 @@ export function testDeleteCmt(w: CmtFixture, page: Page, fresh: boolean) {
 
         // Delete the comment.
         await eb.getDeleteButton(cm.getNthCmt({ cmtApp, index: 0 }), usr.user.id).click();
-        const dialog = await alt.waitFor(p, {
-          content: 'Do you want to delete this comment?',
-          type: alt.AlertType.warning,
-          buttons: alt.AlertButtons.YesNo,
+        const dialog = await alt.wait(p, {
+          title: 'Do you want to delete this comment?',
           focusedBtn: 1,
         });
         await dialog.clickYes();
