@@ -123,6 +123,10 @@ export abstract class NavbarAppCore extends BaseElement {
           flex-grow: 1;
         }
 
+        svg-icon {
+          --svg-color: var(--app-navbar-fore-color);
+        }
+
         #sidenav {
           display: none;
         }
@@ -166,6 +170,10 @@ export abstract class NavbarAppCore extends BaseElement {
             color: #818181;
             display: block;
             transition: 0.3s;
+          }
+
+          #sidenav svg-icon {
+            --svg-color: #818181;
           }
 
           #sidenav check-box {

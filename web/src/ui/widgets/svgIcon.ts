@@ -47,7 +47,7 @@ export class SvgIcon extends BaseElement {
         }
 
         :host div {
-          color: var(--app-default-secondary-fore-color);
+          color: var(--svg-color, --app-default-secondary-fore-color);
         }
         :host([iconStyle='success']) div {
           color: var(--app-default-success-fore-color);
