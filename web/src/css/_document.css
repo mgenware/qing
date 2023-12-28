@@ -132,6 +132,8 @@ body {
   background-color: var(--app-footer-back-color);
   color: var(--app-footer-fore-color);
   border-top: 1px solid var(--app-footer-border-color);
+  padding-bottom: 1.5rem;
+  padding-top: 0.5rem;
 }
 
 #main-footer a {
