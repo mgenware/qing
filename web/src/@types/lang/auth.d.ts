@@ -9,7 +9,7 @@
 
 /* eslint-disable */
 
-export interface authLSType {
+export interface AuthLSType {
   verifyEmailSentDialogTitle: string;
   yourAccHasBeenVerified: string;
   yourPwdHasBeenReset: string;
@@ -20,5 +20,5 @@ export interface authLSType {
 }
 
 declare global {
-    var authLS: authLSType;
+    var authLS: AuthLSType;
 }

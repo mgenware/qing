@@ -9,7 +9,7 @@
 
 /* eslint-disable */
 
-export interface coreLSType {
+export interface CoreLSType {
   qingSiteName: string;
   qingLang: string;
   profile: string;
@@ -166,5 +166,5 @@ export interface coreLSType {
 }
 
 declare global {
-    var coreLS: coreLSType;
+    var coreLS: CoreLSType;
 }

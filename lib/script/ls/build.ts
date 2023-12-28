@@ -11,6 +11,7 @@ import * as np from 'path';
 import * as qdu from '@qing/dev/util.js';
 import { deleteAsync } from 'del';
 import { stringHash } from '../cm/checksum.js';
+import { capitalizeFirstLetter } from '../sod/common.js';
 
 const codeWarning = '/* Automatically generated. Do not edit. */\n\n';
 const commonHeader = `${qdu.copyrightString}${codeWarning}`;
@@ -30,8 +31,8 @@ function error(s: string) {
 }
 
 // Builds TypeScript definitions for web.
-async function buildWebLSDef(lsObj: Record<string, string>, subdir: string): Promise<void> {
-  const typeName = `${subdir}LSType`;
+async function buildWebLSDef(lsObj: Record<string, string>, subDir: string): Promise<void> {
+  const typeName = `${capitalizeFirstLetter(subDir)}LSType`;
   let code = `${commonHeader}/* eslint-disable */\n\nexport interface ${typeName} {\n`;
   for (const key of Object.keys(lsObj)) {
     code += `  ${key}: string;\n`;
@@ -39,10 +40,10 @@ async function buildWebLSDef(lsObj: Record<string, string>, subdir: string): Pro
   code += '}\n\n';
 
   code += `declare global {
-    var ${subdir}LS: ${typeName};
+    var ${subDir}LS: ${typeName};
 }\n`;
 
-  const outFile = np.join(qdu.webSrcTypesPath(), 'lang', `${subdir}.d.ts`);
+  const outFile = np.join(qdu.webSrcTypesPath(), 'lang', `${subDir}.d.ts`);
   print(`Building web LS def "${outFile}"`);
   await mfs.writeFileAsync(outFile, code);
 }
