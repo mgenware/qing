@@ -20,6 +20,9 @@ function buildTS(config, watch) {
 }
 
 function devTask(e) {
+  if (!e.config || !e.env) {
+    throw new Error('Missing config or env');
+  }
   const run = [];
   if (e.watch) {
     run.push(tscW);
@@ -29,7 +32,7 @@ function devTask(e) {
     before: ['#clean', 'tsc'],
     run,
     parallel: true,
-    env: devEnv,
+    env: e.env,
   };
 }
 
@@ -42,9 +45,9 @@ export default {
   },
 
   /** Standard mode */
-  d: devTask({ config: 'dev', watch: true }),
-  b: devTask({ config: 'prod', watch: false }),
-  br: devTask({ config: 'br', watch: true }),
+  d: devTask({ config: 'dev', watch: true, env: devEnv }),
+  b: devTask({ config: 'prod', watch: false, env: prodEnv }),
+  br: devTask({ config: 'br', watch: true, env: prodEnv }),
 
   /** UT */
   ut: {
