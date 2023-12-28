@@ -5,7 +5,6 @@
  * be found in the LICENSE file.
  */
 
-const turboBuildCmd = 'tsc -p ./tsconfig-turbo.json';
 const utCmd = 'wtr "./dist-turbo/**/*.test.js" --node-resolve --playwright --browsers chromium';
 const tsc = 'tsc';
 const tscW = `${tsc} -w --preserveWatchOutput`;
@@ -46,16 +45,6 @@ export default {
   d: devTask({ config: 'dev', watch: true }),
   b: devTask({ config: 'prod', watch: false }),
   br: devTask({ config: 'br', watch: true }),
-
-  /** Turbo mode */
-  turbo: {
-    run: ['#clean', turboBuildCmd + ' -w --preserveWatchOutput'],
-    env: devEnv,
-  },
-  'turbo-build': {
-    run: ['#clean', turboBuildCmd],
-    env: prodEnv,
-  },
 
   /** UT */
   ut: {
