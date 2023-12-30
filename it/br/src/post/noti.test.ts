@@ -30,9 +30,9 @@ test('Post noti', async ({ page }) => {
         'USER has replied to your post "<p>title</p><script>alert(\'-39\')</script>".',
       );
       expect(mail.content.trim()).toBe(`<p>
-    <span>USER has replied to your post &#34;&lt;p&gt;title&lt;/p&gt;&lt;script&gt;alert(&#39;-39&#39;)&lt;/script&gt;&#34;.</span>
-    <a href="${postLink}?cmt=${cmtID}">Click here to view it on Qing.</a>
-  </p>`);
+  <span>USER has replied to your post &#34;&lt;p&gt;title&lt;/p&gt;&lt;script&gt;alert(&#39;-39&#39;)&lt;/script&gt;&#34;.</span>
+  <a href="${postLink}?cmt=${cmtID}">Click here to view it on Qing.</a>
+</p>`);
     },
   );
 });
