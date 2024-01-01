@@ -18,7 +18,7 @@ a:visited {
   filter: brightness(80%);
 }
 
-a.heading-link {
+.heading-text {
   display: block;
   font-size: 1.5rem;
   text-wrap: balance;

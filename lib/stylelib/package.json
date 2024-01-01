@@ -1,6 +1,6 @@
 {
   "name": "qing-css-base",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "type": "module",
   "exports": "./dist/main.js",
   "author": "Mgenware (https://github.com/mgenware)",
