@@ -71,11 +71,16 @@ img {
 }
 .flx-auto {
   flex: 0 1 auto;
-  overflow-wrap: break-word;
 }
 .flx-fill {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   overflow-wrap: break-word;
+}
+.flx-col > .flx-fill {
+  min-height: 0;
+}
+.flx-row > .flx-fill {
+  min-width: 0;
 }
 .flx-col > .flx-scroll {
   overflow-y: auto;
@@ -87,7 +92,7 @@ img {
   display: grid;
   justify-content: center;
   align-content: center;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Spacing helpers ------------------------- */
