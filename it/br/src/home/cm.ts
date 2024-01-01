@@ -30,7 +30,7 @@ export async function checkHomeItem(el: br.BRElement, e: CheckHomeItemArgs) {
   // In default mode, content div is wrapped as the last child of current element.
   // In personal mode, content div is the current element.
   const contentDiv = e.mode === HomePageMode.personal ? el : el.$('> :last-child');
-  await contentDiv.$hasText('.fi-title', e.title).shouldExist();
+  await contentDiv.$hasText('.heading-text', e.title).shouldExist();
   await contentDiv.$a({ href: e.link }).shouldExist();
   const bottomBarEl = contentDiv.$('> :last-child');
   if (e.mode === HomePageMode.everyone && e.user) {

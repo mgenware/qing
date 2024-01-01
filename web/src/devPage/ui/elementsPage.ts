@@ -170,6 +170,19 @@ export class ElementsPage extends BaseElement {
         <qing-button btnStyle="warning">Warning</qing-button>
         <qing-button btnStyle="danger">Danger</qing-button>
       </p>
+      <h2>Content overflow</h2>
+      <div>
+        <a href="#" class="heading-text"
+          >This is a
+          longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+          string.</a
+        >
+      </div>
+      <p class="md-content">
+        This is a
+        longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+        string.
+      </p>
       <h3>With blockquote</h3>
       <blockquote>
         <div class="text">
