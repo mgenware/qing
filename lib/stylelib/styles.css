@@ -18,7 +18,13 @@ a:visited {
   filter: brightness(80%);
 }
 
-/* Link button, used in profile page ------------------------- */
+a.heading-link {
+  display: block;
+  font-size: 1.5rem;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
 a.link-btn,
 a.link-btn:visited {
   color: var(--app-default-primary-fore-color);
@@ -610,7 +616,7 @@ textarea {
 }
 
 .md-content {
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
   line-height: 1.6;
 }
 
