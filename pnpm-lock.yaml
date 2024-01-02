@@ -278,8 +278,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       qing-overlay:
-        specifier: ^0.23.0
-        version: 0.23.0(lit@3.1.0)(qing-button@9.0.1)
+        specifier: ^0.25.0
+        version: 0.25.0(lit@3.1.0)(qing-button@9.0.1)
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -5879,8 +5879,8 @@ packages:
       f-array.splice: 1.1.0
     dev: false
 
-  /qing-overlay@0.23.0(lit@3.1.0)(qing-button@9.0.1):
-    resolution: {integrity: sha512-YSay26JvukLAXEbYT51+rS1TVn2OX2NzVFSvxDbluBHyYq1S/izoNGTj7JsGvzj6ucyKlKEBmjWemqhWT2S7lw==}
+  /qing-overlay@0.25.0(lit@3.1.0)(qing-button@9.0.1):
+    resolution: {integrity: sha512-Fxnrnqv/EAUj60rRQOpa0kwMkA0AEov2wENi5PLft7NV0jVZsr0p2stoAa4MeS1FDkM3Q8vn1Kd23fTGwe6UCw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       lit: ^3.0.0

@@ -17,21 +17,20 @@ export function ready(fn: () => void) {
 
 let renderTemplateCounter = 1;
 
+interface RenderTemplateOptions {
+  force?: boolean;
+}
+
 // Renders the given template result to the specified container.
 // Returns the first element child of the container.
 // NOTE: container contents will be cleared before rendering.
 export function renderTemplateResult<T extends HTMLElement>(
-  container: HTMLElement | string,
+  container: HTMLElement | string | null,
   template: TemplateResult | null,
+  opts?: RenderTemplateOptions,
 ): T | null {
-  // IMPORTANT NOTE:
-  // By default, `render` in lit-html tries to update the container
-  // (instead of a full re-render) if `render` was called on the
-  // container. To always start a full re-render, we'll do the following:
-  //  - Remove all children of the container
-  //  - Add an empty div to the container and mount content to the div
   let containerElement: HTMLElement;
-  if (typeof container === 'string') {
+  if (typeof container === 'string' || !container) {
     // eslint-disable-next-line no-param-reassign
     container = container || `__r_tpl_slot_${renderTemplateCounter++}`;
     let element = document.getElementById(container);
@@ -47,13 +46,11 @@ export function renderTemplateResult<T extends HTMLElement>(
     containerElement = container;
   }
 
-  containerElement.replaceChildren();
-  // See the note above for why we create this extra div.
-  const div = document.createElement('div');
-  containerElement.appendChild(div);
-  render(template ?? html``, div);
-  // Template is rendered under the div element.
-  return div.firstElementChild as T | null;
+  if (opts?.force) {
+    containerElement.replaceChildren();
+  }
+  render(template ?? html``, containerElement);
+  return containerElement.firstElementChild as T | null;
 }
 
 export function listenForVisibilityChange(

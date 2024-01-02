@@ -10,8 +10,6 @@ import { html } from 'll.js';
 import 'ui/alerts/dialogView.js';
 import { DialogIcon, DialogView } from 'ui/alerts/dialogView.js';
 
-const dialogContainerID = '__g_dialog_container';
-
 // App-wide alert utils.
 export class AppAlert {
   async info(message: string): Promise<void> {
@@ -99,10 +97,15 @@ export class AppAlert {
         .message=${args.message}
         @dialog-close=${(e: CustomEvent<number>) => {
           resolve(e.detail);
-          renderTemplateResult(dialogContainerID, null);
+          // Remove the dialog element.
+          if (e.currentTarget instanceof DialogView) {
+            // We are mounting the dialog via `renderTemplateResult`, which creates a wrapper
+            // div inside `body > main`. We need to remove that wrapper div.
+            e.currentTarget.parentElement?.remove();
+          }
         }}></dialog-view>`;
 
-      const dialogView = renderTemplateResult<DialogView>(dialogContainerID, template);
+      const dialogView = renderTemplateResult<DialogView>(null, template);
       if (!dialogView) {
         reject(new Error('Unexpected empty modal element'));
         return;

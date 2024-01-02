@@ -28,7 +28,7 @@
     "qing-button": "^9.0.1",
     "qing-css-base": "^1.7.1",
     "qing-keyed-array": "^3.0.1",
-    "qing-overlay": "^0.23.0",
+    "qing-overlay": "^0.25.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
