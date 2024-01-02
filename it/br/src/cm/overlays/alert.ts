@@ -33,7 +33,7 @@ function typeToString(type: AlertType): string {
 }
 
 function getDialogEl(page: br.BRPage) {
-  return page.$('#__g_dialog_container dialog-view[open] qing-overlay[open] dialog[open]');
+  return page.$('dialog-view[open=""] .dialog-overlay[open=""]');
 }
 
 export class BRDialog {
@@ -70,7 +70,7 @@ export interface AlertShouldAppearArgs {
 export async function wait(p: br.BRPage, e: AlertShouldAppearArgs) {
   // Wait for the alert to be fully shown.
   const el = getDialogEl(p);
-  await el.waitForVisible();
+  await el.waitForAttached();
 
   // Icon.
   if (e.type !== undefined) {

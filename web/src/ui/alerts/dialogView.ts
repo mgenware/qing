@@ -71,6 +71,7 @@ export class DialogView extends BaseElement {
     const iconEl = this.getIconElement(this.icon);
     return html`
       <qing-overlay
+        class="dialog-overlay"
         ?open=${this.open}
         @overlay-open=${() => this.handleOpenChanged(true)}
         @overlay-close=${() => this.handleOpenChanged(false)}
