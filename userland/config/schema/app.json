@@ -23,19 +23,13 @@
         "enabled": { "type": "boolean" }
       }
     },
-    "mail_account_config": {
+    "email_config": {
       "type": "object",
       "properties": {
         "email": { "type": "string" },
         "user_name": { "type": "string" },
         "pwd": { "type": "string" },
-        "display_name": { "type": "string" }
-      },
-      "required": ["email", "pwd", "user_name"]
-    },
-    "mail_config": {
-      "type": "object",
-      "properties": {
+        "display_name": { "type": "string" },
         "smtp": {
           "type": "object",
           "properties": {
@@ -47,10 +41,9 @@
             }
           },
           "required": ["host", "port"]
-        },
-        "no_reply_account": { "$ref": "#/definitions/mail_account_config" }
+        }
       },
-      "required": ["smtp", "no_reply_account"]
+      "required": ["email", "pwd", "user_name", "smtp"]
     },
     "z_test_config": {
       "type": "object",
@@ -63,10 +56,10 @@
   },
   "properties": {
     "extends": { "type": "string" },
-    "mail": { "$ref": "#/definitions/mail_config" },
+    "email": { "$ref": "#/definitions/email_config" },
     "permissions": { "$ref": "#/definitions/permissions_config" },
     "forum": { "$ref": "#/definitions/forum_config" },
     "content": { "$ref": "#/definitions/content_config" }
   },
-  "required": ["mail", "permissions", "content"]
+  "required": ["email", "permissions", "content"]
 }

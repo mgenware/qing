@@ -29,31 +29,31 @@ func (a *AppConfigAccessor) PostPermission() frozenDef.PostPermissionConfig {
 }
 
 func (a *AppConfigAccessor) NotiMailAccount() string {
-	return a.cfg.Mail.NoReplyAccount.Email
+	return a.cfg.Email.Email
 }
 
 func (a *AppConfigAccessor) NotiMailUserName() string {
-	return a.cfg.Mail.NoReplyAccount.UserName
+	return a.cfg.Email.UserName
 }
 
 func (a *AppConfigAccessor) NotiMailPassword() string {
-	return a.cfg.Mail.NoReplyAccount.Pwd
+	return a.cfg.Email.Pwd
 }
 
 func (a *AppConfigAccessor) NotiMailDisplayName() string {
-	return a.cfg.Mail.NoReplyAccount.DisplayName
+	return a.cfg.Email.DisplayName
 }
 
 func (a *AppConfigAccessor) NotiMailSmtpHost() string {
-	return a.cfg.Mail.SMTP.Host
+	return a.cfg.Email.SMTP.Host
 }
 
 func (a *AppConfigAccessor) NotiMailSmtpPort() int {
-	return a.cfg.Mail.SMTP.Port
+	return a.cfg.Email.SMTP.Port
 }
 
 func (a *AppConfigAccessor) NotiMailSmtpUseTLS() bool {
-	return a.cfg.Mail.SMTP.SSL
+	return a.cfg.Email.SMTP.SSL
 }
 
 func (a *AppConfigAccessor) ForumEnabled() bool {

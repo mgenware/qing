@@ -18,7 +18,7 @@ type AppConfig struct {
 
 	Permissions *appcfg.PermissionsConfig `json:"permissions,omitempty"`
 	Content     *appcfg.ContentConfig     `json:"content,omitempty"`
-	Mail        *appcfg.MailConfig        `json:"mail,omitempty"`
+	Email       *appcfg.EmailConfig       `json:"email,omitempty"`
 	Forum       *appcfg.ForumConfig       `json:"forum,omitempty"`
 }
 
