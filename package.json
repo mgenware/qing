@@ -4,12 +4,12 @@
   "homepage": "https://github.com/mgenware/qing",
   "private": true,
   "devDependencies": {
-    "@types/node": "^20.10.6",
-    "@typescript-eslint/eslint-plugin": "^6.17.0",
-    "@typescript-eslint/parser": "^6.17.0",
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
     "daizong": "^0.27.0",
     "del-cli": "^5.1.0",
-    "esbuild": "^0.19.11",
+    "esbuild": "^0.20.0",
     "eslint": "^8.56.0",
     "eslint-config-mgenware": "^0.10.0",
     "eslint-plugin-import": "^2.29.1",
@@ -24,6 +24,6 @@
   },
   "dependencies": {
     "bowhead-js": "^6.0.2",
-    "lit": "^3.1.0"
+    "lit": "^3.1.2"
   }
 }

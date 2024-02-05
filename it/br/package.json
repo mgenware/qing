@@ -5,7 +5,7 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
-    "@playwright/test": "^1.40.1",
+    "@playwright/test": "^1.41.2",
     "@qing/def": "workspace:*",
     "@qing/dev": "workspace:*",
     "@qing/routes": "workspace:*"

@@ -31,6 +31,6 @@
     "@types/cookie": "^0.6.0",
     "@types/mocha": "^10.0.6",
     "@types/set-cookie-parser": "^2.4.7",
-    "@types/uuid": "^9.0.7"
+    "@types/uuid": "^9.0.8"
   }
 }

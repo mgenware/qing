@@ -39,7 +39,7 @@
     "@web/test-runner": "^0.18.0",
     "@web/test-runner-playwright": "^0.11.0",
     "esbuild-plugin-minify-html-literals": "^1.0.6",
-    "html-validate": "8.8.0",
-    "lit-analyzer": "2.0.2"
+    "html-validate": "8.9.1",
+    "lit-analyzer": "2.0.3"
   }
 }
