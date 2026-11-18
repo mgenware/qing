@@ -1,6 +1,6 @@
 {
   "name": "qing-css-base",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "type": "module",
   "exports": "./dist/main.js",
   "author": "Mgenware (https://github.com/mgenware)",
@@ -14,14 +14,15 @@
     "dist/**/*.map"
   ],
   "scripts": {
-    "prepublishOnly": "dz build"
+    "prepublishOnly": "dz build",
+    "build": "dz build"
   },
   "dependencies": {
     "modern-normalize": "^3.0.1"
   },
   "devDependencies": {
     "concat": "^1.0.3",
-    "lightningcss-cli": "^1.29.3",
+    "lightningcss-cli": "^1.33.0",
     "string-to-template-literal": "^3.0.0"
   }
 }
